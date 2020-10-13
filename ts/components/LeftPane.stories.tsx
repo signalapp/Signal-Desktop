@@ -89,8 +89,18 @@ story.add('Conversation States (Active, Selected, Archived)', () => {
   return <LeftPane {...props} />;
 });
 
-story.add('Pinned Conversations', () => {
+story.add('Pinned and Non-pinned Conversations', () => {
   const props = createProps({
+    pinnedConversations,
+  });
+
+  return <LeftPane {...props} />;
+});
+
+story.add('Only Pinned Conversations', () => {
+  const props = createProps({
+    archivedConversations: [],
+    conversations: [],
     pinnedConversations,
   });
 

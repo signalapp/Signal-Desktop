@@ -52,7 +52,7 @@ type RowRendererParamsType = {
   style: CSSProperties;
 };
 
-enum RowType {
+export enum RowType {
   ArchiveButton,
   ArchivedConversation,
   Conversation,
@@ -61,7 +61,7 @@ enum RowType {
   Undefined,
 }
 
-enum HeaderType {
+export enum HeaderType {
   Pinned,
   Chats,
 }
@@ -127,28 +127,35 @@ export class LeftPane extends React.Component<PropsType> {
     let conversationIndex = index;
 
     if (pinnedConversations.length) {
-      if (index === 0) {
-        return {
-          headerType: HeaderType.Pinned,
-          type: RowType.Header,
-        };
-      }
+      if (conversations.length) {
+        if (index === 0) {
+          return {
+            headerType: HeaderType.Pinned,
+            type: RowType.Header,
+          };
+        }
 
-      if (index <= pinnedConversations.length) {
+        if (index <= pinnedConversations.length) {
+          return {
+            index: index - 1,
+            type: RowType.PinnedConversation,
+          };
+        }
+
+        if (index === pinnedConversations.length + 1) {
+          return {
+            headerType: HeaderType.Chats,
+            type: RowType.Header,
+          };
+        }
+
+        conversationIndex -= pinnedConversations.length + 2;
+      } else {
         return {
-          index: index - 1,
+          index,
           type: RowType.PinnedConversation,
         };
       }
-
-      if (index === pinnedConversations.length + 1) {
-        return {
-          headerType: HeaderType.Chats,
-          type: RowType.Header,
-        };
-      }
-
-      conversationIndex -= pinnedConversations.length + 2;
     }
 
     if (conversationIndex === conversations.length) {
@@ -453,9 +460,12 @@ export class LeftPane extends React.Component<PropsType> {
 
     let { length } = conversations;
 
-    // includes two additional rows for pinned/chats headers
     if (pinnedConversations.length) {
-      length += pinnedConversations.length + 2;
+      if (length) {
+        // includes two additional rows for pinned/chats headers
+        length += 2;
+      }
+      length += pinnedConversations.length;
     }
 
     // includes one additional row for 'archived conversations' button
