@@ -8,6 +8,7 @@ import {
 } from '../util/zkgroup';
 
 import { GroupCredentialType } from '../textsecure/WebAPI';
+import { sleep } from '../util/sleep';
 
 export const GROUP_CREDENTIALS_KEY = 'groupCredentials';
 
@@ -28,10 +29,6 @@ const DAY = 24 * HOUR;
 
 function getTodayInEpoch() {
   return Math.floor(Date.now() / DAY);
-}
-
-async function sleep(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 let started = false;

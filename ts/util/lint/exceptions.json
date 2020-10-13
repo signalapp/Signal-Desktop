@@ -1429,21 +1429,243 @@
     "updated": "2018-09-15T00:38:04.183Z"
   },
   {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/@sinonjs/formatio/lib/formatio.js",
-    "line": "        // SVG elements have undefined innerHTML",
-    "lineNumber": 204,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@sinonjs/commons/lib/deprecated.js",
+    "line": " * Returns a string which can be supplied to `wrap()` to notify the user that a",
+    "lineNumber": 24,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z",
+    "reasonDetail": "Test code. Also a false match."
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@sinonjs/commons/lib/deprecated.test.js",
+    "line": "            wrapped = deprecated.wrap(method, msg);",
+    "lineNumber": 66,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z",
+    "reasonDetail": "Test code. Also a false match."
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@sinonjs/commons/lib/deprecated.test.js",
+    "line": "                wrapped = deprecated.wrap(method, msg);",
+    "lineNumber": 80,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z",
+    "reasonDetail": "Test code. Also a false match."
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/@sinonjs/commons/lib/deprecated.test.js",
+    "line": "            before(function() {",
+    "lineNumber": 86,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z",
+    "reasonDetail": "Test code. Also a false match."
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/@sinonjs/commons/lib/function-name.test.js",
+    "line": "                fn = eval(\"(function*() {})\")().constructor;",
+    "lineNumber": 67,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/@sinonjs/commons/lib/global.test.js",
+    "line": "    before(function() {",
+    "lineNumber": 7,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z",
+    "reasonDetail": "Test code. Also a false match."
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@sinonjs/fake-timers/fake-timers.js",
+    "line": "// defaultMsg returns a string which can be supplied to `wrap()` to notify the user that a particular part of the",
+    "lineNumber": 75,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z",
+    "reasonDetail": "Test code. Also a false match."
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/@sinonjs/fake-timers/fake-timers.js",
+    "line": "            eval(timer.func);",
+    "lineNumber": 1729,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/@sinonjs/fake-timers/src/fake-timers-src.js",
+    "line": "            eval(timer.func);",
+    "lineNumber": 425,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z"
   },
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/@sinonjs/formatio/lib/formatio.js",
-    "line": "        var content = element.innerHTML || \"\";",
-    "lineNumber": 205,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-09-11T17:24:56.124Z",
-    "reasonDetail": "Read, not write"
+    "line": "    // SVG elements have undefined innerHTML",
+    "lineNumber": 253,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z",
+    "reasonDetail": "Test code. Also a false match."
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@sinonjs/formatio/lib/formatio.js",
+    "line": "    var content = element.innerHTML || \"\";",
+    "lineNumber": 254,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/@sinonjs/text-encoding/lib/encoding.js",
+    "line": "        stream.prepend(bite);",
+    "lineNumber": 1439,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z",
+    "reasonDetail": "Test code. Also a false match."
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/@sinonjs/text-encoding/lib/encoding.js",
+    "line": "          stream.prepend(buffer);",
+    "lineNumber": 1738,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z",
+    "reasonDetail": "Test code. Also a false match."
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/@sinonjs/text-encoding/lib/encoding.js",
+    "line": "        stream.prepend([gb18030_second, bite]);",
+    "lineNumber": 1758,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z",
+    "reasonDetail": "Test code. Also a false match."
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/@sinonjs/text-encoding/lib/encoding.js",
+    "line": "          stream.prepend(bite);",
+    "lineNumber": 1798,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z",
+    "reasonDetail": "Test code. Also a false match."
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/@sinonjs/text-encoding/lib/encoding.js",
+    "line": "          stream.prepend(bite);",
+    "lineNumber": 2007,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z",
+    "reasonDetail": "Test code. Also a false match."
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/@sinonjs/text-encoding/lib/encoding.js",
+    "line": "          stream.prepend(bite);",
+    "lineNumber": 2175,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z",
+    "reasonDetail": "Test code. Also a false match."
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/@sinonjs/text-encoding/lib/encoding.js",
+    "line": "          stream.prepend(bite);",
+    "lineNumber": 2492,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z",
+    "reasonDetail": "Test code. Also a false match."
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/@sinonjs/text-encoding/lib/encoding.js",
+    "line": "        stream.prepend(bite);",
+    "lineNumber": 2515,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z",
+    "reasonDetail": "Test code. Also a false match."
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/@sinonjs/text-encoding/lib/encoding.js",
+    "line": "        stream.prepend([lead, bite]);",
+    "lineNumber": 2570,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z",
+    "reasonDetail": "Test code. Also a false match."
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/@sinonjs/text-encoding/lib/encoding.js",
+    "line": "        stream.prepend(code_point);",
+    "lineNumber": 2612,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z",
+    "reasonDetail": "Test code. Also a false match."
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/@sinonjs/text-encoding/lib/encoding.js",
+    "line": "        stream.prepend(code_point);",
+    "lineNumber": 2665,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z",
+    "reasonDetail": "Test code. Also a false match."
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/@sinonjs/text-encoding/lib/encoding.js",
+    "line": "        stream.prepend(code_point);",
+    "lineNumber": 2676,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z",
+    "reasonDetail": "Test code. Also a false match."
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/@sinonjs/text-encoding/lib/encoding.js",
+    "line": "        stream.prepend(code_point);",
+    "lineNumber": 2697,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z",
+    "reasonDetail": "Test code. Also a false match."
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/@sinonjs/text-encoding/lib/encoding.js",
+    "line": "          stream.prepend(bite);",
+    "lineNumber": 2790,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z",
+    "reasonDetail": "Test code. Also a false match."
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/@sinonjs/text-encoding/lib/encoding.js",
+    "line": "          stream.prepend(bite);",
+    "lineNumber": 2957,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z",
+    "reasonDetail": "Test code. Also a false match."
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/@sinonjs/text-encoding/lib/encoding.js",
+    "line": "        stream.prepend(convertCodeUnitToBytes(code_unit, utf16_be));",
+    "lineNumber": 3139,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-09T22:28:48.591Z",
+    "reasonDetail": "Test code. Also a false match."
   },
   {
     "rule": "eval",
