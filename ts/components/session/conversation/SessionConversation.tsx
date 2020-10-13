@@ -584,8 +584,8 @@ export class SessionConversation extends React.Component<any, State> {
     const ourPK = window.textsecure.storage.user.getNumber();
     const members = conversation.get('members') || [];
     const isAdmin = conversation.isMediumGroup()
-    ? true
-    : conversation.get('groupAdmins').includes(ourPK);
+      ? true
+      : conversation.get('groupAdmins').includes(ourPK);
 
     return {
       id: conversation.id,
@@ -609,12 +609,12 @@ export class SessionConversation extends React.Component<any, State> {
       })),
 
       onSetDisappearingMessages: (seconds: any) => {
-          if (seconds > 0) {
-            conversation.updateExpirationTimer(seconds);
-          } else {
-            conversation.updateExpirationTimer(null);
-          }
-        },
+        if (seconds > 0) {
+          conversation.updateExpirationTimer(seconds);
+        } else {
+          conversation.updateExpirationTimer(null);
+        }
+      },
 
       onGoBack: () => {
         this.toggleGroupSettingsPane();
@@ -872,10 +872,14 @@ export class SessionConversation extends React.Component<any, State> {
     // If removable from server, we "Unsend" - otherwise "Delete"
     const pluralSuffix = multiple ? 's' : '';
     const title = window.i18n(
-      isServerDeletable ? `deleteMessage${pluralSuffix}ForEveryone` : `deleteMessage${pluralSuffix}`
+      isServerDeletable
+        ? `deleteMessage${pluralSuffix}ForEveryone`
+        : `deleteMessage${pluralSuffix}`
     );
 
-    const okText = window.i18n(isServerDeletable ? 'deleteForEveryone' : 'delete');
+    const okText = window.i18n(
+      isServerDeletable ? 'deleteForEveryone' : 'delete'
+    );
 
     window.confirmationDialog({
       title,

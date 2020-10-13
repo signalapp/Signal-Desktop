@@ -183,9 +183,6 @@ h4.section-toggle,
 
 .network-status-container {
   .network-status {
-    background: url('../images/error_red.svg') no-repeat left 10px center;
-    background-size: 25px 25px;
-    background-color: #fcd156;
     padding: 10px;
     padding-inline-start: 2 * $button-height;
     display: none;
@@ -201,16 +198,6 @@ h4.section-toggle,
         display: inline-block;
         font-size: 12px;
         padding: 0.5em 0;
-      }
-    }
-    .action {
-      button {
-        border-radius: $border-radius;
-        border: solid 1px #ccc;
-        cursor: pointer;
-        font-family: inherit;
-        color: white;
-        background: $blue;
       }
     }
   }

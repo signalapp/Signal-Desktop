@@ -359,9 +359,7 @@ export class Lightbox extends React.Component<Props> {
     this.onClose();
   };
 
-  private readonly onObjectClick = (
-    event: React.MouseEvent<HTMLImageElement | HTMLDivElement>
-  ) => {
+  private readonly onObjectClick = (event: any) => {
     event.stopPropagation();
     this.onClose();
   };

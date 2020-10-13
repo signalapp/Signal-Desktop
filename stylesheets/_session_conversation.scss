@@ -1,4 +1,3 @@
-
 @keyframes fadein {
   from {
     opacity: 0;
@@ -221,7 +220,7 @@
   padding: 0px $session-margin-md;
   min-height: min-content;
   @include themify($themes) {
-    background: themed('inputBackground');
+    background: themed('composeViewBackground');
   }
 
   & > .session-icon-button {

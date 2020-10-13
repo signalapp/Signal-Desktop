@@ -169,10 +169,13 @@ h4 {
   text-align: center;
 }
 
-.dark-theme .network-status-container .network-status {
-  background-color: rgba($session-color-green, 0.6);
+.network-status {
+  @include themify($themes) {
+    background: themed('accent');
+  }
 
+  h3,
   .network-status-message {
-    color: $session-color-white;
+    color: $black;
   }
 }

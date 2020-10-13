@@ -91,7 +91,7 @@ export class SessionRecording extends React.Component<Props, State> {
     this.updateCanvasDimensions = this.updateCanvasDimensions.bind(this);
 
     const now = getTimestamp();
-    const updateTimerInterval = setInterval(this.timerUpdate, 500);
+    const updateTimerInterval = global.setInterval(this.timerUpdate, 500);
 
     this.state = {
       recordDuration: 0,
