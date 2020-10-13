@@ -21,6 +21,7 @@ import {
 export type CallId = unknown;
 
 export type CallDetailsType = {
+  acceptedTime?: number;
   callId: CallId;
   isIncoming: boolean;
   isVideoCall: boolean;

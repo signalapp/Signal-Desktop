@@ -12,6 +12,7 @@ import enMessages from '../../_locales/en/messages.json';
 const i18n = setupI18n('en', enMessages);
 
 const callDetails = {
+  acceptedTime: Date.now(),
   callId: 0,
   isIncoming: true,
   isVideoCall: true,

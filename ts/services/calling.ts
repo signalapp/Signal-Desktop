@@ -206,7 +206,7 @@ export class CallingClass {
     this.attachToCall(conversation, call);
 
     this.uxActions.outgoingCall({
-      callDetails: this.getUxCallDetails(conversation, call),
+      callDetails: this.getAcceptedCallDetails(conversation, call),
     });
   }
 
@@ -702,7 +702,7 @@ export class CallingClass {
       this.attachToCall(conversation, call);
 
       this.uxActions.incomingCall({
-        callDetails: this.getUxCallDetails(conversation, call),
+        callDetails: this.getAcceptedCallDetails(conversation, call),
       });
 
       window.log.info('CallingClass.handleIncomingCall(): Proceeding');
@@ -745,7 +745,7 @@ export class CallingClass {
       }
       uxActions.callStateChange({
         callState: call.state,
-        callDetails: this.getUxCallDetails(conversation, call),
+        callDetails: this.getAcceptedCallDetails(conversation, call),
         callEndedReason: call.endedReason,
       });
     };
@@ -825,17 +825,18 @@ export class CallingClass {
     };
   }
 
-  private getUxCallDetails(
+  private getAcceptedCallDetails(
     conversation: ConversationModel,
     call: Call
   ): CallDetailsType {
     const conversationProps = conversation.cachedProps;
     if (!conversationProps) {
-      throw new Error('getUxCallDetails: No conversation props?');
+      throw new Error('getAcceptedCallDetails: No conversation props?');
     }
 
     return {
       ...conversationProps,
+      acceptedTime: Date.now(),
       callId: call.callId,
       isIncoming: call.isIncoming,
       isVideoCall: call.isVideoCall,

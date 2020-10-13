@@ -30,7 +30,6 @@ export type PropsType = {
 };
 
 type StateType = {
-  acceptedTime: number | null;
   acceptedDuration: number | null;
   showControls: boolean;
 };
@@ -48,7 +47,6 @@ export class CallScreen extends React.Component<PropsType, StateType> {
     super(props);
 
     this.state = {
-      acceptedTime: null,
       acceptedDuration: null,
       showControls: true,
     };
@@ -89,21 +87,15 @@ export class CallScreen extends React.Component<PropsType, StateType> {
   }
 
   updateAcceptedTimer = (): void => {
-    const { acceptedTime } = this.state;
-    const { callState } = this.props;
+    const { callDetails } = this.props;
 
-    if (acceptedTime) {
+    if (!callDetails) {
+      return;
+    }
+
+    if (callDetails.acceptedTime) {
       this.setState({
-        acceptedTime,
-        acceptedDuration: Date.now() - acceptedTime,
-      });
-    } else if (
-      callState === CallState.Accepted ||
-      callState === CallState.Reconnecting
-    ) {
-      this.setState({
-        acceptedTime: Date.now(),
-        acceptedDuration: 1,
+        acceptedDuration: Date.now() - callDetails.acceptedTime,
       });
     }
   };
