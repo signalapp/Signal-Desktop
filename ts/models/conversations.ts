@@ -3641,6 +3641,7 @@ export class ConversationModel extends window.Backbone.Model<
         `Setting sealedSender to UNKNOWN for conversation ${this.idForLogging()}`
       );
       this.set({
+        profileAvatar: undefined,
         profileKey,
         profileKeyVersion: undefined,
         profileKeyCredential: null,
