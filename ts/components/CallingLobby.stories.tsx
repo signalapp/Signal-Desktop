@@ -24,7 +24,18 @@ const callDetails = {
   profileName: 'Rick Sanchez',
 };
 
+const camera = {
+  deviceId: 'dfbe6effe70b0611ba0fdc2a9ea3f39f6cb110e6687948f7e5f016c111b7329c',
+  groupId: '63ee218d2446869e40adfc958ff98263e51f74382b0143328ee4826f20a76f47',
+  kind: 'videoinput' as MediaDeviceKind,
+  label: 'FaceTime HD Camera (Built-in) (9fba:bced)',
+  toJSON() {
+    return '';
+  },
+};
+
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
+  availableCameras: overrideProps.availableCameras || [camera],
   callDetails,
   hasLocalAudio: boolean('hasLocalAudio', overrideProps.hasLocalAudio || false),
   hasLocalVideo: boolean('hasLocalVideo', overrideProps.hasLocalVideo || false),
@@ -43,6 +54,20 @@ const story = storiesOf('Components/CallingLobby', module);
 
 story.add('Default', () => {
   const props = createProps();
+  return <CallingLobby {...props} />;
+});
+
+story.add('No Camera', () => {
+  const props = createProps({
+    availableCameras: [],
+  });
+  return <CallingLobby {...props} />;
+});
+
+story.add('Local Video', () => {
+  const props = createProps({
+    hasLocalVideo: true,
+  });
   return <CallingLobby {...props} />;
 });
 

@@ -54,6 +54,13 @@ story.add('Audio Off', () => {
   return <CallingButton {...props} />;
 });
 
+story.add('Audio Disabled', () => {
+  const props = createProps({
+    buttonType: CallingButtonType.AUDIO_DISABLED,
+  });
+  return <CallingButton {...props} />;
+});
+
 story.add('Video On', () => {
   const props = createProps({
     buttonType: CallingButtonType.VIDEO_ON,
@@ -64,6 +71,13 @@ story.add('Video On', () => {
 story.add('Video Off', () => {
   const props = createProps({
     buttonType: CallingButtonType.VIDEO_OFF,
+  });
+  return <CallingButton {...props} />;
+});
+
+story.add('Video Disabled', () => {
+  const props = createProps({
+    buttonType: CallingButtonType.VIDEO_DISABLED,
   });
   return <CallingButton {...props} />;
 });

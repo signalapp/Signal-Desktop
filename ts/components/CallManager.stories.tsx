@@ -25,6 +25,7 @@ const callDetails = {
 };
 
 const defaultProps = {
+  availableCameras: [],
   acceptCall: action('accept-call'),
   callDetails,
   callState: CallState.Accepted,

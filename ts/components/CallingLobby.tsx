@@ -15,6 +15,7 @@ import { CallBackgroundBlur } from './CallBackgroundBlur';
 import { LocalizerType } from '../types/Util';
 
 export type PropsType = {
+  availableCameras: Array<MediaDeviceInfo>;
   callDetails: CallDetailsType;
   callState?: CallState;
   hasLocalAudio: boolean;
@@ -31,6 +32,7 @@ export type PropsType = {
 };
 
 export const CallingLobby = ({
+  availableCameras,
   callDetails,
   hasLocalAudio,
   hasLocalVideo,
@@ -95,8 +97,11 @@ export const CallingLobby = ({
     };
   }, [toggleVideo, toggleAudio]);
 
+  // eslint-disable-next-line no-nested-ternary
   const videoButtonType = hasLocalVideo
     ? CallingButtonType.VIDEO_ON
+    : availableCameras.length === 0
+    ? CallingButtonType.VIDEO_DISABLED
     : CallingButtonType.VIDEO_OFF;
   const audioButtonType = hasLocalAudio
     ? CallingButtonType.AUDIO_ON
@@ -126,7 +131,7 @@ export const CallingLobby = ({
         </div>
       </div>
       <div className="module-calling-lobby__video">
-        {hasLocalVideo ? (
+        {hasLocalVideo && availableCameras.length > 0 ? (
           <video ref={localVideoRef} autoPlay />
         ) : (
           <CallBackgroundBlur

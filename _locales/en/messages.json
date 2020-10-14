@@ -1158,6 +1158,10 @@
     "message": "Join Call",
     "description": "Button label in the call lobby for joining a call"
   },
+  "calling__button--video-disabled": {
+    "message": "Camera disabled",
+    "description": "Button tooltip label when the camera is disabled"
+  },
   "calling__button--video-off": {
     "message": "Turn off camera",
     "description": "Button tooltip label for turning off the camera"
@@ -1165,6 +1169,10 @@
   "calling__button--video-on": {
     "message": "Turn on camera",
     "description": "Button tooltip label for turning on the camera"
+  },
+  "calling__button--audio-disabled": {
+    "message": "Microphone disabled",
+    "description": "Button tooltip label when the microphone is disabled"
   },
   "calling__button--audio-off": {
     "message": "Turn off microphone",

@@ -11,9 +11,11 @@ export enum TooltipDirection {
 }
 
 export enum CallingButtonType {
+  AUDIO_DISABLED = 'AUDIO_DISABLED',
   AUDIO_OFF = 'AUDIO_OFF',
   AUDIO_ON = 'AUDIO_ON',
   HANG_UP = 'HANG_UP',
+  VIDEO_DISABLED = 'VIDEO_DISABLED',
   VIDEO_OFF = 'VIDEO_OFF',
   VIDEO_ON = 'VIDEO_ON',
 }
@@ -35,17 +37,23 @@ export const CallingButton = ({
 }: PropsType): JSX.Element => {
   let classNameSuffix = '';
   let tooltipContent = '';
-  if (buttonType === CallingButtonType.AUDIO_OFF) {
+  if (buttonType === CallingButtonType.AUDIO_DISABLED) {
     classNameSuffix = 'audio--disabled';
+    tooltipContent = i18n('calling__button--audio-disabled');
+  } else if (buttonType === CallingButtonType.AUDIO_OFF) {
+    classNameSuffix = 'audio--off';
     tooltipContent = i18n('calling__button--audio-on');
   } else if (buttonType === CallingButtonType.AUDIO_ON) {
-    classNameSuffix = 'audio--enabled';
+    classNameSuffix = 'audio--on';
     tooltipContent = i18n('calling__button--audio-off');
-  } else if (buttonType === CallingButtonType.VIDEO_OFF) {
+  } else if (buttonType === CallingButtonType.VIDEO_DISABLED) {
     classNameSuffix = 'video--disabled';
+    tooltipContent = i18n('calling__button--video-disabled');
+  } else if (buttonType === CallingButtonType.VIDEO_OFF) {
+    classNameSuffix = 'video--off';
     tooltipContent = i18n('calling__button--video-on');
   } else if (buttonType === CallingButtonType.VIDEO_ON) {
-    classNameSuffix = 'video--enabled';
+    classNameSuffix = 'video--on';
     tooltipContent = i18n('calling__button--video-off');
   } else if (buttonType === CallingButtonType.HANG_UP) {
     classNameSuffix = 'hangup';

@@ -6060,36 +6060,24 @@ button.module-image__border-overlay:focus {
   width: 56px;
 
   &--audio {
-    &--enabled {
-      background-color: $color-gray-45;
-
-      div {
-        @include color-svg('../images/icons/v2/mic-solid-28.svg', $color-white);
-        height: 28px;
-        width: 28px;
-      }
-    }
-    &--disabled {
+    &--on {
       background-color: $color-white;
 
       div {
         @include color-svg(
-          '../images/icons/v2/mic-off-solid-28.svg',
-          $color-black
+          '../images/icons/v2/mic-solid-28.svg',
+          $color-gray-75
         );
         height: 28px;
         width: 28px;
       }
     }
-  }
-
-  &--video {
-    &--enabled {
+    &--off {
       background-color: $color-gray-45;
 
       div {
         @include color-svg(
-          '../images/icons/v2/video-solid-28.svg',
+          '../images/icons/v2/mic-off-solid-28.svg',
           $color-white
         );
         height: 28px;
@@ -6097,12 +6085,50 @@ button.module-image__border-overlay:focus {
       }
     }
     &--disabled {
+      background-color: $color-gray-45;
+      opacity: 0.2;
+
+      div {
+        @include color-svg('../images/icons/v2/mic-solid-28.svg', $color-white);
+        height: 28px;
+        width: 28px;
+      }
+    }
+  }
+
+  &--video {
+    &--on {
       background-color: $color-white;
 
       div {
         @include color-svg(
+          '../images/icons/v2/video-solid-28.svg',
+          $color-gray-75
+        );
+        height: 28px;
+        width: 28px;
+      }
+    }
+    &--off {
+      background-color: $color-gray-45;
+
+      div {
+        @include color-svg(
           '../images/icons/v2/video-off-solid-28.svg',
-          $color-black
+          $color-white
+        );
+        height: 28px;
+        width: 28px;
+      }
+    }
+    &--disabled {
+      background-color: $color-gray-45;
+      opacity: 0.2;
+
+      div {
+        @include color-svg(
+          '../images/icons/v2/video-solid-28.svg',
+          $color-white
         );
         height: 28px;
         width: 28px;

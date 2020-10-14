@@ -11,6 +11,7 @@ import { CallState, CallEndedReason } from '../types/Calling';
 import { CallDetailsType, OutgoingCallType } from '../state/ducks/calling';
 
 type CallManagerPropsType = {
+  availableCameras: Array<MediaDeviceInfo>;
   callDetails?: CallDetailsType;
   callEndedReason?: CallEndedReason;
   callState?: CallState;
@@ -29,6 +30,7 @@ type PropsType = IncomingCallBarPropsType &
 
 export const CallManager = ({
   acceptCall,
+  availableCameras,
   callDetails,
   callState,
   callEndedReason,
@@ -79,6 +81,7 @@ export const CallManager = ({
     return (
       <>
         <CallingLobby
+          availableCameras={availableCameras}
           callDetails={callDetails}
           callState={callState}
           hasLocalAudio={hasLocalAudio}
