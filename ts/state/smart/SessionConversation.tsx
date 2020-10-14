@@ -39,6 +39,7 @@ const mapStateToProps = (state: StateType) => {
 
   return {
     conversations: state.conversations,
+    theme: state.theme,
   };
 };
 

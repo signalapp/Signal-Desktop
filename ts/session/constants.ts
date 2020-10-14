@@ -41,20 +41,17 @@ export const UI = {
     // COMMON
     WHITE: '#FFFFFF',
     WHITE_PALE: '#AFAFAF',
-    LIGHT_GREY: '#A0A0A0',
-    DARK_GREY: '#353535',
-    BLACK: '#000000',
     GREEN: '#00F782',
 
     // SEMANTIC COLORS
-    INFO: '#3F3F3F',
-    SUCCESS: '#35D388',
-    ERROR: '#EDD422',
-    WARNING: '#A0A0A0',
-    WARNING_ALT: '#FF9D00',
     DANGER: '#FF453A',
     DANGER_ALT: '#FF4538',
-    PRIMARY: '#474646',
-    SECONDARY: '#232323',
+  },
+
+  SPACING: {
+    marginXs: '5px',
+    marginSm: '10px',
+    marginMd: '15px',
+    marginLg: '20px',
   },
 };

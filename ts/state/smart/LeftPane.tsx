@@ -21,7 +21,6 @@ const mapStateToProps = (state: StateType) => {
   const leftPaneList = getLeftPaneLists(state);
   const lists = showSearch ? undefined : leftPaneList;
   const searchResults = showSearch ? getSearchResults(state) : undefined;
-
   return {
     ...lists,
     searchTerm: getQuery(state),
@@ -32,6 +31,7 @@ const mapStateToProps = (state: StateType) => {
     showArchived: getShowArchived(state),
     i18n: getIntl(state),
     unreadMessageCount: leftPaneList.unreadCount,
+    theme: state.theme,
   };
 };
 

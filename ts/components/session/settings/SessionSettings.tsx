@@ -343,19 +343,6 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
 
     return [
       {
-        id: 'theme-setting',
-        title: window.i18n('themeToggleTitle'),
-        description: window.i18n('themeToggleDescription'),
-        hidden: true,
-        comparisonValue: 'light',
-        type: SessionSettingType.Toggle,
-        category: SessionSettingCategory.Appearance,
-        setFn: window.toggleTheme,
-        content: undefined,
-        onClick: undefined,
-        confirmationDialogParams: undefined,
-      },
-      {
         id: 'hide-menu-bar',
         title: window.i18n('hideMenuBarTitle'),
         description: window.i18n('hideMenuBarDescription'),

@@ -21,6 +21,8 @@ import { UserUtil } from '../../../util';
 import { MultiDeviceProtocol } from '../../../session/protocols';
 import { ConversationHeaderWithDetails } from '../../conversation/ConversationHeader';
 import { SessionRightPanelWithDetails } from './SessionRightPanel';
+import { Theme } from '../../../state/ducks/SessionTheme';
+import { DefaultTheme } from 'styled-components';
 
 interface State {
   conversationKey: string;
@@ -54,9 +56,17 @@ interface State {
 
   // dropZoneFiles?: FileList
   dropZoneFiles: any;
+
+  // quoted message
+  quotedMessageProps?: ReplyingToMessageProps;
 }
 
-export class SessionConversation extends React.Component<any, State> {
+interface Props {
+  conversations: any;
+  theme: DefaultTheme;
+}
+
+export class SessionConversation extends React.Component<Props, State> {
   private readonly messagesEndRef: React.RefObject<HTMLDivElement>;
   private readonly messageContainerRef: React.RefObject<HTMLDivElement>;
 
@@ -210,7 +220,7 @@ export class SessionConversation extends React.Component<any, State> {
     const showMessageDetails = this.state.infoViewState === 'messageDetails';
 
     return (
-      <>
+      <Theme theme={this.props.theme}>
         <div className="conversation-header">{this.renderHeader()}</div>
 
         {/* <SessionProgress
@@ -272,6 +282,10 @@ export class SessionConversation extends React.Component<any, State> {
               onMessageFailure={this.onMessageFailure}
               onLoadVoiceNoteView={this.onLoadVoiceNoteView}
               onExitVoiceNoteView={this.onExitVoiceNoteView}
+              quotedMessageProps={quotedMessageProps}
+              removeQuotedMessage={() => {
+                this.replyToMessage(undefined);
+              }}
             />
           )}
         </div>
@@ -286,7 +300,7 @@ export class SessionConversation extends React.Component<any, State> {
             <SessionRightPanelWithDetails {...groupSettingsProps} />
           </div>
         )}
-      </>
+      </Theme>
     );
   }
 

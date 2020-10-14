@@ -817,16 +817,12 @@
 
     // Get memberlist. This function is not accurate >>
     // window.getMemberList = window.lokiPublicChatAPI.getListOfMembers();
-
-    window.toggleTheme = () => {
-      const theme = window.Events.getThemeSetting();
-      const updatedTheme = theme === 'dark' ? 'light' : 'dark';
-
+    window.setTheme = newTheme => {
       $(document.body)
         .removeClass('dark-theme')
         .removeClass('light-theme')
-        .addClass(`${updatedTheme}-theme`);
-      window.Events.setThemeSetting(updatedTheme);
+        .addClass(`${newTheme}-theme`);
+      window.Events.setThemeSetting(newTheme);
     };
 
     window.toggleMenuBar = () => {

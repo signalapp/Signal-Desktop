@@ -1,8 +1,11 @@
 import React from 'react';
+import { connect, useDispatch } from 'react-redux';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 import { Avatar } from '../Avatar';
 import { PropsData as ConversationListItemPropsType } from '../ConversationListItem';
 import { createOrUpdateItem, getItemById } from '../../../js/modules/data';
+import { APPLY_THEME } from '../../state/ducks/theme';
+import { darkTheme, lightTheme } from '../../state/ducks/SessionTheme';
 
 export enum SectionType {
   Profile,
@@ -22,9 +25,10 @@ interface Props {
   selectedSection: SectionType;
   conversations: Array<ConversationListItemPropsType> | undefined;
   unreadMessageCount: number;
+  dispatch?: any;
 }
 
-export class ActionsPanel extends React.Component<Props, State> {
+class ActionsPanelPrivate extends React.Component<Props, State> {
   private ourConversation: any;
   constructor(props: Props) {
     super(props);
@@ -130,7 +134,16 @@ export class ActionsPanel extends React.Component<Props, State> {
           if (type === SectionType.Profile) {
             this.editProfileHandle();
           } else if (type === SectionType.Moon) {
-            window.toggleTheme();
+            const theme = window.Events.getThemeSetting();
+            const updatedTheme = theme === 'dark' ? 'light' : 'dark';
+            window.setTheme(updatedTheme);
+
+            const newThemeObject =
+              updatedTheme === 'dark' ? darkTheme : lightTheme;
+            this.props.dispatch({
+              type: APPLY_THEME,
+              payload: newThemeObject,
+            });
           } else {
             onSelect(type);
           }
@@ -239,3 +252,5 @@ export class ActionsPanel extends React.Component<Props, State> {
     this.props.onSectionSelected(section);
   };
 }
+
+export const ActionsPanel = connect()(ActionsPanelPrivate);

@@ -12,7 +12,7 @@ import { LibTextsecure } from '../libtextsecure';
 import { ConversationType } from '../js/modules/data';
 import { RecoveryPhraseUtil } from '../libloki/modules/mnemonic';
 import { ConfirmationDialogParams } from '../background';
-
+import {} from 'styled-components/cssprop';
 /*
 We declare window stuff here instead of global.d.ts because we are importing other declarations.
 If you import anything in global.d.ts, the type system won't work correctly.
@@ -89,7 +89,7 @@ declare global {
     toggleMediaPermissions: any;
     toggleMenuBar: any;
     toggleSpellCheck: any;
-    toggleTheme: any;
+    setTheme: (newTheme: string) => any;
     tokenlessFileServerAdnAPI: LokiAppDotNetServerInterface;
     userConfig: any;
     versionInfo: any;
