@@ -1884,6 +1884,10 @@
 
       // Some messages we're marking read are local notifications with no sender
       read = _.filter(read, m => Boolean(m.sender));
+      if (read.length === 0) {
+        window.log.info('markRead(): nothing newly read.');
+        return;
+      }
       unreadMessages = unreadMessages.filter(m => Boolean(m.isIncoming()));
 
       const unreadCount = unreadMessages.length - read.length;
