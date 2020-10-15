@@ -1233,6 +1233,7 @@ export class ConversationModel extends window.Backbone.Model<
 
     const currentMessageRequestState = this.get('messageRequestResponseType');
     const didResponseChange = response !== currentMessageRequestState;
+    const wasPreviouslyAccepted = this.getAccepted();
 
     // Apply message request response locally
     this.set({
@@ -1244,7 +1245,9 @@ export class ConversationModel extends window.Backbone.Model<
       this.unblock({ viaStorageServiceSync });
       this.enableProfileSharing({ viaStorageServiceSync });
 
-      if (didResponseChange) {
+      // We really don't want to call this if we don't have to. It can take a lot of time
+      //   to go through old messages to download attachments.
+      if (didResponseChange && !wasPreviouslyAccepted) {
         await this.handleReadAndDownloadAttachments({ isLocalAction });
       }
 
@@ -1355,8 +1358,9 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   async syncMessageRequestResponse(response: number): Promise<void> {
-    // Let this run, no await
-    this.applyMessageRequestResponse(response);
+    // In GroupsV2, this may modify the server. We only want to continue if those
+    //   server updates were successful.
+    await this.applyMessageRequestResponse(response);
 
     const { ourNumber, ourUuid } = this;
     const { wrap, sendOptions } = window.ConversationController.prepareForSend(
