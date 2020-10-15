@@ -11,6 +11,8 @@ declare module 'styled-components' {
       margins: {
         xs: string;
         sm: string;
+        md: string;
+        lg: string;
       };
     };
     colors: {

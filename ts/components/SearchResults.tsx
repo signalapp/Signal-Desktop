@@ -41,10 +41,7 @@ export class SearchResults extends React.Component<Props> {
     const haveConversations = conversations && conversations.length;
     const haveContacts = contacts && contacts.length;
     const haveMessages = messages && messages.length;
-    const noResults =
-      !haveConversations &&
-      !haveContacts &&
-      !haveMessages;
+    const noResults = !haveConversations && !haveContacts && !haveMessages;
 
     return (
       <div className="module-search-results">

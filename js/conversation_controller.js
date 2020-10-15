@@ -64,6 +64,22 @@
 
       return conversations.get(id);
     },
+    getOrThrow(id) {
+      if (!this._initialFetchComplete) {
+        throw new Error(
+          'ConversationController.get() needs complete initial fetch'
+        );
+      }
+
+      const convo = conversations.get(id);
+
+      if (convo) {
+        return convo;
+      }
+      throw new Error(
+        `Conversation ${id} does not exist on ConversationController.get()`
+      );
+    },
     // Needed for some model setup which happens during the initial fetch() call below
     getUnsafe(id) {
       return conversations.get(id);

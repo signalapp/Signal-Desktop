@@ -287,7 +287,6 @@ async function handleMediumGroupChange(
     return;
   }
 
-
   // ***** Updating the group *****
 
   const curAdmins = convo.get('groupAdmins') || [];

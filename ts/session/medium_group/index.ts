@@ -830,7 +830,8 @@ async function updateOrCreateGroup(details: GroupInfo) {
   await conversation.commit();
 
   const { expireTimer } = details;
-  const isValidExpireTimer = expireTimer !== undefined && typeof expireTimer === 'number';
+  const isValidExpireTimer =
+    expireTimer !== undefined && typeof expireTimer === 'number';
 
   if (expireTimer === undefined || typeof expireTimer !== 'number') {
     return;

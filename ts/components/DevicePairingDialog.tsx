@@ -290,7 +290,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
         type: 'success',
       });
       const { currentPubKey } = this.state;
-      if(currentPubKey) {
+      if (currentPubKey) {
         const conv = window.ConversationController.get(currentPubKey);
         if (conv) {
           void conv.setNickname(this.state.deviceAlias);

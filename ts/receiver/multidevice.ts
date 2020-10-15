@@ -381,7 +381,6 @@ async function onContactReceived(details: any) {
       conversation.setProfileKey(profileKey);
     }
 
-
     if (details.name && details.name.length) {
       await conversation.setLokiProfile({ displayName: details.name });
     }

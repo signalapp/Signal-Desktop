@@ -87,7 +87,9 @@ export async function preprocessGroupMessage(
     } else {
       // be sure to drop a message from a non admin if it tries to change group members
       // or change the group name
-      const fromAdmin = conversation.get('groupAdmins')?.includes(primarySource);
+      const fromAdmin = conversation
+        .get('groupAdmins')
+        ?.includes(primarySource);
 
       if (!fromAdmin) {
         // Make sure the message is not removing members / renaming the group

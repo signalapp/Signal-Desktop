@@ -710,10 +710,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   }
 
   // the conversation with the primary device of that source (can be the same as conversationOrigin)
-  const conversation = window.ConversationController.get(conversationId);
-  if (!conversation) {
-    throw new Error('conversation null on ConversationController.get()');
-  }
+  const conversation = window.ConversationController.getOrThrow(conversationId);
 
   conversation.queueJob(() => {
     handleMessageJob(

@@ -12,6 +12,8 @@ interface Props {
 
 const QuotedMessageComposition = styled.div`
   width: 100%;
+  padding-inline-end: ${props => props.theme.common.margins.md};
+  padding-inline-start: ${props => props.theme.common.margins.md};
 `;
 
 const QuotedMessageCompositionReply = styled.div`

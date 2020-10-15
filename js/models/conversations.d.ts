@@ -41,7 +41,7 @@ export interface ConversationModel
   toggleVerified: () => Promise<void>;
   getProfile: (id: string) => Promise<any>;
   getProfiles: () => Promise<any>;
-  setProfileKey: (key: string) => void;
+  setProfileKey: (key: string) => Promise<void>;
   isMe: () => boolean;
   getRecipients: () => Array<string>;
   getTitle: () => string;
@@ -61,12 +61,18 @@ export interface ConversationModel
   isOnline: () => boolean;
   isModerator: (id?: string) => boolean;
 
-
   lastMessage: string;
   messageCollection: Backbone.Collection<MessageModel>;
 
   // types to make more specific
-  sendMessage: (body: any, attachments: any, quote: any, preview: any, groupInvitation: any, otherOptions: any) => Promise<void>;
+  sendMessage: (
+    body: any,
+    attachments: any,
+    quote: any,
+    preview: any,
+    groupInvitation: any,
+    otherOptions: any
+  ) => Promise<void>;
   updateGroupAdmins: any;
   setLokiProfile: any;
   onSessionResetReceived: any;

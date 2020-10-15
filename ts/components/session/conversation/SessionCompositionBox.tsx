@@ -331,12 +331,13 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
     // Send message
     this.props.onMessageSending();
-    const extractedQuotedMessageProps = _.pick(quotedMessageProps,
+    const extractedQuotedMessageProps = _.pick(
+      quotedMessageProps,
       'id',
       'author',
       'text',
-      'attachments');
-
+      'attachments'
+    );
 
     try {
       await this.props.sendMessage(

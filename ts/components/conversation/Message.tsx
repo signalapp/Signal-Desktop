@@ -621,6 +621,7 @@ export class Message extends React.PureComponent<Props, State> {
       direction,
       i18n,
       quote,
+      text,
       isPublic,
       convoId,
     } = this.props;
