@@ -105,9 +105,6 @@ $session-color-light-grey: #a0a0a0;
 $session-color-dark-grey: #353535;
 $session-color-black: #000;
 
-$session-background-overlay: #212121;
-$session-background: #121212;
-
 // Semantic Colors
 $session-color-info: $session-shade-11;
 $session-color-success: #35d388;
@@ -206,16 +203,5 @@ $session-fadein-duration: 0.1s;
 // //////////////////////////////////////////////
 // ///////////////// Various ////////////////////
 // //////////////////////////////////////////////
-
-// Backgrounds
-@mixin session-dark-background {
-  background-color: $session-background;
-}
-@mixin session-dark-background-lighter {
-  background-color: $session-background-overlay;
-}
-@mixin session-dark-background-hover {
-  background-color: $session-shade-7;
-}
 
 $composition-container-height: 60px;

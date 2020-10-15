@@ -79,11 +79,6 @@
       );
       this.listenTo(
         this.model.messageCollection,
-        'reply',
-        this.setQuoteMessage
-      );
-      this.listenTo(
-        this.model.messageCollection,
         'show-contact-detail',
         this.showContactDetail
       );

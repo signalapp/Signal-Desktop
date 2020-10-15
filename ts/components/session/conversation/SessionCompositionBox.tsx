@@ -9,12 +9,23 @@ import TextareaAutosize from 'react-autosize-textarea';
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import { SessionEmojiPanel } from './SessionEmojiPanel';
 import { SessionRecording } from './SessionRecording';
+import { Props as MessageProps } from '../../conversation/Message';
 
-import { SignalService } from '../../../../ts/protobuf';
+import { SignalService } from '../../../protobuf';
 
 import { Constants } from '../../../session';
 
 import { toArray } from 'react-emoji-render';
+import { SessionQuotedMessageComposition } from './SessionQuotedMessageComposition';
+import { Flex } from '../Flex';
+
+export interface ReplyingToMessageProps {
+  convoId: string;
+  id: string;
+  timestamp: number;
+  text?: string;
+  attachments?: Array<any>;
+}
 
 interface Props {
   placeholder?: string;
@@ -28,6 +39,8 @@ interface Props {
   onExitVoiceNoteView: any;
 
   dropZoneFiles: FileList;
+  quotedMessageProps?: ReplyingToMessageProps;
+  removeQuotedMessage: () => void;
 }
 
 interface State {
@@ -48,7 +61,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
   constructor(props: any) {
     super(props);
-
     this.state = {
       message: '',
       attachments: [],
@@ -70,6 +82,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
     this.renderRecordingView = this.renderRecordingView.bind(this);
     this.renderCompositionView = this.renderCompositionView.bind(this);
+    this.renderQuotedMessage = this.renderQuotedMessage.bind(this);
 
     // Recording view functions
     this.sendVoiceMessage = this.sendVoiceMessage.bind(this);
@@ -102,13 +115,14 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     const { showRecordingView } = this.state;
 
     return (
-      <div className="composition-container">
-        {showRecordingView ? (
-          <>{this.renderRecordingView()}</>
-        ) : (
-          <>{this.renderCompositionView()}</>
-        )}
-      </div>
+      <Flex flexDirection="column">
+        {this.renderQuotedMessage()}
+        <div className="composition-container">
+          {showRecordingView
+            ? this.renderRecordingView()
+            : this.renderCompositionView()}
+        </div>
+      </Flex>
     );
   }
 
@@ -225,6 +239,19 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         </div>
       </>
     );
+  }
+
+  private renderQuotedMessage() {
+    const { quotedMessageProps, removeQuotedMessage } = this.props;
+    if (quotedMessageProps && quotedMessageProps.id) {
+      return (
+        <SessionQuotedMessageComposition
+          quotedMessageProps={quotedMessageProps}
+          removeQuotedMessage={removeQuotedMessage}
+        />
+      );
+    }
+    return <></>;
   }
 
   private onChooseAttachment() {

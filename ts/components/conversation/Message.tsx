@@ -36,6 +36,8 @@ import { isFileDangerous } from '../../util/isFileDangerous';
 import { ColorType, LocalizerType } from '../../types/Util';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../session/icon';
+import { ReplyingToMessageProps } from '../session/conversation/SessionCompositionBox';
+import _ from 'lodash';
 
 declare global {
   interface Window {
@@ -65,7 +67,7 @@ export interface Props {
   isModerator?: boolean;
   text?: string;
   textPending?: boolean;
-  id?: string;
+  id: string;
   collapseMetadata?: boolean;
   direction: 'incoming' | 'outgoing';
   timestamp: number;
@@ -111,7 +113,7 @@ export interface Props {
   onClickLinkPreview?: (url: string) => void;
   onCopyText?: () => void;
   onSelectMessage: (messageId: string) => void;
-  onReply?: () => void;
+  onReply?: (messageProps: ReplyingToMessageProps) => void;
   onRetrySend?: () => void;
   onDownload?: (isDangerous: boolean) => void;
   onDelete?: () => void;
@@ -145,6 +147,7 @@ export class Message extends React.PureComponent<Props, State> {
     this.captureMenuTriggerBound = this.captureMenuTrigger.bind(this);
     this.showMenuBound = this.showMenu.bind(this);
     this.handleImageErrorBound = this.handleImageError.bind(this);
+    this.onReplyPrivate = this.onReplyPrivate.bind(this);
 
     this.state = {
       expiring: false,
@@ -812,7 +815,6 @@ export class Message extends React.PureComponent<Props, State> {
       onReply,
       onRetrySend,
       onShowDetail,
-      onCopyPubKey,
       isPublic,
       i18n,
       isModerator,
@@ -827,10 +829,10 @@ export class Message extends React.PureComponent<Props, State> {
 
     // Wraps a function to prevent event propagation, thus preventing
     // message selection whenever any of the menu buttons are pressed.
-    const wrap = (f: any) => (event: Event) => {
+    const wrap = (f: any, ...args: Array<any>) => (event: Event) => {
       event.stopPropagation();
       if (f) {
-        f();
+        f(...args);
       }
     };
 
@@ -879,7 +881,7 @@ export class Message extends React.PureComponent<Props, State> {
           attributes={{
             className: 'module-message__context__reply',
           }}
-          onClick={wrap(onReply)}
+          onClick={this.onReplyPrivate}
         >
           {i18n('replyToMessage')}
         </MenuItem>
@@ -1148,5 +1150,20 @@ export class Message extends React.PureComponent<Props, State> {
         />
       </div>
     );
+  }
+
+  private onReplyPrivate(e: Event) {
+    e.stopPropagation();
+    if (this.props && this.props.onReply) {
+      const messageProps = _.pick(
+        this.props,
+        'id',
+        'timestamp',
+        'attachments',
+        'text',
+        'convoId'
+      );
+      this.props.onReply(messageProps);
+    }
   }
 }

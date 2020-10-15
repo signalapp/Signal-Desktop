@@ -755,6 +755,9 @@
     "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation",
     "androidKey": "conversation_context__menu_reply_to_message"
   },
+  "replyingToMessage": {
+    "message": "Replying to:"
+  },
   "originalMessageNotFound": {
     "message": "Original message not found",
     "description": "Shown in quote if reference message was not found as message was initially downloaded and processed",

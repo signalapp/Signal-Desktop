@@ -1,12 +1,3 @@
-@keyframes fadein {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 @keyframes toShadow {
   from {
     opacity: 1;
@@ -144,7 +135,6 @@
     @include themify($themes) {
       border-left: themed('sessionBorder');
       border-top: themed('sessionBorder');
-      border-bottom: themed('sessionBorder');
     }
 
     &__blocking-overlay {
@@ -221,6 +211,7 @@
   min-height: min-content;
   @include themify($themes) {
     background: themed('composeViewBackground');
+    border-top: themed('sessionBorder');
   }
 
   & > .session-icon-button {

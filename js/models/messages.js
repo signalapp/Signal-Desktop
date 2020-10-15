@@ -616,7 +616,6 @@
         onSelectMessageUnchecked: () => this.selectMessageUnchecked(),
         onCopyPubKey: () => this.copyPubKey(),
         onBanUser: () => this.banUser(),
-        onReply: () => this.trigger('reply', this),
         onRetrySend: () => this.retrySend(),
         onShowDetail: () => this.trigger('show-message-detail', this),
         onDelete: () => this.trigger('delete', this),

@@ -9,7 +9,7 @@ div.spacer-lg {
 }
 
 .subtle {
-  opacity: 0.6;
+  opacity: $session-subtle-factor;
 }
 
 .soft {

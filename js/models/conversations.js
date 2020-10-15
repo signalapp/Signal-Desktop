@@ -1861,7 +1861,6 @@
         message => message.get('received_at') <= newestUnreadDate
       );
 
-
       let read = await Promise.all(
         _.map(oldUnread, async providedM => {
           const m = MessageController.register(providedM.id, providedM);

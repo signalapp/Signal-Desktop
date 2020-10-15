@@ -13,16 +13,20 @@ const borderLightTheme = '#f1f1f1';
 const borderDarkTheme = '#ffffff0F';
 const borderAvatarColor = '#00000059';
 
-const commonThemes = {
+const common = {
   fonts: {
     sessionFontDefault: 'Public Sans',
     sessionFontAccent: 'Loor',
     sessionFontMono: 'SpaceMono',
   },
+  margins: {
+    xs: '5px',
+    sm: '10px',
+  },
 };
 
 export const lightTheme: DefaultTheme = {
-  commonThemes,
+  common,
   colors: {
     accent: accentLightTheme,
     accentButton: black,
@@ -76,7 +80,7 @@ export const lightTheme: DefaultTheme = {
 };
 
 export const darkTheme = {
-  commonThemes,
+  common,
   colors: {
     accent: accentDarkTheme,
     accentButton: accentDarkTheme,
@@ -130,7 +134,7 @@ export const darkTheme = {
   },
 };
 
-export const Theme = ({
+export const SessionTheme = ({
   children,
   theme,
 }: {

@@ -2,11 +2,15 @@ import 'styled-components';
 
 declare module 'styled-components' {
   export interface DefaultTheme {
-    commonThemes: {
+    common: {
       fonts: {
         sessionFontDefault: string;
         sessionFontAccent: string;
         sessionFontMono: string;
+      };
+      margins: {
+        xs: string;
+        sm: string;
       };
     };
     colors: {

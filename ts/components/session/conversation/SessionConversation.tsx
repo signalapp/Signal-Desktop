@@ -4,10 +4,13 @@ import React from 'react';
 
 import classNames from 'classnames';
 
-import { SessionCompositionBox } from './SessionCompositionBox';
+import {
+  ReplyingToMessageProps,
+  SessionCompositionBox,
+} from './SessionCompositionBox';
 import { SessionProgress } from '../SessionProgress';
 
-import { Message } from '../../conversation/Message';
+import { Message, Props as MessageProps } from '../../conversation/Message';
 import { TimerNotification } from '../../conversation/TimerNotification';
 
 import { getTimestamp } from './SessionConversationManager';
@@ -21,7 +24,7 @@ import { UserUtil } from '../../../util';
 import { MultiDeviceProtocol } from '../../../session/protocols';
 import { ConversationHeaderWithDetails } from '../../conversation/ConversationHeader';
 import { SessionRightPanelWithDetails } from './SessionRightPanel';
-import { Theme } from '../../../state/ducks/SessionTheme';
+import { SessionTheme } from '../../../state/ducks/SessionTheme';
 import { DefaultTheme } from 'styled-components';
 
 interface State {
@@ -130,6 +133,8 @@ export class SessionConversation extends React.Component<Props, State> {
     this.onMessageFailure = this.onMessageFailure.bind(this);
     this.deleteSelectedMessages = this.deleteSelectedMessages.bind(this);
 
+    this.replyToMessage = this.replyToMessage.bind(this);
+
     this.messagesEndRef = React.createRef();
     this.messageContainerRef = React.createRef();
 
@@ -197,6 +202,7 @@ export class SessionConversation extends React.Component<Props, State> {
       showRecordingView,
       showOptionsPane,
       showScrollButton,
+      quotedMessageProps,
     } = this.state;
     const loading = !doneInitialScroll;
     const selectionMode = !!this.state.selectedMessages.length;
@@ -220,7 +226,7 @@ export class SessionConversation extends React.Component<Props, State> {
     const showMessageDetails = this.state.infoViewState === 'messageDetails';
 
     return (
-      <Theme theme={this.props.theme}>
+      <SessionTheme theme={this.props.theme}>
         <div className="conversation-header">{this.renderHeader()}</div>
 
         {/* <SessionProgress
@@ -300,7 +306,7 @@ export class SessionConversation extends React.Component<Props, State> {
             <SessionRightPanelWithDetails {...groupSettingsProps} />
           </div>
         )}
-      </Theme>
+      </SessionTheme>
     );
   }
 
@@ -383,6 +389,7 @@ export class SessionConversation extends React.Component<Props, State> {
     };
 
     messageProps.quote = quoteProps || undefined;
+    messageProps.onReply = this.replyToMessage;
 
     return <Message {...messageProps} />;
   }
@@ -1027,6 +1034,15 @@ export class SessionConversation extends React.Component<Props, State> {
     this.setState({
       showRecordingView: false,
     });
+  }
+
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~~~~~ MESSAGE QUOTE ~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  private replyToMessage(quotedMessageProps?: ReplyingToMessageProps) {
+    if (!_.isEqual(this.state.quotedMessageProps, quotedMessageProps)) {
+      this.setState({ quotedMessageProps });
+    }
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
