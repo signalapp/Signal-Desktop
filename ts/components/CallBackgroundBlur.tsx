@@ -27,10 +27,9 @@ export const CallBackgroundBlur = ({
       };
 
   return (
-    <>
-      <div className="module-calling__background" {...backgroundProps} />
-      <div className="module-calling__background--blur" />
+    <div className="module-calling__background">
+      <div className="module-calling__background--blur" {...backgroundProps} />
       {children}
-    </>
+    </div>
   );
 };

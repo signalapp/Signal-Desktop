@@ -54,7 +54,15 @@ const story = storiesOf('Components/CallingLobby', module);
 
 story.add('Default', () => {
   const props = createProps();
-  return <CallingLobby {...props} />;
+  return (
+    <CallingLobby
+      {...props}
+      callDetails={{
+        ...callDetails,
+        avatarPath: 'https://www.stevensegallery.com/600/600',
+      }}
+    />
+  );
 });
 
 story.add('No Camera', () => {

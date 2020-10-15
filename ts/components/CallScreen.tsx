@@ -330,7 +330,9 @@ export class CallScreen extends React.Component<PropsType, StateType> {
     } else if (callState === CallState.Reconnecting) {
       message = i18n('callReconnecting');
     } else if (callState === CallState.Accepted && acceptedDuration) {
-      message = i18n('callDuration', [this.renderDuration(acceptedDuration)]);
+      message = i18n('callDuration', [
+        CallScreen.renderDuration(acceptedDuration),
+      ]);
     }
 
     if (!message) {
@@ -339,8 +341,7 @@ export class CallScreen extends React.Component<PropsType, StateType> {
     return <div className="module-ongoing-call__header-message">{message}</div>;
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  private renderDuration(ms: number): string {
+  static renderDuration(ms: number): string {
     const secs = Math.floor((ms / 1000) % 60)
       .toString()
       .padStart(2, '0');

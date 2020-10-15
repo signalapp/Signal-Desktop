@@ -158,7 +158,12 @@ export const _getLeftPaneLists = (
 
   conversations.sort(comparator);
   archivedConversations.sort(comparator);
-  pinnedConversations.sort((a, b) => (a.pinIndex || 0) - (b.pinIndex || 0));
+
+  const pinnedConversationIds = window.ConversationController.getPinnedConversationIds();
+  pinnedConversations.sort(
+    (a, b) =>
+      pinnedConversationIds.indexOf(a.id) - pinnedConversationIds.indexOf(b.id)
+  );
 
   return { conversations, archivedConversations, pinnedConversations };
 };

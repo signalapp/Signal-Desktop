@@ -5856,18 +5856,19 @@ button.module-image__border-overlay:focus {
   }
 
   &__background {
-    background-repeat: no-repeat;
-    background-size: cover;
-    border-radius: 4px 4px 0 0;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
     height: 100%;
+    justify-content: center;
+    overflow: hidden;
     position: absolute;
     width: 100%;
 
     &--blur {
-      backdrop-filter: blur(7px);
-      backface-visibility: hidden;
-      background-color: $color-black-alpha-40;
-      border-radius: 4px 4px 0 0;
+      background-repeat: no-repeat;
+      background-size: cover;
+      filter: blur(25px);
       height: 100%;
       position: absolute;
       width: 100%;
@@ -6258,14 +6259,10 @@ button.module-image__border-overlay:focus {
 
   &__video {
     @include font-body-2;
-    align-items: center;
     background-color: $color-gray-80;
     border-radius: 8px;
     color: $color-white;
-    display: flex;
-    flex-direction: column;
     flex: 1 1 auto;
-    justify-content: center;
     margin-bottom: 24px;
     margin-top: 24px;
     max-width: 640px;

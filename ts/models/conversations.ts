@@ -1098,7 +1098,6 @@ export class ConversationModel extends window.Backbone.Model<
       muteExpiresAt: this.get('muteExpiresAt')!,
       name: this.get('name')!,
       phoneNumber: this.getNumber()!,
-      pinIndex: this.get('pinIndex'),
       profileName: this.getProfileName()!,
       sharedGroupNames: this.get('sharedGroupNames')!,
       shouldShowDraft,
@@ -4073,17 +4072,16 @@ export class ConversationModel extends window.Backbone.Model<
       window.storage.get<Array<string>>('pinnedConversationIds', [])
     );
 
+    pinnedConversationIds.add(this.id);
+
+    this.writePinnedConversations([...pinnedConversationIds]);
+
     this.set('isPinned', true);
-    this.set('pinIndex', pinnedConversationIds.size);
     window.Signal.Data.updateConversation(this.attributes);
 
     if (this.get('isArchived')) {
       this.setArchived(false);
     }
-
-    pinnedConversationIds.add(this.id);
-
-    this.writePinnedConversations([...pinnedConversationIds]);
   }
 
   unpin(): void {
@@ -4093,13 +4091,12 @@ export class ConversationModel extends window.Backbone.Model<
       window.storage.get<Array<string>>('pinnedConversationIds', [])
     );
 
-    this.set('isPinned', false);
-    this.set('pinIndex', undefined);
-    window.Signal.Data.updateConversation(this.attributes);
-
     pinnedConversationIds.delete(this.id);
 
     this.writePinnedConversations([...pinnedConversationIds]);
+
+    this.set('isPinned', false);
+    window.Signal.Data.updateConversation(this.attributes);
   }
 
   writePinnedConversations(pinnedConversationIds: Array<string>): void {
