@@ -584,6 +584,11 @@ export async function mergeAccountRecord(
       conversation => Boolean(conversation.get('isPinned'))
     );
 
+    window.log.info(
+      'storageService.mergeAccountRecord: Local pinned',
+      locallyPinnedConversations.length
+    );
+
     const remotelyPinnedConversationPromises = remotelyPinnedConversationClasses.map(
       async pinnedConversation => {
         let conversationId;
@@ -621,13 +626,15 @@ export async function mergeAccountRecord(
             break;
           }
           default: {
-            window.log.error('mergeAccountRecord: Invalid identifier received');
+            window.log.error(
+              'storageService.mergeAccountRecord: Invalid identifier received'
+            );
           }
         }
 
         if (!conversationId) {
           window.log.error(
-            'mergeAccountRecord: missing conversation id. looking based on',
+            'storageService.mergeAccountRecord: missing conversation id. looking based on',
             pinnedConversation.identifier
           );
           return undefined;
@@ -660,11 +667,13 @@ export async function mergeAccountRecord(
     );
 
     window.log.info(
-      `mergeAccountRecord: unpinning ${conversationsToUnpin.length} conversations`
+      'storageService.mergeAccountRecord: unpinning',
+      conversationsToUnpin.length
     );
 
     window.log.info(
-      `mergeAccountRecord: pinning ${conversationsToUnpin.length} conversations`
+      'storageService.mergeAccountRecord: pinning',
+      remotelyPinnedConversations.length
     );
 
     conversationsToUnpin.forEach(conversation => {

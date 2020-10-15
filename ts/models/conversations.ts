@@ -660,7 +660,7 @@ export class ConversationModel extends window.Backbone.Model<
     }
 
     if (!viaStorageServiceSync && !isBlocked && blocked) {
-      this.captureChange();
+      this.captureChange('block');
     }
   }
 
@@ -687,7 +687,7 @@ export class ConversationModel extends window.Backbone.Model<
     }
 
     if (!viaStorageServiceSync && isBlocked && unblocked) {
-      this.captureChange();
+      this.captureChange('unblock');
     }
 
     return unblocked;
@@ -701,7 +701,7 @@ export class ConversationModel extends window.Backbone.Model<
     const after = this.get('profileSharing');
 
     if (!viaStorageServiceSync && Boolean(before) !== Boolean(after)) {
-      this.captureChange();
+      this.captureChange('profileSharing');
     }
   }
 
@@ -713,7 +713,7 @@ export class ConversationModel extends window.Backbone.Model<
     const after = this.get('profileSharing');
 
     if (!viaStorageServiceSync && Boolean(before) !== Boolean(after)) {
-      this.captureChange();
+      this.captureChange('profileSharing');
     }
   }
 
@@ -1484,7 +1484,7 @@ export class ConversationModel extends window.Backbone.Model<
       !keyChange &&
       beginningVerified !== verified
     ) {
-      this.captureChange();
+      this.captureChange('verified');
     }
 
     // Three situations result in a verification notice in the conversation:
@@ -2923,7 +2923,7 @@ export class ConversationModel extends window.Backbone.Model<
       if (after) {
         this.unpin();
       }
-      this.captureChange();
+      this.captureChange('isArchived');
     }
   }
 
@@ -3653,7 +3653,7 @@ export class ConversationModel extends window.Backbone.Model<
         !viaStorageServiceSync &&
         profileKey !== this.get('storageProfileKey')
       ) {
-        this.captureChange();
+        this.captureChange('profileKey');
       }
 
       await Promise.all([
@@ -3907,7 +3907,7 @@ export class ConversationModel extends window.Backbone.Model<
   // [X] blocked
   // [X] whitelisted
   // [X] archived
-  captureChange(): void {
+  captureChange(property: string): void {
     if (!window.Signal.RemoteConfig.isEnabled('desktop.storageWrite')) {
       window.log.info(
         'conversation.captureChange: Returning early; desktop.storageWrite is falsey'
@@ -3917,7 +3917,9 @@ export class ConversationModel extends window.Backbone.Model<
     }
 
     window.log.info(
-      `storageService[captureChange] marking ${this.debugID()} as needing sync`
+      'storageService[captureChange]',
+      property,
+      this.idForLogging()
     );
     this.set({ needsStorageServiceSync: true });
 
@@ -4062,6 +4064,7 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   pin(): void {
+    window.log.info('pinning', this.idForLogging());
     const pinnedConversationIds = new Set(
       window.storage.get<Array<string>>('pinnedConversationIds', [])
     );
@@ -4080,6 +4083,8 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   unpin(): void {
+    window.log.info('un-pinning', this.idForLogging());
+
     const pinnedConversationIds = new Set(
       window.storage.get<Array<string>>('pinnedConversationIds', [])
     );
@@ -4100,7 +4105,7 @@ export class ConversationModel extends window.Backbone.Model<
     const me = window.ConversationController.get(myId);
 
     if (me) {
-      me.captureChange();
+      me.captureChange('pin');
     }
   }
 }
