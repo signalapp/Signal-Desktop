@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { groupBy, mapValues, orderBy, sortBy } from 'lodash';
+import { groupBy, mapValues, orderBy } from 'lodash';
 import classNames from 'classnames';
 import { ContactName } from './ContactName';
 import { Avatar, Props as AvatarProps } from '../Avatar';
 import { Emoji } from '../emoji/Emoji';
 import { useRestoreFocus } from '../../util/hooks';
 import { ColorType } from '../../types/Colors';
+import { emojiToData, EmojiData } from '../emoji/lib';
 
 export type Reaction = {
   emoji: string;
@@ -32,14 +33,91 @@ export type Props = OwnProps &
   Pick<React.HTMLProps<HTMLDivElement>, 'style'> &
   Pick<AvatarProps, 'i18n'>;
 
-const emojisOrder = ['❤️', '👍', '👎', '😂', '😮', '😢', '😡'];
+const DEFAULT_EMOJI_ORDER = [
+  'heart',
+  '+1',
+  '-1',
+  'joy',
+  'open_mouth',
+  'cry',
+  'rage',
+];
+
+interface ReactionCategory {
+  count: number;
+  emoji?: string;
+  id: string;
+  index: number;
+}
+
+type ReactionWithEmojiData = Reaction & EmojiData;
 
 export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
   ({ i18n, reactions, onClose, pickedReaction, ...rest }, ref) => {
-    const grouped = mapValues(groupBy(reactions, 'emoji'), res =>
-      orderBy(res, ['timestamp'], ['desc'])
+    const reactionsWithEmojiData = React.useMemo(
+      () =>
+        reactions
+          .map(reaction => {
+            const emojiData = emojiToData(reaction.emoji);
+
+            if (!emojiData) {
+              return undefined;
+            }
+
+            return {
+              ...reaction,
+              ...emojiData,
+            };
+          })
+          .filter(
+            (
+              reactionWithEmojiData
+            ): reactionWithEmojiData is ReactionWithEmojiData =>
+              Boolean(reactionWithEmojiData)
+          ),
+      [reactions]
     );
-    const [selected, setSelected] = React.useState(pickedReaction || 'all');
+
+    const groupedAndSortedReactions = React.useMemo(
+      () =>
+        mapValues(
+          {
+            all: reactionsWithEmojiData,
+            ...groupBy(reactionsWithEmojiData, 'short_name'),
+          },
+          groupedReactions => orderBy(groupedReactions, ['timestamp'], ['desc'])
+        ),
+      [reactionsWithEmojiData]
+    );
+
+    const reactionCategories: Array<ReactionCategory> = React.useMemo(
+      () =>
+        [
+          {
+            id: 'all',
+            index: 0,
+            count: reactionsWithEmojiData.length,
+          },
+          ...Object.entries(groupedAndSortedReactions)
+            .filter(([key]) => key !== 'all')
+            .map(([, [{ short_name: id, emoji }, ...otherReactions]]) => {
+              return {
+                id,
+                index: DEFAULT_EMOJI_ORDER.includes(id)
+                  ? DEFAULT_EMOJI_ORDER.indexOf(id)
+                  : Infinity,
+                emoji,
+                count: otherReactions.length + 1,
+              };
+            }),
+        ].sort((a, b) => a.index - b.index),
+      [reactionsWithEmojiData, groupedAndSortedReactions]
+    );
+
+    const [
+      selectedReactionCategory,
+      setSelectedReactionCategory,
+    ] = React.useState(pickedReaction || 'all');
     const focusRef = React.useRef<HTMLButtonElement>(null);
 
     // Handle escape key
@@ -60,87 +138,68 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
     // Focus first button and restore focus on unmount
     useRestoreFocus(focusRef);
 
-    // Create sorted reaction categories, supporting reaction types we don't
-    // explicitly know about yet
-    const renderedEmojis = React.useMemo(() => {
-      const emojiSet = new Set<string>();
-      reactions.forEach(re => emojiSet.add(re.emoji));
-
-      const arr = sortBy(Array.from(emojiSet), emoji => {
-        const idx = emojisOrder.indexOf(emoji);
-        if (idx > -1) {
-          return idx;
-        }
-
-        return Infinity;
-      });
-
-      return ['all', ...arr];
-    }, [reactions]);
-
-    const allSorted = React.useMemo(() => {
-      return orderBy(reactions, ['timestamp'], ['desc']);
-    }, [reactions]);
-
     // If we have previously selected a reaction type that is no longer present
     // (removed on another device, for instance) we should select another
     // reaction type
     React.useEffect(() => {
-      if (!grouped[selected]) {
-        const toSelect = renderedEmojis[0];
-        if (toSelect) {
-          setSelected(toSelect);
+      if (
+        !reactionCategories.find(({ id }) => id === selectedReactionCategory)
+      ) {
+        if (reactionsWithEmojiData.length > 0) {
+          setSelectedReactionCategory('all');
         } else if (onClose) {
-          // We have nothing to render!
           onClose();
         }
       }
-    }, [grouped, onClose, renderedEmojis, selected, setSelected]);
+    }, [
+      reactionCategories,
+      onClose,
+      reactionsWithEmojiData,
+      selectedReactionCategory,
+    ]);
 
-    const selectedReactions = grouped[selected] || allSorted;
+    const selectedReactions =
+      groupedAndSortedReactions[selectedReactionCategory] || [];
 
     return (
       <div {...rest} ref={ref} className="module-reaction-viewer">
         <header className="module-reaction-viewer__header">
-          {renderedEmojis
-            .filter(e => e === 'all' || Boolean(grouped[e]))
-            .map((cat, index) => {
-              const re = grouped[cat] || reactions;
-              const maybeFocusRef = index === 0 ? focusRef : undefined;
-              const isAll = cat === 'all';
+          {reactionCategories.map(({ id, emoji, count }, index) => {
+            const isAll = index === 0;
+            const maybeFocusRef = isAll ? focusRef : undefined;
 
-              return (
-                <button
-                  type="button"
-                  key={cat}
-                  ref={maybeFocusRef}
-                  className={classNames(
-                    'module-reaction-viewer__header__button',
-                    selected === cat
-                      ? 'module-reaction-viewer__header__button--selected'
-                      : null
-                  )}
-                  onClick={event => {
-                    event.stopPropagation();
-                    setSelected(cat);
-                  }}
-                >
-                  {isAll ? (
-                    <span className="module-reaction-viewer__header__button__all">
-                      {i18n('ReactionsViewer--all')}&thinsp;&middot;&thinsp;
-                      {re.length}
+            return (
+              <button
+                type="button"
+                key={id}
+                ref={maybeFocusRef}
+                className={classNames(
+                  'module-reaction-viewer__header__button',
+                  selectedReactionCategory === id
+                    ? 'module-reaction-viewer__header__button--selected'
+                    : null
+                )}
+                onClick={event => {
+                  event.stopPropagation();
+                  setSelectedReactionCategory(id);
+                }}
+              >
+                {isAll ? (
+                  <span className="module-reaction-viewer__header__button__all">
+                    {i18n('ReactionsViewer--all')}&thinsp;&middot;&thinsp;
+                    {count}
+                  </span>
+                ) : (
+                  <>
+                    <Emoji size={18} emoji={emoji} />
+                    <span className="module-reaction-viewer__header__button__count">
+                      {count}
                     </span>
-                  ) : (
-                    <>
-                      <Emoji size={18} emoji={cat} />
-                      <span className="module-reaction-viewer__header__button__count">
-                        {re.length}
-                      </span>
-                    </>
-                  )}
-                </button>
-              );
-            })}
+                  </>
+                )}
+              </button>
+            );
+          })}
         </header>
         <main className="module-reaction-viewer__body">
           {selectedReactions.map(({ from, emoji }) => (

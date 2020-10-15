@@ -1,16 +1,4 @@
-/* global
-  $,
-  _,
-  Backbone,
-  ConversationController,
-  MessageController,
-  getAccountManager,
-  Signal,
-  storage,
-  textsecure,
-  WebAPI,
-  Whisper,
-*/
+type WhatIsThis = typeof window.WhatIsThis;
 
 // eslint-disable-next-line func-names
 (async function() {
@@ -18,17 +6,17 @@
     concurrency: 1,
     timeout: 1000 * 60 * 2,
   });
-  Whisper.deliveryReceiptQueue = new window.PQueue({
+  window.Whisper.deliveryReceiptQueue = new window.PQueue({
     concurrency: 1,
     timeout: 1000 * 60 * 2,
   });
-  Whisper.deliveryReceiptQueue.pause();
-  Whisper.deliveryReceiptBatcher = window.Signal.Util.createBatcher({
+  window.Whisper.deliveryReceiptQueue.pause();
+  window.Whisper.deliveryReceiptBatcher = window.Signal.Util.createBatcher({
     wait: 500,
     maxSize: 500,
-    processBatch: async items => {
+    processBatch: async (items: WhatIsThis) => {
       const byConversationId = _.groupBy(items, item =>
-        ConversationController.ensureContactIds({
+        window.ConversationController.ensureContactIds({
           e164: item.source,
           uuid: item.sourceUuid,
         })
@@ -41,18 +29,22 @@
           item => item.timestamp
         );
 
-        const c = ConversationController.get(conversationId);
-        const uuid = c.get('uuid');
-        const e164 = c.get('e164');
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const c = window.ConversationController.get(conversationId)!;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const uuid = c.get('uuid')!;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const e164 = c.get('e164')!;
 
         c.queueJob(async () => {
           try {
-            const { wrap, sendOptions } = ConversationController.prepareForSend(
-              c.get('id')
-            );
+            const {
+              wrap,
+              sendOptions,
+            } = window.ConversationController.prepareForSend(c.get('id'));
             // eslint-disable-next-line no-await-in-loop
             await wrap(
-              textsecure.messaging.sendDeliveryReceipt(
+              window.textsecure.messaging.sendDeliveryReceipt(
                 e164,
                 uuid,
                 timestamps,
@@ -101,7 +93,7 @@
   ];
 
   const LISTENER_DEBOUNCE = 5 * 1000;
-  let activeHandlers = [];
+  let activeHandlers: Array<WhatIsThis> = [];
   let activeTimestamp = Date.now();
 
   window.addEventListener('blur', () => {
@@ -150,7 +142,9 @@
       clearSelectedMessage();
     }
     if (userChanged) {
-      userChanged({ interactionMode });
+      userChanged({
+        interactionMode,
+      } as WhatIsThis);
     }
   };
   window.enterMouseMode = () => {
@@ -168,7 +162,7 @@
       clearSelectedMessage();
     }
     if (userChanged) {
-      userChanged({ interactionMode });
+      userChanged({ interactionMode } as WhatIsThis);
     }
   };
 
@@ -188,13 +182,14 @@
 
   // Load these images now to ensure that they don't flicker on first use
   window.preloadedImages = [];
-  function preload(list) {
+  function preload(list: Array<WhatIsThis>) {
     for (let index = 0, max = list.length; index < max; index += 1) {
       const image = new Image();
       image.src = `./images/${list[index]}`;
       window.preloadedImages.push(image);
     }
   }
+
   const builtInImages = await window.getBuiltInImages();
   preload(builtInImages);
 
@@ -202,11 +197,11 @@
   //   of preload.js processing
   window.setImmediate = window.nodeSetImmediate;
 
-  const { IdleDetector, MessageDataMigrator } = Signal.Workflow;
+  const { IdleDetector, MessageDataMigrator } = window.Signal.Workflow;
   const {
     removeDatabase: removeIndexedDB,
     doesDatabaseExist,
-  } = Signal.IndexedDB;
+  } = window.Signal.IndexedDB;
   const { Errors, Message } = window.Signal.Types;
   const {
     upgradeMessageSchema,
@@ -219,20 +214,21 @@
   window.log.info('background page reloaded');
   window.log.info('environment:', window.getEnvironment());
 
-  let idleDetector;
+  let idleDetector: WhatIsThis;
   let initialLoadComplete = false;
   let newVersion = false;
 
   window.owsDesktopApp = {};
   window.document.title = window.getTitle();
 
-  Whisper.KeyChangeListener.init(textsecure.storage.protocol);
-  textsecure.storage.protocol.on('removePreKey', () => {
-    getAccountManager().refreshPreKeys();
+  window.Whisper.KeyChangeListener.init(window.textsecure.storage.protocol);
+  window.textsecure.storage.protocol.on('removePreKey', () => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    window.getAccountManager()!.refreshPreKeys();
   });
 
-  let messageReceiver;
-  let preMessageReceiverStatus;
+  let messageReceiver: WhatIsThis;
+  let preMessageReceiverStatus: WhatIsThis;
   window.getSocketStatus = () => {
     if (messageReceiver) {
       return messageReceiver.getStatus();
@@ -242,31 +238,31 @@
     }
     return -1;
   };
-  Whisper.events = _.clone(Backbone.Events);
-  let accountManager;
+  window.Whisper.events = _.clone(window.Backbone.Events);
+  let accountManager: typeof window.textsecure.AccountManager;
   window.getAccountManager = () => {
     if (!accountManager) {
-      const OLD_USERNAME = storage.get('number_id');
-      const USERNAME = storage.get('uuid_id');
-      const PASSWORD = storage.get('password');
-      accountManager = new textsecure.AccountManager(
+      const OLD_USERNAME = window.storage.get('number_id');
+      const USERNAME = window.storage.get('uuid_id');
+      const PASSWORD = window.storage.get('password');
+      accountManager = new window.textsecure.AccountManager(
         USERNAME || OLD_USERNAME,
         PASSWORD
       );
       accountManager.addEventListener('registration', () => {
-        const ourNumber = textsecure.storage.user.getNumber();
-        const ourUuid = textsecure.storage.user.getUuid();
+        const ourNumber = window.textsecure.storage.user.getNumber();
+        const ourUuid = window.textsecure.storage.user.getUuid();
         const user = {
           regionCode: window.storage.get('regionCode'),
           ourNumber,
           ourUuid,
-          ourConversationId: ConversationController.getOurConversationId(),
+          ourConversationId: window.ConversationController.getOurConversationId(),
         };
-        Whisper.events.trigger('userChanged', user);
+        window.Whisper.events.trigger('userChanged', user);
 
         window.Signal.Util.Registration.markDone();
         window.log.info('dispatching registration event');
-        Whisper.events.trigger('registration_done');
+        window.Whisper.events.trigger('registration_done');
       });
     }
     return accountManager;
@@ -284,7 +280,7 @@
 
         try {
           await new Promise((resolve, reject) => {
-            const dialog = new Whisper.ConfirmationDialogView({
+            const dialog = new window.Whisper.ConfirmationDialogView({
               message: window.i18n('deleteOldIndexedDBData'),
               okText: window.i18n('deleteOldData'),
               cancelText: window.i18n('quit'),
@@ -320,7 +316,7 @@
       }
 
       // Set a flag to delete IndexedDB on next startup if it wasn't deleted just now.
-      // We need to use direct data calls, since storage isn't ready yet.
+      // We need to use direct data calls, since window.storage isn't ready yet.
       await window.Signal.Data.createOrUpdateItem({
         id: 'indexeddb-delete-needed',
         value: true,
@@ -329,9 +325,9 @@
   }
 
   window.log.info('Storage fetch');
-  storage.fetch();
+  window.storage.fetch();
 
-  function mapOldThemeToNew(theme) {
+  function mapOldThemeToNew(theme: WhatIsThis) {
     switch (theme) {
       case 'dark':
       case 'light':
@@ -347,9 +343,9 @@
   }
 
   // We need this 'first' check because we don't want to start the app up any other time
-  //   than the first time. And storage.fetch() will cause onready() to fire.
+  //   than the first time. And window.storage.fetch() will cause onready() to fire.
   let first = true;
-  storage.onready(async () => {
+  window.storage.onready(async () => {
     if (!first) {
       return;
     }
@@ -357,71 +353,74 @@
 
     // These make key operations available to IPC handlers created in preload.js
     window.Events = {
-      getDeviceName: () => textsecure.storage.user.getDeviceName(),
+      getDeviceName: () => window.textsecure.storage.user.getDeviceName(),
 
       getThemeSetting: () =>
-        storage.get(
+        window.storage.get(
           'theme-setting',
           window.platform === 'darwin' ? 'system' : 'light'
         ),
-      setThemeSetting: value => {
-        storage.put('theme-setting', value);
+      setThemeSetting: (value: WhatIsThis) => {
+        window.storage.put('theme-setting', value);
         onChangeTheme();
       },
-      getHideMenuBar: () => storage.get('hide-menu-bar'),
-      setHideMenuBar: value => {
-        storage.put('hide-menu-bar', value);
+      getHideMenuBar: () => window.storage.get('hide-menu-bar'),
+      setHideMenuBar: (value: WhatIsThis) => {
+        window.storage.put('hide-menu-bar', value);
         window.setAutoHideMenuBar(value);
         window.setMenuBarVisibility(!value);
       },
 
       getNotificationSetting: () =>
-        storage.get('notification-setting', 'message'),
-      setNotificationSetting: value =>
-        storage.put('notification-setting', value),
+        window.storage.get('notification-setting', 'message'),
+      setNotificationSetting: (value: WhatIsThis) =>
+        window.storage.put('notification-setting', value),
       getNotificationDrawAttention: () =>
-        storage.get('notification-draw-attention', true),
-      setNotificationDrawAttention: value =>
-        storage.put('notification-draw-attention', value),
-      getAudioNotification: () => storage.get('audio-notification'),
-      setAudioNotification: value => storage.put('audio-notification', value),
+        window.storage.get('notification-draw-attention', true),
+      setNotificationDrawAttention: (value: WhatIsThis) =>
+        window.storage.put('notification-draw-attention', value),
+      getAudioNotification: () => window.storage.get('audio-notification'),
+      setAudioNotification: (value: WhatIsThis) =>
+        window.storage.put('audio-notification', value),
       getCountMutedConversations: () =>
-        storage.get('badge-count-muted-conversations', false),
-      setCountMutedConversations: value => {
-        storage.put('badge-count-muted-conversations', value);
+        window.storage.get('badge-count-muted-conversations', false),
+      setCountMutedConversations: (value: WhatIsThis) => {
+        window.storage.put('badge-count-muted-conversations', value);
         window.Whisper.events.trigger('updateUnreadCount');
       },
       getCallRingtoneNotification: () =>
-        storage.get('call-ringtone-notification', true),
-      setCallRingtoneNotification: value =>
-        storage.put('call-ringtone-notification', value),
+        window.storage.get('call-ringtone-notification', true),
+      setCallRingtoneNotification: (value: WhatIsThis) =>
+        window.storage.put('call-ringtone-notification', value),
       getCallSystemNotification: () =>
-        storage.get('call-system-notification', true),
-      setCallSystemNotification: value =>
-        storage.put('call-system-notification', value),
+        window.storage.get('call-system-notification', true),
+      setCallSystemNotification: (value: WhatIsThis) =>
+        window.storage.put('call-system-notification', value),
       getIncomingCallNotification: () =>
-        storage.get('incoming-call-notification', true),
-      setIncomingCallNotification: value =>
-        storage.put('incoming-call-notification', value),
+        window.storage.get('incoming-call-notification', true),
+      setIncomingCallNotification: (value: WhatIsThis) =>
+        window.storage.put('incoming-call-notification', value),
 
-      getSpellCheck: () => storage.get('spell-check', true),
-      setSpellCheck: value => {
-        storage.put('spell-check', value);
+      getSpellCheck: () => window.storage.get('spell-check', true),
+      setSpellCheck: (value: WhatIsThis) => {
+        window.storage.put('spell-check', value);
       },
 
-      getAlwaysRelayCalls: () => storage.get('always-relay-calls'),
-      setAlwaysRelayCalls: value => storage.put('always-relay-calls', value),
+      getAlwaysRelayCalls: () => window.storage.get('always-relay-calls'),
+      setAlwaysRelayCalls: (value: WhatIsThis) =>
+        window.storage.put('always-relay-calls', value),
 
       // eslint-disable-next-line eqeqeq
-      isPrimary: () => textsecure.storage.user.getDeviceId() == '1',
+      isPrimary: () => window.textsecure.storage.user.getDeviceId() == '1',
       getSyncRequest: () =>
         new Promise((resolve, reject) => {
           const syncRequest = window.getSyncRequest();
           syncRequest.addEventListener('success', resolve);
           syncRequest.addEventListener('timeout', reject);
         }),
-      getLastSyncTime: () => storage.get('synced_at'),
-      setLastSyncTime: value => storage.put('synced_at', value),
+      getLastSyncTime: () => window.storage.get('synced_at'),
+      setLastSyncTime: (value: WhatIsThis) =>
+        window.storage.put('synced_at', value),
 
       addDarkOverlay: () => {
         if ($('.dark-overlay').length) {
@@ -468,7 +467,7 @@
         await window.Signal.Data.shutdown();
       },
 
-      showStickerPack: async (packId, key) => {
+      showStickerPack: async (packId: string, key: string) => {
         // We can get these events even if the user has never linked this instance.
         if (!window.Signal.Util.Registration.everDone()) {
           return;
@@ -485,16 +484,16 @@
           },
         };
 
-        const stickerPreviewModalView = new Whisper.ReactWrapperView({
+        const stickerPreviewModalView = new window.Whisper.ReactWrapperView({
           className: 'sticker-preview-modal-wrapper',
-          JSX: Signal.State.Roots.createStickerPreviewModal(
+          JSX: window.Signal.State.Roots.createStickerPreviewModal(
             window.reduxStore,
             props
           ),
         });
       },
 
-      installStickerPack: async (packId, key) => {
+      installStickerPack: async (packId: string, key: string) => {
         window.Signal.Stickers.downloadStickerPack(packId, key, {
           finalStatus: 'installed',
         });
@@ -503,8 +502,8 @@
 
     // How long since we were last running?
     const now = Date.now();
-    const lastHeartbeat = storage.get('lastHeartbeat');
-    await storage.put('lastStartup', Date.now());
+    const lastHeartbeat = window.storage.get('lastHeartbeat');
+    await window.storage.put('lastStartup', Date.now());
 
     const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
     if (lastHeartbeat > 0 && now - lastHeartbeat > THIRTY_DAYS) {
@@ -512,14 +511,17 @@
     }
 
     // Start heartbeat timer
-    storage.put('lastHeartbeat', Date.now());
+    window.storage.put('lastHeartbeat', Date.now());
     const TWELVE_HOURS = 12 * 60 * 60 * 1000;
-    setInterval(() => storage.put('lastHeartbeat', Date.now()), TWELVE_HOURS);
+    setInterval(
+      () => window.storage.put('lastHeartbeat', Date.now()),
+      TWELVE_HOURS
+    );
 
     const currentVersion = window.getVersion();
-    const lastVersion = storage.get('version');
+    const lastVersion = window.storage.get('version');
     newVersion = !lastVersion || currentVersion !== lastVersion;
-    await storage.put('version', currentVersion);
+    await window.storage.put('version', currentVersion);
 
     if (newVersion && lastVersion) {
       window.log.info(
@@ -532,14 +534,14 @@
       if (window.isBeforeVersion(lastVersion, 'v1.29.2-beta.1')) {
         // Stickers flags
         await Promise.all([
-          storage.put('showStickersIntroduction', true),
-          storage.put('showStickerPickerHint', true),
+          window.storage.put('showStickersIntroduction', true),
+          window.storage.put('showStickerPickerHint', true),
         ]);
       }
 
       if (window.isBeforeVersion(lastVersion, 'v1.26.0')) {
         // Ensure that we re-register our support for sealed sender
-        await storage.put(
+        await window.storage.put(
           'hasRegisterSupportForUnauthenticatedDelivery',
           false
         );
@@ -590,8 +592,8 @@
 
       if (!isMigrationWithIndexComplete) {
         const batchWithIndex = await MessageDataMigrator.processNext({
-          BackboneMessage: Whisper.Message,
-          BackboneMessageCollection: Whisper.MessageCollection,
+          BackboneMessage: window.Whisper.Message,
+          BackboneMessageCollection: window.Whisper.MessageCollection,
           numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
           upgradeMessageSchema,
           getMessagesNeedingUpgrade:
@@ -612,29 +614,19 @@
 
     window.Signal.conversationControllerStart();
 
-    // We start this up before ConversationController.load() to ensure that our feature
-    //   flags are represented in the cached props we generate on load of each convo.
+    // We start this up before window.ConversationController.load() to
+    // ensure that our feature flags are represented in the cached props
+    // we generate on load of each convo.
     window.Signal.RemoteConfig.initRemoteConfig();
-
-    // On startup, we don't want to wait for the remote config fetch if we've already
-    //   learned that this instance supports GroupsV2.
-    // This is how we keep it sticky. Once it is enabled, we never disable it.
-    if (
-      window.Signal.RemoteConfig.isEnabled('desktop.gv2') ||
-      window.storage.get('gv2-enabled')
-    ) {
-      window.GV2 = true;
-      window.storage.put('gv2-enabled', true);
-    }
 
     try {
       await Promise.all([
-        ConversationController.load(),
-        Signal.Stickers.load(),
-        Signal.Emojis.load(),
-        textsecure.storage.protocol.hydrateCaches(),
+        window.ConversationController.load(),
+        window.Signal.Stickers.load(),
+        window.Signal.Emojis.load(),
+        window.textsecure.storage.protocol.hydrateCaches(),
       ]);
-      await ConversationController.checkForConflicts();
+      await window.ConversationController.checkForConflicts();
     } catch (error) {
       window.log.error(
         'background.js: ConversationController failed to load:',
@@ -663,12 +655,12 @@
     const conversations = convoCollection.map(
       conversation => conversation.cachedProps
     );
-    const ourNumber = textsecure.storage.user.getNumber();
-    const ourUuid = textsecure.storage.user.getUuid();
-    const ourConversationId = ConversationController.getOurConversationId();
+    const ourNumber = window.textsecure.storage.user.getNumber();
+    const ourUuid = window.textsecure.storage.user.getUuid();
+    const ourConversationId = window.ConversationController.getOurConversationId();
     const initialState = {
       conversations: {
-        conversationLookup: Signal.Util.makeLookup(conversations, 'id'),
+        conversationLookup: window.Signal.Util.makeLookup(conversations, 'id'),
         messagesByConversation: {},
         messagesLookup: {},
         selectedConversation: null,
@@ -676,9 +668,9 @@
         selectedMessageCounter: 0,
         showArchived: false,
       },
-      emojis: Signal.Emojis.getInitialState(),
-      items: storage.getItemsState(),
-      stickers: Signal.Stickers.getInitialState(),
+      emojis: window.Signal.Emojis.getInitialState(),
+      items: window.storage.getItemsState(),
+      stickers: window.Signal.Stickers.getInitialState(),
       user: {
         attachmentsPath: window.baseAttachmentsPath,
         stickersPath: window.baseStickersPath,
@@ -693,52 +685,52 @@
       },
     };
 
-    const store = Signal.State.createStore(initialState);
+    const store = window.Signal.State.createStore(initialState);
     window.reduxStore = store;
 
-    const actions = {};
+    const actions: WhatIsThis = {};
     window.reduxActions = actions;
 
     // Binding these actions to our redux store and exposing them allows us to update
     //   redux when things change in the backbone world.
-    actions.calling = Signal.State.bindActionCreators(
-      Signal.State.Ducks.calling.actions,
+    actions.calling = window.Signal.State.bindActionCreators(
+      window.Signal.State.Ducks.calling.actions,
       store.dispatch
     );
-    actions.conversations = Signal.State.bindActionCreators(
-      Signal.State.Ducks.conversations.actions,
+    actions.conversations = window.Signal.State.bindActionCreators(
+      window.Signal.State.Ducks.conversations.actions,
       store.dispatch
     );
-    actions.emojis = Signal.State.bindActionCreators(
-      Signal.State.Ducks.emojis.actions,
+    actions.emojis = window.Signal.State.bindActionCreators(
+      window.Signal.State.Ducks.emojis.actions,
       store.dispatch
     );
-    actions.expiration = Signal.State.bindActionCreators(
-      Signal.State.Ducks.expiration.actions,
+    actions.expiration = window.Signal.State.bindActionCreators(
+      window.Signal.State.Ducks.expiration.actions,
       store.dispatch
     );
-    actions.items = Signal.State.bindActionCreators(
-      Signal.State.Ducks.items.actions,
+    actions.items = window.Signal.State.bindActionCreators(
+      window.Signal.State.Ducks.items.actions,
       store.dispatch
     );
-    actions.network = Signal.State.bindActionCreators(
-      Signal.State.Ducks.network.actions,
+    actions.network = window.Signal.State.bindActionCreators(
+      window.Signal.State.Ducks.network.actions,
       store.dispatch
     );
-    actions.updates = Signal.State.bindActionCreators(
-      Signal.State.Ducks.updates.actions,
+    actions.updates = window.Signal.State.bindActionCreators(
+      window.Signal.State.Ducks.updates.actions,
       store.dispatch
     );
-    actions.user = Signal.State.bindActionCreators(
-      Signal.State.Ducks.user.actions,
+    actions.user = window.Signal.State.bindActionCreators(
+      window.Signal.State.Ducks.user.actions,
       store.dispatch
     );
-    actions.search = Signal.State.bindActionCreators(
-      Signal.State.Ducks.search.actions,
+    actions.search = window.Signal.State.bindActionCreators(
+      window.Signal.State.Ducks.search.actions,
       store.dispatch
     );
-    actions.stickers = Signal.State.bindActionCreators(
-      Signal.State.Ducks.stickers.actions,
+    actions.stickers = window.Signal.State.bindActionCreators(
+      window.Signal.State.Ducks.stickers.actions,
       store.dispatch
     );
 
@@ -765,23 +757,26 @@
     });
     convoCollection.on('reset', removeAllConversations);
 
-    Whisper.events.on('messageExpired', messageExpired);
-    Whisper.events.on('userChanged', userChanged);
+    window.Whisper.events.on('messageExpired', messageExpired);
+    window.Whisper.events.on('userChanged', userChanged);
 
-    let shortcutGuideView = null;
+    let shortcutGuideView: WhatIsThis | null = null;
 
     window.showKeyboardShortcuts = () => {
       if (!shortcutGuideView) {
-        shortcutGuideView = new Whisper.ReactWrapperView({
+        shortcutGuideView = new window.Whisper.ReactWrapperView({
           className: 'shortcut-guide-wrapper',
-          JSX: Signal.State.Roots.createShortcutGuideModal(window.reduxStore, {
-            close: () => {
-              if (shortcutGuideView) {
-                shortcutGuideView.remove();
-                shortcutGuideView = null;
-              }
-            },
-          }),
+          JSX: window.Signal.State.Roots.createShortcutGuideModal(
+            window.reduxStore,
+            {
+              close: () => {
+                if (shortcutGuideView) {
+                  shortcutGuideView.remove();
+                  shortcutGuideView = null;
+                }
+              },
+            }
+          ),
           onClose: () => {
             shortcutGuideView = null;
           },
@@ -789,9 +784,9 @@
       }
     };
 
-    function getConversationByIndex(index) {
+    function getConversationByIndex(index: WhatIsThis) {
       const state = store.getState();
-      const lists = Signal.State.Selectors.conversations.getLeftPaneLists(
+      const lists = window.Signal.State.Selectors.conversations.getLeftPaneLists(
         state
       );
       const toSearch = state.conversations.showArchived
@@ -807,9 +802,13 @@
       return null;
     }
 
-    function findConversation(conversationId, direction, unreadOnly) {
+    function findConversation(
+      conversationId: WhatIsThis,
+      direction: WhatIsThis,
+      unreadOnly: WhatIsThis
+    ) {
       const state = store.getState();
-      const lists = Signal.State.Selectors.conversations.getLeftPaneLists(
+      const lists = window.Signal.State.Selectors.conversations.getLeftPaneLists(
         state
       );
       const toSearch = state.conversations.showArchived
@@ -820,7 +819,9 @@
       let startIndex;
 
       if (conversationId) {
-        const index = toSearch.findIndex(item => item.id === conversationId);
+        const index = toSearch.findIndex(
+          (item: WhatIsThis) => item.id === conversationId
+        );
         if (index >= 0) {
           startIndex = index + increment;
         }
@@ -845,7 +846,7 @@
       return null;
     }
 
-    const NUMBERS = {
+    const NUMBERS: Record<string, number> = {
       '1': 1,
       '2': 2,
       '3': 3,
@@ -868,8 +869,10 @@
 
       const state = store.getState();
       const selectedId = state.conversations.selectedConversation;
-      const conversation = ConversationController.get(selectedId);
-      const isSearching = Signal.State.Selectors.search.isSearching(state);
+      const conversation = window.ConversationController.get(selectedId);
+      const isSearching = window.Signal.State.Selectors.search.isSearching(
+        state
+      );
 
       // NAVIGATION
 
@@ -889,7 +892,7 @@
         window.enterKeyboardMode();
         const focusedElement = document.activeElement;
 
-        const targets = [
+        const targets: Array<HTMLElement | null> = [
           document.querySelector('.module-main-header .module-avatar-button'),
           document.querySelector('.module-left-pane__to-inbox-button'),
           document.querySelector('.module-main-header__search__input'),
@@ -930,7 +933,8 @@
           }
         }
 
-        targets[index].focus();
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        targets[index]!.focus();
       }
 
       // Cancel out of keyboard shortcut screen - has first precedence
@@ -948,13 +952,16 @@
         //   Why? Because React's synthetic events can cause events to be handled twice.
         const target = document.activeElement;
 
+        // We might want to use NamedNodeMap.getNamedItem('class')
+        /* eslint-disable @typescript-eslint/no-explicit-any */
         if (
           target &&
           target.attributes &&
-          target.attributes.class &&
-          target.attributes.class.value
+          (target.attributes as any).class &&
+          (target.attributes as any).class.value
         ) {
-          const className = target.attributes.class.value;
+          const className = (target.attributes as any).class.value;
+          /* eslint-enable @typescript-eslint/no-explicit-any */
 
           // These want to handle events internally
 
@@ -1012,10 +1019,10 @@
         }
       }
 
-      // Close Backbone-based confirmation dialog
-      if (Whisper.activeConfirmationView && key === 'Escape') {
-        Whisper.activeConfirmationView.remove();
-        Whisper.activeConfirmationView = null;
+      // Close window.Backbone-based confirmation dialog
+      if (window.Whisper.activeConfirmationView && key === 'Escape') {
+        window.Whisper.activeConfirmationView.remove();
+        window.Whisper.activeConfirmationView = null;
         event.preventDefault();
         event.stopPropagation();
         return;
@@ -1031,7 +1038,9 @@
 
       // Change currently selected conversation by index
       if (!isSearching && commandOrCtrl && NUMBERS[key]) {
-        const targetId = getConversationByIndex(NUMBERS[key] - 1);
+        const targetId = getConversationByIndex(
+          (NUMBERS[key] as WhatIsThis) - 1
+        );
 
         if (targetId) {
           window.Whisper.events.trigger('showConversation', targetId);
@@ -1133,12 +1142,14 @@
         //   to fake up a mouse event to get the menu to show somewhere other than (0,0).
         const { x, y, width, height } = button.getBoundingClientRect();
         const mouseEvent = document.createEvent('MouseEvents');
+        // Types do not match signature
+        /* eslint-disable @typescript-eslint/no-explicit-any */
         mouseEvent.initMouseEvent(
           'click',
           true, // bubbles
           false, // cancelable
-          null, // view
-          null, // detail
+          null as any, // view
+          null as any, // detail
           0, // screenX,
           0, // screenY,
           x + width / 2,
@@ -1147,9 +1158,10 @@
           false, // altKey,
           false, // shiftKey,
           false, // metaKey,
-          false, // button,
+          false as any, // button,
           document.body
         );
+        /* eslint-enable @typescript-eslint/no-explicit-any */
 
         button.dispatchEvent(mouseEvent);
 
@@ -1245,8 +1257,8 @@
       ) {
         conversation.setArchived(true);
         conversation.trigger('unload', 'keyboard shortcut archive');
-        Whisper.ToastView.show(
-          Whisper.ConversationArchivedToast,
+        window.Whisper.ToastView.show(
+          window.Whisper.ConversationArchivedToast,
           document.body
         );
 
@@ -1254,12 +1266,14 @@
         //   'none,' or the top-level body element. This resets it to the left pane,
         //   whether in the normal conversation list or search results.
         if (document.activeElement === document.body) {
-          const leftPaneEl = document.querySelector('.module-left-pane__list');
+          const leftPaneEl: HTMLElement | null = document.querySelector(
+            '.module-left-pane__list'
+          );
           if (leftPaneEl) {
             leftPaneEl.focus();
           }
 
-          const searchResultsEl = document.querySelector(
+          const searchResultsEl: HTMLElement | null = document.querySelector(
             '.module-search-results'
           );
           if (searchResultsEl) {
@@ -1279,8 +1293,8 @@
         (key === 'u' || key === 'U')
       ) {
         conversation.setArchived(false);
-        Whisper.ToastView.show(
-          Whisper.ConversationUnarchivedToast,
+        window.Whisper.ToastView.show(
+          window.Whisper.ConversationUnarchivedToast,
           document.body
         );
 
@@ -1429,19 +1443,24 @@
     });
   }
 
-  Whisper.events.on('setupAsNewDevice', () => {
+  window.Whisper.events.on('setupAsNewDevice', () => {
     const { appView } = window.owsDesktopApp;
     if (appView) {
       appView.openInstaller();
     }
   });
 
-  Whisper.events.on('setupAsStandalone', () => {
+  window.Whisper.events.on('setupAsStandalone', () => {
     const { appView } = window.owsDesktopApp;
     if (appView) {
       appView.openStandalone();
     }
   });
+
+  function runStorageService() {
+    window.Signal.Services.enableStorageService();
+    window.textsecure.messaging.sendRequestKeySyncMessage();
+  }
 
   async function start() {
     window.dispatchEvent(new Event('storage_ready'));
@@ -1449,7 +1468,7 @@
     window.log.info('Cleanup: starting...');
     const messagesForCleanup = await window.Signal.Data.getOutgoingWithoutExpiresAt(
       {
-        MessageCollection: Whisper.MessageCollection,
+        MessageCollection: window.Whisper.MessageCollection,
       }
     );
     window.log.info(
@@ -1481,7 +1500,7 @@
 
         window.log.info(`Cleanup: Deleting unsent message ${sentAt}`);
         await window.Signal.Data.removeMessage(message.id, {
-          Message: Whisper.Message,
+          Message: window.Whisper.Message,
         });
         const conversation = message.getConversation();
         if (conversation) {
@@ -1492,20 +1511,20 @@
     window.log.info('Cleanup: complete');
 
     window.log.info('listening for registration events');
-    Whisper.events.on('registration_done', () => {
+    window.Whisper.events.on('registration_done', () => {
       window.log.info('handling registration event');
       connect(true);
     });
 
     cancelInitializationMessage();
-    const appView = new Whisper.AppView({
+    const appView = new window.Whisper.AppView({
       el: $('body'),
     });
     window.owsDesktopApp.appView = appView;
 
-    Whisper.WallClockListener.init(Whisper.events);
-    Whisper.ExpiringMessagesListener.init(Whisper.events);
-    Whisper.TapToViewMessagesListener.init(Whisper.events);
+    window.Whisper.WallClockListener.init(window.Whisper.events);
+    window.Whisper.ExpiringMessagesListener.init(window.Whisper.events);
+    window.Whisper.TapToViewMessagesListener.init(window.Whisper.events);
 
     if (window.Signal.Util.Registration.everDone()) {
       connect();
@@ -1516,28 +1535,30 @@
       appView.openInstaller();
     }
 
-    Whisper.events.on('showDebugLog', () => {
+    window.Whisper.events.on('showDebugLog', () => {
       appView.openDebugLog();
     });
-    Whisper.events.on('unauthorized', () => {
+    window.Whisper.events.on('unauthorized', () => {
       appView.inboxView.networkStatusView.update();
     });
-    Whisper.events.on('contactsync', () => {
+    window.Whisper.events.on('contactsync', () => {
       if (appView.installView) {
         appView.openInbox();
       }
     });
 
-    window.registerForActive(() => Whisper.Notifications.clear());
-    window.addEventListener('unload', () => Whisper.Notifications.fastClear());
+    window.registerForActive(() => window.Whisper.Notifications.clear());
+    window.addEventListener('unload', () =>
+      window.Whisper.Notifications.fastClear()
+    );
 
-    Whisper.events.on('showConversation', (id, messageId) => {
+    window.Whisper.events.on('showConversation', (id, messageId) => {
       if (appView) {
         appView.openConversation(id, messageId);
       }
     });
 
-    Whisper.Notifications.on('click', (id, messageId) => {
+    window.Whisper.Notifications.on('click', (id, messageId) => {
       window.showWindow();
       if (id) {
         appView.openConversation(id, messageId);
@@ -1601,18 +1622,10 @@
           return;
         }
 
-        window.GV2 = true;
-
-        await window.storage.put('gv2-enabled', true);
-
-        window.Signal.Services.handleUnknownRecords(
-          window.textsecure.protobuf.ManifestRecord.Identifier.Type.GROUPV2
-        );
-
         // Erase current manifest version so we re-process storage service data
         await window.storage.remove('manifestVersion');
 
-        // Kick off storage service fetch to grab GroupV2 information
+        // Kick off window.storage service fetch to grab GroupV2 information
         await window.Signal.Services.runStorageServiceSyncJob();
 
         // This is a one-time thing
@@ -1635,10 +1648,13 @@
   }
 
   window.getSyncRequest = () =>
-    new textsecure.SyncRequest(textsecure.messaging, messageReceiver);
+    new window.textsecure.SyncRequest(
+      window.textsecure.messaging,
+      messageReceiver
+    );
 
-  let disconnectTimer = null;
-  let reconnectTimer = null;
+  let disconnectTimer: WhatIsThis | null = null;
+  let reconnectTimer: WhatIsThis | null = null;
   function onOffline() {
     window.log.info('offline');
 
@@ -1691,7 +1707,7 @@
   }
 
   let connectCount = 0;
-  async function connect(firstRun) {
+  async function connect(firstRun?: boolean) {
     window.log.info('connect', { firstRun, connectCount });
 
     if (reconnectTimer) {
@@ -1727,12 +1743,12 @@
       messageReceiver = null;
     }
 
-    const OLD_USERNAME = storage.get('number_id');
-    const USERNAME = storage.get('uuid_id');
-    const PASSWORD = storage.get('password');
-    const mySignalingKey = storage.get('signaling_key');
+    const OLD_USERNAME = window.storage.get('number_id');
+    const USERNAME = window.storage.get('uuid_id');
+    const PASSWORD = window.storage.get('password');
+    const mySignalingKey = window.storage.get('signaling_key');
 
-    window.textsecure.messaging = new textsecure.MessageSender(
+    window.textsecure.messaging = new window.textsecure.MessageSender(
       USERNAME || OLD_USERNAME,
       PASSWORD
     );
@@ -1753,18 +1769,19 @@
         if (window.Signal.RemoteConfig.isEnabled('desktop.cds')) {
           const lonelyE164s = window
             .getConversations()
-            .filter(
-              c =>
+            .filter(c =>
+              Boolean(
                 c.isPrivate() &&
-                c.get('e164') &&
-                !c.get('uuid') &&
-                !c.isEverUnregistered()
+                  c.get('e164') &&
+                  !c.get('uuid') &&
+                  !c.isEverUnregistered()
+              )
             )
             .map(c => c.get('e164'));
 
           if (lonelyE164s.length > 0) {
-            const lookup = await textsecure.messaging.getUuidsForE164s(
-              lonelyE164s
+            const lookup = await window.textsecure.messaging.getUuidsForE164s(
+              lonelyE164s as WhatIsThis
             );
             const e164s = Object.keys(lookup);
             e164s.forEach(e164 => {
@@ -1792,22 +1809,21 @@
     }
 
     connectCount += 1;
-    const options = {
-      retryCached: connectCount === 1,
-      serverTrustRoot: window.getServerTrustRoot(),
-    };
 
-    Whisper.deliveryReceiptQueue.pause(); // avoid flood of delivery receipts until we catch up
-    Whisper.Notifications.disable(); // avoid notification flood until empty
+    window.Whisper.deliveryReceiptQueue.pause(); // avoid flood of delivery receipts until we catch up
+    window.Whisper.Notifications.disable(); // avoid notification flood until empty
 
     // initialize the socket and start listening for messages
     window.log.info('Initializing socket and listening for messages');
-    messageReceiver = new textsecure.MessageReceiver(
+    const messageReceiverOptions = {
+      serverTrustRoot: window.getServerTrustRoot(),
+    };
+    messageReceiver = new window.textsecure.MessageReceiver(
       OLD_USERNAME,
       USERNAME,
       PASSWORD,
       mySignalingKey,
-      options
+      messageReceiverOptions as WhatIsThis
     );
     window.textsecure.messageReceiver = messageReceiver;
 
@@ -1815,8 +1831,8 @@
 
     preMessageReceiverStatus = null;
 
-    function addQueuedEventListener(name, handler) {
-      messageReceiver.addEventListener(name, (...args) =>
+    function addQueuedEventListener(name: WhatIsThis, handler: WhatIsThis) {
+      messageReceiver.addEventListener(name, (...args: Array<WhatIsThis>) =>
         eventHandlerQueue.add(async () => {
           try {
             await handler(...args);
@@ -1825,7 +1841,7 @@
             //   this event itself when complete.
             // error: Error processing (below) also has its own queue and self-trigger.
             if (name !== 'message' && name !== 'sent' && name !== 'error') {
-              Whisper.events.trigger('incrementProgress');
+              window.Whisper.events.trigger('incrementProgress');
             }
           }
         })
@@ -1859,7 +1875,9 @@
 
     if (connectCount === 1) {
       window.Signal.Stickers.downloadQueuedPacks();
-      await window.textsecure.messaging.sendRequestKeySyncMessage();
+      if (!newVersion) {
+        runStorageService();
+      }
     }
 
     // On startup after upgrading to a new version, request a contact sync
@@ -1869,13 +1887,16 @@
       connectCount === 1 &&
       newVersion &&
       // eslint-disable-next-line eqeqeq
-      textsecure.storage.user.getDeviceId() != '1'
+      window.textsecure.storage.user.getDeviceId() != '1'
     ) {
       window.log.info('Boot after upgrading. Requesting contact sync');
       window.getSyncRequest();
 
+      runStorageService();
+
       try {
-        const manager = window.getAccountManager();
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const manager = window.getAccountManager()!;
         await Promise.all([
           manager.maybeUpdateDeviceName(),
           manager.maybeDeleteSignalingKey(),
@@ -1889,14 +1910,14 @@
     }
 
     const udSupportKey = 'hasRegisterSupportForUnauthenticatedDelivery';
-    if (!storage.get(udSupportKey)) {
-      const server = WebAPI.connect({
+    if (!window.storage.get(udSupportKey)) {
+      const server = window.WebAPI.connect({
         username: USERNAME || OLD_USERNAME,
         password: PASSWORD,
       });
       try {
         await server.registerSupportForUnauthenticatedDelivery();
-        storage.put(udSupportKey, true);
+        window.storage.put(udSupportKey, true);
       } catch (error) {
         window.log.error(
           'Error: Unable to register for unauthenticated delivery support.',
@@ -1907,16 +1928,16 @@
 
     const hasRegisteredGV23Support = 'hasRegisteredGV23Support';
     if (
-      !storage.get(hasRegisteredGV23Support) &&
-      textsecure.storage.user.getUuid()
+      !window.storage.get(hasRegisteredGV23Support) &&
+      window.textsecure.storage.user.getUuid()
     ) {
-      const server = WebAPI.connect({
+      const server = window.WebAPI.connect({
         username: USERNAME || OLD_USERNAME,
         password: PASSWORD,
       });
       try {
         await server.registerCapabilities({ 'gv2-3': true });
-        storage.put(hasRegisteredGV23Support, true);
+        window.storage.put(hasRegisteredGV23Support, true);
       } catch (error) {
         window.log.error(
           'Error: Unable to register support for GV2.',
@@ -1925,19 +1946,22 @@
       }
     }
 
-    const deviceId = textsecure.storage.user.getDeviceId();
+    const deviceId = window.textsecure.storage.user.getDeviceId();
 
     // If we didn't capture a UUID on registration, go get it from the server
-    if (!textsecure.storage.user.getUuid()) {
-      const server = WebAPI.connect({
+    if (!window.textsecure.storage.user.getUuid()) {
+      const server = window.WebAPI.connect({
         username: OLD_USERNAME,
         password: PASSWORD,
       });
       try {
         const { uuid } = await server.whoami();
-        textsecure.storage.user.setUuidAndDeviceId(uuid, deviceId);
-        const ourNumber = textsecure.storage.user.getNumber();
-        const me = await ConversationController.getOrCreateAndWait(
+        window.textsecure.storage.user.setUuidAndDeviceId(
+          uuid,
+          deviceId as WhatIsThis
+        );
+        const ourNumber = window.textsecure.storage.user.getNumber();
+        const me = await window.ConversationController.getOrCreateAndWait(
           ourNumber,
           'private'
         );
@@ -1951,37 +1975,42 @@
     }
 
     if (firstRun === true && deviceId !== '1') {
-      const hasThemeSetting = Boolean(storage.get('theme-setting'));
-      if (!hasThemeSetting && textsecure.storage.get('userAgent') === 'OWI') {
-        storage.put('theme-setting', 'ios');
+      const hasThemeSetting = Boolean(window.storage.get('theme-setting'));
+      if (
+        !hasThemeSetting &&
+        window.textsecure.storage.get('userAgent') === 'OWI'
+      ) {
+        window.storage.put('theme-setting', 'ios');
         onChangeTheme();
       }
-      const syncRequest = new textsecure.SyncRequest(
-        textsecure.messaging,
+      const syncRequest = new window.textsecure.SyncRequest(
+        window.textsecure.messaging,
         messageReceiver
       );
-      Whisper.events.trigger('contactsync:begin');
+      window.Whisper.events.trigger('contactsync:begin');
       syncRequest.addEventListener('success', () => {
         window.log.info('sync successful');
-        storage.put('synced_at', Date.now());
-        Whisper.events.trigger('contactsync');
+        window.storage.put('synced_at', Date.now());
+        window.Whisper.events.trigger('contactsync');
+        runStorageService();
       });
       syncRequest.addEventListener('timeout', () => {
         window.log.error('sync timed out');
-        Whisper.events.trigger('contactsync');
+        window.Whisper.events.trigger('contactsync');
+        runStorageService();
       });
 
-      const ourId = ConversationController.getOurConversationId();
-      const { wrap, sendOptions } = ConversationController.prepareForSend(
-        ourId,
-        {
-          syncMessage: true,
-        }
-      );
+      const ourId = window.ConversationController.getOurConversationId();
+      const {
+        wrap,
+        sendOptions,
+      } = window.ConversationController.prepareForSend(ourId, {
+        syncMessage: true,
+      });
 
       const installedStickerPacks = window.Signal.Stickers.getInstalledStickerPacks();
       if (installedStickerPacks.length) {
-        const operations = installedStickerPacks.map(pack => ({
+        const operations = installedStickerPacks.map((pack: WhatIsThis) => ({
           packId: pack.id,
           packKey: pack.key,
           installed: true,
@@ -2001,7 +2030,7 @@
       }
     }
 
-    storage.onready(async () => {
+    window.storage.onready(async () => {
       idleDetector.start();
     });
   }
@@ -2029,8 +2058,8 @@
       window.log.info(
         'waitForEmptyEventQueue: Waiting for MessageReceiver empty event...'
       );
-      let resolve;
-      let reject;
+      let resolve: WhatIsThis;
+      let reject: WhatIsThis;
       const promise = new Promise((innerResolve, innerReject) => {
         resolve = innerResolve;
         reject = innerReject;
@@ -2066,37 +2095,41 @@
     window.readyForUpdates();
 
     // Start listeners here, after we get through our queue.
-    Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
+    window.Whisper.RotateSignedPreKeyListener.init(
+      window.Whisper.events,
+      newVersion
+    );
     window.Signal.RefreshSenderCertificate.initialize({
-      events: Whisper.events,
-      storage,
+      events: window.Whisper.events,
+      storage: window.storage,
       navigator,
       logger: window.log,
     });
 
-    let interval = setInterval(() => {
+    let interval: NodeJS.Timer | null = setInterval(() => {
       const view = window.owsDesktopApp.appView;
       if (view) {
-        clearInterval(interval);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        clearInterval(interval!);
         interval = null;
         view.onEmpty();
       }
     }, 500);
 
-    Whisper.deliveryReceiptQueue.start();
-    Whisper.Notifications.enable();
+    window.Whisper.deliveryReceiptQueue.start();
+    window.Whisper.Notifications.enable();
   }
   function onReconnect() {
     // We disable notifications on first connect, but the same applies to reconnect. In
     //   scenarios where we're coming back from sleep, we can get offline/online events
     //   very fast, and it looks like a network blip. But we need to suppress
     //   notifications in these scenarios too. So we listen for 'reconnect' events.
-    Whisper.deliveryReceiptQueue.pause();
-    Whisper.Notifications.disable();
+    window.Whisper.deliveryReceiptQueue.pause();
+    window.Whisper.Notifications.disable();
   }
 
   let initialStartupCount = 0;
-  Whisper.events.on('incrementProgress', incrementProgress);
+  window.Whisper.events.on('incrementProgress', incrementProgress);
   function incrementProgress() {
     initialStartupCount += 1;
 
@@ -2115,12 +2148,18 @@
     }
   }
 
-  Whisper.events.on('manualConnect', manualConnect);
+  window.Whisper.events.on('manualConnect', manualConnect);
   function manualConnect() {
+    if (isSocketOnline()) {
+      window.log.info('manualConnect: already online; not connecting again');
+      return;
+    }
+
+    window.log.info('manualConnect: calling connect()');
     connect();
   }
 
-  function onConfiguration(ev) {
+  function onConfiguration(ev: WhatIsThis) {
     ev.confirm();
 
     const { configuration } = ev;
@@ -2131,47 +2170,47 @@
       linkPreviews,
     } = configuration;
 
-    storage.put('read-receipt-setting', readReceipts);
+    window.storage.put('read-receipt-setting', readReceipts);
 
     if (
       unidentifiedDeliveryIndicators === true ||
       unidentifiedDeliveryIndicators === false
     ) {
-      storage.put(
+      window.storage.put(
         'unidentifiedDeliveryIndicators',
         unidentifiedDeliveryIndicators
       );
     }
 
     if (typingIndicators === true || typingIndicators === false) {
-      storage.put('typingIndicators', typingIndicators);
+      window.storage.put('typingIndicators', typingIndicators);
     }
 
     if (linkPreviews === true || linkPreviews === false) {
-      storage.put('linkPreviews', linkPreviews);
+      window.storage.put('linkPreviews', linkPreviews);
     }
   }
 
-  function onTyping(ev) {
+  function onTyping(ev: WhatIsThis) {
     // Note: this type of message is automatically removed from cache in MessageReceiver
 
     const { typing, sender, senderUuid, senderDevice } = ev;
     const { groupId, groupV2Id, started } = typing || {};
 
     // We don't do anything with incoming typing messages if the setting is disabled
-    if (!storage.get('typingIndicators')) {
+    if (!window.storage.get('typingIndicators')) {
       return;
     }
 
-    const senderId = ConversationController.ensureContactIds({
+    const senderId = window.ConversationController.ensureContactIds({
       e164: sender,
       uuid: senderUuid,
       highTrust: true,
     });
-    const conversation = ConversationController.get(
+    const conversation = window.ConversationController.get(
       groupV2Id || groupId || senderId
     );
-    const ourId = ConversationController.getOurConversationId();
+    const ourId = window.ConversationController.getOurConversationId();
 
     if (!conversation) {
       window.log.warn(
@@ -2181,7 +2220,8 @@
     }
 
     // We drop typing notifications in groups we're not a part of
-    if (!conversation.isPrivate() && !conversation.hasMember(ourId)) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    if (!conversation.isPrivate() && !conversation.hasMember(ourId!)) {
       window.log.warn(
         `Received typing indicator for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
       );
@@ -2195,15 +2235,15 @@
       senderUuid,
       senderId,
       senderDevice,
-    });
+    } as WhatIsThis);
   }
 
-  async function onStickerPack(ev) {
+  async function onStickerPack(ev: WhatIsThis) {
     ev.confirm();
 
     const packs = ev.stickerPacks || [];
 
-    packs.forEach(pack => {
+    packs.forEach((pack: WhatIsThis) => {
       const { id, key, isInstall, isRemove } = pack || {};
 
       if (!id || !key || (!isInstall && !isRemove)) {
@@ -2234,42 +2274,44 @@
     });
   }
 
-  async function onContactReceived(ev) {
+  async function onContactReceived(ev: WhatIsThis) {
     const details = ev.contactDetails;
 
     if (
       (details.number &&
-        details.number === textsecure.storage.user.getNumber()) ||
-      (details.uuid && details.uuid === textsecure.storage.user.getUuid())
+        details.number === window.textsecure.storage.user.getNumber()) ||
+      (details.uuid &&
+        details.uuid === window.textsecure.storage.user.getUuid())
     ) {
       // special case for syncing details about ourselves
       if (details.profileKey) {
         window.log.info('Got sync message with our own profile key');
-        storage.put('profileKey', details.profileKey);
+        window.storage.put('profileKey', details.profileKey);
       }
     }
 
-    const c = new Whisper.Conversation({
+    const c = new window.Whisper.Conversation({
       e164: details.number,
       uuid: details.uuid,
       type: 'private',
-    });
+    } as WhatIsThis);
     const validationError = c.validate();
     if (validationError) {
       window.log.error(
         'Invalid contact received:',
-        Errors.toLogFormat(validationError)
+        Errors.toLogFormat(validationError as WhatIsThis)
       );
       return;
     }
 
     try {
-      const detailsId = ConversationController.ensureContactIds({
+      const detailsId = window.ConversationController.ensureContactIds({
         e164: details.number,
         uuid: details.uuid,
         highTrust: true,
       });
-      const conversation = ConversationController.get(detailsId);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const conversation = window.ConversationController.get(detailsId)!;
       let activeAt = conversation.get('active_at');
 
       // The idea is to make any new contact show up in the left pane. If
@@ -2328,7 +2370,7 @@
       const { expireTimer } = details;
       const isValidExpireTimer = typeof expireTimer === 'number';
       if (isValidExpireTimer) {
-        const ourId = ConversationController.getOurConversationId();
+        const ourId = window.ConversationController.getOurConversationId();
         const receivedAt = Date.now();
 
         await conversation.updateExpirationTimer(
@@ -2350,7 +2392,7 @@
           destinationUuid: verified.destinationUuid,
           identityKey: verified.identityKey.toArrayBuffer(),
         };
-        verifiedEvent.viaContactSync = true;
+        (verifiedEvent as WhatIsThis).viaContactSync = true;
         await onVerified(verifiedEvent);
       }
 
@@ -2367,7 +2409,7 @@
   }
 
   // Note: this handler is only for v1 groups received via 'group sync' messages
-  async function onGroupReceived(ev) {
+  async function onGroupReceived(ev: WhatIsThis) {
     const details = ev.groupDetails;
     const { id } = details;
 
@@ -2380,23 +2422,23 @@
       return;
     }
 
-    const conversation = await ConversationController.getOrCreateAndWait(
+    const conversation = await window.ConversationController.getOrCreateAndWait(
       id,
       'group'
     );
-    if (conversation.get('groupVersion') > 1) {
+    if (conversation.isGroupV2()) {
       window.log.warn(
         'Got group sync for v2 group: ',
-        conversation.idForLoggoing()
+        conversation.idForLogging()
       );
       return;
     }
 
-    const memberConversations = details.membersE164.map(e164 =>
-      ConversationController.getOrCreate(e164, 'private')
+    const memberConversations = details.membersE164.map((e164: WhatIsThis) =>
+      window.ConversationController.getOrCreate(e164, 'private')
     );
 
-    const members = memberConversations.map(c => c.get('id'));
+    const members = memberConversations.map((c: WhatIsThis) => c.get('id'));
 
     const updates = {
       name: details.name,
@@ -2404,7 +2446,7 @@
       color: details.color,
       type: 'group',
       inbox_position: details.inboxPosition,
-    };
+    } as WhatIsThis;
 
     if (details.active) {
       const activeAt = conversation.get('active_at');
@@ -2460,7 +2502,7 @@
     const receivedAt = Date.now();
     await conversation.updateExpirationTimer(
       expireTimer,
-      ConversationController.getOurConversationId(),
+      window.ConversationController.getOurConversationId(),
       receivedAt,
       {
         fromSync: true,
@@ -2473,9 +2515,9 @@
     data,
     confirm,
     messageDescriptor,
-  }) {
+  }: WhatIsThis) {
     const profileKey = data.message.profileKey.toString('base64');
-    const sender = await ConversationController.get(messageDescriptor.id);
+    const sender = window.ConversationController.get(messageDescriptor.id);
 
     if (sender) {
       // Will do the save for us
@@ -2486,10 +2528,17 @@
   }
 
   // Matches event data from `libtextsecure` `MessageReceiver::handleDataMessage`:
-  const getDescriptorForReceived = ({ message, source, sourceUuid }) => {
+  const getDescriptorForReceived = ({
+    message,
+    source,
+    sourceUuid,
+  }: WhatIsThis) => {
     if (message.groupV2) {
       const { id } = message.groupV2;
-      const conversationId = ConversationController.ensureGroup(id, {
+      const conversationId = window.ConversationController.ensureGroup(id, {
+        // Note: We don't set active_at, because we don't want the group to show until
+        //   we have information about it beyond these initial details.
+        //   see maybeUpdateGroup().
         groupVersion: 2,
         masterKey: message.groupV2.masterKey,
         secretParams: message.groupV2.secretParams,
@@ -2503,13 +2552,13 @@
     }
     if (message.group) {
       const { id } = message.group;
-      const fromContactId = ConversationController.ensureContactIds({
+      const fromContactId = window.ConversationController.ensureContactIds({
         e164: source,
         uuid: sourceUuid,
         highTrust: true,
       });
 
-      const conversationId = ConversationController.ensureGroup(id, {
+      const conversationId = window.ConversationController.ensureGroup(id, {
         addedBy: fromContactId,
       });
 
@@ -2521,7 +2570,7 @@
 
     return {
       type: Message.PRIVATE,
-      id: ConversationController.ensureContactIds({
+      id: window.ConversationController.ensureContactIds({
         e164: source,
         uuid: sourceUuid,
         highTrust: true,
@@ -2532,12 +2581,12 @@
   // Note: We do very little in this function, since everything in handleDataMessage is
   //   inside a conversation-specific queue(). Any code here might run before an earlier
   //   message is processed in handleDataMessage().
-  function onMessageReceived(event) {
+  function onMessageReceived(event: WhatIsThis) {
     const { data, confirm } = event;
 
     const messageDescriptor = getDescriptorForReceived(data);
 
-    const { PROFILE_KEY_UPDATE } = textsecure.protobuf.DataMessage.Flags;
+    const { PROFILE_KEY_UPDATE } = window.textsecure.protobuf.DataMessage.Flags;
     // eslint-disable-next-line no-bitwise
     const isProfileUpdate = Boolean(data.message.flags & PROFILE_KEY_UPDATE);
     if (isProfileUpdate) {
@@ -2556,20 +2605,20 @@
         'Queuing incoming reaction for',
         reaction.targetTimestamp
       );
-      const reactionModel = Whisper.Reactions.add({
+      const reactionModel = window.Whisper.Reactions.add({
         emoji: reaction.emoji,
         remove: reaction.remove,
         targetAuthorE164: reaction.targetAuthorE164,
         targetAuthorUuid: reaction.targetAuthorUuid,
         targetTimestamp: reaction.targetTimestamp,
         timestamp: Date.now(),
-        fromId: ConversationController.ensureContactIds({
+        fromId: window.ConversationController.ensureContactIds({
           e164: data.source,
           uuid: data.sourceUuid,
         }),
       });
       // Note: We do not wait for completion here
-      Whisper.Reactions.onReaction(reactionModel);
+      window.Whisper.Reactions.onReaction(reactionModel);
       confirm();
       return Promise.resolve();
     }
@@ -2577,16 +2626,16 @@
     if (data.message.delete) {
       const { delete: del } = data.message;
       window.log.info('Queuing incoming DOE for', del.targetSentTimestamp);
-      const deleteModel = Whisper.Deletes.add({
+      const deleteModel = window.Whisper.Deletes.add({
         targetSentTimestamp: del.targetSentTimestamp,
         serverTimestamp: data.serverTimestamp,
-        fromId: ConversationController.ensureContactIds({
+        fromId: window.ConversationController.ensureContactIds({
           e164: data.source,
           uuid: data.sourceUuid,
         }),
       });
       // Note: We do not wait for completion here
-      Whisper.Deletes.onDelete(deleteModel);
+      window.Whisper.Deletes.onDelete(deleteModel);
       confirm();
       return Promise.resolve();
     }
@@ -2597,13 +2646,13 @@
     return Promise.resolve();
   }
 
-  async function onProfileKeyUpdate({ data, confirm }) {
-    const conversationId = ConversationController.ensureContactIds({
+  async function onProfileKeyUpdate({ data, confirm }: WhatIsThis) {
+    const conversationId = window.ConversationController.ensureContactIds({
       e164: data.source,
       uuid: data.sourceUuid,
       highTrust: true,
     });
-    const conversation = ConversationController.get(conversationId);
+    const conversation = window.ConversationController.get(conversationId);
 
     if (!conversation) {
       window.log.error(
@@ -2639,17 +2688,19 @@
     data,
     confirm,
     messageDescriptor,
-  }) {
+  }: WhatIsThis) {
     // First set profileSharing = true for the conversation we sent to
     const { id } = messageDescriptor;
-    const conversation = await ConversationController.get(id);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const conversation = window.ConversationController.get(id)!;
 
     conversation.enableProfileSharing();
     window.Signal.Data.updateConversation(conversation.attributes);
 
     // Then we update our own profileKey if it's different from what we have
-    const ourId = ConversationController.getOurConversationId();
-    const me = ConversationController.get(ourId);
+    const ourId = window.ConversationController.getOurConversationId();
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const me = window.ConversationController.get(ourId)!;
     const profileKey = data.message.profileKey.toString('base64');
 
     // Will do the save for us if needed
@@ -2658,13 +2709,13 @@
     return confirm();
   }
 
-  function createSentMessage(data, descriptor) {
+  function createSentMessage(data: WhatIsThis, descriptor: WhatIsThis) {
     const now = Date.now();
     let sentTo = [];
 
     if (data.unidentifiedStatus && data.unidentifiedStatus.length) {
       sentTo = data.unidentifiedStatus.map(
-        item => item.destinationUuid || item.destination
+        (item: WhatIsThis) => item.destinationUuid || item.destination
       );
       const unidentified = _.filter(data.unidentifiedStatus, item =>
         Boolean(item.unidentified)
@@ -2675,9 +2726,9 @@
       );
     }
 
-    return new Whisper.Message({
-      source: textsecure.storage.user.getNumber(),
-      sourceUuid: textsecure.storage.user.getUuid(),
+    return new window.Whisper.Message({
+      source: window.textsecure.storage.user.getNumber(),
+      sourceUuid: window.textsecure.storage.user.getUuid(),
       sourceDevice: data.device,
       sent_at: data.timestamp,
       serverTimestamp: data.serverTimestamp,
@@ -2691,14 +2742,18 @@
         data.expirationStartTimestamp || data.timestamp || Date.now(),
         Date.now()
       ),
-    });
+    } as WhatIsThis);
   }
 
   // Matches event data from `libtextsecure` `MessageReceiver::handleSentMessage`:
-  const getDescriptorForSent = ({ message, destination, destinationUuid }) => {
+  const getDescriptorForSent = ({
+    message,
+    destination,
+    destinationUuid,
+  }: WhatIsThis) => {
     if (message.groupV2) {
       const { id } = message.groupV2;
-      const conversationId = ConversationController.ensureGroup(id, {
+      const conversationId = window.ConversationController.ensureGroup(id, {
         groupVersion: 2,
         masterKey: message.groupV2.masterKey,
         secretParams: message.groupV2.secretParams,
@@ -2712,7 +2767,7 @@
     }
     if (message.group) {
       const { id } = message.group;
-      const conversationId = ConversationController.ensureGroup(id);
+      const conversationId = window.ConversationController.ensureGroup(id);
 
       return {
         type: Message.GROUP,
@@ -2722,7 +2777,7 @@
 
     return {
       type: Message.PRIVATE,
-      id: ConversationController.ensureContactIds({
+      id: window.ConversationController.ensureContactIds({
         e164: destination,
         uuid: destinationUuid,
         highTrust: true,
@@ -2733,12 +2788,12 @@
   // Note: We do very little in this function, since everything in handleDataMessage is
   //   inside a conversation-specific queue(). Any code here might run before an earlier
   //   message is processed in handleDataMessage().
-  function onSentMessage(event) {
+  function onSentMessage(event: WhatIsThis) {
     const { data, confirm } = event;
 
     const messageDescriptor = getDescriptorForSent(data);
 
-    const { PROFILE_KEY_UPDATE } = textsecure.protobuf.DataMessage.Flags;
+    const { PROFILE_KEY_UPDATE } = window.textsecure.protobuf.DataMessage.Flags;
     // eslint-disable-next-line no-bitwise
     const isProfileUpdate = Boolean(data.message.flags & PROFILE_KEY_UPDATE);
     if (isProfileUpdate) {
@@ -2754,18 +2809,18 @@
     if (data.message.reaction) {
       const { reaction } = data.message;
       window.log.info('Queuing sent reaction for', reaction.targetTimestamp);
-      const reactionModel = Whisper.Reactions.add({
+      const reactionModel = window.Whisper.Reactions.add({
         emoji: reaction.emoji,
         remove: reaction.remove,
         targetAuthorE164: reaction.targetAuthorE164,
         targetAuthorUuid: reaction.targetAuthorUuid,
         targetTimestamp: reaction.targetTimestamp,
         timestamp: Date.now(),
-        fromId: ConversationController.getOurConversationId(),
+        fromId: window.ConversationController.getOurConversationId(),
         fromSync: true,
       });
       // Note: We do not wait for completion here
-      Whisper.Reactions.onReaction(reactionModel);
+      window.Whisper.Reactions.onReaction(reactionModel);
 
       event.confirm();
       return Promise.resolve();
@@ -2774,13 +2829,13 @@
     if (data.message.delete) {
       const { delete: del } = data.message;
       window.log.info('Queuing sent DOE for', del.targetSentTimestamp);
-      const deleteModel = Whisper.Deletes.add({
+      const deleteModel = window.Whisper.Deletes.add({
         targetSentTimestamp: del.targetSentTimestamp,
         serverTimestamp: del.serverTimestamp,
-        fromId: ConversationController.getOurConversationId(),
+        fromId: window.ConversationController.getOurConversationId(),
       });
       // Note: We do not wait for completion here
-      Whisper.Deletes.onDelete(deleteModel);
+      window.Whisper.Deletes.onDelete(deleteModel);
       confirm();
       return Promise.resolve();
     }
@@ -2793,8 +2848,8 @@
     return Promise.resolve();
   }
 
-  function initIncomingMessage(data, descriptor) {
-    return new Whisper.Message({
+  function initIncomingMessage(data: WhatIsThis, descriptor: WhatIsThis) {
+    return new window.Whisper.Message({
       source: data.source,
       sourceUuid: data.sourceUuid,
       sourceDevice: data.sourceDevice,
@@ -2805,11 +2860,11 @@
       unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
       type: 'incoming',
       unread: 1,
-    });
+    } as WhatIsThis);
   }
 
   async function unlinkAndDisconnect() {
-    Whisper.events.trigger('unauthorized');
+    window.Whisper.events.trigger('unauthorized');
 
     if (messageReceiver) {
       await messageReceiver.stopProcessing();
@@ -2832,31 +2887,33 @@
     const LAST_PROCESSED_INDEX_KEY = 'attachmentMigration_lastProcessedIndex';
     const IS_MIGRATION_COMPLETE_KEY = 'attachmentMigration_isComplete';
 
-    const previousNumberId = textsecure.storage.get(NUMBER_ID_KEY);
-    const lastProcessedIndex = textsecure.storage.get(LAST_PROCESSED_INDEX_KEY);
-    const isMigrationComplete = textsecure.storage.get(
+    const previousNumberId = window.textsecure.storage.get(NUMBER_ID_KEY);
+    const lastProcessedIndex = window.textsecure.storage.get(
+      LAST_PROCESSED_INDEX_KEY
+    );
+    const isMigrationComplete = window.textsecure.storage.get(
       IS_MIGRATION_COMPLETE_KEY
     );
 
     try {
-      await textsecure.storage.protocol.removeAllConfiguration();
+      await window.textsecure.storage.protocol.removeAllConfiguration();
 
       // These two bits of data are important to ensure that the app loads up
       //   the conversation list, instead of showing just the QR code screen.
       window.Signal.Util.Registration.markEverDone();
-      textsecure.storage.put(NUMBER_ID_KEY, previousNumberId);
+      await window.textsecure.storage.put(NUMBER_ID_KEY, previousNumberId);
 
       // These two are important to ensure we don't rip through every message
       //   in the database attempting to upgrade it after starting up again.
-      textsecure.storage.put(
+      await window.textsecure.storage.put(
         IS_MIGRATION_COMPLETE_KEY,
         isMigrationComplete || false
       );
-      textsecure.storage.put(
+      await window.textsecure.storage.put(
         LAST_PROCESSED_INDEX_KEY,
         lastProcessedIndex || null
       );
-      textsecure.storage.put(VERSION_KEY, window.getVersion());
+      await window.textsecure.storage.put(VERSION_KEY, window.getVersion());
 
       window.log.info('Successfully cleared local configuration');
     } catch (eraseError) {
@@ -2867,7 +2924,7 @@
     }
   }
 
-  function onError(ev) {
+  function onError(ev: WhatIsThis) {
     const { error } = ev;
     window.log.error('background onError:', Errors.toLogFormat(error));
 
@@ -2889,7 +2946,7 @@
         window.log.info('retrying in 1 minute');
         reconnectTimer = setTimeout(connect, 60000);
 
-        Whisper.events.trigger('reconnectTimer');
+        window.Whisper.events.trigger('reconnectTimer');
       }
       return Promise.resolve();
     }
@@ -2906,14 +2963,14 @@
       const envelope = ev.proto;
       const message = initIncomingMessage(envelope, {
         type: Message.PRIVATE,
-        id: ConversationController.ensureContactIds({
+        id: window.ConversationController.ensureContactIds({
           e164: envelope.source,
           uuid: envelope.sourceUuid,
         }),
       });
 
       const conversationId = message.get('conversationId');
-      const conversation = ConversationController.get(conversationId);
+      const conversation = window.ConversationController.get(conversationId);
 
       if (!conversation) {
         window.log.warn(
@@ -2928,7 +2985,7 @@
         const existingMessage = await window.Signal.Data.getMessageBySender(
           message.attributes,
           {
-            Message: Whisper.Message,
+            Message: window.Whisper.Message,
           }
         );
         if (existingMessage) {
@@ -2939,7 +2996,7 @@
           return;
         }
 
-        const model = new Whisper.Message({
+        const model = new window.Whisper.Message({
           ...message.attributes,
           id: window.getGuid(),
         });
@@ -2947,15 +3004,16 @@
           skipSave: true,
         });
 
-        MessageController.register(model.id, model);
+        window.MessageController.register(model.id, model);
         await window.Signal.Data.saveMessage(model.attributes, {
-          Message: Whisper.Message,
+          Message: window.Whisper.Message,
           forceSave: true,
         });
 
         conversation.set({
           active_at: Date.now(),
-          unreadCount: conversation.get('unreadCount') + 1,
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          unreadCount: conversation.get('unreadCount')! + 1,
         });
 
         const conversationTimestamp = conversation.get('timestamp');
@@ -2970,7 +3028,7 @@
         conversation.trigger('newmessage', model);
         conversation.notify(model);
 
-        Whisper.events.trigger('incrementProgress');
+        window.Whisper.events.trigger('incrementProgress');
 
         if (ev.confirm) {
           ev.confirm();
@@ -2983,32 +3041,33 @@
     throw error;
   }
 
-  async function onViewSync(ev) {
+  async function onViewSync(ev: WhatIsThis) {
     ev.confirm();
 
     const { source, sourceUuid, timestamp } = ev;
     window.log.info(`view sync ${source} ${timestamp}`);
 
-    const sync = Whisper.ViewSyncs.add({
+    const sync = window.Whisper.ViewSyncs.add({
       source,
       sourceUuid,
       timestamp,
     });
 
-    Whisper.ViewSyncs.onSync(sync);
+    window.Whisper.ViewSyncs.onSync(sync);
   }
 
-  async function onFetchLatestSync(ev) {
+  async function onFetchLatestSync(ev: WhatIsThis) {
     ev.confirm();
 
     const { eventType } = ev;
 
-    const FETCH_LATEST_ENUM = textsecure.protobuf.SyncMessage.FetchLatest.Type;
+    const FETCH_LATEST_ENUM =
+      window.textsecure.protobuf.SyncMessage.FetchLatest.Type;
 
     switch (eventType) {
       case FETCH_LATEST_ENUM.LOCAL_PROFILE:
-        // Intentionally do nothing since we'll be receiving the storage manifest request
-        // and will update local profile along with that.
+        // Intentionally do nothing since we'll be receiving the
+        // window.storage manifest request and will update local profile along with that.
         break;
       case FETCH_LATEST_ENUM.STORAGE_MANIFEST:
         window.log.info('onFetchLatestSync: fetching latest manifest');
@@ -3021,14 +3080,14 @@
     }
   }
 
-  async function onKeysSync(ev) {
+  async function onKeysSync(ev: WhatIsThis) {
     ev.confirm();
 
     const { storageServiceKey } = ev;
 
     if (storageServiceKey === null) {
-      window.log.info('onKeysSync: deleting storageKey');
-      storage.remove('storageKey');
+      window.log.info('onKeysSync: deleting window.storageKey');
+      window.storage.remove('storageKey');
     }
 
     if (storageServiceKey) {
@@ -3036,13 +3095,13 @@
       const storageServiceKeyBase64 = window.Signal.Crypto.arrayBufferToBase64(
         storageServiceKey
       );
-      storage.put('storageKey', storageServiceKeyBase64);
+      window.storage.put('storageKey', storageServiceKeyBase64);
 
       await window.Signal.Services.runStorageServiceSyncJob();
     }
   }
 
-  async function onMessageRequestResponse(ev) {
+  async function onMessageRequestResponse(ev: WhatIsThis) {
     ev.confirm();
 
     const { threadE164, threadUuid, groupId, messageRequestResponseType } = ev;
@@ -3056,15 +3115,15 @@
 
     window.log.info('message request response', args);
 
-    const sync = Whisper.MessageRequests.add(args);
+    const sync = window.Whisper.MessageRequests.add(args);
 
-    Whisper.MessageRequests.onResponse(sync);
+    window.Whisper.MessageRequests.onResponse(sync);
   }
 
-  function onReadReceipt(ev) {
+  function onReadReceipt(ev: WhatIsThis) {
     const readAt = ev.timestamp;
     const { envelopeTimestamp, timestamp, source, sourceUuid } = ev.read;
-    const reader = ConversationController.ensureContactIds({
+    const reader = window.ConversationController.ensureContactIds({
       e164: source,
       uuid: sourceUuid,
       highTrust: true,
@@ -3081,24 +3140,24 @@
 
     ev.confirm();
 
-    if (!storage.get('read-receipt-setting') || !reader) {
+    if (!window.storage.get('read-receipt-setting') || !reader) {
       return;
     }
 
-    const receipt = Whisper.ReadReceipts.add({
+    const receipt = window.Whisper.ReadReceipts.add({
       reader,
       timestamp,
       read_at: readAt,
     });
 
     // Note: We do not wait for completion here
-    Whisper.ReadReceipts.onReceipt(receipt);
+    window.Whisper.ReadReceipts.onReceipt(receipt);
   }
 
-  function onReadSync(ev) {
+  function onReadSync(ev: WhatIsThis) {
     const readAt = ev.timestamp;
     const { envelopeTimestamp, sender, senderUuid, timestamp } = ev.read;
-    const senderId = ConversationController.ensureContactIds({
+    const senderId = window.ConversationController.ensureContactIds({
       e164: sender,
       uuid: senderUuid,
     });
@@ -3113,7 +3172,7 @@
       timestamp
     );
 
-    const receipt = Whisper.ReadSyncs.add({
+    const receipt = window.Whisper.ReadSyncs.add({
       senderId,
       sender,
       senderUuid,
@@ -3125,10 +3184,10 @@
 
     // Note: Here we wait, because we want read states to be in the database
     //   before we move on.
-    return Whisper.ReadSyncs.onReceipt(receipt);
+    return window.Whisper.ReadSyncs.onReceipt(receipt);
   }
 
-  async function onVerified(ev) {
+  async function onVerified(ev: WhatIsThis) {
     const e164 = ev.verified.destination;
     const uuid = ev.verified.destinationUuid;
     const key = ev.verified.identityKey;
@@ -3138,30 +3197,30 @@
       ev.confirm();
     }
 
-    const c = new Whisper.Conversation({
+    const c = new window.Whisper.Conversation({
       e164,
       uuid,
       type: 'private',
-    });
+    } as WhatIsThis);
     const error = c.validate();
     if (error) {
       window.log.error(
         'Invalid verified sync received:',
         e164,
         uuid,
-        Errors.toLogFormat(error)
+        Errors.toLogFormat(error as WhatIsThis)
       );
       return;
     }
 
     switch (ev.verified.state) {
-      case textsecure.protobuf.Verified.State.DEFAULT:
+      case window.textsecure.protobuf.Verified.State.DEFAULT:
         state = 'DEFAULT';
         break;
-      case textsecure.protobuf.Verified.State.VERIFIED:
+      case window.textsecure.protobuf.Verified.State.VERIFIED:
         state = 'VERIFIED';
         break;
-      case textsecure.protobuf.Verified.State.UNVERIFIED:
+      case window.textsecure.protobuf.Verified.State.UNVERIFIED:
         state = 'UNVERIFIED';
         break;
       default:
@@ -3176,12 +3235,13 @@
       ev.viaContactSync ? 'via contact sync' : ''
     );
 
-    const verifiedId = ConversationController.ensureContactIds({
+    const verifiedId = window.ConversationController.ensureContactIds({
       e164,
       uuid,
       highTrust: true,
     });
-    const contact = await ConversationController.get(verifiedId, 'private');
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const contact = window.ConversationController.get(verifiedId)!;
     const options = {
       viaSyncMessage: true,
       viaContactSync: ev.viaContactSync,
@@ -3197,7 +3257,7 @@
     }
   }
 
-  function onDeliveryReceipt(ev) {
+  function onDeliveryReceipt(ev: WhatIsThis) {
     const { deliveryReceipt } = ev;
     const {
       envelopeTimestamp,
@@ -3209,7 +3269,7 @@
 
     ev.confirm();
 
-    const deliveredTo = ConversationController.ensureContactIds({
+    const deliveredTo = window.ConversationController.ensureContactIds({
       e164: source,
       uuid: sourceUuid,
       highTrust: true,
@@ -3231,12 +3291,12 @@
       return;
     }
 
-    const receipt = Whisper.DeliveryReceipts.add({
+    const receipt = window.Whisper.DeliveryReceipts.add({
       timestamp,
       deliveredTo,
     });
 
     // Note: We don't wait for completion here
-    Whisper.DeliveryReceipts.onReceipt(receipt);
+    window.Whisper.DeliveryReceipts.onReceipt(receipt);
   }
 })();

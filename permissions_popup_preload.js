@@ -40,3 +40,4 @@ window.setMediaPermissions = makeSetter('media-permissions');
 window.setMediaCameraPermissions = makeSetter('media-camera-permissions');
 window.getThemeSetting = makeGetter('theme-setting');
 window.setThemeSetting = makeSetter('theme-setting');
+window.Backbone = require('backbone');

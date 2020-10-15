@@ -4,12 +4,16 @@ import {
   Call,
   CallEndedReason,
   CallId,
+  CallingMessage,
   CallLogLevel,
   CallSettings,
   CallState,
   CanvasVideoRenderer,
   DeviceId,
   GumVideoCapturer,
+  HangupMessage,
+  HangupType,
+  OfferType,
   RingRTC,
   UserId,
 } from 'ringrtc';
@@ -21,13 +25,9 @@ import {
   ActionsType as UxActionsType,
   CallDetailsType,
 } from '../state/ducks/calling';
-import { CallingMessageClass, EnvelopeClass } from '../textsecure.d';
-import { ConversationModelType } from '../model-types.d';
-import {
-  AudioDevice,
-  CallHistoryDetailsType,
-  MediaDeviceSettings,
-} from '../types/Calling';
+import { EnvelopeClass } from '../textsecure.d';
+import { AudioDevice, MediaDeviceSettings } from '../types/Calling';
+import { ConversationModel } from '../models/conversations';
 
 export {
   CallState,
@@ -86,11 +86,11 @@ export class CallingClass {
     RingRTC.handleLogMessage = this.handleLogMessage.bind(this);
   }
 
-  async startOutgoingCall(
-    conversation: ConversationModelType,
+  async startCallingLobby(
+    conversation: ConversationModel,
     isVideoCall: boolean
   ): Promise<void> {
-    window.log.info('CallingClass.startOutgoingCall()');
+    window.log.info('CallingClass.startCallingLobby()');
 
     if (!this.uxActions) {
       window.log.error('Missing uxActions, new call not allowed.');
@@ -109,6 +109,75 @@ export class CallingClass {
       return;
     }
 
+    window.log.info('CallingClass.startCallingLobby(): Getting call settings');
+
+    // Check state after awaiting to debounce call button.
+    if (RingRTC.call && RingRTC.call.state !== CallState.Ended) {
+      window.log.info('Call already in progress, new call not allowed.');
+      return;
+    }
+
+    const conversationProps = conversation.cachedProps;
+
+    if (!conversationProps) {
+      window.log.error(
+        'CallingClass.startCallingLobby(): No conversation props?'
+      );
+      return;
+    }
+
+    window.log.info('CallingClass.startCallingLobby(): Starting lobby');
+    this.uxActions.showCallLobby({
+      callDetails: {
+        ...conversationProps,
+        callId: undefined,
+        isIncoming: false,
+        isVideoCall,
+      },
+    });
+
+    await this.startDeviceReselectionTimer();
+    this.enableLocalCamera();
+  }
+
+  stopCallingLobby(): void {
+    this.disableLocalCamera();
+    this.stopDeviceReselectionTimer();
+    this.lastMediaDeviceSettings = undefined;
+  }
+
+  async startOutgoingCall(
+    conversationId: string,
+    isVideoCall: boolean
+  ): Promise<void> {
+    window.log.info('CallingClass.startCallingLobby()');
+
+    if (!this.uxActions) {
+      throw new Error('Redux actions not available');
+    }
+
+    const conversation = window.ConversationController.get(conversationId);
+
+    if (!conversation) {
+      window.log.error('Could not find conversation, cannot start call');
+      this.stopCallingLobby();
+      return;
+    }
+
+    const remoteUserId = this.getRemoteUserIdFromConversation(conversation);
+    if (!remoteUserId || !this.localDeviceId) {
+      window.log.error('Missing identifier, new call not allowed.');
+      this.stopCallingLobby();
+      return;
+    }
+
+    const haveMediaPermissions = await this.requestPermissions(isVideoCall);
+    if (!haveMediaPermissions) {
+      window.log.info('Permissions were denied, new call not allowed.');
+      this.stopCallingLobby();
+      return;
+    }
+
     window.log.info('CallingClass.startOutgoingCall(): Getting call settings');
 
     const callSettings = await this.getCallSettings(conversation);
@@ -116,6 +185,7 @@ export class CallingClass {
     // Check state after awaiting to debounce call button.
     if (RingRTC.call && RingRTC.call.state !== CallState.Ended) {
       window.log.info('Call already in progress, new call not allowed.');
+      this.stopCallingLobby();
       return;
     }
 
@@ -136,7 +206,7 @@ export class CallingClass {
     this.attachToCall(conversation, call);
 
     this.uxActions.outgoingCall({
-      callDetails: this.getUxCallDetails(conversation, call),
+      callDetails: this.getAcceptedCallDetails(conversation, call),
     });
   }
 
@@ -390,6 +460,14 @@ export class CallingClass {
     RingRTC.setAudioOutput(device.index);
   }
 
+  enableLocalCamera(): void {
+    this.videoCapturer.enableCapture();
+  }
+
+  disableLocalCamera(): void {
+    this.videoCapturer.disable();
+  }
+
   async setPreferredCamera(device: string): Promise<void> {
     window.log.info('MediaDevice: setPreferredCamera', device);
     window.storage.put('preferred-video-input-device', device);
@@ -398,7 +476,7 @@ export class CallingClass {
 
   async handleCallingMessage(
     envelope: EnvelopeClass,
-    callingMessage: CallingMessageClass
+    callingMessage: CallingMessage
   ): Promise<void> {
     window.log.info('CallingClass.handleCallingMessage()');
 
@@ -438,6 +516,35 @@ export class CallingClass {
       return;
     }
     const receiverIdentityKey = receiverIdentityRecord.publicKey.slice(1); // Ignore the type header, it is not used.
+
+    const conversation = window.ConversationController.get(remoteUserId);
+    if (!conversation) {
+      window.log.error('Missing conversation; ignoring call message.');
+      return;
+    }
+
+    if (callingMessage.offer && !conversation.getAccepted()) {
+      window.log.info(
+        'Conversation was not approved by user; rejecting call message.'
+      );
+
+      const hangup = new HangupMessage();
+      hangup.callId = callingMessage.offer.callId;
+      hangup.deviceId = remoteDeviceId;
+      hangup.type = HangupType.NeedPermission;
+
+      const message = new CallingMessage();
+      message.legacyHangup = hangup;
+
+      await this.handleOutgoingSignaling(remoteUserId, message);
+
+      this.addCallHistoryForFailedIncomingCall(
+        conversation,
+        callingMessage.offer.type === OfferType.VideoCall
+      );
+
+      return;
+    }
 
     const messageAgeSec = envelope.messageAgeSec ? envelope.messageAgeSec : 0;
 
@@ -525,7 +632,7 @@ export class CallingClass {
 
   private async handleOutgoingSignaling(
     remoteUserId: UserId,
-    message: CallingMessageClass
+    message: CallingMessage
   ): Promise<boolean> {
     const conversation = window.ConversationController.get(remoteUserId);
     const sendOptions = conversation
@@ -585,24 +692,17 @@ export class CallingClass {
         window.log.info(
           `Peer is not trusted, ignoring incoming call for conversation: ${conversation.idForLogging()}`
         );
-        this.addCallHistoryForFailedIncomingCall(conversation, call);
-        return null;
-      }
-
-      // Simple Call Requests: Ensure that the conversation is accepted.
-      // If not, do not allow the call.
-      if (!conversation.getAccepted()) {
-        window.log.info(
-          `Messaging is not accepted, ignoring incoming call for conversation: ${conversation.idForLogging()}`
+        this.addCallHistoryForFailedIncomingCall(
+          conversation,
+          call.isVideoCall
         );
-        this.addCallHistoryForFailedIncomingCall(conversation, call);
         return null;
       }
 
       this.attachToCall(conversation, call);
 
       this.uxActions.incomingCall({
-        callDetails: this.getUxCallDetails(conversation, call),
+        callDetails: this.getAcceptedCallDetails(conversation, call),
       });
 
       window.log.info('CallingClass.handleIncomingCall(): Proceeding');
@@ -610,7 +710,7 @@ export class CallingClass {
       return await this.getCallSettings(conversation);
     } catch (err) {
       window.log.error(`Ignoring incoming call: ${err.stack}`);
-      this.addCallHistoryForFailedIncomingCall(conversation, call);
+      this.addCallHistoryForFailedIncomingCall(conversation, call.isVideoCall);
       return null;
     }
   }
@@ -626,7 +726,7 @@ export class CallingClass {
     this.addCallHistoryForAutoEndedIncomingCall(conversation, reason);
   }
 
-  private attachToCall(conversation: ConversationModelType, call: Call): void {
+  private attachToCall(conversation: ConversationModel, call: Call): void {
     const { uxActions } = this;
     if (!uxActions) {
       return;
@@ -645,7 +745,8 @@ export class CallingClass {
       }
       uxActions.callStateChange({
         callState: call.state,
-        callDetails: this.getUxCallDetails(conversation, call),
+        callDetails: this.getAcceptedCallDetails(conversation, call),
+        callEndedReason: call.endedReason,
       });
     };
 
@@ -679,8 +780,8 @@ export class CallingClass {
   }
 
   private getRemoteUserIdFromConversation(
-    conversation: ConversationModelType
-  ): UserId | undefined {
+    conversation: ConversationModel
+  ): UserId | undefined | null {
     const recipients = conversation.getRecipients();
     if (recipients.length !== 1) {
       return undefined;
@@ -705,7 +806,7 @@ export class CallingClass {
   }
 
   private async getCallSettings(
-    conversation: ConversationModelType
+    conversation: ConversationModel
   ): Promise<CallSettings> {
     if (!window.textsecure.messaging) {
       throw new Error('getCallSettings: offline!');
@@ -724,13 +825,18 @@ export class CallingClass {
     };
   }
 
-  private getUxCallDetails(
-    conversation: ConversationModelType,
+  private getAcceptedCallDetails(
+    conversation: ConversationModel,
     call: Call
   ): CallDetailsType {
-    return {
-      ...conversation.cachedProps,
+    const conversationProps = conversation.cachedProps;
+    if (!conversationProps) {
+      throw new Error('getAcceptedCallDetails: No conversation props?');
+    }
 
+    return {
+      ...conversationProps,
+      acceptedTime: Date.now(),
       callId: call.callId,
       isIncoming: call.isIncoming,
       isVideoCall: call.isVideoCall,
@@ -738,7 +844,7 @@ export class CallingClass {
   }
 
   private addCallHistoryForEndedCall(
-    conversation: ConversationModelType,
+    conversation: ConversationModel,
     call: Call,
     acceptedTimeParam: number | undefined
   ) {
@@ -759,36 +865,34 @@ export class CallingClass {
       acceptedTime = Date.now();
     }
 
-    const callHistoryDetails: CallHistoryDetailsType = {
+    conversation.addCallHistory({
       wasIncoming: call.isIncoming,
       wasVideoCall: call.isVideoCall,
       wasDeclined,
       acceptedTime,
       endedTime: Date.now(),
-    };
-    conversation.addCallHistory(callHistoryDetails);
+    });
   }
 
   private addCallHistoryForFailedIncomingCall(
-    conversation: ConversationModelType,
-    call: Call
+    conversation: ConversationModel,
+    wasVideoCall: boolean
   ) {
-    const callHistoryDetails: CallHistoryDetailsType = {
+    conversation.addCallHistory({
       wasIncoming: true,
-      wasVideoCall: call.isVideoCall,
+      wasVideoCall,
       // Since the user didn't decline, make sure it shows up as a missed call instead
       wasDeclined: false,
       acceptedTime: undefined,
       endedTime: Date.now(),
-    };
-    conversation.addCallHistory(callHistoryDetails);
+    });
   }
 
   private addCallHistoryForAutoEndedIncomingCall(
-    conversation: ConversationModelType,
+    conversation: ConversationModel,
     _reason: CallEndedReason
   ) {
-    const callHistoryDetails: CallHistoryDetailsType = {
+    conversation.addCallHistory({
       wasIncoming: true,
       // We don't actually know, but it doesn't seem that important in this case,
       // but we could maybe plumb this info through RingRTC
@@ -797,8 +901,7 @@ export class CallingClass {
       wasDeclined: false,
       acceptedTime: undefined,
       endedTime: Date.now(),
-    };
-    conversation.addCallHistory(callHistoryDetails);
+    });
   }
 }
 

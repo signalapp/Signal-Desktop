@@ -1,4 +1,3 @@
-/* tslint:disable no-backbone-get-set-outside-model */
 import { isNumber } from 'lodash';
 
 import {
@@ -12,9 +11,11 @@ import {
   ContactRecordClass,
   GroupV1RecordClass,
   GroupV2RecordClass,
+  PinnedConversationClass,
 } from '../textsecure.d';
 import { deriveGroupFields, waitThenMaybeUpdateGroup } from '../groups';
-import { ConversationModelType } from '../model-types.d';
+import { ConversationModel } from '../models/conversations';
+import { ConversationAttributesTypeType } from '../model-types.d';
 
 const { updateConversation } = dataInterface;
 
@@ -40,29 +41,35 @@ function toRecordVerified(verified: number): number {
 
 function addUnknownFields(
   record: RecordClass,
-  conversation: ConversationModelType
+  conversation: ConversationModel
 ): void {
   if (record.__unknownFields) {
     window.log.info(
-      `storageService.addUnknownFields: Unknown fields found for ${conversation.get(
-        'id'
-      )}`
+      'storageService.addUnknownFields: Unknown fields found for',
+      conversation.debugID()
     );
     conversation.set({
       storageUnknownFields: arrayBufferToBase64(record.__unknownFields),
     });
+  } else if (conversation.get('storageUnknownFields')) {
+    // If the record doesn't have unknown fields attached but we have them
+    // saved locally then we need to clear it out
+    window.log.info(
+      'storageService.addUnknownFields: Clearing unknown fields for',
+      conversation.debugID()
+    );
+    conversation.unset('storageUnknownFields');
   }
 }
 
 function applyUnknownFields(
   record: RecordClass,
-  conversation: ConversationModelType
+  conversation: ConversationModel
 ): void {
   if (conversation.get('storageUnknownFields')) {
     window.log.info(
-      `storageService.applyUnknownFields: Applying unknown fields for ${conversation.get(
-        'id'
-      )}`
+      'storageService.applyUnknownFields: Applying unknown fields for',
+      conversation.get('id')
     );
     // eslint-disable-next-line no-param-reassign
     record.__unknownFields = base64ToArrayBuffer(
@@ -72,7 +79,7 @@ function applyUnknownFields(
 }
 
 export async function toContactRecord(
-  conversation: ConversationModelType
+  conversation: ConversationModel
 ): Promise<ContactRecordClass> {
   const contactRecord = new window.textsecure.protobuf.ContactRecord();
   if (conversation.get('uuid')) {
@@ -113,7 +120,7 @@ export async function toContactRecord(
 }
 
 export async function toAccountRecord(
-  conversation: ConversationModelType
+  conversation: ConversationModel
 ): Promise<AccountRecordClass> {
   const accountRecord = new window.textsecure.protobuf.AccountRecord();
 
@@ -140,6 +147,55 @@ export async function toAccountRecord(
     window.storage.get('typingIndicators')
   );
   accountRecord.linkPreviews = Boolean(window.storage.get('linkPreviews'));
+  accountRecord.pinnedConversations = window.storage
+    .get<Array<string>>('pinnedConversationIds', [])
+    .map(id => {
+      const pinnedConversation = window.ConversationController.get(id);
+
+      if (pinnedConversation) {
+        const pinnedConversationRecord = new window.textsecure.protobuf.AccountRecord.PinnedConversation();
+
+        if (pinnedConversation.get('type') === 'private') {
+          pinnedConversationRecord.identifier = 'contact';
+          pinnedConversationRecord.contact = {
+            uuid: pinnedConversation.get('uuid'),
+            e164: pinnedConversation.get('e164'),
+          };
+        } else if (pinnedConversation.isGroupV1()) {
+          pinnedConversationRecord.identifier = 'legacyGroupId';
+          const groupId = pinnedConversation.get('groupId');
+          if (!groupId) {
+            throw new Error(
+              'toAccountRecord: trying to pin a v1 Group without groupId'
+            );
+          }
+          pinnedConversationRecord.legacyGroupId = fromEncodedBinaryToArrayBuffer(
+            groupId
+          );
+        } else if (pinnedConversation.isGroupV2()) {
+          pinnedConversationRecord.identifier = 'groupMasterKey';
+          const masterKey = pinnedConversation.get('masterKey');
+          if (!masterKey) {
+            throw new Error(
+              'toAccountRecord: trying to pin a v2 Group without masterKey'
+            );
+          }
+          pinnedConversationRecord.groupMasterKey = base64ToArrayBuffer(
+            masterKey
+          );
+        }
+
+        return pinnedConversationRecord;
+      }
+
+      return undefined;
+    })
+    .filter(
+      (
+        pinnedConversationClass
+      ): pinnedConversationClass is PinnedConversationClass =>
+        pinnedConversationClass !== undefined
+    );
 
   applyUnknownFields(accountRecord, conversation);
 
@@ -147,7 +203,7 @@ export async function toAccountRecord(
 }
 
 export async function toGroupV1Record(
-  conversation: ConversationModelType
+  conversation: ConversationModel
 ): Promise<GroupV1RecordClass> {
   const groupV1Record = new window.textsecure.protobuf.GroupV1Record();
 
@@ -164,7 +220,7 @@ export async function toGroupV1Record(
 }
 
 export async function toGroupV2Record(
-  conversation: ConversationModelType
+  conversation: ConversationModel
 ): Promise<GroupV2RecordClass> {
   const groupV2Record = new window.textsecure.protobuf.GroupV2Record();
 
@@ -185,20 +241,23 @@ type MessageRequestCapableRecord = ContactRecordClass | GroupV1RecordClass;
 
 function applyMessageRequestState(
   record: MessageRequestCapableRecord,
-  conversation: ConversationModelType
+  conversation: ConversationModel
 ): void {
+  const messageRequestEnum =
+    window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
+
   if (record.blocked) {
-    conversation.applyMessageRequestResponse(
-      conversation.messageRequestEnum.BLOCK,
-      { fromSync: true, viaStorageServiceSync: true }
-    );
+    conversation.applyMessageRequestResponse(messageRequestEnum.BLOCK, {
+      fromSync: true,
+      viaStorageServiceSync: true,
+    });
   } else if (record.whitelisted) {
     // unblocking is also handled by this function which is why the next
     // condition is part of the else-if and not separate
-    conversation.applyMessageRequestResponse(
-      conversation.messageRequestEnum.ACCEPT,
-      { fromSync: true, viaStorageServiceSync: true }
-    );
+    conversation.applyMessageRequestResponse(messageRequestEnum.ACCEPT, {
+      fromSync: true,
+      viaStorageServiceSync: true,
+    });
   } else if (!record.blocked) {
     // if the condition above failed the state could still be blocked=false
     // in which case we should unblock the conversation
@@ -218,7 +277,7 @@ type RecordClassObject = {
 function doRecordsConflict(
   localRecord: RecordClassObject,
   remoteRecord: RecordClassObject,
-  conversation: ConversationModelType
+  conversation: ConversationModel
 ): boolean {
   const debugID = conversation.debugID();
 
@@ -277,7 +336,7 @@ function doRecordsConflict(
 function doesRecordHavePendingChanges(
   mergedRecord: RecordClass,
   serviceRecord: RecordClass,
-  conversation: ConversationModelType
+  conversation: ConversationModel
 ): boolean {
   const shouldSync = Boolean(conversation.get('needsStorageServiceSync'));
 
@@ -303,10 +362,7 @@ export async function mergeGroupV1Record(
   groupV1Record: GroupV1RecordClass
 ): Promise<boolean> {
   if (!groupV1Record.id) {
-    window.log.info(
-      `storageService.mergeGroupV1Record: no ID for ${storageID}`
-    );
-    return false;
+    throw new Error(`No ID for ${storageID}`);
   }
 
   const groupId = groupV1Record.id.toBinary();
@@ -316,10 +372,11 @@ export async function mergeGroupV1Record(
   //   record if we have one; otherwise we'll just drop this update.
   const conversation = window.ConversationController.get(groupId);
   if (!conversation) {
-    window.log.warn(
-      `storageService.mergeGroupV1Record: No conversation for group(${groupId})`
-    );
-    return false;
+    throw new Error(`No conversation for group(${groupId})`);
+  }
+
+  if (!conversation.isGroupV1()) {
+    throw new Error(`Record has group type mismatch ${conversation.debugID()}`);
   }
 
   conversation.set({
@@ -347,10 +404,7 @@ export async function mergeGroupV2Record(
   groupV2Record: GroupV2RecordClass
 ): Promise<boolean> {
   if (!groupV2Record.masterKey) {
-    window.log.info(
-      `storageService.mergeGroupV2Record: no master key for ${storageID}`
-    );
-    return false;
+    throw new Error(`No master key for ${storageID}`);
   }
 
   const masterKeyBuffer = groupV2Record.masterKey.toArrayBuffer();
@@ -363,8 +417,9 @@ export async function mergeGroupV2Record(
 
   const now = Date.now();
   const conversationId = window.ConversationController.ensureGroup(groupId, {
-    // We want this conversation to show in the left pane when we first learn about it
-    active_at: now,
+    // Note: We don't set active_at, because we don't want the group to show until
+    //   we have information about it beyond these initial details.
+    //   see maybeUpdateGroup().
     timestamp: now,
     // Basic GroupV2 data
     groupVersion: 2,
@@ -375,9 +430,7 @@ export async function mergeGroupV2Record(
   const conversation = window.ConversationController.get(conversationId);
 
   if (!conversation) {
-    throw new Error(
-      `storageService.mergeGroupV2Record: No conversation for groupv2(${groupId})`
-    );
+    throw new Error(`No conversation for groupv2(${groupId})`);
   }
 
   conversation.maybeRepairGroupV2({
@@ -403,13 +456,19 @@ export async function mergeGroupV2Record(
 
   updateConversation(conversation.attributes);
 
+  const isGroupNewToUs = !isNumber(conversation.get('revision'));
   const isFirstSync = !isNumber(window.storage.get('manifestVersion'));
   const dropInitialJoinMessage = isFirstSync;
-  // tslint:disable-next-line no-floating-promises
-  waitThenMaybeUpdateGroup({
-    conversation,
-    dropInitialJoinMessage,
-  });
+
+  // We don't need to update GroupV2 groups all the time. We fetch group state the first
+  //   time we hear about these groups, from then on we rely on incoming messages or
+  //   the user opening that conversation.
+  if (isGroupNewToUs) {
+    waitThenMaybeUpdateGroup({
+      conversation,
+      dropInitialJoinMessage,
+    });
+  }
 
   return hasPendingChanges;
 }
@@ -434,10 +493,7 @@ export async function mergeContactRecord(
   });
 
   if (!id) {
-    window.log.info(
-      `storageService.mergeContactRecord: no ID for ${storageID}`
-    );
-    return false;
+    throw new Error(`No ID for ${storageID}`);
   }
 
   const conversation = await window.ConversationController.getOrCreateAndWait(
@@ -498,6 +554,7 @@ export async function mergeAccountRecord(
     avatarUrl,
     linkPreviews,
     noteToSelfArchived,
+    pinnedConversations: remotelyPinnedConversationClasses,
     profileKey,
     readReceipts,
     sealedSenderIndicators,
@@ -522,10 +579,120 @@ export async function mergeAccountRecord(
     window.storage.put('profileKey', profileKey.toArrayBuffer());
   }
 
+  if (remotelyPinnedConversationClasses) {
+    const locallyPinnedConversations = window.ConversationController._conversations.filter(
+      conversation => Boolean(conversation.get('isPinned'))
+    );
+
+    window.log.info(
+      'storageService.mergeAccountRecord: Local pinned',
+      locallyPinnedConversations.length
+    );
+
+    const remotelyPinnedConversationPromises = remotelyPinnedConversationClasses.map(
+      async pinnedConversation => {
+        let conversationId;
+        let conversationType: ConversationAttributesTypeType = 'private';
+
+        switch (pinnedConversation.identifier) {
+          case 'contact': {
+            if (!pinnedConversation.contact) {
+              throw new Error('mergeAccountRecord: no contact found');
+            }
+            conversationId = window.ConversationController.ensureContactIds(
+              pinnedConversation.contact
+            );
+            conversationType = 'private';
+            break;
+          }
+          case 'legacyGroupId': {
+            if (!pinnedConversation.legacyGroupId) {
+              throw new Error('mergeAccountRecord: no legacyGroupId found');
+            }
+            conversationId = pinnedConversation.legacyGroupId.toBinary();
+            conversationType = 'group';
+            break;
+          }
+          case 'groupMasterKey': {
+            if (!pinnedConversation.groupMasterKey) {
+              throw new Error('mergeAccountRecord: no groupMasterKey found');
+            }
+            const masterKeyBuffer = pinnedConversation.groupMasterKey.toArrayBuffer();
+            const groupFields = deriveGroupFields(masterKeyBuffer);
+            const groupId = arrayBufferToBase64(groupFields.id);
+
+            conversationId = groupId;
+            conversationType = 'group';
+            break;
+          }
+          default: {
+            window.log.error(
+              'storageService.mergeAccountRecord: Invalid identifier received'
+            );
+          }
+        }
+
+        if (!conversationId) {
+          window.log.error(
+            'storageService.mergeAccountRecord: missing conversation id. looking based on',
+            pinnedConversation.identifier
+          );
+          return undefined;
+        }
+
+        if (conversationType === 'private') {
+          return window.ConversationController.getOrCreateAndWait(
+            conversationId,
+            conversationType
+          );
+        }
+
+        return window.ConversationController.get(conversationId);
+      }
+    );
+
+    const remotelyPinnedConversations = (
+      await Promise.all(remotelyPinnedConversationPromises)
+    ).filter(
+      (conversation): conversation is ConversationModel =>
+        conversation !== undefined
+    );
+
+    const remotelyPinnedConversationIds = remotelyPinnedConversations.map(
+      ({ id }) => id
+    );
+
+    const conversationsToUnpin = locallyPinnedConversations.filter(
+      ({ id }) => !remotelyPinnedConversationIds.includes(id)
+    );
+
+    window.log.info(
+      'storageService.mergeAccountRecord: unpinning',
+      conversationsToUnpin.length
+    );
+
+    window.log.info(
+      'storageService.mergeAccountRecord: pinning',
+      remotelyPinnedConversations.length
+    );
+
+    conversationsToUnpin.forEach(conversation => {
+      conversation.set({ isPinned: false, pinIndex: undefined });
+      updateConversation(conversation.attributes);
+    });
+
+    remotelyPinnedConversations.forEach((conversation, index) => {
+      conversation.set({ isPinned: true, pinIndex: index });
+      updateConversation(conversation.attributes);
+    });
+
+    window.storage.put('pinnedConversationIds', remotelyPinnedConversationIds);
+  }
+
   const ourID = window.ConversationController.getOurConversationId();
 
   if (!ourID) {
-    return false;
+    throw new Error('Could not find ourID');
   }
 
   const conversation = await window.ConversationController.getOrCreateAndWait(

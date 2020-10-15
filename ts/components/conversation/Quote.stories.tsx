@@ -19,10 +19,12 @@ const story = storiesOf('Components/Conversation/Quote', module);
 const defaultMessageProps: MessagesProps = {
   authorTitle: 'Person X',
   canReply: true,
+  canDeleteForEveryone: true,
   clearSelectedMessage: () => null,
   conversationId: 'conversationId',
   conversationType: 'direct', // override
   deleteMessage: () => null,
+  deleteMessageForEveryone: () => null,
   direction: 'incoming',
   displayTapToViewMessage: () => null,
   downloadAttachment: () => null,

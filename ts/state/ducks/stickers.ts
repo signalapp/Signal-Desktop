@@ -222,7 +222,6 @@ function downloadStickerPack(
   const { finalStatus } = options || { finalStatus: undefined };
 
   // We're just kicking this off, since it will generate more redux events
-  // tslint:disable-next-line:no-floating-promises
   externalDownloadStickerPack(packId, packKey, { finalStatus });
 
   return {
@@ -370,7 +369,6 @@ function getEmptyState(): StickersStateType {
   };
 }
 
-// tslint:disable-next-line max-func-body-length
 export function reducer(
   state: StickersStateType = getEmptyState(),
   action: StickersActionType

@@ -31,7 +31,7 @@ const CallButton = ({
 }: CallButtonProps): JSX.Element => {
   return (
     <button
-      className={`module-incoming-call__icon module-incoming-call__button--${classSuffix}`}
+      className={`module-incoming-call__button module-incoming-call__button--${classSuffix}`}
       onClick={onClick}
       tabIndex={tabIndex}
       type="button"

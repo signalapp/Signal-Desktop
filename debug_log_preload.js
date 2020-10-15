@@ -23,3 +23,4 @@ window.getEnvironment = () => config.environment;
 require('./js/logging');
 
 window.closeDebugLog = () => ipcRenderer.send('close-debug-log');
+window.Backbone = require('backbone');

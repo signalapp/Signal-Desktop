@@ -45,12 +45,14 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   authorTitle: text('authorTitle', overrideProps.authorTitle || ''),
   bodyRanges: overrideProps.bodyRanges,
   canReply: true,
+  canDeleteForEveryone: overrideProps.canDeleteForEveryone || false,
   clearSelectedMessage: action('clearSelectedMessage'),
   collapseMetadata: overrideProps.collapseMetadata,
   conversationId: text('conversationId', overrideProps.conversationId || ''),
   conversationType: overrideProps.conversationType || 'direct',
   deletedForEveryone: overrideProps.deletedForEveryone,
   deleteMessage: action('deleteMessage'),
+  deleteMessageForEveryone: action('deleteMessageForEveryone'),
   disableMenu: overrideProps.disableMenu,
   disableScroll: overrideProps.disableScroll,
   direction: overrideProps.direction || 'incoming',
@@ -322,6 +324,16 @@ story.add('Deleted', () => {
   });
 
   return renderBothDirections(props);
+});
+
+story.add('Can delete for everyone', () => {
+  const props = createProps({
+    status: 'read',
+    text: 'I hope you get this.',
+    canDeleteForEveryone: true,
+  });
+
+  return <Message {...props} direction="outgoing" />;
 });
 
 story.add('Error', () => {

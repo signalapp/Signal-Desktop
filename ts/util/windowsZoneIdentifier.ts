@@ -28,7 +28,6 @@ export async function writeWindowsZoneIdentifier(
     throw new Error('writeWindowsZoneIdentifier should only run on Windows');
   }
 
-  // tslint:disable-next-line non-literal-fs-path
   if (!fs.existsSync(filePath)) {
     throw new Error(
       'writeWindowsZoneIdentifier could not find the original file'

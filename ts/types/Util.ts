@@ -12,10 +12,10 @@ export type RenderTextCallbackType = (options: {
 }) => JSX.Element | string;
 
 export type ReplacementValuesType = {
-  [key: string]: string;
+  [key: string]: string | undefined;
 };
 
 export type LocalizerType = (
   key: string,
-  values?: Array<string> | ReplacementValuesType
+  values?: Array<string | null> | ReplacementValuesType
 ) => string;

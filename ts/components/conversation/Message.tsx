@@ -5,7 +5,6 @@ import Measure from 'react-measure';
 import { drop, groupBy, orderBy, take } from 'lodash';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { Manager, Popper, Reference } from 'react-popper';
-import moment, { Moment } from 'moment';
 
 import { Avatar } from '../Avatar';
 import { Spinner } from '../Spinner';
@@ -21,8 +20,9 @@ import {
   OwnProps as ReactionViewerProps,
   ReactionViewer,
 } from './ReactionViewer';
-import { Props as ReactionPickerProps, ReactionPicker } from './ReactionPicker';
+import { Props as ReactionPickerProps } from './ReactionPicker';
 import { Emoji } from '../emoji/Emoji';
+import { LinkPreviewDate } from './LinkPreviewDate';
 
 import {
   AttachmentType,
@@ -44,6 +44,8 @@ import { isFileDangerous } from '../../util/isFileDangerous';
 import { BodyRangesType, LocalizerType } from '../../types/Util';
 import { ColorType } from '../../types/Colors';
 import { createRefMerger } from '../_util';
+import { emojiToData } from '../emoji/lib';
+import { SmartReactionPicker } from '../../state/smart/ReactionPicker';
 
 interface Trigger {
   handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
@@ -51,10 +53,9 @@ interface Trigger {
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
-const MINIMUM_LINK_PREVIEW_DATE = new Date(1990, 0, 1).valueOf();
 const STICKER_SIZE = 200;
 const SELECTED_TIMEOUT = 1000;
-const ONE_DAY = 24 * 60 * 60 * 1000;
+const THREE_HOURS = 3 * 60 * 60 * 1000;
 
 interface LinkPreviewType {
   title: string;
@@ -136,6 +137,7 @@ export type PropsData = {
   deletedForEveryone?: boolean;
 
   canReply: boolean;
+  canDeleteForEveryone: boolean;
   bodyRanges?: BodyRangesType;
 };
 
@@ -156,6 +158,7 @@ export type PropsActions = {
   replyToMessage: (id: string) => void;
   retrySend: (id: string) => void;
   deleteMessage: (id: string) => void;
+  deleteMessageForEveryone: (id: string) => void;
   showMessageDetail: (id: string) => void;
 
   openConversation: (conversationId: string, messageId?: string) => void;
@@ -202,6 +205,7 @@ interface State {
   isWide: boolean;
 
   containerWidth: number;
+  canDeleteForEveryone: boolean;
 }
 
 const EXPIRATION_CHECK_MINIMUM = 2000;
@@ -228,6 +232,8 @@ export class Message extends React.PureComponent<Props, State> {
 
   public selectedTimeout: NodeJS.Timeout | undefined;
 
+  public deleteForEveryoneTimeout: NodeJS.Timeout | undefined;
+
   public constructor(props: Props) {
     super(props);
 
@@ -248,13 +254,20 @@ export class Message extends React.PureComponent<Props, State> {
       isWide: this.wideMl.matches,
 
       containerWidth: 0,
+      canDeleteForEveryone: props.canDeleteForEveryone,
     };
   }
 
   public static getDerivedStateFromProps(props: Props, state: State): State {
+    const newState = {
+      ...state,
+      canDeleteForEveryone:
+        props.canDeleteForEveryone && state.canDeleteForEveryone,
+    };
+
     if (!props.isSelected) {
       return {
-        ...state,
+        ...newState,
         isSelected: false,
         prevSelectedCounter: 0,
       };
@@ -265,13 +278,13 @@ export class Message extends React.PureComponent<Props, State> {
       props.isSelectedCounter !== state.prevSelectedCounter
     ) {
       return {
-        ...state,
+        ...newState,
         isSelected: props.isSelected,
         prevSelectedCounter: props.isSelectedCounter,
       };
     }
 
-    return state;
+    return newState;
   }
 
   public handleWideMlChange = (event: MediaQueryListEvent): void => {
@@ -324,6 +337,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public componentDidMount(): void {
     this.startSelectedTimer();
+    this.startDeleteForEveryoneTimer();
 
     const { isSelected } = this.props;
     if (isSelected) {
@@ -355,6 +369,9 @@ export class Message extends React.PureComponent<Props, State> {
     if (this.expiredTimeout) {
       clearTimeout(this.expiredTimeout);
     }
+    if (this.deleteForEveryoneTimeout) {
+      clearTimeout(this.deleteForEveryoneTimeout);
+    }
     this.toggleReactionViewer(true);
     this.toggleReactionPicker(true);
 
@@ -362,7 +379,7 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public componentDidUpdate(prevProps: Props): void {
-    const { isSelected } = this.props;
+    const { canDeleteForEveryone, isSelected } = this.props;
 
     this.startSelectedTimer();
 
@@ -371,6 +388,10 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     this.checkExpired();
+
+    if (canDeleteForEveryone !== prevProps.canDeleteForEveryone) {
+      this.startDeleteForEveryoneTimer();
+    }
   }
 
   public startSelectedTimer(): void {
@@ -387,6 +408,29 @@ export class Message extends React.PureComponent<Props, State> {
         this.setState({ isSelected: false });
         clearSelectedMessage();
       }, SELECTED_TIMEOUT);
+    }
+  }
+
+  public startDeleteForEveryoneTimer(): void {
+    if (this.deleteForEveryoneTimeout) {
+      clearTimeout(this.deleteForEveryoneTimeout);
+    }
+
+    const { canDeleteForEveryone } = this.props;
+
+    if (!canDeleteForEveryone) {
+      return;
+    }
+
+    const { timestamp } = this.props;
+    const timeToDeletion = timestamp - Date.now() + THREE_HOURS;
+
+    if (timeToDeletion <= 0) {
+      this.setState({ canDeleteForEveryone: false });
+    } else {
+      this.deleteForEveryoneTimeout = setTimeout(() => {
+        this.setState({ canDeleteForEveryone: false });
+      }, timeToDeletion);
     }
   }
 
@@ -804,14 +848,7 @@ export class Message extends React.PureComponent<Props, State> {
       width &&
       width >= MINIMUM_LINK_PREVIEW_IMAGE_WIDTH;
 
-    // Don't show old dates or dates too far in the future. This is predicated on the
-    //   idea that showing an invalid dates is worse than hiding valid ones.
-    const maximumLinkPreviewDate = Date.now() + ONE_DAY;
-    const isDateValid: boolean =
-      typeof first.date === 'number' &&
-      first.date > MINIMUM_LINK_PREVIEW_DATE &&
-      first.date < maximumLinkPreviewDate;
-    const dateMoment: Moment | null = isDateValid ? moment(first.date) : null;
+    const linkPreviewDate = first.date || null;
 
     return (
       <button
@@ -892,14 +929,10 @@ export class Message extends React.PureComponent<Props, State> {
               <div className="module-message__link-preview__location">
                 {first.domain}
               </div>
-              {dateMoment && (
-                <time
-                  className="module-message__link-preview__date"
-                  dateTime={dateMoment.toISOString()}
-                >
-                  {dateMoment.format('ll')}
-                </time>
-              )}
+              <LinkPreviewDate
+                date={linkPreviewDate}
+                className="module-message__link-preview__date"
+              />
             </div>
           </div>
         </div>
@@ -1270,8 +1303,7 @@ export class Message extends React.PureComponent<Props, State> {
             // eslint-disable-next-line consistent-return
             <Popper placement="top">
               {({ ref, style }) => (
-                <ReactionPicker
-                  i18n={i18n}
+                <SmartReactionPicker
                   ref={ref}
                   style={style}
                   selected={selectedReaction}
@@ -1298,6 +1330,7 @@ export class Message extends React.PureComponent<Props, State> {
       attachments,
       canReply,
       deleteMessage,
+      deleteMessageForEveryone,
       direction,
       i18n,
       id,
@@ -1308,6 +1341,8 @@ export class Message extends React.PureComponent<Props, State> {
       showMessageDetail,
       status,
     } = this.props;
+
+    const { canDeleteForEveryone } = this.state;
 
     const showRetry = status === 'error' && direction === 'outgoing';
     const multipleAttachments = attachments && attachments.length > 1;
@@ -1399,6 +1434,21 @@ export class Message extends React.PureComponent<Props, State> {
         >
           {i18n('deleteMessage')}
         </MenuItem>
+        {canDeleteForEveryone ? (
+          <MenuItem
+            attributes={{
+              className: 'module-message__context__delete-message-for-everyone',
+            }}
+            onClick={(event: React.MouseEvent) => {
+              event.stopPropagation();
+              event.preventDefault();
+
+              deleteMessageForEveryone(id);
+            }}
+          >
+            {i18n('deleteMessageForEveryone')}
+          </MenuItem>
+        ) : null}
       </ContextMenu>
     );
 
@@ -1681,13 +1731,24 @@ export class Message extends React.PureComponent<Props, State> {
       return null;
     }
 
+    const reactionsWithEmojiData = reactions.map(reaction => ({
+      ...reaction,
+      ...emojiToData(reaction.emoji),
+    }));
+
     // Group by emoji and order each group by timestamp descending
-    const grouped = Object.values(groupBy(reactions, 'emoji')).map(res =>
-      orderBy(res, ['timestamp'], ['desc'])
+    const groupedAndSortedReactions = Object.values(
+      groupBy(reactionsWithEmojiData, 'short_name')
+    ).map(groupedReactions =>
+      orderBy(
+        groupedReactions,
+        [reaction => reaction.from.isMe, 'timestamp'],
+        ['desc', 'desc']
+      )
     );
     // Order groups by length and subsequently by most recent reaction
     const ordered = orderBy(
-      grouped,
+      groupedAndSortedReactions,
       ['length', ([{ timestamp }]) => timestamp],
       ['desc', 'desc']
     );

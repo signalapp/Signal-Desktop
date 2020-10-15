@@ -9,29 +9,9 @@ import {
   SetRendererCanvasType,
 } from '../state/ducks/calling';
 import { Avatar } from './Avatar';
+import { CallingButton, CallingButtonType } from './CallingButton';
 import { CallState } from '../types/Calling';
 import { LocalizerType } from '../types/Util';
-
-type CallingButtonProps = {
-  classNameSuffix: string;
-  onClick: () => void;
-};
-
-const CallingButton = ({
-  classNameSuffix,
-  onClick,
-}: CallingButtonProps): JSX.Element => {
-  const className = classNames(
-    'module-ongoing-call__icon',
-    `module-ongoing-call__icon${classNameSuffix}`
-  );
-
-  return (
-    <button type="button" className={className} onClick={onClick}>
-      <div />
-    </button>
-  );
-};
 
 export type PropsType = {
   callDetails?: CallDetailsType;
@@ -45,21 +25,19 @@ export type PropsType = {
   setLocalVideo: (_: SetLocalVideoType) => void;
   setLocalPreview: (_: SetLocalPreviewType) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
+  togglePip: () => void;
   toggleSettings: () => void;
 };
 
 type StateType = {
-  acceptedTime: number | null;
   acceptedDuration: number | null;
   showControls: boolean;
 };
 
 export class CallScreen extends React.Component<PropsType, StateType> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private interval: any;
+  private interval: NodeJS.Timeout | null;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private controlsFadeTimer: any;
+  private controlsFadeTimer: NodeJS.Timeout | null;
 
   private readonly localVideoRef: React.RefObject<HTMLVideoElement>;
 
@@ -69,7 +47,6 @@ export class CallScreen extends React.Component<PropsType, StateType> {
     super(props);
 
     this.state = {
-      acceptedTime: null,
       acceptedDuration: null,
       showControls: true,
     };
@@ -110,21 +87,15 @@ export class CallScreen extends React.Component<PropsType, StateType> {
   }
 
   updateAcceptedTimer = (): void => {
-    const { acceptedTime } = this.state;
-    const { callState } = this.props;
+    const { callDetails } = this.props;
 
-    if (acceptedTime) {
+    if (!callDetails) {
+      return;
+    }
+
+    if (callDetails.acceptedTime) {
       this.setState({
-        acceptedTime,
-        acceptedDuration: Date.now() - acceptedTime,
-      });
-    } else if (
-      callState === CallState.Accepted ||
-      callState === CallState.Reconnecting
-    ) {
-      this.setState({
-        acceptedTime: Date.now(),
-        acceptedDuration: 1,
+        acceptedDuration: Date.now() - callDetails.acceptedTime,
       });
     }
   };
@@ -138,10 +109,10 @@ export class CallScreen extends React.Component<PropsType, StateType> {
 
     let eventHandled = false;
 
-    if (event.key === 'V') {
+    if (event.shiftKey && (event.key === 'V' || event.key === 'v')) {
       this.toggleVideo();
       eventHandled = true;
-    } else if (event.key === 'M') {
+    } else if (event.shiftKey && (event.key === 'M' || event.key === 'm')) {
       this.toggleAudio();
       eventHandled = true;
     }
@@ -209,6 +180,7 @@ export class CallScreen extends React.Component<PropsType, StateType> {
       hasLocalVideo,
       hasRemoteVideo,
       i18n,
+      togglePip,
       toggleSettings,
     } = this.props;
     const { showControls } = this.state;
@@ -225,35 +197,42 @@ export class CallScreen extends React.Component<PropsType, StateType> {
         !showControls && !isAudioOnly && callState === CallState.Accepted,
     });
 
-    const toggleAudioSuffix = hasLocalAudio
-      ? '--audio--enabled'
-      : '--audio--disabled';
-    const toggleVideoSuffix = hasLocalVideo
-      ? '--video--enabled'
-      : '--video--disabled';
+    const videoButtonType = hasLocalVideo
+      ? CallingButtonType.VIDEO_ON
+      : CallingButtonType.VIDEO_OFF;
+    const audioButtonType = hasLocalAudio
+      ? CallingButtonType.AUDIO_ON
+      : CallingButtonType.AUDIO_OFF;
 
     return (
       <div
-        className="module-ongoing-call"
+        className="module-calling__container"
         onMouseMove={this.showControls}
         role="group"
       >
         <div
           className={classNames(
+            'module-calling__header',
             'module-ongoing-call__header',
             controlsFadeClass
           )}
         >
-          <div className="module-ongoing-call__header-name">
+          <div className="module-calling__header--header-name">
             {callDetails.title}
           </div>
           {this.renderMessage(callState)}
-          <div className="module-ongoing-call__settings">
+          <div className="module-calling-tools">
             <button
               type="button"
               aria-label={i18n('callingDeviceSelection__settings')}
-              className="module-ongoing-call__settings--button"
+              className="module-calling-tools__button module-calling-button__settings"
               onClick={toggleSettings}
+            />
+            <button
+              type="button"
+              aria-label={i18n('calling__pip')}
+              className="module-calling-tools__button module-calling-button__pip"
+              onClick={togglePip}
             />
           </div>
         </div>
@@ -268,18 +247,24 @@ export class CallScreen extends React.Component<PropsType, StateType> {
           )}
         >
           <CallingButton
-            classNameSuffix={toggleVideoSuffix}
+            buttonType={videoButtonType}
+            i18n={i18n}
             onClick={this.toggleVideo}
+            tooltipDistance={24}
           />
           <CallingButton
-            classNameSuffix={toggleAudioSuffix}
+            buttonType={audioButtonType}
+            i18n={i18n}
             onClick={this.toggleAudio}
+            tooltipDistance={24}
           />
           <CallingButton
-            classNameSuffix="--hangup"
+            buttonType={CallingButtonType.HANG_UP}
+            i18n={i18n}
             onClick={() => {
               hangUp({ callId: callDetails.callId });
             }}
+            tooltipDistance={24}
           />
         </div>
       </div>

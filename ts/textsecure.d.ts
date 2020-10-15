@@ -12,6 +12,7 @@ import { ByteBufferClass } from './window.d';
 import SendMessage, { SendOptionsType } from './textsecure/SendMessage';
 import { WebAPIType } from './textsecure/WebAPI';
 import utils from './textsecure/Helpers';
+import { CallingMessage as CallingMessageClass } from 'ringrtc';
 
 type AttachmentType = any;
 
@@ -39,7 +40,7 @@ export type StorageServiceCredentials = {
 
 export type TextSecureType = {
   createTaskWithTimeout: (
-    task: () => Promise<any>,
+    task: () => Promise<any> | any,
     id?: string,
     options?: { timeout?: number }
   ) => () => Promise<any>;
@@ -77,12 +78,16 @@ export type TextSecureType = {
     protocol: StorageProtocolType;
   };
   messageReceiver: MessageReceiver;
-  messaging?: SendMessage;
+  messageSender: MessageSender;
+  messaging: SendMessage;
   protobuf: ProtobufCollectionType;
   utils: typeof utils;
 
   EventTarget: typeof EventTarget;
   MessageReceiver: typeof MessageReceiver;
+  AccountManager: WhatIsThis;
+  MessageSender: WhatIsThis;
+  SyncRequest: WhatIsThis;
 };
 
 type StoredSignedPreKeyType = SignedPreKeyType & {
@@ -108,11 +113,13 @@ export type StorageProtocolType = StorageType & {
   removeSession: (identifier: string) => Promise<void>;
   getDeviceIds: (identifier: string) => Promise<Array<number>>;
   getIdentityRecord: (identifier: string) => IdentityKeyRecord | undefined;
+  getVerified: (id: string) => Promise<number>;
   hydrateCaches: () => Promise<void>;
   clearPreKeyStore: () => Promise<void>;
   clearSignedPreKeysStore: () => Promise<void>;
   clearSessionStore: () => Promise<void>;
   isTrustedIdentity: () => void;
+  isUntrusted: (id: string) => Promise<boolean>;
   storePreKey: (keyId: number, keyPair: KeyPairType) => Promise<void>;
   storeSignedPreKey: (
     keyId: number,
@@ -131,6 +138,7 @@ export type StorageProtocolType = StorageType & {
     number: string,
     options: IdentityKeyRecord
   ) => Promise<void>;
+  setApproval: (id: string, something: boolean) => void;
   setVerified: (
     encodedAddress: string,
     verifiedStatus: number,
@@ -138,6 +146,8 @@ export type StorageProtocolType = StorageType & {
   ) => Promise<void>;
   removeSignedPreKey: (keyId: number) => Promise<void>;
   removeAllData: () => Promise<void>;
+  on: (key: string, callback: () => void) => WhatIsThis;
+  removeAllConfiguration: () => Promise<void>;
 };
 
 // Protobufs
@@ -279,6 +289,7 @@ export declare class AccessControlClass {
 // Note: we need to use namespaces to express nested classes in Typescript
 export declare namespace AccessControlClass {
   class AccessRequired {
+    static ANY: number;
     static UNKNOWN: number;
     static MEMBER: number;
     static ADMINISTRATOR: number;
@@ -307,6 +318,7 @@ export declare class GroupChangeClass {
     data: ArrayBuffer | ByteBufferClass,
     encoding?: string
   ) => GroupChangeClass;
+  toArrayBuffer: () => ArrayBuffer;
 
   actions?: ProtoBinaryType;
   serverSignature?: ProtoBinaryType;
@@ -444,6 +456,10 @@ export declare class AttachmentPointerClass {
     data: ArrayBuffer | ByteBufferClass,
     encoding?: string
   ) => AttachmentPointerClass;
+
+  static Flags: {
+    VOICE_MESSAGE: number;
+  };
 
   cdnId?: ProtoBigNumberType;
   cdnKey?: string;
@@ -794,7 +810,7 @@ declare class ProvisioningUuidClass {
   uuid?: string;
 }
 
-declare class ProvisionEnvelopeClass {
+export declare class ProvisionEnvelopeClass {
   static decode: (
     data: ArrayBuffer | ByteBufferClass,
     encoding?: string
@@ -946,7 +962,22 @@ export declare class GroupV2RecordClass {
   __unknownFields?: ArrayBuffer;
 }
 
+export declare class PinnedConversationClass {
+  toArrayBuffer: () => ArrayBuffer;
+
+  // identifier is produced by the oneof field in the PinnedConversation protobuf
+  // and determined which one of the following optional fields are in use
+  identifier: 'contact' | 'legacyGroupId' | 'groupMasterKey';
+  contact?: {
+    uuid?: string;
+    e164?: string;
+  };
+  legacyGroupId?: ProtoBinaryType;
+  groupMasterKey?: ProtoBinaryType;
+}
+
 export declare class AccountRecordClass {
+  static PinnedConversation: typeof PinnedConversationClass;
   static decode: (
     data: ArrayBuffer | ByteBufferClass,
     encoding?: string
@@ -962,6 +993,7 @@ export declare class AccountRecordClass {
   sealedSenderIndicators?: boolean | null;
   typingIndicators?: boolean | null;
   linkPreviews?: boolean | null;
+  pinnedConversations?: PinnedConversationClass[];
 
   __unknownFields?: ArrayBuffer;
 }
@@ -1144,6 +1176,7 @@ export declare class VerifiedClass {
     data: ArrayBuffer | ByteBufferClass,
     encoding?: string
   ) => VerifiedClass;
+  static State: WhatIsThis;
 
   destination?: string;
   destinationUuid?: string;
@@ -1199,65 +1232,4 @@ export declare class WebSocketResponseMessageClass {
   body?: ProtoBinaryType;
 }
 
-// Everything from here down to HangupType (everything related to calling)
-// must be kept in sync with RingRTC (ringrtc-node).
-// Whenever you change this, make sure you change RingRTC as well.
-
-type ProtobufArrayBuffer = ArrayBuffer | { toArrayBuffer: () => ArrayBuffer };
-
-export type DeviceId = number;
-
-export type CallId = any;
-
-export class CallingMessageClass {
-  offer?: OfferMessageClass;
-  answer?: AnswerMessageClass;
-  iceCandidates?: Array<IceCandidateMessageClass>;
-  legacyHangup?: HangupMessageClass;
-  busy?: BusyMessageClass;
-  hangup?: HangupMessageClass;
-  supportsMultiRing?: boolean;
-  destinationDeviceId?: DeviceId;
-}
-
-export class OfferMessageClass {
-  callId?: CallId;
-  type?: OfferType;
-  sdp?: string;
-}
-
-export enum OfferType {
-  AudioCall = 0,
-  VideoCall = 1,
-}
-
-export class AnswerMessageClass {
-  callId?: CallId;
-  sdp?: string;
-}
-
-export class IceCandidateMessageClass {
-  callId?: CallId;
-  mid?: string;
-  line?: number;
-  opaque?: ProtobufArrayBuffer;
-  sdp?: string;
-}
-
-export class BusyMessageClass {
-  callId?: CallId;
-}
-
-export class HangupMessageClass {
-  callId?: CallId;
-  type?: HangupType;
-  deviceId?: DeviceId;
-}
-
-export enum HangupType {
-  Normal = 0,
-  Accepted = 1,
-  Declined = 2,
-  Busy = 3,
-  NeedPermission = 4,
-}
+export { CallingMessageClass };

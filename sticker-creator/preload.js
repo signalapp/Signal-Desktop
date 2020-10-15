@@ -12,12 +12,18 @@ const { makeGetter } = require('../preload_utils');
 const { dialog } = remote;
 const { nativeTheme } = remote.require('electron');
 
+const STICKER_SIZE = 512;
+const MIN_STICKER_DIMENSION = 10;
+const MAX_STICKER_DIMENSION = STICKER_SIZE;
+const MAX_ANIMATED_STICKER_BYTE_LENGTH = 300 * 1024;
+
 window.ROOT_PATH = window.location.href.startsWith('file') ? '../../' : '/';
 window.PROTO_ROOT = '../../protos';
 window.getEnvironment = () => config.environment;
 window.getVersion = () => config.version;
 window.getGuid = require('uuid/v4');
 window.PQueue = require('p-queue').default;
+window.Backbone = require('backbone');
 
 window.localeMessages = ipc.sendSync('locale-data');
 
@@ -31,6 +37,9 @@ window.Signal = Signal.setup({});
 window.textsecure = require('../ts/textsecure').default;
 
 const { initialize: initializeWebAPI } = require('../ts/textsecure/WebAPI');
+const {
+  getAnimatedPngDataIfExists,
+} = require('../ts/util/getAnimatedPngDataIfExists');
 
 const WebAPI = initializeWebAPI({
   url: config.serverUrl,
@@ -48,25 +57,83 @@ const WebAPI = initializeWebAPI({
   version: config.version,
 });
 
-window.convertToWebp = async (path, width = 512, height = 512) => {
+function processStickerError(message, i18nKey) {
+  const result = new Error(message);
+  result.errorMessageI18nKey = i18nKey;
+  return result;
+}
+
+window.processStickerImage = async path => {
   const imgBuffer = await pify(readFile)(path);
   const sharpImg = sharp(imgBuffer);
   const meta = await sharpImg.metadata();
 
-  const buffer = await sharpImg
-    .resize({
-      width,
-      height,
-      fit: 'contain',
-      background: { r: 0, g: 0, b: 0, alpha: 0 },
-    })
-    .webp()
-    .toBuffer();
+  const { width, height } = meta;
+  if (!width || !height) {
+    throw processStickerError(
+      'Sticker height or width were falsy',
+      'StickerCreator--Toasts--errorProcessing'
+    );
+  }
+
+  let contentType;
+  let processedBuffer;
+
+  // [Sharp doesn't support APNG][0], so we do something simpler: validate the file size
+  //   and dimensions without resizing, cropping, or converting. In a perfect world, we'd
+  //   resize and convert any animated image (GIF, animated WebP) to APNG.
+  // [0]: https://github.com/lovell/sharp/issues/2375
+  const animatedPngDataIfExists = getAnimatedPngDataIfExists(imgBuffer);
+  if (animatedPngDataIfExists) {
+    if (imgBuffer.byteLength > MAX_ANIMATED_STICKER_BYTE_LENGTH) {
+      throw processStickerError(
+        'Sticker file was too large',
+        'StickerCreator--Toasts--tooLarge'
+      );
+    }
+    if (width !== height) {
+      throw processStickerError(
+        'Sticker must be square',
+        'StickerCreator--Toasts--APNG--notSquare'
+      );
+    }
+    if (width > MAX_STICKER_DIMENSION) {
+      throw processStickerError(
+        'Sticker dimensions are too large',
+        'StickerCreator--Toasts--APNG--dimensionsTooLarge'
+      );
+    }
+    if (width < MIN_STICKER_DIMENSION) {
+      throw processStickerError(
+        'Sticker dimensions are too small',
+        'StickerCreator--Toasts--APNG--dimensionsTooSmall'
+      );
+    }
+    if (animatedPngDataIfExists.numPlays !== Infinity) {
+      throw processStickerError(
+        'Animated stickers must loop forever',
+        'StickerCreator--Toasts--mustLoopForever'
+      );
+    }
+    contentType = 'image/png';
+    processedBuffer = imgBuffer;
+  } else {
+    contentType = 'image/webp';
+    processedBuffer = await sharpImg
+      .resize({
+        width: STICKER_SIZE,
+        height: STICKER_SIZE,
+        fit: 'contain',
+        background: { r: 0, g: 0, b: 0, alpha: 0 },
+      })
+      .webp()
+      .toBuffer();
+  }
 
   return {
     path,
-    buffer,
-    src: `data:image/webp;base64,${buffer.toString('base64')}`,
+    buffer: processedBuffer,
+    src: `data:${contentType};base64,${processedBuffer.toString('base64')}`,
     meta,
   };
 };
@@ -107,7 +174,10 @@ window.encryptAndUpload = async (
     password,
   });
 
-  const uniqueStickers = uniqBy([...stickers, { webp: cover }], 'webp');
+  const uniqueStickers = uniqBy(
+    [...stickers, { imageData: cover }],
+    'imageData'
+  );
 
   const manifestProto = new window.textsecure.protobuf.StickerPack();
   manifestProto.title = manifest.title;
@@ -132,7 +202,7 @@ window.encryptAndUpload = async (
   );
   const encryptedStickers = await pMap(
     uniqueStickers,
-    ({ webp }) => encrypt(webp.buffer, encryptionKey, iv),
+    ({ imageData }) => encrypt(imageData.buffer, encryptionKey, iv),
     {
       concurrency: 3,
       timeout: 1000 * 60 * 2,

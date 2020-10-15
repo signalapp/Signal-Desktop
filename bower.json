@@ -5,7 +5,6 @@
   "license": "GPLV3",
   "private": true,
   "dependencies": {
-    "indexeddb-backbonejs-adapter": "*",
     "mp3lameencoder": "https://github.com/higuma/mp3-lame-encoder-js.git",
     "protobuf": "~3.8.0",
     "qrcode": "https://github.com/davidshimjs/qrcodejs.git#1c78ccd71",
@@ -17,9 +16,6 @@
   "preen": {
     "bytebuffer": [
       "dist/ByteBufferAB.js"
-    ],
-    "indexeddb-backbonejs-adapter": [
-      "backbone-indexeddb.js"
     ],
     "long": [
       "dist/Long.js"
@@ -49,8 +45,6 @@
       "components/protobuf/**/*.js",
       "node_modules/mustache/mustache.js",
       "node_modules/underscore/underscore.js",
-      "node_modules/backbone/backbone.js",
-      "components/indexeddb-backbonejs-adapter/**/*.js",
       "components/qrcode/**/*.js",
       "node_modules/intl-tel-input/build/js/intlTelInput.js",
       "components/autosize/**/*.js",

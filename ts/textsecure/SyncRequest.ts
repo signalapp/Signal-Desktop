@@ -1,13 +1,23 @@
+/* eslint-disable more/no-then */
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable max-classes-per-file */
+
 import EventTarget from './EventTarget';
 import MessageReceiver from './MessageReceiver';
 import MessageSender from './SendMessage';
 
 class SyncRequestInner extends EventTarget {
   receiver: MessageReceiver;
+
   contactSync?: boolean;
+
   groupSync?: boolean;
+
   timeout: any;
+
   oncontact: Function;
+
   ongroup: Function;
 
   constructor(sender: MessageSender, receiver: MessageReceiver) {
@@ -38,7 +48,6 @@ class SyncRequestInner extends EventTarget {
     );
 
     window.log.info('SyncRequest created. Sending config sync request...');
-    // tslint:disable
     wrap(sender.sendRequestConfigurationSyncMessage(sendOptions));
 
     window.log.info('SyncRequest now sending block sync request...');
@@ -58,20 +67,24 @@ class SyncRequestInner extends EventTarget {
       });
     this.timeout = setTimeout(this.onTimeout.bind(this), 60000);
   }
+
   onContactSyncComplete() {
     this.contactSync = true;
     this.update();
   }
+
   onGroupSyncComplete() {
     this.groupSync = true;
     this.update();
   }
+
   update() {
     if (this.contactSync && this.groupSync) {
       this.dispatchEvent(new Event('success'));
       this.cleanup();
     }
   }
+
   onTimeout() {
     if (this.contactSync || this.groupSync) {
       this.dispatchEvent(new Event('success'));
@@ -80,6 +93,7 @@ class SyncRequestInner extends EventTarget {
     }
     this.cleanup();
   }
+
   cleanup() {
     clearTimeout(this.timeout);
     this.receiver.removeEventListener('contactsync', this.oncontact);
@@ -96,5 +110,6 @@ export default class SyncRequest {
   }
 
   addEventListener: (name: string, handler: Function) => void;
+
   removeEventListener: (name: string, handler: Function) => void;
 }

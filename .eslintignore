@@ -25,11 +25,7 @@ test/blanket_mocha.js
 # TypeScript generated files
 ts/**/*.js
 sticker-creator/**/*.js
+!sticker-creator/preload.js
 
 **/*.d.ts
 webpack.config.ts
-
-# Temporarily ignored during TSLint transition
-# JIRA: DESKTOP-304
-ts/sql/**
-ts/textsecure/**

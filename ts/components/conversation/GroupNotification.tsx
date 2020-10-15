@@ -15,8 +15,10 @@ interface Contact {
   isMe?: boolean;
 }
 
+export type ChangeType = 'add' | 'remove' | 'name' | 'avatar' | 'general';
+
 interface Change {
-  type: 'add' | 'remove' | 'name' | 'avatar' | 'general';
+  type: ChangeType;
   newName?: string;
   contacts?: Array<Contact>;
 }

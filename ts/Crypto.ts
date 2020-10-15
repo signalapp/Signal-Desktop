@@ -35,6 +35,7 @@ export function stringFromBytes(buffer: ArrayBuffer): string {
 export function hexFromBytes(buffer: ArrayBuffer): string {
   return window.dcodeIO.ByteBuffer.wrap(buffer).toString('hex');
 }
+
 export function bytesFromHexString(string: string): ArrayBuffer {
   return window.dcodeIO.ByteBuffer.wrap(string, 'hex').toArrayBuffer();
 }

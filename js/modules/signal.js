@@ -28,6 +28,7 @@ const {
   AttachmentList,
 } = require('../../ts/components/conversation/AttachmentList');
 const { CaptionEditor } = require('../../ts/components/CaptionEditor');
+const { ConfirmationModal } = require('../../ts/components/ConfirmationModal');
 const {
   ContactDetail,
 } = require('../../ts/components/conversation/ContactDetail');
@@ -36,6 +37,7 @@ const {
   ConversationHeader,
 } = require('../../ts/components/conversation/ConversationHeader');
 const { Emojify } = require('../../ts/components/conversation/Emojify');
+const { ErrorModal } = require('../../ts/components/ErrorModal');
 const { Lightbox } = require('../../ts/components/Lightbox');
 const { LightboxGallery } = require('../../ts/components/LightboxGallery');
 const {
@@ -45,6 +47,7 @@ const {
   MessageDetail,
 } = require('../../ts/components/conversation/MessageDetail');
 const { Quote } = require('../../ts/components/conversation/Quote');
+const { ProgressModal } = require('../../ts/components/ProgressModal');
 const {
   SafetyNumberChangeDialog,
 } = require('../../ts/components/SafetyNumberChangeDialog');
@@ -121,9 +124,10 @@ const {
 } = require('../../ts/services/updateListener');
 const { notify } = require('../../ts/services/notify');
 const { calling } = require('../../ts/services/calling');
+const { onTimeout, removeTimeout } = require('../../ts/services/timers');
 const {
+  enableStorageService,
   eraseAllStorageServiceState,
-  handleUnknownRecords,
   runStorageServiceSyncJob,
   storageServiceUploadJob,
 } = require('../../ts/services/storage');
@@ -288,16 +292,19 @@ exports.setup = (options = {}) => {
   const Components = {
     AttachmentList,
     CaptionEditor,
+    ConfirmationModal,
     ContactDetail,
     ContactListItem,
     ConversationHeader,
     Emojify,
+    ErrorModal,
     getCallingNotificationText,
     Lightbox,
     LightboxGallery,
     MediaGallery,
     MessageDetail,
     Quote,
+    ProgressModal,
     SafetyNumberChangeDialog,
     StagedLinkPreview,
     Types: {
@@ -336,12 +343,14 @@ exports.setup = (options = {}) => {
 
   const Services = {
     calling,
+    enableStorageService,
     eraseAllStorageServiceState,
-    handleUnknownRecords,
     initializeGroupCredentialFetcher,
     initializeNetworkObserver,
     initializeUpdateListener,
+    onTimeout,
     notify,
+    removeTimeout,
     runStorageServiceSyncJob,
     storageServiceUploadJob,
   };

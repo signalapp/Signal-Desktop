@@ -1,4 +1,7 @@
-// tslint:disable no-default-export
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-proto */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { ByteBufferClass } from '../window.d';
 
@@ -7,11 +10,10 @@ const arrayBuffer = new ArrayBuffer(0);
 const uint8Array = new Uint8Array();
 
 let StaticByteBufferProto: any;
-// @ts-ignore
-const StaticArrayBufferProto = arrayBuffer.__proto__;
-// @ts-ignore
-const StaticUint8ArrayProto = uint8Array.__proto__;
+const StaticArrayBufferProto = (arrayBuffer as any).__proto__;
+const StaticUint8ArrayProto = (uint8Array as any).__proto__;
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function getString(thing: any): string {
   // Note: we must make this at runtime because it's loaded in the browser context
   if (!ByteBuffer) {
@@ -19,8 +21,7 @@ function getString(thing: any): string {
   }
 
   if (!StaticByteBufferProto) {
-    // @ts-ignore
-    StaticByteBufferProto = ByteBuffer.__proto__;
+    StaticByteBufferProto = (ByteBuffer as any).__proto__;
   }
 
   if (thing === Object(thing)) {
@@ -52,28 +53,30 @@ function getStringable(thing: any): boolean {
 function ensureStringed(thing: any): any {
   if (getStringable(thing)) {
     return getString(thing);
-  } else if (thing instanceof Array) {
+  }
+  if (thing instanceof Array) {
     const res = [];
     for (let i = 0; i < thing.length; i += 1) {
       res[i] = ensureStringed(thing[i]);
     }
 
     return res;
-  } else if (thing === Object(thing)) {
+  }
+  if (thing === Object(thing)) {
     const res: any = {};
-    // tslint:disable-next-line forin no-for-in no-default-export
     for (const key in thing) {
       res[key] = ensureStringed(thing[key]);
     }
 
     return res;
-  } else if (thing === null) {
+  }
+  if (thing === null) {
     return null;
   }
   throw new Error(`unsure of how to jsonify object of type ${typeof thing}`);
 }
 
-function stringToArrayBuffer(string: string) {
+function stringToArrayBuffer(string: string): ArrayBuffer {
   if (typeof string !== 'string') {
     throw new TypeError("'string' must be a string");
   }
@@ -88,11 +91,12 @@ function stringToArrayBuffer(string: string) {
 // Number formatting utils
 const utils = {
   getString,
-  isNumberSane: (number: string) =>
+  isNumberSane: (number: string): boolean =>
     number[0] === '+' && /^[0-9]+$/.test(number.substring(1)),
-  jsonThing: (thing: any) => JSON.stringify(ensureStringed(thing)),
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  jsonThing: (thing: unknown) => JSON.stringify(ensureStringed(thing)),
   stringToArrayBuffer,
-  unencodeNumber: (number: string) => number.split('.'),
+  unencodeNumber: (number: string): Array<string> => number.split('.'),
 };
 
 export default utils;

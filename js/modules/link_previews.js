@@ -1,130 +1,34 @@
 /* global URL */
 
-const { isNumber, compact, isEmpty } = require('lodash');
-const he = require('he');
+const { isNumber, compact, isEmpty, range } = require('lodash');
 const nodeUrl = require('url');
 const LinkifyIt = require('linkify-it');
 
 const linkify = LinkifyIt();
-const { concatenateBytes, getViewOfArrayBuffer } = require('../../ts/Crypto');
 
 module.exports = {
-  assembleChunks,
   findLinks,
-  getChunkPattern,
   getDomain,
-  getTitleMetaTag,
-  getImageMetaTag,
   isLinkSafeToPreview,
-  isLinkInWhitelist,
-  isMediaLinkInWhitelist,
   isLinkSneaky,
   isStickerPack,
 };
 
-function isLinkSafeToPreview(link) {
-  let url;
+function maybeParseHref(href) {
   try {
-    url = new URL(link);
+    return new URL(href);
   } catch (err) {
-    return false;
+    return null;
   }
-  return url.protocol === 'https:' && !isLinkSneaky(link);
 }
 
-const SUPPORTED_DOMAINS = [
-  'youtube.com',
-  'www.youtube.com',
-  'm.youtube.com',
-  'youtu.be',
-  'reddit.com',
-  'www.reddit.com',
-  'm.reddit.com',
-  'imgur.com',
-  'www.imgur.com',
-  'm.imgur.com',
-  'instagram.com',
-  'www.instagram.com',
-  'm.instagram.com',
-  'pinterest.com',
-  'www.pinterest.com',
-  'pin.it',
-  'signal.art',
-];
-
-// This function will soon be removed in favor of `isLinkSafeToPreview`. It is
-//   currently used because outbound-from-Desktop link previews only support a
-//   few domains (see the list above). We will soon remove this restriction to
-//   allow link previews from all domains, making this function obsolete.
-function isLinkInWhitelist(link) {
-  try {
-    const url = new URL(link);
-
-    if (url.protocol !== 'https:') {
-      return false;
-    }
-
-    if (!url.pathname || url.pathname.length < 2) {
-      return false;
-    }
-
-    const lowercase = url.host.toLowerCase();
-    if (!SUPPORTED_DOMAINS.includes(lowercase)) {
-      return false;
-    }
-
-    return true;
-  } catch (error) {
-    return false;
-  }
+function isLinkSafeToPreview(href) {
+  const url = maybeParseHref(href);
+  return Boolean(url && url.protocol === 'https:' && !isLinkSneaky(href));
 }
 
 function isStickerPack(link) {
   return (link || '').startsWith('https://signal.art/addstickers/');
-}
-
-const SUPPORTED_MEDIA_DOMAINS = /^([^.]+\.)*(ytimg\.com|cdninstagram\.com|redd\.it|imgur\.com|fbcdn\.net|pinimg\.com)$/i;
-
-// This function will soon be removed. See the comment in `isLinkInWhitelist`
-//   for more info.
-function isMediaLinkInWhitelist(link) {
-  try {
-    const url = new URL(link);
-
-    if (url.protocol !== 'https:') {
-      return false;
-    }
-
-    if (!url.pathname || url.pathname.length < 2) {
-      return false;
-    }
-
-    if (!SUPPORTED_MEDIA_DOMAINS.test(url.host)) {
-      return false;
-    }
-
-    return true;
-  } catch (error) {
-    return false;
-  }
-}
-
-const META_TITLE = /<meta\s+property="og:title"[^>]+?content="([\s\S]+?)"[^>]*>/im;
-const META_IMAGE = /<meta\s+property="og:image"[^>]+?content="([\s\S]+?)"[^>]*>/im;
-function _getMetaTag(html, regularExpression) {
-  const match = regularExpression.exec(html);
-  if (match && match[1]) {
-    return he.decode(match[1]).trim();
-  }
-
-  return null;
-}
-
-function getTitleMetaTag(html) {
-  return _getMetaTag(html, META_TITLE);
-}
-function getImageMetaTag(html) {
-  return _getMetaTag(html, META_IMAGE);
 }
 
 function findLinks(text, caretLocation) {
@@ -151,110 +55,66 @@ function findLinks(text, caretLocation) {
   );
 }
 
-function hasAuth(url) {
-  try {
-    const urlObject = new URL(url);
-    return Boolean(urlObject.username);
-  } catch (e) {
-    return null;
-  }
+function getDomain(href) {
+  const url = maybeParseHref(href);
+  return url ? url.hostname : null;
 }
 
-function getDomain(url) {
-  try {
-    const urlObject = new URL(url);
-    return urlObject.hostname;
-  } catch (error) {
-    return null;
-  }
-}
-
-const MB = 1024 * 1024;
-const KB = 1024;
-
-function getChunkPattern(size, initialOffset) {
-  if (size > MB) {
-    return _getRequestPattern(size, MB, initialOffset);
-  }
-  if (size > 500 * KB) {
-    return _getRequestPattern(size, 500 * KB, initialOffset);
-  }
-  if (size > 100 * KB) {
-    return _getRequestPattern(size, 100 * KB, initialOffset);
-  }
-  if (size > 50 * KB) {
-    return _getRequestPattern(size, 50 * KB, initialOffset);
-  }
-  if (size > 10 * KB) {
-    return _getRequestPattern(size, 10 * KB, initialOffset);
-  }
-  if (size > KB) {
-    return _getRequestPattern(size, KB, initialOffset);
-  }
-
-  return {
-    start: {
-      start: initialOffset,
-      end: size - 1,
-    },
-  };
-}
-
-function _getRequestPattern(size, increment, initialOffset) {
-  const results = [];
-
-  let offset = initialOffset || 0;
-  while (size - offset > increment) {
-    results.push({
-      start: offset,
-      end: offset + increment - 1,
-      overlap: 0,
-    });
-    offset += increment;
-  }
-
-  if (size - offset > 0) {
-    results.push({
-      start: size - increment,
-      end: size - 1,
-      overlap: increment - (size - offset),
-    });
-  }
-
-  return results;
-}
-
-function assembleChunks(chunkDescriptors) {
-  const chunks = chunkDescriptors.map((chunk, index) => {
-    if (index !== chunkDescriptors.length - 1) {
-      return chunk.data;
-    }
-
-    if (!chunk.overlap) {
-      return chunk.data;
-    }
-
-    return getViewOfArrayBuffer(
-      chunk.data,
-      chunk.overlap,
-      chunk.data.byteLength
-    );
-  });
-
-  return concatenateBytes(...chunks);
-}
-
+// See <https://tools.ietf.org/html/rfc3986>.
+const VALID_URI_CHARACTERS = new Set([
+  '%',
+  // "gen-delims"
+  ':',
+  '/',
+  '?',
+  '#',
+  '[',
+  ']',
+  '@',
+  // "sub-delims"
+  '!',
+  '$',
+  '&',
+  "'",
+  '(',
+  ')',
+  '*',
+  '+',
+  ',',
+  ';',
+  '=',
+  // unreserved
+  ...String.fromCharCode(...range(65, 91), ...range(97, 123)),
+  ...range(10).map(String),
+  '-',
+  '.',
+  '_',
+  '~',
+]);
 const ASCII_PATTERN = new RegExp('[\\u0020-\\u007F]', 'g');
+const MAX_HREF_LENGTH = 2 ** 12;
 
-function isLinkSneaky(link) {
-  // Any links which contain auth are considered sneaky
-  if (hasAuth(link)) {
+function isLinkSneaky(href) {
+  // This helps users avoid extremely long links (which could be hiding something
+  //   sketchy) and also sidesteps the performance implications of extremely long hrefs.
+  if (href.length > MAX_HREF_LENGTH) {
     return true;
   }
 
-  const domain = getDomain(link);
+  const url = maybeParseHref(href);
+
+  // If we can't parse it, it's sneaky.
+  if (!url) {
+    return true;
+  }
+
+  // Any links which contain auth are considered sneaky
+  if (url.username) {
+    return true;
+  }
+
   // If the domain is falsy, something fishy is going on
-  if (!domain) {
+  if (!url.hostname) {
     return true;
   }
 
@@ -263,25 +123,25 @@ function isLinkSneaky(link) {
   //   maximum of 2048. (This also uses the string's `.length` property,
   //   which isn't exactly the same thing as the number of octets.)
   // [0]: https://tools.ietf.org/html/rfc1034
-  if (domain.length > 2048) {
+  if (url.hostname.length > 2048) {
     return true;
   }
 
   // Domains cannot contain encoded characters
-  if (domain.includes('%')) {
+  if (url.hostname.includes('%')) {
     return true;
   }
 
   // There must be at least 2 domain labels, and none of them can be empty.
-  const labels = domain.split('.');
+  const labels = url.hostname.split('.');
   if (labels.length < 2 || labels.some(isEmpty)) {
     return true;
   }
 
   // This is necesary because getDomain returns domains in punycode form.
   const unicodeDomain = nodeUrl.domainToUnicode
-    ? nodeUrl.domainToUnicode(domain)
-    : domain;
+    ? nodeUrl.domainToUnicode(url.hostname)
+    : url.hostname;
 
   const withoutPeriods = unicodeDomain.replace(/\./g, '');
 
@@ -293,5 +153,12 @@ function isLinkSneaky(link) {
     return true;
   }
 
-  return false;
+  // We can't use `url.pathname` (and so on) because it automatically encodes strings.
+  //   For example, it turns `/aquí` into `/aqu%C3%AD`.
+  const startOfPathAndHash = href.indexOf('/', url.protocol.length + 4);
+  const pathAndHash =
+    startOfPathAndHash === -1 ? '' : href.substr(startOfPathAndHash);
+  return [...pathAndHash].some(
+    character => !VALID_URI_CHARACTERS.has(character)
+  );
 }

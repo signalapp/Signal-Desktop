@@ -27,7 +27,6 @@ const directConsole = {
   group: console.group,
   groupEnd: console.groupEnd,
   warn: console.warn,
-  // tslint:disable-next-line no-console
   error: console.error,
 };
 

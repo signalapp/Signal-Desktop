@@ -1,4 +1,8 @@
-// tslint:disable no-default-export
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable @typescript-eslint/ban-types */
 
 /*
  * Implements EventTarget
@@ -8,7 +12,7 @@
 export default class EventTarget {
   listeners?: { [type: string]: Array<Function> };
 
-  dispatchEvent(ev: Event) {
+  dispatchEvent(ev: Event): Array<unknown> {
     if (!(ev instanceof Event)) {
       throw new Error('Expects an event');
     }
@@ -29,7 +33,7 @@ export default class EventTarget {
     return results;
   }
 
-  addEventListener(eventName: string, callback: Function) {
+  addEventListener(eventName: string, callback: Function): void {
     if (typeof eventName !== 'string') {
       throw new Error('First argument expects a string');
     }
@@ -47,7 +51,7 @@ export default class EventTarget {
     this.listeners[eventName] = listeners;
   }
 
-  removeEventListener(eventName: string, callback: Function) {
+  removeEventListener(eventName: string, callback: Function): void {
     if (typeof eventName !== 'string') {
       throw new Error('First argument expects a string');
     }
@@ -69,10 +73,9 @@ export default class EventTarget {
     this.listeners[eventName] = listeners;
   }
 
-  extend(source: any) {
+  extend(source: any): any {
     const target = this as any;
 
-    // tslint:disable-next-line forin no-for-in no-default-export
     for (const prop in source) {
       target[prop] = source[prop];
     }

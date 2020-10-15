@@ -13,13 +13,8 @@ try {
   const { app } = remote;
   const { nativeTheme } = remote.require('electron');
 
-  // Enable calling
-  window.CALLING = true;
-
   window.PROTO_ROOT = 'protos';
   const config = require('url').parse(window.location.toString(), true).query;
-
-  window.GV2 = false;
 
   let title = config.name;
   if (config.environment !== 'production') {
@@ -424,6 +419,7 @@ try {
   window.ReactDOM = require('react-dom');
   window.moment = require('moment');
   window.PQueue = require('p-queue').default;
+  window.Backbone = require('backbone');
 
   const Signal = require('./js/modules/signal');
   const i18n = require('./js/modules/i18n');
@@ -451,6 +447,10 @@ try {
     getRegionCode: () => window.storage.get('regionCode'),
     logger: window.log,
   });
+
+  // these need access to window.Signal:
+  require('./ts/models/messages');
+  require('./ts/models/conversations');
 
   function wrapWithPromise(fn) {
     return (...args) => Promise.resolve(fn(...args));
@@ -550,8 +550,20 @@ try {
   });
 
   if (config.environment === 'test') {
+    // This is a hack to let us run TypeScript tests in the renderer process. See the
+    //   code in `test/index.html`.
+    const pendingDescribeCalls = [];
+    window.describe = (...args) => {
+      pendingDescribeCalls.push(args);
+    };
+
     /* eslint-disable global-require, import/no-extraneous-dependencies */
+    require('./ts/test-electron/linkPreviews/linkPreviewFetch_test');
+
+    delete window.describe;
+
     window.test = {
+      pendingDescribeCalls,
       fastGlob: require('fast-glob'),
       normalizePath: require('normalize-path'),
       fse: require('fs-extra'),

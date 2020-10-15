@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import { boolean, text, withKnobs } from '@storybook/addon-knobs';
+import { boolean, date, text, withKnobs } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import { AttachmentType } from '../../types/Attachment';
@@ -8,6 +8,11 @@ import { MIMEType } from '../../types/MIME';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { Props, StagedLinkPreview } from './StagedLinkPreview';
+
+const LONG_TITLE =
+  "This is a super-sweet site. And it's got some really amazing content in store for you if you just click that link. Can you click that link for me?";
+const LONG_DESCRIPTION =
+  "You're gonna love this description. Not only does it have a lot of characters, but it will also be truncated in the UI. How cool is that??";
 
 const i18n = setupI18n('en', enMessages);
 
@@ -29,8 +34,20 @@ const createAttachment = (
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   isLoaded: boolean('isLoaded', overrideProps.isLoaded !== false),
-  title: text('title', overrideProps.title || ''),
-  domain: text('domain', overrideProps.domain || ''),
+  title: text(
+    'title',
+    typeof overrideProps.title === 'string'
+      ? overrideProps.title
+      : 'This is a super-sweet site'
+  ),
+  description: text(
+    'description',
+    typeof overrideProps.description === 'string'
+      ? overrideProps.description
+      : 'This is a description'
+  ),
+  date: date('date', new Date(overrideProps.date || 0)),
+  domain: text('domain', overrideProps.domain || 'signal.org'),
   image: overrideProps.image,
   i18n,
   onClose: action('onClose'),
@@ -45,17 +62,24 @@ story.add('Loading', () => {
 });
 
 story.add('No Image', () => {
-  const props = createProps({
-    title: 'This is a super-sweet site',
-    domain: 'instagram.com',
-  });
-
-  return <StagedLinkPreview {...props} />;
+  return <StagedLinkPreview {...createProps()} />;
 });
 
 story.add('Image', () => {
   const props = createProps({
-    title: 'This is a super-sweet site',
+    image: createAttachment({
+      url: '/fixtures/kitten-4-112-112.jpg',
+      contentType: 'image/jpeg' as MIMEType,
+    }),
+  });
+
+  return <StagedLinkPreview {...props} />;
+});
+
+story.add('Image, No Title Or Description', () => {
+  const props = createProps({
+    title: '',
+    description: '',
     domain: 'instagram.com',
     image: createAttachment({
       url: '/fixtures/kitten-4-112-112.jpg',
@@ -66,9 +90,26 @@ story.add('Image', () => {
   return <StagedLinkPreview {...props} />;
 });
 
-story.add('Image, No Title', () => {
+story.add('No Image, Long Title With Description', () => {
   const props = createProps({
-    domain: 'instagram.com',
+    title: LONG_TITLE,
+  });
+
+  return <StagedLinkPreview {...props} />;
+});
+
+story.add('No Image, Long Title Without Description', () => {
+  const props = createProps({
+    title: LONG_TITLE,
+    description: '',
+  });
+
+  return <StagedLinkPreview {...props} />;
+});
+
+story.add('Image, Long Title Without Description', () => {
+  const props = createProps({
+    title: LONG_TITLE,
     image: createAttachment({
       url: '/fixtures/kitten-4-112-112.jpg',
       contentType: 'image/jpeg' as MIMEType,
@@ -78,21 +119,24 @@ story.add('Image, No Title', () => {
   return <StagedLinkPreview {...props} />;
 });
 
-story.add('No Image, Long Title', () => {
+story.add('Image, Long Title And Description', () => {
   const props = createProps({
-    title:
-      "This is a super-sweet site. And it's got some really amazing content in store for you if you just click that link. Can you click that link for me?",
-    domain: 'instagram.com',
+    title: LONG_TITLE,
+    description: LONG_DESCRIPTION,
+    image: createAttachment({
+      url: '/fixtures/kitten-4-112-112.jpg',
+      contentType: 'image/jpeg' as MIMEType,
+    }),
   });
 
   return <StagedLinkPreview {...props} />;
 });
 
-story.add('Image, Long Title', () => {
+story.add('Everything: image, title, description, and date', () => {
   const props = createProps({
-    title:
-      "This is a super-sweet site. And it's got some really amazing content in store for you if you just click that link. Can you click that link for me?",
-    domain: 'instagram.com',
+    title: LONG_TITLE,
+    description: LONG_DESCRIPTION,
+    date: Date.now(),
     image: createAttachment({
       url: '/fixtures/kitten-4-112-112.jpg',
       contentType: 'image/jpeg' as MIMEType,

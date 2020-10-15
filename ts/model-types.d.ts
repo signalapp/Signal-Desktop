@@ -1,16 +1,26 @@
 import * as Backbone from 'backbone';
 
 import { GroupV2ChangeType } from './groups';
-import { LocalizerType } from './types/Util';
+import { LocalizerType, BodyRangesType } from './types/Util';
 import { CallHistoryDetailsType } from './types/Calling';
 import { ColorType } from './types/Colors';
-import { ConversationType } from './state/ducks/conversations';
+import {
+  ConversationType,
+  MessageType,
+  LastMessageStatus,
+} from './state/ducks/conversations';
 import { SendOptionsType } from './textsecure/SendMessage';
 import { SyncMessageClass } from './textsecure.d';
+import { UserMessage } from './types/Message';
+import { MessageModel } from './models/messages';
+import { ConversationModel } from './models/conversations';
+import { ProfileNameChangeType } from './util/getStringForProfileChange';
 
 interface ModelAttributesInterface {
   [key: string]: any;
 }
+
+export type WhatIsThis = any;
 
 type DeletesAttributesType = {
   fromId: string;
@@ -21,18 +31,90 @@ type DeletesAttributesType = {
 export declare class DeletesModelType extends Backbone.Model<
   DeletesAttributesType
 > {
-  forMessage(message: MessageModelType): Array<DeletesModelType>;
+  forMessage(message: MessageModel): Array<DeletesModelType>;
   onDelete(doe: DeletesAttributesType): Promise<void>;
 }
 
 type TaskResultType = any;
 
+export interface CustomError extends Error {
+  identifier?: string;
+  number?: string;
+}
+
 export type MessageAttributesType = {
+  bodyPending: boolean;
+  bodyRanges: BodyRangesType;
+  callHistoryDetails: CallHistoryDetailsType;
+  changedId: string;
+  dataMessage: ArrayBuffer | null;
+  decrypted_at: number;
+  deletedForEveryone: boolean;
+  deletedForEveryoneTimestamp?: number;
+  delivered: number;
+  delivered_to: Array<string | null>;
+  errors: Array<CustomError> | null;
+  expirationStartTimestamp: number | null;
+  expireTimer: number;
+  expires_at: number;
+  group_update: {
+    avatarUpdated: boolean;
+    joined: Array<string>;
+    left: string | 'You';
+    name: string;
+  };
+  hasAttachments: boolean;
+  hasFileAttachments: boolean;
+  hasVisualMediaAttachments: boolean;
+  isErased: boolean;
+  isTapToViewInvalid: boolean;
+  isViewOnce: boolean;
+  key_changed: string;
+  local: boolean;
+  logger: unknown;
+  message: unknown;
+  messageTimer: unknown;
+  profileChange: ProfileNameChangeType;
+  quote: {
+    attachments: Array<typeof window.WhatIsThis>;
+    author: string;
+    authorUuid: string;
+    bodyRanges: BodyRangesType;
+    id: string;
+    referencedMessageNotFound: boolean;
+    text: string;
+  } | null;
+  reactions: Array<{ fromId: string; emoji: unknown; timestamp: unknown }>;
+  read_by: Array<string | null>;
+  requiredProtocolVersion: number;
+  sent: boolean;
+  sourceDevice: string | number;
+  snippet: unknown;
+  supportedVersionAtReceive: unknown;
+  synced: boolean;
+  unidentifiedDeliveryReceived: boolean;
+  verified: boolean;
+  verifiedChanged: string;
+
   id: string;
   type?: string;
+  body: string;
+  attachments: Array<WhatIsThis>;
+  preview: Array<WhatIsThis>;
+  sticker: WhatIsThis;
+  sent_at: WhatIsThis;
+  sent_to: Array<string>;
+  unidentifiedDeliveries: Array<string>;
+  contact: Array<WhatIsThis>;
+  conversationId: string;
+  recipients: Array<WhatIsThis>;
+  reaction: WhatIsThis;
+  destination?: WhatIsThis;
+  destinationUuid?: string;
 
   expirationTimerUpdate?: {
     expireTimer: number;
+    fromSync?: unknown;
     source?: string;
     sourceUuid?: string;
   };
@@ -46,39 +128,49 @@ export type MessageAttributesType = {
   // We set this so that the idle message upgrade process doesn't pick this message up
   schemaVersion: number;
   serverTimestamp?: number;
+  source?: string;
   sourceUuid?: string;
+
+  unread: number;
+  timestamp: number;
 };
 
-export declare class MessageModelType extends Backbone.Model<
-  MessageAttributesType
-> {
-  id: string;
-
-  static updateTimers(): void;
-
-  getContact(): ConversationModelType | undefined | null;
-  getConversation(): ConversationModelType | undefined | null;
-  getPropsForSearchResult(): any;
-  getPropsForBubble(): any;
-  cleanup(): Promise<void>;
-  handleDeleteForEveryone(
-    doe: DeletesModelType,
-    shouldPersist: boolean
-  ): Promise<void>;
-}
-
-export type ConversationTypeType = 'private' | 'group';
+export type ConversationAttributesTypeType = 'private' | 'group';
 
 export type ConversationAttributesType = {
+  accessKey: string | null;
+  addedBy?: string;
+  capabilities: { uuid: string };
+  color?: ColorType;
+  discoveredUnregisteredAt: number;
+  draftAttachments: Array<unknown>;
+  draftTimestamp: number | null;
+  inbox_position: number;
+  isPinned: boolean;
+  lastMessageDeletedForEveryone: unknown;
+  lastMessageStatus: LastMessageStatus | null;
+  messageCount: number;
+  messageCountBeforeMessageRequests: number;
+  messageRequestResponseType: number;
+  muteExpiresAt: number;
+  pinIndex?: number;
+  profileAvatar: WhatIsThis;
+  profileKeyCredential: string | null;
+  profileKeyVersion: string | null;
+  quotedMessageId: string;
+  sealedSender: unknown;
+  sentMessageCount: number;
+  sharedGroupNames: Array<string>;
+
   id: string;
-  type: ConversationTypeType;
-  timestamp: number;
+  type: ConversationAttributesTypeType;
+  timestamp: number | null;
 
   // Shared fields
   active_at?: number | null;
-  draft?: string;
+  draft?: string | null;
   isArchived?: boolean;
-  lastMessage?: string;
+  lastMessage?: string | null;
   name?: string;
   needsStorageServiceSync?: boolean;
   needsVerification?: boolean;
@@ -93,9 +185,10 @@ export type ConversationAttributesType = {
   e164?: string;
 
   // Private other fields
-  profileFamilyName?: string | null;
-  profileKey?: string | null;
-  profileName?: string | null;
+  profileFamilyName?: string;
+  profileKey?: string;
+  profileName?: string;
+  storageProfileKey?: string;
   verified?: number;
 
   // Group-only
@@ -121,7 +214,7 @@ export type ConversationAttributesType = {
     url: string;
     path: string;
     hash: string;
-  };
+  } | null;
   expireTimer?: number;
   membersV2?: Array<GroupV2MemberType>;
   pendingMembersV2?: Array<GroupV2PendingMemberType>;
@@ -138,80 +231,19 @@ export type GroupV2PendingMemberType = {
   timestamp: number;
 };
 
-type VerificationOptions = {
+export type VerificationOptions = {
   key?: null | ArrayBuffer;
   viaContactSync?: boolean;
   viaStorageServiceSync?: boolean;
   viaSyncMessage?: boolean;
 };
 
-export declare class ConversationModelType extends Backbone.Model<
-  ConversationAttributesType
-> {
-  id: string;
-  cachedProps: ConversationType;
-  initialPromise: Promise<any>;
-  messageRequestEnum: typeof SyncMessageClass.MessageRequestResponse.Type;
-
-  addCallHistory(details: CallHistoryDetailsType): void;
-  applyMessageRequestResponse(
-    response: number,
-    options?: { fromSync: boolean; viaStorageServiceSync?: boolean }
-  ): void;
-  cleanup(): Promise<void>;
-  disableProfileSharing(options?: { viaStorageServiceSync?: boolean }): void;
-  dropProfileKey(): Promise<void>;
-  enableProfileSharing(options?: { viaStorageServiceSync?: boolean }): void;
-  generateProps(): void;
-  getAccepted(): boolean;
-  getAvatarPath(): string | undefined;
-  getColor(): ColorType | undefined;
-  getName(): string | undefined;
-  getNumber(): string;
-  getProfileName(): string | undefined;
-  getProfiles(): Promise<Array<Promise<void>>>;
-  getRecipients: () => Array<string>;
-  getSendOptions(options?: any): SendOptionsType | undefined;
-  getTitle(): string;
-  idForLogging(): string;
-  debugID(): string;
-  isFromOrAddedByTrustedContact(): boolean;
-  isBlocked(): boolean;
-  isMe(): boolean;
-  isMuted(): boolean;
-  isPrivate(): boolean;
-  isVerified(): boolean;
-  maybeRepairGroupV2(data: {
-    masterKey: string;
-    secretParams: string;
-    publicParams: string;
-  }): void;
-  queueJob(job: () => Promise<void>): Promise<void>;
-  safeGetVerified(): Promise<number>;
-  setArchived(isArchived: boolean): void;
-  setProfileKey(
-    profileKey?: string | null,
-    options?: { viaStorageServiceSync?: boolean }
-  ): Promise<void>;
-  setProfileAvatar(avatarPath: string): Promise<void>;
-  setUnverified(options: VerificationOptions): Promise<TaskResultType>;
-  setVerified(options: VerificationOptions): Promise<TaskResultType>;
-  setVerifiedDefault(options: VerificationOptions): Promise<TaskResultType>;
-  toggleVerified(): Promise<TaskResultType>;
-  block(options?: { viaStorageServiceSync?: boolean }): void;
-  unblock(options?: { viaStorageServiceSync?: boolean }): boolean;
-  updateE164: (e164?: string) => void;
-  updateLastMessage: () => Promise<void>;
-  updateUuid: (uuid?: string) => void;
-  wrapSend: (sendPromise: Promise<any>) => Promise<any>;
-}
-
 export declare class ConversationModelCollectionType extends Backbone.Collection<
-  ConversationModelType
+  ConversationModel
 > {
   resetLookups(): void;
 }
 
-declare class MessageModelCollectionType extends Backbone.Collection<
-  MessageModelType
+export declare class MessageModelCollectionType extends Backbone.Collection<
+  MessageModel
 > {}

@@ -81,6 +81,35 @@ storiesOf('Components/Conversation/GroupV2Change', module)
       </>
     );
   })
+  .add('Create', () => {
+    return (
+      <>
+        {renderChange({
+          from: OUR_ID,
+          details: [
+            {
+              type: 'create',
+            },
+          ],
+        })}
+        {renderChange({
+          from: CONTACT_A,
+          details: [
+            {
+              type: 'create',
+            },
+          ],
+        })}
+        {renderChange({
+          details: [
+            {
+              type: 'create',
+            },
+          ],
+        })}
+      </>
+    );
+  })
   .add('Title', () => {
     return (
       <>
@@ -368,9 +397,60 @@ storiesOf('Components/Conversation/GroupV2Change', module)
       </>
     );
   })
-  .add('Member Add - from invite', () => {
+  .add('Member Add - add invited', () => {
     return (
       <>
+        {/* the strings where someone added you - shown like a normal add */}
+        {renderChange({
+          from: CONTACT_A,
+          details: [
+            {
+              type: 'member-add-from-invite',
+              conversationId: OUR_ID,
+              inviter: CONTACT_B,
+            },
+          ],
+        })}
+        {renderChange({
+          details: [
+            {
+              type: 'member-add-from-invite',
+              conversationId: OUR_ID,
+              inviter: CONTACT_A,
+            },
+          ],
+        })}
+        {/* the rest of the 'someone added someone else' checks */}
+        {renderChange({
+          from: OUR_ID,
+          details: [
+            {
+              type: 'member-add-from-invite',
+              conversationId: CONTACT_A,
+              inviter: CONTACT_B,
+            },
+          ],
+        })}
+        {renderChange({
+          from: CONTACT_A,
+          details: [
+            {
+              type: 'member-add-from-invite',
+              conversationId: CONTACT_B,
+              inviter: CONTACT_C,
+            },
+          ],
+        })}
+        {renderChange({
+          details: [
+            {
+              type: 'member-add-from-invite',
+              conversationId: CONTACT_A,
+              inviter: CONTACT_B,
+            },
+          ],
+        })}
+        {/* in all of these we know the user has accepted the invite */}
         {renderChange({
           from: OUR_ID,
           details: [
@@ -382,7 +462,16 @@ storiesOf('Components/Conversation/GroupV2Change', module)
           ],
         })}
         {renderChange({
-          from: CONTACT_B,
+          from: OUR_ID,
+          details: [
+            {
+              type: 'member-add-from-invite',
+              conversationId: OUR_ID,
+            },
+          ],
+        })}
+        {renderChange({
+          from: CONTACT_A,
           details: [
             {
               type: 'member-add-from-invite',
@@ -392,11 +481,21 @@ storiesOf('Components/Conversation/GroupV2Change', module)
           ],
         })}
         {renderChange({
+          from: CONTACT_A,
           details: [
             {
               type: 'member-add-from-invite',
               conversationId: CONTACT_A,
               inviter: CONTACT_B,
+            },
+          ],
+        })}
+        {renderChange({
+          from: CONTACT_A,
+          details: [
+            {
+              type: 'member-add-from-invite',
+              conversationId: CONTACT_A,
             },
           ],
         })}
@@ -714,6 +813,28 @@ storiesOf('Components/Conversation/GroupV2Change', module)
             },
           ],
         })}
+
+        {renderChange({
+          from: CONTACT_B,
+          details: [
+            {
+              type: 'pending-remove-one',
+              conversationId: OUR_ID,
+              inviter: CONTACT_B,
+            },
+          ],
+        })}
+        {renderChange({
+          from: CONTACT_A,
+          details: [
+            {
+              type: 'pending-remove-one',
+              conversationId: CONTACT_B,
+              inviter: CONTACT_A,
+            },
+          ],
+        })}
+
         {renderChange({
           from: CONTACT_C,
           details: [

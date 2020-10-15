@@ -1,13 +1,119 @@
-// tslint:disable no-bitwise no-default-export
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-bitwise */
+/* eslint-disable more/no-then */
 import { ByteBufferClass } from '../window.d';
+
+declare global {
+  // this is fixed in already, and won't be necessary when the new definitions
+  // files are used: https://github.com/microsoft/TSJS-lib-generator/pull/843
+  export interface SubtleCrypto {
+    decrypt(
+      algorithm:
+        | string
+        | RsaOaepParams
+        | AesCtrParams
+        | AesCbcParams
+        | AesCmacParams
+        | AesGcmParams
+        | AesCfbParams,
+      key: CryptoKey,
+      data:
+        | Int8Array
+        | Int16Array
+        | Int32Array
+        | Uint8Array
+        | Uint16Array
+        | Uint32Array
+        | Uint8ClampedArray
+        | Float32Array
+        | Float64Array
+        | DataView
+        | ArrayBuffer
+    ): Promise<ArrayBuffer>;
+
+    digest(
+      algorithm: string | Algorithm,
+      data:
+        | Int8Array
+        | Int16Array
+        | Int32Array
+        | Uint8Array
+        | Uint16Array
+        | Uint32Array
+        | Uint8ClampedArray
+        | Float32Array
+        | Float64Array
+        | DataView
+        | ArrayBuffer
+    ): Promise<ArrayBuffer>;
+
+    importKey(
+      format: 'raw' | 'pkcs8' | 'spki',
+      keyData:
+        | Int8Array
+        | Int16Array
+        | Int32Array
+        | Uint8Array
+        | Uint16Array
+        | Uint32Array
+        | Uint8ClampedArray
+        | Float32Array
+        | Float64Array
+        | DataView
+        | ArrayBuffer,
+      algorithm:
+        | string
+        | RsaHashedImportParams
+        | EcKeyImportParams
+        | HmacImportParams
+        | DhImportKeyParams
+        | AesKeyAlgorithm,
+      extractable: boolean,
+      keyUsages: string[]
+    ): Promise<CryptoKey>;
+
+    importKey(
+      format: string,
+      keyData:
+        | JsonWebKey
+        | Int8Array
+        | Int16Array
+        | Int32Array
+        | Uint8Array
+        | Uint16Array
+        | Uint32Array
+        | Uint8ClampedArray
+        | Float32Array
+        | Float64Array
+        | DataView
+        | ArrayBuffer,
+      algorithm:
+        | string
+        | RsaHashedImportParams
+        | EcKeyImportParams
+        | HmacImportParams
+        | DhImportKeyParams
+        | AesKeyAlgorithm,
+      extractable: boolean,
+      keyUsages: string[]
+    ): Promise<CryptoKey>;
+  }
+}
 
 const PROFILE_IV_LENGTH = 12; // bytes
 const PROFILE_KEY_LENGTH = 32; // bytes
 const PROFILE_TAG_LENGTH = 128; // bits
 const PROFILE_NAME_PADDED_LENGTH = 53; // bytes
 
-function verifyDigest(data: ArrayBuffer, theirDigest: ArrayBuffer) {
+interface EncryptedAttachment {
+  ciphertext: ArrayBuffer;
+  digest: ArrayBuffer;
+}
+
+async function verifyDigest(
+  data: ArrayBuffer,
+  theirDigest: ArrayBuffer
+): Promise<void> {
   return window.crypto.subtle
     .digest({ name: 'SHA-256' }, data)
     .then(ourDigest => {
@@ -32,7 +138,7 @@ const Crypto = {
   async decryptWebsocketMessage(
     message: ByteBufferClass,
     signalingKey: ArrayBuffer
-  ) {
+  ): Promise<ArrayBuffer> {
     const decodedMessage = message.toArrayBuffer();
 
     if (signalingKey.byteLength !== 52) {
@@ -75,7 +181,7 @@ const Crypto = {
     encryptedBin: ArrayBuffer,
     keys: ArrayBuffer,
     theirDigest: ArrayBuffer
-  ) {
+  ): Promise<ArrayBuffer> {
     if (keys.byteLength !== 64) {
       throw new Error('Got invalid length attachment keys');
     }
@@ -112,7 +218,7 @@ const Crypto = {
     plaintext: ArrayBuffer,
     keys: ArrayBuffer,
     iv: ArrayBuffer
-  ) {
+  ): Promise<EncryptedAttachment> {
     if (!(plaintext instanceof ArrayBuffer) && !ArrayBuffer.isView(plaintext)) {
       throw new TypeError(
         `\`plaintext\` must be an \`ArrayBuffer\` or \`ArrayBufferView\`; got: ${typeof plaintext}`
@@ -152,7 +258,11 @@ const Crypto = {
           });
       });
   },
-  async encryptProfile(data: ArrayBuffer, key: ArrayBuffer) {
+
+  async encryptProfile(
+    data: ArrayBuffer,
+    key: ArrayBuffer
+  ): Promise<ArrayBuffer> {
     const iv = window.libsignal.crypto.getRandomBytes(PROFILE_IV_LENGTH);
     if (key.byteLength !== PROFILE_KEY_LENGTH) {
       throw new Error('Got invalid length profile key');
@@ -179,7 +289,11 @@ const Crypto = {
           })
       );
   },
-  async decryptProfile(data: ArrayBuffer, key: ArrayBuffer) {
+
+  async decryptProfile(
+    data: ArrayBuffer,
+    key: ArrayBuffer
+  ): Promise<ArrayBuffer> {
     if (data.byteLength < 12 + 16 + 1) {
       throw new Error(`Got too short input: ${data.byteLength}`);
     }
@@ -201,8 +315,6 @@ const Crypto = {
             keyForEncryption,
             ciphertext
           )
-          // Typescript says that there's no .catch() available here
-          // @ts-ignore
           .catch((e: Error) => {
             if (e.name === 'OperationError') {
               // bad mac, basically.
@@ -211,15 +323,25 @@ const Crypto = {
               error.name = 'ProfileDecryptError';
               throw error;
             }
+
+            return (undefined as unknown) as ArrayBuffer; // uses of this function are not guarded
           })
       );
   },
-  async encryptProfileName(name: ArrayBuffer, key: ArrayBuffer) {
+
+  async encryptProfileName(
+    name: ArrayBuffer,
+    key: ArrayBuffer
+  ): Promise<ArrayBuffer> {
     const padded = new Uint8Array(PROFILE_NAME_PADDED_LENGTH);
     padded.set(new Uint8Array(name));
     return Crypto.encryptProfile(padded.buffer as ArrayBuffer, key);
   },
-  async decryptProfileName(encryptedProfileName: string, key: ArrayBuffer) {
+
+  async decryptProfileName(
+    encryptedProfileName: string,
+    key: ArrayBuffer
+  ): Promise<{ given: ArrayBuffer; family: ArrayBuffer | null }> {
     const data = window.dcodeIO.ByteBuffer.wrap(
       encryptedProfileName,
       'base64'
@@ -261,7 +383,7 @@ const Crypto = {
     });
   },
 
-  getRandomBytes(size: number) {
+  getRandomBytes(size: number): ArrayBuffer {
     return window.libsignal.crypto.getRandomBytes(size);
   },
 };

@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions';
 import { boolean, text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
-import { SafetyNumberViewer } from './SafetyNumberViewer';
+import { PropsType, SafetyNumberViewer } from './SafetyNumberViewer';
 import { ConversationType } from '../state/ducks/conversations';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
@@ -45,88 +45,102 @@ const contactWithNothing = {
   phoneNumber: undefined,
 } as ConversationType;
 
-const defaultProps = {
-  contact: contactWithAllData,
+const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
+  contact: overrideProps.contact || contactWithAllData,
   generateSafetyNumber: action('generate-safety-number'),
   i18n,
-  safetyNumber: 'XXX',
-  safetyNumberChanged: false,
+  safetyNumber: text('safetyNumber', overrideProps.safetyNumber || 'XXX'),
+  safetyNumberChanged: boolean(
+    'safetyNumberChanged',
+    overrideProps.safetyNumberChanged !== undefined
+      ? overrideProps.safetyNumberChanged
+      : false
+  ),
   toggleVerified: action('toggle-verified'),
-  verificationDisabled: false,
-};
+  verificationDisabled: boolean(
+    'verificationDisabled',
+    overrideProps.verificationDisabled !== undefined
+      ? overrideProps.verificationDisabled
+      : false
+  ),
+  onClose: overrideProps.onClose,
+});
 
-const permutations = [
-  {
-    title: 'Safety Number',
-    props: {},
-  },
-  {
-    title: 'Safety Number (not verified)',
-    props: {
-      contact: {
-        ...contactWithAllData,
-        verified: false,
-      },
-    },
-  },
-  {
-    title: 'Verification Disabled',
-    props: {
-      verificationDisabled: true,
-    },
-  },
-  {
-    title: 'Safety Number Changed',
-    props: {
-      safetyNumberChanged: true,
-    },
-  },
-  {
-    title: 'Safety Number (dialog close)',
-    props: {
-      onClose: action('close'),
-    },
-  },
-  {
-    title: 'Just Profile',
-    props: {
-      contact: contactWithJustProfile,
-    },
-  },
-  {
-    title: 'Just Number',
-    props: {
-      contact: contactWithJustNumber,
-    },
-  },
-  {
-    title: 'No display info',
-    props: {
-      contact: contactWithNothing,
-    },
-  },
-];
+const story = storiesOf('Components/SafetyNumberViewer', module);
 
-storiesOf('Components/SafetyNumberViewer', module)
-  .add('Knobs Playground', () => {
-    const safetyNumber = text('safetyNumber', 'XXX');
-    const safetyNumberChanged = boolean('safetyNumberChanged', false);
-    const verificationDisabled = boolean('verificationDisabled', false);
+story.add('Safety Number', () => {
+  return <SafetyNumberViewer {...createProps({})} />;
+});
 
-    return (
-      <SafetyNumberViewer
-        {...defaultProps}
-        safetyNumber={safetyNumber}
-        safetyNumberChanged={safetyNumberChanged}
-        verificationDisabled={verificationDisabled}
-      />
-    );
-  })
-  .add('Iterations', () => {
-    return permutations.map(({ props, title }) => (
-      <>
-        <h3>{title}</h3>
-        <SafetyNumberViewer {...defaultProps} {...props} />
-      </>
-    ));
-  });
+story.add('Safety Number (not verified)', () => {
+  return (
+    <SafetyNumberViewer
+      {...createProps({
+        contact: {
+          ...contactWithAllData,
+          isVerified: false,
+        },
+      })}
+    />
+  );
+});
+
+story.add('Verification Disabled', () => {
+  return (
+    <SafetyNumberViewer
+      {...createProps({
+        verificationDisabled: true,
+      })}
+    />
+  );
+});
+
+story.add('Safety Number Changed', () => {
+  return (
+    <SafetyNumberViewer
+      {...createProps({
+        safetyNumberChanged: true,
+      })}
+    />
+  );
+});
+
+story.add('Safety Number (dialog close)', () => {
+  return (
+    <SafetyNumberViewer
+      {...createProps({
+        onClose: action('close'),
+      })}
+    />
+  );
+});
+
+story.add('Just Profile and Number', () => {
+  return (
+    <SafetyNumberViewer
+      {...createProps({
+        contact: contactWithJustProfile,
+      })}
+    />
+  );
+});
+
+story.add('Just Number', () => {
+  return (
+    <SafetyNumberViewer
+      {...createProps({
+        contact: contactWithJustNumber,
+      })}
+    />
+  );
+});
+
+story.add('No Phone Number (cannot verify)', () => {
+  return (
+    <SafetyNumberViewer
+      {...createProps({
+        contact: contactWithNothing,
+      })}
+    />
+  );
+});

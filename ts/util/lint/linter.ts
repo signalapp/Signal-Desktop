@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-// tslint:disable no-console
 import * as fs from 'fs';
 import { join, relative } from 'path';
 import normalizePath from 'normalize-path';
@@ -46,10 +45,14 @@ const excludedFilesRegexps = [
   '\\.d\\.ts$',
 
   // High-traffic files in our project
-  '^js/models/messages.js',
-  '^js/models/conversations.js',
-  '^js/views/conversation_view.js',
-  '^js/background.js',
+  '^ts/models/messages.js',
+  '^ts/models/messages.ts',
+  '^ts/models/conversations.js',
+  '^ts/models/conversations.ts',
+  '^ts/views/conversation_view.js',
+  '^ts/views/conversation_view.ts',
+  '^ts/background.js',
+  '^ts/background.ts',
   '^ts/Crypto.js',
   '^ts/Crypto.ts',
   '^ts/textsecure/MessageReceiver.js',
@@ -232,7 +235,6 @@ const excludedFilesRegexps = [
   '^node_modules/trough/.+',
   '^node_modules/ts-loader/.+',
   '^node_modules/ts-node/.+',
-  '^node_modules/tslint.+',
   '^node_modules/tweetnacl/.+',
   '^node_modules/typed-scss-modules/.+',
   '^node_modules/typescript/.+',
@@ -358,7 +360,6 @@ async function main(): Promise<void> {
 
           const exception = exceptionsLookup[exceptionKey];
           if (exception && (!exception.line || exception.line === line)) {
-            // tslint:disable-next-line no-dynamic-delete
             delete exceptionsLookup[exceptionKey];
 
             return;

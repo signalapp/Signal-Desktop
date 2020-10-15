@@ -4,7 +4,7 @@ import { LocalizerType } from '../types/Util';
 import { getPlaceholder } from '../util/safetyNumber';
 import { Intl } from './Intl';
 
-type SafetyNumberViewerProps = {
+export type PropsType = {
   contact?: ConversationType;
   generateSafetyNumber: (contact: ConversationType) => void;
   i18n: LocalizerType;
@@ -24,7 +24,7 @@ export const SafetyNumberViewer = ({
   safetyNumberChanged,
   toggleVerified,
   verificationDisabled,
-}: SafetyNumberViewerProps): JSX.Element | null => {
+}: PropsType): JSX.Element | null => {
   React.useEffect(() => {
     if (!contact) {
       return;
@@ -37,8 +37,19 @@ export const SafetyNumberViewer = ({
     return null;
   }
 
+  if (!contact.phoneNumber) {
+    return (
+      <div className="module-safety-number">
+        <div className="module-safety-number__verify-container">
+          {i18n('cannotGenerateSafetyNumber')}
+        </div>
+      </div>
+    );
+  }
+
   const showNumber = Boolean(contact.name || contact.profileName);
-  const numberFragment = showNumber ? ` · ${contact.phoneNumber}` : '';
+  const numberFragment =
+    showNumber && contact.phoneNumber ? ` · ${contact.phoneNumber}` : '';
   const name = `${contact.title}${numberFragment}`;
   const boldName = (
     <span className="module-safety-number__bold-name">{name}</span>

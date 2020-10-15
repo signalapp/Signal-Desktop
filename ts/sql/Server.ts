@@ -1,4 +1,10 @@
-// tslint:disable no-console no-default-export no-unnecessary-local-variable
+/* eslint-disable no-nested-ternary */
+/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { join } from 'path';
 import mkdirp from 'mkdirp';
@@ -6,12 +12,6 @@ import rimraf from 'rimraf';
 import PQueue from 'p-queue';
 import sql from '@journeyapps/sqlcipher';
 import { app, clipboard, dialog } from 'electron';
-import { redactAll } from '../../js/modules/privacy';
-import { remove as removeUserConfig } from '../../app/user_config';
-import { combineNames } from '../util/combineNames';
-
-import { GroupV2MemberType } from '../model-types.d';
-import { LocaleMessagesType } from '../types/I18N';
 
 import pify from 'pify';
 import { v4 as generateUUID } from 'uuid';
@@ -27,6 +27,13 @@ import {
   map,
   pick,
 } from 'lodash';
+
+import { redactAll } from '../../js/modules/privacy';
+import { remove as removeUserConfig } from '../../app/user_config';
+import { combineNames } from '../util/combineNames';
+
+import { GroupV2MemberType } from '../model-types.d';
+import { LocaleMessagesType } from '../types/I18N';
 
 import {
   AttachmentDownloadJobType,
@@ -211,8 +218,6 @@ async function openDatabase(filePath: string): Promise<sql.Database> {
       }
 
       resolve(instance);
-
-      return;
     };
 
     instance = new sql.Database(filePath, callback);
@@ -1334,7 +1339,6 @@ async function updateToSchemaVersion19(
   }
 }
 
-// tslint:disable-next-line max-func-body-length
 async function updateToSchemaVersion20(
   currentVersion: number,
   instance: PromisifiedSQLDatabase
@@ -1447,7 +1451,6 @@ async function updateToSchemaVersion20(
     );
 
     // Update group conversations, point members at new conversation ids
-    // tslint:disable-next-line no-floating-promises
     migrationJobQueue.addAll(
       groupConverations.map(groupRow => async () => {
         const members = groupRow.members.split(/\s?\+/).filter(Boolean);
@@ -1643,7 +1646,6 @@ let globalInstance: PromisifiedSQLDatabase | undefined;
 let databaseFilePath: string | undefined;
 let indexedDBPath: string | undefined;
 
-// tslint:disable-next-line max-func-body-length
 async function initialize({
   configDir,
   key,
@@ -2269,7 +2271,7 @@ async function eraseStorageServiceStateFromConversations() {
 
   await db.run(
     `UPDATE conversations SET
-      json = json_remove(json, '$.storageID', '$.needsStorageServiceSync', '$.unknownFields');
+      json = json_remove(json, '$.storageID', '$.needsStorageServiceSync', '$.unknownFields', '$.storageProfileKey');
     `
   );
 }
@@ -2412,7 +2414,6 @@ async function getMessageCount(conversationId?: string) {
   return row['count(*)'];
 }
 
-// tslint:disable-next-line max-func-body-length
 async function saveMessage(
   data: MessageType,
   { forceSave }: { forceSave?: boolean } = {}
@@ -2674,7 +2675,11 @@ async function getOlderMessagesByConversation(
     limit = 100,
     receivedAt = Number.MAX_VALUE,
     messageId,
-  }: { limit?: number; receivedAt?: number; messageId?: string } = {}
+  }: {
+    limit?: number;
+    receivedAt?: number;
+    messageId?: string;
+  } = {}
 ) {
   const db = getInstance();
   let rows;
@@ -3696,7 +3701,7 @@ async function updateEmojiUsage(
 }
 updateEmojiUsage.needsSerial = true;
 
-async function getRecentEmojis(limit: number = 32) {
+async function getRecentEmojis(limit = 32) {
   const db = getInstance();
   const rows = await db.all(
     'SELECT * FROM emojis ORDER BY lastUsage DESC LIMIT $limit;',
@@ -3946,7 +3951,6 @@ async function removeKnownAttachments(allAttachments: Array<string>) {
     forEach(messages, message => {
       const externalFiles = getExternalFilesForMessage(message);
       forEach(externalFiles, file => {
-        // tslint:disable-next-line no-dynamic-delete
         delete lookup[file];
       });
     });
@@ -3990,7 +3994,6 @@ async function removeKnownAttachments(allAttachments: Array<string>) {
     forEach(conversations, conversation => {
       const externalFiles = getExternalFilesForConversation(conversation);
       forEach(externalFiles, file => {
-        // tslint:disable-next-line no-dynamic-delete
         delete lookup[file];
       });
     });
@@ -4038,7 +4041,6 @@ async function removeKnownStickers(allStickers: Array<string>) {
 
     const files: Array<StickerType> = map(rows, row => row.path);
     forEach(files, file => {
-      // tslint:disable-next-line no-dynamic-delete
       delete lookup[file];
     });
 
@@ -4091,7 +4093,6 @@ async function removeKnownDraftAttachments(allStickers: Array<string>) {
     forEach(conversations, conversation => {
       const externalFiles = getExternalDraftFilesForConversation(conversation);
       forEach(externalFiles, file => {
-        // tslint:disable-next-line no-dynamic-delete
         delete lookup[file];
       });
     });

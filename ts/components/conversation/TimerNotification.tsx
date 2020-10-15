@@ -5,8 +5,14 @@ import { ContactName } from './ContactName';
 import { Intl } from '../Intl';
 import { LocalizerType } from '../../types/Util';
 
+export type TimerNotificationType =
+  | 'fromOther'
+  | 'fromMe'
+  | 'fromSync'
+  | 'fromMember';
+
 export type PropsData = {
-  type: 'fromOther' | 'fromMe' | 'fromSync' | 'fromMember';
+  type: TimerNotificationType;
   phoneNumber?: string;
   profileName?: string;
   title: string;

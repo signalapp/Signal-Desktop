@@ -1,9 +1,10 @@
-import { DeletesModelType, MessageModelType } from '../model-types.d';
+import { DeletesModelType } from '../model-types.d';
+import { MessageModel } from '../models/messages';
 
 const ONE_DAY = 24 * 60 * 60 * 1000;
 
 export async function deleteForEveryone(
-  message: MessageModelType,
+  message: MessageModel,
   doe: DeletesModelType,
   shouldPersist = true
 ): Promise<void> {

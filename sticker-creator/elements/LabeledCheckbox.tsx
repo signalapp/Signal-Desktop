@@ -26,7 +26,6 @@ export const LabeledCheckbox = React.memo(
 
     return (
       <label className={styles.base}>
-        {/* tslint:disable-next-line react-a11y-input-elements */}
         <input
           type="checkbox"
           className={styles.input}

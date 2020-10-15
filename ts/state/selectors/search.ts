@@ -85,7 +85,6 @@ export const getSearchResults = createSelector(
     lookup: ConversationLookupType,
     selectedConversationId?: string,
     selectedMessageId?: string
-    // tslint:disable-next-line max-func-body-length
   ): SearchResultsPropsType | undefined => {
     const {
       contacts,

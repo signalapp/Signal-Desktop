@@ -541,7 +541,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.call-manager-placeholder').append(this.callManagerView.el);",
-    "lineNumber": 126,
+    "lineNumber": 123,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-28T17:42:35.329Z",
     "reasonDetail": "<optional>"
@@ -550,7 +550,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.call-manager-placeholder').append(this.callManagerView.el);",
-    "lineNumber": 126,
+    "lineNumber": 123,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-28T17:42:35.329Z",
     "reasonDetail": "<optional>"
@@ -559,7 +559,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 137,
+    "lineNumber": 134,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-28T17:42:35.329Z",
     "reasonDetail": "Known DOM elements"
@@ -568,7 +568,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 137,
+    "lineNumber": 134,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-28T17:42:35.329Z",
     "reasonDetail": "Known DOM elements"
@@ -577,7 +577,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.placeholder').length) {",
-    "lineNumber": 190,
+    "lineNumber": 187,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-28T17:42:35.329Z",
     "reasonDetail": "Known DOM elements"
@@ -586,7 +586,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('#header, .gutter').addClass('inactive');",
-    "lineNumber": 194,
+    "lineNumber": 191,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-28T17:42:35.329Z",
     "reasonDetail": "Hardcoded selector"
@@ -595,7 +595,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation-stack').removeClass('inactive');",
-    "lineNumber": 195,
+    "lineNumber": 192,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-11T17:24:56.124Z",
     "reasonDetail": "Static selector argument"
@@ -604,7 +604,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation-stack').addClass('inactive');",
-    "lineNumber": 198,
+    "lineNumber": 195,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-28T17:42:35.329Z",
     "reasonDetail": "Hardcoded selector"
@@ -613,7 +613,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('#header, .gutter').removeClass('inactive');",
-    "lineNumber": 199,
+    "lineNumber": 196,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-11T17:24:56.124Z",
     "reasonDetail": "Static selector argument"
@@ -622,7 +622,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .menu').trigger('close');",
-    "lineNumber": 200,
+    "lineNumber": 197,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-28T17:42:35.329Z",
     "reasonDetail": "Hardcoded selector"
@@ -631,7 +631,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.capture-audio').length > 0) {",
-    "lineNumber": 220,
+    "lineNumber": 217,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-29T18:29:18.234Z",
     "reasonDetail": "Known DOM elements"
@@ -640,7 +640,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .recorder').trigger('close');",
-    "lineNumber": 223,
+    "lineNumber": 220,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-29T18:29:18.234Z",
     "reasonDetail": "Hardcoded selector"
@@ -12847,16 +12847,15 @@
     "rule": "React-createRef",
     "path": "ts/components/CallScreen.js",
     "line": "        this.localVideoRef = react_1.default.createRef();",
-    "lineNumber": 98,
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2020-09-14T23:03:44.863Z",
-    "reasonDetail": "<optional>"
+    "lineNumber": 87,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-14T23:03:44.863Z"
   },
   {
     "rule": "React-createRef",
     "path": "ts/components/CallScreen.js",
     "line": "        this.remoteVideoRef = react_1.default.createRef();",
-    "lineNumber": 99,
+    "lineNumber": 88,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-14T23:03:44.863Z"
   },
@@ -12864,7 +12863,7 @@
     "rule": "React-createRef",
     "path": "ts/components/CallScreen.tsx",
     "line": "    this.localVideoRef = React.createRef();",
-    "lineNumber": 79,
+    "lineNumber": 56,
     "reasonCategory": "usageTrusted",
     "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Used to render local preview video"
@@ -12873,7 +12872,7 @@
     "rule": "React-createRef",
     "path": "ts/components/CallScreen.tsx",
     "line": "    this.remoteVideoRef = React.createRef();",
-    "lineNumber": 80,
+    "lineNumber": 57,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-14T23:03:44.863Z"
   },
@@ -12908,7 +12907,7 @@
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.tsx",
     "line": "  el.innerHTML = '';",
-    "lineNumber": 81,
+    "lineNumber": 78,
     "reasonCategory": "usageTrusted",
     "updated": "2020-06-03T19:23:21.195Z",
     "reasonDetail": "Our code, no user input, only clearing out the dom"
@@ -12933,16 +12932,16 @@
     "rule": "React-createRef",
     "path": "ts/components/LeftPane.js",
     "line": "        this.listRef = react_1.default.createRef();",
-    "lineNumber": 16,
+    "lineNumber": 30,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-11-05T01:14:21.081Z",
-    "reasonDetail": "Used for focus management"
+    "updated": "2020-09-11T17:24:56.124Z",
+    "reasonDetail": "Used for scroll calculations"
   },
   {
     "rule": "React-createRef",
     "path": "ts/components/LeftPane.js",
     "line": "        this.containerRef = react_1.default.createRef();",
-    "lineNumber": 17,
+    "lineNumber": 31,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-11T17:24:56.124Z",
     "reasonDetail": "Used for scroll calculations"
@@ -13015,8 +13014,8 @@
     "line": "        this.containerRef = react_1.default.createRef();",
     "lineNumber": 25,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-11T17:24:56.124Z",
-    "reasonDetail": "Used for scroll calculations"
+    "updated": "2019-08-09T00:44:31.008Z",
+    "reasonDetail": "SearchResults needs to interact with its child List directly"
   },
   {
     "rule": "React-createRef",
@@ -13031,7 +13030,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.tsx",
     "line": "    this.menuTriggerRef = React.createRef();",
-    "lineNumber": 82,
+    "lineNumber": 84,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-20T20:10:43.540Z",
     "reasonDetail": "Used to reference popup menu"
@@ -13084,23 +13083,23 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public audioRef: React.RefObject<HTMLAudioElement> = React.createRef();",
-    "lineNumber": 213,
+    "lineNumber": 217,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-14T23:03:44.863Z"
+    "updated": "2020-09-08T20:19:01.913Z"
   },
   {
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
-    "lineNumber": 215,
+    "lineNumber": 219,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-14T23:03:44.863Z"
+    "updated": "2020-09-08T20:19:01.913Z"
   },
   {
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  > = React.createRef();",
-    "lineNumber": 219,
+    "lineNumber": 223,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-28T19:36:40.817Z"
   },
@@ -13187,7 +13186,7 @@
     "rule": "jQuery-append(",
     "path": "ts/textsecure/ContactsParser.js",
     "line": "        this.buffer.append(arrayBuffer);",
-    "lineNumber": 7,
+    "lineNumber": 9,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13195,7 +13194,7 @@
     "rule": "jQuery-append(",
     "path": "ts/textsecure/ContactsParser.ts",
     "line": "    this.buffer.append(arrayBuffer);",
-    "lineNumber": 26,
+    "lineNumber": 30,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13203,7 +13202,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/Crypto.js",
     "line": "        const data = window.dcodeIO.ByteBuffer.wrap(encryptedProfileName, 'base64').toArrayBuffer();",
-    "lineNumber": 157,
+    "lineNumber": 155,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13211,7 +13210,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/Crypto.js",
     "line": "                given: window.dcodeIO.ByteBuffer.wrap(padded)",
-    "lineNumber": 176,
+    "lineNumber": 174,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13219,7 +13218,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/Crypto.js",
     "line": "                    ? window.dcodeIO.ByteBuffer.wrap(padded)",
-    "lineNumber": 180,
+    "lineNumber": 178,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13227,7 +13226,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/Crypto.ts",
     "line": "    const data = window.dcodeIO.ByteBuffer.wrap(",
-    "lineNumber": 223,
+    "lineNumber": 345,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13235,7 +13234,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/Crypto.ts",
     "line": "        given: window.dcodeIO.ByteBuffer.wrap(padded)",
-    "lineNumber": 252,
+    "lineNumber": 374,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13243,7 +13242,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/Crypto.ts",
     "line": "          ? window.dcodeIO.ByteBuffer.wrap(padded)",
-    "lineNumber": 256,
+    "lineNumber": 378,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13251,7 +13250,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SyncRequest.js",
     "line": "        wrap(sender.sendRequestConfigurationSyncMessage(sendOptions));",
-    "lineNumber": 27,
+    "lineNumber": 30,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13259,7 +13258,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SyncRequest.js",
     "line": "        wrap(sender.sendRequestBlockSyncMessage(sendOptions));",
-    "lineNumber": 29,
+    "lineNumber": 32,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13267,7 +13266,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SyncRequest.js",
     "line": "        wrap(sender.sendRequestContactSyncMessage(sendOptions))",
-    "lineNumber": 31,
+    "lineNumber": 34,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13275,7 +13274,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SyncRequest.js",
     "line": "            return wrap(sender.sendRequestGroupSyncMessage(sendOptions));",
-    "lineNumber": 34,
+    "lineNumber": 37,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13283,7 +13282,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SyncRequest.ts",
     "line": "    wrap(sender.sendRequestConfigurationSyncMessage(sendOptions));",
-    "lineNumber": 42,
+    "lineNumber": 51,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13291,7 +13290,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SyncRequest.ts",
     "line": "    wrap(sender.sendRequestBlockSyncMessage(sendOptions));",
-    "lineNumber": 45,
+    "lineNumber": 54,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13299,7 +13298,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SyncRequest.ts",
     "line": "    wrap(sender.sendRequestContactSyncMessage(sendOptions))",
-    "lineNumber": 48,
+    "lineNumber": 57,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13307,7 +13306,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SyncRequest.ts",
     "line": "        return wrap(sender.sendRequestGroupSyncMessage(sendOptions));",
-    "lineNumber": 51,
+    "lineNumber": 60,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13315,7 +13314,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/WebAPI.js",
     "line": "            const byteBuffer = window.dcodeIO.ByteBuffer.wrap(quote, 'binary', window.dcodeIO.ByteBuffer.LITTLE_ENDIAN);",
-    "lineNumber": 1223,
+    "lineNumber": 1231,
     "reasonCategory": "falseMatch",
     "updated": "2020-09-08T23:07:22.682Z"
   },
@@ -13323,7 +13322,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/WebAPI.ts",
     "line": "      const byteBuffer = window.dcodeIO.ByteBuffer.wrap(",
-    "lineNumber": 2076,
+    "lineNumber": 2102,
     "reasonCategory": "falseMatch",
     "updated": "2020-09-08T23:07:22.682Z"
   }

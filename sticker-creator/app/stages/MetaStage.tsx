@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { FileWithPath, useDropzone } from 'react-dropzone';
+import { FileWithPath } from 'react-dropzone';
 import { AppStage } from './AppStage';
 import * as styles from './MetaStage.scss';
-import { convertToWebp } from '../../util/preload';
+import { processStickerImage } from '../../util/preload';
+import { useStickerDropzone } from '../../util/useStickerDropzone';
 import { history } from '../../util/history';
 import { H2, Text } from '../../elements/Typography';
 import { LabeledInput } from '../../elements/LabeledInput';
@@ -10,7 +11,6 @@ import { ConfirmModal } from '../../components/ConfirmModal';
 import { stickersDuck } from '../../store';
 import { useI18n } from '../../util/i18n';
 
-// tslint:disable-next-line max-func-body-length
 export const MetaStage: React.ComponentType = () => {
   const i18n = useI18n();
   const actions = stickersDuck.useStickerActions();
@@ -23,8 +23,8 @@ export const MetaStage: React.ComponentType = () => {
   const onDrop = React.useCallback(
     async ([{ path }]: Array<FileWithPath>) => {
       try {
-        const webp = await convertToWebp(path);
-        actions.setCover(webp);
+        const stickerImage = await processStickerImage(path);
+        actions.setCover(stickerImage);
       } catch (e) {
         actions.removeSticker(path);
       }
@@ -32,10 +32,9 @@ export const MetaStage: React.ComponentType = () => {
     [actions]
   );
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: ['image/png', 'image/webp'],
-  });
+  const { getRootProps, getInputProps, isDragActive } = useStickerDropzone(
+    onDrop
+  );
 
   const onNext = React.useCallback(() => {
     setConfirming(true);
@@ -91,7 +90,6 @@ export const MetaStage: React.ComponentType = () => {
                   alt="Cover"
                 />
               ) : null}
-              {/* tslint:disable-next-line react-a11y-input-elements */}
               <input {...getInputProps()} />
             </div>
           </div>

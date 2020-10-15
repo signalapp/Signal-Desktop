@@ -1,7 +1,6 @@
 import { resolve } from 'path';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Configuration, EnvironmentPlugin } from 'webpack';
-// tslint:disable-next-line no-require-imports
 import HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const context = __dirname;
@@ -86,5 +85,4 @@ const stickerCreatorConfig: Configuration = {
   },
 };
 
-// tslint:disable-next-line no-default-export
 export default [stickerCreatorConfig];

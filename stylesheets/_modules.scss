@@ -5048,7 +5048,7 @@ button.module-image__border-overlay:focus {
   position: relative;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: stretch;
 
   min-height: 65px;
 }
@@ -5073,6 +5073,8 @@ button.module-image__border-overlay:focus {
   margin-right: 8px;
 }
 .module-staged-link-preview__content {
+  display: flex;
+  flex-direction: column;
   margin-right: 20px;
 }
 .module-staged-link-preview__title {
@@ -5087,14 +5089,46 @@ button.module-image__border-overlay:focus {
 
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
+}
+.module-staged-link-preview__description {
+  @include font-body-1;
+
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.module-staged-link-preview__footer {
+  @include font-body-2;
+
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+
+  > *:not(:first-child) {
+    display: flex;
+
+    &:before {
+      content: '•';
+      font-size: 50%;
+      margin-left: 0.2rem;
+      margin-right: 0.2rem;
+    }
+  }
 }
 .module-staged-link-preview__location {
   @include font-body-2;
 
-  margin-top: 4px;
-  text-transform: uppercase;
+  text-transform: lowercase;
 
   @include light-theme {
     color: $color-gray-60;
@@ -5257,6 +5291,18 @@ button.module-image__border-overlay:focus {
   @include dark-theme {
     background-color: $color-gray-25;
   }
+}
+
+.module-spinner__circle--on-progress-dialog {
+  @include light-theme {
+    background-color: $color-white;
+  }
+  @include dark-theme {
+    background-color: $color-gray-80;
+  }
+}
+.module-spinner__arc--on-progress-dialog {
+  background-color: $ultramarine-ui-light;
 }
 
 // Module: Highlighted Message Body
@@ -5768,6 +5814,67 @@ button.module-image__border-overlay:focus {
   }
 }
 
+// Module: Calling
+.module-calling {
+  &__container {
+    align-items: center;
+    background-color: $color-gray-95;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    position: relative;
+    width: 100%;
+  }
+
+  &__header {
+    color: #ffffff;
+    font-style: normal;
+    padding-bottom: 24px;
+    padding-top: 24px;
+    text-align: center;
+    text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+    top: 0;
+    width: 100%;
+
+    &--header-name {
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 21px;
+      letter-spacing: -0.009em;
+    }
+  }
+
+  &__buttons {
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 32px;
+    padding-top: 32px;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+  }
+
+  &__background {
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 4px 4px 0 0;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+
+    &--blur {
+      backdrop-filter: blur(7px);
+      backface-visibility: hidden;
+      background-color: $color-black-alpha-40;
+      border-radius: 4px 4px 0 0;
+      height: 100%;
+      position: absolute;
+      width: 100%;
+    }
+  }
+}
+
 .module-incoming-call {
   align-items: center;
   background-color: $color-gray-75;
@@ -5814,149 +5921,163 @@ button.module-image__border-overlay:focus {
   margin-right: 16px;
 }
 
-.module-incoming-call__button--accept-video-as-audio {
-  background-color: $color-gray-45;
+.module-incoming-call__button {
+  &--accept-video-as-audio {
+    background-color: $color-gray-45;
 
-  @include keyboard-mode {
-    &:focus {
-      box-shadow: 0px 0px 0px 4px $ultramarine-ui-light;
+    @include keyboard-mode {
+      &:focus {
+        box-shadow: 0px 0px 0px 4px $ultramarine-ui-light;
+      }
+    }
+
+    @include mouse-mode {
+      &:hover {
+        box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
+      }
+    }
+
+    div {
+      @include color-svg(
+        '../images/icons/v2/video-off-solid-24.svg',
+        $color-white
+      );
+      height: 24px;
+      width: 24px;
     }
   }
 
-  @include mouse-mode {
-    &:hover {
-      box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
+  &--accept-video {
+    background-color: $color-accent-green;
+
+    @include keyboard-mode {
+      &:focus {
+        box-shadow: 0px 0px 0px 4px $ultramarine-ui-light;
+      }
+    }
+
+    @include mouse-mode {
+      &:hover {
+        box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
+      }
+    }
+
+    div {
+      @include color-svg('../images/icons/v2/video-solid-24.svg', $color-white);
+      height: 24px;
+      width: 24px;
     }
   }
 
-  div {
-    @include color-svg(
-      '../images/icons/v2/video-off-solid-24.svg',
-      $color-white
-    );
-    height: 24px;
-    width: 24px;
+  &--accept-audio {
+    background-color: $color-accent-green;
+
+    @include keyboard-mode {
+      &:focus {
+        box-shadow: 0px 0px 0px 4px $ultramarine-ui-light;
+      }
+    }
+
+    @include mouse-mode {
+      &:hover {
+        box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
+      }
+    }
+
+    div {
+      @include color-svg(
+        '../images/icons/v2/phone-right-solid-24.svg',
+        $color-white
+      );
+      height: 24px;
+      width: 24px;
+    }
+  }
+
+  &--decline {
+    background-color: $color-accent-red;
+
+    @include keyboard-mode {
+      &:focus {
+        box-shadow: 0px 0px 0px 4px $ultramarine-ui-light;
+      }
+    }
+
+    @include mouse-mode {
+      &:hover {
+        box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
+      }
+    }
+
+    div {
+      @include color-svg('../images/icons/v2/phone-down-24.svg', $color-white);
+      height: 24px;
+      width: 24px;
+    }
   }
 }
 
-.module-incoming-call__button--accept-video {
-  background-color: $color-accent-green;
-
-  @include keyboard-mode {
-    &:focus {
-      box-shadow: 0px 0px 0px 4px $ultramarine-ui-light;
-    }
-  }
-
-  @include mouse-mode {
-    &:hover {
-      box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
-    }
-  }
-
-  div {
-    @include color-svg('../images/icons/v2/video-solid-24.svg', $color-white);
-    height: 24px;
-    width: 24px;
-  }
-}
-
-.module-incoming-call__button--accept-audio {
-  background-color: $color-accent-green;
-
-  @include keyboard-mode {
-    &:focus {
-      box-shadow: 0px 0px 0px 4px $ultramarine-ui-light;
-    }
-  }
-
-  @include mouse-mode {
-    &:hover {
-      box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
-    }
-  }
-
-  div {
-    @include color-svg(
-      '../images/icons/v2/phone-right-solid-24.svg',
-      $color-white
-    );
-    height: 24px;
-    width: 24px;
-  }
-}
-
-.module-incoming-call__button--decline {
-  background-color: $color-accent-red;
-
-  @include keyboard-mode {
-    &:focus {
-      box-shadow: 0px 0px 0px 4px $ultramarine-ui-light;
-    }
-  }
-
-  @include mouse-mode {
-    &:hover {
-      box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
-    }
-  }
-
-  div {
-    @include color-svg('../images/icons/v2/phone-down-24.svg', $color-white);
-    height: 24px;
-    width: 24px;
-  }
-}
-
-.module-incoming-call__icon,
-.module-ongoing-call__icon {
+.module-incoming-call__button,
+.module-calling-button__icon {
   align-items: center;
   border-radius: 40px;
   border: none;
   display: flex;
   height: 40px;
   justify-content: center;
-  margin-left: 24px;
+  margin-left: 12px;
+  margin-right: 12px;
   outline: none;
   width: 40px;
 }
 
-.module-ongoing-call__icon {
+.module-calling-button {
+  &__participants {
+    @include color-svg('../images/icons/v2/group-solid-24.svg', $color-white);
+    height: 22px;
+    width: 22px;
+  }
+
+  &__settings {
+    @include color-svg(
+      '../images/icons/v2/settings-solid-16.svg',
+      $color-white
+    );
+    height: 22px;
+    width: 22px;
+  }
+
+  &__pip {
+    @include color-svg('../images/icons/v2/collapse-24.svg', $color-white);
+    height: 22px;
+    width: 22px;
+  }
+}
+
+.module-calling-button__icon {
   border-radius: 56px;
   height: 56px;
   width: 56px;
 
   &--audio {
-    &--enabled {
-      background-color: $color-gray-45;
-
-      div {
-        @include color-svg('../images/icons/v2/mic-solid-28.svg', $color-white);
-        height: 28px;
-        width: 28px;
-      }
-    }
-    &--disabled {
+    &--on {
       background-color: $color-white;
 
       div {
         @include color-svg(
-          '../images/icons/v2/mic-off-solid-28.svg',
-          $color-black
+          '../images/icons/v2/mic-solid-28.svg',
+          $color-gray-75
         );
         height: 28px;
         width: 28px;
       }
     }
-  }
-
-  &--video {
-    &--enabled {
+    &--off {
       background-color: $color-gray-45;
 
       div {
         @include color-svg(
-          '../images/icons/v2/video-solid-28.svg',
+          '../images/icons/v2/mic-off-solid-28.svg',
           $color-white
         );
         height: 28px;
@@ -5964,12 +6085,50 @@ button.module-image__border-overlay:focus {
       }
     }
     &--disabled {
+      background-color: $color-gray-45;
+      opacity: 0.2;
+
+      div {
+        @include color-svg('../images/icons/v2/mic-solid-28.svg', $color-white);
+        height: 28px;
+        width: 28px;
+      }
+    }
+  }
+
+  &--video {
+    &--on {
       background-color: $color-white;
 
       div {
         @include color-svg(
+          '../images/icons/v2/video-solid-28.svg',
+          $color-gray-75
+        );
+        height: 28px;
+        width: 28px;
+      }
+    }
+    &--off {
+      background-color: $color-gray-45;
+
+      div {
+        @include color-svg(
           '../images/icons/v2/video-off-solid-28.svg',
-          $color-black
+          $color-white
+        );
+        height: 28px;
+        width: 28px;
+      }
+    }
+    &--disabled {
+      background-color: $color-gray-45;
+      opacity: 0.2;
+
+      div {
+        @include color-svg(
+          '../images/icons/v2/video-solid-28.svg',
+          $color-white
         );
         height: 28px;
         width: 28px;
@@ -5986,78 +6145,6 @@ button.module-image__border-overlay:focus {
       width: 28px;
     }
   }
-}
-
-.module-ongoing-call {
-  background-color: $color-gray-95;
-  height: 100vh;
-  width: 100%;
-  position: relative;
-}
-
-.module-ongoing-call__remote-video-enabled {
-  background-color: $color-gray-95;
-  height: 100vh;
-  width: 100%;
-}
-
-.module-ongoing-call__remote-video-disabled {
-  background-color: $color-gray-95;
-  height: 100vh;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.module-ongoing-call__local-video {
-  transform: rotateY(180deg);
-  background-color: transparent;
-  bottom: 160px;
-  height: 152px;
-  position: absolute;
-  right: 32px;
-  width: 210px;
-}
-
-.module-ongoing-call__header {
-  background: linear-gradient($color-black-alpha-40, transparent);
-  padding-bottom: 24px;
-  padding-top: 24px;
-  position: absolute;
-  text-align: center;
-  top: 0;
-  width: 100%;
-
-  font-style: normal;
-  color: #ffffff;
-  text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
-}
-
-.module-ongoing-call__header-name {
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 21px;
-  letter-spacing: -0.009em;
-}
-
-.module-ongoing-call__header-message {
-  font-weight: normal;
-  font-size: 13px;
-  line-height: 18px;
-  letter-spacing: -0.0025em;
-}
-
-.module-ongoing-call__actions {
-  background: linear-gradient(transparent, $color-black-alpha-40);
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  padding-bottom: 32px;
-  padding-top: 32px;
-  position: absolute;
-  text-align: center;
-  width: 100%;
 }
 
 @keyframes module-ongoing-call__controls--fade-in {
@@ -6078,36 +6165,235 @@ button.module-image__border-overlay:focus {
   }
 }
 
-.module-ongoing-call__controls--fadeIn {
-  animation: {
-    name: module-ongoing-call__controls--fade-in;
-    duration: 400ms;
-    timing-function: $ease-out-expo;
-    fill-mode: forwards;
+.module-ongoing-call {
+  &__remote-video-enabled {
+    background-color: $color-gray-95;
+    height: 100vh;
+    width: 100%;
+  }
+
+  &__remote-video-disabled {
+    background-color: $color-gray-95;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__local-video {
+    background-color: transparent;
+    bottom: 160px;
+    height: 152px;
+    position: absolute;
+    right: 32px;
+    transform: rotateY(180deg);
+    width: 210px;
+  }
+
+  &__header {
+    position: absolute;
+  }
+
+  &__header-message {
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 18px;
+    letter-spacing: -0.0025em;
+  }
+
+  &__actions {
+    background: linear-gradient(transparent, $color-black-alpha-40);
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 32px;
+    padding-top: 32px;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+  }
+
+  &__controls--fadeIn {
+    animation: {
+      name: module-ongoing-call__controls--fade-in;
+      duration: 400ms;
+      timing-function: $ease-out-expo;
+      fill-mode: forwards;
+    }
+  }
+
+  &__controls--fadeOut {
+    animation: {
+      name: module-ongoing-call__controls--fade-out;
+      duration: 1200ms;
+      timing-function: $ease-out-expo;
+      fill-mode: forwards;
+    }
   }
 }
 
-.module-ongoing-call__controls--fadeOut {
-  animation: {
-    name: module-ongoing-call__controls--fade-out;
-    duration: 1200ms;
-    timing-function: $ease-out-expo;
-    fill-mode: forwards;
-  }
-}
-
-.module-ongoing-call__settings {
+.module-calling-tools {
+  display: flex;
+  justify-content: flex-end;
   position: absolute;
-  top: 25px;
-  right: 25px;
+  top: 24px;
+  width: 100%;
 
-  &--button {
-    @include color-svg(
-      '../images/icons/v2/settings-solid-16.svg',
-      $color-white
-    );
-    height: 22px;
-    width: 22px;
+  &__button {
+    margin-right: 25px;
+  }
+}
+
+.module-calling-lobby {
+  &__actions {
+    flex: 0 0 100px;
+  }
+
+  &__button {
+    margin-left: 8px;
+    margin-right: 8px;
+    width: 160px;
+  }
+
+  &__video {
+    @include font-body-2;
+    align-items: center;
+    background-color: $color-gray-80;
+    border-radius: 8px;
+    color: $color-white;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    justify-content: center;
+    margin-bottom: 24px;
+    margin-top: 24px;
+    max-width: 640px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+
+  &__video-off {
+    &--icon {
+      @include color-svg(
+        '../images/icons/v2/video-off-solid-24.svg',
+        $color-white
+      );
+      height: 24px;
+      margin-bottom: 8px;
+      width: 24px;
+    }
+
+    &--text {
+      z-index: 1;
+    }
+  }
+}
+
+.module-calling-pip {
+  backface-visibility: hidden;
+  background-color: $color-gray-95;
+  border-radius: 4px;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.05), 0px 8px 20px rgba(0, 0, 0, 0.3);
+  cursor: grab;
+  height: 158px;
+  position: absolute;
+  width: 120px;
+  z-index: 2;
+
+  &__video {
+    &--remote {
+      align-items: center;
+      background-color: $color-gray-95;
+      border-radius: 4px 4px 0 0;
+      display: flex;
+      height: 120px;
+      justify-content: center;
+      position: relative;
+      width: 100%;
+    }
+
+    &--local {
+      bottom: 38px;
+      height: 32px;
+      position: absolute;
+      right: 4px;
+      width: 32px;
+    }
+
+    &--avatar img {
+      -webkit-user-drag: none;
+      -webkit-user-select: none;
+    }
+  }
+
+  &__actions {
+    align-items: center;
+    background-color: $color-gray-02;
+    border-radius: 0 0 4px 4px;
+    display: flex;
+    flex-direction: row;
+    height: 38px;
+    justify-content: space-around;
+
+    @include dark-theme {
+      background-color: $color-gray-65;
+    }
+  }
+
+  &__button {
+    &--hangup {
+      @include color-svg(
+        '../images/icons/v2/phone-down-28.svg',
+        $color-gray-75
+      );
+      height: 28px;
+      width: 28px;
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v2/phone-down-28.svg',
+          $color-gray-15
+        );
+      }
+    }
+
+    &--pip {
+      @include color-svg('../images/icons/v2/expand-24.svg', $color-gray-75);
+      height: 24px;
+      width: 24px;
+      @include dark-theme {
+        @include color-svg('../images/icons/v2/expand-24.svg', $color-gray-15);
+      }
+    }
+  }
+}
+
+.module-call-need-permission-screen {
+  align-items: center;
+  background-color: $color-gray-95;
+  color: $color-gray-05;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+
+  &__text {
+    margin: 2em 1em;
+    max-width: 400px;
+    @include font-body-1;
+    text-align: center;
+  }
+
+  &__button {
+    padding: 0.5em 1em;
+    border: 0;
+    border-radius: 4px;
+    @include font-body-1-bold;
+    color: $color-gray-05;
+    background: $color-gray-65;
   }
 }
 
@@ -6139,6 +6425,18 @@ button.module-image__border-overlay:focus {
   }
   @include dark-theme {
     border-bottom: 1px solid $color-gray-75;
+  }
+}
+
+.module-left-pane__header-row {
+  @include font-body-1-bold;
+
+  display: inline-flex;
+  align-items: center;
+  padding-left: 16px;
+
+  @include dark-theme {
+    color: $color-gray-05;
   }
 }
 
@@ -6477,7 +6775,6 @@ button.module-image__border-overlay:focus {
   border-top: 1px solid $color-gray-05;
   display: flex;
   justify-content: flex-end;
-  margin-bottom: -18px;
   margin-left: -16px;
   margin-right: -16px;
   margin-top: -14px;
@@ -7626,10 +7923,11 @@ button.module-image__border-overlay:focus {
 
     &__content {
       @include font-body-1;
-      margin-bottom: 22px;
     }
 
     &__buttons {
+      margin-top: 22px;
+
       display: flex;
       flex-direction: row;
       justify-content: flex-end;
@@ -9092,6 +9390,106 @@ button.module-image__border-overlay:focus {
 
   margin-left: auto;
   margin-right: auto;
+}
+
+// Module: Progress Dialog
+
+.module-progress-dialog {
+  width: 138px;
+  padding: 18px;
+  border-radius: 8px;
+  @include popper-shadow();
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @include light-theme() {
+    background: $color-white;
+    color: $color-gray-90;
+  }
+
+  @include dark-theme() {
+    background: $color-gray-80;
+    color: $color-gray-05;
+  }
+}
+
+.module-progress-dialog__spinner {
+  padding: 10px;
+}
+
+.module-progress-dialog__text {
+  @include font-body-2;
+}
+
+.module-progress-dialog__overlay {
+  background: $color-black-alpha-40;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+}
+
+// Module: Error Modal
+
+.module-error-modal__button-container {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.module-button {
+  &__gray {
+    @include font-body-1-bold;
+    background-color: $color-gray-45;
+    border-radius: 4px;
+    border: none;
+    color: $color-white;
+    outline: none;
+    padding: 7px 14px;
+
+    @include keyboard-mode {
+      &:focus {
+        box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
+      }
+    }
+  }
+
+  &__green {
+    @include font-body-1-bold;
+    background-color: $color-accent-green;
+    border-radius: 4px;
+    border: none;
+    color: $color-white;
+    outline: none;
+    padding: 7px 14px;
+
+    @include keyboard-mode {
+      &:focus {
+        box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
+      }
+    }
+  }
+}
+
+.module-background-color {
+  &__default {
+    background-color: $color-black-alpha-40;
+  }
+
+  @each $color, $value in $conversation-colors {
+    &__#{$color} {
+      background-color: $value;
+    }
+  }
 }
 
 /* Third-party module: react-tooltip-lite */

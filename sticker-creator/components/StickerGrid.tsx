@@ -9,7 +9,7 @@ import * as styles from './StickerGrid.scss';
 import { Props as StickerFrameProps, StickerFrame } from './StickerFrame';
 import { stickersDuck } from '../store';
 import { DropZone, Props as DropZoneProps } from '../elements/DropZone';
-import { convertToWebp } from '../util/preload';
+import { processStickerImage } from '../util/preload';
 
 const queue = new PQueue({ concurrency: 3, timeout: 1000 * 60 * 2 });
 
@@ -17,7 +17,7 @@ const SmartStickerFrame = SortableElement(
   ({ id, showGuide, mode }: StickerFrameProps) => {
     const data = stickersDuck.useStickerData(id);
     const actions = stickersDuck.useStickerActions();
-    const image = data.webp ? data.webp.src : undefined;
+    const image = data.imageData ? data.imageData.src : undefined;
 
     return (
       <StickerFrame
@@ -50,16 +50,17 @@ const InnerGrid = SortableContainer(
       async paths => {
         actions.initializeStickers(paths);
         paths.forEach(path => {
-          // tslint:disable-next-line no-floating-promises
           queue.add(async () => {
             try {
-              const webp = await convertToWebp(path);
-              actions.addWebp(webp);
+              const stickerImage = await processStickerImage(path);
+              actions.addImageData(stickerImage);
             } catch (e) {
               window.log.error('Error processing image:', e);
               actions.removeSticker(path);
               actions.addToast({
-                key: 'StickerCreator--Toasts--errorProcessing',
+                key:
+                  (e || {}).errorMessageI18nKey ||
+                  'StickerCreator--Toasts--errorProcessing',
               });
             }
           });

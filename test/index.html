@@ -332,6 +332,7 @@
   <script type="text/javascript" src="../libtextsecure/test/fake_web_api.js"></script>
 
   <script type="text/javascript" src="../js/components.js"></script>
+  <script type='text/javascript' src='../ts/backboneJquery.js'></script>
   <script type="text/javascript" src="../js/reliable_trigger.js" data-cover></script>
   <script type="text/javascript" src="test.js"></script>
 
@@ -394,6 +395,11 @@
   <!-- Uncomment to start tests without code coverage enabled -->
   <script type="text/javascript">
     window.Signal.conversationControllerStart();
+
+    window.test.pendingDescribeCalls.forEach(args => {
+      describe(...args);
+    });
+
     mocha.run();
   </script>
 </body>

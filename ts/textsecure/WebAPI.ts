@@ -1,5 +1,13 @@
-import { w3cwebsocket as WebSocket } from 'websocket';
+/* eslint-disable no-param-reassign */
+/* eslint-disable more/no-then */
+/* eslint-disable no-bitwise */
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import fetch, { Response } from 'node-fetch';
+import { AbortSignal } from 'abort-controller';
 import ProxyAgent from 'proxy-agent';
 import { Agent } from 'https';
 import pProps from 'p-props';
@@ -11,12 +19,14 @@ import {
   zipObject,
 } from 'lodash';
 import { createVerify } from 'crypto';
-import { Long } from '../window.d';
 import { pki } from 'node-forge';
-
 import is from '@sindresorhus/is';
+import PQueue from 'p-queue';
+import { v4 as getGuid } from 'uuid';
+
+import { Long } from '../window.d';
+import { getUserAgent } from '../util/getUserAgent';
 import { isPackIdValid, redactPackId } from '../../js/modules/stickers';
-import MessageSender from './SendMessage';
 import {
   arrayBufferToBase64,
   base64ToArrayBuffer,
@@ -30,10 +40,7 @@ import {
   getRandomValue,
   splitUuids,
 } from '../Crypto';
-import { getUserAgent } from '../util/getUserAgent';
-
-import PQueue from 'p-queue';
-import { v4 as getGuid } from 'uuid';
+import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch';
 
 import {
   AvatarUploadAttributesClass,
@@ -43,6 +50,9 @@ import {
   StorageServiceCallOptionsType,
   StorageServiceCredentials,
 } from '../textsecure.d';
+
+import { WebSocket } from './WebSocket';
+import MessageSender from './SendMessage';
 
 type SgxConstantsType = {
   SGX_FLAGS_INITTED: Long;
@@ -80,8 +90,6 @@ function getSgxConstants() {
 
   return sgxConstantCache;
 }
-
-// tslint:disable no-bitwise
 
 function _btoa(str: any) {
   let buffer;
@@ -142,24 +150,27 @@ function _getStringable(thing: any) {
 function _ensureStringed(thing: any): any {
   if (_getStringable(thing)) {
     return _getString(thing);
-  } else if (thing instanceof Array) {
+  }
+  if (thing instanceof Array) {
     const res = [];
     for (let i = 0; i < thing.length; i += 1) {
       res[i] = _ensureStringed(thing[i]);
     }
 
     return res;
-  } else if (thing === Object(thing)) {
+  }
+  if (thing === Object(thing)) {
     const res: any = {};
-    // tslint:disable-next-line forin no-for-in
     for (const key in thing) {
       res[key] = _ensureStringed(thing[key]);
     }
 
     return res;
-  } else if (thing === null) {
+  }
+  if (thing === null) {
     return null;
-  } else if (thing === undefined) {
+  }
+  if (thing === undefined) {
     return undefined;
   }
   throw new Error(`unsure of how to jsonify object of type ${typeof thing}`);
@@ -185,7 +196,6 @@ function _base64ToBytes(sBase64: string, nBlocksSize?: number) {
 
   for (let nInIdx = 0; nInIdx < nInLen; nInIdx += 1) {
     nMod4 = nInIdx & 3;
-    // tslint:disable-next-line binary-expression-operand-order
     nUint24 |= _b64ToUint6(sB64Enc.charCodeAt(nInIdx)) << (18 - 6 * nMod4);
     if (nMod4 === 3 || nInLen - nInIdx === 1) {
       for (
@@ -219,7 +229,6 @@ function _createRedactor(
 
 function _validateResponse(response: any, schema: any) {
   try {
-    // tslint:disable-next-line forin no-for-in
     for (const i in schema) {
       switch (schema[i]) {
         case 'object':
@@ -327,12 +336,10 @@ type ArrayBufferWithDetailsType = {
   response: Response;
 };
 
-// tslint:disable-next-line max-func-body-length
 async function _promiseAjax(
   providedUrl: string | null,
   options: PromiseAjaxOptionsType
 ): Promise<any> {
-  // tslint:disable-next-line max-func-body-length
   return new Promise((resolve, reject) => {
     const url = providedUrl || `${options.host}/${options.path}`;
 
@@ -376,8 +383,6 @@ async function _promiseAjax(
       } as HeaderListType,
       redirect: options.redirect,
       agent,
-      // We patched node-fetch to add the ca param; its type definitions don't have it
-      // @ts-ignore
       ca: options.certificateAuthority,
       timeout,
     };
@@ -414,12 +419,11 @@ async function _promiseAjax(
     }
 
     fetch(url, fetchOptions)
-      // tslint:disable-next-line max-func-body-length
       .then(async response => {
         // Build expired!
         if (response.status === 499) {
           window.log.error('Error: build expired');
-          window.storage.put('remoteBuildExpiration', Date.now());
+          await window.storage.put('remoteBuildExpiration', Date.now());
           window.reduxActions.expiration.hydrateExpirationStatus(true);
         }
 
@@ -439,16 +443,13 @@ async function _promiseAjax(
           resultPromise = response.textConverted();
         }
 
-        // tslint:disable-next-line max-func-body-length
         return resultPromise.then(result => {
           if (
             options.responseType === 'arraybuffer' ||
             options.responseType === 'arraybufferwithdetails'
           ) {
-            // tslint:disable-next-line no-parameter-reassignment
             result = result.buffer.slice(
               result.byteOffset,
-              // tslint:disable-next-line: restrict-plus-operands
               result.byteOffset + result.byteLength
             );
           }
@@ -539,8 +540,6 @@ async function _promiseAjax(
               options.stack
             )
           );
-
-          return;
         });
       })
       .catch(e => {
@@ -757,7 +756,7 @@ export type WebAPIType = {
   ) => Promise<any>;
   getProvisioningSocket: () => WebSocket;
   getSenderCertificate: (withUuid?: boolean) => Promise<any>;
-  getSticker: (packId: string, stickerId: string) => Promise<any>;
+  getSticker: (packId: string, stickerId: number) => Promise<any>;
   getStickerPackManifest: (packId: string) => Promise<StickerPackManifestType>;
   getStorageCredentials: MessageSender['getStorageCredentials'];
   getStorageManifest: MessageSender['getStorageManifest'];
@@ -765,6 +764,14 @@ export type WebAPIType = {
   getUuidsForE164s: (
     e164s: ReadonlyArray<string>
   ) => Promise<Dictionary<string | null>>;
+  fetchLinkPreviewMetadata: (
+    href: string,
+    abortSignal: AbortSignal
+  ) => Promise<null | linkPreviewFetch.LinkPreviewMetadata>;
+  fetchLinkPreviewImage: (
+    href: string,
+    abortSignal: AbortSignal
+  ) => Promise<null | linkPreviewFetch.LinkPreviewImage>;
   makeProxiedRequest: (
     targetUrl: string,
     options?: ProxiedRequestOptionsType
@@ -852,7 +859,6 @@ export type ProxiedRequestOptionsType = {
 };
 
 // We first set up the data that won't change during this session of the app
-// tslint:disable-next-line max-func-body-length
 export function initialize({
   url,
   storageUrl,
@@ -895,6 +901,9 @@ export function initialize({
   if (!is.string(contentProxyUrl)) {
     throw new Error('WebAPI.initialize: Invalid contentProxyUrl');
   }
+  if (proxyUrl && !is.string(proxyUrl)) {
+    throw new Error('WebAPI.initialize: Invalid proxyUrl');
+  }
   if (!is.string(version)) {
     throw new Error('WebAPI.initialize: Invalid version');
   }
@@ -908,7 +917,6 @@ export function initialize({
   // Then we connect to the server with user-specific information. This is the only API
   //   exposed to the browser context, ensuring that it can't connect to arbitrary
   //   locations.
-  // tslint:disable-next-line max-func-body-length
   function connect({
     username: initialUsername,
     password: initialPassword,
@@ -945,6 +953,8 @@ export function initialize({
       getStorageManifest,
       getStorageRecords,
       getUuidsForE164s,
+      fetchLinkPreviewMetadata,
+      fetchLinkPreviewImage,
       makeProxiedRequest,
       modifyGroup,
       modifyStorageRecords,
@@ -1260,7 +1270,7 @@ export function initialize({
           'gv2-3': true,
         },
         fetchesMessages: true,
-        name: deviceName ? deviceName : undefined,
+        name: deviceName || undefined,
         registrationId,
         supportsSms: false,
         unidentifiedAccessKey: accessKey
@@ -1548,7 +1558,7 @@ export function initialize({
       );
     }
 
-    async function getSticker(packId: string, stickerId: string) {
+    async function getSticker(packId: string, stickerId: number) {
       if (!isPackIdValid(packId)) {
         throw new Error('getSticker: pack ID was invalid');
       }
@@ -1751,6 +1761,24 @@ export function initialize({
       }
 
       return characters;
+    }
+
+    async function fetchLinkPreviewMetadata(
+      href: string,
+      abortSignal: AbortSignal
+    ) {
+      return linkPreviewFetch.fetchLinkPreviewMetadata(
+        fetch,
+        href,
+        abortSignal
+      );
+    }
+
+    async function fetchLinkPreviewImage(
+      href: string,
+      abortSignal: AbortSignal
+    ) {
+      return linkPreviewFetch.fetchLinkPreviewImage(fetch, href, abortSignal);
     }
 
     async function makeProxiedRequest(
@@ -2028,7 +2056,6 @@ export function initialize({
       window.log.info('opening message socket', url);
       const fixedScheme = url
         .replace('https://', 'wss://')
-        // tslint:disable-next-line no-http-string
         .replace('http://', 'ws://');
       const login = encodeURIComponent(username);
       const pass = encodeURIComponent(password);
@@ -2044,7 +2071,6 @@ export function initialize({
       window.log.info('opening provisioning socket', url);
       const fixedScheme = url
         .replace('https://', 'wss://')
-        // tslint:disable-next-line no-http-string
         .replace('http://', 'ws://');
       const clientVersion = encodeURIComponent(version);
 
@@ -2244,7 +2270,6 @@ export function initialize({
       }
     }
 
-    // tslint:disable-next-line max-func-body-length
     async function putRemoteAttestation(auth: {
       username: string;
       password: string;

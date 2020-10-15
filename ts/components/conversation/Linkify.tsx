@@ -5,7 +5,33 @@ import LinkifyIt from 'linkify-it';
 import { RenderTextCallbackType } from '../../types/Util';
 import { isLinkSneaky } from '../../../js/modules/link_previews';
 
-const linkify = LinkifyIt();
+const linkify = LinkifyIt()
+  // This is all of the TLDs in place in 2010, according to [Wikipedia][0]. Note that
+  //   this only applies to "fuzzy" matches (`example.com`), not matches with
+  //   protocols (`https://example.com`).
+  // [0]: https://en.wikipedia.org/wiki/Generic_top-level_domain#History
+  .tlds([
+    'aero',
+    'asia',
+    'biz',
+    'cat',
+    'com',
+    'coop',
+    'edu',
+    'gov',
+    'info',
+    'int',
+    'jobs',
+    'mil',
+    'mobi',
+    'museum',
+    'name',
+    'net',
+    'org',
+    'pro',
+    'tel',
+    'travel',
+  ]);
 
 export interface Props {
   text: string;

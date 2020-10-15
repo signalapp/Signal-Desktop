@@ -1,5 +1,3 @@
-// tslint:disable no-default-export
-
 export default function createTaskWithTimeout<T>(
   task: () => Promise<T>,
   id: string,
@@ -22,7 +20,7 @@ export default function createTaskWithTimeout<T>(
           window.log.error(message);
           reject(new Error(message));
 
-          return;
+          return undefined;
         }
 
         return null;
@@ -47,15 +45,11 @@ export default function createTaskWithTimeout<T>(
         clearTimer();
         complete = true;
         resolve(result);
-
-        return;
       };
       const failure = (error: Error) => {
         clearTimer();
         complete = true;
         reject(error);
-
-        return;
       };
 
       let promise;
@@ -70,9 +64,10 @@ export default function createTaskWithTimeout<T>(
         complete = true;
         resolve(promise);
 
-        return;
+        return undefined;
       }
 
+      // eslint-disable-next-line more/no-then
       return promise.then(success, failure);
     });
 }

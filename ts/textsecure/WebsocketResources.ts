@@ -1,3 +1,7 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable max-classes-per-file */
 /*
  * WebSocket-Resources
  *
@@ -20,21 +24,27 @@
  *
  */
 
-// tslint:disable max-classes-per-file no-default-export no-unnecessary-class
-
-import { w3cwebsocket as WebSocket } from 'websocket';
 import { ByteBufferClass } from '../window.d';
 
 import EventTarget from './EventTarget';
 
+import { WebSocket } from './WebSocket';
+
 class Request {
   verb: string;
+
   path: string;
+
   headers: Array<string>;
+
   body: ByteBufferClass | null;
+
   success: Function;
+
   error: Function;
+
   id: number;
+
   response?: any;
 
   constructor(options: any) {
@@ -60,14 +70,18 @@ class Request {
 
 export class IncomingWebSocketRequest {
   verb: string;
+
   path: string;
+
   body: ByteBufferClass | null;
+
   headers: Array<string>;
+
   respond: (status: number, message: string) => void;
 
-  constructor(options: any) {
+  constructor(options: unknown) {
     const request = new Request(options);
-    const { socket } = options;
+    const { socket } = options as { socket: WebSocket };
 
     this.verb = request.verb;
     this.path = request.path;
@@ -113,11 +127,13 @@ class OutgoingWebSocketRequest {
 
 export default class WebSocketResource extends EventTarget {
   closed?: boolean;
+
   close: (code?: number, reason?: string) => void;
+
   sendRequest: (options: any) => OutgoingWebSocketRequest;
+
   keepalive?: KeepAlive;
 
-  // tslint:disable-next-line max-func-body-length
   constructor(socket: WebSocket, opts: any = {}) {
     super();
 
@@ -198,21 +214,14 @@ export default class WebSocketResource extends EventTarget {
       });
       const resetKeepAliveTimer = this.keepalive.reset.bind(this.keepalive);
 
-      // websocket type definitions don't include an addEventListener, but it's there. And
-      //   We can't use declaration merging on classes:
-      // https://www.typescriptlang.org/docs/handbook/declaration-merging.html#disallowed-merges)
-      // @ts-ignore
       socket.addEventListener('open', resetKeepAliveTimer);
-      // @ts-ignore
       socket.addEventListener('message', resetKeepAliveTimer);
-      // @ts-ignore
       socket.addEventListener(
         'close',
         this.keepalive.stop.bind(this.keepalive)
       );
     }
 
-    // @ts-ignore
     socket.addEventListener('close', () => {
       this.closed = true;
     });
@@ -228,8 +237,9 @@ export default class WebSocketResource extends EventTarget {
       }
 
       socket.close(code, reason);
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      socket.onmessage = null;
+      socket.onmessage = undefined;
 
       // On linux the socket can wait a long time to emit its close event if we've
       //   lost the internet connection. On the order of minutes. This speeds that
@@ -257,9 +267,13 @@ type KeepAliveOptionsType = {
 
 class KeepAlive {
   keepAliveTimer: any;
+
   disconnectTimer: any;
+
   path: string;
+
   disconnect: boolean;
+
   wsr: WebSocketResource;
 
   constructor(

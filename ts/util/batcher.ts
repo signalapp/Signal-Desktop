@@ -29,7 +29,6 @@ export type BatcherType<ItemType> = {
 };
 
 async function sleep(ms: number): Promise<void> {
-  // tslint:disable-next-line:no-string-based-set-timeout
   await new Promise(resolve => setTimeout(resolve, ms));
 }
 
@@ -44,7 +43,6 @@ export function createBatcher<ItemType>(
   function _kickBatchOff() {
     const itemsRef = items;
     items = [];
-    // tslint:disable-next-line:no-floating-promises
     queue.add(async () => {
       await options.processBatch(itemsRef);
     });

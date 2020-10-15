@@ -4,8 +4,6 @@
 
 // From https://github.com/mathiasbynens/unicode-12.1.0/tree/master/Block
 
-// tslint:disable variable-name
-
 const CJK_Compatibility = /[\u3300-\u33FF]/;
 const CJK_Compatibility_Forms = /[\uFE30-\uFE4F]/;
 const CJK_Compatibility_Ideographs = /[\uF900-\uFAFF]/;

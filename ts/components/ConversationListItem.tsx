@@ -49,6 +49,7 @@ export type PropsData = {
     text: string;
     deletedForEveryone?: boolean;
   };
+  isPinned?: boolean;
 };
 
 type PropsHousekeeping = {
@@ -205,7 +206,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
               : null
           )}
         >
-          {muteExpiresAt && (
+          {muteExpiresAt && Date.now() < muteExpiresAt && (
             <span className="module-conversation-list-item__muted" />
           )}
           {!isAccepted ? (

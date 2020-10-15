@@ -8,7 +8,6 @@ import {
   base64ToArrayBuffer,
   deriveStorageItemKey,
   deriveStorageManifestKey,
-  fromEncodedBinaryToArrayBuffer,
 } from '../Crypto';
 import {
   ManifestRecordClass,
@@ -17,7 +16,6 @@ import {
   StorageManifestClass,
   StorageRecordClass,
 } from '../textsecure.d';
-import { ConversationModelType } from '../model-types.d';
 import { isEnabled } from '../RemoteConfig';
 import {
   mergeAccountRecord,
@@ -29,6 +27,8 @@ import {
   toGroupV1Record,
   toGroupV2Record,
 } from './storageRecordOps';
+import { ConversationModel } from '../models/conversations';
+import { storageJobQueue } from '../util/JobQueue';
 
 const {
   eraseStorageServiceStateFromConversations,
@@ -37,6 +37,15 @@ const {
 
 let consecutiveStops = 0;
 let consecutiveConflicts = 0;
+const forcedPushBucket: Array<number> = [];
+
+const validRecordTypes = new Set([
+  0, // UNKNOWN
+  1, // CONTACT
+  2, // GROUPV1
+  3, // GROUPV2
+  4, // ACCOUNT
+]);
 
 type BackoffType = {
   [key: number]: number | undefined;
@@ -98,18 +107,9 @@ function generateStorageID(): ArrayBuffer {
   return Crypto.getRandomBytes(16);
 }
 
-function isGroupV1(conversation: ConversationModelType): boolean {
-  const groupID = conversation.get('groupId');
-  if (!groupID) {
-    return false;
-  }
-
-  return fromEncodedBinaryToArrayBuffer(groupID).byteLength === 16;
-}
-
 type GeneratedManifestType = {
   conversationsToUpdate: Array<{
-    conversation: ConversationModelType;
+    conversation: ConversationModel;
     storageID: string | undefined;
   }>;
   deleteKeys: Array<ArrayBuffer>;
@@ -117,13 +117,14 @@ type GeneratedManifestType = {
   storageManifest: StorageManifestClass;
 };
 
-/* tslint:disable-next-line max-func-body-length */
 async function generateManifest(
   version: number,
   isNewManifest = false
 ): Promise<GeneratedManifestType> {
   window.log.info(
-    `storageService.generateManifest: generating manifest for version ${version}. Is new? ${isNewManifest}`
+    'storageService.generateManifest: generating manifest',
+    version,
+    isNewManifest
   );
 
   const ITEM_TYPE = window.textsecure.protobuf.ManifestRecord.Identifier.Type;
@@ -149,12 +150,12 @@ async function generateManifest(
       // eslint-disable-next-line no-await-in-loop
       storageRecord.contact = await toContactRecord(conversation);
       identifier.type = ITEM_TYPE.CONTACT;
-    } else if ((conversation.get('groupVersion') || 0) > 1) {
+    } else if (conversation.isGroupV2()) {
       storageRecord = new window.textsecure.protobuf.StorageRecord();
       // eslint-disable-next-line no-await-in-loop
       storageRecord.groupV2 = await toGroupV2Record(conversation);
       identifier.type = ITEM_TYPE.GROUPV2;
-    } else if (isGroupV1(conversation)) {
+    } else if (conversation.isGroupV1()) {
       storageRecord = new window.textsecure.protobuf.StorageRecord();
       // eslint-disable-next-line no-await-in-loop
       storageRecord.groupV1 = await toGroupV1Record(conversation);
@@ -167,12 +168,16 @@ async function generateManifest(
     }
 
     if (storageRecord) {
+      const currentStorageID = conversation.get('storageID');
+
       const isNewItem =
-        isNewManifest || Boolean(conversation.get('needsStorageServiceSync'));
+        isNewManifest ||
+        Boolean(conversation.get('needsStorageServiceSync')) ||
+        !currentStorageID;
 
       const storageID = isNewItem
         ? arrayBufferToBase64(generateStorageID())
-        : conversation.get('storageID');
+        : currentStorageID;
 
       let storageItem;
       try {
@@ -180,9 +185,8 @@ async function generateManifest(
         storageItem = await encryptRecord(storageID, storageRecord);
       } catch (err) {
         window.log.error(
-          `storageService.generateManifest: encrypt record failed: ${
-            err && err.stack ? err.stack : String(err)
-          }`
+          'storageService.generateManifest: encrypt record failed:',
+          err && err.stack ? err.stack : String(err)
         );
         throw err;
       }
@@ -208,16 +212,36 @@ async function generateManifest(
     }
   }
 
-  const unknownRecordsArray =
-    window.storage.get('storage-service-unknown-records') || [];
+  const unknownRecordsArray = (
+    window.storage.get('storage-service-unknown-records') || []
+  ).filter((record: UnknownRecord) => !validRecordTypes.has(record.itemType));
 
   window.log.info(
-    `storageService.generateManifest: adding ${unknownRecordsArray.length} unknown records`
+    'storageService.generateManifest: adding unknown records:',
+    unknownRecordsArray.length
   );
 
   // When updating the manifest, ensure all "unknown" keys are added to the
   // new manifest, so we don't inadvertently delete something we don't understand
   unknownRecordsArray.forEach((record: UnknownRecord) => {
+    const identifier = new window.textsecure.protobuf.ManifestRecord.Identifier();
+    identifier.type = record.itemType;
+    identifier.raw = base64ToArrayBuffer(record.storageID);
+
+    manifestRecordKeys.add(identifier);
+  });
+
+  const recordsWithErrors =
+    window.storage.get('storage-service-error-records') || [];
+
+  window.log.info(
+    'storageService.generateManifest: adding records that had errors in the previous merge',
+    recordsWithErrors.length
+  );
+
+  // These records failed to merge in the previous fetchManifest, but we still
+  // need to include them so that the manifest is complete
+  recordsWithErrors.forEach((record: UnknownRecord) => {
     const identifier = new window.textsecure.protobuf.ManifestRecord.Identifier();
     identifier.type = record.itemType;
     identifier.raw = base64ToArrayBuffer(record.storageID);
@@ -243,7 +267,7 @@ async function generateManifest(
     ) {
       window.log.info(
         'storageService.generateManifest: removing duplicate identifier from manifest',
-        storageID
+        identifier.type
       );
       manifestRecordKeys.delete(identifier);
     }
@@ -257,7 +281,7 @@ async function generateManifest(
     if (hasDeleteKey) {
       window.log.info(
         'storageService.generateManifest: removing key which has been deleted',
-        storageID
+        identifier.type
       );
       manifestRecordKeys.delete(identifier);
     }
@@ -266,8 +290,7 @@ async function generateManifest(
     if (identifier.type === ITEM_TYPE.ACCOUNT) {
       if (hasAccountType) {
         window.log.info(
-          'storageService.generateManifest: removing duplicate account',
-          storageID
+          'storageService.generateManifest: removing duplicate account'
         );
         manifestRecordKeys.delete(identifier);
       }
@@ -335,10 +358,17 @@ async function uploadManifest(
     throw new Error('storageService.uploadManifest: We are offline!');
   }
 
+  if (newItems.size === 0 && deleteKeys.length === 0) {
+    window.log.info('storageService.uploadManifest: nothing to upload');
+    return;
+  }
+
   const credentials = window.storage.get('storageCredentials');
   try {
     window.log.info(
-      `storageService.uploadManifest: inserting ${newItems.size} items, deleting ${deleteKeys.length} keys`
+      'storageService.uploadManifest: keys inserting, deleting:',
+      newItems.size,
+      deleteKeys.length
     );
 
     const writeOperation = new window.textsecure.protobuf.WriteOperation();
@@ -346,7 +376,7 @@ async function uploadManifest(
     writeOperation.insertItem = Array.from(newItems);
     writeOperation.deleteKey = deleteKeys;
 
-    window.log.info('storageService.uploadManifest: uploading...');
+    window.log.info('storageService.uploadManifest: uploading...', version);
     await window.textsecure.messaging.modifyStorageRecords(
       writeOperation.toArrayBuffer(),
       {
@@ -355,7 +385,8 @@ async function uploadManifest(
     );
 
     window.log.info(
-      `storageService.uploadManifest: upload done, updating ${conversationsToUpdate.length} conversation(s) with new storageIDs`
+      'storageService.uploadManifest: upload done, updating conversation(s) with new storageIDs:',
+      conversationsToUpdate.length
     );
 
     // update conversations with the new storageID
@@ -368,9 +399,8 @@ async function uploadManifest(
     });
   } catch (err) {
     window.log.error(
-      `storageService.uploadManifest: failed! ${
-        err && err.stack ? err.stack : String(err)
-      }`
+      'storageService.uploadManifest: failed!',
+      err && err.stack ? err.stack : String(err)
     );
 
     if (err.code === 409) {
@@ -383,7 +413,7 @@ async function uploadManifest(
       consecutiveConflicts += 1;
 
       window.log.info(
-        `storageService.uploadManifest: Conflict found, running sync job times(${consecutiveConflicts})`
+        `storageService.uploadManifest: Conflict found with v${version}, running sync job times(${consecutiveConflicts})`
       );
 
       throw err;
@@ -502,9 +532,8 @@ async function fetchManifest(
     }
   } catch (err) {
     window.log.error(
-      `storageService.fetchManifest: failed! ${
-        err && err.stack ? err.stack : String(err)
-      }`
+      'storageService.fetchManifest: failed!',
+      err && err.stack ? err.stack : String(err)
     );
 
     if (err.code === 404) {
@@ -528,6 +557,7 @@ type MergeableItemType = {
 
 type MergedRecordType = UnknownRecord & {
   hasConflict: boolean;
+  hasError: boolean;
   isUnsupported: boolean;
 };
 
@@ -540,6 +570,7 @@ async function mergeRecord(
 
   let hasConflict = false;
   let isUnsupported = false;
+  let hasError = false;
 
   try {
     if (itemType === ITEM_TYPE.UNKNOWN) {
@@ -551,37 +582,31 @@ async function mergeRecord(
       hasConflict = await mergeContactRecord(storageID, storageRecord.contact);
     } else if (itemType === ITEM_TYPE.GROUPV1 && storageRecord.groupV1) {
       hasConflict = await mergeGroupV1Record(storageID, storageRecord.groupV1);
-    } else if (
-      window.GV2 &&
-      itemType === ITEM_TYPE.GROUPV2 &&
-      storageRecord.groupV2
-    ) {
+    } else if (itemType === ITEM_TYPE.GROUPV2 && storageRecord.groupV2) {
       hasConflict = await mergeGroupV2Record(storageID, storageRecord.groupV2);
     } else if (itemType === ITEM_TYPE.ACCOUNT && storageRecord.account) {
       hasConflict = await mergeAccountRecord(storageID, storageRecord.account);
     } else {
       isUnsupported = true;
-      window.log.info(
-        `storageService.mergeRecord: Unknown record: ${itemType}::${storageID}`
-      );
+      window.log.info('storageService.mergeRecord: Unknown record:', itemType);
     }
   } catch (err) {
+    hasError = true;
     window.log.error(
       'storageService.mergeRecord: merging record failed',
-      storageID,
       err && err.stack ? err.stack : String(err)
     );
   }
 
   return {
     hasConflict,
+    hasError,
     isUnsupported,
     itemType,
     storageID,
   };
 }
 
-/* tslint:disable-next-line max-func-body-length */
 async function processManifest(
   manifest: ManifestRecordClass
 ): Promise<boolean> {
@@ -602,28 +627,55 @@ async function processManifest(
 
   const localKeys = window
     .getConversations()
-    .map((conversation: ConversationModelType) => conversation.get('storageID'))
+    .map((conversation: ConversationModel) => conversation.get('storageID'))
     .filter(Boolean);
 
   const unknownRecordsArray =
     window.storage.get('storage-service-unknown-records') || [];
 
   unknownRecordsArray.forEach((record: UnknownRecord) => {
+    // Do not include any unknown records that we already support
+    if (!validRecordTypes.has(record.itemType)) {
+      localKeys.push(record.storageID);
+    }
+  });
+
+  const recordsWithErrors =
+    window.storage.get('storage-service-error-records') || [];
+
+  // Do not fetch any records that we failed to merge in the previous fetch
+  recordsWithErrors.forEach((record: UnknownRecord) => {
     localKeys.push(record.storageID);
   });
 
   window.log.info(
-    `storageService.processManifest: localKeys.length ${localKeys.length}`
+    'storageService.processManifest: local keys:',
+    localKeys.length
+  );
+
+  window.log.info(
+    'storageService.processManifest: incl. unknown records:',
+    unknownRecordsArray.length
+  );
+  window.log.info(
+    'storageService.processManifest: incl. records with errors:',
+    recordsWithErrors.length
   );
 
   const remoteKeys = Array.from(remoteKeysTypeMap.keys());
 
-  const remoteOnly = remoteKeys.filter(
-    (key: string) => !localKeys.includes(key)
-  );
+  const remoteOnlySet: Set<string> = new Set();
+  remoteKeys.forEach((key: string) => {
+    if (!localKeys.includes(key)) {
+      remoteOnlySet.add(key);
+    }
+  });
+
+  const remoteOnly = Array.from(remoteOnlySet);
 
   window.log.info(
-    `storageService.processManifest: remoteOnly.length ${remoteOnly.length}`
+    'storageService.processManifest: remote keys',
+    remoteOnly.length
   );
 
   const readOperation = new window.textsecure.protobuf.ReadOperation();
@@ -650,7 +702,9 @@ async function processManifest(
 
   const decryptedStorageItems = await pMap(
     storageItems.items,
-    async (storageRecordWrapper: StorageItemClass) => {
+    async (
+      storageRecordWrapper: StorageItemClass
+    ): Promise<MergeableItemType> => {
       const { key, value: storageItemCiphertext } = storageRecordWrapper;
 
       if (!key || !storageItemCiphertext) {
@@ -694,18 +748,26 @@ async function processManifest(
         storageRecord,
       };
     },
-    { concurrency: 50 }
+    { concurrency: 5 }
+  );
+
+  // Merge Account records last
+  const sortedStorageItems = ([] as Array<MergeableItemType>).concat(
+    ..._.partition(
+      decryptedStorageItems,
+      storageRecord => storageRecord.storageRecord.account === undefined
+    )
   );
 
   try {
     window.log.info(
-      `storageService.processManifest: Attempting to merge ${decryptedStorageItems.length} records`
+      `storageService.processManifest: Attempting to merge ${sortedStorageItems.length} records`
     );
-    const mergedRecords = await pMap(decryptedStorageItems, mergeRecord, {
+    const mergedRecords = await pMap(sortedStorageItems, mergeRecord, {
       concurrency: 5,
     });
     window.log.info(
-      `storageService.processManifest: Merged ${mergedRecords.length} records`
+      `storageService.processManifest: Processed ${mergedRecords.length} records`
     );
 
     const unknownRecords: Map<string, UnknownRecord> = new Map();
@@ -713,20 +775,92 @@ async function processManifest(
       unknownRecords.set(record.storageID, record);
     });
 
-    const hasConflict = mergedRecords.some((mergedRecord: MergedRecordType) => {
+    const newRecordsWithErrors: Array<UnknownRecord> = [];
+
+    let hasConflict = false;
+
+    mergedRecords.forEach((mergedRecord: MergedRecordType) => {
       if (mergedRecord.isUnsupported) {
         unknownRecords.set(mergedRecord.storageID, {
           itemType: mergedRecord.itemType,
           storageID: mergedRecord.storageID,
         });
+      } else if (mergedRecord.hasError) {
+        newRecordsWithErrors.push({
+          itemType: mergedRecord.itemType,
+          storageID: mergedRecord.storageID,
+        });
       }
-      return mergedRecord.hasConflict;
+
+      hasConflict = hasConflict || mergedRecord.hasConflict;
     });
 
-    window.storage.put(
-      'storage-service-unknown-records',
-      Array.from(unknownRecords.values())
+    // Filter out all the unknown records we're already supporting
+    const newUnknownRecords = Array.from(unknownRecords.values()).filter(
+      (record: UnknownRecord) => !validRecordTypes.has(record.itemType)
     );
+
+    window.log.info(
+      'storageService.processManifest: Unknown records found:',
+      newUnknownRecords.length
+    );
+    window.storage.put('storage-service-unknown-records', newUnknownRecords);
+
+    window.log.info(
+      'storageService.processManifest: Records with errors:',
+      newRecordsWithErrors.length
+    );
+    // Refresh the list of records that had errors with every push, that way
+    // this list doesn't grow unbounded and we keep the list of storage keys
+    // fresh.
+    window.storage.put('storage-service-error-records', newRecordsWithErrors);
+
+    const now = Date.now();
+
+    // if the remote only keys are larger or equal to our local keys then it
+    // was likely a forced push of storage service. We keep track of these
+    // merges so that we can detect possible infinite loops
+    if (remoteOnly.length >= localKeys.length) {
+      window.log.info(
+        'storageService.processManifest: remote manifest was likely force pushed',
+        now
+      );
+      forcedPushBucket.push(now);
+
+      // we need to check our conversations because maybe all of them were not
+      // updated properly, for those that weren't we'll clear their storage
+      // key so that they can be included in the next update
+      window.getConversations().forEach((conversation: ConversationModel) => {
+        const storageID = conversation.get('storageID');
+        if (storageID && !remoteOnlySet.has(storageID)) {
+          window.log.info(
+            'storageService.processManifest: clearing storageID',
+            conversation.debugID()
+          );
+          conversation.unset('storageID');
+        }
+      });
+
+      if (forcedPushBucket.length >= 3) {
+        const [firstMostRecentForcedPush] = forcedPushBucket;
+
+        if (now - firstMostRecentForcedPush < 5 * MINUTE) {
+          window.log.info(
+            'storageService.processManifest: thrasing? Backing off'
+          );
+          const error = new Error();
+          error.code = 'E_BACKOFF';
+          throw error;
+        }
+
+        window.log.info(
+          'storageService.processManifest: thrash timestamp of first -> now',
+          firstMostRecentForcedPush,
+          now
+        );
+        forcedPushBucket.shift();
+      }
+    }
 
     if (hasConflict) {
       window.log.info(
@@ -739,33 +873,28 @@ async function processManifest(
     consecutiveConflicts = 0;
   } catch (err) {
     window.log.error(
-      `storageService.processManifest: failed! ${
-        err && err.stack ? err.stack : String(err)
-      }`
+      'storageService.processManifest: failed!',
+      err && err.stack ? err.stack : String(err)
     );
   }
 
   return false;
 }
 
-// Exported functions
-
-export async function runStorageServiceSyncJob(): Promise<void> {
+async function sync(): Promise<void> {
   if (!isEnabled('desktop.storage')) {
     window.log.info(
-      'storageService.runStorageServiceSyncJob: Not starting desktop.storage is falsey'
+      'storageService.sync: Not starting desktop.storage is falsey'
     );
 
     return;
   }
 
   if (!window.storage.get('storageKey')) {
-    throw new Error(
-      'storageService.runStorageServiceSyncJob: Cannot start; no storage key!'
-    );
+    throw new Error('storageService.sync: Cannot start; no storage key!');
   }
 
-  window.log.info('storageService.runStorageServiceSyncJob: starting...');
+  window.log.info('storageService.sync: starting...');
 
   try {
     const localManifestVersion = window.storage.get('manifestVersion') || 0;
@@ -773,45 +902,102 @@ export async function runStorageServiceSyncJob(): Promise<void> {
 
     // Guarding against no manifests being returned, everything should be ok
     if (!manifest) {
-      window.log.info(
-        'storageService.runStorageServiceSyncJob: no new manifest'
-      );
+      window.log.info('storageService.sync: no new manifest');
       return;
     }
 
     const version = manifest.version.toNumber();
 
     window.log.info(
-      `storageService.runStorageServiceSyncJob: manifest versions - previous: ${localManifestVersion}, current: ${version}`
+      `storageService.sync: manifest versions - previous: ${localManifestVersion}, current: ${version}`
     );
+
+    window.storage.put('manifestVersion', version);
 
     const hasConflicts = await processManifest(manifest);
     if (hasConflicts) {
-      await storageServiceUploadJob();
+      await upload();
     }
-
-    window.storage.put('manifestVersion', version);
   } catch (err) {
     window.log.error(
-      `storageService.runStorageServiceSyncJob: error processing manifest ${
-        err && err.stack ? err.stack : String(err)
-      }`
+      'storageService.sync: error processing manifest',
+      err && err.stack ? err.stack : String(err)
     );
+
+    // When we're told to backoff, backoff to the max which should be
+    // ~5 minutes. If this job was running inside a queue it'll probably time
+    // out.
+    if (err.code === 'E_BACKOFF') {
+      await backOff(9001);
+    }
   }
 
-  window.log.info('storageService.runStorageServiceSyncJob: complete');
+  window.log.info('storageService.sync: complete');
 }
 
-// Note: this function must be called at startup once we handle unknown records
-// of a certain type. This way once the runStorageServiceSyncJob function runs
-// it'll pick up the new storage IDs and process them accordingly.
-export function handleUnknownRecords(itemType: number): void {
-  const unknownRecordsArray =
-    window.storage.get('storage-service-unknown-records') || [];
-  const newUnknownRecords = unknownRecordsArray.filter(
-    (record: UnknownRecord) => record.itemType !== itemType
+async function upload(): Promise<void> {
+  if (!isEnabled('desktop.storage')) {
+    window.log.info(
+      'storageService.upload: Not starting desktop.storage is falsey'
+    );
+
+    return;
+  }
+  if (!isEnabled('desktop.storageWrite')) {
+    window.log.info(
+      'storageService.upload: Not starting desktop.storageWrite is falsey'
+    );
+
+    return;
+  }
+
+  if (!window.textsecure.messaging) {
+    throw new Error('storageService.upload: We are offline!');
+  }
+
+  if (!window.storage.get('storageKey')) {
+    // requesting new keys runs the sync job which will detect the conflict
+    // and re-run the upload job once we're merged and up-to-date.
+    window.log.info(
+      'storageService.upload: no storageKey, requesting new keys'
+    );
+    consecutiveStops = 0;
+    await window.textsecure.messaging.sendRequestKeySyncMessage();
+    return;
+  }
+
+  const localManifestVersion = window.storage.get('manifestVersion') || 0;
+  const version = Number(localManifestVersion) + 1;
+
+  window.log.info(
+    'storageService.upload: will update to manifest version',
+    version
   );
-  window.storage.put('storage-service-unknown-records', newUnknownRecords);
+
+  try {
+    const generatedManifest = await generateManifest(version);
+    await uploadManifest(version, generatedManifest);
+  } catch (err) {
+    if (err.code === 409) {
+      await backOff(consecutiveConflicts);
+      window.log.info('storageService.upload: pushing sync on the queue');
+      // The sync job will check for conflicts and as part of that conflict
+      // check if an item needs sync and doesn't match with the remote record
+      // it'll kick off another upload.
+      setTimeout(runStorageServiceSyncJob);
+      return;
+    }
+    window.log.error(
+      'storageService.upload',
+      err && err.stack ? err.stack : String(err)
+    );
+  }
+}
+
+let storageServiceEnabled = false;
+
+export function enableStorageService(): void {
+  storageServiceEnabled = true;
 }
 
 // Note: this function is meant to be called before ConversationController is hydrated.
@@ -827,56 +1013,24 @@ export async function eraseAllStorageServiceState(): Promise<void> {
   window.log.info('storageService.eraseAllStorageServiceState: complete');
 }
 
-async function nondebouncedStorageServiceUploadJob(): Promise<void> {
-  if (!isEnabled('desktop.storage')) {
+export const storageServiceUploadJob = _.debounce(() => {
+  if (!storageServiceEnabled) {
     window.log.info(
-      'storageService.storageServiceUploadJob: Not starting desktop.storage is falsey'
+      'storageService.storageServiceUploadJob: called before enabled'
     );
-
-    return;
-  }
-  if (!isEnabled('desktop.storageWrite')) {
-    window.log.info(
-      'storageService.storageServiceUploadJob: Not starting desktop.storageWrite is falsey'
-    );
-
     return;
   }
 
-  if (!window.textsecure.messaging) {
-    throw new Error('storageService.storageServiceUploadJob: We are offline!');
-  }
+  storageJobQueue(upload, `upload v${window.storage.get('manifestVersion')}`);
+}, 500);
 
-  if (!window.storage.get('storageKey')) {
-    // requesting new keys runs the sync job which will detect the conflict
-    // and re-run the upload job once we're merged and up-to-date.
+export const runStorageServiceSyncJob = _.debounce(() => {
+  if (!storageServiceEnabled) {
     window.log.info(
-      'storageService.storageServiceUploadJob: no storageKey, requesting new keys'
+      'storageService.runStorageServiceSyncJob: called before enabled'
     );
-    consecutiveStops = 0;
-    await window.textsecure.messaging.sendRequestKeySyncMessage();
     return;
   }
 
-  const localManifestVersion = window.storage.get('manifestVersion') || 0;
-  const version = Number(localManifestVersion) + 1;
-
-  window.log.info(
-    'storageService.storageServiceUploadJob: will update to manifest version',
-    version
-  );
-
-  try {
-    await uploadManifest(version, await generateManifest(version));
-  } catch (err) {
-    if (err.code === 409) {
-      await backOff(consecutiveConflicts);
-      await runStorageServiceSyncJob();
-    }
-  }
-}
-
-export const storageServiceUploadJob = _.debounce(
-  nondebouncedStorageServiceUploadJob,
-  500
-);
+  storageJobQueue(sync, `sync v${window.storage.get('manifestVersion')}`);
+}, 500);

@@ -1,4 +1,9 @@
-// tslint:disable no-default-export
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable class-methods-use-this */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable more/no-then */
+/* eslint-disable no-param-reassign */
 
 import { reject } from 'lodash';
 import { ServerKeysType, WebAPIType } from './WebAPI';
@@ -24,25 +29,38 @@ type OutgoingMessageOptionsType = SendOptionsType & {
 
 export default class OutgoingMessage {
   server: WebAPIType;
+
   timestamp: number;
+
   identifiers: Array<string>;
+
   message: ContentClass;
+
   callback: (result: CallbackResultType) => void;
+
   silent?: boolean;
+
   plaintext?: Uint8Array;
 
   identifiersCompleted: number;
-  errors: Array<any>;
-  successfulIdentifiers: Array<any>;
-  failoverIdentifiers: Array<any>;
-  unidentifiedDeliveries: Array<any>;
+
+  errors: Array<unknown>;
+
+  successfulIdentifiers: Array<unknown>;
+
+  failoverIdentifiers: Array<unknown>;
+
+  unidentifiedDeliveries: Array<unknown>;
+
   discoveredIdentifierPairs: Array<{
     e164: string;
     uuid: string;
   }>;
 
   sendMetadata?: SendMetadataType;
+
   senderCertificate?: ArrayBuffer;
+
   online?: boolean;
 
   constructor(
@@ -76,12 +94,13 @@ export default class OutgoingMessage {
     this.unidentifiedDeliveries = [];
     this.discoveredIdentifierPairs = [];
 
-    const { sendMetadata, senderCertificate, online } = options || ({} as any);
+    const { sendMetadata, senderCertificate, online } = options;
     this.sendMetadata = sendMetadata;
     this.senderCertificate = senderCertificate;
     this.online = online;
   }
-  numberCompleted() {
+
+  numberCompleted(): void {
     this.identifiersCompleted += 1;
     if (this.identifiersCompleted >= this.identifiers.length) {
       this.callback({
@@ -93,9 +112,9 @@ export default class OutgoingMessage {
       });
     }
   }
-  registerError(identifier: string, reason: string, error?: Error) {
+
+  registerError(identifier: string, reason: string, error?: Error): void {
     if (!error || (error.name === 'HTTPError' && error.code !== 404)) {
-      // tslint:disable-next-line no-parameter-reassignment
       error = new OutgoingMessageError(
         identifier,
         this.message.toArrayBuffer(),
@@ -104,11 +123,11 @@ export default class OutgoingMessage {
       );
     }
 
-    // eslint-disable-next-line no-param-reassign
     error.reason = reason;
     this.errors[this.errors.length] = error;
     this.numberCompleted();
   }
+
   reloadDevicesAndSend(
     identifier: string,
     recurse?: boolean
@@ -123,14 +142,16 @@ export default class OutgoingMessage {
               'Got empty device list when loading device keys',
               undefined
             );
-            return;
+            return undefined;
           }
           return this.doSendMessage(identifier, deviceIds, recurse);
         });
   }
 
-  // tslint:disable-next-line max-func-body-length
-  async getKeysForIdentifier(identifier: string, updateDevices: Array<number>) {
+  async getKeysForIdentifier(
+    identifier: string,
+    updateDevices: Array<number>
+  ): Promise<void | Array<void | null>> {
     const handleResult = async (response: ServerKeysType) =>
       Promise.all(
         response.devices.map(async device => {
@@ -194,7 +215,7 @@ export default class OutgoingMessage {
       return this.server.getKeysForIdentifier(identifier).then(handleResult);
     }
 
-    let promise: Promise<any> = Promise.resolve();
+    let promise: Promise<void | Array<void | null>> = Promise.resolve();
     updateDevices.forEach(deviceId => {
       promise = promise.then(async () => {
         let innerPromise;
@@ -238,10 +259,10 @@ export default class OutgoingMessage {
 
   async transmitMessage(
     identifier: string,
-    jsonData: Array<any>,
+    jsonData: Array<unknown>,
     timestamp: number,
     { accessKey }: { accessKey?: string } = {}
-  ) {
+  ): Promise<void> {
     let promise;
 
     if (accessKey) {
@@ -277,7 +298,7 @@ export default class OutgoingMessage {
     });
   }
 
-  getPaddedMessageLength(messageLength: number) {
+  getPaddedMessageLength(messageLength: number): number {
     const messageLengthWithTerminator = messageLength + 1;
     let messagePartCount = Math.floor(messageLengthWithTerminator / 160);
 
@@ -288,7 +309,7 @@ export default class OutgoingMessage {
     return messagePartCount * 160;
   }
 
-  getPlaintext() {
+  getPlaintext(): ArrayBuffer {
     if (!this.plaintext) {
       const messageBuffer = this.message.toArrayBuffer();
       this.plaintext = new Uint8Array(
@@ -300,7 +321,6 @@ export default class OutgoingMessage {
     return this.plaintext;
   }
 
-  // tslint:disable-next-line max-func-body-length
   async doSendMessage(
     identifier: string,
     deviceIds: Array<number>,
@@ -335,7 +355,6 @@ export default class OutgoingMessage {
     const ourUuid = window.textsecure.storage.user.getUuid();
     const ourDeviceId = window.textsecure.storage.user.getDeviceId();
     if ((identifier === ourNumber || identifier === ourUuid) && !sealedSender) {
-      // tslint:disable-next-line no-parameter-reassignment
       deviceIds = reject(
         deviceIds,
         deviceId =>
@@ -380,22 +399,21 @@ export default class OutgoingMessage {
             ),
             content: window.Signal.Crypto.arrayBufferToBase64(ciphertext),
           };
-        } else {
-          const sessionCipher = new window.libsignal.SessionCipher(
-            window.textsecure.storage.protocol,
-            address,
-            options
-          );
-          ciphers[address.getDeviceId()] = sessionCipher;
-
-          const ciphertext = await sessionCipher.encrypt(plaintext);
-          return {
-            type: ciphertext.type,
-            destinationDeviceId: address.getDeviceId(),
-            destinationRegistrationId: ciphertext.registrationId,
-            content: btoa(ciphertext.body),
-          };
         }
+        const sessionCipher = new window.libsignal.SessionCipher(
+          window.textsecure.storage.protocol,
+          address,
+          options
+        );
+        ciphers[address.getDeviceId()] = sessionCipher;
+
+        const ciphertext = await sessionCipher.encrypt(plaintext);
+        return {
+          type: ciphertext.type,
+          destinationDeviceId: address.getDeviceId(),
+          destinationRegistrationId: ciphertext.registrationId,
+          content: btoa(ciphertext.body),
+        };
       })
     )
       .then(async jsonData => {
@@ -446,7 +464,7 @@ export default class OutgoingMessage {
               'Hit retry limit attempting to reload device list',
               error
             );
-            return;
+            return undefined;
           }
 
           let p: Promise<any> = Promise.resolve();
@@ -479,7 +497,8 @@ export default class OutgoingMessage {
               this.reloadDevicesAndSend(identifier, error.code === 409)
             );
           });
-        } else if (error.message === 'Identity key changed') {
+        }
+        if (error.message === 'Identity key changed') {
           // eslint-disable-next-line no-param-reassign
           error.timestamp = this.timestamp;
           // eslint-disable-next-line no-param-reassign
@@ -526,10 +545,14 @@ export default class OutgoingMessage {
           'Failed to create or send message',
           error
         );
+
+        return undefined;
       });
   }
 
-  async getStaleDeviceIdsForIdentifier(identifier: string) {
+  async getStaleDeviceIdsForIdentifier(
+    identifier: string
+  ): Promise<Array<number>> {
     return window.textsecure.storage.protocol
       .getDeviceIds(identifier)
       .then(async deviceIds => {
@@ -560,9 +583,8 @@ export default class OutgoingMessage {
   async removeDeviceIdsForIdentifier(
     identifier: string,
     deviceIdsToRemove: Array<number>
-  ) {
+  ): Promise<void> {
     let promise = Promise.resolve();
-    // tslint:disable-next-line forin no-for-in no-for-in-array
     for (const j in deviceIdsToRemove) {
       promise = promise.then(async () => {
         const encodedAddress = `${identifier}.${deviceIdsToRemove[j]}`;
@@ -572,7 +594,7 @@ export default class OutgoingMessage {
     return promise;
   }
 
-  async sendToIdentifier(providedIdentifier: string) {
+  async sendToIdentifier(providedIdentifier: string): Promise<void> {
     let identifier = providedIdentifier;
     try {
       if (isRemoteFlagEnabled('desktop.cds')) {

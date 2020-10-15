@@ -90,13 +90,29 @@ message GroupV2Record {
 }
 
 message AccountRecord {
-  optional bytes  profileKey             = 1;
-  optional string givenName              = 2;
-  optional string familyName             = 3;
-  optional string avatarUrl              = 4;
-  optional bool   noteToSelfArchived     = 5;
-  optional bool   readReceipts           = 6;
-  optional bool   sealedSenderIndicators = 7;
-  optional bool   typingIndicators       = 8;
-  optional bool   linkPreviews           = 9;
+  message PinnedConversation {
+    message Contact {
+      optional string uuid = 1;
+      optional string e164 = 2;
+    }
+
+    oneof identifier {
+      Contact contact        = 1;
+      bytes   legacyGroupId  = 3;
+      bytes   groupMasterKey = 4;
+    }
+  }
+
+  optional bytes              profileKey             = 1;
+  optional string             givenName              = 2;
+  optional string             familyName             = 3;
+  optional string             avatarUrl              = 4;
+  optional bool               noteToSelfArchived     = 5;
+  optional bool               readReceipts           = 6;
+  optional bool               sealedSenderIndicators = 7;
+  optional bool               typingIndicators       = 8;
+  optional bool               proxiedLinkPreviews    = 9;
+  optional bool               noteToSelfUnread       = 10;
+  optional bool               linkPreviews           = 11;
+  repeated PinnedConversation pinnedConversations    = 14;
 }

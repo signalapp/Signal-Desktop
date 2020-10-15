@@ -15,18 +15,24 @@ import { bindActionCreators } from 'redux';
 import arrayMove from 'array-move';
 // eslint-disable-next-line import/no-cycle
 import { AppState } from '../reducer';
-import { PackMetaData, WebpData, StickerData } from '../../util/preload';
+import {
+  PackMetaData,
+  StickerImageData,
+  StickerData,
+} from '../../util/preload';
 import { EmojiPickDataType } from '../../../ts/components/emoji/EmojiPicker';
 import { convertShortName } from '../../../ts/components/emoji/lib';
 
 export const initializeStickers = createAction<Array<string>>(
   'stickers/initializeStickers'
 );
-export const addWebp = createAction<WebpData>('stickers/addSticker');
+export const addImageData = createAction<StickerImageData>(
+  'stickers/addSticker'
+);
 export const removeSticker = createAction<string>('stickers/removeSticker');
 export const moveSticker = createAction<SortEnd>('stickers/moveSticker');
-export const setCover = createAction<WebpData>('stickers/setCover');
-export const resetCover = createAction<WebpData>('stickers/resetCover');
+export const setCover = createAction<StickerImageData>('stickers/setCover');
+export const resetCover = createAction<StickerImageData>('stickers/resetCover');
 export const setEmoji = createAction<{ id: string; emoji: EmojiPickDataType }>(
   'stickers/setEmoji'
 );
@@ -48,7 +54,7 @@ export const maxStickers = 200;
 export const maxByteSize = 100 * 1024;
 
 interface StateStickerData {
-  readonly webp?: WebpData;
+  readonly imageData?: StickerImageData;
   readonly emoji?: EmojiPickDataType;
 }
 
@@ -59,7 +65,7 @@ interface StateToastData {
 
 export type State = {
   readonly order: Array<string>;
-  readonly cover?: WebpData;
+  readonly cover?: StickerImageData;
   readonly title: string;
   readonly author: string;
   readonly packId: string;
@@ -71,7 +77,7 @@ export type State = {
 };
 
 export type Actions = {
-  addWebp: typeof addWebp;
+  addImageData: typeof addImageData;
   initializeStickers: typeof initializeStickers;
   removeSticker: typeof removeSticker;
   moveSticker: typeof moveSticker;
@@ -100,7 +106,7 @@ const adjustCover = (state: Draft<State>) => {
   const first = state.order[0];
 
   if (first) {
-    state.cover = state.data[first].webp;
+    state.cover = state.data[first].imageData;
   } else {
     delete state.cover;
   }
@@ -121,7 +127,7 @@ export const reducer = reduceReducers<State>(
       });
     }),
 
-    handleAction(addWebp, (state, { payload }) => {
+    handleAction(addImageData, (state, { payload }) => {
       if (isNumber(payload.meta.pages)) {
         state.toasts.push({ key: 'StickerCreator--Toasts--animated' });
         pull(state.order, payload.path);
@@ -133,9 +139,9 @@ export const reducer = reduceReducers<State>(
       } else {
         const data = state.data[payload.path];
 
-        // If we are adding webp data, proceed to update the state and add/update a toast
-        if (data && !data.webp) {
-          data.webp = payload;
+        // If we are adding image data, proceed to update the state and add/update a toast
+        if (data && !data.imageData) {
+          data.imageData = payload;
 
           const key = 'StickerCreator--Toasts--imagesAdded';
 
@@ -223,7 +229,7 @@ export const useTitle = (): string =>
 export const useAuthor = (): string =>
   useSelector(({ stickers }: AppState) => stickers.author);
 
-export const useCover = (): WebpData | undefined =>
+export const useCover = (): StickerImageData | undefined =>
   useSelector(({ stickers }: AppState) => stickers.cover);
 
 export const useStickerOrder = (): Array<string> =>
@@ -237,7 +243,7 @@ export const useStickersReady = (): boolean =>
     ({ stickers }: AppState) =>
       stickers.order.length >= minStickers &&
       stickers.order.length <= maxStickers &&
-      Object.values(stickers.data).every(({ webp }) => !!webp)
+      Object.values(stickers.data).every(({ imageData }) => Boolean(imageData))
   );
 
 export const useEmojisReady = (): boolean =>
@@ -288,7 +294,7 @@ export const useSelectOrderedData = (): Array<StickerData> =>
   useSelector(selectOrderedData);
 
 const selectOrderedImagePaths = createSelector(selectOrderedData, data =>
-  data.map(({ webp }) => (webp as WebpData).src)
+  data.map(({ imageData }) => imageData.src)
 );
 
 export const useOrderedImagePaths = (): Array<string> =>
@@ -301,7 +307,7 @@ export const useStickerActions = (): Actions => {
     () =>
       bindActionCreators(
         {
-          addWebp,
+          addImageData,
           initializeStickers,
           removeSticker,
           moveSticker,
