@@ -1186,6 +1186,20 @@
     "message": "Your video is off",
     "description": "Label in the calling lobby indicating that your camera is off"
   },
+  "calling__in-this-call--one": {
+    "message": "In this call · 1 person",
+    "description": "Shown in the participants list to describe how many people are in the call"
+  },
+  "calling__in-this-call--many": {
+    "message": "In this call · $people$ people",
+    "description": "Shown in the participants list to describe how many people are in the call",
+    "placeholders": {
+      "people": {
+        "content": "$1",
+        "example": "15"
+      }
+    }
+  },
   "alwaysRelayCallsDescription": {
     "message": "Always relay calls",
     "description": "Description of the always relay calls setting"

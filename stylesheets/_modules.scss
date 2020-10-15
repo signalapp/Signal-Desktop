@@ -6376,6 +6376,102 @@ button.module-image__border-overlay:focus {
   }
 }
 
+.module-calling-participants-list {
+  background-color: $color-gray-80;
+  border-radius: 8px;
+  color: $color-white;
+  margin-right: 12px;
+  margin-top: 54px;
+  padding: 14px;
+  padding-bottom: 0;
+  width: 280px;
+
+  &__overlay {
+    display: flex;
+    height: 100vh;
+    justify-content: flex-end;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    z-index: 2;
+  }
+
+  &__title {
+    @include font-body-2-bold;
+  }
+
+  &__list {
+    margin: 0;
+    margin-top: 22px;
+    padding: 0;
+  }
+
+  &__contact {
+    @include font-body-1;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+    margin-bottom: 16px;
+  }
+
+  &__name {
+    display: inline-block;
+    margin-left: 8px;
+    max-width: 144px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__close {
+    @include button-reset;
+
+    @include color-svg('../images/x-shadow-16.svg', $color-gray-15);
+
+    height: 16px;
+    width: 16px;
+    z-index: 2;
+
+    @include keyboard-mode {
+      &:focus {
+        outline: 2px solid $ultramarine-ui-light;
+      }
+    }
+  }
+
+  &__muted {
+    &--video {
+      @include color-svg(
+        '../images/icons/v2/video-off-solid-28.svg',
+        $color-white
+      );
+      display: inline-block;
+      margin-left: 18px;
+      height: 16px;
+      width: 16px;
+    }
+
+    &--audio {
+      @include color-svg(
+        '../images/icons/v2/mic-off-solid-28.svg',
+        $color-white
+      );
+      display: inline-block;
+      margin-left: 18px;
+      height: 16px;
+      width: 16px;
+    }
+  }
+}
+
 .module-call-need-permission-screen {
   align-items: center;
   background-color: $color-gray-95;
