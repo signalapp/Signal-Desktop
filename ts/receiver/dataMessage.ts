@@ -321,7 +321,7 @@ export async function handleDataMessage(
   const source = envelope.senderIdentity || senderPubKey;
   const ownDevice = await MultiDeviceProtocol.isOurDevice(source);
 
-  const ownMessage = conversation.isMediumGroup() && ownDevice;
+  const ownMessage = conversation?.isMediumGroup() && ownDevice;
 
   const ev: any = {};
   if (ownMessage) {
@@ -711,6 +711,9 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
 
   // the conversation with the primary device of that source (can be the same as conversationOrigin)
   const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error('conversation null on ConversationController.get()');
+  }
 
   conversation.queueJob(() => {
     handleMessageJob(

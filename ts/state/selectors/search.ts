@@ -95,9 +95,6 @@ export const getSearchResults = createSelector(
       }),
       regionCode: regionCode,
       searchTerm: state.query,
-
-      // We only want to show the start conversation if we don't have the query in our lookup
-      showStartNewConversation: !lookup[state.query],
     };
   }
 );

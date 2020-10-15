@@ -523,7 +523,7 @@
     },
 
     // Get messages with the given timestamp
-    _getMessagesWithTimestamp(pubKey, timestamp) {
+    getMessagesWithTimestamp(pubKey, timestamp) {
       if (this.id !== pubKey) {
         return [];
       }
@@ -535,12 +535,12 @@
     },
 
     async onCalculatingPoW(pubKey, timestamp) {
-      const messages = this._getMessagesWithTimestamp(pubKey, timestamp);
+      const messages = this.getMessagesWithTimestamp(pubKey, timestamp);
       await Promise.all(messages.map(m => m.setCalculatingPoW()));
     },
 
     async onPublicMessageSent(pubKey, timestamp, serverId, serverTimestamp) {
-      const messages = this._getMessagesWithTimestamp(pubKey, timestamp);
+      const messages = this.getMessagesWithTimestamp(pubKey, timestamp);
       if (messages && messages.length === 1) {
         await messages[0].setIsPublic(true);
         await messages[0].setServerId(serverId);

@@ -61,7 +61,8 @@ interface State {
   dropZoneFiles: any;
 
   // quoted message
-  quotedMessageProps?: ReplyingToMessageProps;
+  quotedMessageTimestamp?: number;
+  quotedMessageProps?: any;
 }
 
 interface Props {
@@ -144,6 +145,9 @@ export class SessionConversation extends React.Component<Props, State> {
     const conversationModel = window.ConversationController.get(
       this.state.conversationKey
     );
+    if (!conversationModel) {
+      throw new Error('conversation null on ConversationController.get()');
+    }
     conversationModel.on('change', () => {
       this.setState(
         {
@@ -184,7 +188,7 @@ export class SessionConversation extends React.Component<Props, State> {
     // New messages get from message collection.
     const messageCollection = window.ConversationController.get(
       this.state.conversationKey
-    ).messageCollection;
+    )?.messageCollection;
   }
 
   public async componentWillReceiveProps(nextProps: any) {
@@ -213,6 +217,9 @@ export class SessionConversation extends React.Component<Props, State> {
     const conversationModel = window.ConversationController.get(
       conversationKey
     );
+    if (!conversationModel) {
+      throw new Error('conversation null on ConversationController.get()');
+    }
     const isRss = conversation.isRss;
 
     // TODO VINCE: OPTIMISE FOR NEW SENDING???
@@ -224,6 +231,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
     const showSafetyNumber = this.state.infoViewState === 'safetyNumber';
     const showMessageDetails = this.state.infoViewState === 'messageDetails';
+
 
     return (
       <SessionTheme theme={this.props.theme}>
@@ -290,7 +298,7 @@ export class SessionConversation extends React.Component<Props, State> {
               onExitVoiceNoteView={this.onExitVoiceNoteView}
               quotedMessageProps={quotedMessageProps}
               removeQuotedMessage={() => {
-                this.replyToMessage(undefined);
+                void this.replyToMessage(undefined);
               }}
             />
           )}
@@ -389,7 +397,9 @@ export class SessionConversation extends React.Component<Props, State> {
     };
 
     messageProps.quote = quoteProps || undefined;
-    messageProps.onReply = this.replyToMessage;
+    messageProps.onReply = (messageId: number) => {
+      void this.replyToMessage(messageId);
+    };
 
     return <Message {...messageProps} />;
   }
@@ -410,6 +420,9 @@ export class SessionConversation extends React.Component<Props, State> {
 
     if (initialFetchComplete) {
       return;
+    }
+    if (!conversationModel) {
+      throw new Error('conversation null on ConversationController.get()');
     }
 
     const messageSet = await window.Signal.Data.getMessagesByConversation(
@@ -494,7 +507,9 @@ export class SessionConversation extends React.Component<Props, State> {
   public getHeaderProps() {
     const { conversationKey } = this.state;
     const conversation = window.ConversationController.get(conversationKey);
-
+    if (!conversation) {
+      throw new Error('conversation null on ConversationController.get()');
+    }
     const expireTimer = conversation.get('expireTimer');
     const expirationSettingName = expireTimer
       ? window.Whisper.ExpirationTimerOptions.getName(expireTimer || 0)
@@ -601,12 +616,15 @@ export class SessionConversation extends React.Component<Props, State> {
   public getGroupSettingsProps() {
     const { conversationKey } = this.state;
     const conversation = window.ConversationController.get(conversationKey);
+    if (!conversation) {
+      throw new Error('conversation null on ConversationController.get()');
+    }
 
     const ourPK = window.textsecure.storage.user.getNumber();
     const members = conversation.get('members') || [];
     const isAdmin = conversation.isMediumGroup()
       ? true
-      : conversation.get('groupAdmins').includes(ourPK);
+      : conversation.get('groupAdmins')?.includes(ourPK);
 
     return {
       id: conversation.id,
@@ -631,9 +649,9 @@ export class SessionConversation extends React.Component<Props, State> {
 
       onSetDisappearingMessages: (seconds: any) => {
         if (seconds > 0) {
-          conversation.updateExpirationTimer(seconds);
+          void conversation.updateExpirationTimer(seconds);
         } else {
-          conversation.updateExpirationTimer(null);
+          void conversation.updateExpirationTimer(null);
         }
       },
 
@@ -691,6 +709,12 @@ export class SessionConversation extends React.Component<Props, State> {
     // Set sending state 5% to show message sending
     const initialValue = 5;
     this.updateSendingProgress(initialValue, 1);
+    if (this.state.quotedMessageTimestamp) {
+      this.setState({
+        quotedMessageTimestamp: undefined,
+        quotedMessageProps: undefined,
+      });
+    }
   }
 
   public onMessageSuccess() {
@@ -707,6 +731,9 @@ export class SessionConversation extends React.Component<Props, State> {
     // If you're not friends, don't mark anything as read. Otherwise
     // this will automatically accept friend request.
     const conversation = window.ConversationController.get(conversationKey);
+    if (!conversation) {
+      throw new Error('conversation null on ConversationController.get()');
+    }
     if (conversation.isBlocked()) {
       return;
     }
@@ -724,8 +751,7 @@ export class SessionConversation extends React.Component<Props, State> {
     }
 
     if (unread) {
-      const model = window.ConversationController.get(conversationKey);
-      model.markRead(unread.attributes.received_at);
+      conversation.markRead(unread.attributes.received_at);
     }
   }
 
@@ -805,6 +831,9 @@ export class SessionConversation extends React.Component<Props, State> {
     );
 
     const multiple = selectedMessages.length > 1;
+    if (!conversationModel) {
+      throw new Error('conversation null on ConversationController.get()');
+    }
     const isPublic = conversationModel.isPublic();
 
     // In future, we may be able to unsend private messages also
@@ -1039,9 +1068,27 @@ export class SessionConversation extends React.Component<Props, State> {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~ MESSAGE QUOTE ~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  private replyToMessage(quotedMessageProps?: ReplyingToMessageProps) {
-    if (!_.isEqual(this.state.quotedMessageProps, quotedMessageProps)) {
-      this.setState({ quotedMessageProps });
+  private async replyToMessage(quotedMessageTimestamp ?: number) {
+    if (!_.isEqual(this.state.quotedMessageTimestamp, quotedMessageTimestamp)) {
+      const { conversationKey } = this.state;
+      const conversationModel = window.ConversationController.get(
+        conversationKey
+      );
+      if (!conversationModel) {
+        throw new Error('conversation null on ConversationController.get()');
+      }
+      const conversation = this.props.conversations.conversationLookup[
+        conversationKey
+      ];
+      let quotedMessageProps = null;
+      if (quotedMessageTimestamp) {
+        const quotedMessageModel = conversationModel.getMessagesWithTimestamp(conversation.id, quotedMessageTimestamp);
+        if (quotedMessageModel && quotedMessageModel.length === 1) {
+          quotedMessageProps = await conversationModel.makeQuote(quotedMessageModel[0]);
+        }
+      }
+      this.setState({ quotedMessageTimestamp, quotedMessageProps });
+
     }
   }
 

@@ -52,9 +52,9 @@ export async function preprocessGroupMessage(
 
   // NOTE: we use group admins to tell if this is
   // the creation of the group (initial update)
-  const groupAdminsSet =
-    conversation.get('groupAdmins') &&
-    conversation.get('groupAdmins').length > 0;
+  const groupAdmins = conversation.get('groupAdmins');
+  const groupAdminsSet = groupAdmins && groupAdmins.length > 0;
+
   const newGroup = !groupAdminsSet;
   const knownMembers = conversation.get('members');
 
@@ -87,7 +87,7 @@ export async function preprocessGroupMessage(
     } else {
       // be sure to drop a message from a non admin if it tries to change group members
       // or change the group name
-      const fromAdmin = conversation.get('groupAdmins').includes(primarySource);
+      const fromAdmin = conversation.get('groupAdmins')?.includes(primarySource);
 
       if (!fromAdmin) {
         // Make sure the message is not removing members / renaming the group

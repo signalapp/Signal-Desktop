@@ -575,12 +575,13 @@ async function handleTypingMessage(
 
   // A sender here could be referring to a group.
   // Groups don't have primary devices so we need to take that into consideration.
+  // Note: we do not support group typing message for now.
   const user = PubKey.from(source);
   const primaryDevice = user
     ? await MultiDeviceProtocol.getPrimaryDevice(user)
     : null;
 
-  const convoId = groupId || (primaryDevice && primaryDevice.key) || source;
+  const convoId = (primaryDevice && primaryDevice.key) || source;
 
   const conversation = ConversationController.get(convoId);
 

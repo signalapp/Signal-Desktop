@@ -50,7 +50,7 @@ interface LocalSettingType {
   value?: any;
   content: any | undefined;
   hidden: any;
-  title: string;
+  title?: string;
   type: SessionSettingType | undefined;
   setFn: any;
   onClick: any;

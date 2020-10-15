@@ -12,7 +12,9 @@ import { LibTextsecure } from '../libtextsecure';
 import { ConversationType } from '../js/modules/data';
 import { RecoveryPhraseUtil } from '../libloki/modules/mnemonic';
 import { ConfirmationDialogParams } from '../background';
-import {} from 'styled-components/cssprop';
+import { } from 'styled-components/cssprop';
+
+import { ConversationControllerType } from '../js/ConversationController';
 /*
 We declare window stuff here instead of global.d.ts because we are importing other declarations.
 If you import anything in global.d.ts, the type system won't work correctly.
@@ -21,7 +23,7 @@ If you import anything in global.d.ts, the type system won't work correctly.
 declare global {
   interface Window {
     CONSTANTS: any;
-    ConversationController: any;
+    ConversationController: ConversationControllerType;
     Events: any;
     Lodash: any;
     LokiAppDotNetServerAPI: any;

@@ -188,7 +188,7 @@ async function handleBlocked(
     );
 
     async function markConvoBlocked(block: boolean, n: string) {
-      const conv = await window.ConversationController.get(n);
+      const conv = window.ConversationController.get(n);
       if (conv) {
         if (conv.isPrivate()) {
           await BlockedNumberController.setBlocked(n, block);

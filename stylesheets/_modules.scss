@@ -2607,64 +2607,7 @@
   flex-grow: 0;
 }
 
-.module-left-pane__tabs {
-  color: $color-dark-05;
-  background-color: $color-dark-75;
-  display: flex;
-  flex-direction: row;
 
-  .tab {
-    width: 50%;
-    padding: 16px;
-    text-align: center;
-    cursor: pointer;
-
-    &:hover {
-      background-color: $color-dark-72;
-    }
-  }
-
-  .tab.selected {
-    background-color: #383c46;
-  }
-}
-
-.module-left-pane__archive-header {
-  height: 48px;
-  width: 100%;
-
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-
-  border-bottom: 1px solid $color-gray-15;
-}
-
-.module-left-pane__to-inbox-button {
-  margin-inline-start: 2px;
-
-  width: 35px;
-  height: 35px;
-
-  cursor: pointer;
-  @include color-svg('../images/back.svg', $color-gray-60);
-}
-
-.module-left-pane__archive-header-text {
-  color: $color-gray-90;
-  font-size: 16px;
-  font-weight: 300px;
-}
-
-.module-left-pane__archive-helper-text {
-  flex-grow: 0;
-  flex-shrink: 0;
-
-  padding: 1em;
-  font-size: 12px;
-  color: $color-gray-60;
-  background-color: $color-gray-05;
-}
 
 .module-left-pane__list {
   flex-grow: 1;
@@ -2677,83 +2620,7 @@
   outline: none;
 }
 
-.module-left-pane__archived-button {
-  font-size: 14px;
-  height: 64px;
-  line-height: 64px;
-  text-align: center;
-  font-weight: 300;
-  color: $color-gray-60;
 
-  cursor: pointer;
-  &:hover {
-    background-color: $color-gray-05;
-  }
-}
-
-.module-left-pane__archived-button__archived-count {
-  font-size: 12px;
-  font-weight: 300;
-  color: $color-gray-60;
-  background-color: $color-gray-05;
-  padding: 6px;
-  padding-top: 1px;
-  padding-bottom: 1px;
-  border-radius: 10px;
-}
-
-// Module: Start New Conversation
-
-.module-start-new-conversation {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  cursor: pointer;
-  padding: 8px 16px;
-  opacity: 0.7;
-
-  &.valid {
-    opacity: 1;
-  }
-}
-
-.module-start-new-conversation__avatar {
-  display: inline-block;
-  height: 48px;
-  width: 48px;
-  border-radius: 50%;
-  background-size: cover;
-  vertical-align: middle;
-  text-align: center;
-  line-height: 48px;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-  color: #ffffff;
-  font-size: 18px;
-  background-color: #616161;
-}
-
-.module-start-new-conversation__content {
-  overflow: hidden;
-  margin-inline-start: 12px;
-  flex: 1;
-}
-
-.module-start-new-conversation__number {
-  margin: 0;
-  font-size: 1em;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  text-align: left;
-  font-weight: 300;
-}
-
-.module-start-new-conversation__text {
-  margin-top: 3px;
-  font-style: italic;
-  color: $color-gray-60;
-  font-size: 13px;
-}
 
 // Third-party module: react-contextmenu
 

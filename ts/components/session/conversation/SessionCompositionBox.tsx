@@ -18,10 +18,12 @@ import { Constants } from '../../../session';
 import { toArray } from 'react-emoji-render';
 import { SessionQuotedMessageComposition } from './SessionQuotedMessageComposition';
 import { Flex } from '../Flex';
+import _ from 'lodash';
 
 export interface ReplyingToMessageProps {
   convoId: string;
   id: string;
+  author: string;
   timestamp: number;
   text?: string;
   attachments?: Array<any>;
@@ -325,15 +327,22 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
     // handle Attachments
     const { attachments } = this.state;
+    const { quotedMessageProps } = this.props;
 
     // Send message
     this.props.onMessageSending();
+    const extractedQuotedMessageProps = _.pick(quotedMessageProps,
+      'id',
+      'author',
+      'text',
+      'attachments');
+
 
     try {
       await this.props.sendMessage(
         messagePlaintext,
         attachments,
-        undefined,
+        extractedQuotedMessageProps,
         undefined,
         null,
         {}

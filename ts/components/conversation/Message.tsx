@@ -38,6 +38,7 @@ import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../session/icon';
 import { ReplyingToMessageProps } from '../session/conversation/SessionCompositionBox';
 import _ from 'lodash';
+import { MessageModel } from '../../../js/models/messages';
 
 declare global {
   interface Window {
@@ -113,7 +114,7 @@ export interface Props {
   onClickLinkPreview?: (url: string) => void;
   onCopyText?: () => void;
   onSelectMessage: (messageId: string) => void;
-  onReply?: (messageProps: ReplyingToMessageProps) => void;
+  onReply?: (messagId: number) => void;
   onRetrySend?: () => void;
   onDownload?: (isDangerous: boolean) => void;
   onDelete?: () => void;
@@ -1155,15 +1156,7 @@ export class Message extends React.PureComponent<Props, State> {
   private onReplyPrivate(e: Event) {
     e.stopPropagation();
     if (this.props && this.props.onReply) {
-      const messageProps = _.pick(
-        this.props,
-        'id',
-        'timestamp',
-        'attachments',
-        'text',
-        'convoId'
-      );
-      this.props.onReply(messageProps);
+      this.props.onReply(this.props.timestamp);
     }
   }
 }

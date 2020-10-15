@@ -1800,7 +1800,7 @@
       }
 
       if (message) {
-        const quote = await this.model.makeQuote(this.quotedMessage);
+        const quote = await this.model.makeQuote(message);
         this.quote = quote;
 
         this.focusMessageFieldAndClearDisabled();

@@ -17,7 +17,6 @@ export type PropsData = {
   messages: Array<MessageSearchResultPropsType>;
   regionCode: string;
   searchTerm: string;
-  showStartNewConversation: boolean;
 };
 
 type PropsHousekeeping = {
@@ -37,14 +36,12 @@ export class SearchResults extends React.Component<Props> {
       messages,
       openConversation,
       searchTerm,
-      showStartNewConversation,
     } = this.props;
 
     const haveConversations = conversations && conversations.length;
     const haveContacts = contacts && contacts.length;
     const haveMessages = messages && messages.length;
     const noResults =
-      !showStartNewConversation &&
       !haveConversations &&
       !haveContacts &&
       !haveMessages;

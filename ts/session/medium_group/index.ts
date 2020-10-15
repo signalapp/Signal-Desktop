@@ -189,7 +189,7 @@ export async function leaveMediumGroup(groupId: string) {
   window.SwarmPolling.removePubkey(groupId);
   // TODO audric: we just left a group, we have to regenerate our senderkey
 
-  const maybeConvo = await ConversationController.get(groupId);
+  const maybeConvo = ConversationController.get(groupId);
 
   if (!maybeConvo) {
     window.log.error('Cannot leave non-existing group');
@@ -497,7 +497,7 @@ interface GroupInfo {
   members: Array<string>; // Primary keys
   is_medium_group: boolean;
   active?: boolean;
-  expireTimer?: number;
+  expireTimer?: number | null;
   avatar?: any;
   color?: any; // what is this???
   blocked?: boolean;
@@ -830,11 +830,11 @@ async function updateOrCreateGroup(details: GroupInfo) {
   await conversation.commit();
 
   const { expireTimer } = details;
-  const isValidExpireTimer = typeof expireTimer === 'number';
-  if (!isValidExpireTimer) {
+  const isValidExpireTimer = expireTimer !== undefined && typeof expireTimer === 'number';
+
+  if (expireTimer === undefined || typeof expireTimer !== 'number') {
     return;
   }
-
   const source = textsecure.storage.user.getNumber();
   const receivedAt = Date.now();
   await conversation.updateExpirationTimer(expireTimer, source, receivedAt, {
