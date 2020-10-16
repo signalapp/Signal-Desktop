@@ -285,7 +285,7 @@ export class SessionConversation extends React.Component<Props, State> {
       }
     );
 
-    const messages = messageSet.models;
+    const messages = messageSet.models.reverse();
     const messageFetchTimestamp = Date.now();
 
     this.setState({ messages, messageFetchTimestamp }, () => {
@@ -299,9 +299,7 @@ export class SessionConversation extends React.Component<Props, State> {
     fetchInterval = Constants.CONVERSATION.MESSAGE_FETCH_INTERVAL
   ) {
     const { conversationKey, messageFetchTimestamp } = this.state;
-    const conversationModel = window.ConversationController.get(
-      conversationKey
-    );
+
     const timestamp = getTimestamp();
 
     // If we have pulled messages in the last interval, don't bother rescanning
@@ -326,7 +324,7 @@ export class SessionConversation extends React.Component<Props, State> {
     );
 
     // Set first member of series here.
-    const messageModels = messageSet.models;
+    const messageModels = messageSet.models.reverse();
     const messages = [];
     let previousSender;
     for (let i = 0; i < messageModels.length; i++) {
