@@ -615,16 +615,15 @@ export class Message extends React.PureComponent<Props, State> {
     const {
       conversationType,
       direction,
-      i18n,
       quote,
-      text,
       isPublic,
       convoId,
     } = this.props;
 
-    if (!quote) {
+    if (!quote || !quote.authorPhoneNumber) {
       return null;
     }
+    // console.warn('quote render ' , quote)
 
     const withContentAbove =
       conversationType === 'group' && direction === 'incoming';

@@ -207,7 +207,7 @@ async function copyFromQuotedMessage(
 }
 
 // Handle expiration timer as part of a regular message
-function handleExpireTimer(
+async function handleExpireTimer(
   source: string,
   message: MessageModel,
   expireTimer: number,
@@ -219,7 +219,7 @@ function handleExpireTimer(
     message.set({ expireTimer });
 
     if (expireTimer !== oldValue) {
-      conversation.updateExpirationTimer(
+      await conversation.updateExpirationTimer(
         expireTimer,
         source,
         message.get('received_at'),
@@ -230,7 +230,7 @@ function handleExpireTimer(
     }
   } else if (oldValue && !message.isGroupUpdate()) {
     // We only turn off timers if it's not a group update
-    conversation.updateExpirationTimer(
+    await conversation.updateExpirationTimer(
       null,
       source,
       message.get('received_at'),
@@ -262,7 +262,7 @@ function handleLinkPreviews(
   message.set({ preview });
 }
 
-function processProfileKey(
+async function processProfileKey(
   source: string,
   conversation: ConversationModel,
   sendingDeviceConversation: ConversationModel,
@@ -274,9 +274,9 @@ function processProfileKey(
   if (source === ourNumber) {
     conversation.set({ profileSharing: true });
   } else if (conversation.isPrivate()) {
-    conversation.setProfileKey(profileKey);
+    await conversation.setProfileKey(profileKey);
   } else {
-    sendingDeviceConversation.setProfileKey(profileKey);
+    await sendingDeviceConversation.setProfileKey(profileKey);
   }
 }
 
@@ -428,7 +428,12 @@ async function handleRegularMessage(
   conversation.updateTextInputState();
 
   // Handle expireTimer found directly as part of a regular message
-  handleExpireTimer(source, message, dataMessage.expireTimer, conversation);
+  await handleExpireTimer(
+    source,
+    message,
+    dataMessage.expireTimer,
+    conversation
+  );
 
   const ourPrimary = await MultiDeviceProtocol.getPrimaryDevice(ourNumber);
 
@@ -459,7 +464,7 @@ async function handleRegularMessage(
   );
 
   if (dataMessage.profileKey) {
-    processProfileKey(
+    await processProfileKey(
       source,
       conversation,
       sendingDeviceConversation,
@@ -472,7 +477,7 @@ async function handleRegularMessage(
   }
 }
 
-function handleExpirationTimerUpdate(
+async function handleExpirationTimerUpdate(
   conversation: ConversationModel,
   message: MessageModel,
   source: string,
@@ -494,7 +499,7 @@ function handleExpirationTimerUpdate(
     source: 'handleDataMessage',
   });
 
-  conversation.updateExpirationTimer(
+  await conversation.updateExpirationTimer(
     expireTimer,
     source,
     message.get('received_at'),
@@ -534,7 +539,12 @@ export async function handleMessageJob(
         );
         return;
       }
-      handleExpirationTimerUpdate(conversation, message, source, expireTimer);
+      await handleExpirationTimerUpdate(
+        conversation,
+        message,
+        source,
+        expireTimer
+      );
     } else {
       await handleRegularMessage(
         conversation,
