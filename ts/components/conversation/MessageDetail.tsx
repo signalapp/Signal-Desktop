@@ -143,7 +143,7 @@ export class MessageDetail extends React.Component<Props> {
     return (
       <div className="module-message-detail">
         <div className="module-message-detail__message-container">
-          <Message i18n={i18n} {...message} />
+          <Message {...message} />
         </div>
         <table className="module-message-detail__info">
           <tbody>

@@ -80,7 +80,6 @@ export interface Props {
     onSendMessage?: () => void;
     onClick?: () => void;
   };
-  i18n: LocalizerType;
   authorName?: string;
   authorProfileName?: string;
   /** Note: this should be formatted for display */
@@ -256,7 +255,6 @@ export class Message extends React.PureComponent<Props, State> {
       direction,
       expirationLength,
       expirationTimestamp,
-      i18n,
       status,
       text,
       textPending,
@@ -299,11 +297,11 @@ export class Message extends React.PureComponent<Props, State> {
                 : null
             )}
           >
-            {i18n('sendFailed')}
+            {window.i18n('sendFailed')}
           </span>
         ) : (
           <Timestamp
-            i18n={i18n}
+            i18n={window.i18n}
             timestamp={serverTimestamp || timestamp}
             extended={true}
             direction={direction}
@@ -355,7 +353,6 @@ export class Message extends React.PureComponent<Props, State> {
       collapseMetadata,
       conversationType,
       direction,
-      i18n,
       quote,
       onClickAttachment,
     } = this.props;
@@ -396,7 +393,7 @@ export class Message extends React.PureComponent<Props, State> {
             withContentAbove={withContentAbove}
             withContentBelow={withContentBelow}
             bottomOverlay={!collapseMetadata}
-            i18n={i18n}
+            i18n={window.i18n}
             onError={this.handleImageErrorBound}
             onClickAttachment={onClickAttachment}
           />
@@ -520,7 +517,6 @@ export class Message extends React.PureComponent<Props, State> {
       attachments,
       conversationType,
       direction,
-      i18n,
       onClickLinkPreview,
       previews,
       quote,
@@ -569,7 +565,7 @@ export class Message extends React.PureComponent<Props, State> {
             withContentAbove={withContentAbove}
             withContentBelow={true}
             onError={this.handleImageErrorBound}
-            i18n={i18n}
+            i18n={window.i18n}
           />
         ) : null}
         <div
@@ -585,13 +581,13 @@ export class Message extends React.PureComponent<Props, State> {
               <Image
                 smallCurveTopLeft={!withContentAbove}
                 softCorners={true}
-                alt={i18n('previewThumbnail', [first.domain])}
+                alt={window.i18n('previewThumbnail', [first.domain])}
                 height={72}
                 width={72}
                 url={first.image.url}
                 attachment={first.image}
                 onError={this.handleImageErrorBound}
-                i18n={i18n}
+                i18n={window.i18n}
               />
             </div>
           ) : null}
@@ -641,7 +637,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     return (
       <Quote
-        i18n={i18n}
+        i18n={window.i18n}
         onClick={quote.onClick}
         text={quote.text}
         attachment={quote.attachment}
@@ -665,7 +661,6 @@ export class Message extends React.PureComponent<Props, State> {
       contact,
       conversationType,
       direction,
-      i18n,
       text,
     } = this.props;
     if (!contact) {
@@ -682,7 +677,7 @@ export class Message extends React.PureComponent<Props, State> {
         contact={contact}
         hasSignalAccount={contact.hasSignalAccount}
         isIncoming={direction === 'incoming'}
-        i18n={i18n}
+        i18n={window.i18n}
         onClick={contact.onClick}
         withContentAbove={withContentAbove}
         withContentBelow={withContentBelow}
@@ -700,7 +695,6 @@ export class Message extends React.PureComponent<Props, State> {
       senderIsModerator,
       conversationType,
       direction,
-      i18n,
       onShowUserDetails,
     } = this.props;
 
@@ -737,7 +731,6 @@ export class Message extends React.PureComponent<Props, State> {
     const {
       text,
       textPending,
-      i18n,
       direction,
       status,
       isRss,
@@ -747,7 +740,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     const contents =
       direction === 'incoming' && status === 'error'
-        ? i18n('incomingError')
+        ? window.i18n('incomingError')
         : text;
 
     if (!contents) {
@@ -768,7 +761,7 @@ export class Message extends React.PureComponent<Props, State> {
         <MessageBody
           text={contents || ''}
           isRss={isRss}
-          i18n={i18n}
+          i18n={window.i18n}
           textPending={textPending}
           isGroup={conversationType === 'group'}
           convoId={convoId}
@@ -818,7 +811,6 @@ export class Message extends React.PureComponent<Props, State> {
       onRetrySend,
       onShowDetail,
       isPublic,
-      i18n,
       isModerator,
       onBanUser,
     } = this.props;
@@ -852,7 +844,7 @@ export class Message extends React.PureComponent<Props, State> {
     };
 
     const isServerDeletable = !!this.props.isPublic;
-    const deleteMessageCtxText = i18n(
+    const deleteMessageCtxText = window.i18n(
       isServerDeletable ? 'deleteForEveryone' : 'delete'
     );
 
@@ -874,18 +866,20 @@ export class Message extends React.PureComponent<Props, State> {
               }
             }}
           >
-            {i18n('downloadAttachment')}
+            {window.i18n('downloadAttachment')}
           </MenuItem>
         ) : null}
 
-        <MenuItem onClick={wrap(onCopyText)}>{i18n('copyMessage')}</MenuItem>
+        <MenuItem onClick={wrap(onCopyText)}>
+          {window.i18n('copyMessage')}
+        </MenuItem>
         <MenuItem
           attributes={{
             className: 'module-message__context__reply',
           }}
           onClick={this.onReplyPrivate}
         >
-          {i18n('replyToMessage')}
+          {window.i18n('replyToMessage')}
         </MenuItem>
         <MenuItem
           attributes={{
@@ -893,7 +887,7 @@ export class Message extends React.PureComponent<Props, State> {
           }}
           onClick={wrap(onShowDetail)}
         >
-          {i18n('moreInformation')}
+          {window.i18n('moreInformation')}
         </MenuItem>
         {showRetry ? (
           <MenuItem
@@ -902,7 +896,7 @@ export class Message extends React.PureComponent<Props, State> {
             }}
             onClick={wrap(onRetrySend)}
           >
-            {i18n('resend')}
+            {window.i18n('resend')}
           </MenuItem>
         ) : null}
         {isDeletable ? (
@@ -916,7 +910,9 @@ export class Message extends React.PureComponent<Props, State> {
           </MenuItem>
         ) : null}
         {isModerator && isPublic ? (
-          <MenuItem onClick={wrap(onBanUser)}>{i18n('banUser')}</MenuItem>
+          <MenuItem onClick={wrap(onBanUser)}>
+            {window.i18n('banUser')}
+          </MenuItem>
         ) : null}
       </ContextMenu>
     );
@@ -1123,7 +1119,6 @@ export class Message extends React.PureComponent<Props, State> {
       authorProfileName,
       conversationType,
       direction,
-      i18n,
       isPublic,
     } = this.props;
 
@@ -1146,7 +1141,7 @@ export class Message extends React.PureComponent<Props, State> {
           name={authorName}
           profileName={authorProfileName}
           module="module-message__author"
-          i18n={i18n}
+          i18n={window.i18n}
           boldProfileName={true}
           shouldShowPubkey={Boolean(isPublic)}
         />
