@@ -44,27 +44,28 @@ class ActionsPanelPrivate extends React.Component<Props, State> {
     // tslint:disable-next-line: no-backbone-get-set-outside-model
     const ourNumber = window.storage.get('primaryDevicePubKey');
 
-    window.ConversationController.getOrCreateAndWait(ourNumber, 'private').then(
-      (conversation: any) => {
-        this.setState({
-          avatarPath: conversation.getAvatarPath(),
-        });
-        // When our primary device updates its avatar, we will need for a message sync to know about that.
-        // Once we get the avatar update, we need to refresh this react component.
-        // So we listen to changes on our profile avatar and use the updated avatarPath (done on message received).
-        this.ourConversation = conversation;
+    void window.ConversationController.getOrCreateAndWait(
+      ourNumber,
+      'private'
+    ).then((conversation: any) => {
+      this.setState({
+        avatarPath: conversation.getAvatarPath(),
+      });
+      // When our primary device updates its avatar, we will need for a message sync to know about that.
+      // Once we get the avatar update, we need to refresh this react component.
+      // So we listen to changes on our profile avatar and use the updated avatarPath (done on message received).
+      this.ourConversation = conversation;
 
-        this.ourConversation.on(
-          'change',
-          () => {
-            this.refreshAvatarCallback(this.ourConversation);
-          },
-          'refreshAvatarCallback'
-        );
+      this.ourConversation.on(
+        'change',
+        () => {
+          this.refreshAvatarCallback(this.ourConversation);
+        },
+        'refreshAvatarCallback'
+      );
 
-        void this.showLightThemeDialogIfNeeded();
-      }
-    );
+      void this.showLightThemeDialogIfNeeded();
+    });
   }
 
   public async showLightThemeDialogIfNeeded() {

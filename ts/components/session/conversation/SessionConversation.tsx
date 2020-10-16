@@ -4,19 +4,10 @@ import React from 'react';
 
 import classNames from 'classnames';
 
-import {
-  ReplyingToMessageProps,
-  SessionCompositionBox,
-} from './SessionCompositionBox';
-import { SessionProgress } from '../SessionProgress';
-
-import { Message, Props as MessageProps } from '../../conversation/Message';
-import { TimerNotification } from '../../conversation/TimerNotification';
+import { SessionCompositionBox } from './SessionCompositionBox';
 
 import { getTimestamp } from './SessionConversationManager';
 
-import { SessionScrollButton } from '../SessionScrollButton';
-import { ResetSessionNotification } from '../../conversation/ResetSessionNotification';
 import { Constants } from '../../../session';
 import { SessionKeyVerification } from '../SessionKeyVerification';
 import _ from 'lodash';
@@ -26,6 +17,7 @@ import { ConversationHeaderWithDetails } from '../../conversation/ConversationHe
 import { SessionRightPanelWithDetails } from './SessionRightPanel';
 import { SessionTheme } from '../../../state/ducks/SessionTheme';
 import { DefaultTheme } from 'styled-components';
+import { SessionConversationMessagesList } from './SessionConversationMessagesList';
 
 interface State {
   conversationKey: string;
@@ -52,7 +44,6 @@ interface State {
   showOverlay: boolean;
   showRecordingView: boolean;
   showOptionsPane: boolean;
-  showScrollButton: boolean;
 
   // For displaying `More Info` on messages, and `Safety Number`, etc.
   infoViewState?: 'safetyNumber' | 'messageDetails';
@@ -71,8 +62,7 @@ interface Props {
 }
 
 export class SessionConversation extends React.Component<Props, State> {
-  private readonly messagesEndRef: React.RefObject<HTMLDivElement>;
-  private readonly messageContainerRef: React.RefObject<HTMLDivElement>;
+  private readonly compositionBoxRef: React.RefObject<HTMLDivElement>;
 
   constructor(props: any) {
     super(props);
@@ -98,22 +88,13 @@ export class SessionConversation extends React.Component<Props, State> {
       doneInitialScroll: false,
       displayScrollToBottomButton: false,
       messageFetchTimestamp: 0,
-
       showOverlay: false,
       showRecordingView: false,
       showOptionsPane: false,
-      showScrollButton: false,
-
       infoViewState: undefined,
-
       dropZoneFiles: undefined, // <-- FileList or something else?
     };
-
-    this.handleScroll = this.handleScroll.bind(this);
-    this.scrollToUnread = this.scrollToUnread.bind(this);
-    this.scrollToBottom = this.scrollToBottom.bind(this);
-
-    this.renderMessage = this.renderMessage.bind(this);
+    this.compositionBoxRef = React.createRef();
 
     // Group settings panel
     this.toggleGroupSettingsPane = this.toggleGroupSettingsPane.bind(this);
@@ -135,9 +116,7 @@ export class SessionConversation extends React.Component<Props, State> {
     this.deleteSelectedMessages = this.deleteSelectedMessages.bind(this);
 
     this.replyToMessage = this.replyToMessage.bind(this);
-
-    this.messagesEndRef = React.createRef();
-    this.messageContainerRef = React.createRef();
+    this.getMessages = this.getMessages.bind(this);
 
     // Keyboard navigation
     this.onKeyDown = this.onKeyDown.bind(this);
@@ -146,12 +125,9 @@ export class SessionConversation extends React.Component<Props, State> {
       this.state.conversationKey
     );
     conversationModel.on('change', () => {
-      this.setState(
-        {
-          messages: conversationModel.messageCollection.models,
-        },
-        this.updateReadMessages
-      );
+      this.setState({
+        messages: conversationModel.messageCollection.models,
+      });
     });
   }
 
@@ -166,30 +142,11 @@ export class SessionConversation extends React.Component<Props, State> {
 
   public componentDidMount() {
     // Pause thread to wait for rendering to complete
-    setTimeout(this.scrollToUnread, 0);
     setTimeout(() => {
       this.setState({
         doneInitialScroll: true,
       });
     }, 100);
-
-    this.updateReadMessages();
-  }
-
-  public componentDidUpdate() {
-    // Keep scrolled to bottom unless user scrolls up
-    if (this.state.isScrolledToBottom) {
-      this.scrollToBottom();
-    }
-
-    // New messages get from message collection.
-    const messageCollection = window.ConversationController.get(
-      this.state.conversationKey
-    )?.messageCollection;
-  }
-
-  public async componentWillReceiveProps(nextProps: any) {
-    return;
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -197,15 +154,12 @@ export class SessionConversation extends React.Component<Props, State> {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public render() {
     const {
-      messages,
       conversationKey,
       doneInitialScroll,
       showRecordingView,
       showOptionsPane,
-      showScrollButton,
       quotedMessageProps,
     } = this.state;
-    const loading = !doneInitialScroll;
     const selectionMode = !!this.state.selectedMessages.length;
 
     const conversation = this.props.conversations.conversationLookup[
@@ -225,6 +179,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
     const showSafetyNumber = this.state.infoViewState === 'safetyNumber';
     const showMessageDetails = this.state.infoViewState === 'messageDetails';
+    const messagesListProps = this.getMessagesListProps();
 
     return (
       <SessionTheme theme={this.props.theme}>
@@ -260,21 +215,8 @@ export class SessionConversation extends React.Component<Props, State> {
           </div>
 
           <div className="conversation-messages">
-            {loading && <div className="messages-container__loading" />}
+            <SessionConversationMessagesList {...messagesListProps} />
 
-            <div
-              className="messages-container"
-              onScroll={this.handleScroll}
-              ref={this.messageContainerRef}
-            >
-              {this.renderMessages(messages)}
-              <div ref={this.messagesEndRef} />
-            </div>
-
-            <SessionScrollButton
-              show={showScrollButton}
-              onClick={this.scrollToBottom}
-            />
             {showRecordingView && (
               <div className="conversation-messages__blocking-overlay" />
             )}
@@ -293,6 +235,7 @@ export class SessionConversation extends React.Component<Props, State> {
               removeQuotedMessage={() => {
                 void this.replyToMessage(undefined);
               }}
+              textarea={this.compositionBoxRef}
             />
           )}
         </div>
@@ -311,90 +254,9 @@ export class SessionConversation extends React.Component<Props, State> {
     );
   }
 
-  public renderMessages(messages: any) {
-    const multiSelectMode = Boolean(this.state.selectedMessages.length);
-    // FIXME VINCE: IF MESSAGE IS THE TOP OF UNREAD, THEN INSERT AN UNREAD BANNER
-
-    return (
-      <>
-        {messages.map((message: any) => {
-          const messageProps = message.propsForMessage;
-          const quoteProps = message.propsForQuote;
-
-          const timerProps = message.propsForTimerNotification && {
-            i18n: window.i18n,
-            ...message.propsForTimerNotification,
-          };
-          const resetSessionProps = message.propsForResetSessionNotification && {
-            i18n: window.i18n,
-            ...message.propsForResetSessionNotification,
-          };
-
-          const attachmentProps = message.propsForAttachment;
-          const groupNotificationProps = message.propsForGroupNotification;
-
-          let item;
-          // firstMessageOfSeries tells us to render the avatar only for the first message
-          // in a series of messages from the same user
-          item = messageProps
-            ? this.renderMessage(
-                messageProps,
-                message.firstMessageOfSeries,
-                multiSelectMode
-              )
-            : item;
-          item = quoteProps
-            ? this.renderMessage(
-                timerProps,
-                message.firstMessageOfSeries,
-                multiSelectMode,
-                quoteProps
-              )
-            : item;
-
-          item = timerProps ? <TimerNotification {...timerProps} /> : item;
-          item = resetSessionProps ? (
-            <ResetSessionNotification {...resetSessionProps} />
-          ) : (
-            item
-          );
-          // item = attachmentProps  ? this.renderMessage(timerProps) : item;
-
-          return item;
-        })}
-      </>
-    );
-  }
-
   public renderHeader() {
     const headerProps = this.getHeaderProps();
     return <ConversationHeaderWithDetails {...headerProps} />;
-  }
-
-  public renderMessage(
-    messageProps: any,
-    firstMessageOfSeries: boolean,
-    multiSelectMode: boolean,
-    quoteProps?: any
-  ) {
-    const selected =
-      !!messageProps?.id &&
-      this.state.selectedMessages.includes(messageProps.id);
-
-    messageProps.i18n = window.i18n;
-    messageProps.selected = selected;
-    messageProps.firstMessageOfSeries = firstMessageOfSeries;
-    messageProps.multiSelectMode = multiSelectMode;
-    messageProps.onSelectMessage = (messageId: string) => {
-      this.selectMessage(messageId);
-    };
-
-    messageProps.quote = quoteProps || undefined;
-    messageProps.onReply = (messageId: number) => {
-      void this.replyToMessage(messageId);
-    };
-
-    return <Message {...messageProps} />;
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -427,10 +289,6 @@ export class SessionConversation extends React.Component<Props, State> {
     const messageFetchTimestamp = Date.now();
 
     this.setState({ messages, messageFetchTimestamp }, () => {
-      if (this.state.isScrolledToBottom) {
-        this.updateReadMessages();
-      }
-
       // Add new messages to conversation collection
       conversationModel.messageCollection = messageSet;
     });
@@ -485,11 +343,7 @@ export class SessionConversation extends React.Component<Props, State> {
     const previousTopMessage = this.state.messages[0]?.id;
     const newTopMessage = messages[0]?.id;
 
-    this.setState({ messages, messageFetchTimestamp: timestamp }, () => {
-      if (this.state.isScrolledToBottom) {
-        this.updateReadMessages();
-      }
-    });
+    this.setState({ messages, messageFetchTimestamp: timestamp });
 
     return { newTopMessage, previousTopMessage };
   }
@@ -602,6 +456,31 @@ export class SessionConversation extends React.Component<Props, State> {
     return headerProps;
   }
 
+  public getMessagesListProps() {
+    const { conversationKey } = this.state;
+    const conversation = window.ConversationController.getOrThrow(
+      conversationKey
+    );
+    const conversationModel = window.ConversationController.getOrThrow(
+      conversationKey
+    );
+
+    return {
+      selectedMessages: this.state.selectedMessages,
+      conversationKey: this.state.conversationKey,
+      messages: this.state.messages,
+      resetSelection: this.resetSelection,
+      initialFetchComplete: this.state.initialFetchComplete,
+      quotedMessageTimestamp: this.state.quotedMessageTimestamp,
+      conversationModel: conversationModel,
+      conversation: conversation,
+      selectMessage: this.selectMessage,
+      getMessages: this.getMessages,
+      replyToMessage: this.replyToMessage,
+      doneInitialScroll: this.state.doneInitialScroll,
+    };
+  }
+
   public getGroupSettingsProps() {
     const { conversationKey } = this.state;
     const conversation = window.ConversationController.getOrThrow(
@@ -711,98 +590,6 @@ export class SessionConversation extends React.Component<Props, State> {
 
   public onMessageFailure() {
     this.updateSendingProgress(100, -1);
-  }
-
-  public updateReadMessages() {
-    const { isScrolledToBottom, messages, conversationKey } = this.state;
-
-    // If you're not friends, don't mark anything as read. Otherwise
-    // this will automatically accept friend request.
-    const conversation = window.ConversationController.getOrThrow(
-      conversationKey
-    );
-
-    if (conversation.isBlocked()) {
-      return;
-    }
-
-    let unread;
-
-    if (!messages || messages.length === 0) {
-      return;
-    }
-
-    if (isScrolledToBottom) {
-      unread = messages[messages.length - 1];
-    } else {
-      unread = this.findNewestVisibleUnread();
-    }
-
-    if (unread) {
-      conversation.markRead(unread.attributes.received_at);
-    }
-  }
-
-  public findNewestVisibleUnread() {
-    const messageContainer = this.messageContainerRef.current;
-    if (!messageContainer) {
-      return null;
-    }
-
-    const { messages, unreadCount } = this.state;
-    const { length } = messages;
-
-    const viewportBottom =
-      messageContainer?.clientHeight + messageContainer?.scrollTop || 0;
-
-    // Start with the most recent message, search backwards in time
-    let foundUnread = 0;
-    for (let i = length - 1; i >= 0; i -= 1) {
-      // Search the latest 30, then stop if we believe we've covered all known
-      //   unread messages. The unread should be relatively recent.
-      // Why? local notifications can be unread but won't be reflected the
-      //   conversation's unread count.
-      if (i > 30 && foundUnread >= unreadCount) {
-        return null;
-      }
-
-      const message = messages[i];
-
-      if (!message.attributes.unread) {
-        // eslint-disable-next-line no-continue
-        continue;
-      }
-
-      foundUnread += 1;
-
-      const el = document.getElementById(`${message.id}`);
-
-      if (!el) {
-        // eslint-disable-next-line no-continue
-        continue;
-      }
-
-      const top = el.offsetTop;
-
-      // If the bottom fits on screen, we'll call it visible. Even if the
-      //   message is really tall.
-      const height = el.offsetHeight;
-      const bottom = top + height;
-
-      // We're fully below the viewport, continue searching up.
-      if (top > viewportBottom) {
-        // eslint-disable-next-line no-continue
-        continue;
-      }
-
-      if (bottom <= viewportBottom) {
-        return message;
-      }
-
-      // Continue searching up.
-    }
-
-    return null;
   }
 
   public async deleteSelectedMessages() {
@@ -927,99 +714,6 @@ export class SessionConversation extends React.Component<Props, State> {
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  // ~~~~~~~~~~~~ SCROLLING METHODS ~~~~~~~~~~~~~
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  public async handleScroll() {
-    const messageContainer = this.messageContainerRef.current;
-    if (!messageContainer) {
-      return;
-    }
-
-    const scrollTop = messageContainer.scrollTop;
-    const scrollHeight = messageContainer.scrollHeight;
-    const clientHeight = messageContainer.clientHeight;
-
-    const scrollButtonViewShowLimit = 0.75;
-    const scrollButtonViewHideLimit = 0.4;
-    const scrollOffsetPx = scrollHeight - scrollTop - clientHeight;
-    const scrollOffsetPc = scrollOffsetPx / clientHeight;
-
-    // Scroll button appears if you're more than 75% scrolled up
-    if (
-      scrollOffsetPc > scrollButtonViewShowLimit &&
-      !this.state.showScrollButton
-    ) {
-      this.setState({ showScrollButton: true });
-    }
-    // Scroll button disappears if you're more less than 40% scrolled up
-    if (
-      scrollOffsetPc < scrollButtonViewHideLimit &&
-      this.state.showScrollButton
-    ) {
-      this.setState({ showScrollButton: false });
-    }
-
-    // Scrolled to bottom
-    const isScrolledToBottom = scrollOffsetPc === 0;
-
-    // Mark messages read
-    this.updateReadMessages();
-
-    // Pin scroll to bottom on new message, unless user has scrolled up
-    if (this.state.isScrolledToBottom !== isScrolledToBottom) {
-      this.setState({ isScrolledToBottom });
-    }
-
-    // Fetch more messages when nearing the top of the message list
-    const shouldFetchMoreMessages =
-      scrollTop <= Constants.UI.MESSAGE_CONTAINER_BUFFER_OFFSET_PX;
-
-    if (shouldFetchMoreMessages) {
-      const numMessages =
-        this.state.messages.length +
-        Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT;
-
-      // Prevent grabbing messags with scroll more frequently than once per 5s.
-      const messageFetchInterval = 2;
-      const previousTopMessage = (
-        await this.getMessages(numMessages, messageFetchInterval)
-      )?.previousTopMessage;
-
-      if (previousTopMessage) {
-        this.scrollToMessage(previousTopMessage);
-      }
-    }
-  }
-
-  public scrollToUnread() {
-    const { messages, unreadCount } = this.state;
-    const message = messages[messages.length - 1 - unreadCount];
-
-    if (message) {
-      this.scrollToMessage(message.id);
-    }
-  }
-
-  public scrollToMessage(messageId: string) {
-    const topUnreadMessage = document.getElementById(messageId);
-    topUnreadMessage?.scrollIntoView();
-  }
-
-  public scrollToBottom() {
-    // FIXME VINCE: Smooth scrolling that isn't slow@!
-    // this.messagesEndRef.current?.scrollIntoView(
-    //   { behavior: firstLoad ? 'auto' : 'smooth' }
-    // );
-
-    const messageContainer = this.messageContainerRef.current;
-    if (!messageContainer) {
-      return;
-    }
-    messageContainer.scrollTop =
-      messageContainer.scrollHeight - messageContainer.clientHeight;
-  }
-
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~ MESSAGE SELECTION ~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public selectMessage(messageId: string) {
@@ -1076,7 +770,9 @@ export class SessionConversation extends React.Component<Props, State> {
           );
         }
       }
-      this.setState({ quotedMessageTimestamp, quotedMessageProps });
+      this.setState({ quotedMessageTimestamp, quotedMessageProps }, () => {
+        this.compositionBoxRef.current?.focus();
+      });
     }
   }
 
@@ -1084,48 +780,42 @@ export class SessionConversation extends React.Component<Props, State> {
   // ~~~~~~~~~~~ KEYBOARD NAVIGATION ~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   private onKeyDown(event: any) {
-    const messageContainer = this.messageContainerRef.current;
-    if (!messageContainer) {
-      return;
-    }
-
-    const selectionMode = !!this.state.selectedMessages.length;
-    const recordingMode = this.state.showRecordingView;
-
-    const pageHeight = messageContainer.clientHeight;
-    const arrowScrollPx = 50;
-    const pageScrollPx = pageHeight * 0.8;
-
-    if (event.key === 'Escape') {
-      // EXIT MEDIA VIEW
-
-      if (recordingMode) {
-        // EXIT RECORDING VIEW
-      }
-      // EXIT WHAT ELSE?
-    }
-
-    switch (event.key) {
-      case 'Escape':
-        if (selectionMode) {
-          this.resetSelection();
-        }
-        break;
-
-      // Scrolling
-      case 'ArrowUp':
-        messageContainer.scrollBy(0, -arrowScrollPx);
-        break;
-      case 'ArrowDown':
-        messageContainer.scrollBy(0, arrowScrollPx);
-        break;
-      case 'PageUp':
-        messageContainer.scrollBy(0, -pageScrollPx);
-        break;
-      case 'PageDown':
-        messageContainer.scrollBy(0, pageScrollPx);
-        break;
-      default:
-    }
+    // const messageContainer = this.messageContainerRef.current;
+    // if (!messageContainer) {
+    //   return;
+    // }
+    // const selectionMode = !!this.state.selectedMessages.length;
+    // const recordingMode = this.state.showRecordingView;
+    // const pageHeight = messageContainer.clientHeight;
+    // const arrowScrollPx = 50;
+    // const pageScrollPx = pageHeight * 0.8;
+    // if (event.key === 'Escape') {
+    //   // EXIT MEDIA VIEW
+    //   if (recordingMode) {
+    //     // EXIT RECORDING VIEW
+    //   }
+    //   // EXIT WHAT ELSE?
+    // }
+    // switch (event.key) {
+    //   case 'Escape':
+    //     if (selectionMode) {
+    //       this.resetSelection();
+    //     }
+    //     break;
+    //   // Scrolling
+    //   case 'ArrowUp':
+    //     messageContainer.scrollBy(0, -arrowScrollPx);
+    //     break;
+    //   case 'ArrowDown':
+    //     messageContainer.scrollBy(0, arrowScrollPx);
+    //     break;
+    //   case 'PageUp':
+    //     messageContainer.scrollBy(0, -pageScrollPx);
+    //     break;
+    //   case 'PageDown':
+    //     messageContainer.scrollBy(0, pageScrollPx);
+    //     break;
+    //   default:
+    // }
   }
 }

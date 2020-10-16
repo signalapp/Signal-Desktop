@@ -378,7 +378,7 @@ async function onContactReceived(details: any) {
 
     if (details.profileKey) {
       const profileKey = StringUtils.decode(details.profileKey, 'base64');
-      conversation.setProfileKey(profileKey);
+      void conversation.setProfileKey(profileKey);
     }
 
     if (details.name && details.name.length) {

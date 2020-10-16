@@ -1,5 +1,5 @@
 import React from 'react';
-import { debounce } from 'lodash';
+import _, { debounce } from 'lodash';
 
 import { Attachment } from '../../../types/Attachment';
 import * as MIME from '../../../types/MIME';
@@ -9,7 +9,6 @@ import TextareaAutosize from 'react-autosize-textarea';
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import { SessionEmojiPanel } from './SessionEmojiPanel';
 import { SessionRecording } from './SessionRecording';
-import { Props as MessageProps } from '../../conversation/Message';
 
 import { SignalService } from '../../../protobuf';
 
@@ -18,7 +17,6 @@ import { Constants } from '../../../session';
 import { toArray } from 'react-emoji-render';
 import { SessionQuotedMessageComposition } from './SessionQuotedMessageComposition';
 import { Flex } from '../Flex';
-import _ from 'lodash';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -43,6 +41,8 @@ interface Props {
   dropZoneFiles: FileList;
   quotedMessageProps?: ReplyingToMessageProps;
   removeQuotedMessage: () => void;
+
+  textarea: React.RefObject<HTMLDivElement>;
 }
 
 interface State {
@@ -56,7 +56,6 @@ interface State {
 }
 
 export class SessionCompositionBox extends React.Component<Props, State> {
-  // private readonly textarea: React.RefObject<HTMLTextAreaElement>;
   private readonly textarea: React.RefObject<HTMLTextAreaElement>;
   private readonly fileInput: React.RefObject<HTMLInputElement>;
   private emojiPanel: any;
@@ -72,7 +71,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       showEmojiPanel: false,
     };
 
-    this.textarea = React.createRef();
+    this.textarea = props.textarea;
     this.fileInput = React.createRef();
 
     // Emojis
