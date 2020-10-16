@@ -75,6 +75,8 @@ export type ConversationType = {
   draftText?: string | null;
   draftPreview?: string;
 
+  groupVersion?: 1 | 2;
+  isMissingMandatoryProfileSharing?: boolean;
   messageRequestsEnabled?: boolean;
   acceptedMessageRequest?: boolean;
 };

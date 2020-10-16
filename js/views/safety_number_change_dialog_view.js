@@ -11,7 +11,7 @@
         Component: window.Signal.Components.SafetyNumberChangeDialog,
         props: {
           confirmText: options.confirmText,
-          contacts: options.contacts.map(contact => contact.cachedProps),
+          contacts: options.contacts.map(contact => contact.format()),
           i18n: window.i18n,
           onCancel: () => {
             dialog.remove();

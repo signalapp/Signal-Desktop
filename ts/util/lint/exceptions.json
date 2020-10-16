@@ -13120,7 +13120,7 @@
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.js",
     "line": "    el.innerHTML = '';",
-    "lineNumber": 24,
+    "lineNumber": 25,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-20T20:10:43.540Z",
     "reasonDetail": "Our code, no user input, only clearing out the dom"
@@ -13129,7 +13129,7 @@
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.tsx",
     "line": "  el.innerHTML = '';",
-    "lineNumber": 78,
+    "lineNumber": 81,
     "reasonCategory": "usageTrusted",
     "updated": "2020-06-03T19:23:21.195Z",
     "reasonDetail": "Our code, no user input, only clearing out the dom"
@@ -13305,7 +13305,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public audioRef: React.RefObject<HTMLAudioElement> = React.createRef();",
-    "lineNumber": 217,
+    "lineNumber": 218,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-08T20:19:01.913Z"
   },
@@ -13313,7 +13313,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
-    "lineNumber": 219,
+    "lineNumber": 220,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-08T20:19:01.913Z"
   },
@@ -13321,7 +13321,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  > = React.createRef();",
-    "lineNumber": 223,
+    "lineNumber": 224,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-28T19:36:40.817Z"
   },

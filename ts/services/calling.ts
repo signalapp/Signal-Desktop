@@ -117,14 +117,7 @@ export class CallingClass {
       return;
     }
 
-    const conversationProps = conversation.cachedProps;
-
-    if (!conversationProps) {
-      window.log.error(
-        'CallingClass.startCallingLobby(): No conversation props?'
-      );
-      return;
-    }
+    const conversationProps = conversation.format();
 
     window.log.info('CallingClass.startCallingLobby(): Starting lobby');
     this.uxActions.showCallLobby({
@@ -829,10 +822,7 @@ export class CallingClass {
     conversation: ConversationModel,
     call: Call
   ): CallDetailsType {
-    const conversationProps = conversation.cachedProps;
-    if (!conversationProps) {
-      throw new Error('getAcceptedCallDetails: No conversation props?');
-    }
+    const conversationProps = conversation.format();
 
     return {
       ...conversationProps,

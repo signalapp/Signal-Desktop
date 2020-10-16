@@ -2727,6 +2727,38 @@
     "message": "Accept",
     "description": "Shown as a button to let the user accept a message request"
   },
+  "MessageRequests--continue": {
+    "message": "Continue",
+    "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
+  },
+  "MessageRequests--profile-sharing--group": {
+    "message": "Continue your conversation with this group and share your name and photo with its members? $learnMore$",
+    "description": "Shown when user hasn't shared their profile in a group yet",
+    "placeholders": {
+      "learnMore": {
+        "content": "$1",
+        "example": "Learn More."
+      }
+    }
+  },
+  "MessageRequests--profile-sharing--direct": {
+    "message": "Continue this conversation with $firstName$ and share your name and photo with them? $learnMore$",
+    "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
+    "placeholders": {
+      "firstName": {
+        "content": "$1",
+        "example": "Alice"
+      },
+      "learnMore": {
+        "content": "$2",
+        "example": "Learn More."
+      }
+    }
+  },
+  "MessageRequests--learn-more": {
+    "message": "Learn more.",
+    "description": "Shown at the end of profile sharing messages as a link."
+  },
   "ConversationHero--members": {
     "message": "$count$ members",
     "description": "Specifies the number of members in a group conversation",

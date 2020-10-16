@@ -436,11 +436,12 @@ Whisper.ConversationView = Whisper.View.extend({
         : null;
 
       return {
-        ...this.model.cachedProps,
+        ...this.model.format(),
 
         leftGroup: this.model.get('left'),
 
         disableTimerChanges:
+          this.model.isMissingRequiredProfileSharing() ||
           this.model.get('left') ||
           !this.model.getAccepted() ||
           !this.model.canChangeTimer(),
