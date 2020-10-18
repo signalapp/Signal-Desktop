@@ -81,10 +81,6 @@
   Whisper.AppLoadingScreen = Whisper.View.extend({
     templateName: 'app-loading-screen',
     className: 'app-loading-screen',
-    updateProgress() {},
-    render_attributes: {
-      message: i18n('loading'),
-    },
   });
 
   Whisper.InboxView = Whisper.View.extend({
@@ -139,13 +135,6 @@
 
       // FIXME: Fix this for new react views
       this.setupLeftPane();
-    },
-    render_attributes: {
-      welcomeToSession: i18n('welcomeToSession'),
-    },
-    events: {
-      click: 'onClick',
-      'click .section-toggle': 'toggleSection',
     },
     async setupLeftPane() {
       // Here we set up a full redux store with initial state for our LeftPane Root
@@ -339,36 +328,9 @@
         view.remove();
       }
     },
-    onProgress(count) {
-      const view = this.appLoadingScreen;
-      if (view) {
-        view.updateProgress(count);
-      }
-    },
-    focusConversation(e) {
-      if (e && this.$(e.target).closest('.placeholder').length) {
-        return;
-      }
-
-      this.$('#header, .gutter').addClass('inactive');
-      this.$('.conversation-stack').removeClass('inactive');
-    },
-    focusHeader() {
-      this.$('.conversation-stack').addClass('inactive');
-      this.$('#header, .gutter').removeClass('inactive');
-      this.$('.conversation:first .menu').trigger('close');
-    },
+    onProgress() {},
     reloadBackgroundPage() {
       window.location.reload();
-    },
-    toggleSection(e) {
-      // Expand or collapse this panel
-      const $target = this.$(e.currentTarget);
-      const $next = $target.next();
-
-      // Toggle section visibility
-      $next.slideToggle('fast');
-      $target.toggleClass('section-toggle-visible');
     },
     async openConversation(id, messageId) {
       // If we call this to create a new conversation, it can only be private
@@ -387,29 +349,12 @@
       }
 
       this.conversation_stack.open(conversation);
-      // this.focusConversation();
     },
     closeConversation(conversation) {
       if (conversation) {
         this.inboxListView.removeItem(conversation);
         this.conversation_stack.close(conversation);
       }
-    },
-    closeRecording(e) {
-      if (e && this.$(e.target).closest('.capture-audio').length > 0) {
-        return;
-      }
-      this.$('.conversation:first .recorder').trigger('close');
-    },
-    onClick(e) {
-      this.closeRecording(e);
-    },
-    showToastMessageInGutter(message) {
-      const toast = new Whisper.MessageToastView({
-        message,
-      });
-      toast.$el.appendTo(this.$('.gutter'));
-      toast.render();
     },
   });
 

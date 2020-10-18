@@ -125,9 +125,12 @@ export class SessionConversation extends React.Component<Props, State> {
       this.state.conversationKey
     );
     conversationModel.on('change', () => {
-      this.setState({
-        messages: conversationModel.messageCollection.models,
-      });
+      // reload as much messages as we had before the change.
+      void this.getMessages(
+        this.state.messages.length ||
+          Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT,
+        2
+      );
     });
   }
 
@@ -155,7 +158,6 @@ export class SessionConversation extends React.Component<Props, State> {
   public render() {
     const {
       conversationKey,
-      doneInitialScroll,
       showRecordingView,
       showOptionsPane,
       quotedMessageProps,
@@ -300,12 +302,12 @@ export class SessionConversation extends React.Component<Props, State> {
   ) {
     const { conversationKey, messageFetchTimestamp } = this.state;
 
-    const timestamp = getTimestamp();
+    const timestamp = Date.now();
 
     // If we have pulled messages in the last interval, don't bother rescanning
     // This avoids getting messages on every re-render.
     const timeBuffer = timestamp - messageFetchTimestamp;
-    if (timeBuffer < fetchInterval) {
+    if (timeBuffer / 1000 < fetchInterval) {
       return { newTopMessage: undefined, previousTopMessage: undefined };
     }
 
@@ -325,6 +327,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
     // Set first member of series here.
     const messageModels = messageSet.models.reverse();
+
     const messages = [];
     let previousSender;
     for (let i = 0; i < messageModels.length; i++) {

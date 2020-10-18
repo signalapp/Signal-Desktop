@@ -13,7 +13,7 @@
             font-src 'self';
             form-action 'self';
             frame-src 'none';
-            img-src 'self';
+            img-src 'self' blob: data:;
             media-src 'self' blob:;
             object-src 'none';
             script-src 'self' 'unsafe-eval';
@@ -55,11 +55,6 @@
     <div class='lightbox-container'></div>
   </script>
 
-  <script type='text/x-tmpl-mustache' id='scroll-down-button-view'>
-    <button class='text module-scroll-down__button {{ buttonClass }}' alt='{{ moreBelow }}'>
-      <div class='module-scroll-down__icon'></div>
-    </button>
-  </script>
 
   <script type='text/x-tmpl-mustache' id='last-seen-indicator-view'>
     <div class='module-last-seen-indicator__bar'/>

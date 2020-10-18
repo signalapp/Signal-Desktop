@@ -1,72 +1,7 @@
-.conversation {
-  background-color: $color-white;
-  height: 100%;
-  position: relative;
-
-  .panel,
-  .panel-wrapper {
-    overflow-y: scroll;
-  }
-
-  .panel {
-    .container {
-      padding-top: 20px;
-      max-width: 750px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-  }
-
-  .main.panel,
-  .panel-wrapper {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    overflow: initial;
-  }
-
-  .conversation-content-left {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    width: 100%;
-  }
-
-  .main.panel {
-    @include themify($themes) {
-      border-top: themed('sessionBorder');
-      border-left: themed('sessionBorder');
-    }
-
-    .discussion-container {
-      flex-grow: 1;
-      position: relative;
-      max-width: 100%;
-      margin: 0;
-
-      .message-list {
-        -webkit-padding-start: 0px;
-        position: absolute;
-        top: 0;
-        height: 100%;
-        width: 100%;
-        margin: 0;
-        padding: 10px 0 0 0;
-        overflow-y: auto;
-        overflow-x: hidden;
-      }
-    }
-  }
-}
-
 .message-detail-wrapper {
   height: calc(100% - 48px);
   width: 100%;
   overflow-y: auto;
-}
-
-.discussion-container {
-  background-color: $color-white;
 }
 
 .message-container,
