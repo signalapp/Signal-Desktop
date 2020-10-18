@@ -81,45 +81,6 @@
     </div>
   </script>
 
-  <script type='text/x-tmpl-mustache' id='conversation'>
-    <div class='conversation-content'>
-      <div class='conversation-content-left'>
-        <div class='conversation-header'></div>
-        <div class='main panel'>
-          <div class='discussion-container'>
-          </div>
-
-          <div class='bottom-bar' id='footer'>
-              <div class='emoji-panel-container'></div>
-              <div class='member-list-container'></div>
-              <div id='bulk-edit-view'></div>
-              <div class='attachment-list'></div>
-              <div class='compose'>
-                <form class='send clearfix file-input'>
-                  <div class='flex'>
-                    <div id='choose-file' class='choose-file'>
-                      <button class='paperclip thumbnail' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
-                      <input type='file' class='file-input' multiple='multiple'>
-                    </div>
-                    <div class='capture-audio' style='display:none' >
-                      <button class='microphone' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
-                    </div>
-                    <div class='send-message-container'>
-                      <textarea maxlength='2000' class='send-message' placeholder='{{ send-message }}' rows='1' dir='auto' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></textarea>
-                    </div>
-                    <button class='emoji' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
-                  </div>
-                </form>
-              </div>
-          </div>
-        </div>
-      </div>
-      <div class='conversation-content-right'>
-      </div>
-
-    </div>
-  </script>
-
   <script type='text/x-tmpl-mustache' id='message-list'>
     <div class='messages'></div>
     <div class='typing-container'></div>
@@ -130,20 +91,6 @@
       <span class='time'>0:00</span>
       <button class='close'><span class='icon'></span></button>
   </script>
-  <script type='text/x-tmpl-mustache' id='password-dialog'>
-    <div class="content">
-      {{ #title }}
-        <h4>{{ title }}</h4>
-      {{ /title }}
-      <input type='password' id='password' placeholder='Password' autofocus>
-      <input type='password' id='password-confirmation' placeholder='Type in your password again' autofocus>
-      <div class='error'></div>
-      <div class='buttons'>
-        <button class='cancel' tabindex='2'>{{ cancel }}</button>
-        <button class='ok' tabindex='1'>{{ ok }}</button>
-      </div>
-    </div>
-  </script>
   <script type='text/x-tmpl-mustache' id='identicon-svg'>
       <svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'>
          <circle cx='50' cy='50' r='40' fill='{{ color }}' />
@@ -153,18 +100,8 @@
       </svg>
   </script>
 
-  <script type='text/x-tmpl-mustache' id='phone-number'>
-      <div class='phone-input-form'>
-          <div class='number-container'>
-              <input type='tel' class='number' placeholder="Phone Number" />
-          </div>
-      </div>
-  </script>
 
-  <script type='text/x-tmpl-mustache' id='file-size-modal'>
-      {{ file-size-warning }}
-      ({{ limit }}{{ units }})
-  </script>
+
 
   <script type='text/x-tmpl-mustache' id='attachment-type-modal'>
       Sorry, your attachment has a type, {{type}}, that is not currently supported.
