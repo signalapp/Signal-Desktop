@@ -7,14 +7,16 @@ import {
 } from './ducks/conversations';
 import { reducer as user, UserStateType } from './ducks/user';
 import { reducer as theme, ThemeStateType } from './ducks/theme';
+import { reducer as section, SectionStateType } from './ducks/section';
 // import { reducer as messages } from './ducks/messages';
 
 export type StateType = {
   search: SearchStateType;
   messages: any;
-  conversations: ConversationsStateType;
   user: UserStateType;
+  conversations: ConversationsStateType;
   theme: ThemeStateType;
+  section: SectionStateType;
 };
 
 export const reducers = {
@@ -25,6 +27,7 @@ export const reducers = {
   conversations,
   user,
   theme,
+  section,
 };
 
 // Making this work would require that our reducer signature supported AnyAction, not

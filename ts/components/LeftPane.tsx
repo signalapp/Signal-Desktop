@@ -12,6 +12,7 @@ import { ConversationType } from '../state/ducks/conversations';
 import { LeftPaneContactSection } from './session/LeftPaneContactSection';
 import { LeftPaneSettingSection } from './session/LeftPaneSettingSection';
 import { SessionIconType } from './session/icon';
+import { FOCUS_SECTION } from '../state/ducks/section';
 
 // from https://github.com/bvaughn/react-virtualized/blob/fb3484ed5dcc41bffae8eab029126c0fb8f7abc0/source/List/types.js#L5
 export type RowRendererParamsType = {
@@ -23,10 +24,6 @@ export type RowRendererParamsType = {
   style: Object;
 };
 
-interface State {
-  selectedSection: SectionType;
-}
-
 interface Props {
   conversations: Array<ConversationListItemPropsType>;
   contacts: Array<ConversationType>;
@@ -35,6 +32,8 @@ interface Props {
   searchResults?: SearchResultsProps;
   searchTerm: string;
   isSecondaryDevice: boolean;
+  focusedSection: SectionType;
+  focusSection: (section: SectionType) => void;
 
   openConversationInternal: (id: string, messageId?: string) => void;
   updateSearchTerm: (searchTerm: string) => void;
@@ -42,11 +41,7 @@ interface Props {
   clearSearch: () => void;
 }
 
-export class LeftPane extends React.Component<Props, State> {
-  public state = {
-    selectedSection: SectionType.Message,
-  };
-
+export class LeftPane extends React.Component<Props> {
   public constructor(props: any) {
     super(props);
     this.handleSectionSelected = this.handleSectionSelected.bind(this);
@@ -76,14 +71,14 @@ export class LeftPane extends React.Component<Props, State> {
 
   public handleSectionSelected(section: SectionType) {
     this.props.clearSearch();
-    this.setState({ selectedSection: section });
+    this.props.focusSection(section);
   }
 
   public render(): JSX.Element {
     return (
       <div className="module-left-pane-session">
         <ActionsPanel
-          selectedSection={this.state.selectedSection}
+          selectedSection={this.props.focusedSection}
           onSectionSelected={this.handleSectionSelected}
           conversations={this.props.conversations}
           unreadMessageCount={this.props.unreadMessageCount}
@@ -94,7 +89,7 @@ export class LeftPane extends React.Component<Props, State> {
   }
 
   private renderSection(): JSX.Element | undefined {
-    switch (this.state.selectedSection) {
+    switch (this.props.focusedSection) {
       case SectionType.Message:
         return this.renderMessageSection();
       case SectionType.Contact:

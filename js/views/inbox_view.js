@@ -165,6 +165,9 @@
           isSecondaryDevice: !!window.storage.get('isSecondaryDevice'),
           i18n: window.i18n,
         },
+        section: {
+          focusedSection: 1,
+        },
       };
 
       this.store = Signal.State.createStore(initialState);

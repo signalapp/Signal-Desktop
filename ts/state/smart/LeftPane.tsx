@@ -32,6 +32,7 @@ const mapStateToProps = (state: StateType) => {
     i18n: getIntl(state),
     unreadMessageCount: leftPaneList.unreadCount,
     theme: state.theme,
+    focusedSection: state.section.focusedSection,
   };
 };
 

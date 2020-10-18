@@ -6,7 +6,6 @@ import classNames from 'classnames';
 
 import { default as _ } from 'lodash';
 export { ConversationContext } from './ConversationContext';
-export { LeftPaneContext } from './LeftPaneContext';
 
 export { _, classNames };
 
