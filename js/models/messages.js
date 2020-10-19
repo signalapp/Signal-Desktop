@@ -620,11 +620,6 @@
         onShowDetail: () => this.trigger('show-message-detail', this),
         onDelete: () => this.trigger('delete', this),
         onClickLinkPreview: url => this.trigger('navigate-to', url),
-        onClickAttachment: attachment =>
-          this.trigger('show-lightbox', {
-            attachment,
-            message: this,
-          }),
 
         onDownload: isDangerous =>
           this.trigger('download', {

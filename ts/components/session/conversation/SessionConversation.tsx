@@ -16,7 +16,7 @@ import { SessionRightPanelWithDetails } from './SessionRightPanel';
 import { SessionTheme } from '../../../state/ducks/SessionTheme';
 import { DefaultTheme } from 'styled-components';
 import { SessionConversationMessagesList } from './SessionConversationMessagesList';
-import { LightboxGallery } from '../../LightboxGallery';
+import { LightboxGallery, MediaItemType } from '../../LightboxGallery';
 import { Message } from '../../conversation/media-gallery/types/Message';
 
 import { AttachmentType } from '../../../types/Attachment';
@@ -121,12 +121,13 @@ export class SessionConversation extends React.Component<Props, State> {
     this.deleteSelectedMessages = this.deleteSelectedMessages.bind(this);
 
     this.replyToMessage = this.replyToMessage.bind(this);
+    this.onClickAttachment = this.onClickAttachment.bind(this);
     this.getMessages = this.getMessages.bind(this);
 
     // Keyboard navigation
     this.onKeyDown = this.onKeyDown.bind(this);
 
-    this.showLightBox = this.showLightBox.bind(this);
+    this.renderLightBox = this.renderLightBox.bind(this);
 
     const conversationModel = window.ConversationController.getOrThrow(
       this.state.conversationKey
@@ -224,7 +225,7 @@ export class SessionConversation extends React.Component<Props, State> {
             {showMessageDetails && <>&nbsp</>}
           </div>
 
-          {lightBoxOptions?.media && this.showLightBox(lightBoxOptions)}
+          {lightBoxOptions?.media && this.renderLightBox(lightBoxOptions)}
 
           <div className="conversation-messages">
             <SessionConversationMessagesList {...messagesListProps} />
@@ -489,6 +490,7 @@ export class SessionConversation extends React.Component<Props, State> {
       getMessages: this.getMessages,
       replyToMessage: this.replyToMessage,
       doneInitialScroll: this.state.doneInitialScroll,
+      onClickAttachment: this.onClickAttachment,
     };
   }
 
@@ -787,6 +789,20 @@ export class SessionConversation extends React.Component<Props, State> {
     }
   }
 
+  private onClickAttachment(attachment: any, message: any) {
+    const lightBoxOptions = {
+      media: [
+        {
+          objectURL: attachment.url,
+          contentType: attachment.contentType,
+          attachment,
+        },
+      ],
+      attachment,
+    };
+    this.setState({ lightBoxOptions });
+  }
+
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~ KEYBOARD NAVIGATION ~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -830,11 +846,20 @@ export class SessionConversation extends React.Component<Props, State> {
     // }
   }
 
-  private showLightBox(lightboxOptions: any) {
-    const { media, attachment } = lightboxOptions;
-    const selectedIndex = media.findIndex(
-      (mediaMessage: any) => mediaMessage.attachment.path === attachment.path
-    );
+  private renderLightBox({
+    media,
+    attachment,
+  }: {
+    media: Array<MediaItemType>;
+    attachment: any;
+  }) {
+    const selectedIndex =
+      media.length > 1
+        ? media.findIndex(
+            (mediaMessage: any) =>
+              mediaMessage.attachment.path === attachment.path
+          )
+        : 0;
     return (
       <LightboxGallery
         media={media}
@@ -847,7 +872,7 @@ export class SessionConversation extends React.Component<Props, State> {
     );
   }
 
-  // THIS DOES NOT DOWNLOAD ANYTHING!
+  // THIS DOES NOT DOWNLOAD ANYTHING! it just saves it where the user wants
   private downloadAttachment({
     attachment,
     message,
@@ -863,7 +888,7 @@ export class SessionConversation extends React.Component<Props, State> {
       attachment,
       document,
       getAbsolutePath: getAbsoluteAttachmentPath,
-      timestamp: message.received_at || Date.now(),
+      timestamp: message?.received_at || Date.now(),
     });
   }
 }

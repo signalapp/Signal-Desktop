@@ -29,6 +29,7 @@ interface Props {
     interval: number
   ) => Promise<{ previousTopMessage: string }>;
   replyToMessage: (messageId: number) => Promise<void>;
+  onClickAttachment: (attachment: any, message: any) => void;
 }
 
 export class SessionConversationMessagesList extends React.Component<
@@ -135,6 +136,7 @@ export class SessionConversationMessagesList extends React.Component<
           // in a series of messages from the same user
           item = messageProps
             ? this.renderMessage(
+                message,
                 messageProps,
                 message.firstMessageOfSeries,
                 multiSelectMode
@@ -156,6 +158,7 @@ export class SessionConversationMessagesList extends React.Component<
   }
 
   public renderMessage(
+    message: any,
     messageProps: any,
     firstMessageOfSeries: boolean,
     multiSelectMode: boolean
@@ -175,6 +178,11 @@ export class SessionConversationMessagesList extends React.Component<
     messageProps.onReply = (messageId: number) => {
       void this.props.replyToMessage(messageId);
     };
+
+    messageProps.onClickAttachment = (attachment: any) => {
+      this.props.onClickAttachment(attachment, messageProps);
+    };
+    // messageProps.onDownload = ()
 
     return <Message {...messageProps} />;
   }
