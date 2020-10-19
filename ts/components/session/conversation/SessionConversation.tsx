@@ -6,8 +6,6 @@ import classNames from 'classnames';
 
 import { SessionCompositionBox } from './SessionCompositionBox';
 
-import { getTimestamp } from './SessionConversationManager';
-
 import { Constants } from '../../../session';
 import { SessionKeyVerification } from '../SessionKeyVerification';
 import _ from 'lodash';
@@ -18,6 +16,10 @@ import { SessionRightPanelWithDetails } from './SessionRightPanel';
 import { SessionTheme } from '../../../state/ducks/SessionTheme';
 import { DefaultTheme } from 'styled-components';
 import { SessionConversationMessagesList } from './SessionConversationMessagesList';
+import { LightboxGallery } from '../../LightboxGallery';
+import { Message } from '../../conversation/media-gallery/types/Message';
+
+import { AttachmentType } from '../../../types/Attachment';
 
 interface State {
   conversationKey: string;
@@ -54,6 +56,9 @@ interface State {
   // quoted message
   quotedMessageTimestamp?: number;
   quotedMessageProps?: any;
+
+  // lightbox options
+  lightBoxOptions?: any;
 }
 
 interface Props {
@@ -121,6 +126,8 @@ export class SessionConversation extends React.Component<Props, State> {
     // Keyboard navigation
     this.onKeyDown = this.onKeyDown.bind(this);
 
+    this.showLightBox = this.showLightBox.bind(this);
+
     const conversationModel = window.ConversationController.getOrThrow(
       this.state.conversationKey
     );
@@ -161,6 +168,7 @@ export class SessionConversation extends React.Component<Props, State> {
       showRecordingView,
       showOptionsPane,
       quotedMessageProps,
+      lightBoxOptions,
     } = this.state;
     const selectionMode = !!this.state.selectedMessages.length;
 
@@ -215,6 +223,8 @@ export class SessionConversation extends React.Component<Props, State> {
             )}
             {showMessageDetails && <>&nbsp</>}
           </div>
+
+          {lightBoxOptions?.media && this.showLightBox(lightBoxOptions)}
 
           <div className="conversation-messages">
             <SessionConversationMessagesList {...messagesListProps} />
@@ -541,7 +551,7 @@ export class SessionConversation extends React.Component<Props, State> {
       },
 
       onShowLightBox: (lightBoxOptions = {}) => {
-        conversation.showChannelLightbox(lightBoxOptions);
+        this.setState({ lightBoxOptions });
       },
     };
   }
@@ -818,5 +828,42 @@ export class SessionConversation extends React.Component<Props, State> {
     //     break;
     //   default:
     // }
+  }
+
+  private showLightBox(lightboxOptions: any) {
+    const { media, attachment } = lightboxOptions;
+    const selectedIndex = media.findIndex(
+      (mediaMessage: any) => mediaMessage.attachment.path === attachment.path
+    );
+    return (
+      <LightboxGallery
+        media={media}
+        close={() => {
+          this.setState({ lightBoxOptions: undefined });
+        }}
+        selectedIndex={selectedIndex}
+        onSave={this.downloadAttachment}
+      />
+    );
+  }
+
+  // THIS DOES NOT DOWNLOAD ANYTHING!
+  private downloadAttachment({
+    attachment,
+    message,
+    index,
+  }: {
+    attachment: AttachmentType;
+    message: Message;
+    index: number;
+  }) {
+    const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
+
+    window.Signal.Types.Attachment.save({
+      attachment,
+      document,
+      getAbsolutePath: getAbsoluteAttachmentPath,
+      timestamp: message.received_at || Date.now(),
+    });
   }
 }

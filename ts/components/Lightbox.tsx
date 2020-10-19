@@ -8,8 +8,6 @@ import is from '@sindresorhus/is';
 import * as GoogleChrome from '../util/GoogleChrome';
 import * as MIME from '../types/MIME';
 
-import { LocalizerType } from '../types/Util';
-
 const Colors = {
   TEXT_SECONDARY: '#bbb',
   ICON_SECONDARY: '#ccc',
@@ -26,7 +24,6 @@ const colorSVG = (url: string, color: string) => {
 interface Props {
   close: () => void;
   contentType: MIME.MIMEType | undefined;
-  i18n: LocalizerType;
   objectURL: string;
   caption?: string;
   onNext?: () => void;
@@ -41,12 +38,15 @@ const styles = {
   container: {
     display: 'flex',
     flexDirection: 'column',
-    position: 'absolute',
+    position: 'fixed',
+    width: '100vw',
+    height: '100vh',
     left: 0,
+    zIndex: 5,
     right: 0,
     top: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
   } as React.CSSProperties,
   mainContainer: {
     display: 'flex',
@@ -218,7 +218,6 @@ export class Lightbox extends React.Component<Props> {
       onNext,
       onPrevious,
       onSave,
-      i18n,
     } = this.props;
 
     return (
@@ -232,7 +231,7 @@ export class Lightbox extends React.Component<Props> {
           <div style={styles.controlsOffsetPlaceholder} />
           <div style={styles.objectContainer}>
             {!is.undefined(contentType)
-              ? this.renderObject({ objectURL, contentType, i18n })
+              ? this.renderObject({ objectURL, contentType })
               : null}
             {caption ? <div style={styles.caption}>{caption}</div> : null}
           </div>
@@ -266,17 +265,15 @@ export class Lightbox extends React.Component<Props> {
   private readonly renderObject = ({
     objectURL,
     contentType,
-    i18n,
   }: {
     objectURL: string;
     contentType: MIME.MIMEType;
-    i18n: LocalizerType;
   }) => {
     const isImageTypeSupported = GoogleChrome.isImageTypeSupported(contentType);
     if (isImageTypeSupported) {
       return (
         <img
-          alt={i18n('lightboxImageAlt')}
+          alt={window.i18n('lightboxImageAlt')}
           style={styles.object}
           src={objectURL}
           onClick={this.onObjectClick}

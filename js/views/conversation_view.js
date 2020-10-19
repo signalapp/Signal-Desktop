@@ -1245,22 +1245,6 @@
       });
     },
 
-    // THIS DOES NOT DOWNLOAD ANYTHING!
-    downloadAttachment({ attachment, message, isDangerous }) {
-      if (isDangerous) {
-        const toast = new Whisper.DangerousFileTypeToast();
-        toast.$el.appendTo(this.$el);
-        toast.render();
-        return;
-      }
-      Signal.Types.Attachment.save({
-        attachment,
-        document,
-        getAbsolutePath: getAbsoluteAttachmentPath,
-        timestamp: message.get ? message.get('sent_at') : message.sent_at,
-      });
-    },
-
     deleteSelectedMessages() {
       const ourPubkey = textsecure.storage.user.getNumber();
       const selected = Array.from(this.model.selectedMessages);

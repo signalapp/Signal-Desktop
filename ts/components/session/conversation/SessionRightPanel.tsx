@@ -132,7 +132,6 @@ class SessionRightPanel extends React.Component<Props, State> {
       }
     }
 
-    // tslint:disable-next-line: underscore-consistent-invocation
     const media = _.flatten(
       rawMedia.map((message: { attachments: any }) => {
         const { attachments } = message;
