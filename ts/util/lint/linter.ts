@@ -52,7 +52,6 @@ const excludedFiles = [
   // High-traffic files in our project
   '^js/models/messages.js',
   '^js/views/conversation_view.js',
-  '^js/views/file_input_view.js',
   '^js/background.js',
 
   // Generated files

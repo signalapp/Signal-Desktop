@@ -19,6 +19,7 @@ import { toArray } from 'react-emoji-render';
 import { SessionQuotedMessageComposition } from './SessionQuotedMessageComposition';
 import { Flex } from '../Flex';
 import { AttachmentList } from '../../conversation/AttachmentList';
+import { ToastUtils } from '../../../session/utils';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -499,12 +500,12 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     const { stagedAttachments } = this.state;
 
     if (window.Signal.Util.isFileDangerous(fileName)) {
-      // this.showDangerousError();
+      ToastUtils.pushDangerousFileError();
       return;
     }
 
     if (stagedAttachments.length >= 32) {
-      // this.showMaximumAttachmentsError();
+      ToastUtils.pushMaximumAttachmentsError();
       return;
     }
 
@@ -514,13 +515,13 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     );
     // You can't add another attachment if you already have a non-image staged
     if (haveNonImage) {
-      // this.showMultipleNonImageError();
+      ToastUtils.pushMultipleNonImageError();
       return;
     }
 
     // You can't add a non-image attachment if you already have attachments staged
     if (!MIME.isImage(contentType) && stagedAttachments.length > 0) {
-      // this.showCannotMixError();
+      ToastUtils.pushCannotMixError();
       return;
     }
     const { VisualAttachment } = window.Signal.Types;
@@ -623,7 +624,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         error && error.stack ? error.stack : error
       );
 
-      // this.showLoadFailure();
+      ToastUtils.pushLoadAttachmentFailure();
       return;
     }
 

@@ -1,6 +1,5 @@
 /* global textsecure: false */
 /* global Whisper: false */
-/* global i18n: false */
 /* global loadImage: false */
 /* global Backbone: false */
 /* global _: false */
@@ -27,16 +26,6 @@
       });
     },
 
-    remove() {
-      if (this.attachmentListView) {
-        this.attachmentListView.remove();
-      }
-      if (this.captionEditorView) {
-        this.captionEditorView.remove();
-      }
-
-      Backbone.View.prototype.remove.call(this);
-    },
 
     render() {
       this.attachmentListView.update(this.getPropsForAttachmentList());
@@ -159,94 +148,6 @@
     },
 
     // Public interface
-
-    hasFiles() {
-      return this.attachments.length > 0;
-    },
-
-    async getFiles() {
-      const files = await Promise.all(
-        this.attachments.map(attachment => this.getFile(attachment))
-      );
-      this.clearAttachments();
-      return files;
-    },
-
-    clearAttachments() {
-      this.attachments.forEach(attachment => {
-        if (attachment.url) {
-          URL.revokeObjectURL(attachment.url);
-        }
-        if (attachment.videoUrl) {
-          URL.revokeObjectURL(attachment.videoUrl);
-        }
-      });
-
-      this.attachments = [];
-      this.render();
-      this.$el.trigger('force-resize');
-    },
-
-    // Show errors
-    showLoadFailure() {
-      window.pushToast({
-        title: i18n('unableToLoadAttachment'),
-        type: 'error',
-        id: 'unableToLoadAttachment',
-      });
-    },
-
-    showDangerousError() {
-      window.pushToast({
-        title: i18n('dangerousFileType'),
-        type: 'error',
-        id: 'dangerousFileType',
-      });
-    },
-
-    showFileSizeError(limit, units) {
-      window.pushToast({
-        title: i18n('fileSizeWarning'),
-        description: `Max size: ${limit} ${units}`,
-        type: 'error',
-        id: 'fileSizeWarning',
-      });
-    },
-
-    showCannotMixError() {
-      window.pushToast({
-        title: i18n('cannotMixImageAndNonImageAttachments'),
-        type: 'error',
-        id: 'cannotMixImageAndNonImageAttachments',
-      });
-    },
-
-    showMultipleNonImageError() {
-      window.pushToast({
-        title: i18n('oneNonImageAtATimeToast'),
-        type: 'error',
-        id: 'oneNonImageAtATimeToast',
-      });
-    },
-
-    showMaximumAttachmentsError() {
-      window.pushToast({
-        title: i18n('maximumAttachments'),
-        type: 'error',
-        id: 'maximumAttachments',
-      });
-    },
-
-    // Housekeeping
-    addAttachment(attachment) {
-      if (attachment.isVoiceNote && this.attachments.length > 0) {
-        throw new Error('A voice note cannot be sent with other attachments');
-      }
-
-      this.attachments.push(attachment);
-      this.render();
-    },
-
     async maybeAddAttachment(file) {
       if (!file) {
         return;
@@ -406,114 +307,6 @@
           fileName,
         });
       }
-    },
-
-    autoScale(attachment) {
-      const { contentType, file } = attachment;
-      if (
-        contentType.split('/')[0] !== 'image' ||
-        contentType === 'image/tiff'
-      ) {
-        // nothing to do
-        return Promise.resolve(attachment);
-      }
-
-      return new Promise((resolve, reject) => {
-        const url = URL.createObjectURL(file);
-        const img = document.createElement('img');
-        img.onerror = reject;
-        img.onload = () => {
-          URL.revokeObjectURL(url);
-
-          const maxSize = 6000 * 1024;
-          const maxHeight = 4096;
-          const maxWidth = 4096;
-          if (
-            img.naturalWidth <= maxWidth &&
-            img.naturalHeight <= maxHeight &&
-            file.size <= maxSize
-          ) {
-            resolve(attachment);
-            return;
-          }
-
-          const gifMaxSize = 25000 * 1024;
-          if (file.type === 'image/gif' && file.size <= gifMaxSize) {
-            resolve(attachment);
-            return;
-          }
-
-          if (file.type === 'image/gif') {
-            reject(new Error('GIF is too large'));
-            return;
-          }
-
-          const canvas = loadImage.scale(img, {
-            canvas: true,
-            maxWidth,
-            maxHeight,
-          });
-
-          let quality = 0.95;
-          let i = 4;
-          let blob;
-          do {
-            i -= 1;
-            blob = window.dataURLToBlobSync(
-              canvas.toDataURL('image/jpeg', quality)
-            );
-            quality = (quality * maxSize) / blob.size;
-            // NOTE: During testing with a large image, we observed the
-            // `quality` value being > 1. Should we clamp it to [0.5, 1.0]?
-            // See: https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob#Syntax
-            if (quality < 0.5) {
-              quality = 0.5;
-            }
-          } while (i > 0 && blob.size > maxSize);
-
-          resolve({
-            ...attachment,
-            file: blob,
-          });
-        };
-        img.src = url;
-      });
-    },
-
-    async getFile(attachment) {
-      if (!attachment) {
-        return Promise.resolve();
-      }
-
-      const attachmentFlags = attachment.isVoiceNote
-        ? textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE
-        : null;
-
-      const scaled = await this.autoScale(attachment);
-      const fileRead = await this.readFile(scaled);
-      return {
-        ...fileRead,
-        url: undefined,
-        videoUrl: undefined,
-        flags: attachmentFlags || null,
-      };
-    },
-
-    readFile(attachment) {
-      return new Promise((resolve, reject) => {
-        const FR = new FileReader();
-        FR.onload = e => {
-          const data = e.target.result;
-          resolve({
-            ...attachment,
-            data,
-            size: data.byteLength,
-          });
-        };
-        FR.onerror = reject;
-        FR.onabort = reject;
-        FR.readAsArrayBuffer(attachment.file);
-      });
     },
   });
 })();
