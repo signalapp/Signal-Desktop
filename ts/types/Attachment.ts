@@ -27,6 +27,7 @@ export interface AttachmentType {
   isVoiceMessage?: boolean;
   /** For messages not already on disk, this will be a data url */
   url: string;
+  videoUrl?: string;
   size?: number;
   fileSize?: string;
   pending?: boolean;

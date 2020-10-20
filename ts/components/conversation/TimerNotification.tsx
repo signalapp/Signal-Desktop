@@ -14,19 +14,11 @@ interface Props {
   name?: string;
   disabled: boolean;
   timespan: string;
-  i18n: LocalizerType;
 }
 
 export class TimerNotification extends React.Component<Props> {
   public renderContents() {
-    const {
-      i18n,
-      phoneNumber,
-      profileName,
-      timespan,
-      type,
-      disabled,
-    } = this.props;
+    const { phoneNumber, profileName, timespan, type, disabled } = this.props;
     const changeKey = disabled
       ? 'disabledDisappearingMessages'
       : 'theyChangedTheTimer';
@@ -39,11 +31,11 @@ export class TimerNotification extends React.Component<Props> {
       case 'fromOther':
         return (
           <Intl
-            i18n={i18n}
+            i18n={window.i18n}
             id={changeKey}
             components={[
               <ContactName
-                i18n={i18n}
+                i18n={window.i18n}
                 key="external-1"
                 phoneNumber={displayedPubkey}
                 profileName={profileName}
@@ -58,12 +50,12 @@ export class TimerNotification extends React.Component<Props> {
         );
       case 'fromMe':
         return disabled
-          ? i18n('youDisabledDisappearingMessages')
-          : i18n('youChangedTheTimer', [timespan]);
+          ? window.i18n('youDisabledDisappearingMessages')
+          : window.i18n('youChangedTheTimer', [timespan]);
       case 'fromSync':
         return disabled
-          ? i18n('disappearingMessagesDisabled')
-          : i18n('timerSetOnSync', [timespan]);
+          ? window.i18n('disappearingMessagesDisabled')
+          : window.i18n('timerSetOnSync', [timespan]);
       default:
         throw missingCaseError(type);
     }

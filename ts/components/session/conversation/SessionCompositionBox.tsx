@@ -1,7 +1,7 @@
 import React from 'react';
 import _, { debounce } from 'lodash';
 
-import { Attachment } from '../../../types/Attachment';
+import { Attachment, AttachmentType } from '../../../types/Attachment';
 import * as MIME from '../../../types/MIME';
 
 import TextareaAutosize from 'react-autosize-textarea';
@@ -9,6 +9,7 @@ import TextareaAutosize from 'react-autosize-textarea';
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import { SessionEmojiPanel } from './SessionEmojiPanel';
 import { SessionRecording } from './SessionRecording';
+import * as GoogleChrome from '../../../util/GoogleChrome';
 
 import { SignalService } from '../../../protobuf';
 
@@ -17,6 +18,7 @@ import { Constants } from '../../../session';
 import { toArray } from 'react-emoji-render';
 import { SessionQuotedMessageComposition } from './SessionQuotedMessageComposition';
 import { Flex } from '../Flex';
+import { AttachmentList } from '../../conversation/AttachmentList';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -25,6 +27,10 @@ export interface ReplyingToMessageProps {
   timestamp: number;
   text?: string;
   attachments?: Array<any>;
+}
+
+interface StagedAttachmentType extends AttachmentType {
+  file: File;
 }
 
 interface Props {
@@ -51,7 +57,7 @@ interface State {
 
   mediaSetting: boolean | null;
   showEmojiPanel: boolean;
-  attachments: Array<Attachment>;
+  stagedAttachments: Array<StagedAttachmentType>;
   voiceRecording?: Blob;
 }
 
@@ -64,7 +70,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     super(props);
     this.state = {
       message: '',
-      attachments: [],
+      stagedAttachments: [],
       voiceRecording: undefined,
       showRecordingView: false,
       mediaSetting: null,
@@ -84,6 +90,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     this.renderRecordingView = this.renderRecordingView.bind(this);
     this.renderCompositionView = this.renderCompositionView.bind(this);
     this.renderQuotedMessage = this.renderQuotedMessage.bind(this);
+    this.renderAttachmentsStaged = this.renderAttachmentsStaged.bind(this);
 
     // Recording view functions
     this.sendVoiceMessage = this.sendVoiceMessage.bind(this);
@@ -93,6 +100,8 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     // Attachments
     this.onChoseAttachment = this.onChoseAttachment.bind(this);
     this.onChooseAttachment = this.onChooseAttachment.bind(this);
+    this.clearAttachments = this.clearAttachments.bind(this);
+    this.removeAttachment = this.removeAttachment.bind(this);
 
     // On Sending
     this.onSendMessage = this.onSendMessage.bind(this);
@@ -118,6 +127,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     return (
       <Flex flexDirection="column">
         {this.renderQuotedMessage()}
+        {this.renderAttachmentsStaged()}
         <div className="composition-container">
           {showRecordingView
             ? this.renderRecordingView()
@@ -255,38 +265,38 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     return <></>;
   }
 
+  private renderAttachmentsStaged() {
+    const { stagedAttachments } = this.state;
+    if (stagedAttachments && stagedAttachments.length) {
+      return (
+        <AttachmentList
+          attachments={stagedAttachments}
+          // tslint:disable-next-line: no-empty
+          onClickAttachment={() => {}}
+          onAddAttachment={this.onChooseAttachment}
+          onCloseAttachment={this.removeAttachment}
+          onClose={this.clearAttachments}
+        />
+      );
+    }
+    return <></>;
+  }
+
   private onChooseAttachment() {
     this.fileInput.current?.click();
   }
 
-  private onChoseAttachment() {
+  private async onChoseAttachment() {
     // Build attachments list
     const attachmentsFileList = this.fileInput.current?.files;
-    if (!attachmentsFileList) {
+    if (!attachmentsFileList || attachmentsFileList.length === 0) {
       return;
     }
 
-    const attachments: Array<Attachment> = [];
-    Array.from(attachmentsFileList).forEach(async (file: File) => {
-      const fileBlob = new Blob([file]);
-      const fileBuffer = await new Response(fileBlob).arrayBuffer();
-
-      const attachment = {
-        fileName: file.name,
-        flags: undefined,
-        // FIXME VINCE: Set appropriate type
-        contentType: MIME.AUDIO_WEBM,
-        size: file.size,
-        data: fileBuffer,
-      };
-
-      // Push if size is nonzero
-      if (attachment.data.byteLength) {
-        attachments.push(attachment);
-      }
-    });
-
-    this.setState({ attachments });
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < attachmentsFileList.length; i++) {
+      await this.maybeAddAttachment(attachmentsFileList[i]);
+    }
   }
 
   private async onKeyDown(event: any) {
@@ -323,9 +333,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     if (msgLen === 0 || msgLen > window.CONSTANTS.MAX_MESSAGE_BODY_LENGTH) {
       return;
     }
-
-    // handle Attachments
-    const { attachments } = this.state;
     const { quotedMessageProps } = this.props;
 
     // Send message
@@ -339,6 +346,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     );
 
     try {
+      const attachments = await this.getFiles();
       await this.props.sendMessage(
         messagePlaintext,
         attachments,
@@ -351,17 +359,28 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       // Message sending sucess
       this.props.onMessageSuccess();
 
-      // Empty attachments
+      // Empty stagedAttachments
       // Empty composition box
       this.setState({
         message: '',
-        attachments: [],
         showEmojiPanel: false,
       });
+      this.clearAttachments();
     } catch (e) {
       // Message sending failed
+      window.log.error(e);
       this.props.onMessageFailure();
     }
+  }
+
+  // this function is called right before sending a message, to gather really files bejind attachments.
+  private async getFiles() {
+    const { stagedAttachments } = this.state;
+    const files = await Promise.all(
+      stagedAttachments.map(attachment => this.getFile(attachment))
+    );
+    this.clearAttachments();
+    return files;
   }
 
   private async sendVoiceMessage(audioBlob: Blob) {
@@ -466,5 +485,313 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   private focusCompositionBox() {
     // Focus the textarea when user clicks anywhere in the composition box
     this.textarea.current?.focus();
+  }
+
+  // tslint:disable: max-func-body-length cyclomatic-complexity
+  private async maybeAddAttachment(file: any) {
+    if (!file) {
+      return;
+    }
+
+    const fileName = file.name;
+    const contentType = file.type;
+
+    const { stagedAttachments } = this.state;
+
+    if (window.Signal.Util.isFileDangerous(fileName)) {
+      // this.showDangerousError();
+      return;
+    }
+
+    if (stagedAttachments.length >= 32) {
+      // this.showMaximumAttachmentsError();
+      return;
+    }
+
+    const haveNonImage = _.some(
+      stagedAttachments,
+      attachment => !MIME.isImage(attachment.contentType)
+    );
+    // You can't add another attachment if you already have a non-image staged
+    if (haveNonImage) {
+      // this.showMultipleNonImageError();
+      return;
+    }
+
+    // You can't add a non-image attachment if you already have attachments staged
+    if (!MIME.isImage(contentType) && stagedAttachments.length > 0) {
+      // this.showCannotMixError();
+      return;
+    }
+    const { VisualAttachment } = window.Signal.Types;
+
+    const renderVideoPreview = async () => {
+      const objectUrl = URL.createObjectURL(file);
+      try {
+        const type = 'image/png';
+        const thumbnail = await VisualAttachment.makeVideoScreenshot({
+          objectUrl,
+          contentType: type,
+          logger: window.log,
+        });
+        const data = await VisualAttachment.blobToArrayBuffer(thumbnail);
+        const url = window.Signal.Util.arrayBufferToObjectURL({
+          data,
+          type,
+        });
+        this.addAttachment({
+          file,
+          size: file.size,
+          fileName,
+          contentType,
+          videoUrl: objectUrl,
+          url,
+          isVoiceMessage: false,
+        });
+      } catch (error) {
+        URL.revokeObjectURL(objectUrl);
+      }
+    };
+
+    const renderImagePreview = async () => {
+      if (!MIME.isJPEG(contentType)) {
+        const urlImage = URL.createObjectURL(file);
+        if (!urlImage) {
+          throw new Error('Failed to create object url for image!');
+        }
+        this.addAttachment({
+          file,
+          size: file.size,
+          fileName,
+          contentType,
+          url: urlImage,
+          isVoiceMessage: false,
+        });
+        return;
+      }
+
+      const url = await window.autoOrientImage(file);
+      this.addAttachment({
+        file,
+        size: file.size,
+        fileName,
+        contentType,
+        url,
+        isVoiceMessage: false,
+      });
+    };
+
+    try {
+      const blob = await this.autoScale({
+        contentType,
+        file,
+      });
+      let limitKb = 10000;
+      const blobType =
+        file.type === 'image/gif' ? 'gif' : contentType.split('/')[0];
+
+      switch (blobType) {
+        case 'image':
+          limitKb = 6000;
+          break;
+        case 'gif':
+          limitKb = 10000;
+          break;
+        case 'audio':
+          limitKb = 10000;
+          break;
+        case 'video':
+          limitKb = 10000;
+          break;
+        default:
+          limitKb = 10000;
+      }
+      // if ((blob.file.size / 1024).toFixed(4) >= limitKb) {
+      //   const units = ['kB', 'MB', 'GB'];
+      //   let u = -1;
+      //   let limit = limitKb * 1000;
+      //   do {
+      //     limit /= 1000;
+      //     u += 1;
+      //   } while (limit >= 1000 && u < units.length - 1);
+      //   // this.showFileSizeError(limit, units[u]);
+      //   return;
+      // }
+    } catch (error) {
+      window.log.error(
+        'Error ensuring that image is properly sized:',
+        error && error.stack ? error.stack : error
+      );
+
+      // this.showLoadFailure();
+      return;
+    }
+
+    try {
+      if (GoogleChrome.isImageTypeSupported(contentType)) {
+        await renderImagePreview();
+      } else if (GoogleChrome.isVideoTypeSupported(contentType)) {
+        await renderVideoPreview();
+      } else {
+        this.addAttachment({
+          file,
+          size: file.size,
+          contentType,
+          fileName,
+          url: '',
+          isVoiceMessage: false,
+        });
+      }
+    } catch (e) {
+      window.log.error(
+        `Was unable to generate thumbnail for file type ${contentType}`,
+        e && e.stack ? e.stack : e
+      );
+      this.addAttachment({
+        file,
+        size: file.size,
+        contentType,
+        fileName,
+        isVoiceMessage: false,
+        url: '',
+      });
+    }
+  }
+
+  private addAttachment(attachment: StagedAttachmentType) {
+    const { stagedAttachments } = this.state;
+    if (attachment.isVoiceMessage && stagedAttachments.length > 0) {
+      throw new Error('A voice note cannot be sent with other attachments');
+    }
+    this.setState({
+      stagedAttachments: [...stagedAttachments, { ...attachment }],
+    });
+  }
+
+  private async autoScale<T extends { contentType: string; file: any }>(
+    attachment: T
+  ): Promise<T> {
+    const { contentType, file } = attachment;
+    if (contentType.split('/')[0] !== 'image' || contentType === 'image/tiff') {
+      // nothing to do
+      return Promise.resolve(attachment);
+    }
+
+    return new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(file);
+      const img = document.createElement('img');
+      img.onerror = reject;
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+
+        const maxSize = 6000 * 1024;
+        const maxHeight = 4096;
+        const maxWidth = 4096;
+        if (
+          img.naturalWidth <= maxWidth &&
+          img.naturalHeight <= maxHeight &&
+          file.size <= maxSize
+        ) {
+          resolve(attachment);
+          return;
+        }
+
+        const gifMaxSize = 25000 * 1024;
+        if (file.type === 'image/gif' && file.size <= gifMaxSize) {
+          resolve(attachment);
+          return;
+        }
+
+        if (file.type === 'image/gif') {
+          reject(new Error('GIF is too large'));
+          return;
+        }
+
+        const canvas = window.loadImage.scale(img, {
+          canvas: true,
+          maxWidth,
+          maxHeight,
+        });
+
+        let quality = 0.95;
+        let i = 4;
+        let blob;
+        do {
+          i -= 1;
+          blob = window.dataURLToBlobSync(
+            canvas.toDataURL('image/jpeg', quality)
+          );
+          quality = (quality * maxSize) / blob.size;
+          // NOTE: During testing with a large image, we observed the
+          // `quality` value being > 1. Should we clamp it to [0.5, 1.0]?
+          // See: https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob#Syntax
+          if (quality < 0.5) {
+            quality = 0.5;
+          }
+        } while (i > 0 && blob.size > maxSize);
+
+        resolve({
+          ...attachment,
+          file: blob,
+        });
+      };
+      img.src = url;
+    });
+  }
+
+  private clearAttachments() {
+    this.state.stagedAttachments.forEach(attachment => {
+      if (attachment.url) {
+        URL.revokeObjectURL(attachment.url);
+      }
+      if (attachment.videoUrl) {
+        URL.revokeObjectURL(attachment.videoUrl);
+      }
+    });
+    this.setState({ stagedAttachments: [] });
+  }
+
+  private removeAttachment(attachment: AttachmentType) {
+    const { stagedAttachments } = this.state;
+    const updatedStagedAttachments = (stagedAttachments || []).filter(
+      m => m.fileName !== attachment.fileName
+    );
+
+    this.setState({ stagedAttachments: updatedStagedAttachments });
+  }
+
+  private async getFile(attachment: any) {
+    if (!attachment) {
+      return Promise.resolve();
+    }
+
+    const attachmentFlags = attachment.isVoiceMessage
+      ? SignalService.AttachmentPointer.Flags.VOICE_MESSAGE
+      : null;
+
+    const scaled = await this.autoScale(attachment);
+    const fileRead = await this.readFile(scaled);
+    return {
+      ...fileRead,
+      url: undefined,
+      flags: attachmentFlags || null,
+    };
+  }
+
+  private async readFile(attachment: any): Promise<object> {
+    return new Promise((resolve, reject) => {
+      const FR = new FileReader();
+      FR.onload = e => {
+        const data = e?.target?.result as ArrayBuffer;
+        resolve({
+          ...attachment,
+          data,
+          size: data.byteLength,
+        });
+      };
+      FR.onerror = reject;
+      FR.onabort = reject;
+      FR.readAsArrayBuffer(attachment.file);
+    });
   }
 }

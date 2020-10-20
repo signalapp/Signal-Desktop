@@ -15,6 +15,7 @@ import { ConfirmationDialogParams } from '../background';
 import {} from 'styled-components/cssprop';
 
 import { ConversationControllerType } from '../js/ConversationController';
+import { any } from 'underscore';
 /*
 We declare window stuff here instead of global.d.ts because we are importing other declarations.
 If you import anything in global.d.ts, the type system won't work correctly.
@@ -102,5 +103,8 @@ declare global {
     SwarmPolling: SwarmPolling;
     MediaRecorder: any;
     owsDesktopApp: any;
+    loadImage: any;
+    dataURLToBlobSync: any;
+    autoOrientImage: any;
   }
 }
