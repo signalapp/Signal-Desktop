@@ -57,3 +57,19 @@ export function pushMaximumAttachmentsError() {
     id: 'maximumAttachments',
   });
 }
+
+export function pushMessageBodyTooLong() {
+  window.pushToast({
+    title: window.i18n('messageBodyTooLong'),
+    type: 'error',
+    id: 'messageBodyTooLong',
+  });
+}
+
+export function pushMessageBodyMissing() {
+  window.pushToast({
+    title: window.i18n('messageBodyMissing'),
+    type: 'error',
+    id: 'messageBodyMissing',
+  });
+}

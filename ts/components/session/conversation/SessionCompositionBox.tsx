@@ -325,13 +325,14 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   private async onSendMessage() {
     const messagePlaintext = this.parseEmojis(this.state.message);
 
-    if (!messagePlaintext) {
+    // Verify message length
+    const msgLen = messagePlaintext?.length || 0;
+    if (msgLen > window.CONSTANTS.MAX_MESSAGE_BODY_LENGTH) {
+      ToastUtils.pushMessageBodyTooLong();
       return;
     }
-
-    // Verify message length
-    const msgLen = messagePlaintext.length;
-    if (msgLen === 0 || msgLen > window.CONSTANTS.MAX_MESSAGE_BODY_LENGTH) {
+    if (msgLen === 0 && this.state.stagedAttachments?.length === 0) {
+      ToastUtils.pushMessageBodyMissing();
       return;
     }
     const { quotedMessageProps } = this.props;
