@@ -103,6 +103,8 @@ exports.makeVideoScreenshot = ({
     });
 
     video.src = objectUrl;
+    // for some reason, this is to be started, otherwise the generated thumbnail will be empty
+    video.play();
   });
 
 exports.makeVideoThumbnail = async ({

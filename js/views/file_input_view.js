@@ -1,6 +1,4 @@
-/* global textsecure: false */
 /* global Whisper: false */
-/* global loadImage: false */
 /* global Backbone: false */
 /* global _: false */
 /* global Signal: false */
@@ -25,7 +23,6 @@
         props: this.getPropsForAttachmentList(),
       });
     },
-
 
     render() {
       this.attachmentListView.update(this.getPropsForAttachmentList());
@@ -184,6 +181,7 @@
 
       const renderVideoPreview = async () => {
         const objectUrl = URL.createObjectURL(file);
+
         try {
           const type = 'image/png';
           const thumbnail = await VisualAttachment.makeVideoScreenshot({
