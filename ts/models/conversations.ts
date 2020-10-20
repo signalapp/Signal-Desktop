@@ -2874,7 +2874,7 @@ export class ConversationModel extends window.Backbone.Model<
       return;
     }
 
-    const [previewMessage, activityMessage] = await Promise.all([
+    let [previewMessage, activityMessage] = await Promise.all([
       window.Signal.Data.getLastConversationPreview(this.id, {
         Message: window.Whisper.Message,
       }),
@@ -2882,6 +2882,23 @@ export class ConversationModel extends window.Backbone.Model<
         Message: window.Whisper.Message,
       }),
     ]);
+
+    // Register the message with MessageController so that if it already exists
+    // in memory we use that data instead of the data from the db which may
+    // be out of date.
+    if (previewMessage) {
+      previewMessage = window.MessageController.register(
+        previewMessage.id,
+        previewMessage
+      );
+    }
+
+    if (activityMessage) {
+      activityMessage = window.MessageController.register(
+        activityMessage.id,
+        activityMessage
+      );
+    }
 
     if (
       this.hasDraft() &&
