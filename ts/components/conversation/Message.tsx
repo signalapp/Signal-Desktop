@@ -36,7 +36,6 @@ import { isFileDangerous } from '../../util/isFileDangerous';
 import { ColorType, LocalizerType } from '../../types/Util';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../session/icon';
-import { ReplyingToMessageProps } from '../session/conversation/SessionCompositionBox';
 import _ from 'lodash';
 import { MessageModel } from '../../../js/models/messages';
 

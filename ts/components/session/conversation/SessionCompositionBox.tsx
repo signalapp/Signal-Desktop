@@ -9,7 +9,6 @@ import TextareaAutosize from 'react-autosize-textarea';
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import { SessionEmojiPanel } from './SessionEmojiPanel';
 import { SessionRecording } from './SessionRecording';
-import * as GoogleChrome from '../../../util/GoogleChrome';
 
 import { SignalService } from '../../../protobuf';
 
@@ -20,6 +19,7 @@ import { SessionQuotedMessageComposition } from './SessionQuotedMessageCompositi
 import { Flex } from '../Flex';
 import { AttachmentList } from '../../conversation/AttachmentList';
 import { ToastUtils } from '../../../session/utils';
+import { AttachmentUtil } from '../../../util';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -30,7 +30,7 @@ export interface ReplyingToMessageProps {
   attachments?: Array<any>;
 }
 
-interface StagedAttachmentType extends AttachmentType {
+export interface StagedAttachmentType extends AttachmentType {
   file: File;
 }
 
@@ -45,11 +45,14 @@ interface Props {
   onLoadVoiceNoteView: any;
   onExitVoiceNoteView: any;
 
-  dropZoneFiles: FileList;
   quotedMessageProps?: ReplyingToMessageProps;
   removeQuotedMessage: () => void;
 
   textarea: React.RefObject<HTMLDivElement>;
+  stagedAttachments: Array<StagedAttachmentType>;
+  clearAttachments: () => any;
+  removeAttachment: (toRemove: AttachmentType) => void;
+  onChoseAttachments: (newAttachments: FileList) => void;
 }
 
 interface State {
@@ -58,7 +61,6 @@ interface State {
 
   mediaSetting: boolean | null;
   showEmojiPanel: boolean;
-  stagedAttachments: Array<StagedAttachmentType>;
   voiceRecording?: Blob;
 }
 
@@ -71,7 +73,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     super(props);
     this.state = {
       message: '',
-      stagedAttachments: [],
       voiceRecording: undefined,
       showRecordingView: false,
       mediaSetting: null,
@@ -101,8 +102,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     // Attachments
     this.onChoseAttachment = this.onChoseAttachment.bind(this);
     this.onChooseAttachment = this.onChooseAttachment.bind(this);
-    this.clearAttachments = this.clearAttachments.bind(this);
-    this.removeAttachment = this.removeAttachment.bind(this);
 
     // On Sending
     this.onSendMessage = this.onSendMessage.bind(this);
@@ -267,7 +266,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   private renderAttachmentsStaged() {
-    const { stagedAttachments } = this.state;
+    const { stagedAttachments } = this.props;
     if (stagedAttachments && stagedAttachments.length) {
       return (
         <AttachmentList
@@ -275,8 +274,8 @@ export class SessionCompositionBox extends React.Component<Props, State> {
           // tslint:disable-next-line: no-empty
           onClickAttachment={() => {}}
           onAddAttachment={this.onChooseAttachment}
-          onCloseAttachment={this.removeAttachment}
-          onClose={this.clearAttachments}
+          onCloseAttachment={this.props.removeAttachment}
+          onClose={this.props.clearAttachments}
         />
       );
     }
@@ -293,11 +292,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     if (!attachmentsFileList || attachmentsFileList.length === 0) {
       return;
     }
-
-    // tslint:disable-next-line: prefer-for-of
-    for (let i = 0; i < attachmentsFileList.length; i++) {
-      await this.maybeAddAttachment(attachmentsFileList[i]);
-    }
+    this.props.onChoseAttachments(attachmentsFileList);
   }
 
   private async onKeyDown(event: any) {
@@ -331,7 +326,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       ToastUtils.pushMessageBodyTooLong();
       return;
     }
-    if (msgLen === 0 && this.state.stagedAttachments?.length === 0) {
+    if (msgLen === 0 && this.props.stagedAttachments?.length === 0) {
       ToastUtils.pushMessageBodyMissing();
       return;
     }
@@ -361,13 +356,13 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       // Message sending sucess
       this.props.onMessageSuccess();
 
-      // Empty stagedAttachments
       // Empty composition box
       this.setState({
         message: '',
         showEmojiPanel: false,
       });
-      this.clearAttachments();
+      // Empty stagedAttachments
+      this.props.clearAttachments();
     } catch (e) {
       // Message sending failed
       window.log.error(e);
@@ -377,11 +372,11 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
   // this function is called right before sending a message, to gather really files bejind attachments.
   private async getFiles() {
-    const { stagedAttachments } = this.state;
+    const { stagedAttachments } = this.props;
     const files = await Promise.all(
-      stagedAttachments.map(attachment => this.getFile(attachment))
+      stagedAttachments.map(attachment => AttachmentUtil.getFile(attachment))
     );
-    this.clearAttachments();
+    this.props.clearAttachments();
     return files;
   }
 
@@ -487,317 +482,5 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   private focusCompositionBox() {
     // Focus the textarea when user clicks anywhere in the composition box
     this.textarea.current?.focus();
-  }
-
-  // tslint:disable: max-func-body-length cyclomatic-complexity
-  private async maybeAddAttachment(file: any) {
-    if (!file) {
-      return;
-    }
-
-    const fileName = file.name;
-    const contentType = file.type;
-
-    const { stagedAttachments } = this.state;
-
-    if (window.Signal.Util.isFileDangerous(fileName)) {
-      ToastUtils.pushDangerousFileError();
-      return;
-    }
-
-    if (stagedAttachments.length >= 32) {
-      ToastUtils.pushMaximumAttachmentsError();
-      return;
-    }
-
-    const haveNonImage = _.some(
-      stagedAttachments,
-      attachment => !MIME.isImage(attachment.contentType)
-    );
-    // You can't add another attachment if you already have a non-image staged
-    if (haveNonImage) {
-      ToastUtils.pushMultipleNonImageError();
-      return;
-    }
-
-    // You can't add a non-image attachment if you already have attachments staged
-    if (!MIME.isImage(contentType) && stagedAttachments.length > 0) {
-      ToastUtils.pushCannotMixError();
-      return;
-    }
-    const { VisualAttachment } = window.Signal.Types;
-
-    const renderVideoPreview = async () => {
-      const objectUrl = URL.createObjectURL(file);
-      try {
-        const type = 'image/png';
-
-        const thumbnail = await VisualAttachment.makeVideoScreenshot({
-          objectUrl,
-          contentType: type,
-          logger: window.log,
-        });
-        const data = await VisualAttachment.blobToArrayBuffer(thumbnail);
-        const url = window.Signal.Util.arrayBufferToObjectURL({
-          data,
-          type,
-        });
-        this.addAttachment({
-          file,
-          size: file.size,
-          fileName,
-          contentType,
-          videoUrl: objectUrl,
-          url,
-          isVoiceMessage: false,
-        });
-      } catch (error) {
-        URL.revokeObjectURL(objectUrl);
-      }
-    };
-
-    const renderImagePreview = async () => {
-      if (!MIME.isJPEG(contentType)) {
-        const urlImage = URL.createObjectURL(file);
-        if (!urlImage) {
-          throw new Error('Failed to create object url for image!');
-        }
-        this.addAttachment({
-          file,
-          size: file.size,
-          fileName,
-          contentType,
-          url: urlImage,
-          isVoiceMessage: false,
-        });
-        return;
-      }
-
-      const url = await window.autoOrientImage(file);
-      this.addAttachment({
-        file,
-        size: file.size,
-        fileName,
-        contentType,
-        url,
-        isVoiceMessage: false,
-      });
-    };
-
-    try {
-      const blob = await this.autoScale({
-        contentType,
-        file,
-      });
-      let limitKb = 10000;
-      const blobType =
-        file.type === 'image/gif' ? 'gif' : contentType.split('/')[0];
-
-      switch (blobType) {
-        case 'image':
-          limitKb = 6000;
-          break;
-        case 'gif':
-          limitKb = 10000;
-          break;
-        case 'audio':
-          limitKb = 10000;
-          break;
-        case 'video':
-          limitKb = 10000;
-          break;
-        default:
-          limitKb = 10000;
-      }
-      // if ((blob.file.size / 1024).toFixed(4) >= limitKb) {
-      //   const units = ['kB', 'MB', 'GB'];
-      //   let u = -1;
-      //   let limit = limitKb * 1000;
-      //   do {
-      //     limit /= 1000;
-      //     u += 1;
-      //   } while (limit >= 1000 && u < units.length - 1);
-      //   // this.showFileSizeError(limit, units[u]);
-      //   return;
-      // }
-    } catch (error) {
-      window.log.error(
-        'Error ensuring that image is properly sized:',
-        error && error.stack ? error.stack : error
-      );
-
-      ToastUtils.pushLoadAttachmentFailure();
-      return;
-    }
-
-    try {
-      if (GoogleChrome.isImageTypeSupported(contentType)) {
-        await renderImagePreview();
-      } else if (GoogleChrome.isVideoTypeSupported(contentType)) {
-        await renderVideoPreview();
-      } else {
-        this.addAttachment({
-          file,
-          size: file.size,
-          contentType,
-          fileName,
-          url: '',
-          isVoiceMessage: false,
-        });
-      }
-    } catch (e) {
-      window.log.error(
-        `Was unable to generate thumbnail for file type ${contentType}`,
-        e && e.stack ? e.stack : e
-      );
-      this.addAttachment({
-        file,
-        size: file.size,
-        contentType,
-        fileName,
-        isVoiceMessage: false,
-        url: '',
-      });
-    }
-  }
-
-  private addAttachment(attachment: StagedAttachmentType) {
-    const { stagedAttachments } = this.state;
-    if (attachment.isVoiceMessage && stagedAttachments.length > 0) {
-      throw new Error('A voice note cannot be sent with other attachments');
-    }
-    this.setState(
-      {
-        stagedAttachments: [...stagedAttachments, { ...attachment }],
-      },
-      this.focusCompositionBox
-    );
-  }
-
-  private async autoScale<T extends { contentType: string; file: any }>(
-    attachment: T
-  ): Promise<T> {
-    const { contentType, file } = attachment;
-    if (contentType.split('/')[0] !== 'image' || contentType === 'image/tiff') {
-      // nothing to do
-      return Promise.resolve(attachment);
-    }
-
-    return new Promise((resolve, reject) => {
-      const url = URL.createObjectURL(file);
-      const img = document.createElement('img');
-      img.onerror = reject;
-      img.onload = () => {
-        URL.revokeObjectURL(url);
-
-        const maxSize = 6000 * 1024;
-        const maxHeight = 4096;
-        const maxWidth = 4096;
-        if (
-          img.naturalWidth <= maxWidth &&
-          img.naturalHeight <= maxHeight &&
-          file.size <= maxSize
-        ) {
-          resolve(attachment);
-          return;
-        }
-
-        const gifMaxSize = 25000 * 1024;
-        if (file.type === 'image/gif' && file.size <= gifMaxSize) {
-          resolve(attachment);
-          return;
-        }
-
-        if (file.type === 'image/gif') {
-          reject(new Error('GIF is too large'));
-          return;
-        }
-
-        const canvas = window.loadImage.scale(img, {
-          canvas: true,
-          maxWidth,
-          maxHeight,
-        });
-
-        let quality = 0.95;
-        let i = 4;
-        let blob;
-        do {
-          i -= 1;
-          blob = window.dataURLToBlobSync(
-            canvas.toDataURL('image/jpeg', quality)
-          );
-          quality = (quality * maxSize) / blob.size;
-          // NOTE: During testing with a large image, we observed the
-          // `quality` value being > 1. Should we clamp it to [0.5, 1.0]?
-          // See: https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob#Syntax
-          if (quality < 0.5) {
-            quality = 0.5;
-          }
-        } while (i > 0 && blob.size > maxSize);
-
-        resolve({
-          ...attachment,
-          file: blob,
-        });
-      };
-      img.src = url;
-    });
-  }
-
-  private clearAttachments() {
-    this.state.stagedAttachments.forEach(attachment => {
-      if (attachment.url) {
-        URL.revokeObjectURL(attachment.url);
-      }
-      if (attachment.videoUrl) {
-        URL.revokeObjectURL(attachment.videoUrl);
-      }
-    });
-    this.setState({ stagedAttachments: [] });
-  }
-
-  private removeAttachment(attachment: AttachmentType) {
-    const { stagedAttachments } = this.state;
-    const updatedStagedAttachments = (stagedAttachments || []).filter(
-      m => m.fileName !== attachment.fileName
-    );
-
-    this.setState({ stagedAttachments: updatedStagedAttachments });
-  }
-
-  private async getFile(attachment: any) {
-    if (!attachment) {
-      return Promise.resolve();
-    }
-
-    const attachmentFlags = attachment.isVoiceMessage
-      ? SignalService.AttachmentPointer.Flags.VOICE_MESSAGE
-      : null;
-
-    const scaled = await this.autoScale(attachment);
-    const fileRead = await this.readFile(scaled);
-    return {
-      ...fileRead,
-      url: undefined,
-      flags: attachmentFlags || null,
-    };
-  }
-
-  private async readFile(attachment: any): Promise<object> {
-    return new Promise((resolve, reject) => {
-      const FR = new FileReader();
-      FR.onload = e => {
-        const data = e?.target?.result as ArrayBuffer;
-        resolve({
-          ...attachment,
-          data,
-          size: data.byteLength,
-        });
-      };
-      FR.onerror = reject;
-      FR.onabort = reject;
-      FR.readAsArrayBuffer(attachment.file);
-    });
   }
 }

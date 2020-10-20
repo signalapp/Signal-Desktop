@@ -1,7 +1,6 @@
 // The idea with this file is to make it webpackable for the style guide
 
 const { bindActionCreators } = require('redux');
-const Backbone = require('../../ts/backbone');
 const Crypto = require('./crypto');
 const Data = require('./data');
 const Database = require('./database');
@@ -363,7 +362,6 @@ exports.setup = (options = {}) => {
 
   return {
     AttachmentDownloads,
-    Backbone,
     Components,
     Crypto,
     Data,

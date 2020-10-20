@@ -8,6 +8,7 @@ import { ResetSessionNotification } from '../../conversation/ResetSessionNotific
 import { Constants } from '../../../session';
 import _ from 'lodash';
 import { ConversationModel } from '../../../../js/models/conversations';
+import { SessionFileDropzone } from './SessionFileDropzone';
 
 interface State {
   isScrolledToBottom: boolean;
@@ -30,6 +31,7 @@ interface Props {
   ) => Promise<{ previousTopMessage: string }>;
   replyToMessage: (messageId: number) => Promise<void>;
   onClickAttachment: (attachment: any, message: any) => void;
+  handleFilesDropped: (droppedFiles: FileList) => void;
 }
 
 export class SessionConversationMessagesList extends React.Component<
@@ -110,6 +112,10 @@ export class SessionConversationMessagesList extends React.Component<
         <SessionScrollButton
           show={showScrollButton}
           onClick={this.scrollToBottom}
+        />
+        <SessionFileDropzone
+          handleDrop={this.props.handleFilesDropped}
+          handleWheel={this.handleScroll}
         />
       </>
     );

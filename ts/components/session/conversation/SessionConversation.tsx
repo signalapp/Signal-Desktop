@@ -4,12 +4,15 @@ import React from 'react';
 
 import classNames from 'classnames';
 
-import { SessionCompositionBox } from './SessionCompositionBox';
+import {
+  SessionCompositionBox,
+  StagedAttachmentType,
+} from './SessionCompositionBox';
 
 import { Constants } from '../../../session';
 import { SessionKeyVerification } from '../SessionKeyVerification';
 import _ from 'lodash';
-import { UserUtil } from '../../../util';
+import { AttachmentUtil, GoogleChrome, UserUtil } from '../../../util';
 import { MultiDeviceProtocol } from '../../../session/protocols';
 import { ConversationHeaderWithDetails } from '../../conversation/ConversationHeader';
 import { SessionRightPanelWithDetails } from './SessionRightPanel';
@@ -20,6 +23,8 @@ import { LightboxGallery, MediaItemType } from '../../LightboxGallery';
 import { Message } from '../../conversation/media-gallery/types/Message';
 
 import { AttachmentType } from '../../../types/Attachment';
+import { ToastUtils } from '../../../session/utils';
+import * as MIME from '../../../types/MIME';
 
 interface State {
   conversationKey: string;
@@ -50,8 +55,7 @@ interface State {
   // For displaying `More Info` on messages, and `Safety Number`, etc.
   infoViewState?: 'safetyNumber' | 'messageDetails';
 
-  // dropZoneFiles?: FileList
-  dropZoneFiles: any;
+  stagedAttachments: Array<StagedAttachmentType>;
 
   // quoted message
   quotedMessageTimestamp?: number;
@@ -97,7 +101,7 @@ export class SessionConversation extends React.Component<Props, State> {
       showRecordingView: false,
       showOptionsPane: false,
       infoViewState: undefined,
-      dropZoneFiles: undefined, // <-- FileList or something else?
+      stagedAttachments: [],
     };
     this.compositionBoxRef = React.createRef();
 
@@ -128,6 +132,12 @@ export class SessionConversation extends React.Component<Props, State> {
     this.onKeyDown = this.onKeyDown.bind(this);
 
     this.renderLightBox = this.renderLightBox.bind(this);
+
+    // attachments
+    this.clearAttachments = this.clearAttachments.bind(this);
+    this.addAttachments = this.addAttachments.bind(this);
+    this.removeAttachment = this.removeAttachment.bind(this);
+    this.onChoseAttachments = this.onChoseAttachments.bind(this);
 
     const conversationModel = window.ConversationController.getOrThrow(
       this.state.conversationKey
@@ -238,7 +248,7 @@ export class SessionConversation extends React.Component<Props, State> {
           {!isRss && (
             <SessionCompositionBox
               sendMessage={sendMessageFn}
-              dropZoneFiles={this.state.dropZoneFiles}
+              stagedAttachments={this.state.stagedAttachments}
               onMessageSending={this.onMessageSending}
               onMessageSuccess={this.onMessageSuccess}
               onMessageFailure={this.onMessageFailure}
@@ -249,6 +259,9 @@ export class SessionConversation extends React.Component<Props, State> {
                 void this.replyToMessage(undefined);
               }}
               textarea={this.compositionBoxRef}
+              clearAttachments={this.clearAttachments}
+              removeAttachment={this.removeAttachment}
+              onChoseAttachments={this.onChoseAttachments}
             />
           )}
         </div>
@@ -491,6 +504,7 @@ export class SessionConversation extends React.Component<Props, State> {
       replyToMessage: this.replyToMessage,
       doneInitialScroll: this.state.doneInitialScroll,
       onClickAttachment: this.onClickAttachment,
+      handleFilesDropped: this.onChoseAttachments,
     };
   }
 
@@ -846,6 +860,43 @@ export class SessionConversation extends React.Component<Props, State> {
     // }
   }
 
+  private clearAttachments() {
+    this.state.stagedAttachments.forEach(attachment => {
+      if (attachment.url) {
+        URL.revokeObjectURL(attachment.url);
+      }
+      if (attachment.videoUrl) {
+        URL.revokeObjectURL(attachment.videoUrl);
+      }
+    });
+    this.setState({ stagedAttachments: [] });
+  }
+
+  private removeAttachment(attachment: AttachmentType) {
+    const { stagedAttachments } = this.state;
+    const updatedStagedAttachments = (stagedAttachments || []).filter(
+      m => m.fileName !== attachment.fileName
+    );
+
+    this.setState({ stagedAttachments: updatedStagedAttachments });
+  }
+
+  private addAttachments(newAttachments: Array<StagedAttachmentType>) {
+    const { stagedAttachments } = this.state;
+    if (newAttachments?.length > 0) {
+      if (
+        newAttachments.some(a => a.isVoiceMessage) &&
+        stagedAttachments.length > 0
+      ) {
+        throw new Error('A voice note cannot be sent with other attachments');
+      }
+    }
+
+    this.setState({
+      stagedAttachments: [...stagedAttachments, ...newAttachments],
+    });
+  }
+
   private renderLightBox({
     media,
     attachment,
@@ -890,5 +941,198 @@ export class SessionConversation extends React.Component<Props, State> {
       getAbsolutePath: getAbsoluteAttachmentPath,
       timestamp: message?.received_at || Date.now(),
     });
+  }
+
+  private async onChoseAttachments(attachmentsFileList: FileList) {
+    if (!attachmentsFileList || attachmentsFileList.length === 0) {
+      return;
+    }
+
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < attachmentsFileList.length; i++) {
+      await this.maybeAddAttachment(attachmentsFileList[i]);
+    }
+  }
+
+  // tslint:disable: max-func-body-length cyclomatic-complexity
+  private async maybeAddAttachment(file: any) {
+    if (!file) {
+      return;
+    }
+
+    const fileName = file.name;
+    const contentType = file.type;
+
+    const { stagedAttachments } = this.state;
+
+    if (window.Signal.Util.isFileDangerous(fileName)) {
+      ToastUtils.pushDangerousFileError();
+      return;
+    }
+
+    if (stagedAttachments.length >= 32) {
+      ToastUtils.pushMaximumAttachmentsError();
+      return;
+    }
+
+    const haveNonImage = _.some(
+      stagedAttachments,
+      attachment => !MIME.isImage(attachment.contentType)
+    );
+    // You can't add another attachment if you already have a non-image staged
+    if (haveNonImage) {
+      ToastUtils.pushMultipleNonImageError();
+      return;
+    }
+
+    // You can't add a non-image attachment if you already have attachments staged
+    if (!MIME.isImage(contentType) && stagedAttachments.length > 0) {
+      ToastUtils.pushCannotMixError();
+      return;
+    }
+    const { VisualAttachment } = window.Signal.Types;
+
+    const renderVideoPreview = async () => {
+      const objectUrl = URL.createObjectURL(file);
+      try {
+        const type = 'image/png';
+
+        const thumbnail = await VisualAttachment.makeVideoScreenshot({
+          objectUrl,
+          contentType: type,
+          logger: window.log,
+        });
+        const data = await VisualAttachment.blobToArrayBuffer(thumbnail);
+        const url = window.Signal.Util.arrayBufferToObjectURL({
+          data,
+          type,
+        });
+        this.addAttachments([
+          {
+            file,
+            size: file.size,
+            fileName,
+            contentType,
+            videoUrl: objectUrl,
+            url,
+            isVoiceMessage: false,
+          },
+        ]);
+      } catch (error) {
+        URL.revokeObjectURL(objectUrl);
+      }
+    };
+
+    const renderImagePreview = async () => {
+      if (!MIME.isJPEG(contentType)) {
+        const urlImage = URL.createObjectURL(file);
+        if (!urlImage) {
+          throw new Error('Failed to create object url for image!');
+        }
+        this.addAttachments([
+          {
+            file,
+            size: file.size,
+            fileName,
+            contentType,
+            url: urlImage,
+            isVoiceMessage: false,
+          },
+        ]);
+        return;
+      }
+
+      const url = await window.autoOrientImage(file);
+      this.addAttachments([
+        {
+          file,
+          size: file.size,
+          fileName,
+          contentType,
+          url,
+          isVoiceMessage: false,
+        },
+      ]);
+    };
+
+    try {
+      const blob = await AttachmentUtil.autoScale({
+        contentType,
+        file,
+      });
+      let limitKb = 10000;
+      const blobType =
+        file.type === 'image/gif' ? 'gif' : contentType.split('/')[0];
+
+      switch (blobType) {
+        case 'image':
+          limitKb = 6000;
+          break;
+        case 'gif':
+          limitKb = 10000;
+          break;
+        case 'audio':
+          limitKb = 10000;
+          break;
+        case 'video':
+          limitKb = 10000;
+          break;
+        default:
+          limitKb = 10000;
+      }
+      // if ((blob.file.size / 1024).toFixed(4) >= limitKb) {
+      //   const units = ['kB', 'MB', 'GB'];
+      //   let u = -1;
+      //   let limit = limitKb * 1000;
+      //   do {
+      //     limit /= 1000;
+      //     u += 1;
+      //   } while (limit >= 1000 && u < units.length - 1);
+      //   // this.showFileSizeError(limit, units[u]);
+      //   return;
+      // }
+    } catch (error) {
+      window.log.error(
+        'Error ensuring that image is properly sized:',
+        error && error.stack ? error.stack : error
+      );
+
+      ToastUtils.pushLoadAttachmentFailure();
+      return;
+    }
+
+    try {
+      if (GoogleChrome.isImageTypeSupported(contentType)) {
+        await renderImagePreview();
+      } else if (GoogleChrome.isVideoTypeSupported(contentType)) {
+        await renderVideoPreview();
+      } else {
+        this.addAttachments([
+          {
+            file,
+            size: file.size,
+            contentType,
+            fileName,
+            url: '',
+            isVoiceMessage: false,
+          },
+        ]);
+      }
+    } catch (e) {
+      window.log.error(
+        `Was unable to generate thumbnail for file type ${contentType}`,
+        e && e.stack ? e.stack : e
+      );
+      this.addAttachments([
+        {
+          file,
+          size: file.size,
+          contentType,
+          fileName,
+          isVoiceMessage: false,
+          url: '',
+        },
+      ]);
+    }
   }
 }
