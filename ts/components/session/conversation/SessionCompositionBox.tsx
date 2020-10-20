@@ -530,6 +530,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       const objectUrl = URL.createObjectURL(file);
       try {
         const type = 'image/png';
+
         const thumbnail = await VisualAttachment.makeVideoScreenshot({
           objectUrl,
           contentType: type,
@@ -664,9 +665,12 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     if (attachment.isVoiceMessage && stagedAttachments.length > 0) {
       throw new Error('A voice note cannot be sent with other attachments');
     }
-    this.setState({
-      stagedAttachments: [...stagedAttachments, { ...attachment }],
-    });
+    this.setState(
+      {
+        stagedAttachments: [...stagedAttachments, { ...attachment }],
+      },
+      this.focusCompositionBox
+    );
   }
 
   private async autoScale<T extends { contentType: string; file: any }>(

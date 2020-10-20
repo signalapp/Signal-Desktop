@@ -17,7 +17,6 @@ export function pushLoadAttachmentFailure() {
   });
 }
 
-
 export function pushDangerousFileError() {
   window.pushToast({
     title: window.i18n('dangerousFileType'),
