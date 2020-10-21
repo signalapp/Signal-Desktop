@@ -32,7 +32,6 @@ const LOKIFOUNDATION_APNS_PUBKEY =
 const urlPubkeyMap = {
   'https://file-dev.getsession.org': LOKIFOUNDATION_DEVFILESERVER_PUBKEY,
   'https://file-dev.lokinet.org': LOKIFOUNDATION_DEVFILESERVER_PUBKEY,
-  'https://file-dev.getsession.org': LOKIFOUNDATION_DEVFILESERVER_PUBKEY,
   'https://file.getsession.org': LOKIFOUNDATION_FILESERVER_PUBKEY,
   'https://file.lokinet.org': LOKIFOUNDATION_FILESERVER_PUBKEY,
   'https://dev.apns.getsession.org': LOKIFOUNDATION_APNS_PUBKEY,

@@ -138,7 +138,6 @@ async function buildOnionCtxs(
     const relayingToFinalDestination = i === firstPos; // if last position
 
     if (relayingToFinalDestination && fileServerOptions) {
-
       const target = useV2 ? '/loki/v2/lsrpc' : '/loki/v1/lsrpc';
 
       dest = {
@@ -362,7 +361,6 @@ const sendOnionRequest = async (
   lsrpcIdx?: any
 ) => {
   const { log, StringView } = window;
-
 
   let id = '';
   if (lsrpcIdx !== undefined) {
