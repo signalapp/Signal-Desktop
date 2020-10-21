@@ -776,7 +776,9 @@ describe('link preview fetching', () => {
       sinon.assert.notCalled(shouldNeverBeCalled);
     });
 
-    it('stops reading bodies after 500 kilobytes', async () => {
+    it('stops reading bodies after 500 kilobytes', async function test() {
+      this.timeout(10000);
+
       const shouldNeverBeCalled = sinon.stub();
 
       const fakeFetch = stub().resolves(
