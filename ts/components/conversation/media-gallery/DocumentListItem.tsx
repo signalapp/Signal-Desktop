@@ -52,7 +52,9 @@ export class DocumentListItem extends React.Component<Props> {
             {fileName}
           </span>
           <span className="module-document-list-item__file-size">
-            {typeof fileSize === 'number' ? formatFileSize(fileSize) : ''}
+            {typeof fileSize === 'number'
+              ? formatFileSize(fileSize, { round: 0 })
+              : ''}
           </span>
         </div>
         <div className="module-document-list-item__date">
