@@ -6,6 +6,8 @@ import ByteBuffer from 'bytebuffer';
 import { StringUtils } from '../utils';
 import { OnionAPI } from '../onions';
 
+let onionPayload = 0;
+
 enum RequestError {
   BAD_PATH,
   OTHER,
@@ -435,8 +437,9 @@ const sendOnionRequest = async (
     finalRelayOptions,
     id
   );
-
+  onionPayload += payload.length;
   log.debug('Onion payload size: ', payload.length);
+  log.debug('Onion total: ', onionPayload);
 
   const guardFetchOptions = {
     method: 'POST',

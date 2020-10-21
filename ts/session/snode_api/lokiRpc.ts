@@ -4,7 +4,6 @@ import https from 'https';
 import { Snode } from './snodePool';
 
 import { lokiOnionFetch, SnodeResponse } from './onions';
-import { sendToProxy } from './proxy';
 
 const snodeHttpsAgent = new https.Agent({
   rejectUnauthorized: false,
@@ -63,10 +62,6 @@ async function lokiFetch(
     // (e.g. to connect to a seed node for the first time)
     if (window.lokiFeatureFlags.useOnionRequests && targetNode) {
       return await lokiOnionFetch(fetchOptions.body, targetNode);
-    }
-
-    if (window.lokiFeatureFlags.useSnodeProxy && targetNode) {
-      return await sendToProxy(fetchOptions, targetNode);
     }
 
     return await lokiPlainFetch(url, fetchOptions);

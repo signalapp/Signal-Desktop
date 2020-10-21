@@ -1,6 +1,6 @@
 /* global log, textsecure, libloki, Signal, Whisper, ConversationController,
 clearTimeout, MessageController, libsignal, StringView, window, _,
-dcodeIO, Buffer, TextDecoder, process */
+dcodeIO, Buffer, process */
 const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
 const FormData = require('form-data');
@@ -48,8 +48,6 @@ const LOKI_PREVIEW_TYPE = 'preview';
 const snodeHttpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
-
-const timeoutDelay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const MAX_SEND_ONION_RETRIES = 3;
 
@@ -201,156 +199,6 @@ const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
   return { result, txtResponse, response };
 };
 
-const sendToProxy = async (srvPubKey, endpoint, fetchOptions, options = {}) => {
-  if (!srvPubKey) {
-    log.error(
-      'loki_app_dot_net:::sendToProxy - called without a server public key'
-    );
-    return {};
-  }
-
-  const payloadObj = {
-    body: fetchOptions.body, // might need to b64 if binary...
-    endpoint,
-    method: fetchOptions.method,
-    // safety issue with file server, just safer to have this
-    headers: fetchOptions.headers || {},
-  };
-
-  // from https://github.com/sindresorhus/is-stream/blob/master/index.js
-  if (
-    payloadObj.body &&
-    typeof payloadObj.body === 'object' &&
-    typeof payloadObj.body.pipe === 'function'
-  ) {
-    const fData = payloadObj.body.getBuffer();
-    const fHeaders = payloadObj.body.getHeaders();
-    // update headers for boundary
-    payloadObj.headers = { ...payloadObj.headers, ...fHeaders };
-    // update body with base64 chunk
-    payloadObj.body = {
-      fileUpload: fData.toString('base64'),
-    };
-  }
-
-  const randSnode = await window.SnodePool.getRandomSnodeAddress();
-  if (randSnode === false) {
-    log.warn('proxy random snode pool is not ready, retrying 10s', endpoint);
-    // no nodes in the pool yet, give it some time and retry
-    await timeoutDelay(1000);
-    return sendToProxy(srvPubKey, endpoint, fetchOptions, options);
-  }
-  const url = `https://${randSnode.ip}:${randSnode.port}/file_proxy`;
-
-  // convert our payload to binary buffer
-  const payloadData = Buffer.from(
-    dcodeIO.ByteBuffer.wrap(JSON.stringify(payloadObj)).toArrayBuffer()
-  );
-  payloadObj.body = false; // free memory
-
-  // make temporary key for this request/response
-  // async maybe preferable to avoid cpu spikes
-  // but I think sync might be more apt in cases like sending...
-  const ephemeralKey = await libloki.crypto.generateEphemeralKeyPair();
-
-  // mix server pub key with our priv key
-  const symKey = await libsignal.Curve.async.calculateAgreement(
-    srvPubKey, // server's pubkey
-    ephemeralKey.privKey // our privkey
-  );
-
-  const ivAndCiphertext = await libloki.crypto.DHEncrypt(symKey, payloadData);
-
-  // convert final buffer to base64
-  const cipherText64 = dcodeIO.ByteBuffer.wrap(ivAndCiphertext).toString(
-    'base64'
-  );
-
-  const ephemeralPubKey64 = dcodeIO.ByteBuffer.wrap(
-    ephemeralKey.pubKey
-  ).toString('base64');
-
-  const finalRequestHeader = {
-    'X-Loki-File-Server-Ephemeral-Key': ephemeralPubKey64,
-  };
-
-  const firstHopOptions = {
-    method: 'POST',
-    // not sure why I can't use anything but json...
-    // text/plain would be preferred...
-    body: JSON.stringify({ cipherText64 }),
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Loki-File-Server-Target': '/loki/v1/secure_rpc',
-      'X-Loki-File-Server-Verb': 'POST',
-      'X-Loki-File-Server-Headers': JSON.stringify(finalRequestHeader),
-    },
-    // we are talking to a snode...
-    agent: snodeHttpsAgent,
-  };
-  // weird this doesn't need NODE_TLS_REJECT_UNAUTHORIZED = '0'
-  const result = await nodeFetch(url, firstHopOptions);
-
-  const txtResponse = await result.text();
-  if (txtResponse.match(/^Service node is not ready: not in any swarm/i)) {
-    // mark snode bad
-    const randomPoolRemainingCount = window.SnodePool.markNodeUnreachable(
-      randSnode
-    );
-    log.warn(
-      `loki_app_dot_net:::sendToProxy - Marking random snode bad, internet address ${randSnode.ip}:${randSnode.port}. ${randomPoolRemainingCount} snodes remaining in randomPool`
-    );
-    // retry (hopefully with new snode)
-    // FIXME: max number of retries...
-    return sendToProxy(srvPubKey, endpoint, fetchOptions, options);
-  }
-
-  let response = {};
-  try {
-    response = JSON.parse(txtResponse);
-  } catch (e) {
-    log.warn(
-      `loki_app_dot_net:::sendToProxy - Could not parse outer JSON [${txtResponse}]`,
-      endpoint,
-      'on',
-      url
-    );
-  }
-
-  if (response.meta && response.meta.code === 200) {
-    // convert base64 in response to binary
-    const ivAndCiphertextResponse = dcodeIO.ByteBuffer.wrap(
-      response.data,
-      'base64'
-    ).toArrayBuffer();
-    const decrypted = await libloki.crypto.DHDecrypt(
-      symKey,
-      ivAndCiphertextResponse
-    );
-    const textDecoder = new TextDecoder();
-    const respStr = textDecoder.decode(decrypted);
-    // replace response
-    try {
-      response = options.textResponse ? respStr : JSON.parse(respStr);
-    } catch (e) {
-      log.warn(
-        `loki_app_dot_net:::sendToProxy - Could not parse inner JSON [${respStr}]`,
-        endpoint,
-        'on',
-        url
-      );
-    }
-  } else {
-    log.warn(
-      'loki_app_dot_net:::sendToProxy - file server secure_rpc gave an non-200 response: ',
-      response,
-      ` txtResponse[${txtResponse}]`,
-      endpoint
-    );
-  }
-  return { result, txtResponse, response };
-};
-
 const serverRequest = async (endpoint, options = {}) => {
   const {
     params = {},
@@ -424,21 +272,6 @@ const serverRequest = async (endpoint, options = {}) => {
         fetchOptions,
         options
       ));
-    } else if (
-      window.lokiFeatureFlags.useSnodeProxy &&
-      FILESERVER_HOSTS.includes(host)
-    ) {
-      mode = 'sendToProxy';
-      // url.search automatically includes the ? part
-      const search = url.search || '';
-      // strip first slash
-      const endpointWithQS = `${url.pathname}${search}`.replace(/^\//, '');
-      ({ response, txtResponse, result } = await sendToProxy(
-        srvPubKey,
-        endpointWithQS,
-        fetchOptions,
-        options
-      ));
     } else {
       // disable check for .loki
       process.env.NODE_TLS_REJECT_UNAUTHORIZED = host.match(/\.loki$/i)
@@ -477,12 +310,7 @@ const serverRequest = async (endpoint, options = {}) => {
         url
       );
     }
-    if (mode === 'sendToProxy') {
-      // if we can detect, certain types of failures, we can retry...
-      if (e.code === 'ECONNRESET') {
-        // retry with counter?
-      }
-    }
+
     return {
       err: e,
     };
@@ -599,10 +427,7 @@ class LokiAppDotNetServerAPI {
   // set up pubKey & pubKeyHex properties
   // optionally called for mainly file server comms
   getPubKeyForUrl() {
-    if (
-      !window.lokiFeatureFlags.useSnodeProxy &&
-      !window.lokiFeatureFlags.useOnionRequests
-    ) {
+    if (!window.lokiFeatureFlags.useOnionRequests) {
       // pubkeys don't matter
       return '';
     }
@@ -628,12 +453,6 @@ class LokiAppDotNetServerAPI {
         pubKeyAB =
           window.lokiPublicChatAPI.openGroupPubKeys[this.baseServerUrl];
       }
-    } else if (window.lokiFeatureFlags.useSnodeProxy) {
-      // if in proxy mode, replace with "file."...
-      // it only supports this host...
-      pubKeyAB = window.Signal.Crypto.base64ToArrayBuffer(
-        LOKIFOUNDATION_FILESERVER_PUBKEY
-      );
     }
     // else will fail validation later
 
@@ -898,41 +717,6 @@ class LokiAppDotNetServerAPI {
       log.error('submitToken serverRequest failure', e.code, e.message);
       return false;
     }
-  }
-
-  async proxyFetch(urlObj, fetchOptions = { method: 'GET' }, options = {}) {
-    if (
-      window.lokiFeatureFlags.useSnodeProxy &&
-      (this.baseServerUrl === 'https://file-dev.lokinet.org' ||
-        this.baseServerUrl === 'https://file.lokinet.org' ||
-        this.baseServerUrl === 'https://file-dev.getsession.org' ||
-        this.baseServerUrl === 'https://file.getsession.org')
-    ) {
-      const finalOptions = { ...fetchOptions };
-      if (!fetchOptions.method) {
-        finalOptions.method = 'GET';
-      }
-      const urlStr = urlObj.toString();
-      const endpoint = urlStr.replace(`${this.baseServerUrl}/`, '');
-      const { response, result } = await sendToProxy(
-        this.pubKey,
-        endpoint,
-        finalOptions,
-        options
-      );
-      // emulate nodeFetch response...
-      return {
-        ok: result.status === 200,
-        json: () => response,
-      };
-    }
-    const host = urlObj.host.toLowerCase();
-    if (host.match(/\.loki$/)) {
-      process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-    }
-    const result = nodeFetch(urlObj, fetchOptions, options);
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
-    return result;
   }
 
   // make a request to the server
