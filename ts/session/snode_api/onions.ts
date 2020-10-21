@@ -138,9 +138,12 @@ async function buildOnionCtxs(
     const relayingToFinalDestination = i === firstPos; // if last position
 
     if (relayingToFinalDestination && fileServerOptions) {
+
+      const target = useV2 ? '/loki/v2/lsrpc' : '/loki/v1/lsrpc';
+
       dest = {
         host: fileServerOptions.host,
-        target: '/loki/v1/lsrpc',
+        target,
         method: 'POST',
       };
     } else {
@@ -360,14 +363,6 @@ const sendOnionRequest = async (
 ) => {
   const { log, StringView } = window;
 
-  let useV2 = window.lokiFeatureFlags.useOnionRequestsV2;
-
-  if (useV2 && finalRelayOptions) {
-    useV2 = false;
-    log.error(
-      'TODO: v2 onion protocol for the file server is not yet supported'
-    );
-  }
 
   let id = '';
   if (lsrpcIdx !== undefined) {
@@ -400,9 +395,11 @@ const sendOnionRequest = async (
     options.headers = '';
   }
 
+  const useV2 = window.lokiFeatureFlags.useOnionRequestsV2;
+
   let destCtx;
   try {
-    if (useV2) {
+    if (useV2 && !finalRelayOptions) {
       const body = options.body || '';
       delete options.body;
 
@@ -440,6 +437,8 @@ const sendOnionRequest = async (
     finalRelayOptions,
     id
   );
+
+  log.debug('Onion payload size: ', payload.length);
 
   const guardFetchOptions = {
     method: 'POST',
