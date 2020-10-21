@@ -796,3 +796,21 @@ story.add('@Mentions', () => {
 
   return renderBothDirections(props);
 });
+
+story.add('All the context menus', () => {
+  const props = createProps({
+    attachments: [
+      {
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        contentType: IMAGE_JPEG,
+        width: 128,
+        height: 128,
+      },
+    ],
+    status: 'partial-sent',
+    canDeleteForEveryone: true,
+  });
+
+  return <Message {...props} direction="outgoing" />;
+});

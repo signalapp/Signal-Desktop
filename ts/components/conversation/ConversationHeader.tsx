@@ -350,6 +350,28 @@ export class ConversationHeader extends React.Component<PropsType> {
 
     return (
       <ContextMenu id={triggerId}>
+        <SubMenu title={muteTitle}>
+          {muteOptions.map(item => (
+            <MenuItem
+              key={item.name}
+              disabled={item.disabled}
+              onClick={() => {
+                onSetMuteNotifications(item.value);
+              }}
+            >
+              {item.name}
+            </MenuItem>
+          ))}
+        </SubMenu>
+        {isPinned ? (
+          <MenuItem onClick={() => onSetPin(false)}>
+            {i18n('unpinConversation')}
+          </MenuItem>
+        ) : (
+          <MenuItem onClick={() => onSetPin(true)}>
+            {i18n('pinConversation')}
+          </MenuItem>
+        )}
         {disableTimerChanges ? null : (
           <SubMenu title={disappearingTitle}>
             {(timerOptions || []).map(item => (
@@ -364,19 +386,6 @@ export class ConversationHeader extends React.Component<PropsType> {
             ))}
           </SubMenu>
         )}
-        <SubMenu title={muteTitle}>
-          {muteOptions.map(item => (
-            <MenuItem
-              key={item.name}
-              disabled={item.disabled}
-              onClick={() => {
-                onSetMuteNotifications(item.value);
-              }}
-            >
-              {item.name}
-            </MenuItem>
-          ))}
-        </SubMenu>
         <MenuItem onClick={onShowAllMedia}>{i18n('viewRecentMedia')}</MenuItem>
         {isGroup ? (
           <MenuItem onClick={onShowGroupMembers}>
@@ -388,6 +397,7 @@ export class ConversationHeader extends React.Component<PropsType> {
             {i18n('showSafetyNumber')}
           </MenuItem>
         ) : null}
+        <MenuItem divider />
         {!isGroup && acceptedMessageRequest ? (
           <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
         ) : null}
@@ -397,15 +407,6 @@ export class ConversationHeader extends React.Component<PropsType> {
           </MenuItem>
         ) : (
           <MenuItem onClick={onArchive}>{i18n('archiveConversation')}</MenuItem>
-        )}
-        {isPinned ? (
-          <MenuItem onClick={() => onSetPin(false)}>
-            {i18n('unpinConversation')}
-          </MenuItem>
-        ) : (
-          <MenuItem onClick={() => onSetPin(true)}>
-            {i18n('pinConversation')}
-          </MenuItem>
         )}
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
       </ContextMenu>

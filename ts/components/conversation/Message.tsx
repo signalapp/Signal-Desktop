@@ -1347,7 +1347,9 @@ export class Message extends React.PureComponent<Props, State> {
 
     const { canDeleteForEveryone } = this.state;
 
-    const showRetry = status === 'error' && direction === 'outgoing';
+    const showRetry =
+      (status === 'error' || status === 'partial-sent') &&
+      direction === 'outgoing';
     const multipleAttachments = attachments && attachments.length > 1;
 
     const menu = (
@@ -1360,7 +1362,8 @@ export class Message extends React.PureComponent<Props, State> {
         attachments[0] ? (
           <MenuItem
             attributes={{
-              className: 'module-message__context__download',
+              className:
+                'module-message__context--icon module-message__context__download',
             }}
             onClick={this.openGenericAttachment}
           >
@@ -1371,20 +1374,8 @@ export class Message extends React.PureComponent<Props, State> {
           <>
             <MenuItem
               attributes={{
-                className: 'module-message__context__react',
-              }}
-              onClick={(event: React.MouseEvent) => {
-                event.stopPropagation();
-                event.preventDefault();
-
-                this.toggleReactionPicker();
-              }}
-            >
-              {i18n('reactToMessage')}
-            </MenuItem>
-            <MenuItem
-              attributes={{
-                className: 'module-message__context__reply',
+                className:
+                  'module-message__context--icon module-message__context__reply',
               }}
               onClick={(event: React.MouseEvent) => {
                 event.stopPropagation();
@@ -1395,11 +1386,26 @@ export class Message extends React.PureComponent<Props, State> {
             >
               {i18n('replyToMessage')}
             </MenuItem>
+            <MenuItem
+              attributes={{
+                className:
+                  'module-message__context--icon module-message__context__react',
+              }}
+              onClick={(event: React.MouseEvent) => {
+                event.stopPropagation();
+                event.preventDefault();
+
+                this.toggleReactionPicker();
+              }}
+            >
+              {i18n('reactToMessage')}
+            </MenuItem>
           </>
         ) : null}
         <MenuItem
           attributes={{
-            className: 'module-message__context__more-info',
+            className:
+              'module-message__context--icon module-message__context__more-info',
           }}
           onClick={(event: React.MouseEvent) => {
             event.stopPropagation();
@@ -1413,7 +1419,8 @@ export class Message extends React.PureComponent<Props, State> {
         {showRetry ? (
           <MenuItem
             attributes={{
-              className: 'module-message__context__retry-send',
+              className:
+                'module-message__context--icon module-message__context__retry-send',
             }}
             onClick={(event: React.MouseEvent) => {
               event.stopPropagation();
@@ -1427,7 +1434,8 @@ export class Message extends React.PureComponent<Props, State> {
         ) : null}
         <MenuItem
           attributes={{
-            className: 'module-message__context__delete-message',
+            className:
+              'module-message__context--icon module-message__context__delete-message',
           }}
           onClick={(event: React.MouseEvent) => {
             event.stopPropagation();
@@ -1441,7 +1449,8 @@ export class Message extends React.PureComponent<Props, State> {
         {canDeleteForEveryone ? (
           <MenuItem
             attributes={{
-              className: 'module-message__context__delete-message-for-everyone',
+              className:
+                'module-message__context--icon module-message__context__delete-message-for-everyone',
             }}
             onClick={(event: React.MouseEvent) => {
               event.stopPropagation();

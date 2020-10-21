@@ -9638,22 +9638,20 @@ button.module-image__border-overlay:focus {
 /* Third-party module: react-contextmenu*/
 
 .react-contextmenu {
+  @include popper-shadow();
+
   outline: none;
   border-radius: 4px;
-  min-width: 160px;
-  padding: 0px;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  min-width: 220px;
+  padding: 6px 0;
   opacity: 0;
   user-select: none;
 
   @include light-theme {
-    background-color: $color-gray-02;
-    border: 1px solid $color-gray-02;
+    background-color: $color-white;
   }
   @include dark-theme {
-    background-color: $color-gray-90;
-    border: 1px solid $color-gray-60;
+    background-color: $color-gray-75;
   }
 }
 
@@ -9669,16 +9667,26 @@ button.module-image__border-overlay:focus {
 
   @include font-body-2;
 
-  padding-left: 16px;
-  padding-top: 3px;
-  padding-bottom: 2px;
-  padding-right: 16px;
+  padding: 7px 12px;
 
   @include light-theme {
     color: $color-gray-90;
   }
   @include dark-theme {
     color: $color-gray-02;
+  }
+
+  &--divider {
+    height: 1px;
+    margin: 6px 0;
+    padding: 0;
+
+    @include light-theme {
+      background-color: $color-gray-15;
+    }
+    @include dark-theme {
+      background-color: $color-gray-60;
+    }
   }
 }
 
@@ -9706,15 +9714,25 @@ button.module-image__border-overlay:focus {
 
 .react-contextmenu-item.react-contextmenu-submenu
   > .react-contextmenu-item:after {
-  content: '\25B6';
+  content: ' ';
   display: inline-block;
+  height: 18px;
   position: absolute;
   right: 7px;
+  width: 12px;
 
   @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/chevron-right-16.svg',
+      $color-gray-75
+    );
     color: $color-gray-90;
   }
   @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/chevron-right-16.svg',
+      $color-gray-15
+    );
     color: $color-gray-02;
   }
 }
@@ -9726,7 +9744,7 @@ button.module-image__border-overlay:focus {
     background-color: $color-gray-15;
   }
   @include dark-theme {
-    background-color: $color-gray-75;
+    background-color: $color-gray-60;
     color: $color-white;
   }
 }
@@ -9774,6 +9792,123 @@ button.module-image__border-overlay:focus {
 
   &--deleted-for-everyone {
     font-style: italic;
+  }
+}
+
+.module-message__context {
+  &--icon::before {
+    content: ' ';
+    display: inline-block;
+    height: 14px;
+    margin-right: 8px;
+    width: 14px;
+    vertical-align: middle;
+  }
+
+  &__download::before {
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/save-outline-24.svg',
+        $color-black
+      );
+    }
+
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/save-solid-24.svg',
+        $color-gray-15
+      );
+    }
+  }
+
+  &__reply::before {
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/reply-outline-24.svg',
+        $color-black
+      );
+    }
+
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/reply-solid-24.svg',
+        $color-gray-15
+      );
+    }
+  }
+
+  &__react::before {
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/add-emoji-outline-24.svg',
+        $color-black
+      );
+    }
+
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/add-emoji-outline-24.svg',
+        $color-gray-15
+      );
+    }
+  }
+
+  &__more-info::before {
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/info-outline-24.svg',
+        $color-black
+      );
+    }
+
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/info-outline-24.svg',
+        $color-gray-15
+      );
+    }
+  }
+
+  &__retry-send::before {
+    @include light-theme {
+      @include color-svg('../images/icons/v2/send-24.svg', $color-black);
+    }
+
+    @include dark-theme {
+      @include color-svg('../images/icons/v2/send-24.svg', $color-gray-15);
+    }
+  }
+
+  &__delete-message::before {
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/trash-outline-24.svg',
+        $color-black
+      );
+    }
+
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/trash-solid-24.svg',
+        $color-gray-15
+      );
+    }
+  }
+
+  &__delete-message-for-everyone::before {
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/trash-outline-24.svg',
+        $color-black
+      );
+    }
+
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/trash-solid-24.svg',
+        $color-gray-15
+      );
+    }
   }
 }
 
