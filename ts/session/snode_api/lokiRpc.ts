@@ -17,7 +17,7 @@ async function lokiPlainFetch(
   const { log } = window;
 
   if (url.match(/https:\/\//)) {
-    // import that this does not get set in sendToProxy fetchOptions
+    // import that this does not get set in lokiFetch fetchOptions
     fetchOptions.agent = snodeHttpsAgent;
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
   } else {

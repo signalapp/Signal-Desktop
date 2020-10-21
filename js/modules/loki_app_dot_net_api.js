@@ -363,7 +363,7 @@ const serverRequest = async (endpoint, options = {}) => {
   } = options;
 
   const url = new URL(endpoint);
-  if (params) {
+  if (!_.isEmpty(params)) {
     url.search = new URLSearchParams(params);
   }
   const fetchOptions = {};
@@ -838,13 +838,13 @@ class LokiAppDotNetServerAPI {
   async requestToken() {
     let res;
     try {
-      const url = new URL(`${this.baseServerUrl}/loki/v1/get_challenge`);
       const params = {
         pubKey: this.ourKey,
       };
-      url.search = new URLSearchParams(params);
-
-      res = await this.proxyFetch(url);
+      res = await this.serverRequest('loki/v1/get_challenge', {
+        method: 'GET',
+        params,
+      });
     } catch (e) {
       // should we retry here?
       // no, this is the low level function
@@ -873,37 +873,29 @@ class LokiAppDotNetServerAPI {
       }
       return null;
     }
-    if (!res.ok) {
+    if (res.statusCode !== 200) {
       log.error('requestToken request failed');
       return null;
     }
-    const body = await res.json();
+    const body = res.response;
     const token = await libloki.crypto.decryptToken(body);
     return token;
   }
 
   // activate token
   async submitToken(token) {
-    const fetchOptions = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        pubKey: this.ourKey,
-        token,
-      }),
-    };
-
     try {
-      const res = await this.proxyFetch(
-        new URL(`${this.baseServerUrl}/loki/v1/submit_challenge`),
-        fetchOptions,
-        { textResponse: true }
-      );
-      return res.ok;
+      const res = await this.serverRequest('loki/v1/submit_challenge', {
+        method: 'POST',
+        objBody: {
+          pubKey: this.ourKey,
+          token,
+        },
+        noJson: true,
+      });
+      return res.statusCode === 200;
     } catch (e) {
-      log.error('submitToken proxyFetch failure', e.code, e.message);
+      log.error('submitToken serverRequest failure', e.code, e.message);
       return false;
     }
   }

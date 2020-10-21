@@ -32,7 +32,7 @@ const validOpenGroupServer = async serverUrl => {
           { method: 'GET' },
           { noJson: true }
         );
-        if (res.result.status === 200) {
+        if (res.result && res.result.status === 200) {
           log.info(
             `loki_public_chat::validOpenGroupServer - onion routing enabled on ${url.toString()}`
           );

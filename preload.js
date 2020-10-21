@@ -450,7 +450,7 @@ window.lokiFeatureFlags = {
   privateGroupChats: true,
   useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
   useOnionRequests: true,
-  useOnionRequestsV2: false,
+  useOnionRequestsV2: true,
   useFileOnionRequests: true,
   enableSenderKeys: true,
   onionRequestHops: 3,
@@ -487,7 +487,6 @@ if (config.environment.includes('test-integration')) {
   window.lokiFeatureFlags = {
     multiDeviceUnpairing: true,
     privateGroupChats: true,
-    useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
     useOnionRequests: false,
     useFileOnionRequests: false,
     debugMessageLogs: true,
