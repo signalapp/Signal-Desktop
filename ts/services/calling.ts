@@ -137,7 +137,10 @@ export class CallingClass {
     });
 
     await this.startDeviceReselectionTimer();
-    this.enableLocalCamera();
+
+    if (isVideoCall) {
+      this.enableLocalCamera();
+    }
   }
 
   stopCallingLobby(): void {
