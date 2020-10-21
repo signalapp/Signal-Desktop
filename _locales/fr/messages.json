@@ -1,6 +1,6 @@
 {
     "softwareAcknowledgments": {
-        "message": "Software Acknowledgments",
+        "message": "Reconnaissance de logiciels",
         "description": "Shown in the about box for the link to software acknowledgments"
     },
     "privacyPolicy": {
@@ -156,7 +156,7 @@
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "messageContextMenuButton": {
-        "message": "More actions",
+        "message": "Davantage d’actions",
         "description": "Label for context button next to each message"
     },
     "contextMenuCopyLink": {
@@ -193,6 +193,14 @@
         "message": "Conversations archivées",
         "description": "Shown in place of the search box when showing archived conversation list"
     },
+    "LeftPane--pinned": {
+        "message": "Épinglées",
+        "description": "Shown as a header for pinned conversations in the left pane"
+    },
+    "LeftPane--chats": {
+        "message": "Conversations",
+        "description": "Shown as a header for non-pinned conversations in the left pane"
+    },
     "archiveHelperText": {
         "message": "Ces conversations sont archivées et n’apparaîtront dans la boîte de réception que si de nouveaux messages sont reçus.",
         "description": "Shown at the top of the archived conversations list in the left pane"
@@ -204,6 +212,18 @@
     "moveConversationToInbox": {
         "message": "Déplacer la conversation vers la boite de réception",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
+    },
+    "pinConversation": {
+        "message": "Épingler la conversation",
+        "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
+    },
+    "unpinConversation": {
+        "message": "Désépingler la conversation",
+        "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
+    },
+    "pinnedConversationsFull": {
+        "message": "Vous ne pouvez pas épingler plus de 4 conversations.",
+        "description": ""
     },
     "chooseDirectory": {
         "message": "Sélectionner un dossier",
@@ -690,7 +710,7 @@
         "description": "Placeholder text in the search input"
     },
     "clearSearch": {
-        "message": "Clear Search",
+        "message": "Effacer la recherche",
         "description": "Aria label for clear search button"
     },
     "searchIn": {
@@ -954,8 +974,12 @@
         "description": ""
     },
     "deleteWarning": {
-        "message": "Confirmez-vous ? Cliquer sur Supprimer éliminera définitivement ce message de cet appareil seulement.",
-        "description": ""
+        "message": "Clicking 'delete' will permanently remove this message from your devices only.",
+        "description": "Text shown in the confirmation dialog for deleting a message locally"
+    },
+    "deleteForEveryoneWarning": {
+        "message": "This message will be deleted for everyone in the conversation if they’re on a recent version of Signal. They will be able to see that you deleted a message.",
+        "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "deleteThisMessage": {
         "message": "Supprimer ce message",
@@ -1020,7 +1044,7 @@
         "description": ""
     },
     "goBack": {
-        "message": "Go back",
+        "message": "Retour",
         "description": "Label for back button in a conversation"
     },
     "moreInfo": {
@@ -1032,8 +1056,12 @@
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Supprimer ce message",
+        "message": "Supprimer le message pour moi",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
+    },
+    "deleteMessageForEveryone": {
+        "message": "Supprimer le message pour tout le monde",
+        "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
         "message": "Supprimer les messages",
@@ -1150,6 +1178,42 @@
     "calling": {
         "message": "Appel",
         "description": "Header for calling options on the settings screen"
+    },
+    "calling__start": {
+        "message": "Start Call",
+        "description": "Button label in the call lobby for starting a call"
+    },
+    "calling__join": {
+        "message": "Join Call",
+        "description": "Button label in the call lobby for joining a call"
+    },
+    "calling__button--video-disabled": {
+        "message": "Appareil photo désactivé",
+        "description": "Button tooltip label when the camera is disabled"
+    },
+    "calling__button--video-off": {
+        "message": "Désactiver l’appareil photo",
+        "description": "Button tooltip label for turning off the camera"
+    },
+    "calling__button--video-on": {
+        "message": "Activer l’appareil photo",
+        "description": "Button tooltip label for turning on the camera"
+    },
+    "calling__button--audio-disabled": {
+        "message": "Microphone disabled",
+        "description": "Button tooltip label when the microphone is disabled"
+    },
+    "calling__button--audio-off": {
+        "message": "Turn off microphone",
+        "description": "Button tooltip label for turning off the microphone"
+    },
+    "calling__button--audio-on": {
+        "message": "Turn on microphone",
+        "description": "Button tooltip label for turning on the microphone"
+    },
+    "calling__your-video-is-off": {
+        "message": "Your video is off",
+        "description": "Label in the calling lobby indicating that your camera is off"
     },
     "alwaysRelayCallsDescription": {
         "message": "Toujours relayer les appels",
@@ -1655,6 +1719,10 @@
         "message": "Confirmer le numéro de sécurité",
         "description": "Label on button included with safety number change notification in the conversation"
     },
+    "cannotGenerateSafetyNumber": {
+        "message": "Cet utilisateur ne pourra pas être confirmé tant que vous n’aurez pas échangé de messages.",
+        "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
+    },
     "yourSafetyNumberWith": {
         "message": "Votre numéro de sécurité avec $name1$ :",
         "description": "Heading for safety number view",
@@ -1936,23 +2004,23 @@
         "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerPicker--Open": {
-        "message": "Open the sticker picker",
+        "message": "Ouvrir le sélecteur d’autocollants",
         "description": "Label for the open button for the sticker picker"
     },
     "stickers--StickerPicker--AddPack": {
-        "message": "Add a sticker pack",
+        "message": "Ajouter un paquet d’autocollants",
         "description": "Label for the add pack button in the sticker picker"
     },
     "stickers--StickerPicker--NextPage": {
-        "message": "Next Page",
+        "message": "Page suivante",
         "description": "Label for the next page button in the sticker picker"
     },
     "stickers--StickerPicker--PrevPage": {
-        "message": "Previous Page",
+        "message": "Page précédente",
         "description": "Label for the previous page button in the sticker picker"
     },
     "stickers--StickerPicker--Recents": {
-        "message": "Recent Sticker",
+        "message": "Autocollant récent",
         "description": "Label for the recent stickers button in the sticker picker"
     },
     "stickers--StickerPicker--DownloadError": {
@@ -2374,7 +2442,7 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--help": {
-        "message": "Les autocollants doivent être au format PNG WebP avec un arrière-plan transparent et 512 x 512 pixels. La marge recommandée est de 16 px.",
+        "message": "Les autocollants doivent être au format PNG, APNG ou WebP avec un arrière-plan transparent et faire 512 x 512 pixels. La marge recommandée est de 16 px.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
@@ -2420,7 +2488,7 @@
         "description": "Help text for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--title": {
-        "message": "Souhaitez-vous vraiment téléverser votre paquet d’autocollants ?",
+        "message": "Voulez-vous vraiment téléverser votre paquet d’autocollants ?",
         "description": "Title for the confirm dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--confirm": {
@@ -2503,7 +2571,23 @@
     },
     "StickerCreator--Toasts--errorProcessing": {
         "message": "Erreur de traitement de l’image",
-        "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator"
+        "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
+    },
+    "StickerCreator--Toasts--APNG--notSquare": {
+        "message": "Animated PNG stickers must be square",
+        "description": "Text for the toast when someone tries to upload a non-square APNG"
+    },
+    "StickerCreator--Toasts--mustLoopForever": {
+        "message": "Animated stickers must loop forever",
+        "description": "Text for the toast when an image in the sticker creator does not animate forever"
+    },
+    "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
+        "message": "Animated PNG sticker dimensions are too large",
+        "description": "Text for the toast when an APNG image in the sticker creator is too large"
+    },
+    "StickerCreator--Toasts--APNG--dimensionsTooSmall": {
+        "message": "Animated PNG sticker dimensions are too small",
+        "description": "Text for the toast when an APNG image in the sticker creator is too small"
     },
     "StickerCreator--Toasts--errorUploading": {
         "message": "Erreur de téléversement des autocollants : $message$",
@@ -2848,12 +2932,22 @@
         "description": "Shown in the call screen when placing an outgoing call that is now ringing"
     },
     "makeOutgoingCall": {
-        "message": "Start a call",
+        "message": "Démarrer un appel",
         "description": "Title for the call button in a conversation"
     },
     "makeOutgoingVideoCall": {
-        "message": "Start a video call",
+        "message": "Démarrer un appel vidéo",
         "description": "Title for the video call button in a conversation"
+    },
+    "callNeedPermission": {
+        "message": "$title$ will get a message request from you. You can call once your message request has been accepted.",
+        "description": "Shown when a call is rejected because the other party hasn't approved the message/call request",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
     },
     "callReconnecting": {
         "message": "Reconnexion…",
@@ -2872,6 +2966,18 @@
     "callingDeviceSelection__settings": {
         "message": "Paramètres",
         "description": "Title for device selection settings"
+    },
+    "calling__participants": {
+        "message": "Participants",
+        "description": "Title for participants list toggle"
+    },
+    "calling__pip": {
+        "message": "Incrustation",
+        "description": "Title for picture-in-picture toggle"
+    },
+    "calling__hangup": {
+        "message": "Hang Up",
+        "description": "Title for hang up button"
     },
     "callingDeviceSelection__label--video": {
         "message": "Vidéo",
@@ -2931,13 +3037,43 @@
         "message": "Émoji",
         "description": "Label for emoji button"
     },
+    "ErrorModal--title": {
+        "message": "Une erreur s’est produite.",
+        "description": "Title of pop-up dialog when user-initiated task has gone wrong"
+    },
+    "ErrorModal--description": {
+        "message": "Veuillez recommencer ou contacter l’assistance.",
+        "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
+    },
+    "ErrorModal--buttonText": {
+        "message": "Valider",
+        "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
+    },
     "GroupV2--admin": {
         "message": "Administrateur",
         "description": "Shown next to the set of administrators in a group"
     },
-    "GroupV2--timerConflict": {
-        "message": "Échec de mise à jour de la minuterie des messages éphémères. Veuillez réessayer ultérieurement.",
-        "description": "Shown if the user runs into a group update conflict attempting to update a GroupV2 message timer"
+    "updating": {
+        "message": "Mise à jour…",
+        "description": "Shown along with a spinner when an update operation takes longer than one second"
+    },
+    "GroupV2--create--you": {
+        "message": "Vous avez créé le groupe.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--create--other": {
+        "message": "$memberName$ a créé le groupe.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--create--unknown": {
+        "message": "Le groupe a été créé.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--change--other": {
         "message": "$memberName$ a changé le nom du groupe en « $newTitle$ ».",
@@ -3099,6 +3235,40 @@
         "message": "Un administrateur a changé qui peut modifier les membres du groupe en « Tous les membres ».",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
+    "GroupV2--member-add--invited--you": {
+        "message": "Vous avez ajouté le membre invité $inviteeName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "inviteeName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--member-add--invited--other": {
+        "message": "$memberName$ a ajouté le membre invité $inviteeName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "inviteeName": {
+                "content": "$2",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--member-add--invited--unknown": {
+        "message": "Un membre a ajouté le membre invité $inviteeName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "inviteeName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "GroupV2--member-add--from-invite--other": {
         "message": "$inviteeName$ a accepté une invitation au groupe de $inviterName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
@@ -3113,6 +3283,16 @@
             }
         }
     },
+    "GroupV2--member-add--from-invite--other-no-from": {
+        "message": "$inviteeName$ a accepté l’invitation au groupe.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "inviteeName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "GroupV2--member-add--from-invite--you": {
         "message": "Vous avez accepté une invitation au groupe de $inviterName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
@@ -3122,6 +3302,10 @@
                 "example": "Bob"
             }
         }
+    },
+    "GroupV2--member-add--from-invite--you-no-from": {
+        "message": "Vous avez accepté une invitation au groupe.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--from-invite--from-you": {
         "message": "$inviteeName$ a accepté votre invitation au groupe.",
@@ -3182,7 +3366,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--you--unknown": {
-        "message": "Un membre vous a ajouté au groupe.",
+        "message": "Vous avez été ajouté au groupe.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-remove--other--other": {
@@ -3244,7 +3428,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-remove--you--unknown": {
-        "message": "Un membre vous a supprimé.",
+        "message": "Vous avez été supprimé du groupe.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--promote--other--other": {
@@ -3358,7 +3542,7 @@
         }
     },
     "GroupV2--pending-add--one--other--unknown": {
-        "message": "Un membre a invité une personne au groupe.",
+        "message": "Une personne a été invitée au groupe.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3378,7 +3562,7 @@
         }
     },
     "GroupV2--pending-add--one--you--unknown": {
-        "message": "Un membre vous a invité au groupe.",
+        "message": "Vous avez été invité au groupe.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--many--other": {
@@ -3406,7 +3590,7 @@
         }
     },
     "GroupV2--pending-add--many--unknown": {
-        "message": "Un membre a invité $count$ personnes au groupe.",
+        "message": "$count$ personnes ont été invitées au groupe.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -3435,6 +3619,10 @@
             }
         }
     },
+    "GroupV2--pending-remove--decline--from-you": {
+        "message": "Vous avez décliné l’invitation au groupe.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
     "GroupV2--pending-remove--decline--unknown": {
         "message": "Une personne a décliné son invitation au groupe.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -3454,6 +3642,26 @@
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--pending-remove--revoke-own--to-you": {
+        "message": "$inviterName$ revoked their invitation to you.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "inviterName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--pending-remove--revoke-own--unknown": {
+        "message": "$inviterName$ revoked their invitation to 1 person.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "inviterName": {
                 "content": "$1",
                 "example": "Bob"
             }
@@ -3648,15 +3856,15 @@
         "description": "Generic close label"
     },
     "previous": {
-        "message": "previous",
+        "message": "précédent",
         "description": "Generic previous label"
     },
     "next": {
-        "message": "next",
+        "message": "suivant",
         "description": "Generic next label"
     },
     "CompositionArea--expand": {
-        "message": "Expand",
+        "message": "Étendre",
         "description": "Aria label for expanding composition area"
     },
     "CompositionArea--attach-file": {
@@ -3664,7 +3872,7 @@
         "description": "Aria label for file attachment button in composition area"
     },
     "countMutedConversationsDescription": {
-        "message": "Count muted conversations in badge count",
+        "message": "Compter les conversations en sourdine dans la pastille de comptage",
         "description": "Description for counting muted conversations in badge setting"
     }
 }
