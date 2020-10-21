@@ -7832,13 +7832,13 @@ button.module-image__border-overlay:focus {
     @include light-theme {
       @include color-svg(
         '../images/icons/v2/sticker-outline-24.svg',
-        $color-gray-60
+        $color-gray-75
       );
     }
     @include dark-theme {
       @include color-svg(
         '../images/icons/v2/sticker-solid-24.svg',
-        $color-gray-25
+        $color-gray-15
       );
     }
   }
@@ -8467,13 +8467,13 @@ button.module-image__border-overlay:focus {
     @include light-theme {
       @include color-svg(
         '../images/icons/v2/emoji-smiley-outline-24.svg',
-        $color-gray-60
+        $color-gray-75
       );
     }
     @include dark-theme {
       @include color-svg(
         '../images/icons/v2/emoji-smiley-solid-24.svg',
-        $color-gray-25
+        $color-gray-15
       );
     }
   }
