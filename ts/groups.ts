@@ -162,6 +162,7 @@ type UpdatesResultType = {
 export const MASTER_KEY_LENGTH = 32;
 const TEMPORAL_AUTH_REJECTED_CODE = 401;
 const GROUP_ACCESS_DENIED_CODE = 403;
+const SUPPORTED_CHANGE_EPOCH = 0;
 
 // Group Modifications
 
@@ -532,7 +533,17 @@ async function getGroupUpdates({
     const groupChange = window.textsecure.protobuf.GroupChange.decode(
       groupChangeBuffer
     );
-    return integrateGroupChange({ group, newRevision, groupChange });
+    const isChangeSupported =
+      !isNumber(groupChange.changeEpoch) ||
+      groupChange.changeEpoch <= SUPPORTED_CHANGE_EPOCH;
+
+    if (isChangeSupported) {
+      return integrateGroupChange({ group, newRevision, groupChange });
+    }
+
+    window.log.info(
+      `getGroupUpdates/${logId}: Failing over; group change unsupported`
+    );
   }
 
   if (isNumber(newRevision)) {
@@ -936,15 +947,27 @@ async function integrateGroupChange({
   );
   const sourceConversationId = sourceConversation.id;
 
+  const isChangeSupported =
+    !isNumber(groupChange.changeEpoch) ||
+    groupChange.changeEpoch <= SUPPORTED_CHANGE_EPOCH;
   const isFirstFetch = !isNumber(group.revision);
   const isMoreThanOneVersionUp =
     groupChangeActions.version &&
     isNumber(group.revision) &&
     groupChangeActions.version > group.revision + 1;
 
-  if (groupState && (isFirstFetch || isMoreThanOneVersionUp)) {
+  if (!isChangeSupported || isFirstFetch || isMoreThanOneVersionUp) {
+    if (!groupState) {
+      throw new Error(
+        `integrateGroupChange/${logId}: No group state, but we can't apply changes!`
+      );
+    }
+
     window.log.info(
-      `integrateGroupChange/${logId}: Applying full group state, from version ${group.revision} to ${groupState.version}`
+      `integrateGroupChange/${logId}: Applying full group state, from version ${group.revision} to ${groupState.version}`,
+      {
+        isChangeSupported,
+      }
     );
 
     const decryptedGroupState = decryptGroupState(

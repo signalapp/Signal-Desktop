@@ -193,6 +193,14 @@
         "message": "Artxibatutako solasaldiak",
         "description": "Shown in place of the search box when showing archived conversation list"
     },
+    "LeftPane--pinned": {
+        "message": "Finkatuta",
+        "description": "Shown as a header for pinned conversations in the left pane"
+    },
+    "LeftPane--chats": {
+        "message": "Txatak",
+        "description": "Shown as a header for non-pinned conversations in the left pane"
+    },
     "archiveHelperText": {
         "message": "Solasaldi hauek artxibatuta daude eta bakarrik mezu berriak jasotakoan agertuko dira sarrera erretiluan.",
         "description": "Shown at the top of the archived conversations list in the left pane"
@@ -204,6 +212,18 @@
     "moveConversationToInbox": {
         "message": "Mugitu solasaldiak sarrera erretilura",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
+    },
+    "pinConversation": {
+        "message": "Pin Conversation",
+        "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
+    },
+    "unpinConversation": {
+        "message": "Unpin Conversation",
+        "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
+    },
+    "pinnedConversationsFull": {
+        "message": "You can only pin up to 4 chats",
+        "description": ""
     },
     "chooseDirectory": {
         "message": "Aukeratu karpeta",
@@ -954,8 +974,12 @@
         "description": ""
     },
     "deleteWarning": {
-        "message": "Ziur zaude? 'ezabatu' botoian kik egiteak gailu honetatik bakarrik eta behin-betiko ezabatuko du mezu hau.",
-        "description": ""
+        "message": "Clicking 'delete' will permanently remove this message from your devices only.",
+        "description": "Text shown in the confirmation dialog for deleting a message locally"
+    },
+    "deleteForEveryoneWarning": {
+        "message": "Mezu hau ezabatuko da solasaldian dagoen edonorentzat Signalen azkenengo bertsioetako bat erabiltzen badu. Mezua ezabatu duzula ikusteko gai izango dira.",
+        "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "deleteThisMessage": {
         "message": "Ezabatu mezu hau",
@@ -1032,8 +1056,12 @@
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Ezabadu mezua",
+        "message": "Delete message for me",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
+    },
+    "deleteMessageForEveryone": {
+        "message": "Delete message for everyone",
+        "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
         "message": "Ezabatu mezuak",
@@ -1150,6 +1178,42 @@
     "calling": {
         "message": "Deitzen",
         "description": "Header for calling options on the settings screen"
+    },
+    "calling__start": {
+        "message": "Hasi Deia",
+        "description": "Button label in the call lobby for starting a call"
+    },
+    "calling__join": {
+        "message": "Join Call",
+        "description": "Button label in the call lobby for joining a call"
+    },
+    "calling__button--video-disabled": {
+        "message": "Camera disabled",
+        "description": "Button tooltip label when the camera is disabled"
+    },
+    "calling__button--video-off": {
+        "message": "Turn off camera",
+        "description": "Button tooltip label for turning off the camera"
+    },
+    "calling__button--video-on": {
+        "message": "Turn on camera",
+        "description": "Button tooltip label for turning on the camera"
+    },
+    "calling__button--audio-disabled": {
+        "message": "Microphone disabled",
+        "description": "Button tooltip label when the microphone is disabled"
+    },
+    "calling__button--audio-off": {
+        "message": "Turn off microphone",
+        "description": "Button tooltip label for turning off the microphone"
+    },
+    "calling__button--audio-on": {
+        "message": "Turn on microphone",
+        "description": "Button tooltip label for turning on the microphone"
+    },
+    "calling__your-video-is-off": {
+        "message": "Zure bideoa itzalita dago",
+        "description": "Label in the calling lobby indicating that your camera is off"
     },
     "alwaysRelayCallsDescription": {
         "message": "Birtransmititu deiak beti",
@@ -1654,6 +1718,10 @@
     "verifyNewNumber": {
         "message": "Segurtasun zenbakia baieztatu",
         "description": "Label on button included with safety number change notification in the conversation"
+    },
+    "cannotGenerateSafetyNumber": {
+        "message": "Erabiltzaile hau ezin da egiaztatu elkarrekin mezuak trukatzen dituzuen arte.",
+        "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
     },
     "yourSafetyNumberWith": {
         "message": " $name1$ erabiltzailearekin duzun segurtasun zenbakia:",
@@ -2374,7 +2442,7 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--help": {
-        "message": "Eranskailuek ondoko baldintzak bete behar dute: PNG edo WebP formatoan egon, atzeko plano garden bat izan eta 512x512 pixel. Gomendatutako marjina 16px da. ",
+        "message": "Stickers must be in PNG, APNG, or WebP format with a transparent background and 512x512 pixels. Recommended margin is 16px.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
@@ -2503,7 +2571,23 @@
     },
     "StickerCreator--Toasts--errorProcessing": {
         "message": "Errorea irudia prozesatzean",
-        "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator"
+        "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
+    },
+    "StickerCreator--Toasts--APNG--notSquare": {
+        "message": "Animated PNG stickers must be square",
+        "description": "Text for the toast when someone tries to upload a non-square APNG"
+    },
+    "StickerCreator--Toasts--mustLoopForever": {
+        "message": "Animated stickers must loop forever",
+        "description": "Text for the toast when an image in the sticker creator does not animate forever"
+    },
+    "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
+        "message": "Animated PNG sticker dimensions are too large",
+        "description": "Text for the toast when an APNG image in the sticker creator is too large"
+    },
+    "StickerCreator--Toasts--APNG--dimensionsTooSmall": {
+        "message": "Animated PNG sticker dimensions are too small",
+        "description": "Text for the toast when an APNG image in the sticker creator is too small"
     },
     "StickerCreator--Toasts--errorUploading": {
         "message": "Eranskailuak igotzen errorea: $message$",
@@ -2855,6 +2939,16 @@
         "message": "Start a video call",
         "description": "Title for the video call button in a conversation"
     },
+    "callNeedPermission": {
+        "message": "$title$ will get a message request from you. You can call once your message request has been accepted.",
+        "description": "Shown when a call is rejected because the other party hasn't approved the message/call request",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "callReconnecting": {
         "message": "Birkonektatzen...",
         "description": "Shown in the call screen when the call is reconnecting due to network issues"
@@ -2872,6 +2966,18 @@
     "callingDeviceSelection__settings": {
         "message": "Ezarpenak",
         "description": "Title for device selection settings"
+    },
+    "calling__participants": {
+        "message": "Participants",
+        "description": "Title for participants list toggle"
+    },
+    "calling__pip": {
+        "message": "Picture-in-picture",
+        "description": "Title for picture-in-picture toggle"
+    },
+    "calling__hangup": {
+        "message": "Hang Up",
+        "description": "Title for hang up button"
     },
     "callingDeviceSelection__label--video": {
         "message": "Bideoa",
@@ -2931,13 +3037,43 @@
         "message": "Emoji",
         "description": "Label for emoji button"
     },
+    "ErrorModal--title": {
+        "message": "Zerbait oker joan da",
+        "description": "Title of pop-up dialog when user-initiated task has gone wrong"
+    },
+    "ErrorModal--description": {
+        "message": "Please try again or contact support.",
+        "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
+    },
+    "ErrorModal--buttonText": {
+        "message": "Ados",
+        "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
+    },
     "GroupV2--admin": {
         "message": "Administratzailea",
         "description": "Shown next to the set of administrators in a group"
     },
-    "GroupV2--timerConflict": {
-        "message": "Failed to update disappearing message timer. Please try again later.",
-        "description": "Shown if the user runs into a group update conflict attempting to update a GroupV2 message timer"
+    "updating": {
+        "message": "Updating...",
+        "description": "Shown along with a spinner when an update operation takes longer than one second"
+    },
+    "GroupV2--create--you": {
+        "message": "Taldea sortu duzu.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--create--other": {
+        "message": "$memberName$ created the group.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--create--unknown": {
+        "message": "The group was created.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--change--other": {
         "message": "$memberName$ changed the group name to \"$newTitle$\".",
@@ -3099,6 +3235,40 @@
         "message": "An admin changed who can edit group membership to \"All members.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
+    "GroupV2--member-add--invited--you": {
+        "message": "You added invited member $inviteeName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "inviteeName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--member-add--invited--other": {
+        "message": "$memberName$ added invited member $inviteeName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "inviteeName": {
+                "content": "$2",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--member-add--invited--unknown": {
+        "message": "A member added invited member $inviteeName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "inviteeName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "GroupV2--member-add--from-invite--other": {
         "message": "$inviteeName$ accepted an invitation to the group from $inviterName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
@@ -3113,6 +3283,16 @@
             }
         }
     },
+    "GroupV2--member-add--from-invite--other-no-from": {
+        "message": "$inviteeName$ accepted an invitation to the group.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "inviteeName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "GroupV2--member-add--from-invite--you": {
         "message": "You accepted an invitation to the group from $inviterName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
@@ -3122,6 +3302,10 @@
                 "example": "Bob"
             }
         }
+    },
+    "GroupV2--member-add--from-invite--you-no-from": {
+        "message": "Taldean sartzeko gonbidapen bat onartu egin duzu.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--from-invite--from-you": {
         "message": "$inviteeName$ accepted your invitation to the group.",
@@ -3182,7 +3366,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--you--unknown": {
-        "message": "A member added you to the group.",
+        "message": "You were added to the group.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-remove--other--other": {
@@ -3200,7 +3384,7 @@
         }
     },
     "GroupV2--member-remove--other--self": {
-        "message": "$memberName$ left.",
+        "message": "$memberName$ left the group.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3240,11 +3424,11 @@
         }
     },
     "GroupV2--member-remove--you--you": {
-        "message": "You left.",
+        "message": "Taldea utzi duzu.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-remove--you--unknown": {
-        "message": "A member removed you.",
+        "message": "Taldetik ezabatua izan zara.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--promote--other--other": {
@@ -3358,7 +3542,7 @@
         }
     },
     "GroupV2--pending-add--one--other--unknown": {
-        "message": "A member invited 1 person to the group.",
+        "message": "One person was invited to the group.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3378,7 +3562,7 @@
         }
     },
     "GroupV2--pending-add--one--you--unknown": {
-        "message": "A member invited you to the group.",
+        "message": "Taldera gonbidatu zaituzte",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--many--other": {
@@ -3406,7 +3590,7 @@
         }
     },
     "GroupV2--pending-add--many--unknown": {
-        "message": "A member invited $count$ people to the group.",
+        "message": "$count$ people were invited to the group.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -3435,6 +3619,10 @@
             }
         }
     },
+    "GroupV2--pending-remove--decline--from-you": {
+        "message": "Taldean sartzeko gonbidapen bati uko egin diozu.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
     "GroupV2--pending-remove--decline--unknown": {
         "message": "1 person declined their invitation to the group.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -3454,6 +3642,26 @@
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--pending-remove--revoke-own--to-you": {
+        "message": "$inviterName$ revoked their invitation to you.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "inviterName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--pending-remove--revoke-own--unknown": {
+        "message": "$inviterName$ revoked their invitation to 1 person.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "inviterName": {
                 "content": "$1",
                 "example": "Bob"
             }

@@ -150,11 +150,13 @@ export class LeftPane extends React.Component<PropsType> {
         }
 
         conversationIndex -= pinnedConversations.length + 2;
-      } else {
+      } else if (index < pinnedConversations.length) {
         return {
           index,
           type: RowType.PinnedConversation,
         };
+      } else {
+        conversationIndex = 0;
       }
     }
 
@@ -610,13 +612,34 @@ export class LeftPane extends React.Component<PropsType> {
   }
 
   componentDidUpdate(oldProps: PropsType): void {
-    const { pinnedConversations: oldPinned } = oldProps;
-    const { pinnedConversations: pinned } = this.props;
+    const {
+      conversations: oldConversations = [],
+      pinnedConversations: oldPinnedConversations = [],
+      archivedConversations: oldArchivedConversations = [],
+      showArchived: oldShowArchived,
+    } = oldProps;
+    const {
+      conversations: newConversations = [],
+      pinnedConversations: newPinnedConversations = [],
+      archivedConversations: newArchivedConversations = [],
+      showArchived: newShowArchived,
+    } = this.props;
 
-    const oldLength = (oldPinned && oldPinned.length) || 0;
-    const newLength = (pinned && pinned.length) || 0;
+    const oldHasArchivedConversations = Boolean(
+      oldArchivedConversations.length
+    );
+    const newHasArchivedConversations = Boolean(
+      newArchivedConversations.length
+    );
 
-    if (oldLength !== newLength) {
+    // This could probably be optimized further, but we want to be extra-careful that our
+    //   heights are correct.
+    if (
+      oldConversations.length !== newConversations.length ||
+      oldPinnedConversations.length !== newPinnedConversations.length ||
+      oldHasArchivedConversations !== newHasArchivedConversations ||
+      oldShowArchived !== newShowArchived
+    ) {
       this.recomputeRowHeights();
     }
   }
