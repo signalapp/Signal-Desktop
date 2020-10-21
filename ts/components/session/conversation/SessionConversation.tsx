@@ -25,6 +25,7 @@ import { Message } from '../../conversation/media-gallery/types/Message';
 import { AttachmentType } from '../../../types/Attachment';
 import { ToastUtils } from '../../../session/utils';
 import * as MIME from '../../../types/MIME';
+import { SessionFileDropzone } from './SessionFileDropzone';
 
 interface State {
   conversationKey: string;
@@ -56,6 +57,7 @@ interface State {
   infoViewState?: 'safetyNumber' | 'messageDetails';
 
   stagedAttachments: Array<StagedAttachmentType>;
+  isDraggingFile: boolean;
 
   // quoted message
   quotedMessageTimestamp?: number;
@@ -72,6 +74,8 @@ interface Props {
 
 export class SessionConversation extends React.Component<Props, State> {
   private readonly compositionBoxRef: React.RefObject<HTMLDivElement>;
+  private readonly messageContainerRef: React.RefObject<HTMLDivElement>;
+  private dragCounter: number;
 
   constructor(props: any) {
     super(props);
@@ -102,8 +106,11 @@ export class SessionConversation extends React.Component<Props, State> {
       showOptionsPane: false,
       infoViewState: undefined,
       stagedAttachments: [],
+      isDraggingFile: false,
     };
     this.compositionBoxRef = React.createRef();
+    this.messageContainerRef = React.createRef();
+    this.dragCounter = 0;
 
     // Group settings panel
     this.toggleGroupSettingsPane = this.toggleGroupSettingsPane.bind(this);
@@ -138,6 +145,10 @@ export class SessionConversation extends React.Component<Props, State> {
     this.addAttachments = this.addAttachments.bind(this);
     this.removeAttachment = this.removeAttachment.bind(this);
     this.onChoseAttachments = this.onChoseAttachments.bind(this);
+    this.handleDragIn = this.handleDragIn.bind(this);
+    this.handleDragOut = this.handleDragOut.bind(this);
+    this.handleDrag = this.handleDrag.bind(this);
+    this.handleDrop = this.handleDrop.bind(this);
 
     const conversationModel = window.ConversationController.getOrThrow(
       this.state.conversationKey
@@ -161,12 +172,29 @@ export class SessionConversation extends React.Component<Props, State> {
     this.setState({ initialFetchComplete: true });
   }
 
+  public componentWillUnmount() {
+    const div = this.messageContainerRef.current;
+    div?.removeEventListener('dragenter', this.handleDragIn);
+    div?.removeEventListener('dragleave', this.handleDragOut);
+    div?.removeEventListener('dragover', this.handleDrag);
+    div?.removeEventListener('drop', this.handleDrop);
+  }
+
   public componentDidMount() {
     // Pause thread to wait for rendering to complete
     setTimeout(() => {
-      this.setState({
-        doneInitialScroll: true,
-      });
+      this.setState(
+        {
+          doneInitialScroll: true,
+        },
+        () => {
+          const div = this.messageContainerRef.current;
+          div?.addEventListener('dragenter', this.handleDragIn);
+          div?.addEventListener('dragleave', this.handleDragOut);
+          div?.addEventListener('dragover', this.handleDrag);
+          div?.addEventListener('drop', this.handleDrop);
+        }
+      );
     }, 100);
   }
 
@@ -200,7 +228,6 @@ export class SessionConversation extends React.Component<Props, State> {
 
     const showSafetyNumber = this.state.infoViewState === 'safetyNumber';
     const showMessageDetails = this.state.infoViewState === 'messageDetails';
-    const messagesListProps = this.getMessagesListProps();
 
     return (
       <SessionTheme theme={this.props.theme}>
@@ -238,11 +265,12 @@ export class SessionConversation extends React.Component<Props, State> {
           {lightBoxOptions?.media && this.renderLightBox(lightBoxOptions)}
 
           <div className="conversation-messages">
-            <SessionConversationMessagesList {...messagesListProps} />
+            <SessionConversationMessagesList {...this.getMessagesListProps()} />
 
             {showRecordingView && (
               <div className="conversation-messages__blocking-overlay" />
             )}
+            {this.state.isDraggingFile && <SessionFileDropzone />}
           </div>
 
           {!isRss && (
@@ -504,7 +532,7 @@ export class SessionConversation extends React.Component<Props, State> {
       replyToMessage: this.replyToMessage,
       doneInitialScroll: this.state.doneInitialScroll,
       onClickAttachment: this.onClickAttachment,
-      handleFilesDropped: this.onChoseAttachments,
+      messageContainerRef: this.messageContainerRef,
     };
   }
 
@@ -883,6 +911,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
   private addAttachments(newAttachments: Array<StagedAttachmentType>) {
     const { stagedAttachments } = this.state;
+    let newAttachmentsFiltered: Array<StagedAttachmentType> = [];
     if (newAttachments?.length > 0) {
       if (
         newAttachments.some(a => a.isVoiceMessage) &&
@@ -890,10 +919,14 @@ export class SessionConversation extends React.Component<Props, State> {
       ) {
         throw new Error('A voice note cannot be sent with other attachments');
       }
+      // do not add already added attachments
+      newAttachmentsFiltered = newAttachments.filter(
+        a => !stagedAttachments.some(b => b.file.path === a.file.path)
+      );
     }
 
     this.setState({
-      stagedAttachments: [...stagedAttachments, ...newAttachments],
+      stagedAttachments: [...stagedAttachments, ...newAttachmentsFiltered],
     });
   }
 
@@ -1133,6 +1166,42 @@ export class SessionConversation extends React.Component<Props, State> {
           url: '',
         },
       ]);
+    }
+  }
+
+  private handleDrag(e: any) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  private handleDragIn(e: any) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.dragCounter++;
+    if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
+      this.setState({ isDraggingFile: true });
+    }
+  }
+
+  private handleDragOut(e: any) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.dragCounter--;
+
+    if (this.dragCounter === 0) {
+      this.setState({ isDraggingFile: false });
+    }
+  }
+
+  private handleDrop(e: DragEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (e?.dataTransfer?.files && e.dataTransfer.files.length > 0) {
+      void this.onChoseAttachments(e.dataTransfer.files);
+      e.dataTransfer.clearData();
+      this.dragCounter = 0;
+      this.setState({ isDraggingFile: false });
     }
   }
 }

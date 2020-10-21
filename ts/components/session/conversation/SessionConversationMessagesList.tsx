@@ -8,7 +8,6 @@ import { ResetSessionNotification } from '../../conversation/ResetSessionNotific
 import { Constants } from '../../../session';
 import _ from 'lodash';
 import { ConversationModel } from '../../../../js/models/conversations';
-import { SessionFileDropzone } from './SessionFileDropzone';
 
 interface State {
   isScrolledToBottom: boolean;
@@ -24,6 +23,7 @@ interface Props {
   initialFetchComplete: boolean;
   conversationModel: ConversationModel;
   conversation: any;
+  messageContainerRef: React.RefObject<any>;
   selectMessage: (messageId: string) => void;
   getMessages: (
     numMessages: number,
@@ -31,7 +31,6 @@ interface Props {
   ) => Promise<{ previousTopMessage: string }>;
   replyToMessage: (messageId: number) => Promise<void>;
   onClickAttachment: (attachment: any, message: any) => void;
-  handleFilesDropped: (droppedFiles: FileList) => void;
 }
 
 export class SessionConversationMessagesList extends React.Component<
@@ -39,7 +38,7 @@ export class SessionConversationMessagesList extends React.Component<
   State
 > {
   private readonly messagesEndRef: React.RefObject<HTMLDivElement>;
-  private readonly messageContainerRef: React.RefObject<HTMLDivElement>;
+  private readonly messageContainerRef: React.RefObject<any>;
 
   public constructor(props: Props) {
     super(props);
@@ -55,7 +54,7 @@ export class SessionConversationMessagesList extends React.Component<
     this.scrollToBottom = this.scrollToBottom.bind(this);
 
     this.messagesEndRef = React.createRef();
-    this.messageContainerRef = React.createRef();
+    this.messageContainerRef = this.props.messageContainerRef;
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -100,24 +99,19 @@ export class SessionConversationMessagesList extends React.Component<
       return <div className="messages-container__loading" />;
     }
     return (
-      <>
-        <div
-          className="messages-container"
-          onScroll={this.handleScroll}
-          ref={this.messageContainerRef}
-        >
-          {this.renderMessages(messages)}
-          <div ref={this.messagesEndRef} />
-        </div>
+      <div
+        className="messages-container"
+        onScroll={this.handleScroll}
+        ref={this.messageContainerRef}
+      >
+        {this.renderMessages(messages)}
+        <div ref={this.messagesEndRef} />
+
         <SessionScrollButton
           show={showScrollButton}
           onClick={this.scrollToBottom}
         />
-        <SessionFileDropzone
-          handleDrop={this.props.handleFilesDropped}
-          handleWheel={this.handleScroll}
-        />
-      </>
+      </div>
     );
   }
 
@@ -237,7 +231,8 @@ export class SessionConversationMessagesList extends React.Component<
     const { length } = messages;
 
     const viewportBottom =
-      messageContainer?.clientHeight + messageContainer?.scrollTop || 0;
+      (messageContainer?.clientHeight as number) +
+        (messageContainer?.scrollTop as number) || 0;
 
     // Start with the most recent message, search backwards in time
     let foundUnread = 0;
