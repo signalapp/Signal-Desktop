@@ -240,14 +240,14 @@ export function unifiedToEmoji(unified: string): string {
     .join('');
 }
 
-export function convertShortName(
+export function convertShortNameToData(
   shortName: string,
   skinTone: number | SkinToneKey = 0
-): string {
+): EmojiData | undefined {
   const base = dataByShortName[shortName];
 
   if (!base) {
-    return '';
+    return undefined;
   }
 
   const toneKey = is.number(skinTone) ? skinTones[skinTone - 1] : skinTone;
@@ -255,11 +255,27 @@ export function convertShortName(
   if (skinTone && base.skin_variations) {
     const variation = base.skin_variations[toneKey];
     if (variation) {
-      return unifiedToEmoji(variation.unified);
+      return {
+        ...base,
+        ...variation,
+      };
     }
   }
 
-  return unifiedToEmoji(base.unified);
+  return base;
+}
+
+export function convertShortName(
+  shortName: string,
+  skinTone: number | SkinToneKey = 0
+): string {
+  const emojiData = convertShortNameToData(shortName, skinTone);
+
+  if (!emojiData) {
+    return '';
+  }
+
+  return unifiedToEmoji(emojiData.unified);
 }
 
 export function emojiToImage(emoji: string): string | undefined {

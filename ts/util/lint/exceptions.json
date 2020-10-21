@@ -1764,7 +1764,7 @@
     "line": "function load() {",
     "lineNumber": 156,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
+    "updated": "2020-10-21T00:36:11.618Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -1773,7 +1773,7 @@
     "line": "exports.enable(load());",
     "lineNumber": 248,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
+    "updated": "2020-10-21T00:36:11.618Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -2725,230 +2725,6 @@
     "reasonCategory": "falseMatch",
     "updated": "2020-08-26T00:10:28.628Z",
     "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "React-findDOMNode",
-    "path": "node_modules/draft-js/dist/Draft.js",
-    "line": "\t    var blockNode = ReactDOM.findDOMNode(this);",
-    "lineNumber": 3773,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/draft-js/dist/Draft.js",
-    "line": "\t    doc.documentElement.innerHTML = html;",
-    "lineNumber": 5535,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "React-findDOMNode",
-    "path": "node_modules/draft-js/dist/Draft.js",
-    "line": "\t      var editorNode = ReactDOM.findDOMNode(_this.editor);",
-    "lineNumber": 7047,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "React-findDOMNode",
-    "path": "node_modules/draft-js/dist/Draft.js",
-    "line": "\t      var editorNode = ReactDOM.findDOMNode(_this.editor);",
-    "lineNumber": 7081,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/draft-js/dist/Draft.js",
-    "line": "\t   * Resetting innerHTML will move focus to the beginning of the editor,",
-    "lineNumber": 7570,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "React-findDOMNode",
-    "path": "node_modules/draft-js/dist/Draft.js",
-    "line": "\t    var node = ReactDOM.findDOMNode(this);",
-    "lineNumber": 8140,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "React-findDOMNode",
-    "path": "node_modules/draft-js/dist/Draft.js",
-    "line": "\t    var leafNode = ReactDOM.findDOMNode(this.leaf);",
-    "lineNumber": 8168,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "React-findDOMNode",
-    "path": "node_modules/draft-js/dist/Draft.js",
-    "line": "\t    var node = ReactDOM.findDOMNode(this);",
-    "lineNumber": 8406,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "React-findDOMNode",
-    "path": "node_modules/draft-js/dist/Draft.js",
-    "line": "\t  var editorNode = ReactDOM.findDOMNode(editor.editorContainer);",
-    "lineNumber": 10608,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "DOM-outerHTML",
-    "path": "node_modules/draft-js/dist/Draft.js",
-    "line": "\t  return anonymized.outerHTML;",
-    "lineNumber": 12689,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "React-findDOMNode",
-    "path": "node_modules/draft-js/dist/Draft.min.js",
-    "lineNumber": 16,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/draft-js/dist/Draft.min.js",
-    "lineNumber": 16,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/draft-js/dist/Draft.min.js",
-    "lineNumber": 17,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "React-findDOMNode",
-    "path": "node_modules/draft-js/dist/Draft.min.js",
-    "lineNumber": 17,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "React-findDOMNode",
-    "path": "node_modules/draft-js/dist/Draft.min.js",
-    "lineNumber": 18,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "DOM-outerHTML",
-    "path": "node_modules/draft-js/dist/Draft.min.js",
-    "lineNumber": 19,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "React-findDOMNode",
-    "path": "node_modules/draft-js/lib/DraftEditor.react.js",
-    "line": "      var editorNode = ReactDOM.findDOMNode(_this.editor);",
-    "lineNumber": 82,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "React-findDOMNode",
-    "path": "node_modules/draft-js/lib/DraftEditor.react.js",
-    "line": "      var editorNode = ReactDOM.findDOMNode(_this.editor);",
-    "lineNumber": 116,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "React-findDOMNode",
-    "path": "node_modules/draft-js/lib/DraftEditorBlock.react.js",
-    "line": "    var blockNode = ReactDOM.findDOMNode(this);",
-    "lineNumber": 92,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "React-findDOMNode",
-    "path": "node_modules/draft-js/lib/DraftEditorBlockNode.react.js",
-    "line": "    var blockNode = ReactDOM.findDOMNode(this);",
-    "lineNumber": 215,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/draft-js/lib/DraftEditorCompositionHandler.js",
-    "line": "   * Resetting innerHTML will move focus to the beginning of the editor,",
-    "lineNumber": 128,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "React-findDOMNode",
-    "path": "node_modules/draft-js/lib/DraftEditorLeaf.react.js",
-    "line": "    var node = ReactDOM.findDOMNode(this);",
-    "lineNumber": 72,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "React-findDOMNode",
-    "path": "node_modules/draft-js/lib/DraftEditorLeaf.react.js",
-    "line": "    var leafNode = ReactDOM.findDOMNode(this.leaf);",
-    "lineNumber": 100,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "React-findDOMNode",
-    "path": "node_modules/draft-js/lib/DraftEditorTextNode.react.js",
-    "line": "    var node = ReactDOM.findDOMNode(this);",
-    "lineNumber": 84,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "React-findDOMNode",
-    "path": "node_modules/draft-js/lib/editOnSelect.js",
-    "line": "  var editorNode = ReactDOM.findDOMNode(editor.editorContainer);",
-    "lineNumber": 28,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/draft-js/lib/getSafeBodyFromHTML.js",
-    "line": "    doc.documentElement.innerHTML = html;",
-    "lineNumber": 33,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "DOM-outerHTML",
-    "path": "node_modules/draft-js/lib/setDraftEditorSelection.js",
-    "line": "  return anonymized.outerHTML;",
-    "lineNumber": 33,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/draft-js/node_modules/immutable/dist/immutable.min.js",
-    "lineNumber": 11,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/draft-js/node_modules/immutable/dist/immutable.min.js",
-    "lineNumber": 23,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-20T20:21:33.456Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -5799,27 +5575,6 @@
     "lineNumber": 186,
     "reasonCategory": "falseMatch",
     "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/immutable/dist/immutable.min.js",
-    "lineNumber": 9,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/immutable/dist/immutable.min.js",
-    "lineNumber": 21,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/immutable/dist/immutable.min.js",
-    "lineNumber": 34,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-20T20:21:33.456Z"
   },
   {
     "rule": "jQuery-$(",
@@ -11761,6 +11516,375 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/dist/parchment.js",
+    "line": "        this.insertBefore(other);",
+    "lineNumber": 322,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/dist/parchment.js",
+    "line": "                _this.insertBefore(child, _this.children.head || undefined);",
+    "lineNumber": 340,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/dist/parchment.js",
+    "line": "            targetParent.insertBefore(child, refNode);",
+    "lineNumber": 425,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/dist/parchment.js",
+    "line": "        this.parent.insertBefore(after, this.next);",
+    "lineNumber": 471,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/dist/parchment.js",
+    "line": "                _this.insertBefore(blot, refBlot || undefined);",
+    "lineNumber": 531,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/parchment/dist/parchment.js",
+    "line": "            blot.wrap(name, value);",
+    "lineNumber": 766,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/parchment/dist/parchment.js",
+    "line": "            blot.wrap(parent_1);",
+    "lineNumber": 770,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/dist/parchment.js",
+    "line": "        this.parent.insertBefore(blot, ref);",
+    "lineNumber": 777,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/dist/parchment.js",
+    "line": "        parentBlot.children.insertBefore(this, refBlot);",
+    "lineNumber": 785,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/dist/parchment.js",
+    "line": "            parentBlot.domNode.insertBefore(this.domNode, refDomNode);",
+    "lineNumber": 791,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/dist/parchment.js",
+    "line": "        target.parent.insertBefore(this, target.next);",
+    "lineNumber": 827,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/dist/parchment.js",
+    "line": "            this.parent.insertBefore(wrapper, this.next);",
+    "lineNumber": 844,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/dist/parchment.js",
+    "line": "        this.insertBefore(nodes[0], null);",
+    "lineNumber": 1126,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/parchment/dist/parchment.js",
+    "line": "                    child = child.wrap(InlineBlot.blotName, true);",
+    "lineNumber": 1480,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/dist/parchment.js",
+    "line": "            after.parent.insertBefore(blot, after);",
+    "lineNumber": 1576,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/dist/parchment.js",
+    "line": "        this.parent.insertBefore(after, this.next);",
+    "lineNumber": 1724,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/parchment/src/blot/abstract/blot.ts",
+    "line": "  wrap(name: string, value: any): Parent;",
+    "lineNumber": 22,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/parchment/src/blot/abstract/blot.ts",
+    "line": "  wrap(wrapper: Parent): Parent;",
+    "lineNumber": 23,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/src/blot/abstract/blot.ts",
+    "line": "  insertBefore(child: Blot, refNode?: Blot): void;",
+    "lineNumber": 42,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/src/blot/abstract/container.ts",
+    "line": "    this.insertBefore(other);",
+    "lineNumber": 19,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/src/blot/abstract/container.ts",
+    "line": "          this.insertBefore(child, this.children.head || undefined);",
+    "lineNumber": 38,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/src/blot/abstract/container.ts",
+    "line": "  insertBefore(childBlot: Blot, refBlot?: Blot): void {",
+    "lineNumber": 114,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/src/blot/abstract/container.ts",
+    "line": "      targetParent.insertBefore(child, refNode);",
+    "lineNumber": 136,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/src/blot/abstract/container.ts",
+    "line": "    this.parent.insertBefore(after, this.next);",
+    "lineNumber": 181,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/src/blot/abstract/container.ts",
+    "line": "          this.insertBefore(blot, refBlot || undefined);",
+    "lineNumber": 242,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/parchment/src/blot/abstract/format.ts",
+    "line": "  wrap(name: string | Parent, value?: any): Parent {",
+    "lineNumber": 62,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/parchment/src/blot/abstract/format.ts",
+    "line": "    let wrapper = super.wrap(name, value);",
+    "lineNumber": 63,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/parchment/src/blot/abstract/shadow.ts",
+    "line": "      blot.wrap(name, value);",
+    "lineNumber": 82,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/parchment/src/blot/abstract/shadow.ts",
+    "line": "      blot.wrap(parent);",
+    "lineNumber": 85,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/src/blot/abstract/shadow.ts",
+    "line": "    this.parent.insertBefore(blot, ref);",
+    "lineNumber": 93,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/src/blot/abstract/shadow.ts",
+    "line": "    parentBlot.children.insertBefore(this, refBlot);",
+    "lineNumber": 101,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/src/blot/abstract/shadow.ts",
+    "line": "      parentBlot.domNode.insertBefore(this.domNode, refDomNode);",
+    "lineNumber": 107,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/src/blot/abstract/shadow.ts",
+    "line": "    target.parent.insertBefore(this, target.next);",
+    "lineNumber": 146,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/parchment/src/blot/abstract/shadow.ts",
+    "line": "  wrap(name: string | Parent, value?: any): Parent {",
+    "lineNumber": 164,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/src/blot/abstract/shadow.ts",
+    "line": "      this.parent.insertBefore(wrapper, this.next);",
+    "lineNumber": 167,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/src/blot/block.ts",
+    "line": "      after.parent.insertBefore(blot, after);",
+    "lineNumber": 40,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/parchment/src/blot/inline.ts",
+    "line": "          child = child.wrap(InlineBlot.blotName, true);",
+    "lineNumber": 31,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/src/blot/text.ts",
+    "line": "    this.parent.insertBefore(after, this.next);",
+    "lineNumber": 73,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/parchment/src/collection/linked-list.ts",
+    "line": "  append(...nodes: T[]): void {",
+    "lineNumber": 13,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/src/collection/linked-list.ts",
+    "line": "    this.insertBefore(nodes[0], null);",
+    "lineNumber": 14,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parchment/src/collection/linked-list.ts",
+    "line": "  insertBefore(node: T | null, refNode: T | null): void {",
+    "lineNumber": 29,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/parse-entities/decode-entity.browser.js",
     "line": "  el.innerHTML = entity",
@@ -12159,6 +12283,1119 @@
     "updated": "2018-09-15T00:38:04.183Z"
   },
   {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/blots/block.js",
+    "line": "      this.parent.insertBefore(block, index === 0 ? this : this.next);",
+    "lineNumber": 36,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/blots/block.js",
+    "line": "  insertBefore(blot, ref) {",
+    "lineNumber": 104,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/blots/block.js",
+    "line": "    super.insertBefore(blot, ref);",
+    "lineNumber": 106,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/blots/block.js",
+    "line": "        this.parent.insertBefore(clone, this);",
+    "lineNumber": 143,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/blots/block.js",
+    "line": "        this.parent.insertBefore(clone, this.next);",
+    "lineNumber": 146,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/blots/cursor.js",
+    "line": "      this.domNode.parentNode.insertBefore(this.domNode.lastChild, this.domNode);",
+    "lineNumber": 68,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/blots/cursor.js",
+    "line": "        this.parent.insertBefore(Parchment.create(this.textNode), this);",
+    "lineNumber": 78,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/blots/embed.js",
+    "line": "        this.parent.insertBefore(Parchment.create(textNode), this);",
+    "lineNumber": 41,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/blots/embed.js",
+    "line": "        this.parent.insertBefore(Parchment.create(textNode), this.next);",
+    "lineNumber": 56,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/quill/blots/inline.js",
+    "line": "        blot.wrap(name, value);",
+    "lineNumber": 24,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/quill/blots/inline.js",
+    "line": "      parent.wrap(this);",
+    "lineNumber": 37,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/blots/scroll.js",
+    "line": "  insertBefore(blot, ref) {",
+    "lineNumber": 100,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/blots/scroll.js",
+    "line": "    super.insertBefore(blot, ref);",
+    "lineNumber": 106,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/core/quill.js",
+    "line": "    let html = this.container.innerHTML.trim();",
+    "lineNumber": 68,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/core/quill.js",
+    "line": "    this.container.innerHTML = '';",
+    "lineNumber": 70,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/core/quill.js",
+    "line": "    this.container.insertBefore(container, refNode);",
+    "lineNumber": 117,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/core/selection.js",
+    "line": "        blot.parent.insertBefore(this.cursor, after);",
+    "lineNumber": 104,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/core/selection.js",
+    "line": "        blot.insertBefore(this.cursor, nativeRange.start.node);  // Should never happen",
+    "lineNumber": 106,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "        this.parent.insertBefore(block, index === 0 ? this : this.next);",
+    "lineNumber": 842,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "    value: function insertBefore(blot, ref) {",
+    "lineNumber": 926,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "          this.parent.insertBefore(clone, this);",
+    "lineNumber": 973,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "          this.parent.insertBefore(clone, this.next);",
+    "lineNumber": 976,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "    var html = this.container.innerHTML.trim();",
+    "lineNumber": 1144,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "    this.container.innerHTML = '';",
+    "lineNumber": 1146,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "      this.container.insertBefore(container, refNode);",
+    "lineNumber": 1197,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "          blot.wrap(name, value);",
+    "lineNumber": 1793,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "        parent.wrap(this);",
+    "lineNumber": 1806,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "          blot.parent.insertBefore(this.cursor, after);",
+    "lineNumber": 2944,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "          blot.insertBefore(this.cursor, nativeRange.start.node); // Should never happen",
+    "lineNumber": 2946,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "        this.insertBefore(other);",
+    "lineNumber": 3374,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "                _this.insertBefore(child, _this.children.head || undefined);",
+    "lineNumber": 3392,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "            targetParent.insertBefore(child, refNode);",
+    "lineNumber": 3477,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "        this.parent.insertBefore(after, this.next);",
+    "lineNumber": 3523,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "                _this.insertBefore(blot, refBlot || undefined);",
+    "lineNumber": 3583,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "    value: function insertBefore(blot, ref) {",
+    "lineNumber": 4330,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "        this.domNode.parentNode.insertBefore(this.domNode.lastChild, this.domNode);",
+    "lineNumber": 5146,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "          this.parent.insertBefore(_parchment2.default.create(this.textNode), this);",
+    "lineNumber": 5156,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "            blot.wrap(name, value);",
+    "lineNumber": 5477,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "            blot.wrap(parent);",
+    "lineNumber": 5481,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "        this.parent.insertBefore(blot, ref);",
+    "lineNumber": 5488,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "        parentBlot.children.insertBefore(this, refBlot);",
+    "lineNumber": 5496,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "            parentBlot.domNode.insertBefore(this.domNode, refDomNode);",
+    "lineNumber": 5502,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "        target.parent.insertBefore(this, target.next);",
+    "lineNumber": 5538,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "            this.parent.insertBefore(wrapper, this.next);",
+    "lineNumber": 5555,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "          this.parent.insertBefore(_parchment2.default.create(textNode), this);",
+    "lineNumber": 5902,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "          this.parent.insertBefore(_parchment2.default.create(textNode), this.next);",
+    "lineNumber": 5917,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "        this.insertBefore(nodes[0], null);",
+    "lineNumber": 6314,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "                    child = child.wrap(InlineBlot.blotName, true);",
+    "lineNumber": 6668,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "            after.parent.insertBefore(blot, after);",
+    "lineNumber": 6764,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "        this.parent.insertBefore(after, this.next);",
+    "lineNumber": 6912,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "        this.container.innerHTML = html.replace(/\\>\\r?\\n +\\</g, '><'); // Remove spaces between tags",
+    "lineNumber": 8224,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "        this.container.innerHTML = '';",
+    "lineNumber": 8230,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "      debug.log('convert', this.container.innerHTML, delta);",
+    "lineNumber": 8244,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/dist/quill.core.js",
+    "line": "      this.container.innerHTML = '';",
+    "lineNumber": 8245,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "        this.parent.insertBefore(block, index === 0 ? this : this.next);",
+    "lineNumber": 842,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "    value: function insertBefore(blot, ref) {",
+    "lineNumber": 926,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "          this.parent.insertBefore(clone, this);",
+    "lineNumber": 973,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "          this.parent.insertBefore(clone, this.next);",
+    "lineNumber": 976,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "    var html = this.container.innerHTML.trim();",
+    "lineNumber": 1144,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "    this.container.innerHTML = '';",
+    "lineNumber": 1146,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "      this.container.insertBefore(container, refNode);",
+    "lineNumber": 1197,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "          blot.wrap(name, value);",
+    "lineNumber": 1793,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "        parent.wrap(this);",
+    "lineNumber": 1806,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "          blot.parent.insertBefore(this.cursor, after);",
+    "lineNumber": 2944,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "          blot.insertBefore(this.cursor, nativeRange.start.node); // Should never happen",
+    "lineNumber": 2946,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "        this.insertBefore(other);",
+    "lineNumber": 3374,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "                _this.insertBefore(child, _this.children.head || undefined);",
+    "lineNumber": 3392,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "            targetParent.insertBefore(child, refNode);",
+    "lineNumber": 3477,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "        this.parent.insertBefore(after, this.next);",
+    "lineNumber": 3523,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "                _this.insertBefore(blot, refBlot || undefined);",
+    "lineNumber": 3583,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "    value: function insertBefore(blot, ref) {",
+    "lineNumber": 4330,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "        this.domNode.parentNode.insertBefore(this.domNode.lastChild, this.domNode);",
+    "lineNumber": 5146,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "          this.parent.insertBefore(_parchment2.default.create(this.textNode), this);",
+    "lineNumber": 5156,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "    this.select.parentNode.insertBefore(this.container, this.select);",
+    "lineNumber": 5443,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "      label.innerHTML = _dropdown2.default;",
+    "lineNumber": 5517,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "            blot.wrap(name, value);",
+    "lineNumber": 5799,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "            blot.wrap(parent);",
+    "lineNumber": 5803,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "        this.parent.insertBefore(blot, ref);",
+    "lineNumber": 5810,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "        parentBlot.children.insertBefore(this, refBlot);",
+    "lineNumber": 5818,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "            parentBlot.domNode.insertBefore(this.domNode, refDomNode);",
+    "lineNumber": 5824,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "        target.parent.insertBefore(this, target.next);",
+    "lineNumber": 5860,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "            this.parent.insertBefore(wrapper, this.next);",
+    "lineNumber": 5877,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "          this.parent.insertBefore(_parchment2.default.create(textNode), this);",
+    "lineNumber": 6224,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "          this.parent.insertBefore(_parchment2.default.create(textNode), this.next);",
+    "lineNumber": 6239,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "            button.innerHTML = icons[name][''] + icons[name]['rtl'];",
+    "lineNumber": 6790,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "            button.innerHTML = icons[name];",
+    "lineNumber": 6792,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "              button.innerHTML = icons[name][value];",
+    "lineNumber": 6796,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "        this.insertBefore(nodes[0], null);",
+    "lineNumber": 7034,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "                    child = child.wrap(InlineBlot.blotName, true);",
+    "lineNumber": 7388,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "            after.parent.insertBefore(blot, after);",
+    "lineNumber": 7484,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "        this.parent.insertBefore(after, this.next);",
+    "lineNumber": 7632,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "        this.container.innerHTML = html.replace(/\\>\\r?\\n +\\</g, '><'); // Remove spaces between tags",
+    "lineNumber": 8944,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "        this.container.innerHTML = '';",
+    "lineNumber": 8950,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "      debug.log('convert', this.container.innerHTML, delta);",
+    "lineNumber": 8964,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "      this.container.innerHTML = '';",
+    "lineNumber": 8965,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "      quill.container.parentNode.insertBefore(container, quill.container);",
+    "lineNumber": 9374,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "    _this.label.innerHTML = label;",
+    "lineNumber": 9681,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "      item.innerHTML = icons[item.getAttribute('data-value') || ''];",
+    "lineNumber": 9754,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "      this.label.innerHTML = item.innerHTML;",
+    "lineNumber": 9766,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "    this.root.innerHTML = this.constructor.TEMPLATE;",
+    "lineNumber": 9799,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "    value: function insertBefore(blot, ref) {",
+    "lineNumber": 10531,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "        after.parent.insertBefore(blot, after);",
+    "lineNumber": 10537,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "          this.domNode.innerHTML = _highlight(text);",
+    "lineNumber": 11110,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/dist/quill.min.js",
+    "lineNumber": 7,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/dist/quill.min.js",
+    "lineNumber": 7,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/quill/dist/quill.min.js",
+    "lineNumber": 7,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/formats/list.js",
+    "line": "  insertBefore(blot, ref) {",
+    "lineNumber": 92,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/formats/list.js",
+    "line": "      super.insertBefore(blot, ref);",
+    "lineNumber": 94,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/formats/list.js",
+    "line": "      after.parent.insertBefore(blot, after);",
+    "lineNumber": 98,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/modules/clipboard.js",
+    "line": "      this.container.innerHTML = html.replace(/\\>\\r?\\n +\\</g, '><'); // Remove spaces between tags",
+    "lineNumber": 77,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/modules/clipboard.js",
+    "line": "      this.container.innerHTML = '';",
+    "lineNumber": 83,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/modules/clipboard.js",
+    "line": "    debug.log('convert', this.container.innerHTML, delta);",
+    "lineNumber": 92,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/modules/clipboard.js",
+    "line": "    this.container.innerHTML = '';",
+    "lineNumber": 93,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/modules/syntax.js",
+    "line": "        this.domNode.innerHTML = highlight(text);",
+    "lineNumber": 18,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/modules/toolbar.js",
+    "line": "      quill.container.parentNode.insertBefore(container, quill.container);",
+    "lineNumber": 16,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/themes/base.js",
+    "line": "          button.innerHTML = icons[name][''] + icons[name]['rtl'];",
+    "lineNumber": 67,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/themes/base.js",
+    "line": "          button.innerHTML = icons[name];",
+    "lineNumber": 69,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/themes/base.js",
+    "line": "            button.innerHTML = icons[name][value];",
+    "lineNumber": 73,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/ui/color-picker.js",
+    "line": "    this.label.innerHTML = label;",
+    "lineNumber": 7,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/ui/icon-picker.js",
+    "line": "      item.innerHTML = icons[item.getAttribute('data-value') || ''];",
+    "lineNumber": 9,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/ui/icon-picker.js",
+    "line": "    this.label.innerHTML = item.innerHTML;",
+    "lineNumber": 18,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/quill/ui/picker.js",
+    "line": "    this.select.parentNode.insertBefore(this.container, this.select);",
+    "lineNumber": 16,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/ui/picker.js",
+    "line": "    label.innerHTML = DropdownIcon;",
+    "lineNumber": 84,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/ui/tooltip.js",
+    "line": "    this.root.innerHTML = this.constructor.TEMPLATE;",
+    "lineNumber": 6,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for quill"
+  },
+  {
     "rule": "eval",
     "path": "node_modules/raw-body/node_modules/depd/index.js",
     "line": "  var deprecatedfn = eval('(function (' + args + ') {\\n' +",
@@ -12166,6 +13403,73 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-18T19:19:27.699Z",
     "reasonDetail": "What's being eval'd is a static string, with one variable: args. Args is of the form arg1, arg2, generated programmatically."
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/react-quill/dist/react-quill.js",
+    "lineNumber": 1,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for react-quill"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/react-quill/dist/react-quill.js",
+    "lineNumber": 1,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for react-quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/react-quill/dist/react-quill.js",
+    "lineNumber": 8,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for react-quill"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/react-quill/dist/react-quill.js",
+    "lineNumber": 8,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for react-quill"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/react-quill/dist/react-quill.js",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/react-quill/lib/index.js",
+    "line": "                (_b = (_a = _this).onEditorChangeText) === null || _b === void 0 ? void 0 : _b.call(_a, _this.editor.root.innerHTML, rangeOrDelta, source, _this.unprivilegedEditor);",
+    "lineNumber": 87,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for react-quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/react-quill/lib/index.js",
+    "line": "            getHTML: function () { return e.root.innerHTML; },",
+    "lineNumber": 309,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for react-quill"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/react-quill/lib/index.js",
+    "line": "        var element = react_dom_1.default.findDOMNode(this.editingArea);",
+    "lineNumber": 321,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-13T18:36:57.012Z",
+    "reasonDetail": "necessary for react-quill"
   },
   {
     "rule": "jQuery-$(",
@@ -12913,7 +14217,7 @@
     "line": "function load() {",
     "lineNumber": 156,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T19:34:24.581Z",
+    "updated": "2020-10-21T00:36:11.618Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -12922,7 +14226,7 @@
     "line": "exports.enable(load());",
     "lineNumber": 248,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T19:34:24.581Z",
+    "updated": "2020-10-21T00:36:11.618Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -13129,7 +14433,7 @@
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.tsx",
     "line": "  el.innerHTML = '';",
-    "lineNumber": 82,
+    "lineNumber": 80,
     "reasonCategory": "usageTrusted",
     "updated": "2020-06-03T19:23:21.195Z",
     "reasonDetail": "Our code, no user input, only clearing out the dom"

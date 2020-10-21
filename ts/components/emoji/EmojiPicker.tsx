@@ -20,7 +20,10 @@ import { dataByCategory, search } from './lib';
 import { useRestoreFocus } from '../../util/hooks';
 import { LocalizerType } from '../../types/Util';
 
-export type EmojiPickDataType = { skinTone?: number; shortName: string };
+export type EmojiPickDataType = {
+  skinTone?: number;
+  shortName: string;
+};
 
 export type OwnProps = {
   readonly i18n: LocalizerType;

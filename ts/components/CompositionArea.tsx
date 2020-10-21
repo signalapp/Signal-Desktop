@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Editor } from 'draft-js';
 import { get, noop } from 'lodash';
 import classNames from 'classnames';
 import { EmojiButton, Props as EmojiButtonProps } from './emoji/EmojiButton';
@@ -47,7 +46,6 @@ export type OwnProps = {
 export type Props = Pick<
   CompositionInputProps,
   | 'onSubmit'
-  | 'onEditorSizeChange'
   | 'onEditorStateChange'
   | 'onTextTooLong'
   | 'startingText'
@@ -90,7 +88,6 @@ export const CompositionArea = ({
   // CompositionInput
   onSubmit,
   compositionApi,
-  onEditorSizeChange,
   onEditorStateChange,
   onTextTooLong,
   startingText,
@@ -137,7 +134,6 @@ export const CompositionArea = ({
   const [micActive, setMicActive] = React.useState(false);
   const [dirty, setDirty] = React.useState(false);
   const [large, setLarge] = React.useState(false);
-  const editorRef = React.useRef<Editor>(null);
   const inputApiRef = React.useRef<InputApi | undefined>();
 
   const handleForceSend = React.useCallback(() => {
@@ -156,10 +152,10 @@ export const CompositionArea = ({
   );
 
   const focusInput = React.useCallback(() => {
-    if (editorRef.current) {
-      editorRef.current.focus();
+    if (inputApiRef.current) {
+      inputApiRef.current.focus();
     }
-  }, [editorRef]);
+  }, [inputApiRef]);
 
   const withStickers =
     countStickers({
@@ -413,11 +409,9 @@ export const CompositionArea = ({
             i18n={i18n}
             disabled={disabled}
             large={large}
-            editorRef={editorRef}
             inputApi={inputApiRef}
             onPickEmoji={onPickEmoji}
             onSubmit={handleSubmit}
-            onEditorSizeChange={onEditorSizeChange}
             onEditorStateChange={onEditorStateChange}
             onTextTooLong={onTextTooLong}
             onDirtyChange={setDirty}

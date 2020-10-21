@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import 'draft-js/dist/Draft.css';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { boolean, date, select, text } from '@storybook/addon-knobs';

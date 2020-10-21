@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import 'draft-js/dist/Draft.css';
+import 'react-quill/dist/quill.core.css';
 import { boolean, select } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -17,7 +17,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
   disabled: boolean('disabled', overrideProps.disabled || false),
   onSubmit: action('onSubmit'),
-  onEditorSizeChange: action('onEditorSizeChange'),
   onEditorStateChange: action('onEditorStateChange'),
   onTextTooLong: action('onTextTooLong'),
   startingText: overrideProps.startingText || undefined,

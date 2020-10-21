@@ -56,7 +56,7 @@ export const Emoji = React.memo(
           style={{ ...style, ...backgroundStyle }}
         >
           {inline ? (
-            // When using this component as a draft.js decorator it is very
+            // When using this component as in a CompositionInput it is very
             // important that these children are the only elements to render
             children
           ) : (

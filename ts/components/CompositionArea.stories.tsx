@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import 'draft-js/dist/Draft.css';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { boolean } from '@storybook/addon-knobs';
@@ -32,7 +31,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   onChooseAttachment: action('onChooseAttachment'),
   // CompositionInput
   onSubmit: action('onSubmit'),
-  onEditorSizeChange: action('onEditorSizeChange'),
   onEditorStateChange: action('onEditorStateChange'),
   onTextTooLong: action('onTextTooLong'),
   startingText: overrideProps.startingText || undefined,

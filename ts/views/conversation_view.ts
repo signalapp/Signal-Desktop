@@ -2210,11 +2210,6 @@ Whisper.ConversationView = Whisper.View.extend({
     }
   },
 
-  focusMessageFieldAndClearDisabled() {
-    this.compositionApi.current.setDisabled(false);
-    this.focusMessageField();
-  },
-
   disableMessageField() {
     this.compositionApi.current.setDisabled(true);
   },
@@ -2928,7 +2923,7 @@ Whisper.ConversationView = Whisper.View.extend({
       if (message) {
         this.quote = await this.model.makeQuote(this.quotedMessage);
 
-        this.focusMessageFieldAndClearDisabled();
+        this.enableMessageField();
       }
     }
 
@@ -2993,11 +2988,11 @@ Whisper.ConversationView = Whisper.View.extend({
           return;
         }
 
-        this.focusMessageFieldAndClearDisabled();
+        this.enableMessageField();
         return;
       }
     } catch (error) {
-      this.focusMessageFieldAndClearDisabled();
+      this.enableMessageField();
       window.log.error(
         'sendMessage error:',
         error && error.stack ? error.stack : error
@@ -3033,7 +3028,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
     if (ToastView) {
       this.showToast(ToastView);
-      this.focusMessageFieldAndClearDisabled();
+      this.enableMessageField();
       return;
     }
 
@@ -3070,7 +3065,7 @@ Whisper.ConversationView = Whisper.View.extend({
         error && error.stack ? error.stack : error
       );
     } finally {
-      this.focusMessageFieldAndClearDisabled();
+      this.enableMessageField();
     }
   },
 

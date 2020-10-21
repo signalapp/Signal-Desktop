@@ -8652,20 +8652,32 @@ button.module-image__border-overlay:focus {
 
 // Module: CompositionInput
 .module-composition-input {
-  &__input {
-    @include font-body-1;
+  &__quill {
+    height: 100%;
 
+    .ql-editor {
+      padding: 0;
+
+      &.ql-blank::before {
+        left: 0;
+        right: 0;
+        font-style: normal;
+      }
+    }
+  }
+
+  &__input {
     border: none;
     border-radius: 18px;
     overflow: hidden;
     word-break: break-word;
 
-    &:placeholder {
-      color: $color-gray-45;
+    // Override Quill styles
+    .ql-container {
+      @include font-body-1;
     }
 
-    // Override draft.js styles
-    .public-DraftEditorPlaceholder-root {
+    .ql-blank::before {
       color: $color-gray-45;
     }
 
@@ -8744,6 +8756,10 @@ button.module-image__border-overlay:focus {
       background: none;
       border: none;
       width: 100%;
+
+      &:focus {
+        outline: 0;
+      }
 
       @include font-body-2;
 
