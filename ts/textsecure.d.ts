@@ -322,6 +322,7 @@ export declare class GroupChangeClass {
 
   actions?: ProtoBinaryType;
   serverSignature?: ProtoBinaryType;
+  changeEpoch?: number;
 }
 
 // Note: we need to use namespaces to express nested classes in Typescript

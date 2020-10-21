@@ -130,8 +130,9 @@ message GroupChange {
              ModifyMembersAccessControlAction      modifyMemberAccess              = 14; // Changed membership access control
   }
 
-  bytes actions         = 1; // The serialized actions
-  bytes serverSignature = 2; // Server’s signature over serialized actions
+  bytes  actions         = 1; // The serialized actions
+  bytes  serverSignature = 2; // Server’s signature over serialized actions
+  uint32 changeEpoch     = 3; // Allows clients to decide whether their change logic can successfully apply this diff
 }
 
 message GroupChanges {
