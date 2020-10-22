@@ -79,6 +79,7 @@
     "emoji-datasource": "5.0.1",
     "emoji-datasource-apple": "5.0.1",
     "emoji-regex": "8.0.0",
+    "encoding": "0.1.13",
     "fast-glob": "3.2.1",
     "filesize": "3.6.1",
     "firstline": "1.2.1",
