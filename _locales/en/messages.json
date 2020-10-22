@@ -2230,7 +2230,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "Toggle reaction picker for selected message",
+    "message": "Toggle emoji-reaction picker for selected message",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
