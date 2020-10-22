@@ -113,7 +113,13 @@ export default class OutgoingMessage {
     }
   }
 
-  registerError(identifier: string, reason: string, error?: Error): void {
+  registerError(
+    identifier: string,
+    reason: string,
+    providedError?: Error
+  ): void {
+    let error = providedError;
+
     if (!error || (error.name === 'HTTPError' && error.code !== 404)) {
       error = new OutgoingMessageError(
         identifier,
@@ -124,6 +130,8 @@ export default class OutgoingMessage {
     }
 
     error.reason = reason;
+    error.stackForLog = providedError ? providedError.stack : undefined;
+
     this.errors[this.errors.length] = error;
     this.numberCompleted();
   }

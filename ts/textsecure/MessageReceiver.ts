@@ -74,6 +74,7 @@ declare global {
   }
   interface Error {
     reason?: any;
+    stackForLog?: string;
     sender?: SignalProtocolAddressClass;
     senderUuid?: SignalProtocolAddressClass;
   }
