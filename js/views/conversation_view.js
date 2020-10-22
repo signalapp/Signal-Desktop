@@ -128,21 +128,7 @@
       this.loadingScreen.$el.prependTo(this.$('.discussion-container'));
 
       this.window = options.window;
-      this.fileInput = new Whisper.FileInputView({
-        el: this.$('.attachment-list'),
-      });
-      this.listenTo(
-        this.fileInput,
-        'choose-attachment',
-        this.onChooseAttachment
-      );
-      this.listenTo(this.fileInput, 'staged-attachments-changed', () => {
-        this.view.restoreBottomOffset();
-        this.toggleMicrophone();
-        if (this.fileInput.hasFiles()) {
-          this.removeLinkPreview();
-        }
-      });
+
       Whisper.events.on('mediaPermissionsChanged', () =>
         this.toggleMicrophone()
       );
