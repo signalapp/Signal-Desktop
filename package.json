@@ -107,7 +107,7 @@
     "rc-slider": "^8.7.1",
     "react": "^16.13.1",
     "react-autosize-textarea": "^7.0.0",
-    "react-contextmenu": "2.11.0",
+    "react-contexify": "^4.1.1",
     "react-dom": "16.8.3",
     "react-emoji": "^0.5.0",
     "react-emoji-render": "^1.2.4",
