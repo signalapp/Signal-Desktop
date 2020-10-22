@@ -2924,6 +2924,7 @@ Whisper.ConversationView = Whisper.View.extend({
         this.quote = await this.model.makeQuote(this.quotedMessage);
 
         this.enableMessageField();
+        this.focusMessageField();
       }
     }
 
