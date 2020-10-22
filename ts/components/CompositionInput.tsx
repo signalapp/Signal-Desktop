@@ -71,21 +71,18 @@ export interface Props {
 
 const MAX_LENGTH = 64 * 1024;
 
-export const CompositionInput: React.ComponentType<Props> = ({
-  i18n,
-  disabled,
-  large,
-  inputApi,
-  onDirtyChange,
-  onEditorStateChange,
-  onTextTooLong,
-  onPickEmoji,
-  onSubmit,
-  skinTone,
-  startingText,
-  getQuotedMessage,
-  clearQuotedMessage,
-}) => {
+export const CompositionInput: React.ComponentType<Props> = props => {
+  const {
+    i18n,
+    disabled,
+    large,
+    inputApi,
+    onPickEmoji,
+    onSubmit,
+    skinTone,
+    startingText,
+  } = props;
+
   const [emojiCompletionElement, setEmojiCompletionElement] = React.useState<
     JSX.Element
   >();
@@ -93,6 +90,7 @@ export const CompositionInput: React.ComponentType<Props> = ({
   const emojiCompletionRef = React.useRef<EmojiCompletion>();
   const quillRef = React.useRef<Quill>();
   const scrollerRef = React.useRef<HTMLDivElement>(null);
+  const propsRef = React.useRef<Props>(props);
 
   const generateDelta = (text: string): Delta => {
     const re = emojiRegex();
@@ -217,7 +215,10 @@ export const CompositionInput: React.ComponentType<Props> = ({
       return;
     }
 
-    onSubmit(getText());
+    const text = getText();
+    if (text.length > 0) {
+      onSubmit(text);
+    }
   };
 
   if (inputApi) {
@@ -231,7 +232,16 @@ export const CompositionInput: React.ComponentType<Props> = ({
     };
   }
 
-  const onEnter = React.useCallback(() => {
+  React.useEffect(() => {
+    propsRef.current = props;
+  }, [props]);
+
+  const onShortKeyEnter = () => {
+    submit();
+    return false;
+  };
+
+  const onEnter = () => {
     const quill = quillRef.current;
     const emojiCompletion = emojiCompletionRef.current;
 
@@ -248,20 +258,16 @@ export const CompositionInput: React.ComponentType<Props> = ({
       return false;
     }
 
-    if (large) {
+    if (propsRef.current.large) {
       return true;
     }
 
-    const text = getText();
-    if (text.length > 0) {
-      onSubmit(text);
-      reset();
-    }
+    submit();
 
     return false;
-  }, [large, onSubmit]);
+  };
 
-  const onTab = React.useCallback(() => {
+  const onTab = () => {
     const quill = quillRef.current;
     const emojiCompletion = emojiCompletionRef.current;
 
@@ -279,9 +285,9 @@ export const CompositionInput: React.ComponentType<Props> = ({
     }
 
     return true;
-  }, []);
+  };
 
-  const onEscape = React.useCallback(() => {
+  const onEscape = () => {
     const quill = quillRef.current;
 
     if (quill === undefined) {
@@ -297,15 +303,15 @@ export const CompositionInput: React.ComponentType<Props> = ({
       }
     }
 
-    if (getQuotedMessage()) {
-      clearQuotedMessage();
+    if (propsRef.current.getQuotedMessage()) {
+      propsRef.current.clearQuotedMessage();
       return false;
     }
 
     return true;
-  }, [getQuotedMessage, clearQuotedMessage]);
+  };
 
-  const onChange = React.useCallback(() => {
+  const onChange = () => {
     const text = getText();
     const quill = quillRef.current;
 
@@ -314,20 +320,23 @@ export const CompositionInput: React.ComponentType<Props> = ({
 
       if (text.length > MAX_LENGTH) {
         historyModule.undo();
-        onTextTooLong();
+        propsRef.current.onTextTooLong();
         return;
       }
 
-      if (onEditorStateChange) {
+      if (propsRef.current.onEditorStateChange) {
         const selection = quill.getSelection();
-        onEditorStateChange(text, selection ? selection.index : undefined);
+        propsRef.current.onEditorStateChange(
+          text,
+          selection ? selection.index : undefined
+        );
       }
     }
 
-    if (onDirtyChange) {
-      onDirtyChange(text.length > 0);
+    if (propsRef.current.onDirtyChange) {
+      propsRef.current.onDirtyChange(text.length > 0);
     }
-  }, [onDirtyChange, onEditorStateChange, onTextTooLong]);
+  };
 
   React.useEffect(() => {
     const quill = quillRef.current;
@@ -386,7 +395,7 @@ export const CompositionInput: React.ComponentType<Props> = ({
                 onShortKeyEnter: {
                   key: 13, // 13 = Enter
                   shortKey: true,
-                  handler: onEnter,
+                  handler: onShortKeyEnter,
                 },
                 onEscape: { key: 27, handler: onEscape }, // 27 = Escape
               },
