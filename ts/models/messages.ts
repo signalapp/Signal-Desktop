@@ -1941,6 +1941,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         previewWithData,
         stickerWithData,
         null,
+        this.get('deletedForEveryoneTimestamp'),
         this.get('sent_at'),
         this.get('expireTimer'),
         profileKey,
@@ -2155,17 +2156,23 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         this.trigger('sent', this);
         this.sendSyncMessage();
       })
-      .catch(result => {
+      .catch((result: CustomError | CallbackResultType) => {
         this.trigger('done');
 
-        if (result.dataMessage) {
+        if ('dataMessage' in result && result.dataMessage) {
           this.set({ dataMessage: result.dataMessage });
         }
 
         let promises = [];
 
         // If we successfully sent to a user, we can remove our unregistered flag.
-        result.successfulIdentifiers.forEach((identifier: string) => {
+        let successfulIdentifiers: Array<string>;
+        if ('successfulIdentifiers' in result) {
+          ({ successfulIdentifiers = [] } = result);
+        } else {
+          successfulIdentifiers = [];
+        }
+        successfulIdentifiers.forEach((identifier: string) => {
           const c = window.ConversationController.get(identifier);
           if (c && c.isEverUnregistered()) {
             c.setRegistered();
@@ -2185,7 +2192,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             promises.push(c.getProfiles());
           }
         } else {
-          if (result.successfulIdentifiers.length > 0) {
+          if (successfulIdentifiers.length > 0) {
             const sentTo = this.get('sent_to') || [];
 
             // If we just found out that we couldn't send to a user because they are no
@@ -2229,7 +2236,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               unidentifiedDeliveries: result.unidentifiedDeliveries,
             });
             promises.push(this.sendSyncMessage());
-          } else {
+          } else if (result.errors) {
             this.saveErrors(result.errors);
           }
           promises = promises.concat(

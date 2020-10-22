@@ -33,6 +33,109 @@ describe('Message', () => {
     return messages.add(attrs);
   }
 
+  // NOTE: These tests are incomplete.
+  describe('send', () => {
+    it("saves the result's dataMessage", async () => {
+      const message = createMessage({ type: 'outgoing', source });
+
+      const fakeDataMessage = new ArrayBuffer(0);
+      const result = {
+        dataMessage: fakeDataMessage,
+        discoveredIdentifierPairs: [],
+      };
+      const promise = Promise.resolve(result);
+      await message.send(promise);
+
+      assert.strictEqual(message.get('dataMessage'), fakeDataMessage);
+    });
+
+    it('updates the `sent` attribute', async () => {
+      const message = createMessage({ type: 'outgoing', source, sent: false });
+
+      await message.send(
+        Promise.resolve({
+          discoveredIdentifierPairs: [],
+        })
+      );
+
+      assert.isTrue(message.get('sent'));
+    });
+
+    it("triggers the 'done' event on success", async () => {
+      const message = createMessage({ type: 'outgoing', source });
+
+      let callCount = 0;
+      message.on('done', () => {
+        callCount += 1;
+      });
+
+      await message.send(
+        Promise.resolve({
+          discoveredIdentifierPairs: [],
+        })
+      );
+
+      assert.strictEqual(callCount, 1);
+    });
+
+    it("triggers the 'sent' event on success", async () => {
+      const message = createMessage({ type: 'outgoing', source });
+
+      const calls = [];
+      message.on('sent', (...args) => {
+        calls.push(args);
+      });
+
+      await message.send(
+        Promise.resolve({
+          discoveredIdentifierPairs: [],
+        })
+      );
+
+      assert.lengthOf(calls, 1);
+      assert.strictEqual(calls[0][0], message);
+    });
+
+    it("triggers the 'done' event on failure", async () => {
+      const message = createMessage({ type: 'outgoing', source });
+
+      let callCount = 0;
+      message.on('done', () => {
+        callCount += 1;
+      });
+
+      await message.send(Promise.reject(new Error('something went wrong!')));
+
+      assert.strictEqual(callCount, 1);
+    });
+
+    it('saves errors from promise rejections with errors', async () => {
+      const message = createMessage({ type: 'outgoing', source });
+
+      const promise = Promise.reject(new Error('foo bar'));
+      await message.send(promise);
+
+      const errors = message.get('errors') || [];
+      assert.lengthOf(errors, 1);
+      assert.strictEqual(errors[0].message, 'foo bar');
+    });
+
+    it('saves errors from promise rejections with objects', async () => {
+      const message = createMessage({ type: 'outgoing', source });
+
+      const result = {
+        errors: [new Error('baz qux')],
+        discoveredIdentifierPairs: [],
+      };
+      const promise = Promise.reject(result);
+      await message.send(promise);
+
+      const errors = message.get('errors') || [];
+      assert.lengthOf(errors, 1);
+      assert.strictEqual(errors[0].message, 'baz qux');
+    });
+  });
+
   describe('getContact', () => {
     it('gets outgoing contact', () => {
       const messages = new Whisper.MessageCollection();
