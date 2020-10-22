@@ -6,6 +6,7 @@ import { PropsData as ConversationListItemPropsType } from '../ConversationListI
 import { createOrUpdateItem, getItemById } from '../../../js/modules/data';
 import { APPLY_THEME } from '../../state/ducks/theme';
 import { darkTheme, lightTheme } from '../../state/ducks/SessionTheme';
+// tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
   Profile,

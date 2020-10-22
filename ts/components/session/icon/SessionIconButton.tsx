@@ -5,14 +5,13 @@ import { Props, SessionIcon } from '../icon';
 import { SessionNotificationCount } from '../SessionNotificationCount';
 
 interface SProps extends Props {
-  onClick: any;
+  onClick?: any;
   notificationCount?: number;
   isSelected: boolean;
 }
 
 export class SessionIconButton extends React.PureComponent<SProps> {
   public static readonly extendedDefaults = {
-    onClick: () => null,
     notificationCount: undefined,
     isSelected: false,
   };

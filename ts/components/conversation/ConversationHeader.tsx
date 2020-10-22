@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { Avatar } from '../Avatar';
-import { Colors, LocalizerType } from '../../types/Util';
-import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
+import { LocalizerType } from '../../types/Util';
 
 import {
+  SessionIcon,
   SessionIconButton,
   SessionIconSize,
   SessionIconType,
@@ -15,11 +15,15 @@ import {
   SessionButtonColor,
   SessionButtonType,
 } from '../session/SessionButton';
-import * as Menu from '../../session/utils/Menu';
 import {
   ConversationAvatar,
   usingClosedConversationDetails,
 } from '../session/usingClosedConversationDetails';
+import { MenuProvider } from 'react-contexify';
+import {
+  ConversationHeaderMenu,
+  PropsConversationHeaderMenu,
+} from '../session/menu/ConversationHeaderMenu';
 
 export interface TimerOption {
   name: string;
@@ -93,22 +97,12 @@ interface Props {
 }
 
 class ConversationHeader extends React.Component<Props> {
-  public showMenuBound: (event: React.MouseEvent<HTMLDivElement>) => void;
   public onAvatarClickBound: (userPubKey: string) => void;
-  public menuTriggerRef: React.RefObject<any>;
 
   public constructor(props: Props) {
     super(props);
 
-    this.menuTriggerRef = React.createRef();
-    this.showMenuBound = this.showMenu.bind(this);
     this.onAvatarClickBound = this.onAvatarClick.bind(this);
-  }
-
-  public showMenu(event: React.MouseEvent<HTMLDivElement>) {
-    if (this.menuTriggerRef.current) {
-      this.menuTriggerRef.current.handleContextClick(event);
-    }
   }
 
   public renderBackButton() {
@@ -246,90 +240,13 @@ class ConversationHeader extends React.Component<Props> {
     if (showBackButton) {
       return null;
     }
-
     return (
-      <ContextMenuTrigger
-        id={triggerId}
-        ref={this.menuTriggerRef}
-        holdToDisplay={1}
-      >
+      <MenuProvider id={triggerId} event="onClick">
         <SessionIconButton
           iconType={SessionIconType.Ellipses}
           iconSize={SessionIconSize.Medium}
-          onClick={this.showMenuBound}
         />
-      </ContextMenuTrigger>
-    );
-  }
-
-  public renderMenu(triggerId: string) {
-    const {
-      i18n,
-      isMe,
-      isClosable,
-      isPublic,
-      isRss,
-      isGroup,
-      isKickedFromGroup,
-      amMod,
-      onDeleteMessages,
-      onDeleteContact,
-      onCopyPublicKey,
-      onLeaveGroup,
-      onAddModerators,
-      onRemoveModerators,
-      onInviteContacts,
-      onUpdateGroupName,
-    } = this.props;
-
-    return (
-      <ContextMenu id={triggerId}>
-        {this.renderPublicMenuItems()}
-        {Menu.getCopyMenuItem(isPublic, isRss, isGroup, onCopyPublicKey, i18n)}
-        {Menu.getDeleteMessagesMenuItem(isPublic, onDeleteMessages, i18n)}
-        {Menu.getAddModeratorsMenuItem(
-          amMod,
-          isKickedFromGroup,
-          onAddModerators,
-          i18n
-        )}
-        {Menu.getRemoveModeratorsMenuItem(
-          amMod,
-          isKickedFromGroup,
-          onRemoveModerators,
-          i18n
-        )}
-        {Menu.getUpdateGroupNameMenuItem(
-          amMod,
-          isKickedFromGroup,
-          onUpdateGroupName,
-          i18n
-        )}
-        {Menu.getLeaveGroupMenuItem(
-          isKickedFromGroup,
-          isGroup,
-          isPublic,
-          isRss,
-          onLeaveGroup,
-          i18n
-        )}
-        {/* TODO: add delete group */}
-        {Menu.getInviteContactMenuItem(
-          isGroup,
-          isPublic,
-          onInviteContacts,
-          i18n
-        )}
-        {Menu.getDeleteContactMenuItem(
-          isMe,
-          isClosable,
-          isGroup,
-          isPublic,
-          isRss,
-          onDeleteContact,
-          i18n
-        )}
-      </ContextMenu>
+      </MenuProvider>
     );
   }
 
@@ -369,7 +286,7 @@ class ConversationHeader extends React.Component<Props> {
 
   public render() {
     const { id, isKickedFromGroup } = this.props;
-    const triggerId = `conversation-header-${id}-${Date.now()}`;
+    const triggerId = `conversation-header-${id}`;
     const selectionMode = !!this.props.selectedMessages.length;
 
     return (
@@ -386,7 +303,7 @@ class ConversationHeader extends React.Component<Props> {
 
           {!this.props.isRss && !selectionMode && this.renderAvatar()}
 
-          {!selectionMode && this.renderMenu(triggerId)}
+          <ConversationHeaderMenu {...this.getHeaderMenuProps(triggerId)} />
         </div>
 
         {selectionMode && this.renderSelectionOverlay()}
@@ -406,68 +323,11 @@ class ConversationHeader extends React.Component<Props> {
     ($('.session-search-input input') as any).focus();
   }
 
-  // tslint:disable-next-line: cyclomatic-complexity
-  private renderPublicMenuItems() {
-    const {
-      i18n,
-      isBlocked,
-      isMe,
-      isGroup,
-      isPrivate,
-      isKickedFromGroup,
-      isPublic,
-      isRss,
-      onResetSession,
-      onSetDisappearingMessages,
-      onShowSafetyNumber,
-      timerOptions,
-      onBlockUser,
-      onUnblockUser,
-    } = this.props;
-
-    const disappearingMessagesMenuItem = Menu.getDisappearingMenuItem(
-      isPublic,
-      isRss,
-      isKickedFromGroup,
-      isBlocked,
-      timerOptions,
-      onSetDisappearingMessages,
-      i18n
-    );
-
-    const showSafetyNumberMenuItem = Menu.getShowSafetyNumberMenuItem(
-      isPublic,
-      isRss,
-      isGroup,
-      isMe,
-      onShowSafetyNumber,
-      i18n
-    );
-    const resetSessionMenuItem = Menu.getResetSessionMenuItem(
-      isPublic,
-      isRss,
-      isGroup,
-      isBlocked,
-      onResetSession,
-      i18n
-    );
-    const blockHandlerMenuItem = Menu.getBlockMenuItem(
-      isMe,
-      isPrivate,
-      isBlocked,
-      onBlockUser,
-      onUnblockUser,
-      i18n
-    );
-
-    return (
-      <React.Fragment>
-        {disappearingMessagesMenuItem}
-        {showSafetyNumberMenuItem}
-        {resetSessionMenuItem}
-        {blockHandlerMenuItem}
-      </React.Fragment>
-    );
+  private getHeaderMenuProps(triggerId: string): PropsConversationHeaderMenu {
+    return {
+      triggerId,
+      ...this.props,
+    };
   }
 }
 

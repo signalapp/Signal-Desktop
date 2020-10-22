@@ -33,11 +33,9 @@ import { Contact } from '../../types/Contact';
 
 import { getIncrement } from '../../util/timer';
 import { isFileDangerous } from '../../util/isFileDangerous';
-import { ColorType, LocalizerType } from '../../types/Util';
-import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../session/icon';
 import _ from 'lodash';
-import { MessageModel } from '../../../js/models/messages';
+import { animation, Item, Menu, MenuProvider, theme } from 'react-contexify';
 
 declare global {
   interface Window {
@@ -133,7 +131,6 @@ const EXPIRED_DELAY = 600;
 
 export class Message extends React.PureComponent<Props, State> {
   public captureMenuTriggerBound: (trigger: any) => void;
-  public showMenuBound: (event: React.MouseEvent<HTMLDivElement>) => void;
   public handleImageErrorBound: () => void;
 
   public menuTriggerRef: Trigger | undefined;
@@ -144,7 +141,6 @@ export class Message extends React.PureComponent<Props, State> {
     super(props);
 
     this.captureMenuTriggerBound = this.captureMenuTrigger.bind(this);
-    this.showMenuBound = this.showMenu.bind(this);
     this.handleImageErrorBound = this.handleImageError.bind(this);
     this.onReplyPrivate = this.onReplyPrivate.bind(this);
 
@@ -805,7 +801,6 @@ export class Message extends React.PureComponent<Props, State> {
       isDeletable,
       onDelete,
       onDownload,
-      onReply,
       onRetrySend,
       onShowDetail,
       isPublic,
@@ -821,8 +816,8 @@ export class Message extends React.PureComponent<Props, State> {
 
     // Wraps a function to prevent event propagation, thus preventing
     // message selection whenever any of the menu buttons are pressed.
-    const wrap = (f: any, ...args: Array<any>) => (event: Event) => {
-      event.stopPropagation();
+    const wrap = (f: any, ...args: Array<any>) => (e: any) => {
+      e.event.stopPropagation();
       if (f) {
         f(...args);
       }
@@ -847,72 +842,42 @@ export class Message extends React.PureComponent<Props, State> {
     );
 
     return (
-      <ContextMenu
+      <Menu
         id={triggerId}
-        onShow={onContextMenuShown}
-        onHide={onContextMenuHidden}
+        onShown={onContextMenuShown}
+        onHidden={onContextMenuHidden}
+        animation={animation.fade}
       >
         {!multipleAttachments && attachments && attachments[0] ? (
-          <MenuItem
-            attributes={{
-              className: 'module-message__context__download',
-            }}
-            onClick={(e: Event) => {
-              e.stopPropagation();
+          <Item
+            onClick={(e: any) => {
+              e.event.stopPropagation();
               if (onDownload) {
                 onDownload(isDangerous);
               }
             }}
           >
             {window.i18n('downloadAttachment')}
-          </MenuItem>
+          </Item>
         ) : null}
 
-        <MenuItem onClick={wrap(onCopyText)}>
-          {window.i18n('copyMessage')}
-        </MenuItem>
-        <MenuItem
-          attributes={{
-            className: 'module-message__context__reply',
-          }}
-          onClick={this.onReplyPrivate}
-        >
+        <Item onClick={wrap(onCopyText)}>{window.i18n('copyMessage')}</Item>
+        <Item onClick={this.onReplyPrivate}>
           {window.i18n('replyToMessage')}
-        </MenuItem>
-        <MenuItem
-          attributes={{
-            className: 'module-message__context__more-info',
-          }}
-          onClick={wrap(onShowDetail)}
-        >
+        </Item>
+        <Item onClick={wrap(onShowDetail)}>
           {window.i18n('moreInformation')}
-        </MenuItem>
+        </Item>
         {showRetry ? (
-          <MenuItem
-            attributes={{
-              className: 'module-message__context__retry-send',
-            }}
-            onClick={wrap(onRetrySend)}
-          >
-            {window.i18n('resend')}
-          </MenuItem>
+          <Item onClick={wrap(onRetrySend)}>{window.i18n('resend')}</Item>
         ) : null}
         {isDeletable ? (
-          <MenuItem
-            attributes={{
-              className: 'module-message__context__delete-message',
-            }}
-            onClick={wrap(onDelete)}
-          >
-            {deleteMessageCtxText}
-          </MenuItem>
+          <Item onClick={wrap(onDelete)}>{deleteMessageCtxText}</Item>
         ) : null}
         {isModerator && isPublic ? (
-          <MenuItem onClick={wrap(onBanUser)}>
-            {window.i18n('banUser')}
-          </MenuItem>
+          <Item onClick={wrap(onBanUser)}>{window.i18n('banUser')}</Item>
         ) : null}
-      </ContextMenu>
+      </Menu>
     );
   }
 
@@ -1036,7 +1001,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     return (
       <div id={id} className={classNames(divClasses)}>
-        <ContextMenuTrigger id={rightClickTriggerId}>
+        <MenuProvider id={rightClickTriggerId}>
           {this.renderAvatar()}
           <div
             className={classNames(
@@ -1105,7 +1070,7 @@ export class Message extends React.PureComponent<Props, State> {
               ? this.renderContextMenu(rightClickTriggerId)
               : null}
           </div>
-        </ContextMenuTrigger>
+        </MenuProvider>
       </div>
     );
   }
@@ -1147,8 +1112,8 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  private onReplyPrivate(e: Event) {
-    e.stopPropagation();
+  private onReplyPrivate(e: any) {
+    e.event.stopPropagation();
     if (this.props && this.props.onReply) {
       this.props.onReply(this.props.timestamp);
     }

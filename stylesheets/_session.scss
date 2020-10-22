@@ -753,41 +753,28 @@ label {
   }
 }
 
-.react-contextmenu {
-  padding: 0px;
-  margin: 0px;
+.react-contexify {
+  z-index: 3;
+  min-width: 200px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 0 1px #eee;
 
-  border: none !important;
-  border-radius: 0px;
-}
-
-.react-contextmenu-item {
-  display: flex;
-  align-items: center;
-  transition: $session-transition-duration;
-
-  height: 25px;
-  padding: $session-margin-md $session-margin-sm;
-
-  @include themify($themes) {
-    background: themed('contextMenuBackground');
-    color: themed('textColor');
-  }
-  font-family: $session-font-accent;
-  font-size: $session-font-sm;
-  line-height: $session-icon-size-sm;
-  font-weight: 700;
-
-  &--active,
-  &--selected {
+  .react-contexify__item:not(.react-contexify__item--disabled):hover
+    > .react-contexify__item__content {
     @include themify($themes) {
-      background: themed('clickableHovered');
+      background: themed('accent');
+      color: themed('textColorOpposite');
     }
   }
-  &:active,
-  &:visited,
-  &:focus {
-    outline: none;
+  .react-contexify__item__content {
+    transition: $session-transition-duration;
+  }
+
+  &.react-contexify__submenu {
+    top: -28px !important; // height of an item element
+  }
+
+  .react-contexify__submenu-arrow {
+    line-height: 16px; // center the arrow for submenu
   }
 }
 

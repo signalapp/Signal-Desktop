@@ -1,8 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash';
-import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
-import { Portal } from 'react-portal';
+import { MenuProvider } from 'react-contexify';
 
 import { Avatar } from './Avatar';
 import { MessageBody } from './conversation/MessageBody';
@@ -11,20 +10,15 @@ import { ContactName } from './conversation/ContactName';
 import { TypingAnimation } from './conversation/TypingAnimation';
 
 import { LocalizerType } from '../types/Util';
-import {
-  getBlockMenuItem,
-  getClearNicknameMenuItem,
-  getCopyMenuItem,
-  getDeleteContactMenuItem,
-  getDeleteMessagesMenuItem,
-  getInviteContactMenuItem,
-  getLeaveGroupMenuItem,
-} from '../session/utils/Menu';
 
 import {
   ConversationAvatar,
   usingClosedConversationDetails,
 } from './session/usingClosedConversationDetails';
+import {
+  ConversationListItemContextMenu,
+  PropsContextConversationItem,
+} from './session/menu/ConversationListItemContextMenu';
 
 export type PropsData = {
   id: string;
@@ -159,86 +153,6 @@ class ConversationListItem extends React.PureComponent<Props> {
     );
   }
 
-  public renderContextMenu(triggerId: string) {
-    const {
-      i18n,
-      isBlocked,
-      isMe,
-      isClosable,
-      isRss,
-      isPublic,
-      hasNickname,
-      type,
-      isKickedFromGroup,
-      onDeleteContact,
-      onDeleteMessages,
-      onBlockContact,
-      onClearNickname,
-      onCopyPublicKey,
-      onUnblockContact,
-      onInviteContacts,
-    } = this.props;
-
-    const isPrivate = type === 'direct';
-
-    return (
-      <ContextMenu id={triggerId}>
-        {getBlockMenuItem(
-          isMe,
-          isPrivate,
-          isBlocked,
-          onBlockContact,
-          onUnblockContact,
-          i18n
-        )}
-        {/* {!isPublic && !isRss && !isMe ? (
-          <MenuItem onClick={onChangeNickname}>
-            {i18n('changeNickname')}
-          </MenuItem>
-        ) : null} */}
-        {getClearNicknameMenuItem(
-          isPublic,
-          isRss,
-          isMe,
-          hasNickname,
-          onClearNickname,
-          i18n
-        )}
-        {getCopyMenuItem(
-          isPublic,
-          isRss,
-          type === 'group',
-          onCopyPublicKey,
-          i18n
-        )}
-        {getDeleteMessagesMenuItem(isPublic, onDeleteMessages, i18n)}
-        {getInviteContactMenuItem(
-          type === 'group',
-          isPublic,
-          onInviteContacts,
-          i18n
-        )}
-        {getDeleteContactMenuItem(
-          isMe,
-          isClosable,
-          type === 'group',
-          isPublic,
-          isRss,
-          onDeleteContact,
-          i18n
-        )}
-        {getLeaveGroupMenuItem(
-          isKickedFromGroup,
-          type === 'group',
-          isPublic,
-          isRss,
-          onDeleteContact,
-          i18n
-        )}
-      </ContextMenu>
-    );
-  }
-
   public renderMessage() {
     const { lastMessage, isTyping, unreadCount, i18n } = this.props;
 
@@ -302,11 +216,12 @@ class ConversationListItem extends React.PureComponent<Props> {
       style,
       mentionedUs,
     } = this.props;
-    const triggerId = `conversation-item-${phoneNumber}-ctxmenu-${Date.now()}`;
+    const triggerId = `conversation-item-${phoneNumber}-ctxmenu`;
+    const key = `conversation-item-${phoneNumber}`;
 
     return (
-      <div key={triggerId}>
-        <ContextMenuTrigger id={triggerId}>
+      <div key={key}>
+        <MenuProvider id={triggerId}>
           <div
             role="button"
             onClick={() => {
@@ -333,10 +248,17 @@ class ConversationListItem extends React.PureComponent<Props> {
               {this.renderMessage()}
             </div>
           </div>
-        </ContextMenuTrigger>
-        <Portal>{this.renderContextMenu(triggerId)}</Portal>
+        </MenuProvider>
+        <ConversationListItemContextMenu {...this.getMenuProps(triggerId)} />
       </div>
     );
+  }
+
+  private getMenuProps(triggerId: string): PropsContextConversationItem {
+    return {
+      triggerId,
+      ...this.props,
+    };
   }
 
   private renderUser() {

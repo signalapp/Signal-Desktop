@@ -1,7 +1,7 @@
 import React from 'react';
-import { MenuItem, SubMenu } from 'react-contextmenu';
-import { LocalizerType } from '../../types/Util';
-import { TimerOption } from '../../components/conversation/ConversationHeader';
+import { LocalizerType } from '../../../types/Util';
+import { TimerOption } from '../../conversation/ConversationHeader';
+import { Item, Submenu } from 'react-contexify';
 
 function showTimerOptions(
   isPublic: boolean,
@@ -116,7 +116,7 @@ export function getInviteContactMenuItem(
   i18n: LocalizerType
 ): JSX.Element | null {
   if (showInviteContact(Boolean(isGroup), Boolean(isPublic))) {
-    return <MenuItem onClick={action}>{i18n('inviteContacts')}</MenuItem>;
+    return <Item onClick={action}>{i18n('inviteContacts')}</Item>;
   }
   return null;
 }
@@ -140,9 +140,9 @@ export function getDeleteContactMenuItem(
     )
   ) {
     if (isPublic) {
-      return <MenuItem onClick={action}>{i18n('leaveGroup')}</MenuItem>;
+      return <Item onClick={action}>{i18n('leaveGroup')}</Item>;
     }
-    return <MenuItem onClick={action}>{i18n('delete')}</MenuItem>;
+    return <Item onClick={action}>{i18n('delete')}</Item>;
   }
   return null;
 }
@@ -163,7 +163,7 @@ export function getLeaveGroupMenuItem(
       Boolean(isRss)
     )
   ) {
-    return <MenuItem onClick={action}>{i18n('leaveGroup')}</MenuItem>;
+    return <Item onClick={action}>{i18n('leaveGroup')}</Item>;
   }
   return null;
 }
@@ -175,7 +175,7 @@ export function getUpdateGroupNameMenuItem(
   i18n: LocalizerType
 ): JSX.Element | null {
   if (showUpdateGroupName(Boolean(amMod), Boolean(isKickedFromGroup))) {
-    return <MenuItem onClick={action}>{i18n('editGroup')}</MenuItem>;
+    return <Item onClick={action}>{i18n('editGroup')}</Item>;
   }
   return null;
 }
@@ -187,7 +187,7 @@ export function getRemoveModeratorsMenuItem(
   i18n: LocalizerType
 ): JSX.Element | null {
   if (showRemoveModerators(Boolean(amMod), Boolean(isKickedFromGroup))) {
-    return <MenuItem onClick={action}>{i18n('removeModerators')}</MenuItem>;
+    return <Item onClick={action}>{i18n('removeModerators')}</Item>;
   }
   return null;
 }
@@ -199,7 +199,7 @@ export function getAddModeratorsMenuItem(
   i18n: LocalizerType
 ): JSX.Element | null {
   if (showAddModerators(Boolean(amMod), Boolean(isKickedFromGroup))) {
-    return <MenuItem onClick={action}>{i18n('addModerators')}</MenuItem>;
+    return <Item onClick={action}>{i18n('addModerators')}</Item>;
   }
   return null;
 }
@@ -213,7 +213,7 @@ export function getCopyMenuItem(
 ): JSX.Element | null {
   if (showCopyId(Boolean(isPublic), Boolean(isRss), Boolean(isGroup))) {
     const copyIdLabel = i18n('copySessionID');
-    return <MenuItem onClick={action}>{copyIdLabel}</MenuItem>;
+    return <Item onClick={action}>{copyIdLabel}</Item>;
   }
   return null;
 }
@@ -238,21 +238,21 @@ export function getDisappearingMenuItem(
     const isRtlMode = isRtlBody();
     return (
       // Remove the && false to make context menu work with RTL support
-      <SubMenu
-        title={i18n('disappearingMessages') as any}
-        rtl={isRtlMode && false}
+      <Submenu
+        label={i18n('disappearingMessages') as any}
+        // rtl={isRtlMode && false}
       >
         {(timerOptions || []).map(item => (
-          <MenuItem
+          <Item
             key={item.value}
             onClick={() => {
               action(item.value);
             }}
           >
             {item.name}
-          </MenuItem>
+          </Item>
         ))}
-      </SubMenu>
+      </Submenu>
     );
   }
   return null;
@@ -270,7 +270,7 @@ export function getShowMemberMenuItem(
   i18n: LocalizerType
 ): JSX.Element | null {
   if (showMemberMenu(Boolean(isPublic), Boolean(isRss), Boolean(isGroup))) {
-    return <MenuItem onClick={action}>{i18n('groupMembers')}</MenuItem>;
+    return <Item onClick={action}>{i18n('groupMembers')}</Item>;
   }
   return null;
 }
@@ -291,7 +291,7 @@ export function getShowSafetyNumberMenuItem(
       Boolean(isMe)
     )
   ) {
-    return <MenuItem onClick={action}>{i18n('showSafetyNumber')}</MenuItem>;
+    return <Item onClick={action}>{i18n('showSafetyNumber')}</Item>;
   }
   return null;
 }
@@ -312,7 +312,7 @@ export function getResetSessionMenuItem(
       Boolean(isBlocked)
     )
   ) {
-    return <MenuItem onClick={action}>{i18n('resetSession')}</MenuItem>;
+    return <Item onClick={action}>{i18n('resetSession')}</Item>;
   }
   return null;
 }
@@ -328,7 +328,7 @@ export function getBlockMenuItem(
   if (showBlock(Boolean(isMe), Boolean(isPrivate))) {
     const blockTitle = isBlocked ? i18n('unblockUser') : i18n('blockUser');
     const blockHandler = isBlocked ? actionUnblock : actionBlock;
-    return <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>;
+    return <Item onClick={blockHandler}>{blockTitle}</Item>;
   }
   return null;
 }
@@ -349,7 +349,7 @@ export function getClearNicknameMenuItem(
       Boolean(hasNickname)
     )
   ) {
-    return <MenuItem onClick={action}>{i18n('clearNickname')}</MenuItem>;
+    return <Item onClick={action}>{i18n('clearNickname')}</Item>;
   }
   return null;
 }
@@ -360,7 +360,7 @@ export function getDeleteMessagesMenuItem(
   i18n: LocalizerType
 ): JSX.Element | null {
   if (showDeleteMessages(Boolean(isPublic))) {
-    return <MenuItem onClick={action}>{i18n('deleteMessages')}</MenuItem>;
+    return <Item onClick={action}>{i18n('deleteMessages')}</Item>;
   }
   return null;
 }
