@@ -216,9 +216,7 @@ export const CompositionInput: React.ComponentType<Props> = props => {
     }
 
     const text = getText();
-    if (text.length > 0) {
-      onSubmit(text);
-    }
+    onSubmit(text.trim());
   };
 
   if (inputApi) {
