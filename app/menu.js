@@ -9,7 +9,6 @@ exports.createTemplate = (options, messages) => {
     isBeta,
     includeSetup,
     openContactUs,
-    openGithub,
     openForums,
     openJoinTheBeta,
     openReleaseNotes,
@@ -162,10 +161,6 @@ exports.createTemplate = (options, messages) => {
         {
           label: messages.goToSupportPage.message,
           click: openSupportPage,
-        },
-        {
-          label: messages.goToGithub.message,
-          click: openGithub,
         },
         ...(!isBeta
           ? [

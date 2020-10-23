@@ -49,7 +49,6 @@ describe('SignalMenu', () => {
                 isBeta: false,
                 openContactUs: null,
                 openForums: null,
-                openGithub: null,
                 openJoinTheBeta: null,
                 openReleaseNotes: null,
                 openSupportPage: null,

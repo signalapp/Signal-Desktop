@@ -550,10 +550,6 @@ function openReleaseNotes() {
   );
 }
 
-function openGithub() {
-  shell.openExternal('https://github.com/signalapp/Signal-Desktop');
-}
-
 function openSupportPage() {
   // If we omit the language, the site will detect the language and redirect
   shell.openExternal('https://support.signal.org/hc/sections/360001602812');
@@ -1031,7 +1027,6 @@ function setupMenu(options) {
     showSettings: showSettingsWindow,
     showStickerCreator,
     openContactUs,
-    openGithub,
     openJoinTheBeta,
     openReleaseNotes,
     openSupportPage,
