@@ -97,6 +97,7 @@ export type MessageType = {
     | 'call-history';
   quote?: { author: string };
   received_at: number;
+  sent_at?: number;
   hasSignalAccount?: boolean;
   bodyPending?: boolean;
   attachments: Array<AttachmentType>;
@@ -829,7 +830,11 @@ export function reducer(
       ? existingConversation.resetCounter + 1
       : 0;
 
-    const sorted = orderBy(messages, ['received_at'], ['ASC']);
+    const sorted = orderBy(
+      messages,
+      ['received_at', 'sent_at'],
+      ['ASC', 'ASC']
+    );
     const messageIds = sorted.map(message => message.id);
 
     const lookup = fromPairs(messages.map(message => [message.id, message]));
@@ -1071,7 +1076,11 @@ export function reducer(
       lookup[message.id] = message;
     });
 
-    const sorted = orderBy(values(lookup), ['received_at'], ['ASC']);
+    const sorted = orderBy(
+      values(lookup),
+      ['received_at', 'sent_at'],
+      ['ASC', 'ASC']
+    );
     const messageIds = sorted.map(message => message.id);
 
     const first = sorted[0];
