@@ -14,6 +14,7 @@ import {
   CallbackResultType,
   SendMetadataType,
   SendOptionsType,
+  CustomError,
 } from './SendMessage';
 import {
   OutgoingIdentityKeyError,
@@ -44,7 +45,7 @@ export default class OutgoingMessage {
 
   identifiersCompleted: number;
 
-  errors: Array<unknown>;
+  errors: Array<CustomError>;
 
   successfulIdentifiers: Array<unknown>;
 

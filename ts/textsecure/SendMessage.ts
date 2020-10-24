@@ -67,10 +67,15 @@ export type SendOptionsType = {
   online?: boolean;
 };
 
+export interface CustomError extends Error {
+  identifier?: string;
+  number?: string;
+}
+
 export type CallbackResultType = {
   successfulIdentifiers?: Array<any>;
   failoverIdentifiers?: Array<any>;
-  errors?: Array<any>;
+  errors?: Array<CustomError>;
   unidentifiedDeliveries?: Array<any>;
   dataMessage?: ArrayBuffer;
   discoveredIdentifierPairs: Array<{
@@ -1216,7 +1221,7 @@ export default class MessageSender {
     responseArgs: {
       threadE164?: string;
       threadUuid?: string;
-      groupId?: string;
+      groupId?: ArrayBuffer;
       type: number;
     },
     sendOptions?: SendOptionsType
@@ -1233,11 +1238,7 @@ export default class MessageSender {
     const response = new window.textsecure.protobuf.SyncMessage.MessageRequestResponse();
     response.threadE164 = responseArgs.threadE164;
     response.threadUuid = responseArgs.threadUuid;
-    response.groupId = responseArgs.groupId
-      ? window.Signal.Crypto.fromEncodedBinaryToArrayBuffer(
-          responseArgs.groupId
-        )
-      : null;
+    response.groupId = responseArgs.groupId || null;
     response.type = responseArgs.type;
     syncMessage.messageRequestResponse = response;
 
