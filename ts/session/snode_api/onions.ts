@@ -438,8 +438,7 @@ const sendOnionRequest = async (
     id
   );
   onionPayload += payload.length;
-  log.debug('Onion payload size: ', payload.length);
-  log.debug('Onion total: ', onionPayload);
+  log.debug('Onion payload size: ', payload.length, ' total:', onionPayload);
 
   const guardFetchOptions = {
     method: 'POST',

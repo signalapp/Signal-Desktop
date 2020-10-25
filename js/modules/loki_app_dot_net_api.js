@@ -243,6 +243,7 @@ const serverRequest = async (endpoint, options = {}) => {
     );
     return {
       err: e,
+      ok: false,
     };
   }
 
@@ -313,6 +314,7 @@ const serverRequest = async (endpoint, options = {}) => {
 
     return {
       err: e,
+      ok: false,
     };
   }
 
@@ -320,6 +322,7 @@ const serverRequest = async (endpoint, options = {}) => {
     return {
       err: 'noResult',
       response,
+      ok: false,
     };
   }
 
@@ -336,11 +339,13 @@ const serverRequest = async (endpoint, options = {}) => {
       err: 'statusCode',
       statusCode: result.status,
       response,
+      ok: false,
     };
   }
   return {
     statusCode: result.status,
     response,
+    ok: result.status >= 200 && result.status <= 299,
   };
 };
 
@@ -692,7 +697,7 @@ class LokiAppDotNetServerAPI {
       }
       return null;
     }
-    if (res.statusCode !== 200) {
+    if (!res.ok) {
       log.error('requestToken request failed');
       return null;
     }
@@ -712,7 +717,7 @@ class LokiAppDotNetServerAPI {
         },
         noJson: true,
       });
-      return res.statusCode === 200;
+      return res.ok;
     } catch (e) {
       log.error('submitToken serverRequest failure', e.code, e.message);
       return false;
@@ -937,12 +942,9 @@ class LokiAppDotNetServerAPI {
       rawBody: data,
     };
 
-    const { statusCode, response } = await this.serverRequest(
-      endpoint,
-      options
-    );
+    const { response, ok } = await this.serverRequest(endpoint, options);
 
-    if (statusCode !== 200) {
+    if (!ok) {
       throw new Error(`Failed to upload avatar to ${this.baseServerUrl}`);
     }
 
@@ -970,11 +972,8 @@ class LokiAppDotNetServerAPI {
       rawBody: data,
     };
 
-    const { statusCode, response } = await this.serverRequest(
-      endpoint,
-      options
-    );
-    if (statusCode !== 200) {
+    const { ok, response } = await this.serverRequest(endpoint, options);
+    if (!ok) {
       throw new Error(`Failed to upload data to server: ${this.baseServerUrl}`);
     }
 
