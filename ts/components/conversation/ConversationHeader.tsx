@@ -63,11 +63,8 @@ interface Props {
   isBlocked: boolean;
   isOnline?: boolean;
 
-  // We don't pass this as a bool, because in future we
-  // want to forward messages from Header and will need
-  // the message ID.
-  selectedMessages: Array<string>;
   isKickedFromGroup: boolean;
+  selectionMode: boolean; // is the UI on the message selection mode or not
 
   onInviteContacts: () => void;
   onSetDisappearingMessages: (seconds: number) => void;
@@ -285,9 +282,8 @@ class ConversationHeader extends React.Component<Props> {
   }
 
   public render() {
-    const { id, isKickedFromGroup } = this.props;
+    const { id, isKickedFromGroup, selectionMode } = this.props;
     const triggerId = `conversation-header-${id}`;
-    const selectionMode = !!this.props.selectedMessages.length;
 
     return (
       <div className="module-conversation-header">

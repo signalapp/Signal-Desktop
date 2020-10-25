@@ -208,8 +208,9 @@ export class SessionConversation extends React.Component<Props, State> {
       showOptionsPane,
       quotedMessageProps,
       lightBoxOptions,
+      selectedMessages,
     } = this.state;
-    const selectionMode = !!this.state.selectedMessages.length;
+    const selectionMode = !!selectedMessages.length;
 
     const conversation = this.props.conversations.conversationLookup[
       conversationKey
@@ -402,7 +403,7 @@ export class SessionConversation extends React.Component<Props, State> {
   }
 
   public getHeaderProps() {
-    const { conversationKey } = this.state;
+    const { conversationKey, selectedMessages } = this.state;
     const conversation = window.ConversationController.getOrThrow(
       conversationKey
     );
@@ -434,7 +435,7 @@ export class SessionConversation extends React.Component<Props, State> {
       ),
       members,
       subscriberCount: conversation.get('subscriberCount'),
-      selectedMessages: this.state.selectedMessages,
+      selectedMessages: this.state.selectedMessages?.length,
       isKickedFromGroup: conversation.get('isKickedFromGroup'),
       expirationSettingName,
       showBackButton: Boolean(this.state.infoViewState),
@@ -443,6 +444,7 @@ export class SessionConversation extends React.Component<Props, State> {
         value: item.get('seconds'),
       })),
       hasNickname: !!conversation.getNickname(),
+      selectionMode: !!selectedMessages.length,
 
       onSetDisappearingMessages: (seconds: any) =>
         conversation.updateExpirationTimer(seconds),
