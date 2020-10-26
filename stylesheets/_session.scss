@@ -1337,7 +1337,8 @@ input {
 
 .session-scroll-button {
   animation: fadein $session-fadein-duration;
-  position: absolute;
+  position: sticky;
+  text-align: -webkit-right;
   bottom: 15px;
   right: 25px;
   z-index: 2;
