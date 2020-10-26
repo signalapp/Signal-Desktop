@@ -327,7 +327,6 @@ export const save = ({
   attachment,
   document,
   index,
-  getAbsolutePath,
   timestamp,
 }: {
   attachment: AttachmentType;
@@ -337,11 +336,10 @@ export const save = ({
   timestamp?: number;
 }): void => {
   const isObjectURLRequired = is.undefined(attachment.fileName);
-  const url = getAbsolutePath(attachment.fileName);
   const filename = getSuggestedFilename({ attachment, timestamp, index });
-  saveURLAsFile({ url, filename, document });
+  saveURLAsFile({ url: attachment.url, filename, document });
   if (isObjectURLRequired) {
-    URL.revokeObjectURL(url);
+    URL.revokeObjectURL(attachment.url);
   }
 };
 
