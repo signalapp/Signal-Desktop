@@ -23,6 +23,7 @@ import { EmojiPickDataType } from './emoji/EmojiPicker';
 
 export type OwnProps = {
   readonly i18n: LocalizerType;
+  readonly areWePending?: boolean;
   readonly groupVersion?: 1 | 2;
   readonly isMissingMandatoryProfileSharing?: boolean;
   readonly messageRequestsEnabled?: boolean;
@@ -115,6 +116,7 @@ export const CompositionArea = ({
   clearShowPickerHint,
   // Message Requests
   acceptedMessageRequest,
+  areWePending,
   conversationType,
   groupVersion,
   isBlocked,
@@ -331,7 +333,10 @@ export const CompositionArea = ({
     };
   }, [setLarge]);
 
-  if (messageRequestsEnabled && (!acceptedMessageRequest || isBlocked)) {
+  if (
+    messageRequestsEnabled &&
+    (!acceptedMessageRequest || isBlocked || areWePending)
+  ) {
     return (
       <MessageRequestActions
         i18n={i18n}

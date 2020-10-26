@@ -749,12 +749,16 @@ type WhatIsThis = typeof window.WhatIsThis;
       conversationRemoved(id);
     });
     convoCollection.on('add', conversation => {
-      const { id, cachedProps } = conversation || {};
-      conversationAdded(id, cachedProps);
+      if (!conversation) {
+        return;
+      }
+      conversationAdded(conversation.id, conversation.format());
     });
     convoCollection.on('change', conversation => {
-      const { id, cachedProps } = conversation || {};
-      conversationChanged(id, cachedProps);
+      if (!conversation) {
+        return;
+      }
+      conversationChanged(conversation.id, conversation.format());
     });
     convoCollection.on('reset', removeAllConversations);
 

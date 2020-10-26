@@ -692,12 +692,6 @@ export class ConversationController {
         await Promise.all(
           this._conversations.map(async conversation => {
             try {
-              // This call is important to allow Conversation models not to generate their
-              //   cached props on initial construction if we're in the middle of the load
-              //   from the database. Then we come back to the models when it is safe and
-              //   generate those props.
-              conversation.generateProps();
-
               if (!conversation.get('lastMessage')) {
                 await conversation.updateLastMessage();
               }

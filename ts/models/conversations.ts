@@ -89,11 +89,6 @@ export class ConversationModel extends window.Backbone.Model<
 
   debouncedUpdateLastMessage?: () => void;
 
-  // backbone ensures this exists in initialize()
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  generateProps: () => void;
-
   // backbone ensures this exists
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -237,19 +232,11 @@ export class ConversationModel extends window.Backbone.Model<
     this.typingRefreshTimer = null;
     this.typingPauseTimer = null;
 
-    // Keep props ready
-    this.generateProps = () => {
-      // This is to prevent race conditions on startup; Conversation models are created
-      //   but the full window.ConversationController.load() sequence isn't complete.
-      if (!window.ConversationController.isFetchComplete()) {
-        return;
-      }
-
-      this.cachedProps = this.getProps();
-    };
-    this.on('change', this.generateProps);
-
-    this.generateProps();
+    // We clear our cached props whenever we change so that the next call to format() will
+    //   result in refresh via a getProps() call. See format() below.
+    this.on('change', () => {
+      this.cachedProps = null;
+    });
   }
 
   isMe(): boolean {
@@ -282,9 +269,7 @@ export class ConversationModel extends window.Backbone.Model<
 
   isMemberPending(conversationId: string): boolean {
     if (!this.isGroupV2()) {
-      throw new Error(
-        `isPendingMember: Called for non-GroupV2 conversation ${this.idForLogging()}`
-      );
+      return false;
     }
     const pendingMembersV2 = this.get('pendingMembersV2');
 
@@ -1064,6 +1049,7 @@ export class ConversationModel extends window.Backbone.Model<
     const messageRequestsEnabled = window.Signal.RemoteConfig.isEnabled(
       'desktop.messageRequests'
     );
+    const ourConversationId = window.ConversationController.getOurConversationId();
 
     let groupVersion: undefined | 1 | 2;
     if (this.isGroupV1()) {
@@ -1081,6 +1067,9 @@ export class ConversationModel extends window.Backbone.Model<
 
       acceptedMessageRequest: this.getAccepted(),
       activeAt: this.get('active_at')!,
+      areWePending: Boolean(
+        ourConversationId && this.isMemberPending(ourConversationId)
+      ),
       avatarPath: this.getAvatarPath()!,
       color,
       draftPreview,

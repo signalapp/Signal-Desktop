@@ -660,8 +660,10 @@ Whisper.ConversationView = Whisper.View.extend({
   }): Promise<void> {
     const idLog = `${name}/${this.model.idForLogging()}`;
     const ONE_SECOND = 1000;
+    const TWO_SECONDS = 2000;
 
     let progressView: any | undefined;
+    let spinnerStart;
     let progressTimeout: NodeJS.Timeout | undefined = setTimeout(() => {
       window.log.info(`longRunningTaskWrapper/${idLog}: Creating spinner`);
 
@@ -671,7 +673,8 @@ Whisper.ConversationView = Whisper.View.extend({
         className: 'progress-modal-wrapper',
         Component: window.Signal.Components.ProgressModal,
       });
-    }, ONE_SECOND);
+      spinnerStart = Date.now();
+    }, TWO_SECONDS);
 
     // Note: any task we put here needs to have its own safety valve; this function will
     //   show a spinner until it's done
@@ -687,6 +690,13 @@ Whisper.ConversationView = Whisper.View.extend({
         progressTimeout = undefined;
       }
       if (progressView) {
+        const now = Date.now();
+        if (spinnerStart && now - spinnerStart < ONE_SECOND) {
+          window.log.info(
+            `longRunningTaskWrapper/${idLog}: Spinner shown for less than second, showing for another second`
+          );
+          await window.Signal.Util.sleep(ONE_SECOND);
+        }
         progressView.remove();
         progressView = undefined;
       }

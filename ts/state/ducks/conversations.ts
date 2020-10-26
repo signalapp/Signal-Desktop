@@ -42,6 +42,7 @@ export type ConversationType = {
   firstName?: string;
   profileName?: string;
   avatarPath?: string;
+  areWePending?: boolean;
   color?: ColorType;
   isArchived?: boolean;
   isBlocked?: boolean;
