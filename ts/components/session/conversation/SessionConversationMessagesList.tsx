@@ -8,6 +8,8 @@ import { ResetSessionNotification } from '../../conversation/ResetSessionNotific
 import { Constants } from '../../../session';
 import _ from 'lodash';
 import { ConversationModel } from '../../../../js/models/conversations';
+import { contextMenu } from 'react-contexify';
+import { AttachmentType } from '../../../types/Attachment';
 
 interface State {
   isScrolledToBottom: boolean;
@@ -31,6 +33,7 @@ interface Props {
   ) => Promise<{ previousTopMessage: string }>;
   replyToMessage: (messageId: number) => Promise<void>;
   onClickAttachment: (attachment: any, message: any) => void;
+  onDownloadAttachment: ({ attachment }: { attachment: any}) => void;
 }
 
 export class SessionConversationMessagesList extends React.Component<
@@ -122,8 +125,6 @@ export class SessionConversationMessagesList extends React.Component<
       <>
         {messages.map((message: any) => {
           const messageProps = message.propsForMessage;
-          // const quoteProps = messageProps.quote;
-          // console.warn('propsForQuote', quoteProps);
 
           const timerProps = message.propsForTimerNotification;
           const resetSessionProps = message.propsForResetSessionNotification;
@@ -136,7 +137,6 @@ export class SessionConversationMessagesList extends React.Component<
           // in a series of messages from the same user
           item = messageProps
             ? this.renderMessage(
-                message,
                 messageProps,
                 message.firstMessageOfSeries,
                 multiSelectMode
@@ -149,7 +149,6 @@ export class SessionConversationMessagesList extends React.Component<
           ) : (
             item
           );
-          // item = attachmentProps  ? this.renderMessage(timerProps) : item;
 
           return item;
         })}
@@ -158,7 +157,6 @@ export class SessionConversationMessagesList extends React.Component<
   }
 
   public renderMessage(
-    message: any,
     messageProps: any,
     firstMessageOfSeries: boolean,
     multiSelectMode: boolean
@@ -182,7 +180,9 @@ export class SessionConversationMessagesList extends React.Component<
     messageProps.onClickAttachment = (attachment: any) => {
       this.props.onClickAttachment(attachment, messageProps);
     };
-    // messageProps.onDownload = ()
+    messageProps.onDownload = (attachment: AttachmentType) => {
+      this.props.onDownloadAttachment({attachment});
+    };
 
     return <Message {...messageProps} />;
   }

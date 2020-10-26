@@ -22,7 +22,7 @@ import { SessionConversationMessagesList } from './SessionConversationMessagesLi
 import { LightboxGallery, MediaItemType } from '../../LightboxGallery';
 import { Message } from '../../conversation/media-gallery/types/Message';
 
-import { AttachmentType } from '../../../types/Attachment';
+import { AttachmentType, save } from '../../../types/Attachment';
 import { ToastUtils } from '../../../session/utils';
 import * as MIME from '../../../types/MIME';
 import { SessionFileDropzone } from './SessionFileDropzone';
@@ -133,6 +133,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
     this.replyToMessage = this.replyToMessage.bind(this);
     this.onClickAttachment = this.onClickAttachment.bind(this);
+    this.downloadAttachment = this.downloadAttachment.bind(this);
     this.getMessages = this.getMessages.bind(this);
 
     // Keyboard navigation
@@ -435,7 +436,6 @@ export class SessionConversation extends React.Component<Props, State> {
       ),
       members,
       subscriberCount: conversation.get('subscriberCount'),
-      selectedMessages: this.state.selectedMessages?.length,
       isKickedFromGroup: conversation.get('isKickedFromGroup'),
       expirationSettingName,
       showBackButton: Boolean(this.state.infoViewState),
@@ -534,6 +534,7 @@ export class SessionConversation extends React.Component<Props, State> {
       replyToMessage: this.replyToMessage,
       doneInitialScroll: this.state.doneInitialScroll,
       onClickAttachment: this.onClickAttachment,
+      onDownloadAttachment: this.downloadAttachment,
       messageContainerRef: this.messageContainerRef,
     };
   }
@@ -965,12 +966,12 @@ export class SessionConversation extends React.Component<Props, State> {
     index,
   }: {
     attachment: AttachmentType;
-    message: Message;
-    index: number;
+    message?: Message;
+    index?: number;
   }) {
     const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
 
-    window.Signal.Types.Attachment.save({
+    save({
       attachment,
       document,
       getAbsolutePath: getAbsoluteAttachmentPath,

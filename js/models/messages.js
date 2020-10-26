@@ -621,12 +621,6 @@
         onDelete: () => this.trigger('delete', this),
         onClickLinkPreview: url => this.trigger('navigate-to', url),
 
-        onDownload: isDangerous =>
-          this.trigger('download', {
-            attachment: firstAttachment,
-            message: this,
-            isDangerous,
-          }),
         onShowUserDetails: pubkey =>
           window.Whisper.events.trigger('onShowUserDetails', {
             userPubKey: pubkey,

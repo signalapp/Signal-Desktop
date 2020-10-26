@@ -15,6 +15,7 @@ import {
   ConversationAvatar,
   usingClosedConversationDetails,
 } from '../usingClosedConversationDetails';
+import { save } from '../../../types/Attachment';
 
 interface Props {
   id: string;
@@ -184,7 +185,7 @@ class SessionRightPanel extends React.Component<Props, State> {
 
     const saveAttachment = async ({ attachment, message }: any = {}) => {
       const timestamp = message.received_at;
-      window.Signal.Types.Attachment.save({
+      save({
         attachment,
         document,
         getAbsolutePath: window.Signal.Migrations.getAbsoluteAttachmentPath,

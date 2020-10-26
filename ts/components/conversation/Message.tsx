@@ -112,7 +112,7 @@ export interface Props {
   onSelectMessage: (messageId: string) => void;
   onReply?: (messagId: number) => void;
   onRetrySend?: () => void;
-  onDownload?: (isDangerous: boolean) => void;
+  onDownload?: (attachment: AttachmentType) => void;
   onDelete?: () => void;
   onCopyPubKey?: () => void;
   onBanUser?: () => void;
@@ -853,7 +853,7 @@ export class Message extends React.PureComponent<Props, State> {
             onClick={(e: any) => {
               e.event.stopPropagation();
               if (onDownload) {
-                onDownload(isDangerous);
+                onDownload(attachments[0]);
               }
             }}
           >

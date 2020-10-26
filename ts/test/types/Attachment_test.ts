@@ -7,19 +7,22 @@ import { SignalService } from '../../protobuf';
 // @ts-ignore
 import { stringToArrayBuffer } from '../../../js/modules/string_to_array_buffer';
 
+// tslint:disable-next-line: max-func-body-length
 describe('Attachment', () => {
   describe('getFileExtension', () => {
     it('should return file extension from content type', () => {
-      const input: Attachment.Attachment = {
-        data: stringToArrayBuffer('foo'),
-        contentType: MIME.IMAGE_GIF,
+      const input: Attachment.AttachmentType = {
+        fileName: 'funny-cat.mov',
+        url: 'funny-cat.mov',
+        contentType: MIME.VIDEO_QUICKTIME,
       };
       assert.strictEqual(Attachment.getFileExtension(input), 'gif');
     });
 
     it('should return file extension for QuickTime videos', () => {
-      const input: Attachment.Attachment = {
-        data: stringToArrayBuffer('foo'),
+      const input: Attachment.AttachmentType = {
+        fileName: 'funny-cat.mov',
+        url: 'funny-cat.mov',
         contentType: MIME.VIDEO_QUICKTIME,
       };
       assert.strictEqual(Attachment.getFileExtension(input), 'mov');
@@ -29,9 +32,9 @@ describe('Attachment', () => {
   describe('getSuggestedFilename', () => {
     context('for attachment with filename', () => {
       it('should return existing filename if present', () => {
-        const attachment: Attachment.Attachment = {
+        const attachment: Attachment.AttachmentType = {
           fileName: 'funny-cat.mov',
-          data: stringToArrayBuffer('foo'),
+          url: 'funny-cat.mov',
           contentType: MIME.VIDEO_QUICKTIME,
         };
         const actual = Attachment.getSuggestedFilename({ attachment });
@@ -41,9 +44,11 @@ describe('Attachment', () => {
     });
     context('for attachment without filename', () => {
       it('should generate a filename based on timestamp', () => {
-        const attachment: Attachment.Attachment = {
-          data: stringToArrayBuffer('foo'),
+        const attachment: Attachment.AttachmentType = {
           contentType: MIME.VIDEO_QUICKTIME,
+          url: 'funny-cat.mov',
+          fileName: 'funny-cat.mov',
+
         };
         const timestamp = moment('2000-01-01').toDate();
         const actual = Attachment.getSuggestedFilename({
@@ -56,10 +61,10 @@ describe('Attachment', () => {
     });
     context('for attachment with index', () => {
       it('should generate a filename based on timestamp', () => {
-        const attachment: Attachment.Attachment = {
-          data: stringToArrayBuffer('foo'),
-          contentType: MIME.VIDEO_QUICKTIME,
-        };
+        const attachment: Attachment.AttachmentType = {
+          fileName: 'funny-cat.mov',
+          url: 'funny-cat.mov',
+          contentType: MIME.VIDEO_QUICKTIME,        };
         const timestamp = new Date(new Date(0).getTimezoneOffset() * 60 * 1000);
         const actual = Attachment.getSuggestedFilename({
           attachment,

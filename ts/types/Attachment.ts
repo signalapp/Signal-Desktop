@@ -330,19 +330,14 @@ export const save = ({
   getAbsolutePath,
   timestamp,
 }: {
-  attachment: Attachment;
+  attachment: AttachmentType;
   document: Document;
-  index: number;
+  index?: number;
   getAbsolutePath: (relativePath: string) => string;
   timestamp?: number;
 }): void => {
-  const isObjectURLRequired = is.undefined(attachment.path);
-  const url = !is.undefined(attachment.path)
-    ? getAbsolutePath(attachment.path)
-    : arrayBufferToObjectURL({
-        data: attachment.data,
-        type: MIME.APPLICATION_OCTET_STREAM,
-      });
+  const isObjectURLRequired = is.undefined(attachment.fileName);
+  const url = getAbsolutePath(attachment.fileName);
   const filename = getSuggestedFilename({ attachment, timestamp, index });
   saveURLAsFile({ url, filename, document });
   if (isObjectURLRequired) {
@@ -355,7 +350,7 @@ export const getSuggestedFilename = ({
   timestamp,
   index,
 }: {
-  attachment: Attachment;
+  attachment: AttachmentType;
   timestamp?: number | Date;
   index?: number;
 }): string => {
@@ -375,7 +370,7 @@ export const getSuggestedFilename = ({
 };
 
 export const getFileExtension = (
-  attachment: Attachment
+  attachment: AttachmentType
 ): string | undefined => {
   if (!attachment.contentType) {
     return;
