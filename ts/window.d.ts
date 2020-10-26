@@ -3,6 +3,7 @@
 import * as Backbone from 'backbone';
 import * as Underscore from 'underscore';
 import { Ref } from 'react';
+import * as LinkPreviews from '../js/modules/link_previews.d';
 import * as Util from './util';
 import {
   ConversationModelCollectionType,
@@ -358,18 +359,7 @@ declare global {
         VisualAttachment: any;
       };
       Util: typeof Util;
-      LinkPreviews: {
-        isMediaLinkInWhitelist: any;
-        getTitleMetaTag: any;
-        getImageMetaTag: any;
-        assembleChunks: any;
-        getChunkPattern: any;
-        isLinkInWhitelist: any;
-        isStickerPack: (url: string) => boolean;
-        isLinkSafeToPreview: (url: string) => boolean;
-        findLinks: (body: string, unknown?: any) => Array<string>;
-        getDomain: (url: string) => string;
-      };
+      LinkPreviews: typeof LinkPreviews;
       GroupChange: {
         renderChange: (change: unknown, things: unknown) => Array<string>;
       };
