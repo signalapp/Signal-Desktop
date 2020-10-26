@@ -14388,37 +14388,22 @@
     "reasonDetail": "Doesn't touch the DOM."
   },
   {
-    "rule": "React-createRef",
+    "rule": "React-useRef",
     "path": "ts/components/CallScreen.js",
-    "line": "        this.localVideoRef = react_1.default.createRef();",
-    "lineNumber": 87,
+    "line": "    const localVideoRef = react_1.useRef(null);",
+    "lineNumber": 41,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-14T23:03:44.863Z"
+    "updated": "2020-10-26T21:35:52.858Z",
+    "reasonDetail": "Used to get the local video element for rendering."
   },
   {
-    "rule": "React-createRef",
+    "rule": "React-useRef",
     "path": "ts/components/CallScreen.js",
-    "line": "        this.remoteVideoRef = react_1.default.createRef();",
-    "lineNumber": 88,
+    "line": "    const remoteVideoRef = react_1.useRef(null);",
+    "lineNumber": 42,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-14T23:03:44.863Z"
-  },
-  {
-    "rule": "React-createRef",
-    "path": "ts/components/CallScreen.tsx",
-    "line": "    this.localVideoRef = React.createRef();",
-    "lineNumber": 56,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-06-02T21:51:34.813Z",
-    "reasonDetail": "Used to render local preview video"
-  },
-  {
-    "rule": "React-createRef",
-    "path": "ts/components/CallScreen.tsx",
-    "line": "    this.remoteVideoRef = React.createRef();",
-    "lineNumber": 57,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-09-14T23:03:44.863Z"
+    "updated": "2020-10-26T21:35:52.858Z",
+    "reasonDetail": "Used to get the remote video element for rendering."
   },
   {
     "rule": "React-useRef",
