@@ -3,16 +3,35 @@ import _ from 'lodash';
 
 import * as Data from '../../js/modules/data';
 
-// TODO: Might convert it to a class later
-let webAPI: any;
-
 export async function downloadAttachment(attachment: any) {
-  if (!webAPI) {
-    webAPI = window.WebAPI.connect();
+  const serverUrl = new URL(attachment.url).origin;
+
+  // The fileserver adds the `-static` part for some reason
+  const defaultFileserver = _.includes(
+    ['https://file-static.lokinet.org', 'https://file.getsession.org'],
+    serverUrl
+  );
+
+  let res: any;
+
+  // TODO: we need attachments to remember which API should be used to retrieve them
+  if (!defaultFileserver) {
+    const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(
+      serverUrl
+    );
+
+    if (serverAPI) {
+      res = await serverAPI.downloadAttachment(attachment.url);
+    }
+  }
+
+  // Fallback to using the default fileserver
+  if (defaultFileserver || !res) {
+    res = await window.lokiFileServerAPI.downloadAttachment(attachment.url);
   }
 
   // The attachment id is actually just the absolute url of the attachment
-  let data = await webAPI.getAttachment(attachment.url);
+  let data = new Uint8Array(res.response.data).buffer;
   if (!attachment.isRaw) {
     const { key, digest, size } = attachment;
 

@@ -6,5 +6,6 @@
     }
   ],
   "openDevTools": true,
-  "defaultPublicChatServer": "https://team-chat.lokinet.org/"
+  "defaultPublicChatServer": "https://team-chat.lokinet.org/",
+  "defaultFileServer": "https://file-dev.getsession.org"
 }

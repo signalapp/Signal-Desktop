@@ -61,6 +61,7 @@ declare global {
       privateGroupChats: boolean;
       useSnodeProxy: boolean;
       useOnionRequests: boolean;
+      useOnionRequestsV2: boolean;
       useFileOnionRequests: boolean;
       enableSenderKeys: boolean;
       onionRequestHops: number;
