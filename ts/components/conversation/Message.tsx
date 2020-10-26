@@ -35,7 +35,8 @@ import { getIncrement } from '../../util/timer';
 import { isFileDangerous } from '../../util/isFileDangerous';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../session/icon';
 import _ from 'lodash';
-import { animation, Item, Menu, MenuProvider, theme } from 'react-contexify';
+import { animation, contextMenu, Item, Menu } from 'react-contexify';
+import uuid from 'uuid';
 
 declare global {
   interface Window {
@@ -130,25 +131,25 @@ const EXPIRATION_CHECK_MINIMUM = 2000;
 const EXPIRED_DELAY = 600;
 
 export class Message extends React.PureComponent<Props, State> {
-  public captureMenuTriggerBound: (trigger: any) => void;
   public handleImageErrorBound: () => void;
 
-  public menuTriggerRef: Trigger | undefined;
   public expirationCheckInterval: any;
   public expiredTimeout: any;
+  public ctxMenuID: string;
 
   public constructor(props: Props) {
     super(props);
 
-    this.captureMenuTriggerBound = this.captureMenuTrigger.bind(this);
     this.handleImageErrorBound = this.handleImageError.bind(this);
     this.onReplyPrivate = this.onReplyPrivate.bind(this);
+    this.handleContextMenu = this.handleContextMenu.bind(this);
 
     this.state = {
       expiring: false,
       expired: false,
       imageBroken: false,
     };
+    this.ctxMenuID = uuid();
   }
 
   public componentDidMount() {
@@ -179,6 +180,7 @@ export class Message extends React.PureComponent<Props, State> {
   public componentDidUpdate() {
     this.checkExpired();
   }
+
 
   public checkExpired() {
     const now = Date.now();
@@ -783,16 +785,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public captureMenuTrigger(triggerRef: Trigger) {
-    this.menuTriggerRef = triggerRef;
-  }
-  public showMenu(event: React.MouseEvent<HTMLDivElement>) {
-    if (this.menuTriggerRef) {
-      this.menuTriggerRef.handleContextClick(event);
-    }
-  }
-
-  public renderContextMenu(triggerId: string) {
+  public renderContextMenu() {
     const {
       attachments,
       onCopyText,
@@ -843,7 +836,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     return (
       <Menu
-        id={triggerId}
+        id={this.ctxMenuID}
         onShown={onContextMenuShown}
         onHidden={onContextMenuHidden}
         animation={animation.fade}
@@ -963,10 +956,7 @@ export class Message extends React.PureComponent<Props, State> {
     } = this.props;
     const { expired, expiring } = this.state;
 
-    // The Date.now() is a workaround to be sure a single triggerID with this id exists
-    const rightClickTriggerId = id
-      ? String(`message-ctx-${id}-${Date.now()}`)
-      : String(`message-ctx-${authorPhoneNumber}-${timestamp}`);
+
     if (expired) {
       return null;
     }
@@ -997,18 +987,44 @@ export class Message extends React.PureComponent<Props, State> {
       divClasses.push('public-chat-message-wrapper');
     }
 
-    const enableContextMenu = !isRss && !multiSelectMode && !isKickedFromGroup;
-
     return (
-      <div id={id} className={classNames(divClasses)}>
-        <MenuProvider id={rightClickTriggerId}>
-          {this.renderAvatar()}
+      <div id={id} className={classNames(divClasses)} onContextMenu={this.handleContextMenu}>
+        {this.renderAvatar()}
+        <div
+          className={classNames(
+            'module-message',
+            `module-message--${direction}`,
+            expiring ? 'module-message--expired' : null
+          )}
+          role="button"
+          onClick={event => {
+            const selection = window.getSelection();
+            // Text is being selected
+            if (selection && selection.type === 'Range') {
+              return;
+            }
+
+            // User clicked on message body
+            const target = event.target as HTMLDivElement;
+            if (!multiSelectMode && target.className === 'text-selectable' || window.contextMenuShown) {
+              return;
+            }
+
+            if (id) {
+              this.props.onSelectMessage(id);
+            }
+          }}
+        >
+          {this.renderError(isIncoming)}
+
           <div
             className={classNames(
-              'module-message',
-              `module-message--${direction}`,
-              expiring ? 'module-message--expired' : null
+              'module-message__container',
+              `module-message__container--${direction}`
             )}
+            style={{
+              width: isShowingImage ? width : undefined,
+            }}
             role="button"
             onClick={event => {
               const selection = window.getSelection();
@@ -1019,7 +1035,7 @@ export class Message extends React.PureComponent<Props, State> {
 
               // User clicked on message body
               const target = event.target as HTMLDivElement;
-              if (!multiSelectMode && target.className === 'text-selectable') {
+              if (target.className === 'text-selectable'  || window.contextMenuShown) {
                 return;
               }
 
@@ -1028,51 +1044,39 @@ export class Message extends React.PureComponent<Props, State> {
               }
             }}
           >
-            {this.renderError(isIncoming)}
-
-            <div
-              className={classNames(
-                'module-message__container',
-                `module-message__container--${direction}`
-              )}
-              style={{
-                width: isShowingImage ? width : undefined,
-              }}
-              role="button"
-              onClick={event => {
-                const selection = window.getSelection();
-                // Text is being selected
-                if (selection && selection.type === 'Range') {
-                  return;
-                }
-
-                // User clicked on message body
-                const target = event.target as HTMLDivElement;
-                if (target.className === 'text-selectable') {
-                  return;
-                }
-
-                if (id) {
-                  this.props.onSelectMessage(id);
-                }
-              }}
-            >
-              {this.renderAuthor()}
-              {this.renderQuote()}
-              {this.renderAttachment()}
-              {this.renderPreview()}
-              {this.renderEmbeddedContact()}
-              {this.renderText()}
-              {this.renderMetadata()}
-            </div>
-            {this.renderError(!isIncoming)}
-            {enableContextMenu
-              ? this.renderContextMenu(rightClickTriggerId)
-              : null}
+            {this.renderAuthor()}
+            {this.renderQuote()}
+            {this.renderAttachment()}
+            {this.renderPreview()}
+            {this.renderEmbeddedContact()}
+            {this.renderText()}
+            {this.renderMetadata()}
           </div>
-        </MenuProvider>
+          {this.renderError(!isIncoming)}
+          {this.renderContextMenu()}
+        </div>
       </div>
     );
+  }
+
+  private handleContextMenu(e: any) {
+    e.preventDefault();
+    e.stopPropagation();
+    const {
+      isRss,
+      multiSelectMode,
+      isKickedFromGroup,
+    } = this.props;
+    const enableContextMenu = !isRss && !multiSelectMode && !isKickedFromGroup;
+
+    if (enableContextMenu) {
+      // Don't forget to pass the id and the event and voila!
+      contextMenu.hideAll();
+      contextMenu.show({
+        id: this.ctxMenuID,
+        event: e,
+      });
+    }
   }
 
   private renderAuthor() {
@@ -1114,6 +1118,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   private onReplyPrivate(e: any) {
     e.event.stopPropagation();
+    e.event.preventDefault();
     if (this.props && this.props.onReply) {
       this.props.onReply(this.props.timestamp);
     }

@@ -292,6 +292,7 @@ export class SessionConversationMessagesList extends React.Component<
     if (!messageContainer) {
       return;
     }
+    contextMenu.hideAll();
 
     const scrollTop = messageContainer.scrollTop;
     const scrollHeight = messageContainer.scrollHeight;
