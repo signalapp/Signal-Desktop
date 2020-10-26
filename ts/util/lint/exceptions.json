@@ -14370,6 +14370,24 @@
     "reasonDetail": "Hard-coded value"
   },
   {
+    "rule": "React-useRef",
+    "path": "ts/components/AvatarPopup.js",
+    "line": "    const focusRef = React.useRef(null);",
+    "lineNumber": 18,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Only used to focus the element."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallNeedPermissionScreen.js",
+    "line": "    const autoCloseAtRef = react_1.useRef(Date.now() + AUTO_CLOSE_MS);",
+    "lineNumber": 17,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Doesn't touch the DOM."
+  },
+  {
     "rule": "React-createRef",
     "path": "ts/components/CallScreen.js",
     "line": "        this.localVideoRef = react_1.default.createRef();",
@@ -14403,6 +14421,78 @@
     "updated": "2020-09-14T23:03:44.863Z"
   },
   {
+    "rule": "React-useRef",
+    "path": "ts/components/CallingLobby.js",
+    "line": "    const localVideoRef = react_1.default.useRef(null);",
+    "lineNumber": 10,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Used to get the local video element for rendering."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallingLobby.tsx",
+    "line": "  const localVideoRef = React.useRef(null);",
+    "lineNumber": 47,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Used to get the local video element for rendering."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallingPip.js",
+    "line": "    const videoContainerRef = react_1.default.useRef(null);",
+    "lineNumber": 21,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Element is measured. Its HTML is not used."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallingPip.js",
+    "line": "    const localVideoRef = react_1.default.useRef(null);",
+    "lineNumber": 22,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Used to get the local video element for rendering."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallingPip.js",
+    "line": "    const remoteVideoRef = react_1.default.useRef(null);",
+    "lineNumber": 23,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Used to get the remote video element for rendering."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallingPip.tsx",
+    "line": "  const videoContainerRef = React.useRef(null);",
+    "lineNumber": 73,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Element is measured. Its HTML is not used."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallingPip.tsx",
+    "line": "  const localVideoRef = React.useRef(null);",
+    "lineNumber": 74,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Used to get the local video element for rendering."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallingPip.tsx",
+    "line": "  const remoteVideoRef = React.useRef(null);",
+    "lineNumber": 75,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Used to get the remote video element for rendering."
+  },
+  {
     "rule": "React-createRef",
     "path": "ts/components/CaptionEditor.js",
     "line": "        this.inputRef = react_1.default.createRef();",
@@ -14430,6 +14520,33 @@
     "reasonDetail": "Our code, no user input, only clearing out the dom"
   },
   {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionArea.js",
+    "line": "    const inputApiRef = React.useRef();",
+    "lineNumber": 41,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Doesn't refer to a DOM element."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionArea.js",
+    "line": "    const attSlotRef = React.useRef(null);",
+    "lineNumber": 64,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Needed for the composition area."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionArea.js",
+    "line": "    const micCellRef = React.useRef(null);",
+    "lineNumber": 98,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Needed for the composition area."
+  },
+  {
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.tsx",
     "line": "  el.innerHTML = '';",
@@ -14437,6 +14554,42 @@
     "reasonCategory": "usageTrusted",
     "updated": "2020-06-03T19:23:21.195Z",
     "reasonDetail": "Our code, no user input, only clearing out the dom"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionInput.js",
+    "line": "    const emojiCompletionRef = React.useRef();",
+    "lineNumber": 32,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Doesn't refer to a DOM element."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionInput.js",
+    "line": "    const quillRef = React.useRef();",
+    "lineNumber": 33,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Doesn't refer to a DOM element."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionInput.js",
+    "line": "    const scrollerRef = React.useRef(null);",
+    "lineNumber": 34,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Used with Quill for scrolling."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionInput.js",
+    "line": "    const propsRef = React.useRef(props);",
+    "lineNumber": 35,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Doesn't refer to a DOM element."
   },
   {
     "rule": "jQuery-$(",
@@ -14544,6 +14697,15 @@
     "reasonDetail": "SearchResults needs to interact with its child List directly"
   },
   {
+    "rule": "React-useRef",
+    "path": "ts/components/ShortcutGuide.js",
+    "line": "    const focusRef = React.useRef(null);",
+    "lineNumber": 167,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Only used to focus the element."
+  },
+  {
     "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.js",
     "line": "        this.menuTriggerRef = react_1.default.createRef();",
@@ -14560,6 +14722,24 @@
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-20T20:10:43.540Z",
     "reasonDetail": "Used to reference popup menu"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/ConversationHero.js",
+    "line": "    const firstRenderRef = React.useRef(true);",
+    "lineNumber": 65,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Doesn't refer to a DOM element."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/ConversationHero.tsx",
+    "line": "  const firstRenderRef = React.useRef(true);",
+    "lineNumber": 124,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Doesn't refer to a DOM element."
   },
   {
     "rule": "React-createRef",
@@ -14639,6 +14819,24 @@
     "reasonDetail": "Used for setting focus only"
   },
   {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/ReactionPicker.js",
+    "line": "    const focusRef = React.useRef(null);",
+    "lineNumber": 28,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Only used to focus the element."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/ReactionViewer.js",
+    "line": "    const focusRef = React.useRef(null);",
+    "lineNumber": 73,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Only used to focus the element."
+  },
+  {
     "rule": "React-createRef",
     "path": "ts/components/conversation/Timeline.js",
     "line": "        this.listRef = react_1.default.createRef();",
@@ -14666,6 +14864,15 @@
     "reasonDetail": "Used for setting focus only"
   },
   {
+    "rule": "React-useRef",
+    "path": "ts/components/emoji/EmojiPicker.js",
+    "line": "    const focusRef = React.useRef(null);",
+    "lineNumber": 38,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Only used to focus the element."
+  },
+  {
     "rule": "React-createRef",
     "path": "ts/components/stickers/StickerManager.js",
     "line": "    const focusRef = React.createRef();",
@@ -14673,6 +14880,24 @@
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-21T06:13:49.384Z",
     "reasonDetail": "Used for setting focus only"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/stickers/StickerPicker.js",
+    "line": "    const focusRef = React.useRef(null);",
+    "lineNumber": 40,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Only used to focus the element."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/stickers/StickerPreviewModal.js",
+    "line": "    const focusRef = React.useRef(null);",
+    "lineNumber": 35,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Only used to focus the element."
   },
   {
     "rule": "jQuery-wrap(",
