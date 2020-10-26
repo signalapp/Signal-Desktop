@@ -77,10 +77,5 @@ before(async () => {
   await window.storage.fetch();
 });
 
-window.clearDatabase = async () => {
-  await window.Signal.Data.removeAll();
-  await window.storage.fetch();
-};
-
 window.Whisper = window.Whisper || {};
 window.Whisper.events = _.clone(Backbone.Events);

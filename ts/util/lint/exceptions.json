@@ -14902,6 +14902,60 @@
   },
   {
     "rule": "jQuery-before(",
+    "path": "ts/test-electron/models/messages_test.js",
+    "line": "    before(async () => {",
+    "lineNumber": 33,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-21T00:45:53.649Z",
+    "reasonDetail": "Test code and a false positive."
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "ts/test-electron/models/messages_test.js",
+    "line": "        await window.ConversationController.load();",
+    "lineNumber": 35,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-21T00:45:53.649Z",
+    "reasonDetail": "Test code and a false positive."
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "ts/test-electron/models/messages_test.js",
+    "line": "    after(async () => {",
+    "lineNumber": 39,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-21T00:45:53.649Z",
+    "reasonDetail": "Test code and a false positive."
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "ts/test-electron/models/messages_test.ts",
+    "line": "  before(async () => {",
+    "lineNumber": 26,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-21T00:45:53.649Z",
+    "reasonDetail": "Test code and a false positive."
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "ts/test-electron/models/messages_test.ts",
+    "line": "    await window.ConversationController.load();",
+    "lineNumber": 28,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-21T00:45:53.649Z",
+    "reasonDetail": "Test code and a false positive."
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "ts/test-electron/models/messages_test.ts",
+    "line": "  after(async () => {",
+    "lineNumber": 33,
+    "reasonCategory": "testCode",
+    "updated": "2020-10-21T00:45:53.649Z",
+    "reasonDetail": "Test code and a false positive."
+  },
+  {
+    "rule": "jQuery-before(",
     "path": "ts/test/util/windowsZoneIdentifier_test.js",
     "line": "    before(function thisNeeded() {",
     "lineNumber": 19,

@@ -559,6 +559,7 @@ try {
     };
 
     /* eslint-disable global-require, import/no-extraneous-dependencies */
+    require('./ts/test-electron/models/messages_test');
     require('./ts/test-electron/linkPreviews/linkPreviewFetch_test');
 
     delete window.describe;
