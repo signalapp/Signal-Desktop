@@ -6053,7 +6053,7 @@ button.module-image__border-overlay:focus {
   }
 
   &__pip {
-    @include color-svg('../images/icons/v2/collapse-24.svg', $color-white);
+    @include color-svg('../images/icons/v2/pip-minimize-24.svg', $color-white);
     height: 22px;
     width: 22px;
   }
@@ -6360,11 +6360,17 @@ button.module-image__border-overlay:focus {
     }
 
     &--pip {
-      @include color-svg('../images/icons/v2/expand-24.svg', $color-gray-75);
+      @include color-svg(
+        '../images/icons/v2/pip-maximize-24.svg',
+        $color-gray-75
+      );
       height: 24px;
       width: 24px;
       @include dark-theme {
-        @include color-svg('../images/icons/v2/expand-24.svg', $color-gray-15);
+        @include color-svg(
+          '../images/icons/v2/pip-maximize-24.svg',
+          $color-gray-15
+        );
       }
     }
   }
