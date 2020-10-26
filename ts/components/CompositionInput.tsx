@@ -164,10 +164,12 @@ const compositeDecorator = new CompositeDecorator([
     component: ({
       children,
       contentState,
+      decoratedText,
       entityKey,
     }: {
       children: React.ReactNode;
       contentState: ContentState;
+      decoratedText: string;
       entityKey: string;
     }) =>
       entityKey ? (
@@ -180,7 +182,9 @@ const compositeDecorator = new CompositeDecorator([
           {children}
         </Emoji>
       ) : (
-        children
+        <Emoji inline size={20} emoji={decoratedText}>
+          {children}
+        </Emoji>
       ),
   },
 ]);
