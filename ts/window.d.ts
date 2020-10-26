@@ -56,7 +56,6 @@ declare global {
     lokiFeatureFlags: {
       multiDeviceUnpairing: boolean;
       privateGroupChats: boolean;
-      useSnodeProxy: boolean;
       useOnionRequests: boolean;
       useOnionRequestsV2: boolean;
       useFileOnionRequests: boolean;
