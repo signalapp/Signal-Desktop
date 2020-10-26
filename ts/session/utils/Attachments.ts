@@ -67,7 +67,6 @@ export class AttachmentUtils {
       }
       server = openGroupServer;
     }
-
     const pointer: AttachmentPointer = {
       contentType: attachment.contentType
         ? (attachment.contentType as string)

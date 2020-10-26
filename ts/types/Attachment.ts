@@ -369,6 +369,24 @@ export const getSuggestedFilename = ({
   return `${prefix}${suffix}${indexSuffix}${extension}`;
 };
 
+// Used for overriden the sent filename of an attachment, but keeping the file extension the same
+export const getSuggestedFilenameSending = ({
+  attachment,
+  timestamp,
+}: {
+  attachment: AttachmentType;
+  timestamp?: number | Date;
+}): string => {
+  const prefix = 'session-attachment';
+  const suffix = timestamp
+    ? moment(timestamp).format('-YYYY-MM-DD-HHmmss')
+    : '';
+  const fileType = getFileExtension(attachment);
+  const extension = fileType ? `.${fileType}` : '';
+
+  return `${prefix}${suffix}${extension}`;
+};
+
 export const getFileExtension = (
   attachment: AttachmentType
 ): string | undefined => {

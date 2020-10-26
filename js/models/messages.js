@@ -571,7 +571,6 @@
       const isGroup = !!conversation && !conversation.isPrivate();
 
       const attachments = this.get('attachments') || [];
-      const firstAttachment = attachments[0];
 
       return {
         text: this.createNonBreakingLastSeparator(this.get('body')),
@@ -987,6 +986,13 @@
         attachments: attachmentsWithData,
         now: this.get('sent_at'),
       });
+      const filenameOverridenAttachments = finalAttachments.map(attachment => ({
+        ...attachment,
+        fileName: Signal.Types.Attachment.getSuggestedFilenameSending({
+          attachment,
+          timestamp: Date.now(),
+        }),
+      }));
 
       const quoteWithData = await loadQuoteData(this.get('quote'));
       const previewWithData = await loadPreviewData(this.get('preview'));
@@ -996,7 +1002,10 @@
 
       const { AttachmentUtils } = libsession.Utils;
       const [attachments, preview, quote] = await Promise.all([
-        AttachmentUtils.uploadAttachments(finalAttachments, openGroup),
+        AttachmentUtils.uploadAttachments(
+          filenameOverridenAttachments,
+          openGroup
+        ),
         AttachmentUtils.uploadLinkPreviews(previewWithData, openGroup),
         AttachmentUtils.uploadQuoteThumbnails(quoteWithData, openGroup),
       ]);

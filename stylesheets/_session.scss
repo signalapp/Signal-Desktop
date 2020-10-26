@@ -1340,6 +1340,7 @@ input {
   position: absolute;
   bottom: 15px;
   right: 25px;
+  z-index: 2;
 
   .session-icon-button {
     display: flex;

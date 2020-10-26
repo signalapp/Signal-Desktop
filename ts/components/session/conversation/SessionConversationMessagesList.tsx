@@ -33,7 +33,7 @@ interface Props {
   ) => Promise<{ previousTopMessage: string }>;
   replyToMessage: (messageId: number) => Promise<void>;
   onClickAttachment: (attachment: any, message: any) => void;
-  onDownloadAttachment: ({ attachment }: { attachment: any}) => void;
+  onDownloadAttachment: ({ attachment }: { attachment: any }) => void;
 }
 
 export class SessionConversationMessagesList extends React.Component<
@@ -181,7 +181,7 @@ export class SessionConversationMessagesList extends React.Component<
       this.props.onClickAttachment(attachment, messageProps);
     };
     messageProps.onDownload = (attachment: AttachmentType) => {
-      this.props.onDownloadAttachment({attachment});
+      this.props.onDownloadAttachment({ attachment });
     };
 
     return <Message {...messageProps} />;

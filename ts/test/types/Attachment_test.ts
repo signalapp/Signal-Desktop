@@ -48,7 +48,6 @@ describe('Attachment', () => {
           contentType: MIME.VIDEO_QUICKTIME,
           url: 'funny-cat.mov',
           fileName: 'funny-cat.mov',
-
         };
         const timestamp = moment('2000-01-01').toDate();
         const actual = Attachment.getSuggestedFilename({
@@ -64,7 +63,8 @@ describe('Attachment', () => {
         const attachment: Attachment.AttachmentType = {
           fileName: 'funny-cat.mov',
           url: 'funny-cat.mov',
-          contentType: MIME.VIDEO_QUICKTIME,        };
+          contentType: MIME.VIDEO_QUICKTIME,
+        };
         const timestamp = new Date(new Date(0).getTimezoneOffset() * 60 * 1000);
         const actual = Attachment.getSuggestedFilename({
           attachment,

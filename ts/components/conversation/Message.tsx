@@ -181,7 +181,6 @@ export class Message extends React.PureComponent<Props, State> {
     this.checkExpired();
   }
 
-
   public checkExpired() {
     const now = Date.now();
     const { isExpired, expirationTimestamp, expirationLength } = this.props;
@@ -956,7 +955,6 @@ export class Message extends React.PureComponent<Props, State> {
     } = this.props;
     const { expired, expiring } = this.state;
 
-
     if (expired) {
       return null;
     }
@@ -988,7 +986,11 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div id={id} className={classNames(divClasses)} onContextMenu={this.handleContextMenu}>
+      <div
+        id={id}
+        className={classNames(divClasses)}
+        onContextMenu={this.handleContextMenu}
+      >
         {this.renderAvatar()}
         <div
           className={classNames(
@@ -1006,7 +1008,10 @@ export class Message extends React.PureComponent<Props, State> {
 
             // User clicked on message body
             const target = event.target as HTMLDivElement;
-            if (!multiSelectMode && target.className === 'text-selectable' || window.contextMenuShown) {
+            if (
+              (!multiSelectMode && target.className === 'text-selectable') ||
+              window.contextMenuShown
+            ) {
               return;
             }
 
@@ -1035,7 +1040,10 @@ export class Message extends React.PureComponent<Props, State> {
 
               // User clicked on message body
               const target = event.target as HTMLDivElement;
-              if (target.className === 'text-selectable'  || window.contextMenuShown) {
+              if (
+                target.className === 'text-selectable' ||
+                window.contextMenuShown
+              ) {
                 return;
               }
 
@@ -1062,11 +1070,7 @@ export class Message extends React.PureComponent<Props, State> {
   private handleContextMenu(e: any) {
     e.preventDefault();
     e.stopPropagation();
-    const {
-      isRss,
-      multiSelectMode,
-      isKickedFromGroup,
-    } = this.props;
+    const { isRss, multiSelectMode, isKickedFromGroup } = this.props;
     const enableContextMenu = !isRss && !multiSelectMode && !isKickedFromGroup;
 
     if (enableContextMenu) {
