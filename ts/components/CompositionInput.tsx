@@ -163,29 +163,15 @@ const compositeDecorator = new CompositeDecorator([
     },
     component: ({
       children,
-      contentState,
       decoratedText,
-      entityKey,
     }: {
       children: React.ReactNode;
-      contentState: ContentState;
       decoratedText: string;
-      entityKey: string;
-    }) =>
-      entityKey ? (
-        <Emoji
-          shortName={contentState.getEntity(entityKey).getData().shortName}
-          skinTone={contentState.getEntity(entityKey).getData().skinTone}
-          inline
-          size={20}
-        >
-          {children}
-        </Emoji>
-      ) : (
-        <Emoji inline size={20} emoji={decoratedText}>
-          {children}
-        </Emoji>
-      ),
+    }) => (
+      <Emoji inline size={20} emoji={decoratedText}>
+        {children}
+      </Emoji>
+    ),
   },
 ]);
 
@@ -373,12 +359,6 @@ export const CompositionInput = ({
         const selection = state.getSelection();
         const word = getWordAtCaret(state);
         const emojiContent = convertShortName(shortName, skinTone);
-        const emojiEntityKey = content
-          .createEntity('emoji', 'IMMUTABLE', {
-            shortName,
-            skinTone,
-          })
-          .getLastCreatedEntityKey();
 
         const replaceSelection = selection.merge({
           anchorOffset: word.start,
@@ -388,9 +368,7 @@ export const CompositionInput = ({
         let newContent = Modifier.replaceText(
           content,
           replaceSelection as SelectionState,
-          emojiContent,
-          undefined,
-          emojiEntityKey
+          emojiContent
         );
 
         const afterSelection = newContent.getSelectionAfter();
@@ -581,12 +559,6 @@ export const CompositionInput = ({
       const selection = state.getSelection();
       const oldContent = state.getCurrentContent();
       const emojiContent = convertShortName(e.shortName, e.skinTone);
-      const emojiEntityKey = oldContent
-        .createEntity('emoji', 'IMMUTABLE', {
-          shortName: e.shortName,
-          skinTone: e.skinTone,
-        })
-        .getLastCreatedEntityKey();
       const word = getWordAtCaret();
 
       let newContent = Modifier.replaceText(
@@ -597,9 +569,7 @@ export const CompositionInput = ({
               focusOffset: word.end,
             }) as SelectionState)
           : selection,
-        emojiContent,
-        undefined,
-        emojiEntityKey
+        emojiContent
       );
 
       const afterSelection = newContent.getSelectionAfter();
