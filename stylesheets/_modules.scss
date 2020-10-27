@@ -8712,7 +8712,8 @@ button.module-image__border-overlay:focus {
 
       &--large {
         max-height: 227px;
-        height: 227px;
+        min-height: 227px;
+
         .DraftEditor-root {
           height: 227px - 2 * 7px; // subtract padding
         }
