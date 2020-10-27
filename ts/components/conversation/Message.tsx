@@ -791,7 +791,8 @@ export class Message extends React.PureComponent<Props, State> {
       direction,
       status,
       isDeletable,
-      onDelete,
+      id,
+      onSelectMessage,
       onDownload,
       onRetrySend,
       onShowDetail,
@@ -828,10 +829,7 @@ export class Message extends React.PureComponent<Props, State> {
       }, 100);
     };
 
-    const isServerDeletable = !!this.props.isPublic;
-    const deleteMessageCtxText = window.i18n(
-      isServerDeletable ? 'deleteForEveryone' : 'delete'
-    );
+    const selectMessageText = window.i18n('selectMessage');
 
     return (
       <Menu
@@ -864,7 +862,14 @@ export class Message extends React.PureComponent<Props, State> {
           <Item onClick={wrap(onRetrySend)}>{window.i18n('resend')}</Item>
         ) : null}
         {isDeletable ? (
-          <Item onClick={wrap(onDelete)}>{deleteMessageCtxText}</Item>
+          <Item
+            onClick={(e: any) => {
+              e.event.stopPropagation();
+              onSelectMessage(id);
+            }}
+          >
+            {selectMessageText}
+          </Item>
         ) : null}
         {isModerator && isPublic ? (
           <Item onClick={wrap(onBanUser)}>{window.i18n('banUser')}</Item>

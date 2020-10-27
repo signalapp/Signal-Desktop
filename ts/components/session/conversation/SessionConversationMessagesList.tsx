@@ -34,6 +34,7 @@ interface Props {
   replyToMessage: (messageId: number) => Promise<void>;
   onClickAttachment: (attachment: any, message: any) => void;
   onDownloadAttachment: ({ attachment }: { attachment: any }) => void;
+  onDeleteSelectedMessages: () => Promise<void>;
 }
 
 export class SessionConversationMessagesList extends React.Component<

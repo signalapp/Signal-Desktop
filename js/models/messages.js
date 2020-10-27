@@ -617,7 +617,6 @@
         onBanUser: () => this.banUser(),
         onRetrySend: () => this.retrySend(),
         onShowDetail: () => this.trigger('show-message-detail', this),
-        onDelete: () => this.trigger('delete', this),
         onClickLinkPreview: url => this.trigger('navigate-to', url),
 
         onShowUserDetails: pubkey =>

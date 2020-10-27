@@ -26,6 +26,7 @@ import { AttachmentType, save } from '../../../types/Attachment';
 import { ToastUtils } from '../../../session/utils';
 import * as MIME from '../../../types/MIME';
 import { SessionFileDropzone } from './SessionFileDropzone';
+import { PubKey } from '../../../session/types';
 
 interface State {
   conversationKey: string;
@@ -449,9 +450,7 @@ export class SessionConversation extends React.Component<Props, State> {
       onSetDisappearingMessages: (seconds: any) =>
         conversation.updateExpirationTimer(seconds),
       onDeleteMessages: () => null,
-      onDeleteSelectedMessages: async () => {
-        await this.deleteSelectedMessages();
-      },
+      onDeleteSelectedMessages: this.deleteSelectedMessages,
       onCloseOverlay: () => {
         this.setState({ selectedMessages: [] });
         conversation.resetMessageSelection();
@@ -536,6 +535,7 @@ export class SessionConversation extends React.Component<Props, State> {
       onClickAttachment: this.onClickAttachment,
       onDownloadAttachment: this.downloadAttachment,
       messageContainerRef: this.messageContainerRef,
+      onDeleteSelectedMessages: this.deleteSelectedMessages,
     };
   }
 
@@ -652,15 +652,14 @@ export class SessionConversation extends React.Component<Props, State> {
 
   public async deleteSelectedMessages() {
     // Get message objects
-    const selectedMessages = this.state.messages.filter(message =>
-      this.state.selectedMessages.find(
-        selectedMessage => selectedMessage === message.id
-      )
-    );
-
     const { conversationKey } = this.state;
     const conversationModel = window.ConversationController.getOrThrow(
       conversationKey
+    );
+    const selectedMessages = conversationModel.messageCollection.models.filter(message =>
+      this.state.selectedMessages.find(
+        selectedMessage => selectedMessage === message.id
+      )
     );
 
     const multiple = selectedMessages.length > 1;
@@ -698,9 +697,9 @@ export class SessionConversation extends React.Component<Props, State> {
           await MultiDeviceProtocol.getPrimaryDevice(ourDevicePubkey)
         ).key;
         const isModerator = conversationModel.isModerator(ourPrimaryPubkey);
+        const ourNumbers = (await MultiDeviceProtocol.getOurDevices()).map(m => m.key);
         const isAllOurs = selectedMessages.every(
-          message =>
-            message.propsForMessage.authorPhoneNumber === message.OUR_NUMBER
+          message => ourNumbers.includes(message.get('source'))
         );
 
         if (!isAllOurs && !isModerator) {
@@ -742,13 +741,6 @@ export class SessionConversation extends React.Component<Props, State> {
         conversationModel.trigger('change', conversationModel);
       });
     };
-
-    // Only show a warning when at least one messages was successfully
-    // saved in on the server
-    if (!selectedMessages.some(m => !m.hasErrors())) {
-      await doDelete();
-      return;
-    }
 
     // If removable from server, we "Unsend" - otherwise "Delete"
     const pluralSuffix = multiple ? 's' : '';
