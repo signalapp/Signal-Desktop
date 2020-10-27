@@ -3432,11 +3432,6 @@ emoji-annotation-to-unicode@^0.3.0:
   resolved "https://registry.yarnpkg.com/emoji-annotation-to-unicode/-/emoji-annotation-to-unicode-0.3.0.tgz#b76d18823e1d70a95a017c438c168eda12902f3b"
   integrity sha1-t20Ygj4dcKlaAXxDjBaO2hKQLzs=
 
-emoji-datasource-apple@4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/emoji-datasource-apple/-/emoji-datasource-apple-4.0.0.tgz#f31a2cbf9295c66b5cc1e78635ee7b617430a08b"
-  integrity sha1-8xosv5KVxmtcweeGNe57YXQwoIs=
-
 emoji-datasource@4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/emoji-datasource/-/emoji-datasource-4.0.0.tgz#3fc9c0c2f4fb321d9291138819f6d100603d3e2f"
@@ -3460,12 +3455,6 @@ emoji-mart@^2.11.2:
   integrity sha512-IdHZR5hc3mipTY/r0ergtqBgQ96XxmRdQDSg7fsL+GiJQQ4akMws6+cjLSyIhGQxtvNuPVNaEQiAlU00NsyZUg==
   dependencies:
     prop-types "^15.6.0"
-
-"emoji-panel@https://github.com/scottnonnenberg-signal/emoji-panel.git#v0.5.5":
-  version "0.5.5"
-  resolved "https://github.com/scottnonnenberg-signal/emoji-panel.git#81e236e03458a44d4a174ab5f367cb4b9b1b2f97"
-  dependencies:
-    emoji-datasource "4.0.0"
 
 "emoji-regex@>=6.0.0 <=6.1.1":
   version "6.1.1"

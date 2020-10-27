@@ -756,7 +756,7 @@ label {
 .react-contexify {
   z-index: 3;
   min-width: 200px;
-  box-shadow:  0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;
+  box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
 
   .react-contexify__item:not(.react-contexify__item--disabled):hover
     > .react-contexify__item__content {

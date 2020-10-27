@@ -243,10 +243,12 @@ export class SessionCompositionBox extends React.Component<Props, State> {
           onKeyDown={this.onKeyDown}
           role="button"
         >
-          <SessionEmojiPanel
-            onEmojiClicked={this.onEmojiClick}
-            show={showEmojiPanel}
-          />
+          {showEmojiPanel && (
+            <SessionEmojiPanel
+              onEmojiClicked={this.onEmojiClick}
+              show={showEmojiPanel}
+            />
+          )}
         </div>
       </>
     );

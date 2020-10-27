@@ -1,8 +1,6 @@
 /* global
   $,
   _,
-  emojiData,
-  EmojiPanel,
   extension,
   i18n,
   Signal,
@@ -372,7 +370,6 @@
       this.$('.send-message').focus(this.focusBottomBar.bind(this));
       this.$('.send-message').blur(this.unfocusBottomBar.bind(this));
 
-      this.$emojiPanelContainer = this.$('.emoji-panel-container');
       this.model.updateTextInputState();
 
       this.selectMember = this.selectMember.bind(this);
@@ -414,7 +411,6 @@
       'click .bottom-bar': 'focusMessageField',
       'click .capture-audio .microphone': 'captureAudio',
       'click .module-scroll-down': 'scrollToBottom',
-      'click button.emoji': 'toggleEmojiPanel',
       'focus .send-message': 'focusBottomBar',
       'change .file-input': 'toggleMicrophone',
       'blur .send-message': 'unfocusBottomBar',
@@ -484,9 +480,10 @@
     },
 
     onDisableInput(disable) {
-      this.$(
-        'button.emoji, button.microphone, button.paperclip, .send-message'
-      ).attr('disabled', disable);
+      this.$('button.microphone, button.paperclip, .send-message').attr(
+        'disabled',
+        disable
+      );
     },
 
     onChangePlaceholder(type) {
@@ -1497,14 +1494,6 @@
       this.model.resetMessageSelection();
     },
 
-    toggleEmojiPanel(e) {
-      e.preventDefault();
-      if (!this.emojiPanel) {
-        this.openEmojiPanel();
-      } else {
-        this.closeEmojiPanel();
-      }
-    },
     onKeyDown(event) {
       if (event.key !== 'Escape') {
         return;
@@ -1516,44 +1505,6 @@
       // Up and down arrows should scroll
       // Alt + up and down should swap between conversations / setting categories
       this.model.resetMessageSelection();
-      this.closeEmojiPanel();
-    },
-    openEmojiPanel() {
-      this.$emojiPanelContainer.outerHeight(200);
-      this.emojiPanel = new EmojiPanel(this.$emojiPanelContainer[0], {
-        onClick: this.insertEmoji.bind(this),
-      });
-      this.view.resetScrollPosition();
-      this.updateMessageFieldSize({});
-    },
-    closeEmojiPanel() {
-      if (this.emojiPanel === null) {
-        return;
-      }
-
-      this.$emojiPanelContainer.empty().outerHeight(0);
-      this.emojiPanel = null;
-      this.view.resetScrollPosition();
-      this.updateMessageFieldSize({});
-    },
-    insertEmoji(e) {
-      const colons = `:${emojiData[e.index].short_name}:`;
-
-      const textarea = this.$messageField[0];
-      if (textarea.selectionStart || textarea.selectionStart === 0) {
-        const startPos = textarea.selectionStart;
-        const endPos = textarea.selectionEnd;
-
-        textarea.value =
-          textarea.value.substring(0, startPos) +
-          colons +
-          textarea.value.substring(endPos, textarea.value.length);
-        textarea.selectionStart = startPos + colons.length;
-        textarea.selectionEnd = startPos + colons.length;
-      } else {
-        textarea.value += colons;
-      }
-      this.focusMessageField();
     },
 
     async setQuoteMessage(message) {
@@ -1621,13 +1572,11 @@
 
     async sendMessage(e) {
       this.removeLastSeenIndicator();
-      this.closeEmojiPanel();
       this.model.clearTypingTimers();
 
       const input = this.$messageField;
 
-      let message = this.memberView.replaceMentions(input.val());
-      message = window.Signal.Emoji.replaceColons(message).trim();
+      const message = this.memberView.replaceMentions(input.val());
 
       const toastOptions = { type: 'info' };
       // let it pass if we're still trying to read it or it's false...
@@ -2275,7 +2224,6 @@
       const height =
         this.$messageField.outerHeight() +
         $attachmentPreviews.outerHeight() +
-        this.$emojiPanelContainer.outerHeight() +
         quoteHeight +
         parseInt($bottomBar.css('min-height'), 10);
 

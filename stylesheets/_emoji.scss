@@ -102,33 +102,3 @@ button.emoji {
     opacity: 1;
   }
 }
-
-// Import emoji panel css and override paths
-@import '../node_modules/emoji-panel/lib/emoji-panel-apple-32.css';
-@font-face {
-  font-family: 'apple-category';
-  src: url(../node_modules/emoji-panel/lib/asset/apple.ttf) format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-.emoji-panel-container {
-  height: 0px;
-
-  .ep-emojies {
-    background-color: $color-white;
-  }
-
-  .ep-categories {
-    background-color: $color-light-10;
-    margin-bottom: 6px;
-  }
-
-  .ep-e {
-    background-image: url('../node_modules/emoji-datasource-apple/img/apple/sheets/64.png');
-    background-size: 1734px;
-  }
-  .ep-slide {
-    background-color: $blue;
-  }
-}

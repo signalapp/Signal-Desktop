@@ -24,18 +24,6 @@ export function findImage(value: string, variation?: string) {
   return instance.find_image(value, variation);
 }
 
-export function replaceColons(str: string) {
-  return str.replace(instance.rx_colons, m => {
-    const name = m.substr(1, m.length - 2).toLowerCase();
-    const code = instance.map.colons[name];
-    if (code) {
-      return instance.data[code][0][0];
-    }
-
-    return m;
-  });
-}
-
 function getCountOfAllMatches(str: string, regex: RegExp) {
   let match = regex.exec(str);
   let count = 0;
