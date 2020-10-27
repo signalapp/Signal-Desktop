@@ -26,8 +26,14 @@ export async function downloadAttachment(attachment: any) {
   }
 
   // Fallback to using the default fileserver
-  if (defaultFileserver || !res) {
+  if (defaultFileserver || !res || !res.ok) {
     res = await window.lokiFileServerAPI.downloadAttachment(attachment.url);
+  }
+
+  if (!res.response || !res.response.data) {
+    throw new Error(
+      `downloadAttachment: invalid response for ${attachment.url}`
+    );
   }
 
   // The attachment id is actually just the absolute url of the attachment
