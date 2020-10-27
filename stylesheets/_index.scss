@@ -216,6 +216,9 @@ h4.section-toggle,
   .conversation {
     display: none;
   }
+  .placeholder {
+    height: 100%;
+  }
   .conversation:first-child {
     display: block;
   }

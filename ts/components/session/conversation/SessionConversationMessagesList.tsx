@@ -49,7 +49,7 @@ export class SessionConversationMessagesList extends React.Component<
 
     this.state = {
       isScrolledToBottom: false,
-      showScrollButton: true,
+      showScrollButton: false,
       doneInitialScroll: false,
     };
     this.renderMessage = this.renderMessage.bind(this);
