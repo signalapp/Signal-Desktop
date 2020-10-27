@@ -93,7 +93,7 @@ exports.setup = (browserWindow, messages) => {
           };
           label = messages.contextMenuCopyLink.message;
         } else if (isImage) {
-          click = async () => {
+          click = () => {
             if (url.parse(params.srcURL).protocol !== 'file:') {
               return;
             }
