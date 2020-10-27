@@ -544,7 +544,8 @@ try {
     );
     const link = e.target.closest('a');
     const selection = Boolean(window.getSelection().toString());
-    if (!editable && !selection && !link) {
+    const image = e.target.closest('.module-lightbox img');
+    if (!editable && !selection && !link && !image) {
       e.preventDefault();
     }
   });
