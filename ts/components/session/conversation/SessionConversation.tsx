@@ -656,10 +656,11 @@ export class SessionConversation extends React.Component<Props, State> {
     const conversationModel = window.ConversationController.getOrThrow(
       conversationKey
     );
-    const selectedMessages = conversationModel.messageCollection.models.filter(message =>
-      this.state.selectedMessages.find(
-        selectedMessage => selectedMessage === message.id
-      )
+    const selectedMessages = conversationModel.messageCollection.models.filter(
+      message =>
+        this.state.selectedMessages.find(
+          selectedMessage => selectedMessage === message.id
+        )
     );
 
     const multiple = selectedMessages.length > 1;
@@ -697,17 +698,15 @@ export class SessionConversation extends React.Component<Props, State> {
           await MultiDeviceProtocol.getPrimaryDevice(ourDevicePubkey)
         ).key;
         const isModerator = conversationModel.isModerator(ourPrimaryPubkey);
-        const ourNumbers = (await MultiDeviceProtocol.getOurDevices()).map(m => m.key);
-        const isAllOurs = selectedMessages.every(
-          message => ourNumbers.includes(message.get('source'))
+        const ourNumbers = (await MultiDeviceProtocol.getOurDevices()).map(
+          m => m.key
+        );
+        const isAllOurs = selectedMessages.every(message =>
+          ourNumbers.includes(message.get('source'))
         );
 
         if (!isAllOurs && !isModerator) {
-          window.pushToast({
-            title: window.i18n('messageDeletionForbidden'),
-            type: 'error',
-            id: 'messageDeletionForbidden',
-          });
+          ToastUtils.pushMessageDeleteForbidden();
 
           this.setState({ selectedMessages: [] });
           return;

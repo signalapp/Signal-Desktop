@@ -423,12 +423,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       return;
     }
 
-    window.pushToast({
-      id: 'audioPermissionNeeded',
-      title: window.i18n('audioPermissionNeededTitle'),
-      description: window.i18n('audioPermissionNeeded'),
-      type: 'info',
-    });
+    ToastUtils.pushAudioPermissionNeeded();
   }
 
   private onExitVoiceNoteView() {

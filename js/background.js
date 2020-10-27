@@ -203,11 +203,7 @@
     setTimeout(() => {
       localStorage.removeItem('restart-reason');
 
-      window.pushToast({
-        title: window.i18n('successUnlinked'),
-        type: 'info',
-        id: '123',
-      });
+      window.libsession.Utils.ToastUtils.pushForceUnlinked();
     }, 2000);
   }
 
@@ -841,11 +837,7 @@
       // if not undefined, we take the opposite
       const newValue = currentValue !== undefined ? !currentValue : false;
       window.Events.setSpellCheck(newValue);
-      window.pushToast({
-        description: window.i18n('spellCheckDirty'),
-        type: 'info',
-        id: 'spellCheckDirty',
-      });
+      window.libsession.Utils.ToastUtils.pushSpellCheckDirty();
     };
 
     window.toggleLinkPreview = () => {
@@ -979,11 +971,8 @@
         const conversationExists = ConversationController.get(conversationId);
         if (conversationExists) {
           window.log.warn('We are already a member of this public chat');
-          window.pushToast({
-            description: window.i18n('publicChatExists'),
-            type: 'info',
-            id: 'alreadyMemberPublicChat',
-          });
+          window.libsession.Utils.ToastUtils.pushAlreadyMemberOpenGroup();
+
           return;
         }
 
@@ -1063,16 +1052,6 @@
             Whisper.events.trigger('showConversation', userPubKey);
           },
         });
-      }
-    });
-
-    Whisper.events.on('showToast', options => {
-      if (
-        appView &&
-        appView.inboxView &&
-        appView.inboxView.conversation_stack
-      ) {
-        appView.inboxView.conversation_stack.showToast(options);
       }
     });
 

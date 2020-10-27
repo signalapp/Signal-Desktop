@@ -904,11 +904,7 @@
         clipboard.writeText(this.OUR_NUMBER);
       }
 
-      window.pushToast({
-        title: i18n('copiedToClipboard'),
-        type: 'success',
-        id: 'copiedToClipboard',
-      });
+      window.libsession.Utils.ToastUtils.pushCopiedToClipBoard();
     },
 
     banUser() {
@@ -923,17 +919,9 @@
           const success = await channelAPI.banUser(source);
 
           if (success) {
-            window.pushToast({
-              title: i18n('userBanned'),
-              type: 'success',
-              id: 'userBanned',
-            });
+            window.libsession.Utils.ToastUtils.pushUserBanSuccess();
           } else {
-            window.pushToast({
-              title: i18n('userBanFailed'),
-              type: 'error',
-              id: 'userBanFailed',
-            });
+            window.libsession.Utils.ToastUtils.pushUserBanFailure();
           }
         },
       });
@@ -957,11 +945,7 @@
     copyText() {
       clipboard.writeText(this.get('body'));
 
-      window.pushToast({
-        title: i18n('copiedToClipboard'),
-        type: 'success',
-        id: 'copiedToClipboard',
-      });
+      window.libsession.Utils.ToastUtils.pushCopiedToClipBoard();
     },
 
     /**

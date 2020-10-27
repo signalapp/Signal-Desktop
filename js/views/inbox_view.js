@@ -39,12 +39,6 @@
         $el.remove();
       }
     },
-    showToast({ message }) {
-      window.pushToast({
-        title: message,
-        type: 'success',
-      });
-    },
     showConfirmationDialog({
       title,
       message,

@@ -2280,11 +2280,7 @@
     copyPublicKey() {
       clipboard.writeText(this.id);
 
-      window.pushToast({
-        title: i18n('copiedToClipboard'),
-        type: 'success',
-        id: 'copiedToClipboard',
-      });
+      window.libsession.Utils.ToastUtils.pushCopiedToClipBoard();
     },
 
     changeNickname() {

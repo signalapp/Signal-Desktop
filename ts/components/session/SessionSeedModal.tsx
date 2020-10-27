@@ -210,11 +210,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
   private copyRecoveryPhrase(recoveryPhrase: string) {
     window.clipboard.writeText(recoveryPhrase);
 
-    ToastUtils.push({
-      title: window.i18n('copiedToClipboard'),
-      type: 'success',
-      id: 'copyRecoveryPhraseToast',
-    });
+    ToastUtils.pushCopiedToClipBoard();
   }
 
   private onEnter(event: any) {

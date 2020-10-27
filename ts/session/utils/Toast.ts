@@ -73,3 +73,68 @@ export function pushMessageBodyMissing() {
     id: 'messageBodyMissing',
   });
 }
+
+export function pushCopiedToClipBoard() {
+  window.pushToast({
+    title: window.i18n('copiedToClipboard'),
+    type: 'success',
+    id: 'copiedToClipboard',
+  });
+}
+
+export function pushForceUnlinked() {
+  window.pushToast({
+    title: window.i18n('successUnlinked'),
+    type: 'info',
+    id: 'successUnlinked',
+  });
+}
+
+export function pushSpellCheckDirty() {
+  window.pushToast({
+    title: window.i18n('spellCheckDirty'),
+    type: 'info',
+    id: 'spellCheckDirty',
+  });
+}
+
+export function pushAlreadyMemberOpenGroup() {
+  window.pushToast({
+    title: window.i18n('publicChatExists'),
+    type: 'info',
+    id: 'alreadyMemberPublicChat',
+  });
+}
+
+export function pushUserBanSuccess() {
+  window.pushToast({
+    title: window.i18n('userBanned'),
+    type: 'success',
+    id: 'userBanned',
+  });
+}
+
+export function pushUserBanFailure() {
+  window.pushToast({
+    title: window.i18n('userBanFailed'),
+    type: 'error',
+    id: 'userBanFailed',
+  });
+}
+
+export function pushMessageDeleteForbidden() {
+  window.pushToast({
+    title: window.i18n('messageDeletionForbidden'),
+    type: 'error',
+    id: 'messageDeletionForbidden',
+  });
+}
+
+export function pushAudioPermissionNeeded() {
+  window.pushToast({
+    id: 'audioPermissionNeeded',
+    title: window.i18n('audioPermissionNeededTitle'),
+    description: window.i18n('audioPermissionNeeded'),
+    type: 'info',
+  });
+}
