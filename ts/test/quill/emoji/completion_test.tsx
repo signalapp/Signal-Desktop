@@ -116,6 +116,27 @@ describe('emojiCompletion', () => {
       });
     });
 
+    describe('given a colon in a string (but not an emoji)', () => {
+      beforeEach(function beforeEach() {
+        mockQuill.getSelection.returns({
+          index: 5,
+          length: 0,
+        });
+
+        const blot = {
+          text: '10:30',
+        };
+        mockQuill.getLeaf.returns([blot, 5]);
+
+        emojiCompletion.onTextChange();
+      });
+
+      it('resets the completion', () => {
+        assert.equal(emojiCompletion.results.length, 0);
+        assert.equal(emojiCompletion.index, 0);
+      });
+    });
+
     describe('given an emoji is starting but does not have 2 characters', () => {
       beforeEach(function beforeEach() {
         mockQuill.getSelection.returns({
@@ -210,6 +231,43 @@ describe('emojiCompletion', () => {
         it('resets the completion', () => {
           assert.equal(emojiCompletion.results.length, 0);
           assert.equal(emojiCompletion.index, 0);
+        });
+      });
+
+      describe('and given it matches a short name inside a larger string', () => {
+        const text = 'have a :smile: nice day';
+
+        beforeEach(function beforeEach() {
+          const blot = {
+            text,
+          };
+          mockQuill.getSelection.returns({
+            index: 13,
+            length: 0,
+          });
+          mockQuill.getLeaf.returns([blot, 13]);
+
+          emojiCompletion.onTextChange();
+        });
+
+        it('inserts the emoji at the current cursor position', () => {
+          const [emoji, index, range] = insertEmojiStub.args[0];
+
+          assert.equal(emoji.short_name, 'smile');
+          assert.equal(index, 7);
+          assert.equal(range, 7);
+        });
+
+        it('resets the completion', () => {
+          assert.equal(emojiCompletion.results.length, 0);
+          assert.equal(emojiCompletion.index, 0);
+        });
+
+        it('sets the quill selection to the right cursor position', () => {
+          const [index, range] = mockQuill.setSelection.args[0];
+
+          assert.equal(index, 8);
+          assert.equal(range, 0);
         });
       });
 

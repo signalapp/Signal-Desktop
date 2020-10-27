@@ -1,6 +1,7 @@
 import Quill from 'quill';
 import Delta from 'quill-delta';
 import React from 'react';
+import _ from 'lodash';
 
 import { Popper } from 'react-popper';
 import classNames from 'classnames';
@@ -91,7 +92,7 @@ export class EmojiCompletion {
     this.quill.keyboard.addBinding({ key: 39 }, clearResults); // 39 = Right
     this.quill.keyboard.addBinding({ key: 40 }, changeIndex(1)); // 40 = Down
 
-    this.quill.on('text-change', this.onTextChange.bind(this));
+    this.quill.on('text-change', _.debounce(this.onTextChange.bind(this), 100));
   }
 
   destroy(): void {
@@ -127,7 +128,9 @@ export class EmojiCompletion {
 
     const [leftLeafText, rightLeafText] = this.getCurrentLeafTextPartitions();
 
-    const leftTokenTextMatch = /:([-+0-9a-z_]*)(:?)$/.exec(leftLeafText);
+    const leftTokenTextMatch = /(?<=^|\s):([-+0-9a-z_]*)(:?)$/.exec(
+      leftLeafText
+    );
     const rightTokenTextMatch = /^([-+0-9a-z_]*):/.exec(rightLeafText);
 
     if (!leftTokenTextMatch) {
