@@ -78,10 +78,6 @@ export type CallbackResultType = {
   errors?: Array<CustomError>;
   unidentifiedDeliveries?: Array<any>;
   dataMessage?: ArrayBuffer;
-  discoveredIdentifierPairs: Array<{
-    e164: string;
-    uuid: string | null;
-  }>;
 };
 
 type PreviewType = {
@@ -1383,7 +1379,6 @@ export default class MessageSender {
     if (identifiers.length === 0) {
       return Promise.resolve({
         dataMessage: proto.toArrayBuffer(),
-        discoveredIdentifierPairs: [],
         errors: [],
         failoverIdentifiers: [],
         successfulIdentifiers: [],
@@ -1657,7 +1652,6 @@ export default class MessageSender {
         errors: [],
         unidentifiedDeliveries: [],
         dataMessage: await this.getMessageProtoObj(attrs),
-        discoveredIdentifierPairs: [],
       });
     }
 
@@ -1731,7 +1725,6 @@ export default class MessageSender {
         errors: [],
         unidentifiedDeliveries: [],
         dataMessage: await this.getMessageProtoObj(attrs),
-        discoveredIdentifierPairs: [],
       });
     }
 

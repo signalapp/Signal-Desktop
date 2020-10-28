@@ -24,9 +24,11 @@ story.addDecorator(storyFn => (
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   ...overrideProps,
   i18n,
-  isAccepted: boolean(
-    'isAccepted',
-    overrideProps.isAccepted !== undefined ? overrideProps.isAccepted : true
+  acceptedMessageRequest: boolean(
+    'acceptedMessageRequest',
+    overrideProps.acceptedMessageRequest !== undefined
+      ? overrideProps.acceptedMessageRequest
+      : true
   ),
   isMe: boolean('isMe', overrideProps.isMe || false),
   avatarPath: text('avatarPath', overrideProps.avatarPath || ''),
@@ -103,7 +105,7 @@ story.add('Typing Status', () => {
 
 story.add('Message Request', () => {
   const props = createProps({
-    isAccepted: false,
+    acceptedMessageRequest: false,
     lastMessage: {
       text: 'A Message',
       status: 'delivered',

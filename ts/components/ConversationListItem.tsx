@@ -39,7 +39,7 @@ export type PropsData = {
   unreadCount?: number;
   isSelected: boolean;
 
-  isAccepted?: boolean;
+  acceptedMessageRequest?: boolean;
   draftPreview?: string;
   shouldShowDraft?: boolean;
 
@@ -167,7 +167,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
     const {
       draftPreview,
       i18n,
-      isAccepted,
+      acceptedMessageRequest,
       lastMessage,
       muteExpiresAt,
       shouldShowDraft,
@@ -209,7 +209,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
           {muteExpiresAt && Date.now() < muteExpiresAt && (
             <span className="module-conversation-list-item__muted" />
           )}
-          {!isAccepted ? (
+          {!acceptedMessageRequest ? (
             <span className="module-conversation-list-item__message-request">
               {i18n('ConversationListItem--message-request')}
             </span>

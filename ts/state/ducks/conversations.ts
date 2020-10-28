@@ -54,6 +54,7 @@ export type ConversationType = {
   lastMessage?: {
     status: LastMessageStatus;
     text: string;
+    deletedForEveryone?: boolean;
   };
   phoneNumber?: string;
   membersCount?: number;
@@ -76,6 +77,7 @@ export type ConversationType = {
   draftText?: string | null;
   draftPreview?: string;
 
+  sharedGroupNames?: Array<string>;
   groupVersion?: 1 | 2;
   isMissingMandatoryProfileSharing?: boolean;
   messageRequestsEnabled?: boolean;

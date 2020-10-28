@@ -147,7 +147,7 @@ export type ConversationAttributesType = {
   draftTimestamp: number | null;
   inbox_position: number;
   isPinned: boolean;
-  lastMessageDeletedForEveryone: unknown;
+  lastMessageDeletedForEveryone: boolean;
   lastMessageStatus: LastMessageStatus | null;
   messageCount: number;
   messageCountBeforeMessageRequests: number;

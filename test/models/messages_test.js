@@ -41,7 +41,6 @@ describe('Message', () => {
       const fakeDataMessage = new ArrayBuffer(0);
       const result = {
         dataMessage: fakeDataMessage,
-        discoveredIdentifierPairs: [],
       };
       const promise = Promise.resolve(result);
       await message.send(promise);
@@ -52,11 +51,7 @@ describe('Message', () => {
     it('updates the `sent` attribute', async () => {
       const message = createMessage({ type: 'outgoing', source, sent: false });
 
-      await message.send(
-        Promise.resolve({
-          discoveredIdentifierPairs: [],
-        })
-      );
+      await message.send(Promise.resolve({}));
 
       assert.isTrue(message.get('sent'));
     });
@@ -69,11 +64,7 @@ describe('Message', () => {
         callCount += 1;
       });
 
-      await message.send(
-        Promise.resolve({
-          discoveredIdentifierPairs: [],
-        })
-      );
+      await message.send(Promise.resolve({}));
 
       assert.strictEqual(callCount, 1);
     });
@@ -86,11 +77,7 @@ describe('Message', () => {
         calls.push(args);
       });
 
-      await message.send(
-        Promise.resolve({
-          discoveredIdentifierPairs: [],
-        })
-      );
+      await message.send(Promise.resolve({}));
 
       assert.lengthOf(calls, 1);
       assert.strictEqual(calls[0][0], message);
@@ -125,7 +112,6 @@ describe('Message', () => {
 
       const result = {
         errors: [new Error('baz qux')],
-        discoveredIdentifierPairs: [],
       };
       const promise = Promise.reject(result);
       await message.send(promise);

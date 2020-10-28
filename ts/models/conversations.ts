@@ -80,6 +80,8 @@ export class ConversationModel extends window.Backbone.Model<
 
   cachedProps?: ConversationType | null;
 
+  oldCachedProps?: ConversationType | null;
+
   contactTypingTimers?: Record<
     string,
     { senderId: string; timer: NodeJS.Timer }
@@ -235,6 +237,9 @@ export class ConversationModel extends window.Backbone.Model<
     // We clear our cached props whenever we change so that the next call to format() will
     //   result in refresh via a getProps() call. See format() below.
     this.on('change', () => {
+      if (this.cachedProps) {
+        this.oldCachedProps = this.cachedProps;
+      }
       this.cachedProps = null;
     });
   }
@@ -1020,12 +1025,38 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   format(): ConversationType {
-    this.cachedProps = this.cachedProps || this.getProps();
+    if (this.cachedProps) {
+      return this.cachedProps;
+    }
+
+    const oldFormat = this.format;
+    // We don't want to crash or have an infinite loop if we loop back into this function
+    //   again. We'll log a warning and returned old cached props or throw an error.
+    this.format = () => {
+      const { stack } = new Error('for stack');
+      window.log.warn(
+        `Conversation.format()/${this.idForLogging()} reentrant call! ${stack}`
+      );
+      if (!this.oldCachedProps) {
+        throw new Error(
+          `Conversation.format()/${this.idForLogging()} reentrant call, no old cached props!`
+        );
+      }
+      return this.oldCachedProps;
+    };
+
+    this.cachedProps = this.getProps();
+
+    this.format = oldFormat;
 
     return this.cachedProps;
   }
 
-  getProps(): ConversationType {
+  // Note: this should never be called directly. Use conversation.format() instead, which
+  //   maintains a cache, and protects against reentrant calls.
+  // Note: When writing code inside this function, do not call .format() on a conversation
+  //   unless you are sure that it's not this very same conversation.
+  private getProps(): ConversationType {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const color = this.getColor()!;
 
@@ -1060,7 +1091,7 @@ export class ConversationModel extends window.Backbone.Model<
 
     // TODO: DESKTOP-720
     /* eslint-disable @typescript-eslint/no-non-null-assertion */
-    const result = {
+    const result: ConversationType = {
       id: this.id,
       uuid: this.get('uuid'),
       e164: this.get('e164'),
@@ -1077,7 +1108,6 @@ export class ConversationModel extends window.Backbone.Model<
       firstName: this.get('profileName')!,
       groupVersion,
       inboxPosition,
-      isAccepted: this.getAccepted(),
       isArchived: this.get('isArchived')!,
       isBlocked: this.isBlocked(),
       isMe: this.isMe(),
@@ -1104,9 +1134,17 @@ export class ConversationModel extends window.Backbone.Model<
       timestamp,
       title: this.getTitle()!,
       type: (this.isPrivate() ? 'direct' : 'group') as ConversationTypeType,
-      typingContact: typingContact ? typingContact.format() : null,
       unreadCount: this.get('unreadCount')! || 0,
     };
+
+    if (typingContact) {
+      // We don't want to call .format() on our own conversation
+      if (typingContact.id === this.id) {
+        result.typingContact = result;
+      } else {
+        result.typingContact = typingContact.format();
+      }
+    }
     /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
     return result;
@@ -2710,8 +2748,7 @@ export class ConversationModel extends window.Backbone.Model<
         if (result) {
           await this.handleMessageSendResult(
             result.failoverIdentifiers,
-            result.unidentifiedDeliveries,
-            result.discoveredIdentifierPairs
+            result.unidentifiedDeliveries
           );
         }
         return result;
@@ -2721,8 +2758,7 @@ export class ConversationModel extends window.Backbone.Model<
         if (result) {
           await this.handleMessageSendResult(
             result.failoverIdentifiers,
-            result.unidentifiedDeliveries,
-            result.discoveredIdentifierPairs
+            result.unidentifiedDeliveries
           );
         }
         throw result;
@@ -2732,23 +2768,8 @@ export class ConversationModel extends window.Backbone.Model<
 
   async handleMessageSendResult(
     failoverIdentifiers: Array<string> | undefined,
-    unidentifiedDeliveries: Array<string> | undefined,
-    discoveredIdentifierPairs:
-      | Array<{
-          uuid: string | null;
-          e164: string | null;
-        }>
-      | undefined
+    unidentifiedDeliveries: Array<string> | undefined
   ): Promise<void> {
-    (discoveredIdentifierPairs || []).forEach(item => {
-      const { uuid, e164 } = item;
-      window.ConversationController.ensureContactIds({
-        uuid,
-        e164,
-        highTrust: true,
-      });
-    });
-
     await Promise.all(
       (failoverIdentifiers || []).map(async identifier => {
         const conversation = window.ConversationController.get(identifier);
@@ -4246,15 +4267,37 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
     this._byGroupId = Object.create(null);
   },
 
-  add(...models: Array<WhatIsThis>) {
-    const result = window.Backbone.Collection.prototype.add.apply(
-      this,
-      models as WhatIsThis
+  add(data: WhatIsThis | Array<WhatIsThis>) {
+    let hydratedData;
+
+    // First, we need to ensure that the data we're working with is Conversation models
+    if (Array.isArray(data)) {
+      hydratedData = [];
+      for (let i = 0, max = data.length; i < max; i += 1) {
+        const item = data[i];
+
+        // We create a new model if it's not already a model
+        if (!item.get) {
+          hydratedData.push(new Whisper.Conversation(item));
+        } else {
+          hydratedData.push(item);
+        }
+      }
+    } else if (!data.get) {
+      hydratedData = new Whisper.Conversation(data);
+    } else {
+      hydratedData = data;
+    }
+
+    // Next, we update our lookups first to prevent infinite loops on the 'add' event
+    this.generateLookups(
+      Array.isArray(hydratedData) ? hydratedData : [hydratedData]
     );
 
-    this.generateLookups(Array.isArray(result) ? result.slice(0) : [result]);
+    // Lastly, we fire off the add events related to this change
+    window.Backbone.Collection.prototype.add.call(this, hydratedData);
 
-    return result;
+    return hydratedData;
   },
 
   /**

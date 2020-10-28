@@ -31,7 +31,7 @@ export interface PropsDataType {
   type: 'direct' | 'group';
   title: string;
 
-  isAccepted?: boolean;
+  acceptedMessageRequest?: boolean;
   isVerified?: boolean;
   isMe?: boolean;
   isArchived?: boolean;
@@ -305,7 +305,7 @@ export class ConversationHeader extends React.Component<PropsType> {
     const {
       disableTimerChanges,
       i18n,
-      isAccepted,
+      acceptedMessageRequest,
       isMe,
       isPinned,
       type,
@@ -388,7 +388,7 @@ export class ConversationHeader extends React.Component<PropsType> {
             {i18n('showSafetyNumber')}
           </MenuItem>
         ) : null}
-        {!isGroup && isAccepted ? (
+        {!isGroup && acceptedMessageRequest ? (
           <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
         ) : null}
         {isArchived ? (

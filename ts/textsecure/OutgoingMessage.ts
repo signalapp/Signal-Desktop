@@ -53,11 +53,6 @@ export default class OutgoingMessage {
 
   unidentifiedDeliveries: Array<unknown>;
 
-  discoveredIdentifierPairs: Array<{
-    e164: string;
-    uuid: string;
-  }>;
-
   sendMetadata?: SendMetadataType;
 
   senderCertificate?: ArrayBuffer;
@@ -93,7 +88,6 @@ export default class OutgoingMessage {
     this.successfulIdentifiers = [];
     this.failoverIdentifiers = [];
     this.unidentifiedDeliveries = [];
-    this.discoveredIdentifierPairs = [];
 
     const { sendMetadata, senderCertificate, online } = options;
     this.sendMetadata = sendMetadata;
@@ -109,7 +103,6 @@ export default class OutgoingMessage {
         failoverIdentifiers: this.failoverIdentifiers,
         errors: this.errors,
         unidentifiedDeliveries: this.unidentifiedDeliveries,
-        discoveredIdentifierPairs: this.discoveredIdentifierPairs,
       });
     }
   }
@@ -621,9 +614,10 @@ export default class OutgoingMessage {
             ]);
             const uuid = lookup[identifier];
             if (uuid) {
-              this.discoveredIdentifierPairs.push({
+              window.ConversationController.ensureContactIds({
                 uuid,
                 e164: identifier,
+                highTrust: true,
               });
               identifier = uuid;
             } else {
