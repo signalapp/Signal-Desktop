@@ -19,6 +19,7 @@ storiesOf('Components/Conversation/ProfileChangeNotification', module)
           title: 'Mr. Fire 🔥',
           name: 'Mr. Fire 🔥',
           lastUpdated: Date.now(),
+          markedUnread: false,
         }}
         change={{
           type: 'name',
@@ -37,6 +38,7 @@ storiesOf('Components/Conversation/ProfileChangeNotification', module)
           type: 'direct',
           title: 'Mr. Fire 🔥',
           lastUpdated: Date.now(),
+          markedUnread: false,
         }}
         change={{
           type: 'name',

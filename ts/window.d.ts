@@ -545,6 +545,7 @@ export type WhisperType = {
   };
   ConversationArchivedToast: WhatIsThis;
   ConversationUnarchivedToast: WhatIsThis;
+  ConversationMarkedUnreadToast: WhatIsThis;
   AppView: WhatIsThis;
   WallClockListener: WhatIsThis;
   MessageRequests: WhatIsThis;

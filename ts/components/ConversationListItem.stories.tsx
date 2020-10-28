@@ -37,6 +37,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   name: overrideProps.name || 'Some Person',
   type: overrideProps.type || 'direct',
   onClick: action('onClick'),
+  markedUnread: boolean('markedUnread', overrideProps.markedUnread || false),
   lastMessage: overrideProps.lastMessage || {
     text: text('lastMessage.text', 'Hi there!'),
     status: select(
@@ -137,18 +138,32 @@ story.add('Message Request', () => {
 
 story.add('Unread', () => {
   const counts = [4, 10, 250];
+  const defaultProps = createProps({
+    lastMessage: {
+      text: 'Hey there!',
+      status: 'delivered',
+    },
+  });
 
-  return counts.map(unreadCount => {
-    const props = createProps({
-      lastMessage: {
-        text: 'Hey there!',
-        status: 'delivered',
-      },
+  const items = counts.map(unreadCount => {
+    const props = {
+      ...defaultProps,
       unreadCount,
-    });
+    };
 
     return <ConversationListItem key={unreadCount} {...props} />;
   });
+
+  const markedUnreadProps = {
+    ...defaultProps,
+    markedUnread: true,
+  };
+
+  const markedUnreadItem = [
+    <ConversationListItem key={5} {...markedUnreadProps} />,
+  ];
+
+  return [...items, ...markedUnreadItem];
 });
 
 story.add('Selected', () => {

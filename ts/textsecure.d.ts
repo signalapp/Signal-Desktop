@@ -929,6 +929,7 @@ export declare class ContactRecordClass {
   blocked?: boolean | null;
   whitelisted?: boolean | null;
   archived?: boolean | null;
+  markedUnread?: boolean;
 
   __unknownFields?: ArrayBuffer;
 }
@@ -944,6 +945,7 @@ export declare class GroupV1RecordClass {
   blocked?: boolean | null;
   whitelisted?: boolean | null;
   archived?: boolean | null;
+  markedUnread?: boolean;
 
   __unknownFields?: ArrayBuffer;
 }
@@ -959,6 +961,7 @@ export declare class GroupV2RecordClass {
   blocked?: boolean | null;
   whitelisted?: boolean | null;
   archived?: boolean | null;
+  markedUnread?: boolean;
 
   __unknownFields?: ArrayBuffer;
 }
@@ -995,6 +998,7 @@ export declare class AccountRecordClass {
   typingIndicators?: boolean | null;
   linkPreviews?: boolean | null;
   pinnedConversations?: PinnedConversationClass[];
+  noteToSelfMarkedUnread?: boolean;
 
   __unknownFields?: ArrayBuffer;
 }

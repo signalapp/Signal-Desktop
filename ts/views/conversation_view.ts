@@ -115,6 +115,12 @@ Whisper.ConversationUnarchivedToast = Whisper.ToastView.extend({
   },
 });
 
+Whisper.ConversationMarkedUnreadToast = Whisper.ToastView.extend({
+  render_attributes() {
+    return { toastMessage: window.i18n('conversationMarkedUnread') };
+  },
+});
+
 Whisper.TapToViewExpiredIncomingToast = Whisper.ToastView.extend({
   render_attributes() {
     return {
@@ -541,6 +547,14 @@ Whisper.ConversationView = Whisper.View.extend({
 
           Whisper.ToastView.show(
             Whisper.ConversationArchivedToast,
+            document.body
+          );
+        },
+        onMarkUnread: () => {
+          this.model.setMarkedUnread(true);
+
+          Whisper.ToastView.show(
+            Whisper.ConversationMarkedUnreadToast,
             document.body
           );
         },
@@ -3057,6 +3071,7 @@ Whisper.ConversationView = Whisper.View.extend({
       );
 
       this.compositionApi.current.reset();
+      this.model.setMarkedUnread(false);
       this.setQuoteMessage(null);
       this.resetLinkPreview();
       this.clearAttachments();

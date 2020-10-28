@@ -36,6 +36,7 @@ export interface PropsDataType {
   isMe?: boolean;
   isArchived?: boolean;
   isPinned?: boolean;
+  markedUnread?: boolean;
 
   disableTimerChanges?: boolean;
   expirationSettingName?: string;
@@ -60,6 +61,7 @@ export interface PropsActionsType {
   onGoBack: () => void;
 
   onArchive: () => void;
+  onMarkUnread: () => void;
   onMoveToInbox: () => void;
 }
 
@@ -310,6 +312,7 @@ export class ConversationHeader extends React.Component<PropsType> {
       isPinned,
       type,
       isArchived,
+      markedUnread,
       muteExpirationLabel,
       onDeleteMessages,
       onResetSession,
@@ -319,6 +322,7 @@ export class ConversationHeader extends React.Component<PropsType> {
       onShowGroupMembers,
       onShowSafetyNumber,
       onArchive,
+      onMarkUnread,
       onSetPin,
       onMoveToInbox,
       timerOptions,
@@ -350,28 +354,6 @@ export class ConversationHeader extends React.Component<PropsType> {
 
     return (
       <ContextMenu id={triggerId}>
-        <SubMenu title={muteTitle}>
-          {muteOptions.map(item => (
-            <MenuItem
-              key={item.name}
-              disabled={item.disabled}
-              onClick={() => {
-                onSetMuteNotifications(item.value);
-              }}
-            >
-              {item.name}
-            </MenuItem>
-          ))}
-        </SubMenu>
-        {isPinned ? (
-          <MenuItem onClick={() => onSetPin(false)}>
-            {i18n('unpinConversation')}
-          </MenuItem>
-        ) : (
-          <MenuItem onClick={() => onSetPin(true)}>
-            {i18n('pinConversation')}
-          </MenuItem>
-        )}
         {disableTimerChanges ? null : (
           <SubMenu title={disappearingTitle}>
             {(timerOptions || []).map(item => (
@@ -386,20 +368,36 @@ export class ConversationHeader extends React.Component<PropsType> {
             ))}
           </SubMenu>
         )}
-        <MenuItem onClick={onShowAllMedia}>{i18n('viewRecentMedia')}</MenuItem>
+        <SubMenu title={muteTitle}>
+          {muteOptions.map(item => (
+            <MenuItem
+              key={item.name}
+              disabled={item.disabled}
+              onClick={() => {
+                onSetMuteNotifications(item.value);
+              }}
+            >
+              {item.name}
+            </MenuItem>
+          ))}
+        </SubMenu>
         {isGroup ? (
           <MenuItem onClick={onShowGroupMembers}>
             {i18n('showMembers')}
           </MenuItem>
         ) : null}
+        <MenuItem onClick={onShowAllMedia}>{i18n('viewRecentMedia')}</MenuItem>
         {!isGroup && !isMe ? (
           <MenuItem onClick={onShowSafetyNumber}>
             {i18n('showSafetyNumber')}
           </MenuItem>
         ) : null}
-        <MenuItem divider />
         {!isGroup && acceptedMessageRequest ? (
           <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
+        ) : null}
+        <MenuItem divider />
+        {!markedUnread ? (
+          <MenuItem onClick={onMarkUnread}>{i18n('markUnread')}</MenuItem>
         ) : null}
         {isArchived ? (
           <MenuItem onClick={onMoveToInbox}>
@@ -409,6 +407,15 @@ export class ConversationHeader extends React.Component<PropsType> {
           <MenuItem onClick={onArchive}>{i18n('archiveConversation')}</MenuItem>
         )}
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
+        {isPinned ? (
+          <MenuItem onClick={() => onSetPin(false)}>
+            {i18n('unpinConversation')}
+          </MenuItem>
+        ) : (
+          <MenuItem onClick={() => onSetPin(true)}>
+            {i18n('pinConversation')}
+          </MenuItem>
+        )}
       </ContextMenu>
     );
   }

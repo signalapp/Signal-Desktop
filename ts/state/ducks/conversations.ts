@@ -56,6 +56,7 @@ export type ConversationType = {
     text: string;
     deletedForEveryone?: boolean;
   };
+  markedUnread: boolean;
   phoneNumber?: string;
   membersCount?: number;
   muteExpiresAt?: number;

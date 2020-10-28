@@ -44,6 +44,7 @@ const actionProps: PropsActionsType = {
   onGoBack: action('onGoBack'),
 
   onArchive: action('onArchive'),
+  onMarkUnread: action('onMarkUnread'),
   onMoveToInbox: action('onMoveToInbox'),
   onSetPin: action('onSetPin'),
 };

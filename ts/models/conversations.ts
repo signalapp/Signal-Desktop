@@ -1137,7 +1137,7 @@ export class ConversationModel extends window.Backbone.Model<
         deletedForEveryone: this.get('lastMessageDeletedForEveryone')!,
       },
       lastUpdated: this.get('timestamp')!,
-
+      markedUnread: this.get('markedUnread')!,
       membersCount: this.isPrivate()
         ? undefined
         : (this.get('membersV2')! || this.get('members')! || []).length,
@@ -3019,6 +3019,12 @@ export class ConversationModel extends window.Backbone.Model<
     }
   }
 
+  setMarkedUnread(markedUnread: boolean): void {
+    this.set({ markedUnread });
+    window.Signal.Data.updateConversation(this.attributes);
+    this.captureChange('markedUnread');
+  }
+
   async updateExpirationTimer(
     providedExpireTimer: number | undefined,
     providedSource: unknown,
@@ -3998,6 +4004,7 @@ export class ConversationModel extends window.Backbone.Model<
   // [X] blocked
   // [X] whitelisted
   // [X] archived
+  // [X] markedUnread
   captureChange(property: string): void {
     if (!window.Signal.RemoteConfig.isEnabled('desktop.storageWrite')) {
       window.log.info(

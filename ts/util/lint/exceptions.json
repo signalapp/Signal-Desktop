@@ -631,7 +631,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.capture-audio').length > 0) {",
-    "lineNumber": 217,
+    "lineNumber": 219,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-29T18:29:18.234Z",
     "reasonDetail": "Known DOM elements"
@@ -640,7 +640,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .recorder').trigger('close');",
-    "lineNumber": 220,
+    "lineNumber": 222,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-29T18:29:18.234Z",
     "reasonDetail": "Hardcoded selector"
@@ -14703,7 +14703,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.tsx",
     "line": "    this.menuTriggerRef = React.createRef();",
-    "lineNumber": 84,
+    "lineNumber": 86,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-20T20:10:43.540Z",
     "reasonDetail": "Used to reference popup menu"
