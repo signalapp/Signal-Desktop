@@ -208,7 +208,7 @@ export class SessionConversationMessagesList extends React.Component<
     }
 
     if (isScrolledToBottom) {
-      unread = messages[messages.length - 1];
+      unread = messages[0];
     } else {
       unread = this.findNewestVisibleUnread();
     }
@@ -384,49 +384,5 @@ export class SessionConversationMessagesList extends React.Component<
 
   public resetSelection() {
     this.props.resetSelection();
-  }
-
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  // ~~~~~~~~~~~ KEYBOARD NAVIGATION ~~~~~~~~~~~~
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  private onKeyDown(event: any) {
-    //FIXME Audric
-    //   const messageContainer = this.messageContainerRef.current;
-    //   if (!messageContainer) {
-    //     return;
-    //   }
-    //   const selectionMode = !!this.props.selectedMessages.length;
-    //   const recordingMode = this.props.showRecordingView;
-    //   const pageHeight = messageContainer.clientHeight;
-    //   const arrowScrollPx = 50;
-    //   const pageScrollPx = pageHeight * 0.8;
-    //   if (event.key === 'Escape') {
-    //     // EXIT MEDIA VIEW
-    //     if (recordingMode) {
-    //       // EXIT RECORDING VIEW
-    //     }
-    //     // EXIT WHAT ELSE?
-    //   }
-    //   switch (event.key) {
-    //     case 'Escape':
-    //       if (selectionMode) {
-    //         this.resetSelection();
-    //       }
-    //       break;
-    //     // Scrolling
-    //     case 'ArrowUp':
-    //       messageContainer.scrollBy(0, -arrowScrollPx);
-    //       break;
-    //     case 'ArrowDown':
-    //       messageContainer.scrollBy(0, arrowScrollPx);
-    //       break;
-    //     case 'PageUp':
-    //       messageContainer.scrollBy(0, -pageScrollPx);
-    //       break;
-    //     case 'PageDown':
-    //       messageContainer.scrollBy(0, pageScrollPx);
-    //       break;
-    //     default:
-    //   }
   }
 }

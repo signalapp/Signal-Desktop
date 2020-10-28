@@ -365,7 +365,6 @@
         this.unload('windows closed');
       });
 
-
       this.$('.send-message').focus(this.focusBottomBar.bind(this));
       this.$('.send-message').blur(this.unfocusBottomBar.bind(this));
 

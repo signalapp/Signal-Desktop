@@ -395,9 +395,10 @@ export class SessionConversation extends React.Component<Props, State> {
       messages.push({ ...messageModels[i], firstMessageOfSeries });
       previousSender = messageModels[i].authorPhoneNumber;
     }
-
-    const previousTopMessage = this.state.messages[0]?.id;
-    const newTopMessage = messages[0]?.id;
+    const oldLen = this.state.messages.length;
+    const newLen = messages.length;
+    const previousTopMessage = this.state.messages[oldLen - 1]?.id;
+    const newTopMessage = messages[newLen - 1]?.id;
 
     this.setState({ messages, messageFetchTimestamp: timestamp });
 
@@ -843,43 +844,43 @@ export class SessionConversation extends React.Component<Props, State> {
   // ~~~~~~~~~~~ KEYBOARD NAVIGATION ~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   private onKeyDown(event: any) {
-    // const messageContainer = this.messageContainerRef.current;
-    // if (!messageContainer) {
-    //   return;
-    // }
-    // const selectionMode = !!this.state.selectedMessages.length;
-    // const recordingMode = this.state.showRecordingView;
-    // const pageHeight = messageContainer.clientHeight;
-    // const arrowScrollPx = 50;
-    // const pageScrollPx = pageHeight * 0.8;
-    // if (event.key === 'Escape') {
-    //   // EXIT MEDIA VIEW
-    //   if (recordingMode) {
-    //     // EXIT RECORDING VIEW
-    //   }
-    //   // EXIT WHAT ELSE?
-    // }
-    // switch (event.key) {
-    //   case 'Escape':
-    //     if (selectionMode) {
-    //       this.resetSelection();
-    //     }
-    //     break;
-    //   // Scrolling
-    //   case 'ArrowUp':
-    //     messageContainer.scrollBy(0, -arrowScrollPx);
-    //     break;
-    //   case 'ArrowDown':
-    //     messageContainer.scrollBy(0, arrowScrollPx);
-    //     break;
-    //   case 'PageUp':
-    //     messageContainer.scrollBy(0, -pageScrollPx);
-    //     break;
-    //   case 'PageDown':
-    //     messageContainer.scrollBy(0, pageScrollPx);
-    //     break;
-    //   default:
-    // }
+    const messageContainer = this.messageContainerRef.current;
+    if (!messageContainer) {
+      return;
+    }
+    const selectionMode = !!this.state.selectedMessages.length;
+    const recordingMode = this.state.showRecordingView;
+    const pageHeight = messageContainer.clientHeight;
+    const arrowScrollPx = 50;
+    const pageScrollPx = pageHeight * 0.8;
+    if (event.key === 'Escape') {
+      // EXIT MEDIA VIEW
+      if (recordingMode) {
+        // EXIT RECORDING VIEW
+      }
+      // EXIT WHAT ELSE?
+    }
+    switch (event.key) {
+      case 'Escape':
+        if (selectionMode) {
+          this.resetSelection();
+        }
+        break;
+      // Scrolling
+      case 'ArrowUp':
+        messageContainer.scrollBy(0, -arrowScrollPx);
+        break;
+      case 'ArrowDown':
+        messageContainer.scrollBy(0, arrowScrollPx);
+        break;
+      case 'PageUp':
+        messageContainer.scrollBy(0, -pageScrollPx);
+        break;
+      case 'PageDown':
+        messageContainer.scrollBy(0, pageScrollPx);
+        break;
+      default:
+    }
   }
 
   private clearAttachments() {

@@ -35,7 +35,6 @@
   const {
     Conversation,
     Contact,
-    Errors,
     Message,
     PhoneNumber,
   } = window.Signal.Types;
@@ -2214,7 +2213,6 @@
         }
       }
     },
-
 
     hasMember(number) {
       return _.contains(this.get('members'), number);
