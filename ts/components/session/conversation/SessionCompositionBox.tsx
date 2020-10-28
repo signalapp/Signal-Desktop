@@ -290,7 +290,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     const { ignoredLink } = this.state;
 
     // Don't render link previews if quoted message or attachments are already added
-    if (stagedAttachments.length !== 0 && quotedMessageProps?.id) {
+    if (stagedAttachments.length !== 0 || quotedMessageProps?.id) {
       return <></>;
     }
     // we try to match the first link found in the current message

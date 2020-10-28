@@ -34,7 +34,7 @@ export const getPreview = async (
 ): Promise<null | GetLinkPreviewResult> => {
   // This is already checked elsewhere, but we want to be extra-careful.
   if (!window.Signal.LinkPreviews.isLinkSafeToPreview(url)) {
-    return null;
+    throw new Error('Link not safe for preview');
   }
 
   const linkPreviewMetadata = await LinkPreviewUtil.fetchLinkPreviewMetadata(
@@ -43,7 +43,7 @@ export const getPreview = async (
     abortSignal
   );
   if (!linkPreviewMetadata) {
-    return null;
+    throw new Error('Could not fetch link preview metadata');
   }
   const { title, imageHref, description, date } = linkPreviewMetadata;
 
