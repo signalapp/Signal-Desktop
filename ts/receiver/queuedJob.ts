@@ -247,10 +247,7 @@ function handleLinkPreviews(
   const urls = window.Signal.LinkPreviews.findLinks(messageBody);
   const incomingPreview = messagePreview || [];
   const preview = incomingPreview.filter(
-    (item: any) =>
-      (item.image || item.title) &&
-      urls.includes(item.url) &&
-      window.Signal.LinkPreviews.isLinkInWhitelist(item.url)
+    (item: any) => (item.image || item.title) && urls.includes(item.url)
   );
   if (preview.length < incomingPreview.length) {
     window.log.info(

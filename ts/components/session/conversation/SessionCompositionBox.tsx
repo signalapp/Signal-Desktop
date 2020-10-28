@@ -485,6 +485,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       return;
     }
     const { quotedMessageProps } = this.props;
+    const { stagedLinkPreview } = this.state;
 
     // Send message
     this.props.onMessageSending();
@@ -502,7 +503,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         messagePlaintext,
         attachments,
         extractedQuotedMessageProps,
-        undefined,
+        [_.pick(stagedLinkPreview, 'url', 'image', 'title')],
         null,
         {}
       );
