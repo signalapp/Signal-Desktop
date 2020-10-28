@@ -1733,52 +1733,5 @@
         return total + (unread ? 1 : 0);
       }, 0);
     },
-
-    async fetchConversation(conversationId, limit = 100, unreadCount = 0) {
-      const startingLoadedUnread =
-        unreadCount > 0 ? this.getLoadedUnreadCount() : 0;
-
-      // We look for older messages if we've fetched once already
-      const receivedAt =
-        this.length === 0 ? Number.MAX_VALUE : this.at(0).get('received_at');
-
-      const messages = await window.Signal.Data.getMessagesByConversation(
-        conversationId,
-        {
-          limit,
-          receivedAt,
-          MessageCollection: Whisper.MessageCollection,
-        }
-      );
-
-      const models = messages
-        .filter(message => Boolean(message.id))
-        .map(message => MessageController.register(message.id, message));
-      const eliminated = messages.length - models.length;
-      if (eliminated > 0) {
-        window.log.warn(
-          `fetchConversation: Eliminated ${eliminated} messages without an id`
-        );
-      }
-
-      this.add(models.reverse());
-
-      if (unreadCount <= 0) {
-        return;
-      }
-      const loadedUnread = this.getLoadedUnreadCount();
-      if (loadedUnread >= unreadCount) {
-        return;
-      }
-      if (startingLoadedUnread === loadedUnread) {
-        // that fetch didn't get us any more unread. stop fetching more.
-        return;
-      }
-
-      window.log.info(
-        'fetchConversation: doing another fetch to get all unread'
-      );
-      await this.fetchConversation(conversationId, limit, unreadCount);
-    },
   });
 })();

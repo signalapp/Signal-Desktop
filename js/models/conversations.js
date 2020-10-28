@@ -2215,37 +2215,6 @@
       }
     },
 
-    async fetchMessages() {
-      if (!this.id) {
-        throw new Error('This conversation has no id!');
-      }
-      if (this.inProgressFetch) {
-        window.log.warn('Attempting to start a parallel fetchMessages() call');
-        return;
-      }
-
-      this.inProgressFetch = this.messageCollection.fetchConversation(
-        this.id,
-        undefined,
-        this.get('unreadCount')
-      );
-
-      await this.inProgressFetch;
-
-      try {
-        // We are now doing the work to upgrade messages before considering the load from
-        //   the database complete. Note that we do save messages back, so it is a
-        //   one-time hit. We do this so we have guarantees about message structure.
-        await this.upgradeMessages(this.messageCollection);
-      } catch (error) {
-        window.log.error(
-          'fetchMessages: failed to upgrade messages',
-          Errors.toLogFormat(error)
-        );
-      }
-
-      this.inProgressFetch = null;
-    },
 
     hasMember(number) {
       return _.contains(this.get('members'), number);

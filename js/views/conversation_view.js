@@ -365,7 +365,6 @@
         this.unload('windows closed');
       });
 
-      this.fetchMessages();
 
       this.$('.send-message').focus(this.focusBottomBar.bind(this));
       this.$('.send-message').blur(this.unfocusBottomBar.bind(this));
@@ -1021,7 +1020,6 @@
       this.view.measureScrollPosition();
       const startingHeight = this.view.scrollHeight;
 
-      await this.fetchMessages();
       // We delay this work to let scrolling/layout settle down first
       setTimeout(() => {
         this.view.measureScrollPosition();
@@ -1032,41 +1030,6 @@
         const newScrollPosition = this.view.scrollPosition + delta - height;
         this.view.$el.scrollTop(newScrollPosition);
       }, 1);
-    },
-    fetchMessages() {
-      // window.log.info('fetchMessages');
-      this.$('.bar-container').show();
-      if (this.inProgressFetch) {
-        window.log.warn('Multiple fetchMessage calls!');
-      }
-
-      // Avoiding await, since we want to capture the promise and make it available via
-      //   this.inProgressFetch
-      // eslint-disable-next-line more/no-then
-      this.inProgressFetch = this.model
-        .fetchContacts()
-        .then(() => this.model.fetchMessages())
-        .then(async () => {
-          this.$('.bar-container').hide();
-          await Promise.all(
-            this.model.messageCollection.where({ unread: 1 }).map(async m => {
-              const latest = await window.Signal.Data.getMessageById(m.id, {
-                Message: Whisper.Message,
-              });
-              m.merge(latest);
-            })
-          );
-          this.inProgressFetch = null;
-        })
-        .catch(error => {
-          window.log.error(
-            'fetchMessages error:',
-            error && error.stack ? error.stack : error
-          );
-          this.inProgressFetch = null;
-        });
-
-      return this.inProgressFetch;
     },
 
     addMessage(message) {
