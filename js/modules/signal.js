@@ -118,9 +118,6 @@ const {
   ResetSessionNotification,
 } = require('../../ts/components/conversation/ResetSessionNotification');
 const {
-  StagedLinkPreview,
-} = require('../../ts/components/conversation/StagedLinkPreview');
-const {
   TimerNotification,
 } = require('../../ts/components/conversation/TimerNotification');
 const {
@@ -311,7 +308,6 @@ exports.setup = (options = {}) => {
     MessageDetail,
     Quote,
     ResetSessionNotification,
-    StagedLinkPreview,
     TimerNotification,
     Types: {
       Message: MediaGalleryMessage,

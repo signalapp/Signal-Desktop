@@ -81,7 +81,7 @@ export class SessionConversationMessagesList extends React.Component<
     // Keep scrolled to bottom unless user scrolls up
     if (this.state.isScrolledToBottom) {
       this.scrollToBottom();
-      this.updateReadMessages();
+      // this.updateReadMessages();
     }
 
     // New messages get from message collection.

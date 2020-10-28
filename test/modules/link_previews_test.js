@@ -6,7 +6,6 @@ const {
   getImageMetaTag,
   isLinkInWhitelist,
   isLinkSneaky,
-  isMediaLinkInWhitelist,
 } = require('../../js/modules/link_previews');
 
 describe('Link previews', () => {
@@ -84,69 +83,6 @@ describe('Link previews', () => {
       );
       assert.strictEqual(
         isLinkInWhitelist('https://sinstagram.com/blah'),
-        false
-      );
-    });
-  });
-
-  describe('#isMediaLinkInWhitelist', () => {
-    it('returns true for valid links', () => {
-      assert.strictEqual(
-        isMediaLinkInWhitelist(
-          'https://i.ytimg.com/vi/bZHShcCEH3I/hqdefault.jpg'
-        ),
-        true
-      );
-      assert.strictEqual(
-        isMediaLinkInWhitelist('https://random.cdninstagram.com/blah'),
-        true
-      );
-      assert.strictEqual(
-        isMediaLinkInWhitelist('https://preview.redd.it/something'),
-        true
-      );
-      assert.strictEqual(
-        isMediaLinkInWhitelist('https://i.imgur.com/something'),
-        true
-      );
-    });
-
-    it('returns false for insecure protocol', () => {
-      assert.strictEqual(
-        isMediaLinkInWhitelist(
-          'http://i.ytimg.com/vi/bZHShcCEH3I/hqdefault.jpg'
-        ),
-        false
-      );
-      assert.strictEqual(
-        isMediaLinkInWhitelist('http://random.cdninstagram.com/blah'),
-        false
-      );
-      assert.strictEqual(
-        isMediaLinkInWhitelist('http://preview.redd.it/something'),
-        false
-      );
-      assert.strictEqual(
-        isMediaLinkInWhitelist('http://i.imgur.com/something'),
-        false
-      );
-    });
-
-    it('returns false for other domains', () => {
-      assert.strictEqual(
-        isMediaLinkInWhitelist('https://www.youtube.com/something'),
-        false
-      );
-      assert.strictEqual(
-        isMediaLinkInWhitelist('https://youtu.be/something'),
-        false
-      );
-      assert.strictEqual(
-        isMediaLinkInWhitelist('https://www.instagram.com/something'),
-        false
-      );
-      assert.strictEqual(
-        isMediaLinkInWhitelist('https://cnn.com/something'),
         false
       );
     });

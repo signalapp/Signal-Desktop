@@ -143,10 +143,10 @@ export function isVideo(attachments?: Array<AttachmentType>) {
   return attachments && isVideoAttachment(attachments[0]);
 }
 
-export function isVideoAttachment(attachment?: AttachmentType) {
+export function isVideoAttachment(attachment?: AttachmentType): boolean {
   return (
-    attachment &&
-    attachment.contentType &&
+    !!attachment &&
+    !!attachment.contentType &&
     isVideoTypeSupported(attachment.contentType)
   );
 }
@@ -165,6 +165,18 @@ type DimensionsType = {
   height: number;
   width: number;
 };
+
+export async function arrayBufferFromFile(file: any): Promise<ArrayBuffer> {
+  return new Promise((resolve, reject) => {
+    const FR = new FileReader();
+    FR.onload = (e: any) => {
+      resolve(e.target.result);
+    };
+    FR.onerror = reject;
+    FR.onabort = reject;
+    FR.readAsArrayBuffer(file);
+  });
+}
 
 export function getImageDimensions(attachment: AttachmentType): DimensionsType {
   const { height, width } = attachment;

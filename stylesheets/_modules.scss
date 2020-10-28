@@ -2301,13 +2301,20 @@
   align-items: flex-start;
 
   min-height: 65px;
+  margin: $session-margin-xs;
+  @include themify($themes) {
+    background-color: themed('sentMessageBackground');
+    border-radius: $session-margin-xs;
+  }
 }
 
 .module-staged-link-preview--is-loading {
   align-items: center;
 }
 .module-staged-link-preview__loading {
-  color: $color-gray-60;
+  @include themify($themes) {
+    color: themed('sentMessageText');
+  }
   font-size: 14px;
   text-align: center;
   flex-grow: 1;
@@ -2319,6 +2326,8 @@
 }
 .module-staged-link-preview__content {
   margin-inline-end: 20px;
+  padding-inline-start: $session-margin-sm;
+  padding-inline-end: $session-margin-sm;
 }
 .module-staged-link-preview__title {
   color: $color-gray-90;

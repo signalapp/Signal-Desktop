@@ -20,6 +20,7 @@ import { Flex } from '../Flex';
 import { AttachmentList } from '../../conversation/AttachmentList';
 import { ToastUtils } from '../../../session/utils';
 import { AttachmentUtil } from '../../../util';
+import { SessionStagedLinkPreview } from './SessionStagedLinkPreview';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -62,6 +63,7 @@ interface State {
   mediaSetting: boolean | null;
   showEmojiPanel: boolean;
   voiceRecording?: Blob;
+  ignoredLink?: string;
 }
 
 export class SessionCompositionBox extends React.Component<Props, State> {
@@ -92,6 +94,8 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     this.renderRecordingView = this.renderRecordingView.bind(this);
     this.renderCompositionView = this.renderCompositionView.bind(this);
     this.renderQuotedMessage = this.renderQuotedMessage.bind(this);
+    this.renderStagedLinkPreview = this.renderStagedLinkPreview.bind(this);
+
     this.renderAttachmentsStaged = this.renderAttachmentsStaged.bind(this);
 
     // Recording view functions
@@ -127,6 +131,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     return (
       <Flex flexDirection="column">
         {this.renderQuotedMessage()}
+        {this.renderStagedLinkPreview()}
         {this.renderAttachmentsStaged()}
         <div className="composition-container">
           {showRecordingView
@@ -252,6 +257,46 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         </div>
       </>
     );
+  }
+
+  private renderStagedLinkPreview(): JSX.Element {
+    // Don't generate link previews if user has turned them off
+    if (!(window.getSettingValue('link-preview-setting') || false)) {
+      return <></>;
+    }
+
+    // Do nothing if we're offline
+    if (!window.textsecure.messaging) {
+      return <></>;
+    }
+
+    const { stagedAttachments, quotedMessageProps } = this.props;
+    const { ignoredLink } = this.state;
+
+    // Don't render link previews if quoted message or attachments
+    if (stagedAttachments.length === 0 && !quotedMessageProps?.id) {
+      // we try to match the first link found in the current message
+      const links = window.Signal.LinkPreviews.findLinks(
+        this.state.message,
+        undefined
+      );
+      if (!links || links.length === 0 || ignoredLink === links[0]) {
+        return <></>;
+      }
+      const firstLink = links[0];
+      if (ignoredLink && ignoredLink !== firstLink) {
+        this.setState({ ignoredLink: undefined });
+      }
+      return (
+        <SessionStagedLinkPreview
+          url={firstLink}
+          onClose={() => {
+            this.setState({ ignoredLink: firstLink });
+          }}
+        />
+      );
+    }
+    return <></>;
   }
 
   private renderQuotedMessage() {
@@ -432,13 +477,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     // Do stuff for component, then run callback to SessionConversation
     this.setState({ showRecordingView: false });
     this.props.onExitVoiceNoteView();
-  }
-
-  private onDrop() {
-    // On drop attachments!
-    // this.textarea.current?.ondrop;
-    // Look into react-dropzone
-    // DROP AREA COMES FROM SessionConversation NOT HERE
   }
 
   private onChange(event: any) {

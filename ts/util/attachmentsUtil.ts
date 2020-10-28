@@ -90,7 +90,7 @@ export async function getFile(attachment: StagedAttachmentType) {
   };
 }
 
-async function readFile(attachment: any): Promise<object> {
+export async function readFile(attachment: any): Promise<object> {
   return new Promise((resolve, reject) => {
     const FR = new FileReader();
     FR.onload = e => {
