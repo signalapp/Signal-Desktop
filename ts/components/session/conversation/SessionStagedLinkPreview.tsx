@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { arrayBufferFromFile, AttachmentType } from '../../../types/Attachment';
 import { AttachmentUtil, LinkPreviewUtil } from '../../../util';
-import { StagedLinkPreview } from '../../conversation/StagedLinkPreview';
+import { StagedLinkPreviewData } from './SessionCompositionBox';
 import fetch from 'node-fetch';
 import { fetchLinkPreviewImage } from '../../../util/linkPreviewFetch';
 import { AbortController, AbortSignal } from 'abort-controller';
+import { StagedLinkPreview } from '../../conversation/StagedLinkPreview';
 
-type Props = {
-  url: string;
-  onClose: () => void;
-};
-const LINK_PREVIEW_TIMEOUT = 60 * 1000;
+export interface StagedLinkPreviewProps extends StagedLinkPreviewData {
+  onClose: (url: string) => void;
+}
+export const LINK_PREVIEW_TIMEOUT = 60 * 1000;
 
 export interface GetLinkPreviewResultImage {
   data: ArrayBuffer;
@@ -28,7 +28,7 @@ export interface GetLinkPreviewResult {
   date: number | null;
 }
 
-const getPreview = async (
+export const getPreview = async (
   url: string,
   abortSignal: AbortSignal
 ): Promise<null | GetLinkPreviewResult> => {
@@ -107,68 +107,20 @@ const getPreview = async (
   };
 };
 
-export const SessionStagedLinkPreview = (props: Props) => {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [title, setTitle] = useState<string | null>(null);
-  const [domain, setDomain] = useState<string | null>(null);
-  const [description, setDescription] = useState<string | null>(null);
-  const [image, setImage] = useState<AttachmentType | undefined>(undefined);
-
-  useEffect(() => {
-    // Use this abortcontroller to stop current fetch requests when url changed
-    const abortController = new AbortController();
-    setTimeout(() => {
-      abortController.abort();
-    }, LINK_PREVIEW_TIMEOUT);
-
-    setIsLoaded(false);
-    setTitle(null);
-    setDomain(null);
-    setDescription(null);
-    setImage(undefined);
-
-    getPreview(props.url, abortController.signal)
-      .then(ret => {
-        setIsLoaded(true);
-        if (ret) {
-          setTitle(ret.title);
-          if (ret.image?.width) {
-            if (ret.image) {
-              const blob = new Blob([ret.image.data], {
-                type: ret.image.contentType,
-              });
-              const imageAttachment = {
-                ...ret.image,
-                url: URL.createObjectURL(blob),
-                fileName: 'preview',
-              };
-              setImage(imageAttachment);
-            }
-          }
-          setDomain(window.Signal.LinkPreviews.getDomain(ret.url));
-          if (ret.description) {
-            setDescription(ret.description);
-          }
-        }
-      })
-      .catch(err => {
-        abortController.abort();
-        setIsLoaded(true);
-      });
-    return () => {
-      // Cancel other in-flight link preview requests.
-      abortController.abort();
-    };
-  }, [props.url]);
+export const SessionStagedLinkPreview = (props: StagedLinkPreviewProps) => {
+  if (!props.url) {
+    return <></>;
+  }
 
   return (
     <StagedLinkPreview
       onClose={props.onClose}
-      isLoaded={isLoaded}
-      title={title}
-      domain={domain}
-      image={image as any}
-      description={description}
+      isLoaded={props.isLoaded}
+      title={props.title}
+      domain={props.domain}
+      url={props.url}
+      image={props.image as any}
+      description={props.description}
     />
   );
 };

@@ -8,15 +8,16 @@ import { AttachmentType, isImageAttachment } from '../../types/Attachment';
 type Props = {
   isLoaded: boolean;
   title: null | string;
+  url: null | string;
   description: null | string;
   domain: null | string;
   image?: AttachmentType;
 
-  onClose: () => void;
+  onClose: (url: string) => void;
 };
 
 export const StagedLinkPreview = (props: Props) => {
-  const { isLoaded, onClose, title, image, domain, description } = props;
+  const { isLoaded, onClose, title, image, domain, description, url } = props;
 
   const isImage = image && isImageAttachment(image);
   const i18n = window.i18n;
@@ -65,7 +66,9 @@ export const StagedLinkPreview = (props: Props) => {
       <button
         type="button"
         className="module-staged-link-preview__close-button"
-        onClick={onClose}
+        onClick={() => {
+          onClose(url || '');
+        }}
         aria-label={i18n('close')}
       />
     </div>

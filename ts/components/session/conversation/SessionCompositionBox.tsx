@@ -15,12 +15,17 @@ import { SignalService } from '../../../protobuf';
 import { Constants } from '../../../session';
 
 import { toArray } from 'react-emoji-render';
-import { SessionQuotedMessageComposition } from './SessionQuotedMessageComposition';
 import { Flex } from '../Flex';
 import { AttachmentList } from '../../conversation/AttachmentList';
 import { ToastUtils } from '../../../session/utils';
 import { AttachmentUtil } from '../../../util';
-import { SessionStagedLinkPreview } from './SessionStagedLinkPreview';
+import {
+  getPreview,
+  LINK_PREVIEW_TIMEOUT,
+  SessionStagedLinkPreview,
+} from './SessionStagedLinkPreview';
+import { AbortController, AbortSignal } from 'abort-controller';
+import { SessionQuotedMessageComposition } from './SessionQuotedMessageComposition';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -29,6 +34,15 @@ export interface ReplyingToMessageProps {
   timestamp: number;
   text?: string;
   attachments?: Array<any>;
+}
+
+export interface StagedLinkPreviewData {
+  isLoaded: boolean;
+  title: string | null;
+  url: string | null;
+  domain: string | null;
+  description: string | null;
+  image?: AttachmentType;
 }
 
 export interface StagedAttachmentType extends AttachmentType {
@@ -63,13 +77,15 @@ interface State {
   mediaSetting: boolean | null;
   showEmojiPanel: boolean;
   voiceRecording?: Blob;
-  ignoredLink?: string;
+  ignoredLink?: string; // set the the ignored url when users closed the link preview
+  stagedLinkPreview?: StagedLinkPreviewData;
 }
 
 export class SessionCompositionBox extends React.Component<Props, State> {
   private readonly textarea: React.RefObject<HTMLTextAreaElement>;
   private readonly fileInput: React.RefObject<HTMLInputElement>;
   private emojiPanel: any;
+  private linkPreviewAbortController?: AbortController;
 
   constructor(props: any) {
     super(props);
@@ -123,6 +139,11 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
   public componentDidMount() {
     setTimeout(this.focusCompositionBox, 100);
+  }
+
+  public componentWillUnmount() {
+    this.linkPreviewAbortController?.abort();
+    this.linkPreviewAbortController = undefined;
   }
 
   public render() {
@@ -265,38 +286,124 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       return <></>;
     }
 
-    // Do nothing if we're offline
-    if (!window.textsecure.messaging) {
-      return <></>;
-    }
-
     const { stagedAttachments, quotedMessageProps } = this.props;
     const { ignoredLink } = this.state;
 
-    // Don't render link previews if quoted message or attachments
-    if (stagedAttachments.length === 0 && !quotedMessageProps?.id) {
-      // we try to match the first link found in the current message
-      const links = window.Signal.LinkPreviews.findLinks(
-        this.state.message,
-        undefined
-      );
-      if (!links || links.length === 0 || ignoredLink === links[0]) {
-        return <></>;
-      }
-      const firstLink = links[0];
-      if (ignoredLink && ignoredLink !== firstLink) {
-        this.setState({ ignoredLink: undefined });
-      }
-      return (
-        <SessionStagedLinkPreview
-          url={firstLink}
-          onClose={() => {
-            this.setState({ ignoredLink: firstLink });
-          }}
-        />
-      );
+    // Don't render link previews if quoted message or attachments are already added
+    if (stagedAttachments.length !== 0 && quotedMessageProps?.id) {
+      return <></>;
     }
+    // we try to match the first link found in the current message
+    const links = window.Signal.LinkPreviews.findLinks(
+      this.state.message,
+      undefined
+    );
+    if (!links || links.length === 0 || ignoredLink === links[0]) {
+      return <></>;
+    }
+    const firstLink = links[0];
+    // if the first link changed, reset the ignored link so that the preview is generated
+    if (ignoredLink && ignoredLink !== firstLink) {
+      this.setState({ ignoredLink: undefined });
+    }
+    if (firstLink !== this.state.stagedLinkPreview?.url) {
+      // trigger fetching of link preview data and image
+      void this.fetchLinkPreview(firstLink);
+    }
+
+    // if the fetch did not start yet, just don't show anything
+    if (!this.state.stagedLinkPreview) {
+      return <></>;
+    }
+
+    const {
+      isLoaded,
+      title,
+      description,
+      domain,
+      image,
+    } = this.state.stagedLinkPreview;
+
+    return (
+      <SessionStagedLinkPreview
+        isLoaded={isLoaded}
+        title={title}
+        description={description}
+        domain={domain}
+        image={image}
+        url={firstLink}
+        onClose={url => {
+          this.setState({ ignoredLink: url });
+        }}
+      />
+    );
+
     return <></>;
+  }
+
+  private async fetchLinkPreview(firstLink: string) {
+    // mark the link preview as loading, no data are set yet
+    this.setState({
+      stagedLinkPreview: {
+        isLoaded: false,
+        url: firstLink,
+        domain: null,
+        description: null,
+        image: undefined,
+        title: null,
+      },
+    });
+    const abortController = new AbortController();
+    this.linkPreviewAbortController?.abort();
+    this.linkPreviewAbortController = abortController;
+    setTimeout(() => {
+      abortController.abort();
+    }, LINK_PREVIEW_TIMEOUT);
+
+    getPreview(firstLink, abortController.signal)
+      .then(ret => {
+        let image: AttachmentType | undefined;
+        if (ret) {
+          if (ret.image?.width) {
+            if (ret.image) {
+              const blob = new Blob([ret.image.data], {
+                type: ret.image.contentType,
+              });
+              const imageAttachment = {
+                ...ret.image,
+                url: URL.createObjectURL(blob),
+                fileName: 'preview',
+              };
+              image = imageAttachment;
+            }
+          }
+        }
+        this.setState({
+          stagedLinkPreview: {
+            isLoaded: true,
+            title: ret?.title || null,
+            description: ret?.description || '',
+            url: ret?.url || null,
+            domain:
+              (ret?.url && window.Signal.LinkPreviews.getDomain(ret.url)) || '',
+            image,
+          },
+        });
+      })
+      .catch(err => {
+        console.warn('fetch link preview: ', err);
+        abortController.abort();
+        this.setState({
+          stagedLinkPreview: {
+            isLoaded: true,
+            title: null,
+            domain: null,
+            description: null,
+            url: firstLink,
+            image: undefined,
+          },
+        });
+      });
   }
 
   private renderQuotedMessage() {

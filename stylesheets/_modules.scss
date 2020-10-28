@@ -2323,11 +2323,11 @@
 
 .module-staged-link-preview__icon-container {
   margin-inline-end: 8px;
+  padding: $session-margin-sm;
 }
 .module-staged-link-preview__content {
   margin-inline-end: 20px;
-  padding-inline-start: $session-margin-sm;
-  padding-inline-end: $session-margin-sm;
+  padding: $session-margin-sm;
 }
 .module-staged-link-preview__title {
   color: $color-gray-90;
@@ -2351,8 +2351,8 @@
 .module-staged-link-preview__close-button {
   cursor: pointer;
   position: absolute;
-  top: 0px;
-  right: 0px;
+  top: 5px;
+  right: 5px;
 
   height: 16px;
   width: 16px;
