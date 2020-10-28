@@ -342,7 +342,7 @@ export class SessionConversation extends React.Component<Props, State> {
       }
     );
 
-    const messages = messageSet.models.reverse();
+    const messages = messageSet.models;
     const messageFetchTimestamp = Date.now();
 
     this.setState({ messages, messageFetchTimestamp }, () => {
@@ -381,7 +381,7 @@ export class SessionConversation extends React.Component<Props, State> {
     );
 
     // Set first member of series here.
-    const messageModels = messageSet.models.reverse();
+    const messageModels = messageSet.models;
 
     const messages = [];
     let previousSender;

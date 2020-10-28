@@ -169,7 +169,7 @@
 .messages-container {
   display: flex;
   flex-grow: 1;
-  flex-direction: column;
+  flex-direction: column-reverse;
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;

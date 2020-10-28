@@ -90,10 +90,6 @@ export class SessionConversationMessagesList extends React.Component<
     )?.messageCollection;
   }
 
-  public async componentWillReceiveProps(nextProps: any) {
-    return;
-  }
-
   public render() {
     const { messages } = this.props;
 

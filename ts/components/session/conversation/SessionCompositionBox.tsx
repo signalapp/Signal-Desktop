@@ -497,16 +497,19 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       'attachments'
     );
 
+    const linkPreviews = stagedLinkPreview && [_.pick(stagedLinkPreview, 'url', 'image', 'title')] || [];
+
     try {
       const attachments = await this.getFiles();
       await this.props.sendMessage(
         messagePlaintext,
         attachments,
         extractedQuotedMessageProps,
-        [_.pick(stagedLinkPreview, 'url', 'image', 'title')],
+        linkPreviews,
         null,
         {}
       );
+
 
       // Message sending sucess
       this.props.onMessageSuccess();
@@ -518,6 +521,13 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       });
       // Empty stagedAttachments
       this.props.clearAttachments();
+      if (stagedLinkPreview && stagedLinkPreview.url) {
+        this.setState({
+          stagedLinkPreview: undefined,
+          ignoredLink: undefined,
+        });
+
+      }
     } catch (e) {
       // Message sending failed
       window.log.error(e);
