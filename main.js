@@ -772,7 +772,6 @@ async function showDebugLogWindow() {
       preload: path.join(__dirname, 'debug_log_preload.js'),
       nativeWindowOpen: true,
     },
-    parent: mainWindow,
   };
 
   debugLogWindow = new BrowserWindow(options);
