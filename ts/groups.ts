@@ -827,7 +827,6 @@ async function integrateGroupChanges({
     const { groupChanges } = changes[i];
 
     if (!groupChanges) {
-      // eslint-disable-next-line no-continue
       continue;
     }
 
@@ -841,7 +840,6 @@ async function integrateGroupChanges({
         window.log.warn(
           'integrateGroupChanges: item had neither groupState nor groupChange. Skipping.'
         );
-        // eslint-disable-next-line no-continue
         continue;
       }
 

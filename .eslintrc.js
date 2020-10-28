@@ -43,6 +43,8 @@ const rules = {
     { avoidEscape: true, allowTemplateLiterals: false },
   ],
 
+  'no-continue': 'off',
+
   // Prettier overrides:
   'arrow-parens': 'off',
   'function-paren-newline': 'off',

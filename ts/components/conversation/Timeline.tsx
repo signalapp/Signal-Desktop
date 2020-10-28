@@ -405,7 +405,6 @@ export class Timeline extends React.PureComponent<Props, State> {
       const { id, offsetTop, offsetHeight } = child;
 
       if (!id) {
-        // eslint-disable-next-line no-continue
         continue;
       }
 
@@ -425,7 +424,6 @@ export class Timeline extends React.PureComponent<Props, State> {
       const { offsetTop, id } = child;
 
       if (!id) {
-        // eslint-disable-next-line no-continue
         continue;
       }
 

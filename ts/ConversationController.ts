@@ -480,7 +480,6 @@ export class ConversationController {
 
             byE164[e164] = conversation;
 
-            // eslint-disable-next-line no-continue
             continue;
           }
 

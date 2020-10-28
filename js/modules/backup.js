@@ -184,7 +184,6 @@ async function importConversationsFromJSON(conversations, options) {
     if (haveConversationAlready) {
       skipCount += 1;
       count += 1;
-      // eslint-disable-next-line no-continue
       continue;
     }
 
@@ -694,7 +693,6 @@ async function exportConversation(conversation, options = {}) {
 
       // skip message if it is disappearing, no matter the amount of time left
       if (message.expireTimer || message.messageTimer || message.isViewOnce) {
-        // eslint-disable-next-line no-continue
         continue;
       }
 
