@@ -757,6 +757,16 @@ label {
   z-index: 3;
   min-width: 200px;
   box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
+  @include themify($themes) {
+    background: themed('cellBackground');
+  }
+  .react-contexify__item {
+    @include themify($themes) {
+      background: themed('cellBackground');
+    }
+  }
+
+
 
   .react-contexify__item:not(.react-contexify__item--disabled):hover
     > .react-contexify__item__content {
@@ -767,6 +777,9 @@ label {
   }
   .react-contexify__item__content {
     transition: $session-transition-duration;
+    @include themify($themes) {
+      color: themed('textColor');
+    }
   }
 
   &.react-contexify__submenu {
