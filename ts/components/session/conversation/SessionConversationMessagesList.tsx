@@ -11,6 +11,8 @@ import { ConversationModel } from '../../../../js/models/conversations';
 import { contextMenu } from 'react-contexify';
 import { AttachmentType } from '../../../types/Attachment';
 import { GroupNotification } from '../../conversation/GroupNotification';
+import { GroupInvitation } from '../../conversation/GroupInvitation';
+import { ConversationType } from '../../../state/ducks/conversations';
 
 interface State {
   isScrolledToBottom: boolean;
@@ -23,11 +25,10 @@ interface Props {
   conversationKey: string;
   messages: Array<any>;
   initialFetchComplete: boolean;
-  conversationModel: ConversationModel;
-  conversation: any;
+  conversation: ConversationType;
   messageContainerRef: React.RefObject<any>;
   selectMessage: (messageId: string) => void;
-  getMessages: (numMessages: number) => Promise<{ previousTopMessage: string }>;
+  getMessages: (numMessages: number) => Promise<void>;
   replyToMessage: (messageId: number) => Promise<void>;
   onClickAttachment: (attachment: any, message: any) => void;
   onDownloadAttachment: ({ attachment }: { attachment: any }) => void;
@@ -74,11 +75,6 @@ export class SessionConversationMessagesList extends React.Component<
       this.scrollToBottom();
       // this.updateReadMessages();
     }
-
-    // New messages get from message collection.
-    const messageCollection = window.ConversationController.get(
-      this.props.conversationKey
-    )?.messageCollection;
   }
 
   public render() {
@@ -116,12 +112,16 @@ export class SessionConversationMessagesList extends React.Component<
 
           const timerProps = message.propsForTimerNotification;
           const resetSessionProps = message.propsForResetSessionNotification;
+          const propsForGroupInvitation = message.propsForGroupInvitation;
 
-          const attachmentProps = message.propsForAttachment;
           const groupNotificationProps = message.propsForGroupNotification;
 
           if (groupNotificationProps) {
             return <GroupNotification {...groupNotificationProps} />;
+          }
+
+          if (propsForGroupInvitation) {
+            return <GroupInvitation {...propsForGroupInvitation} />;
           }
 
           if (resetSessionProps) {
@@ -182,8 +182,6 @@ export class SessionConversationMessagesList extends React.Component<
     const { messages, conversationKey } = this.props;
     const { isScrolledToBottom } = this.state;
 
-    // If you're not friends, don't mark anything as read. Otherwise
-    // this will automatically accept friend request.
     const conversation = window.ConversationController.getOrThrow(
       conversationKey
     );
@@ -322,13 +320,13 @@ export class SessionConversationMessagesList extends React.Component<
       scrollTop <= Constants.UI.MESSAGE_CONTAINER_BUFFER_OFFSET_PX;
 
     if (shouldFetchMoreMessages) {
+      const { messages } = this.props;
       const numMessages =
         this.props.messages.length +
         Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT;
+      const previousTopMessage = messages[messages.length - 1]?.id;
 
-      const previousTopMessage = (await this.props.getMessages(numMessages))
-        ?.previousTopMessage;
-
+      await this.props.getMessages(numMessages);
       if (previousTopMessage) {
         this.scrollToMessage(previousTopMessage);
       }

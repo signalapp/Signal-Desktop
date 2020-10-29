@@ -183,19 +183,13 @@ export class SessionConversation extends React.Component<Props, State> {
   public componentDidMount() {
     // Pause thread to wait for rendering to complete
     setTimeout(() => {
-      this.setState(
-        {
-          doneInitialScroll: true,
-        },
-        () => {
-          const div = this.messageContainerRef.current;
-          div?.addEventListener('dragenter', this.handleDragIn);
-          div?.addEventListener('dragleave', this.handleDragOut);
-          div?.addEventListener('dragover', this.handleDrag);
-          div?.addEventListener('drop', this.handleDrop);
-        }
-      );
-    }, 100);
+        const div = this.messageContainerRef.current;
+        div?.addEventListener('dragenter', this.handleDragIn);
+        div?.addEventListener('dragleave', this.handleDragOut);
+        div?.addEventListener('dragover', this.handleDrag);
+        div?.addEventListener('drop', this.handleDrop);
+      },
+    100);
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -358,6 +352,10 @@ export class SessionConversation extends React.Component<Props, State> {
         ? Constants.CONVERSATION.MAX_MESSAGE_FETCH_COUNT
         : msgCount;
 
+    if (msgCount < Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT) {
+      msgCount = Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT;
+    }
+
     const messageSet = await window.Signal.Data.getMessagesByConversation(
       conversationKey,
       { limit: msgCount, MessageCollection: window.Whisper.MessageCollection }
@@ -379,14 +377,8 @@ export class SessionConversation extends React.Component<Props, State> {
       messages.push({ ...messageModels[i], firstMessageOfSeries });
       previousSender = messageModels[i].authorPhoneNumber;
     }
-    const oldLen = this.state.messages.length;
-    const newLen = messages.length;
-    const previousTopMessage = this.state.messages[oldLen - 1]?.id;
-    const newTopMessage = messages[newLen - 1]?.id;
 
     this.setState({ messages });
-
-    return { newTopMessage, previousTopMessage };
   }
 
   public getHeaderProps() {
@@ -496,27 +488,28 @@ export class SessionConversation extends React.Component<Props, State> {
   }
 
   public getMessagesListProps() {
-    const { conversationKey } = this.state;
-    const conversation = window.ConversationController.getOrThrow(
-      conversationKey
-    );
-    const conversationModel = window.ConversationController.getOrThrow(
-      conversationKey
-    );
+    const { conversation } = this.props;
+    const {
+      conversationKey,
+      messages,
+      initialFetchComplete,
+      quotedMessageTimestamp,
+      doneInitialScroll,
+      selectedMessages,
+    } = this.state;
 
     return {
-      selectedMessages: this.state.selectedMessages,
-      conversationKey: this.state.conversationKey,
-      messages: this.state.messages,
+      selectedMessages,
+      conversationKey,
+      messages,
       resetSelection: this.resetSelection,
-      initialFetchComplete: this.state.initialFetchComplete,
-      quotedMessageTimestamp: this.state.quotedMessageTimestamp,
-      conversationModel: conversationModel,
-      conversation: conversation,
+      initialFetchComplete,
+      quotedMessageTimestamp,
+      conversation,
       selectMessage: this.selectMessage,
       getMessages: this.getMessages,
       replyToMessage: this.replyToMessage,
-      doneInitialScroll: this.state.doneInitialScroll,
+      doneInitialScroll,
       onClickAttachment: this.onClickAttachment,
       onDownloadAttachment: this.downloadAttachment,
       messageContainerRef: this.messageContainerRef,
@@ -637,11 +630,11 @@ export class SessionConversation extends React.Component<Props, State> {
 
   public async deleteSelectedMessages() {
     // Get message objects
-    const { conversationKey } = this.state;
+    const { conversationKey, messages } = this.state;
     const conversationModel = window.ConversationController.getOrThrow(
       conversationKey
     );
-    const selectedMessages = conversationModel.messageCollection.models.filter(
+    const selectedMessages = messages.filter(
       message =>
         this.state.selectedMessages.find(
           selectedMessage => selectedMessage === message.id
@@ -687,7 +680,7 @@ export class SessionConversation extends React.Component<Props, State> {
           m => m.key
         );
         const isAllOurs = selectedMessages.every(message =>
-          ourNumbers.includes(message.get('source'))
+          ourNumbers.includes(message.attributes.source)
         );
 
         if (!isAllOurs && !isModerator) {
