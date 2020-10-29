@@ -44,42 +44,18 @@
     getRenderInfo() {
       const { Components } = window.Signal;
 
-      if (this.model.propsForTimerNotification) {
-        return {
-          Component: Components.TimerNotification,
-          props: this.model.propsForTimerNotification,
-        };
-      } else if (this.model.propsForVerificationNotification) {
+      if (this.model.propsForVerificationNotification) {
         return {
           Component: Components.VerificationNotification,
           props: this.model.propsForVerificationNotification,
-        };
-      } else if (this.model.propsForResetSessionNotification) {
-        return {
-          Component: Components.ResetSessionNotification,
-          props: this.model.propsForResetSessionNotification,
-        };
-      } else if (this.model.propsForGroupNotification) {
-        return {
-          Component: Components.GroupNotification,
-          props: this.model.propsForGroupNotification,
         };
       } else if (this.model.isSessionRestoration()) {
         return {
           Component: Components.ResetSessionNotification,
           props: this.model.getPropsForResetSessionNotification(),
         };
-      } else if (this.model.propsForGroupInvitation) {
-        return {
-          Component: Components.GroupInvitation,
-          props: this.model.propsForGroupInvitation,
-        };
       }
-
-      return {
-        Component: Components.Message,
-        props: this.model.propsForMessage,
-      };
+      return null;
     },
     render() {
       this.addId();
