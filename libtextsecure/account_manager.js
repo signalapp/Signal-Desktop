@@ -7,7 +7,6 @@
   lokiFileServerAPI,
   mnemonic,
   btoa,
-  Signal,
   getString,
   Event,
   dcodeIO,
@@ -48,60 +47,6 @@
   AccountManager.prototype = new textsecure.EventTarget();
   AccountManager.prototype.extend({
     constructor: AccountManager,
-    requestVoiceVerification(number) {},
-    requestSMSVerification(number) {},
-    async encryptDeviceName(name, providedIdentityKey) {
-      if (!name) {
-        return null;
-      }
-      const identityKey =
-        providedIdentityKey ||
-        (await textsecure.storage.protocol.getIdentityKeyPair());
-      if (!identityKey) {
-        throw new Error(
-          'Identity key was not provided and is not in database!'
-        );
-      }
-      const encrypted = await Signal.Crypto.encryptDeviceName(
-        name,
-        identityKey.pubKey
-      );
-
-      const proto = new textsecure.protobuf.DeviceName();
-      proto.ephemeralPublic = encrypted.ephemeralPublic;
-      proto.syntheticIv = encrypted.syntheticIv;
-      proto.ciphertext = encrypted.ciphertext;
-
-      const arrayBuffer = proto.encode().toArrayBuffer();
-      return Signal.Crypto.arrayBufferToBase64(arrayBuffer);
-    },
-    async decryptDeviceName(base64) {
-      const identityKey = await textsecure.storage.protocol.getIdentityKeyPair();
-
-      const arrayBuffer = Signal.Crypto.base64ToArrayBuffer(base64);
-      const proto = textsecure.protobuf.DeviceName.decode(arrayBuffer);
-      const encrypted = {
-        ephemeralPublic: proto.ephemeralPublic.toArrayBuffer(),
-        syntheticIv: proto.syntheticIv.toArrayBuffer(),
-        ciphertext: proto.ciphertext.toArrayBuffer(),
-      };
-
-      const name = await Signal.Crypto.decryptDeviceName(
-        encrypted,
-        identityKey.privKey
-      );
-
-      return name;
-    },
-    async maybeUpdateDeviceName() {
-      throw new Error('Signal method called: maybeUpdateDeviceName');
-    },
-    async deviceNameIsEncrypted() {
-      await textsecure.storage.user.setDeviceNameEncrypted();
-    },
-    async maybeDeleteSignalingKey() {
-      throw new Error('Signal method called: maybeDeleteSignalingKey');
-    },
     registerSingleDevice(mnemonic, mnemonicLanguage, profileName) {
       const createAccount = this.createAccount.bind(this);
       const clearSessionsAndPreKeys = this.clearSessionsAndPreKeys.bind(this);
@@ -140,65 +85,6 @@
         )
       );
     },
-    async addMockContact(doSave) {
-      if (doSave === undefined) {
-        // eslint-disable-next-line no-param-reassign
-        doSave = true;
-      }
-      const keyPair = await libsignal.KeyHelper.generateIdentityKeyPair();
-      const pubKey = StringView.arrayBufferToHex(keyPair.pubKey);
-      const privKey = StringView.arrayBufferToHex(keyPair.privKey);
-      log.info(`contact pubkey ${pubKey}`);
-      log.info(`contact privkey ${privKey}`);
-      const signedKeyId = Math.floor(Math.random() * 1000 + 1);
-
-      const signedPreKey = await libsignal.KeyHelper.generateSignedPreKey(
-        keyPair,
-        signedKeyId
-      );
-      const contactSignedPreKey = {
-        publicKey: signedPreKey.keyPair.pubKey,
-        signature: signedPreKey.signature,
-        keyId: signedPreKey.keyId,
-      };
-      if (doSave) {
-        await textsecure.storage.protocol.storeContactSignedPreKey(
-          pubKey,
-          contactSignedPreKey
-        );
-      } else {
-        log.info(
-          `signed prekey:
-          ${StringView.arrayBufferToHex(contactSignedPreKey.publicKey)}`
-        );
-        log.info(
-          `signature:
-          ${StringView.arrayBufferToHex(contactSignedPreKey.signature)}`
-        );
-      }
-
-      for (let keyId = 0; keyId < 10; keyId += 1) {
-        const preKey = await libsignal.KeyHelper.generatePreKey(keyId);
-        if (doSave) {
-          await textsecure.storage.protocol.storeContactPreKey(pubKey, {
-            publicKey: preKey.keyPair.pubKey,
-            keyId,
-          });
-        } else {
-          log.info(
-            `signed prekey:
-            ${StringView.arrayBufferToHex(preKey.keyPair.pubKey)}`
-          );
-        }
-      }
-      log.info('Added mock contact');
-    },
-    registerSecondDevice(setProvisioningUrl, confirmNumber, progressCallback) {
-      throw new Error(
-        'account_manager: registerSecondDevice has not been implemented!'
-      );
-    },
-    refreshPreKeys() {},
     rotateSignedPreKey() {
       return this.queueTask(() => {
         const signedKeyId = textsecure.storage.get('signedKeyId', 1);
