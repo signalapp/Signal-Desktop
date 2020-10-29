@@ -99,5 +99,6 @@ declare global {
     GroupBuffer: any;
     SwarmPolling: SwarmPolling;
     owsDesktopApp: any;
+    sessionGenerateKeyPair: (seed: ArrayBuffer) => Promise<{ pubKey: ArrayBufferLike;  privKey: ArrayBufferLike; }>;
   }
 }

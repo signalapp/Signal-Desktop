@@ -60,11 +60,11 @@
           // handle shorter than 32 bytes seeds
           const privKeyHexLength = 32 * 2;
           if (seedHex.length !== privKeyHexLength) {
-            seedHex = seedHex.concat(seedHex);
+            seedHex = seedHex.concat('0'.repeat(32));
             seedHex = seedHex.substring(0, privKeyHexLength);
           }
           const seed = dcodeIO.ByteBuffer.wrap(seedHex, 'hex').toArrayBuffer();
-          return libsignal.Curve.async.createKeyPair(seed);
+          return window.sessionGenerateKeyPair(seed);
         };
       } else {
         generateKeypair = libsignal.KeyHelper.generateIdentityKeyPair;

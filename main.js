@@ -1178,6 +1178,42 @@ ipc.on('decrypt-lns-entry', (event, lnsName, ciphertext) => {
   decryptLns(event, lnsName, ciphertext);
 });
 
+async function sessionGenerateKeyPair(event, seed) {
+  const sodium = await getSodium();
+
+  try {
+    const ed25519KeyPair = sodium.crypto_sign_seed_keypair(
+      new Uint8Array(seed)
+    );
+    const x25519PublicKey = sodium.crypto_sign_ed25519_pk_to_curve25519(
+      ed25519KeyPair.publicKey
+    );
+    // prepend version byte (coming from `processKeys(raw_keys)`)
+    const origPub = new Uint8Array(x25519PublicKey);
+    const prependedX25519PublicKey = new Uint8Array(33);
+    prependedX25519PublicKey.set(origPub, 1);
+    prependedX25519PublicKey[0] = 5;
+    const x25519SecretKey = sodium.crypto_sign_ed25519_sk_to_curve25519(
+      ed25519KeyPair.privateKey
+    );
+
+    // prepend with 05 the public key
+    const x25519KeyPair = {
+      pubKey: prependedX25519PublicKey.buffer,
+      privKey: x25519SecretKey.buffer,
+    };
+
+    // null as first parameter to indivate no error
+    event.reply('generate-keypair-seed-response', null, x25519KeyPair);
+  } catch (err) {
+    event.reply('generate-keypair-seed-response', err);
+  }
+}
+
+ipc.on('generate-keypair-seed', (event, seed) => {
+  sessionGenerateKeyPair(event, seed);
+});
+
 ipc.on('set-auto-update-setting', (event, enabled) => {
   userConfig.set('autoUpdate', !!enabled);
 
