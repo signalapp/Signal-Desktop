@@ -2840,6 +2840,13 @@ Whisper.ConversationView = Whisper.View.extend({
         return;
       }
 
+      const mandatoryProfileSharingEnabled = window.Signal.RemoteConfig.isEnabled(
+        'desktop.mandatoryProfileSharing'
+      );
+      if (mandatoryProfileSharingEnabled && !this.model.get('profileSharing')) {
+        this.model.set({ profileSharing: true });
+      }
+
       const { packId, stickerId } = options;
       this.model.sendStickerMessage(packId, stickerId);
     } catch (error) {
@@ -3033,6 +3040,13 @@ Whisper.ConversationView = Whisper.View.extend({
     try {
       if (!message.length && !this.hasFiles() && !this.voiceNoteAttachment) {
         return;
+      }
+
+      const mandatoryProfileSharingEnabled = window.Signal.RemoteConfig.isEnabled(
+        'desktop.mandatoryProfileSharing'
+      );
+      if (mandatoryProfileSharingEnabled && !this.model.get('profileSharing')) {
+        this.model.set({ profileSharing: true });
       }
 
       const attachments = await this.getFiles();

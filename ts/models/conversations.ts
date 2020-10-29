@@ -1763,6 +1763,11 @@ export class ConversationModel extends window.Backbone.Model<
       return false;
     }
 
+    const hasNoMessages = (this.get('messageCount') || 0) === 0;
+    if (hasNoMessages) {
+      return false;
+    }
+
     return !this.get('profileSharing');
   }
 
