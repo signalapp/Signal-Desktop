@@ -1201,6 +1201,7 @@ async function sessionGenerateKeyPair(event, seed) {
     const x25519KeyPair = {
       pubKey: prependedX25519PublicKey.buffer,
       privKey: x25519SecretKey.buffer,
+      ed25519KeyPair,
     };
 
     // null as first parameter to indivate no error
