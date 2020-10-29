@@ -21,16 +21,12 @@ interface Props {
   selectedMessages: Array<string>;
   conversationKey: string;
   messages: Array<any>;
-  resetSelection: () => any;
   initialFetchComplete: boolean;
   conversationModel: ConversationModel;
   conversation: any;
   messageContainerRef: React.RefObject<any>;
   selectMessage: (messageId: string) => void;
-  getMessages: (
-    numMessages: number,
-    interval: number
-  ) => Promise<{ previousTopMessage: string }>;
+  getMessages: (numMessages: number) => Promise<{ previousTopMessage: string }>;
   replyToMessage: (messageId: number) => Promise<void>;
   onClickAttachment: (attachment: any, message: any) => void;
   onDownloadAttachment: ({ attachment }: { attachment: any }) => void;
@@ -68,12 +64,6 @@ export class SessionConversationMessagesList extends React.Component<
   public componentDidMount() {
     // Pause thread to wait for rendering to complete
     setTimeout(this.scrollToUnread, 0);
-    setTimeout(() => {
-      this.setState({
-        doneInitialScroll: true,
-      });
-    }, 100);
-
     this.updateReadMessages();
   }
 
@@ -335,11 +325,8 @@ export class SessionConversationMessagesList extends React.Component<
         this.props.messages.length +
         Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT;
 
-      // Prevent grabbing messags with scroll more frequently than once per 2s.
-      const messageFetchInterval = 2;
-      const previousTopMessage = (
-        await this.props.getMessages(numMessages, messageFetchInterval)
-      )?.previousTopMessage;
+      const previousTopMessage = (await this.props.getMessages(numMessages))
+        ?.previousTopMessage;
 
       if (previousTopMessage) {
         this.scrollToMessage(previousTopMessage);
@@ -353,6 +340,11 @@ export class SessionConversationMessagesList extends React.Component<
 
     if (message) {
       this.scrollToMessage(message.id);
+    }
+    if (!this.state.doneInitialScroll) {
+      this.setState({
+        doneInitialScroll: true,
+      });
     }
   }
 
@@ -380,9 +372,5 @@ export class SessionConversationMessagesList extends React.Component<
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public selectMessage(messageId: string) {
     this.props.selectMessage(messageId);
-  }
-
-  public resetSelection() {
-    this.props.resetSelection();
   }
 }

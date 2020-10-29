@@ -26,7 +26,7 @@ import { AttachmentType, save } from '../../../types/Attachment';
 import { ToastUtils } from '../../../session/utils';
 import * as MIME from '../../../types/MIME';
 import { SessionFileDropzone } from './SessionFileDropzone';
-import { PubKey } from '../../../session/types';
+import { ConversationType } from '../../../state/ducks/conversations';
 
 interface State {
   conversationKey: string;
@@ -48,7 +48,6 @@ interface State {
   isScrolledToBottom: boolean;
   doneInitialScroll: boolean;
   displayScrollToBottomButton: boolean;
-  messageFetchTimestamp: number;
 
   showOverlay: boolean;
   showRecordingView: boolean;
@@ -69,7 +68,8 @@ interface State {
 }
 
 interface Props {
-  conversations: any;
+  conversationKey: string;
+  conversation: ConversationType;
   theme: DefaultTheme;
 }
 
@@ -81,13 +81,13 @@ export class SessionConversation extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
 
-    const conversationKey = this.props.conversations.selectedConversation;
-    const conversation = this.props.conversations.conversationLookup[
+    const { conversationKey } = this.props;
+
+    const conversationModel = window.ConversationController.getOrThrow(
       conversationKey
-    ];
+    );
 
-    const unreadCount = conversation.unreadCount;
-
+    const unreadCount = conversationModel.get('unreadCount');
     this.state = {
       messageProgressVisible: false,
       sendingProgress: 0,
@@ -101,7 +101,6 @@ export class SessionConversation extends React.Component<Props, State> {
       isScrolledToBottom: !unreadCount,
       doneInitialScroll: false,
       displayScrollToBottomButton: false,
-      messageFetchTimestamp: 0,
       showOverlay: false,
       showRecordingView: false,
       showOptionsPane: false,
@@ -135,7 +134,10 @@ export class SessionConversation extends React.Component<Props, State> {
     this.replyToMessage = this.replyToMessage.bind(this);
     this.onClickAttachment = this.onClickAttachment.bind(this);
     this.downloadAttachment = this.downloadAttachment.bind(this);
-    this.getMessages = this.getMessages.bind(this);
+    this.getMessages = _.throttle(
+      this.getMessages.bind(this),
+      1000 // one second
+    );
 
     // Keyboard navigation
     this.onKeyDown = this.onKeyDown.bind(this);
@@ -152,15 +154,11 @@ export class SessionConversation extends React.Component<Props, State> {
     this.handleDrag = this.handleDrag.bind(this);
     this.handleDrop = this.handleDrop.bind(this);
 
-    const conversationModel = window.ConversationController.getOrThrow(
-      this.state.conversationKey
-    );
     conversationModel.on('change', () => {
       // reload as much messages as we had before the change.
       void this.getMessages(
         this.state.messages.length ||
-          Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT,
-        2
+          Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT
       );
     });
   }
@@ -214,9 +212,7 @@ export class SessionConversation extends React.Component<Props, State> {
     } = this.state;
     const selectionMode = !!selectedMessages.length;
 
-    const conversation = this.props.conversations.conversationLookup[
-      conversationKey
-    ];
+    const { conversation } = this.props;
     const conversationModel = window.ConversationController.getOrThrow(
       conversationKey
     );
@@ -343,28 +339,15 @@ export class SessionConversation extends React.Component<Props, State> {
     );
 
     const messages = messageSet.models;
-    const messageFetchTimestamp = Date.now();
 
-    this.setState({ messages, messageFetchTimestamp }, () => {
+    this.setState({ messages }, () => {
       // Add new messages to conversation collection
       conversationModel.messageCollection = messageSet;
     });
   }
 
-  public async getMessages(
-    numMessages?: number,
-    fetchInterval = Constants.CONVERSATION.MESSAGE_FETCH_INTERVAL
-  ) {
-    const { conversationKey, messageFetchTimestamp } = this.state;
-
-    const timestamp = Date.now();
-
-    // If we have pulled messages in the last interval, don't bother rescanning
-    // This avoids getting messages on every re-render.
-    const timeBuffer = timestamp - messageFetchTimestamp;
-    if (timeBuffer / 1000 < fetchInterval) {
-      return { newTopMessage: undefined, previousTopMessage: undefined };
-    }
+  public async getMessages(numMessages?: number) {
+    const { conversationKey } = this.state;
 
     let msgCount =
       numMessages ||
@@ -400,7 +383,7 @@ export class SessionConversation extends React.Component<Props, State> {
     const previousTopMessage = this.state.messages[oldLen - 1]?.id;
     const newTopMessage = messages[newLen - 1]?.id;
 
-    this.setState({ messages, messageFetchTimestamp: timestamp });
+    this.setState({ messages });
 
     return { newTopMessage, previousTopMessage };
   }
@@ -801,13 +784,11 @@ export class SessionConversation extends React.Component<Props, State> {
   private async replyToMessage(quotedMessageTimestamp?: number) {
     if (!_.isEqual(this.state.quotedMessageTimestamp, quotedMessageTimestamp)) {
       const { conversationKey } = this.state;
+      const { conversation } = this.props;
       const conversationModel = window.ConversationController.getOrThrow(
         conversationKey
       );
 
-      const conversation = this.props.conversations.conversationLookup[
-        conversationKey
-      ];
       let quotedMessageProps = null;
       if (quotedMessageTimestamp) {
         const quotedMessageModel = conversationModel.getMessagesWithTimestamp(

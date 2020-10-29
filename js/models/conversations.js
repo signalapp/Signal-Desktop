@@ -1556,6 +1556,7 @@
         Message: Whisper.Message,
       });
       message.set({ id });
+      await this.commit();
 
       // if change was made remotely, don't send it to the number/group
       if (receivedAt) {

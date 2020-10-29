@@ -46,6 +46,7 @@ export type ConversationType = {
   type: 'direct' | 'group';
   isMe: boolean;
   isPublic?: boolean;
+  isRss?: boolean;
   isClosable?: boolean;
   lastUpdated: number;
   unreadCount: number;

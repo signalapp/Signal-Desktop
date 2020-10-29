@@ -37,8 +37,15 @@ const mapStateToProps = (state: StateType) => {
   //   }
   // }
 
+  const conversationKey = state.conversations.selectedConversation;
+  const conversation =
+    (conversationKey &&
+      state.conversations.conversationLookup[conversationKey]) ||
+    null;
+
   return {
-    conversations: state.conversations,
+    conversation,
+    conversationKey,
     theme: state.theme,
   };
 };
