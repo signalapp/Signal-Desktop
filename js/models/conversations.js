@@ -32,12 +32,7 @@
     UNRESTRICTED: 3,
   };
 
-  const {
-    Conversation,
-    Contact,
-    Message,
-    PhoneNumber,
-  } = window.Signal.Types;
+  const { Conversation, Contact, Message, PhoneNumber } = window.Signal.Types;
   const {
     upgradeMessageSchema,
     loadAttachmentData,

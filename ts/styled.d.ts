@@ -14,6 +14,9 @@ declare module 'styled-components' {
         md: string;
         lg: string;
       };
+      animations: {
+        defaultDuration: string;
+      };
     };
     colors: {
       accent: string;

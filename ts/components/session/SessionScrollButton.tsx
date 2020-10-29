@@ -1,31 +1,34 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import styled, { ThemeContext } from 'styled-components';
 
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 
-interface Props {
+type Props = {
   onClick?: () => any;
   show?: boolean;
-}
+};
 
-export class SessionScrollButton extends React.PureComponent<Props> {
-  constructor(props: any) {
-    super(props);
-  }
+const SessionScrollButtonDiv = styled.div`
+  position: fixed;
+  z-index: 2;
+  right: 60px;
+  animation: fadein ${props => props.theme.common.animations.defaultDuration};
+`;
 
-  public render() {
-    return (
-      <>
-        {this.props.show && (
-          <div className="session-scroll-button">
-            <SessionIconButton
-              iconType={SessionIconType.Chevron}
-              iconSize={SessionIconSize.Huge}
-              iconColor={'#FFFFFF'}
-              onClick={this.props.onClick}
-            />
-          </div>
-        )}
-      </>
-    );
-  }
-}
+export const SessionScrollButton = (props: Props) => {
+  const themeContext = useContext(ThemeContext);
+
+  return (
+    <>
+      {props.show && (
+        <SessionScrollButtonDiv theme={themeContext}>
+          <SessionIconButton
+            iconType={SessionIconType.Chevron}
+            iconSize={SessionIconSize.Huge}
+            onClick={props.onClick}
+          />
+        </SessionScrollButtonDiv>
+      )}
+    </>
+  );
+};

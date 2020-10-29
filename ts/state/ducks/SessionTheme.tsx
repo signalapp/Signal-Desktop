@@ -25,6 +25,9 @@ const common = {
     md: '15px',
     lg: '20px',
   },
+  animations: {
+    defaultDuration: '0.25s',
+  },
 };
 
 export const lightTheme: DefaultTheme = {

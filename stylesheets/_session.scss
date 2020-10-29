@@ -1335,12 +1335,7 @@ input {
   }
 }
 
-.session-scroll-button {
-  animation: fadein $session-fadein-duration;
-  position: fixed;
-  z-index: 2;
-  right: 60px;
-
+.messages-container {
   .session-icon-button {
     display: flex;
     justify-content: center;
@@ -1349,12 +1344,16 @@ input {
     width: 40px;
     border-radius: 50%;
     opacity: 1;
-    background-color: $session-shade-2;
-    box-shadow: 0px 0px 10px 0px rgba($session-color-white, 0.1);
-
+    @include themify($themes) {
+      background-color: themed('cellBackground');
+      box-shadow: themed('sessionShadow');
+    }
     svg path {
       transition: $session-transition-duration;
       opacity: 0.6;
+      @include themify($themes) {
+        fill: themed('textColor');
+      }
     }
 
     &:hover svg path {

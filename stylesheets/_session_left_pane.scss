@@ -110,6 +110,7 @@ $session-compose-margin: 20px;
     width: $session-left-pane-sections-container-width;
     display: inline-flex;
     flex-direction: column;
+    overflow: auto;
     @include themify($themes) {
       border-right: themed('sessionBorder');
     }
