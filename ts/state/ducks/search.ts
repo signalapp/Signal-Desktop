@@ -16,7 +16,6 @@ import {
   SelectedConversationChangedActionType,
 } from './conversations';
 import { MultiDeviceProtocol } from '../../session/protocols';
-import { PubKey } from '../../session/types';
 
 // State
 

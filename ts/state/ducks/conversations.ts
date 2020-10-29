@@ -106,6 +106,13 @@ export type SelectedConversationChangedActionType = {
     messageId?: string;
   };
 };
+export type LoadMoreMessagesActionType = {
+  type: 'LOAD_MORE_MESSAGES_ACTION_TYPE';
+  payload: {
+    id: string;
+    currentMessageCount: number;
+  };
+};
 
 export type ConversationActionType =
   | ConversationAddedActionType
@@ -115,7 +122,8 @@ export type ConversationActionType =
   | MessageExpiredActionType
   | SelectedConversationChangedActionType
   | MessageExpiredActionType
-  | SelectedConversationChangedActionType;
+  | SelectedConversationChangedActionType
+  | LoadMoreMessagesActionType;
 
 // Action Creators
 
@@ -127,6 +135,7 @@ export const actions = {
   messageExpired,
   openConversationInternal,
   openConversationExternal,
+  loadMoreMessages,
 };
 
 function conversationAdded(
@@ -165,6 +174,16 @@ function removeAllConversations(): RemoveAllConversationsActionType {
   return {
     type: 'CONVERSATIONS_REMOVE_ALL',
     payload: null,
+  };
+}
+
+function loadMoreMessages(id: string, currentMessageCount: number): LoadMoreMessagesActionType {
+  return {
+    type: 'LOAD_MORE_MESSAGES_ACTION_TYPE',
+    payload: {
+      id,
+      currentMessageCount,
+    },
   };
 }
 

@@ -8,11 +8,10 @@ import {
 import { reducer as user, UserStateType } from './ducks/user';
 import { reducer as theme, ThemeStateType } from './ducks/theme';
 import { reducer as section, SectionStateType } from './ducks/section';
-// import { reducer as messages } from './ducks/messages';
 
 export type StateType = {
   search: SearchStateType;
-  messages: any;
+  // messages: any;
   user: UserStateType;
   conversations: ConversationsStateType;
   theme: ThemeStateType;
