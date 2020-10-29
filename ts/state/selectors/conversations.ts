@@ -30,13 +30,6 @@ export const getSelectedConversation = createSelector(
   }
 );
 
-export const getShowArchived = createSelector(
-  getConversations,
-  (state: ConversationsStateType): boolean => {
-    return Boolean(state.showArchived);
-  }
-);
-
 function getConversationTitle(
   conversation: ConversationType,
   options: { i18n: LocalizerType; ourRegionCode: string }

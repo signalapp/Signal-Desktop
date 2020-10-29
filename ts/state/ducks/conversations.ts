@@ -64,7 +64,6 @@ export type ConversationLookupType = {
 export type ConversationsStateType = {
   conversationLookup: ConversationLookupType;
   selectedConversation?: string;
-  showArchived: boolean;
 };
 
 // Actions
@@ -107,14 +106,6 @@ export type SelectedConversationChangedActionType = {
     messageId?: string;
   };
 };
-type ShowInboxActionType = {
-  type: 'SHOW_INBOX';
-  payload: null;
-};
-type ShowArchivedConversationsActionType = {
-  type: 'SHOW_ARCHIVED_CONVERSATIONS';
-  payload: null;
-};
 
 export type ConversationActionType =
   | ConversationAddedActionType
@@ -124,9 +115,7 @@ export type ConversationActionType =
   | MessageExpiredActionType
   | SelectedConversationChangedActionType
   | MessageExpiredActionType
-  | SelectedConversationChangedActionType
-  | ShowInboxActionType
-  | ShowArchivedConversationsActionType;
+  | SelectedConversationChangedActionType;
 
 // Action Creators
 
@@ -138,8 +127,6 @@ export const actions = {
   messageExpired,
   openConversationInternal,
   openConversationExternal,
-  showInbox,
-  showArchivedConversations,
 };
 
 function conversationAdded(
@@ -221,25 +208,12 @@ function openConversationExternal(
   };
 }
 
-function showInbox() {
-  return {
-    type: 'SHOW_INBOX',
-    payload: null,
-  };
-}
-function showArchivedConversations() {
-  return {
-    type: 'SHOW_ARCHIVED_CONVERSATIONS',
-    payload: null,
-  };
-}
 
 // Reducer
 
 function getEmptyState(): ConversationsStateType {
   return {
     conversationLookup: {},
-    showArchived: false,
   };
 }
 
@@ -269,7 +243,6 @@ export function reducer(
     const { id, data } = payload;
     const { conversationLookup } = state;
 
-    let showArchived = state.showArchived;
     let selectedConversation = state.selectedConversation;
 
     const existing = conversationLookup[id];
@@ -279,10 +252,6 @@ export function reducer(
     }
 
     if (selectedConversation === id) {
-      // Archived -> Inbox: we go back to the normal inbox view
-      if (existing.isArchived && !data.isArchived) {
-        showArchived = false;
-      }
       // Inbox -> Archived: no conversation is selected
       // Note: With today's stacked converastions architecture, this can result in weird
       //   behavior - no selected conversation in the left pane, but a conversation show
@@ -295,7 +264,6 @@ export function reducer(
     return {
       ...state,
       selectedConversation,
-      showArchived,
       conversationLookup: {
         ...conversationLookup,
         [id]: data,
@@ -325,18 +293,6 @@ export function reducer(
     return {
       ...state,
       selectedConversation: id,
-    };
-  }
-  if (action.type === 'SHOW_INBOX') {
-    return {
-      ...state,
-      showArchived: false,
-    };
-  }
-  if (action.type === 'SHOW_ARCHIVED_CONVERSATIONS') {
-    return {
-      ...state,
-      showArchived: true,
     };
   }
 

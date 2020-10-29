@@ -10,7 +10,7 @@ import {
   getRegionCode,
   getUserNumber,
 } from '../selectors/user';
-import { getLeftPaneLists, getShowArchived } from '../selectors/conversations';
+import { getLeftPaneLists } from '../selectors/conversations';
 
 // Workaround: A react component's required properties are filtering up through connect()
 //   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
@@ -28,7 +28,6 @@ const mapStateToProps = (state: StateType) => {
     ourNumber: getUserNumber(state),
     isSecondaryDevice: getIsSecondaryDevice(state),
     searchResults,
-    showArchived: getShowArchived(state),
     i18n: getIntl(state),
     unreadMessageCount: leftPaneList.unreadCount,
     theme: state.theme,
