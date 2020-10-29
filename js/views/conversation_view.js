@@ -343,12 +343,6 @@
 
       this.memberView.render();
 
-      this.bulkEditView = new Whisper.BulkEditView({
-        el: this.$('#bulk-edit-view'),
-        onCancel: this.resetMessageSelection.bind(this),
-        onDelete: this.deleteSelectedMessages.bind(this),
-      });
-
       this.$messageField = this.$('.send-message');
 
       this.onResize = this.forceUpdateMessageFieldSize.bind(this);
@@ -1450,86 +1444,6 @@
           error && error.stack ? error.stack : error
         );
       }
-    },
-
-    resetMessageSelection() {
-      this.model.resetMessageSelection();
-    },
-
-    onKeyDown(event) {
-      if (event.key !== 'Escape') {
-        return;
-      }
-
-      // TODO: this view is not always in focus (e.g. after I've selected a message),
-      // so need to make Esc more robust
-      // Perhaps look into ConversationHeader.tsx and add an event listener in there.
-      // Up and down arrows should scroll
-      // Alt + up and down should swap between conversations / setting categories
-      this.model.resetMessageSelection();
-    },
-
-    async setQuoteMessage(message) {
-      this.quote = null;
-      this.quotedMessage = message;
-
-      if (this.quoteHolder) {
-        this.quoteHolder.unload();
-        this.quoteHolder = null;
-      }
-
-      if (message) {
-        const quote = await this.model.makeQuote(message);
-        this.quote = quote;
-
-        this.focusMessageFieldAndClearDisabled();
-      }
-
-      this.renderQuotedMessage();
-    },
-
-    renderQuotedMessage() {
-      if (this.quoteView) {
-        this.quoteView.remove();
-        this.quoteView = null;
-      }
-      if (!this.quotedMessage) {
-        this.view.restoreBottomOffset();
-        this.updateMessageFieldSize({});
-        return;
-      }
-
-      const message = new Whisper.Message({
-        conversationId: this.model.id,
-        quote: this.quote,
-      });
-      message.quotedMessage = this.quotedMessage;
-      this.quoteHolder = message;
-
-      const props = message.getPropsForQuote();
-
-      this.listenTo(message, 'scroll-to-message', this.scrollToMessage);
-
-      const contact = this.quotedMessage.getContact();
-      if (contact) {
-        this.listenTo(contact, 'change', this.renderQuotedMesage);
-      }
-
-      this.quoteView = new Whisper.ReactWrapperView({
-        className: 'quote-wrapper',
-        Component: window.Signal.Components.Quote,
-        elCallback: el => this.$('.send').prepend(el),
-        props: Object.assign({}, props, {
-          withContentAbove: true,
-          onClose: () => {
-            this.setQuoteMessage(null);
-          },
-        }),
-        onInitialRender: () => {
-          this.view.restoreBottomOffset();
-          this.updateMessageFieldSize({});
-        },
-      });
     },
 
     async sendMessage(e) {

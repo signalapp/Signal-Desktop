@@ -141,41 +141,6 @@
   align-self: flex-end;
 }
 
-.bulk-edit-container {
-  display: flex;
-  border-top: solid;
-  border-width: 0.8px;
-  border-color: #80808090;
-
-  &.hidden {
-    display: none;
-  }
-
-  .delete-button {
-    color: orangered;
-    padding: 18px;
-    // This makes sure the message counter is right in the center
-    width: 80px;
-    margin-inline-end: -80px;
-    user-select: none;
-  }
-
-  .cancel-button {
-    padding: 18px;
-    width: 80px;
-    margin-inline-start: -80px;
-    user-select: none;
-  }
-
-  .message-counter {
-    color: darkgrey;
-    display: flex;
-    align-items: center;
-    user-select: none;
-    margin-inline-start: auto;
-    margin-inline-end: auto;
-  }
-}
 
 .typing-bubble-wrapper {
   margin-bottom: 20px;
