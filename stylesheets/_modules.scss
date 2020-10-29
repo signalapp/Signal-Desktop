@@ -937,6 +937,10 @@
   .module-contact-name__profile-name {
     text-align: center;
   }
+
+  .module-message__author__profile-name {
+    margin-inline-end: $session-margin-xs;
+  }
 }
 
 .module-notification--with-click-handler {

@@ -177,7 +177,10 @@ function removeAllConversations(): RemoveAllConversationsActionType {
   };
 }
 
-function loadMoreMessages(id: string, currentMessageCount: number): LoadMoreMessagesActionType {
+function loadMoreMessages(
+  id: string,
+  currentMessageCount: number
+): LoadMoreMessagesActionType {
   return {
     type: 'LOAD_MORE_MESSAGES_ACTION_TYPE',
     payload: {
@@ -226,7 +229,6 @@ function openConversationExternal(
     },
   };
 }
-
 
 // Reducer
 

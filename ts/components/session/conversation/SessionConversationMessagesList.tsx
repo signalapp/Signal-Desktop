@@ -10,6 +10,7 @@ import _ from 'lodash';
 import { ConversationModel } from '../../../../js/models/conversations';
 import { contextMenu } from 'react-contexify';
 import { AttachmentType } from '../../../types/Attachment';
+import { GroupNotification } from '../../conversation/GroupNotification';
 
 interface State {
   isScrolledToBottom: boolean;
@@ -119,25 +120,25 @@ export class SessionConversationMessagesList extends React.Component<
           const attachmentProps = message.propsForAttachment;
           const groupNotificationProps = message.propsForGroupNotification;
 
-          let item;
+          if (groupNotificationProps) {
+            return <GroupNotification {...groupNotificationProps} />;
+          }
+
+          if (resetSessionProps) {
+            return <ResetSessionNotification {...resetSessionProps} />;
+          }
+
+          if (timerProps) {
+            return <TimerNotification {...timerProps} />;
+          }
+
           // firstMessageOfSeries tells us to render the avatar only for the first message
           // in a series of messages from the same user
-          item = messageProps
-            ? this.renderMessage(
-                messageProps,
-                message.firstMessageOfSeries,
-                multiSelectMode
-              )
-            : item;
-
-          item = timerProps ? <TimerNotification {...timerProps} /> : item;
-          item = resetSessionProps ? (
-            <ResetSessionNotification {...resetSessionProps} />
-          ) : (
-            item
+          return this.renderMessage(
+            messageProps,
+            message.firstMessageOfSeries,
+            multiSelectMode
           );
-
-          return item;
         })}
       </>
     );

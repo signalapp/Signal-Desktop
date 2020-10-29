@@ -21,7 +21,6 @@ interface Change {
 
 interface Props {
   changes: Array<Change>;
-  i18n: LocalizerType;
 }
 
 // This class is used to display group updates in the conversation view.
@@ -29,7 +28,7 @@ interface Props {
 export class GroupNotification extends React.Component<Props> {
   public renderChange(change: Change) {
     const { isMe, contacts, type, newName } = change;
-    const { i18n } = this.props;
+    const { i18n } = window;
 
     const people = compact(
       flatten(
