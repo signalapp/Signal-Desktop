@@ -15,6 +15,7 @@ const { nativeTheme } = remote.require('electron');
 const STICKER_SIZE = 512;
 const MIN_STICKER_DIMENSION = 10;
 const MAX_STICKER_DIMENSION = STICKER_SIZE;
+const MAX_WEBP_STICKER_BYTE_LENGTH = 100 * 1024;
 const MAX_ANIMATED_STICKER_BYTE_LENGTH = 300 * 1024;
 
 window.ROOT_PATH = window.location.href.startsWith('file') ? '../../' : '/';
@@ -128,6 +129,12 @@ window.processStickerImage = async path => {
       })
       .webp()
       .toBuffer();
+    if (processedBuffer.byteLength > MAX_WEBP_STICKER_BYTE_LENGTH) {
+      throw processStickerError(
+        'Sticker file was too large',
+        'StickerCreator--Toasts--tooLarge'
+      );
+    }
   }
 
   return {
