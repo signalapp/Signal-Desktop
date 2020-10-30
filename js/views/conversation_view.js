@@ -977,14 +977,6 @@
         if (this.view.atBottom() || options.scroll) {
           lastSeenEl[0].scrollIntoView();
         }
-
-        // scrollIntoView is an async operation, but we have no way to listen for
-        //   completion of the resultant scroll.
-        setTimeout(() => {
-          if (!this.view.atBottom()) {
-            this.addScrollDownButtonWithCount(unreadCount);
-          }
-        }, 1);
       } else if (this.view.atBottom()) {
         // If we already thought we were at the bottom, then ensure that's the case.
         //   Attempting to account for unpredictable completion of message rendering.
@@ -1129,20 +1121,6 @@
       }
 
       return null;
-    },
-
-    markRead() {
-      let unread;
-
-      if (this.view.atBottom()) {
-        unread = this.model.messageCollection.last();
-      } else {
-        unread = this.findNewestVisibleUnread();
-      }
-
-      if (unread) {
-        this.model.markRead(unread.get('received_at'));
-      }
     },
 
     async showMembers(e, providedMembers, options = {}) {

@@ -310,7 +310,6 @@ function updateReadStatus(
     conversation.onReadMessage(message);
   } else {
     conversation.set({
-      unreadCount: conversation.get('unreadCount') + 1,
       isArchived: false,
     });
   }
@@ -565,6 +564,9 @@ export async function handleMessageJob(
     //   call it after we have an id for this message, because the jobs refer back
     //   to their source message.
     await queueAttachmentDownloads(message);
+    // this is
+    const unreadCount = await conversation.getUnreadCount();
+    conversation.set({ unreadCount });
     await conversation.commit();
 
     conversation.trigger('newmessage', message);

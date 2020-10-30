@@ -52,6 +52,8 @@ export interface ConversationModel
   isMediumGroup: () => boolean;
   getNickname: () => string | undefined;
   setNickname: (nickname: string | undefined) => Promise<void>;
+  getUnread: () => Promise<Whisper.MessageCollection>;
+  getUnreadCount: () => Promise<number>;
 
   isPublic: () => boolean;
   isClosedGroup: () => boolean;

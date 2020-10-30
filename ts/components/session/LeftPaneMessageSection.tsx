@@ -122,7 +122,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     }
 
     const conversation = conversations[index];
-    const conversationKey = conversation.id;
 
     return (
       <ConversationListItemWithDetails

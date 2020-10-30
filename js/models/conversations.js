@@ -1045,6 +1045,10 @@
       });
     },
 
+    async getUnreadCount() {
+      return window.Signal.Data.getUnreadCountByConversation(this.id);
+    },
+
     validate(attributes) {
       const required = ['id', 'type'];
       const missing = _.filter(required, attr => !attributes[attr]);
@@ -1879,14 +1883,21 @@
 
       // Some messages we're marking read are local notifications with no sender
       read = _.filter(read, m => Boolean(m.sender));
+      const realUnreadCount = await this.getUnreadCount();
       if (read.length === 0) {
-        window.log.info('markRead(): nothing newly read.');
+        const cachedUnreadCountOnConvo = this.get('unreadCount');
+        if (cachedUnreadCountOnConvo !== read.length) {
+          // reset the unreadCount on the convo to the real one coming from markRead messages on the db
+          this.set({ unreadCount: realUnreadCount });
+          this.commit();
+        } else {
+          window.log.info('markRead(): nothing newly read.');
+        }
         return;
       }
       unreadMessages = unreadMessages.filter(m => Boolean(m.isIncoming()));
 
-      const unreadCount = unreadMessages.length - read.length;
-      this.set('unreadCount', unreadCount);
+      this.set({ unreadCount: realUnreadCount });
 
       const mentionRead = (() => {
         const stillUnread = unreadMessages.filter(

@@ -176,20 +176,6 @@
   min-width: 370px;
   scrollbar-width: 4px;
   padding: $session-margin-sm $session-margin-lg $session-margin-lg;
-
-  &__loading {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    left: 0px;
-    bottom: 0px;
-    z-index: 100;
-    background-color: $session-shade-2;
-    display: flex;
-    flex-grow: 1;
-    align-items: center;
-    justify-content: center;
-  }
 }
 
 .session-message-wrapper {

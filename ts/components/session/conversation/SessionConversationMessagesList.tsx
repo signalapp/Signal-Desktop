@@ -7,7 +7,6 @@ import { SessionScrollButton } from '../SessionScrollButton';
 import { ResetSessionNotification } from '../../conversation/ResetSessionNotification';
 import { Constants } from '../../../session';
 import _ from 'lodash';
-import { ConversationModel } from '../../../../js/models/conversations';
 import { contextMenu } from 'react-contexify';
 import { AttachmentType } from '../../../types/Attachment';
 import { GroupNotification } from '../../conversation/GroupNotification';
@@ -66,25 +65,31 @@ export class SessionConversationMessagesList extends React.Component<
   public componentDidMount() {
     // Pause thread to wait for rendering to complete
     setTimeout(this.scrollToUnread, 0);
-    this.updateReadMessages();
   }
 
-  public componentDidUpdate() {
-    // Keep scrolled to bottom unless user scrolls up
-    if (this.state.isScrolledToBottom) {
-      this.scrollToBottom();
-      // this.updateReadMessages();
+  public componentDidUpdate(prevProps: Props, _prevState: State) {
+    if (prevProps.conversationKey !== this.props.conversationKey) {
+      // we have a bit of cleaning to do here
+      this.setState(
+        {
+          isScrolledToBottom: false,
+          showScrollButton: false,
+          doneInitialScroll: false,
+        },
+        this.scrollToUnread
+      );
+    } else {
+      // Keep scrolled to bottom unless user scrolls up
+      if (this.state.isScrolledToBottom) {
+        this.scrollToBottom();
+      }
     }
   }
 
   public render() {
     const { messages } = this.props;
+    const { showScrollButton } = this.state;
 
-    const { doneInitialScroll, showScrollButton } = this.state;
-
-    if (!doneInitialScroll) {
-      return <div className="messages-container__loading" />;
-    }
     return (
       <div
         className="messages-container"
@@ -182,6 +187,12 @@ export class SessionConversationMessagesList extends React.Component<
     const { messages, conversationKey } = this.props;
     const { isScrolledToBottom } = this.state;
 
+    let unread;
+
+    if (!messages || messages.length === 0) {
+      return;
+    }
+
     const conversation = window.ConversationController.getOrThrow(
       conversationKey
     );
@@ -190,84 +201,15 @@ export class SessionConversationMessagesList extends React.Component<
       return;
     }
 
-    let unread;
-
-    if (!messages || messages.length === 0) {
-      return;
-    }
-
     if (isScrolledToBottom) {
       unread = messages[0];
     } else {
-      unread = this.findNewestVisibleUnread();
+      unread = null;
     }
 
     if (unread) {
       conversation.markRead(unread.attributes.received_at);
     }
-  }
-
-  public findNewestVisibleUnread() {
-    const messageContainer = this.messageContainerRef.current;
-    if (!messageContainer) {
-      return null;
-    }
-
-    const { messages, conversation } = this.props;
-    const { length } = messages;
-
-    const viewportBottom =
-      (messageContainer?.clientHeight as number) +
-        (messageContainer?.scrollTop as number) || 0;
-
-    // Start with the most recent message, search backwards in time
-    let foundUnread = 0;
-    for (let i = length - 1; i >= 0; i -= 1) {
-      // Search the latest 30, then stop if we believe we've covered all known
-      //   unread messages. The unread should be relatively recent.
-      // Why? local notifications can be unread but won't be reflected the
-      //   conversation's unread count.
-      if (i > 30 && foundUnread >= conversation.unreadCount) {
-        return null;
-      }
-
-      const message = messages[i];
-
-      if (!message.attributes.unread) {
-        // eslint-disable-next-line no-continue
-        continue;
-      }
-
-      foundUnread += 1;
-
-      const el = document.getElementById(`${message.id}`);
-
-      if (!el) {
-        // eslint-disable-next-line no-continue
-        continue;
-      }
-
-      const top = el.offsetTop;
-
-      // If the bottom fits on screen, we'll call it visible. Even if the
-      //   message is really tall.
-      const height = el.offsetHeight;
-      const bottom = top + height;
-
-      // We're fully below the viewport, continue searching up.
-      if (top > viewportBottom) {
-        // eslint-disable-next-line no-continue
-        continue;
-      }
-
-      if (bottom <= viewportBottom) {
-        return message;
-      }
-
-      // Continue searching up.
-    }
-
-    return null;
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -279,6 +221,10 @@ export class SessionConversationMessagesList extends React.Component<
       return;
     }
     contextMenu.hideAll();
+
+    if (!this.state.doneInitialScroll) {
+      return;
+    }
 
     const scrollTop = messageContainer.scrollTop;
     const scrollHeight = messageContainer.scrollHeight;
@@ -307,12 +253,12 @@ export class SessionConversationMessagesList extends React.Component<
     // Scrolled to bottom
     const isScrolledToBottom = scrollOffsetPc === 0;
 
-    // Mark messages read
-    this.updateReadMessages();
-
     // Pin scroll to bottom on new message, unless user has scrolled up
     if (this.state.isScrolledToBottom !== isScrolledToBottom) {
-      this.setState({ isScrolledToBottom });
+      this.setState({ isScrolledToBottom }, () => {
+        // Mark messages read
+        this.updateReadMessages();
+      });
     }
 
     // Fetch more messages when nearing the top of the message list
@@ -336,7 +282,7 @@ export class SessionConversationMessagesList extends React.Component<
 
   public scrollToUnread() {
     const { messages, conversation } = this.props;
-    const message = messages[messages.length - 1 - conversation.unreadCount];
+    const message = messages[conversation.unreadCount];
 
     if (message) {
       this.scrollToMessage(message.id);
@@ -365,6 +311,7 @@ export class SessionConversationMessagesList extends React.Component<
     }
     messageContainer.scrollTop =
       messageContainer.scrollHeight - messageContainer.clientHeight;
+    this.updateReadMessages();
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

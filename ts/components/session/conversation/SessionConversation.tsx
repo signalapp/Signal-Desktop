@@ -29,8 +29,6 @@ import { SessionFileDropzone } from './SessionFileDropzone';
 import { ConversationType } from '../../../state/ducks/conversations';
 
 interface State {
-  conversationKey: string;
-
   // Message sending progress
   messageProgressVisible: boolean;
   sendingProgress: number;
@@ -46,7 +44,6 @@ interface State {
   messages: Array<any>;
   selectedMessages: Array<string>;
   isScrolledToBottom: boolean;
-  doneInitialScroll: boolean;
   displayScrollToBottomButton: boolean;
 
   showOverlay: boolean;
@@ -93,13 +90,11 @@ export class SessionConversation extends React.Component<Props, State> {
       sendingProgress: 0,
       prevSendingProgress: 0,
       sendingProgressStatus: 0,
-      conversationKey,
       unreadCount,
       initialFetchComplete: false,
       messages: [],
       selectedMessages: [],
       isScrolledToBottom: !unreadCount,
-      doneInitialScroll: false,
       displayScrollToBottomButton: false,
       showOverlay: false,
       showRecordingView: false,
@@ -134,6 +129,7 @@ export class SessionConversation extends React.Component<Props, State> {
     this.replyToMessage = this.replyToMessage.bind(this);
     this.onClickAttachment = this.onClickAttachment.bind(this);
     this.downloadAttachment = this.downloadAttachment.bind(this);
+    this.refreshMessages = this.refreshMessages.bind(this);
     this.getMessages = _.throttle(
       this.getMessages.bind(this),
       1000 // one second
@@ -153,14 +149,6 @@ export class SessionConversation extends React.Component<Props, State> {
     this.handleDragOut = this.handleDragOut.bind(this);
     this.handleDrag = this.handleDrag.bind(this);
     this.handleDrop = this.handleDrop.bind(this);
-
-    conversationModel.on('change', () => {
-      // reload as much messages as we had before the change.
-      void this.getMessages(
-        this.state.messages.length ||
-          Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT
-      );
-    });
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -173,6 +161,11 @@ export class SessionConversation extends React.Component<Props, State> {
   }
 
   public componentWillUnmount() {
+    const { conversationKey } = this.props;
+    const conversationModel = window.ConversationController.getOrThrow(
+      conversationKey
+    );
+    conversationModel.off('change', this.refreshMessages);
     const div = this.messageContainerRef.current;
     div?.removeEventListener('dragenter', this.handleDragIn);
     div?.removeEventListener('dragleave', this.handleDragOut);
@@ -180,7 +173,26 @@ export class SessionConversation extends React.Component<Props, State> {
     div?.removeEventListener('drop', this.handleDrop);
   }
 
+  public componentDidUpdate(prevProps: Props, prevState: State) {
+    const { conversationKey: oldKey } = prevProps;
+    const oldConversationModel = window.ConversationController.getOrThrow(
+      oldKey
+    );
+    oldConversationModel.off('change', this.refreshMessages);
+    const { conversationKey: newKey } = this.props;
+    const newCconversationModel = window.ConversationController.getOrThrow(
+      newKey
+    );
+    newCconversationModel.on('change', this.refreshMessages);
+  }
+
   public componentDidMount() {
+    // reload as much messages as we had before the change.
+    const { conversationKey } = this.props;
+    const conversationModel = window.ConversationController.getOrThrow(
+      conversationKey
+    );
+    conversationModel.on('change', this.refreshMessages);
     // Pause thread to wait for rendering to complete
     setTimeout(() => {
       const div = this.messageContainerRef.current;
@@ -196,7 +208,6 @@ export class SessionConversation extends React.Component<Props, State> {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public render() {
     const {
-      conversationKey,
       showRecordingView,
       showOptionsPane,
       quotedMessageProps,
@@ -205,7 +216,7 @@ export class SessionConversation extends React.Component<Props, State> {
     } = this.state;
     const selectionMode = !!selectedMessages.length;
 
-    const { conversation } = this.props;
+    const { conversation, conversationKey } = this.props;
     const conversationModel = window.ConversationController.getOrThrow(
       conversationKey
     );
@@ -314,11 +325,8 @@ export class SessionConversation extends React.Component<Props, State> {
     // After the inital fetch, all new messages are automatically added from onNewMessage
     // in the conversation model.
     // The only time we need to call getMessages() is to grab more messages on scroll.
-    const { conversationKey, initialFetchComplete } = this.state;
-    const conversationModel = window.ConversationController.getOrThrow(
-      conversationKey
-    );
-
+    const { initialFetchComplete } = this.state;
+    const { conversationKey } = this.props;
     if (initialFetchComplete) {
       return;
     }
@@ -331,21 +339,15 @@ export class SessionConversation extends React.Component<Props, State> {
       }
     );
 
-    const messages = messageSet.models;
-
-    this.setState({ messages }, () => {
-      // Add new messages to conversation collection
-      conversationModel.messageCollection = messageSet;
-    });
+    this.setState({ messages: messageSet.models });
   }
 
   public async getMessages(numMessages?: number) {
-    const { conversationKey } = this.state;
-
+    const { unreadCount } = this.state;
+    const { conversationKey } = this.props;
     let msgCount =
       numMessages ||
-      Number(Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT) +
-        this.state.unreadCount;
+      Number(Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT) + unreadCount;
     msgCount =
       msgCount > Constants.CONVERSATION.MAX_MESSAGE_FETCH_COUNT
         ? Constants.CONVERSATION.MAX_MESSAGE_FETCH_COUNT
@@ -381,7 +383,8 @@ export class SessionConversation extends React.Component<Props, State> {
   }
 
   public getHeaderProps() {
-    const { conversationKey, selectedMessages } = this.state;
+    const { conversationKey } = this.props;
+    const { selectedMessages, infoViewState } = this.state;
     const conversation = window.ConversationController.getOrThrow(
       conversationKey
     );
@@ -415,7 +418,7 @@ export class SessionConversation extends React.Component<Props, State> {
       subscriberCount: conversation.get('subscriberCount'),
       isKickedFromGroup: conversation.get('isKickedFromGroup'),
       expirationSettingName,
-      showBackButton: Boolean(this.state.infoViewState),
+      showBackButton: Boolean(infoViewState),
       timerOptions: window.Whisper.ExpirationTimerOptions.map((item: any) => ({
         name: item.getName(),
         value: item.get('seconds'),
@@ -489,17 +492,15 @@ export class SessionConversation extends React.Component<Props, State> {
   public getMessagesListProps() {
     const { conversation } = this.props;
     const {
-      conversationKey,
       messages,
       initialFetchComplete,
       quotedMessageTimestamp,
-      doneInitialScroll,
       selectedMessages,
     } = this.state;
 
     return {
       selectedMessages,
-      conversationKey,
+      conversationKey: conversation.id,
       messages,
       resetSelection: this.resetSelection,
       initialFetchComplete,
@@ -508,7 +509,6 @@ export class SessionConversation extends React.Component<Props, State> {
       selectMessage: this.selectMessage,
       getMessages: this.getMessages,
       replyToMessage: this.replyToMessage,
-      doneInitialScroll,
       onClickAttachment: this.onClickAttachment,
       onDownloadAttachment: this.downloadAttachment,
       messageContainerRef: this.messageContainerRef,
@@ -517,7 +517,7 @@ export class SessionConversation extends React.Component<Props, State> {
   }
 
   public getGroupSettingsProps() {
-    const { conversationKey } = this.state;
+    const { conversationKey } = this.props;
     const conversation = window.ConversationController.getOrThrow(
       conversationKey
     );
@@ -629,7 +629,9 @@ export class SessionConversation extends React.Component<Props, State> {
 
   public async deleteSelectedMessages() {
     // Get message objects
-    const { conversationKey, messages } = this.state;
+    const { messages } = this.state;
+    const { conversationKey } = this.props;
+
     const conversationModel = window.ConversationController.getOrThrow(
       conversationKey
     );
@@ -696,9 +698,6 @@ export class SessionConversation extends React.Component<Props, State> {
           return;
         }
       } else {
-        selectedMessages.forEach(m =>
-          conversationModel.messageCollection.remove(m.id)
-        );
         toDeleteLocally = selectedMessages;
       }
 
@@ -707,7 +706,6 @@ export class SessionConversation extends React.Component<Props, State> {
           await window.Signal.Data.removeMessage(message.id, {
             Message: window.Whisper.Message,
           });
-          message.trigger('unload');
         })
       );
 
@@ -775,8 +773,7 @@ export class SessionConversation extends React.Component<Props, State> {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   private async replyToMessage(quotedMessageTimestamp?: number) {
     if (!_.isEqual(this.state.quotedMessageTimestamp, quotedMessageTimestamp)) {
-      const { conversationKey } = this.state;
-      const { conversation } = this.props;
+      const { conversation, conversationKey } = this.props;
       const conversationModel = window.ConversationController.getOrThrow(
         conversationKey
       );
@@ -1171,5 +1168,12 @@ export class SessionConversation extends React.Component<Props, State> {
       this.dragCounter = 0;
       this.setState({ isDraggingFile: false });
     }
+  }
+
+  private refreshMessages() {
+    void this.getMessages(
+      this.state.messages.length ||
+        Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT
+    );
   }
 }

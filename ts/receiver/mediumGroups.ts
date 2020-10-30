@@ -207,10 +207,6 @@ async function handleNewGroup(
 
   // We only set group admins on group creation
   convo.set('groupAdmins', admins);
-  // update the unreadCount for this convo
-  convo.set({
-    unreadCount: Number(convo.get('unreadCount')) + 1,
-  });
   await convo.commit();
 
   const secretKeyHex = toHex(groupPrivateKey);

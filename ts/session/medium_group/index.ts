@@ -540,13 +540,25 @@ export async function addUpdateMessage(
 
   const now = Date.now();
 
+  const markUnread = type === 'incoming';
+
   const message = await convo.addMessage({
     conversationId: convo.get('id'),
     type,
     sent_at: now,
     received_at: now,
     group_update: groupUpdate,
+    unread: markUnread,
   });
+
+  if (markUnread) {
+    // update the unreadCount for this convo
+    const unreadCount = await convo.getUnreadCount();
+    convo.set({
+      unreadCount,
+    });
+    await convo.commit();
+  }
 
   return message;
 }

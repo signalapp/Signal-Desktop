@@ -128,6 +128,7 @@ module.exports = {
   saveMessages,
   removeMessage,
   getUnreadByConversation,
+  getUnreadCountByConversation,
   getMessageBySender,
   getMessagesBySender,
   getMessageIdsFromServerIds,
@@ -2486,6 +2487,27 @@ async function getUnreadByConversation(conversationId) {
   );
 
   return map(rows, row => jsonToObject(row.json));
+}
+
+async function getUnreadCountByConversation(conversationId) {
+  const row = await db.get(
+    `SELECT count(*) from ${MESSAGES_TABLE} WHERE
+    unread = $unread AND
+    conversationId = $conversationId
+    ORDER BY received_at DESC;`,
+    {
+      $unread: 1,
+      $conversationId: conversationId,
+    }
+  );
+
+  if (!row) {
+    throw new Error(
+      `getUnreadCountByConversation: Unable to get unread count of ${conversationId}`
+    );
+  }
+
+  return row['count(*)'];
 }
 
 // Note: Sorting here is necessary for getting the last message (with limit 1)

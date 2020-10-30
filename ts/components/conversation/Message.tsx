@@ -946,12 +946,8 @@ export class Message extends React.PureComponent<Props, State> {
   // tslint:disable-next-line: cyclomatic-complexity
   public render() {
     const {
-      authorPhoneNumber,
       direction,
       id,
-      isKickedFromGroup,
-      isRss,
-      timestamp,
       selected,
       multiSelectMode,
       conversationType,
