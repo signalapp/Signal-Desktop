@@ -2285,14 +2285,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   outline: none;
   padding: 5px;
 
-  @include keyboard-mode {
-    &:focus {
-      @include light-theme {
-        background-color: $color-gray-02;
-      }
-      @include dark-theme {
-        background-color: $color-gray-80;
-      }
+  &:focus {
+    @include keyboard-mode {
+      background-color: $color-gray-02;
+    }
+    @include dark-keyboard-mode {
+      background-color: $color-gray-80;
     }
   }
 }
@@ -3313,14 +3311,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
   outline: none;
 
-  @include keyboard-mode {
-    &:focus {
-      @include light-theme {
-        background-color: $color-gray-15;
-      }
-      @include dark-theme {
-        background-color: $color-gray-75;
-      }
+  &:focus {
+    @include keyboard-mode {
+      background-color: $color-gray-15;
+    }
+    @include dark-keyboard-mode {
+      background-color: $color-gray-75;
     }
   }
 }
@@ -9242,17 +9238,12 @@ button.module-image__border-overlay:focus {
     @include color-svg('../images/icons/v2/x-24.svg', $color-gray-05);
   }
 
-  @include keyboard-mode {
-    &:focus {
-      @include light-theme {
-        @include color-svg(
-          '../images/icons/v2/x-24.svg',
-          $ultramarine-ui-light
-        );
-      }
-      @include dark-theme {
-        @include color-svg('../images/icons/v2/x-24.svg', $ultramarine-ui-dark);
-      }
+  &:focus {
+    @include keyboard-mode {
+      @include color-svg('../images/icons/v2/x-24.svg', $ultramarine-ui-light);
+    }
+    @include dark-keyboard-mode {
+      @include color-svg('../images/icons/v2/x-24.svg', $ultramarine-ui-dark);
     }
   }
 }
@@ -9293,14 +9284,12 @@ button.module-image__border-overlay:focus {
   min-height: 40px;
   outline: none;
 
-  @include keyboard-mode {
-    &:focus {
-      @include light-theme {
-        background-color: $color-gray-05;
-      }
-      @include dark-theme {
-        background-color: $color-gray-90;
-      }
+  &:focus {
+    @include keyboard-mode {
+      background-color: $color-gray-05;
+    }
+    @include dark-keyboard-mode {
+      background-color: $color-gray-90;
     }
   }
 
