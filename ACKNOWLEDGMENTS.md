@@ -2342,6 +2342,10 @@ Signal Desktop makes use of the following open source projects.
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
+## redux-thunk
+
+    License: MIT
+
 ## redux-ts-utils
 
     The MIT License (MIT)

@@ -8,6 +8,7 @@ import {
 } from 'redux';
 
 import promise from 'redux-promise-middleware';
+import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 
 import { reducer, StateType } from './reducer';
@@ -34,8 +35,11 @@ const logger = createLogger({
   logger: directConsole,
 });
 
-// Exclude logger if we're in production mode
-const middlewareList = env === 'production' ? [promise] : [promise, logger];
+const middlewareList = [
+  promise,
+  thunk,
+  ...(env === 'production' ? [] : [logger]),
+];
 
 const enhancer = applyMiddleware(...middlewareList);
 
