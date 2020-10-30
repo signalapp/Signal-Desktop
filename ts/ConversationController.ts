@@ -74,9 +74,27 @@ export function start(): void {
       const canCountMutedConversations = window.storage.get(
         'badge-count-muted-conversations'
       );
+
+      const canCount = (m: ConversationModel) =>
+        !m.isMuted() || canCountMutedConversations;
+
+      const getUnreadCount = (m: ConversationModel) => {
+        const unreadCount = m.get('unreadCount');
+
+        if (unreadCount) {
+          return unreadCount;
+        }
+
+        if (m.get('markedUnread')) {
+          return 1;
+        }
+
+        return 0;
+      };
+
       const newUnreadCount = reduce(
         this.map((m: ConversationModel) =>
-          !canCountMutedConversations && m.isMuted() ? 0 : m.get('unreadCount')
+          canCount(m) ? getUnreadCount(m) : 0
         ),
         (item: number, memo: number) => (item || 0) + memo,
         0

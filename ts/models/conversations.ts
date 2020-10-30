@@ -3030,6 +3030,7 @@ export class ConversationModel extends window.Backbone.Model<
     this.set({ markedUnread });
     window.Signal.Data.updateConversation(this.attributes);
     this.captureChange('markedUnread');
+    window.Whisper.events.trigger('updateUnreadCount');
   }
 
   async updateExpirationTimer(
