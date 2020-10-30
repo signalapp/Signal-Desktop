@@ -435,146 +435,120 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   setupHeader() {
-    const getHeaderProps = (_unknown?: unknown) => {
-      const expireTimer = this.model.get('expireTimer');
-      const expirationSettingName = expireTimer
-        ? Whisper.ExpirationTimerOptions.getName(expireTimer || 0)
-        : null;
-
-      return {
-        ...this.model.format(),
-
-        leftGroup: this.model.get('left'),
-
-        disableTimerChanges:
-          this.model.isMissingRequiredProfileSharing() ||
-          this.model.get('left') ||
-          !this.model.getAccepted() ||
-          !this.model.canChangeTimer(),
-        showBackButton: Boolean(this.panels && this.panels.length),
-
-        expirationSettingName,
-        timerOptions: Whisper.ExpirationTimerOptions.map((item: any) => ({
-          name: item.getName(),
-          value: item.get('seconds'),
-        })),
-
-        muteExpirationLabel: this.getMuteExpirationLabel(),
-
-        onSetDisappearingMessages: (seconds: number) =>
-          this.setDisappearingMessages(seconds),
-        onDeleteMessages: () => this.destroyMessages(),
-        onResetSession: () => this.endSession(),
-        onSearchInConversation: () => {
-          const { searchInConversation } = window.reduxActions.search;
-          const name = this.model.isMe()
-            ? window.i18n('noteToSelf')
-            : this.model.getTitle();
-          searchInConversation(this.model.id, name);
-        },
-        onSetMuteNotifications: (ms: number) => this.setMuteNotifications(ms),
-        onSetPin: this.setPin.bind(this),
-        // These are view only and don't update the Conversation model, so they
-        //   need a manual update call.
-        onOutgoingAudioCallInConversation: async () => {
-          window.log.info(
-            'onOutgoingAudioCallInConversation: about to start an audio call'
-          );
-
-          const conversation = this.model;
-          const isVideoCall = false;
-
-          if (await this.isCallSafe()) {
-            window.log.info(
-              'onOutgoingAudioCallInConversation: call is deemed "safe". Making call'
-            );
-            await window.Signal.Services.calling.startCallingLobby(
-              conversation,
-              isVideoCall
-            );
-            window.log.info(
-              'onOutgoingAudioCallInConversation: started the call'
-            );
-          } else {
-            window.log.info(
-              'onOutgoingAudioCallInConversation: call is deemed "unsafe". Stopping'
-            );
-          }
-        },
-
-        onOutgoingVideoCallInConversation: async () => {
-          window.log.info(
-            'onOutgoingVideoCallInConversation: about to start a video call'
-          );
-          const conversation = this.model;
-          const isVideoCall = true;
-
-          if (await this.isCallSafe()) {
-            window.log.info(
-              'onOutgoingVideoCallInConversation: call is deemed "safe". Making call'
-            );
-            await window.Signal.Services.calling.startCallingLobby(
-              conversation,
-              isVideoCall
-            );
-            window.log.info(
-              'onOutgoingVideoCallInConversation: started the call'
-            );
-          } else {
-            window.log.info(
-              'onOutgoingVideoCallInConversation: call is deemed "unsafe". Stopping'
-            );
-          }
-        },
-
-        onShowSafetyNumber: () => {
-          this.showSafetyNumber();
-        },
-        onShowAllMedia: () => {
-          this.showAllMedia();
-        },
-        onShowGroupMembers: async () => {
-          await this.showMembers();
-          this.updateHeader();
-        },
-        onGoBack: () => {
-          this.resetPanel();
-        },
-
-        onArchive: () => {
-          this.model.setArchived(true);
-          this.model.trigger('unload', 'archive');
-
-          Whisper.ToastView.show(
-            Whisper.ConversationArchivedToast,
-            document.body
-          );
-        },
-        onMarkUnread: () => {
-          this.model.setMarkedUnread(true);
-
-          Whisper.ToastView.show(
-            Whisper.ConversationMarkedUnreadToast,
-            document.body
-          );
-        },
-        onMoveToInbox: () => {
-          this.model.setArchived(false);
-
-          Whisper.ToastView.show(
-            Whisper.ConversationUnarchivedToast,
-            document.body
-          );
-        },
-      };
-    };
     this.titleView = new Whisper.ReactWrapperView({
       className: 'title-wrapper',
-      Component: window.Signal.Components.ConversationHeader,
-      props: getHeaderProps(this.model),
+      JSX: window.Signal.State.Roots.createConversationHeader(
+        window.reduxStore,
+        {
+          id: this.model.id,
+
+          onSetDisappearingMessages: (seconds: number) =>
+            this.setDisappearingMessages(seconds),
+          onDeleteMessages: () => this.destroyMessages(),
+          onResetSession: () => this.endSession(),
+          onSearchInConversation: () => {
+            const { searchInConversation } = window.reduxActions.search;
+            const name = this.model.isMe()
+              ? window.i18n('noteToSelf')
+              : this.model.getTitle();
+            searchInConversation(this.model.id, name);
+          },
+          onSetMuteNotifications: (ms: number) => this.setMuteNotifications(ms),
+          onSetPin: this.setPin.bind(this),
+          // These are view only and don't update the Conversation model, so they
+          //   need a manual update call.
+          onOutgoingAudioCallInConversation: async () => {
+            window.log.info(
+              'onOutgoingAudioCallInConversation: about to start an audio call'
+            );
+
+            const conversation = this.model;
+            const isVideoCall = false;
+
+            if (await this.isCallSafe()) {
+              window.log.info(
+                'onOutgoingAudioCallInConversation: call is deemed "safe". Making call'
+              );
+              await window.Signal.Services.calling.startCallingLobby(
+                conversation,
+                isVideoCall
+              );
+              window.log.info(
+                'onOutgoingAudioCallInConversation: started the call'
+              );
+            } else {
+              window.log.info(
+                'onOutgoingAudioCallInConversation: call is deemed "unsafe". Stopping'
+              );
+            }
+          },
+
+          onOutgoingVideoCallInConversation: async () => {
+            window.log.info(
+              'onOutgoingVideoCallInConversation: about to start a video call'
+            );
+            const conversation = this.model;
+            const isVideoCall = true;
+
+            if (await this.isCallSafe()) {
+              window.log.info(
+                'onOutgoingVideoCallInConversation: call is deemed "safe". Making call'
+              );
+              await window.Signal.Services.calling.startCallingLobby(
+                conversation,
+                isVideoCall
+              );
+              window.log.info(
+                'onOutgoingVideoCallInConversation: started the call'
+              );
+            } else {
+              window.log.info(
+                'onOutgoingVideoCallInConversation: call is deemed "unsafe". Stopping'
+              );
+            }
+          },
+
+          onShowSafetyNumber: () => {
+            this.showSafetyNumber();
+          },
+          onShowAllMedia: () => {
+            this.showAllMedia();
+          },
+          onShowGroupMembers: async () => {
+            await this.showMembers();
+          },
+          onGoBack: () => {
+            this.resetPanel();
+          },
+
+          onArchive: () => {
+            this.model.setArchived(true);
+            this.model.trigger('unload', 'archive');
+
+            Whisper.ToastView.show(
+              Whisper.ConversationArchivedToast,
+              document.body
+            );
+          },
+          onMarkUnread: () => {
+            this.model.setMarkedUnread(true);
+
+            Whisper.ToastView.show(
+              Whisper.ConversationMarkedUnreadToast,
+              document.body
+            );
+          },
+          onMoveToInbox: () => {
+            this.model.setArchived(false);
+
+            Whisper.ToastView.show(
+              Whisper.ConversationUnarchivedToast,
+              document.body
+            );
+          },
+        }
+      ),
     });
-    this.updateHeader = () => this.titleView.update(getHeaderProps());
-    this.listenTo(this.model, 'change', this.updateHeader);
     this.$('.conversation-header').append(this.titleView.el);
   },
 
@@ -1268,6 +1242,7 @@ Whisper.ConversationView = Whisper.View.extend({
         const panel = this.panels[i];
         panel.remove();
       }
+      window.reduxActions.conversations.setSelectedConversationPanelDepth(0);
     }
 
     this.remove();
@@ -2209,7 +2184,6 @@ Whisper.ConversationView = Whisper.View.extend({
     this.listenTo(this.model.messageCollection, 'remove', update);
 
     this.listenBack(view);
-    this.updateHeader();
   },
 
   focusMessageField() {
@@ -2319,7 +2293,6 @@ Whisper.ConversationView = Whisper.View.extend({
         model: conversation,
       });
       this.listenBack(view);
-      this.updateHeader();
     }
   },
 
@@ -2638,7 +2611,6 @@ Whisper.ConversationView = Whisper.View.extend({
     // We could listen to all involved contacts, but we'll call that overkill
 
     this.listenBack(view);
-    this.updateHeader();
     view.render();
   },
 
@@ -2652,7 +2624,6 @@ Whisper.ConversationView = Whisper.View.extend({
     });
 
     this.listenBack(view);
-    this.updateHeader();
     view.render();
   },
 
@@ -2675,7 +2646,6 @@ Whisper.ConversationView = Whisper.View.extend({
     });
 
     this.listenBack(view);
-    this.updateHeader();
   },
 
   async openConversation(number: any) {
@@ -2694,6 +2664,10 @@ Whisper.ConversationView = Whisper.View.extend({
     view.$el.one('animationend', () => {
       view.$el.addClass('panel--static');
     });
+
+    window.reduxActions.conversations.setSelectedConversationPanelDepth(
+      this.panels.length
+    );
   },
   resetPanel() {
     if (!this.panels || !this.panels.length) {
@@ -2714,7 +2688,6 @@ Whisper.ConversationView = Whisper.View.extend({
     if (this.panels.length > 0) {
       this.panels[0].$el.fadeIn(250);
     }
-    this.updateHeader();
 
     view.$el.addClass('panel--remove').one('transitionend', () => {
       view.remove();
@@ -2724,6 +2697,10 @@ Whisper.ConversationView = Whisper.View.extend({
         window.dispatchEvent(new Event('resize'));
       }
     });
+
+    window.reduxActions.conversations.setSelectedConversationPanelDepth(
+      this.panels.length
+    );
   },
 
   endSession() {

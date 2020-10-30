@@ -3,6 +3,7 @@
 import * as Backbone from 'backbone';
 import * as Underscore from 'underscore';
 import { Ref } from 'react';
+import { bindActionCreators } from 'redux';
 import * as LinkPreviews from '../js/modules/link_previews.d';
 import * as Util from './util';
 import {
@@ -27,6 +28,28 @@ import { CallHistoryDetailsType } from './types/Calling';
 import { ColorType } from './types/Colors';
 import { ConversationController } from './ConversationController';
 import { ReduxActions } from './state/types';
+import { createStore } from './state/createStore';
+import { createCallManager } from './state/roots/createCallManager';
+import { createCompositionArea } from './state/roots/createCompositionArea';
+import { createConversationHeader } from './state/roots/createConversationHeader';
+import { createLeftPane } from './state/roots/createLeftPane';
+import { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer';
+import { createShortcutGuideModal } from './state/roots/createShortcutGuideModal';
+import { createStickerManager } from './state/roots/createStickerManager';
+import { createStickerPreviewModal } from './state/roots/createStickerPreviewModal';
+import { createTimeline } from './state/roots/createTimeline';
+import * as callingDuck from './state/ducks/calling';
+import * as conversationsDuck from './state/ducks/conversations';
+import * as emojisDuck from './state/ducks/emojis';
+import * as expirationDuck from './state/ducks/expiration';
+import * as itemsDuck from './state/ducks/items';
+import * as networkDuck from './state/ducks/network';
+import * as updatesDuck from './state/ducks/updates';
+import * as userDuck from './state/ducks/user';
+import * as searchDuck from './state/ducks/search';
+import * as stickersDuck from './state/ducks/stickers';
+import * as conversationsSelectors from './state/selectors/conversations';
+import * as searchSelectors from './state/selectors/search';
 import { SendOptionsType } from './textsecure/SendMessage';
 import AccountManager from './textsecure/AccountManager';
 import Data from './sql/Client';
@@ -81,7 +104,7 @@ declare global {
     getGuid: () => string;
     getInboxCollection: () => ConversationModelCollectionType;
     getIncomingCallNotification: () => Promise<boolean>;
-    getInteractionMode: () => string;
+    getInteractionMode: () => 'mouse' | 'keyboard';
     getMediaCameraPermissions: () => Promise<boolean>;
     getMediaPermissions: () => Promise<boolean>;
     getServerPublicParams: () => string;
@@ -367,7 +390,6 @@ declare global {
         AttachmentList: any;
         CaptionEditor: any;
         ContactDetail: any;
-        ConversationHeader: any;
         ErrorModal: typeof ErrorModal;
         Lightbox: any;
         LightboxGallery: any;
@@ -394,7 +416,37 @@ declare global {
         doesDatabaseExist: WhatIsThis;
       };
       Views: WhatIsThis;
-      State: WhatIsThis;
+      State: {
+        bindActionCreators: typeof bindActionCreators;
+        createStore: typeof createStore;
+        Roots: {
+          createCallManager: typeof createCallManager;
+          createCompositionArea: typeof createCompositionArea;
+          createConversationHeader: typeof createConversationHeader;
+          createLeftPane: typeof createLeftPane;
+          createSafetyNumberViewer: typeof createSafetyNumberViewer;
+          createShortcutGuideModal: typeof createShortcutGuideModal;
+          createStickerManager: typeof createStickerManager;
+          createStickerPreviewModal: typeof createStickerPreviewModal;
+          createTimeline: typeof createTimeline;
+        };
+        Ducks: {
+          calling: typeof callingDuck;
+          conversations: typeof conversationsDuck;
+          emojis: typeof emojisDuck;
+          expiration: typeof expirationDuck;
+          items: typeof itemsDuck;
+          network: typeof networkDuck;
+          updates: typeof updatesDuck;
+          user: typeof userDuck;
+          search: typeof searchDuck;
+          stickers: typeof stickersDuck;
+        };
+        Selectors: {
+          conversations: typeof conversationsSelectors;
+          search: typeof searchSelectors;
+        };
+      };
       Logs: WhatIsThis;
       conversationControllerStart: WhatIsThis;
       Emojis: {
@@ -554,12 +606,6 @@ export type WhisperType = {
   GroupMemberList: any;
   KeyVerificationPanelView: any;
   SafetyNumberChangeDialogView: any;
-
-  ExpirationTimerOptions: {
-    map: any;
-    getName: (number: number) => string;
-    getAbbreviated: (number: number) => string;
-  };
 
   Notifications: {
     removeBy: (filter: Partial<unknown>) => void;

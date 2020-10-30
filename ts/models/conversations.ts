@@ -15,6 +15,7 @@ import {
 } from '../state/ducks/conversations';
 import { ColorType } from '../types/Colors';
 import { MessageModel } from './messages';
+import { isMuted } from '../util/isMuted';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import { MIMEType, IMAGE_WEBP } from '../types/MIME';
 import {
@@ -1118,6 +1119,7 @@ export class ConversationModel extends window.Backbone.Model<
       areWePending: Boolean(
         ourConversationId && this.isMemberPending(ourConversationId)
       ),
+      canChangeTimer: this.canChangeTimer(),
       avatarPath: this.getAvatarPath()!,
       color,
       draftPreview,
@@ -1137,11 +1139,13 @@ export class ConversationModel extends window.Backbone.Model<
         deletedForEveryone: this.get('lastMessageDeletedForEveryone')!,
       },
       lastUpdated: this.get('timestamp')!,
+      left: Boolean(this.get('left')),
       markedUnread: this.get('markedUnread')!,
       membersCount: this.isPrivate()
         ? undefined
         : (this.get('membersV2')! || this.get('members')! || []).length,
       messageRequestsEnabled,
+      expireTimer: this.get('expireTimer'),
       muteExpiresAt: this.get('muteExpiresAt')!,
       name: this.get('name')!,
       phoneNumber: this.getNumber()!,
@@ -3957,7 +3961,7 @@ export class ConversationModel extends window.Backbone.Model<
     return getAbsoluteAttachmentPath(avatar.path);
   }
 
-  canChangeTimer(): boolean {
+  private canChangeTimer(): boolean {
     if (this.isPrivate()) {
       return true;
     }
@@ -4027,10 +4031,7 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   isMuted(): boolean {
-    return (
-      Boolean(this.get('muteExpiresAt')) &&
-      Date.now() < this.get('muteExpiresAt')
-    );
+    return isMuted(this.get('muteExpiresAt'));
   }
 
   getMuteTimeoutId(): string {

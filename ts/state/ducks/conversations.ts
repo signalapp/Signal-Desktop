@@ -43,7 +43,9 @@ export type ConversationType = {
   profileName?: string;
   avatarPath?: string;
   areWePending?: boolean;
+  canChangeTimer?: boolean;
   color?: ColorType;
+  isAccepted?: boolean;
   isArchived?: boolean;
   isBlocked?: boolean;
   isPinned?: boolean;
@@ -51,6 +53,7 @@ export type ConversationType = {
   activeAt?: number;
   timestamp?: number;
   inboxPosition?: number;
+  left?: boolean;
   lastMessage?: {
     status: LastMessageStatus;
     text: string;
@@ -59,6 +62,7 @@ export type ConversationType = {
   markedUnread: boolean;
   phoneNumber?: string;
   membersCount?: number;
+  expireTimer?: number;
   muteExpiresAt?: number;
   type: ConversationTypeType;
   isMe?: boolean;
@@ -168,6 +172,7 @@ export type ConversationsStateType = {
   selectedConversation?: string;
   selectedMessage?: string;
   selectedMessageCounter: number;
+  selectedConversationPanelDepth: number;
   showArchived: boolean;
 
   // Note: it's very important that both of these locations are always kept up to date
@@ -271,6 +276,10 @@ export type SetIsNearBottomActionType = {
     isNearBottom: boolean;
   };
 };
+export type SetSelectedConversationPanelDepthActionType = {
+  type: 'SET_SELECTED_CONVERSATION_PANEL_DEPTH';
+  payload: { panelDepth: number };
+};
 export type ScrollToMessageActionType = {
   type: 'SCROLL_TO_MESSAGE';
   payload: {
@@ -328,6 +337,7 @@ export type ConversationActionType =
   | ClearSelectedMessageActionType
   | ClearUnreadMetricsActionType
   | ScrollToMessageActionType
+  | SetSelectedConversationPanelDepthActionType
   | SelectedConversationChangedActionType
   | MessageDeletedActionType
   | SelectedConversationChangedActionType
@@ -350,6 +360,7 @@ export const actions = {
   setMessagesLoading,
   setLoadCountdownStart,
   setIsNearBottom,
+  setSelectedConversationPanelDepth,
   clearChangedMessages,
   clearSelectedMessage,
   clearUnreadMetrics,
@@ -516,6 +527,14 @@ function setIsNearBottom(
     },
   };
 }
+function setSelectedConversationPanelDepth(
+  panelDepth: number
+): SetSelectedConversationPanelDepthActionType {
+  return {
+    type: 'SET_SELECTED_CONVERSATION_PANEL_DEPTH',
+    payload: { panelDepth },
+  };
+}
 function clearChangedMessages(
   conversationId: string
 ): ClearChangedMessagesActionType {
@@ -606,6 +625,7 @@ function getEmptyState(): ConversationsStateType {
     messagesLookup: {},
     selectedMessageCounter: 0,
     showArchived: false,
+    selectedConversationPanelDepth: 0,
   };
 }
 
@@ -761,12 +781,19 @@ export function reducer(
     return {
       ...state,
       selectedConversation,
+      selectedConversationPanelDepth: 0,
       messagesLookup: omit(state.messagesLookup, messageIds),
       messagesByConversation: omit(state.messagesByConversation, [id]),
     };
   }
   if (action.type === 'CONVERSATIONS_REMOVE_ALL') {
     return getEmptyState();
+  }
+  if (action.type === 'SET_SELECTED_CONVERSATION_PANEL_DEPTH') {
+    return {
+      ...state,
+      selectedConversationPanelDepth: action.payload.panelDepth,
+    };
   }
   if (action.type === 'MESSAGE_SELECTED') {
     const { messageId, conversationId } = action.payload;

@@ -124,7 +124,7 @@ type WhatIsThis = typeof window.WhatIsThis;
   };
 
   // Keyboard/mouse mode
-  let interactionMode = 'mouse';
+  let interactionMode: 'mouse' | 'keyboard' = 'mouse';
   $(document.body).addClass('mouse-mode');
 
   window.enterKeyboardMode = () => {
@@ -664,8 +664,8 @@ type WhatIsThis = typeof window.WhatIsThis;
         conversationLookup: window.Signal.Util.makeLookup(conversations, 'id'),
         messagesByConversation: {},
         messagesLookup: {},
-        selectedConversation: null,
-        selectedMessage: null,
+        selectedConversation: undefined,
+        selectedMessage: undefined,
         selectedMessageCounter: 0,
         showArchived: false,
       },
@@ -822,7 +822,7 @@ type WhatIsThis = typeof window.WhatIsThis;
       const conversationsToSearch = getConversationsToSearch();
 
       const increment = direction === 'up' ? -1 : 1;
-      let startIndex;
+      let startIndex: WhatIsThis;
 
       if (conversationId) {
         const index = conversationsToSearch.findIndex(
@@ -844,7 +844,7 @@ type WhatIsThis = typeof window.WhatIsThis;
         if (!unreadOnly) {
           return target.id;
         }
-        if (target.unreadCount > 0) {
+        if ((target.unreadCount || 0) > 0) {
           return target.id;
         }
       }

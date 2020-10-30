@@ -96,6 +96,21 @@ export type SetRendererCanvasType = {
   element: React.RefObject<HTMLCanvasElement> | undefined;
 };
 
+// Helpers
+
+export function isCallActive({
+  callDetails,
+  callState,
+}: CallingStateType): boolean {
+  return Boolean(
+    callDetails &&
+      ((!callDetails.isIncoming &&
+        (callState === CallState.Prering || callState === CallState.Ringing)) ||
+        callState === CallState.Accepted ||
+        callState === CallState.Reconnecting)
+  );
+}
+
 // Actions
 
 const ACCEPT_CALL = 'calling/ACCEPT_CALL';
@@ -522,7 +537,7 @@ export type ActionsType = typeof actions;
 
 // Reducer
 
-function getEmptyState(): CallingStateType {
+export function getEmptyState(): CallingStateType {
   return {
     availableCameras: [],
     availableMicrophones: [],

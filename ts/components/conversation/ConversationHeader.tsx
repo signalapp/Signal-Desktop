@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import classNames from 'classnames';
 import {
   ContextMenu,
@@ -14,11 +15,11 @@ import { InContactsIcon } from '../InContactsIcon';
 import { LocalizerType } from '../../types/Util';
 import { ColorType } from '../../types/Colors';
 import { getMuteOptions } from '../../util/getMuteOptions';
-
-interface TimerOption {
-  name: string;
-  value: number;
-}
+import {
+  ExpirationTimerOptions,
+  TimerOption,
+} from '../../util/ExpirationTimerOptions';
+import { isMuted } from '../../util/isMuted';
 
 export interface PropsDataType {
   id: string;
@@ -36,13 +37,16 @@ export interface PropsDataType {
   isMe?: boolean;
   isArchived?: boolean;
   isPinned?: boolean;
+  isMissingMandatoryProfileSharing?: boolean;
+  left?: boolean;
   markedUnread?: boolean;
 
-  disableTimerChanges?: boolean;
-  expirationSettingName?: string;
-  muteExpirationLabel?: string;
+  canChangeTimer?: boolean;
+  expireTimer?: number;
+  muteExpiresAt?: number;
+
   showBackButton?: boolean;
-  timerOptions?: Array<TimerOption>;
+  showCallButtons?: boolean;
 }
 
 export interface PropsActionsType {
@@ -186,8 +190,11 @@ export class ConversationHeader extends React.Component<PropsType> {
   }
 
   public renderExpirationLength(): JSX.Element | null {
-    const { expirationSettingName, showBackButton } = this.props;
+    const { i18n, expireTimer, showBackButton } = this.props;
 
+    const expirationSettingName = expireTimer
+      ? ExpirationTimerOptions.getName(i18n, expireTimer)
+      : undefined;
     if (!expirationSettingName) {
       return null;
     }
@@ -249,71 +256,62 @@ export class ConversationHeader extends React.Component<PropsType> {
     );
   }
 
-  public renderOutgoingAudioCallButton(): JSX.Element | null {
+  private renderOutgoingCallButtons(): JSX.Element | null {
     const {
       i18n,
-      isMe,
       onOutgoingAudioCallInConversation,
+      onOutgoingVideoCallInConversation,
+      showCallButtons,
       showBackButton,
-      type,
     } = this.props;
 
-    if (type === 'group' || isMe) {
+    if (!showCallButtons) {
       return null;
     }
 
     return (
-      <button
-        type="button"
-        onClick={onOutgoingAudioCallInConversation}
-        className={classNames(
-          'module-conversation-header__audio-calling-button',
-          showBackButton
-            ? null
-            : 'module-conversation-header__audio-calling-button--show'
-        )}
-        disabled={showBackButton}
-        aria-label={i18n('makeOutgoingCall')}
-      />
-    );
-  }
-
-  public renderOutgoingVideoCallButton(): JSX.Element | null {
-    const { i18n, isMe, type } = this.props;
-
-    if (type === 'group' || isMe) {
-      return null;
-    }
-
-    const { onOutgoingVideoCallInConversation, showBackButton } = this.props;
-
-    return (
-      <button
-        type="button"
-        onClick={onOutgoingVideoCallInConversation}
-        className={classNames(
-          'module-conversation-header__video-calling-button',
-          showBackButton
-            ? null
-            : 'module-conversation-header__video-calling-button--show'
-        )}
-        disabled={showBackButton}
-        aria-label={i18n('makeOutgoingVideoCall')}
-      />
+      <>
+        <button
+          type="button"
+          onClick={onOutgoingVideoCallInConversation}
+          className={classNames(
+            'module-conversation-header__video-calling-button',
+            showBackButton
+              ? null
+              : 'module-conversation-header__video-calling-button--show'
+          )}
+          disabled={showBackButton}
+          aria-label={i18n('makeOutgoingVideoCall')}
+        />
+        <button
+          type="button"
+          onClick={onOutgoingAudioCallInConversation}
+          className={classNames(
+            'module-conversation-header__audio-calling-button',
+            showBackButton
+              ? null
+              : 'module-conversation-header__audio-calling-button--show'
+          )}
+          disabled={showBackButton}
+          aria-label={i18n('makeOutgoingCall')}
+        />
+      </>
     );
   }
 
   public renderMenu(triggerId: string): JSX.Element {
     const {
-      disableTimerChanges,
       i18n,
       acceptedMessageRequest,
+      canChangeTimer,
+      isArchived,
       isMe,
       isPinned,
       type,
-      isArchived,
       markedUnread,
-      muteExpirationLabel,
+      muteExpiresAt,
+      isMissingMandatoryProfileSharing,
+      left,
       onDeleteMessages,
       onResetSession,
       onSetDisappearingMessages,
@@ -325,11 +323,15 @@ export class ConversationHeader extends React.Component<PropsType> {
       onMarkUnread,
       onSetPin,
       onMoveToInbox,
-      timerOptions,
     } = this.props;
 
     const muteOptions = [];
-    if (muteExpirationLabel) {
+    if (isMuted(muteExpiresAt)) {
+      const expires = moment(muteExpiresAt);
+      const muteExpirationLabel = moment().isSame(expires, 'day')
+        ? expires.format('hh:mm A')
+        : expires.format('M/D/YY, hh:mm A');
+
       muteOptions.push(
         ...[
           {
@@ -352,18 +354,25 @@ export class ConversationHeader extends React.Component<PropsType> {
     const muteTitle = i18n('muteNotificationsTitle') as any;
     const isGroup = type === 'group';
 
+    const disableTimerChanges = Boolean(
+      !canChangeTimer ||
+        !acceptedMessageRequest ||
+        left ||
+        isMissingMandatoryProfileSharing
+    );
+
     return (
       <ContextMenu id={triggerId}>
         {disableTimerChanges ? null : (
           <SubMenu title={disappearingTitle}>
-            {(timerOptions || []).map(item => (
+            {ExpirationTimerOptions.map((item: typeof TimerOption) => (
               <MenuItem
-                key={item.value}
+                key={item.get('seconds')}
                 onClick={() => {
-                  onSetDisappearingMessages(item.value);
+                  onSetDisappearingMessages(item.get('seconds'));
                 }}
               >
-                {item.name}
+                {item.getName(i18n)}
               </MenuItem>
             ))}
           </SubMenu>
@@ -435,8 +444,7 @@ export class ConversationHeader extends React.Component<PropsType> {
         </div>
         {this.renderExpirationLength()}
         {this.renderSearchButton()}
-        {this.renderOutgoingVideoCallButton()}
-        {this.renderOutgoingAudioCallButton()}
+        {this.renderOutgoingCallButtons()}
         {this.renderMoreButton(triggerId)}
         {this.renderMenu(triggerId)}
       </div>

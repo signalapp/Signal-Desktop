@@ -33,9 +33,6 @@ const {
   ContactDetail,
 } = require('../../ts/components/conversation/ContactDetail');
 const { ContactListItem } = require('../../ts/components/ContactListItem');
-const {
-  ConversationHeader,
-} = require('../../ts/components/conversation/ConversationHeader');
 const { Emojify } = require('../../ts/components/conversation/Emojify');
 const { ErrorModal } = require('../../ts/components/ErrorModal');
 const { Lightbox } = require('../../ts/components/Lightbox');
@@ -63,6 +60,9 @@ const { createTimeline } = require('../../ts/state/roots/createTimeline');
 const {
   createCompositionArea,
 } = require('../../ts/state/roots/createCompositionArea');
+const {
+  createConversationHeader,
+} = require('../../ts/state/roots/createConversationHeader');
 const { createCallManager } = require('../../ts/state/roots/createCallManager');
 const { createLeftPane } = require('../../ts/state/roots/createLeftPane');
 const {
@@ -295,7 +295,6 @@ exports.setup = (options = {}) => {
     ConfirmationModal,
     ContactDetail,
     ContactListItem,
-    ConversationHeader,
     Emojify,
     ErrorModal,
     getCallingNotificationText,
@@ -315,6 +314,7 @@ exports.setup = (options = {}) => {
   const Roots = {
     createCallManager,
     createCompositionArea,
+    createConversationHeader,
     createLeftPane,
     createSafetyNumberViewer,
     createShortcutGuideModal,

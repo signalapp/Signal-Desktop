@@ -10,6 +10,7 @@ import {
 } from '../state/ducks/conversations';
 import { PropsData } from '../components/conversation/Message';
 import { CallbackResultType } from '../textsecure/SendMessage';
+import { ExpirationTimerOptions } from '../util/ExpirationTimerOptions';
 import { BodyRangesType } from '../types/Util';
 import { PropsDataType as GroupsV2Props } from '../components/conversation/GroupV2Change';
 import {
@@ -504,7 +505,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     const { expireTimer, fromSync, source, sourceUuid } = timerUpdate;
-    const timespan = window.Whisper.ExpirationTimerOptions.getName(
+    const timespan = ExpirationTimerOptions.getName(
+      window.i18n,
       expireTimer || 0
     );
     const disabled = !expireTimer;
@@ -1300,9 +1302,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       return {
         text: window.i18n('timerSetTo', [
-          window.Whisper.ExpirationTimerOptions.getAbbreviated(
-            expireTimer || 0
-          ),
+          ExpirationTimerOptions.getAbbreviated(window.i18n, expireTimer || 0),
         ]),
       };
     }
