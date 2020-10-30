@@ -1,3 +1,6 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { Dictionary, omit, reject } from 'lodash';
 import dataInterface from '../../sql/Client';
 import {

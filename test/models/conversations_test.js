@@ -1,3 +1,6 @@
+// Copyright 2014-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 describe('Conversations', () => {
   it('updates lastMessage even in race conditions with db', async () => {
     // Creating a fake conversation

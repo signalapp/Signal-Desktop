@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { LoggerType } from '../types/Logging';
 
 function parseUrl(value: unknown, logger: LoggerType): null | URL {

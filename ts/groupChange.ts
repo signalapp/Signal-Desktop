@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { FullJSXType } from './components/Intl';
 import { LocalizerType } from './types/Util';
 import { ReplacementValuesType } from './types/I18N';

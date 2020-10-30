@@ -1,3 +1,6 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import React, { CSSProperties } from 'react';
 import { CellMeasurer, CellMeasurerCache, List } from 'react-virtualized';
 import { debounce, get, isNumber } from 'lodash';

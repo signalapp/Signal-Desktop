@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 type WhatIsThis = typeof window.WhatIsThis;
 
 // eslint-disable-next-line func-names

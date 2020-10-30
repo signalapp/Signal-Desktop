@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import React from 'react';
 import { ConversationType } from '../state/ducks/conversations';
 import { LocalizerType } from '../types/Util';

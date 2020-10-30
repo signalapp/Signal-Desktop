@@ -1,3 +1,6 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 // Camelcase disabled due to emoji-datasource using snake_case
 /* eslint-disable camelcase */
 import untypedData from 'emoji-datasource';

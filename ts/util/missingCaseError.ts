@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 // `missingCaseError` is useful for compile-time checking that all `case`s in
 // a `switch` statement have been handled, e.g.
 //

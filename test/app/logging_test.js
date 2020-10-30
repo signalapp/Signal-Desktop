@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 // NOTE: Temporarily allow `then` until we convert the entire file to `async` / `await`:
 /* eslint-disable more/no-then */
 

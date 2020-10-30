@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 const fs = require('fs');
 const fse = require('fs-extra');
 const path = require('path');

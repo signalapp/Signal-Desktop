@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 // The idea with this file is to make it webpackable for the style guide
 
 const { bindActionCreators } = require('redux');

@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 // Captures the globals put in place by preload.js, background.js and others
 
 import * as Backbone from 'backbone';

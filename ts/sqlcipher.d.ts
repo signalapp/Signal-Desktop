@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 // Taken from:
 // https://github.com/DefinitelyTyped/DefinitelyTyped/blob/8bf8aedba75ada257428c4846d2bc7d14e3b4be8/types/sqlite3/index.d.ts
 

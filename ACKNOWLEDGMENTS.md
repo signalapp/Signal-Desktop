@@ -1,3 +1,6 @@
+<!-- Copyright 2020 Signal Messenger, LLC -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+
 # Acknowledgments
 
 Signal Desktop makes use of the following open source projects.

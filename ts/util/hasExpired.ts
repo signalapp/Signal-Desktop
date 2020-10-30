@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 const env = window.getEnvironment();
 
 const NINETY_ONE_DAYS = 86400 * 91 * 1000;

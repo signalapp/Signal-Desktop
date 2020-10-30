@@ -1,3 +1,6 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import memoizee from 'memoizee';
 import { fromPairs, isNumber } from 'lodash';
 import { createSelector } from 'reselect';

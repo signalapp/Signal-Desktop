@@ -1,3 +1,6 @@
+// Copyright 2015-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* global window, postMessage, textsecure, close */
 
 /* eslint-disable more/no-then, no-global-assign, no-restricted-globals, no-unused-vars */

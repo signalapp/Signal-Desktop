@@ -1,3 +1,6 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { take, uniq } from 'lodash';
 import { ThunkAction } from 'redux-thunk';
 import { EmojiPickDataType } from '../../components/emoji/EmojiPicker';

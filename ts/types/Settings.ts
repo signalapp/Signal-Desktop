@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import * as OS from '../OS';
 
 const MIN_WINDOWS_VERSION = '8.0.0';

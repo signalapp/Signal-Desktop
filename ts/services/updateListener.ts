@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { ipcRenderer } from 'electron';
 import { Dialogs } from '../types/Dialogs';
 import { ShowUpdateDialogAction } from '../state/ducks/updates';

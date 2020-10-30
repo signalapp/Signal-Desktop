@@ -1,3 +1,6 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { dirname, join } from 'path';
 import { spawn as spawnEmitter, SpawnOptions } from 'child_process';
 import { readdir as readdirCallback, unlink as unlinkCallback } from 'fs';
