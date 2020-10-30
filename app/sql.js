@@ -624,7 +624,7 @@ async function updateToSchemaVersion8(currentVersion, instance) {
   `);
   await instance.run(`
     INSERT INTO messages_fts(id, body)
-    SELECT id, body FROM messages;
+    SELECT id, body FROM ${MESSAGES_TABLE};
   `);
 
   // Then we set up triggers to keep the full-text search table up to date
@@ -1019,7 +1019,7 @@ async function updateToLokiSchemaVersion6(currentVersion, instance) {
 
   // Remove RSS Feed conversations
   await instance.run(
-    `DELETE FROM conversations WHERE
+    `DELETE FROM ${CONVERSATIONS_TABLE} WHERE
       type = 'group' AND
       id LIKE 'rss://%';`
   );
@@ -1811,6 +1811,7 @@ async function updateSwarmNodesForPubkey(pubkey, snodeEdKeys) {
 }
 
 const CONVERSATIONS_TABLE = 'conversations';
+const MESSAGES_TABLE = 'messages';
 async function getConversationCount() {
   const row = await db.get(`SELECT count(*) from ${CONVERSATIONS_TABLE};`);
 
@@ -2001,7 +2002,7 @@ async function getAllConversationIds() {
 
 async function getAllPublicConversations() {
   const rows = await db.all(
-    `SELECT json FROM conversations WHERE
+    `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       type = 'group' AND
       id LIKE 'publicChat:%'
      ORDER BY id ASC;`
@@ -2012,7 +2013,7 @@ async function getAllPublicConversations() {
 
 async function getPublicConversationsByServer(server) {
   const rows = await db.all(
-    `SELECT * FROM conversations WHERE
+    `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE
       server = $server
      ORDER BY id ASC;`,
     {
@@ -2025,7 +2026,7 @@ async function getPublicConversationsByServer(server) {
 
 async function getPubkeysInPublicConversation(id) {
   const rows = await db.all(
-    `SELECT DISTINCT source FROM messages WHERE
+    `SELECT DISTINCT source FROM ${MESSAGES_TABLE} WHERE
       conversationId = $conversationId
      ORDER BY id ASC;`,
     {
@@ -2124,10 +2125,12 @@ async function searchMessagesInConversation(
 }
 
 async function getMessageCount() {
-  const row = await db.get('SELECT count(*) from messages;');
+  const row = await db.get(`SELECT count(*) from ${MESSAGES_TABLE};`);
 
   if (!row) {
-    throw new Error('getMessageCount: Unable to get count of messages');
+    throw new Error(
+      `getMessageCount: Unable to get count of ${MESSAGES_TABLE}`
+    );
   }
 
   return row['count(*)'];
@@ -2359,7 +2362,7 @@ async function saveMessages(arrayOfMessages, { forceSave } = {}) {
 
 async function removeMessage(id) {
   if (!Array.isArray(id)) {
-    await db.run('DELETE FROM messages WHERE id = $id;', { $id: id });
+    await db.run(`DELETE FROM ${MESSAGES_TABLE} WHERE id = $id;`, { $id: id });
     return;
   }
 
@@ -2369,7 +2372,9 @@ async function removeMessage(id) {
 
   // Our node interface doesn't seem to allow you to replace one single ? with an array
   await db.run(
-    `DELETE FROM messages WHERE id IN ( ${id.map(() => '?').join(', ')} );`,
+    `DELETE FROM ${MESSAGES_TABLE} WHERE id IN ( ${id
+      .map(() => '?')
+      .join(', ')} );`,
     id
   );
 }
@@ -2391,7 +2396,7 @@ async function getMessageIdsFromServerIds(serverIds, conversationId) {
     So we have to use templating to insert the values.
   */
   const rows = await db.all(
-    `SELECT id FROM messages WHERE
+    `SELECT id FROM ${MESSAGES_TABLE} WHERE
     serverId IN (${validIds.join(',')}) AND
     conversationId = $conversationId;`,
     {
@@ -2402,7 +2407,7 @@ async function getMessageIdsFromServerIds(serverIds, conversationId) {
 }
 
 async function getMessageById(id) {
-  const row = await db.get('SELECT * FROM messages WHERE id = $id;', {
+  const row = await db.get(`SELECT * FROM ${MESSAGES_TABLE} WHERE id = $id;`, {
     $id: id,
   });
 
@@ -2414,19 +2419,23 @@ async function getMessageById(id) {
 }
 
 async function getAllMessages() {
-  const rows = await db.all('SELECT json FROM messages ORDER BY id ASC;');
+  const rows = await db.all(
+    `SELECT json FROM ${MESSAGES_TABLE} ORDER BY id ASC;`
+  );
   return map(rows, row => jsonToObject(row.json));
 }
 
 async function getAllMessageIds() {
-  const rows = await db.all('SELECT id FROM messages ORDER BY id ASC;');
+  const rows = await db.all(
+    `SELECT id FROM ${MESSAGES_TABLE} ORDER BY id ASC;`
+  );
   return map(rows, row => row.id);
 }
 
 // eslint-disable-next-line camelcase
 async function getMessageBySender({ source, sourceDevice, sent_at }) {
   const rows = await db.all(
-    `SELECT json FROM messages WHERE
+    `SELECT json FROM ${MESSAGES_TABLE} WHERE
       source = $source AND
       sourceDevice = $sourceDevice AND
       sent_at = $sent_at;`,
@@ -2442,7 +2451,7 @@ async function getMessageBySender({ source, sourceDevice, sent_at }) {
 
 async function getMessagesBySender({ source, sourceDevice }) {
   const rows = await db.all(
-    `SELECT json FROM messages WHERE
+    `SELECT json FROM ${MESSAGES_TABLE} WHERE
       source = $source AND
       sourceDevice = $sourceDevice`,
     {
@@ -2456,7 +2465,7 @@ async function getMessagesBySender({ source, sourceDevice }) {
 
 async function getAllUnsentMessages() {
   const rows = await db.all(`
-    SELECT json FROM messages WHERE
+    SELECT json FROM ${MESSAGES_TABLE} WHERE
       type IN ('outgoing') AND
       NOT sent
     ORDER BY sent_at DESC;
@@ -2466,7 +2475,7 @@ async function getAllUnsentMessages() {
 
 async function getUnreadByConversation(conversationId) {
   const rows = await db.all(
-    `SELECT json FROM messages WHERE
+    `SELECT json FROM ${MESSAGES_TABLE} WHERE
       unread = $unread AND
       conversationId = $conversationId
      ORDER BY received_at DESC;`,
@@ -2486,7 +2495,7 @@ async function getMessagesByConversation(
 ) {
   const rows = await db.all(
     `
-    SELECT json FROM messages WHERE
+    SELECT json FROM ${MESSAGES_TABLE} WHERE
       conversationId = $conversationId AND
       received_at < $received_at AND
       type LIKE $type
@@ -2505,7 +2514,7 @@ async function getMessagesByConversation(
 
 async function getMessagesBySentAt(sentAt) {
   const rows = await db.all(
-    `SELECT * FROM messages
+    `SELECT * FROM ${MESSAGES_TABLE}
      WHERE sent_at = $sent_at
      ORDER BY received_at DESC;`,
     {
@@ -2547,7 +2556,7 @@ async function getExpiredMessages() {
   const now = Date.now();
 
   const rows = await db.all(
-    `SELECT json FROM messages WHERE
+    `SELECT json FROM ${MESSAGES_TABLE} WHERE
       expires_at IS NOT NULL AND
       expires_at <= $expires_at
      ORDER BY expires_at ASC;`,
@@ -2561,7 +2570,7 @@ async function getExpiredMessages() {
 
 async function getOutgoingWithoutExpiresAt() {
   const rows = await db.all(`
-    SELECT json FROM messages
+    SELECT json FROM ${MESSAGES_TABLE}
     WHERE
       expireTimer > 0 AND
       expires_at IS NULL AND
@@ -2574,7 +2583,7 @@ async function getOutgoingWithoutExpiresAt() {
 
 async function getNextExpiringMessage() {
   const rows = await db.all(`
-    SELECT json FROM messages
+    SELECT json FROM ${MESSAGES_TABLE}
     WHERE expires_at > 0
     ORDER BY expires_at ASC
     LIMIT 1;
@@ -2811,8 +2820,8 @@ async function removeAll() {
     promise = Promise.all([
       db.run('BEGIN TRANSACTION;'),
       ...getRemoveConfigurationPromises(),
-      db.run('DELETE FROM conversations;'),
-      db.run('DELETE FROM messages;'),
+      db.run(`DELETE FROM ${CONVERSATIONS_TABLE};`),
+      db.run(`DELETE FROM ${MESSAGES_TABLE};`),
       db.run('DELETE FROM attachment_downloads;'),
       db.run('DELETE FROM messages_fts;'),
       db.run('COMMIT TRANSACTION;'),
@@ -2865,7 +2874,7 @@ async function removeAllPrivateConversations() {
 
 async function getMessagesNeedingUpgrade(limit, { maxVersion }) {
   const rows = await db.all(
-    `SELECT json FROM messages
+    `SELECT json FROM ${MESSAGES_TABLE}
      WHERE schemaVersion IS NULL OR schemaVersion < $maxVersion
      LIMIT $limit;`,
     {
@@ -2882,7 +2891,7 @@ async function getMessagesWithVisualMediaAttachments(
   { limit }
 ) {
   const rows = await db.all(
-    `SELECT json FROM messages WHERE
+    `SELECT json FROM ${MESSAGES_TABLE} WHERE
       conversationId = $conversationId AND
       hasVisualMediaAttachments = 1
      ORDER BY received_at DESC
@@ -2898,7 +2907,7 @@ async function getMessagesWithVisualMediaAttachments(
 
 async function getMessagesWithFileAttachments(conversationId, { limit }) {
   const rows = await db.all(
-    `SELECT json FROM messages WHERE
+    `SELECT json FROM ${MESSAGES_TABLE} WHERE
       conversationId = $conversationId AND
       hasFileAttachments = 1
      ORDER BY received_at DESC
@@ -2995,7 +3004,7 @@ async function removeKnownAttachments(allAttachments) {
   while (!complete) {
     // eslint-disable-next-line no-await-in-loop
     const rows = await db.all(
-      `SELECT json FROM messages
+      `SELECT json FROM ${MESSAGES_TABLE}
        WHERE id > $id
        ORDER BY id ASC
        LIMIT $chunkSize;`,
@@ -3037,7 +3046,7 @@ async function removeKnownAttachments(allAttachments) {
   while (!complete) {
     // eslint-disable-next-line no-await-in-loop
     const rows = await db.all(
-      `SELECT json FROM conversations
+      `SELECT json FROM ${CONVERSATIONS_TABLE}
        WHERE id > $id
        ORDER BY id ASC
        LIMIT $chunkSize;`,
@@ -3070,7 +3079,7 @@ async function removeKnownAttachments(allAttachments) {
 
 async function getMessagesCountByConversation(instance, conversationId) {
   const row = await instance.get(
-    'SELECT count(*) from messages WHERE conversationId = $conversationId;',
+    `SELECT count(*) from ${MESSAGES_TABLE} WHERE conversationId = $conversationId;`,
     { $conversationId: conversationId }
   );
 
@@ -3079,7 +3088,7 @@ async function getMessagesCountByConversation(instance, conversationId) {
 
 async function removePrefixFromGroupConversations(instance) {
   const rows = await instance.all(
-    `SELECT json FROM conversations WHERE
+    `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       type = 'group' AND
       id LIKE '__textsecure_group__!%';`
   );
