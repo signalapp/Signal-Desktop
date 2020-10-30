@@ -225,13 +225,14 @@ export class ConversationListItem extends React.PureComponent<Props> {
                 <span className="module-conversation-list-item__message__deleted-for-everyone">
                   {i18n('message--deletedForEveryone')}
                 </span>
-              ) : null}
-              <MessageBody
-                text={text.split('\n')[0]}
-                disableJumbomoji
-                disableLinks
-                i18n={i18n}
-              />
+              ) : (
+                <MessageBody
+                  text={text.split('\n')[0]}
+                  disableJumbomoji
+                  disableLinks
+                  i18n={i18n}
+                />
+              )}
             </>
           )}
         </div>

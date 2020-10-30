@@ -1932,26 +1932,6 @@ type WhatIsThis = typeof window.WhatIsThis;
       }
     }
 
-    const hasRegisteredGV23Support = 'hasRegisteredGV23Support';
-    if (
-      !window.storage.get(hasRegisteredGV23Support) &&
-      window.textsecure.storage.user.getUuid()
-    ) {
-      const server = window.WebAPI.connect({
-        username: USERNAME || OLD_USERNAME,
-        password: PASSWORD,
-      });
-      try {
-        await server.registerCapabilities({ 'gv2-3': true });
-        window.storage.put(hasRegisteredGV23Support, true);
-      } catch (error) {
-        window.log.error(
-          'Error: Unable to register support for GV2.',
-          error && error.stack ? error.stack : error
-        );
-      }
-    }
-
     const deviceId = window.textsecure.storage.user.getDeviceId();
 
     // If we didn't capture a UUID on registration, go get it from the server
@@ -1975,6 +1955,27 @@ type WhatIsThis = typeof window.WhatIsThis;
       } catch (error) {
         window.log.error(
           'Error: Unable to retrieve UUID from service.',
+          error && error.stack ? error.stack : error
+        );
+      }
+    }
+
+    // We need to do this after fetching our UUID
+    const hasRegisteredGV23Support = 'hasRegisteredGV23Support';
+    if (
+      !window.storage.get(hasRegisteredGV23Support) &&
+      window.textsecure.storage.user.getUuid()
+    ) {
+      const server = window.WebAPI.connect({
+        username: USERNAME || OLD_USERNAME,
+        password: PASSWORD,
+      });
+      try {
+        await server.registerCapabilities({ 'gv2-3': true });
+        window.storage.put(hasRegisteredGV23Support, true);
+      } catch (error) {
+        window.log.error(
+          'Error: Unable to register support for GV2.',
           error && error.stack ? error.stack : error
         );
       }

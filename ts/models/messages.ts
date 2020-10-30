@@ -128,8 +128,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   OUR_UUID?: string;
 
-  deletedForEveryone?: boolean;
-
   isSelected?: boolean;
 
   hasExpired?: boolean;
@@ -1076,6 +1074,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       };
     }
 
+    if (this.get('deletedForEveryone')) {
+      return {
+        text: window.i18n('message--deletedForEveryone'),
+      };
+    }
+
     if (this.isProfileChange()) {
       const change = this.get('profileChange');
       const changedId = this.get('changedId');
@@ -1652,11 +1656,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   getSourceDevice(): string | number | undefined {
+    const sourceDevice = this.get('sourceDevice');
+
     if (this.isIncoming()) {
-      return this.get('sourceDevice');
+      return sourceDevice;
     }
 
-    return window.textsecure.storage.user.getDeviceId();
+    return sourceDevice || window.textsecure.storage.user.getDeviceId();
   }
 
   getSourceUuid(): string | undefined {

@@ -1232,8 +1232,8 @@ export default class MessageSender {
     const syncMessage = this.createSyncMessage();
 
     const response = new window.textsecure.protobuf.SyncMessage.MessageRequestResponse();
-    response.threadE164 = responseArgs.threadE164;
-    response.threadUuid = responseArgs.threadUuid;
+    response.threadE164 = responseArgs.threadE164 || null;
+    response.threadUuid = responseArgs.threadUuid || null;
     response.groupId = responseArgs.groupId || null;
     response.type = responseArgs.type;
     syncMessage.messageRequestResponse = response;

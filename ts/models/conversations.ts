@@ -2985,7 +2985,7 @@ export class ConversationModel extends window.Backbone.Model<
         (previewMessage ? previewMessage.getMessagePropStatus() : null) || null,
       timestamp,
       lastMessageDeletedForEveryone: previewMessage
-        ? previewMessage.deletedForEveryone
+        ? previewMessage.get('deletedForEveryone')
         : false,
     });
 
