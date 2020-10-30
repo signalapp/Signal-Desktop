@@ -183,13 +183,12 @@ export class SessionConversation extends React.Component<Props, State> {
   public componentDidMount() {
     // Pause thread to wait for rendering to complete
     setTimeout(() => {
-        const div = this.messageContainerRef.current;
-        div?.addEventListener('dragenter', this.handleDragIn);
-        div?.addEventListener('dragleave', this.handleDragOut);
-        div?.addEventListener('dragover', this.handleDrag);
-        div?.addEventListener('drop', this.handleDrop);
-      },
-    100);
+      const div = this.messageContainerRef.current;
+      div?.addEventListener('dragenter', this.handleDragIn);
+      div?.addEventListener('dragleave', this.handleDragOut);
+      div?.addEventListener('dragover', this.handleDrag);
+      div?.addEventListener('drop', this.handleDrop);
+    }, 100);
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -634,11 +633,10 @@ export class SessionConversation extends React.Component<Props, State> {
     const conversationModel = window.ConversationController.getOrThrow(
       conversationKey
     );
-    const selectedMessages = messages.filter(
-      message =>
-        this.state.selectedMessages.find(
-          selectedMessage => selectedMessage === message.id
-        )
+    const selectedMessages = messages.filter(message =>
+      this.state.selectedMessages.find(
+        selectedMessage => selectedMessage === message.id
+      )
     );
 
     const multiple = selectedMessages.length > 1;
