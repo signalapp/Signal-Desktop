@@ -364,7 +364,6 @@ export class SessionConversation extends React.Component<Props, State> {
 
     // Set first member of series here.
     const messageModels = messageSet.models;
-    console.warn('messageSet', messageSet);
 
     const messages = [];
     let previousSender;

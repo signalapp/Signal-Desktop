@@ -12,6 +12,8 @@ import { AttachmentType } from '../../../types/Attachment';
 import { GroupNotification } from '../../conversation/GroupNotification';
 import { GroupInvitation } from '../../conversation/GroupInvitation';
 import { ConversationType } from '../../../state/ducks/conversations';
+import { MessageModel } from '../../../../js/models/messages';
+import { SessionLastSeenIndicator } from './SessionLastSeedIndicator';
 
 interface State {
   isScrolledToBottom: boolean;
@@ -22,7 +24,7 @@ interface State {
 interface Props {
   selectedMessages: Array<string>;
   conversationKey: string;
-  messages: Array<any>;
+  messages: Array<MessageModel>;
   initialFetchComplete: boolean;
   conversation: ConversationType;
   messageContainerRef: React.RefObject<any>;
@@ -68,7 +70,10 @@ export class SessionConversationMessagesList extends React.Component<
   }
 
   public componentDidUpdate(prevProps: Props, _prevState: State) {
-    if (prevProps.conversationKey !== this.props.conversationKey) {
+    if (
+      prevProps.conversationKey !== this.props.conversationKey ||
+      (prevProps.messages.length === 0 && this.props.messages.length !== 0)
+    ) {
       // we have a bit of cleaning to do here
       this.setState(
         {
@@ -107,12 +112,14 @@ export class SessionConversationMessagesList extends React.Component<
     );
   }
 
-  public renderMessages(messages: any) {
+  public renderMessages(messages: Array<MessageModel>) {
+    const { conversation } = this.props;
+    const { unreadCount } = conversation;
     const multiSelectMode = Boolean(this.props.selectedMessages.length);
-    // FIXME VINCE: IF MESSAGE IS THE TOP OF UNREAD, THEN INSERT AN UNREAD BANNER
+    let lastMessageIsUnread = true;
     return (
       <>
-        {messages.map((message: any) => {
+        {messages.map((message: MessageModel) => {
           const messageProps = message.propsForMessage;
 
           const timerProps = message.propsForTimerNotification;
@@ -120,29 +127,64 @@ export class SessionConversationMessagesList extends React.Component<
           const propsForGroupInvitation = message.propsForGroupInvitation;
 
           const groupNotificationProps = message.propsForGroupNotification;
+          let unreadIndicator = null;
+
+          // FIXME a sending message does not have the isUnread function yet.
+          const isMessageUnread = message.isUnread && message.isUnread();
+
+          // if there is some unread messages
+          if (lastMessageIsUnread && !isMessageUnread && unreadCount > 0) {
+            unreadIndicator = <SessionLastSeenIndicator count={unreadCount} />;
+            lastMessageIsUnread = false;
+          }
 
           if (groupNotificationProps) {
-            return <GroupNotification {...groupNotificationProps} />;
+            return (
+              <>
+                {unreadIndicator}
+                <GroupNotification {...groupNotificationProps} />
+              </>
+            );
           }
 
           if (propsForGroupInvitation) {
-            return <GroupInvitation {...propsForGroupInvitation} />;
+            return (
+              <>
+                {unreadIndicator}
+                <GroupInvitation {...propsForGroupInvitation} />
+              </>
+            );
           }
 
           if (resetSessionProps) {
-            return <ResetSessionNotification {...resetSessionProps} />;
+            return (
+              <>
+                {unreadIndicator}
+                <ResetSessionNotification {...resetSessionProps} />
+              </>
+            );
           }
 
           if (timerProps) {
-            return <TimerNotification {...timerProps} />;
+            return (
+              <>
+                {unreadIndicator}
+                <TimerNotification {...timerProps} />
+              </>
+            );
           }
 
           // firstMessageOfSeries tells us to render the avatar only for the first message
           // in a series of messages from the same user
-          return this.renderMessage(
-            messageProps,
-            message.firstMessageOfSeries,
-            multiSelectMode
+          return (
+            <>
+              {unreadIndicator}
+              {this.renderMessage(
+                messageProps,
+                message.firstMessageOfSeries,
+                multiSelectMode
+              )}{' '}
+            </>
           );
         })}
       </>
@@ -282,11 +324,20 @@ export class SessionConversationMessagesList extends React.Component<
 
   public scrollToUnread() {
     const { messages, conversation } = this.props;
-    const message = messages[conversation.unreadCount];
+    if (conversation.unreadCount > 0) {
+      let message;
+      if (messages.length > conversation.unreadCount) {
+        // if we have enough message to show one more message, show one more to include the unread banner
+        message = messages[conversation.unreadCount];
+      } else {
+        message = messages[conversation.unreadCount - 1];
+      }
 
-    if (message) {
-      this.scrollToMessage(message.id);
+      if (message) {
+        this.scrollToMessage(message.id);
+      }
     }
+
     if (!this.state.doneInitialScroll) {
       this.setState({
         doneInitialScroll: true,

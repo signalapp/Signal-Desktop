@@ -53,4 +53,12 @@ export interface MessageModel extends Backbone.Model<MessageAttributes> {
   merge: (other: MessageModel) => void;
   saveErrors: (error: any) => void;
   sendSyncMessageOnly: (message: any) => void;
+  isUnread: () => boolean;
+
+  propsForMessage?: any;
+  propsForTimerNotification?: any;
+  propsForResetSessionNotification?: any;
+  propsForGroupInvitation?: any;
+  propsForGroupNotification?: any;
+  firstMessageOfSeries: boolean;
 }

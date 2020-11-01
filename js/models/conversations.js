@@ -1888,7 +1888,7 @@
         const cachedUnreadCountOnConvo = this.get('unreadCount');
         if (cachedUnreadCountOnConvo !== read.length) {
           // reset the unreadCount on the convo to the real one coming from markRead messages on the db
-          this.set({ unreadCount: realUnreadCount });
+          this.set({ unreadCount: 0 });
           this.commit();
         } else {
           window.log.info('markRead(): nothing newly read.');
