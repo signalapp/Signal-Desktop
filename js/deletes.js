@@ -14,7 +14,7 @@
     forMessage(message) {
       const matchingDeletes = this.filter({
         targetSentTimestamp: message.get('sent_at'),
-        fromId: message.getContact().get('id'),
+        fromId: message.getContactId(),
       });
 
       if (matchingDeletes.length > 0) {

@@ -3344,16 +3344,18 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
         // Does this message have any pending, previously-received associated reactions?
         const reactions = window.Whisper.Reactions.forMessage(message);
-        reactions.forEach(reaction => {
-          message.handleReaction(reaction, false);
-        });
+        await Promise.all(
+          reactions.map(reaction => message.handleReaction(reaction, false))
+        );
 
         // Does this message have any pending, previously-received associated
         // delete for everyone messages?
         const deletes = window.Whisper.Deletes.forMessage(message);
-        deletes.forEach(del => {
-          window.Signal.Util.deleteForEveryone(message, del, false);
-        });
+        await Promise.all(
+          deletes.map(del =>
+            window.Signal.Util.deleteForEveryone(message, del, false)
+          )
+        );
 
         await window.Signal.Data.saveMessage(message.attributes, {
           Message: window.Whisper.Message,

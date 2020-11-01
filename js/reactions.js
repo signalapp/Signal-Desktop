@@ -24,15 +24,15 @@
         }
       }
 
+      const senderId = message.getContactId();
+      const sentAt = message.get('sent_at');
       const reactionsBySource = this.filter(re => {
-        const mcid = message.get('conversationId');
-        const recid = ConversationController.ensureContactIds({
+        const targetSenderId = ConversationController.ensureContactIds({
           e164: re.get('targetAuthorE164'),
           uuid: re.get('targetAuthorUuid'),
         });
-        const mTime = message.get('sent_at');
-        const rTime = re.get('targetTimestamp');
-        return mcid === recid && mTime === rTime;
+        const targetTimestamp = re.get('targetTimestamp');
+        return targetSenderId === senderId && targetTimestamp === sentAt;
       });
 
       if (reactionsBySource.length > 0) {
