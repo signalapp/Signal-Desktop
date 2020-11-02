@@ -1891,7 +1891,7 @@
           this.set({ unreadCount: 0 });
           this.commit();
         } else {
-          window.log.info('markRead(): nothing newly read.');
+          // window.log.info('markRead(): nothing newly read.');
         }
         return;
       }

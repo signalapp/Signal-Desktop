@@ -162,10 +162,14 @@ export class SessionConversation extends React.Component<Props, State> {
 
   public componentWillUnmount() {
     const { conversationKey } = this.props;
-    const conversationModel = window.ConversationController.getOrThrow(
-      conversationKey
-    );
-    conversationModel.off('change', this.refreshMessages);
+    try {
+      const conversationModel = window.ConversationController.getOrThrow(
+        conversationKey
+      );
+      conversationModel.off('change', this.refreshMessages);
+    } catch (e) {
+      window.log.error(e);
+    }
     const div = this.messageContainerRef.current;
     div?.removeEventListener('dragenter', this.handleDragIn);
     div?.removeEventListener('dragleave', this.handleDragOut);
@@ -213,6 +217,8 @@ export class SessionConversation extends React.Component<Props, State> {
       quotedMessageProps,
       lightBoxOptions,
       selectedMessages,
+      isDraggingFile,
+      stagedAttachments,
     } = this.state;
     const selectionMode = !!selectedMessages.length;
 
@@ -227,7 +233,6 @@ export class SessionConversation extends React.Component<Props, State> {
 
     const shouldRenderGroupSettings =
       !conversationModel.isPrivate() && !conversationModel.isRss();
-    const groupSettingsProps = this.getGroupSettingsProps();
 
     const showSafetyNumber = this.state.infoViewState === 'safetyNumber';
     const showMessageDetails = this.state.infoViewState === 'messageDetails';
@@ -273,13 +278,13 @@ export class SessionConversation extends React.Component<Props, State> {
             {showRecordingView && (
               <div className="conversation-messages__blocking-overlay" />
             )}
-            {this.state.isDraggingFile && <SessionFileDropzone />}
+            {isDraggingFile && <SessionFileDropzone />}
           </div>
 
           {!isRss && (
             <SessionCompositionBox
               sendMessage={sendMessageFn}
-              stagedAttachments={this.state.stagedAttachments}
+              stagedAttachments={stagedAttachments}
               onMessageSending={this.onMessageSending}
               onMessageSuccess={this.onMessageSuccess}
               onMessageFailure={this.onMessageFailure}
@@ -304,7 +309,7 @@ export class SessionConversation extends React.Component<Props, State> {
               showOptionsPane && 'show'
             )}
           >
-            <SessionRightPanelWithDetails {...groupSettingsProps} />
+            <SessionRightPanelWithDetails {...this.getGroupSettingsProps()} />
           </div>
         )}
       </SessionTheme>

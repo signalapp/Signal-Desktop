@@ -84,7 +84,7 @@ export interface ConversationModel
   getNumber: any;
   getProfileName: any;
   getAvatarPath: any;
-  markRead: any;
+  markRead: (timestamp: number) => Promise<void>;
   showChannelLightbox: any;
   deletePublicMessages: any;
   getMessagesWithTimestamp: any;

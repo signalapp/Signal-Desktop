@@ -474,8 +474,12 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
 
   const type = 'incoming';
   const messageGroupId = message?.group?.id;
-  const groupId =
+  let groupId =
     messageGroupId && messageGroupId.length > 0 ? messageGroupId : null;
+
+  if (groupId) {
+    groupId = groupId.replace(PubKey.PREFIX_GROUP_TEXTSECURE, '');
+  }
 
   const messageData: any = {
     source,
