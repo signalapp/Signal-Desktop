@@ -8,7 +8,7 @@ import ReactQuill from 'react-quill';
 import classNames from 'classnames';
 import emojiRegex from 'emoji-regex';
 import { Manager, Reference } from 'react-popper';
-import Quill, { KeyboardStatic } from 'quill';
+import Quill, { KeyboardStatic, RangeStatic } from 'quill';
 import Op from 'quill-delta/dist/Op';
 
 import { EmojiBlot, EmojiCompletion } from '../quill/emoji';
@@ -89,6 +89,10 @@ export const CompositionInput: React.ComponentType<Props> = props => {
   const [emojiCompletionElement, setEmojiCompletionElement] = React.useState<
     JSX.Element
   >();
+  const [
+    lastSelectionRange,
+    setLastSelectionRange,
+  ] = React.useState<RangeStatic | null>(null);
 
   const emojiCompletionRef = React.useRef<EmojiCompletion>();
   const quillRef = React.useRef<Quill>();
@@ -168,19 +172,20 @@ export const CompositionInput: React.ComponentType<Props> = props => {
 
     const range = quill.getSelection();
 
-    if (range === null) {
+    const insertionRange = range || lastSelectionRange;
+    if (insertionRange === null) {
       return;
     }
 
     const emoji = convertShortName(e.shortName, e.skinTone);
 
     const delta = new Delta()
-      .retain(range.index)
-      .delete(range.length)
+      .retain(insertionRange.index)
+      .delete(insertionRange.length)
       .insert({ emoji });
 
     quill.updateContents(delta, 'user');
-    quill.setSelection(range.index + 1, 0, 'user');
+    quill.setSelection(insertionRange.index + 1, 0, 'user');
   };
 
   const reset = () => {
@@ -433,6 +438,15 @@ export const CompositionInput: React.ComponentType<Props> = props => {
                 quill.setSelection(quill.getLength(), 0);
               });
 
+              quill.on(
+                'selection-change',
+                (newRange: RangeStatic, oldRange: RangeStatic) => {
+                  // If we lose focus, store the last edit point for emoji insertion
+                  if (newRange === null) {
+                    setLastSelectionRange(oldRange);
+                  }
+                }
+              );
               quillRef.current = quill;
               emojiCompletionRef.current = quill.getModule('emojiCompletion');
             }

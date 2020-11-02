@@ -14544,15 +14544,6 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
     "line": "    const emojiCompletionRef = React.useRef();",
-    "lineNumber": 34,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-10-26T19:12:24.410Z",
-    "reasonDetail": "Doesn't refer to a DOM element."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CompositionInput.js",
-    "line": "    const quillRef = React.useRef();",
     "lineNumber": 35,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
@@ -14561,8 +14552,17 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
-    "line": "    const scrollerRef = React.useRef(null);",
+    "line": "    const quillRef = React.useRef();",
     "lineNumber": 36,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Doesn't refer to a DOM element."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionInput.js",
+    "line": "    const scrollerRef = React.useRef(null);",
+    "lineNumber": 37,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Used with Quill for scrolling."
@@ -14571,7 +14571,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
     "line": "    const propsRef = React.useRef(props);",
-    "lineNumber": 37,
+    "lineNumber": 38,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Doesn't refer to a DOM element."
