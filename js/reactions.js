@@ -45,6 +45,8 @@
     },
     async onReaction(reaction) {
       try {
+        // The conversation the target message was in; we have to find it in the database
+        //   to to figure that out.
         const targetConversation = await ConversationController.getConversationForTargetMessage(
           ConversationController.ensureContactIds({
             e164: reaction.get('targetAuthorE164'),
@@ -54,7 +56,7 @@
         );
         if (!targetConversation) {
           window.log.info(
-            'No contact for reaction',
+            'No target conversation for reaction',
             reaction.get('targetAuthorE164'),
             reaction.get('targetAuthorUuid'),
             reaction.get('targetTimestamp')

@@ -2607,6 +2607,12 @@ type WhatIsThis = typeof window.WhatIsThis;
     const message = initIncomingMessage(data, messageDescriptor);
 
     if (data.message.reaction) {
+      window.normalizeUuids(
+        data.message.reaction,
+        ['targetAuthorUuid'],
+        'background::onMessageReceived'
+      );
+
       const { reaction } = data.message;
       window.log.info(
         'Queuing incoming reaction for',
@@ -2814,6 +2820,12 @@ type WhatIsThis = typeof window.WhatIsThis;
     const message = createSentMessage(data, messageDescriptor);
 
     if (data.message.reaction) {
+      window.normalizeUuids(
+        data.message.reaction,
+        ['targetAuthorUuid'],
+        'background::onSentMessage'
+      );
+
       const { reaction } = data.message;
       window.log.info('Queuing sent reaction for', reaction.targetTimestamp);
       const reactionModel = window.Whisper.Reactions.add({
