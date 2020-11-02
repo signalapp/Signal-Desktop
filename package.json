@@ -5,7 +5,7 @@
   "desktopName": "signal.desktop",
   "repository": "https://github.com/signalapp/Signal-Desktop.git",
   "version": "1.37.3-beta.1",
-  "license": "GPL-3.0",
+  "license": "AGPL-3.0-only",
   "author": {
     "name": "Open Whisper Systems",
     "email": "support@signal.org"
