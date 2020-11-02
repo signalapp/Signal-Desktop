@@ -21,9 +21,6 @@ import {
   UserId,
 } from 'ringrtc';
 
-// ts-ignore
-import is from '@sindresorhus/is';
-
 import {
   ActionsType as UxActionsType,
   CallDetailsType,
@@ -60,26 +57,6 @@ export class CallingClass {
     this.uxActions = uxActions;
     if (!uxActions) {
       throw new Error('CallingClass.initialize: Invalid uxActions.');
-    }
-    if (!is.function_(uxActions.incomingCall)) {
-      throw new Error(
-        'CallingClass.initialize: Invalid uxActions.incomingCall'
-      );
-    }
-    if (!is.function_(uxActions.outgoingCall)) {
-      throw new Error(
-        'CallingClass.initialize: Invalid uxActions.outgoingCall'
-      );
-    }
-    if (!is.function_(uxActions.callStateChange)) {
-      throw new Error(
-        'CallingClass.initialize: Invalid uxActions.callStateChange'
-      );
-    }
-    if (!is.function_(uxActions.remoteVideoChange)) {
-      throw new Error(
-        'CallingClass.initialize: Invalid uxActions.remoteVideoChange'
-      );
     }
     RingRTC.handleOutgoingSignaling = this.handleOutgoingSignaling.bind(this);
     RingRTC.handleIncomingCall = this.handleIncomingCall.bind(this);
