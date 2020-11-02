@@ -462,15 +462,26 @@
           isMe: true,
         });
       } else if (groupUpdate.left) {
-        changes.push({
-          type: 'remove',
-          contacts: _.map(
-            Array.isArray(groupUpdate.left)
-              ? groupUpdate.left
-              : [groupUpdate.left],
-            phoneNumber => this.findAndFormatContact(phoneNumber)
-          ),
-        });
+        if (
+          Array.isArray(groupUpdate.left) &&
+          groupUpdate.left.length === 1 &&
+          groupUpdate.left[0] === textsecure.storage.user.getNumber()
+        ) {
+          changes.push({
+            type: 'remove',
+            isMe: true,
+          });
+        } else {
+          changes.push({
+            type: 'remove',
+            contacts: _.map(
+              Array.isArray(groupUpdate.left)
+                ? groupUpdate.left
+                : [groupUpdate.left],
+              phoneNumber => this.findAndFormatContact(phoneNumber)
+            ),
+          });
+        }
       }
 
       if (groupUpdate.name) {
