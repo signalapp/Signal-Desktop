@@ -462,7 +462,7 @@ export async function mergeGroupV2Record(
   updateConversation(conversation.attributes);
 
   const isGroupNewToUs = !isNumber(conversation.get('revision'));
-  const isFirstSync = !isNumber(window.storage.get('manifestVersion'));
+  const isFirstSync = !window.storage.get('storageFetchComplete');
   const dropInitialJoinMessage = isFirstSync;
 
   // We don't need to update GroupV2 groups all the time. We fetch group state the first

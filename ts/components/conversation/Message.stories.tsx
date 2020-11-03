@@ -45,6 +45,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   authorTitle: text('authorTitle', overrideProps.authorTitle || ''),
   bodyRanges: overrideProps.bodyRanges,
   canReply: true,
+  canDownload: true,
   canDeleteForEveryone: overrideProps.canDeleteForEveryone || false,
   clearSelectedMessage: action('clearSelectedMessage'),
   collapseMetadata: overrideProps.collapseMetadata,

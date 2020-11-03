@@ -665,10 +665,6 @@
         "message": "Отворете страницата за поддръжка",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "goToGithub": {
-        "message": "Go to GitHub",
-        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
-    },
     "joinTheBeta": {
         "message": "Join the Beta",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"

@@ -137,6 +137,7 @@ export type PropsData = {
   deletedForEveryone?: boolean;
 
   canReply: boolean;
+  canDownload: boolean;
   canDeleteForEveryone: boolean;
   bodyRanges?: BodyRangesType;
 };
@@ -1159,6 +1160,7 @@ export class Message extends React.PureComponent<Props, State> {
   ): JSX.Element | null {
     const {
       attachments,
+      canDownload,
       canReply,
       direction,
       disableMenu,
@@ -1294,7 +1296,7 @@ export class Message extends React.PureComponent<Props, State> {
           )}
         >
           {canReply ? reactButton : null}
-          {canReply ? downloadButton : null}
+          {canDownload ? downloadButton : null}
           {canReply ? replyButton : null}
           {menuButton}
         </div>
@@ -1328,6 +1330,7 @@ export class Message extends React.PureComponent<Props, State> {
   public renderContextMenu(triggerId: string): JSX.Element {
     const {
       attachments,
+      canDownload,
       canReply,
       deleteMessage,
       deleteMessageForEveryone,
@@ -1349,7 +1352,8 @@ export class Message extends React.PureComponent<Props, State> {
 
     const menu = (
       <ContextMenu id={triggerId}>
-        {!isSticker &&
+        {canDownload &&
+        !isSticker &&
         !multipleAttachments &&
         !isTapToView &&
         attachments &&

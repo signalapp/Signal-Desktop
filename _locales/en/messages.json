@@ -655,10 +655,6 @@
     "message": "Go to Support Page",
     "description": "Item under the Help menu, takes you to the support page"
   },
-  "goToGithub": {
-    "message": "Go to GitHub",
-    "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
-  },
   "joinTheBeta": {
     "message": "Join the Beta",
     "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
@@ -2726,6 +2722,38 @@
   "MessageRequests--accept": {
     "message": "Accept",
     "description": "Shown as a button to let the user accept a message request"
+  },
+  "MessageRequests--continue": {
+    "message": "Continue",
+    "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
+  },
+  "MessageRequests--profile-sharing--group": {
+    "message": "Continue your conversation with this group and share your name and photo with its members? $learnMore$",
+    "description": "Shown when user hasn't shared their profile in a group yet",
+    "placeholders": {
+      "learnMore": {
+        "content": "$1",
+        "example": "Learn More."
+      }
+    }
+  },
+  "MessageRequests--profile-sharing--direct": {
+    "message": "Continue this conversation with $firstName$ and share your name and photo with them? $learnMore$",
+    "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
+    "placeholders": {
+      "firstName": {
+        "content": "$1",
+        "example": "Alice"
+      },
+      "learnMore": {
+        "content": "$2",
+        "example": "Learn More."
+      }
+    }
+  },
+  "MessageRequests--learn-more": {
+    "message": "Learn more.",
+    "description": "Shown at the end of profile sharing messages as a link."
   },
   "ConversationHero--members": {
     "message": "$count$ members",

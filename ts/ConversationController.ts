@@ -610,16 +610,7 @@ export class ConversationController {
     const messages = await getMessagesBySentAt(targetTimestamp, {
       MessageCollection: window.Whisper.MessageCollection,
     });
-    const targetMessage = messages.find(m => {
-      const contact = m.getContact();
-
-      if (!contact) {
-        return false;
-      }
-
-      const mcid = contact.get('id');
-      return mcid === targetFromId;
-    });
+    const targetMessage = messages.find(m => m.getContactId() === targetFromId);
 
     if (targetMessage) {
       return targetMessage.getConversation();
@@ -655,7 +646,14 @@ export class ConversationController {
     const groups = await getAllGroupsInvolvingId(conversationId, {
       ConversationCollection: window.Whisper.ConversationCollection,
     });
-    return groups.map(group => this._conversations.add(group));
+    return groups.map(group => {
+      const existing = this.get(group.id);
+      if (existing) {
+        return existing;
+      }
+
+      return this._conversations.add(group);
+    });
   }
 
   async loadPromise(): Promise<void> {
@@ -692,12 +690,6 @@ export class ConversationController {
         await Promise.all(
           this._conversations.map(async conversation => {
             try {
-              // This call is important to allow Conversation models not to generate their
-              //   cached props on initial construction if we're in the middle of the load
-              //   from the database. Then we come back to the models when it is safe and
-              //   generate those props.
-              conversation.generateProps();
-
               if (!conversation.get('lastMessage')) {
                 await conversation.updateLastMessage();
               }

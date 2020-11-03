@@ -3,6 +3,7 @@
 import * as Backbone from 'backbone';
 import * as Underscore from 'underscore';
 import { Ref } from 'react';
+import * as Util from './util';
 import {
   ConversationModelCollectionType,
   MessageModelCollectionType,
@@ -356,41 +357,7 @@ declare global {
         };
         VisualAttachment: any;
       };
-      Util: {
-        isFileDangerous: any;
-        GoogleChrome: {
-          isImageTypeSupported: (contentType: string) => unknown;
-          isVideoTypeSupported: (contentType: string) => unknown;
-        };
-        downloadAttachment: (attachment: WhatIsThis) => WhatIsThis;
-        getStringForProfileChange: (
-          change: unknown,
-          changedContact: unknown,
-          i18n: unknown
-        ) => string;
-        getTextWithMentions: (
-          bodyRanges: BodyRangesType,
-          text: string
-        ) => string;
-        deleteForEveryone: (
-          message: unknown,
-          del: unknown,
-          bool: boolean
-        ) => void;
-        zkgroup: typeof zkgroup;
-        combineNames: typeof combineNames;
-        migrateColor: (color: string) => ColorType;
-        createBatcher: (options: WhatIsThis) => WhatIsThis;
-        Registration: {
-          everDone: () => boolean;
-          markDone: () => void;
-          markEverDone: () => void;
-          remove: () => void;
-        };
-        hasExpired: () => boolean;
-        makeLookup: (conversations: WhatIsThis, key: string) => void;
-        parseRemoteClientExpiration: (value: WhatIsThis) => WhatIsThis;
-      };
+      Util: typeof Util;
       LinkPreviews: {
         isMediaLinkInWhitelist: any;
         getTitleMetaTag: any;

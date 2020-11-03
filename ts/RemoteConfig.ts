@@ -2,12 +2,13 @@ import { get, throttle } from 'lodash';
 import { WebAPIType } from './textsecure/WebAPI';
 
 type ConfigKeyType =
-  | 'desktop.messageRequests'
-  | 'desktop.gv2'
   | 'desktop.cds'
+  | 'desktop.clientExpiration'
+  | 'desktop.gv2'
+  | 'desktop.mandatoryProfileSharing'
+  | 'desktop.messageRequests'
   | 'desktop.storage'
-  | 'desktop.storageWrite'
-  | 'desktop.clientExpiration';
+  | 'desktop.storageWrite';
 type ConfigValueType = {
   name: ConfigKeyType;
   enabled: boolean;

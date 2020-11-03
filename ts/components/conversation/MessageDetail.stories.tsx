@@ -17,6 +17,7 @@ const defaultMessage: MessageProps = {
   authorTitle: 'Max',
   canReply: true,
   canDeleteForEveryone: true,
+  canDownload: true,
   clearSelectedMessage: () => null,
   conversationId: 'my-convo',
   conversationType: 'direct',

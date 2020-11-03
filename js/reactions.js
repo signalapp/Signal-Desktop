@@ -24,15 +24,15 @@
         }
       }
 
+      const senderId = message.getContactId();
+      const sentAt = message.get('sent_at');
       const reactionsBySource = this.filter(re => {
-        const mcid = message.get('conversationId');
-        const recid = ConversationController.ensureContactIds({
+        const targetSenderId = ConversationController.ensureContactIds({
           e164: re.get('targetAuthorE164'),
           uuid: re.get('targetAuthorUuid'),
         });
-        const mTime = message.get('sent_at');
-        const rTime = re.get('targetTimestamp');
-        return mcid === recid && mTime === rTime;
+        const targetTimestamp = re.get('targetTimestamp');
+        return targetSenderId === senderId && targetTimestamp === sentAt;
       });
 
       if (reactionsBySource.length > 0) {
@@ -45,6 +45,8 @@
     },
     async onReaction(reaction) {
       try {
+        // The conversation the target message was in; we have to find it in the database
+        //   to to figure that out.
         const targetConversation = await ConversationController.getConversationForTargetMessage(
           ConversationController.ensureContactIds({
             e164: reaction.get('targetAuthorE164'),
@@ -54,7 +56,7 @@
         );
         if (!targetConversation) {
           window.log.info(
-            'No contact for reaction',
+            'No target conversation for reaction',
             reaction.get('targetAuthorE164'),
             reaction.get('targetAuthorUuid'),
             reaction.get('targetTimestamp')

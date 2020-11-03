@@ -84,7 +84,7 @@ export type MessageAttributesType = {
     referencedMessageNotFound: boolean;
     text: string;
   } | null;
-  reactions: Array<{ fromId: string; emoji: unknown; timestamp: unknown }>;
+  reactions: Array<{ fromId: string; emoji: string; timestamp: number }>;
   read_by: Array<string | null>;
   requiredProtocolVersion: number;
   sent: boolean;
@@ -141,13 +141,13 @@ export type ConversationAttributesType = {
   accessKey: string | null;
   addedBy?: string;
   capabilities: { uuid: string };
-  color?: ColorType;
+  color?: string;
   discoveredUnregisteredAt: number;
   draftAttachments: Array<unknown>;
   draftTimestamp: number | null;
   inbox_position: number;
   isPinned: boolean;
-  lastMessageDeletedForEveryone: unknown;
+  lastMessageDeletedForEveryone: boolean;
   lastMessageStatus: LastMessageStatus | null;
   messageCount: number;
   messageCountBeforeMessageRequests: number;

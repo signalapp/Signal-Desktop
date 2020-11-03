@@ -80,6 +80,8 @@ export class ConversationModel extends window.Backbone.Model<
 
   cachedProps?: ConversationType | null;
 
+  oldCachedProps?: ConversationType | null;
+
   contactTypingTimers?: Record<
     string,
     { senderId: string; timer: NodeJS.Timer }
@@ -88,11 +90,6 @@ export class ConversationModel extends window.Backbone.Model<
   contactCollection?: Backbone.Collection<WhatIsThis>;
 
   debouncedUpdateLastMessage?: () => void;
-
-  // backbone ensures this exists in initialize()
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  generateProps: () => void;
 
   // backbone ensures this exists
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -237,12 +234,14 @@ export class ConversationModel extends window.Backbone.Model<
     this.typingRefreshTimer = null;
     this.typingPauseTimer = null;
 
-    // Keep props ready
-    this.generateProps = () => {
-      this.cachedProps = this.getProps();
-    };
-    this.on('change', this.generateProps);
-    this.generateProps();
+    // We clear our cached props whenever we change so that the next call to format() will
+    //   result in refresh via a getProps() call. See format() below.
+    this.on('change', () => {
+      if (this.cachedProps) {
+        this.oldCachedProps = this.cachedProps;
+      }
+      this.cachedProps = null;
+    });
   }
 
   isMe(): boolean {
@@ -275,9 +274,7 @@ export class ConversationModel extends window.Backbone.Model<
 
   isMemberPending(conversationId: string): boolean {
     if (!this.isGroupV2()) {
-      throw new Error(
-        `isPendingMember: Called for non-GroupV2 conversation ${this.idForLogging()}`
-      );
+      return false;
     }
     const pendingMembersV2 = this.get('pendingMembersV2');
 
@@ -1027,19 +1024,39 @@ export class ConversationModel extends window.Backbone.Model<
     });
   }
 
-  format(): ConversationType | null | undefined {
+  format(): ConversationType {
+    if (this.cachedProps) {
+      return this.cachedProps;
+    }
+
+    const oldFormat = this.format;
+    // We don't want to crash or have an infinite loop if we loop back into this function
+    //   again. We'll log a warning and returned old cached props or throw an error.
+    this.format = () => {
+      const { stack } = new Error('for stack');
+      window.log.warn(
+        `Conversation.format()/${this.idForLogging()} reentrant call! ${stack}`
+      );
+      if (!this.oldCachedProps) {
+        throw new Error(
+          `Conversation.format()/${this.idForLogging()} reentrant call, no old cached props!`
+        );
+      }
+      return this.oldCachedProps;
+    };
+
+    this.cachedProps = this.getProps();
+
+    this.format = oldFormat;
+
     return this.cachedProps;
   }
 
-  getProps(): ConversationType | null {
-    // This is to prevent race conditions on startup; Conversation models are created
-    //   but the full window.ConversationController.load() sequence isn't complete. So, we
-    //   don't cache props on create, but we do later when load() calls generateProps()
-    //   for us.
-    if (!window.ConversationController.isFetchComplete()) {
-      return null;
-    }
-
+  // Note: this should never be called directly. Use conversation.format() instead, which
+  //   maintains a cache, and protects against reentrant calls.
+  // Note: When writing code inside this function, do not call .format() on a conversation
+  //   unless you are sure that it's not this very same conversation.
+  private getProps(): ConversationType {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const color = this.getColor()!;
 
@@ -1063,27 +1080,39 @@ export class ConversationModel extends window.Backbone.Model<
     const messageRequestsEnabled = window.Signal.RemoteConfig.isEnabled(
       'desktop.messageRequests'
     );
+    const ourConversationId = window.ConversationController.getOurConversationId();
+
+    let groupVersion: undefined | 1 | 2;
+    if (this.isGroupV1()) {
+      groupVersion = 1;
+    } else if (this.isGroupV2()) {
+      groupVersion = 2;
+    }
 
     // TODO: DESKTOP-720
     /* eslint-disable @typescript-eslint/no-non-null-assertion */
-    const result = {
+    const result: ConversationType = {
       id: this.id,
       uuid: this.get('uuid'),
       e164: this.get('e164'),
 
       acceptedMessageRequest: this.getAccepted(),
       activeAt: this.get('active_at')!,
+      areWePending: Boolean(
+        ourConversationId && this.isMemberPending(ourConversationId)
+      ),
       avatarPath: this.getAvatarPath()!,
       color,
       draftPreview,
       draftText,
       firstName: this.get('profileName')!,
+      groupVersion,
       inboxPosition,
-      isAccepted: this.getAccepted(),
       isArchived: this.get('isArchived')!,
       isBlocked: this.isBlocked(),
       isMe: this.isMe(),
       isPinned: this.get('isPinned'),
+      isMissingMandatoryProfileSharing: this.isMissingRequiredProfileSharing(),
       isVerified: this.isVerified(),
       lastMessage: {
         status: this.get('lastMessageStatus')!,
@@ -1091,6 +1120,7 @@ export class ConversationModel extends window.Backbone.Model<
         deletedForEveryone: this.get('lastMessageDeletedForEveryone')!,
       },
       lastUpdated: this.get('timestamp')!,
+
       membersCount: this.isPrivate()
         ? undefined
         : (this.get('membersV2')! || this.get('members')! || []).length,
@@ -1104,9 +1134,17 @@ export class ConversationModel extends window.Backbone.Model<
       timestamp,
       title: this.getTitle()!,
       type: (this.isPrivate() ? 'direct' : 'group') as ConversationTypeType,
-      typingContact: typingContact ? typingContact.format() : null,
       unreadCount: this.get('unreadCount')! || 0,
     };
+
+    if (typingContact) {
+      // We don't want to call .format() on our own conversation
+      if (typingContact.id === this.id) {
+        result.typingContact = result;
+      } else {
+        result.typingContact = typingContact.format();
+      }
+    }
     /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
     return result;
@@ -1370,17 +1408,40 @@ export class ConversationModel extends window.Backbone.Model<
       }
     );
 
-    await wrap(
-      window.textsecure.messaging.syncMessageRequestResponse(
-        {
-          threadE164: this.get('e164'),
-          threadUuid: this.get('uuid'),
-          groupId: this.get('groupId'),
-          type: response,
-        },
-        sendOptions
-      )
-    );
+    const groupId = this.get('groupId');
+    let groupIdBuffer;
+    if (groupId && this.isGroupV1()) {
+      groupIdBuffer = fromEncodedBinaryToArrayBuffer(groupId);
+    } else if (groupId && this.isGroupV2()) {
+      groupIdBuffer = base64ToArrayBuffer(groupId);
+    }
+
+    try {
+      await wrap(
+        window.textsecure.messaging.syncMessageRequestResponse(
+          {
+            threadE164: this.get('e164'),
+            threadUuid: this.get('uuid'),
+            groupId: groupIdBuffer,
+            type: response,
+          },
+          sendOptions
+        )
+      );
+    } catch (result) {
+      if (result instanceof Error) {
+        throw result;
+      } else if (result && result.errors) {
+        // We filter out unregistered user errors, because we ignore those in groups
+        const wasThereARealError = window._.some(
+          result.errors,
+          error => error.name !== 'UnregisteredUserError'
+        );
+        if (wasThereARealError) {
+          throw result;
+        }
+      }
+    }
   }
 
   onMessageError(): void {
@@ -1691,6 +1752,23 @@ export class ConversationModel extends window.Backbone.Model<
 
   getMessageRequestResponseType(): number {
     return this.get('messageRequestResponseType') || 0;
+  }
+
+  isMissingRequiredProfileSharing(): boolean {
+    const mandatoryProfileSharingEnabled = window.Signal.RemoteConfig.isEnabled(
+      'desktop.mandatoryProfileSharing'
+    );
+
+    if (!mandatoryProfileSharingEnabled) {
+      return false;
+    }
+
+    const hasNoMessages = (this.get('messageCount') || 0) === 0;
+    if (hasNoMessages) {
+      return false;
+    }
+
+    return !this.get('profileSharing');
   }
 
   /**
@@ -2675,8 +2753,7 @@ export class ConversationModel extends window.Backbone.Model<
         if (result) {
           await this.handleMessageSendResult(
             result.failoverIdentifiers,
-            result.unidentifiedDeliveries,
-            result.discoveredIdentifierPairs
+            result.unidentifiedDeliveries
           );
         }
         return result;
@@ -2686,8 +2763,7 @@ export class ConversationModel extends window.Backbone.Model<
         if (result) {
           await this.handleMessageSendResult(
             result.failoverIdentifiers,
-            result.unidentifiedDeliveries,
-            result.discoveredIdentifierPairs
+            result.unidentifiedDeliveries
           );
         }
         throw result;
@@ -2697,23 +2773,8 @@ export class ConversationModel extends window.Backbone.Model<
 
   async handleMessageSendResult(
     failoverIdentifiers: Array<string> | undefined,
-    unidentifiedDeliveries: Array<string> | undefined,
-    discoveredIdentifierPairs:
-      | Array<{
-          uuid: string | null;
-          e164: string | null;
-        }>
-      | undefined
+    unidentifiedDeliveries: Array<string> | undefined
   ): Promise<void> {
-    (discoveredIdentifierPairs || []).forEach(item => {
-      const { uuid, e164 } = item;
-      window.ConversationController.ensureContactIds({
-        uuid,
-        e164,
-        highTrust: true,
-      });
-    });
-
     await Promise.all(
       (failoverIdentifiers || []).map(async identifier => {
         const conversation = window.ConversationController.get(identifier);
@@ -2924,7 +2985,7 @@ export class ConversationModel extends window.Backbone.Model<
         (previewMessage ? previewMessage.getMessagePropStatus() : null) || null,
       timestamp,
       lastMessageDeletedForEveryone: previewMessage
-        ? previewMessage.deletedForEveryone
+        ? previewMessage.get('deletedForEveryone')
         : false,
     });
 
@@ -3864,20 +3925,19 @@ export class ConversationModel extends window.Backbone.Model<
     }
 
     const { migrateColor } = Util;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return migrateColor(this.get('color')!);
+    return migrateColor(this.get('color'));
   }
 
-  getAvatarPath(): string | null {
+  getAvatarPath(): string | undefined {
     const avatar = this.isMe()
       ? this.get('profileAvatar') || this.get('avatar')
       : this.get('avatar') || this.get('profileAvatar');
 
-    if (avatar && avatar.path) {
-      return getAbsoluteAttachmentPath(avatar.path);
+    if (!avatar || !avatar.path) {
+      return undefined;
     }
 
-    return null;
+    return getAbsoluteAttachmentPath(avatar.path);
   }
 
   canChangeTimer(): boolean {
@@ -4212,15 +4272,37 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
     this._byGroupId = Object.create(null);
   },
 
-  add(...models: Array<WhatIsThis>) {
-    const result = window.Backbone.Collection.prototype.add.apply(
-      this,
-      models as WhatIsThis
+  add(data: WhatIsThis | Array<WhatIsThis>) {
+    let hydratedData;
+
+    // First, we need to ensure that the data we're working with is Conversation models
+    if (Array.isArray(data)) {
+      hydratedData = [];
+      for (let i = 0, max = data.length; i < max; i += 1) {
+        const item = data[i];
+
+        // We create a new model if it's not already a model
+        if (!item.get) {
+          hydratedData.push(new Whisper.Conversation(item));
+        } else {
+          hydratedData.push(item);
+        }
+      }
+    } else if (!data.get) {
+      hydratedData = new Whisper.Conversation(data);
+    } else {
+      hydratedData = data;
+    }
+
+    // Next, we update our lookups first to prevent infinite loops on the 'add' event
+    this.generateLookups(
+      Array.isArray(hydratedData) ? hydratedData : [hydratedData]
     );
 
-    this.generateLookups(Array.isArray(result) ? result.slice(0) : [result]);
+    // Lastly, we fire off the add events related to this change
+    window.Backbone.Collection.prototype.add.call(this, hydratedData);
 
-    return result;
+    return hydratedData;
   },
 
   /**

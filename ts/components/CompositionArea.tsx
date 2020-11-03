@@ -16,12 +16,16 @@ import {
   MessageRequestActions,
   Props as MessageRequestActionsProps,
 } from './conversation/MessageRequestActions';
+import { MandatoryProfileSharingActions } from './conversation/MandatoryProfileSharingActions';
 import { countStickers } from './stickers/lib';
 import { LocalizerType } from '../types/Util';
 import { EmojiPickDataType } from './emoji/EmojiPicker';
 
 export type OwnProps = {
   readonly i18n: LocalizerType;
+  readonly areWePending?: boolean;
+  readonly groupVersion?: 1 | 2;
+  readonly isMissingMandatoryProfileSharing?: boolean;
   readonly messageRequestsEnabled?: boolean;
   readonly acceptedMessageRequest?: boolean;
   readonly compositionApi?: React.MutableRefObject<{
@@ -112,8 +116,11 @@ export const CompositionArea = ({
   clearShowPickerHint,
   // Message Requests
   acceptedMessageRequest,
+  areWePending,
   conversationType,
+  groupVersion,
   isBlocked,
+  isMissingMandatoryProfileSharing,
   messageRequestsEnabled,
   name,
   onAccept,
@@ -326,7 +333,10 @@ export const CompositionArea = ({
     };
   }, [setLarge]);
 
-  if ((!acceptedMessageRequest || isBlocked) && messageRequestsEnabled) {
+  if (
+    messageRequestsEnabled &&
+    (!acceptedMessageRequest || isBlocked || areWePending)
+  ) {
     return (
       <MessageRequestActions
         i18n={i18n}
@@ -335,6 +345,28 @@ export const CompositionArea = ({
         onBlock={onBlock}
         onBlockAndDelete={onBlockAndDelete}
         onUnblock={onUnblock}
+        onDelete={onDelete}
+        onAccept={onAccept}
+        name={name}
+        profileName={profileName}
+        phoneNumber={phoneNumber}
+        title={title}
+      />
+    );
+  }
+
+  // If no message request, but we haven't shared profile yet, we show profile-sharing UI
+  if (
+    (conversationType === 'direct' ||
+      (conversationType === 'group' && groupVersion === 1)) &&
+    isMissingMandatoryProfileSharing
+  ) {
+    return (
+      <MandatoryProfileSharingActions
+        i18n={i18n}
+        conversationType={conversationType}
+        onBlock={onBlock}
+        onBlockAndDelete={onBlockAndDelete}
         onDelete={onDelete}
         onAccept={onAccept}
         name={name}

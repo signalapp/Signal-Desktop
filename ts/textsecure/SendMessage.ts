@@ -67,16 +67,17 @@ export type SendOptionsType = {
   online?: boolean;
 };
 
+export interface CustomError extends Error {
+  identifier?: string;
+  number?: string;
+}
+
 export type CallbackResultType = {
   successfulIdentifiers?: Array<any>;
   failoverIdentifiers?: Array<any>;
-  errors?: Array<any>;
+  errors?: Array<CustomError>;
   unidentifiedDeliveries?: Array<any>;
   dataMessage?: ArrayBuffer;
-  discoveredIdentifierPairs: Array<{
-    e164: string;
-    uuid: string | null;
-  }>;
 };
 
 type PreviewType = {
@@ -1216,7 +1217,7 @@ export default class MessageSender {
     responseArgs: {
       threadE164?: string;
       threadUuid?: string;
-      groupId?: string;
+      groupId?: ArrayBuffer;
       type: number;
     },
     sendOptions?: SendOptionsType
@@ -1231,13 +1232,9 @@ export default class MessageSender {
     const syncMessage = this.createSyncMessage();
 
     const response = new window.textsecure.protobuf.SyncMessage.MessageRequestResponse();
-    response.threadE164 = responseArgs.threadE164;
-    response.threadUuid = responseArgs.threadUuid;
-    response.groupId = responseArgs.groupId
-      ? window.Signal.Crypto.fromEncodedBinaryToArrayBuffer(
-          responseArgs.groupId
-        )
-      : null;
+    response.threadE164 = responseArgs.threadE164 || null;
+    response.threadUuid = responseArgs.threadUuid || null;
+    response.groupId = responseArgs.groupId || null;
     response.type = responseArgs.type;
     syncMessage.messageRequestResponse = response;
 
@@ -1382,7 +1379,6 @@ export default class MessageSender {
     if (identifiers.length === 0) {
       return Promise.resolve({
         dataMessage: proto.toArrayBuffer(),
-        discoveredIdentifierPairs: [],
         errors: [],
         failoverIdentifiers: [],
         successfulIdentifiers: [],
@@ -1656,7 +1652,6 @@ export default class MessageSender {
         errors: [],
         unidentifiedDeliveries: [],
         dataMessage: await this.getMessageProtoObj(attrs),
-        discoveredIdentifierPairs: [],
       });
     }
 
@@ -1730,7 +1725,6 @@ export default class MessageSender {
         errors: [],
         unidentifiedDeliveries: [],
         dataMessage: await this.getMessageProtoObj(attrs),
-        discoveredIdentifierPairs: [],
       });
     }
 

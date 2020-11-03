@@ -14,7 +14,7 @@
     forMessage(message) {
       const matchingDeletes = this.filter({
         targetSentTimestamp: message.get('sent_at'),
-        fromId: message.getContact().get('id'),
+        fromId: message.getContactId(),
       });
 
       if (matchingDeletes.length > 0) {
@@ -25,14 +25,18 @@
 
       return [];
     },
-    onDelete(del) {
+    async onDelete(del) {
       try {
-        // The contact the delete message came from
-        const fromContact = ConversationController.get(del.get('fromId'));
+        // The conversation the deleted message was in; we have to find it in the database
+        //   to to figure that out.
+        const targetConversation = await ConversationController.getConversationForTargetMessage(
+          del.get('fromId'),
+          del.get('targetSentTimestamp')
+        );
 
-        if (!fromContact) {
+        if (!targetConversation) {
           window.log.info(
-            'No contact for DOE',
+            'No target conversation for DOE',
             del.get('fromId'),
             del.get('targetSentTimestamp')
           );
@@ -41,7 +45,7 @@
         }
 
         // Do not await, since this can deadlock the queue
-        fromContact.queueJob(async () => {
+        targetConversation.queueJob(async () => {
           window.log.info('Handling DOE for', del.get('targetSentTimestamp'));
 
           const messages = await window.Signal.Data.getMessagesBySentAt(
@@ -51,16 +55,9 @@
             }
           );
 
-          const targetMessage = messages.find(m => {
-            const messageContact = m.getContact();
-
-            if (!messageContact) {
-              return false;
-            }
-
-            // Find messages which are from the same contact who sent the DOE
-            return messageContact.get('id') === fromContact.get('id');
-          });
+          const targetMessage = messages.find(
+            m => del.get('fromId') === m.getContactId()
+          );
 
           if (!targetMessage) {
             window.log.info(

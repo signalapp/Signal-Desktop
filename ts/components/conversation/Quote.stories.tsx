@@ -20,6 +20,7 @@ const defaultMessageProps: MessagesProps = {
   authorTitle: 'Person X',
   canReply: true,
   canDeleteForEveryone: true,
+  canDownload: true,
   clearSelectedMessage: () => null,
   conversationId: 'conversationId',
   conversationType: 'direct', // override

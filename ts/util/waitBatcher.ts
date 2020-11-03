@@ -1,5 +1,7 @@
 import PQueue from 'p-queue';
 
+import { sleep } from './sleep';
+
 declare global {
   interface Window {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -38,10 +40,6 @@ type BatcherType<ItemType> = {
   onIdle: () => Promise<void>;
   unregister: () => void;
 };
-
-async function sleep(ms: number): Promise<void> {
-  await new Promise(resolve => setTimeout(resolve, ms));
-}
 
 export function createWaitBatcher<ItemType>(
   options: BatcherOptionsType<ItemType>

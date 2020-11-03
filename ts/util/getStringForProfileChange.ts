@@ -1,15 +1,18 @@
 import { LocalizerType } from '../types/Util';
-import { ConversationType } from '../state/ducks/conversations';
 
 export type ProfileNameChangeType = {
   type: 'name';
   oldName: string;
   newName: string;
 };
+type ContactType = {
+  title: string;
+  name?: string;
+};
 
 export function getStringForProfileChange(
   change: ProfileNameChangeType,
-  changedContact: ConversationType,
+  changedContact: ContactType,
   i18n: LocalizerType
 ): string {
   if (change.type === 'name') {

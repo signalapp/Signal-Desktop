@@ -117,14 +117,7 @@ export class CallingClass {
       return;
     }
 
-    const conversationProps = conversation.cachedProps;
-
-    if (!conversationProps) {
-      window.log.error(
-        'CallingClass.startCallingLobby(): No conversation props?'
-      );
-      return;
-    }
+    const conversationProps = conversation.format();
 
     window.log.info('CallingClass.startCallingLobby(): Starting lobby');
     this.uxActions.showCallLobby({
@@ -405,27 +398,23 @@ export class CallingClass {
     available: Array<AudioDevice>,
     preferred: AudioDevice | undefined
   ): number | undefined {
-    if (!preferred) {
-      // No preference stored
-      return undefined;
-    }
-    // Match by uniqueId first, if available
-    if (preferred.uniqueId) {
-      const matchIndex = available.findIndex(
-        d => d.uniqueId === preferred.uniqueId
-      );
-      if (matchIndex !== -1) {
-        return matchIndex;
+    if (preferred) {
+      // Match by uniqueId first, if available
+      if (preferred.uniqueId) {
+        const matchIndex = available.findIndex(
+          d => d.uniqueId === preferred.uniqueId
+        );
+        if (matchIndex !== -1) {
+          return matchIndex;
+        }
+      }
+      // Match by name second
+      const matchingNames = available.filter(d => d.name === preferred.name);
+      if (matchingNames.length > 0) {
+        return matchingNames[0].index;
       }
     }
-
-    // Match by name second
-    const matchingNames = available.filter(d => d.name === preferred.name);
-    if (matchingNames.length > 0) {
-      return matchingNames[0].index;
-    }
-
-    // Nothing matches; take the first device if there are any
+    // Nothing matches or no preference; take the first device if there are any
     return available.length > 0 ? 0 : undefined;
   }
 
@@ -829,10 +818,7 @@ export class CallingClass {
     conversation: ConversationModel,
     call: Call
   ): CallDetailsType {
-    const conversationProps = conversation.cachedProps;
-    if (!conversationProps) {
-      throw new Error('getAcceptedCallDetails: No conversation props?');
-    }
+    const conversationProps = conversation.format();
 
     return {
       ...conversationProps,

@@ -39,7 +39,7 @@ export type PropsData = {
   unreadCount?: number;
   isSelected: boolean;
 
-  isAccepted?: boolean;
+  acceptedMessageRequest?: boolean;
   draftPreview?: string;
   shouldShowDraft?: boolean;
 
@@ -167,7 +167,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
     const {
       draftPreview,
       i18n,
-      isAccepted,
+      acceptedMessageRequest,
       lastMessage,
       muteExpiresAt,
       shouldShowDraft,
@@ -209,7 +209,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
           {muteExpiresAt && Date.now() < muteExpiresAt && (
             <span className="module-conversation-list-item__muted" />
           )}
-          {!isAccepted ? (
+          {!acceptedMessageRequest ? (
             <span className="module-conversation-list-item__message-request">
               {i18n('ConversationListItem--message-request')}
             </span>
@@ -225,13 +225,14 @@ export class ConversationListItem extends React.PureComponent<Props> {
                 <span className="module-conversation-list-item__message__deleted-for-everyone">
                   {i18n('message--deletedForEveryone')}
                 </span>
-              ) : null}
-              <MessageBody
-                text={text.split('\n')[0]}
-                disableJumbomoji
-                disableLinks
-                i18n={i18n}
-              />
+              ) : (
+                <MessageBody
+                  text={text.split('\n')[0]}
+                  disableJumbomoji
+                  disableLinks
+                  i18n={i18n}
+                />
+              )}
             </>
           )}
         </div>

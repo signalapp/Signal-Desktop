@@ -1107,10 +1107,10 @@ export declare namespace SyncMessageClass {
   }
 
   class MessageRequestResponse {
-    threadE164?: string;
-    threadUuid?: string;
-    groupId?: ProtoBinaryType;
-    type?: number;
+    threadE164: string | null;
+    threadUuid: string | null;
+    groupId: ProtoBinaryType | null;
+    type: number | null;
   }
 }
 
