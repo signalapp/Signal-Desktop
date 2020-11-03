@@ -108,8 +108,8 @@ export class SessionConversation extends React.Component<Props, State> {
     this.dragCounter = 0;
 
     // Group settings panel
-    this.toggleGroupSettingsPane = this.toggleGroupSettingsPane.bind(this);
-    this.getGroupSettingsProps = this.getGroupSettingsProps.bind(this);
+    this.toggleRightPanel = this.toggleRightPanel.bind(this);
+    this.getRightPanelProps = this.getRightPanelProps.bind(this);
 
     // Recording view
     this.onLoadVoiceNoteView = this.onLoadVoiceNoteView.bind(this);
@@ -232,8 +232,7 @@ export class SessionConversation extends React.Component<Props, State> {
     // TODO VINCE: OPTIMISE FOR NEW SENDING???
     const sendMessageFn = conversationModel.sendMessage.bind(conversationModel);
 
-    const shouldRenderGroupSettings =
-      !conversationModel.isPrivate() && !conversationModel.isRss();
+    const shouldRenderRightPanel = !conversationModel.isRss();
 
     const showSafetyNumber = this.state.infoViewState === 'safetyNumber';
     const showMessageDetails = this.state.infoViewState === 'messageDetails';
@@ -307,14 +306,14 @@ export class SessionConversation extends React.Component<Props, State> {
           )}
         </div>
 
-        {shouldRenderGroupSettings && (
+        {shouldRenderRightPanel && (
           <div
             className={classNames(
               'conversation-item__options-pane',
               showOptionsPane && 'show'
             )}
           >
-            <SessionRightPanelWithDetails {...this.getGroupSettingsProps()} />
+            <SessionRightPanelWithDetails {...this.getRightPanelProps()} />
           </div>
         )}
       </SessionTheme>
@@ -485,12 +484,8 @@ export class SessionConversation extends React.Component<Props, State> {
       },
 
       onAvatarClick: (pubkey: any) => {
-        if (conversation.isPrivate()) {
-          window.Whisper.events.trigger('onShowUserDetails', {
-            userPubKey: pubkey,
-          });
-        } else if (!conversation.isRss()) {
-          this.toggleGroupSettingsPane();
+        if (!conversation.isRss()) {
+          this.toggleRightPanel();
         }
       },
     };
@@ -525,7 +520,7 @@ export class SessionConversation extends React.Component<Props, State> {
     };
   }
 
-  public getGroupSettingsProps() {
+  public getRightPanelProps() {
     const { conversationKey } = this.props;
     const conversation = window.ConversationController.getOrThrow(
       conversationKey
@@ -567,7 +562,7 @@ export class SessionConversation extends React.Component<Props, State> {
       },
 
       onGoBack: () => {
-        this.toggleGroupSettingsPane();
+        this.toggleRightPanel();
       },
 
       onUpdateGroupName: () => {
@@ -589,7 +584,7 @@ export class SessionConversation extends React.Component<Props, State> {
     };
   }
 
-  public toggleGroupSettingsPane() {
+  public toggleRightPanel() {
     const { showOptionsPane } = this.state;
     this.setState({ showOptionsPane: !showOptionsPane });
   }

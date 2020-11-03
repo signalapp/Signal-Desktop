@@ -12,7 +12,7 @@
 */
 
 // eslint-disable-next-line func-names
-(function() {
+(function () {
   'use strict';
 
   window.Whisper = window.Whisper || {};
@@ -131,171 +131,6 @@
         this.toggleMicrophone()
       );
 
-      const getHeaderProps = () => {
-        const expireTimer = this.model.get('expireTimer');
-        const expirationSettingName = expireTimer
-          ? Whisper.ExpirationTimerOptions.getName(expireTimer || 0)
-          : null;
-
-        const members = this.model.get('members') || [];
-
-        return {
-          id: this.model.id,
-          name: this.model.getName(),
-          phoneNumber: this.model.getNumber(),
-          profileName: this.model.getProfileName(),
-          avatarPath: this.model.getAvatarPath(),
-          isVerified: this.model.isVerified(),
-          isMe: this.model.isMe(),
-          isClosable: this.model.isClosable(),
-          isBlocked: this.model.isBlocked(),
-          isGroup: !this.model.isPrivate(),
-          isPrivate: this.model.isPrivate(),
-          isOnline: this.model.isOnline(),
-          isArchived: this.model.get('isArchived'),
-          isPublic: this.model.isPublic(),
-          isRss: this.model.isRss(),
-          amMod: this.model.isModerator(
-            window.storage.get('primaryDevicePubKey')
-          ),
-          members,
-          subscriberCount: this.model.get('subscriberCount'),
-          selectedMessages: this.model.selectedMessages,
-          expirationSettingName,
-          showBackButton: Boolean(this.panels && this.panels.length),
-          timerOptions: Whisper.ExpirationTimerOptions.map(item => ({
-            name: item.getName(),
-            value: item.get('seconds'),
-          })),
-          hasNickname: !!this.model.getNickname(),
-          isKickedFromGroup: this.model.get('isKickedFromGroup'),
-
-          onSetDisappearingMessages: seconds =>
-            this.setDisappearingMessages(seconds),
-          onDeleteMessages: () => this.destroyMessages(),
-          onDeleteSelectedMessages: () => this.deleteSelectedMessages(),
-          onCloseOverlay: () => this.model.resetMessageSelection(),
-          onDeleteContact: () => this.model.deleteContact(),
-          onResetSession: () => this.endSession(),
-
-          // These are view only and don't update the Conversation model, so they
-          //   need a manual update call.
-          onShowSafetyNumber: () => {
-            this.showSafetyNumber();
-          },
-          onGoBack: () => {
-            this.resetPanel();
-            this.updateHeader();
-          },
-
-          onBlockUser: () => {
-            this.model.block();
-          },
-          onUnblockUser: () => {
-            this.model.unblock();
-          },
-          onCopyPublicKey: () => {
-            this.model.copyPublicKey();
-          },
-          onArchive: () => {
-            this.unload('archive');
-            this.model.setArchived(true);
-          },
-          onLeaveGroup: () => {
-            window.Whisper.events.trigger('leaveGroup', this.model);
-          },
-
-          onInviteContacts: () => {
-            window.Whisper.events.trigger('inviteContacts', this.model);
-          },
-
-          onUpdateGroupName: () => {
-            window.Whisper.events.trigger('updateGroupName', this.model);
-          },
-
-          onAddModerators: () => {
-            window.Whisper.events.trigger('addModerators', this.model);
-          },
-
-          onRemoveModerators: () => {
-            window.Whisper.events.trigger('removeModerators', this.model);
-          },
-
-          onAvatarClick: pubkey => {
-            if (this.model.isPrivate()) {
-              window.Whisper.events.trigger('onShowUserDetails', {
-                userPubKey: pubkey,
-              });
-            } else if (!this.model.isRss()) {
-              this.showGroupSettings();
-            }
-          },
-        };
-      };
-      const getGroupSettingsProps = () => {
-        const members = this.model.get('members') || [];
-        const ourPK = window.textsecure.storage.user.getNumber();
-        const isAdmin = this.model.isMediumGroup()
-          ? true
-          : this.model.get('groupAdmins').includes(ourPK);
-
-        return {
-          id: this.model.id,
-          name: this.model.getName(),
-          phoneNumber: this.model.getNumber(),
-          profileName: this.model.getProfileName(),
-          avatarPath: this.model.getAvatarPath(),
-          isGroup: !this.model.isPrivate(),
-          isPublic: this.model.isPublic(),
-          isAdmin,
-          isRss: this.model.isRss(),
-          memberCount: members.length,
-          amMod: this.model.isModerator(
-            window.storage.get('primaryDevicePubKey')
-          ),
-          isKickedFromGroup: this.model.get('isKickedFromGroup'),
-          isBlocked: this.model.isBlocked(),
-
-          timerOptions: Whisper.ExpirationTimerOptions.map(item => ({
-            name: item.getName(),
-            value: item.get('seconds'),
-          })),
-
-          onSetDisappearingMessages: seconds =>
-            this.setDisappearingMessages(seconds),
-
-          onGoBack: () => {
-            this.hideConversationRight();
-          },
-
-          onUpdateGroupName: () => {
-            window.Whisper.events.trigger('updateGroupName', this.model);
-          },
-          onUpdateGroupMembers: () => {
-            window.Whisper.events.trigger('updateGroupMembers', this.model);
-          },
-
-          onLeaveGroup: () => {
-            window.Whisper.events.trigger('leaveGroup', this.model);
-          },
-
-          onInviteContacts: () => {
-            window.Whisper.events.trigger('inviteContacts', this.model);
-          },
-          onShowLightBox: (lightBoxOptions = {}) => {
-            this.showChannelLightbox(lightBoxOptions);
-          },
-        };
-      };
-      this.titleView = new Whisper.ReactWrapperView({
-        className: 'title-wrapper',
-        Component: window.Signal.Components.ConversationHeaderWithDetails,
-        props: getHeaderProps(),
-      });
-      this.updateHeader = () => this.titleView.update(getHeaderProps());
-      this.listenTo(this.model, 'change', this.updateHeader);
-      this.$('.conversation-header').append(this.titleView.el);
-
       this.view = new Whisper.MessageListView({
         collection: this.model.messageCollection,
         window: this.window,
@@ -307,39 +142,6 @@
         el: this.$('.member-list-container'),
         onClicked: this.selectMember.bind(this),
       });
-
-      this.hideConversationRight = () => {
-        this.$('.conversation-content-right').css({
-          'margin-inline-end': '-22vw',
-        });
-      };
-      this.showConversationRight = () => {
-        this.$('.conversation-content-right').css({
-          'margin-inline-end': '0vw',
-        });
-      };
-
-      this.showGroupSettings = () => {
-        if (!this.groupSettings) {
-          this.groupSettings = new Whisper.ReactWrapperView({
-            className: 'group-settings',
-            Component: window.Signal.Components.SessionRightPanelWithDetails,
-            props: getGroupSettingsProps(this.model),
-          });
-          this.$('.conversation-content-right').append(this.groupSettings.el);
-          this.updateGroupSettingsPanel = () =>
-            this.groupSettings.update(getGroupSettingsProps(this.model));
-          this.listenTo(this.model, 'change', this.updateGroupSettingsPanel);
-        } else {
-          this.groupSettings.update(getGroupSettingsProps(this.model));
-        }
-
-        this.showConversationRight();
-      };
-
-      this.hideGroupSettings = () => {
-        this.showConversationRight();
-      };
 
       this.memberView.render();
 
@@ -506,7 +308,6 @@
       );
 
       this.fileInput.remove();
-      this.titleView.remove();
 
       if (this.captureAudioView) {
         this.captureAudioView.remove();

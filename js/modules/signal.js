@@ -29,12 +29,6 @@ const {
 const { ContactListItem } = require('../../ts/components/ContactListItem');
 const { ContactName } = require('../../ts/components/conversation/ContactName');
 const {
-  ConversationHeaderWithDetails,
-} = require('../../ts/components/conversation/ConversationHeader');
-const {
-  SessionRightPanelWithDetails,
-} = require('../../ts/components/session/conversation/SessionRightPanel');
-const {
   EmbeddedContact,
 } = require('../../ts/components/conversation/EmbeddedContact');
 const { Emojify } = require('../../ts/components/conversation/Emojify');
@@ -270,8 +264,6 @@ exports.setup = (options = {}) => {
     ContactDetail,
     ContactListItem,
     ContactName,
-    ConversationHeaderWithDetails,
-    SessionRightPanelWithDetails,
     SettingsView,
     EmbeddedContact,
     Emojify,

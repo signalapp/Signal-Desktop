@@ -19,7 +19,9 @@ import { save } from '../../../types/Attachment';
 
 interface Props {
   id: string;
-  name: string;
+  name?: string;
+  profileName?: string;
+  phoneNumber: string;
   memberCount: number;
   description: string;
   avatarPath: string;
@@ -29,6 +31,7 @@ interface Props {
   amMod: boolean;
   isKickedFromGroup: boolean;
   isBlocked: boolean;
+  isGroup: boolean;
   memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
 
   onGoBack: () => void;
@@ -237,6 +240,7 @@ class SessionRightPanel extends React.Component<Props, State> {
       isAdmin,
       amMod,
       isBlocked,
+      isGroup,
     } = this.props;
     const { documents, media, onItemClick } = this.state;
     const showMemberCount = !!(memberCount && memberCount > 0);
@@ -316,12 +320,14 @@ class SessionRightPanel extends React.Component<Props, State> {
           media={media}
           onItemClick={onItemClick}
         />
-        <SessionButton
-          text={leaveGroupString}
-          buttonColor={SessionButtonColor.Danger}
-          buttonType={SessionButtonType.SquareOutline}
-          onClick={onLeaveGroup}
-        />
+        {isGroup && (
+          <SessionButton
+            text={leaveGroupString}
+            buttonColor={SessionButtonColor.Danger}
+            buttonType={SessionButtonType.SquareOutline}
+            onClick={onLeaveGroup}
+          />
+        )}
       </div>
     );
   }
@@ -337,12 +343,15 @@ class SessionRightPanel extends React.Component<Props, State> {
       isPublic,
       isKickedFromGroup,
       isBlocked,
+      name,
+      profileName,
+      phoneNumber,
     } = this.props;
 
     const showInviteContacts =
       (isPublic || isAdmin) && !isKickedFromGroup && !isBlocked;
+    const userName = name || profileName || phoneNumber;
 
-    const userName = id;
     return (
       <div className="group-settings-header">
         <SessionIconButton
