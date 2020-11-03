@@ -117,7 +117,7 @@ const localeMessages = ipc.sendSync('locale-data');
 
 window.blake2b = input =>
   new Promise((resolve, reject) => {
-    ipc.once('blake2b-digest-response', (event, error, res) => {
+    ipc.once('blake2b-digest-response', (_, error, res) => {
       // eslint-disable-next-line no-unused-expressions
       error ? reject(error) : resolve(res);
     });
@@ -127,12 +127,22 @@ window.blake2b = input =>
 
 window.decryptLnsEntry = (key, value) =>
   new Promise((resolve, reject) => {
-    ipc.once('decrypt-lns-response', (event, error, res) => {
+    ipc.once('decrypt-lns-response', (_, error, res) => {
       // eslint-disable-next-line no-unused-expressions
       error ? reject(error) : resolve(res);
     });
 
     ipc.send('decrypt-lns-entry', key, value);
+  });
+
+window.sessionGenerateKeyPair = seed =>
+  new Promise((resolve, reject) => {
+    ipc.once('generate-keypair-seed-response', (_, error, res) => {
+      // eslint-disable-next-line no-unused-expressions
+      error ? reject(error) : resolve(res);
+    });
+
+    ipc.send('generate-keypair-seed', seed);
   });
 
 window.updateZoomFactor = () => {

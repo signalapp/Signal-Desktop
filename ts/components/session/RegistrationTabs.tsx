@@ -174,14 +174,14 @@ export class RegistrationTabs extends React.Component<{}, State> {
       // handle shorter than 32 bytes seeds
       const privKeyHexLength = 32 * 2;
       if (seedHex.length !== privKeyHexLength) {
-        seedHex = seedHex.concat(seedHex);
+        seedHex = seedHex.concat('0'.repeat(32));
         seedHex = seedHex.substring(0, privKeyHexLength);
       }
       const seed = window.dcodeIO.ByteBuffer.wrap(
         seedHex,
         'hex'
       ).toArrayBuffer();
-      const keyPair = await window.libsignal.Curve.async.createKeyPair(seed);
+      const keyPair = await window.sessionGenerateKeyPair(seed);
       const hexGeneratedPubKey = StringUtils.decode(keyPair.pubKey, 'hex');
 
       this.setState({
@@ -297,9 +297,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
 
             {this.renderRegistrationContent()}
             <SessionButton
-              onClick={() => {
-                this.onCompleteSignUpClick();
-              }}
+              onClick={this.onCompleteSignUpClick}
               buttonType={SessionButtonType.Brand}
               buttonColor={SessionButtonColor.Green}
               text={window.i18n('getStarted')}

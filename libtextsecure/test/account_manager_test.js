@@ -29,22 +29,6 @@ describe('AccountManager', () => {
       window.textsecure.storage.protocol = originalProtocolStorage;
     });
 
-    describe('encrypted device name', () => {
-      it('roundtrips', async () => {
-        const deviceName = 'v2.5.0 on Ubunto 20.04';
-        const encrypted = await accountManager.encryptDeviceName(deviceName);
-        assert.strictEqual(typeof encrypted, 'string');
-        const decrypted = await accountManager.decryptDeviceName(encrypted);
-
-        assert.strictEqual(decrypted, deviceName);
-      });
-
-      it('handles null deviceName', async () => {
-        const encrypted = await accountManager.encryptDeviceName(null);
-        assert.strictEqual(encrypted, null);
-      });
-    });
-
     it('keeps three confirmed keys even if over a week old', () => {
       const now = Date.now();
       signedPreKeys = [
