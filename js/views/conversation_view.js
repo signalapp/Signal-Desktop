@@ -12,7 +12,7 @@
 */
 
 // eslint-disable-next-line func-names
-(function () {
+(function() {
   'use strict';
 
   window.Whisper = window.Whisper || {};

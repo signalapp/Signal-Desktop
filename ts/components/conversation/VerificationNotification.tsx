@@ -13,14 +13,19 @@ interface Contact {
 }
 
 type Props = {
+  // tslint:disable: react-unused-props-and-state
   type: 'markVerified' | 'markNotVerified';
   isLocal: boolean;
   contact: Contact;
 };
 
 export const VerificationNotification = (props: Props) => {
+  const { type } = props;
+  const suffix =
+    type === 'markVerified' ? 'mark-verified' : 'mark-not-verified';
+
   const getStringId = () => {
-    const { isLocal, type } = props;
+    const { isLocal } = props;
 
     switch (type) {
       case 'markVerified':
@@ -59,10 +64,6 @@ export const VerificationNotification = (props: Props) => {
       />
     );
   };
-
-  const { type } = props;
-  const suffix =
-    type === 'markVerified' ? 'mark-verified' : 'mark-not-verified';
 
   return (
     <div className="module-verification-notification">

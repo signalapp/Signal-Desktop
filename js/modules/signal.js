@@ -108,17 +108,11 @@ const {
 } = require('../../ts/components/conversation/MessageDetail');
 const { Quote } = require('../../ts/components/conversation/Quote');
 const {
-  ResetSessionNotification,
-} = require('../../ts/components/conversation/ResetSessionNotification');
-const {
   TimerNotification,
 } = require('../../ts/components/conversation/TimerNotification');
 const {
   TypingBubble,
 } = require('../../ts/components/conversation/TypingBubble');
-const {
-  VerificationNotification,
-} = require('../../ts/components/conversation/VerificationNotification');
 
 // State
 const { createLeftPane } = require('../../ts/state/roots/createLeftPane');
@@ -297,13 +291,11 @@ exports.setup = (options = {}) => {
     MessageBody,
     MessageDetail,
     Quote,
-    ResetSessionNotification,
     TimerNotification,
     Types: {
       Message: MediaGalleryMessage,
     },
     TypingBubble,
-    VerificationNotification,
   };
 
   const Roots = {

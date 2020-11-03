@@ -1121,7 +1121,10 @@ label {
       max-width: 90%;
       width: 600px;
 
-      background-color: $session-shade-4;
+      @include themify($themes) {
+        background: themed('composeViewBackground');
+        color: themed('textColor');
+      }
       border: 1px solid $session-shade-8;
       border-radius: 5px;
 
@@ -1132,8 +1135,10 @@ label {
 
       input {
         width: 100%;
-        color: $session-color-white;
-        background-color: $session-shade-7;
+        @include themify($themes) {
+          background: themed('inputBackground');
+          color: themed('textColor');
+        }
         padding: $session-margin-xs $session-margin-md;
         margin-bottom: $session-margin-lg;
         outline: none;

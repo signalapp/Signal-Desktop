@@ -42,19 +42,6 @@
       this.onUnload();
     },
     getRenderInfo() {
-      const { Components } = window.Signal;
-
-      if (this.model.propsForVerificationNotification) {
-        return {
-          Component: Components.VerificationNotification,
-          props: this.model.propsForVerificationNotification,
-        };
-      } else if (this.model.isSessionRestoration()) {
-        return {
-          Component: Components.ResetSessionNotification,
-          props: this.model.getPropsForResetSessionNotification(),
-        };
-      }
       return null;
     },
     render() {
