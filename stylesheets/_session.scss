@@ -1507,7 +1507,10 @@ input {
   align-items: center;
   padding-top: $session-margin-lg;
   text-align: center;
-
+  @include themify($themes) {
+    background: themed('inboxBackground');
+    color: themed('textColor');
+  }
   &__header {
     word-break: break-all;
 
@@ -1525,6 +1528,7 @@ input {
     font-family: $session-font-mono;
     margin: 30px 0;
     width: 250px;
+    color: white;
   }
 
   &__is-verified {

@@ -3,7 +3,6 @@ import React from 'react';
 
 import { ContactName } from './ContactName';
 import { Intl } from '../Intl';
-import { LocalizerType } from '../../types/Util';
 
 import { missingCaseError } from '../../util/missingCaseError';
 
@@ -13,16 +12,15 @@ interface Contact {
   name?: string;
 }
 
-interface Props {
+type Props = {
   type: 'markVerified' | 'markNotVerified';
   isLocal: boolean;
   contact: Contact;
-  i18n: LocalizerType;
-}
+};
 
-export class VerificationNotification extends React.Component<Props> {
-  public getStringId() {
-    const { isLocal, type } = this.props;
+export const VerificationNotification = (props: Props) => {
+  const getStringId = () => {
+    const { isLocal, type } = props;
 
     switch (type) {
       case 'markVerified':
@@ -36,11 +34,12 @@ export class VerificationNotification extends React.Component<Props> {
       default:
         throw missingCaseError(type);
     }
-  }
+  };
 
-  public renderContents() {
-    const { contact, i18n } = this.props;
-    const id = this.getStringId();
+  const renderContents = () => {
+    const { contact } = props;
+    const { i18n } = window;
+    const id = getStringId();
 
     return (
       <Intl
@@ -59,18 +58,16 @@ export class VerificationNotification extends React.Component<Props> {
         i18n={i18n}
       />
     );
-  }
+  };
 
-  public render() {
-    const { type } = this.props;
-    const suffix =
-      type === 'markVerified' ? 'mark-verified' : 'mark-not-verified';
+  const { type } = props;
+  const suffix =
+    type === 'markVerified' ? 'mark-verified' : 'mark-not-verified';
 
-    return (
-      <div className="module-verification-notification">
-        <div className={`module-verification-notification__icon--${suffix}`} />
-        {this.renderContents()}
-      </div>
-    );
-  }
-}
+  return (
+    <div className="module-verification-notification">
+      <div className={`module-verification-notification__icon--${suffix}`} />
+      {renderContents()}
+    </div>
+  );
+};

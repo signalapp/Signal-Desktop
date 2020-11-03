@@ -60,5 +60,6 @@ export interface MessageModel extends Backbone.Model<MessageAttributes> {
   propsForResetSessionNotification?: any;
   propsForGroupInvitation?: any;
   propsForGroupNotification?: any;
+  propsForVerificationNotification?: any;
   firstMessageOfSeries: boolean;
 }

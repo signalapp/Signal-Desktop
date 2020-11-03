@@ -130,10 +130,10 @@ export class SessionConversation extends React.Component<Props, State> {
     this.onClickAttachment = this.onClickAttachment.bind(this);
     this.downloadAttachment = this.downloadAttachment.bind(this);
     this.refreshMessages = this.refreshMessages.bind(this);
-    this.getMessages = _.throttle(
-      this.getMessages.bind(this),
-      1000 // one second
-    );
+    // this.getMessages = _.throttle(
+    //   this.getMessages.bind(this),
+    //   1000 // one second
+    // );
 
     // Keyboard navigation
     this.onKeyDown = this.onKeyDown.bind(this);
@@ -219,6 +219,7 @@ export class SessionConversation extends React.Component<Props, State> {
       selectedMessages,
       isDraggingFile,
       stagedAttachments,
+      initialFetchComplete,
     } = this.state;
     const selectionMode = !!selectedMessages.length;
 
@@ -273,7 +274,11 @@ export class SessionConversation extends React.Component<Props, State> {
           {lightBoxOptions?.media && this.renderLightBox(lightBoxOptions)}
 
           <div className="conversation-messages">
-            <SessionConversationMessagesList {...this.getMessagesListProps()} />
+            {initialFetchComplete && (
+              <SessionConversationMessagesList
+                {...this.getMessagesListProps()}
+              />
+            )}
 
             {showRecordingView && (
               <div className="conversation-messages__blocking-overlay" />

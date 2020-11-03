@@ -14,6 +14,7 @@ import { GroupInvitation } from '../../conversation/GroupInvitation';
 import { ConversationType } from '../../../state/ducks/conversations';
 import { MessageModel } from '../../../../js/models/messages';
 import { SessionLastSeenIndicator } from './SessionLastSeedIndicator';
+import { VerificationNotification } from '../../conversation/VerificationNotification';
 
 interface State {
   isScrolledToBottom: boolean;
@@ -126,6 +127,8 @@ export class SessionConversationMessagesList extends React.Component<
 
           const timerProps = message.propsForTimerNotification;
           const resetSessionProps = message.propsForResetSessionNotification;
+          const verificationSessionProps =
+            message.propsForVerificationNotification;
           const propsForGroupInvitation = message.propsForGroupInvitation;
 
           const groupNotificationProps = message.propsForGroupNotification;
@@ -139,6 +142,7 @@ export class SessionConversationMessagesList extends React.Component<
           ) {
             unreadIndicator = <SessionLastSeenIndicator count={unreadCount} />;
           }
+
           currentMessageIndex = currentMessageIndex + 1;
 
           if (groupNotificationProps) {
@@ -155,6 +159,15 @@ export class SessionConversationMessagesList extends React.Component<
               <>
                 {unreadIndicator}
                 <GroupInvitation {...propsForGroupInvitation} />
+              </>
+            );
+          }
+
+          if (verificationSessionProps) {
+            return (
+              <>
+                {unreadIndicator}
+                <VerificationNotification {...verificationSessionProps} />
               </>
             );
           }
@@ -186,7 +199,7 @@ export class SessionConversationMessagesList extends React.Component<
                 messageProps,
                 message.firstMessageOfSeries,
                 multiSelectMode
-              )}{' '}
+              )}
             </>
           );
         })}

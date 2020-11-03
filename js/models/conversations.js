@@ -52,20 +52,6 @@
     request_received: 2,
   });
 
-  const COLORS = [
-    'red',
-    'deep_orange',
-    'brown',
-    'pink',
-    'purple',
-    'indigo',
-    'blue',
-    'teal',
-    'green',
-    'light_green',
-    'blue_grey',
-  ];
-
   Whisper.Conversation = Backbone.Model.extend({
     storeName: 'conversations',
     defaults() {
@@ -2609,6 +2595,4 @@
       this.reset([]);
     },
   });
-
-  Whisper.Conversation.COLORS = COLORS.concat(['grey', 'default']).join(' ');
 })();
