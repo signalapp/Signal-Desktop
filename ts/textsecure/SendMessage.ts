@@ -123,6 +123,7 @@ type MessageOptionsType = {
   reaction?: any;
   deletedForEveryoneTimestamp?: number;
   timestamp: number;
+  mentions?: BodyRangesType;
 };
 
 class Message {
@@ -163,6 +164,8 @@ class Message {
 
   deletedForEveryoneTimestamp?: number;
 
+  mentions?: BodyRangesType;
+
   constructor(options: MessageOptionsType) {
     this.attachments = options.attachments || [];
     this.body = options.body;
@@ -179,6 +182,7 @@ class Message {
     this.reaction = options.reaction;
     this.timestamp = options.timestamp;
     this.deletedForEveryoneTimestamp = options.deletedForEveryoneTimestamp;
+    this.mentions = options.mentions;
 
     if (!(this.recipients instanceof Array)) {
       throw new Error('Invalid recipient list');
@@ -252,6 +256,13 @@ class Message {
 
     if (this.body) {
       proto.body = this.body;
+
+      const mentionCount = this.mentions ? this.mentions.length : 0;
+      const placeholders = this.body.match(/\uFFFC/g);
+      const placeholderCount = placeholders ? placeholders.length : 0;
+      window.log.info(
+        `Sending a message with ${mentionCount} mentions and ${placeholderCount} placeholders`
+      );
     }
     if (this.flags) {
       proto.flags = this.flags;
@@ -341,6 +352,17 @@ class Message {
       proto.delete = {
         targetSentTimestamp: this.deletedForEveryoneTimestamp,
       };
+    }
+    if (this.mentions) {
+      proto.requiredProtocolVersion =
+        window.textsecure.protobuf.DataMessage.ProtocolVersion.MENTIONS;
+      proto.bodyRanges = this.mentions.map(
+        ({ start, length, mentionUuid }) => ({
+          start,
+          length,
+          mentionUuid,
+        })
+      );
     }
 
     this.dataMessage = proto;
@@ -1419,7 +1441,8 @@ export default class MessageSender {
     timestamp: number,
     expireTimer: number | undefined,
     profileKey?: ArrayBuffer,
-    flags?: number
+    flags?: number,
+    mentions?: BodyRangesType
   ): Promise<ArrayBuffer> {
     const attributes = {
       recipients: [destination],
@@ -1435,6 +1458,7 @@ export default class MessageSender {
       expireTimer,
       profileKey,
       flags,
+      mentions,
     };
 
     return this.getMessageProtoObj(attributes);
@@ -1584,6 +1608,7 @@ export default class MessageSender {
       sticker,
       deletedForEveryoneTimestamp,
       timestamp,
+      mentions,
     }: {
       attachments?: Array<AttachmentType>;
       expireTimer?: number;
@@ -1597,6 +1622,7 @@ export default class MessageSender {
       sticker?: any;
       deletedForEveryoneTimestamp?: number;
       timestamp: number;
+      mentions?: BodyRangesType;
     },
     options?: SendOptionsType
   ): Promise<CallbackResultType> {
@@ -1642,6 +1668,7 @@ export default class MessageSender {
             type: window.textsecure.protobuf.GroupContext.Type.DELIVER,
           }
         : undefined,
+      mentions,
     };
 
     if (recipients.length === 0) {

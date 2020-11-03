@@ -17,6 +17,7 @@ import { trigger } from '../../shims/events';
 import { NoopActionType } from './noop';
 import { AttachmentType } from '../../types/Attachment';
 import { ColorType } from '../../types/Colors';
+import { BodyRangeType } from '../../types/Util';
 
 // State
 
@@ -66,6 +67,7 @@ export type ConversationType = {
   phoneNumber?: string;
   membersCount?: number;
   expireTimer?: number;
+  members?: Array<ConversationType>;
   muteExpiresAt?: number;
   type: ConversationTypeType;
   isMe?: boolean;
@@ -83,6 +85,7 @@ export type ConversationType = {
 
   shouldShowDraft?: boolean;
   draftText?: string | null;
+  draftBodyRanges?: Array<BodyRangeType>;
   draftPreview?: string;
 
   sharedGroupNames?: Array<string>;

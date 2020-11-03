@@ -22,11 +22,13 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   onSubmit: action('onSubmit'),
   onEditorStateChange: action('onEditorStateChange'),
   onTextTooLong: action('onTextTooLong'),
-  startingText: overrideProps.startingText || undefined,
+  draftText: overrideProps.draftText || undefined,
+  draftBodyRanges: overrideProps.draftBodyRanges || [],
   clearQuotedMessage: action('clearQuotedMessage'),
   getQuotedMessage: action('getQuotedMessage'),
   onPickEmoji: action('onPickEmoji'),
   large: boolean('large', overrideProps.large || false),
+  members: overrideProps.members || [],
   skinTone: select(
     'skinTone',
     {
@@ -65,7 +67,7 @@ story.add('Disabled', () => {
 
 story.add('Starting Text', () => {
   const props = createProps({
-    startingText: "here's some starting text",
+    draftText: "here's some starting text",
   });
 
   return <CompositionInput {...props} />;
@@ -73,7 +75,7 @@ story.add('Starting Text', () => {
 
 story.add('Multiline Text', () => {
   const props = createProps({
-    startingText: `here's some starting text
+    draftText: `here's some starting text
 and more on another line
 and yet another line
 and yet another line
@@ -89,11 +91,43 @@ and we're done`,
 
 story.add('Emojis', () => {
   const props = createProps({
-    startingText: `⁣😐😐😐😐😐😐😐
+    draftText: `⁣😐😐😐😐😐😐😐
 😐😐😐😐😐😐😐
 😐😐😐😂⁣😐😐😐
 😐😐😐😐😐😐😐
 😐😐😐😐😐😐😐`,
+  });
+
+  return <CompositionInput {...props} />;
+});
+
+story.add('Mentions', () => {
+  const props = createProps({
+    members: [
+      {
+        id: '0',
+        type: 'direct',
+        lastUpdated: 0,
+        title: 'Kate Beaton',
+        markedUnread: false,
+      },
+      {
+        id: '0',
+        type: 'direct',
+        lastUpdated: 0,
+        title: 'Parry Gripp',
+        markedUnread: false,
+      },
+    ],
+    draftText: 'send _ a message',
+    draftBodyRanges: [
+      {
+        start: 5,
+        length: 1,
+        mentionUuid: '0',
+        replacementText: 'Kate Beaton',
+      },
+    ],
   });
 
   return <CompositionInput {...props} />;

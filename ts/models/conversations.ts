@@ -31,6 +31,8 @@ import {
   verifyAccessKey,
 } from '../Crypto';
 import { GroupChangeClass } from '../textsecure.d';
+import { BodyRangesType } from '../types/Util';
+import { getTextWithMentions } from '../util';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -123,6 +125,8 @@ export class ConversationModel extends window.Backbone.Model<
   typingPauseTimer?: NodeJS.Timer | null;
 
   verifiedEnum?: typeof window.textsecure.storage.protocol.VerifiedStatus;
+
+  intlCollator = new Intl.Collator();
 
   // eslint-disable-next-line class-methods-use-this
   defaults(): Partial<ConversationAttributesType> {
@@ -727,8 +731,11 @@ export class ConversationModel extends window.Backbone.Model<
 
   getDraftPreview(): string {
     const draft = this.get('draft');
+
     if (draft) {
-      return draft;
+      const bodyRanges = this.get('draftBodyRanges') || [];
+
+      return getTextWithMentions(bodyRanges, draft);
     }
 
     const draftAttachments = this.get('draftAttachments') || [];
@@ -1094,6 +1101,7 @@ export class ConversationModel extends window.Backbone.Model<
     const draftTimestamp = this.get('draftTimestamp');
     const draftPreview = this.getDraftPreview();
     const draftText = this.get('draft');
+    const draftBodyRanges = this.get('draftBodyRanges');
     const shouldShowDraft = (this.hasDraft() &&
       draftTimestamp &&
       draftTimestamp >= timestamp) as boolean;
@@ -1110,6 +1118,15 @@ export class ConversationModel extends window.Backbone.Model<
       groupVersion = 2;
     }
 
+    const members = this.isGroupV2()
+      ? this.getMembers()
+          .sort((left, right) =>
+            sortConversationTitles(left, right, this.intlCollator)
+          )
+          .map(member => member.format())
+          .filter((member): member is ConversationType => member !== null)
+      : undefined;
+
     // TODO: DESKTOP-720
     /* eslint-disable @typescript-eslint/no-non-null-assertion */
     const result: ConversationType = {
@@ -1125,6 +1142,7 @@ export class ConversationModel extends window.Backbone.Model<
       canChangeTimer: this.canChangeTimer(),
       avatarPath: this.getAvatarPath()!,
       color,
+      draftBodyRanges,
       draftPreview,
       draftText,
       firstName: this.get('profileName')!,
@@ -1144,6 +1162,7 @@ export class ConversationModel extends window.Backbone.Model<
       lastUpdated: this.get('timestamp')!,
       left: Boolean(this.get('left')),
       markedUnread: this.get('markedUnread')!,
+      members,
       membersCount: this.isPrivate()
         ? undefined
         : (this.get('membersV2')! || this.get('members')! || []).length,
@@ -2116,7 +2135,7 @@ export class ConversationModel extends window.Backbone.Model<
 
   getMembers(
     options: { includePendingMembers?: boolean } = {}
-  ): Array<WhatIsThis> {
+  ): Array<ConversationModel> {
     if (this.isPrivate()) {
       return [this];
     }
@@ -2602,7 +2621,8 @@ export class ConversationModel extends window.Backbone.Model<
     attachments: Array<WhatIsThis>,
     quote: WhatIsThis,
     preview: WhatIsThis,
-    sticker: WhatIsThis
+    sticker?: WhatIsThis,
+    mentions?: BodyRangesType
   ): void {
     this.clearTypingTimers();
 
@@ -2642,12 +2662,13 @@ export class ConversationModel extends window.Backbone.Model<
         expireTimer,
         recipients,
         sticker,
+        bodyRanges: mentions,
       });
 
       if (this.isPrivate()) {
         messageWithSchema.destination = destination;
       }
-      const attributes = {
+      const attributes: MessageModel = {
         ...messageWithSchema,
         id: window.getGuid(),
       };
@@ -2738,6 +2759,7 @@ export class ConversationModel extends window.Backbone.Model<
             quote,
             sticker,
             timestamp: now,
+            mentions,
           },
           options
         );
@@ -4398,6 +4420,20 @@ window.Whisper.GroupMemberConversation = window.Backbone.Model.extend({
   },
 });
 
+interface SortableByTitle {
+  getTitle: () => string;
+}
+
+const sortConversationTitles = (
+  left: SortableByTitle,
+  right: SortableByTitle,
+  collator: Intl.Collator
+) => {
+  const leftLower = left.getTitle().toLowerCase();
+  const rightLower = right.getTitle().toLowerCase();
+  return collator.compare(leftLower, rightLower);
+};
+
 // We need a custom collection here to get the sorting we need
 window.Whisper.GroupConversationCollection = window.Backbone.Collection.extend({
   model: window.Whisper.GroupMemberConversation,
@@ -4414,8 +4450,6 @@ window.Whisper.GroupConversationCollection = window.Backbone.Collection.extend({
       return 1;
     }
 
-    const leftLower = left.getTitle().toLowerCase();
-    const rightLower = right.getTitle().toLowerCase();
-    return this.collator.compare(leftLower, rightLower);
+    return sortConversationTitles(left, right, this.collator);
   },
 });

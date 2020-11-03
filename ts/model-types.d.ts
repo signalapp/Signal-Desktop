@@ -4,7 +4,7 @@
 import * as Backbone from 'backbone';
 
 import { GroupV2ChangeType } from './groups';
-import { LocalizerType, BodyRangesType } from './types/Util';
+import { LocalizerType, BodyRangeType, BodyRangesType } from './types/Util';
 import { CallHistoryDetailsType } from './types/Calling';
 import { ColorType } from './types/Colors';
 import {
@@ -147,6 +147,7 @@ export type ConversationAttributesType = {
   color?: string;
   discoveredUnregisteredAt: number;
   draftAttachments: Array<unknown>;
+  draftBodyRanges: Array<BodyRangeType>;
   draftTimestamp: number | null;
   inbox_position: number;
   isPinned: boolean;

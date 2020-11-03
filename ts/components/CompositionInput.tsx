@@ -11,15 +11,25 @@ import { Manager, Reference } from 'react-popper';
 import Quill, { KeyboardStatic, RangeStatic } from 'quill';
 import Op from 'quill-delta/dist/Op';
 
+import { MentionCompletion } from '../quill/mentions/completion';
 import { EmojiBlot, EmojiCompletion } from '../quill/emoji';
-import { LocalizerType } from '../types/Util';
-
 import { EmojiPickDataType } from './emoji/EmojiPicker';
 import { convertShortName } from './emoji/lib';
-import { matchEmojiBlot, matchEmojiImage } from '../quill/matchImage';
+import { LocalizerType, BodyRangeType } from '../types/Util';
+import { ConversationType } from '../state/ducks/conversations';
+import { MentionBlot } from '../quill/mentions/blot';
+import {
+  matchEmojiImage,
+  matchEmojiBlot,
+  matchReactEmoji,
+} from '../quill/emoji/matchers';
+import { matchMention } from '../quill/mentions/matchers';
+import { MemberRepository, getDeltaToRemoveStaleMentions } from '../quill/util';
 
 Quill.register('formats/emoji', EmojiBlot);
+Quill.register('formats/mention', MentionBlot);
 Quill.register('modules/emojiCompletion', EmojiCompletion);
+Quill.register('modules/mentionCompletion', MentionCompletion);
 
 const Block = Quill.import('blots/block');
 Block.tagName = 'DIV';
@@ -62,12 +72,18 @@ export interface Props {
   readonly large?: boolean;
   readonly inputApi?: React.MutableRefObject<InputApi | undefined>;
   readonly skinTone?: EmojiPickDataType['skinTone'];
-  readonly startingText?: string;
+  readonly draftText?: string;
+  readonly draftBodyRanges?: Array<BodyRangeType>;
+  members?: Array<ConversationType>;
   onDirtyChange?(dirty: boolean): unknown;
-  onEditorStateChange?(messageText: string, caretLocation?: number): unknown;
+  onEditorStateChange?(
+    messageText: string,
+    bodyRanges: Array<BodyRangeType>,
+    caretLocation?: number
+  ): unknown;
   onTextTooLong(): unknown;
   onPickEmoji(o: EmojiPickDataType): unknown;
-  onSubmit(message: string): unknown;
+  onSubmit(message: string, mentions: Array<BodyRangeType>): unknown;
   getQuotedMessage(): unknown;
   clearQuotedMessage(): unknown;
 }
@@ -83,7 +99,11 @@ export const CompositionInput: React.ComponentType<Props> = props => {
     onPickEmoji,
     onSubmit,
     skinTone,
-    startingText,
+    draftText,
+    draftBodyRanges,
+    getQuotedMessage,
+    clearQuotedMessage,
+    members,
   } = props;
 
   const [emojiCompletionElement, setEmojiCompletionElement] = React.useState<
@@ -93,50 +113,115 @@ export const CompositionInput: React.ComponentType<Props> = props => {
     lastSelectionRange,
     setLastSelectionRange,
   ] = React.useState<RangeStatic | null>(null);
+  const [
+    mentionCompletionElement,
+    setMentionCompletionElement,
+  ] = React.useState<JSX.Element>();
 
   const emojiCompletionRef = React.useRef<EmojiCompletion>();
+  const mentionCompletionRef = React.useRef<MentionCompletion>();
   const quillRef = React.useRef<Quill>();
   const scrollerRef = React.useRef<HTMLDivElement>(null);
   const propsRef = React.useRef<Props>(props);
+  const memberRepositoryRef = React.useRef<MemberRepository>(
+    new MemberRepository()
+  );
 
-  const generateDelta = (text: string): Delta => {
-    const re = emojiRegex();
-    const ops: Array<Op> = [];
+  const insertMentionOps = (
+    incomingOps: Array<Op>,
+    bodyRanges: Array<BodyRangeType>
+  ) => {
+    const ops = [...incomingOps];
 
-    let index = 0;
+    // Working backwards through bodyRanges (to avoid offsetting later mentions),
+    // Shift off the op with the text to the left of the last mention,
+    // Insert a mention based on the current bodyRange,
+    // Unshift the mention and surrounding text to leave the ops ready for the next range
+    bodyRanges
+      .sort((a, b) => b.start - a.start)
+      .forEach(({ start, length, mentionUuid, replacementText }) => {
+        const op = ops.shift();
 
-    let match: RegExpExecArray | null;
-    // eslint-disable-next-line no-cond-assign
-    while ((match = re.exec(text))) {
-      const [emoji] = match;
-      ops.push({ insert: text.slice(index, match.index) });
-      ops.push({ insert: { emoji } });
-      index = match.index + emoji.length;
-    }
+        if (op) {
+          const { insert } = op;
 
-    ops.push({ insert: text.slice(index, text.length) });
+          if (typeof insert === 'string') {
+            const left = insert.slice(0, start);
+            const right = insert.slice(start + length);
 
-    return new Delta(ops);
+            const mention = {
+              uuid: mentionUuid,
+              title: replacementText,
+            };
+
+            ops.unshift({ insert: right });
+            ops.unshift({ insert: { mention } });
+            ops.unshift({ insert: left });
+          } else {
+            ops.unshift(op);
+          }
+        }
+      });
+
+    return ops;
   };
 
-  const getText = (): string => {
+  const insertEmojiOps = (incomingOps: Array<Op>): Array<Op> => {
+    return incomingOps.reduce((ops, op) => {
+      if (typeof op.insert === 'string') {
+        const text = op.insert;
+        const re = emojiRegex();
+        let index = 0;
+        let match: RegExpExecArray | null;
+
+        // eslint-disable-next-line no-cond-assign
+        while ((match = re.exec(text))) {
+          const [emoji] = match;
+          ops.push({ insert: text.slice(index, match.index) });
+          ops.push({ insert: { emoji } });
+          index = match.index + emoji.length;
+        }
+
+        ops.push({ insert: text.slice(index, text.length) });
+      } else {
+        ops.push(op);
+      }
+
+      return ops;
+    }, [] as Array<Op>);
+  };
+
+  const generateDelta = (
+    text: string,
+    bodyRanges: Array<BodyRangeType>
+  ): Delta => {
+    const initialOps = [{ insert: text }];
+    const opsWithMentions = insertMentionOps(initialOps, bodyRanges);
+    const opsWithEmojis = insertEmojiOps(opsWithMentions);
+
+    return new Delta(opsWithEmojis);
+  };
+
+  const getTextAndMentions = (): [string, Array<BodyRangeType>] => {
     const quill = quillRef.current;
 
     if (quill === undefined) {
-      return '';
+      return ['', []];
     }
 
     const contents = quill.getContents();
 
     if (contents === undefined) {
-      return '';
+      return ['', []];
     }
 
     const { ops } = contents;
 
     if (ops === undefined) {
-      return '';
+      return ['', []];
     }
+
+    const mentions: Array<BodyRangeType> = [];
 
     const text = ops.reduce((acc, { insert }) => {
       if (typeof insert === 'string') {
@@ -147,10 +232,21 @@ export const CompositionInput: React.ComponentType<Props> = props => {
         return acc + insert.emoji;
       }
 
+      if (insert.mention) {
+        mentions.push({
+          length: 1, // The length of `\uFFFC`
+          mentionUuid: insert.mention.uuid,
+          replacementText: insert.mention.title,
+          start: acc.length,
+        });
+
+        return `${acc}\uFFFC`;
+      }
+
       return acc;
     }, '');
 
-    return text.trim();
+    return [text.trim(), mentions];
   };
 
   const focus = () => {
@@ -223,8 +319,10 @@ export const CompositionInput: React.ComponentType<Props> = props => {
       return;
     }
 
-    const text = getText();
-    onSubmit(text.trim());
+    const [text, mentions] = getTextAndMentions();
+
+    window.log.info(`Submitting a message with ${mentions.length} mentions`);
+    onSubmit(text, mentions);
   };
 
   if (inputApi) {
@@ -250,12 +348,13 @@ export const CompositionInput: React.ComponentType<Props> = props => {
   const onEnter = () => {
     const quill = quillRef.current;
     const emojiCompletion = emojiCompletionRef.current;
+    const mentionCompletion = mentionCompletionRef.current;
 
     if (quill === undefined) {
       return false;
     }
 
-    if (emojiCompletion === undefined) {
+    if (emojiCompletion === undefined || mentionCompletion === undefined) {
       return false;
     }
 
@@ -264,7 +363,12 @@ export const CompositionInput: React.ComponentType<Props> = props => {
       return false;
     }
 
-    if (propsRef.current.large) {
+    if (mentionCompletion.results.length) {
+      mentionCompletion.completeMention();
+      return false;
+    }
+
+    if (large) {
       return true;
     }
 
@@ -276,17 +380,23 @@ export const CompositionInput: React.ComponentType<Props> = props => {
   const onTab = () => {
     const quill = quillRef.current;
     const emojiCompletion = emojiCompletionRef.current;
+    const mentionCompletion = mentionCompletionRef.current;
 
     if (quill === undefined) {
       return false;
     }
 
-    if (emojiCompletion === undefined) {
+    if (emojiCompletion === undefined || mentionCompletion === undefined) {
       return false;
     }
 
     if (emojiCompletion.results.length) {
       emojiCompletion.completeEmoji();
+      return false;
+    }
+
+    if (mentionCompletion.results.length) {
+      mentionCompletion.completeMention();
       return false;
     }
 
@@ -301,6 +411,7 @@ export const CompositionInput: React.ComponentType<Props> = props => {
     }
 
     const emojiCompletion = emojiCompletionRef.current;
+    const mentionCompletion = mentionCompletionRef.current;
 
     if (emojiCompletion) {
       if (emojiCompletion.results.length) {
@@ -309,8 +420,15 @@ export const CompositionInput: React.ComponentType<Props> = props => {
       }
     }
 
-    if (propsRef.current.getQuotedMessage()) {
-      propsRef.current.clearQuotedMessage();
+    if (mentionCompletion) {
+      if (mentionCompletion.results.length) {
+        mentionCompletion.reset();
+        return false;
+      }
+    }
+
+    if (getQuotedMessage()) {
+      clearQuotedMessage();
       return false;
     }
 
@@ -318,8 +436,9 @@ export const CompositionInput: React.ComponentType<Props> = props => {
   };
 
   const onChange = () => {
-    const text = getText();
     const quill = quillRef.current;
+
+    const [text, mentions] = getTextAndMentions();
 
     if (quill !== undefined) {
       const historyModule: HistoryStatic = quill.getModule('history');
@@ -332,8 +451,10 @@ export const CompositionInput: React.ComponentType<Props> = props => {
 
       if (propsRef.current.onEditorStateChange) {
         const selection = quill.getSelection();
+
         propsRef.current.onEditorStateChange(
           text,
+          mentions,
           selection ? selection.index : undefined
         );
       }
@@ -368,19 +489,56 @@ export const CompositionInput: React.ComponentType<Props> = props => {
   React.useEffect(
     () => () => {
       const emojiCompletion = emojiCompletionRef.current;
+      const mentionCompletion = mentionCompletionRef.current;
 
-      if (emojiCompletion === undefined) {
-        return;
+      if (emojiCompletion !== undefined) {
+        emojiCompletion.destroy();
       }
 
-      emojiCompletion.destroy();
+      if (mentionCompletion !== undefined) {
+        mentionCompletion.destroy();
+      }
     },
     []
   );
 
+  const removeStaleMentions = (currentMembers: Array<ConversationType>) => {
+    const quill = quillRef.current;
+
+    if (quill === undefined) {
+      return;
+    }
+
+    const { ops } = quill.getContents();
+    if (ops === undefined) {
+      return;
+    }
+
+    const currentMemberUuids = currentMembers
+      .map(m => m.uuid)
+      .filter((uuid): uuid is string => uuid !== undefined);
+
+    const newDelta = getDeltaToRemoveStaleMentions(ops, currentMemberUuids);
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    quill.updateContents(newDelta as any);
+  };
+
+  const memberIds = members ? members.map(m => m.id) : [];
+
+  React.useEffect(() => {
+    memberRepositoryRef.current.updateMembers(members || []);
+    removeStaleMentions(members || []);
+    // We are still depending on members, but ESLint can't tell
+    // Comparing the actual members list does not work for a couple reasons:
+    //    * Arrays with the same objects are not "equal" to React
+    //    * We only care about added/removed members, ignoring other attributes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(memberIds)]);
+
   const reactQuill = React.useMemo(
     () => {
-      const delta = generateDelta(startingText || '');
+      const delta = generateDelta(draftText || '', draftBodyRanges || []);
 
       return (
         <ReactQuill
@@ -393,6 +551,8 @@ export const CompositionInput: React.ComponentType<Props> = props => {
               matchers: [
                 ['IMG', matchEmojiImage],
                 ['SPAN', matchEmojiBlot],
+                ['SPAN', matchReactEmoji],
+                ['SPAN', matchMention(memberRepositoryRef)],
               ],
             },
             keyboard: {
@@ -411,8 +571,14 @@ export const CompositionInput: React.ComponentType<Props> = props => {
               onPickEmoji,
               skinTone,
             },
+            mentionCompletion: {
+              me: members ? members.find(foo => foo.isMe) : undefined,
+              memberRepositoryRef,
+              setMentionPickerElement: setMentionCompletionElement,
+              i18n,
+            },
           }}
-          formats={['emoji']}
+          formats={['emoji', 'mention']}
           placeholder={i18n('sendMessage')}
           readOnly={disabled}
           ref={element => {
@@ -435,7 +601,9 @@ export const CompositionInput: React.ComponentType<Props> = props => {
                   quill.scrollingContainer = scroller;
                 }
 
-                quill.setSelection(quill.getLength(), 0);
+                setTimeout(() => {
+                  quill.setSelection(quill.getLength(), 0);
+                }, 0);
               });
 
               quill.on(
@@ -449,6 +617,9 @@ export const CompositionInput: React.ComponentType<Props> = props => {
               );
               quillRef.current = quill;
               emojiCompletionRef.current = quill.getModule('emojiCompletion');
+              mentionCompletionRef.current = quill.getModule(
+                'mentionCompletion'
+              );
             }
           }}
         />
@@ -476,6 +647,7 @@ export const CompositionInput: React.ComponentType<Props> = props => {
             >
               {reactQuill}
               {emojiCompletionElement}
+              {mentionCompletionElement}
             </div>
           </div>
         )}

@@ -48,10 +48,12 @@ export type OwnProps = {
 
 export type Props = Pick<
   CompositionInputProps,
+  | 'members'
   | 'onSubmit'
   | 'onEditorStateChange'
   | 'onTextTooLong'
-  | 'startingText'
+  | 'draftText'
+  | 'draftBodyRanges'
   | 'clearQuotedMessage'
   | 'getQuotedMessage'
 > &
@@ -93,9 +95,11 @@ export const CompositionArea = ({
   compositionApi,
   onEditorStateChange,
   onTextTooLong,
-  startingText,
+  draftText,
+  draftBodyRanges,
   clearQuotedMessage,
   getQuotedMessage,
+  members,
   // EmojiButton
   onPickEmoji,
   onSetSkinTone,
@@ -133,7 +137,7 @@ export const CompositionArea = ({
   title,
 }: Props): JSX.Element => {
   const [disabled, setDisabled] = React.useState(false);
-  const [showMic, setShowMic] = React.useState(!startingText);
+  const [showMic, setShowMic] = React.useState(!draftText);
   const [micActive, setMicActive] = React.useState(false);
   const [dirty, setDirty] = React.useState(false);
   const [large, setLarge] = React.useState(false);
@@ -419,9 +423,11 @@ export const CompositionArea = ({
             onTextTooLong={onTextTooLong}
             onDirtyChange={setDirty}
             skinTone={skinTone}
-            startingText={startingText}
+            draftText={draftText}
+            draftBodyRanges={draftBodyRanges}
             clearQuotedMessage={clearQuotedMessage}
             getQuotedMessage={getQuotedMessage}
+            members={members}
           />
         </div>
         {!large ? (

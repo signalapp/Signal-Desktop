@@ -96,6 +96,7 @@ export class EmojiCompletion {
     this.quill.keyboard.addBinding({ key: 40 }, changeIndex(1)); // 40 = Down
 
     this.quill.on('text-change', _.debounce(this.onTextChange.bind(this), 100));
+    this.quill.on('selection-change', this.onSelectionChange.bind(this));
   }
 
   destroy(): void {
@@ -122,6 +123,11 @@ export class EmojiCompletion {
     }
 
     return ['', ''];
+  }
+
+  onSelectionChange(): void {
+    // Selection should never change while we're editing an emoji
+    this.reset();
   }
 
   onTextChange(): void {
@@ -296,7 +302,7 @@ export class EmojiCompletion {
         {({ ref, style }) => (
           <div
             ref={ref}
-            className="module-composition-input__emoji-suggestions"
+            className="module-composition-input__suggestions"
             style={style}
             role="listbox"
             aria-expanded
@@ -319,9 +325,9 @@ export class EmojiCompletion {
                   this.completeEmoji();
                 }}
                 className={classNames(
-                  'module-composition-input__emoji-suggestions__row',
+                  'module-composition-input__suggestions__row',
                   emojiResultsIndex === index
-                    ? 'module-composition-input__emoji-suggestions__row--selected'
+                    ? 'module-composition-input__suggestions__row--selected'
                     : null
                 )}
               >
@@ -330,7 +336,7 @@ export class EmojiCompletion {
                   size={16}
                   skinTone={this.options.skinTone}
                 />
-                <div className="module-composition-input__emoji-suggestions__row__short-name">
+                <div className="module-composition-input__suggestions__row__short-name">
                   :{emoji.short_name}:
                 </div>
               </button>

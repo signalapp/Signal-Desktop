@@ -8665,6 +8665,19 @@ button.module-image__border-overlay:focus {
     }
   }
 
+  &__at-mention {
+    background-color: $color-gray-20;
+    border-radius: 4px;
+    display: inline-block;
+    padding-left: 4px;
+    padding-right: 4px;
+    border: 1px solid transparent;
+
+    @include dark-theme {
+      background-color: $color-gray-60;
+    }
+  }
+
   &__input {
     border: none;
     border-radius: 18px;
@@ -8730,11 +8743,17 @@ button.module-image__border-overlay:focus {
     }
   }
 
-  &__emoji-suggestions {
-    padding: 12px 0;
+  &__suggestions {
+    padding: 0;
     margin-bottom: 6px;
     border-radius: 8px;
     z-index: 2;
+    overflow: hidden;
+
+    &--scroller {
+      max-height: 300px;
+      overflow-y: auto;
+    }
 
     @include popper-shadow();
 
@@ -8747,7 +8766,7 @@ button.module-image__border-overlay:focus {
     }
 
     &__row {
-      height: 30px;
+      height: 34px;
       padding: 0 12px;
       display: flex;
       flex-direction: row;
@@ -8756,6 +8775,10 @@ button.module-image__border-overlay:focus {
       background: none;
       border: none;
       width: 100%;
+
+      &--mention {
+        height: 40px;
+      }
 
       &:focus {
         outline: 0;
@@ -8788,6 +8811,11 @@ button.module-image__border-overlay:focus {
         }
       }
     }
+
+    &__title {
+      padding-left: 8px;
+    }
+
     stroke: $color-white;
   }
 }

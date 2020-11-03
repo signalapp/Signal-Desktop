@@ -36,9 +36,10 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   onSubmit: action('onSubmit'),
   onEditorStateChange: action('onEditorStateChange'),
   onTextTooLong: action('onTextTooLong'),
-  startingText: overrideProps.startingText || undefined,
+  draftText: overrideProps.draftText || undefined,
   clearQuotedMessage: action('clearQuotedMessage'),
   getQuotedMessage: action('getQuotedMessage'),
+  members: [],
   // EmojiButton
   onPickEmoji: action('onPickEmoji'),
   onSetSkinTone: action('onSetSkinTone'),
@@ -78,7 +79,7 @@ story.add('Default', () => {
 
 story.add('Starting Text', () => {
   const props = createProps({
-    startingText: "here's some starting text",
+    draftText: "here's some starting text",
   });
 
   return <CompositionArea {...props} />;

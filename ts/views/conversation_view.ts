@@ -574,9 +574,15 @@ Whisper.ConversationView = Whisper.View.extend({
       onClickAddPack: () => this.showStickerManager(),
       onPickSticker: (packId: string, stickerId: number) =>
         this.sendStickerMessage({ packId, stickerId }),
-      onSubmit: (message: any) => this.sendMessage(message),
-      onEditorStateChange: (msg: any, caretLocation: any) =>
-        this.onEditorStateChange(msg, caretLocation),
+      onSubmit: (
+        message: any,
+        mentions: typeof window.Whisper.BodyRangesType
+      ) => this.sendMessage(message, mentions),
+      onEditorStateChange: (
+        msg: string,
+        bodyRanges: Array<typeof window.Whisper.BodyRangeType>,
+        caretLocation: number
+      ) => this.onEditorStateChange(msg, bodyRanges, caretLocation),
       onTextTooLong: () => this.showToast(Whisper.MessageBodyTooLongToast),
       onChooseAttachment: this.onChooseAttachment.bind(this),
       getQuotedMessage: () => this.model.get('quotedMessageId'),
@@ -2969,7 +2975,7 @@ Whisper.ConversationView = Whisper.View.extend({
     });
   },
 
-  async sendMessage(message = '', options = {}) {
+  async sendMessage(message = '', mentions = [], options = {}) {
     this.sendStart = Date.now();
 
     try {
@@ -2979,7 +2985,7 @@ Whisper.ConversationView = Whisper.View.extend({
       if (contacts && contacts.length) {
         const sendAnyway = await this.showSendAnywayDialog(contacts);
         if (sendAnyway) {
-          this.sendMessage(message, { force: true });
+          this.sendMessage(message, mentions, { force: true });
           return;
         }
 
@@ -3047,7 +3053,9 @@ Whisper.ConversationView = Whisper.View.extend({
         message,
         attachments,
         this.quote,
-        this.getLinkPreview()
+        this.getLinkPreview(),
+        undefined, // sticker
+        mentions
       );
 
       this.compositionApi.current.reset();
@@ -3065,13 +3073,20 @@ Whisper.ConversationView = Whisper.View.extend({
     }
   },
 
-  onEditorStateChange(messageText: any, caretLocation: any) {
+  onEditorStateChange(
+    messageText: string,
+    bodyRanges: Array<typeof window.Whisper.BodyRangeType>,
+    caretLocation?: number
+  ) {
     this.maybeBumpTyping(messageText);
-    this.debouncedSaveDraft(messageText);
+    this.debouncedSaveDraft(messageText, bodyRanges);
     this.debouncedMaybeGrabLinkPreview(messageText, caretLocation);
   },
 
-  async saveDraft(messageText: any) {
+  async saveDraft(
+    messageText: any,
+    bodyRanges: Array<typeof window.Whisper.BodyRangeType>
+  ) {
     const trimmed =
       messageText && messageText.length > 0 ? messageText.trim() : '';
 
@@ -3079,6 +3094,7 @@ Whisper.ConversationView = Whisper.View.extend({
       this.model.set({
         draft: null,
         draftChanged: true,
+        draftBodyRanges: [],
       });
       await this.saveModel();
 
@@ -3089,12 +3105,13 @@ Whisper.ConversationView = Whisper.View.extend({
       this.model.set({
         draft: messageText,
         draftChanged: true,
+        draftBodyRanges: bodyRanges,
       });
       await this.saveModel();
     }
   },
 
-  maybeGrabLinkPreview(message: any, caretLocation: any) {
+  maybeGrabLinkPreview(message: string, caretLocation?: number) {
     // Don't generate link previews if user has turned them off
     if (!window.storage.get('linkPreviews', false)) {
       return;

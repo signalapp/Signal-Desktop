@@ -1938,7 +1938,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         this.get('deletedForEveryoneTimestamp'),
         this.get('sent_at'),
         this.get('expireTimer'),
-        profileKey
+        profileKey,
+        undefined, // flags
+        this.get('bodyRanges')
       );
       return this.sendSyncMessageOnly(dataMessage);
     }
@@ -2108,9 +2110,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         previewWithData,
         stickerWithData,
         null,
+        this.get('deletedForEveryoneTimestamp'),
         this.get('sent_at'),
         this.get('expireTimer'),
-        profileKey
+        profileKey,
+        undefined, // flags
+        this.get('bodyRanges')
       );
       return this.sendSyncMessageOnly(dataMessage);
     }

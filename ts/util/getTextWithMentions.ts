@@ -7,9 +7,11 @@ export function getTextWithMentions(
   bodyRanges: BodyRangesType,
   text: string
 ): string {
-  return bodyRanges.reduce((str, range) => {
-    const textBegin = str.substr(0, range.start);
-    const textEnd = str.substr(range.start + range.length, str.length);
-    return `${textBegin}@${range.replacementText}${textEnd}`;
-  }, text);
+  return bodyRanges
+    .sort((a, b) => b.start - a.start)
+    .reduce((acc, { start, length, replacementText }) => {
+      const left = acc.slice(0, start);
+      const right = acc.slice(start + length);
+      return `${left}@${replacementText}${right}`;
+    }, text);
 }

@@ -26,7 +26,7 @@ import * as Groups from './groups';
 import * as Crypto from './Crypto';
 import * as RemoteConfig from './RemoteConfig';
 import * as zkgroup from './util/zkgroup';
-import { LocalizerType, BodyRangesType } from './types/Util';
+import { LocalizerType, BodyRangesType, BodyRangeType } from './types/Util';
 import { CallHistoryDetailsType } from './types/Calling';
 import { ColorType } from './types/Colors';
 import { ConversationController } from './ConversationController';
@@ -609,6 +609,8 @@ export type WhisperType = {
   GroupMemberList: any;
   KeyVerificationPanelView: any;
   SafetyNumberChangeDialogView: any;
+  BodyRangesType: BodyRangesType;
+  BodyRangeType: BodyRangeType;
 
   Notifications: {
     removeBy: (filter: Partial<unknown>) => void;

@@ -563,6 +563,7 @@ export declare class DataMessageClass {
   isViewOnce?: boolean;
   reaction?: DataMessageClass.Reaction;
   delete?: DataMessageClass.Delete;
+  bodyRanges?: Array<DataMessageClass.BodyRange>;
 }
 
 // Note: we need to use namespaces to express nested classes in Typescript
