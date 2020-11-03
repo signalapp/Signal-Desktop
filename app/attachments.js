@@ -23,7 +23,7 @@ try {
   // eslint-disable-next-line global-require, import/no-extraneous-dependencies, import/no-unresolved
   xattr = require('fs-xattr');
 } catch (e) {
-  console.log('x-attr dependncy did not load successfully');
+  console.log('x-attr dependency did not load successfully');
 }
 
 const PATH = 'attachments.noindex';

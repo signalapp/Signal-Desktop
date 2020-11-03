@@ -5817,7 +5817,7 @@ blanket.defaultReporter = function(coverage) {
               try {
                 if (_blanket.options('debug')) {
                   console.log(
-                    'BLANKET-instrument of:' + url + ' was successfull.'
+                    'BLANKET-instrument of:' + url + ' was successful.'
                   );
                 }
                 _blanket.utils.blanketEval(instrumented);

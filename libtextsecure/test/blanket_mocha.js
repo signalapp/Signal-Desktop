@@ -5100,7 +5100,7 @@ _blanket.extend({
                     inputFileName: url
                 },function(instrumented){
                     try{
-                        if (_blanket.options("debug")) {console.log("BLANKET-instrument of:"+url+" was successfull.");}
+                        if (_blanket.options("debug")) {console.log("BLANKET-instrument of:"+url+" was successful.");}
                         _blanket.utils.blanketEval(instrumented);
                         cb();
                         _blanket.requiringFile(url,true);
