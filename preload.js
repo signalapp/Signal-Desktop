@@ -564,6 +564,7 @@ try {
     /* eslint-disable global-require, import/no-extraneous-dependencies */
     require('./ts/test-electron/models/messages_test');
     require('./ts/test-electron/linkPreviews/linkPreviewFetch_test');
+    require('./ts/test-electron/state/ducks/calling_test');
 
     delete window.describe;
 

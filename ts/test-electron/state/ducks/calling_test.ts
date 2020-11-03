@@ -4,12 +4,61 @@
 import { assert } from 'chai';
 import {
   CallDetailsType,
+  actions,
   getEmptyState,
   isCallActive,
+  reducer,
 } from '../../../state/ducks/calling';
 import { CallState } from '../../../types/Calling';
 
 describe('calling duck', () => {
+  describe('actions', () => {
+    describe('toggleSettings', () => {
+      const { toggleSettings } = actions;
+
+      it('toggles the settings dialog', () => {
+        const afterOneToggle = reducer(getEmptyState(), toggleSettings());
+        const afterTwoToggles = reducer(afterOneToggle, toggleSettings());
+        const afterThreeToggles = reducer(afterTwoToggles, toggleSettings());
+
+        assert.isTrue(afterOneToggle.settingsDialogOpen);
+        assert.isFalse(afterTwoToggles.settingsDialogOpen);
+        assert.isTrue(afterThreeToggles.settingsDialogOpen);
+      });
+    });
+
+    describe('toggleParticipants', () => {
+      const { toggleParticipants } = actions;
+
+      it('toggles the participants list', () => {
+        const afterOneToggle = reducer(getEmptyState(), toggleParticipants());
+        const afterTwoToggles = reducer(afterOneToggle, toggleParticipants());
+        const afterThreeToggles = reducer(
+          afterTwoToggles,
+          toggleParticipants()
+        );
+
+        assert.isTrue(afterOneToggle.participantsList);
+        assert.isFalse(afterTwoToggles.participantsList);
+        assert.isTrue(afterThreeToggles.participantsList);
+      });
+    });
+
+    describe('togglePip', () => {
+      const { togglePip } = actions;
+
+      it('toggles the PiP', () => {
+        const afterOneToggle = reducer(getEmptyState(), togglePip());
+        const afterTwoToggles = reducer(afterOneToggle, togglePip());
+        const afterThreeToggles = reducer(afterTwoToggles, togglePip());
+
+        assert.isTrue(afterOneToggle.pip);
+        assert.isFalse(afterTwoToggles.pip);
+        assert.isTrue(afterThreeToggles.pip);
+      });
+    });
+  });
+
   describe('helpers', () => {
     describe('isCallActive', () => {
       const fakeCallDetails: CallDetailsType = {
