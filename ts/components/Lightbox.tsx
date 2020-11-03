@@ -376,6 +376,7 @@ export class Lightbox extends React.Component<Props, State> {
             alt={i18n('lightboxImageAlt')}
             style={styles.img}
             src={objectURL}
+            onContextMenu={this.onContextMenu}
           />
         </button>
       );
@@ -414,6 +415,15 @@ export class Lightbox extends React.Component<Props, State> {
       <Icon i18n={i18n} onClick={this.onObjectClick} url="images/file.svg" />
     );
   };
+
+  private readonly onContextMenu = (event: React.MouseEvent<HTMLImageElement>) => {
+    const { contentType } = this.props;
+
+    // These are the only image types supported by Electron's NativeImage
+    if (contentType !== "image/png" && contentType !== "image/jpg") {
+      event?.preventDefault();
+    }
+  }
 
   private readonly onClose = () => {
     const { close } = this.props;

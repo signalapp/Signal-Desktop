@@ -163,6 +163,10 @@
     "message": "Copy Link",
     "description": "Shown in the context menu for a link to indicate that the user can copy the link"
   },
+  "contextMenuCopyImage": {
+    "message": "Copy Image",
+    "description": "Shown in the context menu for an image to indicate that the user can copy the image"
+  },
   "contextMenuNoSuggestions": {
     "message": "No Suggestions",
     "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
