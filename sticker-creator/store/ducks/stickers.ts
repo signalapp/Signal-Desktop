@@ -51,7 +51,7 @@ export const reset = createAction<void>('stickers/reset');
 
 export const minStickers = 1;
 export const maxStickers = 200;
-export const maxByteSize = 100 * 1024;
+export const maxByteSize = 300 * 1024;
 
 interface StateStickerData {
   readonly imageData?: StickerImageData;
