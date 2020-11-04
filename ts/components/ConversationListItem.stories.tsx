@@ -103,6 +103,27 @@ story.add('Typing Status', () => {
   return <ConversationListItem {...props} />;
 });
 
+story.add('With draft', () => {
+  const props = createProps({
+    shouldShowDraft: true,
+    draftPreview: "I'm in the middle of typing this...",
+  });
+
+  return <ConversationListItem {...props} />;
+});
+
+story.add('Deleted for everyone', () => {
+  const props = createProps({
+    lastMessage: {
+      status: 'sent',
+      text: 'You should not see this!',
+      deletedForEveryone: true,
+    },
+  });
+
+  return <ConversationListItem {...props} />;
+});
+
 story.add('Message Request', () => {
   const props = createProps({
     acceptedMessageRequest: false,
