@@ -397,13 +397,15 @@
 
   <!-- Uncomment to start tests without code coverage enabled -->
   <script type="text/javascript">
-    window.Signal.conversationControllerStart();
+    window.textsecure.protobuf.onLoad(() => {
+      window.Signal.conversationControllerStart();
 
-    window.test.pendingDescribeCalls.forEach(args => {
-      describe(...args);
+      window.test.pendingDescribeCalls.forEach(args => {
+        describe(...args);
+      });
+
+      mocha.run();
     });
-
-    mocha.run();
   </script>
 </body>
 </html>

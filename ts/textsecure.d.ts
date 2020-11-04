@@ -212,7 +212,9 @@ type SubProtocolProtobufTypes = {
   WebSocketResponseMessage: typeof WebSocketResponseMessageClass;
 };
 
-type ProtobufCollectionType = DeviceMessagesProtobufTypes &
+type ProtobufCollectionType = {
+  onLoad: (callback: () => unknown) => void;
+} & DeviceMessagesProtobufTypes &
   DeviceNameProtobufTypes &
   GroupsProtobufTypes &
   SignalServiceProtobufTypes &
