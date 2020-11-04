@@ -138,3 +138,27 @@ export function pushAudioPermissionNeeded() {
     type: 'info',
   });
 }
+
+export function pushOriginalNotFound() {
+  window.pushToast({
+    id: 'originalMessageNotFound',
+    title: window.i18n('originalMessageNotFound'),
+    type: 'error',
+  });
+}
+
+export function pushOriginalNoLongerAvailable() {
+  window.pushToast({
+    id: 'originalMessageNotAvailable',
+    title: window.i18n('originalMessageNotAvailable'),
+    type: 'error',
+  });
+}
+
+export function pushFoundButNotLoaded() {
+  window.pushToast({
+    id: 'messageFoundButNotLoaded',
+    title: window.i18n('messageFoundButNotLoaded'),
+    type: 'error',
+  });
+}

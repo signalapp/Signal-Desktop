@@ -168,30 +168,24 @@
 
       this.set(attributes);
     },
-    getNameForNumber(number) {
-      const conversation = ConversationController.get(number);
-      if (!conversation) {
-        return number;
-      }
-      return conversation.getDisplayName();
-    },
-    getLokiNameForNumber(number) {
-      const conversation = ConversationController.get(number);
-      if (number === textsecure.storage.user.getNumber()) {
-        return i18n('you');
-      }
-      if (!conversation || !conversation.getLokiProfile()) {
-        return number;
-      }
-      return conversation.getLokiProfile().displayName;
-    },
     getDescription() {
       if (this.isGroupUpdate()) {
         const groupUpdate = this.get('group_update');
-        if (groupUpdate.left === 'You') {
+        const ourPrimary = window.textsecure.storage.get('primaryDevicePubKey');
+        if (
+          groupUpdate.left === 'You' ||
+          (Array.isArray(groupUpdate.left) &&
+            groupUpdate.left.length === 1 &&
+            groupUpdate.left[0] === ourPrimary)
+        ) {
           return i18n('youLeftTheGroup');
         } else if (groupUpdate.left) {
-          return i18n('leftTheGroup', this.getNameForNumber(groupUpdate.left));
+          return i18n(
+            'leftTheGroup',
+            ConversationController.getContactProfileNameOrShortenedPubKey(
+              groupUpdate.left
+            )
+          );
         }
 
         if (groupUpdate.kicked === 'You') {
@@ -206,8 +200,8 @@
           messages.push(i18n('titleIsNow', groupUpdate.name));
         }
         if (groupUpdate.joined && groupUpdate.joined.length) {
-          const names = groupUpdate.joined.map(name =>
-            this.getLokiNameForNumber(name)
+          const names = groupUpdate.joined.map(pubKey =>
+            ConversationController.getContactProfileNameOrFullPubKey(pubKey)
           );
 
           if (names.length > 1) {
@@ -220,7 +214,7 @@
         if (groupUpdate.kicked && groupUpdate.kicked.length) {
           const names = _.map(
             groupUpdate.kicked,
-            this.getNameForNumber.bind(this)
+            ConversationController.getContactProfileNameOrShortenedPubKey
           );
 
           if (names.length > 1) {
@@ -271,7 +265,9 @@
         );
         const pubkeysInDesc = description.match(regex);
         (pubkeysInDesc || []).forEach(pubkey => {
-          const displayName = this.getLokiNameForNumber(pubkey.slice(1));
+          const displayName = ConversationController.getContactProfileNameOrShortenedPubKey(
+            pubkey.slice(1)
+          );
           if (displayName && displayName.length) {
             description = description.replace(pubkey, `@${displayName}`);
           }
@@ -746,7 +742,6 @@
       const authorPhoneNumber = format(author, {
         ourRegionCode: regionCode,
       });
-      const authorProfileName = contact ? contact.getProfileName() : null;
       const authorName = contact ? contact.getName() : null;
       const isFromMe = contact ? contact.id === this.OUR_NUMBER : false;
       const onClick = noClick
@@ -769,7 +764,7 @@
           : null,
         isFromMe,
         authorPhoneNumber,
-        authorProfileName,
+        messageId: id,
         authorName,
         onClick,
         referencedMessageNotFound,

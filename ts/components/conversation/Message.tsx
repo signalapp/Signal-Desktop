@@ -38,17 +38,6 @@ import _ from 'lodash';
 import { animation, contextMenu, Item, Menu } from 'react-contexify';
 import uuid from 'uuid';
 
-declare global {
-  interface Window {
-    shortenPubkey: any;
-    contextMenuShown: boolean;
-  }
-}
-
-interface Trigger {
-  handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
-}
-
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
 
@@ -91,7 +80,8 @@ export interface Props {
     authorPhoneNumber: string;
     authorProfileName?: string;
     authorName?: string;
-    onClick?: () => void;
+    messageId?: string;
+    onClick: (data: any) => void;
     referencedMessageNotFound: boolean;
   };
   previews: Array<LinkPreviewType>;
@@ -623,6 +613,8 @@ export class Message extends React.PureComponent<Props, State> {
       quote,
       isPublic,
       convoId,
+      id,
+      multiSelectMode,
     } = this.props;
 
     if (!quote || !quote.authorPhoneNumber) {
@@ -642,7 +634,24 @@ export class Message extends React.PureComponent<Props, State> {
     return (
       <Quote
         i18n={window.i18n}
-        onClick={quote.onClick}
+        onClick={(e: any) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (multiSelectMode && id) {
+            this.props.onSelectMessage(id);
+            return;
+          }
+          const {
+            authorPhoneNumber,
+            messageId: quoteId,
+            referencedMessageNotFound,
+          } = quote;
+          quote?.onClick({
+            quoteAuthor: authorPhoneNumber,
+            quoteId,
+            referencedMessageNotFound,
+          });
+        }}
         text={quote.text}
         attachment={quote.attachment}
         isIncoming={direction === 'incoming'}

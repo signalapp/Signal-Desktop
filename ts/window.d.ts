@@ -81,9 +81,8 @@ declare global {
     seedNodeList: any;
     setPassword: any;
     setSettingValue: any;
-    shortenPubkey: any;
+    shortenPubkey: (pubKey: string) => string;
     showEditProfileDialog: any;
-    getOurDisplayName: () => string | undefined;
     showPasswordDialog: any;
     showSeedDialog: any;
     storage: any;
@@ -97,6 +96,8 @@ declare global {
     userConfig: any;
     versionInfo: any;
     getStoragePubKey: any;
+    pubkeyPattern: any;
+    getConversations: any;
     getGuid: any;
     ContactBuffer: any;
     GroupBuffer: any;
@@ -106,6 +107,7 @@ declare global {
     loadImage: any;
     dataURLToBlobSync: any;
     autoOrientImage: any;
+    contextMenuShown: boolean;
     sessionGenerateKeyPair: (
       seed: ArrayBuffer
     ) => Promise<{ pubKey: ArrayBufferLike; privKey: ArrayBufferLike }>;

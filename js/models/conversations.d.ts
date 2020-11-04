@@ -77,6 +77,7 @@ export interface ConversationModel
   ) => Promise<void>;
   updateGroupAdmins: any;
   setLokiProfile: any;
+  getLokiProfile: any;
   onSessionResetReceived: any;
   setVerifiedDefault: any;
   setVerified: any;

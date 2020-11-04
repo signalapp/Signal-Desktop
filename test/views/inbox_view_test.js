@@ -22,7 +22,6 @@ describe('InboxView', () => {
       textsecure.storage.user.getNumber(),
       'private'
     );
-    window.getOurDisplayName = () => 'display name test';
     inboxView = new Whisper.InboxView({
       model: {},
       window,

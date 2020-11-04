@@ -25,7 +25,7 @@ export const CONVERSATION = {
   DEFAULT_MESSAGE_FETCH_COUNT: 30,
   MAX_MESSAGE_FETCH_COUNT: 500,
   MESSAGE_FETCH_INTERVAL: 1,
-  // Maximum voice message duraiton of 5 minutes
+  // Maximum voice message duraton of 5 minutes
   // which equates to 1.97 MB
   MAX_VOICE_MESSAGE_DURATION: 300,
   // Max attachment size: 10 MB
@@ -35,7 +35,7 @@ export const CONVERSATION = {
 export const UI = {
   // Pixels (scroll) from the top of the top of message container
   // at which more messages should be loaded
-  MESSAGE_CONTAINER_BUFFER_OFFSET_PX: 30,
+  MESSAGE_CONTAINER_BUFFER_OFFSET_PX: 1,
 
   COLORS: {
     // COMMON

@@ -22,7 +22,7 @@ interface Props {
   convoId: string;
   isPublic?: boolean;
   withContentAbove: boolean;
-  onClick?: () => void;
+  onClick?: (e: any) => void;
   onClose?: () => void;
   text: string;
   referencedMessageNotFound: boolean;

@@ -286,6 +286,21 @@
 
       return this._initialPromise;
     },
+    getContactProfileNameOrShortenedPubKey: pubKey => {
+      const conversation = window.ConversationController.get(pubKey);
+      if (!conversation) {
+        return pubKey;
+      }
+      return conversation.getContactProfileNameOrShortenedPubKey();
+    },
+
+    getContactProfileNameOrFullPubKey: pubKey => {
+      const conversation = window.ConversationController.get(pubKey);
+      if (!conversation) {
+        return pubKey;
+      }
+      return conversation.getContactProfileNameOrFullPubKey();
+    },
     _handleOnline: pubKey => {
       try {
         const conversation = this.get(pubKey);

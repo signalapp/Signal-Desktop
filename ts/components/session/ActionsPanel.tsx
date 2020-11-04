@@ -6,6 +6,8 @@ import { PropsData as ConversationListItemPropsType } from '../ConversationListI
 import { createOrUpdateItem, getItemById } from '../../../js/modules/data';
 import { APPLY_THEME } from '../../state/ducks/theme';
 import { darkTheme, lightTheme } from '../../state/ducks/SessionTheme';
+import { MultiDeviceProtocol } from '../../session/protocols';
+import { UserUtil } from '../../util';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -154,15 +156,17 @@ class ActionsPanelPrivate extends React.Component<Props, State> {
       : undefined;
 
     if (type === SectionType.Profile) {
-      const pubkey = window.storage.get('primaryDevicePubKey');
-      const userName = window.getOurDisplayName() || pubkey;
+      const ourPrimary = window.storage.get('primaryDevicePubKey');
+      const conversation = window.ConversationController.getOrThrow(ourPrimary);
+      const profile = conversation.getLokiProfile();
+      const userName = (profile && profile.displayName) || ourPrimary;
       return (
         <Avatar
           avatarPath={avatarPath}
           size={28}
           onAvatarClick={handleClick}
           name={userName}
-          pubkey={pubkey}
+          pubkey={ourPrimary}
         />
       );
     }

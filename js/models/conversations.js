@@ -2343,6 +2343,8 @@
       // conversation still appears on the conversation list but is empty
       this.set({
         lastMessage: null,
+        unreadCount: 0,
+        mentionedUs: false,
       });
 
       await this.commit();
@@ -2359,10 +2361,56 @@
       if (this.isPrivate()) {
         const profileName = this.getProfileName();
         const number = this.getNumber();
-        const name = profileName ? `${profileName} (${number})` : number;
+        let name;
+        if (window.shortenPubKey) {
+          name = profileName
+            ? `${profileName} (${window.shortenPubKey(number)})`
+            : number;
+        } else {
+          name = profileName ? `${profileName} (${number})` : number;
+        }
         return this.get('name') || name;
       }
       return this.get('name') || 'Unknown group';
+    },
+
+    /**
+     * For a private convo, returns the loki profilename if set, or a shortened
+     * version of the contact pubkey.
+     * Throws an error if called on a group convo.
+     * */
+    getContactProfileNameOrShortenedPubKey() {
+      if (!this.isPrivate()) {
+        throw new Error(
+          'getContactProfileNameOrShortenedPubKey() cannot be called with a non private convo.'
+        );
+      }
+
+      const profileName = this.get('profileName');
+      const pubkey = this.id;
+      if (pubkey === textsecure.storage.user.getNumber()) {
+        return i18n('you');
+      }
+      return profileName || window.shortenPubKey(pubkey);
+    },
+
+    /**
+     * For a private convo, returns the loki profilename if set, or a full length
+     * version of the contact pubkey.
+     * Throws an error if called on a group convo.
+     * */
+    getContactProfileNameOrFullPubKey() {
+      if (!this.isPrivate()) {
+        throw new Error(
+          'getContactProfileNameOrFullPubKey() cannot be called with a non private convo.'
+        );
+      }
+      const profileName = this.get('profileName');
+      const pubkey = this.id;
+      if (pubkey === textsecure.storage.user.getNumber()) {
+        return i18n('you');
+      }
+      return profileName || pubkey;
     },
 
     getProfileName() {
@@ -2372,23 +2420,6 @@
       return null;
     },
 
-    getDisplayName() {
-      if (!this.isPrivate()) {
-        return this.getTitle();
-      }
-
-      const name = this.get('name');
-      if (name) {
-        return name;
-      }
-
-      const profileName = this.get('profileName');
-      if (profileName) {
-        return `${this.getNumber()} ~${profileName}`;
-      }
-
-      return this.getNumber();
-    },
     /**
      * Returns
      *   displayName: string;

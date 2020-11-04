@@ -15,6 +15,7 @@ import { ConversationType } from '../../../state/ducks/conversations';
 import { MessageModel } from '../../../../js/models/messages';
 import { SessionLastSeenIndicator } from './SessionLastSeedIndicator';
 import { VerificationNotification } from '../../conversation/VerificationNotification';
+import { ToastUtils } from '../../../session/utils';
 
 interface State {
   isScrolledToBottom: boolean;
@@ -56,6 +57,7 @@ export class SessionConversationMessagesList extends React.Component<
     this.handleScroll = this.handleScroll.bind(this);
     this.scrollToUnread = this.scrollToUnread.bind(this);
     this.scrollToBottom = this.scrollToBottom.bind(this);
+    this.scrollToQuoteMessage = this.scrollToQuoteMessage.bind(this);
 
     this.messagesEndRef = React.createRef();
     this.messageContainerRef = this.props.messageContainerRef;
@@ -235,6 +237,16 @@ export class SessionConversationMessagesList extends React.Component<
       this.props.onDownloadAttachment({ attachment });
     };
 
+    if (messageProps.quote) {
+      messageProps.quote.onClick = (options: {
+        quoteAuthor: string;
+        quoteId: any;
+        referencedMessageNotFound: boolean;
+      }) => {
+        void this.scrollToQuoteMessage(options);
+      };
+    }
+
     return <Message {...messageProps} />;
   }
 
@@ -402,5 +414,63 @@ export class SessionConversationMessagesList extends React.Component<
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public selectMessage(messageId: string) {
     this.props.selectMessage(messageId);
+  }
+
+  private async scrollToQuoteMessage(options: any = {}) {
+    const { quoteAuthor, quoteId, referencedMessageNotFound } = options;
+
+    // For simplicity's sake, we show the 'not found' toast no matter what if we were
+    //   not able to find the referenced message when the quote was received.
+    if (referencedMessageNotFound) {
+      ToastUtils.pushOriginalNotFound();
+      return;
+    }
+    // Look for message in memory first, which would tell us if we could scroll to it
+    const targetMessage = this.props.messages.find(item => {
+      const messageAuthor = item.propsForMessage?.authorPhoneNumber;
+
+      if (!messageAuthor || quoteAuthor !== messageAuthor) {
+        return false;
+      }
+      if (quoteId !== item.propsForMessage?.timestamp) {
+        return false;
+      }
+
+      return true;
+    });
+
+    // If there's no message already in memory, we won't be scrolling. So we'll gather
+    //   some more information then show an informative toast to the user.
+    if (!targetMessage) {
+      const collection = await window.Signal.Data.getMessagesBySentAt(quoteId, {
+        MessageCollection: window.Whisper.MessageCollection,
+      });
+      const found = Boolean(
+        collection.find((item: MessageModel) => {
+          const messageAuthor = item.propsForMessage?.authorPhoneNumber;
+
+          return messageAuthor && quoteAuthor === messageAuthor;
+        })
+      );
+
+      if (found) {
+        ToastUtils.pushFoundButNotLoaded();
+      } else {
+        ToastUtils.pushOriginalNoLongerAvailable();
+      }
+      return;
+    }
+
+    const databaseId = targetMessage.id;
+    // const el = this.$(`#${databaseId}`);
+    // if (!el || el.length === 0) {
+    //   ToastUtils.pushOriginalNoLongerAvailable();
+    //   window.log.info(
+    //     `Error: had target message ${id} in messageCollection, but it was not in DOM`
+    //   );
+    //   return;
+    // }
+    // this probably does not work for us as we need to call getMessages before
+    this.scrollToMessage(databaseId);
   }
 }

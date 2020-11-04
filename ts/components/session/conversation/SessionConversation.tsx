@@ -130,10 +130,6 @@ export class SessionConversation extends React.Component<Props, State> {
     this.onClickAttachment = this.onClickAttachment.bind(this);
     this.downloadAttachment = this.downloadAttachment.bind(this);
     this.refreshMessages = this.refreshMessages.bind(this);
-    // this.getMessages = _.throttle(
-    //   this.getMessages.bind(this),
-    //   1000 // one second
-    // );
     this.getMessages = this.getMessages.bind(this);
 
     // Keyboard navigation

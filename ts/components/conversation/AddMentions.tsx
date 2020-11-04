@@ -5,14 +5,6 @@ import classNames from 'classnames';
 import { MultiDeviceProtocol } from '../../session/protocols';
 import { FindMember } from '../../util';
 
-declare global {
-  interface Window {
-    shortenPubkey: any;
-    pubkeyPattern: any;
-    getConversations: any;
-  }
-}
-
 interface MentionProps {
   key: number;
   text: string;
