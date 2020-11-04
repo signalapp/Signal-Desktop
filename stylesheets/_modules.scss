@@ -6192,6 +6192,7 @@ button.module-image__border-overlay:focus {
 
   &__header {
     position: absolute;
+    background: linear-gradient($color-black-alpha-40, transparent);
   }
 
   &__header-message {
