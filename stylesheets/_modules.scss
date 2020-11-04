@@ -563,7 +563,9 @@
 }
 
 .module-expire-timer--incoming {
-  background-color: $color-white-08;
+  @include themify($themes) {
+    background-color: subtle(themed('textColor'));
+  }
 }
 
 // When status indicators are overlaid on top of an image, they use different colors
