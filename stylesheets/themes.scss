@@ -79,9 +79,9 @@ $themes: (
     textColorOpposite: $black,
     textHighlight: rgba($accentDarkTheme, 0.6),
     // inbox
+      // buttons
       inboxBackground: linear-gradient(180deg, #171717 0%, #121212 100%),
-    // buttons
-      backgroundPrimary: #474646,
+    backgroundPrimary: #474646,
     foregroundPrimary: $white,
     buttonGreen: $accentDarkTheme,
     // conversation view

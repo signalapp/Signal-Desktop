@@ -1,5 +1,4 @@
 /* global
-  $,
   _,
   log,
   i18n,
@@ -246,77 +245,6 @@
       this.updateTextInputState();
       await textsecure.messaging.sendBlockedListSyncMessage();
     },
-    setMessageSelectionBackdrop() {
-      const messageSelected = this.selectedMessages.size > 0;
-
-      if (messageSelected) {
-        // Hide ellipses icon
-        $('.title-wrapper .session-icon.ellipses').css({ opacity: 0 });
-
-        $('.messages li, .messages > div').addClass('shadowed');
-        $('.message-selection-overlay').addClass('overlay');
-        $('.module-conversation-header').addClass('overlayed');
-
-        let messageId;
-        // eslint-disable-next-line no-restricted-syntax
-        for (const item of this.selectedMessages) {
-          messageId = item.propsForMessage.id;
-          $(`#${messageId}`).removeClass('shadowed');
-        }
-      } else {
-        // Hide ellipses icon
-        $('.title-wrapper .session-icon.ellipses').css({ opacity: 1 });
-
-        $('.messages li, .messages > div').removeClass('shadowed');
-        $('.message-selection-overlay').removeClass('overlay');
-        $('.module-conversation-header').removeClass('overlayed');
-      }
-    },
-
-    addMessageSelection(id) {
-      // If the selection is empty, then we chage the mode to
-      // multiple selection by making it non-empty
-      const modeChanged = this.selectedMessages.size === 0;
-      this.selectedMessages.add(id);
-
-      if (modeChanged) {
-        this.messageCollection.forEach(m => m.trigger('change'));
-      }
-
-      this.trigger('message-selection-changed');
-      this.setMessageSelectionBackdrop();
-    },
-
-    removeMessageSelection(id) {
-      this.selectedMessages.delete(id);
-      // If the selection is empty after the deletion then we
-      // must have unselected the last one (we assume the id is valid)
-      const modeChanged = this.selectedMessages.size === 0;
-
-      if (modeChanged) {
-        this.messageCollection.forEach(m => m.trigger('change'));
-      }
-
-      this.trigger('message-selection-changed');
-      this.setMessageSelectionBackdrop();
-    },
-
-    resetMessageSelection() {
-      this.selectedMessages.clear();
-      this.messageCollection.forEach(m => {
-        // on change for ALL messages without real changes is a really costly operation
-        // -> cause refresh of the whole conversation view even if not a single message was selected
-        if (m.selected) {
-          // eslint-disable-next-line no-param-reassign
-          m.selected = false;
-          m.trigger('change');
-        }
-      });
-
-      this.trigger('message-selection-changed');
-      this.setMessageSelectionBackdrop();
-    },
-
     async bumpTyping() {
       if (this.isPublic()) {
         window.console.debug('public conversation... No need to bumpTyping');

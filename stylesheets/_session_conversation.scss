@@ -91,6 +91,9 @@
     align-items: center;
     justify-content: space-between;
     height: $main-view-header-height;
+    @include themify($themes) {
+      background: themed('cellBackground');
+    }
 
     .close-button {
       float: left;
