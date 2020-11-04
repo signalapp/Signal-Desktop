@@ -25,10 +25,10 @@ import {
 } from '../quill/emoji/matchers';
 import { matchMention } from '../quill/mentions/matchers';
 import {
-  MemberRepository,
   getDeltaToRemoveStaleMentions,
   getTextAndMentionsFromOps,
 } from '../quill/util';
+import { MemberRepository } from '../quill/memberRepository';
 
 Quill.register('formats/emoji', EmojiBlot);
 Quill.register('formats/mention', MentionBlot);

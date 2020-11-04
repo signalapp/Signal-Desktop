@@ -6,7 +6,7 @@ import { RefObject } from 'react';
 import Delta from 'quill-delta';
 
 import { matchMention } from '../../../quill/mentions/matchers';
-import { MemberRepository } from '../../../quill/util';
+import { MemberRepository } from '../../../quill/memberRepository';
 import { ConversationType } from '../../../state/ducks/conversations';
 
 class FakeTokenList<T> extends Array<T> {

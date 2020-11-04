@@ -3,7 +3,7 @@
 
 import Delta from 'quill-delta';
 import { RefObject } from 'react';
-import { MemberRepository } from '../util';
+import { MemberRepository } from '../memberRepository';
 
 export const matchMention = (
   memberRepositoryRef: RefObject<MemberRepository>

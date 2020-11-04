@@ -11,7 +11,8 @@ import { createPortal } from 'react-dom';
 import { ConversationType } from '../../state/ducks/conversations';
 import { Avatar } from '../../components/Avatar';
 import { LocalizerType } from '../../types/Util';
-import { MemberRepository } from '../util';
+
+import { MemberRepository } from '../memberRepository';
 
 export interface MentionCompletionOptions {
   i18n: LocalizerType;

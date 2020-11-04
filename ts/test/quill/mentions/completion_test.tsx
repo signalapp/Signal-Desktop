@@ -10,7 +10,7 @@ import {
   MentionCompletionOptions,
 } from '../../../quill/mentions/completion';
 import { ConversationType } from '../../../state/ducks/conversations';
-import { MemberRepository } from '../../../quill/util';
+import { MemberRepository } from '../../../quill/memberRepository';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const globalAsAny = global as any;
@@ -222,7 +222,7 @@ describe('mentionCompletion', () => {
       });
 
       it('stores the results, omitting `me`, and renders', () => {
-        expect(mentionCompletion.results).to.have.lengthOf(2);
+        expect(mentionCompletion.results).to.have.lengthOf(1);
         expect((mentionCompletion.render as sinon.SinonStub).called).to.equal(
           true
         );
