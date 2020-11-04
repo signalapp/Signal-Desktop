@@ -21,7 +21,6 @@ import Crypto from './Crypto';
 import {
   base64ToArrayBuffer,
   concatenateBytes,
-  fromEncodedBinaryToArrayBuffer,
   getZeroes,
   hexToArrayBuffer,
 } from '../Crypto';
@@ -982,7 +981,7 @@ export default class MessageSender {
   async sendTypingMessage(
     options: {
       recipientId?: string;
-      groupId?: string;
+      groupId?: ArrayBuffer;
       groupMembers: Array<string>;
       isTyping: boolean;
       timestamp?: number;
@@ -1007,15 +1006,12 @@ export default class MessageSender {
     const recipients = (groupId
       ? without(groupMembers, myNumber, myUuid)
       : [recipientId]) as Array<string>;
-    const groupIdBuffer = groupId
-      ? fromEncodedBinaryToArrayBuffer(groupId)
-      : null;
 
     const action = isTyping ? ACTION_ENUM.STARTED : ACTION_ENUM.STOPPED;
     const finalTimestamp = timestamp || Date.now();
 
     const typingMessage = new window.textsecure.protobuf.TypingMessage();
-    typingMessage.groupId = groupIdBuffer;
+    typingMessage.groupId = groupId || null;
     typingMessage.action = action;
     typingMessage.timestamp = finalTimestamp;
 

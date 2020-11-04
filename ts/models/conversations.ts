@@ -867,6 +867,23 @@ export class ConversationModel extends window.Backbone.Model<
     };
   }
 
+  getGroupIdBuffer(): ArrayBuffer | undefined {
+    const groupIdString = this.get('groupId');
+
+    if (!groupIdString) {
+      return undefined;
+    }
+
+    if (this.isGroupV1()) {
+      return fromEncodedBinaryToArrayBuffer(groupIdString);
+    }
+    if (this.isGroupV2()) {
+      return base64ToArrayBuffer(groupIdString);
+    }
+
+    return undefined;
+  }
+
   sendTypingMessage(isTyping: boolean): void {
     if (!window.textsecure.messaging) {
       return;
@@ -878,7 +895,7 @@ export class ConversationModel extends window.Backbone.Model<
     }
 
     const recipientId = this.isPrivate() ? this.getSendTarget() : undefined;
-    const groupId = !this.isPrivate() ? this.get('groupId') : undefined;
+    const groupId = this.getGroupIdBuffer();
     const groupMembers = this.getRecipients();
 
     // We don't send typing messages if our recipients list is empty
@@ -1408,13 +1425,7 @@ export class ConversationModel extends window.Backbone.Model<
       }
     );
 
-    const groupId = this.get('groupId');
-    let groupIdBuffer;
-    if (groupId && this.isGroupV1()) {
-      groupIdBuffer = fromEncodedBinaryToArrayBuffer(groupId);
-    } else if (groupId && this.isGroupV2()) {
-      groupIdBuffer = base64ToArrayBuffer(groupId);
-    }
+    const groupId = this.getGroupIdBuffer();
 
     try {
       await wrap(
@@ -1422,7 +1433,7 @@ export class ConversationModel extends window.Backbone.Model<
           {
             threadE164: this.get('e164'),
             threadUuid: this.get('uuid'),
-            groupId: groupIdBuffer,
+            groupId,
             type: response,
           },
           sendOptions

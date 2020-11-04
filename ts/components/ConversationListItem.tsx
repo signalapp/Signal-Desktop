@@ -178,23 +178,14 @@ export class ConversationListItem extends React.PureComponent<Props> {
       return null;
     }
 
+    const messageBody = lastMessage ? lastMessage.text : '';
     const withUnread = isNumber(unreadCount) && unreadCount > 0;
     const showingDraft = shouldShowDraft && draftPreview;
     const deletedForEveryone = Boolean(
       lastMessage && lastMessage.deletedForEveryone
     );
 
-    // Note: instead of re-using showingDraft here we explode it because
-    //   typescript can't tell that draftPreview is truthy otherwise
-    // Avoiding touching logic to fix linting
     /* eslint-disable no-nested-ternary */
-    const text =
-      shouldShowDraft && draftPreview
-        ? draftPreview
-        : lastMessage && lastMessage.text
-        ? lastMessage.text
-        : '';
-
     return (
       <div className="module-conversation-list-item__message">
         <div
@@ -218,16 +209,24 @@ export class ConversationListItem extends React.PureComponent<Props> {
           ) : (
             <>
               {showingDraft ? (
-                <span className="module-conversation-list-item__message__draft-prefix">
-                  {i18n('ConversationListItem--draft-prefix')}
-                </span>
+                <>
+                  <span className="module-conversation-list-item__message__draft-prefix">
+                    {i18n('ConversationListItem--draft-prefix')}
+                  </span>
+                  <MessageBody
+                    text={(draftPreview || '').split('\n')[0]}
+                    disableJumbomoji
+                    disableLinks
+                    i18n={i18n}
+                  />
+                </>
               ) : deletedForEveryone ? (
                 <span className="module-conversation-list-item__message__deleted-for-everyone">
                   {i18n('message--deletedForEveryone')}
                 </span>
               ) : (
                 <MessageBody
-                  text={text.split('\n')[0]}
+                  text={(messageBody || '').split('\n')[0]}
                   disableJumbomoji
                   disableLinks
                   i18n={i18n}
