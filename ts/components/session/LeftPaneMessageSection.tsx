@@ -369,9 +369,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   }
 
   private handleToggleOverlay(conversationType?: SessionComposeToType) {
-    const { overlay } = this.state;
-
-    const overlayState = overlay ? false : conversationType || false;
+    const overlayState = conversationType || false;
 
     this.setState({ overlay: overlayState });
 
