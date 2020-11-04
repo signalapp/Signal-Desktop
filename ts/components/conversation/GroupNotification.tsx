@@ -17,14 +17,13 @@ interface Change {
   contacts?: Array<Contact>;
 }
 
-interface Props {
+type Props = {
   changes: Array<Change>;
-}
+};
 
 // This component is used to display group updates in the conversation view.
 // This is a not a "notification" as the name suggests, but a message inside the conversation
 export const GroupNotification = (props: Props) => {
-
   function renderChange(change: Change) {
     const { isMe, contacts, type, newName } = change;
     const { i18n } = window;
@@ -93,7 +92,6 @@ export const GroupNotification = (props: Props) => {
     }
   }
 
-
   const { changes } = props;
   return (
     <div className="module-group-notification">
@@ -104,5 +102,4 @@ export const GroupNotification = (props: Props) => {
       ))}
     </div>
   );
-
-}
+};

@@ -890,6 +890,12 @@
   text-align: center;
 }
 
+.module-timer-notification__contact {
+  font-family: 'Public Sans';
+  font-weight: bold;
+  padding-inline-end: $session-margin-xs;
+}
+
 .module-timer-notification__icon-container {
   margin-inline-start: auto;
   margin-inline-end: auto;
@@ -931,7 +937,6 @@
   & > div {
     align-self: center;
     justify-self: center;
-    display: flex;
     align-items: center;
     justify-content: center;
   }

@@ -105,9 +105,6 @@ const {
 } = require('../../ts/components/conversation/MessageDetail');
 const { Quote } = require('../../ts/components/conversation/Quote');
 const {
-  TimerNotification,
-} = require('../../ts/components/conversation/TimerNotification');
-const {
   TypingBubble,
 } = require('../../ts/components/conversation/TypingBubble');
 
@@ -287,7 +284,6 @@ exports.setup = (options = {}) => {
     MessageBody,
     MessageDetail,
     Quote,
-    TimerNotification,
     Types: {
       Message: MediaGalleryMessage,
     },
