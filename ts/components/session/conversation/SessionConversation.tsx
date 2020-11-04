@@ -134,6 +134,7 @@ export class SessionConversation extends React.Component<Props, State> {
     //   this.getMessages.bind(this),
     //   1000 // one second
     // );
+    this.getMessages = this.getMessages.bind(this);
 
     // Keyboard navigation
     this.onKeyDown = this.onKeyDown.bind(this);

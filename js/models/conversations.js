@@ -2339,19 +2339,11 @@
 
       this.messageCollection.reset([]);
 
-      // let's try to keep the RSS conversation open just empty...
-      if (this.isRss()) {
-        this.set({
-          lastMessage: null,
-        });
-      } else {
-        // this will remove the conversation from conversation lists...
-        this.set({
-          lastMessage: null,
-          timestamp: null,
-          active_at: null,
-        });
-      }
+      // destroy message keeps the active timestamp set so the
+      // conversation still appears on the conversation list but is empty
+      this.set({
+        lastMessage: null,
+      });
 
       await this.commit();
     },

@@ -2,8 +2,6 @@ import React from 'react';
 import { compact, flatten } from 'lodash';
 
 import { Intl } from '../Intl';
-import { LocalizerType } from '../../types/Util';
-
 import { missingCaseError } from '../../util/missingCaseError';
 
 interface Contact {
@@ -23,10 +21,11 @@ interface Props {
   changes: Array<Change>;
 }
 
-// This class is used to display group updates in the conversation view.
+// This component is used to display group updates in the conversation view.
 // This is a not a "notification" as the name suggests, but a message inside the conversation
-export class GroupNotification extends React.Component<Props> {
-  public renderChange(change: Change) {
+export const GroupNotification = (props: Props) => {
+
+  function renderChange(change: Change) {
     const { isMe, contacts, type, newName } = change;
     const { i18n } = window;
 
@@ -94,17 +93,16 @@ export class GroupNotification extends React.Component<Props> {
     }
   }
 
-  public render() {
-    const { changes } = this.props;
 
-    return (
-      <div className="module-group-notification">
-        {(changes || []).map((change, index) => (
-          <div key={index} className="module-group-notification__change">
-            {this.renderChange(change)}
-          </div>
-        ))}
-      </div>
-    );
-  }
+  const { changes } = props;
+  return (
+    <div className="module-group-notification">
+      {(changes || []).map((change, index) => (
+        <div key={index} className="module-group-notification__change">
+          {renderChange(change)}
+        </div>
+      ))}
+    </div>
+  );
+
 }

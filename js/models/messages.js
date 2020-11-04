@@ -173,7 +173,7 @@
       if (!conversation) {
         return number;
       }
-      return conversation.getProfileName();
+      return conversation.getDisplayName();
     },
     getLokiNameForNumber(number) {
       const conversation = ConversationController.get(number);

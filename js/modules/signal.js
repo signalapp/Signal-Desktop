@@ -32,9 +32,6 @@ const {
   EmbeddedContact,
 } = require('../../ts/components/conversation/EmbeddedContact');
 const { Emojify } = require('../../ts/components/conversation/Emojify');
-const {
-  GroupNotification,
-} = require('../../ts/components/conversation/GroupNotification');
 const { Lightbox } = require('../../ts/components/Lightbox');
 const { LightboxGallery } = require('../../ts/components/LightboxGallery');
 const { MemberList } = require('../../ts/components/conversation/MemberList');
@@ -261,7 +258,6 @@ exports.setup = (options = {}) => {
     SettingsView,
     EmbeddedContact,
     Emojify,
-    GroupNotification,
     Lightbox,
     LightboxGallery,
     MemberList,
