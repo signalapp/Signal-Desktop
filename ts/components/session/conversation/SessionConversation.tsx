@@ -332,20 +332,11 @@ export class SessionConversation extends React.Component<Props, State> {
     // in the conversation model.
     // The only time we need to call getMessages() is to grab more messages on scroll.
     const { initialFetchComplete } = this.state;
-    const { conversationKey } = this.props;
     if (initialFetchComplete) {
       return;
     }
 
-    const messageSet = await window.Signal.Data.getMessagesByConversation(
-      conversationKey,
-      {
-        limit: Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT,
-        MessageCollection: window.Whisper.MessageCollection,
-      }
-    );
-
-    this.setState({ messages: messageSet.models });
+    return this.getMessages(Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT);
   }
 
   public async getMessages(numMessages?: number) {
@@ -372,16 +363,27 @@ export class SessionConversation extends React.Component<Props, State> {
     const messageModels = messageSet.models;
 
     const messages = [];
-    let previousSender;
+    // no need to do that `firstMessageOfSeries` on a private chat
+    if (this.props.conversation.type === 'direct') {
+      this.setState({ messages: messageSet.models });
+      return;
+    }
+
+    // messages are got from the more recent to the oldest, so we need to check if
+    // the next messages in the list is still the same author.
+    // The message is the first of the series if the next message is not from the same authori
     for (let i = 0; i < messageModels.length; i++) {
       // Handle firstMessageOfSeries for conditional avatar rendering
       let firstMessageOfSeries = true;
-      if (i > 0 && previousSender === messageModels[i].authorPhoneNumber) {
+      const currentSender = messageModels[i].propsForMessage?.authorPhoneNumber;
+      const nextSender =
+        i < messageModels.length - 1
+          ? messageModels[i + 1].propsForMessage?.authorPhoneNumber
+          : undefined;
+      if (i > 0 && currentSender === nextSender) {
         firstMessageOfSeries = false;
       }
-
       messages.push({ ...messageModels[i], firstMessageOfSeries });
-      previousSender = messageModels[i].authorPhoneNumber;
     }
 
     this.setState({ messages });

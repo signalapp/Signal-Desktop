@@ -96,6 +96,7 @@ export interface Props {
   isKickedFromGroup: boolean;
   // whether or not to show check boxes
   multiSelectMode: boolean;
+  firstMessageOfSeries: boolean;
 
   onClickAttachment?: (attachment: AttachmentType) => void;
   onClickLinkPreview?: (url: string) => void;
@@ -709,6 +710,7 @@ export class Message extends React.PureComponent<Props, State> {
       conversationType,
       direction,
       onShowUserDetails,
+      firstMessageOfSeries,
     } = this.props;
 
     if (
@@ -719,6 +721,10 @@ export class Message extends React.PureComponent<Props, State> {
       return;
     }
     const userName = authorName || authorProfileName || authorPhoneNumber;
+
+    if (!firstMessageOfSeries) {
+      return <div style={{ marginInlineEnd: '60px' }} />;
+    }
 
     return (
       <div className="module-message__author-avatar">
@@ -971,6 +977,7 @@ export class Message extends React.PureComponent<Props, State> {
       conversationType,
       isPublic,
       text,
+      firstMessageOfSeries,
     } = this.props;
     const { expired, expiring } = this.state;
 
