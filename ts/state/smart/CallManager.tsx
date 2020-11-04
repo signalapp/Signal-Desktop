@@ -5,6 +5,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
 import { CallManager } from '../../components/CallManager';
+import { getMe } from '../selectors/conversations';
 import { StateType } from '../reducer';
 
 import { getIntl } from '../selectors/user';
@@ -20,6 +21,7 @@ const mapStateToProps = (state: StateType) => {
   return {
     ...calling,
     i18n: getIntl(state),
+    me: getMe(state),
     renderDeviceSelection,
   };
 };

@@ -40,6 +40,10 @@ const defaultProps = {
   hasLocalVideo: true,
   hasRemoteVideo: true,
   i18n,
+  me: {
+    color: 'ultramarine' as ColorType,
+    title: 'Morty Smith',
+  },
   pip: false,
   renderDeviceSelection: () => <div />,
   setLocalAudio: action('set-local-audio'),

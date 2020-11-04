@@ -14391,7 +14391,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CallScreen.js",
     "line": "    const localVideoRef = react_1.useRef(null);",
-    "lineNumber": 43,
+    "lineNumber": 44,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T21:35:52.858Z",
     "reasonDetail": "Used to get the local video element for rendering."
@@ -14400,7 +14400,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CallScreen.js",
     "line": "    const remoteVideoRef = react_1.useRef(null);",
-    "lineNumber": 44,
+    "lineNumber": 45,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T21:35:52.858Z",
     "reasonDetail": "Used to get the remote video element for rendering."

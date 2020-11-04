@@ -44,6 +44,12 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     overrideProps.hasRemoteVideo || false
   ),
   i18n,
+  me: {
+    color: 'ultramarine' as ColorType,
+    name: 'Morty Smith',
+    profileName: 'Morty Smith',
+    title: 'Morty Smith',
+  },
   setLocalAudio: action('set-local-audio'),
   setLocalPreview: action('set-local-preview'),
   setLocalVideo: action('set-local-video'),

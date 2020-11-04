@@ -5865,12 +5865,14 @@ button.module-image__border-overlay:focus {
     height: 100%;
     justify-content: center;
     overflow: hidden;
-    position: absolute;
+    position: relative;
     width: 100%;
 
     &--blur {
+      position: absolute;
       background-repeat: no-repeat;
       background-size: cover;
+      background-position: center;
       filter: blur(25px);
       height: 100%;
       position: absolute;
@@ -6170,6 +6172,9 @@ button.module-image__border-overlay:focus {
 }
 
 .module-ongoing-call {
+  $local-preview-width: 136px;
+  $local-preview-height: 102px;
+
   &__remote-video-enabled {
     background-color: $color-gray-95;
     height: 100vh;
@@ -6185,16 +6190,6 @@ button.module-image__border-overlay:focus {
     justify-content: center;
   }
 
-  &__local-video {
-    background-color: transparent;
-    bottom: 160px;
-    height: 152px;
-    position: absolute;
-    right: 32px;
-    transform: rotateY(180deg);
-    width: 210px;
-  }
-
   &__header {
     position: absolute;
   }
@@ -6206,16 +6201,45 @@ button.module-image__border-overlay:focus {
     letter-spacing: -0.0025em;
   }
 
-  &__actions {
+  &__footer {
     background: linear-gradient(transparent, $color-black-alpha-40);
     bottom: 0;
     display: flex;
-    justify-content: center;
-    padding-bottom: 32px;
-    padding-top: 32px;
+    justify-content: space-between;
     position: absolute;
-    text-align: center;
     width: 100%;
+
+    &__actions {
+      align-items: center;
+      display: flex;
+      flex-grow: 1;
+      justify-content: center;
+    }
+
+    // This layout-only element is not ideal, but lets us keep the actions centered until
+    //   until they'd overlap with the video, at which point they start to move.
+    &__local-preview-offset {
+      flex: 1 0;
+      max-width: $local-preview-width;
+      visibility: hidden;
+    }
+
+    &__local-preview {
+      border-radius: 5px;
+      display: flex;
+      height: $local-preview-height;
+      margin: 2px 16px 16px 0;
+      overflow: hidden;
+      width: $local-preview-width;
+
+      &__video {
+        // The background-color is seen while the video loads.
+        background-color: $color-gray-75;
+        height: 100%;
+        transform: rotateY(180deg);
+        width: 100%;
+      }
+    }
   }
 
   &__controls--fadeIn {

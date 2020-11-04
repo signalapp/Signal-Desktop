@@ -14,7 +14,9 @@ import {
 } from '../state/ducks/calling';
 import { Avatar } from './Avatar';
 import { CallingButton, CallingButtonType } from './CallingButton';
+import { CallBackgroundBlur } from './CallBackgroundBlur';
 import { CallState } from '../types/Calling';
+import { ColorType } from '../types/Colors';
 import { LocalizerType } from '../types/Util';
 
 export type PropsType = {
@@ -25,6 +27,14 @@ export type PropsType = {
   hasLocalVideo: boolean;
   hasRemoteVideo: boolean;
   i18n: LocalizerType;
+  me: {
+    avatarPath?: string;
+    color?: ColorType;
+    name?: string;
+    phoneNumber?: string;
+    profileName?: string;
+    title: string;
+  };
   setLocalAudio: (_: SetLocalAudioType) => void;
   setLocalVideo: (_: SetLocalVideoType) => void;
   setLocalPreview: (_: SetLocalPreviewType) => void;
@@ -41,6 +51,7 @@ export const CallScreen: React.FC<PropsType> = ({
   hasLocalVideo,
   hasRemoteVideo,
   i18n,
+  me,
   setLocalAudio,
   setLocalVideo,
   setLocalPreview,
@@ -196,39 +207,61 @@ export const CallScreen: React.FC<PropsType> = ({
       ) : (
         renderAvatar(i18n, callDetails)
       )}
-      {hasLocalVideo && (
-        <video
-          className="module-ongoing-call__local-video"
-          ref={localVideoRef}
-          autoPlay
-        />
-      )}
-      <div
-        className={classNames(
-          'module-ongoing-call__actions',
-          controlsFadeClass
-        )}
-      >
-        <CallingButton
-          buttonType={videoButtonType}
-          i18n={i18n}
-          onClick={toggleVideo}
-          tooltipDistance={24}
-        />
-        <CallingButton
-          buttonType={audioButtonType}
-          i18n={i18n}
-          onClick={toggleAudio}
-          tooltipDistance={24}
-        />
-        <CallingButton
-          buttonType={CallingButtonType.HANG_UP}
-          i18n={i18n}
-          onClick={() => {
-            hangUp({ callId });
-          }}
-          tooltipDistance={24}
-        />
+      <div className="module-ongoing-call__footer">
+        {/* This layout-only element is not ideal.
+            See the comment in _modules.css for more. */}
+        <div className="module-ongoing-call__footer__local-preview-offset" />
+        <div
+          className={classNames(
+            'module-ongoing-call__footer__actions',
+            controlsFadeClass
+          )}
+        >
+          <CallingButton
+            buttonType={videoButtonType}
+            i18n={i18n}
+            onClick={toggleVideo}
+            tooltipDistance={24}
+          />
+          <CallingButton
+            buttonType={audioButtonType}
+            i18n={i18n}
+            onClick={toggleAudio}
+            tooltipDistance={24}
+          />
+          <CallingButton
+            buttonType={CallingButtonType.HANG_UP}
+            i18n={i18n}
+            onClick={() => {
+              hangUp({ callId });
+            }}
+            tooltipDistance={24}
+          />
+        </div>
+        <div className="module-ongoing-call__footer__local-preview">
+          {hasLocalVideo ? (
+            <video
+              className="module-ongoing-call__footer__local-preview__video"
+              ref={localVideoRef}
+              autoPlay
+            />
+          ) : (
+            <CallBackgroundBlur avatarPath={me.avatarPath} color={me.color}>
+              <Avatar
+                avatarPath={me.avatarPath}
+                color={me.color || 'ultramarine'}
+                noteToSelf={false}
+                conversationType="direct"
+                i18n={i18n}
+                name={me.name}
+                phoneNumber={me.phoneNumber}
+                profileName={me.profileName}
+                title={me.title}
+                size={80}
+              />
+            </CallBackgroundBlur>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -45,6 +45,7 @@ export const CallManager = ({
   hasLocalVideo,
   hasRemoteVideo,
   i18n,
+  me,
   pip,
   renderDeviceSelection,
   setLocalAudio,
@@ -130,6 +131,7 @@ export const CallManager = ({
           hasLocalAudio={hasLocalAudio}
           hasLocalVideo={hasLocalVideo}
           i18n={i18n}
+          me={me}
           hasRemoteVideo={hasRemoteVideo}
           setLocalPreview={setLocalPreview}
           setRendererCanvas={setRendererCanvas}
