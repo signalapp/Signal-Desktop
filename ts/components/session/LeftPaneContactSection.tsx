@@ -1,13 +1,6 @@
 import React from 'react';
 
-import {
-  ConversationListItemWithDetails,
-  PropsData as ConversationListItemPropsType,
-} from '../ConversationListItem';
-import { PropsData as SearchResultsProps } from '../SearchResults';
-import { debounce } from 'lodash';
-import { cleanSearchTerm } from '../../util/cleanSearchTerm';
-import { SearchOptions } from '../../types/Search';
+import { ConversationListItemWithDetails } from '../ConversationListItem';
 import { LeftPane, RowRendererParamsType } from '../LeftPane';
 import {
   SessionButton,
@@ -25,17 +18,9 @@ import { MainViewController } from '../MainViewController';
 import { ToastUtils } from '../../session/utils';
 
 export interface Props {
-  searchTerm: string;
-  isSecondaryDevice: boolean;
+  directContacts: Array<ConversationType>;
 
-  conversations: Array<ConversationListItemPropsType>;
-  contacts: Array<ConversationType>;
-  searchResults?: SearchResultsProps;
-
-  updateSearchTerm: (searchTerm: string) => void;
-  search: (query: string, options: SearchOptions) => void;
   openConversationInternal: (id: string, messageId?: string) => void;
-  clearSearch: () => void;
 }
 
 interface State {
@@ -45,8 +30,6 @@ interface State {
 }
 
 export class LeftPaneContactSection extends React.Component<Props, State> {
-  private readonly debouncedSearch: (searchTerm: string) => void;
-
   public constructor(props: Props) {
     super(props);
     this.state = {
@@ -55,7 +38,6 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
       pubKeyPasted: '',
     };
 
-    this.debouncedSearch = debounce(this.search.bind(this), 20);
     this.handleToggleOverlay = this.handleToggleOverlay.bind(this);
     this.handleOnAddContact = this.handleOnAddContact.bind(this);
     this.handleRecipientSessionIDChanged = this.handleRecipientSessionIDChanged.bind(
@@ -75,7 +57,6 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
   }
 
   public componentWillUnmount() {
-    this.updateSearch('');
     this.setState({ addContactRecipientID: '' });
     window.Whisper.events.off('calculatingPoW', this.closeOverlay);
   }
@@ -109,12 +90,12 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     key,
     style,
   }: RowRendererParamsType): JSX.Element | undefined => {
-    const contacts = this.getDirectContactsOnly();
-    const item = contacts[index];
+    const { directContacts } = this.props;
+    const item = directContacts[index];
 
     return (
       <ConversationListItemWithDetails
-        key={key}
+        key={item.id}
         style={style}
         {...item}
         i18n={window.i18n}
@@ -122,51 +103,6 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
       />
     );
   };
-
-  public updateSearch(searchTerm: string) {
-    const { updateSearchTerm, clearSearch } = this.props;
-
-    if (!searchTerm) {
-      clearSearch();
-
-      return;
-    }
-
-    this.setState({ pubKeyPasted: '' });
-
-    if (updateSearchTerm) {
-      updateSearchTerm(searchTerm);
-    }
-
-    if (searchTerm.length < 2) {
-      return;
-    }
-
-    const cleanedTerm = cleanSearchTerm(searchTerm);
-    if (!cleanedTerm) {
-      return;
-    }
-
-    this.debouncedSearch(cleanedTerm);
-  }
-
-  public clearSearch() {
-    this.props.clearSearch();
-  }
-
-  public search() {
-    const { search } = this.props;
-    const { searchTerm, isSecondaryDevice } = this.props;
-
-    if (search) {
-      search(searchTerm, {
-        noteToSelf: window.i18n('noteToSelf').toLowerCase(),
-        ourNumber: window.textsecure.storage.user.getNumber(),
-        regionCode: '',
-        isSecondaryDevice,
-      });
-    }
-  }
 
   private renderClosableOverlay() {
     return (
@@ -234,13 +170,9 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     );
   }
 
-  private getDirectContactsOnly() {
-    return this.props.contacts.filter(f => f.type === 'direct');
-  }
-
   private renderList() {
-    const contacts = this.getDirectContactsOnly();
-    const length = Number(contacts.length);
+    const { directContacts } = this.props;
+    const length = Number(directContacts.length);
 
     const list = (
       <div className="module-left-pane__list" key={0}>
@@ -249,6 +181,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
             <List
               className="module-left-pane__virtual-list"
               height={height}
+              directContacts={directContacts} // needed for change in props refresh
               rowCount={length}
               rowHeight={64}
               rowRenderer={this.renderRow}

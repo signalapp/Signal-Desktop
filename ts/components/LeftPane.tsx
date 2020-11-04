@@ -137,31 +137,20 @@ export class LeftPane extends React.Component<Props> {
   }
 
   private renderContactSection() {
-    const {
-      openConversationInternal,
-      conversations,
-      searchResults,
-      searchTerm,
-      isSecondaryDevice,
-      updateSearchTerm,
-      search,
-      clearSearch,
-      contacts,
-    } = this.props;
+    const { openConversationInternal } = this.props;
+
+    const directContacts = this.getDirectContactsOnly();
 
     return (
       <LeftPaneContactSection
         openConversationInternal={openConversationInternal}
-        conversations={conversations}
-        contacts={contacts}
-        searchResults={searchResults}
-        searchTerm={searchTerm}
-        isSecondaryDevice={isSecondaryDevice}
-        updateSearchTerm={updateSearchTerm}
-        search={search}
-        clearSearch={clearSearch}
+        directContacts={directContacts}
       />
     );
+  }
+
+  private getDirectContactsOnly() {
+    return this.props.contacts.filter(f => f.type === 'direct');
   }
 
   private renderSettingSection() {
