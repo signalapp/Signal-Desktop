@@ -400,7 +400,6 @@
     @include color-svg('../images/timer-00.svg', $color-white-08);
   }
 
-
   // When status indicators are overlaid on top of an image, they use different colors
   .module-expire-timer--with-image-no-caption {
     background-color: $color-dark-05;

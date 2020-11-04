@@ -344,6 +344,7 @@ export class Message extends React.PureComponent<Props, State> {
   // tslint:disable-next-line max-func-body-length cyclomatic-complexity
   public renderAttachment() {
     const {
+      id,
       attachments,
       text,
       collapseMetadata,
@@ -351,6 +352,8 @@ export class Message extends React.PureComponent<Props, State> {
       direction,
       quote,
       onClickAttachment,
+      multiSelectMode,
+      onSelectMessage,
     } = this.props;
     const { imageBroken } = this.state;
 
@@ -391,7 +394,13 @@ export class Message extends React.PureComponent<Props, State> {
             bottomOverlay={!collapseMetadata}
             i18n={window.i18n}
             onError={this.handleImageErrorBound}
-            onClickAttachment={onClickAttachment}
+            onClickAttachment={(attachment: AttachmentType) => {
+              if (multiSelectMode) {
+                onSelectMessage(id);
+              } else if (onClickAttachment) {
+                onClickAttachment(attachment);
+              }
+            }}
           />
         </div>
       );
