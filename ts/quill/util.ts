@@ -6,6 +6,7 @@ import Delta from 'quill-delta';
 import { DeltaOperation } from 'quill';
 
 import { ConversationType } from '../state/ducks/conversations';
+import { BodyRangeType } from '../types/Util';
 
 const FUSE_OPTIONS = {
   shouldSort: true,
@@ -13,6 +14,52 @@ const FUSE_OPTIONS = {
   maxPatternLength: 32,
   minMatchCharLength: 1,
   keys: ['name', 'firstName', 'profileName', 'title'],
+};
+
+export const getTextAndMentionsFromOps = (
+  ops: Array<DeltaOperation>
+): [string, Array<BodyRangeType>] => {
+  const mentions: Array<BodyRangeType> = [];
+
+  const text = ops.reduce((acc, { insert }, index) => {
+    if (typeof insert === 'string') {
+      let textToAdd;
+      switch (index) {
+        case 0: {
+          textToAdd = insert.trimLeft();
+          break;
+        }
+        case ops.length - 1: {
+          textToAdd = insert.trimRight();
+          break;
+        }
+        default: {
+          textToAdd = insert;
+          break;
+        }
+      }
+      return acc + textToAdd;
+    }
+
+    if (insert.emoji) {
+      return acc + insert.emoji;
+    }
+
+    if (insert.mention) {
+      mentions.push({
+        length: 1, // The length of `\uFFFC`
+        mentionUuid: insert.mention.uuid,
+        replacementText: insert.mention.title,
+        start: acc.length,
+      });
+
+      return `${acc}\uFFFC`;
+    }
+
+    return acc;
+  }, '');
+
+  return [text, mentions];
 };
 
 export const getDeltaToRemoveStaleMentions = (

@@ -8655,7 +8655,12 @@ button.module-image__border-overlay:focus {
     height: 100%;
 
     .ql-editor {
+      caret-color: transparent;
       padding: 0;
+
+      &--loaded {
+        caret-color: auto;
+      }
 
       &.ql-blank::before {
         left: 0;

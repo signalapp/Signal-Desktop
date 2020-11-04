@@ -24,7 +24,11 @@ import {
   matchReactEmoji,
 } from '../quill/emoji/matchers';
 import { matchMention } from '../quill/mentions/matchers';
-import { MemberRepository, getDeltaToRemoveStaleMentions } from '../quill/util';
+import {
+  MemberRepository,
+  getDeltaToRemoveStaleMentions,
+  getTextAndMentionsFromOps,
+} from '../quill/util';
 
 Quill.register('formats/emoji', EmojiBlot);
 Quill.register('formats/mention', MentionBlot);
@@ -221,32 +225,7 @@ export const CompositionInput: React.ComponentType<Props> = props => {
       return ['', []];
     }
 
-    const mentions: Array<BodyRangeType> = [];
-
-    const text = ops.reduce((acc, { insert }) => {
-      if (typeof insert === 'string') {
-        return acc + insert;
-      }
-
-      if (insert.emoji) {
-        return acc + insert.emoji;
-      }
-
-      if (insert.mention) {
-        mentions.push({
-          length: 1, // The length of `\uFFFC`
-          mentionUuid: insert.mention.uuid,
-          replacementText: insert.mention.title,
-          start: acc.length,
-        });
-
-        return `${acc}\uFFFC`;
-      }
-
-      return acc;
-    }, '');
-
-    return [text.trim(), mentions];
+    return getTextAndMentionsFromOps(ops);
   };
 
   const focus = () => {
@@ -368,7 +347,7 @@ export const CompositionInput: React.ComponentType<Props> = props => {
       return false;
     }
 
-    if (large) {
+    if (propsRef.current.large) {
       return true;
     }
 
@@ -433,6 +412,26 @@ export const CompositionInput: React.ComponentType<Props> = props => {
     }
 
     return true;
+  };
+
+  const onCtrlA = () => {
+    const quill = quillRef.current;
+
+    if (quill === undefined) {
+      return;
+    }
+
+    quill.setSelection(0, 0);
+  };
+
+  const onCtrlE = () => {
+    const quill = quillRef.current;
+
+    if (quill === undefined) {
+      return;
+    }
+
+    quill.setSelection(quill.getLength(), 0);
   };
 
   const onChange = () => {
@@ -564,6 +563,8 @@ export const CompositionInput: React.ComponentType<Props> = props => {
                   handler: onShortKeyEnter,
                 },
                 onEscape: { key: 27, handler: onEscape }, // 27 = Escape
+                onCtrlA: { key: 65, ctrlKey: true, handler: onCtrlA }, // 65 = a
+                onCtrlE: { key: 69, ctrlKey: true, handler: onCtrlE }, // 69 = e
               },
             },
             emojiCompletion: {
@@ -603,6 +604,7 @@ export const CompositionInput: React.ComponentType<Props> = props => {
 
                 setTimeout(() => {
                   quill.setSelection(quill.getLength(), 0);
+                  quill.root.classList.add('ql-editor--loaded');
                 }, 0);
               });
 

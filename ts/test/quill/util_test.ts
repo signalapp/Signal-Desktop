@@ -5,6 +5,7 @@ import { assert } from 'chai';
 import {
   MemberRepository,
   getDeltaToRemoveStaleMentions,
+  getTextAndMentionsFromOps,
 } from '../../quill/util';
 import { ConversationType } from '../../state/ducks/conversations';
 
@@ -159,6 +160,75 @@ describe('getDeltaToRemoveStaleMentions', () => {
       const { ops } = getDeltaToRemoveStaleMentions(originalOps, memberUuids);
 
       assert.deepEqual(ops, originalOps);
+    });
+  });
+});
+
+describe('getTextAndMentionsFromOps', () => {
+  describe('given only text', () => {
+    it('returns only text trimmed', () => {
+      const ops = [{ insert: ' The ' }, { insert: ' text ' }];
+      const [resultText, resultMentions] = getTextAndMentionsFromOps(ops);
+      assert.equal(resultText, 'The  text');
+      assert.equal(resultMentions.length, 0);
+    });
+  });
+
+  describe('given text, emoji, and mentions', () => {
+    it('returns the trimmed text with placeholders and mentions', () => {
+      const ops = [
+        {
+          insert: {
+            emoji: '😂',
+          },
+        },
+        {
+          insert: ' wow, funny, ',
+        },
+        {
+          insert: {
+            mention: {
+              uuid: 'abcdef',
+              title: '@fred',
+            },
+          },
+        },
+      ];
+      const [resultText, resultMentions] = getTextAndMentionsFromOps(ops);
+      assert.equal(resultText, '😂 wow, funny, \uFFFC');
+      assert.deepEqual(resultMentions, [
+        {
+          length: 1,
+          mentionUuid: 'abcdef',
+          replacementText: '@fred',
+          start: 15,
+        },
+      ]);
+    });
+  });
+
+  describe('given only mentions', () => {
+    it('returns the trimmed text with placeholders and mentions', () => {
+      const ops = [
+        {
+          insert: {
+            mention: {
+              uuid: 'abcdef',
+              title: '@fred',
+            },
+          },
+        },
+      ];
+      const [resultText, resultMentions] = getTextAndMentionsFromOps(ops);
+      assert.equal(resultText, '\uFFFC');
+      assert.deepEqual(resultMentions, [
+        {
+          length: 1,
+          mentionUuid: 'abcdef',
+          replacementText: '@fred',
+          start: 0,
+        },
+      ]);
     });
   });
 });
