@@ -20,6 +20,7 @@ import {
 import Fuse from 'fuse.js';
 import PQueue from 'p-queue';
 import is from '@sindresorhus/is';
+import { getOwn } from '../../util/getOwn';
 
 export const skinTones = ['1F3FB', '1F3FC', '1F3FD', '1F3FE', '1F3FF'];
 
@@ -282,19 +283,11 @@ export function convertShortName(
 }
 
 export function emojiToImage(emoji: string): string | undefined {
-  if (!Object.prototype.hasOwnProperty.call(imageByEmoji, emoji)) {
-    return undefined;
-  }
-
-  return imageByEmoji[emoji];
+  return getOwn(imageByEmoji, emoji);
 }
 
 export function emojiToData(emoji: string): EmojiData | undefined {
-  if (!Object.prototype.hasOwnProperty.call(dataByEmoji, emoji)) {
-    return undefined;
-  }
-
-  return dataByEmoji[emoji];
+  return getOwn(dataByEmoji, emoji);
 }
 
 function getCountOfAllMatches(str: string, regex: RegExp) {
