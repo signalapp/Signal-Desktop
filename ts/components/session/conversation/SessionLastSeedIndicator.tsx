@@ -1,11 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const LastSeenBarContainer = styled.div`
-  padding-top: 25px;
-  padding-bottom: 35px;
+interface LastSeenProps {
+  show: boolean;
+}
+
+const LastSeenBarContainer = styled.div<LastSeenProps>`
+  padding-bottom: ${props => (props.show ? '35px' : 0)};
   margin-inline-start: 28px;
-  padding-top: 28px;
+  padding-top: ${props => (props.show ? '28px' : 0)};
+  transition: ${props => props.theme.common.animations.defaultDuration};
+  overflow: hidden;
+  height: ${props => (props.show ? 'auto' : 0)};
 `;
 
 const LastSeenBar = styled.div`
@@ -25,12 +31,18 @@ const LastSeenText = styled.div`
   color: ${props => props.theme.colors.lastSeenIndicatorTextColor};
 `;
 
-export const SessionLastSeenIndicator = ({ count }: { count: number }) => {
+export const SessionLastSeenIndicator = ({
+  count,
+  show,
+}: {
+  count: number;
+  show: boolean;
+}) => {
   const { i18n } = window;
   const text =
     count > 1 ? i18n('unreadMessages', count) : i18n('unreadMessage', count);
   return (
-    <LastSeenBarContainer>
+    <LastSeenBarContainer show={show}>
       <LastSeenBar>
         <LastSeenText>{text}</LastSeenText>
       </LastSeenBar>

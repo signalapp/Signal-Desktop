@@ -27,7 +27,6 @@ interface Props {
   selectedMessages: Array<string>;
   conversationKey: string;
   messages: Array<MessageModel>;
-  initialFetchComplete: boolean;
   conversation: ConversationType;
   messageContainerRef: React.RefObject<any>;
   selectMessage: (messageId: string) => void;
@@ -116,12 +115,16 @@ export class SessionConversationMessagesList extends React.Component<
   }
 
   public renderMessages(messages: Array<MessageModel>) {
-    const { conversation } = this.props;
     const { isScrolledToBottom } = this.state;
 
-    const { unreadCount } = conversation;
     const multiSelectMode = Boolean(this.props.selectedMessages.length);
     let currentMessageIndex = 0;
+    // find the first unread message in the list of messages. We use this to display the
+    // unread banner so this is at all times at the correct index.
+    const findFirstUnreadIndex = messages.findIndex(
+      message =>
+        !(message?.attributes?.unread && message?.attributes?.unread !== false)
+    );
     return (
       <>
         {messages.map((message: MessageModel) => {
@@ -134,16 +137,18 @@ export class SessionConversationMessagesList extends React.Component<
           const propsForGroupInvitation = message.propsForGroupInvitation;
 
           const groupNotificationProps = message.propsForGroupNotification;
-          let unreadIndicator = null;
 
-          // if there is some unread messages
-          if (
-            unreadCount > 0 &&
-            currentMessageIndex === unreadCount &&
-            !isScrolledToBottom
-          ) {
-            unreadIndicator = <SessionLastSeenIndicator count={unreadCount} />;
-          }
+          // if there are some unread messages
+          const showUnreadIndicator =
+            !isScrolledToBottom &&
+            findFirstUnreadIndex > 0 &&
+            currentMessageIndex === findFirstUnreadIndex;
+          const unreadIndicator = (
+            <SessionLastSeenIndicator
+              count={findFirstUnreadIndex} // count is used for the 118n of the string
+              show={showUnreadIndicator}
+            />
+          );
 
           currentMessageIndex = currentMessageIndex + 1;
 
@@ -391,6 +396,15 @@ export class SessionConversationMessagesList extends React.Component<
 
     if (scrollOffsetPc === 0 && this.state.doneInitialScroll) {
       this.setState({ isScrolledToBottom: true });
+    } else if (
+      scrollHeight !== 0 &&
+      scrollHeight === clientHeight &&
+      !this.state.isScrolledToBottom
+    ) {
+      this.setState({ isScrolledToBottom: true }, () => {
+        // Mark messages read
+        this.updateReadMessages();
+      });
     }
   }
 

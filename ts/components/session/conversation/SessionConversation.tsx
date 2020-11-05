@@ -154,7 +154,6 @@ export class SessionConversation extends React.Component<Props, State> {
 
   public async componentWillMount() {
     await this.loadInitialMessages();
-    this.setState({ initialFetchComplete: true });
   }
 
   public componentWillUnmount() {
@@ -331,15 +330,20 @@ export class SessionConversation extends React.Component<Props, State> {
     // After the inital fetch, all new messages are automatically added from onNewMessage
     // in the conversation model.
     // The only time we need to call getMessages() is to grab more messages on scroll.
-    const { initialFetchComplete } = this.state;
-    if (initialFetchComplete) {
+    if (this.state.initialFetchComplete) {
       return;
     }
 
-    return this.getMessages(Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT);
+    return this.getMessages(
+      Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT,
+      () => {
+        this.setState({ initialFetchComplete: true });
+      }
+    );
   }
 
-  public async getMessages(numMessages?: number) {
+  // tslint:disable-next-line: no-empty
+  public async getMessages(numMessages?: number, callback: any = () => {}) {
     const { unreadCount } = this.state;
     const { conversationKey } = this.props;
     let msgCount =
@@ -365,7 +369,7 @@ export class SessionConversation extends React.Component<Props, State> {
     const messages = [];
     // no need to do that `firstMessageOfSeries` on a private chat
     if (this.props.conversation.type === 'direct') {
-      this.setState({ messages: messageSet.models });
+      this.setState({ messages: messageSet.models }, callback);
       return;
     }
 
@@ -386,7 +390,7 @@ export class SessionConversation extends React.Component<Props, State> {
       messages.push({ ...messageModels[i], firstMessageOfSeries });
     }
 
-    this.setState({ messages });
+    this.setState({ messages }, callback);
   }
 
   public getHeaderProps() {
@@ -494,19 +498,13 @@ export class SessionConversation extends React.Component<Props, State> {
 
   public getMessagesListProps() {
     const { conversation } = this.props;
-    const {
-      messages,
-      initialFetchComplete,
-      quotedMessageTimestamp,
-      selectedMessages,
-    } = this.state;
+    const { messages, quotedMessageTimestamp, selectedMessages } = this.state;
 
     return {
       selectedMessages,
       conversationKey: conversation.id,
       messages,
       resetSelection: this.resetSelection,
-      initialFetchComplete,
       quotedMessageTimestamp,
       conversation,
       selectMessage: this.selectMessage,
