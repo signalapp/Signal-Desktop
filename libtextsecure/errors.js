@@ -226,6 +226,18 @@
     }
   }
 
+  function PreKeyMissing() {
+    this.name = 'PreKeyMissing';
+
+    Error.call(this, this.name);
+
+    // Maintains proper stack trace, where our error was thrown (only available on V8)
+    //   via https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this);
+    }
+  }
+
   window.textsecure.SendMessageNetworkError = SendMessageNetworkError;
   window.textsecure.IncomingIdentityKeyError = IncomingIdentityKeyError;
   window.textsecure.OutgoingIdentityKeyError = OutgoingIdentityKeyError;
@@ -243,4 +255,5 @@
   window.textsecure.PublicChatError = PublicChatError;
   window.textsecure.PublicTokenError = PublicTokenError;
   window.textsecure.SenderKeyMissing = SenderKeyMissing;
+  window.textsecure.PreKeyMissing = PreKeyMissing;
 })();

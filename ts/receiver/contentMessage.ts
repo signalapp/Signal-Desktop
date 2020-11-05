@@ -6,7 +6,10 @@ import { removeFromCache, updateCache } from './cache';
 import { SignalService } from '../protobuf';
 import * as Lodash from 'lodash';
 import * as libsession from '../session';
-import { handleSessionRequestMessage } from './sessionHandling';
+import {
+  handleEndSession,
+  handleSessionRequestMessage,
+} from './sessionHandling';
 import { handlePairingAuthorisationMessage } from './multidevice';
 import { MediumGroupRequestKeysMessage } from '../session/messages/outgoing';
 import { MultiDeviceProtocol, SessionProtocol } from '../session/protocols';
@@ -169,16 +172,16 @@ async function decryptUnidentifiedSender(
         window.log.info(
           'Dropping blocked message with error after sealed sender decryption'
         );
+        await removeFromCache(envelope);
         return null;
       }
 
-      // eslint-disable-next-line no-param-reassign
+      // eslint-disable no-param-reassign
       envelope.source = source.getName();
-      // eslint-disable-next-line no-param-reassign
       envelope.sourceDevice = source.getDeviceId();
-      // eslint-disable-next-line no-param-reassign
       envelope.unidentifiedDeliveryReceived = !originalSource;
-
+      // eslint-enable no-param-reassign
+      await removeFromCache(envelope);
       throw error;
     }
 
@@ -257,6 +260,7 @@ async function doDecrypt(
   }
 }
 
+// tslint:disable-next-line: max-func-body-length
 async function decrypt(
   envelope: EnvelopePlus,
   ciphertext: ArrayBuffer
@@ -309,6 +313,17 @@ async function decrypt(
 
         return;
       }
+    } else if (error instanceof window.textsecure.PreKeyMissing) {
+      const convo = window.ConversationController.get(envelope.source);
+      if (!convo) {
+        window.console.warn(
+          'PreKeyMissing but convo is missing too. Dropping...'
+        );
+        return;
+      }
+      void convo.endSession();
+
+      return;
     }
 
     let errorToThrow = error;

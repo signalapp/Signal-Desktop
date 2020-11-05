@@ -232,8 +232,7 @@
         };
       }
 
-      window.log.error('Failed to fetch prekey:', keyId);
-      return undefined;
+      throw new textsecure.PreKeyMissing();
     },
     async loadPreKeyForContact(contactPubKey) {
       const key = await window.Signal.Data.getPreKeyByRecipient(contactPubKey);

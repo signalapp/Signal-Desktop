@@ -928,10 +928,6 @@
       }
     },
 
-    endSession() {
-      this.model.endSession();
-    },
-
     setDisappearingMessages(seconds) {
       if (seconds > 0) {
         this.model.updateExpirationTimer(seconds);
