@@ -302,6 +302,7 @@ function updateForMac(template, messages, options) {
     },
     {
       label: messages.show.message,
+      accelerator: 'CmdOrCtrl+Shift+0',
       click: showWindow,
     },
     {
