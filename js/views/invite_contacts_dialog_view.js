@@ -57,14 +57,21 @@
     submit(pubkeys) {
       // public group chats
       if (this.isPublic) {
-        window.sendGroupInvitations(
-          {
-            address: this.chatServer,
-            name: this.chatName,
-            channelId: this.channelId,
-          },
-          pubkeys
-        );
+        const serverInfos = {
+          address: this.chatServer,
+          name: this.chatName,
+          channelId: this.channelId,
+        };
+        pubkeys.forEach(async pubkeyStr => {
+          const convo = await window.ConversationController.getOrCreateAndWait(
+            pubkeyStr,
+            'private'
+          );
+
+          if (convo) {
+            convo.sendMessage('', null, null, null, serverInfos);
+          }
+        });
       } else {
         // private group chats
         const ourPK = window.textsecure.storage.user.getNumber();

@@ -215,6 +215,7 @@ exports.isVoiceMessage = AttachmentTS.isVoiceMessage;
 exports.save = AttachmentTS.save;
 exports.getFileExtension = AttachmentTS.getFileExtension;
 exports.getSuggestedFilenameSending = AttachmentTS.getSuggestedFilenameSending;
+exports.arrayBufferFromFile = AttachmentTS.arrayBufferFromFile;
 
 const THUMBNAIL_SIZE = 150;
 const THUMBNAIL_CONTENT_TYPE = 'image/png';

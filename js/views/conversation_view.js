@@ -210,37 +210,6 @@
       // paste: 'onPaste',
     },
 
-    onChooseAttachment(e) {
-      if (e) {
-        e.stopPropagation();
-        e.preventDefault();
-      }
-
-      this.$('input.file-input').click();
-    },
-    async onChoseAttachment() {
-      const fileField = this.$('input.file-input');
-      const files = fileField.prop('files');
-
-      for (let i = 0, max = files.length; i < max; i += 1) {
-        const file = files[i];
-        // eslint-disable-next-line no-await-in-loop
-        await this.fileInput.maybeAddAttachment(file);
-        this.toggleMicrophone();
-      }
-
-      fileField.val(null);
-    },
-
-    onDragOver(e) {
-      this.fileInput.onDragOver(e);
-    },
-    onDragLeave(e) {
-      this.fileInput.onDragLeave(e);
-    },
-    onDrop(e) {
-      this.fileInput.onDrop(e);
-    },
     onPaste(e) {
       this.fileInput.onPaste(e);
     },
@@ -256,13 +225,6 @@
       } else if (this.view.atBottom()) {
         this.trim();
       }
-    },
-
-    onDisableInput(disable) {
-      this.$('button.microphone, button.paperclip, .send-message').attr(
-        'disabled',
-        disable
-      );
     },
 
     onChangePlaceholder(type) {

@@ -919,23 +919,6 @@
       return conversation;
     };
 
-    window.sendGroupInvitations = (serverInfo, pubkeys) => {
-      pubkeys.forEach(async pubkeyStr => {
-        const convo = await ConversationController.getOrCreateAndWait(
-          pubkeyStr,
-          'private'
-        );
-
-        if (convo) {
-          convo.sendMessage('', null, null, null, {
-            serverName: serverInfo.name,
-            channelId: serverInfo.channelId,
-            serverAddress: serverInfo.address,
-          });
-        }
-      });
-    };
-
     Whisper.events.on('updateGroupName', async groupConvo => {
       if (appView) {
         appView.showUpdateGroupNameDialog(groupConvo);

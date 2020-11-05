@@ -50,7 +50,6 @@ const {
   SettingsView,
 } = require('../../ts/components/session/settings/SessionSettings');
 const { SessionToast } = require('../../ts/components/session/SessionToast');
-const { SessionToggle } = require('../../ts/components/session/SessionToggle');
 const { SessionModal } = require('../../ts/components/session/SessionModal');
 const {
   SessionSeedModal,
@@ -272,7 +271,6 @@ exports.setup = (options = {}) => {
     GroupInvitation,
     SessionConversation,
     SessionToast,
-    SessionToggle,
     SessionConfirm,
     SessionModal,
     SessionSeedModal,
