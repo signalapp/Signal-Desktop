@@ -1,10 +1,16 @@
 import { StagedAttachmentType } from '../components/session/conversation/SessionCompositionBox';
 import { SignalService } from '../protobuf';
 
-export async function autoScale<T extends { contentType: string; file: any }>(
-  attachment: T
-): Promise<T> {
-  const { contentType, file } = attachment;
+export interface MaxScaleSize {
+  maxSize: number;
+  maxHeight: number;
+  maxWidth: number;
+}
+
+export async function autoScale<
+  T extends { contentType: string; file: any; maxMeasurements?: MaxScaleSize }
+>(attachment: T): Promise<T> {
+  const { contentType, file, maxMeasurements } = attachment;
   if (contentType.split('/')[0] !== 'image' || contentType === 'image/tiff') {
     // nothing to do
     return Promise.resolve(attachment);
@@ -17,9 +23,10 @@ export async function autoScale<T extends { contentType: string; file: any }>(
     img.onload = () => {
       URL.revokeObjectURL(url);
 
-      const maxSize = 6000 * 1024;
-      const maxHeight = 4096;
-      const maxWidth = 4096;
+      const maxSize = maxMeasurements?.maxSize || 6000 * 1024;
+      const maxHeight = maxMeasurements?.maxHeight || 4096;
+      const maxWidth = maxMeasurements?.maxWidth || 4096;
+
       if (
         img.naturalWidth <= maxWidth &&
         img.naturalHeight <= maxHeight &&

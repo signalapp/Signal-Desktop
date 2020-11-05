@@ -722,6 +722,24 @@
             let profileKey = null;
             if (avatar) {
               const data = await readFile({ file: avatar });
+              // Ensure that this file is either small enough or is resized to meet our
+              //   requirements for attachments
+              const withBlob = await window.Signal.Util.AttachmentUtil.autoScale(
+                {
+                  contentType: avatar.type,
+                  file: new Blob([data.data], {
+                    type: avatar.contentType,
+                  }),
+                  maxMeasurements: {
+                    maxSize: 1000 * 1024,
+                    maxHeight: 512,
+                    maxWidth: 512,
+                  },
+                }
+              );
+              const dataResized = await window.Signal.Types.Attachment.arrayBufferFromFile(
+                withBlob.file
+              );
 
               // For simplicity we use the same attachment pointer that would send to
               // others, which means we need to wait for the database response.
@@ -734,13 +752,13 @@
               // Encrypt with a new key every time
               profileKey = libsignal.crypto.getRandomBytes(32);
               const encryptedData = await textsecure.crypto.encryptProfile(
-                data.data,
+                dataResized,
                 profileKey
               );
 
               const avatarPointer = await libsession.Utils.AttachmentUtils.uploadAvatar(
                 {
-                  ...data,
+                  ...dataResized,
                   data: encryptedData,
                   size: encryptedData.byteLength,
                 }
