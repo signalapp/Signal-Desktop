@@ -8701,7 +8701,8 @@ button.module-image__border-overlay:focus {
     display: inline-block;
     padding-left: 4px;
     padding-right: 4px;
-    border: 1px solid transparent;
+    height: 22px;
+    line-height: 22px;
 
     @include dark-theme {
       background-color: $color-gray-60;

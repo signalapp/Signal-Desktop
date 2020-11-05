@@ -6,6 +6,7 @@ import { assert } from 'chai';
 import {
   getDeltaToRemoveStaleMentions,
   getTextAndMentionsFromOps,
+  getDeltaToRestartMention,
 } from '../../quill/util';
 
 describe('getDeltaToRemoveStaleMentions', () => {
@@ -145,6 +146,62 @@ describe('getTextAndMentionsFromOps', () => {
           mentionUuid: 'abcdef',
           replacementText: '@fred',
           start: 0,
+        },
+      ]);
+    });
+  });
+});
+
+describe('getDeltaToRestartMention', () => {
+  describe('given text and emoji', () => {
+    it('returns the correct retains, a delete, and an @', () => {
+      const originalOps = [
+        {
+          insert: {
+            emoji: '😂',
+          },
+        },
+        {
+          insert: {
+            mention: {
+              uuid: 'ghijkl',
+              title: '@sam',
+            },
+          },
+        },
+        {
+          insert: ' wow, funny, ',
+        },
+        {
+          insert: {
+            mention: {
+              uuid: 'abcdef',
+              title: '@fred',
+            },
+          },
+        },
+      ];
+
+      const { ops } = getDeltaToRestartMention(originalOps);
+
+      assert.deepEqual(ops, [
+        {
+          retain: 1,
+        },
+        {
+          retain: 1,
+        },
+        {
+          retain: 13,
+        },
+        {
+          retain: 1,
+        },
+        {
+          delete: 1,
+        },
+        {
+          insert: '@',
         },
       ]);
     });

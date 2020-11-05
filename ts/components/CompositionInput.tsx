@@ -24,11 +24,13 @@ import {
   matchReactEmoji,
 } from '../quill/emoji/matchers';
 import { matchMention } from '../quill/mentions/matchers';
+import { MemberRepository } from '../quill/memberRepository';
 import {
   getDeltaToRemoveStaleMentions,
   getTextAndMentionsFromOps,
+  isMentionBlot,
+  getDeltaToRestartMention,
 } from '../quill/util';
-import { MemberRepository } from '../quill/memberRepository';
 
 Quill.register('formats/emoji', EmojiBlot);
 Quill.register('formats/mention', MentionBlot);
@@ -38,24 +40,6 @@ Quill.register('modules/mentionCompletion', MentionCompletion);
 const Block = Quill.import('blots/block');
 Block.tagName = 'DIV';
 Quill.register(Block, true);
-
-declare module 'quill' {
-  interface Quill {
-    // in-code reference missing in @types
-    scrollingContainer: HTMLElement;
-  }
-
-  interface KeyboardStatic {
-    // in-code reference missing in @types
-    bindings: Record<string | number, Array<unknown>>;
-  }
-}
-
-declare module 'react-quill' {
-  // `react-quill` uses a different but compatible version of Delta
-  // tell it to use the type definition from the `quill-delta` library
-  type DeltaStatic = Delta;
-}
 
 interface HistoryStatic {
   undo(): void;
@@ -401,7 +385,7 @@ export const CompositionInput: React.ComponentType<Props> = props => {
 
     if (mentionCompletion) {
       if (mentionCompletion.results.length) {
-        mentionCompletion.reset();
+        mentionCompletion.clearResults();
         return false;
       }
     }
@@ -432,6 +416,32 @@ export const CompositionInput: React.ComponentType<Props> = props => {
     }
 
     quill.setSelection(quill.getLength(), 0);
+  };
+
+  const onBackspace = () => {
+    const quill = quillRef.current;
+
+    if (quill === undefined) {
+      return true;
+    }
+
+    const selection = quill.getSelection();
+    if (!selection || selection.length > 0) {
+      return true;
+    }
+
+    const [blotToDelete] = quill.getLeaf(selection.index);
+    if (!isMentionBlot(blotToDelete)) {
+      return true;
+    }
+
+    const contents = quill.getContents(0, selection.index - 1);
+    const restartDelta = getDeltaToRestartMention(contents.ops);
+
+    quill.updateContents(restartDelta);
+    quill.setSelection(selection.index, 0);
+
+    return false;
   };
 
   const onChange = () => {
@@ -565,6 +575,7 @@ export const CompositionInput: React.ComponentType<Props> = props => {
                 onEscape: { key: 27, handler: onEscape }, // 27 = Escape
                 onCtrlA: { key: 65, ctrlKey: true, handler: onCtrlA }, // 65 = a
                 onCtrlE: { key: 69, ctrlKey: true, handler: onCtrlE }, // 69 = e
+                onBackspace: { key: 8, handler: onBackspace }, // 8 = Backspace
               },
             },
             emojiCompletion: {

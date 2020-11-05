@@ -1,6 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import _ from 'lodash';
 import Quill from 'quill';
 import Delta from 'quill-delta';
 import React, { RefObject } from 'react';
@@ -11,8 +12,8 @@ import { createPortal } from 'react-dom';
 import { ConversationType } from '../../state/ducks/conversations';
 import { Avatar } from '../../components/Avatar';
 import { LocalizerType } from '../../types/Util';
-
 import { MemberRepository } from '../memberRepository';
+import { matchBlotTextPartitions } from '../util';
 
 export interface MentionCompletionOptions {
   i18n: LocalizerType;
@@ -53,7 +54,7 @@ export class MentionCompletion {
 
     const clearResults = () => {
       if (this.results.length) {
-        this.reset();
+        this.clearResults();
       }
 
       return true;
@@ -73,7 +74,7 @@ export class MentionCompletion {
     this.quill.keyboard.addBinding({ key: 39 }, clearResults); // Right Arrow
     this.quill.keyboard.addBinding({ key: 40 }, changeIndex(1)); // Down Arrow
 
-    this.quill.on('text-change', this.onTextChange.bind(this));
+    this.quill.on('text-change', _.debounce(this.onTextChange.bind(this), 0));
     this.quill.on('selection-change', this.onSelectionChange.bind(this));
   }
 
@@ -95,96 +96,93 @@ export class MentionCompletion {
     }
   }
 
-  getCurrentLeafTextPartitions(): [string, string] {
+  onSelectionChange(): void {
+    // Selection should never change while we're editing a mention
+    this.clearResults();
+  }
+
+  possiblyShowMemberResults(): Array<ConversationType> {
     const range = this.quill.getSelection();
 
     if (range) {
-      const [blot, blotIndex] = this.quill.getLeaf(range.index);
+      const [blot, index] = this.quill.getLeaf(range.index);
 
-      if (blot !== undefined && blot.text !== undefined) {
-        const leftLeafText = blot.text.substr(0, blotIndex);
-        const rightLeafText = blot.text.substr(blotIndex);
+      const [leftTokenTextMatch] = matchBlotTextPartitions(
+        blot,
+        index,
+        MENTION_REGEX
+      );
 
-        return [leftLeafText, rightLeafText];
+      if (leftTokenTextMatch) {
+        const [, leftTokenText] = leftTokenTextMatch;
+
+        let results: Array<ConversationType> = [];
+
+        const memberRepository = this.options.memberRepositoryRef.current;
+
+        if (memberRepository) {
+          if (leftTokenText === '') {
+            results = memberRepository.getMembers(this.options.me);
+          } else {
+            const fullMentionText = leftTokenText;
+            results = memberRepository.search(fullMentionText, this.options.me);
+          }
+        }
+
+        return results;
       }
     }
 
-    return ['', ''];
-  }
-
-  onSelectionChange(): void {
-    // Selection should never change while we're editing a mention
-    this.reset();
+    return [];
   }
 
   onTextChange(): void {
-    const range = this.quill.getSelection();
+    const showMemberResults = this.possiblyShowMemberResults();
 
-    if (!range) return;
-
-    const [leftLeafText] = this.getCurrentLeafTextPartitions();
-
-    const leftTokenTextMatch = MENTION_REGEX.exec(leftLeafText);
-
-    if (!leftTokenTextMatch) {
-      this.reset();
-      return;
+    if (showMemberResults.length > 0) {
+      this.results = showMemberResults;
+      this.index = 0;
+      this.render();
+    } else if (this.results.length !== 0) {
+      this.clearResults();
     }
-
-    const [, leftTokenText] = leftTokenTextMatch;
-
-    let results: Array<ConversationType> = [];
-
-    const memberRepository = this.options.memberRepositoryRef.current;
-
-    if (memberRepository) {
-      if (leftTokenText === '') {
-        results = memberRepository.getMembers(this.options.me);
-      } else {
-        const fullMentionText = leftTokenText;
-        results = memberRepository.search(fullMentionText, this.options.me);
-      }
-    }
-
-    if (!results.length) {
-      this.reset();
-      return;
-    }
-
-    this.results = results;
-    this.index = 0;
-    this.render();
   }
 
-  completeMention(): void {
+  completeMention(resultIndexArg?: number): void {
+    const resultIndex = resultIndexArg || this.index;
+
     const range = this.quill.getSelection();
 
     if (range === null) return;
 
-    const member = this.results[this.index];
-    const [leftLeafText] = this.getCurrentLeafTextPartitions();
+    const member = this.results[resultIndex];
 
-    const leftTokenTextMatch = MENTION_REGEX.exec(leftLeafText);
+    const [blot, index] = this.quill.getLeaf(range.index);
 
-    if (leftTokenTextMatch === null) return;
-
-    const [, leftTokenText] = leftTokenTextMatch;
-
-    this.insertMention(
-      member,
-      range.index - leftTokenText.length - 1,
-      leftTokenText.length + 1,
-      true
+    const [leftTokenTextMatch] = matchBlotTextPartitions(
+      blot,
+      index,
+      MENTION_REGEX
     );
+
+    if (leftTokenTextMatch) {
+      const [, leftTokenText] = leftTokenTextMatch;
+
+      this.insertMention(
+        member,
+        range.index - leftTokenText.length - 1,
+        leftTokenText.length + 1,
+        true
+      );
+    }
   }
 
   insertMention(
-    member: ConversationType,
+    mention: ConversationType,
     index: number,
     range: number,
     withTrailingSpace = false
   ): void {
-    const mention = member;
     const delta = new Delta()
       .retain(index)
       .delete(range)
@@ -198,16 +196,14 @@ export class MentionCompletion {
       this.quill.setSelection(index + 1, 0, 'user');
     }
 
-    this.reset();
+    this.clearResults();
   }
 
-  reset(): void {
-    if (this.results.length) {
-      this.results = [];
-      this.index = 0;
+  clearResults(): void {
+    this.results = [];
+    this.index = 0;
 
-      this.render();
-    }
+    this.render();
   }
 
   onUnmount(): void {
@@ -266,8 +262,7 @@ export class MentionCompletion {
                   role="option button"
                   aria-selected={memberResultsIndex === index}
                   onClick={() => {
-                    this.index = index;
-                    this.completeMention();
+                    this.completeMention(index);
                   }}
                   className={classNames(
                     'module-composition-input__suggestions__row',

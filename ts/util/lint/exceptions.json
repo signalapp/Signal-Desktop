@@ -14906,7 +14906,7 @@
     "rule": "React-createRef",
     "path": "ts/quill/mentions/completion.js",
     "line": "        this.suggestionListRef = react_1.default.createRef();",
-    "lineNumber": 22,
+    "lineNumber": 24,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-30T23:03:08.319Z"
   },

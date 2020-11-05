@@ -18,36 +18,7 @@ import {
 } from '../../components/emoji/lib';
 import { Emoji } from '../../components/emoji/Emoji';
 import { EmojiPickDataType } from '../../components/emoji/EmojiPicker';
-
-type UpdatedDelta = Delta;
-
-declare module 'quill' {
-  // this type is fixed in @types/quill, but our version of react-quill cannot
-  // use the version of quill that has this fix in its typings
-  // doing this manually allows us to use the correct type
-  // https://github.com/DefinitelyTyped/DefinitelyTyped/commit/6090a81c7dbd02b6b917f903a28c6c010b8432ea#diff-bff5e435d15f8f99f733c837e76945bced86bb85e93a75467015cc9b33b48212
-  interface UpdatedKey {
-    key: string | number;
-    shiftKey?: boolean;
-  }
-
-  interface Blot {
-    text?: string;
-  }
-
-  interface Quill {
-    updateContents(delta: UpdatedDelta, source?: Sources): UpdatedDelta;
-    getLeaf(index: number): [Blot, number];
-  }
-
-  interface KeyboardStatic {
-    addBinding(
-      key: UpdatedKey,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      callback: (range: RangeStatic, context: any) => void
-    ): void;
-  }
-}
+import { getBlotTextPartitions, matchBlotTextPartitions } from '../util';
 
 interface EmojiPickerOptions {
   onPickEmoji: (emoji: EmojiPickDataType) => void;
@@ -110,19 +81,9 @@ export class EmojiCompletion {
 
   getCurrentLeafTextPartitions(): [string, string] {
     const range = this.quill.getSelection();
+    const [blot, index] = this.quill.getLeaf(range ? range.index : -1);
 
-    if (range) {
-      const [blot, blotIndex] = this.quill.getLeaf(range.index);
-
-      if (blot !== undefined && blot.text !== undefined) {
-        const leftLeafText = blot.text.substr(0, blotIndex);
-        const rightLeafText = blot.text.substr(blotIndex);
-
-        return [leftLeafText, rightLeafText];
-      }
-    }
-
-    return ['', ''];
+    return getBlotTextPartitions(blot, index);
   }
 
   onSelectionChange(): void {
@@ -135,76 +96,75 @@ export class EmojiCompletion {
 
     if (!range) return;
 
-    const [leftLeafText, rightLeafText] = this.getCurrentLeafTextPartitions();
-
-    const leftTokenTextMatch = /(?<=^|\s):([-+0-9a-z_]*)(:?)$/.exec(
-      leftLeafText
+    const [blot, index] = this.quill.getLeaf(range.index);
+    const [leftTokenTextMatch, rightTokenTextMatch] = matchBlotTextPartitions(
+      blot,
+      index,
+      /(?<=^|\s):([-+0-9a-z_]*)(:?)$/,
+      /^([-+0-9a-z_]*):/
     );
-    const rightTokenTextMatch = /^([-+0-9a-z_]*):/.exec(rightLeafText);
 
-    if (!leftTokenTextMatch) {
-      this.reset();
-      return;
-    }
+    if (leftTokenTextMatch) {
+      const [, leftTokenText, isSelfClosing] = leftTokenTextMatch;
 
-    const [, leftTokenText, isSelfClosing] = leftTokenTextMatch;
-
-    if (isSelfClosing) {
-      if (isShortName(leftTokenText)) {
-        const emojiData = convertShortNameToData(
-          leftTokenText,
-          this.options.skinTone
-        );
-
-        if (emojiData) {
-          this.insertEmoji(
-            emojiData,
-            range.index - leftTokenText.length - 2,
-            leftTokenText.length + 2
+      if (isSelfClosing) {
+        if (isShortName(leftTokenText)) {
+          const emojiData = convertShortNameToData(
+            leftTokenText,
+            this.options.skinTone
           );
+
+          if (emojiData) {
+            this.insertEmoji(
+              emojiData,
+              range.index - leftTokenText.length - 2,
+              leftTokenText.length + 2
+            );
+            return;
+          }
+        } else {
+          this.reset();
           return;
         }
-      } else {
+      }
+
+      if (rightTokenTextMatch) {
+        const [, rightTokenText] = rightTokenTextMatch;
+        const tokenText = leftTokenText + rightTokenText;
+
+        if (isShortName(tokenText)) {
+          const emojiData = convertShortNameToData(
+            tokenText,
+            this.options.skinTone
+          );
+
+          if (emojiData) {
+            this.insertEmoji(
+              emojiData,
+              range.index - leftTokenText.length - 1,
+              tokenText.length + 2
+            );
+            return;
+          }
+        }
+      }
+
+      if (leftTokenText.length < 2) {
         this.reset();
         return;
       }
-    }
 
-    if (rightTokenTextMatch) {
-      const [, rightTokenText] = rightTokenTextMatch;
-      const tokenText = leftTokenText + rightTokenText;
+      const showEmojiResults = search(leftTokenText, 10);
 
-      if (isShortName(tokenText)) {
-        const emojiData = convertShortNameToData(
-          tokenText,
-          this.options.skinTone
-        );
-
-        if (emojiData) {
-          this.insertEmoji(
-            emojiData,
-            range.index - leftTokenText.length - 1,
-            tokenText.length + 2
-          );
-          return;
-        }
+      if (showEmojiResults.length > 0) {
+        this.results = showEmojiResults;
+        this.render();
+      } else if (this.results.length !== 0) {
+        this.reset();
       }
-    }
-
-    if (leftTokenText.length < 2) {
+    } else if (this.results.length !== 0) {
       this.reset();
-      return;
     }
-
-    const results = search(leftTokenText, 10);
-
-    if (!results.length) {
-      this.reset();
-      return;
-    }
-
-    this.results = results;
-    this.render();
   }
 
   completeEmoji(): void {

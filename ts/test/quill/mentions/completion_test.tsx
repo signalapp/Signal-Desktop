@@ -1,8 +1,10 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { expect } from 'chai';
-import sinon from 'sinon';
+import { assert } from 'chai';
+import Delta from 'quill-delta';
+import sinon, { SinonStub } from 'sinon';
+import Quill, { KeyboardStatic } from 'quill';
 
 import { MutableRefObject } from 'react';
 import {
@@ -11,9 +13,6 @@ import {
 } from '../../../quill/mentions/completion';
 import { ConversationType } from '../../../state/ducks/conversations';
 import { MemberRepository } from '../../../quill/memberRepository';
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const globalAsAny = global as any;
 
 const me: ConversationType = {
   id: '666777',
@@ -50,30 +49,37 @@ const members: Array<ConversationType> = [
   me,
 ];
 
-describe('mentionCompletion', () => {
-  let mentionCompletion: MentionCompletion;
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace NodeJS {
+    interface Global {
+      document: {
+        body: {
+          appendChild: unknown;
+        };
+        createElement: unknown;
+      };
+    }
+  }
+}
+
+describe('MentionCompletion', () => {
   const mockSetMentionPickerElement = sinon.spy();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let mockQuill: any;
+
+  let mockQuill: Omit<
+    Partial<{ [K in keyof Quill]: SinonStub }>,
+    'keyboard'
+  > & {
+    keyboard: Partial<{ [K in keyof KeyboardStatic]: SinonStub }>;
+  };
+  let mentionCompletion: MentionCompletion;
 
   beforeEach(function beforeEach() {
-    this.oldDocument = globalAsAny.document;
-    globalAsAny.document = {
+    global.document = {
       body: {
-        appendChild: () => null,
+        appendChild: sinon.spy(),
       },
-      createElement: () => null,
-    };
-
-    mockQuill = {
-      getLeaf: sinon.stub(),
-      getSelection: sinon.stub(),
-      keyboard: {
-        addBinding: sinon.stub(),
-      },
-      on: sinon.stub(),
-      setSelection: sinon.stub(),
-      updateContents: sinon.stub(),
+      createElement: sinon.spy(),
     };
 
     const memberRepositoryRef: MutableRefObject<MemberRepository> = {
@@ -84,270 +90,176 @@ describe('mentionCompletion', () => {
       i18n: sinon.stub(),
       me,
       memberRepositoryRef,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      setMentionPickerElement: mockSetMentionPickerElement as any,
+      setMentionPickerElement: mockSetMentionPickerElement,
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    mentionCompletion = new MentionCompletion(mockQuill as any, options);
+    mockQuill = {
+      getContents: sinon.stub(),
+      getLeaf: sinon.stub(),
+      getSelection: sinon.stub(),
+      keyboard: { addBinding: sinon.stub() },
+      on: sinon.stub(),
+      setSelection: sinon.stub(),
+      updateContents: sinon.stub(),
+    };
 
-    // Stub rendering to avoid missing DOM until we bring in Enzyme
-    mentionCompletion.render = sinon.stub();
-  });
+    mentionCompletion = new MentionCompletion(
+      (mockQuill as unknown) as Quill,
+      options
+    );
 
-  afterEach(function afterEach() {
-    mockSetMentionPickerElement.resetHistory();
-    (mentionCompletion.render as sinon.SinonStub).resetHistory();
-
-    if (this.oldDocument === undefined) {
-      delete globalAsAny.document;
-    } else {
-      globalAsAny.document = this.oldDocument;
-    }
-  });
-
-  describe('getCurrentLeafTextPartitions', () => {
-    it('returns left and right text', () => {
-      mockQuill.getSelection.returns({ index: 0, length: 0 });
-      const blot = {
-        text: '@shia',
-      };
-      mockQuill.getLeaf.returns([blot, 3]);
-      const [
-        leftLeafText,
-        rightLeafText,
-      ] = mentionCompletion.getCurrentLeafTextPartitions();
-      expect(leftLeafText).to.equal('@sh');
-      expect(rightLeafText).to.equal('ia');
-    });
+    sinon.stub(mentionCompletion, 'render');
   });
 
   describe('onTextChange', () => {
-    let insertMentionStub: sinon.SinonStub<
-      [ConversationType, number, number, (boolean | undefined)?],
-      void
-    >;
+    let possiblyShowMemberResultsStub: sinon.SinonStub<[], ConversationType[]>;
 
-    beforeEach(function beforeEach() {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      mentionCompletion.results = [{ title: 'Mahershala Ali' } as any];
-      mentionCompletion.index = 5;
-      insertMentionStub = sinon
-        .stub(mentionCompletion, 'insertMention')
-        .callThrough();
+    beforeEach(() => {
+      possiblyShowMemberResultsStub = sinon.stub(
+        mentionCompletion,
+        'possiblyShowMemberResults'
+      );
     });
 
-    afterEach(function afterEach() {
-      insertMentionStub.restore();
-    });
+    describe('given a change that should show members', () => {
+      const newContents = new Delta().insert('@a');
 
-    describe('given a mention is not starting (no @)', () => {
-      beforeEach(function beforeEach() {
-        mockQuill.getSelection.returns({
-          index: 3,
-          length: 0,
-        });
+      beforeEach(() => {
+        mockQuill.getContents?.returns(newContents);
 
-        const blot = {
-          text: 'smi',
-        };
-        mockQuill.getLeaf.returns([blot, 3]);
+        possiblyShowMemberResultsStub.returns(members);
+      });
 
+      it('shows member results', () => {
         mentionCompletion.onTextChange();
-      });
 
-      it('resets the completion', () => {
-        expect(mentionCompletion.results).to.have.lengthOf(0);
-        expect(mentionCompletion.index).to.equal(0);
+        assert.equal(mentionCompletion.results, members);
+        assert.equal(mentionCompletion.index, 0);
       });
     });
 
-    describe('given an mention is starting but does not match a member', () => {
-      beforeEach(function beforeEach() {
-        mockQuill.getSelection.returns({
-          index: 4,
-          length: 0,
-        });
+    describe('given a change that should clear results', () => {
+      const newContents = new Delta().insert('foo ');
 
-        const blot = {
-          text: '@nope',
-        };
-        mockQuill.getLeaf.returns([blot, 5]);
+      let clearResultsStub: SinonStub<[], void>;
 
+      beforeEach(() => {
+        mentionCompletion.results = members;
+
+        mockQuill.getContents?.returns(newContents);
+
+        possiblyShowMemberResultsStub.returns([]);
+
+        clearResultsStub = sinon.stub(mentionCompletion, 'clearResults');
+      });
+
+      it('clears member results', () => {
         mentionCompletion.onTextChange();
-      });
 
-      it('resets the completion', () => {
-        expect(mentionCompletion.results).to.have.lengthOf(0);
-        expect(mentionCompletion.index).to.equal(0);
-      });
-    });
-
-    describe('given an mention is started without text', () => {
-      beforeEach(function beforeEach() {
-        mockQuill.getSelection.returns({
-          index: 4,
-          length: 0,
-        });
-
-        const blot = {
-          text: '@',
-        };
-        mockQuill.getLeaf.returns([blot, 2]);
-
-        mentionCompletion.onTextChange();
-      });
-
-      it('stores all results, omitting `me`, and renders', () => {
-        expect(mentionCompletion.results).to.have.lengthOf(2);
-        expect((mentionCompletion.render as sinon.SinonStub).called).to.equal(
-          true
-        );
-      });
-    });
-
-    describe('given a mention is started and matches members', () => {
-      beforeEach(function beforeEach() {
-        mockQuill.getSelection.returns({
-          index: 4,
-          length: 0,
-        });
-
-        const blot = {
-          text: '@sh',
-        };
-        mockQuill.getLeaf.returns([blot, 3]);
-
-        mentionCompletion.onTextChange();
-      });
-
-      it('stores the results, omitting `me`, and renders', () => {
-        expect(mentionCompletion.results).to.have.lengthOf(1);
-        expect((mentionCompletion.render as sinon.SinonStub).called).to.equal(
-          true
-        );
+        assert.equal(clearResultsStub.called, true);
       });
     });
   });
 
   describe('completeMention', () => {
-    let insertMentionStub: sinon.SinonStub<
-      [ConversationType, number, number, (boolean | undefined)?],
-      void
-    >;
+    describe('given a completable mention', () => {
+      let insertMentionStub: SinonStub<
+        [ConversationType, number, number, (boolean | undefined)?],
+        void
+      >;
 
-    beforeEach(function beforeEach() {
-      mentionCompletion.results = [
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        { title: 'Mahershala Ali' } as any,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        { title: 'Shia LaBeouf' } as any,
-      ];
-      mentionCompletion.index = 1;
-      insertMentionStub = sinon.stub(mentionCompletion, 'insertMention');
-    });
+      beforeEach(() => {
+        mentionCompletion.results = members;
+        mockQuill.getSelection?.returns({ index: 5 });
+        mockQuill.getLeaf?.returns([{ text: '@shia' }, 5]);
 
-    describe('given a valid mention', () => {
-      const text = '@sh';
-      const index = text.length;
-
-      beforeEach(function beforeEach() {
-        mockQuill.getSelection.returns({
-          index,
-          length: 0,
-        });
-
-        const blot = {
-          text,
-        };
-        mockQuill.getLeaf.returns([blot, index]);
-
-        mentionCompletion.completeMention();
+        insertMentionStub = sinon.stub(mentionCompletion, 'insertMention');
       });
 
       it('inserts the currently selected mention at the current cursor position', () => {
-        const [mention, insertIndex, range] = insertMentionStub.args[0];
+        mentionCompletion.completeMention(1);
 
-        expect(mention.title).to.equal('Shia LaBeouf');
-        expect(insertIndex).to.equal(0);
-        expect(range).to.equal(text.length);
+        const [
+          member,
+          distanceFromCursor,
+          adjustCursorAfterBy,
+          withTrailingSpace,
+        ] = insertMentionStub.getCall(0).args;
+
+        assert.equal(member, members[1]);
+        assert.equal(distanceFromCursor, 0);
+        assert.equal(adjustCursorAfterBy, 5);
+        assert.equal(withTrailingSpace, true);
       });
-    });
 
-    describe('given a valid mention starting with a capital letter', () => {
-      const text = '@Sh';
-      const index = text.length;
+      it('can infer the member to complete with', () => {
+        mentionCompletion.index = 1;
+        mentionCompletion.completeMention();
 
-      beforeEach(function beforeEach() {
-        mockQuill.getSelection.returns({
-          index,
-          length: 0,
+        const [
+          member,
+          distanceFromCursor,
+          adjustCursorAfterBy,
+          withTrailingSpace,
+        ] = insertMentionStub.getCall(0).args;
+
+        assert.equal(member, members[1]);
+        assert.equal(distanceFromCursor, 0);
+        assert.equal(adjustCursorAfterBy, 5);
+        assert.equal(withTrailingSpace, true);
+      });
+
+      describe('from the middle of a string', () => {
+        beforeEach(() => {
+          mockQuill.getSelection?.returns({ index: 9 });
+          mockQuill.getLeaf?.returns([{ text: 'foo @shia bar' }, 9]);
         });
 
-        const blot = {
-          text,
-        };
-        mockQuill.getLeaf.returns([blot, index]);
+        it('inserts correctly', () => {
+          mentionCompletion.completeMention(1);
 
-        mentionCompletion.completeMention();
+          const [
+            member,
+            distanceFromCursor,
+            adjustCursorAfterBy,
+            withTrailingSpace,
+          ] = insertMentionStub.getCall(0).args;
+
+          assert.equal(member, members[1]);
+          assert.equal(distanceFromCursor, 4);
+          assert.equal(adjustCursorAfterBy, 5);
+          assert.equal(withTrailingSpace, true);
+        });
       });
 
-      it('inserts the currently selected mention at the current cursor position', () => {
-        const [mention, insertIndex, range] = insertMentionStub.args[0];
+      describe('given a completable mention starting with a capital letter', () => {
+        const text = '@Sh';
+        const index = text.length;
 
-        expect(mention.title).to.equal('Shia LaBeouf');
-        expect(insertIndex).to.equal(0);
-        expect(range).to.equal(text.length);
-      });
-    });
+        beforeEach(function beforeEach() {
+          mockQuill.getSelection?.returns({ index });
 
-    describe('given a valid mention inside a string', () => {
-      const text = 'foo @shia bar';
-      const index = 9;
+          const blot = {
+            text,
+          };
+          mockQuill.getLeaf?.returns([blot, index]);
 
-      beforeEach(function beforeEach() {
-        mockQuill.getSelection.returns({
-          index,
-          length: 0,
+          mentionCompletion.completeMention(1);
         });
 
-        const blot = {
-          text,
-        };
-        mockQuill.getLeaf.returns([blot, index]);
+        it('inserts the currently selected mention at the current cursor position', () => {
+          const [
+            member,
+            distanceFromCursor,
+            adjustCursorAfterBy,
+            withTrailingSpace,
+          ] = insertMentionStub.getCall(0).args;
 
-        mentionCompletion.completeMention();
-      });
-
-      it('inserts the currently selected mention at the current cursor position, replacing all mention text', () => {
-        const [mention, insertIndex, range] = insertMentionStub.args[0];
-
-        expect(mention.title).to.equal('Shia LaBeouf');
-        expect(insertIndex).to.equal(4);
-        expect(range).to.equal(5);
-      });
-    });
-
-    describe('given a valid mention is not present', () => {
-      const text = 'sh';
-      const index = text.length;
-
-      beforeEach(function beforeEach() {
-        mockQuill.getSelection.returns({
-          index,
-          length: 0,
+          assert.equal(member, members[1]);
+          assert.equal(distanceFromCursor, 0);
+          assert.equal(adjustCursorAfterBy, 3);
+          assert.equal(withTrailingSpace, true);
         });
-
-        const blot = {
-          text,
-        };
-        mockQuill.getLeaf.returns([blot, index]);
-
-        mentionCompletion.completeMention();
-      });
-
-      it('does not insert anything', () => {
-        expect(insertMentionStub.called).to.equal(false);
       });
     });
   });

@@ -6,11 +6,9 @@ import Parchment from 'parchment';
 import Quill from 'quill';
 import { render } from 'react-dom';
 import { Emojify } from '../../components/conversation/Emojify';
-import { ConversationType } from '../../state/ducks/conversations';
+import { MentionBlotValue } from '../util';
 
 const Embed: typeof Parchment.Embed = Quill.import('blots/embed');
-
-type MentionBlotValue = { uuid?: string; title?: string };
 
 export class MentionBlot extends Embed {
   static blotName = 'mention';
@@ -19,7 +17,7 @@ export class MentionBlot extends Embed {
 
   static tagName = 'span';
 
-  static create(value: ConversationType): Node {
+  static create(value: MentionBlotValue): Node {
     const node = super.create(undefined) as HTMLElement;
 
     MentionBlot.buildSpan(value, node);
@@ -29,15 +27,21 @@ export class MentionBlot extends Embed {
 
   static value(node: HTMLElement): MentionBlotValue {
     const { uuid, title } = node.dataset;
+    if (uuid === undefined || title === undefined) {
+      throw new Error(
+        `Failed to make MentionBlot with uuid: ${uuid} and title: ${title}`
+      );
+    }
+
     return {
       uuid,
       title,
     };
   }
 
-  static buildSpan(member: ConversationType, node: HTMLElement): void {
-    node.setAttribute('data-uuid', member.uuid || '');
-    node.setAttribute('data-title', member.title || '');
+  static buildSpan(mention: MentionBlotValue, node: HTMLElement): void {
+    node.setAttribute('data-uuid', mention.uuid || '');
+    node.setAttribute('data-title', mention.title || '');
 
     const mentionSpan = document.createElement('span');
 
@@ -45,7 +49,7 @@ export class MentionBlot extends Embed {
       <span className="module-composition-input__at-mention">
         <bdi>
           @
-          <Emojify text={member.title} />
+          <Emojify text={mention.title} />
         </bdi>
       </span>,
       mentionSpan

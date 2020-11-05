@@ -113,9 +113,8 @@ describe('emojiCompletion', () => {
         emojiCompletion.onTextChange();
       });
 
-      it('resets the completion', () => {
+      it('does not show results', () => {
         assert.equal(emojiCompletion.results.length, 0);
-        assert.equal(emojiCompletion.index, 0);
       });
     });
 
@@ -134,9 +133,8 @@ describe('emojiCompletion', () => {
         emojiCompletion.onTextChange();
       });
 
-      it('resets the completion', () => {
+      it('does not show results', () => {
         assert.equal(emojiCompletion.results.length, 0);
-        assert.equal(emojiCompletion.index, 0);
       });
     });
 
@@ -155,9 +153,8 @@ describe('emojiCompletion', () => {
         emojiCompletion.onTextChange();
       });
 
-      it('resets the completion', () => {
+      it('does not show results', () => {
         assert.equal(emojiCompletion.results.length, 0);
-        assert.equal(emojiCompletion.index, 0);
       });
     });
 
@@ -176,9 +173,8 @@ describe('emojiCompletion', () => {
         emojiCompletion.onTextChange();
       });
 
-      it('resets the completion', () => {
+      it('does not show results', () => {
         assert.equal(emojiCompletion.results.length, 0);
-        assert.equal(emojiCompletion.index, 0);
       });
     });
 
@@ -231,9 +227,8 @@ describe('emojiCompletion', () => {
           assert.equal(range, 7);
         });
 
-        it('resets the completion', () => {
+        it('does not show results', () => {
           assert.equal(emojiCompletion.results.length, 0);
-          assert.equal(emojiCompletion.index, 0);
         });
       });
 
@@ -261,9 +256,8 @@ describe('emojiCompletion', () => {
           assert.equal(range, 7);
         });
 
-        it('resets the completion', () => {
+        it('does not show results', () => {
           assert.equal(emojiCompletion.results.length, 0);
-          assert.equal(emojiCompletion.index, 0);
         });
 
         it('sets the quill selection to the right cursor position', () => {
@@ -286,9 +280,8 @@ describe('emojiCompletion', () => {
           emojiCompletion.onTextChange();
         });
 
-        it('resets the completion', () => {
+        it('does not show results', () => {
           assert.equal(emojiCompletion.results.length, 0);
-          assert.equal(emojiCompletion.index, 0);
         });
       });
     });
@@ -323,9 +316,8 @@ describe('emojiCompletion', () => {
           assert.equal(range, validEmoji.length);
         });
 
-        it('resets the completion', () => {
+        it('does not show results', () => {
           assert.equal(emojiCompletion.results.length, 0);
-          assert.equal(emojiCompletion.index, 0);
         });
       });
 
@@ -339,9 +331,8 @@ describe('emojiCompletion', () => {
           emojiCompletion.onTextChange();
         });
 
-        it('resets the completion', () => {
+        it('does not show results', () => {
           assert.equal(emojiCompletion.results.length, 0);
-          assert.equal(emojiCompletion.index, 0);
         });
       });
     });
