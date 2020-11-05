@@ -111,7 +111,6 @@ export class SessionSeedModal extends React.Component<Props, State> {
 
   private renderSeedView() {
     const i18n = window.i18n;
-    const { onClose } = this.props;
 
     return (
       <>
@@ -128,8 +127,6 @@ export class SessionSeedModal extends React.Component<Props, State> {
         <div className="spacer-lg" />
 
         <div className="session-modal__button-group">
-          <SessionButton text={i18n('ok')} onClick={onClose} />
-
           <SessionButton
             text={i18n('copy')}
             onClick={() => {
@@ -211,6 +208,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
     window.clipboard.writeText(recoveryPhrase);
 
     ToastUtils.pushCopiedToClipBoard();
+    this.props.onClose();
   }
 
   private onEnter(event: any) {
