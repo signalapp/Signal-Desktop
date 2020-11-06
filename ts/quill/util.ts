@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import Delta from 'quill-delta';
-import { LeafBlot } from 'quill';
+import { LeafBlot, DeltaOperation } from 'quill';
 import Op from 'quill-delta/dist/Op';
 
 import { BodyRangeType } from '../types/Util';
@@ -38,6 +38,38 @@ export const isInsertEmojiOp = (op: Op): op is InsertEmojiOp =>
 
 export const isInsertMentionOp = (op: Op): op is InsertMentionOp =>
   isSpecificInsertOp(op, 'mention');
+
+export const getTextFromOps = (ops: Array<DeltaOperation>): string =>
+  ops.reduce((acc, { insert }, index) => {
+    if (typeof insert === 'string') {
+      let textToAdd;
+      switch (index) {
+        case 0: {
+          textToAdd = insert.trimLeft();
+          break;
+        }
+        case ops.length - 1: {
+          textToAdd = insert.trimRight();
+          break;
+        }
+        default: {
+          textToAdd = insert;
+          break;
+        }
+      }
+      return acc + textToAdd;
+    }
+
+    if (insert.emoji) {
+      return acc + insert.emoji;
+    }
+
+    if (insert.mention) {
+      return `${acc}@${insert.mention.title}`;
+    }
+
+    return acc;
+  }, '');
 
 export const getTextAndMentionsFromOps = (
   ops: Array<Op>

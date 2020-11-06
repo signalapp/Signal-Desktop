@@ -383,7 +383,6 @@ export const EmojiPicker = React.memo(
               <Emoji
                 shortName="slightly_frowning_face"
                 size={16}
-                inline
                 style={{ marginLeft: '4px' }}
               />
             </div>

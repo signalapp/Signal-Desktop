@@ -14544,24 +14544,6 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
     "line": "    const emojiCompletionRef = React.useRef();",
-    "lineNumber": 43,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-10-26T19:12:24.410Z",
-    "reasonDetail": "Doesn't refer to a DOM element."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CompositionInput.js",
-    "line": "    const mentionCompletionRef = React.useRef();",
-    "lineNumber": 44,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-10-26T23:54:34.273Z",
-    "reasonDetail": "Doesn't refer to a DOM element."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CompositionInput.js",
-    "line": "    const quillRef = React.useRef();",
     "lineNumber": 45,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
@@ -14570,16 +14552,16 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
-    "line": "    const scrollerRef = React.useRef(null);",
+    "line": "    const mentionCompletionRef = React.useRef();",
     "lineNumber": 46,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-26T19:12:24.410Z",
-    "reasonDetail": "Used with Quill for scrolling."
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-26T23:54:34.273Z",
+    "reasonDetail": "Doesn't refer to a DOM element."
   },
   {
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
-    "line": "    const propsRef = React.useRef(props);",
+    "line": "    const quillRef = React.useRef();",
     "lineNumber": 47,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
@@ -14588,8 +14570,26 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
-    "line": "    const memberRepositoryRef = React.useRef(new memberRepository_1.MemberRepository());",
+    "line": "    const scrollerRef = React.useRef(null);",
     "lineNumber": 48,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Used with Quill for scrolling."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionInput.js",
+    "line": "    const propsRef = React.useRef(props);",
+    "lineNumber": 49,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Doesn't refer to a DOM element."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionInput.js",
+    "line": "    const memberRepositoryRef = React.useRef(new memberRepository_1.MemberRepository());",
+    "lineNumber": 50,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T23:56:13.482Z",
     "reasonDetail": "Doesn't refer to a DOM element."
@@ -14909,6 +14909,24 @@
     "lineNumber": 24,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-30T23:03:08.319Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "ts/quill/signal-clipboard/index.js",
+    "line": "    return div.innerHTML;",
+    "lineNumber": 15,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-11-06T17:43:07.381Z",
+    "reasonDetail": "used for figuring out clipboard contents"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "ts/quill/signal-clipboard/index.ts",
+    "line": "  return div.innerHTML;",
+    "lineNumber": 20,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-11-06T17:43:07.381Z",
+    "reasonDetail": "used for figuring out clipboard contents"
   },
   {
     "rule": "jQuery-wrap(",

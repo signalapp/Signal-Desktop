@@ -31,11 +31,13 @@ import {
   isMentionBlot,
   getDeltaToRestartMention,
 } from '../quill/util';
+import { SignalClipboard } from '../quill/signal-clipboard';
 
 Quill.register('formats/emoji', EmojiBlot);
 Quill.register('formats/mention', MentionBlot);
 Quill.register('modules/emojiCompletion', EmojiCompletion);
 Quill.register('modules/mentionCompletion', MentionCompletion);
+Quill.register('modules/signalClipboard', SignalClipboard);
 
 const Block = Quill.import('blots/block');
 Block.tagName = 'DIV';
@@ -556,10 +558,11 @@ export const CompositionInput: React.ComponentType<Props> = props => {
           defaultValue={delta}
           modules={{
             toolbar: false,
+            signalClipboard: true,
             clipboard: {
               matchers: [
                 ['IMG', matchEmojiImage],
-                ['SPAN', matchEmojiBlot],
+                ['IMG', matchEmojiBlot],
                 ['SPAN', matchReactEmoji],
                 ['SPAN', matchMention(memberRepositoryRef)],
               ],

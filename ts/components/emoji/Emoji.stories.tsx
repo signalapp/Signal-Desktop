@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import { boolean, select, text } from '@storybook/addon-knobs';
+import { select, text } from '@storybook/addon-knobs';
 import { Emoji, EmojiSizes, Props } from './Emoji';
 
 const story = storiesOf('Components/Emoji/Emoji', module);
@@ -16,7 +16,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     EmojiSizes.reduce((m, t) => ({ ...m, [t]: t }), {}),
     overrideProps.size || 48
   ),
-  inline: boolean('inline', overrideProps.inline || false),
   emoji: text('emoji', overrideProps.emoji || ''),
   shortName: text('shortName', overrideProps.shortName || ''),
   skinTone: select(
@@ -42,21 +41,6 @@ story.add('Skin Tones', () => {
   return tones.map(skinTone => (
     <Emoji key={skinTone} {...props} skinTone={skinTone} />
   ));
-});
-
-story.add('Inline', () => {
-  const props = createProps({
-    shortName: 'joy',
-    inline: true,
-  });
-
-  return (
-    <>
-      <Emoji {...props} />
-      <Emoji {...props} />
-      <Emoji {...props} />
-    </>
-  );
 });
 
 story.add('From Emoji', () => {

@@ -11,6 +11,9 @@ import { RenderTextCallbackType } from '../../types/Util';
 import { emojiToImage, SizeClassType } from '../emoji/lib';
 
 // Some of this logic taken from emoji-js/replacement
+// the DOM structure for this getImageTag should match the other emoji implementations:
+// ts/components/emoji/Emoji.tsx
+// ts/quill/emoji/blot.tsx
 function getImageTag({
   match,
   sizeClass,

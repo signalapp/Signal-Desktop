@@ -1,19 +1,21 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
 import Parchment from 'parchment';
 import Quill from 'quill';
-import { render } from 'react-dom';
 
-import { Emoji } from '../../components/emoji/Emoji';
+import { emojiToImage } from '../../components/emoji/lib';
 
 const Embed: typeof Parchment.Embed = Quill.import('blots/embed');
+
+// the DOM structure of this EmojiBlot should match the other emoji implementations:
+// ts/components/conversation/Emojify.tsx
+// ts/components/emoji/Emoji.tsx
 
 export class EmojiBlot extends Embed {
   static blotName = 'emoji';
 
-  static tagName = 'span';
+  static tagName = 'img';
 
   static className = 'emoji-blot';
 
@@ -21,14 +23,12 @@ export class EmojiBlot extends Embed {
     const node = super.create(undefined) as HTMLElement;
     node.dataset.emoji = emoji;
 
-    const emojiSpan = document.createElement('span');
-    render(
-      <Emoji emoji={emoji} inline size={20}>
-        {emoji}
-      </Emoji>,
-      emojiSpan
-    );
-    node.appendChild(emojiSpan);
+    const image = emojiToImage(emoji);
+
+    node.setAttribute('src', image || '');
+    node.setAttribute('data-emoji', emoji);
+    node.setAttribute('title', emoji);
+    node.setAttribute('aria-label', emoji);
 
     return node;
   }
