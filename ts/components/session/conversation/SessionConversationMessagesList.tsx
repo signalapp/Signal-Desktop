@@ -116,15 +116,25 @@ export class SessionConversationMessagesList extends React.Component<
 
   public renderMessages(messages: Array<MessageModel>) {
     const { isScrolledToBottom } = this.state;
+    const { conversation } = this.props;
 
     const multiSelectMode = Boolean(this.props.selectedMessages.length);
     let currentMessageIndex = 0;
     // find the first unread message in the list of messages. We use this to display the
     // unread banner so this is at all times at the correct index.
-    const findFirstUnreadIndex = messages.findIndex(
+    // Our messages are marked read, so be sure to skip those.
+    let findFirstUnreadIndex = messages.findIndex(
       message =>
-        !(message?.attributes?.unread && message?.attributes?.unread !== false)
+        !(
+          message?.attributes?.unread && message?.attributes?.unread !== false
+        ) && message?.attributes?.type === 'incoming'
     );
+    // if we did not find an unread messsages, but the conversation has some,
+    // we must not have enough messages in memory, so just display the unread banner
+    // at the top of the screen
+    if (findFirstUnreadIndex === -1 && conversation.unreadCount !== 0) {
+      findFirstUnreadIndex = messages.length - 1;
+    }
     return (
       <>
         {messages.map((message: MessageModel) => {
