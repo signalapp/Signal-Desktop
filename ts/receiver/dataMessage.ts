@@ -286,14 +286,16 @@ export async function handleDataMessage(
     return;
   }
 
-  // tslint:disable-next-line no-bitwise
+  // tslint:disable no-bitwise
   if (
     dataMessage.flags &&
     dataMessage.flags & SignalService.DataMessage.Flags.END_SESSION
   ) {
     await handleEndSession(envelope.source);
-    return;
+    return removeFromCache(envelope);
   }
+  // tslint:enable no-bitwise
+
   const message = await processDecrypted(envelope, dataMessage);
   const ourPubKey = window.textsecure.storage.user.getNumber();
   const senderPubKey = envelope.senderIdentity || envelope.source;
@@ -302,7 +304,7 @@ export async function handleDataMessage(
 
   const { UNPAIRING_REQUEST } = SignalService.DataMessage.Flags;
 
-  // eslint-disable-next-line no-bitwise
+  // tslint:disable-next-line: no-bitwise
   const isUnpairingRequest = Boolean(message.flags & UNPAIRING_REQUEST);
 
   if (isUnpairingRequest) {

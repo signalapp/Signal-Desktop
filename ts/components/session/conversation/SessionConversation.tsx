@@ -447,7 +447,7 @@ export class SessionConversation extends React.Component<Props, State> {
       },
       onDeleteContact: () => conversation.deleteContact(),
       onResetSession: () => {
-        conversation.endSession();
+        void conversation.endSession();
       },
 
       onShowSafetyNumber: () => {

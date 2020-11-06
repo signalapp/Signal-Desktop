@@ -1547,14 +1547,6 @@
     },
     async onSessionResetReceived() {
       await this.setSessionResetStatus(SessionResetEnum.request_received);
-      // send empty message, this will trigger the new session to propagate
-      // to the reset initiator.
-      const user = new libsession.Types.PubKey(this.id);
-
-      const sessionEstablished = new window.libsession.Messages.Outgoing.SessionEstablishedMessage(
-        { timestamp: Date.now() }
-      );
-      await libsession.getMessageQueue().send(user, sessionEstablished);
     },
 
     isSessionResetReceived() {
