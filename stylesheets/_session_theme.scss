@@ -50,6 +50,16 @@
         @include session-color-subtle(themed('receivedMessageText'));
       }
     }
+
+    // when no caption, we have a black shadow behind the metadata field. So fallback to white
+    .module-message__metadata--with-image-no-caption {
+      .module-message__metadata,
+      .module-message__metadata__date,
+      .module-message__metadata__badge,
+      .module-message__metadata__badge--separator {
+        color: white;
+      }
+    }
   }
 
   &__container--outgoing {

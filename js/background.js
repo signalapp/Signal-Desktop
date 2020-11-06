@@ -992,13 +992,6 @@
       }
     });
 
-    Whisper.events.on('deleteConversation', async conversation => {
-      await conversation.destroyMessages();
-      await window.Signal.Data.removeConversation(conversation.id, {
-        Conversation: Whisper.Conversation,
-      });
-    });
-
     Whisper.Notifications.on('click', (id, messageId) => {
       window.showWindow();
       if (id) {
