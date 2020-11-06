@@ -148,13 +148,26 @@ class Message {
 
   profileKey?: ArrayBuffer;
 
-  quote?: any;
+  quote?: {
+    id?: number;
+    author?: string;
+    authorUuid?: string;
+    text?: string;
+    attachments?: Array<AttachmentType>;
+    bodyRanges?: BodyRangesType;
+  };
 
   recipients: Array<string>;
 
   sticker?: any;
 
-  reaction?: any;
+  reaction?: {
+    emoji?: string;
+    remove?: boolean;
+    targetAuthorE164?: string;
+    targetAuthorUuid?: string;
+    targetTimestamp?: number;
+  };
 
   timestamp: number;
 
@@ -288,8 +301,14 @@ class Message {
       }
     }
     if (this.reaction) {
-      proto.reaction = this.reaction;
+      proto.reaction = new window.textsecure.protobuf.DataMessage.Reaction();
+      proto.reaction.emoji = this.reaction.emoji || null;
+      proto.reaction.remove = this.reaction.remove || null;
+      proto.reaction.targetAuthorE164 = this.reaction.targetAuthorE164 || null;
+      proto.reaction.targetAuthorUuid = this.reaction.targetAuthorUuid || null;
+      proto.reaction.targetTimestamp = this.reaction.targetTimestamp || null;
     }
+
     if (Array.isArray(this.preview)) {
       proto.preview = this.preview.map(preview => {
         const item = new window.textsecure.protobuf.DataMessage.Preview();
@@ -308,9 +327,10 @@ class Message {
       proto.quote = new Quote();
       const { quote } = proto;
 
-      quote.id = this.quote.id;
-      quote.author = this.quote.author;
-      quote.text = this.quote.text;
+      quote.id = this.quote.id || null;
+      quote.author = this.quote.author || null;
+      quote.authorUuid = this.quote.authorUuid || null;
+      quote.text = this.quote.text || null;
       quote.attachments = (this.quote.attachments || []).map(
         (attachment: AttachmentType) => {
           const quotedAttachment = new QuotedAttachment();

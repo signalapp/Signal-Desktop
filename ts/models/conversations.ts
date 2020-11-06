@@ -2521,6 +2521,10 @@ export class ConversationModel extends window.Backbone.Model<
       // sending functionality. It will not be saved to the datbase.
       const message = new window.Whisper.Message(attributes);
 
+      // This is to ensure that the functions in send() and sendSyncMessage() don't save
+      //   anything to the database.
+      message.doNotSave = true;
+
       // We're offline!
       if (!window.textsecure.messaging) {
         throw new Error('Cannot send reaction while offline!');
@@ -2578,10 +2582,6 @@ export class ConversationModel extends window.Backbone.Model<
           options
         );
       })();
-
-      // This is to ensure that the functions in send() and sendSyncMessage() don't save
-      //   anything to the database.
-      message.doNotSave = true;
 
       return message.send(this.wrapSend(promise));
     }).catch(error => {

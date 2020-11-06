@@ -606,10 +606,10 @@ export declare namespace DataMessageClass {
 
   // Note: deep nesting
   class Quote {
-    id?: ProtoBigNumberType;
-    author?: string;
-    authorUuid?: string;
-    text?: string;
+    id: ProtoBigNumberType | null;
+    author: string | null;
+    authorUuid: string | null;
+    text: string | null;
     attachments?: Array<DataMessageClass.Quote.QuotedAttachment>;
     bodyRanges?: Array<DataMessageClass.BodyRange>;
   }
@@ -621,11 +621,11 @@ export declare namespace DataMessageClass {
   }
 
   class Reaction {
-    emoji?: string;
-    remove?: boolean;
-    targetAuthorE164?: string;
-    targetAuthorUuid?: string;
-    targetTimestamp?: ProtoBigNumberType;
+    emoji: string | null;
+    remove: boolean | null;
+    targetAuthorE164: string | null;
+    targetAuthorUuid: string | null;
+    targetTimestamp: ProtoBigNumberType | null;
   }
 
   class Delete {
