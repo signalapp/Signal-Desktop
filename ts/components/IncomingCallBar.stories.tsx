@@ -15,11 +15,13 @@ const i18n = setupI18n('en', enMessages);
 
 const defaultProps = {
   acceptCall: action('accept-call'),
-  callDetails: {
+  call: {
+    conversationId: 'fake-conversation-id',
     callId: 0,
     isIncoming: true,
     isVideoCall: true,
-
+  },
+  conversation: {
     id: '3051234567',
     avatarPath: undefined,
     contactColor: 'ultramarine' as ColorType,
@@ -34,23 +36,14 @@ const defaultProps = {
 
 const permutations = [
   {
-    title: 'Incoming Call Bar (no call details)',
-    props: {},
-  },
-  {
     title: 'Incoming Call Bar (video)',
-    props: {
-      callDetails: {
-        ...defaultProps.callDetails,
-        isVideoCall: true,
-      },
-    },
+    props: {},
   },
   {
     title: 'Incoming Call Bar (audio)',
     props: {
-      callDetails: {
-        ...defaultProps.callDetails,
+      call: {
+        ...defaultProps.call,
         isVideoCall: false,
       },
     },
@@ -69,10 +62,13 @@ storiesOf('Components/IncomingCallBar', module)
     return (
       <IncomingCallBar
         {...defaultProps}
-        callDetails={{
-          ...defaultProps.callDetails,
-          color,
+        call={{
+          ...defaultProps.call,
           isVideoCall,
+        }}
+        conversation={{
+          ...defaultProps.conversation,
+          color,
           name,
         }}
       />

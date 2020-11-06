@@ -3,16 +3,18 @@
 
 import { ThunkAction } from 'redux-thunk';
 import { CallEndedReason } from 'ringrtc';
+import { has, omit } from 'lodash';
+import { getOwn } from '../../util/getOwn';
 import { notify } from '../../services/notify';
 import { calling } from '../../services/calling';
 import { StateType as RootStateType } from '../reducer';
+import { getActiveCall } from '../selectors/calling';
 import {
   CallingDeviceType,
   CallState,
   ChangeIODevicePayloadType,
   MediaDeviceSettings,
 } from '../../types/Calling';
-import { ColorType } from '../../types/Colors';
 import { callingTones } from '../../util/callingTones';
 import { requestCameraPermissions } from '../../util/callingPermissions';
 import {
@@ -22,74 +24,80 @@ import {
 
 // State
 
-export type CallId = unknown;
-
-export type CallDetailsType = {
-  acceptedTime?: number;
-  callId: CallId;
-  isIncoming: boolean;
-  isVideoCall: boolean;
-
-  id: string;
-  avatarPath?: string;
-  color?: ColorType;
-  name?: string;
-  phoneNumber?: string;
-  profileName?: string;
-  title: string;
-};
-
-export type CallingStateType = MediaDeviceSettings & {
-  callDetails?: CallDetailsType;
+export interface DirectCallStateType {
+  conversationId: string;
   callState?: CallState;
   callEndedReason?: CallEndedReason;
+  isIncoming: boolean;
+  isVideoCall: boolean;
+  hasRemoteVideo?: boolean;
+}
+
+export interface ActiveCallStateType {
+  conversationId: string;
+  joinedAt?: number;
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
-  hasRemoteVideo: boolean;
   participantsList: boolean;
   pip: boolean;
   settingsDialogOpen: boolean;
+}
+
+export type CallingStateType = MediaDeviceSettings & {
+  callsByConversation: { [conversationId: string]: DirectCallStateType };
+  activeCallState?: ActiveCallStateType;
 };
 
 export type AcceptCallType = {
-  callId: CallId;
+  conversationId: string;
   asVideoCall: boolean;
 };
 
 export type CallStateChangeType = {
+  conversationId: string;
+  acceptedTime?: number;
   callState: CallState;
-  callDetails: CallDetailsType;
   callEndedReason?: CallEndedReason;
+  isIncoming: boolean;
+  isVideoCall: boolean;
+  title: string;
 };
 
 export type DeclineCallType = {
-  callId: CallId;
+  conversationId: string;
 };
 
 export type HangUpType = {
-  callId: CallId;
+  conversationId: string;
 };
 
 export type IncomingCallType = {
-  callDetails: CallDetailsType;
+  conversationId: string;
+  isVideoCall: boolean;
 };
 
-export type OutgoingCallType = {
-  callDetails: CallDetailsType;
+export type StartCallType = {
+  conversationId: string;
+  hasLocalAudio: boolean;
+  hasLocalVideo: boolean;
 };
 
 export type RemoteVideoChangeType = {
-  remoteVideoEnabled: boolean;
+  conversationId: string;
+  hasVideo: boolean;
 };
 
 export type SetLocalAudioType = {
-  callId?: CallId;
   enabled: boolean;
 };
 
 export type SetLocalVideoType = {
-  callId?: CallId;
   enabled: boolean;
+};
+
+export type ShowCallLobbyType = {
+  conversationId: string;
+  isVideoCall: boolean;
 };
 
 export type SetLocalPreviewType = {
@@ -101,19 +109,6 @@ export type SetRendererCanvasType = {
 };
 
 // Helpers
-
-export function isCallActive({
-  callDetails,
-  callState,
-}: CallingStateType): boolean {
-  return Boolean(
-    callDetails &&
-      ((!callDetails.isIncoming &&
-        (callState === CallState.Prering || callState === CallState.Ringing)) ||
-        callState === CallState.Accepted ||
-        callState === CallState.Reconnecting)
-  );
-}
 
 // Actions
 
@@ -129,7 +124,7 @@ const INCOMING_CALL = 'calling/INCOMING_CALL';
 const OUTGOING_CALL = 'calling/OUTGOING_CALL';
 const REFRESH_IO_DEVICES = 'calling/REFRESH_IO_DEVICES';
 const REMOTE_VIDEO_CHANGE = 'calling/REMOTE_VIDEO_CHANGE';
-const SET_LOCAL_AUDIO = 'calling/SET_LOCAL_AUDIO';
+const SET_LOCAL_AUDIO_FULFILLED = 'calling/SET_LOCAL_AUDIO_FULFILLED';
 const SET_LOCAL_VIDEO_FULFILLED = 'calling/SET_LOCAL_VIDEO_FULFILLED';
 const START_CALL = 'calling/START_CALL';
 const TOGGLE_PARTICIPANTS = 'calling/TOGGLE_PARTICIPANTS';
@@ -147,7 +142,7 @@ type CancelCallActionType = {
 
 type CallLobbyActionType = {
   type: 'calling/SHOW_CALL_LOBBY';
-  payload: OutgoingCallType;
+  payload: ShowCallLobbyType;
 };
 
 type CallStateChangeFulfilledActionType = {
@@ -182,7 +177,7 @@ type IncomingCallActionType = {
 
 type OutgoingCallActionType = {
   type: 'calling/OUTGOING_CALL';
-  payload: OutgoingCallType;
+  payload: StartCallType;
 };
 
 type RefreshIODevicesActionType = {
@@ -196,7 +191,7 @@ type RemoteVideoChangeActionType = {
 };
 
 type SetLocalAudioActionType = {
-  type: 'calling/SET_LOCAL_AUDIO';
+  type: 'calling/SET_LOCAL_AUDIO_FULFILLED';
   payload: SetLocalAudioType;
 };
 
@@ -205,8 +200,14 @@ type SetLocalVideoFulfilledActionType = {
   payload: SetLocalVideoType;
 };
 
+type ShowCallLobbyActionType = {
+  type: 'calling/SHOW_CALL_LOBBY';
+  payload: ShowCallLobbyType;
+};
+
 type StartCallActionType = {
   type: 'calling/START_CALL';
+  payload: StartCallType;
 };
 
 type ToggleParticipantsActionType = {
@@ -236,6 +237,7 @@ export type CallingActionType =
   | RemoteVideoChangeActionType
   | SetLocalAudioActionType
   | SetLocalVideoFulfilledActionType
+  | ShowCallLobbyActionType
   | StartCallActionType
   | ToggleParticipantsActionType
   | TogglePipActionType
@@ -253,7 +255,7 @@ function acceptCall(
     });
 
     try {
-      await calling.accept(payload.callId, payload.asVideoCall);
+      await calling.accept(payload.conversationId, payload.asVideoCall);
     } catch (err) {
       window.log.error(`Failed to acceptCall: ${err.stack}`);
     }
@@ -269,11 +271,10 @@ function callStateChange(
   CallStateChangeFulfilledActionType
 > {
   return async dispatch => {
-    const { callDetails, callState } = payload;
-    const { isIncoming } = callDetails;
+    const { callState, isIncoming, title, isVideoCall } = payload;
     if (callState === CallState.Ringing && isIncoming) {
       await callingTones.playRingtone();
-      await showCallNotification(callDetails);
+      await showCallNotification(title, isVideoCall);
       bounceAppIconStart();
     }
     if (callState !== CallState.Ringing) {
@@ -315,12 +316,14 @@ function changeIODevice(
   };
 }
 
-async function showCallNotification(callDetails: CallDetailsType) {
+async function showCallNotification(
+  title: string,
+  isVideoCall: boolean
+): Promise<void> {
   const canNotify = await window.getCallSystemNotification();
   if (!canNotify) {
     return;
   }
-  const { title, isVideoCall } = callDetails;
   notify({
     title,
     icon: isVideoCall
@@ -352,7 +355,7 @@ function cancelCall(): CancelCallActionType {
 }
 
 function declineCall(payload: DeclineCallType): DeclineCallActionType {
-  calling.decline(payload.callId);
+  calling.decline(payload.conversationId);
 
   return {
     type: DECLINE_CALL,
@@ -361,7 +364,7 @@ function declineCall(payload: DeclineCallType): DeclineCallActionType {
 }
 
 function hangUp(payload: HangUpType): HangUpActionType {
-  calling.hangup(payload.callId);
+  calling.hangup(payload.conversationId);
 
   return {
     type: HANG_UP,
@@ -369,14 +372,16 @@ function hangUp(payload: HangUpType): HangUpActionType {
   };
 }
 
-function incomingCall(payload: IncomingCallType): IncomingCallActionType {
+function receiveIncomingCall(
+  payload: IncomingCallType
+): IncomingCallActionType {
   return {
     type: INCOMING_CALL,
     payload,
   };
 }
 
-function outgoingCall(payload: OutgoingCallType): OutgoingCallActionType {
+function outgoingCall(payload: StartCallType): OutgoingCallActionType {
   callingTones.playRingtone();
 
   return {
@@ -419,25 +424,32 @@ function setRendererCanvas(
   };
 }
 
-function setLocalAudio(payload: SetLocalAudioType): SetLocalAudioActionType {
-  if (payload.callId) {
-    calling.setOutgoingAudio(payload.callId, payload.enabled);
-  }
+function setLocalAudio(
+  payload: SetLocalAudioType
+): ThunkAction<void, RootStateType, unknown, SetLocalAudioActionType> {
+  return (dispatch, getState) => {
+    const { conversationId } = getActiveCall(getState().calling) || {};
+    if (conversationId) {
+      calling.setOutgoingAudio(conversationId, payload.enabled);
+    }
 
-  return {
-    type: SET_LOCAL_AUDIO,
-    payload,
+    dispatch({
+      type: SET_LOCAL_AUDIO_FULFILLED,
+      payload,
+    });
   };
 }
 
 function setLocalVideo(
   payload: SetLocalVideoType
 ): ThunkAction<void, RootStateType, unknown, SetLocalVideoFulfilledActionType> {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     let enabled: boolean;
     if (await requestCameraPermissions()) {
-      if (payload.callId) {
-        calling.setOutgoingVideo(payload.callId, payload.enabled);
+      const { conversationId, callState } =
+        getActiveCall(getState().calling) || {};
+      if (conversationId && callState) {
+        calling.setOutgoingVideo(conversationId, payload.enabled);
       } else if (payload.enabled) {
         calling.enableLocalCamera();
       } else {
@@ -458,22 +470,23 @@ function setLocalVideo(
   };
 }
 
-function showCallLobby(payload: OutgoingCallType): CallLobbyActionType {
+function showCallLobby(payload: ShowCallLobbyType): CallLobbyActionType {
   return {
     type: SHOW_CALL_LOBBY,
     payload,
   };
 }
 
-function startCall(payload: OutgoingCallType): StartCallActionType {
-  const { callDetails } = payload;
-  window.Signal.Services.calling.startOutgoingCall(
-    callDetails.id,
-    callDetails.isVideoCall
+function startCall(payload: StartCallType): StartCallActionType {
+  calling.startOutgoingCall(
+    payload.conversationId,
+    payload.hasLocalAudio,
+    payload.hasLocalVideo
   );
 
   return {
     type: START_CALL,
+    payload,
   };
 }
 
@@ -503,7 +516,7 @@ export const actions = {
   closeNeedPermissionScreen,
   declineCall,
   hangUp,
-  incomingCall,
+  receiveIncomingCall,
   outgoingCall,
   refreshIODevices,
   remoteVideoChange,
@@ -527,18 +540,24 @@ export function getEmptyState(): CallingStateType {
     availableCameras: [],
     availableMicrophones: [],
     availableSpeakers: [],
-    callDetails: undefined,
-    callState: undefined,
-    callEndedReason: undefined,
-    hasLocalAudio: false,
-    hasLocalVideo: false,
-    hasRemoteVideo: false,
-    participantsList: false,
-    pip: false,
     selectedCamera: undefined,
     selectedMicrophone: undefined,
     selectedSpeaker: undefined,
-    settingsDialogOpen: false,
+
+    callsByConversation: {},
+    activeCallState: undefined,
+  };
+}
+
+function removeConversationFromState(
+  state: CallingStateType,
+  conversationId: string
+): CallingStateType {
+  return {
+    ...(conversationId === state.activeCallState?.conversationId
+      ? omit(state, 'activeCallState')
+      : state),
+    callsByConversation: omit(state.callsByConversation, conversationId),
   };
 }
 
@@ -546,53 +565,126 @@ export function reducer(
   state: CallingStateType = getEmptyState(),
   action: CallingActionType
 ): CallingStateType {
+  const { callsByConversation } = state;
+
   if (action.type === SHOW_CALL_LOBBY) {
     return {
       ...state,
-      callDetails: action.payload.callDetails,
-      callState: undefined,
-      hasLocalAudio: true,
-      hasLocalVideo: action.payload.callDetails.isVideoCall,
+      callsByConversation: {
+        ...callsByConversation,
+        [action.payload.conversationId]: {
+          conversationId: action.payload.conversationId,
+          isIncoming: false,
+          isVideoCall: action.payload.isVideoCall,
+        },
+      },
+      activeCallState: {
+        conversationId: action.payload.conversationId,
+        hasLocalAudio: true,
+        hasLocalVideo: action.payload.isVideoCall,
+        participantsList: false,
+        pip: false,
+        settingsDialogOpen: false,
+      },
     };
   }
 
   if (action.type === START_CALL) {
     return {
       ...state,
-      callState: CallState.Prering,
+      callsByConversation: {
+        ...callsByConversation,
+        [action.payload.conversationId]: {
+          conversationId: action.payload.conversationId,
+          callState: CallState.Prering,
+          isIncoming: false,
+          isVideoCall: action.payload.hasLocalVideo,
+        },
+      },
+      activeCallState: {
+        conversationId: action.payload.conversationId,
+        hasLocalAudio: action.payload.hasLocalAudio,
+        hasLocalVideo: action.payload.hasLocalVideo,
+        participantsList: false,
+        pip: false,
+        settingsDialogOpen: false,
+      },
     };
   }
 
   if (action.type === ACCEPT_CALL_PENDING) {
+    if (!has(state.callsByConversation, action.payload.conversationId)) {
+      window.log.warn('Unable to accept a non-existent call');
+      return state;
+    }
+
     return {
       ...state,
-      hasLocalAudio: true,
-      hasLocalVideo: action.payload.asVideoCall,
+      activeCallState: {
+        conversationId: action.payload.conversationId,
+        hasLocalAudio: true,
+        hasLocalVideo: action.payload.asVideoCall,
+        participantsList: false,
+        pip: false,
+        settingsDialogOpen: false,
+      },
     };
   }
 
   if (
     action.type === CANCEL_CALL ||
-    action.type === DECLINE_CALL ||
     action.type === HANG_UP ||
     action.type === CLOSE_NEED_PERMISSION_SCREEN
   ) {
-    return getEmptyState();
+    if (!state.activeCallState) {
+      window.log.warn('No active call to remove');
+      return state;
+    }
+    return removeConversationFromState(
+      state,
+      state.activeCallState.conversationId
+    );
+  }
+
+  if (action.type === DECLINE_CALL) {
+    return removeConversationFromState(state, action.payload.conversationId);
   }
 
   if (action.type === INCOMING_CALL) {
     return {
       ...state,
-      callDetails: action.payload.callDetails,
-      callState: CallState.Prering,
+      callsByConversation: {
+        ...callsByConversation,
+        [action.payload.conversationId]: {
+          conversationId: action.payload.conversationId,
+          callState: CallState.Prering,
+          isIncoming: true,
+          isVideoCall: action.payload.isVideoCall,
+        },
+      },
     };
   }
 
   if (action.type === OUTGOING_CALL) {
     return {
       ...state,
-      callDetails: action.payload.callDetails,
-      callState: CallState.Prering,
+      callsByConversation: {
+        ...callsByConversation,
+        [action.payload.conversationId]: {
+          conversationId: action.payload.conversationId,
+          callState: CallState.Prering,
+          isIncoming: false,
+          isVideoCall: action.payload.hasLocalVideo,
+        },
+      },
+      activeCallState: {
+        conversationId: action.payload.conversationId,
+        hasLocalAudio: action.payload.hasLocalAudio,
+        hasLocalVideo: action.payload.hasLocalVideo,
+        participantsList: false,
+        pip: false,
+        settingsDialogOpen: false,
+      },
     };
   }
 
@@ -604,33 +696,91 @@ export function reducer(
       action.payload.callEndedReason !==
         CallEndedReason.RemoteHangupNeedPermission
     ) {
-      return getEmptyState();
+      return removeConversationFromState(state, action.payload.conversationId);
     }
+
+    const call = getOwn(
+      state.callsByConversation,
+      action.payload.conversationId
+    );
+    if (!call) {
+      window.log.warn('Cannot update state for non-existent call');
+      return state;
+    }
+
+    let activeCallState: undefined | ActiveCallStateType;
+    if (
+      state.activeCallState?.conversationId === action.payload.conversationId
+    ) {
+      activeCallState = {
+        ...state.activeCallState,
+        joinedAt: action.payload.acceptedTime,
+      };
+    } else {
+      ({ activeCallState } = state);
+    }
+
     return {
       ...state,
-      callState: action.payload.callState,
-      callEndedReason: action.payload.callEndedReason,
+      callsByConversation: {
+        ...callsByConversation,
+        [action.payload.conversationId]: {
+          ...call,
+          callState: action.payload.callState,
+          callEndedReason: action.payload.callEndedReason,
+        },
+      },
+      activeCallState,
     };
   }
 
   if (action.type === REMOTE_VIDEO_CHANGE) {
+    const { conversationId, hasVideo } = action.payload;
+    const call = getOwn(state.callsByConversation, conversationId);
+    if (!call) {
+      window.log.warn('Cannot update remote video for a non-existent call');
+      return state;
+    }
+
     return {
       ...state,
-      hasRemoteVideo: action.payload.remoteVideoEnabled,
+      callsByConversation: {
+        ...callsByConversation,
+        [conversationId]: {
+          ...call,
+          hasRemoteVideo: hasVideo,
+        },
+      },
     };
   }
 
-  if (action.type === SET_LOCAL_AUDIO) {
+  if (action.type === SET_LOCAL_AUDIO_FULFILLED) {
+    if (!state.activeCallState) {
+      window.log.warn('Cannot set local audio with no active call');
+      return state;
+    }
+
     return {
       ...state,
-      hasLocalAudio: action.payload.enabled,
+      activeCallState: {
+        ...state.activeCallState,
+        hasLocalAudio: action.payload.enabled,
+      },
     };
   }
 
   if (action.type === SET_LOCAL_VIDEO_FULFILLED) {
+    if (!state.activeCallState) {
+      window.log.warn('Cannot set local video with no active call');
+      return state;
+    }
+
     return {
       ...state,
-      hasLocalVideo: action.payload.enabled,
+      activeCallState: {
+        ...state.activeCallState,
+        hasLocalVideo: action.payload.enabled,
+      },
     };
   }
 
@@ -674,23 +824,52 @@ export function reducer(
   }
 
   if (action.type === TOGGLE_SETTINGS) {
+    const { activeCallState } = state;
+    if (!activeCallState) {
+      window.log.warn('Cannot toggle settings when there is no active call');
+      return state;
+    }
+
     return {
       ...state,
-      settingsDialogOpen: !state.settingsDialogOpen,
+      activeCallState: {
+        ...activeCallState,
+        settingsDialogOpen: !activeCallState.settingsDialogOpen,
+      },
     };
   }
 
   if (action.type === TOGGLE_PARTICIPANTS) {
+    const { activeCallState } = state;
+    if (!activeCallState) {
+      window.log.warn(
+        'Cannot toggle participants list when there is no active call'
+      );
+      return state;
+    }
+
     return {
       ...state,
-      participantsList: !state.participantsList,
+      activeCallState: {
+        ...activeCallState,
+        participantsList: !activeCallState.participantsList,
+      },
     };
   }
 
   if (action.type === TOGGLE_PIP) {
+    const { activeCallState } = state;
+    if (!activeCallState) {
+      window.log.warn('Cannot toggle PiP when there is no active call');
+      return state;
+    }
+
     return {
       ...state,
-      pip: !state.pip,
+      activeCallState: {
+        ...activeCallState,
+        pip: !activeCallState.pip,
+      },
     };
   }
 

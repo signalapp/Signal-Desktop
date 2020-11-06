@@ -5,3 +5,10 @@ export type NoopActionType = {
   type: 'NOOP';
   payload: null;
 };
+
+export function noopAction(): NoopActionType {
+  return {
+    type: 'NOOP',
+    payload: null,
+  };
+}

@@ -13,11 +13,7 @@ import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
 
-const callDetails = {
-  callId: 0,
-  isIncoming: true,
-  isVideoCall: true,
-
+const conversation = {
   id: '3051234567',
   avatarPath: undefined,
   color: 'ultramarine' as ColorType,
@@ -39,7 +35,7 @@ const camera = {
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   availableCameras: overrideProps.availableCameras || [camera],
-  callDetails,
+  conversation,
   hasLocalAudio: boolean('hasLocalAudio', overrideProps.hasLocalAudio || false),
   hasLocalVideo: boolean('hasLocalVideo', overrideProps.hasLocalVideo || false),
   i18n,
@@ -60,8 +56,8 @@ story.add('Default', () => {
   return (
     <CallingLobby
       {...props}
-      callDetails={{
-        ...callDetails,
+      conversation={{
+        ...conversation,
         avatarPath: 'https://www.stevensegallery.com/600/600',
       }}
     />

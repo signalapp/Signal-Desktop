@@ -3,7 +3,6 @@
 
 import React from 'react';
 import {
-  CallDetailsType,
   SetLocalAudioType,
   SetLocalPreviewType,
   SetLocalVideoType,
@@ -15,10 +14,15 @@ import {
 } from './CallingButton';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
 import { LocalizerType } from '../types/Util';
+import { ColorType } from '../types/Colors';
 
 export type PropsType = {
   availableCameras: Array<MediaDeviceInfo>;
-  callDetails: CallDetailsType;
+  conversation: {
+    avatarPath?: string;
+    color?: ColorType;
+    title: string;
+  };
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
   i18n: LocalizerType;
@@ -34,7 +38,7 @@ export type PropsType = {
 
 export const CallingLobby = ({
   availableCameras,
-  callDetails,
+  conversation,
   hasLocalAudio,
   hasLocalVideo,
   i18n,
@@ -50,20 +54,12 @@ export const CallingLobby = ({
   const localVideoRef = React.useRef(null);
 
   const toggleAudio = React.useCallback((): void => {
-    if (!callDetails) {
-      return;
-    }
-
     setLocalAudio({ enabled: !hasLocalAudio });
-  }, [callDetails, hasLocalAudio, setLocalAudio]);
+  }, [hasLocalAudio, setLocalAudio]);
 
   const toggleVideo = React.useCallback((): void => {
-    if (!callDetails) {
-      return;
-    }
-
     setLocalVideo({ enabled: !hasLocalVideo });
-  }, [callDetails, hasLocalVideo, setLocalVideo]);
+  }, [hasLocalVideo, setLocalVideo]);
 
   React.useEffect(() => {
     setLocalPreview({ element: localVideoRef });
@@ -112,7 +108,7 @@ export const CallingLobby = ({
     <div className="module-calling__container">
       <div className="module-calling__header">
         <div className="module-calling__header--header-name">
-          {callDetails.title}
+          {conversation.title}
         </div>
         <div className="module-calling-tools">
           {isGroupCall ? (
@@ -136,8 +132,8 @@ export const CallingLobby = ({
           <video ref={localVideoRef} autoPlay />
         ) : (
           <CallBackgroundBlur
-            avatarPath={callDetails.avatarPath}
-            color={callDetails.color}
+            avatarPath={conversation.avatarPath}
+            color={conversation.color}
           >
             <div className="module-calling-lobby__video-off--icon" />
             <span className="module-calling-lobby__video-off--text">

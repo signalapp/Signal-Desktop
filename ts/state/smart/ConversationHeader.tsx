@@ -6,7 +6,7 @@ import { pick } from 'lodash';
 import { ConversationHeader } from '../../components/conversation/ConversationHeader';
 import { getConversationSelector } from '../selectors/conversations';
 import { StateType } from '../reducer';
-import { isCallActive } from '../ducks/calling';
+import { isCallActive } from '../selectors/calling';
 import { getIntl } from '../selectors/user';
 
 export interface OwnProps {

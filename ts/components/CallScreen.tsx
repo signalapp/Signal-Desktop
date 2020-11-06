@@ -5,7 +5,6 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { noop } from 'lodash';
 import classNames from 'classnames';
 import {
-  CallDetailsType,
   HangUpType,
   SetLocalAudioType,
   SetLocalPreviewType,
@@ -20,13 +19,22 @@ import { ColorType } from '../types/Colors';
 import { LocalizerType } from '../types/Util';
 
 export type PropsType = {
-  callDetails?: CallDetailsType;
-  callState?: CallState;
+  conversation: {
+    id: string;
+    avatarPath?: string;
+    color?: ColorType;
+    title: string;
+    name?: string;
+    phoneNumber?: string;
+    profileName?: string;
+  };
+  callState: CallState;
   hangUp: (_: HangUpType) => void;
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
   hasRemoteVideo: boolean;
   i18n: LocalizerType;
+  joinedAt?: number;
   me: {
     avatarPath?: string;
     color?: ColorType;
@@ -44,13 +52,14 @@ export type PropsType = {
 };
 
 export const CallScreen: React.FC<PropsType> = ({
-  callDetails,
   callState,
+  conversation,
   hangUp,
   hasLocalAudio,
   hasLocalVideo,
   hasRemoteVideo,
   i18n,
+  joinedAt,
   me,
   setLocalAudio,
   setLocalVideo,
@@ -59,29 +68,17 @@ export const CallScreen: React.FC<PropsType> = ({
   togglePip,
   toggleSettings,
 }) => {
-  const { acceptedTime, callId } = callDetails || {};
-
   const toggleAudio = useCallback(() => {
-    if (!callId) {
-      return;
-    }
-
     setLocalAudio({
-      callId,
       enabled: !hasLocalAudio,
     });
-  }, [callId, setLocalAudio, hasLocalAudio]);
+  }, [setLocalAudio, hasLocalAudio]);
 
   const toggleVideo = useCallback(() => {
-    if (!callId) {
-      return;
-    }
-
     setLocalVideo({
-      callId,
       enabled: !hasLocalVideo,
     });
-  }, [callId, setLocalVideo, hasLocalVideo]);
+  }, [setLocalVideo, hasLocalVideo]);
 
   const [acceptedDuration, setAcceptedDuration] = useState<number | null>(null);
   const [showControls, setShowControls] = useState(true);
@@ -100,15 +97,15 @@ export const CallScreen: React.FC<PropsType> = ({
   }, [setLocalPreview, setRendererCanvas]);
 
   useEffect(() => {
-    if (!acceptedTime) {
+    if (!joinedAt) {
       return noop;
     }
     // It's really jumpy with a value of 500ms.
     const interval = setInterval(() => {
-      setAcceptedDuration(Date.now() - acceptedTime);
+      setAcceptedDuration(Date.now() - joinedAt);
     }, 100);
     return clearInterval.bind(null, interval);
-  }, [acceptedTime]);
+  }, [joinedAt]);
 
   useEffect(() => {
     if (!showControls) {
@@ -147,10 +144,6 @@ export const CallScreen: React.FC<PropsType> = ({
 
   const isAudioOnly = !hasLocalVideo && !hasRemoteVideo;
 
-  if (!callDetails || !callState) {
-    return null;
-  }
-
   const controlsFadeClass = classNames({
     'module-ongoing-call__controls--fadeIn':
       (showControls || isAudioOnly) && callState !== CallState.Accepted,
@@ -181,7 +174,7 @@ export const CallScreen: React.FC<PropsType> = ({
         )}
       >
         <div className="module-calling__header--header-name">
-          {callDetails.title}
+          {conversation.title}
         </div>
         {renderHeaderMessage(i18n, callState, acceptedDuration)}
         <div className="module-calling-tools">
@@ -205,7 +198,7 @@ export const CallScreen: React.FC<PropsType> = ({
           ref={remoteVideoRef}
         />
       ) : (
-        renderAvatar(i18n, callDetails)
+        renderAvatar(i18n, conversation)
       )}
       <div className="module-ongoing-call__footer">
         {/* This layout-only element is not ideal.
@@ -233,7 +226,7 @@ export const CallScreen: React.FC<PropsType> = ({
             buttonType={CallingButtonType.HANG_UP}
             i18n={i18n}
             onClick={() => {
-              hangUp({ callId });
+              hangUp({ conversationId: conversation.id });
             }}
             tooltipDistance={24}
           />
@@ -269,16 +262,22 @@ export const CallScreen: React.FC<PropsType> = ({
 
 function renderAvatar(
   i18n: LocalizerType,
-  callDetails: CallDetailsType
-): JSX.Element {
-  const {
+  {
     avatarPath,
     color,
     name,
     phoneNumber,
     profileName,
     title,
-  } = callDetails;
+  }: {
+    avatarPath?: string;
+    color?: ColorType;
+    title: string;
+    name?: string;
+    phoneNumber?: string;
+    profileName?: string;
+  }
+): JSX.Element {
   return (
     <div className="module-ongoing-call__remote-video-disabled">
       <Avatar
