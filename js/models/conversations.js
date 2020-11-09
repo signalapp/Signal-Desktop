@@ -1285,6 +1285,7 @@
                 serverName: groupInvitation.name,
                 channelId: groupInvitation.channelId,
                 serverAddress: groupInvitation.address,
+                expireTimer: this.get('expireTimer'),
               }
             );
 
