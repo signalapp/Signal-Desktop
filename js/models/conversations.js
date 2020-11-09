@@ -1546,6 +1546,10 @@
       await this.setSessionResetStatus(SessionResetEnum.initiated);
     },
     async onSessionResetReceived() {
+      await this.createAndStoreEndSessionMessage({
+        type: 'incoming',
+        endSessionType: 'ongoing',
+      });
       await this.setSessionResetStatus(SessionResetEnum.request_received);
     },
 
