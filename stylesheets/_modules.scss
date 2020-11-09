@@ -791,7 +791,7 @@
 }
 
 .module-group-notification__contact {
-  font-family: 'Public Sans';
+  font-family: $session-font-default;
   font-weight: bold;
 }
 
@@ -891,7 +891,7 @@
 }
 
 .module-timer-notification__contact {
-  font-family: 'Public Sans';
+  font-family: $session-font-default;
   font-weight: bold;
   padding-inline-end: $session-margin-xs;
 }
