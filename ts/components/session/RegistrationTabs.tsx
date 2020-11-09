@@ -13,6 +13,8 @@ import { SessionIdEditable } from './SessionIdEditable';
 import { SessionSpinner } from './SessionSpinner';
 import { StringUtils, ToastUtils } from '../../session/utils';
 import { createOrUpdateItem } from '../../../js/modules/data';
+import { toast } from 'react-toastify';
+import { SessionToast } from './SessionToast';
 
 enum SignInMode {
   Default,
@@ -807,35 +809,28 @@ export class RegistrationTabs extends React.Component<{}, State> {
 
     if (!trimName) {
       window.log.warn('invalid trimmed name for registration');
-      ToastUtils.push({
-        title: window.i18n('displayNameEmpty'),
-        type: 'error',
-        id: 'invalidDisplayName',
-      });
-
+      ToastUtils.pushToastError(
+        'invalidDisplayName',
+        window.i18n('displayNameEmpty')
+      );
       return;
     }
 
     if (passwordErrorString) {
       window.log.warn('invalid password for registration');
-      ToastUtils.push({
-        title: window.i18n('invalidPassword'),
-        type: 'error',
-        id: 'invalidPassword',
-      });
-
+      ToastUtils.pushToastError(
+        'invalidPassword',
+        window.i18n('invalidPassword')
+      );
       return;
     }
 
     if (!!password && !passwordFieldsMatch) {
       window.log.warn('passwords does not match for registration');
-
-      ToastUtils.push({
-        title: window.i18n('passwordsDoNotMatch'),
-        type: 'error',
-        id: 'invalidPassword',
-      });
-
+      ToastUtils.pushToastError(
+        'invalidPassword',
+        window.i18n('passwordsDoNotMatch')
+      );
       return;
     }
 
@@ -874,11 +869,10 @@ export class RegistrationTabs extends React.Component<{}, State> {
       await createOrUpdateItem(data);
       trigger('openInbox');
     } catch (e) {
-      ToastUtils.push({
-        title: `Error: ${e.message || 'Something went wrong'}`,
-        type: 'error',
-        id: 'registrationError',
-      });
+      ToastUtils.pushToastError(
+        'registrationError',
+        `Error: ${e.message || 'Something went wrong'}`
+      );
       let exmsg = '';
       if (e.message) {
         exmsg += e.message;
@@ -905,12 +899,10 @@ export class RegistrationTabs extends React.Component<{}, State> {
     // tslint:disable-next-line: no-backbone-get-set-outside-model
     if (window.textsecure.storage.get('secondaryDeviceStatus') === 'ongoing') {
       window.log.warn('registering secondary device already ongoing');
-      ToastUtils.push({
-        title: window.i18n('pairingOngoing'),
-        type: 'error',
-        id: 'pairingOngoing',
-      });
-
+      ToastUtils.pushToastError(
+        'pairingOngoing',
+        window.i18n('pairingOngoing')
+      );
       return;
     }
     this.setState({
@@ -948,12 +940,10 @@ export class RegistrationTabs extends React.Component<{}, State> {
     const validationError = c.validateNumber();
     if (validationError) {
       onError('Invalid public key').ignore();
-      ToastUtils.push({
-        title: window.i18n('invalidNumberError'),
-        type: 'error',
-        id: 'invalidNumberError',
-      });
-
+      ToastUtils.pushToastError(
+        'invalidNumberError',
+        window.i18n('invalidNumberError')
+      );
       return;
     }
     try {

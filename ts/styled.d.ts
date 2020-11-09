@@ -7,6 +7,11 @@ declare module 'styled-components' {
         sessionFontDefault: string;
         sessionFontAccent: string;
         sessionFontMono: string;
+        xs: string;
+        sm: string;
+        md: string;
+        lg: string;
+        xl: string;
       };
       margins: {
         xs: string;

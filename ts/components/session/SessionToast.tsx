@@ -1,12 +1,8 @@
 import React from 'react';
-import classNames from 'classnames';
 
-import {
-  SessionIcon,
-  SessionIconButton,
-  SessionIconSize,
-  SessionIconType,
-} from './icon/';
+import { SessionIcon, SessionIconSize, SessionIconType } from './icon/';
+import { Flex } from './Flex';
+import styled from 'styled-components';
 
 export enum SessionToastType {
   Info = 'info',
@@ -15,70 +11,80 @@ export enum SessionToastType {
   Error = 'error',
 }
 
-interface Props {
+type Props = {
   title: string;
   id?: string;
   type?: SessionToastType;
   icon?: SessionIconType;
   description?: string;
-  closeToast: any;
-}
+  closeToast?: any;
+};
 
-export class SessionToast extends React.PureComponent<Props> {
-  constructor(props: any) {
-    super(props);
-  }
+const TitleDiv = styled.div`
+  font-size: ${props => props.theme.common.fonts.md};
+  line-height: ${props => props.theme.common.fonts.md};
+  font-family: ${props => props.theme.common.fonts.sessionFontDefault};
+  color: ${props => props.theme.colors.textColor};
+  text-overflow: ellipsis;
+`;
 
-  public render() {
-    const { title, description, type, icon } = this.props;
+const DescriptionDiv = styled.div`
+  font-size: ${props => props.theme.common.fonts.sm};
+  color: ${props => props.theme.colors.textColorSubtle};
+  text-overflow: ellipsis;
+  font-family: ${props => props.theme.common.fonts.sessionFontDefault};
+  padding-bottom: ${props => props.theme.common.fonts.xs};
+  padding-top: ${props => props.theme.common.fonts.xs};
+`;
 
-    const toastType = type ? type : SessionToastType.Info;
-    const toastDesc = description ? description : '';
-    const toastIconSize = toastDesc
-      ? SessionIconSize.Huge
-      : SessionIconSize.Medium;
+const IconDiv = styled.div`
+  flex-shrink: 0;
+  padding-inline-end: ${props => props.theme.common.margins.xs};
+`;
 
-    // Set a custom icon or allow the theme to define the icon
-    let toastIcon = icon || undefined;
-    if (!toastIcon) {
-      switch (type) {
-        case SessionToastType.Info:
-          toastIcon = SessionIconType.Info;
-          break;
-        case SessionToastType.Success:
-          toastIcon = SessionIconType.Check;
-          break;
-        case SessionToastType.Error:
-          toastIcon = SessionIconType.Error;
-          break;
-        case SessionToastType.Warning:
-          toastIcon = SessionIconType.Warning;
-          break;
-        default:
-          toastIcon = SessionIconType.Info;
-      }
+export const SessionToast = (props: Props) => {
+  const { title, description, type, icon } = props;
+
+  const toastDesc = description ? description : '';
+  const toastIconSize = toastDesc
+    ? SessionIconSize.Huge
+    : SessionIconSize.Medium;
+
+  // Set a custom icon or allow the theme to define the icon
+  let toastIcon = icon || undefined;
+  if (!toastIcon) {
+    switch (type) {
+      case SessionToastType.Info:
+        toastIcon = SessionIconType.Info;
+        break;
+      case SessionToastType.Success:
+        toastIcon = SessionIconType.Check;
+        break;
+      case SessionToastType.Error:
+        toastIcon = SessionIconType.Error;
+        break;
+      case SessionToastType.Warning:
+        toastIcon = SessionIconType.Warning;
+        break;
+      default:
+        toastIcon = SessionIconType.Info;
     }
-
-    return (
-      <div className={classNames('session-toast', toastType)}>
-        <div className="toast-icon">
-          <SessionIcon iconType={toastIcon} iconSize={toastIconSize} />
-        </div>
-        <div className="toast-info">
-          <div className="toast-info-container">
-            <h3 className="title">{title}</h3>
-            <p className="description">{toastDesc}</p>
-          </div>
-        </div>
-
-        <div className="toast-close">
-          <SessionIconButton
-            iconType={SessionIconType.Exit}
-            iconSize={SessionIconSize.Small}
-            onClick={this.props.closeToast}
-          />
-        </div>
-      </div>
-    );
   }
-}
+
+  return (
+    <Flex container={true} alignItems="center">
+      <IconDiv>
+        <SessionIcon iconType={toastIcon} iconSize={toastIconSize} />
+      </IconDiv>
+      <Flex
+        container={true}
+        justifyContent="flex-start"
+        flexDirection="column"
+        className="session-toast"
+      >
+        <TitleDiv>{title}</TitleDiv>
+        {toastDesc && <DescriptionDiv>{toastDesc}</DescriptionDiv>}
+      </Flex>
+    </Flex>
+  );
+};

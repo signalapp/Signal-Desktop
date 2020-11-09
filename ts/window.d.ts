@@ -47,7 +47,6 @@ declare global {
     deleteAccount: any;
     displayNameRegex: any;
     friends: any;
-    generateID: any;
     getAccountManager: any;
     getConversations: any;
     getFriendsFromContacts: any;
@@ -75,7 +74,6 @@ declare global {
     mnemonic: RecoveryPhraseUtil;
     onLogin: any;
     passwordUtil: any;
-    pushToast: any;
     resetDatabase: any;
     restart: any;
     seedNodeList: any;

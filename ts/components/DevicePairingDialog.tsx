@@ -4,7 +4,8 @@ import { QRCode } from 'react-qr-svg';
 import { SessionModal } from './session/SessionModal';
 import { SessionButton, SessionButtonColor } from './session/SessionButton';
 import { SessionSpinner } from './session/SessionSpinner';
-import classNames from 'classnames';
+import { toast } from 'react-toastify';
+import { SessionToast, SessionToastType } from './session/SessionToast';
 import { ToastUtils } from '../session/utils';
 
 interface Props {
@@ -285,10 +286,10 @@ export class DevicePairingDialog extends React.Component<Props, State> {
         errors: null,
       });
       this.closeDialog();
-      ToastUtils.push({
-        title: window.i18n('devicePairedSuccessfully'),
-        type: 'success',
-      });
+      ToastUtils.pushToastSuccess(
+        'devicePairedSuccessfully',
+        window.i18n('devicePairedSuccessfully')
+      );
       const { currentPubKey } = this.state;
       if (currentPubKey) {
         const conv = window.ConversationController.get(currentPubKey);
@@ -373,9 +374,10 @@ export class DevicePairingDialog extends React.Component<Props, State> {
 
   private triggerUnpairDevice() {
     const deviceUnpaired = () => {
-      ToastUtils.push({
-        title: window.i18n('deviceUnpaired'),
-      });
+      ToastUtils.pushToastSuccess(
+        'deviceUnpaired',
+        window.i18n('deviceUnpaired')
+      );
       this.closeDialog();
       this.setState({ loading: false });
     };

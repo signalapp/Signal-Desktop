@@ -450,6 +450,7 @@
       e.preventDefault();
 
       if (this.fileInput.hasFiles()) {
+        // pushToast() this toast too
         const toast = new Whisper.VoiceNoteMustBeOnlyAttachmentToast();
         toast.$el.appendTo(this.$el);
         toast.render();

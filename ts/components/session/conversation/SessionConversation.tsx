@@ -223,7 +223,8 @@ export class SessionConversation extends React.Component<Props, State> {
     const conversationModel = window.ConversationController.getOrThrow(
       conversationKey
     );
-    const isRss = conversation.isRss;
+
+    const { isRss } = conversation;
 
     // TODO VINCE: OPTIMISE FOR NEW SENDING???
     const sendMessageFn = conversationModel.sendMessage.bind(conversationModel);

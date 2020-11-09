@@ -16,6 +16,8 @@ import {
 } from './SessionClosableOverlay';
 import { MainViewController } from '../MainViewController';
 import { ToastUtils } from '../../session/utils';
+import { toast } from 'react-toastify';
+import { SessionToast } from './SessionToast';
 
 export interface Props {
   directContacts: Array<ConversationType>;
@@ -132,11 +134,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     const error = validateNumber(sessionID, window.i18n);
 
     if (error) {
-      ToastUtils.push({
-        title: error,
-        type: 'error',
-        id: 'addContact',
-      });
+      ToastUtils.pushToastError('addContact', error);
     } else {
       window.Whisper.events.trigger('showConversation', sessionID);
     }

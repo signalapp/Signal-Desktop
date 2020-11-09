@@ -6,8 +6,7 @@ import { PropsData as ConversationListItemPropsType } from '../ConversationListI
 import { createOrUpdateItem, getItemById } from '../../../js/modules/data';
 import { APPLY_THEME } from '../../state/ducks/theme';
 import { darkTheme, lightTheme } from '../../state/ducks/SessionTheme';
-import { MultiDeviceProtocol } from '../../session/protocols';
-import { UserUtil } from '../../util';
+import { SessionToastContainer } from './SessionToastContainer';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -245,6 +244,8 @@ class ActionsPanelPrivate extends React.Component<Props, State> {
           isSelected={isSettingsPageSelected}
           onSelect={this.handleSectionSelect}
         />
+
+        <SessionToastContainer />
         <this.Section
           type={SectionType.Moon}
           isSelected={isMoonPageSelected}

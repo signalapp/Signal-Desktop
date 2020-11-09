@@ -3,10 +3,11 @@ import { AccentText } from './AccentText';
 
 import { RegistrationTabs } from './RegistrationTabs';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
+import { SessionToastContainer } from './SessionToastContainer';
 
 export const SessionRegistrationView: React.FC = () => (
   <div className="session-content">
-    <div id="session-toast-container" />
+    <SessionToastContainer />
     <div id="error" className="collapse" />
     <div className="session-content-header">
       <div className="session-content-close-button">

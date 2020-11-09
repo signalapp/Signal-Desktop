@@ -89,13 +89,7 @@
             newMembers.length + existingMembers.length >
             window.CONSTANTS.MEDIUM_GROUP_SIZE_LIMIT
           ) {
-            const msg = window.i18n('closedGroupMaxSize');
-
-            window.pushToast({
-              title: msg,
-              type: 'error',
-              id: 'tooManyMembers',
-            });
+            window.libsession.Utils.ToastUtils.pushTooManyMembers();
             return;
           }
 

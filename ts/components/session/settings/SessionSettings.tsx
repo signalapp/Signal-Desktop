@@ -10,6 +10,8 @@ import {
 import { BlockedNumberController, UserUtil } from '../../../util';
 import { MultiDeviceProtocol } from '../../../session/protocols';
 import { PubKey } from '../../../session/types';
+import { SessionToast, SessionToastType } from '../SessionToast';
+import { toast } from 'react-toastify';
 import { ToastUtils } from '../../../session/utils';
 
 export enum SessionSettingCategory {
@@ -609,10 +611,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
             await BlockedNumberController.unblock(blockedNumber);
             this.forceUpdate();
           }
-          ToastUtils.push({
-            title: window.i18n('unblocked'),
-            id: 'unblocked',
-          });
+          ToastUtils.pushToastSuccess('unblocked', window.i18n('unblocked'));
         },
         hidden: false,
         onClick: undefined,

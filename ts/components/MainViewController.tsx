@@ -16,6 +16,8 @@ export const MainViewController = {
 
 import { ContactType } from './session/SessionMemberListItem';
 import { ToastUtils } from '../session/utils';
+import { toast } from 'react-toastify';
+import { SessionToast, SessionToastType } from './session/SessionToast';
 
 export class MessageView extends React.Component {
   public render() {
@@ -54,20 +56,17 @@ async function createClosedGroup(
 ) {
   // Validate groupName and groupMembers length
   if (groupName.length === 0) {
-    ToastUtils.push({
-      title: window.i18n('invalidGroupNameTooShort'),
-      type: 'error',
-      id: 'invalidGroupName',
-    });
+    ToastUtils.pushToastError(
+      'invalidGroupName',
+      window.i18n('invalidGroupNameTooShort')
+    );
 
     return;
   } else if (groupName.length > window.CONSTANTS.MAX_GROUP_NAME_LENGTH) {
-    ToastUtils.push({
-      title: window.i18n('invalidGroupNameTooLong'),
-      type: 'error',
-      id: 'invalidGroupName',
-    });
-
+    ToastUtils.pushToastError(
+      'invalidGroupName',
+      window.i18n('invalidGroupNameTooLong')
+    );
     return;
   }
 
@@ -75,20 +74,16 @@ async function createClosedGroup(
   // the same is valid with groups count < 1
 
   if (groupMembers.length < 1) {
-    ToastUtils.push({
-      title: window.i18n('pickClosedGroupMember'),
-      type: 'error',
-      id: 'pickClosedGroupMember',
-    });
-
+    ToastUtils.pushToastError(
+      'pickClosedGroupMember',
+      window.i18n('pickClosedGroupMember')
+    );
     return;
   } else if (groupMembers.length >= window.CONSTANTS.MEDIUM_GROUP_SIZE_LIMIT) {
-    ToastUtils.push({
-      title: window.i18n('closedGroupMaxSize'),
-      type: 'error',
-      id: 'closedGroupMaxSize',
-    });
-
+    ToastUtils.pushToastError(
+      'closedGroupMaxSize',
+      window.i18n('closedGroupMaxSize')
+    );
     return;
   }
 

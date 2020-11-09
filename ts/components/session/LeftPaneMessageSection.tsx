@@ -31,6 +31,8 @@ import {
 } from './SessionButton';
 import { OpenGroup } from '../../session/types';
 import { ToastUtils } from '../../session/utils';
+import { toast } from 'react-toastify';
+import { SessionToast, SessionToastType } from './SessionToast';
 
 export interface Props {
   searchTerm: string;
@@ -385,12 +387,10 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     const { openConversationInternal } = this.props;
 
     if (!this.state.valuePasted && !this.props.searchTerm) {
-      ToastUtils.push({
-        title: window.i18n('invalidNumberError'),
-        type: 'error',
-        id: 'invalidPubKey',
-      });
-
+      ToastUtils.pushToastError(
+        'invalidPubKey',
+        window.i18n('invalidNumberError')
+      );
       return;
     }
     let pubkey: string;
@@ -401,11 +401,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     if (!error) {
       openConversationInternal(pubkey);
     } else {
-      ToastUtils.push({
-        title: error,
-        type: 'error',
-        id: 'invalidPubKey',
-      });
+      ToastUtils.pushToastError('invalidPubKey', error);
     }
   }
 
@@ -418,41 +414,36 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     // Server URL valid?
     if (serverUrl.length === 0 || !OpenGroup.validate(serverUrl)) {
-      ToastUtils.push({
-        title: window.i18n('invalidOpenGroupUrl'),
-        id: 'connectToServer',
-        type: 'error',
-      });
-
+      ToastUtils.pushToastError(
+        'connectToServer',
+        window.i18n('invalidOpenGroupUrl')
+      );
       return;
     }
 
     // Already connected?
     if (Boolean(await OpenGroup.getConversation(serverUrl))) {
-      ToastUtils.push({
-        title: window.i18n('publicChatExists'),
-        id: 'publicChatExists',
-        type: 'error',
-      });
-
+      ToastUtils.pushToastError(
+        'publicChatExists',
+        window.i18n('publicChatExists')
+      );
       return;
     }
 
     // Connect to server
     try {
-      ToastUtils.push({
-        title: window.i18n('connectingToServer'),
-        id: 'connectToServer',
-        type: 'success',
-      });
+      ToastUtils.pushToastSuccess(
+        'connectingToServer',
+        window.i18n('connectingToServer')
+      );
+
       this.setState({ loading: true });
       await OpenGroup.join(serverUrl, async () => {
         if (await OpenGroup.serverExists(serverUrl)) {
-          ToastUtils.push({
-            title: window.i18n('connectToServerSuccess'),
-            id: 'connectToServer',
-            type: 'success',
-          });
+          ToastUtils.pushToastSuccess(
+            'connectToServerSuccess',
+            window.i18n('connectToServerSuccess')
+          );
         }
         this.setState({ loading: false });
       });
@@ -471,11 +462,10 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       }
     } catch (e) {
       window.console.error('Failed to connect to server:', e);
-      ToastUtils.push({
-        title: window.i18n('connectToServerFail'),
-        id: 'connectToServer',
-        type: 'error',
-      });
+      ToastUtils.pushToastError(
+        'connectToServerFail',
+        window.i18n('connectToServerFail')
+      );
       this.setState({ loading: false });
     } finally {
       this.setState({

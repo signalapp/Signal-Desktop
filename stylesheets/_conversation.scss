@@ -291,23 +291,3 @@
     max-width: 150px;
   }
 }
-
-.toast {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 0);
-  bottom: 62px;
-
-  text-align: center;
-  padding: 8px 16px;
-  border-radius: 4px;
-  z-index: 100;
-
-  font-size: 13px;
-  line-height: 18px;
-  letter-spacing: 0;
-
-  background-color: $color-gray-75;
-  color: $color-white;
-  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.12), 0 0 0 0.5px rgba(0, 0, 0, 0.08);
-}

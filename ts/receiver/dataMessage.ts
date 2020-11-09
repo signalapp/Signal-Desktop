@@ -608,7 +608,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
     SESSION_RESTORE,
   } = SignalService.DataMessage.Flags;
 
-  // eslint-disable-next-line no-bitwise
+  // tslint:disable-next-line: no-bitwise
   const isProfileUpdate = Boolean(message.flags & PROFILE_KEY_UPDATE);
 
   if (isProfileUpdate) {
@@ -682,7 +682,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
 
   // =========== Process flags =============
 
-  // eslint-disable-next-line no-bitwise
+  // tslint:disable-next-line: no-bitwise
   if (message.flags & SESSION_RESTORE) {
     // Show that the session reset is "in progress" even though we had a valid session
     msg.set({ endSessionType: 'ongoing' });

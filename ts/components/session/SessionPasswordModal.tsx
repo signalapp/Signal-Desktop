@@ -4,6 +4,9 @@ import { SessionModal } from './SessionModal';
 import { SessionButton, SessionButtonColor } from './SessionButton';
 import { PasswordUtil } from '../../util/';
 import { ToastUtils } from '../../session/utils';
+import { toast } from 'react-toastify';
+import { SessionToast, SessionToastType } from './SessionToast';
+import { SessionIconType } from './icon';
 export enum PasswordAction {
   Set = 'set',
   Change = 'change',
@@ -233,13 +236,20 @@ export class SessionPasswordModal extends React.Component<Props, State> {
         throw new Error(`Invalid action ${action}`);
     }
 
-    ToastUtils.push({
-      id: 'set-password-success-toast',
-      type: action !== Remove ? 'success' : 'warning',
-      title: title,
-      description: description,
-      icon: action !== Remove ? 'lock' : undefined,
-    });
+    if (action !== Remove) {
+      ToastUtils.pushToastSuccess(
+        'setPasswordSuccessToast',
+        title,
+        description,
+        SessionIconType.Lock
+      );
+    } else {
+      ToastUtils.pushToastWarning(
+        'setPasswordSuccessToast',
+        title,
+        description
+      );
+    }
 
     onSuccess(this.props.action);
     this.closeDialog();
@@ -261,11 +271,7 @@ export class SessionPasswordModal extends React.Component<Props, State> {
           window.CONSTANTS.MAX_PASSWORD_LENGTH
         )
       );
-
-      ToastUtils.push({
-        title,
-        type: 'warning',
-      });
+      ToastUtils.pushToastWarning('passwordModal', title);
     }
 
     // Prevent pating into input

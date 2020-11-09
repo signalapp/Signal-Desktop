@@ -18,6 +18,11 @@ const common = {
     sessionFontDefault: 'Public Sans',
     sessionFontAccent: 'Loor',
     sessionFontMono: 'SpaceMono',
+    xs: '11px',
+    sm: '13px',
+    md: '15px',
+    lg: '18px',
+    xl: '24px',
   },
   margins: {
     xs: '5px',

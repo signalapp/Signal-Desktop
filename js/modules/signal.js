@@ -49,7 +49,6 @@ const {
 const {
   SettingsView,
 } = require('../../ts/components/session/settings/SessionSettings');
-const { SessionToast } = require('../../ts/components/session/SessionToast');
 const { SessionModal } = require('../../ts/components/session/SessionModal');
 const {
   SessionSeedModal,
@@ -270,7 +269,6 @@ exports.setup = (options = {}) => {
     RemoveModeratorsDialog,
     GroupInvitation,
     SessionConversation,
-    SessionToast,
     SessionConfirm,
     SessionModal,
     SessionSeedModal,

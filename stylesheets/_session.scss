@@ -469,96 +469,36 @@ label {
   cursor: pointer;
 }
 
-.session-toast-wrapper {
-  position: fixed;
-  right: $session-margin-lg;
-  bottom: $session-margin-lg;
-
-  z-index: 10000;
-}
-
-.session-toast {
-  position: relative;
-  padding: $session-margin-md $session-margin-md;
+.Toastify__toast {
   @include themify($themes) {
-    background: rgba(themed('cellBackground'), 0.8);
+    background: rgba(themed('cellBackground'), 0.99);
+    color: themed('textColor');
   }
-  margin-bottom: $session-margin-md;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-
-  .toast-icon,
-  .toast-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .toast-icon {
-    padding-inline-end: $session-icon-size-md;
-  }
-  .toast-info {
-    margin-inline-end: $session-icon-size-sm + $session-icon-size-sm;
-    width: 350px;
-
-    &-container {
-      display: block;
-    }
-  }
-
-  .title,
-  .description {
-    text-overflow: ellipsis;
-  }
-
-  .title {
-    font-size: $session-font-md;
-    line-height: $session-font-sm;
-    margin-bottom: $session-margin-sm;
-    padding-top: 0px;
+  .Toastify__close-button {
     @include themify($themes) {
-      color: themed('textColor');
-    }
-    padding-top: 0px;
-  }
-
-  .description {
-    font-size: $session-font-xs;
-    @include themify($themes) {
-      @include session-color-subtle(themed('textColor'));
+      color: subtle(themed('textColor'));
     }
   }
-
-  .toast-close {
-    @include themify($themes) {
-      @include session-color-subtle(themed('textColor'));
-    }
-    position: absolute;
-    top: $session-margin-md;
-    right: $session-margin-md;
-
-    &:hover {
-      @include themify($themes) {
-        color: themed('textColor');
-      }
-    }
-  }
-
   @mixin set-toast-theme($color) {
     border-left: 4px solid $color;
   }
-  &.info {
-    @include set-toast-theme($session-color-info);
-  }
-  &.success {
+  &--success {
     @include set-toast-theme($session-color-success);
   }
-  &.warning {
+  &--info {
+    @include set-toast-theme($session-color-info);
+  }
+  &--warning {
     @include set-toast-theme($session-color-warning-alt);
   }
-  &.error {
+  &--error {
     @include set-toast-theme($session-color-error);
+  }
+
+  .Toastify__progress-bar {
+    @include themify($themes) {
+      background-color: rgba(themed('textColor'), 0.1);
+    }
   }
 }
 
