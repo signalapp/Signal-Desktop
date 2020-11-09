@@ -606,9 +606,9 @@ export async function mergeAccountRecord(
       conversation => conversation.get('id')
     );
 
-    const missingStoragePinnedConversationIds = window.ConversationController.getPinnedConversationIds().filter(
-      id => !modelPinnedConversationIds.includes(id)
-    );
+    const missingStoragePinnedConversationIds = window.storage
+      .get<Array<string>>('pinnedConversationIds', [])
+      .filter(id => !modelPinnedConversationIds.includes(id));
 
     if (missingStoragePinnedConversationIds.length !== 0) {
       window.log.info(

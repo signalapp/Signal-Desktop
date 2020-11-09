@@ -18,8 +18,8 @@ describe('state/selectors/conversations', () => {
     this.oldWindow = globalAsAny.window;
     globalAsAny.window = {};
 
-    window.ConversationController = {
-      getPinnedConversationIds: sinon.stub().returns([]),
+    window.storage = {
+      get: sinon.stub().returns([]),
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any;
   });
@@ -173,8 +173,7 @@ describe('state/selectors/conversations', () => {
 
     describe('given pinned conversations', () => {
       beforeEach(() => {
-        (window.ConversationController
-          .getPinnedConversationIds as sinon.SinonStub).returns([
+        (window.storage.get as sinon.SinonStub).returns([
           'pin1',
           'pin2',
           'pin3',

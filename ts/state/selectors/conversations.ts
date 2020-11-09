@@ -162,7 +162,10 @@ export const _getLeftPaneLists = (
   conversations.sort(comparator);
   archivedConversations.sort(comparator);
 
-  const pinnedConversationIds = window.ConversationController.getPinnedConversationIds();
+  const pinnedConversationIds = window.storage.get<Array<string>>(
+    'pinnedConversationIds',
+    []
+  );
   pinnedConversations.sort(
     (a, b) =>
       pinnedConversationIds.indexOf(a.id) - pinnedConversationIds.indexOf(b.id)
