@@ -135,6 +135,16 @@ export class SessionConversationMessagesList extends React.Component<
     if (findFirstUnreadIndex === -1 && conversation.unreadCount !== 0) {
       findFirstUnreadIndex = messages.length - 1;
     }
+    if (conversation.unreadCount === 0) {
+      findFirstUnreadIndex = -1;
+    }
+    // console.log(
+    //   'findFirstUnreadIndex',
+    //   findFirstUnreadIndex,
+    //   'unreadCount',
+    //   conversation.unreadCount
+    // );
+
     return (
       <>
         {messages.map((message: MessageModel) => {
@@ -165,8 +175,8 @@ export class SessionConversationMessagesList extends React.Component<
           if (groupNotificationProps) {
             return (
               <>
-                {unreadIndicator}
                 <GroupNotification {...groupNotificationProps} />
+                {unreadIndicator}
               </>
             );
           }
@@ -174,8 +184,8 @@ export class SessionConversationMessagesList extends React.Component<
           if (propsForGroupInvitation) {
             return (
               <>
-                {unreadIndicator}
                 <GroupInvitation {...propsForGroupInvitation} />
+                {unreadIndicator}
               </>
             );
           }
@@ -183,8 +193,8 @@ export class SessionConversationMessagesList extends React.Component<
           if (verificationSessionProps) {
             return (
               <>
-                {unreadIndicator}
                 <VerificationNotification {...verificationSessionProps} />
+                {unreadIndicator}
               </>
             );
           }
@@ -192,8 +202,8 @@ export class SessionConversationMessagesList extends React.Component<
           if (resetSessionProps) {
             return (
               <>
-                {unreadIndicator}
                 <ResetSessionNotification {...resetSessionProps} />
+                {unreadIndicator}
               </>
             );
           }
@@ -201,8 +211,8 @@ export class SessionConversationMessagesList extends React.Component<
           if (timerProps) {
             return (
               <>
-                {unreadIndicator}
                 <TimerNotification {...timerProps} />
+                {unreadIndicator}
               </>
             );
           }
@@ -211,12 +221,12 @@ export class SessionConversationMessagesList extends React.Component<
           // in a series of messages from the same user
           return (
             <>
-              {unreadIndicator}
               {this.renderMessage(
                 messageProps,
                 message.firstMessageOfSeries,
                 multiSelectMode
               )}
+              {unreadIndicator}
             </>
           );
         })}

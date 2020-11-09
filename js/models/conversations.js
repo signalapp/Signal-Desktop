@@ -2234,8 +2234,6 @@
     },
 
     deleteMessages() {
-      this.resetMessageSelection();
-
       let params;
       if (this.isPublic()) {
         throw new Error(

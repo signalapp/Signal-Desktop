@@ -334,13 +334,18 @@ export class SessionConversation extends React.Component<Props, State> {
     if (this.state.initialFetchComplete) {
       return;
     }
-
-    return this.getMessages(
-      Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT,
-      () => {
-        this.setState({ initialFetchComplete: true });
-      }
+    const { conversationKey } = this.props;
+    const conversationModel = window.ConversationController.getOrThrow(
+      conversationKey
     );
+    const unreadCount = await conversationModel.getUnreadCount();
+    const messagesToFetch = Math.max(
+      Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT,
+      unreadCount
+    );
+    return this.getMessages(messagesToFetch, () => {
+      this.setState({ initialFetchComplete: true });
+    });
   }
 
   // tslint:disable-next-line: no-empty
@@ -440,7 +445,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
       onSetDisappearingMessages: (seconds: any) =>
         conversation.updateExpirationTimer(seconds),
-      onDeleteMessages: () => null,
+      onDeleteMessages: () => conversation.deleteMessages(),
       onDeleteSelectedMessages: this.deleteSelectedMessages,
       onCloseOverlay: () => {
         this.setState({ selectedMessages: [] });
