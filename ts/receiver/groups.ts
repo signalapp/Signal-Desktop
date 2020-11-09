@@ -40,7 +40,6 @@ export async function preprocessGroupMessage(
   );
 
   if (conversation.isPublic() || conversation.isMediumGroup()) {
-    // window.console.log('No need to preprocess public group chat messages');
     return;
   }
   const GROUP_TYPES = SignalService.GroupContext.Type;

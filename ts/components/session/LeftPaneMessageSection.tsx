@@ -456,12 +456,12 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           openGroupConversation
         );
       } else {
-        window.console.error(
+        window.log.error(
           'Joined an opengroup but did not find ther corresponding conversation'
         );
       }
     } catch (e) {
-      window.console.error('Failed to connect to server:', e);
+      window.log.error('Failed to connect to server:', e);
       ToastUtils.pushToastError(
         'connectToServerFail',
         window.i18n('connectToServerFail')

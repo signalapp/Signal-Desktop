@@ -31,7 +31,7 @@ export async function handleSessionRequestMessage(
 ) {
   const { libsignal, StringView, textsecure, dcodeIO, log } = window;
 
-  window.console.log(
+  window.log.info(
     `Received SESSION_REQUEST from source: ${envelope.source}`
   );
 
@@ -74,7 +74,7 @@ export async function handleSessionRequestMessage(
       );
     }
     if (preKey === undefined || signedKey === undefined) {
-      window.console.warn(
+      window.log.warn(
         "Couldn't process prekey bundle without preKey or signedKey"
       );
       return;

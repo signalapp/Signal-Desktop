@@ -530,7 +530,7 @@ export async function handleMessageJob(
         if (confirm) {
           confirm();
         }
-        window.console.log(
+        window.log.info(
           'Dropping ExpireTimerUpdate message as we already have the same one set.'
         );
         return;

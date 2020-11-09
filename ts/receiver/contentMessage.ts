@@ -80,7 +80,7 @@ async function decryptForMediumGroup(
   const ourNumber = (await UserUtil.getCurrentDevicePubKey()) as string;
   const sourceAsStr = StringUtils.decode(source, 'hex');
   if (sourceAsStr === ourNumber) {
-    window.console.info(
+    window.log.info(
       'Dropping message from ourself after decryptForMediumGroup'
     );
     return null;
@@ -316,7 +316,7 @@ async function decrypt(
     } else if (error instanceof window.textsecure.PreKeyMissing) {
       const convo = window.ConversationController.get(envelope.source);
       if (!convo) {
-        window.console.warn(
+        window.log.warn(
           'PreKeyMissing but convo is missing too. Dropping...'
         );
         return;

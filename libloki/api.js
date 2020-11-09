@@ -19,7 +19,7 @@
 
   const debugLogFn = (...args) => {
     if (window.lokiFeatureFlags.debugMessageLogs) {
-      window.console.warn(...args);
+      window.log.warn(...args);
     }
   };
 

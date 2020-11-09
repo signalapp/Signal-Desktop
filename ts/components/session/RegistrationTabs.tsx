@@ -960,7 +960,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
       const secretWords = window.mnemonic.pubkey_to_secret_words(pubkey);
       this.setState({ secretWords });
     } catch (e) {
-      window.console.log(e);
+      window.log.log(e);
       await this.resetRegistration();
 
       this.setState({

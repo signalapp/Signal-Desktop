@@ -659,7 +659,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   }
 
   if (!conversationId) {
-    window.console.warn(
+    window.log.warn(
       'Invalid conversation id for incoming message',
       conversationId
     );

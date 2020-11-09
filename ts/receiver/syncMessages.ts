@@ -102,7 +102,7 @@ async function handleSentMessage(
   }
 
   if (isMessageEmpty(msg as SignalService.DataMessage)) {
-    window.console.log('dropping empty message synced');
+    window.log.info('dropping empty message synced');
     await removeFromCache(envelope);
     return;
   }
@@ -193,11 +193,11 @@ async function handleBlocked(
         if (conv.isPrivate()) {
           await BlockedNumberController.setBlocked(n, block);
         } else {
-          window.console.warn('Ignoring block/unblock for group:', n);
+          window.log.warn('Ignoring block/unblock for group:', n);
         }
         conv.trigger('change', conv);
       } else {
-        window.console.warn(
+        window.log.warn(
           'Did not find corresponding conversation to block',
           n
         );

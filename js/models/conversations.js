@@ -247,7 +247,7 @@
     },
     async bumpTyping() {
       if (this.isPublic()) {
-        window.console.debug('public conversation... No need to bumpTyping');
+        window.log.debug('public conversation... No need to bumpTyping');
         return;
       }
       // We don't send typing messages if the setting is disabled or we do not have a session
@@ -1273,7 +1273,7 @@
           // Handle Group Invitation Message
           if (groupInvitation) {
             if (conversationType !== Message.PRIVATE) {
-              window.console.warning('Cannot send groupInvite to group chat');
+              window.log.warn('Cannot send groupInvite to group chat');
 
               return null;
             }
@@ -1671,7 +1671,7 @@
         );
         const recipientPubKey = new libsession.Types.PubKey(recipient);
         if (!recipientPubKey) {
-          window.console.warn('sendGroupInfo invalid pubkey:', recipient);
+          window.log.warn('sendGroupInfo invalid pubkey:', recipient);
           return;
         }
 
@@ -1837,7 +1837,7 @@
       read = read.filter(item => !item.hasErrors);
 
       if (this.isPublic()) {
-        window.console.debug(
+        window.log.debug(
           'public conversation... No need to send read receipt'
         );
         return;
