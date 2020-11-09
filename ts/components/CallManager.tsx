@@ -130,6 +130,7 @@ export const CallManager = ({
             hasLocalVideo={hasLocalVideo}
             i18n={i18n}
             isGroupCall={false}
+            me={me}
             onCallCanceled={cancelCall}
             onJoinCall={() => {
               startCall({

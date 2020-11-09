@@ -19,14 +19,16 @@ import { ColorType } from '../types/Colors';
 export type PropsType = {
   availableCameras: Array<MediaDeviceInfo>;
   conversation: {
-    avatarPath?: string;
-    color?: ColorType;
     title: string;
   };
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
   i18n: LocalizerType;
   isGroupCall: boolean;
+  me: {
+    avatarPath?: string;
+    color?: ColorType;
+  };
   onCallCanceled: () => void;
   onJoinCall: () => void;
   setLocalAudio: (_: SetLocalAudioType) => void;
@@ -43,6 +45,7 @@ export const CallingLobby = ({
   hasLocalVideo,
   i18n,
   isGroupCall = false,
+  me,
   onCallCanceled,
   onJoinCall,
   setLocalAudio,
@@ -131,10 +134,7 @@ export const CallingLobby = ({
         {hasLocalVideo && availableCameras.length > 0 ? (
           <video ref={localVideoRef} autoPlay />
         ) : (
-          <CallBackgroundBlur
-            avatarPath={conversation.avatarPath}
-            color={conversation.color}
-          >
+          <CallBackgroundBlur avatarPath={me.avatarPath} color={me.color}>
             <div className="module-calling-lobby__video-off--icon" />
             <span className="module-calling-lobby__video-off--text">
               {i18n('calling__your-video-is-off')}

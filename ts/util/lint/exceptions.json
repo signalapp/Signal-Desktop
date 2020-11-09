@@ -14418,7 +14418,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CallingLobby.tsx",
     "line": "  const localVideoRef = React.useRef(null);",
-    "lineNumber": 54,
+    "lineNumber": 57,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Used to get the local video element for rendering."
