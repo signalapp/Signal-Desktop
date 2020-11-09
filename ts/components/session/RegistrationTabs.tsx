@@ -404,6 +404,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
           <SessionInput
             label={window.i18n('recoveryPhrase')}
             type="password"
+            autoFocus={true}
             placeholder={window.i18n('enterRecoveryPhrase')}
             enableShowHide={true}
             onValueChanged={(val: string) => {
@@ -413,7 +414,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
               this.handlePressEnter();
             }}
           />
-          {this.renderNamePasswordAndVerifyPasswordFields()}
+          {this.renderNamePasswordAndVerifyPasswordFields(false)}
         </div>
       );
     }
@@ -467,7 +468,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
     if (signUpMode === SignUpMode.EnterDetails) {
       return (
         <div className={classNames('session-registration__entry-fields')}>
-          {this.renderNamePasswordAndVerifyPasswordFields()}
+          {this.renderNamePasswordAndVerifyPasswordFields(true)}
         </div>
       );
     }
@@ -475,7 +476,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
     return null;
   }
 
-  private renderNamePasswordAndVerifyPasswordFields() {
+  private renderNamePasswordAndVerifyPasswordFields(stealAutoFocus: boolean = false) {
     const { password, passwordFieldsMatch } = this.state;
     const passwordsDoNotMatch =
       !passwordFieldsMatch && this.state.password
@@ -485,6 +486,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
     return (
       <div className="inputfields">
         <SessionInput
+          autoFocus={stealAutoFocus}
           label={window.i18n('displayName')}
           type="text"
           placeholder={window.i18n('enterDisplayName')}

@@ -13,6 +13,8 @@ interface Props {
   enableShowHide?: boolean;
   onValueChanged?: any;
   onEnterPressed?: any;
+  autoFocus?: boolean;
+
 }
 
 interface State {
@@ -35,6 +37,7 @@ export class SessionInput extends React.PureComponent<Props, State> {
 
   public render() {
     const {
+      autoFocus,
       placeholder,
       type,
       value,
@@ -55,6 +58,7 @@ export class SessionInput extends React.PureComponent<Props, State> {
           placeholder={placeholder}
           value={value}
           maxLength={maxLength}
+          autoFocus={autoFocus}
           onChange={e => {
             this.updateInputValue(e);
           }}
