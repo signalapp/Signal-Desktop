@@ -725,7 +725,7 @@ export async function mergeAccountRecord(
     });
 
     remotelyPinnedConversations.forEach(conversation => {
-      conversation.set({ isPinned: true });
+      conversation.set({ isPinned: true, isArchived: false });
       updateConversation(conversation.attributes);
     });
 
