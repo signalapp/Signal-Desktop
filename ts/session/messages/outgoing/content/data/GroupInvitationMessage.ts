@@ -37,7 +37,6 @@ export class GroupInvitationMessage extends DataMessage {
       serverName: this.serverName,
     });
 
-
     return new SignalService.DataMessage({
       groupInvitation,
       expireTimer: this.expireTimer,

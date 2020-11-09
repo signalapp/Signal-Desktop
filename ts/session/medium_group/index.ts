@@ -392,6 +392,7 @@ export async function initiateGroupUpdate(
     members,
     is_medium_group: isMediumGroup,
     admins: convo.get('groupAdmins'),
+    expireTimer: convo.get('expireTimer'),
   };
 
   if (isMediumGroup) {
@@ -593,7 +594,7 @@ async function sendGroupUpdateForMedium(
   groupUpdate: GroupInfo,
   messageId?: string
 ) {
-  const { id: groupId, members, name: groupName } = groupUpdate;
+  const { id: groupId, members, name: groupName, expireTimer } = groupUpdate;
   const ourPrimary = await UserUtil.getPrimary();
 
   const leavingMembers = diff.leavingMembers || [];
@@ -700,6 +701,22 @@ async function sendGroupUpdateForMedium(
           memberPubKey,
           mediumGroupCreateMessage
         );
+        // if an expire timer is set, we have to send it to the joining members
+        if (expireTimer && expireTimer > 0) {
+          const expireUpdate = {
+            timestamp: Date.now(),
+            expireTimer,
+            groupId: groupId,
+          };
+
+          const expirationTimerMessage = new ExpirationTimerUpdateMessage(
+            expireUpdate
+          );
+          await getMessageQueue().sendUsingMultiDevice(
+            memberPubKey,
+            expirationTimerMessage
+          );
+        }
       });
     }
   }
