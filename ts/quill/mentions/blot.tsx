@@ -1,6 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+/* eslint-disable max-classes-per-file */
+
 import React from 'react';
 import Parchment from 'parchment';
 import Quill from 'quill';
@@ -8,7 +10,11 @@ import { render } from 'react-dom';
 import { Emojify } from '../../components/conversation/Emojify';
 import { MentionBlotValue } from '../util';
 
-const Embed: typeof Parchment.Embed = Quill.import('blots/embed');
+declare class QuillEmbed extends Parchment.Embed {
+  contentNode: HTMLElement;
+}
+
+const Embed: typeof QuillEmbed = Quill.import('blots/embed');
 
 export class MentionBlot extends Embed {
   static blotName = 'mention';
@@ -56,5 +62,11 @@ export class MentionBlot extends Embed {
     );
 
     node.appendChild(mentionSpan);
+  }
+
+  constructor(node: Node) {
+    super(node);
+
+    this.contentNode.removeAttribute('contenteditable');
   }
 }

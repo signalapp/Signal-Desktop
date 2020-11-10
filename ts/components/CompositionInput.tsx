@@ -400,26 +400,6 @@ export const CompositionInput: React.ComponentType<Props> = props => {
     return true;
   };
 
-  const onCtrlA = () => {
-    const quill = quillRef.current;
-
-    if (quill === undefined) {
-      return;
-    }
-
-    quill.setSelection(0, 0);
-  };
-
-  const onCtrlE = () => {
-    const quill = quillRef.current;
-
-    if (quill === undefined) {
-      return;
-    }
-
-    quill.setSelection(quill.getLength(), 0);
-  };
-
   const onBackspace = () => {
     const quill = quillRef.current;
 
@@ -576,8 +556,6 @@ export const CompositionInput: React.ComponentType<Props> = props => {
                   handler: onShortKeyEnter,
                 },
                 onEscape: { key: 27, handler: onEscape }, // 27 = Escape
-                onCtrlA: { key: 65, ctrlKey: true, handler: onCtrlA }, // 65 = a
-                onCtrlE: { key: 69, ctrlKey: true, handler: onCtrlE }, // 69 = e
                 onBackspace: { key: 8, handler: onBackspace }, // 8 = Backspace
               },
             },
