@@ -30,23 +30,6 @@
         $el.remove();
       }
     },
-    showConfirmationDialog({
-      title,
-      message,
-      messageSub,
-      onOk,
-      onCancel,
-      hideCancel,
-    }) {
-      window.confirmationDialog({
-        title,
-        message,
-        resolve: onOk,
-        reject: onCancel,
-        hideCancel,
-        messageSub,
-      });
-    },
     setupSessionConversation() {
       // Here we set up a full redux store with initial state for our Conversation Root
 

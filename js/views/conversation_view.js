@@ -936,27 +936,6 @@
       }
     },
 
-    destroyMessages() {
-      const message = this.model.isPublic()
-        ? i18n('deletePublicConversationConfirmation')
-        : i18n('deleteConversationConfirmation');
-
-      Whisper.events.trigger('showConfirmationDialog', {
-        message,
-        onOk: async () => {
-          try {
-            await this.model.destroyMessages();
-            this.unload('delete messages');
-          } catch (error) {
-            window.log.error(
-              'destroyMessages: Failed to successfully delete conversation',
-              error && error.stack ? error.stack : error
-            );
-          }
-        },
-      });
-    },
-
     showSendConfirmationDialog(e, contacts) {
       let message;
       const isUnverified = this.model.isUnverified();

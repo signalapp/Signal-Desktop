@@ -987,16 +987,6 @@
       }
     });
 
-    Whisper.events.on('showConfirmationDialog', options => {
-      if (
-        appView &&
-        appView.inboxView &&
-        appView.inboxView.conversation_stack
-      ) {
-        appView.inboxView.conversation_stack.showConfirmationDialog(options);
-      }
-    });
-
     Whisper.events.on('showNicknameDialog', options => {
       if (appView) {
         appView.showNicknameDialog(options);
