@@ -27,6 +27,7 @@ import { ToastUtils } from '../../../session/utils';
 import * as MIME from '../../../types/MIME';
 import { SessionFileDropzone } from './SessionFileDropzone';
 import { ConversationType } from '../../../state/ducks/conversations';
+import { MessageView } from '../../MainViewController';
 
 interface State {
   // Message sending progress
@@ -175,15 +176,23 @@ export class SessionConversation extends React.Component<Props, State> {
 
   public componentDidUpdate(prevProps: Props, prevState: State) {
     const { conversationKey: oldKey } = prevProps;
+    try {
     const oldConversationModel = window.ConversationController.getOrThrow(
       oldKey
     );
-    oldConversationModel.off('change', this.refreshMessages);
-    const { conversationKey: newKey } = this.props;
-    const newCconversationModel = window.ConversationController.getOrThrow(
-      newKey
-    );
-    newCconversationModel.on('change', this.refreshMessages);
+      oldConversationModel.off('change', this.refreshMessages);
+    } catch (e) {
+      window.log.warn(e);
+    }
+    try {
+      const { conversationKey: newKey } = this.props;
+      const newConversationModel = window.ConversationController.getOrThrow(
+        newKey
+      );
+      newConversationModel.on('change', this.refreshMessages);
+    } catch (e) {
+      window.log.warn(e);
+    }
   }
 
   public componentDidMount() {
@@ -220,9 +229,14 @@ export class SessionConversation extends React.Component<Props, State> {
     const selectionMode = !!selectedMessages.length;
 
     const { conversation, conversationKey } = this.props;
-    const conversationModel = window.ConversationController.getOrThrow(
+    const conversationModel = window.ConversationController.get(
       conversationKey
     );
+
+    if (!conversationModel) {
+      // return an empty message view
+      return <MessageView />;
+    }
 
     const { isRss } = conversation;
 
@@ -334,7 +348,7 @@ export class SessionConversation extends React.Component<Props, State> {
     if (this.state.initialFetchComplete) {
       return;
     }
-    const { conversationKey } = this.props;
+    const { conversationKey, conversation } = this.props;
     const conversationModel = window.ConversationController.getOrThrow(
       conversationKey
     );
@@ -343,15 +357,17 @@ export class SessionConversation extends React.Component<Props, State> {
       Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT,
       unreadCount
     );
-    return this.getMessages(messagesToFetch, () => {
-      this.setState({ initialFetchComplete: true });
-    });
+    if (conversation) {
+      return this.getMessages(messagesToFetch, () => {
+        this.setState({ initialFetchComplete: true });
+      });
+    }
   }
 
   // tslint:disable-next-line: no-empty
   public async getMessages(numMessages?: number, callback: any = () => {}) {
     const { unreadCount } = this.state;
-    const { conversationKey } = this.props;
+    const { conversationKey, conversation } = this.props;
     let msgCount =
       numMessages ||
       Number(Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT) + unreadCount;
@@ -364,6 +380,11 @@ export class SessionConversation extends React.Component<Props, State> {
       msgCount = Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT;
     }
 
+    if (!conversation) {
+      // no valid conversation, early return
+      return;
+    }
+
     const messageSet = await window.Signal.Data.getMessagesByConversation(
       conversationKey,
       { limit: msgCount, MessageCollection: window.Whisper.MessageCollection }
@@ -374,7 +395,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
     const messages = [];
     // no need to do that `firstMessageOfSeries` on a private chat
-    if (this.props.conversation.type === 'direct') {
+    if (conversation.type === 'direct') {
       this.setState({ messages: messageSet.models }, callback);
       return;
     }

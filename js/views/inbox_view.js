@@ -92,13 +92,6 @@
       const inboxCollection = getInboxCollection();
 
       // ConversationCollection
-      const conversations = getConversations();
-      this.listenTo(conversations, 'remove', conversation => {
-        if (this.conversation_stack) {
-          this.conversation_stack.close(conversation);
-        }
-      });
-
       this.listenTo(inboxCollection, 'messageError', () => {
         if (this.networkStatusView) {
           this.networkStatusView.render();
@@ -317,12 +310,6 @@
       }
 
       this.conversation_stack.open(conversation);
-    },
-    closeConversation(conversation) {
-      if (conversation) {
-        this.inboxListView.removeItem(conversation);
-        this.conversation_stack.close(conversation);
-      }
     },
   });
 

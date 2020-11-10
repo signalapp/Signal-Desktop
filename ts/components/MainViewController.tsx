@@ -16,8 +16,6 @@ export const MainViewController = {
 
 import { ContactType } from './session/SessionMemberListItem';
 import { ToastUtils } from '../session/utils';
-import { toast } from 'react-toastify';
-import { SessionToast, SessionToastType } from './session/SessionToast';
 
 export class MessageView extends React.Component {
   public render() {
