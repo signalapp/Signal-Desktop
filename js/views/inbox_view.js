@@ -18,34 +18,6 @@
 
   window.Whisper = window.Whisper || {};
 
-  Whisper.ConversationStack = Whisper.View.extend({
-    className: 'conversation-stack',
-    open(conversation) {
-      this.setupSessionConversation(conversation.id);
-      conversation.trigger('opened');
-    },
-    close(conversation) {
-      const $el = $(`#conversation-${conversation.cid}`);
-      if ($el && $el.length > 0) {
-        $el.remove();
-      }
-    },
-    setupSessionConversation() {
-      // Here we set up a full redux store with initial state for our Conversation Root
-
-      this.sessionConversationView = new Whisper.ReactWrapperView({
-        JSX: Signal.State.Roots.createSessionConversation(window.inboxStore),
-        className: 'conversation-item',
-      });
-
-      // Add sessionConversation to the DOM
-      $('#main-view .conversation-stack').html('');
-      $('#main-view .conversation-stack').append(
-        this.sessionConversationView.el
-      );
-    },
-  });
-
   Whisper.AppLoadingScreen = Whisper.View.extend({
     templateName: 'app-loading-screen',
     className: 'app-loading-screen',
@@ -58,11 +30,6 @@
       this.ready = false;
       this.render();
       this.$el.attr('tabindex', '1');
-
-      this.conversation_stack = new Whisper.ConversationStack({
-        el: this.$('.conversation-stack'),
-        model: { window: options.window },
-      });
 
       if (!options.initialLoadComplete) {
         this.appLoadingScreen = new Whisper.AppLoadingScreen();
@@ -96,6 +63,28 @@
 
       // FIXME: Fix this for new react views
       this.setupLeftPane();
+    },
+    open(conversation) {
+      this.setupSessionConversation(conversation.id);
+      conversation.trigger('opened');
+    },
+    close(conversation) {
+      const $el = $(`#conversation-${conversation.cid}`);
+      if ($el && $el.length > 0) {
+        $el.remove();
+      }
+    },
+    setupSessionConversation() {
+      // Here we set up a full redux store with initial state for our Conversation Root
+
+      this.sessionConversationView = new Whisper.ReactWrapperView({
+        JSX: Signal.State.Roots.createSessionConversation(window.inboxStore),
+        className: 'conversation-item',
+      });
+
+      // Add sessionConversation to the DOM
+      $('#main-view').html('');
+      $('#main-view').append(this.sessionConversationView.el);
     },
     async setupLeftPane() {
       // Here we set up a full redux store with initial state for our LeftPane Root
@@ -292,7 +281,7 @@
         conversation.updateProfileName();
       }
 
-      this.conversation_stack.open(conversation);
+      this.open(conversation);
     },
   });
 

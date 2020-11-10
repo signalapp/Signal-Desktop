@@ -94,9 +94,7 @@ export class OpenGroup {
    * @param onLoading Callback function to be called once server begins connecting
    * @returns `OpenGroup` if connection success or if already connected
    */
-  public static async join(
-    server: string
-  ): Promise<OpenGroup | undefined> {
+  public static async join(server: string): Promise<OpenGroup | undefined> {
     const prefixedServer = OpenGroup.prefixify(server);
     if (!OpenGroup.validate(server)) {
       return;

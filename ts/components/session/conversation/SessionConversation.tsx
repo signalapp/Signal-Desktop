@@ -177,9 +177,9 @@ export class SessionConversation extends React.Component<Props, State> {
   public componentDidUpdate(prevProps: Props, prevState: State) {
     const { conversationKey: oldKey } = prevProps;
     try {
-    const oldConversationModel = window.ConversationController.getOrThrow(
-      oldKey
-    );
+      const oldConversationModel = window.ConversationController.getOrThrow(
+        oldKey
+      );
       oldConversationModel.off('change', this.refreshMessages);
     } catch (e) {
       window.log.warn(e);

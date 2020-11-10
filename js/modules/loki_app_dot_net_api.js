@@ -1185,7 +1185,7 @@ class LokiPublicChannelAPI {
         moderators.includes(ourNumberDevice);
     }
 
-    if(this.running) {
+    if (this.running) {
       await this.conversation.setModerators(moderators || []);
     }
   }
@@ -1479,7 +1479,10 @@ class LokiPublicChannelAPI {
 
       // update where we last checked
       this.deleteLastId = res.response.meta.max_id;
-      more = res.response.meta.more && res.response.data.length >= params.count && this.running;
+      more =
+        res.response.meta.more &&
+        res.response.data.length >= params.count &&
+        this.running;
     }
   }
 
@@ -1829,7 +1832,6 @@ class LokiPublicChannelAPI {
       this.messagesPollLock = false;
       return;
     }
-
 
     // slave to primary map for this group of messages
     let slavePrimaryMap = {};

@@ -445,7 +445,9 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           window.i18n('connectToServerSuccess')
         );
       } else {
-        throw new Error('Open group joined but the corresponding server does not exist');
+        throw new Error(
+          'Open group joined but the corresponding server does not exist'
+        );
       }
       this.setState({ loading: false });
       const openGroupConversation = await OpenGroup.getConversation(serverUrl);

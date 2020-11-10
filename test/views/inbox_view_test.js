@@ -36,7 +36,7 @@ describe('InboxView', () => {
 
   describe('the conversation stack', () => {
     it('should be rendered', () => {
-      assert.ok(inboxView.$('.conversation-stack').length === 1);
+      assert.ok(inboxView.length === 1);
     });
 
     describe('opening a conversation', () => {
@@ -47,7 +47,7 @@ describe('InboxView', () => {
           triggeredOpenedCount += 1;
         });
 
-        inboxView.conversation_stack.open(conversation);
+        inboxView.open(conversation);
       });
 
       it('should trigger an opened event', () => {
@@ -56,7 +56,7 @@ describe('InboxView', () => {
 
       describe('and then opening it again immediately', () => {
         before(() => {
-          inboxView.conversation_stack.open(conversation);
+          inboxView.open(conversation);
         });
 
         it('should trigger the opened event again', () => {

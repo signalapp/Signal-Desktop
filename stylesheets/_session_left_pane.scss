@@ -337,9 +337,12 @@ $session-compose-margin: 20px;
   }
 }
 
-.conversation.placeholder .container {
-  display: flex;
-  height: 100%;
+.conversation.placeholder {
+  margin: auto;
+  .container {
+    display: flex;
+    height: 100%;
+  }
 }
 
 .session-full-logo {
