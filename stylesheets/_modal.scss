@@ -170,7 +170,8 @@
 
 .loki-dialog {
   & ~ .index.inbox {
-    filter: blur(2px);
+    // filter: blur(2px); // FIXME enable back once modals are moved to react
+    // currently it cause an issues with toast being on the foreground when a modal is shown
     transition: filter 0.1s;
   }
 

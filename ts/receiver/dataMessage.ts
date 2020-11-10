@@ -1,6 +1,6 @@
 import { SignalService } from './../protobuf';
 import { removeFromCache } from './cache';
-import { MultiDeviceProtocol } from '../session/protocols';
+import { MultiDeviceProtocol, SessionProtocol } from '../session/protocols';
 import { EnvelopePlus } from './types';
 import { ConversationType, getEnvelopeId } from './common';
 import { preprocessGroupMessage } from './groups';

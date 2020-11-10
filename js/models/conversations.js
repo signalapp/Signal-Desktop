@@ -1837,9 +1837,7 @@
       read = read.filter(item => !item.hasErrors);
 
       if (this.isPublic()) {
-        window.log.debug(
-          'public conversation... No need to send read receipt'
-        );
+        window.log.debug('public conversation... No need to send read receipt');
         return;
       }
 

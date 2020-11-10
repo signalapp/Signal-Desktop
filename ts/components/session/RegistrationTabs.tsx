@@ -476,7 +476,9 @@ export class RegistrationTabs extends React.Component<{}, State> {
     return null;
   }
 
-  private renderNamePasswordAndVerifyPasswordFields(stealAutoFocus: boolean = false) {
+  private renderNamePasswordAndVerifyPasswordFields(
+    stealAutoFocus: boolean = false
+  ) {
     const { password, passwordFieldsMatch } = this.state;
     const passwordsDoNotMatch =
       !passwordFieldsMatch && this.state.password

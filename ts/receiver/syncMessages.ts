@@ -197,10 +197,7 @@ async function handleBlocked(
         }
         conv.trigger('change', conv);
       } else {
-        window.log.warn(
-          'Did not find corresponding conversation to block',
-          n
-        );
+        window.log.warn('Did not find corresponding conversation to block', n);
       }
     }
 

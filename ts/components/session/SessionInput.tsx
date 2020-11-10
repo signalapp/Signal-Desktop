@@ -14,7 +14,6 @@ interface Props {
   onValueChanged?: any;
   onEnterPressed?: any;
   autoFocus?: boolean;
-
 }
 
 interface State {

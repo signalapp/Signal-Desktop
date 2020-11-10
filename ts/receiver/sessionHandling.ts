@@ -31,9 +31,7 @@ export async function handleSessionRequestMessage(
 ) {
   const { libsignal, StringView, textsecure, dcodeIO, log } = window;
 
-  window.log.info(
-    `Received SESSION_REQUEST from source: ${envelope.source}`
-  );
+  window.log.info(`Received SESSION_REQUEST from source: ${envelope.source}`);
 
   if (!preKeyBundleMessage) {
     log.warn('No pre-key bundle found in a session request');

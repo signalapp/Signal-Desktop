@@ -314,11 +314,17 @@ async function decrypt(
         return;
       }
     } else if (error instanceof window.textsecure.PreKeyMissing) {
+      // this error can mean two things
+      // 1. The sender received a session request message from us, used it to establish a session, but restored from seed
+      //    Depending on the the date of our messsage, on restore from seed the sender might get our session request again
+      //    He will try to use it to establish a session. In this case, we should reset the session as we cannot decode its message.
+      // 2. We sent a session request to the sender and he established it. But if he sends us a message before we send one to him, he will
+      //    include the prekeyId in that new message.
+      //    We won't find this preKeyId as we already burnt it when the sender established the session.
+
       const convo = window.ConversationController.get(envelope.source);
       if (!convo) {
-        window.log.warn(
-          'PreKeyMissing but convo is missing too. Dropping...'
-        );
+        window.log.warn('PreKeyMissing but convo is missing too. Dropping...');
         return;
       }
       void convo.endSession();
