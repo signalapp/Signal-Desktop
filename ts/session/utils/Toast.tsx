@@ -60,8 +60,7 @@ export function pushToastSuccess(
       description={description}
       type={SessionToastType.Success}
       icon={icon}
-    />,
-    { toastId: id }
+    />
   );
 }
 

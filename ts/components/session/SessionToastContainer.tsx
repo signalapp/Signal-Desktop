@@ -11,7 +11,7 @@ const SessionToastContainerPrivate = () => {
       newestOnTop={true}
       closeOnClick={true}
       rtl={false}
-      pauseOnFocusLoss={true}
+      pauseOnFocusLoss={false}
       draggable={true}
       pauseOnHover={true}
       transition={Slide}

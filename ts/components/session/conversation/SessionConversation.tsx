@@ -449,7 +449,6 @@ export class SessionConversation extends React.Component<Props, State> {
       onDeleteSelectedMessages: this.deleteSelectedMessages,
       onCloseOverlay: () => {
         this.setState({ selectedMessages: [] });
-        conversation.resetMessageSelection();
       },
       onDeleteContact: () => conversation.deleteContact(),
       onResetSession: () => {

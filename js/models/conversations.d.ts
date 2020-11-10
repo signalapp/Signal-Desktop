@@ -102,6 +102,5 @@ export interface ConversationModel
   setSecondaryStatus: any;
   queueJob: any;
   sendGroupInfo: any;
-  resetMessageSelection: any;
   onUpdateGroupName: any;
 }

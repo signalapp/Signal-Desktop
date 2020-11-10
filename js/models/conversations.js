@@ -526,7 +526,6 @@
         onCopyPublicKey: () => this.copyPublicKey(),
         onDeleteContact: () => this.deleteContact(),
         onDeleteMessages: () => this.deleteMessages(),
-        onCloseOverlay: () => this.resetMessageSelection(),
         onInviteContacts: () => {
           window.Whisper.events.trigger('inviteContacts', this);
         },

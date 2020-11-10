@@ -469,7 +469,6 @@ label {
   cursor: pointer;
 }
 
-
 .Toastify__toast {
   @include themify($themes) {
     background: rgba(themed('cellBackground'), 0.99);
