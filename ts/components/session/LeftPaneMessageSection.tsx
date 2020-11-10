@@ -432,21 +432,22 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     // Connect to server
     try {
-      ToastUtils.pushToastSuccess(
+      ToastUtils.pushToastInfo(
         'connectingToServer',
         window.i18n('connectingToServer')
       );
 
       this.setState({ loading: true });
-      await OpenGroup.join(serverUrl, async () => {
-        if (await OpenGroup.serverExists(serverUrl)) {
-          ToastUtils.pushToastSuccess(
-            'connectToServerSuccess',
-            window.i18n('connectToServerSuccess')
-          );
-        }
-        this.setState({ loading: false });
-      });
+      await OpenGroup.join(serverUrl);
+      if (await OpenGroup.serverExists(serverUrl)) {
+        ToastUtils.pushToastSuccess(
+          'connectToServerSuccess',
+          window.i18n('connectToServerSuccess')
+        );
+      } else {
+        throw new Error('Open group joined but the corresponding server does not exist');
+      }
+      this.setState({ loading: false });
       const openGroupConversation = await OpenGroup.getConversation(serverUrl);
 
       if (openGroupConversation) {
@@ -460,6 +461,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           'Joined an opengroup but did not find ther corresponding conversation'
         );
       }
+      this.handleToggleOverlay(undefined);
     } catch (e) {
       window.log.error('Failed to connect to server:', e);
       ToastUtils.pushToastError(
@@ -467,11 +469,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         window.i18n('connectToServerFail')
       );
       this.setState({ loading: false });
-    } finally {
-      this.setState({
-        loading: false,
-      });
-      this.handleToggleOverlay(undefined);
     }
   }
 

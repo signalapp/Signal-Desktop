@@ -95,8 +95,7 @@ export class OpenGroup {
    * @returns `OpenGroup` if connection success or if already connected
    */
   public static async join(
-    server: string,
-    onLoading?: any
+    server: string
   ): Promise<OpenGroup | undefined> {
     const prefixedServer = OpenGroup.prefixify(server);
     if (!OpenGroup.validate(server)) {
@@ -123,14 +122,11 @@ export class OpenGroup {
 
     // Try to connect to server
     try {
-      if (onLoading) {
-        onLoading();
-      }
-
       conversation = await PromiseUtils.timeout(
         window.attemptConnection(prefixedServer, channel),
-        15000
+        20000
       );
+
       if (!conversation) {
         throw new Error(window.i18n('connectToServerFail'));
       }

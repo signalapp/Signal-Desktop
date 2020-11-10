@@ -1034,7 +1034,7 @@ class LokiPublicChannelAPI {
     this.channelId = channelId;
     this.baseChannelUrl = `channels/${this.channelId}`;
     this.conversationId = conversationId;
-    this.conversation = ConversationController.get(conversationId);
+    this.conversation = ConversationController.getOrThrow(conversationId);
     this.lastGot = null;
     this.modStatus = false;
     this.deleteLastId = 1;
@@ -1185,7 +1185,9 @@ class LokiPublicChannelAPI {
         moderators.includes(ourNumberDevice);
     }
 
-    await this.conversation.setModerators(moderators || []);
+    if(this.running) {
+      await this.conversation.setModerators(moderators || []);
+    }
   }
 
   async setChannelSettings(settings) {
@@ -1335,6 +1337,9 @@ class LokiPublicChannelAPI {
       }
       return;
     }
+    if (!this.running) {
+      return;
+    }
 
     const { data } = res.response;
 
@@ -1474,7 +1479,7 @@ class LokiPublicChannelAPI {
 
       // update where we last checked
       this.deleteLastId = res.response.meta.max_id;
-      more = res.response.meta.more && res.response.data.length >= params.count;
+      more = res.response.meta.more && res.response.data.length >= params.count && this.running;
     }
   }
 
@@ -1818,12 +1823,13 @@ class LokiPublicChannelAPI {
       })
     );
 
-    // do we really need this?
-    if (!pendingMessages.length) {
+    // return early if we should stop processing
+    if (!pendingMessages.length || !this.running) {
       this.conversation.setLastRetrievedMessage(this.lastGot);
       this.messagesPollLock = false;
       return;
     }
+
 
     // slave to primary map for this group of messages
     let slavePrimaryMap = {};
@@ -1883,6 +1889,7 @@ class LokiPublicChannelAPI {
           message,
         });
       });
+
       sendNow = false;
     }
     primaryMessages = false; // free memory
@@ -1955,17 +1962,19 @@ class LokiPublicChannelAPI {
           return;
         }
       }
-      log.info(
-        'emitting pending message',
-        message.serverId,
-        'on',
-        this.channelId,
-        'at',
-        this.serverAPI.baseServerUrl
-      );
-      this.chatAPI.emit('publicMessage', {
-        message,
-      });
+      if (this.running) {
+        log.info(
+          'emitting pending message',
+          message.serverId,
+          'on',
+          this.channelId,
+          'at',
+          this.serverAPI.baseServerUrl
+        );
+        this.chatAPI.emit('publicMessage', {
+          message,
+        });
+      }
     });
 
     /* eslint-enable no-param-reassign */
