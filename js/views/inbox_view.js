@@ -196,16 +196,21 @@
         tmpMsg.get('conversationId')
       );
 
-      // then, find in this conversation the very same message
-      const msg = conv.messageCollection.models.find(
-        convMsg => convMsg.id === tmpMsg.id
-      );
-
-      if (!msg) {
+      if (!conv) {
         return null;
       }
 
-      return { msg };
+      // then, find in this conversation the very same message
+      // const msg = conv.messageCollection.models.find(
+      //   convMsg => convMsg.id === tmpMsg.id
+      // );
+      const msg = window.MessageController._get()[m.identifier];
+
+      if (!msg || !msg.message) {
+        return null;
+      }
+
+      return { msg: msg.message };
     },
 
     async handleMessageSentSuccess(sentMessage, wrappedEnvelope) {

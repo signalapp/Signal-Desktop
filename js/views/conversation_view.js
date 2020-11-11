@@ -116,13 +116,6 @@
         this.toggleMicrophone()
       );
 
-      this.view = new Whisper.MessageListView({
-        collection: this.model.messageCollection,
-        window: this.window,
-      });
-      this.$('.discussion-container').append(this.view.el);
-      this.view.render();
-
       this.memberView = new Whisper.MemberListView({
         el: this.$('.member-list-container'),
         onClicked: this.selectMember.bind(this),
@@ -193,11 +186,6 @@
       'focus .send-message': 'focusBottomBar',
       'change .file-input': 'toggleMicrophone',
       'blur .send-message': 'unfocusBottomBar',
-      'loadMore .message-list': 'loadMoreMessages',
-      'newOffscreenMessage .message-list': 'addScrollDownButtonWithCount',
-      'atBottom .message-list': 'removeScrollDownButton',
-      'farFromBottom .message-list': 'addScrollDownButton',
-      'lazyScroll .message-list': 'onLazyScroll',
       'force-resize': 'forceUpdateMessageFieldSize',
 
       'click button.paperclip': 'onChooseAttachment',
@@ -400,36 +388,6 @@
       if (!mostRecent && this.typingBubbleView) {
         this.typingBubbleView.remove();
         this.typingBubbleView = null;
-      }
-      if (!mostRecent) {
-        return;
-      }
-
-      const { sender } = mostRecent;
-      const contact = ConversationController.getOrCreate(sender, 'private');
-      // we need the opposite theme
-      const color =
-        window.Events.getThemeSetting() === 'light' ? 'dark' : 'light';
-      const props = {
-        ...contact.format(),
-        conversationType: this.model.isPrivate() ? 'direct' : 'group',
-        color,
-      };
-
-      if (this.typingBubbleView) {
-        this.typingBubbleView.update(props);
-        return;
-      }
-
-      this.typingBubbleView = new Whisper.ReactWrapperView({
-        className: 'message-wrapper typing-bubble-wrapper',
-        Component: Signal.Components.TypingBubble,
-        props,
-      });
-      this.typingBubbleView.$el.appendTo(this.$('.typing-container'));
-
-      if (this.view.atBottom()) {
-        this.typingBubbleView.el.scrollIntoView();
       }
     },
 

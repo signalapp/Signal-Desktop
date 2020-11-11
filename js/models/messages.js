@@ -1015,9 +1015,7 @@
       }
 
       this.set({ errors: null });
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
+      await this.commit();
       try {
         const conversation = this.getConversation();
         const intendedRecipients = this.get('recipients') || [];
@@ -1055,9 +1053,8 @@
         if (!recipients.length) {
           window.log.warn('retrySend: Nobody to send to!');
 
-          return window.Signal.Data.saveMessage(this.attributes, {
-            Message: Whisper.Message,
-          });
+          return this.commit();
+
         }
 
         const { body, attachments, preview, quote } = await this.uploadData();
@@ -1324,9 +1321,8 @@
         // unidentifiedDeliveries: result.unidentifiedDeliveries,
       });
 
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
+      await this.commit();
+
       this.getConversation().updateLastMessage();
 
       this.trigger('sent', this);
@@ -1354,9 +1350,8 @@
         expirationStartTimestamp,
         // unidentifiedDeliveries: result.unidentifiedDeliveries,
       });
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
+      await this.commit();
+
       this.trigger('change', this);
 
       this.getConversation().updateLastMessage();
@@ -1455,9 +1450,8 @@
         calculatingPoW: true,
       });
 
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
+      await this.commit();
+
     },
     getServerId() {
       return this.get('serverId');
@@ -1471,9 +1465,8 @@
         serverId,
       });
 
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
+      await this.commit();
+
     },
     async setServerTimestamp(serverTimestamp) {
       if (_.isEqual(this.get('serverTimestamp'), serverTimestamp)) {
@@ -1484,9 +1477,8 @@
         serverTimestamp,
       });
 
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
+      await this.commit();
+
     },
     async setIsPublic(isPublic) {
       if (_.isEqual(this.get('isPublic'), isPublic)) {
@@ -1497,9 +1489,8 @@
         isPublic: !!isPublic,
       });
 
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
+      await this.commit();
+
     },
 
     async sendSyncMessageOnly(dataMessage) {
@@ -1509,9 +1500,8 @@
         expirationStartTimestamp: Date.now(),
       });
 
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
+      await this.commit();
+
 
       const data =
         dataMessage instanceof libsession.Messages.Outgoing.DataMessage
@@ -1543,9 +1533,8 @@
       await libsession.getMessageQueue().sendSyncMessage(syncMessage);
 
       this.set({ sentSync: true });
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
+      await this.commit();
+
     },
 
     someRecipientsFailed() {
@@ -1576,9 +1565,7 @@
         expirationStartTimestamp: Date.now(),
       });
 
-      return window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
+      await this.commit();
     },
 
     async saveErrors(providedErrors) {
@@ -1611,9 +1598,7 @@
       }
 
       this.set({ errors });
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
+      await this.commit();
     },
     hasNetworkError() {
       const error = _.find(
@@ -1624,6 +1609,12 @@
           e.name === 'SignedPreKeyRotationError'
       );
       return !!error;
+    },
+    async commit() {
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+      this.trigger('change');
     },
     async markRead(readAt) {
       this.unset('unread');
@@ -1642,9 +1633,7 @@
         })
       );
 
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
+      await this.commit();
     },
     isExpiring() {
       return this.get('expireTimer') && this.get('expirationStartTimestamp');
@@ -1674,9 +1663,7 @@
         this.set({ expires_at: expiresAt });
         const id = this.get('id');
         if (id) {
-          await window.Signal.Data.saveMessage(this.attributes, {
-            Message: Whisper.Message,
-          });
+          await this.commit();
         }
 
         window.log.info('Set message expiration', {
