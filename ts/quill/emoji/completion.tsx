@@ -65,8 +65,26 @@ export class EmojiCompletion {
     this.quill.keyboard.addBinding({ key: 38 }, changeIndex(-1)); // 38 = Up
     this.quill.keyboard.addBinding({ key: 39 }, clearResults); // 39 = Right
     this.quill.keyboard.addBinding({ key: 40 }, changeIndex(1)); // 40 = Down
+    this.quill.keyboard.addBinding(
+      {
+        // 186 + Shift = Colon
+        key: 186,
+        shiftKey: true,
+      },
+      () => this.onTextChange(true)
+    );
+    this.quill.keyboard.addBinding(
+      {
+        // 58 = Also Colon
+        key: 58,
+      },
+      () => this.onTextChange(true)
+    );
 
-    this.quill.on('text-change', _.debounce(this.onTextChange.bind(this), 100));
+    this.quill.on(
+      'text-change',
+      _.debounce(() => this.onTextChange(), 100)
+    );
     this.quill.on('selection-change', this.onSelectionChange.bind(this));
   }
 
@@ -91,10 +109,13 @@ export class EmojiCompletion {
     this.reset();
   }
 
-  onTextChange(): void {
+  onTextChange(justPressedColon = false): boolean {
+    const PASS_THROUGH = true;
+    const INTERCEPT = false;
+
     const range = this.quill.getSelection();
 
-    if (!range) return;
+    if (!range) return PASS_THROUGH;
 
     const [blot, index] = this.quill.getLeaf(range.index);
     const [leftTokenTextMatch, rightTokenTextMatch] = matchBlotTextPartitions(
@@ -107,24 +128,26 @@ export class EmojiCompletion {
     if (leftTokenTextMatch) {
       const [, leftTokenText, isSelfClosing] = leftTokenTextMatch;
 
-      if (isSelfClosing) {
+      if (isSelfClosing || justPressedColon) {
         if (isShortName(leftTokenText)) {
           const emojiData = convertShortNameToData(
             leftTokenText,
             this.options.skinTone
           );
 
+          const numberOfColons = isSelfClosing ? 2 : 1;
+
           if (emojiData) {
             this.insertEmoji(
               emojiData,
-              range.index - leftTokenText.length - 2,
-              leftTokenText.length + 2
+              range.index - leftTokenText.length - numberOfColons,
+              leftTokenText.length + numberOfColons
             );
-            return;
+            return INTERCEPT;
           }
         } else {
           this.reset();
-          return;
+          return PASS_THROUGH;
         }
       }
 
@@ -144,14 +167,14 @@ export class EmojiCompletion {
               range.index - leftTokenText.length - 1,
               tokenText.length + 2
             );
-            return;
+            return INTERCEPT;
           }
         }
       }
 
       if (leftTokenText.length < 2) {
         this.reset();
-        return;
+        return PASS_THROUGH;
       }
 
       const showEmojiResults = search(leftTokenText, 10);
@@ -165,6 +188,8 @@ export class EmojiCompletion {
     } else if (this.results.length !== 0) {
       this.reset();
     }
+
+    return PASS_THROUGH;
   }
 
   completeEmoji(): void {

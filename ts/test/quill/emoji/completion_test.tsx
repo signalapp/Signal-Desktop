@@ -336,6 +336,40 @@ describe('emojiCompletion', () => {
         });
       });
     });
+
+    describe('given a completeable emoji and colon was just pressed', () => {
+      beforeEach(function beforeEach() {
+        mockQuill.getSelection.returns({
+          index: 6,
+          length: 0,
+        });
+      });
+
+      describe('and given it matches a short name', () => {
+        const text = ':smile';
+
+        beforeEach(function beforeEach() {
+          const blot = {
+            text,
+          };
+          mockQuill.getLeaf.returns([blot, 6]);
+
+          emojiCompletion.onTextChange(true);
+        });
+
+        it('inserts the emoji at the current cursor position', () => {
+          const [emoji, index, range] = insertEmojiStub.args[0];
+
+          assert.equal(emoji.short_name, 'smile');
+          assert.equal(index, 0);
+          assert.equal(range, 6);
+        });
+
+        it('does not show results', () => {
+          assert.equal(emojiCompletion.results.length, 0);
+        });
+      });
+    });
   });
 
   describe('completeEmoji', () => {
