@@ -169,6 +169,7 @@
       },
       {
         "label": "Show",
+        "accelerator": "CmdOrCtrl+Shift+0",
         "click": null
       },
       {
