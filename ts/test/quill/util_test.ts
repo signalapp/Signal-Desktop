@@ -86,9 +86,16 @@ describe('getDeltaToRemoveStaleMentions', () => {
 describe('getTextAndMentionsFromOps', () => {
   describe('given only text', () => {
     it('returns only text trimmed', () => {
-      const ops = [{ insert: ' The ' }, { insert: ' text ' }];
+      const ops = [{ insert: ' The ' }, { insert: ' text \n' }];
       const [resultText, resultMentions] = getTextAndMentionsFromOps(ops);
       assert.equal(resultText, 'The  text');
+      assert.equal(resultMentions.length, 0);
+    });
+
+    it('returns trimmed of trailing newlines', () => {
+      const ops = [{ insert: ' The\ntext\n\n\n' }];
+      const [resultText, resultMentions] = getTextAndMentionsFromOps(ops);
+      assert.equal(resultText, 'The\ntext');
       assert.equal(resultMentions.length, 0);
     });
   });

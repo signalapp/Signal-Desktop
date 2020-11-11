@@ -57,7 +57,8 @@ export const getTextFromOps = (ops: Array<DeltaOperation>): string =>
           break;
         }
       }
-      return acc + textToAdd;
+      const textWithoutNewlines = textToAdd.replace(/\n+$/, '');
+      return acc + textWithoutNewlines;
     }
 
     if (insert.emoji) {
@@ -93,7 +94,9 @@ export const getTextAndMentionsFromOps = (
           break;
         }
       }
-      return acc + textToAdd;
+
+      const textWithoutNewlines = textToAdd.replace(/\n+$/, '');
+      return acc + textWithoutNewlines;
     }
 
     if (isInsertEmojiOp(op)) {
