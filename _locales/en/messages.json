@@ -3901,5 +3901,17 @@
   "countMutedConversationsDescription": {
     "message": "Count muted conversations in badge count",
     "description": "Description for counting muted conversations in badge setting"
+  },
+  "ContactModal--message": {
+    "message": "Message",
+    "description": "Button text for send message button in Group Contact Details modal"
+  },
+  "ContactModal--make-admin": {
+    "message": "Make admin",
+    "description": "Button text for make admin button in Group Contact Details modal"
+  },
+  "ContactModal--remove-from-group": {
+    "message": "Remove from group",
+    "description": "Button text for remove from group button in Group Contact Details modal"
   }
 }

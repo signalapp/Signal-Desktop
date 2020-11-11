@@ -43,6 +43,7 @@ const renderEmojiPicker: Props['renderEmojiPicker'] = ({
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   attachments: overrideProps.attachments,
+  authorId: overrideProps.authorId || 'some-id',
   authorColor: overrideProps.authorColor || 'blue',
   authorAvatarPath: overrideProps.authorAvatarPath,
   authorTitle: text('authorTitle', overrideProps.authorTitle || ''),
@@ -85,6 +86,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
   selectMessage: action('selectMessage'),
   showContactDetail: action('showContactDetail'),
+  showContactModal: action('showContactModal'),
   showExpiredIncomingTapToViewToast: action(
     'showExpiredIncomingTapToViewToast'
   ),

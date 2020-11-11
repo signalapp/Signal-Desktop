@@ -20,6 +20,7 @@ const i18n = setupI18n('en', enMessages);
 const story = storiesOf('Components/Conversation/Quote', module);
 
 const defaultMessageProps: MessagesProps = {
+  authorId: 'some-id',
   authorTitle: 'Person X',
   canReply: true,
   canDeleteForEveryone: true,
@@ -45,6 +46,7 @@ const defaultMessageProps: MessagesProps = {
   scrollToQuotedMessage: () => null,
   selectMessage: () => null,
   showContactDetail: () => null,
+  showContactModal: () => null,
   showExpiredIncomingTapToViewToast: () => null,
   showExpiredOutgoingTapToViewToast: () => null,
   showMessageDetail: () => null,

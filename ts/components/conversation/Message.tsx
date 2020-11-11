@@ -102,6 +102,7 @@ export type PropsData = {
   timestamp: number;
   status?: MessageStatusType;
   contact?: ContactType;
+  authorId: string;
   authorTitle: string;
   authorName?: string;
   authorProfileName?: string;
@@ -170,6 +171,7 @@ export type PropsActions = {
     contact: ContactType;
     signalAccount?: string;
   }) => void;
+  showContactModal: (contactId: string) => void;
 
   showVisualAttachment: (options: {
     attachment: AttachmentType;
@@ -1055,6 +1057,7 @@ export class Message extends React.PureComponent<Props, State> {
   public renderAvatar(): JSX.Element | undefined {
     const {
       authorAvatarPath,
+      authorId,
       authorName,
       authorPhoneNumber,
       authorProfileName,
@@ -1064,6 +1067,7 @@ export class Message extends React.PureComponent<Props, State> {
       conversationType,
       direction,
       i18n,
+      showContactModal,
     } = this.props;
 
     if (
@@ -1071,12 +1075,16 @@ export class Message extends React.PureComponent<Props, State> {
       conversationType !== 'group' ||
       direction === 'outgoing'
     ) {
-      return;
+      return undefined;
     }
 
-    // eslint-disable-next-line consistent-return
     return (
-      <div className="module-message__author-avatar">
+      <button
+        type="button"
+        className="module-message__author-avatar"
+        onClick={() => showContactModal(authorId)}
+        tabIndex={0}
+      >
         <Avatar
           avatarPath={authorAvatarPath}
           color={authorColor}
@@ -1088,7 +1096,7 @@ export class Message extends React.PureComponent<Props, State> {
           title={authorTitle}
           size={28}
         />
-      </div>
+      </button>
     );
   }
 

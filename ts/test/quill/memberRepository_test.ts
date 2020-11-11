@@ -16,6 +16,7 @@ const memberMahershala: ConversationType = {
   type: 'direct',
   lastUpdated: Date.now(),
   markedUnread: false,
+  areWeAdmin: false,
 };
 
 const memberShia: ConversationType = {
@@ -28,6 +29,7 @@ const memberShia: ConversationType = {
   type: 'direct',
   lastUpdated: Date.now(),
   markedUnread: false,
+  areWeAdmin: false,
 };
 
 const members: Array<ConversationType> = [memberMahershala, memberShia];
@@ -42,6 +44,7 @@ const singleMember: ConversationType = {
   type: 'direct',
   lastUpdated: Date.now(),
   markedUnread: false,
+  areWeAdmin: false,
 };
 
 describe('MemberRepository', () => {

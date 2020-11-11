@@ -1404,9 +1404,22 @@
 }
 
 .module-message__author-avatar {
+  @include button-reset;
+
+  cursor: pointer;
   position: absolute;
   bottom: 0px;
   right: calc(100% + 8px);
+
+  &:focus {
+    outline: none;
+
+    .module-avatar {
+      @include keyboard-mode {
+        box-shadow: 0 0 0 3px $ultramarine-ui-light;
+      }
+    }
+  }
 }
 
 .module-message__typing-container {
@@ -4156,9 +4169,31 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   height: 58px;
   width: 58px;
 }
+
 .module-avatar__icon--80.module-avatar__icon--direct {
   height: 62px;
   width: 62px;
+}
+
+.module-avatar--96 {
+  height: 96px;
+  width: 96px;
+
+  img {
+    height: 96px;
+    width: 96px;
+  }
+}
+
+.module-avatar__label--96 {
+  width: 96px;
+  font-size: 48px;
+  line-height: 96px;
+}
+
+.module-avatar__icon--96 {
+  height: 70px;
+  width: 70px;
 }
 
 .module-avatar--112 {
@@ -9653,6 +9688,188 @@ button.module-image__border-overlay:focus {
       &:focus {
         box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
       }
+    }
+  }
+}
+
+// Module: Group Contact Details
+$contact-modal-padding: 18px;
+.module-contact-modal {
+  @include font-body-2;
+
+  min-width: 250px;
+  padding: $contact-modal-padding;
+  border-radius: 8px;
+  overflow: hidden;
+  @include popper-shadow();
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @include light-theme() {
+    background: $color-white;
+    color: $color-gray-90;
+  }
+
+  @include dark-theme() {
+    background: $color-gray-75;
+    color: $color-gray-05;
+  }
+
+  &__overlay {
+    background: $color-black-alpha-40;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+  }
+}
+
+.module-contact-modal__name {
+  @include font-body-1-bold;
+
+  margin-top: 6px;
+}
+
+.module-contact-modal__profile-and-number {
+  color: $color-gray-60;
+
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
+
+.module-contact-modal__button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 12px 0 15px -$contact-modal-padding;
+  width: calc(100% + (#{$contact-modal-padding} * 2));
+}
+
+.module-contact-modal__button {
+  @include button-reset;
+
+  display: flex;
+  align-items: center;
+  padding: 7px $contact-modal-padding;
+  width: 100%;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &:hover {
+    background-color: $color-gray-15;
+
+    @include dark-theme {
+      background-color: $color-gray-60;
+    }
+  }
+
+  &:focus {
+    @include keyboard-mode {
+      background-color: $color-gray-15;
+
+      @include dark-theme {
+        background-color: $color-gray-60;
+      }
+    }
+  }
+}
+
+.module-contact-modal__bubble-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  width: 20px;
+}
+
+.module-contact-modal__send-message__bubble-icon {
+  height: 16px;
+  width: 18px;
+
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/message-outline-24.svg',
+      $color-gray-75
+    );
+  }
+
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/message-outline-24.svg',
+      $color-gray-15
+    );
+  }
+}
+
+.module-contact-modal__safety-number__bubble-icon {
+  height: 18px;
+  width: 17px;
+
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/safety-number-outline-24.svg',
+      $color-gray-75
+    );
+  }
+
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/safety-number-outline-24.svg',
+      $color-gray-15
+    );
+  }
+}
+
+.module-contact-modal__remove-from-group__bubble-icon {
+  height: 16px;
+  width: 16px;
+
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/leave-group-outline-16.svg',
+      $color-gray-75
+    );
+  }
+
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/leave-group-outline-16.svg',
+      $color-gray-15
+    );
+  }
+}
+
+.module-contact-modal__close-button {
+  @include button-reset;
+
+  position: absolute;
+  top: 10px;
+  right: 12px;
+
+  width: 16px;
+  height: 16px;
+
+  @include color-svg('../images/icons/v2/x-24.svg', $color-gray-75);
+
+  @include dark-theme() {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-25);
+  }
+
+  &:focus {
+    @include keyboard-mode {
+      background-color: $ultramarine-ui-light;
     }
   }
 }

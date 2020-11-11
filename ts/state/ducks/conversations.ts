@@ -46,6 +46,7 @@ export type ConversationType = {
   firstName?: string;
   profileName?: string;
   avatarPath?: string;
+  areWeAdmin?: boolean;
   areWePending?: boolean;
   canChangeTimer?: boolean;
   color?: ColorType;

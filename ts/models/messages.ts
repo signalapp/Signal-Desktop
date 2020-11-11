@@ -753,6 +753,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       canReply: this.canReply(),
       canDeleteForEveryone: this.canDeleteForEveryone(),
       canDownload: this.canDownload(),
+      authorId: contact.id,
       authorTitle: contact.title,
       authorColor,
       authorName: contact.name,

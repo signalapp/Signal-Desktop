@@ -370,7 +370,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/contact_list_view.js",
     "line": "        this.$el.append(this.contactView.el);",
-    "lineNumber": 38,
+    "lineNumber": 45,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Known DOM elements"
@@ -469,7 +469,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/group_member_list_view.js",
     "line": "      this.$('.container').append(this.member_list_view.el);",
-    "lineNumber": 28,
+    "lineNumber": 29,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -478,7 +478,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/group_member_list_view.js",
     "line": "      this.$('.container').append(this.member_list_view.el);",
-    "lineNumber": 28,
+    "lineNumber": 29,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -14709,6 +14709,22 @@
     "reasonDetail": "Only used to focus the element."
   },
   {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/ContactModal.js",
+    "line": "    const overlayRef = react_1.default.useRef(null);",
+    "lineNumber": 16,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-11-09T17:48:12.173Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/ContactModal.js",
+    "line": "    const closeButtonRef = react_1.default.useRef(null);",
+    "lineNumber": 17,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-11-10T21:27:04.909Z"
+  },
+  {
     "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.js",
     "line": "        this.menuTriggerRef = react_1.default.createRef();",
@@ -14792,14 +14808,6 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public audioRef: React.RefObject<HTMLAudioElement> = React.createRef();",
-    "lineNumber": 221,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-09-08T20:19:01.913Z"
-  },
-  {
-    "rule": "React-createRef",
-    "path": "ts/components/conversation/Message.tsx",
-    "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
     "lineNumber": 223,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-08T20:19:01.913Z"
@@ -14807,8 +14815,16 @@
   {
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
+    "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
+    "lineNumber": 225,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-08T20:19:01.913Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/Message.tsx",
     "line": "  > = React.createRef();",
-    "lineNumber": 227,
+    "lineNumber": 229,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-28T19:36:40.817Z"
   },

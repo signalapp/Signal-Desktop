@@ -298,6 +298,7 @@ Whisper.ConversationView = Whisper.View.extend({
     this.listenTo(this.model, 'attach-file', this.onChooseAttachment);
     this.listenTo(this.model, 'escape-pressed', this.resetPanel);
     this.listenTo(this.model, 'show-message-details', this.showMessageDetail);
+    this.listenTo(this.model, 'show-contact-modal', this.showContactModal);
     this.listenTo(this.model, 'toggle-reply', (messageId: any) => {
       const target = this.quote || !messageId ? null : messageId;
       this.setQuoteMessage(target);
@@ -750,6 +751,9 @@ Whisper.ConversationView = Whisper.View.extend({
     const showMessageDetail = (messageId: any) => {
       this.showMessageDetail(messageId);
     };
+    const showContactModal = (contactId: string) => {
+      this.showContactModal(contactId);
+    };
     const openConversation = (conversationId: any, messageId: any) => {
       this.openConversation(conversationId, messageId);
     };
@@ -941,6 +945,7 @@ Whisper.ConversationView = Whisper.View.extend({
         retrySend,
         scrollToQuotedMessage,
         showContactDetail,
+        showContactModal,
         showIdentity,
         showMessageDetail,
         showVisualAttachment,
@@ -1221,6 +1226,9 @@ Whisper.ConversationView = Whisper.View.extend({
     }
     if (this.captionEditorView) {
       this.captionEditorView.remove();
+    }
+    if (this.contactModalView) {
+      this.contactModalView.remove();
     }
     if (this.stickerButtonView) {
       this.stickerButtonView.remove();
@@ -2252,6 +2260,7 @@ Whisper.ConversationView = Whisper.View.extend({
       // we pass this in to allow nested panels
       listenBack: this.listenBack.bind(this),
       needVerify: options.needVerify,
+      conversation: this.model,
     });
 
     this.listenBack(view);
@@ -2590,6 +2599,49 @@ Whisper.ConversationView = Whisper.View.extend({
     });
     this.listenTo(message, 'expired', () => this.lightboxGalleryView.remove());
     window.Signal.Backbone.Views.Lightbox.show(this.lightboxGalleryView.el);
+  },
+
+  showContactModal(contactId: string) {
+    if (this.contactModalView) {
+      this.contactModalView.remove();
+      this.contactModalView = null;
+    }
+
+    this.previousFocus = document.activeElement;
+
+    const hideContactModal = () => {
+      if (this.contactModalView) {
+        this.contactModalView.remove();
+        this.contactModalView = null;
+        if (this.previousFocus && this.previousFocus.focus) {
+          this.previousFocus.focus();
+          this.previousFocus = null;
+        }
+      }
+    };
+
+    this.contactModalView = new Whisper.ReactWrapperView({
+      className: 'progress-modal-wrapper',
+      JSX: window.Signal.State.Roots.createContactModal(window.reduxStore, {
+        contactId,
+        currentConversationId: this.model.id,
+        onClose: hideContactModal,
+        openConversation: (conversationId: string) => {
+          hideContactModal();
+          this.openConversation(conversationId);
+        },
+        showSafetyNumber: (conversationId: string) => {
+          hideContactModal();
+          this.showSafetyNumber(conversationId);
+        },
+        removeMember: (conversationId: string) => {
+          hideContactModal();
+          this.model.removeFromGroupV2(conversationId);
+        },
+      }),
+    });
+
+    this.contactModalView.render();
   },
 
   showMessageDetail(messageId: any) {

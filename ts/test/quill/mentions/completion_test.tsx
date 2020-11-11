@@ -23,6 +23,7 @@ const me: ConversationType = {
   type: 'direct',
   lastUpdated: Date.now(),
   markedUnread: false,
+  areWeAdmin: false,
 };
 
 const members: Array<ConversationType> = [
@@ -35,6 +36,7 @@ const members: Array<ConversationType> = [
     type: 'direct',
     lastUpdated: Date.now(),
     markedUnread: false,
+    areWeAdmin: false,
   },
   {
     id: '333222',
@@ -45,6 +47,7 @@ const members: Array<ConversationType> = [
     type: 'direct',
     lastUpdated: Date.now(),
     markedUnread: false,
+    areWeAdmin: false,
   },
   me,
 ];

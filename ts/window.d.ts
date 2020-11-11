@@ -34,6 +34,7 @@ import { ReduxActions } from './state/types';
 import { createStore } from './state/createStore';
 import { createCallManager } from './state/roots/createCallManager';
 import { createCompositionArea } from './state/roots/createCompositionArea';
+import { createContactModal } from './state/roots/createContactModal';
 import { createConversationHeader } from './state/roots/createConversationHeader';
 import { createLeftPane } from './state/roots/createLeftPane';
 import { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer';
@@ -65,6 +66,7 @@ import { combineNames } from './util';
 import { BatcherType } from './util/batcher';
 import { ErrorModal } from './components/ErrorModal';
 import { ProgressModal } from './components/ProgressModal';
+import { ContactModal } from './components/conversation/ContactModal';
 
 export { Long } from 'long';
 
@@ -394,6 +396,7 @@ declare global {
         CaptionEditor: any;
         ContactDetail: any;
         ErrorModal: typeof ErrorModal;
+        ContactModal: typeof ContactModal;
         Lightbox: any;
         LightboxGallery: any;
         MediaGallery: any;
@@ -425,6 +428,7 @@ declare global {
         Roots: {
           createCallManager: typeof createCallManager;
           createCompositionArea: typeof createCompositionArea;
+          createContactModal: typeof createContactModal;
           createConversationHeader: typeof createConversationHeader;
           createLeftPane: typeof createLeftPane;
           createSafetyNumberViewer: typeof createSafetyNumberViewer;
