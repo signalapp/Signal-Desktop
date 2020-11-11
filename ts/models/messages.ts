@@ -1814,17 +1814,19 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       const expiresAt = start + delta;
 
       this.set({ expires_at: expiresAt });
+
+      window.log.info('Set message expiration', {
+        start,
+        expiresAt,
+        sentAt: this.get('sent_at'),
+      });
+
       const id = this.get('id');
       if (id && !skipSave) {
         await window.Signal.Data.saveMessage(this.attributes, {
           Message: window.Whisper.Message,
         });
       }
-
-      window.log.info('Set message expiration', {
-        expiresAt,
-        sentAt: this.get('sent_at'),
-      });
     }
   }
 
