@@ -560,6 +560,7 @@ export class CallingClass {
 
     RingRTC.handleCallingMessage(
       remoteUserId,
+      null,
       remoteDeviceId,
       this.localDeviceId,
       messageAgeSec,
