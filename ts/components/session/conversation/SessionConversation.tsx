@@ -42,7 +42,6 @@ interface State {
 
   unreadCount: number;
   initialFetchComplete: boolean;
-  messages: Array<any>;
   selectedMessages: Array<string>;
   isScrolledToBottom: boolean;
   displayScrollToBottomButton: boolean;
@@ -69,6 +68,8 @@ interface Props {
   conversationKey: string;
   conversation: ConversationType;
   theme: DefaultTheme;
+  messages: Array<any>;
+  actions: any;
 }
 
 export class SessionConversation extends React.Component<Props, State> {

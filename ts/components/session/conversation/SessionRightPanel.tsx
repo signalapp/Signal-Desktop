@@ -130,9 +130,7 @@ class SessionRightPanel extends React.Component<Props, State> {
           message
         );
         // eslint-disable-next-line no-await-in-loop
-        await window.Signal.Data.saveMessage(rawMedia[i], {
-          Message: window.Whisper.Message,
-        });
+        await rawMedia[i].commit();
       }
     }
 

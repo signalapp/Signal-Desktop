@@ -858,9 +858,7 @@
         unread: 1,
       };
 
-      const id = await window.Signal.Data.saveMessage(message, {
-        Message: Whisper.Message,
-      });
+      const id = await message.commit();
 
       this.trigger(
         'newmessage',
@@ -911,9 +909,7 @@
         unread: 1,
       };
 
-      const id = await window.Signal.Data.saveMessage(message, {
-        Message: Whisper.Message,
-      });
+      const id = await message.commit();
 
       this.trigger(
         'newmessage',
@@ -1192,10 +1188,7 @@
         const model = this.addSingleMessage(attributes);
         const message = MessageController.register(model.id, model);
 
-        await window.Signal.Data.saveMessage(message.attributes, {
-          forceSave: true,
-          Message: Whisper.Message,
-        });
+        await message.commit(true);
 
         if (this.isPrivate()) {
           message.set({ destination });
@@ -1204,9 +1197,7 @@
           message.setServerTimestamp(new Date().getTime());
         }
 
-        const id = await window.Signal.Data.saveMessage(message.attributes, {
-          Message: Whisper.Message,
-        });
+        const id = await message.commit();
         message.set({ id });
 
         this.set({
@@ -1470,9 +1461,8 @@
         message.set({ recipients: this.getRecipients() });
       }
 
-      const id = await window.Signal.Data.saveMessage(message.attributes, {
-        Message: Whisper.Message,
-      });
+      const id = await message.commit();
+
       message.set({ id });
       await this.commit();
 
@@ -1576,9 +1566,7 @@
         ...attributes,
       });
 
-      const id = await window.Signal.Data.saveMessage(message.attributes, {
-        Message: Whisper.Message,
-      });
+      const id = await message.commit();
       message.set({ id });
       return message;
     },
@@ -1644,12 +1632,7 @@
     async addMessage(messageAttributes) {
       const message = this.messageCollection.add(messageAttributes);
 
-      const messageId = await window.Signal.Data.saveMessage(
-        message.attributes,
-        {
-          Message: Whisper.Message,
-        }
-      );
+      const messageId = await message.commit();
       message.set({ id: messageId });
       return message;
     },
@@ -1726,9 +1709,7 @@
           received_at: now,
         });
 
-        const id = await window.Signal.Data.saveMessage(message.attributes, {
-          Message: Whisper.Message,
-        });
+        const id = await message.commit();
         message.set({ id });
 
         // FIXME what about public groups?
@@ -2122,9 +2103,7 @@
           const upgradedMessage = await upgradeMessageSchema(attributes);
           message.set(upgradedMessage);
           // eslint-disable-next-line no-await-in-loop
-          await window.Signal.Data.saveMessage(upgradedMessage, {
-            Message: Whisper.Message,
-          });
+          await upgradedMessage.commit();
         }
       }
     },

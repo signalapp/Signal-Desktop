@@ -240,9 +240,7 @@ Whisper.Fixtures = () => {
 
         await Promise.all(
           convo.messageCollection.map(async (message) => {
-            const id = await window.Signal.Data.saveMessage(message.attributes, {
-              Message: Whisper.Message,
-            });
+            const id = await message.commit();
             message.set({ id });
           })
         );

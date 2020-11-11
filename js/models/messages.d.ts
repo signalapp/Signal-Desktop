@@ -54,6 +54,7 @@ export interface MessageModel extends Backbone.Model<MessageAttributes> {
   saveErrors: (error: any) => void;
   sendSyncMessageOnly: (message: any) => void;
   isUnread: () => boolean;
+  commit: () => Promise<number>;
 
   propsForMessage?: any;
   propsForTimerNotification?: any;

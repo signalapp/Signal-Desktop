@@ -57,7 +57,7 @@ exports.createConversation = async ({
       await sleep(index * 100);
       log.info(`Create message ${index + 1}`);
       const message = await createRandomMessage({ conversationId });
-      return Signal.Data.saveMessage(message, { Message: Whisper.Message });
+      return message.commit();
     })
   );
 };

@@ -145,9 +145,7 @@ async function copyFromQuotedMessage(
     // Normally the caller would save the message, but in case we are
     // called by a timer, we need to update the message manually
     msg.set({ quote });
-    await window.Signal.Data.saveMessage(msg.attributes, {
-      Message: Whisper.Message,
-    });
+    await msg.commit();
     return;
   }
 
@@ -166,9 +164,7 @@ async function copyFromQuotedMessage(
         queryMessage.attributes
       );
       queryMessage.set(upgradedMessage);
-      await window.Signal.Data.saveMessage(upgradedMessage, {
-        Message: Whisper.Message,
-      });
+      await upgradedMessage.commit();
     }
   } catch (error) {
     window.log.error(
@@ -554,9 +550,7 @@ export async function handleMessageJob(
 
     const { Whisper, MessageController } = window;
 
-    const id = await window.Signal.Data.saveMessage(message.attributes, {
-      Message: Whisper.Message,
-    });
+    const id = await message.commit();
     message.set({ id });
     MessageController.register(message.id, message);
 

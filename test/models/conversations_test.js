@@ -46,9 +46,7 @@ describe('Conversation', () => {
       sent_at: Date.now(),
       received_at: Date.now(),
     });
-    await window.Signal.Data.saveMessage(message.attributes, {
-      Message: Whisper.Message,
-    });
+    await message.commit();
   });
   after(clearDatabase);
 

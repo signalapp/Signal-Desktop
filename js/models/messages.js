@@ -1610,11 +1610,14 @@
       );
       return !!error;
     },
-    async commit() {
-      await window.Signal.Data.saveMessage(this.attributes, {
+    async commit(forceSave = false) {
+      // TODO investigate the meaning of the forceSave
+      const id = await window.Signal.Data.saveMessage(this.attributes, {
+        forceSave,
         Message: Whisper.Message,
       });
       this.trigger('change');
+      return id;
     },
     async markRead(readAt) {
       this.unset('unread');

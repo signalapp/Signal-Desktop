@@ -102,9 +102,7 @@
           // This will save the message for us while starting the timer
           await message.setToExpire();
         } else {
-          await window.Signal.Data.saveMessage(message.attributes, {
-            Message: Whisper.Message,
-          });
+          await message.commit();
         }
 
         // notify frontend listeners
