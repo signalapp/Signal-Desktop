@@ -163,6 +163,10 @@
         "message": "Copier le lien",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
+    "contextMenuCopyImage": {
+        "message": "Copier l’image",
+        "description": "Shown in the context menu for an image to indicate that the user can copy the image"
+    },
     "contextMenuNoSuggestions": {
         "message": "Aucune suggestion",
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
@@ -222,7 +226,7 @@
         "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
     },
     "pinnedConversationsFull": {
-        "message": "Vous ne pouvez pas épingler plus de 4 conversations.",
+        "message": "Vous pouvez épingler jusqu’à quatre conversations.",
         "description": ""
     },
     "chooseDirectory": {
@@ -665,10 +669,6 @@
         "message": "Accéder à la page d’assistance",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "goToGithub": {
-        "message": "Accéder à GitHub",
-        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
-    },
     "joinTheBeta": {
         "message": "Tester la version bêta",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
@@ -974,11 +974,11 @@
         "description": ""
     },
     "deleteWarning": {
-        "message": "Clicking 'delete' will permanently remove this message from your devices only.",
+        "message": "Cliquer sur « Supprimer » éliminera définitivement ce message de vos appareils seulement.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "This message will be deleted for everyone in the conversation if they’re on a recent version of Signal. They will be able to see that you deleted a message.",
+        "message": "Ce message sera supprimé pour tout le monde dans la conversation s’ils utilisent une version récente de Signal. Ils pourront voir que vous avez supprimé un message.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "deleteThisMessage": {
@@ -1056,11 +1056,11 @@
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Supprimer le message pour moi",
+        "message": "Supprimer ce message pour moi",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessageForEveryone": {
-        "message": "Supprimer le message pour tout le monde",
+        "message": "Supprimer ce message pour tout le monde",
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
@@ -1180,15 +1180,15 @@
         "description": "Header for calling options on the settings screen"
     },
     "calling__start": {
-        "message": "Start Call",
+        "message": "Démarrer un appel",
         "description": "Button label in the call lobby for starting a call"
     },
     "calling__join": {
-        "message": "Join Call",
+        "message": "Me joindre à l’appel",
         "description": "Button label in the call lobby for joining a call"
     },
     "calling__button--video-disabled": {
-        "message": "Appareil photo désactivé",
+        "message": "L’appareil photo est désactivé",
         "description": "Button tooltip label when the camera is disabled"
     },
     "calling__button--video-off": {
@@ -1200,15 +1200,15 @@
         "description": "Button tooltip label for turning on the camera"
     },
     "calling__button--audio-disabled": {
-        "message": "Microphone disabled",
+        "message": "Le microphone a été désactivé",
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "Turn off microphone",
+        "message": "Désactiver le micro",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
-        "message": "Turn on microphone",
+        "message": "Activer le micro",
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
@@ -2442,7 +2442,7 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--help": {
-        "message": "Les autocollants doivent être au format PNG, APNG ou WebP avec un arrière-plan transparent et faire 512 x 512 pixels. La marge recommandée est de 16 px.",
+        "message": "Les autocollants doivent être au format PNG, APNG ou WebP avec un arrière-plan transparent et 512 x 512 pixels. La marge recommandée est de 16 px.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
@@ -2574,19 +2574,19 @@
         "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
     },
     "StickerCreator--Toasts--APNG--notSquare": {
-        "message": "Animated PNG stickers must be square",
+        "message": "Les autocollants PNG animés doivent être carrés",
         "description": "Text for the toast when someone tries to upload a non-square APNG"
     },
     "StickerCreator--Toasts--mustLoopForever": {
-        "message": "Animated stickers must loop forever",
+        "message": "Les autocollants animés doivent se répéter indéfiniment",
         "description": "Text for the toast when an image in the sticker creator does not animate forever"
     },
     "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
-        "message": "Animated PNG sticker dimensions are too large",
+        "message": "Les dimensions de l’autocollant PNG animé sont trop grandes",
         "description": "Text for the toast when an APNG image in the sticker creator is too large"
     },
     "StickerCreator--Toasts--APNG--dimensionsTooSmall": {
-        "message": "Animated PNG sticker dimensions are too small",
+        "message": "Les dimensions de l’autocollant PNG animé sont trop petites",
         "description": "Text for the toast when an APNG image in the sticker creator is too small"
     },
     "StickerCreator--Toasts--errorUploading": {
@@ -2769,6 +2769,38 @@
         "message": "Accepter",
         "description": "Shown as a button to let the user accept a message request"
     },
+    "MessageRequests--continue": {
+        "message": "Poursuivre",
+        "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
+    },
+    "MessageRequests--profile-sharing--group": {
+        "message": "Continue your conversation with this group and share your name and photo with its members? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a group yet",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--profile-sharing--direct": {
+        "message": "Continue this conversation with $firstName$ and share your name and photo with them? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
+        "placeholders": {
+            "firstName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "learnMore": {
+                "content": "$2",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--learn-more": {
+        "message": "En apprendre davantage.",
+        "description": "Shown at the end of profile sharing messages as a link."
+    },
     "ConversationHero--members": {
         "message": "$count$ membres.",
         "description": "Specifies the number of members in a group conversation",
@@ -2940,7 +2972,7 @@
         "description": "Title for the video call button in a conversation"
     },
     "callNeedPermission": {
-        "message": "$title$ will get a message request from you. You can call once your message request has been accepted.",
+        "message": "$title$ recevra une demande de message de votre part. Vous pourrez appeler une fois la demande de message acceptée.",
         "description": "Shown when a call is rejected because the other party hasn't approved the message/call request",
         "placeholders": {
             "title": {
@@ -2972,11 +3004,11 @@
         "description": "Title for participants list toggle"
     },
     "calling__pip": {
-        "message": "Incrustation",
+        "message": "Incrustation d’image",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__hangup": {
-        "message": "Hang Up",
+        "message": "Raccrocher",
         "description": "Title for hang up button"
     },
     "callingDeviceSelection__label--video": {
@@ -3042,7 +3074,7 @@
         "description": "Title of pop-up dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
-        "message": "Veuillez recommencer ou contacter l’assistance.",
+        "message": "Veuillez réessayer ou contacter l’assistance.",
         "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--buttonText": {
@@ -3284,7 +3316,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other-no-from": {
-        "message": "$inviteeName$ a accepté l’invitation au groupe.",
+        "message": "$inviteeName$ a accepté une invitation au groupe.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {

@@ -163,6 +163,10 @@
         "message": "Copia link",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
+    "contextMenuCopyImage": {
+        "message": "Copia Immagine",
+        "description": "Shown in the context menu for an image to indicate that the user can copy the image"
+    },
     "contextMenuNoSuggestions": {
         "message": "Nessun suggerimento",
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
@@ -664,10 +668,6 @@
     "goToSupportPage": {
         "message": "Vai alla pagina di supporto",
         "description": "Item under the Help menu, takes you to the support page"
-    },
-    "goToGithub": {
-        "message": "Vai a GitHub",
-        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
     },
     "joinTheBeta": {
         "message": "Partecipa alla Beta",
@@ -2768,6 +2768,38 @@
     "MessageRequests--accept": {
         "message": "Accetta",
         "description": "Shown as a button to let the user accept a message request"
+    },
+    "MessageRequests--continue": {
+        "message": "Continua",
+        "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
+    },
+    "MessageRequests--profile-sharing--group": {
+        "message": "Continuare la tua conversazione con questo gruppo e condividere il tuo nome e la tua foto con i suoi membri? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a group yet",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--profile-sharing--direct": {
+        "message": "Continuare questa conversazione con $firstName$ e condividere il tuo nome e la tua foto con loro? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
+        "placeholders": {
+            "firstName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "learnMore": {
+                "content": "$2",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--learn-more": {
+        "message": "Scopri di più.",
+        "description": "Shown at the end of profile sharing messages as a link."
     },
     "ConversationHero--members": {
         "message": "$count$ membri",

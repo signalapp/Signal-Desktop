@@ -163,6 +163,10 @@
         "message": "Zkopírovat odkaz",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
+    "contextMenuCopyImage": {
+        "message": "Kopírovat obrázek",
+        "description": "Shown in the context menu for an image to indicate that the user can copy the image"
+    },
     "contextMenuNoSuggestions": {
         "message": "Žádné návrhy",
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
@@ -214,15 +218,15 @@
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
-        "message": "Pin Conversation",
+        "message": "Připnout konverzaci",
         "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
     },
     "unpinConversation": {
-        "message": "Unpin Conversation",
+        "message": "Odepnout konverzaci",
         "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
     },
     "pinnedConversationsFull": {
-        "message": "You can only pin up to 4 chats",
+        "message": "Připnout lze nevýše 4 chaty",
         "description": ""
     },
     "chooseDirectory": {
@@ -665,10 +669,6 @@
         "message": "Přejít na stránky podpory",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "goToGithub": {
-        "message": "Přejít na GitHub",
-        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
-    },
     "joinTheBeta": {
         "message": "Přidat se k Beta",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
@@ -974,7 +974,7 @@
         "description": ""
     },
     "deleteWarning": {
-        "message": "Clicking 'delete' will permanently remove this message from your devices only.",
+        "message": "Kliknutí na 'smazat' trvale vymaže tuto zprávu pouze z vašich zaříení.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
@@ -1056,11 +1056,11 @@
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Delete message for me",
+        "message": "Smazat zprávu pro mě",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessageForEveryone": {
-        "message": "Delete message for everyone",
+        "message": "Smazat zprávu všem",
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
@@ -1184,31 +1184,31 @@
         "description": "Button label in the call lobby for starting a call"
     },
     "calling__join": {
-        "message": "Join Call",
+        "message": "Připojit se k hovoru",
         "description": "Button label in the call lobby for joining a call"
     },
     "calling__button--video-disabled": {
-        "message": "Camera disabled",
+        "message": "Kamera zakázána",
         "description": "Button tooltip label when the camera is disabled"
     },
     "calling__button--video-off": {
-        "message": "Turn off camera",
+        "message": "Vypnout kameru",
         "description": "Button tooltip label for turning off the camera"
     },
     "calling__button--video-on": {
-        "message": "Turn on camera",
+        "message": "Zapnout kameru",
         "description": "Button tooltip label for turning on the camera"
     },
     "calling__button--audio-disabled": {
-        "message": "Microphone disabled",
+        "message": "Mikrofón zakázán",
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "Turn off microphone",
+        "message": "Vypnout mikrofón",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
-        "message": "Turn on microphone",
+        "message": "Zapnout mikrofón",
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
@@ -2442,7 +2442,7 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--help": {
-        "message": "Stickers must be in PNG, APNG, or WebP format with a transparent background and 512x512 pixels. Recommended margin is 16px.",
+        "message": "Nálepky musí být ve formátu PNG, APNG nebo WebP, s transparentním pozadím a o velikosti 512x512 pixelů. Doporučený okraj je 16px.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
@@ -2574,19 +2574,19 @@
         "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
     },
     "StickerCreator--Toasts--APNG--notSquare": {
-        "message": "Animated PNG stickers must be square",
+        "message": "Animované PNG nálepky musí být čtvercové.",
         "description": "Text for the toast when someone tries to upload a non-square APNG"
     },
     "StickerCreator--Toasts--mustLoopForever": {
-        "message": "Animated stickers must loop forever",
+        "message": "Animované nálepky musí být v nekonečné smyčce.",
         "description": "Text for the toast when an image in the sticker creator does not animate forever"
     },
     "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
-        "message": "Animated PNG sticker dimensions are too large",
+        "message": "Rozměry animované nálepky jsou příliš velké.",
         "description": "Text for the toast when an APNG image in the sticker creator is too large"
     },
     "StickerCreator--Toasts--APNG--dimensionsTooSmall": {
-        "message": "Animated PNG sticker dimensions are too small",
+        "message": "Rozměry animované nálepky jsou příliš malé.",
         "description": "Text for the toast when an APNG image in the sticker creator is too small"
     },
     "StickerCreator--Toasts--errorUploading": {
@@ -2769,6 +2769,38 @@
         "message": "Přijmout",
         "description": "Shown as a button to let the user accept a message request"
     },
+    "MessageRequests--continue": {
+        "message": "Pokračovat",
+        "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
+    },
+    "MessageRequests--profile-sharing--group": {
+        "message": "Pokračovat ve vaší konverzaci s touto skupinou a sdílet vaše jméno a fotografii s jejími členy? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a group yet",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--profile-sharing--direct": {
+        "message": "Pokračovat ve vaší konverzaci s $firstName$ a sdílet s nimi vaše jméno a fotografii? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
+        "placeholders": {
+            "firstName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "learnMore": {
+                "content": "$2",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--learn-more": {
+        "message": "Zjistit více.",
+        "description": "Shown at the end of profile sharing messages as a link."
+    },
     "ConversationHero--members": {
         "message": "Členové skupiny $count$",
         "description": "Specifies the number of members in a group conversation",
@@ -2940,7 +2972,7 @@
         "description": "Title for the video call button in a conversation"
     },
     "callNeedPermission": {
-        "message": "$title$ will get a message request from you. You can call once your message request has been accepted.",
+        "message": "$title$od vás dostane žádost. Telefonovat můžete jakmile bude žádost akceptována.",
         "description": "Shown when a call is rejected because the other party hasn't approved the message/call request",
         "placeholders": {
             "title": {
@@ -2968,15 +3000,15 @@
         "description": "Title for device selection settings"
     },
     "calling__participants": {
-        "message": "Participants",
+        "message": "Účastníci",
         "description": "Title for participants list toggle"
     },
     "calling__pip": {
-        "message": "Picture-in-picture",
+        "message": "Obraz v obraze",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__hangup": {
-        "message": "Hang Up",
+        "message": "Zavěsit",
         "description": "Title for hang up button"
     },
     "callingDeviceSelection__label--video": {
@@ -3042,7 +3074,7 @@
         "description": "Title of pop-up dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
-        "message": "Please try again or contact support.",
+        "message": "Zkuste to prosím znova, nebo kontaktujte podporu.",
         "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--buttonText": {
@@ -3054,7 +3086,7 @@
         "description": "Shown next to the set of administrators in a group"
     },
     "updating": {
-        "message": "Updating...",
+        "message": "Aktualizuji...",
         "description": "Shown along with a spinner when an update operation takes longer than one second"
     },
     "GroupV2--create--you": {
@@ -3062,7 +3094,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--create--other": {
-        "message": "$memberName$ created the group.",
+        "message": "$memberName$vytvořil skupinu.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3072,7 +3104,7 @@
         }
     },
     "GroupV2--create--unknown": {
-        "message": "The group was created.",
+        "message": "Skupina byla vytořena.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--change--other": {
@@ -3236,7 +3268,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {
-        "message": "You added invited member $inviteeName$.",
+        "message": "Přidal jste pozvaného člena $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3246,7 +3278,7 @@
         }
     },
     "GroupV2--member-add--invited--other": {
-        "message": "$memberName$ added invited member $inviteeName$.",
+        "message": "$memberName$ přidal pozvaného člena $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3260,7 +3292,7 @@
         }
     },
     "GroupV2--member-add--invited--unknown": {
-        "message": "A member added invited member $inviteeName$.",
+        "message": "Člen přidal pozvaného člena $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3284,7 +3316,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other-no-from": {
-        "message": "$inviteeName$ accepted an invitation to the group.",
+        "message": "$inviteeName$ přijal pozvání do skupiny.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3366,7 +3398,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--you--unknown": {
-        "message": "You were added to the group.",
+        "message": "Byl(a) jste přidán do skupiny.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-remove--other--other": {
@@ -3384,7 +3416,7 @@
         }
     },
     "GroupV2--member-remove--other--self": {
-        "message": "$memberName$ left the group.",
+        "message": "$memberName$opustil skupinu.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3542,7 +3574,7 @@
         }
     },
     "GroupV2--pending-add--one--other--unknown": {
-        "message": "One person was invited to the group.",
+        "message": "Jedna osoba byla pozvána do skupiny.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3590,7 +3622,7 @@
         }
     },
     "GroupV2--pending-add--many--unknown": {
-        "message": "$count$ people were invited to the group.",
+        "message": "$count$osob bylo pozváno do skupiny.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -3648,7 +3680,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-own--to-you": {
-        "message": "$inviterName$ revoked their invitation to you.",
+        "message": "$inviterName$ odvolal vaše pozvání.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -3658,7 +3690,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-own--unknown": {
-        "message": "$inviterName$ revoked their invitation to 1 person.",
+        "message": "$inviterName$ odvolal pozvání 1 osoby.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
