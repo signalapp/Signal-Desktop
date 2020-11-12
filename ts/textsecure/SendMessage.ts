@@ -303,7 +303,7 @@ class Message {
     if (this.reaction) {
       proto.reaction = new window.textsecure.protobuf.DataMessage.Reaction();
       proto.reaction.emoji = this.reaction.emoji || null;
-      proto.reaction.remove = this.reaction.remove || null;
+      proto.reaction.remove = this.reaction.remove || false;
       proto.reaction.targetAuthorE164 = this.reaction.targetAuthorE164 || null;
       proto.reaction.targetAuthorUuid = this.reaction.targetAuthorUuid || null;
       proto.reaction.targetTimestamp = this.reaction.targetTimestamp || null;
