@@ -30,7 +30,13 @@ interface Props {
   conversation: ConversationType;
   messageContainerRef: React.RefObject<any>;
   selectMessage: (messageId: string) => void;
-  getMessages: (numMessages: number) => Promise<void>;
+  fetchMessagesForConversation: ({
+    conversationKey,
+    count,
+  }: {
+    conversationKey: string;
+    count: number;
+  }) => void;
   replyToMessage: (messageId: number) => Promise<void>;
   onClickAttachment: (attachment: any, message: any) => void;
   onDownloadAttachment: ({ attachment }: { attachment: any }) => void;
@@ -298,6 +304,8 @@ export class SessionConversationMessagesList extends React.Component<
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public async handleScroll() {
     const messageContainer = this.messageContainerRef?.current;
+
+    const { fetchMessagesForConversation, conversationKey } = this.props;
     if (!messageContainer) {
       return;
     }
@@ -354,7 +362,7 @@ export class SessionConversationMessagesList extends React.Component<
       const oldLen = messages.length;
       const previousTopMessage = messages[oldLen - 1]?.id;
 
-      await this.props.getMessages(numMessages);
+      fetchMessagesForConversation({ conversationKey, count: numMessages });
       if (previousTopMessage && oldLen !== messages.length) {
         this.scrollToMessage(previousTopMessage);
       }

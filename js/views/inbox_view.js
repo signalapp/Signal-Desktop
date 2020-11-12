@@ -143,6 +143,10 @@
         Signal.State.Ducks.user.actions,
         this.store.dispatch
       );
+      const { messageChanged } = Signal.State.bindActionCreators(
+        Signal.State.Ducks.messages.actions,
+        this.store.dispatch
+      );
 
       this.openConversationAction = openConversationExternal;
 
@@ -175,6 +179,7 @@
         .events.addListener('fail', this.handleMessageSentFailure);
 
       Whisper.events.on('messageExpired', messageExpired);
+      Whisper.events.on('messageChanged', messageChanged);
       Whisper.events.on('userChanged', userChanged);
 
       // Finally, add it to the DOM

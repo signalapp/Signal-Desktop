@@ -114,6 +114,7 @@ const {
 const { createStore } = require('../../ts/state/createStore');
 const conversationsDuck = require('../../ts/state/ducks/conversations');
 const userDuck = require('../../ts/state/ducks/user');
+const messagesDuck = require('../../ts/state/ducks/messages');
 
 // Migrations
 const {
@@ -293,6 +294,7 @@ exports.setup = (options = {}) => {
   const Ducks = {
     conversations: conversationsDuck,
     user: userDuck,
+    messages: messagesDuck,
   };
   const State = {
     bindActionCreators,

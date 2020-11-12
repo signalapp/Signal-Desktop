@@ -56,6 +56,7 @@
   },
   "dependencies": {
     "@journeyapps/sqlcipher": "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#b10f232fac62ba7f8775c9e086bb5558fe7d948b",
+    "@reduxjs/toolkit": "^1.4.0",
     "@sindresorhus/is": "0.8.0",
     "@types/dompurify": "^2.0.0",
     "@types/emoji-mart": "^2.11.3",

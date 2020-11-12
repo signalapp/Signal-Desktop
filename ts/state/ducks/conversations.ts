@@ -106,13 +106,6 @@ export type SelectedConversationChangedActionType = {
     messageId?: string;
   };
 };
-export type LoadMoreMessagesActionType = {
-  type: 'LOAD_MORE_MESSAGES_ACTION_TYPE';
-  payload: {
-    id: string;
-    currentMessageCount: number;
-  };
-};
 
 export type ConversationActionType =
   | ConversationAddedActionType
@@ -122,8 +115,7 @@ export type ConversationActionType =
   | MessageExpiredActionType
   | SelectedConversationChangedActionType
   | MessageExpiredActionType
-  | SelectedConversationChangedActionType
-  | LoadMoreMessagesActionType;
+  | SelectedConversationChangedActionType;
 
 // Action Creators
 
@@ -135,7 +127,6 @@ export const actions = {
   messageExpired,
   openConversationInternal,
   openConversationExternal,
-  loadMoreMessages,
 };
 
 function conversationAdded(
@@ -174,19 +165,6 @@ function removeAllConversations(): RemoveAllConversationsActionType {
   return {
     type: 'CONVERSATIONS_REMOVE_ALL',
     payload: null,
-  };
-}
-
-function loadMoreMessages(
-  id: string,
-  currentMessageCount: number
-): LoadMoreMessagesActionType {
-  return {
-    type: 'LOAD_MORE_MESSAGES_ACTION_TYPE',
-    payload: {
-      id,
-      currentMessageCount,
-    },
   };
 }
 
@@ -239,13 +217,9 @@ function getEmptyState(): ConversationsStateType {
 }
 
 export function reducer(
-  state: ConversationsStateType,
+  state: ConversationsStateType = getEmptyState(),
   action: ConversationActionType
 ): ConversationsStateType {
-  if (!state) {
-    return getEmptyState();
-  }
-
   if (action.type === 'CONVERSATION_ADDED') {
     const { payload } = action;
     const { id, data } = payload;

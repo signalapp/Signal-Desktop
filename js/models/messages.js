@@ -79,9 +79,8 @@
           this.propsForSearchResult = this.getPropsForSearchResult();
           this.propsForMessage = this.getPropsForMessage();
         }
+        Whisper.events.trigger('messageChanged', this);
       };
-      const triggerChange = () => this.trigger('change');
-
       this.on('change', generateProps);
 
       const applicableConversationChanges =
@@ -93,7 +92,7 @@
 
       // trigger a change event on this component.
       // this will call generateProps and refresh the Message.tsx component with new props
-      this.listenTo(conversation, 'disable:input', triggerChange);
+      this.listenTo(conversation, 'disable:input', () => this.trigger('change'));
       if (fromContact) {
         this.listenTo(
           fromContact,
@@ -661,8 +660,8 @@
         contact.number && contact.number[0] && contact.number[0].value;
       const onSendMessage = firstNumber
         ? () => {
-            this.trigger('open-conversation', firstNumber);
-          }
+          this.trigger('open-conversation', firstNumber);
+        }
         : null;
       const onClick = async () => {
         // First let's be sure that the signal account check is complete.
@@ -693,8 +692,8 @@
         !path && !objectUrl
           ? null
           : Object.assign({}, attachment.thumbnail || {}, {
-              objectUrl: path || objectUrl,
-            });
+            objectUrl: path || objectUrl,
+          });
 
       return Object.assign({}, attachment, {
         isVoiceMessage: Signal.Types.Attachment.isVoiceMessage(attachment),
@@ -747,13 +746,13 @@
       const onClick = noClick
         ? null
         : event => {
-            event.stopPropagation();
-            this.trigger('scroll-to-message', {
-              author,
-              id,
-              referencedMessageNotFound,
-            });
-          };
+          event.stopPropagation();
+          this.trigger('scroll-to-message', {
+            author,
+            id,
+            referencedMessageNotFound,
+          });
+        };
 
       const firstAttachment = quote.attachments && quote.attachments[0];
 
@@ -788,15 +787,15 @@
         url: path ? getAbsoluteAttachmentPath(path) : null,
         screenshot: screenshot
           ? {
-              ...screenshot,
-              url: getAbsoluteAttachmentPath(screenshot.path),
-            }
+            ...screenshot,
+            url: getAbsoluteAttachmentPath(screenshot.path),
+          }
           : null,
         thumbnail: thumbnail
           ? {
-              ...thumbnail,
-              url: getAbsoluteAttachmentPath(thumbnail.path),
-            }
+            ...thumbnail,
+            url: getAbsoluteAttachmentPath(thumbnail.path),
+          }
           : null,
       };
     },
@@ -825,9 +824,9 @@
       const phoneNumbers = this.isIncoming()
         ? [this.get('source')]
         : _.union(
-            this.get('sent_to') || [],
-            this.get('recipients') || this.getConversation().getRecipients()
-          );
+          this.get('sent_to') || [],
+          this.get('recipients') || this.getConversation().getRecipients()
+        );
 
       // This will make the error message for outgoing key errors a bit nicer
       const allErrors = (this.get('errors') || []).map(error => {
@@ -944,7 +943,6 @@
       } else {
         convo.removeMessageSelection(this);
       }
-
       this.trigger('change');
     },
 
@@ -1278,8 +1276,8 @@
          */
         const hasBodyOrAttachments = Boolean(
           dataMessage &&
-            (dataMessage.body ||
-              (dataMessage.attachments && dataMessage.attachments.length))
+          (dataMessage.body ||
+            (dataMessage.attachments && dataMessage.attachments.length))
         );
         const shouldNotifyPushServer =
           hasBodyOrAttachments && isSessionOrClosedMessage;
@@ -1351,7 +1349,6 @@
         // unidentifiedDeliveries: result.unidentifiedDeliveries,
       });
       await this.commit();
-
       this.trigger('change', this);
 
       this.getConversation().updateLastMessage();
@@ -1442,7 +1439,7 @@
       return null;
     },
     async setCalculatingPoW() {
-      if (this.calculatingPoW) {
+      if (this.get('calculatingPoW')) {
         return;
       }
 
@@ -1616,6 +1613,8 @@
         forceSave,
         Message: Whisper.Message,
       });
+      console.warn('case commit')
+
       this.trigger('change');
       return id;
     },
