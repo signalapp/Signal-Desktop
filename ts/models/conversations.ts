@@ -1307,106 +1307,109 @@ export class ConversationModel extends window.Backbone.Model<
     response: number,
     { fromSync = false, viaStorageServiceSync = false } = {}
   ): Promise<void> {
-    const messageRequestEnum =
-      window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
-    const isLocalAction = !fromSync && !viaStorageServiceSync;
-    const ourConversationId = window.ConversationController.getOurConversationId();
+    try {
+      const messageRequestEnum =
+        window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
+      const isLocalAction = !fromSync && !viaStorageServiceSync;
+      const ourConversationId = window.ConversationController.getOurConversationId();
 
-    const currentMessageRequestState = this.get('messageRequestResponseType');
-    const didResponseChange = response !== currentMessageRequestState;
-    const wasPreviouslyAccepted = this.getAccepted();
+      const currentMessageRequestState = this.get('messageRequestResponseType');
+      const didResponseChange = response !== currentMessageRequestState;
+      const wasPreviouslyAccepted = this.getAccepted();
 
-    // Apply message request response locally
-    this.set({
-      messageRequestResponseType: response,
-    });
-    window.Signal.Data.updateConversation(this.attributes);
+      // Apply message request response locally
+      this.set({
+        messageRequestResponseType: response,
+      });
 
-    if (response === messageRequestEnum.ACCEPT) {
-      this.unblock({ viaStorageServiceSync });
-      this.enableProfileSharing({ viaStorageServiceSync });
+      if (response === messageRequestEnum.ACCEPT) {
+        this.unblock({ viaStorageServiceSync });
+        this.enableProfileSharing({ viaStorageServiceSync });
 
-      // We really don't want to call this if we don't have to. It can take a lot of time
-      //   to go through old messages to download attachments.
-      if (didResponseChange && !wasPreviouslyAccepted) {
-        await this.handleReadAndDownloadAttachments({ isLocalAction });
-      }
+        // We really don't want to call this if we don't have to. It can take a lot of
+        //   time to go through old messages to download attachments.
+        if (didResponseChange && !wasPreviouslyAccepted) {
+          await this.handleReadAndDownloadAttachments({ isLocalAction });
+        }
 
-      if (isLocalAction) {
-        if (this.isGroupV1() || this.isPrivate()) {
-          this.sendProfileKeyUpdate();
-        } else if (
-          ourConversationId &&
-          this.isGroupV2() &&
-          this.isMemberPending(ourConversationId)
-        ) {
-          await this.modifyGroupV2({
-            name: 'promotePendingMember',
-            createGroupChange: () =>
-              this.promotePendingMember(ourConversationId),
-          });
-        } else if (
-          ourConversationId &&
-          this.isGroupV2() &&
-          this.isMember(ourConversationId)
-        ) {
-          window.log.info(
-            'applyMessageRequestResponse/accept: Already a member of v2 group'
-          );
-        } else {
-          window.log.error(
-            'applyMessageRequestResponse/accept: Neither member nor pending member of v2 group'
-          );
+        if (isLocalAction) {
+          if (this.isGroupV1() || this.isPrivate()) {
+            this.sendProfileKeyUpdate();
+          } else if (
+            ourConversationId &&
+            this.isGroupV2() &&
+            this.isMemberPending(ourConversationId)
+          ) {
+            await this.modifyGroupV2({
+              name: 'promotePendingMember',
+              createGroupChange: () =>
+                this.promotePendingMember(ourConversationId),
+            });
+          } else if (
+            ourConversationId &&
+            this.isGroupV2() &&
+            this.isMember(ourConversationId)
+          ) {
+            window.log.info(
+              'applyMessageRequestResponse/accept: Already a member of v2 group'
+            );
+          } else {
+            window.log.error(
+              'applyMessageRequestResponse/accept: Neither member nor pending member of v2 group'
+            );
+          }
+        }
+      } else if (response === messageRequestEnum.BLOCK) {
+        // Block locally, other devices should block upon receiving the sync message
+        this.block({ viaStorageServiceSync });
+        this.disableProfileSharing({ viaStorageServiceSync });
+
+        if (isLocalAction) {
+          if (this.isGroupV1() || this.isPrivate()) {
+            await this.leaveGroup();
+          } else if (this.isGroupV2()) {
+            await this.leaveGroupV2();
+          }
+        }
+      } else if (response === messageRequestEnum.DELETE) {
+        this.disableProfileSharing({ viaStorageServiceSync });
+
+        // Delete messages locally, other devices should delete upon receiving
+        // the sync message
+        await this.destroyMessages();
+        this.updateLastMessage();
+
+        if (isLocalAction) {
+          this.trigger('unload', 'deleted from message request');
+
+          if (this.isGroupV1() || this.isPrivate()) {
+            await this.leaveGroup();
+          } else if (this.isGroupV2()) {
+            await this.leaveGroupV2();
+          }
+        }
+      } else if (response === messageRequestEnum.BLOCK_AND_DELETE) {
+        // Block locally, other devices should block upon receiving the sync message
+        this.block({ viaStorageServiceSync });
+        this.disableProfileSharing({ viaStorageServiceSync });
+
+        // Delete messages locally, other devices should delete upon receiving
+        // the sync message
+        await this.destroyMessages();
+        this.updateLastMessage();
+
+        if (isLocalAction) {
+          this.trigger('unload', 'blocked and deleted from message request');
+
+          if (this.isGroupV1() || this.isPrivate()) {
+            await this.leaveGroup();
+          } else if (this.isGroupV2()) {
+            await this.leaveGroupV2();
+          }
         }
       }
-    } else if (response === messageRequestEnum.BLOCK) {
-      // Block locally, other devices should block upon receiving the sync message
-      this.block({ viaStorageServiceSync });
-      this.disableProfileSharing({ viaStorageServiceSync });
-
-      if (isLocalAction) {
-        if (this.isGroupV1() || this.isPrivate()) {
-          await this.leaveGroup();
-        } else if (this.isGroupV2()) {
-          await this.leaveGroupV2();
-        }
-      }
-    } else if (response === messageRequestEnum.DELETE) {
-      this.disableProfileSharing({ viaStorageServiceSync });
-
-      // Delete messages locally, other devices should delete upon receiving
-      // the sync message
-      await this.destroyMessages();
-      this.updateLastMessage();
-
-      if (isLocalAction) {
-        this.trigger('unload', 'deleted from message request');
-
-        if (this.isGroupV1() || this.isPrivate()) {
-          await this.leaveGroup();
-        } else if (this.isGroupV2()) {
-          await this.leaveGroupV2();
-        }
-      }
-    } else if (response === messageRequestEnum.BLOCK_AND_DELETE) {
-      // Block locally, other devices should block upon receiving the sync message
-      this.block({ viaStorageServiceSync });
-      this.disableProfileSharing({ viaStorageServiceSync });
-
-      // Delete messages locally, other devices should delete upon receiving
-      // the sync message
-      await this.destroyMessages();
-      this.updateLastMessage();
-
-      if (isLocalAction) {
-        this.trigger('unload', 'blocked and deleted from message request');
-
-        if (this.isGroupV1() || this.isPrivate()) {
-          await this.leaveGroup();
-        } else if (this.isGroupV2()) {
-          await this.leaveGroupV2();
-        }
-      }
+    } finally {
+      window.Signal.Data.updateConversation(this.attributes);
     }
   }
 
