@@ -1211,12 +1211,20 @@
 
         // We're offline!
         if (!textsecure.messaging) {
-          const errors = this.contactCollection.map(contact => {
+          let errors;
+          if (this.contactCollection.length) {
+            errors = this.contactCollection.map(contact => {
+              const error = new Error('Network is not available');
+              error.name = 'SendMessageNetworkError';
+              error.number = contact.id;
+              return error;
+            });
+          } else {
             const error = new Error('Network is not available');
             error.name = 'SendMessageNetworkError';
-            error.number = contact.id;
-            return error;
-          });
+            error.number = this.id;
+            errors = [error];
+          }
           await message.saveErrors(errors);
           return null;
         }
