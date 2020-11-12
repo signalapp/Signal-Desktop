@@ -211,3 +211,19 @@ export function pushPairingRequestReceived(alreadyLinked: boolean) {
     );
   }
 }
+
+export function pushUnblockToSend() {
+  pushToastInfo('unblockToSend', window.i18n('unblockToSend'));
+}
+
+export function pushUnblockToSendGroup() {
+  pushToastInfo('unblockGroupToSend', window.i18n('unblockGroupToSend'));
+}
+
+export function pushClockOutOfSync() {
+  pushToastError('clockOutOfSync', window.i18n('clockOutOfSync'));
+}
+
+export function pushYouLeftTheGroup() {
+  pushToastError('youLeftTheGroup', window.i18n('youLeftTheGroup'));
+}

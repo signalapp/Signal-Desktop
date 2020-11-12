@@ -8,7 +8,7 @@ export type MessagesStateType = Array<MessageType>;
 export async function getMessages(
   conversationKey: string,
   numMessages: number
-) : Promise<MessagesStateType> {
+): Promise<MessagesStateType> {
   const conversation = window.ConversationController.get(conversationKey);
   if (!conversation) {
     // no valid conversation, early return
@@ -88,12 +88,16 @@ const messageSlice = createSlice({
   name: 'messages',
   initialState: [] as MessagesStateType,
   reducers: {
-    messageChanged(state, action){
-      console.log('message changed ', state, action)
-      const messageInStoreIndex = state.findIndex(m => m.id === action.payload.id);
+    messageChanged(state, action) {
+      // console.log('message changed ', action);
+      const messageInStoreIndex = state.findIndex(
+        m => m.id === action.payload.id
+      );
       if (messageInStoreIndex >= 0) {
-        state[messageInStoreIndex] = _.omit(action.payload, toOmitFromMessageModel)
-        ;
+        state[messageInStoreIndex] = _.omit(
+          action.payload,
+          toOmitFromMessageModel
+        );
       }
       return state;
     },

@@ -1,5 +1,5 @@
 /* eslint-env node */
-/* global log, Signal, Whisper */
+/* global log */
 
 const fs = require('fs-extra');
 const path = require('path');

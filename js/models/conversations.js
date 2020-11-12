@@ -517,6 +517,7 @@
         isOnline: this.isOnline(),
         hasNickname: !!this.getNickname(),
         isKickedFromGroup: !!this.get('isKickedFromGroup'),
+        leftGroup: !!this.get('left'),
 
         selectedMessages: this.selectedMessages,
 

@@ -109,5 +109,7 @@ declare global {
     sessionGenerateKeyPair: (
       seed: ArrayBuffer
     ) => Promise<{ pubKey: ArrayBufferLike; privKey: ArrayBufferLike }>;
+    setClockParams: any;
+    clientClockSynced: number | undefined;
   }
 }

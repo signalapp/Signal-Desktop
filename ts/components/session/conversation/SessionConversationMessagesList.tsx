@@ -144,6 +144,7 @@ export class SessionConversationMessagesList extends React.Component<
     if (conversation.unreadCount === 0) {
       findFirstUnreadIndex = -1;
     }
+    const isConvoBlocked = conversation.isBlocked;
 
     return (
       <>

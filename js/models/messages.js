@@ -660,8 +660,8 @@
         contact.number && contact.number[0] && contact.number[0].value;
       const onSendMessage = firstNumber
         ? () => {
-          this.trigger('open-conversation', firstNumber);
-        }
+            this.trigger('open-conversation', firstNumber);
+          }
         : null;
       const onClick = async () => {
         // First let's be sure that the signal account check is complete.
@@ -692,8 +692,8 @@
         !path && !objectUrl
           ? null
           : Object.assign({}, attachment.thumbnail || {}, {
-            objectUrl: path || objectUrl,
-          });
+              objectUrl: path || objectUrl,
+            });
 
       return Object.assign({}, attachment, {
         isVoiceMessage: Signal.Types.Attachment.isVoiceMessage(attachment),
@@ -746,13 +746,13 @@
       const onClick = noClick
         ? null
         : event => {
-          event.stopPropagation();
-          this.trigger('scroll-to-message', {
-            author,
-            id,
-            referencedMessageNotFound,
-          });
-        };
+            event.stopPropagation();
+            this.trigger('scroll-to-message', {
+              author,
+              id,
+              referencedMessageNotFound,
+            });
+          };
 
       const firstAttachment = quote.attachments && quote.attachments[0];
 
@@ -787,15 +787,15 @@
         url: path ? getAbsoluteAttachmentPath(path) : null,
         screenshot: screenshot
           ? {
-            ...screenshot,
-            url: getAbsoluteAttachmentPath(screenshot.path),
-          }
+              ...screenshot,
+              url: getAbsoluteAttachmentPath(screenshot.path),
+            }
           : null,
         thumbnail: thumbnail
           ? {
-            ...thumbnail,
-            url: getAbsoluteAttachmentPath(thumbnail.path),
-          }
+              ...thumbnail,
+              url: getAbsoluteAttachmentPath(thumbnail.path),
+            }
           : null,
       };
     },
@@ -824,9 +824,9 @@
       const phoneNumbers = this.isIncoming()
         ? [this.get('source')]
         : _.union(
-          this.get('sent_to') || [],
-          this.get('recipients') || this.getConversation().getRecipients()
-        );
+            this.get('sent_to') || [],
+            this.get('recipients') || this.getConversation().getRecipients()
+          );
 
       // This will make the error message for outgoing key errors a bit nicer
       const allErrors = (this.get('errors') || []).map(error => {
@@ -1052,7 +1052,6 @@
           window.log.warn('retrySend: Nobody to send to!');
 
           return this.commit();
-
         }
 
         const { body, attachments, preview, quote } = await this.uploadData();
@@ -1276,8 +1275,8 @@
          */
         const hasBodyOrAttachments = Boolean(
           dataMessage &&
-          (dataMessage.body ||
-            (dataMessage.attachments && dataMessage.attachments.length))
+            (dataMessage.body ||
+              (dataMessage.attachments && dataMessage.attachments.length))
         );
         const shouldNotifyPushServer =
           hasBodyOrAttachments && isSessionOrClosedMessage;
@@ -1448,7 +1447,6 @@
       });
 
       await this.commit();
-
     },
     getServerId() {
       return this.get('serverId');
@@ -1463,7 +1461,6 @@
       });
 
       await this.commit();
-
     },
     async setServerTimestamp(serverTimestamp) {
       if (_.isEqual(this.get('serverTimestamp'), serverTimestamp)) {
@@ -1475,7 +1472,6 @@
       });
 
       await this.commit();
-
     },
     async setIsPublic(isPublic) {
       if (_.isEqual(this.get('isPublic'), isPublic)) {
@@ -1487,7 +1483,6 @@
       });
 
       await this.commit();
-
     },
 
     async sendSyncMessageOnly(dataMessage) {
@@ -1498,7 +1493,6 @@
       });
 
       await this.commit();
-
 
       const data =
         dataMessage instanceof libsession.Messages.Outgoing.DataMessage
@@ -1531,7 +1525,6 @@
 
       this.set({ sentSync: true });
       await this.commit();
-
     },
 
     someRecipientsFailed() {
@@ -1613,8 +1606,6 @@
         forceSave,
         Message: Whisper.Message,
       });
-      console.warn('case commit')
-
       this.trigger('change');
       return id;
     },

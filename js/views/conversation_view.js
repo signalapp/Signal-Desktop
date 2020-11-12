@@ -8,7 +8,6 @@
   textsecure,
   Whisper,
   ConversationController,
-  BlockedNumberController,
 */
 
 // eslint-disable-next-line func-names
@@ -1051,45 +1050,6 @@
         toastOptions.title = i18n('expiredWarning');
         toastOptions.id = 'expiredWarning';
       }
-      if (!window.clientClockSynced) {
-        let clockSynced = false;
-        if (window.setClockParams) {
-          // Check to see if user has updated their clock to current time
-          clockSynced = await window.setClockParams();
-        } else {
-          window.log.info('setClockParams not loaded yet');
-        }
-        if (clockSynced) {
-          toastOptions.title = i18n('clockOutOfSync');
-          toastOptions.id = 'clockOutOfSync';
-        }
-      }
-      if (
-        this.model.isPrivate() &&
-        BlockedNumberController.isBlocked(this.model.id)
-      ) {
-        toastOptions.title = i18n('unblockToSend');
-        toastOptions.id = 'unblockToSend';
-      }
-      if (
-        !this.model.isPrivate() &&
-        BlockedNumberController.isGroupBlocked(this.model.id)
-      ) {
-        toastOptions.title = i18n('unblockGroupToSend');
-        toastOptions.id = 'unblockGroupToSend';
-      }
-      if (!this.model.isPrivate() && this.model.get('left')) {
-        toastOptions.title = i18n('youLeftTheGroup');
-        toastOptions.id = 'youLeftTheGroup';
-      }
-      if (
-        message.length >
-        window.libsession.Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH
-      ) {
-        toastOptions.title = i18n('messageBodyTooLong');
-        toastOptions.id = 'messageBodyTooLong';
-      }
-
       if (toastOptions.title) {
         window.pushToast(toastOptions);
         this.focusMessageFieldAndClearDisabled();

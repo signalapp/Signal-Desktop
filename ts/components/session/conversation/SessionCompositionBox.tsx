@@ -59,6 +59,10 @@ interface Props {
 
   onLoadVoiceNoteView: any;
   onExitVoiceNoteView: any;
+  isBlocked: boolean;
+  isPrivate: boolean;
+  isKickedFromGroup: boolean;
+  leftGroup: boolean;
 
   quotedMessageProps?: ReplyingToMessageProps;
   removeQuotedMessage: () => void;
@@ -206,16 +210,35 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   private renderCompositionView() {
-    const { placeholder } = this.props;
+    const {
+      placeholder,
+      isBlocked,
+      isKickedFromGroup,
+      leftGroup,
+      isPrivate,
+    } = this.props;
     const { showEmojiPanel, message } = this.state;
+    const typingEnabled = !(isBlocked || isKickedFromGroup || leftGroup);
+    const { i18n } = window;
+    const messageWithWarning = isKickedFromGroup
+      ? i18n('youGotKickedFromGroup')
+      : leftGroup
+      ? i18n('youLeftTheGroup')
+      : isBlocked && isPrivate
+      ? i18n('unblockToSend')
+      : isBlocked && !isPrivate
+      ? i18n('unblockGroupToSend')
+      : undefined;
 
     return (
       <>
-        <SessionIconButton
-          iconType={SessionIconType.CirclePlus}
-          iconSize={SessionIconSize.Large}
-          onClick={this.onChooseAttachment}
-        />
+        {typingEnabled && (
+          <SessionIconButton
+            iconType={SessionIconType.CirclePlus}
+            iconSize={SessionIconSize.Large}
+            onClick={this.onChooseAttachment}
+          />
+        )}
 
         <input
           className="hidden"
@@ -226,11 +249,13 @@ export class SessionCompositionBox extends React.Component<Props, State> {
           onChange={this.onChoseAttachment}
         />
 
-        <SessionIconButton
-          iconType={SessionIconType.Microphone}
-          iconSize={SessionIconSize.Huge}
-          onClick={this.onLoadVoiceNoteView}
-        />
+        {typingEnabled && (
+          <SessionIconButton
+            iconType={SessionIconType.Microphone}
+            iconSize={SessionIconSize.Huge}
+            onClick={this.onLoadVoiceNoteView}
+          />
+        )}
 
         <div
           className="send-message-input"
@@ -245,16 +270,19 @@ export class SessionCompositionBox extends React.Component<Props, State> {
             placeholder={placeholder}
             maxLength={Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH}
             onKeyDown={this.onKeyDown}
-            value={message}
+            value={messageWithWarning || message}
             onChange={this.onChange}
+            disabled={!typingEnabled}
           />
         </div>
 
-        <SessionIconButton
-          iconType={SessionIconType.Emoji}
-          iconSize={SessionIconSize.Large}
-          onClick={this.toggleEmojiPanel}
-        />
+        {typingEnabled && (
+          <SessionIconButton
+            iconType={SessionIconType.Emoji}
+            iconSize={SessionIconSize.Large}
+            onClick={this.toggleEmojiPanel}
+          />
+        )}
         <div className="send-message-button">
           <SessionIconButton
             iconType={SessionIconType.Send}
@@ -264,18 +292,20 @@ export class SessionCompositionBox extends React.Component<Props, State> {
           />
         </div>
 
-        <div
-          ref={ref => (this.emojiPanel = ref)}
-          onKeyDown={this.onKeyDown}
-          role="button"
-        >
-          {showEmojiPanel && (
-            <SessionEmojiPanel
-              onEmojiClicked={this.onEmojiClick}
-              show={showEmojiPanel}
-            />
-          )}
-        </div>
+        {typingEnabled && (
+          <div
+            ref={ref => (this.emojiPanel = ref)}
+            onKeyDown={this.onKeyDown}
+            role="button"
+          >
+            {showEmojiPanel && (
+              <SessionEmojiPanel
+                onEmojiClicked={this.onEmojiClick}
+                show={showEmojiPanel}
+              />
+            )}
+          </div>
+        )}
       </>
     );
   }
@@ -471,9 +501,19 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     }, '');
   }
 
+  // tslint:disable-next-line: cyclomatic-complexity
   private async onSendMessage() {
     const messagePlaintext = this.parseEmojis(this.state.message);
 
+    const { isBlocked, isPrivate, leftGroup, isKickedFromGroup } = this.props;
+    if (isBlocked && isPrivate) {
+      ToastUtils.pushUnblockToSend();
+      return;
+    }
+    if (isBlocked && !isPrivate) {
+      ToastUtils.pushUnblockToSendGroup();
+      return;
+    }
     // Verify message length
     const msgLen = messagePlaintext?.length || 0;
     if (msgLen > window.CONSTANTS.MAX_MESSAGE_BODY_LENGTH) {
@@ -484,6 +524,29 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       ToastUtils.pushMessageBodyMissing();
       return;
     }
+    if (!window.clientClockSynced) {
+      let clockSynced = false;
+      if (window.setClockParams) {
+        // Check to see if user has updated their clock to current time
+        clockSynced = await window.setClockParams();
+      } else {
+        window.log.info('setClockParams not loaded yet');
+      }
+      if (clockSynced) {
+        ToastUtils.pushClockOutOfSync();
+        return;
+      }
+    }
+
+    if (!isPrivate && leftGroup) {
+      ToastUtils.pushYouLeftTheGroup();
+      return;
+    }
+    if (!isPrivate && isKickedFromGroup) {
+      ToastUtils.pushYouLeftTheGroup();
+      return;
+    }
+
     const { quotedMessageProps } = this.props;
     const { stagedLinkPreview } = this.state;
 

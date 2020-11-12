@@ -28,6 +28,8 @@ import * as MIME from '../../../types/MIME';
 import { SessionFileDropzone } from './SessionFileDropzone';
 import { ConversationType } from '../../../state/ducks/conversations';
 import { MessageView } from '../../MainViewController';
+import { getMessageById } from '../../../../js/modules/data';
+import { pushUnblockToSend } from '../../../session/utils/Toast';
 
 interface State {
   // Message sending progress
@@ -161,7 +163,6 @@ export class SessionConversation extends React.Component<Props, State> {
     div?.removeEventListener('drop', this.handleDrop);
   }
 
-
   public componentDidMount() {
     // Pause thread to wait for rendering to complete
     setTimeout(() => {
@@ -253,7 +254,12 @@ export class SessionConversation extends React.Component<Props, State> {
           </div>
 
           {!isRss && (
+            // tslint:disable-next-line: use-simple-attributes
             <SessionCompositionBox
+              isBlocked={conversation.isBlocked}
+              leftGroup={conversation.leftGroup}
+              isKickedFromGroup={conversation.isKickedFromGroup}
+              isPrivate={conversation.type === 'direct'}
               sendMessage={sendMessageFn}
               stagedAttachments={stagedAttachments}
               onMessageSending={this.onMessageSending}
@@ -689,6 +695,10 @@ export class SessionConversation extends React.Component<Props, State> {
   // ~~~~~~~~~~~~~~ MESSAGE QUOTE ~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   private async replyToMessage(quotedMessageTimestamp?: number) {
+    if (this.props.conversation.isBlocked) {
+      pushUnblockToSend();
+      return;
+    }
     if (!_.isEqual(this.state.quotedMessageTimestamp, quotedMessageTimestamp)) {
       const { messages, conversationKey } = this.props;
       const conversationModel = window.ConversationController.getOrThrow(
@@ -697,7 +707,9 @@ export class SessionConversation extends React.Component<Props, State> {
 
       let quotedMessageProps = null;
       if (quotedMessageTimestamp) {
-        const quotedMessage = messages.find(m => m.attributes.sent_at === quotedMessageTimestamp);
+        const quotedMessage = messages.find(
+          m => m.attributes.sent_at === quotedMessageTimestamp
+        );
 
         if (quotedMessage) {
           const quotedMessageModel = await getMessageById(quotedMessage.id, {

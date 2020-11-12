@@ -56,6 +56,8 @@ export type ConversationType = {
   isSecondary?: boolean;
   primaryDevice: string;
   isBlocked: boolean;
+  isKickedFromGroup: boolean;
+  leftGroup: boolean;
 };
 export type ConversationLookupType = {
   [key: string]: ConversationType;
