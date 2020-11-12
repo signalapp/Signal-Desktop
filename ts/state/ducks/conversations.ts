@@ -118,7 +118,8 @@ export type MessageType = {
   attachments: Array<AttachmentType>;
   sticker: {
     data?: {
-      pending: boolean;
+      pending?: boolean;
+      blurHash?: string;
     };
   };
   unread: boolean;
@@ -663,6 +664,7 @@ function hasMessageHeightChanged(
     message.sticker.data &&
     previous.sticker &&
     previous.sticker.data &&
+    !previous.sticker.data.blurHash &&
     previous.sticker.data.pending !== message.sticker.data.pending;
   if (stickerPendingChanged) {
     return true;
