@@ -30,7 +30,9 @@ const EXTENSIONS_TO_CHECK = new Set([
   '.plist',
 ]);
 const FILES_TO_IGNORE = new Set([
+  'ISSUE_TEMPLATE.md',
   'Mp3LameEncoder.min.js',
+  'PULL_REQUEST_TEMPLATE.md',
   'WebAudioRecorderMp3.js',
 ]);
 

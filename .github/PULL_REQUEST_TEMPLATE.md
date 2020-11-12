@@ -1,6 +1,3 @@
-<!-- Copyright 2016-2020 Signal Messenger, LLC -->
-<!-- SPDX-License-Identifier: AGPL-3.0-only -->
-
 <!--
 Thanks for contributing to the project!
 Please help us keep this project in good shape by going through this checklist.

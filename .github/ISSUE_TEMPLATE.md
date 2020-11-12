@@ -1,6 +1,3 @@
-<!-- Copyright 2016-2020 Signal Messenger, LLC -->
-<!-- SPDX-License-Identifier: AGPL-3.0-only -->
-
 <!--
 Please fill out this template with all the information you have. We can't do much without
 both the logs and a detailed description of what you've encountered. Please do your best!
