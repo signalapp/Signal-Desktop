@@ -53,8 +53,6 @@
         );
       }
 
-      this.OUR_NUMBER = textsecure.storage.user.getNumber();
-
       this.on('destroy', this.onDestroy);
       this.on('change:expirationStartTimestamp', this.setToExpire);
       this.on('change:expireTimer', this.setToExpire);
@@ -62,7 +60,7 @@
       this.on('expired', this.onExpired);
       this.setToExpire();
       // Keep props ready
-      const generateProps = () => {
+      const generateProps = (triggerEvent = true) => {
         if (this.isExpirationTimerUpdate()) {
           this.propsForTimerNotification = this.getPropsForTimerNotification();
         } else if (this.isVerifiedChange()) {
@@ -79,32 +77,30 @@
           this.propsForSearchResult = this.getPropsForSearchResult();
           this.propsForMessage = this.getPropsForMessage();
         }
-        Whisper.events.trigger('messageChanged', this);
+        if (triggerEvent) {
+          Whisper.events.trigger('messageChanged', this);
+        }
       };
       this.on('change', generateProps);
 
-      const applicableConversationChanges =
-        'change:color change:name change:number change:profileName change:profileAvatar';
-
+      // const applicableConversationChanges =
+      //   'change:color change:name change:number change:profileName change:profileAvatar';
+      // FIXME AUDRIC
       const conversation = this.getConversation();
-      const fromContact = this.getIncomingContact();
-      this.listenTo(conversation, applicableConversationChanges, generateProps);
+      // const fromContact = this.getIncomingContact();
+      // this.listenTo(conversation, applicableConversationChanges, generateProps);
 
-      // trigger a change event on this component.
-      // this will call generateProps and refresh the Message.tsx component with new props
-      this.listenTo(conversation, 'disable:input', () => this.trigger('change'));
-      if (fromContact) {
-        this.listenTo(
-          fromContact,
-          applicableConversationChanges,
-          generateProps
-        );
-      }
+      // if (fromContact) {
+      //   this.listenTo(
+      //     fromContact,
+      //     applicableConversationChanges,
+      //     generateProps
+      //   );
+      // }
 
-      this.selected = false;
       window.contextMenuShown = false;
 
-      generateProps();
+      generateProps(false);
     },
     idForLogging() {
       return `${this.get('source')}.${this.get('sourceDevice')} ${this.get(
@@ -340,7 +336,7 @@
           ...basicProps,
           type: 'fromSync',
         };
-      } else if (source === this.OUR_NUMBER) {
+      } else if (source === textsecure.storage.user.getNumber()) {
         return {
           ...basicProps,
           type: 'fromMe',
@@ -524,13 +520,13 @@
     getPropsForSearchResult() {
       const fromNumber = this.getSource();
       const from = this.findAndFormatContact(fromNumber);
-      if (fromNumber === this.OUR_NUMBER) {
+      if (fromNumber === textsecure.storage.user.getNumber()) {
         from.isMe = true;
       }
 
       const toNumber = this.get('conversationId');
       let to = this.findAndFormatContact(toNumber);
-      if (toNumber === this.OUR_NUMBER) {
+      if (toNumber === textsecure.storage.user.getNumber()) {
         to.isMe = true;
       } else if (fromNumber === toNumber) {
         to = {
@@ -571,7 +567,8 @@
       const conversation = this.getConversation();
 
       const isModerator =
-        conversation && !!conversation.isModerator(this.OUR_NUMBER);
+        conversation &&
+        !!conversation.isModerator(textsecure.storage.user.getNumber());
 
       const convoId = conversation ? conversation.id : undefined;
       const isGroup = !!conversation && !conversation.isPrivate();
@@ -601,7 +598,6 @@
         isExpired: this.hasExpired,
         expirationLength,
         expirationTimestamp,
-        selected: this.selected,
         multiSelectMode: conversation && conversation.selectedMessages.size > 0,
         isPublic: !!this.get('isPublic'),
         isRss: !!this.get('isRss'),
@@ -614,11 +610,10 @@
         isDeletable:
           !this.get('isPublic') ||
           isModerator ||
-          phoneNumber === this.OUR_NUMBER,
+          phoneNumber === textsecure.storage.user.getNumber(),
         isModerator,
 
         onCopyText: () => this.copyText(),
-        onSelectMessageUnchecked: () => this.selectMessageUnchecked(),
         onCopyPubKey: () => this.copyPubKey(),
         onBanUser: () => this.banUser(),
         onRetrySend: () => this.retrySend(),
@@ -742,7 +737,9 @@
         ourRegionCode: regionCode,
       });
       const authorName = contact ? contact.getName() : null;
-      const isFromMe = contact ? contact.id === this.OUR_NUMBER : false;
+      const isFromMe = contact
+        ? contact.id === textsecure.storage.user.getNumber()
+        : false;
       const onClick = noClick
         ? null
         : event => {
@@ -906,7 +903,7 @@
       if (this.isIncoming()) {
         clipboard.writeText(this.get('source'));
       } else {
-        clipboard.writeText(this.OUR_NUMBER);
+        clipboard.writeText(textsecure.storage.user.getNumber());
       }
 
       window.libsession.Utils.ToastUtils.pushCopiedToClipBoard();
@@ -930,20 +927,6 @@
           }
         },
       });
-    },
-
-    // Select message even if the context menu is shown
-    selectMessageUnchecked() {
-      this.selected = !this.selected;
-
-      const convo = this.getConversation();
-
-      if (this.selected) {
-        convo.addMessageSelection(this);
-      } else {
-        convo.removeMessageSelection(this);
-      }
-      this.trigger('change');
     },
 
     copyText() {
@@ -1142,7 +1125,7 @@
         });
 
         // Special-case the self-send case - we send only a sync message
-        if (number === this.OUR_NUMBER) {
+        if (number === textsecure.storage.user.getNumber()) {
           return this.sendSyncMessageOnly(chatMessage);
         }
 
@@ -1399,7 +1382,7 @@
         return this.get('source');
       }
 
-      return this.OUR_NUMBER;
+      return textsecure.storage.user.getNumber();
     },
     getContact() {
       const source = this.getSource();
@@ -1487,7 +1470,7 @@
 
     async sendSyncMessageOnly(dataMessage) {
       this.set({
-        sent_to: [this.OUR_NUMBER],
+        sent_to: [textsecure.storage.user.getNumber()],
         sent: true,
         expirationStartTimestamp: Date.now(),
       });
@@ -1550,7 +1533,7 @@
       this.set({
         // These are the same as a normal send()
         dataMessage,
-        sent_to: [this.OUR_NUMBER],
+        sent_to: [textsecure.storage.user.getNumber()],
         sent: true,
         expirationStartTimestamp: Date.now(),
       });

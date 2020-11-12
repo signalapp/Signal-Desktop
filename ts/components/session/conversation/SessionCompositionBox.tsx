@@ -208,12 +208,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   private renderCompositionView() {
-    const {
-      isBlocked,
-      isKickedFromGroup,
-      leftGroup,
-      isPrivate,
-    } = this.props;
+    const { isBlocked, isKickedFromGroup, leftGroup, isPrivate } = this.props;
     const { showEmojiPanel, message } = this.state;
     const typingEnabled = !(isBlocked || isKickedFromGroup || leftGroup);
     const { i18n } = window;

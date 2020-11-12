@@ -39,7 +39,7 @@ export async function getMessages(
   const messages = [];
   // no need to do that `firstMessageOfSeries` on a private chat
   if (conversation.isPrivate()) {
-    return messageSet.models;
+    return messageModels;
   }
 
   // messages are got from the more recent to the oldest, so we need to check if
@@ -75,29 +75,35 @@ const fetchMessagesForConversation = createAsyncThunk(
   }
 );
 
-const toOmitFromMessageModel = [
-  'cid',
-  'collection',
-  // 'changing',
-  // 'previousAttributes',
-  '_events',
-  '_listeningTo',
+const toPickFromMessageModel = [
+  'attributes',
+  'id',
+  'propsForSearchResult',
+  'propsForMessage',
+  'receivedAt',
+  'conversationId',
+  'firstMessageOfSeries',
+  'propsForGroupInvitation',
+  'propsForTimerNotification',
+  'propsForVerificationNotification',
+  'propsForResetSessionNotification',
+  'propsForGroupNotification',
 ];
 
 const messageSlice = createSlice({
   name: 'messages',
   initialState: [] as MessagesStateType,
   reducers: {
-    messageChanged(state, action) {
-      // console.log('message changed ', action);
+    messageChanged(state: MessagesStateType, action) {
+      console.log('message changed ', action);
       const messageInStoreIndex = state.findIndex(
         m => m.id === action.payload.id
       );
       if (messageInStoreIndex >= 0) {
-        state[messageInStoreIndex] = _.omit(
+        state[messageInStoreIndex] = _.pick(
           action.payload,
-          toOmitFromMessageModel
-        );
+          toPickFromMessageModel
+        ) as MessageType;
       }
       return state;
     },
@@ -105,9 +111,12 @@ const messageSlice = createSlice({
   extraReducers: {
     // Add reducers for additional action types here, and handle loading state as needed
     [fetchMessagesForConversation.fulfilled.type]: (state, action) => {
+      // console.log('fetchMessagesForConversatio0 NON LIGHT', action.payload);
+
       const lightMessages = action.payload.map((m: any) =>
-        _.omit(m, toOmitFromMessageModel)
-      );
+        _.pick(m, toPickFromMessageModel)
+      ) as MessagesStateType;
+      // console.log('fetchMessagesForConversation', lightMessages);
       return lightMessages;
     },
   },
