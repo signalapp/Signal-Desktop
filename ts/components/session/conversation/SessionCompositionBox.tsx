@@ -50,8 +50,6 @@ export interface StagedAttachmentType extends AttachmentType {
 }
 
 interface Props {
-  placeholder?: string;
-
   sendMessage: any;
   onMessageSending: any;
   onMessageSuccess: any;
@@ -211,7 +209,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
   private renderCompositionView() {
     const {
-      placeholder,
       isBlocked,
       isKickedFromGroup,
       leftGroup,
@@ -220,7 +217,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     const { showEmojiPanel, message } = this.state;
     const typingEnabled = !(isBlocked || isKickedFromGroup || leftGroup);
     const { i18n } = window;
-    const messageWithWarning = isKickedFromGroup
+    const messagePlaceHolder = isKickedFromGroup
       ? i18n('youGotKickedFromGroup')
       : leftGroup
       ? i18n('youLeftTheGroup')
@@ -228,7 +225,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       ? i18n('unblockToSend')
       : isBlocked && !isPrivate
       ? i18n('unblockGroupToSend')
-      : undefined;
+      : i18n('sendMessage');
 
     return (
       <>
@@ -267,10 +264,10 @@ export class SessionCompositionBox extends React.Component<Props, State> {
             maxRows={3}
             ref={this.textarea}
             spellCheck={false}
-            placeholder={placeholder}
+            placeholder={messagePlaceHolder}
             maxLength={Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH}
             onKeyDown={this.onKeyDown}
-            value={messageWithWarning || message}
+            value={message}
             onChange={this.onChange}
             disabled={!typingEnabled}
           />
