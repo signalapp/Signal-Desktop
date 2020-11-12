@@ -281,6 +281,7 @@
           throw error;
         }
       };
+      await window.BlockedNumberController.load();
 
       this._initialPromise = load();
 
