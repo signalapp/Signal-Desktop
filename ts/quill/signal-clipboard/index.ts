@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import Quill from 'quill';
+import Delta from 'quill-delta';
+
 import { getTextFromOps } from '../util';
 
 const getSelectionHTML = () => {
@@ -28,6 +30,7 @@ export class SignalClipboard {
 
     this.quill.root.addEventListener('copy', e => this.onCaptureCopy(e, false));
     this.quill.root.addEventListener('cut', e => this.onCaptureCopy(e, true));
+    this.quill.root.addEventListener('paste', e => this.onCapturePaste(e));
   }
 
   onCaptureCopy(event: ClipboardEvent, isCut = false): void {
@@ -59,10 +62,45 @@ export class SignalClipboard {
     const html = getSelectionHTML();
 
     event.clipboardData.setData('text/plain', text);
-    event.clipboardData.setData('text/html', html);
+    event.clipboardData.setData('text/signal', html);
 
     if (isCut) {
       this.quill.deleteText(range.index, range.length, 'user');
     }
+  }
+
+  onCapturePaste(event: ClipboardEvent): void {
+    if (event.clipboardData === null) {
+      return;
+    }
+
+    this.quill.focus();
+
+    const clipboard = this.quill.getModule('clipboard');
+    const selection = this.quill.getSelection();
+
+    if (selection === null) {
+      return;
+    }
+
+    const text = event.clipboardData.getData('text/plain');
+    const html = event.clipboardData.getData('text/signal');
+
+    const { scrollTop } = this.quill.scrollingContainer;
+
+    this.quill.selection.update('silent');
+
+    if (selection) {
+      setTimeout(() => {
+        const delta = new Delta()
+          .retain(selection.index)
+          .concat(clipboard.convert(html || text));
+        this.quill.updateContents(delta, 'user');
+        this.quill.setSelection(delta.length(), 0, 'silent');
+        this.quill.scrollingContainer.scrollTop = scrollTop;
+      }, 1);
+    }
+
+    event.preventDefault();
   }
 }

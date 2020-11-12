@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import UpdatedDelta from 'quill-delta';
+import { MentionCompletion } from './mentions/completion';
+import { EmojiCompletion } from './emoji/completion';
 
 declare module 'react-quill' {
   // `react-quill` uses a different but compatible version of Delta
@@ -30,6 +32,19 @@ declare module 'quill' {
     value(): any;
   }
 
+  interface HistoryStatic {
+    undo(): void;
+    clear(): void;
+  }
+
+  interface ClipboardStatic {
+    convert(html: string): UpdatedDelta;
+  }
+
+  interface SelectionStatic {
+    update(source: string): void;
+  }
+
   interface Quill {
     updateContents(delta: UpdatedDelta, source?: Sources): UpdatedDelta;
     getContents(index?: number, length?: number): UpdatedDelta;
@@ -41,6 +56,14 @@ declare module 'quill' {
       eventName: 'text-change',
       handler: UpdatedTextChangeHandler
     ): EventEmitter;
+
+    getModule(module: 'history'): HistoryStatic;
+    getModule(module: 'clipboard'): ClipboardStatic;
+    getModule(module: 'mentionCompletion'): MentionCompletion;
+    getModule(module: 'emojiCompletion'): EmojiCompletion;
+    getModule(module: string): unknown;
+
+    selection: SelectionStatic;
   }
 
   interface KeyboardStatic {

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import Delta from 'quill-delta';
+import { insertEmojiOps } from '../util';
 
 export const matchEmojiImage = (node: Element): Delta => {
   if (node.classList.contains('emoji')) {
@@ -25,4 +26,10 @@ export const matchReactEmoji = (node: HTMLElement, delta: Delta): Delta => {
     return new Delta().insert({ emoji });
   }
   return delta;
+};
+
+export const matchEmojiText = (node: Text): Delta => {
+  const nodeAsInsert = { insert: node.data };
+
+  return new Delta(insertEmojiOps([nodeAsInsert]));
 };
