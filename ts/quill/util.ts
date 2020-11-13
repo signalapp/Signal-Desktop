@@ -41,82 +41,53 @@ export const isInsertMentionOp = (op: Op): op is InsertMentionOp =>
   isSpecificInsertOp(op, 'mention');
 
 export const getTextFromOps = (ops: Array<DeltaOperation>): string =>
-  ops.reduce((acc, { insert }, index) => {
-    if (typeof insert === 'string') {
-      let textToAdd;
-      switch (index) {
-        case 0: {
-          textToAdd = insert.trimLeft();
-          break;
-        }
-        case ops.length - 1: {
-          textToAdd = insert.trimRight();
-          break;
-        }
-        default: {
-          textToAdd = insert;
-          break;
-        }
+  ops
+    .reduce((acc, op) => {
+      if (typeof op.insert === 'string') {
+        return acc + op.insert;
       }
-      const textWithoutNewlines = textToAdd.replace(/\n+$/, '');
-      return acc + textWithoutNewlines;
-    }
 
-    if (insert.emoji) {
-      return acc + insert.emoji;
-    }
+      if (isInsertEmojiOp(op)) {
+        return acc + op.insert.emoji;
+      }
 
-    if (insert.mention) {
-      return `${acc}@${insert.mention.title}`;
-    }
+      if (isInsertMentionOp(op)) {
+        return `${acc}@${op.insert.mention.title}`;
+      }
 
-    return acc;
-  }, '');
+      return acc;
+    }, '')
+    .trim();
 
 export const getTextAndMentionsFromOps = (
   ops: Array<Op>
 ): [string, Array<BodyRangeType>] => {
   const mentions: Array<BodyRangeType> = [];
 
-  const text = ops.reduce((acc, op, index) => {
-    if (typeof op.insert === 'string') {
-      let textToAdd;
-      switch (index) {
-        case 0: {
-          textToAdd = op.insert.trimLeft();
-          break;
-        }
-        case ops.length - 1: {
-          textToAdd = op.insert.trimRight();
-          break;
-        }
-        default: {
-          textToAdd = op.insert;
-          break;
-        }
+  const text = ops
+    .reduce((acc, op) => {
+      if (typeof op.insert === 'string') {
+        return acc + op.insert;
       }
 
-      const textWithoutNewlines = textToAdd.replace(/\n+$/, '');
-      return acc + textWithoutNewlines;
-    }
+      if (isInsertEmojiOp(op)) {
+        return acc + op.insert.emoji;
+      }
 
-    if (isInsertEmojiOp(op)) {
-      return acc + op.insert.emoji;
-    }
+      if (isInsertMentionOp(op)) {
+        mentions.push({
+          length: 1, // The length of `\uFFFC`
+          mentionUuid: op.insert.mention.uuid,
+          replacementText: op.insert.mention.title,
+          start: acc.length,
+        });
 
-    if (isInsertMentionOp(op)) {
-      mentions.push({
-        length: 1, // The length of `\uFFFC`
-        mentionUuid: op.insert.mention.uuid,
-        replacementText: op.insert.mention.title,
-        start: acc.length,
-      });
+        return `${acc}\uFFFC`;
+      }
 
-      return `${acc}\uFFFC`;
-    }
-
-    return acc;
-  }, '');
+      return acc;
+    }, '')
+    .trim();
 
   return [text, mentions];
 };

@@ -156,6 +156,31 @@ describe('getTextAndMentionsFromOps', () => {
         },
       ]);
     });
+
+    it('does not trim newlines padding mentions', () => {
+      const ops = [
+        { insert: 'test \n' },
+        {
+          insert: {
+            mention: {
+              uuid: 'abcdef',
+              title: '@fred',
+            },
+          },
+        },
+        { insert: '\n test' },
+      ];
+      const [resultText, resultMentions] = getTextAndMentionsFromOps(ops);
+      assert.equal(resultText, 'test \n\uFFFC\n test');
+      assert.deepEqual(resultMentions, [
+        {
+          length: 1,
+          mentionUuid: 'abcdef',
+          replacementText: '@fred',
+          start: 6,
+        },
+      ]);
+    });
   });
 });
 
