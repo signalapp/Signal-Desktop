@@ -6,7 +6,9 @@ import { pick } from 'lodash';
 import { ConversationHeader } from '../../components/conversation/ConversationHeader';
 import { getConversationSelector } from '../selectors/conversations';
 import { StateType } from '../reducer';
-import { isCallActive } from '../selectors/calling';
+import { CallMode } from '../../types/Calling';
+import { getConversationCallMode } from '../ducks/conversations';
+import { getActiveCall } from '../ducks/calling';
 import { getIntl } from '../selectors/user';
 
 export interface OwnProps {
@@ -36,6 +38,11 @@ const mapStateToProps = (state: StateType, ownProps: OwnProps) => {
     throw new Error('Could not find conversation');
   }
 
+  const conversationCallMode = getConversationCallMode(conversation);
+  const conversationSupportsCalls =
+    conversationCallMode === CallMode.Direct ||
+    (conversationCallMode === CallMode.Group && window.GROUP_CALLING);
+
   return {
     ...pick(conversation, [
       'acceptedMessageRequest',
@@ -59,10 +66,7 @@ const mapStateToProps = (state: StateType, ownProps: OwnProps) => {
     ]),
     i18n: getIntl(state),
     showBackButton: state.conversations.selectedConversationPanelDepth > 0,
-    showCallButtons:
-      conversation.type === 'direct' &&
-      !conversation.isMe &&
-      !isCallActive(state.calling),
+    showCallButtons: conversationSupportsCalls && !getActiveCall(state.calling),
   };
 };
 

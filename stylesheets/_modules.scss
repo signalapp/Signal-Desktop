@@ -5860,6 +5860,7 @@ button.module-image__border-overlay:focus {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    justify-content: center;
     position: relative;
     width: 100%;
   }
@@ -6225,8 +6226,18 @@ button.module-image__border-overlay:focus {
     justify-content: center;
   }
 
+  &__container {
+    &--direct {
+      .module-ongoing-call__header {
+        position: absolute;
+      }
+      .module-ongoing-call__footer {
+        position: absolute;
+      }
+    }
+  }
+
   &__header {
-    position: absolute;
     background: linear-gradient($color-black-alpha-40, transparent);
   }
 
@@ -6237,12 +6248,33 @@ button.module-image__border-overlay:focus {
     letter-spacing: -0.0025em;
   }
 
+  &__grid {
+    flex-grow: 1;
+    width: 100%;
+    position: relative;
+  }
+
+  &__group-call-remote-participant {
+    display: flex;
+    justify-content: center;
+
+    line-height: 0;
+    overflow: hidden;
+    border-radius: 5px;
+    transition: top 200ms linear, left 200ms linear, width 200ms linear,
+      height 200ms linear;
+
+    &__remote-video {
+      // The background-color is seen while the video loads.
+      background-color: $color-gray-75;
+    }
+  }
+
   &__footer {
     background: linear-gradient(transparent, $color-black-alpha-40);
     bottom: 0;
     display: flex;
     justify-content: space-between;
-    position: absolute;
     width: 100%;
 
     &__actions {

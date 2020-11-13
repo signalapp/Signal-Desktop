@@ -34,6 +34,7 @@ import {
   DataMessageClass,
   GroupChangeClass,
   GroupClass,
+  GroupExternalCredentialClass,
   StorageServiceCallOptionsType,
   StorageServiceCredentials,
   SyncMessageClass,
@@ -1840,5 +1841,11 @@ export default class MessageSender {
     options: StorageServiceCallOptionsType
   ): Promise<ArrayBuffer> {
     return this.server.modifyStorageRecords(data, options);
+  }
+
+  async getGroupMembershipToken(
+    options: GroupCredentialsType
+  ): Promise<GroupExternalCredentialClass> {
+    return this.server.getGroupExternalCredential(options);
   }
 }

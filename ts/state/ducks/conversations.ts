@@ -18,6 +18,7 @@ import { NoopActionType } from './noop';
 import { AttachmentType } from '../../types/Attachment';
 import { ColorType } from '../../types/Colors';
 import { BodyRangeType } from '../../types/Util';
+import { CallMode } from '../../types/Calling';
 
 // State
 
@@ -91,9 +92,12 @@ export type ConversationType = {
 
   sharedGroupNames?: Array<string>;
   groupVersion?: 1 | 2;
+  groupId?: string;
   isMissingMandatoryProfileSharing?: boolean;
   messageRequestsEnabled?: boolean;
   acceptedMessageRequest?: boolean;
+  secretParams?: string;
+  publicParams?: string;
 };
 export type ConversationLookupType = {
   [key: string]: ConversationType;
@@ -186,6 +190,31 @@ export type ConversationsStateType = {
   // Note: it's very important that both of these locations are always kept up to date
   messagesLookup: MessageLookupType;
   messagesByConversation: MessagesByConversationType;
+};
+
+// Helpers
+
+export const getConversationCallMode = (
+  conversation: ConversationType
+): CallMode => {
+  if (
+    conversation.left ||
+    conversation.isBlocked ||
+    conversation.isMe ||
+    !conversation.acceptedMessageRequest
+  ) {
+    return CallMode.None;
+  }
+
+  if (conversation.type === 'direct') {
+    return CallMode.Direct;
+  }
+
+  if (conversation.type === 'group' && conversation.groupVersion === 2) {
+    return CallMode.Group;
+  }
+
+  return CallMode.None;
 };
 
 // Actions

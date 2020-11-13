@@ -151,3 +151,7 @@ message GroupAttributeBlob {
     uint32 disappearingMessagesDuration = 3;
   }
 }
+
+message GroupExternalCredential {
+  string token = 1;
+}

@@ -2,11 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
+import { noop } from 'lodash';
 import { storiesOf } from '@storybook/react';
 import { boolean, select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
-import { CallState } from '../types/Calling';
+import { CallMode, CallState } from '../types/Calling';
 import { ColorType } from '../types/Colors';
 import { CallScreen, PropsType } from './CallScreen';
 import { setup as setupI18n } from '../../js/modules/i18n';
@@ -14,7 +15,29 @@ import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
 
-const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
+const createProps = (
+  overrideProps: {
+    callState?: CallState;
+    hasLocalAudio?: boolean;
+    hasLocalVideo?: boolean;
+    hasRemoteVideo?: boolean;
+  } = {}
+): PropsType => ({
+  call: {
+    callMode: CallMode.Direct as CallMode.Direct,
+    conversationId: '3051234567',
+    callState: select(
+      'callState',
+      CallState,
+      overrideProps.callState || CallState.Accepted
+    ),
+    isIncoming: false,
+    isVideoCall: true,
+    hasRemoteVideo: boolean(
+      'hasRemoteVideo',
+      overrideProps.hasRemoteVideo || false
+    ),
+  },
   conversation: {
     id: '3051234567',
     avatarPath: undefined,
@@ -23,19 +46,24 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     name: 'Rick Sanchez',
     phoneNumber: '3051234567',
     profileName: 'Rick Sanchez',
+    markedUnread: false,
+    type: 'direct',
+    lastUpdated: Date.now(),
   },
-  callState: select(
-    'callState',
-    CallState,
-    overrideProps.callState || CallState.Accepted
-  ),
+  // We allow `any` here because these are fake and actually come from RingRTC, which we
+  //   can't import.
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  createCanvasVideoRenderer: () =>
+    ({
+      setCanvas: noop,
+      enable: noop,
+      disable: noop,
+    } as any),
+  getGroupCallVideoFrameSource: noop as any,
+  /* eslint-enable @typescript-eslint/no-explicit-any */
   hangUp: action('hang-up'),
   hasLocalAudio: boolean('hasLocalAudio', overrideProps.hasLocalAudio || false),
   hasLocalVideo: boolean('hasLocalVideo', overrideProps.hasLocalVideo || false),
-  hasRemoteVideo: boolean(
-    'hasRemoteVideo',
-    overrideProps.hasRemoteVideo || false
-  ),
   i18n,
   joinedAt: Date.now(),
   me: {

@@ -16,6 +16,8 @@ try {
   const { app } = remote;
   const { nativeTheme } = remote.require('electron');
 
+  window.GROUP_CALLING = true;
+
   window.PROTO_ROOT = 'protos';
   const config = require('url').parse(window.location.toString(), true).query;
 
@@ -564,6 +566,7 @@ try {
     /* eslint-disable global-require, import/no-extraneous-dependencies */
     require('./ts/test-electron/models/messages_test');
     require('./ts/test-electron/linkPreviews/linkPreviewFetch_test');
+    require('./ts/test-electron/state/ducks/conversations_test');
     require('./ts/test-electron/state/ducks/calling_test');
     require('./ts/test-electron/state/selectors/calling_test');
 

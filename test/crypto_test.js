@@ -175,4 +175,93 @@ describe('Crypto', () => {
       }
     });
   });
+
+  describe('uuidToArrayBuffer', () => {
+    const { uuidToArrayBuffer } = Signal.Crypto;
+
+    it('converts valid UUIDs to ArrayBuffers', () => {
+      const expectedResult = new Uint8Array([
+        0x22,
+        0x6e,
+        0x44,
+        0x02,
+        0x7f,
+        0xfc,
+        0x45,
+        0x43,
+        0x85,
+        0xc9,
+        0x46,
+        0x22,
+        0xc5,
+        0x0a,
+        0x5b,
+        0x14,
+      ]).buffer;
+
+      assert.deepEqual(
+        uuidToArrayBuffer('226e4402-7ffc-4543-85c9-4622c50a5b14'),
+        expectedResult
+      );
+      assert.deepEqual(
+        uuidToArrayBuffer('226E4402-7FFC-4543-85C9-4622C50A5B14'),
+        expectedResult
+      );
+    });
+
+    it('returns an empty ArrayBuffer for strings of the wrong length', () => {
+      assert.deepEqual(uuidToArrayBuffer(''), new ArrayBuffer(0));
+      assert.deepEqual(uuidToArrayBuffer('abc'), new ArrayBuffer(0));
+      assert.deepEqual(
+        uuidToArrayBuffer('032deadf0d5e4ee78da28e75b1dfb284'),
+        new ArrayBuffer(0)
+      );
+      assert.deepEqual(
+        uuidToArrayBuffer('deaed5eb-d983-456a-a954-9ad7a006b271aaaaaaaaaa'),
+        new ArrayBuffer(0)
+      );
+    });
+  });
+
+  describe('arrayBufferToUuid', () => {
+    const { arrayBufferToUuid } = Signal.Crypto;
+
+    it('converts valid ArrayBuffers to UUID strings', () => {
+      const buf = new Uint8Array([
+        0x22,
+        0x6e,
+        0x44,
+        0x02,
+        0x7f,
+        0xfc,
+        0x45,
+        0x43,
+        0x85,
+        0xc9,
+        0x46,
+        0x22,
+        0xc5,
+        0x0a,
+        0x5b,
+        0x14,
+      ]).buffer;
+
+      assert.deepEqual(
+        arrayBufferToUuid(buf),
+        '226e4402-7ffc-4543-85c9-4622c50a5b14'
+      );
+    });
+
+    it('returns undefined if passed an all-zero buffer', () => {
+      assert.isUndefined(arrayBufferToUuid(new ArrayBuffer(16)));
+    });
+
+    it('returns undefined if passed the wrong number of bytes', () => {
+      assert.isUndefined(arrayBufferToUuid(new ArrayBuffer(0)));
+      assert.isUndefined(arrayBufferToUuid(new Uint8Array([0x22]).buffer));
+      assert.isUndefined(
+        arrayBufferToUuid(new Uint8Array(Array(17).fill(0x22)).buffer)
+      );
+    });
+  });
 });

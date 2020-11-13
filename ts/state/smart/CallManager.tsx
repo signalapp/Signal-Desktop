@@ -3,10 +3,13 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import { CanvasVideoRenderer } from 'ringrtc';
 import { mapDispatchToProps } from '../actions';
 import { CallManager } from '../../components/CallManager';
+import { calling as callingService } from '../../services/calling';
 import { getMe, getConversationSelector } from '../selectors/conversations';
-import { getActiveCall, getIncomingCall } from '../selectors/calling';
+import { getActiveCall } from '../ducks/calling';
+import { getIncomingCall } from '../selectors/calling';
 import { StateType } from '../reducer';
 
 import { getIntl } from '../selectors/user';
@@ -16,6 +19,12 @@ import { SmartCallingDeviceSelection } from './CallingDeviceSelection';
 function renderDeviceSelection(): JSX.Element {
   return <SmartCallingDeviceSelection />;
 }
+
+const createCanvasVideoRenderer = () => new CanvasVideoRenderer();
+
+const getGroupCallVideoFrameSource = callingService.getGroupCallVideoFrameSource.bind(
+  callingService
+);
 
 const mapStateToActiveCallProp = (state: StateType) => {
   const { calling } = state;
@@ -69,6 +78,8 @@ const mapStateToIncomingCallProp = (state: StateType) => {
 const mapStateToProps = (state: StateType) => ({
   activeCall: mapStateToActiveCallProp(state),
   availableCameras: state.calling.availableCameras,
+  createCanvasVideoRenderer,
+  getGroupCallVideoFrameSource,
   i18n: getIntl(state),
   incomingCall: mapStateToIncomingCallProp(state),
   me: getMe(state),

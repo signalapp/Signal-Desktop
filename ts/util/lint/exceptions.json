@@ -14391,19 +14391,10 @@
     "rule": "React-useRef",
     "path": "ts/components/CallScreen.js",
     "line": "    const localVideoRef = react_1.useRef(null);",
-    "lineNumber": 35,
+    "lineNumber": 38,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T21:35:52.858Z",
     "reasonDetail": "Used to get the local video element for rendering."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallScreen.js",
-    "line": "    const remoteVideoRef = react_1.useRef(null);",
-    "lineNumber": 36,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-26T21:35:52.858Z",
-    "reasonDetail": "Used to get the remote video element for rendering."
   },
   {
     "rule": "React-useRef",
@@ -14593,6 +14584,42 @@
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T23:56:13.482Z",
     "reasonDetail": "Doesn't refer to a DOM element."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/DirectCallRemoteParticipant.js",
+    "line": "    const remoteVideoRef = react_1.useRef(null);",
+    "lineNumber": 15,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-11-11T21:56:04.179Z",
+    "reasonDetail": "Needed to render the remote video element."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/GroupCallRemoteParticipant.js",
+    "line": "    const remoteVideoRef = react_1.useRef(null);",
+    "lineNumber": 16,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-11-11T21:56:04.179Z",
+    "reasonDetail": "Needed to render the remote video element."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/GroupCallRemoteParticipant.js",
+    "line": "    const canvasVideoRendererRef = react_1.useRef(createCanvasVideoRenderer());",
+    "lineNumber": 17,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-11-11T21:56:04.179Z",
+    "reasonDetail": "Doesn't touch the DOM."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/GroupCallRemoteParticipant.tsx",
+    "line": "  const canvasVideoRendererRef = useRef(createCanvasVideoRenderer());",
+    "lineNumber": 31,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-11-11T21:56:04.179Z",
+    "reasonDetail": "Doesn't touch the DOM."
   },
   {
     "rule": "jQuery-$(",
@@ -15164,7 +15191,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/WebAPI.js",
     "line": "            const byteBuffer = window.dcodeIO.ByteBuffer.wrap(quote, 'binary', window.dcodeIO.ByteBuffer.LITTLE_ENDIAN);",
-    "lineNumber": 1233,
+    "lineNumber": 1260,
     "reasonCategory": "falseMatch",
     "updated": "2020-09-08T23:07:22.682Z"
   },
@@ -15172,7 +15199,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/WebAPI.ts",
     "line": "      const byteBuffer = window.dcodeIO.ByteBuffer.wrap(",
-    "lineNumber": 2105,
+    "lineNumber": 2158,
     "reasonCategory": "falseMatch",
     "updated": "2020-09-08T23:07:22.682Z"
   }

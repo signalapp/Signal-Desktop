@@ -54,6 +54,7 @@ import {
   ProtoBinaryType,
 } from './textsecure.d';
 import { GroupCredentialsType } from './textsecure/WebAPI';
+import MessageSender from './textsecure/SendMessage';
 import { CURRENT_SCHEMA_VERSION as MAX_MESSAGE_SCHEMA } from '../js/modules/types/message';
 import { ConversationModel } from './models/conversations';
 
@@ -358,6 +359,86 @@ export function deriveGroupFields(
     secretParams,
     publicParams,
   };
+}
+
+async function makeRequestWithTemporalRetry<T>({
+  logId,
+  publicParams,
+  secretParams,
+  request,
+}: {
+  logId: string;
+  publicParams: string;
+  secretParams: string;
+  request: (sender: MessageSender, options: GroupCredentialsType) => Promise<T>;
+}): Promise<T> {
+  const data = window.storage.get(GROUP_CREDENTIALS_KEY);
+  if (!data) {
+    throw new Error(
+      `makeRequestWithTemporalRetry/${logId}: No group credentials!`
+    );
+  }
+  const groupCredentials = getCredentialsForToday(data);
+
+  const sender = window.textsecure.messaging;
+  if (!sender) {
+    throw new Error(
+      `makeRequestWithTemporalRetry/${logId}: textsecure.messaging is not available!`
+    );
+  }
+
+  const todayOptions = getGroupCredentials({
+    authCredentialBase64: groupCredentials.today.credential,
+    groupPublicParamsBase64: publicParams,
+    groupSecretParamsBase64: secretParams,
+    serverPublicParamsBase64: window.getServerPublicParams(),
+  });
+
+  try {
+    return await request(sender, todayOptions);
+  } catch (todayError) {
+    if (todayError.code === TEMPORAL_AUTH_REJECTED_CODE) {
+      window.log.warn(
+        `makeRequestWithTemporalRetry/${logId}: Trying again with tomorrow's credentials`
+      );
+      const tomorrowOptions = getGroupCredentials({
+        authCredentialBase64: groupCredentials.tomorrow.credential,
+        groupPublicParamsBase64: publicParams,
+        groupSecretParamsBase64: secretParams,
+        serverPublicParamsBase64: window.getServerPublicParams(),
+      });
+
+      return request(sender, tomorrowOptions);
+    }
+
+    throw todayError;
+  }
+}
+
+export async function fetchMembershipProof({
+  publicParams,
+  secretParams,
+}: {
+  publicParams: string;
+  secretParams: string;
+}): Promise<string | undefined> {
+  // Ensure we have the credentials we need before attempting GroupsV2 operations
+  await maybeFetchNewCredentials();
+
+  if (!publicParams) {
+    throw new Error('fetchMembershipProof: group was missing publicParams!');
+  }
+  if (!secretParams) {
+    throw new Error('fetchMembershipProof: group was missing secretParams!');
+  }
+
+  const response = await makeRequestWithTemporalRetry({
+    logId: 'fetchMembershipProof',
+    publicParams,
+    secretParams,
+    request: (sender, options) => sender.getGroupMembershipToken(options),
+  });
+  return response.token;
 }
 
 // Fetching and applying group changes
@@ -2602,4 +2683,30 @@ function decryptPendingMember(
   }
 
   return member;
+}
+
+export function getMembershipList(
+  conversationId: string
+): Array<{ uuid: string; uuidCiphertext: ArrayBuffer }> {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error('getMembershipList: cannot find conversation');
+  }
+
+  const secretParams = conversation.get('secretParams');
+  if (!secretParams) {
+    throw new Error('getMembershipList: no secretParams');
+  }
+
+  const clientZkGroupCipher = getClientZkGroupCipher(secretParams);
+
+  return conversation.getMembers().map(member => {
+    const uuid = member.get('uuid');
+    if (!uuid) {
+      throw new Error('getMembershipList: member has no UUID');
+    }
+
+    const uuidCiphertext = encryptUuid(clientZkGroupCipher, uuid);
+    return { uuid, uuidCiphertext };
+  });
 }

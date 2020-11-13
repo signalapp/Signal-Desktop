@@ -174,6 +174,7 @@ type GroupsProtobufTypes = {
   GroupChange: typeof GroupChangeClass;
   GroupChanges: typeof GroupChangesClass;
   GroupAttributeBlob: typeof GroupAttributeBlobClass;
+  GroupExternalCredential: typeof GroupExternalCredentialClass;
 };
 
 type SignalServiceProtobufTypes = {
@@ -437,6 +438,15 @@ export declare namespace GroupChangesClass {
     groupChange?: GroupChangeClass;
     groupState?: GroupClass;
   }
+}
+
+export declare class GroupExternalCredentialClass {
+  static decode: (
+    data: ArrayBuffer | ByteBufferClass,
+    encoding?: string
+  ) => GroupExternalCredentialClass;
+
+  token?: string;
 }
 
 export declare class GroupAttributeBlobClass {

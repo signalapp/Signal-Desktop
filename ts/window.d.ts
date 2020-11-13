@@ -478,6 +478,9 @@ declare global {
     hasSignalAccount: (number: string) => boolean;
     getServerTrustRoot: () => WhatIsThis;
     readyForUpdates: () => void;
+
+    // Flags
+    GROUP_CALLING: boolean;
   }
 
   interface Error {

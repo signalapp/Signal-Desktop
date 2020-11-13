@@ -5,15 +5,27 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { reducer as rootReducer } from '../../../state/reducer';
 import { noopAction } from '../../../state/ducks/noop';
-import { actions, getEmptyState, reducer } from '../../../state/ducks/calling';
+import {
+  CallingStateType,
+  actions,
+  getActiveCall,
+  getEmptyState,
+  reducer,
+} from '../../../state/ducks/calling';
 import { calling as callingService } from '../../../services/calling';
-import { CallState } from '../../../types/Calling';
+import {
+  CallMode,
+  CallState,
+  GroupCallConnectionState,
+  GroupCallJoinState,
+} from '../../../types/Calling';
 
 describe('calling duck', () => {
-  const stateWithDirectCall = {
+  const stateWithDirectCall: CallingStateType = {
     ...getEmptyState(),
     callsByConversation: {
       'fake-direct-call-conversation-id': {
+        callMode: CallMode.Direct,
         conversationId: 'fake-direct-call-conversation-id',
         callState: CallState.Accepted,
         isIncoming: false,
@@ -23,7 +35,7 @@ describe('calling duck', () => {
     },
   };
 
-  const stateWithActiveDirectCall = {
+  const stateWithActiveDirectCall: CallingStateType = {
     ...stateWithDirectCall,
     activeCallState: {
       conversationId: 'fake-direct-call-conversation-id',
@@ -35,16 +47,50 @@ describe('calling duck', () => {
     },
   };
 
-  const stateWithIncomingDirectCall = {
+  const stateWithIncomingDirectCall: CallingStateType = {
     ...getEmptyState(),
     callsByConversation: {
       'fake-direct-call-conversation-id': {
+        callMode: CallMode.Direct,
         conversationId: 'fake-direct-call-conversation-id',
         callState: CallState.Ringing,
         isIncoming: true,
         isVideoCall: false,
         hasRemoteVideo: false,
       },
+    },
+  };
+
+  const stateWithGroupCall: CallingStateType = {
+    ...getEmptyState(),
+    callsByConversation: {
+      'fake-group-call-conversation-id': {
+        callMode: CallMode.Group,
+        conversationId: 'fake-group-call-conversation-id',
+        connectionState: GroupCallConnectionState.Connected,
+        joinState: GroupCallJoinState.NotJoined,
+        remoteParticipants: [
+          {
+            demuxId: 123,
+            userId: '6d174bc4-2ea1-45b6-9099-c46fc87ce72f',
+            hasRemoteAudio: true,
+            hasRemoteVideo: true,
+            videoAspectRatio: 4 / 3,
+          },
+        ],
+      },
+    },
+  };
+
+  const stateWithActiveGroupCall: CallingStateType = {
+    ...stateWithGroupCall,
+    activeCallState: {
+      conversationId: 'fake-group-call-conversation-id',
+      hasLocalAudio: true,
+      hasLocalVideo: false,
+      participantsList: false,
+      pip: false,
+      settingsDialogOpen: false,
     },
   };
 
@@ -141,6 +187,271 @@ describe('calling duck', () => {
       });
     });
 
+    describe('cancelCall', () => {
+      const { cancelCall } = actions;
+
+      beforeEach(function beforeEach() {
+        this.callingServiceStopCallingLobby = this.sandbox.stub(
+          callingService,
+          'stopCallingLobby'
+        );
+      });
+
+      it('stops the calling lobby for that conversation', function test() {
+        cancelCall({ conversationId: '123' });
+
+        sinon.assert.calledOnce(this.callingServiceStopCallingLobby);
+        sinon.assert.calledWith(this.callingServiceStopCallingLobby, '123');
+      });
+
+      it('completely removes an active direct call from the state', () => {
+        const result = reducer(
+          stateWithActiveDirectCall,
+          cancelCall({ conversationId: 'fake-direct-call-conversation-id' })
+        );
+
+        assert.notProperty(
+          result.callsByConversation,
+          'fake-direct-call-conversation-id'
+        );
+        assert.isUndefined(result.activeCallState);
+      });
+
+      it('removes the active group call, but leaves it in the state', () => {
+        const result = reducer(
+          stateWithActiveGroupCall,
+          cancelCall({ conversationId: 'fake-group-call-conversation-id' })
+        );
+
+        assert.property(
+          result.callsByConversation,
+          'fake-group-call-conversation-id'
+        );
+        assert.isUndefined(result.activeCallState);
+      });
+    });
+
+    describe('groupCallStateChange', () => {
+      const { groupCallStateChange } = actions;
+
+      it('ignores new calls that are not connected', () => {
+        const result = reducer(
+          getEmptyState(),
+          groupCallStateChange({
+            conversationId: 'abc123',
+            connectionState: GroupCallConnectionState.NotConnected,
+            joinState: GroupCallJoinState.NotJoined,
+            hasLocalAudio: false,
+            hasLocalVideo: false,
+            remoteParticipants: [],
+          })
+        );
+
+        assert.deepEqual(result, getEmptyState());
+      });
+
+      it('removes the call from the map of conversations if the call is disconnected', () => {
+        const result = reducer(
+          stateWithGroupCall,
+          groupCallStateChange({
+            conversationId: 'fake-group-call-conversation-id',
+            connectionState: GroupCallConnectionState.NotConnected,
+            joinState: GroupCallJoinState.NotJoined,
+            hasLocalAudio: false,
+            hasLocalVideo: false,
+            remoteParticipants: [],
+          })
+        );
+
+        assert.notProperty(
+          result.callsByConversation,
+          'fake-group-call-conversation-id'
+        );
+      });
+
+      it('drops the active call if it is disconnected', () => {
+        const result = reducer(
+          stateWithActiveGroupCall,
+          groupCallStateChange({
+            conversationId: 'fake-group-call-conversation-id',
+            connectionState: GroupCallConnectionState.NotConnected,
+            joinState: GroupCallJoinState.NotJoined,
+            hasLocalAudio: false,
+            hasLocalVideo: false,
+            remoteParticipants: [],
+          })
+        );
+
+        assert.isUndefined(result.activeCallState);
+      });
+
+      it('saves a new call to the map of conversations', () => {
+        const result = reducer(
+          getEmptyState(),
+          groupCallStateChange({
+            conversationId: 'fake-group-call-conversation-id',
+            connectionState: GroupCallConnectionState.Connected,
+            joinState: GroupCallJoinState.Joining,
+            hasLocalAudio: true,
+            hasLocalVideo: false,
+            remoteParticipants: [
+              {
+                demuxId: 123,
+                userId: '6d174bc4-2ea1-45b6-9099-c46fc87ce72f',
+                hasRemoteAudio: true,
+                hasRemoteVideo: true,
+                videoAspectRatio: 4 / 3,
+              },
+            ],
+          })
+        );
+
+        assert.deepEqual(
+          result.callsByConversation['fake-group-call-conversation-id'],
+          {
+            callMode: CallMode.Group,
+            conversationId: 'fake-group-call-conversation-id',
+            connectionState: GroupCallConnectionState.Connected,
+            joinState: GroupCallJoinState.Joining,
+            remoteParticipants: [
+              {
+                demuxId: 123,
+                userId: '6d174bc4-2ea1-45b6-9099-c46fc87ce72f',
+                hasRemoteAudio: true,
+                hasRemoteVideo: true,
+                videoAspectRatio: 4 / 3,
+              },
+            ],
+          }
+        );
+      });
+
+      it('updates a call in the map of conversations', () => {
+        const result = reducer(
+          stateWithGroupCall,
+          groupCallStateChange({
+            conversationId: 'fake-group-call-conversation-id',
+            connectionState: GroupCallConnectionState.Connected,
+            joinState: GroupCallJoinState.Joined,
+            hasLocalAudio: true,
+            hasLocalVideo: false,
+            remoteParticipants: [
+              {
+                demuxId: 456,
+                userId: '6d174bc4-2ea1-45b6-9099-c46fc87ce72f',
+                hasRemoteAudio: false,
+                hasRemoteVideo: true,
+                videoAspectRatio: 16 / 9,
+              },
+            ],
+          })
+        );
+
+        assert.deepEqual(
+          result.callsByConversation['fake-group-call-conversation-id'],
+          {
+            callMode: CallMode.Group,
+            conversationId: 'fake-group-call-conversation-id',
+            connectionState: GroupCallConnectionState.Connected,
+            joinState: GroupCallJoinState.Joined,
+            remoteParticipants: [
+              {
+                demuxId: 456,
+                userId: '6d174bc4-2ea1-45b6-9099-c46fc87ce72f',
+                hasRemoteAudio: false,
+                hasRemoteVideo: true,
+                videoAspectRatio: 16 / 9,
+              },
+            ],
+          }
+        );
+      });
+
+      it("if no call is active, doesn't touch the active call state", () => {
+        const result = reducer(
+          stateWithGroupCall,
+          groupCallStateChange({
+            conversationId: 'fake-group-call-conversation-id',
+            connectionState: GroupCallConnectionState.Connected,
+            joinState: GroupCallJoinState.Joined,
+            hasLocalAudio: true,
+            hasLocalVideo: false,
+            remoteParticipants: [
+              {
+                demuxId: 456,
+                userId: '6d174bc4-2ea1-45b6-9099-c46fc87ce72f',
+                hasRemoteAudio: false,
+                hasRemoteVideo: true,
+                videoAspectRatio: 16 / 9,
+              },
+            ],
+          })
+        );
+
+        assert.isUndefined(result.activeCallState);
+      });
+
+      it("if the call is not active, doesn't touch the active call state", () => {
+        const result = reducer(
+          stateWithActiveGroupCall,
+          groupCallStateChange({
+            conversationId: 'another-fake-conversation-id',
+            connectionState: GroupCallConnectionState.Connected,
+            joinState: GroupCallJoinState.Joined,
+            hasLocalAudio: true,
+            hasLocalVideo: true,
+            remoteParticipants: [
+              {
+                demuxId: 456,
+                userId: '6d174bc4-2ea1-45b6-9099-c46fc87ce72f',
+                hasRemoteAudio: false,
+                hasRemoteVideo: true,
+                videoAspectRatio: 16 / 9,
+              },
+            ],
+          })
+        );
+
+        assert.deepEqual(result.activeCallState, {
+          conversationId: 'fake-group-call-conversation-id',
+          hasLocalAudio: true,
+          hasLocalVideo: false,
+          participantsList: false,
+          pip: false,
+          settingsDialogOpen: false,
+        });
+      });
+
+      it('if the call is active, updates the active call state', () => {
+        const result = reducer(
+          stateWithActiveGroupCall,
+          groupCallStateChange({
+            conversationId: 'fake-group-call-conversation-id',
+            connectionState: GroupCallConnectionState.Connected,
+            joinState: GroupCallJoinState.Joined,
+            hasLocalAudio: true,
+            hasLocalVideo: true,
+            remoteParticipants: [
+              {
+                demuxId: 456,
+                userId: 'aead696f-4373-4e51-b9c2-1bb4d1adccf0',
+                hasRemoteAudio: false,
+                hasRemoteVideo: true,
+                videoAspectRatio: 16 / 9,
+              },
+            ],
+          })
+        );
+
+        assert.strictEqual(
+          result.activeCallState?.conversationId,
+          'fake-group-call-conversation-id'
+        );
+        assert.isTrue(result.activeCallState?.hasLocalAudio);
+        assert.isTrue(result.activeCallState?.hasLocalVideo);
+      });
+    });
+
     describe('setLocalAudio', () => {
       const { setLocalAudio } = actions;
 
@@ -154,7 +465,14 @@ describe('calling duck', () => {
       it('dispatches a SET_LOCAL_AUDIO_FULFILLED action', () => {
         const dispatch = sinon.spy();
 
-        setLocalAudio({ enabled: true })(dispatch, getEmptyRootState, null);
+        setLocalAudio({ enabled: true })(
+          dispatch,
+          () => ({
+            ...getEmptyRootState(),
+            calling: stateWithActiveDirectCall,
+          }),
+          null
+        );
 
         sinon.assert.calledOnce(dispatch);
         sinon.assert.calledWith(dispatch, {
@@ -201,7 +519,14 @@ describe('calling duck', () => {
 
       it('updates the local audio state with SET_LOCAL_AUDIO_FULFILLED', () => {
         const dispatch = sinon.spy();
-        setLocalAudio({ enabled: false })(dispatch, getEmptyRootState, null);
+        setLocalAudio({ enabled: false })(
+          dispatch,
+          () => ({
+            ...getEmptyRootState(),
+            calling: stateWithActiveDirectCall,
+          }),
+          null
+        );
         const action = dispatch.getCall(0).args[0];
 
         const result = reducer(stateWithActiveDirectCall, action);
@@ -217,12 +542,15 @@ describe('calling duck', () => {
         const result = reducer(
           getEmptyState(),
           showCallLobby({
+            callMode: CallMode.Direct,
             conversationId: 'fake-conversation-id',
-            isVideoCall: true,
+            hasLocalAudio: true,
+            hasLocalVideo: true,
           })
         );
 
         assert.deepEqual(result.callsByConversation['fake-conversation-id'], {
+          callMode: CallMode.Direct,
           conversationId: 'fake-conversation-id',
           isIncoming: false,
           isVideoCall: true,
@@ -242,39 +570,65 @@ describe('calling duck', () => {
       const { startCall } = actions;
 
       beforeEach(function beforeEach() {
-        this.callingStartOutgoingCall = this.sandbox.stub(
+        this.callingStartOutgoingDirectCall = this.sandbox.stub(
           callingService,
-          'startOutgoingCall'
+          'startOutgoingDirectCall'
+        );
+        this.callingJoinGroupCall = this.sandbox.stub(
+          callingService,
+          'joinGroupCall'
         );
       });
 
-      it('asks the calling service to start an outgoing call', function test() {
+      it('asks the calling service to start an outgoing direct call', function test() {
+        const dispatch = sinon.spy();
         startCall({
+          callMode: CallMode.Direct,
           conversationId: '123',
           hasLocalAudio: true,
           hasLocalVideo: false,
-        });
+        })(dispatch, getEmptyRootState, null);
 
-        sinon.assert.calledOnce(this.callingStartOutgoingCall);
+        sinon.assert.calledOnce(this.callingStartOutgoingDirectCall);
         sinon.assert.calledWith(
-          this.callingStartOutgoingCall,
+          this.callingStartOutgoingDirectCall,
           '123',
           true,
           false
         );
+
+        sinon.assert.notCalled(this.callingJoinGroupCall);
       });
 
-      it('saves the call and makes it active', () => {
-        const result = reducer(
-          getEmptyState(),
-          startCall({
-            conversationId: 'fake-conversation-id',
-            hasLocalAudio: true,
-            hasLocalVideo: false,
-          })
-        );
+      it('asks the calling service to join a group call', function test() {
+        const dispatch = sinon.spy();
+        startCall({
+          callMode: CallMode.Group,
+          conversationId: '123',
+          hasLocalAudio: true,
+          hasLocalVideo: false,
+        })(dispatch, getEmptyRootState, null);
+
+        sinon.assert.calledOnce(this.callingJoinGroupCall);
+        sinon.assert.calledWith(this.callingJoinGroupCall, '123', true, false);
+
+        sinon.assert.notCalled(this.callingStartOutgoingDirectCall);
+      });
+
+      it('saves direct calls and makes them active', () => {
+        const dispatch = sinon.spy();
+        startCall({
+          callMode: CallMode.Direct,
+          conversationId: 'fake-conversation-id',
+          hasLocalAudio: true,
+          hasLocalVideo: false,
+        })(dispatch, getEmptyRootState, null);
+        const action = dispatch.getCall(0).args[0];
+
+        const result = reducer(getEmptyState(), action);
 
         assert.deepEqual(result.callsByConversation['fake-conversation-id'], {
+          callMode: CallMode.Direct,
           conversationId: 'fake-conversation-id',
           callState: CallState.Prering,
           isIncoming: false,
@@ -288,6 +642,18 @@ describe('calling duck', () => {
           pip: false,
           settingsDialogOpen: false,
         });
+      });
+
+      it("doesn't dispatch any actions for group calls", () => {
+        const dispatch = sinon.spy();
+        startCall({
+          callMode: CallMode.Group,
+          conversationId: '123',
+          hasLocalAudio: true,
+          hasLocalVideo: false,
+        })(dispatch, getEmptyRootState, null);
+
+        sinon.assert.notCalled(dispatch);
       });
     });
 
@@ -339,6 +705,29 @@ describe('calling duck', () => {
         assert.isTrue(afterOneToggle.activeCallState?.pip);
         assert.isFalse(afterTwoToggles.activeCallState?.pip);
         assert.isTrue(afterThreeToggles.activeCallState?.pip);
+      });
+    });
+  });
+
+  describe('helpers', () => {
+    describe('getActiveCall', () => {
+      it('returns undefined if there are no calls', () => {
+        assert.isUndefined(getActiveCall(getEmptyState()));
+      });
+
+      it('returns undefined if there is no active call', () => {
+        assert.isUndefined(getActiveCall(stateWithDirectCall));
+      });
+
+      it('returns the active call', () => {
+        assert.deepEqual(getActiveCall(stateWithActiveDirectCall), {
+          callMode: CallMode.Direct,
+          conversationId: 'fake-direct-call-conversation-id',
+          callState: CallState.Accepted,
+          isIncoming: false,
+          isVideoCall: false,
+          hasRemoteVideo: false,
+        });
       });
     });
   });

@@ -50,6 +50,7 @@ import {
   GroupChangeClass,
   GroupChangesClass,
   GroupClass,
+  GroupExternalCredentialClass,
   StorageServiceCallOptionsType,
   StorageServiceCredentials,
 } from '../textsecure.d';
@@ -625,6 +626,7 @@ const URL_CALLS = {
   getStickerPackUpload: 'v1/sticker/pack/form',
   groupLog: 'v1/groups/logs',
   groups: 'v1/groups',
+  groupToken: 'v1/groups/token',
   keys: 'v2/keys',
   messages: 'v1/messages',
   profile: 'v1/profile',
@@ -726,6 +728,9 @@ export type WebAPIType = {
     startDay: number,
     endDay: number
   ) => Promise<Array<GroupCredentialType>>;
+  getGroupExternalCredential: (
+    options: GroupCredentialsType
+  ) => Promise<GroupExternalCredentialClass>;
   getGroupLog: (
     startVersion: number,
     options: GroupCredentialsType
@@ -779,6 +784,12 @@ export type WebAPIType = {
     targetUrl: string,
     options?: ProxiedRequestOptionsType
   ) => Promise<any>;
+  makeSfuRequest: (
+    targetUrl: string,
+    type: HTTPCodeType,
+    headers: HeaderListType,
+    body: ArrayBuffer | undefined
+  ) => Promise<ArrayBufferWithDetailsType>;
   modifyGroup: (
     changes: GroupChangeClass.Actions,
     options: GroupCredentialsType
@@ -940,6 +951,7 @@ export function initialize({
       getGroup,
       getGroupAvatar,
       getGroupCredentials,
+      getGroupExternalCredential,
       getGroupLog,
       getIceServers,
       getKeysForIdentifier,
@@ -959,6 +971,7 @@ export function initialize({
       fetchLinkPreviewMetadata,
       fetchLinkPreviewImage,
       makeProxiedRequest,
+      makeSfuRequest,
       modifyGroup,
       modifyStorageRecords,
       putAttachment,
@@ -1833,6 +1846,24 @@ export function initialize({
       };
     }
 
+    async function makeSfuRequest(
+      targetUrl: string,
+      type: HTTPCodeType,
+      headers: HeaderListType,
+      body: ArrayBuffer | undefined
+    ): Promise<ArrayBufferWithDetailsType> {
+      return _outerAjax(targetUrl, {
+        certificateAuthority,
+        data: body,
+        headers,
+        proxyUrl,
+        responseType: 'arraybufferwithdetails',
+        timeout: 0,
+        type,
+        version,
+      });
+    }
+
     // Groups
 
     function generateGroupAuth(
@@ -1858,6 +1889,28 @@ export function initialize({
       });
 
       return response.credentials;
+    }
+
+    async function getGroupExternalCredential(
+      options: GroupCredentialsType
+    ): Promise<GroupExternalCredentialClass> {
+      const basicAuth = generateGroupAuth(
+        options.groupPublicParamsHex,
+        options.authCredentialPresentationHex
+      );
+
+      const response: ArrayBuffer = await _ajax({
+        basicAuth,
+        call: 'groupToken',
+        httpType: 'GET',
+        contentType: 'application/x-protobuf',
+        responseType: 'arraybuffer',
+        host: storageUrl,
+      });
+
+      return window.textsecure.protobuf.GroupExternalCredential.decode(
+        response
+      );
     }
 
     function verifyAttributes(attributes: AvatarUploadAttributesClass) {

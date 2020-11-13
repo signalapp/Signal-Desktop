@@ -4,7 +4,10 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { noop } from 'lodash';
 import classNames from 'classnames';
+import { ConversationType } from '../state/ducks/conversations';
 import {
+  DirectCallStateType,
+  GroupCallStateType,
   HangUpType,
   SetLocalAudioType,
   SetLocalPreviewType,
@@ -14,25 +17,27 @@ import {
 import { Avatar } from './Avatar';
 import { CallingButton, CallingButtonType } from './CallingButton';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
-import { CallState } from '../types/Calling';
+import {
+  CallMode,
+  CallState,
+  GroupCallConnectionState,
+  CanvasVideoRenderer,
+  VideoFrameSource,
+} from '../types/Calling';
 import { ColorType } from '../types/Colors';
 import { LocalizerType } from '../types/Util';
+import { missingCaseError } from '../util/missingCaseError';
+import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant';
+import { GroupCallRemoteParticipants } from './GroupCallRemoteParticipants';
 
 export type PropsType = {
-  conversation: {
-    id: string;
-    avatarPath?: string;
-    color?: ColorType;
-    title: string;
-    name?: string;
-    phoneNumber?: string;
-    profileName?: string;
-  };
-  callState: CallState;
+  call: DirectCallStateType | GroupCallStateType;
+  conversation: ConversationType;
+  createCanvasVideoRenderer: () => CanvasVideoRenderer;
+  getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   hangUp: (_: HangUpType) => void;
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
-  hasRemoteVideo: boolean;
   i18n: LocalizerType;
   joinedAt?: number;
   me: {
@@ -52,12 +57,13 @@ export type PropsType = {
 };
 
 export const CallScreen: React.FC<PropsType> = ({
-  callState,
+  call,
   conversation,
+  createCanvasVideoRenderer,
+  getGroupCallVideoFrameSource,
   hangUp,
   hasLocalAudio,
   hasLocalVideo,
-  hasRemoteVideo,
   i18n,
   joinedAt,
   me,
@@ -84,15 +90,11 @@ export const CallScreen: React.FC<PropsType> = ({
   const [showControls, setShowControls] = useState(true);
 
   const localVideoRef = useRef<HTMLVideoElement | null>(null);
-  const remoteVideoRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     setLocalPreview({ element: localVideoRef });
-    setRendererCanvas({ element: remoteVideoRef });
-
     return () => {
       setLocalPreview({ element: undefined });
-      setRendererCanvas({ element: undefined });
     };
   }, [setLocalPreview, setRendererCanvas]);
 
@@ -142,14 +144,39 @@ export const CallScreen: React.FC<PropsType> = ({
     };
   }, [toggleAudio, toggleVideo]);
 
-  const isAudioOnly = !hasLocalVideo && !hasRemoteVideo;
+  let hasRemoteVideo: boolean;
+  let isConnected: boolean;
+  let remoteParticipants: JSX.Element;
 
-  const controlsFadeClass = classNames({
-    'module-ongoing-call__controls--fadeIn':
-      (showControls || isAudioOnly) && callState !== CallState.Accepted,
-    'module-ongoing-call__controls--fadeOut':
-      !showControls && !isAudioOnly && callState === CallState.Accepted,
-  });
+  switch (call.callMode) {
+    case CallMode.Direct:
+      hasRemoteVideo = Boolean(call.hasRemoteVideo);
+      isConnected = call.callState === CallState.Accepted;
+      remoteParticipants = (
+        <DirectCallRemoteParticipant
+          conversation={conversation}
+          hasRemoteVideo={hasRemoteVideo}
+          i18n={i18n}
+          setRendererCanvas={setRendererCanvas}
+        />
+      );
+      break;
+    case CallMode.Group:
+      hasRemoteVideo = call.remoteParticipants.some(
+        remoteParticipant => remoteParticipant.hasRemoteVideo
+      );
+      isConnected = call.connectionState === GroupCallConnectionState.Connected;
+      remoteParticipants = (
+        <GroupCallRemoteParticipants
+          remoteParticipants={call.remoteParticipants}
+          createCanvasVideoRenderer={createCanvasVideoRenderer}
+          getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
+        />
+      );
+      break;
+    default:
+      throw missingCaseError(call);
+  }
 
   const videoButtonType = hasLocalVideo
     ? CallingButtonType.VIDEO_ON
@@ -158,9 +185,23 @@ export const CallScreen: React.FC<PropsType> = ({
     ? CallingButtonType.AUDIO_ON
     : CallingButtonType.AUDIO_OFF;
 
+  const isAudioOnly = !hasLocalVideo && !hasRemoteVideo;
+
+  const controlsFadeClass = classNames({
+    'module-ongoing-call__controls--fadeIn':
+      (showControls || isAudioOnly) && !isConnected,
+    'module-ongoing-call__controls--fadeOut':
+      !showControls && !isAudioOnly && isConnected,
+  });
+
   return (
     <div
-      className="module-calling__container"
+      className={classNames(
+        'module-calling__container',
+        `module-ongoing-call__container--${getCallModeClassSuffix(
+          call.callMode
+        )}`
+      )}
       onMouseMove={() => {
         setShowControls(true);
       }}
@@ -176,7 +217,12 @@ export const CallScreen: React.FC<PropsType> = ({
         <div className="module-calling__header--header-name">
           {conversation.title}
         </div>
-        {renderHeaderMessage(i18n, callState, acceptedDuration)}
+        {call.callMode === CallMode.Direct &&
+          renderHeaderMessage(
+            i18n,
+            call.callState || CallState.Prering,
+            acceptedDuration
+          )}
         <div className="module-calling-tools">
           <button
             type="button"
@@ -184,22 +230,18 @@ export const CallScreen: React.FC<PropsType> = ({
             className="module-calling-tools__button module-calling-button__settings"
             onClick={toggleSettings}
           />
-          <button
-            type="button"
-            aria-label={i18n('calling__pip')}
-            className="module-calling-tools__button module-calling-button__pip"
-            onClick={togglePip}
-          />
+          {/* TODO: Group calls should also support the PiP. See DESKTOP-886. */}
+          {call.callMode === CallMode.Direct && (
+            <button
+              type="button"
+              aria-label={i18n('calling__pip')}
+              className="module-calling-tools__button module-calling-button__pip"
+              onClick={togglePip}
+            />
+          )}
         </div>
       </div>
-      {hasRemoteVideo ? (
-        <canvas
-          className="module-ongoing-call__remote-video-enabled"
-          ref={remoteVideoRef}
-        />
-      ) : (
-        renderAvatar(i18n, conversation)
-      )}
+      {remoteParticipants}
       <div className="module-ongoing-call__footer">
         {/* This layout-only element is not ideal.
             See the comment in _modules.css for more. */}
@@ -260,40 +302,17 @@ export const CallScreen: React.FC<PropsType> = ({
   );
 };
 
-function renderAvatar(
-  i18n: LocalizerType,
-  {
-    avatarPath,
-    color,
-    name,
-    phoneNumber,
-    profileName,
-    title,
-  }: {
-    avatarPath?: string;
-    color?: ColorType;
-    title: string;
-    name?: string;
-    phoneNumber?: string;
-    profileName?: string;
+function getCallModeClassSuffix(
+  callMode: CallMode.Direct | CallMode.Group
+): string {
+  switch (callMode) {
+    case CallMode.Direct:
+      return 'direct';
+    case CallMode.Group:
+      return 'group';
+    default:
+      throw missingCaseError(callMode);
   }
-): JSX.Element {
-  return (
-    <div className="module-ongoing-call__remote-video-disabled">
-      <Avatar
-        avatarPath={avatarPath}
-        color={color || 'ultramarine'}
-        noteToSelf={false}
-        conversationType="direct"
-        i18n={i18n}
-        name={name}
-        phoneNumber={phoneNumber}
-        profileName={profileName}
-        title={title}
-        size={112}
-      />
-    </div>
-  );
 }
 
 function renderHeaderMessage(

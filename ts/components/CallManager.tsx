@@ -1,56 +1,58 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { CallingPip } from './CallingPip';
 import { CallNeedPermissionScreen } from './CallNeedPermissionScreen';
 import { CallingLobby } from './CallingLobby';
 import { CallScreen } from './CallScreen';
 import { IncomingCallBar } from './IncomingCallBar';
-import { CallState, CallEndedReason } from '../types/Calling';
 import {
-  ActiveCallStateType,
+  CallMode,
+  CallState,
+  CallEndedReason,
+  CanvasVideoRenderer,
+  VideoFrameSource,
+  GroupCallJoinState,
+} from '../types/Calling';
+import { ConversationType } from '../state/ducks/conversations';
+import {
   AcceptCallType,
+  ActiveCallStateType,
+  CancelCallType,
   DeclineCallType,
   DirectCallStateType,
-  StartCallType,
-  SetLocalAudioType,
+  GroupCallStateType,
   HangUpType,
+  SetLocalAudioType,
   SetLocalPreviewType,
   SetLocalVideoType,
   SetRendererCanvasType,
+  StartCallType,
 } from '../state/ducks/calling';
 import { LocalizerType } from '../types/Util';
 import { ColorType } from '../types/Colors';
+import { missingCaseError } from '../util/missingCaseError';
 
-interface PropsType {
-  activeCall?: {
-    call: DirectCallStateType;
-    activeCallState: ActiveCallStateType;
-    conversation: {
-      id: string;
-      avatarPath?: string;
-      color?: ColorType;
-      title: string;
-      name?: string;
-      phoneNumber?: string;
-      profileName?: string;
-    };
-  };
+interface ActiveCallType {
+  call: DirectCallStateType | GroupCallStateType;
+  activeCallState: ActiveCallStateType;
+  conversation: ConversationType;
+}
+
+export interface PropsType {
+  activeCall?: ActiveCallType;
   availableCameras: Array<MediaDeviceInfo>;
-  cancelCall: () => void;
+  cancelCall: (_: CancelCallType) => void;
+  createCanvasVideoRenderer: () => CanvasVideoRenderer;
   closeNeedPermissionScreen: () => void;
+  getGroupCallVideoFrameSource: (
+    conversationId: string,
+    demuxId: number
+  ) => VideoFrameSource;
   incomingCall?: {
     call: DirectCallStateType;
-    conversation: {
-      id: string;
-      avatarPath?: string;
-      color?: ColorType;
-      title: string;
-      name?: string;
-      phoneNumber?: string;
-      profileName?: string;
-    };
+    conversation: ConversationType;
   };
   renderDeviceSelection: () => JSX.Element;
   startCall: (payload: StartCallType) => void;
@@ -75,16 +77,19 @@ interface PropsType {
   toggleSettings: () => void;
 }
 
-export const CallManager = ({
-  acceptCall,
+interface ActiveCallManagerPropsType extends PropsType {
+  activeCall: ActiveCallType;
+}
+
+const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
   activeCall,
   availableCameras,
   cancelCall,
   closeNeedPermissionScreen,
-  declineCall,
+  createCanvasVideoRenderer,
   hangUp,
   i18n,
-  incomingCall,
+  getGroupCallVideoFrameSource,
   me,
   renderDeviceSelection,
   setLocalAudio,
@@ -95,21 +100,46 @@ export const CallManager = ({
   toggleParticipants,
   togglePip,
   toggleSettings,
-}: PropsType): JSX.Element | null => {
-  if (activeCall) {
-    const { call, activeCallState, conversation } = activeCall;
-    const { callState, callEndedReason } = call;
-    const {
-      joinedAt,
+}) => {
+  const { call, activeCallState, conversation } = activeCall;
+  const {
+    joinedAt,
+    hasLocalAudio,
+    hasLocalVideo,
+    settingsDialogOpen,
+    pip,
+  } = activeCallState;
+
+  const cancelActiveCall = useCallback(() => {
+    cancelCall({ conversationId: conversation.id });
+  }, [cancelCall, conversation.id]);
+
+  const joinActiveCall = useCallback(() => {
+    startCall({
+      callMode: call.callMode,
+      conversationId: conversation.id,
       hasLocalAudio,
       hasLocalVideo,
-      settingsDialogOpen,
-      pip,
-    } = activeCallState;
+    });
+  }, [startCall, call.callMode, conversation.id, hasLocalAudio, hasLocalVideo]);
 
-    const ended = callState === CallState.Ended;
-    if (ended) {
-      if (callEndedReason === CallEndedReason.RemoteHangupNeedPermission) {
+  const getGroupCallVideoFrameSourceForActiveCall = useCallback(
+    (demuxId: number) => {
+      return getGroupCallVideoFrameSource(conversation.id, demuxId);
+    },
+    [getGroupCallVideoFrameSource, conversation.id]
+  );
+
+  let showCallLobby: boolean;
+
+  switch (call.callMode) {
+    case CallMode.Direct: {
+      const { callState, callEndedReason } = call;
+      const ended = callState === CallState.Ended;
+      if (
+        ended &&
+        callEndedReason === CallEndedReason.RemoteHangupNeedPermission
+      ) {
         return (
           <CallNeedPermissionScreen
             close={closeNeedPermissionScreen}
@@ -118,77 +148,93 @@ export const CallManager = ({
           />
         );
       }
+      showCallLobby = !callState;
+      break;
     }
-
-    if (!callState) {
-      return (
-        <>
-          <CallingLobby
-            availableCameras={availableCameras}
-            conversation={conversation}
-            hasLocalAudio={hasLocalAudio}
-            hasLocalVideo={hasLocalVideo}
-            i18n={i18n}
-            isGroupCall={false}
-            me={me}
-            onCallCanceled={cancelCall}
-            onJoinCall={() => {
-              startCall({
-                conversationId: conversation.id,
-                hasLocalAudio,
-                hasLocalVideo,
-              });
-            }}
-            setLocalPreview={setLocalPreview}
-            setLocalAudio={setLocalAudio}
-            setLocalVideo={setLocalVideo}
-            toggleParticipants={toggleParticipants}
-            toggleSettings={toggleSettings}
-          />
-          {settingsDialogOpen && renderDeviceSelection()}
-        </>
-      );
+    case CallMode.Group: {
+      showCallLobby = call.joinState === GroupCallJoinState.NotJoined;
+      break;
     }
+    default:
+      throw missingCaseError(call);
+  }
 
-    const hasRemoteVideo = Boolean(call.hasRemoteVideo);
-
-    if (pip) {
-      return (
-        <CallingPip
-          conversation={conversation}
-          hangUp={hangUp}
-          hasLocalVideo={hasLocalVideo}
-          hasRemoteVideo={hasRemoteVideo}
-          i18n={i18n}
-          setLocalPreview={setLocalPreview}
-          setRendererCanvas={setRendererCanvas}
-          togglePip={togglePip}
-        />
-      );
-    }
-
+  if (showCallLobby) {
     return (
       <>
-        <CallScreen
+        <CallingLobby
+          availableCameras={availableCameras}
           conversation={conversation}
-          callState={callState}
-          hangUp={hangUp}
           hasLocalAudio={hasLocalAudio}
           hasLocalVideo={hasLocalVideo}
           i18n={i18n}
-          joinedAt={joinedAt}
+          // TODO: Set this to `true` for group calls. We can get away with this for
+          //   now because it only affects rendering. See DESKTOP-888 and DESKTOP-889.
+          isGroupCall={false}
           me={me}
-          hasRemoteVideo={hasRemoteVideo}
+          onCallCanceled={cancelActiveCall}
+          onJoinCall={joinActiveCall}
           setLocalPreview={setLocalPreview}
-          setRendererCanvas={setRendererCanvas}
           setLocalAudio={setLocalAudio}
           setLocalVideo={setLocalVideo}
-          togglePip={togglePip}
+          toggleParticipants={toggleParticipants}
           toggleSettings={toggleSettings}
         />
         {settingsDialogOpen && renderDeviceSelection()}
       </>
     );
+  }
+
+  // TODO: Group calls should also support the PiP. See DESKTOP-886.
+  if (pip && call.callMode === CallMode.Direct) {
+    const hasRemoteVideo = Boolean(call.hasRemoteVideo);
+
+    return (
+      <CallingPip
+        conversation={conversation}
+        hangUp={hangUp}
+        hasLocalVideo={hasLocalVideo}
+        hasRemoteVideo={hasRemoteVideo}
+        i18n={i18n}
+        setLocalPreview={setLocalPreview}
+        setRendererCanvas={setRendererCanvas}
+        togglePip={togglePip}
+      />
+    );
+  }
+
+  return (
+    <>
+      <CallScreen
+        call={call}
+        conversation={conversation}
+        createCanvasVideoRenderer={createCanvasVideoRenderer}
+        getGroupCallVideoFrameSource={getGroupCallVideoFrameSourceForActiveCall}
+        hangUp={hangUp}
+        hasLocalAudio={hasLocalAudio}
+        hasLocalVideo={hasLocalVideo}
+        i18n={i18n}
+        joinedAt={joinedAt}
+        me={me}
+        setLocalPreview={setLocalPreview}
+        setRendererCanvas={setRendererCanvas}
+        setLocalAudio={setLocalAudio}
+        setLocalVideo={setLocalVideo}
+        togglePip={togglePip}
+        toggleSettings={toggleSettings}
+      />
+      {settingsDialogOpen && renderDeviceSelection()}
+    </>
+  );
+};
+
+export const CallManager: React.FC<PropsType> = props => {
+  const { activeCall, incomingCall, acceptCall, declineCall, i18n } = props;
+
+  if (activeCall) {
+    // `props` should logically have an `activeCall` at this point, but TypeScript can't
+    //   figure that out, so we pass it in again.
+    return <ActiveCallManager {...props} activeCall={activeCall} />;
   }
 
   // In the future, we may want to show the incoming call bar when a call is active.
