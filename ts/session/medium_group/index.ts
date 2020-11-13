@@ -128,7 +128,9 @@ export async function createMediumGroup(
 
   convo.updateGroupAdmins(admins);
 
-  window.owsDesktopApp.appView.openConversation(groupId, {});
+  window.inboxStore.dispatch(
+    window.actionsCreators.openConversationExternal(groupId)
+  );
 
   // Subscribe to this group id
   window.SwarmPolling.addGroupId(new PubKey(groupId));
@@ -177,7 +179,9 @@ export async function createLegacyGroup(
   await sendGroupUpdate(convo, diff, groupDetails, dbMessage.id);
 
   window.textsecure.messaging.sendGroupSyncMessage([convo]);
-  window.owsDesktopApp.appView.openConversation(groupId, {});
+  window.inboxStore.dispatch(
+    window.actionsCreators.openConversationExternal(groupId)
+  );
 }
 
 export async function leaveMediumGroup(groupId: string) {

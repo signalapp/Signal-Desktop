@@ -513,12 +513,6 @@ function setupWithImport() {
   }
 }
 
-function setupAsStandalone() {
-  if (mainWindow) {
-    mainWindow.webContents.send('set-up-as-standalone');
-  }
-}
-
 let passwordWindow;
 function showPasswordWindow() {
   if (passwordWindow) {
@@ -868,7 +862,6 @@ function setupMenu(options) {
     openSupportPage,
     platform,
     setupWithImport,
-    setupAsStandalone,
   });
   const template = createTemplate(menuOptions, locale.messages);
   const menu = Menu.buildFromTemplate(template);

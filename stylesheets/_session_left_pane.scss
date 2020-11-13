@@ -108,9 +108,11 @@ $session-compose-margin: 20px;
   &__sections-container {
     height: 100vh;
     flex-shrink: 0;
+    width: 80px;
+    overflow-x: hidden;
     display: inline-flex;
     flex-direction: column;
-    overflow: auto;
+
     @include themify($themes) {
       border-right: themed('sessionBorder');
     }

@@ -75,7 +75,6 @@ export const actions = {
   search,
   clearSearch,
   updateSearchTerm,
-  startNewConversation,
 };
 
 function search(
@@ -141,22 +140,6 @@ function updateSearchTerm(query: string): UpdateSearchTermActionType {
     payload: {
       query,
     },
-  };
-}
-function startNewConversation(
-  query: string,
-  options: { regionCode: string }
-): ClearSearchActionType {
-  const { regionCode } = options;
-  const normalized = normalize(query, { regionCode });
-  if (!normalized) {
-    throw new Error('Attempted to start new conversation with invalid number');
-  }
-  trigger('showConversation', normalized);
-
-  return {
-    type: 'SEARCH_CLEAR',
-    payload: null,
   };
 }
 

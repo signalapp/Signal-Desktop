@@ -241,7 +241,6 @@ export function reducer(
         selectedConversation = undefined;
       }
     }
-
     return {
       ...state,
       selectedConversation,
@@ -255,7 +254,6 @@ export function reducer(
     const { payload } = action;
     const { id } = payload;
     const { conversationLookup } = state;
-
     return {
       ...state,
       conversationLookup: omit(conversationLookup, [id]),
@@ -270,15 +268,10 @@ export function reducer(
   if (action.type === 'SELECTED_CONVERSATION_CHANGED') {
     const { payload } = action;
     const { id } = payload;
-    if (state.selectedConversation !== id) {
-      window.owsDesktopApp.appView.openConversation(id, {});
-    }
-
     return {
       ...state,
       selectedConversation: id,
     };
   }
-
   return state;
 }

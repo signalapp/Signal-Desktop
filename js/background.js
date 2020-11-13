@@ -165,7 +165,6 @@
   let initialLoadComplete = false;
   let newVersion = false;
 
-  window.owsDesktopApp = {};
   window.document.title = window.getTitle();
 
   // start a background worker for ecc
@@ -477,13 +476,6 @@
     }
   );
 
-  Whisper.events.on('setupAsStandalone', () => {
-    const { appView } = window.owsDesktopApp;
-    if (appView) {
-      appView.openStandalone();
-    }
-  });
-
   function manageExpiringData() {
     window.Signal.Data.cleanSeenMessages();
     window.Signal.Data.cleanLastHashes();
@@ -570,7 +562,6 @@
     const appView = new Whisper.AppView({
       el: $('body'),
     });
-    window.owsDesktopApp.appView = appView;
 
     Whisper.WallClockListener.init(Whisper.events);
     Whisper.ExpiringMessagesListener.init(Whisper.events);
@@ -608,12 +599,6 @@
     window.addEventListener('focus', () => Whisper.Notifications.clear());
     window.addEventListener('unload', () => Whisper.Notifications.fastClear());
 
-    Whisper.events.on('showConversation', (id, messageId) => {
-      if (appView) {
-        appView.openConversation(id, messageId);
-      }
-    });
-
     window.confirmationDialog = params => {
       const confirmDialog = new Whisper.SessionConfirmView({
         el: $('body'),
@@ -633,9 +618,6 @@
 
       confirmDialog.render();
     };
-
-    window.showSeedDialog = window.owsDesktopApp.appView.showSeedDialog;
-    window.showPasswordDialog = window.owsDesktopApp.appView.showPasswordDialog;
 
     window.showEditProfileDialog = async callback => {
       const ourNumber = window.storage.get('primaryDevicePubKey');
@@ -930,7 +912,9 @@
           window.log.warn(`Could not connect to ${serverAddress}`);
           return;
         }
-        appView.openConversation(conversationId, {});
+        window.inboxStore.dispatch(
+          window.actionsCreators.openConversationExternal(conversationId)
+        );
       }
     );
 
@@ -943,7 +927,9 @@
     Whisper.Notifications.on('click', (id, messageId) => {
       window.showWindow();
       if (id) {
-        appView.openConversation(id, messageId);
+        window.inboxStore.dispatch(
+          window.actionsCreators.openConversationExternal(id, messageId)
+        );
       } else {
         appView.openInbox({
           initialLoadComplete,
@@ -981,7 +967,9 @@
           avatarPath,
           isRss: conversation.isRss(),
           onStartConversation: () => {
-            Whisper.events.trigger('showConversation', userPubKey);
+            window.inboxStore.dispatch(
+              window.actionsCreators.openConversationExternal(conversation.id)
+            );
           },
         });
       }
@@ -1308,24 +1296,24 @@
   }
 
   function onChangeTheme() {
-    const view = window.owsDesktopApp.appView;
-    if (view) {
-      view.applyTheme();
-    }
+    // const view = window.owsDesktopApp.appView;
+    // if (view) {
+    //   view.applyTheme();
+    // }
   }
   function onEmpty() {
     initialLoadComplete = true;
 
     window.readyForUpdates();
 
-    let interval = setInterval(() => {
-      const view = window.owsDesktopApp.appView;
-      if (view) {
-        clearInterval(interval);
-        interval = null;
-        view.onEmpty();
-      }
-    }, 500);
+    // let interval = setInterval(() => {
+    //   const view = window.owsDesktopApp.appView;
+    //   if (view) {
+    //     clearInterval(interval);
+    //     interval = null;
+    //     view.onEmpty();
+    //   }
+    // }, 500);
 
     Whisper.Notifications.enable();
   }
@@ -1345,10 +1333,10 @@
     const { count } = ev;
     window.log.info(`onProgress: Message count is ${count}`);
 
-    const view = window.owsDesktopApp.appView;
-    if (view) {
-      view.onProgress(count);
-    }
+    // const view = window.owsDesktopApp.appView;
+    // if (view) {
+    //   view.onProgress(count);
+    // }
   }
   function onConfiguration(ev) {
     const { configuration } = ev;

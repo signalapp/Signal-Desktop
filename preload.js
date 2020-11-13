@@ -240,10 +240,6 @@ ipc.on('set-up-with-import', () => {
   Whisper.events.trigger('setupWithImport');
 });
 
-ipc.on('set-up-as-standalone', () => {
-  Whisper.events.trigger('setupAsStandalone');
-});
-
 ipc.on('get-theme-setting', () => {
   const theme = window.Events.getThemeSetting();
   ipc.send('get-success-theme-setting', theme);

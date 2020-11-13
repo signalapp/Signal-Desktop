@@ -127,7 +127,13 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     if (error) {
       ToastUtils.pushToastError('addContact', error);
     } else {
-      window.Whisper.events.trigger('showConversation', sessionID);
+      // tslint:disable-next-line: no-floating-promises
+      window.ConversationController.getOrCreateAndWait(
+        sessionID,
+        'private'
+      ).then(() => {
+        this.props.openConversationExternal(sessionID);
+      });
     }
   }
 

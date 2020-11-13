@@ -40,10 +40,8 @@ function getConversationTitle(
 
   if (conversation.type === 'group') {
     const { i18n } = options;
-
     return i18n('unknown');
   }
-
   return format(conversation.phoneNumber, options);
 }
 
@@ -65,7 +63,6 @@ export const _getConversationComparator = (
     if (leftTimestamp && rightTimestamp && leftTimestamp !== rightTimestamp) {
       return rightTimestamp - leftTimestamp;
     }
-
     const leftTitle = getConversationTitle(left, {
       i18n,
       ourRegionCode,

@@ -21,7 +21,7 @@ export type PropsData = {
 
 type PropsHousekeeping = {
   i18n: LocalizerType;
-  openConversation: (id: string, messageId?: string) => void;
+  openConversationExternal: (id: string, messageId?: string) => void;
 };
 
 type Props = PropsData & PropsHousekeeping;
@@ -34,7 +34,7 @@ export class SearchResults extends React.Component<Props> {
       hideMessagesHeader,
       i18n,
       messages,
-      openConversation,
+      openConversationExternal,
       searchTerm,
     } = this.props;
 
@@ -59,14 +59,14 @@ export class SearchResults extends React.Component<Props> {
               <ConversationListItemWithDetails
                 key={conversation.phoneNumber}
                 {...conversation}
-                onClick={openConversation}
+                onClick={openConversationExternal}
                 i18n={i18n}
               />
             ))}
           </div>
         ) : null}
         {haveContacts
-          ? this.renderContacts(i18n('contactsHeader'), contacts, true)
+          ? this.renderContacts(i18n('contactsHeader'), contacts)
           : null}
 
         {haveMessages ? (
@@ -80,7 +80,7 @@ export class SearchResults extends React.Component<Props> {
               <MessageSearchResult
                 key={message.id}
                 {...message}
-                onClick={openConversation}
+                onClick={openConversationExternal}
                 i18n={i18n}
               />
             ))}
@@ -91,10 +91,9 @@ export class SearchResults extends React.Component<Props> {
   }
   private renderContacts(
     header: string,
-    items: Array<ConversationListItemPropsType>,
-    contacts?: boolean
+    items: Array<ConversationListItemPropsType>
   ) {
-    const { i18n, openConversation } = this.props;
+    const { i18n, openConversationExternal } = this.props;
 
     return (
       <div className="module-search-results__contacts">
@@ -103,7 +102,7 @@ export class SearchResults extends React.Component<Props> {
           <ConversationListItemWithDetails
             key={contact.phoneNumber}
             {...contact}
-            onClick={openConversation}
+            onClick={openConversationExternal}
             i18n={i18n}
           />
         ))}

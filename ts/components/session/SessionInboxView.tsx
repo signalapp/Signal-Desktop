@@ -6,13 +6,15 @@ import { createStore } from '../../state/createStore';
 import { StateType } from '../../state/reducer';
 import { SmartLeftPane } from '../../state/smart/LeftPane';
 import { SmartSessionConversation } from '../../state/smart/SessionConversation';
-import { SessionSettingCategory, SettingsView } from './settings/SessionSettings';
+import {
+  SessionSettingCategory,
+  SettingsView,
+} from './settings/SessionSettings';
 
 // Workaround: A react component's required properties are filtering up through connect()
 //   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
 const FilteredLeftPane = SmartLeftPane as any;
 const FilteredSessionConversation = SmartSessionConversation as any;
-
 
 type Props = {
   focusedSection: number;
@@ -21,38 +23,44 @@ type Props = {
 type State = {
   isInitialLoadComplete: boolean;
   settingsCategory?: SessionSettingCategory;
+  networkError: boolean;
 };
 
 // tslint:disable: react-a11y-img-has-alt
 
-
 export class SessionInboxView extends React.Component<Props, State> {
-    private store: any;
+  private store: any;
+  private interval: NodeJS.Timeout | null = null;
 
-    constructor(props: any) {
-        super(props);
-        this.state = {
-          isInitialLoadComplete: false,
-          settingsCategory: undefined,
-        };
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      isInitialLoadComplete: false,
+      settingsCategory: undefined,
+      networkError: false,
+    };
 
-        // Inbox
-        const inboxCollection = window.getInboxCollection();
-        this.fetchHandleMessageSentData = this.fetchHandleMessageSentData.bind(
-            this
-        );
-        this.handleMessageSentFailure = this.handleMessageSentFailure.bind(this);
-      this.handleMessageSentSuccess = this.handleMessageSentSuccess.bind(this);
-      this.showSessionSettingsCategory = this.showSessionSettingsCategory.bind(this);
-      this.showSessionViewConversation = this.showSessionViewConversation.bind(this);
+    const conversationModels = window.getConversations();
+    this.fetchHandleMessageSentData = this.fetchHandleMessageSentData.bind(
+      this
+    );
+    this.handleMessageSentFailure = this.handleMessageSentFailure.bind(this);
+    this.handleMessageSentSuccess = this.handleMessageSentSuccess.bind(this);
+    this.showSessionSettingsCategory = this.showSessionSettingsCategory.bind(
+      this
+    );
+    this.showSessionViewConversation = this.showSessionViewConversation.bind(
+      this
+    );
 
-        void this.setupLeftPane();
+    void this.setupLeftPane();
 
-      // ConversationCollection
+    // ConversationCollection
+    conversationModels;
     //   this.listenTo(inboxCollection, 'messageError', () => {
-        // if (this.networkStatusView) {
-        //   this.networkStatusView.render();
-        // }
+    // if (this.networkStatusView) {
+    //   this.networkStatusView.render();
+    // }
     //   });
 
     // this.networkStatusView = new Whisper.NetworkStatusView();
@@ -67,24 +75,26 @@ export class SessionInboxView extends React.Component<Props, State> {
     //     this.$el.addClass('expired');
     //   }
     // });
+  }
+
+  public render() {
+    if (!this.state.isInitialLoadComplete) {
+      return <></>;
     }
 
-
-    public render() {
-        if (!this.state.isInitialLoadComplete) {
-            return <></>;
-        }
-
-      const isSettingsView = this.state.settingsCategory !== undefined;
-        return (
-          <Provider store={this.store}>
-              <div className="gutter">
-              <div className="network-status-container"/>
-              {this.renderLeftPane()}
-            </div>
-              {isSettingsView ? this.renderSettings() : this.renderSessionConversation()}
-          </Provider>
-      );    }
+    const isSettingsView = this.state.settingsCategory !== undefined;
+    return (
+      <Provider store={this.store}>
+        <div className="gutter">
+          <div className="network-status-container" />
+          {this.renderLeftPane()}
+        </div>
+        {isSettingsView
+          ? this.renderSettings()
+          : this.renderSessionConversation()}
+      </Provider>
+    );
+  }
 
   private renderLeftPane() {
     return (
@@ -97,14 +107,14 @@ export class SessionInboxView extends React.Component<Props, State> {
   }
 
   private renderSettings() {
-    const isSecondaryDevice = !!window.textsecure.storage.get('isSecondaryDevice');
-    const category = this.state.settingsCategory || SessionSettingCategory.Appearance;
+    const isSecondaryDevice = !!window.textsecure.storage.get(
+      'isSecondaryDevice'
+    );
+    const category =
+      this.state.settingsCategory || SessionSettingCategory.Appearance;
 
     return (
-      <SettingsView
-        isSecondaryDevice={isSecondaryDevice}
-        category={category}
-      />
+      <SettingsView isSecondaryDevice={isSecondaryDevice} category={category} />
     );
   }
 
@@ -114,154 +124,134 @@ export class SessionInboxView extends React.Component<Props, State> {
         <FilteredSessionConversation />
       </div>
     );
-}
+  }
 
-    private async fetchHandleMessageSentData(m: any) {
-        // nobody is listening to this freshly fetched message .trigger calls
-        const tmpMsg = await window.Signal.Data.getMessageById(m.identifier, {
-          Message: window.Whisper.Message,
-        });
+  private async fetchHandleMessageSentData(m: any) {
+    // nobody is listening to this freshly fetched message .trigger calls
+    const tmpMsg = await window.Signal.Data.getMessageById(m.identifier, {
+      Message: window.Whisper.Message,
+    });
 
-        if (!tmpMsg) {
-          return null;
-        }
+    if (!tmpMsg) {
+      return null;
+    }
 
-        // find the corresponding conversation of this message
-        const conv = window.ConversationController.get(
-          tmpMsg.get('conversationId')
-        );
+    // find the corresponding conversation of this message
+    const conv = window.ConversationController.get(
+      tmpMsg.get('conversationId')
+    );
 
-        if (!conv) {
-          return null;
-        }
+    if (!conv) {
+      return null;
+    }
 
-        // then, find in this conversation the very same message
-        // const msg = conv.messageCollection.models.find(
-        //   convMsg => convMsg.id === tmpMsg.id
-        // );
-        const msg = window.MessageController._get()[m.identifier];
+    // then, find in this conversation the very same message
+    // const msg = conv.messageCollection.models.find(
+    //   convMsg => convMsg.id === tmpMsg.id
+    // );
+    const msg = window.MessageController._get()[m.identifier];
 
-        if (!msg || !msg.message) {
-          return null;
-        }
+    if (!msg || !msg.message) {
+      return null;
+    }
 
-        return { msg: msg.message };
-      }
+    return { msg: msg.message };
+  }
 
-      private async handleMessageSentSuccess(sentMessage: any, wrappedEnvelope: any) {
-        const fetchedData = await this.fetchHandleMessageSentData(sentMessage);
-        if (!fetchedData) {
-          return;
-        }
-        const { msg } = fetchedData;
+  private async handleMessageSentSuccess(
+    sentMessage: any,
+    wrappedEnvelope: any
+  ) {
+    const fetchedData = await this.fetchHandleMessageSentData(sentMessage);
+    if (!fetchedData) {
+      return;
+    }
+    const { msg } = fetchedData;
 
-        msg.handleMessageSentSuccess(sentMessage, wrappedEnvelope);
-      }
+    msg.handleMessageSentSuccess(sentMessage, wrappedEnvelope);
+  }
 
-      private async handleMessageSentFailure(sentMessage: any, error: any) {
-        const fetchedData = await this.fetchHandleMessageSentData(sentMessage);
-        if (!fetchedData) {
-          return;
-        }
-        const { msg } = fetchedData;
+  private async handleMessageSentFailure(sentMessage: any, error: any) {
+    const fetchedData = await this.fetchHandleMessageSentData(sentMessage);
+    if (!fetchedData) {
+      return;
+    }
+    const { msg } = fetchedData;
 
-        await msg.handleMessageSentFailure(sentMessage, error);
-      }
+    await msg.handleMessageSentFailure(sentMessage, error);
+  }
 
-      private async setupLeftPane() {
-        // Here we set up a full redux store with initial state for our LeftPane Root
-        const convoCollection = window.getConversations();
-        const conversations = convoCollection.map(
-          (conversation: any) => conversation.cachedProps
-        );
+  private async setupLeftPane() {
+    // Here we set up a full redux store with initial state for our LeftPane Root
+    const convoCollection = window.getConversations();
+    const conversations = convoCollection.map(
+      (conversation: any) => conversation.cachedProps
+    );
 
-        const filledConversations = conversations.map(async (conv: any) => {
-          const messages = await window.getMessagesByKey(conv.id);
-          return { ...conv, messages };
-        });
+    const filledConversations = conversations.map(async (conv: any) => {
+      const messages = await window.getMessagesByKey(conv.id);
+      return { ...conv, messages };
+    });
 
-        const fullFilledConversations = await Promise.all(filledConversations);
+    const fullFilledConversations = await Promise.all(filledConversations);
 
-        const initialState = {
-          conversations: {
-            conversationLookup: window.Signal.Util.makeLookup(
-              fullFilledConversations,
-              'id'
-            ),
-          },
-          user: {
-            regionCode: window.storage.get('regionCode'),
-            ourNumber:
-              window.storage.get('primaryDevicePubKey') ||
-              window.textsecure.storage.user.getNumber(),
-            isSecondaryDevice: !!window.storage.get('isSecondaryDevice'),
-            i18n: window.i18n,
-          },
-          section: {
-            focusedSection: 1,
-          },
-        };
+    const initialState = {
+      conversations: {
+        conversationLookup: window.Signal.Util.makeLookup(
+          fullFilledConversations,
+          'id'
+        ),
+      },
+      user: {
+        regionCode: window.storage.get('regionCode'),
+        ourNumber:
+          window.storage.get('primaryDevicePubKey') ||
+          window.textsecure.storage.user.getNumber(),
+        isSecondaryDevice: !!window.storage.get('isSecondaryDevice'),
+        i18n: window.i18n,
+      },
+      section: {
+        focusedSection: 1,
+      },
+    };
 
-        this.store = createStore(initialState);
-        window.inboxStore = this.store;
+    this.store = createStore(initialState);
+    window.inboxStore = this.store;
 
-        // Enables our redux store to be updated by backbone events in the outside world
-        const {
-          conversationAdded,
-          conversationChanged,
-          conversationRemoved,
-          removeAllConversations,
-          messageExpired,
-          openConversationExternal,
-        } = bindActionCreators(
-          window.Signal.State.Ducks.conversations.actions,
-          this.store.dispatch
-        );
-        const { userChanged } = bindActionCreators(
-          window.Signal.State.Ducks.user.actions,
-          this.store.dispatch
-        );
-        const { messageChanged } = bindActionCreators(
-          window.Signal.State.Ducks.messages.actions,
-          this.store.dispatch
-        );
+    // Enables our redux store to be updated by backbone events in the outside world
+    const { messageExpired } = bindActionCreators(
+      window.Signal.State.Ducks.conversations.actions,
+      this.store.dispatch
+    );
+    window.actionsCreators = window.Signal.State.Ducks.conversations.actions;
+    const { userChanged } = bindActionCreators(
+      window.Signal.State.Ducks.user.actions,
+      this.store.dispatch
+    );
+    const { messageChanged } = bindActionCreators(
+      window.Signal.State.Ducks.messages.actions,
+      this.store.dispatch
+    );
 
-        // this.openConversationAction = openConversationExternal;
+    this.fetchHandleMessageSentData = this.fetchHandleMessageSentData.bind(
+      this
+    );
+    this.handleMessageSentFailure = this.handleMessageSentFailure.bind(this);
+    this.handleMessageSentSuccess = this.handleMessageSentSuccess.bind(this);
 
-        this.fetchHandleMessageSentData = this.fetchHandleMessageSentData.bind(
-          this
-        );
-        this.handleMessageSentFailure = this.handleMessageSentFailure.bind(this);
-        this.handleMessageSentSuccess = this.handleMessageSentSuccess.bind(this);
+    getMessageQueue().events.addListener(
+      'success',
+      this.handleMessageSentSuccess
+    );
 
-        // this.listenTo(convoCollection, 'remove', conversation => {
-        //   const { id } = conversation || {};
-        //   conversationRemoved(id);
-        // });
-        // this.listenTo(convoCollection, 'add', conversation => {
-        //   const { id, cachedProps } = conversation || {};
-        //   conversationAdded(id, cachedProps);
-        // });
-        // this.listenTo(convoCollection, 'change', conversation => {
-        //   const { id, cachedProps } = conversation || {};
-        //   conversationChanged(id, cachedProps);
-        // });
-        // this.listenTo(convoCollection, 'reset', removeAllConversations);
+    getMessageQueue().events.addListener('fail', this.handleMessageSentFailure);
 
-        getMessageQueue()
-          .events.addListener('success', this.handleMessageSentSuccess);
+    window.Whisper.events.on('messageExpired', messageExpired);
+    window.Whisper.events.on('messageChanged', messageChanged);
+    window.Whisper.events.on('userChanged', userChanged);
 
-        getMessageQueue()
-          .events.addListener('fail', this.handleMessageSentFailure);
-
-        window.Whisper.events.on('messageExpired', messageExpired);
-        window.Whisper.events.on('messageChanged', messageChanged);
-        window.Whisper.events.on('userChanged', userChanged);
-
-        // Finally, add it to the DOM
-        // this.$('.left-pane-placeholder').append(this.leftPaneView.el);
-        this.setState({ isInitialLoadComplete: true });
-      }
+    this.setState({ isInitialLoadComplete: true });
+  }
 
   private showSessionSettingsCategory(category: SessionSettingCategory) {
     this.setState({ settingsCategory: category });
@@ -270,4 +260,34 @@ export class SessionInboxView extends React.Component<Props, State> {
   private showSessionViewConversation() {
     this.setState({ settingsCategory: undefined });
   }
+
+  // private startConnectionListener() {
+  //   this.interval = global.setInterval(() => {
+  //     const status = window.getSocketStatus();
+  //     switch (status) {
+  //       case WebSocket.CONNECTING:
+  //         break;
+  //       case WebSocket.OPEN:
+  //         if (this.interval) {
+  //           clearInterval(this.interval);
+  //         }
+  //         // Default to connected, but lokinet is slow so we pretend empty event
+  //         // this.onEmpty();
+  //         this.interval = null;
+  //         break;
+  //       case WebSocket.CLOSING:
+  //       case WebSocket.CLOSED:
+  //         if (this.interval) {
+  //           clearInterval(this.interval);
+  //         }
+  //         this.interval = null;
+  //         // if we failed to connect, we pretend we got an empty event
+  //         // this.onEmpty();
+  //         break;
+  //       default:
+  //         // We also replicate empty here
+  //         // this.onEmpty();
+  //     }
+  //   }, 1000);
+  // }
 }

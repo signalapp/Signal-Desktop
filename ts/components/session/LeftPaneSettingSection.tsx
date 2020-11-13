@@ -58,7 +58,7 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
   }
 
   public renderRow(item: any): JSX.Element {
-    const {settingsCategory} = this.props;
+    const { settingsCategory } = this.props;
     return (
       <div
         key={item.id}

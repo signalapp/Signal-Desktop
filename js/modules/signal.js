@@ -49,7 +49,9 @@ const { SessionModal } = require('../../ts/components/session/SessionModal');
 const {
   SessionSeedModal,
 } = require('../../ts/components/session/SessionSeedModal');
-const { SessionInboxView} = require('../../ts/components/session/SessionInboxView')
+const {
+  SessionInboxView,
+} = require('../../ts/components/session/SessionInboxView');
 const {
   SessionPasswordModal,
 } = require('../../ts/components/session/SessionPasswordModal');

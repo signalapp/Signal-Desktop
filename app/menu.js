@@ -11,7 +11,6 @@ exports.createTemplate = (options, messages) => {
     openReleaseNotes,
     openSupportPage,
     platform,
-    setupAsStandalone,
     setupWithImport,
     showAbout,
     showDebugLog,
@@ -153,12 +152,6 @@ exports.createTemplate = (options, messages) => {
     const fileMenu = template[0];
 
     // These are in reverse order, since we're prepending them one at a time
-    if (options.development) {
-      fileMenu.submenu.unshift({
-        label: messages.menuSetupAsStandalone.message,
-        click: setupAsStandalone,
-      });
-    }
 
     fileMenu.submenu.unshift({
       type: 'separator',
@@ -177,13 +170,7 @@ exports.createTemplate = (options, messages) => {
 };
 
 function updateForMac(template, messages, options) {
-  const {
-    includeSetup,
-    setupAsStandalone,
-    setupWithImport,
-    showAbout,
-    showWindow,
-  } = options;
+  const { includeSetup, setupWithImport, showAbout, showWindow } = options;
 
   // Remove About item and separator from Help menu, since it's on the first menu
   template[4].submenu.pop();
@@ -204,13 +191,6 @@ function updateForMac(template, messages, options) {
         },
       ],
     };
-
-    if (options.development) {
-      fileMenu.submenu.push({
-        label: messages.menuSetupAsStandalone.message,
-        click: setupAsStandalone,
-      });
-    }
 
     template.unshift(fileMenu);
   }

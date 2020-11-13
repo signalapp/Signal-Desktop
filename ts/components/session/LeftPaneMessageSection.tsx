@@ -144,7 +144,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         <SearchResults
           {...searchResults}
           contacts={contacts}
-          openConversation={openConversationExternal}
+          openConversationExternal={openConversationExternal}
           i18n={window.i18n}
         />
       );
@@ -378,7 +378,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     this.setState({ valuePasted: value });
   }
 
-  private handleMessageButtonClick() {
+  private async handleMessageButtonClick() {
     const { openConversationExternal } = this.props;
 
     if (!this.state.valuePasted && !this.props.searchTerm) {
@@ -394,6 +394,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     const error = validateNumber(pubkey);
     if (!error) {
+      await window.ConversationController.getOrCreateAndWait(pubkey, 'private');
       openConversationExternal(pubkey);
     } else {
       ToastUtils.pushToastError('invalidPubKey', error);

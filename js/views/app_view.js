@@ -123,25 +123,18 @@
       return Promise.resolve();
     },
     onEmpty() {
-      const view = this.inboxView;
+      // const view = this.inboxView;
 
-      this.initialLoadComplete = true;
-      if (view) {
-        view.onEmpty();
-      }
+      // this.initialLoadComplete = true;
+      // if (view) {
+      //   view.onEmpty();
+      // }
     },
     onProgress(count) {
-      const view = this.inboxView;
-      if (view) {
-        view.onProgress(count);
-      }
-    },
-    openConversation(id, messageId) {
-      if (id) {
-        this.openInbox().then(() => {
-          this.inboxView.openConversation(id, messageId);
-        });
-      }
+      // const view = this.inboxView;
+      // if (view) {
+      //   view.onProgress(count);
+      // }
     },
     showEditProfileDialog(options) {
       const dialog = new Whisper.EditProfileDialogView(options);

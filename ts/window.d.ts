@@ -102,7 +102,6 @@ declare global {
     GroupBuffer: any;
     SwarmPolling: SwarmPolling;
     MediaRecorder: any;
-    owsDesktopApp: any;
     loadImage: any;
     dataURLToBlobSync: any;
     autoOrientImage: any;
@@ -112,8 +111,9 @@ declare global {
     ) => Promise<{ pubKey: ArrayBufferLike; privKey: ArrayBufferLike }>;
     setClockParams: any;
     clientClockSynced: number | undefined;
-    getInboxCollection: any;
     getMessagesByKey: any;
     inboxStore: Store;
+    getSocketStatus: any;
+    actionsCreators: any;
   }
 }

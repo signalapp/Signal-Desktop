@@ -1,15 +1,11 @@
 /*
   global
-  $
   ConversationController,
   extension,
   ConversationController
-  getConversations,
   getInboxCollection,
   i18n,
   Whisper,
-  textsecure,
-  Signal,
 */
 
 // eslint-disable-next-line func-names
@@ -17,11 +13,6 @@
   'use strict';
 
   window.Whisper = window.Whisper || {};
-
-  Whisper.AppLoadingScreen = Whisper.View.extend({
-    templateName: 'app-loading-screen',
-    className: 'app-loading-screen',
-  });
 
   Whisper.InboxViewWhisper = Whisper.View.extend({
     templateName: 'two-column',
@@ -67,35 +58,6 @@
       this.setupLeftPane();
     },
 
-
-
-
-    startConnectionListener() {
-      this.interval = setInterval(() => {
-        const status = window.getSocketStatus();
-        switch (status) {
-          case WebSocket.CONNECTING:
-            break;
-          case WebSocket.OPEN:
-            clearInterval(this.interval);
-            // Default to connected, but lokinet is slow so we pretend empty event
-            this.onEmpty();
-            this.interval = null;
-            break;
-          case WebSocket.CLOSING:
-          case WebSocket.CLOSED:
-            clearInterval(this.interval);
-            this.interval = null;
-            // if we failed to connect, we pretend we got an empty event
-            this.onEmpty();
-            break;
-          default:
-            // We also replicate empty here
-            this.onEmpty();
-            break;
-        }
-      }, 1000);
-    },
     onEmpty() {
       const view = this.appLoadingScreen;
       if (view) {

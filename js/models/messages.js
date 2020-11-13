@@ -598,7 +598,6 @@
         isExpired: this.hasExpired,
         expirationLength,
         expirationTimestamp,
-        multiSelectMode: conversation && conversation.selectedMessages.size > 0,
         isPublic: !!this.get('isPublic'),
         isRss: !!this.get('isRss'),
         isKickedFromGroup:

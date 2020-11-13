@@ -151,7 +151,6 @@ export class SessionConversation extends React.Component<Props, State> {
   // ~~~~~~~~~~~~~~~~ LIFECYCLES ~~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
   public componentDidUpdate(prevProps: Props, prevState: State) {
     if (this.props.conversationKey !== prevProps.conversationKey) {
       void this.loadInitialMessages();

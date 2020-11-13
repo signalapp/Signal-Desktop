@@ -168,7 +168,11 @@ export class LeftPane extends React.Component<Props> {
   }
 
   private renderSettingSection() {
-    const { isSecondaryDevice, showSessionSettingsCategory, settingsCategory } = this.props;
+    const {
+      isSecondaryDevice,
+      showSessionSettingsCategory,
+      settingsCategory,
+    } = this.props;
 
     const category = settingsCategory || SessionSettingCategory.Appearance;
 

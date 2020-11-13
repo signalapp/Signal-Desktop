@@ -27,49 +27,20 @@
   }
 }
 
-.conversation-item {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+.conversation-item__options-pane {
+  position: absolute;
   height: 100%;
-  outline: none;
+  right: 0vw;
 
-  .selection-mode {
-    .messages-container > *:not(.message-selected) {
-      animation: toShadow $session-transition-duration;
-      opacity: 0.25;
-    }
+  transition: transform 1.5 * $session-transition-duration ease-in-out;
+  transform: translateX(100%);
+  will-change: transform;
+  width: 25vw;
 
-    .conversation-header {
-      .conversation-header {
-        &--items-wrapper {
-          .session-icon {
-            opacity: 0;
-          }
-
-          user-select: none;
-          pointer-events: none;
-          opacity: 0.25;
-        }
-      }
-    }
-  }
-
-  &__options-pane {
-    position: absolute;
-    height: 100%;
-    right: 0vw;
-
-    transition: transform 1.5 * $session-transition-duration ease-in-out;
-    transform: translateX(100%);
-    will-change: transform;
-    width: 25vw;
-
-    &.show {
-      transform: none;
-      transition: transform $session-transition-duration ease-in-out;
-      z-index: 2;
-    }
+  &.show {
+    transform: none;
+    transition: transform $session-transition-duration ease-in-out;
+    z-index: 2;
   }
 }
 
@@ -116,6 +87,28 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  max-width: calc(100vw - 380px);
+
+  .selection-mode {
+    .messages-container > *:not(.message-selected) {
+      animation: toShadow $session-transition-duration;
+      opacity: 0.25;
+    }
+
+    .conversation-header {
+      .conversation-header {
+        &--items-wrapper {
+          .session-icon {
+            opacity: 0;
+          }
+
+          user-select: none;
+          pointer-events: none;
+          opacity: 0.25;
+        }
+      }
+    }
+  }
 }
 
 .conversation-content {
@@ -173,7 +166,6 @@
   flex-grow: 1;
   flex-direction: column-reverse;
   position: relative;
-  overflow-y: auto;
   overflow-x: hidden;
   min-width: 370px;
   scrollbar-width: 4px;
