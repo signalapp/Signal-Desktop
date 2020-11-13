@@ -10,8 +10,6 @@ import {
 import { BlockedNumberController, UserUtil } from '../../../util';
 import { MultiDeviceProtocol } from '../../../session/protocols';
 import { PubKey } from '../../../session/types';
-import { SessionToast, SessionToastType } from '../SessionToast';
-import { toast } from 'react-toastify';
 import { ToastUtils } from '../../../session/utils';
 
 export enum SessionSettingCategory {

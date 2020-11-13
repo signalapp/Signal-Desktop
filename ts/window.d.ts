@@ -16,6 +16,7 @@ import {} from 'styled-components/cssprop';
 
 import { ConversationControllerType } from '../js/ConversationController';
 import { any } from 'underscore';
+import { Store } from 'redux';
 /*
 We declare window stuff here instead of global.d.ts because we are importing other declarations.
 If you import anything in global.d.ts, the type system won't work correctly.
@@ -95,7 +96,7 @@ declare global {
     versionInfo: any;
     getStoragePubKey: any;
     pubkeyPattern: any;
-    getConversations: any;
+    getConversations: () => ConversationCollection;
     getGuid: any;
     ContactBuffer: any;
     GroupBuffer: any;
@@ -111,5 +112,8 @@ declare global {
     ) => Promise<{ pubKey: ArrayBufferLike; privKey: ArrayBufferLike }>;
     setClockParams: any;
     clientClockSynced: number | undefined;
+    getInboxCollection: any;
+    getMessagesByKey: any;
+    inboxStore: Store;
   }
 }

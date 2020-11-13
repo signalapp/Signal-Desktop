@@ -14,15 +14,12 @@ import {
   SessionClosableOverlay,
   SessionClosableOverlayType,
 } from './SessionClosableOverlay';
-import { MainViewController } from '../MainViewController';
 import { ToastUtils } from '../../session/utils';
-import { toast } from 'react-toastify';
-import { SessionToast } from './SessionToast';
 
 export interface Props {
   directContacts: Array<ConversationType>;
 
-  openConversationInternal: (id: string, messageId?: string) => void;
+  openConversationExternal: (id: string, messageId?: string) => void;
 }
 
 interface State {
@@ -49,13 +46,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
   }
 
   public componentDidMount() {
-    MainViewController.renderMessageView();
-
     window.Whisper.events.on('calculatingPoW', this.closeOverlay);
-  }
-
-  public componentDidUpdate() {
-    MainViewController.renderMessageView();
   }
 
   public componentWillUnmount() {
@@ -101,7 +92,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
         style={style}
         {...item}
         i18n={window.i18n}
-        onClick={this.props.openConversationInternal}
+        onClick={this.props.openConversationExternal}
       />
     );
   };

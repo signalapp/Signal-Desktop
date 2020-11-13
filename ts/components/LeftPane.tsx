@@ -14,6 +14,7 @@ import { LeftPaneSettingSection } from './session/LeftPaneSettingSection';
 import { SessionIconType } from './session/icon';
 import { SessionTheme } from '../state/ducks/SessionTheme';
 import { DefaultTheme } from 'styled-components';
+import { SessionSettingCategory } from './session/settings/SessionSettings';
 
 // from https://github.com/bvaughn/react-virtualized/blob/fb3484ed5dcc41bffae8eab029126c0fb8f7abc0/source/List/types.js#L5
 export type RowRendererParamsType = {
@@ -36,7 +37,10 @@ interface Props {
   focusedSection: SectionType;
   focusSection: (section: SectionType) => void;
 
-  openConversationInternal: (id: string, messageId?: string) => void;
+  openConversationExternal: (id: string, messageId?: string) => void;
+  showSessionSettingsCategory: (category: SessionSettingCategory) => void;
+  showSessionViewConversation: () => void;
+  settingsCategory?: SessionSettingCategory;
   updateSearchTerm: (searchTerm: string) => void;
   search: (query: string, options: SearchOptions) => void;
   clearSearch: () => void;
@@ -75,6 +79,11 @@ export class LeftPane extends React.Component<Props> {
   public handleSectionSelected(section: SectionType) {
     this.props.clearSearch();
     this.props.focusSection(section);
+    if (section === SectionType.Settings) {
+      this.props.showSessionSettingsCategory(SessionSettingCategory.Appearance);
+    } else {
+      this.props.showSessionViewConversation();
+    }
   }
 
   public render(): JSX.Element {
@@ -108,7 +117,7 @@ export class LeftPane extends React.Component<Props> {
 
   private renderMessageSection() {
     const {
-      openConversationInternal,
+      openConversationExternal,
       conversations,
       contacts,
       searchResults,
@@ -129,7 +138,7 @@ export class LeftPane extends React.Component<Props> {
     return (
       <LeftPaneMessageSection
         contacts={contacts}
-        openConversationInternal={openConversationInternal}
+        openConversationExternal={openConversationExternal}
         conversations={filteredConversations}
         searchResults={searchResults}
         searchTerm={searchTerm}
@@ -142,13 +151,13 @@ export class LeftPane extends React.Component<Props> {
   }
 
   private renderContactSection() {
-    const { openConversationInternal } = this.props;
+    const { openConversationExternal } = this.props;
 
     const directContacts = this.getDirectContactsOnly();
 
     return (
       <LeftPaneContactSection
-        openConversationInternal={openConversationInternal}
+        openConversationExternal={openConversationExternal}
         directContacts={directContacts}
       />
     );
@@ -159,8 +168,16 @@ export class LeftPane extends React.Component<Props> {
   }
 
   private renderSettingSection() {
-    const { isSecondaryDevice } = this.props;
+    const { isSecondaryDevice, showSessionSettingsCategory, settingsCategory } = this.props;
 
-    return <LeftPaneSettingSection isSecondaryDevice={isSecondaryDevice} />;
+    const category = settingsCategory || SessionSettingCategory.Appearance;
+
+    return (
+      <LeftPaneSettingSection
+        isSecondaryDevice={isSecondaryDevice}
+        showSessionSettingsCategory={showSessionSettingsCategory}
+        settingsCategory={category}
+      />
+    );
   }
 }

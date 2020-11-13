@@ -44,7 +44,7 @@ export interface Props {
 
   updateSearchTerm: (searchTerm: string) => void;
   search: (query: string, options: SearchOptions) => void;
-  openConversationInternal: (id: string, messageId?: string) => void;
+  openConversationExternal: (id: string, messageId?: string) => void;
   clearSearch: () => void;
 }
 
@@ -99,12 +99,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   }
 
   public componentDidMount() {
-    MainViewController.renderMessageView();
     window.Whisper.events.on('calculatingPoW', this.closeOverlay);
-  }
-
-  public componentDidUpdate() {
-    MainViewController.renderMessageView();
   }
 
   public componentWillUnmount() {
@@ -117,7 +112,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     key,
     style,
   }: RowRendererParamsType): JSX.Element => {
-    const { conversations, openConversationInternal } = this.props;
+    const { conversations, openConversationExternal } = this.props;
 
     if (!conversations) {
       throw new Error('renderRow: Tried to render without conversations');
@@ -130,7 +125,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         key={key}
         style={style}
         {...conversation}
-        onClick={openConversationInternal}
+        onClick={openConversationExternal}
         i18n={window.i18n}
       />
     );
@@ -139,7 +134,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   public renderList(): JSX.Element | Array<JSX.Element | null> {
     const {
       conversations,
-      openConversationInternal,
+      openConversationExternal,
       searchResults,
     } = this.props;
     const contacts = searchResults?.contacts || [];
@@ -149,7 +144,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         <SearchResults
           {...searchResults}
           contacts={contacts}
-          openConversation={openConversationInternal}
+          openConversation={openConversationExternal}
           i18n={window.i18n}
         />
       );
@@ -384,7 +379,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   }
 
   private handleMessageButtonClick() {
-    const { openConversationInternal } = this.props;
+    const { openConversationExternal } = this.props;
 
     if (!this.state.valuePasted && !this.props.searchTerm) {
       ToastUtils.pushToastError(
@@ -399,7 +394,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     const error = validateNumber(pubkey);
     if (!error) {
-      openConversationInternal(pubkey);
+      openConversationExternal(pubkey);
     } else {
       ToastUtils.pushToastError('invalidPubKey', error);
     }

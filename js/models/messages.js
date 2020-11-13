@@ -86,7 +86,7 @@
       // const applicableConversationChanges =
       //   'change:color change:name change:number change:profileName change:profileAvatar';
       // FIXME AUDRIC
-      const conversation = this.getConversation();
+      // const conversation = this.getConversation();
       // const fromContact = this.getIncomingContact();
       // this.listenTo(conversation, applicableConversationChanges, generateProps);
 

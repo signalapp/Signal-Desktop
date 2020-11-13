@@ -2,7 +2,6 @@ $session-compose-margin: 20px;
 
 .gutter {
   width: 380px !important;
-  padding-inline-end: 5px !important;
   transition: $session-transition-duration;
 
   @include themify($themes) {
@@ -98,7 +97,8 @@ $session-compose-margin: 20px;
 .module-left-pane {
   width: $session-left-pane-width;
   position: relative;
-  height: -webkit-fill-available;
+  height: 100vh;
+  flex-shrink: 0;
 
   &-session {
     display: flex;
@@ -106,8 +106,8 @@ $session-compose-margin: 20px;
   }
 
   &__sections-container {
-    height: -webkit-fill-available;
-    width: $session-left-pane-sections-container-width;
+    height: 100vh;
+    flex-shrink: 0;
     display: inline-flex;
     flex-direction: column;
     overflow: auto;

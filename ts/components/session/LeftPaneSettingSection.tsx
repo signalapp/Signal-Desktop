@@ -3,8 +3,6 @@ import classNames from 'classnames';
 
 import { LeftPane } from '../LeftPane';
 
-import { MainViewController } from '../MainViewController';
-
 import {
   SessionButton,
   SessionButtonColor,
@@ -17,10 +15,11 @@ import { SessionSettingCategory } from './settings/SessionSettings';
 
 interface Props {
   isSecondaryDevice: boolean;
+  settingsCategory: SessionSettingCategory;
+  showSessionSettingsCategory: (category: SessionSettingCategory) => void;
 }
 
 export interface State {
-  settingCategory: SessionSettingCategory;
   searchQuery: string;
 }
 
@@ -29,20 +28,11 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      settingCategory: SessionSettingCategory.Appearance,
       searchQuery: '',
     };
 
     this.setCategory = this.setCategory.bind(this);
     this.onDeleteAccount = this.onDeleteAccount.bind(this);
-  }
-
-  public componentDidMount() {
-    MainViewController.renderSettingsView(this.state.settingCategory);
-  }
-
-  public componentDidUpdate() {
-    MainViewController.renderSettingsView(this.state.settingCategory);
   }
 
   public render(): JSX.Element {
@@ -68,12 +58,13 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
   }
 
   public renderRow(item: any): JSX.Element {
+    const {settingsCategory} = this.props;
     return (
       <div
         key={item.id}
         className={classNames(
           'left-pane-setting-category-list-item',
-          item.id === this.state.settingCategory ? 'active' : ''
+          item.id === settingsCategory ? 'active' : ''
         )}
         role="link"
         onClick={() => {
@@ -85,7 +76,7 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
         </div>
 
         <div>
-          {item.id === this.state.settingCategory && (
+          {item.id === settingsCategory && (
             <SessionIcon
               iconSize={SessionIconSize.Medium}
               iconType={SessionIconType.Chevron}
@@ -236,8 +227,6 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
   }
 
   public setCategory(category: SessionSettingCategory) {
-    this.setState({
-      settingCategory: category,
-    });
+    this.props.showSessionSettingsCategory(category);
   }
 }

@@ -1,8 +1,10 @@
-.new-conversation,
-.inbox,
-.gutter {
+.inbox  {
   height: 100%;
   overflow: hidden;
+}
+
+.inbox.index {
+  display: flex;
 }
 
 .edit-profile-dialog,
@@ -74,13 +76,6 @@
 }
 
 .gutter {
-  display: flex;
-  flex-direction: column;
-  float: left;
-  width: 300px;
-  user-select: none;
-  position: relative;
-
   .tool-bar {
     margin-top: 8px;
     color: $color-dark-05;
@@ -197,7 +192,9 @@ h4.section-toggle,
   flex-grow: 1;
   display: flex;
 }
-
+.conversation.placeholder {
+  height: 100vh;
+}
 .left-pane-wrapper {
   flex: 1;
 }

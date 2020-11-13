@@ -1,19 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-
-import {
-  SessionSettingCategory,
-  SettingsView,
-} from './session/settings/SessionSettings';
 
 import { createLegacyGroup, createMediumGroup } from '../session/medium_group';
-
-export const MainViewController = {
-  createClosedGroup,
-  renderMessageView,
-  renderSettingsView,
-};
-
 import { ContactType } from './session/SessionMemberListItem';
 import { ToastUtils } from '../session/utils';
 
@@ -98,28 +85,6 @@ async function createClosedGroup(
   return true;
 }
 
-// /////////////////////////////////////
-// ///////////// Rendering /////////////
-// /////////////////////////////////////
-
-function renderMessageView() {
-  if (document.getElementById('main-view')) {
-    ReactDOM.render(<MessageView />, document.getElementById('main-view'));
-  }
-}
-
-function renderSettingsView(category: SessionSettingCategory) {
-  // tslint:disable-next-line: no-backbone-get-set-outside-model
-  const isSecondaryDevice = !!window.textsecure.storage.get(
-    'isSecondaryDevice'
-  );
-  if (document.getElementById('main-view')) {
-    ReactDOM.render(
-      <SettingsView
-        category={category}
-        isSecondaryDevice={isSecondaryDevice}
-      />,
-      document.getElementById('main-view')
-    );
-  }
-}
+export const MainViewController = {
+  createClosedGroup,
+};

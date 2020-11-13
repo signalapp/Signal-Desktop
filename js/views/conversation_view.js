@@ -662,10 +662,6 @@
       this.updateHeader();
     },
 
-    async openConversation(number) {
-      window.Whisper.events.trigger('showConversation', number);
-    },
-
     listenBack(view) {
       this.panels = this.panels || [];
       if (this.panels.length > 0) {

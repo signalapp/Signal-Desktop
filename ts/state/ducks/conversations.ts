@@ -1,7 +1,6 @@
 import { omit } from 'lodash';
 
 import { trigger } from '../../shims/events';
-import { NoopActionType } from './noop';
 
 // State
 
@@ -127,7 +126,6 @@ export const actions = {
   conversationRemoved,
   removeAllConversations,
   messageExpired,
-  openConversationInternal,
   openConversationExternal,
 };
 
@@ -183,20 +181,6 @@ function messageExpired(
   };
 }
 
-// Note: we need two actions here to simplify. Operations outside of the left pane can
-//   trigger an 'openConversation' so we go through Whisper.events for all conversation
-//   selection.
-function openConversationInternal(
-  id: string,
-  messageId?: string
-): NoopActionType {
-  trigger('showConversation', id, messageId);
-
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
-}
 function openConversationExternal(
   id: string,
   messageId?: string
@@ -286,6 +270,9 @@ export function reducer(
   if (action.type === 'SELECTED_CONVERSATION_CHANGED') {
     const { payload } = action;
     const { id } = payload;
+    if (state.selectedConversation !== id) {
+      window.owsDesktopApp.appView.openConversation(id, {});
+    }
 
     return {
       ...state,

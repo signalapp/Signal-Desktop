@@ -83,11 +83,11 @@ export class SessionConversation extends React.Component<Props, State> {
 
     const { conversationKey } = this.props;
 
-    const conversationModel = window.ConversationController.getOrThrow(
+    const conversationModel = window.ConversationController.get(
       conversationKey
     );
 
-    const unreadCount = conversationModel.get('unreadCount');
+    const unreadCount = conversationModel?.get('unreadCount') || 0;
     this.state = {
       messageProgressVisible: false,
       sendingProgress: 0,
@@ -151,8 +151,11 @@ export class SessionConversation extends React.Component<Props, State> {
   // ~~~~~~~~~~~~~~~~ LIFECYCLES ~~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  public async componentWillMount() {
-    await this.loadInitialMessages();
+
+  public componentDidUpdate(prevProps: Props, prevState: State) {
+    if (this.props.conversationKey !== prevProps.conversationKey) {
+      void this.loadInitialMessages();
+    }
   }
 
   public componentWillUnmount() {
@@ -304,15 +307,17 @@ export class SessionConversation extends React.Component<Props, State> {
 
   public async loadInitialMessages() {
     const { conversationKey } = this.props;
-    const conversationModel = window.ConversationController.getOrThrow(
+    const conversationModel = window.ConversationController.get(
       conversationKey
     );
+    if (!conversationModel) {
+      return;
+    }
     const unreadCount = await conversationModel.getUnreadCount();
     const messagesToFetch = Math.max(
       Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT,
       unreadCount
     );
-
     this.props.actions.fetchMessagesForConversation({
       conversationKey,
       count: messagesToFetch,

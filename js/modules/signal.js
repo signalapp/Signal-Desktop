@@ -1,6 +1,5 @@
 // The idea with this file is to make it webpackable for the style guide
 
-const { bindActionCreators } = require('redux');
 const Crypto = require('./crypto');
 const Data = require('./data');
 const Database = require('./database');
@@ -46,14 +45,11 @@ const {
 const {
   SessionConversation,
 } = require('../../ts/components/session/conversation/SessionConversation');
-const {
-  SettingsView,
-} = require('../../ts/components/session/settings/SessionSettings');
 const { SessionModal } = require('../../ts/components/session/SessionModal');
 const {
   SessionSeedModal,
 } = require('../../ts/components/session/SessionSeedModal');
-
+const { SessionInboxView} = require('../../ts/components/session/SessionInboxView')
 const {
   SessionPasswordModal,
 } = require('../../ts/components/session/SessionPasswordModal');
@@ -107,11 +103,6 @@ const {
 } = require('../../ts/components/conversation/TypingBubble');
 
 // State
-const { createLeftPane } = require('../../ts/state/roots/createLeftPane');
-const {
-  createSessionConversation,
-} = require('../../ts/state/roots/createSessionConversation');
-const { createStore } = require('../../ts/state/createStore');
 const conversationsDuck = require('../../ts/state/ducks/conversations');
 const userDuck = require('../../ts/state/ducks/user');
 const messagesDuck = require('../../ts/state/ducks/messages');
@@ -251,7 +242,6 @@ exports.setup = (options = {}) => {
     ContactDetail,
     ContactListItem,
     ContactName,
-    SettingsView,
     EmbeddedContact,
     Emojify,
     Lightbox,
@@ -262,6 +252,7 @@ exports.setup = (options = {}) => {
     UserDetailsDialog,
     DevicePairingDialog,
     SessionRegistrationView,
+    SessionInboxView,
     ConfirmDialog,
     UpdateGroupNameDialog,
     UpdateGroupMembersDialog,
@@ -287,19 +278,12 @@ exports.setup = (options = {}) => {
     TypingBubble,
   };
 
-  const Roots = {
-    createLeftPane,
-    createSessionConversation,
-  };
   const Ducks = {
     conversations: conversationsDuck,
     user: userDuck,
     messages: messagesDuck,
   };
   const State = {
-    bindActionCreators,
-    createStore,
-    Roots,
     Ducks,
   };
 
