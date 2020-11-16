@@ -311,6 +311,10 @@
     "message": "You are no longer a member of the group.",
     "description": "Displayed when a user can't send a message because they have left the group"
   },
+  "invalidConversation": {
+    "message": "This group is invalid. Please create a new group.",
+    "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
+  },
   "scrollDown": {
     "message": "Scroll to bottom of conversation",
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"

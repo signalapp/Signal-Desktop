@@ -163,6 +163,8 @@ type UpdatesResultType = {
 // Constants
 
 export const MASTER_KEY_LENGTH = 32;
+export const ID_V1_LENGTH = 16;
+export const ID_LENGTH = 32;
 const TEMPORAL_AUTH_REJECTED_CODE = 401;
 const GROUP_ACCESS_DENIED_CODE = 403;
 const SUPPORTED_CHANGE_EPOCH = 0;

@@ -266,7 +266,8 @@ export class ConversationModel extends window.Backbone.Model<
       return false;
     }
 
-    return fromEncodedBinaryToArrayBuffer(groupId).byteLength === 16;
+    const buffer = fromEncodedBinaryToArrayBuffer(groupId);
+    return buffer.byteLength === window.Signal.Groups.ID_V1_LENGTH;
   }
 
   isGroupV2(): boolean {
@@ -277,7 +278,10 @@ export class ConversationModel extends window.Backbone.Model<
 
     const groupVersion = this.get('groupVersion') || 0;
 
-    return groupVersion === 2 && base64ToArrayBuffer(groupId).byteLength === 32;
+    return (
+      groupVersion === 2 &&
+      base64ToArrayBuffer(groupId).byteLength === window.Signal.Groups.ID_LENGTH
+    );
   }
 
   isMemberPending(conversationId: string): boolean {
@@ -820,6 +824,10 @@ export class ConversationModel extends window.Backbone.Model<
     await window.Signal.Groups.waitThenMaybeUpdateGroup({
       conversation: this,
     });
+  }
+
+  isValid(): boolean {
+    return this.isPrivate() || this.isGroupV1() || this.isGroupV2();
   }
 
   maybeRepairGroupV2(data: {
