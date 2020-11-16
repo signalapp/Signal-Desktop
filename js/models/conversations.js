@@ -1489,6 +1489,11 @@
       const id = await message.commit();
 
       message.set({ id });
+      window.Whisper.events.trigger('messageAdded', {
+        conversationKey: this.id,
+        messageModel: message,
+      });
+
       await this.commit();
 
       // if change was made remotely, don't send it to the number/group
@@ -1593,6 +1598,10 @@
 
       const id = await message.commit();
       message.set({ id });
+      window.Whisper.events.trigger('messageAdded', {
+        conversationKey: this.id,
+        messageModel: message,
+      });
       return message;
     },
 
@@ -1736,6 +1745,10 @@
 
         const id = await message.commit();
         message.set({ id });
+        window.Whisper.events.trigger('messageAdded', {
+          conversationKey: this.id,
+          messageModel: message,
+        });
 
         // FIXME what about public groups?
         const quitGroup = {
