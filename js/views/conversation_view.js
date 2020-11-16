@@ -846,18 +846,6 @@
 
       const message = this.memberView.replaceMentions(input.val());
 
-      const toastOptions = { type: 'info' };
-      // let it pass if we're still trying to read it or it's false...
-      if (extension.expiredStatus() === true) {
-        toastOptions.title = i18n('expiredWarning');
-        toastOptions.id = 'expiredWarning';
-      }
-      if (toastOptions.title) {
-        window.pushToast(toastOptions);
-        this.focusMessageFieldAndClearDisabled();
-        return;
-      }
-
       try {
         if (!message.length && !this.fileInput.hasFiles()) {
           return;

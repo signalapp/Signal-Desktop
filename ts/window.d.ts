@@ -115,5 +115,10 @@ declare global {
     inboxStore: Store;
     getSocketStatus: any;
     actionsCreators: any;
+    extension: {
+      expired: (boolean) => void;
+      expiredStatus: () => boolean;
+    };
+    openUrl: (string) => void;
   }
 }

@@ -23,7 +23,7 @@ type Props = {
 type State = {
   isInitialLoadComplete: boolean;
   settingsCategory?: SessionSettingCategory;
-  networkError: boolean;
+  isExpired: boolean;
 };
 
 // tslint:disable: react-a11y-img-has-alt
@@ -36,7 +36,7 @@ export class SessionInboxView extends React.Component<Props, State> {
     this.state = {
       isInitialLoadComplete: false,
       settingsCategory: undefined,
-      networkError: false,
+      isExpired: false,
     };
 
     this.fetchHandleMessageSentData = this.fetchHandleMessageSentData.bind(
@@ -53,13 +53,14 @@ export class SessionInboxView extends React.Component<Props, State> {
 
     void this.setupLeftPane();
 
-    // extension.expired(expired => {
-    //   if (expired) {
-    //     const banner = new Whisper.ExpiredAlertBanner().render();
-    //     banner.$el.prependTo(this.$el);
-    //     this.$el.addClass('expired');
-    //   }
-    // });
+    // not reactified yet. this is a callback called once we were able to check for expiration of this Session version
+    window.extension.expired((expired: boolean) => {
+      if (expired) {
+        this.setState({
+          isExpired: true,
+        });
+      }
+    });
   }
 
   public render() {
@@ -67,7 +68,9 @@ export class SessionInboxView extends React.Component<Props, State> {
       return <></>;
     }
 
-    const isSettingsView = this.state.settingsCategory !== undefined;
+    const { settingsCategory } = this.state;
+
+    const isSettingsView = settingsCategory !== undefined;
     return (
       <Provider store={this.store}>
         <div className="gutter">
@@ -87,6 +90,7 @@ export class SessionInboxView extends React.Component<Props, State> {
         showSessionSettingsCategory={this.showSessionSettingsCategory}
         showSessionViewConversation={this.showSessionViewConversation}
         settingsCategory={this.state.settingsCategory}
+        isExpired={this.state.isExpired}
       />
     );
   }

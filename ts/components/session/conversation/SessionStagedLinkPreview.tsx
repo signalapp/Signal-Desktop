@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { arrayBufferFromFile, AttachmentType } from '../../../types/Attachment';
+import React from 'react';
+import { arrayBufferFromFile } from '../../../types/Attachment';
 import { AttachmentUtil, LinkPreviewUtil } from '../../../util';
 import { StagedLinkPreviewData } from './SessionCompositionBox';
 import fetch from 'node-fetch';
 import { fetchLinkPreviewImage } from '../../../util/linkPreviewFetch';
-import { AbortController, AbortSignal } from 'abort-controller';
+import { AbortSignal } from 'abort-controller';
 import { StagedLinkPreview } from '../../conversation/StagedLinkPreview';
 
 export interface StagedLinkPreviewProps extends StagedLinkPreviewData {

@@ -16,6 +16,7 @@ import { SessionTheme } from '../state/ducks/SessionTheme';
 import { DefaultTheme } from 'styled-components';
 import { SessionSettingCategory } from './session/settings/SessionSettings';
 import { SessionOffline } from './session/network/SessionOffline';
+import { SessionExpiredWarning } from './session/network/SessionExpiredWarning';
 
 // from https://github.com/bvaughn/react-virtualized/blob/fb3484ed5dcc41bffae8eab029126c0fb8f7abc0/source/List/types.js#L5
 export type RowRendererParamsType = {
@@ -37,6 +38,7 @@ interface Props {
   isSecondaryDevice: boolean;
   focusedSection: SectionType;
   focusSection: (section: SectionType) => void;
+  isExpired: boolean;
 
   openConversationExternal: (id: string, messageId?: string) => void;
   showSessionSettingsCategory: (category: SessionSettingCategory) => void;
@@ -127,6 +129,7 @@ export class LeftPane extends React.Component<Props> {
       updateSearchTerm,
       search,
       clearSearch,
+      isExpired,
     } = this.props;
     // be sure to filter out secondary conversations
     let filteredConversations = conversations;
@@ -139,6 +142,7 @@ export class LeftPane extends React.Component<Props> {
     return (
       <>
         <SessionOffline />
+        {isExpired && <SessionExpiredWarning />}
         <LeftPaneMessageSection
           contacts={contacts}
           openConversationExternal={openConversationExternal}
