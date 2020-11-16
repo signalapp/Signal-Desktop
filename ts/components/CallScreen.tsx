@@ -273,7 +273,11 @@ export const CallScreen: React.FC<PropsType> = ({
             tooltipDistance={24}
           />
         </div>
-        <div className="module-ongoing-call__footer__local-preview">
+        <div
+          className={classNames('module-ongoing-call__footer__local-preview', {
+            'module-ongoing-call__footer__local-preview--audio-muted': !hasLocalAudio,
+          })}
+        >
           {hasLocalVideo ? (
             <video
               className="module-ongoing-call__footer__local-preview__video"

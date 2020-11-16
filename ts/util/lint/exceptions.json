@@ -14598,7 +14598,7 @@
     "rule": "React-useRef",
     "path": "ts/components/GroupCallRemoteParticipant.js",
     "line": "    const remoteVideoRef = react_1.useRef(null);",
-    "lineNumber": 16,
+    "lineNumber": 20,
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-11T21:56:04.179Z",
     "reasonDetail": "Needed to render the remote video element."
@@ -14607,7 +14607,7 @@
     "rule": "React-useRef",
     "path": "ts/components/GroupCallRemoteParticipant.js",
     "line": "    const canvasVideoRendererRef = react_1.useRef(createCanvasVideoRenderer());",
-    "lineNumber": 17,
+    "lineNumber": 21,
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-11T21:56:04.179Z",
     "reasonDetail": "Doesn't touch the DOM."
@@ -14616,7 +14616,7 @@
     "rule": "React-useRef",
     "path": "ts/components/GroupCallRemoteParticipant.tsx",
     "line": "  const canvasVideoRendererRef = useRef(createCanvasVideoRenderer());",
-    "lineNumber": 31,
+    "lineNumber": 34,
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-11T21:56:04.179Z",
     "reasonDetail": "Doesn't touch the DOM."

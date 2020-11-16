@@ -6257,6 +6257,7 @@ button.module-image__border-overlay:focus {
   &__group-call-remote-participant {
     display: flex;
     justify-content: center;
+    position: relative;
 
     line-height: 0;
     overflow: hidden;
@@ -6267,6 +6268,20 @@ button.module-image__border-overlay:focus {
     &__remote-video {
       // The background-color is seen while the video loads.
       background-color: $color-gray-75;
+    }
+
+    &--audio-muted::before {
+      @include color-svg(
+        '../images/icons/v2/mic-off-solid-28.svg',
+        $color-white
+      );
+      bottom: 12px;
+      content: '';
+      height: 28px;
+      position: absolute;
+      right: 12px;
+      width: 28px;
+      z-index: 1;
     }
   }
 
@@ -6298,6 +6313,7 @@ button.module-image__border-overlay:focus {
       height: $local-preview-height;
       margin: 2px 16px 16px 0;
       overflow: hidden;
+      position: relative;
       width: $local-preview-width;
 
       &__video {
@@ -6306,6 +6322,20 @@ button.module-image__border-overlay:focus {
         height: 100%;
         transform: rotateY(180deg);
         width: 100%;
+      }
+
+      &--audio-muted::before {
+        @include color-svg(
+          '../images/icons/v2/mic-off-solid-28.svg',
+          $color-white
+        );
+        bottom: 6px;
+        content: '';
+        height: 14px;
+        position: absolute;
+        right: 6px;
+        width: 14px;
+        z-index: 1;
       }
     }
   }

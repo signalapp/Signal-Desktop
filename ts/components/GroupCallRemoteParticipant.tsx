@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useRef, useEffect, CSSProperties } from 'react';
+import classNames from 'classnames';
 import { noop } from 'lodash';
 import { CanvasVideoRenderer, VideoFrameSource } from '../types/Calling';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
@@ -10,6 +11,7 @@ interface PropsType {
   createCanvasVideoRenderer: () => CanvasVideoRenderer;
   demuxId: number;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
+  hasRemoteAudio: boolean;
   hasRemoteVideo: boolean;
   height: number;
   left: number;
@@ -21,6 +23,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = ({
   createCanvasVideoRenderer,
   demuxId,
   getGroupCallVideoFrameSource,
+  hasRemoteAudio,
   hasRemoteVideo,
   height,
   left,
@@ -60,7 +63,12 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = ({
 
   return (
     <div
-      className="module-ongoing-call__group-call-remote-participant"
+      className={classNames(
+        'module-ongoing-call__group-call-remote-participant',
+        {
+          'module-ongoing-call__group-call-remote-participant--audio-muted': !hasRemoteAudio,
+        }
+      )}
       style={{
         position: 'absolute',
         width,

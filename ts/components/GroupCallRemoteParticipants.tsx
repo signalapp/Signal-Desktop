@@ -199,6 +199,7 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
             createCanvasVideoRenderer={createCanvasVideoRenderer}
             demuxId={remoteParticipant.demuxId}
             getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
+            hasRemoteAudio={remoteParticipant.hasRemoteAudio}
             hasRemoteVideo={remoteParticipant.hasRemoteVideo}
             height={gridParticipantHeight}
             left={left}
