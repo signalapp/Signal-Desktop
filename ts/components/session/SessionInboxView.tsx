@@ -56,7 +56,6 @@ export class SessionInboxView extends React.Component<Props, State> {
     void this.setupLeftPane();
 
     // ConversationCollection
-    conversationModels;
     //   this.listenTo(inboxCollection, 'messageError', () => {
     // if (this.networkStatusView) {
     //   this.networkStatusView.render();
@@ -219,17 +218,13 @@ export class SessionInboxView extends React.Component<Props, State> {
     window.inboxStore = this.store;
 
     // Enables our redux store to be updated by backbone events in the outside world
-    const { messageExpired } = bindActionCreators(
+    const { messageExpired, messageAdded, messageChanged } = bindActionCreators(
       window.Signal.State.Ducks.conversations.actions,
       this.store.dispatch
     );
     window.actionsCreators = window.Signal.State.Ducks.conversations.actions;
     const { userChanged } = bindActionCreators(
       window.Signal.State.Ducks.user.actions,
-      this.store.dispatch
-    );
-    const { messageChanged } = bindActionCreators(
-      window.Signal.State.Ducks.messages.actions,
       this.store.dispatch
     );
 
@@ -248,6 +243,7 @@ export class SessionInboxView extends React.Component<Props, State> {
 
     window.Whisper.events.on('messageExpired', messageExpired);
     window.Whisper.events.on('messageChanged', messageChanged);
+    window.Whisper.events.on('messageAdded', messageAdded);
     window.Whisper.events.on('userChanged', userChanged);
 
     this.setState({ isInitialLoadComplete: true });

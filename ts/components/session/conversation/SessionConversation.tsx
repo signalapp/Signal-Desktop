@@ -191,12 +191,12 @@ export class SessionConversation extends React.Component<Props, State> {
     } = this.state;
     const selectionMode = !!selectedMessages.length;
 
-    const { conversation, conversationKey } = this.props;
+    const { conversation, conversationKey, messages } = this.props;
     const conversationModel = window.ConversationController.get(
       conversationKey
     );
 
-    if (!conversationModel) {
+    if (!conversationModel || !messages) {
       // return an empty message view
       return <MessageView />;
     }

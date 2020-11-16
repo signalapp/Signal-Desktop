@@ -124,13 +124,12 @@
     },
     onEmpty() {
       // const view = this.inboxView;
-
       // this.initialLoadComplete = true;
       // if (view) {
       //   view.onEmpty();
       // }
     },
-    onProgress(count) {
+    onProgress() {
       // const view = this.inboxView;
       // if (view) {
       //   view.onProgress(count);

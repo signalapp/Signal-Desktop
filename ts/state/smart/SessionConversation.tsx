@@ -14,7 +14,7 @@ const mapStateToProps = (state: StateType) => {
     conversation,
     conversationKey,
     theme: state.theme,
-    messages: state.messages,
+    messages: state.conversations.messages,
   };
 };
 

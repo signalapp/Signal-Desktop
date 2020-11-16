@@ -468,7 +468,12 @@
       const model = this.addSingleMessage(message);
       MessageController.register(model.id, model);
 
-      this.trigger('change');
+      window.Whisper.events.trigger('messageAdded', {
+        conversationKey: this.id,
+        messageModel: model,
+      });
+
+      this.trigger('change', this);
     },
     addSingleMessage(message, setToExpire = true) {
       const model = this.messageCollection.add(message, { merge: true });
@@ -1200,6 +1205,11 @@
 
         const id = await message.commit();
         message.set({ id });
+
+        window.Whisper.events.trigger('messageAdded', {
+          conversationKey: this.id,
+          messageModel: message,
+        });
 
         this.set({
           lastMessage: model.getNotificationText(),

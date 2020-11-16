@@ -1,6 +1,8 @@
-import { omit } from 'lodash';
+import _, { omit } from 'lodash';
 
-import { trigger } from '../../shims/events';
+import { Constants } from '../../session';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { MessageModel } from '../../../js/models/messages';
 
 // State
 
@@ -30,6 +32,22 @@ export type MessageType = {
 
   isSelected?: boolean;
 };
+
+export type MessageTypeInConvo = {
+  id: string;
+  conversationId: string;
+  attributes: any;
+  propsForMessage: Object;
+  propsForSearchResult: Object;
+  propsForGroupInvitation: Object;
+  propsForTimerNotification: Object;
+  propsForVerificationNotification: Object;
+  propsForResetSessionNotification: Object;
+  propsForGroupNotification: Object;
+  firstMessageOfSeries: boolean;
+  receivedAt: number;
+};
+
 export type ConversationType = {
   id: string;
   name?: string;
@@ -65,7 +83,81 @@ export type ConversationLookupType = {
 export type ConversationsStateType = {
   conversationLookup: ConversationLookupType;
   selectedConversation?: string;
+  messages: Array<MessageTypeInConvo>;
 };
+
+async function getMessages(
+  conversationKey: string,
+  numMessages: number
+): Promise<Array<MessageTypeInConvo>> {
+  const conversation = window.ConversationController.get(conversationKey);
+  if (!conversation) {
+    // no valid conversation, early return
+    window.log.error('Failed to get convo on reducer.');
+    return [];
+  }
+  const unreadCount = await conversation.getUnreadCount();
+  let msgCount =
+    numMessages ||
+    Number(Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT) + unreadCount;
+  msgCount =
+    msgCount > Constants.CONVERSATION.MAX_MESSAGE_FETCH_COUNT
+      ? Constants.CONVERSATION.MAX_MESSAGE_FETCH_COUNT
+      : msgCount;
+
+  if (msgCount < Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT) {
+    msgCount = Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT;
+  }
+
+  const messageSet = await window.Signal.Data.getMessagesByConversation(
+    conversationKey,
+    { limit: msgCount, MessageCollection: window.Whisper.MessageCollection }
+  );
+
+  // Set first member of series here.
+  const messageModels = messageSet.models;
+
+  const messages = [];
+  // no need to do that `firstMessageOfSeries` on a private chat
+  if (conversation.isPrivate()) {
+    return messageModels;
+  }
+
+  // messages are got from the more recent to the oldest, so we need to check if
+  // the next messages in the list is still the same author.
+  // The message is the first of the series if the next message is not from the same author
+  for (let i = 0; i < messageModels.length; i++) {
+    // Handle firstMessageOfSeries for conditional avatar rendering
+    let firstMessageOfSeries = true;
+    const currentSender = messageModels[i].propsForMessage?.authorPhoneNumber;
+    const nextSender =
+      i < messageModels.length - 1
+        ? messageModels[i + 1].propsForMessage?.authorPhoneNumber
+        : undefined;
+    if (i > 0 && currentSender === nextSender) {
+      firstMessageOfSeries = false;
+    }
+    messages.push({ ...messageModels[i], firstMessageOfSeries });
+  }
+  return messages;
+}
+
+const fetchMessagesForConversation = createAsyncThunk(
+  'messages/fetchByConversationKey',
+  async ({
+    conversationKey,
+    count,
+  }: {
+    conversationKey: string;
+    count: number;
+  }) => {
+    const messages = await getMessages(conversationKey, count);
+    return {
+      conversationKey,
+      messages,
+    };
+  }
+);
 
 // Actions
 
@@ -100,11 +192,30 @@ export type MessageExpiredActionType = {
     conversationId: string;
   };
 };
+export type MessageChangedActionType = {
+  type: 'MESSAGE_CHANGED';
+  payload: MessageModel;
+};
+export type MessageAddedActionType = {
+  type: 'MESSAGE_ADDED';
+  payload: {
+    conversationKey: string;
+    messageModel: MessageModel;
+  };
+};
 export type SelectedConversationChangedActionType = {
   type: 'SELECTED_CONVERSATION_CHANGED';
   payload: {
     id: string;
     messageId?: string;
+  };
+};
+
+export type FetchMessagesForConversationType = {
+  type: 'messages/fetchByConversationKey/fulfilled';
+  payload: {
+    conversationKey: string;
+    messages: Array<MessageModel>;
   };
 };
 
@@ -114,9 +225,11 @@ export type ConversationActionType =
   | ConversationRemovedActionType
   | RemoveAllConversationsActionType
   | MessageExpiredActionType
+  | MessageAddedActionType
+  | MessageChangedActionType
   | SelectedConversationChangedActionType
-  | MessageExpiredActionType
-  | SelectedConversationChangedActionType;
+  | SelectedConversationChangedActionType
+  | FetchMessagesForConversationType;
 
 // Action Creators
 
@@ -126,6 +239,9 @@ export const actions = {
   conversationRemoved,
   removeAllConversations,
   messageExpired,
+  messageAdded,
+  messageChanged,
+  fetchMessagesForConversation,
   openConversationExternal,
 };
 
@@ -181,6 +297,29 @@ function messageExpired(
   };
 }
 
+function messageChanged(messageModel: MessageModel): MessageChangedActionType {
+  return {
+    type: 'MESSAGE_CHANGED',
+    payload: messageModel,
+  };
+}
+
+function messageAdded({
+  conversationKey,
+  messageModel,
+}: {
+  conversationKey: string;
+  messageModel: MessageModel;
+}): MessageAddedActionType {
+  return {
+    type: 'MESSAGE_ADDED',
+    payload: {
+      conversationKey,
+      messageModel,
+    },
+  };
+}
+
 function openConversationExternal(
   id: string,
   messageId?: string
@@ -196,12 +335,29 @@ function openConversationExternal(
 
 // Reducer
 
+const toPickFromMessageModel = [
+  'attributes',
+  'id',
+  'propsForSearchResult',
+  'propsForMessage',
+  'receivedAt',
+  'conversationId',
+  'firstMessageOfSeries',
+  'propsForGroupInvitation',
+  'propsForTimerNotification',
+  'propsForVerificationNotification',
+  'propsForResetSessionNotification',
+  'propsForGroupNotification',
+];
+
 function getEmptyState(): ConversationsStateType {
   return {
     conversationLookup: {},
+    messages: [],
   };
 }
 
+// tslint:disable-next-line: cyclomatic-complexity
 export function reducer(
   state: ConversationsStateType = getEmptyState(),
   action: ConversationActionType
@@ -263,7 +419,8 @@ export function reducer(
     return getEmptyState();
   }
   if (action.type === 'MESSAGE_EXPIRED') {
-    // noop - for now this is only important for search
+    // FIXME
+    console.warn('EXPIRED');
   }
   if (action.type === 'SELECTED_CONVERSATION_CHANGED') {
     const { payload } = action;
@@ -273,5 +430,77 @@ export function reducer(
       selectedConversation: id,
     };
   }
+  if (action.type === fetchMessagesForConversation.fulfilled.type) {
+    const { messages, conversationKey } = action.payload as any;
+    // double check that this update is for the shown convo
+    if (conversationKey === state.selectedConversation) {
+      const lightMessages = messages.map((m: any) =>
+        _.pick(m, toPickFromMessageModel)
+      ) as Array<MessageTypeInConvo>;
+      return {
+        ...state,
+        messages: lightMessages,
+      };
+    }
+    return state;
+  }
+
+  if (action.type === 'MESSAGE_CHANGED') {
+    const messageInStoreIndex = state?.messages.findIndex(
+      m => m.id === action.payload.id
+    );
+    if (messageInStoreIndex >= 0) {
+      const changedMessage = _.pick(
+        action.payload as any,
+        toPickFromMessageModel
+      ) as MessageTypeInConvo;
+      // we cannot edit the array directly, so slice the first part, insert our edited message, and slice the second part
+      const editedMessages = [
+        ...state.messages.slice(0, messageInStoreIndex),
+        changedMessage,
+        ...state.messages.slice(messageInStoreIndex + 1),
+      ];
+      return {
+        ...state,
+        messages: editedMessages,
+      };
+    }
+
+    return state;
+  }
+
+  if (action.type === 'MESSAGE_ADDED') {
+    const { conversationKey, messageModel } = action.payload;
+    if (conversationKey === state.selectedConversation) {
+      const { messages } = state;
+      const addedMessage = _.pick(
+        messageModel as any,
+        toPickFromMessageModel
+      ) as MessageTypeInConvo;
+      const messagesWithNewMessage = [...messages, addedMessage];
+      const convo = state.conversationLookup[state.selectedConversation];
+      const isPublic = convo?.isPublic;
+
+      if (convo && isPublic) {
+        return {
+          ...state,
+          messages: messagesWithNewMessage.sort(
+            (a: any, b: any) =>
+              b.attributes.serverTimestamp - a.attributes.serverTimestamp
+          ),
+        };
+      }
+      if (convo) {
+        return {
+          ...state,
+          messages: messagesWithNewMessage.sort(
+            (a, b) => b.attributes.timestamp - a.attributes.timestamp
+          ),
+        };
+      }
+    }
+    return state;
+  }
+
   return state;
 }
