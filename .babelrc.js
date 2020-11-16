@@ -1,3 +1,6 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 module.exports = {
   presets: ['@babel/preset-react', '@babel/preset-typescript'],
   // Detects the type of file being babel'd (either esmodule or commonjs)

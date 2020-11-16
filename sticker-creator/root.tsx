@@ -1,3 +1,6 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { hot } from 'react-hot-loader/root';
 import * as React from 'react';
 import { Provider as ReduxProvider } from 'react-redux';

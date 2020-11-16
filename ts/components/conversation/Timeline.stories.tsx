@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { boolean, number } from '@storybook/addon-knobs';
@@ -227,6 +230,7 @@ const actions = () => ({
   showMessageDetail: action('showMessageDetail'),
   openConversation: action('openConversation'),
   showContactDetail: action('showContactDetail'),
+  showContactModal: action('showContactModal'),
   showVisualAttachment: action('showVisualAttachment'),
   downloadAttachment: action('downloadAttachment'),
   displayTapToViewMessage: action('displayTapToViewMessage'),

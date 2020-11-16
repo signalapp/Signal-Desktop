@@ -1,11 +1,12 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import React from 'react';
 import {
-  CallDetailsType,
   SetLocalAudioType,
   SetLocalPreviewType,
   SetLocalVideoType,
 } from '../state/ducks/calling';
-import { CallState } from '../types/Calling';
 import {
   CallingButton,
   CallingButtonType,
@@ -13,15 +14,21 @@ import {
 } from './CallingButton';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
 import { LocalizerType } from '../types/Util';
+import { ColorType } from '../types/Colors';
 
 export type PropsType = {
   availableCameras: Array<MediaDeviceInfo>;
-  callDetails: CallDetailsType;
-  callState?: CallState;
+  conversation: {
+    title: string;
+  };
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
   i18n: LocalizerType;
   isGroupCall: boolean;
+  me: {
+    avatarPath?: string;
+    color?: ColorType;
+  };
   onCallCanceled: () => void;
   onJoinCall: () => void;
   setLocalAudio: (_: SetLocalAudioType) => void;
@@ -33,11 +40,12 @@ export type PropsType = {
 
 export const CallingLobby = ({
   availableCameras,
-  callDetails,
+  conversation,
   hasLocalAudio,
   hasLocalVideo,
   i18n,
   isGroupCall = false,
+  me,
   onCallCanceled,
   onJoinCall,
   setLocalAudio,
@@ -49,20 +57,12 @@ export const CallingLobby = ({
   const localVideoRef = React.useRef(null);
 
   const toggleAudio = React.useCallback((): void => {
-    if (!callDetails) {
-      return;
-    }
-
     setLocalAudio({ enabled: !hasLocalAudio });
-  }, [callDetails, hasLocalAudio, setLocalAudio]);
+  }, [hasLocalAudio, setLocalAudio]);
 
   const toggleVideo = React.useCallback((): void => {
-    if (!callDetails) {
-      return;
-    }
-
     setLocalVideo({ enabled: !hasLocalVideo });
-  }, [callDetails, hasLocalVideo, setLocalVideo]);
+  }, [hasLocalVideo, setLocalVideo]);
 
   React.useEffect(() => {
     setLocalPreview({ element: localVideoRef });
@@ -111,7 +111,7 @@ export const CallingLobby = ({
     <div className="module-calling__container">
       <div className="module-calling__header">
         <div className="module-calling__header--header-name">
-          {callDetails.title}
+          {conversation.title}
         </div>
         <div className="module-calling-tools">
           {isGroupCall ? (
@@ -134,10 +134,7 @@ export const CallingLobby = ({
         {hasLocalVideo && availableCameras.length > 0 ? (
           <video ref={localVideoRef} autoPlay />
         ) : (
-          <CallBackgroundBlur
-            avatarPath={callDetails.avatarPath}
-            color={callDetails.color}
-          >
+          <CallBackgroundBlur avatarPath={me.avatarPath} color={me.color}>
             <div className="module-calling-lobby__video-off--icon" />
             <span className="module-calling-lobby__video-off--text">
               {i18n('calling__your-video-is-off')}

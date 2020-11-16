@@ -1,3 +1,6 @@
+// Copyright 2017-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* global Signal, Whisper, textsecure, _, libsignal */
 
 /* eslint-disable no-console */
@@ -624,7 +627,7 @@ describe('Backup', () => {
         console.log({ messageFromDB, expectedMessage });
         assert.deepEqual(messageFromDB, expectedMessage);
 
-        console.log('Backup test: ensure that all attachments were imported');
+        console.log('Backup test: Ensure that all attachments were imported');
         const recreatedAttachmentFiles = removeDirs(
           fastGlob.sync(attachmentsPattern)
         );

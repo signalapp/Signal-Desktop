@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import {
   compact,
   Dictionary,
@@ -160,6 +163,8 @@ type UpdatesResultType = {
 // Constants
 
 export const MASTER_KEY_LENGTH = 32;
+export const ID_V1_LENGTH = 16;
+export const ID_LENGTH = 32;
 const TEMPORAL_AUTH_REJECTED_CODE = 401;
 const GROUP_ACCESS_DENIED_CODE = 403;
 const SUPPORTED_CHANGE_EPOCH = 0;
@@ -827,7 +832,6 @@ async function integrateGroupChanges({
     const { groupChanges } = changes[i];
 
     if (!groupChanges) {
-      // eslint-disable-next-line no-continue
       continue;
     }
 
@@ -841,7 +845,6 @@ async function integrateGroupChanges({
         window.log.warn(
           'integrateGroupChanges: item had neither groupState nor groupChange. Skipping.'
         );
-        // eslint-disable-next-line no-continue
         continue;
       }
 
@@ -1258,7 +1261,23 @@ function extractDiffs({
   // Here we hardcode initial messages if this is our first time processing data this
   //   group. Ideally we can collapse it down to just one of: 'you were added',
   //   'you were invited', or 'you created.'
-  if (firstUpdate && dropInitialJoinMessage) {
+  if (firstUpdate && ourConversationId && areWeInvitedToGroup) {
+    // Note, we will add 'you were invited' to group even if dropInitialJoinMessage = true
+    message = {
+      ...generateBasicMessage(),
+      type: 'group-v2-change',
+      groupV2Change: {
+        from: whoInvitedUsUserId || sourceConversationId,
+        details: [
+          {
+            type: 'pending-add-one',
+            conversationId: ourConversationId,
+          },
+        ],
+      },
+    };
+  } else if (firstUpdate && dropInitialJoinMessage) {
+    // None of the rest of the messages should be added if dropInitialJoinMessage = true
     message = undefined;
   } else if (
     firstUpdate &&
@@ -1274,20 +1293,6 @@ function extractDiffs({
         details: [
           {
             type: 'create',
-          },
-        ],
-      },
-    };
-  } else if (firstUpdate && ourConversationId && areWeInvitedToGroup) {
-    message = {
-      ...generateBasicMessage(),
-      type: 'group-v2-change',
-      groupV2Change: {
-        from: whoInvitedUsUserId || sourceConversationId,
-        details: [
-          {
-            type: 'pending-add-one',
-            conversationId: ourConversationId,
           },
         ],
       },

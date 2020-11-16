@@ -1,6 +1,9 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import * as React from 'react';
 
-import 'draft-js/dist/Draft.css';
+import 'react-quill/dist/quill.core.css';
 import { boolean, select } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -17,14 +20,15 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
   disabled: boolean('disabled', overrideProps.disabled || false),
   onSubmit: action('onSubmit'),
-  onEditorSizeChange: action('onEditorSizeChange'),
   onEditorStateChange: action('onEditorStateChange'),
   onTextTooLong: action('onTextTooLong'),
-  startingText: overrideProps.startingText || undefined,
+  draftText: overrideProps.draftText || undefined,
+  draftBodyRanges: overrideProps.draftBodyRanges || [],
   clearQuotedMessage: action('clearQuotedMessage'),
   getQuotedMessage: action('getQuotedMessage'),
   onPickEmoji: action('onPickEmoji'),
   large: boolean('large', overrideProps.large || false),
+  members: overrideProps.members || [],
   skinTone: select(
     'skinTone',
     {
@@ -63,7 +67,7 @@ story.add('Disabled', () => {
 
 story.add('Starting Text', () => {
   const props = createProps({
-    startingText: "here's some starting text",
+    draftText: "here's some starting text",
   });
 
   return <CompositionInput {...props} />;
@@ -71,7 +75,7 @@ story.add('Starting Text', () => {
 
 story.add('Multiline Text', () => {
   const props = createProps({
-    startingText: `here's some starting text
+    draftText: `here's some starting text
 and more on another line
 and yet another line
 and yet another line
@@ -87,11 +91,43 @@ and we're done`,
 
 story.add('Emojis', () => {
   const props = createProps({
-    startingText: `⁣😐😐😐😐😐😐😐
+    draftText: `⁣😐😐😐😐😐😐😐
 😐😐😐😐😐😐😐
 😐😐😐😂⁣😐😐😐
 😐😐😐😐😐😐😐
 😐😐😐😐😐😐😐`,
+  });
+
+  return <CompositionInput {...props} />;
+});
+
+story.add('Mentions', () => {
+  const props = createProps({
+    members: [
+      {
+        id: '0',
+        type: 'direct',
+        lastUpdated: 0,
+        title: 'Kate Beaton',
+        markedUnread: false,
+      },
+      {
+        id: '0',
+        type: 'direct',
+        lastUpdated: 0,
+        title: 'Parry Gripp',
+        markedUnread: false,
+      },
+    ],
+    draftText: 'send _ a message',
+    draftBodyRanges: [
+      {
+        start: 5,
+        length: 1,
+        mentionUuid: '0',
+        replacementText: 'Kate Beaton',
+      },
+    ],
   });
 
   return <CompositionInput {...props} />;

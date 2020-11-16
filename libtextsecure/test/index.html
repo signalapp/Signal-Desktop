@@ -1,3 +1,6 @@
+<!-- Copyright 2015-2020 Signal Messenger, LLC -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+
 <html>
 
 <head>
@@ -49,8 +52,10 @@
 
   <!-- Uncomment to start tests without code coverage enabled -->
   <script type="text/javascript">
-    mocha.run();
-    window.Signal.conversationControllerStart();
+    window.textsecure.protobuf.onLoad(() => {
+      mocha.run();
+      window.Signal.conversationControllerStart();
+    });
   </script>
 </body>
 </html>

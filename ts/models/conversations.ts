@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint-disable class-methods-use-this */
 /* eslint-disable camelcase */
 import {
@@ -15,6 +18,7 @@ import {
 } from '../state/ducks/conversations';
 import { ColorType } from '../types/Colors';
 import { MessageModel } from './messages';
+import { isMuted } from '../util/isMuted';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import { MIMEType, IMAGE_WEBP } from '../types/MIME';
 import {
@@ -27,6 +31,8 @@ import {
   verifyAccessKey,
 } from '../Crypto';
 import { GroupChangeClass } from '../textsecure.d';
+import { BodyRangesType } from '../types/Util';
+import { getTextWithMentions } from '../util';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -119,6 +125,8 @@ export class ConversationModel extends window.Backbone.Model<
   typingPauseTimer?: NodeJS.Timer | null;
 
   verifiedEnum?: typeof window.textsecure.storage.protocol.VerifiedStatus;
+
+  intlCollator = new Intl.Collator();
 
   // eslint-disable-next-line class-methods-use-this
   defaults(): Partial<ConversationAttributesType> {
@@ -258,7 +266,8 @@ export class ConversationModel extends window.Backbone.Model<
       return false;
     }
 
-    return fromEncodedBinaryToArrayBuffer(groupId).byteLength === 16;
+    const buffer = fromEncodedBinaryToArrayBuffer(groupId);
+    return buffer.byteLength === window.Signal.Groups.ID_V1_LENGTH;
   }
 
   isGroupV2(): boolean {
@@ -269,7 +278,10 @@ export class ConversationModel extends window.Backbone.Model<
 
     const groupVersion = this.get('groupVersion') || 0;
 
-    return groupVersion === 2 && base64ToArrayBuffer(groupId).byteLength === 32;
+    return (
+      groupVersion === 2 &&
+      base64ToArrayBuffer(groupId).byteLength === window.Signal.Groups.ID_LENGTH
+    );
   }
 
   isMemberPending(conversationId: string): boolean {
@@ -723,8 +735,11 @@ export class ConversationModel extends window.Backbone.Model<
 
   getDraftPreview(): string {
     const draft = this.get('draft');
+
     if (draft) {
-      return draft;
+      const bodyRanges = this.get('draftBodyRanges') || [];
+
+      return getTextWithMentions(bodyRanges, draft);
     }
 
     const draftAttachments = this.get('draftAttachments') || [];
@@ -809,6 +824,10 @@ export class ConversationModel extends window.Backbone.Model<
     await window.Signal.Groups.waitThenMaybeUpdateGroup({
       conversation: this,
     });
+  }
+
+  isValid(): boolean {
+    return this.isPrivate() || this.isGroupV1() || this.isGroupV2();
   }
 
   maybeRepairGroupV2(data: {
@@ -1090,6 +1109,7 @@ export class ConversationModel extends window.Backbone.Model<
     const draftTimestamp = this.get('draftTimestamp');
     const draftPreview = this.getDraftPreview();
     const draftText = this.get('draft');
+    const draftBodyRanges = this.get('draftBodyRanges');
     const shouldShowDraft = (this.hasDraft() &&
       draftTimestamp &&
       draftTimestamp >= timestamp) as boolean;
@@ -1106,6 +1126,15 @@ export class ConversationModel extends window.Backbone.Model<
       groupVersion = 2;
     }
 
+    const members = this.isGroupV2()
+      ? this.getMembers()
+          .sort((left, right) =>
+            sortConversationTitles(left, right, this.intlCollator)
+          )
+          .map(member => member.format())
+          .filter((member): member is ConversationType => member !== null)
+      : undefined;
+
     // TODO: DESKTOP-720
     /* eslint-disable @typescript-eslint/no-non-null-assertion */
     const result: ConversationType = {
@@ -1118,8 +1147,11 @@ export class ConversationModel extends window.Backbone.Model<
       areWePending: Boolean(
         ourConversationId && this.isMemberPending(ourConversationId)
       ),
+      areWeAdmin: this.areWeAdmin(),
+      canChangeTimer: this.canChangeTimer(),
       avatarPath: this.getAvatarPath()!,
       color,
+      draftBodyRanges,
       draftPreview,
       draftText,
       firstName: this.get('profileName')!,
@@ -1137,11 +1169,14 @@ export class ConversationModel extends window.Backbone.Model<
         deletedForEveryone: this.get('lastMessageDeletedForEveryone')!,
       },
       lastUpdated: this.get('timestamp')!,
-
+      left: Boolean(this.get('left')),
+      markedUnread: this.get('markedUnread')!,
+      members,
       membersCount: this.isPrivate()
         ? undefined
         : (this.get('membersV2')! || this.get('members')! || []).length,
       messageRequestsEnabled,
+      expireTimer: this.get('expireTimer'),
       muteExpiresAt: this.get('muteExpiresAt')!,
       name: this.get('name')!,
       phoneNumber: this.getNumber()!,
@@ -1272,7 +1307,17 @@ export class ConversationModel extends window.Backbone.Model<
       }
 
       // eslint-disable-next-line no-await-in-loop
-      await Promise.all(readMessages.map(m => m.queueAttachmentDownloads()));
+      await Promise.all(
+        readMessages.map(async m => {
+          const registered = window.MessageController.register(m.id, m);
+          const shouldSave = await registered.queueAttachmentDownloads();
+          if (shouldSave) {
+            await window.Signal.Data.saveMessage(registered.attributes, {
+              Message: window.Whisper.Message,
+            });
+          }
+        })
+      );
     } while (messages.length > 0);
   }
 
@@ -1280,106 +1325,109 @@ export class ConversationModel extends window.Backbone.Model<
     response: number,
     { fromSync = false, viaStorageServiceSync = false } = {}
   ): Promise<void> {
-    const messageRequestEnum =
-      window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
-    const isLocalAction = !fromSync && !viaStorageServiceSync;
-    const ourConversationId = window.ConversationController.getOurConversationId();
+    try {
+      const messageRequestEnum =
+        window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
+      const isLocalAction = !fromSync && !viaStorageServiceSync;
+      const ourConversationId = window.ConversationController.getOurConversationId();
 
-    const currentMessageRequestState = this.get('messageRequestResponseType');
-    const didResponseChange = response !== currentMessageRequestState;
-    const wasPreviouslyAccepted = this.getAccepted();
+      const currentMessageRequestState = this.get('messageRequestResponseType');
+      const didResponseChange = response !== currentMessageRequestState;
+      const wasPreviouslyAccepted = this.getAccepted();
 
-    // Apply message request response locally
-    this.set({
-      messageRequestResponseType: response,
-    });
-    window.Signal.Data.updateConversation(this.attributes);
+      // Apply message request response locally
+      this.set({
+        messageRequestResponseType: response,
+      });
 
-    if (response === messageRequestEnum.ACCEPT) {
-      this.unblock({ viaStorageServiceSync });
-      this.enableProfileSharing({ viaStorageServiceSync });
+      if (response === messageRequestEnum.ACCEPT) {
+        this.unblock({ viaStorageServiceSync });
+        this.enableProfileSharing({ viaStorageServiceSync });
 
-      // We really don't want to call this if we don't have to. It can take a lot of time
-      //   to go through old messages to download attachments.
-      if (didResponseChange && !wasPreviouslyAccepted) {
-        await this.handleReadAndDownloadAttachments({ isLocalAction });
-      }
+        // We really don't want to call this if we don't have to. It can take a lot of
+        //   time to go through old messages to download attachments.
+        if (didResponseChange && !wasPreviouslyAccepted) {
+          await this.handleReadAndDownloadAttachments({ isLocalAction });
+        }
 
-      if (isLocalAction) {
-        if (this.isGroupV1() || this.isPrivate()) {
-          this.sendProfileKeyUpdate();
-        } else if (
-          ourConversationId &&
-          this.isGroupV2() &&
-          this.isMemberPending(ourConversationId)
-        ) {
-          await this.modifyGroupV2({
-            name: 'promotePendingMember',
-            createGroupChange: () =>
-              this.promotePendingMember(ourConversationId),
-          });
-        } else if (
-          ourConversationId &&
-          this.isGroupV2() &&
-          this.isMember(ourConversationId)
-        ) {
-          window.log.info(
-            'applyMessageRequestResponse/accept: Already a member of v2 group'
-          );
-        } else {
-          window.log.error(
-            'applyMessageRequestResponse/accept: Neither member nor pending member of v2 group'
-          );
+        if (isLocalAction) {
+          if (this.isGroupV1() || this.isPrivate()) {
+            this.sendProfileKeyUpdate();
+          } else if (
+            ourConversationId &&
+            this.isGroupV2() &&
+            this.isMemberPending(ourConversationId)
+          ) {
+            await this.modifyGroupV2({
+              name: 'promotePendingMember',
+              createGroupChange: () =>
+                this.promotePendingMember(ourConversationId),
+            });
+          } else if (
+            ourConversationId &&
+            this.isGroupV2() &&
+            this.isMember(ourConversationId)
+          ) {
+            window.log.info(
+              'applyMessageRequestResponse/accept: Already a member of v2 group'
+            );
+          } else {
+            window.log.error(
+              'applyMessageRequestResponse/accept: Neither member nor pending member of v2 group'
+            );
+          }
+        }
+      } else if (response === messageRequestEnum.BLOCK) {
+        // Block locally, other devices should block upon receiving the sync message
+        this.block({ viaStorageServiceSync });
+        this.disableProfileSharing({ viaStorageServiceSync });
+
+        if (isLocalAction) {
+          if (this.isGroupV1() || this.isPrivate()) {
+            await this.leaveGroup();
+          } else if (this.isGroupV2()) {
+            await this.leaveGroupV2();
+          }
+        }
+      } else if (response === messageRequestEnum.DELETE) {
+        this.disableProfileSharing({ viaStorageServiceSync });
+
+        // Delete messages locally, other devices should delete upon receiving
+        // the sync message
+        await this.destroyMessages();
+        this.updateLastMessage();
+
+        if (isLocalAction) {
+          this.trigger('unload', 'deleted from message request');
+
+          if (this.isGroupV1() || this.isPrivate()) {
+            await this.leaveGroup();
+          } else if (this.isGroupV2()) {
+            await this.leaveGroupV2();
+          }
+        }
+      } else if (response === messageRequestEnum.BLOCK_AND_DELETE) {
+        // Block locally, other devices should block upon receiving the sync message
+        this.block({ viaStorageServiceSync });
+        this.disableProfileSharing({ viaStorageServiceSync });
+
+        // Delete messages locally, other devices should delete upon receiving
+        // the sync message
+        await this.destroyMessages();
+        this.updateLastMessage();
+
+        if (isLocalAction) {
+          this.trigger('unload', 'blocked and deleted from message request');
+
+          if (this.isGroupV1() || this.isPrivate()) {
+            await this.leaveGroup();
+          } else if (this.isGroupV2()) {
+            await this.leaveGroupV2();
+          }
         }
       }
-    } else if (response === messageRequestEnum.BLOCK) {
-      // Block locally, other devices should block upon receiving the sync message
-      this.block({ viaStorageServiceSync });
-      this.disableProfileSharing({ viaStorageServiceSync });
-
-      if (isLocalAction) {
-        if (this.isGroupV1() || this.isPrivate()) {
-          await this.leaveGroup();
-        } else if (this.isGroupV2()) {
-          await this.leaveGroupV2();
-        }
-      }
-    } else if (response === messageRequestEnum.DELETE) {
-      this.disableProfileSharing({ viaStorageServiceSync });
-
-      // Delete messages locally, other devices should delete upon receiving
-      // the sync message
-      await this.destroyMessages();
-      this.updateLastMessage();
-
-      if (isLocalAction) {
-        this.trigger('unload', 'deleted from message request');
-
-        if (this.isGroupV1() || this.isPrivate()) {
-          await this.leaveGroup();
-        } else if (this.isGroupV2()) {
-          await this.leaveGroupV2();
-        }
-      }
-    } else if (response === messageRequestEnum.BLOCK_AND_DELETE) {
-      // Block locally, other devices should block upon receiving the sync message
-      this.block({ viaStorageServiceSync });
-      this.disableProfileSharing({ viaStorageServiceSync });
-
-      // Delete messages locally, other devices should delete upon receiving
-      // the sync message
-      await this.destroyMessages();
-      this.updateLastMessage();
-
-      if (isLocalAction) {
-        this.trigger('unload', 'blocked and deleted from message request');
-
-        if (this.isGroupV1() || this.isPrivate()) {
-          await this.leaveGroup();
-        } else if (this.isGroupV2()) {
-          await this.leaveGroupV2();
-        }
-      }
+    } finally {
+      window.Signal.Data.updateConversation(this.attributes);
     }
   }
 
@@ -1407,6 +1455,24 @@ export class ConversationModel extends window.Backbone.Model<
     } else {
       window.log.error(
         'leaveGroupV2: We were neither a member nor a pending member of the group'
+      );
+    }
+  }
+
+  async removeFromGroupV2(conversationId: string): Promise<void> {
+    if (this.isGroupV2() && this.isMemberPending(conversationId)) {
+      await this.modifyGroupV2({
+        name: 'removePendingMember',
+        createGroupChange: () => this.removePendingMember(conversationId),
+      });
+    } else if (this.isGroupV2() && this.isMember(conversationId)) {
+      await this.modifyGroupV2({
+        name: 'removeFromGroup',
+        createGroupChange: () => this.removeMember(conversationId),
+      });
+    } else {
+      window.log.error(
+        `removeFromGroupV2: Member ${conversationId} is neither a member nor a pending member of the group`
       );
     }
   }
@@ -2109,7 +2175,7 @@ export class ConversationModel extends window.Backbone.Model<
 
   getMembers(
     options: { includePendingMembers?: boolean } = {}
-  ): Array<WhatIsThis> {
+  ): Array<ConversationModel> {
     if (this.isPrivate()) {
       return [this];
     }
@@ -2495,6 +2561,10 @@ export class ConversationModel extends window.Backbone.Model<
       // sending functionality. It will not be saved to the datbase.
       const message = new window.Whisper.Message(attributes);
 
+      // This is to ensure that the functions in send() and sendSyncMessage() don't save
+      //   anything to the database.
+      message.doNotSave = true;
+
       // We're offline!
       if (!window.textsecure.messaging) {
         throw new Error('Cannot send reaction while offline!');
@@ -2553,10 +2623,6 @@ export class ConversationModel extends window.Backbone.Model<
         );
       })();
 
-      // This is to ensure that the functions in send() and sendSyncMessage() don't save
-      //   anything to the database.
-      message.doNotSave = true;
-
       return message.send(this.wrapSend(promise));
     }).catch(error => {
       window.log.error('Error sending reaction', reaction, target, error);
@@ -2595,7 +2661,8 @@ export class ConversationModel extends window.Backbone.Model<
     attachments: Array<WhatIsThis>,
     quote: WhatIsThis,
     preview: WhatIsThis,
-    sticker: WhatIsThis
+    sticker?: WhatIsThis,
+    mentions?: BodyRangesType
   ): void {
     this.clearTypingTimers();
 
@@ -2635,12 +2702,13 @@ export class ConversationModel extends window.Backbone.Model<
         expireTimer,
         recipients,
         sticker,
+        bodyRanges: mentions,
       });
 
       if (this.isPrivate()) {
         messageWithSchema.destination = destination;
       }
-      const attributes = {
+      const attributes: MessageModel = {
         ...messageWithSchema,
         id: window.getGuid(),
       };
@@ -2731,6 +2799,7 @@ export class ConversationModel extends window.Backbone.Model<
             quote,
             sticker,
             timestamp: now,
+            mentions,
           },
           options
         );
@@ -3017,6 +3086,19 @@ export class ConversationModel extends window.Backbone.Model<
       }
       this.captureChange('isArchived');
     }
+  }
+
+  setMarkedUnread(markedUnread: boolean): void {
+    const previousMarkedUnread = this.get('markedUnread');
+
+    this.set({ markedUnread });
+    window.Signal.Data.updateConversation(this.attributes);
+
+    if (Boolean(previousMarkedUnread) !== Boolean(markedUnread)) {
+      this.captureChange('markedUnread');
+    }
+
+    window.Whisper.events.trigger('updateUnreadCount');
   }
 
   async updateExpirationTimer(
@@ -3951,7 +4033,7 @@ export class ConversationModel extends window.Backbone.Model<
     return getAbsoluteAttachmentPath(avatar.path);
   }
 
-  canChangeTimer(): boolean {
+  private canChangeTimer(): boolean {
     if (this.isPrivate()) {
       return true;
     }
@@ -3971,6 +4053,14 @@ export class ConversationModel extends window.Backbone.Model<
       return true;
     }
 
+    return this.areWeAdmin();
+  }
+
+  areWeAdmin(): boolean {
+    if (!this.isGroupV2()) {
+      return false;
+    }
+
     const memberEnum = window.textsecure.protobuf.Member.Role;
     const members = this.get('membersV2') || [];
     const myId = window.ConversationController.getOurConversationId();
@@ -3979,12 +4069,7 @@ export class ConversationModel extends window.Backbone.Model<
       return false;
     }
 
-    const isAdministrator = me.role === memberEnum.ADMINISTRATOR;
-    if (isAdministrator) {
-      return true;
-    }
-
-    return false;
+    return me.role === memberEnum.ADMINISTRATOR;
   }
 
   // Set of items to captureChanges on:
@@ -3998,6 +4083,7 @@ export class ConversationModel extends window.Backbone.Model<
   // [X] blocked
   // [X] whitelisted
   // [X] archived
+  // [X] markedUnread
   captureChange(property: string): void {
     if (!window.Signal.RemoteConfig.isEnabled('desktop.storageWrite')) {
       window.log.info(
@@ -4020,10 +4106,7 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   isMuted(): boolean {
-    return (
-      Boolean(this.get('muteExpiresAt')) &&
-      Date.now() < this.get('muteExpiresAt')
-    );
+    return isMuted(this.get('muteExpiresAt'));
   }
 
   getMuteTimeoutId(): string {
@@ -4386,6 +4469,20 @@ window.Whisper.GroupMemberConversation = window.Backbone.Model.extend({
   },
 });
 
+interface SortableByTitle {
+  getTitle: () => string;
+}
+
+const sortConversationTitles = (
+  left: SortableByTitle,
+  right: SortableByTitle,
+  collator: Intl.Collator
+) => {
+  const leftLower = left.getTitle().toLowerCase();
+  const rightLower = right.getTitle().toLowerCase();
+  return collator.compare(leftLower, rightLower);
+};
+
 // We need a custom collection here to get the sorting we need
 window.Whisper.GroupConversationCollection = window.Backbone.Collection.extend({
   model: window.Whisper.GroupMemberConversation,
@@ -4402,8 +4499,6 @@ window.Whisper.GroupConversationCollection = window.Backbone.Collection.extend({
       return 1;
     }
 
-    const leftLower = left.getTitle().toLowerCase();
-    const rightLower = right.getTitle().toLowerCase();
-    return this.collator.compare(leftLower, rightLower);
+    return sortConversationTitles(left, right, this.collator);
   },
 });

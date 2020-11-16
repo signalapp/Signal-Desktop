@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 export default function createTaskWithTimeout<T>(
   task: () => Promise<T>,
   id: string,

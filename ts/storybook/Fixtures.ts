@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-ignore
 import gif from '../../fixtures/giphy-GVNvOUpeYmI7e.gif';

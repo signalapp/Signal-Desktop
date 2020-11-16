@@ -1,37 +1,53 @@
-/* global ConversationController, i18n, Signal, Whisper, textsecure */
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
 
-'use strict';
-
-const attributes = {
-  type: 'outgoing',
-  body: 'hi',
-  conversationId: 'foo',
-  attachments: [],
-  received_at: new Date().getTime(),
-};
-
-const source = '+1 415-555-5555';
-const me = '+14155555556';
-const ourUuid = window.getGuid();
-
-before(async () => {
-  await clearDatabase();
-  ConversationController.reset();
-  await ConversationController.load();
-  textsecure.storage.put('number_id', `${me}.2`);
-  textsecure.storage.put('uuid_id', `${ourUuid}.2`);
-});
-after(() => {
-  textsecure.storage.put('number_id', null);
-  textsecure.storage.put('uuid_id', null);
-  return clearDatabase();
-});
+import { assert } from 'chai';
+import * as sinon from 'sinon';
+import { setup as setupI18n } from '../../../js/modules/i18n';
+import enMessages from '../../../_locales/en/messages.json';
 
 describe('Message', () => {
-  function createMessage(attrs) {
+  const i18n = setupI18n('en', enMessages);
+
+  const attributes = {
+    type: 'outgoing',
+    body: 'hi',
+    conversationId: 'foo',
+    attachments: [],
+    received_at: new Date().getTime(),
+  };
+
+  const source = '+1 415-555-5555';
+  const me = '+14155555556';
+  const ourUuid = window.getGuid();
+
+  function createMessage(attrs: { [key: string]: unknown }) {
     const messages = new Whisper.MessageCollection();
     return messages.add(attrs);
   }
+
+  before(async () => {
+    window.ConversationController.reset();
+    await window.ConversationController.load();
+    window.textsecure.storage.put('number_id', `${me}.2`);
+    window.textsecure.storage.put('uuid_id', `${ourUuid}.2`);
+  });
+
+  after(async () => {
+    window.textsecure.storage.put('number_id', null);
+    window.textsecure.storage.put('uuid_id', null);
+
+    await window.Signal.Data.removeAll();
+    await window.storage.fetch();
+  });
+
+  beforeEach(function beforeEach() {
+    this.sandbox = sinon.createSandbox();
+  });
+
+  afterEach(function afterEach() {
+    this.sandbox.restore();
+  });
 
   // NOTE: These tests are incomplete.
   describe('send', () => {
@@ -72,28 +88,24 @@ describe('Message', () => {
     it("triggers the 'sent' event on success", async () => {
       const message = createMessage({ type: 'outgoing', source });
 
-      const calls = [];
-      message.on('sent', (...args) => {
-        calls.push(args);
-      });
+      const listener = sinon.spy();
+      message.on('sent', listener);
 
       await message.send(Promise.resolve({}));
 
-      assert.lengthOf(calls, 1);
-      assert.strictEqual(calls[0][0], message);
+      sinon.assert.calledOnce(listener);
+      sinon.assert.calledWith(listener, message);
     });
 
     it("triggers the 'done' event on failure", async () => {
       const message = createMessage({ type: 'outgoing', source });
 
-      let callCount = 0;
-      message.on('done', () => {
-        callCount += 1;
-      });
+      const listener = sinon.spy();
+      message.on('done', listener);
 
       await message.send(Promise.reject(new Error('something went wrong!')));
 
-      assert.strictEqual(callCount, 1);
+      sinon.assert.calledOnce(listener);
     });
 
     it('saves errors from promise rejections with errors', async () => {
@@ -436,7 +448,8 @@ describe('Message', () => {
         title: 'voice message',
         attachment: {
           contentType: 'audio/ogg',
-          flags: textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE,
+          flags:
+            window.textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE,
         },
         expectedText: 'Voice Message',
         expectedEmoji: '🎤',
@@ -523,15 +536,6 @@ describe('Message', () => {
   });
 
   describe('getNotificationText', () => {
-    // Sinon isn't included in the Electron test setup so we do this.
-    beforeEach(function beforeEach() {
-      this.oldIsLinux = Signal.OS.isLinux;
-    });
-
-    afterEach(function afterEach() {
-      Signal.OS.isLinux = this.oldIsLinux;
-    });
-
     it("returns a notification's text", () => {
       assert.strictEqual(
         createMessage({
@@ -543,8 +547,8 @@ describe('Message', () => {
       );
     });
 
-    it("shows a notification's emoji on non-Linux", () => {
-      Signal.OS.isLinux = () => false;
+    it("shows a notification's emoji on non-Linux", function test() {
+      this.sandbox.stub(window.Signal.OS, 'isLinux').returns(false);
 
       assert.strictEqual(
         createMessage({
@@ -560,8 +564,8 @@ describe('Message', () => {
       );
     });
 
-    it('hides emoji on Linux', () => {
-      Signal.OS.isLinux = () => true;
+    it('hides emoji on Linux', function test() {
+      this.sandbox.stub(window.Signal.OS, 'isLinux').returns(true);
 
       assert.strictEqual(
         createMessage({
@@ -594,19 +598,21 @@ describe('MessageCollection', () => {
   it('should be ordered oldest to newest', () => {
     const messages = new Whisper.MessageCollection();
     // Timestamps
-    const today = new Date();
-    const tomorrow = new Date();
-    tomorrow.setDate(today.getDate() + 1);
+    const today = Date.now();
+    const tomorrow = today + 12345;
 
     // Add threads
     messages.add({ received_at: today });
     messages.add({ received_at: tomorrow });
 
     const { models } = messages;
-    const firstTimestamp = models[0].get('received_at').getTime();
-    const secondTimestamp = models[1].get('received_at').getTime();
+    const firstTimestamp = models[0].get('received_at');
+    const secondTimestamp = models[1].get('received_at');
 
     // Compare timestamps
-    assert(firstTimestamp < secondTimestamp);
+    assert(typeof firstTimestamp === 'number');
+    assert(typeof secondTimestamp === 'number');
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    assert(firstTimestamp! < secondTimestamp!);
   });
 });

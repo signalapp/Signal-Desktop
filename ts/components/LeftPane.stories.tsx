@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import * as React from 'react';
 
 import { action } from '@storybook/addon-actions';
@@ -18,6 +21,7 @@ const defaultConversations: Array<PropsData> = [
     id: 'fred-convo',
     isSelected: false,
     lastUpdated: Date.now(),
+    markedUnread: false,
     title: 'Fred Willard',
     type: 'direct',
   },
@@ -25,6 +29,7 @@ const defaultConversations: Array<PropsData> = [
     id: 'marc-convo',
     isSelected: true,
     lastUpdated: Date.now(),
+    markedUnread: false,
     title: 'Marc Barraca',
     type: 'direct',
   },
@@ -35,6 +40,7 @@ const defaultArchivedConversations: Array<PropsData> = [
     id: 'michelle-archive-convo',
     isSelected: false,
     lastUpdated: Date.now(),
+    markedUnread: false,
     title: 'Michelle Mercure',
     type: 'direct',
   },
@@ -46,6 +52,7 @@ const pinnedConversations: Array<PropsData> = [
     isPinned: true,
     isSelected: false,
     lastUpdated: Date.now(),
+    markedUnread: false,
     title: 'Philip Glass',
     type: 'direct',
   },
@@ -54,6 +61,7 @@ const pinnedConversations: Array<PropsData> = [
     isPinned: true,
     isSelected: false,
     lastUpdated: Date.now(),
+    markedUnread: false,
     title: 'Robert Moog',
     type: 'direct',
   },
@@ -129,6 +137,7 @@ story.add('Search Results', () => {
             id: 'fred-convo',
             isSelected: false,
             lastUpdated: Date.now(),
+            markedUnread: false,
             title: 'People Named Fred',
             type: 'group',
           },
@@ -147,6 +156,7 @@ story.add('Search Results', () => {
             id: 'fred-contact',
             isSelected: false,
             lastUpdated: Date.now(),
+            markedUnread: false,
             title: 'Fred Willard',
             type: 'direct',
           },

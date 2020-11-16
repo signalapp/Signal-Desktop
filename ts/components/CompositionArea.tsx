@@ -1,5 +1,7 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import * as React from 'react';
-import { Editor } from 'draft-js';
 import { get, noop } from 'lodash';
 import classNames from 'classnames';
 import { EmojiButton, Props as EmojiButtonProps } from './emoji/EmojiButton';
@@ -46,11 +48,12 @@ export type OwnProps = {
 
 export type Props = Pick<
   CompositionInputProps,
+  | 'members'
   | 'onSubmit'
-  | 'onEditorSizeChange'
   | 'onEditorStateChange'
   | 'onTextTooLong'
-  | 'startingText'
+  | 'draftText'
+  | 'draftBodyRanges'
   | 'clearQuotedMessage'
   | 'getQuotedMessage'
 > &
@@ -90,12 +93,13 @@ export const CompositionArea = ({
   // CompositionInput
   onSubmit,
   compositionApi,
-  onEditorSizeChange,
   onEditorStateChange,
   onTextTooLong,
-  startingText,
+  draftText,
+  draftBodyRanges,
   clearQuotedMessage,
   getQuotedMessage,
+  members,
   // EmojiButton
   onPickEmoji,
   onSetSkinTone,
@@ -133,11 +137,10 @@ export const CompositionArea = ({
   title,
 }: Props): JSX.Element => {
   const [disabled, setDisabled] = React.useState(false);
-  const [showMic, setShowMic] = React.useState(!startingText);
+  const [showMic, setShowMic] = React.useState(!draftText);
   const [micActive, setMicActive] = React.useState(false);
   const [dirty, setDirty] = React.useState(false);
   const [large, setLarge] = React.useState(false);
-  const editorRef = React.useRef<Editor>(null);
   const inputApiRef = React.useRef<InputApi | undefined>();
 
   const handleForceSend = React.useCallback(() => {
@@ -156,10 +159,10 @@ export const CompositionArea = ({
   );
 
   const focusInput = React.useCallback(() => {
-    if (editorRef.current) {
-      editorRef.current.focus();
+    if (inputApiRef.current) {
+      inputApiRef.current.focus();
     }
-  }, [editorRef]);
+  }, [inputApiRef]);
 
   const withStickers =
     countStickers({
@@ -413,18 +416,18 @@ export const CompositionArea = ({
             i18n={i18n}
             disabled={disabled}
             large={large}
-            editorRef={editorRef}
             inputApi={inputApiRef}
             onPickEmoji={onPickEmoji}
             onSubmit={handleSubmit}
-            onEditorSizeChange={onEditorSizeChange}
             onEditorStateChange={onEditorStateChange}
             onTextTooLong={onTextTooLong}
             onDirtyChange={setDirty}
             skinTone={skinTone}
-            startingText={startingText}
+            draftText={draftText}
+            draftBodyRanges={draftBodyRanges}
             clearQuotedMessage={clearQuotedMessage}
             getQuotedMessage={getQuotedMessage}
+            members={members}
           />
         </div>
         {!large ? (

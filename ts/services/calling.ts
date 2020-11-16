@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint-disable class-methods-use-this */
 
 import {
@@ -18,13 +21,7 @@ import {
   UserId,
 } from 'ringrtc';
 
-// ts-ignore
-import is from '@sindresorhus/is';
-
-import {
-  ActionsType as UxActionsType,
-  CallDetailsType,
-} from '../state/ducks/calling';
+import { ActionsType as UxActionsType } from '../state/ducks/calling';
 import { EnvelopeClass } from '../textsecure.d';
 import { AudioDevice, MediaDeviceSettings } from '../types/Calling';
 import { ConversationModel } from '../models/conversations';
@@ -48,35 +45,19 @@ export class CallingClass {
 
   private deviceReselectionTimer?: NodeJS.Timeout;
 
+  private callsByConversation: { [conversationId: string]: Call };
+
   constructor() {
     this.videoCapturer = new GumVideoCapturer(640, 480, 30);
     this.videoRenderer = new CanvasVideoRenderer();
+
+    this.callsByConversation = {};
   }
 
   initialize(uxActions: UxActionsType): void {
     this.uxActions = uxActions;
     if (!uxActions) {
       throw new Error('CallingClass.initialize: Invalid uxActions.');
-    }
-    if (!is.function_(uxActions.incomingCall)) {
-      throw new Error(
-        'CallingClass.initialize: Invalid uxActions.incomingCall'
-      );
-    }
-    if (!is.function_(uxActions.outgoingCall)) {
-      throw new Error(
-        'CallingClass.initialize: Invalid uxActions.outgoingCall'
-      );
-    }
-    if (!is.function_(uxActions.callStateChange)) {
-      throw new Error(
-        'CallingClass.initialize: Invalid uxActions.callStateChange'
-      );
-    }
-    if (!is.function_(uxActions.remoteVideoChange)) {
-      throw new Error(
-        'CallingClass.initialize: Invalid uxActions.remoteVideoChange'
-      );
     }
     RingRTC.handleOutgoingSignaling = this.handleOutgoingSignaling.bind(this);
     RingRTC.handleIncomingCall = this.handleIncomingCall.bind(this);
@@ -121,16 +102,15 @@ export class CallingClass {
 
     window.log.info('CallingClass.startCallingLobby(): Starting lobby');
     this.uxActions.showCallLobby({
-      callDetails: {
-        ...conversationProps,
-        callId: undefined,
-        isIncoming: false,
-        isVideoCall,
-      },
+      conversationId: conversationProps.id,
+      isVideoCall,
     });
 
     await this.startDeviceReselectionTimer();
-    this.enableLocalCamera();
+
+    if (isVideoCall) {
+      this.enableLocalCamera();
+    }
   }
 
   stopCallingLobby(): void {
@@ -141,7 +121,8 @@ export class CallingClass {
 
   async startOutgoingCall(
     conversationId: string,
-    isVideoCall: boolean
+    hasLocalAudio: boolean,
+    hasLocalVideo: boolean
   ): Promise<void> {
     window.log.info('CallingClass.startCallingLobby()');
 
@@ -164,7 +145,7 @@ export class CallingClass {
       return;
     }
 
-    const haveMediaPermissions = await this.requestPermissions(isVideoCall);
+    const haveMediaPermissions = await this.requestPermissions(hasLocalVideo);
     if (!haveMediaPermissions) {
       window.log.info('Permissions were denied, new call not allowed.');
       this.stopCallingLobby();
@@ -188,23 +169,37 @@ export class CallingClass {
     // from the RingRTC before we lookup the ICE servers.
     const call = RingRTC.startOutgoingCall(
       remoteUserId,
-      isVideoCall,
+      hasLocalVideo,
       this.localDeviceId,
       callSettings
     );
 
-    await this.startDeviceReselectionTimer();
+    RingRTC.setOutgoingAudio(call.callId, hasLocalAudio);
     RingRTC.setVideoCapturer(call.callId, this.videoCapturer);
     RingRTC.setVideoRenderer(call.callId, this.videoRenderer);
     this.attachToCall(conversation, call);
 
     this.uxActions.outgoingCall({
-      callDetails: this.getAcceptedCallDetails(conversation, call),
+      conversationId: conversation.id,
+      hasLocalAudio,
+      hasLocalVideo,
     });
+
+    await this.startDeviceReselectionTimer();
   }
 
-  async accept(callId: CallId, asVideoCall: boolean): Promise<void> {
+  private getCallIdForConversation(conversationId: string): undefined | CallId {
+    return this.callsByConversation[conversationId]?.callId;
+  }
+
+  async accept(conversationId: string, asVideoCall: boolean): Promise<void> {
     window.log.info('CallingClass.accept()');
+
+    const callId = this.getCallIdForConversation(conversationId);
+    if (!callId) {
+      window.log.warn('Trying to accept a non-existent call');
+      return;
+    }
 
     const haveMediaPermissions = await this.requestPermissions(asVideoCall);
     if (haveMediaPermissions) {
@@ -218,23 +213,47 @@ export class CallingClass {
     }
   }
 
-  decline(callId: CallId): void {
+  decline(conversationId: string): void {
     window.log.info('CallingClass.decline()');
+
+    const callId = this.getCallIdForConversation(conversationId);
+    if (!callId) {
+      window.log.warn('Trying to decline a non-existent call');
+      return;
+    }
 
     RingRTC.decline(callId);
   }
 
-  hangup(callId: CallId): void {
+  hangup(conversationId: string): void {
     window.log.info('CallingClass.hangup()');
+
+    const callId = this.getCallIdForConversation(conversationId);
+    if (!callId) {
+      window.log.warn('Trying to hang up a non-existent call');
+      return;
+    }
 
     RingRTC.hangup(callId);
   }
 
-  setOutgoingAudio(callId: CallId, enabled: boolean): void {
+  setOutgoingAudio(conversationId: string, enabled: boolean): void {
+    const callId = this.getCallIdForConversation(conversationId);
+    if (!callId) {
+      window.log.warn('Trying to set outgoing audio for a non-existent call');
+      return;
+    }
+
     RingRTC.setOutgoingAudio(callId, enabled);
   }
 
-  setOutgoingVideo(callId: CallId, enabled: boolean): void {
+  setOutgoingVideo(conversationId: string, enabled: boolean): void {
+    const callId = this.getCallIdForConversation(conversationId);
+    if (!callId) {
+      window.log.warn('Trying to set outgoing video for a non-existent call');
+      return;
+    }
+
     RingRTC.setOutgoingVideo(callId, enabled);
   }
 
@@ -541,6 +560,7 @@ export class CallingClass {
 
     RingRTC.handleCallingMessage(
       remoteUserId,
+      null,
       remoteDeviceId,
       this.localDeviceId,
       messageAgeSec,
@@ -690,8 +710,9 @@ export class CallingClass {
 
       this.attachToCall(conversation, call);
 
-      this.uxActions.incomingCall({
-        callDetails: this.getAcceptedCallDetails(conversation, call),
+      this.uxActions.receiveIncomingCall({
+        conversationId: conversation.id,
+        isVideoCall: call.isVideoCall,
       });
 
       window.log.info('CallingClass.handleIncomingCall(): Proceeding');
@@ -716,6 +737,8 @@ export class CallingClass {
   }
 
   private attachToCall(conversation: ConversationModel, call: Call): void {
+    this.callsByConversation[conversation.id] = call;
+
     const { uxActions } = this;
     if (!uxActions) {
       return;
@@ -726,23 +749,29 @@ export class CallingClass {
     // eslint-disable-next-line no-param-reassign
     call.handleStateChanged = () => {
       if (call.state === CallState.Accepted) {
-        acceptedTime = Date.now();
+        acceptedTime = acceptedTime || Date.now();
       } else if (call.state === CallState.Ended) {
         this.addCallHistoryForEndedCall(conversation, call, acceptedTime);
         this.stopDeviceReselectionTimer();
         this.lastMediaDeviceSettings = undefined;
+        delete this.callsByConversation[conversation.id];
       }
       uxActions.callStateChange({
+        conversationId: conversation.id,
+        acceptedTime,
         callState: call.state,
-        callDetails: this.getAcceptedCallDetails(conversation, call),
         callEndedReason: call.endedReason,
+        isIncoming: call.isIncoming,
+        isVideoCall: call.isVideoCall,
+        title: conversation.getTitle(),
       });
     };
 
     // eslint-disable-next-line no-param-reassign
     call.handleRemoteVideoEnabled = () => {
       uxActions.remoteVideoChange({
-        remoteVideoEnabled: call.remoteVideoEnabled,
+        conversationId: conversation.id,
+        hasVideo: call.remoteVideoEnabled,
       });
     };
   }
@@ -811,21 +840,6 @@ export class CallingClass {
     return {
       iceServer: JSON.parse(iceServerJson),
       hideIp: shouldRelayCalls || isContactUnknown,
-    };
-  }
-
-  private getAcceptedCallDetails(
-    conversation: ConversationModel,
-    call: Call
-  ): CallDetailsType {
-    const conversationProps = conversation.format();
-
-    return {
-      ...conversationProps,
-      acceptedTime: Date.now(),
-      callId: call.callId,
-      isIncoming: call.isIncoming,
-      isVideoCall: call.isVideoCall,
     };
   }
 

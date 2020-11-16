@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 const electron = require('electron');
 const Queue = require('p-queue').default;
 const sql = require('../ts/sql/Server').default;

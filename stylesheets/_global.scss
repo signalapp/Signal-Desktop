@@ -1,3 +1,6 @@
+// Copyright 2015-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 html {
   height: 100%;
   cursor: inherit;
@@ -173,10 +176,10 @@ a {
       height: 24px;
 
       @include light-theme {
-        @include color-svg('../images/icons/v2/plus-24.svg', $color-gray-60);
+        @include color-svg('../images/icons/v2/plus-24.svg', $color-gray-75);
       }
       @include dark-theme {
-        @include color-svg('../images/icons/v2/plus-24.svg', $color-gray-25);
+        @include color-svg('../images/icons/v2/plus-24.svg', $color-gray-15);
       }
     }
   }

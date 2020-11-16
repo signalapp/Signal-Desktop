@@ -1,6 +1,8 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import * as React from 'react';
 
-import 'draft-js/dist/Draft.css';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { boolean } from '@storybook/addon-knobs';
@@ -32,12 +34,12 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   onChooseAttachment: action('onChooseAttachment'),
   // CompositionInput
   onSubmit: action('onSubmit'),
-  onEditorSizeChange: action('onEditorSizeChange'),
   onEditorStateChange: action('onEditorStateChange'),
   onTextTooLong: action('onTextTooLong'),
-  startingText: overrideProps.startingText || undefined,
+  draftText: overrideProps.draftText || undefined,
   clearQuotedMessage: action('clearQuotedMessage'),
   getQuotedMessage: action('getQuotedMessage'),
+  members: [],
   // EmojiButton
   onPickEmoji: action('onPickEmoji'),
   onSetSkinTone: action('onSetSkinTone'),
@@ -77,7 +79,7 @@ story.add('Default', () => {
 
 story.add('Starting Text', () => {
   const props = createProps({
-    startingText: "here's some starting text",
+    draftText: "here's some starting text",
   });
 
   return <CompositionArea {...props} />;

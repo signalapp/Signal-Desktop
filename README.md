@@ -1,3 +1,6 @@
+<!-- Copyright 2014-2020 Signal Messenger, LLC -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+
 # Signal Desktop
 
 Signal Desktop is an Electron application that links with Signal

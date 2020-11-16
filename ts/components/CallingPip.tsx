@@ -1,27 +1,35 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import React from 'react';
 import {
-  CallDetailsType,
   HangUpType,
   SetLocalPreviewType,
   SetRendererCanvasType,
 } from '../state/ducks/calling';
 import { Avatar } from './Avatar';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
+import { ColorType } from '../types/Colors';
 import { LocalizerType } from '../types/Util';
 
 function renderAvatar(
-  callDetails: CallDetailsType,
-  i18n: LocalizerType
-): JSX.Element {
-  const {
+  {
     avatarPath,
     color,
     name,
     phoneNumber,
     profileName,
     title,
-  } = callDetails;
-
+  }: {
+    avatarPath?: string;
+    color?: ColorType;
+    title: string;
+    name?: string;
+    phoneNumber?: string;
+    profileName?: string;
+  },
+  i18n: LocalizerType
+): JSX.Element {
   return (
     <div className="module-calling-pip__video--remote">
       <CallBackgroundBlur avatarPath={avatarPath} color={color}>
@@ -45,7 +53,15 @@ function renderAvatar(
 }
 
 export type PropsType = {
-  callDetails: CallDetailsType;
+  conversation: {
+    id: string;
+    avatarPath?: string;
+    color?: ColorType;
+    title: string;
+    name?: string;
+    phoneNumber?: string;
+    profileName?: string;
+  };
   hangUp: (_: HangUpType) => void;
   hasLocalVideo: boolean;
   hasRemoteVideo: boolean;
@@ -61,7 +77,7 @@ const PIP_DEFAULT_Y = 56;
 const PIP_PADDING = 8;
 
 export const CallingPip = ({
-  callDetails,
+  conversation,
   hangUp,
   hasLocalVideo,
   hasRemoteVideo,
@@ -201,7 +217,7 @@ export const CallingPip = ({
           ref={remoteVideoRef}
         />
       ) : (
-        renderAvatar(callDetails, i18n)
+        renderAvatar(conversation, i18n)
       )}
       {hasLocalVideo ? (
         <video
@@ -216,7 +232,7 @@ export const CallingPip = ({
           aria-label={i18n('calling__hangup')}
           className="module-calling-pip__button--hangup"
           onClick={() => {
-            hangUp({ callId: callDetails.callId });
+            hangUp({ conversationId: conversation.id });
           }}
         />
         <button

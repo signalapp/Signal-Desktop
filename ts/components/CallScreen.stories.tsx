@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { boolean, select } from '@storybook/addon-knobs';
@@ -11,23 +14,16 @@ import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
 
-const callDetails = {
-  acceptedTime: Date.now(),
-  callId: 0,
-  isIncoming: true,
-  isVideoCall: true,
-
-  id: '3051234567',
-  avatarPath: undefined,
-  color: 'ultramarine' as ColorType,
-  title: 'Rick Sanchez',
-  name: 'Rick Sanchez',
-  phoneNumber: '3051234567',
-  profileName: 'Rick Sanchez',
-};
-
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
-  callDetails,
+  conversation: {
+    id: '3051234567',
+    avatarPath: undefined,
+    color: 'ultramarine' as ColorType,
+    title: 'Rick Sanchez',
+    name: 'Rick Sanchez',
+    phoneNumber: '3051234567',
+    profileName: 'Rick Sanchez',
+  },
   callState: select(
     'callState',
     CallState,
@@ -41,6 +37,13 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     overrideProps.hasRemoteVideo || false
   ),
   i18n,
+  joinedAt: Date.now(),
+  me: {
+    color: 'ultramarine' as ColorType,
+    name: 'Morty Smith',
+    profileName: 'Morty Smith',
+    title: 'Morty Smith',
+  },
   setLocalAudio: action('set-local-audio'),
   setLocalPreview: action('set-local-preview'),
   setLocalVideo: action('set-local-video'),

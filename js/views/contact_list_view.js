@@ -1,3 +1,6 @@
+// Copyright 2015-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* global Whisper: false */
 /* global textsecure: false */
 
@@ -15,6 +18,7 @@
         this.ourNumber = textsecure.storage.user.getNumber();
         this.listenBack = options.listenBack;
         this.loading = false;
+        this.conversation = options.conversation;
 
         this.listenTo(this.model, 'change', this.render);
       },
@@ -24,33 +28,22 @@
           this.contactView = null;
         }
 
+        const formattedContact = this.model.format();
+
         this.contactView = new Whisper.ReactWrapperView({
           className: 'contact-wrapper',
           Component: window.Signal.Components.ContactListItem,
           props: {
-            ...this.model.format(),
-            onClick: this.showIdentity.bind(this),
+            ...formattedContact,
+            onClick: () =>
+              this.conversation.trigger(
+                'show-contact-modal',
+                formattedContact.id
+              ),
           },
         });
         this.$el.append(this.contactView.el);
         return this;
-      },
-      showIdentity() {
-        if (this.model.isMe() || this.loading) {
-          return;
-        }
-
-        this.loading = true;
-        this.render();
-
-        this.panelView = new Whisper.KeyVerificationPanelView({
-          model: this.model,
-          onLoad: view => {
-            this.loading = false;
-            this.listenBack(view);
-            this.render();
-          },
-        });
       },
     }),
   });

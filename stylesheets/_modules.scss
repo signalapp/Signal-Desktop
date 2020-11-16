@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 // Using BEM syntax explained here: https://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/
 
 .module-splash-screen {
@@ -1401,9 +1404,22 @@
 }
 
 .module-message__author-avatar {
+  @include button-reset;
+
+  cursor: pointer;
   position: absolute;
   bottom: 0px;
   right: calc(100% + 8px);
+
+  &:focus {
+    outline: none;
+
+    .module-avatar {
+      @include keyboard-mode {
+        box-shadow: 0 0 0 3px $ultramarine-ui-light;
+      }
+    }
+  }
 }
 
 .module-message__typing-container {
@@ -2285,14 +2301,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   outline: none;
   padding: 5px;
 
-  @include keyboard-mode {
-    &:focus {
-      @include light-theme {
-        background-color: $color-gray-02;
-      }
-      @include dark-theme {
-        background-color: $color-gray-80;
-      }
+  &:focus {
+    @include keyboard-mode {
+      background-color: $color-gray-02;
+    }
+    @include dark-keyboard-mode {
+      background-color: $color-gray-80;
     }
   }
 }
@@ -3313,14 +3327,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
   outline: none;
 
-  @include keyboard-mode {
-    &:focus {
-      @include light-theme {
-        background-color: $color-gray-15;
-      }
-      @include dark-theme {
-        background-color: $color-gray-75;
-      }
+  &:focus {
+    @include keyboard-mode {
+      background-color: $color-gray-15;
+    }
+    @include dark-keyboard-mode {
+      background-color: $color-gray-75;
     }
   }
 }
@@ -3773,7 +3785,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
   @include font-body-1-bold;
 
-  overflow-x: hidden;
+  overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 
@@ -4157,9 +4169,31 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   height: 58px;
   width: 58px;
 }
+
 .module-avatar__icon--80.module-avatar__icon--direct {
   height: 62px;
   width: 62px;
+}
+
+.module-avatar--96 {
+  height: 96px;
+  width: 96px;
+
+  img {
+    height: 96px;
+    width: 96px;
+  }
+}
+
+.module-avatar__label--96 {
+  width: 96px;
+  font-size: 48px;
+  line-height: 96px;
+}
+
+.module-avatar__icon--96 {
+  height: 70px;
+  width: 70px;
 }
 
 .module-avatar--112 {
@@ -5866,12 +5900,14 @@ button.module-image__border-overlay:focus {
     height: 100%;
     justify-content: center;
     overflow: hidden;
-    position: absolute;
+    position: relative;
     width: 100%;
 
     &--blur {
+      position: absolute;
       background-repeat: no-repeat;
       background-size: cover;
+      background-position: center;
       filter: blur(25px);
       height: 100%;
       position: absolute;
@@ -6053,7 +6089,7 @@ button.module-image__border-overlay:focus {
   }
 
   &__pip {
-    @include color-svg('../images/icons/v2/collapse-24.svg', $color-white);
+    @include color-svg('../images/icons/v2/pip-minimize-24.svg', $color-white);
     height: 22px;
     width: 22px;
   }
@@ -6171,6 +6207,9 @@ button.module-image__border-overlay:focus {
 }
 
 .module-ongoing-call {
+  $local-preview-width: 136px;
+  $local-preview-height: 102px;
+
   &__remote-video-enabled {
     background-color: $color-gray-95;
     height: 100vh;
@@ -6186,18 +6225,9 @@ button.module-image__border-overlay:focus {
     justify-content: center;
   }
 
-  &__local-video {
-    background-color: transparent;
-    bottom: 160px;
-    height: 152px;
-    position: absolute;
-    right: 32px;
-    transform: rotateY(180deg);
-    width: 210px;
-  }
-
   &__header {
     position: absolute;
+    background: linear-gradient($color-black-alpha-40, transparent);
   }
 
   &__header-message {
@@ -6207,16 +6237,45 @@ button.module-image__border-overlay:focus {
     letter-spacing: -0.0025em;
   }
 
-  &__actions {
+  &__footer {
     background: linear-gradient(transparent, $color-black-alpha-40);
     bottom: 0;
     display: flex;
-    justify-content: center;
-    padding-bottom: 32px;
-    padding-top: 32px;
+    justify-content: space-between;
     position: absolute;
-    text-align: center;
     width: 100%;
+
+    &__actions {
+      align-items: center;
+      display: flex;
+      flex-grow: 1;
+      justify-content: center;
+    }
+
+    // This layout-only element is not ideal, but lets us keep the actions centered until
+    //   until they'd overlap with the video, at which point they start to move.
+    &__local-preview-offset {
+      flex: 1 0;
+      max-width: $local-preview-width;
+      visibility: hidden;
+    }
+
+    &__local-preview {
+      border-radius: 5px;
+      display: flex;
+      height: $local-preview-height;
+      margin: 2px 16px 16px 0;
+      overflow: hidden;
+      width: $local-preview-width;
+
+      &__video {
+        // The background-color is seen while the video loads.
+        background-color: $color-gray-75;
+        height: 100%;
+        transform: rotateY(180deg);
+        width: 100%;
+      }
+    }
   }
 
   &__controls--fadeIn {
@@ -6360,12 +6419,114 @@ button.module-image__border-overlay:focus {
     }
 
     &--pip {
-      @include color-svg('../images/icons/v2/expand-24.svg', $color-gray-75);
+      @include color-svg(
+        '../images/icons/v2/pip-maximize-24.svg',
+        $color-gray-75
+      );
       height: 24px;
       width: 24px;
       @include dark-theme {
-        @include color-svg('../images/icons/v2/expand-24.svg', $color-gray-15);
+        @include color-svg(
+          '../images/icons/v2/pip-maximize-24.svg',
+          $color-gray-15
+        );
       }
+    }
+  }
+}
+
+.module-calling-participants-list {
+  background-color: $color-gray-80;
+  border-radius: 8px;
+  color: $color-white;
+  margin-right: 12px;
+  margin-top: 54px;
+  padding: 14px;
+  padding-bottom: 0;
+  width: 280px;
+
+  &__overlay {
+    display: flex;
+    height: 100vh;
+    justify-content: flex-end;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    z-index: 2;
+  }
+
+  &__title {
+    @include font-body-2-bold;
+  }
+
+  &__list {
+    margin: 0;
+    margin-top: 22px;
+    padding: 0;
+  }
+
+  &__contact {
+    @include font-body-1;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+    margin-bottom: 16px;
+  }
+
+  &__name {
+    display: inline-block;
+    margin-left: 8px;
+    max-width: 144px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__close {
+    @include button-reset;
+
+    @include color-svg('../images/x-shadow-16.svg', $color-gray-15);
+
+    height: 16px;
+    width: 16px;
+    z-index: 2;
+
+    @include keyboard-mode {
+      &:focus {
+        outline: 2px solid $ultramarine-ui-light;
+      }
+    }
+  }
+
+  &__muted {
+    &--video {
+      @include color-svg(
+        '../images/icons/v2/video-off-solid-28.svg',
+        $color-white
+      );
+      display: inline-block;
+      margin-left: 18px;
+      height: 16px;
+      width: 16px;
+    }
+
+    &--audio {
+      @include color-svg(
+        '../images/icons/v2/mic-off-solid-28.svg',
+        $color-white
+      );
+      display: inline-block;
+      margin-left: 18px;
+      height: 16px;
+      width: 16px;
     }
   }
 }
@@ -7730,13 +7891,13 @@ button.module-image__border-overlay:focus {
     @include light-theme {
       @include color-svg(
         '../images/icons/v2/sticker-outline-24.svg',
-        $color-gray-60
+        $color-gray-75
       );
     }
     @include dark-theme {
       @include color-svg(
         '../images/icons/v2/sticker-solid-24.svg',
-        $color-gray-25
+        $color-gray-15
       );
     }
   }
@@ -8365,13 +8526,13 @@ button.module-image__border-overlay:focus {
     @include light-theme {
       @include color-svg(
         '../images/icons/v2/emoji-smiley-outline-24.svg',
-        $color-gray-60
+        $color-gray-75
       );
     }
     @include dark-theme {
       @include color-svg(
         '../images/icons/v2/emoji-smiley-solid-24.svg',
-        $color-gray-25
+        $color-gray-15
       );
     }
   }
@@ -8550,20 +8711,57 @@ button.module-image__border-overlay:focus {
 
 // Module: CompositionInput
 .module-composition-input {
-  &__input {
-    @include font-body-1;
+  &__quill {
+    height: 100%;
 
+    .ql-editor {
+      caret-color: transparent;
+      padding: 0;
+
+      &--loaded {
+        caret-color: auto;
+      }
+
+      &.ql-blank::before {
+        left: 0;
+        right: 0;
+        font-style: normal;
+      }
+
+      .emoji-blot {
+        width: 20px;
+        height: 20px;
+        vertical-align: text-bottom;
+      }
+    }
+  }
+
+  &__at-mention {
+    background-color: $color-gray-20;
+    border-radius: 4px;
+    display: inline;
+    padding-left: 4px;
+    padding-right: 4px;
+    height: 22px;
+    line-height: 22px;
+
+    @include dark-theme {
+      background-color: $color-gray-60;
+    }
+  }
+
+  &__input {
     border: none;
     border-radius: 18px;
     overflow: hidden;
     word-break: break-word;
 
-    &:placeholder {
-      color: $color-gray-45;
+    // Override Quill styles
+    .ql-container {
+      @include font-body-1;
     }
 
-    // Override draft.js styles
-    .public-DraftEditorPlaceholder-root {
+    .ql-blank::before {
       color: $color-gray-45;
     }
 
@@ -8598,7 +8796,8 @@ button.module-image__border-overlay:focus {
 
       &--large {
         max-height: 227px;
-        height: 227px;
+        min-height: 227px;
+
         .DraftEditor-root {
           height: 227px - 2 * 7px; // subtract padding
         }
@@ -8616,11 +8815,17 @@ button.module-image__border-overlay:focus {
     }
   }
 
-  &__emoji-suggestions {
-    padding: 12px 0;
+  &__suggestions {
+    padding: 0;
     margin-bottom: 6px;
     border-radius: 8px;
     z-index: 2;
+    overflow: hidden;
+
+    &--scroller {
+      max-height: 300px;
+      overflow-y: auto;
+    }
 
     @include popper-shadow();
 
@@ -8633,7 +8838,7 @@ button.module-image__border-overlay:focus {
     }
 
     &__row {
-      height: 30px;
+      height: 34px;
       padding: 0 12px;
       display: flex;
       flex-direction: row;
@@ -8642,6 +8847,14 @@ button.module-image__border-overlay:focus {
       background: none;
       border: none;
       width: 100%;
+
+      &--mention {
+        height: 40px;
+      }
+
+      &:focus {
+        outline: 0;
+      }
 
       @include font-body-2;
 
@@ -8670,6 +8883,11 @@ button.module-image__border-overlay:focus {
         }
       }
     }
+
+    &__title {
+      padding-left: 8px;
+    }
+
     stroke: $color-white;
   }
 }
@@ -9123,17 +9341,12 @@ button.module-image__border-overlay:focus {
     @include color-svg('../images/icons/v2/x-24.svg', $color-gray-05);
   }
 
-  @include keyboard-mode {
-    &:focus {
-      @include light-theme {
-        @include color-svg(
-          '../images/icons/v2/x-24.svg',
-          $ultramarine-ui-light
-        );
-      }
-      @include dark-theme {
-        @include color-svg('../images/icons/v2/x-24.svg', $ultramarine-ui-dark);
-      }
+  &:focus {
+    @include keyboard-mode {
+      @include color-svg('../images/icons/v2/x-24.svg', $ultramarine-ui-light);
+    }
+    @include dark-keyboard-mode {
+      @include color-svg('../images/icons/v2/x-24.svg', $ultramarine-ui-dark);
     }
   }
 }
@@ -9174,14 +9387,12 @@ button.module-image__border-overlay:focus {
   min-height: 40px;
   outline: none;
 
-  @include keyboard-mode {
-    &:focus {
-      @include light-theme {
-        background-color: $color-gray-05;
-      }
-      @include dark-theme {
-        background-color: $color-gray-90;
-      }
+  &:focus {
+    @include keyboard-mode {
+      background-color: $color-gray-05;
+    }
+    @include dark-keyboard-mode {
+      background-color: $color-gray-90;
     }
   }
 
@@ -9481,6 +9692,188 @@ button.module-image__border-overlay:focus {
   }
 }
 
+// Module: Group Contact Details
+$contact-modal-padding: 18px;
+.module-contact-modal {
+  @include font-body-2;
+
+  min-width: 250px;
+  padding: $contact-modal-padding;
+  border-radius: 8px;
+  overflow: hidden;
+  @include popper-shadow();
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @include light-theme() {
+    background: $color-white;
+    color: $color-gray-90;
+  }
+
+  @include dark-theme() {
+    background: $color-gray-75;
+    color: $color-gray-05;
+  }
+
+  &__overlay {
+    background: $color-black-alpha-40;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+  }
+}
+
+.module-contact-modal__name {
+  @include font-body-1-bold;
+
+  margin-top: 6px;
+}
+
+.module-contact-modal__profile-and-number {
+  color: $color-gray-60;
+
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
+
+.module-contact-modal__button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 12px 0 15px -$contact-modal-padding;
+  width: calc(100% + (#{$contact-modal-padding} * 2));
+}
+
+.module-contact-modal__button {
+  @include button-reset;
+
+  display: flex;
+  align-items: center;
+  padding: 7px $contact-modal-padding;
+  width: 100%;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &:hover {
+    background-color: $color-gray-15;
+
+    @include dark-theme {
+      background-color: $color-gray-60;
+    }
+  }
+
+  &:focus {
+    @include keyboard-mode {
+      background-color: $color-gray-15;
+
+      @include dark-theme {
+        background-color: $color-gray-60;
+      }
+    }
+  }
+}
+
+.module-contact-modal__bubble-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  width: 20px;
+}
+
+.module-contact-modal__send-message__bubble-icon {
+  height: 16px;
+  width: 18px;
+
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/message-outline-24.svg',
+      $color-gray-75
+    );
+  }
+
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/message-outline-24.svg',
+      $color-gray-15
+    );
+  }
+}
+
+.module-contact-modal__safety-number__bubble-icon {
+  height: 18px;
+  width: 17px;
+
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/safety-number-outline-24.svg',
+      $color-gray-75
+    );
+  }
+
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/safety-number-outline-24.svg',
+      $color-gray-15
+    );
+  }
+}
+
+.module-contact-modal__remove-from-group__bubble-icon {
+  height: 16px;
+  width: 16px;
+
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/leave-group-outline-16.svg',
+      $color-gray-75
+    );
+  }
+
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/leave-group-outline-16.svg',
+      $color-gray-15
+    );
+  }
+}
+
+.module-contact-modal__close-button {
+  @include button-reset;
+
+  position: absolute;
+  top: 10px;
+  right: 12px;
+
+  width: 16px;
+  height: 16px;
+
+  @include color-svg('../images/icons/v2/x-24.svg', $color-gray-75);
+
+  @include dark-theme() {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-25);
+  }
+
+  &:focus {
+    @include keyboard-mode {
+      background-color: $ultramarine-ui-light;
+    }
+  }
+}
+
 .module-background-color {
   &__default {
     background-color: $color-black-alpha-40;
@@ -9520,22 +9913,20 @@ button.module-image__border-overlay:focus {
 /* Third-party module: react-contextmenu*/
 
 .react-contextmenu {
+  @include popper-shadow();
+
   outline: none;
   border-radius: 4px;
-  min-width: 160px;
-  padding: 0px;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  min-width: 220px;
+  padding: 6px 0;
   opacity: 0;
   user-select: none;
 
   @include light-theme {
-    background-color: $color-gray-02;
-    border: 1px solid $color-gray-02;
+    background-color: $color-white;
   }
   @include dark-theme {
-    background-color: $color-gray-90;
-    border: 1px solid $color-gray-60;
+    background-color: $color-gray-75;
   }
 }
 
@@ -9551,16 +9942,26 @@ button.module-image__border-overlay:focus {
 
   @include font-body-2;
 
-  padding-left: 16px;
-  padding-top: 3px;
-  padding-bottom: 2px;
-  padding-right: 16px;
+  padding: 7px 12px;
 
   @include light-theme {
     color: $color-gray-90;
   }
   @include dark-theme {
     color: $color-gray-02;
+  }
+
+  &--divider {
+    height: 1px;
+    margin: 6px 0;
+    padding: 0;
+
+    @include light-theme {
+      background-color: $color-gray-15;
+    }
+    @include dark-theme {
+      background-color: $color-gray-60;
+    }
   }
 }
 
@@ -9588,15 +9989,25 @@ button.module-image__border-overlay:focus {
 
 .react-contextmenu-item.react-contextmenu-submenu
   > .react-contextmenu-item:after {
-  content: '\25B6';
+  content: ' ';
   display: inline-block;
+  height: 18px;
   position: absolute;
   right: 7px;
+  width: 12px;
 
   @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/chevron-right-16.svg',
+      $color-gray-75
+    );
     color: $color-gray-90;
   }
   @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/chevron-right-16.svg',
+      $color-gray-15
+    );
     color: $color-gray-02;
   }
 }
@@ -9608,7 +10019,7 @@ button.module-image__border-overlay:focus {
     background-color: $color-gray-15;
   }
   @include dark-theme {
-    background-color: $color-gray-75;
+    background-color: $color-gray-60;
     color: $color-white;
   }
 }
@@ -9656,6 +10067,123 @@ button.module-image__border-overlay:focus {
 
   &--deleted-for-everyone {
     font-style: italic;
+  }
+}
+
+.module-message__context {
+  &--icon::before {
+    content: ' ';
+    display: inline-block;
+    height: 14px;
+    margin-right: 8px;
+    width: 14px;
+    vertical-align: middle;
+  }
+
+  &__download::before {
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/save-outline-24.svg',
+        $color-black
+      );
+    }
+
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/save-solid-24.svg',
+        $color-gray-15
+      );
+    }
+  }
+
+  &__reply::before {
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/reply-outline-24.svg',
+        $color-black
+      );
+    }
+
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/reply-solid-24.svg',
+        $color-gray-15
+      );
+    }
+  }
+
+  &__react::before {
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/add-emoji-outline-24.svg',
+        $color-black
+      );
+    }
+
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/add-emoji-outline-24.svg',
+        $color-gray-15
+      );
+    }
+  }
+
+  &__more-info::before {
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/info-outline-24.svg',
+        $color-black
+      );
+    }
+
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/info-outline-24.svg',
+        $color-gray-15
+      );
+    }
+  }
+
+  &__retry-send::before {
+    @include light-theme {
+      @include color-svg('../images/icons/v2/send-24.svg', $color-black);
+    }
+
+    @include dark-theme {
+      @include color-svg('../images/icons/v2/send-24.svg', $color-gray-15);
+    }
+  }
+
+  &__delete-message::before {
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/trash-outline-24.svg',
+        $color-black
+      );
+    }
+
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/trash-solid-24.svg',
+        $color-gray-15
+      );
+    }
+  }
+
+  &__delete-message-for-everyone::before {
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/trash-outline-24.svg',
+        $color-black
+      );
+    }
+
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/trash-solid-24.svg',
+        $color-gray-15
+      );
+    }
   }
 }
 

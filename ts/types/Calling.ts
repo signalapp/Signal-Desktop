@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 // Must be kept in sync with RingRTC.CallState
 export enum CallState {
   Prering = 'init',

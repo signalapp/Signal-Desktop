@@ -28,4 +28,5 @@ sticker-creator/**/*.js
 !sticker-creator/preload.js
 
 **/*.d.ts
+.eslintrc.js
 webpack.config.ts

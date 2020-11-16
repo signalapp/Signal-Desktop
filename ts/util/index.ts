@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import * as GoogleChrome from './GoogleChrome';
 import * as Registration from './registration';
 import { arrayBufferToObjectURL } from './arrayBufferToObjectURL';

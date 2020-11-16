@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint-disable no-nested-ternary */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable more/no-then */
@@ -120,6 +123,7 @@ type MessageOptionsType = {
   reaction?: any;
   deletedForEveryoneTimestamp?: number;
   timestamp: number;
+  mentions?: BodyRangesType;
 };
 
 class Message {
@@ -144,13 +148,26 @@ class Message {
 
   profileKey?: ArrayBuffer;
 
-  quote?: any;
+  quote?: {
+    id?: number;
+    author?: string;
+    authorUuid?: string;
+    text?: string;
+    attachments?: Array<AttachmentType>;
+    bodyRanges?: BodyRangesType;
+  };
 
   recipients: Array<string>;
 
   sticker?: any;
 
-  reaction?: any;
+  reaction?: {
+    emoji?: string;
+    remove?: boolean;
+    targetAuthorE164?: string;
+    targetAuthorUuid?: string;
+    targetTimestamp?: number;
+  };
 
   timestamp: number;
 
@@ -159,6 +176,8 @@ class Message {
   attachmentPointers?: Array<any>;
 
   deletedForEveryoneTimestamp?: number;
+
+  mentions?: BodyRangesType;
 
   constructor(options: MessageOptionsType) {
     this.attachments = options.attachments || [];
@@ -176,6 +195,7 @@ class Message {
     this.reaction = options.reaction;
     this.timestamp = options.timestamp;
     this.deletedForEveryoneTimestamp = options.deletedForEveryoneTimestamp;
+    this.mentions = options.mentions;
 
     if (!(this.recipients instanceof Array)) {
       throw new Error('Invalid recipient list');
@@ -249,6 +269,13 @@ class Message {
 
     if (this.body) {
       proto.body = this.body;
+
+      const mentionCount = this.mentions ? this.mentions.length : 0;
+      const placeholders = this.body.match(/\uFFFC/g);
+      const placeholderCount = placeholders ? placeholders.length : 0;
+      window.log.info(
+        `Sending a message with ${mentionCount} mentions and ${placeholderCount} placeholders`
+      );
     }
     if (this.flags) {
       proto.flags = this.flags;
@@ -274,8 +301,14 @@ class Message {
       }
     }
     if (this.reaction) {
-      proto.reaction = this.reaction;
+      proto.reaction = new window.textsecure.protobuf.DataMessage.Reaction();
+      proto.reaction.emoji = this.reaction.emoji || null;
+      proto.reaction.remove = this.reaction.remove || false;
+      proto.reaction.targetAuthorE164 = this.reaction.targetAuthorE164 || null;
+      proto.reaction.targetAuthorUuid = this.reaction.targetAuthorUuid || null;
+      proto.reaction.targetTimestamp = this.reaction.targetTimestamp || null;
     }
+
     if (Array.isArray(this.preview)) {
       proto.preview = this.preview.map(preview => {
         const item = new window.textsecure.protobuf.DataMessage.Preview();
@@ -294,9 +327,10 @@ class Message {
       proto.quote = new Quote();
       const { quote } = proto;
 
-      quote.id = this.quote.id;
-      quote.author = this.quote.author;
-      quote.text = this.quote.text;
+      quote.id = this.quote.id || null;
+      quote.author = this.quote.author || null;
+      quote.authorUuid = this.quote.authorUuid || null;
+      quote.text = this.quote.text || null;
       quote.attachments = (this.quote.attachments || []).map(
         (attachment: AttachmentType) => {
           const quotedAttachment = new QuotedAttachment();
@@ -338,6 +372,17 @@ class Message {
       proto.delete = {
         targetSentTimestamp: this.deletedForEveryoneTimestamp,
       };
+    }
+    if (this.mentions) {
+      proto.requiredProtocolVersion =
+        window.textsecure.protobuf.DataMessage.ProtocolVersion.MENTIONS;
+      proto.bodyRanges = this.mentions.map(
+        ({ start, length, mentionUuid }) => ({
+          start,
+          length,
+          mentionUuid,
+        })
+      );
     }
 
     this.dataMessage = proto;
@@ -1416,7 +1461,8 @@ export default class MessageSender {
     timestamp: number,
     expireTimer: number | undefined,
     profileKey?: ArrayBuffer,
-    flags?: number
+    flags?: number,
+    mentions?: BodyRangesType
   ): Promise<ArrayBuffer> {
     const attributes = {
       recipients: [destination],
@@ -1432,6 +1478,7 @@ export default class MessageSender {
       expireTimer,
       profileKey,
       flags,
+      mentions,
     };
 
     return this.getMessageProtoObj(attributes);
@@ -1581,6 +1628,7 @@ export default class MessageSender {
       sticker,
       deletedForEveryoneTimestamp,
       timestamp,
+      mentions,
     }: {
       attachments?: Array<AttachmentType>;
       expireTimer?: number;
@@ -1594,6 +1642,7 @@ export default class MessageSender {
       sticker?: any;
       deletedForEveryoneTimestamp?: number;
       timestamp: number;
+      mentions?: BodyRangesType;
     },
     options?: SendOptionsType
   ): Promise<CallbackResultType> {
@@ -1639,6 +1688,7 @@ export default class MessageSender {
             type: window.textsecure.protobuf.GroupContext.Type.DELIVER,
           }
         : undefined,
+      mentions,
     };
 
     if (recipients.length === 0) {

@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import React from 'react';
 import classNames from 'classnames';
 
@@ -52,7 +55,9 @@ export class DocumentListItem extends React.Component<Props> {
             {fileName}
           </span>
           <span className="module-document-list-item__file-size">
-            {typeof fileSize === 'number' ? formatFileSize(fileSize) : ''}
+            {typeof fileSize === 'number'
+              ? formatFileSize(fileSize, { round: 0 })
+              : ''}
           </span>
         </div>
         <div className="module-document-list-item__date">

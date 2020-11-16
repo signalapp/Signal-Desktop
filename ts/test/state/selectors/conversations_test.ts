@@ -1,3 +1,6 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 
@@ -15,8 +18,8 @@ describe('state/selectors/conversations', () => {
     this.oldWindow = globalAsAny.window;
     globalAsAny.window = {};
 
-    window.ConversationController = {
-      getPinnedConversationIds: sinon.stub().returns([]),
+    window.storage = {
+      get: sinon.stub().returns([]),
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any;
   });
@@ -41,6 +44,7 @@ describe('state/selectors/conversations', () => {
           inboxPosition: 0,
           phoneNumber: 'notused',
           isArchived: false,
+          markedUnread: false,
 
           type: 'direct',
           isMe: false,
@@ -65,6 +69,7 @@ describe('state/selectors/conversations', () => {
           inboxPosition: 21,
           phoneNumber: 'notused',
           isArchived: false,
+          markedUnread: false,
 
           type: 'direct',
           isMe: false,
@@ -89,6 +94,7 @@ describe('state/selectors/conversations', () => {
           inboxPosition: 22,
           phoneNumber: 'notused',
           isArchived: false,
+          markedUnread: false,
 
           type: 'direct',
           isMe: false,
@@ -113,6 +119,7 @@ describe('state/selectors/conversations', () => {
           inboxPosition: 20,
           phoneNumber: 'notused',
           isArchived: false,
+          markedUnread: false,
 
           type: 'direct',
           isMe: false,
@@ -137,6 +144,7 @@ describe('state/selectors/conversations', () => {
           inboxPosition: 30,
           phoneNumber: 'notused',
           isArchived: false,
+          markedUnread: false,
 
           type: 'direct',
           isMe: false,
@@ -165,8 +173,7 @@ describe('state/selectors/conversations', () => {
 
     describe('given pinned conversations', () => {
       beforeEach(() => {
-        (window.ConversationController
-          .getPinnedConversationIds as sinon.SinonStub).returns([
+        (window.storage.get as sinon.SinonStub).returns([
           'pin1',
           'pin2',
           'pin3',
@@ -185,6 +192,7 @@ describe('state/selectors/conversations', () => {
             phoneNumber: 'notused',
             isArchived: false,
             isPinned: true,
+            markedUnread: false,
 
             type: 'direct',
             isMe: false,
@@ -210,6 +218,7 @@ describe('state/selectors/conversations', () => {
             phoneNumber: 'notused',
             isArchived: false,
             isPinned: true,
+            markedUnread: false,
 
             type: 'direct',
             isMe: false,
@@ -235,6 +244,7 @@ describe('state/selectors/conversations', () => {
             phoneNumber: 'notused',
             isArchived: false,
             isPinned: true,
+            markedUnread: false,
 
             type: 'direct',
             isMe: false,

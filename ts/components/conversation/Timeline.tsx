@@ -1,3 +1,6 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { debounce, get, isNumber } from 'lodash';
 import React, { CSSProperties } from 'react';
 import {
@@ -405,7 +408,6 @@ export class Timeline extends React.PureComponent<Props, State> {
       const { id, offsetTop, offsetHeight } = child;
 
       if (!id) {
-        // eslint-disable-next-line no-continue
         continue;
       }
 
@@ -425,7 +427,6 @@ export class Timeline extends React.PureComponent<Props, State> {
       const { offsetTop, id } = child;
 
       if (!id) {
-        // eslint-disable-next-line no-continue
         continue;
       }
 

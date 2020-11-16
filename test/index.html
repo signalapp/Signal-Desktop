@@ -1,3 +1,6 @@
+<!-- Copyright 2014-2020 Signal Messenger, LLC -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+
 <html>
 
 <head>
@@ -375,7 +378,6 @@
   <script type="text/javascript" src="views/whisper_view_test.js"></script>
   <script type="text/javascript" src="views/list_view_test.js"></script>
 
-  <script type="text/javascript" src="models/messages_test.js"></script>
   <script type="text/javascript" src="models/conversations_test.js"></script>
 
   <script type="text/javascript" src="libphonenumber_util_test.js"></script>
@@ -395,13 +397,15 @@
 
   <!-- Uncomment to start tests without code coverage enabled -->
   <script type="text/javascript">
-    window.Signal.conversationControllerStart();
+    window.textsecure.protobuf.onLoad(() => {
+      window.Signal.conversationControllerStart();
 
-    window.test.pendingDescribeCalls.forEach(args => {
-      describe(...args);
+      window.test.pendingDescribeCalls.forEach(args => {
+        describe(...args);
+      });
+
+      mocha.run();
     });
-
-    mocha.run();
   </script>
 </body>
 </html>

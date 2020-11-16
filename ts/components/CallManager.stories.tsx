@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -10,11 +13,7 @@ import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
 
-const callDetails = {
-  callId: 0,
-  isIncoming: true,
-  isVideoCall: true,
-
+const conversation = {
   id: '3051234567',
   avatarPath: undefined,
   color: 'ultramarine' as ColorType,
@@ -27,23 +26,20 @@ const callDetails = {
 const defaultProps = {
   availableCameras: [],
   acceptCall: action('accept-call'),
-  callDetails,
-  callState: CallState.Accepted,
   cancelCall: action('cancel-call'),
   closeNeedPermissionScreen: action('close-need-permission-screen'),
   declineCall: action('decline-call'),
   hangUp: action('hang-up'),
-  hasLocalAudio: true,
-  hasLocalVideo: true,
-  hasRemoteVideo: true,
   i18n,
-  pip: false,
+  me: {
+    color: 'ultramarine' as ColorType,
+    title: 'Morty Smith',
+  },
   renderDeviceSelection: () => <div />,
   setLocalAudio: action('set-local-audio'),
   setLocalPreview: action('set-local-preview'),
   setLocalVideo: action('set-local-video'),
   setRendererCanvas: action('set-renderer-canvas'),
-  settingsDialogOpen: false,
   startCall: action('start-call'),
   toggleParticipants: action('toggle-participants'),
   togglePip: action('toggle-pip'),
@@ -52,20 +48,71 @@ const defaultProps = {
 
 const permutations = [
   {
-    title: 'Call Manager (ongoing)',
+    title: 'Call Manager (no call)',
     props: {},
+  },
+  {
+    title: 'Call Manager (ongoing)',
+    props: {
+      activeCall: {
+        call: {
+          conversationId: '3051234567',
+          callState: CallState.Accepted,
+          isIncoming: false,
+          isVideoCall: true,
+          hasRemoteVideo: true,
+        },
+        activeCallState: {
+          conversationId: '3051234567',
+          joinedAt: Date.now(),
+          hasLocalAudio: true,
+          hasLocalVideo: false,
+          participantsList: false,
+          pip: false,
+          settingsDialogOpen: false,
+        },
+        conversation,
+      },
+    },
   },
   {
     title: 'Call Manager (ringing)',
     props: {
-      callState: CallState.Ringing,
+      incomingCall: {
+        call: {
+          conversationId: '3051234567',
+          callState: CallState.Ringing,
+          isIncoming: true,
+          isVideoCall: true,
+          hasRemoteVideo: true,
+        },
+        conversation,
+      },
     },
   },
   {
     title: 'Call Manager (call request needed)',
     props: {
-      callState: CallState.Ended,
-      callEndedReason: CallEndedReason.RemoteHangupNeedPermission,
+      activeCall: {
+        call: {
+          conversationId: '3051234567',
+          callState: CallState.Ended,
+          callEndedReason: CallEndedReason.RemoteHangupNeedPermission,
+          isIncoming: false,
+          isVideoCall: true,
+          hasRemoteVideo: true,
+        },
+        activeCallState: {
+          conversationId: '3051234567',
+          joinedAt: Date.now(),
+          hasLocalAudio: true,
+          hasLocalVideo: false,
+          participantsList: false,
+          pip: false,
+          settingsDialogOpen: false,
+        },
+        conversation,
+      },
     },
   },
 ];

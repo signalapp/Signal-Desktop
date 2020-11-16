@@ -1,4 +1,8 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { take, uniq } from 'lodash';
+import { ThunkAction } from 'redux-thunk';
 import { EmojiPickDataType } from '../../components/emoji/EmojiPicker';
 import dataInterface from '../../sql/Client';
 import { useBoundActions } from '../../util/hooks';
@@ -13,37 +17,40 @@ export type EmojisStateType = {
 
 // Actions
 
-type OnUseEmojiPayloadType = string;
-type OnUseEmojiAction = {
+type UseEmojiAction = {
   type: 'emojis/USE_EMOJI';
-  payload: Promise<OnUseEmojiPayloadType>;
-};
-type OnUseEmojiFulfilledAction = {
-  type: 'emojis/USE_EMOJI_FULFILLED';
-  payload: OnUseEmojiPayloadType;
+  payload: string;
 };
 
-export type EmojisActionType = OnUseEmojiAction | OnUseEmojiFulfilledAction;
+type EmojisActionType = UseEmojiAction;
 
 // Action Creators
 
 export const actions = {
   onUseEmoji,
+  useEmoji,
 };
 
 export const useActions = (): typeof actions => useBoundActions(actions);
 
-function onUseEmoji({ shortName }: EmojiPickDataType): OnUseEmojiAction {
-  return {
-    type: 'emojis/USE_EMOJI',
-    payload: doUseEmoji(shortName),
+function onUseEmoji({
+  shortName,
+}: EmojiPickDataType): ThunkAction<void, unknown, unknown, UseEmojiAction> {
+  return async dispatch => {
+    try {
+      await updateEmojiUsage(shortName);
+      dispatch(useEmoji(shortName));
+    } catch (err) {
+      // Errors are ignored.
+    }
   };
 }
 
-async function doUseEmoji(shortName: string): Promise<OnUseEmojiPayloadType> {
-  await updateEmojiUsage(shortName);
-
-  return shortName;
+function useEmoji(payload: string): UseEmojiAction {
+  return {
+    type: 'emojis/USE_EMOJI',
+    payload,
+  };
 }
 
 // Reducer
@@ -58,7 +65,7 @@ export function reducer(
   state: EmojisStateType = getEmptyState(),
   action: EmojisActionType
 ): EmojisStateType {
-  if (action.type === 'emojis/USE_EMOJI_FULFILLED') {
+  if (action.type === 'emojis/USE_EMOJI') {
     const { payload } = action;
 
     return {

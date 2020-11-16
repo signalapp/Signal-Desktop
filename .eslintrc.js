@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 // For reference: https://github.com/airbnb/javascript
 
 const rules = {
@@ -42,6 +45,8 @@ const rules = {
     'single',
     { avoidEscape: true, allowTemplateLiterals: false },
   ],
+
+  'no-continue': 'off',
 
   // Prettier overrides:
   'arrow-parens': 'off',

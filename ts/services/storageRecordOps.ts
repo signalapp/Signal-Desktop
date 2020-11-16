@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { isNumber } from 'lodash';
 
 import {
@@ -113,6 +116,7 @@ export async function toContactRecord(
   contactRecord.blocked = conversation.isBlocked();
   contactRecord.whitelisted = Boolean(conversation.get('profileSharing'));
   contactRecord.archived = Boolean(conversation.get('isArchived'));
+  contactRecord.markedUnread = Boolean(conversation.get('markedUnread'));
 
   applyUnknownFields(contactRecord, conversation);
 
@@ -137,6 +141,9 @@ export async function toAccountRecord(
   }
   accountRecord.avatarUrl = window.storage.get('avatarUrl') || '';
   accountRecord.noteToSelfArchived = Boolean(conversation.get('isArchived'));
+  accountRecord.noteToSelfMarkedUnread = Boolean(
+    conversation.get('markedUnread')
+  );
   accountRecord.readReceipts = Boolean(
     window.storage.get('read-receipt-setting')
   );
@@ -218,6 +225,7 @@ export async function toGroupV1Record(
   groupV1Record.blocked = conversation.isBlocked();
   groupV1Record.whitelisted = Boolean(conversation.get('profileSharing'));
   groupV1Record.archived = Boolean(conversation.get('isArchived'));
+  groupV1Record.markedUnread = Boolean(conversation.get('markedUnread'));
 
   applyUnknownFields(groupV1Record, conversation);
 
@@ -236,6 +244,7 @@ export async function toGroupV2Record(
   groupV2Record.blocked = conversation.isBlocked();
   groupV2Record.whitelisted = Boolean(conversation.get('profileSharing'));
   groupV2Record.archived = Boolean(conversation.get('isArchived'));
+  groupV2Record.markedUnread = Boolean(conversation.get('markedUnread'));
 
   applyUnknownFields(groupV2Record, conversation);
 
@@ -386,6 +395,7 @@ export async function mergeGroupV1Record(
 
   conversation.set({
     isArchived: Boolean(groupV1Record.archived),
+    markedUnread: Boolean(groupV1Record.markedUnread),
     storageID,
   });
 
@@ -446,6 +456,7 @@ export async function mergeGroupV2Record(
 
   conversation.set({
     isArchived: Boolean(groupV2Record.archived),
+    markedUnread: Boolean(groupV2Record.markedUnread),
     storageID,
   });
 
@@ -537,6 +548,7 @@ export async function mergeContactRecord(
 
   conversation.set({
     isArchived: Boolean(contactRecord.archived),
+    markedUnread: Boolean(contactRecord.markedUnread),
     storageID,
   });
 
@@ -559,6 +571,7 @@ export async function mergeAccountRecord(
     avatarUrl,
     linkPreviews,
     noteToSelfArchived,
+    noteToSelfMarkedUnread,
     pinnedConversations: remotelyPinnedConversationClasses,
     profileKey,
     readReceipts,
@@ -593,9 +606,9 @@ export async function mergeAccountRecord(
       conversation => conversation.get('id')
     );
 
-    const missingStoragePinnedConversationIds = window.ConversationController.getPinnedConversationIds().filter(
-      id => !modelPinnedConversationIds.includes(id)
-    );
+    const missingStoragePinnedConversationIds = window.storage
+      .get<Array<string>>('pinnedConversationIds', [])
+      .filter(id => !modelPinnedConversationIds.includes(id));
 
     if (missingStoragePinnedConversationIds.length !== 0) {
       window.log.info(
@@ -712,7 +725,7 @@ export async function mergeAccountRecord(
     });
 
     remotelyPinnedConversations.forEach(conversation => {
-      conversation.set({ isPinned: true });
+      conversation.set({ isPinned: true, isArchived: false });
       updateConversation(conversation.attributes);
     });
 
@@ -734,6 +747,7 @@ export async function mergeAccountRecord(
 
   conversation.set({
     isArchived: Boolean(noteToSelfArchived),
+    markedUnread: Boolean(noteToSelfMarkedUnread),
     storageID,
   });
 

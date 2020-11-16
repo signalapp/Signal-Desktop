@@ -24,7 +24,7 @@
         "description": "Shown in a popup if the database cannot start up properly"
     },
     "deleteAndRestart": {
-        "message": "刪除所有資料並重新開始",
+        "message": "刪除所有資料並重新啟動",
         "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
     },
     "mainMenuFile": {
@@ -40,7 +40,7 @@
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuView": {
-        "message": "檢視  (&V)",
+        "message": "檢視 (&V)",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuWindow": {
@@ -48,7 +48,7 @@
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuHelp": {
-        "message": "協助 (&H)",
+        "message": "說明 (&H)",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
@@ -60,7 +60,7 @@
         "description": "Application menu command to hide the window"
     },
     "appMenuHideOthers": {
-        "message": "隱藏其它",
+        "message": "隱藏其他視窗",
         "description": "Application menu command to hide all other windows"
     },
     "appMenuUnhide": {
@@ -68,7 +68,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "關閉 Signal",
+        "message": "結束 Signal",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -80,7 +80,7 @@
         "description": "Edit menu command to restore previously undone typed text"
     },
     "editMenuCut": {
-        "message": "裁剪",
+        "message": "剪下",
         "description": "Edit menu command to remove selected text and add it to clipboard"
     },
     "editMenuCopy": {
@@ -92,7 +92,7 @@
         "description": "Edit menu command to insert text from clipboard at cursor location"
     },
     "editMenuPasteAndMatchStyle": {
-        "message": "貼上並調整格式",
+        "message": "以純文字貼上",
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
@@ -124,7 +124,7 @@
         "description": "Window menu command to make the current window the size of the whole screen"
     },
     "windowMenuBringAllToFront": {
-        "message": "全部移到前面",
+        "message": "全部提到最頂",
         "description": "Window menu command to bring all windows of current application to front"
     },
     "viewMenuResetZoom": {
@@ -163,6 +163,10 @@
         "message": "複製連結",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
+    "contextMenuCopyImage": {
+        "message": "複製圖片",
+        "description": "Shown in the context menu for an image to indicate that the user can copy the image"
+    },
     "contextMenuNoSuggestions": {
         "message": "沒有建議",
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
@@ -180,7 +184,7 @@
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
-        "message": "最佳化訊息… $status$ 完成",
+        "message": "正在最佳化訊息… $status$ 完成",
         "description": "Message shown on the loading screen while we are doing application optimizations",
         "placeholders": {
             "status": {
@@ -202,15 +206,19 @@
         "description": "Shown as a header for non-pinned conversations in the left pane"
     },
     "archiveHelperText": {
-        "message": "這些對話已經封存，並只有在收到新訊息時才會顯示在收件匣中。",
+        "message": "這些對話已封存，只有在收到新訊息時才會顯示在收件匣中。",
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
-        "message": "封存對話",
+        "message": "封存",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
+    "markUnread": {
+        "message": "標註為未讀",
+        "description": "Shown in menu for conversation, and marks conversation as unread"
+    },
     "moveConversationToInbox": {
-        "message": "將對話移動到收件夾",
+        "message": "解除封存",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
@@ -242,7 +250,7 @@
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
-        "message": "選擇匯出資料的資料夾",
+        "message": "選擇包含匯出資料的資料夾",
         "description": "Title of the popup window used to select data previously exported"
     },
     "importErrorHeader": {
@@ -254,15 +262,15 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": " 確認您選取了存放 Signal 資料的正確目錄夾，它的名稱應是以 'Signal Export.' 為前綴。您也可以自 Chrome App 取得自己的資料複本。",
+        "message": "請確認你選取了存放 Signal 資料的正確目錄，名稱應是以「Signal Export」開首。你亦可從 Chrome 應用程式中另存一份自己資料的複本。",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "如果這些步驟不奏效，您可以提交一份除錯記錄(位於「檢視」-> 「除錯記錄」)，好讓我們來協助你搬移資料。",
+        "message": "如果這些步驟不奏效，請提交一份除錯記錄 (位於「檢視」-> 「除錯記錄」)，好讓我們來協助你遷移資料。",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
-        "message": "選擇資料夾及再試一次",
+        "message": "選擇資料夾並重試",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "importCompleteHeader": {
@@ -274,7 +282,7 @@
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
-        "message": "此裝置與您的手機連結",
+        "message": "將此裝置與您的手機連結",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "selectedLocation": {
@@ -286,7 +294,7 @@
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
-        "message": "正在載入訊息中。目前有 $count$ 則...",
+        "message": "正在載入訊息，目前有 $count$ 則...",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -556,11 +564,11 @@
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
-        "message": "因安全考量無法傳送此類附件\n",
+        "message": "基於安全考慮，不允許此附件類型",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "載入預覽中...",
+        "message": "正在載入預覽...",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
@@ -664,10 +672,6 @@
     "goToSupportPage": {
         "message": "前往支援頁面",
         "description": "Item under the Help menu, takes you to the support page"
-    },
-    "goToGithub": {
-        "message": "請到 GitHub",
-        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
     },
     "joinTheBeta": {
         "message": "加入 Beta",
@@ -790,7 +794,7 @@
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
-        "message": "主頁",
+        "message": "住家",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "work": {
@@ -802,7 +806,7 @@
         "description": "Shown on contact detail screen as a label for aa phone or email"
     },
     "email": {
-        "message": "email",
+        "message": "電子郵件",
         "description": "Generic label shown if contact email has custom type but no label"
     },
     "phone": {
@@ -966,7 +970,7 @@
         "description": ""
     },
     "messageDetail": {
-        "message": "詳細訊息",
+        "message": "訊息詳情",
         "description": ""
     },
     "delete": {
@@ -1006,7 +1010,7 @@
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "送出一則訊息",
+        "message": "傳送一則訊息",
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
@@ -1064,7 +1068,7 @@
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
-        "message": "刪除訊息",
+        "message": "刪除",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
@@ -1215,6 +1219,20 @@
         "message": "你的視訊已關閉",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
+    "calling__in-this-call--one": {
+        "message": "在此通話中·1 個人",
+        "description": "Shown in the participants list to describe how many people are in the call"
+    },
+    "calling__in-this-call--many": {
+        "message": "在這個電話中 ·$people$個人",
+        "description": "Shown in the participants list to describe how many people are in the call",
+        "placeholders": {
+            "people": {
+                "content": "$1",
+                "example": "15"
+            }
+        }
+    },
     "alwaysRelayCallsDescription": {
         "message": "永遠轉發通話",
         "description": "Description of the always relay calls setting"
@@ -1224,7 +1242,7 @@
         "description": "Details describing the always relay calls setting"
     },
     "permissions": {
-        "message": "許可",
+        "message": "權限",
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
@@ -1276,7 +1294,7 @@
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
-        "message": "離線中並刪除所有資料",
+        "message": "正在中斷連線並刪除所有資料",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "deleteOldIndexedDBData": {
@@ -1344,7 +1362,7 @@
         }
     },
     "notificationReactionMessage": {
-        "message": "$sender$對 $emoji$到: $message$",
+        "message": "$sender$ 對 $message$ 回應了 $emoji$ ",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1422,19 +1440,19 @@
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
-        "message": "現在",
+        "message": "剛剛",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
-        "message": "1 分鐘",
+        "message": "1 分鐘前",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
-        "message": "1 小時",
+        "message": "1 小時前",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "hoursAgo": {
-        "message": "$hours$ 小時",
+        "message": "$hours$ 小時前",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1444,7 +1462,7 @@
         }
     },
     "minutesAgo": {
-        "message": "$minutes$ 分鐘",
+        "message": "$minutes$ 分鐘前",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1454,7 +1472,7 @@
         }
     },
     "justNow": {
-        "message": "現在",
+        "message": "剛剛",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
@@ -1782,7 +1800,7 @@
         "description": ""
     },
     "unlinked": {
-        "message": "未連結的",
+        "message": "已中斷連結",
         "description": ""
     },
     "relink": {
@@ -1790,11 +1808,11 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal 可用的更新",
+        "message": "Signal 有更新可用",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "這是新版本的 Signal。",
+        "message": "新版本的 Signal 已可供使用。",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -2258,7 +2276,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "切換所選訊息的回應選擇器",
+        "message": "切換所選訊息的表情符號反應選擇器",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2388,6 +2406,10 @@
     "conversationReturnedToInbox": {
         "message": "對話已回到收件匣",
         "description": "A toast that shows up when the user unarchives a conversation"
+    },
+    "conversationMarkedUnread": {
+        "message": "對話標記為未讀",
+        "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
         "message": "貼圖包製作器",
@@ -2769,6 +2791,38 @@
         "message": "接受",
         "description": "Shown as a button to let the user accept a message request"
     },
+    "MessageRequests--continue": {
+        "message": "繼續",
+        "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
+    },
+    "MessageRequests--profile-sharing--group": {
+        "message": "繼續與該群組進行對話，並與該群組的成員分享你的名字和照片嗎？$learnMore$",
+        "description": "Shown when user hasn't shared their profile in a group yet",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--profile-sharing--direct": {
+        "message": "繼續與$firstName$對話，並與他們分享你的名字和照片嗎？$learnMore$",
+        "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
+        "placeholders": {
+            "firstName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "learnMore": {
+                "content": "$2",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--learn-more": {
+        "message": "學習更多。",
+        "description": "Shown at the end of profile sharing messages as a link."
+    },
     "ConversationHero--members": {
         "message": "$count$個成員",
         "description": "Specifies the number of members in a group conversation",
@@ -3046,7 +3100,7 @@
         "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--buttonText": {
-        "message": "Okay",
+        "message": "好的",
         "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
     },
     "GroupV2--admin": {
@@ -3874,5 +3928,17 @@
     "countMutedConversationsDescription": {
         "message": "計算靜音對話的圖示上的計數",
         "description": "Description for counting muted conversations in badge setting"
+    },
+    "ContactModal--message": {
+        "message": "訊息",
+        "description": "Button text for send message button in Group Contact Details modal"
+    },
+    "ContactModal--make-admin": {
+        "message": "設為管理員",
+        "description": "Button text for make admin button in Group Contact Details modal"
+    },
+    "ContactModal--remove-from-group": {
+        "message": "從群組中移除",
+        "description": "Button text for remove from group button in Group Contact Details modal"
     }
 }

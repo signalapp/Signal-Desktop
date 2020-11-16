@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { boolean } from '@storybook/addon-knobs';
@@ -9,20 +12,6 @@ import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
-
-const callDetails = {
-  callId: 0,
-  isIncoming: true,
-  isVideoCall: true,
-
-  id: '3051234567',
-  avatarPath: undefined,
-  color: 'ultramarine' as ColorType,
-  title: 'Rick Sanchez',
-  name: 'Rick Sanchez',
-  phoneNumber: '3051234567',
-  profileName: 'Rick Sanchez',
-};
 
 const camera = {
   deviceId: 'dfbe6effe70b0611ba0fdc2a9ea3f39f6cb110e6687948f7e5f016c111b7329c',
@@ -36,11 +25,14 @@ const camera = {
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   availableCameras: overrideProps.availableCameras || [camera],
-  callDetails,
+  conversation: {
+    title: 'Rick Sanchez',
+  },
   hasLocalAudio: boolean('hasLocalAudio', overrideProps.hasLocalAudio || false),
   hasLocalVideo: boolean('hasLocalVideo', overrideProps.hasLocalVideo || false),
   i18n,
   isGroupCall: boolean('isGroupCall', overrideProps.isGroupCall || false),
+  me: overrideProps.me || { color: 'ultramarine' as ColorType },
   onCallCanceled: action('on-call-canceled'),
   onJoinCall: action('on-join-call'),
   setLocalAudio: action('set-local-audio'),
@@ -54,20 +46,23 @@ const story = storiesOf('Components/CallingLobby', module);
 
 story.add('Default', () => {
   const props = createProps();
-  return (
-    <CallingLobby
-      {...props}
-      callDetails={{
-        ...callDetails,
-        avatarPath: 'https://www.stevensegallery.com/600/600',
-      }}
-    />
-  );
+  return <CallingLobby {...props} />;
 });
 
-story.add('No Camera', () => {
+story.add('No Camera, no avatar', () => {
   const props = createProps({
     availableCameras: [],
+  });
+  return <CallingLobby {...props} />;
+});
+
+story.add('No Camera, local avatar', () => {
+  const props = createProps({
+    availableCameras: [],
+    me: {
+      color: 'ultramarine' as ColorType,
+      avatarPath: '/fixtures/kitten-4-112-112.jpg',
+    },
   });
   return <CallingLobby {...props} />;
 });

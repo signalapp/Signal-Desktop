@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint-disable camelcase */
 
 // We don't include unicode-12.1.0 because it's over 100MB in size

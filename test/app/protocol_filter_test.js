@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 const { expect } = require('chai');
 
 const { _urlToPath } = require('../../app/protocol_filter');

@@ -1,3 +1,6 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 // Camelcase disabled due to emoji-datasource using snake_case
 /* eslint-disable camelcase */
 import untypedData from 'emoji-datasource';
@@ -17,6 +20,7 @@ import {
 import Fuse from 'fuse.js';
 import PQueue from 'p-queue';
 import is from '@sindresorhus/is';
+import { getOwn } from '../../util/getOwn';
 
 export const skinTones = ['1F3FB', '1F3FC', '1F3FD', '1F3FE', '1F3FF'];
 
@@ -240,14 +244,14 @@ export function unifiedToEmoji(unified: string): string {
     .join('');
 }
 
-export function convertShortName(
+export function convertShortNameToData(
   shortName: string,
   skinTone: number | SkinToneKey = 0
-): string {
+): EmojiData | undefined {
   const base = dataByShortName[shortName];
 
   if (!base) {
-    return '';
+    return undefined;
   }
 
   const toneKey = is.number(skinTone) ? skinTones[skinTone - 1] : skinTone;
@@ -255,27 +259,35 @@ export function convertShortName(
   if (skinTone && base.skin_variations) {
     const variation = base.skin_variations[toneKey];
     if (variation) {
-      return unifiedToEmoji(variation.unified);
+      return {
+        ...base,
+        ...variation,
+      };
     }
   }
 
-  return unifiedToEmoji(base.unified);
+  return base;
+}
+
+export function convertShortName(
+  shortName: string,
+  skinTone: number | SkinToneKey = 0
+): string {
+  const emojiData = convertShortNameToData(shortName, skinTone);
+
+  if (!emojiData) {
+    return '';
+  }
+
+  return unifiedToEmoji(emojiData.unified);
 }
 
 export function emojiToImage(emoji: string): string | undefined {
-  if (!Object.prototype.hasOwnProperty.call(imageByEmoji, emoji)) {
-    return undefined;
-  }
-
-  return imageByEmoji[emoji];
+  return getOwn(imageByEmoji, emoji);
 }
 
 export function emojiToData(emoji: string): EmojiData | undefined {
-  if (!Object.prototype.hasOwnProperty.call(dataByEmoji, emoji)) {
-    return undefined;
-  }
-
-  return dataByEmoji[emoji];
+  return getOwn(dataByEmoji, emoji);
 }
 
 function getCountOfAllMatches(str: string, regex: RegExp) {

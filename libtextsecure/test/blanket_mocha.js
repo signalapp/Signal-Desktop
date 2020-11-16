@@ -1,3 +1,6 @@
+// Copyright 2015-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /*! blanket - v1.1.5 */
 
 (function(define){
@@ -5100,7 +5103,7 @@ _blanket.extend({
                     inputFileName: url
                 },function(instrumented){
                     try{
-                        if (_blanket.options("debug")) {console.log("BLANKET-instrument of:"+url+" was successfull.");}
+                        if (_blanket.options("debug")) {console.log("BLANKET-instrument of:"+url+" was successful.");}
                         _blanket.utils.blanketEval(instrumented);
                         cb();
                         _blanket.requiringFile(url,true);

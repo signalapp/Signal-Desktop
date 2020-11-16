@@ -1,8 +1,13 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 // Captures the globals put in place by preload.js, background.js and others
 
 import * as Backbone from 'backbone';
 import * as Underscore from 'underscore';
 import { Ref } from 'react';
+import { bindActionCreators } from 'redux';
+import * as LinkPreviews from '../js/modules/link_previews.d';
 import * as Util from './util';
 import {
   ConversationModelCollectionType,
@@ -21,11 +26,34 @@ import * as Groups from './groups';
 import * as Crypto from './Crypto';
 import * as RemoteConfig from './RemoteConfig';
 import * as zkgroup from './util/zkgroup';
-import { LocalizerType, BodyRangesType } from './types/Util';
+import { LocalizerType, BodyRangesType, BodyRangeType } from './types/Util';
 import { CallHistoryDetailsType } from './types/Calling';
 import { ColorType } from './types/Colors';
 import { ConversationController } from './ConversationController';
 import { ReduxActions } from './state/types';
+import { createStore } from './state/createStore';
+import { createCallManager } from './state/roots/createCallManager';
+import { createCompositionArea } from './state/roots/createCompositionArea';
+import { createContactModal } from './state/roots/createContactModal';
+import { createConversationHeader } from './state/roots/createConversationHeader';
+import { createLeftPane } from './state/roots/createLeftPane';
+import { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer';
+import { createShortcutGuideModal } from './state/roots/createShortcutGuideModal';
+import { createStickerManager } from './state/roots/createStickerManager';
+import { createStickerPreviewModal } from './state/roots/createStickerPreviewModal';
+import { createTimeline } from './state/roots/createTimeline';
+import * as callingDuck from './state/ducks/calling';
+import * as conversationsDuck from './state/ducks/conversations';
+import * as emojisDuck from './state/ducks/emojis';
+import * as expirationDuck from './state/ducks/expiration';
+import * as itemsDuck from './state/ducks/items';
+import * as networkDuck from './state/ducks/network';
+import * as updatesDuck from './state/ducks/updates';
+import * as userDuck from './state/ducks/user';
+import * as searchDuck from './state/ducks/search';
+import * as stickersDuck from './state/ducks/stickers';
+import * as conversationsSelectors from './state/selectors/conversations';
+import * as searchSelectors from './state/selectors/search';
 import { SendOptionsType } from './textsecure/SendMessage';
 import AccountManager from './textsecure/AccountManager';
 import Data from './sql/Client';
@@ -38,6 +66,7 @@ import { combineNames } from './util';
 import { BatcherType } from './util/batcher';
 import { ErrorModal } from './components/ErrorModal';
 import { ProgressModal } from './components/ProgressModal';
+import { ContactModal } from './components/conversation/ContactModal';
 
 export { Long } from 'long';
 
@@ -80,7 +109,7 @@ declare global {
     getGuid: () => string;
     getInboxCollection: () => ConversationModelCollectionType;
     getIncomingCallNotification: () => Promise<boolean>;
-    getInteractionMode: () => string;
+    getInteractionMode: () => 'mouse' | 'keyboard';
     getMediaCameraPermissions: () => Promise<boolean>;
     getMediaPermissions: () => Promise<boolean>;
     getServerPublicParams: () => string;
@@ -145,7 +174,7 @@ declare global {
       isBlocked: (number: string) => boolean;
       isGroupBlocked: (group: unknown) => boolean;
       isUuidBlocked: (uuid: string) => boolean;
-      onready: WhatIsThis;
+      onready: (callback: () => unknown) => void;
       put: (key: string, value: any) => Promise<void>;
       remove: (key: string) => Promise<void>;
       removeBlockedGroup: (group: string) => void;
@@ -358,18 +387,7 @@ declare global {
         VisualAttachment: any;
       };
       Util: typeof Util;
-      LinkPreviews: {
-        isMediaLinkInWhitelist: any;
-        getTitleMetaTag: any;
-        getImageMetaTag: any;
-        assembleChunks: any;
-        getChunkPattern: any;
-        isLinkInWhitelist: any;
-        isStickerPack: (url: string) => boolean;
-        isLinkSafeToPreview: (url: string) => boolean;
-        findLinks: (body: string, unknown?: any) => Array<string>;
-        getDomain: (url: string) => string;
-      };
+      LinkPreviews: typeof LinkPreviews;
       GroupChange: {
         renderChange: (change: unknown, things: unknown) => Array<string>;
       };
@@ -377,8 +395,8 @@ declare global {
         AttachmentList: any;
         CaptionEditor: any;
         ContactDetail: any;
-        ConversationHeader: any;
         ErrorModal: typeof ErrorModal;
+        ContactModal: typeof ContactModal;
         Lightbox: any;
         LightboxGallery: any;
         MediaGallery: any;
@@ -404,7 +422,38 @@ declare global {
         doesDatabaseExist: WhatIsThis;
       };
       Views: WhatIsThis;
-      State: WhatIsThis;
+      State: {
+        bindActionCreators: typeof bindActionCreators;
+        createStore: typeof createStore;
+        Roots: {
+          createCallManager: typeof createCallManager;
+          createCompositionArea: typeof createCompositionArea;
+          createContactModal: typeof createContactModal;
+          createConversationHeader: typeof createConversationHeader;
+          createLeftPane: typeof createLeftPane;
+          createSafetyNumberViewer: typeof createSafetyNumberViewer;
+          createShortcutGuideModal: typeof createShortcutGuideModal;
+          createStickerManager: typeof createStickerManager;
+          createStickerPreviewModal: typeof createStickerPreviewModal;
+          createTimeline: typeof createTimeline;
+        };
+        Ducks: {
+          calling: typeof callingDuck;
+          conversations: typeof conversationsDuck;
+          emojis: typeof emojisDuck;
+          expiration: typeof expirationDuck;
+          items: typeof itemsDuck;
+          network: typeof networkDuck;
+          updates: typeof updatesDuck;
+          user: typeof userDuck;
+          search: typeof searchDuck;
+          stickers: typeof stickersDuck;
+        };
+        Selectors: {
+          conversations: typeof conversationsSelectors;
+          search: typeof searchSelectors;
+        };
+      };
       Logs: WhatIsThis;
       conversationControllerStart: WhatIsThis;
       Emojis: {
@@ -555,6 +604,7 @@ export type WhisperType = {
   };
   ConversationArchivedToast: WhatIsThis;
   ConversationUnarchivedToast: WhatIsThis;
+  ConversationMarkedUnreadToast: WhatIsThis;
   AppView: WhatIsThis;
   WallClockListener: WhatIsThis;
   MessageRequests: WhatIsThis;
@@ -563,12 +613,8 @@ export type WhisperType = {
   GroupMemberList: any;
   KeyVerificationPanelView: any;
   SafetyNumberChangeDialogView: any;
-
-  ExpirationTimerOptions: {
-    map: any;
-    getName: (number: number) => string;
-    getAbbreviated: (number: number) => string;
-  };
+  BodyRangesType: BodyRangesType;
+  BodyRangeType: BodyRangeType;
 
   Notifications: {
     removeBy: (filter: Partial<unknown>) => void;
@@ -628,28 +674,30 @@ export type WhisperType = {
   deliveryReceiptBatcher: BatcherType<WhatIsThis>;
   RotateSignedPreKeyListener: WhatIsThis;
 
-  ExpiredToast: typeof Whisper.ToastView;
-  BlockedToast: typeof Whisper.ToastView;
   BlockedGroupToast: typeof Whisper.ToastView;
-  LeftGroupToast: typeof Whisper.ToastView;
-  OriginalNotFoundToast: typeof Whisper.ToastView;
-  OriginalNoLongerAvailableToast: typeof Whisper.ToastView;
+  BlockedToast: typeof Whisper.ToastView;
+  CannotMixImageAndNonImageAttachmentsToast: typeof Whisper.ToastView;
+  DangerousFileTypeToast: typeof Whisper.ToastView;
+  ExpiredToast: typeof Whisper.ToastView;
+  FileSavedToast: typeof Whisper.ToastView;
+  FileSizeToast: any;
   FoundButNotLoadedToast: typeof Whisper.ToastView;
-  VoiceNoteLimit: typeof Whisper.ToastView;
-  VoiceNoteMustBeOnlyAttachmentToast: typeof Whisper.ToastView;
+  InvalidConversationToast: typeof Whisper.ToastView;
+  LeftGroupToast: typeof Whisper.ToastView;
+  MaxAttachmentsToast: typeof Whisper.ToastView;
+  MessageBodyTooLongToast: typeof Whisper.ToastView;
+  OneNonImageAtATimeToast: typeof Whisper.ToastView;
+  OriginalNoLongerAvailableToast: typeof Whisper.ToastView;
+  OriginalNotFoundToast: typeof Whisper.ToastView;
+  PinnedConversationsFullToast: typeof Whisper.ToastView;
+  ReactionFailedToast: typeof Whisper.ToastView;
   TapToViewExpiredIncomingToast: typeof Whisper.ToastView;
   TapToViewExpiredOutgoingToast: typeof Whisper.ToastView;
-  FileSavedToast: typeof Whisper.ToastView;
-  ReactionFailedToast: typeof Whisper.ToastView;
-  MessageBodyTooLongToast: typeof Whisper.ToastView;
-  FileSizeToast: any;
-  UnableToLoadToast: typeof Whisper.ToastView;
-  DangerousFileTypeToast: typeof Whisper.ToastView;
-  OneNonImageAtATimeToast: typeof Whisper.ToastView;
-  CannotMixImageAndNonImageAttachmentsToast: typeof Whisper.ToastView;
-  MaxAttachmentsToast: typeof Whisper.ToastView;
   TimerConflictToast: typeof Whisper.ToastView;
-  PinnedConversationsFullToast: typeof Whisper.ToastView;
+  UnableToLoadToast: typeof Whisper.ToastView;
+  VoiceNoteLimit: typeof Whisper.ToastView;
+  VoiceNoteMustBeOnlyAttachmentToast: typeof Whisper.ToastView;
+
   ConversationLoadingScreen: typeof Whisper.View;
   ConversationView: typeof Whisper.View;
   View: typeof Backbone.View;

@@ -1,3 +1,6 @@
+# Copyright 2017-2020 Signal Messenger, LLC
+# SPDX-License-Identifier: AGPL-3.0-only
+
 #!/bin/bash
 # Setup - creates the local repo which will be mirrored up to S3, then back-fill it. Your
 #         future deploys will eliminate all old versions without these backfill steps:

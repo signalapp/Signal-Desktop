@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { debounce, reduce, uniq, without } from 'lodash';
 import dataInterface from './sql/Client';
 import {
@@ -71,9 +74,27 @@ export function start(): void {
       const canCountMutedConversations = window.storage.get(
         'badge-count-muted-conversations'
       );
+
+      const canCount = (m: ConversationModel) =>
+        !m.isMuted() || canCountMutedConversations;
+
+      const getUnreadCount = (m: ConversationModel) => {
+        const unreadCount = m.get('unreadCount');
+
+        if (unreadCount) {
+          return unreadCount;
+        }
+
+        if (m.get('markedUnread')) {
+          return 1;
+        }
+
+        return 0;
+      };
+
       const newUnreadCount = reduce(
         this.map((m: ConversationModel) =>
-          !canCountMutedConversations && m.isMuted() ? 0 : m.get('unreadCount')
+          canCount(m) ? getUnreadCount(m) : 0
         ),
         (item: number, memo: number) => (item || 0) + memo,
         0
@@ -480,7 +501,6 @@ export class ConversationController {
 
             byE164[e164] = conversation;
 
-            // eslint-disable-next-line no-continue
             continue;
           }
 
@@ -723,38 +743,5 @@ export class ConversationController {
     this._initialPromise = load();
 
     return this._initialPromise;
-  }
-
-  getPinnedConversationIds(): Array<string> {
-    let pinnedConversationIds = window.storage.get<Array<string>>(
-      'pinnedConversationIds'
-    );
-
-    // If pinnedConversationIds is missing, we're upgrading from
-    // a previous version and need to backfill storage from pinned
-    // conversation models.
-    if (pinnedConversationIds === undefined) {
-      window.log.info(
-        'getPinnedConversationIds: no pinned conversations in storage'
-      );
-
-      const modelPinnedConversationIds = this._conversations
-        .filter(conversation => conversation.get('isPinned'))
-        // pinIndex is a deprecated field. We now rely on the order of
-        // the ids in storage, which is synced with the AccountRecord.
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        .sort((a, b) => (a.get('pinIndex') || 0) - (b.get('pinIndex') || 0))
-        .map(conversation => conversation.get('id'));
-
-      window.log.info(
-        `getPinnedConversationIds: falling back to ${modelPinnedConversationIds.length} pinned models`
-      );
-
-      window.storage.put('pinnedConversationIds', modelPinnedConversationIds);
-      pinnedConversationIds = modelPinnedConversationIds;
-    }
-
-    return pinnedConversationIds;
   }
 }

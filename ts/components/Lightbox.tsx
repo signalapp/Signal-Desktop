@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import React from 'react';
 
 import classNames from 'classnames';
@@ -376,6 +379,7 @@ export class Lightbox extends React.Component<Props, State> {
             alt={i18n('lightboxImageAlt')}
             style={styles.img}
             src={objectURL}
+            onContextMenu={this.onContextMenu}
           />
         </button>
       );
@@ -413,6 +417,17 @@ export class Lightbox extends React.Component<Props, State> {
     return (
       <Icon i18n={i18n} onClick={this.onObjectClick} url="images/file.svg" />
     );
+  };
+
+  private readonly onContextMenu = (
+    event: React.MouseEvent<HTMLImageElement>
+  ) => {
+    const { contentType } = this.props;
+
+    // These are the only image types supported by Electron's NativeImage
+    if (event && contentType !== 'image/png' && contentType !== 'image/jpg') {
+      event.preventDefault();
+    }
   };
 
   private readonly onClose = () => {

@@ -163,16 +163,20 @@
         "message": "Copiar l'enllaç",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
+    "contextMenuCopyImage": {
+        "message": "Copia la imatge",
+        "description": "Shown in the context menu for an image to indicate that the user can copy the image"
+    },
     "contextMenuNoSuggestions": {
         "message": "Sense suggeriments",
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
     },
     "avatarMenuViewArchive": {
-        "message": "Veure Arxiu",
+        "message": "Mostra l'arxiu",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
-        "message": "Es carrega...",
+        "message": "S'està carregant...",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
@@ -206,11 +210,15 @@
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
-        "message": "Arxiva la conversa",
+        "message": "Arxiva",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
+    "markUnread": {
+        "message": "Marca com a no llegit",
+        "description": "Shown in menu for conversation, and marks conversation as unread"
+    },
     "moveConversationToInbox": {
-        "message": "Mou la conversa a la safata d'entrada",
+        "message": "Restaura",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
@@ -560,7 +568,7 @@
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "Es carrega la previsualització...",
+        "message": "S'està carregant la previsualització...",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
@@ -650,7 +658,7 @@
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
     "contactUs": {
-        "message": "Contacteu-nos",
+        "message": "Contacte",
         "description": "Item under the help menu, takes you to the contact us support page"
     },
     "goToReleaseNotes": {
@@ -665,10 +673,6 @@
         "message": "Ves a la pàgina de suport",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "goToGithub": {
-        "message": "Ves a GitHub",
-        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
-    },
     "joinTheBeta": {
         "message": "Uniu-vos a la versió Beta",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
@@ -682,7 +686,7 @@
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "Quan al Signal Desktop",
+        "message": "Quant al Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
@@ -1064,7 +1068,7 @@
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
-        "message": "Suprimeix els missatges",
+        "message": "Suprimeix",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
@@ -1214,6 +1218,20 @@
     "calling__your-video-is-off": {
         "message": "El vídeo està desactivat.",
         "description": "Label in the calling lobby indicating that your camera is off"
+    },
+    "calling__in-this-call--one": {
+        "message": "En aquesta trucada: 1 persona",
+        "description": "Shown in the participants list to describe how many people are in the call"
+    },
+    "calling__in-this-call--many": {
+        "message": "En aquesta trucada: $people$ persones",
+        "description": "Shown in the participants list to describe how many people are in the call",
+        "placeholders": {
+            "people": {
+                "content": "$1",
+                "example": "15"
+            }
+        }
     },
     "alwaysRelayCallsDescription": {
         "message": "Retransmet sempre les trucades",
@@ -2258,7 +2276,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Commuta el selector de reaccions per al missatge seleccionat",
+        "message": "Commuta el selector de reaccions d'emoticones per al missatge seleccionat",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2388,6 +2406,10 @@
     "conversationReturnedToInbox": {
         "message": "La conversa ha tornat a la bústia d'entrada",
         "description": "A toast that shows up when the user unarchives a conversation"
+    },
+    "conversationMarkedUnread": {
+        "message": "Conversa marcada com a no llegida",
+        "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
         "message": "Creador de paquets d'adhesius",
@@ -2768,6 +2790,38 @@
     "MessageRequests--accept": {
         "message": "Ho accepto",
         "description": "Shown as a button to let the user accept a message request"
+    },
+    "MessageRequests--continue": {
+        "message": "Continua",
+        "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
+    },
+    "MessageRequests--profile-sharing--group": {
+        "message": "Voleu continuar la conversa amb aquest grup i compartir-hi el nom i la fotografia? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a group yet",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--profile-sharing--direct": {
+        "message": "Voleu continuar la conversa amb $firstName$ i compartir-hi el nom i la fotografia? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
+        "placeholders": {
+            "firstName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "learnMore": {
+                "content": "$2",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--learn-more": {
+        "message": "Més informació",
+        "description": "Shown at the end of profile sharing messages as a link."
     },
     "ConversationHero--members": {
         "message": "$count$ membres",
@@ -3874,5 +3928,17 @@
     "countMutedConversationsDescription": {
         "message": "Compta les converses silenciades al recompte d'insígnies",
         "description": "Description for counting muted conversations in badge setting"
+    },
+    "ContactModal--message": {
+        "message": "Missatge",
+        "description": "Button text for send message button in Group Contact Details modal"
+    },
+    "ContactModal--make-admin": {
+        "message": "Fes adminstrador",
+        "description": "Button text for make admin button in Group Contact Details modal"
+    },
+    "ContactModal--remove-from-group": {
+        "message": "Suprimeix del grup",
+        "description": "Button text for remove from group button in Group Contact Details modal"
     }
 }

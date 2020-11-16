@@ -1,3 +1,6 @@
+// Copyright 2017-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 const { isString } = require('lodash');
 
 exports.createTemplate = (options, messages) => {
@@ -302,6 +305,7 @@ function updateForMac(template, messages, options) {
     },
     {
       label: messages.show.message,
+      accelerator: 'CmdOrCtrl+Shift+0',
       click: showWindow,
     },
     {

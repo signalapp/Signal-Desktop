@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint-disable no-nested-ternary */
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */

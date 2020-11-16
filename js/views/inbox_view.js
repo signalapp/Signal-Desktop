@@ -1,3 +1,6 @@
+// Copyright 2014-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* global
   ConversationController,
   i18n,
@@ -204,6 +207,8 @@
         id,
         'private'
       );
+
+      conversation.setMarkedUnread(false);
 
       const { openConversationExternal } = window.reduxActions.conversations;
       if (openConversationExternal) {

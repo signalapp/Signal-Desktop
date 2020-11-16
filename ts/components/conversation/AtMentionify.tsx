@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import React from 'react';
 import { Emojify } from './Emojify';
 import { BodyRangesType } from '../../types/Util';
@@ -61,9 +64,13 @@ export const AtMentionify = ({
           }}
           tabIndex={0}
           role="link"
+          data-id={range.conversationID}
+          data-title={range.replacementText}
         >
-          @
-          <Emojify text={range.replacementText} />
+          <bdi>
+            @
+            <Emojify text={range.replacementText} />
+          </bdi>
         </span>
       );
     }

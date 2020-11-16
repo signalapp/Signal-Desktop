@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { boolean } from '@storybook/addon-knobs';
@@ -10,11 +13,7 @@ import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
 
-const callDetails = {
-  callId: 0,
-  isIncoming: true,
-  isVideoCall: true,
-
+const conversation = {
   id: '3051234567',
   avatarPath: undefined,
   color: 'ultramarine' as ColorType,
@@ -25,7 +24,7 @@ const callDetails = {
 };
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
-  callDetails: overrideProps.callDetails || callDetails,
+  conversation: overrideProps.conversation || conversation,
   hangUp: action('hang-up'),
   hasLocalVideo: boolean('hasLocalVideo', overrideProps.hasLocalVideo || false),
   hasRemoteVideo: boolean(
@@ -47,8 +46,8 @@ story.add('Default', () => {
 
 story.add('Contact (with avatar)', () => {
   const props = createProps({
-    callDetails: {
-      ...callDetails,
+    conversation: {
+      ...conversation,
       avatarPath: 'https://www.fillmurray.com/64/64',
     },
   });
@@ -57,8 +56,8 @@ story.add('Contact (with avatar)', () => {
 
 story.add('Contact (no color)', () => {
   const props = createProps({
-    callDetails: {
-      ...callDetails,
+    conversation: {
+      ...conversation,
       color: undefined,
     },
   });

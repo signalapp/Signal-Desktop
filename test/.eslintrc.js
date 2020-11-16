@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 // For reference: https://github.com/airbnb/javascript
 
 module.exports = {
@@ -9,7 +12,6 @@ module.exports = {
   globals: {
     assert: true,
     assertEqualArrayBuffers: true,
-    clearDatabase: true,
     dcodeIO: true,
     getString: true,
     hexToArrayBuffer: true,

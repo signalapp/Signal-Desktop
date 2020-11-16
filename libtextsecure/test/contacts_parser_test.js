@@ -1,3 +1,6 @@
+// Copyright 2015-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 describe('ContactBuffer', () => {
   function getTestBuffer() {
     const buffer = new dcodeIO.ByteBuffer();

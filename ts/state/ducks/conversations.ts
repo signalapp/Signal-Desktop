@@ -1,3 +1,6 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint-disable camelcase */
 import {
   difference,
@@ -14,6 +17,7 @@ import { trigger } from '../../shims/events';
 import { NoopActionType } from './noop';
 import { AttachmentType } from '../../types/Attachment';
 import { ColorType } from '../../types/Colors';
+import { BodyRangeType } from '../../types/Util';
 
 // State
 
@@ -42,8 +46,11 @@ export type ConversationType = {
   firstName?: string;
   profileName?: string;
   avatarPath?: string;
+  areWeAdmin?: boolean;
   areWePending?: boolean;
+  canChangeTimer?: boolean;
   color?: ColorType;
+  isAccepted?: boolean;
   isArchived?: boolean;
   isBlocked?: boolean;
   isPinned?: boolean;
@@ -51,13 +58,17 @@ export type ConversationType = {
   activeAt?: number;
   timestamp?: number;
   inboxPosition?: number;
+  left?: boolean;
   lastMessage?: {
     status: LastMessageStatus;
     text: string;
     deletedForEveryone?: boolean;
   };
+  markedUnread: boolean;
   phoneNumber?: string;
   membersCount?: number;
+  expireTimer?: number;
+  members?: Array<ConversationType>;
   muteExpiresAt?: number;
   type: ConversationTypeType;
   isMe?: boolean;
@@ -75,6 +86,7 @@ export type ConversationType = {
 
   shouldShowDraft?: boolean;
   draftText?: string | null;
+  draftBodyRanges?: Array<BodyRangeType>;
   draftPreview?: string;
 
   sharedGroupNames?: Array<string>;
@@ -106,7 +118,8 @@ export type MessageType = {
   attachments: Array<AttachmentType>;
   sticker: {
     data?: {
-      pending: boolean;
+      pending?: boolean;
+      blurHash?: string;
     };
   };
   unread: boolean;
@@ -167,6 +180,7 @@ export type ConversationsStateType = {
   selectedConversation?: string;
   selectedMessage?: string;
   selectedMessageCounter: number;
+  selectedConversationPanelDepth: number;
   showArchived: boolean;
 
   // Note: it's very important that both of these locations are always kept up to date
@@ -270,6 +284,10 @@ export type SetIsNearBottomActionType = {
     isNearBottom: boolean;
   };
 };
+export type SetSelectedConversationPanelDepthActionType = {
+  type: 'SET_SELECTED_CONVERSATION_PANEL_DEPTH';
+  payload: { panelDepth: number };
+};
 export type ScrollToMessageActionType = {
   type: 'SCROLL_TO_MESSAGE';
   payload: {
@@ -327,6 +345,7 @@ export type ConversationActionType =
   | ClearSelectedMessageActionType
   | ClearUnreadMetricsActionType
   | ScrollToMessageActionType
+  | SetSelectedConversationPanelDepthActionType
   | SelectedConversationChangedActionType
   | MessageDeletedActionType
   | SelectedConversationChangedActionType
@@ -349,6 +368,7 @@ export const actions = {
   setMessagesLoading,
   setLoadCountdownStart,
   setIsNearBottom,
+  setSelectedConversationPanelDepth,
   clearChangedMessages,
   clearSelectedMessage,
   clearUnreadMetrics,
@@ -515,6 +535,14 @@ function setIsNearBottom(
     },
   };
 }
+function setSelectedConversationPanelDepth(
+  panelDepth: number
+): SetSelectedConversationPanelDepthActionType {
+  return {
+    type: 'SET_SELECTED_CONVERSATION_PANEL_DEPTH',
+    payload: { panelDepth },
+  };
+}
 function clearChangedMessages(
   conversationId: string
 ): ClearChangedMessagesActionType {
@@ -605,6 +633,7 @@ function getEmptyState(): ConversationsStateType {
     messagesLookup: {},
     selectedMessageCounter: 0,
     showArchived: false,
+    selectedConversationPanelDepth: 0,
   };
 }
 
@@ -635,6 +664,7 @@ function hasMessageHeightChanged(
     message.sticker.data &&
     previous.sticker &&
     previous.sticker.data &&
+    !previous.sticker.data.blurHash &&
     previous.sticker.data.pending !== message.sticker.data.pending;
   if (stickerPendingChanged) {
     return true;
@@ -760,12 +790,19 @@ export function reducer(
     return {
       ...state,
       selectedConversation,
+      selectedConversationPanelDepth: 0,
       messagesLookup: omit(state.messagesLookup, messageIds),
       messagesByConversation: omit(state.messagesByConversation, [id]),
     };
   }
   if (action.type === 'CONVERSATIONS_REMOVE_ALL') {
     return getEmptyState();
+  }
+  if (action.type === 'SET_SELECTED_CONVERSATION_PANEL_DEPTH') {
+    return {
+      ...state,
+      selectedConversationPanelDepth: action.payload.panelDepth,
+    };
   }
   if (action.type === 'MESSAGE_SELECTED') {
     const { messageId, conversationId } = action.payload;

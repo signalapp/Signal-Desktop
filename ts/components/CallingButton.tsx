@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import React from 'react';
 import classNames from 'classnames';
 import Tooltip from 'react-tooltip-lite';
@@ -78,7 +81,9 @@ export const CallingButton = ({
         direction={tooltipDirection}
         distance={tooltipDistance}
         hoverDelay={0}
-      />
+      >
+        <div />
+      </Tooltip>
     </button>
   );
 };

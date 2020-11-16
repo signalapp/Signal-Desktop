@@ -1,3 +1,6 @@
+// Copyright 2015-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* global Whisper, i18n */
 
 // eslint-disable-next-line func-names
@@ -18,6 +21,7 @@
         className: 'members',
         toInclude: {
           listenBack: options.listenBack,
+          conversation: options.conversation,
         },
       });
       this.member_list_view.render();

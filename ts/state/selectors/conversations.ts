@@ -1,3 +1,6 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import memoizee from 'memoizee';
 import { fromPairs, isNumber } from 'lodash';
 import { createSelector } from 'reselect';
@@ -159,7 +162,10 @@ export const _getLeftPaneLists = (
   conversations.sort(comparator);
   archivedConversations.sort(comparator);
 
-  const pinnedConversationIds = window.ConversationController.getPinnedConversationIds();
+  const pinnedConversationIds = window.storage.get<Array<string>>(
+    'pinnedConversationIds',
+    []
+  );
   pinnedConversations.sort(
     (a, b) =>
       pinnedConversationIds.indexOf(a.id) - pinnedConversationIds.indexOf(b.id)

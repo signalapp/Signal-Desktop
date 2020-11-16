@@ -1,3 +1,6 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint-disable no-param-reassign */
 
 import { useMemo } from 'react';
@@ -51,7 +54,7 @@ export const reset = createAction<void>('stickers/reset');
 
 export const minStickers = 1;
 export const maxStickers = 200;
-export const maxByteSize = 100 * 1024;
+export const maxByteSize = 300 * 1024;
 
 interface StateStickerData {
   readonly imageData?: StickerImageData;

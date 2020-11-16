@@ -1,3 +1,6 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { resolve } from 'path';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Configuration, EnvironmentPlugin } from 'webpack';

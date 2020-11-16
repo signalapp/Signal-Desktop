@@ -1,3 +1,6 @@
+// Copyright 2016-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 ;(function(){
 var Internal = {};
 window.libsignal = window.libsignal || {};
@@ -23621,6 +23624,8 @@ var Internal = Internal || {};
 
             return res.buffer;
         },
+        // This returns `true` if verification fails and `false` if it succeeds,
+        // which may be surprising.
         verify: function(pubKey, message, sig) {
             // Get a pointer to their public key
             var publicKey_ptr = _allocate(new Uint8Array(pubKey));
@@ -23805,6 +23810,8 @@ Curve25519Worker.prototype = {
 
                 return curve25519.sign(privKey, message);
             },
+            // This returns `true` if verification fails and `false` if it succeeds,
+            // which may be surprising.
             Ed25519Verify: function(pubKey, msg, sig) {
                 pubKey = validatePubKeyFormat(pubKey);
 
@@ -24484,6 +24491,7 @@ SessionBuilder.prototype = {
           device.signedPreKey.signature
         );
       }).then(didVerificationFail => {
+        // Ed25519Verify returns `false` when verification succeeds and `true` if it fails.
         if (didVerificationFail) {
           throw new Error('Signature verification failed');
         }

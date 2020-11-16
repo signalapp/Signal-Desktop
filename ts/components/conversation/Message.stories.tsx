@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import * as React from 'react';
 
 import { action } from '@storybook/addon-actions';
@@ -40,6 +43,7 @@ const renderEmojiPicker: Props['renderEmojiPicker'] = ({
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   attachments: overrideProps.attachments,
+  authorId: overrideProps.authorId || 'some-id',
   authorColor: overrideProps.authorColor || 'blue',
   authorAvatarPath: overrideProps.authorAvatarPath,
   authorTitle: text('authorTitle', overrideProps.authorTitle || ''),
@@ -82,6 +86,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
   selectMessage: action('selectMessage'),
   showContactDetail: action('showContactDetail'),
+  showContactModal: action('showContactModal'),
   showExpiredIncomingTapToViewToast: action(
     'showExpiredIncomingTapToViewToast'
   ),
@@ -795,4 +800,22 @@ story.add('@Mentions', () => {
   });
 
   return renderBothDirections(props);
+});
+
+story.add('All the context menus', () => {
+  const props = createProps({
+    attachments: [
+      {
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        contentType: IMAGE_JPEG,
+        width: 128,
+        height: 128,
+      },
+    ],
+    status: 'partial-sent',
+    canDeleteForEveryone: true,
+  });
+
+  return <Message {...props} direction="outgoing" />;
 });

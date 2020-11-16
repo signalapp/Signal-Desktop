@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import * as React from 'react';
 import classNames from 'classnames';
 
@@ -15,7 +18,7 @@ export type Props = {
   name?: string;
   phoneNumber?: string;
   profileName?: string;
-  size: 28 | 32 | 52 | 80 | 112;
+  size: 28 | 32 | 52 | 80 | 96 | 112;
 
   onClick?: () => unknown;
 
@@ -144,7 +147,7 @@ export class Avatar extends React.Component<Props, State> {
 
     const hasImage = !noteToSelf && avatarPath && !imageBroken;
 
-    if (![28, 32, 52, 80, 112].includes(size)) {
+    if (![28, 32, 52, 80, 96, 112].includes(size)) {
       throw new Error(`Size ${size} is not supported!`);
     }
 
