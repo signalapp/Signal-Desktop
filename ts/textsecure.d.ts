@@ -576,6 +576,7 @@ export declare class DataMessageClass {
   reaction?: DataMessageClass.Reaction;
   delete?: DataMessageClass.Delete;
   bodyRanges?: Array<DataMessageClass.BodyRange>;
+  groupCallUpdate?: DataMessageClass.GroupCallUpdate;
 }
 
 // Note: we need to use namespaces to express nested classes in Typescript
@@ -648,6 +649,8 @@ export declare namespace DataMessageClass {
     stickerId?: number;
     data?: AttachmentPointerClass;
   }
+
+  class GroupCallUpdate {}
 }
 
 // Note: we need to use namespaces to express nested classes in Typescript

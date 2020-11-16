@@ -227,6 +227,11 @@ message DataMessage {
     //}
   }
 
+  message GroupCallUpdate {
+    // Currently just a sentinel message indicating that a client should
+    // fetch updated group call state.
+  }
+
   enum ProtocolVersion {
     option allow_alias = true;
 
@@ -257,6 +262,7 @@ message DataMessage {
   optional Reaction           reaction                = 16;
   optional Delete             delete                  = 17;
   repeated BodyRange          bodyRanges              = 18;
+  optional GroupCallUpdate    groupCallUpdate         = 19;
 }
 
 message NullMessage {
