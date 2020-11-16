@@ -121,27 +121,6 @@
     }
   }
 
-  // banner shown when app version expired and must be updated
-  .expiredAlert {
-    background: $session-color-green;
-    color: black;
-    /* biggest we can make the font without wrapping the current text at minimum app width */
-    font-family: $session-font-accent;
-    font-size: 16px;
-    height: 60px;
-
-    span {
-      line-height: 45px;
-    }
-
-    button {
-      font-size: 14px;
-      height: 36px;
-      color: white;
-      background: #474646;
-    }
-  }
-
   .tool-bar {
     color: $color-dark-05;
 

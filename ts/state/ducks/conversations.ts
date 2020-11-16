@@ -419,8 +419,7 @@ export function reducer(
     return getEmptyState();
   }
   if (action.type === 'MESSAGE_EXPIRED') {
-    // FIXME
-    console.warn('EXPIRED');
+    // nothing to do here
   }
   if (action.type === 'SELECTED_CONVERSATION_CHANGED') {
     const { payload } = action;
