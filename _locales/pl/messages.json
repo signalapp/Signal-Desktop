@@ -163,6 +163,10 @@
         "message": "Kopiuj link",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
+    "contextMenuCopyImage": {
+        "message": "Kopiuj obraz",
+        "description": "Shown in the context menu for an image to indicate that the user can copy the image"
+    },
     "contextMenuNoSuggestions": {
         "message": "Brak sugestii",
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
@@ -206,8 +210,12 @@
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
-        "message": "Archiwum konwersacji",
+        "message": "Archiwizuj",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
+    },
+    "markUnread": {
+        "message": "Oznacz jako nieprzeczytane",
+        "description": "Shown in menu for conversation, and marks conversation as unread"
     },
     "moveConversationToInbox": {
         "message": "Przywróć z archiwum",
@@ -665,10 +673,6 @@
         "message": "Przejdź do strony pomocy",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "goToGithub": {
-        "message": "Repozytorium na GitHub",
-        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
-    },
     "joinTheBeta": {
         "message": "Dołącz do programu beta",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
@@ -1064,7 +1068,7 @@
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
-        "message": "Usuń wiadomości",
+        "message": "Usuń",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
@@ -1180,7 +1184,7 @@
         "description": "Header for calling options on the settings screen"
     },
     "calling__start": {
-        "message": "Rozpocznij połączenie",
+        "message": "Połącz",
         "description": "Button label in the call lobby for starting a call"
     },
     "calling__join": {
@@ -1214,6 +1218,20 @@
     "calling__your-video-is-off": {
         "message": "Twoje wideo jest wyłączone",
         "description": "Label in the calling lobby indicating that your camera is off"
+    },
+    "calling__in-this-call--one": {
+        "message": "W tej rozmowie · 1 osoba",
+        "description": "Shown in the participants list to describe how many people are in the call"
+    },
+    "calling__in-this-call--many": {
+        "message": "W tej rozmowie · $people$ osób(y)",
+        "description": "Shown in the participants list to describe how many people are in the call",
+        "placeholders": {
+            "people": {
+                "content": "$1",
+                "example": "15"
+            }
+        }
     },
     "alwaysRelayCallsDescription": {
         "message": "Zawsze przekazuj połączenia",
@@ -2389,6 +2407,10 @@
         "message": "Przywrócono z archiwum",
         "description": "A toast that shows up when the user unarchives a conversation"
     },
+    "conversationMarkedUnread": {
+        "message": "Oznaczono konwersację, jako nieprzeczytaną",
+        "description": "A toast that shows up when user marks a conversation as unread"
+    },
     "StickerCreator--title": {
         "message": "Kreator pakietów naklejek",
         "description": "The title of the Sticker Pack Creator window"
@@ -2768,6 +2790,38 @@
     "MessageRequests--accept": {
         "message": "Akceptuj",
         "description": "Shown as a button to let the user accept a message request"
+    },
+    "MessageRequests--continue": {
+        "message": "Kontynuuj",
+        "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
+    },
+    "MessageRequests--profile-sharing--group": {
+        "message": "Kontynuować Twoją konwersację z tą grupą i udostępnić Twoje imię i zdjęcie jej członkom? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a group yet",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--profile-sharing--direct": {
+        "message": "Kontynuować konwersację z $firstName$i udostępnić swoje imię i zdjęcie temu kontaktowi? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
+        "placeholders": {
+            "firstName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "learnMore": {
+                "content": "$2",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--learn-more": {
+        "message": "Dowiedz się więcej.",
+        "description": "Shown at the end of profile sharing messages as a link."
     },
     "ConversationHero--members": {
         "message": "$count$ członków",
@@ -3874,5 +3928,17 @@
     "countMutedConversationsDescription": {
         "message": "Licz wyciszone konwersacje na ikonie",
         "description": "Description for counting muted conversations in badge setting"
+    },
+    "ContactModal--message": {
+        "message": "Wyślij wiadomość",
+        "description": "Button text for send message button in Group Contact Details modal"
+    },
+    "ContactModal--make-admin": {
+        "message": "Mianuj adminem",
+        "description": "Button text for make admin button in Group Contact Details modal"
+    },
+    "ContactModal--remove-from-group": {
+        "message": "Usuń z grupy",
+        "description": "Button text for remove from group button in Group Contact Details modal"
     }
 }

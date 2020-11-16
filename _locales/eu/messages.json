@@ -156,12 +156,16 @@
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "messageContextMenuButton": {
-        "message": "More actions",
+        "message": "Ekintza gehiago",
         "description": "Label for context button next to each message"
     },
     "contextMenuCopyLink": {
         "message": "Lotura kopiatu",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
+    },
+    "contextMenuCopyImage": {
+        "message": "Kopiatu Irudia",
+        "description": "Shown in the context menu for an image to indicate that the user can copy the image"
     },
     "contextMenuNoSuggestions": {
         "message": "Iradokizunik ez",
@@ -206,23 +210,27 @@
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
-        "message": "Artxibatu solasaldia",
+        "message": "Artxibatu",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
+    "markUnread": {
+        "message": "Irakurri gabe gisa markatu",
+        "description": "Shown in menu for conversation, and marks conversation as unread"
+    },
     "moveConversationToInbox": {
-        "message": "Mugitu solasaldiak sarrera erretilura",
+        "message": "Desartxibatu",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
-        "message": "Pin Conversation",
+        "message": "Finkatu Solasaldia",
         "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
     },
     "unpinConversation": {
-        "message": "Unpin Conversation",
+        "message": "Askatu Solasaldia",
         "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
     },
     "pinnedConversationsFull": {
-        "message": "You can only pin up to 4 chats",
+        "message": "Gehienez 4 txat finka ditzakezu",
         "description": ""
     },
     "chooseDirectory": {
@@ -665,10 +673,6 @@
         "message": "Joan Laguntza Orrira",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "goToGithub": {
-        "message": "Joan GitHub-era",
-        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
-    },
     "joinTheBeta": {
         "message": "Beta bertsioa erabili",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
@@ -710,7 +714,7 @@
         "description": "Placeholder text in the search input"
     },
     "clearSearch": {
-        "message": "Clear Search",
+        "message": "Garbitu Bilaketa",
         "description": "Aria label for clear search button"
     },
     "searchIn": {
@@ -890,11 +894,11 @@
         "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
-        "message": "For calling, you must allow Signal Desktop to access your microphone.",
+        "message": "Deitzeko, Signal Desktop-i zure mikrofonoa erabiltzeko baimena eman behar diozu.",
         "description": "Shown if the user attempts access the microphone for calling without audio permissions turned on"
     },
     "videoCallingPermissionNeeded": {
-        "message": "For video calling, you must allow Signal Desktop to access your camera.",
+        "message": "Bideo-deietarako, baimena eman behar diozu Signal-Desktop-i zure kamera erabiltzeko.",
         "description": "Shown if the user attempts access the camera for video calling without video permissions turned on"
     },
     "allowAccess": {
@@ -1044,7 +1048,7 @@
         "description": ""
     },
     "goBack": {
-        "message": "Go back",
+        "message": "Joan atzera",
         "description": "Label for back button in a conversation"
     },
     "moreInfo": {
@@ -1056,15 +1060,15 @@
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Delete message for me",
+        "message": "Ezabatu mezua niretzat",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessageForEveryone": {
-        "message": "Delete message for everyone",
+        "message": "Ezabatu mezua guztientzat",
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
-        "message": "Ezabatu mezuak",
+        "message": "Ezabatu",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
@@ -1184,36 +1188,50 @@
         "description": "Button label in the call lobby for starting a call"
     },
     "calling__join": {
-        "message": "Join Call",
+        "message": "Deian Sartu",
         "description": "Button label in the call lobby for joining a call"
     },
     "calling__button--video-disabled": {
-        "message": "Camera disabled",
+        "message": "Kamara desaktibatuta",
         "description": "Button tooltip label when the camera is disabled"
     },
     "calling__button--video-off": {
-        "message": "Turn off camera",
+        "message": "Itzali kamera",
         "description": "Button tooltip label for turning off the camera"
     },
     "calling__button--video-on": {
-        "message": "Turn on camera",
+        "message": "Piztu kamera",
         "description": "Button tooltip label for turning on the camera"
     },
     "calling__button--audio-disabled": {
-        "message": "Microphone disabled",
+        "message": "Mikrofonoa desaktibatuta",
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "Turn off microphone",
+        "message": "Itzali mikrofonoa",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
-        "message": "Turn on microphone",
+        "message": "Piztu mikrofonoa",
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
         "message": "Zure bideoa itzalita dago",
         "description": "Label in the calling lobby indicating that your camera is off"
+    },
+    "calling__in-this-call--one": {
+        "message": "Dei honetan - pertsona 1",
+        "description": "Shown in the participants list to describe how many people are in the call"
+    },
+    "calling__in-this-call--many": {
+        "message": "In this call · $people$ people",
+        "description": "Shown in the participants list to describe how many people are in the call",
+        "placeholders": {
+            "people": {
+                "content": "$1",
+                "example": "15"
+            }
+        }
     },
     "alwaysRelayCallsDescription": {
         "message": "Birtransmititu deiak beti",
@@ -1316,7 +1334,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "notificationSenderInGroup": {
-        "message": "$sender$ in $group$",
+        "message": "$sender$  $group$ taldean",
         "description": "Displayed in notifications for messages in a group",
         "placeholders": {
             "sender": {
@@ -1484,7 +1502,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Updated the disappearing message time to $time$.",
+        "message": "Eguneratu da mezuen desagerpenaren denbora honela: $time$",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1494,7 +1512,7 @@
         }
     },
     "timerSetByMember": {
-        "message": "A member set the disappearing message time to $time$.",
+        "message": "Kide batek mezua desagertzeko denbora honela ezarri du: $time$.",
         "description": "Message displayed when timer is by an unknown group member.",
         "placeholders": {
             "time": {
@@ -1622,11 +1640,11 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disappearingMessagesDisabledByMember": {
-        "message": "A member disabled disappearing messages.",
+        "message": "Kide batek mezuen desagerpena desaktibatu du.",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ disabled disappearing messages.",
+        "message": "$name$ erabiltzaileak mezuen desagerpena desaktibatu du.",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1658,7 +1676,7 @@
         "description": "Description for call ringtone notification setting"
     },
     "callSystemNotificationDescription": {
-        "message": "Show notifications for calls",
+        "message": "Erakutsi jakinarazpenak deietarako",
         "description": "Description for call notification setting"
     },
     "incomingCallNotificationDescription": {
@@ -2012,15 +2030,15 @@
         "description": "Label for the add pack button in the sticker picker"
     },
     "stickers--StickerPicker--NextPage": {
-        "message": "Next Page",
+        "message": "Hurrengo Orria",
         "description": "Label for the next page button in the sticker picker"
     },
     "stickers--StickerPicker--PrevPage": {
-        "message": "Previous Page",
+        "message": "Aurreko Orria",
         "description": "Label for the previous page button in the sticker picker"
     },
     "stickers--StickerPicker--Recents": {
-        "message": "Recent Sticker",
+        "message": "Arestiko Eranskailua",
         "description": "Label for the recent stickers button in the sticker picker"
     },
     "stickers--StickerPicker--DownloadError": {
@@ -2258,7 +2276,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Aktibatu/Desaktibatu hautatutako mezurako erreakzioak aukeratzeko tresna",
+        "message": "Toggle emoji-reaction picker for selected message",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2358,7 +2376,7 @@
         "description": "Header of the keyboard shortcuts guide - calling section"
     },
     "Keyboard--toggle-audio": {
-        "message": "Toggle mute on and off",
+        "message": "Mututzea aktibatu / desaktibatu",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-video": {
@@ -2388,6 +2406,10 @@
     "conversationReturnedToInbox": {
         "message": "Solasaldia sarrera erretilura mugitu da",
         "description": "A toast that shows up when the user unarchives a conversation"
+    },
+    "conversationMarkedUnread": {
+        "message": "Conversation marked unread",
+        "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
         "message": "Eranskailuen paketeak sortzeko tresna",
@@ -2769,6 +2791,38 @@
         "message": "Onartu",
         "description": "Shown as a button to let the user accept a message request"
     },
+    "MessageRequests--continue": {
+        "message": "Jarraitu",
+        "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
+    },
+    "MessageRequests--profile-sharing--group": {
+        "message": "Continue your conversation with this group and share your name and photo with its members? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a group yet",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--profile-sharing--direct": {
+        "message": "Continue this conversation with $firstName$ and share your name and photo with them? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
+        "placeholders": {
+            "firstName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "learnMore": {
+                "content": "$2",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--learn-more": {
+        "message": "Learn more.",
+        "description": "Shown at the end of profile sharing messages as a link."
+    },
     "ConversationHero--members": {
         "message": "$count$ members",
         "description": "Specifies the number of members in a group conversation",
@@ -2932,11 +2986,11 @@
         "description": "Shown in the call screen when placing an outgoing call that is now ringing"
     },
     "makeOutgoingCall": {
-        "message": "Start a call",
+        "message": "Hasi Deia",
         "description": "Title for the call button in a conversation"
     },
     "makeOutgoingVideoCall": {
-        "message": "Start a video call",
+        "message": "Hasi bideo-dei bat",
         "description": "Title for the video call button in a conversation"
     },
     "callNeedPermission": {
@@ -2968,15 +3022,15 @@
         "description": "Title for device selection settings"
     },
     "calling__participants": {
-        "message": "Participants",
+        "message": "Kideak",
         "description": "Title for participants list toggle"
     },
     "calling__pip": {
-        "message": "Picture-in-picture",
+        "message": "Irudia irudiaren gainean",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__hangup": {
-        "message": "Hang Up",
+        "message": "Eseki",
         "description": "Title for hang up button"
     },
     "callingDeviceSelection__label--video": {
@@ -3054,7 +3108,7 @@
         "description": "Shown next to the set of administrators in a group"
     },
     "updating": {
-        "message": "Updating...",
+        "message": "Eguneratzen...",
         "description": "Shown along with a spinner when an update operation takes longer than one second"
     },
     "GroupV2--create--you": {
@@ -3072,7 +3126,7 @@
         }
     },
     "GroupV2--create--unknown": {
-        "message": "The group was created.",
+        "message": "Taldea sortu da.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--change--other": {
@@ -3874,5 +3928,17 @@
     "countMutedConversationsDescription": {
         "message": "Count muted conversations in badge count",
         "description": "Description for counting muted conversations in badge setting"
+    },
+    "ContactModal--message": {
+        "message": "Mezua",
+        "description": "Button text for send message button in Group Contact Details modal"
+    },
+    "ContactModal--make-admin": {
+        "message": "Make admin",
+        "description": "Button text for make admin button in Group Contact Details modal"
+    },
+    "ContactModal--remove-from-group": {
+        "message": "Ezabatu taldetik",
+        "description": "Button text for remove from group button in Group Contact Details modal"
     }
 }

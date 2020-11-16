@@ -163,6 +163,10 @@
         "message": "Link kopieren",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
+    "contextMenuCopyImage": {
+        "message": "Bild kopieren",
+        "description": "Shown in the context menu for an image to indicate that the user can copy the image"
+    },
     "contextMenuNoSuggestions": {
         "message": "Keine Vorschläge",
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
@@ -206,11 +210,15 @@
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
-        "message": "Unterhaltung archivieren",
+        "message": "Archiv",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
+    "markUnread": {
+        "message": "Als ungelesen markieren",
+        "description": "Shown in menu for conversation, and marks conversation as unread"
+    },
     "moveConversationToInbox": {
-        "message": "Unterhaltung in Eingang verschieben",
+        "message": "In Eingang verschieben",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
@@ -665,10 +673,6 @@
         "message": "Support",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "goToGithub": {
-        "message": "GitHub",
-        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
-    },
     "joinTheBeta": {
         "message": "Beta beitreten",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
@@ -1064,7 +1068,7 @@
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
-        "message": "Unterhaltung löschen",
+        "message": "Löschen",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
@@ -1214,6 +1218,20 @@
     "calling__your-video-is-off": {
         "message": "Deine Kamera ist ausgeschaltet",
         "description": "Label in the calling lobby indicating that your camera is off"
+    },
+    "calling__in-this-call--one": {
+        "message": "Anrufteilnehmer · 1 Person",
+        "description": "Shown in the participants list to describe how many people are in the call"
+    },
+    "calling__in-this-call--many": {
+        "message": "In diesem Anruf · $people$ Personen",
+        "description": "Shown in the participants list to describe how many people are in the call",
+        "placeholders": {
+            "people": {
+                "content": "$1",
+                "example": "15"
+            }
+        }
     },
     "alwaysRelayCallsDescription": {
         "message": "Anrufe immer indirekt",
@@ -2258,7 +2276,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Reaktionsauswahl für ausgewählte Nachricht ein-/ausblenden",
+        "message": "Umschalten der Emoji-Reaktionsauswahl für die ausgewählte Nachricht",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2388,6 +2406,10 @@
     "conversationReturnedToInbox": {
         "message": "Unterhaltung in Eingang verschoben",
         "description": "A toast that shows up when the user unarchives a conversation"
+    },
+    "conversationMarkedUnread": {
+        "message": "Unterhaltung als ungelesen markiert",
+        "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
         "message": "Sticker-Set-Gestalter",
@@ -2768,6 +2790,38 @@
     "MessageRequests--accept": {
         "message": "Annehmen",
         "description": "Shown as a button to let the user accept a message request"
+    },
+    "MessageRequests--continue": {
+        "message": "Fortfahren",
+        "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
+    },
+    "MessageRequests--profile-sharing--group": {
+        "message": "Unterhaltung mit dieser Gruppe fortsetzen und deinen Namen und dein Foto mit deren Mitgliedern teilen? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a group yet",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--profile-sharing--direct": {
+        "message": "Unterhaltung mit $firstName$ fortsetzen und deinen Namen und dein Foto teilen? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
+        "placeholders": {
+            "firstName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "learnMore": {
+                "content": "$2",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--learn-more": {
+        "message": "Mehr erfahren",
+        "description": "Shown at the end of profile sharing messages as a link."
     },
     "ConversationHero--members": {
         "message": "$count$ Mitglieder",
@@ -3874,5 +3928,17 @@
     "countMutedConversationsDescription": {
         "message": "Stummgeschaltete Unterhaltungen im Emblem mitzählen",
         "description": "Description for counting muted conversations in badge setting"
+    },
+    "ContactModal--message": {
+        "message": "Nachricht",
+        "description": "Button text for send message button in Group Contact Details modal"
+    },
+    "ContactModal--make-admin": {
+        "message": "Zum Admin machen",
+        "description": "Button text for make admin button in Group Contact Details modal"
+    },
+    "ContactModal--remove-from-group": {
+        "message": "Aus Gruppe entfernen",
+        "description": "Button text for remove from group button in Group Contact Details modal"
     }
 }

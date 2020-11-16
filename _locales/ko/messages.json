@@ -163,6 +163,10 @@
         "message": "링크 복사",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
+    "contextMenuCopyImage": {
+        "message": "Copy Image",
+        "description": "Shown in the context menu for an image to indicate that the user can copy the image"
+    },
     "contextMenuNoSuggestions": {
         "message": "제안 없음",
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
@@ -206,11 +210,15 @@
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
-        "message": "보관된 대화",
+        "message": "보관",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
+    "markUnread": {
+        "message": "읽지 않은 대화로 표시하기",
+        "description": "Shown in menu for conversation, and marks conversation as unread"
+    },
     "moveConversationToInbox": {
-        "message": "대화를 받은 메시지로 이동",
+        "message": "보관 해제",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
@@ -665,10 +673,6 @@
         "message": "지원 페이지로",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "goToGithub": {
-        "message": "GitHub로 접속",
-        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
-    },
     "joinTheBeta": {
         "message": "베타 참여",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
@@ -1064,7 +1068,7 @@
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
-        "message": "메시지 삭제",
+        "message": "삭제",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
@@ -1214,6 +1218,20 @@
     "calling__your-video-is-off": {
         "message": "영상이 꺼졌습니다.",
         "description": "Label in the calling lobby indicating that your camera is off"
+    },
+    "calling__in-this-call--one": {
+        "message": "In this call · 1 person",
+        "description": "Shown in the participants list to describe how many people are in the call"
+    },
+    "calling__in-this-call--many": {
+        "message": "In this call · $people$ people",
+        "description": "Shown in the participants list to describe how many people are in the call",
+        "placeholders": {
+            "people": {
+                "content": "$1",
+                "example": "15"
+            }
+        }
     },
     "alwaysRelayCallsDescription": {
         "message": "향상 전화 릴레이",
@@ -2258,7 +2276,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Toggle reaction picker for selected message",
+        "message": "Toggle emoji-reaction picker for selected message",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2388,6 +2406,10 @@
     "conversationReturnedToInbox": {
         "message": "Conversation returned to inbox",
         "description": "A toast that shows up when the user unarchives a conversation"
+    },
+    "conversationMarkedUnread": {
+        "message": "Conversation marked unread",
+        "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
         "message": "스티커 팩 제조기",
@@ -2714,7 +2736,7 @@
         }
     },
     "MessageRequests--block-direct-confirm-body": {
-        "message": "Blocked people won't be able to call you or send you messages.",
+        "message": "차단당한 사람들은 당신에게 전화를 걸거나 메세지를 보낼 수 없습니다.",
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
@@ -2768,6 +2790,38 @@
     "MessageRequests--accept": {
         "message": "수락",
         "description": "Shown as a button to let the user accept a message request"
+    },
+    "MessageRequests--continue": {
+        "message": "계속",
+        "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
+    },
+    "MessageRequests--profile-sharing--group": {
+        "message": "Continue your conversation with this group and share your name and photo with its members? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a group yet",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--profile-sharing--direct": {
+        "message": "Continue this conversation with $firstName$ and share your name and photo with them? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
+        "placeholders": {
+            "firstName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "learnMore": {
+                "content": "$2",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--learn-more": {
+        "message": "Learn more.",
+        "description": "Shown at the end of profile sharing messages as a link."
     },
     "ConversationHero--members": {
         "message": "$count$명의 멤버",
@@ -2892,11 +2946,11 @@
         "description": "Shown in conversation history when you accepted an incoming video call"
     },
     "missedIncomingAudioCall": {
-        "message": "Missed audio call",
+        "message": "부재중 음성 통화",
         "description": "Shown in conversation history when you missed an incoming audio call"
     },
     "missedIncomingVideoCall": {
-        "message": "Missed video call",
+        "message": "부재중 영상 통화",
         "description": "Shown in conversation history when you missed an incoming video call"
     },
     "acceptedOutgoingAudioCall": {
@@ -3620,7 +3674,7 @@
         }
     },
     "GroupV2--pending-remove--decline--from-you": {
-        "message": "You declined the invitation to the group.",
+        "message": "그룹에 초대를 거부했습니다.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--decline--unknown": {
@@ -3874,5 +3928,17 @@
     "countMutedConversationsDescription": {
         "message": "Count muted conversations in badge count",
         "description": "Description for counting muted conversations in badge setting"
+    },
+    "ContactModal--message": {
+        "message": "메시지",
+        "description": "Button text for send message button in Group Contact Details modal"
+    },
+    "ContactModal--make-admin": {
+        "message": "Make admin",
+        "description": "Button text for make admin button in Group Contact Details modal"
+    },
+    "ContactModal--remove-from-group": {
+        "message": "그룹에서 제외",
+        "description": "Button text for remove from group button in Group Contact Details modal"
     }
 }

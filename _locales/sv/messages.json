@@ -163,6 +163,10 @@
         "message": "Kopiera länk",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
+    "contextMenuCopyImage": {
+        "message": "Kopiera bild",
+        "description": "Shown in the context menu for an image to indicate that the user can copy the image"
+    },
     "contextMenuNoSuggestions": {
         "message": "Inga förslag",
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
@@ -206,11 +210,15 @@
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
-        "message": "Arkivera konversation",
+        "message": "Arkiv",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
+    "markUnread": {
+        "message": "Markera som oläst",
+        "description": "Shown in menu for conversation, and marks conversation as unread"
+    },
     "moveConversationToInbox": {
-        "message": "Flytta konversationen till Inkorg",
+        "message": "Avarkivera",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
@@ -626,7 +634,7 @@
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Borde inte ta lång...",
+        "message": "Borde inte ta länge...",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -664,10 +672,6 @@
     "goToSupportPage": {
         "message": "Gå till supportsida",
         "description": "Item under the Help menu, takes you to the support page"
-    },
-    "goToGithub": {
-        "message": "Gå till GitHub",
-        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
     },
     "joinTheBeta": {
         "message": "Gå med i Beta",
@@ -1064,7 +1068,7 @@
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
-        "message": "Ta bort meddelanden",
+        "message": "Ta bort",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
@@ -1214,6 +1218,20 @@
     "calling__your-video-is-off": {
         "message": "Din video är avstängd",
         "description": "Label in the calling lobby indicating that your camera is off"
+    },
+    "calling__in-this-call--one": {
+        "message": "I detta samtal · 1 person",
+        "description": "Shown in the participants list to describe how many people are in the call"
+    },
+    "calling__in-this-call--many": {
+        "message": "I detta samtal · $people$ personer",
+        "description": "Shown in the participants list to describe how many people are in the call",
+        "placeholders": {
+            "people": {
+                "content": "$1",
+                "example": "15"
+            }
+        }
     },
     "alwaysRelayCallsDescription": {
         "message": "Slussa alltid samtal",
@@ -2258,7 +2276,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Växla reaktionsplockare för valt meddelande",
+        "message": "Växla emoji-reaktionsväljare för valt meddelande",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2388,6 +2406,10 @@
     "conversationReturnedToInbox": {
         "message": "Konversationen återvände till inkorgen",
         "description": "A toast that shows up when the user unarchives a conversation"
+    },
+    "conversationMarkedUnread": {
+        "message": "Konversation markerad som oläst",
+        "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
         "message": "Skapare av klistermärkepaket",
@@ -2769,6 +2791,38 @@
         "message": "Acceptera",
         "description": "Shown as a button to let the user accept a message request"
     },
+    "MessageRequests--continue": {
+        "message": "Fortsätt",
+        "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
+    },
+    "MessageRequests--profile-sharing--group": {
+        "message": "Fortsätta din konversation med den här gruppen och dela ditt namn och foto med dess medlemmar? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a group yet",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--profile-sharing--direct": {
+        "message": "Fortsätt den här konversationen med $firstName$ och dela ditt namn och foto med dem? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
+        "placeholders": {
+            "firstName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "learnMore": {
+                "content": "$2",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--learn-more": {
+        "message": "Läs mer.",
+        "description": "Shown at the end of profile sharing messages as a link."
+    },
     "ConversationHero--members": {
         "message": "$count$ medlemmar",
         "description": "Specifies the number of members in a group conversation",
@@ -2928,7 +2982,7 @@
         "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
     },
     "outgoingCallRinging": {
-        "message": "Ringande...",
+        "message": "Ringer...",
         "description": "Shown in the call screen when placing an outgoing call that is now ringing"
     },
     "makeOutgoingCall": {
@@ -3874,5 +3928,17 @@
     "countMutedConversationsDescription": {
         "message": "Antal tystade konversationer i märkesräkning",
         "description": "Description for counting muted conversations in badge setting"
+    },
+    "ContactModal--message": {
+        "message": "Meddelande",
+        "description": "Button text for send message button in Group Contact Details modal"
+    },
+    "ContactModal--make-admin": {
+        "message": "Gör till administratör",
+        "description": "Button text for make admin button in Group Contact Details modal"
+    },
+    "ContactModal--remove-from-group": {
+        "message": "Ta bort från grupp",
+        "description": "Button text for remove from group button in Group Contact Details modal"
     }
 }

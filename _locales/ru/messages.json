@@ -163,6 +163,10 @@
         "message": "Копировать ссылку",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
+    "contextMenuCopyImage": {
+        "message": "Копировать изображение",
+        "description": "Shown in the context menu for an image to indicate that the user can copy the image"
+    },
     "contextMenuNoSuggestions": {
         "message": "Нет предложений",
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
@@ -206,11 +210,15 @@
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
-        "message": "Архивировать разговор",
+        "message": "Архивировать",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
+    "markUnread": {
+        "message": "Отметить как непрочитанный",
+        "description": "Shown in menu for conversation, and marks conversation as unread"
+    },
     "moveConversationToInbox": {
-        "message": "Переместить разговор во Входящие",
+        "message": "Разархивировать",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
@@ -618,7 +626,7 @@
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Соединение",
+        "message": "Подключается",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
@@ -664,10 +672,6 @@
     "goToSupportPage": {
         "message": "Перейти на страницу поддержки",
         "description": "Item under the Help menu, takes you to the support page"
-    },
-    "goToGithub": {
-        "message": "Перейти в GitHub",
-        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
     },
     "joinTheBeta": {
         "message": "Присоединиться к бета-версии",
@@ -1064,7 +1068,7 @@
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
-        "message": "Удалить сообщения",
+        "message": "Удалить",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
@@ -1215,6 +1219,20 @@
         "message": "Ваше видео отключено",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
+    "calling__in-this-call--one": {
+        "message": "В этом звонке · 1 человек",
+        "description": "Shown in the participants list to describe how many people are in the call"
+    },
+    "calling__in-this-call--many": {
+        "message": "В этом звонке · $people$ человек(-а)",
+        "description": "Shown in the participants list to describe how many people are in the call",
+        "placeholders": {
+            "people": {
+                "content": "$1",
+                "example": "15"
+            }
+        }
+    },
     "alwaysRelayCallsDescription": {
         "message": "Всегда ретранслировать звонки",
         "description": "Description of the always relay calls setting"
@@ -1276,7 +1294,7 @@
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
-        "message": "Отключение и удаление всех данных",
+        "message": "Отключается и удаляет все данные",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "deleteOldIndexedDBData": {
@@ -2258,7 +2276,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Показать/скрыть панель реакций для выбранного сообщения",
+        "message": "Показать/скрыть панель эмодзи-реакций для выбранного сообщения",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2388,6 +2406,10 @@
     "conversationReturnedToInbox": {
         "message": "Разговор был возвращён во входящие",
         "description": "A toast that shows up when the user unarchives a conversation"
+    },
+    "conversationMarkedUnread": {
+        "message": "Разговор был отмечен непрочитанным",
+        "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
         "message": "Редактор наборов стикеров",
@@ -2769,6 +2791,38 @@
         "message": "Принять",
         "description": "Shown as a button to let the user accept a message request"
     },
+    "MessageRequests--continue": {
+        "message": "Продолжить",
+        "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
+    },
+    "MessageRequests--profile-sharing--group": {
+        "message": "Продолжить ваш разговор с этой группой и поделиться своими именем и фото с её участниками? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a group yet",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--profile-sharing--direct": {
+        "message": "Продолжить этот разговор с $firstName$ и поделиться своими именем и фото с этим человеком? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
+        "placeholders": {
+            "firstName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "learnMore": {
+                "content": "$2",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--learn-more": {
+        "message": "Узнать больше.",
+        "description": "Shown at the end of profile sharing messages as a link."
+    },
     "ConversationHero--members": {
         "message": "$count$ участников",
         "description": "Specifies the number of members in a group conversation",
@@ -2950,7 +3004,7 @@
         }
     },
     "callReconnecting": {
-        "message": "Переподключаемся…",
+        "message": "Переподключается…",
         "description": "Shown in the call screen when the call is reconnecting due to network issues"
     },
     "callDuration": {
@@ -3874,5 +3928,17 @@
     "countMutedConversationsDescription": {
         "message": "Считать разговоры с отключёнными уведомлениями в счётчике на наклейке",
         "description": "Description for counting muted conversations in badge setting"
+    },
+    "ContactModal--message": {
+        "message": "Написать сообщение",
+        "description": "Button text for send message button in Group Contact Details modal"
+    },
+    "ContactModal--make-admin": {
+        "message": "Сделать администратором",
+        "description": "Button text for make admin button in Group Contact Details modal"
+    },
+    "ContactModal--remove-from-group": {
+        "message": "Удалить из группы",
+        "description": "Button text for remove from group button in Group Contact Details modal"
     }
 }

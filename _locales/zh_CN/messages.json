@@ -210,11 +210,15 @@
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
-        "message": "存档会话",
+        "message": "归档",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
+    "markUnread": {
+        "message": "标记为未读",
+        "description": "Shown in menu for conversation, and marks conversation as unread"
+    },
     "moveConversationToInbox": {
-        "message": "移动会话到收件箱",
+        "message": "未存档",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
@@ -1064,7 +1068,7 @@
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
-        "message": "删除消息",
+        "message": "删除",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
@@ -1214,6 +1218,20 @@
     "calling__your-video-is-off": {
         "message": "您的视频已关闭",
         "description": "Label in the calling lobby indicating that your camera is off"
+    },
+    "calling__in-this-call--one": {
+        "message": "此通话中有 1 位用户",
+        "description": "Shown in the participants list to describe how many people are in the call"
+    },
+    "calling__in-this-call--many": {
+        "message": "该通话· $people$ 人参与",
+        "description": "Shown in the participants list to describe how many people are in the call",
+        "placeholders": {
+            "people": {
+                "content": "$1",
+                "example": "15"
+            }
+        }
     },
     "alwaysRelayCallsDescription": {
         "message": "总是转发通话",
@@ -1504,7 +1522,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the disappearing message time to $time$.",
+        "message": "$name$ 将自动销毁消息时间设定为 $time$。",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1622,11 +1640,11 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disappearingMessagesDisabledByMember": {
-        "message": "A member disabled disappearing messages.",
+        "message": "某成员禁用了自动销毁消息。",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ disabled disappearing messages.",
+        "message": "$name$ 禁用了自动销毁消息。",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1654,19 +1672,19 @@
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
-        "message": "Play calling sounds",
+        "message": "播放来电音效",
         "description": "Description for call ringtone notification setting"
     },
     "callSystemNotificationDescription": {
-        "message": "Show notifications for calls",
+        "message": "显示来电通知",
         "description": "Description for call notification setting"
     },
     "incomingCallNotificationDescription": {
-        "message": "Enable incoming calls",
+        "message": "启用来电",
         "description": "Description for incoming calls setting"
     },
     "contactChangedProfileName": {
-        "message": "$sender$ changed their profile name from $oldProfile$ to $newProfile$.",
+        "message": "$sender$ 将其个人页面名称从 $oldProfile$ 更改为 $newProfile$。",
         "description": "Description for incoming calls setting",
         "placeholders": {
             "sender": {
@@ -1684,7 +1702,7 @@
         }
     },
     "changedProfileName": {
-        "message": "$oldProfile$ changed their profile name to $newProfile$.",
+        "message": "$oldProfile$ 将其个人页面名称更改为 $newProfile$。",
         "description": "Shown when a contact not in your address book changes their profile name",
         "placeholders": {
             "oldProfile": {
@@ -1724,7 +1742,7 @@
         "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
     },
     "yourSafetyNumberWith": {
-        "message": "Your safety number with $name1$:",
+        "message": "$name1$ 的安全码：",
         "description": "Heading for safety number view",
         "placeholders": {
             "name1": {
@@ -1754,7 +1772,7 @@
         "description": "Description for the Note to Self conversation"
     },
     "notificationDrawAttention": {
-        "message": "Draw attention to this window when a notification arrives",
+        "message": "当收到通知时，聚焦该窗口",
         "description": "Label text for the setting that controls whether new notifications draw attention to the window"
     },
     "hideMenuBar": {
@@ -1766,7 +1784,7 @@
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "notSupportedSMS": {
-        "message": "SMS/MMS messages are not supported.",
+        "message": "不支持短信/彩信。",
         "description": "Label underneath number informing user that SMS is not supported on desktop"
     },
     "newPhoneNumber": {
@@ -1810,7 +1828,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ 退出了群组。",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1820,7 +1838,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ 退出了群组。",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1830,7 +1848,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "$name$ updated the group.",
+        "message": "$name$ 更新了群组。",
         "description": "Shown in the conversation history when someone updates the group",
         "placeholders": {
             "name": {
@@ -1844,11 +1862,11 @@
         "description": "Shown in the conversation history when you update a group"
     },
     "updatedGroupAvatar": {
-        "message": "Group avatar was updated.",
+        "message": "群组头像已更新。",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Group name is now '$name$'.",
+        "message": "群组名称现在为“$name$”。",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1862,7 +1880,7 @@
         "description": "Shown in the conversation history when you are added to a group."
     },
     "joinedTheGroup": {
-        "message": "$name$ joined the group.",
+        "message": "$name$ 加入了群组。",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1872,7 +1890,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group.",
+        "message": "$names$ 加入了群组。",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1940,11 +1958,11 @@
         "description": "Shown in notifications and in the left pane after view-once message is deleted."
     },
     "message--getDescription--disappearing-photo": {
-        "message": "View-once Photo",
+        "message": "一次性图片",
         "description": "Shown in notifications and in the left pane when a message is a view once photo."
     },
     "message--getDescription--disappearing-video": {
-        "message": "View-once Video",
+        "message": "一次性视频",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
     },
     "message--deletedForEveryone": {
@@ -2004,23 +2022,23 @@
         "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerPicker--Open": {
-        "message": "Open the sticker picker",
+        "message": "打开表情选取器",
         "description": "Label for the open button for the sticker picker"
     },
     "stickers--StickerPicker--AddPack": {
-        "message": "Add a sticker pack",
+        "message": "添加表情包",
         "description": "Label for the add pack button in the sticker picker"
     },
     "stickers--StickerPicker--NextPage": {
-        "message": "Next Page",
+        "message": "下一页",
         "description": "Label for the next page button in the sticker picker"
     },
     "stickers--StickerPicker--PrevPage": {
-        "message": "Previous Page",
+        "message": "上一页",
         "description": "Label for the previous page button in the sticker picker"
     },
     "stickers--StickerPicker--Recents": {
-        "message": "Recent Sticker",
+        "message": "最近表情",
         "description": "Label for the recent stickers button in the sticker picker"
     },
     "stickers--StickerPicker--DownloadError": {
@@ -2078,11 +2096,11 @@
         "description": "Label for recents emoji picker button"
     },
     "EmojiPicker__button--emoji": {
-        "message": "Emoji",
+        "message": "表情符号",
         "description": "Label for emoji emoji picker button"
     },
     "EmojiPicker__button--animal": {
-        "message": "Animal",
+        "message": "动物",
         "description": "Label for animal emoji picker button"
     },
     "EmojiPicker__button--food": {
@@ -2090,23 +2108,23 @@
         "description": "Label for food emoji picker button"
     },
     "EmojiPicker__button--activity": {
-        "message": "Activity",
+        "message": "活动",
         "description": "Label for activity emoji picker button"
     },
     "EmojiPicker__button--travel": {
-        "message": "Travel",
+        "message": "旅行",
         "description": "Label for travel emoji picker button"
     },
     "EmojiPicker__button--object": {
-        "message": "Object",
+        "message": "物品",
         "description": "Label for object emoji picker button"
     },
     "EmojiPicker__button--symbol": {
-        "message": "Symbol",
+        "message": "符号",
         "description": "Label for symbol emoji picker button"
     },
     "EmojiPicker__button--flag": {
-        "message": "Flag",
+        "message": "旗帜",
         "description": "Label for flag emoji picker button"
     },
     "confirmation-dialog--Cancel": {
@@ -2158,7 +2176,7 @@
         "description": "Shown when user clicks on an expired incoming view-once bubble"
     },
     "Message--tap-to-view--outgoing--expired-toast": {
-        "message": "View-once messages are not stored in your conversation history.",
+        "message": "对话记录不保存一次性消息。",
         "description": "Shown when user clicks on an expired outgoing view-once bubble"
     },
     "Message--tap-to-view--incoming": {
@@ -2238,7 +2256,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-sticker-chooser": {
-        "message": "Open sticker chooser",
+        "message": "打开表情选取器",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--begin-recording-voice-note": {
@@ -2258,7 +2276,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Toggle reaction picker for selected message",
+        "message": "Toggle emoji-reaction picker for selected message",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2388,6 +2406,10 @@
     "conversationReturnedToInbox": {
         "message": "Conversation returned to inbox",
         "description": "A toast that shows up when the user unarchives a conversation"
+    },
+    "conversationMarkedUnread": {
+        "message": "Conversation marked unread",
+        "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
         "message": "表情包创建器",
@@ -2924,11 +2946,11 @@
         "description": "Shown in conversation history when you accepted an incoming video call"
     },
     "missedIncomingAudioCall": {
-        "message": "Missed audio call",
+        "message": "未接音频来电",
         "description": "Shown in conversation history when you missed an incoming audio call"
     },
     "missedIncomingVideoCall": {
-        "message": "Missed video call",
+        "message": "未接视频来电",
         "description": "Shown in conversation history when you missed an incoming video call"
     },
     "acceptedOutgoingAudioCall": {
@@ -3066,7 +3088,7 @@
         }
     },
     "EmojiButton__label": {
-        "message": "Emoji",
+        "message": "表情",
         "description": "Label for emoji button"
     },
     "ErrorModal--title": {
@@ -3906,5 +3928,17 @@
     "countMutedConversationsDescription": {
         "message": "Count muted conversations in badge count",
         "description": "Description for counting muted conversations in badge setting"
+    },
+    "ContactModal--message": {
+        "message": "消息",
+        "description": "Button text for send message button in Group Contact Details modal"
+    },
+    "ContactModal--make-admin": {
+        "message": "Make admin",
+        "description": "Button text for make admin button in Group Contact Details modal"
+    },
+    "ContactModal--remove-from-group": {
+        "message": "移出群组",
+        "description": "Button text for remove from group button in Group Contact Details modal"
     }
 }

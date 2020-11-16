@@ -163,6 +163,10 @@
         "message": "Kopijuoti nuorodą",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
+    "contextMenuCopyImage": {
+        "message": "Kopijuoti paveikslą",
+        "description": "Shown in the context menu for an image to indicate that the user can copy the image"
+    },
     "contextMenuNoSuggestions": {
         "message": "Nėra prieinamų pasiūlymų",
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
@@ -206,11 +210,15 @@
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
-        "message": "Archyvuoti pokalbį",
+        "message": "Archyvuoti",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
+    "markUnread": {
+        "message": "Žymėti kaip neskaitytą",
+        "description": "Shown in menu for conversation, and marks conversation as unread"
+    },
     "moveConversationToInbox": {
-        "message": "Perkelti pokalbį į skyrelį Gauta",
+        "message": "Nebearchyvuoti",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
@@ -665,10 +673,6 @@
         "message": "Pereiti į palaikymo puslapį",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "goToGithub": {
-        "message": "Eiti į GitHub",
-        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
-    },
     "joinTheBeta": {
         "message": "Prisijungti prie Beta laidos",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
@@ -1064,7 +1068,7 @@
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
-        "message": "Ištrinti žinutes",
+        "message": "Ištrinti",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
@@ -1215,6 +1219,20 @@
         "message": "Jūsų vaizdas yra išjungtas",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
+    "calling__in-this-call--one": {
+        "message": "Šiame skambutyje · 1 žmogus",
+        "description": "Shown in the participants list to describe how many people are in the call"
+    },
+    "calling__in-this-call--many": {
+        "message": "Šiame skambutyje · $people$ žmonės(-ių)",
+        "description": "Shown in the participants list to describe how many people are in the call",
+        "placeholders": {
+            "people": {
+                "content": "$1",
+                "example": "15"
+            }
+        }
+    },
     "alwaysRelayCallsDescription": {
         "message": "Visada retransliuoti skambučius",
         "description": "Description of the always relay calls setting"
@@ -1308,7 +1326,7 @@
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
-        "message": "Tik vardą",
+        "message": "Tik vardas",
         "description": "Label for setting notifications to display sender name only"
     },
     "newMessage": {
@@ -1650,7 +1668,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Groti garso pranešimus",
+        "message": "Atkurti garso pranešimus",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -2258,7 +2276,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Perjungti reakcijų parinkiklį pasirinktai žinutei",
+        "message": "Perjungti šypsenėlių reakcijų parinkiklį pasirinktai žinutei",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2388,6 +2406,10 @@
     "conversationReturnedToInbox": {
         "message": "Pokalbis grąžintas į skyrelį Gauta",
         "description": "A toast that shows up when the user unarchives a conversation"
+    },
+    "conversationMarkedUnread": {
+        "message": "Pokalbis pažymėtas kaip neskaitytas",
+        "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
         "message": "Lipdukų paketo kūrėjas",
@@ -2768,6 +2790,38 @@
     "MessageRequests--accept": {
         "message": "Priimti",
         "description": "Shown as a button to let the user accept a message request"
+    },
+    "MessageRequests--continue": {
+        "message": "Tęsti",
+        "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
+    },
+    "MessageRequests--profile-sharing--group": {
+        "message": "Tęsti jūsų pokalbį su šia grupe ir bendrinti jūsų vardą ir nuotrauką su jos nariais? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a group yet",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--profile-sharing--direct": {
+        "message": "Tęsti šį pokalbį su $firstName$ ir bendrinti jūsų vardą ir nuotrauką su šiuo žmogumi? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
+        "placeholders": {
+            "firstName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "learnMore": {
+                "content": "$2",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--learn-more": {
+        "message": "Sužinokite daugiau.",
+        "description": "Shown at the end of profile sharing messages as a link."
     },
     "ConversationHero--members": {
         "message": "Narių: $count$",
@@ -3874,5 +3928,17 @@
     "countMutedConversationsDescription": {
         "message": "Skaičiuoti ir rodyti ženkliuke pokalbius su išjungtais pranešimais",
         "description": "Description for counting muted conversations in badge setting"
+    },
+    "ContactModal--message": {
+        "message": "Žinutė",
+        "description": "Button text for send message button in Group Contact Details modal"
+    },
+    "ContactModal--make-admin": {
+        "message": "Paskirti administratoriumi",
+        "description": "Button text for make admin button in Group Contact Details modal"
+    },
+    "ContactModal--remove-from-group": {
+        "message": "Šalinti iš grupės",
+        "description": "Button text for remove from group button in Group Contact Details modal"
     }
 }

@@ -163,6 +163,10 @@
         "message": "Verwijzing kopiëren",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
+    "contextMenuCopyImage": {
+        "message": "Afbeelding kopiëren",
+        "description": "Shown in the context menu for an image to indicate that the user can copy the image"
+    },
     "contextMenuNoSuggestions": {
         "message": "Geen suggesties beschikbaar",
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
@@ -206,11 +210,15 @@
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
-        "message": "Gesprek archiveren",
+        "message": "Archief",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
+    "markUnread": {
+        "message": "Voor mij als ongelezen markeren",
+        "description": "Shown in menu for conversation, and marks conversation as unread"
+    },
     "moveConversationToInbox": {
-        "message": "Gesprek verplaatsen naar Postvak IN",
+        "message": "Dearchiveren",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
@@ -665,10 +673,6 @@
         "message": "Ga naar ondersteuningspagina",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "goToGithub": {
-        "message": "GitHub bezoeken",
-        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
-    },
     "joinTheBeta": {
         "message": "Aan bétaprogramma deelnemen",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
@@ -1064,7 +1068,7 @@
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
-        "message": "Berichten wissen",
+        "message": "Wissen",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
@@ -1214,6 +1218,20 @@
     "calling__your-video-is-off": {
         "message": "Je camera staat uit",
         "description": "Label in the calling lobby indicating that your camera is off"
+    },
+    "calling__in-this-call--one": {
+        "message": "1 persoon in dit gesprek",
+        "description": "Shown in the participants list to describe how many people are in the call"
+    },
+    "calling__in-this-call--many": {
+        "message": "$people$ personen in dit gesprek aanwezig",
+        "description": "Shown in the participants list to describe how many people are in the call",
+        "placeholders": {
+            "people": {
+                "content": "$1",
+                "example": "15"
+            }
+        }
     },
     "alwaysRelayCallsDescription": {
         "message": "Alle oproepen omleiden",
@@ -1474,7 +1492,7 @@
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "Je hebt de timer voor zelfwissende berichten op $time$ ingesteld.",
+        "message": "Je hebt de timer voor verlopende berichten op $time$ ingesteld.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1484,7 +1502,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "De timer voor zelfwissende berichten is bijgewerkt naar $time$.",
+        "message": "De timer voor verlopende berichten is bijgewerkt naar $time$.",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1494,7 +1512,7 @@
         }
     },
     "timerSetByMember": {
-        "message": "Een groepslid heeft de timer voor zelfwissende berichten op $time$ ingesteld.",
+        "message": "Een groepslid heeft de timer voor verlopende berichten op $time$ ingesteld.",
         "description": "Message displayed when timer is by an unknown group member.",
         "placeholders": {
             "time": {
@@ -1504,7 +1522,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ heeft de timer voor zelfwissende berichten op $time$ ingesteld.",
+        "message": "$name$ heeft de timer voor verlopende berichten op $time$ ingesteld.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1566,7 +1584,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "disappearingMessages": {
-        "message": "Zelfwissende berichten",
+        "message": "Verlopende berichten",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "timerOption_0_seconds_abbreviated": {
@@ -1618,15 +1636,15 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "disappearingMessagesDisabled": {
-        "message": "Zelfwissende berichten zijn uitgeschakeld",
+        "message": "Verlopende berichten zijn uitgeschakeld",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disappearingMessagesDisabledByMember": {
-        "message": "Een groepslid heeft zelfwissende berichten uitgeschakeld.",
+        "message": "Een groepslid heeft verlopende berichten uitgeschakeld.",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ heeft zelfwissende berichten uitgeschakeld.",
+        "message": "$name$ heeft verlopende berichten uitgeschakeld.",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1636,7 +1654,7 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "Je hebt zelfwissende berichten uitgeschakeld.",
+        "message": "Je hebt verlopende berichten uitgeschakeld.",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
@@ -1720,7 +1738,7 @@
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "cannotGenerateSafetyNumber": {
-        "message": "Deze gebruiker kan niet geverifieerd worden zolang je nog geen berichten met hem of haar hebt uitgewisseld.",
+        "message": "Deze persoon kan niet geverifieerd worden zolang je nog geen berichten met hem of haar hebt uitgewisseld.",
         "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
     },
     "yourSafetyNumberWith": {
@@ -2258,7 +2276,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Reactie-keuzemenu in- of uitschakelen voor het geselecteerde bericht\n",
+        "message": "Emoji-reactie keuzemenu openen of sluiten voor het geselecteerde bericht",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2388,6 +2406,10 @@
     "conversationReturnedToInbox": {
         "message": "Gesprek teruggeplaatst in postvak-in",
         "description": "A toast that shows up when the user unarchives a conversation"
+    },
+    "conversationMarkedUnread": {
+        "message": "Gesprek als ongelezen gemarkeerd",
+        "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
         "message": "Stickerpakketmaker",
@@ -2769,6 +2791,38 @@
         "message": "Een uitnodiging aanvaard",
         "description": "Shown as a button to let the user accept a message request"
     },
+    "MessageRequests--continue": {
+        "message": "Gesprek voortzetten",
+        "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
+    },
+    "MessageRequests--profile-sharing--group": {
+        "message": "Wil je je profielnaam en -foto voor deze groep zichtbaar maken om je gesprek met de groep voort te kunnen zetten? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a group yet",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--profile-sharing--direct": {
+        "message": "Wil je je profielnaam en -foto voor $firstName$ zichtbaar maken om je gesprek voort te kunnen zetten? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
+        "placeholders": {
+            "firstName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "learnMore": {
+                "content": "$2",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--learn-more": {
+        "message": "Meer leren hierover.",
+        "description": "Shown at the end of profile sharing messages as a link."
+    },
     "ConversationHero--members": {
         "message": "$count$ leden",
         "description": "Specifies the number of members in a group conversation",
@@ -2876,39 +2930,39 @@
         "description": "Shown in tooltip for the button to decline a call (audio or video)"
     },
     "declinedIncomingAudioCall": {
-        "message": "Je hebt een audiogesprek geweigerd",
+        "message": "Je hebt een audio-oproep geweigerd",
         "description": "Shown in conversation history when you declined an incoming audio call"
     },
     "declinedIncomingVideoCall": {
-        "message": "Je hebt een videogesprek geweigerd",
+        "message": "Je hebt een video-oproep geweigerd",
         "description": "Shown in conversation history when you declined an incoming video call"
     },
     "acceptedIncomingAudioCall": {
-        "message": "Inkomend audiogesprek",
+        "message": "Inkomende audio-oproep",
         "description": "Shown in conversation history when you accepted an incoming audio call"
     },
     "acceptedIncomingVideoCall": {
-        "message": "Inkomend videogesprek",
+        "message": "Inkomende video-oproep",
         "description": "Shown in conversation history when you accepted an incoming video call"
     },
     "missedIncomingAudioCall": {
-        "message": "Gemist audiogesprek",
+        "message": "Gemiste audio-oproep",
         "description": "Shown in conversation history when you missed an incoming audio call"
     },
     "missedIncomingVideoCall": {
-        "message": "Gemiste videogesprek",
+        "message": "Video-oproep gemist",
         "description": "Shown in conversation history when you missed an incoming video call"
     },
     "acceptedOutgoingAudioCall": {
-        "message": "Uitgaand audiogesprek",
+        "message": "Uitgaande audio-oproep",
         "description": "Shown in conversation history when you made an outgoing audio call"
     },
     "acceptedOutgoingVideoCall": {
-        "message": "Uitgaand videogesprek",
+        "message": "Uitgaande video-oproep",
         "description": "Shown in conversation history when you made an outgoing video call"
     },
     "missedOrDeclinedOutgoingAudioCall": {
-        "message": "Onbeantwoord audiogesprek",
+        "message": "Audio-oproep onbeantwoord",
         "description": "Shown in conversation history when your audio call is missed or declined"
     },
     "missedOrDeclinedOutgoingVideoCall": {
@@ -2916,11 +2970,11 @@
         "description": "Shown in conversation history when your video call is missed or declined"
     },
     "incomingAudioCall": {
-        "message": "Inkomend audiogesprek …",
+        "message": "Inkomende audio-oproep …",
         "description": "Shown in both the incoming call bar and notification for an incoming audio call"
     },
     "incomingVideoCall": {
-        "message": "Inkomend videogesprek …",
+        "message": "Inkomende video-oproep …",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
     "outgoingCallPrering": {
@@ -3874,5 +3928,17 @@
     "countMutedConversationsDescription": {
         "message": "Tel gedempte gesprekken mee in badge nummers",
         "description": "Description for counting muted conversations in badge setting"
+    },
+    "ContactModal--message": {
+        "message": "Bericht",
+        "description": "Button text for send message button in Group Contact Details modal"
+    },
+    "ContactModal--make-admin": {
+        "message": "Beheerder maken",
+        "description": "Button text for make admin button in Group Contact Details modal"
+    },
+    "ContactModal--remove-from-group": {
+        "message": "Van de groep verwijderen",
+        "description": "Button text for remove from group button in Group Contact Details modal"
     }
 }

@@ -210,11 +210,15 @@
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
-        "message": "Arquivar conversa",
+        "message": "Arquivo",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
+    "markUnread": {
+        "message": "Marcar como por ler",
+        "description": "Shown in menu for conversation, and marks conversation as unread"
+    },
     "moveConversationToInbox": {
-        "message": "Mover conversas para a caixa de entrada",
+        "message": "Desarquivar",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
@@ -1064,7 +1068,7 @@
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
-        "message": "Eliminar mensagens",
+        "message": "Eliminar",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
@@ -1214,6 +1218,20 @@
     "calling__your-video-is-off": {
         "message": "O seu vídeo encontra-se desligado",
         "description": "Label in the calling lobby indicating that your camera is off"
+    },
+    "calling__in-this-call--one": {
+        "message": "· 1 pessoa nesta chamada",
+        "description": "Shown in the participants list to describe how many people are in the call"
+    },
+    "calling__in-this-call--many": {
+        "message": "· $people$ pessoas nesta chamada",
+        "description": "Shown in the participants list to describe how many people are in the call",
+        "placeholders": {
+            "people": {
+                "content": "$1",
+                "example": "15"
+            }
+        }
     },
     "alwaysRelayCallsDescription": {
         "message": "Retransmitir todas as chamadas",
@@ -2258,7 +2276,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Alternar o selecionador de reação para a mensagem selecionada",
+        "message": "Alternar o selecionador de reação por emoji para a mensagem selecionada",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2388,6 +2406,10 @@
     "conversationReturnedToInbox": {
         "message": "A conversa regressou à caixa de entrada",
         "description": "A toast that shows up when the user unarchives a conversation"
+    },
+    "conversationMarkedUnread": {
+        "message": "Conversa marcada como por ler",
+        "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
         "message": "Criador de pacotes de autocolantes",
@@ -2982,7 +3004,7 @@
         }
     },
     "callReconnecting": {
-        "message": "A voltar a ligar...",
+        "message": "A ligar novamente...",
         "description": "Shown in the call screen when the call is reconnecting due to network issues"
     },
     "callDuration": {
@@ -3906,5 +3928,17 @@
     "countMutedConversationsDescription": {
         "message": "Contar conversas silenciadas na insígnia de contagem.",
         "description": "Description for counting muted conversations in badge setting"
+    },
+    "ContactModal--message": {
+        "message": "Mensagem",
+        "description": "Button text for send message button in Group Contact Details modal"
+    },
+    "ContactModal--make-admin": {
+        "message": "Tornar administrador",
+        "description": "Button text for make admin button in Group Contact Details modal"
+    },
+    "ContactModal--remove-from-group": {
+        "message": "Remover do grupo",
+        "description": "Button text for remove from group button in Group Contact Details modal"
     }
 }
