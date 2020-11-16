@@ -231,22 +231,6 @@ class ConversationHeader extends React.Component<Props> {
     );
   }
 
-  public renderOptions(triggerId: string) {
-    const { showBackButton } = this.props;
-
-    if (showBackButton) {
-      return null;
-    }
-    return (
-      <MenuProvider id={triggerId} event="onClick">
-        <SessionIconButton
-          iconType={SessionIconType.Ellipses}
-          iconSize={SessionIconSize.Medium}
-        />
-      </MenuProvider>
-    );
-  }
-
   public renderSelectionOverlay() {
     const {
       onDeleteSelectedMessages,
@@ -283,7 +267,7 @@ class ConversationHeader extends React.Component<Props> {
 
   public render() {
     const { id, isKickedFromGroup, selectionMode } = this.props;
-    const triggerId = `conversation-header-${id}`;
+    const triggerId = 'conversation-header';
 
     return (
       <div className="module-conversation-header">
@@ -291,7 +275,12 @@ class ConversationHeader extends React.Component<Props> {
           {this.renderBackButton()}
           <div className="module-conversation-header__title-container">
             <div className="module-conversation-header__title-flex">
-              {!selectionMode && this.renderOptions(triggerId)}
+              <MenuProvider id={triggerId} event="onClick">
+                <SessionIconButton
+                  iconType={SessionIconType.Ellipses}
+                  iconSize={SessionIconSize.Medium}
+                />
+              </MenuProvider>
               {this.renderTitle()}
             </div>
           </div>

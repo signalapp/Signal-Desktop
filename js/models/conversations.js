@@ -864,7 +864,10 @@
         unread: 1,
       };
 
-      const id = await message.commit();
+      // no commit() here as this is not a message model object
+      const id = await window.Signal.Data.saveMessage(message, {
+        Message: Whisper.Message,
+      });
 
       this.trigger(
         'newmessage',
@@ -915,7 +918,10 @@
         unread: 1,
       };
 
-      const id = await message.commit();
+      // no commit() here as this is not a message model object
+      const id = await window.Signal.Data.saveMessage(message, {
+        Message: Whisper.Message,
+      });
 
       this.trigger(
         'newmessage',

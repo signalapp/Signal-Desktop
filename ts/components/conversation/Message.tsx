@@ -140,7 +140,7 @@ export class Message extends React.PureComponent<Props, State> {
       expired: false,
       imageBroken: false,
     };
-    this.ctxMenuID = uuid();
+    this.ctxMenuID = `ctx-menu-message-${uuid()}`;
   }
 
   public componentDidMount() {
