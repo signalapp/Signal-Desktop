@@ -4,7 +4,7 @@
   "description": "Private messaging from your desktop",
   "desktopName": "signal.desktop",
   "repository": "https://github.com/signalapp/Signal-Desktop.git",
-  "version": "1.38.1-beta.2",
+  "version": "1.38.1-beta.3",
   "license": "AGPL-3.0-only",
   "author": {
     "name": "Open Whisper Systems",
