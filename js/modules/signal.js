@@ -64,9 +64,6 @@ const {
 } = require('../../ts/components/session/SessionConfirm');
 
 const {
-  SessionDropdown,
-} = require('../../ts/components/session/SessionDropdown');
-const {
   SessionRegistrationView,
 } = require('../../ts/components/session/SessionRegistrationView');
 
@@ -267,7 +264,6 @@ exports.setup = (options = {}) => {
     SessionSeedModal,
     SessionPasswordModal,
     SessionPasswordPrompt,
-    SessionDropdown,
     MediaGallery,
     Message,
     MessageBody,
