@@ -30,7 +30,6 @@ type State = {
 
 export class SessionInboxView extends React.Component<Props, State> {
   private store: any;
-  private interval: NodeJS.Timeout | null = null;
 
   constructor(props: any) {
     super(props);
@@ -40,7 +39,6 @@ export class SessionInboxView extends React.Component<Props, State> {
       networkError: false,
     };
 
-    const conversationModels = window.getConversations();
     this.fetchHandleMessageSentData = this.fetchHandleMessageSentData.bind(
       this
     );
@@ -54,18 +52,6 @@ export class SessionInboxView extends React.Component<Props, State> {
     );
 
     void this.setupLeftPane();
-
-    // ConversationCollection
-    //   this.listenTo(inboxCollection, 'messageError', () => {
-    // if (this.networkStatusView) {
-    //   this.networkStatusView.render();
-    // }
-    //   });
-
-    // this.networkStatusView = new Whisper.NetworkStatusView();
-    // this.$el
-    //   .find('.network-status-container')
-    //   .append(this.networkStatusView.render().el);
 
     // extension.expired(expired => {
     //   if (expired) {
@@ -144,10 +130,6 @@ export class SessionInboxView extends React.Component<Props, State> {
       return null;
     }
 
-    // then, find in this conversation the very same message
-    // const msg = conv.messageCollection.models.find(
-    //   convMsg => convMsg.id === tmpMsg.id
-    // );
     const msg = window.MessageController._get()[m.identifier];
 
     if (!msg || !msg.message) {
@@ -256,34 +238,4 @@ export class SessionInboxView extends React.Component<Props, State> {
   private showSessionViewConversation() {
     this.setState({ settingsCategory: undefined });
   }
-
-  // private startConnectionListener() {
-  //   this.interval = global.setInterval(() => {
-  //     const status = window.getSocketStatus();
-  //     switch (status) {
-  //       case WebSocket.CONNECTING:
-  //         break;
-  //       case WebSocket.OPEN:
-  //         if (this.interval) {
-  //           clearInterval(this.interval);
-  //         }
-  //         // Default to connected, but lokinet is slow so we pretend empty event
-  //         // this.onEmpty();
-  //         this.interval = null;
-  //         break;
-  //       case WebSocket.CLOSING:
-  //       case WebSocket.CLOSED:
-  //         if (this.interval) {
-  //           clearInterval(this.interval);
-  //         }
-  //         this.interval = null;
-  //         // if we failed to connect, we pretend we got an empty event
-  //         // this.onEmpty();
-  //         break;
-  //       default:
-  //         // We also replicate empty here
-  //         // this.onEmpty();
-  //     }
-  //   }, 1000);
-  // }
 }

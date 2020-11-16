@@ -589,12 +589,6 @@
     Whisper.events.on('showDebugLog', () => {
       appView.openDebugLog();
     });
-    Whisper.events.on('unauthorized', () => {
-      appView.inboxView.networkStatusView.update();
-    });
-    Whisper.events.on('reconnectTimer', () => {
-      appView.inboxView.networkStatusView.setSocketReconnectInterval(60000);
-    });
 
     window.addEventListener('focus', () => Whisper.Notifications.clear());
     window.addEventListener('unload', () => Whisper.Notifications.fastClear());

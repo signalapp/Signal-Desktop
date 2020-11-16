@@ -21,28 +21,7 @@
       this.ready = false;
       this.render();
       this.$el.attr('tabindex', '1');
-
-      if (!options.initialLoadComplete) {
-        this.appLoadingScreen = new Whisper.AppLoadingScreen();
-        this.appLoadingScreen.render();
-        this.appLoadingScreen.$el.prependTo(this.el);
-        this.startConnectionListener();
-      }
-
-      // Inbox
-      const inboxCollection = getInboxCollection();
-
       // ConversationCollection
-      this.listenTo(inboxCollection, 'messageError', () => {
-        if (this.networkStatusView) {
-          this.networkStatusView.render();
-        }
-      });
-
-      this.networkStatusView = new Whisper.NetworkStatusView();
-      this.$el
-        .find('.network-status-container')
-        .append(this.networkStatusView.render().el);
 
       extension.expired(expired => {
         if (expired) {

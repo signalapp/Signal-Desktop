@@ -15,6 +15,7 @@ import { SessionIconType } from './session/icon';
 import { SessionTheme } from '../state/ducks/SessionTheme';
 import { DefaultTheme } from 'styled-components';
 import { SessionSettingCategory } from './session/settings/SessionSettings';
+import { SessionOffline } from './session/network/SessionOffline';
 
 // from https://github.com/bvaughn/react-virtualized/blob/fb3484ed5dcc41bffae8eab029126c0fb8f7abc0/source/List/types.js#L5
 export type RowRendererParamsType = {
@@ -136,17 +137,20 @@ export class LeftPane extends React.Component<Props> {
     }
 
     return (
-      <LeftPaneMessageSection
-        contacts={contacts}
-        openConversationExternal={openConversationExternal}
-        conversations={filteredConversations}
-        searchResults={searchResults}
-        searchTerm={searchTerm}
-        isSecondaryDevice={isSecondaryDevice}
-        updateSearchTerm={updateSearchTerm}
-        search={search}
-        clearSearch={clearSearch}
-      />
+      <>
+        <SessionOffline />
+        <LeftPaneMessageSection
+          contacts={contacts}
+          openConversationExternal={openConversationExternal}
+          conversations={filteredConversations}
+          searchResults={searchResults}
+          searchTerm={searchTerm}
+          isSecondaryDevice={isSecondaryDevice}
+          updateSearchTerm={updateSearchTerm}
+          search={search}
+          clearSearch={clearSearch}
+        />
+      </>
     );
   }
 
@@ -156,10 +160,13 @@ export class LeftPane extends React.Component<Props> {
     const directContacts = this.getDirectContactsOnly();
 
     return (
-      <LeftPaneContactSection
-        openConversationExternal={openConversationExternal}
-        directContacts={directContacts}
-      />
+      <>
+        <SessionOffline />
+        <LeftPaneContactSection
+          openConversationExternal={openConversationExternal}
+          directContacts={directContacts}
+        />
+      </>
     );
   }
 
@@ -177,11 +184,13 @@ export class LeftPane extends React.Component<Props> {
     const category = settingsCategory || SessionSettingCategory.Appearance;
 
     return (
-      <LeftPaneSettingSection
-        isSecondaryDevice={isSecondaryDevice}
-        showSessionSettingsCategory={showSessionSettingsCategory}
-        settingsCategory={category}
-      />
+      <>
+        <LeftPaneSettingSection
+          isSecondaryDevice={isSecondaryDevice}
+          showSessionSettingsCategory={showSessionSettingsCategory}
+          settingsCategory={category}
+        />
+      </>
     );
   }
 }

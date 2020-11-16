@@ -78,23 +78,6 @@
     </div>
   </script>
 
-  <script type='text/x-tmpl-mustache' id='networkStatus'>
-    <div class='network-status-message'>
-      <h3>{{ message }}</h3>
-      <span>{{ instructions }}</span>
-    </div>
-    {{ #reconnectDurationAsSeconds }}
-    <div class="network-status-message">
-      {{ attemptingReconnectionMessage }}
-    </div>
-    {{/reconnectDurationAsSeconds }}
-    {{ #action }}
-      <div class="action">
-        <button class='small blue {{ buttonClass }}'>{{ action }}</button>
-      </div>
-    {{/action }}
-  </script>
-
   <script type='text/x-tmpl-mustache' id='import-flow-template'>
     {{#isStep2}}
     <div id='step2' class='step'>
@@ -200,7 +183,6 @@
   <script type='text/javascript' src='js/views/group_member_list_view.js'></script>
   <script type='text/javascript' src='js/views/recorder_view.js'></script>
   <script type='text/javascript' src='js/views/inbox_view.js'></script>
-  <script type='text/javascript' src='js/views/network_status_view.js'></script>
   <script type='text/javascript' src='js/views/nickname_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/password_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/seed_dialog_view.js'></script>

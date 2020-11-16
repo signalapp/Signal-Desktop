@@ -25,9 +25,6 @@
     return messages;
   };
 
-  window.getConversationByName = name =>
-    conversations.find(d => d.get('name') === name);
-
   window.ConversationController = {
     get(id) {
       if (!this._initialFetchComplete) {

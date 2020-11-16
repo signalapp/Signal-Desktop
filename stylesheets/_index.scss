@@ -166,28 +166,6 @@ h4.section-toggle,
   }
 }
 
-.network-status-container {
-  .network-status {
-    padding: 10px;
-    padding-inline-start: 2 * $button-height;
-    display: none;
-
-    .network-status-message {
-      h3 {
-        padding: 0px;
-        margin: 0px;
-        margin-bottom: 2px;
-        font-size: 14px;
-      }
-      span {
-        display: inline-block;
-        font-size: 12px;
-        padding: 0.5em 0;
-      }
-    }
-  }
-}
-
 .left-pane-placeholder {
   flex-grow: 1;
   display: flex;
