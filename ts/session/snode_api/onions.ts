@@ -361,7 +361,7 @@ const sendOnionRequest = async (
   finalDestOptions: any,
   finalRelayOptions?: any,
   lsrpcIdx?: any
-) => {
+): Promise<SnodeResponse | RequestError> => {
   const { log, StringView } = window;
 
   let id = '';
@@ -489,7 +489,7 @@ export async function sendOnionRequestLsrpcDest(
   host: any,
   payloadObj: any,
   lsrpcIdx: number
-) {
+): Promise<SnodeResponse | RequestError> {
   return sendOnionRequest(
     reqIdx,
     nodePath,
