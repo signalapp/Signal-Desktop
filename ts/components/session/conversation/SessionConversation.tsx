@@ -152,8 +152,48 @@ export class SessionConversation extends React.Component<Props, State> {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   public componentDidUpdate(prevProps: Props, prevState: State) {
-    if (this.props.conversationKey !== prevProps.conversationKey) {
+    const {
+      conversationKey: newConversationKey,
+      conversation: newConversation,
+    } = this.props;
+    const { conversationKey: oldConversationKey } = prevProps;
+
+    // if the convo is valid, and it changed, register for drag events
+    if (
+      newConversationKey &&
+      newConversation &&
+      newConversationKey !== oldConversationKey
+    ) {
+      // Pause thread to wait for rendering to complete
+      setTimeout(() => {
+        const div = this.messageContainerRef.current;
+        div?.addEventListener('dragenter', this.handleDragIn);
+        div?.addEventListener('dragleave', this.handleDragOut);
+        div?.addEventListener('dragover', this.handleDrag);
+        div?.addEventListener('drop', this.handleDrop);
+      }, 100);
+    }
+    // if we do not have a model, unregister for events
+    if (!newConversation) {
+      const div = this.messageContainerRef.current;
+      div?.removeEventListener('dragenter', this.handleDragIn);
+      div?.removeEventListener('dragleave', this.handleDragOut);
+      div?.removeEventListener('dragover', this.handleDrag);
+      div?.removeEventListener('drop', this.handleDrop);
+    }
+    if (newConversationKey !== oldConversationKey) {
       void this.loadInitialMessages();
+      this.setState({
+        showOptionsPane: false,
+        selectedMessages: [],
+        // isScrolledToBottom: !this.props.unreadCount,
+        displayScrollToBottomButton: false,
+        showOverlay: false,
+        showRecordingView: false,
+        infoViewState: undefined,
+        stagedAttachments: [],
+        isDraggingFile: false,
+      });
     }
   }
 
@@ -163,17 +203,6 @@ export class SessionConversation extends React.Component<Props, State> {
     div?.removeEventListener('dragleave', this.handleDragOut);
     div?.removeEventListener('dragover', this.handleDrag);
     div?.removeEventListener('drop', this.handleDrop);
-  }
-
-  public componentDidMount() {
-    // Pause thread to wait for rendering to complete
-    setTimeout(() => {
-      const div = this.messageContainerRef.current;
-      div?.addEventListener('dragenter', this.handleDragIn);
-      div?.addEventListener('dragleave', this.handleDragOut);
-      div?.addEventListener('dragover', this.handleDrag);
-      div?.addEventListener('drop', this.handleDrop);
-    }, 100);
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
