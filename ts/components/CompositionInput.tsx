@@ -570,6 +570,7 @@ export const CompositionInput: React.ComponentType<Props> = props => {
           <div className="module-composition-input__input" ref={ref}>
             <div
               ref={scrollerRef}
+              dir="auto"
               className={classNames(
                 'module-composition-input__input__scroller',
                 large
