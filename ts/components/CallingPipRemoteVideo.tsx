@@ -91,6 +91,7 @@ export const CallingPipRemoteVideo = ({
           createCanvasVideoRenderer={createCanvasVideoRenderer}
           demuxId={speaker.demuxId}
           getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
+          hasRemoteAudio={speaker.hasRemoteAudio}
           hasRemoteVideo={speaker.hasRemoteVideo}
           height="100%"
           left={0}
