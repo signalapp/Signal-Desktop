@@ -68,7 +68,7 @@ export class Timestamp extends React.Component<Props> {
     } else {
       dateString = moment(timestamp).fromNow();
       // Prevent times reading "NOW AGO"
-      if (dateString.startsWith('now')) {
+      if (dateString.startsWith('now') || dateString.startsWith('Now')) {
         dateString = 'now';
       }
 
