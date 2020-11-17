@@ -152,10 +152,6 @@
       this.typingRefreshTimer = null;
       this.typingPauseTimer = null;
 
-      this.messageSendQueue = new JobQueue();
-
-      this.selectedMessages = new Set();
-
       // Keep props ready
       const generateProps = () => {
         this.cachedProps = this.getProps();
@@ -523,8 +519,6 @@
         hasNickname: !!this.getNickname(),
         isKickedFromGroup: !!this.get('isKickedFromGroup'),
         leftGroup: !!this.get('left'),
-
-        selectedMessages: this.selectedMessages,
 
         onClick: () => this.trigger('select', this),
         onBlockContact: () => this.block(),
@@ -1032,16 +1026,6 @@
 
       return current;
     },
-
-    queueMessageSend(callback) {
-      const taskWithTimeout = textsecure.createTaskWithTimeout(
-        callback,
-        `conversation ${this.idForLogging()}`
-      );
-
-      return this.messageSendQueue.add(taskWithTimeout);
-    },
-
     getRecipients() {
       if (this.isPrivate()) {
         return [this.id];
