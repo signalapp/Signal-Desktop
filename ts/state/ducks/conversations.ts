@@ -203,6 +203,13 @@ export type MessageAddedActionType = {
     messageModel: MessageModel;
   };
 };
+export type MessageDeletedActionType = {
+  type: 'MESSAGE_DELETED';
+  payload: {
+    conversationKey: string;
+    messageId: string;
+  };
+};
 export type SelectedConversationChangedActionType = {
   type: 'SELECTED_CONVERSATION_CHANGED';
   payload: {
@@ -226,6 +233,7 @@ export type ConversationActionType =
   | RemoveAllConversationsActionType
   | MessageExpiredActionType
   | MessageAddedActionType
+  | MessageDeletedActionType
   | MessageChangedActionType
   | SelectedConversationChangedActionType
   | SelectedConversationChangedActionType
@@ -240,6 +248,7 @@ export const actions = {
   removeAllConversations,
   messageExpired,
   messageAdded,
+  messageDeleted,
   messageChanged,
   fetchMessagesForConversation,
   openConversationExternal,
@@ -320,6 +329,22 @@ function messageAdded({
   };
 }
 
+function messageDeleted({
+  conversationKey,
+  messageId,
+}: {
+  conversationKey: string;
+  messageId: string;
+}): MessageDeletedActionType {
+  return {
+    type: 'MESSAGE_DELETED',
+    payload: {
+      conversationKey,
+      messageId,
+    },
+  };
+}
+
 function openConversationExternal(
   id: string,
   messageId?: string
@@ -357,7 +382,8 @@ function getEmptyState(): ConversationsStateType {
   };
 }
 
-// tslint:disable-next-line: cyclomatic-complexity
+// tslint:disable: cyclomatic-complexity
+// tslint:disable: max-func-body-length
 export function reducer(
   state: ConversationsStateType = getEmptyState(),
   action: ConversationActionType
@@ -497,6 +523,31 @@ export function reducer(
           ),
         };
       }
+    }
+    return state;
+  }
+
+  if (action.type === 'MESSAGE_DELETED') {
+    const { conversationKey, messageId } = action.payload;
+    if (conversationKey === state.selectedConversation) {
+      // search if we find this message id.
+      // we might have not loaded yet, so this case might not happen
+      const messageInStoreIndex = state?.messages.findIndex(
+        m => m.id === messageId
+      );
+      if (messageInStoreIndex >= 0) {
+        // we cannot edit the array directly, so slice the first part, and slice the second part
+        const editedMessages = [
+          ...state.messages.slice(0, messageInStoreIndex),
+          ...state.messages.slice(messageInStoreIndex + 1),
+        ];
+        return {
+          ...state,
+          messages: editedMessages,
+        };
+      }
+
+      return state;
     }
     return state;
   }

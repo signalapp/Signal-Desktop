@@ -3,7 +3,8 @@ import { Provider } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getMessageQueue } from '../../session';
 import { createStore } from '../../state/createStore';
-import { StateType } from '../../state/reducer';
+import { actions as conversationActions } from '../../state/ducks/conversations';
+import { actions as userActions } from '../../state/ducks/user';
 import { SmartLeftPane } from '../../state/smart/LeftPane';
 import { SmartSessionConversation } from '../../state/smart/SessionConversation';
 import {
@@ -204,13 +205,15 @@ export class SessionInboxView extends React.Component<Props, State> {
     window.inboxStore = this.store;
 
     // Enables our redux store to be updated by backbone events in the outside world
-    const { messageExpired, messageAdded, messageChanged } = bindActionCreators(
-      window.Signal.State.Ducks.conversations.actions,
-      this.store.dispatch
-    );
-    window.actionsCreators = window.Signal.State.Ducks.conversations.actions;
+    const {
+      messageExpired,
+      messageAdded,
+      messageChanged,
+      messageDeleted,
+    } = bindActionCreators(conversationActions, this.store.dispatch);
+    window.actionsCreators = conversationActions;
     const { userChanged } = bindActionCreators(
-      window.Signal.State.Ducks.user.actions,
+      userActions,
       this.store.dispatch
     );
 
@@ -230,6 +233,7 @@ export class SessionInboxView extends React.Component<Props, State> {
     window.Whisper.events.on('messageExpired', messageExpired);
     window.Whisper.events.on('messageChanged', messageChanged);
     window.Whisper.events.on('messageAdded', messageAdded);
+    window.Whisper.events.on('messageDeleted', messageDeleted);
     window.Whisper.events.on('userChanged', userChanged);
 
     this.setState({ isInitialLoadComplete: true });

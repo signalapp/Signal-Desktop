@@ -1430,9 +1430,6 @@
 
       await this.commit();
     },
-    getServerId() {
-      return this.get('serverId');
-    },
     async setServerId(serverId) {
       if (_.isEqual(this.get('serverId'), serverId)) {
         return;

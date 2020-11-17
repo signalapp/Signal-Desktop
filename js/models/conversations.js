@@ -2214,15 +2214,15 @@
         return false;
       }
 
-      const invalidMessages = messages.filter(m => !m.getServerId());
-      const pendingMessages = messages.filter(m => m.getServerId());
+      const invalidMessages = messages.filter(m => !m.attributes.serverId);
+      const pendingMessages = messages.filter(m => m.attributes.serverId);
 
       let deletedServerIds = [];
       let ignoredServerIds = [];
 
       if (pendingMessages.length > 0) {
         const result = await channelAPI.deleteMessages(
-          pendingMessages.map(m => m.getServerId())
+          pendingMessages.map(m => m.attributes.serverId)
         );
         deletedServerIds = result.deletedIds;
         ignoredServerIds = result.ignoredIds;
@@ -2233,7 +2233,7 @@
         ignoredServerIds
       );
       let toDeleteLocally = messages.filter(m =>
-        toDeleteLocallyServerIds.includes(m.getServerId())
+        toDeleteLocallyServerIds.includes(m.attributes.serverId)
       );
       toDeleteLocally = _.union(toDeleteLocally, invalidMessages);
 
@@ -2249,6 +2249,13 @@
       if (message) {
         message.trigger('unload');
         this.messageCollection.remove(messageId);
+        window.Signal.Data.removeMessage(message.id, {
+          Message: Whisper.Message,
+        });
+        window.Whisper.events.trigger('messageDeleted', {
+          conversationKey: this.id,
+          messageId,
+        });
       }
     },
 
@@ -2275,6 +2282,7 @@
       });
 
       this.messageCollection.reset([]);
+      // no need to do the trigger 'messageDeleted' here
 
       // destroy message keeps the active timestamp set so the
       // conversation still appears on the conversation list but is empty

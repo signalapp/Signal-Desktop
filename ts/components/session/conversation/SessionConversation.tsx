@@ -664,6 +664,10 @@ export class SessionConversation extends React.Component<Props, State> {
           await window.Signal.Data.removeMessage(message.id, {
             Message: window.Whisper.Message,
           });
+          window.Whisper.events.trigger('messageDeleted', {
+            conversationKey,
+            messageId: message.id,
+          });
         })
       );
 
