@@ -4,7 +4,7 @@
 import React, { useState, useMemo } from 'react';
 import Measure from 'react-measure';
 import { takeWhile, chunk, maxBy, flatten } from 'lodash';
-import { CanvasVideoRenderer, VideoFrameSource } from '../types/Calling';
+import { VideoFrameSource } from '../types/Calling';
 import { GroupCallParticipantInfoType } from '../state/ducks/calling';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
 
@@ -22,7 +22,6 @@ interface GridArrangement {
 }
 
 interface PropsType {
-  createCanvasVideoRenderer: () => CanvasVideoRenderer;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   remoteParticipants: ReadonlyArray<GroupCallParticipantInfoType>;
 }
@@ -52,7 +51,6 @@ interface PropsType {
 //    screen? The biggest scalar wins as the "best arrangement".
 // 4. Lay out this arrangement on the screen.
 export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
-  createCanvasVideoRenderer,
   getGroupCallVideoFrameSource,
   remoteParticipants,
 }) => {
@@ -196,7 +194,6 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
         return (
           <GroupCallRemoteParticipant
             key={remoteParticipant.demuxId}
-            createCanvasVideoRenderer={createCanvasVideoRenderer}
             demuxId={remoteParticipant.demuxId}
             getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
             hasRemoteAudio={remoteParticipant.hasRemoteAudio}

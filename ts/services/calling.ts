@@ -49,13 +49,16 @@ import { getOwn } from '../util/getOwn';
 import { fetchMembershipProof, getMembershipList } from '../groups';
 import { missingCaseError } from '../util/missingCaseError';
 
+const RINGRTC_SFU_URL = 'https://sfu.voip.signal.org/';
+
 const RINGRTC_HTTP_METHOD_TO_OUR_HTTP_METHOD: Map<
   HttpMethod,
-  'GET' | 'PUT' | 'POST'
+  'GET' | 'PUT' | 'POST' | 'DELETE'
 > = new Map([
   [HttpMethod.Get, 'GET'],
   [HttpMethod.Put, 'PUT'],
   [HttpMethod.Post, 'POST'],
+  [HttpMethod.Delete, 'DELETE'],
 ]);
 
 export {
@@ -323,67 +326,73 @@ export class CallingClass {
 
     let isRequestingMembershipProof = false;
 
-    const outerGroupCall = RingRTC.getGroupCall(groupIdBuffer, {
-      onLocalDeviceStateChanged: groupCall => {
-        const localDeviceState = groupCall.getLocalDeviceState();
+    const outerGroupCall = RingRTC.getGroupCall(
+      groupIdBuffer,
+      RINGRTC_SFU_URL,
+      {
+        onLocalDeviceStateChanged: groupCall => {
+          const localDeviceState = groupCall.getLocalDeviceState();
 
-        if (localDeviceState.connectionState === ConnectionState.NotConnected) {
-          if (localDeviceState.videoMuted) {
-            this.disableLocalCamera();
-          }
+          if (
+            localDeviceState.connectionState === ConnectionState.NotConnected
+          ) {
+            if (localDeviceState.videoMuted) {
+              this.disableLocalCamera();
+            }
 
-          delete this.callsByConversation[conversationId];
-        } else {
-          this.callsByConversation[conversationId] = groupCall;
-
-          if (localDeviceState.videoMuted) {
-            this.disableLocalCamera();
+            delete this.callsByConversation[conversationId];
           } else {
-            this.enableLocalCamera();
-          }
-        }
+            this.callsByConversation[conversationId] = groupCall;
 
-        this.syncGroupCallToRedux(conversationId, groupCall);
-      },
-      onRemoteDeviceStatesChanged: groupCall => {
-        this.syncGroupCallToRedux(conversationId, groupCall);
-      },
-      onJoinedMembersChanged: groupCall => {
-        this.syncGroupCallToRedux(conversationId, groupCall);
-      },
-      async requestMembershipProof(groupCall) {
-        if (isRequestingMembershipProof) {
-          return;
-        }
-        isRequestingMembershipProof = true;
-        try {
-          const proof = await fetchMembershipProof({
-            publicParams,
-            secretParams,
-          });
-          if (proof) {
-            const proofArray = new TextEncoder().encode(proof);
-            groupCall.setMembershipProof(proofArray.buffer);
+            if (localDeviceState.videoMuted) {
+              this.disableLocalCamera();
+            } else {
+              this.videoCapturer.enableCaptureAndSend(groupCall);
+            }
           }
-        } catch (err) {
-          window.log.error('Failed to fetch membership proof', err);
-        } finally {
-          isRequestingMembershipProof = false;
-        }
-      },
-      requestGroupMembers(groupCall) {
-        groupCall.setGroupMembers(
-          getMembershipList(conversationId).map(
-            member =>
-              new GroupMemberInfo(
-                uuidToArrayBuffer(member.uuid),
-                member.uuidCiphertext
-              )
-          )
-        );
-      },
-      onEnded: noop,
-    });
+
+          this.syncGroupCallToRedux(conversationId, groupCall);
+        },
+        onRemoteDeviceStatesChanged: groupCall => {
+          this.syncGroupCallToRedux(conversationId, groupCall);
+        },
+        onPeekChanged: groupCall => {
+          this.syncGroupCallToRedux(conversationId, groupCall);
+        },
+        async requestMembershipProof(groupCall) {
+          if (isRequestingMembershipProof) {
+            return;
+          }
+          isRequestingMembershipProof = true;
+          try {
+            const proof = await fetchMembershipProof({
+              publicParams,
+              secretParams,
+            });
+            if (proof) {
+              const proofArray = new TextEncoder().encode(proof);
+              groupCall.setMembershipProof(proofArray.buffer);
+            }
+          } catch (err) {
+            window.log.error('Failed to fetch membership proof', err);
+          } finally {
+            isRequestingMembershipProof = false;
+          }
+        },
+        requestGroupMembers(groupCall) {
+          groupCall.setGroupMembers(
+            getMembershipList(conversationId).map(
+              member =>
+                new GroupMemberInfo(
+                  uuidToArrayBuffer(member.uuid),
+                  member.uuidCiphertext
+                )
+            )
+          );
+        },
+        onEnded: noop,
+      }
+    );
 
     if (!outerGroupCall) {
       // This should be very rare, likely due to RingRTC not being able to get a lock

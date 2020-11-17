@@ -62,17 +62,10 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   cancelCall: action('cancel-call'),
   closeNeedPermissionScreen: action('close-need-permission-screen'),
   declineCall: action('decline-call'),
-  // We allow `any` here because these are fake and actually come from RingRTC, which we
+  // We allow `any` here because this is fake and actually comes from RingRTC, which we
   //   can't import.
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  createCanvasVideoRenderer: () =>
-    ({
-      setCanvas: noop,
-      enable: noop,
-      disable: noop,
-    } as any),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getGroupCallVideoFrameSource: noop as any,
-  /* eslint-enable @typescript-eslint/no-explicit-any */
   hangUp: action('hang-up'),
   i18n,
   me: {

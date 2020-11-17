@@ -8,11 +8,7 @@ import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
 import { LocalizerType } from '../types/Util';
 import { ConversationType } from '../state/ducks/conversations';
-import {
-  CallMode,
-  CanvasVideoRenderer,
-  VideoFrameSource,
-} from '../types/Calling';
+import { CallMode, VideoFrameSource } from '../types/Calling';
 import {
   DirectCallStateType,
   GroupCallStateType,
@@ -22,7 +18,6 @@ import {
 export interface PropsType {
   call: DirectCallStateType | GroupCallStateType;
   conversation: ConversationType;
-  createCanvasVideoRenderer: () => CanvasVideoRenderer;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
@@ -31,7 +26,6 @@ export interface PropsType {
 export const CallingPipRemoteVideo = ({
   call,
   conversation,
-  createCanvasVideoRenderer,
   getGroupCallVideoFrameSource,
   i18n,
   setRendererCanvas,
@@ -87,16 +81,12 @@ export const CallingPipRemoteVideo = ({
     return (
       <div className="module-calling-pip__video--remote">
         <GroupCallRemoteParticipant
+          isInPip
           key={speaker.demuxId}
-          createCanvasVideoRenderer={createCanvasVideoRenderer}
           demuxId={speaker.demuxId}
           getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
           hasRemoteAudio={speaker.hasRemoteAudio}
           hasRemoteVideo={speaker.hasRemoteVideo}
-          height="100%"
-          left={0}
-          top={0}
-          width="100%"
         />
       </div>
     );

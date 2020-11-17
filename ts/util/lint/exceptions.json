@@ -14427,7 +14427,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CallingPip.tsx",
     "line": "  const videoContainerRef = React.useRef(null);",
-    "lineNumber": 48,
+    "lineNumber": 46,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Element is measured. Its HTML is not used."
@@ -14436,7 +14436,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CallingPip.tsx",
     "line": "  const localVideoRef = React.useRef(null);",
-    "lineNumber": 49,
+    "lineNumber": 47,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Used to get the local video element for rendering."
@@ -14571,7 +14571,7 @@
     "rule": "React-useRef",
     "path": "ts/components/GroupCallRemoteParticipant.js",
     "line": "    const remoteVideoRef = react_1.useRef(null);",
-    "lineNumber": 20,
+    "lineNumber": 24,
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-11T21:56:04.179Z",
     "reasonDetail": "Needed to render the remote video element."
@@ -14579,19 +14579,19 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/GroupCallRemoteParticipant.js",
-    "line": "    const canvasVideoRendererRef = react_1.useRef(createCanvasVideoRenderer());",
-    "lineNumber": 21,
+    "line": "    const rafIdRef = react_1.useRef(null);",
+    "lineNumber": 25,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-11-11T21:56:04.179Z",
+    "updated": "2020-11-17T16:24:25.480Z",
     "reasonDetail": "Doesn't touch the DOM."
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/GroupCallRemoteParticipant.tsx",
-    "line": "  const canvasVideoRendererRef = useRef(createCanvasVideoRenderer());",
-    "lineNumber": 34,
+    "path": "ts/components/GroupCallRemoteParticipant.js",
+    "line": "    const frameBufferRef = react_1.useRef(new ArrayBuffer(FRAME_BUFFER_SIZE));",
+    "lineNumber": 26,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-11-11T21:56:04.179Z",
+    "updated": "2020-11-17T16:24:25.480Z",
     "reasonDetail": "Doesn't touch the DOM."
   },
   {

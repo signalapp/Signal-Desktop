@@ -78,17 +78,10 @@ const createProps = (
     type: 'direct',
     lastUpdated: Date.now(),
   },
-  // We allow `any` here because these are fake and actually come from RingRTC, which we
+  // We allow `any` here because this is fake and actually comes from RingRTC, which we
   //   can't import.
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  createCanvasVideoRenderer: () =>
-    ({
-      setCanvas: noop,
-      enable: noop,
-      disable: noop,
-    } as any),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getGroupCallVideoFrameSource: noop as any,
-  /* eslint-enable @typescript-eslint/no-explicit-any */
   hangUp: action('hang-up'),
   hasLocalAudio: boolean('hasLocalAudio', overrideProps.hasLocalAudio || false),
   hasLocalVideo: boolean('hasLocalVideo', overrideProps.hasLocalVideo || false),

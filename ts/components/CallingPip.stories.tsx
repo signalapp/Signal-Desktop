@@ -46,9 +46,7 @@ const defaultCall = {
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   call: overrideProps.call || defaultCall,
   conversation: overrideProps.conversation || conversation,
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  createCanvasVideoRenderer: noop as any,
-  /* eslint-disable @typescript-eslint/no-explicit-any */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getGroupCallVideoFrameSource: noop as any,
   hangUp: action('hang-up'),
   hasLocalVideo: boolean('hasLocalVideo', overrideProps.hasLocalVideo || false),

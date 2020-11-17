@@ -6,7 +6,7 @@ import Tooltip from 'react-tooltip-lite';
 import { CallingPipRemoteVideo } from './CallingPipRemoteVideo';
 import { LocalizerType } from '../types/Util';
 import { ConversationType } from '../state/ducks/conversations';
-import { CanvasVideoRenderer, VideoFrameSource } from '../types/Calling';
+import { VideoFrameSource } from '../types/Calling';
 import {
   DirectCallStateType,
   GroupCallStateType,
@@ -18,7 +18,6 @@ import {
 export type PropsType = {
   call: DirectCallStateType | GroupCallStateType;
   conversation: ConversationType;
-  createCanvasVideoRenderer: () => CanvasVideoRenderer;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   hangUp: (_: HangUpType) => void;
   hasLocalVideo: boolean;
@@ -36,7 +35,6 @@ const PIP_PADDING = 8;
 export const CallingPip = ({
   call,
   conversation,
-  createCanvasVideoRenderer,
   getGroupCallVideoFrameSource,
   hangUp,
   hasLocalVideo,
@@ -171,7 +169,6 @@ export const CallingPip = ({
       <CallingPipRemoteVideo
         call={call}
         conversation={conversation}
-        createCanvasVideoRenderer={createCanvasVideoRenderer}
         getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
         i18n={i18n}
         setRendererCanvas={setRendererCanvas}

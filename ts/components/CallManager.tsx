@@ -12,7 +12,6 @@ import {
   CallEndedReason,
   CallMode,
   CallState,
-  CanvasVideoRenderer,
   GroupCallJoinState,
   GroupCallRemoteParticipantType,
   VideoFrameSource,
@@ -47,7 +46,6 @@ export interface PropsType {
   activeCall?: ActiveCallType;
   availableCameras: Array<MediaDeviceInfo>;
   cancelCall: (_: CancelCallType) => void;
-  createCanvasVideoRenderer: () => CanvasVideoRenderer;
   closeNeedPermissionScreen: () => void;
   getGroupCallVideoFrameSource: (
     conversationId: string,
@@ -89,7 +87,6 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
   availableCameras,
   cancelCall,
   closeNeedPermissionScreen,
-  createCanvasVideoRenderer,
   hangUp,
   i18n,
   getGroupCallVideoFrameSource,
@@ -210,7 +207,6 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
       <CallingPip
         call={call}
         conversation={conversation}
-        createCanvasVideoRenderer={createCanvasVideoRenderer}
         getGroupCallVideoFrameSource={getGroupCallVideoFrameSourceForActiveCall}
         hangUp={hangUp}
         hasLocalVideo={hasLocalVideo}
@@ -227,7 +223,6 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
       <CallScreen
         call={call}
         conversation={conversation}
-        createCanvasVideoRenderer={createCanvasVideoRenderer}
         getGroupCallVideoFrameSource={getGroupCallVideoFrameSourceForActiveCall}
         hangUp={hangUp}
         hasLocalAudio={hasLocalAudio}

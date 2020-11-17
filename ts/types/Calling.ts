@@ -69,16 +69,6 @@ export interface GroupCallRemoteParticipantType {
   title: string;
 }
 
-// Should match RingRTC's CanvasVideoRenderer
-interface Ref<T> {
-  readonly current: T | null;
-}
-export interface CanvasVideoRenderer {
-  setCanvas(canvas: Ref<HTMLCanvasElement> | undefined): void;
-  enable(source: VideoFrameSource): void;
-  disable(): void;
-}
-
 // Should match RingRTC's VideoFrameSource
 export interface VideoFrameSource {
   receiveVideoFrame(buffer: ArrayBuffer): [number, number] | undefined;

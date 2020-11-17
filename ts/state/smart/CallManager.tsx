@@ -3,7 +3,6 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { CanvasVideoRenderer } from 'ringrtc';
 import { mapDispatchToProps } from '../actions';
 import { CallManager } from '../../components/CallManager';
 import { calling as callingService } from '../../services/calling';
@@ -20,8 +19,6 @@ import { SmartCallingDeviceSelection } from './CallingDeviceSelection';
 function renderDeviceSelection(): JSX.Element {
   return <SmartCallingDeviceSelection />;
 }
-
-const createCanvasVideoRenderer = () => new CanvasVideoRenderer();
 
 const getGroupCallVideoFrameSource = callingService.getGroupCallVideoFrameSource.bind(
   callingService
@@ -108,7 +105,6 @@ const mapStateToIncomingCallProp = (state: StateType) => {
 const mapStateToProps = (state: StateType) => ({
   activeCall: mapStateToActiveCallProp(state),
   availableCameras: state.calling.availableCameras,
-  createCanvasVideoRenderer,
   getGroupCallVideoFrameSource,
   i18n: getIntl(state),
   incomingCall: mapStateToIncomingCallProp(state),

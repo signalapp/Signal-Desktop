@@ -22,7 +22,6 @@ import {
   CallMode,
   CallState,
   GroupCallConnectionState,
-  CanvasVideoRenderer,
   VideoFrameSource,
 } from '../types/Calling';
 import { ColorType } from '../types/Colors';
@@ -34,7 +33,6 @@ import { GroupCallRemoteParticipants } from './GroupCallRemoteParticipants';
 export type PropsType = {
   call: DirectCallStateType | GroupCallStateType;
   conversation: ConversationType;
-  createCanvasVideoRenderer: () => CanvasVideoRenderer;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   hangUp: (_: HangUpType) => void;
   hasLocalAudio: boolean;
@@ -62,7 +60,6 @@ export type PropsType = {
 export const CallScreen: React.FC<PropsType> = ({
   call,
   conversation,
-  createCanvasVideoRenderer,
   getGroupCallVideoFrameSource,
   hangUp,
   hasLocalAudio,
@@ -174,7 +171,6 @@ export const CallScreen: React.FC<PropsType> = ({
       remoteParticipantsElement = (
         <GroupCallRemoteParticipants
           remoteParticipants={call.remoteParticipants}
-          createCanvasVideoRenderer={createCanvasVideoRenderer}
           getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
         />
       );
