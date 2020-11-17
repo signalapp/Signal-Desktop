@@ -232,7 +232,8 @@
         };
       }
 
-      throw new textsecure.PreKeyMissing();
+      // throw new textsecure.PreKeyMissing();
+      return undefined;
     },
     async loadPreKeyForContact(contactPubKey) {
       const key = await window.Signal.Data.getPreKeyByRecipient(contactPubKey);
