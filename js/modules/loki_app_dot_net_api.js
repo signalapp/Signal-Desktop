@@ -122,6 +122,10 @@ const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
       payloadObj,
       options.requestNumber
     );
+    if (typeof result === 'number') {
+      window.log.error('sendOnionRequestLsrpcDest() returned a number indicating an error: ', result);
+    }
+
   } catch (e) {
     log.error(
       'loki_app_dot_net:::sendViaOnion - lokiRpcUtils error',

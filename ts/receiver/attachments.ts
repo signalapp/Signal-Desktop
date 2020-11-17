@@ -30,7 +30,11 @@ export async function downloadAttachment(attachment: any) {
     res = await window.lokiFileServerAPI.downloadAttachment(attachment.url);
   }
 
-  if (!res.response || !res.response.data) {
+  // FIXME "178" test to remove once this is fixed server side.
+  if (!res.response || !res.response.data || res.response.data.length === 178) {
+    if (res.response.data.length === 178) {
+      window.log.error('Data of 178 length corresponds of a 404 returned as 200 by file.getsession.org.');
+    }
     throw new Error(
       `downloadAttachment: invalid response for ${attachment.url}`
     );
