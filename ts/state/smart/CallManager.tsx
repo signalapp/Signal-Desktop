@@ -8,8 +8,9 @@ import { mapDispatchToProps } from '../actions';
 import { CallManager } from '../../components/CallManager';
 import { calling as callingService } from '../../services/calling';
 import { getMe, getConversationSelector } from '../selectors/conversations';
-import { getActiveCall } from '../ducks/calling';
+import { getActiveCall, GroupCallParticipantInfoType } from '../ducks/calling';
 import { getIncomingCall } from '../selectors/calling';
+import { CallMode, GroupCallRemoteParticipantType } from '../../types/Calling';
 import { StateType } from '../reducer';
 
 import { getIntl } from '../selectors/user';
@@ -42,18 +43,47 @@ const mapStateToActiveCallProp = (state: StateType) => {
     return undefined;
   }
 
-  const conversation = getConversationSelector(state)(
-    activeCallState.conversationId
-  );
+  const conversationSelector = getConversationSelector(state);
+  const conversation = conversationSelector(activeCallState.conversationId);
   if (!conversation) {
     window.log.error('The active call has no corresponding conversation');
     return undefined;
   }
 
+  const groupCallParticipants: Array<GroupCallRemoteParticipantType> = [];
+  if (call && call.callMode === CallMode.Group) {
+    call.remoteParticipants.forEach(
+      (remoteParticipant: GroupCallParticipantInfoType) => {
+        const remoteConversation = conversationSelector(
+          remoteParticipant.conversationId
+        );
+
+        if (!remoteConversation) {
+          window.log.error(
+            'Remote participant has no corresponding conversation'
+          );
+          return;
+        }
+
+        groupCallParticipants.push({
+          avatarPath: remoteConversation.avatarPath,
+          color: remoteConversation.color,
+          firstName: remoteConversation.firstName,
+          hasRemoteAudio: remoteParticipant.hasRemoteAudio,
+          hasRemoteVideo: remoteParticipant.hasRemoteVideo,
+          isSelf: remoteParticipant.isSelf,
+          profileName: remoteConversation.profileName,
+          title: remoteConversation.title,
+        });
+      }
+    );
+  }
+
   return {
-    call,
     activeCallState,
+    call,
     conversation,
+    groupCallParticipants,
   };
 };
 

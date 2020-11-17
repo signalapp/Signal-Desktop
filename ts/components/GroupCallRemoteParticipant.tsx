@@ -13,10 +13,10 @@ interface PropsType {
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   hasRemoteAudio: boolean;
   hasRemoteVideo: boolean;
-  height: number;
+  height: number | string;
   left: number;
   top: number;
-  width: number;
+  width: number | string;
 }
 
 export const GroupCallRemoteParticipant: React.FC<PropsType> = ({

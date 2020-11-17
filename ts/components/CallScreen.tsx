@@ -15,6 +15,7 @@ import {
   SetRendererCanvasType,
 } from '../state/ducks/calling';
 import { Avatar } from './Avatar';
+import { CallingHeader } from './CallingHeader';
 import { CallingButton, CallingButtonType } from './CallingButton';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
 import {
@@ -52,6 +53,8 @@ export type PropsType = {
   setLocalVideo: (_: SetLocalVideoType) => void;
   setLocalPreview: (_: SetLocalPreviewType) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
+  stickyControls: boolean;
+  toggleParticipants: () => void;
   togglePip: () => void;
   toggleSettings: () => void;
 };
@@ -71,6 +74,8 @@ export const CallScreen: React.FC<PropsType> = ({
   setLocalVideo,
   setLocalPreview,
   setRendererCanvas,
+  stickyControls,
+  toggleParticipants,
   togglePip,
   toggleSettings,
 }) => {
@@ -110,14 +115,14 @@ export const CallScreen: React.FC<PropsType> = ({
   }, [joinedAt]);
 
   useEffect(() => {
-    if (!showControls) {
+    if (!showControls || stickyControls) {
       return noop;
     }
     const timer = setTimeout(() => {
       setShowControls(false);
     }, 5000);
     return clearInterval.bind(null, timer);
-  }, [showControls]);
+  }, [showControls, stickyControls]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent): void => {
@@ -146,13 +151,13 @@ export const CallScreen: React.FC<PropsType> = ({
 
   let hasRemoteVideo: boolean;
   let isConnected: boolean;
-  let remoteParticipants: JSX.Element;
+  let remoteParticipantsElement: JSX.Element;
 
   switch (call.callMode) {
     case CallMode.Direct:
       hasRemoteVideo = Boolean(call.hasRemoteVideo);
       isConnected = call.callState === CallState.Accepted;
-      remoteParticipants = (
+      remoteParticipantsElement = (
         <DirectCallRemoteParticipant
           conversation={conversation}
           hasRemoteVideo={hasRemoteVideo}
@@ -166,7 +171,7 @@ export const CallScreen: React.FC<PropsType> = ({
         remoteParticipant => remoteParticipant.hasRemoteVideo
       );
       isConnected = call.connectionState === GroupCallConnectionState.Connected;
-      remoteParticipants = (
+      remoteParticipantsElement = (
         <GroupCallRemoteParticipants
           remoteParticipants={call.remoteParticipants}
           createCanvasVideoRenderer={createCanvasVideoRenderer}
@@ -194,6 +199,9 @@ export const CallScreen: React.FC<PropsType> = ({
       !showControls && !isAudioOnly && isConnected,
   });
 
+  const remoteParticipants =
+    call.callMode === CallMode.Group ? call.remoteParticipants.length : 0;
+
   return (
     <div
       className={classNames(
@@ -208,40 +216,33 @@ export const CallScreen: React.FC<PropsType> = ({
       role="group"
     >
       <div
-        className={classNames(
-          'module-calling__header',
-          'module-ongoing-call__header',
-          controlsFadeClass
-        )}
+        className={classNames('module-ongoing-call__header', controlsFadeClass)}
       >
-        <div className="module-calling__header--header-name">
-          {conversation.title}
-        </div>
-        {call.callMode === CallMode.Direct &&
-          renderHeaderMessage(
-            i18n,
-            call.callState || CallState.Prering,
-            acceptedDuration
-          )}
-        <div className="module-calling-tools">
-          <button
-            type="button"
-            aria-label={i18n('callingDeviceSelection__settings')}
-            className="module-calling-tools__button module-calling-button__settings"
-            onClick={toggleSettings}
-          />
-          {/* TODO: Group calls should also support the PiP. See DESKTOP-886. */}
-          {call.callMode === CallMode.Direct && (
-            <button
-              type="button"
-              aria-label={i18n('calling__pip')}
-              className="module-calling-tools__button module-calling-button__pip"
-              onClick={togglePip}
-            />
-          )}
-        </div>
+        <CallingHeader
+          canPip
+          conversationTitle={
+            <>
+              {call.callMode === CallMode.Group &&
+              !call.remoteParticipants.length
+                ? i18n('calling__in-this-call--zero')
+                : conversation.title}
+              {call.callMode === CallMode.Direct &&
+                renderHeaderMessage(
+                  i18n,
+                  call.callState || CallState.Prering,
+                  acceptedDuration
+                )}
+            </>
+          }
+          i18n={i18n}
+          isGroupCall={call.callMode === CallMode.Group}
+          remoteParticipants={remoteParticipants}
+          toggleParticipants={toggleParticipants}
+          togglePip={togglePip}
+          toggleSettings={toggleSettings}
+        />
       </div>
-      {remoteParticipants}
+      {remoteParticipantsElement}
       <div className="module-ongoing-call__footer">
         {/* This layout-only element is not ideal.
             See the comment in _modules.css for more. */}

@@ -8,40 +8,68 @@ import { boolean, select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import { CallMode, CallState } from '../types/Calling';
-import { ColorType } from '../types/Colors';
+import { Colors } from '../types/Colors';
+import {
+  DirectCallStateType,
+  GroupCallStateType,
+  GroupCallParticipantInfoType,
+} from '../state/ducks/calling';
 import { CallScreen, PropsType } from './CallScreen';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
 
-const createProps = (
+function getGroupCallState(
+  remoteParticipants: Array<GroupCallParticipantInfoType>
+): GroupCallStateType {
+  return {
+    callMode: CallMode.Group,
+    conversationId: '3051234567',
+    connectionState: 2,
+    joinState: 2,
+    remoteParticipants,
+  };
+}
+
+function getDirectCallState(
   overrideProps: {
     callState?: CallState;
-    hasLocalAudio?: boolean;
-    hasLocalVideo?: boolean;
     hasRemoteVideo?: boolean;
   } = {}
-): PropsType => ({
-  call: {
-    callMode: CallMode.Direct as CallMode.Direct,
+): DirectCallStateType {
+  return {
+    callMode: CallMode.Direct,
     conversationId: '3051234567',
     callState: select(
       'callState',
       CallState,
       overrideProps.callState || CallState.Accepted
     ),
-    isIncoming: false,
-    isVideoCall: true,
     hasRemoteVideo: boolean(
       'hasRemoteVideo',
-      overrideProps.hasRemoteVideo || false
+      Boolean(overrideProps.hasRemoteVideo)
     ),
-  },
+    isIncoming: false,
+    isVideoCall: true,
+  };
+}
+
+const createProps = (
+  overrideProps: {
+    callState?: CallState;
+    callTypeState?: DirectCallStateType | GroupCallStateType;
+    hasLocalAudio?: boolean;
+    hasLocalVideo?: boolean;
+    hasRemoteVideo?: boolean;
+    remoteParticipants?: Array<GroupCallParticipantInfoType>;
+  } = {}
+): PropsType => ({
+  call: overrideProps.callTypeState || getDirectCallState(overrideProps),
   conversation: {
     id: '3051234567',
     avatarPath: undefined,
-    color: 'ultramarine' as ColorType,
+    color: Colors[0],
     title: 'Rick Sanchez',
     name: 'Rick Sanchez',
     phoneNumber: '3051234567',
@@ -67,7 +95,7 @@ const createProps = (
   i18n,
   joinedAt: Date.now(),
   me: {
-    color: 'ultramarine' as ColorType,
+    color: Colors[1],
     name: 'Morty Smith',
     profileName: 'Morty Smith',
     title: 'Morty Smith',
@@ -76,6 +104,8 @@ const createProps = (
   setLocalPreview: action('set-local-preview'),
   setLocalVideo: action('set-local-video'),
   setRendererCanvas: action('set-renderer-canvas'),
+  stickyControls: boolean('stickyControls', false),
+  toggleParticipants: action('toggle-participants'),
   togglePip: action('toggle-pip'),
   toggleSettings: action('toggle-settings'),
 });
@@ -87,19 +117,43 @@ story.add('Default', () => {
 });
 
 story.add('Pre-Ring', () => {
-  return <CallScreen {...createProps({ callState: CallState.Prering })} />;
+  return (
+    <CallScreen
+      {...createProps({
+        callState: CallState.Prering,
+      })}
+    />
+  );
 });
 
 story.add('Ringing', () => {
-  return <CallScreen {...createProps({ callState: CallState.Ringing })} />;
+  return (
+    <CallScreen
+      {...createProps({
+        callState: CallState.Ringing,
+      })}
+    />
+  );
 });
 
 story.add('Reconnecting', () => {
-  return <CallScreen {...createProps({ callState: CallState.Reconnecting })} />;
+  return (
+    <CallScreen
+      {...createProps({
+        callState: CallState.Reconnecting,
+      })}
+    />
+  );
 });
 
 story.add('Ended', () => {
-  return <CallScreen {...createProps({ callState: CallState.Ended })} />;
+  return (
+    <CallScreen
+      {...createProps({
+        callState: CallState.Ended,
+      })}
+    />
+  );
 });
 
 story.add('hasLocalAudio', () => {
@@ -113,3 +167,53 @@ story.add('hasLocalVideo', () => {
 story.add('hasRemoteVideo', () => {
   return <CallScreen {...createProps({ hasRemoteVideo: true })} />;
 });
+
+story.add('Group call - 1', () => (
+  <CallScreen
+    {...createProps({
+      callTypeState: getGroupCallState([
+        {
+          conversationId: '123',
+          demuxId: 0,
+          hasRemoteAudio: true,
+          hasRemoteVideo: true,
+          isSelf: false,
+          videoAspectRatio: 1.3,
+        },
+      ]),
+    })}
+  />
+));
+
+story.add('Group call - Many', () => (
+  <CallScreen
+    {...createProps({
+      callTypeState: getGroupCallState([
+        {
+          conversationId: '123',
+          demuxId: 0,
+          hasRemoteAudio: true,
+          hasRemoteVideo: true,
+          isSelf: false,
+          videoAspectRatio: 1.3,
+        },
+        {
+          conversationId: '456',
+          demuxId: 1,
+          hasRemoteAudio: true,
+          hasRemoteVideo: true,
+          isSelf: true,
+          videoAspectRatio: 1.3,
+        },
+        {
+          conversationId: '789',
+          demuxId: 2,
+          hasRemoteAudio: true,
+          hasRemoteVideo: true,
+          isSelf: false,
+          videoAspectRatio: 1.3,
+        },
+      ]),
+    })}
+  />
+));

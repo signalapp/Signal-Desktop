@@ -5872,14 +5872,16 @@ button.module-image__border-overlay:focus {
     padding-top: 24px;
     text-align: center;
     text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
-    top: 0;
     width: 100%;
 
     &--header-name {
-      font-weight: 600;
       font-size: 15px;
-      line-height: 21px;
+      font-weight: 600;
       letter-spacing: -0.009em;
+      line-height: 21px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 
@@ -6239,6 +6241,8 @@ button.module-image__border-overlay:focus {
 
   &__header {
     background: linear-gradient($color-black-alpha-40, transparent);
+    top: 0;
+    width: 100%;
   }
 
   &__header-message {
@@ -6373,6 +6377,9 @@ button.module-image__border-overlay:focus {
 
 .module-calling-lobby {
   &__actions {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
     flex: 0 0 100px;
   }
 
@@ -6410,6 +6417,12 @@ button.module-image__border-overlay:focus {
     &--text {
       z-index: 1;
     }
+  }
+
+  &__info {
+    color: $color-white;
+    margin-bottom: 36px;
+    margin-top: 12px;
   }
 }
 
@@ -9728,6 +9741,7 @@ button.module-image__border-overlay:focus {
     border-radius: 4px;
     border: none;
     color: $color-white;
+    line-height: 24px;
     outline: none;
     padding: 7px 14px;
 
@@ -9744,6 +9758,7 @@ button.module-image__border-overlay:focus {
     border-radius: 4px;
     border: none;
     color: $color-white;
+    line-height: 24px;
     outline: none;
     padding: 7px 14px;
 

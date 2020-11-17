@@ -35,6 +35,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   me: overrideProps.me || { color: 'ultramarine' as ColorType },
   onCallCanceled: action('on-call-canceled'),
   onJoinCall: action('on-join-call'),
+  participantNames: overrideProps.participantNames || [],
   setLocalAudio: action('set-local-audio'),
   setLocalPreview: action('set-local-preview'),
   setLocalVideo: action('set-local-video'),
@@ -81,7 +82,36 @@ story.add('Local Video', () => {
   return <CallingLobby {...props} />;
 });
 
-story.add('Group Call', () => {
-  const props = createProps({ isGroupCall: true });
+story.add('Group Call - 0', () => {
+  const props = createProps({ isGroupCall: true, participantNames: [] });
+  return <CallingLobby {...props} />;
+});
+
+story.add('Group Call - 1', () => {
+  const props = createProps({ isGroupCall: true, participantNames: ['Sam'] });
+  return <CallingLobby {...props} />;
+});
+
+story.add('Group Call - 2', () => {
+  const props = createProps({
+    isGroupCall: true,
+    participantNames: ['Sam', 'Cayce'],
+  });
+  return <CallingLobby {...props} />;
+});
+
+story.add('Group Call - 3', () => {
+  const props = createProps({
+    isGroupCall: true,
+    participantNames: ['Sam', 'Cayce', 'April'],
+  });
+  return <CallingLobby {...props} />;
+});
+
+story.add('Group Call - 4', () => {
+  const props = createProps({
+    isGroupCall: true,
+    participantNames: ['Sam', 'Cayce', 'April', 'Logan', 'Carl'],
+  });
   return <CallingLobby {...props} />;
 });

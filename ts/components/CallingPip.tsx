@@ -2,69 +2,26 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
+import Tooltip from 'react-tooltip-lite';
+import { CallingPipRemoteVideo } from './CallingPipRemoteVideo';
+import { LocalizerType } from '../types/Util';
+import { ConversationType } from '../state/ducks/conversations';
+import { CanvasVideoRenderer, VideoFrameSource } from '../types/Calling';
 import {
+  DirectCallStateType,
+  GroupCallStateType,
   HangUpType,
   SetLocalPreviewType,
   SetRendererCanvasType,
 } from '../state/ducks/calling';
-import { Avatar } from './Avatar';
-import { CallBackgroundBlur } from './CallBackgroundBlur';
-import { ColorType } from '../types/Colors';
-import { LocalizerType } from '../types/Util';
-
-function renderAvatar(
-  {
-    avatarPath,
-    color,
-    name,
-    phoneNumber,
-    profileName,
-    title,
-  }: {
-    avatarPath?: string;
-    color?: ColorType;
-    title: string;
-    name?: string;
-    phoneNumber?: string;
-    profileName?: string;
-  },
-  i18n: LocalizerType
-): JSX.Element {
-  return (
-    <div className="module-calling-pip__video--remote">
-      <CallBackgroundBlur avatarPath={avatarPath} color={color}>
-        <div className="module-calling-pip__video--avatar">
-          <Avatar
-            avatarPath={avatarPath}
-            color={color || 'ultramarine'}
-            noteToSelf={false}
-            conversationType="direct"
-            i18n={i18n}
-            name={name}
-            phoneNumber={phoneNumber}
-            profileName={profileName}
-            title={title}
-            size={52}
-          />
-        </div>
-      </CallBackgroundBlur>
-    </div>
-  );
-}
 
 export type PropsType = {
-  conversation: {
-    id: string;
-    avatarPath?: string;
-    color?: ColorType;
-    title: string;
-    name?: string;
-    phoneNumber?: string;
-    profileName?: string;
-  };
+  call: DirectCallStateType | GroupCallStateType;
+  conversation: ConversationType;
+  createCanvasVideoRenderer: () => CanvasVideoRenderer;
+  getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   hangUp: (_: HangUpType) => void;
   hasLocalVideo: boolean;
-  hasRemoteVideo: boolean;
   i18n: LocalizerType;
   setLocalPreview: (_: SetLocalPreviewType) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
@@ -77,10 +34,12 @@ const PIP_DEFAULT_Y = 56;
 const PIP_PADDING = 8;
 
 export const CallingPip = ({
+  call,
   conversation,
+  createCanvasVideoRenderer,
+  getGroupCallVideoFrameSource,
   hangUp,
   hasLocalVideo,
-  hasRemoteVideo,
   i18n,
   setLocalPreview,
   setRendererCanvas,
@@ -88,7 +47,6 @@ export const CallingPip = ({
 }: PropsType): JSX.Element | null => {
   const videoContainerRef = React.useRef(null);
   const localVideoRef = React.useRef(null);
-  const remoteVideoRef = React.useRef(null);
 
   const [dragState, setDragState] = React.useState({
     offsetX: 0,
@@ -103,8 +61,7 @@ export const CallingPip = ({
 
   React.useEffect(() => {
     setLocalPreview({ element: localVideoRef });
-    setRendererCanvas({ element: remoteVideoRef });
-  }, [setLocalPreview, setRendererCanvas]);
+  }, [setLocalPreview]);
 
   const handleMouseMove = React.useCallback(
     (ev: MouseEvent) => {
@@ -211,14 +168,14 @@ export const CallingPip = ({
         transition: dragState.isDragging ? 'none' : 'transform ease-out 300ms',
       }}
     >
-      {hasRemoteVideo ? (
-        <canvas
-          className="module-calling-pip__video--remote"
-          ref={remoteVideoRef}
-        />
-      ) : (
-        renderAvatar(conversation, i18n)
-      )}
+      <CallingPipRemoteVideo
+        call={call}
+        conversation={conversation}
+        createCanvasVideoRenderer={createCanvasVideoRenderer}
+        getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
+        i18n={i18n}
+        setRendererCanvas={setRendererCanvas}
+      />
       {hasLocalVideo ? (
         <video
           className="module-calling-pip__video--local"
@@ -237,10 +194,18 @@ export const CallingPip = ({
         />
         <button
           type="button"
-          aria-label={i18n('calling__pip')}
+          aria-label={i18n('calling__pip--off')}
           className="module-calling-pip__button--pip"
           onClick={togglePip}
-        />
+        >
+          <Tooltip
+            arrowSize={6}
+            content={i18n('calling__pip--off')}
+            hoverDelay={0}
+          >
+            <div />
+          </Tooltip>
+        </button>
       </div>
     </div>
   );

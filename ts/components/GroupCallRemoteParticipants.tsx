@@ -5,7 +5,7 @@ import React, { useState, useMemo } from 'react';
 import Measure from 'react-measure';
 import { takeWhile, chunk, maxBy, flatten } from 'lodash';
 import { CanvasVideoRenderer, VideoFrameSource } from '../types/Calling';
-import { GroupCallRemoteParticipantType } from '../state/ducks/calling';
+import { GroupCallParticipantInfoType } from '../state/ducks/calling';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
 
 const MIN_RENDERED_HEIGHT = 10;
@@ -17,14 +17,14 @@ interface Dimensions {
 }
 
 interface GridArrangement {
-  rows: Array<Array<GroupCallRemoteParticipantType>>;
+  rows: Array<Array<GroupCallParticipantInfoType>>;
   scalar: number;
 }
 
 interface PropsType {
   createCanvasVideoRenderer: () => CanvasVideoRenderer;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
-  remoteParticipants: ReadonlyArray<GroupCallRemoteParticipantType>;
+  remoteParticipants: ReadonlyArray<GroupCallParticipantInfoType>;
 }
 
 // This component lays out group call remote participants. It uses a custom layout
@@ -84,7 +84,7 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
   //
   // This is primarily memoized for clarity, not performance. We only need the result,
   //   not any of the "intermediate" values.
-  const visibleParticipants: Array<GroupCallRemoteParticipantType> = useMemo(() => {
+  const visibleParticipants: Array<GroupCallParticipantInfoType> = useMemo(() => {
     // Imagine that we laid out all of the rows end-to-end. That's the maximum total
     //   width. So if there were 5 rows and the container was 100px wide, then we can't
     //   possibly fit more than 500px of participants.
@@ -233,7 +233,7 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
 };
 
 function totalRemoteParticipantWidthAtMinHeight(
-  remoteParticipants: ReadonlyArray<GroupCallRemoteParticipantType>
+  remoteParticipants: ReadonlyArray<GroupCallParticipantInfoType>
 ): number {
   return remoteParticipants.reduce(
     (result, { videoAspectRatio }) =>

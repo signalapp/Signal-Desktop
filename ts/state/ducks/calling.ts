@@ -10,9 +10,9 @@ import { notify } from '../../services/notify';
 import { calling } from '../../services/calling';
 import { StateType as RootStateType } from '../reducer';
 import {
-  CallingDeviceType,
   CallMode,
   CallState,
+  CallingDeviceType,
   ChangeIODevicePayloadType,
   GroupCallConnectionState,
   GroupCallJoinState,
@@ -27,6 +27,15 @@ import {
 
 // State
 
+export interface GroupCallParticipantInfoType {
+  conversationId: string;
+  demuxId: number;
+  hasRemoteAudio: boolean;
+  hasRemoteVideo: boolean;
+  isSelf: boolean;
+  videoAspectRatio: number;
+}
+
 export interface DirectCallStateType {
   callMode: CallMode.Direct;
   conversationId: string;
@@ -37,20 +46,12 @@ export interface DirectCallStateType {
   hasRemoteVideo?: boolean;
 }
 
-export interface GroupCallRemoteParticipantType {
-  demuxId: number;
-  userId: string;
-  hasRemoteAudio: boolean;
-  hasRemoteVideo: boolean;
-  videoAspectRatio: number;
-}
-
 export interface GroupCallStateType {
   callMode: CallMode.Group;
   conversationId: string;
   connectionState: GroupCallConnectionState;
   joinState: GroupCallJoinState;
-  remoteParticipants: Array<GroupCallRemoteParticipantType>;
+  remoteParticipants: Array<GroupCallParticipantInfoType>;
 }
 
 export interface ActiveCallStateType {
@@ -58,7 +59,7 @@ export interface ActiveCallStateType {
   joinedAt?: number;
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
-  participantsList: boolean;
+  showParticipantsList: boolean;
   pip: boolean;
   settingsDialogOpen: boolean;
 }
@@ -99,7 +100,7 @@ export type GroupCallStateChangeType = {
   joinState: GroupCallJoinState;
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
-  remoteParticipants: Array<GroupCallRemoteParticipantType>;
+  remoteParticipants: Array<GroupCallParticipantInfoType>;
 };
 
 export type HangUpType = {
@@ -148,7 +149,7 @@ export type ShowCallLobbyType =
       joinState: GroupCallJoinState;
       hasLocalAudio: boolean;
       hasLocalVideo: boolean;
-      remoteParticipants: Array<GroupCallRemoteParticipantType>;
+      remoteParticipants: Array<GroupCallParticipantInfoType>;
     };
 
 export type SetLocalPreviewType = {
@@ -706,7 +707,7 @@ export function reducer(
         conversationId: action.payload.conversationId,
         hasLocalAudio: action.payload.hasLocalAudio,
         hasLocalVideo: action.payload.hasLocalVideo,
-        participantsList: false,
+        showParticipantsList: false,
         pip: false,
         settingsDialogOpen: false,
       },
@@ -730,7 +731,7 @@ export function reducer(
         conversationId: action.payload.conversationId,
         hasLocalAudio: action.payload.hasLocalAudio,
         hasLocalVideo: action.payload.hasLocalVideo,
-        participantsList: false,
+        showParticipantsList: false,
         pip: false,
         settingsDialogOpen: false,
       },
@@ -749,7 +750,7 @@ export function reducer(
         conversationId: action.payload.conversationId,
         hasLocalAudio: true,
         hasLocalVideo: action.payload.asVideoCall,
-        participantsList: false,
+        showParticipantsList: false,
         pip: false,
         settingsDialogOpen: false,
       },
@@ -813,7 +814,7 @@ export function reducer(
         conversationId: action.payload.conversationId,
         hasLocalAudio: action.payload.hasLocalAudio,
         hasLocalVideo: action.payload.hasLocalVideo,
-        participantsList: false,
+        showParticipantsList: false,
         pip: false,
         settingsDialogOpen: false,
       },
@@ -1028,7 +1029,7 @@ export function reducer(
       ...state,
       activeCallState: {
         ...activeCallState,
-        participantsList: !activeCallState.participantsList,
+        showParticipantsList: !activeCallState.showParticipantsList,
       },
     };
   }

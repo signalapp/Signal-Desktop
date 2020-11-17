@@ -5,6 +5,7 @@ import * as React from 'react';
 import { noop } from 'lodash';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
+import { boolean, select, text } from '@storybook/addon-knobs';
 
 import { CallManager, PropsType } from './CallManager';
 import {
@@ -15,26 +16,47 @@ import {
   GroupCallJoinState,
 } from '../types/Calling';
 import { ConversationTypeType } from '../state/ducks/conversations';
-import { ColorType } from '../types/Colors';
+import { Colors, ColorType } from '../types/Colors';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
 
-const conversation = {
+const getConversation = () => ({
   id: '3051234567',
   avatarPath: undefined,
-  color: 'ultramarine' as ColorType,
-  title: 'Rick Sanchez',
-  name: 'Rick Sanchez',
+  color: select('Callee color', Colors, 'ultramarine' as ColorType),
+  title: text('Callee Title', 'Rick Sanchez'),
+  name: text('Callee Name', 'Rick Sanchez'),
   phoneNumber: '3051234567',
   profileName: 'Rick Sanchez',
   markedUnread: false,
   type: 'direct' as ConversationTypeType,
   lastUpdated: Date.now(),
-};
+});
 
-const defaultProps = {
+const getCallState = () => ({
+  conversationId: '3051234567',
+  joinedAt: Date.now(),
+  hasLocalAudio: boolean('hasLocalAudio', true),
+  hasLocalVideo: boolean('hasLocalVideo', false),
+  pip: boolean('pip', false),
+  settingsDialogOpen: boolean('settingsDialogOpen', false),
+  showParticipantsList: boolean('showParticipantsList', false),
+});
+
+const getIncomingCallState = (extraProps = {}) => ({
+  ...extraProps,
+  callMode: CallMode.Direct as CallMode.Direct,
+  conversationId: '3051234567',
+  callState: CallState.Ringing,
+  isIncoming: true,
+  isVideoCall: boolean('isVideoCall', true),
+  hasRemoteVideo: true,
+});
+
+const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
+  ...storyProps,
   availableCameras: [],
   acceptCall: action('accept-call'),
   cancelCall: action('cancel-call'),
@@ -54,8 +76,8 @@ const defaultProps = {
   hangUp: action('hang-up'),
   i18n,
   me: {
-    color: 'ultramarine' as ColorType,
-    title: 'Morty Smith',
+    color: select('Caller color', Colors, 'ultramarine' as ColorType),
+    title: text('Caller Title', 'Morty Smith'),
   },
   renderDeviceSelection: () => <div />,
   setLocalAudio: action('set-local-audio'),
@@ -66,16 +88,15 @@ const defaultProps = {
   toggleParticipants: action('toggle-participants'),
   togglePip: action('toggle-pip'),
   toggleSettings: action('toggle-settings'),
-};
+});
 
-const permutations = [
-  {
-    title: 'Call Manager (no call)',
-    props: {},
-  },
-  {
-    title: 'Call Manager (ongoing direct call)',
-    props: {
+const story = storiesOf('Components/CallManager', module);
+
+story.add('No Call', () => <CallManager {...createProps()} />);
+
+story.add('Ongoing Direct Call', () => (
+  <CallManager
+    {...createProps({
       activeCall: {
         call: {
           callMode: CallMode.Direct as CallMode.Direct,
@@ -85,22 +106,17 @@ const permutations = [
           isVideoCall: true,
           hasRemoteVideo: true,
         },
-        activeCallState: {
-          conversationId: '3051234567',
-          joinedAt: Date.now(),
-          hasLocalAudio: true,
-          hasLocalVideo: false,
-          participantsList: false,
-          pip: false,
-          settingsDialogOpen: false,
-        },
-        conversation,
+        activeCallState: getCallState(),
+        conversation: getConversation(),
+        groupCallParticipants: [],
       },
-    },
-  },
-  {
-    title: 'Call Manager (ongoing group call)',
-    props: {
+    })}
+  />
+));
+
+story.add('Ongoing Group Call', () => (
+  <CallManager
+    {...createProps({
       activeCall: {
         call: {
           callMode: CallMode.Group as CallMode.Group,
@@ -109,70 +125,36 @@ const permutations = [
           joinState: GroupCallJoinState.Joined,
           remoteParticipants: [],
         },
-        activeCallState: {
-          conversationId: '3051234567',
-          joinedAt: Date.now(),
-          hasLocalAudio: true,
-          hasLocalVideo: false,
-          participantsList: false,
-          pip: false,
-          settingsDialogOpen: false,
-        },
-        conversation,
+        activeCallState: getCallState(),
+        conversation: getConversation(),
+        groupCallParticipants: [],
       },
-    },
-  },
-  {
-    title: 'Call Manager (ringing)',
-    props: {
-      incomingCall: {
-        call: {
-          callMode: CallMode.Direct as CallMode.Direct,
-          conversationId: '3051234567',
-          callState: CallState.Ringing,
-          isIncoming: true,
-          isVideoCall: true,
-          hasRemoteVideo: true,
-        },
-        conversation,
-      },
-    },
-  },
-  {
-    title: 'Call Manager (call request needed)',
-    props: {
-      activeCall: {
-        call: {
-          callMode: CallMode.Direct as CallMode.Direct,
-          conversationId: '3051234567',
-          callState: CallState.Ended,
-          callEndedReason: CallEndedReason.RemoteHangupNeedPermission,
-          isIncoming: false,
-          isVideoCall: true,
-          hasRemoteVideo: true,
-        },
-        activeCallState: {
-          conversationId: '3051234567',
-          joinedAt: Date.now(),
-          hasLocalAudio: true,
-          hasLocalVideo: false,
-          participantsList: false,
-          pip: false,
-          settingsDialogOpen: false,
-        },
-        conversation,
-      },
-    },
-  },
-];
+    })}
+  />
+));
 
-storiesOf('Components/CallManager', module).add('Iterations', () => {
-  return permutations.map(
-    ({ props, title }: { props: Partial<PropsType>; title: string }) => (
-      <>
-        <h3>{title}</h3>
-        <CallManager {...defaultProps} {...props} />
-      </>
-    )
-  );
-});
+story.add('Ringing', () => (
+  <CallManager
+    {...createProps({
+      incomingCall: {
+        call: getIncomingCallState(),
+        conversation: getConversation(),
+      },
+    })}
+  />
+));
+
+story.add('Call Request Needed', () => (
+  <CallManager
+    {...createProps({
+      activeCall: {
+        call: getIncomingCallState({
+          callEndedReason: CallEndedReason.RemoteHangupNeedPermission,
+        }),
+        activeCallState: getCallState(),
+        conversation: getConversation(),
+        groupCallParticipants: [],
+      },
+    })}
+  />
+));

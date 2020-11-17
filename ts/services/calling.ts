@@ -489,6 +489,8 @@ export class CallingClass {
         ? GroupCallJoinState.NotJoined
         : this.convertRingRtcJoinState(localDeviceState.joinState);
 
+    const ourId = window.ConversationController.getOurConversationId();
+
     return {
       connectionState: this.convertRingRtcConnectionState(
         localDeviceState.connectionState
@@ -496,16 +498,28 @@ export class CallingClass {
       joinState,
       hasLocalAudio: !localDeviceState.audioMuted,
       hasLocalVideo: !localDeviceState.videoMuted,
-      remoteParticipants: remoteDeviceStates.map(remoteDeviceState => ({
-        demuxId: remoteDeviceState.demuxId,
-        userId: arrayBufferToUuid(remoteDeviceState.userId) || '',
-        hasRemoteAudio: !remoteDeviceState.audioMuted,
-        hasRemoteVideo: !remoteDeviceState.videoMuted,
-        // If RingRTC doesn't send us an aspect ratio, we make a guess.
-        videoAspectRatio:
-          remoteDeviceState.videoAspectRatio ||
-          (remoteDeviceState.videoMuted ? 1 : 4 / 3),
-      })),
+      remoteParticipants: remoteDeviceStates.map(remoteDeviceState => {
+        const uuid = arrayBufferToUuid(remoteDeviceState.userId);
+
+        const id = window.ConversationController.ensureContactIds({ uuid });
+        if (!id) {
+          throw new Error(
+            'Calling.formatGroupCallForRedux: no conversation found'
+          );
+        }
+
+        return {
+          conversationId: id,
+          demuxId: remoteDeviceState.demuxId,
+          hasRemoteAudio: !remoteDeviceState.audioMuted,
+          hasRemoteVideo: !remoteDeviceState.videoMuted,
+          isSelf: id === ourId,
+          // If RingRTC doesn't send us an aspect ratio, we make a guess.
+          videoAspectRatio:
+            remoteDeviceState.videoAspectRatio ||
+            (remoteDeviceState.videoMuted ? 1 : 4 / 3),
+        };
+      }),
     };
   }
 

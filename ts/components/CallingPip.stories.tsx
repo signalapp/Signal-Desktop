@@ -2,12 +2,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
+import { noop } from 'lodash';
 import { storiesOf } from '@storybook/react';
 import { boolean } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import { ColorType } from '../types/Colors';
+import { ConversationTypeType } from '../state/ducks/conversations';
 import { CallingPip, PropsType } from './CallingPip';
+import {
+  CallMode,
+  CallState,
+  GroupCallConnectionState,
+  GroupCallJoinState,
+} from '../types/Calling';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
 
@@ -21,16 +29,29 @@ const conversation = {
   name: 'Rick Sanchez',
   phoneNumber: '3051234567',
   profileName: 'Rick Sanchez',
+  markedUnread: false,
+  type: 'direct' as ConversationTypeType,
+  lastUpdated: Date.now(),
+};
+
+const defaultCall = {
+  callMode: CallMode.Direct as CallMode.Direct,
+  conversationId: '3051234567',
+  callState: CallState.Accepted,
+  isIncoming: false,
+  isVideoCall: true,
+  hasRemoteVideo: true,
 };
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
+  call: overrideProps.call || defaultCall,
   conversation: overrideProps.conversation || conversation,
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  createCanvasVideoRenderer: noop as any,
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  getGroupCallVideoFrameSource: noop as any,
   hangUp: action('hang-up'),
   hasLocalVideo: boolean('hasLocalVideo', overrideProps.hasLocalVideo || false),
-  hasRemoteVideo: boolean(
-    'hasRemoteVideo',
-    overrideProps.hasRemoteVideo || false
-  ),
   i18n,
   setLocalPreview: action('set-local-preview'),
   setRendererCanvas: action('set-renderer-canvas'),
@@ -59,6 +80,19 @@ story.add('Contact (no color)', () => {
     conversation: {
       ...conversation,
       color: undefined,
+    },
+  });
+  return <CallingPip {...props} />;
+});
+
+story.add('Group Call', () => {
+  const props = createProps({
+    call: {
+      callMode: CallMode.Group as CallMode.Group,
+      conversationId: '3051234567',
+      connectionState: GroupCallConnectionState.Connected,
+      joinState: GroupCallJoinState.Joined,
+      remoteParticipants: [],
     },
   });
   return <CallingPip {...props} />;

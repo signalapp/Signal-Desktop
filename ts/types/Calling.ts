@@ -1,10 +1,12 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { ColorType } from './Colors';
+
 export enum CallMode {
-  None,
-  Direct,
-  Group,
+  None = 'None',
+  Direct = 'Direct',
+  Group = 'Group',
 }
 
 // Ideally, we would import many of these directly from RingRTC. But because Storybook
@@ -54,6 +56,17 @@ export enum GroupCallJoinState {
   NotJoined = 0,
   Joining = 1,
   Joined = 2,
+}
+
+export interface GroupCallRemoteParticipantType {
+  avatarPath?: string;
+  color?: ColorType;
+  firstName?: string;
+  hasRemoteAudio: boolean;
+  hasRemoteVideo: boolean;
+  isSelf: boolean;
+  profileName?: string;
+  title: string;
 }
 
 // Should match RingRTC's CanvasVideoRenderer

@@ -13,8 +13,10 @@ import {
   TooltipDirection,
 } from './CallingButton';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
-import { LocalizerType } from '../types/Util';
+import { CallingHeader } from './CallingHeader';
+import { Spinner } from './Spinner';
 import { ColorType } from '../types/Colors';
+import { LocalizerType } from '../types/Util';
 
 export type PropsType = {
   availableCameras: Array<MediaDeviceInfo>;
@@ -31,6 +33,7 @@ export type PropsType = {
   };
   onCallCanceled: () => void;
   onJoinCall: () => void;
+  participantNames: Array<string>;
   setLocalAudio: (_: SetLocalAudioType) => void;
   setLocalVideo: (_: SetLocalVideoType) => void;
   setLocalPreview: (_: SetLocalPreviewType) => void;
@@ -48,6 +51,7 @@ export const CallingLobby = ({
   me,
   onCallCanceled,
   onJoinCall,
+  participantNames,
   setLocalAudio,
   setLocalPreview,
   setLocalVideo,
@@ -97,6 +101,8 @@ export const CallingLobby = ({
     };
   }, [toggleVideo, toggleAudio]);
 
+  const [isCallConnecting, setIsCallConnecting] = React.useState(false);
+
   // eslint-disable-next-line no-nested-ternary
   const videoButtonType = hasLocalVideo
     ? CallingButtonType.VIDEO_ON
@@ -109,27 +115,15 @@ export const CallingLobby = ({
 
   return (
     <div className="module-calling__container">
-      <div className="module-calling__header">
-        <div className="module-calling__header--header-name">
-          {conversation.title}
-        </div>
-        <div className="module-calling-tools">
-          {isGroupCall ? (
-            <button
-              type="button"
-              aria-label={i18n('calling__participants')}
-              className="module-calling-tools__button module-calling-button__participants"
-              onClick={toggleParticipants}
-            />
-          ) : null}
-          <button
-            type="button"
-            aria-label={i18n('callingDeviceSelection__settings')}
-            className="module-calling-tools__button module-calling-button__settings"
-            onClick={toggleSettings}
-          />
-        </div>
-      </div>
+      <CallingHeader
+        conversationTitle={conversation.title}
+        i18n={i18n}
+        isGroupCall={isGroupCall}
+        remoteParticipants={participantNames.length}
+        toggleParticipants={toggleParticipants}
+        toggleSettings={toggleSettings}
+      />
+
       <div className="module-calling-lobby__video">
         {hasLocalVideo && availableCameras.length > 0 ? (
           <video ref={localVideoRef} autoPlay />
@@ -160,6 +154,32 @@ export const CallingLobby = ({
         </div>
       </div>
 
+      {isGroupCall ? (
+        <div className="module-calling-lobby__info">
+          {participantNames.length === 0 &&
+            i18n('calling__lobby-summary--zero')}
+          {participantNames.length === 1 &&
+            i18n('calling__lobby-summary--single', participantNames)}
+          {participantNames.length === 2 &&
+            i18n('calling__lobby-summary--double', {
+              first: participantNames[0],
+              second: participantNames[1],
+            })}
+          {participantNames.length === 3 &&
+            i18n('calling__lobby-summary--triple', {
+              first: participantNames[0],
+              second: participantNames[1],
+              third: participantNames[2],
+            })}
+          {participantNames.length > 3 &&
+            i18n('calling__lobby-summary--many', {
+              first: participantNames[0],
+              second: participantNames[1],
+              others: String(participantNames.length - 2),
+            })}
+        </div>
+      ) : null}
+
       <div className="module-calling-lobby__actions">
         <button
           className="module-button__gray module-calling-lobby__button"
@@ -169,14 +189,29 @@ export const CallingLobby = ({
         >
           {i18n('cancel')}
         </button>
-        <button
-          className="module-button__green module-calling-lobby__button"
-          onClick={onJoinCall}
-          tabIndex={0}
-          type="button"
-        >
-          {isGroupCall ? i18n('calling__join') : i18n('calling__start')}
-        </button>
+        {isCallConnecting && (
+          <button
+            className="module-button__green module-calling-lobby__button"
+            disabled
+            tabIndex={0}
+            type="button"
+          >
+            <Spinner svgSize="small" />
+          </button>
+        )}
+        {!isCallConnecting && (
+          <button
+            className="module-button__green module-calling-lobby__button"
+            onClick={() => {
+              setIsCallConnecting(true);
+              onJoinCall();
+            }}
+            tabIndex={0}
+            type="button"
+          >
+            {isGroupCall ? i18n('calling__join') : i18n('calling__start')}
+          </button>
+        )}
       </div>
     </div>
   );

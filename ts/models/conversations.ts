@@ -3959,7 +3959,7 @@ export class ConversationModel extends window.Backbone.Model<
     return this.get('name') || window.i18n('unknownGroup');
   }
 
-  getProfileName(): string | null {
+  getProfileName(): string | undefined {
     if (this.isPrivate()) {
       return Util.combineNames(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -3967,7 +3967,8 @@ export class ConversationModel extends window.Backbone.Model<
         this.get('profileFamilyName')
       );
     }
-    return null;
+
+    return undefined;
   }
 
   getNumber(): string {

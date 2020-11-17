@@ -41,7 +41,7 @@ describe('calling duck', () => {
       conversationId: 'fake-direct-call-conversation-id',
       hasLocalAudio: true,
       hasLocalVideo: false,
-      participantsList: false,
+      showParticipantsList: false,
       pip: false,
       settingsDialogOpen: false,
     },
@@ -71,10 +71,11 @@ describe('calling duck', () => {
         joinState: GroupCallJoinState.NotJoined,
         remoteParticipants: [
           {
+            conversationId: '123',
             demuxId: 123,
-            userId: '6d174bc4-2ea1-45b6-9099-c46fc87ce72f',
             hasRemoteAudio: true,
             hasRemoteVideo: true,
+            isSelf: false,
             videoAspectRatio: 4 / 3,
           },
         ],
@@ -88,7 +89,7 @@ describe('calling duck', () => {
       conversationId: 'fake-group-call-conversation-id',
       hasLocalAudio: true,
       hasLocalVideo: false,
-      participantsList: false,
+      showParticipantsList: false,
       pip: false,
       settingsDialogOpen: false,
     },
@@ -180,7 +181,7 @@ describe('calling duck', () => {
           conversationId: 'fake-direct-call-conversation-id',
           hasLocalAudio: true,
           hasLocalVideo: true,
-          participantsList: false,
+          showParticipantsList: false,
           pip: false,
           settingsDialogOpen: false,
         });
@@ -296,10 +297,11 @@ describe('calling duck', () => {
             hasLocalVideo: false,
             remoteParticipants: [
               {
+                conversationId: '123',
                 demuxId: 123,
-                userId: '6d174bc4-2ea1-45b6-9099-c46fc87ce72f',
                 hasRemoteAudio: true,
                 hasRemoteVideo: true,
+                isSelf: false,
                 videoAspectRatio: 4 / 3,
               },
             ],
@@ -315,10 +317,11 @@ describe('calling duck', () => {
             joinState: GroupCallJoinState.Joining,
             remoteParticipants: [
               {
+                conversationId: '123',
                 demuxId: 123,
-                userId: '6d174bc4-2ea1-45b6-9099-c46fc87ce72f',
                 hasRemoteAudio: true,
                 hasRemoteVideo: true,
+                isSelf: false,
                 videoAspectRatio: 4 / 3,
               },
             ],
@@ -337,10 +340,11 @@ describe('calling duck', () => {
             hasLocalVideo: false,
             remoteParticipants: [
               {
+                conversationId: '123',
                 demuxId: 456,
-                userId: '6d174bc4-2ea1-45b6-9099-c46fc87ce72f',
                 hasRemoteAudio: false,
                 hasRemoteVideo: true,
+                isSelf: false,
                 videoAspectRatio: 16 / 9,
               },
             ],
@@ -356,10 +360,11 @@ describe('calling duck', () => {
             joinState: GroupCallJoinState.Joined,
             remoteParticipants: [
               {
+                conversationId: '123',
                 demuxId: 456,
-                userId: '6d174bc4-2ea1-45b6-9099-c46fc87ce72f',
                 hasRemoteAudio: false,
                 hasRemoteVideo: true,
+                isSelf: false,
                 videoAspectRatio: 16 / 9,
               },
             ],
@@ -378,10 +383,11 @@ describe('calling duck', () => {
             hasLocalVideo: false,
             remoteParticipants: [
               {
+                conversationId: '123',
                 demuxId: 456,
-                userId: '6d174bc4-2ea1-45b6-9099-c46fc87ce72f',
                 hasRemoteAudio: false,
                 hasRemoteVideo: true,
+                isSelf: false,
                 videoAspectRatio: 16 / 9,
               },
             ],
@@ -402,10 +408,11 @@ describe('calling duck', () => {
             hasLocalVideo: true,
             remoteParticipants: [
               {
+                conversationId: '123',
                 demuxId: 456,
-                userId: '6d174bc4-2ea1-45b6-9099-c46fc87ce72f',
                 hasRemoteAudio: false,
                 hasRemoteVideo: true,
+                isSelf: false,
                 videoAspectRatio: 16 / 9,
               },
             ],
@@ -416,7 +423,7 @@ describe('calling duck', () => {
           conversationId: 'fake-group-call-conversation-id',
           hasLocalAudio: true,
           hasLocalVideo: false,
-          participantsList: false,
+          showParticipantsList: false,
           pip: false,
           settingsDialogOpen: false,
         });
@@ -433,10 +440,11 @@ describe('calling duck', () => {
             hasLocalVideo: true,
             remoteParticipants: [
               {
+                conversationId: '123',
                 demuxId: 456,
-                userId: 'aead696f-4373-4e51-b9c2-1bb4d1adccf0',
                 hasRemoteAudio: false,
                 hasRemoteVideo: true,
+                isSelf: false,
                 videoAspectRatio: 16 / 9,
               },
             ],
@@ -559,7 +567,7 @@ describe('calling duck', () => {
           conversationId: 'fake-conversation-id',
           hasLocalAudio: true,
           hasLocalVideo: true,
-          participantsList: false,
+          showParticipantsList: false,
           pip: false,
           settingsDialogOpen: false,
         });
@@ -638,7 +646,7 @@ describe('calling duck', () => {
           conversationId: 'fake-conversation-id',
           hasLocalAudio: true,
           hasLocalVideo: false,
-          participantsList: false,
+          showParticipantsList: false,
           pip: false,
           settingsDialogOpen: false,
         });
@@ -688,9 +696,9 @@ describe('calling duck', () => {
           toggleParticipants()
         );
 
-        assert.isTrue(afterOneToggle.activeCallState?.participantsList);
-        assert.isFalse(afterTwoToggles.activeCallState?.participantsList);
-        assert.isTrue(afterThreeToggles.activeCallState?.participantsList);
+        assert.isTrue(afterOneToggle.activeCallState?.showParticipantsList);
+        assert.isFalse(afterTwoToggles.activeCallState?.showParticipantsList);
+        assert.isTrue(afterThreeToggles.activeCallState?.showParticipantsList);
       });
     });
 

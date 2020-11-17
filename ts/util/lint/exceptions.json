@@ -14391,7 +14391,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CallScreen.js",
     "line": "    const localVideoRef = react_1.useRef(null);",
-    "lineNumber": 38,
+    "lineNumber": 39,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T21:35:52.858Z",
     "reasonDetail": "Used to get the local video element for rendering."
@@ -14400,7 +14400,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CallingLobby.js",
     "line": "    const localVideoRef = react_1.default.useRef(null);",
-    "lineNumber": 12,
+    "lineNumber": 14,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Used to get the local video element for rendering."
@@ -14409,7 +14409,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CallingLobby.tsx",
     "line": "  const localVideoRef = React.useRef(null);",
-    "lineNumber": 57,
+    "lineNumber": 61,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Used to get the local video element for rendering."
@@ -14418,7 +14418,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CallingPip.js",
     "line": "    const videoContainerRef = react_1.default.useRef(null);",
-    "lineNumber": 22,
+    "lineNumber": 16,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Element is measured. Its HTML is not used."
@@ -14427,25 +14427,16 @@
     "rule": "React-useRef",
     "path": "ts/components/CallingPip.js",
     "line": "    const localVideoRef = react_1.default.useRef(null);",
-    "lineNumber": 23,
+    "lineNumber": 17,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Used to get the local video element for rendering."
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallingPip.js",
-    "line": "    const remoteVideoRef = react_1.default.useRef(null);",
-    "lineNumber": 24,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-26T19:12:24.410Z",
-    "reasonDetail": "Used to get the remote video element for rendering."
-  },
-  {
-    "rule": "React-useRef",
     "path": "ts/components/CallingPip.tsx",
     "line": "  const videoContainerRef = React.useRef(null);",
-    "lineNumber": 89,
+    "lineNumber": 48,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Element is measured. Its HTML is not used."
@@ -14454,19 +14445,10 @@
     "rule": "React-useRef",
     "path": "ts/components/CallingPip.tsx",
     "line": "  const localVideoRef = React.useRef(null);",
-    "lineNumber": 90,
+    "lineNumber": 49,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Used to get the local video element for rendering."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallingPip.tsx",
-    "line": "  const remoteVideoRef = React.useRef(null);",
-    "lineNumber": 91,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-26T19:12:24.410Z",
-    "reasonDetail": "Used to get the remote video element for rendering."
   },
   {
     "rule": "React-createRef",

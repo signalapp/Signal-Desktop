@@ -2,18 +2,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback } from 'react';
-import { CallingPip } from './CallingPip';
 import { CallNeedPermissionScreen } from './CallNeedPermissionScreen';
-import { CallingLobby } from './CallingLobby';
 import { CallScreen } from './CallScreen';
+import { CallingLobby } from './CallingLobby';
+import { CallingParticipantsList } from './CallingParticipantsList';
+import { CallingPip } from './CallingPip';
 import { IncomingCallBar } from './IncomingCallBar';
 import {
+  CallEndedReason,
   CallMode,
   CallState,
-  CallEndedReason,
   CanvasVideoRenderer,
-  VideoFrameSource,
   GroupCallJoinState,
+  GroupCallRemoteParticipantType,
+  VideoFrameSource,
 } from '../types/Calling';
 import { ConversationType } from '../state/ducks/conversations';
 import {
@@ -35,9 +37,10 @@ import { ColorType } from '../types/Colors';
 import { missingCaseError } from '../util/missingCaseError';
 
 interface ActiveCallType {
-  call: DirectCallStateType | GroupCallStateType;
   activeCallState: ActiveCallStateType;
+  call: DirectCallStateType | GroupCallStateType;
   conversation: ConversationType;
+  groupCallParticipants: Array<GroupCallRemoteParticipantType>;
 }
 
 export interface PropsType {
@@ -101,13 +104,19 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
   togglePip,
   toggleSettings,
 }) => {
-  const { call, activeCallState, conversation } = activeCall;
   const {
-    joinedAt,
+    call,
+    activeCallState,
+    conversation,
+    groupCallParticipants,
+  } = activeCall;
+  const {
     hasLocalAudio,
     hasLocalVideo,
-    settingsDialogOpen,
+    joinedAt,
     pip,
+    settingsDialogOpen,
+    showParticipantsList,
   } = activeCallState;
 
   const cancelActiveCall = useCallback(() => {
@@ -160,6 +169,11 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
   }
 
   if (showCallLobby) {
+    const participantNames = groupCallParticipants.map(participant =>
+      participant.isSelf
+        ? i18n('you')
+        : participant.firstName || participant.title
+    );
     return (
       <>
         <CallingLobby
@@ -168,12 +182,11 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
           hasLocalAudio={hasLocalAudio}
           hasLocalVideo={hasLocalVideo}
           i18n={i18n}
-          // TODO: Set this to `true` for group calls. We can get away with this for
-          //   now because it only affects rendering. See DESKTOP-888 and DESKTOP-889.
-          isGroupCall={false}
+          isGroupCall={call.callMode === CallMode.Group}
           me={me}
           onCallCanceled={cancelActiveCall}
           onJoinCall={joinActiveCall}
+          participantNames={participantNames}
           setLocalPreview={setLocalPreview}
           setLocalAudio={setLocalAudio}
           setLocalVideo={setLocalVideo}
@@ -181,20 +194,26 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
           toggleSettings={toggleSettings}
         />
         {settingsDialogOpen && renderDeviceSelection()}
+        {showParticipantsList && call.callMode === CallMode.Group ? (
+          <CallingParticipantsList
+            i18n={i18n}
+            onClose={toggleParticipants}
+            participants={groupCallParticipants}
+          />
+        ) : null}
       </>
     );
   }
 
-  // TODO: Group calls should also support the PiP. See DESKTOP-886.
-  if (pip && call.callMode === CallMode.Direct) {
-    const hasRemoteVideo = Boolean(call.hasRemoteVideo);
-
+  if (pip) {
     return (
       <CallingPip
+        call={call}
         conversation={conversation}
+        createCanvasVideoRenderer={createCanvasVideoRenderer}
+        getGroupCallVideoFrameSource={getGroupCallVideoFrameSourceForActiveCall}
         hangUp={hangUp}
         hasLocalVideo={hasLocalVideo}
-        hasRemoteVideo={hasRemoteVideo}
         i18n={i18n}
         setLocalPreview={setLocalPreview}
         setRendererCanvas={setRendererCanvas}
@@ -220,10 +239,19 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
         setRendererCanvas={setRendererCanvas}
         setLocalAudio={setLocalAudio}
         setLocalVideo={setLocalVideo}
+        stickyControls={showParticipantsList}
+        toggleParticipants={toggleParticipants}
         togglePip={togglePip}
         toggleSettings={toggleSettings}
       />
       {settingsDialogOpen && renderDeviceSelection()}
+      {showParticipantsList && call.callMode === CallMode.Group ? (
+        <CallingParticipantsList
+          i18n={i18n}
+          onClose={toggleParticipants}
+          participants={groupCallParticipants}
+        />
+      ) : null}
     </>
   );
 };
