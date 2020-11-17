@@ -8717,6 +8717,7 @@ button.module-image__border-overlay:focus {
     .ql-editor {
       caret-color: transparent;
       padding: 0;
+      text-align: start;
 
       &--loaded {
         caret-color: auto;
