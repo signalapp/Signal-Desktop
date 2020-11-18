@@ -15,6 +15,7 @@ const SessionToastContainerPrivate = () => {
       draggable={true}
       pauseOnHover={true}
       transition={Slide}
+      limit={5}
     />
   );
 };

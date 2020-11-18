@@ -124,7 +124,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   private emojiPanel: any;
   private linkPreviewAbortController?: AbortController;
   private container: any;
-  private mentionsData: Array<{ display: string; id: string }>;
+  private readonly mentionsRegex = /@\(05[0-9a-f]{64}\)/g;
 
   constructor(props: any) {
     super(props);
@@ -132,7 +132,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
     this.textarea = props.textarea;
     this.fileInput = React.createRef();
-    this.mentionsData = [];
 
     // Emojis
     this.emojiPanel = null;
@@ -143,9 +142,10 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
     this.renderRecordingView = this.renderRecordingView.bind(this);
     this.renderCompositionView = this.renderCompositionView.bind(this);
+    this.renderTextArea = this.renderTextArea.bind(this);
     this.renderQuotedMessage = this.renderQuotedMessage.bind(this);
-    this.renderStagedLinkPreview = this.renderStagedLinkPreview.bind(this);
 
+    this.renderStagedLinkPreview = this.renderStagedLinkPreview.bind(this);
     this.renderAttachmentsStaged = this.renderAttachmentsStaged.bind(this);
 
     // Recording view functions
@@ -185,7 +185,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     // reset the state on new conversation key
     if (prevProps.conversationKey !== this.props.conversationKey) {
       this.setState(getDefaultState());
-      this.mentionsData = [];
     }
   }
 
@@ -248,20 +247,15 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     );
   }
 
-  private renderCompositionView() {
+  private isTypingEnabled(): boolean {
     const { isBlocked, isKickedFromGroup, leftGroup, isPrivate } = this.props;
-    const { showEmojiPanel, message } = this.state;
-    const typingEnabled = !(isBlocked || isKickedFromGroup || leftGroup);
-    const { i18n } = window;
-    const messagePlaceHolder = isKickedFromGroup
-      ? i18n('youGotKickedFromGroup')
-      : leftGroup
-      ? i18n('youLeftTheGroup')
-      : isBlocked && isPrivate
-      ? i18n('unblockToSend')
-      : isBlocked && !isPrivate
-      ? i18n('unblockGroupToSend')
-      : i18n('sendMessage');
+
+    return !(isBlocked || isKickedFromGroup || leftGroup);
+  }
+
+  private renderCompositionView() {
+    const { showEmojiPanel } = this.state;
+    const typingEnabled = this.isTypingEnabled();
 
     return (
       <>
@@ -293,60 +287,12 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         <div
           className="send-message-input"
           role="main"
-          onClick={this.focusCompositionBox}
+          onClick={this.focusCompositionBox} // used to focus on the textarea when clicking in its container
           ref={el => {
             this.container = el;
           }}
         >
-          <MentionsInput
-            value={this.state.message}
-            onChange={this.onChange}
-            onKeyDown={this.onKeyDown}
-            placeholder={messagePlaceHolder}
-            spellCheck={false}
-            inputRef={this.textarea}
-            disabled={!typingEnabled}
-            maxLength={Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH}
-            rows={1}
-            // maxRows={3}
-            style={sendMessageStyle}
-            suggestionsPortalHost={this.container}
-            allowSuggestionsAboveCursor={true}
-          >
-            <Mention
-              appendSpaceOnAdd={true}
-              markup="@(__id__)" // @__id__ does not work, see cleanMentions()
-              trigger="@"
-              displayTransform={id => `@${id}`}
-              data={this.fetchUsersForGroup}
-              renderSuggestion={(
-                suggestion,
-                _search,
-                _highlightedDisplay,
-                _index,
-                focused
-              ) => (
-                <MemberItem
-                  i18n={window.i18n}
-                  selected={focused}
-                  // tslint:disable-next-line: no-empty
-                  onClicked={() => {}}
-                  existingMember={false}
-                  member={{
-                    id: `${suggestion.id}`,
-                    authorPhoneNumber: `${suggestion.id}`,
-                    selected: false,
-                    authorProfileName: `${suggestion.display}`,
-                    authorName: `${suggestion.display}`,
-                    existingMember: false,
-                    checkmarked: false,
-                    authorAvatarPath: '',
-                  }}
-                  checkmarked={false}
-                />
-              )}
-            />
-          </MentionsInput>
+          {this.renderTextArea()}
         </div>
 
         {typingEnabled && (
@@ -382,6 +328,74 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       </>
     );
   }
+
+  private renderTextArea() {
+    const { i18n } = window;
+    const { message } = this.state;
+    const { isKickedFromGroup, leftGroup, isPrivate, isBlocked } = this.props;
+    const messagePlaceHolder = isKickedFromGroup
+      ? i18n('youGotKickedFromGroup')
+      : leftGroup
+      ? i18n('youLeftTheGroup')
+      : isBlocked && isPrivate
+      ? i18n('unblockToSend')
+      : isBlocked && !isPrivate
+      ? i18n('unblockGroupToSend')
+      : i18n('sendMessage');
+    const typingEnabled = this.isTypingEnabled();
+
+    return (
+      <MentionsInput
+        value={message}
+        onChange={this.onChange}
+        onKeyDown={this.onKeyDown}
+        placeholder={messagePlaceHolder}
+        spellCheck={false}
+        inputRef={this.textarea}
+        disabled={!typingEnabled}
+        maxLength={Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH}
+        rows={1}
+        style={sendMessageStyle}
+        suggestionsPortalHost={this.container}
+        allowSuggestionsAboveCursor={true} // if only one suggestion, it might be rendered below
+      >
+        <Mention
+          appendSpaceOnAdd={true}
+          markup="@(__id__)" // @__id__ does not work, see cleanMentions()
+          trigger="@"
+          displayTransform={id => `@(${id})`}
+          data={this.fetchUsersForGroup}
+          renderSuggestion={(
+            suggestion,
+            _search,
+            _highlightedDisplay,
+            _index,
+            focused
+          ) => (
+            <MemberItem
+              i18n={window.i18n}
+              selected={focused}
+              // tslint:disable-next-line: no-empty
+              onClicked={() => {}}
+              existingMember={false}
+              member={{
+                id: `${suggestion.id}`,
+                authorPhoneNumber: `${suggestion.id}`,
+                selected: false,
+                authorProfileName: `${suggestion.display}`,
+                authorName: `${suggestion.display}`,
+                existingMember: false,
+                checkmarked: false,
+                authorAvatarPath: '',
+              }}
+              checkmarked={false}
+            />
+          )}
+        />
+      </MentionsInput>
+    );
+  }
+
   private fetchUsersForGroup(query: any, callback: any) {
     if (!query) {
       return;
@@ -451,13 +465,12 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       .filter(d =>
         d.authorProfileName?.toLowerCase()?.includes(query.toLowerCase())
       );
-    // Transform the users to what react-mentions expects
 
+    // Transform the users to what react-mentions expects
     const mentionsData = members.map(user => ({
       display: user.authorProfileName,
       id: user.authorPhoneNumber,
     }));
-    this.mentionsData = mentionsData;
     callback(mentionsData);
   }
 
@@ -654,10 +667,9 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
   // tslint:disable-next-line: cyclomatic-complexity
   private async onSendMessage() {
-    // replace all @(xxx) by @xxx
+    // this is dirty but we have to replace all @(xxx) by @xxx manually here
     const cleanMentions = (text: string): string => {
-      const mentionRegex = /@\(05[0-9a-f]{64}\)/g;
-      const matches = text.match(mentionRegex);
+      const matches = text.match(this.mentionsRegex);
       let replacedMentions = text;
       (matches || []).forEach(match => {
         const replacedMention = match.substring(2, match.length - 1);
@@ -847,13 +859,14 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     this.setState({ message });
   }
 
-  private onEmojiClick({ colons, native }: { colons: string; native: string }) {
+  private onEmojiClick({ colons }: { colons: string }) {
     const messageBox = this.textarea.current;
     if (!messageBox) {
       return;
     }
 
     const { message } = this.state;
+
     const currentSelectionStart = Number(messageBox.selectionStart);
     const currentSelectionEnd = Number(messageBox.selectionEnd);
 

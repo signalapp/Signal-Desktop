@@ -28,7 +28,13 @@ export class MemberItem extends React.Component<MemberItemProps> {
   }
 
   public render() {
-    const {authorProfileName: name, authorPhoneNumber: pubkey, selected, existingMember, checkmarked} = this.props.member;
+    const {
+      authorProfileName: name,
+      authorPhoneNumber: pubkey,
+      selected,
+      existingMember,
+      checkmarked,
+    } = this.props.member;
     const shortPubkey = window.shortenPubkey(pubkey);
 
     let markType: 'none' | 'kicked' | 'added' | 'existing' = 'none';
@@ -80,7 +86,6 @@ export class MemberItem extends React.Component<MemberItemProps> {
       </div>
     );
   }
-
   private handleClick() {
     this.props.onClicked(this.props.member);
   }
