@@ -17,6 +17,7 @@ import { createLogger } from 'redux-logger';
 import { reducer, StateType } from './reducer';
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface Console {
     _log: Console['log'];
   }

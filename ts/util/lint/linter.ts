@@ -161,6 +161,7 @@ const excludedFilesRegexps = [
   '^node_modules/es6-shim/.+', // Currently only used in storybook
   '^node_modules/escodegen/.+',
   '^node_modules/eslint.+',
+  '^node_modules/@typescript-eslint.+',
   '^node_modules/esprima/.+',
   '^node_modules/express/.+',
   '^node_modules/file-loader/.+',

@@ -11,7 +11,7 @@
 /* global _: false */
 
 // eslint-disable-next-line func-names
-(function() {
+(function () {
   window.Whisper = window.Whisper || {};
 
   // The keys and values don't match here. This is because the values correspond to old

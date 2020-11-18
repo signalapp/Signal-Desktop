@@ -4,7 +4,7 @@
 type WhatIsThis = typeof window.WhatIsThis;
 
 // eslint-disable-next-line func-names
-(async function() {
+(async function () {
   const eventHandlerQueue = new window.PQueue({
     concurrency: 1,
     timeout: 1000 * 60 * 2,
@@ -136,9 +136,7 @@ type WhatIsThis = typeof window.WhatIsThis;
     }
 
     interactionMode = 'keyboard';
-    $(document.body)
-      .addClass('keyboard-mode')
-      .removeClass('mouse-mode');
+    $(document.body).addClass('keyboard-mode').removeClass('mouse-mode');
     const { userChanged } = window.reduxActions.user;
     const { clearSelectedMessage } = window.reduxActions.conversations;
     if (clearSelectedMessage) {
@@ -156,9 +154,7 @@ type WhatIsThis = typeof window.WhatIsThis;
     }
 
     interactionMode = 'mouse';
-    $(document.body)
-      .addClass('mouse-mode')
-      .removeClass('keyboard-mode');
+    $(document.body).addClass('mouse-mode').removeClass('keyboard-mode');
     const { userChanged } = window.reduxActions.user;
     const { clearSelectedMessage } = window.reduxActions.conversations;
     if (clearSelectedMessage) {

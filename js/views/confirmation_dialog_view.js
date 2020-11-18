@@ -4,7 +4,7 @@
 /* global Backbone, Whisper, i18n */
 
 // eslint-disable-next-line func-names
-(function() {
+(function () {
   window.Whisper = window.Whisper || {};
 
   Whisper.ConfirmationDialogView = Whisper.View.extend({

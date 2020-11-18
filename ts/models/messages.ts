@@ -2987,8 +2987,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         );
         if (preview.length < incomingPreview.length) {
           window.log.info(
-            `${message.idForLogging()}: Eliminated ${preview.length -
-              incomingPreview.length} previews with invalid urls'`
+            `${message.idForLogging()}: Eliminated ${
+              preview.length - incomingPreview.length
+            } previews with invalid urls'`
           );
         }
 

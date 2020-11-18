@@ -7,7 +7,7 @@
 /* eslint-disable no-proto */
 
 // eslint-disable-next-line func-names
-(function() {
+(function () {
   const TIMESTAMP_THRESHOLD = 5 * 1000; // 5 seconds
   const Direction = {
     SENDING: 1,

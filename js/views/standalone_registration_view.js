@@ -6,7 +6,7 @@
 /* eslint-disable more/no-then */
 
 // eslint-disable-next-line func-names
-(function() {
+(function () {
   window.Whisper = window.Whisper || {};
 
   Whisper.StandaloneRegistrationView = Whisper.View.extend({
@@ -37,9 +37,7 @@
     },
     verifyCode() {
       const number = this.phoneView.validateNumber();
-      const verificationCode = $('#code')
-        .val()
-        .replace(/\D+/g, '');
+      const verificationCode = $('#code').val().replace(/\D+/g, '');
 
       this.accountManager
         .registerSingleDevice(number, verificationCode)
@@ -53,9 +51,7 @@
       this.$('#status').text(s);
     },
     validateCode() {
-      const verificationCode = $('#code')
-        .val()
-        .replace(/\D/g, '');
+      const verificationCode = $('#code').val().replace(/\D/g, '');
 
       if (verificationCode.length === 6) {
         return verificationCode;
@@ -64,11 +60,7 @@
       return null;
     },
     displayError(error) {
-      this.$('#error')
-        .hide()
-        .text(error)
-        .addClass('in')
-        .fadeIn();
+      this.$('#error').hide().text(error).addClass('in').fadeIn();
     },
     onValidation() {
       if (this.$('#number-container').hasClass('valid')) {
@@ -92,9 +84,7 @@
         this.accountManager
           .requestVoiceVerification(number)
           .catch(this.displayError.bind(this));
-        this.$('#step2')
-          .addClass('in')
-          .fadeIn();
+        this.$('#step2').addClass('in').fadeIn();
       } else {
         this.$('#number-container').addClass('invalid');
       }
@@ -107,9 +97,7 @@
         this.accountManager
           .requestSMSVerification(number)
           .catch(this.displayError.bind(this));
-        this.$('#step2')
-          .addClass('in')
-          .fadeIn();
+        this.$('#step2').addClass('in').fadeIn();
       } else {
         this.$('#number-container').addClass('invalid');
       }

@@ -441,29 +441,29 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
-    "line": "        this.$('.link')",
+    "line": "        this.$('.link').focus().select();",
     "lineNumber": 83,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-05-01T17:11:39.527Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "        this.$('.loading').removeClass('loading');",
-    "lineNumber": 91,
+    "lineNumber": 89,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-05-01T17:11:39.527Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "        this.$('.result').text(i18n('debugLogError'));",
-    "lineNumber": 92,
+    "lineNumber": 90,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-11T17:24:56.124Z",
-    "reasonDetail": "Static selector argument"
+    "updated": "2020-11-18T03:39:29.033Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
@@ -1201,136 +1201,136 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
-    "line": "      const verificationCode = $('#code')",
+    "line": "      const verificationCode = $('#code').val().replace(/\\D+/g, '');",
     "lineNumber": 40,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "      this.$('#status').text(s);",
-    "lineNumber": 53,
+    "lineNumber": 51,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
-    "line": "      const verificationCode = $('#code')",
-    "lineNumber": 56,
+    "line": "      const verificationCode = $('#code').val().replace(/\\D/g, '');",
+    "lineNumber": 54,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
-    "line": "      this.$('#error')",
-    "lineNumber": 67,
+    "line": "      this.$('#error').hide().text(error).addClass('in').fadeIn();",
+    "lineNumber": 63,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "      if (this.$('#number-container').hasClass('valid')) {",
-    "lineNumber": 74,
+    "lineNumber": 66,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "        this.$('#request-sms, #request-voice').removeAttr('disabled');",
-    "lineNumber": 75,
+    "lineNumber": 67,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-11T17:24:56.124Z",
-    "reasonDetail": "Static selector argument"
+    "updated": "2020-11-18T03:39:29.033Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "        this.$('#request-sms, #request-voice').prop('disabled', 'disabled');",
-    "lineNumber": 77,
+    "lineNumber": 69,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "        this.$('#code').addClass('invalid');",
-    "lineNumber": 82,
+    "lineNumber": 74,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "        this.$('#code').removeClass('invalid');",
-    "lineNumber": 84,
+    "lineNumber": 76,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "      this.$('#error').hide();",
-    "lineNumber": 89,
+    "lineNumber": 81,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
-    "line": "        this.$('#step2')",
-    "lineNumber": 95,
+    "line": "        this.$('#step2').addClass('in').fadeIn();",
+    "lineNumber": 87,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "        this.$('#number-container').addClass('invalid');",
-    "lineNumber": 99,
+    "lineNumber": 89,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "      $('#error').hide();",
-    "lineNumber": 104,
+    "lineNumber": 94,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
-    "line": "        this.$('#step2')",
-    "lineNumber": 110,
+    "line": "        this.$('#step2').addClass('in').fadeIn();",
+    "lineNumber": 100,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "        this.$('#number-container').addClass('invalid');",
-    "lineNumber": 114,
+    "lineNumber": 102,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
@@ -1666,15 +1666,6 @@
     "reasonCategory": "testCode",
     "updated": "2020-10-09T22:28:48.591Z",
     "reasonDetail": "Test code. Also a false match."
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/@typescript-eslint/eslint-plugin/dist/rules/no-implied-eval.js",
-    "line": "            description: 'Disallow the use of `eval()`-like methods',",
-    "lineNumber": 38,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "just a doc"
   },
   {
     "rule": "jQuery-$(",

@@ -148,10 +148,7 @@ export function deriveGroupID(
   );
 
   return compatArrayToArrayBuffer(
-    groupSecretParams
-      .getPublicParams()
-      .getGroupIdentifier()
-      .serialize()
+    groupSecretParams.getPublicParams().getGroupIdentifier().serialize()
   );
 }
 

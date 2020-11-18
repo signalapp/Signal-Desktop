@@ -8,7 +8,7 @@
 /* eslint-disable no-new */
 
 // eslint-disable-next-line func-names
-(function() {
+(function () {
   window.Whisper = window.Whisper || {};
   const { Settings } = window.Signal.Types;
 

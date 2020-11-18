@@ -12,7 +12,7 @@
 /* eslint-disable more/no-then */
 
 // eslint-disable-next-line func-names
-(function() {
+(function () {
   window.Whisper = window.Whisper || {};
   Whisper.ReadReceipts = new (Backbone.Collection.extend({
     forMessage(conversation, message) {

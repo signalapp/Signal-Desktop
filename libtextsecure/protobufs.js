@@ -4,7 +4,7 @@
 /* global window, dcodeIO, textsecure */
 
 // eslint-disable-next-line func-names
-(function() {
+(function () {
   const FILES_TO_LOAD = [
     'SignalService.proto',
     'SignalStorage.proto',

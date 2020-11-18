@@ -4,7 +4,7 @@
 /* global Whisper, i18n */
 
 // eslint-disable-next-line func-names
-(function() {
+(function () {
   window.Whisper = window.Whisper || {};
 
   // TODO: take a title string which could replace the 'members' header

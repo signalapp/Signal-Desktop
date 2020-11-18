@@ -4,7 +4,7 @@
 /* global storage, _ */
 
 // eslint-disable-next-line func-names
-(function() {
+(function () {
   const BLOCKED_NUMBERS_ID = 'blocked';
   const BLOCKED_UUIDS_ID = 'blocked-uuids';
   const BLOCKED_GROUPS_ID = 'blocked-groups';

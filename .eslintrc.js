@@ -15,6 +15,12 @@ const rules = {
     },
   ],
 
+  // Overrides recommended by typescript-eslint
+  //   https://github.com/typescript-eslint/typescript-eslint/releases/tag/v4.0.0
+  '@typescript-eslint/no-redeclare': 'error',
+  '@typescript-eslint/no-shadow': 'error',
+  'no-shadow': 'off',
+
   // prevents us from accidentally checking in exclusive tests (`.only`):
   'mocha/no-exclusive-tests': 'error',
 
