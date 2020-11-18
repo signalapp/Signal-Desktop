@@ -162,7 +162,9 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
   ]);
 
   // 4. Lay out this arrangement on the screen.
-  const gridParticipantHeight = gridArrangement.scalar * MIN_RENDERED_HEIGHT;
+  const gridParticipantHeight = Math.floor(
+    gridArrangement.scalar * MIN_RENDERED_HEIGHT
+  );
   const gridParticipantHeightWithMargin =
     gridParticipantHeight + PARTICIPANT_MARGIN;
   const gridTotalRowHeightWithMargin =
@@ -181,12 +183,15 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
       const totalRowWidth =
         totalRowWidthWithoutMargins +
         PARTICIPANT_MARGIN * (remoteParticipantsInRow.length - 1);
-      const leftOffset = (containerDimensions.width - totalRowWidth) / 2;
+      const leftOffset = Math.floor(
+        (containerDimensions.width - totalRowWidth) / 2
+      );
 
       let rowWidthSoFar = 0;
       return remoteParticipantsInRow.map(remoteParticipant => {
-        const renderedWidth =
-          remoteParticipant.videoAspectRatio * gridParticipantHeight;
+        const renderedWidth = Math.floor(
+          remoteParticipant.videoAspectRatio * gridParticipantHeight
+        );
         const left = rowWidthSoFar + leftOffset;
 
         rowWidthSoFar += renderedWidth + PARTICIPANT_MARGIN;

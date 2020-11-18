@@ -14579,10 +14579,10 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/GroupCallRemoteParticipant.js",
-    "line": "    const rafIdRef = react_1.useRef(null);",
+    "line": "    const canvasContextRef = react_1.useRef(null);",
     "lineNumber": 25,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-11-17T16:24:25.480Z",
+    "updated": "2020-11-17T23:29:38.698Z",
     "reasonDetail": "Doesn't touch the DOM."
   },
   {

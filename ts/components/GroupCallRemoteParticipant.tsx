@@ -38,134 +38,151 @@ interface NotInPipPropsType {
 
 type PropsType = BasePropsType & (InPipPropsType | NotInPipPropsType);
 
-export const GroupCallRemoteParticipant: React.FC<PropsType> = props => {
-  const {
-    demuxId,
-    getGroupCallVideoFrameSource,
-    hasRemoteAudio,
-    hasRemoteVideo,
-  } = props;
+export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
+  props => {
+    const {
+      demuxId,
+      getGroupCallVideoFrameSource,
+      hasRemoteAudio,
+      hasRemoteVideo,
+    } = props;
 
-  const [canvasStyles, setCanvasStyles] = useState<CSSProperties>({});
+    const [isWide, setIsWide] = useState(true);
 
-  const remoteVideoRef = useRef<HTMLCanvasElement | null>(null);
-  const rafIdRef = useRef<number | null>(null);
-  const frameBufferRef = useRef<ArrayBuffer>(
-    new ArrayBuffer(FRAME_BUFFER_SIZE)
-  );
-
-  const videoFrameSource = useMemo(
-    () => getGroupCallVideoFrameSource(demuxId),
-    [getGroupCallVideoFrameSource, demuxId]
-  );
-
-  const renderVideoFrame = useCallback(() => {
-    const canvasEl = remoteVideoRef.current;
-    if (!canvasEl) {
-      return;
-    }
-
-    const context = canvasEl.getContext('2d');
-    if (!context) {
-      return;
-    }
-
-    const frameDimensions = videoFrameSource.receiveVideoFrame(
-      frameBufferRef.current
+    const remoteVideoRef = useRef<HTMLCanvasElement | null>(null);
+    const canvasContextRef = useRef<CanvasRenderingContext2D | null>(null);
+    const frameBufferRef = useRef<ArrayBuffer>(
+      new ArrayBuffer(FRAME_BUFFER_SIZE)
     );
-    if (!frameDimensions) {
-      return;
-    }
 
-    const [frameWidth, frameHeight] = frameDimensions;
-    canvasEl.width = frameWidth;
-    canvasEl.height = frameHeight;
+    const videoFrameSource = useMemo(
+      () => getGroupCallVideoFrameSource(demuxId),
+      [getGroupCallVideoFrameSource, demuxId]
+    );
 
-    context.putImageData(
-      new ImageData(
-        new Uint8ClampedArray(
-          frameBufferRef.current,
-          0,
-          frameWidth * frameHeight * 4
+    const renderVideoFrame = useCallback(() => {
+      const canvasEl = remoteVideoRef.current;
+      if (!canvasEl) {
+        return;
+      }
+
+      const canvasContext = canvasContextRef.current;
+      if (!canvasContext) {
+        return;
+      }
+
+      const frameDimensions = videoFrameSource.receiveVideoFrame(
+        frameBufferRef.current
+      );
+      if (!frameDimensions) {
+        return;
+      }
+
+      const [frameWidth, frameHeight] = frameDimensions;
+      if (frameWidth < 2 || frameHeight < 2) {
+        return;
+      }
+
+      canvasEl.width = frameWidth;
+      canvasEl.height = frameHeight;
+
+      canvasContext.putImageData(
+        new ImageData(
+          new Uint8ClampedArray(
+            frameBufferRef.current,
+            0,
+            frameWidth * frameHeight * 4
+          ),
+          frameWidth,
+          frameHeight
         ),
-        frameWidth,
-        frameHeight
-      ),
-      0,
-      0
-    );
+        0,
+        0
+      );
+
+      setIsWide(frameWidth > frameHeight);
+    }, [videoFrameSource]);
+
+    useEffect(() => {
+      if (!hasRemoteVideo) {
+        return noop;
+      }
+
+      let rafId = requestAnimationFrame(tick);
+
+      function tick() {
+        renderVideoFrame();
+        rafId = requestAnimationFrame(tick);
+      }
+
+      return () => {
+        cancelAnimationFrame(rafId);
+      };
+    }, [hasRemoteVideo, renderVideoFrame, videoFrameSource]);
+
+    let canvasStyles: CSSProperties;
+    let containerStyles: CSSProperties;
 
     // If our `width` and `height` props don't match the canvas's aspect ratio, we want to
     //   fill the container. This can happen when RingRTC gives us an inaccurate
     //   `videoAspectRatio`, or if the container is an unexpected size.
-    if (frameWidth > frameHeight) {
-      setCanvasStyles({ width: '100%' });
+    if (isWide) {
+      canvasStyles = { width: '100%' };
     } else {
-      setCanvasStyles({ height: '100%' });
-    }
-  }, [videoFrameSource]);
-
-  useEffect(() => {
-    if (!hasRemoteVideo) {
-      return noop;
+      canvasStyles = { height: '100%' };
     }
 
-    const tick = () => {
-      renderVideoFrame();
-      rafIdRef.current = requestAnimationFrame(tick);
-    };
+    // TypeScript isn't smart enough to know that `isInPip` by itself disambiguates the
+    //   types, so we have to use `props.isInPip` instead.
+    // eslint-disable-next-line react/destructuring-assignment
+    if (props.isInPip) {
+      containerStyles = canvasStyles;
+    } else {
+      const { top, left, width, height } = props;
 
-    rafIdRef.current = requestAnimationFrame(tick);
+      containerStyles = {
+        height,
+        left,
+        position: 'absolute',
+        top,
+        width,
+      };
+    }
 
-    return () => {
-      if (rafIdRef.current) {
-        cancelAnimationFrame(rafIdRef.current);
-        rafIdRef.current = null;
-      }
-    };
-  }, [hasRemoteVideo, renderVideoFrame, videoFrameSource]);
-
-  let containerStyles: CSSProperties;
-
-  // TypeScript isn't smart enough to know that `isInPip` by itself disambiguates the
-  //   types, so we have to use `props.isInPip` instead.
-  // eslint-disable-next-line react/destructuring-assignment
-  if (props.isInPip) {
-    containerStyles = canvasStyles;
-  } else {
-    const { top, left, width, height } = props;
-
-    containerStyles = {
-      height,
-      left,
-      position: 'absolute',
-      top,
-      width,
-    };
+    return (
+      <div
+        className={classNames(
+          'module-ongoing-call__group-call-remote-participant',
+          {
+            'module-ongoing-call__group-call-remote-participant--audio-muted': !hasRemoteAudio,
+          }
+        )}
+        style={containerStyles}
+      >
+        {hasRemoteVideo ? (
+          <canvas
+            className="module-ongoing-call__group-call-remote-participant__remote-video"
+            style={canvasStyles}
+            ref={canvasEl => {
+              remoteVideoRef.current = canvasEl;
+              if (canvasEl) {
+                canvasContextRef.current = canvasEl.getContext('2d', {
+                  alpha: false,
+                  desynchronized: true,
+                  storage: 'discardable',
+                } as CanvasRenderingContext2DSettings);
+              } else {
+                canvasContextRef.current = null;
+              }
+            }}
+          />
+        ) : (
+          <CallBackgroundBlur>
+            {/* TODO: Improve the styling here. See DESKTOP-894. */}
+            <span />
+          </CallBackgroundBlur>
+        )}
+      </div>
+    );
   }
-
-  return (
-    <div
-      className={classNames(
-        'module-ongoing-call__group-call-remote-participant',
-        {
-          'module-ongoing-call__group-call-remote-participant--audio-muted': !hasRemoteAudio,
-        }
-      )}
-      style={containerStyles}
-    >
-      {hasRemoteVideo ? (
-        <canvas
-          className="module-ongoing-call__group-call-remote-participant__remote-video"
-          style={canvasStyles}
-          ref={remoteVideoRef}
-        />
-      ) : (
-        <CallBackgroundBlur>
-          {/* TODO: Improve the styling here. See DESKTOP-894. */}
-          <span />
-        </CallBackgroundBlur>
-      )}
-    </div>
-  );
-};
+);
