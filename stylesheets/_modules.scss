@@ -6105,24 +6105,24 @@ button.module-image__border-overlay:focus {
 
   &--audio {
     &--on {
-      background-color: $color-white;
+      background-color: $color-gray-45;
 
       div {
         @include color-svg(
           '../images/icons/v2/mic-solid-28.svg',
-          $color-gray-75
+          $color-white
         );
         height: 28px;
         width: 28px;
       }
     }
     &--off {
-      background-color: $color-gray-45;
+      background-color: $color-white;
 
       div {
         @include color-svg(
           '../images/icons/v2/mic-off-solid-28.svg',
-          $color-white
+          $color-gray-75
         );
         height: 28px;
         width: 28px;
@@ -6523,6 +6523,7 @@ button.module-image__border-overlay:focus {
   color: $color-white;
   margin-right: 12px;
   margin-top: 54px;
+  overflow: scroll;
   padding: 14px;
   padding-bottom: 0;
   width: 280px;
