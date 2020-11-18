@@ -18,7 +18,7 @@ import { ConversationHeaderWithDetails } from '../../conversation/ConversationHe
 import { SessionRightPanelWithDetails } from './SessionRightPanel';
 import { SessionTheme } from '../../../state/ducks/SessionTheme';
 import { DefaultTheme } from 'styled-components';
-import { SessionConversationMessagesList } from './SessionConversationMessagesList';
+import { SessionMessagesList } from './SessionMessagesList';
 import { LightboxGallery, MediaItemType } from '../../LightboxGallery';
 import { Message } from '../../conversation/media-gallery/types/Message';
 
@@ -300,7 +300,7 @@ export class SessionConversation extends React.Component<Props, State> {
           {lightBoxOptions?.media && this.renderLightBox(lightBoxOptions)}
 
           <div className="conversation-messages">
-            <SessionConversationMessagesList {...this.getMessagesListProps()} />
+            <SessionMessagesList {...this.getMessagesListProps()} />
 
             {showRecordingView && (
               <div className="conversation-messages__blocking-overlay" />

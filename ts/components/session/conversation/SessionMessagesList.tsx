@@ -43,7 +43,7 @@ interface Props {
   onDeleteSelectedMessages: () => Promise<void>;
 }
 
-export class SessionConversationMessagesList extends React.Component<
+export class SessionMessagesList extends React.Component<
   Props,
   State
 > {
