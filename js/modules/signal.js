@@ -64,10 +64,6 @@ const {
 } = require('../../ts/components/session/SessionConfirm');
 
 const {
-  SessionRegistrationView,
-} = require('../../ts/components/session/SessionRegistrationView');
-
-const {
   UpdateGroupNameDialog,
 } = require('../../ts/components/conversation/UpdateGroupNameDialog');
 const {
@@ -248,7 +244,6 @@ exports.setup = (options = {}) => {
     EditProfileDialog,
     UserDetailsDialog,
     DevicePairingDialog,
-    SessionRegistrationView,
     SessionInboxView,
     ConfirmDialog,
     UpdateGroupNameDialog,

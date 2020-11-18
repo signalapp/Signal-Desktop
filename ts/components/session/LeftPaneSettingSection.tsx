@@ -158,7 +158,7 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
             text={showRecoveryPhrase}
             buttonType={SessionButtonType.SquareOutline}
             buttonColor={SessionButtonColor.White}
-            onClick={window.showSeedDialog}
+            onClick={() => window.Whisper.events.trigger('showSeedDialog')}
           />
         )}
       </div>

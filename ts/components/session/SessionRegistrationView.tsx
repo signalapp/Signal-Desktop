@@ -5,7 +5,7 @@ import { RegistrationTabs } from './RegistrationTabs';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 import { SessionToastContainer } from './SessionToastContainer';
 
-export const SessionRegistrationView: React.FC = () => (
+export const SessionRegistrationView = () => (
   <div className="session-content">
     <SessionToastContainer />
     <div id="error" className="collapse" />
