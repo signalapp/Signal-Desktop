@@ -168,6 +168,7 @@ export class SessionConversationMessagesList extends React.Component<
             <SessionLastSeenIndicator
               count={findFirstUnreadIndex} // count is used for the 118n of the string
               show={showUnreadIndicator}
+              key={`unread-indicator-${message.id}`}
             />
           );
 
@@ -176,7 +177,10 @@ export class SessionConversationMessagesList extends React.Component<
           if (groupNotificationProps) {
             return (
               <>
-                <GroupNotification {...groupNotificationProps} />
+                <GroupNotification
+                  {...groupNotificationProps}
+                  key={message.id}
+                />
                 {unreadIndicator}
               </>
             );
@@ -185,7 +189,10 @@ export class SessionConversationMessagesList extends React.Component<
           if (propsForGroupInvitation) {
             return (
               <>
-                <GroupInvitation {...propsForGroupInvitation} />
+                <GroupInvitation
+                  {...propsForGroupInvitation}
+                  key={message.id}
+                />
                 {unreadIndicator}
               </>
             );
@@ -194,7 +201,10 @@ export class SessionConversationMessagesList extends React.Component<
           if (verificationSessionProps) {
             return (
               <>
-                <VerificationNotification {...verificationSessionProps} />
+                <VerificationNotification
+                  {...verificationSessionProps}
+                  key={message.id}
+                />
                 {unreadIndicator}
               </>
             );
@@ -203,7 +213,10 @@ export class SessionConversationMessagesList extends React.Component<
           if (resetSessionProps) {
             return (
               <>
-                <ResetSessionNotification {...resetSessionProps} />
+                <ResetSessionNotification
+                  {...resetSessionProps}
+                  key={message.id}
+                />
                 {unreadIndicator}
               </>
             );
@@ -212,7 +225,7 @@ export class SessionConversationMessagesList extends React.Component<
           if (timerProps) {
             return (
               <>
-                <TimerNotification {...timerProps} />
+                <TimerNotification {...timerProps} key={message.id} />
                 {unreadIndicator}
               </>
             );
@@ -272,8 +285,7 @@ export class SessionConversationMessagesList extends React.Component<
         void this.scrollToQuoteMessage(options);
       };
     }
-
-    return <Message {...messageProps} />;
+    return <Message {...messageProps} key={messageProps.id} />;
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
