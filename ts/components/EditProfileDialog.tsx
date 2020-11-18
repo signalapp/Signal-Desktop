@@ -26,7 +26,6 @@ declare global {
 }
 
 interface Props {
-  callback: any;
   i18n: any;
   profileName: string;
   avatarPath: string;
@@ -318,17 +317,10 @@ export class EditProfileDialog extends React.Component<Props, State> {
 
     this.props.onOk(newName, avatar);
 
-    this.setState(
-      {
-        mode: 'default',
-        setProfileName: this.state.profileName,
-      },
-      () => {
-        // Update settings in dialog complete;
-        // now callback to reloadactions panel avatar
-        this.props.callback(this.state.avatar);
-      }
-    );
+    this.setState({
+      mode: 'default',
+      setProfileName: this.state.profileName,
+    });
   }
 
   private closeDialog() {

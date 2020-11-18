@@ -43,10 +43,7 @@ interface Props {
   onDeleteSelectedMessages: () => Promise<void>;
 }
 
-export class SessionMessagesList extends React.Component<
-  Props,
-  State
-> {
+export class SessionMessagesList extends React.Component<Props, State> {
   private readonly messagesEndRef: React.RefObject<HTMLDivElement>;
   private readonly messageContainerRef: React.RefObject<any>;
 

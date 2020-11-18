@@ -2,7 +2,6 @@ import { omit, reject } from 'lodash';
 
 import { normalize } from '../../types/PhoneNumber';
 import { AdvancedSearchOptions, SearchOptions } from '../../types/Search';
-import { trigger } from '../../shims/events';
 import { getMessageModel } from '../../shims/Whisper';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { searchConversations, searchMessages } from '../../../js/modules/data';

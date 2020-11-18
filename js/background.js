@@ -613,7 +613,7 @@
       confirmDialog.render();
     };
 
-    window.showEditProfileDialog = async callback => {
+    window.showEditProfileDialog = async () => {
       const ourNumber = window.storage.get('primaryDevicePubKey');
       const conversation = await ConversationController.getOrCreateAndWait(
         ourNumber,
@@ -642,7 +642,6 @@
 
       if (appView) {
         appView.showEditProfileDialog({
-          callback,
           profileName: displayName,
           pubkey: ourNumber,
           avatarPath,
@@ -706,26 +705,35 @@
                 url,
               });
               newAvatarPath = upgraded.path;
+              // Replace our temporary image with the attachment pointer from the server:
+              conversation.set('avatar', null);
+              conversation.setLokiProfile({
+                displayName: newName,
+                avatar: newAvatarPath,
+              });
+            } else {
+              // do not update the avatar if it did not change
+              conversation.setLokiProfile({
+                displayName: newName,
+              });
             }
 
-            // Replace our temporary image with the attachment pointer from the server:
-            conversation.set('avatar', null);
-            conversation.setLokiProfile({
-              displayName: newName,
-              avatar: newAvatarPath,
-            });
+            conversation.commit();
             // inform all your registered public servers
             // could put load on all the servers
             // if they just keep changing their names without sending messages
             // so we could disable this here
             // or least it enable for the quickest response
             window.lokiPublicChatAPI.setProfileName(newName);
-            window
-              .getConversations()
-              .filter(convo => convo.isPublic() && !convo.isRss())
-              .forEach(convo =>
-                convo.trigger('ourAvatarChanged', { url, profileKey })
-              );
+
+            if (avatar) {
+              window
+                .getConversations()
+                .filter(convo => convo.isPublic() && !convo.isRss())
+                .forEach(convo =>
+                  convo.trigger('ourAvatarChanged', { url, profileKey })
+                );
+            }
           },
         });
       }
@@ -938,13 +946,6 @@
     });
 
     Whisper.events.on('onShowUserDetails', async ({ userPubKey }) => {
-      const isMe = userPubKey === textsecure.storage.user.getNumber();
-
-      if (isMe) {
-        Whisper.events.trigger('onEditProfile');
-        return;
-      }
-
       const conversation = await ConversationController.getOrCreateAndWait(
         userPubKey,
         'private'

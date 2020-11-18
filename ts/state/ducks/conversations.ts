@@ -75,6 +75,7 @@ export type ConversationType = {
   isBlocked: boolean;
   isKickedFromGroup: boolean;
   leftGroup: boolean;
+  avatarPath?: string; // absolute filepath to the avatar
 };
 export type ConversationLookupType = {
   [key: string]: ConversationType;

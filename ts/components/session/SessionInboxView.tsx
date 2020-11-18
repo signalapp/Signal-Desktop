@@ -15,7 +15,6 @@ import {
 // Workaround: A react component's required properties are filtering up through connect()
 //   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
 const FilteredLeftPane = SmartLeftPane as any;
-const FilteredSessionConversation = SmartSessionConversation as any;
 
 type Props = {
   focusedSection: number;
@@ -26,8 +25,6 @@ type State = {
   settingsCategory?: SessionSettingCategory;
   isExpired: boolean;
 };
-
-// tslint:disable: react-a11y-img-has-alt
 
 export class SessionInboxView extends React.Component<Props, State> {
   private store: any;
@@ -111,7 +108,7 @@ export class SessionInboxView extends React.Component<Props, State> {
   private renderSessionConversation() {
     return (
       <div className="session-conversation">
-        <FilteredSessionConversation />
+        <SmartSessionConversation />
       </div>
     );
   }

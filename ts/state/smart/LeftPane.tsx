@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { mapDispatchToProps } from '../actions';
 import { LeftPane } from '../../components/LeftPane';
 import { StateType } from '../reducer';
 
@@ -10,7 +9,11 @@ import {
   getRegionCode,
   getUserNumber,
 } from '../selectors/user';
-import { getLeftPaneLists } from '../selectors/conversations';
+import {
+  getLeftPaneLists,
+  getOurPrimaryConversation,
+} from '../selectors/conversations';
+import { mapDispatchToProps } from '../actions';
 
 // Workaround: A react component's required properties are filtering up through connect()
 //   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
@@ -23,6 +26,7 @@ const mapStateToProps = (state: StateType) => {
   const searchResults = showSearch ? getSearchResults(state) : undefined;
   return {
     ...lists,
+    ourPrimaryConversation: getOurPrimaryConversation(state), // used in actionPanel
     searchTerm: getQuery(state),
     regionCode: getRegionCode(state),
     ourNumber: getUserNumber(state),

@@ -30,6 +30,12 @@ export const getSelectedConversation = createSelector(
   }
 );
 
+export const getOurPrimaryConversation = createSelector(
+  getConversations,
+  (state: ConversationsStateType): ConversationType =>
+    state.conversationLookup[window.storage.get('primaryDevicePubKey')]
+);
+
 function getConversationTitle(
   conversation: ConversationType,
   options: { i18n: LocalizerType; ourRegionCode: string }

@@ -8,10 +8,9 @@
 
   Whisper.EditProfileDialogView = Whisper.View.extend({
     className: 'loki-dialog modal',
-    initialize({ profileName, avatarPath, pubkey, onOk, callback }) {
+    initialize({ profileName, avatarPath, pubkey, onOk }) {
       this.close = this.close.bind(this);
 
-      this.callback = callback;
       this.profileName = profileName;
       this.pubkey = pubkey;
       this.avatarPath = avatarPath;
@@ -25,7 +24,6 @@
         className: 'edit-profile-dialog',
         Component: window.Signal.Components.EditProfileDialog,
         props: {
-          callback: this.callback,
           onOk: this.onOk,
           onClose: this.close,
           profileName: this.profileName,

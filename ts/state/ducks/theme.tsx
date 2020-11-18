@@ -29,3 +29,7 @@ export const reducer = (
       return state;
   }
 };
+
+export const actions = {
+  applyTheme,
+};

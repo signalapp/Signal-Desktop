@@ -2,12 +2,17 @@ import { SectionType } from '../../components/session/ActionsPanel';
 
 export const FOCUS_SECTION = 'FOCUS_SECTION';
 
-const focusSection = (section: SectionType) => {
+type FocusSectionActionType = {
+  type: 'FOCUS_SECTION';
+  payload: SectionType;
+};
+
+function focusSection(section: SectionType): FocusSectionActionType {
   return {
     type: FOCUS_SECTION,
     payload: section,
   };
-};
+}
 
 export const actions = {
   focusSection,

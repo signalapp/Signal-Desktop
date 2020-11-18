@@ -29,6 +29,7 @@ export type RowRendererParamsType = {
 };
 
 interface Props {
+  ourPrimaryConversation: ConversationType;
   conversations: Array<ConversationListItemPropsType>;
   contacts: Array<ConversationType>;
 
@@ -90,14 +91,15 @@ export class LeftPane extends React.Component<Props> {
   }
 
   public render(): JSX.Element {
+    const ourPrimaryConversation = this.props.ourPrimaryConversation;
     return (
       <SessionTheme theme={this.props.theme}>
         <div className="module-left-pane-session">
           <ActionsPanel
             selectedSection={this.props.focusedSection}
             onSectionSelected={this.handleSectionSelected}
-            conversations={this.props.conversations}
             unreadMessageCount={this.props.unreadMessageCount}
+            ourPrimaryConversation={ourPrimaryConversation}
           />
           <div className="module-left-pane">{this.renderSection()}</div>
         </div>

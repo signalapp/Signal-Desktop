@@ -1,12 +1,13 @@
 import React from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 import { Avatar } from '../Avatar';
-import { PropsData as ConversationListItemPropsType } from '../ConversationListItem';
-import { createOrUpdateItem, getItemById } from '../../../js/modules/data';
-import { APPLY_THEME } from '../../state/ducks/theme';
+import { removeItemById } from '../../../js/modules/data';
 import { darkTheme, lightTheme } from '../../state/ducks/SessionTheme';
 import { SessionToastContainer } from './SessionToastContainer';
+import { mapDispatchToProps } from '../../state/actions';
+import { ConversationType } from '../../state/ducks/conversations';
+import { noop } from 'lodash';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -18,104 +19,22 @@ export enum SectionType {
   Moon,
 }
 
-interface State {
-  avatarPath: string;
-}
-
 interface Props {
   onSectionSelected: any;
   selectedSection: SectionType;
-  conversations: Array<ConversationListItemPropsType> | undefined;
   unreadMessageCount: number;
-  dispatch?: any;
+  ourPrimaryConversation: ConversationType;
+  applyTheme?: any;
 }
 
-class ActionsPanelPrivate extends React.Component<Props, State> {
-  private ourConversation: any;
+class ActionsPanelPrivate extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
-    this.state = {
-      avatarPath: '',
-    };
 
     this.editProfileHandle = this.editProfileHandle.bind(this);
-    this.refreshAvatarCallback = this.refreshAvatarCallback.bind(this);
-  }
-
-  public componentDidMount() {
-    // tslint:disable-next-line: no-backbone-get-set-outside-model
-    const ourNumber = window.storage.get('primaryDevicePubKey');
-
-    void window.ConversationController.getOrCreateAndWait(
-      ourNumber,
-      'private'
-    ).then((conversation: any) => {
-      this.setState({
-        avatarPath: conversation.getAvatarPath(),
-      });
-      // When our primary device updates its avatar, we will need for a message sync to know about that.
-      // Once we get the avatar update, we need to refresh this react component.
-      // So we listen to changes on our profile avatar and use the updated avatarPath (done on message received).
-      this.ourConversation = conversation;
-
-      this.ourConversation.on(
-        'change',
-        () => {
-          this.refreshAvatarCallback(this.ourConversation);
-        },
-        'refreshAvatarCallback'
-      );
-
-      void this.showLightThemeDialogIfNeeded();
-    });
-  }
-
-  public async showLightThemeDialogIfNeeded() {
-    const currentTheme = window.Events.getThemeSetting(); // defaults to light on new registration
-    if (currentTheme !== 'light') {
-      const message = 'Light Mode';
-      const messageSub =
-        'Whoops, who left the lights on?</br></br>\
-        That’s right, Session has a spiffy new light mode! Take the fresh new color palette for a spin — it’s now the default mode.</br></br>\
-        Want to go back to the dark side? Just tap the moon symbol in the lower left corner of the app to switch modes.';
-      const hasSeenLightMode = await getItemById('hasSeenLightModeDialog');
-
-      if (hasSeenLightMode?.value === true) {
-        // if hasSeen is set and true, we have nothing to do
-        return;
-      }
-      // force light them right now, then ask for permission
-      await window.Events.setThemeSetting('light');
-      window.confirmationDialog({
-        message,
-        messageSub,
-        resolve: async () => {
-          const data = {
-            id: 'hasSeenLightModeDialog',
-            value: true,
-          };
-          void createOrUpdateItem(data);
-        },
-        okTheme: 'default primary',
-        hideCancel: true,
-        sessionIcon: SessionIconType.Sun,
-        iconSize: SessionIconSize.Max,
-      });
-    }
-  }
-
-  public refreshAvatarCallback(conversation: any) {
-    if (conversation.changed?.profileAvatar) {
-      this.setState({
-        avatarPath: conversation.getAvatarPath(),
-      });
-    }
-  }
-
-  public componentWillUnmount() {
-    if (this.ourConversation) {
-      this.ourConversation.off('change', null, 'refreshAvatarCallback');
-    }
+    // we consider people had the time to upgrade, so remove this id from the db
+    // it was used to display a dialog when we added the light mode auto-enabled
+    void removeItemById('hasSeenLightModeDialog');
   }
 
   public Section = ({
@@ -143,10 +62,7 @@ class ActionsPanelPrivate extends React.Component<Props, State> {
 
             const newThemeObject =
               updatedTheme === 'dark' ? darkTheme : lightTheme;
-            this.props.dispatch({
-              type: APPLY_THEME,
-              payload: newThemeObject,
-            });
+            this.props.applyTheme(newThemeObject);
           } else {
             onSelect(type);
           }
@@ -204,11 +120,7 @@ class ActionsPanelPrivate extends React.Component<Props, State> {
   };
 
   public editProfileHandle() {
-    window.showEditProfileDialog((avatar: any) => {
-      this.setState({
-        avatarPath: avatar,
-      });
-    });
+    window.showEditProfileDialog(noop);
   }
 
   public render(): JSX.Element {
@@ -224,7 +136,7 @@ class ActionsPanelPrivate extends React.Component<Props, State> {
       <div className="module-left-pane__sections-container">
         <this.Section
           type={SectionType.Profile}
-          avatarPath={this.state.avatarPath}
+          avatarPath={this.props.ourPrimaryConversation.avatarPath}
           isSelected={isProfilePageSelected}
           onSelect={this.handleSectionSelect}
         />
@@ -260,4 +172,6 @@ class ActionsPanelPrivate extends React.Component<Props, State> {
   };
 }
 
-export const ActionsPanel = connect()(ActionsPanelPrivate);
+const smart = connect(null, mapDispatchToProps);
+
+export const ActionsPanel = smart(ActionsPanelPrivate);

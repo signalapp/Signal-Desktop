@@ -1895,8 +1895,11 @@
         await this.commit();
       }
 
-      // if set to null, it will show a placeholder with color and first letter
-      await this.setProfileAvatar({ path: newProfile.avatar });
+      // a user cannot remove an avatar. Only change it
+      // if you change this behavior, double check all setLokiProfile calls (especially the one in EditProfileDialog)
+      if (newProfile.avatar) {
+        await this.setProfileAvatar({ path: newProfile.avatar });
+      }
 
       await this.updateProfileName();
     },
@@ -2386,7 +2389,6 @@
 
     getAvatarPath() {
       const avatar = this.get('avatar') || this.get('profileAvatar');
-
       if (typeof avatar === 'string') {
         return avatar;
       }
