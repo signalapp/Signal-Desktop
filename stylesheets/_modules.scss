@@ -6403,6 +6403,12 @@ button.module-image__border-overlay:focus {
     width: 100%;
   }
 
+  &__video-on {
+    &__video {
+      transform: rotateY(180deg);
+    }
+  }
+
   &__video-off {
     &--icon {
       @include color-svg(
@@ -6454,6 +6460,7 @@ button.module-image__border-overlay:focus {
       height: 32px;
       position: absolute;
       right: 4px;
+      transform: rotateY(180deg);
       width: 32px;
     }
 

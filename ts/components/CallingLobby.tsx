@@ -126,7 +126,11 @@ export const CallingLobby = ({
 
       <div className="module-calling-lobby__video">
         {hasLocalVideo && availableCameras.length > 0 ? (
-          <video ref={localVideoRef} autoPlay />
+          <video
+            className="module-calling-lobby__video-on__video"
+            ref={localVideoRef}
+            autoPlay
+          />
         ) : (
           <CallBackgroundBlur avatarPath={me.avatarPath} color={me.color}>
             <div className="module-calling-lobby__video-off--icon" />
