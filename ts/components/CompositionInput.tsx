@@ -377,14 +377,23 @@ export const CompositionInput: React.ComponentType<Props> = props => {
         return;
       }
 
-      if (propsRef.current.onEditorStateChange) {
-        const selection = quill.getSelection();
+      const { onEditorStateChange } = propsRef.current;
 
-        propsRef.current.onEditorStateChange(
-          text,
-          mentions,
-          selection ? selection.index : undefined
-        );
+      if (onEditorStateChange) {
+        // `getSelection` inside the `onChange` event handler will be the
+        // selection value _before_ the change occurs. `setTimeout` 0 here will
+        // let `getSelection` return the selection after the change takes place.
+        // this is necessary for `maybeGrabLinkPreview` as it needs the correct
+        // `caretLocation` from the post-change selection index value.
+        setTimeout(() => {
+          const selection = quill.getSelection();
+
+          onEditorStateChange(
+            text,
+            mentions,
+            selection ? selection.index : undefined
+          );
+        }, 0);
       }
     }
 
