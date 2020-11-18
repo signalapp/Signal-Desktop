@@ -71,7 +71,6 @@ declare global {
     lokiMessageAPI: LokiMessageInterface;
     lokiPublicChatAPI: LokiPublicChatFactoryInterface;
     lokiSnodeAPI: LokiSnodeAPI;
-    lokiPublicChatAPI: LokiPublicChatFactoryAPI;
     mnemonic: RecoveryPhraseUtil;
     onLogin: any;
     passwordUtil: any;

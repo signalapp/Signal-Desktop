@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useNetwork } from './useNetwork';
+import { useNetwork } from '../../../hooks/useNetwork';
 
 type ContainerProps = {
   show: boolean;

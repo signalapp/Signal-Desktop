@@ -4,81 +4,56 @@ import { RenderTextCallbackType } from '../../types/Util';
 import classNames from 'classnames';
 import { MultiDeviceProtocol } from '../../session/protocols';
 import { FindMember } from '../../util';
+import { useInterval } from '../../hooks/useInterval';
 
 interface MentionProps {
-  key: number;
+  key: string;
   text: string;
   convoId: string;
 }
 
-interface MentionState {
-  found: any;
-  us: boolean;
-}
+const Mention = (props: MentionProps) => {
+  const [found, setFound] = React.useState<any>(undefined);
+  const [us, setUs] = React.useState(false);
 
-class Mention extends React.Component<MentionProps, MentionState> {
-  private intervalHandle: any = null;
-  constructor(props: any) {
-    super(props);
-
-    this.tryRenameMention = this.tryRenameMention.bind(this);
-  }
-
-  public componentWillMount() {
-    this.setState({ found: false });
-
-    // TODO: give up after some period of time?
-    this.intervalHandle = setInterval(this.tryRenameMention, 30000);
-
-    this.tryRenameMention().ignore();
-  }
-
-  public componentWillUnmount() {
-    this.clearOurInterval();
-  }
-
-  public render() {
-    if (this.state.found) {
-      // TODO: We don't have to search the database of message just to know that the message is for us!
-      const us = this.state.us;
-      const className = classNames(
-        'mention-profile-name',
-        us && 'mention-profile-name-us'
+  const tryRenameMention = async () => {
+    if (!found) {
+      const foundMember = await FindMember.findMember(
+        props.text.slice(1),
+        props.convoId
       );
-
-      const profileName = this.state.found.authorProfileName;
-      const displayedName =
-        profileName && profileName.length > 0 ? profileName : 'Anonymous';
-
-      return <span className={className}>{displayedName}</span>;
-    } else {
-      return (
-        <span className="mention-profile-name">
-          {window.shortenPubkey(this.props.text)}
-        </span>
-      );
+      if (foundMember) {
+        const itsUs = await MultiDeviceProtocol.isOurDevice(
+          foundMember.authorPhoneNumber
+        );
+        setUs(itsUs);
+        setFound(foundMember);
+        // FIXME stop this interval once we found it.
+      }
     }
-  }
+  };
 
-  private clearOurInterval() {
-    clearInterval(this.intervalHandle);
-  }
+  useInterval(() => void tryRenameMention(), 10000);
 
-  private async tryRenameMention() {
-    const bound = this.clearOurInterval.bind(this);
-    const found = await FindMember.findMember(
-      this.props.text.slice(1),
-      this.props.convoId,
-      bound
+  if (found) {
+    // TODO: We don't have to search the database of message just to know that the message is for us!
+    const className = classNames(
+      'mention-profile-name',
+      us && 'mention-profile-name-us'
     );
-    if (found) {
-      const us = await MultiDeviceProtocol.isOurDevice(found.authorPhoneNumber);
 
-      this.setState({ found, us });
-      this.clearOurInterval();
-    }
+    const profileName = found.authorProfileName;
+    const displayedName =
+      profileName && profileName.length > 0 ? profileName : 'Anonymous';
+    return <span className={className}>{displayedName}</span>;
+  } else {
+    return (
+      <span className="mention-profile-name">
+        {window.shortenPubkey(props.text)}
+      </span>
+    );
   }
-}
+};
 
 interface Props {
   text: string;
@@ -109,15 +84,16 @@ export class AddMentions extends React.Component<Props> {
     if (!match) {
       return renderOther({ text, key: 0 });
     }
-
     while (match) {
+      count++;
+      const key = count;
       if (last < match.index) {
         const otherText = text.slice(last, match.index);
-        results.push(renderOther({ text: otherText, key: count++ }));
+        results.push(renderOther({ text: otherText, key }));
       }
 
       const pubkey = text.slice(match.index, FIND_MENTIONS.lastIndex);
-      results.push(<Mention text={pubkey} key={count++} convoId={convoId} />);
+      results.push(<Mention text={pubkey} key={`${key}`} convoId={convoId} />);
 
       // @ts-ignore
       last = FIND_MENTIONS.lastIndex;

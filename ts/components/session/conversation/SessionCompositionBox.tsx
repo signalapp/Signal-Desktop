@@ -4,8 +4,6 @@ import _, { debounce } from 'lodash';
 import { Attachment, AttachmentType } from '../../../types/Attachment';
 import * as MIME from '../../../types/MIME';
 
-import TextareaAutosize from 'react-autosize-textarea';
-
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import { SessionEmojiPanel } from './SessionEmojiPanel';
 import { SessionRecording } from './SessionRecording';
@@ -24,8 +22,10 @@ import {
   LINK_PREVIEW_TIMEOUT,
   SessionStagedLinkPreview,
 } from './SessionStagedLinkPreview';
-import { AbortController, AbortSignal } from 'abort-controller';
+import { AbortController } from 'abort-controller';
 import { SessionQuotedMessageComposition } from './SessionQuotedMessageComposition';
+import { Mention, MentionsInput } from 'react-mentions';
+import { MemberItem } from '../../conversation/MemberList';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -61,6 +61,8 @@ interface Props {
   isPrivate: boolean;
   isKickedFromGroup: boolean;
   leftGroup: boolean;
+  conversationKey: string;
+  isPublic: boolean;
 
   quotedMessageProps?: ReplyingToMessageProps;
   removeQuotedMessage: () => void;
@@ -83,24 +85,54 @@ interface State {
   stagedLinkPreview?: StagedLinkPreviewData;
 }
 
+const sendMessageStyle = {
+  control: {
+    wordBreak: 'break-all',
+  },
+  input: {
+    overflow: 'auto',
+    maxHeight: 70,
+    wordBreak: 'break-all',
+    padding: '0px',
+    margin: '0px',
+  },
+  highlighter: {
+    boxSizing: 'border-box',
+    overflow: 'hidden',
+    maxHeight: 70,
+  },
+  flexGrow: 1,
+  minHeight: '24px',
+  width: '100%',
+};
+
+const getDefaultState = () => {
+  return {
+    message: '',
+    voiceRecording: undefined,
+    showRecordingView: false,
+    mediaSetting: null,
+    showEmojiPanel: false,
+    ignoredLink: undefined,
+    stagedLinkPreview: undefined,
+  };
+};
+
 export class SessionCompositionBox extends React.Component<Props, State> {
-  private readonly textarea: React.RefObject<HTMLTextAreaElement>;
+  private readonly textarea: React.RefObject<any>;
   private readonly fileInput: React.RefObject<HTMLInputElement>;
   private emojiPanel: any;
   private linkPreviewAbortController?: AbortController;
+  private container: any;
+  private mentionsData: Array<{ display: string; id: string }>;
 
   constructor(props: any) {
     super(props);
-    this.state = {
-      message: '',
-      voiceRecording: undefined,
-      showRecordingView: false,
-      mediaSetting: null,
-      showEmojiPanel: false,
-    };
+    this.state = getDefaultState();
 
     this.textarea = props.textarea;
     this.fileInput = React.createRef();
+    this.mentionsData = [];
 
     // Emojis
     this.emojiPanel = null;
@@ -132,6 +164,8 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     this.onKeyDown = this.onKeyDown.bind(this);
     this.onChange = this.onChange.bind(this);
     this.focusCompositionBox = this.focusCompositionBox.bind(this);
+
+    this.fetchUsersForGroup = this.fetchUsersForGroup.bind(this);
   }
 
   public async componentWillMount() {
@@ -146,6 +180,13 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   public componentWillUnmount() {
     this.linkPreviewAbortController?.abort();
     this.linkPreviewAbortController = undefined;
+  }
+  public componentDidUpdate(prevProps: Props, prevState: State) {
+    // reset the state on new conversation key
+    if (prevProps.conversationKey !== this.props.conversationKey) {
+      this.setState(getDefaultState());
+      this.mentionsData = [];
+    }
   }
 
   public render() {
@@ -253,19 +294,59 @@ export class SessionCompositionBox extends React.Component<Props, State> {
           className="send-message-input"
           role="main"
           onClick={this.focusCompositionBox}
+          ref={el => {
+            this.container = el;
+          }}
         >
-          <TextareaAutosize
-            rows={1}
-            maxRows={3}
-            ref={this.textarea}
-            spellCheck={false}
-            placeholder={messagePlaceHolder}
-            maxLength={Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH}
-            onKeyDown={this.onKeyDown}
-            value={message}
+          <MentionsInput
+            value={this.state.message}
             onChange={this.onChange}
+            onKeyDown={this.onKeyDown}
+            placeholder={messagePlaceHolder}
+            spellCheck={false}
+            inputRef={this.textarea}
             disabled={!typingEnabled}
-          />
+            maxLength={Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH}
+            rows={1}
+            // maxRows={3}
+            style={sendMessageStyle}
+            suggestionsPortalHost={this.container}
+            allowSuggestionsAboveCursor={true}
+          >
+            <Mention
+              appendSpaceOnAdd={true}
+              markup="@(__id__)" // @__id__ does not work, see cleanMentions()
+              trigger="@"
+              displayTransform={id => `@${id}`}
+              data={this.fetchUsersForGroup}
+              renderSuggestion={(
+                suggestion,
+                _search,
+                _highlightedDisplay,
+                _index,
+                focused
+              ) => (
+                <MemberItem
+                  i18n={window.i18n}
+                  selected={focused}
+                  // tslint:disable-next-line: no-empty
+                  onClicked={() => {}}
+                  existingMember={false}
+                  member={{
+                    id: `${suggestion.id}`,
+                    authorPhoneNumber: `${suggestion.id}`,
+                    selected: false,
+                    authorProfileName: `${suggestion.display}`,
+                    authorName: `${suggestion.display}`,
+                    existingMember: false,
+                    checkmarked: false,
+                    authorAvatarPath: '',
+                  }}
+                  checkmarked={false}
+                />
+              )}
+            />
+          </MentionsInput>
         </div>
 
         {typingEnabled && (
@@ -300,6 +381,84 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         )}
       </>
     );
+  }
+  private fetchUsersForGroup(query: any, callback: any) {
+    if (!query) {
+      return;
+    }
+    if (this.props.isPublic) {
+      this.fetchUsersForOpenGroup(query, callback);
+      return;
+    }
+    if (!this.props.isPrivate) {
+      this.fetchUsersForClosedGroup(query, callback);
+      return;
+    }
+  }
+
+  private fetchUsersForOpenGroup(query: any, callback: any) {
+    if (!query) {
+      return;
+    }
+    void window.lokiPublicChatAPI
+      .getListOfMembers()
+      .then(members =>
+        members
+          .filter(d => !!d)
+          .filter(d => d.authorProfileName !== 'Anonymous')
+          .filter(d =>
+            d.authorProfileName?.toLowerCase()?.includes(query.toLowerCase())
+          )
+      )
+      // Transform the users to what react-mentions expects
+      .then(members => {
+        const toRet = members.map(user => ({
+          display: user.authorProfileName,
+          id: user.authorPhoneNumber,
+        }));
+        return toRet;
+      })
+      .then(callback);
+  }
+
+  private fetchUsersForClosedGroup(query: any, callback: any) {
+    if (!query) {
+      return;
+    }
+    const conversationModel = window.ConversationController.get(
+      this.props.conversationKey
+    );
+    if (!conversationModel) {
+      return;
+    }
+    const allPubKeys = conversationModel.get('members');
+
+    const allMembers = allPubKeys.map(pubKey => {
+      const conv = window.ConversationController.get(pubKey);
+      let profileName = 'Anonymous';
+      if (conv) {
+        profileName = conv.getProfileName();
+      }
+      return {
+        id: pubKey,
+        authorPhoneNumber: pubKey,
+        authorProfileName: profileName,
+      };
+    });
+    const members = allMembers
+      .filter(d => !!d)
+      .filter(d => d.authorProfileName !== 'Anonymous')
+      .filter(d =>
+        d.authorProfileName?.toLowerCase()?.includes(query.toLowerCase())
+      );
+    // Transform the users to what react-mentions expects
+
+    const mentionsData = members.map(user => ({
+      display: user.authorProfileName,
+      id: user.authorPhoneNumber,
+    }));
+    this.mentionsData = mentionsData;
+    callback(mentionsData);
   }
 
   private renderStagedLinkPreview(): JSX.Element {
@@ -495,7 +654,25 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
   // tslint:disable-next-line: cyclomatic-complexity
   private async onSendMessage() {
-    const messagePlaintext = this.parseEmojis(this.state.message);
+    // replace all @(xxx) by @xxx
+    const cleanMentions = (text: string): string => {
+      const mentionRegex = /@\(05[0-9a-f]{64}\)/g;
+      const matches = text.match(mentionRegex);
+      let replacedMentions = text;
+      (matches || []).forEach(match => {
+        const replacedMention = match.substring(2, match.length - 1);
+        replacedMentions = replacedMentions.replace(
+          match,
+          `@${replacedMention}`
+        );
+      });
+
+      return replacedMentions;
+    };
+
+    const messagePlaintext = cleanMentions(
+      this.parseEmojis(this.state.message)
+    );
 
     const { isBlocked, isPrivate, leftGroup, isKickedFromGroup } = this.props;
 

@@ -22,7 +22,7 @@ interface Props {
 }
 
 const renderMentions: RenderTextCallbackType = ({ text, key, convoId }) => (
-  <AddMentions key={key} text={text} convoId={convoId} />
+  <AddMentions key={key} text={text} convoId={convoId || ''} />
 );
 
 const renderDefault: RenderTextCallbackType = ({ text }) => text;

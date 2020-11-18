@@ -92,7 +92,6 @@ const {
   MediaGallery,
 } = require('../../ts/components/conversation/media-gallery/MediaGallery');
 const { Message } = require('../../ts/components/conversation/Message');
-const { MessageBody } = require('../../ts/components/conversation/MessageBody');
 const {
   MessageDetail,
 } = require('../../ts/components/conversation/MessageDetail');
@@ -266,7 +265,6 @@ exports.setup = (options = {}) => {
     SessionPasswordPrompt,
     MediaGallery,
     Message,
-    MessageBody,
     MessageDetail,
     Quote,
     Types: {

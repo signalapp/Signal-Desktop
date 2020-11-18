@@ -77,6 +77,7 @@ export class SessionConversation extends React.Component<Props, State> {
   private readonly compositionBoxRef: React.RefObject<HTMLDivElement>;
   private readonly messageContainerRef: React.RefObject<HTMLDivElement>;
   private dragCounter: number;
+  private publicMembersRefreshTimeout?: NodeJS.Timeout;
 
   constructor(props: any) {
     super(props);
@@ -145,6 +146,8 @@ export class SessionConversation extends React.Component<Props, State> {
     this.handleDragOut = this.handleDragOut.bind(this);
     this.handleDrag = this.handleDrag.bind(this);
     this.handleDrop = this.handleDrop.bind(this);
+
+    this.updateMemberList = this.updateMemberList.bind(this);
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -172,6 +175,22 @@ export class SessionConversation extends React.Component<Props, State> {
         div?.addEventListener('dragover', this.handleDrag);
         div?.addEventListener('drop', this.handleDrop);
       }, 100);
+
+      // if the conversation changed, we have to stop our refresh of member list
+      if (this.publicMembersRefreshTimeout) {
+        global.clearInterval(this.publicMembersRefreshTimeout);
+        this.publicMembersRefreshTimeout = undefined;
+      }
+
+      // if the newConversation changed, and is public, start our refresh members list
+      if (newConversation.isPublic) {
+        // TODO use abort controller to stop those requests too
+        void this.updateMemberList();
+        this.publicMembersRefreshTimeout = global.setInterval(
+          this.updateMemberList,
+          10000
+        );
+      }
     }
     // if we do not have a model, unregister for events
     if (!newConversation) {
@@ -203,6 +222,11 @@ export class SessionConversation extends React.Component<Props, State> {
     div?.removeEventListener('dragleave', this.handleDragOut);
     div?.removeEventListener('dragover', this.handleDrag);
     div?.removeEventListener('drop', this.handleDrop);
+
+    if (this.publicMembersRefreshTimeout) {
+      global.clearInterval(this.publicMembersRefreshTimeout);
+      this.publicMembersRefreshTimeout = undefined;
+    }
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -291,6 +315,8 @@ export class SessionConversation extends React.Component<Props, State> {
               leftGroup={conversation.leftGroup}
               isKickedFromGroup={conversation.isKickedFromGroup}
               isPrivate={conversation.type === 'direct'}
+              isPublic={conversation.isPublic || false}
+              conversationKey={conversationKey}
               sendMessage={sendMessageFn}
               stagedAttachments={stagedAttachments}
               onMessageSending={this.onMessageSending}
@@ -1137,5 +1163,26 @@ export class SessionConversation extends React.Component<Props, State> {
       this.dragCounter = 0;
       this.setState({ isDraggingFile: false });
     }
+  }
+
+  private async updateMemberList() {
+    const allPubKeys = await window.Signal.Data.getPubkeysInPublicConversation(
+      this.props.conversationKey
+    );
+
+    const allMembers = allPubKeys.map((pubKey: string) => {
+      const conv = window.ConversationController.get(pubKey);
+      let profileName = 'Anonymous';
+      if (conv) {
+        profileName = conv.getProfileName();
+      }
+      return {
+        id: pubKey,
+        authorPhoneNumber: pubKey,
+        authorProfileName: profileName,
+      };
+    });
+
+    window.lokiPublicChatAPI.setListOfMembers(allMembers);
   }
 }

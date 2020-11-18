@@ -17,8 +17,7 @@ export function pushToastError(
       title={title}
       description={description}
       type={SessionToastType.Error}
-    />,
-    { toastId: id }
+    />
   );
 }
 
@@ -32,8 +31,7 @@ export function pushToastWarning(
       title={title}
       description={description}
       type={SessionToastType.Warning}
-    />,
-    { toastId: id }
+    />
   );
 }
 
@@ -43,8 +41,7 @@ export function pushToastInfo(id: string, title: string, description?: string) {
       title={title}
       description={description}
       type={SessionToastType.Info}
-    />,
-    { toastId: id }
+    />
   );
 }
 

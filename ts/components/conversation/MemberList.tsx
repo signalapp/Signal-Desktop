@@ -21,22 +21,19 @@ interface MemberItemProps {
   checkmarked: boolean;
 }
 
-class MemberItem extends React.Component<MemberItemProps> {
+export class MemberItem extends React.Component<MemberItemProps> {
   constructor(props: any) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
   }
 
   public render() {
-    const name = this.props.member.authorProfileName;
-    const pubkey = this.props.member.authorPhoneNumber;
-    const selected = this.props.selected;
-    const existingMember = this.props.existingMember;
+    const {authorProfileName: name, authorPhoneNumber: pubkey, selected, existingMember, checkmarked} = this.props.member;
     const shortPubkey = window.shortenPubkey(pubkey);
 
     let markType: 'none' | 'kicked' | 'added' | 'existing' = 'none';
 
-    if (this.props.checkmarked) {
+    if (checkmarked) {
       if (existingMember) {
         markType = 'kicked';
       } else {
@@ -65,7 +62,6 @@ class MemberItem extends React.Component<MemberItemProps> {
       default:
       // do nothing
     }
-
     const mark = markType === 'kicked' ? '✘' : '✔';
 
     return (
@@ -124,16 +120,16 @@ export class MemberList extends React.Component<MemberListProps> {
   }
 
   public render() {
-    const { members } = this.props;
+    const { members, selected } = this.props;
 
     const itemList = members.map(item => {
-      const selected = item === this.props.selected;
+      const isSelected = item === selected;
 
       return (
         <MemberItem
           key={item.id}
           member={item}
-          selected={selected}
+          selected={isSelected}
           checkmarked={item.checkmarked}
           existingMember={item.existingMember}
           i18n={this.props.i18n}

@@ -13,7 +13,6 @@
   clipboard,
   BlockedNumberController,
   lokiPublicChatAPI,
-  JobQueue,
 */
 
 /* eslint-disable more/no-then */
