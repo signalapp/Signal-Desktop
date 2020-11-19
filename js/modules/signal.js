@@ -50,6 +50,10 @@ const {
   SessionSeedModal,
 } = require('../../ts/components/session/SessionSeedModal');
 const {
+  SessionRegistrationView,
+} = require('../../ts/components/session/SessionRegistrationView');
+
+const {
   SessionInboxView,
 } = require('../../ts/components/session/SessionInboxView');
 const {
@@ -255,6 +259,7 @@ exports.setup = (options = {}) => {
     SessionSeedModal,
     SessionPasswordModal,
     SessionPasswordPrompt,
+    SessionRegistrationView,
     MediaGallery,
     Message,
     Quote,

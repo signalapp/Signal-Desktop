@@ -982,7 +982,7 @@
       }
     });
 
-    Whisper.events.on('showPasswordDialog', async (options) => {
+    Whisper.events.on('showPasswordDialog', async options => {
       if (appView) {
         appView.showPasswordDialog(options);
       }

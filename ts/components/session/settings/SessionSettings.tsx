@@ -546,10 +546,10 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           buttonColor: SessionButtonColor.Primary,
         },
         onClick: () => {
-            window.Whisper.events.trigger('showPasswordDialog', {
-              action: 'change',
-              onSuccess: this.onPasswordUpdated,
-            });
+          window.Whisper.events.trigger('showPasswordDialog', {
+            action: 'change',
+            onSuccess: this.onPasswordUpdated,
+          });
         },
         confirmationDialogParams: undefined,
       },
@@ -571,7 +571,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
             action: 'remove',
             onSuccess: this.onPasswordUpdated,
           });
-      },
+        },
         confirmationDialogParams: undefined,
       },
     ];
