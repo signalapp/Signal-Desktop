@@ -30,6 +30,7 @@ interface Props {
   conversation: ConversationType;
   messageContainerRef: React.RefObject<any>;
   selectMessage: (messageId: string) => void;
+  deleteMessage: (messageId: string) => void;
   fetchMessagesForConversation: ({
     conversationKey,
     count,
@@ -261,6 +262,9 @@ export class SessionMessagesList extends React.Component<Props, State> {
     messageProps.onSelectMessage = (messageId: string) => {
       this.selectMessage(messageId);
     };
+    messageProps.onDeleteMessage = (messageId: string) => {
+      this.deleteMessage(messageId);
+    };
 
     messageProps.onReply = (messageId: number) => {
       void this.props.replyToMessage(messageId);
@@ -460,6 +464,10 @@ export class SessionMessagesList extends React.Component<Props, State> {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public selectMessage(messageId: string) {
     this.props.selectMessage(messageId);
+  }
+
+  public deleteMessage(messageId: string) {
+    this.props.deleteMessage(messageId);
   }
 
   private async scrollToQuoteMessage(options: any = {}) {

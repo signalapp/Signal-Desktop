@@ -451,7 +451,6 @@ window.shortenPubkey = pubkey => {
 
 window.pubkeyPattern = /@[a-fA-F0-9]{64,66}\b/g;
 
-// TODO: activate SealedSender once it is ready on all platforms
 window.lokiFeatureFlags = {
   multiDeviceUnpairing: true,
   privateGroupChats: true,

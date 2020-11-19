@@ -88,9 +88,6 @@ const {
   MediaGallery,
 } = require('../../ts/components/conversation/media-gallery/MediaGallery');
 const { Message } = require('../../ts/components/conversation/Message');
-const {
-  MessageDetail,
-} = require('../../ts/components/conversation/MessageDetail');
 const { Quote } = require('../../ts/components/conversation/Quote');
 const {
   TypingBubble,
@@ -260,7 +257,6 @@ exports.setup = (options = {}) => {
     SessionPasswordPrompt,
     MediaGallery,
     Message,
-    MessageDetail,
     Quote,
     Types: {
       Message: MediaGalleryMessage,

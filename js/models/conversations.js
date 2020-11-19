@@ -2239,14 +2239,14 @@
       if (message) {
         message.trigger('unload');
         this.messageCollection.remove(messageId);
-        window.Signal.Data.removeMessage(message.id, {
-          Message: Whisper.Message,
-        });
-        window.Whisper.events.trigger('messageDeleted', {
-          conversationKey: this.id,
-          messageId,
-        });
       }
+      window.Signal.Data.removeMessage(messageId, {
+        Message: Whisper.Message,
+      });
+      window.Whisper.events.trigger('messageDeleted', {
+        conversationKey: this.id,
+        messageId,
+      });
     },
 
     deleteMessages() {

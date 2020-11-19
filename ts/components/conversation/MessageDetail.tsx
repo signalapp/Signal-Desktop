@@ -5,7 +5,6 @@ import moment from 'moment';
 import { Avatar } from '../Avatar';
 import { ContactName } from './ContactName';
 import { Message, Props as MessageProps } from './Message';
-import { LocalizerType } from '../../types/Util';
 
 interface Contact {
   status: string;
@@ -31,12 +30,11 @@ interface Props {
   errors: Array<Error>;
   contacts: Array<Contact>;
 
-  i18n: LocalizerType;
+  onDeleteMessage: (messageId: string) => void;
 }
 
 export class MessageDetail extends React.Component<Props> {
   public renderAvatar(contact: Contact) {
-    const { i18n } = this.props;
     const { avatarPath, phoneNumber, name, profileName } = contact;
     const userName = name || profileName || phoneNumber;
 
@@ -51,12 +49,16 @@ export class MessageDetail extends React.Component<Props> {
   }
 
   public renderDeleteButton() {
-    const { i18n, message } = this.props;
+    const { i18n } = window;
+
+    const { message } = this.props;
 
     return message.isDeletable ? (
       <div className="module-message-detail__delete-button-container">
         <button
-          onClick={message.onDelete}
+          onClick={() => {
+            this.props.onDeleteMessage(message.id);
+          }}
           className="module-message-detail__delete-button"
         >
           {i18n('deleteThisMessage')}
@@ -66,7 +68,7 @@ export class MessageDetail extends React.Component<Props> {
   }
 
   public renderContact(contact: Contact) {
-    const { i18n } = this.props;
+    const { i18n } = window;
     const errors = contact.errors || [];
 
     const errorComponent = contact.isOutgoingKeyError ? (
@@ -138,7 +140,9 @@ export class MessageDetail extends React.Component<Props> {
   }
 
   public render() {
-    const { errors, message, receivedAt, sentAt, i18n } = this.props;
+    const { i18n } = window;
+
+    const { errors, message, receivedAt, sentAt } = this.props;
 
     return (
       <div className="module-message-detail">

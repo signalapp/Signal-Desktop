@@ -92,6 +92,7 @@ export interface ConversationModel
   makeQuote: any;
   unblock: any;
   deleteContact: any;
+  removeMessage: (messageId: string) => Promise<void>;
   deleteMessages();
 
   endSession: () => Promise<void>;

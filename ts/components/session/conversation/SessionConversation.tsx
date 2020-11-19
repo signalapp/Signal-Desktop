@@ -28,7 +28,7 @@ import * as MIME from '../../../types/MIME';
 import { SessionFileDropzone } from './SessionFileDropzone';
 import { ConversationType } from '../../../state/ducks/conversations';
 import { MessageView } from '../../MainViewController';
-import { getMessageById } from '../../../../js/modules/data';
+import { getMessageById, removeMessage } from '../../../../js/modules/data';
 import { pushUnblockToSend } from '../../../session/utils/Toast';
 
 interface State {
@@ -129,6 +129,7 @@ export class SessionConversation extends React.Component<Props, State> {
     this.deleteSelectedMessages = this.deleteSelectedMessages.bind(this);
 
     this.replyToMessage = this.replyToMessage.bind(this);
+    this.deleteMessage = this.deleteMessage.bind(this);
     this.onClickAttachment = this.onClickAttachment.bind(this);
     this.downloadAttachment = this.downloadAttachment.bind(this);
 
@@ -492,6 +493,7 @@ export class SessionConversation extends React.Component<Props, State> {
       quotedMessageTimestamp,
       conversation,
       selectMessage: this.selectMessage,
+      deleteMessage: this.deleteMessage,
       fetchMessagesForConversation: actions.fetchMessagesForConversation,
       replyToMessage: this.replyToMessage,
       onClickAttachment: this.onClickAttachment,
@@ -687,13 +689,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
       await Promise.all(
         toDeleteLocally.map(async (message: any) => {
-          await window.Signal.Data.removeMessage(message.id, {
-            Message: window.Whisper.Message,
-          });
-          window.Whisper.events.trigger('messageDeleted', {
-            conversationKey,
-            messageId: message.id,
-          });
+          await conversationModel.removeMessage(message.id);
         })
       );
 
@@ -732,6 +728,13 @@ export class SessionConversation extends React.Component<Props, State> {
       : [...this.state.selectedMessages, messageId];
 
     this.setState({ selectedMessages });
+  }
+
+  public deleteMessage(messageId: string) {
+    this.setState(
+      { selectedMessages: [messageId] },
+      this.deleteSelectedMessages
+    );
   }
 
   public resetSelection() {

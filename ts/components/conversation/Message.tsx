@@ -105,7 +105,7 @@ export interface Props {
   onReply?: (messagId: number) => void;
   onRetrySend?: () => void;
   onDownload?: (attachment: AttachmentType) => void;
-  onDelete?: () => void;
+  onDeleteMessage: (messageId: string) => void;
   onCopyPubKey?: () => void;
   onBanUser?: () => void;
   onShowDetail: () => void;
@@ -817,6 +817,7 @@ export class Message extends React.PureComponent<Props, State> {
       isDeletable,
       id,
       onSelectMessage,
+      onDeleteMessage,
       onDownload,
       onRetrySend,
       onShowDetail,
@@ -854,6 +855,7 @@ export class Message extends React.PureComponent<Props, State> {
     };
 
     const selectMessageText = window.i18n('selectMessage');
+    const deleteMessageText = window.i18n('deleteMessage');
 
     return (
       <Menu
@@ -886,14 +888,22 @@ export class Message extends React.PureComponent<Props, State> {
           <Item onClick={wrap(onRetrySend)}>{window.i18n('resend')}</Item>
         ) : null}
         {isDeletable ? (
-          <Item
-            onClick={(e: any) => {
-              e.event.stopPropagation();
-              onSelectMessage(id);
-            }}
-          >
-            {selectMessageText}
-          </Item>
+          <>
+            <Item
+              onClick={() => {
+                onSelectMessage(id);
+              }}
+            >
+              {selectMessageText}
+            </Item>
+            <Item
+              onClick={() => {
+                onDeleteMessage(id);
+              }}
+            >
+              {deleteMessageText}
+            </Item>
+          </>
         ) : null}
         {isModerator && isPublic ? (
           <Item onClick={wrap(onBanUser)}>{window.i18n('banUser')}</Item>
