@@ -127,8 +127,30 @@
   margin-top: -10px;
   margin-bottom: -10px;
 
-  border-radius: 16px;
+  border-radius: $session_message-container-border-radius;
   overflow: hidden;
+  // no background by default for the attachment container
+  @include themify($themes) {
+    background: themed('inboxBackground');
+  }
+}
+
+.module-message--outgoing {
+  .module-message__attachment-container--with-content-below,
+  .module-message__attachment-container--with-content-above {
+    @include themify($themes) {
+      background: themed('sentMessageBackground');
+    }
+  }
+}
+
+.module-message--incoming {
+  .module-message__attachment-container--with-content-below,
+  .module-message__attachment-container--with-content-above {
+    @include themify($themes) {
+      background: themed('receivedMessageBackground');
+    }
+  }
 }
 
 .module-message__attachment-container--with-content-below {
@@ -281,8 +303,8 @@
   margin-inline-end: -12px;
   margin-top: -10px;
   margin-bottom: 5px;
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
+  border-top-left-radius: $session_message-container-border-radius;
+  border-top-right-radius: $session_message-container-border-radius;
 }
 
 .module-message__link-preview--with-content-above {
@@ -293,8 +315,8 @@
 
 .module-message__link-preview__content {
   padding: 8px;
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
+  border-top-left-radius: $session_message-container-border-radius;
+  border-top-right-radius: $session_message-container-border-radius;
   background-color: $color-white;
   display: flex;
   flex-direction: row;
@@ -411,18 +433,13 @@
   font-size: 11px;
   line-height: 16px;
   letter-spacing: 0.3px;
-  color: $color-gray-60;
   text-transform: uppercase;
   user-select: none;
 }
 
 .module-message__metadata__badge {
   font-weight: bold;
-}
-
-.module-message__metadata__date--incoming,
-.module-message__metadata__badge--incoming {
-  color: $color-white-08;
+  padding-inline-end: 5px;
 }
 
 .module-message__metadata__date--with-image-no-caption {
@@ -493,8 +510,8 @@
   text-align: center;
   padding: 10px;
 
-  border-bottom-left-radius: 16px;
-  border-bottom-right-radius: 16px;
+  border-bottom-left-radius: $session_message-container-border-radius;
+  border-bottom-right-radius: $session_message-container-border-radius;
 }
 
 .module-message__author-avatar {
@@ -1800,16 +1817,16 @@
 }
 
 .module-image--curved-top-left {
-  border-top-left-radius: 16px;
+  border-top-left-radius: $session_message-container-border-radius;
 }
 .module-image--curved-top-right {
-  border-top-right-radius: 16px;
+  border-top-right-radius: $session_message-container-border-radius;
 }
 .module-image--curved-bottom-left {
-  border-bottom-left-radius: 16px;
+  border-bottom-left-radius: $session_message-container-border-radius;
 }
 .module-image--curved-bottom-right {
-  border-bottom-right-radius: 16px;
+  border-bottom-right-radius: $session_message-container-border-radius;
 }
 .module-image--small-curved-top-left {
   border-top-left-radius: 10px;

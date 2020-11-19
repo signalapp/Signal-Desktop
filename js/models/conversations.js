@@ -1148,13 +1148,17 @@
           'with timestamp',
           now
         );
+        // be sure an empty quote is marked as undefined rather than being empty
+        // otherwise upgradeMessageSchema() will return an object with an empty array
+        // and this.get('quote') will be true, even if there is no quote.
+        const editedQuote = _.isEmpty(quote) ? undefined : quote;
 
         const conversationType = this.get('type');
         const messageWithSchema = await upgradeMessageSchema({
           type: 'outgoing',
           body,
           conversationId: destination,
-          quote,
+          quote: editedQuote,
           preview,
           attachments,
           sent_at: now,

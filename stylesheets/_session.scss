@@ -419,9 +419,11 @@ label {
 
 .module-message__attachment-container,
 .module-image--curved-bottom-right,
+.module-image--curved-top-left,
+.module-image--curved-top-right,
 .module-image--curved-bottom-left {
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
+  border-top-left-radius: $session_message-container-border-radius;
+  border-top-right-radius: $session_message-container-border-radius;
   border-bottom-left-radius: $session_message-container-border-radius;
   border-bottom-right-radius: $session_message-container-border-radius;
 }

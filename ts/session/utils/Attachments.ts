@@ -136,13 +136,19 @@ export class AttachmentUtils {
     previews: Array<RawPreview>,
     openGroup?: OpenGroup
   ): Promise<Array<Preview>> {
-    const promises = (previews || []).map(async item => ({
-      ...item,
-      image: await this.upload({
-        attachment: item.image,
-        openGroup,
-      }),
-    }));
+    const promises = (previews || []).map(async item => {
+      // some links does not have an image associated, and it makes the whole message fail to send
+      if (!item.image) {
+        return item;
+      }
+      return {
+        ...item,
+        image: await this.upload({
+          attachment: item.image,
+          openGroup,
+        }),
+      };
+    });
     return Promise.all(promises);
   }
 

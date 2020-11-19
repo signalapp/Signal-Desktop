@@ -722,6 +722,7 @@
     getPropsForQuote(options = {}) {
       const { noClick } = options;
       const quote = this.get('quote');
+
       if (!quote) {
         return null;
       }

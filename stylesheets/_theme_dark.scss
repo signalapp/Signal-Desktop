@@ -297,10 +297,6 @@
     color: $color-gray-25;
   }
 
-  .module-message__metadata__date--with-image-no-caption {
-    color: $color-white-08;
-  }
-
   .module-message__metadata__status-icon--sending {
     @include color-svg('../images/sending.svg', $color-white-08);
   }

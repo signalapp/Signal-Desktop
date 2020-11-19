@@ -41,11 +41,7 @@
       }
     }
 
-    .module-message__author,
-    .module-message__metadata,
-    .module-message__metadata__date,
-    .module-message__metadata__badge,
-    .module-message__metadata__badge--separator {
+    .module-message__author {
       @include themify($themes) {
         @include session-color-subtle(themed('receivedMessageText'));
       }
@@ -79,11 +75,7 @@
       }
     }
 
-    .module-message__author,
-    .module-message__metadata,
-    .module-message__metadata__date,
-    .module-message__metadata__badge,
-    .module-message__metadata__badge--separator {
+    .module-message__author {
       @include themify($themes) {
         @include session-color-subtle(themed('sentMessageText'));
       }
@@ -91,26 +83,30 @@
   }
 }
 
-.message {
-  &-highlighted {
+.session-message-wrapper {
+  &.message-highlighted {
     animation: highlightedMessageAnimation 1s ease-in-out;
   }
 
-  &-selected {
+  &.message-selected {
     .module-message {
       &__container {
         @include themify($themes) {
           box-shadow: themed('sessionShadow');
         }
       }
-
-      &__author {
-        color: $session-color-white;
-      }
     }
   }
 
-  &-read-receipt-container {
+  // when no caption, we have to force white as we have a black shadow on the back
+  .module-message__metadata--with-image-no-caption {
+    .message-read-receipt-container {
+      .session-icon.check {
+        fill: white;
+      }
+    }
+  }
+  .message-read-receipt-container {
     margin-inline-start: 5px;
     .session-icon.check {
       @include themify($themes) {
