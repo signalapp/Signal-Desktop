@@ -23,6 +23,13 @@ import {
   TimerOption,
 } from '../../util/ExpirationTimerOptions';
 import { isMuted } from '../../util/isMuted';
+import { missingCaseError } from '../../util/missingCaseError';
+
+export enum OutgoingCallButtonStyle {
+  None,
+  JustVideo,
+  Both,
+}
 
 export interface PropsDataType {
   id: string;
@@ -49,7 +56,7 @@ export interface PropsDataType {
   muteExpiresAt?: number;
 
   showBackButton?: boolean;
-  showCallButtons?: boolean;
+  outgoingCallButtonStyle: OutgoingCallButtonStyle;
 }
 
 export interface PropsActionsType {
@@ -264,42 +271,51 @@ export class ConversationHeader extends React.Component<PropsType> {
       i18n,
       onOutgoingAudioCallInConversation,
       onOutgoingVideoCallInConversation,
-      showCallButtons,
+      outgoingCallButtonStyle,
       showBackButton,
     } = this.props;
 
-    if (!showCallButtons) {
-      return null;
-    }
-
-    return (
-      <>
-        <button
-          type="button"
-          onClick={onOutgoingVideoCallInConversation}
-          className={classNames(
-            'module-conversation-header__video-calling-button',
-            showBackButton
-              ? null
-              : 'module-conversation-header__video-calling-button--show'
-          )}
-          disabled={showBackButton}
-          aria-label={i18n('makeOutgoingVideoCall')}
-        />
-        <button
-          type="button"
-          onClick={onOutgoingAudioCallInConversation}
-          className={classNames(
-            'module-conversation-header__audio-calling-button',
-            showBackButton
-              ? null
-              : 'module-conversation-header__audio-calling-button--show'
-          )}
-          disabled={showBackButton}
-          aria-label={i18n('makeOutgoingCall')}
-        />
-      </>
+    const videoButton = (
+      <button
+        type="button"
+        onClick={onOutgoingVideoCallInConversation}
+        className={classNames(
+          'module-conversation-header__video-calling-button',
+          showBackButton
+            ? null
+            : 'module-conversation-header__video-calling-button--show'
+        )}
+        disabled={showBackButton}
+        aria-label={i18n('makeOutgoingVideoCall')}
+      />
     );
+
+    switch (outgoingCallButtonStyle) {
+      case OutgoingCallButtonStyle.None:
+        return null;
+      case OutgoingCallButtonStyle.JustVideo:
+        return videoButton;
+      case OutgoingCallButtonStyle.Both:
+        return (
+          <>
+            {videoButton}
+            <button
+              type="button"
+              onClick={onOutgoingAudioCallInConversation}
+              className={classNames(
+                'module-conversation-header__audio-calling-button',
+                showBackButton
+                  ? null
+                  : 'module-conversation-header__audio-calling-button--show'
+              )}
+              disabled={showBackButton}
+              aria-label={i18n('makeOutgoingCall')}
+            />
+          </>
+        );
+      default:
+        throw missingCaseError(outgoingCallButtonStyle);
+    }
   }
 
   public renderMenu(triggerId: string): JSX.Element {
