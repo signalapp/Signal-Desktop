@@ -1511,7 +1511,7 @@ class LokiPublicChannelAPI {
       }
     }
     sigString += [...attachmentAnnotations, ...previewAnnotations]
-      .map(data => data.id || data.image.id)
+      .map(data => data.id || (data.image && data.image.id))
       .sort()
       .join('');
     sigString += sigVer;
@@ -2038,18 +2038,18 @@ class LokiPublicChannelAPI {
         // Signal stuff we actually care about
         linkPreviewTitle: preview.title,
         linkPreviewUrl: preview.url,
-        caption: preview.image.caption,
-        contentType: preview.image.contentType,
-        digest: preview.image.digest,
-        fileName: preview.image.fileName,
-        flags: preview.image.flags,
-        height: preview.image.height,
-        id: preview.image.id,
-        key: preview.image.key,
-        size: preview.image.size,
-        thumbnail: preview.image.thumbnail,
-        url: preview.image.url,
-        width: preview.image.width,
+        caption: (preview.image && preview.image.caption) || undefined,
+        contentType: (preview.image && preview.image.contentType) || undefined,
+        digest: (preview.image && preview.image.digest) || undefined,
+        fileName: (preview.image && preview.image.fileName) || undefined,
+        flags: (preview.image && preview.image.flags) || undefined,
+        height: (preview.image && preview.image.height) || undefined,
+        id: (preview.image && preview.image.id) || undefined,
+        key: (preview.image && preview.image.key) || undefined,
+        size: (preview.image && preview.image.size) || undefined,
+        thumbnail: (preview.image && preview.image.thumbnail) || undefined,
+        url: (preview.image && preview.image.url) || undefined,
+        width: (preview.image && preview.image.width) || undefined,
       },
     };
     return annotation;
