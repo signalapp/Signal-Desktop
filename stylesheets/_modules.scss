@@ -2782,24 +2782,34 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 }
 
-.module-in-contacts-icon__tooltip {
-  .react-tooltip-lite {
+span.module-in-contacts-icon__tooltip {
+  /* Written in this way to add more specificity and avoid !important */
+  .module-tooltip {
     color: $color-white;
     background-color: $ultramarine-ui-light;
-  }
 
-  .react-tooltip-lite-arrow {
-    border-color: $ultramarine-ui-light;
-  }
-
-  @include dark-theme {
-    .react-tooltip-lite {
-      color: $color-white;
-      background-color: $ultramarine-ui-light;
+    &[data-placement='top'] {
+      .module-tooltip-arrow::after {
+        border-top-color: $ultramarine-ui-light;
+      }
     }
 
-    .react-tooltip-lite-arrow {
-      border-color: $ultramarine-ui-light;
+    &[data-placement='right'] {
+      .module-tooltip-arrow::after {
+        border-right-color: $ultramarine-ui-light;
+      }
+    }
+
+    &[data-placement='bottom'] {
+      .module-tooltip-arrow::after {
+        border-bottom-color: $ultramarine-ui-light;
+      }
+    }
+
+    &[data-placement='left'] {
+      .module-tooltip-arrow::after {
+        border-left-color: $ultramarine-ui-light;
+      }
     }
   }
 }
@@ -6522,8 +6532,8 @@ button.module-image__border-overlay:focus {
   margin-top: 54px;
   overflow: scroll;
   padding: 14px;
-  padding-bottom: 0;
   width: 280px;
+  padding-bottom: 0;
 
   &__overlay {
     display: flex;
@@ -10183,10 +10193,13 @@ $contact-modal-padding: 18px;
   }
 }
 
-/* Third-party module: react-tooltip-lite */
-
-.react-tooltip-lite {
+.module-tooltip {
   border-radius: 8px;
+  display: inline-block;
+  padding: 8px 21px;
+  position: fixed;
+  text-align: center;
+  z-index: 999;
 
   @include light-theme {
     background-color: $color-gray-02;
@@ -10196,14 +10209,96 @@ $contact-modal-padding: 18px;
     background-color: $color-gray-65;
     color: $color-gray-05;
   }
-}
 
-.react-tooltip-lite-arrow {
-  @include light-theme {
-    border-color: $color-gray-02;
+  .module-tooltip-arrow {
+    position: absolute;
   }
-  @include dark-theme {
-    border-color: $color-gray-65;
+
+  .module-tooltip-arrow::after {
+    border: solid 6px transparent;
+    content: '';
+    display: block;
+    height: 0;
+    margin-left: -6px;
+    margin-top: -6px;
+    position: absolute;
+    width: 0;
+  }
+
+  &[data-placement='top'] {
+    margin-bottom: 12px;
+
+    .module-tooltip-arrow {
+      bottom: 0;
+    }
+
+    .module-tooltip-arrow::after {
+      bottom: -12px;
+
+      @include light-theme {
+        border-top-color: $color-gray-02;
+      }
+      @include dark-theme {
+        border-top-color: $color-gray-65;
+      }
+    }
+  }
+
+  &[data-placement='right'] {
+    margin-left: 12px;
+
+    .module-tooltip-arrow {
+      left: 0;
+    }
+
+    .module-tooltip-arrow::after {
+      left: -6px;
+
+      @include light-theme {
+        border-right-color: $color-gray-02;
+      }
+      @include dark-theme {
+        border-right-color: $color-gray-65;
+      }
+    }
+  }
+
+  &[data-placement='bottom'] {
+    margin-top: 12px;
+
+    .module-tooltip-arrow {
+      top: 0;
+    }
+
+    .module-tooltip-arrow::after {
+      top: -6px;
+
+      @include light-theme {
+        border-bottom-color: $color-gray-02;
+      }
+      @include dark-theme {
+        border-bottom-color: $color-gray-65;
+      }
+    }
+  }
+
+  &[data-placement='left'] {
+    margin-right: 12px;
+
+    .module-tooltip-arrow {
+      right: 0;
+    }
+
+    .module-tooltip-arrow::after {
+      right: -12px;
+
+      @include light-theme {
+        border-left-color: $color-gray-02;
+      }
+      @include dark-theme {
+        border-left-color: $color-gray-65;
+      }
+    }
   }
 }
 

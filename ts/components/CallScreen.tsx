@@ -253,13 +253,11 @@ export const CallScreen: React.FC<PropsType> = ({
             buttonType={videoButtonType}
             i18n={i18n}
             onClick={toggleVideo}
-            tooltipDistance={24}
           />
           <CallingButton
             buttonType={audioButtonType}
             i18n={i18n}
             onClick={toggleAudio}
-            tooltipDistance={24}
           />
           <CallingButton
             buttonType={CallingButtonType.HANG_UP}
@@ -267,7 +265,6 @@ export const CallScreen: React.FC<PropsType> = ({
             onClick={() => {
               hangUp({ conversationId: conversation.id });
             }}
-            tooltipDistance={24}
           />
         </div>
         <div

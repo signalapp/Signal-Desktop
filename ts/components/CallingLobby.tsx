@@ -7,11 +7,8 @@ import {
   SetLocalPreviewType,
   SetLocalVideoType,
 } from '../state/ducks/calling';
-import {
-  CallingButton,
-  CallingButtonType,
-  TooltipDirection,
-} from './CallingButton';
+import { CallingButton, CallingButtonType } from './CallingButton';
+import { TooltipPlacement } from './Tooltip';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
 import { CallingHeader } from './CallingHeader';
 import { Spinner } from './Spinner';
@@ -145,15 +142,13 @@ export const CallingLobby = ({
             buttonType={videoButtonType}
             i18n={i18n}
             onClick={toggleVideo}
-            tooltipDirection={TooltipDirection.UP}
-            tooltipDistance={24}
+            tooltipDirection={TooltipPlacement.Top}
           />
           <CallingButton
             buttonType={audioButtonType}
             i18n={i18n}
             onClick={toggleAudio}
-            tooltipDirection={TooltipDirection.UP}
-            tooltipDistance={24}
+            tooltipDirection={TooltipPlacement.Top}
           />
         </div>
       </div>

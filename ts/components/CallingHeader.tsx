@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import Tooltip from 'react-tooltip-lite';
 import { LocalizerType } from '../types/Util';
+import { Tooltip } from './Tooltip';
 
 export type PropsType = {
   canPip?: boolean;
@@ -34,52 +34,39 @@ export const CallingHeader = ({
       {isGroupCall ? (
         <div className="module-calling-tools__button">
           <Tooltip
-            arrowSize={6}
             content={i18n('calling__participants', [
               String(remoteParticipants),
             ])}
-            direction="down"
-            hoverDelay={0}
           >
             <button
-              type="button"
               aria-label={i18n('calling__participants', [
                 String(remoteParticipants),
               ])}
               className="module-calling-button__participants"
               onClick={toggleParticipants}
+              type="button"
             />
           </Tooltip>
         </div>
       ) : null}
       <div className="module-calling-tools__button">
-        <Tooltip
-          arrowSize={6}
-          content={i18n('callingDeviceSelection__settings')}
-          direction="down"
-          hoverDelay={0}
-        >
+        <Tooltip content={i18n('callingDeviceSelection__settings')}>
           <button
-            type="button"
             aria-label={i18n('callingDeviceSelection__settings')}
             className="module-calling-button__settings"
             onClick={toggleSettings}
+            type="button"
           />
         </Tooltip>
       </div>
       {canPip && (
         <div className="module-calling-tools__button">
-          <Tooltip
-            arrowSize={6}
-            content={i18n('calling__pip--on')}
-            direction="down"
-            hoverDelay={0}
-          >
+          <Tooltip content={i18n('calling__pip--on')}>
             <button
-              type="button"
               aria-label={i18n('calling__pip--on')}
               className="module-calling-button__pip"
               onClick={togglePip}
+              type="button"
             />
           </Tooltip>
         </div>

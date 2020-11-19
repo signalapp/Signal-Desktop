@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import Tooltip from 'react-tooltip-lite';
 
+import { Tooltip } from './Tooltip';
 import { LocalizerType } from '../types/Util';
 
 type PropsType = {
@@ -15,22 +15,16 @@ export const InContactsIcon = (props: PropsType): JSX.Element => {
 
   /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
   return (
-    <Tooltip
-      tagName="span"
-      direction="bottom"
-      className="module-in-contacts-icon__tooltip"
-      arrowSize={8}
-      content={i18n('contactInAddressBook')}
-      distance={13}
-      hoverDelay={0}
-    >
-      <span
-        tabIndex={0}
-        role="img"
-        aria-label={i18n('contactInAddressBook')}
-        className="module-in-contacts-icon__icon"
-      />
-    </Tooltip>
+    <span className="module-in-contacts-icon__tooltip">
+      <Tooltip content={i18n('contactInAddressBook')}>
+        <span
+          tabIndex={0}
+          role="img"
+          aria-label={i18n('contactInAddressBook')}
+          className="module-in-contacts-icon__icon"
+        />
+      </Tooltip>
+    </span>
   );
   /* eslint-enable jsx-a11y/no-noninteractive-tabindex */
 };

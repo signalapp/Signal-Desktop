@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import Tooltip from 'react-tooltip-lite';
+import { Tooltip } from './Tooltip';
 import { CallingPipRemoteVideo } from './CallingPipRemoteVideo';
 import { LocalizerType } from '../types/Util';
 import { ConversationType } from '../state/ducks/conversations';
@@ -182,27 +182,23 @@ export const CallingPip = ({
       ) : null}
       <div className="module-calling-pip__actions">
         <button
-          type="button"
           aria-label={i18n('calling__hangup')}
           className="module-calling-pip__button--hangup"
           onClick={() => {
             hangUp({ conversationId: conversation.id });
           }}
-        />
-        <button
           type="button"
-          aria-label={i18n('calling__pip--off')}
-          className="module-calling-pip__button--pip"
-          onClick={togglePip}
-        >
-          <Tooltip
-            arrowSize={6}
-            content={i18n('calling__pip--off')}
-            hoverDelay={0}
+        />
+        <Tooltip content={i18n('calling__pip--off')}>
+          <button
+            aria-label={i18n('calling__pip--off')}
+            className="module-calling-pip__button--pip"
+            onClick={togglePip}
+            type="button"
           >
             <div />
-          </Tooltip>
-        </button>
+          </button>
+        </Tooltip>
       </div>
     </div>
   );
