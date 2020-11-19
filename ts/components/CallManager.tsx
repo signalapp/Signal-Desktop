@@ -13,17 +13,15 @@ import {
   CallMode,
   CallState,
   GroupCallJoinState,
-  GroupCallRemoteParticipantType,
   VideoFrameSource,
 } from '../types/Calling';
 import { ConversationType } from '../state/ducks/conversations';
 import {
   AcceptCallType,
-  ActiveCallStateType,
+  ActiveCallType,
   CancelCallType,
   DeclineCallType,
   DirectCallStateType,
-  GroupCallStateType,
   HangUpType,
   SetLocalAudioType,
   SetLocalPreviewType,
@@ -34,13 +32,6 @@ import {
 import { LocalizerType } from '../types/Util';
 import { ColorType } from '../types/Colors';
 import { missingCaseError } from '../util/missingCaseError';
-
-interface ActiveCallType {
-  activeCallState: ActiveCallStateType;
-  call: DirectCallStateType | GroupCallStateType;
-  conversation: ConversationType;
-  groupCallParticipants: Array<GroupCallRemoteParticipantType>;
-}
 
 export interface PropsType {
   activeCall?: ActiveCallType;
@@ -205,8 +196,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
   if (pip) {
     return (
       <CallingPip
-        call={call}
-        conversation={conversation}
+        activeCall={activeCall}
         getGroupCallVideoFrameSource={getGroupCallVideoFrameSourceForActiveCall}
         hangUp={hangUp}
         hasLocalVideo={hasLocalVideo}
@@ -221,8 +211,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
   return (
     <>
       <CallScreen
-        call={call}
-        conversation={conversation}
+        activeCall={activeCall}
         getGroupCallVideoFrameSource={getGroupCallVideoFrameSourceForActiveCall}
         hangUp={hangUp}
         hasLocalAudio={hasLocalAudio}

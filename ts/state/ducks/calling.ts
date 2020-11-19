@@ -9,6 +9,7 @@ import { missingCaseError } from '../../util/missingCaseError';
 import { notify } from '../../services/notify';
 import { calling } from '../../services/calling';
 import { StateType as RootStateType } from '../reducer';
+import { ConversationType } from './conversations';
 import {
   CallMode,
   CallState,
@@ -16,6 +17,7 @@ import {
   ChangeIODevicePayloadType,
   GroupCallConnectionState,
   GroupCallJoinState,
+  GroupCallRemoteParticipantType,
   MediaDeviceSettings,
 } from '../../types/Calling';
 import { callingTones } from '../../util/callingTones';
@@ -52,6 +54,13 @@ export interface GroupCallStateType {
   connectionState: GroupCallConnectionState;
   joinState: GroupCallJoinState;
   remoteParticipants: Array<GroupCallParticipantInfoType>;
+}
+
+export interface ActiveCallType {
+  activeCallState: ActiveCallStateType;
+  call: DirectCallStateType | GroupCallStateType;
+  conversation: ConversationType;
+  groupCallParticipants: Array<GroupCallRemoteParticipantType>;
 }
 
 export interface ActiveCallStateType {

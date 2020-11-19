@@ -8,6 +8,15 @@ import { getInitials } from '../util/getInitials';
 import { LocalizerType } from '../types/Util';
 import { ColorType } from '../types/Colors';
 
+export enum AvatarSize {
+  TWENTY_EIGHT = 28,
+  THIRTY_TWO = 32,
+  FIFTY_TWO = 52,
+  EIGHTY = 80,
+  NINETY_SIX = 96,
+  ONE_HUNDRED_TWELVE = 112,
+}
+
 export type Props = {
   avatarPath?: string;
   color?: ColorType;
@@ -18,7 +27,7 @@ export type Props = {
   name?: string;
   phoneNumber?: string;
   profileName?: string;
-  size: 28 | 32 | 52 | 80 | 96 | 112;
+  size: AvatarSize;
 
   onClick?: () => unknown;
 

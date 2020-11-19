@@ -4,9 +4,12 @@
 import React, { useState, useMemo } from 'react';
 import Measure from 'react-measure';
 import { takeWhile, chunk, maxBy, flatten } from 'lodash';
-import { VideoFrameSource } from '../types/Calling';
-import { GroupCallParticipantInfoType } from '../state/ducks/calling';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
+import {
+  GroupCallRemoteParticipantType,
+  VideoFrameSource,
+} from '../types/Calling';
+import { LocalizerType } from '../types/Util';
 
 const MIN_RENDERED_HEIGHT = 10;
 const PARTICIPANT_MARGIN = 10;
@@ -17,13 +20,14 @@ interface Dimensions {
 }
 
 interface GridArrangement {
-  rows: Array<Array<GroupCallParticipantInfoType>>;
+  rows: Array<Array<GroupCallRemoteParticipantType>>;
   scalar: number;
 }
 
 interface PropsType {
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
-  remoteParticipants: ReadonlyArray<GroupCallParticipantInfoType>;
+  i18n: LocalizerType;
+  remoteParticipants: ReadonlyArray<GroupCallRemoteParticipantType>;
 }
 
 // This component lays out group call remote participants. It uses a custom layout
@@ -52,6 +56,7 @@ interface PropsType {
 // 4. Lay out this arrangement on the screen.
 export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
   getGroupCallVideoFrameSource,
+  i18n,
   remoteParticipants,
 }) => {
   const [containerDimensions, setContainerDimensions] = useState<Dimensions>({
@@ -82,7 +87,7 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
   //
   // This is primarily memoized for clarity, not performance. We only need the result,
   //   not any of the "intermediate" values.
-  const visibleParticipants: Array<GroupCallParticipantInfoType> = useMemo(() => {
+  const visibleParticipants: Array<GroupCallRemoteParticipantType> = useMemo(() => {
     // Imagine that we laid out all of the rows end-to-end. That's the maximum total
     //   width. So if there were 5 rows and the container was 100px wide, then we can't
     //   possibly fit more than 500px of participants.
@@ -199,12 +204,11 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
         return (
           <GroupCallRemoteParticipant
             key={remoteParticipant.demuxId}
-            demuxId={remoteParticipant.demuxId}
             getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
-            hasRemoteAudio={remoteParticipant.hasRemoteAudio}
-            hasRemoteVideo={remoteParticipant.hasRemoteVideo}
             height={gridParticipantHeight}
+            i18n={i18n}
             left={left}
+            remoteParticipant={remoteParticipant}
             top={top}
             width={renderedWidth}
           />
@@ -235,7 +239,7 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
 };
 
 function totalRemoteParticipantWidthAtMinHeight(
-  remoteParticipants: ReadonlyArray<GroupCallParticipantInfoType>
+  remoteParticipants: ReadonlyArray<GroupCallRemoteParticipantType>
 ): number {
   return remoteParticipants.reduce(
     (result, { videoAspectRatio }) =>

@@ -7,12 +7,15 @@ import { storiesOf } from '@storybook/react';
 import { boolean, select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
-import { CallMode, CallState } from '../types/Calling';
+import {
+  CallMode,
+  CallState,
+  GroupCallRemoteParticipantType,
+} from '../types/Calling';
 import { Colors } from '../types/Colors';
 import {
   DirectCallStateType,
   GroupCallStateType,
-  GroupCallParticipantInfoType,
 } from '../state/ducks/calling';
 import { CallScreen, PropsType } from './CallScreen';
 import { setup as setupI18n } from '../../js/modules/i18n';
@@ -20,15 +23,13 @@ import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
 
-function getGroupCallState(
-  remoteParticipants: Array<GroupCallParticipantInfoType>
-): GroupCallStateType {
+function getGroupCallState(): GroupCallStateType {
   return {
     callMode: CallMode.Group,
     conversationId: '3051234567',
     connectionState: 2,
     joinState: 2,
-    remoteParticipants,
+    remoteParticipants: [],
   };
 }
 
@@ -59,24 +60,35 @@ const createProps = (
   overrideProps: {
     callState?: CallState;
     callTypeState?: DirectCallStateType | GroupCallStateType;
+    groupCallParticipants?: Array<GroupCallRemoteParticipantType>;
     hasLocalAudio?: boolean;
     hasLocalVideo?: boolean;
     hasRemoteVideo?: boolean;
-    remoteParticipants?: Array<GroupCallParticipantInfoType>;
   } = {}
 ): PropsType => ({
-  call: overrideProps.callTypeState || getDirectCallState(overrideProps),
-  conversation: {
-    id: '3051234567',
-    avatarPath: undefined,
-    color: Colors[0],
-    title: 'Rick Sanchez',
-    name: 'Rick Sanchez',
-    phoneNumber: '3051234567',
-    profileName: 'Rick Sanchez',
-    markedUnread: false,
-    type: 'direct',
-    lastUpdated: Date.now(),
+  activeCall: {
+    activeCallState: {
+      conversationId: '123',
+      hasLocalAudio: true,
+      hasLocalVideo: true,
+      pip: false,
+      settingsDialogOpen: false,
+      showParticipantsList: true,
+    },
+    call: overrideProps.callTypeState || getDirectCallState(overrideProps),
+    conversation: {
+      id: '3051234567',
+      avatarPath: undefined,
+      color: Colors[0],
+      title: 'Rick Sanchez',
+      name: 'Rick Sanchez',
+      phoneNumber: '3051234567',
+      profileName: 'Rick Sanchez',
+      markedUnread: false,
+      type: 'direct',
+      lastUpdated: Date.now(),
+    },
+    groupCallParticipants: overrideProps.groupCallParticipants || [],
   },
   // We allow `any` here because this is fake and actually comes from RingRTC, which we
   //   can't import.
@@ -164,16 +176,17 @@ story.add('hasRemoteVideo', () => {
 story.add('Group call - 1', () => (
   <CallScreen
     {...createProps({
-      callTypeState: getGroupCallState([
+      callTypeState: getGroupCallState(),
+      groupCallParticipants: [
         {
-          conversationId: '123',
           demuxId: 0,
           hasRemoteAudio: true,
           hasRemoteVideo: true,
           isSelf: false,
+          title: 'Tyler',
           videoAspectRatio: 1.3,
         },
-      ]),
+      ],
     })}
   />
 ));
@@ -181,32 +194,33 @@ story.add('Group call - 1', () => (
 story.add('Group call - Many', () => (
   <CallScreen
     {...createProps({
-      callTypeState: getGroupCallState([
+      callTypeState: getGroupCallState(),
+      groupCallParticipants: [
         {
-          conversationId: '123',
           demuxId: 0,
           hasRemoteAudio: true,
           hasRemoteVideo: true,
           isSelf: false,
+          title: 'Amy',
           videoAspectRatio: 1.3,
         },
         {
-          conversationId: '456',
           demuxId: 1,
           hasRemoteAudio: true,
           hasRemoteVideo: true,
           isSelf: true,
+          title: 'Bob',
           videoAspectRatio: 1.3,
         },
         {
-          conversationId: '789',
           demuxId: 2,
           hasRemoteAudio: true,
           hasRemoteVideo: true,
           isSelf: false,
+          title: 'Alice',
           videoAspectRatio: 1.3,
         },
-      ]),
+      ],
     })}
   />
 ));

@@ -65,12 +65,14 @@ const mapStateToActiveCallProp = (state: StateType) => {
         groupCallParticipants.push({
           avatarPath: remoteConversation.avatarPath,
           color: remoteConversation.color,
+          demuxId: remoteParticipant.demuxId,
           firstName: remoteConversation.firstName,
           hasRemoteAudio: remoteParticipant.hasRemoteAudio,
           hasRemoteVideo: remoteParticipant.hasRemoteVideo,
           isSelf: remoteParticipant.isSelf,
           profileName: remoteConversation.profileName,
           title: remoteConversation.title,
+          videoAspectRatio: remoteParticipant.videoAspectRatio,
         });
       }
     );

@@ -6460,6 +6460,10 @@ button.module-image__border-overlay:focus {
       justify-content: center;
       position: relative;
       width: 100%;
+
+      .module-ongoing-call__group-call-remote-participant--audio-muted::before {
+        display: none;
+      }
     }
 
     &--local {

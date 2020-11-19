@@ -5,19 +5,16 @@ import React from 'react';
 import { Tooltip } from './Tooltip';
 import { CallingPipRemoteVideo } from './CallingPipRemoteVideo';
 import { LocalizerType } from '../types/Util';
-import { ConversationType } from '../state/ducks/conversations';
 import { VideoFrameSource } from '../types/Calling';
 import {
-  DirectCallStateType,
-  GroupCallStateType,
+  ActiveCallType,
   HangUpType,
   SetLocalPreviewType,
   SetRendererCanvasType,
 } from '../state/ducks/calling';
 
 export type PropsType = {
-  call: DirectCallStateType | GroupCallStateType;
-  conversation: ConversationType;
+  activeCall: ActiveCallType;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   hangUp: (_: HangUpType) => void;
   hasLocalVideo: boolean;
@@ -33,8 +30,7 @@ const PIP_DEFAULT_Y = 56;
 const PIP_PADDING = 8;
 
 export const CallingPip = ({
-  call,
-  conversation,
+  activeCall,
   getGroupCallVideoFrameSource,
   hangUp,
   hasLocalVideo,
@@ -167,8 +163,7 @@ export const CallingPip = ({
       }}
     >
       <CallingPipRemoteVideo
-        call={call}
-        conversation={conversation}
+        activeCall={activeCall}
         getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
         i18n={i18n}
         setRendererCanvas={setRendererCanvas}
@@ -185,7 +180,7 @@ export const CallingPip = ({
           aria-label={i18n('calling__hangup')}
           className="module-calling-pip__button--hangup"
           onClick={() => {
-            hangUp({ conversationId: conversation.id });
+            hangUp({ conversationId: activeCall.conversation.id });
           }}
           type="button"
         />

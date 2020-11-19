@@ -4,10 +4,8 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { noop } from 'lodash';
 import classNames from 'classnames';
-import { ConversationType } from '../state/ducks/conversations';
 import {
-  DirectCallStateType,
-  GroupCallStateType,
+  ActiveCallType,
   HangUpType,
   SetLocalAudioType,
   SetLocalPreviewType,
@@ -31,8 +29,7 @@ import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant';
 import { GroupCallRemoteParticipants } from './GroupCallRemoteParticipants';
 
 export type PropsType = {
-  call: DirectCallStateType | GroupCallStateType;
-  conversation: ConversationType;
+  activeCall: ActiveCallType;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   hangUp: (_: HangUpType) => void;
   hasLocalAudio: boolean;
@@ -58,8 +55,7 @@ export type PropsType = {
 };
 
 export const CallScreen: React.FC<PropsType> = ({
-  call,
-  conversation,
+  activeCall,
   getGroupCallVideoFrameSource,
   hangUp,
   hasLocalAudio,
@@ -76,6 +72,8 @@ export const CallScreen: React.FC<PropsType> = ({
   togglePip,
   toggleSettings,
 }) => {
+  const { call, conversation, groupCallParticipants } = activeCall;
+
   const toggleAudio = useCallback(() => {
     setLocalAudio({
       enabled: !hasLocalAudio,
@@ -170,8 +168,9 @@ export const CallScreen: React.FC<PropsType> = ({
       isConnected = call.connectionState === GroupCallConnectionState.Connected;
       remoteParticipantsElement = (
         <GroupCallRemoteParticipants
-          remoteParticipants={call.remoteParticipants}
           getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
+          i18n={i18n}
+          remoteParticipants={groupCallParticipants}
         />
       );
       break;

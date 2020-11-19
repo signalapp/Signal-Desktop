@@ -61,12 +61,14 @@ export enum GroupCallJoinState {
 export interface GroupCallRemoteParticipantType {
   avatarPath?: string;
   color?: ColorType;
+  demuxId: number;
   firstName?: string;
   hasRemoteAudio: boolean;
   hasRemoteVideo: boolean;
   isSelf: boolean;
   profileName?: string;
   title: string;
+  videoAspectRatio: number;
 }
 
 // Should match RingRTC's VideoFrameSource

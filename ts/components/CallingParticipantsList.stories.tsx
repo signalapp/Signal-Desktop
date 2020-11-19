@@ -20,11 +20,13 @@ function createParticipant(
   return {
     avatarPath: participantProps.avatarPath,
     color: Colors[randomColor],
+    demuxId: 2,
     hasRemoteAudio: Boolean(participantProps.hasRemoteAudio),
     hasRemoteVideo: Boolean(participantProps.hasRemoteVideo),
     isSelf: Boolean(participantProps.isSelf),
     profileName: participantProps.title,
     title: String(participantProps.title),
+    videoAspectRatio: 1.3,
   };
 }
 

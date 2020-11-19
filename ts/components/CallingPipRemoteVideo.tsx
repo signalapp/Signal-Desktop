@@ -7,29 +7,24 @@ import { CallBackgroundBlur } from './CallBackgroundBlur';
 import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
 import { LocalizerType } from '../types/Util';
-import { ConversationType } from '../state/ducks/conversations';
 import { CallMode, VideoFrameSource } from '../types/Calling';
-import {
-  DirectCallStateType,
-  GroupCallStateType,
-  SetRendererCanvasType,
-} from '../state/ducks/calling';
+import { ActiveCallType, SetRendererCanvasType } from '../state/ducks/calling';
 
 export interface PropsType {
-  call: DirectCallStateType | GroupCallStateType;
-  conversation: ConversationType;
+  activeCall: ActiveCallType;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
 }
 
 export const CallingPipRemoteVideo = ({
-  call,
-  conversation,
+  activeCall,
   getGroupCallVideoFrameSource,
   i18n,
   setRendererCanvas,
 }: PropsType): JSX.Element => {
+  const { call, conversation } = activeCall;
+
   if (call.callMode === CallMode.Direct) {
     if (!call.hasRemoteVideo) {
       const {
@@ -76,17 +71,17 @@ export const CallingPipRemoteVideo = ({
   }
 
   if (call.callMode === CallMode.Group) {
-    const speaker = call.remoteParticipants[0];
+    const { groupCallParticipants } = activeCall;
+    const speaker = groupCallParticipants[0];
 
     return (
       <div className="module-calling-pip__video--remote">
         <GroupCallRemoteParticipant
+          getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
+          i18n={i18n}
           isInPip
           key={speaker.demuxId}
-          demuxId={speaker.demuxId}
-          getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
-          hasRemoteAudio={speaker.hasRemoteAudio}
-          hasRemoteVideo={speaker.hasRemoteVideo}
+          remoteParticipant={speaker}
         />
       </div>
     );

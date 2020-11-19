@@ -9,6 +9,7 @@ import { action } from '@storybook/addon-actions';
 
 import { ColorType } from '../types/Colors';
 import { ConversationTypeType } from '../state/ducks/conversations';
+import { ActiveCallType } from '../state/ducks/calling';
 import { CallingPip, PropsType } from './CallingPip';
 import {
   CallMode,
@@ -43,9 +44,23 @@ const defaultCall = {
   hasRemoteVideo: true,
 };
 
-const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
-  call: overrideProps.call || defaultCall,
-  conversation: overrideProps.conversation || conversation,
+const createProps = (
+  overrideProps: Partial<PropsType> = {},
+  activeCall: Partial<ActiveCallType> = {}
+): PropsType => ({
+  activeCall: {
+    activeCallState: {
+      conversationId: '123',
+      hasLocalAudio: true,
+      hasLocalVideo: true,
+      pip: false,
+      settingsDialogOpen: false,
+      showParticipantsList: true,
+    },
+    call: activeCall.call || defaultCall,
+    conversation: activeCall.conversation || conversation,
+    groupCallParticipants: [],
+  },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getGroupCallVideoFrameSource: noop as any,
   hangUp: action('hang-up'),
@@ -59,39 +74,48 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
 const story = storiesOf('Components/CallingPip', module);
 
 story.add('Default', () => {
-  const props = createProps();
+  const props = createProps({});
   return <CallingPip {...props} />;
 });
 
 story.add('Contact (with avatar)', () => {
-  const props = createProps({
-    conversation: {
-      ...conversation,
-      avatarPath: 'https://www.fillmurray.com/64/64',
-    },
-  });
+  const props = createProps(
+    {},
+    {
+      conversation: {
+        ...conversation,
+        avatarPath: 'https://www.fillmurray.com/64/64',
+      },
+    }
+  );
   return <CallingPip {...props} />;
 });
 
 story.add('Contact (no color)', () => {
-  const props = createProps({
-    conversation: {
-      ...conversation,
-      color: undefined,
-    },
-  });
+  const props = createProps(
+    {},
+    {
+      conversation: {
+        ...conversation,
+        color: undefined,
+      },
+    }
+  );
   return <CallingPip {...props} />;
 });
 
 story.add('Group Call', () => {
-  const props = createProps({
-    call: {
-      callMode: CallMode.Group as CallMode.Group,
-      conversationId: '3051234567',
-      connectionState: GroupCallConnectionState.Connected,
-      joinState: GroupCallJoinState.Joined,
-      remoteParticipants: [],
-    },
-  });
+  const props = createProps(
+    {},
+    {
+      call: {
+        callMode: CallMode.Group as CallMode.Group,
+        conversationId: '3051234567',
+        connectionState: GroupCallConnectionState.Connected,
+        joinState: GroupCallJoinState.Joined,
+        remoteParticipants: [],
+      },
+    }
+  );
   return <CallingPip {...props} />;
 });

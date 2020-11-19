@@ -11,17 +11,21 @@ import React, {
 } from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
-import { VideoFrameSource } from '../types/Calling';
+import {
+  GroupCallRemoteParticipantType,
+  VideoFrameSource,
+} from '../types/Calling';
+import { LocalizerType } from '../types/Util';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
+import { Avatar, AvatarSize } from './Avatar';
 
 // The max size video frame we'll support (in RGBA)
 const FRAME_BUFFER_SIZE = 1920 * 1080 * 4;
 
 interface BasePropsType {
-  demuxId: number;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
-  hasRemoteAudio: boolean;
-  hasRemoteVideo: boolean;
+  i18n: LocalizerType;
+  remoteParticipant: GroupCallRemoteParticipantType;
 }
 
 interface InPipPropsType {
@@ -29,23 +33,28 @@ interface InPipPropsType {
 }
 
 interface NotInPipPropsType {
-  isInPip?: false;
-  width: number;
   height: number;
+  isInPip?: false;
   left: number;
   top: number;
+  width: number;
 }
 
 type PropsType = BasePropsType & (InPipPropsType | NotInPipPropsType);
 
 export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
   props => {
+    const { getGroupCallVideoFrameSource } = props;
+
     const {
+      avatarPath,
+      color,
+      profileName,
+      title,
       demuxId,
-      getGroupCallVideoFrameSource,
       hasRemoteAudio,
       hasRemoteVideo,
-    } = props;
+    } = props.remoteParticipant;
 
     const [isWide, setIsWide] = useState(true);
 
@@ -132,13 +141,25 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       canvasStyles = { height: '100%' };
     }
 
+    let avatarSize: number;
+
     // TypeScript isn't smart enough to know that `isInPip` by itself disambiguates the
     //   types, so we have to use `props.isInPip` instead.
     // eslint-disable-next-line react/destructuring-assignment
     if (props.isInPip) {
       containerStyles = canvasStyles;
+      avatarSize = AvatarSize.FIFTY_TWO;
     } else {
       const { top, left, width, height } = props;
+      const shorterDimension = Math.min(width, height);
+
+      if (shorterDimension >= 240) {
+        avatarSize = AvatarSize.ONE_HUNDRED_TWELVE;
+      } else if (shorterDimension >= 180) {
+        avatarSize = AvatarSize.EIGHTY;
+      } else {
+        avatarSize = AvatarSize.FIFTY_TWO;
+      }
 
       containerStyles = {
         height,
@@ -177,9 +198,17 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
             }}
           />
         ) : (
-          <CallBackgroundBlur>
-            {/* TODO: Improve the styling here. See DESKTOP-894. */}
-            <span />
+          <CallBackgroundBlur avatarPath={avatarPath} color={color}>
+            <Avatar
+              avatarPath={avatarPath}
+              color={color || 'ultramarine'}
+              noteToSelf={false}
+              conversationType="direct"
+              i18n={props.i18n}
+              profileName={profileName}
+              title={title}
+              size={avatarSize}
+            />
           </CallBackgroundBlur>
         )}
       </div>
