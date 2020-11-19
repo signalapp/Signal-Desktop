@@ -18,6 +18,7 @@ import {
 import { LocalizerType } from '../types/Util';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
 import { Avatar, AvatarSize } from './Avatar';
+import { ContactName } from './conversation/ContactName';
 
 // The max size video frame we'll support (in RGBA)
 const FRAME_BUFFER_SIZE = 1920 * 1080 * 4;
@@ -40,7 +41,7 @@ interface NotInPipPropsType {
   width: number;
 }
 
-type PropsType = BasePropsType & (InPipPropsType | NotInPipPropsType);
+export type PropsType = BasePropsType & (InPipPropsType | NotInPipPropsType);
 
 export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
   props => {
@@ -57,6 +58,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
     } = props.remoteParticipant;
 
     const [isWide, setIsWide] = useState(true);
+    const [hasHover, setHover] = useState(false);
 
     const remoteVideoRef = useRef<HTMLCanvasElement | null>(null);
     const canvasContextRef = useRef<CanvasRenderingContext2D | null>(null);
@@ -172,14 +174,28 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
 
     return (
       <div
-        className={classNames(
-          'module-ongoing-call__group-call-remote-participant',
-          {
-            'module-ongoing-call__group-call-remote-participant--audio-muted': !hasRemoteAudio,
-          }
-        )}
+        className="module-ongoing-call__group-call-remote-participant"
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
         style={containerStyles}
       >
+        {hasHover && (
+          <div
+            className={classNames(
+              'module-ongoing-call__group-call-remote-participant--title',
+              {
+                'module-ongoing-call__group-call-remote-participant--audio-muted': !hasRemoteAudio,
+              }
+            )}
+          >
+            <ContactName
+              module="module-ongoing-call__group-call-remote-participant--contact-name"
+              profileName={profileName}
+              title={title}
+              i18n={props.i18n}
+            />
+          </div>
+        )}
         {hasRemoteVideo ? (
           <canvas
             className="module-ongoing-call__group-call-remote-participant__remote-video"

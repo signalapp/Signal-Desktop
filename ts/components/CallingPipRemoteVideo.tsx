@@ -10,6 +10,44 @@ import { LocalizerType } from '../types/Util';
 import { CallMode, VideoFrameSource } from '../types/Calling';
 import { ActiveCallType, SetRendererCanvasType } from '../state/ducks/calling';
 
+const NoVideo = ({
+  activeCall,
+  i18n,
+}: {
+  activeCall: ActiveCallType;
+  i18n: LocalizerType;
+}): JSX.Element => {
+  const {
+    avatarPath,
+    color,
+    name,
+    phoneNumber,
+    profileName,
+    title,
+  } = activeCall.conversation;
+
+  return (
+    <div className="module-calling-pip__video--remote">
+      <CallBackgroundBlur avatarPath={avatarPath} color={color}>
+        <div className="module-calling-pip__video--avatar">
+          <Avatar
+            avatarPath={avatarPath}
+            color={color || 'ultramarine'}
+            noteToSelf={false}
+            conversationType="direct"
+            i18n={i18n}
+            name={name}
+            phoneNumber={phoneNumber}
+            profileName={profileName}
+            title={title}
+            size={52}
+          />
+        </div>
+      </CallBackgroundBlur>
+    </div>
+  );
+};
+
 export interface PropsType {
   activeCall: ActiveCallType;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
@@ -27,35 +65,7 @@ export const CallingPipRemoteVideo = ({
 
   if (call.callMode === CallMode.Direct) {
     if (!call.hasRemoteVideo) {
-      const {
-        avatarPath,
-        color,
-        name,
-        phoneNumber,
-        profileName,
-        title,
-      } = conversation;
-
-      return (
-        <div className="module-calling-pip__video--remote">
-          <CallBackgroundBlur avatarPath={avatarPath} color={color}>
-            <div className="module-calling-pip__video--avatar">
-              <Avatar
-                avatarPath={avatarPath}
-                color={color || 'ultramarine'}
-                noteToSelf={false}
-                conversationType="direct"
-                i18n={i18n}
-                name={name}
-                phoneNumber={phoneNumber}
-                profileName={profileName}
-                title={title}
-                size={52}
-              />
-            </div>
-          </CallBackgroundBlur>
-        </div>
-      );
+      return <NoVideo activeCall={activeCall} i18n={i18n} />;
     }
 
     return (
@@ -73,6 +83,10 @@ export const CallingPipRemoteVideo = ({
   if (call.callMode === CallMode.Group) {
     const { groupCallParticipants } = activeCall;
     const speaker = groupCallParticipants[0];
+
+    if (!speaker) {
+      return <NoVideo activeCall={activeCall} i18n={i18n} />;
+    }
 
     return (
       <div className="module-calling-pip__video--remote">

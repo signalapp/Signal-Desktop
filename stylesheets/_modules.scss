@@ -6281,17 +6281,33 @@ button.module-image__border-overlay:focus {
       background-color: $color-gray-75;
     }
 
-    &--audio-muted::before {
+    &--title {
+      @include font-caption;
+      background: linear-gradient($color-black-alpha-40, transparent);
+      bottom: 0;
+      display: flex;
+      padding: 6px;
+      position: absolute;
+      width: 100%;
+    }
+
+    &--contact-name {
+      margin-right: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &--audio-muted::after {
       @include color-svg(
         '../images/icons/v2/mic-off-solid-28.svg',
         $color-white
       );
-      bottom: 12px;
       content: '';
-      height: 28px;
+      height: 14px;
       position: absolute;
-      right: 12px;
-      width: 28px;
+      right: 6px;
+      width: 14px;
       z-index: 1;
     }
   }
@@ -6461,7 +6477,7 @@ button.module-image__border-overlay:focus {
       position: relative;
       width: 100%;
 
-      .module-ongoing-call__group-call-remote-participant--audio-muted::before {
+      .module-ongoing-call__group-call-remote-participant--audio-muted::after {
         display: none;
       }
     }
