@@ -181,10 +181,13 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     this.linkPreviewAbortController?.abort();
     this.linkPreviewAbortController = undefined;
   }
-  public componentDidUpdate(prevProps: Props, prevState: State) {
+  public componentDidUpdate(prevProps: Props, _prevState: State) {
     // reset the state on new conversation key
     if (prevProps.conversationKey !== this.props.conversationKey) {
       this.setState(getDefaultState(), this.focusCompositionBox);
+    } else if (this.props.stagedAttachments?.length !== prevProps.stagedAttachments?.length) {
+      // if number of staged attachment changed, focus the composition box for a more natural UI
+      this.focusCompositionBox();
     }
   }
 
