@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { Tooltip } from './Tooltip';
+import { Tooltip, TooltipTheme } from './Tooltip';
 import { CallingPipRemoteVideo } from './CallingPipRemoteVideo';
 import { LocalizerType } from '../types/Util';
 import { VideoFrameSource } from '../types/Calling';
@@ -184,7 +184,7 @@ export const CallingPip = ({
           }}
           type="button"
         />
-        <Tooltip content={i18n('calling__pip--off')}>
+        <Tooltip content={i18n('calling__pip--off')} theme={TooltipTheme.Dark}>
           <button
             aria-label={i18n('calling__pip--off')}
             className="module-calling-pip__button--pip"

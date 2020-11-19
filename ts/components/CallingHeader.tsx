@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { LocalizerType } from '../types/Util';
-import { Tooltip } from './Tooltip';
+import { Tooltip, TooltipTheme } from './Tooltip';
 
 export type PropsType = {
   canPip?: boolean;
@@ -37,6 +37,7 @@ export const CallingHeader = ({
             content={i18n('calling__participants', [
               String(remoteParticipants),
             ])}
+            theme={TooltipTheme.Dark}
           >
             <button
               aria-label={i18n('calling__participants', [
@@ -50,7 +51,10 @@ export const CallingHeader = ({
         </div>
       ) : null}
       <div className="module-calling-tools__button">
-        <Tooltip content={i18n('callingDeviceSelection__settings')}>
+        <Tooltip
+          content={i18n('callingDeviceSelection__settings')}
+          theme={TooltipTheme.Dark}
+        >
           <button
             aria-label={i18n('callingDeviceSelection__settings')}
             className="module-calling-button__settings"
@@ -61,7 +65,7 @@ export const CallingHeader = ({
       </div>
       {canPip && (
         <div className="module-calling-tools__button">
-          <Tooltip content={i18n('calling__pip--on')}>
+          <Tooltip content={i18n('calling__pip--on')} theme={TooltipTheme.Dark}>
             <button
               aria-label={i18n('calling__pip--on')}
               className="module-calling-button__pip"

@@ -5,12 +5,13 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { select } from '@storybook/addon-knobs';
 
-import { Tooltip, TooltipPlacement, PropsType } from './Tooltip';
+import { Tooltip, TooltipPlacement, TooltipTheme, PropsType } from './Tooltip';
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   content: overrideProps.content || 'Hello World',
   direction: select('direction', TooltipPlacement, overrideProps.direction),
   sticky: overrideProps.sticky,
+  theme: overrideProps.theme,
 });
 
 const story = storiesOf('Components/Tooltip', module);
@@ -73,6 +74,17 @@ story.add('Sticky', () => (
   <Tooltip
     {...createProps({
       sticky: true,
+    })}
+  >
+    {Trigger}
+  </Tooltip>
+));
+
+story.add('Dark Theme', () => (
+  <Tooltip
+    {...createProps({
+      sticky: true,
+      theme: TooltipTheme.Dark,
     })}
   >
     {Trigger}

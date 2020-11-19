@@ -11,10 +11,17 @@ export enum TooltipPlacement {
   Left = 'left',
 }
 
+export enum TooltipTheme {
+  System = 'system',
+  Light = 'light',
+  Dark = 'dark',
+}
+
 export type PropsType = {
   content: string | JSX.Element;
   direction?: TooltipPlacement;
   sticky?: boolean;
+  theme?: TooltipTheme;
 };
 
 export const Tooltip: React.FC<PropsType> = ({
@@ -22,9 +29,19 @@ export const Tooltip: React.FC<PropsType> = ({
   content,
   direction,
   sticky,
+  theme = TooltipTheme.System,
 }) => {
   const isSticky = Boolean(sticky);
   const [showTooltip, setShowTooltip] = React.useState(isSticky);
+
+  let tooltipTheme: string;
+  if (theme === TooltipTheme.Light) {
+    tooltipTheme = 'light-theme';
+  } else if (theme === TooltipTheme.Dark) {
+    tooltipTheme = 'dark-theme';
+  } else {
+    tooltipTheme = '';
+  }
 
   return (
     <Manager>
@@ -60,18 +77,20 @@ export const Tooltip: React.FC<PropsType> = ({
       <Popper placement={direction}>
         {({ arrowProps, placement, ref, style }) =>
           showTooltip && (
-            <div
-              className="module-tooltip"
-              ref={ref}
-              style={style}
-              data-placement={placement}
-            >
-              {content}
+            <div className={tooltipTheme}>
               <div
-                className="module-tooltip-arrow"
-                ref={arrowProps.ref}
-                style={arrowProps.style}
-              />
+                className="module-tooltip"
+                ref={ref}
+                style={style}
+                data-placement={placement}
+              >
+                {content}
+                <div
+                  className="module-tooltip-arrow"
+                  ref={arrowProps.ref}
+                  style={arrowProps.style}
+                />
+              </div>
             </div>
           )
         }
