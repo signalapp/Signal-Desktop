@@ -9,12 +9,13 @@ import { SmartLeftPane } from '../../state/smart/LeftPane';
 import { SmartSessionConversation } from '../../state/smart/SessionConversation';
 import {
   SessionSettingCategory,
-  SettingsView,
+  SmartSettingsView,
 } from './settings/SessionSettings';
 
 // Workaround: A react component's required properties are filtering up through connect()
 //   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
 const FilteredLeftPane = SmartLeftPane as any;
+const FilteredSettingsView = SmartSettingsView as any;
 
 type Props = {
   focusedSection: number;
@@ -101,7 +102,10 @@ export class SessionInboxView extends React.Component<Props, State> {
       this.state.settingsCategory || SessionSettingCategory.Appearance;
 
     return (
-      <SettingsView isSecondaryDevice={isSecondaryDevice} category={category} />
+      <FilteredSettingsView
+        isSecondaryDevice={isSecondaryDevice}
+        category={category}
+      />
     );
   }
 

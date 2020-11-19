@@ -185,7 +185,10 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     // reset the state on new conversation key
     if (prevProps.conversationKey !== this.props.conversationKey) {
       this.setState(getDefaultState(), this.focusCompositionBox);
-    } else if (this.props.stagedAttachments?.length !== prevProps.stagedAttachments?.length) {
+    } else if (
+      this.props.stagedAttachments?.length !==
+      prevProps.stagedAttachments?.length
+    ) {
       // if number of staged attachment changed, focus the composition box for a more natural UI
       this.focusCompositionBox();
     }

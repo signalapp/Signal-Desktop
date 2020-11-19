@@ -11,6 +11,13 @@ import { BlockedNumberController, UserUtil } from '../../../util';
 import { MultiDeviceProtocol } from '../../../session/protocols';
 import { PubKey } from '../../../session/types';
 import { ToastUtils } from '../../../session/utils';
+import {
+  ConversationLookupType,
+  ConversationType,
+} from '../../../state/ducks/conversations';
+import { mapDispatchToProps } from '../../../state/actions';
+import { connect } from 'react-redux';
+import { StateType } from '../../../state/reducer';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -32,6 +39,9 @@ export enum SessionSettingType {
 export interface SettingsViewProps {
   category: SessionSettingCategory;
   isSecondaryDevice: boolean;
+  // pass the conversation as props, so our render is called everytime they change.
+  // we have to do this to make the list refresh on unblock()
+  conversations?: ConversationLookupType;
 }
 
 interface State {
@@ -57,7 +67,7 @@ interface LocalSettingType {
   confirmationDialogParams: any | undefined;
 }
 
-export class SettingsView extends React.Component<SettingsViewProps, State> {
+class SettingsViewInner extends React.Component<SettingsViewProps, State> {
   public settingsViewRef: React.RefObject<HTMLDivElement>;
 
   public constructor(props: any) {
@@ -731,3 +741,14 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
     event.preventDefault();
   }
 }
+
+const mapStateToProps = (state: StateType) => {
+  const { conversations } = state;
+
+  return {
+    conversations: conversations.conversationLookup,
+  };
+};
+
+const smart = connect(mapStateToProps);
+export const SmartSettingsView = smart(SettingsViewInner);
