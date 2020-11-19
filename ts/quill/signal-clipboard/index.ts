@@ -22,6 +22,19 @@ const getSelectionHTML = () => {
   return div.innerHTML;
 };
 
+const replaceAngleBrackets = (text: string) => {
+  const entities: Array<[RegExp, string]> = [
+    [/&/g, '&amp;'],
+    [/</g, '&lt;'],
+    [/>/g, '&gt;'],
+  ];
+
+  return entities.reduce(
+    (acc, [re, replaceValue]) => acc.replace(re, replaceValue),
+    text
+  );
+};
+
 export class SignalClipboard {
   quill: Quill;
 
@@ -86,6 +99,10 @@ export class SignalClipboard {
     const text = event.clipboardData.getData('text/plain');
     const html = event.clipboardData.getData('text/signal');
 
+    const clipboardDelta = html
+      ? clipboard.convert(html)
+      : clipboard.convert(replaceAngleBrackets(text));
+
     const { scrollTop } = this.quill.scrollingContainer;
 
     this.quill.selection.update('silent');
@@ -94,7 +111,7 @@ export class SignalClipboard {
       setTimeout(() => {
         const delta = new Delta()
           .retain(selection.index)
-          .concat(clipboard.convert(html || text));
+          .concat(clipboardDelta);
         this.quill.updateContents(delta, 'user');
         this.quill.setSelection(delta.length(), 0, 'silent');
         this.quill.scrollingContainer.scrollTop = scrollTop;
