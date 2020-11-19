@@ -211,6 +211,12 @@ export type MessageDeletedActionType = {
     messageId: string;
   };
 };
+export type ConversationResetActionType = {
+  type: 'CONVERSATION_RESET';
+  payload: {
+    conversationKey: string;
+  };
+};
 export type SelectedConversationChangedActionType = {
   type: 'SELECTED_CONVERSATION_CHANGED';
   payload: {
@@ -231,6 +237,7 @@ export type ConversationActionType =
   | ConversationAddedActionType
   | ConversationChangedActionType
   | ConversationRemovedActionType
+  | ConversationResetActionType
   | RemoveAllConversationsActionType
   | MessageExpiredActionType
   | MessageAddedActionType
@@ -250,6 +257,7 @@ export const actions = {
   messageExpired,
   messageAdded,
   messageDeleted,
+  conversationReset,
   messageChanged,
   fetchMessagesForConversation,
   openConversationExternal,
@@ -345,6 +353,19 @@ function messageDeleted({
     payload: {
       conversationKey,
       messageId,
+    },
+  };
+}
+
+function conversationReset({
+  conversationKey,
+}: {
+  conversationKey: string;
+}): ConversationResetActionType {
+  return {
+    type: 'CONVERSATION_RESET',
+    payload: {
+      conversationKey,
     },
   };
 }
@@ -549,6 +570,18 @@ export function reducer(
       }
 
       return state;
+    }
+    return state;
+  }
+
+  if (action.type === 'CONVERSATION_RESET') {
+    const { conversationKey } = action.payload;
+    if (conversationKey === state.selectedConversation) {
+      // just empty the list of messages
+      return {
+        ...state,
+        messages: [],
+      };
     }
     return state;
   }

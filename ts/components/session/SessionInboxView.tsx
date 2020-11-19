@@ -211,6 +211,7 @@ export class SessionInboxView extends React.Component<Props, State> {
       messageAdded,
       messageChanged,
       messageDeleted,
+      conversationReset,
     } = bindActionCreators(conversationActions, this.store.dispatch);
     window.actionsCreators = conversationActions;
     const { userChanged } = bindActionCreators(
@@ -236,6 +237,7 @@ export class SessionInboxView extends React.Component<Props, State> {
     window.Whisper.events.on('messageAdded', messageAdded);
     window.Whisper.events.on('messageDeleted', messageDeleted);
     window.Whisper.events.on('userChanged', userChanged);
+    window.Whisper.events.on('conversationReset', conversationReset);
 
     this.setState({ isInitialLoadComplete: true });
   }

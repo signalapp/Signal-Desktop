@@ -2276,8 +2276,9 @@
       });
 
       this.messageCollection.reset([]);
-      // no need to do the trigger 'messageDeleted' here
-
+      window.Whisper.events.trigger('conversationReset', {
+        conversationKey: this.id,
+      });
       // destroy message keeps the active timestamp set so the
       // conversation still appears on the conversation list but is empty
       this.set({
