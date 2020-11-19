@@ -6108,10 +6108,7 @@ button.module-image__border-overlay:focus {
       background-color: $color-gray-45;
 
       div {
-        @include color-svg(
-          '../images/icons/v2/mic-solid-28.svg',
-          $color-white
-        );
+        @include color-svg('../images/icons/v2/mic-solid-28.svg', $color-white);
         height: 28px;
         width: 28px;
       }
