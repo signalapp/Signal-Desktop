@@ -184,7 +184,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   public componentDidUpdate(prevProps: Props, prevState: State) {
     // reset the state on new conversation key
     if (prevProps.conversationKey !== this.props.conversationKey) {
-      this.setState(getDefaultState());
+      this.setState(getDefaultState(), this.focusCompositionBox);
     }
   }
 
