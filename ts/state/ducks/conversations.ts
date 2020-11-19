@@ -189,8 +189,8 @@ export type RemoveAllConversationsActionType = {
 export type MessageExpiredActionType = {
   type: 'MESSAGE_EXPIRED';
   payload: {
-    id: string;
-    conversationId: string;
+    messageId: string;
+    conversationKey: string;
   };
 };
 export type MessageChangedActionType = {
@@ -294,15 +294,18 @@ function removeAllConversations(): RemoveAllConversationsActionType {
   };
 }
 
-function messageExpired(
-  id: string,
-  conversationId: string
-): MessageExpiredActionType {
+function messageExpired({
+  conversationKey,
+  messageId,
+}: {
+  conversationKey: string;
+  messageId: string;
+}): MessageExpiredActionType {
   return {
     type: 'MESSAGE_EXPIRED',
     payload: {
-      id,
-      conversationId,
+      conversationKey,
+      messageId,
     },
   };
 }
@@ -445,9 +448,7 @@ export function reducer(
   if (action.type === 'CONVERSATIONS_REMOVE_ALL') {
     return getEmptyState();
   }
-  if (action.type === 'MESSAGE_EXPIRED') {
-    // nothing to do here
-  }
+
   if (action.type === 'SELECTED_CONVERSATION_CHANGED') {
     const { payload } = action;
     const { id } = payload;
@@ -527,8 +528,7 @@ export function reducer(
     }
     return state;
   }
-
-  if (action.type === 'MESSAGE_DELETED') {
+  if (action.type === 'MESSAGE_EXPIRED' || action.type === 'MESSAGE_DELETED') {
     const { conversationKey, messageId } = action.payload;
     if (conversationKey === state.selectedConversation) {
       // search if we find this message id.

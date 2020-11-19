@@ -34,11 +34,10 @@
             Message: Whisper.Message,
           });
 
-          Whisper.events.trigger(
-            'messageExpired',
-            message.id,
-            message.conversationId
-          );
+          Whisper.events.trigger('messageExpired', {
+            conversationKey: message.attributes.conversationId,
+            messageId: message.id,
+          });
 
           const conversation = message.getConversation();
           if (conversation) {

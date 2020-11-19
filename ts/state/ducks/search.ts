@@ -391,11 +391,11 @@ export function reducer(
     }
 
     const { payload } = action;
-    const { id } = payload;
+    const { messageId } = payload;
 
     return {
       ...state,
-      messages: reject(messages, message => id === message.id),
+      messages: reject(messages, message => messageId === message.id),
       messageLookup: omit(messageLookup, ['id']),
     };
   }
