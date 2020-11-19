@@ -1655,6 +1655,10 @@
 
       const messageId = await message.commit();
       message.set({ id: messageId });
+      window.Whisper.events.trigger('messageAdded', {
+        conversationKey: this.id,
+        messageModel: message,
+      });
       return message;
     },
 
