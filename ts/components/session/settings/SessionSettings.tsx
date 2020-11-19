@@ -524,11 +524,12 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           buttonText: window.i18n('setPassword'),
           buttonColor: SessionButtonColor.Primary,
         },
-        onClick: () =>
-          window.showPasswordDialog({
+        onClick: () => {
+          window.Whisper.events.trigger('showPasswordDialog', {
             action: 'set',
             onSuccess: this.onPasswordUpdated,
-          }),
+          });
+        },
         confirmationDialogParams: undefined,
       },
       {
@@ -544,11 +545,12 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           buttonText: window.i18n('changePassword'),
           buttonColor: SessionButtonColor.Primary,
         },
-        onClick: () =>
-          window.showPasswordDialog({
-            action: 'change',
-            onSuccess: this.onPasswordUpdated,
-          }),
+        onClick: () => {
+            window.Whisper.events.trigger('showPasswordDialog', {
+              action: 'change',
+              onSuccess: this.onPasswordUpdated,
+            });
+        },
         confirmationDialogParams: undefined,
       },
       {
@@ -564,11 +566,12 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           buttonText: window.i18n('removePassword'),
           buttonColor: SessionButtonColor.Danger,
         },
-        onClick: () =>
-          window.showPasswordDialog({
+        onClick: () => {
+          window.Whisper.events.trigger('showPasswordDialog', {
             action: 'remove',
             onSuccess: this.onPasswordUpdated,
-          }),
+          });
+      },
         confirmationDialogParams: undefined,
       },
     ];

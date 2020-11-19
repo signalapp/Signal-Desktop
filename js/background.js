@@ -982,6 +982,12 @@
       }
     });
 
+    Whisper.events.on('showPasswordDialog', async (options) => {
+      if (appView) {
+        appView.showPasswordDialog(options);
+      }
+    });
+
     Whisper.events.on('showDevicePairingDialog', async (options = {}) => {
       if (appView) {
         appView.showDevicePairingDialog(options);

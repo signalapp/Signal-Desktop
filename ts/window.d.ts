@@ -81,8 +81,6 @@ declare global {
     setSettingValue: any;
     shortenPubkey: (pubKey: string) => string;
     showEditProfileDialog: any;
-    showPasswordDialog: any;
-    showSeedDialog: any;
     storage: any;
     textsecure: LibTextsecure;
     toggleLinkPreview: any;
