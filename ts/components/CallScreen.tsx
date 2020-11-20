@@ -224,7 +224,7 @@ export const CallScreen: React.FC<PropsType> = ({
               {call.callMode === CallMode.Group &&
               !call.remoteParticipants.length
                 ? i18n('calling__in-this-call--zero')
-                : conversation.title}
+                : ''}
               {call.callMode === CallMode.Direct &&
                 renderHeaderMessage(
                   i18n,

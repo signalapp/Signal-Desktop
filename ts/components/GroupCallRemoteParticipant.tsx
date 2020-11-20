@@ -172,6 +172,8 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       };
     }
 
+    const showHover = hasHover && !props.isInPip;
+
     return (
       <div
         className="module-ongoing-call__group-call-remote-participant"
@@ -179,7 +181,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
         onMouseLeave={() => setHover(false)}
         style={containerStyles}
       >
-        {hasHover && (
+        {showHover && (
           <div
             className={classNames(
               'module-ongoing-call__group-call-remote-participant--title',

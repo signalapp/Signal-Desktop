@@ -6266,7 +6266,7 @@ button.module-image__border-overlay:focus {
 
   &__remote-video-enabled {
     background-color: $color-gray-95;
-    height: 100vh;
+    height: 100%;
     width: 100%;
   }
 
@@ -6327,15 +6327,21 @@ button.module-image__border-overlay:focus {
 
     &--title {
       @include font-caption;
-      background: linear-gradient($color-black-alpha-40, transparent);
+      background: linear-gradient(
+        180deg,
+        $color-black 0%,
+        $color-black-alpha-60 100%
+      );
       bottom: 0;
       display: flex;
       padding: 6px;
       position: absolute;
       width: 100%;
+      z-index: 2;
     }
 
     &--contact-name {
+      color: $color-white;
       margin-right: 20px;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -6522,6 +6528,7 @@ button.module-image__border-overlay:focus {
       display: flex;
       height: 120px;
       justify-content: center;
+      overflow: hidden;
       position: relative;
       width: 100%;
 
