@@ -29,6 +29,11 @@ function getGroupCallState(): GroupCallStateType {
     conversationId: '3051234567',
     connectionState: 2,
     joinState: 2,
+    peekInfo: {
+      conversationIds: [],
+      maxDevices: 16,
+      deviceCount: 0,
+    },
     remoteParticipants: [],
   };
 }

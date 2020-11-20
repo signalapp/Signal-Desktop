@@ -29,6 +29,7 @@ export enum OutgoingCallButtonStyle {
   None,
   JustVideo,
   Both,
+  Join,
 }
 
 export interface PropsDataType {
@@ -280,10 +281,11 @@ export class ConversationHeader extends React.Component<PropsType> {
         type="button"
         onClick={onOutgoingVideoCallInConversation}
         className={classNames(
-          'module-conversation-header__video-calling-button',
+          'module-conversation-header__calling-button',
+          'module-conversation-header__calling-button--video',
           showBackButton
             ? null
-            : 'module-conversation-header__video-calling-button--show'
+            : 'module-conversation-header__calling-button--show'
         )}
         disabled={showBackButton}
         aria-label={i18n('makeOutgoingVideoCall')}
@@ -303,15 +305,33 @@ export class ConversationHeader extends React.Component<PropsType> {
               type="button"
               onClick={onOutgoingAudioCallInConversation}
               className={classNames(
-                'module-conversation-header__audio-calling-button',
+                'module-conversation-header__calling-button',
+                'module-conversation-header__calling-button--audio',
                 showBackButton
                   ? null
-                  : 'module-conversation-header__audio-calling-button--show'
+                  : 'module-conversation-header__calling-button--show'
               )}
               disabled={showBackButton}
               aria-label={i18n('makeOutgoingCall')}
             />
           </>
+        );
+      case OutgoingCallButtonStyle.Join:
+        return (
+          <button
+            type="button"
+            onClick={onOutgoingVideoCallInConversation}
+            className={classNames(
+              'module-conversation-header__calling-button',
+              'module-conversation-header__calling-button--join',
+              showBackButton
+                ? null
+                : 'module-conversation-header__calling-button--show'
+            )}
+            disabled={showBackButton}
+          >
+            {i18n('joinOngoingCall')}
+          </button>
         );
       default:
         throw missingCaseError(outgoingCallButtonStyle);

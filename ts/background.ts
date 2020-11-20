@@ -2653,6 +2653,18 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       return Promise.resolve();
     }
 
+    if (data.message.groupCallUpdate) {
+      if (data.message.groupV2 && messageDescriptor.type === Message.GROUP) {
+        window.reduxActions.calling.peekNotConnectedGroupCall({
+          conversationId: messageDescriptor.id,
+        });
+        return Promise.resolve();
+      }
+      window.log.warn(
+        'Received a group call update for a conversation that is not a GV2 group. Ignoring that property and continuing.'
+      );
+    }
+
     // Don't wait for handleDataMessage, as it has its own per-conversation queueing
     message.handleDataMessage(data.message, event.confirm);
 

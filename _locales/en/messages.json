@@ -3023,6 +3023,10 @@
     "message": "Start a video call",
     "description": "Title for the video call button in a conversation"
   },
+  "joinOngoingCall": {
+    "message": "Join",
+    "description": "Text that appears in a group when a call is active"
+  },
   "callNeedPermission": {
     "message": "$title$ will get a message request from you. You can call once your message request has been accepted.",
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request",

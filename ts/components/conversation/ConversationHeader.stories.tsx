@@ -208,6 +208,21 @@ const stories: Array<ConversationHeaderStory> = [
           outgoingCallButtonStyle: OutgoingCallButtonStyle.JustVideo,
         },
       },
+      {
+        title: 'In a group with an active group call',
+        props: {
+          ...commonProps,
+          color: 'signal-blue',
+          title: 'Typescript support group',
+          name: 'Typescript support group',
+          phoneNumber: '',
+          id: '1',
+          type: 'group',
+          expireTimer: 10,
+          acceptedMessageRequest: true,
+          outgoingCallButtonStyle: OutgoingCallButtonStyle.Join,
+        },
+      },
     ],
   },
   {

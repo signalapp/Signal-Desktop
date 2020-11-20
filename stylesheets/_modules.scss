@@ -3047,21 +3047,9 @@ span.module-in-contacts-icon__tooltip {
   }
 }
 
-.module-conversation-header__audio-calling-button {
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/phone-right-outline-24.svg',
-      $color-gray-75
-    );
-  }
-  @include dark-theme {
-    @include color-svg(
-      '../images/icons/v2/phone-right-solid-24.svg',
-      $color-gray-15
-    );
-  }
-  height: 24px;
-  width: 24px;
+.module-conversation-header__calling-button {
+  $icon-size: 24px;
+
   margin-left: 12px;
   border: none;
   opacity: 0;
@@ -3074,31 +3062,65 @@ span.module-in-contacts-icon__tooltip {
   &--show {
     opacity: 1;
   }
-}
 
-.module-conversation-header__video-calling-button {
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/video-outline-24.svg',
-      $color-gray-75
-    );
-  }
-  @include dark-theme {
-    @include color-svg('../images/icons/v2/video-solid-24.svg', $color-gray-15);
-  }
-  height: 24px;
-  width: 24px;
-  margin-left: 12px;
-  border: none;
-  opacity: 0;
-  transition: opacity 250ms ease-out;
-
-  &:disabled {
-    cursor: default;
+  &--video {
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/video-outline-24.svg',
+        $color-gray-75
+      );
+    }
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/video-solid-24.svg',
+        $color-gray-15
+      );
+    }
+    height: $icon-size;
+    width: $icon-size;
   }
 
-  &--show {
-    opacity: 1;
+  &--audio {
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/phone-right-outline-24.svg',
+        $color-gray-75
+      );
+    }
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/phone-right-solid-24.svg',
+        $color-gray-15
+      );
+    }
+    height: $icon-size;
+    width: $icon-size;
+  }
+
+  &--join {
+    @include font-body-1;
+    align-items: center;
+    background-color: $color-accent-green;
+    border-radius: 9999px; // This ensures the borders are completely rounded. (A value like 100% would make it an ellipse.)
+    color: $color-white;
+    display: flex;
+    outline: none;
+    padding: 5px 18px;
+
+    @include keyboard-mode {
+      &:focus {
+        box-shadow: 0px 0px 0px 4px $ultramarine-ui-light;
+      }
+    }
+
+    &:before {
+      @include color-svg('../images/icons/v2/video-solid-24.svg', $color-white);
+      content: '';
+      display: block;
+      height: $icon-size;
+      margin-right: 5px;
+      width: $icon-size;
+    }
   }
 }
 

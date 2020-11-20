@@ -14,8 +14,9 @@ import {
   ConversationType,
   getConversationCallMode,
 } from '../ducks/conversations';
-import { getActiveCall } from '../ducks/calling';
-import { getIntl } from '../selectors/user';
+import { getActiveCall, isAnybodyElseInGroupCall } from '../ducks/calling';
+import { getUserConversationId, getIntl } from '../selectors/user';
+import { getOwn } from '../../util/getOwn';
 import { missingCaseError } from '../../util/missingCaseError';
 
 export interface OwnProps {
@@ -43,7 +44,9 @@ const getOutgoingCallButtonStyle = (
   conversation: ConversationType,
   state: StateType
 ): OutgoingCallButtonStyle => {
-  if (getActiveCall(state.calling)) {
+  const { calling } = state;
+
+  if (getActiveCall(calling)) {
     return OutgoingCallButtonStyle.None;
   }
 
@@ -53,11 +56,19 @@ const getOutgoingCallButtonStyle = (
       return OutgoingCallButtonStyle.None;
     case CallMode.Direct:
       return OutgoingCallButtonStyle.Both;
-    case CallMode.Group:
+    case CallMode.Group: {
       if (!window.GROUP_CALLING) {
         return OutgoingCallButtonStyle.None;
       }
+      const call = getOwn(calling.callsByConversation, conversation.id);
+      if (
+        call?.callMode === CallMode.Group &&
+        isAnybodyElseInGroupCall(call.peekInfo, getUserConversationId(state))
+      ) {
+        return OutgoingCallButtonStyle.Join;
+      }
       return OutgoingCallButtonStyle.JustVideo;
+    }
     default:
       throw missingCaseError(conversationCallMode);
   }

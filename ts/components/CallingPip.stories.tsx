@@ -113,6 +113,11 @@ story.add('Group Call', () => {
         conversationId: '3051234567',
         connectionState: GroupCallConnectionState.Connected,
         joinState: GroupCallJoinState.Joined,
+        peekInfo: {
+          conversationIds: [],
+          maxDevices: 16,
+          deviceCount: 0,
+        },
         remoteParticipants: [],
       },
     }

@@ -26,8 +26,18 @@ import {
   bounceAppIconStart,
   bounceAppIconStop,
 } from '../../shims/bounceAppIcon';
+import { sleep } from '../../util/sleep';
+import { LatestQueue } from '../../util/LatestQueue';
 
 // State
+
+export interface GroupCallPeekInfoType {
+  conversationIds: Array<string>;
+  creator?: string;
+  eraId?: string;
+  maxDevices: number;
+  deviceCount: number;
+}
 
 export interface GroupCallParticipantInfoType {
   conversationId: string;
@@ -53,6 +63,7 @@ export interface GroupCallStateType {
   conversationId: string;
   connectionState: GroupCallConnectionState;
   joinState: GroupCallJoinState;
+  peekInfo: GroupCallPeekInfoType;
   remoteParticipants: Array<GroupCallParticipantInfoType>;
 }
 
@@ -103,13 +114,18 @@ export type DeclineCallType = {
   conversationId: string;
 };
 
-export type GroupCallStateChangeType = {
-  conversationId: string;
+type GroupCallStateChangeArgumentType = {
   connectionState: GroupCallConnectionState;
-  joinState: GroupCallJoinState;
+  conversationId: string;
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
+  joinState: GroupCallJoinState;
+  peekInfo: GroupCallPeekInfoType;
   remoteParticipants: Array<GroupCallParticipantInfoType>;
+};
+
+type GroupCallStateChangeActionPayloadType = GroupCallStateChangeArgumentType & {
+  ourConversationId: string;
 };
 
 export type HangUpType = {
@@ -119,6 +135,10 @@ export type HangUpType = {
 export type IncomingCallType = {
   conversationId: string;
   isVideoCall: boolean;
+};
+
+type PeekNotConnectedGroupCallType = {
+  conversationId: string;
 };
 
 interface StartDirectCallType {
@@ -158,6 +178,7 @@ export type ShowCallLobbyType =
       joinState: GroupCallJoinState;
       hasLocalAudio: boolean;
       hasLocalVideo: boolean;
+      peekInfo: GroupCallPeekInfoType;
       remoteParticipants: Array<GroupCallParticipantInfoType>;
     };
 
@@ -178,6 +199,11 @@ export const getActiveCall = ({
   activeCallState &&
   getOwn(callsByConversation, activeCallState.conversationId);
 
+export const isAnybodyElseInGroupCall = (
+  { conversationIds }: Readonly<GroupCallPeekInfoType>,
+  ourConversationId: string
+): boolean => conversationIds.some(id => id !== ourConversationId);
+
 // Actions
 
 const ACCEPT_CALL_PENDING = 'calling/ACCEPT_CALL_PENDING';
@@ -191,6 +217,8 @@ const GROUP_CALL_STATE_CHANGE = 'calling/GROUP_CALL_STATE_CHANGE';
 const HANG_UP = 'calling/HANG_UP';
 const INCOMING_CALL = 'calling/INCOMING_CALL';
 const OUTGOING_CALL = 'calling/OUTGOING_CALL';
+const PEEK_NOT_CONNECTED_GROUP_CALL_FULFILLED =
+  'calling/PEEK_NOT_CONNECTED_GROUP_CALL_FULFILLED';
 const REFRESH_IO_DEVICES = 'calling/REFRESH_IO_DEVICES';
 const REMOTE_VIDEO_CHANGE = 'calling/REMOTE_VIDEO_CHANGE';
 const SET_LOCAL_AUDIO_FULFILLED = 'calling/SET_LOCAL_AUDIO_FULFILLED';
@@ -234,9 +262,9 @@ type DeclineCallActionType = {
   payload: DeclineCallType;
 };
 
-type GroupCallStateChangeActionType = {
+export type GroupCallStateChangeActionType = {
   type: 'calling/GROUP_CALL_STATE_CHANGE';
-  payload: GroupCallStateChangeType;
+  payload: GroupCallStateChangeActionPayloadType;
 };
 
 type HangUpActionType = {
@@ -252,6 +280,15 @@ type IncomingCallActionType = {
 type OutgoingCallActionType = {
   type: 'calling/OUTGOING_CALL';
   payload: StartDirectCallType;
+};
+
+type PeekNotConnectedGroupCallFulfilledActionType = {
+  type: 'calling/PEEK_NOT_CONNECTED_GROUP_CALL_FULFILLED';
+  payload: {
+    conversationId: string;
+    peekInfo: GroupCallPeekInfoType;
+    ourConversationId: string;
+  };
 };
 
 type RefreshIODevicesActionType = {
@@ -308,6 +345,7 @@ export type CallingActionType =
   | HangUpActionType
   | IncomingCallActionType
   | OutgoingCallActionType
+  | PeekNotConnectedGroupCallFulfilledActionType
   | RefreshIODevicesActionType
   | RemoteVideoChangeActionType
   | SetLocalAudioActionType
@@ -439,11 +477,16 @@ function declineCall(payload: DeclineCallType): DeclineCallActionType {
 }
 
 function groupCallStateChange(
-  payload: GroupCallStateChangeType
-): GroupCallStateChangeActionType {
-  return {
-    type: GROUP_CALL_STATE_CHANGE,
-    payload,
+  payload: GroupCallStateChangeArgumentType
+): ThunkAction<void, RootStateType, unknown, GroupCallStateChangeActionType> {
+  return (dispatch, getState) => {
+    dispatch({
+      type: GROUP_CALL_STATE_CHANGE,
+      payload: {
+        ...payload,
+        ourConversationId: getState().user.ourConversationId,
+      },
+    });
   };
 }
 
@@ -471,6 +514,79 @@ function outgoingCall(payload: StartDirectCallType): OutgoingCallActionType {
   return {
     type: OUTGOING_CALL,
     payload,
+  };
+}
+
+// We might call this function many times in rapid succession (for example, if lots of
+//   people are joining and leaving at once). We want to make sure to update eventually
+//   (if people join and leave for an hour, we don't want you to have to wait an hour to
+//   get an update), and we also don't want to update too often. That's why we use a
+//   "latest queue".
+const peekQueueByConversation = new Map<string, LatestQueue>();
+function peekNotConnectedGroupCall(
+  payload: PeekNotConnectedGroupCallType
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  PeekNotConnectedGroupCallFulfilledActionType
+> {
+  return (dispatch, getState) => {
+    const { conversationId } = payload;
+
+    let queue = peekQueueByConversation.get(conversationId);
+    if (!queue) {
+      queue = new LatestQueue();
+      queue.onceEmpty(() => {
+        peekQueueByConversation.delete(conversationId);
+      });
+      peekQueueByConversation.set(conversationId, queue);
+    }
+
+    queue.add(async () => {
+      const state = getState();
+
+      // We make sure we're not trying to peek at a connected (or connecting, or
+      //   reconnecting) call. Because this is asynchronous, it's possible that the call
+      //   will connect by the time we dispatch, so we also need to do a similar check in
+      //   the reducer.
+      const existingCall = getOwn(
+        state.calling.callsByConversation,
+        conversationId
+      );
+      if (
+        existingCall?.callMode === CallMode.Group &&
+        existingCall.connectionState !== GroupCallConnectionState.NotConnected
+      ) {
+        return;
+      }
+
+      // If we peek right after receiving the message, we may get outdated information.
+      //   This is most noticeable when someone leaves. We add a delay and then make sure
+      //   to only be peeking once.
+      await sleep(1000);
+
+      let peekInfo;
+      try {
+        peekInfo = await calling.peekGroupCall(conversationId);
+      } catch (err) {
+        window.log.error('Group call peeking failed', err);
+        return;
+      }
+
+      if (!peekInfo) {
+        return;
+      }
+
+      dispatch({
+        type: PEEK_NOT_CONNECTED_GROUP_CALL_FULFILLED,
+        payload: {
+          conversationId,
+          peekInfo: calling.formatGroupCallPeekInfoForRedux(peekInfo),
+          ourConversationId: state.user.ourConversationId,
+        },
+      });
+    });
   };
 }
 
@@ -631,6 +747,7 @@ export const actions = {
   hangUp,
   receiveIncomingCall,
   outgoingCall,
+  peekNotConnectedGroupCall,
   refreshIODevices,
   remoteVideoChange,
   setLocalPreview,
@@ -699,6 +816,7 @@ export function reducer(
           conversationId: action.payload.conversationId,
           connectionState: action.payload.connectionState,
           joinState: action.payload.joinState,
+          peekInfo: action.payload.peekInfo,
           remoteParticipants: action.payload.remoteParticipants,
         };
         break;
@@ -878,23 +996,40 @@ export function reducer(
 
   if (action.type === GROUP_CALL_STATE_CHANGE) {
     const {
-      conversationId,
       connectionState,
-      joinState,
+      conversationId,
       hasLocalAudio,
       hasLocalVideo,
+      joinState,
+      ourConversationId,
+      peekInfo,
       remoteParticipants,
     } = action.payload;
 
+    let newActiveCallState: ActiveCallStateType | undefined;
+
     if (connectionState === GroupCallConnectionState.NotConnected) {
-      return {
-        ...state,
-        callsByConversation: omit(callsByConversation, conversationId),
-        activeCallState:
-          state.activeCallState?.conversationId === conversationId
-            ? undefined
-            : state.activeCallState,
-      };
+      newActiveCallState =
+        state.activeCallState?.conversationId === conversationId
+          ? undefined
+          : state.activeCallState;
+
+      if (!isAnybodyElseInGroupCall(peekInfo, ourConversationId)) {
+        return {
+          ...state,
+          callsByConversation: omit(callsByConversation, conversationId),
+          activeCallState: newActiveCallState,
+        };
+      }
+    } else {
+      newActiveCallState =
+        state.activeCallState?.conversationId === conversationId
+          ? {
+              ...state.activeCallState,
+              hasLocalAudio,
+              hasLocalVideo,
+            }
+          : state.activeCallState;
     }
 
     return {
@@ -906,17 +1041,63 @@ export function reducer(
           conversationId,
           connectionState,
           joinState,
+          peekInfo,
           remoteParticipants,
         },
       },
-      activeCallState:
-        state.activeCallState?.conversationId === conversationId
-          ? {
-              ...state.activeCallState,
-              hasLocalAudio,
-              hasLocalVideo,
-            }
-          : state.activeCallState,
+      activeCallState: newActiveCallState,
+    };
+  }
+
+  if (action.type === PEEK_NOT_CONNECTED_GROUP_CALL_FULFILLED) {
+    const { conversationId, peekInfo, ourConversationId } = action.payload;
+
+    const existingCall = getOwn(state.callsByConversation, conversationId) || {
+      callMode: CallMode.Group,
+      conversationId,
+      connectionState: GroupCallConnectionState.NotConnected,
+      joinState: GroupCallJoinState.NotJoined,
+      peekInfo: {
+        conversationIds: [],
+        maxDevices: Infinity,
+        deviceCount: 0,
+      },
+      remoteParticipants: [],
+    };
+
+    if (existingCall.callMode !== CallMode.Group) {
+      window.log.error(
+        'Unexpected state: trying to update a non-group call. Doing nothing'
+      );
+      return state;
+    }
+
+    // This action should only update non-connected group calls. It's not necessarily a
+    //   mistake if this action is dispatched "over" a connected call. Here's a valid
+    //   sequence of events:
+    //
+    // 1. We ask RingRTC to peek, kicking off an asynchronous operation.
+    // 2. The associated group call is joined.
+    // 3. The peek promise from step 1 resolves.
+    if (
+      existingCall.connectionState !== GroupCallConnectionState.NotConnected
+    ) {
+      return state;
+    }
+
+    if (!isAnybodyElseInGroupCall(peekInfo, ourConversationId)) {
+      return removeConversationFromState(state, conversationId);
+    }
+
+    return {
+      ...state,
+      callsByConversation: {
+        ...callsByConversation,
+        [conversationId]: {
+          ...existingCall,
+          peekInfo,
+        },
+      },
     };
   }
 
