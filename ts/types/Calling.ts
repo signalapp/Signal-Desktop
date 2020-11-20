@@ -66,6 +66,7 @@ export interface GroupCallRemoteParticipantType {
   hasRemoteAudio: boolean;
   hasRemoteVideo: boolean;
   isSelf: boolean;
+  name?: string;
   profileName?: string;
   title: string;
   videoAspectRatio: number;

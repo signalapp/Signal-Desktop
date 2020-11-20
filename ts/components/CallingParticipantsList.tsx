@@ -7,6 +7,7 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import { Avatar } from './Avatar';
 import { ContactName } from './conversation/ContactName';
+import { InContactsIcon } from './InContactsIcon';
 import { LocalizerType } from '../types/Util';
 import { GroupCallRemoteParticipantType } from '../types/Calling';
 
@@ -31,14 +32,24 @@ export const CallingParticipantsList = React.memo(
       };
     }, []);
 
+    const handleCancel = React.useCallback(
+      (e: React.MouseEvent) => {
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      },
+      [onClose]
+    );
+
     if (!root) {
       return null;
     }
 
     return createPortal(
       <div
-        role="presentation"
         className="module-calling-participants-list__overlay"
+        onClick={handleCancel}
+        role="presentation"
       >
         <div className="module-calling-participants-list">
           <div className="module-calling-participants-list__header">
@@ -80,11 +91,22 @@ export const CallingParticipantsList = React.memo(
                         {i18n('you')}
                       </span>
                     ) : (
-                      <ContactName
-                        i18n={i18n}
-                        module="module-calling-participants-list__name"
-                        title={participant.title}
-                      />
+                      <>
+                        <ContactName
+                          i18n={i18n}
+                          module="module-calling-participants-list__name"
+                          title={participant.title}
+                        />
+                        {participant.name ? (
+                          <span>
+                            {' '}
+                            <InContactsIcon
+                              className="module-calling-participants-list__contact-icon"
+                              i18n={i18n}
+                            />
+                          </span>
+                        ) : null}
+                      </>
                     )}
                   </div>
                   <div>

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
+import classNames from 'classnames';
 import { LocalizerType } from '../types/Util';
 import { Tooltip, TooltipTheme } from './Tooltip';
 
@@ -11,6 +12,7 @@ export type PropsType = {
   i18n: LocalizerType;
   isGroupCall?: boolean;
   remoteParticipants?: number;
+  showParticipantsList: boolean;
   toggleParticipants?: () => void;
   togglePip?: () => void;
   toggleSettings: () => void;
@@ -22,6 +24,7 @@ export const CallingHeader = ({
   i18n,
   isGroupCall = false,
   remoteParticipants,
+  showParticipantsList,
   toggleParticipants,
   togglePip,
   toggleSettings,
@@ -43,10 +46,20 @@ export const CallingHeader = ({
               aria-label={i18n('calling__participants', [
                 String(remoteParticipants),
               ])}
-              className="module-calling-button__participants"
+              className={classNames(
+                'module-calling-button__participants--container',
+                {
+                  'module-calling-button__participants--shown': showParticipantsList,
+                }
+              )}
               onClick={toggleParticipants}
               type="button"
-            />
+            >
+              <i className="module-calling-button__participants" />
+              <span className="module-calling-button__participants--count">
+                {remoteParticipants}
+              </span>
+            </button>
           </Tooltip>
         </div>
       ) : null}

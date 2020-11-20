@@ -39,6 +39,10 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   setLocalAudio: action('set-local-audio'),
   setLocalPreview: action('set-local-preview'),
   setLocalVideo: action('set-local-video'),
+  showParticipantsList: boolean(
+    'showParticipantsList',
+    Boolean(overrideProps.showParticipantsList)
+  ),
   toggleParticipants: action('toggle-participants'),
   toggleSettings: action('toggle-settings'),
 });
@@ -112,6 +116,15 @@ story.add('Group Call - 4', () => {
   const props = createProps({
     isGroupCall: true,
     participantNames: ['Sam', 'Cayce', 'April', 'Logan', 'Carl'],
+  });
+  return <CallingLobby {...props} />;
+});
+
+story.add('Group Call - 4 (participants list)', () => {
+  const props = createProps({
+    isGroupCall: true,
+    participantNames: ['Sam', 'Cayce', 'April', 'Logan', 'Carl'],
+    showParticipantsList: true,
   });
   return <CallingLobby {...props} />;
 });

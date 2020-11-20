@@ -24,6 +24,7 @@ function createParticipant(
     hasRemoteAudio: Boolean(participantProps.hasRemoteAudio),
     hasRemoteVideo: Boolean(participantProps.hasRemoteVideo),
     isSelf: Boolean(participantProps.isSelf),
+    name: participantProps.name,
     profileName: participantProps.title,
     title: String(participantProps.title),
     videoAspectRatio: 1.3,
@@ -64,6 +65,7 @@ story.add('Many Participants', () => {
       createParticipant({
         hasRemoteAudio: true,
         hasRemoteVideo: true,
+        name: 'Rage Trunks',
         title: 'Rage Trunks',
       }),
       createParticipant({
@@ -73,6 +75,7 @@ story.add('Many Participants', () => {
       createParticipant({
         hasRemoteAudio: true,
         hasRemoteVideo: true,
+        name: 'Goku Black',
         title: 'Goku Black',
       }),
       createParticipant({

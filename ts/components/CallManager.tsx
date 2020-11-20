@@ -178,6 +178,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
           setLocalPreview={setLocalPreview}
           setLocalAudio={setLocalAudio}
           setLocalVideo={setLocalVideo}
+          showParticipantsList={showParticipantsList}
           toggleParticipants={toggleParticipants}
           toggleSettings={toggleSettings}
         />

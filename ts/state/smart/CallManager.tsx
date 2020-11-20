@@ -70,6 +70,7 @@ const mapStateToActiveCallProp = (state: StateType) => {
           hasRemoteAudio: remoteParticipant.hasRemoteAudio,
           hasRemoteVideo: remoteParticipant.hasRemoteVideo,
           isSelf: remoteParticipant.isSelf,
+          name: remoteConversation.name,
           profileName: remoteConversation.profileName,
           title: remoteConversation.title,
           videoAspectRatio: remoteParticipant.videoAspectRatio,

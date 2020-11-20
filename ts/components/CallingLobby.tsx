@@ -34,6 +34,7 @@ export type PropsType = {
   setLocalAudio: (_: SetLocalAudioType) => void;
   setLocalVideo: (_: SetLocalVideoType) => void;
   setLocalPreview: (_: SetLocalPreviewType) => void;
+  showParticipantsList: boolean;
   toggleParticipants: () => void;
   toggleSettings: () => void;
 };
@@ -52,6 +53,7 @@ export const CallingLobby = ({
   setLocalAudio,
   setLocalPreview,
   setLocalVideo,
+  showParticipantsList,
   toggleParticipants,
   toggleSettings,
 }: PropsType): JSX.Element => {
@@ -117,6 +119,7 @@ export const CallingLobby = ({
         i18n={i18n}
         isGroupCall={isGroupCall}
         remoteParticipants={participantNames.length}
+        showParticipantsList={showParticipantsList}
         toggleParticipants={toggleParticipants}
         toggleSettings={toggleSettings}
       />

@@ -195,7 +195,11 @@ export const CallScreen: React.FC<PropsType> = ({
   });
 
   const remoteParticipants =
-    call.callMode === CallMode.Group ? call.remoteParticipants.length : 0;
+    call.callMode === CallMode.Group
+      ? activeCall.groupCallParticipants.length
+      : 0;
+
+  const { showParticipantsList } = activeCall.activeCallState;
 
   return (
     <div
@@ -232,6 +236,7 @@ export const CallScreen: React.FC<PropsType> = ({
           i18n={i18n}
           isGroupCall={call.callMode === CallMode.Group}
           remoteParticipants={remoteParticipants}
+          showParticipantsList={showParticipantsList}
           toggleParticipants={toggleParticipants}
           togglePip={togglePip}
           toggleSettings={toggleSettings}

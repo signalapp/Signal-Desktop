@@ -6110,8 +6110,30 @@ button.module-image__border-overlay:focus {
 .module-calling-button {
   &__participants {
     @include color-svg('../images/icons/v2/group-solid-24.svg', $color-white);
+    display: inline-block;
     height: 22px;
     width: 22px;
+
+    &--container {
+      @include button-reset;
+      border: none;
+      color: $color-white;
+    }
+
+    &--shown {
+      background-color: $color-gray-75;
+      border-radius: 16px;
+      padding: 6px 8px;
+      padding-bottom: 2px;
+      margin-top: -6px;
+      margin-right: -8px;
+    }
+
+    &--count {
+      @include font-body-2-bold;
+      margin-left: 5px;
+      vertical-align: top;
+    }
   }
 
   &__settings {
@@ -6590,6 +6612,10 @@ button.module-image__border-overlay:focus {
 
   &__title {
     @include font-body-2-bold;
+  }
+
+  &__contact-icon {
+    background-color: $color-gray-25;
   }
 
   &__list {

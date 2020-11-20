@@ -21,6 +21,10 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     'remoteParticipants',
     overrideProps.remoteParticipants || 0
   ),
+  showParticipantsList: boolean(
+    'showParticipantsList',
+    Boolean(overrideProps.showParticipantsList)
+  ),
   toggleParticipants: () => action('toggle-participants'),
   togglePip: () => action('toggle-pip'),
   toggleSettings: () => action('toggle-settings'),
@@ -40,6 +44,17 @@ story.add('With Participants', () => (
       canPip: true,
       isGroupCall: true,
       remoteParticipants: 10,
+    })}
+  />
+));
+
+story.add('With Participants (shown)', () => (
+  <CallingHeader
+    {...createProps({
+      canPip: true,
+      isGroupCall: true,
+      remoteParticipants: 10,
+      showParticipantsList: true,
     })}
   />
 ));
