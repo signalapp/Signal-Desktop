@@ -111,6 +111,7 @@
     "react-emoji": "^0.5.0",
     "react-emoji-render": "^1.2.4",
     "react-h5-audio-player": "^3.2.0",
+    "react-intersection-observer": "^8.30.3",
     "react-mentions": "^4.0.2",
     "react-portal": "^4.2.0",
     "react-qr-svg": "^2.2.1",

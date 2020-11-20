@@ -596,6 +596,7 @@
         quote: this.getPropsForQuote(options),
         authorAvatarPath,
         isExpired: this.hasExpired,
+        isUnread: this.isUnread(),
         expirationLength,
         expirationTimestamp,
         isPublic: !!this.get('isPublic'),
@@ -618,6 +619,7 @@
         onRetrySend: () => this.retrySend(),
         onShowDetail: () => this.trigger('show-message-detail', this),
         onClickLinkPreview: url => this.trigger('navigate-to', url),
+        markRead: readAt => this.markRead(readAt),
 
         onShowUserDetails: pubkey =>
           window.Whisper.events.trigger('onShowUserDetails', {

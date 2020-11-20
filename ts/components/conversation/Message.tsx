@@ -37,6 +37,7 @@ import { SessionIcon, SessionIconSize, SessionIconType } from '../session/icon';
 import _ from 'lodash';
 import { animation, contextMenu, Item, Menu } from 'react-contexify';
 import uuid from 'uuid';
+import { InView } from 'react-intersection-observer';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -97,6 +98,7 @@ export interface Props {
   // whether or not to show check boxes
   multiSelectMode: boolean;
   firstMessageOfSeries: boolean;
+  isUnread: boolean;
 
   onClickAttachment?: (attachment: AttachmentType) => void;
   onClickLinkPreview?: (url: string) => void;
@@ -110,6 +112,7 @@ export interface Props {
   onBanUser?: () => void;
   onShowDetail: () => void;
   onShowUserDetails: (userPubKey: string) => void;
+  markRead: (readAt: number) => Promise<void>;
 }
 
 interface State {
@@ -987,7 +990,8 @@ export class Message extends React.PureComponent<Props, State> {
       conversationType,
       isPublic,
       text,
-      firstMessageOfSeries,
+      isUnread,
+      markRead,
     } = this.props;
     const { expired, expiring } = this.state;
 
@@ -1008,6 +1012,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     const isIncoming = direction === 'incoming';
     const shouldHightlight = mentionMe && isIncoming && isPublic;
+    const shouldMarkReadWhenVisible = isIncoming && isUnread;
     const divClasses = ['session-message-wrapper'];
 
     if (shouldHightlight) {
@@ -1021,10 +1026,23 @@ export class Message extends React.PureComponent<Props, State> {
       divClasses.push('public-chat-message-wrapper');
     }
 
+    const onVisible = (inView: boolean) => {
+      if (inView && shouldMarkReadWhenVisible) {
+        // mark the message as read.
+        // this will trigger the expire timer.
+        void markRead(Date.now());
+      }
+    };
+
     return (
-      <div
+      <InView
         id={id}
+        as="div"
         className={classNames(divClasses)}
+        onChange={onVisible}
+        threshold={1}
+        delay={200}
+        triggerOnce={true}
         onContextMenu={this.handleContextMenu}
       >
         {this.renderAvatar()}
@@ -1099,7 +1117,7 @@ export class Message extends React.PureComponent<Props, State> {
           {this.renderError(!isIncoming)}
           {this.renderContextMenu()}
         </div>
-      </div>
+      </InView>
     );
   }
 
