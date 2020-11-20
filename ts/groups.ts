@@ -904,7 +904,7 @@ export async function initiateMigrationToGroupV2(
           `initiateMigrationToGroupV2/${logId}: After members migration, we are not a member!`
         );
       }
-      if (!areWeInvited) {
+      if (areWeInvited) {
         throw new Error(
           `initiateMigrationToGroupV2/${logId}: After members migration, we are invited!`
         );
