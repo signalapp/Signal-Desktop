@@ -59,6 +59,8 @@ const createProps = (
     },
     call: activeCall.call || defaultCall,
     conversation: activeCall.conversation || conversation,
+    isCallFull: false,
+    groupCallPeekedParticipants: [],
     groupCallParticipants: [],
   },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -93,6 +93,8 @@ const createProps = (
       type: 'direct',
       lastUpdated: Date.now(),
     },
+    isCallFull: false,
+    groupCallPeekedParticipants: [],
     groupCallParticipants: overrideProps.groupCallParticipants || [],
   },
   // We allow `any` here because this is fake and actually comes from RingRTC, which we

@@ -17,6 +17,7 @@ import {
   ChangeIODevicePayloadType,
   GroupCallConnectionState,
   GroupCallJoinState,
+  GroupCallPeekedParticipantType,
   GroupCallRemoteParticipantType,
   MediaDeviceSettings,
 } from '../../types/Calling';
@@ -71,6 +72,8 @@ export interface ActiveCallType {
   activeCallState: ActiveCallStateType;
   call: DirectCallStateType | GroupCallStateType;
   conversation: ConversationType;
+  isCallFull: boolean;
+  groupCallPeekedParticipants: Array<GroupCallPeekedParticipantType>;
   groupCallParticipants: Array<GroupCallRemoteParticipantType>;
 }
 

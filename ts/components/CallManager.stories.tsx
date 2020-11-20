@@ -101,6 +101,8 @@ story.add('Ongoing Direct Call', () => (
         },
         activeCallState: getCallState(),
         conversation: getConversation(),
+        isCallFull: false,
+        groupCallPeekedParticipants: [],
         groupCallParticipants: [],
       },
     })}
@@ -125,6 +127,8 @@ story.add('Ongoing Group Call', () => (
         },
         activeCallState: getCallState(),
         conversation: getConversation(),
+        isCallFull: false,
+        groupCallPeekedParticipants: [],
         groupCallParticipants: [],
       },
     })}
@@ -151,6 +155,8 @@ story.add('Call Request Needed', () => (
         }),
         activeCallState: getCallState(),
         conversation: getConversation(),
+        isCallFull: false,
+        groupCallPeekedParticipants: [],
         groupCallParticipants: [],
       },
     })}

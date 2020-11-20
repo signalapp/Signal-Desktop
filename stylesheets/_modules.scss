@@ -6454,6 +6454,10 @@ button.module-image__border-overlay:focus {
     margin-left: 8px;
     margin-right: 8px;
     width: 160px;
+
+    &[disabled] {
+      opacity: 0.5;
+    }
   }
 
   &__video {

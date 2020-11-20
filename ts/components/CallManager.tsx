@@ -96,7 +96,9 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
     call,
     activeCallState,
     conversation,
+    groupCallPeekedParticipants,
     groupCallParticipants,
+    isCallFull,
   } = activeCall;
   const {
     hasLocalAudio,
@@ -157,7 +159,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
   }
 
   if (showCallLobby) {
-    const participantNames = groupCallParticipants.map(participant =>
+    const participantNames = groupCallPeekedParticipants.map(participant =>
       participant.isSelf
         ? i18n('you')
         : participant.firstName || participant.title
@@ -171,6 +173,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
           hasLocalVideo={hasLocalVideo}
           i18n={i18n}
           isGroupCall={call.callMode === CallMode.Group}
+          isCallFull={isCallFull}
           me={me}
           onCallCanceled={cancelActiveCall}
           onJoinCall={joinActiveCall}

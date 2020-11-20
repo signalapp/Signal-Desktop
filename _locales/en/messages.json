@@ -1166,6 +1166,10 @@
     "message": "Join Call",
     "description": "Button label in the call lobby for joining a call"
   },
+  "calling__call-is-full": {
+    "message": "Call is full",
+    "description": "Button label in the call lobby when you can't join because the call is full"
+  },
   "calling__button--video-disabled": {
     "message": "Camera disabled",
     "description": "Button tooltip label when the camera is disabled"

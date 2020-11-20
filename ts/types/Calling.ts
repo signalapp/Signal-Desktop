@@ -58,6 +58,16 @@ export enum GroupCallJoinState {
   Joined = 2,
 }
 
+// TODO: The way we deal with remote participants isn't ideal. See DESKTOP-949.
+export interface GroupCallPeekedParticipantType {
+  avatarPath?: string;
+  color?: ColorType;
+  firstName?: string;
+  isSelf: boolean;
+  name?: string;
+  profileName?: string;
+  title: string;
+}
 export interface GroupCallRemoteParticipantType {
   avatarPath?: string;
   color?: ColorType;

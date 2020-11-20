@@ -9,7 +9,11 @@ import { calling as callingService } from '../../services/calling';
 import { getMe, getConversationSelector } from '../selectors/conversations';
 import { getActiveCall, GroupCallParticipantInfoType } from '../ducks/calling';
 import { getIncomingCall } from '../selectors/calling';
-import { CallMode, GroupCallRemoteParticipantType } from '../../types/Calling';
+import {
+  CallMode,
+  GroupCallPeekedParticipantType,
+  GroupCallRemoteParticipantType,
+} from '../../types/Calling';
 import { StateType } from '../reducer';
 
 import { getIntl } from '../selectors/user';
@@ -47,8 +51,34 @@ const mapStateToActiveCallProp = (state: StateType) => {
     return undefined;
   }
 
+  // TODO: The way we deal with remote participants isn't ideal. See DESKTOP-949.
+  let isCallFull = false;
+  const groupCallPeekedParticipants: Array<GroupCallPeekedParticipantType> = [];
   const groupCallParticipants: Array<GroupCallRemoteParticipantType> = [];
-  if (call && call.callMode === CallMode.Group) {
+  if (call.callMode === CallMode.Group) {
+    isCallFull = call.peekInfo.deviceCount >= call.peekInfo.maxDevices;
+
+    call.peekInfo.conversationIds.forEach((conversationId: string) => {
+      const peekedConversation = conversationSelector(conversationId);
+
+      if (!peekedConversation) {
+        window.log.error(
+          'Peeked participant has no corresponding conversation'
+        );
+        return;
+      }
+
+      groupCallPeekedParticipants.push({
+        avatarPath: peekedConversation.avatarPath,
+        color: peekedConversation.color,
+        firstName: peekedConversation.firstName,
+        isSelf: conversationId === state.user.ourConversationId,
+        name: peekedConversation.name,
+        profileName: peekedConversation.profileName,
+        title: peekedConversation.title,
+      });
+    });
+
     call.remoteParticipants.forEach(
       (remoteParticipant: GroupCallParticipantInfoType) => {
         const remoteConversation = conversationSelector(
@@ -83,6 +113,8 @@ const mapStateToActiveCallProp = (state: StateType) => {
     activeCallState,
     call,
     conversation,
+    isCallFull,
+    groupCallPeekedParticipants,
     groupCallParticipants,
   };
 };

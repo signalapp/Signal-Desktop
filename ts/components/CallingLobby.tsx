@@ -24,6 +24,7 @@ export type PropsType = {
   hasLocalVideo: boolean;
   i18n: LocalizerType;
   isGroupCall: boolean;
+  isCallFull?: boolean;
   me: {
     avatarPath?: string;
     color?: ColorType;
@@ -46,6 +47,7 @@ export const CallingLobby = ({
   hasLocalVideo,
   i18n,
   isGroupCall = false,
+  isCallFull = false,
   me,
   onCallCanceled,
   onJoinCall,
@@ -111,6 +113,45 @@ export const CallingLobby = ({
   const audioButtonType = hasLocalAudio
     ? CallingButtonType.AUDIO_ON
     : CallingButtonType.AUDIO_OFF;
+
+  let joinButton: JSX.Element;
+  if (isCallFull) {
+    joinButton = (
+      <button
+        className="module-button__green module-calling-lobby__button"
+        disabled
+        tabIndex={0}
+        type="button"
+      >
+        {i18n('calling__call-is-full')}
+      </button>
+    );
+  } else if (isCallConnecting) {
+    joinButton = (
+      <button
+        className="module-button__green module-calling-lobby__button"
+        disabled
+        tabIndex={0}
+        type="button"
+      >
+        <Spinner svgSize="small" />
+      </button>
+    );
+  } else {
+    joinButton = (
+      <button
+        className="module-button__green module-calling-lobby__button"
+        onClick={() => {
+          setIsCallConnecting(true);
+          onJoinCall();
+        }}
+        tabIndex={0}
+        type="button"
+      >
+        {isGroupCall ? i18n('calling__join') : i18n('calling__start')}
+      </button>
+    );
+  }
 
   return (
     <div className="module-calling__container">
@@ -191,29 +232,7 @@ export const CallingLobby = ({
         >
           {i18n('cancel')}
         </button>
-        {isCallConnecting && (
-          <button
-            className="module-button__green module-calling-lobby__button"
-            disabled
-            tabIndex={0}
-            type="button"
-          >
-            <Spinner svgSize="small" />
-          </button>
-        )}
-        {!isCallConnecting && (
-          <button
-            className="module-button__green module-calling-lobby__button"
-            onClick={() => {
-              setIsCallConnecting(true);
-              onJoinCall();
-            }}
-            tabIndex={0}
-            type="button"
-          >
-            {isGroupCall ? i18n('calling__join') : i18n('calling__start')}
-          </button>
-        )}
+        {joinButton}
       </div>
     </div>
   );
