@@ -473,6 +473,16 @@ export function reducer(
   if (action.type === 'SELECTED_CONVERSATION_CHANGED') {
     const { payload } = action;
     const { id } = payload;
+    const oldSelectedConversation = state.selectedConversation;
+    const newSelectedConversation = id;
+    if (newSelectedConversation !== oldSelectedConversation) {
+      // empty the message list
+      return {
+        ...state,
+        messages: [],
+        selectedConversation: id,
+      };
+    }
     return {
       ...state,
       selectedConversation: id,
@@ -494,7 +504,7 @@ export function reducer(
   }
 
   if (action.type === 'MESSAGE_CHANGED') {
-    const messageInStoreIndex = state?.messages.findIndex(
+    const messageInStoreIndex = state?.messages?.findIndex(
       m => m.id === action.payload.id
     );
     if (messageInStoreIndex >= 0) {

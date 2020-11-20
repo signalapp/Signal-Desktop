@@ -44,7 +44,6 @@ interface State {
 
   unreadCount: number;
   selectedMessages: Array<string>;
-  isScrolledToBottom: boolean;
   displayScrollToBottomButton: boolean;
 
   showOverlay: boolean;
@@ -96,7 +95,6 @@ export class SessionConversation extends React.Component<Props, State> {
       sendingProgressStatus: 0,
       unreadCount,
       selectedMessages: [],
-      isScrolledToBottom: !unreadCount,
       displayScrollToBottomButton: false,
       showOverlay: false,
       showRecordingView: false,
@@ -206,7 +204,6 @@ export class SessionConversation extends React.Component<Props, State> {
       this.setState({
         showOptionsPane: false,
         selectedMessages: [],
-        // isScrolledToBottom: !this.props.unreadCount,
         displayScrollToBottomButton: false,
         showOverlay: false,
         showRecordingView: false,
@@ -258,7 +255,28 @@ export class SessionConversation extends React.Component<Props, State> {
     const { isRss } = conversation;
 
     // TODO VINCE: OPTIMISE FOR NEW SENDING???
-    const sendMessageFn = conversationModel.sendMessage.bind(conversationModel);
+    const sendMessageFn = (
+      body: any,
+      attachments: any,
+      quote: any,
+      preview: any,
+      groupInvitation: any,
+      otherOptions: any
+    ) => {
+      void conversationModel.sendMessage(
+        body,
+        attachments,
+        quote,
+        preview,
+        groupInvitation,
+        otherOptions
+      );
+      if (this.messageContainerRef.current) {
+        // force scrolling to bottom on message sent
+        (this.messageContainerRef
+          .current as any).scrollTop = this.messageContainerRef.current?.scrollHeight;
+      }
+    };
 
     const shouldRenderRightPanel = !conversationModel.isRss();
 
