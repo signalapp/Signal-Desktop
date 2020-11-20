@@ -86,15 +86,9 @@ export class Avatar extends React.Component<Props, State> {
   }
 
   public renderNoImage(): JSX.Element {
-    const {
-      conversationType,
-      name,
-      noteToSelf,
-      profileName,
-      size,
-    } = this.props;
+    const { conversationType, noteToSelf, size, title } = this.props;
 
-    const initials = getInitials(name || profileName);
+    const initials = getInitials(title);
     const isGroup = conversationType === 'group';
 
     if (noteToSelf) {

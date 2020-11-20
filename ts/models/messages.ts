@@ -6,6 +6,7 @@ import {
   MessageAttributesType,
   CustomError,
 } from '../model-types.d';
+import { DataMessageClass } from '../textsecure.d';
 import { ConversationModel } from './conversations';
 import {
   LastMessageStatus,
@@ -22,6 +23,7 @@ import {
 } from '../components/conversation/TimerNotification';
 import { PropsData as SafetyNumberNotificationProps } from '../components/conversation/SafetyNumberNotification';
 import { PropsData as VerificationNotificationProps } from '../components/conversation/VerificationNotification';
+import { PropsDataType as GroupV1MigrationPropsType } from '../components/conversation/GroupV1Migration';
 import {
   PropsData as GroupNotificationProps,
   ChangeType,
@@ -195,6 +197,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       !this.isExpirationTimerUpdate() &&
       !this.isGroupUpdate() &&
       !this.isGroupV2Change() &&
+      !this.isGroupV1Migration() &&
       !this.isKeyChange() &&
       !this.isMessageHistoryUnsynced() &&
       !this.isProfileChange() &&
@@ -215,6 +218,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return {
         type: 'groupV2Change',
         data: this.getPropsForGroupV2Change(),
+      };
+    }
+    if (this.isGroupV1Migration()) {
+      return {
+        type: 'groupV1Migration',
+        data: this.getPropsForGroupV1Migration(),
       };
     }
     if (this.isMessageHistoryUnsynced()) {
@@ -428,6 +437,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     return Boolean(this.get('groupV2Change'));
   }
 
+  isGroupV1Migration(): boolean {
+    return this.get('type') === 'group-v1-migration';
+  }
+
   isExpirationTimerUpdate(): boolean {
     const flag =
       window.textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
@@ -498,6 +511,23 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       RoleEnum: protobuf.Member.Role,
       ourConversationId,
       change,
+    };
+  }
+
+  getPropsForGroupV1Migration(): GroupV1MigrationPropsType {
+    const invitedGV2Members = this.get('invitedGV2Members') || [];
+    const droppedGV2MemberIds = this.get('droppedGV2MemberIds') || [];
+
+    const invitedMembers = invitedGV2Members.map(item =>
+      this.findAndFormatContact(item.conversationId)
+    );
+    const droppedMembers = droppedGV2MemberIds.map(conversationId =>
+      this.findAndFormatContact(conversationId)
+    );
+
+    return {
+      droppedMembers,
+      invitedMembers,
     };
   }
 
@@ -1082,9 +1112,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       };
     }
 
-    if (this.get('deletedForEveryone')) {
+    if (this.isGroupV1Migration()) {
       return {
-        text: window.i18n('message--deletedForEveryone'),
+        text: window.i18n('GroupV1--Migration--was-upgraded'),
       };
     }
 
@@ -2771,7 +2801,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   handleDataMessage(
-    initialMessage: typeof window.WhatIsThis,
+    initialMessage: DataMessageClass,
     confirm: () => void,
     options: { data?: typeof window.WhatIsThis } = {}
   ): WhatIsThis {
@@ -2863,40 +2893,58 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         }
       }
 
-      const existingRevision = conversation.get('revision');
-      const isGroupV2 = Boolean(initialMessage.groupV2);
-      const isV2GroupUpdate =
-        initialMessage.groupV2 &&
-        (!existingRevision ||
-          initialMessage.groupV2.revision > existingRevision);
-
       // GroupV2
-      if (isGroupV2) {
-        conversation.maybeRepairGroupV2(
-          _.pick(initialMessage.groupV2, [
-            'masterKey',
-            'secretParams',
-            'publicParams',
-          ])
-        );
-      }
 
-      if (isV2GroupUpdate) {
-        const { revision, groupChange } = initialMessage.groupV2;
-        try {
-          await window.Signal.Groups.maybeUpdateGroup({
+      if (initialMessage.groupV2) {
+        if (conversation.isGroupV1()) {
+          // If we received a GroupV2 message in a GroupV1 group, we migrate!
+
+          const { revision, groupChange } = initialMessage.groupV2;
+          await window.Signal.Groups.respondToGroupV2Migration({
             conversation,
             groupChangeBase64: groupChange,
             newRevision: revision,
             receivedAt: message.get('received_at'),
             sentAt: message.get('sent_at'),
           });
-        } catch (error) {
-          const errorText = error && error.stack ? error.stack : error;
-          window.log.error(
-            `handleDataMessage: Failed to process group update for ${conversation.idForLogging()} as part of message ${message.idForLogging()}: ${errorText}`
-          );
-          throw error;
+        } else if (
+          initialMessage.groupV2.masterKey &&
+          initialMessage.groupV2.secretParams &&
+          initialMessage.groupV2.publicParams
+        ) {
+          // Repair core GroupV2 data if needed
+          await conversation.maybeRepairGroupV2({
+            masterKey: initialMessage.groupV2.masterKey,
+            secretParams: initialMessage.groupV2.secretParams,
+            publicParams: initialMessage.groupV2.publicParams,
+          });
+
+          // Standard GroupV2 modification codepath
+          const existingRevision = conversation.get('revision');
+          const isV2GroupUpdate =
+            initialMessage.groupV2 &&
+            _.isNumber(initialMessage.groupV2.revision) &&
+            (!existingRevision ||
+              initialMessage.groupV2.revision > existingRevision);
+
+          if (isV2GroupUpdate && initialMessage.groupV2) {
+            const { revision, groupChange } = initialMessage.groupV2;
+            try {
+              await window.Signal.Groups.maybeUpdateGroup({
+                conversation,
+                groupChangeBase64: groupChange,
+                newRevision: revision,
+                receivedAt: message.get('received_at'),
+                sentAt: message.get('sent_at'),
+              });
+            } catch (error) {
+              const errorText = error && error.stack ? error.stack : error;
+              window.log.error(
+                `handleDataMessage: Failed to process group update for ${conversation.idForLogging()} as part of message ${message.idForLogging()}: ${errorText}`
+              );
+              throw error;
+            }
+          }
         }
       }
 
@@ -2907,6 +2955,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         e164: source,
         uuid: sourceUuid,
       })!;
+      const isGroupV2 = Boolean(initialMessage.groupV2);
       const isV1GroupUpdate =
         initialMessage.group &&
         initialMessage.group.type !==
@@ -2944,6 +2993,16 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       ) {
         window.log.warn(
           `Received message destined for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
+        );
+        confirm();
+        return;
+      }
+
+      // Because GroupV1 messages can now be multiplexed into GroupV2 conversations, we
+      //   drop GroupV1 updates in GroupV2 groups.
+      if (isV1GroupUpdate && conversation.isGroupV2()) {
+        window.log.warn(
+          `Received GroupV1 update in GroupV2 conversation ${conversation.idForLogging()}. Dropping.`
         );
         confirm();
         return;

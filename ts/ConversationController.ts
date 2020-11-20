@@ -10,6 +10,7 @@ import {
 } from './model-types.d';
 import { SendOptionsType, CallbackResultType } from './textsecure/SendMessage';
 import { ConversationModel } from './models/conversations';
+import { maybeDeriveGroupV2Id } from './groups';
 
 const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
 
@@ -222,6 +223,9 @@ export class ConversationController {
       }
 
       try {
+        if (conversation.isGroupV1()) {
+          await maybeDeriveGroupV2Id(conversation);
+        }
         await saveConversation(conversation.attributes);
       } catch (error) {
         window.log.error(
@@ -676,6 +680,12 @@ export class ConversationController {
     });
   }
 
+  getByDerivedGroupV2Id(groupId: string): ConversationModel | undefined {
+    return this._conversations.find(
+      item => item.get('derivedGroupV2Id') === groupId
+    );
+  }
+
   async loadPromise(): Promise<void> {
     return this._initialPromise;
   }
@@ -710,6 +720,11 @@ export class ConversationController {
         await Promise.all(
           this._conversations.map(async conversation => {
             try {
+              const isChanged = await maybeDeriveGroupV2Id(conversation);
+              if (isChanged) {
+                updateConversation(conversation.attributes);
+              }
+
               if (!conversation.get('lastMessage')) {
                 await conversation.updateLastMessage();
               }

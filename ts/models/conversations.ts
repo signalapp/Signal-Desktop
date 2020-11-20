@@ -278,10 +278,21 @@ export class ConversationModel extends window.Backbone.Model<
 
     const groupVersion = this.get('groupVersion') || 0;
 
+<<<<<<< HEAD
     return (
       groupVersion === 2 &&
       base64ToArrayBuffer(groupId).byteLength === window.Signal.Groups.ID_LENGTH
     );
+=======
+    try {
+      return (
+        groupVersion === 2 && base64ToArrayBuffer(groupId).byteLength === 32
+      );
+    } catch (error) {
+      window.log.error('isGroupV2: Failed to process groupId in base64!');
+      return false;
+    }
+>>>>>>> Support for GV1 -> GV2 migration
   }
 
   isMemberPending(conversationId: string): boolean {
@@ -508,7 +519,6 @@ export class ConversationModel extends window.Backbone.Model<
           const groupChange = await window.Signal.Groups.uploadGroupChange({
             actions,
             group: this.attributes,
-            serverPublicParamsBase64: window.getServerPublicParams(),
           });
 
           const groupChangeBuffer = groupChange.toArrayBuffer();
@@ -828,6 +838,21 @@ export class ConversationModel extends window.Backbone.Model<
 
   isValid(): boolean {
     return this.isPrivate() || this.isGroupV1() || this.isGroupV2();
+  }
+
+  async maybeMigrateV1Group(): Promise<void> {
+    if (!this.isGroupV1()) {
+      return;
+    }
+
+    const isMigrated = await window.Signal.Groups.hasV1GroupBeenMigrated(this);
+    if (!isMigrated) {
+      return;
+    }
+
+    await window.Signal.Groups.waitThenRespondToGroupV2Migration({
+      conversation: this,
+    });
   }
 
   maybeRepairGroupV2(data: {
@@ -1509,19 +1534,31 @@ export class ConversationModel extends window.Backbone.Model<
         )
       );
     } catch (result) {
-      if (result instanceof Error) {
-        throw result;
-      } else if (result && result.errors) {
-        // We filter out unregistered user errors, because we ignore those in groups
-        const wasThereARealError = window._.some(
-          result.errors,
-          error => error.name !== 'UnregisteredUserError'
-        );
-        if (wasThereARealError) {
-          throw result;
-        }
-      }
+      this.processSendResponse(result);
     }
+  }
+
+  // We only want to throw if there's a 'real' error contained with this information
+  //   coming back from our low-level send infrastructure.
+  processSendResponse(
+    result: Error | CallbackResultType
+  ): result is CallbackResultType {
+    if (result instanceof Error) {
+      throw result;
+    } else if (result && result.errors) {
+      // We filter out unregistered user errors, because we ignore those in groups
+      const wasThereARealError = window._.some(
+        result.errors,
+        error => error.name !== 'UnregisteredUserError'
+      );
+      if (wasThereARealError) {
+        throw result;
+      }
+
+      return true;
+    }
+
+    return true;
   }
 
   onMessageError(): void {
@@ -2916,10 +2953,6 @@ export class ConversationModel extends window.Backbone.Model<
     };
   }
 
-  getUuidCapable(): boolean {
-    return Boolean(window._.property('uuid')(this.get('capabilities')));
-  }
-
   getSendMetadata(
     options: { syncMessage?: string; disableMeCheck?: boolean } = {}
   ): WhatIsThis | null {
@@ -2946,7 +2979,6 @@ export class ConversationModel extends window.Backbone.Model<
 
     const accessKey = this.get('accessKey');
     const sealedSender = this.get('sealedSender');
-    const uuidCapable = this.getUuidCapable();
 
     // We never send sync messages as sealed sender
     if (syncMessage && this.isMe()) {
@@ -2960,9 +2992,6 @@ export class ConversationModel extends window.Backbone.Model<
     if (sealedSender === SEALED_SENDER.UNKNOWN) {
       const info = {
         accessKey: accessKey || arrayBufferToBase64(getRandomBytes(16)),
-        // Indicates that a client is capable of receiving uuid-only messages.
-        // Not used yet.
-        uuidCapable,
       };
       return {
         ...(e164 ? { [e164]: info } : {}),
@@ -2979,9 +3008,6 @@ export class ConversationModel extends window.Backbone.Model<
         accessKey && sealedSender === SEALED_SENDER.ENABLED
           ? accessKey
           : arrayBufferToBase64(getRandomBytes(16)),
-      // Indicates that a client is capable of receiving uuid-only messages.
-      // Not used yet.
-      uuidCapable,
     };
 
     return {
@@ -4172,19 +4198,16 @@ export class ConversationModel extends window.Backbone.Model<
     });
   }
 
-  notifyTyping(
-    options: {
-      isTyping: boolean;
-      senderId: string;
-      isMe: boolean;
-      senderDevice: string;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } = ({} as unknown) as any
-  ): void {
-    const { isTyping, senderId, isMe, senderDevice } = options;
+  notifyTyping(options: {
+    isTyping: boolean;
+    senderId: string;
+    fromMe: boolean;
+    senderDevice: string;
+  }): void {
+    const { isTyping, senderId, fromMe, senderDevice } = options;
 
     // We don't do anything with typing messages from our other devices
-    if (isMe) {
+    if (fromMe) {
       return;
     }
 

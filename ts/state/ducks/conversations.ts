@@ -65,7 +65,7 @@ export type ConversationType = {
     text: string;
     deletedForEveryone?: boolean;
   };
-  markedUnread: boolean;
+  markedUnread?: boolean;
   phoneNumber?: string;
   membersCount?: number;
   expireTimer?: number;
@@ -73,7 +73,7 @@ export type ConversationType = {
   muteExpiresAt?: number;
   type: ConversationTypeType;
   isMe?: boolean;
-  lastUpdated: number;
+  lastUpdated?: number;
   title: string;
   unreadCount?: number;
   isSelected?: boolean;

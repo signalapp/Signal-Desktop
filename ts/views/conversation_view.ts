@@ -369,6 +369,9 @@ Whisper.ConversationView = Whisper.View.extend({
         this.model.fetchLatestGroupV2Data.bind(this.model),
         FIVE_MINUTES
       );
+    this.model.throttledMaybeMigrateV1Group =
+      this.model.throttledMaybeMigrateV1Group ||
+      _.throttle(this.model.maybeMigrateV1Group.bind(this.model), FIVE_MINUTES);
 
     this.debouncedMaybeGrabLinkPreview = _.debounce(
       this.maybeGrabLinkPreview.bind(this),
@@ -2035,6 +2038,7 @@ Whisper.ConversationView = Whisper.View.extend({
     }
 
     this.model.throttledFetchLatestGroupV2Data();
+    this.model.throttledMaybeMigrateV1Group();
 
     const statusPromise = this.model.throttledGetProfiles();
     // eslint-disable-next-line more/no-then

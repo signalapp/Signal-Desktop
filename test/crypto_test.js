@@ -19,6 +19,43 @@ describe('Crypto', () => {
     });
   });
 
+  describe('deriveMasterKeyFromGroupV1', () => {
+    const vectors = [
+      {
+        gv1: '00000000000000000000000000000000',
+        masterKey:
+          'dbde68f4ee9169081f8814eabc65523fea1359235c8cfca32b69e31dce58b039',
+      },
+      {
+        gv1: '000102030405060708090a0b0c0d0e0f',
+        masterKey:
+          '70884f78f07a94480ee36b67a4b5e975e92e4a774561e3df84c9076e3be4b9bf',
+      },
+      {
+        gv1: '7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f',
+        masterKey:
+          'e69bf7c183b288b4ea5745b7c52b651a61e57769fafde683a6fdf1240f1905f2',
+      },
+      {
+        gv1: 'ffffffffffffffffffffffffffffffff',
+        masterKey:
+          'dd3a7de23d10f18b64457fbeedc76226c112a730e4b76112e62c36c4432eb37d',
+      },
+    ];
+
+    vectors.forEach((vector, index) => {
+      it(`vector ${index}`, async () => {
+        const gv1 = Signal.Crypto.hexToArrayBuffer(vector.gv1);
+        const expectedHex = vector.masterKey;
+
+        const actual = await Signal.Crypto.deriveMasterKeyFromGroupV1(gv1);
+        const actualHex = Signal.Crypto.arrayBufferToHex(actual);
+
+        assert.strictEqual(actualHex, expectedHex);
+      });
+    });
+  });
+
   describe('symmetric encryption', () => {
     it('roundtrips', async () => {
       const message = 'this is my message';

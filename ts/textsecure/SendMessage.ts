@@ -1705,6 +1705,20 @@ export default class MessageSender {
     return this.sendMessage(attrs, options);
   }
 
+  async createGroup(
+    group: GroupClass,
+    options: GroupCredentialsType
+  ): Promise<void> {
+    return this.server.createGroup(group, options);
+  }
+
+  async uploadGroupAvatar(
+    avatar: ArrayBuffer,
+    options: GroupCredentialsType
+  ): Promise<string> {
+    return this.server.uploadGroupAvatar(avatar, options);
+  }
+
   async getGroup(options: GroupCredentialsType): Promise<GroupClass> {
     return this.server.getGroup(options);
   }

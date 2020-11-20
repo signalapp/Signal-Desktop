@@ -59,6 +59,21 @@ export async function deriveStickerPackKey(
   return concatenateBytes(part1, part2);
 }
 
+export async function deriveMasterKeyFromGroupV1(
+  groupV1Id: ArrayBuffer
+): Promise<ArrayBuffer> {
+  const salt = getZeroes(32);
+  const info = bytesFromString('GV2 Migration');
+
+  const [part1] = await window.libsignal.HKDF.deriveSecrets(
+    groupV1Id,
+    salt,
+    info
+  );
+
+  return part1;
+}
+
 export async function computeHash(data: ArrayBuffer): Promise<string> {
   const hash = await crypto.subtle.digest({ name: 'SHA-512' }, data);
   return arrayBufferToBase64(hash);

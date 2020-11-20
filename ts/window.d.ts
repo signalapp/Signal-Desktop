@@ -72,7 +72,7 @@ export { Long } from 'long';
 
 type TaskResultType = any;
 
-type WhatIsThis = any;
+export type WhatIsThis = any;
 
 declare global {
   interface Window {

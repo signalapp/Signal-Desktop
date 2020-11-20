@@ -4,6 +4,7 @@
 import {
   compact,
   Dictionary,
+  difference,
   flatten,
   fromPairs,
   isNumber,
@@ -16,6 +17,7 @@ import {
   GROUP_CREDENTIALS_KEY,
   maybeFetchNewCredentials,
 } from './services/groupCredentialFetcher';
+import dataInterface from './sql/Client';
 import {
   ConversationAttributesType,
   GroupV2MemberType,
@@ -43,6 +45,8 @@ import {
   arrayBufferToHex,
   base64ToArrayBuffer,
   computeHash,
+  deriveMasterKeyFromGroupV1,
+  fromEncodedBinaryToArrayBuffer,
 } from './Crypto';
 import {
   GroupAttributeBlobClass,
@@ -53,8 +57,11 @@ import {
   PendingMemberClass,
   ProtoBinaryType,
 } from './textsecure.d';
-import { GroupCredentialsType } from './textsecure/WebAPI';
-import MessageSender from './textsecure/SendMessage';
+import {
+  GroupCredentialsType,
+  GroupLogResponseType,
+} from './textsecure/WebAPI';
+import MessageSender, { CallbackResultType } from './textsecure/SendMessage';
 import { CURRENT_SCHEMA_VERSION as MAX_MESSAGE_SCHEMA } from '../js/modules/types/message';
 import { ConversationModel } from './models/conversations';
 
@@ -141,6 +148,8 @@ export type GroupV2ChangeType = {
   details: Array<GroupV2ChangeDetailType>;
 };
 
+const { updateConversation } = dataInterface;
+
 if (!isNumber(MAX_MESSAGE_SCHEMA)) {
   throw new Error(
     'groups.ts: Unable to capture max message schema from js/modules/types/message'
@@ -168,9 +177,204 @@ export const ID_V1_LENGTH = 16;
 export const ID_LENGTH = 32;
 const TEMPORAL_AUTH_REJECTED_CODE = 401;
 const GROUP_ACCESS_DENIED_CODE = 403;
+const GROUP_NONEXISTENT_CODE = 404;
 const SUPPORTED_CHANGE_EPOCH = 0;
 
 // Group Modifications
+
+async function uploadAvatar({
+  logId,
+  path,
+  publicParams,
+  secretParams,
+}: {
+  logId: string;
+  path: string;
+  publicParams: string;
+  secretParams: string;
+}): Promise<{ hash: string; key: string }> {
+  try {
+    const clientZkGroupCipher = getClientZkGroupCipher(secretParams);
+
+    const data = await window.Signal.Migrations.readAttachmentData(path);
+    const hash = await computeHash(data);
+
+    const blob = new window.textsecure.protobuf.GroupAttributeBlob();
+    blob.avatar = data;
+    const blobPlaintext = blob.toArrayBuffer();
+    const ciphertext = encryptGroupBlob(clientZkGroupCipher, blobPlaintext);
+
+    const key = await makeRequestWithTemporalRetry({
+      logId: `uploadGroupAvatar/${logId}`,
+      publicParams,
+      secretParams,
+      request: (sender, options) =>
+        sender.uploadGroupAvatar(ciphertext, options),
+    });
+
+    return {
+      key,
+      hash,
+    };
+  } catch (error) {
+    window.log.warn(
+      `uploadAvatar/${logId} Failed to upload avatar`,
+      error.stack
+    );
+    throw error;
+  }
+}
+
+async function buildGroupProto({
+  attributes,
+}: {
+  attributes: ConversationAttributesType;
+}): Promise<GroupClass> {
+  const MEMBER_ROLE_ENUM = window.textsecure.protobuf.Member.Role;
+  const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
+  const logId = `groupv2(${attributes.id})`;
+
+  const { publicParams, secretParams } = attributes;
+
+  if (!publicParams) {
+    throw new Error(
+      `buildGroupProto/${logId}: attributes were missing publicParams!`
+    );
+  }
+  if (!secretParams) {
+    throw new Error(
+      `buildGroupProto/${logId}: attributes were missing secretParams!`
+    );
+  }
+
+  const serverPublicParamsBase64 = window.getServerPublicParams();
+  const clientZkGroupCipher = getClientZkGroupCipher(secretParams);
+  const clientZkProfileCipher = getClientZkProfileOperations(
+    serverPublicParamsBase64
+  );
+  const proto = new window.textsecure.protobuf.Group();
+
+  proto.publicKey = base64ToArrayBuffer(publicParams);
+  proto.version = attributes.revision || 0;
+
+  const titleBlob = new window.textsecure.protobuf.GroupAttributeBlob();
+  titleBlob.title = attributes.name;
+  const titleBlobPlaintext = titleBlob.toArrayBuffer();
+  proto.title = encryptGroupBlob(clientZkGroupCipher, titleBlobPlaintext);
+
+  if (attributes.avatar && attributes.avatar.path) {
+    const { path } = attributes.avatar;
+    const { key, hash } = await uploadAvatar({
+      logId,
+      path,
+      publicParams,
+      secretParams,
+    });
+
+    // eslint-disable-next-line no-param-reassign
+    attributes.avatar.hash = hash;
+    // eslint-disable-next-line no-param-reassign
+    attributes.avatar.url = key;
+
+    proto.avatar = key;
+  }
+
+  if (attributes.expireTimer) {
+    const timerBlob = new window.textsecure.protobuf.GroupAttributeBlob();
+    timerBlob.disappearingMessagesDuration = attributes.expireTimer;
+    const timerBlobPlaintext = timerBlob.toArrayBuffer();
+    proto.disappearingMessagesTimer = encryptGroupBlob(
+      clientZkGroupCipher,
+      timerBlobPlaintext
+    );
+  }
+
+  const accessControl = new window.textsecure.protobuf.AccessControl();
+  if (attributes.accessControl) {
+    accessControl.attributes =
+      attributes.accessControl.attributes || ACCESS_ENUM.MEMBER;
+    accessControl.members =
+      attributes.accessControl.members || ACCESS_ENUM.MEMBER;
+  } else {
+    accessControl.attributes = ACCESS_ENUM.MEMBER;
+    accessControl.members = ACCESS_ENUM.MEMBER;
+  }
+  proto.accessControl = accessControl;
+
+  proto.members = (attributes.membersV2 || []).map(item => {
+    const member = new window.textsecure.protobuf.Member();
+
+    const conversation = window.ConversationController.get(item.conversationId);
+    if (!conversation) {
+      throw new Error(`buildGroupProto/${logId}: no conversation for member!`);
+    }
+
+    const profileKeyCredentialBase64 = conversation.get('profileKeyCredential');
+    if (!profileKeyCredentialBase64) {
+      throw new Error(
+        `buildGroupProto/${logId}: member was missing profileKeyCredentia!`
+      );
+    }
+    const presentation = createProfileKeyCredentialPresentation(
+      clientZkProfileCipher,
+      profileKeyCredentialBase64,
+      secretParams
+    );
+
+    member.role = item.role || MEMBER_ROLE_ENUM.DEFAULT;
+    member.presentation = presentation;
+
+    return member;
+  });
+
+  const ourConversationId = window.ConversationController.getOurConversationId();
+  if (!ourConversationId) {
+    throw new Error(
+      `buildGroupProto/${logId}: unable to find our own conversationId!`
+    );
+  }
+
+  const me = window.ConversationController.get(ourConversationId);
+  if (!me) {
+    throw new Error(
+      `buildGroupProto/${logId}: unable to find our own conversation!`
+    );
+  }
+
+  const ourUuid = me.get('uuid');
+  if (!ourUuid) {
+    throw new Error(`buildGroupProto/${logId}: unable to find our own uuid!`);
+  }
+
+  const ourUuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, ourUuid);
+
+  proto.pendingMembers = (attributes.pendingMembersV2 || []).map(item => {
+    const pendingMember = new window.textsecure.protobuf.PendingMember();
+    const member = new window.textsecure.protobuf.Member();
+
+    const conversation = window.ConversationController.get(item.conversationId);
+    if (!conversation) {
+      throw new Error('buildGroupProto: no conversation for pending member!');
+    }
+
+    const uuid = conversation.get('uuid');
+    if (!uuid) {
+      throw new Error('buildGroupProto: pending member was missing uuid!');
+    }
+
+    const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
+    member.userId = uuidCipherTextBuffer;
+    member.role = MEMBER_ROLE_ENUM.DEFAULT;
+
+    pendingMember.member = member;
+    pendingMember.timestamp = item.timestamp;
+    pendingMember.addedByUserId = ourUuidCipherTextBuffer;
+
+    return pendingMember;
+  });
+
+  return proto;
+}
 
 export function buildDisappearingMessagesTimerChange({
   expireTimer,
@@ -291,17 +495,11 @@ export function buildPromoteMemberChange({
 export async function uploadGroupChange({
   actions,
   group,
-  serverPublicParamsBase64,
 }: {
   actions: GroupChangeClass.Actions;
   group: ConversationAttributesType;
-  serverPublicParamsBase64: string;
 }): Promise<GroupChangeClass> {
   const logId = idForLogging(group);
-  const sender = window.textsecure.messaging;
-  if (!sender) {
-    throw new Error('textsecure.messaging is not available!');
-  }
 
   // Ensure we have the credentials we need before attempting GroupsV2 operations
   await maybeFetchNewCredentials();
@@ -313,43 +511,23 @@ export async function uploadGroupChange({
     throw new Error('uploadGroupChange: group was missing publicParams!');
   }
 
-  const groupCredentials = getCredentialsForToday(
-    window.storage.get(GROUP_CREDENTIALS_KEY)
-  );
-
-  const options = {
-    authCredentialBase64: groupCredentials.today.credential,
-    serverPublicParamsBase64,
-    groupPublicParamsBase64: group.publicParams,
-    groupSecretParamsBase64: group.secretParams,
-  };
-
-  try {
-    const optionsForToday = getGroupCredentials(options);
-    const result = await sender.modifyGroup(actions, optionsForToday);
-
-    return result;
-  } catch (error) {
-    if (error.code === TEMPORAL_AUTH_REJECTED_CODE) {
-      window.log.info(
-        `uploadGroupChange/${logId}: Credential for today failed, failing over to tomorrow...`
-      );
-      const optionsForTomorrow = getGroupCredentials({
-        ...options,
-        authCredentialBase64: groupCredentials.tomorrow.credential,
-      });
-      return sender.modifyGroup(actions, optionsForTomorrow);
-    }
-
-    throw error;
-  }
+  return makeRequestWithTemporalRetry({
+    logId: `uploadGroupChange/${logId}`,
+    publicParams: group.publicParams,
+    secretParams: group.secretParams,
+    request: (sender, options) => sender.modifyGroup(actions, options),
+  });
 }
 
 // Utility
 
+function idForLogging(group: ConversationAttributesType) {
+  return `groupv2(${group.groupId})`;
+}
+
 export function deriveGroupFields(
   masterKey: ArrayBuffer
-): Record<string, ArrayBuffer> {
+): { id: ArrayBuffer; secretParams: ArrayBuffer; publicParams: ArrayBuffer } {
   const secretParams = deriveGroupSecretParams(masterKey);
   const publicParams = deriveGroupPublicParams(secretParams);
   const id = deriveGroupID(secretParams);
@@ -441,6 +619,723 @@ export async function fetchMembershipProof({
   return response.token;
 }
 
+// Migrating a group
+
+export async function hasV1GroupBeenMigrated(
+  conversation: ConversationModel
+): Promise<boolean> {
+  const logId = conversation.idForLogging();
+  const isGroupV1 = conversation.isGroupV1();
+  if (!isGroupV1) {
+    window.log.warn(
+      `checkForGV2Existence/${logId}: Called for non-GroupV1 conversation!`
+    );
+    return false;
+  }
+
+  // Ensure we have the credentials we need before attempting GroupsV2 operations
+  await maybeFetchNewCredentials();
+
+  const groupId = conversation.get('groupId');
+  if (!groupId) {
+    throw new Error(`checkForGV2Existence/${logId}: No groupId!`);
+  }
+
+  const idBuffer = fromEncodedBinaryToArrayBuffer(groupId);
+  const masterKeyBuffer = await deriveMasterKeyFromGroupV1(idBuffer);
+  const fields = deriveGroupFields(masterKeyBuffer);
+
+  try {
+    await makeRequestWithTemporalRetry({
+      logId: `getGroup/${logId}`,
+      publicParams: arrayBufferToBase64(fields.publicParams),
+      secretParams: arrayBufferToBase64(fields.secretParams),
+      request: (sender, options) => sender.getGroup(options),
+    });
+    return true;
+  } catch (error) {
+    const { code } = error;
+    return code !== GROUP_NONEXISTENT_CODE && code !== GROUP_ACCESS_DENIED_CODE;
+  }
+}
+
+export async function maybeDeriveGroupV2Id(
+  conversation: ConversationModel
+): Promise<boolean> {
+  const isGroupV1 = conversation.isGroupV1();
+  const groupV1Id = conversation.get('groupId');
+  const derived = conversation.get('derivedGroupV2Id');
+
+  if (!isGroupV1 || !groupV1Id || derived) {
+    return false;
+  }
+
+  const v1IdBuffer = fromEncodedBinaryToArrayBuffer(groupV1Id);
+  const masterKeyBuffer = await deriveMasterKeyFromGroupV1(v1IdBuffer);
+  const fields = deriveGroupFields(masterKeyBuffer);
+  const derivedGroupV2Id = arrayBufferToBase64(fields.id);
+
+  conversation.set({
+    derivedGroupV2Id,
+  });
+
+  return true;
+}
+
+type MigratePropsType = {
+  conversation: ConversationModel;
+  groupChangeBase64?: string;
+  newRevision?: number;
+  receivedAt?: number;
+  sentAt?: number;
+};
+
+export async function isGroupEligibleToMigrate(
+  conversation: ConversationModel
+): Promise<boolean> {
+  if (!conversation.isGroupV1()) {
+    return false;
+  }
+
+  const ourConversationId = window.ConversationController.getOurConversationId();
+  const areWeMember =
+    !conversation.get('left') &&
+    ourConversationId &&
+    conversation.hasMember(ourConversationId);
+  if (!areWeMember) {
+    return false;
+  }
+
+  const members = conversation.get('members') || [];
+  for (let i = 0, max = members.length; i < max; i += 1) {
+    const identifier = members[i];
+    const contact = window.ConversationController.get(identifier);
+
+    if (!contact) {
+      return false;
+    }
+    if (!contact.get('uuid')) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+// This is called when the user chooses to migrate a GroupV1. It will update the server,
+//   then let all members know about the new group.
+export async function initiateMigrationToGroupV2(
+  conversation: ConversationModel
+): Promise<void> {
+  // Ensure we have the credentials we need before attempting GroupsV2 operations
+  await maybeFetchNewCredentials();
+
+  try {
+    await conversation.queueJob(async () => {
+      const MEMBER_ROLE_ENUM = window.textsecure.protobuf.Member.Role;
+      const ACCESS_ENUM =
+        window.textsecure.protobuf.AccessControl.AccessRequired;
+
+      const isEligible = isGroupEligibleToMigrate(conversation);
+      const previousGroupV1Id = conversation.get('groupId');
+
+      if (!isEligible || !previousGroupV1Id) {
+        throw new Error(
+          `initiateMigrationToGroupV2: conversation is not eligible to migrate! ${conversation.idForLogging()}`
+        );
+      }
+
+      const groupV1IdBuffer = fromEncodedBinaryToArrayBuffer(previousGroupV1Id);
+      const masterKeyBuffer = await deriveMasterKeyFromGroupV1(groupV1IdBuffer);
+      const fields = deriveGroupFields(masterKeyBuffer);
+
+      const groupId = arrayBufferToBase64(fields.id);
+      const logId = `groupv2(${groupId})`;
+      window.log.info(
+        `initiateMigrationToGroupV2/${logId}: Migrating from ${conversation.idForLogging()}`
+      );
+
+      const masterKey = arrayBufferToBase64(masterKeyBuffer);
+      const secretParams = arrayBufferToBase64(fields.secretParams);
+      const publicParams = arrayBufferToBase64(fields.publicParams);
+
+      const ourConversationId = window.ConversationController.getOurConversationId();
+      if (!ourConversationId) {
+        throw new Error(
+          `initiateMigrationToGroupV2/${logId}: Couldn't fetch our own conversationId!`
+        );
+      }
+
+      let areWeMember = false;
+      let areWeInvited = false;
+
+      const now = Date.now();
+
+      const previousGroupV1Members = conversation.get('members') || [];
+      const memberLookup: Record<string, boolean> = {};
+      const membersV2: Array<GroupV2MemberType> = compact(
+        await Promise.all(
+          previousGroupV1Members.map(async e164 => {
+            const contact = window.ConversationController.get(e164);
+
+            if (!contact) {
+              throw new Error(
+                `initiateMigrationToGroupV2/${logId}: membersV2 - missing local contact for ${e164}, skipping.`
+              );
+            }
+            if (!contact.get('uuid')) {
+              window.log.warn(
+                `initiateMigrationToGroupV2/${logId}: membersV2 - missing uuid for ${e164}, skipping.`
+              );
+              return null;
+            }
+
+            if (!contact.get('profileKey')) {
+              window.log.warn(
+                `initiateMigrationToGroupV2/${logId}: membersV2 - missing profileKey for member ${e164}, skipping.`
+              );
+              return null;
+            }
+
+            let capabilities = contact.get('capabilities');
+
+            // Refresh our local data to be sure
+            if (
+              !capabilities ||
+              !capabilities.gv2 ||
+              !capabilities['gv1-migration'] ||
+              !contact.get('profileKeyCredential')
+            ) {
+              await contact.getProfiles();
+            }
+
+            capabilities = contact.get('capabilities');
+            if (!capabilities || !capabilities.gv2) {
+              window.log.warn(
+                `initiateMigrationToGroupV2/${logId}: membersV2 - member ${e164} is missing gv2 capability, skipping.`
+              );
+              return null;
+            }
+            if (!capabilities || !capabilities['gv1-migration']) {
+              window.log.warn(
+                `initiateMigrationToGroupV2/${logId}: membersV2 - member ${e164} is missing gv1-migration capability, skipping.`
+              );
+              return null;
+            }
+            if (!contact.get('profileKeyCredential')) {
+              window.log.warn(
+                `initiateMigrationToGroupV2/${logId}: membersV2 - no profileKeyCredential for ${e164}, skipping.`
+              );
+              return null;
+            }
+
+            const conversationId = contact.id;
+
+            if (conversationId === ourConversationId) {
+              areWeMember = true;
+            }
+
+            memberLookup[conversationId] = true;
+
+            return {
+              conversationId,
+              role: MEMBER_ROLE_ENUM.ADMINISTRATOR,
+              joinedAtVersion: 0,
+            };
+          })
+        )
+      );
+
+      const droppedGV2MemberIds: Array<string> = [];
+      const pendingMembersV2: Array<GroupV2PendingMemberType> = compact(
+        (previousGroupV1Members || []).map(e164 => {
+          const contact = window.ConversationController.get(e164);
+
+          if (!contact) {
+            throw new Error(
+              `initiateMigrationToGroupV2/${logId}: pendingMembersV2 - missing local contact for ${e164}, skipping.`
+            );
+          }
+
+          const conversationId = contact.id;
+          // If we've already added this contact above, we'll skip here
+          if (memberLookup[conversationId]) {
+            return null;
+          }
+
+          if (!contact.get('uuid')) {
+            window.log.warn(
+              `initiateMigrationToGroupV2/${logId}: pendingMembersV2 - missing uuid for ${e164}, skipping.`
+            );
+            droppedGV2MemberIds.push(conversationId);
+            return null;
+          }
+
+          const capabilities = contact.get('capabilities');
+          if (!capabilities || !capabilities.gv2) {
+            window.log.warn(
+              `initiateMigrationToGroupV2/${logId}: pendingMembersV2 - member ${e164} is missing gv2 capability, skipping.`
+            );
+            droppedGV2MemberIds.push(conversationId);
+            return null;
+          }
+          if (!capabilities || !capabilities['gv1-migration']) {
+            window.log.warn(
+              `initiateMigrationToGroupV2/${logId}: pendingMembersV2 - member ${e164} is missing gv1-migration capability, skipping.`
+            );
+            droppedGV2MemberIds.push(conversationId);
+            return null;
+          }
+
+          if (conversationId === ourConversationId) {
+            areWeInvited = true;
+          }
+
+          return {
+            conversationId,
+            timestamp: now,
+            addedByUserId: ourConversationId,
+          };
+        })
+      );
+
+      if (!areWeMember) {
+        throw new Error(
+          `initiateMigrationToGroupV2/${logId}: After members migration, we are not a member!`
+        );
+      }
+      if (!areWeInvited) {
+        throw new Error(
+          `initiateMigrationToGroupV2/${logId}: After members migration, we are invited!`
+        );
+      }
+
+      // Note: A few group elements don't need to change here:
+      //   - avatar
+      //   - name
+      //   - expireTimer
+
+      const newAttributes = {
+        ...conversation.attributes,
+
+        // Core GroupV2 info
+        revision: 0,
+        groupId,
+        groupVersion: 2,
+        masterKey,
+        publicParams,
+        secretParams,
+
+        // GroupV2 state
+        accessControl: {
+          attributes: ACCESS_ENUM.MEMBER,
+          members: ACCESS_ENUM.MEMBER,
+        },
+        membersV2,
+        pendingMembersV2,
+
+        // Capture previous GroupV1 data for future use
+        previousGroupV1Id,
+        previousGroupV1Members,
+
+        // Clear storage ID, since we need to start over on the storage service
+        storageID: undefined,
+
+        // Clear obsolete data
+        derivedGroupV2Id: undefined,
+        members: undefined,
+      };
+
+      const groupProto = await buildGroupProto({ attributes: newAttributes });
+
+      // Capture the CDK key provided by the server when we uploade
+      if (groupProto.avatar && newAttributes.avatar) {
+        newAttributes.avatar.url = groupProto.avatar;
+      }
+
+      try {
+        await makeRequestWithTemporalRetry({
+          logId: `createGroup/${logId}`,
+          publicParams,
+          secretParams,
+          request: (sender, options) => sender.createGroup(groupProto, options),
+        });
+      } catch (error) {
+        window.log.error(
+          `initiateMigrationToGroupV2/${logId}: Error creating group:`,
+          error.stack
+        );
+
+        throw error;
+      }
+
+      const groupChangeMessages: Array<MessageAttributesType> = [];
+      groupChangeMessages.push({
+        ...generateBasicMessage(),
+        type: 'group-v1-migration',
+        invitedGV2Members: pendingMembersV2,
+        droppedGV2MemberIds,
+      });
+
+      await updateGroup({
+        conversation,
+        updates: {
+          newAttributes,
+          groupChangeMessages,
+          members: [],
+        },
+      });
+
+      if (window.storage.isGroupBlocked(previousGroupV1Id)) {
+        window.storage.addBlockedGroup(groupId);
+      }
+
+      // Save these most recent updates to conversation
+      updateConversation(conversation.attributes);
+    });
+  } catch (error) {
+    const logId = conversation.idForLogging();
+    if (!conversation.isGroupV1()) {
+      throw error;
+    }
+
+    const alreadyMigrated = await hasV1GroupBeenMigrated(conversation);
+    if (!alreadyMigrated) {
+      window.log.error(
+        `initiateMigrationToGroupV2/${logId}: Group has not already been migrated, re-throwing error`
+      );
+      throw error;
+    }
+
+    await respondToGroupV2Migration({
+      conversation,
+    });
+
+    return;
+  }
+
+  // We've migrated the group, now we need to let all other group members know about it
+  const logId = conversation.idForLogging();
+  const timestamp = Date.now();
+  const profileKey = conversation.get('profileKey');
+
+  await wrapWithSyncMessageSend({
+    conversation,
+    logId: `sendMessageToGroup/${logId}`,
+    send: async sender =>
+      // Minimal message to notify group members about migration
+      sender.sendMessageToGroup({
+        groupV2: conversation.getGroupV2Info({
+          includePendingMembers: true,
+        }),
+        timestamp,
+        profileKey: profileKey ? base64ToArrayBuffer(profileKey) : undefined,
+      }),
+    timestamp,
+  });
+}
+
+async function wrapWithSyncMessageSend({
+  conversation,
+  logId,
+  send,
+  timestamp,
+}: {
+  conversation: ConversationModel;
+  logId: string;
+  send: (sender: MessageSender) => Promise<CallbackResultType | undefined>;
+  timestamp: number;
+}) {
+  const sender = window.textsecure.messaging;
+  if (!sender) {
+    throw new Error(
+      `initiateMigrationToGroupV2/${logId}: textsecure.messaging is not available!`
+    );
+  }
+
+  let response: CallbackResultType | undefined;
+  try {
+    response = await send(sender);
+  } catch (error) {
+    if (conversation.processSendResponse(error)) {
+      response = error;
+    }
+  }
+
+  if (!response) {
+    throw new Error(
+      `wrapWithSyncMessageSend/${logId}: message send didn't return result!!`
+    );
+  }
+
+  // Minimal implementation of sending same message to linked devices
+  const { dataMessage } = response;
+  if (!dataMessage) {
+    throw new Error(
+      `wrapWithSyncMessageSend/${logId}: dataMessage was not returned by send!`
+    );
+  }
+
+  const ourConversationId = window.ConversationController.getOurConversationId();
+  if (!ourConversationId) {
+    throw new Error(
+      `wrapWithSyncMessageSend/${logId}: Cannot get our conversationId!`
+    );
+  }
+
+  const ourConversation = window.ConversationController.get(ourConversationId);
+  if (!ourConversation) {
+    throw new Error(
+      `wrapWithSyncMessageSend/${logId}: Cannot get our conversation!`
+    );
+  }
+
+  await sender.sendSyncMessage(
+    dataMessage,
+    timestamp,
+    ourConversation.get('e164'),
+    ourConversation.get('uuid'),
+    null, // expirationStartTimestamp
+    [], // sentTo
+    [], // unidentifiedDeliveries
+    undefined, // isUpdate
+    undefined // options
+  );
+}
+
+export async function waitThenRespondToGroupV2Migration(
+  options: MigratePropsType
+): Promise<void> {
+  // First wait to process all incoming messages on the websocket
+  await window.waitForEmptyEventQueue();
+
+  // Then wait to process all outstanding messages for this conversation
+  const { conversation } = options;
+
+  await conversation.queueJob(async () => {
+    try {
+      // And finally try to migrate the group
+      await respondToGroupV2Migration(options);
+    } catch (error) {
+      window.log.error(
+        `waitThenRespondToGroupV2Migration/${conversation.idForLogging()}: respondToGroupV2Migration failure:`,
+        error && error.stack ? error.stack : error
+      );
+    }
+  });
+}
+
+// This may be called from storage service, an out-of-band check, or an incoming message.
+//   If this is kicked off via an incoming message, we want to do the right thing and hit
+//   the log endpoint - the parameters beyond conversation are needed in that scenario.
+export async function respondToGroupV2Migration({
+  conversation,
+  groupChangeBase64,
+  newRevision,
+  receivedAt,
+  sentAt,
+}: MigratePropsType): Promise<void> {
+  // Ensure we have the credentials we need before attempting GroupsV2 operations
+  await maybeFetchNewCredentials();
+
+  const isGroupV1 = conversation.isGroupV1();
+  const previousGroupV1Id = conversation.get('groupId');
+
+  if (!isGroupV1 || !previousGroupV1Id) {
+    throw new Error(
+      `respondToGroupV2Migration: Conversation is not GroupV1! ${conversation.idForLogging()}`
+    );
+  }
+
+  // If we were not previously a member, we won't migrate
+  const ourConversationId = window.ConversationController.getOurConversationId();
+  const wereWePreviouslyAMember =
+    !conversation.get('left') &&
+    ourConversationId &&
+    conversation.hasMember(ourConversationId);
+  if (!ourConversationId || !wereWePreviouslyAMember) {
+    window.log.info(
+      `respondToGroupV2Migration: Not currently a member of ${conversation.idForLogging()}, returning early.`
+    );
+    return;
+  }
+
+  // Derive GroupV2 fields
+  const groupV1IdBuffer = fromEncodedBinaryToArrayBuffer(previousGroupV1Id);
+  const masterKeyBuffer = await deriveMasterKeyFromGroupV1(groupV1IdBuffer);
+  const fields = deriveGroupFields(masterKeyBuffer);
+
+  const groupId = arrayBufferToBase64(fields.id);
+  const logId = `groupv2(${groupId})`;
+  window.log.info(
+    `respondToGroupV2Migration/${logId}: Migrating from ${conversation.idForLogging()}`
+  );
+
+  const masterKey = arrayBufferToBase64(masterKeyBuffer);
+  const secretParams = arrayBufferToBase64(fields.secretParams);
+  const publicParams = arrayBufferToBase64(fields.publicParams);
+
+  const previousGroupV1Members = conversation.get('members');
+  const previousGroupV1MembersIds = conversation.getMemberIds();
+
+  // Skeleton of the new group state - not useful until we add the group's server state
+  const attributes = {
+    ...conversation.attributes,
+
+    // Core GroupV2 info
+    revision: 0,
+    groupId,
+    groupVersion: 2,
+    masterKey,
+    publicParams,
+    secretParams,
+
+    // Capture previous GroupV1 data for future use
+    previousGroupV1Id,
+    previousGroupV1Members,
+
+    // Clear storage ID, since we need to start over on the storage service
+    storageID: undefined,
+
+    // Clear obsolete data
+    derivedGroupV2Id: undefined,
+    members: undefined,
+  };
+
+  let firstGroupState: GroupClass | undefined | null;
+
+  try {
+    const response: GroupLogResponseType = await makeRequestWithTemporalRetry({
+      logId: `getGroupLog/${logId}`,
+      publicParams,
+      secretParams,
+      request: (sender, options) => sender.getGroupLog(0, options),
+    });
+
+    // Attempt to start with the first group state, only later processing future updates
+    firstGroupState = response?.changes?.groupChanges?.[0]?.groupState;
+  } catch (error) {
+    if (error.code === GROUP_ACCESS_DENIED_CODE) {
+      window.log.info(
+        `respondToGroupV2Migration/${logId}: Failed to access log endpoint; fetching full group state`
+      );
+      firstGroupState = await makeRequestWithTemporalRetry({
+        logId: `getGroup/${logId}`,
+        publicParams,
+        secretParams,
+        request: (sender, options) => sender.getGroup(options),
+      });
+    } else {
+      throw error;
+    }
+  }
+  if (!firstGroupState) {
+    throw new Error(
+      `respondToGroupV2Migration/${logId}: Couldn't get a first group state!`
+    );
+  }
+
+  const groupState = decryptGroupState(
+    firstGroupState,
+    attributes.secretParams,
+    logId
+  );
+  const newAttributes = await applyGroupState({
+    group: attributes,
+    groupState,
+  });
+
+  // Assemble items to commemorate this event for the timeline..
+  const combinedConversationIds: Array<string> = [
+    ...(newAttributes.membersV2 || []).map(item => item.conversationId),
+    ...(newAttributes.pendingMembersV2 || []).map(item => item.conversationId),
+  ];
+  const droppedGV2MemberIds: Array<string> = difference(
+    previousGroupV1MembersIds,
+    combinedConversationIds
+  ).filter(id => id && id !== ourConversationId);
+  const invitedGV2Members = (newAttributes.pendingMembersV2 || []).filter(
+    item => item.conversationId !== ourConversationId
+  );
+
+  // Generate notifications into the timeline
+  const groupChangeMessages: Array<MessageAttributesType> = [];
+  groupChangeMessages.push({
+    ...generateBasicMessage(),
+    type: 'group-v1-migration',
+    invitedGV2Members,
+    droppedGV2MemberIds,
+  });
+
+  const areWeInvited = (newAttributes.pendingMembersV2 || []).some(
+    item => item.conversationId === ourConversationId
+  );
+  const areWeMember = (newAttributes.membersV2 || []).some(
+    item => item.conversationId === ourConversationId
+  );
+  if (!areWeInvited && !areWeMember) {
+    // Add a message to the timeline saying the user was removed
+    groupChangeMessages.push({
+      ...generateBasicMessage(),
+      type: 'group-v2-change',
+      groupV2Change: {
+        details: [
+          {
+            type: 'member-remove' as const,
+            conversationId: ourConversationId,
+          },
+        ],
+      },
+    });
+  } else if (areWeInvited && !areWeMember && ourConversationId) {
+    // Add a message to the timeline saying we were invited to the group
+    groupChangeMessages.push({
+      ...generateBasicMessage(),
+      type: 'group-v2-change',
+      groupV2Change: {
+        details: [
+          {
+            type: 'pending-add-one' as const,
+            conversationId: ourConversationId,
+          },
+        ],
+      },
+    });
+  }
+
+  // This buffer ensures that all migration-related messages are sorted above
+  //   any initiating message. We need to do this because groupChangeMessages are
+  //   already sorted via updates to sentAt inside of updateGroup().
+  const SORT_BUFFER = 1000;
+  await updateGroup({
+    conversation,
+    receivedAt,
+    sentAt: sentAt ? sentAt - SORT_BUFFER : undefined,
+    updates: {
+      newAttributes,
+      groupChangeMessages,
+      members: [],
+    },
+  });
+
+  if (window.storage.isGroupBlocked(previousGroupV1Id)) {
+    window.storage.addBlockedGroup(groupId);
+  }
+
+  // Save these most recent updates to conversation
+  updateConversation(conversation.attributes);
+
+  // Finally, check for any changes to the group since its initial creation using normal
+  //   group update codepaths.
+  await maybeUpdateGroup({
+    conversation,
+    groupChangeBase64,
+    newRevision,
+    receivedAt,
+    sentAt,
+  });
+}
+
 // Fetching and applying group changes
 
 type MaybeUpdatePropsType = {
@@ -528,9 +1423,13 @@ async function updateGroup({
   // Ensure that all generated messages are ordered properly.
   // Before the provided timestamp so update messages appear before the
   //   initiating message, or after now().
-  let syntheticTimestamp = receivedAt
-    ? receivedAt - (groupChangeMessages.length + 1)
-    : Date.now();
+  const finalReceivedAt = receivedAt || Date.now();
+  const finalSentAt = sentAt || Date.now();
+
+  // GroupV1 -> GroupV2 migration changes the groupId, and we need to update our id-based
+  //   lookups if there's a change on that field.
+  const previousId = conversation.get('groupId');
+  const idChanged = previousId && previousId !== newAttributes.groupId;
 
   conversation.set({
     ...newAttributes,
@@ -539,20 +1438,27 @@ async function updateGroup({
     //   Unknown Group in the left pane.
     active_at:
       isInitialDataFetch && newAttributes.name
-        ? syntheticTimestamp
+        ? finalReceivedAt
         : newAttributes.active_at,
   });
 
+  if (idChanged) {
+    conversation.trigger('idUpdated', conversation, 'groupId', previousId);
+  }
+
   // Save all synthetic messages describing group changes
+  let syntheticSentAt = finalSentAt - (groupChangeMessages.length + 1);
   const changeMessagesToSave = groupChangeMessages.map(changeMessage => {
-    // We do this to preserve the order of the timeline
-    syntheticTimestamp += 1;
+    // We do this to preserve the order of the timeline. We only update sentAt to ensure
+    //   that we don't stomp on messages received around the same time as the message
+    //   which initiated this group fetch and in-conversation messages.
+    syntheticSentAt += 1;
 
     return {
       ...changeMessage,
       conversationId: conversation.id,
-      received_at: syntheticTimestamp,
-      sent_at: sentAt,
+      received_at: finalReceivedAt,
+      sent_at: syntheticSentAt,
     };
   });
 
@@ -577,10 +1483,6 @@ async function updateGroup({
   });
 
   // No need for convo.updateLastMessage(), 'newmessage' handler does that
-}
-
-function idForLogging(group: ConversationAttributesType) {
-  return `groupv2(${group.groupId})`;
 }
 
 async function getGroupUpdates({
@@ -776,8 +1678,8 @@ function generateBasicMessage() {
 function generateLeftGroupChanges(
   group: ConversationAttributesType
 ): UpdatesResultType {
-  const idLog = idForLogging(group);
-  window.log.info(`generateLeftGroupChanges/${idLog}: Starting...`);
+  const logId = idForLogging(group);
+  window.log.info(`generateLeftGroupChanges/${logId}: Starting...`);
   const ourConversationId = window.ConversationController.getOurConversationId();
   if (!ourConversationId) {
     throw new Error(
@@ -903,7 +1805,7 @@ async function integrateGroupChanges({
   newRevision: number;
   changes: Array<GroupChangesClass>;
 }): Promise<UpdatesResultType> {
-  const idLog = idForLogging(group);
+  const logId = idForLogging(group);
   let attributes = group;
   const finalMessages: Array<Array<MessageAttributesType>> = [];
   const finalMembers: Array<Array<MemberType>> = [];
@@ -947,7 +1849,7 @@ async function integrateGroupChanges({
         finalMembers.push(members);
       } catch (error) {
         window.log.error(
-          `integrateGroupChanges/${idLog}: Failed to apply change log, continuing to apply remaining change logs.`,
+          `integrateGroupChanges/${logId}: Failed to apply change log, continuing to apply remaining change logs.`,
           error && error.stack ? error.stack : error
         );
       }
@@ -1485,9 +2387,7 @@ async function applyGroupChange({
   const MEMBER_ROLE_ENUM = window.textsecure.protobuf.Member.Role;
 
   const version = actions.version || 0;
-  const result: ConversationAttributesType = {
-    ...group,
-  };
+  const result = { ...group };
   const newProfileKeys: Array<GroupChangeMemberType> = [];
 
   const members: Dictionary<GroupV2MemberType> = fromPairs(
@@ -1886,9 +2786,7 @@ async function applyGroupState({
   const logId = idForLogging(group);
   const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
   const version = groupState.version || 0;
-  const result: ConversationAttributesType = {
-    ...group,
-  };
+  const result = { ...group };
 
   // version
   result.revision = version;

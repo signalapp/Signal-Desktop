@@ -337,8 +337,9 @@ export const CompositionArea = ({
   }, [setLarge]);
 
   if (
-    messageRequestsEnabled &&
-    (!acceptedMessageRequest || isBlocked || areWePending)
+    isBlocked ||
+    areWePending ||
+    (messageRequestsEnabled && !acceptedMessageRequest)
   ) {
     return (
       <MessageRequestActions

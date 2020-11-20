@@ -620,7 +620,7 @@ const URL_CALLS = {
   devices: 'v1/devices',
   directoryAuth: 'v1/directory/auth',
   discovery: 'v1/discovery',
-  getGroupAvatarUpload: '/v1/groups/avatar/form',
+  getGroupAvatarUpload: 'v1/groups/avatar/form',
   getGroupCredentials: 'v1/certificate/group',
   getIceServers: 'v1/accounts/turn',
   getStickerPackUpload: 'v1/sticker/pack/form',
@@ -687,6 +687,15 @@ type AjaxOptionsType = {
 
 export type WebAPIConnectType = {
   connect: (options: ConnectParametersType) => WebAPIType;
+};
+
+export type CapabilitiesType = {
+  gv2: boolean;
+  'gv1-migration': boolean;
+};
+export type CapabilitiesUploadType = {
+  'gv2-3': boolean;
+  'gv1-migration': boolean;
 };
 
 type StickerPackManifestType = any;
@@ -796,7 +805,7 @@ export type WebAPIType = {
   ) => Promise<GroupChangeClass>;
   modifyStorageRecords: MessageSender['modifyStorageRecords'];
   putAttachment: (encryptedBin: ArrayBuffer) => Promise<any>;
-  registerCapabilities: (capabilities: Dictionary<boolean>) => Promise<void>;
+  registerCapabilities: (capabilities: CapabilitiesUploadType) => Promise<void>;
   putStickers: (
     encryptedManifest: ArrayBuffer,
     encryptedStickers: Array<ArrayBuffer>,
@@ -1154,7 +1163,7 @@ export function initialize({
       });
     }
 
-    async function registerCapabilities(capabilities: Dictionary<boolean>) {
+    async function registerCapabilities(capabilities: CapabilitiesUploadType) {
       return _ajax({
         call: 'registerCapabilities',
         httpType: 'PUT',
@@ -1280,11 +1289,14 @@ export function initialize({
       deviceName?: string | null,
       options: { accessKey?: ArrayBuffer } = {}
     ) {
+      const capabilities: CapabilitiesUploadType = {
+        'gv2-3': true,
+        'gv1-migration': true,
+      };
+
       const { accessKey } = options;
       const jsonData: any = {
-        capabilities: {
-          'gv2-3': true,
-        },
+        capabilities,
         fetchesMessages: true,
         name: deviceName || undefined,
         registrationId,
@@ -2010,9 +2022,10 @@ export function initialize({
       await _ajax({
         basicAuth,
         call: 'groups',
-        httpType: 'PUT',
+        contentType: 'application/x-protobuf',
         data,
         host: storageUrl,
+        httpType: 'PUT',
       });
     }
 
@@ -2027,10 +2040,10 @@ export function initialize({
       const response: ArrayBuffer = await _ajax({
         basicAuth,
         call: 'groups',
-        httpType: 'GET',
         contentType: 'application/x-protobuf',
-        responseType: 'arraybuffer',
         host: storageUrl,
+        httpType: 'GET',
+        responseType: 'arraybuffer',
       });
 
       return window.textsecure.protobuf.Group.decode(response);
@@ -2049,11 +2062,11 @@ export function initialize({
       const response: ArrayBuffer = await _ajax({
         basicAuth,
         call: 'groups',
-        httpType: 'PATCH',
-        data,
         contentType: 'application/x-protobuf',
-        responseType: 'arraybuffer',
+        data,
         host: storageUrl,
+        httpType: 'PATCH',
+        responseType: 'arraybuffer',
       });
 
       return window.textsecure.protobuf.GroupChange.decode(response);
@@ -2071,11 +2084,11 @@ export function initialize({
       const withDetails: ArrayBufferWithDetailsType = await _ajax({
         basicAuth,
         call: 'groupLog',
-        urlParameters: `/${startVersion}`,
-        httpType: 'GET',
         contentType: 'application/x-protobuf',
-        responseType: 'arraybufferwithdetails',
         host: storageUrl,
+        httpType: 'GET',
+        responseType: 'arraybufferwithdetails',
+        urlParameters: `/${startVersion}`,
       });
       const { data, response } = withDetails;
       const changes = window.textsecure.protobuf.GroupChanges.decode(data);

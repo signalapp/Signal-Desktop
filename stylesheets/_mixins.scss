@@ -190,3 +190,118 @@
   outline: inherit;
   text-align: inherit;
 }
+
+// Buttons
+
+@mixin button-primary {
+  background-color: $ultramarine-ui-light;
+
+  // Note: the background colors here need to match the parent component
+  @include light-theme {
+    color: $color-white;
+    border: 1px solid white;
+  }
+  @include dark-theme {
+    color: $color-white-alpha-90;
+    border: 1px solid $color-gray-95;
+  }
+
+  &:hover {
+    @include mouse-mode {
+      background-color: mix($color-black, $ultramarine-ui-light, 15%);
+    }
+
+    @include dark-mouse-mode {
+      background-color: mix($color-white, $ultramarine-ui-light, 15%);
+    }
+  }
+
+  &:active {
+    @include light-theme {
+      background-color: mix($color-black, $ultramarine-ui-light, 25%);
+    }
+
+    @include dark-theme {
+      background-color: mix($color-white, $ultramarine-ui-light, 25%);
+    }
+  }
+
+  &:focus {
+    @include keyboard-mode {
+      box-shadow: 0px 0px 0px 3px $ultramarine-ui-light;
+    }
+    @include dark-keyboard-mode {
+      box-shadow: 0px 0px 0px 3px $ultramarine-ui-dark;
+    }
+  }
+}
+
+@mixin button-secondary {
+  @include light-theme {
+    color: $color-gray-90;
+    background-color: $color-gray-05;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+    background-color: $color-gray-65;
+  }
+
+  &:hover {
+    @include mouse-mode {
+      background-color: mix($color-black, $color-gray-05, 15%);
+    }
+
+    @include dark-mouse-mode {
+      background-color: mix($color-white, $color-gray-65, 15%);
+    }
+  }
+
+  &:active {
+    @include light-theme {
+      background-color: mix($color-black, $color-gray-05, 25%);
+    }
+
+    @include dark-theme {
+      background-color: mix($color-white, $color-gray-65, 25%);
+    }
+  }
+}
+@mixin button-secondary-blue-text {
+  @include light-theme {
+    color: $ultramarine-ui-light;
+  }
+  @include dark-theme {
+    color: $ultramarine-ui-dark;
+  }
+}
+
+@mixin button-destructive {
+  @include light-theme {
+    color: $color-white;
+    background-color: $color-accent-red;
+  }
+  @include dark-theme {
+    color: $color-white-alpha-90;
+    background-color: $color-accent-red;
+  }
+
+  &:hover {
+    @include mouse-mode {
+      background-color: mix($color-black, $color-accent-red, 15%);
+    }
+
+    @include dark-mouse-mode {
+      background-color: mix($color-white, $color-accent-red, 15%);
+    }
+  }
+
+  &:active {
+    @include light-theme {
+      background-color: mix($color-black, $color-accent-red, 25%);
+    }
+
+    @include dark-theme {
+      background-color: mix($color-white, $color-accent-red, 25%);
+    }
+  }
+}

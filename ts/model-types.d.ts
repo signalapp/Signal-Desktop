@@ -18,6 +18,7 @@ import { UserMessage } from './types/Message';
 import { MessageModel } from './models/messages';
 import { ConversationModel } from './models/conversations';
 import { ProfileNameChangeType } from './util/getStringForProfileChange';
+import { CapabilitiesType } from './textsecure/WebAPI';
 
 interface ModelAttributesInterface {
   [key: string]: any;
@@ -56,6 +57,7 @@ export type MessageAttributesType = {
   deletedForEveryoneTimestamp?: number;
   delivered: number;
   delivered_to: Array<string | null>;
+  droppedGV2MemberIds?: Array<string>;
   errors: Array<CustomError> | null;
   expirationStartTimestamp: number | null;
   expireTimer: number;
@@ -72,6 +74,7 @@ export type MessageAttributesType = {
   isErased: boolean;
   isTapToViewInvalid: boolean;
   isViewOnce: boolean;
+  invitedGV2Members?: Array<GroupV2PendingMemberType>;
   key_changed: string;
   local: boolean;
   logger: unknown;
@@ -143,7 +146,7 @@ export type ConversationAttributesTypeType = 'private' | 'group';
 export type ConversationAttributesType = {
   accessKey: string | null;
   addedBy?: string;
-  capabilities: { uuid: string };
+  capabilities?: CapabilitiesType;
   color?: string;
   discoveredUnregisteredAt: number;
   draftAttachments: Array<unknown>;
@@ -202,6 +205,7 @@ export type ConversationAttributesType = {
 
   // GroupV1 only
   members?: Array<string>;
+  derivedGroupV2Id?: string;
 
   // GroupV2 core info
   masterKey?: string;
@@ -222,6 +226,8 @@ export type ConversationAttributesType = {
   expireTimer?: number;
   membersV2?: Array<GroupV2MemberType>;
   pendingMembersV2?: Array<GroupV2PendingMemberType>;
+  previousGroupV1Id?: string;
+  previousGroupV1Members?: Array<string>;
 };
 
 export type GroupV2MemberType = {
@@ -230,7 +236,7 @@ export type GroupV2MemberType = {
   joinedAtVersion: number;
 };
 export type GroupV2PendingMemberType = {
-  addedByUserId: string;
+  addedByUserId?: string;
   conversationId: string;
   timestamp: number;
 };

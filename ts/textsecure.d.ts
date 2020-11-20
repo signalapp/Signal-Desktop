@@ -16,6 +16,7 @@ import SendMessage, { SendOptionsType } from './textsecure/SendMessage';
 import { WebAPIType } from './textsecure/WebAPI';
 import utils from './textsecure/Helpers';
 import { CallingMessage as CallingMessageClass } from 'ringrtc';
+import { WhatIsThis } from './window.d';
 
 type AttachmentType = any;
 
@@ -256,6 +257,8 @@ export declare class MemberClass {
   profileKey?: ProtoBinaryType;
   presentation?: ProtoBinaryType;
   joinedAtVersion?: number;
+
+  // Note: only role and presentation are required when creating a group
 }
 
 type MemberRoleEnum = number;
@@ -719,6 +722,9 @@ export declare class GroupContextClass {
   name?: string | null;
   membersE164?: Array<string>;
   avatar?: AttachmentPointerClass | null;
+
+  // Note: these additional properties are added in the course of processing
+  derivedGroupV2Id?: string;
 }
 
 export declare class GroupContextV2Class {

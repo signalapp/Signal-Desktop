@@ -42,6 +42,10 @@ import {
   GroupV2Change,
   PropsDataType as GroupV2ChangeProps,
 } from './GroupV2Change';
+import {
+  GroupV1Migration,
+  PropsDataType as GroupV1MigrationProps,
+} from './GroupV1Migration';
 import { SmartContactRendererType } from '../../groupChange';
 import { ResetSessionNotification } from './ResetSessionNotification';
 import {
@@ -85,6 +89,10 @@ type GroupV2ChangeType = {
   type: 'groupV2Change';
   data: GroupV2ChangeProps;
 };
+type GroupV1MigrationType = {
+  type: 'groupV1Migration';
+  data: GroupV1MigrationProps;
+};
 type ResetSessionNotificationType = {
   type: 'resetSessionNotification';
   data: null;
@@ -97,6 +105,7 @@ type ProfileChangeNotificationType = {
 export type TimelineItemType =
   | CallHistoryType
   | GroupNotificationType
+  | GroupV1MigrationType
   | GroupV2ChangeType
   | LinkNotificationType
   | MessageType
@@ -186,6 +195,10 @@ export class TimelineItem extends React.PureComponent<PropsType> {
           {...item.data}
           i18n={i18n}
         />
+      );
+    } else if (item.type === 'groupV1Migration') {
+      notification = (
+        <GroupV1Migration {...this.props} {...item.data} i18n={i18n} />
       );
     } else if (item.type === 'resetSessionNotification') {
       notification = (

@@ -9687,6 +9687,219 @@ button.module-image__border-overlay:focus {
   margin-right: auto;
 }
 
+// Module: GV1 Migration
+
+.module-group-v1-migration {
+  @include font-body-1;
+
+  margin-left: 2em;
+  margin-right: 2em;
+
+  text-align: center;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+}
+
+.module-group-v1-migration--icon {
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/group-outline-20.svg',
+      $color-gray-60
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/group-outline-20.svg',
+      $color-gray-05
+    );
+  }
+
+  height: 20px;
+  width: 20px;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.module-group-v1-migration--text {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.module-group-v1-migration--button {
+  @include button-reset;
+  @include font-body-2-bold;
+  border-radius: 4px;
+
+  padding: 8px;
+  padding-left: 40px;
+  padding-right: 40px;
+
+  @include button-primary;
+  @include button-secondary;
+  @include button-secondary-blue-text;
+}
+
+// Module: Modal Host
+
+.module-modal-host__overlay {
+  background: $color-black-alpha-40;
+  position: absolute;
+
+  height: 100vh;
+  width: 100vw;
+
+  left: 0;
+  top: 0;
+
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  overflow: hidden;
+  padding: 20px;
+}
+
+// Module: GV1 Migration Dialog
+
+.module-group-v2-migration-dialog {
+  @include font-body-1;
+  border-radius: 8px;
+  width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+
+  max-height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  position: relative;
+
+  @include light-theme {
+    background-color: $color-white;
+  }
+  @include dark-theme {
+    background-color: $color-gray-95;
+  }
+}
+.module-group-v2-migration-dialog__close-button {
+  @include button-reset;
+
+  position: absolute;
+  right: 12px;
+  top: 12px;
+
+  height: 24px;
+  width: 24px;
+
+  @include light-theme {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-75);
+  }
+
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
+  }
+
+  &:focus {
+    @include keyboard-mode {
+      background-color: $ultramarine-ui-light;
+    }
+    @include dark-keyboard-mode {
+      background-color: $ultramarine-ui-dark;
+    }
+  }
+}
+.module-group-v2-migration-dialog__title {
+  @include font-title-2;
+  text-align: center;
+  margin-bottom: 20px;
+
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+.module-group-v2-migration-dialog__scrollable {
+  overflow-x: scroll;
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+.module-group-v2-migration-dialog__item {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+
+  margin-bottom: 16px;
+}
+.module-group-v2-migration-dialog__item__bullet {
+  width: 4px;
+  height: 11px;
+  flex-grow: 0;
+  flex-shrink: 0;
+
+  margin-top: 5px;
+
+  @include light-theme {
+    background-color: $color-gray-15;
+  }
+  @include dark-theme {
+    background-color: $color-gray-65;
+  }
+}
+.module-group-v2-migration-dialog__item__content {
+  margin-left: 16px;
+}
+.module-group-v2-migration-dialog__member {
+  margin-top: 16px;
+}
+.module-group-v2-migration-dialog__member__name {
+  margin-left: 6px;
+}
+
+.module-group-v2-migration-dialog__buttons {
+  text-align: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+
+  display: flex;
+}
+.module-group-v2-migration-dialog__buttons--narrow {
+  margin-left: auto;
+  margin-right: auto;
+  width: 152px;
+}
+.module-group-v2-migration-dialog__button {
+  @include button-reset;
+  @include font-body-1-bold;
+
+  // Start flex basis at zero so text width doesn't affect layout. We want the buttons
+  //   evenly distributed.
+  flex: 1 1 0px;
+
+  border-radius: 4px;
+
+  padding: 8px;
+  padding-left: 30px;
+  padding-right: 30px;
+
+  @include button-primary;
+
+  &:not(:first-of-type) {
+    margin-left: 16px;
+  }
+}
+
+.module-group-v2-migration-dialog__button--secondary {
+  @include button-secondary;
+}
+
 // Module: Progress Dialog
 
 .module-progress-dialog {
@@ -9778,6 +9991,7 @@ button.module-image__border-overlay:focus {
 }
 
 // Module: Group Contact Details
+
 $contact-modal-padding: 18px;
 .module-contact-modal {
   @include font-body-2;
@@ -9863,10 +10077,10 @@ $contact-modal-padding: 18px;
   &:focus {
     @include keyboard-mode {
       background-color: $color-gray-15;
+    }
 
-      @include dark-theme {
-        background-color: $color-gray-60;
-      }
+    @include dark-keyboard-mode {
+      background-color: $color-gray-60;
     }
   }
 }
@@ -9943,8 +10157,8 @@ $contact-modal-padding: 18px;
   top: 10px;
   right: 12px;
 
-  width: 16px;
-  height: 16px;
+  width: 24px;
+  height: 24px;
 
   @include color-svg('../images/icons/v2/x-24.svg', $color-gray-75);
 

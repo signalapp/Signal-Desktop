@@ -3140,7 +3140,7 @@
     "message": "Please try again or contact support.",
     "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
   },
-  "ErrorModal--buttonText": {
+  "Confirmation--confirm": {
     "message": "Okay",
     "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
   },
@@ -3955,6 +3955,102 @@
     "description": "Shown in timeline or conversation preview when v2 group changes",
     "placeholders": {
       "count": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "GroupV1--Migration--was-upgraded": {
+    "message": "This group was upgraded to a New Group.",
+    "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
+  },
+  "GroupV1--Migration--learn-more": {
+    "message": "Learn More",
+    "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
+  },
+  "GroupV1--Migration--migrate": {
+    "message": "Migrate",
+    "description": "Shown on Migrate dialog to kick off the process"
+  },
+  "GroupV1--Migration--info--title": {
+    "message": "What are New Groups?",
+    "description": "Shown on Learn More popup after GV1 migration"
+  },
+  "GroupV1--Migration--migrate--title": {
+    "message": "Upgrade to New Group",
+    "description": "Shown on Migration popup after choosing to migrate group"
+  },
+  "GroupV1--Migration--info--summary": {
+    "message": "New Groups have features like @mentions and group admins, and will support more features in the future.",
+    "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+  },
+  "GroupV1--Migration--info--keep-history": {
+    "message": "All message history and media has been kept from before the upgrade.",
+    "description": "Shown on Learn More popup after GV1 migration"
+  },
+  "GroupV1--Migration--migrate--keep-history": {
+    "message": "All message history and media will be kept from before the upgrade.",
+    "description": "Shown on Migration popup before GV1 migration"
+  },
+  "GroupV1--Migration--info--invited--many": {
+    "message": "These members will need to accept an invite to join this group again, and will not receive group messages until they accept:",
+    "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+  },
+  "GroupV1--Migration--info--invited--one": {
+    "message": "This member will need to accept an invite to join this group again, and will not receive group messages until they accept:",
+    "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+  },
+  "GroupV1--Migration--info--removed--before--many": {
+    "message": "These members are not capable of joining New Groups, and will be removed from the group:",
+    "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+  },
+  "GroupV1--Migration--info--removed--before--one": {
+    "message": "This member is not capable of joining New Groups, and will be removed from the group:",
+    "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+  },
+  "GroupV1--Migration--info--removed--after--many": {
+    "message": "These members were not capable of joining New Groups, and were removed from the group:",
+    "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+  },
+  "GroupV1--Migration--info--removed--after--one": {
+    "message": "This member was not capable of joining New Groups, and was removed from the group:",
+    "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+  },
+  "GroupV1--Migration--invited--one": {
+    "message": "$contact$ couldn’t be added to the New Group and has been invited to join.",
+    "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
+    "placeholders": {
+      "contact": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "GroupV1--Migration--invited--many": {
+    "message": "$count$ members couldn’t be added to the New Group and have been invited to join.",
+    "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
+    "placeholders": {
+      "contact": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "GroupV1--Migration--removed--one": {
+    "message": "$contact$ was removed from the group.",
+    "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade",
+    "placeholders": {
+      "contact": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "GroupV1--Migration--removed--many": {
+    "message": "$count$ members were removed from the group.",
+    "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade",
+    "placeholders": {
+      "contact": {
         "content": "$1",
         "example": "5"
       }
