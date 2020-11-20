@@ -82,3 +82,12 @@ story.add('Many Participants', () => {
   });
   return <CallingParticipantsList {...props} />;
 });
+
+story.add('Overflow', () => {
+  const props = createProps({
+    participants: Array(50)
+      .fill(null)
+      .map(() => createParticipant({ title: 'Kirby' })),
+  });
+  return <CallingParticipantsList {...props} />;
+});

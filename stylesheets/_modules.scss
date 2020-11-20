@@ -6572,7 +6572,7 @@ button.module-image__border-overlay:focus {
   color: $color-white;
   margin-right: 12px;
   margin-top: 54px;
-  overflow: scroll;
+  overflow: hidden;
   padding: 14px;
   width: 280px;
   padding-bottom: 0;
@@ -6593,9 +6593,30 @@ button.module-image__border-overlay:focus {
   }
 
   &__list {
-    margin: 0;
+    height: 100%;
+    margin-bottom: 0;
+    margin-left: -14px;
+    margin-right: -14px;
     margin-top: 22px;
-    padding: 0;
+    overflow: scroll;
+    padding-bottom: 24px;
+    padding-left: 14px;
+    padding-right: 14px;
+    padding-top: 0;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border: none;
+      border-radius: 4px;
+      background-color: $color-gray-45;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: $color-gray-80;
+    }
   }
 
   &__contact {
@@ -6610,7 +6631,7 @@ button.module-image__border-overlay:focus {
   &__name {
     display: inline-block;
     margin-left: 8px;
-    max-width: 144px;
+    max-width: 130px;
     overflow: hidden;
     text-overflow: ellipsis;
     vertical-align: middle;
