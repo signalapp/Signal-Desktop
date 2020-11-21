@@ -33,16 +33,14 @@ import {
   insertEmojiOps,
 } from '../quill/util';
 import { SignalClipboard } from '../quill/signal-clipboard';
+import { DirectionalBlot } from '../quill/block/blot';
 
 Quill.register('formats/emoji', EmojiBlot);
 Quill.register('formats/mention', MentionBlot);
+Quill.register('formats/block', DirectionalBlot);
 Quill.register('modules/emojiCompletion', EmojiCompletion);
 Quill.register('modules/mentionCompletion', MentionCompletion);
 Quill.register('modules/signalClipboard', SignalClipboard);
-
-const Block = Quill.import('blots/block');
-Block.tagName = 'DIV';
-Quill.register(Block, true);
 
 interface HistoryStatic {
   undo(): void;

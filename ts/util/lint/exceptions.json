@@ -14544,7 +14544,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
     "line": "    const emojiCompletionRef = React.useRef();",
-    "lineNumber": 44,
+    "lineNumber": 43,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Doesn't refer to a DOM element."
@@ -14553,7 +14553,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
     "line": "    const mentionCompletionRef = React.useRef();",
-    "lineNumber": 45,
+    "lineNumber": 44,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T23:54:34.273Z",
     "reasonDetail": "Doesn't refer to a DOM element."
@@ -14562,7 +14562,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
     "line": "    const quillRef = React.useRef();",
-    "lineNumber": 46,
+    "lineNumber": 45,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Doesn't refer to a DOM element."
@@ -14571,7 +14571,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
     "line": "    const scrollerRef = React.useRef(null);",
-    "lineNumber": 47,
+    "lineNumber": 46,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Used with Quill for scrolling."
@@ -14580,7 +14580,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
     "line": "    const propsRef = React.useRef(props);",
-    "lineNumber": 48,
+    "lineNumber": 47,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Doesn't refer to a DOM element."
@@ -14589,7 +14589,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
     "line": "    const memberRepositoryRef = React.useRef(new memberRepository_1.MemberRepository());",
-    "lineNumber": 49,
+    "lineNumber": 48,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T23:56:13.482Z",
     "reasonDetail": "Doesn't refer to a DOM element."
