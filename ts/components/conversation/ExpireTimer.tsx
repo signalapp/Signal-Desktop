@@ -12,10 +12,6 @@ type Props = {
 };
 
 export const ExpireTimer = (props: Props) => {
-  const [lastUpdated, setLastUpdated] = useState(Date.now());
-  const update = () => {
-    setLastUpdated(Date.now());
-  };
   const {
     direction,
     expirationLength,
@@ -23,14 +19,27 @@ export const ExpireTimer = (props: Props) => {
     withImageNoCaption,
   } = props;
 
+  const initialTimeLeft = Math.max(
+    Math.round((expirationTimestamp - Date.now()) / 1000),
+    0
+  );
+  const [timeLeft, setTimeLeft] = useState(initialTimeLeft);
+
+  const update = () => {
+    const newTimeLeft = Math.max(
+      Math.round((expirationTimestamp - Date.now()) / 1000),
+      0
+    );
+    if (newTimeLeft !== timeLeft) {
+      setTimeLeft(newTimeLeft);
+    }
+  };
+
   const increment = getIncrement(expirationLength);
   const updateFrequency = Math.max(increment, 500);
 
   useInterval(update, updateFrequency);
 
-  const bucket = getTimerBucket(expirationTimestamp, expirationLength);
-  let timeLeft = Math.round((expirationTimestamp - Date.now()) / 1000);
-  timeLeft = timeLeft >= 0 ? timeLeft : 0;
   if (timeLeft <= 60) {
     return (
       <span
@@ -44,6 +53,7 @@ export const ExpireTimer = (props: Props) => {
       </span>
     );
   }
+  const bucket = getTimerBucket(expirationTimestamp, expirationLength);
 
   return (
     <div

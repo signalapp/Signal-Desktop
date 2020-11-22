@@ -568,11 +568,17 @@ export function reducer(
         m => m.id === messageId
       );
       if (messageInStoreIndex >= 0) {
-        // we cannot edit the array directly, so slice the first part, and slice the second part
+        // we cannot edit the array directly, so slice the first part, and slice the second part,
+        // keeping the index removed out
         const editedMessages = [
           ...state.messages.slice(0, messageInStoreIndex),
           ...state.messages.slice(messageInStoreIndex + 1),
         ];
+
+        // FIXME two other thing we have to do:
+        // * update the last message text if the message deleted was the last one
+        // * update the unread count of the convo if the message was one one counted as an unread
+
         return {
           ...state,
           messages: editedMessages,

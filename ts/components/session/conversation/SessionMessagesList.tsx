@@ -19,7 +19,6 @@ import { ToastUtils } from '../../../session/utils';
 
 interface State {
   showScrollButton: boolean;
-  doneInitialScroll: boolean;
 }
 
 interface Props {
@@ -45,23 +44,25 @@ interface Props {
 
 export class SessionMessagesList extends React.Component<Props, State> {
   private readonly messageContainerRef: React.RefObject<any>;
-  private scrollOffsetPx: number = Number.MAX_VALUE;
+  private scrollOffsetBottomPx: number = Number.MAX_VALUE;
+  private ignoreScrollEvents: boolean;
 
   public constructor(props: Props) {
     super(props);
 
     this.state = {
       showScrollButton: false,
-      doneInitialScroll: false,
     };
     this.renderMessage = this.renderMessage.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
     this.scrollToUnread = this.scrollToUnread.bind(this);
     this.scrollToBottom = this.scrollToBottom.bind(this);
     this.scrollToQuoteMessage = this.scrollToQuoteMessage.bind(this);
-    this.getScrollOffsetPx = this.getScrollOffsetPx.bind(this);
+    this.getScrollOffsetBottomPx = this.getScrollOffsetBottomPx.bind(this);
+    this.displayUnreadBannerIndex = this.displayUnreadBannerIndex.bind(this);
 
     this.messageContainerRef = this.props.messageContainerRef;
+    this.ignoreScrollEvents = true;
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -83,11 +84,11 @@ export class SessionMessagesList extends React.Component<Props, State> {
       (prevProps.messages.length === 0 && this.props.messages.length !== 0)
     ) {
       // displayed conversation changed. We have a bit of cleaning to do here
-      this.scrollOffsetPx = Number.MAX_VALUE;
+      this.scrollOffsetBottomPx = Number.MAX_VALUE;
+      this.ignoreScrollEvents = true;
       this.setState(
         {
           showScrollButton: false,
-          doneInitialScroll: false,
         },
         this.scrollToUnread
       );
@@ -95,18 +96,18 @@ export class SessionMessagesList extends React.Component<Props, State> {
       // if we got new message for this convo, and we are scrolled to bottom
       if (isSameConvo && messageLengthChanged) {
         // Keep scrolled to bottom unless user scrolls up
-        if (this.getScrollOffsetPx() === 0) {
+        if (this.getScrollOffsetBottomPx() === 0) {
           this.scrollToBottom();
         } else {
           const messageContainer = this.messageContainerRef?.current;
 
           if (messageContainer) {
-            global.setTimeout(() => {
-              const scrollHeight = messageContainer.scrollHeight;
-              const clientHeight = messageContainer.clientHeight;
-              messageContainer.scrollTop =
-                scrollHeight - clientHeight - this.scrollOffsetPx;
-            }, 10);
+            const scrollHeight = messageContainer.scrollHeight;
+            const clientHeight = messageContainer.clientHeight;
+            this.ignoreScrollEvents = true;
+            messageContainer.scrollTop =
+              scrollHeight - clientHeight - this.scrollOffsetBottomPx;
+            this.ignoreScrollEvents = false;
           }
         }
       }
@@ -133,40 +134,48 @@ export class SessionMessagesList extends React.Component<Props, State> {
     );
   }
 
-  private renderMessages(messages: Array<MessageModel>) {
+  private displayUnreadBannerIndex(messages: Array<MessageModel>) {
     const { conversation } = this.props;
-
-    const multiSelectMode = Boolean(this.props.selectedMessages.length);
-    let currentMessageIndex = 0;
-    // find the first unread message in the list of messages. We use this to display the
-    // unread banner so this is at all times at the correct index.
-    // Our messages are marked read, so be sure to skip those.
-
-    // the messages variable is ordered with most recent message being on index 0.
-    // so we need to start from the end to find our first message unread
+    if (conversation.unreadCount === 0) {
+      return -1;
+    }
+    // conversation.unreadCount is the number of messages we incoming we did not read yet.
+    // also, unreacCount is updated only when the conversation is marked as read.
+    // So we can have an unreadCount for the conversation not correct based on the real number of unread messages.
+    // some of the messages we have in "messages" are ones we sent ourself (or from another device).
+    // those messages should not be counted to display the unread banner.
 
     let findFirstUnreadIndex = -1;
+    let incomingMessagesSoFar = 0;
+    const { unreadCount } = conversation;
 
-    for (let index = messages.length - 1; index >= 0; index--) {
+    // Basically, count the number of incoming messages from the most recent one.
+    for (let index = 0; index <= messages.length - 1; index++) {
       const message = messages[index];
-      if (
-        message.attributes.type === 'incoming' &&
-        message.attributes.unread !== undefined
-      ) {
-        findFirstUnreadIndex = index;
-        break;
+      if (message.attributes.type === 'incoming') {
+        incomingMessagesSoFar++;
+        // message.attributes.unread is !== undefined if the message is unread.
+        if (
+          message.attributes.unread !== undefined &&
+          incomingMessagesSoFar >= unreadCount
+        ) {
+          findFirstUnreadIndex = index;
+          break;
+        }
       }
     }
 
-    // if we did not find an unread messsages, but the conversation has some,
-    // we must not have enough messages in memory, so just display the unread banner
-    // at the top of the screen
-    if (findFirstUnreadIndex === -1 && conversation.unreadCount !== 0) {
-      findFirstUnreadIndex = messages.length - 1;
+    //
+    if (findFirstUnreadIndex === -1 && conversation.unreadCount >= 0) {
+      return conversation.unreadCount - 1;
     }
-    if (conversation.unreadCount === 0) {
-      findFirstUnreadIndex = -1;
-    }
+    return findFirstUnreadIndex;
+  }
+
+  private renderMessages(messages: Array<MessageModel>) {
+    const multiSelectMode = Boolean(this.props.selectedMessages.length);
+    let currentMessageIndex = 0;
+    const displayUnreadBannerIndex = this.displayUnreadBannerIndex(messages);
 
     return (
       <>
@@ -186,12 +195,12 @@ export class SessionMessagesList extends React.Component<Props, State> {
           // AND we are not scrolled all the way to the bottom
           // THEN, show the unread banner for the current message
           const showUnreadIndicator =
-            findFirstUnreadIndex >= 0 &&
-            currentMessageIndex === findFirstUnreadIndex &&
-            this.getScrollOffsetPx() !== 0;
+            displayUnreadBannerIndex >= 0 &&
+            currentMessageIndex === displayUnreadBannerIndex &&
+            this.getScrollOffsetBottomPx() !== 0;
           const unreadIndicator = (
             <SessionLastSeenIndicator
-              count={findFirstUnreadIndex + 1} // count is used for the 118n of the string
+              count={displayUnreadBannerIndex + 1} // count is used for the 118n of the string
               show={showUnreadIndicator}
               key={`unread-indicator-${message.id}`}
             />
@@ -327,11 +336,11 @@ export class SessionMessagesList extends React.Component<Props, State> {
       return;
     }
 
-    if (!this.state.doneInitialScroll) {
+    if (this.ignoreScrollEvents) {
       return;
     }
 
-    if (this.getScrollOffsetPx() === 0) {
+    if (this.getScrollOffsetBottomPx() === 0) {
       void conversation.markRead(messages[0].attributes.received_at);
     }
   }
@@ -348,7 +357,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
     }
     contextMenu.hideAll();
 
-    if (!this.state.doneInitialScroll) {
+    if (this.ignoreScrollEvents) {
       return;
     }
 
@@ -357,9 +366,9 @@ export class SessionMessagesList extends React.Component<Props, State> {
 
     const scrollButtonViewShowLimit = 0.75;
     const scrollButtonViewHideLimit = 0.4;
-    this.scrollOffsetPx = this.getScrollOffsetPx();
+    this.scrollOffsetBottomPx = this.getScrollOffsetBottomPx();
 
-    const scrollOffsetPc = this.scrollOffsetPx / clientHeight;
+    const scrollOffsetPc = this.scrollOffsetBottomPx / clientHeight;
 
     // Scroll button appears if you're more than 75% scrolled up
     if (
@@ -377,7 +386,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
     }
 
     // Scrolled to bottom
-    const isScrolledToBottom = this.getScrollOffsetPx() === 0;
+    const isScrolledToBottom = this.getScrollOffsetBottomPx() === 0;
     if (isScrolledToBottom) {
       // Mark messages read
       this.updateReadMessages();
@@ -418,19 +427,18 @@ export class SessionMessagesList extends React.Component<Props, State> {
       }
     }
 
-    if (!this.state.doneInitialScroll && messages.length > 0) {
-      this.setState(
-        {
-          doneInitialScroll: true,
-        },
-        this.updateReadMessages
-      );
+    if (this.ignoreScrollEvents && messages.length > 0) {
+      this.ignoreScrollEvents = false;
+      this.updateReadMessages();
     }
   }
 
-  private scrollToMessage(messageId: string) {
+  private scrollToMessage(messageId: string, smooth: boolean = false) {
     const topUnreadMessage = document.getElementById(messageId);
-    topUnreadMessage?.scrollIntoView(false);
+    topUnreadMessage?.scrollIntoView({
+      behavior: smooth ? 'smooth' : 'auto',
+      block: 'center',
+    });
 
     const messageContainer = this.messageContainerRef.current;
     if (!messageContainer) {
@@ -510,11 +518,11 @@ export class SessionMessagesList extends React.Component<Props, State> {
     //   return;
     // }
     // this probably does not work for us as we need to call getMessages before
-    this.scrollToMessage(databaseId);
+    this.scrollToMessage(databaseId, true);
   }
 
   // basically the offset in px from the bottom of the view (most recent message)
-  private getScrollOffsetPx() {
+  private getScrollOffsetBottomPx() {
     const messageContainer = this.messageContainerRef?.current;
 
     if (!messageContainer) {
@@ -524,8 +532,6 @@ export class SessionMessagesList extends React.Component<Props, State> {
     const scrollTop = messageContainer.scrollTop;
     const scrollHeight = messageContainer.scrollHeight;
     const clientHeight = messageContainer.clientHeight;
-    const scrollOffsetPx = scrollHeight - scrollTop - clientHeight;
-
-    return scrollOffsetPx;
+    return scrollHeight - scrollTop - clientHeight;
   }
 }

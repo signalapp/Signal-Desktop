@@ -273,6 +273,7 @@ export class SessionConversation extends React.Component<Props, State> {
       );
       if (this.messageContainerRef.current) {
         // force scrolling to bottom on message sent
+        // this will mark all messages as read
         (this.messageContainerRef
           .current as any).scrollTop = this.messageContainerRef.current?.scrollHeight;
       }

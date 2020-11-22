@@ -83,9 +83,6 @@
         'show-message-detail',
         this.showMessageDetail
       );
-      this.listenTo(this.model.messageCollection, 'navigate-to', url => {
-        window.location = url;
-      });
 
       this.lazyUpdateVerified = _.debounce(
         this.model.updateVerified.bind(this.model),
