@@ -1093,7 +1093,7 @@ export class SessionConversation extends React.Component<Props, State> {
         error && error.stack ? error.stack : error
       );
 
-      ToastUtils.pushLoadAttachmentFailure();
+      ToastUtils.pushLoadAttachmentFailure(error?.message);
       return;
     }
 

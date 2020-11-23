@@ -61,11 +61,18 @@ export function pushToastSuccess(
   );
 }
 
-export function pushLoadAttachmentFailure() {
-  pushToastError(
-    'unableToLoadAttachment',
-    window.i18n('unableToLoadAttachment')
-  );
+export function pushLoadAttachmentFailure(message?: string) {
+  if (message) {
+    pushToastError(
+      'unableToLoadAttachment',
+      `${window.i18n('unableToLoadAttachment')} ${message}`
+    );
+  } else {
+    pushToastError(
+      'unableToLoadAttachment',
+      window.i18n('unableToLoadAttachment')
+    );
+  }
 }
 
 export function pushDangerousFileError() {

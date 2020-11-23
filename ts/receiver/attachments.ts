@@ -12,7 +12,7 @@ export async function downloadAttachment(attachment: any) {
     serverUrl
   );
 
-  let res: ArrayBuffer | null = null;
+  let res: ArrayBuffer | any = null;
 
   // TODO: we need attachments to remember which API should be used to retrieve them
   if (!defaultFileserver) {
