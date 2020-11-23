@@ -390,14 +390,16 @@ export class CallingClass {
           if (
             localDeviceState.connectionState === ConnectionState.NotConnected
           ) {
-            if (localDeviceState.videoMuted) {
-              this.disableLocalCamera();
-            }
+            // NOTE: This assumes that only one call is active at a time. For example, if
+            //   there are two calls using the camera, this will disable both of them.
+            //   That's fine for now, but this will break if that assumption changes.
+            this.disableLocalCamera();
 
             delete this.callsByConversation[conversationId];
           } else {
             this.callsByConversation[conversationId] = groupCall;
 
+            // NOTE: This assumes only one active call at a time. See comment above.
             if (localDeviceState.videoMuted) {
               this.disableLocalCamera();
             } else {
