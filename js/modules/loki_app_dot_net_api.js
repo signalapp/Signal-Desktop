@@ -160,10 +160,7 @@ const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
     return {
       result,
       txtResponse: result.body,
-      response: {
-        data: result.body,
-        headers: result.headers,
-      },
+      response: result.body,
     };
   }
 
@@ -180,7 +177,7 @@ const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
       body = JSON.parse(result.body);
     } catch (e) {
       log.error(
-        `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - Cant decode JSON body`,
+        `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - Can't decode JSON body`,
         typeof result.body,
         result.body
       );
@@ -1022,12 +1019,25 @@ class LokiAppDotNetServerAPI {
     return this.uploadAvatar(formData);
   }
 
+  // This should return Uint8Array in response.data
   async downloadAttachment(url) {
     const endpoint = new URL(url).pathname;
 
-    return this.serverRequest(`loki/v1${endpoint}`, {
+    // With the new protocol, there is no json in body, we shouldn't try to parse it
+    const noJson = window.lokiFeatureFlags.useFileOnionRequestsV2;
+
+    const res = await this.serverRequest(`loki/v1${endpoint}`, {
       method: 'GET',
+      noJson,
     });
+
+    if (window.lokiFeatureFlags.useFileOnionRequestsV2) {
+      const buffer = dcodeIO.ByteBuffer.fromBase64(
+        res.response
+      ).toArrayBuffer();
+      return buffer;
+    }
+    return new Uint8Array(res.response.data).buffer;
   }
 }
 

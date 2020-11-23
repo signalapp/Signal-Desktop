@@ -12,7 +12,7 @@ export async function downloadAttachment(attachment: any) {
     serverUrl
   );
 
-  let res: any;
+  let res: ArrayBuffer | null = null;
 
   // TODO: we need attachments to remember which API should be used to retrieve them
   if (!defaultFileserver) {
@@ -43,7 +43,7 @@ export async function downloadAttachment(attachment: any) {
   }
 
   // The attachment id is actually just the absolute url of the attachment
-  let data = new Uint8Array(res.response.data).buffer;
+  let data = res;
   if (!attachment.isRaw) {
     const { key, digest, size } = attachment;
 

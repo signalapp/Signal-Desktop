@@ -62,6 +62,7 @@ declare global {
       useOnionRequests: boolean;
       useOnionRequestsV2: boolean;
       useFileOnionRequests: boolean;
+      useFileOnionRequestsV2: boolean;
       enableSenderKeys: boolean;
       onionRequestHops: number;
       debugMessageLogs: boolean;

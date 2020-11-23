@@ -13,5 +13,5 @@ interface DeviceMappingAnnotation {
 interface LokiFileServerInstance {
   getUserDeviceMapping(pubKey: string): Promise<DeviceMappingAnnotation | null>;
   clearOurDeviceMappingAnnotations(): Promise<void>;
-  downloadAttachment(url: string): Promise<any>;
+  downloadAttachment(url: string): Promise<ArrayBuffer>;
 }
