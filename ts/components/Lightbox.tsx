@@ -425,7 +425,11 @@ export class Lightbox extends React.Component<Props, State> {
     const { contentType } = this.props;
 
     // These are the only image types supported by Electron's NativeImage
-    if (event && contentType !== 'image/png' && contentType !== 'image/jpg') {
+    if (
+      event &&
+      contentType !== 'image/png' &&
+      !contentType?.match(/image\/jpe?g/g)
+    ) {
       event.preventDefault();
     }
   };
