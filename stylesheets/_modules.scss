@@ -6329,7 +6329,7 @@ button.module-image__border-overlay:focus {
       @include font-caption;
       background: linear-gradient(
         180deg,
-        $color-black 0%,
+        transparent,
         $color-black-alpha-60 100%
       );
       bottom: 0;
