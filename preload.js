@@ -461,7 +461,7 @@ window.lokiFeatureFlags = {
   useOnionRequests: true,
   useOnionRequestsV2: true,
   useFileOnionRequests: true,
-  useFileOnionRequestsV2: false, // more compact encoding of files in response
+  useFileOnionRequestsV2: true, // more compact encoding of files in response
   enableSenderKeys: true,
   onionRequestHops: 3,
   debugMessageLogs: process.env.ENABLE_MESSAGE_LOGS,
