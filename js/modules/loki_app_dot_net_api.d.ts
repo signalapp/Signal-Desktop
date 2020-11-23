@@ -9,11 +9,6 @@ interface UploadResponse {
   id?: number;
 }
 
-interface DownloadResponse {
-  statucCode: number;
-  reponse: any;
-}
-
 export interface LokiAppDotNetServerInterface {
   findOrCreateChannel(
     api: LokiPublicChatFactoryAPI,
@@ -24,7 +19,7 @@ export interface LokiAppDotNetServerInterface {
   uploadAvatar(data: FormData): Promise<UploadResponse>;
   putAttachment(data: ArrayBuffer): Promise<UploadResponse>;
   putAvatar(data: ArrayBuffer): Promise<UploadResponse>;
-  downloadAttachment(url: String): Promise<DownloadResponse>; // todo: add return type
+  downloadAttachment(url: String): Promise<ArrayBuffer>;
 }
 
 export interface LokiPublicChannelAPI {

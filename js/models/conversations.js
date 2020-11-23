@@ -2304,7 +2304,9 @@
 
     async deletePublicMessages(messages) {
       const channelAPI = await this.getPublicSendData();
+
       if (!channelAPI) {
+        log.error('Unable to get public channel API');
         return false;
       }
 

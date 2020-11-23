@@ -140,7 +140,11 @@ async function buildOnionCtxs(
     const relayingToFinalDestination = i === firstPos; // if last position
 
     if (relayingToFinalDestination && fileServerOptions) {
-      const target = useV2 ? '/loki/v2/lsrpc' : '/loki/v1/lsrpc';
+      let target = useV2 ? '/loki/v2/lsrpc' : '/loki/v1/lsrpc';
+
+      if (window.lokiFeatureFlags.useFileOnionRequestsV2) {
+        target = '/loki/v3/lsrpc';
+      }
 
       dest = {
         host: fileServerOptions.host,
@@ -397,9 +401,11 @@ const sendOnionRequest = async (
 
   const useV2 = window.lokiFeatureFlags.useOnionRequestsV2;
 
+  const isLsrpc = !!finalRelayOptions;
+
   let destCtx;
   try {
-    if (useV2 && !finalRelayOptions) {
+    if (useV2 && !isLsrpc) {
       const body = options.body || '';
       delete options.body;
 
