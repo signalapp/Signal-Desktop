@@ -166,7 +166,6 @@ async function decryptUnidentifiedSender(
     const { sender: source } = error || {};
 
     if (source) {
-      // tslint:disable-next-line: no-shadowed-variable
       const blocked = await isBlocked(source.getName());
       if (blocked) {
         window.log.info(
@@ -174,6 +173,14 @@ async function decryptUnidentifiedSender(
         );
         await removeFromCache(envelope);
         return null;
+      }
+
+      if (error.message.startsWith('No sessions for device ')) {
+        // Receives a message from a specific device but we did not have a session with him.
+        // We trigger a session request.
+        await SessionProtocol.sendSessionRequestIfNeeded(
+          PubKey.cast(source.getName())
+        );
       }
 
       // eslint-disable no-param-reassign
