@@ -278,21 +278,16 @@ export class ConversationModel extends window.Backbone.Model<
 
     const groupVersion = this.get('groupVersion') || 0;
 
-<<<<<<< HEAD
-    return (
-      groupVersion === 2 &&
-      base64ToArrayBuffer(groupId).byteLength === window.Signal.Groups.ID_LENGTH
-    );
-=======
     try {
       return (
-        groupVersion === 2 && base64ToArrayBuffer(groupId).byteLength === 32
+        groupVersion === 2 &&
+        base64ToArrayBuffer(groupId).byteLength ===
+          window.Signal.Groups.ID_LENGTH
       );
     } catch (error) {
       window.log.error('isGroupV2: Failed to process groupId in base64!');
       return false;
     }
->>>>>>> Support for GV1 -> GV2 migration
   }
 
   isMemberPending(conversationId: string): boolean {
