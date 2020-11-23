@@ -14,9 +14,9 @@ const i18n = setupI18n('en', enMessages);
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   canPip: boolean('canPip', Boolean(overrideProps.canPip)),
-  conversationTitle: overrideProps.conversationTitle || 'With Someone',
   i18n,
   isGroupCall: boolean('isGroupCall', Boolean(overrideProps.isGroupCall)),
+  message: overrideProps.message,
   remoteParticipants: number(
     'remoteParticipants',
     overrideProps.remoteParticipants || 0
@@ -25,6 +25,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     'showParticipantsList',
     Boolean(overrideProps.showParticipantsList)
   ),
+  title: overrideProps.title || 'With Someone',
   toggleParticipants: () => action('toggle-participants'),
   togglePip: () => action('toggle-pip'),
   toggleSettings: () => action('toggle-settings'),
@@ -62,8 +63,17 @@ story.add('With Participants (shown)', () => (
 story.add('Long Title', () => (
   <CallingHeader
     {...createProps({
-      conversationTitle:
+      title:
         'What do I got to, what do I got to do to wake you up? To shake you up, to break the structure up?',
+    })}
+  />
+));
+
+story.add('Title with message', () => (
+  <CallingHeader
+    {...createProps({
+      title: 'Hello world',
+      message: 'Goodbye earth',
     })}
   />
 ));

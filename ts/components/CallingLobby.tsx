@@ -156,7 +156,7 @@ export const CallingLobby = ({
   return (
     <div className="module-calling__container">
       <CallingHeader
-        conversationTitle={conversation.title}
+        title={conversation.title}
         i18n={i18n}
         isGroupCall={isGroupCall}
         remoteParticipants={participantNames.length}

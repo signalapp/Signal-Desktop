@@ -145,13 +145,23 @@ export const CallScreen: React.FC<PropsType> = ({
   }, [toggleAudio, toggleVideo]);
 
   let hasRemoteVideo: boolean;
+  let headerMessage: string | undefined;
+  let headerTitle: string | undefined;
   let isConnected: boolean;
+  let participantCount: number;
   let remoteParticipantsElement: JSX.Element;
 
   switch (call.callMode) {
     case CallMode.Direct:
       hasRemoteVideo = Boolean(call.hasRemoteVideo);
+      headerMessage = renderHeaderMessage(
+        i18n,
+        call.callState || CallState.Prering,
+        acceptedDuration
+      );
+      headerTitle = conversation.title;
       isConnected = call.callState === CallState.Accepted;
+      participantCount = isConnected ? 2 : 0;
       remoteParticipantsElement = (
         <DirectCallRemoteParticipant
           conversation={conversation}
@@ -165,6 +175,11 @@ export const CallScreen: React.FC<PropsType> = ({
       hasRemoteVideo = call.remoteParticipants.some(
         remoteParticipant => remoteParticipant.hasRemoteVideo
       );
+      participantCount = activeCall.groupCallParticipants.length;
+      headerMessage = undefined;
+      headerTitle = activeCall.groupCallParticipants.length
+        ? undefined
+        : i18n('calling__in-this-call--zero');
       isConnected = call.connectionState === GroupCallConnectionState.Connected;
       remoteParticipantsElement = (
         <GroupCallRemoteParticipants
@@ -194,11 +209,6 @@ export const CallScreen: React.FC<PropsType> = ({
       !showControls && !isAudioOnly && isConnected,
   });
 
-  const remoteParticipants =
-    call.callMode === CallMode.Group
-      ? activeCall.groupCallParticipants.length
-      : 0;
-
   const { showParticipantsList } = activeCall.activeCallState;
 
   return (
@@ -219,24 +229,12 @@ export const CallScreen: React.FC<PropsType> = ({
       >
         <CallingHeader
           canPip
-          conversationTitle={
-            <>
-              {call.callMode === CallMode.Group &&
-              !call.remoteParticipants.length
-                ? i18n('calling__in-this-call--zero')
-                : ''}
-              {call.callMode === CallMode.Direct &&
-                renderHeaderMessage(
-                  i18n,
-                  call.callState || CallState.Prering,
-                  acceptedDuration
-                )}
-            </>
-          }
           i18n={i18n}
           isGroupCall={call.callMode === CallMode.Group}
-          remoteParticipants={remoteParticipants}
+          message={headerMessage}
+          remoteParticipants={participantCount}
           showParticipantsList={showParticipantsList}
+          title={headerTitle}
           toggleParticipants={toggleParticipants}
           togglePip={togglePip}
           toggleSettings={toggleSettings}
@@ -321,8 +319,8 @@ function renderHeaderMessage(
   i18n: LocalizerType,
   callState: CallState,
   acceptedDuration: null | number
-): JSX.Element | null {
-  let message = null;
+): string | undefined {
+  let message;
   if (callState === CallState.Prering) {
     message = i18n('outgoingCallPrering');
   } else if (callState === CallState.Ringing) {
@@ -332,11 +330,7 @@ function renderHeaderMessage(
   } else if (callState === CallState.Accepted && acceptedDuration) {
     message = i18n('callDuration', [renderDuration(acceptedDuration)]);
   }
-
-  if (!message) {
-    return null;
-  }
-  return <div className="module-ongoing-call__header-message">{message}</div>;
+  return message;
 }
 
 function renderDuration(ms: number): string {

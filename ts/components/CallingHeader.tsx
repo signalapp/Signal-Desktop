@@ -8,11 +8,12 @@ import { Tooltip, TooltipTheme } from './Tooltip';
 
 export type PropsType = {
   canPip?: boolean;
-  conversationTitle: JSX.Element | string;
   i18n: LocalizerType;
   isGroupCall?: boolean;
+  message?: string;
   remoteParticipants?: number;
   showParticipantsList: boolean;
+  title?: string;
   toggleParticipants?: () => void;
   togglePip?: () => void;
   toggleSettings: () => void;
@@ -20,19 +21,23 @@ export type PropsType = {
 
 export const CallingHeader = ({
   canPip = false,
-  conversationTitle,
   i18n,
   isGroupCall = false,
+  message,
   remoteParticipants,
   showParticipantsList,
+  title,
   toggleParticipants,
   togglePip,
   toggleSettings,
 }: PropsType): JSX.Element => (
   <div className="module-calling__header">
-    <div className="module-calling__header--header-name">
-      {conversationTitle}
-    </div>
+    {title ? (
+      <div className="module-calling__header--header-name">{title}</div>
+    ) : null}
+    {message ? (
+      <div className="module-ongoing-call__header-message">{message}</div>
+    ) : null}
     <div className="module-calling-tools">
       {isGroupCall ? (
         <div className="module-calling-tools__button">
