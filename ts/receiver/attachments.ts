@@ -32,7 +32,7 @@ export async function downloadAttachment(attachment: any) {
 
   // FIXME "178" test to remove once this is fixed server side.
   if (!res.response || !res.response.data || res.response.data.length === 178) {
-    if (res.response.data.length === 178) {
+    if (res?.response?.data?.length === 178) {
       window.log.error(
         'Data of 178 length corresponds of a 404 returned as 200 by file.getsession.org.'
       );

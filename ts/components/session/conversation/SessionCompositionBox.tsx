@@ -71,7 +71,7 @@ interface Props {
   stagedAttachments: Array<StagedAttachmentType>;
   clearAttachments: () => any;
   removeAttachment: (toRemove: AttachmentType) => void;
-  onChoseAttachments: (newAttachments: FileList) => void;
+  onChoseAttachments: (newAttachments: Array<File>) => void;
 }
 
 interface State {
@@ -642,7 +642,15 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
   private async onChoseAttachment() {
     // Build attachments list
-    const attachmentsFileList = this.fileInput.current?.files;
+    let attachmentsFileList = null;
+
+    // this is terrible, but we have to reset the input value manually.
+    // otherwise, the user won't be able to select two times the same file for example.
+    if (this.fileInput.current?.files) {
+      attachmentsFileList = Array.from(this.fileInput.current.files);
+      this.fileInput.current.files = null;
+      this.fileInput.current.value = '';
+    }
     if (!attachmentsFileList || attachmentsFileList.length === 0) {
       return;
     }

@@ -958,7 +958,7 @@ export class SessionConversation extends React.Component<Props, State> {
     });
   }
 
-  private async onChoseAttachments(attachmentsFileList: FileList) {
+  private async onChoseAttachments(attachmentsFileList: Array<File>) {
     if (!attachmentsFileList || attachmentsFileList.length === 0) {
       return;
     }
@@ -1180,7 +1180,7 @@ export class SessionConversation extends React.Component<Props, State> {
     e.stopPropagation();
 
     if (e?.dataTransfer?.files && e.dataTransfer.files.length > 0) {
-      void this.onChoseAttachments(e.dataTransfer.files);
+      void this.onChoseAttachments(Array.from(e.dataTransfer.files));
       e.dataTransfer.clearData();
       this.dragCounter = 0;
       this.setState({ isDraggingFile: false });
