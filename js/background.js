@@ -653,64 +653,69 @@
               const data = await readFile({ file: avatar });
               // Ensure that this file is either small enough or is resized to meet our
               //   requirements for attachments
-              const withBlob = await window.Signal.Util.AttachmentUtil.autoScale(
-                {
-                  contentType: avatar.type,
-                  file: new Blob([data.data], {
-                    type: avatar.contentType,
-                  }),
-                  maxMeasurements: {
-                    maxSize: 1000 * 1024,
-                    maxHeight: 512,
-                    maxWidth: 512,
-                  },
-                }
-              );
-              const dataResized = await window.Signal.Types.Attachment.arrayBufferFromFile(
-                withBlob.file
-              );
+              try {
+                const withBlob = await window.Signal.Util.AttachmentUtil.autoScale(
+                  {
+                    contentType: avatar.type,
+                    file: new Blob([data.data], {
+                      type: avatar.contentType,
+                    }),
+                    maxMeasurements: {
+                      maxSize: 1000 * 1024, // 1Mb for our profile picture
+                    },
+                  }
+                );
+                const dataResized = await window.Signal.Types.Attachment.arrayBufferFromFile(
+                  withBlob.file
+                );
 
-              // For simplicity we use the same attachment pointer that would send to
-              // others, which means we need to wait for the database response.
-              // To avoid the wait, we create a temporary url for the local image
-              // and use it until we the the response from the server
-              const tempUrl = window.URL.createObjectURL(avatar);
-              conversation.setLokiProfile({ displayName: newName });
-              conversation.set('avatar', tempUrl);
+                // For simplicity we use the same attachment pointer that would send to
+                // others, which means we need to wait for the database response.
+                // To avoid the wait, we create a temporary url for the local image
+                // and use it until we the the response from the server
+                const tempUrl = window.URL.createObjectURL(avatar);
+                conversation.setLokiProfile({ displayName: newName });
+                conversation.set('avatar', tempUrl);
 
-              // Encrypt with a new key every time
-              profileKey = libsignal.crypto.getRandomBytes(32);
-              const encryptedData = await textsecure.crypto.encryptProfile(
-                dataResized,
-                profileKey
-              );
+                // Encrypt with a new key every time
+                profileKey = libsignal.crypto.getRandomBytes(32);
+                const encryptedData = await textsecure.crypto.encryptProfile(
+                  dataResized,
+                  profileKey
+                );
 
-              const avatarPointer = await libsession.Utils.AttachmentUtils.uploadAvatar(
-                {
-                  ...dataResized,
-                  data: encryptedData,
-                  size: encryptedData.byteLength,
-                }
-              );
+                const avatarPointer = await libsession.Utils.AttachmentUtils.uploadAvatar(
+                  {
+                    ...dataResized,
+                    data: encryptedData,
+                    size: encryptedData.byteLength,
+                  }
+                );
 
-              ({ url } = avatarPointer);
+                ({ url } = avatarPointer);
 
-              storage.put('profileKey', profileKey);
+                storage.put('profileKey', profileKey);
 
-              conversation.set('avatarPointer', url);
+                conversation.set('avatarPointer', url);
 
-              const upgraded = await Signal.Migrations.processNewAttachment({
-                isRaw: true,
-                data: data.data,
-                url,
-              });
-              newAvatarPath = upgraded.path;
-              // Replace our temporary image with the attachment pointer from the server:
-              conversation.set('avatar', null);
-              conversation.setLokiProfile({
-                displayName: newName,
-                avatar: newAvatarPath,
-              });
+                const upgraded = await Signal.Migrations.processNewAttachment({
+                  isRaw: true,
+                  data: data.data,
+                  url,
+                });
+                newAvatarPath = upgraded.path;
+                // Replace our temporary image with the attachment pointer from the server:
+                conversation.set('avatar', null);
+                conversation.setLokiProfile({
+                  displayName: newName,
+                  avatar: newAvatarPath,
+                });
+              } catch (error) {
+                window.log.error(
+                  'showEditProfileDialog Error ensuring that image is properly sized:',
+                  error && error.stack ? error.stack : error
+                );
+              }
             } else {
               // do not update the avatar if it did not change
               conversation.setLokiProfile({

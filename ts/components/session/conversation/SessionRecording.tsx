@@ -11,6 +11,7 @@ import {
   SessionButtonType,
 } from '../SessionButton';
 import { Constants } from '../../../session';
+import { ToastUtils } from '../../../session/utils';
 
 interface Props {
   onExitVoiceNoteView: any;
@@ -422,8 +423,10 @@ export class SessionRecording extends React.Component<Props, State> {
     }
 
     // Is the audio file > attachment filesize limit
-    if (audioBlob.size > Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE) {
-      // TODO VINCE: warn the user that it's too big
+    if (audioBlob.size > Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES) {
+      ToastUtils.pushFileSizeErrorAsByte(
+        Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES
+      );
       return;
     }
 

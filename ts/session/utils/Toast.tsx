@@ -80,6 +80,17 @@ export function pushFileSizeError(limit: number, units: string) {
   );
 }
 
+export function pushFileSizeErrorAsByte(bytesCount: number) {
+  const units = ['kB', 'MB', 'GB'];
+  let u = -1;
+  let limit = bytesCount;
+  do {
+    limit /= 1000;
+    u += 1;
+  } while (limit >= 1000 && u < units.length - 1);
+  pushFileSizeError(limit, units[u]);
+}
+
 export function pushMultipleNonImageError() {
   pushToastError(
     'cannotMixImageAndNonImageAttachments',

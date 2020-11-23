@@ -1058,6 +1058,7 @@ export class SessionConversation extends React.Component<Props, State> {
       }
 
       const url = await window.autoOrientImage(file);
+
       this.addAttachments([
         {
           file,
@@ -1070,42 +1071,22 @@ export class SessionConversation extends React.Component<Props, State> {
       ]);
     };
 
+    let blob = null;
+
     try {
-      const blob = await AttachmentUtil.autoScale({
+      blob = await AttachmentUtil.autoScale({
         contentType,
         file,
       });
-      let limitKb = 10000;
-      const blobType =
-        file.type === 'image/gif' ? 'gif' : contentType.split('/')[0];
 
-      switch (blobType) {
-        case 'image':
-          limitKb = 6000;
-          break;
-        case 'gif':
-          limitKb = 10000;
-          break;
-        case 'audio':
-          limitKb = 10000;
-          break;
-        case 'video':
-          limitKb = 10000;
-          break;
-        default:
-          limitKb = 10000;
+      if (
+        blob.file.size >= Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES
+      ) {
+        ToastUtils.pushFileSizeErrorAsByte(
+          Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES
+        );
+        return;
       }
-      // if ((blob.file.size / 1024).toFixed(4) >= limitKb) {
-      //   const units = ['kB', 'MB', 'GB'];
-      //   let u = -1;
-      //   let limit = limitKb * 1000;
-      //   do {
-      //     limit /= 1000;
-      //     u += 1;
-      //   } while (limit >= 1000 && u < units.length - 1);
-      //   // this.showFileSizeError(limit, units[u]);
-      //   return;
-      // }
     } catch (error) {
       window.log.error(
         'Error ensuring that image is properly sized:',
@@ -1118,6 +1099,10 @@ export class SessionConversation extends React.Component<Props, State> {
 
     try {
       if (GoogleChrome.isImageTypeSupported(contentType)) {
+        // this does not add the preview to the message outgoing
+        // this is just for us, for the list of attachments we are sending
+        // the files are scaled down under getFiles()
+
         await renderImagePreview();
       } else if (GoogleChrome.isVideoTypeSupported(contentType)) {
         await renderVideoPreview();

@@ -805,11 +805,16 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     }
   }
 
-  // this function is called right before sending a message, to gather really files bejind attachments.
+  // this function is called right before sending a message, to gather really the files behind attachments.
   private async getFiles() {
     const { stagedAttachments } = this.props;
+    // scale them down
     const files = await Promise.all(
-      stagedAttachments.map(attachment => AttachmentUtil.getFile(attachment))
+      stagedAttachments.map(attachment =>
+        AttachmentUtil.getFile(attachment, {
+          maxSize: Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES,
+        })
+      )
     );
     this.props.clearAttachments();
     return files;

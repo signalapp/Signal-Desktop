@@ -62,12 +62,15 @@ export const getPreview = async (
 
       // Ensure that this file is either small enough or is resized to meet our
       //   requirements for attachments
-      const withBlob = await AttachmentUtil.autoScale({
-        contentType: fullSizeImage.contentType,
-        file: new Blob([fullSizeImage.data], {
-          type: fullSizeImage.contentType,
-        }),
-      });
+      const withBlob = await AttachmentUtil.autoScale(
+        {
+          contentType: fullSizeImage.contentType,
+          file: new Blob([fullSizeImage.data], {
+            type: fullSizeImage.contentType,
+          }),
+        },
+        { maxSize: 100 * 1000 } // this is a preview image. No need for it to be crazy big. 100k is big enough
+      );
 
       const data = await arrayBufferFromFile(withBlob.file);
       objectUrl = URL.createObjectURL(withBlob.file);
