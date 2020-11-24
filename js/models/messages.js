@@ -618,7 +618,6 @@
         onBanUser: () => this.banUser(),
         onRetrySend: () => this.retrySend(),
         onShowDetail: () => this.trigger('show-message-detail', this),
-        onClickLinkPreview: url => this.trigger('navigate-to', url),
         markRead: readAt => this.markRead(readAt),
 
         onShowUserDetails: pubkey =>

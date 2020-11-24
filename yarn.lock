@@ -367,6 +367,11 @@
     "@types/jquery" "*"
     "@types/underscore" "*"
 
+"@types/blueimp-load-image@^2.23.8":
+  version "2.23.8"
+  resolved "https://registry.yarnpkg.com/@types/blueimp-load-image/-/blueimp-load-image-2.23.8.tgz#0d10f12bf57f050aceac06dcc76390ae759c979a"
+  integrity sha512-dy98N4odO9L1zgo2a6yVHRRYUeYRJfl0hg3dcapyxqNq5KF8Zgz5lFWgDMOsMC06VAs0mnVKDRJE4+U/A5Km3A==
+
 "@types/bytebuffer@^5.0.41":
   version "5.0.41"
   resolved "https://registry.yarnpkg.com/@types/bytebuffer/-/bytebuffer-5.0.41.tgz#6850dba4d4cd2846596b4842874d5bfc01cd3db1"

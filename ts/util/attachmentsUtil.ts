@@ -1,7 +1,7 @@
 import { StagedAttachmentType } from '../components/session/conversation/SessionCompositionBox';
 import { SignalService } from '../protobuf';
 import { Constants } from '../session';
-
+import loadImage from 'blueimp-load-image';
 export interface MaxScaleSize {
   maxSize?: number;
   maxHeight?: number;
@@ -40,8 +40,7 @@ export async function autoScale<T extends { contentType: string; file: any }>(
         return;
       }
 
-      const gifMaxSize = Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES;
-      if (file.type === 'image/gif' && file.size <= gifMaxSize) {
+      if (file.type === 'image/gif' && file.size <= Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES) {
         resolve(attachment);
         return;
       }
@@ -51,12 +50,11 @@ export async function autoScale<T extends { contentType: string; file: any }>(
         return;
       }
 
-      const canvas = window.loadImage.scale(img, {
+      const canvas = (loadImage as any).scale(img, {
         canvas: true,
         maxWidth,
         maxHeight,
       });
-
       let quality = 0.95;
       let i = 4;
       let blob;
@@ -66,22 +64,19 @@ export async function autoScale<T extends { contentType: string; file: any }>(
           canvas.toDataURL('image/jpeg', quality)
         );
         quality = (quality * maxSize) / blob.size;
-        // Should we disallow the algo drop the quality too low?
-        // if (quality < 0.5) {
-        //   quality = 0.5;
-        // }
-        // NOTE: During testing with a large image, we observed the
-        // `quality` value being > 1. Should we clamp it to [0.5, 1.0]?
-        // See: https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob#Syntax
+
         if (quality > 1) {
-          quality = 1;
+          quality = 0.95;
         }
+
       } while (i > 0 && blob.size > maxSize);
+
 
       resolve({
         ...attachment,
         file: blob,
       });
+
     };
     img.src = url;
   });

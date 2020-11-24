@@ -100,7 +100,6 @@ declare global {
     GroupBuffer: any;
     SwarmPolling: SwarmPolling;
     MediaRecorder: any;
-    loadImage: any;
     dataURLToBlobSync: any;
     autoOrientImage: any;
     contextMenuShown: boolean;

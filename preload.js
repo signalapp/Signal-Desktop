@@ -379,7 +379,6 @@ const { autoOrientImage } = require('./js/modules/auto_orient_image');
 window.autoOrientImage = autoOrientImage;
 window.dataURLToBlobSync = require('blueimp-canvas-to-blob');
 window.filesize = require('filesize');
-window.loadImage = require('blueimp-load-image');
 window.getGuid = require('uuid/v4');
 window.profileImages = require('./app/profile_images');
 
