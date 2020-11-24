@@ -40,7 +40,10 @@ export async function autoScale<T extends { contentType: string; file: any }>(
         return;
       }
 
-      if (file.type === 'image/gif' && file.size <= Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES) {
+      if (
+        file.type === 'image/gif' &&
+        file.size <= Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES
+      ) {
         resolve(attachment);
         return;
       }
@@ -68,15 +71,12 @@ export async function autoScale<T extends { contentType: string; file: any }>(
         if (quality > 1) {
           quality = 0.95;
         }
-
       } while (i > 0 && blob.size > maxSize);
-
 
       resolve({
         ...attachment,
         file: blob,
       });
-
     };
     img.src = url;
   });

@@ -4,16 +4,17 @@ import classNames from 'classnames';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 
 interface Props {
-  label: string;
+  label?: string;
   error?: string;
-  type: string;
+  type?: string;
   value?: string;
   placeholder: string;
   maxLength?: number;
   enableShowHide?: boolean;
-  onValueChanged?: any;
+  onValueChanged?: (value: string) => any;
   onEnterPressed?: any;
   autoFocus?: boolean;
+  ref?: any;
 }
 
 interface State {

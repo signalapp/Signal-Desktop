@@ -19,10 +19,6 @@ const {
   ConversationLoadingScreen,
 } = require('../../ts/components/ConversationLoadingScreen');
 const {
-  AttachmentList,
-} = require('../../ts/components/conversation/AttachmentList');
-const { CaptionEditor } = require('../../ts/components/CaptionEditor');
-const {
   ContactDetail,
 } = require('../../ts/components/conversation/ContactDetail');
 const { ContactListItem } = require('../../ts/components/ContactListItem');
@@ -231,8 +227,6 @@ exports.setup = (options = {}) => {
 
   const Components = {
     ConversationLoadingScreen,
-    AttachmentList,
-    CaptionEditor,
     ContactDetail,
     ContactListItem,
     ContactName,

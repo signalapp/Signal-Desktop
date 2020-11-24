@@ -1097,6 +1097,10 @@
     "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments",
     "androidKey": "media_preview__save_title"
   },
+  "saved": {
+    "message": "Saved",
+    "description": "Used to display when an action was saved."
+  },
   "emojiAlt": {
     "message": "Emoji image of '$title$'",
     "description": "Used in the alt tag of all emoji images",

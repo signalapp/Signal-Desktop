@@ -26,6 +26,7 @@ import { AbortController } from 'abort-controller';
 import { SessionQuotedMessageComposition } from './SessionQuotedMessageComposition';
 import { Mention, MentionsInput } from 'react-mentions';
 import { MemberItem } from '../../conversation/MemberList';
+import { CaptionEditor } from '../../CaptionEditor';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -83,6 +84,7 @@ interface State {
   voiceRecording?: Blob;
   ignoredLink?: string; // set the the ignored url when users closed the link preview
   stagedLinkPreview?: StagedLinkPreviewData;
+  showCaptionEditor?: AttachmentType;
 }
 
 const sendMessageStyle = {
@@ -156,6 +158,8 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     // Attachments
     this.onChoseAttachment = this.onChoseAttachment.bind(this);
     this.onChooseAttachment = this.onChooseAttachment.bind(this);
+    this.onClickAttachment = this.onClickAttachment.bind(this);
+    this.renderCaptionEditor = this.renderCaptionEditor.bind(this);
 
     // On Sending
     this.onSendMessage = this.onSendMessage.bind(this);
@@ -451,7 +455,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     if (!conversationModel) {
       return;
     }
-    const allPubKeys = conversationModel.get('members');
+    const allPubKeys = conversationModel.get('members') as Array<string>;
 
     const allMembers = allPubKeys.map(pubKey => {
       const conv = window.ConversationController.get(pubKey);
@@ -619,18 +623,70 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     return <></>;
   }
 
+  private onClickAttachment(attachment: AttachmentType) {
+    // const onSave = (caption: string) => {
+    //   // eslint-disable-next-line no-param-reassign
+    //   attachment.caption = caption;
+    //   // this.captionEditorView.remove();
+    //   // Signal.Backbone.Views.Lightbox.hide();
+    //   this.render();
+    // };
+    this.setState({ showCaptionEditor: attachment });
+
+    // this.captionEditorView = new Whisper.ReactWrapperView({
+    //   className: 'attachment-list-wrapper',
+    //   Component: window.Signal.Components.CaptionEditor,
+    //   props: getProps(),
+    //   onClose: () => Signal.Backbone.Views.Lightbox.hide(),
+    // });
+    // Signal.Backbone.Views.Lightbox.show(this.captionEditorView.el);
+  }
+
+  private renderCaptionEditor(attachment?: AttachmentType) {
+    if (attachment) {
+      const onSave = (caption: string) => {
+        // eslint-disable-next-line no-param-reassign
+        attachment.caption = caption;
+        ToastUtils.pushToastInfo('saved', window.i18n('saved'));
+        // close the lightbox on save
+        this.setState({
+          showCaptionEditor: undefined,
+        });
+      };
+
+      const url = attachment.videoUrl || attachment.url;
+      return (
+        <CaptionEditor
+          attachment={attachment}
+          url={url}
+          onSave={onSave}
+          caption={attachment.caption}
+          onClose={() => {
+            this.setState({
+              showCaptionEditor: undefined,
+            });
+          }}
+        />
+      );
+    }
+    return <></>;
+  }
+
   private renderAttachmentsStaged() {
     const { stagedAttachments } = this.props;
+    const { showCaptionEditor } = this.state;
     if (stagedAttachments && stagedAttachments.length) {
       return (
-        <AttachmentList
-          attachments={stagedAttachments}
-          // tslint:disable-next-line: no-empty
-          onClickAttachment={() => {}}
-          onAddAttachment={this.onChooseAttachment}
-          onCloseAttachment={this.props.removeAttachment}
-          onClose={this.props.clearAttachments}
-        />
+        <>
+          <AttachmentList
+            attachments={stagedAttachments}
+            onClickAttachment={this.onClickAttachment}
+            onAddAttachment={this.onChooseAttachment}
+            onCloseAttachment={this.props.removeAttachment}
+            onClose={this.props.clearAttachments}
+          />
+          {this.renderCaptionEditor(showCaptionEditor)}
+        </>
       );
     }
     return <></>;

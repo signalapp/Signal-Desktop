@@ -66,11 +66,16 @@ const styles = {
     display: 'inline-flex',
     justifyContent: 'center',
   } as React.CSSProperties,
+  objectParentContainer: {
+    flexGrow: 1,
+    textAlign: 'center' as 'center',
+    margin: 'auto',
+  },
   object: {
     flexGrow: 1,
     flexShrink: 0,
-    maxWidth: '100%',
-    maxHeight: '100%',
+    maxWidth: '80vw',
+    maxHeight: '80vh',
     objectFit: 'contain',
   } as React.CSSProperties,
   caption: {
@@ -79,11 +84,11 @@ const styles = {
     left: 0,
     right: 0,
     textAlign: 'center',
-    color: 'white',
+    color: 'black',
     padding: '1em',
     paddingLeft: '3em',
     paddingRight: '3em',
-    backgroundColor: 'rgba(192, 192, 192, .20)',
+    backgroundColor: 'rgba(192, 192, 192, .40)',
   } as React.CSSProperties,
   controlsOffsetPlaceholder: {
     width: CONTROLS_WIDTH,
@@ -229,11 +234,13 @@ export class Lightbox extends React.Component<Props> {
       >
         <div style={styles.mainContainer}>
           <div style={styles.controlsOffsetPlaceholder} />
-          <div style={styles.objectContainer}>
-            {!is.undefined(contentType)
-              ? this.renderObject({ objectURL, contentType })
-              : null}
-            {caption ? <div style={styles.caption}>{caption}</div> : null}
+          <div style={styles.objectParentContainer}>
+            <div style={styles.objectContainer}>
+              {!is.undefined(contentType)
+                ? this.renderObject({ objectURL, contentType })
+                : null}
+              {caption ? <div style={styles.caption}>{caption}</div> : null}
+            </div>
           </div>
           <div style={styles.controls}>
             <IconButton type="close" onClick={this.onClose} />

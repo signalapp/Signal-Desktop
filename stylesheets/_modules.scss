@@ -2155,7 +2155,9 @@
 // Module: Caption Editor
 
 .module-caption-editor {
-  background-color: $color-black;
+  @include themify($themes) {
+    background-color: themed('inboxBackground');
+  }
   z-index: 20;
 
   position: absolute;
@@ -2179,13 +2181,14 @@
   width: 30px;
   height: 30px;
   z-index: 2;
-  @include color-svg('../images/x-16.svg', $color-white);
+  @include themify($themes) {
+    @include color-svg('../images/x-16.svg', themed('textColor'));
+  }
 }
 
 .module-caption-editor__media-container {
   flex-grow: 1;
   flex-shrink: 1;
-  background-color: $color-black;
   text-align: center;
   margin: 50px;
   overflow: hidden;
@@ -2221,58 +2224,49 @@
   flex-grow: 0;
   flex-shrink: 0;
   height: 52px;
+  width: 100%;
   padding: 8px;
+  justify-content: center;
 
   display: inline-flex;
   flex-direction: row;
-  align-items: middle;
 
   margin-inline-start: auto;
   margin-inline-end: auto;
 }
 
 .module-caption-editor__input-container {
-  position: relative;
+  display: flex;
+}
+
+.module-caption-editor {
+  .session-button {
+    margin-inline-start: 15px;
+  }
 }
 
 .module-caption-editor__caption-input {
   height: 36px;
-  width: 40em;
-
   font-size: 14px;
-  color: $color-white;
 
-  border: 1px solid $color-white;
+  @include themify($themes) {
+    color: themed('textColor');
+    border: 1px solid themed('textColor');
+    background-color: themed('inputBackground');
+  }
   border-radius: 18px;
-  background-color: $color-black;
   padding: 9px;
   padding-inline-start: 12px;
   padding-inline-end: 65px;
 
   &::placeholder {
     color: $color-white-07;
+    @include themify($themes) {
+      color: subtle(themed('textColor'));
+      border: 1px solid themed('textColor');
+      background-color: themed('inputBackground');
+    }
   }
-  &:focus {
-    border: 1px solid $color-loki-green;
-    outline: none;
-  }
-}
-
-.module-caption-editor__save-button {
-  position: absolute;
-  background-color: $color-loki-green;
-  color: $color-white;
-  cursor: pointer;
-
-  height: 28px;
-  border-radius: 15px;
-
-  padding: 5px;
-  padding-inline-start: 12px;
-  padding-inline-end: 12px;
-
-  right: 4px;
-  top: 4px;
 }
 
 // Module: Staged Placeholder Attachment
