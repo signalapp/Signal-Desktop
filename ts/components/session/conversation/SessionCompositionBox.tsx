@@ -455,7 +455,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     if (!conversationModel) {
       return;
     }
-    const allPubKeys = conversationModel.get('members') as Array<string>;
+    const allPubKeys = conversationModel.get('members');
 
     const allMembers = allPubKeys.map(pubKey => {
       const conv = window.ConversationController.get(pubKey);

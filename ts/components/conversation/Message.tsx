@@ -473,7 +473,16 @@ export class Message extends React.PureComponent<Props, State> {
             </div>
           ) : (
             <div className="module-message__generic-attachment__icon-container">
-              <div className="module-message__generic-attachment__icon">
+              <div
+                role="button"
+                className="module-message__generic-attachment__icon"
+                onClick={(e: any) => {
+                  if (this.props?.onDownload) {
+                    e.stopPropagation();
+                    this.props.onDownload(firstAttachment);
+                  }
+                }}
+              >
                 {extension ? (
                   <div className="module-message__generic-attachment__icon__extension">
                     {extension}
