@@ -101,7 +101,7 @@
       const res = await window.tokenlessFileServerAdnAPI.serverRequest(
         'loki/v1/time'
       );
-      if (res.statusCode === 200) {
+      if (res.ok) {
         timestamp = res.response;
       }
     } catch (e) {

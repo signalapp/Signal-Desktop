@@ -61,9 +61,9 @@ export class AvatarPlaceHolder extends React.PureComponent<Props, State> {
               cy={r}
               r={rWithoutBorder}
               fill="#d2d2d3"
-              shape-rendering="geometricPrecision"
+              shapeRendering="geometricPrecision"
               stroke={borderColor}
-              stroke-width="1"
+              strokeWidth="1"
             />
           </g>
         </svg>
@@ -88,19 +88,19 @@ export class AvatarPlaceHolder extends React.PureComponent<Props, State> {
             cy={r}
             r={rWithoutBorder}
             fill={bgColor}
-            shape-rendering="geometricPrecision"
+            shapeRendering="geometricPrecision"
             stroke={borderColor}
-            stroke-width="1"
+            strokeWidth="1"
           />
           <text
-            font-size={fontSize}
+            fontSize={fontSize}
             x="50%"
             y="50%"
             fill="white"
-            text-anchor="middle"
+            textAnchor="middle"
             stroke="white"
-            stroke-width={1}
-            alignment-baseline="central"
+            strokeWidth={1}
+            alignmentBaseline="central"
           >
             {initial}
           </text>

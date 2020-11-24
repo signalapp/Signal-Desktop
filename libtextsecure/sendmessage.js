@@ -185,8 +185,8 @@ Message.prototype = {
 };
 
 function MessageSender() {
+  // Currently only used for getProxiedSize() and makeProxiedRequest(), which are only used for fetching previews
   this.server = WebAPI.connect();
-  this.pendingMessages = {};
 }
 
 MessageSender.prototype = {

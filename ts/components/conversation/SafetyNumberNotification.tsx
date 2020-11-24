@@ -42,6 +42,7 @@ export class SafetyNumberNotification extends React.Component<Props> {
                   profileName={contact.profileName}
                   phoneNumber={contact.phoneNumber}
                   module="module-verification-notification__contact"
+                  shouldShowPubkey={true}
                 />
               </span>,
             ]}

@@ -19,6 +19,7 @@ export interface LokiAppDotNetServerInterface {
   uploadAvatar(data: FormData): Promise<UploadResponse>;
   putAttachment(data: ArrayBuffer): Promise<UploadResponse>;
   putAvatar(data: ArrayBuffer): Promise<UploadResponse>;
+  downloadAttachment(url: String): Promise<ArrayBuffer>;
 }
 
 export interface LokiPublicChannelAPI {

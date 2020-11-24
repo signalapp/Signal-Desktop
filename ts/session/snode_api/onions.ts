@@ -6,6 +6,8 @@ import ByteBuffer from 'bytebuffer';
 import { StringUtils } from '../utils';
 import { OnionAPI } from '../onions';
 
+let onionPayload = 0;
+
 enum RequestError {
   BAD_PATH,
   OTHER,
@@ -33,7 +35,7 @@ async function encryptForRelay(
   destination: any,
   ctx: any
 ) {
-  const { log, dcodeIO, StringView } = window;
+  const { log, StringView } = window;
 
   // ctx contains: ciphertext, symmetricKey, ephemeralKey
   const payload = ctx.ciphertext;
@@ -51,23 +53,80 @@ async function encryptForRelay(
   return encryptForPubKey(relayX25519hex, reqObj);
 }
 
-async function makeGuardPayload(guardCtx: any) {
+// `ctx` holds info used by `node` to relay further
+async function encryptForRelayV2(
+  relayX25519hex: string,
+  destination: any,
+  ctx: any
+) {
+  const { log, StringView } = window;
+
+  if (!destination.host && !destination.destination) {
+    log.warn('loki_rpc::encryptForRelay - no destination', destination);
+  }
+
+  const reqObj = {
+    ...destination,
+    ephemeral_key: StringView.arrayBufferToHex(ctx.ephemeralKey),
+  };
+
+  const plaintext = encodeCiphertextPlusJson(ctx.ciphertext, reqObj);
+
+  return window.libloki.crypto.encryptForPubkey(relayX25519hex, plaintext);
+}
+
+function makeGuardPayload(guardCtx: any): Uint8Array {
   const ciphertextBase64 = StringUtils.decode(guardCtx.ciphertext, 'base64');
 
-  const guardPayloadObj = {
+  const payloadObj = {
     ciphertext: ciphertextBase64,
     ephemeral_key: StringUtils.decode(guardCtx.ephemeralKey, 'hex'),
   };
-  return guardPayloadObj;
+
+  const payloadStr = JSON.stringify(payloadObj);
+
+  const buffer = ByteBuffer.wrap(payloadStr, 'utf8');
+
+  return buffer.buffer;
 }
 
-// we just need the targetNode.pubkey_ed25519 for the encryption
-// targetPubKey is ed25519 if snode is the target
-async function makeOnionRequest(
+/// Encode ciphertext as (len || binary) and append payloadJson as utf8
+function encodeCiphertextPlusJson(
+  ciphertext: any,
+  payloadJson: any
+): Uint8Array {
+  const payloadStr = JSON.stringify(payloadJson);
+
+  const bufferJson = ByteBuffer.wrap(payloadStr, 'utf8');
+
+  const len = ciphertext.length as number;
+  const arrayLen = bufferJson.buffer.length + 4 + len;
+  const littleEndian = true;
+  const buffer = new ByteBuffer(arrayLen, littleEndian);
+
+  buffer.writeInt32(len);
+  buffer.append(ciphertext);
+  buffer.append(bufferJson);
+
+  return new Uint8Array(buffer.buffer);
+}
+
+// New "semi-binary" encoding
+function makeGuardPayloadV2(guardCtx: any): Uint8Array {
+  const guardPayloadObj = {
+    ephemeral_key: StringUtils.decode(guardCtx.ephemeralKey, 'hex'),
+  };
+
+  return encodeCiphertextPlusJson(guardCtx.ciphertext, guardPayloadObj);
+}
+
+async function buildOnionCtxs(
   nodePath: Array<Snode>,
   destCtx: any,
   targetED25519Hex: string,
-  finalRelayOptions?: any,
+  // whether to use the new "semi-binary" protocol
+  useV2: boolean,
+  fileServerOptions?: any,
   id = ''
 ) {
   const { log } = window;
@@ -80,10 +139,17 @@ async function makeOnionRequest(
     let dest;
     const relayingToFinalDestination = i === firstPos; // if last position
 
-    if (relayingToFinalDestination && finalRelayOptions) {
+    if (relayingToFinalDestination && fileServerOptions) {
+      let target = useV2 ? '/loki/v2/lsrpc' : '/loki/v1/lsrpc';
+
+      const isCallToPn = fileServerOptions?.host === 'live.apns.getsession.org';
+      if (!isCallToPn && window.lokiFeatureFlags.useFileOnionRequestsV2) {
+        target = '/loki/v3/lsrpc';
+      }
+
       dest = {
-        host: finalRelayOptions.host,
-        target: '/loki/v1/lsrpc',
+        host: fileServerOptions.host,
+        target,
         method: 'POST',
       };
     } else {
@@ -107,8 +173,9 @@ async function makeOnionRequest(
       };
     }
     try {
+      const encryptFn = useV2 ? encryptForRelayV2 : encryptForRelay;
       // eslint-disable-next-line no-await-in-loop
-      const ctx = await encryptForRelay(
+      const ctx = await encryptFn(
         nodePath[i].pubkey_x25519,
         dest,
         ctxes[ctxes.length - 1]
@@ -123,12 +190,38 @@ async function makeOnionRequest(
       throw e;
     }
   }
+
+  return ctxes;
+}
+
+// we just need the targetNode.pubkey_ed25519 for the encryption
+// targetPubKey is ed25519 if snode is the target
+async function makeOnionRequest(
+  nodePath: Array<Snode>,
+  destCtx: any,
+  targetED25519Hex: string,
+  // whether to use the new (v2) protocol
+  useV2: boolean,
+  finalRelayOptions?: any,
+  id = ''
+) {
+  const ctxes = await buildOnionCtxs(
+    nodePath,
+    destCtx,
+    targetED25519Hex,
+    useV2,
+    finalRelayOptions,
+    id
+  );
+
   const guardCtx = ctxes[ctxes.length - 1]; // last ctx
 
-  const payloadObj = makeGuardPayload(guardCtx);
+  const payload = useV2
+    ? makeGuardPayloadV2(guardCtx)
+    : makeGuardPayload(guardCtx);
 
   // all these requests should use AesGcm
-  return payloadObj;
+  return payload;
 }
 
 // Process a response as it arrives from `fetch`, handling
@@ -276,14 +369,6 @@ const sendOnionRequest = async (
 ) => {
   const { log, StringView } = window;
 
-  // loki-storage may need this to function correctly
-  // but ADN calls will not always have a body
-  /*
-    if (!finalDestOptions.body) {
-      finalDestOptions.body = '';
-    }
-    */
-
   let id = '';
   if (lsrpcIdx !== undefined) {
     id += `${lsrpcIdx}=>`;
@@ -315,9 +400,27 @@ const sendOnionRequest = async (
     options.headers = '';
   }
 
+  const useV2 = window.lokiFeatureFlags.useOnionRequestsV2;
+
+  const isLsrpc = !!finalRelayOptions;
+
   let destCtx;
   try {
-    destCtx = await encryptForPubKey(destX25519hex, options);
+    if (useV2 && !isLsrpc) {
+      const body = options.body || '';
+      delete options.body;
+
+      const textEncoder = new TextEncoder();
+      const bodyEncoded = textEncoder.encode(body);
+
+      const plaintext = encodeCiphertextPlusJson(bodyEncoded, options);
+      destCtx = await window.libloki.crypto.encryptForPubkey(
+        destX25519hex,
+        plaintext
+      );
+    } else {
+      destCtx = await encryptForPubKey(destX25519hex, options);
+    }
   } catch (e) {
     log.error(
       `loki_rpc::sendOnionRequest ${id} - encryptForPubKey failure [`,
@@ -333,22 +436,27 @@ const sendOnionRequest = async (
     throw e;
   }
 
-  const payloadObj = await makeOnionRequest(
+  const payload = await makeOnionRequest(
     nodePath,
     destCtx,
     targetEd25519hex,
+    useV2,
     finalRelayOptions,
     id
   );
+  onionPayload += payload.length;
+  log.debug('Onion payload size: ', payload.length, ' total:', onionPayload);
 
   const guardFetchOptions = {
     method: 'POST',
-    body: JSON.stringify(payloadObj),
+    body: payload,
     // we are talking to a snode...
     agent: snodeHttpsAgent,
   };
 
-  const guardUrl = `https://${nodePath[0].ip}:${nodePath[0].port}/onion_req`;
+  const target = useV2 ? '/onion_req/v2' : '/onion_req';
+
+  const guardUrl = `https://${nodePath[0].ip}:${nodePath[0].port}${target}`;
   const response = await fetch(guardUrl, guardFetchOptions);
 
   return processOnionResponse(

@@ -17,6 +17,7 @@ const validOpenGroupServer = async serverUrl => {
       const result = await window.tokenlessFileServerAdnAPI.serverRequest(
         `loki/v1/getOpenGroupKey/${url.hostname}`
       );
+
       if (result.response.meta.code === 200) {
         // supports it
         const obj = JSON.parse(result.response.data);
@@ -32,7 +33,7 @@ const validOpenGroupServer = async serverUrl => {
           { method: 'GET' },
           { noJson: true }
         );
-        if (res.result.status === 200) {
+        if (res.result && res.result.status === 200) {
           log.info(
             `loki_public_chat::validOpenGroupServer - onion routing enabled on ${url.toString()}`
           );

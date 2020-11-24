@@ -68,6 +68,7 @@ export class MessageSearchResult extends React.PureComponent<Props> {
         profileName={from.profileName}
         i18n={i18n}
         module="module-message-search-result__header__name"
+        shouldShowPubkey={false}
       />
     );
   }
@@ -86,6 +87,7 @@ export class MessageSearchResult extends React.PureComponent<Props> {
               name={to.name}
               profileName={to.profileName}
               i18n={i18n}
+              shouldShowPubkey={false}
             />
           </span>
         </div>

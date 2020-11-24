@@ -987,7 +987,7 @@ ipc.on('draw-attention', () => {
   if (!mainWindow) {
     return;
   }
-  if (process.platform === 'win32' || process.platform === 'linux') {
+  if (process.platform === 'win32') {
     mainWindow.flashFrame(true);
   }
 });

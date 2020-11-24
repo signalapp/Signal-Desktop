@@ -47,8 +47,8 @@ window.getCommitHash = () => config.commitHash;
 window.getNodeVersion = () => config.node_version;
 window.getHostName = () => config.hostname;
 window.getServerTrustRoot = () => config.serverTrustRoot;
-window.isBehindProxy = () => Boolean(config.proxyUrl);
 window.JobQueue = JobQueue;
+window.isBehindProxy = () => Boolean(config.proxyUrl);
 window.getStoragePubKey = key =>
   window.isDev() ? key.substring(0, key.length - 2) : key;
 window.getDefaultFileServer = () => config.defaultFileServer;
@@ -458,9 +458,10 @@ window.pubkeyPattern = /@[a-fA-F0-9]{64,66}\b/g;
 window.lokiFeatureFlags = {
   multiDeviceUnpairing: true,
   privateGroupChats: true,
-  useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
   useOnionRequests: true,
+  useOnionRequestsV2: true,
   useFileOnionRequests: true,
+  useFileOnionRequestsV2: true, // more compact encoding of files in response
   enableSenderKeys: true,
   onionRequestHops: 3,
   debugMessageLogs: process.env.ENABLE_MESSAGE_LOGS,
@@ -496,9 +497,9 @@ if (config.environment.includes('test-integration')) {
   window.lokiFeatureFlags = {
     multiDeviceUnpairing: true,
     privateGroupChats: true,
-    useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
     useOnionRequests: false,
     useFileOnionRequests: false,
+    useOnionRequestsV2: false,
     debugMessageLogs: true,
     enableSenderKeys: true,
     useMultiDevice: false,

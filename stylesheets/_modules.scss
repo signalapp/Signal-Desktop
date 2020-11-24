@@ -76,92 +76,8 @@
   margin-inline-start: 32px;
 }
 
-.module-message__buttons {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-  opacity: 0;
-}
-
-.module-message:hover .module-message__buttons {
+.module-message:hover {
   opacity: 1;
-}
-
-.module-message__buttons--incoming {
-  left: 100%;
-}
-.module-message__buttons--outgoing {
-  right: 100%;
-}
-
-.module-message__buttons__upload {
-  height: 24px;
-  width: 24px;
-  transform: rotate(180deg);
-  display: inline-block;
-  cursor: pointer;
-  @include color-svg('../images/download.svg', $color-light-45);
-  &:hover {
-    @include color-svg('../images/download.svg', $color-gray-90);
-  }
-}
-
-.module-message__buttons__download {
-  min-height: 24px;
-  min-width: 24px;
-  display: inline-block;
-  cursor: pointer;
-  @include color-svg('../images/download.svg', $color-light-45);
-  &:hover {
-    @include color-svg('../images/download.svg', $color-gray-90);
-  }
-}
-
-.module-message__buttons__download--incoming {
-  margin-inline-start: 12px;
-}
-.module-message__buttons__download--outgoing {
-  margin-inline-end: 12px;
-}
-
-.module-message__buttons__reply {
-  min-height: 24px;
-  min-width: 24px;
-  display: inline-block;
-  cursor: pointer;
-  @include color-svg('../images/reply.svg', $color-light-45);
-  &:hover {
-    @include color-svg('../images/reply.svg', $color-gray-90);
-  }
-}
-
-.module-message__buttons__reply--incoming {
-  margin-inline-start: 12px;
-}
-.module-message__buttons__reply--outgoing {
-  margin-inline-end: 12px;
-}
-
-.module-message__buttons__menu {
-  height: 24px;
-  width: 24px;
-  display: inline-block;
-  cursor: pointer;
-  @include color-svg('../images/ellipsis.svg', $color-light-45);
-  &:hover {
-    @include color-svg('../images/ellipsis.svg', $color-gray-90);
-  }
-}
-
-.module-message__buttons__menu--incoming {
-  margin-inline-start: 12px;
-}
-
-.module_message__buttons__menu--outgoing {
-  margin-inline-end: 12px;
 }
 
 .module-message__error-container {
@@ -1112,7 +1028,7 @@
 }
 
 .module-conversation-header__title {
-  margin-inline-start: 6px;
+  margin: 0px 20px;
 
   min-width: 0;
   font-size: 16px;
@@ -1130,6 +1046,12 @@
   align-items: center;
 
   -webkit-user-select: text;
+
+  .module-contact-name__profile-name {
+    width: 100%;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+  }
 }
 
 .module-conversation-header__title__profile-name {
@@ -2822,6 +2744,7 @@
   border: 1px solid $color-dark-05;
   opacity: 0;
   user-select: none;
+  transition: opacity $session-transition-duration;
 }
 
 .react-contextmenu--visible {
@@ -2890,14 +2813,6 @@
 // All media query widths have 300px added to account for the left pane
 // And have been tweaked for smoother transitions
 
-// To hide in small breakpoints
-.module-message__buttons__download {
-  display: none;
-}
-.module-message__buttons__reply {
-  display: none;
-}
-
 // To limit messages with things forcing them wider, like long attachment names
 .module-message__container {
   max-width: 300px;
@@ -2924,14 +2839,6 @@
   .module-message--outgoing {
     margin-inline-end: 0;
     margin-inline-start: auto;
-  }
-
-  // To hide in small breakpoints
-  .module-message__buttons__download {
-    display: inline-block;
-  }
-  .module-message__buttons__reply {
-    display: inline-block;
   }
 
   // To hide in larger breakpoints
@@ -2963,14 +2870,6 @@
   .module-message--outgoing {
     margin-inline-end: 0;
     margin-inline-start: auto;
-  }
-
-  // To hide in small breakpoints
-  .module-message__buttons__download {
-    display: inline-block;
-  }
-  .module-message__buttons__reply {
-    display: inline-block;
   }
 
   // To hide in larger breakpoints
