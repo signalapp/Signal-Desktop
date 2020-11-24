@@ -412,7 +412,6 @@ export class SessionConversation extends React.Component<Props, State> {
     const members = conversation.get('members') || [];
 
     const headerProps = {
-      i18n: window.i18n,
       id: conversation.id,
       name: conversation.getName(),
       phoneNumber: conversation.getNumber(),

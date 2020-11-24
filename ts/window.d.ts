@@ -26,6 +26,7 @@ declare global {
   interface Window {
     CONSTANTS: any;
     ConversationController: ConversationControllerType;
+    SignalProtocolStore: any;
     Events: any;
     Lodash: any;
     LokiAppDotNetServerAPI: any;

@@ -487,8 +487,10 @@ describe('Backup', () => {
 
         console.log('Backup test: Create models, save to db/disk');
         const message = await upgradeMessageSchema(messageWithAttachments);
-        console.log({ message });
-        await message.commit();
+        await window.Signal.Data.saveMessage(message, {
+          Message: Whisper.Message,
+          forceSave: true,
+        });
 
         const conversation = {
           active_at: 1524185933350,

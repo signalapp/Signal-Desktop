@@ -72,8 +72,9 @@ class ActionsPanelPrivate extends React.Component<Props> {
 
     if (type === SectionType.Profile) {
       const ourPrimary = window.storage.get('primaryDevicePubKey');
-      const conversation = window.ConversationController.getOrThrow(ourPrimary);
-      const profile = conversation.getLokiProfile();
+      const conversation = window.ConversationController.get(ourPrimary);
+
+      const profile = conversation?.getLokiProfile();
       const userName = (profile && profile.displayName) || ourPrimary;
       return (
         <Avatar
@@ -136,7 +137,7 @@ class ActionsPanelPrivate extends React.Component<Props> {
       <div className="module-left-pane__sections-container">
         <this.Section
           type={SectionType.Profile}
-          avatarPath={this.props.ourPrimaryConversation.avatarPath}
+          avatarPath={this.props.ourPrimaryConversation?.avatarPath}
           isSelected={isProfilePageSelected}
           onSelect={this.handleSectionSelect}
         />

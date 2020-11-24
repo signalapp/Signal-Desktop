@@ -7,4 +7,5 @@ export type ConversationControllerType = {
   getOrThrow: (id: string) => ConversationModel;
   getOrCreateAndWait: (id: string, type: string) => Promise<ConversationModel>;
   getOrCreate: (id: string, type: string) => Promise<ConversationModel>;
+  dangerouslyCreateAndAdd: (any) => any;
 };

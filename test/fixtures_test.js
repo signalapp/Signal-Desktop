@@ -9,7 +9,7 @@ describe('Fixtures', () => {
 
     await clearDatabase();
     await textsecure.storage.user.setNumberAndDeviceId(
-      '+17015552000',
+      '05123456789abcdef05123456789abcdef05123456789abcdef05123456789abcd',
       2,
       'testDevice'
     );
@@ -27,12 +27,10 @@ describe('Fixtures', () => {
     await ConversationController.load();
 
     let view = new Whisper.InboxView({ window });
-    view.onEmpty();
     view.$el.prependTo($('#render-light-theme'));
 
     view = new Whisper.InboxView({ window });
     view.$el.removeClass('light-theme').addClass('dark-theme');
-    view.onEmpty();
     view.$el.prependTo($('#render-dark-theme'));
   });
 });

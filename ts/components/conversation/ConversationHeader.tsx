@@ -4,7 +4,6 @@ import { Avatar } from '../Avatar';
 import { LocalizerType } from '../../types/Util';
 
 import {
-  SessionIcon,
   SessionIconButton,
   SessionIconSize,
   SessionIconType,
@@ -89,7 +88,6 @@ interface Props {
   onAvatarClick?: (userPubKey: string) => void;
   onUpdateGroupName: () => void;
 
-  i18n: LocalizerType;
   memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
 }
 
@@ -121,7 +119,6 @@ class ConversationHeader extends React.Component<Props> {
   public renderTitle() {
     const {
       phoneNumber,
-      i18n,
       profileName,
       isGroup,
       isPublic,
@@ -132,6 +129,7 @@ class ConversationHeader extends React.Component<Props> {
       isKickedFromGroup,
       name,
     } = this.props;
+    const { i18n } = window;
 
     if (isMe) {
       return (
@@ -232,12 +230,9 @@ class ConversationHeader extends React.Component<Props> {
   }
 
   public renderSelectionOverlay() {
-    const {
-      onDeleteSelectedMessages,
-      onCloseOverlay,
-      isPublic,
-      i18n,
-    } = this.props;
+    const { onDeleteSelectedMessages, onCloseOverlay, isPublic } = this.props;
+    const { i18n } = window;
+
     const isServerDeletable = isPublic;
     const deleteMessageButtonText = i18n(
       isServerDeletable ? 'deleteForEveryone' : 'delete'
@@ -266,7 +261,7 @@ class ConversationHeader extends React.Component<Props> {
   }
 
   public render() {
-    const { id, isKickedFromGroup, selectionMode } = this.props;
+    const { isKickedFromGroup, selectionMode } = this.props;
     const triggerId = 'conversation-header';
 
     return (

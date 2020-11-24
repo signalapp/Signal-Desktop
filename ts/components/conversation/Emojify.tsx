@@ -86,9 +86,9 @@ export class Emojify extends React.Component<Props> {
       const emojiText = match[0] ?? match[1];
 
       results.push(
-        <span style={style}>
+        <span style={style} key={count++}>
           <Twemoji
-            key={count++}
+            key={count}
             text={emojiText}
             options={
               {
