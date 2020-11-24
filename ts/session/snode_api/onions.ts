@@ -142,7 +142,8 @@ async function buildOnionCtxs(
     if (relayingToFinalDestination && fileServerOptions) {
       let target = useV2 ? '/loki/v2/lsrpc' : '/loki/v1/lsrpc';
 
-      if (window.lokiFeatureFlags.useFileOnionRequestsV2) {
+      const isCallToPn = fileServerOptions?.host === 'live.apns.getsession.org';
+      if (!isCallToPn && window.lokiFeatureFlags.useFileOnionRequestsV2) {
         target = '/loki/v3/lsrpc';
       }
 
