@@ -12,7 +12,7 @@ export async function downloadAttachment(attachment: any) {
     serverUrl
   );
 
-  let res: ArrayBuffer | any = null;
+  let res: ArrayBuffer | null = null;
 
   // TODO: we need attachments to remember which API should be used to retrieve them
   if (!defaultFileserver) {
@@ -26,20 +26,29 @@ export async function downloadAttachment(attachment: any) {
   }
 
   // Fallback to using the default fileserver
-  if (defaultFileserver || !res || !res.ok) {
+  if (defaultFileserver || !res || res.byteLength === 0) {
     res = await window.lokiFileServerAPI.downloadAttachment(attachment.url);
   }
 
+  if (res.byteLength === 0) {
+    window.log.error('Failed to download attachment. Length is 0');
+    throw new Error(
+      `Failed to download attachment. Length is 0 for ${attachment.url}`
+    );
+  }
+
   // FIXME "178" test to remove once this is fixed server side.
-  if (!res.response || !res.response.data || res.response.data.length === 178) {
-    if (res?.response?.data?.length === 178) {
+  if (!window.lokiFeatureFlags.useFileOnionRequestsV2) {
+    if (res.byteLength === 178) {
       window.log.error(
         'Data of 178 length corresponds of a 404 returned as 200 by file.getsession.org.'
       );
+      throw new Error(
+        `downloadAttachment: invalid response for ${attachment.url}`
+      );
     }
-    throw new Error(
-      `downloadAttachment: invalid response for ${attachment.url}`
-    );
+  } else {
+    // if useFileOnionRequestsV2 is true, we expect an ArrayBuffer not empty
   }
 
   // The attachment id is actually just the absolute url of the attachment
