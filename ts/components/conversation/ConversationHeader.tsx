@@ -270,12 +270,7 @@ class ConversationHeader extends React.Component<Props> {
           {this.renderBackButton()}
           <div className="module-conversation-header__title-container">
             <div className="module-conversation-header__title-flex">
-              <MenuProvider id={triggerId} event="onClick">
-                <SessionIconButton
-                  iconType={SessionIconType.Ellipses}
-                  iconSize={SessionIconSize.Medium}
-                />
-              </MenuProvider>
+              {this.renderTripleDotsMenu(triggerId)}
               {this.renderTitle()}
             </div>
           </div>
@@ -308,6 +303,21 @@ class ConversationHeader extends React.Component<Props> {
       triggerId,
       ...this.props,
     };
+  }
+
+  private renderTripleDotsMenu(triggerId: string) {
+    const { showBackButton } = this.props;
+    if (showBackButton) {
+      return <></>;
+    }
+    return (
+      <MenuProvider id={triggerId} event="onClick">
+        <SessionIconButton
+          iconType={SessionIconType.Ellipses}
+          iconSize={SessionIconSize.Medium}
+        />
+      </MenuProvider>
+    );
   }
 }
 

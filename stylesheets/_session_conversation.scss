@@ -157,6 +157,9 @@
 
     &.show {
       display: flex;
+      @include themify($themes) {
+        background: themed('inboxBackground');
+      }
     }
   }
 }
