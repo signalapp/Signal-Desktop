@@ -10,6 +10,8 @@ import { action } from '@storybook/addon-actions';
 import {
   CallMode,
   CallState,
+  GroupCallConnectionState,
+  GroupCallJoinState,
   GroupCallRemoteParticipantType,
 } from '../types/Calling';
 import { Colors } from '../types/Colors';
@@ -27,8 +29,8 @@ function getGroupCallState(): GroupCallStateType {
   return {
     callMode: CallMode.Group,
     conversationId: '3051234567',
-    connectionState: 2,
-    joinState: 2,
+    connectionState: GroupCallConnectionState.Connected,
+    joinState: GroupCallJoinState.Joined,
     peekInfo: {
       conversationIds: [],
       maxDevices: 16,
