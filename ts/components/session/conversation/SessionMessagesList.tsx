@@ -304,11 +304,8 @@ export class SessionMessagesList extends React.Component<Props, State> {
     messageProps.onDeleteMessage = this.props.deleteMessage;
     messageProps.onReply = this.props.replyToMessage;
     messageProps.onShowDetail = async () => {
-      void this.props.showMessageDetails(
-        await message.getPropsForMessageDetail(
-          this.onSendAnyway /*, this.props.onShowSafetyNumber*/
-        )
-      );
+      const messageDetailsProps = await message.getPropsForMessageDetail();
+      void this.props.showMessageDetails(messageDetailsProps);
     };
 
     messageProps.onClickAttachment = (attachment: any) => {

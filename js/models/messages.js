@@ -803,7 +803,7 @@
 
       return Boolean(lookup[contactId]);
     },
-    async getPropsForMessageDetail(onSendAnyway, onShowSafetyNumber) {
+    async getPropsForMessageDetail() {
       const newIdentity = i18n('newIdentity');
       const OUTGOING_KEY_ERROR = 'OutgoingIdentityKeyError';
 
@@ -868,15 +868,6 @@
             isUnidentifiedDelivery,
             isPrimaryDevice,
             profileName,
-            onSendAnyway: () => {
-              onSendAnyway({
-                contact: this.findContact(id),
-                message: this,
-              });
-            },
-            onShowSafetyNumber: () => {
-              onShowSafetyNumber(this.findContact(id));
-            },
           };
         })
       );
@@ -1188,7 +1179,7 @@
         sentMessage.encryption === libsession.Types.EncryptionType.MediumGroup;
 
       const isOpenGroupMessage =
-        sentMessage.group &&
+        !!sentMessage.group &&
         sentMessage.group instanceof libsession.Types.OpenGroup;
 
       // We trigger a sync message only when the message is not to one of our devices, AND
@@ -1206,7 +1197,7 @@
 
       const isSessionOrClosedMessage = !isOpenGroupMessage;
 
-      if (!isOpenGroupMessage) {
+      if (isSessionOrClosedMessage) {
         const contentDecoded = textsecure.protobuf.Content.decode(
           sentMessage.plainTextBuffer
         );

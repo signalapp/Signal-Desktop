@@ -602,32 +602,6 @@
       });
     },
 
-    async showMessageDetail(message) {
-      const onClose = () => {
-        this.stopListening(message, 'change', update);
-        this.resetPanel();
-        this.updateHeader();
-      };
-
-      const props = await message.getPropsForMessageDetail();
-      const view = new Whisper.ReactWrapperView({
-        className: 'message-detail-wrapper',
-        Component: Signal.Components.MessageDetail,
-        props,
-        onClose,
-      });
-
-      const update = async () =>
-        view.update(await message.getPropsForMessageDetail());
-      this.listenTo(message, 'change', update);
-      this.listenTo(message, 'expired', onClose);
-      // We could listen to all involved contacts, but we'll call that overkill
-
-      this.listenBack(view);
-      this.updateHeader();
-      view.render();
-    },
-
     showContactDetail({ contact, hasSignalAccount }) {
       const regionCode = storage.get('regionCode');
       const { contactSelector } = Signal.Types.Contact;
