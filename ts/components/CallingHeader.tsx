@@ -11,7 +11,7 @@ export type PropsType = {
   i18n: LocalizerType;
   isGroupCall?: boolean;
   message?: string;
-  remoteParticipants?: number;
+  participantCount: number;
   showParticipantsList: boolean;
   title?: string;
   toggleParticipants?: () => void;
@@ -24,7 +24,7 @@ export const CallingHeader = ({
   i18n,
   isGroupCall = false,
   message,
-  remoteParticipants,
+  participantCount,
   showParticipantsList,
   title,
   toggleParticipants,
@@ -42,14 +42,12 @@ export const CallingHeader = ({
       {isGroupCall ? (
         <div className="module-calling-tools__button">
           <Tooltip
-            content={i18n('calling__participants', [
-              String(remoteParticipants),
-            ])}
+            content={i18n('calling__participants', [String(participantCount)])}
             theme={TooltipTheme.Dark}
           >
             <button
               aria-label={i18n('calling__participants', [
-                String(remoteParticipants),
+                String(participantCount),
               ])}
               className={classNames(
                 'module-calling-button__participants--container',
@@ -62,7 +60,7 @@ export const CallingHeader = ({
             >
               <i className="module-calling-button__participants" />
               <span className="module-calling-button__participants--count">
-                {remoteParticipants}
+                {participantCount}
               </span>
             </button>
           </Tooltip>

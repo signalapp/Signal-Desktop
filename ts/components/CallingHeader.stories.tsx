@@ -17,9 +17,9 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   i18n,
   isGroupCall: boolean('isGroupCall', Boolean(overrideProps.isGroupCall)),
   message: overrideProps.message,
-  remoteParticipants: number(
-    'remoteParticipants',
-    overrideProps.remoteParticipants || 0
+  participantCount: number(
+    'participantCount',
+    overrideProps.participantCount || 0
   ),
   showParticipantsList: boolean(
     'showParticipantsList',
@@ -44,7 +44,7 @@ story.add('With Participants', () => (
     {...createProps({
       canPip: true,
       isGroupCall: true,
-      remoteParticipants: 10,
+      participantCount: 10,
     })}
   />
 ));
@@ -54,7 +54,7 @@ story.add('With Participants (shown)', () => (
     {...createProps({
       canPip: true,
       isGroupCall: true,
-      remoteParticipants: 10,
+      participantCount: 10,
       showParticipantsList: true,
     })}
   />

@@ -232,7 +232,7 @@ export const CallScreen: React.FC<PropsType> = ({
           i18n={i18n}
           isGroupCall={call.callMode === CallMode.Group}
           message={headerMessage}
-          remoteParticipants={participantCount}
+          participantCount={participantCount}
           showParticipantsList={showParticipantsList}
           title={headerTitle}
           toggleParticipants={toggleParticipants}
