@@ -33,7 +33,7 @@ export type MessageType = {
   isSelected?: boolean;
 };
 
-export type MessageTypeInConvo = {
+type MessageTypeInConvo = {
   id: string;
   conversationId: string;
   attributes: any;
@@ -46,6 +46,7 @@ export type MessageTypeInConvo = {
   propsForGroupNotification: Object;
   firstMessageOfSeries: boolean;
   receivedAt: number;
+  getPropsForMessageDetail(): Promise<any>;
 };
 
 export type ConversationType = {
@@ -397,6 +398,15 @@ const toPickFromMessageModel = [
   'propsForVerificationNotification',
   'propsForResetSessionNotification',
   'propsForGroupNotification',
+  // FIXME below are what is needed to fetch on the fly messageDetails. This is not the react way
+  'getPropsForMessageDetail',
+  'get',
+  'getConversation',
+  'isIncoming',
+  'findAndFormatContact',
+  'findContact',
+  'isUnidentifiedDelivery',
+  'getStatus',
 ];
 
 function getEmptyState(): ConversationsStateType {

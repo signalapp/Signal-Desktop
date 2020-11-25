@@ -1203,6 +1203,7 @@
 .module-message-detail__contact__text {
   margin-inline-start: 10px;
   flex-grow: 1;
+  min-width: 0;
 }
 
 .module-message-detail__contact__error {

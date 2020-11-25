@@ -617,7 +617,6 @@
         onCopyPubKey: () => this.copyPubKey(),
         onBanUser: () => this.banUser(),
         onRetrySend: () => this.retrySend(),
-        onShowDetail: () => this.trigger('show-message-detail', this),
         markRead: readAt => this.markRead(readAt),
 
         onShowUserDetails: pubkey =>
@@ -804,7 +803,7 @@
 
       return Boolean(lookup[contactId]);
     },
-    async getPropsForMessageDetail() {
+    async getPropsForMessageDetail(onSendAnyway, onShowSafetyNumber) {
       const newIdentity = i18n('newIdentity');
       const OUTGOING_KEY_ERROR = 'OutgoingIdentityKeyError';
 
@@ -867,13 +866,15 @@
             isUnidentifiedDelivery,
             isPrimaryDevice,
             profileName,
-            onSendAnyway: () =>
-              this.trigger('force-send', {
+            onSendAnyway: () => {
+              onSendAnyway({
                 contact: this.findContact(id),
                 message: this,
-              }),
-            onShowSafetyNumber: () =>
-              this.trigger('show-identity', this.findContact(id)),
+              });
+            },
+            onShowSafetyNumber: () => {
+              onShowSafetyNumber(this.findContact(id));
+            },
           };
         })
       );
@@ -890,7 +891,7 @@
         sentAt: this.get('sent_at'),
         receivedAt: this.get('received_at'),
         message: {
-          ...this.getPropsForMessage({ noClick: true }),
+          ...this.propsForMessage,
           disableMenu: true,
           // To ensure that group avatar doesn't show up
           conversationType: 'direct',

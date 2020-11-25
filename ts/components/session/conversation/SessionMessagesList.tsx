@@ -37,6 +37,7 @@ interface Props {
     count: number;
   }) => void;
   replyToMessage: (messageId: number) => Promise<void>;
+  showMessageDetails: (messageProps: any) => Promise<void>;
   onClickAttachment: (attachment: any, message: any) => void;
   onDownloadAttachment: ({ attachment }: { attachment: any }) => void;
   onDeleteSelectedMessages: () => Promise<void>;
@@ -60,6 +61,8 @@ export class SessionMessagesList extends React.Component<Props, State> {
     this.scrollToQuoteMessage = this.scrollToQuoteMessage.bind(this);
     this.getScrollOffsetBottomPx = this.getScrollOffsetBottomPx.bind(this);
     this.displayUnreadBannerIndex = this.displayUnreadBannerIndex.bind(this);
+
+    this.onSendAnyway = this.onSendAnyway.bind(this);
 
     this.messageContainerRef = this.props.messageContainerRef;
     this.ignoreScrollEvents = true;
@@ -272,7 +275,8 @@ export class SessionMessagesList extends React.Component<Props, State> {
               {this.renderMessage(
                 messageProps,
                 message.firstMessageOfSeries,
-                multiSelectMode
+                multiSelectMode,
+                message
               )}
               {unreadIndicator}
             </>
@@ -285,7 +289,8 @@ export class SessionMessagesList extends React.Component<Props, State> {
   private renderMessage(
     messageProps: any,
     firstMessageOfSeries: boolean,
-    multiSelectMode: boolean
+    multiSelectMode: boolean,
+    message: MessageModel
   ) {
     const selected =
       !!messageProps?.id &&
@@ -298,6 +303,13 @@ export class SessionMessagesList extends React.Component<Props, State> {
     messageProps.onSelectMessage = this.props.selectMessage;
     messageProps.onDeleteMessage = this.props.deleteMessage;
     messageProps.onReply = this.props.replyToMessage;
+    messageProps.onShowDetail = async () => {
+      void this.props.showMessageDetails(
+        await message.getPropsForMessageDetail(
+          this.onSendAnyway /*, this.props.onShowSafetyNumber*/
+        )
+      );
+    };
 
     messageProps.onClickAttachment = (attachment: any) => {
       this.props.onClickAttachment(attachment, messageProps);
@@ -533,5 +545,31 @@ export class SessionMessagesList extends React.Component<Props, State> {
     const scrollHeight = messageContainer.scrollHeight;
     const clientHeight = messageContainer.clientHeight;
     return scrollHeight - scrollTop - clientHeight;
+  }
+
+  private async onSendAnyway({ contact, message }: any) {
+    const { i18n } = window;
+    window.confirmationDialog({
+      message: i18n('identityKeyErrorOnSend', [
+        contact.getTitle(),
+        contact.getTitle(),
+      ]),
+      messageSub: i18n('youMayWishToVerifyContact'),
+      okText: i18n('sendAnyway'),
+      resolve: async () => {
+        await contact.updateVerified();
+
+        if (contact.isUnverified()) {
+          await contact.setVerifiedDefault();
+        }
+
+        const untrusted = await contact.isUntrusted();
+        if (untrusted) {
+          await contact.setApproved();
+        }
+
+        message.resend(contact.id);
+      },
+    });
   }
 }

@@ -55,6 +55,9 @@ export interface MessageModel extends Backbone.Model<MessageAttributes> {
   sendSyncMessageOnly: (message: any) => void;
   isUnread: () => boolean;
   commit: () => Promise<number>;
+  getPropsForMessageDetail: (
+    onSendAnyway: any /*, onShowSafetyNumber: any*/
+  ) => any; // FIXME enable this back. Be sure to handle case where it comes from a medium group
 
   propsForMessage?: any;
   propsForTimerNotification?: any;

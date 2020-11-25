@@ -30,6 +30,7 @@ import { ConversationType } from '../../../state/ducks/conversations';
 import { MessageView } from '../../MainViewController';
 import { getMessageById, removeMessage } from '../../../../js/modules/data';
 import { pushUnblockToSend } from '../../../session/utils/Toast';
+import { MessageDetail } from '../../conversation/MessageDetail';
 
 interface State {
   // Message sending progress
@@ -50,8 +51,11 @@ interface State {
   showRecordingView: boolean;
   showOptionsPane: boolean;
 
-  // For displaying `More Info` on messages, and `Safety Number`, etc.
-  infoViewState?: 'safetyNumber' | 'messageDetails';
+  // For displaying `Safety Number`, etc.
+  infoViewState?: 'safetyNumber';
+
+  // if set, the `More Info` of a message screen is shown on top of the conversation.
+  messageDetailShowProps?: any; // FIXME set the type for this
 
   stagedAttachments: Array<StagedAttachmentType>;
   isDraggingFile: boolean;
@@ -127,6 +131,7 @@ export class SessionConversation extends React.Component<Props, State> {
     this.deleteSelectedMessages = this.deleteSelectedMessages.bind(this);
 
     this.replyToMessage = this.replyToMessage.bind(this);
+    this.showMessageDetails = this.showMessageDetails.bind(this);
     this.deleteMessage = this.deleteMessage.bind(this);
     this.onClickAttachment = this.onClickAttachment.bind(this);
     this.downloadAttachment = this.downloadAttachment.bind(this);
@@ -210,6 +215,7 @@ export class SessionConversation extends React.Component<Props, State> {
         infoViewState: undefined,
         stagedAttachments: [],
         isDraggingFile: false,
+        messageDetailShowProps: undefined,
       });
     }
   }
@@ -239,6 +245,8 @@ export class SessionConversation extends React.Component<Props, State> {
       selectedMessages,
       isDraggingFile,
       stagedAttachments,
+      infoViewState,
+      messageDetailShowProps,
     } = this.state;
     const selectionMode = !!selectedMessages.length;
 
@@ -273,7 +281,7 @@ export class SessionConversation extends React.Component<Props, State> {
       );
       if (this.messageContainerRef.current) {
         // force scrolling to bottom on message sent
-        // this will mark all messages as read
+        // this will mark all messages as read, and reset the conversation unreadCount
         (this.messageContainerRef
           .current as any).scrollTop = this.messageContainerRef.current?.scrollHeight;
       }
@@ -281,8 +289,8 @@ export class SessionConversation extends React.Component<Props, State> {
 
     const shouldRenderRightPanel = !conversationModel.isRss();
 
-    const showSafetyNumber = this.state.infoViewState === 'safetyNumber';
-    const showMessageDetails = this.state.infoViewState === 'messageDetails';
+    const showSafetyNumber = infoViewState === 'safetyNumber';
+    const showMessageDetails = !!messageDetailShowProps;
 
     return (
       <SessionTheme theme={this.props.theme}>
@@ -308,13 +316,15 @@ export class SessionConversation extends React.Component<Props, State> {
           <div
             className={classNames(
               'conversation-info-panel',
-              this.state.infoViewState && 'show'
+              (infoViewState || showMessageDetails) && 'show'
             )}
           >
             {showSafetyNumber && (
               <SessionKeyVerification conversation={conversationModel} />
             )}
-            {showMessageDetails && <>&nbsp</>}
+            {showMessageDetails && (
+              <MessageDetail {...messageDetailShowProps} />
+            )}
           </div>
 
           {lightBoxOptions?.media && this.renderLightBox(lightBoxOptions)}
@@ -400,7 +410,11 @@ export class SessionConversation extends React.Component<Props, State> {
 
   public getHeaderProps() {
     const { conversationKey } = this.props;
-    const { selectedMessages, infoViewState } = this.state;
+    const {
+      selectedMessages,
+      infoViewState,
+      messageDetailShowProps,
+    } = this.state;
     const conversation = window.ConversationController.getOrThrow(
       conversationKey
     );
@@ -433,7 +447,7 @@ export class SessionConversation extends React.Component<Props, State> {
       subscriberCount: conversation.get('subscriberCount'),
       isKickedFromGroup: conversation.get('isKickedFromGroup'),
       expirationSettingName,
-      showBackButton: Boolean(infoViewState),
+      showBackButton: Boolean(infoViewState || messageDetailShowProps),
       timerOptions: window.Whisper.ExpirationTimerOptions.map((item: any) => ({
         name: item.getName(),
         value: item.get('seconds'),
@@ -458,7 +472,10 @@ export class SessionConversation extends React.Component<Props, State> {
       },
 
       onGoBack: () => {
-        this.setState({ infoViewState: undefined });
+        this.setState({
+          infoViewState: undefined,
+          messageDetailShowProps: undefined,
+        });
       },
 
       onUpdateGroupName: () => {
@@ -514,6 +531,7 @@ export class SessionConversation extends React.Component<Props, State> {
       deleteMessage: this.deleteMessage,
       fetchMessagesForConversation: actions.fetchMessagesForConversation,
       replyToMessage: this.replyToMessage,
+      showMessageDetails: this.showMessageDetails,
       onClickAttachment: this.onClickAttachment,
       onDownloadAttachment: this.downloadAttachment,
       messageContainerRef: this.messageContainerRef,
@@ -810,6 +828,13 @@ export class SessionConversation extends React.Component<Props, State> {
         this.compositionBoxRef.current?.focus();
       });
     }
+  }
+
+  private async showMessageDetails(messageProps: any) {
+    messageProps.onDeleteMessage = (id: string) => {
+      this.deleteMessage(id);
+    };
+    this.setState({ messageDetailShowProps: messageProps });
   }
 
   private onClickAttachment(attachment: any, message: any) {
