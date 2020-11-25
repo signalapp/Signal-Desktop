@@ -6468,9 +6468,10 @@ button.module-image__border-overlay:focus {
 
   &__video {
     @include font-body-2;
-    background-color: $color-gray-80;
     border-radius: 8px;
     color: $color-white;
+    display: flex;
+    flex-direction: column;
     flex: 1 1 auto;
     margin-bottom: 24px;
     margin-top: 24px;
@@ -6482,7 +6483,11 @@ button.module-image__border-overlay:focus {
 
   &__video-on {
     &__video {
+      display: block;
+      flex-grow: 1;
       transform: rotateY(180deg);
+      width: 100%;
+      background-color: $color-gray-80;
     }
   }
 
