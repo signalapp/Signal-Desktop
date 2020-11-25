@@ -75,8 +75,10 @@ jobs:
           sudo apt-get install -y hunspell-en-us
           sudo locale-gen en_US.UTF-8
           sudo dpkg-reconfigure locales
+          echo "::stop-commands::`echo -n ${{ github.token }} | sha256sum | head -c 64`"
           echo ::set-env name=DISPLAY:::9.0
           echo ::set-env name=LANG::en_US.UTF-8
+          echo "::`echo -n ${{ github.token }} | sha256sum | head -c 64`::"
 
       - name: Test
         uses: GabrielBB/xvfb-action@v1.0
