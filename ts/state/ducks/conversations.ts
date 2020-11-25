@@ -407,6 +407,9 @@ const toPickFromMessageModel = [
   'findContact',
   'isUnidentifiedDelivery',
   'getStatus',
+  'getMessagePropStatus',
+  'hasErrors',
+  'isOutgoing',
 ];
 
 function getEmptyState(): ConversationsStateType {

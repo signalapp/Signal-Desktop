@@ -860,7 +860,9 @@
             : `${contact.profileName} (Secondary Device)`;
           return {
             ...contact,
-            status: this.getStatus(id),
+            // fallback to the message status if we do not have a status with a user
+            // this is useful for medium groups.
+            status: this.getStatus(id) || this.getMessagePropStatus(),
             errors: errorsForContact,
             isOutgoingKeyError,
             isUnidentifiedDelivery,

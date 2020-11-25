@@ -833,6 +833,7 @@ export class SessionConversation extends React.Component<Props, State> {
   private async showMessageDetails(messageProps: any) {
     messageProps.onDeleteMessage = (id: string) => {
       this.deleteMessage(id);
+      this.setState({ messageDetailShowProps: undefined });
     };
     this.setState({ messageDetailShowProps: messageProps });
   }
