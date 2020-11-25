@@ -65,7 +65,7 @@ export class MessageQueue implements MessageQueueInterface {
         const result = await MessageSender.sendToOpenGroup(message);
         // sendToOpenGroup returns -1 if failed or an id if succeeded
         if (result.serverId < 0) {
-          this.events.emit('fail', message, error);
+          this.events.emit('sendFail', message, error);
         } else {
           const messageEventData = {
             pubKey: message.group.groupId,
@@ -73,7 +73,7 @@ export class MessageQueue implements MessageQueueInterface {
             serverId: result.serverId,
             serverTimestamp: result.serverTimestamp,
           };
-          this.events.emit('success', message);
+          this.events.emit('sendSuccess', message);
 
           window.Whisper.events.trigger('publicMessageSent', messageEventData);
         }
@@ -82,7 +82,7 @@ export class MessageQueue implements MessageQueueInterface {
           `Failed to send message to open group: ${message.group.server}`,
           e
         );
-        this.events.emit('fail', message, error);
+        this.events.emit('sendFail', message, error);
       }
 
       return;
@@ -164,9 +164,9 @@ export class MessageQueue implements MessageQueueInterface {
         const job = async () => {
           try {
             const wrappedEnvelope = await MessageSender.send(message);
-            this.events.emit('success', message, wrappedEnvelope);
+            this.events.emit('sendSuccess', message, wrappedEnvelope);
           } catch (e) {
-            this.events.emit('fail', message, e);
+            this.events.emit('sendFail', message, e);
           } finally {
             // Remove from the cache because retrying is done in the sender
             void this.pendingMessageCache.remove(message);

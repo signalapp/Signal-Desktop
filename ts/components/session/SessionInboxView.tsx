@@ -226,11 +226,14 @@ export class SessionInboxView extends React.Component<Props, State> {
     this.handleMessageSentSuccess = this.handleMessageSentSuccess.bind(this);
 
     getMessageQueue().events.addListener(
-      'success',
+      'sendSuccess',
       this.handleMessageSentSuccess
     );
 
-    getMessageQueue().events.addListener('fail', this.handleMessageSentFailure);
+    getMessageQueue().events.addListener(
+      'sendFail',
+      this.handleMessageSentFailure
+    );
 
     window.Whisper.events.on('messageExpired', messageExpired);
     window.Whisper.events.on('messageChanged', messageChanged);

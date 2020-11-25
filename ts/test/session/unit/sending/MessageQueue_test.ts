@@ -113,7 +113,7 @@ describe('MessageQueue', () => {
         await pendingMessageCache.add(device, TestUtils.generateChatMessage());
 
         const successPromise = PromiseUtils.waitForTask(done => {
-          messageQueueStub.events.once('success', done);
+          messageQueueStub.events.once('sendSuccess', done);
         });
         await messageQueueStub.processPending(device);
         await expect(successPromise).to.be.fulfilled;
@@ -123,9 +123,9 @@ describe('MessageQueue', () => {
     it('should remove message from cache', async () => {
       hasSessionStub.resolves(true);
 
-      const events = ['success', 'fail'];
+      const events = ['sendSuccess', 'sendFail'];
       for (const event of events) {
-        if (event === 'success') {
+        if (event === 'sendSuccess') {
           sendStub.resolves();
         } else {
           sendStub.throws(new Error('fail'));
@@ -157,7 +157,7 @@ describe('MessageQueue', () => {
         const eventPromise = PromiseUtils.waitForTask<
           RawMessage | OpenGroupMessage
         >(complete => {
-          messageQueueStub.events.once('success', complete);
+          messageQueueStub.events.once('sendSuccess', complete);
         });
 
         await messageQueueStub.processPending(device);
@@ -172,7 +172,7 @@ describe('MessageQueue', () => {
         sendStub.throws(new Error('failure'));
 
         const spy = sandbox.spy();
-        messageQueueStub.events.on('fail', spy);
+        messageQueueStub.events.on('sendFail', spy);
 
         const device = TestUtils.generateFakePubKey();
         const message = TestUtils.generateChatMessage();
@@ -181,7 +181,7 @@ describe('MessageQueue', () => {
         const eventPromise = PromiseUtils.waitForTask<
           [RawMessage | OpenGroupMessage, Error]
         >(complete => {
-          messageQueueStub.events.once('fail', (...args) => {
+          messageQueueStub.events.once('sendFail', (...args) => {
             complete(args);
           });
         });
@@ -341,7 +341,7 @@ describe('MessageQueue', () => {
 
         const message = TestUtils.generateOpenGroupMessage();
         const eventPromise = PromiseUtils.waitForTask(complete => {
-          messageQueueStub.events.once('success', complete);
+          messageQueueStub.events.once('sendSuccess', complete);
         }, 2000);
 
         await messageQueueStub.sendToGroup(message);
@@ -352,7 +352,7 @@ describe('MessageQueue', () => {
         sendToOpenGroupStub.resolves({ serverId: -1, serverTimestamp: -1 });
         const message = TestUtils.generateOpenGroupMessage();
         const eventPromise = PromiseUtils.waitForTask(complete => {
-          messageQueueStub.events.once('fail', complete);
+          messageQueueStub.events.once('sendFail', complete);
         }, 2000);
 
         await messageQueueStub.sendToGroup(message);
