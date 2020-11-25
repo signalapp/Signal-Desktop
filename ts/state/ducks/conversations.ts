@@ -118,7 +118,6 @@ async function getMessages(
   // Set first member of series here.
   const messageModels = messageSet.models;
 
-  const messages = [];
   // no need to do that `firstMessageOfSeries` on a private chat
   if (conversation.isPrivate()) {
     return messageModels;
@@ -138,9 +137,9 @@ async function getMessages(
     if (i > 0 && currentSender === nextSender) {
       firstMessageOfSeries = false;
     }
-    messages.push({ ...messageModels[i], firstMessageOfSeries });
+    messageModels[i].firstMessageOfSeries = firstMessageOfSeries;
   }
-  return messages;
+  return messageModels;
 }
 
 const fetchMessagesForConversation = createAsyncThunk(

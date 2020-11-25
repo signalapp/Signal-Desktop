@@ -1,8 +1,7 @@
+// tslint:disable-next-line: no-implicit-dependencies
 import { assert } from 'chai';
 
 const { libsignal, Whisper, ConversationController } = window;
-
-import { mapDispatchToProps } from '../../ts/state/actions.js';
 
 describe('KeyChangeListener', () => {
   const phoneNumberWithKeyChange = '+13016886524'; // nsa
