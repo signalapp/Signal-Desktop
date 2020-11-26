@@ -2158,12 +2158,10 @@
 // Module: Caption Editor
 
 .module-caption-editor {
-  @include themify($themes) {
-    background-color: themed('inboxBackground');
-  }
+  background-color: rgba(0, 0, 0, 0.8);
   z-index: 20;
 
-  position: absolute;
+  position: fixed;
   left: 0;
   right: 0;
   top: 0;
@@ -2172,6 +2170,10 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+
+  .session-button {
+    margin-inline-start: 15px;
+  }
 }
 
 .module-caption-editor__close-button {
@@ -2184,9 +2186,8 @@
   width: 30px;
   height: 30px;
   z-index: 2;
-  @include themify($themes) {
-    @include color-svg('../images/x-16.svg', themed('textColor'));
-  }
+  // the background of the lightbox is dark
+  @include color-svg('../images/x-16.svg', white);
 }
 
 .module-caption-editor__media-container {
@@ -2240,15 +2241,21 @@
 .module-caption-editor__input-container {
   display: flex;
 
+  input::placeholder {
+    color: white;
+  }
+
   .session-input-with-label-container {
-    @include themify($themes) {
-      color: themed('textColor');
-      background-color: themed('inputBackground');
-    }
+    color: black;
+    background-color: $inputBackgroundColor;
+
+    width: 30vw;
+
     border-radius: 100px;
-    @include themify($themes) {
+    #session-input-floating-label {
       padding: $session-margin-sm;
     }
+
     label.session-input-with-label-container.filled {
       visibility: hidden;
     }
@@ -2261,12 +2268,6 @@
   .session-button {
     height: 90%;
     padding: 10px;
-  }
-}
-
-.module-caption-editor {
-  .session-button {
-    margin-inline-start: 15px;
   }
 }
 

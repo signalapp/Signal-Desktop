@@ -53,7 +53,7 @@ export class CaptionEditor extends React.Component<Props, State> {
   }
 
   public renderObject() {
-    const { url, attachment } = this.props;
+    const { url, onClose, attachment } = this.props;
     const { contentType } = attachment || { contentType: null };
 
     const isImageTypeSupported = GoogleChrome.isImageTypeSupported(contentType);
@@ -63,6 +63,7 @@ export class CaptionEditor extends React.Component<Props, State> {
           className="module-caption-editor__image"
           alt={window.i18n('imageAttachmentAlt')}
           src={url}
+          onClick={onClose}
         />
       );
     }
@@ -106,14 +107,13 @@ export class CaptionEditor extends React.Component<Props, State> {
               onEnterPressed={this.onSave}
               value={caption}
             />
-            {caption ? (
-              <SessionButton
-                text={window.i18n('save')}
-                onClick={this.onSave}
-                buttonType={SessionButtonType.Brand}
-                buttonColor={SessionButtonColor.Green}
-              />
-            ) : null}
+            <SessionButton
+              text={window.i18n('save')}
+              onClick={this.onSave}
+              buttonType={SessionButtonType.Brand}
+              buttonColor={SessionButtonColor.Green}
+              disabled={!caption}
+            />
           </div>
         </div>
       </div>

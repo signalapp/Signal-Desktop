@@ -28,10 +28,9 @@ import * as MIME from '../../../types/MIME';
 import { SessionFileDropzone } from './SessionFileDropzone';
 import { ConversationType } from '../../../state/ducks/conversations';
 import { MessageView } from '../../MainViewController';
-import { getMessageById, removeMessage } from '../../../../js/modules/data';
+import { getMessageById } from '../../../../js/modules/data';
 import { pushUnblockToSend } from '../../../session/utils/Toast';
 import { MessageDetail } from '../../conversation/MessageDetail';
-import { Toast } from 'react-toastify/dist/components';
 
 interface State {
   // Message sending progress
@@ -652,7 +651,10 @@ export class SessionConversation extends React.Component<Props, State> {
     this.updateSendingProgress(100, -1);
   }
 
-  public async deleteMessagesById(messageIds: Array<string>, askUserForConfirmation: boolean) {
+  public async deleteMessagesById(
+    messageIds: Array<string>,
+    askUserForConfirmation: boolean
+  ) {
     // Get message objects
     const { conversationKey, messages } = this.props;
 
@@ -660,9 +662,7 @@ export class SessionConversation extends React.Component<Props, State> {
       conversationKey
     );
     const selectedMessages = messages.filter(message =>
-      messageIds.find(
-        selectedMessage => selectedMessage === message.id
-      )
+      messageIds.find(selectedMessage => selectedMessage === message.id)
     );
 
     const multiple = selectedMessages.length > 1;

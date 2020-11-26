@@ -746,22 +746,6 @@
     background-color: $color-gray-05;
   }
 
-  // Module: Caption Editor
-
-  .module-caption-editor {
-    background-color: $color-black;
-  }
-
-  .module-caption-editor__close-button {
-    @include color-svg('../images/x-16.svg', $color-white);
-  }
-
-  .module-caption-editor__media-container {
-    background-color: $color-black;
-  }
-
-  // Module: Search Results
-
   .module-search-results__conversations-header {
     color: $color-gray-05;
   }
