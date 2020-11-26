@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Avatar } from '../Avatar';
-import { LocalizerType } from '../../types/Util';
 
 import {
   SessionIconButton,
@@ -92,12 +91,10 @@ interface Props {
 }
 
 class ConversationHeader extends React.Component<Props> {
-  public onAvatarClickBound: (userPubKey: string) => void;
-
   public constructor(props: Props) {
     super(props);
 
-    this.onAvatarClickBound = this.onAvatarClick.bind(this);
+    this.onAvatarClick = this.onAvatarClick.bind(this);
   }
 
   public renderBackButton() {
@@ -190,7 +187,7 @@ class ConversationHeader extends React.Component<Props> {
           name={userName}
           size={36}
           onAvatarClick={() => {
-            this.onAvatarClickBound(phoneNumber);
+            this.onAvatarClick(phoneNumber);
           }}
           memberAvatars={memberAvatars}
           pubkey={phoneNumber}
@@ -287,7 +284,8 @@ class ConversationHeader extends React.Component<Props> {
   }
 
   public onAvatarClick(userPubKey: string) {
-    if (this.props.onAvatarClick) {
+    // do not allow right panel to appear if another button is shown on the SessionConversation
+    if (this.props.onAvatarClick && !this.props.showBackButton) {
       this.props.onAvatarClick(userPubKey);
     }
   }

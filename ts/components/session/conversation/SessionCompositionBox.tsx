@@ -117,6 +117,7 @@ const getDefaultState = () => {
     showEmojiPanel: false,
     ignoredLink: undefined,
     stagedLinkPreview: undefined,
+    showCaptionEditor: undefined,
   };
 };
 
@@ -595,7 +596,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         });
       })
       .catch(err => {
-        console.warn('fetch link preview: ', err);
+        window.log.warn('fetch link preview: ', err);
         abortController.abort();
         this.setState({
           stagedLinkPreview: {

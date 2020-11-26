@@ -216,6 +216,7 @@ export class SessionConversation extends React.Component<Props, State> {
         stagedAttachments: [],
         isDraggingFile: false,
         messageDetailShowProps: undefined,
+        quotedMessageProps: undefined,
       });
     }
   }
@@ -835,7 +836,11 @@ export class SessionConversation extends React.Component<Props, State> {
       this.deleteMessage(id);
       this.setState({ messageDetailShowProps: undefined });
     };
-    this.setState({ messageDetailShowProps: messageProps });
+
+    this.setState({
+      messageDetailShowProps: messageProps,
+      showOptionsPane: false,
+    });
   }
 
   private onClickAttachment(attachment: any, message: any) {

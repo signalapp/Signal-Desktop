@@ -760,20 +760,6 @@
     background-color: $color-black;
   }
 
-  .module-caption-editor__caption-input {
-    border: 1px solid $color-white;
-    color: $color-white;
-    background-color: $color-black;
-
-    &::placeholder {
-      color: $color-white-07;
-    }
-    &:focus {
-      border: 1px solid $color-loki-green;
-      outline: none;
-    }
-  }
-
   // Module: Search Results
 
   .module-search-results__conversations-header {

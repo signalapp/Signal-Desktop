@@ -2228,7 +2228,6 @@
   flex-shrink: 0;
   height: 52px;
   width: 100%;
-  padding: 8px;
   justify-content: center;
 
   display: inline-flex;
@@ -2240,6 +2239,29 @@
 
 .module-caption-editor__input-container {
   display: flex;
+
+  .session-input-with-label-container {
+    @include themify($themes) {
+      color: themed('textColor');
+      background-color: themed('inputBackground');
+    }
+    border-radius: 100px;
+    @include themify($themes) {
+      padding: $session-margin-sm;
+    }
+    label.session-input-with-label-container.filled {
+      visibility: hidden;
+    }
+
+    hr {
+      visibility: hidden;
+    }
+  }
+
+  .session-button {
+    height: 90%;
+    padding: 10px;
+  }
 }
 
 .module-caption-editor {
@@ -2252,24 +2274,10 @@
   height: 36px;
   font-size: 14px;
 
-  @include themify($themes) {
-    color: themed('textColor');
-    border: 1px solid themed('textColor');
-    background-color: themed('inputBackground');
-  }
   border-radius: 18px;
   padding: 9px;
   padding-inline-start: 12px;
   padding-inline-end: 65px;
-
-  &::placeholder {
-    color: $color-white-07;
-    @include themify($themes) {
-      color: subtle(themed('textColor'));
-      border: 1px solid themed('textColor');
-      background-color: themed('inputBackground');
-    }
-  }
 }
 
 // Module: Staged Placeholder Attachment
