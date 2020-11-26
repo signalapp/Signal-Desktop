@@ -472,10 +472,12 @@ export function reducer(
   if (action.type === 'CONVERSATION_REMOVED') {
     const { payload } = action;
     const { id } = payload;
-    const { conversationLookup } = state;
+    const { conversationLookup, selectedConversation } = state;
     return {
       ...state,
       conversationLookup: omit(conversationLookup, [id]),
+      selectedConversation:
+        selectedConversation === id ? undefined : selectedConversation,
     };
   }
   if (action.type === 'CONVERSATIONS_REMOVE_ALL') {
