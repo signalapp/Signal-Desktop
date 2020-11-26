@@ -852,14 +852,15 @@ export class SessionConversation extends React.Component<Props, State> {
   }
 
   private onClickAttachment(attachment: any, message: any) {
+    const media = (message.attachments || []).map((attachmentForMedia: any) => {
+      return {
+        objectURL: attachmentForMedia.url,
+        contentType: attachmentForMedia.contentType,
+        attachment: attachmentForMedia,
+      };
+    });
     const lightBoxOptions = {
-      media: [
-        {
-          objectURL: attachment.url,
-          contentType: attachment.contentType,
-          attachment,
-        },
-      ],
+      media,
       attachment,
     };
     this.setState({ lightBoxOptions });
