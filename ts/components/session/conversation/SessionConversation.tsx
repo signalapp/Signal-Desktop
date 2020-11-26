@@ -31,6 +31,7 @@ import { MessageView } from '../../MainViewController';
 import { getMessageById, removeMessage } from '../../../../js/modules/data';
 import { pushUnblockToSend } from '../../../session/utils/Toast';
 import { MessageDetail } from '../../conversation/MessageDetail';
+import { Toast } from 'react-toastify/dist/components';
 
 interface State {
   // Message sending progress
@@ -651,7 +652,7 @@ export class SessionConversation extends React.Component<Props, State> {
     this.updateSendingProgress(100, -1);
   }
 
-  public async deleteSelectedMessages() {
+  public async deleteMessagesById(messageIds: Array<string>, askUserForConfirmation: boolean) {
     // Get message objects
     const { conversationKey, messages } = this.props;
 
@@ -659,7 +660,7 @@ export class SessionConversation extends React.Component<Props, State> {
       conversationKey
     );
     const selectedMessages = messages.filter(message =>
-      this.state.selectedMessages.find(
+      messageIds.find(
         selectedMessage => selectedMessage === message.id
       )
     );
@@ -687,7 +688,7 @@ export class SessionConversation extends React.Component<Props, State> {
     const doDelete = async () => {
       let toDeleteLocally;
 
-      // VINCE TOOD: MARK TO-DELETE MESSAGES AS READ
+      // VINCE TODO: MARK TO-DELETE MESSAGES AS READ
 
       if (isPublic) {
         // Get our Moderator status
@@ -731,7 +732,7 @@ export class SessionConversation extends React.Component<Props, State> {
       );
 
       // Update view and trigger update
-      this.setState({ selectedMessages: [] });
+      this.setState({ selectedMessages: [] }, ToastUtils.pushDeleted);
     };
 
     // If removable from server, we "Unsend" - otherwise "Delete"
@@ -745,14 +746,21 @@ export class SessionConversation extends React.Component<Props, State> {
     const okText = window.i18n(
       isServerDeletable ? 'deleteForEveryone' : 'delete'
     );
+    if (askUserForConfirmation) {
+      window.confirmationDialog({
+        title,
+        message: warningMessage,
+        okText,
+        okTheme: 'danger',
+        resolve: doDelete,
+      });
+    } else {
+      void doDelete();
+    }
+  }
 
-    window.confirmationDialog({
-      title,
-      message: warningMessage,
-      okText,
-      okTheme: 'danger',
-      resolve: doDelete,
-    });
+  public async deleteSelectedMessages() {
+    await this.deleteMessagesById(this.state.selectedMessages, true);
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -832,8 +840,8 @@ export class SessionConversation extends React.Component<Props, State> {
   }
 
   private async showMessageDetails(messageProps: any) {
-    messageProps.onDeleteMessage = (id: string) => {
-      this.deleteMessage(id);
+    messageProps.onDeleteMessage = async (id: string) => {
+      await this.deleteMessagesById([id], false);
       this.setState({ messageDetailShowProps: undefined });
     };
 

@@ -242,3 +242,7 @@ export function pushClockOutOfSync() {
 export function pushYouLeftTheGroup() {
   pushToastError('youLeftTheGroup', window.i18n('youLeftTheGroup'));
 }
+
+export function pushDeleted() {
+  pushToastSuccess('deleted', window.i18n('deleted'), undefined, SessionIconType.Check);
+}

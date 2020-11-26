@@ -931,6 +931,10 @@
     "androidKey": "conversation_context__menu_delete_message",
     "description": "action visible in MessageDetail screen"
   },
+  "deleted": {
+    "message": "Deleted",
+    "description": "Toast validation when a single or several messages were deleted"
+  },
   "from": {
     "message": "From:",
     "description": "Label for the sender of a message",
