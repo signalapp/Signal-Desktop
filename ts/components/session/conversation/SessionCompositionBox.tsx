@@ -127,7 +127,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   private emojiPanel: any;
   private linkPreviewAbortController?: AbortController;
   private container: any;
-  private readonly mentionsRegex = /@\(05[0-9a-f]{64}\)/g;
+  private readonly mentionsRegex = /@\u{FFD2}05[0-9a-f]{64}:[^\u{FFD2}]+\u{FFD2}/gu;
 
   constructor(props: any) {
     super(props);
@@ -368,13 +368,15 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         rows={1}
         style={sendMessageStyle}
         suggestionsPortalHost={this.container}
-        allowSuggestionsAboveCursor={true} // if only one suggestion, it might be rendered below
+        forceSuggestionsAboveCursor={true} // force mentions to be rendered on top of the cursor, this is working with a fork of react-mentions for now
       >
         <Mention
           appendSpaceOnAdd={true}
-          markup="@(__id__)" // @__id__ does not work, see cleanMentions()
+          // this will be cleaned on cleanMentions()
+          markup="@ￒ__id__:__display__ￒ" // ￒ = \uFFD2 is one of the forbidden char for a display name (check displayNameRegex)
           trigger="@"
-          displayTransform={id => `@(${id})`}
+          // this is only for the composition box visible content. The real stuff on the backend box is the @markup
+          displayTransform={(_id, display) => `@${display}`}
           data={this.fetchUsersForGroup}
           renderSuggestion={(
             suggestion,
@@ -408,23 +410,21 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   private fetchUsersForGroup(query: any, callback: any) {
+    let overridenQuery = query;
     if (!query) {
-      return;
+      overridenQuery = '';
     }
     if (this.props.isPublic) {
-      this.fetchUsersForOpenGroup(query, callback);
+      this.fetchUsersForOpenGroup(overridenQuery, callback);
       return;
     }
     if (!this.props.isPrivate) {
-      this.fetchUsersForClosedGroup(query, callback);
+      this.fetchUsersForClosedGroup(overridenQuery, callback);
       return;
     }
   }
 
   private fetchUsersForOpenGroup(query: any, callback: any) {
-    if (!query) {
-      return;
-    }
     void window.lokiPublicChatAPI
       .getListOfMembers()
       .then(members =>
@@ -447,9 +447,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   private fetchUsersForClosedGroup(query: any, callback: any) {
-    if (!query) {
-      return;
-    }
     const conversationModel = window.ConversationController.get(
       this.props.conversationKey
     );
@@ -470,16 +467,18 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         authorProfileName: profileName,
       };
     });
+    // keep anonymous members so we can still quote them with their id
     const members = allMembers
       .filter(d => !!d)
-      .filter(d => d.authorProfileName !== 'Anonymous')
-      .filter(d =>
-        d.authorProfileName?.toLowerCase()?.includes(query.toLowerCase())
+      .filter(
+        d =>
+          d.authorProfileName?.toLowerCase()?.includes(query.toLowerCase()) ||
+          !d.authorProfileName
       );
 
     // Transform the users to what react-mentions expects
     const mentionsData = members.map(user => ({
-      display: user.authorProfileName,
+      display: user.authorProfileName || window.i18n('anonymous'),
       id: user.authorPhoneNumber,
     }));
     callback(mentionsData);
@@ -738,12 +737,29 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
   // tslint:disable-next-line: cyclomatic-complexity
   private async onSendMessage() {
+    const toUnicode = (str: string) => {
+      return str
+        .split('')
+        .map(value => {
+          const temp = value
+            .charCodeAt(0)
+            .toString(16)
+            .toUpperCase();
+          if (temp.length > 2) {
+            return `\\u${temp}`;
+          }
+          return value;
+        })
+        .join('');
+    };
+
     // this is dirty but we have to replace all @(xxx) by @xxx manually here
     const cleanMentions = (text: string): string => {
+      const textUnicode = toUnicode(text);
       const matches = text.match(this.mentionsRegex);
       let replacedMentions = text;
       (matches || []).forEach(match => {
-        const replacedMention = match.substring(2, match.length - 1);
+        const replacedMention = match.substring(2, match.indexOf(':'));
         replacedMentions = replacedMentions.replace(
           match,
           `@${replacedMention}`

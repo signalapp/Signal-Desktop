@@ -104,4 +104,5 @@ export interface ConversationModel
   queueJob: any;
   sendGroupInfo: any;
   onUpdateGroupName: any;
+  getContactProfileNameOrShortenedPubKey: () => string;
 }

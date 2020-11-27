@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { MultiDeviceProtocol } from '../../session/protocols';
 import { FindMember } from '../../util';
 import { useInterval } from '../../hooks/useInterval';
+import { ConversationModel } from '../../../js/models/conversations';
 
 interface MentionProps {
   key: string;
@@ -13,7 +14,7 @@ interface MentionProps {
 }
 
 const Mention = (props: MentionProps) => {
-  const [found, setFound] = React.useState<any>(undefined);
+  const [found, setFound] = React.useState<ConversationModel | null>(null);
   const [us, setUs] = React.useState(false);
 
   const tryRenameMention = async () => {
@@ -22,10 +23,9 @@ const Mention = (props: MentionProps) => {
         props.text.slice(1),
         props.convoId
       );
+
       if (foundMember) {
-        const itsUs = await MultiDeviceProtocol.isOurDevice(
-          foundMember.authorPhoneNumber
-        );
+        const itsUs = await MultiDeviceProtocol.isOurDevice(foundMember.id);
         setUs(itsUs);
         setFound(foundMember);
         // FIXME stop this interval once we found it.
@@ -42,9 +42,7 @@ const Mention = (props: MentionProps) => {
       us && 'mention-profile-name-us'
     );
 
-    const profileName = found.authorProfileName;
-    const displayedName =
-      profileName && profileName.length > 0 ? profileName : 'Anonymous';
+    const displayedName = found.getContactProfileNameOrShortenedPubKey();
     return <span className={className}>{displayedName}</span>;
   } else {
     return (
@@ -95,7 +93,6 @@ export class AddMentions extends React.Component<Props> {
       const pubkey = text.slice(match.index, FIND_MENTIONS.lastIndex);
       results.push(<Mention text={pubkey} key={`${key}`} convoId={convoId} />);
 
-      // @ts-ignore
       last = FIND_MENTIONS.lastIndex;
       match = FIND_MENTIONS.exec(text);
     }

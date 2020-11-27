@@ -2304,9 +2304,9 @@
         const profileName = this.getProfileName();
         const number = this.getNumber();
         let name;
-        if (window.shortenPubKey) {
+        if (window.shortenPubkey) {
           name = profileName
-            ? `${profileName} (${window.shortenPubKey(number)})`
+            ? `${profileName} (${window.shortenPubkey(number)})`
             : number;
         } else {
           name = profileName ? `${profileName} (${number})` : number;
@@ -2333,7 +2333,7 @@
       if (pubkey === textsecure.storage.user.getNumber()) {
         return i18n('you');
       }
-      return profileName || window.shortenPubKey(pubkey);
+      return profileName || window.shortenPubkey(pubkey);
     },
 
     /**
