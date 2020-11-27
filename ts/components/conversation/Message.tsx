@@ -99,6 +99,7 @@ export interface Props {
   multiSelectMode: boolean;
   firstMessageOfSeries: boolean;
   isUnread: boolean;
+  isQuotedMessageToAnimate?: boolean;
 
   onClickAttachment?: (attachment: AttachmentType) => void;
   onClickLinkPreview?: (url: string) => void;
@@ -1033,6 +1034,10 @@ export class Message extends React.PureComponent<Props, State> {
 
     if (conversationType === 'group') {
       divClasses.push('public-chat-message-wrapper');
+    }
+
+    if (this.props.isQuotedMessageToAnimate) {
+      divClasses.push('flash-green-once');
     }
 
     const onVisible = (inView: boolean) => {

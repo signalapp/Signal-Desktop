@@ -19,6 +19,7 @@ import { ToastUtils } from '../../../session/utils';
 
 interface State {
   showScrollButton: boolean;
+  animateQuotedMessageId?: string;
 }
 
 interface Props {
@@ -315,6 +316,9 @@ export class SessionMessagesList extends React.Component<Props, State> {
       this.props.onDownloadAttachment({ attachment });
     };
 
+    messageProps.isQuotedMessageToAnimate =
+      messageProps.id === this.state.animateQuotedMessageId;
+
     if (messageProps.quote) {
       messageProps.quote.onClick = (options: {
         quoteAuthor: string;
@@ -324,6 +328,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
         void this.scrollToQuoteMessage(options);
       };
     }
+
     return <Message {...messageProps} key={messageProps.id} />;
   }
 
@@ -448,6 +453,11 @@ export class SessionMessagesList extends React.Component<Props, State> {
       behavior: smooth ? 'smooth' : 'auto',
       block: 'center',
     });
+
+    // we consider that a `smooth` set to true, means it's a quoted message, so highlight this message on the UI
+    if (smooth) {
+      this.setState({ animateQuotedMessageId: messageId });
+    }
 
     const messageContainer = this.messageContainerRef.current;
     if (!messageContainer) {

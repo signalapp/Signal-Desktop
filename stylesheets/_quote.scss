@@ -364,3 +364,20 @@
     }
   }
 }
+
+// animate when user is scrolling to a quoted message
+@keyframes blinker {
+  0% {
+    background-color: subtle($session-color-green);
+  }
+  50% {
+    background-color: subtle($session-color-green);
+  }
+  100% {
+    background-color: none;
+  }
+}
+
+.flash-green-once {
+  animation: blinker 2s 1 normal forwards;
+}
