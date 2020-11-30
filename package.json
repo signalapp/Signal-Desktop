@@ -109,7 +109,7 @@
     "protobufjs": "^6.9.0",
     "rc-slider": "^8.7.1",
     "react": "^16.13.1",
-    "react-contexify": "^4.1.1",
+    "react-contexify": "5.0.0",
     "react-dom": "16.8.3",
     "react-emoji": "^0.5.0",
     "react-emoji-render": "^1.2.4",

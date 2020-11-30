@@ -291,15 +291,15 @@ export class Message extends React.PureComponent<Props, State> {
             {window.i18n('sendFailed')}
           </span>
         ) : (
-          <Timestamp
-            i18n={window.i18n}
-            timestamp={serverTimestamp || timestamp}
-            extended={true}
-            direction={direction}
-            withImageNoCaption={withImageNoCaption}
-            module="module-message__metadata__date"
-          />
-        )}
+            <Timestamp
+              i18n={window.i18n}
+              timestamp={serverTimestamp || timestamp}
+              extended={true}
+              direction={direction}
+              withImageNoCaption={withImageNoCaption}
+              module="module-message__metadata__date"
+            />
+          )}
         {this.renderMetadataBadges()}
         {expirationLength && expirationTimestamp ? (
           <ExpireTimer
@@ -473,30 +473,30 @@ export class Message extends React.PureComponent<Props, State> {
               <Spinner size="small" direction={direction} />
             </div>
           ) : (
-            <div className="module-message__generic-attachment__icon-container">
-              <div
-                role="button"
-                className="module-message__generic-attachment__icon"
-                onClick={(e: any) => {
-                  if (this.props?.onDownload) {
-                    e.stopPropagation();
-                    this.props.onDownload(firstAttachment);
-                  }
-                }}
-              >
-                {extension ? (
-                  <div className="module-message__generic-attachment__icon__extension">
-                    {extension}
+              <div className="module-message__generic-attachment__icon-container">
+                <div
+                  role="button"
+                  className="module-message__generic-attachment__icon"
+                  onClick={(e: any) => {
+                    if (this.props?.onDownload) {
+                      e.stopPropagation();
+                      this.props.onDownload(firstAttachment);
+                    }
+                  }}
+                >
+                  {extension ? (
+                    <div className="module-message__generic-attachment__icon__extension">
+                      {extension}
+                    </div>
+                  ) : null}
+                </div>
+                {isDangerous ? (
+                  <div className="module-message__generic-attachment__icon-dangerous-container">
+                    <div className="module-message__generic-attachment__icon-dangerous" />
                   </div>
                 ) : null}
               </div>
-              {isDangerous ? (
-                <div className="module-message__generic-attachment__icon-dangerous-container">
-                  <div className="module-message__generic-attachment__icon-dangerous" />
-                </div>
-              ) : null}
-            </div>
-          )}
+            )}
           <div className="module-message__generic-attachment__text">
             <div
               className={classNames(
@@ -840,19 +840,7 @@ export class Message extends React.PureComponent<Props, State> {
     } = this.props;
 
     const showRetry = status === 'error' && direction === 'outgoing';
-    const fileName =
-      attachments && attachments[0] ? attachments[0].fileName : null;
-    const isDangerous = isFileDangerous(fileName || '');
     const multipleAttachments = attachments && attachments.length > 1;
-
-    // Wraps a function to prevent event propagation, thus preventing
-    // message selection whenever any of the menu buttons are pressed.
-    const wrap = (f: any, ...args: Array<any>) => (e: any) => {
-      e.event.stopPropagation();
-      if (f) {
-        f(...args);
-      }
-    };
 
     const onContextMenuShown = () => {
       window.contextMenuShown = true;
@@ -880,7 +868,6 @@ export class Message extends React.PureComponent<Props, State> {
         {!multipleAttachments && attachments && attachments[0] ? (
           <Item
             onClick={(e: any) => {
-              e.event.stopPropagation();
               if (onDownload) {
                 onDownload(attachments[0]);
               }
@@ -890,15 +877,13 @@ export class Message extends React.PureComponent<Props, State> {
           </Item>
         ) : null}
 
-        <Item onClick={wrap(onCopyText)}>{window.i18n('copyMessage')}</Item>
+        <Item onClick={onCopyText}>{window.i18n('copyMessage')}</Item>
         <Item onClick={this.onReplyPrivate}>
           {window.i18n('replyToMessage')}
         </Item>
-        <Item onClick={wrap(onShowDetail)}>
-          {window.i18n('moreInformation')}
-        </Item>
+        <Item onClick={onShowDetail}>{window.i18n('moreInformation')}</Item>
         {showRetry ? (
-          <Item onClick={wrap(onRetrySend)}>{window.i18n('resend')}</Item>
+          <Item onClick={onRetrySend}>{window.i18n('resend')}</Item>
         ) : null}
         {isDeletable ? (
           <>
@@ -919,7 +904,7 @@ export class Message extends React.PureComponent<Props, State> {
           </>
         ) : null}
         {isModerator && isPublic ? (
-          <Item onClick={wrap(onBanUser)}>{window.i18n('banUser')}</Item>
+          <Item onClick={onBanUser}>{window.i18n('banUser')}</Item>
         ) : null}
       </Menu>
     );
@@ -1189,8 +1174,6 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   private onReplyPrivate(e: any) {
-    e.event.stopPropagation();
-    e.event.preventDefault();
     if (this.props && this.props.onReply) {
       this.props.onReply(this.props.timestamp);
     }

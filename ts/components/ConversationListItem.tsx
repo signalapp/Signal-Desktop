@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash';
-import { MenuProvider } from 'react-contexify';
+import { contextMenu } from 'react-contexify';
 
 import { Avatar } from './Avatar';
 import { MessageBody } from './conversation/MessageBody';
@@ -19,6 +19,7 @@ import {
   ConversationListItemContextMenu,
   PropsContextConversationItem,
 } from './session/menu/ConversationListItemContextMenu';
+import { createPortal } from 'react-dom';
 
 export type PropsData = {
   id: string;
@@ -70,6 +71,10 @@ type PropsHousekeeping = {
 
 type Props = PropsData & PropsHousekeeping;
 
+const Portal = ({ children }: { children: any }) => {
+  return createPortal(children, document.querySelector('.inbox.index') as Element);
+}
+
 class ConversationListItem extends React.PureComponent<Props> {
   public constructor(props: Props) {
     super(props);
@@ -103,7 +108,6 @@ class ConversationListItem extends React.PureComponent<Props> {
 
   public renderHeader() {
     const { unreadCount, mentionedUs, i18n, isMe, lastUpdated } = this.props;
-    const {} = this.props;
 
     let atSymbol = null;
     let unreadCountDiv = null;
@@ -184,14 +188,14 @@ class ConversationListItem extends React.PureComponent<Props> {
           {isTyping ? (
             <TypingAnimation i18n={i18n} />
           ) : (
-            <MessageBody
-              isGroup={true}
-              text={text}
-              disableJumbomoji={true}
-              disableLinks={true}
-              i18n={i18n}
-            />
-          )}
+              <MessageBody
+                isGroup={true}
+                text={text}
+                disableJumbomoji={true}
+                disableLinks={true}
+                i18n={i18n}
+              />
+            )}
         </div>
         {lastMessage && lastMessage.status ? (
           <div
@@ -221,35 +225,41 @@ class ConversationListItem extends React.PureComponent<Props> {
 
     return (
       <div key={key}>
-        <MenuProvider id={triggerId}>
-          <div
-            role="button"
-            onClick={() => {
-              if (onClick) {
-                onClick(id);
-              }
-            }}
-            style={style}
-            className={classNames(
-              'module-conversation-list-item',
-              unreadCount > 0
-                ? 'module-conversation-list-item--has-unread'
-                : null,
-              unreadCount > 0 && mentionedUs
-                ? 'module-conversation-list-item--mentioned-us'
-                : null,
-              isSelected ? 'module-conversation-list-item--is-selected' : null,
-              isBlocked ? 'module-conversation-list-item--is-blocked' : null
-            )}
-          >
-            {this.renderAvatar()}
-            <div className="module-conversation-list-item__content">
-              {this.renderHeader()}
-              {this.renderMessage()}
-            </div>
+        <div
+          role="button"
+          onClick={() => {
+            if (onClick) {
+              onClick(id);
+            }
+          }}
+          onContextMenu={(e: any) => {
+            contextMenu.show({
+              id: triggerId,
+              event: e,
+            });
+          }}
+          style={style}
+          className={classNames(
+            'module-conversation-list-item',
+            unreadCount > 0
+              ? 'module-conversation-list-item--has-unread'
+              : null,
+            unreadCount > 0 && mentionedUs
+              ? 'module-conversation-list-item--mentioned-us'
+              : null,
+            isSelected ? 'module-conversation-list-item--is-selected' : null,
+            isBlocked ? 'module-conversation-list-item--is-blocked' : null
+          )}
+        >
+          {this.renderAvatar()}
+          <div className="module-conversation-list-item__content">
+            {this.renderHeader()}
+            {this.renderMessage()}
           </div>
-        </MenuProvider>
-        <ConversationListItemContextMenu {...this.getMenuProps(triggerId)} />
+        </div>
+        <Portal>
+          <ConversationListItemContextMenu {...this.getMenuProps(triggerId)} />
+        </Portal>
       </div>
     );
   }

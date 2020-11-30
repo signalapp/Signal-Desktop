@@ -1,5 +1,5 @@
 import React from 'react';
-import { animation, Item, Menu, MenuProvider } from 'react-contexify';
+import { animation, contextMenu, Item, Menu } from 'react-contexify';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 
 interface Props {
@@ -21,20 +21,26 @@ export class SessionSearchInput extends React.Component<Props> {
 
     return (
       <>
-        <MenuProvider id={triggerId}>
-          <div className="session-search-input">
-            <SessionIconButton
-              iconSize={SessionIconSize.Medium}
-              iconType={SessionIconType.Search}
-            />
-            <input
-              value={searchString}
-              onChange={e => this.props.onChange(e.target.value)}
-              onKeyDown={this.handleKeyDown}
-              placeholder={this.props.placeholder}
-            />
-          </div>
-        </MenuProvider>
+        <div
+          className="session-search-input"
+          onContextMenu={(e: any) => {
+            contextMenu.show({
+              id: triggerId,
+              event: e,
+            });
+          }}
+        >
+          <SessionIconButton
+            iconSize={SessionIconSize.Medium}
+            iconType={SessionIconType.Search}
+          />
+          <input
+            value={searchString}
+            onChange={e => this.props.onChange(e.target.value)}
+            onKeyDown={this.handleKeyDown}
+            placeholder={this.props.placeholder}
+          />
+        </div>
         <Menu id={triggerId} animation={animation.fade}>
           <Item onClick={() => document.execCommand('undo')}>
             {window.i18n('editMenuUndo')}

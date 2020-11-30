@@ -17,11 +17,11 @@ import {
   ConversationAvatar,
   usingClosedConversationDetails,
 } from '../session/usingClosedConversationDetails';
-import { MenuProvider } from 'react-contexify';
 import {
   ConversationHeaderMenu,
   PropsConversationHeaderMenu,
 } from '../session/menu/ConversationHeaderMenu';
+import { contextMenu } from 'react-contexify';
 
 export interface TimerOption {
   name: string;
@@ -309,12 +309,20 @@ class ConversationHeader extends React.Component<Props> {
       return <></>;
     }
     return (
-      <MenuProvider id={triggerId} event="onClick">
+      <div
+        role="button"
+        onClick={(e: any) => {
+          contextMenu.show({
+            id: triggerId,
+            event: e,
+          });
+        }}
+      >
         <SessionIconButton
           iconType={SessionIconType.Ellipses}
           iconSize={SessionIconSize.Medium}
         />
-      </MenuProvider>
+      </div>
     );
   }
 }
