@@ -16,8 +16,6 @@ try {
   const { app } = remote;
   const { nativeTheme } = remote.require('electron');
 
-  window.GROUP_CALLING = true;
-
   window.PROTO_ROOT = 'protos';
   const config = require('url').parse(window.location.toString(), true).query;
 
@@ -429,6 +427,7 @@ try {
   const Signal = require('./js/modules/signal');
   const i18n = require('./js/modules/i18n');
   const Attachments = require('./app/attachments');
+  const { isBeta } = require('./app/version');
 
   const { locale } = config;
   window.i18n = i18n.setup(locale, localeMessages);
@@ -584,6 +583,8 @@ try {
     };
     /* eslint-enable global-require, import/no-extraneous-dependencies */
   }
+
+  window.GROUP_CALLING = isBeta(config.version);
 } catch (error) {
   /* eslint-disable no-console */
   if (console._log) {
