@@ -1723,122 +1723,126 @@ class LokiPublicChannelAPI {
         }
 
         const pubKey = adnMessage.user.username;
+        try {
+          const messengerData = await this.getMessengerData(adnMessage);
+          if (messengerData === false) {
+            return false;
+          }
+          // eslint-disable-next-line no-param-reassign
+          adnMessage.timestamp = messengerData.timestamp;
+          // eslint-disable-next-line no-param-reassign
+          adnMessage.body = messengerData.text;
+          const {
+            timestamp,
+            serverTimestamp,
+            quote,
+            attachments,
+            preview,
+            avatar,
+            profileKey,
+          } = messengerData;
+          if (!timestamp) {
+            return false; // Invalid message
+          }
 
-        const messengerData = await this.getMessengerData(adnMessage);
-        if (messengerData === false) {
+          // Duplicate check
+          const isDuplicate = (message, testedMessage) =>
+            dataMessage.isDuplicate(
+              message,
+              testedMessage,
+              testedMessage.user.username
+            );
+
+          // Filter out any messages that we got previously
+          if (this.lastMessagesCache.some(m => isDuplicate(m, adnMessage))) {
+            return false; // Duplicate message
+          }
+
+          // FIXME: maybe move after the de-multidev-decode
+          // Add the message to the lastMessage cache and keep the last 5 recent messages
+          this.lastMessagesCache = [
+            ...this.lastMessagesCache,
+            {
+              attributes: {
+                source: pubKey,
+                body: adnMessage.text,
+                sent_at: timestamp,
+              },
+            },
+          ].splice(-5);
+
+          const from = adnMessage.user.name || 'Anonymous'; // profileName
+
+          // if us
+          if (pubKey === ourNumberProfile || pubKey === ourNumberDevice) {
+            // update the last name we saw from ourself
+            lastProfileName = from;
+          }
+
+          // track sources for multidevice support
+          // sort it by home server
+          let homeServer = window.getDefaultFileServer();
+          if (adnMessage.user && adnMessage.user.annotations.length) {
+            const homeNotes = adnMessage.user.annotations.filter(
+              note => note.type === HOMESERVER_USER_ANNOTATION_TYPE
+            );
+            // FIXME: this annotation should probably be signed and verified...
+            homeServer = homeNotes.reduce(
+              (curVal, note) => (note.value ? note.value : curVal),
+              homeServer
+            );
+          }
+          if (homeServerPubKeys[homeServer] === undefined) {
+            homeServerPubKeys[homeServer] = [];
+          }
+          if (homeServerPubKeys[homeServer].indexOf(`@${pubKey}`) === -1) {
+            homeServerPubKeys[homeServer].push(`@${pubKey}`);
+          }
+
+          // generate signal message object
+          const messageData = {
+            serverId: adnMessage.id,
+            clientVerified: true,
+            isSessionRequest: false,
+            source: pubKey,
+            sourceDevice: 1,
+            timestamp, // sender timestamp
+
+            serverTimestamp, // server created_at, used to order messages
+            receivedAt,
+            isPublic: true,
+            message: {
+              body:
+                adnMessage.text === timestamp.toString() ? '' : adnMessage.text,
+              attachments,
+              group: {
+                id: this.conversationId,
+                type: textsecure.protobuf.GroupContext.Type.DELIVER,
+              },
+              flags: 0,
+              expireTimer: 0,
+              profileKey,
+              timestamp,
+              received_at: receivedAt,
+              sent_at: timestamp, // sender timestamp inner
+              quote,
+              contact: [],
+              preview,
+              profile: {
+                displayName: from,
+                avatar,
+              },
+            },
+          };
+          receivedAt += 1; // Ensure different arrival times
+
+          // now process any user meta data updates
+          // - update their conversation with a potentially new avatar
+          return messageData;
+        } catch (e) {
+          window.log.error('pollOnceForMessages: caught error:', e);
           return false;
         }
-        // eslint-disable-next-line no-param-reassign
-        adnMessage.timestamp = messengerData.timestamp;
-        // eslint-disable-next-line no-param-reassign
-        adnMessage.body = messengerData.text;
-        const {
-          timestamp,
-          serverTimestamp,
-          quote,
-          attachments,
-          preview,
-          avatar,
-          profileKey,
-        } = messengerData;
-        if (!timestamp) {
-          return false; // Invalid message
-        }
-
-        // Duplicate check
-        const isDuplicate = (message, testedMessage) =>
-          dataMessage.isDuplicate(
-            message,
-            testedMessage,
-            testedMessage.user.username
-          );
-
-        // Filter out any messages that we got previously
-        if (this.lastMessagesCache.some(m => isDuplicate(m, adnMessage))) {
-          return false; // Duplicate message
-        }
-
-        // FIXME: maybe move after the de-multidev-decode
-        // Add the message to the lastMessage cache and keep the last 5 recent messages
-        this.lastMessagesCache = [
-          ...this.lastMessagesCache,
-          {
-            attributes: {
-              source: pubKey,
-              body: adnMessage.text,
-              sent_at: timestamp,
-            },
-          },
-        ].splice(-5);
-
-        const from = adnMessage.user.name || 'Anonymous'; // profileName
-
-        // if us
-        if (pubKey === ourNumberProfile || pubKey === ourNumberDevice) {
-          // update the last name we saw from ourself
-          lastProfileName = from;
-        }
-
-        // track sources for multidevice support
-        // sort it by home server
-        let homeServer = window.getDefaultFileServer();
-        if (adnMessage.user && adnMessage.user.annotations.length) {
-          const homeNotes = adnMessage.user.annotations.filter(
-            note => note.type === HOMESERVER_USER_ANNOTATION_TYPE
-          );
-          // FIXME: this annotation should probably be signed and verified...
-          homeServer = homeNotes.reduce(
-            (curVal, note) => (note.value ? note.value : curVal),
-            homeServer
-          );
-        }
-        if (homeServerPubKeys[homeServer] === undefined) {
-          homeServerPubKeys[homeServer] = [];
-        }
-        if (homeServerPubKeys[homeServer].indexOf(`@${pubKey}`) === -1) {
-          homeServerPubKeys[homeServer].push(`@${pubKey}`);
-        }
-
-        // generate signal message object
-        const messageData = {
-          serverId: adnMessage.id,
-          clientVerified: true,
-          isSessionRequest: false,
-          source: pubKey,
-          sourceDevice: 1,
-          timestamp, // sender timestamp
-
-          serverTimestamp, // server created_at, used to order messages
-          receivedAt,
-          isPublic: true,
-          message: {
-            body:
-              adnMessage.text === timestamp.toString() ? '' : adnMessage.text,
-            attachments,
-            group: {
-              id: this.conversationId,
-              type: textsecure.protobuf.GroupContext.Type.DELIVER,
-            },
-            flags: 0,
-            expireTimer: 0,
-            profileKey,
-            timestamp,
-            received_at: receivedAt,
-            sent_at: timestamp, // sender timestamp inner
-            quote,
-            contact: [],
-            preview,
-            profile: {
-              displayName: from,
-              avatar,
-            },
-          },
-        };
-        receivedAt += 1; // Ensure different arrival times
-
-        // now process any user meta data updates
-        // - update their conversation with a potentially new avatar
-        return messageData;
       })
     );
 

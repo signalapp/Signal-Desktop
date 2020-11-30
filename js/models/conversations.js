@@ -1127,7 +1127,7 @@
     async sendMessageJob(message) {
       try {
         const uploads = await message.uploadData();
-        const id = message.id;
+        const { id } = message;
         const expireTimer = this.get('expireTimer');
         const destination = this.id;
 
@@ -1236,6 +1236,7 @@
         throw new TypeError(`Invalid conversation type: '${this.get('type')}'`);
       } catch (e) {
         await message.saveErrors(e);
+        return null;
       }
     },
     async sendMessage(
@@ -1252,100 +1253,102 @@
       const expireTimer = this.get('expireTimer');
       const recipients = this.getRecipients();
 
-      this.queueJob(async () => {
-        const now = Date.now();
+      const now = Date.now();
 
-        window.log.info(
-          'Sending message to conversation',
-          this.idForLogging(),
-          'with timestamp',
-          now
-        );
-        // be sure an empty quote is marked as undefined rather than being empty
-        // otherwise upgradeMessageSchema() will return an object with an empty array
-        // and this.get('quote') will be true, even if there is no quote.
-        const editedQuote = _.isEmpty(quote) ? undefined : quote;
+      window.log.info(
+        'Sending message to conversation',
+        this.idForLogging(),
+        'with timestamp',
+        now
+      );
+      // be sure an empty quote is marked as undefined rather than being empty
+      // otherwise upgradeMessageSchema() will return an object with an empty array
+      // and this.get('quote') will be true, even if there is no quote.
+      const editedQuote = _.isEmpty(quote) ? undefined : quote;
 
-        const messageWithSchema = await upgradeMessageSchema({
-          type: 'outgoing',
-          body,
-          conversationId: destination,
-          quote: editedQuote,
-          preview,
-          attachments,
-          sent_at: now,
-          received_at: now,
-          expireTimer,
-          recipients,
-        });
+      const messageWithSchema = await upgradeMessageSchema({
+        type: 'outgoing',
+        body,
+        conversationId: destination,
+        quote: editedQuote,
+        preview,
+        attachments,
+        sent_at: now,
+        received_at: now,
+        expireTimer,
+        recipients,
+      });
 
-        if (this.isPublic()) {
-          // Public chats require this data to detect duplicates
-          messageWithSchema.source = textsecure.storage.user.getNumber();
-          messageWithSchema.sourceDevice = 1;
-        } else {
-          messageWithSchema.destination = destination;
-        }
+      if (this.isPublic()) {
+        // Public chats require this data to detect duplicates
+        messageWithSchema.source = textsecure.storage.user.getNumber();
+        messageWithSchema.sourceDevice = 1;
+      } else {
+        messageWithSchema.destination = destination;
+      }
 
-        const { sessionRestoration = false } = otherOptions;
+      const { sessionRestoration = false } = otherOptions;
 
-        const attributes = {
-          ...messageWithSchema,
-          groupInvitation,
-          sessionRestoration,
-          id: window.getGuid(),
-        };
+      const attributes = {
+        ...messageWithSchema,
+        groupInvitation,
+        sessionRestoration,
+        id: window.getGuid(),
+      };
 
-        const model = this.addSingleMessage(attributes);
-        const message = MessageController.register(model.id, model);
+      const model = this.addSingleMessage(attributes);
+      const message = MessageController.register(model.id, model);
 
-        await message.commit(true);
+      await message.commit(true);
 
-        if (this.isPrivate()) {
-          message.set({ destination });
-        }
-        if (this.isPublic()) {
-          message.setServerTimestamp(new Date().getTime());
-        }
+      if (this.isPrivate()) {
+        message.set({ destination });
+      }
+      if (this.isPublic()) {
+        message.setServerTimestamp(new Date().getTime());
+      }
 
-        const id = await message.commit();
-        message.set({ id });
+      const id = await message.commit();
+      message.set({ id });
 
-        window.Whisper.events.trigger('messageAdded', {
-          conversationKey: this.id,
-          messageModel: message,
-        });
+      window.Whisper.events.trigger('messageAdded', {
+        conversationKey: this.id,
+        messageModel: message,
+      });
 
-        this.set({
-          lastMessage: model.getNotificationText(),
-          lastMessageStatus: 'sending',
-          active_at: now,
-          timestamp: now,
-          isArchived: false,
-        });
-        await this.commit();
+      this.set({
+        lastMessage: model.getNotificationText(),
+        lastMessageStatus: 'sending',
+        active_at: now,
+        timestamp: now,
+        isArchived: false,
+      });
+      await this.commit();
 
-        // We're offline!
-        if (!textsecure.messaging) {
-          let errors;
-          if (this.contactCollection.length) {
-            errors = this.contactCollection.map(contact => {
-              const error = new Error('Network is not available');
-              error.name = 'SendMessageNetworkError';
-              error.number = contact.id;
-              return error;
-            });
-          } else {
+      // We're offline!
+      if (!textsecure.messaging) {
+        let errors;
+        if (this.contactCollection.length) {
+          errors = this.contactCollection.map(contact => {
             const error = new Error('Network is not available');
             error.name = 'SendMessageNetworkError';
-            error.number = this.id;
-            errors = [error];
-          }
-          await message.saveErrors(errors);
-          return null;
+            error.number = contact.id;
+            return error;
+          });
+        } else {
+          const error = new Error('Network is not available');
+          error.name = 'SendMessageNetworkError';
+          error.number = this.id;
+          errors = [error];
         }
-        void this.sendMessageJob(message);
+        await message.saveErrors(errors);
+        return null;
+      }
+
+      this.queueJob(async () => {
+        await this.sendMessageJob(message);
       });
+      return null;
     },
 
     async updateAvatarOnPublicChat({ url, profileKey }) {
