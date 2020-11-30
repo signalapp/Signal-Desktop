@@ -1326,7 +1326,6 @@
         // unidentifiedDeliveries: result.unidentifiedDeliveries,
       });
       await this.commit();
-      this.trigger('change', this);
 
       this.getConversation().updateLastMessage();
       this.trigger('done');

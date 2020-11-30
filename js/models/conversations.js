@@ -293,7 +293,7 @@
       }
       this.typingPauseTimer = setTimeout(
         this.onTypingPauseTimeout.bind(this),
-        3 * 1000
+        10 * 1000
       );
     },
 
@@ -1124,7 +1124,120 @@
         conversationId: this.id,
       });
     },
+    async sendMessageJob(message) {
+      try {
+        const uploads = await message.uploadData();
+        const id = message.id;
+        const expireTimer = this.get('expireTimer');
+        const destination = this.id;
 
+        const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
+          body: uploads.body,
+          identifier: id,
+          timestamp: message.get('sent_at'),
+          attachments: uploads.attachments,
+          expireTimer,
+          preview: uploads.preview,
+          quote: uploads.quote,
+          lokiProfile: this.getOurProfile(),
+        });
+
+        if (this.isMe()) {
+          // we need the return await so that errors are caught in the catch {}
+          return await message.sendSyncMessageOnly(chatMessage);
+        }
+
+        if (this.isPublic()) {
+          const openGroup = this.toOpenGroup();
+
+          const openGroupParams = {
+            body: uploads.body,
+            timestamp: message.get('sent_at'),
+            group: openGroup,
+            attachments: uploads.attachments,
+            preview: uploads.preview,
+            quote: uploads.quote,
+            identifier: id,
+          };
+          const openGroupMessage = new libsession.Messages.Outgoing.OpenGroupMessage(
+            openGroupParams
+          );
+          // we need the return await so that errors are caught in the catch {}
+          return await libsession
+            .getMessageQueue()
+            .sendToGroup(openGroupMessage);
+        }
+
+        const destinationPubkey = new libsession.Types.PubKey(destination);
+        if (this.isPrivate()) {
+          // Handle Group Invitation Message
+          if (message.get('groupInvitation')) {
+            const groupInvitation = message.get('groupInvitation');
+            const groupInvitMessage = new libsession.Messages.Outgoing.GroupInvitationMessage(
+              {
+                identifier: id,
+                timestamp: message.get('sent_at'),
+                serverName: groupInvitation.name,
+                channelId: groupInvitation.channelId,
+                serverAddress: groupInvitation.address,
+                expireTimer: this.get('expireTimer'),
+              }
+            );
+            // we need the return await so that errors are caught in the catch {}
+            return await libsession
+              .getMessageQueue()
+              .sendUsingMultiDevice(destinationPubkey, groupInvitMessage);
+          }
+          // we need the return await so that errors are caught in the catch {}
+          return await libsession
+            .getMessageQueue()
+            .sendUsingMultiDevice(destinationPubkey, chatMessage);
+        }
+
+        if (this.isMediumGroup()) {
+          const mediumGroupChatMessage = new libsession.Messages.Outgoing.MediumGroupChatMessage(
+            {
+              chatMessage,
+              groupId: destination,
+            }
+          );
+
+          // we need the return await so that errors are caught in the catch {}
+          return await libsession
+            .getMessageQueue()
+            .sendToGroup(mediumGroupChatMessage);
+        }
+
+        if (this.isClosedGroup()) {
+          const members = this.get('members');
+          const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
+            {
+              chatMessage,
+              groupId: destination,
+            }
+          );
+
+          // Special-case the self-send case - we send only a sync message
+          if (members.length === 1) {
+            const isOurDevice = await libsession.Protocols.MultiDeviceProtocol.isOurDevice(
+              members[0]
+            );
+            if (isOurDevice) {
+              // we need the return await so that errors are caught in the catch {}
+              return await message.sendSyncMessageOnly(closedGroupChatMessage);
+            }
+          }
+          // we need the return await so that errors are caught in the catch {}
+          return await libsession
+            .getMessageQueue()
+            .sendToGroup(closedGroupChatMessage);
+        }
+
+        throw new TypeError(`Invalid conversation type: '${this.get('type')}'`);
+      } catch (e) {
+        await message.saveErrors(e);
+      }
+    },
     async sendMessage(
       body,
       attachments,
@@ -1153,7 +1266,6 @@
         // and this.get('quote') will be true, even if there is no quote.
         const editedQuote = _.isEmpty(quote) ? undefined : quote;
 
-        const conversationType = this.get('type');
         const messageWithSchema = await upgradeMessageSchema({
           type: 'outgoing',
           body,
@@ -1232,124 +1344,7 @@
           await message.saveErrors(errors);
           return null;
         }
-
-        try {
-          const uploads = await message.uploadData();
-
-          const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
-            body: uploads.body,
-            identifier: id,
-            timestamp: now,
-            attachments: uploads.attachments,
-            expireTimer,
-            preview: uploads.preview,
-            quote: uploads.quote,
-            lokiProfile: this.getOurProfile(),
-          });
-
-          if (this.isMe()) {
-            return message.sendSyncMessageOnly(chatMessage);
-          }
-
-          if (this.isPublic()) {
-            const openGroup = this.toOpenGroup();
-
-            const openGroupParams = {
-              body,
-              timestamp: now,
-              group: openGroup,
-              attachments: uploads.attachments,
-              preview: uploads.preview,
-              quote: uploads.quote,
-              identifier: id,
-            };
-            const openGroupMessage = new libsession.Messages.Outgoing.OpenGroupMessage(
-              openGroupParams
-            );
-            await libsession.getMessageQueue().sendToGroup(openGroupMessage);
-
-            return null;
-          }
-
-          const destinationPubkey = new libsession.Types.PubKey(destination);
-          // Handle Group Invitation Message
-          if (groupInvitation) {
-            if (conversationType !== Message.PRIVATE) {
-              window.log.warn('Cannot send groupInvite to group chat');
-
-              return null;
-            }
-
-            const groupInvitMessage = new libsession.Messages.Outgoing.GroupInvitationMessage(
-              {
-                identifier: id,
-                timestamp: Date.now(),
-                serverName: groupInvitation.name,
-                channelId: groupInvitation.channelId,
-                serverAddress: groupInvitation.address,
-                expireTimer: this.get('expireTimer'),
-              }
-            );
-
-            return libsession
-              .getMessageQueue()
-              .sendUsingMultiDevice(destinationPubkey, groupInvitMessage);
-          }
-
-          if (conversationType === Message.PRIVATE) {
-            return libsession
-              .getMessageQueue()
-              .sendUsingMultiDevice(destinationPubkey, chatMessage);
-          }
-
-          if (conversationType === Message.GROUP) {
-            const members = this.get('members');
-            if (this.isMediumGroup()) {
-              const mediumGroupChatMessage = new libsession.Messages.Outgoing.MediumGroupChatMessage(
-                {
-                  chatMessage,
-                  groupId: destination,
-                }
-              );
-
-              await libsession
-                .getMessageQueue()
-                .sendToGroup(mediumGroupChatMessage);
-            } else {
-              const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
-                {
-                  chatMessage,
-                  groupId: destination,
-                }
-              );
-
-              // Special-case the self-send case - we send only a sync message
-              if (members.length === 1) {
-                const isOurDevice = await libsession.Protocols.MultiDeviceProtocol.isOurDevice(
-                  members[0]
-                );
-                if (isOurDevice) {
-                  await message.sendSyncMessageOnly(closedGroupChatMessage);
-                  return true;
-                }
-              }
-
-              await libsession
-                .getMessageQueue()
-                .sendToGroup(closedGroupChatMessage);
-            }
-          } else {
-            throw new TypeError(
-              `Invalid conversation type: '${conversationType}'`
-            );
-          }
-
-          return true;
-        } catch (e) {
-          await message.saveErrors(e);
-
-          return null;
-        }
+        void this.sendMessageJob(message);
       });
     },
 
