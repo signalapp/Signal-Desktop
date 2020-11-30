@@ -62,6 +62,7 @@ export interface ConversationModel
   isClosable: () => boolean;
   isOnline: () => boolean;
   isModerator: (id?: string) => boolean;
+  throttledBumpTyping: () => void;
 
   lastMessage: string;
   messageCollection: Backbone.Collection<MessageModel>;

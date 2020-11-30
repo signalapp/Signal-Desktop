@@ -8,4 +8,6 @@ export type ConversationControllerType = {
   getOrCreateAndWait: (id: string, type: string) => Promise<ConversationModel>;
   getOrCreate: (id: string, type: string) => Promise<ConversationModel>;
   dangerouslyCreateAndAdd: (any) => any;
+  getContactProfileNameOrShortenedPubKey: (id: string) => string;
+  getContactProfileNameOrFullPubKey: (id: string) => string;
 };

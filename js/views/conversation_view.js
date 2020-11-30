@@ -850,19 +850,6 @@
       }
     },
 
-    onKeyUp() {
-      this.maybeBumpTyping();
-    },
-
-    // Called whenever the user changes the message composition field. But only
-    //   fires if there's content in the message field after the change.
-    maybeBumpTyping() {
-      const messageText = this.$messageField.val();
-      if (messageText.length) {
-        this.model.throttledBumpTyping();
-      }
-    },
-
     handleDeleteOrBackspace(event, isDelete) {
       const $input = this.$messageField[0];
       const text = this.$messageField.val();

@@ -128,6 +128,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   private linkPreviewAbortController?: AbortController;
   private container: any;
   private readonly mentionsRegex = /@\u{FFD2}05[0-9a-f]{64}:[^\u{FFD2}]+\u{FFD2}/gu;
+  private lastBumpTypingMessageLength: number = 0;
 
   constructor(props: any) {
     super(props);
@@ -167,6 +168,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
     // Events
     this.onKeyDown = this.onKeyDown.bind(this);
+    this.onKeyUp = this.onKeyUp.bind(this);
     this.onChange = this.onChange.bind(this);
     this.focusCompositionBox = this.focusCompositionBox.bind(this);
 
@@ -190,6 +192,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     // reset the state on new conversation key
     if (prevProps.conversationKey !== this.props.conversationKey) {
       this.setState(getDefaultState(), this.focusCompositionBox);
+      this.lastBumpTypingMessageLength = 0;
     } else if (
       this.props.stagedAttachments?.length !==
       prevProps.stagedAttachments?.length
@@ -360,6 +363,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         value={message}
         onChange={this.onChange}
         onKeyDown={this.onKeyDown}
+        onKeyUp={this.onKeyUp}
         placeholder={messagePlaceHolder}
         spellCheck={false}
         inputRef={this.textarea}
@@ -720,6 +724,24 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       await this.onSendMessage();
     } else if (event.key === 'Escape' && this.state.showEmojiPanel) {
       this.hideEmojiPanel();
+    }
+  }
+
+  private async onKeyUp(event: any) {
+    const { message } = this.state;
+    // Called whenever the user changes the message composition field. But only
+    //   fires if there's content in the message field after the change.
+    // Also, check for a message length change before firing it up, to avoid
+    // catching ESC, tab, or whatever which is not typing
+    if (message.length && message.length !== this.lastBumpTypingMessageLength) {
+      const conversationModel = window.ConversationController.get(
+        this.props.conversationKey
+      );
+      if (!conversationModel) {
+        return;
+      }
+      conversationModel.throttledBumpTyping();
+      this.lastBumpTypingMessageLength = message.length;
     }
   }
 

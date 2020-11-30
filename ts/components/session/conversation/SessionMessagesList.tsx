@@ -16,6 +16,7 @@ import { MessageModel } from '../../../../js/models/messages';
 import { SessionLastSeenIndicator } from './SessionLastSeedIndicator';
 import { VerificationNotification } from '../../conversation/VerificationNotification';
 import { ToastUtils } from '../../../session/utils';
+import { TypingBubble } from '../../conversation/TypingBubble';
 
 interface State {
   showScrollButton: boolean;
@@ -119,8 +120,15 @@ export class SessionMessagesList extends React.Component<Props, State> {
   }
 
   public render() {
-    const { messages } = this.props;
+    const { conversationKey, conversation, messages } = this.props;
     const { showScrollButton } = this.state;
+
+    let displayedName = null;
+    if (conversation.type === 'direct') {
+      displayedName = window.ConversationController.getContactProfileNameOrShortenedPubKey(
+        conversationKey
+      );
+    }
 
     return (
       <div
@@ -128,6 +136,13 @@ export class SessionMessagesList extends React.Component<Props, State> {
         onScroll={this.handleScroll}
         ref={this.messageContainerRef}
       >
+        <TypingBubble
+          phoneNumber={conversationKey}
+          conversationType={conversation.type}
+          displayedName={displayedName}
+          isTyping={conversation.isTyping}
+        />
+
         {this.renderMessages(messages)}
 
         <SessionScrollButton

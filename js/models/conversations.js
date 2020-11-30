@@ -346,7 +346,7 @@
       );
 
       // send the message to a single recipient if this is a session chat
-      if (this.isPrivate) {
+      if (this.isPrivate()) {
         const device = new libsession.Types.PubKey(recipientId);
         libsession
           .getMessageQueue()

@@ -3,67 +3,65 @@ import classNames from 'classnames';
 
 import { TypingAnimation } from './TypingAnimation';
 import { Avatar } from '../Avatar';
+import styled from 'styled-components';
 
-import { LocalizerType } from '../../types/Util';
-
-interface Props {
+interface TypingBubbleProps {
   avatarPath?: string;
-  color: string;
-  name: string;
   phoneNumber: string;
-  profileName: string;
+  displayedName: string | null;
   conversationType: string;
-  i18n: LocalizerType;
+  isTyping: boolean;
 }
 
-export class TypingBubble extends React.Component<Props> {
-  public renderAvatar() {
-    const {
-      avatarPath,
-      name,
-      phoneNumber,
-      profileName,
-      conversationType,
-    } = this.props;
+const TypingBubbleContainer = styled.div<TypingBubbleProps>`
+  height: ${props => (props.isTyping ? 'auto' : '0px')};
+  display: flow-root;
+  padding-bottom: ${props => (props.isTyping ? '4px' : '0px')};
+  padding-top: ${props => (props.isTyping ? '4px' : '0px')};
+  transition: ${props => props.theme.common.animations.defaultDuration};
+  padding-inline-end: 16px;
+  overflow: hidden;
+`;
+
+export const TypingBubble = (props: TypingBubbleProps) => {
+  const renderAvatar = () => {
+    const { avatarPath, displayedName, conversationType, phoneNumber } = props;
 
     if (conversationType !== 'group') {
       return;
     }
-    const userName = name || profileName || phoneNumber;
 
     return (
       <div className="module-message__author-avatar">
         <Avatar
           avatarPath={avatarPath}
-          name={userName}
+          name={displayedName || phoneNumber}
           size={36}
           pubkey={phoneNumber}
         />
       </div>
     );
+  };
+
+  if (props.conversationType === 'group') {
+    return <></>;
   }
 
-  public render() {
-    const { i18n, color } = this.props;
-
-    return (
-      <div className="session-message">
+  return (
+    <TypingBubbleContainer {...props}>
+      <div className={classNames('module-message', 'module-message--incoming')}>
         <div
-          className={classNames('module-message', 'module-message--incoming')}
+          className={classNames(
+            'module-message__container',
+            'module-message__container--incoming'
+          )}
         >
-          <div
-            className={classNames(
-              'module-message__container',
-              'module-message__container--incoming'
-            )}
-          >
-            <div className="module-message__typing-container">
-              <TypingAnimation color={color} i18n={i18n} />
-            </div>
-            {this.renderAvatar()}
+          <div className="module-message__typing-container">
+            <TypingAnimation i18n={window.i18n} />
           </div>
+          {renderAvatar()}
         </div>
       </div>
-    );
-  }
-}
+    </TypingBubbleContainer>
+  );
+};
