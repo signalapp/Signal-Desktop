@@ -6157,88 +6157,64 @@ button.module-image__border-overlay:focus {
   height: 56px;
   width: 56px;
 
-  &--audio {
-    &--on {
-      background-color: $color-gray-45;
+  @mixin calling-button-icon($icon, $background-color, $icon-color) {
+    background-color: $background-color;
 
-      div {
-        @include color-svg('../images/icons/v2/mic-solid-28.svg', $color-white);
-        height: 28px;
-        width: 28px;
-      }
+    div {
+      @include color-svg($icon, $icon-color);
+      height: 28px;
+      width: 28px;
+    }
+  }
+
+  @mixin calling-button-icon-on($icon) {
+    @include calling-button-icon($icon, $color-white, $color-gray-75);
+  }
+
+  @mixin calling-button-icon-off($icon) {
+    @include calling-button-icon($icon, $color-white-alpha-40, $color-white);
+    backdrop-filter: blur(10px);
+  }
+
+  @mixin calling-button-icon-disabled($icon) {
+    @include calling-button-icon($icon, $color-gray-45, $color-white);
+    opacity: 0.2;
+  }
+
+  // If the on/off states seem backwards, it's because this button reflects "is audio
+  //   muted?", not "is audio on?".
+  &--audio {
+    $icon: '../images/icons/v2/mic-off-solid-28.svg';
+    &--on {
+      @include calling-button-icon-off($icon);
     }
     &--off {
-      background-color: $color-white;
-
-      div {
-        @include color-svg(
-          '../images/icons/v2/mic-off-solid-28.svg',
-          $color-gray-75
-        );
-        height: 28px;
-        width: 28px;
-      }
+      @include calling-button-icon-on($icon);
     }
     &--disabled {
-      background-color: $color-gray-45;
-      opacity: 0.2;
-
-      div {
-        @include color-svg('../images/icons/v2/mic-solid-28.svg', $color-white);
-        height: 28px;
-        width: 28px;
-      }
+      @include calling-button-icon-disabled($icon);
     }
   }
 
   &--video {
+    $icon: '../images/icons/v2/video-solid-28.svg';
     &--on {
-      background-color: $color-white;
-
-      div {
-        @include color-svg(
-          '../images/icons/v2/video-solid-28.svg',
-          $color-gray-75
-        );
-        height: 28px;
-        width: 28px;
-      }
+      @include calling-button-icon-on($icon);
     }
     &--off {
-      background-color: $color-gray-45;
-
-      div {
-        @include color-svg(
-          '../images/icons/v2/video-off-solid-28.svg',
-          $color-white
-        );
-        height: 28px;
-        width: 28px;
-      }
+      @include calling-button-icon-off($icon);
     }
     &--disabled {
-      background-color: $color-gray-45;
-      opacity: 0.2;
-
-      div {
-        @include color-svg(
-          '../images/icons/v2/video-solid-28.svg',
-          $color-white
-        );
-        height: 28px;
-        width: 28px;
-      }
+      @include calling-button-icon-disabled($icon);
     }
   }
 
   &--hangup {
-    background-color: $color-accent-red;
-
-    div {
-      @include color-svg('../images/icons/v2/phone-down-28.svg', $color-white);
-      height: 28px;
-      width: 28px;
-    }
+    @include calling-button-icon(
+      '../images/icons/v2/phone-down-28.svg',
+      $color-accent-red,
+      $color-white
+    );
   }
 }
 
