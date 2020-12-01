@@ -38,7 +38,7 @@ export const CallingPip = ({
   setRendererCanvas,
   togglePip,
 }: PropsType): JSX.Element | null => {
-  const videoContainerRef = React.useRef(null);
+  const videoContainerRef = React.useRef<null | HTMLDivElement>(null);
   const localVideoRef = React.useRef(null);
 
   const [dragState, setDragState] = React.useState({
@@ -144,7 +144,7 @@ export const CallingPip = ({
         if (!node) {
           return;
         }
-        const rect = (node as HTMLElement).getBoundingClientRect();
+        const rect = node.getBoundingClientRect();
         const offsetX = ev.clientX - rect.left;
         const offsetY = ev.clientY - rect.top;
 

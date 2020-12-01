@@ -14426,15 +14426,6 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/CallingPip.tsx",
-    "line": "  const videoContainerRef = React.useRef(null);",
-    "lineNumber": 41,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-26T19:12:24.410Z",
-    "reasonDetail": "Element is measured. Its HTML is not used."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallingPip.tsx",
     "line": "  const localVideoRef = React.useRef(null);",
     "lineNumber": 42,
     "reasonCategory": "usageTrusted",
