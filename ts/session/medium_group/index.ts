@@ -117,6 +117,8 @@ export async function createMediumGroup(
   };
 
   const dbMessage = await addUpdateMessage(convo, groupDiff, 'outgoing');
+  window.MessageController.register(dbMessage.id, dbMessage);
+
 
   // be sure to call this before sending the message.
   // the sending pipeline needs to know from GroupUtils when a message is for a medium group
@@ -175,6 +177,7 @@ export async function createLegacyGroup(
   };
 
   const dbMessage = await addUpdateMessage(convo, diff, 'outgoing');
+  window.MessageController.register(dbMessage.id, dbMessage);
 
   await sendGroupUpdate(convo, diff, groupDetails, dbMessage.id);
 
@@ -214,6 +217,7 @@ export async function leaveMediumGroup(groupId: string) {
     sent_at: now,
     received_at: now,
   });
+  window.MessageController.register(dbMessage.id, dbMessage);
   const ourPrimary = await UserUtil.getPrimary();
 
   const members = convo.get('members').filter(m => m !== ourPrimary.key);
@@ -407,6 +411,7 @@ export async function initiateGroupUpdate(
   }
 
   const dbMessage = await addUpdateMessage(convo, diff, 'outgoing');
+  window.MessageController.register(dbMessage.id, dbMessage);
 
   await sendGroupUpdate(convo, diff, updateObj, dbMessage.id);
 }

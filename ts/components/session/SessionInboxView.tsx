@@ -2,6 +2,8 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getMessageQueue } from '../../session';
+import { OpenGroupMessage } from '../../session/messages/outgoing';
+import { RawMessage } from '../../session/types';
 import { createStore } from '../../state/createStore';
 import { actions as conversationActions } from '../../state/ducks/conversations';
 import { actions as userActions } from '../../state/ducks/user';
@@ -117,7 +119,7 @@ export class SessionInboxView extends React.Component<Props, State> {
     );
   }
 
-  private async fetchHandleMessageSentData(m: any) {
+  private async fetchHandleMessageSentData(m: RawMessage | OpenGroupMessage) {
     // nobody is listening to this freshly fetched message .trigger calls
     const tmpMsg = await window.Signal.Data.getMessageById(m.identifier, {
       Message: window.Whisper.Message,
@@ -146,7 +148,7 @@ export class SessionInboxView extends React.Component<Props, State> {
   }
 
   private async handleMessageSentSuccess(
-    sentMessage: any,
+    sentMessage: RawMessage | OpenGroupMessage,
     wrappedEnvelope: any
   ) {
     const fetchedData = await this.fetchHandleMessageSentData(sentMessage);
@@ -155,10 +157,12 @@ export class SessionInboxView extends React.Component<Props, State> {
     }
     const { msg } = fetchedData;
 
-    msg.handleMessageSentSuccess(sentMessage, wrappedEnvelope);
+    void msg.handleMessageSentSuccess(sentMessage, wrappedEnvelope);
   }
 
-  private async handleMessageSentFailure(sentMessage: any, error: any) {
+  private async handleMessageSentFailure(
+    sentMessage: RawMessage | OpenGroupMessage,
+    error: any) {
     const fetchedData = await this.fetchHandleMessageSentData(sentMessage);
     if (!fetchedData) {
       return;
