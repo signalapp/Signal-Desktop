@@ -1201,7 +1201,8 @@ Whisper.ConversationView = Whisper.View.extend({
       });
     };
 
-    // Grab the dropped/invited user set
+    // Note: this call will throw if, after generating member lists, we are no longer a
+    //   member or are in the pending member list.
     const {
       droppedGV2MemberIds,
       pendingMembersV2,
@@ -1219,6 +1220,7 @@ Whisper.ConversationView = Whisper.View.extend({
       JSX: window.Signal.State.Roots.createGroupV1MigrationModal(
         window.reduxStore,
         {
+          areWeInvited: false,
           droppedMemberIds: droppedGV2MemberIds,
           hasMigrated: false,
           invitedMemberIds,

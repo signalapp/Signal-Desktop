@@ -16,6 +16,7 @@ export type ActionSpec = {
 type CallbackType = () => unknown;
 
 export type DataPropsType = {
+  readonly areWeInvited: boolean;
   readonly droppedMembers: Array<ConversationType>;
   readonly hasMigrated: boolean;
   readonly invitedMembers: Array<ConversationType>;
@@ -37,6 +38,7 @@ function focusRef(el: HTMLElement | null) {
 
 export const GroupV1MigrationDialog = React.memo((props: PropsType) => {
   const {
+    areWeInvited,
     droppedMembers,
     hasMigrated,
     i18n,
@@ -76,12 +78,23 @@ export const GroupV1MigrationDialog = React.memo((props: PropsType) => {
             {keepHistory}
           </div>
         </div>
-        {renderMembers(
-          invitedMembers,
-          'GroupV1--Migration--info--invited',
-          i18n
+        {areWeInvited ? (
+          <div className="module-group-v2-migration-dialog__item">
+            <div className="module-group-v2-migration-dialog__item__bullet" />
+            <div className="module-group-v2-migration-dialog__item__content">
+              {i18n('GroupV1--Migration--info--invited--you')}
+            </div>
+          </div>
+        ) : (
+          <>
+            {renderMembers(
+              invitedMembers,
+              'GroupV1--Migration--info--invited',
+              i18n
+            )}
+            {renderMembers(droppedMembers, droppedMembersKey, i18n)}
+          </>
         )}
-        {renderMembers(droppedMembers, droppedMembersKey, i18n)}
       </div>
       {renderButtons(hasMigrated, onClose, migrate, i18n)}
     </div>

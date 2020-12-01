@@ -365,7 +365,7 @@ async function buildGroupProto({
 
     const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
     member.userId = uuidCipherTextBuffer;
-    member.role = MEMBER_ROLE_ENUM.DEFAULT;
+    member.role = item.role || MEMBER_ROLE_ENUM.DEFAULT;
 
     pendingMember.member = member;
     pendingMember.timestamp = item.timestamp;
@@ -726,8 +726,6 @@ export async function isGroupEligibleToMigrate(
 export async function getGroupMigrationMembers(
   conversation: ConversationModel
 ): Promise<{
-  areWeInvited: boolean;
-  areWeMember: boolean;
   droppedGV2MemberIds: Array<string>;
   membersV2: Array<GroupV2MemberType>;
   pendingMembersV2: Array<GroupV2PendingMemberType>;
@@ -871,13 +869,19 @@ export async function getGroupMigrationMembers(
         conversationId,
         timestamp: now,
         addedByUserId: ourConversationId,
+        role: MEMBER_ROLE_ENUM.ADMINISTRATOR,
       };
     })
   );
 
+  if (!areWeMember) {
+    throw new Error(`getGroupMigrationMembers/${logId}: We are not a member!`);
+  }
+  if (areWeInvited) {
+    throw new Error(`getGroupMigrationMembers/${logId}: We are invited!`);
+  }
+
   return {
-    areWeInvited,
-    areWeMember,
     droppedGV2MemberIds,
     membersV2,
     pendingMembersV2,
@@ -929,24 +933,11 @@ export async function initiateMigrationToGroupV2(
       }
 
       const {
-        areWeMember,
-        areWeInvited,
         membersV2,
         pendingMembersV2,
         droppedGV2MemberIds,
         previousGroupV1Members,
       } = await getGroupMigrationMembers(conversation);
-
-      if (!areWeMember) {
-        throw new Error(
-          `initiateMigrationToGroupV2/${logId}: After members migration, we are not a member!`
-        );
-      }
-      if (areWeInvited) {
-        throw new Error(
-          `initiateMigrationToGroupV2/${logId}: After members migration, we are invited!`
-        );
-      }
 
       const rawSizeLimit = window.Signal.RemoteConfig.getValue(
         'global.groupsv2.groupSizeHardLimit'
@@ -1308,22 +1299,13 @@ export async function respondToGroupV2Migration({
     ...(newAttributes.membersV2 || []).map(item => item.conversationId),
     ...(newAttributes.pendingMembersV2 || []).map(item => item.conversationId),
   ];
-  const droppedGV2MemberIds: Array<string> = difference(
+  const droppedMemberIds: Array<string> = difference(
     previousGroupV1MembersIds,
     combinedConversationIds
   ).filter(id => id && id !== ourConversationId);
-  const invitedGV2Members = (newAttributes.pendingMembersV2 || []).filter(
+  const invitedMembers = (newAttributes.pendingMembersV2 || []).filter(
     item => item.conversationId !== ourConversationId
   );
-
-  // Generate notifications into the timeline
-  const groupChangeMessages: Array<MessageAttributesType> = [];
-  groupChangeMessages.push({
-    ...generateBasicMessage(),
-    type: 'group-v1-migration',
-    invitedGV2Members,
-    droppedGV2MemberIds,
-  });
 
   const areWeInvited = (newAttributes.pendingMembersV2 || []).some(
     item => item.conversationId === ourConversationId
@@ -1331,8 +1313,21 @@ export async function respondToGroupV2Migration({
   const areWeMember = (newAttributes.membersV2 || []).some(
     item => item.conversationId === ourConversationId
   );
+
+  // Generate notifications into the timeline
+  const groupChangeMessages: Array<MessageAttributesType> = [];
+  groupChangeMessages.push({
+    ...generateBasicMessage(),
+    type: 'group-v1-migration',
+    groupMigration: {
+      areWeInvited,
+      invitedMembers,
+      droppedMemberIds,
+    },
+  });
+
   if (!areWeInvited && !areWeMember) {
-    // Add a message to the timeline saying the user was removed
+    // Add a message to the timeline saying the user was removed. This shouldn't happen.
     groupChangeMessages.push({
       ...generateBasicMessage(),
       type: 'group-v2-change',
@@ -1340,20 +1335,6 @@ export async function respondToGroupV2Migration({
         details: [
           {
             type: 'member-remove' as const,
-            conversationId: ourConversationId,
-          },
-        ],
-      },
-    });
-  } else if (areWeInvited && !areWeMember && ourConversationId) {
-    // Add a message to the timeline saying we were invited to the group
-    groupChangeMessages.push({
-      ...generateBasicMessage(),
-      type: 'group-v2-change',
-      groupV2Change: {
-        details: [
-          {
-            type: 'pending-add-one' as const,
             conversationId: ourConversationId,
           },
         ],
@@ -2609,6 +2590,7 @@ async function applyGroupChange({
       conversationId: conversation.id,
       addedByUserId: added.addedByUserId,
       timestamp: added.timestamp,
+      role: added.member.role || MEMBER_ROLE_ENUM.DEFAULT,
     };
 
     if (added.member && added.member.profileKey) {
@@ -2659,6 +2641,8 @@ async function applyGroupChange({
       }
     );
 
+    const previousRecord = pendingMembers[conversation.id];
+
     if (pendingMembers[conversation.id]) {
       delete pendingMembers[conversation.id];
     } else {
@@ -2677,7 +2661,7 @@ async function applyGroupChange({
     members[conversation.id] = {
       conversationId: conversation.id,
       joinedAtVersion: version,
-      role: MEMBER_ROLE_ENUM.DEFAULT,
+      role: previousRecord.role || MEMBER_ROLE_ENUM.DEFAULT,
     };
 
     newProfileKeys.push({
@@ -2843,6 +2827,7 @@ async function applyGroupState({
 }): Promise<ConversationAttributesType> {
   const logId = idForLogging(group);
   const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
+  const MEMBER_ROLE_ENUM = window.textsecure.protobuf.Member.Role;
   const version = groupState.version || 0;
   const result = { ...group };
 
@@ -2912,17 +2897,12 @@ async function applyGroupState({
         }
       }
 
-      if (
-        !member.role ||
-        member.role === window.textsecure.protobuf.Member.Role.UNKNOWN
-      ) {
-        throw new Error(
-          'applyGroupState: Received false or UNKNOWN member.role'
-        );
+      if (!isValidRole(member.role)) {
+        throw new Error('applyGroupState: Member had invalid role');
       }
 
       return {
-        role: member.role,
+        role: member.role || MEMBER_ROLE_ENUM.DEFAULT,
         joinedAtVersion: member.joinedAtVersion || version,
         conversationId: conversation.id,
       };
@@ -2947,7 +2927,9 @@ async function applyGroupState({
             }
           );
         } else {
-          throw new Error('Pending member did not have an associated userId');
+          throw new Error(
+            'applyGroupState: Pending member did not have an associated userId'
+          );
         }
 
         if (member.addedByUserId) {
@@ -2956,13 +2938,20 @@ async function applyGroupState({
             'private'
           );
         } else {
-          throw new Error('Pending member did not have an addedByUserID');
+          throw new Error(
+            'applyGroupState: Pending member did not have an addedByUserID'
+          );
+        }
+
+        if (!isValidRole(member.member.role)) {
+          throw new Error('applyGroupState: Pending member had invalid role');
         }
 
         return {
           addedByUserId: invitedBy.id,
           conversationId: pending.id,
           timestamp: member.timestamp,
+          role: member.member.role || MEMBER_ROLE_ENUM.DEFAULT,
         };
       }
     );
@@ -2971,7 +2960,7 @@ async function applyGroupState({
   return result;
 }
 
-function isValidRole(role?: number): boolean {
+function isValidRole(role?: number): role is number {
   const MEMBER_ROLE_ENUM = window.textsecure.protobuf.Member.Role;
 
   return (

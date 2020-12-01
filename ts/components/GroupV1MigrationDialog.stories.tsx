@@ -36,6 +36,10 @@ function booleanOr(value: boolean | undefined, defaultValue: boolean): boolean {
 }
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
+  areWeInvited: boolean(
+    'areWeInvited',
+    booleanOr(overrideProps.areWeInvited, false)
+  ),
   droppedMembers: overrideProps.droppedMembers || [contact1],
   hasMigrated: boolean(
     'hasMigrated',
@@ -58,6 +62,17 @@ stories.add('Migrated, basic', () => {
     <GroupV1MigrationDialog
       {...createProps({
         hasMigrated: true,
+      })}
+    />
+  );
+});
+
+stories.add('Migrated, you are invited', () => {
+  return (
+    <GroupV1MigrationDialog
+      {...createProps({
+        hasMigrated: true,
+        areWeInvited: true,
       })}
     />
   );

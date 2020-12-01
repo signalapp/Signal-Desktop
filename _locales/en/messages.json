@@ -4010,6 +4010,10 @@
     "message": "All message history and media will be kept from before the upgrade.",
     "description": "Shown on Migration popup before GV1 migration"
   },
+  "GroupV1--Migration--info--invited--you": {
+    "message": "You will need to accept an invite to join this group again, and will not receive group messages until you accept.",
+    "description": "Shown on Learn More popup after GV1 migration"
+  },
   "GroupV1--Migration--info--invited--many": {
     "message": "These members will need to accept an invite to join this group again, and will not receive group messages until they accept:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
@@ -4033,6 +4037,10 @@
   "GroupV1--Migration--info--removed--after--one": {
     "message": "This member was not capable of joining New Groups, and was removed from the group:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+  },
+  "GroupV1--Migration--invited--you": {
+    "message": "You couldn't be added to the New Group and have been invited to join.",
+    "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
   },
   "GroupV1--Migration--invited--one": {
     "message": "$contact$ couldn’t be added to the New Group and has been invited to join.",

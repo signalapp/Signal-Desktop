@@ -11,6 +11,7 @@ import { ModalHost } from '../ModalHost';
 import { GroupV1MigrationDialog } from '../GroupV1MigrationDialog';
 
 export type PropsDataType = {
+  areWeInvited: boolean;
   droppedMembers: Array<ConversationType>;
   invitedMembers: Array<ConversationType>;
 };
@@ -22,7 +23,7 @@ export type PropsHousekeepingType = {
 export type PropsType = PropsDataType & PropsHousekeepingType;
 
 export function GroupV1Migration(props: PropsType): React.ReactElement {
-  const { droppedMembers, i18n, invitedMembers } = props;
+  const { areWeInvited, droppedMembers, i18n, invitedMembers } = props;
   const [showingDialog, setShowingDialog] = React.useState(false);
 
   const showDialog = React.useCallback(() => {
@@ -39,8 +40,16 @@ export function GroupV1Migration(props: PropsType): React.ReactElement {
       <div className="module-group-v1-migration--text">
         {i18n('GroupV1--Migration--was-upgraded')}
       </div>
-      {renderUsers(invitedMembers, i18n, 'GroupV1--Migration--invited')}
-      {renderUsers(droppedMembers, i18n, 'GroupV1--Migration--removed')}
+      {areWeInvited ? (
+        <div className="module-group-v1-migration--text">
+          {i18n('GroupV1--Migration--invited--you')}
+        </div>
+      ) : (
+        <>
+          {renderUsers(invitedMembers, i18n, 'GroupV1--Migration--invited')}
+          {renderUsers(droppedMembers, i18n, 'GroupV1--Migration--removed')}
+        </>
+      )}
       <button
         type="button"
         className="module-group-v1-migration--button"
@@ -51,6 +60,7 @@ export function GroupV1Migration(props: PropsType): React.ReactElement {
       {showingDialog ? (
         <ModalHost onClose={dismissDialog}>
           <GroupV1MigrationDialog
+            areWeInvited
             droppedMembers={droppedMembers}
             hasMigrated
             i18n={i18n}

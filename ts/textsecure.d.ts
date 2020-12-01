@@ -261,7 +261,7 @@ export declare class MemberClass {
   // Note: only role and presentation are required when creating a group
 }
 
-type MemberRoleEnum = number;
+export type MemberRoleEnum = number;
 
 // Note: we need to use namespaces to express nested classes in Typescript
 export declare namespace MemberClass {
@@ -283,8 +283,6 @@ export declare class PendingMemberClass {
   timestamp?: ProtoBigNumberType;
 }
 
-type AccessRequiredEnum = number;
-
 export declare class AccessControlClass {
   static decode: (
     data: ArrayBuffer | ByteBufferClass,
@@ -294,6 +292,8 @@ export declare class AccessControlClass {
   attributes?: AccessRequiredEnum;
   members?: AccessRequiredEnum;
 }
+
+export type AccessRequiredEnum = number;
 
 // Note: we need to use namespaces to express nested classes in Typescript
 export declare namespace AccessControlClass {

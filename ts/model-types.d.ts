@@ -13,7 +13,11 @@ import {
   LastMessageStatus,
 } from './state/ducks/conversations';
 import { SendOptionsType } from './textsecure/SendMessage';
-import { SyncMessageClass } from './textsecure.d';
+import {
+  AccessRequiredEnum,
+  MemberRoleEnum,
+  SyncMessageClass,
+} from './textsecure.d';
 import { UserMessage } from './types/Message';
 import { MessageModel } from './models/messages';
 import { ConversationModel } from './models/conversations';
@@ -46,6 +50,12 @@ export interface CustomError extends Error {
   number?: string;
 }
 
+export type GroupMigrationType = {
+  areWeInvited: boolean;
+  droppedMemberIds: Array<string>;
+  invitedMembers: Array<GroupV2PendingMemberType>;
+};
+
 export type MessageAttributesType = {
   bodyPending: boolean;
   bodyRanges: BodyRangesType;
@@ -57,11 +67,11 @@ export type MessageAttributesType = {
   deletedForEveryoneTimestamp?: number;
   delivered: number;
   delivered_to: Array<string | null>;
-  droppedGV2MemberIds?: Array<string>;
   errors: Array<CustomError> | null;
   expirationStartTimestamp: number | null;
   expireTimer: number;
   expires_at: number;
+  groupMigration?: GroupMigrationType;
   group_update: {
     avatarUpdated: boolean;
     joined: Array<string>;
@@ -74,7 +84,6 @@ export type MessageAttributesType = {
   isErased: boolean;
   isTapToViewInvalid: boolean;
   isViewOnce: boolean;
-  invitedGV2Members?: Array<GroupV2PendingMemberType>;
   key_changed: string;
   local: boolean;
   logger: unknown;
@@ -139,6 +148,10 @@ export type MessageAttributesType = {
 
   unread: number;
   timestamp: number;
+
+  // Backwards-compatibility with prerelease data schema
+  invitedGV2Members?: Array<GroupV2PendingMemberType>;
+  droppedGV2MemberIds?: Array<string>;
 };
 
 export type ConversationAttributesTypeType = 'private' | 'group';
@@ -215,8 +228,8 @@ export type ConversationAttributesType = {
 
   // GroupV2 other fields
   accessControl?: {
-    attributes: number;
-    members: number;
+    attributes: AccessRequiredEnum;
+    members: AccessRequiredEnum;
   };
   avatar?: {
     url: string;
@@ -232,13 +245,14 @@ export type ConversationAttributesType = {
 
 export type GroupV2MemberType = {
   conversationId: string;
-  role: number;
+  role: MemberRoleEnum;
   joinedAtVersion: number;
 };
 export type GroupV2PendingMemberType = {
   addedByUserId?: string;
   conversationId: string;
   timestamp: number;
+  role: MemberRoleEnum;
 };
 
 export type VerificationOptions = {

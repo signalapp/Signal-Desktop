@@ -4,6 +4,8 @@
 /* eslint-disable-next-line max-classes-per-file */
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
+import { isBoolean } from 'lodash';
+import { boolean } from '@storybook/addon-knobs';
 
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
@@ -30,12 +32,24 @@ const contact2 = {
 };
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
+  areWeInvited: boolean(
+    'areWeInvited',
+    isBoolean(overrideProps.areWeInvited) ? overrideProps.areWeInvited : false
+  ),
   droppedMembers: overrideProps.droppedMembers || [contact1],
   i18n,
   invitedMembers: overrideProps.invitedMembers || [contact2],
 });
 
 const stories = storiesOf('Components/Conversation/GroupV1Migration', module);
+
+stories.add('You were invited', () => (
+  <GroupV1Migration
+    {...createProps({
+      areWeInvited: true,
+    })}
+  />
+));
 
 stories.add('Single dropped and single invited member', () => (
   <GroupV1Migration {...createProps()} />
