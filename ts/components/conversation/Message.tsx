@@ -291,15 +291,15 @@ export class Message extends React.PureComponent<Props, State> {
             {window.i18n('sendFailed')}
           </span>
         ) : (
-            <Timestamp
-              i18n={window.i18n}
-              timestamp={serverTimestamp || timestamp}
-              extended={true}
-              direction={direction}
-              withImageNoCaption={withImageNoCaption}
-              module="module-message__metadata__date"
-            />
-          )}
+          <Timestamp
+            i18n={window.i18n}
+            timestamp={serverTimestamp || timestamp}
+            extended={true}
+            direction={direction}
+            withImageNoCaption={withImageNoCaption}
+            module="module-message__metadata__date"
+          />
+        )}
         {this.renderMetadataBadges()}
         {expirationLength && expirationTimestamp ? (
           <ExpireTimer
@@ -473,30 +473,30 @@ export class Message extends React.PureComponent<Props, State> {
               <Spinner size="small" direction={direction} />
             </div>
           ) : (
-              <div className="module-message__generic-attachment__icon-container">
-                <div
-                  role="button"
-                  className="module-message__generic-attachment__icon"
-                  onClick={(e: any) => {
-                    if (this.props?.onDownload) {
-                      e.stopPropagation();
-                      this.props.onDownload(firstAttachment);
-                    }
-                  }}
-                >
-                  {extension ? (
-                    <div className="module-message__generic-attachment__icon__extension">
-                      {extension}
-                    </div>
-                  ) : null}
-                </div>
-                {isDangerous ? (
-                  <div className="module-message__generic-attachment__icon-dangerous-container">
-                    <div className="module-message__generic-attachment__icon-dangerous" />
+            <div className="module-message__generic-attachment__icon-container">
+              <div
+                role="button"
+                className="module-message__generic-attachment__icon"
+                onClick={(e: any) => {
+                  if (this.props?.onDownload) {
+                    e.stopPropagation();
+                    this.props.onDownload(firstAttachment);
+                  }
+                }}
+              >
+                {extension ? (
+                  <div className="module-message__generic-attachment__icon__extension">
+                    {extension}
                   </div>
                 ) : null}
               </div>
-            )}
+              {isDangerous ? (
+                <div className="module-message__generic-attachment__icon-dangerous-container">
+                  <div className="module-message__generic-attachment__icon-dangerous" />
+                </div>
+              ) : null}
+            </div>
+          )}
           <div className="module-message__generic-attachment__text">
             <div
               className={classNames(

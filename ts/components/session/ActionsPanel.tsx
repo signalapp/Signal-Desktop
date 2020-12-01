@@ -37,6 +37,15 @@ class ActionsPanelPrivate extends React.Component<Props> {
     void removeItemById('hasSeenLightModeDialog');
   }
 
+  // fetch the user saved theme from the db, and apply it on mount.
+  public componentDidMount() {
+    const theme = window.Events.getThemeSetting();
+    window.setTheme(theme);
+
+    const newThemeObject = theme === 'dark' ? darkTheme : lightTheme;
+    this.props.applyTheme(newThemeObject);
+  }
+
   public Section = ({
     isSelected,
     onSelect,

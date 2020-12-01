@@ -72,8 +72,11 @@ type PropsHousekeeping = {
 type Props = PropsData & PropsHousekeeping;
 
 const Portal = ({ children }: { children: any }) => {
-  return createPortal(children, document.querySelector('.inbox.index') as Element);
-}
+  return createPortal(
+    children,
+    document.querySelector('.inbox.index') as Element
+  );
+};
 
 class ConversationListItem extends React.PureComponent<Props> {
   public constructor(props: Props) {
@@ -188,14 +191,14 @@ class ConversationListItem extends React.PureComponent<Props> {
           {isTyping ? (
             <TypingAnimation i18n={i18n} />
           ) : (
-              <MessageBody
-                isGroup={true}
-                text={text}
-                disableJumbomoji={true}
-                disableLinks={true}
-                i18n={i18n}
-              />
-            )}
+            <MessageBody
+              isGroup={true}
+              text={text}
+              disableJumbomoji={true}
+              disableLinks={true}
+              i18n={i18n}
+            />
+          )}
         </div>
         {lastMessage && lastMessage.status ? (
           <div
