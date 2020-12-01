@@ -80,7 +80,7 @@ const createProps = (
       hasLocalVideo: true,
       pip: false,
       settingsDialogOpen: false,
-      showParticipantsList: true,
+      showParticipantsList: false,
     },
     call: overrideProps.callTypeState || getDirectCallState(overrideProps),
     conversation: {
@@ -227,6 +227,27 @@ story.add('Group call - Many', () => (
           hasRemoteVideo: true,
           isSelf: false,
           title: 'Alice',
+          videoAspectRatio: 1.3,
+        },
+      ],
+    })}
+  />
+));
+
+story.add('Group call - reconnecting', () => (
+  <CallScreen
+    {...createProps({
+      callTypeState: {
+        ...getGroupCallState(),
+        connectionState: GroupCallConnectionState.Reconnecting,
+      },
+      groupCallParticipants: [
+        {
+          demuxId: 0,
+          hasRemoteAudio: true,
+          hasRemoteVideo: true,
+          isSelf: false,
+          title: 'Tyler',
           videoAspectRatio: 1.3,
         },
       ],

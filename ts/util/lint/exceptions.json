@@ -14382,7 +14382,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CallScreen.js",
     "line": "    const localVideoRef = react_1.useRef(null);",
-    "lineNumber": 40,
+    "lineNumber": 41,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T21:35:52.858Z",
     "reasonDetail": "Used to get the local video element for rendering."

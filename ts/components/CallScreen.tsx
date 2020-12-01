@@ -27,6 +27,7 @@ import { LocalizerType } from '../types/Util';
 import { missingCaseError } from '../util/missingCaseError';
 import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant';
 import { GroupCallRemoteParticipants } from './GroupCallRemoteParticipants';
+import { GroupCallToastManager } from './GroupCallToastManager';
 
 export type PropsType = {
   activeCall: ActiveCallType;
@@ -224,6 +225,12 @@ export const CallScreen: React.FC<PropsType> = ({
       }}
       role="group"
     >
+      {call.callMode === CallMode.Group ? (
+        <GroupCallToastManager
+          connectionState={call.connectionState}
+          i18n={i18n}
+        />
+      ) : null}
       <div
         className={classNames('module-ongoing-call__header', controlsFadeClass)}
       >

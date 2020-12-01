@@ -6410,6 +6410,27 @@ button.module-image__border-overlay:focus {
       fill-mode: forwards;
     }
   }
+
+  &__toast {
+    @include font-body-1-bold;
+    background-color: $color-gray-75;
+    border-radius: 8px;
+    color: $color-white;
+    max-width: 80%;
+    opacity: 1;
+    padding: 12px;
+    position: absolute;
+    text-align: center;
+    top: 12px;
+    transition: top 200ms ease-out, opacity 200ms ease-out;
+    user-select: none;
+    z-index: 1;
+
+    &--hidden {
+      opacity: 0;
+      top: 5px;
+    }
+  }
 }
 
 .module-calling-tools {
