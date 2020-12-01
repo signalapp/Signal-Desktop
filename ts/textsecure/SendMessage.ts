@@ -1655,12 +1655,8 @@ export default class MessageSender {
 
     const myE164 = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
-    // prettier-ignore
-    const recipients = groupV2
-      ? groupV2.members
-      : groupV1
-        ? groupV1.members
-        : [];
+
+    const groupMembers = groupV2?.members || groupV1?.members || [];
 
     // We should always have a UUID but have this check just in case we don't.
     let isNotMe: (recipient: string) => boolean;
@@ -1670,8 +1666,17 @@ export default class MessageSender {
       isNotMe = r => r !== myE164;
     }
 
+    const blockedIdentifiers = new Set([
+      ...window.storage.getBlockedUuids(),
+      ...window.storage.getBlockedNumbers(),
+    ]);
+
+    const recipients = groupMembers.filter(
+      recipient => isNotMe(recipient) && !blockedIdentifiers.has(recipient)
+    );
+
     const attrs = {
-      recipients: recipients.filter(isNotMe),
+      recipients,
       body: messageText,
       timestamp,
       attachments,

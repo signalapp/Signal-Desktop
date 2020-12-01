@@ -171,6 +171,9 @@ declare global {
         <T = any>(key: string): T | undefined;
         <T>(key: string, defaultValue: T): T;
       };
+      getBlockedGroups: () => Array<string>;
+      getBlockedNumbers: () => Array<string>;
+      getBlockedUuids: () => Array<string>;
       getItemsState: () => WhatIsThis;
       isBlocked: (number: string) => boolean;
       isGroupBlocked: (group: unknown) => boolean;
