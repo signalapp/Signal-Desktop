@@ -46,6 +46,7 @@ export interface GroupCallParticipantInfoType {
   hasRemoteAudio: boolean;
   hasRemoteVideo: boolean;
   isSelf: boolean;
+  speakerTime?: number;
   videoAspectRatio: number;
 }
 

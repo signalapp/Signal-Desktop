@@ -78,6 +78,7 @@ export interface GroupCallRemoteParticipantType {
   isSelf: boolean;
   name?: string;
   profileName?: string;
+  speakerTime?: number;
   title: string;
   videoAspectRatio: number;
 }

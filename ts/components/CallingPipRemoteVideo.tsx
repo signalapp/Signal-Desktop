@@ -1,13 +1,18 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useMemo } from 'react';
+import { maxBy } from 'lodash';
 import { Avatar } from './Avatar';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
 import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
 import { LocalizerType } from '../types/Util';
-import { CallMode, VideoFrameSource } from '../types/Calling';
+import {
+  CallMode,
+  GroupCallRemoteParticipantType,
+  VideoFrameSource,
+} from '../types/Calling';
 import { ActiveCallType, SetRendererCanvasType } from '../state/ducks/calling';
 
 const NoVideo = ({
@@ -61,7 +66,20 @@ export const CallingPipRemoteVideo = ({
   i18n,
   setRendererCanvas,
 }: PropsType): JSX.Element => {
-  const { call, conversation } = activeCall;
+  const { call, conversation, groupCallParticipants } = activeCall;
+
+  const activeGroupCallSpeaker:
+    | undefined
+    | GroupCallRemoteParticipantType = useMemo(() => {
+    if (call.callMode !== CallMode.Group) {
+      return undefined;
+    }
+
+    return maxBy(
+      groupCallParticipants,
+      participant => participant.speakerTime || -Infinity
+    );
+  }, [call.callMode, groupCallParticipants]);
 
   if (call.callMode === CallMode.Direct) {
     if (!call.hasRemoteVideo) {
@@ -81,10 +99,7 @@ export const CallingPipRemoteVideo = ({
   }
 
   if (call.callMode === CallMode.Group) {
-    const { groupCallParticipants } = activeCall;
-    const speaker = groupCallParticipants[0];
-
-    if (!speaker) {
+    if (!activeGroupCallSpeaker) {
       return <NoVideo activeCall={activeCall} i18n={i18n} />;
     }
 
@@ -94,8 +109,7 @@ export const CallingPipRemoteVideo = ({
           getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
           i18n={i18n}
           isInPip
-          key={speaker.demuxId}
-          remoteParticipant={speaker}
+          remoteParticipant={activeGroupCallSpeaker}
         />
       </div>
     );

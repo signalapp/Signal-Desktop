@@ -52,6 +52,7 @@ import {
 import { getOwn } from '../util/getOwn';
 import { fetchMembershipProof, getMembershipList } from '../groups';
 import { missingCaseError } from '../util/missingCaseError';
+import { normalizeGroupCallTimestamp } from '../util/ringrtc/normalizeGroupCallTimestamp';
 
 const RINGRTC_SFU_URL = 'https://sfu.voip.signal.org/';
 
@@ -598,6 +599,9 @@ export class CallingClass {
           hasRemoteAudio: !remoteDeviceState.audioMuted,
           hasRemoteVideo: !remoteDeviceState.videoMuted,
           isSelf: conversationId === ourConversationId,
+          speakerTime: normalizeGroupCallTimestamp(
+            remoteDeviceState.speakerTime
+          ),
           // If RingRTC doesn't send us an aspect ratio, we make a guess.
           videoAspectRatio:
             remoteDeviceState.videoAspectRatio ||
