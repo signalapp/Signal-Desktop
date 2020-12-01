@@ -217,6 +217,7 @@ export class SessionConversation extends React.Component<Props, State> {
         isDraggingFile: false,
         messageDetailShowProps: undefined,
         quotedMessageProps: undefined,
+        quotedMessageTimestamp: undefined,
       });
     }
   }
