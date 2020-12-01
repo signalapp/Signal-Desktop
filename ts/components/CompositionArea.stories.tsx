@@ -69,6 +69,8 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     overrideProps.messageRequestsEnabled || false
   ),
   title: '',
+  // GroupV1 Disabled Actions
+  onStartGroupMigration: action('onStartGroupMigration'),
 });
 
 story.add('Default', () => {

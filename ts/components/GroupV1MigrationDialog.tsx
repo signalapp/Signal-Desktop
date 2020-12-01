@@ -19,7 +19,6 @@ export type DataPropsType = {
   readonly droppedMembers: Array<ConversationType>;
   readonly hasMigrated: boolean;
   readonly invitedMembers: Array<ConversationType>;
-  readonly learnMore: CallbackType;
   readonly migrate: CallbackType;
   readonly onClose: CallbackType;
 };
@@ -42,7 +41,6 @@ export const GroupV1MigrationDialog = React.memo((props: PropsType) => {
     hasMigrated,
     i18n,
     invitedMembers,
-    learnMore,
     migrate,
     onClose,
   } = props;
@@ -85,7 +83,7 @@ export const GroupV1MigrationDialog = React.memo((props: PropsType) => {
         )}
         {renderMembers(droppedMembers, droppedMembersKey, i18n)}
       </div>
-      {renderButtons(hasMigrated, onClose, learnMore, migrate, i18n)}
+      {renderButtons(hasMigrated, onClose, migrate, i18n)}
     </div>
   );
 });
@@ -93,7 +91,6 @@ export const GroupV1MigrationDialog = React.memo((props: PropsType) => {
 function renderButtons(
   hasMigrated: boolean,
   onClose: CallbackType,
-  learnMore: CallbackType,
   migrate: CallbackType,
   i18n: LocalizerType
 ) {
@@ -125,9 +122,9 @@ function renderButtons(
           'module-group-v2-migration-dialog__button--secondary'
         )}
         type="button"
-        onClick={learnMore}
+        onClick={onClose}
       >
-        {i18n('GroupV1--Migration--learn-more')}
+        {i18n('cancel')}
       </button>
       <button
         className="module-group-v2-migration-dialog__button"

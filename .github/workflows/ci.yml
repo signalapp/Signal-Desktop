@@ -30,7 +30,7 @@ jobs:
     - run: yarn generate
     - run: yarn lint
     - run: yarn lint-deps
-    - run: git diff --quiet --exit-code
+    - run: git diff --exit-code
 
   macos:
     needs: lint

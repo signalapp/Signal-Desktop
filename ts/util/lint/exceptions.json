@@ -14463,7 +14463,7 @@
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.js",
     "line": "    el.innerHTML = '';",
-    "lineNumber": 27,
+    "lineNumber": 28,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-20T20:10:43.540Z",
     "reasonDetail": "Our code, no user input, only clearing out the dom"
@@ -14472,7 +14472,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionArea.js",
     "line": "    const inputApiRef = React.useRef();",
-    "lineNumber": 43,
+    "lineNumber": 46,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Doesn't refer to a DOM element."
@@ -14481,7 +14481,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionArea.js",
     "line": "    const attSlotRef = React.useRef(null);",
-    "lineNumber": 66,
+    "lineNumber": 69,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Needed for the composition area."
@@ -14490,7 +14490,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionArea.js",
     "line": "    const micCellRef = React.useRef(null);",
-    "lineNumber": 100,
+    "lineNumber": 103,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Needed for the composition area."
@@ -14499,7 +14499,7 @@
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.tsx",
     "line": "  el.innerHTML = '';",
-    "lineNumber": 85,
+    "lineNumber": 91,
     "reasonCategory": "usageTrusted",
     "updated": "2020-06-03T19:23:21.195Z",
     "reasonDetail": "Our code, no user input, only clearing out the dom"
@@ -14859,7 +14859,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Timeline.js",
     "line": "        this.listRef = react_1.default.createRef();",
-    "lineNumber": 29,
+    "lineNumber": 30,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Timeline needs to interact with its child List directly"
@@ -15172,7 +15172,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/WebAPI.ts",
     "line": "      const byteBuffer = window.dcodeIO.ByteBuffer.wrap(",
-    "lineNumber": 2171,
+    "lineNumber": 2172,
     "reasonCategory": "falseMatch",
     "updated": "2020-09-08T23:07:22.682Z"
   }

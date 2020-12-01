@@ -36,6 +36,7 @@ import { createCallManager } from './state/roots/createCallManager';
 import { createCompositionArea } from './state/roots/createCompositionArea';
 import { createContactModal } from './state/roots/createContactModal';
 import { createConversationHeader } from './state/roots/createConversationHeader';
+import { createGroupV1MigrationModal } from './state/roots/createGroupV1MigrationModal';
 import { createLeftPane } from './state/roots/createLeftPane';
 import { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer';
 import { createShortcutGuideModal } from './state/roots/createShortcutGuideModal';
@@ -430,6 +431,7 @@ declare global {
           createCompositionArea: typeof createCompositionArea;
           createContactModal: typeof createContactModal;
           createConversationHeader: typeof createConversationHeader;
+          createGroupV1MigrationModal: typeof createGroupV1MigrationModal;
           createLeftPane: typeof createLeftPane;
           createSafetyNumberViewer: typeof createSafetyNumberViewer;
           createShortcutGuideModal: typeof createShortcutGuideModal;

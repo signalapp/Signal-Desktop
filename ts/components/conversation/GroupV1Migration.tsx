@@ -55,9 +55,6 @@ export function GroupV1Migration(props: PropsType): React.ReactElement {
             hasMigrated
             i18n={i18n}
             invitedMembers={invitedMembers}
-            learnMore={() =>
-              window.log.warn('GroupV1Migration: Modal called learnMore()')
-            }
             migrate={() =>
               window.log.warn('GroupV1Migration: Modal called migrate()')
             }

@@ -1077,8 +1077,9 @@ export function initialize({
         responseType: 'json',
       });
 
-      return res.config.filter(({ name }: { name: string }) =>
-        name.startsWith('desktop.')
+      return res.config.filter(
+        ({ name }: { name: string }) =>
+          name.startsWith('desktop.') || name.startsWith('global.')
       );
     }
 

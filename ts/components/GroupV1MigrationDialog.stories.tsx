@@ -43,7 +43,6 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   ),
   i18n,
   invitedMembers: overrideProps.invitedMembers || [contact2],
-  learnMore: action('learnMore'),
   migrate: action('migrate'),
   onClose: action('onClose'),
 });

@@ -101,7 +101,11 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
 
   return {
     id,
-    ...pick(conversation, ['unreadCount', 'typingContact']),
+    ...pick(conversation, [
+      'unreadCount',
+      'typingContact',
+      'isGroupV1AndDisabled',
+    ]),
     ...conversationMessages,
     selectedMessageId: selectedMessage ? selectedMessage.id : undefined,
     i18n: getIntl(state),

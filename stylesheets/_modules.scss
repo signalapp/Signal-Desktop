@@ -6983,6 +6983,10 @@ button.module-image__border-overlay:focus {
   overflow: hidden;
 }
 
+.module-timeline--disabled {
+  user-select: none;
+}
+
 .module-timeline__message-container {
   padding-top: 4px;
   padding-bottom: 4px;
@@ -9832,6 +9836,59 @@ button.module-image__border-overlay:focus {
   @include button-primary;
   @include button-secondary;
   @include button-secondary-blue-text;
+}
+
+// Module: GroupV1 Disabled Actions
+
+.module-group-v1-disabled-actions {
+  padding: 8px 16px 12px 16px;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @include light-theme {
+    background: $color-white;
+  }
+
+  @include dark-theme {
+    background: $color-gray-95;
+  }
+}
+
+.module-group-v1-disabled-actions__message {
+  @include font-body-2;
+  text-align: center;
+  margin-bottom: 12px;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
+
+.module-group-v1-disabled-actions__message__learn-more {
+  text-decoration: none;
+}
+
+.module-group-v1-disabled-actions__buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.module-group-v1-disabled-actions__buttons__button {
+  @include button-reset;
+  @include font-body-1-bold;
+
+  border-radius: 4px;
+
+  padding: 8px;
+  padding-left: 30px;
+  padding-right: 30px;
+
+  @include button-primary;
 }
 
 // Module: Modal Host

@@ -54,6 +54,7 @@ export type ConversationType = {
   isAccepted?: boolean;
   isArchived?: boolean;
   isBlocked?: boolean;
+  isGroupV1AndDisabled?: boolean;
   isPinned?: boolean;
   isVerified?: boolean;
   activeAt?: number;

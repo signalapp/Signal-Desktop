@@ -3968,6 +3968,16 @@
       }
     }
   },
+  "GroupV1--Migration--disabled": {
+    "message": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. $learnMore$",
+    "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
+    "placeholders": {
+      "learnMore": {
+        "content": "$1",
+        "example": "Learn more."
+      }
+    }
+  },
   "GroupV1--Migration--was-upgraded": {
     "message": "This group was upgraded to a New Group.",
     "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"

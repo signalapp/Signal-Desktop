@@ -632,6 +632,13 @@ export class ConversationModel extends window.Backbone.Model<
     window.Signal.Data.updateConversation(this.attributes);
   }
 
+  isGroupV1AndDisabled(): boolean {
+    return (
+      this.isGroupV1() &&
+      window.Signal.RemoteConfig.isEnabled('desktop.disableGV1')
+    );
+  }
+
   isBlocked(): boolean {
     const uuid = this.get('uuid');
     if (uuid) {
@@ -1181,6 +1188,7 @@ export class ConversationModel extends window.Backbone.Model<
       isArchived: this.get('isArchived')!,
       isBlocked: this.isBlocked(),
       isMe: this.isMe(),
+      isGroupV1AndDisabled: this.isGroupV1AndDisabled(),
       isPinned: this.get('isPinned'),
       isMissingMandatoryProfileSharing: this.isMissingRequiredProfileSharing(),
       isVerified: this.isVerified(),
@@ -4061,6 +4069,10 @@ export class ConversationModel extends window.Backbone.Model<
   private canChangeTimer(): boolean {
     if (this.isPrivate()) {
       return true;
+    }
+
+    if (this.isGroupV1AndDisabled()) {
+      return false;
     }
 
     if (!this.isGroupV2()) {

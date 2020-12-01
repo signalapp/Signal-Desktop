@@ -7,6 +7,7 @@ import {
   difference,
   flatten,
   fromPairs,
+  isFinite,
   isNumber,
   values,
 } from 'lodash';
@@ -722,6 +723,168 @@ export async function isGroupEligibleToMigrate(
   return true;
 }
 
+export async function getGroupMigrationMembers(
+  conversation: ConversationModel
+): Promise<{
+  areWeInvited: boolean;
+  areWeMember: boolean;
+  droppedGV2MemberIds: Array<string>;
+  membersV2: Array<GroupV2MemberType>;
+  pendingMembersV2: Array<GroupV2PendingMemberType>;
+  previousGroupV1Members: Array<string>;
+}> {
+  const logId = conversation.idForLogging();
+  const MEMBER_ROLE_ENUM = window.textsecure.protobuf.Member.Role;
+
+  const ourConversationId = window.ConversationController.getOurConversationId();
+  if (!ourConversationId) {
+    throw new Error(
+      `getGroupMigrationMembers/${logId}: Couldn't fetch our own conversationId!`
+    );
+  }
+
+  let areWeMember = false;
+  let areWeInvited = false;
+
+  const previousGroupV1Members = conversation.get('members') || [];
+  const now = Date.now();
+  const memberLookup: Record<string, boolean> = {};
+  const membersV2: Array<GroupV2MemberType> = compact(
+    await Promise.all(
+      previousGroupV1Members.map(async e164 => {
+        const contact = window.ConversationController.get(e164);
+
+        if (!contact) {
+          throw new Error(
+            `getGroupMigrationMembers/${logId}: membersV2 - missing local contact for ${e164}, skipping.`
+          );
+        }
+        if (!contact.get('uuid')) {
+          window.log.warn(
+            `getGroupMigrationMembers/${logId}: membersV2 - missing uuid for ${e164}, skipping.`
+          );
+          return null;
+        }
+
+        if (!contact.get('profileKey')) {
+          window.log.warn(
+            `getGroupMigrationMembers/${logId}: membersV2 - missing profileKey for member ${e164}, skipping.`
+          );
+          return null;
+        }
+
+        let capabilities = contact.get('capabilities');
+
+        // Refresh our local data to be sure
+        if (
+          !capabilities ||
+          !capabilities.gv2 ||
+          !capabilities['gv1-migration'] ||
+          !contact.get('profileKeyCredential')
+        ) {
+          await contact.getProfiles();
+        }
+
+        capabilities = contact.get('capabilities');
+        if (!capabilities || !capabilities.gv2) {
+          window.log.warn(
+            `getGroupMigrationMembers/${logId}: membersV2 - member ${e164} is missing gv2 capability, skipping.`
+          );
+          return null;
+        }
+        if (!capabilities || !capabilities['gv1-migration']) {
+          window.log.warn(
+            `getGroupMigrationMembers/${logId}: membersV2 - member ${e164} is missing gv1-migration capability, skipping.`
+          );
+          return null;
+        }
+        if (!contact.get('profileKeyCredential')) {
+          window.log.warn(
+            `getGroupMigrationMembers/${logId}: membersV2 - no profileKeyCredential for ${e164}, skipping.`
+          );
+          return null;
+        }
+
+        const conversationId = contact.id;
+
+        if (conversationId === ourConversationId) {
+          areWeMember = true;
+        }
+
+        memberLookup[conversationId] = true;
+
+        return {
+          conversationId,
+          role: MEMBER_ROLE_ENUM.ADMINISTRATOR,
+          joinedAtVersion: 0,
+        };
+      })
+    )
+  );
+
+  const droppedGV2MemberIds: Array<string> = [];
+  const pendingMembersV2: Array<GroupV2PendingMemberType> = compact(
+    (previousGroupV1Members || []).map(e164 => {
+      const contact = window.ConversationController.get(e164);
+
+      if (!contact) {
+        throw new Error(
+          `getGroupMigrationMembers/${logId}: pendingMembersV2 - missing local contact for ${e164}, skipping.`
+        );
+      }
+
+      const conversationId = contact.id;
+      // If we've already added this contact above, we'll skip here
+      if (memberLookup[conversationId]) {
+        return null;
+      }
+
+      if (!contact.get('uuid')) {
+        window.log.warn(
+          `getGroupMigrationMembers/${logId}: pendingMembersV2 - missing uuid for ${e164}, skipping.`
+        );
+        droppedGV2MemberIds.push(conversationId);
+        return null;
+      }
+
+      const capabilities = contact.get('capabilities');
+      if (!capabilities || !capabilities.gv2) {
+        window.log.warn(
+          `getGroupMigrationMembers/${logId}: pendingMembersV2 - member ${e164} is missing gv2 capability, skipping.`
+        );
+        droppedGV2MemberIds.push(conversationId);
+        return null;
+      }
+      if (!capabilities || !capabilities['gv1-migration']) {
+        window.log.warn(
+          `getGroupMigrationMembers/${logId}: pendingMembersV2 - member ${e164} is missing gv1-migration capability, skipping.`
+        );
+        droppedGV2MemberIds.push(conversationId);
+        return null;
+      }
+
+      if (conversationId === ourConversationId) {
+        areWeInvited = true;
+      }
+
+      return {
+        conversationId,
+        timestamp: now,
+        addedByUserId: ourConversationId,
+      };
+    })
+  );
+
+  return {
+    areWeInvited,
+    areWeMember,
+    droppedGV2MemberIds,
+    membersV2,
+    pendingMembersV2,
+    previousGroupV1Members,
+  };
+}
+
 // This is called when the user chooses to migrate a GroupV1. It will update the server,
 //   then let all members know about the new group.
 export async function initiateMigrationToGroupV2(
@@ -732,7 +895,6 @@ export async function initiateMigrationToGroupV2(
 
   try {
     await conversation.queueJob(async () => {
-      const MEMBER_ROLE_ENUM = window.textsecure.protobuf.Member.Role;
       const ACCESS_ENUM =
         window.textsecure.protobuf.AccessControl.AccessRequired;
 
@@ -766,138 +928,14 @@ export async function initiateMigrationToGroupV2(
         );
       }
 
-      let areWeMember = false;
-      let areWeInvited = false;
-
-      const now = Date.now();
-
-      const previousGroupV1Members = conversation.get('members') || [];
-      const memberLookup: Record<string, boolean> = {};
-      const membersV2: Array<GroupV2MemberType> = compact(
-        await Promise.all(
-          previousGroupV1Members.map(async e164 => {
-            const contact = window.ConversationController.get(e164);
-
-            if (!contact) {
-              throw new Error(
-                `initiateMigrationToGroupV2/${logId}: membersV2 - missing local contact for ${e164}, skipping.`
-              );
-            }
-            if (!contact.get('uuid')) {
-              window.log.warn(
-                `initiateMigrationToGroupV2/${logId}: membersV2 - missing uuid for ${e164}, skipping.`
-              );
-              return null;
-            }
-
-            if (!contact.get('profileKey')) {
-              window.log.warn(
-                `initiateMigrationToGroupV2/${logId}: membersV2 - missing profileKey for member ${e164}, skipping.`
-              );
-              return null;
-            }
-
-            let capabilities = contact.get('capabilities');
-
-            // Refresh our local data to be sure
-            if (
-              !capabilities ||
-              !capabilities.gv2 ||
-              !capabilities['gv1-migration'] ||
-              !contact.get('profileKeyCredential')
-            ) {
-              await contact.getProfiles();
-            }
-
-            capabilities = contact.get('capabilities');
-            if (!capabilities || !capabilities.gv2) {
-              window.log.warn(
-                `initiateMigrationToGroupV2/${logId}: membersV2 - member ${e164} is missing gv2 capability, skipping.`
-              );
-              return null;
-            }
-            if (!capabilities || !capabilities['gv1-migration']) {
-              window.log.warn(
-                `initiateMigrationToGroupV2/${logId}: membersV2 - member ${e164} is missing gv1-migration capability, skipping.`
-              );
-              return null;
-            }
-            if (!contact.get('profileKeyCredential')) {
-              window.log.warn(
-                `initiateMigrationToGroupV2/${logId}: membersV2 - no profileKeyCredential for ${e164}, skipping.`
-              );
-              return null;
-            }
-
-            const conversationId = contact.id;
-
-            if (conversationId === ourConversationId) {
-              areWeMember = true;
-            }
-
-            memberLookup[conversationId] = true;
-
-            return {
-              conversationId,
-              role: MEMBER_ROLE_ENUM.ADMINISTRATOR,
-              joinedAtVersion: 0,
-            };
-          })
-        )
-      );
-
-      const droppedGV2MemberIds: Array<string> = [];
-      const pendingMembersV2: Array<GroupV2PendingMemberType> = compact(
-        (previousGroupV1Members || []).map(e164 => {
-          const contact = window.ConversationController.get(e164);
-
-          if (!contact) {
-            throw new Error(
-              `initiateMigrationToGroupV2/${logId}: pendingMembersV2 - missing local contact for ${e164}, skipping.`
-            );
-          }
-
-          const conversationId = contact.id;
-          // If we've already added this contact above, we'll skip here
-          if (memberLookup[conversationId]) {
-            return null;
-          }
-
-          if (!contact.get('uuid')) {
-            window.log.warn(
-              `initiateMigrationToGroupV2/${logId}: pendingMembersV2 - missing uuid for ${e164}, skipping.`
-            );
-            droppedGV2MemberIds.push(conversationId);
-            return null;
-          }
-
-          const capabilities = contact.get('capabilities');
-          if (!capabilities || !capabilities.gv2) {
-            window.log.warn(
-              `initiateMigrationToGroupV2/${logId}: pendingMembersV2 - member ${e164} is missing gv2 capability, skipping.`
-            );
-            droppedGV2MemberIds.push(conversationId);
-            return null;
-          }
-          if (!capabilities || !capabilities['gv1-migration']) {
-            window.log.warn(
-              `initiateMigrationToGroupV2/${logId}: pendingMembersV2 - member ${e164} is missing gv1-migration capability, skipping.`
-            );
-            droppedGV2MemberIds.push(conversationId);
-            return null;
-          }
-
-          if (conversationId === ourConversationId) {
-            areWeInvited = true;
-          }
-
-          return {
-            conversationId,
-            timestamp: now,
-            addedByUserId: ourConversationId,
-          };
-        })
-      );
+      const {
+        areWeMember,
+        areWeInvited,
+        membersV2,
+        pendingMembersV2,
+        droppedGV2MemberIds,
+        previousGroupV1Members,
+      } = await getGroupMigrationMembers(conversation);
 
       if (!areWeMember) {
         throw new Error(
@@ -907,6 +945,26 @@ export async function initiateMigrationToGroupV2(
       if (areWeInvited) {
         throw new Error(
           `initiateMigrationToGroupV2/${logId}: After members migration, we are invited!`
+        );
+      }
+
+      const rawSizeLimit = window.Signal.RemoteConfig.getValue(
+        'global.groupsv2.groupSizeHardLimit'
+      );
+      if (!rawSizeLimit) {
+        throw new Error(
+          `initiateMigrationToGroupV2/${logId}: Failed to fetch group size limit`
+        );
+      }
+      const sizeLimit = parseInt(rawSizeLimit, 10);
+      if (!isFinite(sizeLimit)) {
+        throw new Error(
+          `initiateMigrationToGroupV2/${logId}: Failed to parse group size limit`
+        );
+      }
+      if (membersV2.length + pendingMembersV2.length > sizeLimit) {
+        throw new Error(
+          `initiateMigrationToGroupV2/${logId}: Too many members! Member count: ${membersV2.length}, Pending member count: ${pendingMembersV2.length}`
         );
       }
 
@@ -2004,7 +2062,7 @@ async function integrateGroupChange({
   };
 }
 
-export async function getCurrentGroupState({
+async function getCurrentGroupState({
   authCredentialBase64,
   dropInitialJoinMessage,
   group,
