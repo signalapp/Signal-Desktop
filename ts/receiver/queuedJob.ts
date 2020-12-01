@@ -129,6 +129,10 @@ async function copyFromQuotedMessage(
         );
         copyFromQuotedMessage(msg, quote, attemptCount + 1).ignore();
       }, attemptCount * attemptCount * 500);
+    } else {
+      window.log.warn(
+        `We did not found quoted message ${id} after ${attemptCount} attempts.`
+      );
     }
 
     quote.referencedMessageNotFound = true;
