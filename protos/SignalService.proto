@@ -228,8 +228,7 @@ message DataMessage {
   }
 
   message GroupCallUpdate {
-    // Currently just a sentinel message indicating that a client should
-    // fetch updated group call state.
+    optional string eraId = 1;
   }
 
   enum ProtocolVersion {

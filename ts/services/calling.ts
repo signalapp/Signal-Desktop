@@ -66,6 +66,16 @@ const RINGRTC_HTTP_METHOD_TO_OUR_HTTP_METHOD: Map<
   [HttpMethod.Delete, 'DELETE'],
 ]);
 
+// We send group call update messages to tell other clients to peek, which triggers
+//   notifications, timeline messages, big green "Join" buttons, and so on. This enum
+//   represents the three possible states we can be in. This helps ensure that we don't
+//   send an update on disconnect if we never sent one when we joined.
+enum GroupCallUpdateMessageState {
+  SentNothing,
+  SentJoin,
+  SentLeft,
+}
+
 export {
   CallState,
   CanvasVideoRenderer,
@@ -379,6 +389,7 @@ export class CallingClass {
 
     const groupIdBuffer = base64ToArrayBuffer(groupId);
 
+    let updateMessageState = GroupCallUpdateMessageState.SentNothing;
     let isRequestingMembershipProof = false;
 
     const outerGroupCall = RingRTC.getGroupCall(
@@ -387,6 +398,7 @@ export class CallingClass {
       {
         onLocalDeviceStateChanged: groupCall => {
           const localDeviceState = groupCall.getLocalDeviceState();
+          const { eraId } = groupCall.getPeekInfo() || {};
 
           if (
             localDeviceState.connectionState === ConnectionState.NotConnected
@@ -397,6 +409,14 @@ export class CallingClass {
             this.disableLocalCamera();
 
             delete this.callsByConversation[conversationId];
+
+            if (
+              updateMessageState === GroupCallUpdateMessageState.SentJoin &&
+              eraId
+            ) {
+              updateMessageState = GroupCallUpdateMessageState.SentLeft;
+              this.sendGroupCallUpdateMessage(conversationId, eraId);
+            }
           } else {
             this.callsByConversation[conversationId] = groupCall;
 
@@ -405,6 +425,15 @@ export class CallingClass {
               this.disableLocalCamera();
             } else {
               this.videoCapturer.enableCaptureAndSend(groupCall);
+            }
+
+            if (
+              updateMessageState === GroupCallUpdateMessageState.SentNothing &&
+              localDeviceState.joinState === JoinState.Joined &&
+              eraId
+            ) {
+              updateMessageState = GroupCallUpdateMessageState.SentJoin;
+              this.sendGroupCallUpdateMessage(conversationId, eraId);
             }
           }
 
@@ -630,6 +659,35 @@ export class CallingClass {
       conversationId,
       ...this.formatGroupCallForRedux(groupCall),
     });
+  }
+
+  private sendGroupCallUpdateMessage(
+    conversationId: string,
+    eraId: string
+  ): void {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      window.log.error(
+        'Unable to send group call update message for non-existent conversation'
+      );
+      return;
+    }
+
+    const groupV2 = conversation.getGroupV2Info();
+    const sendOptions = conversation.getSendOptions();
+    if (!groupV2) {
+      window.log.error(
+        'Unable to send group call update message for conversation that lacks groupV2 info'
+      );
+      return;
+    }
+
+    // We "fire and forget" because sending this message is non-essential.
+    window.textsecure.messaging
+      .sendGroupCallUpdate({ eraId, groupV2 }, sendOptions)
+      .catch(err => {
+        window.log.error('Failed to send group call update', err);
+      });
   }
 
   async accept(conversationId: string, asVideoCall: boolean): Promise<void> {

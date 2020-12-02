@@ -105,6 +105,10 @@ type GroupV1InfoType = {
   members: Array<string>;
 };
 
+interface GroupCallUpdateType {
+  eraId: string;
+}
+
 type MessageOptionsType = {
   attachments?: Array<AttachmentType> | null;
   body?: string;
@@ -125,6 +129,7 @@ type MessageOptionsType = {
   deletedForEveryoneTimestamp?: number;
   timestamp: number;
   mentions?: BodyRangesType;
+  groupCallUpdate?: GroupCallUpdateType;
 };
 
 class Message {
@@ -180,6 +185,8 @@ class Message {
 
   mentions?: BodyRangesType;
 
+  groupCallUpdate?: GroupCallUpdateType;
+
   constructor(options: MessageOptionsType) {
     this.attachments = options.attachments || [];
     this.body = options.body;
@@ -197,6 +204,7 @@ class Message {
     this.timestamp = options.timestamp;
     this.deletedForEveryoneTimestamp = options.deletedForEveryoneTimestamp;
     this.mentions = options.mentions;
+    this.groupCallUpdate = options.groupCallUpdate;
 
     if (!(this.recipients instanceof Array)) {
       throw new Error('Invalid recipient list');
@@ -384,6 +392,15 @@ class Message {
           mentionUuid,
         })
       );
+    }
+
+    if (this.groupCallUpdate) {
+      const { GroupCallUpdate } = window.textsecure.protobuf.DataMessage;
+
+      const groupCallUpdate = new GroupCallUpdate();
+      groupCallUpdate.eraId = this.groupCallUpdate.eraId;
+
+      proto.groupCallUpdate = groupCallUpdate;
     }
 
     this.dataMessage = proto;
@@ -1126,6 +1143,20 @@ export default class MessageSender {
     );
   }
 
+  async sendGroupCallUpdate(
+    { groupV2, eraId }: { groupV2: GroupV2InfoType; eraId: string },
+    options?: SendOptionsType
+  ): Promise<void> {
+    await this.sendMessageToGroup(
+      {
+        groupV2,
+        groupCallUpdate: { eraId },
+        timestamp: Date.now(),
+      },
+      options
+    );
+  }
+
   async sendDeliveryReceipt(
     recipientE164: string,
     recipientUuid: string,
@@ -1630,6 +1661,7 @@ export default class MessageSender {
       deletedForEveryoneTimestamp,
       timestamp,
       mentions,
+      groupCallUpdate,
     }: {
       attachments?: Array<AttachmentType>;
       expireTimer?: number;
@@ -1644,6 +1676,7 @@ export default class MessageSender {
       deletedForEveryoneTimestamp?: number;
       timestamp: number;
       mentions?: BodyRangesType;
+      groupCallUpdate?: GroupCallUpdateType;
     },
     options?: SendOptionsType
   ): Promise<CallbackResultType> {
@@ -1695,6 +1728,7 @@ export default class MessageSender {
           }
         : undefined,
       mentions,
+      groupCallUpdate,
     };
 
     if (recipients.length === 0) {

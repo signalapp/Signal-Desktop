@@ -653,7 +653,9 @@ export declare namespace DataMessageClass {
     data?: AttachmentPointerClass;
   }
 
-  class GroupCallUpdate {}
+  class GroupCallUpdate {
+    eraId?: string;
+  }
 }
 
 // Note: we need to use namespaces to express nested classes in Typescript
