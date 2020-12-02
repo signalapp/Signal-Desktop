@@ -5,7 +5,6 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { noop } from 'lodash';
 import classNames from 'classnames';
 import {
-  ActiveCallType,
   HangUpType,
   SetLocalAudioType,
   SetLocalPreviewType,
@@ -17,6 +16,7 @@ import { CallingHeader } from './CallingHeader';
 import { CallingButton, CallingButtonType } from './CallingButton';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
 import {
+  ActiveCallType,
   CallMode,
   CallState,
   GroupCallConnectionState,
@@ -34,8 +34,6 @@ export type PropsType = {
   activeCall: ActiveCallType;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   hangUp: (_: HangUpType) => void;
-  hasLocalAudio: boolean;
-  hasLocalVideo: boolean;
   i18n: LocalizerType;
   joinedAt?: number;
   me: {
@@ -61,8 +59,6 @@ export const CallScreen: React.FC<PropsType> = ({
   activeCall,
   getGroupCallVideoFrameSource,
   hangUp,
-  hasLocalAudio,
-  hasLocalVideo,
   i18n,
   joinedAt,
   me,
@@ -76,7 +72,12 @@ export const CallScreen: React.FC<PropsType> = ({
   togglePip,
   toggleSettings,
 }) => {
-  const { call, conversation, groupCallParticipants } = activeCall;
+  const {
+    conversation,
+    hasLocalAudio,
+    hasLocalVideo,
+    showParticipantsList,
+  } = activeCall;
 
   const toggleAudio = useCallback(() => {
     setLocalAudio({
@@ -148,23 +149,25 @@ export const CallScreen: React.FC<PropsType> = ({
     };
   }, [toggleAudio, toggleVideo]);
 
-  let hasRemoteVideo: boolean;
+  const hasRemoteVideo = activeCall.remoteParticipants.some(
+    remoteParticipant => remoteParticipant.hasRemoteVideo
+  );
+
   let headerMessage: string | undefined;
   let headerTitle: string | undefined;
   let isConnected: boolean;
   let participantCount: number;
   let remoteParticipantsElement: JSX.Element;
 
-  switch (call.callMode) {
+  switch (activeCall.callMode) {
     case CallMode.Direct:
-      hasRemoteVideo = Boolean(call.hasRemoteVideo);
       headerMessage = renderHeaderMessage(
         i18n,
-        call.callState || CallState.Prering,
+        activeCall.callState || CallState.Prering,
         acceptedDuration
       );
       headerTitle = conversation.title;
-      isConnected = call.callState === CallState.Accepted;
+      isConnected = activeCall.callState === CallState.Accepted;
       participantCount = isConnected ? 2 : 0;
       remoteParticipantsElement = (
         <DirectCallRemoteParticipant
@@ -176,26 +179,24 @@ export const CallScreen: React.FC<PropsType> = ({
       );
       break;
     case CallMode.Group:
-      hasRemoteVideo = call.remoteParticipants.some(
-        remoteParticipant => remoteParticipant.hasRemoteVideo
-      );
-      participantCount = activeCall.groupCallParticipants.length;
+      participantCount = activeCall.remoteParticipants.length + 1;
       headerMessage = undefined;
-      headerTitle = activeCall.groupCallParticipants.length
+      headerTitle = activeCall.remoteParticipants.length
         ? undefined
         : i18n('calling__in-this-call--zero');
-      isConnected = call.connectionState === GroupCallConnectionState.Connected;
+      isConnected =
+        activeCall.connectionState === GroupCallConnectionState.Connected;
       remoteParticipantsElement = (
         <GroupCallRemoteParticipants
           getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
           i18n={i18n}
-          remoteParticipants={groupCallParticipants}
+          remoteParticipants={activeCall.remoteParticipants}
           setGroupCallVideoRequest={setGroupCallVideoRequest}
         />
       );
       break;
     default:
-      throw missingCaseError(call);
+      throw missingCaseError(activeCall);
   }
 
   const videoButtonType = hasLocalVideo
@@ -214,14 +215,12 @@ export const CallScreen: React.FC<PropsType> = ({
       !showControls && !isAudioOnly && isConnected,
   });
 
-  const { showParticipantsList } = activeCall.activeCallState;
-
   return (
     <div
       className={classNames(
         'module-calling__container',
         `module-ongoing-call__container--${getCallModeClassSuffix(
-          call.callMode
+          activeCall.callMode
         )}`
       )}
       onMouseMove={() => {
@@ -229,9 +228,9 @@ export const CallScreen: React.FC<PropsType> = ({
       }}
       role="group"
     >
-      {call.callMode === CallMode.Group ? (
+      {activeCall.callMode === CallMode.Group ? (
         <GroupCallToastManager
-          connectionState={call.connectionState}
+          connectionState={activeCall.connectionState}
           i18n={i18n}
         />
       ) : null}
@@ -241,7 +240,7 @@ export const CallScreen: React.FC<PropsType> = ({
         <CallingHeader
           canPip
           i18n={i18n}
-          isGroupCall={call.callMode === CallMode.Group}
+          isGroupCall={activeCall.callMode === CallMode.Group}
           message={headerMessage}
           participantCount={participantCount}
           showParticipantsList={showParticipantsList}

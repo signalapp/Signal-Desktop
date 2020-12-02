@@ -9,12 +9,13 @@ import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
 import { LocalizerType } from '../types/Util';
 import {
+  ActiveCallType,
   CallMode,
   GroupCallRemoteParticipantType,
   GroupCallVideoRequest,
   VideoFrameSource,
 } from '../types/Calling';
-import { ActiveCallType, SetRendererCanvasType } from '../state/ducks/calling';
+import { SetRendererCanvasType } from '../state/ducks/calling';
 import { usePageVisibility } from '../util/hooks';
 import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant';
 
@@ -74,31 +75,31 @@ export const CallingPipRemoteVideo = ({
   setGroupCallVideoRequest,
   setRendererCanvas,
 }: PropsType): JSX.Element => {
-  const { call, conversation, groupCallParticipants } = activeCall;
+  const { conversation } = activeCall;
 
   const isPageVisible = usePageVisibility();
 
   const activeGroupCallSpeaker:
     | undefined
     | GroupCallRemoteParticipantType = useMemo(() => {
-    if (call.callMode !== CallMode.Group) {
+    if (activeCall.callMode !== CallMode.Group) {
       return undefined;
     }
 
     return maxBy(
-      groupCallParticipants,
+      activeCall.remoteParticipants,
       participant => participant.speakerTime || -Infinity
     );
-  }, [call.callMode, groupCallParticipants]);
+  }, [activeCall.callMode, activeCall.remoteParticipants]);
 
   useEffect(() => {
-    if (call.callMode !== CallMode.Group) {
+    if (activeCall.callMode !== CallMode.Group) {
       return;
     }
 
     if (isPageVisible) {
       setGroupCallVideoRequest(
-        groupCallParticipants.map(participant => {
+        activeCall.remoteParticipants.map(participant => {
           const isVisible =
             participant === activeGroupCallSpeaker &&
             participant.hasRemoteVideo;
@@ -116,19 +117,21 @@ export const CallingPipRemoteVideo = ({
       );
     } else {
       setGroupCallVideoRequest(
-        groupCallParticipants.map(nonRenderedRemoteParticipant)
+        activeCall.remoteParticipants.map(nonRenderedRemoteParticipant)
       );
     }
   }, [
-    call.callMode,
-    groupCallParticipants,
+    activeCall.callMode,
+    activeCall.remoteParticipants,
     activeGroupCallSpeaker,
     isPageVisible,
     setGroupCallVideoRequest,
   ]);
 
-  if (call.callMode === CallMode.Direct) {
-    if (!call.hasRemoteVideo) {
+  if (activeCall.callMode === CallMode.Direct) {
+    const { hasRemoteVideo } = activeCall.remoteParticipants[0];
+
+    if (!hasRemoteVideo) {
       return <NoVideo activeCall={activeCall} i18n={i18n} />;
     }
 
@@ -136,7 +139,7 @@ export const CallingPipRemoteVideo = ({
       <div className="module-calling-pip__video--remote">
         <DirectCallRemoteParticipant
           conversation={conversation}
-          hasRemoteVideo={call.hasRemoteVideo}
+          hasRemoteVideo={hasRemoteVideo}
           i18n={i18n}
           setRendererCanvas={setRendererCanvas}
         />
@@ -144,7 +147,7 @@ export const CallingPipRemoteVideo = ({
     );
   }
 
-  if (call.callMode === CallMode.Group) {
+  if (activeCall.callMode === CallMode.Group) {
     if (!activeGroupCallSpeaker) {
       return <NoVideo activeCall={activeCall} i18n={i18n} />;
     }

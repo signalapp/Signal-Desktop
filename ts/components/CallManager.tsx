@@ -9,6 +9,7 @@ import { CallingParticipantsList } from './CallingParticipantsList';
 import { CallingPip } from './CallingPip';
 import { IncomingCallBar } from './IncomingCallBar';
 import {
+  ActiveCallType,
   CallEndedReason,
   CallMode,
   CallState,
@@ -19,7 +20,6 @@ import {
 import { ConversationType } from '../state/ducks/conversations';
 import {
   AcceptCallType,
-  ActiveCallType,
   CancelCallType,
   DeclineCallType,
   DirectCallStateType,
@@ -61,6 +61,7 @@ export interface PropsType {
     phoneNumber?: string;
     profileName?: string;
     title: string;
+    uuid: string;
   };
   setGroupCallVideoRequest: (_: SetGroupCallVideoRequestType) => void;
   setLocalAudio: (_: SetLocalAudioType) => void;
@@ -97,21 +98,15 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
   toggleSettings,
 }) => {
   const {
-    call,
-    activeCallState,
     conversation,
-    groupCallPeekedParticipants,
-    groupCallParticipants,
-    isCallFull,
-  } = activeCall;
-  const {
     hasLocalAudio,
     hasLocalVideo,
     joinedAt,
+    peekedParticipants,
     pip,
     settingsDialogOpen,
     showParticipantsList,
-  } = activeCallState;
+  } = activeCall;
 
   const cancelActiveCall = useCallback(() => {
     cancelCall({ conversationId: conversation.id });
@@ -119,12 +114,18 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
 
   const joinActiveCall = useCallback(() => {
     startCall({
-      callMode: call.callMode,
+      callMode: activeCall.callMode,
       conversationId: conversation.id,
       hasLocalAudio,
       hasLocalVideo,
     });
-  }, [startCall, call.callMode, conversation.id, hasLocalAudio, hasLocalVideo]);
+  }, [
+    startCall,
+    activeCall.callMode,
+    conversation.id,
+    hasLocalAudio,
+    hasLocalVideo,
+  ]);
 
   const getGroupCallVideoFrameSourceForActiveCall = useCallback(
     (demuxId: number) => {
@@ -143,11 +144,12 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
     [setGroupCallVideoRequest, conversation.id]
   );
 
+  let isCallFull: boolean;
   let showCallLobby: boolean;
 
-  switch (call.callMode) {
+  switch (activeCall.callMode) {
     case CallMode.Direct: {
-      const { callState, callEndedReason } = call;
+      const { callState, callEndedReason } = activeCall;
       const ended = callState === CallState.Ended;
       if (
         ended &&
@@ -162,22 +164,19 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
         );
       }
       showCallLobby = !callState;
+      isCallFull = false;
       break;
     }
     case CallMode.Group: {
-      showCallLobby = call.joinState === GroupCallJoinState.NotJoined;
+      showCallLobby = activeCall.joinState === GroupCallJoinState.NotJoined;
+      isCallFull = activeCall.deviceCount >= activeCall.maxDevices;
       break;
     }
     default:
-      throw missingCaseError(call);
+      throw missingCaseError(activeCall);
   }
 
   if (showCallLobby) {
-    const participantNames = groupCallPeekedParticipants.map(participant =>
-      participant.isSelf
-        ? i18n('you')
-        : participant.firstName || participant.title
-    );
     return (
       <>
         <CallingLobby
@@ -186,12 +185,12 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
           hasLocalAudio={hasLocalAudio}
           hasLocalVideo={hasLocalVideo}
           i18n={i18n}
-          isGroupCall={call.callMode === CallMode.Group}
+          isGroupCall={activeCall.callMode === CallMode.Group}
           isCallFull={isCallFull}
           me={me}
           onCallCanceled={cancelActiveCall}
           onJoinCall={joinActiveCall}
-          participantNames={participantNames}
+          peekedParticipants={peekedParticipants}
           setLocalPreview={setLocalPreview}
           setLocalAudio={setLocalAudio}
           setLocalVideo={setLocalVideo}
@@ -200,11 +199,11 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
           toggleSettings={toggleSettings}
         />
         {settingsDialogOpen && renderDeviceSelection()}
-        {showParticipantsList && call.callMode === CallMode.Group ? (
+        {showParticipantsList && activeCall.callMode === CallMode.Group ? (
           <CallingParticipantsList
             i18n={i18n}
             onClose={toggleParticipants}
-            participants={groupCallParticipants}
+            participants={peekedParticipants}
           />
         ) : null}
       </>
@@ -227,14 +226,30 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
     );
   }
 
+  const groupCallParticipantsForParticipantsList =
+    activeCall.callMode === CallMode.Group
+      ? [
+          ...activeCall.remoteParticipants.map(participant => ({
+            ...participant,
+            hasAudio: participant.hasRemoteAudio,
+            hasVideo: participant.hasRemoteVideo,
+            isSelf: false,
+          })),
+          {
+            ...me,
+            hasAudio: hasLocalAudio,
+            hasVideo: hasLocalVideo,
+            isSelf: true,
+          },
+        ]
+      : [];
+
   return (
     <>
       <CallScreen
         activeCall={activeCall}
         getGroupCallVideoFrameSource={getGroupCallVideoFrameSourceForActiveCall}
         hangUp={hangUp}
-        hasLocalAudio={hasLocalAudio}
-        hasLocalVideo={hasLocalVideo}
         i18n={i18n}
         joinedAt={joinedAt}
         me={me}
@@ -249,11 +264,11 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
         toggleSettings={toggleSettings}
       />
       {settingsDialogOpen && renderDeviceSelection()}
-      {showParticipantsList && call.callMode === CallMode.Group ? (
+      {showParticipantsList && activeCall.callMode === CallMode.Group ? (
         <CallingParticipantsList
           i18n={i18n}
           onClose={toggleParticipants}
-          participants={groupCallParticipants}
+          participants={groupCallParticipantsForParticipantsList}
         />
       ) : null}
     </>

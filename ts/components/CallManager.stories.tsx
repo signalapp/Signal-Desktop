@@ -35,8 +35,8 @@ const getConversation = () => ({
   lastUpdated: Date.now(),
 });
 
-const getCallState = () => ({
-  conversationId: '3051234567',
+const getCommonActiveCallData = () => ({
+  conversation: getConversation(),
   joinedAt: Date.now(),
   hasLocalAudio: boolean('hasLocalAudio', true),
   hasLocalVideo: boolean('hasLocalVideo', false),
@@ -69,6 +69,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   hangUp: action('hang-up'),
   i18n,
   me: {
+    uuid: 'cb0dd0c8-7393-41e9-a0aa-d631c4109541',
     color: select('Caller color', Colors, 'ultramarine' as ColorType),
     title: text('Caller Title', 'Morty Smith'),
   },
@@ -92,19 +93,11 @@ story.add('Ongoing Direct Call', () => (
   <CallManager
     {...createProps({
       activeCall: {
-        call: {
-          callMode: CallMode.Direct as CallMode.Direct,
-          conversationId: '3051234567',
-          callState: CallState.Accepted,
-          isIncoming: false,
-          isVideoCall: true,
-          hasRemoteVideo: true,
-        },
-        activeCallState: getCallState(),
-        conversation: getConversation(),
-        isCallFull: false,
-        groupCallPeekedParticipants: [],
-        groupCallParticipants: [],
+        ...getCommonActiveCallData(),
+        callMode: CallMode.Direct,
+        callState: CallState.Accepted,
+        peekedParticipants: [],
+        remoteParticipants: [{ hasRemoteVideo: true }],
       },
     })}
   />
@@ -114,23 +107,14 @@ story.add('Ongoing Group Call', () => (
   <CallManager
     {...createProps({
       activeCall: {
-        call: {
-          callMode: CallMode.Group as CallMode.Group,
-          conversationId: '3051234567',
-          connectionState: GroupCallConnectionState.Connected,
-          joinState: GroupCallJoinState.Joined,
-          peekInfo: {
-            conversationIds: [],
-            maxDevices: 16,
-            deviceCount: 0,
-          },
-          remoteParticipants: [],
-        },
-        activeCallState: getCallState(),
-        conversation: getConversation(),
-        isCallFull: false,
-        groupCallPeekedParticipants: [],
-        groupCallParticipants: [],
+        ...getCommonActiveCallData(),
+        callMode: CallMode.Group,
+        connectionState: GroupCallConnectionState.Connected,
+        deviceCount: 0,
+        joinState: GroupCallJoinState.Joined,
+        maxDevices: 5,
+        peekedParticipants: [],
+        remoteParticipants: [],
       },
     })}
   />
@@ -151,14 +135,12 @@ story.add('Call Request Needed', () => (
   <CallManager
     {...createProps({
       activeCall: {
-        call: getIncomingCallState({
-          callEndedReason: CallEndedReason.RemoteHangupNeedPermission,
-        }),
-        activeCallState: getCallState(),
-        conversation: getConversation(),
-        isCallFull: false,
-        groupCallPeekedParticipants: [],
-        groupCallParticipants: [],
+        ...getCommonActiveCallData(),
+        callEndedReason: CallEndedReason.RemoteHangupNeedPermission,
+        callMode: CallMode.Direct,
+        callState: CallState.Accepted,
+        peekedParticipants: [],
+        remoteParticipants: [{ hasRemoteVideo: true }],
       },
     })}
   />

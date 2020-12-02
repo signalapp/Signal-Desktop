@@ -9,9 +9,9 @@ import { action } from '@storybook/addon-actions';
 
 import { ColorType } from '../types/Colors';
 import { ConversationTypeType } from '../state/ducks/conversations';
-import { ActiveCallType } from '../state/ducks/calling';
 import { CallingPip, PropsType } from './CallingPip';
 import {
+  ActiveCallType,
   CallMode,
   CallState,
   GroupCallConnectionState,
@@ -35,34 +35,26 @@ const conversation = {
   lastUpdated: Date.now(),
 };
 
-const defaultCall = {
+const getCommonActiveCallData = () => ({
+  conversation,
+  hasLocalAudio: boolean('hasLocalAudio', true),
+  hasLocalVideo: boolean('hasLocalVideo', false),
+  joinedAt: Date.now(),
+  pip: true,
+  settingsDialogOpen: false,
+  showParticipantsList: false,
+});
+
+const defaultCall: ActiveCallType = {
+  ...getCommonActiveCallData(),
   callMode: CallMode.Direct as CallMode.Direct,
-  conversationId: '3051234567',
   callState: CallState.Accepted,
-  isIncoming: false,
-  isVideoCall: true,
-  hasRemoteVideo: true,
+  peekedParticipants: [],
+  remoteParticipants: [{ hasRemoteVideo: true }],
 };
 
-const createProps = (
-  overrideProps: Partial<PropsType> = {},
-  activeCall: Partial<ActiveCallType> = {}
-): PropsType => ({
-  activeCall: {
-    activeCallState: {
-      conversationId: '123',
-      hasLocalAudio: true,
-      hasLocalVideo: true,
-      pip: false,
-      settingsDialogOpen: false,
-      showParticipantsList: true,
-    },
-    call: activeCall.call || defaultCall,
-    conversation: activeCall.conversation || conversation,
-    isCallFull: false,
-    groupCallPeekedParticipants: [],
-    groupCallParticipants: [],
-  },
+const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
+  activeCall: overrideProps.activeCall || defaultCall,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getGroupCallVideoFrameSource: noop as any,
   hangUp: action('hang-up'),
@@ -82,48 +74,43 @@ story.add('Default', () => {
 });
 
 story.add('Contact (with avatar)', () => {
-  const props = createProps(
-    {},
-    {
+  const props = createProps({
+    activeCall: {
+      ...defaultCall,
       conversation: {
         ...conversation,
         avatarPath: 'https://www.fillmurray.com/64/64',
       },
-    }
-  );
+    },
+  });
   return <CallingPip {...props} />;
 });
 
 story.add('Contact (no color)', () => {
-  const props = createProps(
-    {},
-    {
+  const props = createProps({
+    activeCall: {
+      ...defaultCall,
       conversation: {
         ...conversation,
         color: undefined,
       },
-    }
-  );
+    },
+  });
   return <CallingPip {...props} />;
 });
 
 story.add('Group Call', () => {
-  const props = createProps(
-    {},
-    {
-      call: {
-        callMode: CallMode.Group as CallMode.Group,
-        conversationId: '3051234567',
-        connectionState: GroupCallConnectionState.Connected,
-        joinState: GroupCallJoinState.Joined,
-        peekInfo: {
-          conversationIds: [],
-          maxDevices: 16,
-          deviceCount: 0,
-        },
-        remoteParticipants: [],
-      },
-    }
-  );
+  const props = createProps({
+    activeCall: {
+      ...getCommonActiveCallData(),
+      callMode: CallMode.Group as CallMode.Group,
+      connectionState: GroupCallConnectionState.Connected,
+      joinState: GroupCallJoinState.Joined,
+      maxDevices: 5,
+      deviceCount: 0,
+      peekedParticipants: [],
+      remoteParticipants: [],
+    },
+  });
   return <CallingPip {...props} />;
 });

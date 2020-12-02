@@ -566,24 +566,21 @@ export class CallingClass {
     }
   }
 
-  private uuidToConversationId(userId: ArrayBuffer): string {
-    const result = window.ConversationController.ensureContactIds({
-      uuid: arrayBufferToUuid(userId),
-    });
-    if (!result) {
-      throw new Error(
-        'Calling.uuidToConversationId: no conversation found for that UUID'
-      );
-    }
-    return result;
-  }
-
   public formatGroupCallPeekInfoForRedux(
-    peekInfo: PeekInfo = { joinedMembers: [], deviceCount: 0 }
+    peekInfo: PeekInfo
   ): GroupCallPeekInfoType {
     return {
-      conversationIds: peekInfo.joinedMembers.map(this.uuidToConversationId),
-      creator: peekInfo.creator && this.uuidToConversationId(peekInfo.creator),
+      uuids: peekInfo.joinedMembers.map(uuidBuffer => {
+        let uuid = arrayBufferToUuid(uuidBuffer);
+        if (!uuid) {
+          window.log.error(
+            'Calling.formatGroupCallPeekInfoForRedux: could not convert peek UUID ArrayBuffer to string; using fallback UUID'
+          );
+          uuid = '00000000-0000-0000-0000-000000000000';
+        }
+        return uuid;
+      }),
+      creatorUuid: peekInfo.creator && arrayBufferToUuid(peekInfo.creator),
       eraId: peekInfo.eraId,
       maxDevices: peekInfo.maxDevices ?? Infinity,
       deviceCount: peekInfo.deviceCount,
@@ -592,22 +589,15 @@ export class CallingClass {
 
   private formatGroupCallForRedux(groupCall: GroupCall) {
     const localDeviceState = groupCall.getLocalDeviceState();
+    const peekInfo = groupCall.getPeekInfo();
 
     // RingRTC doesn't ensure that the demux ID is unique. This can happen if someone
     //   leaves the call and quickly rejoins; RingRTC will tell us that there are two
-    //   participants with the same demux ID in the call.
+    //   participants with the same demux ID in the call. This should be rare.
     const remoteDeviceStates = uniqBy(
       groupCall.getRemoteDeviceStates() || [],
       remoteDeviceState => remoteDeviceState.demuxId
     );
-
-    // `GroupCall.prototype.getPeekInfo()` won't return anything at first, so we try to
-    //   set a reasonable default based on the remote device states (which is likely an
-    //   empty array at this point, but we handle the case where it is not).
-    const peekInfo = groupCall.getPeekInfo() || {
-      joinedMembers: remoteDeviceStates.map(({ userId }) => userId),
-      deviceCount: remoteDeviceStates.length,
-    };
 
     // It should be impossible to be disconnected and Joining or Joined. Just in case, we
     //   try to handle that case.
@@ -616,8 +606,6 @@ export class CallingClass {
         ? GroupCallJoinState.NotJoined
         : this.convertRingRtcJoinState(localDeviceState.joinState);
 
-    const ourConversationId = window.ConversationController.getOurConversationId();
-
     return {
       connectionState: this.convertRingRtcConnectionState(
         localDeviceState.connectionState
@@ -625,17 +613,22 @@ export class CallingClass {
       joinState,
       hasLocalAudio: !localDeviceState.audioMuted,
       hasLocalVideo: !localDeviceState.videoMuted,
-      peekInfo: this.formatGroupCallPeekInfoForRedux(peekInfo),
+      peekInfo: peekInfo
+        ? this.formatGroupCallPeekInfoForRedux(peekInfo)
+        : undefined,
       remoteParticipants: remoteDeviceStates.map(remoteDeviceState => {
-        const conversationId = this.uuidToConversationId(
-          remoteDeviceState.userId
-        );
+        let uuid = arrayBufferToUuid(remoteDeviceState.userId);
+        if (!uuid) {
+          window.log.error(
+            'Calling.formatGroupCallForRedux: could not convert remote participant UUID ArrayBuffer to string; using fallback UUID'
+          );
+          uuid = '00000000-0000-0000-0000-000000000000';
+        }
         return {
-          conversationId,
+          uuid,
           demuxId: remoteDeviceState.demuxId,
           hasRemoteAudio: !remoteDeviceState.audioMuted,
           hasRemoteVideo: !remoteDeviceState.videoMuted,
-          isSelf: conversationId === ourConversationId,
           speakerTime: normalizeGroupCallTimestamp(
             remoteDeviceState.speakerTime
           ),

@@ -5,6 +5,7 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { boolean } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
+import { v4 as generateUuid } from 'uuid';
 
 import { ColorType } from '../types/Colors';
 import { CallingLobby, PropsType } from './CallingLobby';
@@ -35,7 +36,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   me: overrideProps.me || { color: 'ultramarine' as ColorType },
   onCallCanceled: action('on-call-canceled'),
   onJoinCall: action('on-join-call'),
-  participantNames: overrideProps.participantNames || [],
+  peekedParticipants: overrideProps.peekedParticipants || [],
   setLocalAudio: action('set-local-audio'),
   setLocalPreview: action('set-local-preview'),
   setLocalVideo: action('set-local-video'),
@@ -45,6 +46,12 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   ),
   toggleParticipants: action('toggle-participants'),
   toggleSettings: action('toggle-settings'),
+});
+
+const fakePeekedParticipant = (title: string) => ({
+  isSelf: false,
+  title,
+  uuid: generateUuid(),
 });
 
 const story = storiesOf('Components/CallingLobby', module);
@@ -86,44 +93,51 @@ story.add('Local Video', () => {
   return <CallingLobby {...props} />;
 });
 
-story.add('Group Call - 0', () => {
-  const props = createProps({ isGroupCall: true, participantNames: [] });
+story.add('Group Call - 0 peeked participants', () => {
+  const props = createProps({ isGroupCall: true, peekedParticipants: [] });
   return <CallingLobby {...props} />;
 });
 
-story.add('Group Call - 1', () => {
-  const props = createProps({ isGroupCall: true, participantNames: ['Sam'] });
-  return <CallingLobby {...props} />;
-});
-
-story.add('Group Call - 2', () => {
+story.add('Group Call - 1 peeked participant', () => {
   const props = createProps({
     isGroupCall: true,
-    participantNames: ['Sam', 'Cayce'],
+    peekedParticipants: ['Sam'].map(fakePeekedParticipant),
   });
   return <CallingLobby {...props} />;
 });
 
-story.add('Group Call - 3', () => {
+story.add('Group Call - 2 peeked participants', () => {
   const props = createProps({
     isGroupCall: true,
-    participantNames: ['Sam', 'Cayce', 'April'],
+    peekedParticipants: ['Sam', 'Cayce'].map(fakePeekedParticipant),
   });
   return <CallingLobby {...props} />;
 });
 
-story.add('Group Call - 4', () => {
+story.add('Group Call - 3 peeked participants', () => {
   const props = createProps({
     isGroupCall: true,
-    participantNames: ['Sam', 'Cayce', 'April', 'Logan', 'Carl'],
+    peekedParticipants: ['Sam', 'Cayce', 'April'].map(fakePeekedParticipant),
   });
   return <CallingLobby {...props} />;
 });
 
-story.add('Group Call - 4 (participants list)', () => {
+story.add('Group Call - 4 peeked participants', () => {
   const props = createProps({
     isGroupCall: true,
-    participantNames: ['Sam', 'Cayce', 'April', 'Logan', 'Carl'],
+    peekedParticipants: ['Sam', 'Cayce', 'April', 'Logan', 'Carl'].map(
+      fakePeekedParticipant
+    ),
+  });
+  return <CallingLobby {...props} />;
+});
+
+story.add('Group Call - 4 peeked participants (participants list)', () => {
+  const props = createProps({
+    isGroupCall: true,
+    peekedParticipants: ['Sam', 'Cayce', 'April', 'Logan', 'Carl'].map(
+      fakePeekedParticipant
+    ),
     showParticipantsList: true,
   });
   return <CallingLobby {...props} />;

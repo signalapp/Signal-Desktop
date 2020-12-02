@@ -9,17 +9,27 @@ import { Avatar } from './Avatar';
 import { ContactName } from './conversation/ContactName';
 import { InContactsIcon } from './InContactsIcon';
 import { LocalizerType } from '../types/Util';
-import { GroupCallRemoteParticipantType } from '../types/Calling';
+import { GroupCallPeekedParticipantType } from '../types/Calling';
+
+interface ParticipantType extends GroupCallPeekedParticipantType {
+  hasAudio?: boolean;
+  hasVideo?: boolean;
+}
 
 export type PropsType = {
   readonly i18n: LocalizerType;
   readonly onClose: () => void;
-  readonly participants: Array<GroupCallRemoteParticipantType>;
+  readonly participants: Array<ParticipantType>;
 };
 
 export const CallingParticipantsList = React.memo(
   ({ i18n, onClose, participants }: PropsType) => {
     const [root, setRoot] = React.useState<HTMLElement | null>(null);
+
+    const sortedParticipants = React.useMemo<Array<ParticipantType>>(
+      () => participants.sort((a, b) => a.title.localeCompare(b.title)),
+      [participants]
+    );
 
     React.useEffect(() => {
       const div = document.createElement('div');
@@ -70,10 +80,13 @@ export const CallingParticipantsList = React.memo(
             />
           </div>
           <ul className="module-calling-participants-list__list">
-            {participants.map(
-              (participant: GroupCallRemoteParticipantType, index: number) => (
+            {sortedParticipants.map(
+              (participant: ParticipantType, index: number) => (
                 <li
                   className="module-calling-participants-list__contact"
+                  // It's tempting to use `participant.uuid` as the `key` here, but that
+                  //   can result in duplicate keys for participants who have joined on
+                  //   multiple devices.
                   key={index}
                 >
                   <div>
@@ -110,10 +123,10 @@ export const CallingParticipantsList = React.memo(
                     )}
                   </div>
                   <div>
-                    {!participant.hasRemoteAudio ? (
+                    {participant.hasAudio === false ? (
                       <span className="module-calling-participants-list__muted--audio" />
                     ) : null}
-                    {!participant.hasRemoteVideo ? (
+                    {participant.hasVideo === false ? (
                       <span className="module-calling-participants-list__muted--video" />
                     ) : null}
                   </div>

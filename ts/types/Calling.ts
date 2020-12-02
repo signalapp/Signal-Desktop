@@ -2,12 +2,47 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ColorType } from './Colors';
+import { ConversationType } from '../state/ducks/conversations';
 
 export enum CallMode {
   None = 'None',
   Direct = 'Direct',
   Group = 'Group',
 }
+
+interface ActiveCallBaseType {
+  conversation: ConversationType;
+  hasLocalAudio: boolean;
+  hasLocalVideo: boolean;
+  joinedAt?: number;
+  pip: boolean;
+  settingsDialogOpen: boolean;
+  showParticipantsList: boolean;
+}
+
+interface ActiveDirectCallType extends ActiveCallBaseType {
+  callMode: CallMode.Direct;
+  callState?: CallState;
+  callEndedReason?: CallEndedReason;
+  peekedParticipants: [];
+  remoteParticipants: [
+    {
+      hasRemoteVideo: boolean;
+    }
+  ];
+}
+
+interface ActiveGroupCallType extends ActiveCallBaseType {
+  callMode: CallMode.Group;
+  connectionState: GroupCallConnectionState;
+  joinState: GroupCallJoinState;
+  maxDevices: number;
+  deviceCount: number;
+  peekedParticipants: Array<GroupCallPeekedParticipantType>;
+  remoteParticipants: Array<GroupCallRemoteParticipantType>;
+}
+
+export type ActiveCallType = ActiveDirectCallType | ActiveGroupCallType;
 
 // Ideally, we would import many of these directly from RingRTC. But because Storybook
 //   cannot import RingRTC (as it runs in the browser), we have these copies. That also
@@ -58,7 +93,6 @@ export enum GroupCallJoinState {
   Joined = 2,
 }
 
-// TODO: The way we deal with remote participants isn't ideal. See DESKTOP-949.
 export interface GroupCallPeekedParticipantType {
   avatarPath?: string;
   color?: ColorType;
@@ -67,20 +101,16 @@ export interface GroupCallPeekedParticipantType {
   name?: string;
   profileName?: string;
   title: string;
+  uuid: string;
 }
-export interface GroupCallRemoteParticipantType {
-  avatarPath?: string;
-  color?: ColorType;
+
+export interface GroupCallRemoteParticipantType
+  extends GroupCallPeekedParticipantType {
   demuxId: number;
-  firstName?: string;
   hasRemoteAudio: boolean;
   hasRemoteVideo: boolean;
   isBlocked: boolean;
-  isSelf: boolean;
-  name?: string;
-  profileName?: string;
   speakerTime?: number;
-  title: string;
   videoAspectRatio: number;
 }
 

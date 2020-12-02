@@ -5,9 +5,12 @@ import React from 'react';
 import { minBy, debounce, noop } from 'lodash';
 import { CallingPipRemoteVideo } from './CallingPipRemoteVideo';
 import { LocalizerType } from '../types/Util';
-import { GroupCallVideoRequest, VideoFrameSource } from '../types/Calling';
 import {
   ActiveCallType,
+  GroupCallVideoRequest,
+  VideoFrameSource,
+} from '../types/Calling';
+import {
   HangUpType,
   SetLocalPreviewType,
   SetRendererCanvasType,

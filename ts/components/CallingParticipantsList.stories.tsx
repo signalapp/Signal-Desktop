@@ -4,6 +4,7 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
+import { v4 as generateUuid } from 'uuid';
 
 import { CallingParticipantsList, PropsType } from './CallingParticipantsList';
 import { Colors } from '../types/Colors';
@@ -29,6 +30,7 @@ function createParticipant(
     profileName: participantProps.title,
     title: String(participantProps.title),
     videoAspectRatio: 1.3,
+    uuid: generateUuid(),
   };
 }
 

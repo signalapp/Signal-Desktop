@@ -12,102 +12,128 @@ import {
   CallState,
   GroupCallConnectionState,
   GroupCallJoinState,
+  GroupCallPeekedParticipantType,
   GroupCallRemoteParticipantType,
 } from '../types/Calling';
 import { Colors } from '../types/Colors';
-import {
-  DirectCallStateType,
-  GroupCallStateType,
-} from '../state/ducks/calling';
 import { CallScreen, PropsType } from './CallScreen';
 import { setup as setupI18n } from '../../js/modules/i18n';
+import { missingCaseError } from '../util/missingCaseError';
 import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
 
-function getGroupCallState(): GroupCallStateType {
-  return {
-    callMode: CallMode.Group,
-    conversationId: '3051234567',
-    connectionState: GroupCallConnectionState.Connected,
-    joinState: GroupCallJoinState.Joined,
-    peekInfo: {
-      conversationIds: [],
-      maxDevices: 16,
-      deviceCount: 0,
-    },
-    remoteParticipants: [],
-  };
+const conversation = {
+  id: '3051234567',
+  avatarPath: undefined,
+  color: Colors[0],
+  title: 'Rick Sanchez',
+  name: 'Rick Sanchez',
+  phoneNumber: '3051234567',
+  profileName: 'Rick Sanchez',
+  markedUnread: false,
+  type: 'direct' as const,
+  lastUpdated: Date.now(),
+};
+
+interface OverridePropsBase {
+  hasLocalAudio?: boolean;
+  hasLocalVideo?: boolean;
 }
 
-function getDirectCallState(
-  overrideProps: {
-    callState?: CallState;
-    hasRemoteVideo?: boolean;
-  } = {}
-): DirectCallStateType {
-  return {
-    callMode: CallMode.Direct,
-    conversationId: '3051234567',
-    callState: select(
-      'callState',
-      CallState,
-      overrideProps.callState || CallState.Accepted
-    ),
-    hasRemoteVideo: boolean(
-      'hasRemoteVideo',
-      Boolean(overrideProps.hasRemoteVideo)
-    ),
-    isIncoming: false,
-    isVideoCall: true,
-  };
+interface DirectCallOverrideProps extends OverridePropsBase {
+  callMode: CallMode.Direct;
+  callState?: CallState;
+  hasRemoteVideo?: boolean;
 }
+
+interface GroupCallOverrideProps extends OverridePropsBase {
+  callMode: CallMode.Group;
+  connectionState?: GroupCallConnectionState;
+  peekedParticipants?: Array<GroupCallPeekedParticipantType>;
+  remoteParticipants?: Array<GroupCallRemoteParticipantType>;
+}
+
+const createActiveDirectCallProp = (
+  overrideProps: DirectCallOverrideProps
+) => ({
+  callMode: CallMode.Direct as CallMode.Direct,
+  conversation,
+  callState: select(
+    'callState',
+    CallState,
+    overrideProps.callState || CallState.Accepted
+  ),
+  peekedParticipants: [] as [],
+  remoteParticipants: [
+    {
+      hasRemoteVideo: boolean(
+        'hasRemoteVideo',
+        Boolean(overrideProps.hasRemoteVideo)
+      ),
+    },
+  ] as [
+    {
+      hasRemoteVideo: boolean;
+    }
+  ],
+});
+
+const createActiveGroupCallProp = (overrideProps: GroupCallOverrideProps) => ({
+  callMode: CallMode.Group as CallMode.Group,
+  connectionState:
+    overrideProps.connectionState || GroupCallConnectionState.Connected,
+  joinState: GroupCallJoinState.Joined,
+  maxDevices: 5,
+  deviceCount: (overrideProps.remoteParticipants || []).length,
+  // Because remote participants are a superset, we can use them in place of peeked
+  //   participants.
+  peekedParticipants:
+    overrideProps.peekedParticipants || overrideProps.remoteParticipants || [],
+  remoteParticipants: overrideProps.remoteParticipants || [],
+});
+
+const createActiveCallProp = (
+  overrideProps: DirectCallOverrideProps | GroupCallOverrideProps
+) => {
+  const baseResult = {
+    joinedAt: Date.now(),
+    conversation,
+    hasLocalAudio: boolean(
+      'hasLocalAudio',
+      overrideProps.hasLocalAudio || false
+    ),
+    hasLocalVideo: boolean(
+      'hasLocalVideo',
+      overrideProps.hasLocalVideo || false
+    ),
+    pip: false,
+    settingsDialogOpen: false,
+    showParticipantsList: false,
+  };
+
+  switch (overrideProps.callMode) {
+    case CallMode.Direct:
+      return { ...baseResult, ...createActiveDirectCallProp(overrideProps) };
+    case CallMode.Group:
+      return { ...baseResult, ...createActiveGroupCallProp(overrideProps) };
+    default:
+      throw missingCaseError(overrideProps);
+  }
+};
 
 const createProps = (
-  overrideProps: {
-    callState?: CallState;
-    callTypeState?: DirectCallStateType | GroupCallStateType;
-    groupCallParticipants?: Array<GroupCallRemoteParticipantType>;
-    hasLocalAudio?: boolean;
-    hasLocalVideo?: boolean;
-    hasRemoteVideo?: boolean;
-  } = {}
+  overrideProps: DirectCallOverrideProps | GroupCallOverrideProps = {
+    callMode: CallMode.Direct as CallMode.Direct,
+  }
 ): PropsType => ({
-  activeCall: {
-    activeCallState: {
-      conversationId: '123',
-      hasLocalAudio: true,
-      hasLocalVideo: true,
-      pip: false,
-      settingsDialogOpen: false,
-      showParticipantsList: false,
-    },
-    call: overrideProps.callTypeState || getDirectCallState(overrideProps),
-    conversation: {
-      id: '3051234567',
-      avatarPath: undefined,
-      color: Colors[0],
-      title: 'Rick Sanchez',
-      name: 'Rick Sanchez',
-      phoneNumber: '3051234567',
-      profileName: 'Rick Sanchez',
-      markedUnread: false,
-      type: 'direct',
-      lastUpdated: Date.now(),
-    },
-    isCallFull: false,
-    groupCallPeekedParticipants: [],
-    groupCallParticipants: overrideProps.groupCallParticipants || [],
-  },
+  activeCall: createActiveCallProp(overrideProps),
   // We allow `any` here because this is fake and actually comes from RingRTC, which we
   //   can't import.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getGroupCallVideoFrameSource: noop as any,
   hangUp: action('hang-up'),
-  hasLocalAudio: boolean('hasLocalAudio', overrideProps.hasLocalAudio || false),
-  hasLocalVideo: boolean('hasLocalVideo', overrideProps.hasLocalVideo || false),
   i18n,
-  joinedAt: Date.now(),
   me: {
     color: Colors[1],
     name: 'Morty Smith',
@@ -135,6 +161,7 @@ story.add('Pre-Ring', () => {
   return (
     <CallScreen
       {...createProps({
+        callMode: CallMode.Direct,
         callState: CallState.Prering,
       })}
     />
@@ -145,6 +172,7 @@ story.add('Ringing', () => {
   return (
     <CallScreen
       {...createProps({
+        callMode: CallMode.Direct,
         callState: CallState.Ringing,
       })}
     />
@@ -155,6 +183,7 @@ story.add('Reconnecting', () => {
   return (
     <CallScreen
       {...createProps({
+        callMode: CallMode.Direct,
         callState: CallState.Reconnecting,
       })}
     />
@@ -165,6 +194,7 @@ story.add('Ended', () => {
   return (
     <CallScreen
       {...createProps({
+        callMode: CallMode.Direct,
         callState: CallState.Ended,
       })}
     />
@@ -172,23 +202,45 @@ story.add('Ended', () => {
 });
 
 story.add('hasLocalAudio', () => {
-  return <CallScreen {...createProps({ hasLocalAudio: true })} />;
+  return (
+    <CallScreen
+      {...createProps({
+        callMode: CallMode.Direct,
+        hasLocalAudio: true,
+      })}
+    />
+  );
 });
 
 story.add('hasLocalVideo', () => {
-  return <CallScreen {...createProps({ hasLocalVideo: true })} />;
+  return (
+    <CallScreen
+      {...createProps({
+        callMode: CallMode.Direct,
+        hasLocalVideo: true,
+      })}
+    />
+  );
 });
 
 story.add('hasRemoteVideo', () => {
-  return <CallScreen {...createProps({ hasRemoteVideo: true })} />;
+  return (
+    <CallScreen
+      {...createProps({
+        callMode: CallMode.Direct,
+        hasRemoteVideo: true,
+      })}
+    />
+  );
 });
 
 story.add('Group call - 1', () => (
   <CallScreen
     {...createProps({
-      callTypeState: getGroupCallState(),
-      groupCallParticipants: [
+      callMode: CallMode.Group,
+      remoteParticipants: [
         {
+          uuid: '72fa60e5-25fb-472d-8a56-e56867c57dda',
           demuxId: 0,
           hasRemoteAudio: true,
           hasRemoteVideo: true,
@@ -205,9 +257,10 @@ story.add('Group call - 1', () => (
 story.add('Group call - Many', () => (
   <CallScreen
     {...createProps({
-      callTypeState: getGroupCallState(),
-      groupCallParticipants: [
+      callMode: CallMode.Group,
+      remoteParticipants: [
         {
+          uuid: '094586f5-8fc2-4ce2-a152-2dfcc99f4630',
           demuxId: 0,
           hasRemoteAudio: true,
           hasRemoteVideo: true,
@@ -217,6 +270,7 @@ story.add('Group call - Many', () => (
           videoAspectRatio: 1.3,
         },
         {
+          uuid: 'cb5bdb24-4cbb-4650-8a7a-1a2807051e74',
           demuxId: 1,
           hasRemoteAudio: true,
           hasRemoteVideo: true,
@@ -226,6 +280,7 @@ story.add('Group call - Many', () => (
           videoAspectRatio: 1.3,
         },
         {
+          uuid: '2d7d13ae-53dc-4a51-8dc7-976cd85e0b57',
           demuxId: 2,
           hasRemoteAudio: true,
           hasRemoteVideo: true,
@@ -242,12 +297,11 @@ story.add('Group call - Many', () => (
 story.add('Group call - reconnecting', () => (
   <CallScreen
     {...createProps({
-      callTypeState: {
-        ...getGroupCallState(),
-        connectionState: GroupCallConnectionState.Reconnecting,
-      },
-      groupCallParticipants: [
+      callMode: CallMode.Group,
+      connectionState: GroupCallConnectionState.Reconnecting,
+      remoteParticipants: [
         {
+          uuid: '33871c64-0c22-45ce-8aa4-0ec237ac4a31',
           demuxId: 0,
           hasRemoteAudio: true,
           hasRemoteVideo: true,

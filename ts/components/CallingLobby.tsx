@@ -31,7 +31,12 @@ export type PropsType = {
   };
   onCallCanceled: () => void;
   onJoinCall: () => void;
-  participantNames: Array<string>;
+  peekedParticipants: Array<{
+    firstName?: string;
+    isSelf: boolean;
+    title: string;
+    uuid: string;
+  }>;
   setLocalAudio: (_: SetLocalAudioType) => void;
   setLocalVideo: (_: SetLocalVideoType) => void;
   setLocalPreview: (_: SetLocalPreviewType) => void;
@@ -51,7 +56,7 @@ export const CallingLobby = ({
   me,
   onCallCanceled,
   onJoinCall,
-  participantNames,
+  peekedParticipants,
   setLocalAudio,
   setLocalPreview,
   setLocalVideo,
@@ -114,6 +119,16 @@ export const CallingLobby = ({
     ? CallingButtonType.AUDIO_ON
     : CallingButtonType.AUDIO_OFF;
 
+  // It should be rare to see yourself in this list, but it's possible if (1) you rejoin
+  //   quickly, causing the server to return stale state (2) you have joined on another
+  //   device.
+  // TODO: Improve the "it's you" case; see DESKTOP-926.
+  const participantNames = peekedParticipants.map(participant =>
+    participant.isSelf
+      ? i18n('you')
+      : participant.firstName || participant.title
+  );
+
   let joinButton: JSX.Element;
   if (isCallFull) {
     joinButton = (
@@ -159,7 +174,7 @@ export const CallingLobby = ({
         title={conversation.title}
         i18n={i18n}
         isGroupCall={isGroupCall}
-        participantCount={participantNames.length}
+        participantCount={peekedParticipants.length}
         showParticipantsList={showParticipantsList}
         toggleParticipants={toggleParticipants}
         toggleSettings={toggleSettings}

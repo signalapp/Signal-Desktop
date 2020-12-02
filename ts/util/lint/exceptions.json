@@ -14400,7 +14400,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CallingLobby.tsx",
     "line": "  const localVideoRef = React.useRef(null);",
-    "lineNumber": 62,
+    "lineNumber": 67,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Used to get the local video element for rendering."
@@ -14427,7 +14427,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CallingPip.tsx",
     "line": "  const localVideoRef = React.useRef(null);",
-    "lineNumber": 80,
+    "lineNumber": 83,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Used to get the local video element for rendering."

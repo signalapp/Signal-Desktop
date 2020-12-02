@@ -9,16 +9,13 @@ import { missingCaseError } from '../../util/missingCaseError';
 import { notify } from '../../services/notify';
 import { calling } from '../../services/calling';
 import { StateType as RootStateType } from '../reducer';
-import { ConversationType } from './conversations';
 import {
+  CallingDeviceType,
   CallMode,
   CallState,
-  CallingDeviceType,
   ChangeIODevicePayloadType,
   GroupCallConnectionState,
   GroupCallJoinState,
-  GroupCallPeekedParticipantType,
-  GroupCallRemoteParticipantType,
   GroupCallVideoRequest,
   MediaDeviceSettings,
 } from '../../types/Calling';
@@ -34,19 +31,18 @@ import { LatestQueue } from '../../util/LatestQueue';
 // State
 
 export interface GroupCallPeekInfoType {
-  conversationIds: Array<string>;
-  creator?: string;
+  uuids: Array<string>;
+  creatorUuid?: string;
   eraId?: string;
   maxDevices: number;
   deviceCount: number;
 }
 
 export interface GroupCallParticipantInfoType {
-  conversationId: string;
+  uuid: string;
   demuxId: number;
   hasRemoteAudio: boolean;
   hasRemoteVideo: boolean;
-  isSelf: boolean;
   speakerTime?: number;
   videoAspectRatio: number;
 }
@@ -68,15 +64,6 @@ export interface GroupCallStateType {
   joinState: GroupCallJoinState;
   peekInfo: GroupCallPeekInfoType;
   remoteParticipants: Array<GroupCallParticipantInfoType>;
-}
-
-export interface ActiveCallType {
-  activeCallState: ActiveCallStateType;
-  call: DirectCallStateType | GroupCallStateType;
-  conversation: ConversationType;
-  isCallFull: boolean;
-  groupCallPeekedParticipants: Array<GroupCallPeekedParticipantType>;
-  groupCallParticipants: Array<GroupCallRemoteParticipantType>;
 }
 
 export interface ActiveCallStateType {
@@ -127,12 +114,12 @@ type GroupCallStateChangeArgumentType = {
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
   joinState: GroupCallJoinState;
-  peekInfo: GroupCallPeekInfoType;
+  peekInfo?: GroupCallPeekInfoType;
   remoteParticipants: Array<GroupCallParticipantInfoType>;
 };
 
 type GroupCallStateChangeActionPayloadType = GroupCallStateChangeArgumentType & {
-  ourConversationId: string;
+  ourUuid: string;
 };
 
 export type HangUpType = {
@@ -190,7 +177,7 @@ export type ShowCallLobbyType =
       joinState: GroupCallJoinState;
       hasLocalAudio: boolean;
       hasLocalVideo: boolean;
-      peekInfo: GroupCallPeekInfoType;
+      peekInfo?: GroupCallPeekInfoType;
       remoteParticipants: Array<GroupCallParticipantInfoType>;
     };
 
@@ -212,9 +199,9 @@ export const getActiveCall = ({
   getOwn(callsByConversation, activeCallState.conversationId);
 
 export const isAnybodyElseInGroupCall = (
-  { conversationIds }: Readonly<GroupCallPeekInfoType>,
-  ourConversationId: string
-): boolean => conversationIds.some(id => id !== ourConversationId);
+  { uuids }: Readonly<GroupCallPeekInfoType>,
+  ourUuid: string
+): boolean => uuids.some(id => id !== ourUuid);
 
 // Actions
 
@@ -496,7 +483,7 @@ function groupCallStateChange(
       type: GROUP_CALL_STATE_CHANGE,
       payload: {
         ...payload,
-        ourConversationId: getState().user.ourConversationId,
+        ourUuid: getState().user.ourUuid,
       },
     });
   };
@@ -808,6 +795,16 @@ export function getEmptyState(): CallingStateType {
   };
 }
 
+function getExistingPeekInfo(
+  conversationId: string,
+  state: CallingStateType
+): undefined | GroupCallPeekInfoType {
+  const existingCall = getOwn(state.callsByConversation, conversationId);
+  return existingCall?.callMode === CallMode.Group
+    ? existingCall.peekInfo
+    : undefined;
+}
+
 function removeConversationFromState(
   state: CallingStateType,
   conversationId: string
@@ -845,7 +842,12 @@ export function reducer(
           conversationId: action.payload.conversationId,
           connectionState: action.payload.connectionState,
           joinState: action.payload.joinState,
-          peekInfo: action.payload.peekInfo,
+          peekInfo: action.payload.peekInfo ||
+            getExistingPeekInfo(action.payload.conversationId, state) || {
+              uuids: action.payload.remoteParticipants.map(({ uuid }) => uuid),
+              maxDevices: Infinity,
+              deviceCount: action.payload.remoteParticipants.length,
+            },
           remoteParticipants: action.payload.remoteParticipants,
         };
         break;
@@ -1030,10 +1032,17 @@ export function reducer(
       hasLocalAudio,
       hasLocalVideo,
       joinState,
-      ourConversationId,
+      ourUuid,
       peekInfo,
       remoteParticipants,
     } = action.payload;
+
+    const newPeekInfo = peekInfo ||
+      getExistingPeekInfo(conversationId, state) || {
+        uuids: remoteParticipants.map(({ uuid }) => uuid),
+        maxDevices: Infinity,
+        deviceCount: remoteParticipants.length,
+      };
 
     let newActiveCallState: ActiveCallStateType | undefined;
 
@@ -1043,7 +1052,7 @@ export function reducer(
           ? undefined
           : state.activeCallState;
 
-      if (!isAnybodyElseInGroupCall(peekInfo, ourConversationId)) {
+      if (!isAnybodyElseInGroupCall(newPeekInfo, ourUuid)) {
         return {
           ...state,
           callsByConversation: omit(callsByConversation, conversationId),
@@ -1070,7 +1079,7 @@ export function reducer(
           conversationId,
           connectionState,
           joinState,
-          peekInfo,
+          peekInfo: newPeekInfo,
           remoteParticipants,
         },
       },
