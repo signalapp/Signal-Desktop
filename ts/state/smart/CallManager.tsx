@@ -124,7 +124,7 @@ const mapStateToActiveCallProp = (state: StateType) => {
 };
 
 const mapStateToIncomingCallProp = (state: StateType) => {
-  const call = getIncomingCall(state.calling);
+  const call = getIncomingCall(state);
   if (!call) {
     return undefined;
   }

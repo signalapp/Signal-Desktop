@@ -2,11 +2,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { reducer as rootReducer } from '../../../state/reducer';
+import { noopAction } from '../../../state/ducks/noop';
 import { CallMode, CallState } from '../../../types/Calling';
 import { getIncomingCall } from '../../../state/selectors/calling';
 import { getEmptyState, CallingStateType } from '../../../state/ducks/calling';
 
 describe('state/selectors/calling', () => {
+  const getEmptyRootState = () => rootReducer(undefined, noopAction());
+
+  const getCallingState = (calling: CallingStateType) => ({
+    ...getEmptyRootState(),
+    calling,
+  });
+
   const stateWithDirectCall: CallingStateType = {
     ...getEmptyState(),
     callsByConversation: {
@@ -49,23 +58,28 @@ describe('state/selectors/calling', () => {
 
   describe('getIncomingCall', () => {
     it('returns undefined if there are no calls', () => {
-      assert.isUndefined(getIncomingCall(getEmptyState()));
+      assert.isUndefined(getIncomingCall(getEmptyRootState()));
     });
 
     it('returns undefined if there is no incoming call', () => {
-      assert.isUndefined(getIncomingCall(stateWithDirectCall));
-      assert.isUndefined(getIncomingCall(stateWithActiveDirectCall));
+      assert.isUndefined(getIncomingCall(getCallingState(stateWithDirectCall)));
+      assert.isUndefined(
+        getIncomingCall(getCallingState(stateWithActiveDirectCall))
+      );
     });
 
     it('returns the incoming call', () => {
-      assert.deepEqual(getIncomingCall(stateWithIncomingDirectCall), {
-        callMode: CallMode.Direct,
-        conversationId: 'fake-direct-call-conversation-id',
-        callState: CallState.Ringing,
-        isIncoming: true,
-        isVideoCall: false,
-        hasRemoteVideo: false,
-      });
+      assert.deepEqual(
+        getIncomingCall(getCallingState(stateWithIncomingDirectCall)),
+        {
+          callMode: CallMode.Direct,
+          conversationId: 'fake-direct-call-conversation-id',
+          callState: CallState.Ringing,
+          isIncoming: true,
+          isVideoCall: false,
+          hasRemoteVideo: false,
+        }
+      );
     });
   });
 });

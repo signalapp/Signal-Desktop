@@ -3,17 +3,29 @@
 
 import { createSelector } from 'reselect';
 
-import { CallingStateType, DirectCallStateType } from '../ducks/calling';
+import { StateType } from '../reducer';
+import {
+  CallingStateType,
+  CallsByConversationType,
+  DirectCallStateType,
+} from '../ducks/calling';
 import { CallMode, CallState } from '../../types/Calling';
 
-const getCallsByConversation = (state: CallingStateType) =>
-  state.callsByConversation;
+const getCalling = (state: StateType): CallingStateType => state.calling;
+
+const getCallsByConversation = createSelector(
+  getCalling,
+  (state: CallingStateType): CallsByConversationType =>
+    state.callsByConversation
+);
 
 // In theory, there could be multiple incoming calls. In practice, neither RingRTC nor the
 //   UI are ready to handle this.
 export const getIncomingCall = createSelector(
   getCallsByConversation,
-  (callsByConversation): undefined | DirectCallStateType => {
+  (
+    callsByConversation: CallsByConversationType
+  ): undefined | DirectCallStateType => {
     const result = Object.values(callsByConversation).find(
       call =>
         call.callMode === CallMode.Direct &&

@@ -89,10 +89,12 @@ export interface ActiveCallStateType {
   settingsDialogOpen: boolean;
 }
 
+export interface CallsByConversationType {
+  [conversationId: string]: DirectCallStateType | GroupCallStateType;
+}
+
 export type CallingStateType = MediaDeviceSettings & {
-  callsByConversation: {
-    [conversationId: string]: DirectCallStateType | GroupCallStateType;
-  };
+  callsByConversation: CallsByConversationType;
   activeCallState?: ActiveCallStateType;
 };
 
