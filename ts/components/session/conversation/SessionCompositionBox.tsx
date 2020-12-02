@@ -628,22 +628,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   private onClickAttachment(attachment: AttachmentType) {
-    // const onSave = (caption: string) => {
-    //   // eslint-disable-next-line no-param-reassign
-    //   attachment.caption = caption;
-    //   // this.captionEditorView.remove();
-    //   // Signal.Backbone.Views.Lightbox.hide();
-    //   this.render();
-    // };
     this.setState({ showCaptionEditor: attachment });
-
-    // this.captionEditorView = new Whisper.ReactWrapperView({
-    //   className: 'attachment-list-wrapper',
-    //   Component: window.Signal.Components.CaptionEditor,
-    //   props: getProps(),
-    //   onClose: () => Signal.Backbone.Views.Lightbox.hide(),
-    // });
-    // Signal.Backbone.Views.Lightbox.show(this.captionEditorView.el);
   }
 
   private renderCaptionEditor(attachment?: AttachmentType) {

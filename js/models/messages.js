@@ -577,7 +577,7 @@
 
       return {
         text: this.createNonBreakingLastSeparator(this.get('body')),
-        textPending: this.get('bodyPending'),
+        bodyPending: this.get('bodyPending'),
         id: this.id,
         direction: this.isIncoming() ? 'incoming' : 'outgoing',
         timestamp: this.get('sent_at'),

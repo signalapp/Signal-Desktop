@@ -55,7 +55,7 @@ export interface Props {
   isDeletable: boolean;
   isModerator?: boolean;
   text?: string;
-  textPending?: boolean;
+  bodyPending?: boolean;
   id: string;
   collapseMetadata?: boolean;
   direction: 'incoming' | 'outgoing';
@@ -249,7 +249,7 @@ export class Message extends React.PureComponent<Props, State> {
       expirationTimestamp,
       status,
       text,
-      textPending,
+      bodyPending,
       timestamp,
       serverTimestamp,
     } = this.props;
@@ -262,14 +262,14 @@ export class Message extends React.PureComponent<Props, State> {
     const withImageNoCaption = Boolean(!text && isShowingImage);
     const showError = status === 'error' && direction === 'outgoing';
     const showSentNoErrors =
-      !textPending &&
+      !bodyPending &&
       direction === 'outgoing' &&
       status !== 'error' &&
       status !== 'sending' &&
       status !== 'pow';
 
     const showSending =
-      !textPending &&
+      !bodyPending &&
       direction === 'outgoing' &&
       (status === 'sending' || status === 'pow');
     return (
@@ -764,7 +764,7 @@ export class Message extends React.PureComponent<Props, State> {
   public renderText() {
     const {
       text,
-      textPending,
+      bodyPending,
       direction,
       status,
       isRss,
@@ -796,7 +796,7 @@ export class Message extends React.PureComponent<Props, State> {
           text={contents || ''}
           isRss={isRss}
           i18n={window.i18n}
-          textPending={textPending}
+          bodyPending={bodyPending}
           isGroup={conversationType === 'group'}
           convoId={convoId}
         />
