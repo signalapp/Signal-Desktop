@@ -307,7 +307,7 @@ export class Message extends React.PureComponent<Props, State> {
           <div
             className={classNames(
               'module-message-detail__contact__status-icon',
-              `module-message-detail__contact__status-icon--${status}`
+              'module-message-detail__contact__status-icon--sending'
             )}
           />
         ) : null}

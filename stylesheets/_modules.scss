@@ -1176,12 +1176,6 @@
     infinite;
 }
 
-.module-message-detail__contact__status-icon--pow {
-  @include color-svg('../images/session/gear.svg', $color-gray-60);
-  animation: module-message-detail__contact__status-icon--spinning 4s linear
-    infinite;
-}
-
 @keyframes module-message-detail__contact__status-icon--spinning {
   100% {
     -webkit-transform: rotate(360deg);
