@@ -67,7 +67,7 @@ export class SessionConfirm extends React.Component<Props> {
         {!showHeader && <div className="spacer-lg" />}
 
         <div className="session-modal__centered">
-          {sessionIcon && (
+          {sessionIcon && iconSize && (
             <div>
               <SessionIcon iconType={sessionIcon} iconSize={iconSize} />
               <div className="spacer-lg" />

@@ -402,18 +402,6 @@
   align-items: center;
   margin-top: 5px;
   margin-bottom: -3px;
-
-  span {
-    opacity: 0.5;
-    transition: $session-transition-duration;
-
-    &:not(.module-message__metadata__badge--separator):hover {
-      opacity: 1;
-    }
-  }
-  .module-message__metadata__badge--separator {
-    margin-top: -2px;
-  }
 }
 
 // With an image and no caption, this section needs to be on top of the image overlay
@@ -428,8 +416,7 @@
   padding-inline-end: 24px;
 }
 
-.module-message__metadata__date,
-.module-message__metadata__badge {
+.module-message__metadata__date {
   font-size: 11px;
   line-height: 16px;
   letter-spacing: 0.3px;
@@ -437,17 +424,8 @@
   user-select: none;
 }
 
-.module-message__metadata__badge {
-  font-weight: bold;
-  padding-inline-end: 5px;
-}
-
 .module-message__metadata__date--with-image-no-caption {
   color: $color-white;
-}
-
-.module-message__metadata__spacer {
-  flex-grow: 1;
 }
 
 .module-message__metadata__status-icon {
@@ -491,27 +469,6 @@
 // When status indicators are overlaid on top of an image, they use different colors
 .module-message__metadata__status-icon--with-image-no-caption {
   background-color: $color-white;
-}
-
-.module-message__send-message-button {
-  cursor: pointer;
-  font-weight: 300;
-  font-size: 13px;
-  line-height: 18px;
-  color: $color-loki-green;
-  background-color: $color-light-02;
-  border: 1px solid $color-black-012;
-
-  margin-top: 8px;
-  margin-bottom: -10px;
-  margin-inline-start: -12px;
-  margin-inline-end: -12px;
-
-  text-align: center;
-  padding: 10px;
-
-  border-bottom-left-radius: $session_message-container-border-radius;
-  border-bottom-right-radius: $session_message-container-border-radius;
 }
 
 .module-message__author-avatar {

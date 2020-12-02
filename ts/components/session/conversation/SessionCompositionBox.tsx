@@ -350,12 +350,12 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     const messagePlaceHolder = isKickedFromGroup
       ? i18n('youGotKickedFromGroup')
       : leftGroup
-      ? i18n('youLeftTheGroup')
-      : isBlocked && isPrivate
-      ? i18n('unblockToSend')
-      : isBlocked && !isPrivate
-      ? i18n('unblockGroupToSend')
-      : i18n('sendMessage');
+        ? i18n('youLeftTheGroup')
+        : isBlocked && isPrivate
+          ? i18n('unblockToSend')
+          : isBlocked && !isPrivate
+            ? i18n('unblockGroupToSend')
+            : i18n('sendMessage');
     const typingEnabled = this.isTypingEnabled();
 
     return (
@@ -389,25 +389,25 @@ export class SessionCompositionBox extends React.Component<Props, State> {
             _index,
             focused
           ) => (
-            <MemberItem
-              i18n={window.i18n}
-              selected={focused}
-              // tslint:disable-next-line: no-empty
-              onClicked={() => {}}
-              existingMember={false}
-              member={{
-                id: `${suggestion.id}`,
-                authorPhoneNumber: `${suggestion.id}`,
-                selected: false,
-                authorProfileName: `${suggestion.display}`,
-                authorName: `${suggestion.display}`,
-                existingMember: false,
-                checkmarked: false,
-                authorAvatarPath: '',
-              }}
-              checkmarked={false}
-            />
-          )}
+              <MemberItem
+                i18n={window.i18n}
+                selected={focused}
+                // tslint:disable-next-line: no-empty
+                onClicked={() => { }}
+                existingMember={false}
+                member={{
+                  id: `${suggestion.id}`,
+                  authorPhoneNumber: `${suggestion.id}`,
+                  selected: false,
+                  authorProfileName: `${suggestion.display}`,
+                  authorName: `${suggestion.display}`,
+                  existingMember: false,
+                  checkmarked: false,
+                  authorAvatarPath: '',
+                }}
+                checkmarked={false}
+              />
+            )}
         />
       </MentionsInput>
     );

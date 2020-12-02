@@ -38,6 +38,9 @@ import _ from 'lodash';
 import { animation, contextMenu, Item, Menu } from 'react-contexify';
 import uuid from 'uuid';
 import { InView } from 'react-intersection-observer';
+import { MetadataBadge, MetadataBadges } from './message/MetadataBadge';
+import { nonNullish } from '../../session/utils/String';
+import { MetadataSpacer } from './message/MetadataUtilComponent';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -207,37 +210,18 @@ export class Message extends React.PureComponent<Props, State> {
     });
   }
 
-  public renderMetadataBadges() {
+  public renderMetadataBadges(withImageNoCaption: boolean) {
     const { direction, isPublic, senderIsModerator, id } = this.props;
 
-    const badges = [isPublic && 'Public', senderIsModerator && 'Mod'];
-
-    return badges
-      .map(badgeText => {
-        if (typeof badgeText !== 'string') {
-          return null;
-        }
-
-        return (
-          <div key={`${id}-${badgeText}`}>
-            <span className="module-message__metadata__badge--separator">
-              &nbsp;•&nbsp;
-            </span>
-            <span
-              className={classNames(
-                'module-message__metadata__badge',
-                `module-message__metadata__badge--${direction}`,
-                `module-message__metadata__badge--${badgeText.toLowerCase()}`,
-                `module-message__metadata__badge--${badgeText.toLowerCase()}--${direction}`
-              )}
-              key={badgeText}
-            >
-              {badgeText}
-            </span>
-          </div>
-        );
-      })
-      .filter(i => !!i);
+    return (
+      <MetadataBadges
+        direction={direction}
+        isPublic={isPublic}
+        senderIsModerator={senderIsModerator}
+        id={id}
+        withImageNoCaption={withImageNoCaption}
+      />
+    );
   }
 
   // tslint:disable-next-line: cyclomatic-complexity
@@ -303,7 +287,7 @@ export class Message extends React.PureComponent<Props, State> {
             module="module-message__metadata__date"
           />
         )}
-        {this.renderMetadataBadges()}
+        {this.renderMetadataBadges(withImageNoCaption)}
         {expirationLength && expirationTimestamp ? (
           <ExpireTimer
             direction={direction}
@@ -312,13 +296,13 @@ export class Message extends React.PureComponent<Props, State> {
             withImageNoCaption={withImageNoCaption}
           />
         ) : null}
-        <span className="module-message__metadata__spacer" />
-        {textPending ? (
+        <MetadataSpacer />
+        {bodyPending ? (
           <div className="module-message__metadata__spinner-container">
             <Spinner size="mini" direction={direction} />
           </div>
         ) : null}
-        <span className="module-message__metadata__spacer" />
+        <MetadataSpacer />
         {showSending ? (
           <div
             className={classNames(

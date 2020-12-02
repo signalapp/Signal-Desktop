@@ -297,37 +297,6 @@
     color: $color-gray-25;
   }
 
-  .module-message__metadata__status-icon--sending {
-    @include color-svg('../images/sending.svg', $color-white-08);
-  }
-
-  .module-message__metadata__status-icon--pow {
-    @include color-svg('../images/pow.svg', $color-white-08);
-  }
-
-  .module-message__metadata__status-icon--sent {
-    @include color-svg('../images/check-circle-outline.svg', $color-white-08);
-  }
-
-  .module-message__metadata__status-icon--delivered {
-    @include color-svg('../images/double-check.svg', $color-white-08);
-  }
-
-  .module-message__metadata__status-icon--read {
-    @include color-svg('../images/read.svg', $color-white-08);
-  }
-
-  // When status indicators are overlaid on top of an image, they use different colors
-  .module-message__metadata__status-icon--with-image-no-caption {
-    background-color: $color-dark-05;
-  }
-
-  .module-message__send-message-button {
-    color: $color-loki-green;
-    background-color: $color-dark-70;
-    border: 1px solid $color-dark-60;
-  }
-
   // Module: Expire Timer
 
   .module-expire-timer {
@@ -499,23 +468,6 @@
 
   .module-message-detail__contact__error {
     color: $session-color-danger;
-  }
-
-  .module-message-detail__contact__status-icon--sending {
-    @include color-svg('../images/sending.svg', $color-light-35);
-  }
-
-  .module-message-detail__contact__status-icon--sent {
-    @include color-svg('../images/check-circle-outline.svg', $color-light-35);
-  }
-  .module-message-detail__contact__status-icon--delivered {
-    @include color-svg('../images/double-check.svg', $color-light-35);
-  }
-  .module-message-detail__contact__status-icon--read {
-    @include color-svg('../images/read.svg', $color-light-35);
-  }
-  .module-message-detail__contact__status-icon--error {
-    @include color-svg('../images/error.svg', $session-color-danger);
   }
 
   .module-message-detail__contact__show-safety-number {

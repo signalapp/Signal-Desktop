@@ -20,3 +20,12 @@ export function encode(value: string, encoding: Encoding): ArrayBuffer {
 export function decode(buffer: BufferType, stringEncoding: Encoding): string {
   return ByteBuffer.wrap(buffer).toString(stringEncoding);
 }
+
+/**
+ * Typescript which can be used to filter out undefined or null values from an array.
+ * And making typescript realize that there is no nullish value in the type anymore.
+ * @param v the value to evaluate
+ */
+export function nonNullish<V>(v: V): v is NonNullable<V> {
+  return v !== undefined && v !== null;
+}

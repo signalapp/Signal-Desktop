@@ -16,7 +16,6 @@ export class SessionIconButton extends React.PureComponent<SProps> {
     isSelected: false,
   };
   public static readonly defaultProps = {
-    ...SessionIcon.defaultProps,
     ...SessionIconButton.extendedDefaults,
   };
 
