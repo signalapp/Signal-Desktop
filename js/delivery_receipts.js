@@ -2,7 +2,7 @@
   Backbone,
   Whisper,
   ConversationController,
-  MessageController,
+  getMessageController,
   _,
 */
 
@@ -62,7 +62,7 @@
         return null;
       }
 
-      return MessageController.register(target.id, target);
+      return getMessageController().register(target.id, target);
     },
     async onReceipt(receipt) {
       try {

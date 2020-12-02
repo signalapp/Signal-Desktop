@@ -17,6 +17,7 @@ import {} from 'styled-components/cssprop';
 import { ConversationControllerType } from '../js/ConversationController';
 import { any } from 'underscore';
 import { Store } from 'redux';
+import { MessageController } from './session/messages/MessageController';
 /*
 We declare window stuff here instead of global.d.ts because we are importing other declarations.
 If you import anything in global.d.ts, the type system won't work correctly.
@@ -33,7 +34,7 @@ declare global {
     LokiFileServerAPI: any;
     LokiPublicChatAPI: any;
     LokiSnodeAPI: any;
-    MessageController: any;
+    getMessageController: () => MessageController;
     Session: any;
     Signal: SignalInterface;
     StringView: any;

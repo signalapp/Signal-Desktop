@@ -1,7 +1,7 @@
 /* global
   Backbone,
   Whisper,
-  MessageController
+  getMessageController
 */
 
 /* eslint-disable more/no-then */
@@ -61,7 +61,7 @@
           return;
         }
 
-        const message = MessageController.register(found.id, found);
+        const message = getMessageController().register(found.id, found);
         const readAt = receipt.get('read_at');
 
         // If message is unread, we mark it read. Otherwise, we update the expiration

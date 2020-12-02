@@ -5,7 +5,7 @@
   Backbone,
   libsession,
   ConversationController,
-  MessageController,
+  getMessageController,
   storage,
   textsecure,
   Whisper,
@@ -461,7 +461,7 @@
       this.clearContactTypingTimer(identifier);
 
       const model = this.addSingleMessage(message);
-      MessageController.register(model.id, model);
+      getMessageController().register(model.id, model);
 
       window.Whisper.events.trigger('messageAdded', {
         conversationKey: this.id,
@@ -1297,7 +1297,7 @@
       };
 
       const model = this.addSingleMessage(attributes);
-      const message = MessageController.register(model.id, model);
+      const message = getMessageController().register(model.id, model);
 
       await message.commit(true);
 
@@ -1780,7 +1780,7 @@
 
       let read = await Promise.all(
         _.map(oldUnread, async providedM => {
-          const m = MessageController.register(providedM.id, providedM);
+          const m = getMessageController().register(providedM.id, providedM);
 
           if (!this.messageCollection.get(m.id)) {
             window.log.warn(

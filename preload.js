@@ -176,6 +176,9 @@ window.setPassword = (passPhrase, oldPhrase) =>
 window.passwordUtil = require('./ts/util/passwordUtils');
 window.libsession = require('./ts/session');
 
+window.getMessageController =
+  window.libsession.Messages.MessageController.getInstance;
+
 // We never do these in our code, so we'll prevent it everywhere
 window.open = () => null;
 // eslint-disable-next-line no-eval, no-multi-assign

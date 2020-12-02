@@ -4,7 +4,7 @@
   storage,
   filesize,
   ConversationController,
-  MessageController,
+  getMessageController,
   i18n,
   Signal,
   textsecure,
@@ -302,7 +302,7 @@
       this.cleanup();
     },
     async cleanup() {
-      MessageController.unregister(this.id);
+      getMessageController().unregister(this.id);
       this.unload();
       await deleteExternalMessageFiles(this.attributes);
     },

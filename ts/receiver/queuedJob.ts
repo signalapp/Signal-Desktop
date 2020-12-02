@@ -100,7 +100,7 @@ async function copyFromQuotedMessage(
   quote: Quote,
   attemptCount: number = 1
 ): Promise<void> {
-  const { Whisper, MessageController } = window;
+  const { Whisper, getMessageController } = window;
   const { upgradeMessageSchema } = window.Signal.Migrations;
   const { Message: TypedMessage, Errors } = window.Signal.Types;
 
@@ -142,7 +142,7 @@ async function copyFromQuotedMessage(
   window.log.info(`Found quoted message id: ${id}`);
   quote.referencedMessageNotFound = false;
 
-  const queryMessage = MessageController.register(found.id, found);
+  const queryMessage = getMessageController().register(found.id, found);
   quote.text = queryMessage.get('body');
 
   if (attemptCount > 1) {
@@ -552,11 +552,11 @@ export async function handleMessageJob(
       );
     }
 
-    const { Whisper, MessageController } = window;
+    const { Whisper, getMessageController } = window;
 
     const id = await message.commit();
     message.set({ id });
-    MessageController.register(message.id, message);
+    getMessageController().register(message.id, message);
 
     // Note that this can save the message again, if jobs were queued. We need to
     //   call it after we have an id for this message, because the jobs refer back

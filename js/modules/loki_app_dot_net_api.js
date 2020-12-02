@@ -1,5 +1,5 @@
 /* global log, textsecure, libloki, Signal, Whisper, ConversationController,
-clearTimeout, MessageController, libsignal, StringView, window, _,
+clearTimeout, getMessageController, libsignal, StringView, window, _,
 dcodeIO, Buffer, process */
 const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
@@ -2134,7 +2134,7 @@ class LokiPublicChannelAPI {
       });
 
       if (found) {
-        const queryMessage = MessageController.register(found.id, found);
+        const queryMessage = getMessageController().register(found.id, found);
         const replyTo = queryMessage.get('serverId');
         if (replyTo) {
           payload.reply_to = replyTo;

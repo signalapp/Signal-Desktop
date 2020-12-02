@@ -3,7 +3,7 @@
   Backbone,
   _,
   ConversationController,
-  MessageController,
+  getMessageController,
   window
 */
 
@@ -60,7 +60,7 @@
         return null;
       }
 
-      return MessageController.register(target.id, target);
+      return getMessageController().register(target.id, target);
     },
     async onReceipt(receipt) {
       try {
