@@ -27,6 +27,7 @@ import {
   RingRTC,
   UserId,
   VideoFrameSource,
+  VideoRequest,
 } from 'ringrtc';
 import { uniqBy, noop } from 'lodash';
 
@@ -524,6 +525,13 @@ export class CallingClass {
 
   private getCallIdForConversation(conversationId: string): undefined | CallId {
     return this.getDirectCall(conversationId)?.callId;
+  }
+
+  public setGroupCallVideoRequest(
+    conversationId: string,
+    resolutions: Array<VideoRequest>
+  ): void {
+    this.getGroupCall(conversationId)?.requestVideo(resolutions);
   }
 
   // See the comment in types/Calling.ts to explain why we have to do this conversion.

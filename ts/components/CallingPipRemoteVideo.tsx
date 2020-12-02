@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { maxBy } from 'lodash';
 import { Avatar } from './Avatar';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
@@ -11,9 +11,15 @@ import { LocalizerType } from '../types/Util';
 import {
   CallMode,
   GroupCallRemoteParticipantType,
+  GroupCallVideoRequest,
   VideoFrameSource,
 } from '../types/Calling';
 import { ActiveCallType, SetRendererCanvasType } from '../state/ducks/calling';
+import { usePageVisibility } from '../util/hooks';
+import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant';
+
+// This value should be kept in sync with the hard-coded CSS height.
+const PIP_VIDEO_HEIGHT_PX = 120;
 
 const NoVideo = ({
   activeCall,
@@ -57,6 +63,7 @@ export interface PropsType {
   activeCall: ActiveCallType;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
+  setGroupCallVideoRequest: (_: Array<GroupCallVideoRequest>) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
 }
 
@@ -64,9 +71,12 @@ export const CallingPipRemoteVideo = ({
   activeCall,
   getGroupCallVideoFrameSource,
   i18n,
+  setGroupCallVideoRequest,
   setRendererCanvas,
 }: PropsType): JSX.Element => {
   const { call, conversation, groupCallParticipants } = activeCall;
+
+  const isPageVisible = usePageVisibility();
 
   const activeGroupCallSpeaker:
     | undefined
@@ -80,6 +90,42 @@ export const CallingPipRemoteVideo = ({
       participant => participant.speakerTime || -Infinity
     );
   }, [call.callMode, groupCallParticipants]);
+
+  useEffect(() => {
+    if (call.callMode !== CallMode.Group) {
+      return;
+    }
+
+    if (isPageVisible) {
+      setGroupCallVideoRequest(
+        groupCallParticipants.map(participant => {
+          const isVisible =
+            participant === activeGroupCallSpeaker &&
+            participant.hasRemoteVideo;
+          if (isVisible) {
+            return {
+              demuxId: participant.demuxId,
+              width: Math.floor(
+                PIP_VIDEO_HEIGHT_PX * participant.videoAspectRatio
+              ),
+              height: PIP_VIDEO_HEIGHT_PX,
+            };
+          }
+          return nonRenderedRemoteParticipant(participant);
+        })
+      );
+    } else {
+      setGroupCallVideoRequest(
+        groupCallParticipants.map(nonRenderedRemoteParticipant)
+      );
+    }
+  }, [
+    call.callMode,
+    groupCallParticipants,
+    activeGroupCallSpeaker,
+    isPageVisible,
+    setGroupCallVideoRequest,
+  ]);
 
   if (call.callMode === CallMode.Direct) {
     if (!call.hasRemoteVideo) {

@@ -73,6 +73,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
     title: text('Caller Title', 'Morty Smith'),
   },
   renderDeviceSelection: () => <div />,
+  setGroupCallVideoRequest: action('set-group-call-video-request'),
   setLocalAudio: action('set-local-audio'),
   setLocalPreview: action('set-local-preview'),
   setLocalVideo: action('set-local-video'),

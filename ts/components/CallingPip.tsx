@@ -5,7 +5,7 @@ import React from 'react';
 import { minBy, debounce, noop } from 'lodash';
 import { CallingPipRemoteVideo } from './CallingPipRemoteVideo';
 import { LocalizerType } from '../types/Util';
-import { VideoFrameSource } from '../types/Calling';
+import { GroupCallVideoRequest, VideoFrameSource } from '../types/Calling';
 import {
   ActiveCallType,
   HangUpType,
@@ -54,6 +54,7 @@ export type PropsType = {
   hangUp: (_: HangUpType) => void;
   hasLocalVideo: boolean;
   i18n: LocalizerType;
+  setGroupCallVideoRequest: (_: Array<GroupCallVideoRequest>) => void;
   setLocalPreview: (_: SetLocalPreviewType) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
   togglePip: () => void;
@@ -70,6 +71,7 @@ export const CallingPip = ({
   hangUp,
   hasLocalVideo,
   i18n,
+  setGroupCallVideoRequest,
   setLocalPreview,
   setRendererCanvas,
   togglePip,
@@ -269,6 +271,7 @@ export const CallingPip = ({
         getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
         i18n={i18n}
         setRendererCanvas={setRendererCanvas}
+        setGroupCallVideoRequest={setGroupCallVideoRequest}
       />
       {hasLocalVideo ? (
         <video

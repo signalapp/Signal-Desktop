@@ -20,6 +20,7 @@ import {
   CallMode,
   CallState,
   GroupCallConnectionState,
+  GroupCallVideoRequest,
   VideoFrameSource,
 } from '../types/Calling';
 import { ColorType } from '../types/Colors';
@@ -45,6 +46,7 @@ export type PropsType = {
     profileName?: string;
     title: string;
   };
+  setGroupCallVideoRequest: (_: Array<GroupCallVideoRequest>) => void;
   setLocalAudio: (_: SetLocalAudioType) => void;
   setLocalVideo: (_: SetLocalVideoType) => void;
   setLocalPreview: (_: SetLocalPreviewType) => void;
@@ -64,6 +66,7 @@ export const CallScreen: React.FC<PropsType> = ({
   i18n,
   joinedAt,
   me,
+  setGroupCallVideoRequest,
   setLocalAudio,
   setLocalVideo,
   setLocalPreview,
@@ -187,6 +190,7 @@ export const CallScreen: React.FC<PropsType> = ({
           getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
           i18n={i18n}
           remoteParticipants={groupCallParticipants}
+          setGroupCallVideoRequest={setGroupCallVideoRequest}
         />
       );
       break;

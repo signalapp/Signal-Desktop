@@ -84,6 +84,13 @@ export interface GroupCallRemoteParticipantType {
   videoAspectRatio: number;
 }
 
+// Similar to RingRTC's `VideoRequest` but without the `framerate` property.
+export interface GroupCallVideoRequest {
+  demuxId: number;
+  width: number;
+  height: number;
+}
+
 // Should match RingRTC's VideoFrameSource
 export interface VideoFrameSource {
   receiveVideoFrame(buffer: ArrayBuffer): [number, number] | undefined;

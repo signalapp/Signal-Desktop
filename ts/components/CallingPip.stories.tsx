@@ -68,6 +68,7 @@ const createProps = (
   hangUp: action('hang-up'),
   hasLocalVideo: boolean('hasLocalVideo', overrideProps.hasLocalVideo || false),
   i18n,
+  setGroupCallVideoRequest: action('set-group-call-video-request'),
   setLocalPreview: action('set-local-preview'),
   setRendererCanvas: action('set-renderer-canvas'),
   togglePip: action('toggle-pip'),

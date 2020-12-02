@@ -114,6 +114,7 @@ const createProps = (
     profileName: 'Morty Smith',
     title: 'Morty Smith',
   },
+  setGroupCallVideoRequest: action('set-group-call-video-request'),
   setLocalAudio: action('set-local-audio'),
   setLocalPreview: action('set-local-preview'),
   setLocalVideo: action('set-local-video'),

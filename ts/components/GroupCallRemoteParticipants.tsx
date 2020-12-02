@@ -1,18 +1,24 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Measure from 'react-measure';
 import { takeWhile, chunk, maxBy, flatten } from 'lodash';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
 import {
   GroupCallRemoteParticipantType,
+  GroupCallVideoRequest,
   VideoFrameSource,
 } from '../types/Calling';
 import { LocalizerType } from '../types/Util';
+import { usePageVisibility } from '../util/hooks';
+import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant';
 
 const MIN_RENDERED_HEIGHT = 10;
 const PARTICIPANT_MARGIN = 10;
+
+// We scale our video requests down for performance. This number is somewhat arbitrary.
+const VIDEO_REQUEST_SCALAR = 0.75;
 
 interface Dimensions {
   width: number;
@@ -28,6 +34,7 @@ interface PropsType {
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
   remoteParticipants: ReadonlyArray<GroupCallRemoteParticipantType>;
+  setGroupCallVideoRequest: (_: Array<GroupCallVideoRequest>) => void;
 }
 
 // This component lays out group call remote participants. It uses a custom layout
@@ -58,11 +65,13 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
   getGroupCallVideoFrameSource,
   i18n,
   remoteParticipants,
+  setGroupCallVideoRequest,
 }) => {
   const [containerDimensions, setContainerDimensions] = useState<Dimensions>({
     width: 0,
     height: 0,
   });
+  const isPageVisible = usePageVisibility();
 
   // 1. Figure out the maximum number of possible rows that could fit on the screen.
   //
@@ -101,6 +110,9 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
       return totalWidth < maxTotalWidth;
     });
   }, [maxRowCount, containerDimensions.width, remoteParticipants]);
+  const overflowedParticipants: Array<GroupCallRemoteParticipantType> = remoteParticipants.slice(
+    visibleParticipants.length
+  );
 
   // 3. For each possible number of rows (starting at 0 and ending at `maxRowCount`),
   //   distribute participants across the rows at the minimum height. Then find the
@@ -216,7 +228,39 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
       });
     }
   );
-  const remoteParticipantElements = flatten(rowElements);
+
+  useEffect(() => {
+    if (isPageVisible) {
+      setGroupCallVideoRequest([
+        ...visibleParticipants.map(participant => {
+          if (participant.hasRemoteVideo) {
+            return {
+              demuxId: participant.demuxId,
+              width: Math.floor(
+                gridParticipantHeight *
+                  participant.videoAspectRatio *
+                  VIDEO_REQUEST_SCALAR
+              ),
+              height: Math.floor(gridParticipantHeight * VIDEO_REQUEST_SCALAR),
+            };
+          }
+          return nonRenderedRemoteParticipant(participant);
+        }),
+        ...overflowedParticipants.map(nonRenderedRemoteParticipant),
+      ]);
+    } else {
+      setGroupCallVideoRequest(
+        remoteParticipants.map(nonRenderedRemoteParticipant)
+      );
+    }
+  }, [
+    gridParticipantHeight,
+    isPageVisible,
+    overflowedParticipants,
+    remoteParticipants,
+    setGroupCallVideoRequest,
+    visibleParticipants,
+  ]);
 
   return (
     <Measure
@@ -231,7 +275,7 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
     >
       {({ measureRef }) => (
         <div className="module-ongoing-call__grid" ref={measureRef}>
-          {remoteParticipantElements}
+          {flatten(rowElements)}
         </div>
       )}
     </Measure>

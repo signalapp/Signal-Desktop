@@ -6552,7 +6552,7 @@ button.module-image__border-overlay:focus {
       background-color: $color-gray-95;
       border-radius: 4px 4px 0 0;
       display: flex;
-      height: 120px;
+      height: 120px; // This height should be kept in sync with <CallingPipRemoteVideo>'s hard-coded height.
       justify-content: center;
       overflow: hidden;
       position: relative;

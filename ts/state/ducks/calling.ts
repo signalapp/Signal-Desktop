@@ -19,6 +19,7 @@ import {
   GroupCallJoinState,
   GroupCallPeekedParticipantType,
   GroupCallRemoteParticipantType,
+  GroupCallVideoRequest,
   MediaDeviceSettings,
 } from '../../types/Calling';
 import { callingTones } from '../../util/callingTones';
@@ -166,6 +167,11 @@ export type SetLocalAudioType = {
 
 export type SetLocalVideoType = {
   enabled: boolean;
+};
+
+export type SetGroupCallVideoRequestType = {
+  conversationId: string;
+  resolutions: Array<GroupCallVideoRequest>;
 };
 
 export type ShowCallLobbyType =
@@ -684,6 +690,22 @@ function setLocalVideo(
   };
 }
 
+function setGroupCallVideoRequest(
+  payload: SetGroupCallVideoRequestType
+): ThunkAction<void, RootStateType, unknown, never> {
+  return () => {
+    calling.setGroupCallVideoRequest(
+      payload.conversationId,
+      payload.resolutions.map(resolution => ({
+        ...resolution,
+        // The `framerate` property in RingRTC has to be set, even if it's set to
+        //   `undefined`.
+        framerate: undefined,
+      }))
+    );
+  };
+}
+
 function showCallLobby(payload: ShowCallLobbyType): CallLobbyActionType {
   return {
     type: SHOW_CALL_LOBBY,
@@ -758,6 +780,7 @@ export const actions = {
   setRendererCanvas,
   setLocalAudio,
   setLocalVideo,
+  setGroupCallVideoRequest,
   showCallLobby,
   startCall,
   toggleParticipants,

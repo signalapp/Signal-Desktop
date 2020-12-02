@@ -13,6 +13,7 @@ import {
   CallMode,
   CallState,
   GroupCallJoinState,
+  GroupCallVideoRequest,
   VideoFrameSource,
 } from '../types/Calling';
 import { ConversationType } from '../state/ducks/conversations';
@@ -23,6 +24,7 @@ import {
   DeclineCallType,
   DirectCallStateType,
   HangUpType,
+  SetGroupCallVideoRequestType,
   SetLocalAudioType,
   SetLocalPreviewType,
   SetLocalVideoType,
@@ -60,6 +62,7 @@ export interface PropsType {
     profileName?: string;
     title: string;
   };
+  setGroupCallVideoRequest: (_: SetGroupCallVideoRequestType) => void;
   setLocalAudio: (_: SetLocalAudioType) => void;
   setLocalVideo: (_: SetLocalVideoType) => void;
   setLocalPreview: (_: SetLocalPreviewType) => void;
@@ -83,6 +86,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
   getGroupCallVideoFrameSource,
   me,
   renderDeviceSelection,
+  setGroupCallVideoRequest,
   setLocalAudio,
   setLocalPreview,
   setLocalVideo,
@@ -127,6 +131,16 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
       return getGroupCallVideoFrameSource(conversation.id, demuxId);
     },
     [getGroupCallVideoFrameSource, conversation.id]
+  );
+
+  const setGroupCallVideoRequestForConversation = useCallback(
+    (resolutions: Array<GroupCallVideoRequest>) => {
+      setGroupCallVideoRequest({
+        conversationId: conversation.id,
+        resolutions,
+      });
+    },
+    [setGroupCallVideoRequest, conversation.id]
   );
 
   let showCallLobby: boolean;
@@ -205,6 +219,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
         hangUp={hangUp}
         hasLocalVideo={hasLocalVideo}
         i18n={i18n}
+        setGroupCallVideoRequest={setGroupCallVideoRequestForConversation}
         setLocalPreview={setLocalPreview}
         setRendererCanvas={setRendererCanvas}
         togglePip={togglePip}
@@ -223,6 +238,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
         i18n={i18n}
         joinedAt={joinedAt}
         me={me}
+        setGroupCallVideoRequest={setGroupCallVideoRequestForConversation}
         setLocalPreview={setLocalPreview}
         setRendererCanvas={setRendererCanvas}
         setLocalAudio={setLocalAudio}
