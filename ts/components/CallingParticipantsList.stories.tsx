@@ -23,6 +23,7 @@ function createParticipant(
     demuxId: 2,
     hasRemoteAudio: Boolean(participantProps.hasRemoteAudio),
     hasRemoteVideo: Boolean(participantProps.hasRemoteVideo),
+    isBlocked: Boolean(participantProps.isBlocked),
     isSelf: Boolean(participantProps.isSelf),
     name: participantProps.name,
     profileName: participantProps.title,

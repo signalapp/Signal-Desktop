@@ -99,6 +99,7 @@ const mapStateToActiveCallProp = (state: StateType) => {
           firstName: remoteConversation.firstName,
           hasRemoteAudio: remoteParticipant.hasRemoteAudio,
           hasRemoteVideo: remoteParticipant.hasRemoteVideo,
+          isBlocked: Boolean(remoteConversation.isBlocked),
           isSelf: remoteParticipant.isSelf,
           name: remoteConversation.name,
           profileName: remoteConversation.profileName,
@@ -108,6 +109,8 @@ const mapStateToActiveCallProp = (state: StateType) => {
         });
       }
     );
+
+    groupCallParticipants.sort((a, b) => a.title.localeCompare(b.title));
   }
 
   return {

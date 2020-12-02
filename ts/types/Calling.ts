@@ -75,6 +75,7 @@ export interface GroupCallRemoteParticipantType {
   firstName?: string;
   hasRemoteAudio: boolean;
   hasRemoteVideo: boolean;
+  isBlocked: boolean;
   isSelf: boolean;
   name?: string;
   profileName?: string;

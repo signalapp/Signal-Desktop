@@ -6301,6 +6301,30 @@ button.module-image__border-overlay:focus {
       background-color: $color-gray-75;
     }
 
+    &__blocked {
+      @include color-svg('../images/icons/v2/block-24.svg', $color-white);
+      height: 24px;
+      margin-bottom: 16px;
+      width: 24px;
+
+      &--info {
+        @include button-reset;
+        background-color: $color-gray-75;
+        border-radius: 16px;
+        color: $color-white;
+        line-height: 16px;
+        padding: 3px 10px;
+      }
+
+      &--modal-title {
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        display: -webkit-box;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
     &--title {
       @include font-caption;
       background: linear-gradient(

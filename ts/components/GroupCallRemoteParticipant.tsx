@@ -18,6 +18,8 @@ import {
 import { LocalizerType } from '../types/Util';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
 import { Avatar, AvatarSize } from './Avatar';
+import { ConfirmationModal } from './ConfirmationModal';
+import { Intl } from './Intl';
 import { ContactName } from './conversation/ContactName';
 
 // The max size video frame we'll support (in RGBA)
@@ -45,20 +47,22 @@ export type PropsType = BasePropsType & (InPipPropsType | NotInPipPropsType);
 
 export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
   props => {
-    const { getGroupCallVideoFrameSource } = props;
+    const { getGroupCallVideoFrameSource, i18n } = props;
 
     const {
       avatarPath,
       color,
-      profileName,
-      title,
       demuxId,
       hasRemoteAudio,
       hasRemoteVideo,
+      isBlocked,
+      profileName,
+      title,
     } = props.remoteParticipant;
 
     const [isWide, setIsWide] = useState(true);
     const [hasHover, setHover] = useState(false);
+    const [showBlockInfo, setShowBlockInfo] = useState(false);
 
     const remoteVideoRef = useRef<HTMLCanvasElement | null>(null);
     const canvasContextRef = useRef<CanvasRenderingContext2D | null>(null);
@@ -173,6 +177,45 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
     }
 
     const showHover = hasHover && !props.isInPip;
+    const canShowVideo = hasRemoteVideo && !isBlocked;
+
+    if (showBlockInfo) {
+      return (
+        <ConfirmationModal
+          i18n={i18n}
+          onClose={() => {
+            setShowBlockInfo(false);
+          }}
+          title={
+            <div className="module-ongoing-call__group-call-remote-participant__blocked--modal-title">
+              <Intl
+                i18n={i18n}
+                id="calling__you-have-blocked"
+                components={[
+                  <ContactName
+                    key="name"
+                    profileName={profileName}
+                    title={title}
+                    i18n={i18n}
+                  />,
+                ]}
+              />
+            </div>
+          }
+          actions={[
+            {
+              text: i18n('ok'),
+              action: () => {
+                setShowBlockInfo(false);
+              },
+              style: 'affirmative',
+            },
+          ]}
+        >
+          {i18n('calling__block-info')}
+        </ConfirmationModal>
+      );
+    }
 
     return (
       <div
@@ -194,11 +237,11 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
               module="module-ongoing-call__group-call-remote-participant--contact-name"
               profileName={profileName}
               title={title}
-              i18n={props.i18n}
+              i18n={i18n}
             />
           </div>
         )}
-        {hasRemoteVideo ? (
+        {canShowVideo ? (
           <canvas
             className="module-ongoing-call__group-call-remote-participant__remote-video"
             style={canvasStyles}
@@ -217,16 +260,31 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
           />
         ) : (
           <CallBackgroundBlur avatarPath={avatarPath} color={color}>
-            <Avatar
-              avatarPath={avatarPath}
-              color={color || 'ultramarine'}
-              noteToSelf={false}
-              conversationType="direct"
-              i18n={props.i18n}
-              profileName={profileName}
-              title={title}
-              size={avatarSize}
-            />
+            {isBlocked ? (
+              <>
+                <i className="module-ongoing-call__group-call-remote-participant__blocked" />
+                <button
+                  type="button"
+                  className="module-ongoing-call__group-call-remote-participant__blocked--info"
+                  onClick={() => {
+                    setShowBlockInfo(true);
+                  }}
+                >
+                  {i18n('moreInfo')}
+                </button>
+              </>
+            ) : (
+              <Avatar
+                avatarPath={avatarPath}
+                color={color || 'ultramarine'}
+                noteToSelf={false}
+                conversationType="direct"
+                i18n={i18n}
+                profileName={profileName}
+                title={title}
+                size={avatarSize}
+              />
+            )}
           </CallBackgroundBlur>
         )}
       </div>

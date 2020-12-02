@@ -15,7 +15,10 @@ import enMessages from '../../_locales/en/messages.json';
 const i18n = setupI18n('en', enMessages);
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const createProps = (overrideProps: Partial<PropsType> = {}): any => ({
+const createProps = (
+  overrideProps: Partial<PropsType> = {},
+  isBlocked?: boolean
+): any => ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getGroupCallVideoFrameSource: noop as any,
   i18n,
@@ -23,6 +26,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): any => ({
     demuxId: 123,
     hasRemoteAudio: false,
     hasRemoteVideo: true,
+    isBlocked: Boolean(isBlocked),
     isSelf: false,
     title:
       'Pablo Diego José Francisco de Paula Juan Nepomuceno María de los Remedios Cipriano de la Santísima Trinidad Ruiz y Picasso',
@@ -50,5 +54,20 @@ story.add('isInPip', () => (
     {...createProps({
       isInPip: true,
     })}
+  />
+));
+
+story.add('Blocked', () => (
+  <GroupCallRemoteParticipant
+    {...createProps(
+      {
+        isInPip: false,
+        height: 120,
+        left: 0,
+        top: 0,
+        width: 120,
+      },
+      true
+    )}
   />
 ));

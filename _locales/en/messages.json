@@ -1031,7 +1031,7 @@
     "description": "Label for back button in a conversation"
   },
   "moreInfo": {
-    "message": "More Info...",
+    "message": "More Info",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
   "retrySend": {
@@ -1279,6 +1279,20 @@
         "example": "15"
       }
     }
+  },
+  "calling__you-have-blocked": {
+    "message": "You have blocked $name$",
+    "description": "when you block someone and cannot view their video",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Henry Richard"
+      }
+    }
+  },
+  "calling__block-info": {
+    "message": "You won't receive their audio or video and they won't receive yours.",
+    "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
   },
   "alwaysRelayCallsDescription": {
     "message": "Always relay calls",
