@@ -1211,7 +1211,7 @@ class MessageReceiverInner extends EventTarget {
       return undefined;
     }
 
-    this.deriveGroupV1Data(msg);
+    await this.deriveGroupV1Data(msg);
     this.deriveGroupV2Data(msg);
 
     if (
@@ -1611,7 +1611,7 @@ class MessageReceiverInner extends EventTarget {
         return undefined;
       }
 
-      this.deriveGroupV1Data(sentMessage.message);
+      await this.deriveGroupV1Data(sentMessage.message);
       this.deriveGroupV2Data(sentMessage.message);
 
       window.log.info(
