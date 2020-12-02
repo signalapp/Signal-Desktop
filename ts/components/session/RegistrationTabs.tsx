@@ -12,9 +12,6 @@ import { SessionHtmlRenderer } from './SessionHTMLRenderer';
 import { SessionIdEditable } from './SessionIdEditable';
 import { SessionSpinner } from './SessionSpinner';
 import { StringUtils, ToastUtils } from '../../session/utils';
-import { createOrUpdateItem } from '../../../js/modules/data';
-import { toast } from 'react-toastify';
-import { SessionToast } from './SessionToast';
 
 enum SignInMode {
   Default,
@@ -83,7 +80,7 @@ const Tab = ({
   );
 };
 
-export class RegistrationTabs extends React.Component<{}, State> {
+export class RegistrationTabs extends React.Component<any, State> {
   private readonly accountManager: any;
 
   constructor(props: any) {
@@ -503,7 +500,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
         />
 
         <SessionInput
-          label={window.i18n('confirmPassword')}
+          label={window.i18n('password')}
           error={this.state.passwordErrorString}
           type="password"
           placeholder={window.i18n('enterOptionalPassword')}
