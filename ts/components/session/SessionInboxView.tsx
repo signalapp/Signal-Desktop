@@ -162,7 +162,8 @@ export class SessionInboxView extends React.Component<Props, State> {
 
   private async handleMessageSentFailure(
     sentMessage: RawMessage | OpenGroupMessage,
-    error: any) {
+    error: any
+  ) {
     const fetchedData = await this.fetchHandleMessageSentData(sentMessage);
     if (!fetchedData) {
       return;

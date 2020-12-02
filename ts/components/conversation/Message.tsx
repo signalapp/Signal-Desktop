@@ -61,7 +61,7 @@ export interface Props {
   direction: 'incoming' | 'outgoing';
   timestamp: number;
   serverTimestamp?: number;
-  status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
+  status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error' | 'pow';
   // What if changed this over to a single contact like quote, and put the events on it?
   contact?: Contact & {
     hasSignalAccount: boolean;
@@ -240,6 +240,7 @@ export class Message extends React.PureComponent<Props, State> {
       .filter(i => !!i);
   }
 
+  // tslint:disable-next-line: cyclomatic-complexity
   public renderMetadata() {
     const {
       collapseMetadata,
@@ -264,11 +265,13 @@ export class Message extends React.PureComponent<Props, State> {
       !textPending &&
       direction === 'outgoing' &&
       status !== 'error' &&
-      status !== 'sending';
+      status !== 'sending' &&
+      status !== 'pow';
 
     const showSending =
-      !textPending && direction === 'outgoing' && status === 'sending';
-
+      !textPending &&
+      direction === 'outgoing' &&
+      (status === 'sending' || status === 'pow');
     return (
       <div
         className={classNames(
@@ -634,7 +637,6 @@ export class Message extends React.PureComponent<Props, State> {
     if (!quote || !quote.authorPhoneNumber) {
       return null;
     }
-    // console.warn('quote render ' , quote)
 
     const withContentAbove =
       conversationType === 'group' && direction === 'incoming';

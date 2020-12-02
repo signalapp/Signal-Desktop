@@ -1130,14 +1130,6 @@
   text-align: center;
 }
 
-.module-conversation-header__gear-icon {
-  @include color-svg('../images/gear.svg', $color-gray-60);
-  height: 20px;
-  width: 20px;
-  margin-inline-start: 4px;
-  cursor: pointer;
-}
-
 // Module: Message Detail
 
 .module-message-detail {
@@ -1223,6 +1215,12 @@
 
 .module-message-detail__contact__status-icon--sending {
   @include color-svg('../images/sending.svg', $color-gray-60);
+  animation: module-message-detail__contact__status-icon--spinning 4s linear
+    infinite;
+}
+
+.module-message-detail__contact__status-icon--pow {
+  @include color-svg('../images/session/gear.svg', $color-gray-60);
   animation: module-message-detail__contact__status-icon--spinning 4s linear
     infinite;
 }
@@ -1616,6 +1614,12 @@
 
 .module-conversation-list-item__message__status-icon--sending {
   @include color-svg('../images/sending.svg', $color-light-35);
+  animation: module-conversation-list-item__message__status-icon--spinning 4s
+    linear infinite;
+}
+
+.module-conversation-list-item__message__status-icon--pow {
+  @include color-svg('../images/session/gear.svg', $color-light-35);
   animation: module-conversation-list-item__message__status-icon--spinning 4s
     linear infinite;
 }

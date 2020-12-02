@@ -72,7 +72,6 @@
     'file.svg',
     'folder-outline.svg',
     'forward.svg',
-    'gear.svg',
     'hourglass_empty.svg',
     'hourglass_full.svg',
     'icon_1024.png',
