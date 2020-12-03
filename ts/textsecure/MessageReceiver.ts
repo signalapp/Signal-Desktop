@@ -690,19 +690,26 @@ class MessageReceiverInner extends EventTarget {
     try {
       await window.textsecure.storage.unprocessed.batchAdd(dataArray);
       items.forEach(item => {
-        item.request.respond(200, 'OK');
+        try {
+          item.request.respond(200, 'OK');
+        } catch (error) {
+          window.log.error(
+            'cacheAndQueueBatch: Failed to send 200 to server; still queuing envelope'
+          );
+        }
         this.queueEnvelope(item.envelope);
       });
 
       this.maybeScheduleRetryTimeout();
     } catch (error) {
-      items.forEach(item => {
-        item.request.respond(500, 'Failed to cache message');
-      });
       window.log.error(
         'cacheAndQueue error trying to add messages to cache:',
         error && error.stack ? error.stack : error
       );
+
+      items.forEach(item => {
+        item.request.respond(500, 'Failed to cache message');
+      });
     }
   }
 
