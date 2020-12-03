@@ -15,7 +15,7 @@ const i18n = setupI18n('en', enMessages);
 
 const contact1 = {
   title: 'Alice',
-  number: '+1 (300) 555-000',
+  number: '+1 (300) 555-0000',
   id: 'guid-1',
   markedUnread: false,
   type: 'direct' as const,
@@ -24,8 +24,17 @@ const contact1 = {
 
 const contact2 = {
   title: 'Bob',
-  number: '+1 (300) 555-000',
-  id: 'guid-1',
+  number: '+1 (300) 555-0001',
+  id: 'guid-2',
+  markedUnread: false,
+  type: 'direct' as const,
+  lastUpdated: Date.now(),
+};
+
+const contact3 = {
+  title: 'Chet',
+  number: '+1 (300) 555-0002',
+  id: 'guid-3',
   markedUnread: false,
   type: 'direct' as const,
   lastUpdated: Date.now(),
@@ -40,7 +49,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     'areWeInvited',
     booleanOr(overrideProps.areWeInvited, false)
   ),
-  droppedMembers: overrideProps.droppedMembers || [contact1],
+  droppedMembers: overrideProps.droppedMembers || [contact3, contact1],
   hasMigrated: boolean(
     'hasMigrated',
     booleanOr(overrideProps.hasMigrated, false)
@@ -82,8 +91,8 @@ stories.add('Not yet migrated, multiple dropped and invited members', () => {
   return (
     <GroupV1MigrationDialog
       {...createProps({
-        droppedMembers: [contact1, contact2],
-        invitedMembers: [contact1, contact2],
+        droppedMembers: [contact3, contact1, contact2],
+        invitedMembers: [contact2, contact3, contact1],
       })}
     />
   );

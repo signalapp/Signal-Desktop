@@ -36,6 +36,10 @@ function focusRef(el: HTMLElement | null) {
   }
 }
 
+function sort(list: Array<ConversationType>): Array<ConversationType> {
+  return [...list].sort((a, b) => a.title.localeCompare(b.title));
+}
+
 export const GroupV1MigrationDialog = React.memo((props: PropsType) => {
   const {
     areWeInvited,
@@ -168,7 +172,7 @@ function renderMembers(
       <div className="module-group-v2-migration-dialog__item__bullet" />
       <div className="module-group-v2-migration-dialog__item__content">
         <div>{i18n(key)}</div>
-        {members.map(member => (
+        {sort(members).map(member => (
           <div
             key={member.id}
             className="module-group-v2-migration-dialog__member"
