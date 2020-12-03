@@ -4,10 +4,8 @@ import classNames from 'classnames';
 import { Avatar } from '../Avatar';
 import { Spinner } from '../Spinner';
 import { MessageBody } from './MessageBody';
-import { ExpireTimer } from './ExpireTimer';
 import { ImageGrid } from './ImageGrid';
 import { Image } from './Image';
-import { Timestamp } from './Timestamp';
 import { ContactName } from './ContactName';
 import { Quote, QuotedAttachmentType } from './Quote';
 import { EmbeddedContact } from './EmbeddedContact';
@@ -38,10 +36,8 @@ import _ from 'lodash';
 import { animation, contextMenu, Item, Menu } from 'react-contexify';
 import uuid from 'uuid';
 import { InView } from 'react-intersection-observer';
-import { MetadataBadges } from './message/MetadataBadge';
-import { MetadataSpacer } from './message/MetadataUtilComponent';
 import { DefaultTheme, withTheme } from 'styled-components';
-import { OutgoingMessageStatus } from './message/OutgoingMessageStatus';
+import { MessageMetadata } from './message/MessageMetadata';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -55,7 +51,6 @@ interface LinkPreviewType {
 
 export interface Props {
   disableMenu?: boolean;
-  senderIsModerator?: boolean;
   isDeletable: boolean;
   isModerator?: boolean;
   text?: string;
@@ -210,96 +205,6 @@ class MessageInner extends React.PureComponent<Props, State> {
     this.setState({
       imageBroken: true,
     });
-  }
-
-  public renderMetadataBadges(withImageNoCaption: boolean) {
-    const { direction, isPublic, senderIsModerator, id } = this.props;
-
-    return (
-      <MetadataBadges
-        direction={direction}
-        isPublic={isPublic}
-        senderIsModerator={senderIsModerator}
-        id={id}
-        withImageNoCaption={withImageNoCaption}
-      />
-    );
-  }
-
-  public renderMetadata() {
-    const {
-      collapseMetadata,
-      direction,
-      expirationLength,
-      expirationTimestamp,
-      status,
-      text,
-      bodyPending,
-      timestamp,
-      serverTimestamp,
-    } = this.props;
-
-    if (collapseMetadata) {
-      return null;
-    }
-    const isOutgoing = direction === 'outgoing';
-
-    const isShowingImage = this.isShowingImage();
-    const withImageNoCaption = Boolean(!text && isShowingImage);
-    const showError = status === 'error' && isOutgoing;
-
-    const showStatus = Boolean(!bodyPending && status?.length && isOutgoing);
-    return (
-      <div
-        className={classNames(
-          'module-message__metadata',
-          withImageNoCaption
-            ? 'module-message__metadata--with-image-no-caption'
-            : null
-        )}
-      >
-        {showError ? (
-          <span
-            className={classNames(
-              'module-message__metadata__date',
-              `module-message__metadata__date--${direction}`,
-              withImageNoCaption
-                ? 'module-message__metadata__date--with-image-no-caption'
-                : null
-            )}
-          >
-            {window.i18n('sendFailed')}
-          </span>
-        ) : (
-          <Timestamp
-            timestamp={serverTimestamp || timestamp}
-            extended={true}
-            direction={direction}
-            withImageNoCaption={withImageNoCaption}
-            module="module-message__metadata__date"
-          />
-        )}
-        {this.renderMetadataBadges(withImageNoCaption)}
-        {expirationLength && expirationTimestamp ? (
-          <ExpireTimer
-            direction={direction}
-            expirationLength={expirationLength}
-            expirationTimestamp={expirationTimestamp}
-            withImageNoCaption={withImageNoCaption}
-          />
-        ) : null}
-        <MetadataSpacer />
-        {bodyPending ? <Spinner size="mini" direction={direction} /> : null}
-        <MetadataSpacer />
-        {showStatus ? (
-          <OutgoingMessageStatus
-            withImageNoCaption={withImageNoCaption}
-            theme={this.props.theme}
-            status={status}
-          />
-        ) : null}
-      </div>
-    );
   }
 
   // tslint:disable-next-line max-func-body-length cyclomatic-complexity
@@ -686,7 +591,7 @@ class MessageInner extends React.PureComponent<Props, State> {
       authorPhoneNumber,
       authorProfileName,
       collapseMetadata,
-      senderIsModerator,
+      isModerator,
       conversationType,
       direction,
       onShowUserDetails,
@@ -717,7 +622,7 @@ class MessageInner extends React.PureComponent<Props, State> {
           }}
           pubkey={authorPhoneNumber}
         />
-        {senderIsModerator && (
+        {isModerator && (
           <div className="module-avatar__icon--crown-wrapper">
             <div className="module-avatar__icon--crown" />
           </div>
@@ -910,7 +815,7 @@ class MessageInner extends React.PureComponent<Props, State> {
     return;
   }
 
-  public isShowingImage() {
+  public isShowingImage(): boolean {
     const { attachments, previews } = this.props;
     const { imageBroken } = this.state;
 
@@ -921,10 +826,10 @@ class MessageInner extends React.PureComponent<Props, State> {
     if (attachments && attachments.length) {
       const displayImage = canDisplayImage(attachments);
 
-      return (
+      return Boolean(
         displayImage &&
-        ((isImage(attachments) && hasImage(attachments)) ||
-          (isVideo(attachments) && hasVideoScreenshot(attachments)))
+          ((isImage(attachments) && hasImage(attachments)) ||
+            (isVideo(attachments) && hasVideoScreenshot(attachments)))
       );
     }
 
@@ -1078,7 +983,10 @@ class MessageInner extends React.PureComponent<Props, State> {
             {this.renderPreview()}
             {this.renderEmbeddedContact()}
             {this.renderText()}
-            {this.renderMetadata()}
+            <MessageMetadata
+              {...this.props}
+              isShowingImage={this.isShowingImage()}
+            />
           </div>
           {this.renderError(!isIncoming)}
           {this.renderContextMenu()}

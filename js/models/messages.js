@@ -603,10 +603,6 @@
         isRss: !!this.get('isRss'),
         isKickedFromGroup:
           conversation && conversation.get('isKickedFromGroup'),
-        senderIsModerator:
-          !!this.get('isPublic') &&
-          conversation &&
-          conversation.isModerator(phoneNumber),
         isDeletable:
           !this.get('isPublic') ||
           isModerator ||

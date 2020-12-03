@@ -124,30 +124,30 @@ export function isImage(attachments?: Array<AttachmentType>) {
   );
 }
 
-export function isImageAttachment(attachment: AttachmentType) {
-  return (
+export function isImageAttachment(attachment: AttachmentType): boolean {
+  return Boolean(
     attachment &&
-    attachment.contentType &&
-    isImageTypeSupported(attachment.contentType)
+      attachment.contentType &&
+      isImageTypeSupported(attachment.contentType)
   );
 }
-export function hasImage(attachments?: Array<AttachmentType>) {
-  return (
+export function hasImage(attachments?: Array<AttachmentType>): boolean {
+  return Boolean(
     attachments &&
-    attachments[0] &&
-    (attachments[0].url || attachments[0].pending)
+      attachments[0] &&
+      (attachments[0].url || attachments[0].pending)
   );
 }
 
-export function isVideo(attachments?: Array<AttachmentType>) {
-  return attachments && isVideoAttachment(attachments[0]);
+export function isVideo(attachments?: Array<AttachmentType>): boolean {
+  return Boolean(attachments && isVideoAttachment(attachments[0]));
 }
 
 export function isVideoAttachment(attachment?: AttachmentType): boolean {
-  return (
+  return Boolean(
     !!attachment &&
-    !!attachment.contentType &&
-    isVideoTypeSupported(attachment.contentType)
+      !!attachment.contentType &&
+      isVideoTypeSupported(attachment.contentType)
   );
 }
 

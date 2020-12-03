@@ -50,21 +50,15 @@ type BadgesProps = {
   id: string;
   direction: string;
   isPublic?: boolean;
-  senderIsModerator?: boolean;
+  isModerator?: boolean;
   withImageNoCaption: boolean;
 };
 
 export const MetadataBadges = (props: BadgesProps): JSX.Element => {
-  const {
-    id,
-    direction,
-    isPublic,
-    senderIsModerator,
-    withImageNoCaption,
-  } = props;
+  const { id, direction, isPublic, isModerator, withImageNoCaption } = props;
   const badges = [
     (isPublic && 'Public') || null,
-    (senderIsModerator && 'Mod') || null,
+    (isModerator && 'Mod') || null,
   ].filter(nonNullish);
 
   if (!badges || badges.length === 0) {
