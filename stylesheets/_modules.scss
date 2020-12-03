@@ -9878,9 +9878,7 @@ button.module-image__border-overlay:focus {
   padding-left: 40px;
   padding-right: 40px;
 
-  @include button-primary;
-  @include button-secondary;
-  @include button-secondary-blue-text;
+  @include button-light-blue-text;
 }
 
 // Module: GroupV1 Disabled Actions
@@ -10027,7 +10025,9 @@ button.module-image__border-overlay:focus {
   flex-direction: row;
   align-items: start;
 
-  margin-bottom: 16px;
+  &:not(:last-of-type) {
+    margin-bottom: 16px;
+  }
 }
 .module-group-v2-migration-dialog__item__bullet {
   width: 4px;
@@ -10055,6 +10055,8 @@ button.module-image__border-overlay:focus {
 }
 
 .module-group-v2-migration-dialog__buttons {
+  margin-top: 16px;
+
   text-align: center;
   flex-grow: 0;
   flex-shrink: 0;
