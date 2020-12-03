@@ -10,7 +10,7 @@ import {
 } from '../ducks/conversations';
 
 import { getIntl, getRegionCode, getUserNumber } from './user';
-import { PropsData as ConversationListItemPropsType } from '../../components/ConversationListItem';
+import { ConversationListItemProps } from '../../components/ConversationListItem';
 import { BlockedNumberController } from '../../util';
 
 export const getConversations = (state: StateType): ConversationsStateType =>
@@ -162,9 +162,9 @@ export const _getLeftPaneLists = (
   }
 
   const filterToPrimary = <
-    T extends Array<ConversationType | ConversationListItemPropsType>
+    T extends Array<ConversationType | ConversationListItemProps>
   >(
-    group: Array<ConversationType | ConversationListItemPropsType>
+    group: Array<ConversationType | ConversationListItemProps>
   ): T => {
     const secondariesToRemove: Array<string> = [];
 

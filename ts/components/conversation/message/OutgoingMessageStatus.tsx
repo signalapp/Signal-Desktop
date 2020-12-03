@@ -7,10 +7,6 @@ import {
 } from '../../session/icon';
 
 const MessageStatusSendingContainer = styled.div`
-  min-width: 12px;
-  min-height: 12px;
-  width: 12px;
-  height: 12px;
   display: inline-block;
   margin-bottom: 2px;
   margin-inline-start: 5px;
@@ -18,14 +14,13 @@ const MessageStatusSendingContainer = styled.div`
 
 const MessageStatusSending = (props: {
   theme: DefaultTheme;
-  withImageNoCaption: boolean;
+  iconColor: string;
 }) => {
-  const iconColor = props.withImageNoCaption ? 'white' : undefined;
   return (
     <MessageStatusSendingContainer>
       <SessionIcon
         rotateDuration={2}
-        iconColor={iconColor}
+        iconColor={props.iconColor}
         theme={props.theme}
         iconType={SessionIconType.Sending}
         iconSize={SessionIconSize.Tiny}
@@ -36,17 +31,15 @@ const MessageStatusSending = (props: {
 
 const MessageStatusSent = (props: {
   theme: DefaultTheme;
-  withImageNoCaption: boolean;
+  iconColor: string;
 }) => {
-  const iconColor = props.withImageNoCaption ? 'white' : undefined;
-
   return (
     <MessageStatusSendingContainer>
       <SessionIcon
-        iconColor={iconColor}
+        iconColor={props.iconColor}
         theme={props.theme}
         iconType={SessionIconType.CircleCheck}
-        iconSize={SessionIconSize.Small}
+        iconSize={SessionIconSize.Tiny}
       />
     </MessageStatusSendingContainer>
   );
@@ -54,16 +47,15 @@ const MessageStatusSent = (props: {
 
 const MessageStatusDelivered = (props: {
   theme: DefaultTheme;
-  withImageNoCaption: boolean;
+  iconColor: string;
 }) => {
-  const iconColor = props.withImageNoCaption ? 'white' : undefined;
   return (
     <MessageStatusSendingContainer>
       <SessionIcon
-        iconColor={iconColor}
+        iconColor={props.iconColor}
         theme={props.theme}
-        iconType={SessionIconType.DoubleCheck}
-        iconSize={SessionIconSize.Small}
+        iconType={SessionIconType.DoubleCheckCircle}
+        iconSize={SessionIconSize.Tiny}
       />
     </MessageStatusSendingContainer>
   );
@@ -71,33 +63,28 @@ const MessageStatusDelivered = (props: {
 
 const MessageStatusRead = (props: {
   theme: DefaultTheme;
-  withImageNoCaption: boolean;
+  iconColor: string;
 }) => {
-  const iconColor = props.withImageNoCaption ? 'white' : undefined;
-
   return (
     <MessageStatusSendingContainer>
       <SessionIcon
-        iconColor={iconColor}
+        iconColor={props.iconColor}
         theme={props.theme}
-        iconType={SessionIconType.Read}
-        iconSize={SessionIconSize.Small}
+        iconType={SessionIconType.DoubleCheckCircleFilled}
+        iconSize={SessionIconSize.Tiny}
       />
     </MessageStatusSendingContainer>
   );
 };
 
-const MessageStatusError = (props: {
-  theme: DefaultTheme;
-  withImageNoCaption: boolean;
-}) => {
+const MessageStatusError = (props: { theme: DefaultTheme }) => {
   return (
     <MessageStatusSendingContainer>
       <SessionIcon
         iconColor={props.theme.colors.destructive}
         theme={props.theme}
         iconType={SessionIconType.Error}
-        iconSize={SessionIconSize.Small}
+        iconSize={SessionIconSize.Tiny}
       />
     </MessageStatusSendingContainer>
   );
@@ -106,7 +93,8 @@ const MessageStatusError = (props: {
 export const OutgoingMessageStatus = (props: {
   status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error' | 'pow';
   theme: DefaultTheme;
-  withImageNoCaption: boolean;
+  iconColor: string;
+  hideErrors?: boolean;
 }) => {
   switch (props.status) {
     case 'pow':
@@ -119,6 +107,9 @@ export const OutgoingMessageStatus = (props: {
     case 'read':
       return <MessageStatusRead {...props} />;
     case 'error':
+      if (props.hideErrors) {
+        return null;
+      }
       return <MessageStatusError {...props} />;
     default:
       return null;

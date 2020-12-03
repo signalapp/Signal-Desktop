@@ -20,8 +20,10 @@ import {
   PropsContextConversationItem,
 } from './session/menu/ConversationListItemContextMenu';
 import { createPortal } from 'react-dom';
+import { OutgoingMessageStatus } from './conversation/message/OutgoingMessageStatus';
+import { DefaultTheme, withTheme } from 'styled-components';
 
-export type PropsData = {
+export type ConversationListItemProps = {
   id: string;
   phoneNumber: string;
   color?: string;
@@ -67,9 +69,10 @@ type PropsHousekeeping = {
   onUnblockContact?: () => void;
   onInviteContacts?: () => void;
   onClearNickname?: () => void;
+  theme: DefaultTheme;
 };
 
-type Props = PropsData & PropsHousekeeping;
+type Props = ConversationListItemProps & PropsHousekeeping;
 
 const Portal = ({ children }: { children: any }) => {
   return createPortal(
@@ -200,11 +203,10 @@ class ConversationListItem extends React.PureComponent<Props> {
           )}
         </div>
         {lastMessage && lastMessage.status ? (
-          <div
-            className={classNames(
-              'module-conversation-list-item__message__status-icon',
-              `module-conversation-list-item__message__status-icon--${lastMessage.status}`
-            )}
+          <OutgoingMessageStatus
+            status={lastMessage.status}
+            iconColor={this.props.theme.colors.textColorSubtle}
+            theme={this.props.theme}
           />
         ) : null}
       </div>
@@ -303,5 +305,5 @@ class ConversationListItem extends React.PureComponent<Props> {
 }
 
 export const ConversationListItemWithDetails = usingClosedConversationDetails(
-  ConversationListItem
+  withTheme(ConversationListItem)
 );

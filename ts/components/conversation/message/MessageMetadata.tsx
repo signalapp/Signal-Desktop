@@ -28,6 +28,9 @@ type Props = {
   theme: DefaultTheme;
 };
 
+/**
+ * This is a component to display the message of an Incoming or Outgoing message.
+ */
 export const MessageMetadata = (props: Props) => {
   const {
     id,
@@ -55,6 +58,9 @@ export const MessageMetadata = (props: Props) => {
   const showError = status === 'error' && isOutgoing;
 
   const showStatus = Boolean(!bodyPending && status?.length && isOutgoing);
+  const messageStatusColor = withImageNoCaption
+    ? 'white'
+    : props.theme.colors.sentMessageText;
   return (
     <div
       className={classNames(
@@ -106,9 +112,11 @@ export const MessageMetadata = (props: Props) => {
       <MetadataSpacer />
       {showStatus ? (
         <OutgoingMessageStatus
-          withImageNoCaption={withImageNoCaption}
+          iconColor={messageStatusColor}
           theme={theme}
           status={status}
+          // do not show the error status, another component is shown on the right of the message itself here
+          hideErrors={true}
         />
       ) : null}
     </div>

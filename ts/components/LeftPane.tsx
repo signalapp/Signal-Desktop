@@ -3,8 +3,8 @@ import React from 'react';
 import { ActionsPanel, SectionType } from './session/ActionsPanel';
 import { LeftPaneMessageSection } from './session/LeftPaneMessageSection';
 
-import { PropsData as ConversationListItemPropsType } from './ConversationListItem';
-import { PropsData as SearchResultsProps } from './SearchResults';
+import { ConversationListItemProps } from './ConversationListItem';
+import { SearchResultsProps } from './SearchResults';
 import { SearchOptions } from '../types/Search';
 import { LeftPaneSectionHeader } from './session/LeftPaneSectionHeader';
 
@@ -30,7 +30,7 @@ export type RowRendererParamsType = {
 
 interface Props {
   ourPrimaryConversation: ConversationType;
-  conversations: Array<ConversationListItemPropsType>;
+  conversations: Array<ConversationListItemProps>;
   contacts: Array<ConversationType>;
 
   unreadMessageCount: number;

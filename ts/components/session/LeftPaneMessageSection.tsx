@@ -4,14 +4,11 @@ import { AutoSizer, List } from 'react-virtualized';
 
 import { MainViewController } from '../MainViewController';
 import {
+  ConversationListItemProps,
   ConversationListItemWithDetails,
-  PropsData as ConversationListItemPropsType,
 } from '../ConversationListItem';
 import { ConversationType } from '../../state/ducks/conversations';
-import {
-  PropsData as SearchResultsProps,
-  SearchResults,
-} from '../SearchResults';
+import { SearchResults, SearchResultsProps } from '../SearchResults';
 import { SessionSearchInput } from './SessionSearchInput';
 import { debounce } from 'lodash';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
@@ -38,7 +35,7 @@ export interface Props {
   isSecondaryDevice: boolean;
 
   contacts: Array<ConversationType>;
-  conversations?: Array<ConversationListItemPropsType>;
+  conversations?: Array<ConversationListItemProps>;
   searchResults?: SearchResultsProps;
 
   updateSearchTerm: (searchTerm: string) => void;

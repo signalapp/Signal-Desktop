@@ -8,7 +8,7 @@ import { ContactName } from './conversation/ContactName';
 
 import { LocalizerType } from '../types/Util';
 
-export type PropsData = {
+export type MessageSearchResultProps = {
   id: string;
   conversationId: string;
   receivedAt: number;
@@ -40,7 +40,7 @@ type PropsHousekeeping = {
   onClick: (conversationId: string, messageId?: string) => void;
 };
 
-type Props = PropsData & PropsHousekeeping;
+type Props = MessageSearchResultProps & PropsHousekeeping;
 
 export class MessageSearchResult extends React.PureComponent<Props> {
   public renderFromName() {

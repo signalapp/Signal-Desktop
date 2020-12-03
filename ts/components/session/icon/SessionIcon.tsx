@@ -18,19 +18,19 @@ const getIconDimensionFromIconSize = (iconSize: SessionIconSize | number) => {
   } else {
     switch (iconSize) {
       case SessionIconSize.Tiny:
-        return '12';
+        return 12;
       case SessionIconSize.Small:
-        return '15';
+        return 15;
       case SessionIconSize.Medium:
-        return '20';
+        return 20;
       case SessionIconSize.Large:
-        return '25';
+        return 25;
       case SessionIconSize.Huge:
-        return '30';
+        return 30;
       case SessionIconSize.Max:
-        return '80';
+        return 80;
       default:
-        return '20';
+        return 20;
     }
   }
 };
@@ -64,7 +64,6 @@ const animation = (props: any) => {
 //tslint:disable no-unnecessary-callback-wrapper
 const Svg = styled.svg<StyledSvgProps>`
   width: ${props => props.width};
-  height: ${props => props.height};
   animation: ${props => animation(props)};
   transform: ${props => `rotate(${props.iconRotation}deg)`};
 `;
@@ -97,7 +96,7 @@ export const SessionIcon = (props: SessionIconProps) => {
 
   const iconDimensions = getIconDimensionFromIconSize(iconSize);
   const iconDef = icons[iconType];
-
+  const ratio = iconDef?.ratio || 1;
   if (!theme) {
     window.log.error('Missing theme props in SessionIcon');
   }
@@ -106,7 +105,7 @@ export const SessionIcon = (props: SessionIconProps) => {
     <SessionSvg
       viewBox={iconDef.viewBox}
       path={iconDef.path}
-      width={iconDimensions}
+      width={iconDimensions * ratio}
       height={iconDimensions}
       rotateDuration={rotateDuration}
       iconRotation={iconRotation}

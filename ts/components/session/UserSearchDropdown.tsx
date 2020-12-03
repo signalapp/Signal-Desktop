@@ -3,7 +3,7 @@ import React from 'react';
 import { UserSearchResults } from '../UserSearchResults';
 import { SessionSearchInput } from './SessionSearchInput';
 
-import { PropsData as SearchResultsProps } from '../SearchResults';
+import { SearchResultsProps } from '../SearchResults';
 import { DefaultTheme } from 'styled-components';
 
 export interface Props {
