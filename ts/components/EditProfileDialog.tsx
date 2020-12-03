@@ -20,12 +20,6 @@ import { PillDivider } from './session/PillDivider';
 import { ToastUtils } from '../session/utils';
 import { DefaultTheme } from 'styled-components';
 
-declare global {
-  interface Window {
-    displayNameRegex: any;
-  }
-}
-
 interface Props {
   i18n: any;
   profileName: string;

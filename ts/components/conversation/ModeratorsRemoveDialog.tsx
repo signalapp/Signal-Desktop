@@ -8,12 +8,6 @@ interface Props {
   onClose: any;
 }
 
-declare global {
-  interface Window {
-    i18n: any;
-  }
-}
-
 interface State {
   modList: Array<Contact>;
 }

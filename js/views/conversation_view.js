@@ -111,11 +111,6 @@
         this.toggleMicrophone()
       );
 
-      this.memberView = new Whisper.MemberListView({
-        el: this.$('.member-list-container'),
-        onClicked: this.selectMember.bind(this),
-      });
-
       this.memberView.render();
 
       this.$messageField = this.$('.send-message');

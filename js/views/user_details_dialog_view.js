@@ -15,6 +15,7 @@
       isRss,
       onOk,
       onStartConversation,
+      theme,
     }) {
       this.close = this.close.bind(this);
 
@@ -24,6 +25,7 @@
       this.avatarPath = avatarPath;
       this.onOk = onOk;
       this.onStartConversation = onStartConversation;
+      this.theme = theme;
 
       this.$el.focus();
       this.render();
@@ -41,6 +43,7 @@
           isRss: this.isRss,
           avatarPath: this.avatarPath,
           i18n,
+          theme: this.theme,
         },
       });
 

@@ -30,9 +30,6 @@ const { Emojify } = require('../../ts/components/conversation/Emojify');
 const { Lightbox } = require('../../ts/components/Lightbox');
 const { LightboxGallery } = require('../../ts/components/LightboxGallery');
 const { MemberList } = require('../../ts/components/conversation/MemberList');
-const {
-  CreateGroupDialog,
-} = require('../../ts/components/conversation/CreateGroupDialog');
 const { EditProfileDialog } = require('../../ts/components/EditProfileDialog');
 const { UserDetailsDialog } = require('../../ts/components/UserDetailsDialog');
 const {
@@ -235,7 +232,6 @@ exports.setup = (options = {}) => {
     Lightbox,
     LightboxGallery,
     MemberList,
-    CreateGroupDialog,
     EditProfileDialog,
     UserDetailsDialog,
     DevicePairingDialog,

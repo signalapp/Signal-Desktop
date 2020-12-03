@@ -126,6 +126,7 @@ class InviteContactsDialogInner extends React.Component<Props, State> {
         onUnselect={(selectedMember: ContactType) => {
           this.onMemberClicked(selectedMember);
         }}
+        theme={this.props.theme}
       />
     ));
   }
@@ -166,4 +167,4 @@ class InviteContactsDialogInner extends React.Component<Props, State> {
   }
 }
 
-export const InviteContactsDialog = withTheme(InviteContactsDialogInner);
+export const InviteContactsDialog = InviteContactsDialogInner;

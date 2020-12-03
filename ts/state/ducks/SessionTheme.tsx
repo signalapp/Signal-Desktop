@@ -162,3 +162,6 @@ export const SessionTheme = ({
   children: any;
   theme: DefaultTheme;
 }) => <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+
+window.lightTheme = lightTheme;
+window.darkTheme = darkTheme;

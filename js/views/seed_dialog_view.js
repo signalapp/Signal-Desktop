@@ -8,8 +8,9 @@
 
   Whisper.SeedDialogView = Whisper.View.extend({
     className: 'loki-dialog seed-dialog modal',
-    initialize() {
+    initialize(options) {
       this.close = this.close.bind(this);
+      this.theme = options.theme;
       this.render();
     },
 
@@ -19,6 +20,7 @@
         Component: window.Signal.Components.SessionSeedModal,
         props: {
           onClose: this.close,
+          theme: this.theme,
         },
       });
 

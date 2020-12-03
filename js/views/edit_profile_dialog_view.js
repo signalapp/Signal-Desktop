@@ -8,13 +8,14 @@
 
   Whisper.EditProfileDialogView = Whisper.View.extend({
     className: 'loki-dialog modal',
-    initialize({ profileName, avatarPath, pubkey, onOk }) {
+    initialize({ profileName, avatarPath, pubkey, onOk, theme }) {
       this.close = this.close.bind(this);
 
       this.profileName = profileName;
       this.pubkey = pubkey;
       this.avatarPath = avatarPath;
       this.onOk = onOk;
+      this.theme = theme;
 
       this.$el.focus();
       this.render();
@@ -30,6 +31,7 @@
           pubkey: this.pubkey,
           avatarPath: this.avatarPath,
           i18n,
+          theme: this.theme,
         },
       });
 

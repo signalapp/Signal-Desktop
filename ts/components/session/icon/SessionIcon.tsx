@@ -73,7 +73,7 @@ export const SessionIcon = (props: SessionIconProps) => {
   // const themeContext = useContext(ThemeContext);
 
   if (!theme) {
-    debugger;
+    window.log.error('Missing theme props in SessionIcon');
   }
 
   return (

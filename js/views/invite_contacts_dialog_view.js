@@ -11,7 +11,7 @@
     initialize(convo) {
       this.close = this.close.bind(this);
       this.submit = this.submit.bind(this);
-
+      this.theme = convo.theme;
       const convos = window.getConversations().models;
 
       this.contacts = convos.filter(
@@ -45,6 +45,7 @@
           onSubmit: this.submit,
           onClose: this.close,
           chatName: this.chatName,
+          theme: this.theme,
         },
       });
 

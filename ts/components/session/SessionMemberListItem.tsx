@@ -135,4 +135,4 @@ class SessionMemberListItemInner extends React.Component<Props, State> {
   }
 }
 
-export const SessionMemberListItem = withTheme(SessionMemberListItemInner);
+export const SessionMemberListItem = SessionMemberListItemInner;

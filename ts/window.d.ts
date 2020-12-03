@@ -18,6 +18,7 @@ import { ConversationControllerType } from '../js/ConversationController';
 import { any } from 'underscore';
 import { Store } from 'redux';
 import { MessageController } from './session/messages/MessageController';
+import { DefaultTheme } from 'styled-components';
 /*
 We declare window stuff here instead of global.d.ts because we are importing other declarations.
 If you import anything in global.d.ts, the type system won't work correctly.
@@ -119,5 +120,7 @@ declare global {
       expiredStatus: () => boolean;
     };
     openUrl: (string) => void;
+    lightTheme: DefaultTheme;
+    darkTheme: DefaultTheme;
   }
 }

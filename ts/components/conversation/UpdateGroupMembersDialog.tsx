@@ -160,6 +160,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
         onSelect={this.onMemberClicked}
         onUnselect={this.onMemberClicked}
         key={member.id}
+        theme={this.props.theme}
       />
     ));
   }

@@ -1,18 +1,14 @@
 import React from 'react';
 import { Contact, MemberList } from './MemberList';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
+import { DefaultTheme } from 'styled-components';
 
 interface Props {
   contactList: Array<any>;
   chatName: string;
   onSubmit: any;
   onClose: any;
-}
-
-declare global {
-  interface Window {
-    i18n: any;
-  }
+  // theme: DefaultTheme;
 }
 
 interface State {

@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { SessionIconProps, SessionIcon } from '../icon';
+import { SessionIcon, SessionIconProps } from '../icon';
 import { SessionNotificationCount } from '../SessionNotificationCount';
 import { DefaultTheme } from 'styled-components';
 
