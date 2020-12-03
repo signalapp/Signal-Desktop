@@ -6,19 +6,21 @@ import {
   ContactType,
   SessionMemberListItem,
 } from '../session/SessionMemberListItem';
+import { DefaultTheme, withTheme } from 'styled-components';
 
 interface Props {
   contactList: Array<any>;
   chatName: string;
   onSubmit: any;
   onClose: any;
+  theme: DefaultTheme;
 }
 
 interface State {
   contactList: Array<ContactType>;
 }
 
-export class InviteContactsDialog extends React.Component<Props, State> {
+class InviteContactsDialogInner extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
 
@@ -69,6 +71,7 @@ export class InviteContactsDialog extends React.Component<Props, State> {
         title={titleText}
         onOk={() => null}
         onClose={this.closeDialog}
+        theme={this.props.theme}
       >
         <div className="spacer-lg" />
 
@@ -162,3 +165,5 @@ export class InviteContactsDialog extends React.Component<Props, State> {
     this.props.onClose();
   }
 }
+
+export const InviteContactsDialog = withTheme(InviteContactsDialogInner);

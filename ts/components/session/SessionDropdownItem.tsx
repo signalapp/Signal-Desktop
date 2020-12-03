@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import classNames from 'classnames';
 
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon/';
+import { ThemeContext } from 'styled-components';
 
 export enum SessionDropDownItemType {
   Default = 'default',
@@ -25,6 +26,7 @@ export const SessionDropdownItem = (props: Props) => {
   };
 
   const { content, type, icon, active } = props;
+  const theme = useContext(ThemeContext);
 
   return (
     <div
@@ -37,7 +39,11 @@ export const SessionDropdownItem = (props: Props) => {
       onClick={clickHandler}
     >
       {icon ? (
-        <SessionIcon iconType={icon} iconSize={SessionIconSize.Small} />
+        <SessionIcon
+          iconType={icon}
+          iconSize={SessionIconSize.Small}
+          theme={theme}
+        />
       ) : (
         ''
       )}

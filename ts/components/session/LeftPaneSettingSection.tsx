@@ -12,11 +12,13 @@ import {
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 import { SessionSearchInput } from './SessionSearchInput';
 import { SessionSettingCategory } from './settings/SessionSettings';
+import { DefaultTheme } from 'styled-components';
 
 interface Props {
   isSecondaryDevice: boolean;
   settingsCategory: SessionSettingCategory;
   showSessionSettingsCategory: (category: SessionSettingCategory) => void;
+  theme: DefaultTheme;
 }
 
 export interface State {
@@ -49,6 +51,7 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
 
     return LeftPane.RENDER_HEADER(
       labels,
+      this.props.theme,
       null,
       undefined,
       undefined,
@@ -81,6 +84,7 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
               iconSize={SessionIconSize.Medium}
               iconType={SessionIconType.Chevron}
               iconRotation={270}
+              theme={this.props.theme}
             />
           )}
         </div>
@@ -108,15 +112,18 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
             searchString={this.state.searchQuery}
             onChange={() => null}
             placeholder=""
+            theme={this.props.theme}
           />
           <div className="left-pane-setting-input-button">
             <SessionButton
               buttonType={SessionButtonType.Square}
               buttonColor={SessionButtonColor.Green}
+              theme={this.props.theme}
             >
               <SessionIcon
                 iconType={SessionIconType.Caret}
                 iconSize={SessionIconSize.Huge}
+                theme={this.props.theme}
               />
             </SessionButton>
           </div>

@@ -18,6 +18,7 @@ import {
 import { SessionModal } from './session/SessionModal';
 import { PillDivider } from './session/PillDivider';
 import { ToastUtils } from '../session/utils';
+import { DefaultTheme } from 'styled-components';
 
 declare global {
   interface Window {
@@ -32,6 +33,7 @@ interface Props {
   pubkey: string;
   onClose: any;
   onOk: any;
+  theme: DefaultTheme;
 }
 
 interface State {
@@ -99,6 +101,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
         onClose={this.closeDialog}
         headerReverse={viewEdit || viewQR}
         headerIconButtons={backButton}
+        theme={this.props.theme}
       >
         <div className="spacer-md" />
 
@@ -170,6 +173,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
                 onClick={() => {
                   this.setState({ mode: 'qr' });
                 }}
+                theme={this.props.theme}
               />
             </div>
           </div>
@@ -200,6 +204,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
             onClick={() => {
               this.setState({ mode: 'edit' });
             }}
+            theme={this.props.theme}
           />
         </div>
       </>

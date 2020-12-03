@@ -22,6 +22,7 @@ import {
   PropsConversationHeaderMenu,
 } from '../session/menu/ConversationHeaderMenu';
 import { contextMenu } from 'react-contexify';
+import { DefaultTheme, withTheme } from 'styled-components';
 
 export interface TimerOption {
   name: string;
@@ -88,9 +89,10 @@ interface Props {
   onUpdateGroupName: () => void;
 
   memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
+  theme: DefaultTheme;
 }
 
-class ConversationHeader extends React.Component<Props> {
+class ConversationHeaderInner extends React.Component<Props> {
   public constructor(props: Props) {
     super(props);
 
@@ -105,10 +107,12 @@ class ConversationHeader extends React.Component<Props> {
     }
 
     return (
-      <div
+      <SessionIconButton
+        iconType={SessionIconType.Chevron}
+        iconSize={SessionIconSize.Large}
+        iconRotation={90}
         onClick={onGoBack}
-        role="button"
-        className="module-conversation-header__back-icon"
+        theme={this.props.theme}
       />
     );
   }
@@ -213,19 +217,6 @@ class ConversationHeader extends React.Component<Props> {
     );
   }
 
-  public renderSearch() {
-    return (
-      <div className="search-icon">
-        <SessionIconButton
-          iconType={SessionIconType.Search}
-          iconSize={SessionIconSize.Large}
-          iconPadded={true}
-          onClick={this.highlightMessageSearch}
-        />
-      </div>
-    );
-  }
-
   public renderSelectionOverlay() {
     const { onDeleteSelectedMessages, onCloseOverlay, isPublic } = this.props;
     const { i18n } = window;
@@ -242,6 +233,7 @@ class ConversationHeader extends React.Component<Props> {
             iconType={SessionIconType.Exit}
             iconSize={SessionIconSize.Medium}
             onClick={onCloseOverlay}
+            theme={this.props.theme}
           />
         </div>
 
@@ -321,6 +313,7 @@ class ConversationHeader extends React.Component<Props> {
         <SessionIconButton
           iconType={SessionIconType.Ellipses}
           iconSize={SessionIconSize.Medium}
+          theme={this.props.theme}
         />
       </div>
     );
@@ -328,5 +321,5 @@ class ConversationHeader extends React.Component<Props> {
 }
 
 export const ConversationHeaderWithDetails = usingClosedConversationDetails(
-  ConversationHeader
+  withTheme(ConversationHeaderInner)
 );

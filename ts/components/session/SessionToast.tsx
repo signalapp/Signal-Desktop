@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon/';
 import { Flex } from './Flex';
-import styled from 'styled-components';
+import styled, { ThemeContext } from 'styled-components';
 
 export enum SessionToastType {
   Info = 'info',
@@ -45,6 +45,8 @@ const IconDiv = styled.div`
 export const SessionToast = (props: Props) => {
   const { title, description, type, icon } = props;
 
+  const theme = useContext(ThemeContext);
+
   const toastDesc = description ? description : '';
   const toastIconSize = toastDesc
     ? SessionIconSize.Huge
@@ -74,7 +76,11 @@ export const SessionToast = (props: Props) => {
   return (
     <Flex container={true} alignItems="center">
       <IconDiv>
-        <SessionIcon iconType={toastIcon} iconSize={toastIconSize} />
+        <SessionIcon
+          iconType={toastIcon}
+          iconSize={toastIconSize}
+          theme={theme}
+        />
       </IconDiv>
       <Flex
         container={true}

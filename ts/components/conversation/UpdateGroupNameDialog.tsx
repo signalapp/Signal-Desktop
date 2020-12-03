@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { SessionModal } from '../session/SessionModal';
 import { SessionButton, SessionButtonColor } from '../session/SessionButton';
 import { Avatar } from '../Avatar';
+import { DefaultTheme, withTheme } from 'styled-components';
 
 interface Props {
   titleText: string;
@@ -18,6 +19,7 @@ interface Props {
   onClose: any;
   // avatar stuff
   avatarPath: string;
+  theme: DefaultTheme;
 }
 
 interface State {
@@ -27,7 +29,7 @@ interface State {
   avatar: string;
 }
 
-export class UpdateGroupNameDialog extends React.Component<Props, State> {
+class UpdateGroupNameDialogInner extends React.Component<Props, State> {
   private readonly inputEl: any;
 
   constructor(props: any) {
@@ -84,6 +86,7 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
         // tslint:disable-next-line: no-void-expression
         onClose={() => this.closeDialog()}
         onOk={() => null}
+        theme={this.props.theme}
       >
         <div className="spacer-md" />
         <p className={errorMessageClasses}>{errorMsg}</p>
@@ -212,3 +215,5 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
     });
   }
 }
+
+export const UpdateGroupNameDialog = withTheme(UpdateGroupNameDialogInner);

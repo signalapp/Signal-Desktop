@@ -45,7 +45,7 @@ export const SessionQuotedMessageComposition = (props: Props) => {
   const { text: body, attachments } = quotedMessageProps;
   const hasAttachments = attachments && attachments.length > 0;
   return (
-    <QuotedMessageComposition>
+    <QuotedMessageComposition theme={theme}>
       <Flex
         container={true}
         justifyContent="space-between"
@@ -57,6 +57,7 @@ export const SessionQuotedMessageComposition = (props: Props) => {
           iconType={SessionIconType.Exit}
           iconSize={SessionIconSize.Small}
           onClick={removeQuotedMessage}
+          theme={theme}
         />
       </Flex>
       <QuotedMessageCompositionReply>

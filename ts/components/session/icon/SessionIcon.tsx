@@ -1,15 +1,14 @@
 import React from 'react';
-import classNames from 'classnames';
 
 import { icons, SessionIconSize, SessionIconType } from '../icon';
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 
-export type Props = {
+export type SessionIconProps = {
   iconType: SessionIconType;
   iconSize: SessionIconSize | number;
   iconColor?: string;
-  iconPadded?: boolean;
   iconRotation?: number;
+  theme: DefaultTheme;
 };
 
 const getIconDimensionFromIconSize = (iconSize: SessionIconSize | number) => {
@@ -46,41 +45,46 @@ const Svg = styled.svg<StyledSvgProps>`
 `;
 
 const SessionSvg = (props: {
-  className: string;
   viewBox: string;
   path: string;
   width: string | number;
   height: string | number;
   iconRotation: number;
-}) => (
-  <Svg {...props}>
-    <path fill="currentColor" d={props.path} />
-  </Svg>
-);
+  iconColor?: string;
+  theme: DefaultTheme;
+}) => {
+  const colorSvg = props.iconColor || props?.theme?.colors.textColor || 'red';
+  return (
+    <Svg {...props}>
+      <path fill={colorSvg} d={props.path} />
+    </Svg>
+  );
+};
 
-export const SessionIcon = (props: Props) => {
-  const { iconType } = props;
-  let { iconSize, iconColor, iconRotation, iconPadded } = props;
+export const SessionIcon = (props: SessionIconProps) => {
+  const { iconType, iconColor, theme } = props;
+  let { iconSize, iconRotation } = props;
   iconSize = iconSize || SessionIconSize.Medium;
-  iconColor = iconColor || '';
+  // default to whatever the text color is near this svg
   iconRotation = iconRotation || 0;
-  iconPadded = iconPadded || false;
 
   const iconDimensions = getIconDimensionFromIconSize(iconSize);
   const iconDef = icons[iconType];
+  // const themeContext = useContext(ThemeContext);
+
+  if (!theme) {
+    debugger;
+  }
 
   return (
     <SessionSvg
-      className={classNames(
-        'session-icon',
-        iconType,
-        iconPadded ? 'padded' : ''
-      )}
       viewBox={iconDef.viewBox}
       path={iconDef.path}
       width={iconDimensions}
       height={iconDimensions}
       iconRotation={iconRotation}
+      iconColor={iconColor}
+      theme={theme}
     />
   );
 };

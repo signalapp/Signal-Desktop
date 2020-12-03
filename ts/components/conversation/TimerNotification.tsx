@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-import { ContactName } from './ContactName';
 import { Intl } from '../Intl';
 
 import { missingCaseError } from '../../util/missingCaseError';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../session/icon';
+import { ThemeContext } from 'styled-components';
 
 type Props = {
   type: 'fromOther' | 'fromMe' | 'fromSync';
@@ -52,7 +52,7 @@ export const TimerNotification = (props: Props) => {
         throw missingCaseError(type);
     }
   }
-
+  const themeContext = useContext(ThemeContext);
   return (
     <div className="module-timer-notification">
       <div className="module-timer-notification__message">
@@ -61,6 +61,7 @@ export const TimerNotification = (props: Props) => {
             iconType={SessionIconType.Stopwatch}
             iconSize={SessionIconSize.Small}
             iconColor={'#ABABAB'}
+            theme={themeContext}
           />
         </div>
 

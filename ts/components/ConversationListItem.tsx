@@ -151,7 +151,6 @@ class ConversationListItem extends React.PureComponent<Props> {
                 timestamp={lastUpdated}
                 extended={false}
                 module="module-conversation-list-item__header__timestamp"
-                i18n={i18n}
               />
             }
           </div>

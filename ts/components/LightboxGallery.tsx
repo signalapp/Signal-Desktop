@@ -8,6 +8,7 @@ import { Lightbox } from './Lightbox';
 import { Message } from './conversation/media-gallery/types/Message';
 
 import { AttachmentType } from '../types/Attachment';
+import { darkTheme } from '../state/ducks/SessionTheme';
 
 export interface MediaItemType {
   objectURL?: string;
@@ -73,6 +74,8 @@ export class LightboxGallery extends React.Component<Props, State> {
         objectURL={objectURL}
         caption={captionCallback}
         contentType={selectedMedia.contentType}
+        // there is no theme in use on the lightbox
+        theme={darkTheme}
       />
     );
   }

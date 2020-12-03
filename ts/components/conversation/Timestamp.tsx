@@ -1,93 +1,66 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 
 import { formatRelativeTime } from '../../util/formatRelativeTime';
+import { useInterval } from '../../hooks/useInterval';
 
-import { LocalizerType } from '../../types/Util';
-
-interface Props {
+type Props = {
   timestamp?: number;
   extended?: boolean;
   module?: string;
   withImageNoCaption?: boolean;
   direction?: 'incoming' | 'outgoing';
-  i18n: LocalizerType;
-}
+};
 
 const UPDATE_FREQUENCY = 60 * 1000;
 
-export class Timestamp extends React.Component<Props> {
-  private interval: any;
+export const Timestamp = (props: Props) => {
+  const [lastUpdated, setLastUpdated] = useState(Date.now());
+  // this is kind of a hack, but we use lastUpdated just to trigger a refresh
+  // formatRelativeTime() will print the correct moment.
+  const update = () => {
+    setLastUpdated(Date.now());
+  };
 
-  constructor(props: Props) {
-    super(props);
+  useInterval(update, UPDATE_FREQUENCY);
 
-    this.interval = null;
+  const { direction, module, timestamp, withImageNoCaption, extended } = props;
+  const moduleName = module || 'module-timestamp';
+
+  if (timestamp === null || timestamp === undefined) {
+    return null;
   }
 
-  public componentDidMount() {
-    const update = () => {
-      this.setState({
-        lastUpdated: Date.now(),
-      });
-    };
-    this.interval = setInterval(update, UPDATE_FREQUENCY);
-  }
+  // Use relative time for under 24hrs ago.
+  const now = Math.floor(Date.now());
+  const messageAgeInDays =
+    (now - timestamp) / (window.CONSTANTS.SECS_IN_DAY * 1000);
+  const daysBeforeRelativeTiming = 1;
 
-  public componentWillUnmount() {
-    if (this.interval) {
-      clearInterval(this.interval);
-    }
-  }
-
-  public render() {
-    const {
-      direction,
-      i18n,
-      module,
-      timestamp,
-      withImageNoCaption,
-      extended,
-    } = this.props;
-    const moduleName = module || 'module-timestamp';
-
-    if (timestamp === null || timestamp === undefined) {
-      return null;
+  let dateString;
+  if (messageAgeInDays > daysBeforeRelativeTiming) {
+    dateString = formatRelativeTime(timestamp, { i18n: window.i18n, extended });
+  } else {
+    dateString = moment(timestamp).fromNow();
+    // Prevent times reading "NOW AGO"
+    if (dateString.startsWith('now') || dateString.startsWith('Now')) {
+      dateString = 'now';
     }
 
-    // Use relative time for under 24hrs ago.
-    const now = Math.floor(Date.now());
-    const messageAgeInDays =
-      (now - timestamp) / (window.CONSTANTS.SECS_IN_DAY * 1000);
-    const daysBeforeRelativeTiming = 1;
-
-    let dateString;
-    if (messageAgeInDays > daysBeforeRelativeTiming) {
-      dateString = formatRelativeTime(timestamp, { i18n, extended });
-    } else {
-      dateString = moment(timestamp).fromNow();
-      // Prevent times reading "NOW AGO"
-      if (dateString.startsWith('now') || dateString.startsWith('Now')) {
-        dateString = 'now';
-      }
-
-      dateString = dateString
-        .replace('minutes', 'mins')
-        .replace('minute', 'min');
-    }
-
-    return (
-      <span
-        className={classNames(
-          moduleName,
-          direction ? `${moduleName}--${direction}` : null,
-          withImageNoCaption ? `${moduleName}--with-image-no-caption` : null
-        )}
-        title={moment(timestamp).format('llll')}
-      >
-        {dateString}
-      </span>
-    );
+    dateString = dateString.replace('minutes', 'mins').replace('minute', 'min');
   }
-}
+
+  return (
+    <span
+      className={classNames(
+        moduleName,
+        direction ? `${moduleName}--${direction}` : null,
+        withImageNoCaption ? `${moduleName}--with-image-no-caption` : null
+      )}
+      title={moment(timestamp).format('llll')}
+    >
+      {dateString}
+    </span>
+  );
+};

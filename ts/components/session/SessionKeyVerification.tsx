@@ -14,9 +14,11 @@ import { SessionSpinner } from './SessionSpinner';
 import classNames from 'classnames';
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 import { Constants } from '../../session';
+import { DefaultTheme, withTheme } from 'styled-components';
 
 interface Props {
   conversation: ConversationModel;
+  theme: DefaultTheme;
 }
 
 interface State {
@@ -26,7 +28,7 @@ interface State {
   isVerified?: boolean;
 }
 
-export class SessionKeyVerification extends React.Component<Props, State> {
+class SessionKeyVerificationInner extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
 
@@ -117,6 +119,7 @@ export class SessionKeyVerification extends React.Component<Props, State> {
                   iconType={SessionIconType.Lock}
                   iconSize={SessionIconSize.Huge}
                   iconColor={verificationIconColor}
+                  theme={this.props.theme}
                 />
                 {window.i18n(
                   isVerified ? 'isVerified' : 'isNotVerified',
@@ -248,3 +251,5 @@ export class SessionKeyVerification extends React.Component<Props, State> {
     return securityNumberElement;
   }
 }
+
+export const SessionKeyVerification = withTheme(SessionKeyVerificationInner);

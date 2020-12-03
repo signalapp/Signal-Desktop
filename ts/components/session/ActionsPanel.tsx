@@ -8,6 +8,8 @@ import { SessionToastContainer } from './SessionToastContainer';
 import { mapDispatchToProps } from '../../state/actions';
 import { ConversationType } from '../../state/ducks/conversations';
 import { noop } from 'lodash';
+import { DefaultTheme } from 'styled-components';
+import { StateType } from '../../state/reducer';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -25,6 +27,7 @@ interface Props {
   unreadMessageCount: number;
   ourPrimaryConversation: ConversationType;
   applyTheme?: any;
+  theme: DefaultTheme;
 }
 
 class ActionsPanelPrivate extends React.Component<Props> {
@@ -125,6 +128,7 @@ class ActionsPanelPrivate extends React.Component<Props> {
         notificationCount={notificationCount}
         onClick={handleClick}
         isSelected={isSelected}
+        theme={this.props.theme}
       />
     );
   };
@@ -182,6 +186,15 @@ class ActionsPanelPrivate extends React.Component<Props> {
   };
 }
 
-const smart = connect(null, mapDispatchToProps);
+const mapStateToProps = (state: StateType) => {
+  const { section, theme } = state;
+
+  return {
+    section: section.focusedSection,
+    theme,
+  };
+};
+
+const smart = connect(mapStateToProps, mapDispatchToProps);
 
 export const ActionsPanel = smart(ActionsPanelPrivate);

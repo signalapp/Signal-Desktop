@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { Avatar } from '../Avatar';
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 import { Constants } from '../../session';
+import { DefaultTheme, withTheme } from 'styled-components';
 
 export interface ContactType {
   id: string;
@@ -22,13 +23,14 @@ interface Props {
   isSelected: boolean;
   onSelect?: any;
   onUnselect?: any;
+  theme: DefaultTheme;
 }
 
 interface State {
   isSelected: boolean;
 }
 
-export class SessionMemberListItem extends React.Component<Props, State> {
+class SessionMemberListItemInner extends React.Component<Props, State> {
   public static defaultProps = {
     isSelected: false,
   };
@@ -77,6 +79,7 @@ export class SessionMemberListItem extends React.Component<Props, State> {
             iconType={SessionIconType.Check}
             iconSize={SessionIconSize.Medium}
             iconColor={Constants.UI.COLORS.GREEN}
+            theme={this.props.theme}
           />
         </span>
       </div>
@@ -131,3 +134,5 @@ export class SessionMemberListItem extends React.Component<Props, State> {
     }
   }
 }
+
+export const SessionMemberListItem = withTheme(SessionMemberListItemInner);

@@ -364,6 +364,7 @@ export class SessionConversation extends React.Component<Props, State> {
               clearAttachments={this.clearAttachments}
               removeAttachment={this.removeAttachment}
               onChoseAttachments={this.onChoseAttachments}
+              theme={this.props.theme}
             />
           )}
         </div>

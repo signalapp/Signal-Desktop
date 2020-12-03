@@ -2,6 +2,7 @@ import React from 'react';
 
 import { SessionModal } from './session/SessionModal';
 import { SessionButton } from './session/SessionButton';
+import { DefaultTheme } from 'styled-components';
 
 interface Props {
   titleText: string;
@@ -10,6 +11,7 @@ interface Props {
   cancelText: string;
   onConfirm: any;
   onClose: any;
+  theme: DefaultTheme;
 }
 
 export class ConfirmDialog extends React.Component<Props> {
@@ -23,6 +25,7 @@ export class ConfirmDialog extends React.Component<Props> {
         title={this.props.titleText}
         onClose={this.props.onClose}
         onOk={() => null}
+        theme={this.props.theme}
       >
         <div className="spacer-md" />
         <p className="messageText">{this.props.messageText}</p>

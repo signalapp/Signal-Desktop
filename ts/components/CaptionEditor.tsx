@@ -11,6 +11,7 @@ import {
   SessionButtonColor,
   SessionButtonType,
 } from './session/SessionButton';
+import { darkTheme, lightTheme } from '../state/ducks/SessionTheme';
 
 interface Props {
   attachment: AttachmentType;
@@ -106,6 +107,7 @@ export class CaptionEditor extends React.Component<Props, State> {
               onValueChanged={this.onChange}
               onEnterPressed={this.onSave}
               value={caption}
+              theme={darkTheme}
             />
             <SessionButton
               text={window.i18n('save')}

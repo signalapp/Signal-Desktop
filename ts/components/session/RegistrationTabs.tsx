@@ -12,6 +12,7 @@ import { SessionHtmlRenderer } from './SessionHTMLRenderer';
 import { SessionIdEditable } from './SessionIdEditable';
 import { SessionSpinner } from './SessionSpinner';
 import { StringUtils, ToastUtils } from '../../session/utils';
+import { lightTheme } from '../../state/ducks/SessionTheme';
 
 enum SignInMode {
   Default,
@@ -410,6 +411,7 @@ export class RegistrationTabs extends React.Component<any, State> {
             onEnterPressed={() => {
               this.handlePressEnter();
             }}
+            theme={lightTheme}
           />
           {this.renderNamePasswordAndVerifyPasswordFields(false)}
         </div>
@@ -497,6 +499,7 @@ export class RegistrationTabs extends React.Component<any, State> {
           onEnterPressed={() => {
             this.handlePressEnter();
           }}
+          theme={lightTheme}
         />
 
         <SessionInput
@@ -511,6 +514,7 @@ export class RegistrationTabs extends React.Component<any, State> {
           onEnterPressed={() => {
             this.handlePressEnter();
           }}
+          theme={lightTheme}
         />
 
         {!!password && (
@@ -526,6 +530,7 @@ export class RegistrationTabs extends React.Component<any, State> {
             onEnterPressed={() => {
               this.handlePressEnter();
             }}
+            theme={lightTheme}
           />
         )}
       </div>

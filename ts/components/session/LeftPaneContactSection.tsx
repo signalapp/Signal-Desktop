@@ -15,10 +15,11 @@ import {
   SessionClosableOverlayType,
 } from './SessionClosableOverlay';
 import { ToastUtils } from '../../session/utils';
+import { DefaultTheme } from 'styled-components';
 
 export interface Props {
   directContacts: Array<ConversationType>;
-
+  theme: DefaultTheme;
   openConversationExternal: (id: string, messageId?: string) => void;
 }
 
@@ -59,6 +60,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
 
     return LeftPane.RENDER_HEADER(
       labels,
+      this.props.theme,
       null,
       undefined,
       undefined,
@@ -104,6 +106,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
         onChangeSessionID={this.handleRecipientSessionIDChanged}
         onCloseClick={this.handleToggleOverlay}
         onButtonClick={this.handleOnAddContact}
+        theme={this.props.theme}
       />
     );
   }

@@ -8,6 +8,7 @@ import {
   SessionButtonType,
 } from './SessionButton';
 import { Constants } from '../../session';
+import { DefaultTheme, withTheme } from 'styled-components';
 
 interface State {
   error: string;
@@ -15,7 +16,10 @@ interface State {
   clearDataView: boolean;
 }
 
-export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
+class SessionPasswordPromptInner extends React.PureComponent<
+  { theme: DefaultTheme },
+  State
+> {
   private readonly inputRef: React.RefObject<HTMLInputElement>;
 
   constructor(props: any) {
@@ -78,12 +82,14 @@ export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
         iconType={SessionIconType.Warning}
         iconSize={35}
         iconColor="#ce0000"
+        theme={this.props.theme}
       />
     ) : (
       <SessionIcon
         iconType={SessionIconType.Lock}
         iconSize={35}
         iconColor={Constants.UI.COLORS.GREEN}
+        theme={this.props.theme}
       />
     );
     const errorSection = !this.state.clearDataView && (
@@ -225,3 +231,5 @@ export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
     );
   }
 }
+
+export const SessionPasswordPrompt = withTheme(SessionPasswordPromptInner);

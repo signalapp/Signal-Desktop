@@ -16,6 +16,7 @@ import {
   usingClosedConversationDetails,
 } from '../usingClosedConversationDetails';
 import { save } from '../../../types/Attachment';
+import { DefaultTheme, withTheme } from 'styled-components';
 
 interface Props {
   id: string;
@@ -41,6 +42,7 @@ interface Props {
   onUpdateGroupMembers: () => void;
   onShowLightBox: (options: any) => void;
   onSetDisappearingMessages: (seconds: number) => void;
+  theme: DefaultTheme;
 }
 
 interface State {
@@ -357,6 +359,7 @@ class SessionRightPanel extends React.Component<Props, State> {
           iconSize={SessionIconSize.Medium}
           iconRotation={270}
           onClick={onGoBack}
+          theme={this.props.theme}
         />
         <Avatar
           avatarPath={avatarPath}
@@ -371,6 +374,7 @@ class SessionRightPanel extends React.Component<Props, State> {
               iconType={SessionIconType.AddUser}
               iconSize={SessionIconSize.Medium}
               onClick={onInviteContacts}
+              theme={this.props.theme}
             />
           )}
         </div>
@@ -380,5 +384,5 @@ class SessionRightPanel extends React.Component<Props, State> {
 }
 
 export const SessionRightPanelWithDetails = usingClosedConversationDetails(
-  SessionRightPanel
+  withTheme(SessionRightPanel)
 );

@@ -150,7 +150,7 @@ export class MessageSearchResult extends React.PureComponent<Props> {
           <div className="module-message-search-result__header">
             {this.renderFrom()}
             <div className="module-message-search-result__header__timestamp">
-              <Timestamp timestamp={receivedAt} i18n={i18n} />
+              <Timestamp timestamp={receivedAt} />
             </div>
           </div>
           <div className="module-message-search-result__body">

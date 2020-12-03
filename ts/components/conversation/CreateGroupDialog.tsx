@@ -4,6 +4,7 @@ import { Contact, MemberList } from './MemberList';
 
 import { SessionModal } from './../session/SessionModal';
 import { createLegacyGroup } from '../../session/medium_group';
+import { DefaultTheme, withTheme } from 'styled-components';
 
 declare global {
   interface Window {
@@ -19,6 +20,7 @@ interface Props {
   contactList: Array<any>;
   i18n: any;
   onClose: any;
+  theme: DefaultTheme;
 }
 
 interface State {
@@ -28,7 +30,7 @@ interface State {
   errorMessage: string;
 }
 
-export class CreateGroupDialog extends React.Component<Props, State> {
+class CreateGroupDialogInner extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
 
@@ -98,6 +100,7 @@ export class CreateGroupDialog extends React.Component<Props, State> {
         title={titleText}
         onClose={this.closeDialog}
         onOk={() => null}
+        theme={this.props.theme}
       >
         <div className="spacer-lg" />
 
@@ -218,3 +221,5 @@ export class CreateGroupDialog extends React.Component<Props, State> {
     });
   }
 }
+
+export const CreateGroupDialog = withTheme(CreateGroupDialogInner);

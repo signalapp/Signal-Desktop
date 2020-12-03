@@ -7,6 +7,13 @@ import is from '@sindresorhus/is';
 
 import * as GoogleChrome from '../util/GoogleChrome';
 import * as MIME from '../types/MIME';
+import {
+  SessionIconButton,
+  SessionIconSize,
+  SessionIconType,
+} from './session/icon';
+import { Flex } from './session/Flex';
+import { DefaultTheme } from 'styled-components';
 
 const Colors = {
   TEXT_SECONDARY: '#bbb',
@@ -29,6 +36,7 @@ interface Props {
   onNext?: () => void;
   onPrevious?: () => void;
   onSave?: () => void;
+  theme: DefaultTheme;
 }
 
 const CONTROLS_WIDTH = 50;
@@ -124,25 +132,46 @@ interface IconButtonProps {
   onClick?: () => void;
   style?: React.CSSProperties;
   type: 'save' | 'close' | 'previous' | 'next';
+  theme: DefaultTheme;
 }
 
-const IconButton = ({ onClick, style, type }: IconButtonProps) => {
+const IconButton = ({ onClick, style, type, theme }: IconButtonProps) => {
   const clickHandler = (event: React.MouseEvent<HTMLAnchorElement>): void => {
-    event.preventDefault();
     if (!onClick) {
       return;
     }
-
     onClick();
   };
+  let iconRotation = 0;
+  let iconType = SessionIconType.Chevron;
+  switch (type) {
+    case 'next':
+      iconRotation = 270;
+      break;
+    case 'previous':
+      iconRotation = 90;
+      break;
+    case 'close':
+      iconType = SessionIconType.Exit;
+      break;
+    case 'save':
+      iconType = SessionIconType.Upload;
+      iconRotation = 180;
+
+      break;
+    default:
+      throw new TypeError(`Invalid button type: ${type}`);
+  }
 
   return (
-    <a
-      href="#"
+    <SessionIconButton
+      iconType={iconType}
+      iconSize={SessionIconSize.Huge}
+      iconRotation={iconRotation}
+      // the lightbox has a dark background
+      iconColor="white"
       onClick={clickHandler}
-      className={classNames('iconButton', type)}
-      role="button"
-      style={style}
+      theme={theme}
     />
   );
 };
@@ -243,24 +272,36 @@ export class Lightbox extends React.Component<Props> {
             </div>
           </div>
           <div style={styles.controls}>
-            <IconButton type="close" onClick={this.onClose} />
+            <Flex flexGrow={1}>
+              <IconButton
+                type="close"
+                onClick={this.onClose}
+                theme={this.props.theme}
+              />
+            </Flex>
+
             {onSave ? (
               <IconButton
                 type="save"
                 onClick={onSave}
                 style={styles.saveButton}
+                theme={this.props.theme}
               />
             ) : null}
           </div>
         </div>
         <div style={styles.navigationContainer}>
           {onPrevious ? (
-            <IconButton type="previous" onClick={onPrevious} />
+            <IconButton
+              type="previous"
+              onClick={onPrevious}
+              theme={this.props.theme}
+            />
           ) : (
             <IconButtonPlaceholder />
           )}
           {onNext ? (
-            <IconButton type="next" onClick={onNext} />
+            <IconButton type="next" onClick={onNext} theme={this.props.theme} />
           ) : (
             <IconButtonPlaceholder />
           )}

@@ -94,20 +94,6 @@
       animation: toShadow $session-transition-duration;
       opacity: 0.25;
     }
-
-    .conversation-header {
-      .conversation-header {
-        &--items-wrapper {
-          .session-icon {
-            opacity: 0;
-          }
-
-          user-select: none;
-          pointer-events: none;
-          opacity: 0.25;
-        }
-      }
-    }
   }
 }
 

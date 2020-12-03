@@ -1,5 +1,6 @@
 import React from 'react';
 import { animation, contextMenu, Item, Menu } from 'react-contexify';
+import { DefaultTheme } from 'styled-components';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 
 interface Props {
@@ -7,6 +8,7 @@ interface Props {
   onChange: any;
   handleNavigation?: any;
   placeholder: string;
+  theme: DefaultTheme;
 }
 
 export class SessionSearchInput extends React.Component<Props> {
@@ -33,6 +35,7 @@ export class SessionSearchInput extends React.Component<Props> {
           <SessionIconButton
             iconSize={SessionIconSize.Medium}
             iconType={SessionIconType.Search}
+            theme={this.props.theme}
           />
           <input
             value={searchString}

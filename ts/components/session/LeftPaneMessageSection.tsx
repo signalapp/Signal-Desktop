@@ -31,8 +31,7 @@ import {
 } from './SessionButton';
 import { OpenGroup } from '../../session/types';
 import { ToastUtils } from '../../session/utils';
-import { toast } from 'react-toastify';
-import { SessionToast, SessionToastType } from './SessionToast';
+import { DefaultTheme } from 'styled-components';
 
 export interface Props {
   searchTerm: string;
@@ -46,6 +45,7 @@ export interface Props {
   search: (query: string, options: SearchOptions) => void;
   openConversationExternal: (id: string, messageId?: string) => void;
   clearSearch: () => void;
+  theme: DefaultTheme;
 }
 
 export enum SessionComposeToType {
@@ -194,6 +194,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     return LeftPane.RENDER_HEADER(
       labels,
+      this.props.theme,
       null,
       undefined,
       SessionIconType.Plus,
@@ -221,6 +222,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           searchString={this.props.searchTerm}
           onChange={this.updateSearchBound}
           placeholder={window.i18n('searchFor...')}
+          theme={this.props.theme}
         />
         {this.renderList()}
         {this.renderBottomButtons()}
@@ -289,6 +291,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         searchTerm={searchTerm}
         updateSearch={this.updateSearchBound}
         showSpinner={loading}
+        theme={this.props.theme}
       />
     );
 
@@ -307,6 +310,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         searchTerm={searchTerm}
         updateSearch={this.updateSearchBound}
         showSpinner={loading}
+        theme={this.props.theme}
       />
     );
 
@@ -321,6 +325,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         searchTerm={searchTerm}
         searchResults={searchResults}
         updateSearch={this.updateSearchBound}
+        theme={this.props.theme}
       />
     );
 

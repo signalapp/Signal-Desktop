@@ -3,9 +3,11 @@ import React from 'react';
 import { SessionModal } from './SessionModal';
 import { SessionButton } from './SessionButton';
 import { ToastUtils } from '../../session/utils';
+import { DefaultTheme, withTheme } from 'styled-components';
 
 interface Props {
   onClose: any;
+  theme: DefaultTheme;
 }
 
 interface State {
@@ -18,7 +20,7 @@ interface State {
   passwordValid: boolean;
 }
 
-export class SessionSeedModal extends React.Component<Props, State> {
+class SessionSeedModalInner extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
 
@@ -60,6 +62,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
             title={i18n('showRecoveryPhrase')}
             onOk={() => null}
             onClose={onClose}
+            theme={this.props.theme}
           >
             <div className="spacer-sm" />
 
@@ -217,3 +220,5 @@ export class SessionSeedModal extends React.Component<Props, State> {
     }
   }
 }
+
+export const SessionSeedModal = withTheme(SessionSeedModalInner);

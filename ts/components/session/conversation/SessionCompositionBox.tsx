@@ -27,6 +27,7 @@ import { SessionQuotedMessageComposition } from './SessionQuotedMessageCompositi
 import { Mention, MentionsInput } from 'react-mentions';
 import { MemberItem } from '../../conversation/MemberList';
 import { CaptionEditor } from '../../CaptionEditor';
+import { DefaultTheme } from 'styled-components';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -73,6 +74,7 @@ interface Props {
   clearAttachments: () => any;
   removeAttachment: (toRemove: AttachmentType) => void;
   onChoseAttachments: (newAttachments: Array<File>) => void;
+  theme: DefaultTheme;
 }
 
 interface State {
@@ -257,6 +259,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         sendVoiceMessage={this.sendVoiceMessage}
         onLoadVoiceNoteView={this.onLoadVoiceNoteView}
         onExitVoiceNoteView={this.onExitVoiceNoteView}
+        theme={this.props.theme}
       />
     );
   }
@@ -278,6 +281,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
             iconType={SessionIconType.CirclePlus}
             iconSize={SessionIconSize.Large}
             onClick={this.onChooseAttachment}
+            theme={this.props.theme}
           />
         )}
 
@@ -295,6 +299,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
             iconType={SessionIconType.Microphone}
             iconSize={SessionIconSize.Huge}
             onClick={this.onLoadVoiceNoteView}
+            theme={this.props.theme}
           />
         )}
 
@@ -314,6 +319,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
             iconType={SessionIconType.Emoji}
             iconSize={SessionIconSize.Large}
             onClick={this.toggleEmojiPanel}
+            theme={this.props.theme}
           />
         )}
         <div className="send-message-button">
@@ -322,6 +328,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
             iconSize={SessionIconSize.Large}
             iconRotation={90}
             onClick={this.onSendMessage}
+            theme={this.props.theme}
           />
         </div>
 
@@ -350,12 +357,12 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     const messagePlaceHolder = isKickedFromGroup
       ? i18n('youGotKickedFromGroup')
       : leftGroup
-        ? i18n('youLeftTheGroup')
-        : isBlocked && isPrivate
-          ? i18n('unblockToSend')
-          : isBlocked && !isPrivate
-            ? i18n('unblockGroupToSend')
-            : i18n('sendMessage');
+      ? i18n('youLeftTheGroup')
+      : isBlocked && isPrivate
+      ? i18n('unblockToSend')
+      : isBlocked && !isPrivate
+      ? i18n('unblockGroupToSend')
+      : i18n('sendMessage');
     const typingEnabled = this.isTypingEnabled();
 
     return (
@@ -389,25 +396,25 @@ export class SessionCompositionBox extends React.Component<Props, State> {
             _index,
             focused
           ) => (
-              <MemberItem
-                i18n={window.i18n}
-                selected={focused}
-                // tslint:disable-next-line: no-empty
-                onClicked={() => { }}
-                existingMember={false}
-                member={{
-                  id: `${suggestion.id}`,
-                  authorPhoneNumber: `${suggestion.id}`,
-                  selected: false,
-                  authorProfileName: `${suggestion.display}`,
-                  authorName: `${suggestion.display}`,
-                  existingMember: false,
-                  checkmarked: false,
-                  authorAvatarPath: '',
-                }}
-                checkmarked={false}
-              />
-            )}
+            <MemberItem
+              i18n={window.i18n}
+              selected={focused}
+              // tslint:disable-next-line: no-empty
+              onClicked={() => {}}
+              existingMember={false}
+              member={{
+                id: `${suggestion.id}`,
+                authorPhoneNumber: `${suggestion.id}`,
+                selected: false,
+                authorProfileName: `${suggestion.display}`,
+                authorName: `${suggestion.display}`,
+                existingMember: false,
+                checkmarked: false,
+                authorAvatarPath: '',
+              }}
+              checkmarked={false}
+            />
+          )}
         />
       </MentionsInput>
     );

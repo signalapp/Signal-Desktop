@@ -266,14 +266,6 @@ textarea {
   }
 }
 
-@mixin set-icon-margin($size) {
-  margin: $size / 3;
-}
-.session-icon {
-  &.padded-left {
-    @include set-icon-margin($session-icon-size-md);
-  }
-}
 .session-icon-button {
   cursor: pointer;
   display: inline-block;
@@ -288,18 +280,6 @@ textarea {
 
   &.no-opacity {
     opacity: 1;
-  }
-
-  &.small.padded {
-    @include set-icon-margin($session-icon-size-sm);
-  }
-
-  &.medium.padded {
-    @include set-icon-margin($session-icon-size-md);
-  }
-
-  &.large.padded {
-    @include set-icon-margin($session-icon-size-lg);
   }
 
   .notification-count {
@@ -343,23 +323,7 @@ textarea {
   }
 }
 
-.session-icon {
-  @include themify($themes) {
-    fill: themed('textColor');
-  }
-}
-
 /* CONVERSATION AND MESSAGES */
-
-@mixin standard-icon-button() {
-  color: $session-color-white;
-  opacity: 0.6;
-
-  &:hover {
-    opacity: 1;
-  }
-}
-
 .module-conversation-header {
   height: $main-view-header-height;
 }
@@ -435,10 +399,6 @@ label {
 
   .search-icon {
     margin-inline-end: 10px;
-  }
-
-  .session-icon-button {
-    @include standard-icon-button();
   }
 }
 
@@ -749,10 +709,6 @@ label {
       @include themify($themes) {
         background: themed('clickableHovered');
       }
-    }
-
-    .session-icon {
-      opacity: 0.6;
     }
   }
 

@@ -12,11 +12,13 @@ import {
 } from '../SessionButton';
 import { Constants } from '../../../session';
 import { ToastUtils } from '../../../session/utils';
+import { DefaultTheme, withTheme } from 'styled-components';
 
 interface Props {
   onExitVoiceNoteView: any;
   onLoadVoiceNoteView: any;
   sendVoiceMessage: any;
+  theme: DefaultTheme;
 }
 
 interface State {
@@ -56,7 +58,7 @@ interface State {
   updateTimerInterval: NodeJS.Timeout;
 }
 
-export class SessionRecording extends React.Component<Props, State> {
+class SessionRecordingInner extends React.Component<Props, State> {
   private readonly visualisationRef: React.RefObject<HTMLDivElement>;
   private readonly visualisationCanvas: React.RefObject<HTMLCanvasElement>;
   private readonly playbackCanvas: React.RefObject<HTMLCanvasElement>;
@@ -202,6 +204,7 @@ export class SessionRecording extends React.Component<Props, State> {
               iconSize={SessionIconSize.Medium}
               iconColor={Constants.UI.COLORS.DANGER_ALT}
               onClick={actionPauseFn}
+              theme={this.props.theme}
             />
           )}
           {actionPauseAudio && (
@@ -209,6 +212,7 @@ export class SessionRecording extends React.Component<Props, State> {
               iconType={SessionIconType.Pause}
               iconSize={SessionIconSize.Medium}
               onClick={actionPauseFn}
+              theme={this.props.theme}
             />
           )}
           {actionPlayAudio && (
@@ -216,6 +220,7 @@ export class SessionRecording extends React.Component<Props, State> {
               iconType={SessionIconType.Play}
               iconSize={SessionIconSize.Medium}
               onClick={this.playAudio}
+              theme={this.props.theme}
             />
           )}
 
@@ -223,6 +228,7 @@ export class SessionRecording extends React.Component<Props, State> {
             <SessionIconButton
               iconType={SessionIconType.Microphone}
               iconSize={SessionIconSize.Huge}
+              theme={this.props.theme}
             />
           )}
         </div>
@@ -252,6 +258,7 @@ export class SessionRecording extends React.Component<Props, State> {
               iconSize={SessionIconSize.Large}
               iconRotation={90}
               onClick={this.onSendVoiceMessage}
+              theme={this.props.theme}
             />
           </div>
         )}
@@ -716,3 +723,5 @@ export class SessionRecording extends React.Component<Props, State> {
     }
   }
 }
+
+export const SessionRecording = withTheme(SessionRecordingInner);

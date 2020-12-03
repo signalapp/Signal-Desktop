@@ -61,6 +61,7 @@ export class LeftPane extends React.Component<Props> {
   // this static function is set here to be used by all subsections (message, contacts,...) to render their headers
   public static RENDER_HEADER(
     labels: Array<string>,
+    theme: DefaultTheme,
     onTabSelected?: any,
     buttonLabel?: string,
     buttonIcon?: SessionIconType,
@@ -76,6 +77,7 @@ export class LeftPane extends React.Component<Props> {
         buttonIcon={buttonIcon}
         buttonClicked={buttonClicked}
         notificationCount={notificationCount}
+        theme={theme}
       />
     );
   }
@@ -96,6 +98,7 @@ export class LeftPane extends React.Component<Props> {
       <SessionTheme theme={this.props.theme}>
         <div className="module-left-pane-session">
           <ActionsPanel
+            {...this.props}
             selectedSection={this.props.focusedSection}
             onSectionSelected={this.handleSectionSelected}
             unreadMessageCount={this.props.unreadMessageCount}
@@ -143,9 +146,10 @@ export class LeftPane extends React.Component<Props> {
 
     return (
       <>
-        <SessionOffline />
-        {isExpired && <SessionExpiredWarning />}
+        <SessionOffline theme={this.props.theme} />
+        {isExpired && <SessionExpiredWarning theme={this.props.theme} />}
         <LeftPaneMessageSection
+          theme={this.props.theme}
           contacts={contacts}
           openConversationExternal={openConversationExternal}
           conversations={filteredConversations}
@@ -167,8 +171,9 @@ export class LeftPane extends React.Component<Props> {
 
     return (
       <>
-        <SessionOffline />
+        <SessionOffline theme={this.props.theme} />
         <LeftPaneContactSection
+          {...this.props}
           openConversationExternal={openConversationExternal}
           directContacts={directContacts}
         />
@@ -192,6 +197,7 @@ export class LeftPane extends React.Component<Props> {
     return (
       <>
         <LeftPaneSettingSection
+          {...this.props}
           isSecondaryDevice={isSecondaryDevice}
           showSessionSettingsCategory={showSessionSettingsCategory}
           settingsCategory={category}

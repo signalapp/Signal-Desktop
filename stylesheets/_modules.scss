@@ -988,18 +988,6 @@
   align-items: center;
 }
 
-.module-conversation-header__back-icon {
-  @include color-svg('../images/back.svg', $color-gray-90);
-  display: inline-block;
-  margin-inline-start: -10px;
-  margin-inline-end: -2px;
-  width: 35px;
-  height: 35px;
-  min-width: 35px;
-  vertical-align: text-bottom;
-  cursor: pointer;
-}
-
 .module-conversation-header__title-container {
   flex-grow: 1;
   flex-shrink: 1;

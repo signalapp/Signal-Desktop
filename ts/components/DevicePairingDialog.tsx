@@ -7,10 +7,12 @@ import { SessionSpinner } from './session/SessionSpinner';
 import { toast } from 'react-toastify';
 import { SessionToast, SessionToastType } from './session/SessionToast';
 import { ToastUtils } from '../session/utils';
+import { DefaultTheme } from 'styled-components';
 
 interface Props {
   onClose: any;
   pubKeyToUnpair: string | undefined;
+  theme: DefaultTheme;
 }
 
 interface State {
@@ -86,6 +88,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
           title={window.i18n('provideDeviceAlias')}
           onOk={() => null}
           onClose={this.closeDialog}
+          theme={this.props.theme}
         >
           <div className="session-modal__centered">
             <div className="spacer-lg" />
@@ -115,6 +118,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
         title={window.i18n('allowPairing')}
         onOk={() => null}
         onClose={this.closeDialog}
+        theme={this.props.theme}
       >
         <div className="session-modal__centered">
           <h4 className="device-pairing-dialog__desc">
@@ -148,7 +152,12 @@ export class DevicePairingDialog extends React.Component<Props, State> {
     const title = window.i18n('pairingDevice');
 
     return (
-      <SessionModal title={title} onOk={() => null} onClose={this.closeDialog}>
+      <SessionModal
+        title={title}
+        onOk={() => null}
+        onClose={this.closeDialog}
+        theme={this.props.theme}
+      >
         <div className="session-modal__centered">
           {this.renderErrors()}
           <h4>{window.i18n('waitingForDeviceToRegister')}</h4>
@@ -198,6 +207,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
         title={window.i18n('unpairDevice')}
         onOk={() => null}
         onClose={this.closeDialog}
+        theme={this.props.theme}
       >
         <div className="session-modal__centered">
           {this.renderErrors()}

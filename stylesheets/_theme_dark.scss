@@ -180,41 +180,6 @@
       border-color: transparent transparent #2eace0 transparent;
     }
   }
-
-  // _lightbox
-
-  .iconButton {
-    background: transparent;
-
-    &:hover {
-      background: $grey;
-    }
-
-    &.save {
-      &:before {
-        @include color-svg('../images/save.svg', white);
-      }
-    }
-
-    &.close {
-      &:before {
-        @include color-svg('../images/x.svg', white);
-      }
-    }
-
-    &.previous {
-      &:before {
-        @include color-svg('../images/back.svg', white);
-      }
-    }
-
-    &.next {
-      &:before {
-        @include color-svg('../images/forward.svg', white);
-      }
-    }
-  }
-
   // _modal
 
   .modal {
@@ -445,16 +410,6 @@
 
   .module-contact-list-item__text__verified-icon {
     @include color-svg('../images/verified-check.svg', $color-dark-30);
-  }
-
-  // Module: Conversation Header
-
-  .module-conversation-header__back-icon {
-    @include color-svg('../images/back.svg', $color-dark-05);
-  }
-
-  .module-conversation-header__title {
-    color: $color-dark-05;
   }
 
   // Module: Message Detail

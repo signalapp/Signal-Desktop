@@ -52,7 +52,6 @@
     'apple.svg',
     'appstore.svg',
     'audio.svg',
-    'back.svg',
     'chat-bubble-outline.svg',
     'chat-bubble.svg',
     'check-circle-outline.svg',

@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 import { useNetwork } from '../../../hooks/useNetwork';
 
 type ContainerProps = {
@@ -23,7 +23,7 @@ const OfflineTitle = styled.h3`
 
 const OfflineMessage = styled.div``;
 
-export const SessionOffline = () => {
+export const SessionOffline = (props: { theme: DefaultTheme }) => {
   const isOnline = useNetwork();
 
   return (

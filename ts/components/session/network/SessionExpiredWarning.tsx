@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 
 const SessionExpiredWarningContainer = styled.div`
   background: ${props => props.theme.colors.destructive};
@@ -12,7 +12,7 @@ const SessionExpiredWarningLink = styled.a`
   color: black;
 `;
 
-export const SessionExpiredWarning = () => {
+export const SessionExpiredWarning = (props: { theme: DefaultTheme }) => {
   return (
     <SessionExpiredWarningContainer>
       <div>{window.i18n('expiredWarning')}</div>

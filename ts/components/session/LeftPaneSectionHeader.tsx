@@ -6,6 +6,8 @@ import {
   NotificationCountSize,
   SessionNotificationCount,
 } from './SessionNotificationCount';
+import { inversedTheme } from '../../state/ducks/SessionTheme';
+import { DefaultTheme } from 'styled-components';
 
 const Tab = ({
   isSelected,
@@ -46,6 +48,7 @@ interface Props {
   buttonLabel?: string;
   buttonIcon?: SessionIconType;
   buttonClicked?: any;
+  theme: DefaultTheme;
 }
 
 interface State {
@@ -59,10 +62,6 @@ export class LeftPaneSectionHeader extends React.Component<Props, State> {
   }
 
   public render() {
-    return this.renderTabs();
-  }
-
-  private renderTabs() {
     const { selectedTab } = this.state;
     const {
       labels,
@@ -90,12 +89,21 @@ export class LeftPaneSectionHeader extends React.Component<Props, State> {
 
     if (hasButton && !notificationCount) {
       const buttonContent = buttonIcon ? (
-        <SessionIcon iconType={buttonIcon} iconSize={SessionIconSize.Small} />
+        <SessionIcon
+          iconType={buttonIcon}
+          iconSize={SessionIconSize.Small}
+          theme={inversedTheme(this.props.theme)}
+        />
       ) : (
         buttonLabel
       );
       const button = (
-        <SessionButton onClick={buttonClicked} key="compose" disabled={false}>
+        <SessionButton
+          onClick={buttonClicked}
+          key="compose"
+          disabled={false}
+          theme={inversedTheme(this.props.theme)}
+        >
           {buttonContent}
         </SessionButton>
       );

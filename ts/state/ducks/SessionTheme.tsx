@@ -144,6 +144,17 @@ export const darkTheme = {
   },
 };
 
+export const inversedTheme = (theme: DefaultTheme): DefaultTheme => {
+  return {
+    colors: {
+      ...theme.colors,
+      textColor: theme.colors.textColorOpposite,
+      textColorOpposite: theme.colors.textColor,
+    },
+    common: theme.common,
+  };
+};
+
 export const SessionTheme = ({
   children,
   theme,

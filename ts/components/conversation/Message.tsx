@@ -41,6 +41,7 @@ import { InView } from 'react-intersection-observer';
 import { MetadataBadge, MetadataBadges } from './message/MetadataBadge';
 import { nonNullish } from '../../session/utils/String';
 import { MetadataSpacer } from './message/MetadataUtilComponent';
+import { DefaultTheme, withTheme } from 'styled-components';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -117,6 +118,7 @@ export interface Props {
   onShowDetail: () => void;
   onShowUserDetails: (userPubKey: string) => void;
   markRead: (readAt: number) => Promise<void>;
+  theme: DefaultTheme;
 }
 
 interface State {
@@ -128,7 +130,7 @@ interface State {
 const EXPIRATION_CHECK_MINIMUM = 2000;
 const EXPIRED_DELAY = 600;
 
-export class Message extends React.PureComponent<Props, State> {
+class MessageInner extends React.PureComponent<Props, State> {
   public handleImageErrorBound: () => void;
 
   public expirationCheckInterval: any;
@@ -279,7 +281,6 @@ export class Message extends React.PureComponent<Props, State> {
           </span>
         ) : (
           <Timestamp
-            i18n={window.i18n}
             timestamp={serverTimestamp || timestamp}
             extended={true}
             direction={direction}
@@ -312,12 +313,11 @@ export class Message extends React.PureComponent<Props, State> {
           />
         ) : null}
         {showSentNoErrors ? (
-          <div className="message-read-receipt-container">
-            <SessionIcon
-              iconType={SessionIconType.Check}
-              iconSize={SessionIconSize.Small}
-            />
-          </div>
+          <SessionIcon
+            iconType={SessionIconType.Check}
+            iconSize={SessionIconSize.Small}
+            theme={this.props.theme}
+          />
         ) : null}
       </div>
     );
@@ -425,6 +425,7 @@ export class Message extends React.PureComponent<Props, State> {
                   iconType={SessionIconType.Play}
                   iconSize={SessionIconSize.Small}
                   iconColor="#868686"
+                  theme={this.props.theme}
                 />
               ),
               pause: (
@@ -432,6 +433,7 @@ export class Message extends React.PureComponent<Props, State> {
                   iconType={SessionIconType.Pause}
                   iconSize={SessionIconSize.Small}
                   iconColor="#868686"
+                  theme={this.props.theme}
                 />
               ),
             }}
@@ -1165,3 +1167,5 @@ export class Message extends React.PureComponent<Props, State> {
     }
   }
 }
+
+export const Message = withTheme(MessageInner);

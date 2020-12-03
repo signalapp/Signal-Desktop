@@ -26,6 +26,7 @@ export const SessionScrollButton = (props: Props) => {
             iconType={SessionIconType.Chevron}
             iconSize={SessionIconSize.Huge}
             onClick={props.onClick}
+            theme={themeContext}
           />
         </SessionScrollButtonDiv>
       )}
