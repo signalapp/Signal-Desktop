@@ -92,7 +92,6 @@
     'reply.svg',
     'save.svg',
     'search.svg',
-    'sending.svg',
     'shield.svg',
     'signal-laptop.png',
     'signal-phone.png',

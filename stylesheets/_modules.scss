@@ -437,23 +437,6 @@
   margin-inline-start: 5px;
 }
 
-.module-message__metadata__status-icon--sending {
-  @include color-svg('../images/sending.svg', $color-gray-60);
-  animation: module-message__metdata__status-icon--spinning 4s linear infinite;
-}
-
-.module-message__metadata__status-icon--pow {
-  @include color-svg('../images/pow.svg', $color-gray-60);
-  animation: module-message__metdata__status-icon--spinning 4s linear infinite;
-}
-
-@keyframes module-message__metdata__status-icon--spinning {
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-
 .module-message__metadata__status-icon--sent {
   @include color-svg('../images/check-circle-outline.svg', $color-gray-60);
 }
@@ -1148,44 +1131,6 @@
   font-weight: 300;
 }
 
-.module-message-detail__contact__status-icon {
-  min-width: 12px;
-  min-height: 12px;
-  width: 12px;
-  height: 12px;
-  display: inline-block;
-  margin-bottom: 2px;
-  margin-inline-start: 5px;
-}
-
-.module-message-detail__contact__status-icon--sending {
-  @include color-svg('../images/sending.svg', $color-gray-60);
-  animation: module-message-detail__contact__status-icon--spinning 4s linear
-    infinite;
-}
-
-@keyframes module-message-detail__contact__status-icon--spinning {
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-
-.module-message-detail__contact__status-icon--sent {
-  @include color-svg('../images/check-circle-outline.svg', $color-gray-60);
-}
-.module-message-detail__contact__status-icon--delivered {
-  @include color-svg('../images/double-check.svg', $color-gray-60);
-  width: 18px;
-}
-.module-message-detail__contact__status-icon--read {
-  @include color-svg('../images/read.svg', $color-gray-60);
-  width: 18px;
-}
-.module-message-detail__contact__status-icon--error {
-  @include color-svg('../images/error.svg', $session-color-danger);
-}
-
 .module-message-detail__contact__unidentified-delivery-icon {
   margin-inline-start: 6px;
   margin-inline-end: 10px;
@@ -1551,25 +1496,6 @@
   margin-inline-start: 6px;
 }
 
-.module-conversation-list-item__message__status-icon--sending {
-  @include color-svg('../images/sending.svg', $color-light-35);
-  animation: module-conversation-list-item__message__status-icon--spinning 4s
-    linear infinite;
-}
-
-.module-conversation-list-item__message__status-icon--pow {
-  @include color-svg('../images/session/gear.svg', $color-light-35);
-  animation: module-conversation-list-item__message__status-icon--spinning 4s
-    linear infinite;
-}
-
-@keyframes module-conversation-list-item__message__status-icon--spinning {
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-
 .module-conversation-list-item__message__status-icon--sent {
   @include color-svg('../images/check-circle-outline.svg', $color-light-35);
 }
@@ -1586,94 +1512,6 @@
 }
 
 // Module: Main Header
-
-.module-main-header {
-  display: flex;
-  flex-direction: column;
-  border-bottom: 1px solid $color-dark-90;
-  color: $color-dark-05;
-}
-
-.module-main-header__title {
-  height: 55px;
-  padding-inline-start: 16px;
-  flex: 1;
-  flex-direction: row;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-
-  &:hover {
-    background-color: $color-dark-75;
-  }
-}
-
-.module-main-header__menu {
-  color: $color-dark-05;
-  overflow: hidden;
-
-  .accordian {
-    margin-top: -100%;
-    transition: margin-top 0.35s ease-out;
-
-    &.expanded {
-      margin-top: 0;
-    }
-  }
-
-  .menu-item {
-    padding: 12px;
-    background-color: $color-dark-90;
-    user-select: none;
-    cursor: pointer;
-
-    &:hover {
-      background-color: $color-dark-75;
-    }
-  }
-}
-
-.module-main-header-content-toggle {
-  width: 3em;
-  line-height: 3em;
-  font-weight: bold;
-  overflow: hidden;
-  user-select: none;
-  color: white;
-  text-align: center;
-
-  &:after {
-    -webkit-transition: all 0.35s;
-    -o-transition: all 0.35s;
-    transition: all 0.35s;
-    width: 3em;
-    line-height: 3em;
-    height: 3em;
-    content: '\25BE';
-    display: inline-block;
-  }
-}
-
-.module-main-header-content-toggle-visible::after {
-  transform: rotate(180deg);
-}
-
-.module-main-header__contact-name {
-  font-weight: 300;
-  margin-inline-start: 12px;
-  color: $color-dark-05;
-  overflow-x: auto;
-  flex: 1;
-}
-
-.module-main-header__search {
-  margin: 8px;
-  position: relative;
-}
-
-.module-main-header__search__icon {
-  background-color: $color-light-35;
-}
 
 .module-main-header__search__input {
   color: $color-dark-05;
@@ -1700,41 +1538,6 @@
   &::placeholder {
     color: $color-gray-45;
   }
-}
-
-.module-main-header__search__icon {
-  content: '';
-  display: inline-block;
-  width: 18px;
-  height: 26px;
-  background-color: $color-light-35;
-  position: absolute;
-  left: 14px;
-  top: 3px;
-
-  cursor: text;
-  @include color-svg('../images/search.svg', $color-gray-60);
-}
-
-.module-main-header__search__cancel-icon {
-  position: absolute;
-  right: 16px;
-  top: 9px;
-  height: 14px;
-  width: 14px;
-  cursor: pointer;
-  @include color-svg('../images/x-16.svg', $color-gray-60);
-}
-
-.module-main-header__search__copy-from-clipboard {
-  position: absolute;
-  right: 16px;
-  top: 5px;
-  width: 20px;
-  height: 22px;
-  opacity: 0.8;
-  cursor: pointer;
-  @include color-svg('../images/icon-paste.svg', $color-gray-60);
 }
 
 // Module: Image

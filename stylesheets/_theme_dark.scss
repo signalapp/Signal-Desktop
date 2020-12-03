@@ -509,22 +509,6 @@
     color: $color-gray-05;
   }
 
-  .module-conversation-list-item__message__status-icon--sending {
-    @include color-svg('../images/sending.svg', $color-light-35);
-  }
-
-  .module-conversation-list-item__message__status-icon--sent {
-    @include color-svg('../images/check-circle-outline.svg', $color-light-35);
-  }
-  .module-conversation-list-item__message__status-icon--delivered {
-    @include color-svg('../images/double-check.svg', $color-light-35);
-    width: 18px;
-  }
-  .module-conversation-list-item__message__status-icon--read {
-    @include color-svg('../images/read.svg', $color-light-35);
-    width: 18px;
-  }
-
   // Module: Main Header
 
   .module-main-header__search__input {
@@ -541,10 +525,6 @@
       border: solid 1px blue;
       outline: none;
     }
-  }
-
-  .module-main-header__search__cancel-icon {
-    @include color-svg('../images/x-16.svg', $color-gray-25);
   }
 
   // Module: Image

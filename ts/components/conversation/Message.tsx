@@ -38,10 +38,10 @@ import _ from 'lodash';
 import { animation, contextMenu, Item, Menu } from 'react-contexify';
 import uuid from 'uuid';
 import { InView } from 'react-intersection-observer';
-import { MetadataBadge, MetadataBadges } from './message/MetadataBadge';
-import { nonNullish } from '../../session/utils/String';
+import { MetadataBadges } from './message/MetadataBadge';
 import { MetadataSpacer } from './message/MetadataUtilComponent';
 import { DefaultTheme, withTheme } from 'styled-components';
+import { OutgoingMessageStatus } from './message/OutgoingMessageStatus';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -226,7 +226,6 @@ class MessageInner extends React.PureComponent<Props, State> {
     );
   }
 
-  // tslint:disable-next-line: cyclomatic-complexity
   public renderMetadata() {
     const {
       collapseMetadata,
@@ -243,21 +242,13 @@ class MessageInner extends React.PureComponent<Props, State> {
     if (collapseMetadata) {
       return null;
     }
+    const isOutgoing = direction === 'outgoing';
 
     const isShowingImage = this.isShowingImage();
     const withImageNoCaption = Boolean(!text && isShowingImage);
-    const showError = status === 'error' && direction === 'outgoing';
-    const showSentNoErrors =
-      !bodyPending &&
-      direction === 'outgoing' &&
-      status !== 'error' &&
-      status !== 'sending' &&
-      status !== 'pow';
+    const showError = status === 'error' && isOutgoing;
 
-    const showSending =
-      !bodyPending &&
-      direction === 'outgoing' &&
-      (status === 'sending' || status === 'pow');
+    const showStatus = Boolean(!bodyPending && status?.length && isOutgoing);
     return (
       <div
         className={classNames(
@@ -298,25 +289,13 @@ class MessageInner extends React.PureComponent<Props, State> {
           />
         ) : null}
         <MetadataSpacer />
-        {bodyPending ? (
-          <div className="module-message__metadata__spinner-container">
-            <Spinner size="mini" direction={direction} />
-          </div>
-        ) : null}
+        {bodyPending ? <Spinner size="mini" direction={direction} /> : null}
         <MetadataSpacer />
-        {showSending ? (
-          <div
-            className={classNames(
-              'module-message-detail__contact__status-icon',
-              'module-message-detail__contact__status-icon--sending'
-            )}
-          />
-        ) : null}
-        {showSentNoErrors ? (
-          <SessionIcon
-            iconType={SessionIconType.Check}
-            iconSize={SessionIconSize.Small}
+        {showStatus ? (
+          <OutgoingMessageStatus
+            withImageNoCaption={withImageNoCaption}
             theme={this.props.theme}
+            status={status}
           />
         ) : null}
       </div>
