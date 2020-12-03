@@ -60,7 +60,7 @@ export function GroupV1Migration(props: PropsType): React.ReactElement {
       {showingDialog ? (
         <ModalHost onClose={dismissDialog}>
           <GroupV1MigrationDialog
-            areWeInvited
+            areWeInvited={areWeInvited}
             droppedMembers={droppedMembers}
             hasMigrated
             i18n={i18n}
