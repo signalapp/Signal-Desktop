@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { LocalizerType } from '../types/Util';
 import { ConversationType } from '../state/ducks/conversations';
 import { Avatar } from './Avatar';
+import { sortByTitle } from '../util/sortByTitle';
 
 export type ActionSpec = {
   text: string;
@@ -34,10 +35,6 @@ function focusRef(el: HTMLElement | null) {
   if (el) {
     el.focus();
   }
-}
-
-function sort(list: Array<ConversationType>): Array<ConversationType> {
-  return [...list].sort((a, b) => a.title.localeCompare(b.title));
 }
 
 export const GroupV1MigrationDialog = React.memo((props: PropsType) => {
@@ -172,7 +169,7 @@ function renderMembers(
       <div className="module-group-v2-migration-dialog__item__bullet" />
       <div className="module-group-v2-migration-dialog__item__content">
         <div>{i18n(key)}</div>
-        {sort(members).map(member => (
+        {sortByTitle(members).map(member => (
           <div
             key={member.id}
             className="module-group-v2-migration-dialog__member"

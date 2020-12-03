@@ -10,6 +10,7 @@ import { ContactName } from './conversation/ContactName';
 import { InContactsIcon } from './InContactsIcon';
 import { LocalizerType } from '../types/Util';
 import { GroupCallPeekedParticipantType } from '../types/Calling';
+import { sortByTitle } from '../util/sortByTitle';
 
 interface ParticipantType extends GroupCallPeekedParticipantType {
   hasAudio?: boolean;
@@ -27,7 +28,7 @@ export const CallingParticipantsList = React.memo(
     const [root, setRoot] = React.useState<HTMLElement | null>(null);
 
     const sortedParticipants = React.useMemo<Array<ParticipantType>>(
-      () => participants.sort((a, b) => a.title.localeCompare(b.title)),
+      () => sortByTitle(participants),
       [participants]
     );
 
