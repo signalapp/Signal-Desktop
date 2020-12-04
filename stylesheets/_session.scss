@@ -281,46 +281,6 @@ textarea {
   &.no-opacity {
     opacity: 1;
   }
-
-  .notification-count {
-    position: absolute;
-    top: $session-margin-lg;
-    right: $session-margin-lg;
-    padding: 3px;
-    opacity: 1;
-  }
-}
-
-.notification-count {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: $session-font-default;
-  border-radius: 50%;
-  font-weight: 700;
-  background: $session-color-danger;
-  color: $session-color-white;
-  text-align: center;
-
-  div {
-    position: relative;
-
-    sup {
-      position: absolute;
-      font-size: 1.3em;
-      top: -0.5em;
-      margin-inline-start: -0.125em;
-    }
-  }
-
-  &.hover {
-    transition: $session-transition-duration;
-    cursor: pointer;
-
-    &:hover {
-      filter: brightness(80%);
-    }
-  }
 }
 
 /* CONVERSATION AND MESSAGES */
@@ -466,6 +426,7 @@ label {
   box-sizing: border-box;
   max-height: 70vh;
   max-width: 70vw;
+  font-family: $session-font-default;
   @include themify($themes) {
     background-color: themed('modalBackground');
     color: themed('textColor');
@@ -484,7 +445,7 @@ label {
 
     padding: $session-margin-lg;
 
-    font-family: $session-font-accent;
+    font-family: $session-font-default;
     text-align: center;
     line-height: 18px;
     font-size: $session-font-md;
@@ -522,9 +483,9 @@ label {
 
   &__body {
     padding: 0px $session-margin-lg $session-margin-lg $session-margin-lg;
-    font-family: $session-font-accent;
+    font-family: $session-font-default;
     line-height: $session-font-md;
-    font-size: $session-font-sm;
+    font-size: $session-font-md;
     overflow-y: auto;
     overflow-x: hidden;
 

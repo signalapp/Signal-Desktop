@@ -65,8 +65,7 @@ export class LeftPane extends React.Component<Props> {
     onTabSelected?: any,
     buttonLabel?: string,
     buttonIcon?: SessionIconType,
-    buttonClicked?: any,
-    notificationCount?: number
+    buttonClicked?: any
   ): JSX.Element {
     return (
       <LeftPaneSectionHeader
@@ -76,7 +75,6 @@ export class LeftPane extends React.Component<Props> {
         buttonLabel={buttonLabel}
         buttonIcon={buttonIcon}
         buttonClicked={buttonClicked}
-        notificationCount={notificationCount}
         theme={theme}
       />
     );

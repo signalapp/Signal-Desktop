@@ -2,10 +2,6 @@ import React from 'react';
 import classNames from 'classnames';
 import { SessionButton } from './SessionButton';
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
-import {
-  NotificationCountSize,
-  SessionNotificationCount,
-} from './SessionNotificationCount';
 import { inversedTheme } from '../../state/ducks/SessionTheme';
 import { DefaultTheme } from 'styled-components';
 
@@ -44,7 +40,6 @@ interface Props {
   onTabSelected: any;
   selectedTab: number;
   labels: Array<string>;
-  notificationCount?: number;
   buttonLabel?: string;
   buttonIcon?: SessionIconType;
   buttonClicked?: any;
@@ -63,13 +58,7 @@ export class LeftPaneSectionHeader extends React.Component<Props, State> {
 
   public render() {
     const { selectedTab } = this.state;
-    const {
-      labels,
-      buttonLabel,
-      buttonIcon,
-      buttonClicked,
-      notificationCount,
-    } = this.props;
+    const { labels, buttonLabel, buttonIcon, buttonClicked } = this.props;
 
     const hasButton = buttonLabel || buttonIcon;
 
@@ -87,7 +76,7 @@ export class LeftPaneSectionHeader extends React.Component<Props, State> {
       );
     }
 
-    if (hasButton && !notificationCount) {
+    if (hasButton) {
       const buttonContent = buttonIcon ? (
         <SessionIcon
           iconType={buttonIcon}
@@ -101,7 +90,6 @@ export class LeftPaneSectionHeader extends React.Component<Props, State> {
         <SessionButton
           onClick={buttonClicked}
           key="compose"
-          disabled={false}
           theme={inversedTheme(this.props.theme)}
         >
           {buttonContent}
@@ -109,34 +97,7 @@ export class LeftPaneSectionHeader extends React.Component<Props, State> {
       );
 
       children.push(button);
-    } else if (buttonLabel && notificationCount && notificationCount > 0) {
-      children.push(
-        <div className="contact-notification-section">
-          <SessionButton
-            text={buttonLabel}
-            onClick={buttonClicked}
-            key="compose"
-            disabled={false}
-          />
-          <SessionNotificationCount
-            count={notificationCount}
-            size={NotificationCountSize.ON_HEADER}
-            onClick={this.props.buttonClicked}
-            key="notification-count" // we can only have one of those here
-          />
-        </div>
-      );
-    } else if (notificationCount && notificationCount > 0) {
-      children.push(
-        <SessionNotificationCount
-          count={notificationCount}
-          size={NotificationCountSize.ON_HEADER}
-          onClick={this.props.buttonClicked}
-          key="notificationCount"
-        />
-      );
     }
-
     // Create the parent and add the children
     return <div className="module-left-pane__header">{children}</div>;
   }

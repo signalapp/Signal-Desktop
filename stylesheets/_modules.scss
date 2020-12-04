@@ -878,7 +878,9 @@
   font-size: 16px;
   line-height: 24px;
   font-weight: 300;
-  color: $color-gray-90;
+  @include themify($themes) {
+    color: themed('textColor');
+  }
 
   // width of avatar (28px) and our 6px left margin
   max-width: calc(100% - 34px);

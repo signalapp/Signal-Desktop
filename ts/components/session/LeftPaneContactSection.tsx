@@ -64,7 +64,6 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
       null,
       undefined,
       undefined,
-      undefined,
       undefined
     );
   }
