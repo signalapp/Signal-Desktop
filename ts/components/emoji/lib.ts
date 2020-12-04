@@ -219,7 +219,8 @@ const fuse = new Fuse(data, {
 });
 
 export function search(query: string, count = 0): Array<EmojiData> {
-  const results = fuse.search(query.substr(0, 32));
+  // We reverse it because fuse returns low-score results first!
+  const results = fuse.search(query.substr(0, 32)).reverse();
 
   if (count) {
     return take(results, count);
