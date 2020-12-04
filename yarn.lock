@@ -14293,9 +14293,9 @@ rimraf@~2.4.0:
   dependencies:
     glob "^6.0.1"
 
-"ringrtc@https://github.com/signalapp/signal-ringrtc-node.git#eb01373e3279aab7ed3b718458af1cc5c45df63c":
-  version "2.8.4"
-  resolved "https://github.com/signalapp/signal-ringrtc-node.git#eb01373e3279aab7ed3b718458af1cc5c45df63c"
+"ringrtc@https://github.com/signalapp/signal-ringrtc-node.git#dd1400e8293fb8a6a1af6f3c24a8133502cdad2f":
+  version "2.8.5"
+  resolved "https://github.com/signalapp/signal-ringrtc-node.git#dd1400e8293fb8a6a1af6f3c24a8133502cdad2f"
 
 ripemd160@^2.0.0, ripemd160@^2.0.1:
   version "2.0.1"
