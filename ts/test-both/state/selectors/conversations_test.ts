@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import * as sinon from 'sinon';
 
 import { ConversationLookupType } from '../../../state/ducks/conversations';
 import {
@@ -10,28 +9,7 @@ import {
   _getLeftPaneLists,
 } from '../../../state/selectors/conversations';
 
-describe('state/selectors/conversations', () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const globalAsAny = global as any;
-
-  beforeEach(function beforeEach() {
-    this.oldWindow = globalAsAny.window;
-    globalAsAny.window = {};
-
-    window.storage = {
-      get: sinon.stub().returns([]),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any;
-  });
-
-  afterEach(function afterEach() {
-    if (this.oldWindow === undefined) {
-      delete globalAsAny.window;
-    } else {
-      globalAsAny.window = this.oldWindow;
-    }
-  });
-
+describe('both/state/selectors/conversations', () => {
   describe('#getLeftPaneList', () => {
     it('sorts conversations based on timestamp then by intl-friendly title', () => {
       const data: ConversationLookupType = {
@@ -172,14 +150,6 @@ describe('state/selectors/conversations', () => {
     });
 
     describe('given pinned conversations', () => {
-      beforeEach(() => {
-        (window.storage.get as sinon.SinonStub).returns([
-          'pin1',
-          'pin2',
-          'pin3',
-        ]);
-      });
-
       it('sorts pinned conversations based on order in storage', () => {
         const data: ConversationLookupType = {
           pin2: {
@@ -262,8 +232,14 @@ describe('state/selectors/conversations', () => {
           },
         };
 
+        const pinnedConversationIds = ['pin1', 'pin2', 'pin3'];
         const comparator = _getConversationComparator();
-        const { pinnedConversations } = _getLeftPaneLists(data, comparator);
+        const { pinnedConversations } = _getLeftPaneLists(
+          data,
+          comparator,
+          undefined,
+          pinnedConversationIds
+        );
 
         assert.strictEqual(pinnedConversations[0].name, 'Pin One');
         assert.strictEqual(pinnedConversations[1].name, 'Pin Two');

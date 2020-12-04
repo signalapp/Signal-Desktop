@@ -13,6 +13,8 @@ import {
   values,
   without,
 } from 'lodash';
+
+import { getOwn } from '../../util/getOwn';
 import { trigger } from '../../shims/events';
 import { NoopActionType } from './noop';
 import { AttachmentType } from '../../types/Attachment';
@@ -281,6 +283,19 @@ export type MessagesAddedActionType = {
     isActive: boolean;
   };
 };
+
+export type RepairNewestMessageActionType = {
+  type: 'REPAIR_NEWEST_MESSAGE';
+  payload: {
+    conversationId: string;
+  };
+};
+export type RepairOldestMessageActionType = {
+  type: 'REPAIR_OLDEST_MESSAGE';
+  payload: {
+    conversationId: string;
+  };
+};
 export type MessagesResetActionType = {
   type: 'MESSAGES_RESET';
   payload: {
@@ -367,6 +382,8 @@ export type ConversationActionType =
   | MessageChangedActionType
   | MessageDeletedActionType
   | MessagesAddedActionType
+  | RepairNewestMessageActionType
+  | RepairOldestMessageActionType
   | MessagesResetActionType
   | SetMessagesLoadingActionType
   | SetIsNearBottomActionType
@@ -407,6 +424,8 @@ export const actions = {
   openConversationExternal,
   showInbox,
   showArchivedConversations,
+  repairNewestMessage,
+  repairOldestMessage,
 };
 
 function conversationAdded(
@@ -511,6 +530,28 @@ function messagesAdded(
     },
   };
 }
+
+function repairNewestMessage(
+  conversationId: string
+): RepairNewestMessageActionType {
+  return {
+    type: 'REPAIR_NEWEST_MESSAGE',
+    payload: {
+      conversationId,
+    },
+  };
+}
+function repairOldestMessage(
+  conversationId: string
+): RepairOldestMessageActionType {
+  return {
+    type: 'REPAIR_OLDEST_MESSAGE',
+    payload: {
+      conversationId,
+    },
+  };
+}
+
 function messagesReset(
   conversationId: string,
   messages: Array<MessageType>,
@@ -1119,6 +1160,68 @@ export function reducer(
       },
     };
   }
+
+  if (action.type === 'REPAIR_NEWEST_MESSAGE') {
+    const { conversationId } = action.payload;
+    const { messagesByConversation, messagesLookup } = state;
+
+    const existingConversation = getOwn(messagesByConversation, conversationId);
+    if (!existingConversation) {
+      return state;
+    }
+
+    const { messageIds } = existingConversation;
+    const lastId =
+      messageIds && messageIds.length
+        ? messageIds[messageIds.length - 1]
+        : undefined;
+    const last = lastId ? getOwn(messagesLookup, lastId) : undefined;
+    const newest = last ? pick(last, ['id', 'received_at']) : undefined;
+
+    return {
+      ...state,
+      messagesByConversation: {
+        ...messagesByConversation,
+        [conversationId]: {
+          ...existingConversation,
+          metrics: {
+            ...existingConversation.metrics,
+            newest,
+          },
+        },
+      },
+    };
+  }
+
+  if (action.type === 'REPAIR_OLDEST_MESSAGE') {
+    const { conversationId } = action.payload;
+    const { messagesByConversation, messagesLookup } = state;
+
+    const existingConversation = getOwn(messagesByConversation, conversationId);
+    if (!existingConversation) {
+      return state;
+    }
+
+    const { messageIds } = existingConversation;
+    const firstId = messageIds && messageIds.length ? messageIds[0] : undefined;
+    const first = firstId ? getOwn(messagesLookup, firstId) : undefined;
+    const oldest = first ? pick(first, ['id', 'received_at']) : undefined;
+
+    return {
+      ...state,
+      messagesByConversation: {
+        ...messagesByConversation,
+        [conversationId]: {
+          ...existingConversation,
+          metrics: {
+            ...existingConversation.metrics,
+            oldest,
+          },
+        },
+      },
+    };
+  }
+
   if (action.type === 'MESSAGES_ADDED') {
     const { conversationId, isActive, isNewMessage, messages } = action.payload;
     const { messagesByConversation, messagesLookup } = state;

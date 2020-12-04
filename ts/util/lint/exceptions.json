@@ -15007,7 +15007,7 @@
   },
   {
     "rule": "jQuery-before(",
-    "path": "ts/test/util/windowsZoneIdentifier_test.js",
+    "path": "ts/test-node/util/windowsZoneIdentifier_test.js",
     "line": "    before(function thisNeeded() {",
     "lineNumber": 21,
     "reasonCategory": "testCode",
@@ -15016,7 +15016,7 @@
   },
   {
     "rule": "jQuery-before(",
-    "path": "ts/test/util/windowsZoneIdentifier_test.ts",
+    "path": "ts/test-node/util/windowsZoneIdentifier_test.ts",
     "line": "  before(function thisNeeded() {",
     "lineNumber": 15,
     "reasonCategory": "testCode",

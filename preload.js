@@ -563,9 +563,12 @@ try {
     };
 
     /* eslint-disable global-require, import/no-extraneous-dependencies */
-    require('./ts/test-electron/models/messages_test');
+    require('./ts/test-both/state/ducks/conversations_test');
+    require('./ts/test-both/state/selectors/conversations_test');
+    require('./ts/test-both/state/selectors/items_test');
+
     require('./ts/test-electron/linkPreviews/linkPreviewFetch_test');
-    require('./ts/test-electron/state/ducks/conversations_test');
+    require('./ts/test-electron/models/messages_test');
     require('./ts/test-electron/state/ducks/calling_test');
     require('./ts/test-electron/state/selectors/calling_test');
 

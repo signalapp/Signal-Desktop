@@ -823,6 +823,7 @@ Whisper.ConversationView = Whisper.View.extend({
       const {
         messagesAdded,
         setMessagesLoading,
+        repairOldestMessage,
       } = window.reduxActions.conversations;
       const conversationId = this.model.id;
 
@@ -851,6 +852,7 @@ Whisper.ConversationView = Whisper.View.extend({
           window.log.warn(
             'loadOlderMessages: requested, but loaded no messages'
           );
+          repairOldestMessage(conversationId);
           return;
         }
 
@@ -875,6 +877,7 @@ Whisper.ConversationView = Whisper.View.extend({
       const {
         messagesAdded,
         setMessagesLoading,
+        repairNewestMessage,
       } = window.reduxActions.conversations;
       const conversationId = this.model.id;
 
@@ -902,6 +905,7 @@ Whisper.ConversationView = Whisper.View.extend({
           window.log.warn(
             'loadNewerMessages: requested, but loaded no messages'
           );
+          repairNewestMessage(conversationId);
           return;
         }
 
