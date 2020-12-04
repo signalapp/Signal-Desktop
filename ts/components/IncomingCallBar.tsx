@@ -3,7 +3,8 @@
 
 import React from 'react';
 import { Avatar } from './Avatar';
-import { Tooltip, TooltipTheme } from './Tooltip';
+import { Tooltip } from './Tooltip';
+import { Theme } from '../util/theme';
 import { ContactName } from './conversation/ContactName';
 import { LocalizerType } from '../types/Util';
 import { ColorType } from '../types/Colors';
@@ -41,7 +42,7 @@ const CallButton = ({
   tooltipContent,
 }: CallButtonProps): JSX.Element => {
   return (
-    <Tooltip content={tooltipContent} theme={TooltipTheme.Dark}>
+    <Tooltip content={tooltipContent} theme={Theme.Dark}>
       <button
         className={`module-incoming-call__button module-incoming-call__button--${classSuffix}`}
         onClick={onClick}

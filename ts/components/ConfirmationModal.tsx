@@ -2,22 +2,25 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
+import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import {
   ConfirmationDialog,
   Props as ConfirmationDialogProps,
 } from './ConfirmationDialog';
 import { LocalizerType } from '../types/Util';
+import { Theme, themeClassName } from '../util/theme';
 
 export type OwnProps = {
   readonly i18n: LocalizerType;
   readonly onClose: () => unknown;
+  readonly theme?: Theme;
 };
 
 export type Props = OwnProps & ConfirmationDialogProps;
 
 export const ConfirmationModal = React.memo(
-  ({ i18n, onClose, children, ...rest }: Props) => {
+  ({ i18n, onClose, theme, children, ...rest }: Props) => {
     const [root, setRoot] = React.useState<HTMLElement | null>(null);
 
     React.useEffect(() => {
@@ -69,7 +72,10 @@ export const ConfirmationModal = React.memo(
       ? createPortal(
           <div
             role="presentation"
-            className="module-confirmation-dialog__overlay"
+            className={classNames(
+              'module-confirmation-dialog__overlay',
+              theme ? themeClassName(theme) : undefined
+            )}
             onClick={handleCancel}
             onKeyUp={handleKeyCancel}
           >

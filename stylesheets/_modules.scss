@@ -9714,13 +9714,7 @@ button.module-image__border-overlay:focus {
 .module-calling-device-selection__close-button {
   @include button-reset;
 
-  @include light-theme {
-    @include color-svg('../images/x-shadow-16.svg', $color-gray-75);
-  }
-
-  @include dark-theme {
-    @include color-svg('../images/x-shadow-16.svg', $color-white);
-  }
+  @include color-svg('../images/x-shadow-16.svg', $color-white);
 
   height: 16px;
   position: absolute;

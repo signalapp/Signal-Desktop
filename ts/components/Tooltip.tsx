@@ -3,6 +3,7 @@
 
 import React from 'react';
 import { Manager, Reference, Popper } from 'react-popper';
+import { Theme, themeClassName } from '../util/theme';
 
 export enum TooltipPlacement {
   Top = 'top',
@@ -11,17 +12,11 @@ export enum TooltipPlacement {
   Left = 'left',
 }
 
-export enum TooltipTheme {
-  System = 'system',
-  Light = 'light',
-  Dark = 'dark',
-}
-
 export type PropsType = {
   content: string | JSX.Element;
   direction?: TooltipPlacement;
   sticky?: boolean;
-  theme?: TooltipTheme;
+  theme?: Theme;
 };
 
 export const Tooltip: React.FC<PropsType> = ({
@@ -29,19 +24,12 @@ export const Tooltip: React.FC<PropsType> = ({
   content,
   direction,
   sticky,
-  theme = TooltipTheme.System,
+  theme,
 }) => {
   const isSticky = Boolean(sticky);
   const [showTooltip, setShowTooltip] = React.useState(isSticky);
 
-  let tooltipTheme: string;
-  if (theme === TooltipTheme.Light) {
-    tooltipTheme = 'light-theme';
-  } else if (theme === TooltipTheme.Dark) {
-    tooltipTheme = 'dark-theme';
-  } else {
-    tooltipTheme = '';
-  }
+  const tooltipTheme = theme ? themeClassName(theme) : undefined;
 
   return (
     <Manager>

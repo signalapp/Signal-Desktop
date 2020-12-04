@@ -3,7 +3,8 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import { Tooltip, TooltipPlacement, TooltipTheme } from './Tooltip';
+import { Tooltip, TooltipPlacement } from './Tooltip';
+import { Theme } from '../util/theme';
 import { LocalizerType } from '../types/Util';
 
 export enum CallingButtonType {
@@ -63,7 +64,7 @@ export const CallingButton = ({
     <Tooltip
       content={tooltipContent}
       direction={tooltipDirection}
-      theme={TooltipTheme.Dark}
+      theme={Theme.Dark}
     >
       <button
         aria-label={tooltipContent}

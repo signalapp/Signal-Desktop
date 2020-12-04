@@ -5,7 +5,8 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { select } from '@storybook/addon-knobs';
 
-import { Tooltip, TooltipPlacement, TooltipTheme, PropsType } from './Tooltip';
+import { Tooltip, TooltipPlacement, PropsType } from './Tooltip';
+import { Theme } from '../util/theme';
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   content: overrideProps.content || 'Hello World',
@@ -84,7 +85,7 @@ story.add('Dark Theme', () => (
   <Tooltip
     {...createProps({
       sticky: true,
-      theme: TooltipTheme.Dark,
+      theme: Theme.Dark,
     })}
   >
     {Trigger}
