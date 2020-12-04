@@ -1120,7 +1120,7 @@ export class CallingClass {
     if (settings.selectedSpeaker) {
       window.log.info(
         'MediaDevice: selecting speaker',
-        settings.selectedMicrophone
+        settings.selectedSpeaker
       );
       RingRTC.setAudioOutput(settings.selectedSpeaker.index);
     }
