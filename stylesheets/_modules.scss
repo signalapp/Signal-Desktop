@@ -396,14 +396,6 @@
   }
 }
 
-.module-message__metadata__date {
-  font-size: 11px;
-  line-height: 16px;
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
-  user-select: none;
-}
-
 .module-message__author-avatar {
   flex-direction: column-reverse;
   display: inline-flex;
@@ -1323,23 +1315,6 @@
 
 .module-conversation-list-item__header__name--with-unread {
   font-weight: 300;
-}
-
-.module-conversation-list-item__header__timestamp {
-  flex-shrink: 0;
-  margin-inline-start: 6px;
-
-  font-size: 11px;
-  line-height: 16px;
-  letter-spacing: 0.3px;
-
-  overflow-x: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-
-  text-transform: uppercase;
-
-  color: $color-gray-25;
 }
 
 .module-conversation-list-item__header__date--has-unread {

@@ -102,7 +102,8 @@ export const MessageMetadata = (props: Props) => {
           timestamp={serverTimestamp || timestamp}
           extended={true}
           withImageNoCaption={withImageNoCaption}
-          module="module-message__metadata__date"
+          isConversationListItem={false}
+          theme={theme}
         />
       )}
       <MetadataBadges

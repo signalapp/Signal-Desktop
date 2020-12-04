@@ -7,6 +7,7 @@ import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
 
 import { LocalizerType } from '../types/Util';
+import { DefaultTheme, withTheme } from 'styled-components';
 
 export type MessageSearchResultProps = {
   id: string;
@@ -35,14 +36,14 @@ export type MessageSearchResultProps = {
 
 type PropsHousekeeping = {
   isSelected?: boolean;
-
+  theme: DefaultTheme;
   i18n: LocalizerType;
   onClick: (conversationId: string, messageId?: string) => void;
 };
 
 type Props = MessageSearchResultProps & PropsHousekeeping;
 
-export class MessageSearchResult extends React.PureComponent<Props> {
+class MessageSearchResultInner extends React.PureComponent<Props> {
   public renderFromName() {
     const { from, i18n, to } = this.props;
 
@@ -150,7 +151,7 @@ export class MessageSearchResult extends React.PureComponent<Props> {
           <div className="module-message-search-result__header">
             {this.renderFrom()}
             <div className="module-message-search-result__header__timestamp">
-              <Timestamp timestamp={receivedAt} />
+              <Timestamp timestamp={receivedAt} theme={this.props.theme} />
             </div>
           </div>
           <div className="module-message-search-result__body">
@@ -161,3 +162,5 @@ export class MessageSearchResult extends React.PureComponent<Props> {
     );
   }
 }
+
+export const MessageSearchResult = withTheme(MessageSearchResultInner);
