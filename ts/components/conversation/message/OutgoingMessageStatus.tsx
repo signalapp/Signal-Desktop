@@ -5,8 +5,11 @@ import {
   SessionIconSize,
   SessionIconType,
 } from '../../session/icon';
+import { OpacityMetadataComponent } from './MessageMetadata';
 
-const MessageStatusSendingContainer = styled.div`
+const MessageStatusSendingContainer = styled(props => (
+  <OpacityMetadataComponent {...props} />
+))`
   display: inline-block;
   margin-bottom: 2px;
   margin-inline-start: 5px;
@@ -94,7 +97,7 @@ export const OutgoingMessageStatus = (props: {
   status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error' | 'pow';
   theme: DefaultTheme;
   iconColor: string;
-  hideErrors?: boolean;
+  isInMessageView?: boolean;
 }) => {
   switch (props.status) {
     case 'pow':
@@ -107,7 +110,7 @@ export const OutgoingMessageStatus = (props: {
     case 'read':
       return <MessageStatusRead {...props} />;
     case 'error':
-      if (props.hideErrors) {
+      if (props.isInMessageView) {
         return null;
       }
       return <MessageStatusError {...props} />;

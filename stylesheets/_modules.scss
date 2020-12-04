@@ -396,36 +396,12 @@
   }
 }
 
-.module-message__metadata {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-top: 5px;
-  margin-bottom: -3px;
-}
-
-// With an image and no caption, this section needs to be on top of the image overlay
-.module-message__metadata--with-image-no-caption {
-  position: absolute;
-  bottom: 9px;
-  z-index: 2;
-
-  width: 100%;
-  // Because this is absolutely positioned, we 100% is too big, take it down by parent
-  //   padding sizes.
-  padding-inline-end: 24px;
-}
-
 .module-message__metadata__date {
   font-size: 11px;
   line-height: 16px;
   letter-spacing: 0.3px;
   text-transform: uppercase;
   user-select: none;
-}
-
-.module-message__metadata__date--with-image-no-caption {
-  color: $color-white;
 }
 
 .module-message__author-avatar {
@@ -440,68 +416,6 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-}
-
-// Module: Expire Timer
-
-.module-expire-timer-margin {
-  margin-inline-start: 6px;
-}
-
-.module-expire-timer {
-  width: 12px;
-  height: 12px;
-  display: inline-block;
-  margin-bottom: 2px;
-  @include color-svg('../images/timer-60.svg', $color-gray-60);
-}
-
-.module-expire-timer--55 {
-  @include color-svg('../images/timer-55.svg', $color-gray-60);
-}
-.module-expire-timer--50 {
-  @include color-svg('../images/timer-50.svg', $color-gray-60);
-}
-.module-expire-timer--45 {
-  @include color-svg('../images/timer-45.svg', $color-gray-60);
-}
-.module-expire-timer--40 {
-  @include color-svg('../images/timer-40.svg', $color-gray-60);
-}
-.module-expire-timer--35 {
-  @include color-svg('../images/timer-35.svg', $color-gray-60);
-}
-.module-expire-timer--30 {
-  @include color-svg('../images/timer-30.svg', $color-gray-60);
-}
-.module-expire-timer--25 {
-  @include color-svg('../images/timer-25.svg', $color-gray-60);
-}
-.module-expire-timer--20 {
-  @include color-svg('../images/timer-20.svg', $color-gray-60);
-}
-.module-expire-timer--15 {
-  @include color-svg('../images/timer-15.svg', $color-gray-60);
-}
-.module-expire-timer--10 {
-  @include color-svg('../images/timer-10.svg', $color-gray-60);
-}
-.module-expire-timer--05 {
-  @include color-svg('../images/timer-05.svg', $color-gray-60);
-}
-.module-expire-timer--00 {
-  @include color-svg('../images/timer-00.svg', $color-gray-60);
-}
-
-.module-expire-timer--incoming {
-  @include themify($themes) {
-    background-color: subtle(themed('textColor'));
-  }
-}
-
-// When status indicators are overlaid on top of an image, they use different colors
-.module-expire-timer--with-image-no-caption {
-  background-color: $color-white;
 }
 
 // Module: Embedded Contact

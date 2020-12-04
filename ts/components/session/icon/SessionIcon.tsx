@@ -71,7 +71,7 @@ const Svg = styled.svg<StyledSvgProps>`
 
 const SessionSvg = (props: {
   viewBox: string;
-  path: string;
+  path: string | Array<string>;
   width: string | number;
   height: string | number;
   iconRotation: number;
@@ -80,10 +80,13 @@ const SessionSvg = (props: {
   theme: DefaultTheme;
 }) => {
   const colorSvg = props.iconColor || props?.theme?.colors.textColor || 'red';
+  const pathArray = props.path instanceof Array ? props.path : [props.path];
 
   return (
     <Svg {...props}>
-      <path fill={colorSvg} d={props.path} />
+      {pathArray.map((path, index) => {
+        return <path key={index} fill={colorSvg} d={path} />;
+      })}
     </Svg>
   );
 };

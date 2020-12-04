@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 import { nonNullish } from '../../../session/utils/String';
+import { OpacityMetadataComponent } from './MessageMetadata';
 
 type BadgeProps = {
   badge: string;
@@ -9,7 +10,9 @@ type BadgeProps = {
   children?: ReactNode;
 };
 
-const BadgeText = styled.span<BadgeProps>`
+const BadgeText = styled(props => <OpacityMetadataComponent {...props} />)<
+  BadgeProps
+>`
   font-weight: bold;
   padding-inline-end: 5px;
   font-size: 11px;
@@ -17,24 +20,16 @@ const BadgeText = styled.span<BadgeProps>`
   letter-spacing: 0.3px;
   text-transform: uppercase;
   user-select: none;
-  opacity: 0.5;
-  transition: ${props => props.theme.common.animations.defaultDuration};
   color: ${props =>
     props.withImageNoCaption ? 'white' : props.theme.colors.textColor};
-  &:hover {
-    opacity: 1;
-  }
 `;
 
-const BadgeSeparator = styled.span<{ withImageNoCaption: boolean }>`
+const BadgeSeparator = styled(props => (
+  <OpacityMetadataComponent {...props} />
+))<{ withImageNoCaption: boolean }>`
   margin-top: -2px;
   color: ${props =>
     props.withImageNoCaption ? 'white' : props.theme.colors.textColor};
-  opacity: 0.5;
-  transition: ${props => props.theme.common.animations.defaultDuration};
-  &:hover {
-    opacity: 1;
-  }
 `;
 
 export const MetadataBadge = (props: BadgeProps): JSX.Element => {

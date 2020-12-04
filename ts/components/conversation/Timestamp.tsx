@@ -10,14 +10,13 @@ type Props = {
   extended?: boolean;
   module?: string;
   withImageNoCaption?: boolean;
-  direction?: 'incoming' | 'outgoing';
 };
 
 const UPDATE_FREQUENCY = 60 * 1000;
 
 export const Timestamp = (props: Props) => {
   const [lastUpdated, setLastUpdated] = useState(Date.now());
-  // this is kind of a hack, but we use lastUpdated just to trigger a refresh
+  // this is kind of a hack, but we use lastUpdated just to trigger a refresh.
   // formatRelativeTime() will print the correct moment.
   const update = () => {
     setLastUpdated(Date.now());
@@ -25,7 +24,7 @@ export const Timestamp = (props: Props) => {
 
   useInterval(update, UPDATE_FREQUENCY);
 
-  const { direction, module, timestamp, withImageNoCaption, extended } = props;
+  const { module, timestamp, withImageNoCaption, extended } = props;
   const moduleName = module || 'module-timestamp';
 
   if (timestamp === null || timestamp === undefined) {
@@ -55,7 +54,6 @@ export const Timestamp = (props: Props) => {
     <span
       className={classNames(
         moduleName,
-        direction ? `${moduleName}--${direction}` : null,
         withImageNoCaption ? `${moduleName}--with-image-no-caption` : null
       )}
       title={moment(timestamp).format('llll')}

@@ -1,13 +1,16 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { MetadataSpacer } from './MetadataUtilComponent';
+import {
+  MessageSendingErrorText,
+  MetadataSpacer,
+} from './MetadataUtilComponent';
 import { OutgoingMessageStatus } from './OutgoingMessageStatus';
 import { Spinner } from '../../Spinner';
 import { MetadataBadges } from './MetadataBadge';
 import { Timestamp } from '../Timestamp';
 import { ExpireTimer } from '../ExpireTimer';
-import { DefaultTheme } from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 
 type Props = {
   disableMenu?: boolean;
@@ -27,6 +30,32 @@ type Props = {
   isShowingImage: boolean;
   theme: DefaultTheme;
 };
+// for some reason, we have to extend a styled component as this:
+// props => <OpacityMetadataComponent {...props}/>
+export const OpacityMetadataComponent = styled.div<{ theme: DefaultTheme }>`
+  opacity: 0.5;
+  transition: ${props => props.theme.common.animations.defaultDuration};
+  &:hover {
+    opacity: 1;
+  }
+`;
+
+const handleImageNoCaption = (props: { withImageNoCaption: boolean }) => {
+  if (props.withImageNoCaption) {
+    return 'position: absolute; bottom: 9px; z-index: 2; width: 100%; padding-inline-end: 24px;';
+  }
+  return '';
+};
+
+// tslint:disable no-unnecessary-callback-wrapper
+const MetadatasContainer = styled.div<{ withImageNoCaption: boolean }>`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 5px;
+  margin-bottom: -3px;
+  ${props => handleImageNoCaption(props)}
+`;
 
 /**
  * This is a component to display the message of an Incoming or Outgoing message.
@@ -62,31 +91,16 @@ export const MessageMetadata = (props: Props) => {
     ? 'white'
     : props.theme.colors.sentMessageText;
   return (
-    <div
-      className={classNames(
-        'module-message__metadata',
-        withImageNoCaption
-          ? 'module-message__metadata--with-image-no-caption'
-          : null
-      )}
-    >
+    <MetadatasContainer withImageNoCaption={withImageNoCaption} {...props}>
       {showError ? (
-        <span
-          className={classNames(
-            'module-message__metadata__date',
-            `module-message__metadata__date--${direction}`,
-            withImageNoCaption
-              ? 'module-message__metadata__date--with-image-no-caption'
-              : null
-          )}
-        >
-          {window.i18n('sendFailed')}
-        </span>
+        <MessageSendingErrorText
+          withImageNoCaption={withImageNoCaption}
+          theme={theme}
+        />
       ) : (
         <Timestamp
           timestamp={serverTimestamp || timestamp}
           extended={true}
-          direction={direction}
           withImageNoCaption={withImageNoCaption}
           module="module-message__metadata__date"
         />
@@ -105,6 +119,7 @@ export const MessageMetadata = (props: Props) => {
           expirationLength={expirationLength}
           expirationTimestamp={expirationTimestamp}
           withImageNoCaption={withImageNoCaption}
+          theme={theme}
         />
       ) : null}
       <MetadataSpacer />
@@ -116,9 +131,9 @@ export const MessageMetadata = (props: Props) => {
           theme={theme}
           status={status}
           // do not show the error status, another component is shown on the right of the message itself here
-          hideErrors={true}
+          isInMessageView={true}
         />
       ) : null}
-    </div>
+    </MetadatasContainer>
   );
 };

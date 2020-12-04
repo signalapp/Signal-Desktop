@@ -1,23 +1,43 @@
 import React, { useState } from 'react';
-import classNames from 'classnames';
 
-import { getIncrement, getTimerBucket } from '../../util/timer';
+import { getIncrement, getTimerBucketIcon } from '../../util/timer';
 import { useInterval } from '../../hooks/useInterval';
+import styled, { DefaultTheme } from 'styled-components';
+import { OpacityMetadataComponent } from './message/MessageMetadata';
+import { SessionIcon, SessionIconSize } from '../session/icon';
 
 type Props = {
   withImageNoCaption: boolean;
   expirationLength: number;
   expirationTimestamp: number;
   direction: 'incoming' | 'outgoing';
+  theme: DefaultTheme;
 };
 
+const ExpireTimerCount = styled(props => (
+  <OpacityMetadataComponent {...props} />
+))<{ color: string }>`
+  margin-inline-start: 6px;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  user-select: none;
+`;
+
+const ExpireTimerBucket = styled(props => (
+  <OpacityMetadataComponent {...props} />
+))<{ color: string }>`
+  margin-inline-start: 6px;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  user-select: none;
+`;
+
 export const ExpireTimer = (props: Props) => {
-  const {
-    direction,
-    expirationLength,
-    expirationTimestamp,
-    withImageNoCaption,
-  } = props;
+  const { expirationLength, expirationTimestamp, withImageNoCaption } = props;
 
   const initialTimeLeft = Math.max(
     Math.round((expirationTimestamp - Date.now()) / 1000),
@@ -35,35 +55,31 @@ export const ExpireTimer = (props: Props) => {
     }
   };
 
-  const increment = getIncrement(expirationLength);
-  const updateFrequency = Math.max(increment, 500);
+  const updateFrequency = 500;
 
   useInterval(update, updateFrequency);
 
+  const expireTimerColor = withImageNoCaption
+    ? 'white'
+    : props.theme.colors.textColor;
+
   if (timeLeft <= 60) {
     return (
-      <span
-        className={classNames(
-          'module-expire-timer-margin',
-          'module-message__metadata__date',
-          `module-message__metadata__date--${direction}`
-        )}
-      >
+      <ExpireTimerCount expireTimerColor={expireTimerColor}>
         {timeLeft}
-      </span>
+      </ExpireTimerCount>
     );
   }
-  const bucket = getTimerBucket(expirationTimestamp, expirationLength);
+  const bucket = getTimerBucketIcon(expirationTimestamp, expirationLength);
 
   return (
-    <div
-      className={classNames(
-        'module-expire-timer',
-        'module-expire-timer-margin',
-        `module-expire-timer--${bucket}`,
-        `module-expire-timer--${direction}`,
-        withImageNoCaption ? 'module-expire-timer--with-image-no-caption' : null
-      )}
-    />
+    <ExpireTimerBucket>
+      <SessionIcon
+        iconType={bucket}
+        iconSize={SessionIconSize.Tiny}
+        iconColor={expireTimerColor}
+        theme={props.theme}
+      />
+    </ExpireTimerBucket>
   );
 };
