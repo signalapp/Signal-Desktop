@@ -14,11 +14,22 @@ import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type OverridePropsType =
+  | {
+      isInPip: true;
+    }
+  | {
+      isInPip: false;
+      height: number;
+      left: number;
+      top: number;
+      width: number;
+    };
+
 const createProps = (
-  overrideProps: Partial<PropsType> = {},
+  overrideProps: OverridePropsType,
   isBlocked?: boolean
-): any => ({
+): PropsType => ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getGroupCallVideoFrameSource: noop as any,
   i18n,
@@ -31,6 +42,7 @@ const createProps = (
     title:
       'Pablo Diego José Francisco de Paula Juan Nepomuceno María de los Remedios Cipriano de la Santísima Trinidad Ruiz y Picasso',
     videoAspectRatio: 1.3,
+    uuid: '992ed3b9-fc9b-47a9-bdb4-e0c7cbb0fda5',
   },
   ...overrideProps,
 });
