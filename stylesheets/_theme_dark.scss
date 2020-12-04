@@ -32,22 +32,6 @@
     }
   }
 
-  // _emoji
-  .ep-emojies {
-    background-color: $color-gray-95;
-  }
-
-  .ep-categories {
-    background-color: $color-dark-85;
-  }
-
-  button.emoji {
-    &:before {
-      margin-top: 7px;
-      @include color-svg('../images/smile.svg', $color-dark-30);
-    }
-  }
-
   // _global
 
   .dark-overlay {
@@ -66,14 +50,6 @@
 
     &:hover {
       box-shadow: 0 0 10px -3px rgba($grey, 0.7);
-    }
-  }
-
-  .file-input {
-    .paperclip {
-      &:before {
-        @include color-svg('../images/paperclip.svg', $color-dark-30);
-      }
     }
   }
 
@@ -118,14 +94,6 @@
   .x {
     &:before {
       @include color-svg('../images/x.svg', white);
-    }
-  }
-
-  .tool-bar {
-    color: $color-dark-05;
-
-    .search-icon {
-      background-color: $color-light-35;
     }
   }
 
@@ -285,10 +253,6 @@
   .module-contact-detail__send-message {
     background-color: $blue;
     color: $color-white;
-  }
-
-  .module-contact-detail__send-message__bubble-icon {
-    @include color-svg('../images/chat-bubble.svg', white);
   }
 
   .module-contact-detail__additional-contact {

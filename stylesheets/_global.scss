@@ -114,31 +114,6 @@ a {
     cursor: pointer;
   }
 
-  .paperclip {
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    opacity: 0.5;
-    border: none;
-    background: transparent;
-    margin-top: 2px;
-
-    &:before {
-      margin-top: 4px;
-      content: '';
-      display: inline-block;
-      width: $button-height;
-      height: $button-height;
-      @include color-svg('../images/paperclip.svg', $grey);
-      transform: rotateZ(-45deg);
-    }
-
-    &:focus,
-    &:hover {
-      opacity: 1;
-    }
-  }
-
   input[type='file'] {
     // Must be displayed in order to programmatically
     // insert file paths)

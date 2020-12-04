@@ -75,49 +75,6 @@
   overflow: auto;
 }
 
-.gutter {
-  .tool-bar {
-    margin-top: 8px;
-    color: $color-dark-05;
-
-    .search-icon {
-      background-color: $color-light-35;
-    }
-
-    input.search {
-      border: 1px solid $color-light-60;
-      color: $color-dark-05;
-      background-color: $color-gray-95;
-
-      &:focus {
-        outline: solid 1px $blue;
-      }
-    }
-  }
-
-  .content {
-    overflow-y: auto;
-    max-height: calc(100% - 88px);
-    min-height: 0px;
-    flex: 1 1 auto;
-    color: $color-gray-05;
-    background: inherit;
-  }
-
-  .loki {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 70px;
-    background: $color-loki-extra-dark-gray;
-    img {
-      object-fit: cover;
-      max-width: 60%;
-      max-height: 60%;
-    }
-  }
-}
-
 .section-toggle {
   position: relative;
   display: block;
@@ -175,29 +132,6 @@ h4.section-toggle,
 }
 .left-pane-wrapper {
   flex: 1;
-}
-
-.tool-bar {
-  color: $color-light-90;
-
-  padding: 8px;
-  padding-top: 0px;
-  margin-top: -1px;
-
-  position: relative;
-  .search-icon {
-    content: '';
-    display: inline-block;
-    float: left;
-    width: 24px;
-    height: 33px;
-    -webkit-mask: url('../images/search.svg') no-repeat left center;
-    -webkit-mask-size: 100%;
-    background-color: $color-light-35;
-    position: absolute;
-    left: 20px;
-    top: 0;
-  }
 }
 
 $search-x-size: 16px;

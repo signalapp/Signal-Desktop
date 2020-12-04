@@ -581,14 +581,6 @@
   align-items: center;
 }
 
-.module-contact-detail__send-message__bubble-icon {
-  height: 17px;
-  width: 18px;
-  display: inline-block;
-  margin-inline-end: 5px;
-  @include color-svg('../images/chat-bubble.svg', white);
-}
-
 .module-contact-detail__additional-contact {
   text-align: left;
   border-top: 1px solid $color-light-10;

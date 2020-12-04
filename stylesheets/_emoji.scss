@@ -80,25 +80,3 @@ img.emoji.jumbo {
   width: 1em;
   height: 1em;
 }
-
-button.emoji {
-  padding: 0;
-  opacity: 0.5;
-  border: none;
-  background: transparent;
-  margin: 0px 10px 0px 15px;
-
-  &:before {
-    content: '';
-    margin-top: 5px;
-    display: inline-block;
-    width: $button-height;
-    height: $button-height;
-    @include color-svg('../images/smile.svg', $grey);
-  }
-
-  &:focus,
-  &:hover {
-    opacity: 1;
-  }
-}

@@ -178,7 +178,6 @@
       'blur .send-message': 'unfocusBottomBar',
       'force-resize': 'forceUpdateMessageFieldSize',
 
-      'click button.paperclip': 'onChooseAttachment',
       'change input.file-input': 'onChoseAttachment',
 
       dragover: 'onDragOver',
