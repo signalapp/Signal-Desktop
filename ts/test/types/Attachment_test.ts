@@ -14,7 +14,7 @@ describe('Attachment', () => {
       const input: Attachment.AttachmentType = {
         fileName: 'funny-cat.mov',
         url: 'funny-cat.mov',
-        contentType: MIME.VIDEO_QUICKTIME,
+        contentType: MIME.IMAGE_GIF,
       };
       assert.strictEqual(Attachment.getFileExtension(input), 'gif');
     });
@@ -31,14 +31,27 @@ describe('Attachment', () => {
 
   describe('getSuggestedFilename', () => {
     context('for attachment with filename', () => {
-      it('should return existing filename if present', () => {
+      it('should generate a filename without timestamp', () => {
         const attachment: Attachment.AttachmentType = {
           fileName: 'funny-cat.mov',
           url: 'funny-cat.mov',
           contentType: MIME.VIDEO_QUICKTIME,
         };
         const actual = Attachment.getSuggestedFilename({ attachment });
-        const expected = 'funny-cat.mov';
+        const expected = 'session-attachment.mov';
+        assert.strictEqual(actual, expected);
+      });
+      it('should generate a filename without timestamp but with an index', () => {
+        const attachment: Attachment.AttachmentType = {
+          fileName: 'funny-cat.mov',
+          url: 'funny-cat.mov',
+          contentType: MIME.VIDEO_QUICKTIME,
+        };
+        const actual = Attachment.getSuggestedFilename({
+          attachment,
+          index: 3,
+        });
+        const expected = 'session-attachment_003.mov';
         assert.strictEqual(actual, expected);
       });
     });

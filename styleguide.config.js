@@ -32,10 +32,6 @@ module.exports = {
       components: 'ts/styleguide/**/*.tsx',
     },
   ],
-  context: {
-    // Exposes necessary utilities in the global scope for all readme code snippets
-    util: 'ts/styleguide/StyleGuideUtil',
-  },
   contextDependencies: [path.join(__dirname, 'ts/styleguide')],
   // We don't want one long, single page
   pagePerSection: true,

@@ -26,7 +26,7 @@ describe('link preview fetching', () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    warn = sandbox.stub(window.log, 'warn');
+    // warn = sandbox.stub(window.log, 'warn');
   });
 
   afterEach(() => {

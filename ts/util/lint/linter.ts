@@ -110,7 +110,6 @@ const excludedFiles = [
   '^node_modules/eslint*',
   '^node_modules/esprima/*',
   '^node_modules/express/*',
-  '^node_modules/extract-zip/*',
   '^node_modules/finalhandler/*',
   '^node_modules/fsevents/*',
   '^node_modules/globule/*',

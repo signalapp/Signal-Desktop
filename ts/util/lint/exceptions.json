@@ -372,7 +372,6 @@
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
-
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
@@ -4507,38 +4506,6 @@
     "lineNumber": 1,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/node-gyp/lib/configure.js",
-    "line": "        !gyp.opts.nodedir ? '<(target_arch)' : '$(Configuration)',",
-    "lineNumber": 296,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/node-gyp/node_modules/request/lib/multipart.js",
-    "line": "    return chunked ? body.append(part) : body.push(Buffer.from(part))",
-    "lineNumber": 74,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/node-gyp/node_modules/request/request.js",
-    "line": "        requestForm.append(key, value.value, value.options)",
-    "lineNumber": 324,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/node-gyp/node_modules/request/request.js",
-    "line": "        requestForm.append(key, value)",
-    "lineNumber": 326,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
   },
   {
     "rule": "jQuery-wrap(",
