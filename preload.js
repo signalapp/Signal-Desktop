@@ -563,20 +563,20 @@ try {
     };
 
     /* eslint-disable global-require, import/no-extraneous-dependencies */
-    require('./ts/test-both/state/ducks/conversations_test');
-    require('./ts/test-both/state/selectors/conversations_test');
-    require('./ts/test-both/state/selectors/items_test');
+    const fastGlob = require('fast-glob');
 
-    require('./ts/test-electron/linkPreviews/linkPreviewFetch_test');
-    require('./ts/test-electron/models/messages_test');
-    require('./ts/test-electron/state/ducks/calling_test');
-    require('./ts/test-electron/state/selectors/calling_test');
+    fastGlob
+      .sync('./ts/test-{both,electron}/**/*_test.js', {
+        absolute: true,
+        cwd: __dirname,
+      })
+      .forEach(require);
 
     delete window.describe;
 
     window.test = {
       pendingDescribeCalls,
-      fastGlob: require('fast-glob'),
+      fastGlob,
       normalizePath: require('normalize-path'),
       fse: require('fs-extra'),
       tmp: require('tmp'),
