@@ -133,6 +133,7 @@
 
       &__content {
         padding: $session-margin-xs;
+        margin-bottom: 1vh;
 
         .module-media-grid-item__image,
         .module-media-grid-item {
@@ -143,7 +144,6 @@
             22vw / 4
           ); //.group-settings is 22vw and we want three rows with some space so divide it by 4
           margin: auto;
-          margin-bottom: 1vh;
         }
       }
     }
