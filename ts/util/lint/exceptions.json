@@ -445,24 +445,6 @@
     "reasonDetail": "Protected from arbitrary input"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "js/views/group_member_list_view.js",
-    "line": "      this.$('.container').append(this.member_list_view.el);",
-    "lineNumber": 27,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/group_member_list_view.js",
-    "line": "      this.$('.container').append(this.member_list_view.el);",
-    "lineNumber": 27,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
     "rule": "jQuery-html(",
     "path": "js/views/identicon_svg_view.js",
     "line": "      const html = this.render().$el.html();",
@@ -639,24 +621,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/list_view.js",
-    "line": "        this.$el.append(view.render().el);",
-    "lineNumber": 27,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "js/views/list_view.js",
-    "line": "      this.$el.html('');",
-    "lineNumber": 33,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-15T00:38:04.183Z",
-    "reasonDetail": "Hard-coded value"
   },
   {
     "rule": "jQuery-$(",
