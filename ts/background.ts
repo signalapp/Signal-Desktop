@@ -2655,9 +2655,11 @@ type WhatIsThis = import('./window.d').WhatIsThis;
 
     if (data.message.groupCallUpdate) {
       if (data.message.groupV2 && messageDescriptor.type === Message.GROUP) {
-        window.reduxActions.calling.peekNotConnectedGroupCall({
-          conversationId: messageDescriptor.id,
-        });
+        if (window.GROUP_CALLING) {
+          window.reduxActions.calling.peekNotConnectedGroupCall({
+            conversationId: messageDescriptor.id,
+          });
+        }
         return Promise.resolve();
       }
       window.log.warn(
