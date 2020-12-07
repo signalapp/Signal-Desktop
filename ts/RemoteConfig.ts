@@ -8,6 +8,7 @@ type ConfigKeyType =
   | 'desktop.cds'
   | 'desktop.clientExpiration'
   | 'desktop.disableGV1'
+  | 'desktop.groupCalling'
   | 'desktop.gv2'
   | 'desktop.mandatoryProfileSharing'
   | 'desktop.messageRequests'

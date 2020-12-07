@@ -382,6 +382,7 @@ try {
 
   const { autoOrientImage } = require('./js/modules/auto_orient_image');
   const { imageToBlurHash } = require('./ts/util/imageToBlurHash');
+  const { isGroupCallingEnabled } = require('./ts/util/isGroupCallingEnabled');
 
   window.autoOrientImage = autoOrientImage;
   window.dataURLToBlobSync = require('blueimp-canvas-to-blob');
@@ -392,6 +393,7 @@ try {
   window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
   window.loadImage = require('blueimp-load-image');
   window.getGuid = require('uuid/v4');
+  window.isGroupCallingEnabled = isGroupCallingEnabled;
 
   window.isValidGuid = maybeGuid =>
     /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i.test(
@@ -428,7 +430,6 @@ try {
   const Signal = require('./js/modules/signal');
   const i18n = require('./js/modules/i18n');
   const Attachments = require('./app/attachments');
-  const { isBeta } = require('./app/version');
 
   const { locale } = config;
   window.i18n = i18n.setup(locale, localeMessages);
@@ -587,8 +588,6 @@ try {
     };
     /* eslint-enable global-require, import/no-extraneous-dependencies */
   }
-
-  window.GROUP_CALLING = isBeta(config.version);
 } catch (error) {
   /* eslint-disable no-console */
   if (console._log) {

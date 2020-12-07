@@ -18,7 +18,6 @@ const electron = require('electron');
 
 const packageJson = require('./package.json');
 const GlobalErrors = require('./app/global_errors');
-const { isBeta } = require('./app/version');
 const { setup: setupSpellChecker } = require('./app/spell_check');
 
 GlobalErrors.addHandler();
@@ -98,6 +97,7 @@ const {
   installWebHandler,
 } = require('./app/protocol_filter');
 const { installPermissionsHandler } = require('./app/permissions');
+const { isBeta } = require('./ts/util/version');
 const { isSgnlHref, parseSgnlHref } = require('./ts/util/sgnlHref');
 
 let appStartInitialSpellcheckSetting = true;

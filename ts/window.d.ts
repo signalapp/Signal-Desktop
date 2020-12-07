@@ -486,7 +486,7 @@ declare global {
     readyForUpdates: () => void;
 
     // Flags
-    GROUP_CALLING: boolean;
+    isGroupCallingEnabled: () => boolean;
   }
 
   interface Error {

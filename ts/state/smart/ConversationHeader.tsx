@@ -18,6 +18,7 @@ import { getActiveCall, isAnybodyElseInGroupCall } from '../ducks/calling';
 import { getUserConversationId, getIntl } from '../selectors/user';
 import { getOwn } from '../../util/getOwn';
 import { missingCaseError } from '../../util/missingCaseError';
+import { isGroupCallingEnabled } from '../../util/isGroupCallingEnabled';
 
 export interface OwnProps {
   id: string;
@@ -57,7 +58,7 @@ const getOutgoingCallButtonStyle = (
     case CallMode.Direct:
       return OutgoingCallButtonStyle.Both;
     case CallMode.Group: {
-      if (!window.GROUP_CALLING) {
+      if (!isGroupCallingEnabled()) {
         return OutgoingCallButtonStyle.None;
       }
       const call = getOwn(calling.callsByConversation, conversation.id);
