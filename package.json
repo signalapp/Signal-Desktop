@@ -50,7 +50,6 @@
     "tslint": "tslint --format stylish --project .",
     "format": "prettier --list-different --write `git ls-files --modified *.{css,js,json,scss,ts,tsx}` `git ls-files --modified ./**/*.{css,js,json,scss,ts,tsx}`",
     "format-full": "prettier --list-different --write \"*.{css,js,json,scss,ts,tsx}\" \"./**/*.{css,js,json,scss,ts,tsx}\"",
-    "format-full-check": "prettier --check \"*.{css,js,json,scss,ts,tsx}\" \"./**/*.{css,js,json,scss,ts,tsx}\"",
     "transpile": "tsc --incremental",
     "clean-transpile": "rimraf ts/**/*.js && rimraf ts/*.js",
     "pow-metrics": "node metrics_app.js localhost 9000",
