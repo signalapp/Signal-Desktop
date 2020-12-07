@@ -11,6 +11,7 @@
   "contentProxyUrl": "http://contentproxy.signal.org:443",
   "updatesUrl": "https://updates2.signal.org/desktop",
   "updatesPublicKey": "fd7dd3de7149dc0a127909fee7de0f7620ddd0de061b37a2c303e37de802a401",
+  "sfuUrl": "https://sfu.voip.signal.org/",
   "updatesEnabled": false,
   "openDevTools": false,
   "buildExpiration": 0,

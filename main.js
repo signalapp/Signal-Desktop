@@ -204,6 +204,7 @@ function prepareURL(pathSegments, moreKeys) {
       appInstance: process.env.NODE_APP_INSTANCE,
       proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy,
       contentProxyUrl: config.contentProxyUrl,
+      sfuUrl: config.get('sfuUrl'),
       importMode: importMode ? true : undefined, // for stringify()
       serverPublicParams: config.get('serverPublicParams'),
       serverTrustRoot: config.get('serverTrustRoot'),

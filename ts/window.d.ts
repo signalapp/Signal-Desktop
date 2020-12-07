@@ -114,6 +114,7 @@ declare global {
     getMediaCameraPermissions: () => Promise<boolean>;
     getMediaPermissions: () => Promise<boolean>;
     getServerPublicParams: () => string;
+    getSfuUrl: () => string;
     getSocketStatus: () => number;
     getSyncRequest: () => WhatIsThis;
     getTitle: () => string;
