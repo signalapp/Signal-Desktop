@@ -4,6 +4,7 @@
 import { ColorType } from './Colors';
 import { ConversationType } from '../state/ducks/conversations';
 
+// These are strings (1) for the database (2) for Storybook.
 export enum CallMode {
   None = 'None',
   Direct = 'Direct',
@@ -153,13 +154,31 @@ export type MediaDeviceSettings = {
   selectedCamera: string | undefined;
 };
 
-export type CallHistoryDetailsType = {
+interface DirectCallHistoryDetailsType {
+  callMode: CallMode.Direct;
   wasIncoming: boolean;
   wasVideoCall: boolean;
   wasDeclined: boolean;
   acceptedTime?: number;
   endedTime: number;
-};
+}
+
+interface GroupCallHistoryDetailsType {
+  callMode: CallMode.Group;
+  creatorUuid: string;
+  eraId: string;
+  startedTime: number;
+}
+
+export type CallHistoryDetailsType =
+  | DirectCallHistoryDetailsType
+  | GroupCallHistoryDetailsType;
+
+// Old messages weren't saved with a `callMode`.
+export type CallHistoryDetailsFromDiskType =
+  | (Omit<DirectCallHistoryDetailsType, 'callMode'> &
+      Partial<Pick<DirectCallHistoryDetailsType, 'callMode'>>)
+  | GroupCallHistoryDetailsType;
 
 export type ChangeIODevicePayloadType =
   | { type: CallingDeviceType.CAMERA; selectedDevice: string }

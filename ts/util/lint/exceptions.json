@@ -14701,6 +14701,24 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/Tooltip.js",
+    "line": "    const wrapperRef = react_1.default.useRef(null);",
+    "lineNumber": 17,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-12-04T00:11:08.128Z",
+    "reasonDetail": "Used to add (and remove) event listeners."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/CallingNotification.js",
+    "line": "    const previousHeightRef = react_1.useRef(null);",
+    "lineNumber": 24,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-12-04T00:11:08.128Z",
+    "reasonDetail": "Doesn't interact with the DOM."
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/conversation/ContactModal.js",
     "line": "    const overlayRef = react_1.default.useRef(null);",
     "lineNumber": 16,

@@ -10,6 +10,7 @@ import { EmojiPicker } from '../emoji/EmojiPicker';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { PropsType as TimelineItemProps, TimelineItem } from './TimelineItem';
+import { CallMode } from '../../types/Calling';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -61,6 +62,9 @@ const getDefaultProps = () => ({
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
   downloadNewVersion: action('downloadNewVersion'),
   showIdentity: action('showIdentity'),
+  messageSizeChanged: action('messageSizeChanged'),
+  startCallingLobby: action('startCallingLobby'),
+  returnToActiveCall: action('returnToActiveCall'),
 
   renderContact,
   renderEmojiPicker,
@@ -95,149 +99,253 @@ storiesOf('Components/Conversation/TimelineItem', module)
       {
         type: 'callHistory',
         data: {
-          callHistoryDetails: {
-            // declined incoming audio
-            wasDeclined: true,
-            wasIncoming: true,
-            wasVideoCall: false,
-            endedTime: Date.now(),
-          },
+          // declined incoming audio
+          callMode: CallMode.Direct,
+          wasDeclined: true,
+          wasIncoming: true,
+          wasVideoCall: false,
+          endedTime: Date.now(),
         },
       },
       {
         type: 'callHistory',
         data: {
-          callHistoryDetails: {
-            // declined incoming video
-            wasDeclined: true,
-            wasIncoming: true,
-            wasVideoCall: true,
-            endedTime: Date.now(),
-          },
+          // declined incoming video
+          callMode: CallMode.Direct,
+          wasDeclined: true,
+          wasIncoming: true,
+          wasVideoCall: true,
+          endedTime: Date.now(),
         },
       },
       {
         type: 'callHistory',
         data: {
-          callHistoryDetails: {
-            // accepted incoming audio
-            acceptedTime: Date.now() - 300,
-            wasDeclined: false,
-            wasIncoming: true,
-            wasVideoCall: false,
-            endedTime: Date.now(),
-          },
+          // accepted incoming audio
+          callMode: CallMode.Direct,
+          acceptedTime: Date.now() - 300,
+          wasDeclined: false,
+          wasIncoming: true,
+          wasVideoCall: false,
+          endedTime: Date.now(),
         },
       },
       {
         type: 'callHistory',
         data: {
-          callHistoryDetails: {
-            // accepted incoming video
-            acceptedTime: Date.now() - 400,
-            wasDeclined: false,
-            wasIncoming: true,
-            wasVideoCall: true,
-            endedTime: Date.now(),
-          },
+          // accepted incoming video
+          callMode: CallMode.Direct,
+          acceptedTime: Date.now() - 400,
+          wasDeclined: false,
+          wasIncoming: true,
+          wasVideoCall: true,
+          endedTime: Date.now(),
         },
       },
       {
         type: 'callHistory',
         data: {
-          callHistoryDetails: {
-            // missed (neither accepted nor declined) incoming audio
-            wasDeclined: false,
-            wasIncoming: true,
-            wasVideoCall: false,
-            endedTime: Date.now(),
-          },
+          // missed (neither accepted nor declined) incoming audio
+          callMode: CallMode.Direct,
+          wasDeclined: false,
+          wasIncoming: true,
+          wasVideoCall: false,
+          endedTime: Date.now(),
         },
       },
       {
         type: 'callHistory',
         data: {
-          callHistoryDetails: {
-            // missed (neither accepted nor declined) incoming video
-            wasDeclined: false,
-            wasIncoming: true,
-            wasVideoCall: true,
-            endedTime: Date.now(),
-          },
+          // missed (neither accepted nor declined) incoming video
+          callMode: CallMode.Direct,
+          wasDeclined: false,
+          wasIncoming: true,
+          wasVideoCall: true,
+          endedTime: Date.now(),
         },
       },
       {
         type: 'callHistory',
         data: {
-          callHistoryDetails: {
-            // accepted outgoing audio
-            acceptedTime: Date.now() - 200,
-            wasDeclined: false,
-            wasIncoming: false,
-            wasVideoCall: false,
-            endedTime: Date.now(),
-          },
+          // accepted outgoing audio
+          callMode: CallMode.Direct,
+          acceptedTime: Date.now() - 200,
+          wasDeclined: false,
+          wasIncoming: false,
+          wasVideoCall: false,
+          endedTime: Date.now(),
         },
       },
       {
         type: 'callHistory',
         data: {
-          callHistoryDetails: {
-            // accepted outgoing video
-            acceptedTime: Date.now() - 200,
-            wasDeclined: false,
-            wasIncoming: false,
-            wasVideoCall: true,
-            endedTime: Date.now(),
-          },
+          // accepted outgoing video
+          callMode: CallMode.Direct,
+          acceptedTime: Date.now() - 200,
+          wasDeclined: false,
+          wasIncoming: false,
+          wasVideoCall: true,
+          endedTime: Date.now(),
         },
       },
       {
         type: 'callHistory',
         data: {
-          callHistoryDetails: {
-            // declined outgoing audio
-            wasDeclined: true,
-            wasIncoming: false,
-            wasVideoCall: false,
-            endedTime: Date.now(),
-          },
+          // declined outgoing audio
+          callMode: CallMode.Direct,
+          wasDeclined: true,
+          wasIncoming: false,
+          wasVideoCall: false,
+          endedTime: Date.now(),
         },
       },
       {
         type: 'callHistory',
         data: {
-          callHistoryDetails: {
-            // declined outgoing video
-            wasDeclined: true,
-            wasIncoming: false,
-            wasVideoCall: true,
-            endedTime: Date.now(),
-          },
+          // declined outgoing video
+          callMode: CallMode.Direct,
+          wasDeclined: true,
+          wasIncoming: false,
+          wasVideoCall: true,
+          endedTime: Date.now(),
         },
       },
       {
         type: 'callHistory',
         data: {
-          callHistoryDetails: {
-            // missed (neither accepted nor declined) outgoing audio
-            wasDeclined: false,
-            wasIncoming: false,
-            wasVideoCall: false,
-            endedTime: Date.now(),
-          },
+          // missed (neither accepted nor declined) outgoing audio
+          callMode: CallMode.Direct,
+          wasDeclined: false,
+          wasIncoming: false,
+          wasVideoCall: false,
+          endedTime: Date.now(),
         },
       },
       {
         type: 'callHistory',
         data: {
-          callHistoryDetails: {
-            // missed (neither accepted nor declined) outgoing video
-            wasDeclined: false,
-            wasIncoming: false,
-            wasVideoCall: true,
-            endedTime: Date.now(),
+          // missed (neither accepted nor declined) outgoing video
+          callMode: CallMode.Direct,
+          wasDeclined: false,
+          wasIncoming: false,
+          wasVideoCall: true,
+          endedTime: Date.now(),
+        },
+      },
+      {
+        type: 'callHistory',
+        data: {
+          // ongoing group call
+          callMode: CallMode.Group,
+          conversationId: 'abc123',
+          creator: {
+            firstName: 'Luigi',
+            isMe: false,
+            title: 'Luigi Mario',
           },
+          ended: false,
+          deviceCount: 1,
+          maxDevices: 16,
+          startedTime: Date.now(),
+        },
+      },
+      {
+        type: 'callHistory',
+        data: {
+          // ongoing group call started by you
+          callMode: CallMode.Group,
+          conversationId: 'abc123',
+          creator: {
+            firstName: 'Peach',
+            isMe: true,
+            title: 'Princess Peach',
+          },
+          ended: false,
+          deviceCount: 1,
+          maxDevices: 16,
+          startedTime: Date.now(),
+        },
+      },
+      {
+        type: 'callHistory',
+        data: {
+          // ongoing group call, creator unknown
+          callMode: CallMode.Group,
+          conversationId: 'abc123',
+          ended: false,
+          deviceCount: 1,
+          maxDevices: 16,
+          startedTime: Date.now(),
+        },
+      },
+      {
+        type: 'callHistory',
+        data: {
+          // ongoing and active group call
+          callMode: CallMode.Group,
+          activeCallConversationId: 'abc123',
+          conversationId: 'abc123',
+          creator: {
+            firstName: 'Luigi',
+            isMe: false,
+            title: 'Luigi Mario',
+          },
+          ended: false,
+          deviceCount: 1,
+          maxDevices: 16,
+          startedTime: Date.now(),
+        },
+      },
+      {
+        type: 'callHistory',
+        data: {
+          // ongoing group call, but you're in another one
+          callMode: CallMode.Group,
+          activeCallConversationId: 'abc123',
+          conversationId: 'xyz987',
+          creator: {
+            firstName: 'Luigi',
+            isMe: false,
+            title: 'Luigi Mario',
+          },
+          ended: false,
+          deviceCount: 1,
+          maxDevices: 16,
+          startedTime: Date.now(),
+        },
+      },
+      {
+        type: 'callHistory',
+        data: {
+          // ongoing full group call
+          callMode: CallMode.Group,
+          conversationId: 'abc123',
+          creator: {
+            firstName: 'Luigi',
+            isMe: false,
+            title: 'Luigi Mario',
+          },
+          ended: false,
+          deviceCount: 16,
+          maxDevices: 16,
+          startedTime: Date.now(),
+        },
+      },
+      {
+        type: 'callHistory',
+        data: {
+          // finished call
+          callMode: CallMode.Group,
+          conversationId: 'abc123',
+          creator: {
+            firstName: 'Luigi',
+            isMe: false,
+            title: 'Luigi Mario',
+          },
+          ended: true,
+          deviceCount: 0,
+          maxDevices: 16,
+          startedTime: Date.now(),
         },
       },
     ];

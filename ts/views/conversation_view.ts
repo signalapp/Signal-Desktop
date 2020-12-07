@@ -478,7 +478,6 @@ Whisper.ConversationView = Whisper.View.extend({
               'onOutgoingAudioCallInConversation: about to start an audio call'
             );
 
-            const conversation = this.model;
             const isVideoCall = false;
 
             if (await this.isCallSafe()) {
@@ -486,7 +485,7 @@ Whisper.ConversationView = Whisper.View.extend({
                 'onOutgoingAudioCallInConversation: call is deemed "safe". Making call'
               );
               await window.Signal.Services.calling.startCallingLobby(
-                conversation,
+                this.model.id,
                 isVideoCall
               );
               window.log.info(
@@ -503,7 +502,6 @@ Whisper.ConversationView = Whisper.View.extend({
             window.log.info(
               'onOutgoingVideoCallInConversation: about to start a video call'
             );
-            const conversation = this.model;
             const isVideoCall = true;
 
             if (await this.isCallSafe()) {
@@ -511,7 +509,7 @@ Whisper.ConversationView = Whisper.View.extend({
                 'onOutgoingVideoCallInConversation: call is deemed "safe". Making call'
               );
               await window.Signal.Services.calling.startCallingLobby(
-                conversation,
+                this.model.id,
                 isVideoCall
               );
               window.log.info(

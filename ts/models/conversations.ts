@@ -10,7 +10,7 @@ import {
   ConversationAttributesType,
   VerificationOptions,
 } from '../model-types.d';
-import { CallHistoryDetailsType } from '../types/Calling';
+import { CallMode, CallHistoryDetailsType } from '../types/Calling';
 import { CallbackResultType, GroupV2InfoType } from '../textsecure/SendMessage';
 import {
   ConversationType,
@@ -19,6 +19,7 @@ import {
 import { ColorType } from '../types/Colors';
 import { MessageModel } from './messages';
 import { isMuted } from '../util/isMuted';
+import { missingCaseError } from '../util/missingCaseError';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import { MIMEType, IMAGE_WEBP } from '../types/MIME';
 import {
@@ -127,6 +128,8 @@ export class ConversationModel extends window.Backbone.Model<
   verifiedEnum?: typeof window.textsecure.storage.protocol.VerifiedStatus;
 
   intlCollator = new Intl.Collator();
+
+  private cachedLatestGroupCallEraId?: string;
 
   // eslint-disable-next-line class-methods-use-this
   defaults(): Partial<ConversationAttributesType> {
@@ -2047,14 +2050,36 @@ export class ConversationModel extends window.Backbone.Model<
   async addCallHistory(
     callHistoryDetails: CallHistoryDetailsType
   ): Promise<void> {
-    const { acceptedTime, endedTime, wasDeclined } = callHistoryDetails;
+    let timestamp: number;
+    let unread: boolean;
+    let detailsToSave: CallHistoryDetailsType;
+
+    switch (callHistoryDetails.callMode) {
+      case CallMode.Direct:
+        timestamp = callHistoryDetails.endedTime;
+        unread =
+          !callHistoryDetails.wasDeclined && !callHistoryDetails.acceptedTime;
+        detailsToSave = {
+          ...callHistoryDetails,
+          callMode: CallMode.Direct,
+        };
+        break;
+      case CallMode.Group:
+        timestamp = callHistoryDetails.startedTime;
+        unread = false;
+        detailsToSave = callHistoryDetails;
+        break;
+      default:
+        throw missingCaseError(callHistoryDetails);
+    }
+
     const message = ({
       conversationId: this.id,
       type: 'call-history',
-      sent_at: endedTime,
-      received_at: endedTime,
-      unread: !wasDeclined && !acceptedTime,
-      callHistoryDetails,
+      sent_at: timestamp,
+      received_at: timestamp,
+      unread,
+      callHistoryDetails: detailsToSave,
       // TODO: DESKTOP-722
     } as unknown) as typeof window.Whisper.MessageAttributesType;
 
@@ -2070,6 +2095,27 @@ export class ConversationModel extends window.Backbone.Model<
     );
 
     this.trigger('newmessage', model);
+  }
+
+  async updateCallHistoryForGroupCall(
+    eraId: string,
+    creatorUuid: string
+  ): Promise<void> {
+    const alreadyHasMessage =
+      (this.cachedLatestGroupCallEraId &&
+        this.cachedLatestGroupCallEraId === eraId) ||
+      (await window.Signal.Data.hasGroupCallHistoryMessage(this.id, eraId));
+
+    if (!alreadyHasMessage) {
+      this.addCallHistory({
+        callMode: CallMode.Group,
+        creatorUuid,
+        eraId,
+        startedTime: Date.now(),
+      });
+    }
+
+    this.cachedLatestGroupCallEraId = eraId;
   }
 
   async addProfileChange(

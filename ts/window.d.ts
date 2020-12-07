@@ -27,7 +27,6 @@ import * as Crypto from './Crypto';
 import * as RemoteConfig from './RemoteConfig';
 import * as zkgroup from './util/zkgroup';
 import { LocalizerType, BodyRangesType, BodyRangeType } from './types/Util';
-import { CallHistoryDetailsType } from './types/Calling';
 import { ColorType } from './types/Colors';
 import { ConversationController } from './ConversationController';
 import { ReduxActions } from './state/types';
@@ -409,11 +408,6 @@ declare global {
         ProgressModal: typeof ProgressModal;
         Quote: any;
         StagedLinkPreview: any;
-
-        getCallingNotificationText: (
-          callHistoryDetails: unknown,
-          i18n: unknown
-        ) => string;
       };
       OS: {
         isLinux: () => boolean;

@@ -5,7 +5,11 @@ import { assert } from 'chai';
 import { reducer as rootReducer } from '../../../state/reducer';
 import { noopAction } from '../../../state/ducks/noop';
 import { CallMode, CallState } from '../../../types/Calling';
-import { getIncomingCall } from '../../../state/selectors/calling';
+import {
+  getCallsByConversation,
+  getCallSelector,
+  getIncomingCall,
+} from '../../../state/selectors/calling';
 import { getEmptyState, CallingStateType } from '../../../state/ducks/calling';
 
 describe('state/selectors/calling', () => {
@@ -55,6 +59,50 @@ describe('state/selectors/calling', () => {
       },
     },
   };
+
+  describe('getCallsByConversation', () => {
+    it('returns state.calling.callsByConversation', () => {
+      assert.deepEqual(getCallsByConversation(getEmptyRootState()), {});
+
+      assert.deepEqual(
+        getCallsByConversation(getCallingState(stateWithDirectCall)),
+        {
+          'fake-direct-call-conversation-id': {
+            callMode: CallMode.Direct,
+            conversationId: 'fake-direct-call-conversation-id',
+            callState: CallState.Accepted,
+            isIncoming: false,
+            isVideoCall: false,
+            hasRemoteVideo: false,
+          },
+        }
+      );
+    });
+  });
+
+  describe('getCallSelector', () => {
+    it('returns a selector that returns undefined if selecting a conversation with no call', () => {
+      assert.isUndefined(
+        getCallSelector(getEmptyRootState())('conversation-id')
+      );
+    });
+
+    it("returns a selector that returns a conversation's call", () => {
+      assert.deepEqual(
+        getCallSelector(getCallingState(stateWithDirectCall))(
+          'fake-direct-call-conversation-id'
+        ),
+        {
+          callMode: CallMode.Direct,
+          conversationId: 'fake-direct-call-conversation-id',
+          callState: CallState.Accepted,
+          isIncoming: false,
+          isVideoCall: false,
+          hasRemoteVideo: false,
+        }
+      );
+    });
+  });
 
   describe('getIncomingCall', () => {
     it('returns undefined if there are no calls', () => {

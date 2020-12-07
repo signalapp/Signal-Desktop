@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { set } from 'lodash/fp';
 import {
   actions,
   ConversationMessageType,
@@ -13,7 +14,11 @@ import {
 } from '../../../state/ducks/conversations';
 import { CallMode } from '../../../types/Calling';
 
-const { repairNewestMessage, repairOldestMessage } = actions;
+const {
+  messageSizeChanged,
+  repairNewestMessage,
+  repairOldestMessage,
+} = actions;
 
 describe('both/state/ducks/conversations', () => {
   describe('helpers', () => {
@@ -166,6 +171,76 @@ describe('both/state/ducks/conversations', () => {
         scrollToMessageCounter: 0,
       };
     }
+
+    describe('MESSAGE_SIZE_CHANGED', () => {
+      const stateWithActiveConversation = {
+        ...getDefaultState(),
+        messagesByConversation: {
+          [conversationId]: {
+            heightChangeMessageIds: [],
+            isLoadingMessages: false,
+            isNearBottom: true,
+            messageIds: [messageId],
+            metrics: { totalUnread: 0 },
+            resetCounter: 0,
+            scrollToMessageCounter: 0,
+          },
+        },
+        messagesLookup: {
+          [messageId]: getDefaultMessage(messageId),
+        },
+      };
+
+      it('does nothing if no conversation is active', () => {
+        const state = getDefaultState();
+
+        assert.strictEqual(
+          reducer(state, messageSizeChanged('messageId', 'convoId')),
+          state
+        );
+      });
+
+      it('does nothing if a different conversation is active', () => {
+        assert.deepEqual(
+          reducer(
+            stateWithActiveConversation,
+            messageSizeChanged(messageId, 'another-conversation-guid')
+          ),
+          stateWithActiveConversation
+        );
+      });
+
+      it('adds the message ID to the list of messages with changed heights', () => {
+        const result = reducer(
+          stateWithActiveConversation,
+          messageSizeChanged(messageId, conversationId)
+        );
+
+        assert.sameMembers(
+          result.messagesByConversation[conversationId]
+            ?.heightChangeMessageIds || [],
+          [messageId]
+        );
+      });
+
+      it("doesn't add duplicates to the list of changed-heights messages", () => {
+        const state = set(
+          ['messagesByConversation', conversationId, 'heightChangeMessageIds'],
+          [messageId],
+          stateWithActiveConversation
+        );
+        const result = reducer(
+          state,
+          messageSizeChanged(messageId, conversationId)
+        );
+
+        assert.sameMembers(
+          result.messagesByConversation[conversationId]
+            ?.heightChangeMessageIds || [],
+          [messageId]
+        );
+      });
+    });
 
     describe('REPAIR_NEWEST_MESSAGE', () => {
       it('updates newest', () => {

@@ -2,8 +2,75 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
+import { noop } from 'lodash';
 import { Manager, Reference, Popper } from 'react-popper';
 import { Theme, themeClassName } from '../util/theme';
+
+interface EventWrapperPropsType {
+  children: React.ReactNode;
+  onHoverChanged: (_: boolean) => void;
+}
+
+// React doesn't reliably fire `onMouseLeave` or `onMouseOut` events if wrapping a
+//   disabled button. This uses native browser events to avoid that.
+//
+// See <https://lecstor.com/react-disabled-button-onmouseleave/>.
+const TooltipEventWrapper = React.forwardRef<
+  HTMLSpanElement,
+  EventWrapperPropsType
+>(({ onHoverChanged, children }, ref) => {
+  const wrapperRef = React.useRef<HTMLSpanElement | null>(null);
+
+  React.useEffect(() => {
+    const wrapperEl = wrapperRef.current;
+
+    if (!wrapperEl) {
+      return noop;
+    }
+
+    const on = () => {
+      onHoverChanged(true);
+    };
+    const off = () => {
+      onHoverChanged(false);
+    };
+
+    wrapperEl.addEventListener('focus', on);
+    wrapperEl.addEventListener('blur', off);
+    wrapperEl.addEventListener('mouseenter', on);
+    wrapperEl.addEventListener('mouseleave', off);
+
+    return () => {
+      wrapperEl.removeEventListener('focus', on);
+      wrapperEl.removeEventListener('blur', off);
+      wrapperEl.removeEventListener('mouseenter', on);
+      wrapperEl.removeEventListener('mouseleave', off);
+    };
+  }, [onHoverChanged]);
+
+  return (
+    <span
+      // This is a forward ref that also needs a ref of its own, so we set both here.
+      ref={el => {
+        wrapperRef.current = el;
+
+        // This is a simplified version of [what React does][0] to set a ref.
+        // [0]: https://github.com/facebook/react/blob/29b7b775f2ecf878eaf605be959d959030598b07/packages/react-reconciler/src/ReactFiberCommitWork.js#L661-L677
+        if (typeof ref === 'function') {
+          ref(el);
+        } else if (ref) {
+          // I believe the types for `ref` are wrong in this case, as `ref.current` should
+          //   not be `readonly`. That's why we do this cast. See [the React source][1].
+          // [1]: https://github.com/facebook/react/blob/29b7b775f2ecf878eaf605be959d959030598b07/packages/shared/ReactTypes.js#L78-L80
+          // eslint-disable-next-line no-param-reassign
+          (ref as React.MutableRefObject<HTMLSpanElement | null>).current = el;
+        }
+      }}
+    >
+      {children}
+    </span>
+  );
+});
 
 export enum TooltipPlacement {
   Top = 'top',
@@ -26,8 +93,9 @@ export const Tooltip: React.FC<PropsType> = ({
   sticky,
   theme,
 }) => {
-  const isSticky = Boolean(sticky);
-  const [showTooltip, setShowTooltip] = React.useState(isSticky);
+  const [isHovering, setIsHovering] = React.useState(false);
+
+  const showTooltip = isHovering || Boolean(sticky);
 
   const tooltipTheme = theme ? themeClassName(theme) : undefined;
 
@@ -35,31 +103,9 @@ export const Tooltip: React.FC<PropsType> = ({
     <Manager>
       <Reference>
         {({ ref }) => (
-          <span
-            onBlur={() => {
-              if (!isSticky) {
-                setShowTooltip(false);
-              }
-            }}
-            onFocus={() => {
-              if (!isSticky) {
-                setShowTooltip(true);
-              }
-            }}
-            onMouseEnter={() => {
-              if (!isSticky) {
-                setShowTooltip(true);
-              }
-            }}
-            onMouseLeave={() => {
-              if (!isSticky) {
-                setShowTooltip(false);
-              }
-            }}
-            ref={ref}
-          >
+          <TooltipEventWrapper ref={ref} onHoverChanged={setIsHovering}>
             {children}
-          </span>
+          </TooltipEventWrapper>
         )}
       </Reference>
       <Popper placement={direction}>

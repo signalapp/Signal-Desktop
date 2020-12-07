@@ -12,9 +12,13 @@ import {
   LastMessageStatus,
   ConversationType,
 } from '../state/ducks/conversations';
+import { getActiveCall } from '../state/ducks/calling';
+import { getCallSelector } from '../state/selectors/calling';
 import { PropsData } from '../components/conversation/Message';
 import { CallbackResultType } from '../textsecure/SendMessage';
 import { ExpirationTimerOptions } from '../util/ExpirationTimerOptions';
+import { missingCaseError } from '../util/missingCaseError';
+import { CallMode } from '../types/Calling';
 import { BodyRangesType } from '../types/Util';
 import { PropsDataType as GroupsV2Props } from '../components/conversation/GroupV2Change';
 import {
@@ -29,7 +33,10 @@ import {
   ChangeType,
 } from '../components/conversation/GroupNotification';
 import { Props as ResetSessionNotificationProps } from '../components/conversation/ResetSessionNotification';
-import { PropsData as CallingNotificationProps } from '../components/conversation/CallingNotification';
+import {
+  CallingNotificationType,
+  getCallingNotificationText,
+} from '../util/callingNotification';
 import { PropsType as ProfileChangeNotificationPropsType } from '../components/conversation/ProfileChangeNotification';
 
 /* eslint-disable camelcase */
@@ -704,10 +711,67 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     };
   }
 
-  getPropsForCallHistory(): CallingNotificationProps {
-    return {
-      callHistoryDetails: this.get('callHistoryDetails'),
-    };
+  getPropsForCallHistory(): CallingNotificationType | undefined {
+    const callHistoryDetails = this.get('callHistoryDetails');
+    if (!callHistoryDetails) {
+      return undefined;
+    }
+
+    switch (callHistoryDetails.callMode) {
+      // Old messages weren't saved with a call mode.
+      case undefined:
+      case CallMode.Direct:
+        return {
+          ...callHistoryDetails,
+          callMode: CallMode.Direct,
+        };
+      case CallMode.Group: {
+        const conversationId = this.get('conversationId');
+        if (!conversationId) {
+          window.log.error(
+            'Message.prototype.getPropsForCallHistory: missing conversation ID; assuming there is no call'
+          );
+          return undefined;
+        }
+
+        const creatorConversation = this.findContact(
+          window.ConversationController.ensureContactIds({
+            uuid: callHistoryDetails.creatorUuid,
+          })
+        );
+        if (!creatorConversation) {
+          window.log.error(
+            'Message.prototype.getPropsForCallHistory: could not find creator by UUID; bailing'
+          );
+          return undefined;
+        }
+
+        const reduxState = window.reduxStore.getState();
+
+        let call = getCallSelector(reduxState)(conversationId);
+        if (call && call.callMode !== CallMode.Group) {
+          window.log.error(
+            'Message.prototype.getPropsForCallHistory: there is an unexpected non-group call; pretending it does not exist'
+          );
+          call = undefined;
+        }
+
+        return {
+          activeCallConversationId: getActiveCall(reduxState.calling)
+            ?.conversationId,
+          callMode: CallMode.Group,
+          conversationId,
+          creator: creatorConversation.format(),
+          deviceCount: call?.peekInfo.deviceCount ?? 0,
+          ended: callHistoryDetails.eraId !== call?.peekInfo.eraId,
+          maxDevices: call?.peekInfo.maxDevices ?? Infinity,
+          startedTime: callHistoryDetails.startedTime,
+        };
+      }
+      default:
+        window.log.error(missingCaseError(callHistoryDetails));
+        return undefined;
+    }
   }
 
   getPropsForProfileChange(): ProfileChangeNotificationPropsType {
@@ -1345,12 +1409,16 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     if (this.isCallHistory()) {
-      return {
-        text: window.Signal.Components.getCallingNotificationText(
-          this.get('callHistoryDetails'),
-          window.i18n
-        ),
-      };
+      const callingNotification = this.getPropsForCallHistory();
+      if (callingNotification) {
+        return {
+          text: getCallingNotificationText(callingNotification, window.i18n),
+        };
+      }
+
+      window.log.error(
+        "This call history message doesn't have valid call history"
+      );
     }
     if (this.isExpirationTimerUpdate()) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

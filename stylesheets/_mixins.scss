@@ -393,3 +393,39 @@
 
   @include button-focus-outline;
 }
+
+@mixin button-green {
+  $background-color: $color-accent-green;
+
+  background-color: $background-color;
+  color: $color-white;
+
+  &:active {
+    // We need to include all four here for specificity precedence
+
+    @include mouse-mode {
+      background-color: mix($color-black, $background-color, 25%);
+    }
+    @include dark-mouse-mode {
+      background-color: mix($color-white, $background-color, 25%);
+    }
+
+    @include keyboard-mode {
+      background-color: mix($color-black, $background-color, 25%);
+    }
+    @include dark-keyboard-mode {
+      background-color: mix($color-white, $background-color, 25%);
+    }
+  }
+
+  &[disabled] {
+    opacity: 0.6;
+  }
+
+  @include button-focus-outline;
+}
+
+@mixin button-small {
+  border-radius: 9999px; // This ensures the borders are completely rounded. (A value like 100% would make it an ellipse.)
+  padding: 7px 14px;
+}

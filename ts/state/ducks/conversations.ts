@@ -20,7 +20,7 @@ import { NoopActionType } from './noop';
 import { AttachmentType } from '../../types/Attachment';
 import { ColorType } from '../../types/Colors';
 import { BodyRangeType } from '../../types/Util';
-import { CallMode } from '../../types/Calling';
+import { CallMode, CallHistoryDetailsFromDiskType } from '../../types/Calling';
 
 // State
 
@@ -147,6 +147,7 @@ export type MessageType = {
 
   errors?: Array<Error>;
   group_update?: unknown;
+  callHistoryDetails?: CallHistoryDetailsFromDiskType;
 
   // No need to go beyond this; unused at this stage, since this goes into
   //   a reducer still in plain JavaScript and comes out well-formed
@@ -274,6 +275,13 @@ export type MessageDeletedActionType = {
     conversationId: string;
   };
 };
+type MessageSizeChangedActionType = {
+  type: 'MESSAGE_SIZE_CHANGED';
+  payload: {
+    id: string;
+    conversationId: string;
+  };
+};
 export type MessagesAddedActionType = {
   type: 'MESSAGES_ADDED';
   payload: {
@@ -379,6 +387,7 @@ export type ConversationActionType =
   | ConversationUnloadedActionType
   | RemoveAllConversationsActionType
   | MessageSelectedActionType
+  | MessageSizeChangedActionType
   | MessageChangedActionType
   | MessageDeletedActionType
   | MessagesAddedActionType
@@ -410,6 +419,7 @@ export const actions = {
   selectMessage,
   messageDeleted,
   messageChanged,
+  messageSizeChanged,
   messagesAdded,
   messagesReset,
   setMessagesLoading,
@@ -508,6 +518,18 @@ function messageDeleted(
 ): MessageDeletedActionType {
   return {
     type: 'MESSAGE_DELETED',
+    payload: {
+      id,
+      conversationId,
+    },
+  };
+}
+function messageSizeChanged(
+  id: string,
+  conversationId: string
+): MessageSizeChangedActionType {
+  return {
+    type: 'MESSAGE_SIZE_CHANGED',
     payload: {
       id,
       conversationId,
@@ -697,7 +719,7 @@ function showArchivedConversations(): ShowArchivedConversationsActionType {
 
 // Reducer
 
-function getEmptyState(): ConversationsStateType {
+export function getEmptyState(): ConversationsStateType {
   return {
     conversationLookup: {},
     messagesByConversation: {},
@@ -922,6 +944,31 @@ export function reducer(
         [conversationId]: {
           ...existingConversation,
           heightChangeMessageIds: updatedChanges,
+        },
+      },
+    };
+  }
+  if (action.type === 'MESSAGE_SIZE_CHANGED') {
+    const { id, conversationId } = action.payload;
+
+    const existingConversation = getOwn(
+      state.messagesByConversation,
+      conversationId
+    );
+    if (!existingConversation) {
+      return state;
+    }
+
+    return {
+      ...state,
+      messagesByConversation: {
+        ...state.messagesByConversation,
+        [conversationId]: {
+          ...existingConversation,
+          heightChangeMessageIds: uniq([
+            ...existingConversation.heightChangeMessageIds,
+            id,
+          ]),
         },
       },
     };

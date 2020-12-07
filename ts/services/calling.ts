@@ -124,10 +124,16 @@ export class CallingClass {
   }
 
   async startCallingLobby(
-    conversation: ConversationModel,
+    conversationId: string,
     isVideoCall: boolean
   ): Promise<void> {
     window.log.info('CallingClass.startCallingLobby()');
+
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      window.log.error('Could not find conversation, cannot start call lobby');
+      return;
+    }
 
     const conversationProps = conversation.format();
     const callMode = getConversationCallMode(conversationProps);
@@ -450,6 +456,10 @@ export class CallingClass {
         this.syncGroupCallToRedux(conversationId, groupCall);
       },
       onPeekChanged: groupCall => {
+        this.updateCallHistoryForGroupCall(
+          conversationId,
+          groupCall.getPeekInfo()
+        );
         this.syncGroupCallToRedux(conversationId, groupCall);
       },
       async requestMembershipProof(groupCall) {
@@ -1459,6 +1469,7 @@ export class CallingClass {
     }
 
     conversation.addCallHistory({
+      callMode: CallMode.Direct,
       wasIncoming: call.isIncoming,
       wasVideoCall: call.isVideoCall,
       wasDeclined,
@@ -1472,6 +1483,7 @@ export class CallingClass {
     wasVideoCall: boolean
   ) {
     conversation.addCallHistory({
+      callMode: CallMode.Direct,
       wasIncoming: true,
       wasVideoCall,
       // Since the user didn't decline, make sure it shows up as a missed call instead
@@ -1486,6 +1498,7 @@ export class CallingClass {
     _reason: CallEndedReason
   ) {
     conversation.addCallHistory({
+      callMode: CallMode.Direct,
       wasIncoming: true,
       // We don't actually know, but it doesn't seem that important in this case,
       // but we could maybe plumb this info through RingRTC
@@ -1495,6 +1508,31 @@ export class CallingClass {
       acceptedTime: undefined,
       endedTime: Date.now(),
     });
+  }
+
+  public updateCallHistoryForGroupCall(
+    conversationId: string,
+    peekInfo: undefined | PeekInfo
+  ): void {
+    // If we don't have the necessary pieces to peek, bail. (It's okay if we don't.)
+    if (!peekInfo || !peekInfo.eraId || !peekInfo.creator) {
+      return;
+    }
+    const creatorUuid = arrayBufferToUuid(peekInfo.creator);
+    if (!creatorUuid) {
+      window.log.error('updateCallHistoryForGroupCall(): bad creator UUID');
+      return;
+    }
+
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      window.log.error(
+        'updateCallHistoryForGroupCall(): could not find conversation'
+      );
+      return;
+    }
+
+    conversation.updateCallHistoryForGroupCall(peekInfo.eraId, creatorUuid);
   }
 }
 

@@ -166,6 +166,7 @@ const dataInterface: ClientInterface = {
   getLastConversationActivity,
   getLastConversationPreview,
   getMessageMetricsForConversation,
+  hasGroupCallHistoryMessage,
   migrateConversationMessages,
 
   getUnprocessedCount,
@@ -1055,6 +1056,12 @@ async function getMessageMetricsForConversation(conversationId: string) {
   );
 
   return result;
+}
+function hasGroupCallHistoryMessage(
+  conversationId: string,
+  eraId: string
+): Promise<boolean> {
+  return channels.hasGroupCallHistoryMessage(conversationId, eraId);
 }
 async function migrateConversationMessages(
   obsoleteId: string,

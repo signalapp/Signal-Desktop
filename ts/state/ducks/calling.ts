@@ -163,6 +163,11 @@ export type SetGroupCallVideoRequestType = {
   resolutions: Array<GroupCallVideoRequest>;
 };
 
+export type StartCallingLobbyType = {
+  conversationId: string;
+  isVideoCall: boolean;
+};
+
 export type ShowCallLobbyType =
   | {
       callMode: CallMode.Direct;
@@ -220,6 +225,7 @@ const PEEK_NOT_CONNECTED_GROUP_CALL_FULFILLED =
   'calling/PEEK_NOT_CONNECTED_GROUP_CALL_FULFILLED';
 const REFRESH_IO_DEVICES = 'calling/REFRESH_IO_DEVICES';
 const REMOTE_VIDEO_CHANGE = 'calling/REMOTE_VIDEO_CHANGE';
+const RETURN_TO_ACTIVE_CALL = 'calling/RETURN_TO_ACTIVE_CALL';
 const SET_LOCAL_AUDIO_FULFILLED = 'calling/SET_LOCAL_AUDIO_FULFILLED';
 const SET_LOCAL_VIDEO_FULFILLED = 'calling/SET_LOCAL_VIDEO_FULFILLED';
 const START_DIRECT_CALL = 'calling/START_DIRECT_CALL';
@@ -281,7 +287,7 @@ type OutgoingCallActionType = {
   payload: StartDirectCallType;
 };
 
-type PeekNotConnectedGroupCallFulfilledActionType = {
+export type PeekNotConnectedGroupCallFulfilledActionType = {
   type: 'calling/PEEK_NOT_CONNECTED_GROUP_CALL_FULFILLED';
   payload: {
     conversationId: string;
@@ -298,6 +304,10 @@ type RefreshIODevicesActionType = {
 type RemoteVideoChangeActionType = {
   type: 'calling/REMOTE_VIDEO_CHANGE';
   payload: RemoteVideoChangeType;
+};
+
+type ReturnToActiveCallActionType = {
+  type: 'calling/RETURN_TO_ACTIVE_CALL';
 };
 
 type SetLocalAudioActionType = {
@@ -347,6 +357,7 @@ export type CallingActionType =
   | PeekNotConnectedGroupCallFulfilledActionType
   | RefreshIODevicesActionType
   | RemoteVideoChangeActionType
+  | ReturnToActiveCallActionType
   | SetLocalAudioActionType
   | SetLocalVideoFulfilledActionType
   | ShowCallLobbyActionType
@@ -577,6 +588,8 @@ function peekNotConnectedGroupCall(
         return;
       }
 
+      calling.updateCallHistoryForGroupCall(conversationId, peekInfo);
+
       dispatch({
         type: PEEK_NOT_CONNECTED_GROUP_CALL_FULFILLED,
         payload: {
@@ -604,6 +617,12 @@ function remoteVideoChange(
   return {
     type: REMOTE_VIDEO_CHANGE,
     payload,
+  };
+}
+
+function returnToActiveCall(): ReturnToActiveCallActionType {
+  return {
+    type: RETURN_TO_ACTIVE_CALL,
   };
 }
 
@@ -695,6 +714,16 @@ function setGroupCallVideoRequest(
   };
 }
 
+function startCallingLobby(
+  payload: StartCallingLobbyType
+): ThunkAction<void, RootStateType, unknown, never> {
+  return () => {
+    calling.startCallingLobby(payload.conversationId, payload.isVideoCall);
+  };
+}
+
+// TODO: This action should be replaced with an action dispatched in the
+//   `startCallingLobby` thunk.
 function showCallLobby(payload: ShowCallLobbyType): CallLobbyActionType {
   return {
     type: SHOW_CALL_LOBBY,
@@ -765,11 +794,13 @@ export const actions = {
   peekNotConnectedGroupCall,
   refreshIODevices,
   remoteVideoChange,
+  returnToActiveCall,
   setLocalPreview,
   setRendererCanvas,
   setLocalAudio,
   setLocalVideo,
   setGroupCallVideoRequest,
+  startCallingLobby,
   showCallLobby,
   startCall,
   toggleParticipants,
@@ -1155,6 +1186,24 @@ export function reducer(
           ...call,
           hasRemoteVideo: hasVideo,
         },
+      },
+    };
+  }
+
+  if (action.type === RETURN_TO_ACTIVE_CALL) {
+    const { activeCallState } = state;
+    if (!activeCallState) {
+      window.log.warn(
+        'Cannot return to active call if there is no active call'
+      );
+      return state;
+    }
+
+    return {
+      ...state,
+      activeCallState: {
+        ...activeCallState,
+        pip: false,
       },
     };
   }

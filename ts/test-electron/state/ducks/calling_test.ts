@@ -27,7 +27,7 @@ describe('calling duck', () => {
     ...getEmptyState(),
     callsByConversation: {
       'fake-direct-call-conversation-id': {
-        callMode: CallMode.Direct,
+        callMode: CallMode.Direct as CallMode.Direct,
         conversationId: 'fake-direct-call-conversation-id',
         callState: CallState.Accepted,
         isIncoming: false,
@@ -37,7 +37,7 @@ describe('calling duck', () => {
     },
   };
 
-  const stateWithActiveDirectCall: CallingStateType = {
+  const stateWithActiveDirectCall = {
     ...stateWithDirectCall,
     activeCallState: {
       conversationId: 'fake-direct-call-conversation-id',
@@ -49,11 +49,11 @@ describe('calling duck', () => {
     },
   };
 
-  const stateWithIncomingDirectCall: CallingStateType = {
+  const stateWithIncomingDirectCall = {
     ...getEmptyState(),
     callsByConversation: {
       'fake-direct-call-conversation-id': {
-        callMode: CallMode.Direct,
+        callMode: CallMode.Direct as CallMode.Direct,
         conversationId: 'fake-direct-call-conversation-id',
         callState: CallState.Ringing,
         isIncoming: true,
@@ -63,11 +63,11 @@ describe('calling duck', () => {
     },
   };
 
-  const stateWithGroupCall: CallingStateType = {
+  const stateWithGroupCall = {
     ...getEmptyState(),
     callsByConversation: {
       'fake-group-call-conversation-id': {
-        callMode: CallMode.Group,
+        callMode: CallMode.Group as CallMode.Group,
         conversationId: 'fake-group-call-conversation-id',
         connectionState: GroupCallConnectionState.Connected,
         joinState: GroupCallJoinState.NotJoined,
@@ -91,7 +91,7 @@ describe('calling duck', () => {
     },
   };
 
-  const stateWithActiveGroupCall: CallingStateType = {
+  const stateWithActiveGroupCall = {
     ...stateWithGroupCall,
     activeCallState: {
       conversationId: 'fake-group-call-conversation-id',
@@ -624,6 +624,10 @@ describe('calling duck', () => {
           callingService,
           'peekGroupCall'
         );
+        this.callingServiceUpdateCallHistoryForGroupCall = this.sandbox.stub(
+          callingService,
+          'updateCallHistoryForGroupCall'
+        );
         this.clock = this.sandbox.useFakeTimers();
       });
 
@@ -674,6 +678,29 @@ describe('calling duck', () => {
         );
 
         // These tests are incomplete.
+      });
+    });
+
+    describe('returnToActiveCall', () => {
+      const { returnToActiveCall } = actions;
+
+      it('does nothing if not in PiP mode', () => {
+        const result = reducer(stateWithActiveDirectCall, returnToActiveCall());
+
+        assert.deepEqual(result, stateWithActiveDirectCall);
+      });
+
+      it('closes the PiP', () => {
+        const state = {
+          ...stateWithActiveDirectCall,
+          activeCallState: {
+            ...stateWithActiveDirectCall.activeCallState,
+            pip: true,
+          },
+        };
+        const result = reducer(state, returnToActiveCall());
+
+        assert.deepEqual(result, stateWithActiveDirectCall);
       });
     });
 

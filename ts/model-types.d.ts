@@ -5,7 +5,7 @@ import * as Backbone from 'backbone';
 
 import { GroupV2ChangeType } from './groups';
 import { LocalizerType, BodyRangeType, BodyRangesType } from './types/Util';
-import { CallHistoryDetailsType } from './types/Calling';
+import { CallHistoryDetailsFromDiskType } from './types/Calling';
 import { ColorType } from './types/Colors';
 import {
   ConversationType,
@@ -59,7 +59,7 @@ export type GroupMigrationType = {
 export type MessageAttributesType = {
   bodyPending: boolean;
   bodyRanges: BodyRangesType;
-  callHistoryDetails: CallHistoryDetailsType;
+  callHistoryDetails: CallHistoryDetailsFromDiskType;
   changedId: string;
   dataMessage: ArrayBuffer | null;
   decrypted_at: number;

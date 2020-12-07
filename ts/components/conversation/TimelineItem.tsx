@@ -13,8 +13,9 @@ import {
 
 import {
   CallingNotification,
-  PropsData as CallingNotificationProps,
+  PropsActionsType as CallingNotificationActionsType,
 } from './CallingNotification';
+import { CallingNotificationType } from '../../util/callingNotification';
 import { InlineNotificationWrapper } from './InlineNotificationWrapper';
 import {
   PropsActions as UnsupportedMessageActionsType,
@@ -55,7 +56,7 @@ import {
 
 type CallHistoryType = {
   type: 'callHistory';
-  data: CallingNotificationProps;
+  data: CallingNotificationType;
 };
 type LinkNotificationType = {
   type: 'linkNotification';
@@ -128,6 +129,7 @@ type PropsLocalType = {
 };
 
 type PropsActionsType = MessageActionsType &
+  CallingNotificationActionsType &
   UnsupportedMessageActionsType &
   SafetyNumberActionsType;
 
@@ -143,8 +145,11 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       isSelected,
       item,
       i18n,
+      messageSizeChanged,
       renderContact,
+      returnToActiveCall,
       selectMessage,
+      startCallingLobby,
     } = this.props;
 
     if (!item) {
@@ -164,7 +169,17 @@ export class TimelineItem extends React.PureComponent<PropsType> {
         <UnsupportedMessage {...this.props} {...item.data} i18n={i18n} />
       );
     } else if (item.type === 'callHistory') {
-      notification = <CallingNotification i18n={i18n} {...item.data} />;
+      notification = (
+        <CallingNotification
+          conversationId={conversationId}
+          i18n={i18n}
+          messageId={id}
+          messageSizeChanged={messageSizeChanged}
+          returnToActiveCall={returnToActiveCall}
+          startCallingLobby={startCallingLobby}
+          {...item.data}
+        />
+      );
     } else if (item.type === 'linkNotification') {
       notification = (
         <div className="module-message-unsynced">

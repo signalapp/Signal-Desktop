@@ -247,6 +247,10 @@ const actions = () => ({
   showIdentity: action('showIdentity'),
 
   downloadNewVersion: action('downloadNewVersion'),
+
+  messageSizeChanged: action('messageSizeChanged'),
+  startCallingLobby: action('startCallingLobby'),
+  returnToActiveCall: action('returnToActiveCall'),
 });
 
 const renderItem = (id: string) => (

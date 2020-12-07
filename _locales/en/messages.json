@@ -1166,6 +1166,10 @@
     "message": "Join Call",
     "description": "Button label in the call lobby for joining a call"
   },
+  "calling__return": {
+    "message": "Return to Call",
+    "description": "Button label in the call lobby for returning to a call"
+  },
   "calling__call-is-full": {
     "message": "Call is full",
     "description": "Button label in the call lobby when you can't join because the call is full"
@@ -3080,6 +3084,42 @@
       "people": {
         "content": "$1",
         "example": "16"
+      }
+    }
+  },
+  "calling__call-notification__ended": {
+    "message": "The group call has ended",
+    "description": "Notification message when a group call has ended"
+  },
+  "calling__call-notification__started-by-someone": {
+    "message": "A group call was started",
+    "description": "Notification message when a group call has started, but we don't know who started it"
+  },
+  "calling__call-notification__started-by-you": {
+    "message": "You started a group call",
+    "description": "Notification message when a group call has started by you"
+  },
+  "calling__call-notification__started": {
+    "message": "$name$ started a group call",
+    "description": "Notification message when a group call has started",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "calling__call-notification__button__in-another-call-tooltip": {
+    "message": "You are already in a call",
+    "description": "Tooltip in disabled notification button when you're on another call"
+  },
+  "calling__call-notification__button__call-full-tooltip": {
+    "message": "Call has reached capacity of $max$ participants",
+    "description": "Tooltip in disabled notification button when the call is full",
+    "placeholders": {
+      "max": {
+        "content": "$1",
+        "example": "5"
       }
     }
   },

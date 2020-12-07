@@ -57,9 +57,6 @@ const {
 const {
   StagedLinkPreview,
 } = require('../../ts/components/conversation/StagedLinkPreview');
-const {
-  getCallingNotificationText,
-} = require('../../ts/components/conversation/CallingNotification');
 
 // State
 const { createTimeline } = require('../../ts/state/roots/createTimeline');
@@ -310,7 +307,6 @@ exports.setup = (options = {}) => {
     ContactModal,
     Emojify,
     ErrorModal,
-    getCallingNotificationText,
     Lightbox,
     LightboxGallery,
     MediaGallery,
