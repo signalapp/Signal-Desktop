@@ -94,6 +94,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
       this.setState(
         {
           showScrollButton: false,
+          animateQuotedMessageId: undefined,
         },
         this.scrollToUnread
       );

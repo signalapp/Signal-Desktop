@@ -45,7 +45,9 @@ export const SessionIconButton = (props: SProps) => {
         iconRotation={iconRotation}
         theme={theme}
       />
-      <SessionNotificationCount count={notificationCount} />
+      {Boolean(notificationCount) && (
+        <SessionNotificationCount count={notificationCount} />
+      )}
     </div>
   );
 };

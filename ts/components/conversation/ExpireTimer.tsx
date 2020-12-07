@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { getIncrement, getTimerBucketIcon } from '../../util/timer';
+import { getTimerBucketIcon } from '../../util/timer';
 import { useInterval } from '../../hooks/useInterval';
 import styled, { DefaultTheme } from 'styled-components';
 import { OpacityMetadataComponent } from './message/MessageMetadata';
@@ -23,6 +23,7 @@ const ExpireTimerCount = styled(props => (
   letter-spacing: 0.3px;
   text-transform: uppercase;
   user-select: none;
+  color: ${props => props.color};
 `;
 
 const ExpireTimerBucket = styled(props => (
@@ -34,6 +35,7 @@ const ExpireTimerBucket = styled(props => (
   letter-spacing: 0.3px;
   text-transform: uppercase;
   user-select: none;
+  color: ${props => props.color};
 `;
 
 export const ExpireTimer = (props: Props) => {
@@ -65,9 +67,7 @@ export const ExpireTimer = (props: Props) => {
 
   if (timeLeft <= 60) {
     return (
-      <ExpireTimerCount expireTimerColor={expireTimerColor}>
-        {timeLeft}
-      </ExpireTimerCount>
+      <ExpireTimerCount color={expireTimerColor}>{timeLeft}</ExpireTimerCount>
     );
   }
   const bucket = getTimerBucketIcon(expirationTimestamp, expirationLength);
