@@ -57,17 +57,14 @@ export async function encrypt(
 
   const address = new window.libsignal.SignalProtocolAddress(device.key, 1);
 
-  let innerCipherText: CipherTextObject;
-  if (encryptionType === EncryptionType.Fallback) {
-    const cipher = new window.libloki.crypto.FallBackSessionCipher(address);
-    innerCipherText = await cipher.encrypt(plainText.buffer);
-  } else {
-    const cipher = new window.libsignal.SessionCipher(
-      window.textsecure.storage.protocol,
-      address
+  if (encryptionType === EncryptionType.Signal) {
+    console.warn(
+      'EncryptionType.Signal is deprecated. Only Fallback is supported'
     );
-    innerCipherText = await cipher.encrypt(plainText.buffer);
   }
+
+  const cipher = new window.libloki.crypto.FallBackSessionCipher(address);
+  const innerCipherText = await cipher.encrypt(plainText.buffer);
 
   return encryptUsingSealedSender(device, innerCipherText);
 }
