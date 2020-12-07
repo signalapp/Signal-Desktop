@@ -40,7 +40,7 @@ jobs:
         run: npm install yarn --no-save
 
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile --network-timeout 600000
 
       - name: Generate and concat files
         run: yarn generate
