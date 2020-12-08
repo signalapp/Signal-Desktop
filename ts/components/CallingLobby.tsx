@@ -14,6 +14,7 @@ import { CallingHeader } from './CallingHeader';
 import { Spinner } from './Spinner';
 import { ColorType } from '../types/Colors';
 import { LocalizerType } from '../types/Util';
+import { ConversationType } from '../state/ducks/conversations';
 
 export type PropsType = {
   availableCameras: Array<MediaDeviceInfo>;
@@ -28,15 +29,11 @@ export type PropsType = {
   me: {
     avatarPath?: string;
     color?: ColorType;
+    uuid: string;
   };
   onCallCanceled: () => void;
   onJoinCall: () => void;
-  peekedParticipants: Array<{
-    firstName?: string;
-    isSelf: boolean;
-    title: string;
-    uuid: string;
-  }>;
+  peekedParticipants: Array<ConversationType>;
   setLocalAudio: (_: SetLocalAudioType) => void;
   setLocalVideo: (_: SetLocalVideoType) => void;
   setLocalPreview: (_: SetLocalPreviewType) => void;
@@ -124,7 +121,7 @@ export const CallingLobby = ({
   //   device.
   // TODO: Improve the "it's you" case; see DESKTOP-926.
   const participantNames = peekedParticipants.map(participant =>
-    participant.isSelf
+    participant.uuid === me.uuid
       ? i18n('you')
       : participant.firstName || participant.title
   );

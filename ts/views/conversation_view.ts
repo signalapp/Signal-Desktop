@@ -2992,7 +2992,7 @@ Whisper.ConversationView = Whisper.View.extend({
       return unverifiedContacts;
     }
 
-    const untrustedContacts = await this.model.getUntrusted();
+    const untrustedContacts = this.model.getUntrusted();
 
     if (options.force) {
       if (untrustedContacts.length) {

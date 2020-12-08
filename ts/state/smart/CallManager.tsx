@@ -15,15 +15,22 @@ import { getIncomingCall } from '../selectors/calling';
 import {
   ActiveCallType,
   CallMode,
-  GroupCallPeekedParticipantType,
   GroupCallRemoteParticipantType,
 } from '../../types/Calling';
 import { StateType } from '../reducer';
 import { missingCaseError } from '../../util/missingCaseError';
 import { SmartCallingDeviceSelection } from './CallingDeviceSelection';
+import {
+  SmartSafetyNumberViewer,
+  Props as SafetyNumberViewerProps,
+} from './SafetyNumberViewer';
 
 function renderDeviceSelection(): JSX.Element {
   return <SmartCallingDeviceSelection />;
+}
+
+function renderSafetyNumberViewer(props: SafetyNumberViewerProps): JSX.Element {
+  return <SmartSafetyNumberViewer {...props} />;
 }
 
 const getGroupCallVideoFrameSource = callingService.getGroupCallVideoFrameSource.bind(
@@ -89,10 +96,9 @@ const mapStateToActiveCallProp = (
         ],
       };
     case CallMode.Group: {
-      const ourUuid = getUserUuid(state);
-
+      const conversationsWithSafetyNumberChanges: Array<ConversationType> = [];
       const remoteParticipants: Array<GroupCallRemoteParticipantType> = [];
-      const peekedParticipants: Array<GroupCallPeekedParticipantType> = [];
+      const peekedParticipants: Array<ConversationType> = [];
 
       for (let i = 0; i < call.remoteParticipants.length; i += 1) {
         const remoteParticipant = call.remoteParticipants[i];
@@ -108,21 +114,31 @@ const mapStateToActiveCallProp = (
         }
 
         remoteParticipants.push({
-          avatarPath: remoteConversation.avatarPath,
-          color: remoteConversation.color,
+          ...remoteConversation,
           demuxId: remoteParticipant.demuxId,
-          firstName: remoteConversation.firstName,
           hasRemoteAudio: remoteParticipant.hasRemoteAudio,
           hasRemoteVideo: remoteParticipant.hasRemoteVideo,
-          isBlocked: Boolean(remoteConversation.isBlocked),
-          isSelf: remoteParticipant.uuid === ourUuid,
-          name: remoteConversation.name,
-          profileName: remoteConversation.profileName,
           speakerTime: remoteParticipant.speakerTime,
-          title: remoteConversation.title,
-          uuid: remoteParticipant.uuid,
           videoAspectRatio: remoteParticipant.videoAspectRatio,
         });
+      }
+
+      for (
+        let i = 0;
+        i < activeCallState.safetyNumberChangedUuids.length;
+        i += 1
+      ) {
+        const uuid = activeCallState.safetyNumberChangedUuids[i];
+
+        const remoteConversation = conversationSelectorByUuid(uuid);
+        if (!remoteConversation) {
+          window.log.error(
+            'Remote participant has no corresponding conversation'
+          );
+          continue;
+        }
+
+        conversationsWithSafetyNumberChanges.push(remoteConversation);
       }
 
       for (let i = 0; i < call.peekInfo.uuids.length; i += 1) {
@@ -138,22 +154,14 @@ const mapStateToActiveCallProp = (
           continue;
         }
 
-        peekedParticipants.push({
-          avatarPath: peekedConversation.avatarPath,
-          color: peekedConversation.color,
-          firstName: peekedConversation.firstName,
-          isSelf: peekedParticipantUuid === ourUuid,
-          name: peekedConversation.name,
-          profileName: peekedConversation.profileName,
-          title: peekedConversation.title,
-          uuid: peekedParticipantUuid,
-        });
+        peekedParticipants.push(peekedConversation);
       }
 
       return {
         ...baseResult,
         callMode: CallMode.Group,
         connectionState: call.connectionState,
+        conversationsWithSafetyNumberChanges,
         deviceCount: call.peekInfo.deviceCount,
         joinState: call.joinState,
         maxDevices: call.peekInfo.maxDevices,
@@ -197,6 +205,7 @@ const mapStateToProps = (state: StateType) => ({
     uuid: getUserUuid(state),
   },
   renderDeviceSelection,
+  renderSafetyNumberViewer,
 });
 
 const smart = connect(mapStateToProps, mapDispatchToProps);

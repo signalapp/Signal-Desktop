@@ -17,7 +17,9 @@ import {
 } from '../types/Calling';
 import { ConversationTypeType } from '../state/ducks/conversations';
 import { Colors, ColorType } from '../types/Colors';
+import { getDefaultConversation } from '../util/getDefaultConversation';
 import { setup as setupI18n } from '../../js/modules/i18n';
+import { Props as SafetyNumberViewerProps } from '../state/smart/SafetyNumberViewer';
 import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
@@ -68,12 +70,16 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   getGroupCallVideoFrameSource: noop as any,
   hangUp: action('hang-up'),
   i18n,
+  keyChangeOk: action('key-change-ok'),
   me: {
+    ...getDefaultConversation({
+      color: select('Caller color', Colors, 'ultramarine' as ColorType),
+      title: text('Caller Title', 'Morty Smith'),
+    }),
     uuid: 'cb0dd0c8-7393-41e9-a0aa-d631c4109541',
-    color: select('Caller color', Colors, 'ultramarine' as ColorType),
-    title: text('Caller Title', 'Morty Smith'),
   },
   renderDeviceSelection: () => <div />,
+  renderSafetyNumberViewer: (_: SafetyNumberViewerProps) => <div />,
   setGroupCallVideoRequest: action('set-group-call-video-request'),
   setLocalAudio: action('set-local-audio'),
   setLocalPreview: action('set-local-preview'),
@@ -110,6 +116,7 @@ story.add('Ongoing Group Call', () => (
         ...getCommonActiveCallData(),
         callMode: CallMode.Group,
         connectionState: GroupCallConnectionState.Connected,
+        conversationsWithSafetyNumberChanges: [],
         deviceCount: 0,
         joinState: GroupCallJoinState.Joined,
         maxDevices: 5,
@@ -141,6 +148,30 @@ story.add('Call Request Needed', () => (
         callState: CallState.Accepted,
         peekedParticipants: [],
         remoteParticipants: [{ hasRemoteVideo: true }],
+      },
+    })}
+  />
+));
+
+story.add('Group call - Safety Number Changed', () => (
+  <CallManager
+    {...createProps({
+      activeCall: {
+        ...getCommonActiveCallData(),
+        callMode: CallMode.Group,
+        connectionState: GroupCallConnectionState.Connected,
+        conversationsWithSafetyNumberChanges: [
+          {
+            ...getDefaultConversation({
+              title: 'Aaron',
+            }),
+          },
+        ],
+        deviceCount: 0,
+        joinState: GroupCallJoinState.Joined,
+        maxDevices: 5,
+        peekedParticipants: [],
+        remoteParticipants: [],
       },
     })}
   />

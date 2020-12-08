@@ -9,6 +9,7 @@ import { v4 as generateUuid } from 'uuid';
 import { CallingParticipantsList, PropsType } from './CallingParticipantsList';
 import { Colors } from '../types/Colors';
 import { GroupCallRemoteParticipantType } from '../types/Calling';
+import { getDefaultConversation } from '../util/getDefaultConversation';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
 
@@ -19,24 +20,26 @@ function createParticipant(
 ): GroupCallRemoteParticipantType {
   const randomColor = Math.floor(Math.random() * Colors.length - 1);
   return {
-    avatarPath: participantProps.avatarPath,
-    color: Colors[randomColor],
     demuxId: 2,
     hasRemoteAudio: Boolean(participantProps.hasRemoteAudio),
     hasRemoteVideo: Boolean(participantProps.hasRemoteVideo),
-    isBlocked: Boolean(participantProps.isBlocked),
-    isSelf: Boolean(participantProps.isSelf),
-    name: participantProps.name,
-    profileName: participantProps.title,
-    title: String(participantProps.title),
     videoAspectRatio: 1.3,
-    uuid: generateUuid(),
+    ...getDefaultConversation({
+      avatarPath: participantProps.avatarPath,
+      color: Colors[randomColor],
+      isBlocked: Boolean(participantProps.isBlocked),
+      name: participantProps.name,
+      profileName: participantProps.title,
+      title: String(participantProps.title),
+      uuid: generateUuid(),
+    }),
   };
 }
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   i18n,
   onClose: action('on-close'),
+  ourUuid: 'cf085e6a-e70b-41ec-a310-c198248af13f',
   participants: overrideProps.participants || [],
 });
 
@@ -62,7 +65,6 @@ story.add('Many Participants', () => {
   const props = createProps({
     participants: [
       createParticipant({
-        isSelf: true,
         title: 'Son Goku',
       }),
       createParticipant({

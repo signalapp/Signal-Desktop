@@ -41,6 +41,7 @@ describe('state/selectors/calling', () => {
       hasLocalAudio: true,
       hasLocalVideo: false,
       showParticipantsList: false,
+      safetyNumberChangedUuids: [],
       pip: false,
       settingsDialogOpen: false,
     },

@@ -9,6 +9,10 @@ import { CallingParticipantsList } from './CallingParticipantsList';
 import { CallingPip } from './CallingPip';
 import { IncomingCallBar } from './IncomingCallBar';
 import {
+  SafetyNumberChangeDialog,
+  SafetyNumberProps,
+} from './SafetyNumberChangeDialog';
+import {
   ActiveCallType,
   CallEndedReason,
   CallMode,
@@ -24,6 +28,7 @@ import {
   DeclineCallType,
   DirectCallStateType,
   HangUpType,
+  KeyChangeOkType,
   SetGroupCallVideoRequestType,
   SetLocalAudioType,
   SetLocalPreviewType,
@@ -32,8 +37,11 @@ import {
   StartCallType,
 } from '../state/ducks/calling';
 import { LocalizerType } from '../types/Util';
-import { ColorType } from '../types/Colors';
 import { missingCaseError } from '../util/missingCaseError';
+
+interface MeType extends ConversationType {
+  uuid: string;
+}
 
 export interface PropsType {
   activeCall?: ActiveCallType;
@@ -48,21 +56,15 @@ export interface PropsType {
     call: DirectCallStateType;
     conversation: ConversationType;
   };
+  keyChangeOk: (_: KeyChangeOkType) => void;
   renderDeviceSelection: () => JSX.Element;
+  renderSafetyNumberViewer: (props: SafetyNumberProps) => JSX.Element;
   startCall: (payload: StartCallType) => void;
   toggleParticipants: () => void;
   acceptCall: (_: AcceptCallType) => void;
   declineCall: (_: DeclineCallType) => void;
   i18n: LocalizerType;
-  me: {
-    avatarPath?: string;
-    color?: ColorType;
-    name?: string;
-    phoneNumber?: string;
-    profileName?: string;
-    title: string;
-    uuid: string;
-  };
+  me: MeType;
   setGroupCallVideoRequest: (_: SetGroupCallVideoRequestType) => void;
   setLocalAudio: (_: SetLocalAudioType) => void;
   setLocalVideo: (_: SetLocalVideoType) => void;
@@ -84,9 +86,11 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
   closeNeedPermissionScreen,
   hangUp,
   i18n,
+  keyChangeOk,
   getGroupCallVideoFrameSource,
   me,
   renderDeviceSelection,
+  renderSafetyNumberViewer,
   setGroupCallVideoRequest,
   setLocalAudio,
   setLocalPreview,
@@ -203,6 +207,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
           <CallingParticipantsList
             i18n={i18n}
             onClose={toggleParticipants}
+            ourUuid={me.uuid}
             participants={peekedParticipants}
           />
         ) : null}
@@ -233,13 +238,11 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
             ...participant,
             hasAudio: participant.hasRemoteAudio,
             hasVideo: participant.hasRemoteVideo,
-            isSelf: false,
           })),
           {
             ...me,
             hasAudio: hasLocalAudio,
             hasVideo: hasLocalVideo,
-            isSelf: true,
           },
         ]
       : [];
@@ -268,7 +271,23 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
         <CallingParticipantsList
           i18n={i18n}
           onClose={toggleParticipants}
+          ourUuid={me.uuid}
           participants={groupCallParticipantsForParticipantsList}
+        />
+      ) : null}
+      {activeCall.callMode === CallMode.Group &&
+      activeCall.conversationsWithSafetyNumberChanges.length ? (
+        <SafetyNumberChangeDialog
+          confirmText={i18n('continueCall')}
+          contacts={activeCall.conversationsWithSafetyNumberChanges}
+          i18n={i18n}
+          onCancel={() => {
+            hangUp({ conversationId: activeCall.conversation.id });
+          }}
+          onConfirm={() => {
+            keyChangeOk({ conversationId: activeCall.conversation.id });
+          }}
+          renderSafetyNumber={renderSafetyNumberViewer}
         />
       ) : null}
     </>

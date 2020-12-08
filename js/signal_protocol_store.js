@@ -904,7 +904,7 @@
       //   state we had before.
       return false;
     },
-    async isUntrusted(identifier) {
+    isUntrusted(identifier) {
       if (identifier === null || identifier === undefined) {
         throw new Error('Tried to set verified for undefined/null key');
       }

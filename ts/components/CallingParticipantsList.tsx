@@ -9,10 +9,10 @@ import { Avatar } from './Avatar';
 import { ContactName } from './conversation/ContactName';
 import { InContactsIcon } from './InContactsIcon';
 import { LocalizerType } from '../types/Util';
-import { GroupCallPeekedParticipantType } from '../types/Calling';
 import { sortByTitle } from '../util/sortByTitle';
+import { ConversationType } from '../state/ducks/conversations';
 
-interface ParticipantType extends GroupCallPeekedParticipantType {
+interface ParticipantType extends ConversationType {
   hasAudio?: boolean;
   hasVideo?: boolean;
 }
@@ -20,11 +20,12 @@ interface ParticipantType extends GroupCallPeekedParticipantType {
 export type PropsType = {
   readonly i18n: LocalizerType;
   readonly onClose: () => void;
+  readonly ourUuid: string;
   readonly participants: Array<ParticipantType>;
 };
 
 export const CallingParticipantsList = React.memo(
-  ({ i18n, onClose, participants }: PropsType) => {
+  ({ i18n, onClose, ourUuid, participants }: PropsType) => {
     const [root, setRoot] = React.useState<HTMLElement | null>(null);
 
     const sortedParticipants = React.useMemo<Array<ParticipantType>>(
@@ -100,7 +101,7 @@ export const CallingParticipantsList = React.memo(
                       title={participant.title}
                       size={32}
                     />
-                    {participant.isSelf ? (
+                    {participant.uuid === ourUuid ? (
                       <span className="module-calling-participants-list__name">
                         {i18n('you')}
                       </span>

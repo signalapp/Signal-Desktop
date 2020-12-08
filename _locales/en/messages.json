@@ -425,6 +425,10 @@
     "message": "Call Anyway",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "continueCall": {
+    "message": "Continue Call",
+    "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
+  },
   "noLongerVerified": {
     "message": "Your safety number with $name$ has changed and is no longer verified. Click to show.",
     "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified.",

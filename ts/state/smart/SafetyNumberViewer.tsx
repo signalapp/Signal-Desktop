@@ -9,7 +9,7 @@ import { getContactSafetyNumber } from '../selectors/safetyNumber';
 import { getConversationSelector } from '../selectors/conversations';
 import { getIntl } from '../selectors/user';
 
-type Props = {
+export type Props = {
   contactID: string;
   onClose?: () => void;
 };

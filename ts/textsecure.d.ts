@@ -123,7 +123,7 @@ export type StorageProtocolType = StorageType & {
   clearSignedPreKeysStore: () => Promise<void>;
   clearSessionStore: () => Promise<void>;
   isTrustedIdentity: () => void;
-  isUntrusted: (id: string) => Promise<boolean>;
+  isUntrusted: (id: string) => boolean;
   storePreKey: (keyId: number, keyPair: KeyPairType) => Promise<void>;
   storeSignedPreKey: (
     keyId: number,

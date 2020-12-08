@@ -1,7 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ColorType } from './Colors';
 import { ConversationType } from '../state/ducks/conversations';
 
 // These are strings (1) for the database (2) for Storybook.
@@ -19,6 +18,7 @@ interface ActiveCallBaseType {
   pip: boolean;
   settingsDialogOpen: boolean;
   showParticipantsList: boolean;
+  showSafetyNumberDialog?: boolean;
 }
 
 interface ActiveDirectCallType extends ActiveCallBaseType {
@@ -36,10 +36,11 @@ interface ActiveDirectCallType extends ActiveCallBaseType {
 interface ActiveGroupCallType extends ActiveCallBaseType {
   callMode: CallMode.Group;
   connectionState: GroupCallConnectionState;
+  conversationsWithSafetyNumberChanges: Array<ConversationType>;
   joinState: GroupCallJoinState;
   maxDevices: number;
   deviceCount: number;
-  peekedParticipants: Array<GroupCallPeekedParticipantType>;
+  peekedParticipants: Array<ConversationType>;
   remoteParticipants: Array<GroupCallRemoteParticipantType>;
 }
 
@@ -94,23 +95,10 @@ export enum GroupCallJoinState {
   Joined = 2,
 }
 
-export interface GroupCallPeekedParticipantType {
-  avatarPath?: string;
-  color?: ColorType;
-  firstName?: string;
-  isSelf: boolean;
-  name?: string;
-  profileName?: string;
-  title: string;
-  uuid: string;
-}
-
-export interface GroupCallRemoteParticipantType
-  extends GroupCallPeekedParticipantType {
+export interface GroupCallRemoteParticipantType extends ConversationType {
   demuxId: number;
   hasRemoteAudio: boolean;
   hasRemoteVideo: boolean;
-  isBlocked: boolean;
   speakerTime?: number;
   videoAspectRatio: number;
 }

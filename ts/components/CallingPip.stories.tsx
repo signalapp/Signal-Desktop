@@ -105,6 +105,7 @@ story.add('Group Call', () => {
       ...getCommonActiveCallData(),
       callMode: CallMode.Group as CallMode.Group,
       connectionState: GroupCallConnectionState.Connected,
+      conversationsWithSafetyNumberChanges: [],
       joinState: GroupCallJoinState.Joined,
       maxDevices: 5,
       deviceCount: 0,

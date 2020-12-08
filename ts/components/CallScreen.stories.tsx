@@ -12,13 +12,14 @@ import {
   CallState,
   GroupCallConnectionState,
   GroupCallJoinState,
-  GroupCallPeekedParticipantType,
   GroupCallRemoteParticipantType,
 } from '../types/Calling';
+import { ConversationType } from '../state/ducks/conversations';
 import { Colors } from '../types/Colors';
 import { CallScreen, PropsType } from './CallScreen';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import { missingCaseError } from '../util/missingCaseError';
+import { getDefaultConversation } from '../util/getDefaultConversation';
 import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
@@ -50,7 +51,7 @@ interface DirectCallOverrideProps extends OverridePropsBase {
 interface GroupCallOverrideProps extends OverridePropsBase {
   callMode: CallMode.Group;
   connectionState?: GroupCallConnectionState;
-  peekedParticipants?: Array<GroupCallPeekedParticipantType>;
+  peekedParticipants?: Array<ConversationType>;
   remoteParticipants?: Array<GroupCallRemoteParticipantType>;
 }
 
@@ -83,6 +84,7 @@ const createActiveGroupCallProp = (overrideProps: GroupCallOverrideProps) => ({
   callMode: CallMode.Group as CallMode.Group,
   connectionState:
     overrideProps.connectionState || GroupCallConnectionState.Connected,
+  conversationsWithSafetyNumberChanges: [],
   joinState: GroupCallJoinState.Joined,
   maxDevices: 5,
   deviceCount: (overrideProps.remoteParticipants || []).length,
@@ -240,14 +242,15 @@ story.add('Group call - 1', () => (
       callMode: CallMode.Group,
       remoteParticipants: [
         {
-          uuid: '72fa60e5-25fb-472d-8a56-e56867c57dda',
           demuxId: 0,
           hasRemoteAudio: true,
           hasRemoteVideo: true,
-          isBlocked: false,
-          isSelf: false,
-          title: 'Tyler',
           videoAspectRatio: 1.3,
+          ...getDefaultConversation({
+            isBlocked: false,
+            uuid: '72fa60e5-25fb-472d-8a56-e56867c57dda',
+            title: 'Tyler',
+          }),
         },
       ],
     })}
@@ -260,34 +263,37 @@ story.add('Group call - Many', () => (
       callMode: CallMode.Group,
       remoteParticipants: [
         {
-          uuid: '094586f5-8fc2-4ce2-a152-2dfcc99f4630',
           demuxId: 0,
           hasRemoteAudio: true,
           hasRemoteVideo: true,
-          isBlocked: false,
-          isSelf: false,
-          title: 'Amy',
           videoAspectRatio: 1.3,
+          ...getDefaultConversation({
+            isBlocked: false,
+            title: 'Amy',
+            uuid: '094586f5-8fc2-4ce2-a152-2dfcc99f4630',
+          }),
         },
         {
-          uuid: 'cb5bdb24-4cbb-4650-8a7a-1a2807051e74',
           demuxId: 1,
           hasRemoteAudio: true,
           hasRemoteVideo: true,
-          isBlocked: false,
-          isSelf: true,
-          title: 'Bob',
           videoAspectRatio: 1.3,
+          ...getDefaultConversation({
+            isBlocked: false,
+            title: 'Bob',
+            uuid: 'cb5bdb24-4cbb-4650-8a7a-1a2807051e74',
+          }),
         },
         {
-          uuid: '2d7d13ae-53dc-4a51-8dc7-976cd85e0b57',
           demuxId: 2,
           hasRemoteAudio: true,
           hasRemoteVideo: true,
-          isBlocked: true,
-          isSelf: false,
-          title: 'Alice',
           videoAspectRatio: 1.3,
+          ...getDefaultConversation({
+            isBlocked: true,
+            title: 'Alice',
+            uuid: '2d7d13ae-53dc-4a51-8dc7-976cd85e0b57',
+          }),
         },
       ],
     })}
@@ -301,14 +307,15 @@ story.add('Group call - reconnecting', () => (
       connectionState: GroupCallConnectionState.Reconnecting,
       remoteParticipants: [
         {
-          uuid: '33871c64-0c22-45ce-8aa4-0ec237ac4a31',
           demuxId: 0,
           hasRemoteAudio: true,
           hasRemoteVideo: true,
-          isBlocked: false,
-          isSelf: false,
-          title: 'Tyler',
           videoAspectRatio: 1.3,
+          ...getDefaultConversation({
+            isBlocked: false,
+            title: 'Tyler',
+            uuid: '33871c64-0c22-45ce-8aa4-0ec237ac4a31',
+          }),
         },
       ],
     })}

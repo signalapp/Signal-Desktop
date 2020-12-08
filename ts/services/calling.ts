@@ -667,6 +667,14 @@ export class CallingClass {
     return groupCall.getVideoSource(demuxId);
   }
 
+  public resendGroupCallMediaKeys(conversationId: string): void {
+    const groupCall = this.getGroupCall(conversationId);
+    if (!groupCall) {
+      throw new Error('Could not find matching call');
+    }
+    groupCall.resendMediaKeys();
+  }
+
   private syncGroupCallToRedux(
     conversationId: string,
     groupCall: GroupCall

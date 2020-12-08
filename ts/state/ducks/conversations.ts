@@ -58,6 +58,7 @@ export type ConversationType = {
   isBlocked?: boolean;
   isGroupV1AndDisabled?: boolean;
   isPinned?: boolean;
+  isUntrusted?: boolean;
   isVerified?: boolean;
   activeAt?: number;
   timestamp?: number;

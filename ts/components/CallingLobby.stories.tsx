@@ -11,6 +11,7 @@ import { ColorType } from '../types/Colors';
 import { CallingLobby, PropsType } from './CallingLobby';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
+import { getDefaultConversation } from '../util/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -33,7 +34,10 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   hasLocalVideo: boolean('hasLocalVideo', overrideProps.hasLocalVideo || false),
   i18n,
   isGroupCall: boolean('isGroupCall', overrideProps.isGroupCall || false),
-  me: overrideProps.me || { color: 'ultramarine' as ColorType },
+  me: overrideProps.me || {
+    color: 'ultramarine' as ColorType,
+    uuid: generateUuid(),
+  },
   onCallCanceled: action('on-call-canceled'),
   onJoinCall: action('on-join-call'),
   peekedParticipants: overrideProps.peekedParticipants || [],
@@ -48,11 +52,11 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   toggleSettings: action('toggle-settings'),
 });
 
-const fakePeekedParticipant = (title: string) => ({
-  isSelf: false,
-  title,
-  uuid: generateUuid(),
-});
+const fakePeekedParticipant = (title: string) =>
+  getDefaultConversation({
+    title,
+    uuid: generateUuid(),
+  });
 
 const story = storiesOf('Components/CallingLobby', module);
 
@@ -72,8 +76,9 @@ story.add('No Camera, local avatar', () => {
   const props = createProps({
     availableCameras: [],
     me: {
-      color: 'ultramarine' as ColorType,
       avatarPath: '/fixtures/kitten-4-112-112.jpg',
+      color: 'ultramarine' as ColorType,
+      uuid: generateUuid(),
     },
   });
   return <CallingLobby {...props} />;

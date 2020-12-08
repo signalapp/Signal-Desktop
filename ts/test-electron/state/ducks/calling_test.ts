@@ -44,6 +44,7 @@ describe('calling duck', () => {
       hasLocalAudio: true,
       hasLocalVideo: false,
       showParticipantsList: false,
+      safetyNumberChangedUuids: [],
       pip: false,
       settingsDialogOpen: false,
     },
@@ -98,6 +99,7 @@ describe('calling duck', () => {
       hasLocalAudio: true,
       hasLocalVideo: false,
       showParticipantsList: false,
+      safetyNumberChangedUuids: [],
       pip: false,
       settingsDialogOpen: false,
     },
@@ -201,6 +203,7 @@ describe('calling duck', () => {
           hasLocalAudio: true,
           hasLocalVideo: true,
           showParticipantsList: false,
+          safetyNumberChangedUuids: [],
           pip: false,
           settingsDialogOpen: false,
         });
@@ -576,6 +579,7 @@ describe('calling duck', () => {
           hasLocalAudio: true,
           hasLocalVideo: false,
           showParticipantsList: false,
+          safetyNumberChangedUuids: [],
           pip: false,
           settingsDialogOpen: false,
         });
@@ -812,6 +816,7 @@ describe('calling duck', () => {
           hasLocalAudio: true,
           hasLocalVideo: true,
           showParticipantsList: false,
+          safetyNumberChangedUuids: [],
           pip: false,
           settingsDialogOpen: false,
         });
@@ -1046,6 +1051,7 @@ describe('calling duck', () => {
           hasLocalAudio: true,
           hasLocalVideo: false,
           showParticipantsList: false,
+          safetyNumberChangedUuids: [],
           pip: false,
           settingsDialogOpen: false,
         });

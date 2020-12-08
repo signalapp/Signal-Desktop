@@ -71,9 +71,10 @@ export interface ActiveCallStateType {
   joinedAt?: number;
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
-  showParticipantsList: boolean;
   pip: boolean;
   settingsDialogOpen: boolean;
+  safetyNumberChangedUuids: Array<string>;
+  showParticipantsList: boolean;
 }
 
 export interface CallsByConversationType {
@@ -123,6 +124,14 @@ type GroupCallStateChangeActionPayloadType = GroupCallStateChangeArgumentType & 
 };
 
 export type HangUpType = {
+  conversationId: string;
+};
+
+type KeyChangedType = {
+  uuid: string;
+};
+
+export type KeyChangeOkType = {
   conversationId: string;
 };
 
@@ -220,6 +229,8 @@ const DECLINE_CALL = 'calling/DECLINE_CALL';
 const GROUP_CALL_STATE_CHANGE = 'calling/GROUP_CALL_STATE_CHANGE';
 const HANG_UP = 'calling/HANG_UP';
 const INCOMING_CALL = 'calling/INCOMING_CALL';
+const MARK_CALL_TRUSTED = 'calling/MARK_CALL_TRUSTED';
+const MARK_CALL_UNTRUSTED = 'calling/MARK_CALL_UNTRUSTED';
 const OUTGOING_CALL = 'calling/OUTGOING_CALL';
 const PEEK_NOT_CONNECTED_GROUP_CALL_FULFILLED =
   'calling/PEEK_NOT_CONNECTED_GROUP_CALL_FULFILLED';
@@ -280,6 +291,18 @@ type HangUpActionType = {
 type IncomingCallActionType = {
   type: 'calling/INCOMING_CALL';
   payload: IncomingCallType;
+};
+
+type KeyChangedActionType = {
+  type: 'calling/MARK_CALL_UNTRUSTED';
+  payload: {
+    safetyNumberChangedUuids: Array<string>;
+  };
+};
+
+type KeyChangeOkActionType = {
+  type: 'calling/MARK_CALL_TRUSTED';
+  payload: null;
 };
 
 type OutgoingCallActionType = {
@@ -353,6 +376,8 @@ export type CallingActionType =
   | GroupCallStateChangeActionType
   | HangUpActionType
   | IncomingCallActionType
+  | KeyChangedActionType
+  | KeyChangeOkActionType
   | OutgoingCallActionType
   | PeekNotConnectedGroupCallFulfilledActionType
   | RefreshIODevicesActionType
@@ -506,6 +531,56 @@ function hangUp(payload: HangUpType): HangUpActionType {
   return {
     type: HANG_UP,
     payload,
+  };
+}
+
+function keyChanged(
+  payload: KeyChangedType
+): ThunkAction<void, RootStateType, unknown, KeyChangedActionType> {
+  return (dispatch, getState) => {
+    const state = getState();
+    const { activeCallState } = state.calling;
+
+    const activeCall = getActiveCall(state.calling);
+    if (!activeCall || !activeCallState) {
+      return;
+    }
+
+    if (activeCall.callMode === CallMode.Group) {
+      const uuidsChanged = new Set(activeCallState.safetyNumberChangedUuids);
+
+      // Iterate over each participant to ensure that the uuid passed in
+      // matches one of the participants in the group call.
+      activeCall.remoteParticipants.forEach(participant => {
+        if (participant.uuid === payload.uuid) {
+          uuidsChanged.add(participant.uuid);
+        }
+      });
+
+      const safetyNumberChangedUuids = Array.from(uuidsChanged);
+
+      if (safetyNumberChangedUuids.length) {
+        dispatch({
+          type: MARK_CALL_UNTRUSTED,
+          payload: {
+            safetyNumberChangedUuids,
+          },
+        });
+      }
+    }
+  };
+}
+
+function keyChangeOk(
+  payload: KeyChangeOkType
+): ThunkAction<void, RootStateType, unknown, KeyChangeOkActionType> {
+  return dispatch => {
+    calling.resendGroupCallMediaKeys(payload.conversationId);
+
+    dispatch({
+      type: MARK_CALL_TRUSTED,
+      payload: null,
+    });
   };
 }
 
@@ -789,6 +864,8 @@ export const actions = {
   declineCall,
   groupCallStateChange,
   hangUp,
+  keyChanged,
+  keyChangeOk,
   receiveIncomingCall,
   outgoingCall,
   peekNotConnectedGroupCall,
@@ -896,9 +973,10 @@ export function reducer(
         conversationId: action.payload.conversationId,
         hasLocalAudio: action.payload.hasLocalAudio,
         hasLocalVideo: action.payload.hasLocalVideo,
-        showParticipantsList: false,
         pip: false,
+        safetyNumberChangedUuids: [],
         settingsDialogOpen: false,
+        showParticipantsList: false,
       },
     };
   }
@@ -920,9 +998,10 @@ export function reducer(
         conversationId: action.payload.conversationId,
         hasLocalAudio: action.payload.hasLocalAudio,
         hasLocalVideo: action.payload.hasLocalVideo,
-        showParticipantsList: false,
         pip: false,
+        safetyNumberChangedUuids: [],
         settingsDialogOpen: false,
+        showParticipantsList: false,
       },
     };
   }
@@ -939,9 +1018,10 @@ export function reducer(
         conversationId: action.payload.conversationId,
         hasLocalAudio: true,
         hasLocalVideo: action.payload.asVideoCall,
-        showParticipantsList: false,
         pip: false,
+        safetyNumberChangedUuids: [],
         settingsDialogOpen: false,
+        showParticipantsList: false,
       },
     };
   }
@@ -1003,9 +1083,10 @@ export function reducer(
         conversationId: action.payload.conversationId,
         hasLocalAudio: action.payload.hasLocalAudio,
         hasLocalVideo: action.payload.hasLocalVideo,
-        showParticipantsList: false,
         pip: false,
+        safetyNumberChangedUuids: [],
         settingsDialogOpen: false,
+        showParticipantsList: false,
       },
     };
   }
@@ -1323,6 +1404,47 @@ export function reducer(
       activeCallState: {
         ...activeCallState,
         pip: !activeCallState.pip,
+      },
+    };
+  }
+
+  if (action.type === MARK_CALL_UNTRUSTED) {
+    const { activeCallState } = state;
+    if (!activeCallState) {
+      window.log.warn(
+        'Cannot mark call as untrusted when there is no active call'
+      );
+      return state;
+    }
+
+    const { safetyNumberChangedUuids } = action.payload;
+
+    return {
+      ...state,
+      activeCallState: {
+        ...activeCallState,
+        pip: false,
+        safetyNumberChangedUuids,
+        settingsDialogOpen: false,
+        showParticipantsList: false,
+      },
+    };
+  }
+
+  if (action.type === MARK_CALL_TRUSTED) {
+    const { activeCallState } = state;
+    if (!activeCallState) {
+      window.log.warn(
+        'Cannot mark call as trusted when there is no active call'
+      );
+      return state;
+    }
+
+    return {
+      ...state,
+      activeCallState: {
+        ...activeCallState,
+        safetyNumberChangedUuids: [],
       },
     };
   }
