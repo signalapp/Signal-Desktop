@@ -6556,6 +6556,10 @@ button.module-image__border-overlay:focus {
   width: 120px;
   z-index: 2;
 
+  & .module-ongoing-call__group-call-remote-participant {
+    border-radius: 0;
+  }
+
   &__video {
     &--remote {
       align-items: center;
