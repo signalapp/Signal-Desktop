@@ -1844,6 +1844,7 @@ export class ConversationModel extends window.Backbone.Model<
       return new window.Backbone.Collection();
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const results = this.contactCollection!.map(contact => {
       if (contact.isMe()) {
         return [false, contact];
