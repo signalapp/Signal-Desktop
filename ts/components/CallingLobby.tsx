@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 import {
   SetLocalAudioType,
   SetLocalPreviewType,
@@ -126,43 +126,17 @@ export const CallingLobby = ({
       : participant.firstName || participant.title
   );
 
-  let joinButton: JSX.Element;
+  const canJoin = !isCallFull && !isCallConnecting;
+
+  let joinButtonChildren: ReactNode;
   if (isCallFull) {
-    joinButton = (
-      <button
-        className="module-button__green module-calling-lobby__button"
-        disabled
-        tabIndex={0}
-        type="button"
-      >
-        {i18n('calling__call-is-full')}
-      </button>
-    );
+    joinButtonChildren = i18n('calling__call-is-full');
   } else if (isCallConnecting) {
-    joinButton = (
-      <button
-        className="module-button__green module-calling-lobby__button"
-        disabled
-        tabIndex={0}
-        type="button"
-      >
-        <Spinner svgSize="small" />
-      </button>
-    );
+    joinButtonChildren = <Spinner svgSize="small" />;
+  } else if (peekedParticipants.length) {
+    joinButtonChildren = i18n('calling__join');
   } else {
-    joinButton = (
-      <button
-        className="module-button__green module-calling-lobby__button"
-        onClick={() => {
-          setIsCallConnecting(true);
-          onJoinCall();
-        }}
-        tabIndex={0}
-        type="button"
-      >
-        {isGroupCall ? i18n('calling__join') : i18n('calling__start')}
-      </button>
-    );
+    joinButtonChildren = i18n('calling__start');
   }
 
   return (
@@ -244,7 +218,22 @@ export const CallingLobby = ({
         >
           {i18n('cancel')}
         </button>
-        {joinButton}
+        <button
+          className="module-button__green module-calling-lobby__button"
+          disabled={!canJoin}
+          onClick={
+            canJoin
+              ? () => {
+                  setIsCallConnecting(true);
+                  onJoinCall();
+                }
+              : undefined
+          }
+          tabIndex={0}
+          type="button"
+        >
+          {joinButtonChildren}
+        </button>
       </div>
     </div>
   );

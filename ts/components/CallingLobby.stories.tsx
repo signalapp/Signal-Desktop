@@ -34,6 +34,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   hasLocalVideo: boolean('hasLocalVideo', overrideProps.hasLocalVideo || false),
   i18n,
   isGroupCall: boolean('isGroupCall', overrideProps.isGroupCall || false),
+  isCallFull: boolean('isCallFull', overrideProps.isCallFull || false),
   me: overrideProps.me || {
     color: 'ultramarine' as ColorType,
     uuid: generateUuid(),
@@ -144,6 +145,15 @@ story.add('Group Call - 4 peeked participants (participants list)', () => {
       fakePeekedParticipant
     ),
     showParticipantsList: true,
+  });
+  return <CallingLobby {...props} />;
+});
+
+story.add('Group Call - call full', () => {
+  const props = createProps({
+    isGroupCall: true,
+    isCallFull: true,
+    peekedParticipants: ['Sam', 'Cayce'].map(fakePeekedParticipant),
   });
   return <CallingLobby {...props} />;
 });
