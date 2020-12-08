@@ -119,11 +119,13 @@ export const CallingLobby = ({
   // It should be rare to see yourself in this list, but it's possible if (1) you rejoin
   //   quickly, causing the server to return stale state (2) you have joined on another
   //   device.
-  // TODO: Improve the "it's you" case; see DESKTOP-926.
   const participantNames = peekedParticipants.map(participant =>
     participant.uuid === me.uuid
       ? i18n('you')
       : participant.firstName || participant.title
+  );
+  const hasYou = peekedParticipants.some(
+    participant => participant.uuid === me.uuid
   );
 
   const canJoin = !isCallFull && !isCallConnecting;
@@ -188,6 +190,10 @@ export const CallingLobby = ({
           {participantNames.length === 0 &&
             i18n('calling__lobby-summary--zero')}
           {participantNames.length === 1 &&
+            hasYou &&
+            i18n('calling__lobby-summary--self')}
+          {participantNames.length === 1 &&
+            !hasYou &&
             i18n('calling__lobby-summary--single', participantNames)}
           {participantNames.length === 2 &&
             i18n('calling__lobby-summary--double', {

@@ -8,6 +8,7 @@ import { action } from '@storybook/addon-actions';
 import { v4 as generateUuid } from 'uuid';
 
 import { ColorType } from '../types/Colors';
+import { ConversationType } from '../state/ducks/conversations';
 import { CallingLobby, PropsType } from './CallingLobby';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
@@ -53,10 +54,10 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   toggleSettings: action('toggle-settings'),
 });
 
-const fakePeekedParticipant = (title: string) =>
+const fakePeekedParticipant = (conversationProps: Partial<ConversationType>) =>
   getDefaultConversation({
-    title,
     uuid: generateUuid(),
+    ...conversationProps,
   });
 
 const story = storiesOf('Components/CallingLobby', module);
@@ -107,7 +108,17 @@ story.add('Group Call - 0 peeked participants', () => {
 story.add('Group Call - 1 peeked participant', () => {
   const props = createProps({
     isGroupCall: true,
-    peekedParticipants: ['Sam'].map(fakePeekedParticipant),
+    peekedParticipants: [{ title: 'Sam' }].map(fakePeekedParticipant),
+  });
+  return <CallingLobby {...props} />;
+});
+
+story.add('Group Call - 1 peeked participant (self)', () => {
+  const uuid = generateUuid();
+  const props = createProps({
+    isGroupCall: true,
+    me: { uuid },
+    peekedParticipants: [fakePeekedParticipant({ title: 'Ash', uuid })],
   });
   return <CallingLobby {...props} />;
 });
@@ -115,7 +126,9 @@ story.add('Group Call - 1 peeked participant', () => {
 story.add('Group Call - 2 peeked participants', () => {
   const props = createProps({
     isGroupCall: true,
-    peekedParticipants: ['Sam', 'Cayce'].map(fakePeekedParticipant),
+    peekedParticipants: ['Sam', 'Cayce'].map(title =>
+      fakePeekedParticipant({ title })
+    ),
   });
   return <CallingLobby {...props} />;
 });
@@ -123,7 +136,9 @@ story.add('Group Call - 2 peeked participants', () => {
 story.add('Group Call - 3 peeked participants', () => {
   const props = createProps({
     isGroupCall: true,
-    peekedParticipants: ['Sam', 'Cayce', 'April'].map(fakePeekedParticipant),
+    peekedParticipants: ['Sam', 'Cayce', 'April'].map(title =>
+      fakePeekedParticipant({ title })
+    ),
   });
   return <CallingLobby {...props} />;
 });
@@ -131,8 +146,8 @@ story.add('Group Call - 3 peeked participants', () => {
 story.add('Group Call - 4 peeked participants', () => {
   const props = createProps({
     isGroupCall: true,
-    peekedParticipants: ['Sam', 'Cayce', 'April', 'Logan', 'Carl'].map(
-      fakePeekedParticipant
+    peekedParticipants: ['Sam', 'Cayce', 'April', 'Logan', 'Carl'].map(title =>
+      fakePeekedParticipant({ title })
     ),
   });
   return <CallingLobby {...props} />;
@@ -141,8 +156,8 @@ story.add('Group Call - 4 peeked participants', () => {
 story.add('Group Call - 4 peeked participants (participants list)', () => {
   const props = createProps({
     isGroupCall: true,
-    peekedParticipants: ['Sam', 'Cayce', 'April', 'Logan', 'Carl'].map(
-      fakePeekedParticipant
+    peekedParticipants: ['Sam', 'Cayce', 'April', 'Logan', 'Carl'].map(title =>
+      fakePeekedParticipant({ title })
     ),
     showParticipantsList: true,
   });

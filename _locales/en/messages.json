@@ -1220,6 +1220,10 @@
       }
     }
   },
+  "calling__lobby-summary--self": {
+    "message": "One of your other devices is in this call",
+    "description": "Shown in the calling lobby to describe when it is just you"
+  },
   "calling__lobby-summary--double": {
     "message": "$first$ and $second$ are in this call",
     "description": "Shown in the calling lobby to describe who is in the call",
