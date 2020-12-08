@@ -178,13 +178,18 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
       isSecondaryDevice ? 'unpairDevice' : 'clearAllData'
     );
 
-    const message = window.i18n(
+    let message = window.i18n(
       isSecondaryDevice ? 'unpairDeviceWarning' : 'deleteAccountWarning'
     );
 
     const messageSub = isSecondaryDevice
       ? window.i18n('unpairDeviceWarningSub')
       : '';
+
+    const identityKey = window.textsecure.storage.get('identityKey');
+    if (identityKey && identityKey.ed25519KeyPair === undefined) {
+      message = `${message} We've updated the way Session IDs are generated, so you will not be able to restore your current Session ID.`;
+    }
 
     window.confirmationDialog({
       title,
