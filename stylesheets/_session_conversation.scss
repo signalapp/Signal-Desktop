@@ -379,6 +379,7 @@
     justify-content: center;
     position: absolute;
     left: 0;
+    z-index: 2;
     right: 0;
     bottom: $composition-container-height + $session-margin-md;
 

@@ -46,8 +46,6 @@ interface State {
     barRadius: number;
     barWidth: number;
     barPadding: number;
-    barColorInit: string;
-    barColorPlay: string;
     maxBarHeight: number;
     minBarHeight: number;
   };
@@ -63,7 +61,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
   private readonly visualisationCanvas: React.RefObject<HTMLCanvasElement>;
   private readonly playbackCanvas: React.RefObject<HTMLCanvasElement>;
 
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
 
     // Mouse interaction
@@ -118,8 +116,6 @@ class SessionRecordingInner extends React.Component<Props, State> {
         barRadius: 15,
         barWidth: 4,
         barPadding: 3,
-        barColorInit: Constants.UI.COLORS.WHITE_PALE,
-        barColorPlay: Constants.UI.COLORS.WHITE,
         maxBarHeight: 30,
         minBarHeight: 3,
       },
@@ -353,7 +349,8 @@ class SessionRecordingInner extends React.Component<Props, State> {
     // Draw sweeping timeline
     const drawSweepingTimeline = () => {
       const { isPaused } = this.state;
-      const { width, height, barColorPlay } = this.state.canvasParams;
+      const { textColor } = this.props.theme.colors;
+      const { width, height } = this.state.canvasParams;
 
       const canvas = this.playbackCanvas.current;
       if (!canvas || isPaused) {
@@ -373,7 +370,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
       }
 
       canvasContext.beginPath();
-      canvasContext.fillStyle = barColorPlay;
+      canvasContext.fillStyle = textColor;
       canvasContext.globalCompositeOperation = 'source-atop';
       canvasContext.fillRect(0, 0, progress, height);
 
@@ -502,13 +499,13 @@ class SessionRecordingInner extends React.Component<Props, State> {
     processor.onaudioprocess = () => {
       const streamParams = { stream, media, input, processor };
       this.setState({ streamParams });
+      const { textColorSubtle } = this.props.theme.colors;
 
       const {
         width,
         height,
         barWidth,
         barPadding,
-        barColorInit,
         maxBarHeight,
         minBarHeight,
       } = this.state.canvasParams;
@@ -559,7 +556,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
           const offsetY = Math.ceil(height / 2 - barHeight / 2);
 
           if (canvasContext) {
-            canvasContext.fillStyle = barColorInit;
+            canvasContext.fillStyle = textColorSubtle;
             this.drawRoundedRect(canvasContext, offsetX, offsetY, barHeight);
           }
         }
@@ -613,10 +610,11 @@ class SessionRecordingInner extends React.Component<Props, State> {
       height,
       barWidth,
       barPadding,
-      barColorInit,
       maxBarHeight,
       minBarHeight,
     } = this.state.canvasParams;
+
+    const { textColorSubtle } = this.props.theme.colors;
 
     const numBars = width / (barPadding + barWidth);
 
@@ -672,7 +670,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
           const offsetX = Math.ceil(i * (barWidth + barPadding));
           const offsetY = Math.ceil(height / 2 - barHeight / 2);
 
-          canvasContext.fillStyle = barColorInit;
+          canvasContext.fillStyle = textColorSubtle;
 
           this.drawRoundedRect(canvasContext, offsetX, offsetY, barHeight);
         }
