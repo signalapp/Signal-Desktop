@@ -4163,9 +4163,9 @@ export class ConversationModel extends window.Backbone.Model<
   // [X] archived
   // [X] markedUnread
   captureChange(property: string): void {
-    if (!window.Signal.RemoteConfig.isEnabled('desktop.storageWrite')) {
+    if (!window.Signal.RemoteConfig.isEnabled('desktop.storageWrite2')) {
       window.log.info(
-        'conversation.captureChange: Returning early; desktop.storageWrite is falsey'
+        'conversation.captureChange: Returning early; desktop.storageWrite2 is falsey'
       );
 
       return;

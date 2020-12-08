@@ -13,7 +13,7 @@ type ConfigKeyType =
   | 'desktop.mandatoryProfileSharing'
   | 'desktop.messageRequests'
   | 'desktop.storage'
-  | 'desktop.storageWrite'
+  | 'desktop.storageWrite2'
   | 'global.groupsv2.maxGroupSize'
   | 'global.groupsv2.groupSizeHardLimit';
 type ConfigValueType = {
