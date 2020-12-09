@@ -4049,7 +4049,7 @@
     "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
   },
   "GroupV1--Migration--migrate": {
-    "message": "Migrate",
+    "message": "Upgrade",
     "description": "Shown on Migrate dialog to kick off the process"
   },
   "GroupV1--Migration--info--title": {
