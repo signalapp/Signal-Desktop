@@ -168,7 +168,9 @@ story.add('Group Call - call full', () => {
   const props = createProps({
     isGroupCall: true,
     isCallFull: true,
-    peekedParticipants: ['Sam', 'Cayce'].map(fakePeekedParticipant),
+    peekedParticipants: ['Sam', 'Cayce'].map(title =>
+      fakePeekedParticipant({ title })
+    ),
   });
   return <CallingLobby {...props} />;
 });
