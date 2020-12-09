@@ -2428,7 +2428,6 @@ export class ConversationModel extends window.Backbone.Model<
         : '';
 
     return {
-      author: contact.get('e164'),
       authorUuid: contact.get('uuid'),
       bodyRanges: quotedMessage.get('bodyRanges'),
       id: quotedMessage.get('sent_at'),
@@ -2594,7 +2593,6 @@ export class ConversationModel extends window.Backbone.Model<
   async sendReactionMessage(
     reaction: { emoji: string; remove: boolean },
     target: {
-      targetAuthorE164: string;
       targetAuthorUuid: string;
       targetTimestamp: number;
     }

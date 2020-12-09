@@ -1810,11 +1810,12 @@ type WhatIsThis = import('./window.d').WhatIsThis;
                     !c.isEverUnregistered()
                 )
               )
-              .map(c => c.get('e164'));
+              .map(c => c.get('e164'))
+              .filter(Boolean) as Array<string>;
 
             if (lonelyE164s.length > 0) {
               const lookup = await window.textsecure.messaging.getUuidsForE164s(
-                lonelyE164s as WhatIsThis
+                lonelyE164s
               );
               const e164s = Object.keys(lookup);
               e164s.forEach(e164 => {
