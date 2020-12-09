@@ -326,7 +326,7 @@
     "rule": "jQuery-load(",
     "path": "js/signal_protocol_store.js",
     "line": "      await ConversationController.load();",
-    "lineNumber": 983,
+    "lineNumber": 1019,
     "reasonCategory": "falseMatch",
     "updated": "2020-06-12T14:20:09.936Z"
   },

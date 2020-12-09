@@ -589,14 +589,19 @@ export default class OutgoingMessage {
     identifier: string,
     deviceIdsToRemove: Array<number>
   ): Promise<void> {
-    let promise = Promise.resolve();
-    for (const j in deviceIdsToRemove) {
-      promise = promise.then(async () => {
-        const encodedAddress = `${identifier}.${deviceIdsToRemove[j]}`;
-        return window.textsecure.storage.protocol.removeSession(encodedAddress);
-      });
-    }
-    return promise;
+    await Promise.all(
+      deviceIdsToRemove.map(async deviceId => {
+        const address = new window.libsignal.SignalProtocolAddress(
+          identifier,
+          deviceId
+        );
+        const sessionCipher = new window.libsignal.SessionCipher(
+          window.textsecure.storage.protocol,
+          address
+        );
+        await sessionCipher.closeOpenSessionForDevice();
+      })
+    );
   }
 
   async sendToIdentifier(providedIdentifier: string): Promise<void> {

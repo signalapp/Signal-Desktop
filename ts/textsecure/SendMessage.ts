@@ -1574,7 +1574,7 @@ export default class MessageSender {
   ): Promise<
     CallbackResultType | void | Array<CallbackResultType | void | Array<void>>
   > {
-    window.log.info('resetting secure session');
+    window.log.info('resetSession: start');
     const silent = false;
     const proto = new window.textsecure.protobuf.DataMessage();
     proto.body = 'TERMINATE';
@@ -1587,7 +1587,7 @@ export default class MessageSender {
       window.log.error(prefix, error && error.stack ? error.stack : error);
       throw error;
     };
-    const deleteAllSessions = async (targetIdentifier: string) =>
+    const closeAllSessions = async (targetIdentifier: string) =>
       window.textsecure.storage.protocol
         .getDeviceIds(targetIdentifier)
         .then(async deviceIds =>
@@ -1597,21 +1597,24 @@ export default class MessageSender {
                 targetIdentifier,
                 deviceId
               );
-              window.log.info('deleting sessions for', address.toString());
+              window.log.info(
+                'resetSession: closing sessions for',
+                address.toString()
+              );
               const sessionCipher = new window.libsignal.SessionCipher(
                 window.textsecure.storage.protocol,
                 address
               );
-              return sessionCipher.deleteAllSessionsForDevice();
+              return sessionCipher.closeOpenSessionForDevice();
             })
           )
         );
 
-    const sendToContactPromise = deleteAllSessions(identifier)
-      .catch(logError('resetSession/deleteAllSessions1 error:'))
+    const sendToContactPromise = closeAllSessions(identifier)
+      .catch(logError('resetSession/closeAllSessions1 error:'))
       .then(async () => {
         window.log.info(
-          'finished closing local sessions, now sending to contact'
+          'resetSession: finished closing local sessions, now sending to contact'
         );
         return this.sendIndividualProto(
           identifier,
@@ -1622,8 +1625,8 @@ export default class MessageSender {
         ).catch(logError('resetSession/sendToContact error:'));
       })
       .then(async () =>
-        deleteAllSessions(identifier).catch(
-          logError('resetSession/deleteAllSessions2 error:')
+        closeAllSessions(identifier).catch(
+          logError('resetSession/closeAllSessions2 error:')
         )
       );
 

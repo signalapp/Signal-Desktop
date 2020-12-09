@@ -775,6 +775,7 @@ class MessageReceiverInner extends EventTarget {
     return promise.catch(error => {
       window.log.error(
         `queueDecryptedEnvelope error handling envelope ${id}:`,
+        error && error.extra ? JSON.stringify(error.extra) : '',
         error && error.stack ? error.stack : error
       );
     });
@@ -796,6 +797,7 @@ class MessageReceiverInner extends EventTarget {
         'queueEnvelope error handling envelope',
         this.getEnvelopeId(envelope),
         ':',
+        error && error.extra ? JSON.stringify(error.extra) : '',
         error && error.stack ? error.stack : error,
       ];
       if (error.warn) {
@@ -2044,8 +2046,11 @@ class MessageReceiverInner extends EventTarget {
           address
         );
 
-        window.log.info('deleting sessions for', address.toString());
-        return sessionCipher.deleteAllSessionsForDevice();
+        window.log.info(
+          'handleEndSession: closing sessions for',
+          address.toString()
+        );
+        return sessionCipher.closeOpenSessionForDevice();
       })
     );
   }
