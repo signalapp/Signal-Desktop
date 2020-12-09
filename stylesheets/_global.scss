@@ -279,6 +279,9 @@ $loading-height: 16px;
       animation: loading 1500ms ease infinite 666ms;
     }
   }
+  .session-text-logo {
+    filter: brightness(0) saturate(100%);
+  }
 }
 
 //yellow border fix

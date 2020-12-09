@@ -366,20 +366,9 @@ $session-compose-margin: 20px;
       filter: themed('filterSessionText');
     }
     transition: 0s;
-  }
-}
-
-.app-loading-screen {
-  @include themify($themes) {
-    background: themed('inboxBackground');
-  }
-  .session-text-logo {
-    @include themify($themes) {
-      filter: themed('filterSessionText') !important;
+    .path {
+      fill: red;
     }
-    // filter: none ; // force no filter on the text of the app loading
-    // as the theme is not set right on the start.
-    // this is to avoid a text color switch on app loading.
   }
 }
 
