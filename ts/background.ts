@@ -2656,18 +2656,8 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       return Promise.resolve();
     }
 
-    if (data.message.groupCallUpdate) {
-      if (data.message.groupV2 && messageDescriptor.type === Message.GROUP) {
-        if (window.isGroupCallingEnabled()) {
-          window.reduxActions.calling.peekNotConnectedGroupCall({
-            conversationId: messageDescriptor.id,
-          });
-        }
-        return Promise.resolve();
-      }
-      window.log.warn(
-        'Received a group call update for a conversation that is not a GV2 group. Ignoring that property and continuing.'
-      );
+    if (handleGroupCallUpdateMessage(data.message, messageDescriptor)) {
+      return Promise.resolve();
     }
 
     // Don't wait for handleDataMessage, as it has its own per-conversation queueing
@@ -2952,6 +2942,10 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       return Promise.resolve();
     }
 
+    if (handleGroupCallUpdateMessage(data.message, messageDescriptor)) {
+      return Promise.resolve();
+    }
+
     // Don't wait for handleDataMessage, as it has its own per-conversation queueing
     message.handleDataMessage(data.message, event.confirm, {
       data,
@@ -2981,6 +2975,27 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       type: 'incoming',
       unread: 1,
     } as WhatIsThis);
+  }
+
+  // Returns `false` if this message isn't a group call message.
+  function handleGroupCallUpdateMessage(
+    message: DataMessageClass,
+    messageDescriptor: MessageDescriptor
+  ): boolean {
+    if (message.groupCallUpdate) {
+      if (message.groupV2 && messageDescriptor.type === Message.GROUP) {
+        if (window.isGroupCallingEnabled()) {
+          window.reduxActions.calling.peekNotConnectedGroupCall({
+            conversationId: messageDescriptor.id,
+          });
+        }
+        return true;
+      }
+      window.log.warn(
+        'Received a group call update for a conversation that is not a GV2 group. Ignoring that property and continuing.'
+      );
+    }
+    return false;
   }
 
   async function unlinkAndDisconnect() {
