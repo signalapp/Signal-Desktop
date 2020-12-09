@@ -49,19 +49,10 @@ export const TypingBubble = (props: TypingBubbleProps) => {
 
   return (
     <TypingBubbleContainer {...props}>
-      <div className={classNames('module-message', 'module-message--incoming')}>
-        <div
-          className={classNames(
-            'module-message__container',
-            'module-message__container--incoming'
-          )}
-        >
-          <div className="module-message__typing-container">
-            <TypingAnimation i18n={window.i18n} />
-          </div>
-          {renderAvatar()}
-        </div>
+      <div className="module-message__typing-container">
+        <TypingAnimation i18n={window.i18n} />
       </div>
+      {renderAvatar()}
     </TypingBubbleContainer>
   );
 };
