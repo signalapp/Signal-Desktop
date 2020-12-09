@@ -269,33 +269,6 @@
   },
   {
     "rule": "jQuery-$(",
-    "path": "js/permissions_popup_start.js",
-    "line": "$(document).on('keyup', e => {",
-    "lineNumber": 3,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/permissions_popup_start.js",
-    "line": "const $body = $(document.body);",
-    "lineNumber": 11,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "js/permissions_popup_start.js",
-    "line": "window.view.$el.appendTo($body);",
-    "lineNumber": 26,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-$(",
     "path": "js/settings_start.js",
     "line": "$(document).on('keyup', e => {",
     "lineNumber": 3,

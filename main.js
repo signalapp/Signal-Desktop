@@ -669,56 +669,6 @@ async function showDebugLogWindow() {
   });
 }
 
-let permissionsPopupWindow;
-async function showPermissionsPopupWindow() {
-  if (permissionsPopupWindow) {
-    permissionsPopupWindow.show();
-    return;
-  }
-  if (!mainWindow) {
-    return;
-  }
-
-  const theme = await getThemeFromMainWindow();
-  const size = mainWindow.getSize();
-  const options = {
-    width: Math.min(400, size[0]),
-    height: Math.min(150, size[1]),
-    resizable: false,
-    title: locale.messages.permissions.message,
-    autoHideMenuBar: true,
-    backgroundColor: '#FFFFFF',
-    show: false,
-    modal: true,
-    webPreferences: {
-      nodeIntegration: false,
-      nodeIntegrationInWorker: false,
-      contextIsolation: false,
-      preload: path.join(__dirname, 'permissions_popup_preload.js'),
-      nativeWindowOpen: true,
-    },
-    parent: mainWindow,
-  };
-
-  permissionsPopupWindow = new BrowserWindow(options);
-
-  captureClicks(permissionsPopupWindow);
-
-  permissionsPopupWindow.loadURL(
-    prepareURL([__dirname, 'permissions_popup.html'], { theme })
-  );
-
-  permissionsPopupWindow.on('closed', () => {
-    removeDarkOverlay();
-    permissionsPopupWindow = null;
-  });
-
-  permissionsPopupWindow.once('ready-to-show', () => {
-    addDarkOverlay();
-    permissionsPopupWindow.show();
-  });
-}
-
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -1076,15 +1026,6 @@ ipc.on('show-debug-log', showDebugLogWindow);
 ipc.on('close-debug-log', () => {
   if (debugLogWindow) {
     debugLogWindow.close();
-  }
-});
-
-// Permissions Popup-related IPC calls
-
-ipc.on('show-permissions-popup', showPermissionsPopupWindow);
-ipc.on('close-permissions-popup', () => {
-  if (permissionsPopupWindow) {
-    permissionsPopupWindow.close();
   }
 });
 
