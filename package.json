@@ -126,6 +126,7 @@
     "redux-promise-middleware": "6.1.0",
     "reselect": "4.0.0",
     "rimraf": "2.6.2",
+    "sanitize.css": "^12.0.1",
     "semver": "5.4.1",
     "styled-components": "5.1.1",
     "tar": "4.4.8",
