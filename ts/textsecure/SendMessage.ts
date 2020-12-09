@@ -1143,15 +1143,19 @@ export default class MessageSender {
     );
   }
 
-  async sendGroupCallUpdate(
-    { groupV2, eraId }: { groupV2: GroupV2InfoType; eraId: string },
+  sendGroupCallUpdate(
+    {
+      groupV2,
+      eraId,
+      timestamp,
+    }: { groupV2: GroupV2InfoType; eraId: string; timestamp: number },
     options?: SendOptionsType
-  ): Promise<void> {
-    await this.sendMessageToGroup(
+  ): Promise<CallbackResultType> {
+    return this.sendMessageToGroup(
       {
         groupV2,
         groupCallUpdate: { eraId },
-        timestamp: Date.now(),
+        timestamp,
       },
       options
     );

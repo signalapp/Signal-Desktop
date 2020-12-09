@@ -51,7 +51,11 @@ import {
   arrayBufferToUuid,
 } from '../Crypto';
 import { getOwn } from '../util/getOwn';
-import { fetchMembershipProof, getMembershipList } from '../groups';
+import {
+  fetchMembershipProof,
+  getMembershipList,
+  wrapWithSyncMessageSend,
+} from '../groups';
 import { missingCaseError } from '../util/missingCaseError';
 import { normalizeGroupCallTimestamp } from '../util/ringrtc/normalizeGroupCallTimestamp';
 
@@ -706,12 +710,18 @@ export class CallingClass {
       return;
     }
 
+    const timestamp = Date.now();
+
     // We "fire and forget" because sending this message is non-essential.
-    window.textsecure.messaging
-      .sendGroupCallUpdate({ eraId, groupV2 }, sendOptions)
-      .catch(err => {
-        window.log.error('Failed to send group call update', err);
-      });
+    wrapWithSyncMessageSend({
+      conversation,
+      logId: `sendGroupCallUpdateMessage/${conversationId}-${eraId}`,
+      send: sender =>
+        sender.sendGroupCallUpdate({ eraId, groupV2, timestamp }, sendOptions),
+      timestamp,
+    }).catch(err => {
+      window.log.error('Failed to send group call update', err);
+    });
   }
 
   async accept(conversationId: string, asVideoCall: boolean): Promise<void> {

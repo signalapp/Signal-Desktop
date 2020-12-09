@@ -1084,7 +1084,7 @@ export async function initiateMigrationToGroupV2(
   });
 }
 
-async function wrapWithSyncMessageSend({
+export async function wrapWithSyncMessageSend({
   conversation,
   logId,
   send,
@@ -1094,7 +1094,7 @@ async function wrapWithSyncMessageSend({
   logId: string;
   send: (sender: MessageSender) => Promise<CallbackResultType | undefined>;
   timestamp: number;
-}) {
+}): Promise<void> {
   const sender = window.textsecure.messaging;
   if (!sender) {
     throw new Error(
