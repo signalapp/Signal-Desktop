@@ -808,7 +808,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     }
     // Verify message length
     const msgLen = messagePlaintext?.length || 0;
-    if (msgLen > window.CONSTANTS.MAX_MESSAGE_BODY_LENGTH) {
+    if (msgLen > Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH) {
       ToastUtils.pushMessageBodyTooLong();
       return;
     }
