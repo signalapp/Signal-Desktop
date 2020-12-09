@@ -1,8 +1,6 @@
 import React from 'react';
-import classNames from 'classnames';
 
 import { TypingAnimation } from './TypingAnimation';
-import { Avatar } from '../Avatar';
 import styled from 'styled-components';
 
 interface TypingBubbleProps {
@@ -20,28 +18,30 @@ const TypingBubbleContainer = styled.div<TypingBubbleProps>`
   padding-top: ${props => (props.isTyping ? '4px' : '0px')};
   transition: ${props => props.theme.common.animations.defaultDuration};
   padding-inline-end: 16px;
+  padding-inline-start: 4px;
   overflow: hidden;
+  flex-shrink: 0;
 `;
 
 export const TypingBubble = (props: TypingBubbleProps) => {
-  const renderAvatar = () => {
-    const { avatarPath, displayedName, conversationType, phoneNumber } = props;
+  // const renderAvatar = () => {
+  //   const { avatarPath, displayedName, conversationType, phoneNumber } = props;
 
-    if (conversationType !== 'group') {
-      return;
-    }
+  //   if (conversationType !== 'group') {
+  //     return;
+  //   }
 
-    return (
-      <div className="module-message__author-avatar">
-        <Avatar
-          avatarPath={avatarPath}
-          name={displayedName || phoneNumber}
-          size={36}
-          pubkey={phoneNumber}
-        />
-      </div>
-    );
-  };
+  //   return (
+  //     <div className="module-message__author-avatar">
+  //       <Avatar
+  //         avatarPath={avatarPath}
+  //         name={displayedName || phoneNumber}
+  //         size={36}
+  //         pubkey={phoneNumber}
+  //       />
+  //     </div>
+  //   );
+  // };
 
   if (props.conversationType === 'group') {
     return <></>;
@@ -49,10 +49,7 @@ export const TypingBubble = (props: TypingBubbleProps) => {
 
   return (
     <TypingBubbleContainer {...props}>
-      <div className="module-message__typing-container">
-        <TypingAnimation i18n={window.i18n} />
-      </div>
-      {renderAvatar()}
+      <TypingAnimation i18n={window.i18n} />
     </TypingBubbleContainer>
   );
 };
