@@ -553,6 +553,17 @@ export class CallingClass {
     this.getGroupCall(conversationId)?.requestVideo(resolutions);
   }
 
+  public groupMembersChanged(conversationId: string): void {
+    // This will be called for any conversation change, so it's likely that there won't
+    //   be a group call available; that's fine.
+    const groupCall = this.getGroupCall(conversationId);
+    if (!groupCall) {
+      return;
+    }
+
+    groupCall.setGroupMembers(this.getGroupCallMembers(conversationId));
+  }
+
   // See the comment in types/Calling.ts to explain why we have to do this conversion.
   private convertRingRtcConnectionState(
     connectionState: ConnectionState

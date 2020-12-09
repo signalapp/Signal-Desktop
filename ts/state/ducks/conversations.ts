@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable camelcase */
+import { ThunkAction } from 'redux-thunk';
 import {
   difference,
   fromPairs,
@@ -14,6 +15,8 @@ import {
   without,
 } from 'lodash';
 
+import { StateType as RootStateType } from '../reducer';
+import { calling } from '../../services/calling';
 import { getOwn } from '../../util/getOwn';
 import { trigger } from '../../shims/events';
 import { NoopActionType } from './noop';
@@ -454,13 +457,17 @@ function conversationAdded(
 function conversationChanged(
   id: string,
   data: ConversationType
-): ConversationChangedActionType {
-  return {
-    type: 'CONVERSATION_CHANGED',
-    payload: {
-      id,
-      data,
-    },
+): ThunkAction<void, RootStateType, unknown, ConversationChangedActionType> {
+  return dispatch => {
+    calling.groupMembersChanged(id);
+
+    dispatch({
+      type: 'CONVERSATION_CHANGED',
+      payload: {
+        id,
+        data,
+      },
+    });
   };
 }
 function conversationRemoved(id: string): ConversationRemovedActionType {
