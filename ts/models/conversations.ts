@@ -2097,9 +2097,12 @@ export class ConversationModel extends window.Backbone.Model<
     eraId: string,
     creatorUuid: string
   ): Promise<void> {
+    // We want to update the cache quickly in case this function is called multiple times.
+    const oldCachedEraId = this.cachedLatestGroupCallEraId;
+    this.cachedLatestGroupCallEraId = eraId;
+
     const alreadyHasMessage =
-      (this.cachedLatestGroupCallEraId &&
-        this.cachedLatestGroupCallEraId === eraId) ||
+      (oldCachedEraId && oldCachedEraId === eraId) ||
       (await window.Signal.Data.hasGroupCallHistoryMessage(this.id, eraId));
 
     if (!alreadyHasMessage) {
@@ -2110,8 +2113,6 @@ export class ConversationModel extends window.Backbone.Model<
         startedTime: Date.now(),
       });
     }
-
-    this.cachedLatestGroupCallEraId = eraId;
   }
 
   async addProfileChange(
