@@ -1,23 +1,4 @@
 .dark-theme {
-  // _conversation
-  .key-verification {
-    .key {
-      color: $color-dark-05;
-      background: $color-dark-85;
-      border: solid 1px $color-dark-60;
-      border-radius: $border-radius;
-    }
-
-    .icon {
-      &.verified {
-        @include color-svg('../images/verified-check.svg', $color-dark-05);
-      }
-      &.shield {
-        @include color-svg('../images/shield.svg', $color-dark-05);
-      }
-    }
-  }
-
   // _debugLog
 
   .debug-log {
@@ -51,22 +32,6 @@
     }
   }
 
-  // _emoji
-  .ep-emojies {
-    background-color: $color-gray-95;
-  }
-
-  .ep-categories {
-    background-color: $color-dark-85;
-  }
-
-  button.emoji {
-    &:before {
-      margin-top: 7px;
-      @include color-svg('../images/smile.svg', $color-dark-30);
-    }
-  }
-
   // _global
 
   .dark-overlay {
@@ -85,18 +50,6 @@
 
     &:hover {
       box-shadow: 0 0 10px -3px rgba($grey, 0.7);
-    }
-  }
-
-  a {
-    color: $session-color-green;
-  }
-
-  .file-input {
-    .paperclip {
-      &:before {
-        @include color-svg('../images/paperclip.svg', $color-dark-30);
-      }
     }
   }
 
@@ -141,56 +94,6 @@
   .x {
     &:before {
       @include color-svg('../images/x.svg', white);
-    }
-  }
-
-  // banner shown when app version expired and must be updated
-  .expiredAlert {
-    background: $session-color-green;
-    color: black;
-    /* biggest we can make the font without wrapping the current text at minimum app width */
-    font-family: $session-font-accent;
-    font-size: 16px;
-    height: 60px;
-
-    span {
-      line-height: 45px;
-    }
-
-    button {
-      font-size: 14px;
-      height: 36px;
-      color: white;
-      background: #474646;
-    }
-  }
-
-  // _index
-  .network-status-container {
-    .network-status {
-      background: url('../images/error_red.svg') no-repeat left 10px center;
-      background-size: 25px 25px;
-      background-color: #fcd156;
-
-      .network-status-message {
-        color: $color-dark-85;
-      }
-
-      .action {
-        button {
-          border: solid 1px #ccc;
-          color: white;
-          background: $blue;
-        }
-      }
-    }
-  }
-
-  .tool-bar {
-    color: $color-dark-05;
-
-    .search-icon {
-      background-color: $color-light-35;
     }
   }
 
@@ -245,41 +148,6 @@
       border-color: transparent transparent #2eace0 transparent;
     }
   }
-
-  // _lightbox
-
-  .iconButton {
-    background: transparent;
-
-    &:hover {
-      background: $grey;
-    }
-
-    &.save {
-      &:before {
-        @include color-svg('../images/save.svg', white);
-      }
-    }
-
-    &.close {
-      &:before {
-        @include color-svg('../images/x.svg', white);
-      }
-    }
-
-    &.previous {
-      &:before {
-        @include color-svg('../images/back.svg', white);
-      }
-    }
-
-    &.next {
-      &:before {
-        @include color-svg('../images/forward.svg', white);
-      }
-    }
-  }
-
   // _modal
 
   .modal {
@@ -362,93 +230,6 @@
     color: $color-gray-25;
   }
 
-  .module-message__metadata__date--with-image-no-caption {
-    color: $color-white-08;
-  }
-
-  .module-message__metadata__status-icon--sending {
-    @include color-svg('../images/sending.svg', $color-white-08);
-  }
-
-  .module-message__metadata__status-icon--pow {
-    @include color-svg('../images/pow.svg', $color-white-08);
-  }
-
-  .module-message__metadata__status-icon--sent {
-    @include color-svg('../images/check-circle-outline.svg', $color-white-08);
-  }
-
-  .module-message__metadata__status-icon--delivered {
-    @include color-svg('../images/double-check.svg', $color-white-08);
-  }
-
-  .module-message__metadata__status-icon--read {
-    @include color-svg('../images/read.svg', $color-white-08);
-  }
-
-  // When status indicators are overlaid on top of an image, they use different colors
-  .module-message__metadata__status-icon--with-image-no-caption {
-    background-color: $color-dark-05;
-  }
-
-  .module-message__send-message-button {
-    color: $color-loki-green;
-    background-color: $color-dark-70;
-    border: 1px solid $color-dark-60;
-  }
-
-  // Module: Expire Timer
-
-  .module-expire-timer {
-    @include color-svg('../images/timer-60.svg', $color-white-08);
-  }
-
-  .module-expire-timer--55 {
-    @include color-svg('../images/timer-55.svg', $color-white-08);
-  }
-  .module-expire-timer--50 {
-    @include color-svg('../images/timer-50.svg', $color-white-08);
-  }
-  .module-expire-timer--45 {
-    @include color-svg('../images/timer-45.svg', $color-white-08);
-  }
-  .module-expire-timer--40 {
-    @include color-svg('../images/timer-40.svg', $color-white-08);
-  }
-  .module-expire-timer--35 {
-    @include color-svg('../images/timer-35.svg', $color-white-08);
-  }
-  .module-expire-timer--30 {
-    @include color-svg('../images/timer-30.svg', $color-white-08);
-  }
-  .module-expire-timer--25 {
-    @include color-svg('../images/timer-25.svg', $color-white-08);
-  }
-  .module-expire-timer--20 {
-    @include color-svg('../images/timer-20.svg', $color-white-08);
-  }
-  .module-expire-timer--15 {
-    @include color-svg('../images/timer-15.svg', $color-white-08);
-  }
-  .module-expire-timer--10 {
-    @include color-svg('../images/timer-10.svg', $color-white-08);
-  }
-  .module-expire-timer--05 {
-    @include color-svg('../images/timer-05.svg', $color-white-08);
-  }
-  .module-expire-timer--00 {
-    @include color-svg('../images/timer-00.svg', $color-white-08);
-  }
-
-  .module-expire-timer--incoming {
-    background-color: $color-white-08;
-  }
-
-  // When status indicators are overlaid on top of an image, they use different colors
-  .module-expire-timer--with-image-no-caption {
-    background-color: $color-dark-05;
-  }
-
   // Module: Embedded Contact
 
   .module-embedded-contact__contact-name {
@@ -472,10 +253,6 @@
   .module-contact-detail__send-message {
     background-color: $blue;
     color: $color-white;
-  }
-
-  .module-contact-detail__send-message__bubble-icon {
-    @include color-svg('../images/chat-bubble.svg', white);
   }
 
   .module-contact-detail__additional-contact {
@@ -551,16 +328,6 @@
     @include color-svg('../images/verified-check.svg', $color-dark-30);
   }
 
-  // Module: Conversation Header
-
-  .module-conversation-header__back-icon {
-    @include color-svg('../images/back.svg', $color-dark-05);
-  }
-
-  .module-conversation-header__title {
-    color: $color-dark-05;
-  }
-
   // Module: Message Detail
 
   .module-message-detail__delete-button {
@@ -572,23 +339,6 @@
 
   .module-message-detail__contact__error {
     color: $session-color-danger;
-  }
-
-  .module-message-detail__contact__status-icon--sending {
-    @include color-svg('../images/sending.svg', $color-light-35);
-  }
-
-  .module-message-detail__contact__status-icon--sent {
-    @include color-svg('../images/check-circle-outline.svg', $color-light-35);
-  }
-  .module-message-detail__contact__status-icon--delivered {
-    @include color-svg('../images/double-check.svg', $color-light-35);
-  }
-  .module-message-detail__contact__status-icon--read {
-    @include color-svg('../images/read.svg', $color-light-35);
-  }
-  .module-message-detail__contact__status-icon--error {
-    @include color-svg('../images/error.svg', $session-color-danger);
   }
 
   .module-message-detail__contact__show-safety-number {
@@ -659,10 +409,6 @@
     color: $color-gray-05;
   }
 
-  .module-conversation-list-item__header__timestamp {
-    color: $color-gray-25;
-  }
-
   .module-conversation-list-item__header__date--has-unread {
     color: $color-gray-05;
   }
@@ -673,22 +419,6 @@
 
   .module-conversation-list-item__message__text--has-unread {
     color: $color-gray-05;
-  }
-
-  .module-conversation-list-item__message__status-icon--sending {
-    @include color-svg('../images/sending.svg', $color-light-35);
-  }
-
-  .module-conversation-list-item__message__status-icon--sent {
-    @include color-svg('../images/check-circle-outline.svg', $color-light-35);
-  }
-  .module-conversation-list-item__message__status-icon--delivered {
-    @include color-svg('../images/double-check.svg', $color-light-35);
-    width: 18px;
-  }
-  .module-conversation-list-item__message__status-icon--read {
-    @include color-svg('../images/read.svg', $color-light-35);
-    width: 18px;
   }
 
   // Module: Main Header
@@ -707,10 +437,6 @@
       border: solid 1px blue;
       outline: none;
     }
-  }
-
-  .module-main-header__search__cancel-icon {
-    @include color-svg('../images/x-16.svg', $color-gray-25);
   }
 
   // Module: Image
@@ -818,41 +544,6 @@
   .module-spinner__arc--outgoing {
     background-color: $color-gray-05;
   }
-
-  // Module: Caption Editor
-
-  .module-caption-editor {
-    background-color: $color-black;
-  }
-
-  .module-caption-editor__close-button {
-    @include color-svg('../images/x-16.svg', $color-white);
-  }
-
-  .module-caption-editor__media-container {
-    background-color: $color-black;
-  }
-
-  .module-caption-editor__caption-input {
-    border: 1px solid $color-white;
-    color: $color-white;
-    background-color: $color-black;
-
-    &::placeholder {
-      color: $color-white-07;
-    }
-    &:focus {
-      border: 1px solid $color-loki-green;
-      outline: none;
-    }
-  }
-
-  .module-caption-editor__save-button {
-    background-color: $color-loki-green;
-    color: $color-white;
-  }
-
-  // Module: Search Results
 
   .module-search-results__conversations-header {
     color: $color-gray-05;

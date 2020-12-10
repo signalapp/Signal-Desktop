@@ -27,6 +27,7 @@ export interface AttachmentType {
   isVoiceMessage?: boolean;
   /** For messages not already on disk, this will be a data url */
   url: string;
+  videoUrl?: string;
   size?: number;
   fileSize?: string;
   pending?: boolean;
@@ -123,30 +124,30 @@ export function isImage(attachments?: Array<AttachmentType>) {
   );
 }
 
-export function isImageAttachment(attachment: AttachmentType) {
-  return (
+export function isImageAttachment(attachment: AttachmentType): boolean {
+  return Boolean(
     attachment &&
-    attachment.contentType &&
-    isImageTypeSupported(attachment.contentType)
+      attachment.contentType &&
+      isImageTypeSupported(attachment.contentType)
   );
 }
-export function hasImage(attachments?: Array<AttachmentType>) {
-  return (
+export function hasImage(attachments?: Array<AttachmentType>): boolean {
+  return Boolean(
     attachments &&
-    attachments[0] &&
-    (attachments[0].url || attachments[0].pending)
+      attachments[0] &&
+      (attachments[0].url || attachments[0].pending)
   );
 }
 
-export function isVideo(attachments?: Array<AttachmentType>) {
-  return attachments && isVideoAttachment(attachments[0]);
+export function isVideo(attachments?: Array<AttachmentType>): boolean {
+  return Boolean(attachments && isVideoAttachment(attachments[0]));
 }
 
-export function isVideoAttachment(attachment?: AttachmentType) {
-  return (
-    attachment &&
-    attachment.contentType &&
-    isVideoTypeSupported(attachment.contentType)
+export function isVideoAttachment(attachment?: AttachmentType): boolean {
+  return Boolean(
+    !!attachment &&
+      !!attachment.contentType &&
+      isVideoTypeSupported(attachment.contentType)
   );
 }
 
@@ -164,6 +165,18 @@ type DimensionsType = {
   height: number;
   width: number;
 };
+
+export async function arrayBufferFromFile(file: any): Promise<ArrayBuffer> {
+  return new Promise((resolve, reject) => {
+    const FR = new FileReader();
+    FR.onload = (e: any) => {
+      resolve(e.target.result);
+    };
+    FR.onerror = reject;
+    FR.onabort = reject;
+    FR.readAsArrayBuffer(file);
+  });
+}
 
 export function getImageDimensions(attachment: AttachmentType): DimensionsType {
   const { height, width } = attachment;
@@ -326,26 +339,19 @@ export const save = ({
   attachment,
   document,
   index,
-  getAbsolutePath,
   timestamp,
 }: {
-  attachment: Attachment;
+  attachment: AttachmentType;
   document: Document;
-  index: number;
+  index?: number;
   getAbsolutePath: (relativePath: string) => string;
   timestamp?: number;
 }): void => {
-  const isObjectURLRequired = is.undefined(attachment.path);
-  const url = !is.undefined(attachment.path)
-    ? getAbsolutePath(attachment.path)
-    : arrayBufferToObjectURL({
-        data: attachment.data,
-        type: MIME.APPLICATION_OCTET_STREAM,
-      });
+  const isObjectURLRequired = is.undefined(attachment.fileName);
   const filename = getSuggestedFilename({ attachment, timestamp, index });
-  saveURLAsFile({ url, filename, document });
+  saveURLAsFile({ url: attachment.url, filename, document });
   if (isObjectURLRequired) {
-    URL.revokeObjectURL(url);
+    URL.revokeObjectURL(attachment.url);
   }
 };
 
@@ -354,14 +360,10 @@ export const getSuggestedFilename = ({
   timestamp,
   index,
 }: {
-  attachment: Attachment;
+  attachment: AttachmentType;
   timestamp?: number | Date;
   index?: number;
 }): string => {
-  if (attachment.fileName) {
-    return attachment.fileName;
-  }
-
   const prefix = 'session-attachment';
   const suffix = timestamp
     ? moment(timestamp).format('-YYYY-MM-DD-HHmmss')
@@ -373,8 +375,26 @@ export const getSuggestedFilename = ({
   return `${prefix}${suffix}${indexSuffix}${extension}`;
 };
 
+// Used for overriden the sent filename of an attachment, but keeping the file extension the same
+export const getSuggestedFilenameSending = ({
+  attachment,
+  timestamp,
+}: {
+  attachment: AttachmentType;
+  timestamp?: number | Date;
+}): string => {
+  const prefix = 'session-attachment';
+  const suffix = timestamp
+    ? moment(timestamp).format('-YYYY-MM-DD-HHmmss')
+    : '';
+  const fileType = getFileExtension(attachment);
+  const extension = fileType ? `.${fileType}` : '';
+
+  return `${prefix}${suffix}${extension}`;
+};
+
 export const getFileExtension = (
-  attachment: Attachment
+  attachment: AttachmentType
 ): string | undefined => {
   if (!attachment.contentType) {
     return;

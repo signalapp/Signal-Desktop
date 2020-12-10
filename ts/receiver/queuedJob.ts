@@ -100,7 +100,7 @@ async function copyFromQuotedMessage(
   quote: Quote,
   attemptCount: number = 1
 ): Promise<void> {
-  const { Whisper, MessageController } = window;
+  const { Whisper, getMessageController } = window;
   const { upgradeMessageSchema } = window.Signal.Migrations;
   const { Message: TypedMessage, Errors } = window.Signal.Types;
 
@@ -129,6 +129,10 @@ async function copyFromQuotedMessage(
         );
         copyFromQuotedMessage(msg, quote, attemptCount + 1).ignore();
       }, attemptCount * attemptCount * 500);
+    } else {
+      window.log.warn(
+        `We did not found quoted message ${id} after ${attemptCount} attempts.`
+      );
     }
 
     quote.referencedMessageNotFound = true;
@@ -138,16 +142,14 @@ async function copyFromQuotedMessage(
   window.log.info(`Found quoted message id: ${id}`);
   quote.referencedMessageNotFound = false;
 
-  const queryMessage = MessageController.register(found.id, found);
+  const queryMessage = getMessageController().register(found.id, found);
   quote.text = queryMessage.get('body');
 
   if (attemptCount > 1) {
     // Normally the caller would save the message, but in case we are
     // called by a timer, we need to update the message manually
     msg.set({ quote });
-    await window.Signal.Data.saveMessage(msg.attributes, {
-      Message: Whisper.Message,
-    });
+    await msg.commit();
     return;
   }
 
@@ -166,9 +168,7 @@ async function copyFromQuotedMessage(
         queryMessage.attributes
       );
       queryMessage.set(upgradedMessage);
-      await window.Signal.Data.saveMessage(upgradedMessage, {
-        Message: Whisper.Message,
-      });
+      await upgradedMessage.commit();
     }
   } catch (error) {
     window.log.error(
@@ -207,7 +207,7 @@ async function copyFromQuotedMessage(
 }
 
 // Handle expiration timer as part of a regular message
-function handleExpireTimer(
+async function handleExpireTimer(
   source: string,
   message: MessageModel,
   expireTimer: number,
@@ -219,7 +219,7 @@ function handleExpireTimer(
     message.set({ expireTimer });
 
     if (expireTimer !== oldValue) {
-      conversation.updateExpirationTimer(
+      await conversation.updateExpirationTimer(
         expireTimer,
         source,
         message.get('received_at'),
@@ -230,7 +230,7 @@ function handleExpireTimer(
     }
   } else if (oldValue && !message.isGroupUpdate()) {
     // We only turn off timers if it's not a group update
-    conversation.updateExpirationTimer(
+    await conversation.updateExpirationTimer(
       null,
       source,
       message.get('received_at'),
@@ -247,10 +247,7 @@ function handleLinkPreviews(
   const urls = window.Signal.LinkPreviews.findLinks(messageBody);
   const incomingPreview = messagePreview || [];
   const preview = incomingPreview.filter(
-    (item: any) =>
-      (item.image || item.title) &&
-      urls.includes(item.url) &&
-      window.Signal.LinkPreviews.isLinkInWhitelist(item.url)
+    (item: any) => (item.image || item.title) && urls.includes(item.url)
   );
   if (preview.length < incomingPreview.length) {
     window.log.info(
@@ -262,7 +259,7 @@ function handleLinkPreviews(
   message.set({ preview });
 }
 
-function processProfileKey(
+async function processProfileKey(
   source: string,
   conversation: ConversationModel,
   sendingDeviceConversation: ConversationModel,
@@ -274,9 +271,9 @@ function processProfileKey(
   if (source === ourNumber) {
     conversation.set({ profileSharing: true });
   } else if (conversation.isPrivate()) {
-    conversation.setProfileKey(profileKey);
+    await conversation.setProfileKey(profileKey);
   } else {
-    sendingDeviceConversation.setProfileKey(profileKey);
+    await sendingDeviceConversation.setProfileKey(profileKey);
   }
 }
 
@@ -313,7 +310,6 @@ function updateReadStatus(
     conversation.onReadMessage(message);
   } else {
     conversation.set({
-      unreadCount: conversation.get('unreadCount') + 1,
       isArchived: false,
     });
   }
@@ -428,7 +424,12 @@ async function handleRegularMessage(
   conversation.updateTextInputState();
 
   // Handle expireTimer found directly as part of a regular message
-  handleExpireTimer(source, message, dataMessage.expireTimer, conversation);
+  await handleExpireTimer(
+    source,
+    message,
+    dataMessage.expireTimer,
+    conversation
+  );
 
   const ourPrimary = await MultiDeviceProtocol.getPrimaryDevice(ourNumber);
 
@@ -459,7 +460,7 @@ async function handleRegularMessage(
   );
 
   if (dataMessage.profileKey) {
-    processProfileKey(
+    await processProfileKey(
       source,
       conversation,
       sendingDeviceConversation,
@@ -472,7 +473,7 @@ async function handleRegularMessage(
   }
 }
 
-function handleExpirationTimerUpdate(
+async function handleExpirationTimerUpdate(
   conversation: ConversationModel,
   message: MessageModel,
   source: string,
@@ -494,7 +495,7 @@ function handleExpirationTimerUpdate(
     source: 'handleDataMessage',
   });
 
-  conversation.updateExpirationTimer(
+  await conversation.updateExpirationTimer(
     expireTimer,
     source,
     message.get('received_at'),
@@ -529,12 +530,17 @@ export async function handleMessageJob(
         if (confirm) {
           confirm();
         }
-        window.console.log(
+        window.log.info(
           'Dropping ExpireTimerUpdate message as we already have the same one set.'
         );
         return;
       }
-      handleExpirationTimerUpdate(conversation, message, source, expireTimer);
+      await handleExpirationTimerUpdate(
+        conversation,
+        message,
+        source,
+        expireTimer
+      );
     } else {
       await handleRegularMessage(
         conversation,
@@ -546,18 +552,19 @@ export async function handleMessageJob(
       );
     }
 
-    const { Whisper, MessageController } = window;
+    const { Whisper, getMessageController } = window;
 
-    const id = await window.Signal.Data.saveMessage(message.attributes, {
-      Message: Whisper.Message,
-    });
+    const id = await message.commit();
     message.set({ id });
-    MessageController.register(message.id, message);
+    getMessageController().register(message.id, message);
 
     // Note that this can save the message again, if jobs were queued. We need to
     //   call it after we have an id for this message, because the jobs refer back
     //   to their source message.
     await queueAttachmentDownloads(message);
+    // this is
+    const unreadCount = await conversation.getUnreadCount();
+    conversation.set({ unreadCount });
     await conversation.commit();
 
     conversation.trigger('newmessage', message);

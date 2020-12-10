@@ -84,7 +84,6 @@ window.CONSTANTS = new (function() {
   this.DEFAULT_PUBLIC_CHAT_URL = appConfig.get('defaultPublicChatServer');
   this.MAX_LINKED_DEVICES = 1;
   this.MAX_CONNECTION_DURATION = 5000;
-  this.MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
   // Limited due to the proof-of-work requirement
   this.MEDIUM_GROUP_SIZE_LIMIT = 20;
   // Number of seconds to turn on notifications after reconnect/start of app
@@ -177,6 +176,9 @@ window.setPassword = (passPhrase, oldPhrase) =>
 window.passwordUtil = require('./ts/util/passwordUtils');
 window.libsession = require('./ts/session');
 
+window.getMessageController =
+  window.libsession.Messages.MessageController.getInstance;
+
 // We never do these in our code, so we'll prevent it everywhere
 window.open = () => null;
 // eslint-disable-next-line no-eval, no-multi-assign
@@ -241,10 +243,6 @@ ipc.on('set-up-with-import', () => {
   Whisper.events.trigger('setupWithImport');
 });
 
-ipc.on('set-up-as-standalone', () => {
-  Whisper.events.trigger('setupAsStandalone');
-});
-
 ipc.on('get-theme-setting', () => {
   const theme = window.Events.getThemeSetting();
   ipc.send('get-success-theme-setting', theme);
@@ -292,12 +290,16 @@ window.setSettingValue = (settingID, value) => {
 
   window.storage.put(settingID, value);
 
+  // FIXME - This should be called in the settings object in
+  // SessionSettings
   if (settingID === 'zoom-factor-setting') {
     window.updateZoomFactor();
   }
 };
 
 window.getMediaPermissions = () => ipc.sendSync('get-media-permissions');
+window.setMediaPermissions = value =>
+  ipc.send('set-media-permissions', !!value);
 
 // Auto update setting
 window.getAutoUpdateEnabled = () => ipc.sendSync('get-auto-update-setting');
@@ -378,11 +380,9 @@ setInterval(() => {
 const { autoOrientImage } = require('./js/modules/auto_orient_image');
 
 window.autoOrientImage = autoOrientImage;
-window.dataURLToBlobSync = require('blueimp-canvas-to-blob');
-window.emojiData = require('emoji-datasource');
-window.EmojiPanel = require('emoji-panel');
-window.filesize = require('filesize');
 window.loadImage = require('blueimp-load-image');
+window.dataURLToBlobSync = require('blueimp-canvas-to-blob');
+window.filesize = require('filesize');
 window.getGuid = require('uuid/v4');
 window.profileImages = require('./app/profile_images');
 
@@ -454,7 +454,6 @@ window.shortenPubkey = pubkey => {
 
 window.pubkeyPattern = /@[a-fA-F0-9]{64,66}\b/g;
 
-// TODO: activate SealedSender once it is ready on all platforms
 window.lokiFeatureFlags = {
   multiDeviceUnpairing: true,
   privateGroupChats: true,

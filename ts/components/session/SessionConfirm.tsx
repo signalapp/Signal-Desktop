@@ -3,6 +3,7 @@ import { SessionModal } from './SessionModal';
 import { SessionButton, SessionButtonColor } from './SessionButton';
 import { SessionHtmlRenderer } from './SessionHTMLRenderer';
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
+import { DefaultTheme, withTheme } from 'styled-components';
 
 interface Props {
   message: string;
@@ -19,9 +20,10 @@ interface Props {
   closeTheme: SessionButtonColor;
   sessionIcon?: SessionIconType;
   iconSize?: SessionIconSize;
+  theme: DefaultTheme;
 }
 
-export class SessionConfirm extends React.Component<Props> {
+class SessionConfirmInner extends React.Component<Props> {
   public static defaultProps = {
     title: '',
     messageSub: '',
@@ -63,13 +65,18 @@ export class SessionConfirm extends React.Component<Props> {
         onOk={() => null}
         showExitIcon={false}
         showHeader={showHeader}
+        theme={this.props.theme}
       >
         {!showHeader && <div className="spacer-lg" />}
 
         <div className="session-modal__centered">
-          {sessionIcon && (
+          {sessionIcon && iconSize && (
             <div>
-              <SessionIcon iconType={sessionIcon} iconSize={iconSize} />
+              <SessionIcon
+                iconType={sessionIcon}
+                iconSize={iconSize}
+                theme={this.props.theme}
+              />
               <div className="spacer-lg" />
             </div>
           )}
@@ -105,3 +112,5 @@ export class SessionConfirm extends React.Component<Props> {
     );
   }
 }
+
+export const SessionConfirm = withTheme(SessionConfirmInner);

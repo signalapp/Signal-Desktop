@@ -48,131 +48,28 @@
   }
   preload([
     'alert-outline.svg',
-    'android.svg',
-    'apple.svg',
-    'appstore.svg',
-    'audio.svg',
-    'back.svg',
-    'chat-bubble-outline.svg',
-    'chat-bubble.svg',
-    'check-circle-outline.svg',
     'check.svg',
-    'clock.svg',
-    'close-circle.svg',
     'crown.svg',
-    'delete.svg',
-    'dots-horizontal.svg',
-    'double-check.svg',
-    'down.svg',
-    'download.svg',
-    'ellipsis.svg',
     'error.svg',
-    'error_red.svg',
     'file-gradient.svg',
     'file.svg',
-    'folder-outline.svg',
-    'forward.svg',
-    'gear.svg',
-    'hourglass_empty.svg',
-    'hourglass_full.svg',
-    'icon_1024.png',
-    'icon_16.png',
-    'icon_256.png',
-    'icon_32.png',
-    'icon_48.png',
     'image.svg',
-    'import.svg',
-    'lead-pencil.svg',
-    'menu.svg',
     'microphone.svg',
     'movie.svg',
     'open_link.svg',
-    'paperclip.svg',
     'play.svg',
-    'playstore.png',
-    'read.svg',
-    'reply.svg',
     'save.svg',
-    'search.svg',
-    'sending.svg',
     'shield.svg',
-    'signal-laptop.png',
-    'signal-phone.png',
-    'smile.svg',
-    'sync.svg',
-    'timer-00.svg',
-    'timer-05.svg',
-    'timer-10.svg',
-    'timer-15.svg',
-    'timer-20.svg',
-    'timer-25.svg',
-    'timer-30.svg',
-    'timer-35.svg',
-    'timer-40.svg',
-    'timer-45.svg',
-    'timer-50.svg',
-    'timer-55.svg',
-    'timer-60.svg',
     'timer.svg',
     'verified-check.svg',
     'video.svg',
-    'voice.svg',
     'warning.svg',
     'x.svg',
-    'x_white.svg',
-    'icon-paste.svg',
-    'loki/session_icon_128.png',
   ]);
 
   // We add this to window here because the default Node context is erased at the end
   //   of preload.js processing
   window.setImmediate = window.nodeSetImmediate;
-
-  window.toasts = new Map();
-  window.pushToast = options => {
-    // Setting toasts with the same ID can be used to prevent identical
-    // toasts from appearing at once (stacking).
-    // If toast already exists, it will be reloaded (updated)
-
-    const params = {
-      title: options.title,
-      id: options.id || window.generateID(),
-      description: options.description || '',
-      type: options.type || '',
-      icon: options.icon || '',
-      shouldFade: options.shouldFade,
-    };
-
-    // Give all toasts an ID. User may define.
-    let currentToast;
-    const toastID = params.id;
-    const toast = !!toastID && window.toasts.get(toastID);
-    if (toast) {
-      currentToast = window.toasts.get(toastID);
-      currentToast.update(params);
-    } else {
-      // Make new Toast
-      window.toasts.set(
-        toastID,
-        new Whisper.SessionToastView({
-          el: $('body'),
-        })
-      );
-
-      currentToast = window.toasts.get(toastID);
-      currentToast.render();
-      currentToast.update(params);
-    }
-
-    // Remove some toasts if too many exist
-    const maxToasts = 6;
-    while (window.toasts.size > maxToasts) {
-      const finalToastID = window.toasts.keys().next().value;
-      window.toasts.get(finalToastID).fadeToast();
-    }
-
-    return toastID;
-  };
 
   const { IdleDetector, MessageDataMigrator } = Signal.Workflow;
   const {
@@ -203,11 +100,7 @@
     setTimeout(() => {
       localStorage.removeItem('restart-reason');
 
-      window.pushToast({
-        title: window.i18n('successUnlinked'),
-        type: 'info',
-        id: '123',
-      });
+      window.libsession.Utils.ToastUtils.pushForceUnlinked();
     }, 2000);
   }
 
@@ -215,7 +108,6 @@
   let initialLoadComplete = false;
   let newVersion = false;
 
-  window.owsDesktopApp = {};
   window.document.title = window.getTitle();
 
   // start a background worker for ecc
@@ -527,13 +419,6 @@
     }
   );
 
-  Whisper.events.on('setupAsStandalone', () => {
-    const { appView } = window.owsDesktopApp;
-    if (appView) {
-      appView.openStandalone();
-    }
-  });
-
   function manageExpiringData() {
     window.Signal.Data.cleanSeenMessages();
     window.Signal.Data.cleanLastHashes();
@@ -545,12 +430,6 @@
     window.dispatchEvent(new Event('storage_ready'));
 
     window.log.info('Cleanup: starting...');
-    window.getOurDisplayName = () => {
-      const ourNumber = window.storage.get('primaryDevicePubKey');
-      const conversation = ConversationController.get(ourNumber, 'private');
-      const profile = conversation.getLokiProfile();
-      return profile && profile.displayName;
-    };
 
     const results = await Promise.all([
       window.Signal.Data.getOutgoingWithoutExpiresAt({
@@ -626,7 +505,6 @@
     const appView = new Whisper.AppView({
       el: $('body'),
     });
-    window.owsDesktopApp.appView = appView;
 
     Whisper.WallClockListener.init(Whisper.events);
     Whisper.ExpiringMessagesListener.init(Whisper.events);
@@ -654,21 +532,9 @@
     Whisper.events.on('showDebugLog', () => {
       appView.openDebugLog();
     });
-    Whisper.events.on('unauthorized', () => {
-      appView.inboxView.networkStatusView.update();
-    });
-    Whisper.events.on('reconnectTimer', () => {
-      appView.inboxView.networkStatusView.setSocketReconnectInterval(60000);
-    });
 
     window.addEventListener('focus', () => Whisper.Notifications.clear());
     window.addEventListener('unload', () => Whisper.Notifications.fastClear());
-
-    Whisper.events.on('showConversation', (id, messageId) => {
-      if (appView) {
-        appView.openConversation(id, messageId);
-      }
-    });
 
     window.confirmationDialog = params => {
       const confirmDialog = new Whisper.SessionConfirmView({
@@ -690,10 +556,7 @@
       confirmDialog.render();
     };
 
-    window.showSeedDialog = window.owsDesktopApp.appView.showSeedDialog;
-    window.showPasswordDialog = window.owsDesktopApp.appView.showPasswordDialog;
-
-    window.showEditProfileDialog = async callback => {
+    window.showEditProfileDialog = async () => {
       const ourNumber = window.storage.get('primaryDevicePubKey');
       const conversation = await ConversationController.getOrCreateAndWait(
         ourNumber,
@@ -722,7 +585,6 @@
 
       if (appView) {
         appView.showEditProfileDialog({
-          callback,
           profileName: displayName,
           pubkey: ourNumber,
           avatarPath,
@@ -732,62 +594,94 @@
             let profileKey = null;
             if (avatar) {
               const data = await readFile({ file: avatar });
+              // Ensure that this file is either small enough or is resized to meet our
+              //   requirements for attachments
+              try {
+                const withBlob = await window.Signal.Util.AttachmentUtil.autoScale(
+                  {
+                    contentType: avatar.type,
+                    file: new Blob([data.data], {
+                      type: avatar.contentType,
+                    }),
+                    maxMeasurements: {
+                      maxSize: 1000 * 1024, // 1Mb for our profile picture
+                    },
+                  }
+                );
+                const dataResized = await window.Signal.Types.Attachment.arrayBufferFromFile(
+                  withBlob.file
+                );
 
-              // For simplicity we use the same attachment pointer that would send to
-              // others, which means we need to wait for the database response.
-              // To avoid the wait, we create a temporary url for the local image
-              // and use it until we the the response from the server
-              const tempUrl = window.URL.createObjectURL(avatar);
-              conversation.setLokiProfile({ displayName: newName });
-              conversation.set('avatar', tempUrl);
+                // For simplicity we use the same attachment pointer that would send to
+                // others, which means we need to wait for the database response.
+                // To avoid the wait, we create a temporary url for the local image
+                // and use it until we the the response from the server
+                const tempUrl = window.URL.createObjectURL(avatar);
+                conversation.setLokiProfile({ displayName: newName });
+                conversation.set('avatar', tempUrl);
 
-              // Encrypt with a new key every time
-              profileKey = libsignal.crypto.getRandomBytes(32);
-              const encryptedData = await textsecure.crypto.encryptProfile(
-                data.data,
-                profileKey
-              );
+                // Encrypt with a new key every time
+                profileKey = libsignal.crypto.getRandomBytes(32);
+                const encryptedData = await textsecure.crypto.encryptProfile(
+                  dataResized,
+                  profileKey
+                );
 
-              const avatarPointer = await libsession.Utils.AttachmentUtils.uploadAvatar(
-                {
-                  ...data,
-                  data: encryptedData,
-                  size: encryptedData.byteLength,
-                }
-              );
+                const avatarPointer = await libsession.Utils.AttachmentUtils.uploadAvatar(
+                  {
+                    ...dataResized,
+                    data: encryptedData,
+                    size: encryptedData.byteLength,
+                  }
+                );
 
-              ({ url } = avatarPointer);
+                ({ url } = avatarPointer);
 
-              storage.put('profileKey', profileKey);
+                storage.put('profileKey', profileKey);
 
-              conversation.set('avatarPointer', url);
+                conversation.set('avatarPointer', url);
 
-              const upgraded = await Signal.Migrations.processNewAttachment({
-                isRaw: true,
-                data: data.data,
-                url,
+                const upgraded = await Signal.Migrations.processNewAttachment({
+                  isRaw: true,
+                  data: data.data,
+                  url,
+                });
+                newAvatarPath = upgraded.path;
+                // Replace our temporary image with the attachment pointer from the server:
+                conversation.set('avatar', null);
+                conversation.setLokiProfile({
+                  displayName: newName,
+                  avatar: newAvatarPath,
+                });
+              } catch (error) {
+                window.log.error(
+                  'showEditProfileDialog Error ensuring that image is properly sized:',
+                  error && error.stack ? error.stack : error
+                );
+              }
+            } else {
+              // do not update the avatar if it did not change
+              conversation.setLokiProfile({
+                displayName: newName,
               });
-              newAvatarPath = upgraded.path;
             }
 
-            // Replace our temporary image with the attachment pointer from the server:
-            conversation.set('avatar', null);
-            conversation.setLokiProfile({
-              displayName: newName,
-              avatar: newAvatarPath,
-            });
+            conversation.commit();
             // inform all your registered public servers
             // could put load on all the servers
             // if they just keep changing their names without sending messages
             // so we could disable this here
             // or least it enable for the quickest response
             window.lokiPublicChatAPI.setProfileName(newName);
-            window
-              .getConversations()
-              .filter(convo => convo.isPublic() && !convo.isRss())
-              .forEach(convo =>
-                convo.trigger('ourAvatarChanged', { url, profileKey })
-              );
+
+            if (avatar) {
+              window
+                .getConversations()
+                .filter(convo => convo.isPublic() && !convo.isRss())
+                .forEach(convo =>
+                  convo.trigger('ourAvatarChanged', { url, profileKey })
+                );
+            }
           },
         });
       }
@@ -805,24 +699,14 @@
       window.setSettingValue('link-preview-setting', false);
     }
 
-    // Generates useful random ID for various purposes
-    window.generateID = () =>
-      Math.random()
-        .toString(36)
-        .substring(3);
-
     // Get memberlist. This function is not accurate >>
     // window.getMemberList = window.lokiPublicChatAPI.getListOfMembers();
-
-    window.toggleTheme = () => {
-      const theme = window.Events.getThemeSetting();
-      const updatedTheme = theme === 'dark' ? 'light' : 'dark';
-
+    window.setTheme = newTheme => {
       $(document.body)
         .removeClass('dark-theme')
         .removeClass('light-theme')
-        .addClass(`${updatedTheme}-theme`);
-      window.Events.setThemeSetting(updatedTheme);
+        .addClass(`${newTheme}-theme`);
+      window.Events.setThemeSetting(newTheme);
     };
 
     window.toggleMenuBar = () => {
@@ -841,11 +725,7 @@
       // if not undefined, we take the opposite
       const newValue = currentValue !== undefined ? !currentValue : false;
       window.Events.setSpellCheck(newValue);
-      window.pushToast({
-        description: window.i18n('spellCheckDirty'),
-        type: 'info',
-        id: 'spellCheckDirty',
-      });
+      window.libsession.Utils.ToastUtils.pushSpellCheckDirty();
     };
 
     window.toggleLinkPreview = () => {
@@ -854,8 +734,8 @@
     };
 
     window.toggleMediaPermissions = () => {
-      const mediaPermissions = window.getMediaPermissions();
-      window.setMediaPermissions(!mediaPermissions);
+      const value = window.getMediaPermissions();
+      window.setMediaPermissions(!value);
     };
 
     // Attempts a connection to an open group server
@@ -919,23 +799,6 @@
       return conversation;
     };
 
-    window.sendGroupInvitations = (serverInfo, pubkeys) => {
-      pubkeys.forEach(async pubkeyStr => {
-        const convo = await ConversationController.getOrCreateAndWait(
-          pubkeyStr,
-          'private'
-        );
-
-        if (convo) {
-          convo.sendMessage('', null, null, null, {
-            serverName: serverInfo.name,
-            channelId: serverInfo.channelId,
-            serverAddress: serverInfo.address,
-          });
-        }
-      });
-    };
-
     Whisper.events.on('updateGroupName', async groupConvo => {
       if (appView) {
         appView.showUpdateGroupNameDialog(groupConvo);
@@ -979,11 +842,8 @@
         const conversationExists = ConversationController.get(conversationId);
         if (conversationExists) {
           window.log.warn('We are already a member of this public chat');
-          window.pushToast({
-            description: window.i18n('publicChatExists'),
-            type: 'info',
-            id: 'alreadyMemberPublicChat',
-          });
+          window.libsession.Utils.ToastUtils.pushAlreadyMemberOpenGroup();
+
           return;
         }
 
@@ -1002,7 +862,9 @@
           window.log.warn(`Could not connect to ${serverAddress}`);
           return;
         }
-        appView.openConversation(conversationId, {});
+        window.inboxStore.dispatch(
+          window.actionsCreators.openConversationExternal(conversationId)
+        );
       }
     );
 
@@ -1012,17 +874,12 @@
       }
     });
 
-    Whisper.events.on('deleteConversation', async conversation => {
-      await conversation.destroyMessages();
-      await window.Signal.Data.removeConversation(conversation.id, {
-        Conversation: Whisper.Conversation,
-      });
-    });
-
     Whisper.Notifications.on('click', (id, messageId) => {
       window.showWindow();
       if (id) {
-        appView.openConversation(id, messageId);
+        window.inboxStore.dispatch(
+          window.actionsCreators.openConversationExternal(id, messageId)
+        );
       } else {
         appView.openInbox({
           initialLoadComplete,
@@ -1037,13 +894,6 @@
     });
 
     Whisper.events.on('onShowUserDetails', async ({ userPubKey }) => {
-      const isMe = userPubKey === textsecure.storage.user.getNumber();
-
-      if (isMe) {
-        Whisper.events.trigger('onEditProfile');
-        return;
-      }
-
       const conversation = await ConversationController.getOrCreateAndWait(
         userPubKey,
         'private'
@@ -1060,29 +910,11 @@
           avatarPath,
           isRss: conversation.isRss(),
           onStartConversation: () => {
-            Whisper.events.trigger('showConversation', userPubKey);
+            window.inboxStore.dispatch(
+              window.actionsCreators.openConversationExternal(conversation.id)
+            );
           },
         });
-      }
-    });
-
-    Whisper.events.on('showToast', options => {
-      if (
-        appView &&
-        appView.inboxView &&
-        appView.inboxView.conversation_stack
-      ) {
-        appView.inboxView.conversation_stack.showToast(options);
-      }
-    });
-
-    Whisper.events.on('showConfirmationDialog', options => {
-      if (
-        appView &&
-        appView.inboxView &&
-        appView.inboxView.conversation_stack
-      ) {
-        appView.inboxView.conversation_stack.showConfirmationDialog(options);
       }
     });
 
@@ -1095,6 +927,12 @@
     Whisper.events.on('showSeedDialog', async () => {
       if (appView) {
         appView.showSeedDialog();
+      }
+    });
+
+    Whisper.events.on('showPasswordDialog', async options => {
+      if (appView) {
+        appView.showPasswordDialog(options);
       }
     });
 
@@ -1150,26 +988,9 @@
         ourPubKey
       );
 
-      const title = authorisations.length
-        ? window.i18n('devicePairingRequestReceivedLimitTitle')
-        : window.i18n('devicePairingRequestReceivedNoListenerTitle');
-
-      const description = authorisations.length
-        ? window.i18n(
-            'devicePairingRequestReceivedLimitDescription',
-            window.CONSTANTS.MAX_LINKED_DEVICES
-          )
-        : window.i18n('devicePairingRequestReceivedNoListenerDescription');
-
-      const type = authorisations.length ? 'info' : 'warning';
-
-      window.pushToast({
-        title,
-        description,
-        type,
-        id: 'pairingRequestReceived',
-        shouldFade: false,
-      });
+      window.libsession.Utils.ToastUtils.pushPairingRequestReceived(
+        authorisations.length
+      );
     });
 
     Whisper.events.on('devicePairingRequestAccepted', async (pubKey, cb) => {
@@ -1424,24 +1245,24 @@
   }
 
   function onChangeTheme() {
-    const view = window.owsDesktopApp.appView;
-    if (view) {
-      view.applyTheme();
-    }
+    // const view = window.owsDesktopApp.appView;
+    // if (view) {
+    //   view.applyTheme();
+    // }
   }
   function onEmpty() {
     initialLoadComplete = true;
 
     window.readyForUpdates();
 
-    let interval = setInterval(() => {
-      const view = window.owsDesktopApp.appView;
-      if (view) {
-        clearInterval(interval);
-        interval = null;
-        view.onEmpty();
-      }
-    }, 500);
+    // let interval = setInterval(() => {
+    //   const view = window.owsDesktopApp.appView;
+    //   if (view) {
+    //     clearInterval(interval);
+    //     interval = null;
+    //     view.onEmpty();
+    //   }
+    // }, 500);
 
     Whisper.Notifications.enable();
   }
@@ -1461,10 +1282,10 @@
     const { count } = ev;
     window.log.info(`onProgress: Message count is ${count}`);
 
-    const view = window.owsDesktopApp.appView;
-    if (view) {
-      view.onProgress(count);
-    }
+    // const view = window.owsDesktopApp.appView;
+    // if (view) {
+    //   view.onProgress(count);
+    // }
   }
   function onConfiguration(ev) {
     const { configuration } = ev;

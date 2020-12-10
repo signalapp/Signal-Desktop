@@ -1,10 +1,12 @@
+import { ConversationModel } from '../../js/models/conversations';
+
 // tslint:disable: no-unnecessary-class
 export class FindMember {
   public static async findMember(
     pubkey: String,
     convoId: string,
     clearOurInterval?: any
-  ) {
+  ): Promise<ConversationModel | null> {
     let groupMembers;
 
     const groupConvos = window.getConversations().models.filter((d: any) => {
@@ -20,12 +22,17 @@ export class FindMember {
         clearOurInterval();
       }
 
-      return;
+      return null;
     }
 
     if (thisConvo.isPublic()) {
-      groupMembers = await window.lokiPublicChatAPI.getListOfMembers();
-      groupMembers = groupMembers.filter((m: any) => !!m);
+      const publicMembers = await window.lokiPublicChatAPI.getListOfMembers();
+      const memberConversations = publicMembers
+        .map(publicMember =>
+          window.ConversationController.get(publicMember.authorPhoneNumber)
+        )
+        .filter((c: any) => !!c);
+      groupMembers = memberConversations;
     } else {
       const privateConvos = window
         .getConversations()
@@ -37,21 +44,9 @@ export class FindMember {
       const memberConversations = members
         .map((m: any) => privateConvos.find((c: any) => c.id === m))
         .filter((c: any) => !!c);
-      groupMembers = memberConversations.map((m: any) => {
-        const name = m.getLokiProfile()
-          ? m.getLokiProfile().displayName
-          : m.attributes.displayName;
-
-        return {
-          id: m.id,
-          authorPhoneNumber: m.id,
-          authorProfileName: name,
-        };
-      });
+      groupMembers = memberConversations;
     }
 
-    return groupMembers.find(
-      ({ authorPhoneNumber: pn }: any) => pn && pn === pubkey
-    );
+    return groupMembers.find(({ id: pn }: any) => pn && pn === pubkey);
   }
 }

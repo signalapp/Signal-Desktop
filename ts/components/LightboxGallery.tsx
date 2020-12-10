@@ -8,7 +8,7 @@ import { Lightbox } from './Lightbox';
 import { Message } from './conversation/media-gallery/types/Message';
 
 import { AttachmentType } from '../types/Attachment';
-import { LocalizerType } from '../types/Util';
+import { darkTheme } from '../state/ducks/SessionTheme';
 
 export interface MediaItemType {
   objectURL?: string;
@@ -21,7 +21,6 @@ export interface MediaItemType {
 
 interface Props {
   close: () => void;
-  i18n: LocalizerType;
   media: Array<MediaItemType>;
   onSave?: (options: {
     attachment: AttachmentType;
@@ -49,7 +48,7 @@ export class LightboxGallery extends React.Component<Props, State> {
   }
 
   public render() {
-    const { close, media, onSave, i18n } = this.props;
+    const { close, media, onSave } = this.props;
     const { selectedIndex } = this.state;
 
     const selectedMedia = media[selectedIndex];
@@ -75,7 +74,8 @@ export class LightboxGallery extends React.Component<Props, State> {
         objectURL={objectURL}
         caption={captionCallback}
         contentType={selectedMedia.contentType}
-        i18n={i18n}
+        // there is no theme in use on the lightbox
+        theme={darkTheme}
       />
     );
   }

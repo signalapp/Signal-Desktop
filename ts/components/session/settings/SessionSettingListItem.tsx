@@ -9,7 +9,7 @@ import { SessionSettingType } from './SessionSettings';
 import { SessionRadioGroup } from '../SessionRadioGroup';
 
 interface Props {
-  title: string;
+  title?: string;
   description?: string;
   type: SessionSettingType | undefined;
   value: any;

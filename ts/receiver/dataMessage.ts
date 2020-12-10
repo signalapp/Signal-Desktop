@@ -1,6 +1,6 @@
 import { SignalService } from './../protobuf';
 import { removeFromCache } from './cache';
-import { MultiDeviceProtocol } from '../session/protocols';
+import { MultiDeviceProtocol, SessionProtocol } from '../session/protocols';
 import { EnvelopePlus } from './types';
 import { ConversationType, getEnvelopeId } from './common';
 import { preprocessGroupMessage } from './groups';
@@ -286,14 +286,16 @@ export async function handleDataMessage(
     return;
   }
 
-  // tslint:disable-next-line no-bitwise
+  // tslint:disable no-bitwise
   if (
     dataMessage.flags &&
     dataMessage.flags & SignalService.DataMessage.Flags.END_SESSION
   ) {
     await handleEndSession(envelope.source);
-    return;
+    return removeFromCache(envelope);
   }
+  // tslint:enable no-bitwise
+
   const message = await processDecrypted(envelope, dataMessage);
   const ourPubKey = window.textsecure.storage.user.getNumber();
   const senderPubKey = envelope.senderIdentity || envelope.source;
@@ -302,7 +304,7 @@ export async function handleDataMessage(
 
   const { UNPAIRING_REQUEST } = SignalService.DataMessage.Flags;
 
-  // eslint-disable-next-line no-bitwise
+  // tslint:disable-next-line: no-bitwise
   const isUnpairingRequest = Boolean(message.flags & UNPAIRING_REQUEST);
 
   if (isUnpairingRequest) {
@@ -321,7 +323,7 @@ export async function handleDataMessage(
   const source = envelope.senderIdentity || senderPubKey;
   const ownDevice = await MultiDeviceProtocol.isOurDevice(source);
 
-  const ownMessage = conversation.isMediumGroup() && ownDevice;
+  const ownMessage = conversation?.isMediumGroup() && ownDevice;
 
   const ev: any = {};
   if (ownMessage) {
@@ -474,8 +476,12 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
 
   const type = 'incoming';
   const messageGroupId = message?.group?.id;
-  const groupId =
+  let groupId =
     messageGroupId && messageGroupId.length > 0 ? messageGroupId : null;
+
+  if (groupId) {
+    groupId = groupId.replace(PubKey.PREFIX_GROUP_TEXTSECURE, '');
+  }
 
   const messageData: any = {
     source,
@@ -602,7 +608,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
     SESSION_RESTORE,
   } = SignalService.DataMessage.Flags;
 
-  // eslint-disable-next-line no-bitwise
+  // tslint:disable-next-line: no-bitwise
   const isProfileUpdate = Boolean(message.flags & PROFILE_KEY_UPDATE);
 
   if (isProfileUpdate) {
@@ -653,7 +659,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   }
 
   if (!conversationId) {
-    window.console.warn(
+    window.log.warn(
       'Invalid conversation id for incoming message',
       conversationId
     );
@@ -676,7 +682,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
 
   // =========== Process flags =============
 
-  // eslint-disable-next-line no-bitwise
+  // tslint:disable-next-line: no-bitwise
   if (message.flags & SESSION_RESTORE) {
     // Show that the session reset is "in progress" even though we had a valid session
     msg.set({ endSessionType: 'ongoing' });
@@ -710,7 +716,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   }
 
   // the conversation with the primary device of that source (can be the same as conversationOrigin)
-  const conversation = window.ConversationController.get(conversationId);
+  const conversation = window.ConversationController.getOrThrow(conversationId);
 
   conversation.queueJob(() => {
     handleMessageJob(

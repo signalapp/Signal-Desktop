@@ -1,4 +1,4 @@
-/* global Whisper, Signal, setTimeout, clearTimeout, MessageController, NewReceiver */
+/* global Whisper, Signal, setTimeout, clearTimeout, getMessageController, NewReceiver */
 
 const { isNumber, omit } = require('lodash');
 const getGuid = require('uuid/v4');
@@ -150,7 +150,7 @@ async function _runJob(job) {
       await _finishJob(null, id);
       return;
     }
-    message = MessageController.register(found.id, found);
+    message = getMessageController().register(found.id, found);
 
     const pending = true;
     await setAttachmentDownloadJobPending(id, pending);

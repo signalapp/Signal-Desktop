@@ -5,15 +5,20 @@ import * as GoogleChrome from '../util/GoogleChrome';
 
 import { AttachmentType } from '../types/Attachment';
 
-import { LocalizerType } from '../types/Util';
+import { SessionInput } from './session/SessionInput';
+import {
+  SessionButton,
+  SessionButtonColor,
+  SessionButtonType,
+} from './session/SessionButton';
+import { darkTheme, lightTheme } from '../state/ducks/SessionTheme';
 
 interface Props {
   attachment: AttachmentType;
-  i18n: LocalizerType;
   url: string;
   caption?: string;
-  onSave?: (caption: string) => void;
-  close?: () => void;
+  onSave: (caption: string) => void;
+  onClose: () => void;
 }
 
 interface State {
@@ -21,15 +26,7 @@ interface State {
 }
 
 export class CaptionEditor extends React.Component<Props, State> {
-  private readonly handleKeyUpBound: (
-    event: React.KeyboardEvent<HTMLInputElement>
-  ) => void;
-  private readonly setFocusBound: () => void;
-  private readonly onChangeBound: (
-    event: React.FormEvent<HTMLInputElement>
-  ) => void;
-  private readonly onSaveBound: () => void;
-  private readonly inputRef: React.RefObject<HTMLInputElement>;
+  private readonly inputRef: React.RefObject<any>;
 
   constructor(props: Props) {
     super(props);
@@ -38,60 +35,26 @@ export class CaptionEditor extends React.Component<Props, State> {
     this.state = {
       caption: caption || '',
     };
-
-    this.handleKeyUpBound = this.handleKeyUp.bind(this);
-    this.setFocusBound = this.setFocus.bind(this);
-    this.onChangeBound = this.onChange.bind(this);
-    this.onSaveBound = this.onSave.bind(this);
+    this.onSave = this.onSave.bind(this);
+    this.onChange = this.onChange.bind(this);
     this.inputRef = React.createRef();
-  }
-
-  public componentDidMount() {
-    // Forcing focus after a delay due to some focus contention with ConversationView
-    setTimeout(() => {
-      this.setFocus();
-    }, 200);
-  }
-
-  public handleKeyUp(event: React.KeyboardEvent<HTMLInputElement>) {
-    const { close, onSave } = this.props;
-
-    if (close && event.key === 'Escape') {
-      close();
-    }
-
-    if (onSave && event.key === 'Enter') {
-      const { caption } = this.state;
-      onSave(caption);
-    }
-  }
-
-  public setFocus() {
-    if (this.inputRef.current) {
-      this.inputRef.current.focus();
-    }
   }
 
   public onSave() {
     const { onSave } = this.props;
     const { caption } = this.state;
 
-    if (onSave) {
-      onSave(caption);
-    }
+    onSave(caption);
   }
 
-  public onChange(event: React.FormEvent<HTMLInputElement>) {
-    // @ts-ignore
-    const { value } = event.target;
-
+  public onChange(value: string) {
     this.setState({
       caption: value,
     });
   }
 
   public renderObject() {
-    const { url, i18n, attachment } = this.props;
+    const { url, onClose, attachment } = this.props;
     const { contentType } = attachment || { contentType: null };
 
     const isImageTypeSupported = GoogleChrome.isImageTypeSupported(contentType);
@@ -99,8 +62,9 @@ export class CaptionEditor extends React.Component<Props, State> {
       return (
         <img
           className="module-caption-editor__image"
-          alt={i18n('imageAttachmentAlt')}
+          alt={window.i18n('imageAttachmentAlt')}
           src={url}
+          onClick={onClose}
         />
       );
     }
@@ -118,19 +82,14 @@ export class CaptionEditor extends React.Component<Props, State> {
   }
 
   public render() {
-    const { i18n, close } = this.props;
+    const { onClose } = this.props;
     const { caption } = this.state;
-    const onKeyUp = close ? this.handleKeyUpBound : undefined;
 
     return (
-      <div
-        role="dialog"
-        onClick={this.setFocusBound}
-        className="module-caption-editor"
-      >
+      <div role="dialog" className="module-caption-editor">
         <div
           role="button"
-          onClick={close}
+          onClick={onClose}
           className="module-caption-editor__close-button"
         />
         <div className="module-caption-editor__media-container">
@@ -138,25 +97,25 @@ export class CaptionEditor extends React.Component<Props, State> {
         </div>
         <div className="module-caption-editor__bottom-bar">
           <div className="module-caption-editor__input-container">
-            <input
+            <SessionInput
               type="text"
-              ref={this.inputRef}
-              value={caption}
+              autoFocus={true}
               maxLength={200}
-              placeholder={i18n('addACaption')}
-              className="module-caption-editor__caption-input"
-              onKeyUp={onKeyUp}
-              onChange={this.onChangeBound}
+              ref={this.inputRef}
+              placeholder={window.i18n('addACaption')}
+              enableShowHide={false}
+              onValueChanged={this.onChange}
+              onEnterPressed={this.onSave}
+              value={caption}
+              theme={darkTheme}
             />
-            {caption ? (
-              <div
-                role="button"
-                onClick={this.onSaveBound}
-                className="module-caption-editor__save-button"
-              >
-                {i18n('save')}
-              </div>
-            ) : null}
+            <SessionButton
+              text={window.i18n('save')}
+              onClick={this.onSave}
+              buttonType={SessionButtonType.Brand}
+              buttonColor={SessionButtonColor.Green}
+              disabled={!caption}
+            />
           </div>
         </div>
       </div>

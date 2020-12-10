@@ -1,7 +1,5 @@
 // The idea with this file is to make it webpackable for the style guide
 
-const { bindActionCreators } = require('redux');
-const Backbone = require('../../ts/backbone');
 const Crypto = require('./crypto');
 const Data = require('./data');
 const Database = require('./database');
@@ -21,49 +19,36 @@ const {
   ConversationLoadingScreen,
 } = require('../../ts/components/ConversationLoadingScreen');
 const {
-  AttachmentList,
-} = require('../../ts/components/conversation/AttachmentList');
-const { CaptionEditor } = require('../../ts/components/CaptionEditor');
-const {
   ContactDetail,
 } = require('../../ts/components/conversation/ContactDetail');
 const { ContactListItem } = require('../../ts/components/ContactListItem');
 const { ContactName } = require('../../ts/components/conversation/ContactName');
 const {
-  ConversationHeaderWithDetails,
-} = require('../../ts/components/conversation/ConversationHeader');
-const {
-  SessionGroupSettingsWithDetails,
-} = require('../../ts/components/session/SessionGroupSettings');
-const {
   EmbeddedContact,
 } = require('../../ts/components/conversation/EmbeddedContact');
 const { Emojify } = require('../../ts/components/conversation/Emojify');
-const {
-  GroupNotification,
-} = require('../../ts/components/conversation/GroupNotification');
 const { Lightbox } = require('../../ts/components/Lightbox');
 const { LightboxGallery } = require('../../ts/components/LightboxGallery');
 const { MemberList } = require('../../ts/components/conversation/MemberList');
-const { BulkEdit } = require('../../ts/components/conversation/BulkEdit');
-const {
-  CreateGroupDialog,
-} = require('../../ts/components/conversation/CreateGroupDialog');
 const { EditProfileDialog } = require('../../ts/components/EditProfileDialog');
 const { UserDetailsDialog } = require('../../ts/components/UserDetailsDialog');
 const {
   DevicePairingDialog,
 } = require('../../ts/components/DevicePairingDialog');
 const {
-  SettingsView,
-} = require('../../ts/components/session/settings/SessionSettings');
-const { SessionToast } = require('../../ts/components/session/SessionToast');
-const { SessionToggle } = require('../../ts/components/session/SessionToggle');
+  SessionConversation,
+} = require('../../ts/components/session/conversation/SessionConversation');
 const { SessionModal } = require('../../ts/components/session/SessionModal');
 const {
   SessionSeedModal,
 } = require('../../ts/components/session/SessionSeedModal');
+const {
+  SessionRegistrationView,
+} = require('../../ts/components/session/SessionRegistrationView');
 
+const {
+  SessionInboxView,
+} = require('../../ts/components/session/SessionInboxView');
 const {
   SessionPasswordModal,
 } = require('../../ts/components/session/SessionPasswordModal');
@@ -74,16 +59,6 @@ const {
 const {
   SessionConfirm,
 } = require('../../ts/components/session/SessionConfirm');
-
-const {
-  SessionDropdown,
-} = require('../../ts/components/session/SessionDropdown');
-const {
-  SessionScrollButton,
-} = require('../../ts/components/session/SessionScrollButton');
-const {
-  SessionRegistrationView,
-} = require('../../ts/components/session/SessionRegistrationView');
 
 const {
   UpdateGroupNameDialog,
@@ -110,33 +85,12 @@ const {
   MediaGallery,
 } = require('../../ts/components/conversation/media-gallery/MediaGallery');
 const { Message } = require('../../ts/components/conversation/Message');
-const { MessageBody } = require('../../ts/components/conversation/MessageBody');
-const {
-  MessageDetail,
-} = require('../../ts/components/conversation/MessageDetail');
 const { Quote } = require('../../ts/components/conversation/Quote');
-const {
-  ResetSessionNotification,
-} = require('../../ts/components/conversation/ResetSessionNotification');
-const {
-  SafetyNumberNotification,
-} = require('../../ts/components/conversation/SafetyNumberNotification');
-const {
-  StagedLinkPreview,
-} = require('../../ts/components/conversation/StagedLinkPreview');
-const {
-  TimerNotification,
-} = require('../../ts/components/conversation/TimerNotification');
 const {
   TypingBubble,
 } = require('../../ts/components/conversation/TypingBubble');
-const {
-  VerificationNotification,
-} = require('../../ts/components/conversation/VerificationNotification');
 
 // State
-const { createLeftPane } = require('../../ts/state/roots/createLeftPane');
-const { createStore } = require('../../ts/state/createStore');
 const conversationsDuck = require('../../ts/state/ducks/conversations');
 const userDuck = require('../../ts/state/ducks/user');
 
@@ -270,25 +224,18 @@ exports.setup = (options = {}) => {
 
   const Components = {
     ConversationLoadingScreen,
-    AttachmentList,
-    CaptionEditor,
     ContactDetail,
     ContactListItem,
     ContactName,
-    ConversationHeaderWithDetails,
-    SessionGroupSettingsWithDetails,
-    SettingsView,
     EmbeddedContact,
     Emojify,
-    GroupNotification,
     Lightbox,
     LightboxGallery,
     MemberList,
-    CreateGroupDialog,
     EditProfileDialog,
     UserDetailsDialog,
     DevicePairingDialog,
-    SessionRegistrationView,
+    SessionInboxView,
     ConfirmDialog,
     UpdateGroupNameDialog,
     UpdateGroupMembersDialog,
@@ -296,43 +243,27 @@ exports.setup = (options = {}) => {
     AddModeratorsDialog,
     RemoveModeratorsDialog,
     GroupInvitation,
-    BulkEdit,
-    SessionToast,
-    SessionToggle,
+    SessionConversation,
     SessionConfirm,
     SessionModal,
     SessionSeedModal,
     SessionPasswordModal,
     SessionPasswordPrompt,
-    SessionDropdown,
-    SessionScrollButton,
+    SessionRegistrationView,
     MediaGallery,
     Message,
-    MessageBody,
-    MessageDetail,
     Quote,
-    ResetSessionNotification,
-    SafetyNumberNotification,
-    StagedLinkPreview,
-    TimerNotification,
     Types: {
       Message: MediaGalleryMessage,
     },
     TypingBubble,
-    VerificationNotification,
   };
 
-  const Roots = {
-    createLeftPane,
-  };
   const Ducks = {
     conversations: conversationsDuck,
     user: userDuck,
   };
   const State = {
-    bindActionCreators,
-    createStore,
-    Roots,
     Ducks,
   };
 
@@ -359,7 +290,6 @@ exports.setup = (options = {}) => {
 
   return {
     AttachmentDownloads,
-    Backbone,
     Components,
     Crypto,
     Data,

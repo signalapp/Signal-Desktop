@@ -1,10 +1,10 @@
 import React from 'react';
-import { PropsData as ConversationListItemPropsType } from './ConversationListItem';
+import { ConversationListItemProps } from './ConversationListItem';
 
 import classNames from 'classnames';
 
 export type Props = {
-  contacts: Array<ConversationListItemPropsType>;
+  contacts: Array<ConversationListItemProps>;
   regionCode: string;
   searchTerm: string;
   selectedContact: number;
@@ -34,7 +34,7 @@ export class UserSearchResults extends React.Component<Props> {
     );
   }
 
-  private renderContacts(items: Array<ConversationListItemPropsType>) {
+  private renderContacts(items: Array<ConversationListItemProps>) {
     return (
       <div className="contacts-dropdown">
         {items.map((contact, index) => this.renderContact(contact, index))}
@@ -42,7 +42,7 @@ export class UserSearchResults extends React.Component<Props> {
     );
   }
 
-  private renderContact(contact: ConversationListItemPropsType, index: Number) {
+  private renderContact(contact: ConversationListItemProps, index: Number) {
     const { profileName, phoneNumber } = contact;
     const { selectedContact } = this.props;
 

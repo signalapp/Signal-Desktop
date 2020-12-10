@@ -47,16 +47,4 @@
       @include color-svg('../images/x.svg', white);
     }
   }
-
-  &.previous {
-    &:before {
-      @include color-svg('../images/back.svg', white);
-    }
-  }
-
-  &.next {
-    &:before {
-      @include color-svg('../images/forward.svg', white);
-    }
-  }
 }

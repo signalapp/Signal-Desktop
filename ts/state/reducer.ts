@@ -6,17 +6,27 @@ import {
   reducer as conversations,
 } from './ducks/conversations';
 import { reducer as user, UserStateType } from './ducks/user';
+import { reducer as theme, ThemeStateType } from './ducks/theme';
+import { reducer as section, SectionStateType } from './ducks/section';
 
 export type StateType = {
   search: SearchStateType;
-  conversations: ConversationsStateType;
+  // messages: MessagesStateType;
   user: UserStateType;
+  conversations: ConversationsStateType;
+  theme: ThemeStateType;
+  section: SectionStateType;
 };
 
 export const reducers = {
   search,
+  // Temporary until ./ducks/messages is working
+  // messages,
+  // messages: search,
   conversations,
   user,
+  theme,
+  section,
 };
 
 // Making this work would require that our reducer signature supported AnyAction, not

@@ -7,7 +7,6 @@ import {
 import { Image } from './Image';
 import { StagedGenericAttachment } from './StagedGenericAttachment';
 import { StagedPlaceholderAttachment } from './StagedPlaceholderAttachment';
-import { LocalizerType } from '../../types/Util';
 import {
   areAllAttachmentsVisual,
   AttachmentType,
@@ -17,7 +16,6 @@ import {
 
 interface Props {
   attachments: Array<AttachmentType>;
-  i18n: LocalizerType;
   // onError: () => void;
   onClickAttachment: (attachment: AttachmentType) => void;
   onCloseAttachment: (attachment: AttachmentType) => void;
@@ -33,7 +31,6 @@ export class AttachmentList extends React.Component<Props> {
   public render() {
     const {
       attachments,
-      i18n,
       onAddAttachment,
       onClickAttachment,
       onCloseAttachment,
@@ -72,10 +69,10 @@ export class AttachmentList extends React.Component<Props> {
               return (
                 <Image
                   key={imageKey}
-                  alt={i18n('stagedImageAttachment', [
+                  alt={window.i18n('stagedImageAttachment', [
                     getUrl(attachment) || attachment.fileName,
                   ])}
-                  i18n={i18n}
+                  i18n={window.i18n}
                   attachment={attachment}
                   softCorners={true}
                   playIconOverlay={isVideoAttachment(attachment)}
@@ -96,7 +93,7 @@ export class AttachmentList extends React.Component<Props> {
               <StagedGenericAttachment
                 key={genericKey}
                 attachment={attachment}
-                i18n={i18n}
+                i18n={window.i18n}
                 onClose={onCloseAttachment}
               />
             );

@@ -5,7 +5,6 @@ import moment from 'moment';
 import { Avatar } from '../Avatar';
 import { ContactName } from './ContactName';
 import { Message, Props as MessageProps } from './Message';
-import { LocalizerType } from '../../types/Util';
 
 interface Contact {
   status: string;
@@ -31,12 +30,11 @@ interface Props {
   errors: Array<Error>;
   contacts: Array<Contact>;
 
-  i18n: LocalizerType;
+  onDeleteMessage: (messageId: string) => void;
 }
 
 export class MessageDetail extends React.Component<Props> {
   public renderAvatar(contact: Contact) {
-    const { i18n } = this.props;
     const { avatarPath, phoneNumber, name, profileName } = contact;
     const userName = name || profileName || phoneNumber;
 
@@ -51,12 +49,16 @@ export class MessageDetail extends React.Component<Props> {
   }
 
   public renderDeleteButton() {
-    const { i18n, message } = this.props;
+    const { i18n } = window;
+
+    const { message } = this.props;
 
     return message.isDeletable ? (
       <div className="module-message-detail__delete-button-container">
         <button
-          onClick={message.onDelete}
+          onClick={() => {
+            this.props.onDeleteMessage(message.id);
+          }}
           className="module-message-detail__delete-button"
         >
           {i18n('deleteThisMessage')}
@@ -66,7 +68,7 @@ export class MessageDetail extends React.Component<Props> {
   }
 
   public renderContact(contact: Contact) {
-    const { i18n } = this.props;
+    const { i18n } = window;
     const errors = contact.errors || [];
 
     const errorComponent = contact.isOutgoingKeyError ? (
@@ -138,57 +140,61 @@ export class MessageDetail extends React.Component<Props> {
   }
 
   public render() {
-    const { errors, message, receivedAt, sentAt, i18n } = this.props;
+    const { i18n } = window;
+
+    const { errors, message, receivedAt, sentAt } = this.props;
 
     return (
-      <div className="module-message-detail">
-        <div className="module-message-detail__message-container">
-          <Message i18n={i18n} {...message} />
-        </div>
-        <table className="module-message-detail__info">
-          <tbody>
-            {(errors || []).map((error, index) => (
-              <tr key={index}>
-                <td className="module-message-detail__label">
-                  {i18n('error')}
-                </td>
-                <td>
-                  {' '}
-                  <span className="error-message">{error.message}</span>{' '}
-                </td>
-              </tr>
-            ))}
-            <tr>
-              <td className="module-message-detail__label">{i18n('sent')}</td>
-              <td>
-                {moment(sentAt).format('LLLL')}{' '}
-                <span className="module-message-detail__unix-timestamp">
-                  ({sentAt})
-                </span>
-              </td>
-            </tr>
-            {receivedAt ? (
+      <div className="message-detail-wrapper">
+        <div className="module-message-detail">
+          <div className="module-message-detail__message-container">
+            <Message {...message} />
+          </div>
+          <table className="module-message-detail__info">
+            <tbody>
+              {(errors || []).map((error, index) => (
+                <tr key={index}>
+                  <td className="module-message-detail__label">
+                    {i18n('error')}
+                  </td>
+                  <td>
+                    {' '}
+                    <span className="error-message">{error.message}</span>{' '}
+                  </td>
+                </tr>
+              ))}
               <tr>
-                <td className="module-message-detail__label">
-                  {i18n('received')}
-                </td>
+                <td className="module-message-detail__label">{i18n('sent')}</td>
                 <td>
-                  {moment(receivedAt).format('LLLL')}{' '}
+                  {moment(sentAt).format('LLLL')}{' '}
                   <span className="module-message-detail__unix-timestamp">
-                    ({receivedAt})
+                    ({sentAt})
                   </span>
                 </td>
               </tr>
-            ) : null}
-            <tr>
-              <td className="module-message-detail__label">
-                {message.direction === 'incoming' ? i18n('from') : i18n('to')}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        {this.renderContacts()}
-        {this.renderDeleteButton()}
+              {receivedAt ? (
+                <tr>
+                  <td className="module-message-detail__label">
+                    {i18n('received')}
+                  </td>
+                  <td>
+                    {moment(receivedAt).format('LLLL')}{' '}
+                    <span className="module-message-detail__unix-timestamp">
+                      ({receivedAt})
+                    </span>
+                  </td>
+                </tr>
+              ) : null}
+              <tr>
+                <td className="module-message-detail__label">
+                  {message.direction === 'incoming' ? i18n('from') : i18n('to')}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          {this.renderContacts()}
+          {this.renderDeleteButton()}
+        </div>
       </div>
     );
   }

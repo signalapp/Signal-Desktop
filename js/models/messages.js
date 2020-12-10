@@ -4,7 +4,7 @@
   storage,
   filesize,
   ConversationController,
-  MessageController,
+  getMessageController,
   i18n,
   Signal,
   textsecure,
@@ -53,8 +53,6 @@
         );
       }
 
-      this.OUR_NUMBER = textsecure.storage.user.getNumber();
-
       this.on('destroy', this.onDestroy);
       this.on('change:expirationStartTimestamp', this.setToExpire);
       this.on('change:expireTimer', this.setToExpire);
@@ -62,11 +60,9 @@
       this.on('expired', this.onExpired);
       this.setToExpire();
       // Keep props ready
-      const generateProps = () => {
+      const generateProps = (triggerEvent = true) => {
         if (this.isExpirationTimerUpdate()) {
           this.propsForTimerNotification = this.getPropsForTimerNotification();
-        } else if (this.isKeyChange()) {
-          this.propsForSafetyNumberNotification = this.getPropsForSafetyNumberNotification();
         } else if (this.isVerifiedChange()) {
           this.propsForVerificationNotification = this.getPropsForVerificationNotification();
         } else if (this.isEndSession()) {
@@ -81,33 +77,30 @@
           this.propsForSearchResult = this.getPropsForSearchResult();
           this.propsForMessage = this.getPropsForMessage();
         }
+        if (triggerEvent) {
+          Whisper.events.trigger('messageChanged', this);
+        }
       };
-      const triggerChange = () => this.trigger('change');
-
       this.on('change', generateProps);
 
-      const applicableConversationChanges =
-        'change:color change:name change:number change:profileName change:profileAvatar';
+      // const applicableConversationChanges =
+      //   'change:color change:name change:number change:profileName change:profileAvatar';
+      // FIXME AUDRIC
+      // const conversation = this.getConversation();
+      // const fromContact = this.getIncomingContact();
+      // this.listenTo(conversation, applicableConversationChanges, generateProps);
 
-      const conversation = this.getConversation();
-      const fromContact = this.getIncomingContact();
-      this.listenTo(conversation, applicableConversationChanges, generateProps);
+      // if (fromContact) {
+      //   this.listenTo(
+      //     fromContact,
+      //     applicableConversationChanges,
+      //     generateProps
+      //   );
+      // }
 
-      // trigger a change event on this component.
-      // this will call generateProps and refresh the Message.tsx component with new props
-      this.listenTo(conversation, 'disable:input', triggerChange);
-      if (fromContact) {
-        this.listenTo(
-          fromContact,
-          applicableConversationChanges,
-          generateProps
-        );
-      }
-
-      this.selected = false;
       window.contextMenuShown = false;
 
-      generateProps();
+      generateProps(false);
     },
     idForLogging() {
       return `${this.get('source')}.${this.get('sourceDevice')} ${this.get(
@@ -170,30 +163,24 @@
 
       this.set(attributes);
     },
-    getNameForNumber(number) {
-      const conversation = ConversationController.get(number);
-      if (!conversation) {
-        return number;
-      }
-      return conversation.getProfileName();
-    },
-    getLokiNameForNumber(number) {
-      const conversation = ConversationController.get(number);
-      if (number === textsecure.storage.user.getNumber()) {
-        return i18n('you');
-      }
-      if (!conversation || !conversation.getLokiProfile()) {
-        return number;
-      }
-      return conversation.getLokiProfile().displayName;
-    },
     getDescription() {
       if (this.isGroupUpdate()) {
         const groupUpdate = this.get('group_update');
-        if (groupUpdate.left === 'You') {
+        const ourPrimary = window.textsecure.storage.get('primaryDevicePubKey');
+        if (
+          groupUpdate.left === 'You' ||
+          (Array.isArray(groupUpdate.left) &&
+            groupUpdate.left.length === 1 &&
+            groupUpdate.left[0] === ourPrimary)
+        ) {
           return i18n('youLeftTheGroup');
         } else if (groupUpdate.left) {
-          return i18n('leftTheGroup', this.getNameForNumber(groupUpdate.left));
+          return i18n(
+            'leftTheGroup',
+            ConversationController.getContactProfileNameOrShortenedPubKey(
+              groupUpdate.left
+            )
+          );
         }
 
         if (groupUpdate.kicked === 'You') {
@@ -208,8 +195,8 @@
           messages.push(i18n('titleIsNow', groupUpdate.name));
         }
         if (groupUpdate.joined && groupUpdate.joined.length) {
-          const names = groupUpdate.joined.map(name =>
-            this.getLokiNameForNumber(name)
+          const names = groupUpdate.joined.map(pubKey =>
+            ConversationController.getContactProfileNameOrFullPubKey(pubKey)
           );
 
           if (names.length > 1) {
@@ -222,7 +209,7 @@
         if (groupUpdate.kicked && groupUpdate.kicked.length) {
           const names = _.map(
             groupUpdate.kicked,
-            this.getNameForNumber.bind(this)
+            ConversationController.getContactProfileNameOrShortenedPubKey
           );
 
           if (names.length > 1) {
@@ -273,7 +260,9 @@
         );
         const pubkeysInDesc = description.match(regex);
         (pubkeysInDesc || []).forEach(pubkey => {
-          const displayName = this.getLokiNameForNumber(pubkey.slice(1));
+          const displayName = ConversationController.getContactProfileNameOrShortenedPubKey(
+            pubkey.slice(1)
+          );
           if (displayName && displayName.length) {
             description = description.replace(pubkey, `@${displayName}`);
           }
@@ -313,7 +302,7 @@
       this.cleanup();
     },
     async cleanup() {
-      MessageController.unregister(this.id);
+      getMessageController().unregister(this.id);
       this.unload();
       await deleteExternalMessageFiles(this.attributes);
     },
@@ -347,7 +336,7 @@
           ...basicProps,
           type: 'fromSync',
         };
-      } else if (source === this.OUR_NUMBER) {
+      } else if (source === textsecure.storage.user.getNumber()) {
         return {
           ...basicProps,
           type: 'fromMe',
@@ -355,19 +344,6 @@
       }
 
       return basicProps;
-    },
-    getPropsForSafetyNumberNotification() {
-      const conversation = this.getConversation();
-      const isGroup = conversation && !conversation.isPrivate();
-      const phoneNumber = this.get('key_changed');
-      const onVerify = () =>
-        this.trigger('show-identity', this.findContact(phoneNumber));
-
-      return {
-        isGroup,
-        contact: this.findAndFormatContact(phoneNumber),
-        onVerify,
-      };
     },
     getPropsForVerificationNotification() {
       const type = this.get('verified') ? 'markVerified' : 'markNotVerified';
@@ -477,15 +453,26 @@
           isMe: true,
         });
       } else if (groupUpdate.left) {
-        changes.push({
-          type: 'remove',
-          contacts: _.map(
-            Array.isArray(groupUpdate.left)
-              ? groupUpdate.left
-              : [groupUpdate.left],
-            phoneNumber => this.findAndFormatContact(phoneNumber)
-          ),
-        });
+        if (
+          Array.isArray(groupUpdate.left) &&
+          groupUpdate.left.length === 1 &&
+          groupUpdate.left[0] === textsecure.storage.user.getNumber()
+        ) {
+          changes.push({
+            type: 'remove',
+            isMe: true,
+          });
+        } else {
+          changes.push({
+            type: 'remove',
+            contacts: _.map(
+              Array.isArray(groupUpdate.left)
+                ? groupUpdate.left
+                : [groupUpdate.left],
+              phoneNumber => this.findAndFormatContact(phoneNumber)
+            ),
+          });
+        }
       }
 
       if (groupUpdate.name) {
@@ -533,13 +520,13 @@
     getPropsForSearchResult() {
       const fromNumber = this.getSource();
       const from = this.findAndFormatContact(fromNumber);
-      if (fromNumber === this.OUR_NUMBER) {
+      if (fromNumber === textsecure.storage.user.getNumber()) {
         from.isMe = true;
       }
 
       const toNumber = this.get('conversationId');
       let to = this.findAndFormatContact(toNumber);
-      if (toNumber === this.OUR_NUMBER) {
+      if (toNumber === textsecure.storage.user.getNumber()) {
         to.isMe = true;
       } else if (fromNumber === toNumber) {
         to = {
@@ -580,17 +567,17 @@
       const conversation = this.getConversation();
 
       const isModerator =
-        conversation && !!conversation.isModerator(this.OUR_NUMBER);
+        conversation &&
+        !!conversation.isModerator(textsecure.storage.user.getNumber());
 
       const convoId = conversation ? conversation.id : undefined;
       const isGroup = !!conversation && !conversation.isPrivate();
 
       const attachments = this.get('attachments') || [];
-      const firstAttachment = attachments[0];
 
       return {
         text: this.createNonBreakingLastSeparator(this.get('body')),
-        textPending: this.get('bodyPending'),
+        bodyPending: this.get('bodyPending'),
         id: this.id,
         direction: this.isIncoming() ? 'incoming' : 'outgoing',
         timestamp: this.get('sent_at'),
@@ -609,46 +596,25 @@
         quote: this.getPropsForQuote(options),
         authorAvatarPath,
         isExpired: this.hasExpired,
+        isUnread: this.isUnread(),
         expirationLength,
         expirationTimestamp,
-        selected: this.selected,
-        multiSelectMode: conversation && conversation.selectedMessages.size > 0,
         isPublic: !!this.get('isPublic'),
         isRss: !!this.get('isRss'),
         isKickedFromGroup:
           conversation && conversation.get('isKickedFromGroup'),
-        senderIsModerator:
-          !!this.get('isPublic') &&
-          conversation &&
-          conversation.isModerator(phoneNumber),
         isDeletable:
           !this.get('isPublic') ||
           isModerator ||
-          phoneNumber === this.OUR_NUMBER,
+          phoneNumber === textsecure.storage.user.getNumber(),
         isModerator,
 
         onCopyText: () => this.copyText(),
-        onSelectMessage: () => this.selectMessage(),
-        onSelectMessageUnchecked: () => this.selectMessageUnchecked(),
         onCopyPubKey: () => this.copyPubKey(),
         onBanUser: () => this.banUser(),
-        onReply: () => this.trigger('reply', this),
         onRetrySend: () => this.retrySend(),
-        onShowDetail: () => this.trigger('show-message-detail', this),
-        onDelete: () => this.trigger('delete', this),
-        onClickLinkPreview: url => this.trigger('navigate-to', url),
-        onClickAttachment: attachment =>
-          this.trigger('show-lightbox', {
-            attachment,
-            message: this,
-          }),
+        markRead: readAt => this.markRead(readAt),
 
-        onDownload: isDangerous =>
-          this.trigger('download', {
-            attachment: firstAttachment,
-            message: this,
-            isDangerous,
-          }),
         onShowUserDetails: pubkey =>
           window.Whisper.events.trigger('onShowUserDetails', {
             userPubKey: pubkey,
@@ -752,6 +718,7 @@
     getPropsForQuote(options = {}) {
       const { noClick } = options;
       const quote = this.get('quote');
+
       if (!quote) {
         return null;
       }
@@ -765,9 +732,10 @@
       const authorPhoneNumber = format(author, {
         ourRegionCode: regionCode,
       });
-      const authorProfileName = contact ? contact.getProfileName() : null;
       const authorName = contact ? contact.getName() : null;
-      const isFromMe = contact ? contact.id === this.OUR_NUMBER : false;
+      const isFromMe = contact
+        ? contact.id === textsecure.storage.user.getNumber()
+        : false;
       const onClick = noClick
         ? null
         : event => {
@@ -788,7 +756,7 @@
           : null,
         isFromMe,
         authorPhoneNumber,
-        authorProfileName,
+        messageId: id,
         authorName,
         onClick,
         referencedMessageNotFound,
@@ -888,19 +856,14 @@
             : `${contact.profileName} (Secondary Device)`;
           return {
             ...contact,
-            status: this.getStatus(id),
+            // fallback to the message status if we do not have a status with a user
+            // this is useful for medium groups.
+            status: this.getStatus(id) || this.getMessagePropStatus(),
             errors: errorsForContact,
             isOutgoingKeyError,
             isUnidentifiedDelivery,
             isPrimaryDevice,
             profileName,
-            onSendAnyway: () =>
-              this.trigger('force-send', {
-                contact: this.findContact(id),
-                message: this,
-              }),
-            onShowSafetyNumber: () =>
-              this.trigger('show-identity', this.findContact(id)),
           };
         })
       );
@@ -917,7 +880,7 @@
         sentAt: this.get('sent_at'),
         receivedAt: this.get('received_at'),
         message: {
-          ...this.getPropsForMessage({ noClick: true }),
+          ...this.propsForMessage,
           disableMenu: true,
           // To ensure that group avatar doesn't show up
           conversationType: 'direct',
@@ -931,14 +894,10 @@
       if (this.isIncoming()) {
         clipboard.writeText(this.get('source'));
       } else {
-        clipboard.writeText(this.OUR_NUMBER);
+        clipboard.writeText(textsecure.storage.user.getNumber());
       }
 
-      window.pushToast({
-        title: i18n('copiedToClipboard'),
-        type: 'success',
-        id: 'copiedToClipboard',
-      });
+      window.libsession.Utils.ToastUtils.pushCopiedToClipBoard();
     },
 
     banUser() {
@@ -953,53 +912,18 @@
           const success = await channelAPI.banUser(source);
 
           if (success) {
-            window.pushToast({
-              title: i18n('userBanned'),
-              type: 'success',
-              id: 'userBanned',
-            });
+            window.libsession.Utils.ToastUtils.pushUserBanSuccess();
           } else {
-            window.pushToast({
-              title: i18n('userBanFailed'),
-              type: 'error',
-              id: 'userBanFailed',
-            });
+            window.libsession.Utils.ToastUtils.pushUserBanFailure();
           }
         },
       });
     },
 
-    // Select message even if the context menu is shown
-    selectMessageUnchecked() {
-      this.selected = !this.selected;
-
-      const convo = this.getConversation();
-
-      if (this.selected) {
-        convo.addMessageSelection(this);
-      } else {
-        convo.removeMessageSelection(this);
-      }
-
-      this.trigger('change');
-    },
-
-    selectMessage() {
-      if (window.contextMenuShown || this.get('isRss')) {
-        return;
-      }
-
-      this.selectMessageUnchecked();
-    },
-
     copyText() {
       clipboard.writeText(this.get('body'));
 
-      window.pushToast({
-        title: i18n('copiedToClipboard'),
-        type: 'success',
-        id: 'copiedToClipboard',
-      });
+      window.libsession.Utils.ToastUtils.pushCopiedToClipBoard();
     },
 
     /**
@@ -1023,6 +947,13 @@
         attachments: attachmentsWithData,
         now: this.get('sent_at'),
       });
+      const filenameOverridenAttachments = finalAttachments.map(attachment => ({
+        ...attachment,
+        fileName: Signal.Types.Attachment.getSuggestedFilenameSending({
+          attachment,
+          timestamp: Date.now(),
+        }),
+      }));
 
       const quoteWithData = await loadQuoteData(this.get('quote'));
       const previewWithData = await loadPreviewData(this.get('preview'));
@@ -1032,7 +963,10 @@
 
       const { AttachmentUtils } = libsession.Utils;
       const [attachments, preview, quote] = await Promise.all([
-        AttachmentUtils.uploadAttachments(finalAttachments, openGroup),
+        AttachmentUtils.uploadAttachments(
+          filenameOverridenAttachments,
+          openGroup
+        ),
         AttachmentUtils.uploadLinkPreviews(previewWithData, openGroup),
         AttachmentUtils.uploadQuoteThumbnails(quoteWithData, openGroup),
       ]);
@@ -1053,9 +987,7 @@
       }
 
       this.set({ errors: null });
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
+      await this.commit();
       try {
         const conversation = this.getConversation();
         const intendedRecipients = this.get('recipients') || [];
@@ -1093,9 +1025,7 @@
         if (!recipients.length) {
           window.log.warn('retrySend: Nobody to send to!');
 
-          return window.Signal.Data.saveMessage(this.attributes, {
-            Message: Whisper.Message,
-          });
+          return this.commit();
         }
 
         const { body, attachments, preview, quote } = await this.uploadData();
@@ -1186,7 +1116,7 @@
         });
 
         // Special-case the self-send case - we send only a sync message
-        if (number === this.OUR_NUMBER) {
+        if (number === textsecure.storage.user.getNumber()) {
           return this.sendSyncMessageOnly(chatMessage);
         }
 
@@ -1245,7 +1175,7 @@
         sentMessage.encryption === libsession.Types.EncryptionType.MediumGroup;
 
       const isOpenGroupMessage =
-        sentMessage.group &&
+        !!sentMessage.group &&
         sentMessage.group instanceof libsession.Types.OpenGroup;
 
       // We trigger a sync message only when the message is not to one of our devices, AND
@@ -1263,7 +1193,7 @@
 
       const isSessionOrClosedMessage = !isOpenGroupMessage;
 
-      if (!isOpenGroupMessage) {
+      if (isSessionOrClosedMessage) {
         const contentDecoded = textsecure.protobuf.Content.decode(
           sentMessage.plainTextBuffer
         );
@@ -1362,9 +1292,8 @@
         // unidentifiedDeliveries: result.unidentifiedDeliveries,
       });
 
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
+      await this.commit();
+
       this.getConversation().updateLastMessage();
 
       this.trigger('sent', this);
@@ -1392,10 +1321,7 @@
         expirationStartTimestamp,
         // unidentifiedDeliveries: result.unidentifiedDeliveries,
       });
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
-      this.trigger('change', this);
+      await this.commit();
 
       this.getConversation().updateLastMessage();
       this.trigger('done');
@@ -1446,7 +1372,7 @@
         return this.get('source');
       }
 
-      return this.OUR_NUMBER;
+      return textsecure.storage.user.getNumber();
     },
     getContact() {
       const source = this.getSource();
@@ -1485,7 +1411,7 @@
       return null;
     },
     async setCalculatingPoW() {
-      if (this.calculatingPoW) {
+      if (this.get('calculatingPoW')) {
         return;
       }
 
@@ -1493,12 +1419,7 @@
         calculatingPoW: true,
       });
 
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
-    },
-    getServerId() {
-      return this.get('serverId');
+      await this.commit();
     },
     async setServerId(serverId) {
       if (_.isEqual(this.get('serverId'), serverId)) {
@@ -1509,9 +1430,7 @@
         serverId,
       });
 
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
+      await this.commit();
     },
     async setServerTimestamp(serverTimestamp) {
       if (_.isEqual(this.get('serverTimestamp'), serverTimestamp)) {
@@ -1522,9 +1441,7 @@
         serverTimestamp,
       });
 
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
+      await this.commit();
     },
     async setIsPublic(isPublic) {
       if (_.isEqual(this.get('isPublic'), isPublic)) {
@@ -1535,21 +1452,17 @@
         isPublic: !!isPublic,
       });
 
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
+      await this.commit();
     },
 
     async sendSyncMessageOnly(dataMessage) {
       this.set({
-        sent_to: [this.OUR_NUMBER],
+        sent_to: [textsecure.storage.user.getNumber()],
         sent: true,
         expirationStartTimestamp: Date.now(),
       });
 
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
+      await this.commit();
 
       const data =
         dataMessage instanceof libsession.Messages.Outgoing.DataMessage
@@ -1581,9 +1494,7 @@
       await libsession.getMessageQueue().sendSyncMessage(syncMessage);
 
       this.set({ sentSync: true });
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
+      await this.commit();
     },
 
     someRecipientsFailed() {
@@ -1609,14 +1520,12 @@
       this.set({
         // These are the same as a normal send()
         dataMessage,
-        sent_to: [this.OUR_NUMBER],
+        sent_to: [textsecure.storage.user.getNumber()],
         sent: true,
         expirationStartTimestamp: Date.now(),
       });
 
-      return window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
+      await this.commit();
     },
 
     async saveErrors(providedErrors) {
@@ -1649,9 +1558,7 @@
       }
 
       this.set({ errors });
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
+      await this.commit();
     },
     hasNetworkError() {
       const error = _.find(
@@ -1662,6 +1569,15 @@
           e.name === 'SignedPreKeyRotationError'
       );
       return !!error;
+    },
+    async commit(forceSave = false) {
+      // TODO investigate the meaning of the forceSave
+      const id = await window.Signal.Data.saveMessage(this.attributes, {
+        forceSave,
+        Message: Whisper.Message,
+      });
+      this.trigger('change');
+      return id;
     },
     async markRead(readAt) {
       this.unset('unread');
@@ -1680,9 +1596,7 @@
         })
       );
 
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
+      await this.commit();
     },
     isExpiring() {
       return this.get('expireTimer') && this.get('expirationStartTimestamp');
@@ -1712,9 +1626,7 @@
         this.set({ expires_at: expiresAt });
         const id = this.get('id');
         if (id) {
-          await window.Signal.Data.saveMessage(this.attributes, {
-            Message: Whisper.Message,
-          });
+          await this.commit();
         }
 
         window.log.info('Set message expiration', {
@@ -1776,53 +1688,6 @@
         const unread = model.get('unread') && model.isIncoming();
         return total + (unread ? 1 : 0);
       }, 0);
-    },
-
-    async fetchConversation(conversationId, limit = 100, unreadCount = 0) {
-      const startingLoadedUnread =
-        unreadCount > 0 ? this.getLoadedUnreadCount() : 0;
-
-      // We look for older messages if we've fetched once already
-      const receivedAt =
-        this.length === 0 ? Number.MAX_VALUE : this.at(0).get('received_at');
-
-      const messages = await window.Signal.Data.getMessagesByConversation(
-        conversationId,
-        {
-          limit,
-          receivedAt,
-          MessageCollection: Whisper.MessageCollection,
-        }
-      );
-
-      const models = messages
-        .filter(message => Boolean(message.id))
-        .map(message => MessageController.register(message.id, message));
-      const eliminated = messages.length - models.length;
-      if (eliminated > 0) {
-        window.log.warn(
-          `fetchConversation: Eliminated ${eliminated} messages without an id`
-        );
-      }
-
-      this.add(models.reverse());
-
-      if (unreadCount <= 0) {
-        return;
-      }
-      const loadedUnread = this.getLoadedUnreadCount();
-      if (loadedUnread >= unreadCount) {
-        return;
-      }
-      if (startingLoadedUnread === loadedUnread) {
-        // that fetch didn't get us any more unread. stop fetching more.
-        return;
-      }
-
-      window.log.info(
-        'fetchConversation: doing another fetch to get all unread'
-      );
-      await this.fetchConversation(conversationId, limit, unreadCount);
     },
   });
 })();

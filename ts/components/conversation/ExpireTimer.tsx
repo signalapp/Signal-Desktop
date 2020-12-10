@@ -1,80 +1,85 @@
-import React from 'react';
-import classNames from 'classnames';
+import React, { useState } from 'react';
 
-import { getIncrement, getTimerBucket } from '../../util/timer';
+import { getTimerBucketIcon } from '../../util/timer';
+import { useInterval } from '../../hooks/useInterval';
+import styled, { DefaultTheme } from 'styled-components';
+import { OpacityMetadataComponent } from './message/MessageMetadata';
+import { SessionIcon, SessionIconSize } from '../session/icon';
 
-interface Props {
+type Props = {
   withImageNoCaption: boolean;
   expirationLength: number;
   expirationTimestamp: number;
   direction: 'incoming' | 'outgoing';
-}
+  theme: DefaultTheme;
+};
 
-export class ExpireTimer extends React.Component<Props> {
-  private interval: any;
+const ExpireTimerCount = styled(props => (
+  <OpacityMetadataComponent {...props} />
+))<{ color: string }>`
+  margin-inline-start: 6px;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  user-select: none;
+  color: ${props => props.color};
+`;
 
-  constructor(props: Props) {
-    super(props);
+const ExpireTimerBucket = styled(props => (
+  <OpacityMetadataComponent {...props} />
+))<{ color: string }>`
+  margin-inline-start: 6px;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  user-select: none;
+  color: ${props => props.color};
+`;
 
-    this.interval = null;
-  }
+export const ExpireTimer = (props: Props) => {
+  const { expirationLength, expirationTimestamp, withImageNoCaption } = props;
 
-  public componentDidMount() {
-    const { expirationLength } = this.props;
-    const increment = getIncrement(expirationLength);
-    const updateFrequency = Math.max(increment, 500);
+  const initialTimeLeft = Math.max(
+    Math.round((expirationTimestamp - Date.now()) / 1000),
+    0
+  );
+  const [timeLeft, setTimeLeft] = useState(initialTimeLeft);
 
-    const update = () => {
-      this.setState({
-        lastUpdated: Date.now(),
-      });
-    };
-    this.interval = setInterval(update, updateFrequency);
-  }
-
-  public componentWillUnmount() {
-    if (this.interval) {
-      clearInterval(this.interval);
+  const update = () => {
+    const newTimeLeft = Math.max(
+      Math.round((expirationTimestamp - Date.now()) / 1000),
+      0
+    );
+    if (newTimeLeft !== timeLeft) {
+      setTimeLeft(newTimeLeft);
     }
-  }
+  };
 
-  public render() {
-    const {
-      direction,
-      expirationLength,
-      expirationTimestamp,
-      withImageNoCaption,
-    } = this.props;
+  const updateFrequency = 500;
 
-    const bucket = getTimerBucket(expirationTimestamp, expirationLength);
-    let timeLeft = Math.round((expirationTimestamp - Date.now()) / 1000);
-    timeLeft = timeLeft >= 0 ? timeLeft : 0;
-    if (timeLeft <= 60) {
-      return (
-        <span
-          className={classNames(
-            'module-expire-timer-margin',
-            'module-message__metadata__date',
-            `module-message__metadata__date--${direction}`
-          )}
-        >
-          {timeLeft}
-        </span>
-      );
-    }
+  useInterval(update, updateFrequency);
 
+  const expireTimerColor = withImageNoCaption
+    ? 'white'
+    : props.theme.colors.textColor;
+
+  if (timeLeft <= 60) {
     return (
-      <div
-        className={classNames(
-          'module-expire-timer',
-          'module-expire-timer-margin',
-          `module-expire-timer--${bucket}`,
-          `module-expire-timer--${direction}`,
-          withImageNoCaption
-            ? 'module-expire-timer--with-image-no-caption'
-            : null
-        )}
-      />
+      <ExpireTimerCount color={expireTimerColor}>{timeLeft}</ExpireTimerCount>
     );
   }
-}
+  const bucket = getTimerBucketIcon(expirationTimestamp, expirationLength);
+
+  return (
+    <ExpireTimerBucket>
+      <SessionIcon
+        iconType={bucket}
+        iconSize={SessionIconSize.Tiny}
+        iconColor={expireTimerColor}
+        theme={props.theme}
+      />
+    </ExpireTimerBucket>
+  );
+};

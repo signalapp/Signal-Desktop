@@ -1,4 +1,4 @@
-/* global Whisper, Backbone, textsecure, libsignal, log */
+/* global Whisper, textsecure, libsignal, log */
 
 /* eslint-disable more/no-then */
 
@@ -9,37 +9,21 @@
   window.Whisper = window.Whisper || {};
 
   const conversations = new Whisper.ConversationCollection();
-  const inboxCollection = new (Backbone.Collection.extend({
-    initialize() {
-      this.listenTo(conversations, 'add change:active_at', this.addActive);
-      this.listenTo(conversations, 'reset', () => this.reset([]));
-      this.listenTo(conversations, 'remove', this.remove);
 
-      this.startPruning();
-    },
-    addActive(model) {
-      if (model.get('active_at')) {
-        this.add(model);
-        model.updateLastMessage();
-      } else {
-        this.remove(model);
-      }
-    },
-    startPruning() {
-      const halfHour = 30 * 60 * 1000;
-      this.interval = setInterval(() => {
-        this.forEach(conversation => {
-          conversation.trigger('prune');
-        });
-      }, halfHour);
-    },
-  }))();
-
-  window.getInboxCollection = () => inboxCollection;
   window.getConversations = () => conversations;
 
-  window.getConversationByName = name =>
-    conversations.find(d => d.get('name') === name);
+  window.getMessagesByKey = async key => {
+    // loadLive gets messages live, not from the database which can lag behind.
+
+    let messages = [];
+    const messageSet = await window.Signal.Data.getMessagesByConversation(key, {
+      limit: 100,
+      MessageCollection: Whisper.MessageCollection,
+    });
+
+    messages = messageSet.models.map(conv => conv.attributes);
+    return messages;
+  };
 
   window.ConversationController = {
     get(id) {
@@ -50,6 +34,22 @@
       }
 
       return conversations.get(id);
+    },
+    getOrThrow(id) {
+      if (!this._initialFetchComplete) {
+        throw new Error(
+          'ConversationController.get() needs complete initial fetch'
+        );
+      }
+
+      const convo = conversations.get(id);
+
+      if (convo) {
+        return convo;
+      }
+      throw new Error(
+        `Conversation ${id} does not exist on ConversationController.get()`
+      );
     },
     // Needed for some model setup which happens during the initial fetch() call below
     getUnsafe(id) {
@@ -125,6 +125,15 @@
             window.SnodePool.getSnodesFor(id),
           ]);
         }
+        if (window.inboxStore) {
+          conversation.on('change', this.updateReduxConvoChanged);
+          window.inboxStore.dispatch(
+            window.actionsCreators.conversationAdded(
+              conversation.id,
+              conversation.getProps()
+            )
+          );
+        }
       });
 
       return conversation;
@@ -174,7 +183,13 @@
       await window.Signal.Data.removeConversation(id, {
         Conversation: Whisper.Conversation,
       });
+      conversation.off('change', this.updateReduxConvoChanged);
       conversations.remove(conversation);
+      if (window.inboxStore) {
+        window.inboxStore.dispatch(
+          window.actionsCreators.conversationRemoved(conversation.id)
+        );
+      }
     },
     getOrCreateAndWait(id, type) {
       return this._initialPromise.then(() => {
@@ -208,6 +223,22 @@
       this._initialPromise = Promise.resolve();
       this._initialFetchComplete = false;
       conversations.reset([]);
+      if (window.inboxStore) {
+        conversations.forEach(convo =>
+          convo.off('change', this.updateReduxConvoChanged)
+        );
+
+        window.inboxStore.dispatch(
+          window.actionsCreators.removeAllConversations()
+        );
+      }
+    },
+    updateReduxConvoChanged(convo) {
+      if (window.inboxStore) {
+        window.inboxStore.dispatch(
+          window.actionsCreators.conversationChanged(convo.id, convo.getProps())
+        );
+      }
     },
     async load() {
       window.log.info('ConversationController: starting initial fetch');
@@ -236,6 +267,10 @@
               conversation.updateProfileAvatar(),
             ]);
           });
+          conversations.forEach(conversation => {
+            // register for change event on each conversation, and forward to redux
+            conversation.on('change', this.updateReduxConvoChanged);
+          });
           await Promise.all(promises);
 
           // Remove any unused images
@@ -252,10 +287,26 @@
           throw error;
         }
       };
+      await window.BlockedNumberController.load();
 
       this._initialPromise = load();
 
       return this._initialPromise;
+    },
+    getContactProfileNameOrShortenedPubKey: pubKey => {
+      const conversation = window.ConversationController.get(pubKey);
+      if (!conversation) {
+        return pubKey;
+      }
+      return conversation.getContactProfileNameOrShortenedPubKey();
+    },
+
+    getContactProfileNameOrFullPubKey: pubKey => {
+      const conversation = window.ConversationController.get(pubKey);
+      if (!conversation) {
+        return pubKey;
+      }
+      return conversation.getContactProfileNameOrFullPubKey();
     },
     _handleOnline: pubKey => {
       try {

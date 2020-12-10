@@ -137,14 +137,14 @@ describe('Message Utils', () => {
       expect(rawMessage.encryption).to.equal(EncryptionType.Fallback);
     });
 
-    it('should set encryption to Signal on other messages if we have a session', async () => {
+    it('should set encryption to Fallback on other messages even if we have a session', async () => {
       hasSessionStub.resolves(true);
 
       const device = TestUtils.generateFakePubKey();
       const message = TestUtils.generateChatMessage();
       const rawMessage = await MessageUtils.toRawMessage(device, message);
 
-      expect(rawMessage.encryption).to.equal(EncryptionType.Signal);
+      expect(rawMessage.encryption).to.equal(EncryptionType.Fallback);
     });
   });
 });

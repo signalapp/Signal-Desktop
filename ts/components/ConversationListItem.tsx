@@ -1,8 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash';
-import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
-import { Portal } from 'react-portal';
+import { contextMenu } from 'react-contexify';
 
 import { Avatar } from './Avatar';
 import { MessageBody } from './conversation/MessageBody';
@@ -11,22 +10,20 @@ import { ContactName } from './conversation/ContactName';
 import { TypingAnimation } from './conversation/TypingAnimation';
 
 import { LocalizerType } from '../types/Util';
-import {
-  getBlockMenuItem,
-  getClearNicknameMenuItem,
-  getCopyMenuItem,
-  getDeleteContactMenuItem,
-  getDeleteMessagesMenuItem,
-  getInviteContactMenuItem,
-  getLeaveGroupMenuItem,
-} from '../session/utils/Menu';
 
 import {
   ConversationAvatar,
   usingClosedConversationDetails,
 } from './session/usingClosedConversationDetails';
+import {
+  ConversationListItemContextMenu,
+  PropsContextConversationItem,
+} from './session/menu/ConversationListItemContextMenu';
+import { createPortal } from 'react-dom';
+import { OutgoingMessageStatus } from './conversation/message/OutgoingMessageStatus';
+import { DefaultTheme, withTheme } from 'styled-components';
 
-export type PropsData = {
+export type ConversationListItemProps = {
   id: string;
   phoneNumber: string;
   color?: string;
@@ -68,14 +65,21 @@ type PropsHousekeeping = {
   onDeleteMessages?: () => void;
   onDeleteContact?: () => void;
   onBlockContact?: () => void;
-  onChangeNickname?: () => void;
-  onClearNickname?: () => void;
   onCopyPublicKey?: () => void;
   onUnblockContact?: () => void;
   onInviteContacts?: () => void;
+  onClearNickname?: () => void;
+  theme: DefaultTheme;
 };
 
-type Props = PropsData & PropsHousekeeping;
+type Props = ConversationListItemProps & PropsHousekeeping;
+
+const Portal = ({ children }: { children: any }) => {
+  return createPortal(
+    children,
+    document.querySelector('.inbox.index') as Element
+  );
+};
 
 class ConversationListItem extends React.PureComponent<Props> {
   public constructor(props: Props) {
@@ -110,7 +114,6 @@ class ConversationListItem extends React.PureComponent<Props> {
 
   public renderHeader() {
     const { unreadCount, mentionedUs, i18n, isMe, lastUpdated } = this.props;
-    const {} = this.props;
 
     let atSymbol = null;
     let unreadCountDiv = null;
@@ -150,93 +153,13 @@ class ConversationListItem extends React.PureComponent<Props> {
               <Timestamp
                 timestamp={lastUpdated}
                 extended={false}
-                module="module-conversation-list-item__header__timestamp"
-                i18n={i18n}
+                isConversationListItem={true}
+                theme={this.props.theme}
               />
             }
           </div>
         }
       </div>
-    );
-  }
-
-  public renderContextMenu(triggerId: string) {
-    const {
-      i18n,
-      isBlocked,
-      isMe,
-      isClosable,
-      isRss,
-      isPublic,
-      hasNickname,
-      type,
-      isKickedFromGroup,
-      onDeleteContact,
-      onDeleteMessages,
-      onBlockContact,
-      onClearNickname,
-      onCopyPublicKey,
-      onUnblockContact,
-      onInviteContacts,
-    } = this.props;
-
-    const isPrivate = type === 'direct';
-
-    return (
-      <ContextMenu id={triggerId}>
-        {getBlockMenuItem(
-          isMe,
-          isPrivate,
-          isBlocked,
-          onBlockContact,
-          onUnblockContact,
-          i18n
-        )}
-        {/* {!isPublic && !isRss && !isMe ? (
-          <MenuItem onClick={onChangeNickname}>
-            {i18n('changeNickname')}
-          </MenuItem>
-        ) : null} */}
-        {getClearNicknameMenuItem(
-          isPublic,
-          isRss,
-          isMe,
-          hasNickname,
-          onClearNickname,
-          i18n
-        )}
-        {getCopyMenuItem(
-          isPublic,
-          isRss,
-          type === 'group',
-          onCopyPublicKey,
-          i18n
-        )}
-        {getDeleteMessagesMenuItem(isPublic, onDeleteMessages, i18n)}
-        {getInviteContactMenuItem(
-          type === 'group',
-          isPublic,
-          onInviteContacts,
-          i18n
-        )}
-        {getDeleteContactMenuItem(
-          isMe,
-          isClosable,
-          type === 'group',
-          isPublic,
-          isRss,
-          onDeleteContact,
-          i18n
-        )}
-        {getLeaveGroupMenuItem(
-          isKickedFromGroup,
-          type === 'group',
-          isPublic,
-          isRss,
-          onDeleteContact,
-          i18n
-        )}
-      </ContextMenu>
     );
   }
 
@@ -281,11 +204,10 @@ class ConversationListItem extends React.PureComponent<Props> {
           )}
         </div>
         {lastMessage && lastMessage.status ? (
-          <div
-            className={classNames(
-              'module-conversation-list-item__message__status-icon',
-              `module-conversation-list-item__message__status-icon--${lastMessage.status}`
-            )}
+          <OutgoingMessageStatus
+            status={lastMessage.status}
+            iconColor={this.props.theme.colors.textColorSubtle}
+            theme={this.props.theme}
           />
         ) : null}
       </div>
@@ -304,40 +226,54 @@ class ConversationListItem extends React.PureComponent<Props> {
       mentionedUs,
     } = this.props;
     const triggerId = `conversation-item-${phoneNumber}-ctxmenu`;
+    const key = `conversation-item-${phoneNumber}`;
 
     return (
-      <div key={triggerId}>
-        <ContextMenuTrigger id={triggerId}>
-          <div
-            role="button"
-            onClick={() => {
-              if (onClick) {
-                onClick(id);
-              }
-            }}
-            style={style}
-            className={classNames(
-              'module-conversation-list-item',
-              unreadCount > 0
-                ? 'module-conversation-list-item--has-unread'
-                : null,
-              unreadCount > 0 && mentionedUs
-                ? 'module-conversation-list-item--mentioned-us'
-                : null,
-              isSelected ? 'module-conversation-list-item--is-selected' : null,
-              isBlocked ? 'module-conversation-list-item--is-blocked' : null
-            )}
-          >
-            {this.renderAvatar()}
-            <div className="module-conversation-list-item__content">
-              {this.renderHeader()}
-              {this.renderMessage()}
-            </div>
+      <div key={key}>
+        <div
+          role="button"
+          onClick={() => {
+            if (onClick) {
+              onClick(id);
+            }
+          }}
+          onContextMenu={(e: any) => {
+            contextMenu.show({
+              id: triggerId,
+              event: e,
+            });
+          }}
+          style={style}
+          className={classNames(
+            'module-conversation-list-item',
+            unreadCount > 0
+              ? 'module-conversation-list-item--has-unread'
+              : null,
+            unreadCount > 0 && mentionedUs
+              ? 'module-conversation-list-item--mentioned-us'
+              : null,
+            isSelected ? 'module-conversation-list-item--is-selected' : null,
+            isBlocked ? 'module-conversation-list-item--is-blocked' : null
+          )}
+        >
+          {this.renderAvatar()}
+          <div className="module-conversation-list-item__content">
+            {this.renderHeader()}
+            {this.renderMessage()}
           </div>
-        </ContextMenuTrigger>
-        <Portal>{this.renderContextMenu(triggerId)}</Portal>
+        </div>
+        <Portal>
+          <ConversationListItemContextMenu {...this.getMenuProps(triggerId)} />
+        </Portal>
       </div>
     );
+  }
+
+  private getMenuProps(triggerId: string): PropsContextConversationItem {
+    return {
+      triggerId,
+      ...this.props,
+    };
   }
 
   private renderUser() {
@@ -370,5 +306,5 @@ class ConversationListItem extends React.PureComponent<Props> {
 }
 
 export const ConversationListItemWithDetails = usingClosedConversationDetails(
-  ConversationListItem
+  withTheme(ConversationListItem)
 );

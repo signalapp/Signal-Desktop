@@ -12,10 +12,6 @@
     min-width: 20px;
   }
 
-  .invisible {
-    visibility: hidden;
-  }
-
   .existing-member {
     color: green;
   }
@@ -45,28 +41,29 @@
   }
 }
 
-.member-list-container,
-.create-group-dialog,
-.add-moderators-dialog,
-.remove-moderators-dialog,
-.invite-friends-dialog {
-  .member-item {
-    padding: 4px;
-    user-select: none;
+.invisible {
+  visibility: hidden;
+}
 
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+.member-item {
+  @include themify($themes) {
+    background-color: themed('cellBackground');
+    color: themed('textColor');
+  }
+  padding: 4px;
 
-    .name-part {
-      font-weight: 300;
-      margin-inline-start: 12px;
-    }
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 
-    .pubkey-part {
-      margin-inline-start: 10px;
-      opacity: 0.6;
-    }
+  .name-part {
+    font-weight: 300;
+    margin-inline-start: 12px;
+  }
+
+  .pubkey-part {
+    margin-inline-start: 10px;
+    opacity: 0.6;
   }
 }
 
@@ -95,14 +92,14 @@
   }
   color: $color-black;
   text-align: center;
-
+  margin-top: 0px;
+  margin-bottom: 0px;
   padding-top: 1px;
   padding-inline-start: 3px;
   padding-inline-end: 3px;
 
   position: static;
   margin-inline-start: 5px;
-  top: 2px;
 
   font-weight: 300;
   font-size: 11px;

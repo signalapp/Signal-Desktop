@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon/';
 import { SessionButtonColor, SessionButtonType } from './SessionButton';
+import { DefaultTheme } from 'styled-components';
 
 interface Props {
   title: string;
@@ -23,6 +24,7 @@ interface Props {
     text: string;
     onClick?: any;
   }>;
+  theme: DefaultTheme;
 }
 
 interface State {
@@ -93,6 +95,7 @@ export class SessionModal extends React.PureComponent<Props, State> {
                     iconType={SessionIconType.Exit}
                     iconSize={SessionIconSize.Small}
                     onClick={this.close}
+                    theme={this.props.theme}
                   />
                 ) : null}
               </div>
@@ -107,6 +110,7 @@ export class SessionModal extends React.PureComponent<Props, State> {
                           iconSize={SessionIconSize.Large}
                           iconRotation={iconItem.iconRotation}
                           onClick={iconItem.onClick}
+                          theme={this.props.theme}
                         />
                       );
                     })

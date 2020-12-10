@@ -32,6 +32,9 @@ test/test.js
 ts/**/*.js
 ts/protobuf/*.d.ts
 ts/**/*.js.map
+test/ts/**/*.js.map
+test/ts/**/*.js
+
 
 # Swapfiles
 **/*.swp

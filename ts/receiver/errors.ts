@@ -66,6 +66,7 @@ export async function onError(ev: any) {
       id,
       'private'
     );
+    // force conversation unread count to be > 0 so it is highlighted
     conversation.set({
       active_at: Date.now(),
       unreadCount: toNumber(conversation.get('unreadCount')) + 1,

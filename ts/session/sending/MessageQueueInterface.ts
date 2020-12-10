@@ -15,11 +15,11 @@ type GroupMessageType =
   | MediumGroupMessage;
 
 export interface MessageQueueInterfaceEvents {
-  success: (
+  sendSuccess: (
     message: RawMessage | OpenGroupMessage,
     wrappedEnvelope?: Uint8Array
   ) => void;
-  fail: (message: RawMessage | OpenGroupMessage, error: Error) => void;
+  sendFail: (message: RawMessage | OpenGroupMessage, error: Error) => void;
 }
 
 export interface MessageQueueInterface {

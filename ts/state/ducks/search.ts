@@ -2,7 +2,6 @@ import { omit, reject } from 'lodash';
 
 import { normalize } from '../../types/PhoneNumber';
 import { AdvancedSearchOptions, SearchOptions } from '../../types/Search';
-import { trigger } from '../../shims/events';
 import { getMessageModel } from '../../shims/Whisper';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { searchConversations, searchMessages } from '../../../js/modules/data';
@@ -16,7 +15,6 @@ import {
   SelectedConversationChangedActionType,
 } from './conversations';
 import { MultiDeviceProtocol } from '../../session/protocols';
-import { PubKey } from '../../session/types';
 
 // State
 
@@ -35,7 +33,6 @@ export type SearchStateType = {
 };
 
 // Actions
-
 type SearchResultsPayloadType = {
   query: string;
   normalizedPhoneNumber?: string;
@@ -77,7 +74,6 @@ export const actions = {
   search,
   clearSearch,
   updateSearchTerm,
-  startNewConversation,
 };
 
 function search(
@@ -143,22 +139,6 @@ function updateSearchTerm(query: string): UpdateSearchTermActionType {
     payload: {
       query,
     },
-  };
-}
-function startNewConversation(
-  query: string,
-  options: { regionCode: string }
-): ClearSearchActionType {
-  const { regionCode } = options;
-  const normalized = normalize(query, { regionCode });
-  if (!normalized) {
-    throw new Error('Attempted to start new conversation with invalid number');
-  }
-  trigger('showConversation', normalized);
-
-  return {
-    type: 'SEARCH_CLEAR',
-    payload: null,
   };
 }
 
@@ -411,11 +391,11 @@ export function reducer(
     }
 
     const { payload } = action;
-    const { id } = payload;
+    const { messageId } = payload;
 
     return {
       ...state,
-      messages: reject(messages, message => id === message.id),
+      messages: reject(messages, message => messageId === message.id),
       messageLookup: omit(messageLookup, ['id']),
     };
   }

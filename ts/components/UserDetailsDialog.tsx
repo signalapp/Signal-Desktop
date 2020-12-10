@@ -8,6 +8,7 @@ import {
   SessionButtonType,
 } from './session/SessionButton';
 import { SessionIdEditable } from './session/SessionIdEditable';
+import { DefaultTheme } from 'styled-components';
 
 interface Props {
   i18n: any;
@@ -17,6 +18,7 @@ interface Props {
   pubkey: string;
   onClose: any;
   onStartConversation: any;
+  theme: DefaultTheme;
 }
 
 interface State {
@@ -42,6 +44,7 @@ export class UserDetailsDialog extends React.Component<Props, State> {
         title={this.props.profileName}
         onOk={() => null}
         onClose={this.closeDialog}
+        theme={this.props.theme}
       >
         <div className="avatar-center">
           <div className="avatar-center-inner">{this.renderAvatar()}</div>

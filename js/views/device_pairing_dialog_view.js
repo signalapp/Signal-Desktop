@@ -11,6 +11,7 @@
     initialize(options) {
       this.close = this.close.bind(this);
       this.pubKeyToUnpair = options.pubKeyToUnpair;
+      this.theme = options.theme;
       this.render();
     },
 
@@ -22,6 +23,7 @@
           i18n,
           onClose: this.close,
           pubKeyToUnpair: this.pubKeyToUnpair,
+          theme: this.theme,
         },
       });
 

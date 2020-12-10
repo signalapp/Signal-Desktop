@@ -1,11 +1,11 @@
 /* global Whisper */
 
 Whisper.Fixtures = () => {
-  const VERA_ID = '+13016886524'; // nsa
-  const NESTOR_ID = '+17034820623'; // cia
-  const MASHA_ID = '+441242221491'; // gchq
-  const FRED_ID = '+14155537400'; // fbi sf
-  const MICHEL_ID = '+12024561111'; // twh
+  const VERA_ID = '0501cd123456789abcdef05123456789abcdef05123456789abcdef05123456789'; // nsa
+  const NESTOR_ID = '0502cd123456789abcdef05123456789abcdef05123456789abcdef05123456789'; // cia
+  const MASHA_ID = '0503cd123456789abcdef05123456789abcdef05123456789abcdef05123456789'; // gchq
+  const FRED_ID = '0504cd123456789abcdef05123456789abcdef05123456789abcdef05123456789'; // fbi sf
+  const MICHEL_ID = '0505cd123456789abcdef05123456789abcdef05123456789abcdef05123456789'; // twh
 
   const now = Date.now();
   const conversationCollection = new Whisper.ConversationCollection([
@@ -172,7 +172,7 @@ Whisper.Fixtures = () => {
     type: 'group',
     active_at: now - 100000,
     timestamp: now - 100000,
-    id: 'group1',
+    id: '05abcd123456789abcdef05123456789abcdef05123456789abcdef05123456789',
     lastMessage: 'See you all there!',
     members: [MICHEL_ID, FRED_ID, NESTOR_ID],
   });
@@ -240,9 +240,7 @@ Whisper.Fixtures = () => {
 
         await Promise.all(
           convo.messageCollection.map(async (message) => {
-            const id = await window.Signal.Data.saveMessage(message.attributes, {
-              Message: Whisper.Message,
-            });
+            const id = await message.commit();
             message.set({ id });
           })
         );

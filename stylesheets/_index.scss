@@ -1,13 +1,10 @@
-.conversation-stack {
-  position: relative;
-}
-
-.conversation-stack,
-.new-conversation,
-.inbox,
-.gutter {
+.inbox {
   height: 100%;
   overflow: hidden;
+}
+
+.inbox.index {
+  display: flex;
 }
 
 .edit-profile-dialog,
@@ -68,7 +65,6 @@
 }
 
 .expired {
-  .conversation-stack,
   .gutter {
     height: calc(100% - 48px);
   }
@@ -77,60 +73,6 @@
 .scrollable {
   height: 100%;
   overflow: auto;
-}
-
-.gutter {
-  display: flex;
-  flex-direction: column;
-  float: left;
-  width: 300px;
-  user-select: none;
-  position: relative;
-
-  .tool-bar {
-    margin-top: 8px;
-    color: $color-dark-05;
-
-    .search-icon {
-      background-color: $color-light-35;
-    }
-
-    input.search {
-      border: 1px solid $color-light-60;
-      color: $color-dark-05;
-      background-color: $color-gray-95;
-
-      &:focus {
-        outline: solid 1px $blue;
-      }
-    }
-  }
-
-  .toast {
-    bottom: 78px;
-  }
-
-  .content {
-    overflow-y: auto;
-    max-height: calc(100% - 88px);
-    min-height: 0px;
-    flex: 1 1 auto;
-    color: $color-gray-05;
-    background: inherit;
-  }
-
-  .loki {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 70px;
-    background: $color-loki-extra-dark-gray;
-    img {
-      object-fit: cover;
-      max-width: 60%;
-      max-height: 60%;
-    }
-  }
 }
 
 .section-toggle {
@@ -181,80 +123,15 @@ h4.section-toggle,
   }
 }
 
-.network-status-container {
-  .network-status {
-    background: url('../images/error_red.svg') no-repeat left 10px center;
-    background-size: 25px 25px;
-    background-color: #fcd156;
-    padding: 10px;
-    padding-inline-start: 2 * $button-height;
-    display: none;
-
-    .network-status-message {
-      h3 {
-        padding: 0px;
-        margin: 0px;
-        margin-bottom: 2px;
-        font-size: 14px;
-      }
-      span {
-        display: inline-block;
-        font-size: 12px;
-        padding: 0.5em 0;
-      }
-    }
-    .action {
-      button {
-        border-radius: $border-radius;
-        border: solid 1px #ccc;
-        cursor: pointer;
-        font-family: inherit;
-        color: white;
-        background: $blue;
-      }
-    }
-  }
-}
-
 .left-pane-placeholder {
   flex-grow: 1;
   display: flex;
 }
-
+.conversation.placeholder {
+  height: 100vh;
+}
 .left-pane-wrapper {
   flex: 1;
-}
-
-.conversation-stack {
-  .conversation {
-    display: none;
-  }
-  .conversation:first-child {
-    display: block;
-  }
-}
-
-.tool-bar {
-  color: $color-light-90;
-
-  padding: 8px;
-  padding-top: 0px;
-  margin-top: -1px;
-
-  position: relative;
-  .search-icon {
-    content: '';
-    display: inline-block;
-    float: left;
-    width: 24px;
-    height: 33px;
-    -webkit-mask: url('../images/search.svg') no-repeat left center;
-    -webkit-mask-size: 100%;
-    background-color: $color-light-35;
-    position: absolute;
-    left: 20px;
-    top: 0;
-  }
 }
 
 $search-x-size: 16px;

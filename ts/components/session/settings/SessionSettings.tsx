@@ -11,6 +11,13 @@ import { BlockedNumberController, UserUtil } from '../../../util';
 import { MultiDeviceProtocol } from '../../../session/protocols';
 import { PubKey } from '../../../session/types';
 import { ToastUtils } from '../../../session/utils';
+import {
+  ConversationLookupType,
+  ConversationType,
+} from '../../../state/ducks/conversations';
+import { mapDispatchToProps } from '../../../state/actions';
+import { connect } from 'react-redux';
+import { StateType } from '../../../state/reducer';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -32,11 +39,15 @@ export enum SessionSettingType {
 export interface SettingsViewProps {
   category: SessionSettingCategory;
   isSecondaryDevice: boolean;
+  // pass the conversation as props, so our render is called everytime they change.
+  // we have to do this to make the list refresh on unblock()
+  conversations?: ConversationLookupType;
 }
 
 interface State {
   hasPassword: boolean | null;
   pwdLockError: string | null;
+  mediaSetting: boolean | null;
   shouldLockSettings: boolean | null;
   linkedPubKeys: Array<any>;
 }
@@ -46,16 +57,17 @@ interface LocalSettingType {
   description: string | undefined;
   comparisonValue: string | undefined;
   id: any;
+  value?: any;
   content: any | undefined;
   hidden: any;
-  title: string;
+  title?: string;
   type: SessionSettingType | undefined;
   setFn: any;
   onClick: any;
   confirmationDialogParams: any | undefined;
 }
 
-export class SettingsView extends React.Component<SettingsViewProps, State> {
+class SettingsViewInner extends React.Component<SettingsViewProps, State> {
   public settingsViewRef: React.RefObject<HTMLDivElement>;
 
   public constructor(props: any) {
@@ -64,6 +76,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
     this.state = {
       hasPassword: null,
       pwdLockError: null,
+      mediaSetting: null,
       shouldLockSettings: true,
       linkedPubKeys: new Array(),
     };
@@ -77,6 +90,11 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
 
     this.onKeyUp = this.onKeyUp.bind(this);
     window.addEventListener('keyup', this.onKeyUp);
+  }
+
+  public async componentWillMount() {
+    const mediaSetting = await window.getSettingValue('media-permissions');
+    this.setState({ mediaSetting });
   }
 
   public componentDidMount() {
@@ -95,7 +113,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
   }
 
   /* tslint:disable-next-line:max-func-body-length */
-  public renderSettingInCategory(): JSX.Element {
+  public renderSettingInCategory() {
     const { category } = this.props;
 
     let settings: Array<LocalSettingType>;
@@ -335,19 +353,6 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
 
     return [
       {
-        id: 'theme-setting',
-        title: window.i18n('themeToggleTitle'),
-        description: window.i18n('themeToggleDescription'),
-        hidden: true,
-        comparisonValue: 'light',
-        type: SessionSettingType.Toggle,
-        category: SessionSettingCategory.Appearance,
-        setFn: window.toggleTheme,
-        content: undefined,
-        onClick: undefined,
-        confirmationDialogParams: undefined,
-      },
-      {
         id: 'hide-menu-bar',
         title: window.i18n('hideMenuBarTitle'),
         description: window.i18n('hideMenuBarDescription'),
@@ -465,6 +470,19 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         confirmationDialogParams: undefined,
       },
       {
+        id: 'media-permissions',
+        title: window.i18n('mediaPermissionsTitle'),
+        description: window.i18n('mediaPermissionsDescription'),
+        hidden: false,
+        type: SessionSettingType.Toggle,
+        category: SessionSettingCategory.Privacy,
+        setFn: window.toggleMediaPermissions,
+        content: undefined,
+        comparisonValue: undefined,
+        onClick: undefined,
+        confirmationDialogParams: undefined,
+      },
+      {
         id: 'read-receipt-setting',
         title: window.i18n('readReceiptSettingTitle'),
         description: window.i18n('readReceiptSettingDescription'),
@@ -516,11 +534,12 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           buttonText: window.i18n('setPassword'),
           buttonColor: SessionButtonColor.Primary,
         },
-        onClick: () =>
-          window.showPasswordDialog({
+        onClick: () => {
+          window.Whisper.events.trigger('showPasswordDialog', {
             action: 'set',
             onSuccess: this.onPasswordUpdated,
-          }),
+          });
+        },
         confirmationDialogParams: undefined,
       },
       {
@@ -536,11 +555,12 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           buttonText: window.i18n('changePassword'),
           buttonColor: SessionButtonColor.Primary,
         },
-        onClick: () =>
-          window.showPasswordDialog({
+        onClick: () => {
+          window.Whisper.events.trigger('showPasswordDialog', {
             action: 'change',
             onSuccess: this.onPasswordUpdated,
-          }),
+          });
+        },
         confirmationDialogParams: undefined,
       },
       {
@@ -556,11 +576,12 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           buttonText: window.i18n('removePassword'),
           buttonColor: SessionButtonColor.Danger,
         },
-        onClick: () =>
-          window.showPasswordDialog({
+        onClick: () => {
+          window.Whisper.events.trigger('showPasswordDialog', {
             action: 'remove',
             onSuccess: this.onPasswordUpdated,
-          }),
+          });
+        },
         confirmationDialogParams: undefined,
       },
     ];
@@ -601,10 +622,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
             await BlockedNumberController.unblock(blockedNumber);
             this.forceUpdate();
           }
-          ToastUtils.push({
-            title: window.i18n('unblocked'),
-            id: 'unblocked',
-          });
+          ToastUtils.pushToastSuccess('unblocked', window.i18n('unblocked'));
         },
         hidden: false,
         onClick: undefined,
@@ -723,3 +741,14 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
     event.preventDefault();
   }
 }
+
+const mapStateToProps = (state: StateType) => {
+  const { conversations } = state;
+
+  return {
+    conversations: conversations.conversationLookup,
+  };
+};
+
+const smart = connect(mapStateToProps);
+export const SmartSettingsView = smart(SettingsViewInner);

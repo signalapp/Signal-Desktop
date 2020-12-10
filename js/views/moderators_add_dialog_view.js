@@ -19,10 +19,9 @@
       // get current list of moderators
       this.channelAPI = await convo.getPublicSendData();
       const modPubKeys = await this.channelAPI.getModerators();
-      const convos = window.getConversations().models;
 
       // private contacts (not you) that aren't already moderators
-      const contacts = convos.filter(
+      const contacts = convo.filter(
         d =>
           !!d &&
           d.isPrivate() &&
@@ -32,6 +31,7 @@
       );
 
       this.contacts = contacts;
+      this.this.theme = convo.theme;
 
       this.$el.focus();
       this.render();
@@ -45,6 +45,7 @@
           chatName: this.chatName,
           onSubmit: this.onSubmit,
           onClose: this.close,
+          theme: this.theme,
         },
       });
 

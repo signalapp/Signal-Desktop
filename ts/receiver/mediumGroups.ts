@@ -167,12 +167,12 @@ async function handleNewGroup(
   const members = membersBinary.map(toHex);
   const admins = adminsBinary.map(toHex);
 
-  const maybeConvo = await window.ConversationController.get(groupId);
+  const maybeConvo = window.ConversationController.get(groupId);
 
   const groupExists = !!maybeConvo;
 
   if (groupExists) {
-    if (maybeConvo.get('isKickedFromGroup')) {
+    if (maybeConvo && maybeConvo.get('isKickedFromGroup')) {
       // TODO: indicate that we've been re-invited
       // to the group if that is the case
 
@@ -207,11 +207,7 @@ async function handleNewGroup(
 
   // We only set group admins on group creation
   convo.set('groupAdmins', admins);
-  // update the unreadCount for this convo
-  convo.set({
-    unreadCount: Number(convo.get('unreadCount')) + 1,
-  });
-  convo.commit();
+  await convo.commit();
 
   const secretKeyHex = toHex(groupPrivateKey);
 
@@ -275,9 +271,9 @@ async function handleMediumGroupChange(
 
   const groupId = toHex(groupPublicKey);
 
-  const maybeConvo = await window.ConversationController.get(groupId);
+  const convo = window.ConversationController.get(groupId);
 
-  if (!maybeConvo) {
+  if (!convo) {
     log.warn(
       'Ignoring a medium group update message (INFO) for a non-existing group'
     );
@@ -286,8 +282,6 @@ async function handleMediumGroupChange(
     // the NEW message if we somehow missed the initial group invitation
     return;
   }
-
-  const convo = maybeConvo as ConversationModel;
 
   // ***** Updating the group *****
 
@@ -336,13 +330,13 @@ async function handleMediumGroupChange(
     convo.updateTextInputState();
     window.SwarmPolling.removePubkey(groupId);
   } else {
-    if (maybeConvo.get('isKickedFromGroup')) {
+    if (convo.get('isKickedFromGroup')) {
       // Enable typing:
-      maybeConvo.set('isKickedFromGroup', false);
-      maybeConvo.set('left', false);
+      convo.set('isKickedFromGroup', false);
+      convo.set('left', false);
       // Subscribe to this group id
       window.SwarmPolling.addGroupId(new PubKey(groupId));
-      maybeConvo.updateTextInputState();
+      convo.updateTextInputState();
     }
   }
 

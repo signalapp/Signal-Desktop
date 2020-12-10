@@ -145,6 +145,7 @@ module.exports = {
   removeMessage,
   _removeMessages,
   getUnreadByConversation,
+  getUnreadCountByConversation,
 
   removeAllMessagesInConversation,
 
@@ -1027,6 +1028,10 @@ async function getMessagesBySender(
 async function getUnreadByConversation(conversationId, { MessageCollection }) {
   const messages = await channels.getUnreadByConversation(conversationId);
   return new MessageCollection(messages);
+}
+
+async function getUnreadCountByConversation(conversationId) {
+  return channels.getUnreadCountByConversation(conversationId);
 }
 
 async function getMessagesByConversation(

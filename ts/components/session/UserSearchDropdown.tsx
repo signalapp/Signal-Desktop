@@ -3,13 +3,15 @@ import React from 'react';
 import { UserSearchResults } from '../UserSearchResults';
 import { SessionSearchInput } from './SessionSearchInput';
 
-import { PropsData as SearchResultsProps } from '../SearchResults';
+import { SearchResultsProps } from '../SearchResults';
+import { DefaultTheme } from 'styled-components';
 
 export interface Props {
   searchTerm: string;
   placeholder: string;
   searchResults?: SearchResultsProps;
   updateSearch: (searchTerm: string) => void;
+  theme: DefaultTheme;
 }
 
 interface State {
@@ -72,6 +74,7 @@ export class UserSearchDropdown extends React.Component<Props, State> {
           onChange={this.updateSearchBound}
           placeholder={placeholder}
           handleNavigation={this.handleNavigation}
+          theme={this.props.theme}
         />
         {searchResults && (
           <UserSearchResults

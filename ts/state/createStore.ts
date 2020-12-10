@@ -1,9 +1,7 @@
-import { applyMiddleware, createStore as reduxCreateStore } from 'redux';
-
 import promise from 'redux-promise-middleware';
 import { createLogger } from 'redux-logger';
-
-import { reducer } from './reducer';
+import { configureStore } from '@reduxjs/toolkit';
+import { reducer as allReducers } from './reducer';
 
 // @ts-ignore
 const env = window.getEnvironment();
@@ -28,7 +26,10 @@ const logger = createLogger({
 const disableLogging = env === 'production' || true; // ALWAYS TURNED OFF
 const middlewareList = disableLogging ? [promise] : [promise, logger];
 
-const enhancer = applyMiddleware.apply(null, middlewareList);
-
 export const createStore = (initialState: any) =>
-  reduxCreateStore(reducer, initialState, enhancer);
+  configureStore({
+    reducer: allReducers,
+    preloadedState: initialState,
+    middleware: (getDefaultMiddleware: any) =>
+      getDefaultMiddleware().concat(middlewareList),
+  });

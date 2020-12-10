@@ -12,7 +12,7 @@ import { SessionHtmlRenderer } from './SessionHTMLRenderer';
 import { SessionIdEditable } from './SessionIdEditable';
 import { SessionSpinner } from './SessionSpinner';
 import { StringUtils, ToastUtils } from '../../session/utils';
-import { createOrUpdateItem } from '../../../js/modules/data';
+import { lightTheme } from '../../state/ducks/SessionTheme';
 
 enum SignInMode {
   Default,
@@ -81,7 +81,7 @@ const Tab = ({
   );
 };
 
-export class RegistrationTabs extends React.Component<{}, State> {
+export class RegistrationTabs extends React.Component<any, State> {
   private readonly accountManager: any;
 
   constructor(props: any) {
@@ -402,6 +402,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
           <SessionInput
             label={window.i18n('recoveryPhrase')}
             type="password"
+            autoFocus={true}
             placeholder={window.i18n('enterRecoveryPhrase')}
             enableShowHide={true}
             onValueChanged={(val: string) => {
@@ -410,8 +411,9 @@ export class RegistrationTabs extends React.Component<{}, State> {
             onEnterPressed={() => {
               this.handlePressEnter();
             }}
+            theme={lightTheme}
           />
-          {this.renderNamePasswordAndVerifyPasswordFields()}
+          {this.renderNamePasswordAndVerifyPasswordFields(false)}
         </div>
       );
     }
@@ -448,7 +450,12 @@ export class RegistrationTabs extends React.Component<{}, State> {
           </div>
           {this.renderEnterSessionID(!this.state.secretWords)}
           {this.state.secretWords && (
-            <div className="session-registration__content__secret-words">
+            <div
+              className={classNames(
+                'session-registration__content__secret-words',
+                'session-info-box'
+              )}
+            >
               <label>Secret words</label>
               <div className="subtle">{this.state.secretWords}</div>
             </div>
@@ -460,7 +467,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
     if (signUpMode === SignUpMode.EnterDetails) {
       return (
         <div className={classNames('session-registration__entry-fields')}>
-          {this.renderNamePasswordAndVerifyPasswordFields()}
+          {this.renderNamePasswordAndVerifyPasswordFields(true)}
         </div>
       );
     }
@@ -468,7 +475,9 @@ export class RegistrationTabs extends React.Component<{}, State> {
     return null;
   }
 
-  private renderNamePasswordAndVerifyPasswordFields() {
+  private renderNamePasswordAndVerifyPasswordFields(
+    stealAutoFocus: boolean = false
+  ) {
     const { password, passwordFieldsMatch } = this.state;
     const passwordsDoNotMatch =
       !passwordFieldsMatch && this.state.password
@@ -478,6 +487,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
     return (
       <div className="inputfields">
         <SessionInput
+          autoFocus={stealAutoFocus}
           label={window.i18n('displayName')}
           type="text"
           placeholder={window.i18n('enterDisplayName')}
@@ -489,10 +499,11 @@ export class RegistrationTabs extends React.Component<{}, State> {
           onEnterPressed={() => {
             this.handlePressEnter();
           }}
+          theme={lightTheme}
         />
 
         <SessionInput
-          label={window.i18n('confirmPassword')}
+          label={window.i18n('password')}
           error={this.state.passwordErrorString}
           type="password"
           placeholder={window.i18n('enterOptionalPassword')}
@@ -503,6 +514,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
           onEnterPressed={() => {
             this.handlePressEnter();
           }}
+          theme={lightTheme}
         />
 
         {!!password && (
@@ -518,6 +530,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
             onEnterPressed={() => {
               this.handlePressEnter();
             }}
+            theme={lightTheme}
           />
         )}
       </div>
@@ -802,35 +815,28 @@ export class RegistrationTabs extends React.Component<{}, State> {
 
     if (!trimName) {
       window.log.warn('invalid trimmed name for registration');
-      ToastUtils.push({
-        title: window.i18n('displayNameEmpty'),
-        type: 'error',
-        id: 'invalidDisplayName',
-      });
-
+      ToastUtils.pushToastError(
+        'invalidDisplayName',
+        window.i18n('displayNameEmpty')
+      );
       return;
     }
 
     if (passwordErrorString) {
       window.log.warn('invalid password for registration');
-      ToastUtils.push({
-        title: window.i18n('invalidPassword'),
-        type: 'error',
-        id: 'invalidPassword',
-      });
-
+      ToastUtils.pushToastError(
+        'invalidPassword',
+        window.i18n('invalidPassword')
+      );
       return;
     }
 
     if (!!password && !passwordFieldsMatch) {
       window.log.warn('passwords does not match for registration');
-
-      ToastUtils.push({
-        title: window.i18n('passwordsDoNotMatch'),
-        type: 'error',
-        id: 'invalidPassword',
-      });
-
+      ToastUtils.pushToastError(
+        'invalidPassword',
+        window.i18n('passwordsDoNotMatch')
+      );
       return;
     }
 
@@ -861,19 +867,12 @@ export class RegistrationTabs extends React.Component<{}, State> {
         language,
         trimName
       );
-      // FIXME remove everything related to hasSeenLightModeDialog at some point in the future (27/08/2020)
-      const data = {
-        id: 'hasSeenLightModeDialog',
-        value: true,
-      };
-      await createOrUpdateItem(data);
       trigger('openInbox');
     } catch (e) {
-      ToastUtils.push({
-        title: `Error: ${e.message || 'Something went wrong'}`,
-        type: 'error',
-        id: 'registrationError',
-      });
+      ToastUtils.pushToastError(
+        'registrationError',
+        `Error: ${e.message || 'Something went wrong'}`
+      );
       let exmsg = '';
       if (e.message) {
         exmsg += e.message;
@@ -900,12 +899,10 @@ export class RegistrationTabs extends React.Component<{}, State> {
     // tslint:disable-next-line: no-backbone-get-set-outside-model
     if (window.textsecure.storage.get('secondaryDeviceStatus') === 'ongoing') {
       window.log.warn('registering secondary device already ongoing');
-      ToastUtils.push({
-        title: window.i18n('pairingOngoing'),
-        type: 'error',
-        id: 'pairingOngoing',
-      });
-
+      ToastUtils.pushToastError(
+        'pairingOngoing',
+        window.i18n('pairingOngoing')
+      );
       return;
     }
     this.setState({
@@ -943,12 +940,10 @@ export class RegistrationTabs extends React.Component<{}, State> {
     const validationError = c.validateNumber();
     if (validationError) {
       onError('Invalid public key').ignore();
-      ToastUtils.push({
-        title: window.i18n('invalidNumberError'),
-        type: 'error',
-        id: 'invalidNumberError',
-      });
-
+      ToastUtils.pushToastError(
+        'invalidNumberError',
+        window.i18n('invalidNumberError')
+      );
       return;
     }
     try {
@@ -965,7 +960,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
       const secretWords = window.mnemonic.pubkey_to_secret_words(pubkey);
       this.setState({ secretWords });
     } catch (e) {
-      window.console.log(e);
+      window.log.log(e);
       await this.resetRegistration();
 
       this.setState({

@@ -14,6 +14,8 @@ export async function handleEndSession(number: string): Promise<void> {
   try {
     const conversation = ConversationController.get(number);
     if (conversation) {
+      // this just marks the conversation as being waiting for a new session
+      // it does trigger a message to be sent. (the message is sent from handleSessionRequestMessage())
       await conversation.onSessionResetReceived();
     } else {
       throw new Error();
@@ -27,11 +29,9 @@ export async function handleSessionRequestMessage(
   envelope: EnvelopePlus,
   preKeyBundleMessage: SignalService.IPreKeyBundleMessage
 ) {
-  const { libsignal, libloki, StringView, textsecure, dcodeIO, log } = window;
+  const { libsignal, StringView, textsecure, dcodeIO, log } = window;
 
-  window.console.log(
-    `Received SESSION_REQUEST from source: ${envelope.source}`
-  );
+  window.log.info(`Received SESSION_REQUEST from source: ${envelope.source}`);
 
   if (!preKeyBundleMessage) {
     log.warn('No pre-key bundle found in a session request');
@@ -72,7 +72,7 @@ export async function handleSessionRequestMessage(
       );
     }
     if (preKey === undefined || signedKey === undefined) {
-      window.console.warn(
+      window.log.warn(
         "Couldn't process prekey bundle without preKey or signedKey"
       );
       return;

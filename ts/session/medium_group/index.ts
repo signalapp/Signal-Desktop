@@ -117,6 +117,7 @@ export async function createMediumGroup(
   };
 
   const dbMessage = await addUpdateMessage(convo, groupDiff, 'outgoing');
+  window.getMessageController().register(dbMessage.id, dbMessage);
 
   // be sure to call this before sending the message.
   // the sending pipeline needs to know from GroupUtils when a message is for a medium group
@@ -128,7 +129,9 @@ export async function createMediumGroup(
 
   convo.updateGroupAdmins(admins);
 
-  window.owsDesktopApp.appView.openConversation(groupId, {});
+  window.inboxStore.dispatch(
+    window.actionsCreators.openConversationExternal(groupId)
+  );
 
   // Subscribe to this group id
   window.SwarmPolling.addGroupId(new PubKey(groupId));
@@ -173,11 +176,14 @@ export async function createLegacyGroup(
   };
 
   const dbMessage = await addUpdateMessage(convo, diff, 'outgoing');
+  window.getMessageController().register(dbMessage.id, dbMessage);
 
   await sendGroupUpdate(convo, diff, groupDetails, dbMessage.id);
 
   window.textsecure.messaging.sendGroupSyncMessage([convo]);
-  window.owsDesktopApp.appView.openConversation(groupId, {});
+  window.inboxStore.dispatch(
+    window.actionsCreators.openConversationExternal(groupId)
+  );
 }
 
 export async function leaveMediumGroup(groupId: string) {
@@ -189,7 +195,7 @@ export async function leaveMediumGroup(groupId: string) {
   window.SwarmPolling.removePubkey(groupId);
   // TODO audric: we just left a group, we have to regenerate our senderkey
 
-  const maybeConvo = await ConversationController.get(groupId);
+  const maybeConvo = ConversationController.get(groupId);
 
   if (!maybeConvo) {
     window.log.error('Cannot leave non-existing group');
@@ -210,6 +216,7 @@ export async function leaveMediumGroup(groupId: string) {
     sent_at: now,
     received_at: now,
   });
+  window.getMessageController().register(dbMessage.id, dbMessage);
   const ourPrimary = await UserUtil.getPrimary();
 
   const members = convo.get('members').filter(m => m !== ourPrimary.key);
@@ -392,6 +399,7 @@ export async function initiateGroupUpdate(
     members,
     is_medium_group: isMediumGroup,
     admins: convo.get('groupAdmins'),
+    expireTimer: convo.get('expireTimer'),
   };
 
   if (isMediumGroup) {
@@ -402,6 +410,7 @@ export async function initiateGroupUpdate(
   }
 
   const dbMessage = await addUpdateMessage(convo, diff, 'outgoing');
+  window.getMessageController().register(dbMessage.id, dbMessage);
 
   await sendGroupUpdate(convo, diff, updateObj, dbMessage.id);
 }
@@ -497,7 +506,7 @@ interface GroupInfo {
   members: Array<string>; // Primary keys
   is_medium_group: boolean;
   active?: boolean;
-  expireTimer?: number;
+  expireTimer?: number | null;
   avatar?: any;
   color?: any; // what is this???
   blocked?: boolean;
@@ -540,13 +549,25 @@ export async function addUpdateMessage(
 
   const now = Date.now();
 
+  const markUnread = type === 'incoming';
+
   const message = await convo.addMessage({
     conversationId: convo.get('id'),
     type,
     sent_at: now,
     received_at: now,
     group_update: groupUpdate,
+    unread: markUnread,
   });
+
+  if (markUnread) {
+    // update the unreadCount for this convo
+    const unreadCount = await convo.getUnreadCount();
+    convo.set({
+      unreadCount,
+    });
+    await convo.commit();
+  }
 
   return message;
 }
@@ -581,7 +602,7 @@ async function sendGroupUpdateForMedium(
   groupUpdate: GroupInfo,
   messageId?: string
 ) {
-  const { id: groupId, members, name: groupName } = groupUpdate;
+  const { id: groupId, members, name: groupName, expireTimer } = groupUpdate;
   const ourPrimary = await UserUtil.getPrimary();
 
   const leavingMembers = diff.leavingMembers || [];
@@ -688,6 +709,22 @@ async function sendGroupUpdateForMedium(
           memberPubKey,
           mediumGroupCreateMessage
         );
+        // if an expire timer is set, we have to send it to the joining members
+        if (expireTimer && expireTimer > 0) {
+          const expireUpdate = {
+            timestamp: Date.now(),
+            expireTimer,
+            groupId: groupId,
+          };
+
+          const expirationTimerMessage = new ExpirationTimerUpdateMessage(
+            expireUpdate
+          );
+          await getMessageQueue().sendUsingMultiDevice(
+            memberPubKey,
+            expirationTimerMessage
+          );
+        }
       });
     }
   }
@@ -830,11 +867,12 @@ async function updateOrCreateGroup(details: GroupInfo) {
   await conversation.commit();
 
   const { expireTimer } = details;
-  const isValidExpireTimer = typeof expireTimer === 'number';
-  if (!isValidExpireTimer) {
+  const isValidExpireTimer =
+    expireTimer !== undefined && typeof expireTimer === 'number';
+
+  if (expireTimer === undefined || typeof expireTimer !== 'number') {
     return;
   }
-
   const source = textsecure.storage.user.getNumber();
   const receivedAt = Date.now();
   await conversation.updateExpirationTimer(expireTimer, source, receivedAt, {
