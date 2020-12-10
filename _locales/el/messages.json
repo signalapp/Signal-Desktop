@@ -311,6 +311,10 @@
         "message": "Δεν είσαι πλέον μέλος της ομάδας.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
+    "invalidConversation": {
+        "message": "Αυτή η ομάδα δεν είναι έγκυρη. Παρακαλώ δημιούργησε μια νέα ομάδα.",
+        "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
+    },
     "scrollDown": {
         "message": "Μετάβαση στο τέλος της συνομιλίας",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
@@ -420,6 +424,10 @@
     "callAnyway": {
         "message": "Κλήση παρ' όλα αυτά",
         "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+    },
+    "continueCall": {
+        "message": "Συνέχεια κλήσης",
+        "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
         "message": "Ο αριθμός ασφαλείας σουμε τον/την $name$ έχει αλλάξει και δεν είναι πλέον επιβεβαιωμένος. Κάνε κλικ για εμφάνιση.",
@@ -1052,7 +1060,7 @@
         "description": "Label for back button in a conversation"
     },
     "moreInfo": {
-        "message": "Περισσότερες πληροφορίες...",
+        "message": "Περισσότερες πληροφορίες",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
@@ -1191,6 +1199,14 @@
         "message": "Είσοδος στην κλήση",
         "description": "Button label in the call lobby for joining a call"
     },
+    "calling__return": {
+        "message": "Επιστροφή στην κλήση",
+        "description": "Button label in the call lobby for returning to a call"
+    },
+    "calling__call-is-full": {
+        "message": "Η κλήση είναι γεμάτη",
+        "description": "Button label in the call lobby when you can't join because the call is full"
+    },
     "calling__button--video-disabled": {
         "message": "Κάμερα απενεργοποιημένη",
         "description": "Button tooltip label when the camera is disabled"
@@ -1208,7 +1224,7 @@
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "Απενεργοποίηση μικροφώνου",
+        "message": "Σίγαση μικροφώνου",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
@@ -1218,6 +1234,78 @@
     "calling__your-video-is-off": {
         "message": "Το βίντεό σου είναι απενεργοποιημένο",
         "description": "Label in the calling lobby indicating that your camera is off"
+    },
+    "calling__lobby-summary--zero": {
+        "message": "Δεν είναι κανένας άλλος εδώ",
+        "description": "Shown in the calling lobby to describe who is in the call"
+    },
+    "calling__lobby-summary--single": {
+        "message": "Ο/Η $first$ είναι στην κλήση",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__lobby-summary--self": {
+        "message": "Κάποια από τις άλλες συσκευές σου είναι στην κλήση",
+        "description": "Shown in the calling lobby to describe when it is just you"
+    },
+    "calling__lobby-summary--double": {
+        "message": "Οι $first$ και $second$ είναι στην κλήση",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__lobby-summary--triple": {
+        "message": "Οι $first$, $second$ και $third$ είναι στην κλήση",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__lobby-summary--many": {
+        "message": "Οι $first$, $second$ και $others$ ακόμα είναι στην κλήση",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
+    "calling__in-this-call--zero": {
+        "message": "Δεν είναι κανένας άλλος εδώ",
+        "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
         "message": "Σε αυτή τη κλήση · 1 άτομο",
@@ -1232,6 +1320,20 @@
                 "example": "15"
             }
         }
+    },
+    "calling__you-have-blocked": {
+        "message": "Έχεις βάλει φραγή στον/ην $name$",
+        "description": "when you block someone and cannot view their video",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Henry Richard"
+            }
+        }
+    },
+    "calling__block-info": {
+        "message": "Δεν θα μπορείς να λάβεις τον ήχο ή την εικόνα του/της και αυτός/ή δεν θα λαμβάνει τα δικά σου.",
+        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "alwaysRelayCallsDescription": {
         "message": "Αναμετάδοση κλήσεων πάντα",
@@ -2993,6 +3095,10 @@
         "message": "Έναρξη βιντεοκλήσης",
         "description": "Title for the video call button in a conversation"
     },
+    "joinOngoingCall": {
+        "message": "Γίνε μέλος",
+        "description": "Text that appears in a group when a call is active"
+    },
     "callNeedPermission": {
         "message": "Ο/Η $title$ θα λάβει ένα αίτημα μηνύματος από σένα. Θα μπορέσεις να τον/την καλέσεις όταν αποδεχτεί το αίτημά σου.",
         "description": "Shown when a call is rejected because the other party hasn't approved the message/call request",
@@ -3022,15 +3128,61 @@
         "description": "Title for device selection settings"
     },
     "calling__participants": {
-        "message": "Συμμετέχοντες",
-        "description": "Title for participants list toggle"
+        "message": "$people$ στην κλήση",
+        "description": "Title for participants list toggle",
+        "placeholders": {
+            "people": {
+                "content": "$1",
+                "example": "16"
+            }
+        }
     },
-    "calling__pip": {
-        "message": "Εικόνα-εντός-εικόνας",
+    "calling__call-notification__ended": {
+        "message": "Η ομαδική κλήση τελείωσε",
+        "description": "Notification message when a group call has ended"
+    },
+    "calling__call-notification__started-by-someone": {
+        "message": "Ξεκίνησε μια ομαδική κλήση",
+        "description": "Notification message when a group call has started, but we don't know who started it"
+    },
+    "calling__call-notification__started-by-you": {
+        "message": "Ξεκίνησες μια ομαδική κλήση",
+        "description": "Notification message when a group call has started by you"
+    },
+    "calling__call-notification__started": {
+        "message": "Ο/Η $name$ ξεκίνησε μια ομαδική κλήση",
+        "description": "Notification message when a group call has started",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "calling__call-notification__button__in-another-call-tooltip": {
+        "message": "Είσαι ήδη σε κάποια κλήση",
+        "description": "Tooltip in disabled notification button when you're on another call"
+    },
+    "calling__call-notification__button__call-full-tooltip": {
+        "message": "Η κλήση έφτασε το όριο των $max$ συμμετεχόντων",
+        "description": "Tooltip in disabled notification button when the call is full",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "calling__pip--on": {
+        "message": "Σμίκρυνση κλήσης",
+        "description": "Title for picture-in-picture toggle"
+    },
+    "calling__pip--off": {
+        "message": "Κλήση σε πλήρη οθόνη",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__hangup": {
-        "message": "Τερματισμός κλήσης",
+        "message": "Αποχώρηση από την κλήση",
         "description": "Title for hang up button"
     },
     "callingDeviceSelection__label--video": {
@@ -3099,7 +3251,7 @@
         "message": "Παρακαλώ δοκίμασε ξανά ή επικοινώνησε με την υποστήριξη.",
         "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
     },
-    "ErrorModal--buttonText": {
+    "Confirmation--confirm": {
         "message": "Εντάξει",
         "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
     },
@@ -3900,6 +4052,120 @@
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--disabled": {
+        "message": "Αναβάθμισε αυτή την ομάδα για να ενεργοποιήσεις νέα χαρακτηριστικά όπως οι @αναφορές και οι διαχειριστές. Τα μέλη που δεν έχουν μοιραστεί το όνομα ή τη φωτογραφία τους με την ομάδα θα προσκληθούν να ξαναμπούν. $learnMore$",
+        "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn more."
+            }
+        }
+    },
+    "GroupV1--Migration--was-upgraded": {
+        "message": "Αυτή η ομάδα αναβαθμίστηκε σε Ομάδα νέου τύπου.",
+        "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
+    },
+    "GroupV1--Migration--learn-more": {
+        "message": "Μάθε περισσότερα",
+        "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
+    },
+    "GroupV1--Migration--migrate": {
+        "message": "Αναβάθμιση",
+        "description": "Shown on Migrate dialog to kick off the process"
+    },
+    "GroupV1--Migration--info--title": {
+        "message": "Τι είναι οι Ομάδες νέου τύπου;",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--migrate--title": {
+        "message": "Αναβάθμιση σε Ομάδα νέου τύπου",
+        "description": "Shown on Migration popup after choosing to migrate group"
+    },
+    "GroupV1--Migration--info--summary": {
+        "message": "Οι ομάδες νέου τύπου έχουν χαρακτηριστικά όπως τις @αναφορές και τους διαχειριστές ομάδας, και θα αποκτήσουν παραπάνω χαρακτηριστικά στο μέλλον.",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--keep-history": {
+        "message": "Όλο το ιστορικό της συζήτησης και τα πολυμέσα διατηρήθηκαν ως είχαν πριν την αναβάθμιση.",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--migrate--keep-history": {
+        "message": "Όλο το ιστορικό των μηνυμάτων και τα πολυμέσα διατηρήθηκαν ως είχαν πριν την αναβάθμιση.",
+        "description": "Shown on Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--you": {
+        "message": "Θα χρειαστεί να αποδεχτείς πάλι μια πρόσκληση για να μπεις στην ομάδα, και δεν θα λαμβάνεις μηνύματα της ομάδας μέχρι να αποδεχτείς.",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--many": {
+        "message": "Αυτά τα μέλη θα πρέπει να αποδεχτούν την πρόσκληση να ξαναμπούν στην ομάδα, και δεν θα λαμβάνουν τα μηνύματα της ομάδας μέχρι να αποδεχτούν:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--one": {
+        "message": "Αυτό το μέλος θα πρέπει να αποδεχτεί την πρόσκληση να ξαναμπεί στην ομάδα, και δεν θα λαμβάνει τα μηνύματα της ομάδας μέχρι να αποδεχτεί:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--before--many": {
+        "message": "Αυτά τα μέλη δεν μπορούν να μπουν σε Ομάδες νέου τύπου, και θα αφαιρεθούν από την ομάδα:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--before--one": {
+        "message": "Αυτό το μέλος δεν μπορεί να μπει σε Ομάδες νέου τύπου, και θα αφαιρεθεί από την ομάδα:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--after--many": {
+        "message": "Αυτά τα μέλη δεν μπορούν να μπουν σε Ομάδες νέου τύπου, και αφαιρέθηκαν από την ομάδα:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--after--one": {
+        "message": "Αυτό το μέλος δεν μπορεί να μπει σε Ομάδες νέου τύπου, και αφαιρέθηκε από την ομάδα:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--invited--you": {
+        "message": "Δεν μπόρεσες να προστεθείς στην Ομάδα νέου τύπου, και προσκλήθηκες να μπεις.",
+        "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
+    },
+    "GroupV1--Migration--invited--one": {
+        "message": "Ο/Η $contact$ δεν μπόρεσε να προστεθεί στην Ομάδα νέου τύπου και προσκλήθηκε να μπει.",
+        "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--invited--many": {
+        "message": "$count$ μέλη δεν μπόρεσαν να προστεθούν στην Ομάδα νέου τύπου και προσκλήθηκαν να μπουν.",
+        "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--removed--one": {
+        "message": "Ο/Η $contact$ αφαιρέθηκε από την ομάδα.",
+        "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--removed--many": {
+        "message": "$count$ μέλη αφαιρέθηκαν από την ομάδα.",
+        "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade",
+        "placeholders": {
+            "contact": {
                 "content": "$1",
                 "example": "5"
             }

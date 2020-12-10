@@ -266,7 +266,7 @@
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "אם צעדים אלו לא עובדים עבורך, נא להגיש יומן תקלים (תצוגה -> יומן תקלים) כדי שנוכל לעזור לך בהגירה!",
+        "message": "אם צעדים אלו לא עובדים עבורך, אנא הגש יומן תקלים (תצוגה -> יומן תקלים) כך שנוכל לעזור לך בהגירה!",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
@@ -310,6 +310,10 @@
     "youLeftTheGroup": {
         "message": "אינך חבר/ת קבוצה עוד של הקבוצה.",
         "description": "Displayed when a user can't send a message because they have left the group"
+    },
+    "invalidConversation": {
+        "message": "קבוצה זה בלתי תקפה. אנא צור קבוצה חדשה.",
+        "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
     },
     "scrollDown": {
         "message": "גלול לתחתית השיחה",
@@ -420,6 +424,10 @@
     "callAnyway": {
         "message": "חייג בכל זאת",
         "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+    },
+    "continueCall": {
+        "message": "Continue Call",
+        "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
         "message": "מספר הביטחון שלך עם $name$ השתנה ואינו מוֻדא יותר. לחץ כדי לראות.",
@@ -894,11 +902,11 @@
         "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
-        "message": "לצורך שיחות, חובה להתיר ל־Signal Desktop לגשת למיקרופון שלך.",
+        "message": "לצורך ביצוע שיחות, אתה חייב להתיר אל Signal Desktop להשיג גישה אל המיקרופון שלך.",
         "description": "Shown if the user attempts access the microphone for calling without audio permissions turned on"
     },
     "videoCallingPermissionNeeded": {
-        "message": "לצורך שיחות וידאו, חובה להתיר ל־Signal Desktop לגשת למצלמה שלך.",
+        "message": "לצורך ביצוע שיחות וידאו, אתה חייב להתיר אל Signal Desktop להשיג גישה אל המצלמה שלך.",
         "description": "Shown if the user attempts access the camera for video calling without video permissions turned on"
     },
     "allowAccess": {
@@ -1048,11 +1056,11 @@
         "description": ""
     },
     "goBack": {
-        "message": "חזרה",
+        "message": "חזור",
         "description": "Label for back button in a conversation"
     },
     "moreInfo": {
-        "message": "עוד מידע…",
+        "message": "עוד מידע",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
@@ -1191,6 +1199,14 @@
         "message": "הצטרף לשיחה",
         "description": "Button label in the call lobby for joining a call"
     },
+    "calling__return": {
+        "message": "Return to Call",
+        "description": "Button label in the call lobby for returning to a call"
+    },
+    "calling__call-is-full": {
+        "message": "השיחה מלאה",
+        "description": "Button label in the call lobby when you can't join because the call is full"
+    },
     "calling__button--video-disabled": {
         "message": "המצלמה מושבתת",
         "description": "Button tooltip label when the camera is disabled"
@@ -1208,16 +1224,88 @@
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "כבה מיקרופון",
+        "message": "השתק מיקרופון",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
-        "message": "הפעל מיקרופון",
+        "message": "בטל השתקת מיקרופון",
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
         "message": "הוידאו שלך כבוי",
         "description": "Label in the calling lobby indicating that your camera is off"
+    },
+    "calling__lobby-summary--zero": {
+        "message": "אף אחד אחר לא כאן",
+        "description": "Shown in the calling lobby to describe who is in the call"
+    },
+    "calling__lobby-summary--single": {
+        "message": "$first$ בשיחה זו",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__lobby-summary--self": {
+        "message": "One of your other devices is in this call",
+        "description": "Shown in the calling lobby to describe when it is just you"
+    },
+    "calling__lobby-summary--double": {
+        "message": "$first$ וגם $second$ בשיחה זו",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__lobby-summary--triple": {
+        "message": "$first$, $second$ וגם $third$ בשיחה זו",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__lobby-summary--many": {
+        "message": "$first$, $second$ ועוד $others$ אחרים בשיחה זו",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
+    "calling__in-this-call--zero": {
+        "message": "אף אחד אחר לא כאן",
+        "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
         "message": "בשיחה זו · איש 1",
@@ -1232,6 +1320,20 @@
                 "example": "15"
             }
         }
+    },
+    "calling__you-have-blocked": {
+        "message": "You have blocked $name$",
+        "description": "when you block someone and cannot view their video",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Henry Richard"
+            }
+        }
+    },
+    "calling__block-info": {
+        "message": "לא תקבל את השמע או הוידאו שלהם עד שהם לא יקבלו את שלך.",
+        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "alwaysRelayCallsDescription": {
         "message": "שדר מחדש שיחות תמיד",
@@ -1684,7 +1786,7 @@
         "description": "Description for incoming calls setting"
     },
     "contactChangedProfileName": {
-        "message": "$sender$ שינ(ת)ה את שם הפרופיל שלו/שלה מן $oldProfile$ אל $newProfile$.",
+        "message": "$sender$ שינה/שינתה את שם הפרופיל שלו/שלה מן $oldProfile$ אל $newProfile$.",
         "description": "Description for incoming calls setting",
         "placeholders": {
             "sender": {
@@ -1702,7 +1804,7 @@
         }
     },
     "changedProfileName": {
-        "message": "$oldProfile$ שינ(ת)ה את שם הפרופיל שלו/שלה אל $newProfile$.",
+        "message": "$oldProfile$ שינה/שינתה את שם הפרופיל שלו/שלה אל $newProfile$.",
         "description": "Shown when a contact not in your address book changes their profile name",
         "placeholders": {
             "oldProfile": {
@@ -1848,7 +1950,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "$name$ עדכן/ה את הקבוצה.",
+        "message": "$name$ עידכן/ה את הקבוצה.",
         "description": "Shown in the conversation history when someone updates the group",
         "placeholders": {
             "name": {
@@ -2030,11 +2132,11 @@
         "description": "Label for the add pack button in the sticker picker"
     },
     "stickers--StickerPicker--NextPage": {
-        "message": "לעמוד הבא",
+        "message": "הדף הבא",
         "description": "Label for the next page button in the sticker picker"
     },
     "stickers--StickerPicker--PrevPage": {
-        "message": "לעמוד הקודם",
+        "message": "הדף הקודם",
         "description": "Label for the previous page button in the sticker picker"
     },
     "stickers--StickerPicker--Recents": {
@@ -2510,7 +2612,7 @@
         "description": "Help text for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--title": {
-        "message": "האם הנך בטוח/ה שברצונך להעלות את חבילת המדבקות שלך?",
+        "message": "האם אתה בטוח שאתה רוצה להעלות את חבילת המדבקות שלך?",
         "description": "Title for the confirm dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--confirm": {
@@ -2986,12 +3088,16 @@
         "description": "Shown in the call screen when placing an outgoing call that is now ringing"
     },
     "makeOutgoingCall": {
-        "message": "התחלת שיחה",
+        "message": "התחל שיחה",
         "description": "Title for the call button in a conversation"
     },
     "makeOutgoingVideoCall": {
-        "message": "התחלת שיחת וידאו",
+        "message": "התחל שיחת וידאו",
         "description": "Title for the video call button in a conversation"
+    },
+    "joinOngoingCall": {
+        "message": "הצטרף",
+        "description": "Text that appears in a group when a call is active"
     },
     "callNeedPermission": {
         "message": "$title$ יקבל/תקבל בקשת התכתבות ממך. תוכל להתקשר ברגע שבקשת ההתכתבות שלך תאושר.",
@@ -3022,15 +3128,61 @@
         "description": "Title for device selection settings"
     },
     "calling__participants": {
-        "message": "משתתפים",
-        "description": "Title for participants list toggle"
+        "message": "$people$ בשיחה",
+        "description": "Title for participants list toggle",
+        "placeholders": {
+            "people": {
+                "content": "$1",
+                "example": "16"
+            }
+        }
     },
-    "calling__pip": {
-        "message": "תמונה בתוך תמונה",
+    "calling__call-notification__ended": {
+        "message": "השיחה הקבוצתית הסתיימה",
+        "description": "Notification message when a group call has ended"
+    },
+    "calling__call-notification__started-by-someone": {
+        "message": "A group call was started",
+        "description": "Notification message when a group call has started, but we don't know who started it"
+    },
+    "calling__call-notification__started-by-you": {
+        "message": "You started a group call",
+        "description": "Notification message when a group call has started by you"
+    },
+    "calling__call-notification__started": {
+        "message": "$name$ started a group call",
+        "description": "Notification message when a group call has started",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "calling__call-notification__button__in-another-call-tooltip": {
+        "message": "You are already in a call",
+        "description": "Tooltip in disabled notification button when you're on another call"
+    },
+    "calling__call-notification__button__call-full-tooltip": {
+        "message": "Call has reached capacity of $max$ participants",
+        "description": "Tooltip in disabled notification button when the call is full",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "calling__pip--on": {
+        "message": "מזער שיחה",
+        "description": "Title for picture-in-picture toggle"
+    },
+    "calling__pip--off": {
+        "message": "עורר שיחה במצב מלא",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__hangup": {
-        "message": "נתק",
+        "message": "עזוב שיחה",
         "description": "Title for hang up button"
     },
     "callingDeviceSelection__label--video": {
@@ -3099,7 +3251,7 @@
         "message": "אנא נסה שוב או צור קשר עם התמיכה.",
         "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
     },
-    "ErrorModal--buttonText": {
+    "Confirmation--confirm": {
         "message": "בסדר",
         "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
     },
@@ -3178,11 +3330,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--remove--unknown": {
-        "message": "חבר/ת קבוצה הסיר/ה את שם הקבוצה.",
+        "message": "חבר קבוצה הסיר את שם הקבוצה.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--other": {
-        "message": "$memberName$ שינ(ת)ה את יצגן הקבוצה.",
+        "message": "$memberName$ שינה/שינתה את יצגן הקבוצה.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3196,7 +3348,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--unknown": {
-        "message": "חבר/ת קבוצה שינ(ת)ה את יצגן הקבוצה.",
+        "message": "חבר קבוצה שינה את יצגן הקבוצה.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--other": {
@@ -3214,7 +3366,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--unknown": {
-        "message": "חבר/ת קבוצה הסיר/ה את יצגן הקבוצה.",
+        "message": "חבר קבוצה הסיר את יצגן הקבוצה.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--other": {
@@ -3396,7 +3548,7 @@
         }
     },
     "GroupV2--member-add--other--unknown": {
-        "message": "חבר/ת קבוצה הוסיף/ה את $memberName$.",
+        "message": "חבר קבוצה הוסיף את $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3486,7 +3638,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--promote--other--other": {
-        "message": "$adminName$ הפך/ה את $memberName$ למנהל/ת.",
+        "message": "$adminName$ עשה/עשתה את $memberName$ מנהלן/ית.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3500,7 +3652,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--you": {
-        "message": "הפכת את $memberName$ למנהל/ת.",
+        "message": "עשית את $memberName$ מנהלן/ית.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3510,7 +3662,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--unknown": {
-        "message": "מנהל/ת הפך/ה את $memberName$ למנהל/ת.",
+        "message": "מנהלן/ית עשה/עשתה את $memberName$ מנהלן/ית.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3520,7 +3672,7 @@
         }
     },
     "GroupV2--member-privilege--promote--you--other": {
-        "message": "$adminName$ הפך/ה אותך למנהל/ת.",
+        "message": "$adminName$ עשה/עשתה אותך מנהלן/ית.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3530,7 +3682,7 @@
         }
     },
     "GroupV2--member-privilege--promote--you--unknown": {
-        "message": "מנהל/ת הפך/ה אותך למנהל/ת",
+        "message": "מנהלן/ית עשה/עשתה אותך מנהלן/ית.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--demote--other--other": {
@@ -3586,7 +3738,7 @@
         }
     },
     "GroupV2--pending-add--one--other--you": {
-        "message": "הזמנת את $inviteeName$ אל הקבוצה",
+        "message": "הזמנת את $inviteeName$ אל הקבוצה.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3905,16 +4057,130 @@
             }
         }
     },
+    "GroupV1--Migration--disabled": {
+        "message": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. $learnMore$",
+        "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn more."
+            }
+        }
+    },
+    "GroupV1--Migration--was-upgraded": {
+        "message": "קבוצה זו שודרגה אל קבוצה חדשה.",
+        "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
+    },
+    "GroupV1--Migration--learn-more": {
+        "message": "למד עוד",
+        "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
+    },
+    "GroupV1--Migration--migrate": {
+        "message": "שדרג",
+        "description": "Shown on Migrate dialog to kick off the process"
+    },
+    "GroupV1--Migration--info--title": {
+        "message": "מהן קבוצות חדשות?",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--migrate--title": {
+        "message": "שדרג אל קבוצה חדשה",
+        "description": "Shown on Migration popup after choosing to migrate group"
+    },
+    "GroupV1--Migration--info--summary": {
+        "message": "לקבוצות חדשות יש מאפיינים כמו @אזכורים ומנהלני קבוצה, ויתמכו במאפיינים נוספים בעתיד.",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--keep-history": {
+        "message": "כל היסטורית ההודעות וכל המדיה נשמרו מלפני השדרוג.",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--migrate--keep-history": {
+        "message": "כל היסטורית ההודעות והמדיה יישמרו מלפני השדרוג.",
+        "description": "Shown on Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--you": {
+        "message": "תצטרך לאשר הזמנה כדי להצטרף אל קבוצה זו שוב, ולא תקבל הודעות קבוצה עד שתאשר:",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--many": {
+        "message": "חברי קבוצה אלו יצטרכו לאשר הזמנה כדי להצטרף אל קבוצה זו שוב, והם לא יקבלו הודעות קבוצה עד שהם יאשרו:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--one": {
+        "message": "חבר קבוצה זה יצטרך לאשר הזמנה כדי להצטרף אל קבוצה זו שוב, והוא לא יקבל הודעות קבוצה עד שהוא יאשר:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--before--many": {
+        "message": "חברי קבוצה אלו אינם מסוגלים להצטרף אל קבוצות חדשות, והם יוסרו מהקבוצה:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--before--one": {
+        "message": "חבר קבוצה זה אינו מסוגל להצטרף אל קבוצות חדשות, והוא יוסר מהקבוצה:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--after--many": {
+        "message": "חברי קבוצה אלו לא היו מסוגלים להצטרף אל קבוצות חדשות, והם הוסרו מהקבוצה:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--after--one": {
+        "message": "חבר קבוצה זה לא היה מסוגל להצטרף אל קבוצות חדשות, והוא הוסר מהקבוצה:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--invited--you": {
+        "message": "לא יכולת להתווסף אל הקבוצה החדשה והוזמנת להצטרף.",
+        "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
+    },
+    "GroupV1--Migration--invited--one": {
+        "message": "$contact$ לא היה/הייתה יכול/ה להצטרף אל הקבוצה החדשה והוא/היא הוזמן/ה להצטרף.",
+        "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--invited--many": {
+        "message": "$count$ חברי קבוצה לא יכלו להתווסף אל הקבוצה החדשה והם הוזמנו להצטרף אליה.",
+        "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--removed--one": {
+        "message": "$contact$ הוסר/ה מהקבוצה.",
+        "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--removed--many": {
+        "message": "$count$ חברי קבוצה הוסרו מהקבוצה.",
+        "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
     "close": {
         "message": "סגור",
         "description": "Generic close label"
     },
     "previous": {
-        "message": "אחורה",
+        "message": "הקודם",
         "description": "Generic previous label"
     },
     "next": {
-        "message": "קדימה",
+        "message": "הבא",
         "description": "Generic next label"
     },
     "CompositionArea--expand": {
