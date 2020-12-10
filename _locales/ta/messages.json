@@ -311,6 +311,10 @@
         "message": "You are no longer a member of the group.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
+    "invalidConversation": {
+        "message": "This group is invalid. Please create a new group.",
+        "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
+    },
     "scrollDown": {
         "message": "உரையாடலின் கீழே உருட்டவும்",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
@@ -420,6 +424,10 @@
     "callAnyway": {
         "message": "எப்படியும் அழைக்கவும்",
         "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+    },
+    "continueCall": {
+        "message": "Continue Call",
+        "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
         "message": "1$name$  உடன் உங்கள் பாதுகாப்பு எண் மாறிவிட்டது, இனி சரிபார்க்கப்படாது. காண்பிக்க கிளிக் செய்க.",
@@ -982,7 +990,7 @@
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "This message will be deleted for everyone in the conversation if they’re on a recent version of Signal. They will be able to see that you deleted a message.",
+        "message": "சிக்னலின் சமீபத்திய பதிப்பில் இருந்தால், உரையாடலில் உள்ள அனைவருக்கும் இந்த செய்தி நீக்கப்படும். நீங்கள் ஒரு செய்தியை நீக்கியுள்ளதை அவர்களால் பார்க்க முடியும்.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "deleteThisMessage": {
@@ -1052,7 +1060,7 @@
         "description": "Label for back button in a conversation"
     },
     "moreInfo": {
-        "message": "மேலும் தகவல்...",
+        "message": "மேலும் தகவல்",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
@@ -1184,12 +1192,20 @@
         "description": "Header for calling options on the settings screen"
     },
     "calling__start": {
-        "message": "Start Call",
+        "message": "அழைப்பைத் தொடங்கு",
         "description": "Button label in the call lobby for starting a call"
     },
     "calling__join": {
-        "message": "Join Call",
+        "message": "அழைப்பில் சேர்",
         "description": "Button label in the call lobby for joining a call"
+    },
+    "calling__return": {
+        "message": "Return to Call",
+        "description": "Button label in the call lobby for returning to a call"
+    },
+    "calling__call-is-full": {
+        "message": "அழைப்பு நிரம்பியுள்ளது",
+        "description": "Button label in the call lobby when you can't join because the call is full"
     },
     "calling__button--video-disabled": {
         "message": "Camera disabled",
@@ -1208,16 +1224,88 @@
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "Turn off microphone",
+        "message": "Mute mic",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
-        "message": "Turn on microphone",
+        "message": "Unmute mic",
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
-        "message": "Your video is off",
+        "message": "உங்கள் வீடியோ முடக்கப்பட்டுள்ளது",
         "description": "Label in the calling lobby indicating that your camera is off"
+    },
+    "calling__lobby-summary--zero": {
+        "message": "வேறு யாரும் இங்கு இல்லை",
+        "description": "Shown in the calling lobby to describe who is in the call"
+    },
+    "calling__lobby-summary--single": {
+        "message": "$first$ is in this call",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__lobby-summary--self": {
+        "message": "One of your other devices is in this call",
+        "description": "Shown in the calling lobby to describe when it is just you"
+    },
+    "calling__lobby-summary--double": {
+        "message": "$first$ and $second$ are in this call",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__lobby-summary--triple": {
+        "message": "$first$, $second$, and $third$ are in this call",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__lobby-summary--many": {
+        "message": "$first$, $second$, and $others$ others are in this call",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
+    "calling__in-this-call--zero": {
+        "message": "வேறு யாரும் இங்கு இல்லை",
+        "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
         "message": "In this call · 1 person",
@@ -1232,6 +1320,20 @@
                 "example": "15"
             }
         }
+    },
+    "calling__you-have-blocked": {
+        "message": "You have blocked $name$",
+        "description": "when you block someone and cannot view their video",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Henry Richard"
+            }
+        }
+    },
+    "calling__block-info": {
+        "message": "அவர்களின் ஆடியோ அல்லது வீடியோவை நீங்கள் பெற மாட்டீர்கள். மேலும், அவர்கள் உங்களுடையதைப் பெற மாட்டார்கள்.",
+        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "alwaysRelayCallsDescription": {
         "message": "எப்போதும் அழைப்புகளை ரிலே செய்யவும் ",
@@ -2993,6 +3095,10 @@
         "message": "Start a video call",
         "description": "Title for the video call button in a conversation"
     },
+    "joinOngoingCall": {
+        "message": "சேரவும்",
+        "description": "Text that appears in a group when a call is active"
+    },
     "callNeedPermission": {
         "message": "$title$ will get a message request from you. You can call once your message request has been accepted.",
         "description": "Shown when a call is rejected because the other party hasn't approved the message/call request",
@@ -3022,15 +3128,61 @@
         "description": "Title for device selection settings"
     },
     "calling__participants": {
-        "message": "Participants",
-        "description": "Title for participants list toggle"
+        "message": "$people$ in call",
+        "description": "Title for participants list toggle",
+        "placeholders": {
+            "people": {
+                "content": "$1",
+                "example": "16"
+            }
+        }
     },
-    "calling__pip": {
-        "message": "Picture-in-picture",
+    "calling__call-notification__ended": {
+        "message": "The group call has ended",
+        "description": "Notification message when a group call has ended"
+    },
+    "calling__call-notification__started-by-someone": {
+        "message": "A group call was started",
+        "description": "Notification message when a group call has started, but we don't know who started it"
+    },
+    "calling__call-notification__started-by-you": {
+        "message": "You started a group call",
+        "description": "Notification message when a group call has started by you"
+    },
+    "calling__call-notification__started": {
+        "message": "$name$ started a group call",
+        "description": "Notification message when a group call has started",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "calling__call-notification__button__in-another-call-tooltip": {
+        "message": "You are already in a call",
+        "description": "Tooltip in disabled notification button when you're on another call"
+    },
+    "calling__call-notification__button__call-full-tooltip": {
+        "message": "Call has reached capacity of $max$ participants",
+        "description": "Tooltip in disabled notification button when the call is full",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "calling__pip--on": {
+        "message": "Minimize call",
+        "description": "Title for picture-in-picture toggle"
+    },
+    "calling__pip--off": {
+        "message": "Fullscreen call",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__hangup": {
-        "message": "Hang Up",
+        "message": "அழைப்பை விடுங்கள்",
         "description": "Title for hang up button"
     },
     "callingDeviceSelection__label--video": {
@@ -3099,7 +3251,7 @@
         "message": "Please try again or contact support.",
         "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
     },
-    "ErrorModal--buttonText": {
+    "Confirmation--confirm": {
         "message": "சரி",
         "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
     },
@@ -3900,6 +4052,120 @@
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--disabled": {
+        "message": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. $learnMore$",
+        "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn more."
+            }
+        }
+    },
+    "GroupV1--Migration--was-upgraded": {
+        "message": "This group was upgraded to a New Group.",
+        "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
+    },
+    "GroupV1--Migration--learn-more": {
+        "message": "மேலும் அறிக",
+        "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
+    },
+    "GroupV1--Migration--migrate": {
+        "message": "மேம்படுத்தல்",
+        "description": "Shown on Migrate dialog to kick off the process"
+    },
+    "GroupV1--Migration--info--title": {
+        "message": "புதிய குழுக்கள் என்றால் என்ன?",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--migrate--title": {
+        "message": "புதிய குழுவிற்கு மேம்படுத்தவும்",
+        "description": "Shown on Migration popup after choosing to migrate group"
+    },
+    "GroupV1--Migration--info--summary": {
+        "message": "புதிய குழுக்களில் @குறிப்புகள் மற்றும் குழு நிர்வாகிகள் போன்ற அம்சங்கள் உள்ளன. எதிர்காலத்தில் கூடுதல் அம்சங்கள் இருக்கும்.",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--keep-history": {
+        "message": "மேம்படுத்தலுக்கு முன்பிருந்தே அனைத்து செய்தி வரலாறும் ஊடகமும் தக்கவைக்கப்பட்டுள்ளன.",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--migrate--keep-history": {
+        "message": "மேம்படுத்தலுக்கு முன்பிருந்தே அனைத்து செய்தி வரலாறும் ஊடகமும் தக்கவைக்கப்பட்டுள்ளன.",
+        "description": "Shown on Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--you": {
+        "message": "இந்த குழுவில் மீண்டும் சேர நீங்கள் அழைப்பை ஏற்க வேண்டும், நீங்கள் ஏற்றுக்கொள்ளும் வரை குழு செய்திகளைப் பெற மாட்டீர்கள்.",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--many": {
+        "message": "These members will need to accept an invite to join this group again, and will not receive group messages until they accept:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--one": {
+        "message": "This member will need to accept an invite to join this group again, and will not receive group messages until they accept:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--before--many": {
+        "message": "These members are not capable of joining New Groups, and will be removed from the group:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--before--one": {
+        "message": "This member is not capable of joining New Groups, and will be removed from the group:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--after--many": {
+        "message": "These members were not capable of joining New Groups, and were removed from the group:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--after--one": {
+        "message": "This member was not capable of joining New Groups, and was removed from the group:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--invited--you": {
+        "message": "நீங்கள் புதிய குழுவில் சேர்க்கப்படவில்லை. நீங்கள் இந்தக் குழுவில் சேருவதற்கு அழைக்கப்பட்டுள்ளீர்கள்",
+        "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
+    },
+    "GroupV1--Migration--invited--one": {
+        "message": "$contact$ couldn’t be added to the New Group and has been invited to join.",
+        "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--invited--many": {
+        "message": "$count$ members couldn’t be added to the New Group and have been invited to join.",
+        "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--removed--one": {
+        "message": "$contact$ was removed from the group.",
+        "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--removed--many": {
+        "message": "$count$ members were removed from the group.",
+        "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade",
+        "placeholders": {
+            "contact": {
                 "content": "$1",
                 "example": "5"
             }

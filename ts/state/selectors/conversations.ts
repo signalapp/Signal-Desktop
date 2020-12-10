@@ -15,6 +15,8 @@ import {
   MessagesByConversationType,
   MessageType,
 } from '../ducks/conversations';
+import type { CallsByConversationType } from '../ducks/calling';
+import { getCallsByConversation } from './calling';
 import { getBubbleProps } from '../../shims/Whisper';
 import { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline';
 import { TimelineItemType } from '../../components/conversation/TimelineItem';
@@ -26,6 +28,7 @@ import {
   getUserConversationId,
   getUserNumber,
 } from './user';
+import { getPinnedConversationIds } from './items';
 
 export const getConversations = (state: StateType): ConversationsStateType =>
   state.conversations;
@@ -127,7 +130,8 @@ export const getConversationComparator = createSelector(
 export const _getLeftPaneLists = (
   lookup: ConversationLookupType,
   comparator: (left: ConversationType, right: ConversationType) => number,
-  selectedConversation?: string
+  selectedConversation?: string,
+  pinnedConversationIds?: Array<string>
 ): {
   conversations: Array<ConversationType>;
   archivedConversations: Array<ConversationType>;
@@ -162,13 +166,10 @@ export const _getLeftPaneLists = (
   conversations.sort(comparator);
   archivedConversations.sort(comparator);
 
-  const pinnedConversationIds = window.storage.get<Array<string>>(
-    'pinnedConversationIds',
-    []
-  );
   pinnedConversations.sort(
     (a, b) =>
-      pinnedConversationIds.indexOf(a.id) - pinnedConversationIds.indexOf(b.id)
+      (pinnedConversationIds || []).indexOf(a.id) -
+      (pinnedConversationIds || []).indexOf(b.id)
   );
 
   return { conversations, archivedConversations, pinnedConversations };
@@ -178,6 +179,7 @@ export const getLeftPaneLists = createSelector(
   getConversationLookup,
   getConversationComparator,
   getSelectedConversation,
+  getPinnedConversationIds,
   _getLeftPaneLists
 );
 
@@ -253,6 +255,7 @@ export function _messageSelector(
   _ourNumber: string,
   _regionCode: string,
   interactionMode: 'mouse' | 'keyboard',
+  _callsByConversation: CallsByConversationType,
   _conversation?: ConversationType,
   _author?: ConversationType,
   _quoted?: ConversationType,
@@ -291,6 +294,7 @@ type CachedMessageSelectorType = (
   ourNumber: string,
   regionCode: string,
   interactionMode: 'mouse' | 'keyboard',
+  callsByConversation: CallsByConversationType,
   conversation?: ConversationType,
   author?: ConversationType,
   quoted?: ConversationType,
@@ -316,6 +320,7 @@ export const getMessageSelector = createSelector(
   getRegionCode,
   getUserNumber,
   getInteractionMode,
+  getCallsByConversation,
   (
     messageSelector: CachedMessageSelectorType,
     messageLookup: MessageLookupType,
@@ -323,7 +328,8 @@ export const getMessageSelector = createSelector(
     conversationSelector: GetConversationByIdType,
     regionCode: string,
     ourNumber: string,
-    interactionMode: 'keyboard' | 'mouse'
+    interactionMode: 'keyboard' | 'mouse',
+    callsByConversation: CallsByConversationType
   ): GetMessageByIdType => {
     return (id: string) => {
       const message = messageLookup[id];
@@ -351,6 +357,7 @@ export const getMessageSelector = createSelector(
         ourNumber,
         regionCode,
         interactionMode,
+        callsByConversation,
         conversation,
         author,
         quoted,

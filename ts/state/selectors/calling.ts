@@ -3,31 +3,43 @@
 
 import { createSelector } from 'reselect';
 
-import { CallingStateType } from '../ducks/calling';
-import { CallState } from '../../types/Calling';
+import { StateType } from '../reducer';
+import {
+  CallingStateType,
+  CallsByConversationType,
+  DirectCallStateType,
+} from '../ducks/calling';
+import { CallMode, CallState } from '../../types/Calling';
 import { getOwn } from '../../util/getOwn';
 
-const getActiveCallState = (state: CallingStateType) => state.activeCallState;
+const getCalling = (state: StateType): CallingStateType => state.calling;
 
-const getCallsByConversation = (state: CallingStateType) =>
-  state.callsByConversation;
+export const getCallsByConversation = createSelector(
+  getCalling,
+  (state: CallingStateType): CallsByConversationType =>
+    state.callsByConversation
+);
+
+export const getCallSelector = createSelector(
+  getCallsByConversation,
+  (callsByConversation: CallsByConversationType) => (conversationId: string) =>
+    getOwn(callsByConversation, conversationId)
+);
 
 // In theory, there could be multiple incoming calls. In practice, neither RingRTC nor the
 //   UI are ready to handle this.
 export const getIncomingCall = createSelector(
   getCallsByConversation,
-  callsByConversation =>
-    Object.values(callsByConversation).find(
-      call => call.isIncoming && call.callState === CallState.Ringing
-    )
+  (
+    callsByConversation: CallsByConversationType
+  ): undefined | DirectCallStateType => {
+    const result = Object.values(callsByConversation).find(
+      call =>
+        call.callMode === CallMode.Direct &&
+        call.isIncoming &&
+        call.callState === CallState.Ringing
+    );
+    // TypeScript needs a little help to be sure that this is a direct call.
+    return result?.callMode === CallMode.Direct ? result : undefined;
+  }
 );
-
-export const getActiveCall = createSelector(
-  getActiveCallState,
-  getCallsByConversation,
-  (activeCallState, callsByConversation) =>
-    activeCallState &&
-    getOwn(callsByConversation, activeCallState.conversationId)
-);
-
-export const isCallActive = createSelector(getActiveCall, Boolean);

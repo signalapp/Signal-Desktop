@@ -188,14 +188,16 @@ export const StickerFrame = React.memo(
               onMouseLeave={handleMouseLeave}
               ref={rootRef}
             >
-              {// eslint-disable-next-line no-nested-ternary
-              mode !== 'add' ? (
-                image ? (
-                  <ImageHandle src={image} />
-                ) : (
-                  <div className={styles.spinner}>{spinnerSvg}</div>
-                )
-              ) : null}
+              {
+                // eslint-disable-next-line no-nested-ternary
+                mode !== 'add' ? (
+                  image ? (
+                    <ImageHandle src={image} />
+                  ) : (
+                    <div className={styles.spinner}>{spinnerSvg}</div>
+                  )
+                ) : null
+              }
               {showGuide && mode !== 'add' ? (
                 <div className={styles.guide} />
               ) : null}

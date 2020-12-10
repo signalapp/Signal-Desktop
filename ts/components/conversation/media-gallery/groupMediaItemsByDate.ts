@@ -115,9 +115,7 @@ const withSection = (referenceDateTime: moment.Moment) => (
   mediaItem: MediaItemType
 ): MediaItemWithSection => {
   const today = moment(referenceDateTime).startOf('day');
-  const yesterday = moment(referenceDateTime)
-    .subtract(1, 'day')
-    .startOf('day');
+  const yesterday = moment(referenceDateTime).subtract(1, 'day').startOf('day');
   const thisWeek = moment(referenceDateTime).startOf('isoWeek');
   const thisMonth = moment(referenceDateTime).startOf('month');
 

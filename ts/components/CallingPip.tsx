@@ -2,70 +2,62 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
+import { minBy, debounce, noop } from 'lodash';
+import { CallingPipRemoteVideo } from './CallingPipRemoteVideo';
+import { LocalizerType } from '../types/Util';
+import {
+  ActiveCallType,
+  GroupCallVideoRequest,
+  VideoFrameSource,
+} from '../types/Calling';
 import {
   HangUpType,
   SetLocalPreviewType,
   SetRendererCanvasType,
 } from '../state/ducks/calling';
-import { Avatar } from './Avatar';
-import { CallBackgroundBlur } from './CallBackgroundBlur';
-import { ColorType } from '../types/Colors';
-import { LocalizerType } from '../types/Util';
+import { missingCaseError } from '../util/missingCaseError';
 
-function renderAvatar(
-  {
-    avatarPath,
-    color,
-    name,
-    phoneNumber,
-    profileName,
-    title,
-  }: {
-    avatarPath?: string;
-    color?: ColorType;
-    title: string;
-    name?: string;
-    phoneNumber?: string;
-    profileName?: string;
-  },
-  i18n: LocalizerType
-): JSX.Element {
-  return (
-    <div className="module-calling-pip__video--remote">
-      <CallBackgroundBlur avatarPath={avatarPath} color={color}>
-        <div className="module-calling-pip__video--avatar">
-          <Avatar
-            avatarPath={avatarPath}
-            color={color || 'ultramarine'}
-            noteToSelf={false}
-            conversationType="direct"
-            i18n={i18n}
-            name={name}
-            phoneNumber={phoneNumber}
-            profileName={profileName}
-            title={title}
-            size={52}
-          />
-        </div>
-      </CallBackgroundBlur>
-    </div>
-  );
+enum PositionMode {
+  BeingDragged,
+  SnapToBottom,
+  SnapToLeft,
+  SnapToRight,
+  SnapToTop,
+}
+
+type PositionState =
+  | {
+      mode: PositionMode.BeingDragged;
+      mouseX: number;
+      mouseY: number;
+      dragOffsetX: number;
+      dragOffsetY: number;
+    }
+  | {
+      mode: PositionMode.SnapToLeft | PositionMode.SnapToRight;
+      offsetY: number;
+    }
+  | {
+      mode: PositionMode.SnapToTop | PositionMode.SnapToBottom;
+      offsetX: number;
+    };
+
+interface SnapCandidate {
+  mode:
+    | PositionMode.SnapToBottom
+    | PositionMode.SnapToLeft
+    | PositionMode.SnapToRight
+    | PositionMode.SnapToTop;
+  distanceToEdge: number;
 }
 
 export type PropsType = {
-  conversation: {
-    id: string;
-    avatarPath?: string;
-    color?: ColorType;
-    title: string;
-    name?: string;
-    phoneNumber?: string;
-    profileName?: string;
-  };
+  activeCall: ActiveCallType;
+  getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   hangUp: (_: HangUpType) => void;
   hasLocalVideo: boolean;
-  hasRemoteVideo: boolean;
   i18n: LocalizerType;
+  setGroupCallVideoRequest: (_: Array<GroupCallVideoRequest>) => void;
   setLocalPreview: (_: SetLocalPreviewType) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
   togglePip: () => void;
@@ -73,117 +65,175 @@ export type PropsType = {
 
 const PIP_HEIGHT = 156;
 const PIP_WIDTH = 120;
-const PIP_DEFAULT_Y = 56;
+const PIP_TOP_MARGIN = 56;
 const PIP_PADDING = 8;
 
 export const CallingPip = ({
-  conversation,
+  activeCall,
+  getGroupCallVideoFrameSource,
   hangUp,
   hasLocalVideo,
-  hasRemoteVideo,
   i18n,
+  setGroupCallVideoRequest,
   setLocalPreview,
   setRendererCanvas,
   togglePip,
 }: PropsType): JSX.Element | null => {
-  const videoContainerRef = React.useRef(null);
+  const videoContainerRef = React.useRef<null | HTMLDivElement>(null);
   const localVideoRef = React.useRef(null);
-  const remoteVideoRef = React.useRef(null);
 
-  const [dragState, setDragState] = React.useState({
-    offsetX: 0,
+  const [windowWidth, setWindowWidth] = React.useState(window.innerWidth);
+  const [windowHeight, setWindowHeight] = React.useState(window.innerHeight);
+  const [positionState, setPositionState] = React.useState<PositionState>({
+    mode: PositionMode.SnapToRight,
     offsetY: 0,
-    isDragging: false,
-  });
-
-  const [dragContainerStyle, setDragContainerStyle] = React.useState({
-    translateX: window.innerWidth - PIP_WIDTH - PIP_PADDING,
-    translateY: PIP_DEFAULT_Y,
   });
 
   React.useEffect(() => {
     setLocalPreview({ element: localVideoRef });
-    setRendererCanvas({ element: remoteVideoRef });
-  }, [setLocalPreview, setRendererCanvas]);
+  }, [setLocalPreview]);
 
   const handleMouseMove = React.useCallback(
     (ev: MouseEvent) => {
-      if (dragState.isDragging) {
-        setDragContainerStyle({
-          translateX: ev.clientX - dragState.offsetX,
-          translateY: ev.clientY - dragState.offsetY,
-        });
+      if (positionState.mode === PositionMode.BeingDragged) {
+        setPositionState(oldState => ({
+          ...oldState,
+          mouseX: ev.screenX,
+          mouseY: ev.screenY,
+        }));
       }
     },
-    [dragState]
+    [positionState]
   );
 
   const handleMouseUp = React.useCallback(() => {
-    if (dragState.isDragging) {
-      const { translateX, translateY } = dragContainerStyle;
+    if (positionState.mode === PositionMode.BeingDragged) {
+      const { mouseX, mouseY, dragOffsetX, dragOffsetY } = positionState;
       const { innerHeight, innerWidth } = window;
 
-      const proximityRatio: Record<string, number> = {
-        top: translateY / innerHeight,
-        right: (innerWidth - translateX) / innerWidth,
-        bottom: (innerHeight - translateY) / innerHeight,
-        left: translateX / innerWidth,
-      };
+      const offsetX = mouseX - dragOffsetX;
+      const offsetY = mouseY - dragOffsetY;
 
-      const snapTo = Object.keys(proximityRatio).reduce(
-        (minKey: string, key: string): string => {
-          return proximityRatio[key] < proximityRatio[minKey] ? key : minKey;
-        }
-      );
+      const snapCandidates: Array<SnapCandidate> = [
+        {
+          mode: PositionMode.SnapToLeft,
+          distanceToEdge: offsetX,
+        },
+        {
+          mode: PositionMode.SnapToRight,
+          distanceToEdge: innerWidth - (offsetX + PIP_WIDTH),
+        },
+        {
+          mode: PositionMode.SnapToTop,
+          distanceToEdge: offsetY - PIP_TOP_MARGIN,
+        },
+        {
+          mode: PositionMode.SnapToBottom,
+          distanceToEdge: innerHeight - (offsetY + PIP_HEIGHT),
+        },
+      ];
 
-      setDragState({
-        ...dragState,
-        isDragging: false,
-      });
+      // This fallback is mostly for TypeScript, because `minBy` says it can return
+      //   `undefined`.
+      const snapTo =
+        minBy(snapCandidates, candidate => candidate.distanceToEdge) ||
+        snapCandidates[0];
 
-      let nextX = Math.max(
-        PIP_PADDING,
-        Math.min(translateX, innerWidth - PIP_WIDTH - PIP_PADDING)
-      );
-      let nextY = Math.max(
-        PIP_DEFAULT_Y,
-        Math.min(translateY, innerHeight - PIP_HEIGHT - PIP_PADDING)
-      );
-
-      if (snapTo === 'top') {
-        nextY = PIP_DEFAULT_Y;
+      switch (snapTo.mode) {
+        case PositionMode.SnapToLeft:
+        case PositionMode.SnapToRight:
+          setPositionState({
+            mode: snapTo.mode,
+            offsetY,
+          });
+          break;
+        case PositionMode.SnapToTop:
+        case PositionMode.SnapToBottom:
+          setPositionState({
+            mode: snapTo.mode,
+            offsetX,
+          });
+          break;
+        default:
+          throw missingCaseError(snapTo.mode);
       }
-      if (snapTo === 'right') {
-        nextX = innerWidth - PIP_WIDTH - PIP_PADDING;
-      }
-      if (snapTo === 'bottom') {
-        nextY = innerHeight - PIP_HEIGHT - PIP_PADDING;
-      }
-      if (snapTo === 'left') {
-        nextX = PIP_PADDING;
-      }
-
-      setDragContainerStyle({
-        translateX: nextX,
-        translateY: nextY,
-      });
     }
-  }, [dragState, dragContainerStyle]);
+  }, [positionState, setPositionState]);
 
   React.useEffect(() => {
-    if (dragState.isDragging) {
+    if (positionState.mode === PositionMode.BeingDragged) {
       document.addEventListener('mousemove', handleMouseMove, false);
       document.addEventListener('mouseup', handleMouseUp, false);
-    } else {
-      document.removeEventListener('mouseup', handleMouseUp, false);
-      document.removeEventListener('mousemove', handleMouseMove, false);
-    }
 
+      return () => {
+        document.removeEventListener('mouseup', handleMouseUp, false);
+        document.removeEventListener('mousemove', handleMouseMove, false);
+      };
+    }
+    return noop;
+  }, [positionState.mode, handleMouseMove, handleMouseUp]);
+
+  React.useEffect(() => {
+    const handleWindowResize = debounce(
+      () => {
+        setWindowWidth(window.innerWidth);
+        setWindowHeight(window.innerHeight);
+      },
+      100,
+      {
+        maxWait: 3000,
+      }
+    );
+
+    window.addEventListener('resize', handleWindowResize, false);
     return () => {
-      document.removeEventListener('mouseup', handleMouseUp, false);
-      document.removeEventListener('mousemove', handleMouseMove, false);
+      window.removeEventListener('resize', handleWindowResize, false);
     };
-  }, [dragState, handleMouseMove, handleMouseUp]);
+  }, []);
+
+  const [translateX, translateY] = React.useMemo<[number, number]>(() => {
+    switch (positionState.mode) {
+      case PositionMode.BeingDragged:
+        return [
+          positionState.mouseX - positionState.dragOffsetX,
+          positionState.mouseY - positionState.dragOffsetY,
+        ];
+      case PositionMode.SnapToLeft:
+        return [
+          PIP_PADDING,
+          Math.min(
+            PIP_TOP_MARGIN + positionState.offsetY,
+            windowHeight - PIP_PADDING - PIP_HEIGHT
+          ),
+        ];
+      case PositionMode.SnapToRight:
+        return [
+          windowWidth - PIP_PADDING - PIP_WIDTH,
+          Math.min(
+            PIP_TOP_MARGIN + positionState.offsetY,
+            windowHeight - PIP_PADDING - PIP_HEIGHT
+          ),
+        ];
+      case PositionMode.SnapToTop:
+        return [
+          Math.min(
+            positionState.offsetX,
+            windowWidth - PIP_PADDING - PIP_WIDTH
+          ),
+          PIP_TOP_MARGIN + PIP_PADDING,
+        ];
+      case PositionMode.SnapToBottom:
+        return [
+          Math.min(
+            positionState.offsetX,
+            windowWidth - PIP_PADDING - PIP_WIDTH
+          ),
+          windowHeight - PIP_PADDING - PIP_HEIGHT,
+        ];
+      default:
+        throw missingCaseError(positionState);
+    }
+  }, [windowWidth, windowHeight, positionState]);
 
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
@@ -194,31 +244,38 @@ export const CallingPip = ({
         if (!node) {
           return;
         }
-        const rect = (node as HTMLElement).getBoundingClientRect();
-        const offsetX = ev.clientX - rect.left;
-        const offsetY = ev.clientY - rect.top;
+        const rect = node.getBoundingClientRect();
+        const dragOffsetX = ev.screenX - rect.left;
+        const dragOffsetY = ev.screenY - rect.top;
 
-        setDragState({
-          isDragging: true,
-          offsetX,
-          offsetY,
+        setPositionState({
+          mode: PositionMode.BeingDragged,
+          mouseX: ev.screenX,
+          mouseY: ev.screenY,
+          dragOffsetX,
+          dragOffsetY,
         });
       }}
       ref={videoContainerRef}
       style={{
-        cursor: dragState.isDragging ? '-webkit-grabbing' : '-webkit-grab',
-        transform: `translate3d(${dragContainerStyle.translateX}px,${dragContainerStyle.translateY}px, 0)`,
-        transition: dragState.isDragging ? 'none' : 'transform ease-out 300ms',
+        cursor:
+          positionState.mode === PositionMode.BeingDragged
+            ? '-webkit-grabbing'
+            : '-webkit-grab',
+        transform: `translate3d(${translateX}px,${translateY}px, 0)`,
+        transition:
+          positionState.mode === PositionMode.BeingDragged
+            ? 'none'
+            : 'transform ease-out 300ms',
       }}
     >
-      {hasRemoteVideo ? (
-        <canvas
-          className="module-calling-pip__video--remote"
-          ref={remoteVideoRef}
-        />
-      ) : (
-        renderAvatar(conversation, i18n)
-      )}
+      <CallingPipRemoteVideo
+        activeCall={activeCall}
+        getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
+        i18n={i18n}
+        setRendererCanvas={setRendererCanvas}
+        setGroupCallVideoRequest={setGroupCallVideoRequest}
+      />
       {hasLocalVideo ? (
         <video
           className="module-calling-pip__video--local"
@@ -228,19 +285,21 @@ export const CallingPip = ({
       ) : null}
       <div className="module-calling-pip__actions">
         <button
-          type="button"
           aria-label={i18n('calling__hangup')}
           className="module-calling-pip__button--hangup"
           onClick={() => {
-            hangUp({ conversationId: conversation.id });
+            hangUp({ conversationId: activeCall.conversation.id });
           }}
+          type="button"
         />
         <button
-          type="button"
-          aria-label={i18n('calling__pip')}
+          aria-label={i18n('calling__pip--off')}
           className="module-calling-pip__button--pip"
           onClick={togglePip}
-        />
+          type="button"
+        >
+          <div />
+        </button>
       </div>
     </div>
   );

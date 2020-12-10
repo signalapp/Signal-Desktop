@@ -1,6 +1,6 @@
 {
     "softwareAcknowledgments": {
-        "message": "Software erkenningen",
+        "message": "Erkenningen bij deze software",
         "description": "Shown in the about box for the link to software acknowledgments"
     },
     "privacyPolicy": {
@@ -210,7 +210,7 @@
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
-        "message": "Archief",
+        "message": "Gesprek archiveren",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "markUnread": {
@@ -310,6 +310,10 @@
     "youLeftTheGroup": {
         "message": "Je bent niet langer lid van de groep.",
         "description": "Displayed when a user can't send a message because they have left the group"
+    },
+    "invalidConversation": {
+        "message": "Deze groep is ongeldig. Maak een nieuwe groep aan.",
+        "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
     },
     "scrollDown": {
         "message": "Scroll naar de bodem van het gesprek",
@@ -420,6 +424,10 @@
     "callAnyway": {
         "message": "Toch bellen",
         "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+    },
+    "continueCall": {
+        "message": "Oproep voortzetten",
+        "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
         "message": "Je veiligheidsnummer met $name$ is veranderd en het is daarom niet langer geverifieerd. Klik om het te tonen.",
@@ -1052,7 +1060,7 @@
         "description": "Label for back button in a conversation"
     },
     "moreInfo": {
-        "message": "Meer informatie …",
+        "message": "Meer informatie",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
@@ -1191,6 +1199,14 @@
         "message": "Aan oproep deelnemen",
         "description": "Button label in the call lobby for joining a call"
     },
+    "calling__return": {
+        "message": "Naar de oproep terugkeren",
+        "description": "Button label in the call lobby for returning to a call"
+    },
+    "calling__call-is-full": {
+        "message": "De oproep is vol",
+        "description": "Button label in the call lobby when you can't join because the call is full"
+    },
     "calling__button--video-disabled": {
         "message": "Camera uitgeschakeld",
         "description": "Button tooltip label when the camera is disabled"
@@ -1208,16 +1224,88 @@
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "Microfoon uitschakelen",
+        "message": "Microfoon dempen",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
-        "message": "Microfoon inschakelen",
+        "message": "Microfoon niet langer dempen",
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
         "message": "Je camera staat uit",
         "description": "Label in the calling lobby indicating that your camera is off"
+    },
+    "calling__lobby-summary--zero": {
+        "message": "Er is niemand behalve jou in dit gesprek",
+        "description": "Shown in the calling lobby to describe who is in the call"
+    },
+    "calling__lobby-summary--single": {
+        "message": "$first$ is aanwezig in deze oproep",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__lobby-summary--self": {
+        "message": "Een van je andere apparaten neemt deel aan deze oproep",
+        "description": "Shown in the calling lobby to describe when it is just you"
+    },
+    "calling__lobby-summary--double": {
+        "message": "$first$ en $second$ zijn aanwezig in deze oproep",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__lobby-summary--triple": {
+        "message": "$first$, $second$ en $third$ zijn aanwezig in deze oproep",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__lobby-summary--many": {
+        "message": ",$first$ $second$ en $others$ anderen zijn aanwezig in deze oproep",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
+    "calling__in-this-call--zero": {
+        "message": "Er is niemand behalve jou in dit gesprek",
+        "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
         "message": "1 persoon in dit gesprek",
@@ -1232,6 +1320,20 @@
                 "example": "15"
             }
         }
+    },
+    "calling__you-have-blocked": {
+        "message": "Je hebt $name$ geblokkeerd",
+        "description": "when you block someone and cannot view their video",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Henry Richard"
+            }
+        }
+    },
+    "calling__block-info": {
+        "message": "Je zult hen niet kunnen zien of horen en zij zullen jou niet kunnen zien of horen.",
+        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "alwaysRelayCallsDescription": {
         "message": "Alle oproepen omleiden",
@@ -2993,6 +3095,10 @@
         "message": "Start een video-oproep",
         "description": "Title for the video call button in a conversation"
     },
+    "joinOngoingCall": {
+        "message": "Aan oproep deelnemen",
+        "description": "Text that appears in a group when a call is active"
+    },
     "callNeedPermission": {
         "message": "$title$ zal van jou een gespreksverzoek ontvangen. Je kunt bellen zodra je gespreksverzoek door hem of haar is aanvaard.",
         "description": "Shown when a call is rejected because the other party hasn't approved the message/call request",
@@ -3022,15 +3128,61 @@
         "description": "Title for device selection settings"
     },
     "calling__participants": {
-        "message": "Deelnemers",
-        "description": "Title for participants list toggle"
+        "message": "$people$ in de oproep",
+        "description": "Title for participants list toggle",
+        "placeholders": {
+            "people": {
+                "content": "$1",
+                "example": "16"
+            }
+        }
     },
-    "calling__pip": {
-        "message": "Beeld-in-beeld",
+    "calling__call-notification__ended": {
+        "message": "De groepsoproep is beëindigd",
+        "description": "Notification message when a group call has ended"
+    },
+    "calling__call-notification__started-by-someone": {
+        "message": "Er is een groepsoproep gestart",
+        "description": "Notification message when a group call has started, but we don't know who started it"
+    },
+    "calling__call-notification__started-by-you": {
+        "message": "Je hebt een groepsoproep gestart",
+        "description": "Notification message when a group call has started by you"
+    },
+    "calling__call-notification__started": {
+        "message": "$name$ heeft een groepsoproep gestart",
+        "description": "Notification message when a group call has started",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "calling__call-notification__button__in-another-call-tooltip": {
+        "message": "Je neemt al aan een oproep deel",
+        "description": "Tooltip in disabled notification button when you're on another call"
+    },
+    "calling__call-notification__button__call-full-tooltip": {
+        "message": "De oproep heeft het maximale aantal van $max$ deelnemers bereikt",
+        "description": "Tooltip in disabled notification button when the call is full",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "calling__pip--on": {
+        "message": "Oproep minimaliseren",
+        "description": "Title for picture-in-picture toggle"
+    },
+    "calling__pip--off": {
+        "message": "Oproep volledig scherm laten innemen",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__hangup": {
-        "message": "Ophangen",
+        "message": "Oproep verlaten",
         "description": "Title for hang up button"
     },
     "callingDeviceSelection__label--video": {
@@ -3099,7 +3251,7 @@
         "message": "Probeer het opnieuw of neem contact op met ondersteuning.",
         "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
     },
-    "ErrorModal--buttonText": {
+    "Confirmation--confirm": {
         "message": "Oké",
         "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
     },
@@ -3905,6 +4057,120 @@
             }
         }
     },
+    "GroupV1--Migration--disabled": {
+        "message": "Zet deze groep om om nieuwe functionaliteiten te kunnen gebruiken zoals  @vermeldingen en beheerders. Groepsleden die hun profielnaam en -foto niet voor deze groep zichtbaar hebben gemaakt, zullen worden uitgenodigd om tot deze groep toe te treden. $learnMore$",
+        "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn more."
+            }
+        }
+    },
+    "GroupV1--Migration--was-upgraded": {
+        "message": "Deze groep is omgezet in een nieuwe groep.",
+        "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
+    },
+    "GroupV1--Migration--learn-more": {
+        "message": "Meer lezen",
+        "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
+    },
+    "GroupV1--Migration--migrate": {
+        "message": "Omzetten",
+        "description": "Shown on Migrate dialog to kick off the process"
+    },
+    "GroupV1--Migration--info--title": {
+        "message": "Wat zijn ‘nieuwe’ groepen?",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--migrate--title": {
+        "message": "Omzetten naar nieuwe groep",
+        "description": "Shown on Migration popup after choosing to migrate group"
+    },
+    "GroupV1--Migration--info--summary": {
+        "message": "Nieuwe groepen hebben functionaliteiten waaronder @vermeldingen en groepsbeheer en in de toekomst zullen er meer functionaliteiten aan worden toegevoegd.",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--keep-history": {
+        "message": "Alle gespreksgeschiedenis en media van voor het omzetten zijn behouden gebleven.",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--migrate--keep-history": {
+        "message": "Alle gespreksgeschiedenis en media van voor het omzetten zullen behouden blijven.",
+        "description": "Shown on Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--you": {
+        "message": "Om weer lid te worden van deze groep zul je een uitnodiging moeten aanvaarden. Je zult geen berichten van deze groep ontvangen zolang je dat nog niet hebt gedaan.",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--many": {
+        "message": "Deze groepsleden zullen opnieuw een uitnodiging ontvangen om tot de groep toe te treden en ze zullen geen berichten ontvangen zolang ze deze niet geaccepteerd hebben:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--one": {
+        "message": "Dit groepslid zal opnieuw een uitnodiging ontvangen om tot de groep toe te treden en hij of zij zal geen berichten ontvangen zolang hij of zij de uitnodiging geaccepteerd heeft:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--before--many": {
+        "message": "Deze groepsleden zijn niet in staat om tot nieuwe groepen toe te treden en worden daarom verwijderd uit de groep:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--before--one": {
+        "message": "Dit groepslid is niet in staat om tot nieuwe groepen toe te treden en wordt daarom verwijderd uit de groep:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--after--many": {
+        "message": "Deze groepsleden zijn niet in staat om tot nieuwe groepen toe te treden en worden daarom verwijderd uit de groep:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--after--one": {
+        "message": "Dit groepslid is niet in staat om tot nieuwe groepen toe te treden en wordt daarom verwijderd uit de groep:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--invited--you": {
+        "message": "Je kon niet toegevoegd worden tot de nieuwe groep en je hebt daarom een uitnodiging gekregen om opnieuw lid te worden.",
+        "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
+    },
+    "GroupV1--Migration--invited--one": {
+        "message": "$contact$ niet toegevoegd worden aan de nieuwe groep en je hebt daarom een uitnodiging gekregen om opnieuw lid te worden.",
+        "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--invited--many": {
+        "message": "$count$ groepsleden konden niet direct toegevoegd worden aan de nieuwe groep en hebben daarom een uitnodiging gekregen om opnieuw lid te worden.",
+        "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--removed--one": {
+        "message": "$contact$ is van de groep verwijderd.",
+        "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--removed--many": {
+        "message": "$count$ leden zijn van de groep verwijderd.",
+        "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
     "close": {
         "message": "Sluiten",
         "description": "Generic close label"
@@ -3930,7 +4196,7 @@
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
-        "message": "Bericht",
+        "message": "Bericht verzenden",
         "description": "Button text for send message button in Group Contact Details modal"
     },
     "ContactModal--make-admin": {

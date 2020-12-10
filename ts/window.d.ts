@@ -27,7 +27,6 @@ import * as Crypto from './Crypto';
 import * as RemoteConfig from './RemoteConfig';
 import * as zkgroup from './util/zkgroup';
 import { LocalizerType, BodyRangesType, BodyRangeType } from './types/Util';
-import { CallHistoryDetailsType } from './types/Calling';
 import { ColorType } from './types/Colors';
 import { ConversationController } from './ConversationController';
 import { ReduxActions } from './state/types';
@@ -36,6 +35,7 @@ import { createCallManager } from './state/roots/createCallManager';
 import { createCompositionArea } from './state/roots/createCompositionArea';
 import { createContactModal } from './state/roots/createContactModal';
 import { createConversationHeader } from './state/roots/createConversationHeader';
+import { createGroupV1MigrationModal } from './state/roots/createGroupV1MigrationModal';
 import { createLeftPane } from './state/roots/createLeftPane';
 import { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer';
 import { createShortcutGuideModal } from './state/roots/createShortcutGuideModal';
@@ -72,7 +72,7 @@ export { Long } from 'long';
 
 type TaskResultType = any;
 
-type WhatIsThis = any;
+export type WhatIsThis = any;
 
 declare global {
   interface Window {
@@ -113,6 +113,7 @@ declare global {
     getMediaCameraPermissions: () => Promise<boolean>;
     getMediaPermissions: () => Promise<boolean>;
     getServerPublicParams: () => string;
+    getSfuUrl: () => string;
     getSocketStatus: () => number;
     getSyncRequest: () => WhatIsThis;
     getTitle: () => string;
@@ -170,6 +171,9 @@ declare global {
         <T = any>(key: string): T | undefined;
         <T>(key: string, defaultValue: T): T;
       };
+      getBlockedGroups: () => Array<string>;
+      getBlockedNumbers: () => Array<string>;
+      getBlockedUuids: () => Array<string>;
       getItemsState: () => WhatIsThis;
       isBlocked: (number: string) => boolean;
       isGroupBlocked: (group: unknown) => boolean;
@@ -404,11 +408,6 @@ declare global {
         ProgressModal: typeof ProgressModal;
         Quote: any;
         StagedLinkPreview: any;
-
-        getCallingNotificationText: (
-          callHistoryDetails: unknown,
-          i18n: unknown
-        ) => string;
       };
       OS: {
         isLinux: () => boolean;
@@ -430,6 +429,7 @@ declare global {
           createCompositionArea: typeof createCompositionArea;
           createContactModal: typeof createContactModal;
           createConversationHeader: typeof createConversationHeader;
+          createGroupV1MigrationModal: typeof createGroupV1MigrationModal;
           createLeftPane: typeof createLeftPane;
           createSafetyNumberViewer: typeof createSafetyNumberViewer;
           createShortcutGuideModal: typeof createShortcutGuideModal;
@@ -478,6 +478,11 @@ declare global {
     hasSignalAccount: (number: string) => boolean;
     getServerTrustRoot: () => WhatIsThis;
     readyForUpdates: () => void;
+
+    STORYBOOK_ENV?: string;
+
+    // Flags
+    isGroupCallingEnabled: () => boolean;
   }
 
   interface Error {

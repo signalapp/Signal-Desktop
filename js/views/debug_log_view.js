@@ -5,7 +5,7 @@
 /* global Whisper: false */
 
 // eslint-disable-next-line func-names
-(function() {
+(function () {
   window.Whisper = window.Whisper || {};
 
   Whisper.LinkedCopiedToast = Whisper.ToastView.extend({
@@ -80,9 +80,7 @@
         });
         this.$('.loading').removeClass('loading');
         view.render();
-        this.$('.link')
-          .focus()
-          .select();
+        this.$('.link').focus().select();
       } catch (error) {
         window.log.error(
           'DebugLogView error:',

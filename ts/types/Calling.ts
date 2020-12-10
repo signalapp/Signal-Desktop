@@ -1,6 +1,55 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { ConversationType } from '../state/ducks/conversations';
+
+// These are strings (1) for the database (2) for Storybook.
+export enum CallMode {
+  None = 'None',
+  Direct = 'Direct',
+  Group = 'Group',
+}
+
+interface ActiveCallBaseType {
+  conversation: ConversationType;
+  hasLocalAudio: boolean;
+  hasLocalVideo: boolean;
+  joinedAt?: number;
+  pip: boolean;
+  settingsDialogOpen: boolean;
+  showParticipantsList: boolean;
+  showSafetyNumberDialog?: boolean;
+}
+
+interface ActiveDirectCallType extends ActiveCallBaseType {
+  callMode: CallMode.Direct;
+  callState?: CallState;
+  callEndedReason?: CallEndedReason;
+  peekedParticipants: [];
+  remoteParticipants: [
+    {
+      hasRemoteVideo: boolean;
+    }
+  ];
+}
+
+interface ActiveGroupCallType extends ActiveCallBaseType {
+  callMode: CallMode.Group;
+  connectionState: GroupCallConnectionState;
+  conversationsWithSafetyNumberChanges: Array<ConversationType>;
+  joinState: GroupCallJoinState;
+  maxDevices: number;
+  deviceCount: number;
+  peekedParticipants: Array<ConversationType>;
+  remoteParticipants: Array<GroupCallRemoteParticipantType>;
+}
+
+export type ActiveCallType = ActiveDirectCallType | ActiveGroupCallType;
+
+// Ideally, we would import many of these directly from RingRTC. But because Storybook
+//   cannot import RingRTC (as it runs in the browser), we have these copies. That also
+//   means we have to convert the "real" enum to our enum in some cases.
+
 // Must be kept in sync with RingRTC.CallState
 export enum CallState {
   Prering = 'init',
@@ -31,6 +80,41 @@ export enum CallEndedReason {
   CallerIsNotMultiring = 'CallerIsNotMultiring',
 }
 
+// Must be kept in sync with RingRTC's ConnectionState
+export enum GroupCallConnectionState {
+  NotConnected = 0,
+  Connecting = 1,
+  Connected = 2,
+  Reconnecting = 3,
+}
+
+// Must be kept in sync with RingRTC's JoinState
+export enum GroupCallJoinState {
+  NotJoined = 0,
+  Joining = 1,
+  Joined = 2,
+}
+
+export interface GroupCallRemoteParticipantType extends ConversationType {
+  demuxId: number;
+  hasRemoteAudio: boolean;
+  hasRemoteVideo: boolean;
+  speakerTime?: number;
+  videoAspectRatio: number;
+}
+
+// Similar to RingRTC's `VideoRequest` but without the `framerate` property.
+export interface GroupCallVideoRequest {
+  demuxId: number;
+  width: number;
+  height: number;
+}
+
+// Should match RingRTC's VideoFrameSource
+export interface VideoFrameSource {
+  receiveVideoFrame(buffer: ArrayBuffer): [number, number] | undefined;
+}
+
 // Must be kept in sync with RingRTC.AudioDevice
 export interface AudioDevice {
   // Device name.
@@ -58,13 +142,31 @@ export type MediaDeviceSettings = {
   selectedCamera: string | undefined;
 };
 
-export type CallHistoryDetailsType = {
+interface DirectCallHistoryDetailsType {
+  callMode: CallMode.Direct;
   wasIncoming: boolean;
   wasVideoCall: boolean;
   wasDeclined: boolean;
   acceptedTime?: number;
   endedTime: number;
-};
+}
+
+interface GroupCallHistoryDetailsType {
+  callMode: CallMode.Group;
+  creatorUuid: string;
+  eraId: string;
+  startedTime: number;
+}
+
+export type CallHistoryDetailsType =
+  | DirectCallHistoryDetailsType
+  | GroupCallHistoryDetailsType;
+
+// Old messages weren't saved with a `callMode`.
+export type CallHistoryDetailsFromDiskType =
+  | (Omit<DirectCallHistoryDetailsType, 'callMode'> &
+      Partial<Pick<DirectCallHistoryDetailsType, 'callMode'>>)
+  | GroupCallHistoryDetailsType;
 
 export type ChangeIODevicePayloadType =
   | { type: CallingDeviceType.CAMERA; selectedDevice: string }

@@ -6,8 +6,8 @@ import { assert } from 'chai';
 import { combineNames } from '../../util/combineNames';
 
 describe('combineNames', () => {
-  it('returns null if no names provided', () => {
-    assert.strictEqual(combineNames('', ''), null);
+  it('returns undefined if no names provided', () => {
+    assert.strictEqual(combineNames('', ''), undefined);
   });
 
   it('returns first name only if family name not provided', () => {

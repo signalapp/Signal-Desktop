@@ -8,7 +8,7 @@ import { action } from '@storybook/addon-actions';
 
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
-import { Props, Timeline } from './Timeline';
+import { PropsType, Timeline } from './Timeline';
 import { TimelineItem, TimelineItemType } from './TimelineItem';
 import { LastSeenIndicator } from './LastSeenIndicator';
 import { TimelineLoadingRow } from './TimelineLoadingRow';
@@ -247,6 +247,10 @@ const actions = () => ({
   showIdentity: action('showIdentity'),
 
   downloadNewVersion: action('downloadNewVersion'),
+
+  messageSizeChanged: action('messageSizeChanged'),
+  startCallingLobby: action('startCallingLobby'),
+  returnToActiveCall: action('returnToActiveCall'),
 });
 
 const renderItem = (id: string) => (
@@ -278,7 +282,7 @@ const renderTypingBubble = () => (
   />
 );
 
-const createProps = (overrideProps: Partial<Props> = {}): Props => ({
+const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   i18n,
 
   haveNewest: boolean('haveNewest', overrideProps.haveNewest !== false),

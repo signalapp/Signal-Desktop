@@ -326,7 +326,7 @@
     "rule": "jQuery-load(",
     "path": "js/signal_protocol_store.js",
     "line": "      await ConversationController.load();",
-    "lineNumber": 983,
+    "lineNumber": 1019,
     "reasonCategory": "falseMatch",
     "updated": "2020-06-12T14:20:09.936Z"
   },
@@ -441,29 +441,29 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
-    "line": "        this.$('.link')",
+    "line": "        this.$('.link').focus().select();",
     "lineNumber": 83,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-05-01T17:11:39.527Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "        this.$('.loading').removeClass('loading');",
-    "lineNumber": 91,
+    "lineNumber": 89,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-05-01T17:11:39.527Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "        this.$('.result').text(i18n('debugLogError'));",
-    "lineNumber": 92,
+    "lineNumber": 90,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-11T17:24:56.124Z",
-    "reasonDetail": "Static selector argument"
+    "updated": "2020-11-18T03:39:29.033Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
@@ -1201,136 +1201,136 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
-    "line": "      const verificationCode = $('#code')",
+    "line": "      const verificationCode = $('#code').val().replace(/\\D+/g, '');",
     "lineNumber": 40,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "      this.$('#status').text(s);",
-    "lineNumber": 53,
+    "lineNumber": 51,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
-    "line": "      const verificationCode = $('#code')",
-    "lineNumber": 56,
+    "line": "      const verificationCode = $('#code').val().replace(/\\D/g, '');",
+    "lineNumber": 54,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
-    "line": "      this.$('#error')",
-    "lineNumber": 67,
+    "line": "      this.$('#error').hide().text(error).addClass('in').fadeIn();",
+    "lineNumber": 63,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "      if (this.$('#number-container').hasClass('valid')) {",
-    "lineNumber": 74,
+    "lineNumber": 66,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "        this.$('#request-sms, #request-voice').removeAttr('disabled');",
-    "lineNumber": 75,
+    "lineNumber": 67,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-11T17:24:56.124Z",
-    "reasonDetail": "Static selector argument"
+    "updated": "2020-11-18T03:39:29.033Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "        this.$('#request-sms, #request-voice').prop('disabled', 'disabled');",
-    "lineNumber": 77,
+    "lineNumber": 69,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "        this.$('#code').addClass('invalid');",
-    "lineNumber": 82,
+    "lineNumber": 74,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "        this.$('#code').removeClass('invalid');",
-    "lineNumber": 84,
+    "lineNumber": 76,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "      this.$('#error').hide();",
-    "lineNumber": 89,
+    "lineNumber": 81,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
-    "line": "        this.$('#step2')",
-    "lineNumber": 95,
+    "line": "        this.$('#step2').addClass('in').fadeIn();",
+    "lineNumber": 87,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "        this.$('#number-container').addClass('invalid');",
-    "lineNumber": 99,
+    "lineNumber": 89,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "      $('#error').hide();",
-    "lineNumber": 104,
+    "lineNumber": 94,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
-    "line": "        this.$('#step2')",
-    "lineNumber": 110,
+    "line": "        this.$('#step2').addClass('in').fadeIn();",
+    "lineNumber": 100,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "        this.$('#number-container').addClass('invalid');",
-    "lineNumber": 114,
+    "lineNumber": 102,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
@@ -1666,15 +1666,6 @@
     "reasonCategory": "testCode",
     "updated": "2020-10-09T22:28:48.591Z",
     "reasonDetail": "Test code. Also a false match."
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/@typescript-eslint/eslint-plugin/dist/rules/no-implied-eval.js",
-    "line": "            description: 'Disallow the use of `eval()`-like methods',",
-    "lineNumber": 38,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "just a doc"
   },
   {
     "rule": "jQuery-$(",
@@ -14391,25 +14382,16 @@
     "rule": "React-useRef",
     "path": "ts/components/CallScreen.js",
     "line": "    const localVideoRef = react_1.useRef(null);",
-    "lineNumber": 35,
+    "lineNumber": 41,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T21:35:52.858Z",
     "reasonDetail": "Used to get the local video element for rendering."
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallScreen.js",
-    "line": "    const remoteVideoRef = react_1.useRef(null);",
-    "lineNumber": 36,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-26T21:35:52.858Z",
-    "reasonDetail": "Used to get the remote video element for rendering."
-  },
-  {
-    "rule": "React-useRef",
     "path": "ts/components/CallingLobby.js",
     "line": "    const localVideoRef = react_1.default.useRef(null);",
-    "lineNumber": 12,
+    "lineNumber": 15,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Used to get the local video element for rendering."
@@ -14418,7 +14400,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CallingLobby.tsx",
     "line": "  const localVideoRef = React.useRef(null);",
-    "lineNumber": 57,
+    "lineNumber": 64,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Used to get the local video element for rendering."
@@ -14427,7 +14409,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CallingPip.js",
     "line": "    const videoContainerRef = react_1.default.useRef(null);",
-    "lineNumber": 22,
+    "lineNumber": 25,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Element is measured. Its HTML is not used."
@@ -14436,46 +14418,19 @@
     "rule": "React-useRef",
     "path": "ts/components/CallingPip.js",
     "line": "    const localVideoRef = react_1.default.useRef(null);",
-    "lineNumber": 23,
+    "lineNumber": 26,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Used to get the local video element for rendering."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallingPip.js",
-    "line": "    const remoteVideoRef = react_1.default.useRef(null);",
-    "lineNumber": 24,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-26T19:12:24.410Z",
-    "reasonDetail": "Used to get the remote video element for rendering."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallingPip.tsx",
-    "line": "  const videoContainerRef = React.useRef(null);",
-    "lineNumber": 89,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-26T19:12:24.410Z",
-    "reasonDetail": "Element is measured. Its HTML is not used."
   },
   {
     "rule": "React-useRef",
     "path": "ts/components/CallingPip.tsx",
     "line": "  const localVideoRef = React.useRef(null);",
-    "lineNumber": 90,
+    "lineNumber": 83,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Used to get the local video element for rendering."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallingPip.tsx",
-    "line": "  const remoteVideoRef = React.useRef(null);",
-    "lineNumber": 91,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-26T19:12:24.410Z",
-    "reasonDetail": "Used to get the remote video element for rendering."
   },
   {
     "rule": "React-createRef",
@@ -14499,7 +14454,7 @@
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.js",
     "line": "    el.innerHTML = '';",
-    "lineNumber": 27,
+    "lineNumber": 28,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-20T20:10:43.540Z",
     "reasonDetail": "Our code, no user input, only clearing out the dom"
@@ -14508,7 +14463,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionArea.js",
     "line": "    const inputApiRef = React.useRef();",
-    "lineNumber": 43,
+    "lineNumber": 46,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Doesn't refer to a DOM element."
@@ -14517,7 +14472,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionArea.js",
     "line": "    const attSlotRef = React.useRef(null);",
-    "lineNumber": 66,
+    "lineNumber": 69,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Needed for the composition area."
@@ -14526,7 +14481,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionArea.js",
     "line": "    const micCellRef = React.useRef(null);",
-    "lineNumber": 100,
+    "lineNumber": 103,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Needed for the composition area."
@@ -14535,7 +14490,7 @@
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.tsx",
     "line": "  el.innerHTML = '';",
-    "lineNumber": 85,
+    "lineNumber": 91,
     "reasonCategory": "usageTrusted",
     "updated": "2020-06-03T19:23:21.195Z",
     "reasonDetail": "Our code, no user input, only clearing out the dom"
@@ -14593,6 +14548,42 @@
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T23:56:13.482Z",
     "reasonDetail": "Doesn't refer to a DOM element."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/DirectCallRemoteParticipant.js",
+    "line": "    const remoteVideoRef = react_1.useRef(null);",
+    "lineNumber": 15,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-11-11T21:56:04.179Z",
+    "reasonDetail": "Needed to render the remote video element."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/GroupCallRemoteParticipant.js",
+    "line": "    const remoteVideoRef = react_1.useRef(null);",
+    "lineNumber": 31,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-11-11T21:56:04.179Z",
+    "reasonDetail": "Needed to render the remote video element."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/GroupCallRemoteParticipant.js",
+    "line": "    const canvasContextRef = react_1.useRef(null);",
+    "lineNumber": 32,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-11-17T23:29:38.698Z",
+    "reasonDetail": "Doesn't touch the DOM."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/GroupCallRemoteParticipant.js",
+    "line": "    const frameBufferRef = react_1.useRef(new ArrayBuffer(FRAME_BUFFER_SIZE));",
+    "lineNumber": 33,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-11-17T16:24:25.480Z",
+    "reasonDetail": "Doesn't touch the DOM."
   },
   {
     "rule": "jQuery-$(",
@@ -14710,6 +14701,24 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/Tooltip.js",
+    "line": "    const wrapperRef = react_1.default.useRef(null);",
+    "lineNumber": 17,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-12-04T00:11:08.128Z",
+    "reasonDetail": "Used to add (and remove) event listeners."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/CallingNotification.js",
+    "line": "    const previousHeightRef = react_1.useRef(null);",
+    "lineNumber": 24,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-12-04T00:11:08.128Z",
+    "reasonDetail": "Doesn't interact with the DOM."
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/conversation/ContactModal.js",
     "line": "    const overlayRef = react_1.default.useRef(null);",
     "lineNumber": 16,
@@ -14728,7 +14737,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.js",
     "line": "        this.menuTriggerRef = react_1.default.createRef();",
-    "lineNumber": 21,
+    "lineNumber": 29,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-28T16:12:19.904Z",
     "reasonDetail": "Used to reference popup menu"
@@ -14737,7 +14746,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.tsx",
     "line": "    this.menuTriggerRef = React.createRef();",
-    "lineNumber": 93,
+    "lineNumber": 101,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-20T20:10:43.540Z",
     "reasonDetail": "Used to reference popup menu"
@@ -14859,7 +14868,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Timeline.js",
     "line": "        this.listRef = react_1.default.createRef();",
-    "lineNumber": 29,
+    "lineNumber": 30,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Timeline needs to interact with its child List directly"
@@ -15016,7 +15025,7 @@
   },
   {
     "rule": "jQuery-before(",
-    "path": "ts/test/util/windowsZoneIdentifier_test.js",
+    "path": "ts/test-node/util/windowsZoneIdentifier_test.js",
     "line": "    before(function thisNeeded() {",
     "lineNumber": 21,
     "reasonCategory": "testCode",
@@ -15025,7 +15034,7 @@
   },
   {
     "rule": "jQuery-before(",
-    "path": "ts/test/util/windowsZoneIdentifier_test.ts",
+    "path": "ts/test-node/util/windowsZoneIdentifier_test.ts",
     "line": "  before(function thisNeeded() {",
     "lineNumber": 15,
     "reasonCategory": "testCode",
@@ -15164,7 +15173,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/WebAPI.js",
     "line": "            const byteBuffer = window.dcodeIO.ByteBuffer.wrap(quote, 'binary', window.dcodeIO.ByteBuffer.LITTLE_ENDIAN);",
-    "lineNumber": 1233,
+    "lineNumber": 1265,
     "reasonCategory": "falseMatch",
     "updated": "2020-09-08T23:07:22.682Z"
   },
@@ -15172,7 +15181,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/WebAPI.ts",
     "line": "      const byteBuffer = window.dcodeIO.ByteBuffer.wrap(",
-    "lineNumber": 2105,
+    "lineNumber": 2177,
     "reasonCategory": "falseMatch",
     "updated": "2020-09-08T23:07:22.682Z"
   }

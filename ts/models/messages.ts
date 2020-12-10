@@ -6,14 +6,19 @@ import {
   MessageAttributesType,
   CustomError,
 } from '../model-types.d';
+import { DataMessageClass } from '../textsecure.d';
 import { ConversationModel } from './conversations';
 import {
   LastMessageStatus,
   ConversationType,
 } from '../state/ducks/conversations';
+import { getActiveCall } from '../state/ducks/calling';
+import { getCallSelector } from '../state/selectors/calling';
 import { PropsData } from '../components/conversation/Message';
 import { CallbackResultType } from '../textsecure/SendMessage';
 import { ExpirationTimerOptions } from '../util/ExpirationTimerOptions';
+import { missingCaseError } from '../util/missingCaseError';
+import { CallMode } from '../types/Calling';
 import { BodyRangesType } from '../types/Util';
 import { PropsDataType as GroupsV2Props } from '../components/conversation/GroupV2Change';
 import {
@@ -22,12 +27,16 @@ import {
 } from '../components/conversation/TimerNotification';
 import { PropsData as SafetyNumberNotificationProps } from '../components/conversation/SafetyNumberNotification';
 import { PropsData as VerificationNotificationProps } from '../components/conversation/VerificationNotification';
+import { PropsDataType as GroupV1MigrationPropsType } from '../components/conversation/GroupV1Migration';
 import {
   PropsData as GroupNotificationProps,
   ChangeType,
 } from '../components/conversation/GroupNotification';
 import { Props as ResetSessionNotificationProps } from '../components/conversation/ResetSessionNotification';
-import { PropsData as CallingNotificationProps } from '../components/conversation/CallingNotification';
+import {
+  CallingNotificationType,
+  getCallingNotificationText,
+} from '../util/callingNotification';
 import { PropsType as ProfileChangeNotificationPropsType } from '../components/conversation/ProfileChangeNotification';
 
 /* eslint-disable camelcase */
@@ -195,6 +204,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       !this.isExpirationTimerUpdate() &&
       !this.isGroupUpdate() &&
       !this.isGroupV2Change() &&
+      !this.isGroupV1Migration() &&
       !this.isKeyChange() &&
       !this.isMessageHistoryUnsynced() &&
       !this.isProfileChange() &&
@@ -215,6 +225,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return {
         type: 'groupV2Change',
         data: this.getPropsForGroupV2Change(),
+      };
+    }
+    if (this.isGroupV1Migration()) {
+      return {
+        type: 'groupV1Migration',
+        data: this.getPropsForGroupV1Migration(),
       };
     }
     if (this.isMessageHistoryUnsynced()) {
@@ -428,6 +444,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     return Boolean(this.get('groupV2Change'));
   }
 
+  isGroupV1Migration(): boolean {
+    return this.get('type') === 'group-v1-migration';
+  }
+
   isExpirationTimerUpdate(): boolean {
     const flag =
       window.textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
@@ -498,6 +518,46 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       RoleEnum: protobuf.Member.Role,
       ourConversationId,
       change,
+    };
+  }
+
+  getPropsForGroupV1Migration(): GroupV1MigrationPropsType {
+    const migration = this.get('groupMigration');
+    if (!migration) {
+      // Backwards-compatibility with data schema in early betas
+      const invitedGV2Members = this.get('invitedGV2Members') || [];
+      const droppedGV2MemberIds = this.get('droppedGV2MemberIds') || [];
+
+      const invitedMembers = invitedGV2Members.map(item =>
+        this.findAndFormatContact(item.conversationId)
+      );
+      const droppedMembers = droppedGV2MemberIds.map(conversationId =>
+        this.findAndFormatContact(conversationId)
+      );
+
+      return {
+        areWeInvited: false,
+        droppedMembers,
+        invitedMembers,
+      };
+    }
+
+    const {
+      areWeInvited,
+      droppedMemberIds,
+      invitedMembers: rawInvitedMembers,
+    } = migration;
+    const invitedMembers = rawInvitedMembers.map(item =>
+      this.findAndFormatContact(item.conversationId)
+    );
+    const droppedMembers = droppedMemberIds.map(conversationId =>
+      this.findAndFormatContact(conversationId)
+    );
+
+    return {
+      areWeInvited,
+      droppedMembers,
+      invitedMembers,
     };
   }
 
@@ -651,10 +711,67 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     };
   }
 
-  getPropsForCallHistory(): CallingNotificationProps {
-    return {
-      callHistoryDetails: this.get('callHistoryDetails'),
-    };
+  getPropsForCallHistory(): CallingNotificationType | undefined {
+    const callHistoryDetails = this.get('callHistoryDetails');
+    if (!callHistoryDetails) {
+      return undefined;
+    }
+
+    switch (callHistoryDetails.callMode) {
+      // Old messages weren't saved with a call mode.
+      case undefined:
+      case CallMode.Direct:
+        return {
+          ...callHistoryDetails,
+          callMode: CallMode.Direct,
+        };
+      case CallMode.Group: {
+        const conversationId = this.get('conversationId');
+        if (!conversationId) {
+          window.log.error(
+            'Message.prototype.getPropsForCallHistory: missing conversation ID; assuming there is no call'
+          );
+          return undefined;
+        }
+
+        const creatorConversation = this.findContact(
+          window.ConversationController.ensureContactIds({
+            uuid: callHistoryDetails.creatorUuid,
+          })
+        );
+        if (!creatorConversation) {
+          window.log.error(
+            'Message.prototype.getPropsForCallHistory: could not find creator by UUID; bailing'
+          );
+          return undefined;
+        }
+
+        const reduxState = window.reduxStore.getState();
+
+        let call = getCallSelector(reduxState)(conversationId);
+        if (call && call.callMode !== CallMode.Group) {
+          window.log.error(
+            'Message.prototype.getPropsForCallHistory: there is an unexpected non-group call; pretending it does not exist'
+          );
+          call = undefined;
+        }
+
+        return {
+          activeCallConversationId: getActiveCall(reduxState.calling)
+            ?.conversationId,
+          callMode: CallMode.Group,
+          conversationId,
+          creator: creatorConversation.format(),
+          deviceCount: call?.peekInfo.deviceCount ?? 0,
+          ended: callHistoryDetails.eraId !== call?.peekInfo.eraId,
+          maxDevices: call?.peekInfo.maxDevices ?? Infinity,
+          startedTime: callHistoryDetails.startedTime,
+        };
+      }
+      default:
+        window.log.error(missingCaseError(callHistoryDetails));
+        return undefined;
+    }
   }
 
   getPropsForProfileChange(): ProfileChangeNotificationPropsType {
@@ -1082,9 +1199,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       };
     }
 
-    if (this.get('deletedForEveryone')) {
+    if (this.isGroupV1Migration()) {
       return {
-        text: window.i18n('message--deletedForEveryone'),
+        text: window.i18n('GroupV1--Migration--was-upgraded'),
       };
     }
 
@@ -1292,12 +1409,16 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     if (this.isCallHistory()) {
-      return {
-        text: window.Signal.Components.getCallingNotificationText(
-          this.get('callHistoryDetails'),
-          window.i18n
-        ),
-      };
+      const callingNotification = this.getPropsForCallHistory();
+      if (callingNotification) {
+        return {
+          text: getCallingNotificationText(callingNotification, window.i18n),
+        };
+      }
+
+      window.log.error(
+        "This call history message doesn't have valid call history"
+      );
     }
     if (this.isExpirationTimerUpdate()) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -2049,33 +2170,42 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const isOutgoing = this.get('type') === 'outgoing';
     const numDelivered = this.get('delivered');
 
-    // Case 1: If mandatory profile sharing is enabled, and we haven't shared yet, then
+    if (!conversation) {
+      return false;
+    }
+
+    // If GroupV1 groups have been disabled, we can't reply.
+    if (conversation.isGroupV1AndDisabled()) {
+      return false;
+    }
+
+    // If mandatory profile sharing is enabled, and we haven't shared yet, then
     //   we can't reply.
-    if (conversation?.isMissingRequiredProfileSharing()) {
+    if (conversation.isMissingRequiredProfileSharing()) {
       return false;
     }
 
-    // Case 2: We cannot reply if we have accepted the message request
-    if (!conversation?.getAccepted()) {
+    // We cannot reply if we haven't accepted the message request
+    if (!conversation.getAccepted()) {
       return false;
     }
 
-    // Case 3: We cannot reply if this message is deleted for everyone
+    // We cannot reply if this message is deleted for everyone
     if (this.get('deletedForEveryone')) {
       return false;
     }
 
-    // Case 4: We can reply if this is outgoing and delievered to at least one recipient
+    // We can reply if this is outgoing and delievered to at least one recipient
     if (isOutgoing && numDelivered > 0) {
       return true;
     }
 
-    // Case 5: We can reply if there are no errors
+    // We can reply if there are no errors
     if (!errors || (errors && errors.length === 0)) {
       return true;
     }
 
-    // Case 6: default
+    // Fail safe.
     return false;
   }
 
@@ -2771,7 +2901,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   handleDataMessage(
-    initialMessage: typeof window.WhatIsThis,
+    initialMessage: DataMessageClass,
     confirm: () => void,
     options: { data?: typeof window.WhatIsThis } = {}
   ): WhatIsThis {
@@ -2863,40 +2993,58 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         }
       }
 
-      const existingRevision = conversation.get('revision');
-      const isGroupV2 = Boolean(initialMessage.groupV2);
-      const isV2GroupUpdate =
-        initialMessage.groupV2 &&
-        (!existingRevision ||
-          initialMessage.groupV2.revision > existingRevision);
-
       // GroupV2
-      if (isGroupV2) {
-        conversation.maybeRepairGroupV2(
-          _.pick(initialMessage.groupV2, [
-            'masterKey',
-            'secretParams',
-            'publicParams',
-          ])
-        );
-      }
 
-      if (isV2GroupUpdate) {
-        const { revision, groupChange } = initialMessage.groupV2;
-        try {
-          await window.Signal.Groups.maybeUpdateGroup({
+      if (initialMessage.groupV2) {
+        if (conversation.isGroupV1()) {
+          // If we received a GroupV2 message in a GroupV1 group, we migrate!
+
+          const { revision, groupChange } = initialMessage.groupV2;
+          await window.Signal.Groups.respondToGroupV2Migration({
             conversation,
             groupChangeBase64: groupChange,
             newRevision: revision,
             receivedAt: message.get('received_at'),
             sentAt: message.get('sent_at'),
           });
-        } catch (error) {
-          const errorText = error && error.stack ? error.stack : error;
-          window.log.error(
-            `handleDataMessage: Failed to process group update for ${conversation.idForLogging()} as part of message ${message.idForLogging()}: ${errorText}`
-          );
-          throw error;
+        } else if (
+          initialMessage.groupV2.masterKey &&
+          initialMessage.groupV2.secretParams &&
+          initialMessage.groupV2.publicParams
+        ) {
+          // Repair core GroupV2 data if needed
+          await conversation.maybeRepairGroupV2({
+            masterKey: initialMessage.groupV2.masterKey,
+            secretParams: initialMessage.groupV2.secretParams,
+            publicParams: initialMessage.groupV2.publicParams,
+          });
+
+          // Standard GroupV2 modification codepath
+          const existingRevision = conversation.get('revision');
+          const isV2GroupUpdate =
+            initialMessage.groupV2 &&
+            _.isNumber(initialMessage.groupV2.revision) &&
+            (!existingRevision ||
+              initialMessage.groupV2.revision > existingRevision);
+
+          if (isV2GroupUpdate && initialMessage.groupV2) {
+            const { revision, groupChange } = initialMessage.groupV2;
+            try {
+              await window.Signal.Groups.maybeUpdateGroup({
+                conversation,
+                groupChangeBase64: groupChange,
+                newRevision: revision,
+                receivedAt: message.get('received_at'),
+                sentAt: message.get('sent_at'),
+              });
+            } catch (error) {
+              const errorText = error && error.stack ? error.stack : error;
+              window.log.error(
+                `handleDataMessage: Failed to process group update for ${conversation.idForLogging()} as part of message ${message.idForLogging()}: ${errorText}`
+              );
+              throw error;
+            }
+          }
         }
       }
 
@@ -2907,6 +3055,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         e164: source,
         uuid: sourceUuid,
       })!;
+      const isGroupV2 = Boolean(initialMessage.groupV2);
       const isV1GroupUpdate =
         initialMessage.group &&
         initialMessage.group.type !==
@@ -2944,6 +3093,16 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       ) {
         window.log.warn(
           `Received message destined for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
+        );
+        confirm();
+        return;
+      }
+
+      // Because GroupV1 messages can now be multiplexed into GroupV2 conversations, we
+      //   drop GroupV1 updates in GroupV2 groups.
+      if (isV1GroupUpdate && conversation.isGroupV2()) {
+        window.log.warn(
+          `Received GroupV1 update in GroupV2 conversation ${conversation.idForLogging()}. Dropping.`
         );
         confirm();
         return;
@@ -2987,8 +3146,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         );
         if (preview.length < incomingPreview.length) {
           window.log.info(
-            `${message.idForLogging()}: Eliminated ${preview.length -
-              incomingPreview.length} previews with invalid urls'`
+            `${message.idForLogging()}: Eliminated ${
+              preview.length - incomingPreview.length
+            } previews with invalid urls'`
           );
         }
 

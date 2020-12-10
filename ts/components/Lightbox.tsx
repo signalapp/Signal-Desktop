@@ -422,10 +422,14 @@ export class Lightbox extends React.Component<Props, State> {
   private readonly onContextMenu = (
     event: React.MouseEvent<HTMLImageElement>
   ) => {
-    const { contentType } = this.props;
+    const { contentType = '' } = this.props;
 
     // These are the only image types supported by Electron's NativeImage
-    if (event && contentType !== 'image/png' && contentType !== 'image/jpg') {
+    if (
+      event &&
+      contentType !== 'image/png' &&
+      !/image\/jpe?g/g.test(contentType)
+    ) {
       event.preventDefault();
     }
   };

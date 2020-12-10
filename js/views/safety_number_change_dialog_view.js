@@ -4,7 +4,7 @@
 /* global Whisper, Signal */
 
 // eslint-disable-next-line func-names
-(function() {
+(function () {
   window.Whisper = window.Whisper || {};
 
   Whisper.SafetyNumberChangeDialogView = Whisper.View.extend({

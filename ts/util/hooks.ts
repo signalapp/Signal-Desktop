@@ -44,3 +44,25 @@ export const useBoundActions = <T extends ActionCreatorsMapObject>(
     return bindActionCreators(actions, dispatch);
   }, [actions, dispatch]);
 };
+
+export const usePageVisibility = (): boolean => {
+  const [result, setResult] = React.useState(!document.hidden);
+
+  React.useEffect(() => {
+    const onVisibilityChange = () => {
+      setResult(!document.hidden);
+    };
+
+    document.addEventListener('visibilitychange', onVisibilityChange, false);
+
+    return () => {
+      document.removeEventListener(
+        'visibilitychange',
+        onVisibilityChange,
+        false
+      );
+    };
+  }, []);
+
+  return result;
+};

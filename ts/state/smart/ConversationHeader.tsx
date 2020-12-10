@@ -3,11 +3,22 @@
 
 import { connect } from 'react-redux';
 import { pick } from 'lodash';
-import { ConversationHeader } from '../../components/conversation/ConversationHeader';
+import {
+  ConversationHeader,
+  OutgoingCallButtonStyle,
+} from '../../components/conversation/ConversationHeader';
 import { getConversationSelector } from '../selectors/conversations';
 import { StateType } from '../reducer';
-import { isCallActive } from '../selectors/calling';
-import { getIntl } from '../selectors/user';
+import { CallMode } from '../../types/Calling';
+import {
+  ConversationType,
+  getConversationCallMode,
+} from '../ducks/conversations';
+import { getActiveCall, isAnybodyElseInGroupCall } from '../ducks/calling';
+import { getUserConversationId, getIntl } from '../selectors/user';
+import { getOwn } from '../../util/getOwn';
+import { missingCaseError } from '../../util/missingCaseError';
+import { isGroupCallingEnabled } from '../../util/isGroupCallingEnabled';
 
 export interface OwnProps {
   id: string;
@@ -29,6 +40,40 @@ export interface OwnProps {
   onMoveToInbox: () => void;
   onShowSafetyNumber: () => void;
 }
+
+const getOutgoingCallButtonStyle = (
+  conversation: ConversationType,
+  state: StateType
+): OutgoingCallButtonStyle => {
+  const { calling } = state;
+
+  if (getActiveCall(calling)) {
+    return OutgoingCallButtonStyle.None;
+  }
+
+  const conversationCallMode = getConversationCallMode(conversation);
+  switch (conversationCallMode) {
+    case CallMode.None:
+      return OutgoingCallButtonStyle.None;
+    case CallMode.Direct:
+      return OutgoingCallButtonStyle.Both;
+    case CallMode.Group: {
+      if (!isGroupCallingEnabled()) {
+        return OutgoingCallButtonStyle.None;
+      }
+      const call = getOwn(calling.callsByConversation, conversation.id);
+      if (
+        call?.callMode === CallMode.Group &&
+        isAnybodyElseInGroupCall(call.peekInfo, getUserConversationId(state))
+      ) {
+        return OutgoingCallButtonStyle.Join;
+      }
+      return OutgoingCallButtonStyle.JustVideo;
+    }
+    default:
+      throw missingCaseError(conversationCallMode);
+  }
+};
 
 const mapStateToProps = (state: StateType, ownProps: OwnProps) => {
   const conversation = getConversationSelector(state)(ownProps.id);
@@ -59,10 +104,7 @@ const mapStateToProps = (state: StateType, ownProps: OwnProps) => {
     ]),
     i18n: getIntl(state),
     showBackButton: state.conversations.selectedConversationPanelDepth > 0,
-    showCallButtons:
-      conversation.type === 'direct' &&
-      !conversation.isMe &&
-      !isCallActive(state.calling),
+    outgoingCallButtonStyle: getOutgoingCallButtonStyle(conversation, state),
   };
 };
 

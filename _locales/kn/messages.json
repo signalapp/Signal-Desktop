@@ -56,7 +56,7 @@
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuHide": {
-        "message": "Hide",
+        "message": "ಅಡಗಿ",
         "description": "Application menu command to hide the window"
     },
     "appMenuHideOthers": {
@@ -198,7 +198,7 @@
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "LeftPane--pinned": {
-        "message": "Pinned",
+        "message": "ಪಿನ್ ಮಾಡಲಾದ",
         "description": "Shown as a header for pinned conversations in the left pane"
     },
     "LeftPane--chats": {
@@ -214,7 +214,7 @@
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "markUnread": {
-        "message": "Mark as unread",
+        "message": "ಓದಲಾಗಿಲ್ಲ ಎಂದು ಗುರುತಿಸಿ",
         "description": "Shown in menu for conversation, and marks conversation as unread"
     },
     "moveConversationToInbox": {
@@ -234,7 +234,7 @@
         "description": ""
     },
     "chooseDirectory": {
-        "message": "Choose folder",
+        "message": "ಫೋಲ್ಡರ್‌ ಆಯ್ಕೆಮಾಡಿ",
         "description": "Button to allow the user to find a folder on disk"
     },
     "chooseFile": {
@@ -310,6 +310,10 @@
     "youLeftTheGroup": {
         "message": "You are no longer a member of the group.",
         "description": "Displayed when a user can't send a message because they have left the group"
+    },
+    "invalidConversation": {
+        "message": "This group is invalid. Please create a new group.",
+        "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
     },
     "scrollDown": {
         "message": "Scroll to bottom of conversation",
@@ -420,6 +424,10 @@
     "callAnyway": {
         "message": "ಯಾವುದೇ ರೀತಿಯಲ್ಲಿ ಕರೆ ಮಾಡಿ",
         "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+    },
+    "continueCall": {
+        "message": "Continue Call",
+        "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
         "message": "Your safety number with $name$ has changed and is no longer verified. Click to show.",
@@ -698,7 +706,7 @@
         "description": "Command under Window menu, to show the window"
     },
     "hide": {
-        "message": "Hide",
+        "message": "ಅಡಗಿ",
         "description": "Command in the tray icon menu, to hide the window"
     },
     "quit": {
@@ -982,7 +990,7 @@
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "This message will be deleted for everyone in the conversation if they’re on a recent version of Signal. They will be able to see that you deleted a message.",
+        "message": "Signalನ ಇತ್ತೀಚಿನ ಆವೃತ್ತಿಯಲ್ಲಿದ್ದರೆ ಸಂಭಾಷಣೆಯಲ್ಲಿರುವ ಪ್ರತಿಯೊಬ್ಬರಿಗೂ ಈ ಸಂದೇಶವನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ. ನೀವು ಸಂದೇಶವನ್ನು ಅಳಿಸಿದ್ದೀರಿ ಎಂದು ಅವರು ನೋಡಲು ಸಾಧ್ಯವಾಗುತ್ತದೆ.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "deleteThisMessage": {
@@ -1052,7 +1060,7 @@
         "description": "Label for back button in a conversation"
     },
     "moreInfo": {
-        "message": "More Info...",
+        "message": "ಇನ್ನಷ್ಟು ಮಾಹಿತಿ",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
@@ -1191,6 +1199,14 @@
         "message": "Join Call",
         "description": "Button label in the call lobby for joining a call"
     },
+    "calling__return": {
+        "message": "Return to Call",
+        "description": "Button label in the call lobby for returning to a call"
+    },
+    "calling__call-is-full": {
+        "message": "Call is full",
+        "description": "Button label in the call lobby when you can't join because the call is full"
+    },
     "calling__button--video-disabled": {
         "message": "Camera disabled",
         "description": "Button tooltip label when the camera is disabled"
@@ -1208,16 +1224,88 @@
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "Turn off microphone",
+        "message": "Mute mic",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
-        "message": "Turn on microphone",
+        "message": "Unmute mic",
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
         "message": "Your video is off",
         "description": "Label in the calling lobby indicating that your camera is off"
+    },
+    "calling__lobby-summary--zero": {
+        "message": "No one else is here",
+        "description": "Shown in the calling lobby to describe who is in the call"
+    },
+    "calling__lobby-summary--single": {
+        "message": "$first$ is in this call",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__lobby-summary--self": {
+        "message": "One of your other devices is in this call",
+        "description": "Shown in the calling lobby to describe when it is just you"
+    },
+    "calling__lobby-summary--double": {
+        "message": "$first$ and $second$ are in this call",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__lobby-summary--triple": {
+        "message": "$first$, $second$, and $third$ are in this call",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__lobby-summary--many": {
+        "message": "$first$, $second$, and $others$ others are in this call",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
+    "calling__in-this-call--zero": {
+        "message": "No one else is here",
+        "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
         "message": "In this call · 1 person",
@@ -1232,6 +1320,20 @@
                 "example": "15"
             }
         }
+    },
+    "calling__you-have-blocked": {
+        "message": "You have blocked $name$",
+        "description": "when you block someone and cannot view their video",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Henry Richard"
+            }
+        }
+    },
+    "calling__block-info": {
+        "message": "You won't receive their audio or video and they won't receive yours.",
+        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "alwaysRelayCallsDescription": {
         "message": "ಯಾವಾಗಲೂ ಕರೆಗಳನ್ನು ರಿಲೇ ಮಾಡಿ",
@@ -1380,7 +1482,7 @@
         }
     },
     "sendFailed": {
-        "message": "Send failed",
+        "message": "ಕಳಿಸಲು ವಿಫಲವಾಯಿತು",
         "description": "Shown on outgoing message if it fails to send"
     },
     "partiallySent": {
@@ -2736,7 +2838,7 @@
         }
     },
     "MessageRequests--block-direct-confirm-body": {
-        "message": "Blocked people won't be able to call you or send you messages.",
+        "message": "ನಿರ್ಬಂಧಿಸಿದ ಜನರಿಗೆ ನಿಮಗೆ ಕರೆ ಮಾಡಲು ಅಥವಾ ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ.",
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
@@ -2993,6 +3095,10 @@
         "message": "Start a video call",
         "description": "Title for the video call button in a conversation"
     },
+    "joinOngoingCall": {
+        "message": "ಸೇರು",
+        "description": "Text that appears in a group when a call is active"
+    },
     "callNeedPermission": {
         "message": "$title$ will get a message request from you. You can call once your message request has been accepted.",
         "description": "Shown when a call is rejected because the other party hasn't approved the message/call request",
@@ -3022,15 +3128,61 @@
         "description": "Title for device selection settings"
     },
     "calling__participants": {
-        "message": "Participants",
-        "description": "Title for participants list toggle"
+        "message": "$people$ in call",
+        "description": "Title for participants list toggle",
+        "placeholders": {
+            "people": {
+                "content": "$1",
+                "example": "16"
+            }
+        }
     },
-    "calling__pip": {
-        "message": "Picture-in-picture",
+    "calling__call-notification__ended": {
+        "message": "The group call has ended",
+        "description": "Notification message when a group call has ended"
+    },
+    "calling__call-notification__started-by-someone": {
+        "message": "A group call was started",
+        "description": "Notification message when a group call has started, but we don't know who started it"
+    },
+    "calling__call-notification__started-by-you": {
+        "message": "You started a group call",
+        "description": "Notification message when a group call has started by you"
+    },
+    "calling__call-notification__started": {
+        "message": "$name$ started a group call",
+        "description": "Notification message when a group call has started",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "calling__call-notification__button__in-another-call-tooltip": {
+        "message": "You are already in a call",
+        "description": "Tooltip in disabled notification button when you're on another call"
+    },
+    "calling__call-notification__button__call-full-tooltip": {
+        "message": "Call has reached capacity of $max$ participants",
+        "description": "Tooltip in disabled notification button when the call is full",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "calling__pip--on": {
+        "message": "Minimize call",
+        "description": "Title for picture-in-picture toggle"
+    },
+    "calling__pip--off": {
+        "message": "Fullscreen call",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__hangup": {
-        "message": "Hang Up",
+        "message": "Leave call",
         "description": "Title for hang up button"
     },
     "callingDeviceSelection__label--video": {
@@ -3099,7 +3251,7 @@
         "message": "Please try again or contact support.",
         "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
     },
-    "ErrorModal--buttonText": {
+    "Confirmation--confirm": {
         "message": "ಸರಿ",
         "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
     },
@@ -3905,6 +4057,120 @@
             }
         }
     },
+    "GroupV1--Migration--disabled": {
+        "message": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. $learnMore$",
+        "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn more."
+            }
+        }
+    },
+    "GroupV1--Migration--was-upgraded": {
+        "message": "This group was upgraded to a New Group.",
+        "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
+    },
+    "GroupV1--Migration--learn-more": {
+        "message": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ",
+        "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
+    },
+    "GroupV1--Migration--migrate": {
+        "message": "ಅಪ್ಗ್ರೇಡ್",
+        "description": "Shown on Migrate dialog to kick off the process"
+    },
+    "GroupV1--Migration--info--title": {
+        "message": "ಹೊಸ ಗುಂಪುಗಳೆಂದರೇನು?",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--migrate--title": {
+        "message": "ಹೊಸ ಗುಂಪಿಗೆ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ",
+        "description": "Shown on Migration popup after choosing to migrate group"
+    },
+    "GroupV1--Migration--info--summary": {
+        "message": "ಹೊಸ ಗುಂಪುಗಳು @ಉಲ್ಲೇಖಗಳು ಮತ್ತು ಗುಂಪು ನಿರ್ವಾಹಕರಂತಹ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಹೊಂದಿವೆ, ಮತ್ತು ಭವಿಷ್ಯದಲ್ಲಿ ಹೆಚ್ಚಿನ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಬೆಂಬಲಿಸುತ್ತದೆ.",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--keep-history": {
+        "message": "ಎಲ್ಲಾ ಸಂದೇಶ ಇತಿಹಾಸ ಮತ್ತು ಮಾಧ್ಯಮವನ್ನು ನವೀಕರಣದ ಮೊದಲು ಇರಿಸಲಾಗಿದೆ.",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--migrate--keep-history": {
+        "message": "All message history and media will be kept from before the upgrade.",
+        "description": "Shown on Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--you": {
+        "message": "ಈ ಗುಂಪಿಗೆ ಮತ್ತೆ ಸೇರಲು ನೀವು ಆಹ್ವಾನವನ್ನು ಸ್ವೀಕರಿಸುವ ಅಗತ್ಯವಿದೆ, ಮತ್ತು ನೀವು ಸ್ವೀಕರಿಸುವವರೆಗೆ ಗುಂಪು ಸಂದೇಶಗಳನ್ನು ಸ್ವೀಕರಿಸುವುದಿಲ್ಲ.",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--many": {
+        "message": "These members will need to accept an invite to join this group again, and will not receive group messages until they accept:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--one": {
+        "message": "This member will need to accept an invite to join this group again, and will not receive group messages until they accept:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--before--many": {
+        "message": "These members are not capable of joining New Groups, and will be removed from the group:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--before--one": {
+        "message": "This member is not capable of joining New Groups, and will be removed from the group:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--after--many": {
+        "message": "These members were not capable of joining New Groups, and were removed from the group:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--after--one": {
+        "message": "This member was not capable of joining New Groups, and was removed from the group:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--invited--you": {
+        "message": "You couldn't be added to the New Group and have been invited to join.",
+        "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
+    },
+    "GroupV1--Migration--invited--one": {
+        "message": "$contact$ couldn’t be added to the New Group and has been invited to join.",
+        "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--invited--many": {
+        "message": "$count$ members couldn’t be added to the New Group and have been invited to join.",
+        "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--removed--one": {
+        "message": "$contact$ was removed from the group.",
+        "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--removed--many": {
+        "message": "$count$ members were removed from the group.",
+        "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
     "close": {
         "message": "Close",
         "description": "Generic close label"
@@ -3938,7 +4204,7 @@
         "description": "Button text for make admin button in Group Contact Details modal"
     },
     "ContactModal--remove-from-group": {
-        "message": "Remove from group",
+        "message": "ಗುಂಪಿನಿಂದ ತೆಗೆಯಿರಿ",
         "description": "Button text for remove from group button in Group Contact Details modal"
     }
 }

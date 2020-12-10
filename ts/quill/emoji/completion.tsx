@@ -222,10 +222,7 @@ export class EmojiCompletion {
   ): void {
     const emoji = convertShortName(emojiData.short_name, this.options.skinTone);
 
-    const delta = new Delta()
-      .retain(index)
-      .delete(range)
-      .insert({ emoji });
+    const delta = new Delta().retain(index).delete(range).insert({ emoji });
 
     if (withTrailingSpace) {
       this.quill.updateContents(delta.insert(' '), 'user');

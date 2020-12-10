@@ -57,9 +57,6 @@ const {
 const {
   StagedLinkPreview,
 } = require('../../ts/components/conversation/StagedLinkPreview');
-const {
-  getCallingNotificationText,
-} = require('../../ts/components/conversation/CallingNotification');
 
 // State
 const { createTimeline } = require('../../ts/state/roots/createTimeline');
@@ -73,6 +70,9 @@ const {
   createConversationHeader,
 } = require('../../ts/state/roots/createConversationHeader');
 const { createCallManager } = require('../../ts/state/roots/createCallManager');
+const {
+  createGroupV1MigrationModal,
+} = require('../../ts/state/roots/createGroupV1MigrationModal');
 const { createLeftPane } = require('../../ts/state/roots/createLeftPane');
 const {
   createSafetyNumberViewer,
@@ -307,7 +307,6 @@ exports.setup = (options = {}) => {
     ContactModal,
     Emojify,
     ErrorModal,
-    getCallingNotificationText,
     Lightbox,
     LightboxGallery,
     MediaGallery,
@@ -326,6 +325,7 @@ exports.setup = (options = {}) => {
     createCompositionArea,
     createContactModal,
     createConversationHeader,
+    createGroupV1MigrationModal,
     createLeftPane,
     createSafetyNumberViewer,
     createShortcutGuideModal,

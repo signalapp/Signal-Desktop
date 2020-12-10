@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import pProps from 'p-props';
+import { chunk } from 'lodash';
 
 export function typedArrayToArrayBuffer(typedArray: Uint8Array): ArrayBuffer {
   const { buffer, byteOffset, byteLength } = typedArray;
@@ -56,6 +57,21 @@ export async function deriveStickerPackKey(
   );
 
   return concatenateBytes(part1, part2);
+}
+
+export async function deriveMasterKeyFromGroupV1(
+  groupV1Id: ArrayBuffer
+): Promise<ArrayBuffer> {
+  const salt = getZeroes(32);
+  const info = bytesFromString('GV2 Migration');
+
+  const [part1] = await window.libsignal.HKDF.deriveSecrets(
+    groupV1Id,
+    salt,
+    info
+  );
+
+  return part1;
 }
 
 export async function computeHash(data: ArrayBuffer): Promise<string> {
@@ -704,6 +720,36 @@ export async function encryptCdsDiscoveryRequest(
     mac: arrayBufferToBase64(queryDataCiphertextMac),
     envelopes,
   };
+}
+
+export function uuidToArrayBuffer(uuid: string): ArrayBuffer {
+  if (uuid.length !== 36) {
+    window.log.warn(
+      'uuidToArrayBuffer: received a string of invalid length. Returning an empty ArrayBuffer'
+    );
+    return new ArrayBuffer(0);
+  }
+
+  return Uint8Array.from(
+    chunk(uuid.replace(/-/g, ''), 2).map(pair => parseInt(pair.join(''), 16))
+  ).buffer;
+}
+
+export function arrayBufferToUuid(
+  arrayBuffer: ArrayBuffer
+): undefined | string {
+  if (arrayBuffer.byteLength !== 16) {
+    window.log.warn(
+      'arrayBufferToUuid: received an ArrayBuffer of invalid length. Returning undefined'
+    );
+    return undefined;
+  }
+
+  const uuids = splitUuids(arrayBuffer);
+  if (uuids.length === 1) {
+    return uuids[0] || undefined;
+  }
+  return undefined;
 }
 
 export function splitUuids(arrayBuffer: ArrayBuffer): Array<string | null> {

@@ -45,6 +45,7 @@ try {
   window.getHostName = () => config.hostname;
   window.getServerTrustRoot = () => config.serverTrustRoot;
   window.getServerPublicParams = () => config.serverPublicParams;
+  window.getSfuUrl = () => config.sfuUrl;
   window.isBehindProxy = () => Boolean(config.proxyUrl);
 
   function setSystemTheme() {
@@ -365,8 +366,8 @@ try {
     directoryEnclaveId: config.directoryEnclaveId,
     directoryTrustAnchor: config.directoryTrustAnchor,
     cdnUrlObject: {
-      '0': config.cdnUrl0,
-      '2': config.cdnUrl2,
+      0: config.cdnUrl0,
+      2: config.cdnUrl2,
     },
     certificateAuthority: config.certificateAuthority,
     contentProxyUrl: config.contentProxyUrl,
@@ -381,6 +382,7 @@ try {
 
   const { autoOrientImage } = require('./js/modules/auto_orient_image');
   const { imageToBlurHash } = require('./ts/util/imageToBlurHash');
+  const { isGroupCallingEnabled } = require('./ts/util/isGroupCallingEnabled');
 
   window.autoOrientImage = autoOrientImage;
   window.dataURLToBlobSync = require('blueimp-canvas-to-blob');
@@ -391,6 +393,7 @@ try {
   window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
   window.loadImage = require('blueimp-load-image');
   window.getGuid = require('uuid/v4');
+  window.isGroupCallingEnabled = isGroupCallingEnabled;
 
   window.isValidGuid = maybeGuid =>
     /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i.test(
@@ -562,16 +565,20 @@ try {
     };
 
     /* eslint-disable global-require, import/no-extraneous-dependencies */
-    require('./ts/test-electron/models/messages_test');
-    require('./ts/test-electron/linkPreviews/linkPreviewFetch_test');
-    require('./ts/test-electron/state/ducks/calling_test');
-    require('./ts/test-electron/state/selectors/calling_test');
+    const fastGlob = require('fast-glob');
+
+    fastGlob
+      .sync('./ts/test-{both,electron}/**/*_test.js', {
+        absolute: true,
+        cwd: __dirname,
+      })
+      .forEach(require);
 
     delete window.describe;
 
     window.test = {
       pendingDescribeCalls,
-      fastGlob: require('fast-glob'),
+      fastGlob,
       normalizePath: require('normalize-path'),
       fse: require('fs-extra'),
       tmp: require('tmp'),

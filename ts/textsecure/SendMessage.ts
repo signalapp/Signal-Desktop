@@ -34,6 +34,7 @@ import {
   DataMessageClass,
   GroupChangeClass,
   GroupClass,
+  GroupExternalCredentialClass,
   StorageServiceCallOptionsType,
   StorageServiceCredentials,
   SyncMessageClass,
@@ -104,6 +105,10 @@ type GroupV1InfoType = {
   members: Array<string>;
 };
 
+interface GroupCallUpdateType {
+  eraId: string;
+}
+
 type MessageOptionsType = {
   attachments?: Array<AttachmentType> | null;
   body?: string;
@@ -124,6 +129,7 @@ type MessageOptionsType = {
   deletedForEveryoneTimestamp?: number;
   timestamp: number;
   mentions?: BodyRangesType;
+  groupCallUpdate?: GroupCallUpdateType;
 };
 
 class Message {
@@ -179,6 +185,8 @@ class Message {
 
   mentions?: BodyRangesType;
 
+  groupCallUpdate?: GroupCallUpdateType;
+
   constructor(options: MessageOptionsType) {
     this.attachments = options.attachments || [];
     this.body = options.body;
@@ -196,6 +204,7 @@ class Message {
     this.timestamp = options.timestamp;
     this.deletedForEveryoneTimestamp = options.deletedForEveryoneTimestamp;
     this.mentions = options.mentions;
+    this.groupCallUpdate = options.groupCallUpdate;
 
     if (!(this.recipients instanceof Array)) {
       throw new Error('Invalid recipient list');
@@ -383,6 +392,15 @@ class Message {
           mentionUuid,
         })
       );
+    }
+
+    if (this.groupCallUpdate) {
+      const { GroupCallUpdate } = window.textsecure.protobuf.DataMessage;
+
+      const groupCallUpdate = new GroupCallUpdate();
+      groupCallUpdate.eraId = this.groupCallUpdate.eraId;
+
+      proto.groupCallUpdate = groupCallUpdate;
     }
 
     this.dataMessage = proto;
@@ -1125,6 +1143,24 @@ export default class MessageSender {
     );
   }
 
+  sendGroupCallUpdate(
+    {
+      groupV2,
+      eraId,
+      timestamp,
+    }: { groupV2: GroupV2InfoType; eraId: string; timestamp: number },
+    options?: SendOptionsType
+  ): Promise<CallbackResultType> {
+    return this.sendMessageToGroup(
+      {
+        groupV2,
+        groupCallUpdate: { eraId },
+        timestamp,
+      },
+      options
+    );
+  }
+
   async sendDeliveryReceipt(
     recipientE164: string,
     recipientUuid: string,
@@ -1538,7 +1574,7 @@ export default class MessageSender {
   ): Promise<
     CallbackResultType | void | Array<CallbackResultType | void | Array<void>>
   > {
-    window.log.info('resetting secure session');
+    window.log.info('resetSession: start');
     const silent = false;
     const proto = new window.textsecure.protobuf.DataMessage();
     proto.body = 'TERMINATE';
@@ -1551,7 +1587,7 @@ export default class MessageSender {
       window.log.error(prefix, error && error.stack ? error.stack : error);
       throw error;
     };
-    const deleteAllSessions = async (targetIdentifier: string) =>
+    const closeAllSessions = async (targetIdentifier: string) =>
       window.textsecure.storage.protocol
         .getDeviceIds(targetIdentifier)
         .then(async deviceIds =>
@@ -1561,21 +1597,24 @@ export default class MessageSender {
                 targetIdentifier,
                 deviceId
               );
-              window.log.info('deleting sessions for', address.toString());
+              window.log.info(
+                'resetSession: closing sessions for',
+                address.toString()
+              );
               const sessionCipher = new window.libsignal.SessionCipher(
                 window.textsecure.storage.protocol,
                 address
               );
-              return sessionCipher.deleteAllSessionsForDevice();
+              return sessionCipher.closeOpenSessionForDevice();
             })
           )
         );
 
-    const sendToContactPromise = deleteAllSessions(identifier)
-      .catch(logError('resetSession/deleteAllSessions1 error:'))
+    const sendToContactPromise = closeAllSessions(identifier)
+      .catch(logError('resetSession/closeAllSessions1 error:'))
       .then(async () => {
         window.log.info(
-          'finished closing local sessions, now sending to contact'
+          'resetSession: finished closing local sessions, now sending to contact'
         );
         return this.sendIndividualProto(
           identifier,
@@ -1586,8 +1625,8 @@ export default class MessageSender {
         ).catch(logError('resetSession/sendToContact error:'));
       })
       .then(async () =>
-        deleteAllSessions(identifier).catch(
-          logError('resetSession/deleteAllSessions2 error:')
+        closeAllSessions(identifier).catch(
+          logError('resetSession/closeAllSessions2 error:')
         )
       );
 
@@ -1629,6 +1668,7 @@ export default class MessageSender {
       deletedForEveryoneTimestamp,
       timestamp,
       mentions,
+      groupCallUpdate,
     }: {
       attachments?: Array<AttachmentType>;
       expireTimer?: number;
@@ -1643,6 +1683,7 @@ export default class MessageSender {
       deletedForEveryoneTimestamp?: number;
       timestamp: number;
       mentions?: BodyRangesType;
+      groupCallUpdate?: GroupCallUpdateType;
     },
     options?: SendOptionsType
   ): Promise<CallbackResultType> {
@@ -1654,12 +1695,8 @@ export default class MessageSender {
 
     const myE164 = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
-    // prettier-ignore
-    const recipients = groupV2
-      ? groupV2.members
-      : groupV1
-        ? groupV1.members
-        : [];
+
+    const groupMembers = groupV2?.members || groupV1?.members || [];
 
     // We should always have a UUID but have this check just in case we don't.
     let isNotMe: (recipient: string) => boolean;
@@ -1669,8 +1706,17 @@ export default class MessageSender {
       isNotMe = r => r !== myE164;
     }
 
+    const blockedIdentifiers = new Set([
+      ...window.storage.getBlockedUuids(),
+      ...window.storage.getBlockedNumbers(),
+    ]);
+
+    const recipients = groupMembers.filter(
+      recipient => isNotMe(recipient) && !blockedIdentifiers.has(recipient)
+    );
+
     const attrs = {
-      recipients: recipients.filter(isNotMe),
+      recipients,
       body: messageText,
       timestamp,
       attachments,
@@ -1689,6 +1735,7 @@ export default class MessageSender {
           }
         : undefined,
       mentions,
+      groupCallUpdate,
     };
 
     if (recipients.length === 0) {
@@ -1702,6 +1749,20 @@ export default class MessageSender {
     }
 
     return this.sendMessage(attrs, options);
+  }
+
+  async createGroup(
+    group: GroupClass,
+    options: GroupCredentialsType
+  ): Promise<void> {
+    return this.server.createGroup(group, options);
+  }
+
+  async uploadGroupAvatar(
+    avatar: ArrayBuffer,
+    options: GroupCredentialsType
+  ): Promise<string> {
+    return this.server.uploadGroupAvatar(avatar, options);
   }
 
   async getGroup(options: GroupCredentialsType): Promise<GroupClass> {
@@ -1840,5 +1901,11 @@ export default class MessageSender {
     options: StorageServiceCallOptionsType
   ): Promise<ArrayBuffer> {
     return this.server.modifyStorageRecords(data, options);
+  }
+
+  async getGroupMembershipToken(
+    options: GroupCredentialsType
+  ): Promise<GroupExternalCredentialClass> {
+    return this.server.getGroupExternalCredential(options);
   }
 }

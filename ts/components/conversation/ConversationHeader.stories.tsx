@@ -8,7 +8,10 @@ import { action } from '@storybook/addon-actions';
 
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
-import { ConversationHeader } from './ConversationHeader';
+import {
+  ConversationHeader,
+  OutgoingCallButtonStyle,
+} from './ConversationHeader';
 import { gifUrl } from '../../storybook/Fixtures';
 
 const book = storiesOf('Components/Conversation/ConversationHeader', module);
@@ -25,7 +28,7 @@ type ConversationHeaderStory = {
 
 const commonProps = {
   showBackButton: false,
-  showCallButtons: true,
+  outgoingCallButtonStyle: OutgoingCallButtonStyle.Both,
   markedUnread: false,
 
   i18n,
@@ -186,6 +189,7 @@ const stories: Array<ConversationHeaderStory> = [
           type: 'group',
           expireTimer: 10,
           acceptedMessageRequest: true,
+          outgoingCallButtonStyle: OutgoingCallButtonStyle.JustVideo,
         },
       },
       {
@@ -201,6 +205,22 @@ const stories: Array<ConversationHeaderStory> = [
           left: true,
           expireTimer: 10,
           acceptedMessageRequest: true,
+          outgoingCallButtonStyle: OutgoingCallButtonStyle.JustVideo,
+        },
+      },
+      {
+        title: 'In a group with an active group call',
+        props: {
+          ...commonProps,
+          color: 'signal-blue',
+          title: 'Typescript support group',
+          name: 'Typescript support group',
+          phoneNumber: '',
+          id: '1',
+          type: 'group',
+          expireTimer: 10,
+          acceptedMessageRequest: true,
+          outgoingCallButtonStyle: OutgoingCallButtonStyle.Join,
         },
       },
     ],
@@ -220,6 +240,7 @@ const stories: Array<ConversationHeaderStory> = [
           type: 'direct',
           isMe: true,
           acceptedMessageRequest: true,
+          outgoingCallButtonStyle: OutgoingCallButtonStyle.None,
         },
       },
     ],
@@ -239,6 +260,7 @@ const stories: Array<ConversationHeaderStory> = [
           type: 'direct',
           isMe: false,
           acceptedMessageRequest: false,
+          outgoingCallButtonStyle: OutgoingCallButtonStyle.None,
         },
       },
     ],

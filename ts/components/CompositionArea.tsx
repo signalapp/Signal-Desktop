@@ -18,6 +18,10 @@ import {
   MessageRequestActions,
   Props as MessageRequestActionsProps,
 } from './conversation/MessageRequestActions';
+import {
+  GroupV1DisabledActions,
+  PropsType as GroupV1DisabledActionsPropsType,
+} from './conversation/GroupV1DisabledActions';
 import { MandatoryProfileSharingActions } from './conversation/MandatoryProfileSharingActions';
 import { countStickers } from './stickers/lib';
 import { LocalizerType } from '../types/Util';
@@ -27,6 +31,7 @@ export type OwnProps = {
   readonly i18n: LocalizerType;
   readonly areWePending?: boolean;
   readonly groupVersion?: 1 | 2;
+  readonly isGroupV1AndDisabled?: boolean;
   readonly isMissingMandatoryProfileSharing?: boolean;
   readonly messageRequestsEnabled?: boolean;
   readonly acceptedMessageRequest?: boolean;
@@ -77,6 +82,7 @@ export type Props = Pick<
     | 'clearShowPickerHint'
   > &
   MessageRequestActionsProps &
+  Pick<GroupV1DisabledActionsPropsType, 'onStartGroupMigration'> &
   OwnProps;
 
 const emptyElement = (el: HTMLElement) => {
@@ -135,6 +141,9 @@ export const CompositionArea = ({
   phoneNumber,
   profileName,
   title,
+  // GroupV1 Disabled Actions
+  isGroupV1AndDisabled,
+  onStartGroupMigration,
 }: Props): JSX.Element => {
   const [disabled, setDisabled] = React.useState(false);
   const [showMic, setShowMic] = React.useState(!draftText);
@@ -337,8 +346,9 @@ export const CompositionArea = ({
   }, [setLarge]);
 
   if (
-    messageRequestsEnabled &&
-    (!acceptedMessageRequest || isBlocked || areWePending)
+    isBlocked ||
+    areWePending ||
+    (messageRequestsEnabled && !acceptedMessageRequest)
   ) {
     return (
       <MessageRequestActions
@@ -376,6 +386,16 @@ export const CompositionArea = ({
         profileName={profileName}
         phoneNumber={phoneNumber}
         title={title}
+      />
+    );
+  }
+
+  // If this is a V1 group, now disabled entirely, we show UI to help them upgrade
+  if (isGroupV1AndDisabled) {
+    return (
+      <GroupV1DisabledActions
+        i18n={i18n}
+        onStartGroupMigration={onStartGroupMigration}
       />
     );
   }

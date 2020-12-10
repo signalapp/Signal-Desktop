@@ -75,6 +75,9 @@ function readFirstTwoLines(file: string): Promise<Array<string>> {
 
 describe('license comments', () => {
   it('includes a license comment at the top of every relevant file', async function test() {
+    // This usually executes quickly but can be slow in some cases, such as Windows CI.
+    this.timeout(10000);
+
     const currentYear = new Date().getFullYear();
 
     await pMap(

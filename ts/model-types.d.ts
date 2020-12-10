@@ -5,7 +5,7 @@ import * as Backbone from 'backbone';
 
 import { GroupV2ChangeType } from './groups';
 import { LocalizerType, BodyRangeType, BodyRangesType } from './types/Util';
-import { CallHistoryDetailsType } from './types/Calling';
+import { CallHistoryDetailsFromDiskType } from './types/Calling';
 import { ColorType } from './types/Colors';
 import {
   ConversationType,
@@ -13,11 +13,16 @@ import {
   LastMessageStatus,
 } from './state/ducks/conversations';
 import { SendOptionsType } from './textsecure/SendMessage';
-import { SyncMessageClass } from './textsecure.d';
+import {
+  AccessRequiredEnum,
+  MemberRoleEnum,
+  SyncMessageClass,
+} from './textsecure.d';
 import { UserMessage } from './types/Message';
 import { MessageModel } from './models/messages';
 import { ConversationModel } from './models/conversations';
 import { ProfileNameChangeType } from './util/getStringForProfileChange';
+import { CapabilitiesType } from './textsecure/WebAPI';
 
 interface ModelAttributesInterface {
   [key: string]: any;
@@ -45,10 +50,16 @@ export interface CustomError extends Error {
   number?: string;
 }
 
+export type GroupMigrationType = {
+  areWeInvited: boolean;
+  droppedMemberIds: Array<string>;
+  invitedMembers: Array<GroupV2PendingMemberType>;
+};
+
 export type MessageAttributesType = {
   bodyPending: boolean;
   bodyRanges: BodyRangesType;
-  callHistoryDetails: CallHistoryDetailsType;
+  callHistoryDetails: CallHistoryDetailsFromDiskType;
   changedId: string;
   dataMessage: ArrayBuffer | null;
   decrypted_at: number;
@@ -60,6 +71,7 @@ export type MessageAttributesType = {
   expirationStartTimestamp: number | null;
   expireTimer: number;
   expires_at: number;
+  groupMigration?: GroupMigrationType;
   group_update: {
     avatarUpdated: boolean;
     joined: Array<string>;
@@ -136,6 +148,10 @@ export type MessageAttributesType = {
 
   unread: number;
   timestamp: number;
+
+  // Backwards-compatibility with prerelease data schema
+  invitedGV2Members?: Array<GroupV2PendingMemberType>;
+  droppedGV2MemberIds?: Array<string>;
 };
 
 export type ConversationAttributesTypeType = 'private' | 'group';
@@ -143,7 +159,7 @@ export type ConversationAttributesTypeType = 'private' | 'group';
 export type ConversationAttributesType = {
   accessKey: string | null;
   addedBy?: string;
-  capabilities: { uuid: string };
+  capabilities?: CapabilitiesType;
   color?: string;
   discoveredUnregisteredAt: number;
   draftAttachments: Array<unknown>;
@@ -202,6 +218,7 @@ export type ConversationAttributesType = {
 
   // GroupV1 only
   members?: Array<string>;
+  derivedGroupV2Id?: string;
 
   // GroupV2 core info
   masterKey?: string;
@@ -211,8 +228,8 @@ export type ConversationAttributesType = {
 
   // GroupV2 other fields
   accessControl?: {
-    attributes: number;
-    members: number;
+    attributes: AccessRequiredEnum;
+    members: AccessRequiredEnum;
   };
   avatar?: {
     url: string;
@@ -222,17 +239,20 @@ export type ConversationAttributesType = {
   expireTimer?: number;
   membersV2?: Array<GroupV2MemberType>;
   pendingMembersV2?: Array<GroupV2PendingMemberType>;
+  previousGroupV1Id?: string;
+  previousGroupV1Members?: Array<string>;
 };
 
 export type GroupV2MemberType = {
   conversationId: string;
-  role: number;
+  role: MemberRoleEnum;
   joinedAtVersion: number;
 };
 export type GroupV2PendingMemberType = {
-  addedByUserId: string;
+  addedByUserId?: string;
   conversationId: string;
   timestamp: number;
+  role: MemberRoleEnum;
 };
 
 export type VerificationOptions = {

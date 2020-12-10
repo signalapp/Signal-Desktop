@@ -4,7 +4,7 @@
 /* global window, textsecure */
 
 // eslint-disable-next-line func-names
-(function() {
+(function () {
   /** ***************************************
    *** Not-yet-processed message storage ***
    **************************************** */

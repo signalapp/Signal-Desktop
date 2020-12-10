@@ -19,6 +19,43 @@ describe('Crypto', () => {
     });
   });
 
+  describe('deriveMasterKeyFromGroupV1', () => {
+    const vectors = [
+      {
+        gv1: '00000000000000000000000000000000',
+        masterKey:
+          'dbde68f4ee9169081f8814eabc65523fea1359235c8cfca32b69e31dce58b039',
+      },
+      {
+        gv1: '000102030405060708090a0b0c0d0e0f',
+        masterKey:
+          '70884f78f07a94480ee36b67a4b5e975e92e4a774561e3df84c9076e3be4b9bf',
+      },
+      {
+        gv1: '7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f',
+        masterKey:
+          'e69bf7c183b288b4ea5745b7c52b651a61e57769fafde683a6fdf1240f1905f2',
+      },
+      {
+        gv1: 'ffffffffffffffffffffffffffffffff',
+        masterKey:
+          'dd3a7de23d10f18b64457fbeedc76226c112a730e4b76112e62c36c4432eb37d',
+      },
+    ];
+
+    vectors.forEach((vector, index) => {
+      it(`vector ${index}`, async () => {
+        const gv1 = Signal.Crypto.hexToArrayBuffer(vector.gv1);
+        const expectedHex = vector.masterKey;
+
+        const actual = await Signal.Crypto.deriveMasterKeyFromGroupV1(gv1);
+        const actualHex = Signal.Crypto.arrayBufferToHex(actual);
+
+        assert.strictEqual(actualHex, expectedHex);
+      });
+    });
+  });
+
   describe('symmetric encryption', () => {
     it('roundtrips', async () => {
       const message = 'this is my message';
@@ -173,6 +210,95 @@ describe('Crypto', () => {
       if (!equal) {
         throw new Error('The output and input did not match!');
       }
+    });
+  });
+
+  describe('uuidToArrayBuffer', () => {
+    const { uuidToArrayBuffer } = Signal.Crypto;
+
+    it('converts valid UUIDs to ArrayBuffers', () => {
+      const expectedResult = new Uint8Array([
+        0x22,
+        0x6e,
+        0x44,
+        0x02,
+        0x7f,
+        0xfc,
+        0x45,
+        0x43,
+        0x85,
+        0xc9,
+        0x46,
+        0x22,
+        0xc5,
+        0x0a,
+        0x5b,
+        0x14,
+      ]).buffer;
+
+      assert.deepEqual(
+        uuidToArrayBuffer('226e4402-7ffc-4543-85c9-4622c50a5b14'),
+        expectedResult
+      );
+      assert.deepEqual(
+        uuidToArrayBuffer('226E4402-7FFC-4543-85C9-4622C50A5B14'),
+        expectedResult
+      );
+    });
+
+    it('returns an empty ArrayBuffer for strings of the wrong length', () => {
+      assert.deepEqual(uuidToArrayBuffer(''), new ArrayBuffer(0));
+      assert.deepEqual(uuidToArrayBuffer('abc'), new ArrayBuffer(0));
+      assert.deepEqual(
+        uuidToArrayBuffer('032deadf0d5e4ee78da28e75b1dfb284'),
+        new ArrayBuffer(0)
+      );
+      assert.deepEqual(
+        uuidToArrayBuffer('deaed5eb-d983-456a-a954-9ad7a006b271aaaaaaaaaa'),
+        new ArrayBuffer(0)
+      );
+    });
+  });
+
+  describe('arrayBufferToUuid', () => {
+    const { arrayBufferToUuid } = Signal.Crypto;
+
+    it('converts valid ArrayBuffers to UUID strings', () => {
+      const buf = new Uint8Array([
+        0x22,
+        0x6e,
+        0x44,
+        0x02,
+        0x7f,
+        0xfc,
+        0x45,
+        0x43,
+        0x85,
+        0xc9,
+        0x46,
+        0x22,
+        0xc5,
+        0x0a,
+        0x5b,
+        0x14,
+      ]).buffer;
+
+      assert.deepEqual(
+        arrayBufferToUuid(buf),
+        '226e4402-7ffc-4543-85c9-4622c50a5b14'
+      );
+    });
+
+    it('returns undefined if passed an all-zero buffer', () => {
+      assert.isUndefined(arrayBufferToUuid(new ArrayBuffer(16)));
+    });
+
+    it('returns undefined if passed the wrong number of bytes', () => {
+      assert.isUndefined(arrayBufferToUuid(new ArrayBuffer(0)));
+      assert.isUndefined(arrayBufferToUuid(new Uint8Array([0x22]).buffer));
+      assert.isUndefined(
+        arrayBufferToUuid(new Uint8Array(Array(17).fill(0x22)).buffer)
+      );
     });
   });
 });

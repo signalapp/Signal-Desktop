@@ -956,9 +956,9 @@ async function upload(): Promise<void> {
 
     return;
   }
-  if (!isEnabled('desktop.storageWrite')) {
+  if (!isEnabled('desktop.storageWrite2')) {
     window.log.info(
-      'storageService.upload: Not starting desktop.storageWrite is falsey'
+      'storageService.upload: Not starting desktop.storageWrite2 is falsey'
     );
 
     return;

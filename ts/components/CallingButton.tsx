@@ -3,15 +3,9 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import Tooltip from 'react-tooltip-lite';
+import { Tooltip, TooltipPlacement } from './Tooltip';
+import { Theme } from '../util/theme';
 import { LocalizerType } from '../types/Util';
-
-export enum TooltipDirection {
-  UP = 'up',
-  RIGHT = 'right',
-  DOWN = 'down',
-  LEFT = 'left',
-}
 
 export enum CallingButtonType {
   AUDIO_DISABLED = 'AUDIO_DISABLED',
@@ -27,16 +21,14 @@ export type PropsType = {
   buttonType: CallingButtonType;
   i18n: LocalizerType;
   onClick: () => void;
-  tooltipDirection?: TooltipDirection;
-  tooltipDistance?: number;
+  tooltipDirection?: TooltipPlacement;
 };
 
 export const CallingButton = ({
   buttonType,
   i18n,
   onClick,
-  tooltipDirection = TooltipDirection.DOWN,
-  tooltipDistance = 16,
+  tooltipDirection,
 }: PropsType): JSX.Element => {
   let classNameSuffix = '';
   let tooltipContent = '';
@@ -69,21 +61,19 @@ export const CallingButton = ({
   );
 
   return (
-    <button
-      aria-label={tooltipContent}
-      type="button"
-      className={className}
-      onClick={onClick}
+    <Tooltip
+      content={tooltipContent}
+      direction={tooltipDirection}
+      theme={Theme.Dark}
     >
-      <Tooltip
-        arrowSize={6}
-        content={tooltipContent}
-        direction={tooltipDirection}
-        distance={tooltipDistance}
-        hoverDelay={0}
+      <button
+        aria-label={tooltipContent}
+        type="button"
+        className={className}
+        onClick={onClick}
       >
         <div />
-      </Tooltip>
-    </button>
+      </button>
+    </Tooltip>
   );
 };

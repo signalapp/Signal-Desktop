@@ -2432,6 +2432,16 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
       color: $color-gray-05;
     }
   }
+
+  &__button {
+    @include button-reset;
+    @include button-small;
+    @include button-green;
+    @include font-body-1-bold;
+
+    display: block;
+    margin: 0.5rem auto 0 auto;
+  }
 }
 
 .module-safety-number__bold-name {
@@ -2782,24 +2792,34 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 }
 
-.module-in-contacts-icon__tooltip {
-  .react-tooltip-lite {
+span.module-in-contacts-icon__tooltip {
+  /* Written in this way to add more specificity and avoid !important */
+  .module-tooltip {
     color: $color-white;
     background-color: $ultramarine-ui-light;
-  }
 
-  .react-tooltip-lite-arrow {
-    border-color: $ultramarine-ui-light;
-  }
-
-  @include dark-theme {
-    .react-tooltip-lite {
-      color: $color-white;
-      background-color: $ultramarine-ui-light;
+    &[data-placement='top'] {
+      .module-tooltip-arrow::after {
+        border-top-color: $ultramarine-ui-light;
+      }
     }
 
-    .react-tooltip-lite-arrow {
-      border-color: $ultramarine-ui-light;
+    &[data-placement='right'] {
+      .module-tooltip-arrow::after {
+        border-right-color: $ultramarine-ui-light;
+      }
+    }
+
+    &[data-placement='bottom'] {
+      .module-tooltip-arrow::after {
+        border-bottom-color: $ultramarine-ui-light;
+      }
+    }
+
+    &[data-placement='left'] {
+      .module-tooltip-arrow::after {
+        border-left-color: $ultramarine-ui-light;
+      }
     }
   }
 }
@@ -3037,21 +3057,9 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 }
 
-.module-conversation-header__audio-calling-button {
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/phone-right-outline-24.svg',
-      $color-gray-75
-    );
-  }
-  @include dark-theme {
-    @include color-svg(
-      '../images/icons/v2/phone-right-solid-24.svg',
-      $color-gray-15
-    );
-  }
-  height: 24px;
-  width: 24px;
+.module-conversation-header__calling-button {
+  $icon-size: 24px;
+
   margin-left: 12px;
   border: none;
   opacity: 0;
@@ -3064,31 +3072,65 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   &--show {
     opacity: 1;
   }
-}
 
-.module-conversation-header__video-calling-button {
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/video-outline-24.svg',
-      $color-gray-75
-    );
-  }
-  @include dark-theme {
-    @include color-svg('../images/icons/v2/video-solid-24.svg', $color-gray-15);
-  }
-  height: 24px;
-  width: 24px;
-  margin-left: 12px;
-  border: none;
-  opacity: 0;
-  transition: opacity 250ms ease-out;
-
-  &:disabled {
-    cursor: default;
+  &--video {
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/video-outline-24.svg',
+        $color-gray-75
+      );
+    }
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/video-solid-24.svg',
+        $color-gray-15
+      );
+    }
+    height: $icon-size;
+    width: $icon-size;
   }
 
-  &--show {
-    opacity: 1;
+  &--audio {
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/phone-right-outline-24.svg',
+        $color-gray-75
+      );
+    }
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/phone-right-solid-24.svg',
+        $color-gray-15
+      );
+    }
+    height: $icon-size;
+    width: $icon-size;
+  }
+
+  &--join {
+    @include font-body-1;
+    align-items: center;
+    background-color: $color-accent-green;
+    border-radius: 9999px; // This ensures the borders are completely rounded. (A value like 100% would make it an ellipse.)
+    color: $color-white;
+    display: flex;
+    outline: none;
+    padding: 5px 18px;
+
+    @include keyboard-mode {
+      &:focus {
+        box-shadow: 0px 0px 0px 4px $ultramarine-ui-light;
+      }
+    }
+
+    &:before {
+      @include color-svg('../images/icons/v2/video-solid-24.svg', $color-white);
+      content: '';
+      display: block;
+      height: $icon-size;
+      margin-right: 5px;
+      width: $icon-size;
+    }
   }
 }
 
@@ -5860,8 +5902,10 @@ button.module-image__border-overlay:focus {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    position: relative;
+    justify-content: center;
+    position: absolute;
     width: 100%;
+    z-index: 2;
   }
 
   &__header {
@@ -5871,14 +5915,16 @@ button.module-image__border-overlay:focus {
     padding-top: 24px;
     text-align: center;
     text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
-    top: 0;
     width: 100%;
 
     &--header-name {
-      font-weight: 600;
       font-size: 15px;
-      line-height: 21px;
+      font-weight: 600;
       letter-spacing: -0.009em;
+      line-height: 21px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 
@@ -5912,6 +5958,33 @@ button.module-image__border-overlay:focus {
       height: 100%;
       position: absolute;
       width: 100%;
+    }
+  }
+
+  &__video-off {
+    &--icon {
+      @include color-svg(
+        '../images/icons/v2/video-off-solid-24.svg',
+        $color-white
+      );
+      height: 24px;
+      margin-bottom: 8px;
+      width: 24px;
+    }
+
+    &--text {
+      color: $color-white;
+      z-index: 1;
+    }
+
+    &--container {
+      display: flex;
+      flex-direction: row;
+      margin-top: 12px;
+
+      .module-calling__video-off--text {
+        margin-left: 10px;
+      }
     }
   }
 }
@@ -6075,8 +6148,30 @@ button.module-image__border-overlay:focus {
 .module-calling-button {
   &__participants {
     @include color-svg('../images/icons/v2/group-solid-24.svg', $color-white);
+    display: inline-block;
     height: 22px;
     width: 22px;
+
+    &--container {
+      @include button-reset;
+      border: none;
+      color: $color-white;
+    }
+
+    &--shown {
+      background-color: $color-gray-75;
+      border-radius: 16px;
+      padding: 6px 8px;
+      padding-bottom: 2px;
+      margin-top: -6px;
+      margin-right: -8px;
+    }
+
+    &--count {
+      @include font-body-2-bold;
+      margin-left: 5px;
+      vertical-align: top;
+    }
   }
 
   &__settings {
@@ -6100,91 +6195,64 @@ button.module-image__border-overlay:focus {
   height: 56px;
   width: 56px;
 
-  &--audio {
-    &--on {
-      background-color: $color-white;
+  @mixin calling-button-icon($icon, $background-color, $icon-color) {
+    background-color: $background-color;
 
-      div {
-        @include color-svg(
-          '../images/icons/v2/mic-solid-28.svg',
-          $color-gray-75
-        );
-        height: 28px;
-        width: 28px;
-      }
+    div {
+      @include color-svg($icon, $icon-color);
+      height: 28px;
+      width: 28px;
+    }
+  }
+
+  @mixin calling-button-icon-on($icon) {
+    @include calling-button-icon($icon, $color-white, $color-gray-75);
+  }
+
+  @mixin calling-button-icon-off($icon) {
+    @include calling-button-icon($icon, $color-white-alpha-40, $color-white);
+    backdrop-filter: blur(10px);
+  }
+
+  @mixin calling-button-icon-disabled($icon) {
+    @include calling-button-icon($icon, $color-gray-45, $color-white);
+    opacity: 0.2;
+  }
+
+  // If the on/off states seem backwards, it's because this button reflects "is audio
+  //   muted?", not "is audio on?".
+  &--audio {
+    $icon: '../images/icons/v2/mic-off-solid-28.svg';
+    &--on {
+      @include calling-button-icon-off($icon);
     }
     &--off {
-      background-color: $color-gray-45;
-
-      div {
-        @include color-svg(
-          '../images/icons/v2/mic-off-solid-28.svg',
-          $color-white
-        );
-        height: 28px;
-        width: 28px;
-      }
+      @include calling-button-icon-on($icon);
     }
     &--disabled {
-      background-color: $color-gray-45;
-      opacity: 0.2;
-
-      div {
-        @include color-svg('../images/icons/v2/mic-solid-28.svg', $color-white);
-        height: 28px;
-        width: 28px;
-      }
+      @include calling-button-icon-disabled($icon);
     }
   }
 
   &--video {
+    $icon: '../images/icons/v2/video-solid-28.svg';
     &--on {
-      background-color: $color-white;
-
-      div {
-        @include color-svg(
-          '../images/icons/v2/video-solid-28.svg',
-          $color-gray-75
-        );
-        height: 28px;
-        width: 28px;
-      }
+      @include calling-button-icon-on($icon);
     }
     &--off {
-      background-color: $color-gray-45;
-
-      div {
-        @include color-svg(
-          '../images/icons/v2/video-off-solid-28.svg',
-          $color-white
-        );
-        height: 28px;
-        width: 28px;
-      }
+      @include calling-button-icon-off($icon);
     }
     &--disabled {
-      background-color: $color-gray-45;
-      opacity: 0.2;
-
-      div {
-        @include color-svg(
-          '../images/icons/v2/video-solid-28.svg',
-          $color-white
-        );
-        height: 28px;
-        width: 28px;
-      }
+      @include calling-button-icon-disabled($icon);
     }
   }
 
   &--hangup {
-    background-color: $color-accent-red;
-
-    div {
-      @include color-svg('../images/icons/v2/phone-down-28.svg', $color-white);
-      height: 28px;
-      width: 28px;
-    }
+    @include calling-button-icon(
+      '../images/icons/v2/phone-down-28.svg',
+      $color-accent-red,
+      $color-white
+    );
   }
 }
 
@@ -6212,7 +6280,7 @@ button.module-image__border-overlay:focus {
 
   &__remote-video-enabled {
     background-color: $color-gray-95;
-    height: 100vh;
+    height: 100%;
     width: 100%;
   }
 
@@ -6225,9 +6293,22 @@ button.module-image__border-overlay:focus {
     justify-content: center;
   }
 
+  &__container {
+    &--direct {
+      .module-ongoing-call__header {
+        position: absolute;
+      }
+      .module-ongoing-call__footer {
+        position: absolute;
+      }
+    }
+  }
+
   &__header {
-    position: absolute;
     background: linear-gradient($color-black-alpha-40, transparent);
+    top: 0;
+    width: 100%;
+    z-index: 2;
   }
 
   &__header-message {
@@ -6237,13 +6318,104 @@ button.module-image__border-overlay:focus {
     letter-spacing: -0.0025em;
   }
 
+  &__grid {
+    flex-grow: 1;
+    width: 100%;
+    position: relative;
+  }
+
+  &__group-call-remote-participant {
+    display: flex;
+    justify-content: center;
+    position: relative;
+
+    line-height: 0;
+    overflow: hidden;
+    border-radius: 5px;
+    transition: top 200ms linear, left 200ms linear, width 200ms linear,
+      height 200ms linear;
+
+    &__remote-video {
+      // The background-color is seen while the video loads.
+      background-color: $color-gray-75;
+    }
+
+    &__blocked {
+      @include color-svg('../images/icons/v2/block-24.svg', $color-white);
+      height: 24px;
+      margin-bottom: 16px;
+      width: 24px;
+
+      &--info {
+        @include button-reset;
+        background-color: $color-gray-75;
+        border-radius: 16px;
+        color: $color-white;
+        line-height: 16px;
+        padding: 3px 10px;
+      }
+
+      &--modal-title {
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        display: -webkit-box;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    &--title {
+      @include font-caption;
+      background: linear-gradient(
+        180deg,
+        transparent,
+        $color-black-alpha-60 100%
+      );
+      bottom: 0;
+      display: flex;
+      padding: 6px;
+      position: absolute;
+      width: 100%;
+      z-index: 2;
+    }
+
+    &--contact-name {
+      color: $color-white;
+      margin-right: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &--audio-muted::after {
+      @include color-svg(
+        '../images/icons/v2/mic-off-solid-28.svg',
+        $color-white
+      );
+      content: '';
+      height: 14px;
+      position: absolute;
+      right: 6px;
+      width: 14px;
+      z-index: 1;
+    }
+  }
+
+  &__local-preview-fullsize {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
   &__footer {
     background: linear-gradient(transparent, $color-black-alpha-40);
     bottom: 0;
     display: flex;
     justify-content: space-between;
-    position: absolute;
     width: 100%;
+    z-index: 2;
 
     &__actions {
       align-items: center;
@@ -6266,6 +6438,7 @@ button.module-image__border-overlay:focus {
       height: $local-preview-height;
       margin: 2px 16px 16px 0;
       overflow: hidden;
+      position: relative;
       width: $local-preview-width;
 
       &__video {
@@ -6274,6 +6447,20 @@ button.module-image__border-overlay:focus {
         height: 100%;
         transform: rotateY(180deg);
         width: 100%;
+      }
+
+      &--audio-muted::before {
+        @include color-svg(
+          '../images/icons/v2/mic-off-solid-28.svg',
+          $color-white
+        );
+        bottom: 6px;
+        content: '';
+        height: 14px;
+        position: absolute;
+        right: 6px;
+        width: 14px;
+        z-index: 1;
       }
     }
   }
@@ -6295,6 +6482,27 @@ button.module-image__border-overlay:focus {
       fill-mode: forwards;
     }
   }
+
+  &__toast {
+    @include font-body-1-bold;
+    background-color: $color-gray-75;
+    border-radius: 8px;
+    color: $color-white;
+    max-width: 80%;
+    opacity: 1;
+    padding: 12px;
+    position: absolute;
+    text-align: center;
+    top: 12px;
+    transition: top 200ms ease-out, opacity 200ms ease-out;
+    user-select: none;
+    z-index: 1;
+
+    &--hidden {
+      opacity: 0;
+      top: 5px;
+    }
+  }
 }
 
 .module-calling-tools {
@@ -6311,6 +6519,9 @@ button.module-image__border-overlay:focus {
 
 .module-calling-lobby {
   &__actions {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
     flex: 0 0 100px;
   }
 
@@ -6318,13 +6529,18 @@ button.module-image__border-overlay:focus {
     margin-left: 8px;
     margin-right: 8px;
     width: 160px;
+
+    &[disabled] {
+      opacity: 0.5;
+    }
   }
 
   &__video {
     @include font-body-2;
-    background-color: $color-gray-80;
     border-radius: 8px;
     color: $color-white;
+    display: flex;
+    flex-direction: column;
     flex: 1 1 auto;
     margin-bottom: 24px;
     margin-top: 24px;
@@ -6334,20 +6550,20 @@ button.module-image__border-overlay:focus {
     width: 100%;
   }
 
-  &__video-off {
-    &--icon {
-      @include color-svg(
-        '../images/icons/v2/video-off-solid-24.svg',
-        $color-white
-      );
-      height: 24px;
-      margin-bottom: 8px;
-      width: 24px;
+  &__video-on {
+    &__video {
+      display: block;
+      flex-grow: 1;
+      transform: rotateY(180deg);
+      width: 100%;
+      background-color: $color-gray-80;
     }
+  }
 
-    &--text {
-      z-index: 1;
-    }
+  &__info {
+    color: $color-white;
+    margin-bottom: 36px;
+    margin-top: 12px;
   }
 }
 
@@ -6362,16 +6578,25 @@ button.module-image__border-overlay:focus {
   width: 120px;
   z-index: 2;
 
+  & .module-ongoing-call__group-call-remote-participant {
+    border-radius: 0;
+  }
+
   &__video {
     &--remote {
       align-items: center;
       background-color: $color-gray-95;
       border-radius: 4px 4px 0 0;
       display: flex;
-      height: 120px;
+      height: 120px; // This height should be kept in sync with <CallingPipRemoteVideo>'s hard-coded height.
       justify-content: center;
+      overflow: hidden;
       position: relative;
       width: 100%;
+
+      .module-ongoing-call__group-call-remote-participant--audio-muted::after {
+        display: none;
+      }
     }
 
     &--local {
@@ -6379,6 +6604,7 @@ button.module-image__border-overlay:focus {
       height: 32px;
       position: absolute;
       right: 4px;
+      transform: rotateY(180deg);
       width: 32px;
     }
 
@@ -6441,9 +6667,10 @@ button.module-image__border-overlay:focus {
   color: $color-white;
   margin-right: 12px;
   margin-top: 54px;
+  overflow: hidden;
   padding: 14px;
-  padding-bottom: 0;
   width: 280px;
+  padding-bottom: 0;
 
   &__overlay {
     display: flex;
@@ -6460,10 +6687,35 @@ button.module-image__border-overlay:focus {
     @include font-body-2-bold;
   }
 
+  &__contact-icon {
+    background-color: $color-gray-25;
+  }
+
   &__list {
-    margin: 0;
+    height: 100%;
+    margin-bottom: 0;
+    margin-left: -14px;
+    margin-right: -14px;
     margin-top: 22px;
-    padding: 0;
+    overflow: scroll;
+    padding-bottom: 24px;
+    padding-left: 14px;
+    padding-right: 14px;
+    padding-top: 0;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border: none;
+      border-radius: 4px;
+      background-color: $color-gray-45;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: $color-gray-80;
+    }
   }
 
   &__contact {
@@ -6478,7 +6730,7 @@ button.module-image__border-overlay:focus {
   &__name {
     display: inline-block;
     margin-left: 8px;
-    max-width: 144px;
+    max-width: 130px;
     overflow: hidden;
     text-overflow: ellipsis;
     vertical-align: middle;
@@ -6810,6 +7062,10 @@ button.module-image__border-overlay:focus {
 .module-timeline {
   height: 100%;
   overflow: hidden;
+}
+
+.module-timeline--disabled {
+  user-select: none;
 }
 
 .module-timeline__message-container {
@@ -9494,13 +9750,7 @@ button.module-image__border-overlay:focus {
 .module-calling-device-selection__close-button {
   @include button-reset;
 
-  @include light-theme {
-    @include color-svg('../images/x-shadow-16.svg', $color-gray-75);
-  }
-
-  @include dark-theme {
-    @include color-svg('../images/x-shadow-16.svg', $color-white);
-  }
+  @include color-svg('../images/x-shadow-16.svg', $color-white);
 
   height: 16px;
   position: absolute;
@@ -9605,6 +9855,274 @@ button.module-image__border-overlay:focus {
   margin-right: auto;
 }
 
+// Module: GV1 Migration
+
+.module-group-v1-migration {
+  @include font-body-1;
+
+  margin-left: 2em;
+  margin-right: 2em;
+
+  text-align: center;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+}
+
+.module-group-v1-migration--icon {
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/group-outline-20.svg',
+      $color-gray-60
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/group-outline-20.svg',
+      $color-gray-05
+    );
+  }
+
+  height: 20px;
+  width: 20px;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.module-group-v1-migration--text {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.module-group-v1-migration--button {
+  @include button-reset;
+  @include font-body-2-bold;
+  border-radius: 4px;
+
+  padding: 8px;
+  padding-left: 40px;
+  padding-right: 40px;
+
+  @include button-light-blue-text;
+}
+
+// Module: GroupV1 Disabled Actions
+
+.module-group-v1-disabled-actions {
+  padding: 8px 16px 12px 16px;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @include light-theme {
+    background: $color-white;
+  }
+
+  @include dark-theme {
+    background: $color-gray-95;
+  }
+}
+
+.module-group-v1-disabled-actions__message {
+  @include font-body-2;
+  text-align: center;
+  margin-bottom: 12px;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
+
+.module-group-v1-disabled-actions__message__learn-more {
+  text-decoration: none;
+}
+
+.module-group-v1-disabled-actions__buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.module-group-v1-disabled-actions__buttons__button {
+  @include button-reset;
+  @include font-body-1-bold;
+
+  border-radius: 4px;
+
+  padding: 8px;
+  padding-left: 30px;
+  padding-right: 30px;
+
+  @include button-primary;
+}
+
+// Module: Modal Host
+
+.module-modal-host__overlay {
+  background: $color-black-alpha-40;
+  position: absolute;
+
+  height: 100vh;
+  width: 100vw;
+
+  left: 0;
+  top: 0;
+
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  overflow: hidden;
+  padding: 20px;
+}
+
+// Module: GV1 Migration Dialog
+
+.module-group-v2-migration-dialog {
+  @include font-body-1;
+  border-radius: 8px;
+  width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+
+  max-height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  position: relative;
+
+  @include light-theme {
+    background-color: $color-white;
+  }
+  @include dark-theme {
+    background-color: $color-gray-95;
+  }
+}
+.module-group-v2-migration-dialog__close-button {
+  @include button-reset;
+
+  position: absolute;
+  right: 12px;
+  top: 12px;
+
+  height: 24px;
+  width: 24px;
+
+  @include light-theme {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-75);
+  }
+
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
+  }
+
+  &:focus {
+    @include keyboard-mode {
+      background-color: $ultramarine-ui-light;
+    }
+    @include dark-keyboard-mode {
+      background-color: $ultramarine-ui-dark;
+    }
+  }
+}
+.module-group-v2-migration-dialog__title {
+  @include font-title-2;
+  text-align: center;
+  margin-bottom: 20px;
+
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+.module-group-v2-migration-dialog__scrollable {
+  overflow-x: scroll;
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+.module-group-v2-migration-dialog__item {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+
+  &:not(:last-of-type) {
+    margin-bottom: 16px;
+  }
+}
+.module-group-v2-migration-dialog__item__bullet {
+  width: 4px;
+  height: 11px;
+  flex-grow: 0;
+  flex-shrink: 0;
+
+  margin-top: 5px;
+
+  @include light-theme {
+    background-color: $color-gray-15;
+  }
+  @include dark-theme {
+    background-color: $color-gray-65;
+  }
+}
+.module-group-v2-migration-dialog__item__content {
+  margin-left: 16px;
+}
+.module-group-v2-migration-dialog__member {
+  margin-top: 16px;
+}
+.module-group-v2-migration-dialog__member__name {
+  margin-left: 6px;
+}
+
+.module-group-v2-migration-dialog__buttons {
+  margin-top: 16px;
+
+  text-align: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+
+  display: flex;
+}
+.module-group-v2-migration-dialog__buttons--narrow {
+  margin-left: auto;
+  margin-right: auto;
+  width: 152px;
+}
+.module-group-v2-migration-dialog__button {
+  @include button-reset;
+  @include font-body-1-bold;
+
+  // Start flex basis at zero so text width doesn't affect layout. We want the buttons
+  //   evenly distributed.
+  flex: 1 1 0px;
+
+  border-radius: 4px;
+
+  padding: 8px;
+  padding-left: 30px;
+  padding-right: 30px;
+
+  @include button-primary;
+
+  &:not(:first-of-type) {
+    margin-left: 16px;
+  }
+}
+
+.module-group-v2-migration-dialog__button--secondary {
+  @include button-secondary;
+}
+
 // Module: Progress Dialog
 
 .module-progress-dialog {
@@ -9666,6 +10184,7 @@ button.module-image__border-overlay:focus {
     border-radius: 4px;
     border: none;
     color: $color-white;
+    line-height: 24px;
     outline: none;
     padding: 7px 14px;
 
@@ -9682,6 +10201,7 @@ button.module-image__border-overlay:focus {
     border-radius: 4px;
     border: none;
     color: $color-white;
+    line-height: 24px;
     outline: none;
     padding: 7px 14px;
 
@@ -9694,6 +10214,7 @@ button.module-image__border-overlay:focus {
 }
 
 // Module: Group Contact Details
+
 $contact-modal-padding: 18px;
 .module-contact-modal {
   @include font-body-2;
@@ -9779,10 +10300,10 @@ $contact-modal-padding: 18px;
   &:focus {
     @include keyboard-mode {
       background-color: $color-gray-15;
+    }
 
-      @include dark-theme {
-        background-color: $color-gray-60;
-      }
+    @include dark-keyboard-mode {
+      background-color: $color-gray-60;
     }
   }
 }
@@ -9859,8 +10380,8 @@ $contact-modal-padding: 18px;
   top: 10px;
   right: 12px;
 
-  width: 16px;
-  height: 16px;
+  width: 24px;
+  height: 24px;
 
   @include color-svg('../images/icons/v2/x-24.svg', $color-gray-75);
 
@@ -9887,10 +10408,13 @@ $contact-modal-padding: 18px;
   }
 }
 
-/* Third-party module: react-tooltip-lite */
-
-.react-tooltip-lite {
+.module-tooltip {
   border-radius: 8px;
+  display: inline-block;
+  padding: 8px 21px;
+  position: fixed;
+  text-align: center;
+  z-index: 999;
 
   @include light-theme {
     background-color: $color-gray-02;
@@ -9900,14 +10424,96 @@ $contact-modal-padding: 18px;
     background-color: $color-gray-65;
     color: $color-gray-05;
   }
-}
 
-.react-tooltip-lite-arrow {
-  @include light-theme {
-    border-color: $color-gray-02;
+  .module-tooltip-arrow {
+    position: absolute;
   }
-  @include dark-theme {
-    border-color: $color-gray-65;
+
+  .module-tooltip-arrow::after {
+    border: solid 6px transparent;
+    content: '';
+    display: block;
+    height: 0;
+    margin-left: -6px;
+    margin-top: -6px;
+    position: absolute;
+    width: 0;
+  }
+
+  &[data-placement='top'] {
+    margin-bottom: 12px;
+
+    .module-tooltip-arrow {
+      bottom: 0;
+    }
+
+    .module-tooltip-arrow::after {
+      bottom: -12px;
+
+      @include light-theme {
+        border-top-color: $color-gray-02;
+      }
+      @include dark-theme {
+        border-top-color: $color-gray-65;
+      }
+    }
+  }
+
+  &[data-placement='right'] {
+    margin-left: 12px;
+
+    .module-tooltip-arrow {
+      left: 0;
+    }
+
+    .module-tooltip-arrow::after {
+      left: -6px;
+
+      @include light-theme {
+        border-right-color: $color-gray-02;
+      }
+      @include dark-theme {
+        border-right-color: $color-gray-65;
+      }
+    }
+  }
+
+  &[data-placement='bottom'] {
+    margin-top: 12px;
+
+    .module-tooltip-arrow {
+      top: 0;
+    }
+
+    .module-tooltip-arrow::after {
+      top: -6px;
+
+      @include light-theme {
+        border-bottom-color: $color-gray-02;
+      }
+      @include dark-theme {
+        border-bottom-color: $color-gray-65;
+      }
+    }
+  }
+
+  &[data-placement='left'] {
+    margin-right: 12px;
+
+    .module-tooltip-arrow {
+      right: 0;
+    }
+
+    .module-tooltip-arrow::after {
+      right: -12px;
+
+      @include light-theme {
+        border-left-color: $color-gray-02;
+      }
+      @include dark-theme {
+        border-left-color: $color-gray-65;
+      }
+    }
   }
 }
 

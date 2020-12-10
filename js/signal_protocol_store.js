@@ -7,7 +7,7 @@
 /* eslint-disable no-proto */
 
 // eslint-disable-next-line func-names
-(function() {
+(function () {
   const TIMESTAMP_THRESHOLD = 5 * 1000; // 5 seconds
   const Direction = {
     SENDING: 1,
@@ -345,6 +345,7 @@
 
       try {
         const id = await normalizeEncodedAddress(encodedAddress);
+        window.log.info('loadSession', { encodedAddress, id });
         const session = this.sessions[id];
 
         if (session) {
@@ -365,6 +366,7 @@
 
       try {
         const id = await normalizeEncodedAddress(encodedAddress);
+        window.log.info('storeSession', { encodedAddress, id });
 
         const data = {
           id,
@@ -393,18 +395,34 @@
         const sessions = allSessions.filter(
           session => session.conversationId === id
         );
+        const openSessions = await Promise.all(
+          sessions.map(async session => {
+            const sessionCipher = new libsignal.SessionCipher(
+              textsecure.storage.protocol,
+              session.id
+            );
 
-        return _.pluck(sessions, 'deviceId');
-      } catch (e) {
+            const hasOpenSession = await sessionCipher.hasOpenSession();
+            if (hasOpenSession) {
+              return session;
+            }
+
+            return undefined;
+          })
+        );
+
+        return openSessions.filter(Boolean).map(item => item.deviceId);
+      } catch (error) {
         window.log.error(
-          `could not get device ids for identifier ${identifier}`
+          `could not get device ids for identifier ${identifier}`,
+          error && error.stack ? error.stack : error
         );
       }
 
       return [];
     },
     async removeSession(encodedAddress) {
-      window.log.info('deleting session for ', encodedAddress);
+      window.log.info('removeSession: deleting session for', encodedAddress);
       try {
         const id = await normalizeEncodedAddress(encodedAddress);
         delete this.sessions[id];
@@ -417,6 +435,8 @@
       if (identifier === null || identifier === undefined) {
         throw new Error('Tried to remove sessions for undefined/null number');
       }
+
+      window.log.info('removeAllSessions: deleting sessions for', identifier);
 
       const id = ConversationController.getConversationId(identifier);
 
@@ -432,6 +452,11 @@
       await window.Signal.Data.removeSessionsByConversation(identifier);
     },
     async archiveSiblingSessions(identifier) {
+      window.log.info(
+        'archiveSiblingSessions: archiving sibling sessions for',
+        identifier
+      );
+
       const address = libsignal.SignalProtocolAddress.fromString(identifier);
 
       const deviceIds = await this.getDeviceIds(address.getName());
@@ -443,7 +468,10 @@
             address.getName(),
             deviceId
           );
-          window.log.info('closing session for', sibling.toString());
+          window.log.info(
+            'archiveSiblingSessions: closing session for',
+            sibling.toString()
+          );
           const sessionCipher = new libsignal.SessionCipher(
             textsecure.storage.protocol,
             sibling
@@ -453,6 +481,11 @@
       );
     },
     async archiveAllSessions(identifier) {
+      window.log.info(
+        'archiveAllSessions: archiving all sessions for',
+        identifier
+      );
+
       const deviceIds = await this.getDeviceIds(identifier);
 
       await Promise.all(
@@ -461,7 +494,10 @@
             identifier,
             deviceId
           );
-          window.log.info('closing session for', address.toString());
+          window.log.info(
+            'archiveAllSessions: closing session for',
+            address.toString()
+          );
           const sessionCipher = new libsignal.SessionCipher(
             textsecure.storage.protocol,
             address
@@ -904,7 +940,7 @@
       //   state we had before.
       return false;
     },
-    async isUntrusted(identifier) {
+    isUntrusted(identifier) {
       if (identifier === null || identifier === undefined) {
         throw new Error('Tried to set verified for undefined/null key');
       }

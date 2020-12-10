@@ -4,7 +4,7 @@
 /* global Whisper: false */
 
 // eslint-disable-next-line func-names
-(function() {
+(function () {
   window.Whisper = window.Whisper || {};
   window.Whisper.Database = window.Whisper.Database || {};
   window.Whisper.Database.id = window.Whisper.Database.id || 'signal';

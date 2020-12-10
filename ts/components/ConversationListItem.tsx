@@ -38,9 +38,9 @@ export type PropsData = {
   isMe?: boolean;
   muteExpiresAt?: number;
 
-  lastUpdated: number;
+  lastUpdated?: number;
   unreadCount?: number;
-  markedUnread: boolean;
+  markedUnread?: boolean;
   isSelected: boolean;
 
   acceptedMessageRequest?: boolean;
@@ -100,7 +100,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
   isUnread(): boolean {
     const { markedUnread, unreadCount } = this.props;
 
-    return (isNumber(unreadCount) && unreadCount > 0) || markedUnread;
+    return Boolean((isNumber(unreadCount) && unreadCount > 0) || markedUnread);
   }
 
   public renderUnread(): JSX.Element | null {

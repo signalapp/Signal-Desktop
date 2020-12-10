@@ -6,7 +6,7 @@
 // This file was taken from Backbone and then modified. It does not conform to this
 //   project's standards.
 
-(function() {
+(function () {
   'use strict';
 
   // Note: this is all the code required to customize Backbone's trigger() method to make
@@ -32,7 +32,7 @@
   // Implement fancy features of the Events API such as multiple event
   // names `"change blur"` and jQuery-style event maps `{change: action}`
   // in terms of the existing API.
-  const eventsApi = function(obj, action, name, rest) {
+  const eventsApi = function (obj, action, name, rest) {
     if (!name) return true;
 
     // Handle event maps.
@@ -58,14 +58,14 @@
   // A difficult-to-believe, but optimized internal dispatch function for
   // triggering events. Tries to keep the usual cases speedy (most internal
   // Backbone events have 3 arguments).
-  const triggerEvents = function(events, name, args) {
+  const triggerEvents = function (events, name, args) {
     let ev,
       i = -1,
       l = events.length,
       a1 = args[0],
       a2 = args[1],
       a3 = args[2];
-    const logError = function(error) {
+    const logError = function (error) {
       window.log.error(
         'Model caught error triggering',
         name,

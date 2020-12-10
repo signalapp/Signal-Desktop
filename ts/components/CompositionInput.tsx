@@ -570,6 +570,13 @@ export const CompositionInput: React.ComponentType<Props> = props => {
     []
   );
 
+  // The onClick handler below is only to make it easier for mouse users to focus the
+  //   message box. In 'large' mode, the actual Quill text box can be one line while the
+  //   visual text box is much larger. Clicking that should allow you to start typing,
+  //   hence the click handler.
+  // eslint-disable-next-line max-len
+  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
+
   return (
     <Manager>
       <Reference>
@@ -577,6 +584,7 @@ export const CompositionInput: React.ComponentType<Props> = props => {
           <div className="module-composition-input__input" ref={ref}>
             <div
               ref={scrollerRef}
+              onClick={focus}
               className={classNames(
                 'module-composition-input__input__scroller',
                 large

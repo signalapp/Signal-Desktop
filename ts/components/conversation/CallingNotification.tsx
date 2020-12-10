@@ -1,90 +1,168 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import Measure from 'react-measure';
 
 import { Timestamp } from './Timestamp';
 import { LocalizerType } from '../../types/Util';
-import { CallHistoryDetailsType } from '../../types/Calling';
+import { CallMode } from '../../types/Calling';
+import {
+  CallingNotificationType,
+  getCallingNotificationText,
+} from '../../util/callingNotification';
+import { missingCaseError } from '../../util/missingCaseError';
+import { Tooltip, TooltipPlacement } from '../Tooltip';
 
-export type PropsData = {
-  // Can be undefined because it comes from JS.
-  callHistoryDetails?: CallHistoryDetailsType;
-};
+export interface PropsActionsType {
+  messageSizeChanged: (messageId: string, conversationId: string) => void;
+  returnToActiveCall: () => void;
+  startCallingLobby: (_: {
+    conversationId: string;
+    isVideoCall: boolean;
+  }) => void;
+}
 
 type PropsHousekeeping = {
   i18n: LocalizerType;
+  conversationId: string;
+  messageId: string;
 };
 
-type Props = PropsData & PropsHousekeeping;
+type PropsType = CallingNotificationType & PropsActionsType & PropsHousekeeping;
 
-export function getCallingNotificationText(
-  callHistoryDetails: CallHistoryDetailsType,
-  i18n: LocalizerType
-): string {
-  const {
-    wasIncoming,
-    wasVideoCall,
-    wasDeclined,
-    acceptedTime,
-  } = callHistoryDetails;
-  const wasAccepted = Boolean(acceptedTime);
+export const CallingNotification: React.FC<PropsType> = React.memo(props => {
+  const { conversationId, i18n, messageId, messageSizeChanged } = props;
 
-  if (wasIncoming) {
-    if (wasDeclined) {
-      if (wasVideoCall) {
-        return i18n('declinedIncomingVideoCall');
-      }
-      return i18n('declinedIncomingAudioCall');
-    }
-    if (wasAccepted) {
-      if (wasVideoCall) {
-        return i18n('acceptedIncomingVideoCall');
-      }
-      return i18n('acceptedIncomingAudioCall');
-    }
-    if (wasVideoCall) {
-      return i18n('missedIncomingVideoCall');
-    }
-    return i18n('missedIncomingAudioCall');
-  }
-  if (wasAccepted) {
-    if (wasVideoCall) {
-      return i18n('acceptedOutgoingVideoCall');
-    }
-    return i18n('acceptedOutgoingAudioCall');
-  }
-  if (wasVideoCall) {
-    return i18n('missedOrDeclinedOutgoingVideoCall');
-  }
-  return i18n('missedOrDeclinedOutgoingAudioCall');
-}
+  const previousHeightRef = useRef<null | number>(null);
+  const [height, setHeight] = useState<null | number>(null);
 
-export const CallingNotification = (props: Props): JSX.Element | null => {
-  const { callHistoryDetails, i18n } = props;
-  if (!callHistoryDetails) {
+  useEffect(() => {
+    if (height === null) {
+      return;
+    }
+
+    if (
+      previousHeightRef.current !== null &&
+      height !== previousHeightRef.current
+    ) {
+      messageSizeChanged(messageId, conversationId);
+    }
+
+    previousHeightRef.current = height;
+  }, [height, conversationId, messageId, messageSizeChanged]);
+
+  let timestamp: number;
+  let callType: 'audio' | 'video';
+  switch (props.callMode) {
+    case CallMode.Direct:
+      timestamp = props.acceptedTime || props.endedTime;
+      callType = props.wasVideoCall ? 'video' : 'audio';
+      break;
+    case CallMode.Group:
+      timestamp = props.startedTime;
+      callType = 'video';
+      break;
+    default:
+      window.log.error(missingCaseError(props));
+      return null;
+  }
+
+  return (
+    <Measure
+      bounds
+      onResize={({ bounds }) => {
+        if (!bounds) {
+          window.log.error('We should be measuring the bounds');
+          return;
+        }
+        setHeight(bounds.height);
+      }}
+    >
+      {({ measureRef }) => (
+        <div
+          className={`module-message-calling--notification module-message-calling--${callType}`}
+          ref={measureRef}
+        >
+          <div className={`module-message-calling--${callType}__icon`} />
+          {getCallingNotificationText(props, i18n)}
+          <div>
+            <Timestamp
+              i18n={i18n}
+              timestamp={timestamp}
+              extended
+              direction="outgoing"
+              withImageNoCaption={false}
+              withSticker={false}
+              withTapToViewExpired={false}
+              module="module-message__metadata__date"
+            />
+          </div>
+          <CallingNotificationButton {...props} />
+        </div>
+      )}
+    </Measure>
+  );
+});
+
+function CallingNotificationButton(props: PropsType) {
+  if (props.callMode !== CallMode.Group || props.ended) {
     return null;
   }
-  const { acceptedTime, endedTime, wasVideoCall } = callHistoryDetails;
-  const callType = wasVideoCall ? 'video' : 'audio';
-  return (
-    <div
-      className={`module-message-calling--notification module-message-calling--${callType}`}
+
+  const {
+    activeCallConversationId,
+    conversationId,
+    deviceCount,
+    i18n,
+    maxDevices,
+    returnToActiveCall,
+    startCallingLobby,
+  } = props;
+
+  let buttonText: string;
+  let disabledTooltipText: undefined | string;
+  let onClick: undefined | (() => void);
+  if (activeCallConversationId) {
+    if (activeCallConversationId === conversationId) {
+      buttonText = i18n('calling__return');
+      onClick = returnToActiveCall;
+    } else {
+      buttonText = i18n('calling__join');
+      disabledTooltipText = i18n(
+        'calling__call-notification__button__in-another-call-tooltip'
+      );
+    }
+  } else if (deviceCount >= maxDevices) {
+    buttonText = i18n('calling__call-is-full');
+    disabledTooltipText = i18n(
+      'calling__call-notification__button__call-full-tooltip',
+      [String(deviceCount)]
+    );
+  } else {
+    buttonText = i18n('calling__join');
+    onClick = () => {
+      startCallingLobby({ conversationId, isVideoCall: true });
+    };
+  }
+
+  const button = (
+    <button
+      className="module-message-calling--notification__button"
+      disabled={Boolean(disabledTooltipText)}
+      onClick={onClick}
+      type="button"
     >
-      <div className={`module-message-calling--${callType}__icon`} />
-      {getCallingNotificationText(callHistoryDetails, i18n)}
-      <div>
-        <Timestamp
-          i18n={i18n}
-          timestamp={acceptedTime || endedTime}
-          extended
-          direction="outgoing"
-          withImageNoCaption={false}
-          withSticker={false}
-          withTapToViewExpired={false}
-          module="module-message__metadata__date"
-        />
-      </div>
-    </div>
+      {buttonText}
+    </button>
   );
-};
+
+  if (disabledTooltipText) {
+    return (
+      <Tooltip content={disabledTooltipText} direction={TooltipPlacement.Top}>
+        {button}
+      </Tooltip>
+    );
+  }
+  return button;
+}

@@ -24,7 +24,8 @@ import {
 } from '../../components/SearchResults';
 import { PropsDataType as MessageSearchResultPropsDataType } from '../../components/MessageSearchResult';
 
-import { getRegionCode, getUserAgent, getUserNumber } from './user';
+import { getRegionCode, getUserNumber } from './user';
+import { getUserAgent } from './items';
 import {
   GetConversationByIdType,
   getConversationLookup,

@@ -4,18 +4,34 @@
 /* global storage, _ */
 
 // eslint-disable-next-line func-names
-(function() {
+(function () {
   const BLOCKED_NUMBERS_ID = 'blocked';
   const BLOCKED_UUIDS_ID = 'blocked-uuids';
   const BLOCKED_GROUPS_ID = 'blocked-groups';
 
+  function getArray(key) {
+    const result = storage.get(key, []);
+
+    if (!Array.isArray(result)) {
+      window.log.error(
+        `Expected storage key ${JSON.stringify(
+          key
+        )} to contain an array or nothing`
+      );
+      return [];
+    }
+
+    return result;
+  }
+
+  storage.getBlockedNumbers = () => getArray(BLOCKED_NUMBERS_ID);
   storage.isBlocked = number => {
-    const numbers = storage.get(BLOCKED_NUMBERS_ID, []);
+    const numbers = storage.getBlockedNumbers();
 
     return _.include(numbers, number);
   };
   storage.addBlockedNumber = number => {
-    const numbers = storage.get(BLOCKED_NUMBERS_ID, []);
+    const numbers = storage.getBlockedNumbers();
     if (_.include(numbers, number)) {
       return;
     }
@@ -24,7 +40,7 @@
     storage.put(BLOCKED_NUMBERS_ID, numbers.concat(number));
   };
   storage.removeBlockedNumber = number => {
-    const numbers = storage.get(BLOCKED_NUMBERS_ID, []);
+    const numbers = storage.getBlockedNumbers();
     if (!_.include(numbers, number)) {
       return;
     }
@@ -33,13 +49,14 @@
     storage.put(BLOCKED_NUMBERS_ID, _.without(numbers, number));
   };
 
+  storage.getBlockedUuids = () => getArray(BLOCKED_UUIDS_ID);
   storage.isUuidBlocked = uuid => {
-    const uuids = storage.get(BLOCKED_UUIDS_ID, []);
+    const uuids = storage.getBlockedUuids();
 
     return _.include(uuids, uuid);
   };
   storage.addBlockedUuid = uuid => {
-    const uuids = storage.get(BLOCKED_UUIDS_ID, []);
+    const uuids = storage.getBlockedUuids();
     if (_.include(uuids, uuid)) {
       return;
     }
@@ -48,7 +65,7 @@
     storage.put(BLOCKED_UUIDS_ID, uuids.concat(uuid));
   };
   storage.removeBlockedUuid = uuid => {
-    const numbers = storage.get(BLOCKED_UUIDS_ID, []);
+    const numbers = storage.getBlockedUuids();
     if (!_.include(numbers, uuid)) {
       return;
     }
@@ -57,13 +74,14 @@
     storage.put(BLOCKED_UUIDS_ID, _.without(numbers, uuid));
   };
 
+  storage.getBlockedGroups = () => getArray(BLOCKED_GROUPS_ID);
   storage.isGroupBlocked = groupId => {
-    const groupIds = storage.get(BLOCKED_GROUPS_ID, []);
+    const groupIds = storage.getBlockedGroups();
 
     return _.include(groupIds, groupId);
   };
   storage.addBlockedGroup = groupId => {
-    const groupIds = storage.get(BLOCKED_GROUPS_ID, []);
+    const groupIds = storage.getBlockedGroups();
     if (_.include(groupIds, groupId)) {
       return;
     }
@@ -72,7 +90,7 @@
     storage.put(BLOCKED_GROUPS_ID, groupIds.concat(groupId));
   };
   storage.removeBlockedGroup = groupId => {
-    const groupIds = storage.get(BLOCKED_GROUPS_ID, []);
+    const groupIds = storage.getBlockedGroups();
     if (!_.include(groupIds, groupId)) {
       return;
     }

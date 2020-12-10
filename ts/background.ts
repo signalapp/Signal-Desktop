@@ -1,10 +1,15 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-type WhatIsThis = typeof window.WhatIsThis;
+// This allows us to pull in types despite the fact that this is not a module. We can't
+//   use normal import syntax, nor can we use 'import type' syntax, or this will be turned
+//   into a module, and we'll get the dreaded 'exports is not defined' error.
+// see https://github.com/microsoft/TypeScript/issues/41562
+type DataMessageClass = import('./textsecure.d').DataMessageClass;
+type WhatIsThis = import('./window.d').WhatIsThis;
 
 // eslint-disable-next-line func-names
-(async function() {
+(async function () {
   const eventHandlerQueue = new window.PQueue({
     concurrency: 1,
     timeout: 1000 * 60 * 2,
@@ -136,9 +141,7 @@ type WhatIsThis = typeof window.WhatIsThis;
     }
 
     interactionMode = 'keyboard';
-    $(document.body)
-      .addClass('keyboard-mode')
-      .removeClass('mouse-mode');
+    $(document.body).addClass('keyboard-mode').removeClass('mouse-mode');
     const { userChanged } = window.reduxActions.user;
     const { clearSelectedMessage } = window.reduxActions.conversations;
     if (clearSelectedMessage) {
@@ -156,9 +159,7 @@ type WhatIsThis = typeof window.WhatIsThis;
     }
 
     interactionMode = 'mouse';
-    $(document.body)
-      .addClass('mouse-mode')
-      .removeClass('keyboard-mode');
+    $(document.body).addClass('mouse-mode').removeClass('keyboard-mode');
     const { userChanged } = window.reduxActions.user;
     const { clearSelectedMessage } = window.reduxActions.conversations;
     if (clearSelectedMessage) {
@@ -645,7 +646,10 @@ type WhatIsThis = typeof window.WhatIsThis;
         window.reduxActions.updates,
         window.Whisper.events
       );
-      window.Signal.Services.calling.initialize(window.reduxActions.calling);
+      window.Signal.Services.calling.initialize(
+        window.reduxActions.calling,
+        window.getSfuUrl()
+      );
       window.reduxActions.expiration.hydrateExpirationStatus(
         window.Signal.Util.hasExpired()
       );
@@ -983,10 +987,6 @@ type WhatIsThis = typeof window.WhatIsThis;
           if (className.includes('module-main-header__search__input')) {
             return;
           }
-
-          if (className.includes('module-contact-modal')) {
-            return;
-          }
         }
 
         // These add listeners to document, but we'll run first
@@ -1026,8 +1026,20 @@ type WhatIsThis = typeof window.WhatIsThis;
           return;
         }
 
-        const reactionPicker = document.querySelector('module-reaction-picker');
+        const reactionPicker = document.querySelector(
+          '.module-reaction-picker'
+        );
         if (reactionPicker) {
+          return;
+        }
+
+        const contactModal = document.querySelector('.module-contact-modal');
+        if (contactModal) {
+          return;
+        }
+
+        const modalHost = document.querySelector('.module-modal-host__overlay');
+        if (modalHost) {
           return;
         }
       }
@@ -1798,11 +1810,12 @@ type WhatIsThis = typeof window.WhatIsThis;
                     !c.isEverUnregistered()
                 )
               )
-              .map(c => c.get('e164'));
+              .map(c => c.get('e164'))
+              .filter(Boolean) as Array<string>;
 
             if (lonelyE164s.length > 0) {
               const lookup = await window.textsecure.messaging.getUuidsForE164s(
-                lonelyE164s as WhatIsThis
+                lonelyE164s
               );
               const e164s = Object.keys(lookup);
               e164s.forEach(e164 => {
@@ -1979,22 +1992,21 @@ type WhatIsThis = typeof window.WhatIsThis;
         }
       }
 
-      // We need to do this after fetching our UUID
-      const hasRegisteredGV23Support = 'hasRegisteredGV23Support';
-      if (
-        !window.storage.get(hasRegisteredGV23Support) &&
-        window.textsecure.storage.user.getUuid()
-      ) {
+      if (connectCount === 1) {
         const server = window.WebAPI.connect({
           username: USERNAME || OLD_USERNAME,
           password: PASSWORD,
         });
         try {
-          await server.registerCapabilities({ 'gv2-3': true });
-          window.storage.put(hasRegisteredGV23Support, true);
+          // Note: we always have to register our capabilities all at once, so we do this
+          //   after connect on every startup
+          await server.registerCapabilities({
+            'gv2-3': true,
+            'gv1-migration': true,
+          });
         } catch (error) {
           window.log.error(
-            'Error: Unable to register support for GV2.',
+            'Error: Unable to register our capabilities.',
             error && error.stack ? error.stack : error
           );
         }
@@ -2231,16 +2243,35 @@ type WhatIsThis = typeof window.WhatIsThis;
       return;
     }
 
+    let conversation;
+
     const senderId = window.ConversationController.ensureContactIds({
       e164: sender,
       uuid: senderUuid,
       highTrust: true,
     });
-    const conversation = window.ConversationController.get(
-      groupV2Id || groupId || senderId
-    );
+
+    // We multiplex between GV1/GV2 groups here, but we don't kick off migrations
+    if (groupV2Id) {
+      conversation = window.ConversationController.get(groupV2Id);
+    }
+    if (!conversation && groupId) {
+      conversation = window.ConversationController.get(groupId);
+    }
+    if (!groupV2Id && !groupId && senderId) {
+      conversation = window.ConversationController.get(senderId);
+    }
+
     const ourId = window.ConversationController.getOurConversationId();
 
+    if (!senderId) {
+      window.log.warn('onTyping: ensureContactIds returned falsey senderId!');
+      return;
+    }
+    if (!ourId) {
+      window.log.warn("onTyping: Couldn't get our own id!");
+      return;
+    }
     if (!conversation) {
       window.log.warn(
         `onTyping: Did not find conversation for typing indicator (groupv2(${groupV2Id}), group(${groupId}), ${sender}, ${senderUuid})`
@@ -2249,8 +2280,7 @@ type WhatIsThis = typeof window.WhatIsThis;
     }
 
     // We drop typing notifications in groups we're not a part of
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    if (!conversation.isPrivate() && !conversation.hasMember(ourId!)) {
+    if (!conversation.isPrivate() && !conversation.hasMember(ourId)) {
       window.log.warn(
         `Received typing indicator for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
       );
@@ -2259,12 +2289,10 @@ type WhatIsThis = typeof window.WhatIsThis;
 
     conversation.notifyTyping({
       isTyping: started,
-      isMe: ourId === senderId,
-      sender,
-      senderUuid,
+      fromMe: senderId === ourId,
       senderId,
       senderDevice,
-    } as WhatIsThis);
+    });
   }
 
   async function onStickerPack(ev: WhatIsThis) {
@@ -2556,64 +2584,18 @@ type WhatIsThis = typeof window.WhatIsThis;
     return confirm();
   }
 
-  // Matches event data from `libtextsecure` `MessageReceiver::handleDataMessage`:
-  const getDescriptorForReceived = ({
-    message,
-    source,
-    sourceUuid,
-  }: WhatIsThis) => {
-    if (message.groupV2) {
-      const { id } = message.groupV2;
-      const conversationId = window.ConversationController.ensureGroup(id, {
-        // Note: We don't set active_at, because we don't want the group to show until
-        //   we have information about it beyond these initial details.
-        //   see maybeUpdateGroup().
-        groupVersion: 2,
-        masterKey: message.groupV2.masterKey,
-        secretParams: message.groupV2.secretParams,
-        publicParams: message.groupV2.publicParams,
-      });
-
-      return {
-        type: Message.GROUP,
-        id: conversationId,
-      };
-    }
-    if (message.group) {
-      const { id } = message.group;
-      const fromContactId = window.ConversationController.ensureContactIds({
-        e164: source,
-        uuid: sourceUuid,
-        highTrust: true,
-      });
-
-      const conversationId = window.ConversationController.ensureGroup(id, {
-        addedBy: fromContactId,
-      });
-
-      return {
-        type: Message.GROUP,
-        id: conversationId,
-      };
-    }
-
-    return {
-      type: Message.PRIVATE,
-      id: window.ConversationController.ensureContactIds({
-        e164: source,
-        uuid: sourceUuid,
-        highTrust: true,
-      }),
-    };
-  };
-
   // Note: We do very little in this function, since everything in handleDataMessage is
   //   inside a conversation-specific queue(). Any code here might run before an earlier
   //   message is processed in handleDataMessage().
   function onMessageReceived(event: WhatIsThis) {
     const { data, confirm } = event;
 
-    const messageDescriptor = getDescriptorForReceived(data);
+    const messageDescriptor = getMessageDescriptor({
+      ...data,
+      // 'message' event: for 1:1 converations, the conversation is same as sender
+      destination: data.source,
+      destinationUuid: data.sourceUuid,
+    });
 
     const { PROFILE_KEY_UPDATE } = window.textsecure.protobuf.DataMessage.Flags;
     // eslint-disable-next-line no-bitwise
@@ -2672,6 +2654,10 @@ type WhatIsThis = typeof window.WhatIsThis;
       // Note: We do not wait for completion here
       window.Whisper.Deletes.onDelete(deleteModel);
       confirm();
+      return Promise.resolve();
+    }
+
+    if (handleGroupCallUpdateMessage(data.message, messageDescriptor)) {
       return Promise.resolve();
     }
 
@@ -2780,15 +2766,50 @@ type WhatIsThis = typeof window.WhatIsThis;
     } as WhatIsThis);
   }
 
-  // Matches event data from `libtextsecure` `MessageReceiver::handleSentMessage`:
-  const getDescriptorForSent = ({
+  // Works with 'sent' and 'message' data sent from MessageReceiver, with a little massage
+  //   at callsites to make sure both source and destination are populated.
+  const getMessageDescriptor = ({
     message,
+    source,
+    sourceUuid,
     destination,
     destinationUuid,
-  }: WhatIsThis) => {
+  }: {
+    message: DataMessageClass;
+    source: string;
+    sourceUuid: string;
+    destination: string;
+    destinationUuid: string;
+  }): MessageDescriptor => {
     if (message.groupV2) {
       const { id } = message.groupV2;
+      if (!id) {
+        throw new Error('getMessageDescriptor: GroupV2 data was missing an id');
+      }
+
+      // First we check for an existing GroupV2 group
+      const groupV2 = window.ConversationController.get(id);
+      if (groupV2) {
+        return {
+          type: Message.GROUP,
+          id: groupV2.id,
+        };
+      }
+
+      // Then check for V1 group with matching derived GV2 id
+      const groupV1 = window.ConversationController.getByDerivedGroupV2Id(id);
+      if (groupV1) {
+        return {
+          type: Message.GROUP,
+          id: groupV1.id,
+        };
+      }
+
+      // Finally create the V2 group normally
       const conversationId = window.ConversationController.ensureGroup(id, {
+        // Note: We don't set active_at, because we don't want the group to show until
+        //   we have information about it beyond these initial details.
+        //   see maybeUpdateGroup().
         groupVersion: 2,
         masterKey: message.groupV2.masterKey,
         secretParams: message.groupV2.secretParams,
@@ -2801,8 +2822,37 @@ type WhatIsThis = typeof window.WhatIsThis;
       };
     }
     if (message.group) {
-      const { id } = message.group;
-      const conversationId = window.ConversationController.ensureGroup(id);
+      const { id, derivedGroupV2Id } = message.group;
+      if (!id) {
+        throw new Error('getMessageDescriptor: GroupV1 data was missing id');
+      }
+      if (!derivedGroupV2Id) {
+        window.log.warn(
+          'getMessageDescriptor: GroupV1 data was missing derivedGroupV2Id'
+        );
+      } else {
+        // First we check for an already-migrated GroupV2 group
+        const migratedGroup = window.ConversationController.get(
+          derivedGroupV2Id
+        );
+        if (migratedGroup) {
+          return {
+            type: Message.GROUP,
+            id: migratedGroup.id,
+          };
+        }
+      }
+
+      // If we can't find one, we treat this as a normal GroupV1 group
+      const fromContactId = window.ConversationController.ensureContactIds({
+        e164: source,
+        uuid: sourceUuid,
+        highTrust: true,
+      });
+
+      const conversationId = window.ConversationController.ensureGroup(id, {
+        addedBy: fromContactId,
+      });
 
       return {
         type: Message.GROUP,
@@ -2810,13 +2860,20 @@ type WhatIsThis = typeof window.WhatIsThis;
       };
     }
 
+    const id = window.ConversationController.ensureContactIds({
+      e164: destination,
+      uuid: destinationUuid,
+      highTrust: true,
+    });
+    if (!id) {
+      throw new Error(
+        'getMessageDescriptor: ensureContactIds returned falsey id'
+      );
+    }
+
     return {
       type: Message.PRIVATE,
-      id: window.ConversationController.ensureContactIds({
-        e164: destination,
-        uuid: destinationUuid,
-        highTrust: true,
-      }),
+      id,
     };
   };
 
@@ -2826,7 +2883,12 @@ type WhatIsThis = typeof window.WhatIsThis;
   function onSentMessage(event: WhatIsThis) {
     const { data, confirm } = event;
 
-    const messageDescriptor = getDescriptorForSent(data);
+    const messageDescriptor = getMessageDescriptor({
+      ...data,
+      // 'sent' event: the sender is always us!
+      source: window.textsecure.storage.user.getNumber(),
+      sourceUuid: window.textsecure.storage.user.getUuid(),
+    });
 
     const { PROFILE_KEY_UPDATE } = window.textsecure.protobuf.DataMessage.Flags;
     // eslint-disable-next-line no-bitwise
@@ -2881,6 +2943,10 @@ type WhatIsThis = typeof window.WhatIsThis;
       return Promise.resolve();
     }
 
+    if (handleGroupCallUpdateMessage(data.message, messageDescriptor)) {
+      return Promise.resolve();
+    }
+
     // Don't wait for handleDataMessage, as it has its own per-conversation queueing
     message.handleDataMessage(data.message, event.confirm, {
       data,
@@ -2889,7 +2955,15 @@ type WhatIsThis = typeof window.WhatIsThis;
     return Promise.resolve();
   }
 
-  function initIncomingMessage(data: WhatIsThis, descriptor: WhatIsThis) {
+  type MessageDescriptor = {
+    type: 'private' | 'group';
+    id: string;
+  };
+
+  function initIncomingMessage(
+    data: WhatIsThis,
+    descriptor: MessageDescriptor
+  ) {
     return new window.Whisper.Message({
       source: data.source,
       sourceUuid: data.sourceUuid,
@@ -2902,6 +2976,27 @@ type WhatIsThis = typeof window.WhatIsThis;
       type: 'incoming',
       unread: 1,
     } as WhatIsThis);
+  }
+
+  // Returns `false` if this message isn't a group call message.
+  function handleGroupCallUpdateMessage(
+    message: DataMessageClass,
+    messageDescriptor: MessageDescriptor
+  ): boolean {
+    if (message.groupCallUpdate) {
+      if (message.groupV2 && messageDescriptor.type === Message.GROUP) {
+        if (window.isGroupCallingEnabled()) {
+          window.reduxActions.calling.peekNotConnectedGroupCall({
+            conversationId: messageDescriptor.id,
+          });
+        }
+        return true;
+      }
+      window.log.warn(
+        'Received a group call update for a conversation that is not a GV2 group. Ignoring that property and continuing.'
+      );
+    }
+    return false;
   }
 
   async function unlinkAndDisconnect() {
@@ -3002,12 +3097,16 @@ type WhatIsThis = typeof window.WhatIsThis;
         return Promise.resolve();
       }
       const envelope = ev.proto;
+      const id = window.ConversationController.ensureContactIds({
+        e164: envelope.source,
+        uuid: envelope.sourceUuid,
+      });
+      if (!id) {
+        throw new Error('onError: ensureContactIds returned falsey id!');
+      }
       const message = initIncomingMessage(envelope, {
         type: Message.PRIVATE,
-        id: window.ConversationController.ensureContactIds({
-          e164: envelope.source,
-          uuid: envelope.sourceUuid,
-        }),
+        id,
       });
 
       const conversationId = message.get('conversationId');
@@ -3145,18 +3244,29 @@ type WhatIsThis = typeof window.WhatIsThis;
   async function onMessageRequestResponse(ev: WhatIsThis) {
     ev.confirm();
 
-    const { threadE164, threadUuid, groupId, messageRequestResponseType } = ev;
-
-    const args = {
+    const {
       threadE164,
       threadUuid,
       groupId,
+      groupV2Id,
+      messageRequestResponseType,
+    } = ev;
+
+    window.log.info('onMessageRequestResponse', {
+      threadE164,
+      threadUuid,
+      groupId: `group(${groupId})`,
+      groupV2Id: `groupv2(${groupV2Id})`,
+      messageRequestResponseType,
+    });
+
+    const sync = window.Whisper.MessageRequests.add({
+      threadE164,
+      threadUuid,
+      groupId,
+      groupV2Id,
       type: messageRequestResponseType,
-    };
-
-    window.log.info('message request response', args);
-
-    const sync = window.Whisper.MessageRequests.add(args);
+    });
 
     window.Whisper.MessageRequests.onResponse(sync);
   }

@@ -311,6 +311,10 @@
         "message": "S’jeni më anëtar i grupit.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
+    "invalidConversation": {
+        "message": "Ky grup është i pavlefshëm. Ju lutemi, krijoni një grup të ri.",
+        "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
+    },
     "scrollDown": {
         "message": "Rrëshqitni drejt fundit të bisedës",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
@@ -420,6 +424,10 @@
     "callAnyway": {
         "message": "Thirre, Sido Qoftë",
         "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+    },
+    "continueCall": {
+        "message": "Vazhdoje Thirrjen",
+        "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
         "message": "Numri juaj i sigurisë për me $name$ ka ndryshuar dhe s’është më i verifikuar. Klikoni që të shfaqet.",
@@ -1052,7 +1060,7 @@
         "description": "Label for back button in a conversation"
     },
     "moreInfo": {
-        "message": "Më Tepër të Dhëna…",
+        "message": "Më Tepër të Dhëna",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
@@ -1191,6 +1199,14 @@
         "message": "Hyni në Thirrje",
         "description": "Button label in the call lobby for joining a call"
     },
+    "calling__return": {
+        "message": "Kthehuni te Thirrja",
+        "description": "Button label in the call lobby for returning to a call"
+    },
+    "calling__call-is-full": {
+        "message": "Thirrja është plot",
+        "description": "Button label in the call lobby when you can't join because the call is full"
+    },
     "calling__button--video-disabled": {
         "message": "Kamera e çaktivizuar",
         "description": "Button tooltip label when the camera is disabled"
@@ -1208,16 +1224,88 @@
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "Fike mikrofonin",
+        "message": "Mbyllini zërin mikrofonit",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
-        "message": "Ndize mikrofonin",
+        "message": "Hapjani zërin mikrofonit",
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
         "message": "Videoja juaj është e fikur",
         "description": "Label in the calling lobby indicating that your camera is off"
+    },
+    "calling__lobby-summary--zero": {
+        "message": "S’ka tjetër këtu",
+        "description": "Shown in the calling lobby to describe who is in the call"
+    },
+    "calling__lobby-summary--single": {
+        "message": "$first$ gjendet në këtë thirrje",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__lobby-summary--self": {
+        "message": "Një nga pajisjet tuaja të tjera gjendet në këtë thirrje",
+        "description": "Shown in the calling lobby to describe when it is just you"
+    },
+    "calling__lobby-summary--double": {
+        "message": "$first$ dhe $second$ gjenden në këtë thirrje",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__lobby-summary--triple": {
+        "message": "$first$, $second$, dhe $third$ gjenden në këtë thirrje",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__lobby-summary--many": {
+        "message": "$first$, $second$, dhe $others$ të tjerë gjenden në këtë thirrje",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
+    "calling__in-this-call--zero": {
+        "message": "S’ka tjetër këtu",
+        "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
         "message": "Në këtë thirrje · 1 person",
@@ -1232,6 +1320,20 @@
                 "example": "15"
             }
         }
+    },
+    "calling__you-have-blocked": {
+        "message": "Keni bllokuar $name$",
+        "description": "when you block someone and cannot view their video",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Henry Richard"
+            }
+        }
+    },
+    "calling__block-info": {
+        "message": "S’do të merrni audio ose video prej tyre dhe as ata prej jush.",
+        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "alwaysRelayCallsDescription": {
         "message": "Kaloji përherë thirrjet përmes releje",
@@ -2993,6 +3095,10 @@
         "message": "Nisni një thirrje video",
         "description": "Title for the video call button in a conversation"
     },
+    "joinOngoingCall": {
+        "message": "Merrni pjesë",
+        "description": "Text that appears in a group when a call is active"
+    },
     "callNeedPermission": {
         "message": "$title$ do të marrë një kërkesë mesazhi nga ju. Mund të bëni thirrje sapo të pranohet kërkesa juaj për mesazhe.",
         "description": "Shown when a call is rejected because the other party hasn't approved the message/call request",
@@ -3022,15 +3128,61 @@
         "description": "Title for device selection settings"
     },
     "calling__participants": {
-        "message": "Pjesëmarrës",
-        "description": "Title for participants list toggle"
+        "message": "$people$ në thirrje",
+        "description": "Title for participants list toggle",
+        "placeholders": {
+            "people": {
+                "content": "$1",
+                "example": "16"
+            }
+        }
     },
-    "calling__pip": {
-        "message": "Picture-in-picture",
+    "calling__call-notification__ended": {
+        "message": "Thirrja e grupit përfundoi",
+        "description": "Notification message when a group call has ended"
+    },
+    "calling__call-notification__started-by-someone": {
+        "message": "U nis një thirrje grupi",
+        "description": "Notification message when a group call has started, but we don't know who started it"
+    },
+    "calling__call-notification__started-by-you": {
+        "message": "Nisët një thirrje grupi",
+        "description": "Notification message when a group call has started by you"
+    },
+    "calling__call-notification__started": {
+        "message": "$name$ nisi një thirrje grupi",
+        "description": "Notification message when a group call has started",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "calling__call-notification__button__in-another-call-tooltip": {
+        "message": "Jeni tashmë në një thirrje",
+        "description": "Tooltip in disabled notification button when you're on another call"
+    },
+    "calling__call-notification__button__call-full-tooltip": {
+        "message": "Thirrja ka mbërritur në kapacitetin prej $max$ pjesëmarrësish",
+        "description": "Tooltip in disabled notification button when the call is full",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "calling__pip--on": {
+        "message": "Minizoje thirrjen",
+        "description": "Title for picture-in-picture toggle"
+    },
+    "calling__pip--off": {
+        "message": "Thirrje sa krejt ekrani",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__hangup": {
-        "message": "Mbylle",
+        "message": "Dilni nga thirrja",
         "description": "Title for hang up button"
     },
     "callingDeviceSelection__label--video": {
@@ -3099,7 +3251,7 @@
         "message": "Ju lutemi, riprovoni ose lidhuni me asistencën.",
         "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
     },
-    "ErrorModal--buttonText": {
+    "Confirmation--confirm": {
         "message": "OK",
         "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
     },
@@ -3900,6 +4052,120 @@
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--disabled": {
+        "message": "Përmirësojeni këtë grup që të aktivizohen veçori të reja, të tilla si @përmendje dhe përgjegjës. Anëtarët që nuk kanë dhënë emrin ose foton e tyre në këtë grup do të ftohen të marrin pjesë. $learnMore$",
+        "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn more."
+            }
+        }
+    },
+    "GroupV1--Migration--was-upgraded": {
+        "message": "Ky grup u përmirësua si Grup i Ri.",
+        "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
+    },
+    "GroupV1--Migration--learn-more": {
+        "message": "Mësoni Më Tepër",
+        "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
+    },
+    "GroupV1--Migration--migrate": {
+        "message": "Përmirësojeni",
+        "description": "Shown on Migrate dialog to kick off the process"
+    },
+    "GroupV1--Migration--info--title": {
+        "message": "Ç’janë Grupet e Reja?",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--migrate--title": {
+        "message": "Përmirësoje si Grup të Ri",
+        "description": "Shown on Migration popup after choosing to migrate group"
+    },
+    "GroupV1--Migration--info--summary": {
+        "message": "Grupet e Reja kanë veçori të tilla si @përmendje dhe përgjegjës grupi, dhe në të ardhmen do të mbulojnë më tepër veçori.",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--keep-history": {
+        "message": "Krejt historiku i mesazheve dhe mediat janë mbajtur prej kohës para përmirësimit.",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--migrate--keep-history": {
+        "message": "Krejt historiku i mesazheve dhe mediat do të mbahen prej kohës para përmirësimit.",
+        "description": "Shown on Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--you": {
+        "message": "Do t’ju duhet të pranoni një ftesë, ta të ribëheni pjesë e këtij grupi, dhe s’do të merrni mesazhe grupi, pa e pranuar.",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--many": {
+        "message": "Këtyre anëtarëve do t’u duhet të pranojnë një ftesë për t’u bërë pjesë e grupit, dhe s’do të marrin mesazhe grupi, pa pranuar ftesën:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--one": {
+        "message": "Këtij anëtari do t’i duhet të pranojë një ftesë për t’u bërë pjesë e grupit, dhe s’do të marrë mesazhe grupi, pa pranuar ftesën:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--before--many": {
+        "message": "Këta anëtarë s’janë të aftë të bëhen pjesë Grupesh të Rinj, dhe do të hiqen prej grupit:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--before--one": {
+        "message": "Ky anëtar s’është në gjendje të bëhet pjesë Grupesh të Rinj, dhe do të hiqet prej grupit:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--after--many": {
+        "message": "Këta anëtarë s’qenë në gjendje të bëhen pjesë Grupesh të Rinj, dhe u hoqën nga grupi:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--after--one": {
+        "message": "Ky anëtar s’qe në gjendje të bëhej pjesë e Grupeve të Rinj, dhe u hoq nga grupi:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--invited--you": {
+        "message": "S’u shtuat dot te Grupi i Ri dhe u ftuat të bëheni pjesë.",
+        "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
+    },
+    "GroupV1--Migration--invited--one": {
+        "message": "$contact$ s’u shtua dot te Grupi i Ri dhe u ftua të bëhet pjesë e tij.",
+        "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--invited--many": {
+        "message": "$count$ anëtarë s’u shtuan dot te Grupi i Ri dhe u ftuan të bëhet pjesë.",
+        "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--removed--one": {
+        "message": "$contact$ u hoq prej grupit.",
+        "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--removed--many": {
+        "message": "$count$ anëtarë u hoqën prej grupit.",
+        "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade",
+        "placeholders": {
+            "contact": {
                 "content": "$1",
                 "example": "5"
             }

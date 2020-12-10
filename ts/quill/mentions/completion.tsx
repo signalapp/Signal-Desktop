@@ -183,10 +183,7 @@ export class MentionCompletion {
     range: number,
     withTrailingSpace = false
   ): void {
-    const delta = new Delta()
-      .retain(index)
-      .delete(range)
-      .insert({ mention });
+    const delta = new Delta().retain(index).delete(range).insert({ mention });
 
     if (withTrailingSpace) {
       this.quill.updateContents(delta.insert(' '), 'user');

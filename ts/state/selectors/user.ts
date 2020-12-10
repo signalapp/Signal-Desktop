@@ -7,11 +7,8 @@ import { LocalizerType } from '../../types/Util';
 
 import { StateType } from '../reducer';
 import { UserStateType } from '../ducks/user';
-import { ItemsStateType } from '../ducks/items';
 
 export const getUser = (state: StateType): UserStateType => state.user;
-
-export const getItems = (state: StateType): ItemsStateType => state.items;
 
 export const getUserNumber = createSelector(
   getUser,
@@ -31,11 +28,6 @@ export const getUserConversationId = createSelector(
 export const getUserUuid = createSelector(
   getUser,
   (state: UserStateType): string => state.ourUuid
-);
-
-export const getUserAgent = createSelector(
-  getItems,
-  (state: ItemsStateType): string => state.userAgent as string
 );
 
 export const getIntl = createSelector(

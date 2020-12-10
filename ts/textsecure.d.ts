@@ -16,6 +16,7 @@ import SendMessage, { SendOptionsType } from './textsecure/SendMessage';
 import { WebAPIType } from './textsecure/WebAPI';
 import utils from './textsecure/Helpers';
 import { CallingMessage as CallingMessageClass } from 'ringrtc';
+import { WhatIsThis } from './window.d';
 
 type AttachmentType = any;
 
@@ -122,7 +123,7 @@ export type StorageProtocolType = StorageType & {
   clearSignedPreKeysStore: () => Promise<void>;
   clearSessionStore: () => Promise<void>;
   isTrustedIdentity: () => void;
-  isUntrusted: (id: string) => Promise<boolean>;
+  isUntrusted: (id: string) => boolean;
   storePreKey: (keyId: number, keyPair: KeyPairType) => Promise<void>;
   storeSignedPreKey: (
     keyId: number,
@@ -174,6 +175,7 @@ type GroupsProtobufTypes = {
   GroupChange: typeof GroupChangeClass;
   GroupChanges: typeof GroupChangesClass;
   GroupAttributeBlob: typeof GroupAttributeBlobClass;
+  GroupExternalCredential: typeof GroupExternalCredentialClass;
 };
 
 type SignalServiceProtobufTypes = {
@@ -255,9 +257,11 @@ export declare class MemberClass {
   profileKey?: ProtoBinaryType;
   presentation?: ProtoBinaryType;
   joinedAtVersion?: number;
+
+  // Note: only role and presentation are required when creating a group
 }
 
-type MemberRoleEnum = number;
+export type MemberRoleEnum = number;
 
 // Note: we need to use namespaces to express nested classes in Typescript
 export declare namespace MemberClass {
@@ -279,8 +283,6 @@ export declare class PendingMemberClass {
   timestamp?: ProtoBigNumberType;
 }
 
-type AccessRequiredEnum = number;
-
 export declare class AccessControlClass {
   static decode: (
     data: ArrayBuffer | ByteBufferClass,
@@ -290,6 +292,8 @@ export declare class AccessControlClass {
   attributes?: AccessRequiredEnum;
   members?: AccessRequiredEnum;
 }
+
+export type AccessRequiredEnum = number;
 
 // Note: we need to use namespaces to express nested classes in Typescript
 export declare namespace AccessControlClass {
@@ -439,6 +443,15 @@ export declare namespace GroupChangesClass {
   }
 }
 
+export declare class GroupExternalCredentialClass {
+  static decode: (
+    data: ArrayBuffer | ByteBufferClass,
+    encoding?: string
+  ) => GroupExternalCredentialClass;
+
+  token?: string;
+}
+
 export declare class GroupAttributeBlobClass {
   static decode: (
     data: ArrayBuffer | ByteBufferClass,
@@ -566,6 +579,7 @@ export declare class DataMessageClass {
   reaction?: DataMessageClass.Reaction;
   delete?: DataMessageClass.Delete;
   bodyRanges?: Array<DataMessageClass.BodyRange>;
+  groupCallUpdate?: DataMessageClass.GroupCallUpdate;
 }
 
 // Note: we need to use namespaces to express nested classes in Typescript
@@ -638,6 +652,10 @@ export declare namespace DataMessageClass {
     stickerId?: number;
     data?: AttachmentPointerClass;
   }
+
+  class GroupCallUpdate {
+    eraId?: string;
+  }
 }
 
 // Note: we need to use namespaces to express nested classes in Typescript
@@ -706,6 +724,9 @@ export declare class GroupContextClass {
   name?: string | null;
   membersE164?: Array<string>;
   avatar?: AttachmentPointerClass | null;
+
+  // Note: these additional properties are added in the course of processing
+  derivedGroupV2Id?: string;
 }
 
 export declare class GroupContextV2Class {

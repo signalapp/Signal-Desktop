@@ -103,6 +103,10 @@ export interface DataInterface {
   getMessageMetricsForConversation: (
     conversationId: string
   ) => Promise<ConverationMetricsType>;
+  hasGroupCallHistoryMessage: (
+    conversationId: string,
+    eraId: string
+  ) => Promise<boolean>;
   migrateConversationMessages: (
     obsoleteId: string,
     currentId: string

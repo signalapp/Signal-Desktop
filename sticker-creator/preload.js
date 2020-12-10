@@ -52,8 +52,8 @@ const WebAPI = initializeWebAPI({
   directoryEnclaveId: config.directoryEnclaveId,
   directoryTrustAnchor: config.directoryTrustAnchor,
   cdnUrlObject: {
-    '0': config.cdnUrl0,
-    '2': config.cdnUrl2,
+    0: config.cdnUrl0,
+    2: config.cdnUrl2,
   },
   certificateAuthority: config.certificateAuthority,
   contentProxyUrl: config.contentProxyUrl,

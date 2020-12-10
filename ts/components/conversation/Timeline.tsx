@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { debounce, get, isNumber } from 'lodash';
+import classNames from 'classnames';
 import React, { CSSProperties } from 'react';
 import {
   AutoSizer,
@@ -44,6 +45,8 @@ type PropsHousekeepingType = {
   id: string;
   unreadCount?: number;
   typingContact?: unknown;
+  isGroupV1AndDisabled?: boolean;
+
   selectedMessageId?: string;
 
   i18n: LocalizerType;
@@ -82,7 +85,9 @@ type PropsActionsType = {
 } & MessageActionsType &
   SafetyNumberActionsType;
 
-export type Props = PropsDataType & PropsHousekeepingType & PropsActionsType;
+export type PropsType = PropsDataType &
+  PropsHousekeepingType &
+  PropsActionsType;
 
 // from https://github.com/bvaughn/react-virtualized/blob/fb3484ed5dcc41bffae8eab029126c0fb8f7abc0/source/List/types.js#L5
 type RowRendererParamsType = {
@@ -120,7 +125,7 @@ type VisibleRowsType = {
   };
 };
 
-type State = {
+type StateType = {
   atBottom: boolean;
   atTop: boolean;
   oneTimeScrollRow?: number;
@@ -133,7 +138,7 @@ type State = {
   areUnreadBelowCurrentPosition: boolean;
 };
 
-export class Timeline extends React.PureComponent<Props, State> {
+export class Timeline extends React.PureComponent<PropsType, StateType> {
   public cellSizeCache = new CellMeasurerCache({
     defaultHeight: 64,
     fixedWidth: true,
@@ -153,7 +158,7 @@ export class Timeline extends React.PureComponent<Props, State> {
 
   public loadCountdownTimeout: NodeJS.Timeout | null = null;
 
-  constructor(props: Props) {
+  constructor(props: PropsType) {
     super(props);
 
     const { scrollToIndex } = this.props;
@@ -170,7 +175,10 @@ export class Timeline extends React.PureComponent<Props, State> {
     };
   }
 
-  public static getDerivedStateFromProps(props: Props, state: State): State {
+  public static getDerivedStateFromProps(
+    props: PropsType,
+    state: StateType
+  ): StateType {
     if (
       isNumber(props.scrollToIndex) &&
       (props.scrollToIndex !== state.prevPropScrollToIndex ||
@@ -646,7 +654,10 @@ export class Timeline extends React.PureComponent<Props, State> {
     return itemsCount + extraRows;
   }
 
-  public fromRowToItemIndex(row: number, props?: Props): number | undefined {
+  public fromRowToItemIndex(
+    row: number,
+    props?: PropsType
+  ): number | undefined {
     const { items } = props || this.props;
 
     // We will always render either the hero row or the loading row
@@ -666,7 +677,7 @@ export class Timeline extends React.PureComponent<Props, State> {
     return index;
   }
 
-  public getLastSeenIndicatorRow(props?: Props): number | undefined {
+  public getLastSeenIndicatorRow(props?: PropsType): number | undefined {
     const { oldestUnreadIndex } = props || this.props;
     if (!isNumber(oldestUnreadIndex)) {
       return;
@@ -785,7 +796,7 @@ export class Timeline extends React.PureComponent<Props, State> {
     window.unregisterForActive(this.updateWithVisibleRows);
   }
 
-  public componentDidUpdate(prevProps: Props): void {
+  public componentDidUpdate(prevProps: PropsType): void {
     const {
       id,
       clearChangedMessages,
@@ -1052,7 +1063,7 @@ export class Timeline extends React.PureComponent<Props, State> {
   };
 
   public render(): JSX.Element | null {
-    const { i18n, id, items } = this.props;
+    const { i18n, id, items, isGroupV1AndDisabled } = this.props;
     const {
       shouldShowScrollDownButton,
       areUnreadBelowCurrentPosition,
@@ -1067,7 +1078,10 @@ export class Timeline extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className="module-timeline"
+        className={classNames(
+          'module-timeline',
+          isGroupV1AndDisabled ? 'module-timeline--disabled' : null
+        )}
         role="presentation"
         tabIndex={-1}
         onBlur={this.handleBlur}

@@ -7,7 +7,7 @@ const fs = require('fs');
 const _ = require('lodash');
 
 const packageJson = require('./package.json');
-const { isBeta } = require('./app/version');
+const { isBeta } = require('./ts/util/version');
 
 const { version } = packageJson;
 

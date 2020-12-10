@@ -4,7 +4,7 @@
 /* global Whisper, storage, getAccountManager */
 
 // eslint-disable-next-line func-names
-(function() {
+(function () {
   window.Whisper = window.Whisper || {};
   const ROTATION_INTERVAL = 48 * 60 * 60 * 1000;
   let timeout;

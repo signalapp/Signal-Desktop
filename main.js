@@ -18,7 +18,6 @@ const electron = require('electron');
 
 const packageJson = require('./package.json');
 const GlobalErrors = require('./app/global_errors');
-const { isBeta } = require('./app/version');
 const { setup: setupSpellChecker } = require('./app/spell_check');
 
 GlobalErrors.addHandler();
@@ -37,6 +36,7 @@ const {
   protocol: electronProtocol,
   session,
   shell,
+  systemPreferences,
 } = electron;
 
 const appUserModelId = `org.whispersystems.${packageJson.name}`;
@@ -97,6 +97,7 @@ const {
   installWebHandler,
 } = require('./app/protocol_filter');
 const { installPermissionsHandler } = require('./app/permissions');
+const { isBeta } = require('./ts/util/version');
 const { isSgnlHref, parseSgnlHref } = require('./ts/util/sgnlHref');
 
 let appStartInitialSpellcheckSetting = true;
@@ -203,6 +204,7 @@ function prepareURL(pathSegments, moreKeys) {
       appInstance: process.env.NODE_APP_INSTANCE,
       proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy,
       contentProxyUrl: config.contentProxyUrl,
+      sfuUrl: config.get('sfuUrl'),
       importMode: importMode ? true : undefined, // for stringify()
       serverPublicParams: config.get('serverPublicParams'),
       serverTrustRoot: config.get('serverTrustRoot'),
@@ -878,6 +880,24 @@ app.on('ready', async () => {
   logger = logging.getLogger();
   logger.info('app ready');
   logger.info(`starting version ${packageJson.version}`);
+
+  // This logging helps us debug user reports about broken devices.
+  {
+    let getMediaAccessStatus;
+    // This function is not supported on Linux, so we have a fallback.
+    if (systemPreferences.getMediaAccessStatus) {
+      getMediaAccessStatus = systemPreferences.getMediaAccessStatus.bind(
+        systemPreferences
+      );
+    } else {
+      getMediaAccessStatus = _.noop;
+    }
+    logger.info(
+      'media access status',
+      getMediaAccessStatus('microphone'),
+      getMediaAccessStatus('camera')
+    );
+  }
 
   if (!locale) {
     const appLocale = process.env.NODE_ENV === 'test' ? 'en' : app.getLocale();

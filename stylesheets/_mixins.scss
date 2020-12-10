@@ -190,3 +190,242 @@
   outline: inherit;
   text-align: inherit;
 }
+
+// --- Buttons
+
+// Individual traits
+
+@mixin button-focus-outline {
+  &:focus {
+    @include keyboard-mode {
+      box-shadow: 0px 0px 0px 3px $ultramarine-ui-light;
+    }
+    @include dark-keyboard-mode {
+      box-shadow: 0px 0px 0px 3px $ultramarine-ui-dark;
+    }
+  }
+}
+
+@mixin button-blue-text {
+  @include light-theme {
+    color: $ultramarine-ui-light;
+  }
+  @include dark-theme {
+    color: $ultramarine-ui-dark;
+  }
+}
+
+// Complete button styles
+
+@mixin button-primary {
+  background-color: $ultramarine-ui-light;
+
+  // Note: the background colors here need to match the parent component
+  @include light-theme {
+    color: $color-white;
+    border: 1px solid white;
+  }
+  @include dark-theme {
+    color: $color-white-alpha-90;
+    border: 1px solid $color-gray-95;
+  }
+
+  &:hover {
+    @include mouse-mode {
+      background-color: mix($color-black, $ultramarine-ui-light, 15%);
+    }
+
+    @include dark-mouse-mode {
+      background-color: mix($color-white, $ultramarine-ui-light, 15%);
+    }
+  }
+
+  &:active {
+    // We need to include all four here for specificity precedence
+
+    @include mouse-mode {
+      background-color: mix($color-black, $ultramarine-ui-light, 25%);
+    }
+    @include dark-mouse-mode {
+      background-color: mix($color-white, $ultramarine-ui-light, 25%);
+    }
+
+    @include keyboard-mode {
+      background-color: mix($color-black, $ultramarine-ui-light, 25%);
+    }
+    @include dark-keyboard-mode {
+      background-color: mix($color-black, $ultramarine-ui-light, 25%);
+    }
+  }
+
+  @include button-focus-outline;
+}
+
+@mixin button-secondary {
+  @include light-theme {
+    color: $color-gray-90;
+    background-color: $color-gray-05;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+    background-color: $color-gray-65;
+  }
+
+  &:hover {
+    @include mouse-mode {
+      background-color: mix($color-black, $color-gray-05, 15%);
+    }
+
+    @include dark-mouse-mode {
+      background-color: mix($color-white, $color-gray-65, 15%);
+    }
+  }
+
+  &:active {
+    // We need to include all four here for specificity precedence
+
+    @include mouse-mode {
+      background-color: mix($color-black, $color-gray-05, 25%);
+    }
+    @include dark-mouse-mode {
+      background-color: mix($color-white, $color-gray-65, 25%);
+    }
+
+    @include keyboard-mode {
+      background-color: mix($color-black, $color-gray-05, 25%);
+    }
+    @include dark-keyboard-mode {
+      background-color: mix($color-white, $color-gray-65, 25%);
+    }
+  }
+
+  @include button-focus-outline;
+}
+
+@mixin button-secondary-blue-text {
+  @include button-secondary;
+  @include button-blue-text;
+}
+
+@mixin button-light {
+  @include light-theme {
+    color: $color-gray-90;
+    background-color: $color-gray-02;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+    background-color: $color-gray-75;
+  }
+
+  &:hover {
+    @include mouse-mode {
+      background-color: mix($color-black, $color-gray-02, 10%);
+    }
+
+    @include dark-mouse-mode {
+      background-color: mix($color-white, $color-gray-75, 10%);
+    }
+  }
+
+  &:active {
+    // We need to include all four here for specificity precedence
+
+    @include mouse-mode {
+      background-color: mix($color-black, $color-gray-02, 20%);
+    }
+    @include dark-mouse-mode {
+      background-color: mix($color-white, $color-gray-75, 20%);
+    }
+
+    @include keyboard-mode {
+      background-color: mix($color-black, $color-gray-02, 20%);
+    }
+    @include dark-keyboard-mode {
+      background-color: mix($color-white, $color-gray-75, 20%);
+    }
+  }
+
+  @include button-focus-outline;
+}
+
+@mixin button-light-blue-text {
+  @include button-light;
+  @include button-blue-text;
+}
+
+@mixin button-destructive {
+  @include light-theme {
+    color: $color-white;
+    background-color: $color-accent-red;
+  }
+  @include dark-theme {
+    color: $color-white-alpha-90;
+    background-color: $color-accent-red;
+  }
+
+  &:hover {
+    @include mouse-mode {
+      background-color: mix($color-black, $color-accent-red, 15%);
+    }
+
+    @include dark-mouse-mode {
+      background-color: mix($color-white, $color-accent-red, 15%);
+    }
+  }
+
+  &:active {
+    // We need to include all four here for specificity precedence
+
+    @include mouse-mode {
+      background-color: mix($color-black, $color-accent-red, 25%);
+    }
+    @include dark-mouse-mode {
+      background-color: mix($color-white, $color-accent-red, 25%);
+    }
+
+    @include keyboard-mode {
+      background-color: mix($color-black, $color-accent-red, 25%);
+    }
+    @include dark-keyboard-mode {
+      background-color: mix($color-white, $color-accent-red, 25%);
+    }
+  }
+
+  @include button-focus-outline;
+}
+
+@mixin button-green {
+  $background-color: $color-accent-green;
+
+  background-color: $background-color;
+  color: $color-white;
+
+  &:active {
+    // We need to include all four here for specificity precedence
+
+    @include mouse-mode {
+      background-color: mix($color-black, $background-color, 25%);
+    }
+    @include dark-mouse-mode {
+      background-color: mix($color-white, $background-color, 25%);
+    }
+
+    @include keyboard-mode {
+      background-color: mix($color-black, $background-color, 25%);
+    }
+    @include dark-keyboard-mode {
+      background-color: mix($color-white, $background-color, 25%);
+    }
+  }
+
+  &[disabled] {
+    opacity: 0.6;
+  }
+
+  @include button-focus-outline;
+}
+
+@mixin button-small {
+  border-radius: 9999px; // This ensures the borders are completely rounded. (A value like 100% would make it an ellipse.)
+  padding: 7px 14px;
+}

@@ -166,6 +166,7 @@ const dataInterface: ClientInterface = {
   getLastConversationActivity,
   getLastConversationPreview,
   getMessageMetricsForConversation,
+  hasGroupCallHistoryMessage,
   migrateConversationMessages,
 
   getUnprocessedCount,
@@ -627,6 +628,7 @@ async function removeAllSignedPreKeys() {
 const ITEM_KEYS: { [key: string]: Array<string> | undefined } = {
   identityKey: ['value.pubKey', 'value.privKey'],
   senderCertificate: ['value.serialized'],
+  senderCertificateNoE164: ['value.serialized'],
   signaling_key: ['value'],
   profileKey: ['value'],
 };
@@ -1055,6 +1057,12 @@ async function getMessageMetricsForConversation(conversationId: string) {
   );
 
   return result;
+}
+function hasGroupCallHistoryMessage(
+  conversationId: string,
+  eraId: string
+): Promise<boolean> {
+  return channels.hasGroupCallHistoryMessage(conversationId, eraId);
 }
 async function migrateConversationMessages(
   obsoleteId: string,
