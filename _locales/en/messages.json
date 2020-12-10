@@ -1203,7 +1203,7 @@
     "description": "Button tooltip label for turning on the microphone"
   },
   "calling__your-video-is-off": {
-    "message": "Your video is off",
+    "message": "Your camera is off",
     "description": "Label in the calling lobby indicating that your camera is off"
   },
   "calling__lobby-summary--zero": {

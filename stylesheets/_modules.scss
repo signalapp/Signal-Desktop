@@ -5960,6 +5960,33 @@ button.module-image__border-overlay:focus {
       width: 100%;
     }
   }
+
+  &__video-off {
+    &--icon {
+      @include color-svg(
+        '../images/icons/v2/video-off-solid-24.svg',
+        $color-white
+      );
+      height: 24px;
+      margin-bottom: 8px;
+      width: 24px;
+    }
+
+    &--text {
+      color: $color-white;
+      z-index: 1;
+    }
+
+    &--container {
+      display: flex;
+      flex-direction: row;
+      margin-top: 12px;
+
+      .module-calling__video-off--text {
+        margin-left: 10px;
+      }
+    }
+  }
 }
 
 .module-incoming-call {
@@ -6281,6 +6308,7 @@ button.module-image__border-overlay:focus {
     background: linear-gradient($color-black-alpha-40, transparent);
     top: 0;
     width: 100%;
+    z-index: 2;
   }
 
   &__header-message {
@@ -6373,12 +6401,21 @@ button.module-image__border-overlay:focus {
     }
   }
 
+  &__local-preview-fullsize {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
   &__footer {
     background: linear-gradient(transparent, $color-black-alpha-40);
     bottom: 0;
     display: flex;
     justify-content: space-between;
     width: 100%;
+    z-index: 2;
 
     &__actions {
       align-items: center;
@@ -6520,22 +6557,6 @@ button.module-image__border-overlay:focus {
       transform: rotateY(180deg);
       width: 100%;
       background-color: $color-gray-80;
-    }
-  }
-
-  &__video-off {
-    &--icon {
-      @include color-svg(
-        '../images/icons/v2/video-off-solid-24.svg',
-        $color-white
-      );
-      height: 24px;
-      margin-bottom: 8px;
-      width: 24px;
-    }
-
-    &--text {
-      z-index: 1;
     }
   }
 

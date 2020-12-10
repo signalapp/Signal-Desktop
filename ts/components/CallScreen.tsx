@@ -199,6 +199,10 @@ export const CallScreen: React.FC<PropsType> = ({
       throw missingCaseError(activeCall);
   }
 
+  const isLonelyInGroup =
+    activeCall.callMode === CallMode.Group &&
+    !activeCall.remoteParticipants.length;
+
   const videoButtonType = hasLocalVideo
     ? CallingButtonType.VIDEO_ON
     : CallingButtonType.VIDEO_OFF;
@@ -251,6 +255,39 @@ export const CallScreen: React.FC<PropsType> = ({
         />
       </div>
       {remoteParticipantsElement}
+      {hasLocalVideo && isLonelyInGroup ? (
+        <div className="module-ongoing-call__local-preview-fullsize">
+          <video
+            className="module-ongoing-call__footer__local-preview__video"
+            ref={localVideoRef}
+            autoPlay
+          />
+        </div>
+      ) : null}
+      {!hasLocalVideo && isLonelyInGroup ? (
+        <div className="module-ongoing-call__local-preview-fullsize">
+          <CallBackgroundBlur avatarPath={me.avatarPath} color={me.color}>
+            <Avatar
+              avatarPath={me.avatarPath}
+              color={me.color || 'ultramarine'}
+              noteToSelf={false}
+              conversationType="direct"
+              i18n={i18n}
+              name={me.name}
+              phoneNumber={me.phoneNumber}
+              profileName={me.profileName}
+              title={me.title}
+              size={80}
+            />
+            <div className="module-calling__video-off--container">
+              <div className="module-calling__video-off--icon" />
+              <span className="module-calling__video-off--text">
+                {i18n('calling__your-video-is-off')}
+              </span>
+            </div>
+          </CallBackgroundBlur>
+        </div>
+      ) : null}
       <div className="module-ongoing-call__footer">
         {/* This layout-only element is not ideal.
             See the comment in _modules.css for more. */}
@@ -284,13 +321,14 @@ export const CallScreen: React.FC<PropsType> = ({
             'module-ongoing-call__footer__local-preview--audio-muted': !hasLocalAudio,
           })}
         >
-          {hasLocalVideo ? (
+          {hasLocalVideo && !isLonelyInGroup ? (
             <video
               className="module-ongoing-call__footer__local-preview__video"
               ref={localVideoRef}
               autoPlay
             />
-          ) : (
+          ) : null}
+          {!hasLocalVideo && !isLonelyInGroup ? (
             <CallBackgroundBlur avatarPath={me.avatarPath} color={me.color}>
               <Avatar
                 avatarPath={me.avatarPath}
@@ -305,7 +343,7 @@ export const CallScreen: React.FC<PropsType> = ({
                 size={80}
               />
             </CallBackgroundBlur>
-          )}
+          ) : null}
         </div>
       </div>
     </div>

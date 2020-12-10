@@ -162,8 +162,8 @@ export const CallingLobby = ({
           />
         ) : (
           <CallBackgroundBlur avatarPath={me.avatarPath} color={me.color}>
-            <div className="module-calling-lobby__video-off--icon" />
-            <span className="module-calling-lobby__video-off--text">
+            <div className="module-calling__video-off--icon" />
+            <span className="module-calling__video-off--text">
               {i18n('calling__your-video-is-off')}
             </span>
           </CallBackgroundBlur>

@@ -321,3 +321,12 @@ story.add('Group call - reconnecting', () => (
     })}
   />
 ));
+
+story.add('Group call - 0', () => (
+  <CallScreen
+    {...createProps({
+      callMode: CallMode.Group,
+      remoteParticipants: [],
+    })}
+  />
+));
