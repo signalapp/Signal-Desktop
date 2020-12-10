@@ -1,84 +1,119 @@
 import React from 'react';
-import classNames from 'classnames';
 
 import { icons, SessionIconSize, SessionIconType } from '../icon';
+import styled, { css, DefaultTheme, keyframes } from 'styled-components';
 
-export interface Props {
+export type SessionIconProps = {
   iconType: SessionIconType;
   iconSize: SessionIconSize | number;
-  iconColor: string;
-  iconPadded: boolean;
-  iconRotation: number;
-}
+  iconColor?: string;
+  iconRotation?: number;
+  rotateDuration?: number;
+  theme: DefaultTheme;
+};
 
-export class SessionIcon extends React.PureComponent<Props> {
-  public static defaultProps = {
-    iconSize: SessionIconSize.Medium,
-    iconColor: '',
-    iconRotation: 0,
-    iconPadded: false,
-  };
-
-  constructor(props: any) {
-    super(props);
-  }
-
-  public render() {
-    const {
-      iconType,
-      iconSize,
-      iconColor,
-      iconRotation,
-      iconPadded,
-    } = this.props;
-
-    let iconDimensions;
-    if (typeof iconSize === 'number') {
-      iconDimensions = iconSize;
-    } else {
-      switch (iconSize) {
-        case SessionIconSize.Small:
-          iconDimensions = '15';
-          break;
-        case SessionIconSize.Medium:
-          iconDimensions = '20';
-          break;
-        case SessionIconSize.Large:
-          iconDimensions = '25';
-          break;
-        case SessionIconSize.Huge:
-          iconDimensions = '30';
-          break;
-        case SessionIconSize.Max:
-          iconDimensions = '80';
-          break;
-        default:
-          iconDimensions = '20';
-      }
+const getIconDimensionFromIconSize = (iconSize: SessionIconSize | number) => {
+  if (typeof iconSize === 'number') {
+    return iconSize;
+  } else {
+    switch (iconSize) {
+      case SessionIconSize.Tiny:
+        return 12;
+      case SessionIconSize.Small:
+        return 15;
+      case SessionIconSize.Medium:
+        return 20;
+      case SessionIconSize.Large:
+        return 25;
+      case SessionIconSize.Huge:
+        return 30;
+      case SessionIconSize.Max:
+        return 80;
+      default:
+        return 20;
     }
-
-    const iconDef = icons[iconType];
-
-    const styles = {
-      transform: `rotate(${iconRotation}deg)`,
-    };
-
-    return (
-      <svg
-        className={classNames(
-          'session-icon',
-          iconType,
-          iconPadded ? 'padded' : ''
-        )}
-        version="1.1"
-        preserveAspectRatio="xMidYMid meet"
-        viewBox={iconDef.viewBox}
-        width={iconDimensions}
-        height={iconDimensions}
-        style={styles}
-      >
-        <path d={iconDef.path} fill={iconColor} />
-      </svg>
-    );
   }
-}
+};
+
+type StyledSvgProps = {
+  width: string | number;
+  height: string | number;
+  iconRotation: number;
+  rotateDuration?: number;
+};
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const animation = (props: any) => {
+  if (props.rotateDuration) {
+    return css`
+      ${rotate} ${props.rotateDuration}s infinite linear;
+    `;
+  } else {
+    return;
+  }
+};
+
+//tslint:disable no-unnecessary-callback-wrapper
+const Svg = styled.svg<StyledSvgProps>`
+  width: ${props => props.width};
+  animation: ${props => animation(props)};
+  transform: ${props => `rotate(${props.iconRotation}deg)`};
+`;
+//tslint:enable no-unnecessary-callback-wrapper
+
+const SessionSvg = (props: {
+  viewBox: string;
+  path: string | Array<string>;
+  width: string | number;
+  height: string | number;
+  iconRotation: number;
+  iconColor?: string;
+  rotateDuration?: number;
+  theme: DefaultTheme;
+}) => {
+  const colorSvg = props.iconColor || props?.theme?.colors.textColor || 'red';
+  const pathArray = props.path instanceof Array ? props.path : [props.path];
+
+  return (
+    <Svg {...props}>
+      {pathArray.map((path, index) => {
+        return <path key={index} fill={colorSvg} d={path} />;
+      })}
+    </Svg>
+  );
+};
+
+export const SessionIcon = (props: SessionIconProps) => {
+  const { iconType, iconColor, theme, rotateDuration } = props;
+  let { iconSize, iconRotation } = props;
+  iconSize = iconSize || SessionIconSize.Medium;
+  iconRotation = iconRotation || 0;
+
+  const iconDimensions = getIconDimensionFromIconSize(iconSize);
+  const iconDef = icons[iconType];
+  const ratio = iconDef?.ratio || 1;
+  if (!theme) {
+    window.log.error('Missing theme props in SessionIcon');
+  }
+
+  return (
+    <SessionSvg
+      viewBox={iconDef.viewBox}
+      path={iconDef.path}
+      width={iconDimensions * ratio}
+      height={iconDimensions}
+      rotateDuration={rotateDuration}
+      iconRotation={iconRotation}
+      iconColor={iconColor}
+      theme={theme}
+    />
+  );
+};

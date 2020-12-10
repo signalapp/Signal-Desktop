@@ -2,7 +2,6 @@ $session-compose-margin: 20px;
 
 .gutter {
   width: 380px !important;
-  padding-inline-end: 5px !important;
   transition: $session-transition-duration;
 
   @include themify($themes) {
@@ -98,7 +97,8 @@ $session-compose-margin: 20px;
 .module-left-pane {
   width: $session-left-pane-width;
   position: relative;
-  height: -webkit-fill-available;
+  height: 100vh;
+  flex-shrink: 0;
 
   &-session {
     display: flex;
@@ -106,10 +106,13 @@ $session-compose-margin: 20px;
   }
 
   &__sections-container {
-    height: -webkit-fill-available;
-    width: $session-left-pane-sections-container-width;
+    height: 100vh;
+    flex-shrink: 0;
+    width: 80px;
+    overflow-x: hidden;
     display: inline-flex;
     flex-direction: column;
+
     @include themify($themes) {
       border-right: themed('sessionBorder');
     }
@@ -336,9 +339,12 @@ $session-compose-margin: 20px;
   }
 }
 
-.conversation.placeholder .container {
-  display: flex;
-  height: 100%;
+.conversation.placeholder {
+  margin: auto;
+  .container {
+    display: flex;
+    height: 100%;
+  }
 }
 
 .session-full-logo {
@@ -360,20 +366,9 @@ $session-compose-margin: 20px;
       filter: themed('filterSessionText');
     }
     transition: 0s;
-  }
-}
-
-.app-loading-screen {
-  @include themify($themes) {
-    background: themed('inboxBackground');
-  }
-  .session-text-logo {
-    @include themify($themes) {
-      filter: themed('filterSessionText') !important;
+    .path {
+      fill: red;
     }
-    // filter: none ; // force no filter on the text of the app loading
-    // as the theme is not set right on the start.
-    // this is to avoid a text color switch on app loading.
   }
 }
 
@@ -387,7 +382,7 @@ $session-compose-margin: 20px;
   .session-button.square-outline.square.white,
   .session-button.square-outline.square.danger {
     flex-grow: 1;
-    height: 51px;
+    height: $composition-container-height;
 
     @include themify($themes) {
       border: themed('sessionBorder');

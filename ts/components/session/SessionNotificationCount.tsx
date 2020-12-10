@@ -1,73 +1,65 @@
 import React from 'react';
-import classNames from 'classnames';
+import styled from 'styled-components';
 
-export enum NotificationCountSize {
-  // Size in px
-  ON_ICON = 20,
-  ON_HEADER = 24,
-}
-
-interface Props {
+type Props = {
   count?: number;
-  size: number;
-  onClick?: any;
-}
+};
 
-export class SessionNotificationCount extends React.Component<Props> {
-  public static defaultProps = {
-    size: NotificationCountSize.ON_ICON,
-  };
+const StyledCountContainer = styled.div<{ shouldRender: boolean }>`
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  top: ${props => props.theme.common.margins.lg};
+  right: ${props => props.theme.common.margins.lg};
+  padding: 3px;
+  opacity: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: ${props => props.theme.common.fonts.sessionFontDefault};
+  border-radius: 50%;
+  font-weight: 700;
+  background: ${props => props.theme.colors.destructive};
+  transition: ${props => props.theme.common.animations.defaultDuration};
+  opacity: ${props => (props.shouldRender ? 1 : 0)};
+  text-align: center;
+  color: white;
+  /* cursor:  */
+`;
 
-  constructor(props: any) {
-    super(props);
-  }
+const StyledCount = styled.div<{ overflow: boolean }>`
+  position: relative;
+  font-size: ${props => (props.overflow ? '0.5em' : '0.6em')};
+  margin-top: ${props => (props.overflow ? '0.35em' : '0em')};
+  margin-left: ${props => (props.overflow ? '-0.45em' : '0em')};
+`;
 
-  public render() {
-    const { count, size, onClick } = this.props;
+const StyledCountSup = styled.div`
+  position: absolute;
+  font-size: 1.3em;
+  top: -0.5em;
+  margin-inline-start: 0.375em;
+`;
 
-    const hasHover = !!onClick;
+export const SessionNotificationCount = (props: Props) => {
+  const { count } = props;
+  const overflow = Boolean(count && count > 9);
+  const shouldRender = Boolean(count && count > 0);
 
-    const MAX_SINGLE_DIGIT = 9;
-    const overflow = typeof count === 'number' && count > MAX_SINGLE_DIGIT;
-
-    const bubbleStyle = {
-      width: `${size}px`,
-      height: `${size}px`,
-      fontSize: `${size}px`,
-    };
-
-    const fontSize = overflow ? '0.5em' : '0.6em';
-
-    const countStyle = {
-      fontSize,
-      marginTop: overflow ? '0.35em' : '0em',
-      marginLeft: overflow ? '-0.45em' : '0em',
-    };
-
-    const countElement: JSX.Element = overflow ? (
-      <>
-        {MAX_SINGLE_DIGIT}
-        <sup>+</sup>
-      </>
-    ) : (
-      <>{count}</>
-    );
-
-    const shouldRender = typeof count === 'number' && count > 0;
-
+  if (overflow) {
     return (
-      <>
-        {shouldRender && (
-          <div
-            className={classNames('notification-count', hasHover && 'hover')}
-            onClick={onClick}
-            style={bubbleStyle}
-            role="button"
-          >
-            <div style={countStyle}>{countElement}</div>
-          </div>
-        )}
-      </>
+      <StyledCountContainer shouldRender={shouldRender}>
+        <StyledCount overflow={overflow}>
+          {9}
+          <StyledCountSup>+</StyledCountSup>
+        </StyledCount>
+      </StyledCountContainer>
     );
   }
-}
+  return (
+    <StyledCountContainer shouldRender={shouldRender}>
+      <StyledCount overflow={overflow}>{count}</StyledCount>
+    </StyledCountContainer>
+  );
+};

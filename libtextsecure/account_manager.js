@@ -458,7 +458,7 @@
       );
 
       if (!secondaryDevicePubKey) {
-        window.console.error(
+        window.log.error(
           'Invalid secondary pubkey on authoriseSecondaryDevice'
         );
 

@@ -39,7 +39,7 @@ export async function start(
   autoUpdater.logger = logger;
   autoUpdater.autoDownload = false;
 
-  interval = setInterval(async () => {
+  interval = global.setInterval(async () => {
     try {
       await checkForUpdates(getMainWindow, messages, logger);
     } catch (error) {

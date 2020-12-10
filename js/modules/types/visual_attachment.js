@@ -92,7 +92,8 @@ exports.makeVideoScreenshot = ({
       const image = dataURLToBlobSync(canvas.toDataURL(contentType));
 
       video.removeEventListener('canplay', capture);
-
+      video.pause();
+      video.currentTime = 0;
       resolve(image);
     }
 
@@ -103,6 +104,9 @@ exports.makeVideoScreenshot = ({
     });
 
     video.src = objectUrl;
+    video.muted = true;
+    // for some reason, this is to be started, otherwise the generated thumbnail will be empty
+    video.play();
   });
 
 exports.makeVideoThumbnail = async ({

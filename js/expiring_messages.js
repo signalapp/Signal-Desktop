@@ -2,7 +2,7 @@
   _,
   Backbone,
   i18n,
-  MessageController,
+  getMessageController,
   moment,
   Whisper
 */
@@ -22,7 +22,7 @@
 
       await Promise.all(
         messages.map(async fromDB => {
-          const message = MessageController.register(fromDB.id, fromDB);
+          const message = getMessageController().register(fromDB.id, fromDB);
 
           window.log.info('Message expired', {
             sentAt: message.get('sent_at'),
@@ -34,11 +34,10 @@
             Message: Whisper.Message,
           });
 
-          Whisper.events.trigger(
-            'messageExpired',
-            message.id,
-            message.conversationId
-          );
+          Whisper.events.trigger('messageExpired', {
+            conversationKey: message.attributes.conversationId,
+            messageId: message.id,
+          });
 
           const conversation = message.getConversation();
           if (conversation) {

@@ -52,7 +52,6 @@ const excludedFiles = [
   // High-traffic files in our project
   '^js/models/messages.js',
   '^js/views/conversation_view.js',
-  '^js/views/file_input_view.js',
   '^js/background.js',
 
   // Generated files
@@ -111,7 +110,6 @@ const excludedFiles = [
   '^node_modules/eslint*',
   '^node_modules/esprima/*',
   '^node_modules/express/*',
-  '^node_modules/extract-zip/*',
   '^node_modules/finalhandler/*',
   '^node_modules/fsevents/*',
   '^node_modules/globule/*',

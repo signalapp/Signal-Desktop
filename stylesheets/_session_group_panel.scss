@@ -1,9 +1,3 @@
-.conversation-content-right {
-  transition: $session-transition-duration;
-  width: 22vw;
-  margin-inline-end: -22vw;
-}
-
 .group-settings {
   display: flex;
   flex-direction: column;
@@ -79,7 +73,8 @@
   .session-button.square-outline.danger {
     margin-top: auto;
     width: 100%;
-    height: 51px;
+    border: none;
+    height: $composition-container-height;
     flex-shrink: 0;
     align-items: center;
     @include themify($themes) {
@@ -138,6 +133,7 @@
 
       &__content {
         padding: $session-margin-xs;
+        margin-bottom: 1vh;
 
         .module-media-grid-item__image,
         .module-media-grid-item {
@@ -148,7 +144,6 @@
             22vw / 4
           ); //.group-settings is 22vw and we want three rows with some space so divide it by 4
           margin: auto;
-          margin-bottom: 1vh;
         }
       }
     }

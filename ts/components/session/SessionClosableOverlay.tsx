@@ -14,6 +14,7 @@ import {
 import { SessionSpinner } from './SessionSpinner';
 import { PillDivider } from './PillDivider';
 import classNames from 'classnames';
+import { DefaultTheme } from 'styled-components';
 
 export enum SessionClosableOverlayType {
   Contact = 'contact',
@@ -32,6 +33,7 @@ interface Props {
   searchResults?: any;
   updateSearch?: any;
   showSpinner?: boolean;
+  theme: DefaultTheme;
 }
 
 interface State {
@@ -173,6 +175,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
             iconSize={SessionIconSize.Small}
             iconType={SessionIconType.Exit}
             onClick={onCloseClick}
+            theme={this.props.theme}
           />
         </div>
 
@@ -240,6 +243,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
             updateSearch={updateSearch}
             placeholder={window.i18n('searchFor...')}
             searchResults={searchResults}
+            theme={this.props.theme}
           />
         )}
 
@@ -285,6 +289,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         onUnselect={(selectedMember: ContactType) => {
           this.handleUnselectMember(selectedMember);
         }}
+        theme={this.props.theme}
       />
     ));
   }

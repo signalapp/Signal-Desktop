@@ -4,6 +4,10 @@ import { SessionModal } from './SessionModal';
 import { SessionButton, SessionButtonColor } from './SessionButton';
 import { PasswordUtil } from '../../util/';
 import { ToastUtils } from '../../session/utils';
+import { toast } from 'react-toastify';
+import { SessionToast, SessionToastType } from './SessionToast';
+import { SessionIconType } from './icon';
+import { DefaultTheme, withTheme } from 'styled-components';
 export enum PasswordAction {
   Set = 'set',
   Change = 'change',
@@ -14,6 +18,7 @@ interface Props {
   action: PasswordAction;
   onOk: any;
   onClose: any;
+  theme: DefaultTheme;
 }
 
 interface State {
@@ -22,7 +27,7 @@ interface State {
   currentPasswordConfirmEntered: string | null;
 }
 
-export class SessionPasswordModal extends React.Component<Props, State> {
+class SessionPasswordModalInner extends React.Component<Props, State> {
   private passportInput: HTMLInputElement | null = null;
 
   constructor(props: any) {
@@ -69,6 +74,7 @@ export class SessionPasswordModal extends React.Component<Props, State> {
         title={window.i18n(`${action}Password`)}
         onOk={() => null}
         onClose={this.closeDialog}
+        theme={this.props.theme}
       >
         <div className="spacer-sm" />
 
@@ -233,13 +239,20 @@ export class SessionPasswordModal extends React.Component<Props, State> {
         throw new Error(`Invalid action ${action}`);
     }
 
-    ToastUtils.push({
-      id: 'set-password-success-toast',
-      type: action !== Remove ? 'success' : 'warning',
-      title: title,
-      description: description,
-      icon: action !== Remove ? 'lock' : undefined,
-    });
+    if (action !== Remove) {
+      ToastUtils.pushToastSuccess(
+        'setPasswordSuccessToast',
+        title,
+        description,
+        SessionIconType.Lock
+      );
+    } else {
+      ToastUtils.pushToastWarning(
+        'setPasswordSuccessToast',
+        title,
+        description
+      );
+    }
 
     onSuccess(this.props.action);
     this.closeDialog();
@@ -261,11 +274,7 @@ export class SessionPasswordModal extends React.Component<Props, State> {
           window.CONSTANTS.MAX_PASSWORD_LENGTH
         )
       );
-
-      ToastUtils.push({
-        title,
-        type: 'warning',
-      });
+      ToastUtils.pushToastWarning('passwordModal', title);
     }
 
     // Prevent pating into input
@@ -286,3 +295,5 @@ export class SessionPasswordModal extends React.Component<Props, State> {
     this.setState({ currentPasswordConfirmEntered: event.target.value });
   }
 }
+
+export const SessionPasswordModal = withTheme(SessionPasswordModalInner);

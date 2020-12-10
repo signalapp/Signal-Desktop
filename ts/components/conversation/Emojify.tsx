@@ -3,51 +3,10 @@ import React from 'react';
 import classNames from 'classnames';
 import is from '@sindresorhus/is';
 
-import {
-  findImage,
-  getRegex,
-  getReplacementData,
-  getTitle,
-  SizeClassType,
-} from '../../util/emoji';
+import { getRegex, SizeClassType } from '../../util/emoji';
 
 import { LocalizerType, RenderTextCallbackType } from '../../types/Util';
-
-// Some of this logic taken from emoji-js/replacement
-function getImageTag({
-  match,
-  sizeClass,
-  key,
-  i18n,
-}: {
-  match: any;
-  sizeClass?: SizeClassType;
-  key: string | number;
-  i18n: LocalizerType;
-}) {
-  const result = getReplacementData(match[0], match[1], match[2]);
-
-  if (is.string(result)) {
-    return <span key={key}>{match[0]}</span>;
-  }
-
-  const img = findImage(result.value, result.variation);
-  const title = getTitle(result.value);
-
-  return (
-    // tslint:disable-next-line react-a11y-img-has-alt
-    <img
-      key={key}
-      src={img.path}
-      // We can't use alt or it will be what is captured when a user copies message
-      //   contents ("Emoji of ':1'"). Instead, we want the title to be copied (':+1:').
-      aria-label={i18n('emojiAlt', [title || ''])}
-      className={classNames('emoji', sizeClass)}
-      data-codepoints={img.full_idx}
-      title={`:${title}:`}
-    />
-  );
-}
+import { Twemoji } from 'react-emoji-render';
 
 interface Props {
   text: string;
@@ -105,7 +64,42 @@ export class Emojify extends React.Component<Props> {
         );
       }
 
-      results.push(getImageTag({ match, sizeClass, key: count++, i18n }));
+      let size = 1.0;
+      switch (sizeClass) {
+        case 'jumbo':
+          size = 2.0;
+          break;
+        case 'large':
+          size = 1.8;
+          break;
+        case 'medium':
+          size = 1.5;
+          break;
+        case 'small':
+          size = 1.1;
+          break;
+        default:
+      }
+
+      const style = { fontSize: `${size}em` };
+
+      const emojiText = match[0] ?? match[1];
+
+      results.push(
+        <span style={style} key={count++}>
+          <Twemoji
+            key={count}
+            text={emojiText}
+            options={
+              {
+                baseUrl: 'images/twemoji/',
+                protocol: '',
+                ext: 'png',
+              } as any
+            }
+          />
+        </span>
+      );
 
       last = regex.lastIndex;
       match = regex.exec(text);

@@ -8,6 +8,7 @@ import {
   ContactType,
   SessionMemberListItem,
 } from '../session/SessionMemberListItem';
+import { DefaultTheme } from 'styled-components';
 
 interface Props {
   titleText: string;
@@ -21,6 +22,7 @@ interface Props {
   i18n: any;
   onSubmit: any;
   onClose: any;
+  theme: DefaultTheme;
 }
 
 interface State {
@@ -111,6 +113,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
         // tslint:disable-next-line: no-void-expression
         onClose={() => this.closeDialog()}
         onOk={() => null}
+        theme={this.props.theme}
       >
         <div className="spacer-md" />
 
@@ -157,6 +160,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
         onSelect={this.onMemberClicked}
         onUnselect={this.onMemberClicked}
         key={member.id}
+        theme={this.props.theme}
       />
     ));
   }
@@ -215,7 +219,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
 
   private onMemberClicked(selected: any) {
     if (selected.existingMember && !this.props.isAdmin) {
-      window.console.warn('Only group admin can remove members!');
+      window.log.warn('Only group admin can remove members!');
       return;
     }
 

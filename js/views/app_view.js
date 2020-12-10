@@ -122,68 +122,75 @@
       window.focus(); // FIXME
       return Promise.resolve();
     },
-    onEmpty() {
-      const view = this.inboxView;
-
-      this.initialLoadComplete = true;
-      if (view) {
-        view.onEmpty();
-      }
-    },
-    onProgress(count) {
-      const view = this.inboxView;
-      if (view) {
-        view.onProgress(count);
-      }
-    },
-    openConversation(id, messageId) {
-      if (id) {
-        this.openInbox().then(() => {
-          this.inboxView.openConversation(id, messageId);
-        });
-      }
-    },
+    onEmpty() {},
+    onProgress() {},
     showEditProfileDialog(options) {
+      // eslint-disable-next-line no-param-reassign
+      options.theme = this.getThemeObject();
       const dialog = new Whisper.EditProfileDialogView(options);
       this.el.prepend(dialog.el);
     },
     showUserDetailsDialog(options) {
+      // eslint-disable-next-line no-param-reassign
+      options.theme = this.getThemeObject();
       const dialog = new Whisper.UserDetailsDialogView(options);
       this.el.prepend(dialog.el);
     },
     showNicknameDialog({ pubKey, title, message, nickname, onOk, onCancel }) {
       const _title = title || `Change nickname for ${pubKey}`;
+
       const dialog = new Whisper.NicknameDialogView({
         title: _title,
         message,
         name: nickname,
         resolve: onOk,
         reject: onCancel,
+        theme: this.getThemeObject(),
       });
       this.el.prepend(dialog.el);
       dialog.focusInput();
     },
     showPasswordDialog(options) {
+      // eslint-disable-next-line no-param-reassign
+      options.theme = this.getThemeObject();
       const dialog = new Whisper.PasswordDialogView(options);
       this.el.prepend(dialog.el);
     },
     showSeedDialog() {
-      const dialog = new Whisper.SeedDialogView();
+      const dialog = new Whisper.SeedDialogView({
+        theme: this.getThemeObject(),
+      });
       this.el.prepend(dialog.el);
     },
+    getThemeObject() {
+      const themeSettings = storage.get('theme-setting') || 'light';
+      const theme =
+        themeSettings === 'light' ? window.lightTheme : window.darkTheme;
+      return theme;
+    },
     showDevicePairingDialog(options) {
+      // eslint-disable-next-line no-param-reassign
+      options.theme = this.getThemeObject();
       const dialog = new Whisper.DevicePairingDialogView(options);
       this.el.prepend(dialog.el);
     },
     showDevicePairingWordsDialog() {
-      const dialog = new Whisper.DevicePairingWordsDialogView();
+      const options = { theme: this.getThemeObject() };
+
+      const dialog = new Whisper.DevicePairingWordsDialogView(options);
       this.el.prepend(dialog.el);
     },
     showUpdateGroupNameDialog(groupConvo) {
+      // eslint-disable-next-line no-param-reassign
+      groupConvo.theme = this.getThemeObject();
+
       const dialog = new Whisper.UpdateGroupNameDialogView(groupConvo);
       this.el.append(dialog.el);
     },
     showUpdateGroupMembersDialog(groupConvo) {
+      // eslint-disable-next-line no-param-reassign
+      groupConvo.theme = this.getThemeObject();
+
       const dialog = new Whisper.UpdateGroupMembersDialogView(groupConvo);
       this.el.append(dialog.el);
     },
@@ -201,17 +208,24 @@
         title,
         message,
         resolve: () => ConversationController.deleteContact(groupConvo.id),
+        theme: this.getThemeObject(),
       });
     },
     showInviteContactsDialog(groupConvo) {
+      // eslint-disable-next-line no-param-reassign
+      groupConvo.theme = this.getThemeObject();
       const dialog = new Whisper.InviteContactsDialogView(groupConvo);
       this.el.append(dialog.el);
     },
     showAddModeratorsDialog(groupConvo) {
+      // eslint-disable-next-line no-param-reassign
+      groupConvo.theme = this.getThemeObject();
       const dialog = new Whisper.AddModeratorsDialogView(groupConvo);
       this.el.append(dialog.el);
     },
     showRemoveModeratorsDialog(groupConvo) {
+      // eslint-disable-next-line no-param-reassign
+      groupConvo.theme = this.getThemeObject();
       const dialog = new Whisper.RemoveModeratorsDialogView(groupConvo);
       this.el.append(dialog.el);
     },

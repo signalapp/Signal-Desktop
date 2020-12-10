@@ -201,7 +201,7 @@ MessageSender.prototype = {
     }
 
     if (convosToSync.size === 0) {
-      window.console.info('No contacts to sync.');
+      window.log.info('No contacts to sync.');
 
       return Promise.resolve();
     }
@@ -229,7 +229,7 @@ MessageSender.prototype = {
     // primaryDevicePubKey is set to our own number if we are the master device
     const primaryDeviceKey = window.storage.get('primaryDevicePubKey');
     if (!primaryDeviceKey) {
-      window.console.debug('sendGroupSyncMessage: no primary device pubkey');
+      window.log.debug('sendGroupSyncMessage: no primary device pubkey');
       return Promise.resolve();
     }
     // We only want to sync across closed groups that we haven't left
@@ -237,7 +237,7 @@ MessageSender.prototype = {
       c => c.isClosedGroup() && !c.get('left') && !c.get('isKickedFromGroup')
     );
     if (activeGroups.length === 0) {
-      window.console.info('No closed group to sync.');
+      window.log.info('No closed group to sync.');
       return Promise.resolve();
     }
 

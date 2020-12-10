@@ -41,11 +41,7 @@
       }
     }
 
-    .module-message__author,
-    .module-message__metadata,
-    .module-message__metadata__date,
-    .module-message__metadata__badge,
-    .module-message__metadata__badge--separator {
+    .module-message__author {
       @include themify($themes) {
         @include session-color-subtle(themed('receivedMessageText'));
       }
@@ -69,46 +65,25 @@
       }
     }
 
-    .module-message__author,
-    .module-message__metadata,
-    .module-message__metadata__date,
-    .module-message__metadata__badge,
-    .module-message__metadata__badge--separator {
+    .module-message__author {
       @include themify($themes) {
         @include session-color-subtle(themed('sentMessageText'));
       }
     }
   }
-
-  &__container {
-    transition: background-color $session-transition-duration;
-  }
 }
 
-.message {
-  &-highlighted {
+.session-message-wrapper {
+  &.message-highlighted {
     animation: highlightedMessageAnimation 1s ease-in-out;
   }
 
-  &-selected {
+  &.message-selected {
     .module-message {
       &__container {
         @include themify($themes) {
           box-shadow: themed('sessionShadow');
         }
-      }
-
-      &__author {
-        color: $session-color-white;
-      }
-    }
-  }
-
-  &-read-receipt-container {
-    margin-inline-start: 5px;
-    .session-icon.check {
-      @include themify($themes) {
-        fill: subtle(themed('sentMessageText'));
       }
     }
   }
@@ -167,12 +142,4 @@ h4 {
   }
   font-size: 17px;
   text-align: center;
-}
-
-.dark-theme .network-status-container .network-status {
-  background-color: rgba($session-color-green, 0.6);
-
-  .network-status-message {
-    color: $session-color-white;
-  }
 }

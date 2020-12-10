@@ -1,31 +1,30 @@
 import React from 'react';
 import {
+  ConversationListItemProps,
   ConversationListItemWithDetails,
-  PropsData as ConversationListItemPropsType,
 } from './ConversationListItem';
 import {
   MessageSearchResult,
-  PropsData as MessageSearchResultPropsType,
+  MessageSearchResultProps,
 } from './MessageSearchResult';
 
 import { LocalizerType } from '../types/Util';
 
-export type PropsData = {
-  contacts: Array<ConversationListItemPropsType>;
-  conversations: Array<ConversationListItemPropsType>;
+export type SearchResultsProps = {
+  contacts: Array<ConversationListItemProps>;
+  conversations: Array<ConversationListItemProps>;
   hideMessagesHeader: boolean;
-  messages: Array<MessageSearchResultPropsType>;
+  messages: Array<MessageSearchResultProps>;
   regionCode: string;
   searchTerm: string;
-  showStartNewConversation: boolean;
 };
 
 type PropsHousekeeping = {
   i18n: LocalizerType;
-  openConversation: (id: string, messageId?: string) => void;
+  openConversationExternal: (id: string, messageId?: string) => void;
 };
 
-type Props = PropsData & PropsHousekeeping;
+type Props = SearchResultsProps & PropsHousekeeping;
 
 export class SearchResults extends React.Component<Props> {
   public render() {
@@ -35,19 +34,14 @@ export class SearchResults extends React.Component<Props> {
       hideMessagesHeader,
       i18n,
       messages,
-      openConversation,
+      openConversationExternal,
       searchTerm,
-      showStartNewConversation,
     } = this.props;
 
     const haveConversations = conversations && conversations.length;
     const haveContacts = contacts && contacts.length;
     const haveMessages = messages && messages.length;
-    const noResults =
-      !showStartNewConversation &&
-      !haveConversations &&
-      !haveContacts &&
-      !haveMessages;
+    const noResults = !haveConversations && !haveContacts && !haveMessages;
 
     return (
       <div className="module-search-results">
@@ -65,14 +59,14 @@ export class SearchResults extends React.Component<Props> {
               <ConversationListItemWithDetails
                 key={conversation.phoneNumber}
                 {...conversation}
-                onClick={openConversation}
+                onClick={openConversationExternal}
                 i18n={i18n}
               />
             ))}
           </div>
         ) : null}
         {haveContacts
-          ? this.renderContacts(i18n('contactsHeader'), contacts, true)
+          ? this.renderContacts(i18n('contactsHeader'), contacts)
           : null}
 
         {haveMessages ? (
@@ -86,7 +80,7 @@ export class SearchResults extends React.Component<Props> {
               <MessageSearchResult
                 key={message.id}
                 {...message}
-                onClick={openConversation}
+                onClick={openConversationExternal}
                 i18n={i18n}
               />
             ))}
@@ -97,10 +91,9 @@ export class SearchResults extends React.Component<Props> {
   }
   private renderContacts(
     header: string,
-    items: Array<ConversationListItemPropsType>,
-    contacts?: boolean
+    items: Array<ConversationListItemProps>
   ) {
-    const { i18n, openConversation } = this.props;
+    const { i18n, openConversationExternal } = this.props;
 
     return (
       <div className="module-search-results__contacts">
@@ -109,7 +102,7 @@ export class SearchResults extends React.Component<Props> {
           <ConversationListItemWithDetails
             key={contact.phoneNumber}
             {...contact}
-            onClick={openConversation}
+            onClick={openConversationExternal}
             i18n={i18n}
           />
         ))}

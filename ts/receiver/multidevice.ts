@@ -160,7 +160,7 @@ async function handleAuthorisationForSelf(
     );
   } else {
     const { primaryDevicePubKey, grantSignature } = pairingAuthorisation;
-    if (grantSignature && grantSignature.length > 0) {
+    if (grantSignature && grantSignature.length > 0 && primaryDevicePubKey) {
       // Authorisation received to become a secondary device
       window.log.info(
         `Received pairing authorisation from ${primaryDevicePubKey}`
@@ -378,14 +378,8 @@ async function onContactReceived(details: any) {
 
     if (details.profileKey) {
       const profileKey = StringUtils.decode(details.profileKey, 'base64');
-      conversation.setProfileKey(profileKey);
+      void conversation.setProfileKey(profileKey);
     }
-
-    // Do not set name to allow working with lokiProfile and nicknames
-    conversation.set({
-      // name: details.name,
-      color: details.color,
-    });
 
     if (details.name && details.name.length) {
       await conversation.setLokiProfile({ displayName: details.name });
@@ -443,7 +437,7 @@ async function onContactReceived(details: any) {
     }
     conversation.updateTextInputState();
 
-    await conversation.trigger('change', conversation);
+    conversation.trigger('change', conversation);
   } catch (error) {
     window.log.error('onContactReceived error:', Errors.toLogFormat(error));
   }

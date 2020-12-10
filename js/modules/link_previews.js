@@ -1,108 +1,29 @@
 /* global URL */
 
-const { isNumber, compact } = require('lodash');
-const he = require('he');
+const { isNumber, compact, isEmpty, range } = require('lodash');
 const nodeUrl = require('url');
 const LinkifyIt = require('linkify-it');
 
 const linkify = LinkifyIt();
-const { concatenateBytes, getViewOfArrayBuffer } = require('./crypto');
 
 module.exports = {
-  assembleChunks,
   findLinks,
-  getChunkPattern,
   getDomain,
-  getTitleMetaTag,
-  getImageMetaTag,
-  isLinkInWhitelist,
-  isMediaLinkInWhitelist,
+  isLinkSafeToPreview,
   isLinkSneaky,
 };
 
-const SUPPORTED_DOMAINS = [
-  'youtube.com',
-  'www.youtube.com',
-  'm.youtube.com',
-  'youtu.be',
-  'reddit.com',
-  'www.reddit.com',
-  'm.reddit.com',
-  'imgur.com',
-  'www.imgur.com',
-  'm.imgur.com',
-  'i.imgur.com',
-  'instagram.com',
-  'www.instagram.com',
-  'm.instagram.com',
-  'tenor.com',
-  'gph.is',
-  'giphy.com',
-  'media.giphy.com',
-];
-function isLinkInWhitelist(link) {
+function maybeParseHref(href) {
   try {
-    const url = new URL(link);
-
-    if (url.protocol !== 'https:') {
-      return false;
-    }
-
-    if (!url.pathname || url.pathname.length < 2) {
-      return false;
-    }
-
-    const lowercase = url.host.toLowerCase();
-    if (!SUPPORTED_DOMAINS.includes(lowercase)) {
-      return false;
-    }
-
-    return true;
-  } catch (error) {
-    return false;
+    return new URL(href);
+  } catch (err) {
+    return null;
   }
 }
 
-const SUPPORTED_MEDIA_DOMAINS = /^([^.]+\.)*(ytimg.com|cdninstagram.com|redd.it|imgur.com|fbcdn.net|giphy.com|tenor.com)$/i;
-function isMediaLinkInWhitelist(link) {
-  try {
-    const url = new URL(link);
-
-    if (url.protocol !== 'https:') {
-      return false;
-    }
-
-    if (!url.pathname || url.pathname.length < 2) {
-      return false;
-    }
-
-    if (!SUPPORTED_MEDIA_DOMAINS.test(url.host)) {
-      return false;
-    }
-
-    return true;
-  } catch (error) {
-    return false;
-  }
-}
-
-const META_TITLE = /<meta\s+(?:class="dynamic"\s+)?property="og:title"\s+content="([\s\S]+?)"\s*\/?\s*>/im;
-const META_IMAGE = /<meta\s+(?:class="dynamic"\s+)?property="og:image"\s+content="([\s\S]+?)"\s*\/?\s*>/im;
-function _getMetaTag(html, regularExpression) {
-  const match = regularExpression.exec(html);
-  if (match && match[1]) {
-    return he.decode(match[1]).trim();
-  }
-
-  return null;
-}
-
-function getTitleMetaTag(html) {
-  return _getMetaTag(html, META_TITLE);
-}
-function getImageMetaTag(html) {
-  const tag = _getMetaTag(html, META_IMAGE);
-  return typeof tag === 'string' ? tag.replace('http://', 'https://') : tag;
+function isLinkSafeToPreview(href) {
+  const url = maybeParseHref(href);
+  return Boolean(url && url.protocol === 'https:' && !isLinkSneaky(href));
 }
 
 function findLinks(text, caretLocation) {
@@ -129,225 +50,110 @@ function findLinks(text, caretLocation) {
   );
 }
 
-function getDomain(url) {
-  try {
-    const urlObject = new URL(url);
-    return urlObject.hostname;
-  } catch (error) {
-    return null;
-  }
+function getDomain(href) {
+  const url = maybeParseHref(href);
+  return url ? url.hostname : null;
 }
 
-const MB = 1024 * 1024;
-const KB = 1024;
+// See <https://tools.ietf.org/html/rfc3986>.
+const VALID_URI_CHARACTERS = new Set([
+  '%',
+  // "gen-delims"
+  ':',
+  '/',
+  '?',
+  '#',
+  '[',
+  ']',
+  '@',
+  // "sub-delims"
+  '!',
+  '$',
+  '&',
+  "'",
+  '(',
+  ')',
+  '*',
+  '+',
+  ',',
+  ';',
+  '=',
+  // unreserved
+  ...String.fromCharCode(...range(65, 91), ...range(97, 123)),
+  ...range(10).map(String),
+  '-',
+  '.',
+  '_',
+  '~',
+]);
+const ASCII_PATTERN = new RegExp('[\\u0020-\\u007F]', 'g');
+const MAX_HREF_LENGTH = 2 ** 12;
 
-function getChunkPattern(size) {
-  if (size > MB) {
-    return _getRequestPattern(size, MB);
-  } else if (size > 500 * KB) {
-    return _getRequestPattern(size, 500 * KB);
-  } else if (size > 100 * KB) {
-    return _getRequestPattern(size, 100 * KB);
-  } else if (size > 50 * KB) {
-    return _getRequestPattern(size, 50 * KB);
-  } else if (size > 10 * KB) {
-    return _getRequestPattern(size, 10 * KB);
-  } else if (size > KB) {
-    return _getRequestPattern(size, KB);
-  }
-
-  throw new Error(`getChunkPattern: Unsupported size: ${size}`);
-}
-
-function _getRequestPattern(size, increment) {
-  const results = [];
-
-  let offset = 0;
-  while (size - offset > increment) {
-    results.push({
-      start: offset,
-      end: offset + increment - 1,
-      overlap: 0,
-    });
-    offset += increment;
-  }
-
-  if (size - offset > 0) {
-    results.push({
-      start: size - increment,
-      end: size - 1,
-      overlap: increment - (size - offset),
-    });
-  }
-
-  return results;
-}
-
-function assembleChunks(chunkDescriptors) {
-  const chunks = chunkDescriptors.map((chunk, index) => {
-    if (index !== chunkDescriptors.length - 1) {
-      return chunk.data;
-    }
-
-    if (!chunk.overlap) {
-      return chunk.data;
-    }
-
-    return getViewOfArrayBuffer(
-      chunk.data,
-      chunk.overlap,
-      chunk.data.byteLength
-    );
-  });
-
-  return concatenateBytes(...chunks);
-}
-
-const LATIN_PATTERN = new RegExp(
-  '[' +
-    '\\u0041-\\u005A' +
-    '\\u0061-\\u007A' +
-    '\\u00AA' +
-    '\\u00BA' +
-    '\\u00C0-\\u00DC' +
-    '\\u00D8-\\u00F6' +
-    '\\u00F8-\\u01BA' +
-    ']'
-);
-
-const CYRILLIC_PATTERN = new RegExp(
-  '[' +
-    '\\u0400-\\u0481' +
-    '\\u0482' +
-    '\\u0483-\\u0484' +
-    '\\u0487' +
-    '\\u0488-\\u0489' +
-    '\\u048A-\\u052F' +
-    '\\u1C80-\\u1C88' +
-    '\\u1D2B' +
-    '\\u1D78' +
-    '\\u2DE0-\\u2DFF' +
-    '\\uA640-\\uA66D' +
-    '\\uA66E' +
-    '\\uA66F' +
-    '\\uA670-\\uA672' +
-    '\\uA673' +
-    '\\uA674-\\uA67D' +
-    '\\uA67E' +
-    '\\uA67F' +
-    '\\uA680-\\uA69B' +
-    '\\uA69C-\\uA69D' +
-    '\\uA69E-\\uA69F' +
-    '\\uFE2E-\\uFE2F' +
-    ']'
-);
-
-const GREEK_PATTERN = new RegExp(
-  '[' +
-    '\\u0370-\\u0373' +
-    '\\u0375' +
-    '\\u0376-\\u0377' +
-    '\\u037A' +
-    '\\u037B-\\u037D' +
-    '\\u037F' +
-    '\\u0384' +
-    '\\u0386' +
-    '\\u0388-\\u038A' +
-    '\\u038C' +
-    '\\u038E-\\u03A1' +
-    '\\u03A3-\\u03E1' +
-    '\\u03F0-\\u03F5' +
-    '\\u03F6' +
-    '\\u03F7-\\u03FF' +
-    '\\u1D26-\\u1D2A' +
-    '\\u1D5D-\\u1D61' +
-    '\\u1D66-\\u1D6A' +
-    '\\u1DBF' +
-    '\\u1F00-\\u1F15' +
-    '\\u1F18-\\u1F1D' +
-    '\\u1F20-\\u1F45' +
-    '\\u1F48-\\u1F4D' +
-    '\\u1F50-\\u1F57' +
-    '\\u1F59' +
-    '\\u1F5B' +
-    '\\u1F5D' +
-    '\\u1F5F-\\u1F7D' +
-    '\\u1F80-\\u1FB4' +
-    '\\u1FB6-\\u1FBC' +
-    '\\u1FBD' +
-    '\\u1FBE' +
-    '\\u1FBF-\\u1FC1' +
-    '\\u1FC2-\\u1FC4' +
-    '\\u1FC6-\\u1FCC' +
-    '\\u1FCD-\\u1FCF' +
-    '\\u1FD0-\\u1FD3' +
-    '\\u1FD6-\\u1FDB' +
-    '\\u1FDD-\\u1FDF' +
-    '\\u1FE0-\\u1FEC' +
-    '\\u1FED-\\u1FEF' +
-    '\\u1FF2-\\u1FF4' +
-    '\\u1FF6-\\u1FFC' +
-    '\\u1FFD-\\u1FFE' +
-    '\\u2126' +
-    '\\uAB65' +
-    ']'
-);
-
-const HIGH_GREEK_PATTERN = new RegExp(
-  '[' +
-    `${String.fromCodePoint(0x10140)}-${String.fromCodePoint(0x10174)}` +
-    `${String.fromCodePoint(0x10175)}-${String.fromCodePoint(0x10178)}` +
-    `${String.fromCodePoint(0x10179)}-${String.fromCodePoint(0x10189)}` +
-    `${String.fromCodePoint(0x1018a)}-${String.fromCodePoint(0x1018b)}` +
-    `${String.fromCodePoint(0x1018c)}-${String.fromCodePoint(0x1018e)}` +
-    `${String.fromCodePoint(0x101a0)}` +
-    `${String.fromCodePoint(0x1d200)}-${String.fromCodePoint(0x1d241)}` +
-    `${String.fromCodePoint(0x1d242)}-${String.fromCodePoint(0x1d244)}` +
-    `${String.fromCodePoint(0x1d245)}` +
-    ']',
-  'u'
-);
-
-function isChunkSneaky(chunk) {
-  const hasLatin = LATIN_PATTERN.test(chunk);
-  if (!hasLatin) {
-    return false;
-  }
-
-  const hasCyrillic = CYRILLIC_PATTERN.test(chunk);
-  if (hasCyrillic) {
+function isLinkSneaky(href) {
+  // This helps users avoid extremely long links (which could be hiding something
+  //   sketchy) and also sidesteps the performance implications of extremely long hrefs.
+  if (href.length > MAX_HREF_LENGTH) {
     return true;
   }
 
-  const hasGreek = GREEK_PATTERN.test(chunk);
-  if (hasGreek) {
+  const url = maybeParseHref(href);
+
+  // If we can't parse it, it's sneaky.
+  if (!url) {
     return true;
   }
 
-  const hasHighGreek = HIGH_GREEK_PATTERN.test(chunk);
-  if (hasHighGreek) {
+  // Any links which contain auth are considered sneaky
+  if (url.username) {
     return true;
   }
 
-  return false;
-}
+  // If the domain is falsy, something fishy is going on
+  if (!url.hostname) {
+    return true;
+  }
 
-function isLinkSneaky(link) {
-  const domain = getDomain(link);
+  // To quote [RFC 1034][0]: "the total number of octets that represent a
+  //   domain name [...] is limited to 255." To be extra careful, we set a
+  //   maximum of 2048. (This also uses the string's `.length` property,
+  //   which isn't exactly the same thing as the number of octets.)
+  // [0]: https://tools.ietf.org/html/rfc1034
+  if (url.hostname.length > 2048) {
+    return true;
+  }
 
-  // This is necesary because getDomain returns domains in punycode form. We check whether
-  //   it's available for the StyleGuide.
+  // Domains cannot contain encoded characters
+  if (url.hostname.includes('%')) {
+    return true;
+  }
+
+  // There must be at least 2 domain labels, and none of them can be empty.
+  const labels = url.hostname.split('.');
+  if (labels.length < 2 || labels.some(isEmpty)) {
+    return true;
+  }
+
+  // This is necesary because getDomain returns domains in punycode form.
   const unicodeDomain = nodeUrl.domainToUnicode
-    ? nodeUrl.domainToUnicode(domain)
-    : domain;
+    ? nodeUrl.domainToUnicode(url.hostname)
+    : url.hostname;
 
-  const chunks = unicodeDomain.split('.');
-  for (let i = 0, max = chunks.length; i < max; i += 1) {
-    const chunk = chunks[i];
-    if (isChunkSneaky(chunk)) {
-      return true;
-    }
+  const withoutPeriods = unicodeDomain.replace(/\./g, '');
+
+  const hasASCII = ASCII_PATTERN.test(withoutPeriods);
+  const withoutASCII = withoutPeriods.replace(ASCII_PATTERN, '');
+
+  const isMixed = hasASCII && withoutASCII.length > 0;
+  if (isMixed) {
+    return true;
   }
 
-  return false;
+  // We can't use `url.pathname` (and so on) because it automatically encodes strings.
+  //   For example, it turns `/aquí` into `/aqu%C3%AD`.
+  const startOfPathAndHash = href.indexOf('/', url.protocol.length + 4);
+  const pathAndHash =
+    startOfPathAndHash === -1 ? '' : href.substr(startOfPathAndHash);
+  return [...pathAndHash].some(
+    character => !VALID_URI_CHARACTERS.has(character)
+  );
 }

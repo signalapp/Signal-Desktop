@@ -1,12 +1,11 @@
 /* global
-  $,
   _,
   log,
   i18n,
   Backbone,
   libsession,
   ConversationController,
-  MessageController,
+  getMessageController,
   storage,
   textsecure,
   Whisper,
@@ -14,7 +13,6 @@
   clipboard,
   BlockedNumberController,
   lokiPublicChatAPI,
-  JobQueue,
 */
 
 /* eslint-disable more/no-then */
@@ -32,13 +30,7 @@
     UNRESTRICTED: 3,
   };
 
-  const {
-    Conversation,
-    Contact,
-    Errors,
-    Message,
-    PhoneNumber,
-  } = window.Signal.Types;
+  const { Conversation, Contact, Message, PhoneNumber } = window.Signal.Types;
   const {
     upgradeMessageSchema,
     loadAttachmentData,
@@ -57,20 +49,6 @@
     // we received the session reset
     request_received: 2,
   });
-
-  const COLORS = [
-    'red',
-    'deep_orange',
-    'brown',
-    'pink',
-    'purple',
-    'indigo',
-    'blue',
-    'teal',
-    'green',
-    'light_green',
-    'blue_grey',
-  ];
 
   Whisper.Conversation = Backbone.Model.extend({
     storeName: 'conversations',
@@ -173,10 +151,6 @@
       this.typingRefreshTimer = null;
       this.typingPauseTimer = null;
 
-      this.messageSendQueue = new JobQueue();
-
-      this.selectedMessages = new Set();
-
       // Keep props ready
       const generateProps = () => {
         this.cachedProps = this.getProps();
@@ -266,80 +240,9 @@
       this.updateTextInputState();
       await textsecure.messaging.sendBlockedListSyncMessage();
     },
-    setMessageSelectionBackdrop() {
-      const messageSelected = this.selectedMessages.size > 0;
-
-      if (messageSelected) {
-        // Hide ellipses icon
-        $('.title-wrapper .session-icon.ellipses').css({ opacity: 0 });
-
-        $('.messages li, .messages > div').addClass('shadowed');
-        $('.message-selection-overlay').addClass('overlay');
-        $('.module-conversation-header').addClass('overlayed');
-
-        let messageId;
-        // eslint-disable-next-line no-restricted-syntax
-        for (const item of this.selectedMessages) {
-          messageId = item.propsForMessage.id;
-          $(`#${messageId}`).removeClass('shadowed');
-        }
-      } else {
-        // Hide ellipses icon
-        $('.title-wrapper .session-icon.ellipses').css({ opacity: 1 });
-
-        $('.messages li, .messages > div').removeClass('shadowed');
-        $('.message-selection-overlay').removeClass('overlay');
-        $('.module-conversation-header').removeClass('overlayed');
-      }
-    },
-
-    addMessageSelection(id) {
-      // If the selection is empty, then we chage the mode to
-      // multiple selection by making it non-empty
-      const modeChanged = this.selectedMessages.size === 0;
-      this.selectedMessages.add(id);
-
-      if (modeChanged) {
-        this.messageCollection.forEach(m => m.trigger('change'));
-      }
-
-      this.trigger('message-selection-changed');
-      this.setMessageSelectionBackdrop();
-    },
-
-    removeMessageSelection(id) {
-      this.selectedMessages.delete(id);
-      // If the selection is empty after the deletion then we
-      // must have unselected the last one (we assume the id is valid)
-      const modeChanged = this.selectedMessages.size === 0;
-
-      if (modeChanged) {
-        this.messageCollection.forEach(m => m.trigger('change'));
-      }
-
-      this.trigger('message-selection-changed');
-      this.setMessageSelectionBackdrop();
-    },
-
-    resetMessageSelection() {
-      this.selectedMessages.clear();
-      this.messageCollection.forEach(m => {
-        // on change for ALL messages without real changes is a really costly operation
-        // -> cause refresh of the whole conversation view even if not a single message was selected
-        if (m.selected) {
-          // eslint-disable-next-line no-param-reassign
-          m.selected = false;
-          m.trigger('change');
-        }
-      });
-
-      this.trigger('message-selection-changed');
-      this.setMessageSelectionBackdrop();
-    },
-
     async bumpTyping() {
       if (this.isPublic()) {
-        window.console.debug('public conversation... No need to bumpTyping');
+        window.log.debug('public conversation... No need to bumpTyping');
         return;
       }
       // We don't send typing messages if the setting is disabled or we do not have a session
@@ -390,7 +293,7 @@
       }
       this.typingPauseTimer = setTimeout(
         this.onTypingPauseTimeout.bind(this),
-        3 * 1000
+        10 * 1000
       );
     },
 
@@ -443,7 +346,7 @@
       );
 
       // send the message to a single recipient if this is a session chat
-      if (this.isPrivate) {
+      if (this.isPrivate()) {
         const device = new libsession.Types.PubKey(recipientId);
         libsession
           .getMessageQueue()
@@ -523,7 +426,7 @@
     },
 
     // Get messages with the given timestamp
-    _getMessagesWithTimestamp(pubKey, timestamp) {
+    getMessagesWithTimestamp(pubKey, timestamp) {
       if (this.id !== pubKey) {
         return [];
       }
@@ -535,12 +438,12 @@
     },
 
     async onCalculatingPoW(pubKey, timestamp) {
-      const messages = this._getMessagesWithTimestamp(pubKey, timestamp);
+      const messages = this.getMessagesWithTimestamp(pubKey, timestamp);
       await Promise.all(messages.map(m => m.setCalculatingPoW()));
     },
 
     async onPublicMessageSent(pubKey, timestamp, serverId, serverTimestamp) {
-      const messages = this._getMessagesWithTimestamp(pubKey, timestamp);
+      const messages = this.getMessagesWithTimestamp(pubKey, timestamp);
       if (messages && messages.length === 1) {
         await messages[0].setIsPublic(true);
         await messages[0].setServerId(serverId);
@@ -556,6 +459,16 @@
         ? `${message.get('source')}.${message.get('sourceDevice')}`
         : `${message.source}.${message.sourceDevice}`;
       this.clearContactTypingTimer(identifier);
+
+      const model = this.addSingleMessage(message);
+      getMessageController().register(model.id, model);
+
+      window.Whisper.events.trigger('messageAdded', {
+        conversationKey: this.id,
+        messageModel: model,
+      });
+
+      this.trigger('change', this);
     },
     addSingleMessage(message, setToExpire = true) {
       const model = this.messageCollection.add(message, { merge: true });
@@ -604,20 +517,19 @@
         isOnline: this.isOnline(),
         hasNickname: !!this.getNickname(),
         isKickedFromGroup: !!this.get('isKickedFromGroup'),
-
-        selectedMessages: this.selectedMessages,
+        leftGroup: !!this.get('left'),
 
         onClick: () => this.trigger('select', this),
         onBlockContact: () => this.block(),
         onUnblockContact: () => this.unblock(),
-        onChangeNickname: () => this.changeNickname(),
-        onClearNickname: () => this.setNickname(null),
         onCopyPublicKey: () => this.copyPublicKey(),
         onDeleteContact: () => this.deleteContact(),
         onDeleteMessages: () => this.deleteMessages(),
-        onCloseOverlay: () => this.resetMessageSelection(),
         onInviteContacts: () => {
           window.Whisper.events.trigger('inviteContacts', this);
+        },
+        onClearNickname: () => {
+          this.setLokiProfile({ displayName: null });
         },
       };
 
@@ -945,6 +857,7 @@
         unread: 1,
       };
 
+      // no commit() here as this is not a message model object
       const id = await window.Signal.Data.saveMessage(message, {
         Message: Whisper.Message,
       });
@@ -998,6 +911,7 @@
         unread: 1,
       };
 
+      // no commit() here as this is not a message model object
       const id = await window.Signal.Data.saveMessage(message, {
         Message: Whisper.Message,
       });
@@ -1043,6 +957,10 @@
       return window.Signal.Data.getUnreadByConversation(this.id, {
         MessageCollection: Whisper.MessageCollection,
       });
+    },
+
+    async getUnreadCount() {
+      return window.Signal.Data.getUnreadCountByConversation(this.id);
     },
 
     validate(attributes) {
@@ -1107,16 +1025,6 @@
 
       return current;
     },
-
-    queueMessageSend(callback) {
-      const taskWithTimeout = textsecure.createTaskWithTimeout(
-        callback,
-        `conversation ${this.idForLogging()}`
-      );
-
-      return this.messageSendQueue.add(taskWithTimeout);
-    },
-
     getRecipients() {
       if (this.isPrivate()) {
         return [this.id];
@@ -1216,7 +1124,121 @@
         conversationId: this.id,
       });
     },
+    async sendMessageJob(message) {
+      try {
+        const uploads = await message.uploadData();
+        const { id } = message;
+        const expireTimer = this.get('expireTimer');
+        const destination = this.id;
 
+        const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
+          body: uploads.body,
+          identifier: id,
+          timestamp: message.get('sent_at'),
+          attachments: uploads.attachments,
+          expireTimer,
+          preview: uploads.preview,
+          quote: uploads.quote,
+          lokiProfile: this.getOurProfile(),
+        });
+
+        if (this.isMe()) {
+          // we need the return await so that errors are caught in the catch {}
+          return await message.sendSyncMessageOnly(chatMessage);
+        }
+
+        if (this.isPublic()) {
+          const openGroup = this.toOpenGroup();
+
+          const openGroupParams = {
+            body: uploads.body,
+            timestamp: message.get('sent_at'),
+            group: openGroup,
+            attachments: uploads.attachments,
+            preview: uploads.preview,
+            quote: uploads.quote,
+            identifier: id,
+          };
+          const openGroupMessage = new libsession.Messages.Outgoing.OpenGroupMessage(
+            openGroupParams
+          );
+          // we need the return await so that errors are caught in the catch {}
+          return await libsession
+            .getMessageQueue()
+            .sendToGroup(openGroupMessage);
+        }
+
+        const destinationPubkey = new libsession.Types.PubKey(destination);
+        if (this.isPrivate()) {
+          // Handle Group Invitation Message
+          if (message.get('groupInvitation')) {
+            const groupInvitation = message.get('groupInvitation');
+            const groupInvitMessage = new libsession.Messages.Outgoing.GroupInvitationMessage(
+              {
+                identifier: id,
+                timestamp: message.get('sent_at'),
+                serverName: groupInvitation.name,
+                channelId: groupInvitation.channelId,
+                serverAddress: groupInvitation.address,
+                expireTimer: this.get('expireTimer'),
+              }
+            );
+            // we need the return await so that errors are caught in the catch {}
+            return await libsession
+              .getMessageQueue()
+              .sendUsingMultiDevice(destinationPubkey, groupInvitMessage);
+          }
+          // we need the return await so that errors are caught in the catch {}
+          return await libsession
+            .getMessageQueue()
+            .sendUsingMultiDevice(destinationPubkey, chatMessage);
+        }
+
+        if (this.isMediumGroup()) {
+          const mediumGroupChatMessage = new libsession.Messages.Outgoing.MediumGroupChatMessage(
+            {
+              chatMessage,
+              groupId: destination,
+            }
+          );
+
+          // we need the return await so that errors are caught in the catch {}
+          return await libsession
+            .getMessageQueue()
+            .sendToGroup(mediumGroupChatMessage);
+        }
+
+        if (this.isClosedGroup()) {
+          const members = this.get('members');
+          const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
+            {
+              chatMessage,
+              groupId: destination,
+            }
+          );
+
+          // Special-case the self-send case - we send only a sync message
+          if (members.length === 1) {
+            const isOurDevice = await libsession.Protocols.MultiDeviceProtocol.isOurDevice(
+              members[0]
+            );
+            if (isOurDevice) {
+              // we need the return await so that errors are caught in the catch {}
+              return await message.sendSyncMessageOnly(closedGroupChatMessage);
+            }
+          }
+          // we need the return await so that errors are caught in the catch {}
+          return await libsession
+            .getMessageQueue()
+            .sendToGroup(closedGroupChatMessage);
+        }
+
+        throw new TypeError(`Invalid conversation type: '${this.get('type')}'`);
+      } catch (e) {
+        await message.saveErrors(e);
+        return null;
+      }
+    },
     async sendMessage(
       body,
       attachments,
@@ -1231,205 +1253,102 @@
       const expireTimer = this.get('expireTimer');
       const recipients = this.getRecipients();
 
-      this.queueJob(async () => {
-        const now = Date.now();
+      const now = Date.now();
 
-        window.log.info(
-          'Sending message to conversation',
-          this.idForLogging(),
-          'with timestamp',
-          now
-        );
+      window.log.info(
+        'Sending message to conversation',
+        this.idForLogging(),
+        'with timestamp',
+        now
+      );
+      // be sure an empty quote is marked as undefined rather than being empty
+      // otherwise upgradeMessageSchema() will return an object with an empty array
+      // and this.get('quote') will be true, even if there is no quote.
+      const editedQuote = _.isEmpty(quote) ? undefined : quote;
 
-        const conversationType = this.get('type');
-        const messageWithSchema = await upgradeMessageSchema({
-          type: 'outgoing',
-          body,
-          conversationId: destination,
-          quote,
-          preview,
-          attachments,
-          sent_at: now,
-          received_at: now,
-          expireTimer,
-          recipients,
-        });
+      const messageWithSchema = await upgradeMessageSchema({
+        type: 'outgoing',
+        body,
+        conversationId: destination,
+        quote: editedQuote,
+        preview,
+        attachments,
+        sent_at: now,
+        received_at: now,
+        expireTimer,
+        recipients,
+      });
 
-        if (this.isPublic()) {
-          // Public chats require this data to detect duplicates
-          messageWithSchema.source = textsecure.storage.user.getNumber();
-          messageWithSchema.sourceDevice = 1;
-        } else {
-          messageWithSchema.destination = destination;
-        }
+      if (this.isPublic()) {
+        // Public chats require this data to detect duplicates
+        messageWithSchema.source = textsecure.storage.user.getNumber();
+        messageWithSchema.sourceDevice = 1;
+      } else {
+        messageWithSchema.destination = destination;
+      }
 
-        const { sessionRestoration = false } = otherOptions;
+      const { sessionRestoration = false } = otherOptions;
 
-        const attributes = {
-          ...messageWithSchema,
-          groupInvitation,
-          sessionRestoration,
-          id: window.getGuid(),
-        };
+      const attributes = {
+        ...messageWithSchema,
+        groupInvitation,
+        sessionRestoration,
+        id: window.getGuid(),
+      };
 
-        const model = this.addSingleMessage(attributes);
-        const message = MessageController.register(model.id, model);
+      const model = this.addSingleMessage(attributes);
+      const message = getMessageController().register(model.id, model);
 
-        await window.Signal.Data.saveMessage(message.attributes, {
-          forceSave: true,
-          Message: Whisper.Message,
-        });
+      await message.commit(true);
 
-        if (this.isPrivate()) {
-          message.set({ destination });
-        }
-        if (this.isPublic()) {
-          message.setServerTimestamp(new Date().getTime());
-        }
+      if (this.isPrivate()) {
+        message.set({ destination });
+      }
+      if (this.isPublic()) {
+        message.setServerTimestamp(new Date().getTime());
+      }
 
-        const id = await window.Signal.Data.saveMessage(message.attributes, {
-          Message: Whisper.Message,
-        });
-        message.set({ id });
+      const id = await message.commit();
+      message.set({ id });
 
-        this.set({
-          lastMessage: model.getNotificationText(),
-          lastMessageStatus: 'sending',
-          active_at: now,
-          timestamp: now,
-          isArchived: false,
-        });
-        await this.commit();
+      window.Whisper.events.trigger('messageAdded', {
+        conversationKey: this.id,
+        messageModel: message,
+      });
 
-        // We're offline!
-        if (!textsecure.messaging) {
-          const errors = this.contactCollection.map(contact => {
+      this.set({
+        lastMessage: model.getNotificationText(),
+        lastMessageStatus: 'sending',
+        active_at: now,
+        timestamp: now,
+        isArchived: false,
+      });
+      await this.commit();
+
+      // We're offline!
+      if (!textsecure.messaging) {
+        let errors;
+        if (this.contactCollection.length) {
+          errors = this.contactCollection.map(contact => {
             const error = new Error('Network is not available');
             error.name = 'SendMessageNetworkError';
             error.number = contact.id;
             return error;
           });
-          await message.saveErrors(errors);
-          return null;
+        } else {
+          const error = new Error('Network is not available');
+          error.name = 'SendMessageNetworkError';
+          error.number = this.id;
+          errors = [error];
         }
+        await message.saveErrors(errors);
+        return null;
+      }
 
-        try {
-          const uploads = await message.uploadData();
-
-          const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
-            body: uploads.body,
-            identifier: id,
-            timestamp: now,
-            attachments: uploads.attachments,
-            expireTimer,
-            preview: uploads.preview,
-            quote: uploads.quote,
-            lokiProfile: this.getOurProfile(),
-          });
-
-          if (this.isMe()) {
-            return message.sendSyncMessageOnly(chatMessage);
-          }
-
-          if (this.isPublic()) {
-            const openGroup = this.toOpenGroup();
-
-            const openGroupParams = {
-              body,
-              timestamp: now,
-              group: openGroup,
-              attachments: uploads.attachments,
-              preview: uploads.preview,
-              quote: uploads.quote,
-              identifier: id,
-            };
-            const openGroupMessage = new libsession.Messages.Outgoing.OpenGroupMessage(
-              openGroupParams
-            );
-            await libsession.getMessageQueue().sendToGroup(openGroupMessage);
-
-            return null;
-          }
-
-          const destinationPubkey = new libsession.Types.PubKey(destination);
-          // Handle Group Invitation Message
-          if (groupInvitation) {
-            if (conversationType !== Message.PRIVATE) {
-              window.console.warning('Cannot send groupInvite to group chat');
-
-              return null;
-            }
-
-            const groupInvitMessage = new libsession.Messages.Outgoing.GroupInvitationMessage(
-              {
-                identifier: id,
-                timestamp: Date.now(),
-                serverName: groupInvitation.name,
-                channelId: groupInvitation.channelId,
-                serverAddress: groupInvitation.address,
-              }
-            );
-
-            return libsession
-              .getMessageQueue()
-              .sendUsingMultiDevice(destinationPubkey, groupInvitMessage);
-          }
-
-          if (conversationType === Message.PRIVATE) {
-            return libsession
-              .getMessageQueue()
-              .sendUsingMultiDevice(destinationPubkey, chatMessage);
-          }
-
-          if (conversationType === Message.GROUP) {
-            const members = this.get('members');
-            if (this.isMediumGroup()) {
-              const mediumGroupChatMessage = new libsession.Messages.Outgoing.MediumGroupChatMessage(
-                {
-                  chatMessage,
-                  groupId: destination,
-                }
-              );
-
-              await libsession
-                .getMessageQueue()
-                .sendToGroup(mediumGroupChatMessage);
-            } else {
-              const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
-                {
-                  chatMessage,
-                  groupId: destination,
-                }
-              );
-
-              // Special-case the self-send case - we send only a sync message
-              if (members.length === 1) {
-                const isOurDevice = await libsession.Protocols.MultiDeviceProtocol.isOurDevice(
-                  members[0]
-                );
-                if (isOurDevice) {
-                  await message.sendSyncMessageOnly(closedGroupChatMessage);
-                  return true;
-                }
-              }
-
-              await libsession
-                .getMessageQueue()
-                .sendToGroup(closedGroupChatMessage);
-            }
-          } else {
-            throw new TypeError(
-              `Invalid conversation type: '${conversationType}'`
-            );
-          }
-
-          return true;
-        } catch (e) {
-          await message.saveErrors(e);
-
-          return null;
-        }
+      this.queueJob(async () => {
+        await this.sendMessageJob(message);
       });
+      return null;
     },
 
     async updateAvatarOnPublicChat({ url, profileKey }) {
@@ -1552,10 +1471,15 @@
         message.set({ recipients: this.getRecipients() });
       }
 
-      const id = await window.Signal.Data.saveMessage(message.attributes, {
-        Message: Whisper.Message,
-      });
+      const id = await message.commit();
+
       message.set({ id });
+      window.Whisper.events.trigger('messageAdded', {
+        conversationKey: this.id,
+        messageModel: message,
+      });
+
+      await this.commit();
 
       // if change was made remotely, don't send it to the number/group
       if (receivedAt) {
@@ -1627,15 +1551,11 @@
       await this.setSessionResetStatus(SessionResetEnum.initiated);
     },
     async onSessionResetReceived() {
+      await this.createAndStoreEndSessionMessage({
+        type: 'incoming',
+        endSessionType: 'ongoing',
+      });
       await this.setSessionResetStatus(SessionResetEnum.request_received);
-      // send empty message, this will trigger the new session to propagate
-      // to the reset initiator.
-      const user = new libsession.Types.PubKey(this.id);
-
-      const sessionEstablished = new window.libsession.Messages.Outgoing.SessionEstablishedMessage(
-        { timestamp: Date.now() }
-      );
-      await libsession.getMessageQueue().send(user, sessionEstablished);
     },
 
     isSessionResetReceived() {
@@ -1661,10 +1581,12 @@
         ...attributes,
       });
 
-      const id = await window.Signal.Data.saveMessage(message.attributes, {
-        Message: Whisper.Message,
-      });
+      const id = await message.commit();
       message.set({ id });
+      window.Whisper.events.trigger('messageAdded', {
+        conversationKey: this.id,
+        messageModel: message,
+      });
       return message;
     },
 
@@ -1729,13 +1651,12 @@
     async addMessage(messageAttributes) {
       const message = this.messageCollection.add(messageAttributes);
 
-      const messageId = await window.Signal.Data.saveMessage(
-        message.attributes,
-        {
-          Message: Whisper.Message,
-        }
-      );
+      const messageId = await message.commit();
       message.set({ id: messageId });
+      window.Whisper.events.trigger('messageAdded', {
+        conversationKey: this.id,
+        messageModel: message,
+      });
       return message;
     },
 
@@ -1755,7 +1676,7 @@
         );
         const recipientPubKey = new libsession.Types.PubKey(recipient);
         if (!recipientPubKey) {
-          window.console.warn('sendGroupInfo invalid pubkey:', recipient);
+          window.log.warn('sendGroupInfo invalid pubkey:', recipient);
           return;
         }
 
@@ -1811,10 +1732,12 @@
           received_at: now,
         });
 
-        const id = await window.Signal.Data.saveMessage(message.attributes, {
-          Message: Whisper.Message,
-        });
+        const id = await message.commit();
         message.set({ id });
+        window.Whisper.events.trigger('messageAdded', {
+          conversationKey: this.id,
+          messageModel: message,
+        });
 
         // FIXME what about public groups?
         const quitGroup = {
@@ -1850,13 +1773,14 @@
         })
       );
       let unreadMessages = await this.getUnread();
+
       const oldUnread = unreadMessages.filter(
         message => message.get('received_at') <= newestUnreadDate
       );
 
       let read = await Promise.all(
         _.map(oldUnread, async providedM => {
-          const m = MessageController.register(providedM.id, providedM);
+          const m = getMessageController().register(providedM.id, providedM);
 
           if (!this.messageCollection.get(m.id)) {
             window.log.warn(
@@ -1877,10 +1801,21 @@
 
       // Some messages we're marking read are local notifications with no sender
       read = _.filter(read, m => Boolean(m.sender));
+      const realUnreadCount = await this.getUnreadCount();
+      if (read.length === 0) {
+        const cachedUnreadCountOnConvo = this.get('unreadCount');
+        if (cachedUnreadCountOnConvo !== read.length) {
+          // reset the unreadCount on the convo to the real one coming from markRead messages on the db
+          this.set({ unreadCount: 0 });
+          this.commit();
+        } else {
+          // window.log.info('markRead(): nothing newly read.');
+        }
+        return;
+      }
       unreadMessages = unreadMessages.filter(m => Boolean(m.isIncoming()));
 
-      const unreadCount = unreadMessages.length - read.length;
-      this.set('unreadCount', unreadCount);
+      this.set({ unreadCount: realUnreadCount });
 
       const mentionRead = (() => {
         const stillUnread = unreadMessages.filter(
@@ -1909,9 +1844,7 @@
       read = read.filter(item => !item.hasErrors);
 
       if (this.isPublic()) {
-        window.console.debug(
-          'public conversation... No need to send read receipt'
-        );
+        window.log.debug('public conversation... No need to send read receipt');
         return;
       }
 
@@ -1968,8 +1901,11 @@
         await this.commit();
       }
 
-      // if set to null, it will show a placeholder with color and first letter
-      await this.setProfileAvatar({ path: newProfile.avatar });
+      // a user cannot remove an avatar. Only change it
+      // if you change this behavior, double check all setLokiProfile calls (especially the one in EditProfileDialog)
+      if (newProfile.avatar) {
+        await this.setProfileAvatar({ path: newProfile.avatar });
+      }
 
       await this.updateProfileName();
     },
@@ -2197,43 +2133,9 @@
           const upgradedMessage = await upgradeMessageSchema(attributes);
           message.set(upgradedMessage);
           // eslint-disable-next-line no-await-in-loop
-          await window.Signal.Data.saveMessage(upgradedMessage, {
-            Message: Whisper.Message,
-          });
+          await upgradedMessage.commit();
         }
       }
-    },
-
-    async fetchMessages() {
-      if (!this.id) {
-        throw new Error('This conversation has no id!');
-      }
-      if (this.inProgressFetch) {
-        window.log.warn('Attempting to start a parallel fetchMessages() call');
-        return;
-      }
-
-      this.inProgressFetch = this.messageCollection.fetchConversation(
-        this.id,
-        undefined,
-        this.get('unreadCount')
-      );
-
-      await this.inProgressFetch;
-
-      try {
-        // We are now doing the work to upgrade messages before considering the load from
-        //   the database complete. Note that we do save messages back, so it is a
-        //   one-time hit. We do this so we have guarantees about message structure.
-        await this.upgradeMessages(this.messageCollection);
-      } catch (error) {
-        window.log.error(
-          'fetchMessages: failed to upgrade messages',
-          Errors.toLogFormat(error)
-        );
-      }
-
-      this.inProgressFetch = null;
     },
 
     hasMember(number) {
@@ -2269,11 +2171,7 @@
     copyPublicKey() {
       clipboard.writeText(this.id);
 
-      window.pushToast({
-        title: i18n('copiedToClipboard'),
-        type: 'success',
-        id: 'copiedToClipboard',
-      });
+      window.libsession.Utils.ToastUtils.pushCopiedToClipBoard();
     },
 
     changeNickname() {
@@ -2310,15 +2208,15 @@
         return false;
       }
 
-      const invalidMessages = messages.filter(m => !m.getServerId());
-      const pendingMessages = messages.filter(m => m.getServerId());
+      const invalidMessages = messages.filter(m => !m.attributes.serverId);
+      const pendingMessages = messages.filter(m => m.attributes.serverId);
 
       let deletedServerIds = [];
       let ignoredServerIds = [];
 
       if (pendingMessages.length > 0) {
         const result = await channelAPI.deleteMessages(
-          pendingMessages.map(m => m.getServerId())
+          pendingMessages.map(m => m.attributes.serverId)
         );
         deletedServerIds = result.deletedIds;
         ignoredServerIds = result.ignoredIds;
@@ -2329,7 +2227,7 @@
         ignoredServerIds
       );
       let toDeleteLocally = messages.filter(m =>
-        toDeleteLocallyServerIds.includes(m.getServerId())
+        toDeleteLocallyServerIds.includes(m.attributes.serverId)
       );
       toDeleteLocally = _.union(toDeleteLocally, invalidMessages);
 
@@ -2346,11 +2244,16 @@
         message.trigger('unload');
         this.messageCollection.remove(messageId);
       }
+      window.Signal.Data.removeMessage(messageId, {
+        Message: Whisper.Message,
+      });
+      window.Whisper.events.trigger('messageDeleted', {
+        conversationKey: this.id,
+        messageId,
+      });
     },
 
     deleteMessages() {
-      this.resetMessageSelection();
-
       let params;
       if (this.isPublic()) {
         throw new Error(
@@ -2373,20 +2276,16 @@
       });
 
       this.messageCollection.reset([]);
-
-      // let's try to keep the RSS conversation open just empty...
-      if (this.isRss()) {
-        this.set({
-          lastMessage: null,
-        });
-      } else {
-        // this will remove the conversation from conversation lists...
-        this.set({
-          lastMessage: null,
-          timestamp: null,
-          active_at: null,
-        });
-      }
+      window.Whisper.events.trigger('conversationReset', {
+        conversationKey: this.id,
+      });
+      // destroy message keeps the active timestamp set so the
+      // conversation still appears on the conversation list but is empty
+      this.set({
+        lastMessage: null,
+        unreadCount: 0,
+        mentionedUs: false,
+      });
 
       await this.commit();
     },
@@ -2402,10 +2301,56 @@
       if (this.isPrivate()) {
         const profileName = this.getProfileName();
         const number = this.getNumber();
-        const name = profileName ? `${profileName} (${number})` : number;
+        let name;
+        if (window.shortenPubkey) {
+          name = profileName
+            ? `${profileName} (${window.shortenPubkey(number)})`
+            : number;
+        } else {
+          name = profileName ? `${profileName} (${number})` : number;
+        }
         return this.get('name') || name;
       }
       return this.get('name') || 'Unknown group';
+    },
+
+    /**
+     * For a private convo, returns the loki profilename if set, or a shortened
+     * version of the contact pubkey.
+     * Throws an error if called on a group convo.
+     * */
+    getContactProfileNameOrShortenedPubKey() {
+      if (!this.isPrivate()) {
+        throw new Error(
+          'getContactProfileNameOrShortenedPubKey() cannot be called with a non private convo.'
+        );
+      }
+
+      const profileName = this.get('profileName');
+      const pubkey = this.id;
+      if (pubkey === textsecure.storage.user.getNumber()) {
+        return i18n('you');
+      }
+      return profileName || window.shortenPubkey(pubkey);
+    },
+
+    /**
+     * For a private convo, returns the loki profilename if set, or a full length
+     * version of the contact pubkey.
+     * Throws an error if called on a group convo.
+     * */
+    getContactProfileNameOrFullPubKey() {
+      if (!this.isPrivate()) {
+        throw new Error(
+          'getContactProfileNameOrFullPubKey() cannot be called with a non private convo.'
+        );
+      }
+      const profileName = this.get('profileName');
+      const pubkey = this.id;
+      if (pubkey === textsecure.storage.user.getNumber()) {
+        return i18n('you');
+      }
+      return profileName || pubkey;
     },
 
     getProfileName() {
@@ -2415,23 +2360,6 @@
       return null;
     },
 
-    getDisplayName() {
-      if (!this.isPrivate()) {
-        return this.getTitle();
-      }
-
-      const name = this.get('name');
-      if (name) {
-        return name;
-      }
-
-      const profileName = this.get('profileName');
-      if (profileName) {
-        return `${this.getNumber()} ~${profileName}`;
-      }
-
-      return this.getNumber();
-    },
     /**
      * Returns
      *   displayName: string;
@@ -2470,7 +2398,6 @@
 
     getAvatarPath() {
       const avatar = this.get('avatar') || this.get('profileAvatar');
-
       if (typeof avatar === 'string') {
         return avatar;
       }
@@ -2630,6 +2557,4 @@
       this.reset([]);
     },
   });
-
-  Whisper.Conversation.COLORS = COLORS.concat(['grey', 'default']).join(' ');
 })();

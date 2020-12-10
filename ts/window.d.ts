@@ -12,7 +12,13 @@ import { LibTextsecure } from '../libtextsecure';
 import { ConversationType } from '../js/modules/data';
 import { RecoveryPhraseUtil } from '../libloki/modules/mnemonic';
 import { ConfirmationDialogParams } from '../background';
+import {} from 'styled-components/cssprop';
 
+import { ConversationControllerType } from '../js/ConversationController';
+import { any } from 'underscore';
+import { Store } from 'redux';
+import { MessageController } from './session/messages/MessageController';
+import { DefaultTheme } from 'styled-components';
 /*
 We declare window stuff here instead of global.d.ts because we are importing other declarations.
 If you import anything in global.d.ts, the type system won't work correctly.
@@ -21,14 +27,15 @@ If you import anything in global.d.ts, the type system won't work correctly.
 declare global {
   interface Window {
     CONSTANTS: any;
-    ConversationController: any;
+    ConversationController: ConversationControllerType;
+    SignalProtocolStore: any;
     Events: any;
     Lodash: any;
     LokiAppDotNetServerAPI: any;
     LokiFileServerAPI: any;
     LokiPublicChatAPI: any;
     LokiSnodeAPI: any;
-    MessageController: any;
+    getMessageController: () => MessageController;
     Session: any;
     Signal: SignalInterface;
     StringView: any;
@@ -44,7 +51,6 @@ declare global {
     deleteAccount: any;
     displayNameRegex: any;
     friends: any;
-    generateID: any;
     getAccountManager: any;
     getConversations: any;
     getFriendsFromContacts: any;
@@ -69,39 +75,52 @@ declare global {
     lokiMessageAPI: LokiMessageInterface;
     lokiPublicChatAPI: LokiPublicChatFactoryInterface;
     lokiSnodeAPI: LokiSnodeAPI;
-    lokiPublicChatAPI: LokiPublicChatFactoryAPI;
     mnemonic: RecoveryPhraseUtil;
     onLogin: any;
     passwordUtil: any;
-    pushToast: any;
     resetDatabase: any;
     restart: any;
     seedNodeList: any;
     setPassword: any;
     setSettingValue: any;
-    shortenPubkey: any;
+    shortenPubkey: (pubKey: string) => string;
     showEditProfileDialog: any;
-    getOurDisplayName: () => string | undefined;
-    showPasswordDialog: any;
-    showSeedDialog: any;
     storage: any;
     textsecure: LibTextsecure;
     toggleLinkPreview: any;
     toggleMediaPermissions: any;
     toggleMenuBar: any;
     toggleSpellCheck: any;
-    toggleTheme: any;
+    setTheme: (newTheme: string) => any;
     tokenlessFileServerAdnAPI: LokiAppDotNetServerInterface;
     userConfig: any;
     versionInfo: any;
     getStoragePubKey: any;
+    pubkeyPattern: any;
+    getConversations: () => ConversationCollection;
     getGuid: any;
     ContactBuffer: any;
     GroupBuffer: any;
     SwarmPolling: SwarmPolling;
-    owsDesktopApp: any;
+    MediaRecorder: any;
+    dataURLToBlobSync: any;
+    autoOrientImage: any;
+    contextMenuShown: boolean;
     sessionGenerateKeyPair: (
       seed: ArrayBuffer
     ) => Promise<{ pubKey: ArrayBufferLike; privKey: ArrayBufferLike }>;
+    setClockParams: any;
+    clientClockSynced: number | undefined;
+    getMessagesByKey: any;
+    inboxStore: Store;
+    getSocketStatus: any;
+    actionsCreators: any;
+    extension: {
+      expired: (boolean) => void;
+      expiredStatus: () => boolean;
+    };
+    openUrl: (string) => void;
+    lightTheme: DefaultTheme;
+    darkTheme: DefaultTheme;
   }
 }

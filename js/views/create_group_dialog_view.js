@@ -20,6 +20,7 @@
       this.groupId = groupConvo.id;
       this.members = groupConvo.get('members') || [];
       this.avatarPath = groupConvo.getAvatarPath();
+      this.theme = groupConvo.theme;
 
       // any member can update a closed group name
       this.isAdmin = true;
@@ -54,6 +55,7 @@
           onSubmit: this.onSubmit,
           onClose: this.close,
           avatarPath: this.avatarPath,
+          theme: this.theme,
         },
       });
 
@@ -84,6 +86,7 @@
       this.isPublic = groupConvo.isPublic();
       this.groupId = groupConvo.id;
       this.avatarPath = groupConvo.getAvatarPath();
+      this.theme = groupConvo.theme;
 
       if (this.isPublic) {
         this.titleText = i18n('updateGroupDialogTitle', this.groupName);
@@ -139,6 +142,7 @@
           onClose: this.close,
           onSubmit: this.onSubmit,
           groupId: this.groupId,
+          theme: this.theme,
         },
       });
 
@@ -180,7 +184,7 @@
 
       const xor = _.xor(notPresentInNew, notPresentInOld);
       if (xor.length === 0) {
-        window.console.log(
+        window.log.log(
           'skipping group update: no detected changes in group member list'
         );
 

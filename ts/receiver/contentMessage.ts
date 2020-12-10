@@ -6,7 +6,10 @@ import { removeFromCache, updateCache } from './cache';
 import { SignalService } from '../protobuf';
 import * as Lodash from 'lodash';
 import * as libsession from '../session';
-import { handleSessionRequestMessage } from './sessionHandling';
+import {
+  handleEndSession,
+  handleSessionRequestMessage,
+} from './sessionHandling';
 import { handlePairingAuthorisationMessage } from './multidevice';
 import { MediumGroupRequestKeysMessage } from '../session/messages/outgoing';
 import { MultiDeviceProtocol, SessionProtocol } from '../session/protocols';
@@ -77,7 +80,7 @@ async function decryptForMediumGroup(
   const ourNumber = (await UserUtil.getCurrentDevicePubKey()) as string;
   const sourceAsStr = StringUtils.decode(source, 'hex');
   if (sourceAsStr === ourNumber) {
-    window.console.info(
+    window.log.info(
       'Dropping message from ourself after decryptForMediumGroup'
     );
     return null;
@@ -163,22 +166,29 @@ async function decryptUnidentifiedSender(
     const { sender: source } = error || {};
 
     if (source) {
-      // tslint:disable-next-line: no-shadowed-variable
       const blocked = await isBlocked(source.getName());
       if (blocked) {
         window.log.info(
           'Dropping blocked message with error after sealed sender decryption'
         );
+        await removeFromCache(envelope);
         return null;
       }
 
-      // eslint-disable-next-line no-param-reassign
-      envelope.source = source.getName();
-      // eslint-disable-next-line no-param-reassign
-      envelope.sourceDevice = source.getDeviceId();
-      // eslint-disable-next-line no-param-reassign
-      envelope.unidentifiedDeliveryReceived = !originalSource;
+      if (error.message.startsWith('No sessions for device ')) {
+        // Receives a message from a specific device but we did not have a session with him.
+        // We trigger a session request.
+        await SessionProtocol.sendSessionRequestIfNeeded(
+          PubKey.cast(source.getName())
+        );
+      }
 
+      // eslint-disable no-param-reassign
+      envelope.source = source.getName();
+      envelope.sourceDevice = source.getDeviceId();
+      envelope.unidentifiedDeliveryReceived = !originalSource;
+      // eslint-enable no-param-reassign
+      await removeFromCache(envelope);
       throw error;
     }
 
@@ -257,6 +267,7 @@ async function doDecrypt(
   }
 }
 
+// tslint:disable-next-line: max-func-body-length
 async function decrypt(
   envelope: EnvelopePlus,
   ciphertext: ArrayBuffer
@@ -309,6 +320,23 @@ async function decrypt(
 
         return;
       }
+    } else if (error instanceof window.textsecure.PreKeyMissing) {
+      // this error can mean two things
+      // 1. The sender received a session request message from us, used it to establish a session, but restored from seed
+      //    Depending on the the date of our messsage, on restore from seed the sender might get our session request again
+      //    He will try to use it to establish a session. In this case, we should reset the session as we cannot decode its message.
+      // 2. We sent a session request to the sender and he established it. But if he sends us a message before we send one to him, he will
+      //    include the prekeyId in that new message.
+      //    We won't find this preKeyId as we already burnt it when the sender established the session.
+
+      const convo = window.ConversationController.get(envelope.source);
+      if (!convo) {
+        window.log.warn('PreKeyMissing but convo is missing too. Dropping...');
+        return;
+      }
+      void convo.endSession();
+
+      return;
     }
 
     let errorToThrow = error;
@@ -575,12 +603,13 @@ async function handleTypingMessage(
 
   // A sender here could be referring to a group.
   // Groups don't have primary devices so we need to take that into consideration.
+  // Note: we do not support group typing message for now.
   const user = PubKey.from(source);
   const primaryDevice = user
     ? await MultiDeviceProtocol.getPrimaryDevice(user)
     : null;
 
-  const convoId = groupId || (primaryDevice && primaryDevice.key) || source;
+  const convoId = (primaryDevice && primaryDevice.key) || source;
 
   const conversation = ConversationController.get(convoId);
 

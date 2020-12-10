@@ -3,7 +3,7 @@
   Backbone,
   _,
   ConversationController,
-  MessageController,
+  getMessageController,
   window
 */
 
@@ -60,7 +60,7 @@
         return null;
       }
 
-      return MessageController.register(target.id, target);
+      return getMessageController().register(target.id, target);
     },
     async onReceipt(receipt) {
       try {
@@ -101,9 +101,7 @@
           // This will save the message for us while starting the timer
           await message.setToExpire();
         } else {
-          await window.Signal.Data.saveMessage(message.attributes, {
-            Message: Whisper.Message,
-          });
+          await message.commit();
         }
 
         // notify frontend listeners

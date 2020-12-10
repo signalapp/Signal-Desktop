@@ -7,6 +7,8 @@ import { makeLookup } from './makeLookup';
 import { FindMember } from './findMember';
 import * as UserUtil from './user';
 import * as PasswordUtil from './passwordUtils';
+import * as AttachmentUtil from './attachmentsUtil';
+import * as LinkPreviewUtil from './linkPreviewFetch';
 
 export * from './blockedNumberController';
 
@@ -20,4 +22,6 @@ export {
   UserUtil,
   PasswordUtil,
   FindMember,
+  AttachmentUtil,
+  LinkPreviewUtil,
 };

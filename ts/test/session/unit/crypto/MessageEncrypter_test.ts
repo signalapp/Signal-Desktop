@@ -114,48 +114,6 @@ describe('MessageEncrypter', () => {
         );
       });
     });
-
-    describe('Signal', () => {
-      it('should call SessionCipher encrypt', async () => {
-        const data = crypto.randomBytes(10);
-        const spy = sandbox.spy(Stubs.SessionCipherStub.prototype, 'encrypt');
-        await MessageEncrypter.encrypt(
-          TestUtils.generateFakePubKey(),
-          data,
-          EncryptionType.Signal
-        );
-        expect(spy.called).to.equal(
-          true,
-          'SessionCipher.encrypt should be called.'
-        );
-      });
-
-      it('should pass the padded message body to encrypt', async () => {
-        const data = crypto.randomBytes(10);
-        const spy = sandbox.spy(Stubs.SessionCipherStub.prototype, 'encrypt');
-        await MessageEncrypter.encrypt(
-          TestUtils.generateFakePubKey(),
-          data,
-          EncryptionType.Signal
-        );
-
-        const paddedData = MessageEncrypter.padPlainTextBuffer(data);
-        const firstArgument = new Uint8Array(spy.args[0][0]);
-        expect(firstArgument).to.deep.equal(paddedData);
-      });
-
-      it('should return an UNIDENTIFIED SENDER envelope type', async () => {
-        const data = crypto.randomBytes(10);
-        const result = await MessageEncrypter.encrypt(
-          TestUtils.generateFakePubKey(),
-          data,
-          EncryptionType.Signal
-        );
-        expect(result.envelopeType).to.deep.equal(
-          SignalService.Envelope.Type.UNIDENTIFIED_SENDER
-        );
-      });
-    });
   });
 
   describe('Sealed Sender', () => {

@@ -3,9 +3,11 @@ import React from 'react';
 import { SessionModal } from './SessionModal';
 import { SessionButton } from './SessionButton';
 import { ToastUtils } from '../../session/utils';
+import { DefaultTheme, withTheme } from 'styled-components';
 
 interface Props {
   onClose: any;
+  theme: DefaultTheme;
 }
 
 interface State {
@@ -18,7 +20,7 @@ interface State {
   passwordValid: boolean;
 }
 
-export class SessionSeedModal extends React.Component<Props, State> {
+class SessionSeedModalInner extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
 
@@ -60,6 +62,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
             title={i18n('showRecoveryPhrase')}
             onOk={() => null}
             onClose={onClose}
+            theme={this.props.theme}
           >
             <div className="spacer-sm" />
 
@@ -111,7 +114,6 @@ export class SessionSeedModal extends React.Component<Props, State> {
 
   private renderSeedView() {
     const i18n = window.i18n;
-    const { onClose } = this.props;
 
     return (
       <>
@@ -128,8 +130,6 @@ export class SessionSeedModal extends React.Component<Props, State> {
         <div className="spacer-lg" />
 
         <div className="session-modal__button-group">
-          <SessionButton text={i18n('ok')} onClick={onClose} />
-
           <SessionButton
             text={i18n('copy')}
             onClick={() => {
@@ -210,11 +210,8 @@ export class SessionSeedModal extends React.Component<Props, State> {
   private copyRecoveryPhrase(recoveryPhrase: string) {
     window.clipboard.writeText(recoveryPhrase);
 
-    ToastUtils.push({
-      title: window.i18n('copiedToClipboard'),
-      type: 'success',
-      id: 'copyRecoveryPhraseToast',
-    });
+    ToastUtils.pushCopiedToClipBoard();
+    this.props.onClose();
   }
 
   private onEnter(event: any) {
@@ -223,3 +220,5 @@ export class SessionSeedModal extends React.Component<Props, State> {
     }
   }
 }
+
+export const SessionSeedModal = withTheme(SessionSeedModalInner);

@@ -5,7 +5,7 @@ import * as StringUtils from './String';
 import * as NumberUtils from './Number';
 import * as PromiseUtils from './Promise';
 import * as ProtobufUtils from './Protobuf';
-import * as MenuUtils from './Menu';
+import * as MenuUtils from '../../components/session/menu/Menu';
 import * as ToastUtils from './Toast';
 
 export * from './Attachments';

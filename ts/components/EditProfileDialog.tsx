@@ -18,21 +18,16 @@ import {
 import { SessionModal } from './session/SessionModal';
 import { PillDivider } from './session/PillDivider';
 import { ToastUtils } from '../session/utils';
-
-declare global {
-  interface Window {
-    displayNameRegex: any;
-  }
-}
+import { DefaultTheme } from 'styled-components';
 
 interface Props {
-  callback: any;
   i18n: any;
   profileName: string;
   avatarPath: string;
   pubkey: string;
   onClose: any;
   onOk: any;
+  theme: DefaultTheme;
 }
 
 interface State {
@@ -100,6 +95,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
         onClose={this.closeDialog}
         headerReverse={viewEdit || viewQR}
         headerIconButtons={backButton}
+        theme={this.props.theme}
       >
         <div className="spacer-md" />
 
@@ -171,6 +167,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
                 onClick={() => {
                   this.setState({ mode: 'qr' });
                 }}
+                theme={this.props.theme}
               />
             </div>
           </div>
@@ -201,6 +198,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
             onClick={() => {
               this.setState({ mode: 'edit' });
             }}
+            theme={this.props.theme}
           />
         </div>
       </>
@@ -295,12 +293,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
 
   private copySessionID(sessionID: string) {
     window.clipboard.writeText(sessionID);
-
-    ToastUtils.push({
-      title: window.i18n('copiedToClipboard'),
-      type: 'success',
-      id: 'copiedToClipboard',
-    });
+    ToastUtils.pushCopiedToClipBoard();
   }
 
   private onClickOK() {
@@ -323,17 +316,10 @@ export class EditProfileDialog extends React.Component<Props, State> {
 
     this.props.onOk(newName, avatar);
 
-    this.setState(
-      {
-        mode: 'default',
-        setProfileName: this.state.profileName,
-      },
-      () => {
-        // Update settings in dialog complete;
-        // now callback to reloadactions panel avatar
-        this.props.callback(this.state.avatar);
-      }
-    );
+    this.setState({
+      mode: 'default',
+      setProfileName: this.state.profileName,
+    });
   }
 
   private closeDialog() {

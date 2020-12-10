@@ -33,6 +33,10 @@
 
 .module-contact-name.compact {
   display: block;
+
+  span::after {
+    content: '\00a0';
+  }
 }
 
 // Module: Message
@@ -123,10 +127,30 @@
   margin-top: -10px;
   margin-bottom: -10px;
 
-  border-radius: 16px;
+  border-radius: $session_message-container-border-radius;
   overflow: hidden;
+  // no background by default for the attachment container
+  @include themify($themes) {
+    background: themed('inboxBackground');
+  }
+}
 
-  background-color: $color-white;
+.module-message--outgoing {
+  .module-message__attachment-container--with-content-below,
+  .module-message__attachment-container--with-content-above {
+    @include themify($themes) {
+      background: themed('sentMessageBackground');
+    }
+  }
+}
+
+.module-message--incoming {
+  .module-message__attachment-container--with-content-below,
+  .module-message__attachment-container--with-content-above {
+    @include themify($themes) {
+      background: themed('receivedMessageBackground');
+    }
+  }
 }
 
 .module-message__attachment-container--with-content-below {
@@ -279,8 +303,8 @@
   margin-inline-end: -12px;
   margin-top: -10px;
   margin-bottom: 5px;
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
+  border-top-left-radius: $session_message-container-border-radius;
+  border-top-right-radius: $session_message-container-border-radius;
 }
 
 .module-message__link-preview--with-content-above {
@@ -291,8 +315,8 @@
 
 .module-message__link-preview__content {
   padding: 8px;
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
+  border-top-left-radius: $session_message-container-border-radius;
+  border-top-right-radius: $session_message-container-border-radius;
   background-color: $color-white;
   display: flex;
   flex-direction: row;
@@ -372,129 +396,6 @@
   }
 }
 
-.module-message__metadata {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-top: 5px;
-  margin-bottom: -3px;
-
-  span {
-    opacity: 0.5;
-    transition: $session-transition-duration;
-
-    &:not(.module-message__metadata__badge--separator):hover {
-      opacity: 1;
-    }
-  }
-  .module-message__metadata__badge--separator {
-    margin-top: -2px;
-  }
-}
-
-// With an image and no caption, this section needs to be on top of the image overlay
-.module-message__metadata--with-image-no-caption {
-  position: absolute;
-  bottom: 9px;
-  z-index: 2;
-
-  width: 100%;
-  // Because this is absolutely positioned, we 100% is too big, take it down by parent
-  //   padding sizes.
-  padding-inline-end: 24px;
-}
-
-.module-message__metadata__date,
-.module-message__metadata__badge {
-  font-size: 11px;
-  line-height: 16px;
-  letter-spacing: 0.3px;
-  color: $color-gray-60;
-  text-transform: uppercase;
-  user-select: none;
-}
-
-.module-message__metadata__badge {
-  font-weight: bold;
-}
-
-.module-message__metadata__date--incoming,
-.module-message__metadata__badge--incoming {
-  color: $color-white-08;
-}
-
-.module-message__metadata__date--with-image-no-caption {
-  color: $color-white;
-}
-
-.module-message__metadata__spacer {
-  flex-grow: 1;
-}
-
-.module-message__metadata__status-icon {
-  width: 12px;
-  height: 12px;
-  display: inline-block;
-  margin-inline-start: 6px;
-  margin-bottom: 2px;
-  margin-inline-start: 5px;
-}
-
-.module-message__metadata__status-icon--sending {
-  @include color-svg('../images/sending.svg', $color-gray-60);
-  animation: module-message__metdata__status-icon--spinning 4s linear infinite;
-}
-
-.module-message__metadata__status-icon--pow {
-  @include color-svg('../images/pow.svg', $color-gray-60);
-  animation: module-message__metdata__status-icon--spinning 4s linear infinite;
-}
-
-@keyframes module-message__metdata__status-icon--spinning {
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-
-.module-message__metadata__status-icon--sent {
-  @include color-svg('../images/check-circle-outline.svg', $color-gray-60);
-}
-.module-message__metadata__status-icon--delivered {
-  @include color-svg('../images/double-check.svg', $color-gray-60);
-  width: 18px;
-}
-.module-message__metadata__status-icon--read {
-  @include color-svg('../images/read.svg', $color-gray-60);
-  width: 18px;
-}
-
-// When status indicators are overlaid on top of an image, they use different colors
-.module-message__metadata__status-icon--with-image-no-caption {
-  background-color: $color-white;
-}
-
-.module-message__send-message-button {
-  cursor: pointer;
-  font-weight: 300;
-  font-size: 13px;
-  line-height: 18px;
-  color: $color-loki-green;
-  background-color: $color-light-02;
-  border: 1px solid $color-black-012;
-
-  margin-top: 8px;
-  margin-bottom: -10px;
-  margin-inline-start: -12px;
-  margin-inline-end: -12px;
-
-  text-align: center;
-  padding: 10px;
-
-  border-bottom-left-radius: 16px;
-  border-bottom-right-radius: 16px;
-}
-
 .module-message__author-avatar {
   flex-direction: column-reverse;
   display: inline-flex;
@@ -503,70 +404,10 @@
 
 .module-message__typing-container {
   height: 16px;
-
+  padding-bottom: 20px;
   display: flex;
   flex-direction: row;
   align-items: center;
-}
-
-// Module: Expire Timer
-
-.module-expire-timer-margin {
-  margin-inline-start: 6px;
-}
-
-.module-expire-timer {
-  width: 12px;
-  height: 12px;
-  display: inline-block;
-  margin-bottom: 2px;
-  @include color-svg('../images/timer-60.svg', $color-gray-60);
-}
-
-.module-expire-timer--55 {
-  @include color-svg('../images/timer-55.svg', $color-gray-60);
-}
-.module-expire-timer--50 {
-  @include color-svg('../images/timer-50.svg', $color-gray-60);
-}
-.module-expire-timer--45 {
-  @include color-svg('../images/timer-45.svg', $color-gray-60);
-}
-.module-expire-timer--40 {
-  @include color-svg('../images/timer-40.svg', $color-gray-60);
-}
-.module-expire-timer--35 {
-  @include color-svg('../images/timer-35.svg', $color-gray-60);
-}
-.module-expire-timer--30 {
-  @include color-svg('../images/timer-30.svg', $color-gray-60);
-}
-.module-expire-timer--25 {
-  @include color-svg('../images/timer-25.svg', $color-gray-60);
-}
-.module-expire-timer--20 {
-  @include color-svg('../images/timer-20.svg', $color-gray-60);
-}
-.module-expire-timer--15 {
-  @include color-svg('../images/timer-15.svg', $color-gray-60);
-}
-.module-expire-timer--10 {
-  @include color-svg('../images/timer-10.svg', $color-gray-60);
-}
-.module-expire-timer--05 {
-  @include color-svg('../images/timer-05.svg', $color-gray-60);
-}
-.module-expire-timer--00 {
-  @include color-svg('../images/timer-00.svg', $color-gray-60);
-}
-
-.module-expire-timer--incoming {
-  background-color: $color-white-08;
-}
-
-// When status indicators are overlaid on top of an image, they use different colors
-.module-expire-timer--with-image-no-caption {
-  background-color: $color-white;
 }
 
 // Module: Embedded Contact
@@ -740,14 +581,6 @@
   align-items: center;
 }
 
-.module-contact-detail__send-message__bubble-icon {
-  height: 17px;
-  width: 18px;
-  display: inline-block;
-  margin-inline-end: 5px;
-  @include color-svg('../images/chat-bubble.svg', white);
-}
-
 .module-contact-detail__additional-contact {
   text-align: left;
   border-top: 1px solid $color-light-10;
@@ -781,13 +614,13 @@
   width: 90%;
   max-width: 700px;
   margin: 10px auto;
-  padding: 5px 20px;
+  padding: 5px 0px;
   border-radius: 4px;
   word-break: break-word;
 }
 
 .module-group-notification__contact {
-  font-family: 'Public Sans';
+  font-family: $session-font-default;
   font-weight: bold;
 }
 
@@ -878,12 +711,18 @@
 // Module: Timer Notification
 
 .module-timer-notification {
-  margin-top: 14px;
+  margin-top: 20px;
   font-size: 14px;
   line-height: 20px;
   letter-spacing: 0.3px;
   color: $color-gray-60;
   text-align: center;
+}
+
+.module-timer-notification__contact {
+  font-family: $session-font-default;
+  font-weight: bold;
+  padding-inline-end: $session-margin-xs;
 }
 
 .module-timer-notification__icon-container {
@@ -918,9 +757,26 @@
 }
 
 .module-timer-notification__message {
+  display: grid;
+  grid-template-columns: 40px auto 40px;
   font-size: 14px;
   line-height: 20px;
   letter-spacing: 0.3px;
+
+  & > div {
+    align-self: center;
+    justify-self: center;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .module-contact-name__profile-name {
+    text-align: center;
+  }
+
+  .module-message__author__profile-name {
+    margin-inline-end: $session-margin-xs;
+  }
 }
 
 .module-notification--with-click-handler {
@@ -987,18 +843,6 @@
   align-items: center;
 }
 
-.module-conversation-header__back-icon {
-  @include color-svg('../images/back.svg', $color-gray-90);
-  display: inline-block;
-  margin-inline-start: -10px;
-  margin-inline-end: -2px;
-  width: 35px;
-  height: 35px;
-  min-width: 35px;
-  vertical-align: text-bottom;
-  cursor: pointer;
-}
-
 .module-conversation-header__title-container {
   flex-grow: 1;
   flex-shrink: 1;
@@ -1034,7 +878,9 @@
   font-size: 16px;
   line-height: 24px;
   font-weight: 300;
-  color: $color-gray-90;
+  @include themify($themes) {
+    color: themed('textColor');
+  }
 
   // width of avatar (28px) and our 6px left margin
   max-width: calc(100% - 34px);
@@ -1084,14 +930,6 @@
 .module-conversation-header__expiration__setting {
   margin-inline-start: 5px;
   text-align: center;
-}
-
-.module-conversation-header__gear-icon {
-  @include color-svg('../images/gear.svg', $color-gray-60);
-  height: 20px;
-  width: 20px;
-  margin-inline-start: 4px;
-  cursor: pointer;
 }
 
 // Module: Message Detail
@@ -1159,47 +997,12 @@
 .module-message-detail__contact__text {
   margin-inline-start: 10px;
   flex-grow: 1;
+  min-width: 0;
 }
 
 .module-message-detail__contact__error {
   color: $session-color-danger;
   font-weight: 300;
-}
-
-.module-message-detail__contact__status-icon {
-  width: 12px;
-  height: 12px;
-  display: inline-block;
-  margin-bottom: 2px;
-  margin-inline-start: 5px;
-}
-
-.module-message-detail__contact__status-icon--sending {
-  @include color-svg('../images/sending.svg', $color-gray-60);
-  animation: module-message-detail__contact__status-icon--spinning 4s linear
-    infinite;
-}
-
-@keyframes module-message-detail__contact__status-icon--spinning {
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-
-.module-message-detail__contact__status-icon--sent {
-  @include color-svg('../images/check-circle-outline.svg', $color-gray-60);
-}
-.module-message-detail__contact__status-icon--delivered {
-  @include color-svg('../images/double-check.svg', $color-gray-60);
-  width: 18px;
-}
-.module-message-detail__contact__status-icon--read {
-  @include color-svg('../images/read.svg', $color-gray-60);
-  width: 18px;
-}
-.module-message-detail__contact__status-icon--error {
-  @include color-svg('../images/error.svg', $session-color-danger);
 }
 
 .module-message-detail__contact__unidentified-delivery-icon {
@@ -1261,6 +1064,7 @@
   display: flex;
   flex-grow: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 20px;
 }
 
@@ -1268,6 +1072,7 @@
   display: flex;
   flex-grow: 1;
   flex-direction: column;
+  width: 100%;
 }
 
 // Module: Attachment Section
@@ -1323,13 +1128,16 @@
   display: inline-flex;
   flex-direction: column;
   flex-grow: 1;
-  flex-shrink: 0;
   margin-inline-start: 8px;
   margin-inline-end: 8px;
+  min-width: 0;
 }
 
 .module-document-list-item__file-name {
   font-weight: bold;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
 }
 
 .module-document-list-item__file-size {
@@ -1374,8 +1182,6 @@
 }
 
 .module-media-grid-item__image-container {
-  height: 94px;
-  width: 94px;
   object-fit: cover;
   position: relative;
 }
@@ -1503,23 +1309,6 @@
   font-weight: 300;
 }
 
-.module-conversation-list-item__header__timestamp {
-  flex-shrink: 0;
-  margin-inline-start: 6px;
-
-  font-size: 11px;
-  line-height: 16px;
-  letter-spacing: 0.3px;
-
-  overflow-x: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-
-  text-transform: uppercase;
-
-  color: $color-gray-25;
-}
-
 .module-conversation-list-item__header__date--has-unread {
   font-weight: 300;
   color: $color-gray-05;
@@ -1552,133 +1341,7 @@
   color: $color-gray-05;
 }
 
-.module-conversation-list-item__message__status-icon {
-  flex-shrink: 0;
-
-  margin-top: 1px;
-  width: 12px;
-  height: 13px;
-  display: inline-block;
-  margin-inline-start: 6px;
-}
-
-.module-conversation-list-item__message__status-icon--sending {
-  @include color-svg('../images/sending.svg', $color-light-35);
-  animation: module-conversation-list-item__message__status-icon--spinning 4s
-    linear infinite;
-}
-
-@keyframes module-conversation-list-item__message__status-icon--spinning {
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-
-.module-conversation-list-item__message__status-icon--sent {
-  @include color-svg('../images/check-circle-outline.svg', $color-light-35);
-}
-.module-conversation-list-item__message__status-icon--delivered {
-  @include color-svg('../images/double-check.svg', $color-light-35);
-  width: 18px;
-}
-.module-conversation-list-item__message__status-icon--read {
-  @include color-svg('../images/read.svg', $color-light-35);
-  width: 18px;
-}
-.module-conversation-list-item__message__status-icon--error {
-  @include color-svg('../images/error.svg', $session-color-danger);
-}
-
 // Module: Main Header
-
-.module-main-header {
-  display: flex;
-  flex-direction: column;
-  border-bottom: 1px solid $color-dark-90;
-  color: $color-dark-05;
-}
-
-.module-main-header__title {
-  height: 55px;
-  padding-inline-start: 16px;
-  flex: 1;
-  flex-direction: row;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-
-  &:hover {
-    background-color: $color-dark-75;
-  }
-}
-
-.module-main-header__menu {
-  color: $color-dark-05;
-  overflow: hidden;
-
-  .accordian {
-    margin-top: -100%;
-    transition: margin-top 0.35s ease-out;
-
-    &.expanded {
-      margin-top: 0;
-    }
-  }
-
-  .menu-item {
-    padding: 12px;
-    background-color: $color-dark-90;
-    user-select: none;
-    cursor: pointer;
-
-    &:hover {
-      background-color: $color-dark-75;
-    }
-  }
-}
-
-.module-main-header-content-toggle {
-  width: 3em;
-  line-height: 3em;
-  font-weight: bold;
-  overflow: hidden;
-  user-select: none;
-  color: white;
-  text-align: center;
-
-  &:after {
-    -webkit-transition: all 0.35s;
-    -o-transition: all 0.35s;
-    transition: all 0.35s;
-    width: 3em;
-    line-height: 3em;
-    height: 3em;
-    content: '\25BE';
-    display: inline-block;
-  }
-}
-
-.module-main-header-content-toggle-visible::after {
-  transform: rotate(180deg);
-}
-
-.module-main-header__contact-name {
-  font-weight: 300;
-  margin-inline-start: 12px;
-  color: $color-dark-05;
-  overflow-x: auto;
-  flex: 1;
-}
-
-.module-main-header__search {
-  margin: 8px;
-  position: relative;
-}
-
-.module-main-header__search__icon {
-  background-color: $color-light-35;
-}
 
 .module-main-header__search__input {
   color: $color-dark-05;
@@ -1707,41 +1370,6 @@
   }
 }
 
-.module-main-header__search__icon {
-  content: '';
-  display: inline-block;
-  width: 18px;
-  height: 26px;
-  background-color: $color-light-35;
-  position: absolute;
-  left: 14px;
-  top: 3px;
-
-  cursor: text;
-  @include color-svg('../images/search.svg', $color-gray-60);
-}
-
-.module-main-header__search__cancel-icon {
-  position: absolute;
-  right: 16px;
-  top: 9px;
-  height: 14px;
-  width: 14px;
-  cursor: pointer;
-  @include color-svg('../images/x-16.svg', $color-gray-60);
-}
-
-.module-main-header__search__copy-from-clipboard {
-  position: absolute;
-  right: 16px;
-  top: 5px;
-  width: 20px;
-  height: 22px;
-  opacity: 0.8;
-  cursor: pointer;
-  @include color-svg('../images/icon-paste.svg', $color-gray-60);
-}
-
 // Module: Image
 
 .module-image {
@@ -1768,16 +1396,16 @@
 }
 
 .module-image--curved-top-left {
-  border-top-left-radius: 16px;
+  border-top-left-radius: $session_message-container-border-radius;
 }
 .module-image--curved-top-right {
-  border-top-right-radius: 16px;
+  border-top-right-radius: $session_message-container-border-radius;
 }
 .module-image--curved-bottom-left {
-  border-bottom-left-radius: 16px;
+  border-bottom-left-radius: $session_message-container-border-radius;
 }
 .module-image--curved-bottom-right {
-  border-bottom-right-radius: 16px;
+  border-bottom-right-radius: $session_message-container-border-radius;
 }
 .module-image--small-curved-top-left {
   border-top-left-radius: 10px;
@@ -1818,19 +1446,7 @@
     to bottom,
     rgba(0, 0, 0, 0),
     rgba(0, 0, 0, 0) 9%,
-    rgba(0, 0, 0, 0.02) 17%,
-    rgba(0, 0, 0, 0.05) 24%,
-    rgba(0, 0, 0, 0.08) 31%,
-    rgba(0, 0, 0, 0.12) 37%,
-    rgba(0, 0, 0, 0.16) 44%,
-    rgba(0, 0, 0, 0.2) 50%,
-    rgba(0, 0, 0, 0.24) 56%,
-    rgba(0, 0, 0, 0.28) 63%,
-    rgba(0, 0, 0, 0.32) 69%,
-    rgba(0, 0, 0, 0.35) 76%,
-    rgba(0, 0, 0, 0.38) 83%,
-    rgba(0, 0, 0, 0.4) 91%,
-    rgba(0, 0, 0, 0.4)
+    rgba(0, 0, 0, 0.6)
   );
   position: absolute;
   bottom: 0;
@@ -2118,10 +1734,10 @@
 // Module: Caption Editor
 
 .module-caption-editor {
-  background-color: $color-black;
+  background-color: rgba(0, 0, 0, 0.8);
   z-index: 20;
 
-  position: absolute;
+  position: fixed;
   left: 0;
   right: 0;
   top: 0;
@@ -2130,6 +1746,10 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+
+  .session-button {
+    margin-inline-start: 15px;
+  }
 }
 
 .module-caption-editor__close-button {
@@ -2142,13 +1762,13 @@
   width: 30px;
   height: 30px;
   z-index: 2;
-  @include color-svg('../images/x-16.svg', $color-white);
+  // the background of the lightbox is dark
+  @include color-svg('../images/x-16.svg', white);
 }
 
 .module-caption-editor__media-container {
   flex-grow: 1;
   flex-shrink: 1;
-  background-color: $color-black;
   text-align: center;
   margin: 50px;
   overflow: hidden;
@@ -2184,58 +1804,58 @@
   flex-grow: 0;
   flex-shrink: 0;
   height: 52px;
-  padding: 8px;
+  width: 100%;
+  justify-content: center;
 
   display: inline-flex;
   flex-direction: row;
-  align-items: middle;
 
   margin-inline-start: auto;
   margin-inline-end: auto;
 }
 
 .module-caption-editor__input-container {
-  position: relative;
+  display: flex;
+
+  input::placeholder {
+    color: white;
+  }
+
+  .session-input-with-label-container {
+    color: black;
+    background-color: $inputBackgroundColor;
+
+    width: 30vw;
+
+    border-radius: 100px;
+    #session-input-floating-label {
+      padding: $session-margin-sm;
+      color: white;
+    }
+
+    label.session-input-with-label-container.filled {
+      visibility: hidden;
+    }
+
+    hr {
+      visibility: hidden;
+    }
+  }
+
+  .session-button {
+    height: 90%;
+    padding: 10px;
+  }
 }
 
 .module-caption-editor__caption-input {
   height: 36px;
-  width: 40em;
-
   font-size: 14px;
-  color: $color-white;
 
-  border: 1px solid $color-white;
   border-radius: 18px;
-  background-color: $color-black;
   padding: 9px;
   padding-inline-start: 12px;
   padding-inline-end: 65px;
-
-  &::placeholder {
-    color: $color-white-07;
-  }
-  &:focus {
-    border: 1px solid $color-loki-green;
-    outline: none;
-  }
-}
-
-.module-caption-editor__save-button {
-  position: absolute;
-  background-color: $color-loki-green;
-  color: $color-white;
-  cursor: pointer;
-
-  height: 28px;
-  border-radius: 15px;
-
-  padding: 5px;
-  padding-inline-start: 12px;
-  padding-inline-end: 12px;
-
-  right: 4px;
-  top: 4px;
 }
 
 // Module: Staged Placeholder Attachment
@@ -2278,13 +1898,20 @@
   align-items: flex-start;
 
   min-height: 65px;
+  margin: $session-margin-xs;
+  @include themify($themes) {
+    background-color: themed('sentMessageBackground');
+    border-radius: $session-margin-xs;
+  }
 }
 
 .module-staged-link-preview--is-loading {
   align-items: center;
 }
 .module-staged-link-preview__loading {
-  color: $color-gray-60;
+  @include themify($themes) {
+    color: themed('sentMessageText');
+  }
   font-size: 14px;
   text-align: center;
   flex-grow: 1;
@@ -2293,9 +1920,11 @@
 
 .module-staged-link-preview__icon-container {
   margin-inline-end: 8px;
+  padding: $session-margin-sm;
 }
 .module-staged-link-preview__content {
   margin-inline-end: 20px;
+  padding: $session-margin-sm;
 }
 .module-staged-link-preview__title {
   color: $color-gray-90;
@@ -2319,8 +1948,8 @@
 .module-staged-link-preview__close-button {
   cursor: pointer;
   position: absolute;
-  top: 0px;
-  right: 0px;
+  top: 5px;
+  right: 5px;
 
   height: 16px;
   width: 16px;
@@ -2584,65 +2213,6 @@
   flex-grow: 0;
 }
 
-.module-left-pane__tabs {
-  color: $color-dark-05;
-  background-color: $color-dark-75;
-  display: flex;
-  flex-direction: row;
-
-  .tab {
-    width: 50%;
-    padding: 16px;
-    text-align: center;
-    cursor: pointer;
-
-    &:hover {
-      background-color: $color-dark-72;
-    }
-  }
-
-  .tab.selected {
-    background-color: #383c46;
-  }
-}
-
-.module-left-pane__archive-header {
-  height: 48px;
-  width: 100%;
-
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-
-  border-bottom: 1px solid $color-gray-15;
-}
-
-.module-left-pane__to-inbox-button {
-  margin-inline-start: 2px;
-
-  width: 35px;
-  height: 35px;
-
-  cursor: pointer;
-  @include color-svg('../images/back.svg', $color-gray-60);
-}
-
-.module-left-pane__archive-header-text {
-  color: $color-gray-90;
-  font-size: 16px;
-  font-weight: 300px;
-}
-
-.module-left-pane__archive-helper-text {
-  flex-grow: 0;
-  flex-shrink: 0;
-
-  padding: 1em;
-  font-size: 12px;
-  color: $color-gray-60;
-  background-color: $color-gray-05;
-}
-
 .module-left-pane__list {
   flex-grow: 1;
   flex-shrink: 1;
@@ -2652,162 +2222,6 @@
 
 .module-left-pane__virtual-list {
   outline: none;
-}
-
-.module-left-pane__archived-button {
-  font-size: 14px;
-  height: 64px;
-  line-height: 64px;
-  text-align: center;
-  font-weight: 300;
-  color: $color-gray-60;
-
-  cursor: pointer;
-  &:hover {
-    background-color: $color-gray-05;
-  }
-}
-
-.module-left-pane__archived-button__archived-count {
-  font-size: 12px;
-  font-weight: 300;
-  color: $color-gray-60;
-  background-color: $color-gray-05;
-  padding: 6px;
-  padding-top: 1px;
-  padding-bottom: 1px;
-  border-radius: 10px;
-}
-
-// Module: Start New Conversation
-
-.module-start-new-conversation {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  cursor: pointer;
-  padding: 8px 16px;
-  opacity: 0.7;
-
-  &.valid {
-    opacity: 1;
-  }
-}
-
-.module-start-new-conversation__avatar {
-  display: inline-block;
-  height: 48px;
-  width: 48px;
-  border-radius: 50%;
-  background-size: cover;
-  vertical-align: middle;
-  text-align: center;
-  line-height: 48px;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-  color: #ffffff;
-  font-size: 18px;
-  background-color: #616161;
-}
-
-.module-start-new-conversation__content {
-  overflow: hidden;
-  margin-inline-start: 12px;
-  flex: 1;
-}
-
-.module-start-new-conversation__number {
-  margin: 0;
-  font-size: 1em;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  text-align: left;
-  font-weight: 300;
-}
-
-.module-start-new-conversation__text {
-  margin-top: 3px;
-  font-style: italic;
-  color: $color-gray-60;
-  font-size: 13px;
-}
-
-// Third-party module: react-contextmenu
-
-.react-contextmenu {
-  background-color: $color-light-02;
-  border-radius: 4px;
-  min-width: 160px;
-  padding: 0px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  border: 1px solid $color-dark-05;
-  opacity: 0;
-  user-select: none;
-  transition: opacity $session-transition-duration;
-}
-
-.react-contextmenu--visible {
-  z-index: 1000;
-  opacity: 1;
-}
-
-.react-contextmenu-item {
-  color: $color-gray-90;
-
-  cursor: pointer;
-  font-size: 13px;
-  line-height: 18px;
-  white-space: nowrap;
-
-  padding-inline-start: 16px;
-  padding-top: 3px;
-  padding-bottom: 2px;
-  padding-inline-end: 16px;
-}
-
-.react-contextmenu-item--checked:before {
-  content: '✓';
-  display: inline-block;
-  position: absolute;
-  right: 7px;
-  color: $color-gray-90;
-}
-
-.react-contextmenu-item.react-contextmenu-submenu {
-  padding: 0;
-}
-
-.react-contextmenu-item.react-contextmenu-submenu > .react-contextmenu-item {
-  padding-right: 36px;
-  // We will probably need to make this padding-inline-end once the whole app is working on rtl
-}
-
-.react-contextmenu-item.react-contextmenu-submenu
-  > .react-contextmenu-item:after {
-  content: '\25B6';
-  display: inline-block;
-  position: absolute;
-  right: 7px;
-  color: $color-gray-90;
-}
-
-.react-contextmenu-item.react-contextmenu-item--active,
-.react-contextmenu-item.react-contextmenu-item--selected {
-  color: $color-white;
-  background-color: $color-light-35;
-}
-
-.react-contextmenu-item.react-contextmenu-item--active.react-contextmenu-item--checked:before,
-.react-contextmenu-item.react-contextmenu-item--selected.react-contextmenu-item--checked:before {
-  color: $color-white;
-}
-
-.react-contextmenu-item.react-contextmenu-submenu
-  > .react-contextmenu-item.react-contextmenu-item--active:after,
-.react-contextmenu-item.react-contextmenu-submenu
-  > .react-contextmenu-item.react-contextmenu-item--selected:after {
-  color: $color-white;
 }
 
 // All media query widths have 300px added to account for the left pane

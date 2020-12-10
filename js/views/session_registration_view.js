@@ -38,14 +38,6 @@
         .addClass('in')
         .fadeIn();
     },
-
-    showToast(message) {
-      const toast = new Whisper.MessageToastView({
-        message,
-      });
-      toast.$el.appendTo(this.$el);
-      toast.render();
-    },
   });
 
   class TextScramble {

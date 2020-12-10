@@ -11,7 +11,7 @@ import { LocalizerType, RenderTextCallbackType } from '../../types/Util';
 interface Props {
   text: string;
   isRss?: boolean;
-  textPending?: boolean;
+  bodyPending?: boolean;
   /** If set, all emoji will be the same size. Otherwise, just one emoji will be large. */
   disableJumbomoji?: boolean;
   /** If set, links will be left alone instead of turned into clickable `<a>` tags. */
@@ -22,7 +22,7 @@ interface Props {
 }
 
 const renderMentions: RenderTextCallbackType = ({ text, key, convoId }) => (
-  <AddMentions key={key} text={text} convoId={convoId} />
+  <AddMentions key={key} text={text} convoId={convoId || ''} />
 );
 
 const renderDefault: RenderTextCallbackType = ({ text }) => text;
@@ -85,12 +85,12 @@ export class MessageBody extends React.Component<Props> {
   };
 
   public addDownloading(jsx: JSX.Element): JSX.Element {
-    const { i18n, textPending } = this.props;
+    const { i18n, bodyPending } = this.props;
 
     return (
       <span className="text-selectable">
         {jsx}
-        {textPending ? (
+        {bodyPending ? (
           <span className="module-message-body__highlight">
             {' '}
             {i18n('downloading')}
@@ -103,7 +103,7 @@ export class MessageBody extends React.Component<Props> {
   public render() {
     const {
       text,
-      textPending,
+      bodyPending,
       disableJumbomoji,
       disableLinks,
       isRss,
@@ -112,7 +112,17 @@ export class MessageBody extends React.Component<Props> {
       convoId,
     } = this.props;
     const sizeClass = disableJumbomoji ? undefined : getSizeClass(text);
-    const textWithPending = textPending ? `${text}...` : text;
+    const textWithPending = bodyPending ? `${text}...` : text;
+
+    const emoji = renderEmoji({
+      i18n,
+      text: textWithPending,
+      sizeClass,
+      key: 0,
+      renderNonEmoji: renderNewLines,
+      isGroup,
+      convoId,
+    });
 
     if (disableLinks) {
       return this.addDownloading(
@@ -127,6 +137,24 @@ export class MessageBody extends React.Component<Props> {
         })
       );
     }
+
+    const bodyContents = this.addDownloading(
+      <Linkify
+        text={textWithPending}
+        isRss={isRss}
+        renderNonLink={({ key, text: nonLinkText }) => {
+          return renderEmoji({
+            i18n,
+            text: nonLinkText,
+            sizeClass,
+            key,
+            renderNonEmoji: renderNewLines,
+            isGroup,
+            convoId,
+          });
+        }}
+      />
+    );
 
     return this.addDownloading(
       <Linkify

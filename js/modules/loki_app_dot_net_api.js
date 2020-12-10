@@ -1,5 +1,5 @@
 /* global log, textsecure, libloki, Signal, Whisper, ConversationController,
-clearTimeout, MessageController, libsignal, StringView, window, _,
+clearTimeout, getMessageController, libsignal, StringView, window, _,
 dcodeIO, Buffer, process */
 const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
@@ -122,6 +122,12 @@ const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
       payloadObj,
       options.requestNumber
     );
+    if (typeof result === 'number') {
+      window.log.error(
+        'sendOnionRequestLsrpcDest() returned a number indicating an error: ',
+        result
+      );
+    }
   } catch (e) {
     log.error(
       'loki_app_dot_net:::sendViaOnion - lokiRpcUtils error',
@@ -1044,7 +1050,7 @@ class LokiPublicChannelAPI {
     this.channelId = channelId;
     this.baseChannelUrl = `channels/${this.channelId}`;
     this.conversationId = conversationId;
-    this.conversation = ConversationController.get(conversationId);
+    this.conversation = ConversationController.getOrThrow(conversationId);
     this.lastGot = null;
     this.modStatus = false;
     this.deleteLastId = 1;
@@ -1195,7 +1201,9 @@ class LokiPublicChannelAPI {
         moderators.includes(ourNumberDevice);
     }
 
-    await this.conversation.setModerators(moderators || []);
+    if (this.running) {
+      await this.conversation.setModerators(moderators || []);
+    }
   }
 
   async setChannelSettings(settings) {
@@ -1345,6 +1353,9 @@ class LokiPublicChannelAPI {
       }
       return;
     }
+    if (!this.running) {
+      return;
+    }
 
     const { data } = res.response;
 
@@ -1484,7 +1495,10 @@ class LokiPublicChannelAPI {
 
       // update where we last checked
       this.deleteLastId = res.response.meta.max_id;
-      more = res.response.meta.more && res.response.data.length >= params.count;
+      more =
+        res.response.meta.more &&
+        res.response.data.length >= params.count &&
+        this.running;
     }
   }
 
@@ -1507,7 +1521,7 @@ class LokiPublicChannelAPI {
       }
     }
     sigString += [...attachmentAnnotations, ...previewAnnotations]
-      .map(data => data.id || data.image.id)
+      .map(data => data.id || (data.image && data.image.id))
       .sort()
       .join('');
     sigString += sigVer;
@@ -1709,127 +1723,131 @@ class LokiPublicChannelAPI {
         }
 
         const pubKey = adnMessage.user.username;
+        try {
+          const messengerData = await this.getMessengerData(adnMessage);
+          if (messengerData === false) {
+            return false;
+          }
+          // eslint-disable-next-line no-param-reassign
+          adnMessage.timestamp = messengerData.timestamp;
+          // eslint-disable-next-line no-param-reassign
+          adnMessage.body = messengerData.text;
+          const {
+            timestamp,
+            serverTimestamp,
+            quote,
+            attachments,
+            preview,
+            avatar,
+            profileKey,
+          } = messengerData;
+          if (!timestamp) {
+            return false; // Invalid message
+          }
 
-        const messengerData = await this.getMessengerData(adnMessage);
-        if (messengerData === false) {
+          // Duplicate check
+          const isDuplicate = (message, testedMessage) =>
+            dataMessage.isDuplicate(
+              message,
+              testedMessage,
+              testedMessage.user.username
+            );
+
+          // Filter out any messages that we got previously
+          if (this.lastMessagesCache.some(m => isDuplicate(m, adnMessage))) {
+            return false; // Duplicate message
+          }
+
+          // FIXME: maybe move after the de-multidev-decode
+          // Add the message to the lastMessage cache and keep the last 5 recent messages
+          this.lastMessagesCache = [
+            ...this.lastMessagesCache,
+            {
+              attributes: {
+                source: pubKey,
+                body: adnMessage.text,
+                sent_at: timestamp,
+              },
+            },
+          ].splice(-5);
+
+          const from = adnMessage.user.name || 'Anonymous'; // profileName
+
+          // if us
+          if (pubKey === ourNumberProfile || pubKey === ourNumberDevice) {
+            // update the last name we saw from ourself
+            lastProfileName = from;
+          }
+
+          // track sources for multidevice support
+          // sort it by home server
+          let homeServer = window.getDefaultFileServer();
+          if (adnMessage.user && adnMessage.user.annotations.length) {
+            const homeNotes = adnMessage.user.annotations.filter(
+              note => note.type === HOMESERVER_USER_ANNOTATION_TYPE
+            );
+            // FIXME: this annotation should probably be signed and verified...
+            homeServer = homeNotes.reduce(
+              (curVal, note) => (note.value ? note.value : curVal),
+              homeServer
+            );
+          }
+          if (homeServerPubKeys[homeServer] === undefined) {
+            homeServerPubKeys[homeServer] = [];
+          }
+          if (homeServerPubKeys[homeServer].indexOf(`@${pubKey}`) === -1) {
+            homeServerPubKeys[homeServer].push(`@${pubKey}`);
+          }
+
+          // generate signal message object
+          const messageData = {
+            serverId: adnMessage.id,
+            clientVerified: true,
+            isSessionRequest: false,
+            source: pubKey,
+            sourceDevice: 1,
+            timestamp, // sender timestamp
+
+            serverTimestamp, // server created_at, used to order messages
+            receivedAt,
+            isPublic: true,
+            message: {
+              body:
+                adnMessage.text === timestamp.toString() ? '' : adnMessage.text,
+              attachments,
+              group: {
+                id: this.conversationId,
+                type: textsecure.protobuf.GroupContext.Type.DELIVER,
+              },
+              flags: 0,
+              expireTimer: 0,
+              profileKey,
+              timestamp,
+              received_at: receivedAt,
+              sent_at: timestamp, // sender timestamp inner
+              quote,
+              contact: [],
+              preview,
+              profile: {
+                displayName: from,
+                avatar,
+              },
+            },
+          };
+          receivedAt += 1; // Ensure different arrival times
+
+          // now process any user meta data updates
+          // - update their conversation with a potentially new avatar
+          return messageData;
+        } catch (e) {
+          window.log.error('pollOnceForMessages: caught error:', e);
           return false;
         }
-        // eslint-disable-next-line no-param-reassign
-        adnMessage.timestamp = messengerData.timestamp;
-        // eslint-disable-next-line no-param-reassign
-        adnMessage.body = messengerData.text;
-        const {
-          timestamp,
-          serverTimestamp,
-          quote,
-          attachments,
-          preview,
-          avatar,
-          profileKey,
-        } = messengerData;
-        if (!timestamp) {
-          return false; // Invalid message
-        }
-
-        // Duplicate check
-        const isDuplicate = (message, testedMessage) =>
-          dataMessage.isDuplicate(
-            message,
-            testedMessage,
-            testedMessage.user.username
-          );
-
-        // Filter out any messages that we got previously
-        if (this.lastMessagesCache.some(m => isDuplicate(m, adnMessage))) {
-          return false; // Duplicate message
-        }
-
-        // FIXME: maybe move after the de-multidev-decode
-        // Add the message to the lastMessage cache and keep the last 5 recent messages
-        this.lastMessagesCache = [
-          ...this.lastMessagesCache,
-          {
-            attributes: {
-              source: pubKey,
-              body: adnMessage.text,
-              sent_at: timestamp,
-            },
-          },
-        ].splice(-5);
-
-        const from = adnMessage.user.name || 'Anonymous'; // profileName
-
-        // if us
-        if (pubKey === ourNumberProfile || pubKey === ourNumberDevice) {
-          // update the last name we saw from ourself
-          lastProfileName = from;
-        }
-
-        // track sources for multidevice support
-        // sort it by home server
-        let homeServer = window.getDefaultFileServer();
-        if (adnMessage.user && adnMessage.user.annotations.length) {
-          const homeNotes = adnMessage.user.annotations.filter(
-            note => note.type === HOMESERVER_USER_ANNOTATION_TYPE
-          );
-          // FIXME: this annotation should probably be signed and verified...
-          homeServer = homeNotes.reduce(
-            (curVal, note) => (note.value ? note.value : curVal),
-            homeServer
-          );
-        }
-        if (homeServerPubKeys[homeServer] === undefined) {
-          homeServerPubKeys[homeServer] = [];
-        }
-        if (homeServerPubKeys[homeServer].indexOf(`@${pubKey}`) === -1) {
-          homeServerPubKeys[homeServer].push(`@${pubKey}`);
-        }
-
-        // generate signal message object
-        const messageData = {
-          serverId: adnMessage.id,
-          clientVerified: true,
-          isSessionRequest: false,
-          source: pubKey,
-          sourceDevice: 1,
-          timestamp, // sender timestamp
-
-          serverTimestamp, // server created_at, used to order messages
-          receivedAt,
-          isPublic: true,
-          message: {
-            body:
-              adnMessage.text === timestamp.toString() ? '' : adnMessage.text,
-            attachments,
-            group: {
-              id: this.conversationId,
-              type: textsecure.protobuf.GroupContext.Type.DELIVER,
-            },
-            flags: 0,
-            expireTimer: 0,
-            profileKey,
-            timestamp,
-            received_at: receivedAt,
-            sent_at: timestamp, // sender timestamp inner
-            quote,
-            contact: [],
-            preview,
-            profile: {
-              displayName: from,
-              avatar,
-            },
-          },
-        };
-        receivedAt += 1; // Ensure different arrival times
-
-        // now process any user meta data updates
-        // - update their conversation with a potentially new avatar
-        return messageData;
       })
     );
 
-    // do we really need this?
-    if (!pendingMessages.length) {
+    // return early if we should stop processing
+    if (!pendingMessages.length || !this.running) {
       this.conversation.setLastRetrievedMessage(this.lastGot);
       this.messagesPollLock = false;
       return;
@@ -1893,6 +1911,7 @@ class LokiPublicChannelAPI {
           message,
         });
       });
+
       sendNow = false;
     }
     primaryMessages = false; // free memory
@@ -1965,17 +1984,19 @@ class LokiPublicChannelAPI {
           return;
         }
       }
-      log.info(
-        'emitting pending message',
-        message.serverId,
-        'on',
-        this.channelId,
-        'at',
-        this.serverAPI.baseServerUrl
-      );
-      this.chatAPI.emit('publicMessage', {
-        message,
-      });
+      if (this.running) {
+        log.info(
+          'emitting pending message',
+          message.serverId,
+          'on',
+          this.channelId,
+          'at',
+          this.serverAPI.baseServerUrl
+        );
+        this.chatAPI.emit('publicMessage', {
+          message,
+        });
+      }
     });
 
     /* eslint-enable no-param-reassign */
@@ -2031,18 +2052,18 @@ class LokiPublicChannelAPI {
         // Signal stuff we actually care about
         linkPreviewTitle: preview.title,
         linkPreviewUrl: preview.url,
-        caption: preview.image.caption,
-        contentType: preview.image.contentType,
-        digest: preview.image.digest,
-        fileName: preview.image.fileName,
-        flags: preview.image.flags,
-        height: preview.image.height,
-        id: preview.image.id,
-        key: preview.image.key,
-        size: preview.image.size,
-        thumbnail: preview.image.thumbnail,
-        url: preview.image.url,
-        width: preview.image.width,
+        caption: (preview.image && preview.image.caption) || undefined,
+        contentType: (preview.image && preview.image.contentType) || undefined,
+        digest: (preview.image && preview.image.digest) || undefined,
+        fileName: (preview.image && preview.image.fileName) || undefined,
+        flags: (preview.image && preview.image.flags) || undefined,
+        height: (preview.image && preview.image.height) || undefined,
+        id: (preview.image && preview.image.id) || undefined,
+        key: (preview.image && preview.image.key) || undefined,
+        size: (preview.image && preview.image.size) || undefined,
+        thumbnail: (preview.image && preview.image.thumbnail) || undefined,
+        url: (preview.image && preview.image.url) || undefined,
+        width: (preview.image && preview.image.width) || undefined,
       },
     };
     return annotation;
@@ -2113,7 +2134,7 @@ class LokiPublicChannelAPI {
       });
 
       if (found) {
-        const queryMessage = MessageController.register(found.id, found);
+        const queryMessage = getMessageController().register(found.id, found);
         const replyTo = queryMessage.get('serverId');
         if (replyTo) {
           payload.reply_to = replyTo;

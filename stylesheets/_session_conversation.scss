@@ -1,0 +1,567 @@
+@keyframes toShadow {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.25;
+  }
+}
+@keyframes fromShadow {
+  from {
+    opacity: 0.25;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulseLight {
+  0% {
+    box-shadow: 0px 0px 0px 0px $session-color-danger-alt;
+  }
+  50% {
+    box-shadow: 0px 0px 12px 0px rgba($session-color-danger-alt, 1);
+  }
+  100% {
+    box-shadow: 0px 0px 0px 0px rgba($session-color-danger-alt, 1);
+  }
+}
+
+.conversation-item__options-pane {
+  position: absolute;
+  height: 100%;
+  right: 0vw;
+
+  transition: transform 1.5 * $session-transition-duration ease-in-out;
+  transform: translateX(100%);
+  will-change: transform;
+  width: 25vw;
+
+  &.show {
+    transform: none;
+    transition: transform $session-transition-duration ease-in-out;
+    z-index: 2;
+  }
+}
+
+.conversation-header {
+  &--items-wrapper {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .message-selection-overlay {
+    position: absolute;
+    display: flex;
+    left: 0px;
+    right: 0px;
+    padding: 0px $session-margin-md;
+    align-items: center;
+    justify-content: space-between;
+    height: $main-view-header-height;
+    @include themify($themes) {
+      background: themed('cellBackground');
+    }
+
+    .close-button {
+      float: left;
+    }
+
+    .session-button.default.danger {
+      display: flex;
+    }
+  }
+  .message-selection-overlay div[role='button'] {
+    display: inline-block;
+  }
+
+  .message-selection-overlay .button-group {
+    float: right;
+  }
+}
+
+.session-conversation {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: calc(100vw - 380px);
+
+  .selection-mode {
+    .messages-container > *:not(.message-selected) {
+      animation: toShadow $session-transition-duration;
+      opacity: 0.25;
+    }
+  }
+}
+
+.conversation-content {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  position: relative;
+  outline: none;
+
+  .conversation-messages {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    width: 100%;
+    height: 0;
+    background-color: inherit;
+    outline: none;
+    position: relative;
+
+    @include themify($themes) {
+      border-left: themed('sessionBorder');
+      border-top: themed('sessionBorder');
+    }
+
+    &__blocking-overlay {
+      background-color: rgba(0, 0, 0, 0.8);
+      position: absolute;
+      top: 0px;
+      bottom: 0px;
+      left: 0px;
+      right: 0px;
+    }
+  }
+
+  .conversation-info-panel {
+    position: absolute;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    z-index: 5; // to be sure to hide the borders of images in messages
+    background-color: inherit;
+    display: none;
+    padding: 20px;
+
+    &.show {
+      display: flex;
+      @include themify($themes) {
+        background: themed('inboxBackground');
+      }
+    }
+  }
+}
+
+.messages-container {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column-reverse;
+  position: relative;
+  overflow-x: hidden;
+  min-width: 370px;
+  scrollbar-width: 4px;
+  padding: $session-margin-sm $session-margin-lg $session-margin-lg;
+}
+
+.session-message-wrapper {
+  letter-spacing: 0.03em;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  display: flex;
+}
+
+.composition-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px $session-margin-md;
+  min-height: min-content;
+  @include themify($themes) {
+    background: themed('composeViewBackground');
+    border-top: themed('sessionBorder');
+  }
+
+  & > .session-icon-button {
+    margin-right: $session-margin-sm;
+  }
+  .session-icon-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.8;
+
+    .send {
+      padding: $session-margin-xs;
+      border-radius: 50%;
+      height: 30px;
+      width: 30px;
+    }
+  }
+
+  .send-message-input {
+    cursor: text;
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    min-height: $composition-container-height;
+    padding: $session-margin-md 0;
+
+    textarea {
+      font-family: $session-font-default;
+      min-height: $composition-container-height / 3;
+      max-height: 3 * $composition-container-height;
+      margin-right: $session-margin-md;
+      @include themify($themes) {
+        color: themed('textColor');
+      }
+      background: transparent;
+      resize: none;
+      display: flex;
+      flex-grow: 1;
+      outline: none;
+      border: none;
+      font-size: 14px;
+      line-height: $session-font-h2;
+      letter-spacing: 0.5px;
+    }
+
+    &__emoji-overlay {
+      // Should have identical properties to the textarea above to line up perfectly.
+      position: absolute;
+      font-size: 14px;
+      font-family: $session-font-default;
+      margin-left: 2px;
+      line-height: $session-font-h2;
+      letter-spacing: 0.5px;
+      color: rgba(0, 0, 0, 0);
+    }
+  }
+}
+
+.session-emoji-panel {
+  position: absolute;
+  bottom: 68px;
+  right: 0px;
+  padding: $session-margin-lg;
+
+  z-index: 5;
+  opacity: 0;
+  visibility: hidden;
+  transition: $session-transition-duration;
+
+  button:focus {
+    outline: none;
+  }
+
+  &.show {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  & > section.emoji-mart {
+    font-family: $session-font-default;
+    font-size: $session-font-sm;
+    background-color: $session-shade-4;
+    border: 1px solid $session-shade-6-alt;
+    border-radius: 8px;
+    padding-bottom: $session-margin-sm;
+
+    .emoji-mart-category-label {
+      top: -2px;
+
+      span {
+        font-family: $session-font-default;
+        padding-top: $session-margin-sm;
+        background-color: $session-shade-4;
+      }
+    }
+
+    .emoji-mart-scroll {
+      height: 340px;
+    }
+
+    .emoji-mart-category .emoji-mart-emoji span {
+      cursor: pointer;
+    }
+
+    .emoji-mart-bar:last-child {
+      border: none;
+
+      .emoji-mart-preview {
+        display: none;
+      }
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: calc(100% - 40px);
+      left: calc(100% - 79px);
+      width: 22px;
+      height: 22px;
+      background-color: $session-shade-4;
+      transform: rotate(45deg);
+      border-radius: 3px;
+      transform: scaleY(1.4) rotate(45deg);
+      border: 0.7px solid $session-shade-6-alt;
+      clip-path: polygon(100% 100%, 7.2px 100%, 100% 7.2px);
+    }
+  }
+}
+
+.session-progress {
+  position: relative;
+  z-index: 100;
+
+  &__progress {
+    will-change: transform;
+
+    width: 100%;
+    position: absolute;
+    left: 0px;
+    font-size: 0px;
+    height: 1px;
+
+    background-color: $session-color-green;
+
+    &.fade {
+      opacity: 0;
+    }
+  }
+}
+
+.session-recording {
+  height: $composition-container-height;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-grow: 1;
+  outline: none;
+
+  $actions-element-size: 45px;
+
+  &--actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: $actions-element-size;
+    height: $actions-element-size;
+    border-radius: 50%;
+
+    .session-icon-button {
+      animation: fadein $session-transition-duration;
+      opacity: 1;
+      border-radius: 50%;
+      width: $actions-element-size;
+      height: $actions-element-size;
+
+      .play {
+        margin-left: 4px;
+      }
+    }
+  }
+
+  &--visualisation {
+    z-index: 1000;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    canvas {
+      position: absolute;
+      width: 100%;
+      padding: 0px $session-margin-lg;
+    }
+  }
+
+  &--status {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    z-index: 2;
+    right: 0;
+    bottom: $composition-container-height + $session-margin-md;
+
+    .session-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 173px;
+      font-weight: 300;
+      font-family: $session-font-default;
+
+      &.primary {
+        cursor: default;
+        user-select: none;
+        &:hover {
+          filter: brightness(100%);
+          border: 2px solid #161819;
+        }
+        background-color: $session-shade-1-alt;
+        border: 2px solid #161819;
+      }
+    }
+  }
+
+  &--timer {
+    display: inline-flex;
+    align-items: center;
+    font-family: $session-font-default;
+    font-weight: bold;
+    font-size: 14px;
+
+    &.playback-timer {
+      margin-right: $session-margin-sm;
+    }
+
+    &-light {
+      height: $session-margin-sm;
+      width: $session-margin-sm;
+      border-radius: 50%;
+      background-color: $session-color-danger-alt;
+      margin-left: $session-margin-sm;
+
+      animation: pulseLight 4s infinite;
+    }
+  }
+}
+
+// box-sizing: border-box;
+//     position: absolute;
+//     z-index: 3;
+//     width: 4px;
+//     height: 5px;
+//     margin-left: 0px;
+//     top: 0px;
+//     background: #00f782;
+//     border-radius: 50px;
+
+/* ************ */
+/* AUDIO PLAYER */
+/* ************ */
+$rhap_theme-color: #212121 !default;
+$rhap_background-color: rgba(0, 0, 0, 0) !default;
+$rhap_bar-color: #232323 !default;
+$rhap_time-color: #dddddd !default;
+$rhap_font-family: inherit !default;
+
+.rhap_container,
+.rhap_container button,
+.rhap_progress-container {
+  outline: none;
+}
+
+.rhap_progress-container {
+  margin: 0 0 0 calc(10px + 1%);
+}
+
+.rhap_container {
+  min-width: 220px;
+  padding: 0px;
+  background-color: transparent;
+  box-shadow: none;
+
+  svg {
+    transition: fill $session-transition-duration;
+
+    &:hover path {
+      fill: #ffffff;
+    }
+  }
+}
+
+.rhap_total-time {
+  display: none;
+}
+
+.rhap_current-time {
+  margin: 0 5px 0 4px;
+}
+
+.rhap_play-pause-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rhap_volume-bar {
+  display: none;
+}
+
+.rhap_volume-container div[role='progressbar'] {
+  display: none;
+}
+
+.rhap_time {
+  color: $rhap_time-color;
+  font-size: 12px;
+  width: 32px;
+}
+
+.rhap_progress-bar {
+  box-sizing: border-box;
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  height: 5px;
+  background-color: $rhap_bar-color;
+  border-radius: 2px;
+}
+
+.rhap_progress-filled {
+  opacity: 0.6;
+  background-color: #00f782;
+  padding-left: 5px;
+  left: -5px;
+}
+
+.rhap_download-progress {
+  height: 100%;
+  position: absolute;
+  z-index: 1;
+  background-color: $rhap_bar-color;
+  border-radius: 2px;
+}
+
+.rhap_progress-indicator {
+  z-index: 3;
+  width: 15px;
+  height: 15px;
+  top: -5px;
+  margin-left: -10px;
+  background: $session-color-green;
+  box-shadow: none;
+  box-shadow: rgba($rhap_theme-color, 0.5) 0 0 5px;
+}
+
+.rhap_controls-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rhap_additional-controls {
+  display: none;
+}
+
+.rhap_play-pause-button {
+  width: unset;
+  height: unset;
+}
+
+.rhap_controls-section {
+  flex: unset;
+  justify-content: flex-start;
+}
+
+.rhap_volume-button {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  margin-right: 0px;
+}
+
+/* **************** */
+/* END AUDIO PLAYER */
+/* **************** */

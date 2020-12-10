@@ -7,7 +7,7 @@ on:
       - development
       - clearnet
       - github-actions
-      - message-sending-refactor
+      - react-refactor
 
 jobs:
   build:
@@ -57,7 +57,8 @@ jobs:
       - name: Install Dependencies  #skipped if step before set variable to true
         if: |
           steps.yarn-cache.outputs.cache-hit != 'true'
-        run: yarn install --frozen-lockfile --prefer-offline
+        run: yarn install --frozen-lockfile --network-timeout 600000
+
 
       - name: Generate and concat files
         run: yarn generate
@@ -65,7 +66,7 @@ jobs:
       - name: Lint Files
         if: runner.os != 'Windows'
         run: |
-          yarn format-full-check
+          yarn format-full
           yarn eslint
           yarn tslint
 

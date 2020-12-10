@@ -487,9 +487,9 @@ describe('Backup', () => {
 
         console.log('Backup test: Create models, save to db/disk');
         const message = await upgradeMessageSchema(messageWithAttachments);
-        console.log({ message });
         await window.Signal.Data.saveMessage(message, {
           Message: Whisper.Message,
+          forceSave: true,
         });
 
         const conversation = {

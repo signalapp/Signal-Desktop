@@ -3,8 +3,6 @@ import classNames from 'classnames';
 
 import { LeftPane } from '../LeftPane';
 
-import { MainViewController } from '../MainViewController';
-
 import {
   SessionButton,
   SessionButtonColor,
@@ -14,13 +12,16 @@ import {
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 import { SessionSearchInput } from './SessionSearchInput';
 import { SessionSettingCategory } from './settings/SessionSettings';
+import { DefaultTheme } from 'styled-components';
 
 interface Props {
   isSecondaryDevice: boolean;
+  settingsCategory: SessionSettingCategory;
+  showSessionSettingsCategory: (category: SessionSettingCategory) => void;
+  theme: DefaultTheme;
 }
 
 export interface State {
-  settingCategory: SessionSettingCategory;
   searchQuery: string;
 }
 
@@ -29,20 +30,11 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      settingCategory: SessionSettingCategory.Appearance,
       searchQuery: '',
     };
 
     this.setCategory = this.setCategory.bind(this);
     this.onDeleteAccount = this.onDeleteAccount.bind(this);
-  }
-
-  public componentDidMount() {
-    MainViewController.renderSettingsView(this.state.settingCategory);
-  }
-
-  public componentDidUpdate() {
-    MainViewController.renderSettingsView(this.state.settingCategory);
   }
 
   public render(): JSX.Element {
@@ -59,8 +51,8 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
 
     return LeftPane.RENDER_HEADER(
       labels,
+      this.props.theme,
       null,
-      undefined,
       undefined,
       undefined,
       undefined
@@ -68,12 +60,13 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
   }
 
   public renderRow(item: any): JSX.Element {
+    const { settingsCategory } = this.props;
     return (
       <div
         key={item.id}
         className={classNames(
           'left-pane-setting-category-list-item',
-          item.id === this.state.settingCategory ? 'active' : ''
+          item.id === settingsCategory ? 'active' : ''
         )}
         role="link"
         onClick={() => {
@@ -85,11 +78,12 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
         </div>
 
         <div>
-          {item.id === this.state.settingCategory && (
+          {item.id === settingsCategory && (
             <SessionIcon
               iconSize={SessionIconSize.Medium}
               iconType={SessionIconType.Chevron}
               iconRotation={270}
+              theme={this.props.theme}
             />
           )}
         </div>
@@ -117,15 +111,18 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
             searchString={this.state.searchQuery}
             onChange={() => null}
             placeholder=""
+            theme={this.props.theme}
           />
           <div className="left-pane-setting-input-button">
             <SessionButton
               buttonType={SessionButtonType.Square}
               buttonColor={SessionButtonColor.Green}
+              theme={this.props.theme}
             >
               <SessionIcon
                 iconType={SessionIconType.Caret}
                 iconSize={SessionIconSize.Huge}
+                theme={this.props.theme}
               />
             </SessionButton>
           </div>
@@ -167,7 +164,7 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
             text={showRecoveryPhrase}
             buttonType={SessionButtonType.SquareOutline}
             buttonColor={SessionButtonColor.White}
-            onClick={window.showSeedDialog}
+            onClick={() => window.Whisper.events.trigger('showSeedDialog')}
           />
         )}
       </div>
@@ -185,9 +182,15 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
       isSecondaryDevice ? 'unpairDeviceWarning' : 'deleteAccountWarning'
     );
 
-    const messageSub = isSecondaryDevice
+    let messageSub = isSecondaryDevice
       ? window.i18n('unpairDeviceWarningSub')
       : '';
+
+    const identityKey = window.textsecure.storage.get('identityKey');
+    if (identityKey && identityKey.ed25519KeyPair === undefined) {
+      messageSub =
+        "We've updated the way Session IDs are generated, so you will not be able to restore your current Session ID.";
+    }
 
     window.confirmationDialog({
       title,
@@ -236,8 +239,6 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
   }
 
   public setCategory(category: SessionSettingCategory) {
-    this.setState({
-      settingCategory: category,
-    });
+    this.props.showSessionSettingsCategory(category);
   }
 }

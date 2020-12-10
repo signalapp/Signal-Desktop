@@ -1,12 +1,14 @@
 import React from 'react';
+import { animation, contextMenu, Item, Menu } from 'react-contexify';
+import { DefaultTheme } from 'styled-components';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
-import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 
 interface Props {
   searchString: string;
   onChange: any;
   handleNavigation?: any;
   placeholder: string;
+  theme: DefaultTheme;
 }
 
 export class SessionSearchInput extends React.Component<Props> {
@@ -21,41 +23,48 @@ export class SessionSearchInput extends React.Component<Props> {
 
     return (
       <>
-        <ContextMenuTrigger id={triggerId}>
-          <div className="session-search-input">
-            <SessionIconButton
-              iconSize={SessionIconSize.Medium}
-              iconType={SessionIconType.Search}
-            />
-            <input
-              value={searchString}
-              onChange={e => this.props.onChange(e.target.value)}
-              onKeyDown={this.handleKeyDown}
-              placeholder={this.props.placeholder}
-            />
-          </div>
-        </ContextMenuTrigger>
-        <ContextMenu id={triggerId}>
-          <MenuItem onClick={() => document.execCommand('undo')}>
+        <div
+          className="session-search-input"
+          onContextMenu={(e: any) => {
+            contextMenu.show({
+              id: triggerId,
+              event: e,
+            });
+          }}
+        >
+          <SessionIconButton
+            iconSize={SessionIconSize.Medium}
+            iconType={SessionIconType.Search}
+            theme={this.props.theme}
+          />
+          <input
+            value={searchString}
+            onChange={e => this.props.onChange(e.target.value)}
+            onKeyDown={this.handleKeyDown}
+            placeholder={this.props.placeholder}
+          />
+        </div>
+        <Menu id={triggerId} animation={animation.fade}>
+          <Item onClick={() => document.execCommand('undo')}>
             {window.i18n('editMenuUndo')}
-          </MenuItem>
-          <MenuItem onClick={() => document.execCommand('redo')}>
+          </Item>
+          <Item onClick={() => document.execCommand('redo')}>
             {window.i18n('editMenuRedo')}
-          </MenuItem>
+          </Item>
           <hr />
-          <MenuItem onClick={() => document.execCommand('cut')}>
+          <Item onClick={() => document.execCommand('cut')}>
             {window.i18n('editMenuCut')}
-          </MenuItem>
-          <MenuItem onClick={() => document.execCommand('copy')}>
+          </Item>
+          <Item onClick={() => document.execCommand('copy')}>
             {window.i18n('editMenuCopy')}
-          </MenuItem>
-          <MenuItem onClick={() => document.execCommand('paste')}>
+          </Item>
+          <Item onClick={() => document.execCommand('paste')}>
             {window.i18n('editMenuPaste')}
-          </MenuItem>
-          <MenuItem onClick={() => document.execCommand('selectAll')}>
+          </Item>
+          <Item onClick={() => document.execCommand('selectAll')}>
             {window.i18n('editMenuSelectAll')}
-          </MenuItem>
-        </ContextMenu>
+          </Item>
+        </Menu>
       </>
     );
   }

@@ -9,7 +9,7 @@ div.spacer-lg {
 }
 
 .subtle {
-  opacity: 0.6;
+  opacity: $session-subtle-factor;
 }
 
 .soft {
@@ -22,6 +22,10 @@ div.spacer-lg {
 
 .fullwidth {
   width: 100%;
+}
+
+.break-word {
+  word-break: break-all;
 }
 
 input,
@@ -61,11 +65,7 @@ textarea {
   height: 100vh;
   display: flex;
   flex-grow: 1;
-
-  .conversation-stack {
-    display: block;
-    width: 100%;
-  }
+  position: relative;
 }
 
 .button-group > div {
@@ -154,6 +154,9 @@ textarea {
     }
     &.danger {
       background-color: $session-color-danger;
+    }
+    &.danger-alt {
+      background-color: $session-color-danger-alt;
     }
     &.warning {
       background-color: $session-color-warning;
@@ -263,14 +266,6 @@ textarea {
   }
 }
 
-@mixin set-icon-margin($size) {
-  margin: $size / 3;
-}
-.session-icon {
-  &.padded-left {
-    @include set-icon-margin($session-icon-size-md);
-  }
-}
 .session-icon-button {
   cursor: pointer;
   display: inline-block;
@@ -286,77 +281,9 @@ textarea {
   &.no-opacity {
     opacity: 1;
   }
-
-  &.small.padded {
-    @include set-icon-margin($session-icon-size-sm);
-  }
-
-  &.medium.padded {
-    @include set-icon-margin($session-icon-size-md);
-  }
-
-  &.large.padded {
-    @include set-icon-margin($session-icon-size-lg);
-  }
-
-  .notification-count {
-    position: absolute;
-    top: $session-margin-lg;
-    right: $session-margin-lg;
-    padding: 3px;
-    opacity: 1;
-  }
-}
-
-.notification-count {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: $session-font-default;
-  border-radius: 50%;
-  font-weight: 700;
-  background: $session-color-danger;
-  color: $session-color-white;
-  text-align: center;
-
-  div {
-    position: relative;
-
-    sup {
-      position: absolute;
-      font-size: 1.3em;
-      top: -0.5em;
-      margin-inline-start: -0.125em;
-    }
-  }
-
-  &.hover {
-    transition: $session-transition-duration;
-    cursor: pointer;
-
-    &:hover {
-      filter: brightness(80%);
-    }
-  }
-}
-
-.session-icon {
-  @include themify($themes) {
-    fill: themed('textColor');
-  }
 }
 
 /* CONVERSATION AND MESSAGES */
-
-@mixin standard-icon-button() {
-  color: $session-color-white;
-  opacity: 0.6;
-
-  &:hover {
-    opacity: 1;
-  }
-}
-
 .module-conversation-header {
   height: $main-view-header-height;
 }
@@ -404,6 +331,7 @@ textarea {
   display: inline-flex;
   margin-inline-end: 20px;
   padding-top: 5px;
+  margin-bottom: auto;
 }
 
 .module-message__container {
@@ -415,9 +343,11 @@ label {
 
 .module-message__attachment-container,
 .module-image--curved-bottom-right,
+.module-image--curved-top-left,
+.module-image--curved-top-right,
 .module-image--curved-bottom-left {
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
+  border-top-left-radius: $session_message-container-border-radius;
+  border-top-right-radius: $session_message-container-border-radius;
   border-bottom-left-radius: $session_message-container-border-radius;
   border-bottom-right-radius: $session_message-container-border-radius;
 }
@@ -429,10 +359,6 @@ label {
 
   .search-icon {
     margin-inline-end: 10px;
-  }
-
-  .session-icon-button {
-    @include standard-icon-button();
   }
 }
 
@@ -450,35 +376,9 @@ label {
     margin-bottom: 6px;
   }
 }
-.message-selection-overlay {
-  display: none;
-  position: absolute;
-  left: 0px;
-  right: 0px;
-  margin: 0px $session-margin-lg;
-  align-items: center;
-  justify-content: space-between;
-  height: $main-view-header-height;
-
-  .close-button {
-    float: left;
-  }
-
-  .session-button.default.danger {
-    display: flex;
-    // width: 80px;
-    margin-inline-end: 0px;
-  }
-}
-.message-selection-overlay div[role='button'] {
-  display: inline-block;
-}
-
-.message-selection-overlay .button-group {
-  float: right;
-}
 
 .hidden {
+  display: none;
   visibility: hidden;
 }
 
@@ -486,96 +386,36 @@ label {
   cursor: pointer;
 }
 
-.session-toast-wrapper {
-  position: fixed;
-  right: $session-margin-lg;
-  bottom: $session-margin-lg;
-
-  z-index: 10000;
-}
-
-.session-toast {
-  position: relative;
-  padding: $session-margin-md $session-margin-md;
+.Toastify__toast {
   @include themify($themes) {
-    background: rgba(themed('cellBackground'), 0.8);
+    background: rgba(themed('cellBackground'), 0.99);
+    color: themed('textColor');
   }
-  margin-bottom: $session-margin-md;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-
-  .toast-icon,
-  .toast-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .toast-icon {
-    padding-inline-end: $session-icon-size-md;
-  }
-  .toast-info {
-    margin-inline-end: $session-icon-size-sm + $session-icon-size-sm;
-    width: 350px;
-
-    &-container {
-      display: block;
-    }
-  }
-
-  .title,
-  .description {
-    text-overflow: ellipsis;
-  }
-
-  .title {
-    font-size: $session-font-md;
-    line-height: $session-font-sm;
-    margin-bottom: $session-margin-sm;
-    padding-top: 0px;
+  .Toastify__close-button {
     @include themify($themes) {
-      color: themed('textColor');
-    }
-    padding-top: 0px;
-  }
-
-  .description {
-    font-size: $session-font-xs;
-    @include themify($themes) {
-      @include session-color-subtle(themed('textColor'));
+      color: subtle(themed('textColor'));
     }
   }
-
-  .toast-close {
-    @include themify($themes) {
-      @include session-color-subtle(themed('textColor'));
-    }
-    position: absolute;
-    top: $session-margin-md;
-    right: $session-margin-md;
-
-    &:hover {
-      @include themify($themes) {
-        color: themed('textColor');
-      }
-    }
-  }
-
   @mixin set-toast-theme($color) {
     border-left: 4px solid $color;
   }
-  &.info {
-    @include set-toast-theme($session-color-info);
-  }
-  &.success {
+  &--success {
     @include set-toast-theme($session-color-success);
   }
-  &.warning {
+  &--info {
+    @include set-toast-theme($session-color-info);
+  }
+  &--warning {
     @include set-toast-theme($session-color-warning-alt);
   }
-  &.error {
+  &--error {
     @include set-toast-theme($session-color-error);
+  }
+
+  .Toastify__progress-bar {
+    @include themify($themes) {
+      background-color: rgba(themed('textColor'), 0.1);
+    }
   }
 }
 
@@ -586,6 +426,7 @@ label {
   box-sizing: border-box;
   max-height: 70vh;
   max-width: 70vw;
+  font-family: $session-font-default;
   @include themify($themes) {
     background-color: themed('modalBackground');
     color: themed('textColor');
@@ -604,7 +445,7 @@ label {
 
     padding: $session-margin-lg;
 
-    font-family: $session-font-accent;
+    font-family: $session-font-default;
     text-align: center;
     line-height: 18px;
     font-size: $session-font-md;
@@ -642,9 +483,9 @@ label {
 
   &__body {
     padding: 0px $session-margin-lg $session-margin-lg $session-margin-lg;
-    font-family: $session-font-accent;
+    font-family: $session-font-default;
     line-height: $session-font-md;
-    font-size: $session-font-sm;
+    font-size: $session-font-md;
     overflow-y: auto;
     overflow-x: hidden;
 
@@ -701,12 +542,6 @@ label {
   }
 
   &__secret-words {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: $session-shade-6;
-    padding: $session-margin-sm $session-margin-lg;
-    border-radius: 3px;
     margin-bottom: $session-margin-md;
   }
 }
@@ -730,6 +565,7 @@ label {
   &-wrapper {
     .session-modal__body .session-modal__centered {
       margin: $session-margin-lg;
+      text-align: center;
     }
   }
 
@@ -777,41 +613,39 @@ label {
   }
 }
 
-.react-contextmenu {
-  padding: 0px;
-  margin: 0px;
-
-  border: none !important;
-  border-radius: 0px;
-}
-
-.react-contextmenu-item {
-  display: flex;
-  align-items: center;
-  transition: $session-transition-duration;
-
-  height: 25px;
-  padding: $session-margin-md $session-margin-sm;
-
+.react-contexify {
+  z-index: 3;
+  min-width: 200px;
+  box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
   @include themify($themes) {
-    background: themed('contextMenuBackground');
-    color: themed('textColor');
+    background: themed('cellBackground');
   }
-  font-family: $session-font-accent;
-  font-size: $session-font-sm;
-  line-height: $session-icon-size-sm;
-  font-weight: 700;
-
-  &--active,
-  &--selected {
+  .react-contexify__item {
     @include themify($themes) {
-      background: themed('clickableHovered');
+      background: themed('cellBackground');
     }
   }
-  &:active,
-  &:visited,
-  &:focus {
-    outline: none;
+
+  .react-contexify__item:not(.react-contexify__item--disabled):hover
+    > .react-contexify__item__content {
+    @include themify($themes) {
+      background: themed('accent');
+      color: themed('textColorOpposite');
+    }
+  }
+  .react-contexify__item__content {
+    transition: $session-transition-duration;
+    @include themify($themes) {
+      color: themed('textColor');
+    }
+  }
+
+  &.react-contexify__submenu {
+    top: -28px !important; // height of an item element
+  }
+
+  .react-contexify__submenu-arrow {
+    line-height: 16px; // center the arrow for submenu
   }
 }
 
@@ -837,10 +671,6 @@ label {
       @include themify($themes) {
         background: themed('clickableHovered');
       }
-    }
-
-    .session-icon {
-      opacity: 0.6;
     }
   }
 
@@ -1147,7 +977,10 @@ label {
       max-width: 90%;
       width: 600px;
 
-      background-color: $session-shade-4;
+      @include themify($themes) {
+        background: themed('composeViewBackground');
+        color: themed('textColor');
+      }
       border: 1px solid $session-shade-8;
       border-radius: 5px;
 
@@ -1158,8 +991,10 @@ label {
 
       input {
         width: 100%;
-        color: $session-color-white;
-        background-color: $session-shade-7;
+        @include themify($themes) {
+          background: themed('inputBackground');
+          color: themed('textColor');
+        }
         padding: $session-margin-xs $session-margin-md;
         margin-bottom: $session-margin-lg;
         outline: none;
@@ -1372,16 +1207,7 @@ input {
   }
 }
 
-.module-scroll-down {
-}
-
-.module-scroll-down {
-  z-index: 99;
-  position: absolute;
-  right: 20px;
-  bottom: 15px;
-  animation: fadein $session-fadein-duration;
-
+.messages-container {
   .session-icon-button {
     display: flex;
     justify-content: center;
@@ -1390,12 +1216,16 @@ input {
     width: 40px;
     border-radius: 50%;
     opacity: 1;
-    background-color: $session-shade-2;
-    box-shadow: 0px 0px $session-font-sm 0px rgba($session-color-white, 0.1);
-
+    @include themify($themes) {
+      background-color: themed('cellBackground');
+      box-shadow: themed('sessionShadow');
+    }
     svg path {
       transition: $session-transition-duration;
       opacity: 0.6;
+      @include themify($themes) {
+        fill: themed('textColor');
+      }
     }
 
     &:hover svg path {
@@ -1475,7 +1305,7 @@ input {
 
   &.selected {
     @include themify($themes) {
-      background-color: themed('conversationItemSelected');
+      background-color: themed('conversationItemSelected') !important;
     }
   }
 
@@ -1518,3 +1348,79 @@ input {
     pointer-events: none;
   }
 }
+
+.session-info-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $session-shade-6;
+  padding: $session-margin-sm $session-margin-lg;
+  border-radius: 4px;
+}
+
+/* ************************************* */
+/* KEY VERIFICATION VIEW (SAFETY NUMBER) */
+/* ************************************* */
+
+.key-verification {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: $session-margin-lg;
+  text-align: center;
+  @include themify($themes) {
+    background: themed('inboxBackground');
+    color: themed('textColor');
+  }
+  &__header {
+    word-break: break-all;
+
+    h2 {
+      margin-bottom: 0px;
+    }
+
+    small {
+      margin-top: -25px;
+      opacity: 0.6;
+    }
+  }
+
+  &__key {
+    font-family: $session-font-mono;
+    margin: 30px 0;
+    width: 250px;
+    color: white;
+  }
+
+  &__is-verified {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: $session-font-md;
+    margin: 30px 0;
+
+    & > span {
+      svg {
+        min-width: 30px;
+        margin-right: 10px;
+      }
+
+      height: 50px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .session-button {
+      margin: 20px 0;
+      width: 100%;
+    }
+  }
+
+  .session-loader {
+    margin-top: $session-margin-md;
+  }
+}
+
+/* ************************************* */
+/* ************************************* */
+/* ************************************* */

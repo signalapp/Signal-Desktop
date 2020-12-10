@@ -22,7 +22,7 @@ interface Props {
   convoId: string;
   isPublic?: boolean;
   withContentAbove: boolean;
-  onClick?: () => void;
+  onClick?: (e: any) => void;
   onClose?: () => void;
   text: string;
   referencedMessageNotFound: boolean;
@@ -277,7 +277,7 @@ export class Quote extends React.Component<Props, State> {
 
     // We don't want the overall click handler for the quote to fire, so we stop
     //   propagation before handing control to the caller's callback.
-    const onClick = (e: React.MouseEvent<{}>): void => {
+    const onClick = (e: any): void => {
       e.stopPropagation();
       onClose();
     };

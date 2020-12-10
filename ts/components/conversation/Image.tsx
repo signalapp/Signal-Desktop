@@ -129,7 +129,7 @@ export class Image extends React.Component<Props> {
         {closeButton ? (
           <div
             role="button"
-            onClick={(e: React.MouseEvent<{}>) => {
+            onClick={(e: any) => {
               e.stopPropagation();
               if (onClickClose) {
                 onClickClose(attachment);

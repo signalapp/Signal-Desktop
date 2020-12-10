@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import classNames from 'classnames';
+import { DefaultTheme } from 'styled-components';
 
 export enum SessionButtonType {
   Brand = 'brand',
@@ -18,62 +19,58 @@ export enum SessionButtonColor {
   Secondary = 'secondary',
   Success = 'success',
   Danger = 'danger',
+  DangerAlt = 'danger-alt',
   Warning = 'warning',
   None = '',
 }
 
-interface Props {
+type Props = {
   text?: string;
   disabled?: boolean;
   buttonType: SessionButtonType;
   buttonColor: SessionButtonColor;
   onClick: any;
-}
+  children?: ReactNode;
+  theme: DefaultTheme;
+};
 
-export class SessionButton extends React.PureComponent<Props> {
-  public static defaultProps = {
-    buttonType: SessionButtonType.Default,
-    buttonColor: SessionButtonColor.Primary,
-    disabled: false,
-    onClick: () => null,
+export const SessionButton = (props: Props) => {
+  const { buttonType, buttonColor, text, disabled } = props;
+
+  const clickHandler = (e: any) => {
+    if (props.onClick) {
+      e.stopPropagation();
+      props.onClick();
+    }
   };
 
-  constructor(props: any) {
-    super(props);
-    this.clickHandler = this.clickHandler.bind(this);
+  const buttonTypes = [];
+  const onClickFn = disabled ? () => null : clickHandler;
+
+  buttonTypes.push(buttonType);
+  if (buttonType.includes('-outline')) {
+    buttonTypes.push(buttonType.replace('-outline', ''));
   }
 
-  public render() {
-    const { buttonType, buttonColor, text, disabled } = this.props;
+  return (
+    <div
+      className={classNames(
+        'session-button',
+        ...buttonTypes,
+        buttonColor,
+        disabled && 'disabled'
+      )}
+      role="button"
+      onClick={onClickFn}
+    >
+      {props.children || text}
+    </div>
+  );
+};
 
-    const buttonTypes = [];
-    const onClickFn = disabled ? () => null : this.clickHandler;
-
-    buttonTypes.push(buttonType);
-    if (buttonType.includes('-outline')) {
-      buttonTypes.push(buttonType.replace('-outline', ''));
-    }
-
-    return (
-      <div
-        className={classNames(
-          'session-button',
-          ...buttonTypes,
-          buttonColor,
-          disabled && 'disabled'
-        )}
-        role="button"
-        onClick={onClickFn}
-      >
-        {this.props.children || text}
-      </div>
-    );
-  }
-
-  private clickHandler(e: any) {
-    if (this.props.onClick) {
-      e.stopPropagation();
-      this.props.onClick();
-    }
-  }
-}
+SessionButton.defaultProps = {
+  disabled: false,
+  buttonType: SessionButtonType.Default,
+  buttonColor: SessionButtonColor.Primary,
+  onClick: null,
+} as Partial<Props>;

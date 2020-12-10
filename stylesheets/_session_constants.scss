@@ -27,7 +27,7 @@ $session-font-mono: 'SpaceMono';
   font-style: italic;
 }
 
-// Public Sans is an open replacement for 'SF Pro Text'
+// Public Sans is an open replacement for $session-font-default
 @font-face {
   font-family: $session-font-default;
   src: url('../fonts/PublicSans-Regular.woff') format('woff');
@@ -76,11 +76,13 @@ $session-color-green: #00f782;
 
 // Shades
 $session-shade-1: #0c0c0c;
+$session-shade-1-alt: #0f1011;
 $session-shade-2: #161616;
 $session-shade-3: #191818;
 $session-shade-4: #1b1b1b;
 $session-shade-5: #222325;
 $session-shade-6: #232323;
+$session-shade-6-alt: #2c2c2c;
 $session-shade-7: #2e2e2e;
 $session-shade-8: #2f2f2f;
 $session-shade-9: #313131;
@@ -103,9 +105,6 @@ $session-color-light-grey: #a0a0a0;
 $session-color-dark-grey: #353535;
 $session-color-black: #000;
 
-$session-background-overlay: #212121;
-$session-background: #121212;
-
 // Semantic Colors
 $session-color-info: $session-shade-11;
 $session-color-success: #35d388;
@@ -113,6 +112,7 @@ $session-color-error: #edd422;
 $session-color-warning: $session-shade-17;
 $session-color-warning-alt: #ff9d00;
 $session-color-danger: #ff453a;
+$session-color-danger-alt: #ff4538;
 $session-color-primary: $session-shade-13;
 $session-color-secondary: $session-shade-6;
 
@@ -168,13 +168,8 @@ $session-search-input-height: 34px;
 $main-view-header-height: 63px;
 $session-conversation-header-height: 60px;
 $session-left-pane-width: 300px;
-$session-left-pane-sections-container-width: 80px;
 
 // Various Components
-$session-icon-size-sm: 15px;
-$session-icon-size-md: 20px;
-$session-icon-size-lg: 30px;
-
 $session-modal-size-sm: 220px;
 $session-modal-size-md: 400px;
 $session-modal-size-lg: 650px;
@@ -204,13 +199,4 @@ $session-fadein-duration: 0.1s;
 // ///////////////// Various ////////////////////
 // //////////////////////////////////////////////
 
-// Backgrounds
-@mixin session-dark-background {
-  background-color: $session-background;
-}
-@mixin session-dark-background-lighter {
-  background-color: $session-background-overlay;
-}
-@mixin session-dark-background-hover {
-  background-color: $session-shade-7;
-}
+$composition-container-height: 60px;

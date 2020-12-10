@@ -273,7 +273,7 @@ async function createWindow() {
         nativeWindowOpen: true,
         spellcheck: await getSpellCheckSetting(),
       },
-      icon: path.join(__dirname, 'images', 'session', 'icon_64.png'),
+      icon: path.join(__dirname, 'images', 'session', 'session_icon_64.png'),
     },
     _.pick(windowConfig, [
       'maximized',
@@ -513,12 +513,6 @@ function setupWithImport() {
   }
 }
 
-function setupAsStandalone() {
-  if (mainWindow) {
-    mainWindow.webContents.send('set-up-as-standalone');
-  }
-}
-
 let passwordWindow;
 function showPasswordWindow() {
   if (passwordWindow) {
@@ -540,7 +534,7 @@ function showPasswordWindow() {
       preload: path.join(__dirname, 'password_preload.js'),
       nativeWindowOpen: true,
     },
-    icon: path.join(__dirname, 'images', 'icon_256.png'),
+    icon: path.join(__dirname, 'images', 'session', 'session_icon_256.png'),
   };
 
   passwordWindow = new BrowserWindow(windowOptions);
@@ -868,7 +862,6 @@ function setupMenu(options) {
     openSupportPage,
     platform,
     setupWithImport,
-    setupAsStandalone,
   });
   const template = createTemplate(menuOptions, locale.messages);
   const menu = Menu.buildFromTemplate(template);

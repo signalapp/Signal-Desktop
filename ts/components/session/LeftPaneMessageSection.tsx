@@ -4,14 +4,11 @@ import { AutoSizer, List } from 'react-virtualized';
 
 import { MainViewController } from '../MainViewController';
 import {
+  ConversationListItemProps,
   ConversationListItemWithDetails,
-  PropsData as ConversationListItemPropsType,
 } from '../ConversationListItem';
 import { ConversationType } from '../../state/ducks/conversations';
-import {
-  PropsData as SearchResultsProps,
-  SearchResults,
-} from '../SearchResults';
+import { SearchResults, SearchResultsProps } from '../SearchResults';
 import { SessionSearchInput } from './SessionSearchInput';
 import { debounce } from 'lodash';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
@@ -31,19 +28,21 @@ import {
 } from './SessionButton';
 import { OpenGroup } from '../../session/types';
 import { ToastUtils } from '../../session/utils';
+import { DefaultTheme } from 'styled-components';
 
 export interface Props {
   searchTerm: string;
   isSecondaryDevice: boolean;
 
   contacts: Array<ConversationType>;
-  conversations?: Array<ConversationListItemPropsType>;
+  conversations?: Array<ConversationListItemProps>;
   searchResults?: SearchResultsProps;
 
   updateSearchTerm: (searchTerm: string) => void;
   search: (query: string, options: SearchOptions) => void;
-  openConversationInternal: (id: string, messageId?: string) => void;
+  openConversationExternal: (id: string, messageId?: string) => void;
   clearSearch: () => void;
+  theme: DefaultTheme;
 }
 
 export enum SessionComposeToType {
@@ -97,12 +96,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   }
 
   public componentDidMount() {
-    MainViewController.renderMessageView();
     window.Whisper.events.on('calculatingPoW', this.closeOverlay);
-  }
-
-  public componentDidUpdate() {
-    MainViewController.renderMessageView();
   }
 
   public componentWillUnmount() {
@@ -115,7 +109,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     key,
     style,
   }: RowRendererParamsType): JSX.Element => {
-    const { conversations, openConversationInternal } = this.props;
+    const { conversations, openConversationExternal } = this.props;
 
     if (!conversations) {
       throw new Error('renderRow: Tried to render without conversations');
@@ -128,7 +122,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         key={key}
         style={style}
         {...conversation}
-        onClick={openConversationInternal}
+        onClick={openConversationExternal}
         i18n={window.i18n}
       />
     );
@@ -137,7 +131,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   public renderList(): JSX.Element | Array<JSX.Element | null> {
     const {
       conversations,
-      openConversationInternal,
+      openConversationExternal,
       searchResults,
     } = this.props;
     const contacts = searchResults?.contacts || [];
@@ -147,7 +141,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         <SearchResults
           {...searchResults}
           contacts={contacts}
-          openConversation={openConversationInternal}
+          openConversationExternal={openConversationExternal}
           i18n={window.i18n}
         />
       );
@@ -197,6 +191,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     return LeftPane.RENDER_HEADER(
       labels,
+      this.props.theme,
       null,
       undefined,
       SessionIconType.Plus,
@@ -224,6 +219,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           searchString={this.props.searchTerm}
           onChange={this.updateSearchBound}
           placeholder={window.i18n('searchFor...')}
+          theme={this.props.theme}
         />
         {this.renderList()}
         {this.renderBottomButtons()}
@@ -292,6 +288,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         searchTerm={searchTerm}
         updateSearch={this.updateSearchBound}
         showSpinner={loading}
+        theme={this.props.theme}
       />
     );
 
@@ -310,6 +307,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         searchTerm={searchTerm}
         updateSearch={this.updateSearchBound}
         showSpinner={loading}
+        theme={this.props.theme}
       />
     );
 
@@ -324,6 +322,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         searchTerm={searchTerm}
         searchResults={searchResults}
         updateSearch={this.updateSearchBound}
+        theme={this.props.theme}
       />
     );
 
@@ -369,9 +368,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   }
 
   private handleToggleOverlay(conversationType?: SessionComposeToType) {
-    const { overlay } = this.state;
-
-    const overlayState = overlay ? false : conversationType || false;
+    const overlayState = conversationType || false;
 
     this.setState({ overlay: overlayState });
 
@@ -383,16 +380,14 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     this.setState({ valuePasted: value });
   }
 
-  private handleMessageButtonClick() {
-    const { openConversationInternal } = this.props;
+  private async handleMessageButtonClick() {
+    const { openConversationExternal } = this.props;
 
     if (!this.state.valuePasted && !this.props.searchTerm) {
-      ToastUtils.push({
-        title: window.i18n('invalidNumberError'),
-        type: 'error',
-        id: 'invalidPubKey',
-      });
-
+      ToastUtils.pushToastError(
+        'invalidPubKey',
+        window.i18n('invalidNumberError')
+      );
       return;
     }
     let pubkey: string;
@@ -401,13 +396,10 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     const error = validateNumber(pubkey);
     if (!error) {
-      openConversationInternal(pubkey);
+      await window.ConversationController.getOrCreateAndWait(pubkey, 'private');
+      openConversationExternal(pubkey);
     } else {
-      ToastUtils.push({
-        title: error,
-        type: 'error',
-        id: 'invalidPubKey',
-      });
+      ToastUtils.pushToastError('invalidPubKey', error);
     }
   }
 
@@ -420,44 +412,42 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     // Server URL valid?
     if (serverUrl.length === 0 || !OpenGroup.validate(serverUrl)) {
-      ToastUtils.push({
-        title: window.i18n('invalidOpenGroupUrl'),
-        id: 'connectToServer',
-        type: 'error',
-      });
-
+      ToastUtils.pushToastError(
+        'connectToServer',
+        window.i18n('invalidOpenGroupUrl')
+      );
       return;
     }
 
     // Already connected?
     if (Boolean(await OpenGroup.getConversation(serverUrl))) {
-      ToastUtils.push({
-        title: window.i18n('publicChatExists'),
-        id: 'publicChatExists',
-        type: 'error',
-      });
-
+      ToastUtils.pushToastError(
+        'publicChatExists',
+        window.i18n('publicChatExists')
+      );
       return;
     }
 
     // Connect to server
     try {
-      ToastUtils.push({
-        title: window.i18n('connectingToServer'),
-        id: 'connectToServer',
-        type: 'success',
-      });
+      ToastUtils.pushToastInfo(
+        'connectingToServer',
+        window.i18n('connectingToServer')
+      );
+
       this.setState({ loading: true });
-      await OpenGroup.join(serverUrl, async () => {
-        if (await OpenGroup.serverExists(serverUrl)) {
-          ToastUtils.push({
-            title: window.i18n('connectToServerSuccess'),
-            id: 'connectToServer',
-            type: 'success',
-          });
-        }
-        this.setState({ loading: false });
-      });
+      await OpenGroup.join(serverUrl);
+      if (await OpenGroup.serverExists(serverUrl)) {
+        ToastUtils.pushToastSuccess(
+          'connectToServerSuccess',
+          window.i18n('connectToServerSuccess')
+        );
+      } else {
+        throw new Error(
+          'Open group joined but the corresponding server does not exist'
+        );
+      }
+      this.setState({ loading: false });
       const openGroupConversation = await OpenGroup.getConversation(serverUrl);
 
       if (openGroupConversation) {
@@ -467,23 +457,18 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           openGroupConversation
         );
       } else {
-        window.console.error(
+        window.log.error(
           'Joined an opengroup but did not find ther corresponding conversation'
         );
       }
-    } catch (e) {
-      window.console.error('Failed to connect to server:', e);
-      ToastUtils.push({
-        title: window.i18n('connectToServerFail'),
-        id: 'connectToServer',
-        type: 'error',
-      });
-      this.setState({ loading: false });
-    } finally {
-      this.setState({
-        loading: false,
-      });
       this.handleToggleOverlay(undefined);
+    } catch (e) {
+      window.log.error('Failed to connect to server:', e);
+      ToastUtils.pushToastError(
+        'connectToServerFail',
+        window.i18n('connectToServerFail')
+      );
+      this.setState({ loading: false });
     }
   }
 

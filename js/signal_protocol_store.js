@@ -232,7 +232,7 @@
         };
       }
 
-      window.log.error('Failed to fetch prekey:', keyId);
+      // throw new textsecure.PreKeyMissing();
       return undefined;
     },
     async loadPreKeyForContact(contactPubKey) {

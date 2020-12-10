@@ -30,6 +30,8 @@ describe('state/selectors/conversations', () => {
           isSelected: false,
           isTyping: false,
           isBlocked: false,
+          isKickedFromGroup: false,
+          leftGroup: false,
         },
         id2: {
           id: 'id2',
@@ -49,6 +51,8 @@ describe('state/selectors/conversations', () => {
           isSelected: false,
           isTyping: false,
           isBlocked: false,
+          isKickedFromGroup: false,
+          leftGroup: false,
         },
         id3: {
           id: 'id3',
@@ -68,6 +72,8 @@ describe('state/selectors/conversations', () => {
           isSelected: false,
           isTyping: false,
           isBlocked: false,
+          isKickedFromGroup: false,
+          leftGroup: false,
         },
         id4: {
           id: 'id4',
@@ -78,7 +84,6 @@ describe('state/selectors/conversations', () => {
           isArchived: false,
           isSecondary: false,
           primaryDevice: 'id4',
-
           type: 'direct',
           isMe: false,
           lastUpdated: Date.now(),
@@ -87,6 +92,8 @@ describe('state/selectors/conversations', () => {
           isSelected: false,
           isTyping: false,
           isBlocked: false,
+          isKickedFromGroup: false,
+          leftGroup: false,
         },
         id5: {
           id: 'id5',
@@ -106,6 +113,8 @@ describe('state/selectors/conversations', () => {
           isSelected: false,
           isTyping: false,
           isBlocked: false,
+          isKickedFromGroup: false,
+          leftGroup: false,
         },
       };
       const comparator = _getConversationComparator(i18n, regionCode);

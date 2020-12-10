@@ -6,6 +6,7 @@ import { SessionButton } from '../SessionButton';
 import { UserUtil } from '../../../util';
 import { PubKey } from '../../../session/types';
 import { MultiDeviceProtocol } from '../../../session/protocols';
+import { DefaultTheme, withTheme } from 'styled-components';
 
 interface Props extends SettingsViewProps {
   // showLinkDeviceButton is used to completely hide the button while the settings password lock is displayed
@@ -13,9 +14,10 @@ interface Props extends SettingsViewProps {
   // isSecondaryDevice is used to just disable the linkDeviceButton when we are already a secondary device
   isSecondaryDevice: boolean;
   categoryTitle: string;
+  theme: DefaultTheme;
 }
 
-export class SettingsHeader extends React.Component<Props, any> {
+class SettingsHeaderInner extends React.Component<Props, any> {
   public static defaultProps = {
     showLinkDeviceButton: false,
   };
@@ -81,6 +83,7 @@ export class SettingsHeader extends React.Component<Props, any> {
             iconType={SessionIconType.Search}
             iconSize={SessionIconSize.Huge}
             onClick={this.focusSearch}
+            theme={this.props.theme}
           />
         )}
         {showAddDevice && (
@@ -94,3 +97,5 @@ export class SettingsHeader extends React.Component<Props, any> {
     );
   }
 }
+
+export const SettingsHeader = withTheme(SettingsHeaderInner);

@@ -10,7 +10,7 @@ import {
 } from '../ducks/conversations';
 
 import { getIntl, getRegionCode, getUserNumber } from './user';
-import { PropsData as ConversationListItemPropsType } from '../../components/ConversationListItem';
+import { ConversationListItemProps } from '../../components/ConversationListItem';
 import { BlockedNumberController } from '../../util';
 
 export const getConversations = (state: StateType): ConversationsStateType =>
@@ -30,11 +30,10 @@ export const getSelectedConversation = createSelector(
   }
 );
 
-export const getShowArchived = createSelector(
+export const getOurPrimaryConversation = createSelector(
   getConversations,
-  (state: ConversationsStateType): boolean => {
-    return Boolean(state.showArchived);
-  }
+  (state: ConversationsStateType): ConversationType =>
+    state.conversationLookup[window.storage.get('primaryDevicePubKey')]
 );
 
 function getConversationTitle(
@@ -47,10 +46,8 @@ function getConversationTitle(
 
   if (conversation.type === 'group') {
     const { i18n } = options;
-
     return i18n('unknown');
   }
-
   return format(conversation.phoneNumber, options);
 }
 
@@ -72,7 +69,6 @@ export const _getConversationComparator = (
     if (leftTimestamp && rightTimestamp && leftTimestamp !== rightTimestamp) {
       return rightTimestamp - leftTimestamp;
     }
-
     const leftTitle = getConversationTitle(left, {
       i18n,
       ourRegionCode,
@@ -166,9 +162,9 @@ export const _getLeftPaneLists = (
   }
 
   const filterToPrimary = <
-    T extends Array<ConversationType | ConversationListItemPropsType>
+    T extends Array<ConversationType | ConversationListItemProps>
   >(
-    group: Array<ConversationType | ConversationListItemPropsType>
+    group: Array<ConversationType | ConversationListItemProps>
   ): T => {
     const secondariesToRemove: Array<string> = [];
 
@@ -201,11 +197,47 @@ export const _getLeftPaneLists = (
   };
 };
 
+export const _getSessionConversationInfo = (
+  lookup: ConversationLookupType,
+  comparator: (left: ConversationType, right: ConversationType) => number,
+  selectedConversation?: string
+): {
+  conversation: ConversationType | undefined;
+  selectedConversation?: string;
+} => {
+  const values = Object.values(lookup);
+  const sorted = values.sort(comparator);
+
+  let conversation;
+  const max = sorted.length;
+
+  for (let i = 0; i < max; i += 1) {
+    const conv = sorted[i];
+
+    if (conv.id === selectedConversation) {
+      conversation = conv;
+      break;
+    }
+  }
+
+  return {
+    conversation,
+    selectedConversation,
+  };
+};
+
 export const getLeftPaneLists = createSelector(
   getConversationLookup,
   getConversationComparator,
   getSelectedConversation,
   _getLeftPaneLists
+);
+
+export const getSessionConversationInfo = createSelector(
+  getConversationLookup,
+  getConversationComparator,
+  getSelectedConversation,
+  _getSessionConversationInfo
 );
 
 export const getMe = createSelector(

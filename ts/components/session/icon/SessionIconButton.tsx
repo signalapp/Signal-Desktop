@@ -1,71 +1,53 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Props, SessionIcon } from '../icon';
-
+import { SessionIcon, SessionIconProps } from '../icon';
 import { SessionNotificationCount } from '../SessionNotificationCount';
+import { DefaultTheme } from 'styled-components';
 
-interface SProps extends Props {
-  onClick: any;
+interface SProps extends SessionIconProps {
+  onClick?: any;
   notificationCount?: number;
-  isSelected: boolean;
+  isSelected?: boolean;
+  theme: DefaultTheme;
 }
 
-export class SessionIconButton extends React.PureComponent<SProps> {
-  public static readonly extendedDefaults = {
-    onClick: () => null,
-    notificationCount: undefined,
-    isSelected: false,
-  };
-  public static readonly defaultProps = {
-    ...SessionIcon.defaultProps,
-    ...SessionIconButton.extendedDefaults,
-  };
-
-  constructor(props: any) {
-    super(props);
-    this.clickHandler = this.clickHandler.bind(this);
-  }
-
-  public render() {
-    const {
-      iconType,
-      iconSize,
-      iconColor,
-      iconRotation,
-      iconPadded,
-      isSelected,
-    } = this.props;
-
-    const { notificationCount } = this.props;
-
-    return (
-      <div
-        className={classNames(
-          'session-icon-button',
-          iconSize,
-          iconPadded ? 'padded' : '',
-          isSelected ? 'no-opacity' : ''
-        )}
-        role="button"
-        onClick={e => {
-          this.clickHandler(e);
-        }}
-      >
-        <SessionIcon
-          iconType={iconType}
-          iconSize={iconSize}
-          iconColor={iconColor}
-          iconRotation={iconRotation}
-        />
-        <SessionNotificationCount count={notificationCount} />
-      </div>
-    );
-  }
-
-  private clickHandler(e: any) {
-    if (this.props.onClick) {
+export const SessionIconButton = (props: SProps) => {
+  const {
+    iconType,
+    iconSize,
+    iconColor,
+    iconRotation,
+    isSelected,
+    notificationCount,
+    theme,
+  } = props;
+  const clickHandler = (e: any) => {
+    if (props.onClick) {
       e.stopPropagation();
-      this.props.onClick();
+      props.onClick();
     }
-  }
-}
+  };
+
+  return (
+    <div
+      className={classNames(
+        'session-icon-button',
+        iconSize,
+        isSelected ? 'no-opacity' : ''
+      )}
+      role="button"
+      onClick={clickHandler}
+    >
+      <SessionIcon
+        iconType={iconType}
+        iconSize={iconSize}
+        iconColor={iconColor}
+        iconRotation={iconRotation}
+        theme={theme}
+      />
+      {Boolean(notificationCount) && (
+        <SessionNotificationCount count={notificationCount} />
+      )}
+    </div>
+  );
+};

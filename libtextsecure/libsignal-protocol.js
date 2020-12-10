@@ -36182,6 +36182,9 @@ SessionCipher.prototype = {
             if (!record) {
                 throw new Error("No record for device " + address);
             }
+            if (!record.getSessions() || record.getSessions().length === 0) {
+              throw new Error("No sessions for device " + address);
+            }
             var errors = [];
             return this.decryptWithSessionList(buffer, record.getSessions(), errors).then(function(result) {
                 return this.getRecord(address).then(function(record) {

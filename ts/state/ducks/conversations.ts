@@ -1,7 +1,8 @@
-import { omit } from 'lodash';
+import _, { omit } from 'lodash';
 
-import { trigger } from '../../shims/events';
-import { NoopActionType } from './noop';
+import { Constants } from '../../session';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { MessageModel } from '../../../js/models/messages';
 
 // State
 
@@ -31,6 +32,23 @@ export type MessageType = {
 
   isSelected?: boolean;
 };
+
+type MessageTypeInConvo = {
+  id: string;
+  conversationId: string;
+  attributes: any;
+  propsForMessage: Object;
+  propsForSearchResult: Object;
+  propsForGroupInvitation: Object;
+  propsForTimerNotification: Object;
+  propsForVerificationNotification: Object;
+  propsForResetSessionNotification: Object;
+  propsForGroupNotification: Object;
+  firstMessageOfSeries: boolean;
+  receivedAt: number;
+  getPropsForMessageDetail(): Promise<any>;
+};
+
 export type ConversationType = {
   id: string;
   name?: string;
@@ -46,6 +64,7 @@ export type ConversationType = {
   type: 'direct' | 'group';
   isMe: boolean;
   isPublic?: boolean;
+  isRss?: boolean;
   isClosable?: boolean;
   lastUpdated: number;
   unreadCount: number;
@@ -55,6 +74,9 @@ export type ConversationType = {
   isSecondary?: boolean;
   primaryDevice: string;
   isBlocked: boolean;
+  isKickedFromGroup: boolean;
+  leftGroup: boolean;
+  avatarPath?: string; // absolute filepath to the avatar
 };
 export type ConversationLookupType = {
   [key: string]: ConversationType;
@@ -63,8 +85,80 @@ export type ConversationLookupType = {
 export type ConversationsStateType = {
   conversationLookup: ConversationLookupType;
   selectedConversation?: string;
-  showArchived: boolean;
+  messages: Array<MessageTypeInConvo>;
 };
+
+async function getMessages(
+  conversationKey: string,
+  numMessages: number
+): Promise<Array<MessageTypeInConvo>> {
+  const conversation = window.ConversationController.get(conversationKey);
+  if (!conversation) {
+    // no valid conversation, early return
+    window.log.error('Failed to get convo on reducer.');
+    return [];
+  }
+  const unreadCount = await conversation.getUnreadCount();
+  let msgCount =
+    numMessages ||
+    Number(Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT) + unreadCount;
+  msgCount =
+    msgCount > Constants.CONVERSATION.MAX_MESSAGE_FETCH_COUNT
+      ? Constants.CONVERSATION.MAX_MESSAGE_FETCH_COUNT
+      : msgCount;
+
+  if (msgCount < Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT) {
+    msgCount = Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT;
+  }
+
+  const messageSet = await window.Signal.Data.getMessagesByConversation(
+    conversationKey,
+    { limit: msgCount, MessageCollection: window.Whisper.MessageCollection }
+  );
+
+  // Set first member of series here.
+  const messageModels = messageSet.models;
+
+  // no need to do that `firstMessageOfSeries` on a private chat
+  if (conversation.isPrivate()) {
+    return messageModels;
+  }
+
+  // messages are got from the more recent to the oldest, so we need to check if
+  // the next messages in the list is still the same author.
+  // The message is the first of the series if the next message is not from the same author
+  for (let i = 0; i < messageModels.length; i++) {
+    // Handle firstMessageOfSeries for conditional avatar rendering
+    let firstMessageOfSeries = true;
+    const currentSender = messageModels[i].propsForMessage?.authorPhoneNumber;
+    const nextSender =
+      i < messageModels.length - 1
+        ? messageModels[i + 1].propsForMessage?.authorPhoneNumber
+        : undefined;
+    if (i > 0 && currentSender === nextSender) {
+      firstMessageOfSeries = false;
+    }
+    messageModels[i].firstMessageOfSeries = firstMessageOfSeries;
+  }
+  return messageModels;
+}
+
+const fetchMessagesForConversation = createAsyncThunk(
+  'messages/fetchByConversationKey',
+  async ({
+    conversationKey,
+    count,
+  }: {
+    conversationKey: string;
+    count: number;
+  }) => {
+    const messages = await getMessages(conversationKey, count);
+    return {
+      conversationKey,
+      messages,
+    };
+  }
+);
 
 // Actions
 
@@ -95,8 +189,32 @@ export type RemoveAllConversationsActionType = {
 export type MessageExpiredActionType = {
   type: 'MESSAGE_EXPIRED';
   payload: {
-    id: string;
-    conversationId: string;
+    messageId: string;
+    conversationKey: string;
+  };
+};
+export type MessageChangedActionType = {
+  type: 'MESSAGE_CHANGED';
+  payload: MessageModel;
+};
+export type MessageAddedActionType = {
+  type: 'MESSAGE_ADDED';
+  payload: {
+    conversationKey: string;
+    messageModel: MessageModel;
+  };
+};
+export type MessageDeletedActionType = {
+  type: 'MESSAGE_DELETED';
+  payload: {
+    conversationKey: string;
+    messageId: string;
+  };
+};
+export type ConversationResetActionType = {
+  type: 'CONVERSATION_RESET';
+  payload: {
+    conversationKey: string;
   };
 };
 export type SelectedConversationChangedActionType = {
@@ -106,26 +224,28 @@ export type SelectedConversationChangedActionType = {
     messageId?: string;
   };
 };
-type ShowInboxActionType = {
-  type: 'SHOW_INBOX';
-  payload: null;
-};
-type ShowArchivedConversationsActionType = {
-  type: 'SHOW_ARCHIVED_CONVERSATIONS';
-  payload: null;
+
+export type FetchMessagesForConversationType = {
+  type: 'messages/fetchByConversationKey/fulfilled';
+  payload: {
+    conversationKey: string;
+    messages: Array<MessageModel>;
+  };
 };
 
 export type ConversationActionType =
   | ConversationAddedActionType
   | ConversationChangedActionType
   | ConversationRemovedActionType
+  | ConversationResetActionType
   | RemoveAllConversationsActionType
   | MessageExpiredActionType
+  | MessageAddedActionType
+  | MessageDeletedActionType
+  | MessageChangedActionType
   | SelectedConversationChangedActionType
-  | MessageExpiredActionType
   | SelectedConversationChangedActionType
-  | ShowInboxActionType
-  | ShowArchivedConversationsActionType;
+  | FetchMessagesForConversationType;
 
 // Action Creators
 
@@ -135,10 +255,12 @@ export const actions = {
   conversationRemoved,
   removeAllConversations,
   messageExpired,
-  openConversationInternal,
+  messageAdded,
+  messageDeleted,
+  conversationReset,
+  messageChanged,
+  fetchMessagesForConversation,
   openConversationExternal,
-  showInbox,
-  showArchivedConversations,
 };
 
 function conversationAdded(
@@ -180,33 +302,74 @@ function removeAllConversations(): RemoveAllConversationsActionType {
   };
 }
 
-function messageExpired(
-  id: string,
-  conversationId: string
-): MessageExpiredActionType {
+function messageExpired({
+  conversationKey,
+  messageId,
+}: {
+  conversationKey: string;
+  messageId: string;
+}): MessageExpiredActionType {
   return {
     type: 'MESSAGE_EXPIRED',
     payload: {
-      id,
-      conversationId,
+      conversationKey,
+      messageId,
     },
   };
 }
 
-// Note: we need two actions here to simplify. Operations outside of the left pane can
-//   trigger an 'openConversation' so we go through Whisper.events for all conversation
-//   selection.
-function openConversationInternal(
-  id: string,
-  messageId?: string
-): NoopActionType {
-  trigger('showConversation', id, messageId);
-
+function messageChanged(messageModel: MessageModel): MessageChangedActionType {
   return {
-    type: 'NOOP',
-    payload: null,
+    type: 'MESSAGE_CHANGED',
+    payload: messageModel,
   };
 }
+
+function messageAdded({
+  conversationKey,
+  messageModel,
+}: {
+  conversationKey: string;
+  messageModel: MessageModel;
+}): MessageAddedActionType {
+  return {
+    type: 'MESSAGE_ADDED',
+    payload: {
+      conversationKey,
+      messageModel,
+    },
+  };
+}
+
+function messageDeleted({
+  conversationKey,
+  messageId,
+}: {
+  conversationKey: string;
+  messageId: string;
+}): MessageDeletedActionType {
+  return {
+    type: 'MESSAGE_DELETED',
+    payload: {
+      conversationKey,
+      messageId,
+    },
+  };
+}
+
+function conversationReset({
+  conversationKey,
+}: {
+  conversationKey: string;
+}): ConversationResetActionType {
+  return {
+    type: 'CONVERSATION_RESET',
+    payload: {
+      conversationKey,
+    },
+  };
+}
+
 function openConversationExternal(
   id: string,
   messageId?: string
@@ -220,36 +383,48 @@ function openConversationExternal(
   };
 }
 
-function showInbox() {
-  return {
-    type: 'SHOW_INBOX',
-    payload: null,
-  };
-}
-function showArchivedConversations() {
-  return {
-    type: 'SHOW_ARCHIVED_CONVERSATIONS',
-    payload: null,
-  };
-}
-
 // Reducer
+
+const toPickFromMessageModel = [
+  'attributes',
+  'id',
+  'propsForSearchResult',
+  'propsForMessage',
+  'receivedAt',
+  'conversationId',
+  'firstMessageOfSeries',
+  'propsForGroupInvitation',
+  'propsForTimerNotification',
+  'propsForVerificationNotification',
+  'propsForResetSessionNotification',
+  'propsForGroupNotification',
+  // FIXME below are what is needed to fetch on the fly messageDetails. This is not the react way
+  'getPropsForMessageDetail',
+  'get',
+  'getConversation',
+  'isIncoming',
+  'findAndFormatContact',
+  'findContact',
+  'isUnidentifiedDelivery',
+  'getStatus',
+  'getMessagePropStatus',
+  'hasErrors',
+  'isOutgoing',
+];
 
 function getEmptyState(): ConversationsStateType {
   return {
     conversationLookup: {},
-    showArchived: false,
+    messages: [],
   };
 }
 
+// tslint:disable: cyclomatic-complexity
+// tslint:disable: max-func-body-length
 export function reducer(
-  state: ConversationsStateType,
+  state: ConversationsStateType = getEmptyState(),
   action: ConversationActionType
 ): ConversationsStateType {
-  if (!state) {
-    return getEmptyState();
-  }
-
   if (action.type === 'CONVERSATION_ADDED') {
     const { payload } = action;
     const { id, data } = payload;
@@ -268,7 +443,6 @@ export function reducer(
     const { id, data } = payload;
     const { conversationLookup } = state;
 
-    let showArchived = state.showArchived;
     let selectedConversation = state.selectedConversation;
 
     const existing = conversationLookup[id];
@@ -278,10 +452,6 @@ export function reducer(
     }
 
     if (selectedConversation === id) {
-      // Archived -> Inbox: we go back to the normal inbox view
-      if (existing.isArchived && !data.isArchived) {
-        showArchived = false;
-      }
       // Inbox -> Archived: no conversation is selected
       // Note: With today's stacked converastions architecture, this can result in weird
       //   behavior - no selected conversation in the left pane, but a conversation show
@@ -290,11 +460,9 @@ export function reducer(
         selectedConversation = undefined;
       }
     }
-
     return {
       ...state,
       selectedConversation,
-      showArchived,
       conversationLookup: {
         ...conversationLookup,
         [id]: data,
@@ -304,39 +472,148 @@ export function reducer(
   if (action.type === 'CONVERSATION_REMOVED') {
     const { payload } = action;
     const { id } = payload;
-    const { conversationLookup } = state;
-
+    const { conversationLookup, selectedConversation } = state;
     return {
       ...state,
       conversationLookup: omit(conversationLookup, [id]),
+      selectedConversation:
+        selectedConversation === id ? undefined : selectedConversation,
     };
   }
   if (action.type === 'CONVERSATIONS_REMOVE_ALL') {
     return getEmptyState();
   }
-  if (action.type === 'MESSAGE_EXPIRED') {
-    // noop - for now this is only important for search
-  }
+
   if (action.type === 'SELECTED_CONVERSATION_CHANGED') {
     const { payload } = action;
     const { id } = payload;
-
+    const oldSelectedConversation = state.selectedConversation;
+    const newSelectedConversation = id;
+    if (newSelectedConversation !== oldSelectedConversation) {
+      // empty the message list
+      return {
+        ...state,
+        messages: [],
+        selectedConversation: id,
+      };
+    }
     return {
       ...state,
       selectedConversation: id,
     };
   }
-  if (action.type === 'SHOW_INBOX') {
-    return {
-      ...state,
-      showArchived: false,
-    };
+  if (action.type === fetchMessagesForConversation.fulfilled.type) {
+    const { messages, conversationKey } = action.payload as any;
+    // double check that this update is for the shown convo
+    if (conversationKey === state.selectedConversation) {
+      const lightMessages = messages.map((m: any) =>
+        _.pick(m, toPickFromMessageModel)
+      ) as Array<MessageTypeInConvo>;
+      return {
+        ...state,
+        messages: lightMessages,
+      };
+    }
+    return state;
   }
-  if (action.type === 'SHOW_ARCHIVED_CONVERSATIONS') {
-    return {
-      ...state,
-      showArchived: true,
-    };
+
+  if (action.type === 'MESSAGE_CHANGED') {
+    const messageInStoreIndex = state?.messages?.findIndex(
+      m => m.id === action.payload.id
+    );
+    if (messageInStoreIndex >= 0) {
+      const changedMessage = _.pick(
+        action.payload as any,
+        toPickFromMessageModel
+      ) as MessageTypeInConvo;
+      // we cannot edit the array directly, so slice the first part, insert our edited message, and slice the second part
+      const editedMessages = [
+        ...state.messages.slice(0, messageInStoreIndex),
+        changedMessage,
+        ...state.messages.slice(messageInStoreIndex + 1),
+      ];
+      return {
+        ...state,
+        messages: editedMessages,
+      };
+    }
+
+    return state;
+  }
+
+  if (action.type === 'MESSAGE_ADDED') {
+    const { conversationKey, messageModel } = action.payload;
+    if (conversationKey === state.selectedConversation) {
+      const { messages } = state;
+      const addedMessage = _.pick(
+        messageModel as any,
+        toPickFromMessageModel
+      ) as MessageTypeInConvo;
+      const messagesWithNewMessage = [...messages, addedMessage];
+      const convo = state.conversationLookup[state.selectedConversation];
+      const isPublic = convo?.isPublic;
+
+      if (convo && isPublic) {
+        return {
+          ...state,
+          messages: messagesWithNewMessage.sort(
+            (a: any, b: any) =>
+              b.attributes.serverTimestamp - a.attributes.serverTimestamp
+          ),
+        };
+      }
+      if (convo) {
+        return {
+          ...state,
+          messages: messagesWithNewMessage.sort(
+            (a, b) => b.attributes.timestamp - a.attributes.timestamp
+          ),
+        };
+      }
+    }
+    return state;
+  }
+  if (action.type === 'MESSAGE_EXPIRED' || action.type === 'MESSAGE_DELETED') {
+    const { conversationKey, messageId } = action.payload;
+    if (conversationKey === state.selectedConversation) {
+      // search if we find this message id.
+      // we might have not loaded yet, so this case might not happen
+      const messageInStoreIndex = state?.messages.findIndex(
+        m => m.id === messageId
+      );
+      if (messageInStoreIndex >= 0) {
+        // we cannot edit the array directly, so slice the first part, and slice the second part,
+        // keeping the index removed out
+        const editedMessages = [
+          ...state.messages.slice(0, messageInStoreIndex),
+          ...state.messages.slice(messageInStoreIndex + 1),
+        ];
+
+        // FIXME two other thing we have to do:
+        // * update the last message text if the message deleted was the last one
+        // * update the unread count of the convo if the message was one one counted as an unread
+
+        return {
+          ...state,
+          messages: editedMessages,
+        };
+      }
+
+      return state;
+    }
+    return state;
+  }
+
+  if (action.type === 'CONVERSATION_RESET') {
+    const { conversationKey } = action.payload;
+    if (conversationKey === state.selectedConversation) {
+      // just empty the list of messages
+      return {
+        ...state,
+        messages: [],
+      };
+    }
+    return state;
   }
 
   return state;

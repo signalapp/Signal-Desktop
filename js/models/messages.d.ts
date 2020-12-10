@@ -1,3 +1,5 @@
+import { ConversationModel } from './conversations';
+
 type MessageModelType = 'incoming' | 'outgoing';
 type MessageDeliveryStatus =
   | 'sending'
@@ -53,4 +55,18 @@ export interface MessageModel extends Backbone.Model<MessageAttributes> {
   merge: (other: MessageModel) => void;
   saveErrors: (error: any) => void;
   sendSyncMessageOnly: (message: any) => void;
+  isUnread: () => boolean;
+  commit: () => Promise<number>;
+  getPropsForMessageDetail: () => any;
+  getConversation: () => ConversationModel;
+  handleMessageSentSuccess: (sentMessage: any, wrappedEnvelope: any) => any;
+  handleMessageSentFailure: (sentMessage: any, error: any) => any;
+
+  propsForMessage?: any;
+  propsForTimerNotification?: any;
+  propsForResetSessionNotification?: any;
+  propsForGroupInvitation?: any;
+  propsForGroupNotification?: any;
+  propsForVerificationNotification?: any;
+  firstMessageOfSeries: boolean;
 }

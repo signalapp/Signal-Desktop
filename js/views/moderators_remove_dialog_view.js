@@ -31,6 +31,7 @@
         .filter(c => !!c);
 
       this.mods = moderators;
+      this.theme = convo.theme;
 
       this.$el.focus();
       this.render();
@@ -44,6 +45,7 @@
           onSubmit: this.onSubmit,
           onClose: this.close,
           chatName: this.chatName,
+          theme: this.theme,
         },
       });
 

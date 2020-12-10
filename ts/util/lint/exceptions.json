@@ -372,16 +372,6 @@
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
-
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/contact_list_view.js",
-    "line": "        this.$el.append(this.contactView.el);",
-    "lineNumber": 44,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-10-02T21:18:39.026Z",
-    "reasonDetail": "Operating on previously-existing DOM elements"
-  },
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
@@ -453,24 +443,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/group_member_list_view.js",
-    "line": "      this.$('.container').append(this.member_list_view.el);",
-    "lineNumber": 27,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/group_member_list_view.js",
-    "line": "      this.$('.container').append(this.member_list_view.el);",
-    "lineNumber": 27,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
     "rule": "jQuery-html(",
@@ -635,164 +607,20 @@
   },
   {
     "rule": "jQuery-$(",
-    "path": "js/views/key_verification_view.js",
-    "line": "      new QRCode(this.$('.qr')[0]).makeCode(",
-    "lineNumber": 36,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
-    "rule": "jQuery-wrap(",
-    "path": "js/views/key_verification_view.js",
-    "line": "        dcodeIO.ByteBuffer.wrap(this.ourKey).toString('base64')",
-    "lineNumber": 37,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "js/views/key_verification_view.js",
-    "line": "      dialog.$el.insertBefore(this.el);",
-    "lineNumber": 72,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/key_verification_view.js",
-    "line": "      this.$('button.verify').attr('disabled', true);",
-    "lineNumber": 76,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
-    "path": "js/views/key_verification_view.js",
-    "line": "          this.$('button.verify').removeAttr('disabled');",
-    "lineNumber": 107,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/list_view.js",
-    "line": "        this.$el.append(view.render().el);",
-    "lineNumber": 27,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "js/views/list_view.js",
-    "line": "      this.$el.html('');",
-    "lineNumber": 33,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-15T00:38:04.183Z",
-    "reasonDetail": "Hard-coded value"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/message_list_view.js",
-    "line": "    template: $('#message-list').html(),",
-    "lineNumber": 13,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-11-14T18:51:15.180Z",
-    "reasonDetail": "Parameter is a hard-coded string"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "js/views/message_list_view.js",
-    "line": "    template: $('#message-list').html(),",
-    "lineNumber": 13,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-11-14T18:51:15.180Z",
-    "reasonDetail": "This is run at JS load time, which means we control the contents of the target element"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/message_list_view.js",
-    "line": "      this.$messages = this.$('.messages');",
-    "lineNumber": 30,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-11-14T18:51:15.180Z",
-    "reasonDetail": "Parameter is a hard-coded string"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/message_list_view.js",
-    "line": "        this.$messages.append(view.el);",
-    "lineNumber": 111,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-11-14T18:51:15.180Z",
-    "reasonDetail": "view.el is a known DOM element"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "js/views/message_list_view.js",
-    "line": "        this.$messages.prepend(view.el);",
-    "lineNumber": 114,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-11-14T18:51:15.180Z",
-    "reasonDetail": "view.el is a known DOM element"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/message_list_view.js",
-    "line": "        const next = this.$(`#${this.collection.at(index + 1).id}`);",
-    "lineNumber": 117,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-11-14T18:51:15.180Z",
-    "reasonDetail": "Message ids are GUIDs, and therefore the resultant string for $() is an id"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "js/views/message_list_view.js",
-    "line": "          view.$el.insertBefore(next);",
-    "lineNumber": 120,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-11-14T18:51:15.180Z",
-    "reasonDetail": "next is a known DOM element"
-  },
-  {
-    "rule": "jQuery-insertAfter(",
-    "path": "js/views/message_list_view.js",
-    "line": "          view.$el.insertAfter(prev);",
-    "lineNumber": 122,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-11-14T18:51:15.180Z",
-    "reasonDetail": "prev is a known DOM element"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "js/views/message_list_view.js",
-    "line": "                view.$el.insertBefore(elements[i]);",
-    "lineNumber": 131,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-11-14T18:51:15.180Z",
-    "reasonDetail": "elements[i] is a known DOM element"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/message_list_view.js",
-    "line": "            this.$messages.append(view.el);",
-    "lineNumber": 136,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-11-14T18:51:15.180Z",
-    "reasonDetail": "view.el is a known DOM element"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/message_view.js",
-    "line": "      this.$el.append(this.childView.el);",
-    "lineNumber": 122,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
     "rule": "jQuery-$(",
@@ -2870,108 +2698,6 @@
     "reasonDetail": "It's setting the html of the element to the previous HTML, just with the emoji replaced"
   },
   {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/emoji-panel/dist/emoji-panel.js",
-    "line": "\t  el.innerHTML = '';",
-    "lineNumber": 94,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-15T00:38:04.183Z",
-    "reasonDetail": "Hard-coded value"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/emoji-panel/dist/emoji-panel.js",
-    "line": "\t  panelEl.innerHTML = _template2.default;",
-    "lineNumber": 154,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "In this file, _template2.default is a hardcoded string generated from emoji data"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/emoji-panel/dist/example.js",
-    "line": "\t  codeEl.innerHTML = codeEl.innerHTML.replace(/dist\\/emoji-panel-.*-.*.min.css/g, newHref);",
-    "lineNumber": 67,
-    "reasonCategory": "exampleCode",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/emoji-panel/dist/example.js",
-    "line": "\t$('#example-4-btn').click(function (e) {",
-    "lineNumber": 101,
-    "reasonCategory": "exampleCode",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/emoji-panel/dist/example.js",
-    "line": "\t  $('#example-4').dialog({",
-    "lineNumber": 102,
-    "reasonCategory": "exampleCode",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/emoji-panel/lib/emoji-panel.js",
-    "line": "\t  el.innerHTML = '';",
-    "lineNumber": 103,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-15T00:38:04.183Z",
-    "reasonDetail": "Hard-coded value"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/emoji-panel/lib/emoji-panel.js",
-    "line": "\t  panelEl.innerHTML = _template2.default;",
-    "lineNumber": 163,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "In this file, _template2.default is a hardcoded string generated from emoji data"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/emoji-panel/lib/example.js",
-    "line": "\t  codeEl.innerHTML = codeEl.innerHTML.replace(/dist\\/emoji-panel-.*-.*.min.css/g, newHref);",
-    "lineNumber": 76,
-    "reasonCategory": "exampleCode",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/emoji-panel/lib/example.js",
-    "line": "\t$('#example-4-btn').click(function (e) {",
-    "lineNumber": 110,
-    "reasonCategory": "exampleCode",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/emoji-panel/lib/example.js",
-    "line": "\t  $('#example-4').dialog({",
-    "lineNumber": 111,
-    "reasonCategory": "exampleCode",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/emoji-panel/src/create-panel.js",
-    "line": "  panelEl.innerHTML = panelTemplate;",
-    "lineNumber": 7,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "In this file, panelTemplate is a hardcoded string generated from emoji data"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/emoji-panel/src/emoji-panel.js",
-    "line": "    el.innerHTML = '';",
-    "lineNumber": 25,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-15T00:38:04.183Z",
-    "reasonDetail": "Hard-coded value"
-  },
-  {
     "rule": "thenify-multiArgs",
     "path": "node_modules/es6-promisify/dist/promisify.js",
     "line": "     * @param {bool} settings.multiArgs - Should multiple arguments be returned as an array?",
@@ -4744,38 +4470,6 @@
     "lineNumber": 1,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/node-gyp/lib/configure.js",
-    "line": "        !gyp.opts.nodedir ? '<(target_arch)' : '$(Configuration)',",
-    "lineNumber": 296,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/node-gyp/node_modules/request/lib/multipart.js",
-    "line": "    return chunked ? body.append(part) : body.push(Buffer.from(part))",
-    "lineNumber": 74,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/node-gyp/node_modules/request/request.js",
-    "line": "        requestForm.append(key, value.value, value.options)",
-    "lineNumber": 324,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/node-gyp/node_modules/request/request.js",
-    "line": "        requestForm.append(key, value)",
-    "lineNumber": 326,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
   },
   {
     "rule": "jQuery-wrap(",

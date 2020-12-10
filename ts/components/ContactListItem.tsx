@@ -50,7 +50,12 @@ export class ContactListItem extends React.Component<Props> {
     const profileElement =
       !isMe && profileName && !name ? (
         <span className="module-contact-list-item__text__profile-name">
-          ~<Emojify text={profileName} i18n={i18n} />
+          ~
+          <Emojify
+            text={profileName}
+            i18n={i18n}
+            key={`emojify-list-item-${phoneNumber}`}
+          />
         </span>
       ) : null;
 

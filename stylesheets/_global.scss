@@ -114,31 +114,6 @@ a {
     cursor: pointer;
   }
 
-  .paperclip {
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    opacity: 0.5;
-    border: none;
-    background: transparent;
-    margin-top: 2px;
-
-    &:before {
-      margin-top: 4px;
-      content: '';
-      display: inline-block;
-      width: $button-height;
-      height: $button-height;
-      @include color-svg('../images/paperclip.svg', $grey);
-      transform: rotateZ(-45deg);
-    }
-
-    &:focus,
-    &:hover {
-      opacity: 1;
-    }
-  }
-
   input[type='file'] {
     // Must be displayed in order to programmatically
     // insert file paths)
@@ -152,7 +127,6 @@ a {
   }
 }
 
-.group-member-list,
 .new-group-update {
   .summary {
     margin: 10px;
@@ -251,27 +225,6 @@ $loading-height: 16px;
   }
 }
 
-.expiredAlert {
-  background: #f3f3a7;
-  padding: 10px;
-
-  button {
-    float: right;
-    border: none;
-    border-radius: $border-radius;
-    color: white;
-    font-weight: bold;
-    line-height: 36px;
-    padding: 0 20px;
-    background: $blue;
-    margin-inline-start: 20px;
-  }
-
-  .message {
-    padding: 10px 0;
-  }
-}
-
 @keyframes loading {
   50% {
     transform: scale(1);
@@ -325,6 +278,9 @@ $loading-height: 16px;
     &:nth-child(3) {
       animation: loading 1500ms ease infinite 666ms;
     }
+  }
+  .session-text-logo {
+    filter: brightness(0) saturate(100%);
   }
 }
 

@@ -1,69 +1,55 @@
 import React from 'react';
-import classNames from 'classnames';
 
 import { TypingAnimation } from './TypingAnimation';
-import { Avatar } from '../Avatar';
+import styled from 'styled-components';
 
-import { LocalizerType } from '../../types/Util';
-
-interface Props {
+interface TypingBubbleProps {
   avatarPath?: string;
-  color: string;
-  name: string;
   phoneNumber: string;
-  profileName: string;
+  displayedName: string | null;
   conversationType: string;
-  i18n: LocalizerType;
+  isTyping: boolean;
 }
 
-export class TypingBubble extends React.Component<Props> {
-  public renderAvatar() {
-    const {
-      avatarPath,
-      name,
-      phoneNumber,
-      profileName,
-      conversationType,
-    } = this.props;
+const TypingBubbleContainer = styled.div<TypingBubbleProps>`
+  height: ${props => (props.isTyping ? 'auto' : '0px')};
+  display: flow-root;
+  padding-bottom: ${props => (props.isTyping ? '4px' : '0px')};
+  padding-top: ${props => (props.isTyping ? '4px' : '0px')};
+  transition: ${props => props.theme.common.animations.defaultDuration};
+  padding-inline-end: 16px;
+  padding-inline-start: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+`;
 
-    if (conversationType !== 'group') {
-      return;
-    }
-    const userName = name || profileName || phoneNumber;
+export const TypingBubble = (props: TypingBubbleProps) => {
+  // const renderAvatar = () => {
+  //   const { avatarPath, displayedName, conversationType, phoneNumber } = props;
 
-    return (
-      <div className="module-message__author-avatar">
-        <Avatar
-          avatarPath={avatarPath}
-          name={userName}
-          size={36}
-          pubkey={phoneNumber}
-        />
-      </div>
-    );
+  //   if (conversationType !== 'group') {
+  //     return;
+  //   }
+
+  //   return (
+  //     <div className="module-message__author-avatar">
+  //       <Avatar
+  //         avatarPath={avatarPath}
+  //         name={displayedName || phoneNumber}
+  //         size={36}
+  //         pubkey={phoneNumber}
+  //       />
+  //     </div>
+  //   );
+  // };
+
+  if (props.conversationType === 'group') {
+    return <></>;
   }
 
-  public render() {
-    const { i18n, color } = this.props;
-
-    return (
-      <div className="loki-message-wrapper">
-        <div
-          className={classNames('module-message', 'module-message--incoming')}
-        >
-          <div
-            className={classNames(
-              'module-message__container',
-              'module-message__container--incoming'
-            )}
-          >
-            <div className="module-message__typing-container">
-              <TypingAnimation color={color} i18n={i18n} />
-            </div>
-            {this.renderAvatar()}
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
+  return (
+    <TypingBubbleContainer {...props}>
+      <TypingAnimation i18n={window.i18n} />
+    </TypingBubbleContainer>
+  );
+};

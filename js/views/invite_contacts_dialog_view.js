@@ -11,7 +11,7 @@
     initialize(convo) {
       this.close = this.close.bind(this);
       this.submit = this.submit.bind(this);
-
+      this.theme = convo.theme;
       const convos = window.getConversations().models;
 
       this.contacts = convos.filter(
@@ -45,6 +45,7 @@
           onSubmit: this.submit,
           onClose: this.close,
           chatName: this.chatName,
+          theme: this.theme,
         },
       });
 
@@ -57,14 +58,21 @@
     submit(pubkeys) {
       // public group chats
       if (this.isPublic) {
-        window.sendGroupInvitations(
-          {
-            address: this.chatServer,
-            name: this.chatName,
-            channelId: this.channelId,
-          },
-          pubkeys
-        );
+        const serverInfos = {
+          address: this.chatServer,
+          name: this.chatName,
+          channelId: this.channelId,
+        };
+        pubkeys.forEach(async pubkeyStr => {
+          const convo = await window.ConversationController.getOrCreateAndWait(
+            pubkeyStr,
+            'private'
+          );
+
+          if (convo) {
+            convo.sendMessage('', null, null, null, serverInfos);
+          }
+        });
       } else {
         // private group chats
         const ourPK = window.textsecure.storage.user.getNumber();
@@ -82,13 +90,7 @@
             newMembers.length + existingMembers.length >
             window.CONSTANTS.MEDIUM_GROUP_SIZE_LIMIT
           ) {
-            const msg = window.i18n('closedGroupMaxSize');
-
-            window.pushToast({
-              title: msg,
-              type: 'error',
-              id: 'tooManyMembers',
-            });
+            window.libsession.Utils.ToastUtils.pushTooManyMembers();
             return;
           }
 

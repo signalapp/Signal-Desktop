@@ -7,8 +7,13 @@ import is from '@sindresorhus/is';
 
 import * as GoogleChrome from '../util/GoogleChrome';
 import * as MIME from '../types/MIME';
-
-import { LocalizerType } from '../types/Util';
+import {
+  SessionIconButton,
+  SessionIconSize,
+  SessionIconType,
+} from './session/icon';
+import { Flex } from './session/Flex';
+import { DefaultTheme } from 'styled-components';
 
 const Colors = {
   TEXT_SECONDARY: '#bbb',
@@ -26,12 +31,12 @@ const colorSVG = (url: string, color: string) => {
 interface Props {
   close: () => void;
   contentType: MIME.MIMEType | undefined;
-  i18n: LocalizerType;
   objectURL: string;
   caption?: string;
   onNext?: () => void;
   onPrevious?: () => void;
   onSave?: () => void;
+  theme: DefaultTheme;
 }
 
 const CONTROLS_WIDTH = 50;
@@ -41,12 +46,15 @@ const styles = {
   container: {
     display: 'flex',
     flexDirection: 'column',
-    position: 'absolute',
+    position: 'fixed',
+    width: '100vw',
+    height: '100vh',
     left: 0,
+    zIndex: 5,
     right: 0,
     top: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
   } as React.CSSProperties,
   mainContainer: {
     display: 'flex',
@@ -66,11 +74,16 @@ const styles = {
     display: 'inline-flex',
     justifyContent: 'center',
   } as React.CSSProperties,
+  objectParentContainer: {
+    flexGrow: 1,
+    textAlign: 'center' as 'center',
+    margin: 'auto',
+  },
   object: {
     flexGrow: 1,
     flexShrink: 0,
-    maxWidth: '100%',
-    maxHeight: '100%',
+    maxWidth: '80vw',
+    maxHeight: '80vh',
     objectFit: 'contain',
   } as React.CSSProperties,
   caption: {
@@ -79,11 +92,11 @@ const styles = {
     left: 0,
     right: 0,
     textAlign: 'center',
-    color: 'white',
+    color: 'black',
     padding: '1em',
     paddingLeft: '3em',
     paddingRight: '3em',
-    backgroundColor: 'rgba(192, 192, 192, .20)',
+    backgroundColor: 'rgba(192, 192, 192, .40)',
   } as React.CSSProperties,
   controlsOffsetPlaceholder: {
     width: CONTROLS_WIDTH,
@@ -119,25 +132,46 @@ interface IconButtonProps {
   onClick?: () => void;
   style?: React.CSSProperties;
   type: 'save' | 'close' | 'previous' | 'next';
+  theme: DefaultTheme;
 }
 
-const IconButton = ({ onClick, style, type }: IconButtonProps) => {
+const IconButton = ({ onClick, style, type, theme }: IconButtonProps) => {
   const clickHandler = (event: React.MouseEvent<HTMLAnchorElement>): void => {
-    event.preventDefault();
     if (!onClick) {
       return;
     }
-
     onClick();
   };
+  let iconRotation = 0;
+  let iconType = SessionIconType.Chevron;
+  switch (type) {
+    case 'next':
+      iconRotation = 270;
+      break;
+    case 'previous':
+      iconRotation = 90;
+      break;
+    case 'close':
+      iconType = SessionIconType.Exit;
+      break;
+    case 'save':
+      iconType = SessionIconType.Upload;
+      iconRotation = 180;
+
+      break;
+    default:
+      throw new TypeError(`Invalid button type: ${type}`);
+  }
 
   return (
-    <a
-      href="#"
+    <SessionIconButton
+      iconType={iconType}
+      iconSize={SessionIconSize.Huge}
+      iconRotation={iconRotation}
+      // the lightbox has a dark background
+      iconColor="white"
       onClick={clickHandler}
-      className={classNames('iconButton', type)}
-      role="button"
-      style={style}
+      theme={theme}
     />
   );
 };
@@ -218,7 +252,6 @@ export class Lightbox extends React.Component<Props> {
       onNext,
       onPrevious,
       onSave,
-      i18n,
     } = this.props;
 
     return (
@@ -230,31 +263,45 @@ export class Lightbox extends React.Component<Props> {
       >
         <div style={styles.mainContainer}>
           <div style={styles.controlsOffsetPlaceholder} />
-          <div style={styles.objectContainer}>
-            {!is.undefined(contentType)
-              ? this.renderObject({ objectURL, contentType, i18n })
-              : null}
-            {caption ? <div style={styles.caption}>{caption}</div> : null}
+          <div style={styles.objectParentContainer}>
+            <div style={styles.objectContainer}>
+              {!is.undefined(contentType)
+                ? this.renderObject({ objectURL, contentType })
+                : null}
+              {caption ? <div style={styles.caption}>{caption}</div> : null}
+            </div>
           </div>
           <div style={styles.controls}>
-            <IconButton type="close" onClick={this.onClose} />
+            <Flex flexGrow={1}>
+              <IconButton
+                type="close"
+                onClick={this.onClose}
+                theme={this.props.theme}
+              />
+            </Flex>
+
             {onSave ? (
               <IconButton
                 type="save"
                 onClick={onSave}
                 style={styles.saveButton}
+                theme={this.props.theme}
               />
             ) : null}
           </div>
         </div>
         <div style={styles.navigationContainer}>
           {onPrevious ? (
-            <IconButton type="previous" onClick={onPrevious} />
+            <IconButton
+              type="previous"
+              onClick={onPrevious}
+              theme={this.props.theme}
+            />
           ) : (
             <IconButtonPlaceholder />
           )}
           {onNext ? (
-            <IconButton type="next" onClick={onNext} />
+            <IconButton type="next" onClick={onNext} theme={this.props.theme} />
           ) : (
             <IconButtonPlaceholder />
           )}
@@ -266,17 +313,15 @@ export class Lightbox extends React.Component<Props> {
   private readonly renderObject = ({
     objectURL,
     contentType,
-    i18n,
   }: {
     objectURL: string;
     contentType: MIME.MIMEType;
-    i18n: LocalizerType;
   }) => {
     const isImageTypeSupported = GoogleChrome.isImageTypeSupported(contentType);
     if (isImageTypeSupported) {
       return (
         <img
-          alt={i18n('lightboxImageAlt')}
+          alt={window.i18n('lightboxImageAlt')}
           style={styles.object}
           src={objectURL}
           onClick={this.onObjectClick}
@@ -359,9 +404,7 @@ export class Lightbox extends React.Component<Props> {
     this.onClose();
   };
 
-  private readonly onObjectClick = (
-    event: React.MouseEvent<HTMLImageElement | HTMLDivElement>
-  ) => {
+  private readonly onObjectClick = (event: any) => {
     event.stopPropagation();
     this.onClose();
   };

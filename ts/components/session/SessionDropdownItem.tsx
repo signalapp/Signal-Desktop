@@ -1,61 +1,53 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import classNames from 'classnames';
 
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon/';
+import { ThemeContext } from 'styled-components';
 
 export enum SessionDropDownItemType {
   Default = 'default',
   Danger = 'danger',
 }
 
-interface Props {
+type Props = {
   content: string;
   type: SessionDropDownItemType;
   icon: SessionIconType | null;
   active: boolean;
   onClick: any;
-}
+};
 
-export class SessionDropdownItem extends React.PureComponent<Props> {
-  public static defaultProps = {
-    type: SessionDropDownItemType.Default,
-    icon: null,
-    active: false,
-    onClick: () => null,
+export const SessionDropdownItem = (props: Props) => {
+  const clickHandler = (e: any) => {
+    if (props.onClick) {
+      e.stopPropagation();
+      props.onClick();
+    }
   };
 
-  constructor(props: any) {
-    super(props);
-    this.clickHandler = this.clickHandler.bind(this);
-  }
+  const { content, type, icon, active } = props;
+  const theme = useContext(ThemeContext);
 
-  public render() {
-    const { content, type, icon, active } = this.props;
-
-    return (
-      <div
-        className={classNames(
-          'session-dropdown__item',
-          active ? 'active' : '',
-          type || ''
-        )}
-        role="button"
-        onClick={this.clickHandler}
-      >
-        {icon ? (
-          <SessionIcon iconType={icon} iconSize={SessionIconSize.Small} />
-        ) : (
-          ''
-        )}
-        <div className="item-content">{content}</div>
-      </div>
-    );
-  }
-
-  private clickHandler(e: any) {
-    if (this.props.onClick) {
-      e.stopPropagation();
-      this.props.onClick();
-    }
-  }
-}
+  return (
+    <div
+      className={classNames(
+        'session-dropdown__item',
+        active ? 'active' : '',
+        type || SessionDropDownItemType.Default
+      )}
+      role="button"
+      onClick={clickHandler}
+    >
+      {icon ? (
+        <SessionIcon
+          iconType={icon}
+          iconSize={SessionIconSize.Small}
+          theme={theme}
+        />
+      ) : (
+        ''
+      )}
+      <div className="item-content">{content}</div>
+    </div>
+  );
+};

@@ -8,19 +8,22 @@ $accentDarkTheme: #00f782;
 
 $borderLightTheme: #f1f1f1; // search for references on ts TODO: make this exposed on ts
 $borderDarkTheme: rgba($white, 0.06);
+$inputBackgroundColor: #8e8e93;
 
-$borderAvatarColor: #00000059; // search for references on ts TODO: make this exposed on ts
+$borderAvatarColor: unquote(
+  '#00000059'
+); // search for references on ts TODO: make this exposed on ts
 
 $themes: (
   light: (
     accent: $accentLightTheme,
     accentButton: $black,
-    destructive: $destructive,
     cellBackground: #fcfcfc,
+    destructive: $destructive,
     modalBackground: #fcfcfc,
     fakeChatBubbleBackground: #f5f5f5,
     // input
-      inputBackground: rgba(#8e8e93, 0.12),
+      inputBackground: rgba($inputBackgroundColor, 0.12),
     // text
       textColor: $black,
     textColorSubtle: #a0a0a0,
@@ -70,16 +73,16 @@ $themes: (
     modalBackground: #101011,
     fakeChatBubbleBackground: #212121,
     // input
-      inputBackground: rgba(#8e8e93, 0.12),
+      inputBackground: rgba($inputBackgroundColor, 0.12),
     // text
       textColor: $white,
     textColorSubtle: #a0a0a0,
     textColorOpposite: $black,
     textHighlight: rgba($accentDarkTheme, 0.6),
     // inbox
+      // buttons
       inboxBackground: linear-gradient(180deg, #171717 0%, #121212 100%),
-    // buttons
-      backgroundPrimary: #474646,
+    backgroundPrimary: #474646,
     foregroundPrimary: $white,
     buttonGreen: $accentDarkTheme,
     // conversation view
