@@ -5903,8 +5903,9 @@ button.module-image__border-overlay:focus {
     flex-direction: column;
     height: 100vh;
     justify-content: center;
-    position: relative;
+    position: absolute;
     width: 100%;
+    z-index: 2;
   }
 
   &__header {
