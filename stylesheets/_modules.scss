@@ -6597,6 +6597,12 @@ button.module-image__border-overlay:focus {
       .module-ongoing-call__group-call-remote-participant--audio-muted::after {
         display: none;
       }
+
+      // The avatar image can be dragged on Windows.
+      .module-avatar img {
+        -webkit-user-drag: none;
+        -webkit-user-select: none;
+      }
     }
 
     &--local {
@@ -6606,11 +6612,6 @@ button.module-image__border-overlay:focus {
       right: 4px;
       transform: rotateY(180deg);
       width: 32px;
-    }
-
-    &--avatar img {
-      -webkit-user-drag: none;
-      -webkit-user-select: none;
     }
   }
 
