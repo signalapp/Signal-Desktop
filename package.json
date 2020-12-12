@@ -34,6 +34,7 @@
     "eslint": "eslint .",
     "lint": "yarn format --list-different && yarn eslint",
     "lint-deps": "node ts/util/lint/linter.js",
+    "lint-license-comments": "ts-node ts/util/lint/license_comments.ts",
     "format": "prettier --write \"*.{css,js,json,md,scss,ts,tsx}\" \"./**/*.{css,js,json,md,scss,ts,tsx}\"",
     "transpile": "tsc",
     "clean-transpile": "rimraf ts/**/*.js && rimraf ts/*.js",
