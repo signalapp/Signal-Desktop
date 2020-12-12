@@ -10543,11 +10543,15 @@ $contact-modal-padding: 18px;
 }
 
 .react-contextmenu-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   outline: none;
   cursor: pointer;
   white-space: nowrap;
 
   @include font-body-2;
+  line-height: 30px;
 
   padding: 7px 12px;
 
