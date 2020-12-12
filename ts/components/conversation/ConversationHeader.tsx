@@ -12,7 +12,7 @@ import {
 } from 'react-contextmenu';
 
 import { Emojify } from './Emojify';
-import { Avatar } from '../Avatar';
+import { Avatar, AvatarSize } from '../Avatar';
 import { InContactsIcon } from '../InContactsIcon';
 
 import { LocalizerType } from '../../types/Util';
@@ -194,7 +194,7 @@ export class ConversationHeader extends React.Component<PropsType> {
           name={name}
           phoneNumber={phoneNumber}
           profileName={profileName}
-          size={28}
+          size={AvatarSize.THIRTY_TWO}
         />
       </span>
     );
@@ -482,8 +482,8 @@ export class ConversationHeader extends React.Component<PropsType> {
           </div>
         </div>
         {this.renderExpirationLength()}
-        {this.renderSearchButton()}
         {this.renderOutgoingCallButtons()}
+        {this.renderSearchButton()}
         {this.renderMoreButton(triggerId)}
         {this.renderMenu(triggerId)}
       </div>

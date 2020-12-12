@@ -36,9 +36,9 @@
     z-index: 1;
     position: absolute;
     left: 0;
-    top: 48px;
+    top: $header-height;
     width: 100%;
-    height: calc(100% - 48px);
+    height: calc(100% - $header-height);
 
     @include light-theme() {
       background-color: $color-white;

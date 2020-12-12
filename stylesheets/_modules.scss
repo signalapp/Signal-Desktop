@@ -2846,16 +2846,18 @@ span.module-in-contacts-icon__tooltip {
 }
 
 .module-conversation-header__back-icon {
+  $transition: 250ms ease-out;
+
   display: inline-block;
   margin-left: -10px;
-  margin-right: -2px;
+  margin-right: -10px;
   width: 24px;
   height: 24px;
   min-width: 24px;
   vertical-align: text-bottom;
   border: none;
   opacity: 0;
-  transition: opacity 250ms ease-out;
+  transition: margin-right $transition, opacity $transition;
 
   &:disabled {
     cursor: default;
@@ -2863,6 +2865,7 @@ span.module-in-contacts-icon__tooltip {
 
   &--show {
     opacity: 1;
+    margin-right: 6px;
   }
 
   @include light-theme {
@@ -2885,8 +2888,7 @@ span.module-in-contacts-icon__tooltip {
   min-width: 0;
   display: block;
 
-  text-align: center;
-  height: 48px;
+  height: $header-height;
 }
 
 .module-conversation-header__title-flex {
@@ -2895,7 +2897,7 @@ span.module-in-contacts-icon__tooltip {
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  height: 48px;
+  height: $header-height;
   max-width: 100%;
 }
 
@@ -2906,7 +2908,8 @@ span.module-in-contacts-icon__tooltip {
 }
 
 .module-conversation-header__avatar {
-  min-width: 28px;
+  min-width: 32px;
+  margin-right: 4px;
 }
 
 .module-conversation-header__title {
@@ -6856,19 +6859,12 @@ button.module-image__border-overlay:focus {
 }
 
 .module-left-pane__archive-header {
-  height: 48px;
+  height: $header-height;
   width: 100%;
 
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-
-  @include light-theme {
-    border-bottom: 1px solid $color-gray-15;
-  }
-  @include dark-theme {
-    border-bottom: 1px solid $color-gray-75;
-  }
 }
 
 .module-left-pane__header-row {
