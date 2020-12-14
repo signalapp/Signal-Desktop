@@ -111,8 +111,8 @@ function getEmptyState(): UpdatesStateType {
 }
 
 export function reducer(
-  state: UpdatesStateType = getEmptyState(),
-  action: UpdatesActionType
+  state: Readonly<UpdatesStateType> = getEmptyState(),
+  action: Readonly<UpdatesActionType>
 ): UpdatesStateType {
   if (action.type === SHOW_UPDATE_DIALOG) {
     return {

@@ -373,8 +373,8 @@ function getEmptyState(): StickersStateType {
 }
 
 export function reducer(
-  state: StickersStateType = getEmptyState(),
-  action: StickersActionType
+  state: Readonly<StickersStateType> = getEmptyState(),
+  action: Readonly<StickersActionType>
 ): StickersStateType {
   if (action.type === 'stickers/STICKER_PACK_ADDED') {
     // ts complains due to `stickers: {}` being overridden by the payload

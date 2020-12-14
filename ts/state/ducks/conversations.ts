@@ -811,8 +811,8 @@ function hasMessageHeightChanged(
 }
 
 export function reducer(
-  state: ConversationsStateType = getEmptyState(),
-  action: ConversationActionType
+  state: Readonly<ConversationsStateType> = getEmptyState(),
+  action: Readonly<ConversationActionType>
 ): ConversationsStateType {
   if (action.type === 'CONVERSATION_ADDED') {
     const { payload } = action;

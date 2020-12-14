@@ -40,8 +40,8 @@ function getEmptyState(): ExpirationStateType {
 }
 
 export function reducer(
-  state: ExpirationStateType = getEmptyState(),
-  action: ExpirationActionType
+  state: Readonly<ExpirationStateType> = getEmptyState(),
+  action: Readonly<ExpirationActionType>
 ): ExpirationStateType {
   if (action.type === HYDRATE_EXPIRATION_STATUS) {
     return {

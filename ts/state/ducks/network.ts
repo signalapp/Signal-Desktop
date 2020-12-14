@@ -83,8 +83,8 @@ function getEmptyState(): NetworkStateType {
 }
 
 export function reducer(
-  state: NetworkStateType = getEmptyState(),
-  action: NetworkActionType
+  state: Readonly<NetworkStateType> = getEmptyState(),
+  action: Readonly<NetworkActionType>
 ): NetworkStateType {
   if (action.type === CHECK_NETWORK_STATUS) {
     const { isOnline, socketStatus } = action.payload;

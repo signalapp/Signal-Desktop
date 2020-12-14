@@ -914,7 +914,7 @@ function getExistingPeekInfo(
 }
 
 function removeConversationFromState(
-  state: CallingStateType,
+  state: Readonly<CallingStateType>,
   conversationId: string
 ): CallingStateType {
   return {
@@ -926,8 +926,8 @@ function removeConversationFromState(
 }
 
 export function reducer(
-  state: CallingStateType = getEmptyState(),
-  action: CallingActionType
+  state: Readonly<CallingStateType> = getEmptyState(),
+  action: Readonly<CallingActionType>
 ): CallingStateType {
   const { callsByConversation } = state;
 
