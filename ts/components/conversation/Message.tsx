@@ -370,7 +370,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public componentWillUnmount(): void {
     if (this.selectedTimeout) {
-      clearInterval(this.selectedTimeout);
+      clearTimeout(this.selectedTimeout);
     }
     if (this.expirationCheckInterval) {
       clearInterval(this.expirationCheckInterval);
