@@ -16,13 +16,6 @@
   flex-direction: column;
 }
 
-.expired {
-  .conversation-stack,
-  .gutter {
-    height: calc(100% - 48px);
-  }
-}
-
 .scrollable {
   height: 100%;
   overflow: auto;
