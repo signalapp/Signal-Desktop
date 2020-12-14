@@ -410,6 +410,7 @@
     font-family: $session-font-default;
     font-weight: bold;
     font-size: 14px;
+    flex-shrink: 0;
 
     &.playback-timer {
       margin-right: $session-margin-sm;
@@ -442,8 +443,6 @@
 /* ************ */
 $rhap_theme-color: #212121 !default;
 $rhap_background-color: rgba(0, 0, 0, 0) !default;
-$rhap_bar-color: #232323 !default;
-$rhap_time-color: #dddddd !default;
 $rhap_font-family: inherit !default;
 
 .rhap_container,
@@ -477,6 +476,7 @@ $rhap_font-family: inherit !default;
 
 .rhap_current-time {
   margin: 0 5px 0 4px;
+  flex-shrink: 0;
 }
 
 .rhap_play-pause-button {
@@ -489,14 +489,21 @@ $rhap_font-family: inherit !default;
   display: none;
 }
 
+.rhap_volume-button {
+  @include themify($themes) {
+    color: subtle(themed('textColor'));
+  }
+}
+
 .rhap_volume-container div[role='progressbar'] {
   display: none;
 }
 
 .rhap_time {
-  color: $rhap_time-color;
+  @include themify($themes) {
+    color: subtle(themed('textColor'));
+  }
   font-size: 12px;
-  width: 32px;
 }
 
 .rhap_progress-bar {
@@ -505,22 +512,35 @@ $rhap_font-family: inherit !default;
   z-index: 0;
   width: 100%;
   height: 5px;
-  background-color: $rhap_bar-color;
+  @include themify($themes) {
+    background-color: rgba(themed('textColor'), 0.3);
+  }
   border-radius: 2px;
 }
 
 .rhap_progress-filled {
-  opacity: 0.6;
-  background-color: #00f782;
+  @include themify($themes) {
+    background-color: rgba(themed('accent'), 0.6);
+  }
   padding-left: 5px;
-  left: -5px;
+}
+
+// special case for light theme, outgoing message (accent color on accent color background is not readable)
+.light-theme .module-message--outgoing {
+  .rhap_progress-filled {
+    @include themify($themes) {
+      background-color: rgba(themed('textColor'), 0.6);
+    }
+  }
 }
 
 .rhap_download-progress {
   height: 100%;
   position: absolute;
   z-index: 1;
-  background-color: $rhap_bar-color;
+  @include themify($themes) {
+    background-color: subtle(themed('textColor'));
+  }
   border-radius: 2px;
 }
 

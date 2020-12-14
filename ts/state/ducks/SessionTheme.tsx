@@ -48,7 +48,7 @@ export const lightTheme: DefaultTheme = {
     inputBackground: '#8E8E93331F',
     // text
     textColor: black,
-    textColorSubtle: '#a0a0a0',
+    textColorSubtle: `${black}99`,
     textColorOpposite: white,
     textHighlight: `${black}33`,
     // inbox
@@ -102,7 +102,7 @@ export const darkTheme = {
     inputBackground: '#8e8e931F',
     // text
     textColor: white,
-    textColorSubtle: '#a0a0a0',
+    textColorSubtle: `${white}99`,
     textColorOpposite: black,
     textHighlight: `${accentDarkTheme}99`,
     // inbox

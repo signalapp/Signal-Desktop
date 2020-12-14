@@ -1982,7 +1982,10 @@
   top: 0;
   left: 0;
 
-  @include color-svg('../images/spinner-56.svg', $color-gray-60);
+  @include themify($themes) {
+    @include color-svg('../images/spinner-56.svg', themed('textColor'));
+  }
+
   z-index: 3;
   height: 56px;
   width: 56px;
@@ -2040,10 +2043,15 @@
 }
 
 .module-spinner__circle--incoming {
-  background-color: $color-white-04;
+  @include themify($themes) {
+    background-color: rgba(themed('receivedMessageText'), 0.2);
+  }
 }
-.module-spinner__arc--incoming {
-  background-color: $color-white;
+
+.module-spinner__circle--outgoing {
+  @include themify($themes) {
+    background-color: rgba(themed('sentMessageText'), 0.2);
+  }
 }
 
 // Module: Highlighted Message Body
@@ -2227,8 +2235,8 @@
 // All media query widths have 300px added to account for the left pane
 // And have been tweaked for smoother transitions
 
-// To limit messages with things forcing them wider, like long attachment names
 .module-message__container {
+  // To limit messages with things forcing them wider, like long attachment names
   max-width: 300px;
 }
 

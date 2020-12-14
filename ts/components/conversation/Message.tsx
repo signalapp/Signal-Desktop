@@ -308,7 +308,7 @@ class MessageInner extends React.PureComponent<Props, State> {
                 <SessionIcon
                   iconType={SessionIconType.Play}
                   iconSize={SessionIconSize.Small}
-                  iconColor="#868686"
+                  iconColor={this.props.theme.colors.textColorSubtle}
                   theme={this.props.theme}
                 />
               ),
@@ -316,7 +316,7 @@ class MessageInner extends React.PureComponent<Props, State> {
                 <SessionIcon
                   iconType={SessionIconType.Pause}
                   iconSize={SessionIconSize.Small}
-                  iconColor="#868686"
+                  iconColor={this.props.theme.colors.textColorSubtle}
                   theme={this.props.theme}
                 />
               ),
