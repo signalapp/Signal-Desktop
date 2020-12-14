@@ -5,38 +5,24 @@
   "license": "GPLV3",
   "private": true,
   "dependencies": {
-    "autosize": "~4.0.0",
     "indexeddb-backbonejs-adapter": "*",
-    "mp3lameencoder": "https://github.com/higuma/mp3-lame-encoder-js.git",
-    "protobuf": "~3.8.0",
-    "qrcode": "https://github.com/davidshimjs/qrcodejs.git#1c78ccd71",
-    "webaudiorecorder": "https://github.com/higuma/web-audio-recorder-js.git"
+    "protobuf": "~3.8.0"
   },
   "devDependencies": {
     "mock-socket": "~0.3.2"
   },
   "preen": {
-    "autosize": [
-      "dist/autosize.js"
-    ],
     "indexeddb-backbonejs-adapter": [
       "backbone-indexeddb.js"
     ],
     "mock-socket": [
       "dist/mock-socket.js"
     ],
-    "mp3lameencoder": [
-      "lib/Mp3LameEncoder.js"
-    ],
     "protobuf": [
       "dist/ProtoBuf.js"
     ],
     "qrcode": [
       "qrcode.js"
-    ],
-    "webaudiorecorder": [
-      "lib/WebAudioRecorder.js",
-      "lib/WebAudioRecorderMp3.js"
     ]
   },
   "concat": {
@@ -49,8 +35,6 @@
       "node_modules/backbone/backbone.js",
       "components/indexeddb-backbonejs-adapter/**/*.js",
       "components/qrcode/**/*.js",
-      "components/autosize/**/*.js",
-      "components/webaudiorecorder/lib/WebAudioRecorder.js",
       "components/multibase/dist/index.js"
     ],
     "libtextsecure": [

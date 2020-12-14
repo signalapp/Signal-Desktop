@@ -68,9 +68,6 @@ const excludedFiles = [
   '^js/libsignal-protocol-worker.js',
   '^libtextsecure/libsignal-protocol.js',
 
-  // Copied from dependency
-  '^js/Mp3LameEncoder.min.js',
-
   // Test files
   '^libloki/test/*',
   '^libtextsecure/test/*',

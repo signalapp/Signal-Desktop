@@ -245,8 +245,6 @@
       this.window.removeEventListener('resize', this.onResize);
       this.window.removeEventListener('focus', this.onFocus);
 
-      window.autosize.destroy(this.$messageField);
-
       this.view.remove();
 
       this.remove();
@@ -1076,7 +1074,6 @@
       this.toggleMicrophone();
 
       this.view.measureScrollPosition();
-      window.autosize(this.$messageField);
 
       const $attachmentPreviews = this.$('.attachment-previews');
       const $bottomBar = this.$('.bottom-bar');
@@ -1195,7 +1192,6 @@
         return;
       }
       this.view.scrollToBottomIfNeeded();
-      window.autosize.update(this.$messageField);
       this.updateMessageFieldSize(event);
     },
 
