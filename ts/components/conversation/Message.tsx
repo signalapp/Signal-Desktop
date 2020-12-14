@@ -278,25 +278,6 @@ class MessageInner extends React.PureComponent<Props, State> {
             e.stopPropagation();
           }}
         >
-          {/* <audio
-            role="button"
-            onClick={(e: any) => {
-              e.stopPropagation();
-            }}
-            controls={true}
-            className={classNames(
-              'module-message__audio-attachment',
-              withContentBelow
-                ? 'module-message__audio-attachment--with-content-below'
-                : null,
-              withContentAbove
-                ? 'module-message__audio-attachment--with-content-above'
-                : null
-            )}
-            key={firstAttachment.url}
-          >
-            <source src={firstAttachment.url} />
-          </audio> */}
           <H5AudioPlayer
             src={firstAttachment.url}
             layout="horizontal-reverse"

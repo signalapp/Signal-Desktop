@@ -101,10 +101,6 @@
 
       this.model.updateTextInputState();
 
-      this.loadingScreen = new Whisper.ConversationLoadingScreen();
-      this.loadingScreen.render();
-      this.loadingScreen.$el.prependTo(this.$('.discussion-container'));
-
       this.window = options.window;
 
       Whisper.events.on('mediaPermissionsChanged', () =>

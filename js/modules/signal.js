@@ -16,9 +16,6 @@ const AttachmentDownloads = require('./attachment_downloads');
 
 // Components
 const {
-  ConversationLoadingScreen,
-} = require('../../ts/components/ConversationLoadingScreen');
-const {
   ContactDetail,
 } = require('../../ts/components/conversation/ContactDetail');
 const { ContactListItem } = require('../../ts/components/ContactListItem');
@@ -223,7 +220,6 @@ exports.setup = (options = {}) => {
   });
 
   const Components = {
-    ConversationLoadingScreen,
     ContactDetail,
     ContactListItem,
     ContactName,
