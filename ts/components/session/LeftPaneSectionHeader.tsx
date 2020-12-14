@@ -1,9 +1,14 @@
 import React from 'react';
 import classNames from 'classnames';
-import { SessionButton } from './SessionButton';
-import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
+import {
+  SessionIcon,
+  SessionIconButton,
+  SessionIconSize,
+  SessionIconType,
+} from './icon';
 import { inversedTheme } from '../../state/ducks/SessionTheme';
 import { DefaultTheme } from 'styled-components';
+import { SessionButton } from './SessionButton';
 
 const Tab = ({
   isSelected,
@@ -46,28 +51,23 @@ interface Props {
 export const LeftPaneSectionHeader = (props: Props) => {
   const { label, buttonIcon, buttonClicked } = props;
 
-  const children = [];
-  if (label) {
-    children.push(<Tab label={label} type={0} isSelected={true} key={label} />);
-  }
-
-  if (buttonIcon) {
-    const button = (
-      <SessionButton
-        onClick={buttonClicked}
-        key="compose"
-        theme={inversedTheme(props.theme)}
-      >
-        <SessionIcon
-          iconType={buttonIcon}
-          iconSize={SessionIconSize.Small}
+  return (
+    <div className="module-left-pane__header">
+      {label && <Tab label={label} type={0} isSelected={true} key={label} />}
+      {buttonIcon && (
+        <SessionButton
+          onClick={buttonClicked}
+          key="compose"
           theme={props.theme}
-        />
-      </SessionButton>
-    );
-
-    children.push(button);
-  }
-  // Create the parent and add the children
-  return <div className="module-left-pane__header">{children}</div>;
+        >
+          <SessionIcon
+            iconType={buttonIcon}
+            iconSize={SessionIconSize.Small}
+            iconColor="white"
+            theme={props.theme}
+          />
+        </SessionButton>
+      )}
+    </div>
+  );
 };
