@@ -16,6 +16,7 @@ import {
 } from './SessionClosableOverlay';
 import { ToastUtils } from '../../session/utils';
 import { DefaultTheme } from 'styled-components';
+import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 
 export interface Props {
   directContacts: Array<ConversationType>;
@@ -56,15 +57,11 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
   }
 
   public renderHeader(): JSX.Element | undefined {
-    const labels = [window.i18n('contactsHeader')];
-
-    return LeftPane.RENDER_HEADER(
-      labels,
-      this.props.theme,
-      null,
-      undefined,
-      undefined,
-      undefined
+    return (
+      <LeftPaneSectionHeader
+        label={window.i18n('contactsHeader')}
+        theme={this.props.theme}
+      />
     );
   }
 

@@ -37,77 +37,37 @@ const Tab = ({
 };
 
 interface Props {
-  onTabSelected: any;
-  selectedTab: number;
-  labels: Array<string>;
-  buttonLabel?: string;
+  label?: string;
   buttonIcon?: SessionIconType;
   buttonClicked?: any;
   theme: DefaultTheme;
 }
 
-interface State {
-  selectedTab: number;
-}
+export const LeftPaneSectionHeader = (props: Props) => {
+  const { label, buttonIcon, buttonClicked } = props;
 
-export class LeftPaneSectionHeader extends React.Component<Props, State> {
-  constructor(props: any) {
-    super(props);
-    this.state = { selectedTab: 0 };
+  const children = [];
+  if (label) {
+    children.push(<Tab label={label} type={0} isSelected={true} key={label} />);
   }
 
-  public render() {
-    const { selectedTab } = this.state;
-    const { labels, buttonLabel, buttonIcon, buttonClicked } = this.props;
-
-    const hasButton = buttonLabel || buttonIcon;
-
-    const children = [];
-    //loop to create children
-    for (let i = 0; i < labels.length; i++) {
-      children.push(
-        <Tab
-          label={labels[i]}
-          type={i}
-          isSelected={selectedTab === i}
-          onSelect={this.handleTabSelect}
-          key={i}
-        />
-      );
-    }
-
-    if (hasButton) {
-      const buttonContent = buttonIcon ? (
+  if (buttonIcon) {
+    const button = (
+      <SessionButton
+        onClick={buttonClicked}
+        key="compose"
+        theme={inversedTheme(props.theme)}
+      >
         <SessionIcon
           iconType={buttonIcon}
           iconSize={SessionIconSize.Small}
-          theme={inversedTheme(this.props.theme)}
+          theme={props.theme}
         />
-      ) : (
-        buttonLabel
-      );
-      const button = (
-        <SessionButton
-          onClick={buttonClicked}
-          key="compose"
-          theme={inversedTheme(this.props.theme)}
-        >
-          {buttonContent}
-        </SessionButton>
-      );
+      </SessionButton>
+    );
 
-      children.push(button);
-    }
-    // Create the parent and add the children
-    return <div className="module-left-pane__header">{children}</div>;
+    children.push(button);
   }
-
-  private readonly handleTabSelect = (tabType: number): void => {
-    this.setState({
-      selectedTab: tabType,
-    });
-    if (this.props.onTabSelected) {
-      this.props.onTabSelected(tabType);
-    }
-  };
-}
+  // Create the parent and add the children
+  return <div className="module-left-pane__header">{children}</div>;
+};

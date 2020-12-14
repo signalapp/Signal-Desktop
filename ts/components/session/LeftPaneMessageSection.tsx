@@ -29,6 +29,7 @@ import {
 import { OpenGroup } from '../../session/types';
 import { ToastUtils } from '../../session/utils';
 import { DefaultTheme } from 'styled-components';
+import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 
 export interface Props {
   searchTerm: string;
@@ -187,15 +188,13 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   }
 
   public renderHeader(): JSX.Element {
-    const labels = [window.i18n('messagesHeader')];
-
-    return LeftPane.RENDER_HEADER(
-      labels,
-      this.props.theme,
-      null,
-      undefined,
-      SessionIconType.Plus,
-      this.handleNewSessionButtonClick
+    return (
+      <LeftPaneSectionHeader
+        label={window.i18n('messagesHeader')}
+        theme={this.props.theme}
+        buttonIcon={SessionIconType.Plus}
+        buttonClicked={this.handleNewSessionButtonClick}
+      />
     );
   }
 
