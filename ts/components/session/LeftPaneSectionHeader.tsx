@@ -1,12 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import {
-  SessionIcon,
-  SessionIconButton,
-  SessionIconSize,
-  SessionIconType,
-} from './icon';
-import { inversedTheme } from '../../state/ducks/SessionTheme';
+import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 import { DefaultTheme } from 'styled-components';
 import { SessionButton } from './SessionButton';
 
@@ -41,12 +35,12 @@ const Tab = ({
   );
 };
 
-interface Props {
+type Props = {
   label?: string;
   buttonIcon?: SessionIconType;
   buttonClicked?: any;
   theme: DefaultTheme;
-}
+};
 
 export const LeftPaneSectionHeader = (props: Props) => {
   const { label, buttonIcon, buttonClicked } = props;
