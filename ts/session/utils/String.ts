@@ -29,3 +29,6 @@ export function decode(buffer: BufferType, stringEncoding: Encoding): string {
 export function nonNullish<V>(v: V): v is NonNullable<V> {
   return v !== undefined && v !== null;
 }
+
+export const toHex = (d: BufferType) => decode(d, 'hex');
+export const fromHex = (d: string) => encode(d, 'hex');
