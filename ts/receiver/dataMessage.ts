@@ -371,8 +371,8 @@ async function isMessageDuplicate({
   const { Errors } = window.Signal.Types;
 
   try {
-    const result = await window.Signal.Data.getMessagesBySender(
-      { source, sourceDevice },
+    const result = await window.Signal.Data.getMessageBySender(
+      { source, sourceDevice, sent_at: timestamp },
       {
         Message: window.Whisper.Message,
       }
