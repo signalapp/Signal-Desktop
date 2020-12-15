@@ -1138,7 +1138,7 @@ async function sessionGenerateKeyPair(event, seed) {
       ed25519KeyPair,
     };
 
-    // null as first parameter to indivate no error
+    // null as first parameter to indicate no error
     event.reply('generate-keypair-seed-response', null, x25519KeyPair);
   } catch (err) {
     event.reply('generate-keypair-seed-response', err);

@@ -258,7 +258,6 @@
       getThemeSetting: () => storage.get('theme-setting', 'light'),
       setThemeSetting: value => {
         storage.put('theme-setting', value);
-        onChangeTheme();
       },
       getHideMenuBar: () => storage.get('hide-menu-bar'),
       setHideMenuBar: value => {
@@ -1171,7 +1170,6 @@
     );
     messageReceiver.addEventListener('empty', onEmpty);
     messageReceiver.addEventListener('reconnect', onReconnect);
-    messageReceiver.addEventListener('progress', onProgress);
     messageReceiver.addEventListener('configuration', onConfiguration);
     // messageReceiver.addEventListener('typing', onTyping);
 
@@ -1198,7 +1196,6 @@
       const hasThemeSetting = Boolean(storage.get('theme-setting'));
       if (!hasThemeSetting && textsecure.storage.get('userAgent') === 'OWI') {
         storage.put('theme-setting', 'ios');
-        onChangeTheme();
       }
       const syncRequest = new textsecure.SyncRequest(
         textsecure.messaging,
@@ -1244,12 +1241,6 @@
     });
   }
 
-  function onChangeTheme() {
-    // const view = window.owsDesktopApp.appView;
-    // if (view) {
-    //   view.applyTheme();
-    // }
-  }
   function onEmpty() {
     initialLoadComplete = true;
 
@@ -1277,15 +1268,6 @@
     setTimeout(() => {
       Whisper.Notifications.enable();
     }, window.CONSTANTS.NOTIFICATION_ENABLE_TIMEOUT_SECONDS * 1000);
-  }
-  function onProgress(ev) {
-    const { count } = ev;
-    window.log.info(`onProgress: Message count is ${count}`);
-
-    // const view = window.owsDesktopApp.appView;
-    // if (view) {
-    //   view.onProgress(count);
-    // }
   }
   function onConfiguration(ev) {
     const { configuration } = ev;

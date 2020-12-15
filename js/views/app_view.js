@@ -123,7 +123,6 @@
       return Promise.resolve();
     },
     onEmpty() {},
-    onProgress() {},
     showEditProfileDialog(options) {
       // eslint-disable-next-line no-param-reassign
       options.theme = this.getThemeObject();
