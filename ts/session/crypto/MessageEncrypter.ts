@@ -5,8 +5,7 @@ import { CipherTextObject } from '../../../libtextsecure/libsignal-protocol';
 import { encryptWithSenderKey } from '../../session/medium_group/ratchet';
 import { PubKey } from '../types';
 import { StringUtils } from '../utils';
-
-import * as libsodiumwrappers from 'libsodium-wrappers';
+import { concatUInt8Array, getSodium } from '.';
 
 /**
  * Add padding to a message buffer
@@ -70,24 +69,6 @@ export async function encrypt(
 
   return encryptUsingSealedSender(device, innerCipherText);
 }
-
-async function getSodium(): Promise<typeof libsodiumwrappers> {
-  await libsodiumwrappers.ready;
-  return libsodiumwrappers;
-}
-
-const concatUInt8Array = (...args: Array<Uint8Array>): Uint8Array => {
-  const totalLength = args.reduce((acc, current) => acc + current.length, 0);
-
-  const concatted = new Uint8Array(totalLength);
-  let currentIndex = 0;
-  args.forEach(arr => {
-    concatted.set(arr, currentIndex);
-    currentIndex += arr.length;
-  });
-
-  return concatted;
-};
 
 export async function encryptUsingSessionProtocol(
   recipientHexEncodedX25519PublicKey: PubKey,

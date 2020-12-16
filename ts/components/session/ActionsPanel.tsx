@@ -10,6 +10,8 @@ import { ConversationType } from '../../state/ducks/conversations';
 import { noop } from 'lodash';
 import { DefaultTheme } from 'styled-components';
 import { StateType } from '../../state/reducer';
+import { MessageEncrypter } from '../../session/crypto';
+import { PubKey } from '../../session/types';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {

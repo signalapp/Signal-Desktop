@@ -9,5 +9,8 @@ export type ConversationControllerType = {
   getOrCreate: (id: string, type: string) => Promise<ConversationModel>;
   dangerouslyCreateAndAdd: (any) => any;
   getContactProfileNameOrShortenedPubKey: (id: string) => string;
-  getContactProfileNameOrFullPubKey: (id: string) => string;
+  getContactProfileNameOrFullPubKey: (
+    hexEncodedGroupPublicKey: string
+  ) => string;
+  isMediumGroup: (id: string) => boolean;
 };
