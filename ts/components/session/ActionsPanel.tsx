@@ -12,6 +12,7 @@ import { DefaultTheme } from 'styled-components';
 import { StateType } from '../../state/reducer';
 import { MessageEncrypter } from '../../session/crypto';
 import { PubKey } from '../../session/types';
+import { UserUtil } from '../../util';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -49,6 +50,8 @@ class ActionsPanelPrivate extends React.Component<Props> {
 
     const newThemeObject = theme === 'dark' ? darkTheme : lightTheme;
     this.props.applyTheme(newThemeObject);
+
+    void this.showResetSessionIDDialogIfNeeded();
   }
 
   public Section = ({
@@ -186,6 +189,14 @@ class ActionsPanelPrivate extends React.Component<Props> {
   private readonly handleSectionSelect = (section: SectionType): void => {
     this.props.onSectionSelected(section);
   };
+
+  private async showResetSessionIDDialogIfNeeded() {
+    const userED25519KeyPairHex = await UserUtil.getUserED25519KeyPair();
+    if (userED25519KeyPairHex) {
+      return;
+    }
+    window.showResetSessionIdDialog();
+  }
 }
 
 const mapStateToProps = (state: StateType) => {

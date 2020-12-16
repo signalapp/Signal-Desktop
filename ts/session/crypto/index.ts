@@ -3,6 +3,7 @@ import * as MessageEncrypter from './MessageEncrypter';
 export { MessageEncrypter };
 
 // libsodium-wrappers requires the `require` call to work
+// tslint:disable-next-line: no-require-imports
 import libsodiumwrappers = require('libsodium-wrappers');
 
 export async function getSodium(): Promise<typeof libsodiumwrappers> {

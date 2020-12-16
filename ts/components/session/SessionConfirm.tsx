@@ -5,7 +5,7 @@ import { SessionHtmlRenderer } from './SessionHTMLRenderer';
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 import { DefaultTheme, withTheme } from 'styled-components';
 
-interface Props {
+type Props = {
   message: string;
   messageSub: string;
   title: string;
@@ -21,96 +21,80 @@ interface Props {
   sessionIcon?: SessionIconType;
   iconSize?: SessionIconSize;
   theme: DefaultTheme;
-}
+};
 
-class SessionConfirmInner extends React.Component<Props> {
-  public static defaultProps = {
-    title: '',
-    messageSub: '',
-    okTheme: SessionButtonColor.Primary,
-    closeTheme: SessionButtonColor.Primary,
-    hideCancel: false,
-  };
+const SessionConfirmInner = (props: Props) => {
+  const {
+    title = '',
+    message,
+    messageSub = '',
+    okTheme = SessionButtonColor.Primary,
+    closeTheme = SessionButtonColor.Primary,
+    onClickOk,
+    onClickClose,
+    hideCancel = false,
+    sessionIcon,
+    iconSize,
+  } = props;
 
-  constructor(props: any) {
-    super(props);
-  }
+  const okText = props.okText || window.i18n('ok');
+  const cancelText = props.cancelText || window.i18n('cancel');
+  const showHeader = !!props.title;
 
-  public render() {
-    const {
-      title,
-      message,
-      messageSub,
-      okTheme,
-      closeTheme,
-      onClickOk,
-      onClickClose,
-      hideCancel,
-      sessionIcon,
-      iconSize,
-    } = this.props;
+  const messageSubText = messageSub ? 'session-confirm-main-message' : 'subtle';
 
-    const okText = this.props.okText || window.i18n('ok');
-    const cancelText = this.props.cancelText || window.i18n('cancel');
-    const showHeader = !!this.props.title;
+  return (
+    <SessionModal
+      title={title}
+      onClose={onClickClose}
+      onOk={() => null}
+      showExitIcon={false}
+      showHeader={showHeader}
+      theme={props.theme}
+    >
+      {!showHeader && <div className="spacer-lg" />}
 
-    const messageSubText = messageSub
-      ? 'session-confirm-main-message'
-      : 'subtle';
-
-    return (
-      <SessionModal
-        title={title}
-        onClose={onClickClose}
-        onOk={() => null}
-        showExitIcon={false}
-        showHeader={showHeader}
-        theme={this.props.theme}
-      >
-        {!showHeader && <div className="spacer-lg" />}
-
-        <div className="session-modal__centered">
-          {sessionIcon && iconSize && (
-            <div>
-              <SessionIcon
-                iconType={sessionIcon}
-                iconSize={iconSize}
-                theme={this.props.theme}
-              />
-              <div className="spacer-lg" />
-            </div>
-          )}
-
-          <SessionHtmlRenderer
-            tag="span"
-            className={messageSubText}
-            html={message}
-          />
-          <SessionHtmlRenderer
-            tag="span"
-            className="session-confirm-sub-message subtle"
-            html={messageSub}
-          />
-        </div>
-
-        <div className="session-modal__button-group">
-          <SessionButton
-            text={okText}
-            buttonColor={okTheme}
-            onClick={onClickOk}
-          />
-
-          {!hideCancel && (
-            <SessionButton
-              text={cancelText}
-              buttonColor={closeTheme}
-              onClick={onClickClose}
+      <div className="session-modal__centered">
+        {sessionIcon && iconSize && (
+          <>
+            <SessionIcon
+              iconType={sessionIcon}
+              iconSize={iconSize}
+              theme={props.theme}
             />
-          )}
-        </div>
-      </SessionModal>
-    );
-  }
-}
+            <div className="spacer-lg" />
+          </>
+        )}
+
+        <SessionHtmlRenderer
+          tag="span"
+          className={messageSubText}
+          html={message}
+        />
+        <SessionHtmlRenderer
+          tag="span"
+          className="session-confirm-sub-message subtle"
+          html={messageSub}
+        />
+      </div>
+
+      <div className="session-modal__button-group">
+        <SessionButton
+          text={okText}
+          buttonColor={okTheme}
+          onClick={onClickOk}
+        />
+
+        {!hideCancel && (
+          <SessionButton
+            text={cancelText}
+            buttonColor={closeTheme}
+            onClick={onClickClose}
+          />
+        )}
+      </div>
+    </SessionModal>
+  );
+};
 
 export const SessionConfirm = withTheme(SessionConfirmInner);

@@ -555,6 +555,10 @@
       confirmDialog.render();
     };
 
+    window.showResetSessionIdDialog = () => {
+      appView.showResetSessionIdDialog();
+    };
+
     window.showEditProfileDialog = async () => {
       const ourNumber = window.storage.get('primaryDevicePubKey');
       const conversation = await ConversationController.getOrCreateAndWait(

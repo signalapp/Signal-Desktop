@@ -218,9 +218,9 @@ async function decryptWithSessionProtocol(
 
   // set the sender identity on the envelope itself.
   if (isMediumGroup) {
-    envelope.senderIdentity = '05' + toHex(senderX25519PublicKey);
+    envelope.senderIdentity = `05${toHex(senderX25519PublicKey)}`;
   }
-  return plaintext;
+  return unpad(plaintext);
 }
 
 function unpad(paddedData: ArrayBuffer): ArrayBuffer {

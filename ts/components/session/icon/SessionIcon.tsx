@@ -79,7 +79,7 @@ const SessionSvg = (props: {
   rotateDuration?: number;
   theme: DefaultTheme;
 }) => {
-  const colorSvg = props.iconColor || props?.theme?.colors.textColor || 'red';
+  const colorSvg = props.iconColor || props?.theme?.colors.textColor;
   const pathArray = props.path instanceof Array ? props.path : [props.path];
 
   return (
