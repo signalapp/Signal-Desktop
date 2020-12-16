@@ -14391,16 +14391,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CallingLobby.js",
     "line": "    const localVideoRef = react_1.default.useRef(null);",
-    "lineNumber": 15,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-26T19:12:24.410Z",
-    "reasonDetail": "Used to get the local video element for rendering."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallingLobby.tsx",
-    "line": "  const localVideoRef = React.useRef(null);",
-    "lineNumber": 64,
+    "lineNumber": 24,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Used to get the local video element for rendering."
@@ -14817,7 +14808,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public audioRef: React.RefObject<HTMLAudioElement> = React.createRef();",
-    "lineNumber": 223,
+    "lineNumber": 226,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-08T20:19:01.913Z"
   },
@@ -14825,7 +14816,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
-    "lineNumber": 225,
+    "lineNumber": 228,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-08T20:19:01.913Z"
   },
@@ -14833,7 +14824,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  > = React.createRef();",
-    "lineNumber": 229,
+    "lineNumber": 232,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-28T19:36:40.817Z"
   },

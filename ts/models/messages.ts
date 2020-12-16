@@ -1133,7 +1133,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       bodyRanges: this.processBodyRanges(bodyRanges),
       isFromMe,
       sentAt,
-      authorId: author,
+      authorId: contact ? contact.id : undefined,
       authorPhoneNumber,
       authorProfileName,
       authorTitle,

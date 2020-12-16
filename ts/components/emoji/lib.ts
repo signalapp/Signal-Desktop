@@ -215,12 +215,11 @@ const fuse = new Fuse(data, {
   minMatchCharLength: 1,
   tokenize: true,
   tokenSeparator: /[-_\s]+/,
-  keys: ['name', 'short_name', 'short_names'],
+  keys: ['short_name', 'name'],
 });
 
 export function search(query: string, count = 0): Array<EmojiData> {
-  // We reverse it because fuse returns low-score results first!
-  const results = fuse.search(query.substr(0, 32)).reverse();
+  const results = fuse.search(query.substr(0, 32));
 
   if (count) {
     return take(results, count);

@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { ReactNode } from 'react';
+import Measure from 'react-measure';
+import { debounce } from 'lodash';
 import {
   SetLocalAudioType,
   SetLocalPreviewType,
@@ -15,6 +17,15 @@ import { Spinner } from './Spinner';
 import { ColorType } from '../types/Colors';
 import { LocalizerType } from '../types/Util';
 import { ConversationType } from '../state/ducks/conversations';
+import {
+  REQUESTED_VIDEO_WIDTH,
+  REQUESTED_VIDEO_HEIGHT,
+} from '../calling/constants';
+
+// We request dimensions but may not get them depending on the user's webcam. This is our
+//   fallback while we don't know.
+const VIDEO_ASPECT_RATIO_FALLBACK =
+  REQUESTED_VIDEO_WIDTH / REQUESTED_VIDEO_HEIGHT;
 
 export type PropsType = {
   availableCameras: Array<MediaDeviceInfo>;
@@ -61,7 +72,18 @@ export const CallingLobby = ({
   toggleParticipants,
   toggleSettings,
 }: PropsType): JSX.Element => {
-  const localVideoRef = React.useRef(null);
+  const [
+    localPreviewContainerWidth,
+    setLocalPreviewContainerWidth,
+  ] = React.useState<null | number>(null);
+  const [
+    localPreviewContainerHeight,
+    setLocalPreviewContainerHeight,
+  ] = React.useState<null | number>(null);
+  const [localVideoAspectRatio, setLocalVideoAspectRatio] = React.useState(
+    VIDEO_ASPECT_RATIO_FALLBACK
+  );
+  const localVideoRef = React.useRef<null | HTMLVideoElement>(null);
 
   const toggleAudio = React.useCallback((): void => {
     setLocalAudio({ enabled: !hasLocalAudio });
@@ -71,6 +93,24 @@ export const CallingLobby = ({
     setLocalVideo({ enabled: !hasLocalVideo });
   }, [hasLocalVideo, setLocalVideo]);
 
+  const hasEverMeasured =
+    localPreviewContainerWidth !== null && localPreviewContainerHeight !== null;
+  const setLocalPreviewContainerDimensions = React.useMemo(() => {
+    const set = (bounds: Readonly<{ width: number; height: number }>) => {
+      setLocalPreviewContainerWidth(bounds.width);
+      setLocalPreviewContainerHeight(bounds.height);
+    };
+
+    if (hasEverMeasured) {
+      return debounce(set, 100, { maxWait: 3000 });
+    }
+    return set;
+  }, [
+    hasEverMeasured,
+    setLocalPreviewContainerWidth,
+    setLocalPreviewContainerHeight,
+  ]);
+
   React.useEffect(() => {
     setLocalPreview({ element: localVideoRef });
 
@@ -78,6 +118,21 @@ export const CallingLobby = ({
       setLocalPreview({ element: undefined });
     };
   }, [setLocalPreview]);
+
+  // This isn't perfect because it doesn't react to changes in the webcam's aspect ratio.
+  //   For example, if you changed from Webcam A to Webcam B and Webcam B had a different
+  //   aspect ratio, we wouldn't update.
+  //
+  // Unfortunately, RingRTC (1) doesn't update these dimensions with the "real" camera
+  //   dimensions (2) doesn't give us any hooks or callbacks. For now, this works okay.
+  //   We have `object-fit: contain` in the CSS in case we're wrong; not ideal, but
+  //   usable.
+  React.useEffect(() => {
+    const videoEl = localVideoRef.current;
+    if (hasLocalVideo && videoEl && videoEl.width && videoEl.height) {
+      setLocalVideoAspectRatio(videoEl.width / videoEl.height);
+    }
+  }, [hasLocalVideo, setLocalVideoAspectRatio]);
 
   React.useEffect(() => {
     function handleKeyDown(event: KeyboardEvent): void {
@@ -141,6 +196,33 @@ export const CallingLobby = ({
     joinButtonChildren = i18n('calling__start');
   }
 
+  let localPreviewStyles: React.CSSProperties;
+  // It'd be nice to use `hasEverMeasured` here, too, but TypeScript isn't smart enough
+  //   to understand the logic here.
+  if (
+    localPreviewContainerWidth !== null &&
+    localPreviewContainerHeight !== null
+  ) {
+    const containerAspectRatio =
+      localPreviewContainerWidth / localPreviewContainerHeight;
+    localPreviewStyles =
+      containerAspectRatio < localVideoAspectRatio
+        ? {
+            width: '100%',
+            height: Math.floor(
+              localPreviewContainerWidth / localVideoAspectRatio
+            ),
+          }
+        : {
+            width: Math.floor(
+              localPreviewContainerHeight * localVideoAspectRatio
+            ),
+            height: '100%',
+          };
+  } else {
+    localPreviewStyles = { display: 'none' };
+  }
+
   return (
     <div className="module-calling__container">
       <CallingHeader
@@ -153,37 +235,58 @@ export const CallingLobby = ({
         toggleSettings={toggleSettings}
       />
 
-      <div className="module-calling-lobby__video">
-        {hasLocalVideo && availableCameras.length > 0 ? (
-          <video
-            className="module-calling-lobby__video-on__video"
-            ref={localVideoRef}
-            autoPlay
-          />
-        ) : (
-          <CallBackgroundBlur avatarPath={me.avatarPath} color={me.color}>
-            <div className="module-calling__video-off--icon" />
-            <span className="module-calling__video-off--text">
-              {i18n('calling__your-video-is-off')}
-            </span>
-          </CallBackgroundBlur>
-        )}
+      <Measure
+        bounds
+        onResize={({ bounds }) => {
+          if (!bounds) {
+            window.log.error('We should be measuring bounds');
+            return;
+          }
+          setLocalPreviewContainerDimensions(bounds);
+        }}
+      >
+        {({ measureRef }) => (
+          <div
+            ref={measureRef}
+            className="module-calling-lobby__local-preview-container"
+          >
+            <div
+              className="module-calling-lobby__local-preview"
+              style={localPreviewStyles}
+            >
+              {hasLocalVideo && availableCameras.length > 0 ? (
+                <video
+                  className="module-calling-lobby__local-preview__video-on"
+                  ref={localVideoRef}
+                  autoPlay
+                />
+              ) : (
+                <CallBackgroundBlur avatarPath={me.avatarPath} color={me.color}>
+                  <div className="module-calling-lobby__local-preview__video-off__icon" />
+                  <span className="module-calling-lobby__local-preview__video-off__text">
+                    {i18n('calling__your-video-is-off')}
+                  </span>
+                </CallBackgroundBlur>
+              )}
 
-        <div className="module-calling__buttons">
-          <CallingButton
-            buttonType={videoButtonType}
-            i18n={i18n}
-            onClick={toggleVideo}
-            tooltipDirection={TooltipPlacement.Top}
-          />
-          <CallingButton
-            buttonType={audioButtonType}
-            i18n={i18n}
-            onClick={toggleAudio}
-            tooltipDirection={TooltipPlacement.Top}
-          />
-        </div>
-      </div>
+              <div className="module-calling__buttons">
+                <CallingButton
+                  buttonType={videoButtonType}
+                  i18n={i18n}
+                  onClick={toggleVideo}
+                  tooltipDirection={TooltipPlacement.Top}
+                />
+                <CallingButton
+                  buttonType={audioButtonType}
+                  i18n={i18n}
+                  onClick={toggleAudio}
+                  tooltipDirection={TooltipPlacement.Top}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+      </Measure>
 
       {isGroupCall ? (
         <div className="module-calling-lobby__info">

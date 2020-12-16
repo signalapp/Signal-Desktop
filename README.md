@@ -54,4 +54,4 @@ The form and manner of this distribution makes it eligible for export under the 
 
 Copyright 2013–2020 Signal, a 501c3 nonprofit
 
-Licensed under the GPLv3: http://www.gnu.org/licenses/gpl-3.0.html
+Licensed under the AGPLv3: https://opensource.org/licenses/agpl-3.0

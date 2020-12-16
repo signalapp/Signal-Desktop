@@ -58,6 +58,11 @@ import {
 } from '../groups';
 import { missingCaseError } from '../util/missingCaseError';
 import { normalizeGroupCallTimestamp } from '../util/ringrtc/normalizeGroupCallTimestamp';
+import {
+  REQUESTED_VIDEO_WIDTH,
+  REQUESTED_VIDEO_HEIGHT,
+  REQUESTED_VIDEO_FRAMERATE,
+} from '../calling/constants';
 
 const RINGRTC_HTTP_METHOD_TO_OUR_HTTP_METHOD: Map<
   HttpMethod,
@@ -103,7 +108,11 @@ export class CallingClass {
   private callsByConversation: { [conversationId: string]: Call | GroupCall };
 
   constructor() {
-    this.videoCapturer = new GumVideoCapturer(640, 480, 30);
+    this.videoCapturer = new GumVideoCapturer(
+      REQUESTED_VIDEO_WIDTH,
+      REQUESTED_VIDEO_HEIGHT,
+      REQUESTED_VIDEO_FRAMERATE
+    );
     this.videoRenderer = new CanvasVideoRenderer();
 
     this.callsByConversation = {};

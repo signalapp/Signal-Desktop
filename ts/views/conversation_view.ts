@@ -797,7 +797,7 @@ Whisper.ConversationView = Whisper.View.extend({
     };
 
     const scrollToQuotedMessage = async (options: any) => {
-      const { author, sentAt } = options;
+      const { authorId, sentAt } = options;
 
       const conversationId = this.model.id;
       const messages = await getMessagesBySentAt(sentAt, {
@@ -806,7 +806,8 @@ Whisper.ConversationView = Whisper.View.extend({
       const message = messages.find(
         item =>
           item.get('conversationId') === conversationId &&
-          item.getSource() === author
+          authorId &&
+          item.getContactId() === authorId
       );
 
       if (!message) {

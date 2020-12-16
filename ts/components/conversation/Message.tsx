@@ -185,7 +185,10 @@ export type PropsActions = {
   displayTapToViewMessage: (messageId: string) => unknown;
 
   openLink: (url: string) => void;
-  scrollToQuotedMessage: (options: { author: string; sentAt: number }) => void;
+  scrollToQuotedMessage: (options: {
+    authorId: string;
+    sentAt: number;
+  }) => void;
   selectMessage?: (messageId: string, conversationId: string) => unknown;
 
   showExpiredIncomingTapToViewToast: () => unknown;
@@ -971,7 +974,7 @@ export class Message extends React.PureComponent<Props, State> {
       ? undefined
       : () => {
           scrollToQuotedMessage({
-            author: quote.authorId,
+            authorId: quote.authorId,
             sentAt: quote.sentAt,
           });
         };
