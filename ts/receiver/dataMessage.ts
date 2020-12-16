@@ -396,13 +396,16 @@ async function isMessageDuplicate({
 export const isDuplicate = (m: any, testedMessage: any, source: string) => {
   // The username in this case is the users pubKey
   const sameUsername = m.attributes.source === source;
+  const sameServerId =
+    m.attributes.serverId !== undefined &&
+    testedMessage.id === m.attributes.serverId;
   const sameText = m.attributes.body === testedMessage.body;
   // Don't filter out messages that are too far apart from each other
   const timestampsSimilar =
     Math.abs(m.attributes.sent_at - testedMessage.timestamp) <=
     PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES;
 
-  return sameUsername && sameText && timestampsSimilar;
+  return sameUsername && sameText && (timestampsSimilar || sameServerId);
 };
 
 async function handleProfileUpdate(

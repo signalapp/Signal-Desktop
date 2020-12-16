@@ -1782,13 +1782,6 @@
         _.map(oldUnread, async providedM => {
           const m = getMessageController().register(providedM.id, providedM);
 
-          if (!this.messageCollection.get(m.id)) {
-            window.log.warn(
-              'Marked a message as read in the database, but ' +
-                'it was not in messageCollection.'
-            );
-          }
-
           await m.markRead(options.readAt);
           const errors = m.get('errors');
           return {

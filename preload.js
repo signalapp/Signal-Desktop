@@ -250,8 +250,6 @@ ipc.on('get-theme-setting', () => {
 
 // Settings-related events
 
-window.showPermissionsPopup = () => ipc.send('show-permissions-popup');
-
 ipc.on('add-dark-overlay', () => {
   const { addDarkOverlay } = window.Events;
   if (addDarkOverlay) {

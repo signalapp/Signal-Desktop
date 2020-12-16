@@ -101,10 +101,6 @@
 
       this.model.updateTextInputState();
 
-      this.loadingScreen = new Whisper.ConversationLoadingScreen();
-      this.loadingScreen.render();
-      this.loadingScreen.$el.prependTo(this.$('.discussion-container'));
-
       this.window = options.window;
 
       Whisper.events.on('mediaPermissionsChanged', () =>
@@ -244,8 +240,6 @@
 
       this.window.removeEventListener('resize', this.onResize);
       this.window.removeEventListener('focus', this.onFocus);
-
-      window.autosize.destroy(this.$messageField);
 
       this.view.remove();
 
@@ -1076,7 +1070,6 @@
       this.toggleMicrophone();
 
       this.view.measureScrollPosition();
-      window.autosize(this.$messageField);
 
       const $attachmentPreviews = this.$('.attachment-previews');
       const $bottomBar = this.$('.bottom-bar');
@@ -1195,7 +1188,6 @@
         return;
       }
       this.view.scrollToBottomIfNeeded();
-      window.autosize.update(this.$messageField);
       this.updateMessageFieldSize(event);
     },
 

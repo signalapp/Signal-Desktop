@@ -176,9 +176,9 @@ class SessionRightPanel extends React.Component<Props, State> {
       (message: { attachments: Array<any> }) => {
         // this is to not fail if the attachment is invalid (could be a Long Attachment type which is not supported)
         if (!message.attachments?.length) {
-          window.log.info(
-            'Got a message with an empty list of attachment. Skipping...'
-          );
+          // window.log.info(
+          //   'Got a message with an empty list of attachment. Skipping...'
+          // );
           return null;
         }
         const attachment = message.attachments[0];

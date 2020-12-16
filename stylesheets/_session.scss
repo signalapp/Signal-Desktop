@@ -336,6 +336,7 @@ textarea {
 
 .module-message__container {
   border-radius: $session_message-container-border-radius;
+  min-width: 150px;
 }
 label {
   user-select: none;
@@ -614,7 +615,8 @@ label {
 }
 
 .react-contexify {
-  z-index: 3;
+  // be sure it is more than the one set for the More Informations screen of messages
+  z-index: 30;
   min-width: 200px;
   box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
   @include themify($themes) {
@@ -800,6 +802,7 @@ label {
   position: relative;
   width: 80px;
   height: 80px;
+  flex-shrink: 0;
 
   div {
     position: absolute;

@@ -4,9 +4,9 @@
 @import 'node_modules/react-contexify/dist/ReactContexify.min.css';
 @import 'node_modules/react-toastify/dist/ReactToastify.css';
 
-// @import url(sanitize.css);
-// @import url(forms.css);
-// @import url(typography.css);
+@import 'node_modules/sanitize.css/sanitize.css';
+@import 'node_modules/sanitize.css/forms.css';
+@import 'node_modules/sanitize.css/typography.css';
 
 // Global Settings, Variables, and Mixins
 @import 'themes.scss';
