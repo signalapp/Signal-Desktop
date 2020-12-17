@@ -53,7 +53,7 @@ export class MessageController {
     window.log.warn('Cleaning up getMessageController() oldest messages...');
     const now = Date.now();
 
-    this.messageLookup.forEach(messageEntry => {
+    (this.messageLookup || []).forEach(messageEntry => {
       const { message, timestamp } = messageEntry;
       const conversation = message.getConversation();
 
