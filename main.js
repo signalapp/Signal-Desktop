@@ -373,6 +373,15 @@ async function createWindow() {
   mainWindow.on('resize', debouncedCaptureStats);
   mainWindow.on('move', debouncedCaptureStats);
 
+  const setWindowFocus = () => {
+    mainWindow.webContents.send('set-window-focus', mainWindow.isFocused());
+  };
+  mainWindow.on('focus', setWindowFocus);
+  mainWindow.on('blur', setWindowFocus);
+  mainWindow.once('ready-to-show', setWindowFocus);
+  // This is a fallback in case we drop an event for some reason.
+  setInterval(setWindowFocus, 10000);
+
   if (config.environment === 'test') {
     mainWindow.loadURL(prepareURL([__dirname, 'test', 'index.html']));
   } else if (config.environment === 'test-lib') {

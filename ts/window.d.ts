@@ -151,8 +151,7 @@ declare global {
     preloadedImages: Array<WhatIsThis>;
     reduxActions: ReduxActions;
     reduxStore: WhatIsThis;
-    registerForActive: (handler: WhatIsThis) => void;
-    resetActiveTimer: () => void;
+    registerForActive: (handler: () => void) => void;
     restart: () => void;
     setImmediate: typeof setImmediate;
     showWindow: () => void;
@@ -187,7 +186,7 @@ declare global {
     };
     systemTheme: WhatIsThis;
     textsecure: TextSecureType;
-    unregisterForActive: (handler: WhatIsThis) => void;
+    unregisterForActive: (handler: () => void) => void;
     updateTrayIcon: (count: number) => void;
 
     Backbone: typeof Backbone;

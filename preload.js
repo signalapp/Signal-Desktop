@@ -383,6 +383,7 @@ try {
   const { autoOrientImage } = require('./js/modules/auto_orient_image');
   const { imageToBlurHash } = require('./ts/util/imageToBlurHash');
   const { isGroupCallingEnabled } = require('./ts/util/isGroupCallingEnabled');
+  const { ActiveWindowService } = require('./ts/services/ActiveWindowService');
 
   window.autoOrientImage = autoOrientImage;
   window.dataURLToBlobSync = require('blueimp-canvas-to-blob');
@@ -394,6 +395,16 @@ try {
   window.loadImage = require('blueimp-load-image');
   window.getGuid = require('uuid/v4');
   window.isGroupCallingEnabled = isGroupCallingEnabled;
+
+  const activeWindowService = new ActiveWindowService();
+  activeWindowService.initialize(window.document, ipc);
+  window.isActive = activeWindowService.isActive.bind(activeWindowService);
+  window.registerForActive = activeWindowService.registerForActive.bind(
+    activeWindowService
+  );
+  window.unregisterForActive = activeWindowService.unregisterForActive.bind(
+    activeWindowService
+  );
 
   window.isValidGuid = maybeGuid =>
     /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i.test(
