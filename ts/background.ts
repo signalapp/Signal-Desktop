@@ -1079,6 +1079,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       // up/previous
       if (
         (!isSearching && optionOrAlt && !shiftKey && key === 'ArrowUp') ||
+        (!isSearching && commandOrCtrl && shiftKey && key === '[') ||
         (!isSearching && ctrlKey && shiftKey && key === 'Tab')
       ) {
         const unreadOnly = false;
@@ -1098,6 +1099,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       // down/next
       if (
         (!isSearching && optionOrAlt && !shiftKey && key === 'ArrowDown') ||
+        (!isSearching && commandOrCtrl && shiftKey && key === ']') ||
         (!isSearching && ctrlKey && key === 'Tab')
       ) {
         const unreadOnly = false;
