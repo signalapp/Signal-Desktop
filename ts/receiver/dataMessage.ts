@@ -380,7 +380,7 @@ async function isMessageDuplicate({
     if (!result) {
       return false;
     }
-    const filteredResult = result.filter(
+    const filteredResult = [result].filter(
       (m: any) => m.attributes.body === message.body
     );
     const isSimilar = filteredResult.some((m: any) =>
