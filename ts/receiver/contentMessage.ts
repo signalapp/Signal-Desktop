@@ -6,7 +6,6 @@ import { removeFromCache, updateCache } from './cache';
 import { SignalService } from '../protobuf';
 import * as Lodash from 'lodash';
 import * as libsession from '../session';
-import { handleSessionRequestMessage } from './sessionHandling';
 import { handlePairingAuthorisationMessage } from './multidevice';
 import { MediumGroupRequestKeysMessage } from '../session/messages/outgoing';
 import { MultiDeviceProtocol, SessionProtocol } from '../session/protocols';
@@ -106,7 +105,11 @@ async function decryptForMediumGroup(
       ciphertext
     );
     return retSessionProtocol;
-  } catch {
+  } catch (e) {
+    window.log.warn(
+      'decryptWithSessionProtocol for medium group message throw:',
+      e
+    );
     const retSSK = await decryptWithSharedSenderKeys(envelope, ciphertext);
     return retSSK;
   }
@@ -155,8 +158,11 @@ async function decryptWithSessionProtocol(
       recipientX25519PrivateKey = await libsession.MediumGroup.getGroupSecretKey(
         hexEncodedGroupPublicKey
       ); // throws if not found
+      const groupPubKeyHexWithoutPrefix = PubKey.remove05PrefixIfNeeded(
+        hexEncodedGroupPublicKey
+      );
       recipientX25519PublicKey = new Uint8Array(
-        fromHex(hexEncodedGroupPublicKey)
+        fromHex(groupPubKeyHexWithoutPrefix)
       );
 
       break;
@@ -175,7 +181,10 @@ async function decryptWithSessionProtocol(
     recipientX25519PublicKey,
     new Uint8Array(recipientX25519PrivateKey)
   );
-  if (plaintextWithMetadata.byteLength > signatureSize + ed25519PublicKeySize) {
+  if (
+    plaintextWithMetadata.byteLength <=
+    signatureSize + ed25519PublicKeySize
+  ) {
     throw new Error('Decryption failed.'); // throw Error.decryptionFailed;
   }
 
@@ -219,6 +228,8 @@ async function decryptWithSessionProtocol(
   // set the sender identity on the envelope itself.
   if (isMediumGroup) {
     envelope.senderIdentity = `05${toHex(senderX25519PublicKey)}`;
+  } else {
+    envelope.source = `05${toHex(senderX25519PublicKey)}`;
   }
   return unpad(plaintext);
 }
@@ -363,7 +374,11 @@ async function decryptUnidentifiedSender(
       ciphertext
     );
     return retSessionProtocol;
-  } catch {
+  } catch (e) {
+    window.log.warn(
+      'decryptWithSessionProtocol for unidentified message throw:',
+      e
+    );
     const retSignalProtocol = await decryptWithSignalProtocol(
       envelope,
       ciphertext
@@ -585,9 +600,7 @@ export async function innerHandleContentMessage(
 
     await ConversationController.getOrCreateAndWait(envelope.source, 'private');
 
-    if (content.preKeyBundleMessage) {
-      await handleSessionRequestMessage(envelope, content.preKeyBundleMessage);
-    } else if (envelope.type !== FALLBACK_MESSAGE) {
+    if (envelope.type !== FALLBACK_MESSAGE) {
       const device = new PubKey(envelope.source);
 
       await SessionProtocol.onSessionEstablished(device);
