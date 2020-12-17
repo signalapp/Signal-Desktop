@@ -69,9 +69,6 @@ class EnvelopeQueue {
   }
 
   private cleanup(promise: Promise<any>) {
-    // TODO: enable this?
-    // this.updateProgress(this.count);
-
     // We want to clear out the promise chain whenever possible because it could
     //   lead to large memory usage over time:
     //   https://github.com/nodejs/node/issues/6673#issuecomment-244331609

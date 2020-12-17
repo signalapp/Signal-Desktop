@@ -33,6 +33,7 @@
 
     unregisterEvents() {
       document.removeEventListener('keyup', this.props.onClickClose, false);
+      this.$('.session-confirm-wrapper').remove();
     },
 
     render() {

@@ -101,32 +101,6 @@ describe('Message Utils', () => {
       expect(rawMessage.encryption).to.equal(EncryptionType.MediumGroup);
     });
 
-    it('should set encryption to Fallback if a SessionRequestMessage is passed in', async () => {
-      hasSessionStub.resolves(true);
-
-      const device = TestUtils.generateFakePubKey();
-      const preKeyBundle = {
-        deviceId: 123456,
-        preKeyId: 654321,
-        signedKeyId: 111111,
-        preKey: crypto.randomBytes(16),
-        signature: crypto.randomBytes(16),
-        signedKey: crypto.randomBytes(16),
-        identityKey: crypto.randomBytes(16),
-      };
-      const sessionRequest = new SessionRequestMessage({
-        timestamp: Date.now(),
-        preKeyBundle,
-      });
-
-      const rawMessage = await MessageUtils.toRawMessage(
-        device,
-        sessionRequest
-      );
-
-      expect(rawMessage.encryption).to.equal(EncryptionType.Fallback);
-    });
-
     it('should set encryption to Fallback on other messages if we do not have a session', async () => {
       hasSessionStub.resolves(false);
 

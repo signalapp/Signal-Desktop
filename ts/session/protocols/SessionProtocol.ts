@@ -97,6 +97,7 @@ export class SessionProtocol {
   }
 
   /**
+   * This is disabled until we remove it completely once we removed
    * Triggers a SessionRequestMessage to be sent if:
    *   - we do not already have a session and
    *   - we did not sent a session request already to that device and
@@ -105,27 +106,24 @@ export class SessionProtocol {
   public static async sendSessionRequestIfNeeded(
     pubkey: PubKey
   ): Promise<void> {
-    if (
-      (await SessionProtocol.hasSession(pubkey)) ||
-      (await SessionProtocol.hasSentSessionRequest(pubkey))
-    ) {
-      return;
-    }
-
-    const preKeyBundle = await window.libloki.storage.getPreKeyBundleForContact(
-      pubkey.key
-    );
-
-    const sessionReset = new SessionRequestMessage({
-      preKeyBundle,
-      timestamp: Date.now(),
-    });
-
-    try {
-      await SessionProtocol.sendSessionRequest(sessionReset, pubkey);
-    } catch (error) {
-      console.warn('Failed to send session request to:', pubkey.key, error);
-    }
+    // if (
+    //   (await SessionProtocol.hasSession(pubkey)) ||
+    //   (await SessionProtocol.hasSentSessionRequest(pubkey))
+    // ) {
+    //   return;
+    // }
+    // const preKeyBundle = await window.libloki.storage.getPreKeyBundleForContact(
+    //   pubkey.key
+    // );
+    // const sessionReset = new SessionRequestMessage({
+    //   preKeyBundle,
+    //   timestamp: Date.now(),
+    // });
+    // try {
+    //   await SessionProtocol.sendSessionRequest(sessionReset, pubkey);
+    // } catch (error) {
+    //   console.warn('Failed to send session request to:', pubkey.key, error);
+    // }
   }
 
   /**
@@ -136,22 +134,20 @@ export class SessionProtocol {
     message: SessionRequestMessage,
     pubkey: PubKey
   ): Promise<void> {
-    const timestamp = Date.now();
-
-    // mark the session as being pending send with current timestamp
-    // so we know we already triggered a new session with that device
-    // so sendSessionRequestIfNeeded does not sent another session request
-    SessionProtocol.pendingSendSessionsTimestamp.add(pubkey.key);
-
-    try {
-      const rawMessage = await MessageUtils.toRawMessage(pubkey, message);
-      await MessageSender.send(rawMessage);
-      await SessionProtocol.updateSentSessionTimestamp(pubkey.key, timestamp);
-    } catch (e) {
-      throw e;
-    } finally {
-      SessionProtocol.pendingSendSessionsTimestamp.delete(pubkey.key);
-    }
+    // const timestamp = Date.now();
+    // // mark the session as being pending send with current timestamp
+    // // so we know we already triggered a new session with that device
+    // // so sendSessionRequestIfNeeded does not sent another session request
+    // SessionProtocol.pendingSendSessionsTimestamp.add(pubkey.key);
+    // try {
+    //   const rawMessage = await MessageUtils.toRawMessage(pubkey, message);
+    //   await MessageSender.send(rawMessage);
+    //   await SessionProtocol.updateSentSessionTimestamp(pubkey.key, timestamp);
+    // } catch (e) {
+    //   throw e;
+    // } finally {
+    //   SessionProtocol.pendingSendSessionsTimestamp.delete(pubkey.key);
+    // }
   }
 
   /**

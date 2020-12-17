@@ -123,12 +123,17 @@
       return Promise.resolve();
     },
     onEmpty() {},
-    onProgress() {},
     showEditProfileDialog(options) {
       // eslint-disable-next-line no-param-reassign
       options.theme = this.getThemeObject();
       const dialog = new Whisper.EditProfileDialogView(options);
       this.el.prepend(dialog.el);
+    },
+    showResetSessionIdDialog() {
+      const theme = this.getThemeObject();
+      const resetSessionIDDialog = new Whisper.SessionIDResetDialog({ theme });
+
+      this.el.prepend(resetSessionIDDialog.el);
     },
     showUserDetailsDialog(options) {
       // eslint-disable-next-line no-param-reassign

@@ -426,7 +426,7 @@ label {
   min-width: 300px;
   box-sizing: border-box;
   max-height: 70vh;
-  max-width: 70vw;
+  max-width: calc(min(70vw, 800px));
   font-family: $session-font-default;
   @include themify($themes) {
     background-color: themed('modalBackground');
@@ -508,6 +508,8 @@ label {
     display: flex;
     flex-direction: column;
     align-items: center;
+    // to allow new lines
+    white-space: pre-wrap;
   }
 
   &__button-group {

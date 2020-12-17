@@ -1,11 +1,6 @@
 import { RawMessage } from '../types/RawMessage';
-import {
-  ContentMessage,
-  MediumGroupChatMessage,
-  SessionRequestMessage,
-} from '../messages/outgoing';
+import { ContentMessage, MediumGroupChatMessage } from '../messages/outgoing';
 import { EncryptionType, PubKey } from '../types';
-import { SessionProtocol } from '../protocols';
 import { MediumGroupUpdateMessage } from '../messages/outgoing/content/data/mediumgroup/MediumGroupUpdateMessage';
 
 export async function toRawMessage(

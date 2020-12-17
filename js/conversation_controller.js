@@ -308,6 +308,11 @@
       }
       return conversation.getContactProfileNameOrFullPubKey();
     },
+
+    isMediumGroup: hexEncodedGroupPublicKey =>
+      conversations
+        .filter(c => c.isMediumGroup())
+        .some(c => c.id === hexEncodedGroupPublicKey),
     _handleOnline: pubKey => {
       try {
         const conversation = this.get(pubKey);

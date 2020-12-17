@@ -119,15 +119,6 @@ MessageReceiver.prototype.extend({
     // This promise will resolve when there are no more messages to be processed.
     return Promise.all(incoming);
   },
-  updateProgress(count) {
-    // count by 10s
-    if (count % 10 !== 0) {
-      return;
-    }
-    const ev = new Event('progress');
-    ev.count = count;
-    this.dispatchEvent(ev);
-  },
   getStatus() {
     if (this.hasConnected) {
       return WebSocket.CLOSED;

@@ -40,6 +40,9 @@ const {
   SessionSeedModal,
 } = require('../../ts/components/session/SessionSeedModal');
 const {
+  SessionIDResetDialog,
+} = require('../../ts/components/session/SessionIDResetDialog');
+const {
   SessionRegistrationView,
 } = require('../../ts/components/session/SessionRegistrationView');
 
@@ -77,7 +80,6 @@ const {
 const {
   GroupInvitation,
 } = require('../../ts/components/conversation/GroupInvitation');
-const { ConfirmDialog } = require('../../ts/components/ConfirmDialog');
 const {
   MediaGallery,
 } = require('../../ts/components/conversation/media-gallery/MediaGallery');
@@ -232,7 +234,6 @@ exports.setup = (options = {}) => {
     UserDetailsDialog,
     DevicePairingDialog,
     SessionInboxView,
-    ConfirmDialog,
     UpdateGroupNameDialog,
     UpdateGroupMembersDialog,
     InviteContactsDialog,
@@ -243,6 +244,7 @@ exports.setup = (options = {}) => {
     SessionConfirm,
     SessionModal,
     SessionSeedModal,
+    SessionIDResetDialog,
     SessionPasswordModal,
     SessionPasswordPrompt,
     SessionRegistrationView,

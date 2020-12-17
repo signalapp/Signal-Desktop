@@ -371,8 +371,8 @@ async function isMessageDuplicate({
   const { Errors } = window.Signal.Types;
 
   try {
-    const result = await window.Signal.Data.getMessagesBySender(
-      { source, sourceDevice },
+    const result = await window.Signal.Data.getMessageBySender(
+      { source, sourceDevice, sent_at: timestamp },
       {
         Message: window.Whisper.Message,
       }
@@ -603,9 +603,6 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
     ? ConversationType.GROUP
     : ConversationType.PRIVATE;
 
-  // MAXIM: So id is actually conversationId
-  const id = isIncoming ? source : destination;
-
   const {
     PROFILE_KEY_UPDATE,
     SESSION_RESTORE,
@@ -613,9 +610,14 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
 
   // tslint:disable-next-line: no-bitwise
   const isProfileUpdate = Boolean(message.flags & PROFILE_KEY_UPDATE);
-
+  let conversationId = isIncoming ? source : destination;
   if (isProfileUpdate) {
-    await handleProfileUpdate(message.profileKey, id, type, isIncoming);
+    await handleProfileUpdate(
+      message.profileKey,
+      conversationId,
+      type,
+      isIncoming
+    );
     confirm();
     return;
   }
@@ -651,7 +653,6 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   //  - primarySource if it is an incoming DM message,
   //  - destination if it is an outgoing message,
   //  - group.id if it is a group message
-  let conversationId = id;
   if (isGroupMessage) {
     // remove the prefix from the source object so this is correct for all other
     message.group.id = message.group.id.replace(

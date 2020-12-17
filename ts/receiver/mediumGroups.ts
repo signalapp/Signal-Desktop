@@ -8,18 +8,12 @@ import _ from 'lodash';
 
 import * as SenderKeyAPI from '../session/medium_group';
 import { getChainKey } from '../session/medium_group/ratchet';
-import { StringUtils } from '../session/utils';
-import { BufferType } from '../session/utils/String';
-import { ConversationModel } from '../../js/models/conversations';
+import { fromHex, toHex } from '../session/utils/String';
 import { UserUtil } from '../util';
 import {
   createSenderKeyForGroup,
-  RatchetState,
   shareSenderKeys,
 } from '../session/medium_group/senderKeys';
-
-const toHex = (d: BufferType) => StringUtils.decode(d, 'hex');
-const fromHex = (d: string) => StringUtils.encode(d, 'hex');
 
 async function handleSenderKeyRequest(
   envelope: EnvelopePlus,

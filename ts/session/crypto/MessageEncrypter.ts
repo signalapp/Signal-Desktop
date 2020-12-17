@@ -5,6 +5,7 @@ import { CipherTextObject } from '../../../libtextsecure/libsignal-protocol';
 import { encryptWithSenderKey } from '../../session/medium_group/ratchet';
 import { PubKey } from '../types';
 import { StringUtils } from '../utils';
+import { concatUInt8Array, getSodium } from '.';
 
 /**
  * Add padding to a message buffer
@@ -67,6 +68,58 @@ export async function encrypt(
   const innerCipherText = await cipher.encrypt(plainText.buffer);
 
   return encryptUsingSealedSender(device, innerCipherText);
+}
+
+export async function encryptUsingSessionProtocol(
+  recipientHexEncodedX25519PublicKey: PubKey,
+  plaintext: Uint8Array
+): Promise<Uint8Array> {
+  const userED25519KeyPairHex = await UserUtil.getUserED25519KeyPair();
+  if (!userED25519KeyPairHex) {
+    throw new Error("Couldn't find user ED25519 key pair.");
+  }
+  const sodium = await getSodium();
+
+  const recipientX25519PublicKeyWithoutPrefix = PubKey.remove05PrefixIfNeeded(
+    recipientHexEncodedX25519PublicKey.key
+  );
+
+  const recipientX25519PublicKey = new Uint8Array(
+    StringUtils.fromHex(recipientX25519PublicKeyWithoutPrefix)
+  );
+  const userED25519PubKeyBytes = new Uint8Array(
+    StringUtils.fromHex(userED25519KeyPairHex.pubKey)
+  );
+  const userED25519SecretKeyBytes = new Uint8Array(
+    StringUtils.fromHex(userED25519KeyPairHex.privKey)
+  );
+
+  // merge all arrays into one
+  const data = concatUInt8Array(
+    plaintext,
+    userED25519PubKeyBytes,
+    recipientX25519PublicKey
+  );
+
+  const signature = sodium.crypto_sign(data, userED25519SecretKeyBytes);
+  if (!signature) {
+    throw new Error("Couldn't sign message");
+  }
+
+  const dataForBoxSeal = concatUInt8Array(
+    plaintext,
+    userED25519PubKeyBytes,
+    signature
+  );
+
+  const ciphertext = sodium.crypto_box_seal(
+    dataForBoxSeal,
+    recipientX25519PublicKey
+  );
+  if (!ciphertext) {
+    throw new Error("Couldn't encrypt message.");
+  }
+  return ciphertext;
 }
 
 export async function encryptForMediumGroup(
