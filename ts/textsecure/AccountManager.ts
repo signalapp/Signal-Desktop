@@ -18,7 +18,7 @@ import WebSocketResource, {
   IncomingWebSocketRequest,
 } from './WebsocketResources';
 
-const ARCHIVE_AGE = 7 * 24 * 60 * 60 * 1000;
+const ARCHIVE_AGE = 30 * 24 * 60 * 60 * 1000;
 
 function getIdentifier(id: string) {
   if (!id || !id.length) {
