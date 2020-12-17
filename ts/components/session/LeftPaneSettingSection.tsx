@@ -13,6 +13,7 @@ import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 import { SessionSearchInput } from './SessionSearchInput';
 import { SessionSettingCategory } from './settings/SessionSettings';
 import { DefaultTheme } from 'styled-components';
+import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 
 interface Props {
   isSecondaryDevice: boolean;
@@ -47,15 +48,11 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
   }
 
   public renderHeader(): JSX.Element | undefined {
-    const labels = [window.i18n('settingsHeader')];
-
-    return LeftPane.RENDER_HEADER(
-      labels,
-      this.props.theme,
-      null,
-      undefined,
-      undefined,
-      undefined
+    return (
+      <LeftPaneSectionHeader
+        label={window.i18n('settingsHeader')}
+        theme={this.props.theme}
+      />
     );
   }
 

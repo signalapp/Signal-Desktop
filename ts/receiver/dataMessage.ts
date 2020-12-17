@@ -371,8 +371,8 @@ async function isMessageDuplicate({
   const { Errors } = window.Signal.Types;
 
   try {
-    const result = await window.Signal.Data.getMessagesBySender(
-      { source, sourceDevice },
+    const result = await window.Signal.Data.getMessageBySender(
+      { source, sourceDevice, sent_at: timestamp },
       {
         Message: window.Whisper.Message,
       }
@@ -380,7 +380,7 @@ async function isMessageDuplicate({
     if (!result) {
       return false;
     }
-    const filteredResult = result.filter(
+    const filteredResult = [result].filter(
       (m: any) => m.attributes.body === message.body
     );
     const isSimilar = filteredResult.some((m: any) =>
@@ -396,13 +396,16 @@ async function isMessageDuplicate({
 export const isDuplicate = (m: any, testedMessage: any, source: string) => {
   // The username in this case is the users pubKey
   const sameUsername = m.attributes.source === source;
+  const sameServerId =
+    m.attributes.serverId !== undefined &&
+    testedMessage.id === m.attributes.serverId;
   const sameText = m.attributes.body === testedMessage.body;
   // Don't filter out messages that are too far apart from each other
   const timestampsSimilar =
     Math.abs(m.attributes.sent_at - testedMessage.timestamp) <=
     PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES;
 
-  return sameUsername && sameText && timestampsSimilar;
+  return sameUsername && sameText && (timestampsSimilar || sameServerId);
 };
 
 async function handleProfileUpdate(
@@ -600,9 +603,6 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
     ? ConversationType.GROUP
     : ConversationType.PRIVATE;
 
-  // MAXIM: So id is actually conversationId
-  const id = isIncoming ? source : destination;
-
   const {
     PROFILE_KEY_UPDATE,
     SESSION_RESTORE,
@@ -610,9 +610,14 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
 
   // tslint:disable-next-line: no-bitwise
   const isProfileUpdate = Boolean(message.flags & PROFILE_KEY_UPDATE);
-
+  let conversationId = isIncoming ? source : destination;
   if (isProfileUpdate) {
-    await handleProfileUpdate(message.profileKey, id, type, isIncoming);
+    await handleProfileUpdate(
+      message.profileKey,
+      conversationId,
+      type,
+      isIncoming
+    );
     confirm();
     return;
   }
@@ -648,7 +653,6 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   //  - primarySource if it is an incoming DM message,
   //  - destination if it is an outgoing message,
   //  - group.id if it is a group message
-  let conversationId = id;
   if (isGroupMessage) {
     // remove the prefix from the source object so this is correct for all other
     message.group.id = message.group.id.replace(

@@ -176,6 +176,7 @@
   &-input-with-label-container {
     height: 46.5px;
     width: 280px;
+    font-family: $session-font-default;
     @include themify($themes) {
       color: themed('textColor');
     }
@@ -215,6 +216,7 @@
       @include themify($themes) {
         color: themed('textColor');
       }
+      font-family: $session-font-default;
       font-size: 12px;
       line-height: 14px;
       position: absolute;

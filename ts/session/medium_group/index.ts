@@ -286,7 +286,7 @@ async function getOrUpdateSenderKeysForJoiningMembers(
   return getExistingSenderKeysForGroup(groupId, allDevices);
 }
 
-async function getGroupSecretKey(groupId: string): Promise<Uint8Array> {
+export async function getGroupSecretKey(groupId: string): Promise<Uint8Array> {
   const groupIdentity = await Data.getIdentityKeyById(groupId);
   if (!groupIdentity) {
     throw new Error(`Could not load secret key for group ${groupId}`);

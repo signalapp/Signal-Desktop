@@ -14,6 +14,7 @@ const { app } = electron.remote;
 const { clipboard } = electron;
 
 window.PROTO_ROOT = 'protos';
+
 const appConfig = require('./app/config');
 const config = require('url').parse(window.location.toString(), true).query;
 
@@ -249,8 +250,6 @@ ipc.on('get-theme-setting', () => {
 });
 
 // Settings-related events
-
-window.showPermissionsPopup = () => ipc.send('show-permissions-popup');
 
 ipc.on('add-dark-overlay', () => {
   const { addDarkOverlay } = window.Events;

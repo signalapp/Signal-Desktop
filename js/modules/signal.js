@@ -16,9 +16,6 @@ const AttachmentDownloads = require('./attachment_downloads');
 
 // Components
 const {
-  ConversationLoadingScreen,
-} = require('../../ts/components/ConversationLoadingScreen');
-const {
   ContactDetail,
 } = require('../../ts/components/conversation/ContactDetail');
 const { ContactListItem } = require('../../ts/components/ContactListItem');
@@ -42,6 +39,9 @@ const { SessionModal } = require('../../ts/components/session/SessionModal');
 const {
   SessionSeedModal,
 } = require('../../ts/components/session/SessionSeedModal');
+const {
+  SessionIDResetDialog,
+} = require('../../ts/components/session/SessionIDResetDialog');
 const {
   SessionRegistrationView,
 } = require('../../ts/components/session/SessionRegistrationView');
@@ -80,7 +80,6 @@ const {
 const {
   GroupInvitation,
 } = require('../../ts/components/conversation/GroupInvitation');
-const { ConfirmDialog } = require('../../ts/components/ConfirmDialog');
 const {
   MediaGallery,
 } = require('../../ts/components/conversation/media-gallery/MediaGallery');
@@ -223,7 +222,6 @@ exports.setup = (options = {}) => {
   });
 
   const Components = {
-    ConversationLoadingScreen,
     ContactDetail,
     ContactListItem,
     ContactName,
@@ -236,7 +234,6 @@ exports.setup = (options = {}) => {
     UserDetailsDialog,
     DevicePairingDialog,
     SessionInboxView,
-    ConfirmDialog,
     UpdateGroupNameDialog,
     UpdateGroupMembersDialog,
     InviteContactsDialog,
@@ -247,6 +244,7 @@ exports.setup = (options = {}) => {
     SessionConfirm,
     SessionModal,
     SessionSeedModal,
+    SessionIDResetDialog,
     SessionPasswordModal,
     SessionPasswordPrompt,
     SessionRegistrationView,

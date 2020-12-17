@@ -6,7 +6,7 @@ const { URL, URLSearchParams } = require('url');
 const FormData = require('form-data');
 const https = require('https');
 const path = require('path');
-const dataMessage = require('../../ts/receiver/dataMessage');
+const DataMessage = require('../../ts/receiver/dataMessage');
 
 // Can't be less than 1200 if we have unauth'd requests
 const PUBLICCHAT_MSG_POLL_EVERY = 1.5 * 1000; // 1.5s
@@ -1619,6 +1619,7 @@ class LokiPublicChannelAPI {
       preview,
       quote,
       avatar,
+      text: adnMessage.text,
       profileKey,
     };
   }
@@ -1746,8 +1747,10 @@ class LokiPublicChannelAPI {
           }
 
           // Duplicate check
+          // message is one of the object of this.lastMessagesCache
+          // testedMessage is the adnMessage object
           const isDuplicate = (message, testedMessage) =>
-            dataMessage.isDuplicate(
+            DataMessage.isDuplicate(
               message,
               testedMessage,
               testedMessage.user.username
@@ -1758,7 +1761,6 @@ class LokiPublicChannelAPI {
             return false; // Duplicate message
           }
 
-          // FIXME: maybe move after the de-multidev-decode
           // Add the message to the lastMessage cache and keep the last 5 recent messages
           this.lastMessagesCache = [
             ...this.lastMessagesCache,
@@ -1767,10 +1769,10 @@ class LokiPublicChannelAPI {
                 source: pubKey,
                 body: adnMessage.text,
                 sent_at: timestamp,
+                serverId: adnMessage.id,
               },
             },
           ].splice(-5);
-
           const from = adnMessage.user.name || 'Anonymous'; // profileName
 
           // if us

@@ -6,10 +6,6 @@ import { removeFromCache, updateCache } from './cache';
 import { SignalService } from '../protobuf';
 import * as Lodash from 'lodash';
 import * as libsession from '../session';
-import {
-  handleEndSession,
-  handleSessionRequestMessage,
-} from './sessionHandling';
 import { handlePairingAuthorisationMessage } from './multidevice';
 import { MediumGroupRequestKeysMessage } from '../session/messages/outgoing';
 import { MultiDeviceProtocol, SessionProtocol } from '../session/protocols';
@@ -22,6 +18,8 @@ import { BlockedNumberController } from '../util/blockedNumberController';
 import { decryptWithSenderKey } from '../session/medium_group/ratchet';
 import { StringUtils } from '../session/utils';
 import { UserUtil } from '../util';
+import { fromHex, toHex } from '../session/utils/String';
+import { concatUInt8Array, getSodium } from '../session/crypto';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   try {
@@ -39,10 +37,10 @@ export async function handleContentMessage(envelope: EnvelopePlus) {
   }
 }
 
-async function decryptForMediumGroup(
+async function decryptWithSharedSenderKeys(
   envelope: EnvelopePlus,
   ciphertextObj: ArrayBuffer
-) {
+): Promise<ArrayBuffer | null> {
   const { dcodeIO, libloki } = window;
 
   const groupId = envelope.source;
@@ -95,6 +93,147 @@ async function decryptForMediumGroup(
   return plaintext ? unpad(plaintext) : null;
 }
 
+async function decryptForMediumGroup(
+  envelope: EnvelopePlus,
+  ciphertext: ArrayBuffer
+) {
+  window.log.info('received medium group message');
+  try {
+    // keep the await so the try catch works as expcted
+    const retSessionProtocol = await decryptWithSessionProtocol(
+      envelope,
+      ciphertext
+    );
+    return retSessionProtocol;
+  } catch (e) {
+    window.log.warn(
+      'decryptWithSessionProtocol for medium group message throw:',
+      e
+    );
+    const retSSK = await decryptWithSharedSenderKeys(envelope, ciphertext);
+    return retSSK;
+  }
+}
+
+async function decryptWithSessionProtocol(
+  envelope: EnvelopePlus,
+  ciphertextObj: ArrayBuffer
+): Promise<ArrayBuffer> {
+  if (ciphertextObj.byteLength === 0) {
+    throw new Error('Received an empty envelope.'); // Error.noData
+  }
+
+  let recipientX25519PrivateKey: ArrayBuffer;
+  let recipientX25519PublicKey: Uint8Array;
+  let isMediumGroup = false;
+  switch (envelope.type) {
+    case SignalService.Envelope.Type.UNIDENTIFIED_SENDER: {
+      const userX25519KeyPair = await UserUtil.getIdentityKeyPair();
+      if (!userX25519KeyPair) {
+        throw new Error("Couldn't find user X25519 key pair."); // Error.noUserX25519KeyPair
+      }
+      recipientX25519PrivateKey = userX25519KeyPair.privKey;
+      const recipientX25519PublicKeyHex = toHex(userX25519KeyPair.pubKey);
+      const recipientX25519PublicKeyWithoutPrefix = PubKey.remove05PrefixIfNeeded(
+        recipientX25519PublicKeyHex
+      );
+      recipientX25519PublicKey = new Uint8Array(
+        fromHex(recipientX25519PublicKeyWithoutPrefix)
+      );
+      break;
+    }
+
+    // this is .closedGroupCiphertext for mobile
+    case SignalService.Envelope.Type.MEDIUM_GROUP_CIPHERTEXT: {
+      const hexEncodedGroupPublicKey = envelope.source;
+
+      isMediumGroup = window.ConversationController.isMediumGroup(
+        hexEncodedGroupPublicKey
+      );
+
+      if (!isMediumGroup) {
+        throw new Error('Invalid group public key.'); // Error.invalidGroupPublicKey
+      }
+
+      recipientX25519PrivateKey = await libsession.MediumGroup.getGroupSecretKey(
+        hexEncodedGroupPublicKey
+      ); // throws if not found
+      const groupPubKeyHexWithoutPrefix = PubKey.remove05PrefixIfNeeded(
+        hexEncodedGroupPublicKey
+      );
+      recipientX25519PublicKey = new Uint8Array(
+        fromHex(groupPubKeyHexWithoutPrefix)
+      );
+
+      break;
+    }
+    default:
+      throw new Error('decryptWithSessionProtocol: Unknown message type');
+  }
+
+  const sodium = await getSodium();
+  const signatureSize = sodium.crypto_sign_BYTES;
+  const ed25519PublicKeySize = sodium.crypto_sign_PUBLICKEYBYTES;
+
+  // 1. ) Decrypt the message
+  const plaintextWithMetadata = sodium.crypto_box_seal_open(
+    new Uint8Array(ciphertextObj),
+    recipientX25519PublicKey,
+    new Uint8Array(recipientX25519PrivateKey)
+  );
+  if (
+    plaintextWithMetadata.byteLength <=
+    signatureSize + ed25519PublicKeySize
+  ) {
+    throw new Error('Decryption failed.'); // throw Error.decryptionFailed;
+  }
+
+  // 2. ) Get the message parts
+  const signatureStart = plaintextWithMetadata.byteLength - signatureSize;
+  const signature = plaintextWithMetadata.subarray(signatureStart);
+  const pubkeyStart =
+    plaintextWithMetadata.byteLength - (signatureSize + ed25519PublicKeySize);
+  const pubkeyEnd = plaintextWithMetadata.byteLength - signatureSize;
+  const senderED25519PublicKey = plaintextWithMetadata.subarray(
+    pubkeyStart,
+    pubkeyEnd
+  );
+  const plainTextEnd =
+    plaintextWithMetadata.byteLength - (signatureSize + ed25519PublicKeySize);
+  const plaintext = plaintextWithMetadata.subarray(0, plainTextEnd);
+
+  // 3. ) Verify the signature
+  // FIXME, why don't we have a sodium.crypto_sign_verify ?
+  const isValid = sodium.crypto_sign_verify_detached(
+    signature,
+    concatUInt8Array(
+      plaintext,
+      senderED25519PublicKey,
+      recipientX25519PublicKey
+    ),
+    senderED25519PublicKey
+  );
+
+  if (!isValid) {
+    throw new Error('Invalid message signature.'); //throw Error.invalidSignature
+  }
+  // 4. ) Get the sender's X25519 public key
+  const senderX25519PublicKey = sodium.crypto_sign_ed25519_pk_to_curve25519(
+    senderED25519PublicKey
+  );
+  if (!senderX25519PublicKey) {
+    throw new Error('Decryption failed.'); // Error.decryptionFailed
+  }
+
+  // set the sender identity on the envelope itself.
+  if (isMediumGroup) {
+    envelope.senderIdentity = `05${toHex(senderX25519PublicKey)}`;
+  } else {
+    envelope.source = `05${toHex(senderX25519PublicKey)}`;
+  }
+  return unpad(plaintext);
+}
+
 function unpad(paddedData: ArrayBuffer): ArrayBuffer {
   const paddedPlaintext = new Uint8Array(paddedData);
 
@@ -139,13 +278,11 @@ async function decryptPreKeyWhisperMessage(
   }
 }
 
-async function decryptUnidentifiedSender(
+async function decryptWithSignalProtocol(
   envelope: EnvelopePlus,
   ciphertext: ArrayBuffer
 ): Promise<ArrayBuffer | null> {
   const { textsecure } = window;
-
-  window.log.info('received unidentified sender message');
 
   const secretSessionCipher = new window.Signal.Metadata.SecretSessionCipher(
     textsecure.storage.protocol
@@ -223,6 +360,31 @@ async function decryptUnidentifiedSender(
   // Return just the content because that matches the signature of the other
   // decrypt methods used above.
   return unpad(content);
+}
+
+async function decryptUnidentifiedSender(
+  envelope: EnvelopePlus,
+  ciphertext: ArrayBuffer
+): Promise<ArrayBuffer | null> {
+  window.log.info('received unidentified sender message');
+  try {
+    // keep the await so the try catch works as expected
+    const retSessionProtocol = await decryptWithSessionProtocol(
+      envelope,
+      ciphertext
+    );
+    return retSessionProtocol;
+  } catch (e) {
+    window.log.warn(
+      'decryptWithSessionProtocol for unidentified message throw:',
+      e
+    );
+    const retSignalProtocol = await decryptWithSignalProtocol(
+      envelope,
+      ciphertext
+    );
+    return retSignalProtocol;
+  }
 }
 
 async function doDecrypt(
@@ -438,9 +600,7 @@ export async function innerHandleContentMessage(
 
     await ConversationController.getOrCreateAndWait(envelope.source, 'private');
 
-    if (content.preKeyBundleMessage) {
-      await handleSessionRequestMessage(envelope, content.preKeyBundleMessage);
-    } else if (envelope.type !== FALLBACK_MESSAGE) {
+    if (envelope.type !== FALLBACK_MESSAGE) {
       const device = new PubKey(envelope.source);
 
       await SessionProtocol.onSessionEstablished(device);

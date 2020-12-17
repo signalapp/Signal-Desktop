@@ -68,6 +68,13 @@ export class PubKey {
     return this.regex.test(pubkeyString);
   }
 
+  public static remove05PrefixIfNeeded(recipient: string): string {
+    if (recipient.length === 66 && recipient.startsWith('05')) {
+      return recipient.substr(2);
+    }
+    return recipient;
+  }
+
   public isEqual(comparator: PubKey | string) {
     return comparator instanceof PubKey
       ? this.key === comparator.key

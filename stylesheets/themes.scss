@@ -26,7 +26,7 @@ $themes: (
       inputBackground: rgba($inputBackgroundColor, 0.12),
     // text
       textColor: $black,
-    textColorSubtle: #a0a0a0,
+    textColorSubtle: rgba($black, 0.6),
     textColorOpposite: $white,
     textHighlight: rgba($black, 0.2),
     // inbox
@@ -76,7 +76,7 @@ $themes: (
       inputBackground: rgba($inputBackgroundColor, 0.12),
     // text
       textColor: $white,
-    textColorSubtle: #a0a0a0,
+    textColorSubtle: rgba($white, 0.6),
     textColorOpposite: $black,
     textHighlight: rgba($accentDarkTheme, 0.6),
     // inbox

@@ -138,20 +138,6 @@ module.exports = grunt => {
         },
       },
     },
-    copy: {
-      deps: {
-        files: [
-          {
-            src: 'components/mp3lameencoder/lib/Mp3LameEncoder.js',
-            dest: 'js/Mp3LameEncoder.min.js',
-          },
-          {
-            src: 'components/webaudiorecorder/lib/WebAudioRecorderMp3.js',
-            dest: 'js/WebAudioRecorderMp3.js',
-          },
-        ],
-      },
-    },
     watch: {
       libtextsecure: {
         files: ['./libtextsecure/*.js', './libtextsecure/storage/*.js'],
@@ -534,7 +520,6 @@ module.exports = grunt => {
     'exec:build-protobuf',
     'exec:transpile',
     'concat',
-    'copy:deps',
     'sass',
     'date',
     'getCommitHash',

@@ -435,8 +435,6 @@ class SessionRecordingInner extends React.Component<Props, State> {
     }
 
     this.props.sendVoiceMessage(audioBlob);
-
-    return;
   }
 
   private async initiateRecordingStream() {
@@ -631,7 +629,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
       });
 
       // Get audio amplitude with PCM Data in Float32
-      // Grab single channel only to save compuation
+      // Grab single channel only to save computation
       const channelData = buffer.getChannelData(0);
       const pcmData = this.compactPCM(channelData, numBars);
       const pcmDataArray = Array.from(pcmData);

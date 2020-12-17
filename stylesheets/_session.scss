@@ -336,6 +336,7 @@ textarea {
 
 .module-message__container {
   border-radius: $session_message-container-border-radius;
+  min-width: 150px;
 }
 label {
   user-select: none;
@@ -425,7 +426,7 @@ label {
   min-width: 300px;
   box-sizing: border-box;
   max-height: 70vh;
-  max-width: 70vw;
+  max-width: calc(min(70vw, 800px));
   font-family: $session-font-default;
   @include themify($themes) {
     background-color: themed('modalBackground');
@@ -507,6 +508,8 @@ label {
     display: flex;
     flex-direction: column;
     align-items: center;
+    // to allow new lines
+    white-space: pre-wrap;
   }
 
   &__button-group {
@@ -614,7 +617,8 @@ label {
 }
 
 .react-contexify {
-  z-index: 3;
+  // be sure it is more than the one set for the More Informations screen of messages
+  z-index: 30;
   min-width: 200px;
   box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
   @include themify($themes) {
@@ -800,6 +804,7 @@ label {
   position: relative;
   width: 80px;
   height: 80px;
+  flex-shrink: 0;
 
   div {
     position: absolute;

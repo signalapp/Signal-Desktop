@@ -58,28 +58,6 @@ export class LeftPane extends React.Component<Props> {
     this.handleSectionSelected = this.handleSectionSelected.bind(this);
   }
 
-  // this static function is set here to be used by all subsections (message, contacts,...) to render their headers
-  public static RENDER_HEADER(
-    labels: Array<string>,
-    theme: DefaultTheme,
-    onTabSelected?: any,
-    buttonLabel?: string,
-    buttonIcon?: SessionIconType,
-    buttonClicked?: any
-  ): JSX.Element {
-    return (
-      <LeftPaneSectionHeader
-        onTabSelected={onTabSelected}
-        selectedTab={0}
-        labels={labels}
-        buttonLabel={buttonLabel}
-        buttonIcon={buttonIcon}
-        buttonClicked={buttonClicked}
-        theme={theme}
-      />
-    );
-  }
-
   public handleSectionSelected(section: SectionType) {
     this.props.clearSearch();
     this.props.focusSection(section);

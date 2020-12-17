@@ -168,6 +168,8 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
       overlayMode === SessionClosableOverlayType.ClosedGroup &&
       contacts.length === 0;
 
+    const showLoadingSpinner = showSpinner === undefined ? false : showSpinner;
+
     return (
       <div className="module-left-pane-overlay">
         <div className="exit">
@@ -211,7 +213,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
           />
         )}
 
-        {showSpinner && <SessionSpinner />}
+        <SessionSpinner loading={showLoadingSpinner} />
 
         {isClosedGroupView && (
           <>

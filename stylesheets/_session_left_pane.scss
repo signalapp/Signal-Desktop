@@ -14,7 +14,7 @@ $session-compose-margin: 20px;
   &__user__profile {
     &-number,
     &-name {
-      @include fontAccentBold();
+      font-weight: bold;
       font-size: 15px;
 
       @include themify($themes) {
@@ -63,6 +63,7 @@ $session-compose-margin: 20px;
       font-weight: 700 !important;
       box-shadow: none !important;
       margin: 0 !important;
+      flex-shrink: 0;
     }
 
     &__header__date,

@@ -49,6 +49,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
   private readonly messageContainerRef: React.RefObject<any>;
   private scrollOffsetBottomPx: number = Number.MAX_VALUE;
   private ignoreScrollEvents: boolean;
+  private timeoutResetQuotedScroll: NodeJS.Timeout | null = null;
 
   public constructor(props: Props) {
     super(props);
@@ -79,6 +80,12 @@ export class SessionMessagesList extends React.Component<Props, State> {
     setTimeout(this.scrollToUnread, 0);
   }
 
+  public componentWillUnmount() {
+    if (this.timeoutResetQuotedScroll) {
+      clearTimeout(this.timeoutResetQuotedScroll);
+    }
+  }
+
   public componentDidUpdate(prevProps: Props, _prevState: State) {
     const isSameConvo =
       prevProps.conversationKey === this.props.conversationKey;
@@ -91,6 +98,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
       // displayed conversation changed. We have a bit of cleaning to do here
       this.scrollOffsetBottomPx = Number.MAX_VALUE;
       this.ignoreScrollEvents = true;
+      this.setupTimeoutResetQuotedHighlightedMessage(true);
       this.setState(
         {
           showScrollButton: false,
@@ -463,6 +471,30 @@ export class SessionMessagesList extends React.Component<Props, State> {
     }
   }
 
+  /**
+   * Could not find a better name, but when we click on a quoted message,
+   * the UI takes us there and highlights it.
+   * If the user clicks again on this message, we want this highlight to be
+   * shown once again.
+   *
+   * So we need to reset the state of of the highlighted message so when the users clicks again,
+   * the highlight is shown once again
+   */
+  private setupTimeoutResetQuotedHighlightedMessage(clearOnly = false) {
+    if (this.timeoutResetQuotedScroll) {
+      clearTimeout(this.timeoutResetQuotedScroll);
+    }
+    // only clear the timeout, do not schedule once again
+    if (clearOnly) {
+      return;
+    }
+    if (this.state.animateQuotedMessageId !== undefined) {
+      this.timeoutResetQuotedScroll = global.setTimeout(() => {
+        this.setState({ animateQuotedMessageId: undefined });
+      }, 3000);
+    }
+  }
+
   private scrollToMessage(messageId: string, smooth: boolean = false) {
     const topUnreadMessage = document.getElementById(messageId);
     topUnreadMessage?.scrollIntoView({
@@ -472,7 +504,10 @@ export class SessionMessagesList extends React.Component<Props, State> {
 
     // we consider that a `smooth` set to true, means it's a quoted message, so highlight this message on the UI
     if (smooth) {
-      this.setState({ animateQuotedMessageId: messageId });
+      this.setState(
+        { animateQuotedMessageId: messageId },
+        this.setupTimeoutResetQuotedHighlightedMessage
+      );
     }
 
     const messageContainer = this.messageContainerRef.current;
