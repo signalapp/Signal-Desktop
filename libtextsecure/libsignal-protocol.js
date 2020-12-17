@@ -24916,7 +24916,6 @@ SessionCipher.prototype = {
                                 var hexKey = dcodeIO.ByteBuffer.wrap(key, 'binary').toString('hex');
                                 receivingChainInfo[hexKey] = {
                                     counter: item.chainKey.counter,
-                                    key: item.chainKey.key ? dcodeIO.ByteBuffer.wrap(item.chainKey.key, 'binary').toString('hex') : null,
                                 };
                             }
                         });
