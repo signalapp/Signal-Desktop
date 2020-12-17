@@ -84,14 +84,6 @@ enum GroupCallUpdateMessageState {
   SentLeft,
 }
 
-export {
-  CallState,
-  CanvasVideoRenderer,
-  GumVideoCapturer,
-  VideoCapturer,
-  VideoRenderer,
-} from 'ringrtc';
-
 export class CallingClass {
   readonly videoCapturer: GumVideoCapturer;
 

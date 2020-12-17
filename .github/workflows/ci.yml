@@ -30,6 +30,7 @@ jobs:
     - run: yarn generate
     - run: yarn lint
     - run: yarn lint-deps
+    - run: yarn lint-license-comments
     - run: git diff --exit-code
 
   macos:

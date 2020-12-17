@@ -3,6 +3,7 @@
 
 import { SocketStatus } from '../../types/SocketStatus';
 import { trigger } from '../../shims/events';
+import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation';
 
 // State
 
@@ -83,17 +84,18 @@ function getEmptyState(): NetworkStateType {
 }
 
 export function reducer(
-  state: NetworkStateType = getEmptyState(),
-  action: NetworkActionType
+  state: Readonly<NetworkStateType> = getEmptyState(),
+  action: Readonly<NetworkActionType>
 ): NetworkStateType {
   if (action.type === CHECK_NETWORK_STATUS) {
     const { isOnline, socketStatus } = action.payload;
 
-    return {
-      ...state,
+    // This action is dispatched frequently. We avoid allocating a new object if nothing
+    //   has changed to avoid an unnecessary re-render.
+    return assignWithNoUnnecessaryAllocation(state, {
       isOnline,
       socketStatus,
-    };
+    });
   }
 
   if (action.type === CLOSE_CONNECTING_GRACE_PERIOD) {

@@ -83,8 +83,8 @@ function getEmptyState(): UserStateType {
 }
 
 export function reducer(
-  state: UserStateType = getEmptyState(),
-  action: UserActionType
+  state: Readonly<UserStateType> = getEmptyState(),
+  action: Readonly<UserActionType>
 ): UserStateType {
   if (!state) {
     return getEmptyState();

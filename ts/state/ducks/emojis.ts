@@ -62,8 +62,8 @@ function getEmptyState(): EmojisStateType {
 }
 
 export function reducer(
-  state: EmojisStateType = getEmptyState(),
-  action: EmojisActionType
+  state: Readonly<EmojisStateType> = getEmptyState(),
+  action: Readonly<EmojisActionType>
 ): EmojisStateType {
   if (action.type === 'emojis/USE_EMOJI') {
     const { payload } = action;

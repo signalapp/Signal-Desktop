@@ -337,8 +337,8 @@ function getEmptyState(): SearchStateType {
 }
 
 export function reducer(
-  state: SearchStateType = getEmptyState(),
-  action: SearchActionType
+  state: Readonly<SearchStateType> = getEmptyState(),
+  action: Readonly<SearchActionType>
 ): SearchStateType {
   if (action.type === 'SHOW_ARCHIVED_CONVERSATIONS') {
     return getEmptyState();
