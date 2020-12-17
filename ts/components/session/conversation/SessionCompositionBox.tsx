@@ -372,7 +372,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         onKeyDown={this.onKeyDown}
         onKeyUp={this.onKeyUp}
         placeholder={messagePlaceHolder}
-        spellCheck={false}
+        spellCheck={true}
         inputRef={this.textarea}
         disabled={!typingEnabled}
         maxLength={Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH}
