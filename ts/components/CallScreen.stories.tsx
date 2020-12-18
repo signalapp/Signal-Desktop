@@ -19,7 +19,7 @@ import { Colors } from '../types/Colors';
 import { CallScreen, PropsType } from './CallScreen';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import { missingCaseError } from '../util/missingCaseError';
-import { getDefaultConversation } from '../util/getDefaultConversation';
+import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);

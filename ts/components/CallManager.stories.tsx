@@ -17,7 +17,7 @@ import {
 } from '../types/Calling';
 import { ConversationTypeType } from '../state/ducks/conversations';
 import { Colors, ColorType } from '../types/Colors';
-import { getDefaultConversation } from '../util/getDefaultConversation';
+import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import { Props as SafetyNumberViewerProps } from '../state/smart/SafetyNumberViewer';
 import enMessages from '../../_locales/en/messages.json';

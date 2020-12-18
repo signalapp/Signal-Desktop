@@ -478,8 +478,6 @@ declare global {
     getServerTrustRoot: () => WhatIsThis;
     readyForUpdates: () => void;
 
-    STORYBOOK_ENV?: string;
-
     // Flags
     isGroupCallingEnabled: () => boolean;
   }
