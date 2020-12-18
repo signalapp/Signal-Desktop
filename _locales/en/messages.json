@@ -3405,6 +3405,42 @@
     "message": "An admin changed who can edit group membership to \"All members.\"",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "GroupV2--access-invite-link--disabled--you": {
+    "message": "You disabled admin approval for the group link.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--access-invite-link--disabled--other": {
+    "message": "$adminName$ disabled admin approval for the group link.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--access-invite-link--disabled--unknown": {
+    "message": "Admin approval for the group link has been disabled.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--access-invite-link--enabled--you": {
+    "message": "You enabled admin approval for the group link.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--access-invite-link--enabled--other": {
+    "message": "$adminName$ enabled admin approval for the group link.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--access-invite-link--enabled--unknown": {
+    "message": "Admin approval for the group link has been disabled.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
   "GroupV2--member-add--invited--you": {
     "message": "You added invited member $inviteeName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes",
@@ -3539,6 +3575,72 @@
     "message": "You were added to the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+
+  "GroupV2--member-add-from-link--you--you": {
+    "message": "You joined the group via the group link.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--member-add-from-link--other": {
+    "message": "$memberName$ joined the group via the group link.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "memberName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+
+  "GroupV2--member-add-from-admin-approval--you--other": {
+    "message": "$adminName$ approved your request to join the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--member-add-from-admin-approval--you--unknown": {
+    "message": "Your request to join the group has been approved.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+
+  "GroupV2--member-add-from-admin-approval--other--you": {
+    "message": "You approved a request to join the group from $joinerName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "joinerName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--member-add-from-admin-approval--other--other": {
+    "message": "$adminName$ approved a request to join the group from $joinerName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Bob"
+      },
+      "joinerName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--member-add-from-admin-approval--other--unknown": {
+    "message": "A request to join the group from $joinerName$ has been approved.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "joinerName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+
   "GroupV2--member-remove--other--other": {
     "message": "$adminName$ removed $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes",
@@ -4030,6 +4132,138 @@
       }
     }
   },
+  "GroupV2--admin-approval-add-one--you": {
+    "message": "You sent a request to join the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--admin-approval-add-one--other": {
+    "message": "$joinerName$ requested to join via the group link.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "joinerName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+
+  "GroupV2--admin-approval-remove-one--you--you": {
+    "message": "You canceled your request to join the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--admin-approval-remove-one--you--unknown": {
+    "message": "Your request to join the group has been denied by an admin.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+
+  "GroupV2--admin-approval-remove-one--other--you": {
+    "message": "You denied a request to join the group from $joinerName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "joinerName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--admin-approval-remove-one--other--own": {
+    "message": "$joinerName$ canceled their request to join the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "joinerName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--admin-approval-remove-one--other--other": {
+    "message": "$adminName$ denied a request to join the group from $joinerName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Bob"
+      },
+      "joinerName": {
+        "content": "$2",
+        "example": "Alice"
+      }
+    }
+  },
+
+  "GroupV2--group-link-add--disabled--you": {
+    "message": "You turned on the group link with admin approval disabled.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--group-link-add--disabled--other": {
+    "message": "$adminName$ turned on the group link with admin approval disabled.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--group-link-add--disabled--unknown": {
+    "message": "The group link has been turned on with admin approval disabled.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--group-link-add--enabled--you": {
+    "message": "You turned on the group link with admin approval enabled.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--group-link-add--enabled--other": {
+    "message": "$adminName$ turned on the group link with admin approval enabled.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--group-link-add--enabled--unknown": {
+    "message": "The group link has been turned on with admin approval enabled.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--group-link-remove--you": {
+    "message": "You turned off the group link.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--group-link-remove--other": {
+    "message": "$adminName$ turned off the group link.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--group-link-remove--unknown": {
+    "message": "The group link has been turned off.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--group-link-reset--you": {
+    "message": "You reset the group link.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--group-link-reset--other": {
+    "message": "$adminName$ reset the group link.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--group-link-reset--unknown": {
+    "message": "The group link has been reset.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+
   "GroupV1--Migration--disabled": {
     "message": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. $learnMore$",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",

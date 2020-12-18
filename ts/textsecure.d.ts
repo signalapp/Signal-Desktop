@@ -169,13 +169,15 @@ type DeviceNameProtobufTypes = {
 type GroupsProtobufTypes = {
   AvatarUploadAttributes: typeof AvatarUploadAttributesClass;
   Member: typeof MemberClass;
-  PendingMember: typeof PendingMemberClass;
+  MemberPendingProfileKey: typeof MemberPendingProfileKeyClass;
+  MemberPendingAdminApproval: typeof MemberPendingAdminApprovalClass;
   AccessControl: typeof AccessControlClass;
   Group: typeof GroupClass;
   GroupChange: typeof GroupChangeClass;
   GroupChanges: typeof GroupChangesClass;
   GroupAttributeBlob: typeof GroupAttributeBlobClass;
   GroupExternalCredential: typeof GroupExternalCredentialClass;
+  GroupInviteLink: typeof GroupInviteLinkClass;
 };
 
 type SignalServiceProtobufTypes = {
@@ -227,7 +229,7 @@ type ProtobufCollectionType = {
 //   with a type that the app can use. Being more rigorous with these
 //   types would require code changes, out of scope for now.
 export type ProtoBinaryType = any;
-type ProtoBigNumberType = any;
+export type ProtoBigNumberType = any;
 
 // Groups.proto
 
@@ -272,14 +274,26 @@ export declare namespace MemberClass {
   }
 }
 
-export declare class PendingMemberClass {
+export declare class MemberPendingProfileKeyClass {
   static decode: (
     data: ArrayBuffer | ByteBufferClass,
     encoding?: string
-  ) => PendingMemberClass;
+  ) => MemberPendingProfileKeyClass;
 
   member?: MemberClass;
   addedByUserId?: ProtoBinaryType;
+  timestamp?: ProtoBigNumberType;
+}
+
+export declare class MemberPendingAdminApprovalClass {
+  static decode: (
+    data: ArrayBuffer | ByteBufferClass,
+    encoding?: string
+  ) => MemberPendingProfileKeyClass;
+
+  userId?: ProtoBinaryType;
+  profileKey?: ProtoBinaryType;
+  presentation?: ProtoBinaryType;
   timestamp?: ProtoBigNumberType;
 }
 
@@ -291,6 +305,7 @@ export declare class AccessControlClass {
 
   attributes?: AccessRequiredEnum;
   members?: AccessRequiredEnum;
+  addFromInviteLink?: AccessRequiredEnum;
 }
 
 export type AccessRequiredEnum = number;
@@ -298,10 +313,11 @@ export type AccessRequiredEnum = number;
 // Note: we need to use namespaces to express nested classes in Typescript
 export declare namespace AccessControlClass {
   class AccessRequired {
-    static ANY: number;
     static UNKNOWN: number;
+    static ANY: number;
     static MEMBER: number;
     static ADMINISTRATOR: number;
+    static UNSATISFIABLE: number;
   }
 }
 
@@ -319,7 +335,9 @@ export declare class GroupClass {
   accessControl?: AccessControlClass;
   version?: number;
   members?: Array<MemberClass>;
-  pendingMembers?: Array<PendingMemberClass>;
+  membersPendingProfileKey?: Array<MemberPendingProfileKeyClass>;
+  membersPendingAdminApproval?: Array<MemberPendingAdminApprovalClass>;
+  inviteLinkPassword?: ProtoBinaryType;
 }
 
 export declare class GroupChangeClass {
@@ -351,18 +369,31 @@ export declare namespace GroupChangeClass {
     modifyMemberProfileKeys?: Array<
       GroupChangeClass.Actions.ModifyMemberProfileKeyAction
     >;
-    addPendingMembers?: Array<GroupChangeClass.Actions.AddPendingMemberAction>;
+    addPendingMembers?: Array<
+      GroupChangeClass.Actions.AddMemberPendingProfileKeyAction
+    >;
     deletePendingMembers?: Array<
-      GroupChangeClass.Actions.DeletePendingMemberAction
+      GroupChangeClass.Actions.DeleteMemberPendingProfileKeyAction
     >;
     promotePendingMembers?: Array<
-      GroupChangeClass.Actions.PromotePendingMemberAction
+      GroupChangeClass.Actions.PromoteMemberPendingProfileKeyAction
     >;
     modifyTitle?: GroupChangeClass.Actions.ModifyTitleAction;
     modifyAvatar?: GroupChangeClass.Actions.ModifyAvatarAction;
     modifyDisappearingMessagesTimer?: GroupChangeClass.Actions.ModifyDisappearingMessagesTimerAction;
     modifyAttributesAccess?: GroupChangeClass.Actions.ModifyAttributesAccessControlAction;
     modifyMemberAccess?: GroupChangeClass.Actions.ModifyMembersAccessControlAction;
+    modifyAddFromInviteLinkAccess?: GroupChangeClass.Actions.ModifyAddFromInviteLinkAccessControlAction;
+    addMemberPendingAdminApprovals?: Array<
+      GroupChangeClass.Actions.AddMemberPendingAdminApprovalAction
+    >;
+    deleteMemberPendingAdminApprovals?: Array<
+      GroupChangeClass.Actions.DeleteMemberPendingAdminApprovalAction
+    >;
+    promoteMemberPendingAdminApprovals?: Array<
+      GroupChangeClass.Actions.PromoteMemberPendingAdminApprovalAction
+    >;
+    modifyInviteLinkPassword?: GroupChangeClass.Actions.ModifyInviteLinkPasswordAction;
   }
 }
 
@@ -370,6 +401,7 @@ export declare namespace GroupChangeClass {
 export declare namespace GroupChangeClass.Actions {
   class AddMemberAction {
     added?: MemberClass;
+    joinFromInviteLink?: boolean;
   }
 
   class DeleteMemberAction {
@@ -389,20 +421,33 @@ export declare namespace GroupChangeClass.Actions {
     uuid: string;
   }
 
-  class AddPendingMemberAction {
-    added?: PendingMemberClass;
+  class AddMemberPendingProfileKeyAction {
+    added?: MemberPendingProfileKeyClass;
   }
 
-  class DeletePendingMemberAction {
+  class DeleteMemberPendingProfileKeyAction {
     deletedUserId?: ProtoBinaryType;
   }
 
-  class PromotePendingMemberAction {
+  class PromoteMemberPendingProfileKeyAction {
     presentation?: ProtoBinaryType;
 
     // The result of decryption
     profileKey: ArrayBuffer;
     uuid: string;
+  }
+
+  class AddMemberPendingAdminApprovalAction {
+    added?: MemberPendingAdminApprovalClass;
+  }
+
+  class DeleteMemberPendingAdminApprovalAction {
+    deletedUserId?: ProtoBinaryType;
+  }
+
+  class PromoteMemberPendingAdminApprovalAction {
+    userId?: ProtoBinaryType;
+    role?: MemberRoleEnum;
   }
 
   class ModifyTitleAction {
@@ -423,6 +468,14 @@ export declare namespace GroupChangeClass.Actions {
 
   class ModifyMembersAccessControlAction {
     membersAccess?: AccessRequiredEnum;
+  }
+
+  class ModifyAddFromInviteLinkAccessControlAction {
+    addFromInviteLinkAccess?: AccessRequiredEnum;
+  }
+
+  class ModifyInviteLinkPasswordAction {
+    inviteLinkPassword?: ProtoBinaryType;
   }
 }
 
@@ -450,6 +503,21 @@ export declare class GroupExternalCredentialClass {
   ) => GroupExternalCredentialClass;
 
   token?: string;
+}
+
+export declare class GroupInviteLinkClass {
+  v1Contents?: GroupInviteLinkClass.GroupInviteLinkContentsV1;
+
+  // Note: this isn't part of the proto, but our protobuf library tells us which
+  //   field has been set with this prop.
+  contents?: 'v1Contents';
+}
+
+export declare namespace GroupInviteLinkClass {
+  class GroupInviteLinkContentsV1 {
+    groupMasterKey?: ProtoBinaryType;
+    inviteLinkPassword?: ProtoBinaryType;
+  }
 }
 
 export declare class GroupAttributeBlobClass {

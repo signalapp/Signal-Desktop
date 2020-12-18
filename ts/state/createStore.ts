@@ -37,6 +37,12 @@ const directConsole = {
 
 const logger = createLogger({
   logger: directConsole,
+  predicate: (_getState, action) => {
+    if (action.type === 'network/CHECK_NETWORK_STATUS') {
+      return false;
+    }
+    return true;
+  },
 });
 
 const middlewareList = [

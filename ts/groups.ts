@@ -22,6 +22,7 @@ import dataInterface from './sql/Client';
 import {
   ConversationAttributesType,
   GroupV2MemberType,
+  GroupV2PendingAdminApprovalType,
   GroupV2PendingMemberType,
   MessageAttributesType,
 } from './model-types.d';
@@ -55,7 +56,9 @@ import {
   GroupChangesClass,
   GroupClass,
   MemberClass,
-  PendingMemberClass,
+  MemberPendingAdminApprovalClass,
+  MemberPendingProfileKeyClass,
+  ProtoBigNumberType,
   ProtoBinaryType,
 } from './textsecure.d';
 import {
@@ -77,6 +80,10 @@ export type GroupV2AccessMembersChangeType = {
   type: 'access-members';
   newPrivilege: number;
 };
+export type GroupV2AccessInviteLinkChangeType = {
+  type: 'access-invite-link';
+  newPrivilege: number;
+};
 export type GroupV2AvatarChangeType = {
   type: 'avatar';
   removed: boolean;
@@ -85,6 +92,16 @@ export type GroupV2TitleChangeType = {
   type: 'title';
   // Allow for null, because the title could be removed entirely
   newTitle?: string;
+};
+export type GroupV2GroupLinkAddChangeType = {
+  type: 'group-link-add';
+  privilege: number;
+};
+export type GroupV2GroupLinkResetChangeType = {
+  type: 'group-link-reset';
+};
+export type GroupV2GroupLinkRemoveChangeType = {
+  type: 'group-link-remove';
 };
 
 // No disappearing messages timer change type - message.expirationTimerUpdate used instead
@@ -97,6 +114,14 @@ export type GroupV2MemberAddFromInviteChangeType = {
   type: 'member-add-from-invite';
   conversationId: string;
   inviter?: string;
+};
+export type GroupV2MemberAddFromLinkChangeType = {
+  type: 'member-add-from-link';
+  conversationId: string;
+};
+export type GroupV2MemberAddFromAdminApprovalChangeType = {
+  type: 'member-add-from-admin-approval';
+  conversationId: string;
 };
 export type GroupV2MemberPrivilegeChangeType = {
   type: 'member-privilege';
@@ -129,20 +154,40 @@ export type GroupV2PendingRemoveManyChangeType = {
   inviter?: string;
 };
 
+export type GroupV2AdminApprovalAddOneChangeType = {
+  type: 'admin-approval-add-one';
+  conversationId: string;
+};
+// Note: admin-approval-remove-one is only used if user didn't also join the group at
+//   the same time
+export type GroupV2AdminApprovalRemoveOneChangeType = {
+  type: 'admin-approval-remove-one';
+  conversationId: string;
+  inviter?: string;
+};
+
 export type GroupV2ChangeDetailType =
-  | GroupV2AccessCreateChangeType
-  | GroupV2TitleChangeType
-  | GroupV2AvatarChangeType
   | GroupV2AccessAttributesChangeType
+  | GroupV2AccessCreateChangeType
+  | GroupV2AccessInviteLinkChangeType
   | GroupV2AccessMembersChangeType
+  | GroupV2AdminApprovalAddOneChangeType
+  | GroupV2AdminApprovalRemoveOneChangeType
+  | GroupV2AvatarChangeType
+  | GroupV2GroupLinkAddChangeType
+  | GroupV2GroupLinkResetChangeType
+  | GroupV2GroupLinkRemoveChangeType
   | GroupV2MemberAddChangeType
+  | GroupV2MemberAddFromAdminApprovalChangeType
   | GroupV2MemberAddFromInviteChangeType
-  | GroupV2MemberRemoveChangeType
+  | GroupV2MemberAddFromLinkChangeType
   | GroupV2MemberPrivilegeChangeType
-  | GroupV2PendingAddOneChangeType
+  | GroupV2MemberRemoveChangeType
   | GroupV2PendingAddManyChangeType
+  | GroupV2PendingAddOneChangeType
+  | GroupV2PendingRemoveManyChangeType
   | GroupV2PendingRemoveOneChangeType
-  | GroupV2PendingRemoveManyChangeType;
+  | GroupV2TitleChangeType;
 
 export type GroupV2ChangeType = {
   from?: string;
@@ -179,7 +224,7 @@ export const ID_LENGTH = 32;
 const TEMPORAL_AUTH_REJECTED_CODE = 401;
 const GROUP_ACCESS_DENIED_CODE = 403;
 const GROUP_NONEXISTENT_CODE = 404;
-const SUPPORTED_CHANGE_EPOCH = 0;
+const SUPPORTED_CHANGE_EPOCH = 1;
 
 // Group Modifications
 
@@ -349,30 +394,34 @@ async function buildGroupProto({
 
   const ourUuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, ourUuid);
 
-  proto.pendingMembers = (attributes.pendingMembersV2 || []).map(item => {
-    const pendingMember = new window.textsecure.protobuf.PendingMember();
-    const member = new window.textsecure.protobuf.Member();
+  proto.membersPendingProfileKey = (attributes.pendingMembersV2 || []).map(
+    item => {
+      const pendingMember = new window.textsecure.protobuf.MemberPendingProfileKey();
+      const member = new window.textsecure.protobuf.Member();
 
-    const conversation = window.ConversationController.get(item.conversationId);
-    if (!conversation) {
-      throw new Error('buildGroupProto: no conversation for pending member!');
+      const conversation = window.ConversationController.get(
+        item.conversationId
+      );
+      if (!conversation) {
+        throw new Error('buildGroupProto: no conversation for pending member!');
+      }
+
+      const uuid = conversation.get('uuid');
+      if (!uuid) {
+        throw new Error('buildGroupProto: pending member was missing uuid!');
+      }
+
+      const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
+      member.userId = uuidCipherTextBuffer;
+      member.role = item.role || MEMBER_ROLE_ENUM.DEFAULT;
+
+      pendingMember.member = member;
+      pendingMember.timestamp = item.timestamp;
+      pendingMember.addedByUserId = ourUuidCipherTextBuffer;
+
+      return pendingMember;
     }
-
-    const uuid = conversation.get('uuid');
-    if (!uuid) {
-      throw new Error('buildGroupProto: pending member was missing uuid!');
-    }
-
-    const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
-    member.userId = uuidCipherTextBuffer;
-    member.role = item.role || MEMBER_ROLE_ENUM.DEFAULT;
-
-    pendingMember.member = member;
-    pendingMember.timestamp = item.timestamp;
-    pendingMember.addedByUserId = ourUuidCipherTextBuffer;
-
-    return pendingMember;
-  });
+  );
 
   return proto;
 }
@@ -425,7 +474,7 @@ export function buildDeletePendingMemberChange({
   const clientZkGroupCipher = getClientZkGroupCipher(group.secretParams);
   const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
 
-  const deletePendingMember = new window.textsecure.protobuf.GroupChange.Actions.DeletePendingMemberAction();
+  const deletePendingMember = new window.textsecure.protobuf.GroupChange.Actions.DeleteMemberPendingProfileKeyAction();
   deletePendingMember.deletedUserId = uuidCipherTextBuffer;
 
   actions.version = (group.revision || 0) + 1;
@@ -484,7 +533,7 @@ export function buildPromoteMemberChange({
     group.secretParams
   );
 
-  const promotePendingMember = new window.textsecure.protobuf.GroupChange.Actions.PromotePendingMemberAction();
+  const promotePendingMember = new window.textsecure.protobuf.GroupChange.Actions.PromoteMemberPendingProfileKeyAction();
   promotePendingMember.presentation = presentation;
 
   actions.version = (group.revision || 0) + 1;
@@ -1551,6 +1600,7 @@ async function getGroupUpdates({
     newRevision === currentRevision + 1;
 
   if (
+    window.GV2_ENABLE_SINGLE_CHANGE_PROCESSING &&
     groupChangeBase64 &&
     isNumber(newRevision) &&
     (isInitialCreationMessage || isOneVersionUp)
@@ -1573,7 +1623,7 @@ async function getGroupUpdates({
     );
   }
 
-  if (isNumber(newRevision)) {
+  if (isNumber(newRevision) && window.GV2_ENABLE_CHANGE_PROCESSING) {
     try {
       const result = await updateGroupViaLogs({
         group,
@@ -1599,11 +1649,22 @@ async function getGroupUpdates({
     }
   }
 
-  return updateGroupViaState({
-    dropInitialJoinMessage,
-    group,
-    serverPublicParamsBase64,
-  });
+  if (window.GV2_ENABLE_STATE_PROCESSING) {
+    return updateGroupViaState({
+      dropInitialJoinMessage,
+      group,
+      serverPublicParamsBase64,
+    });
+  }
+
+  window.log.warn(
+    `getGroupUpdates/${logId}: No processing was legal! Returning empty changeset.`
+  );
+  return {
+    newAttributes: group,
+    groupChangeMessages: [],
+    members: [],
+  };
 }
 
 async function updateGroupViaState({
@@ -2110,15 +2171,19 @@ function extractDiffs({
   const logId = idForLogging(old);
   const details: Array<GroupV2ChangeDetailType> = [];
   const ourConversationId = window.ConversationController.getOurConversationId();
+  const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
 
   let areWeInGroup = false;
   let areWeInvitedToGroup = false;
   let whoInvitedUsUserId = null;
 
+  // access control
+
   if (
     current.accessControl &&
-    (!old.accessControl ||
-      old.accessControl.attributes !== current.accessControl.attributes)
+    old.accessControl &&
+    old.accessControl.attributes !== undefined &&
+    old.accessControl.attributes !== current.accessControl.attributes
   ) {
     details.push({
       type: 'access-attributes',
@@ -2127,14 +2192,46 @@ function extractDiffs({
   }
   if (
     current.accessControl &&
-    (!old.accessControl ||
-      old.accessControl.members !== current.accessControl.members)
+    old.accessControl &&
+    old.accessControl.members !== undefined &&
+    old.accessControl.members !== current.accessControl.members
   ) {
     details.push({
       type: 'access-members',
       newPrivilege: current.accessControl.members,
     });
   }
+
+  const linkPreviouslyEnabled =
+    old.accessControl?.addFromInviteLink === ACCESS_ENUM.ANY ||
+    old.accessControl?.addFromInviteLink === ACCESS_ENUM.ADMINISTRATOR;
+  const linkCurrentlyEnabled =
+    current.accessControl?.addFromInviteLink === ACCESS_ENUM.ANY ||
+    current.accessControl?.addFromInviteLink === ACCESS_ENUM.ADMINISTRATOR;
+
+  if (!linkPreviouslyEnabled && linkCurrentlyEnabled) {
+    details.push({
+      type: 'group-link-add',
+      privilege: current.accessControl?.addFromInviteLink || ACCESS_ENUM.ANY,
+    });
+  } else if (linkPreviouslyEnabled && !linkCurrentlyEnabled) {
+    details.push({
+      type: 'group-link-remove',
+    });
+  } else if (
+    linkPreviouslyEnabled &&
+    linkCurrentlyEnabled &&
+    old.accessControl?.addFromInviteLink !==
+      current.accessControl?.addFromInviteLink
+  ) {
+    details.push({
+      type: 'access-invite-link',
+      newPrivilege: current.accessControl?.addFromInviteLink || ACCESS_ENUM.ANY,
+    });
+  }
+
+  // avatar
+
   if (
     Boolean(old.avatar) !== Boolean(current.avatar) ||
     old.avatar?.hash !== current.avatar?.hash
@@ -2144,6 +2241,9 @@ function extractDiffs({
       removed: !current.avatar,
     });
   }
+
+  // name
+
   if (old.name !== current.name) {
     details.push({
       type: 'title',
@@ -2151,13 +2251,35 @@ function extractDiffs({
     });
   }
 
+  // groupInviteLinkPassword
+
+  // Note: we only capture link resets here. Enable/disable are controlled by the
+  //   accessControl.addFromInviteLink
+  if (
+    old.groupInviteLinkPassword &&
+    current.groupInviteLinkPassword &&
+    old.groupInviteLinkPassword !== current.groupInviteLinkPassword
+  ) {
+    details.push({
+      type: 'group-link-reset',
+    });
+  }
+
   // No disappearing message timer check here - see below
+
+  // membersV2
 
   const oldMemberLookup: Dictionary<GroupV2MemberType> = fromPairs(
     (old.membersV2 || []).map(member => [member.conversationId, member])
   );
   const oldPendingMemberLookup: Dictionary<GroupV2PendingMemberType> = fromPairs(
     (old.pendingMembersV2 || []).map(member => [member.conversationId, member])
+  );
+  const oldPendingAdminApprovalLookup: Dictionary<GroupV2PendingAdminApprovalType> = fromPairs(
+    (old.pendingAdminApprovalV2 || []).map(member => [
+      member.conversationId,
+      member,
+    ])
   );
 
   (current.membersV2 || []).forEach(currentMember => {
@@ -2170,12 +2292,21 @@ function extractDiffs({
     const oldMember = oldMemberLookup[conversationId];
     if (!oldMember) {
       const pendingMember = oldPendingMemberLookup[conversationId];
-
       if (pendingMember) {
         details.push({
           type: 'member-add-from-invite',
           conversationId,
           inviter: pendingMember.addedByUserId,
+        });
+      } else if (currentMember.joinedFromLink) {
+        details.push({
+          type: 'member-add-from-link',
+          conversationId,
+        });
+      } else if (currentMember.approvedByAdmin) {
+        details.push({
+          type: 'member-add-from-admin-approval',
+          conversationId,
         });
       } else {
         details.push({
@@ -2183,10 +2314,6 @@ function extractDiffs({
           conversationId,
         });
       }
-
-      // If we capture a pending remove here, it's an 'accept invitation', and we don't
-      //   want to generate a generic pending-remove event for it
-      delete oldPendingMemberLookup[conversationId];
     } else if (oldMember.role !== currentMember.role) {
       details.push({
         type: 'member-privilege',
@@ -2194,6 +2321,15 @@ function extractDiffs({
         newPrivilege: currentMember.role,
       });
     }
+
+    // We don't want to generate an admin-approval-remove event for this newly-added
+    //   member. But we don't know for sure if this is an admin approval; for that we
+    //   consulted the approvedByAdmin flag saved on the member.
+    delete oldPendingAdminApprovalLookup[conversationId];
+
+    // If we capture a pending remove here, it's an 'accept invitation', and we don't
+    //   want to generate a pending-remove event for it
+    delete oldPendingMemberLookup[conversationId];
 
     // This deletion makes it easier to capture removals
     delete oldMemberLookup[conversationId];
@@ -2207,8 +2343,10 @@ function extractDiffs({
     });
   });
 
+  // pendingMembersV2
+
   let lastPendingConversationId: string | undefined;
-  let count = 0;
+  let pendingCount = 0;
   (current.pendingMembersV2 || []).forEach(currentPendingMember => {
     const { conversationId } = currentPendingMember;
     const oldPendingMember = oldPendingMemberLookup[conversationId];
@@ -2220,19 +2358,19 @@ function extractDiffs({
 
     if (!oldPendingMember) {
       lastPendingConversationId = conversationId;
-      count += 1;
+      pendingCount += 1;
     }
 
     // This deletion makes it easier to capture removals
     delete oldPendingMemberLookup[conversationId];
   });
 
-  if (count > 1) {
+  if (pendingCount > 1) {
     details.push({
       type: 'pending-add-many',
-      count,
+      count: pendingCount,
     });
-  } else if (count === 1) {
+  } else if (pendingCount === 1) {
     if (lastPendingConversationId) {
       details.push({
         type: 'pending-add-one',
@@ -2240,7 +2378,7 @@ function extractDiffs({
       });
     } else {
       window.log.warn(
-        `extractDiffs/${logId}: pending-add count was 1, no last conversationId available`
+        `extractDiffs/${logId}: pendingCount was 1, no last conversationId available`
       );
     }
   }
@@ -2270,6 +2408,39 @@ function extractDiffs({
       inviter: removedMember.addedByUserId,
     });
   }
+
+  // pendingAdminApprovalV2
+
+  (current.pendingAdminApprovalV2 || []).forEach(
+    currentPendingAdminAprovalMember => {
+      const { conversationId } = currentPendingAdminAprovalMember;
+      const oldPendingMember = oldPendingAdminApprovalLookup[conversationId];
+
+      if (!oldPendingMember) {
+        details.push({
+          type: 'admin-approval-add-one',
+          conversationId,
+        });
+      }
+
+      // This deletion makes it easier to capture removals
+      delete oldPendingAdminApprovalLookup[conversationId];
+    }
+  );
+
+  // Note: The only members left over here should be people who were moved from the
+  //   pendingAdminApproval list but also not added to the group at the same time.
+  const removedPendingAdminApprovalIds = Object.keys(
+    oldPendingAdminApprovalLookup
+  );
+  removedPendingAdminApprovalIds.forEach(conversationId => {
+    details.push({
+      type: 'admin-approval-remove-one',
+      conversationId,
+    });
+  });
+
+  // final processing
 
   let message: MessageAttributesType | undefined;
   let timerNotification: MessageAttributesType | undefined;
@@ -2438,6 +2609,12 @@ async function applyGroupChange({
       member,
     ])
   );
+  const pendingAdminApprovalMembers: Dictionary<GroupV2PendingAdminApprovalType> = fromPairs(
+    (result.pendingAdminApprovalV2 || []).map(member => [
+      member.conversationId,
+      member,
+    ])
+  );
 
   // version?: number;
   result.revision = version;
@@ -2470,6 +2647,7 @@ async function applyGroupChange({
       conversationId: conversation.id,
       role: added.role || MEMBER_ROLE_ENUM.DEFAULT,
       joinedAtVersion: version,
+      joinedFromLink: addMember.joinFromInviteLink || false,
     };
 
     if (pendingMembers[conversation.id]) {
@@ -2559,12 +2737,14 @@ async function applyGroupChange({
     });
   });
 
-  // addPendingMembers?: Array<GroupChangeClass.Actions.AddPendingMemberAction>;
+  // addPendingMembers?: Array<
+  //   GroupChangeClass.Actions.AddMemberPendingProfileKeyAction
+  // >;
   (actions.addPendingMembers || []).forEach(addPendingMember => {
     const { added } = addPendingMember;
     if (!added || !added.member) {
       throw new Error(
-        'applyGroupChange: modifyMemberProfileKey had a missing value'
+        'applyGroupChange: addPendingMembers had a missing value'
       );
     }
 
@@ -2601,7 +2781,9 @@ async function applyGroupChange({
     }
   });
 
-  // deletePendingMembers?: Array<GroupChangeClass.Actions.DeletePendingMemberAction>;
+  // deletePendingMembers?: Array<
+  //   GroupChangeClass.Actions.DeleteMemberPendingProfileKeyAction
+  // >;
   (actions.deletePendingMembers || []).forEach(deletePendingMember => {
     const { deletedUserId } = deletePendingMember;
     if (!deletedUserId) {
@@ -2624,7 +2806,9 @@ async function applyGroupChange({
     }
   });
 
-  // promotePendingMembers?: Array<GroupChangeClass.Actions.PromotePendingMemberAction>;
+  // promotePendingMembers?: Array<
+  //   GroupChangeClass.Actions.PromoteMemberPendingProfileKeyAction
+  // >;
   (actions.promotePendingMembers || []).forEach(promotePendingMember => {
     const { profileKey, uuid } = promotePendingMember;
     if (!profileKey || !uuid) {
@@ -2690,7 +2874,7 @@ async function applyGroupChange({
   }
 
   // modifyDisappearingMessagesTimer?:
-  // GroupChangeClass.Actions.ModifyDisappearingMessagesTimerAction;
+  //   GroupChangeClass.Actions.ModifyDisappearingMessagesTimerAction;
   if (actions.modifyDisappearingMessagesTimer) {
     const disappearingMessagesTimer: GroupAttributeBlobClass | undefined =
       actions.modifyDisappearingMessagesTimer.timer;
@@ -2711,6 +2895,7 @@ async function applyGroupChange({
   result.accessControl = result.accessControl || {
     members: ACCESS_ENUM.MEMBER,
     attributes: ACCESS_ENUM.MEMBER,
+    addFromInviteLink: ACCESS_ENUM.UNSATISFIABLE,
   };
 
   // modifyAttributesAccess?:
@@ -2731,6 +2916,151 @@ async function applyGroupChange({
     };
   }
 
+  // modifyAddFromInviteLinkAccess?:
+  //   GroupChangeClass.Actions.ModifyAddFromInviteLinkAccessControlAction;
+  if (actions.modifyAddFromInviteLinkAccess) {
+    result.accessControl = {
+      ...result.accessControl,
+      addFromInviteLink:
+        actions.modifyAddFromInviteLinkAccess.addFromInviteLinkAccess ||
+        ACCESS_ENUM.UNSATISFIABLE,
+    };
+  }
+
+  // addMemberPendingAdminApprovals?: Array<
+  //   GroupChangeClass.Actions.AddMemberPendingAdminApprovalAction
+  // >;
+  (actions.addMemberPendingAdminApprovals || []).forEach(
+    pendingAdminApproval => {
+      const { added } = pendingAdminApproval;
+      if (!added) {
+        throw new Error(
+          'applyGroupChange: modifyMemberProfileKey had a missing value'
+        );
+      }
+
+      const conversation = window.ConversationController.getOrCreate(
+        added.userId,
+        'private'
+      );
+
+      if (members[conversation.id]) {
+        window.log.warn(
+          `applyGroupChange/${logId}: Attempt to add pending admin approval failed; was already in members.`
+        );
+        return;
+      }
+      if (pendingMembers[conversation.id]) {
+        window.log.warn(
+          `applyGroupChange/${logId}: Attempt to add pending admin approval failed; was already in pendingMembers.`
+        );
+        return;
+      }
+      if (pendingAdminApprovalMembers[conversation.id]) {
+        window.log.warn(
+          `applyGroupChange/${logId}: Attempt to add pending admin approval failed; was already in pendingAdminApprovalMembers.`
+        );
+        return;
+      }
+
+      pendingAdminApprovalMembers[conversation.id] = {
+        conversationId: conversation.id,
+        timestamp: added.timestamp,
+      };
+
+      if (added.profileKey) {
+        newProfileKeys.push({
+          profileKey: added.profileKey,
+          uuid: added.userId,
+        });
+      }
+    }
+  );
+
+  // deleteMemberPendingAdminApprovals?: Array<
+  //   GroupChangeClass.Actions.DeleteMemberPendingAdminApprovalAction
+  // >;
+  (actions.deleteMemberPendingAdminApprovals || []).forEach(
+    deleteAdminApproval => {
+      const { deletedUserId } = deleteAdminApproval;
+      if (!deletedUserId) {
+        throw new Error(
+          'applyGroupChange: deleteAdminApproval.deletedUserId is null!'
+        );
+      }
+
+      const conversation = window.ConversationController.getOrCreate(
+        deletedUserId,
+        'private'
+      );
+
+      if (pendingAdminApprovalMembers[conversation.id]) {
+        delete pendingAdminApprovalMembers[conversation.id];
+      } else {
+        window.log.warn(
+          `applyGroupChange/${logId}: Attempt to remove pendingAdminApproval failed; was not in pendingAdminApprovalMembers.`
+        );
+      }
+    }
+  );
+
+  // promoteMemberPendingAdminApprovals?: Array<
+  //   GroupChangeClass.Actions.PromoteMemberPendingAdminApprovalAction
+  // >;
+  (actions.promoteMemberPendingAdminApprovals || []).forEach(
+    promoteAdminApproval => {
+      const { userId, role } = promoteAdminApproval;
+      if (!userId) {
+        throw new Error(
+          'applyGroupChange: promoteAdminApproval had a missing value'
+        );
+      }
+
+      const conversation = window.ConversationController.getOrCreate(
+        userId,
+        'private'
+      );
+
+      if (pendingAdminApprovalMembers[conversation.id]) {
+        delete pendingAdminApprovalMembers[conversation.id];
+      } else {
+        window.log.warn(
+          `applyGroupChange/${logId}: Attempt to promote pendingAdminApproval failed; was not in pendingAdminApprovalMembers.`
+        );
+      }
+      if (pendingMembers[conversation.id]) {
+        delete pendingAdminApprovalMembers[conversation.id];
+        window.log.warn(
+          `applyGroupChange/${logId}: Deleted pendingAdminApproval from pendingMembers.`
+        );
+      }
+
+      if (members[conversation.id]) {
+        window.log.warn(
+          `applyGroupChange/${logId}: Attempt to promote pendingMember failed; was already in members.`
+        );
+        return;
+      }
+
+      members[conversation.id] = {
+        conversationId: conversation.id,
+        joinedAtVersion: version,
+        role: role || MEMBER_ROLE_ENUM.DEFAULT,
+        approvedByAdmin: true,
+      };
+    }
+  );
+
+  // modifyInviteLinkPassword?: GroupChangeClass.Actions.ModifyInviteLinkPasswordAction;
+  if (actions.modifyInviteLinkPassword) {
+    const { inviteLinkPassword } = actions.modifyInviteLinkPassword;
+    if (inviteLinkPassword) {
+      result.groupInviteLinkPassword = inviteLinkPassword;
+    } else {
+      result.groupInviteLinkPassword = undefined;
+    }
+  }
+
   if (ourConversationId) {
     result.left = !members[ourConversationId];
   }
@@ -2738,6 +3068,7 @@ async function applyGroupChange({
   // Go from lookups back to arrays
   result.membersV2 = values(members);
   result.pendingMembersV2 = values(pendingMembers);
+  result.pendingAdminApprovalV2 = values(pendingAdminApprovalMembers);
 
   return {
     newAttributes: result,
@@ -2864,6 +3195,9 @@ async function applyGroupState({
     attributes:
       (accessControl && accessControl.attributes) || ACCESS_ENUM.MEMBER,
     members: (accessControl && accessControl.members) || ACCESS_ENUM.MEMBER,
+    addFromInviteLink:
+      (accessControl && accessControl.addFromInviteLink) ||
+      ACCESS_ENUM.UNSATISFIABLE,
   };
 
   // Optimization: we assume we have left the group unless we are found in members
@@ -2898,7 +3232,9 @@ async function applyGroupState({
       }
 
       if (!isValidRole(member.role)) {
-        throw new Error('applyGroupState: Member had invalid role');
+        throw new Error(
+          `applyGroupState: Member had invalid role ${member.role}`
+        );
       }
 
       return {
@@ -2909,10 +3245,10 @@ async function applyGroupState({
     });
   }
 
-  // pendingMembers
-  if (groupState.pendingMembers) {
-    result.pendingMembersV2 = groupState.pendingMembers.map(
-      (member: PendingMemberClass) => {
+  // membersPendingProfileKey
+  if (groupState.membersPendingProfileKey) {
+    result.pendingMembersV2 = groupState.membersPendingProfileKey.map(
+      (member: MemberPendingProfileKeyClass) => {
         let pending;
         let invitedBy;
 
@@ -2928,7 +3264,7 @@ async function applyGroupState({
           );
         } else {
           throw new Error(
-            'applyGroupState: Pending member did not have an associated userId'
+            'applyGroupState: Member pending profile key did not have an associated userId'
           );
         }
 
@@ -2939,12 +3275,14 @@ async function applyGroupState({
           );
         } else {
           throw new Error(
-            'applyGroupState: Pending member did not have an addedByUserID'
+            'applyGroupState: Member pending profile key did not have an addedByUserID'
           );
         }
 
         if (!isValidRole(member.member.role)) {
-          throw new Error('applyGroupState: Pending member had invalid role');
+          throw new Error(
+            `applyGroupState: Member pending profile key had invalid role ${member.member.role}`
+          );
         }
 
         return {
@@ -2955,6 +3293,44 @@ async function applyGroupState({
         };
       }
     );
+  }
+
+  // membersPendingAdminApproval
+  if (groupState.membersPendingAdminApproval) {
+    result.pendingAdminApprovalV2 = groupState.membersPendingAdminApproval.map(
+      (member: MemberPendingAdminApprovalClass) => {
+        let pending;
+
+        if (member.userId) {
+          pending = window.ConversationController.getOrCreate(
+            member.userId,
+            'private',
+            {
+              profileKey: member.profileKey
+                ? arrayBufferToBase64(member.profileKey)
+                : undefined,
+            }
+          );
+        } else {
+          throw new Error(
+            'applyGroupState: Pending admin approval did not have an associated userId'
+          );
+        }
+
+        return {
+          conversationId: pending.id,
+          timestamp: member.timestamp,
+        };
+      }
+    );
+  }
+
+  // inviteLinkPassword
+  const { inviteLinkPassword } = groupState;
+  if (inviteLinkPassword) {
+    result.groupInviteLinkPassword = inviteLinkPassword;
+  } else {
+    result.groupInviteLinkPassword = undefined;
   }
 
   return result;
@@ -2968,10 +3344,21 @@ function isValidRole(role?: number): role is number {
   );
 }
 
-function isValidAccess(access?: number): boolean {
+function isValidAccess(access?: number): access is number {
   const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
 
   return access === ACCESS_ENUM.ADMINISTRATOR || access === ACCESS_ENUM.MEMBER;
+}
+
+function isValidLinkAccess(access?: number): access is number {
+  const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
+
+  return (
+    access === ACCESS_ENUM.UNKNOWN ||
+    access === ACCESS_ENUM.ANY ||
+    access === ACCESS_ENUM.ADMINISTRATOR ||
+    access === ACCESS_ENUM.UNSATISFIABLE
+  );
 }
 
 function isValidProfileKey(buffer?: ArrayBuffer): boolean {
@@ -2982,13 +3369,31 @@ function hasData(data: ProtoBinaryType): boolean {
   return data && data.limit > 0;
 }
 
+function normalizeTimestamp(
+  timestamp: ProtoBigNumberType
+): number | ProtoBigNumberType {
+  if (!timestamp) {
+    return timestamp;
+  }
+
+  const asNumber = timestamp.toNumber();
+
+  const now = Date.now();
+  if (!asNumber || asNumber > now) {
+    return now;
+  }
+
+  return asNumber;
+}
+
+/* eslint-disable no-param-reassign */
+
 function decryptGroupChange(
-  _actions: GroupChangeClass.Actions,
+  actions: GroupChangeClass.Actions,
   groupSecretParams: string,
   logId: string
 ): GroupChangeClass.Actions {
   const clientZkGroupCipher = getClientZkGroupCipher(groupSecretParams);
-  const actions = _actions;
 
   if (hasData(actions.sourceUuid)) {
     try {
@@ -3018,9 +3423,7 @@ function decryptGroupChange(
 
   // addMembers?: Array<GroupChangeClass.Actions.AddMemberAction>;
   actions.addMembers = compact(
-    (actions.addMembers || []).map(_addMember => {
-      const addMember = _addMember;
-
+    (actions.addMembers || []).map(addMember => {
       if (addMember.added) {
         const decrypted = decryptMember(
           clientZkGroupCipher,
@@ -3040,9 +3443,7 @@ function decryptGroupChange(
 
   // deleteMembers?: Array<GroupChangeClass.Actions.DeleteMemberAction>;
   actions.deleteMembers = compact(
-    (actions.deleteMembers || []).map(_deleteMember => {
-      const deleteMember = _deleteMember;
-
+    (actions.deleteMembers || []).map(deleteMember => {
       if (hasData(deleteMember.deletedUserId)) {
         try {
           deleteMember.deletedUserId = decryptUuid(
@@ -3082,9 +3483,7 @@ function decryptGroupChange(
 
   // modifyMemberRoles?: Array<GroupChangeClass.Actions.ModifyMemberRoleAction>;
   actions.modifyMemberRoles = compact(
-    (actions.modifyMemberRoles || []).map(_modifyMember => {
-      const modifyMember = _modifyMember;
-
+    (actions.modifyMemberRoles || []).map(modifyMember => {
       if (hasData(modifyMember.userId)) {
         try {
           modifyMember.userId = decryptUuid(
@@ -3120,7 +3519,7 @@ function decryptGroupChange(
 
       if (!isValidRole(modifyMember.role)) {
         throw new Error(
-          'decryptGroupChange: modifyMemberRole had invalid role'
+          `decryptGroupChange: modifyMemberRole had invalid role ${modifyMember.role}`
         );
       }
 
@@ -3128,12 +3527,11 @@ function decryptGroupChange(
     })
   );
 
-  // modifyMemberProfileKeys?:
-  // Array<GroupChangeClass.Actions.ModifyMemberProfileKeyAction>;
+  // modifyMemberProfileKeys?: Array<
+  //   GroupChangeClass.Actions.ModifyMemberProfileKeyAction
+  // >;
   actions.modifyMemberProfileKeys = compact(
-    (actions.modifyMemberProfileKeys || []).map(_modifyMemberProfileKey => {
-      const modifyMemberProfileKey = _modifyMemberProfileKey;
-
+    (actions.modifyMemberProfileKeys || []).map(modifyMemberProfileKey => {
       if (hasData(modifyMemberProfileKey.presentation)) {
         const { profileKey, uuid } = decryptProfileKeyCredentialPresentation(
           clientZkGroupCipher,
@@ -3175,13 +3573,13 @@ function decryptGroupChange(
     })
   );
 
-  // addPendingMembers?: Array<GroupChangeClass.Actions.AddPendingMemberAction>;
+  // addPendingMembers?: Array<
+  //   GroupChangeClass.Actions.AddMemberPendingProfileKeyAction
+  // >;
   actions.addPendingMembers = compact(
-    (actions.addPendingMembers || []).map(_addPendingMember => {
-      const addPendingMember = _addPendingMember;
-
+    (actions.addPendingMembers || []).map(addPendingMember => {
       if (addPendingMember.added) {
-        const decrypted = decryptPendingMember(
+        const decrypted = decryptMemberPendingProfileKey(
           clientZkGroupCipher,
           addPendingMember.added,
           logId
@@ -3199,11 +3597,11 @@ function decryptGroupChange(
     })
   );
 
-  // deletePendingMembers?: Array<GroupChangeClass.Actions.DeletePendingMemberAction>;
+  // deletePendingMembers?: Array<
+  //   GroupChangeClass.Actions.DeleteMemberPendingProfileKeyAction
+  // >;
   actions.deletePendingMembers = compact(
-    (actions.deletePendingMembers || []).map(_deletePendingMember => {
-      const deletePendingMember = _deletePendingMember;
-
+    (actions.deletePendingMembers || []).map(deletePendingMember => {
       if (hasData(deletePendingMember.deletedUserId)) {
         try {
           deletePendingMember.deletedUserId = decryptUuid(
@@ -3241,11 +3639,11 @@ function decryptGroupChange(
     })
   );
 
-  // promotePendingMembers?: Array<GroupChangeClass.Actions.PromotePendingMemberAction>;
+  // promotePendingMembers?: Array<
+  //   GroupChangeClass.Actions.PromoteMemberPendingProfileKeyAction
+  // >;
   actions.promotePendingMembers = compact(
-    (actions.promotePendingMembers || []).map(_promotePendingMember => {
-      const promotePendingMember = _promotePendingMember;
-
+    (actions.promotePendingMembers || []).map(promotePendingMember => {
       if (hasData(promotePendingMember.presentation)) {
         const { profileKey, uuid } = decryptProfileKeyCredentialPresentation(
           clientZkGroupCipher,
@@ -3338,7 +3736,7 @@ function decryptGroupChange(
     !isValidAccess(actions.modifyAttributesAccess.attributesAccess)
   ) {
     throw new Error(
-      'decryptGroupChange: modifyAttributesAccess.attributesAccess was not a valid role'
+      `decryptGroupChange: modifyAttributesAccess.attributesAccess was not valid: ${actions.modifyAttributesAccess.attributesAccess}`
     );
   }
 
@@ -3348,20 +3746,153 @@ function decryptGroupChange(
     !isValidAccess(actions.modifyMemberAccess.membersAccess)
   ) {
     throw new Error(
-      'decryptGroupChange: modifyMemberAccess.membersAccess was not a valid role'
+      `decryptGroupChange: modifyMemberAccess.membersAccess was not valid: ${actions.modifyMemberAccess.membersAccess}`
     );
+  }
+
+  // modifyAddFromInviteLinkAccess?:
+  //   GroupChangeClass.Actions.ModifyAddFromInviteLinkAccessControlAction;
+  if (
+    actions.modifyAddFromInviteLinkAccess &&
+    !isValidLinkAccess(
+      actions.modifyAddFromInviteLinkAccess.addFromInviteLinkAccess
+    )
+  ) {
+    throw new Error(
+      `decryptGroupChange: modifyAddFromInviteLinkAccess.addFromInviteLinkAccess was not valid: ${actions.modifyAddFromInviteLinkAccess.addFromInviteLinkAccess}`
+    );
+  }
+
+  // addMemberPendingAdminApprovals?: Array<
+  //   GroupChangeClass.Actions.AddMemberPendingAdminApprovalAction
+  // >;
+  actions.addMemberPendingAdminApprovals = compact(
+    (actions.addMemberPendingAdminApprovals || []).map(
+      addPendingAdminApproval => {
+        if (addPendingAdminApproval.added) {
+          const decrypted = decryptMemberPendingAdminApproval(
+            clientZkGroupCipher,
+            addPendingAdminApproval.added,
+            logId
+          );
+          if (!decrypted) {
+            window.log.warn(
+              `decryptGroupChange/${logId}: Unable to decrypt addPendingAdminApproval.added. Dropping member.`
+            );
+            return null;
+          }
+
+          addPendingAdminApproval.added = decrypted;
+          return addPendingAdminApproval;
+        }
+        throw new Error(
+          'decryptGroupChange: addPendingAdminApproval was missing added field!'
+        );
+      }
+    )
+  );
+
+  // deleteMemberPendingAdminApprovals?: Array<
+  //   GroupChangeClass.Actions.DeleteMemberPendingAdminApprovalAction
+  // >;
+  actions.deleteMemberPendingAdminApprovals = compact(
+    (actions.deleteMemberPendingAdminApprovals || []).map(
+      deletePendingApproval => {
+        if (hasData(deletePendingApproval.deletedUserId)) {
+          try {
+            deletePendingApproval.deletedUserId = decryptUuid(
+              clientZkGroupCipher,
+              deletePendingApproval.deletedUserId.toArrayBuffer()
+            );
+          } catch (error) {
+            window.log.warn(
+              `decryptGroupChange/${logId}: Unable to decrypt deletePendingApproval.deletedUserId. Dropping member.`,
+              error && error.stack ? error.stack : error
+            );
+            return null;
+          }
+        } else {
+          throw new Error(
+            'decryptGroupChange: deletePendingApproval.deletedUserId was missing'
+          );
+        }
+
+        window.normalizeUuids(
+          deletePendingApproval,
+          ['deletedUserId'],
+          'groups.decryptGroupChange'
+        );
+
+        if (!window.isValidGuid(deletePendingApproval.deletedUserId)) {
+          window.log.warn(
+            `decryptGroupChange/${logId}: Dropping deletePendingApproval due to invalid deletedUserId`
+          );
+
+          return null;
+        }
+
+        return deletePendingApproval;
+      }
+    )
+  );
+
+  // promoteMemberPendingAdminApprovals?: Array<
+  //   GroupChangeClass.Actions.PromoteMemberPendingAdminApprovalAction
+  // >;
+  actions.promoteMemberPendingAdminApprovals = compact(
+    (actions.promoteMemberPendingAdminApprovals || []).map(
+      promoteAdminApproval => {
+        if (hasData(promoteAdminApproval.userId)) {
+          try {
+            promoteAdminApproval.userId = decryptUuid(
+              clientZkGroupCipher,
+              promoteAdminApproval.userId.toArrayBuffer()
+            );
+          } catch (error) {
+            window.log.warn(
+              `decryptGroupChange/${logId}: Unable to decrypt promoteAdminApproval.userId. Dropping member.`,
+              error && error.stack ? error.stack : error
+            );
+            return null;
+          }
+        } else {
+          throw new Error(
+            'decryptGroupChange: promoteAdminApproval.userId was missing'
+          );
+        }
+
+        if (!isValidRole(promoteAdminApproval.role)) {
+          throw new Error(
+            `decryptGroupChange: promoteAdminApproval had invalid role ${promoteAdminApproval.role}`
+          );
+        }
+
+        return promoteAdminApproval;
+      }
+    )
+  );
+
+  // modifyInviteLinkPassword?: GroupChangeClass.Actions.ModifyInviteLinkPasswordAction;
+  if (
+    actions.modifyInviteLinkPassword &&
+    hasData(actions.modifyInviteLinkPassword.inviteLinkPassword)
+  ) {
+    actions.modifyInviteLinkPassword.inviteLinkPassword = actions.modifyInviteLinkPassword.inviteLinkPassword.toString(
+      'base64'
+    );
+  } else {
+    actions.modifyInviteLinkPassword = undefined;
   }
 
   return actions;
 }
 
 function decryptGroupState(
-  _groupState: GroupClass,
+  groupState: GroupClass,
   groupSecretParams: string,
   logId: string
 ): GroupClass {
   const clientZkGroupCipher = getClientZkGroupCipher(groupSecretParams);
-  const groupState = _groupState;
 
   // title
   if (hasData(groupState.title)) {
@@ -3404,20 +3935,19 @@ function decryptGroupState(
   }
 
   // accessControl
-  if (
-    !groupState.accessControl ||
-    !isValidAccess(groupState.accessControl.attributes)
-  ) {
+  if (!isValidAccess(groupState.accessControl?.attributes)) {
     throw new Error(
-      'decryptGroupState: Access control for attributes is missing or invalid'
+      `decryptGroupState: Access control for attributes is invalid: ${groupState.accessControl?.attributes}`
     );
   }
-  if (
-    !groupState.accessControl ||
-    !isValidAccess(groupState.accessControl.members)
-  ) {
+  if (!isValidAccess(groupState.accessControl?.members)) {
     throw new Error(
-      'decryptGroupState: Access control for members is missing or invalid'
+      `decryptGroupState: Access control for members is invalid: ${groupState.accessControl?.members}`
+    );
+  }
+  if (!isValidLinkAccess(groupState.accessControl?.addFromInviteLink)) {
+    throw new Error(
+      `decryptGroupState: Access control for invite link is invalid: ${groupState.accessControl?.addFromInviteLink}`
     );
   }
 
@@ -3437,13 +3967,33 @@ function decryptGroupState(
     );
   }
 
-  // pending members
-  if (groupState.pendingMembers) {
-    groupState.pendingMembers = compact(
-      groupState.pendingMembers.map((member: PendingMemberClass) =>
-        decryptPendingMember(clientZkGroupCipher, member, logId)
+  // membersPendingProfileKey
+  if (groupState.membersPendingProfileKey) {
+    groupState.membersPendingProfileKey = compact(
+      groupState.membersPendingProfileKey.map(
+        (member: MemberPendingProfileKeyClass) =>
+          decryptMemberPendingProfileKey(clientZkGroupCipher, member, logId)
       )
     );
+  }
+
+  // membersPendingAdminApproval
+  if (groupState.membersPendingAdminApproval) {
+    groupState.membersPendingAdminApproval = compact(
+      groupState.membersPendingAdminApproval.map(
+        (member: MemberPendingAdminApprovalClass) =>
+          decryptMemberPendingAdminApproval(clientZkGroupCipher, member, logId)
+      )
+    );
+  }
+
+  // inviteLinkPassword
+  if (hasData(groupState.inviteLinkPassword)) {
+    groupState.inviteLinkPassword = groupState.inviteLinkPassword.toString(
+      'base64'
+    );
+  } else {
+    groupState.inviteLinkPassword = undefined;
   }
 
   return groupState;
@@ -3451,11 +4001,9 @@ function decryptGroupState(
 
 function decryptMember(
   clientZkGroupCipher: ClientZkGroupCipher,
-  _member: MemberClass,
+  member: MemberClass,
   logId: string
 ) {
-  const member = _member;
-
   // userId
   if (hasData(member.userId)) {
     try {
@@ -3501,19 +4049,17 @@ function decryptMember(
 
   // role
   if (!isValidRole(member.role)) {
-    throw new Error('decryptMember: Member had invalid role');
+    throw new Error(`decryptMember: Member had invalid role ${member.role}`);
   }
 
   return member;
 }
 
-function decryptPendingMember(
+function decryptMemberPendingProfileKey(
   clientZkGroupCipher: ClientZkGroupCipher,
-  _member: PendingMemberClass,
+  member: MemberPendingProfileKeyClass,
   logId: string
 ) {
-  const member = _member;
-
   // addedByUserId
   if (hasData(member.addedByUserId)) {
     try {
@@ -3523,7 +4069,7 @@ function decryptPendingMember(
       );
     } catch (error) {
       window.log.warn(
-        `decryptPendingMember/${logId}: Unable to decrypt pending member addedByUserId. Dropping member.`,
+        `decryptMemberPendingProfileKey/${logId}: Unable to decrypt pending member addedByUserId. Dropping member.`,
         error && error.stack ? error.stack : error
       );
       return null;
@@ -3532,32 +4078,27 @@ function decryptPendingMember(
     window.normalizeUuids(
       member,
       ['addedByUserId'],
-      'groups.decryptPendingMember'
+      'groups.decryptMemberPendingProfileKey'
     );
 
     if (!window.isValidGuid(member.addedByUserId)) {
       window.log.warn(
-        `decryptPendingMember/${logId}: Dropping pending member due to invalid addedByUserId`
+        `decryptMemberPendingProfileKey/${logId}: Dropping pending member due to invalid addedByUserId`
       );
       return null;
     }
   } else {
-    throw new Error('decryptPendingMember: Member had missing addedByUserId');
+    throw new Error(
+      'decryptMemberPendingProfileKey: Member had missing addedByUserId'
+    );
   }
 
   // timestamp
-  if (member.timestamp) {
-    member.timestamp = member.timestamp.toNumber();
-
-    const now = Date.now();
-    if (!member.timestamp || member.timestamp > now) {
-      member.timestamp = now;
-    }
-  }
+  member.timestamp = normalizeTimestamp(member.timestamp);
 
   if (!member.member) {
     window.log.warn(
-      `decryptPendingMember/${logId}: Dropping pending member due to missing member details`
+      `decryptMemberPendingProfileKey/${logId}: Dropping pending member due to missing member details`
     );
 
     return null;
@@ -3574,7 +4115,7 @@ function decryptPendingMember(
       );
     } catch (error) {
       window.log.warn(
-        `decryptPendingMember/${logId}: Unable to decrypt pending member userId. Dropping member.`,
+        `decryptMemberPendingProfileKey/${logId}: Unable to decrypt pending member userId. Dropping member.`,
         error && error.stack ? error.stack : error
       );
       return null;
@@ -3583,18 +4124,20 @@ function decryptPendingMember(
     window.normalizeUuids(
       member.member,
       ['userId'],
-      'groups.decryptPendingMember'
+      'groups.decryptMemberPendingProfileKey'
     );
 
     if (!window.isValidGuid(member.member.userId)) {
       window.log.warn(
-        `decryptPendingMember/${logId}: Dropping pending member due to invalid member.userId`
+        `decryptMemberPendingProfileKey/${logId}: Dropping pending member due to invalid member.userId`
       );
 
       return null;
     }
   } else {
-    throw new Error('decryptPendingMember: Member had missing member.userId');
+    throw new Error(
+      'decryptMemberPendingProfileKey: Member had missing member.userId'
+    );
   }
 
   // profileKey
@@ -3603,11 +4146,11 @@ function decryptPendingMember(
       member.member.profileKey = decryptProfileKey(
         clientZkGroupCipher,
         profileKey.toArrayBuffer(),
-        userId
+        member.member.userId
       );
     } catch (error) {
       window.log.warn(
-        `decryptPendingMember/${logId}: Unable to decrypt pending member profileKey. Dropping profileKey.`,
+        `decryptMemberPendingProfileKey/${logId}: Unable to decrypt pending member profileKey. Dropping profileKey.`,
         error && error.stack ? error.stack : error
       );
       member.member.profileKey = null;
@@ -3615,7 +4158,7 @@ function decryptPendingMember(
 
     if (!isValidProfileKey(member.member.profileKey)) {
       window.log.warn(
-        `decryptPendingMember/${logId}: Dropping profileKey, since it was invalid`
+        `decryptMemberPendingProfileKey/${logId}: Dropping profileKey, since it was invalid`
       );
 
       member.member.profileKey = null;
@@ -3624,11 +4167,82 @@ function decryptPendingMember(
 
   // role
   if (!isValidRole(role)) {
-    throw new Error('decryptPendingMember: Member had invalid role');
+    throw new Error(
+      `decryptMemberPendingProfileKey: Member had invalid role ${role}`
+    );
   }
 
   return member;
 }
+
+function decryptMemberPendingAdminApproval(
+  clientZkGroupCipher: ClientZkGroupCipher,
+  member: MemberPendingAdminApprovalClass,
+  logId: string
+) {
+  // timestamp
+  member.timestamp = normalizeTimestamp(member.timestamp);
+
+  const { userId, profileKey } = member;
+
+  // userId
+  if (hasData(userId)) {
+    try {
+      member.userId = decryptUuid(clientZkGroupCipher, userId.toArrayBuffer());
+    } catch (error) {
+      window.log.warn(
+        `decryptMemberPendingAdminApproval/${logId}: Unable to decrypt pending member userId. Dropping member.`,
+        error && error.stack ? error.stack : error
+      );
+      return null;
+    }
+
+    window.normalizeUuids(
+      member,
+      ['userId'],
+      'groups.decryptMemberPendingAdminApproval'
+    );
+
+    if (!window.isValidGuid(member.userId)) {
+      window.log.warn(
+        `decryptMemberPendingAdminApproval/${logId}: Invalid userId. Dropping member.`
+      );
+
+      return null;
+    }
+  } else {
+    throw new Error('decryptMemberPendingAdminApproval: Missing userId');
+  }
+
+  // profileKey
+  if (hasData(profileKey)) {
+    try {
+      member.profileKey = decryptProfileKey(
+        clientZkGroupCipher,
+        profileKey.toArrayBuffer(),
+        member.userId
+      );
+    } catch (error) {
+      window.log.warn(
+        `decryptMemberPendingAdminApproval/${logId}: Unable to decrypt profileKey. Dropping profileKey.`,
+        error && error.stack ? error.stack : error
+      );
+      member.profileKey = null;
+    }
+
+    if (!isValidProfileKey(member.profileKey)) {
+      window.log.warn(
+        `decryptMemberPendingAdminApproval/${logId}: Dropping profileKey, since it was invalid`
+      );
+
+      member.profileKey = null;
+    }
+  }
+
+  return member;
+}
+
+/* eslint-enable no-param-reassign */
 
 export function getMembershipList(
   conversationId: string
