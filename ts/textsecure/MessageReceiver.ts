@@ -9,7 +9,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-classes-per-file */
 
-import { isNumber, map, omit } from 'lodash';
+import { isNumber, map, omit, noop } from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 
@@ -276,9 +276,9 @@ class MessageReceiverInner extends EventTarget {
 
   shutdown() {
     if (this.socket) {
-      delete this.socket.onclose;
-      delete this.socket.onerror;
-      delete this.socket.onopen;
+      this.socket.onclose = noop;
+      this.socket.onerror = noop;
+      this.socket.onopen = noop;
 
       this.socket = undefined;
     }

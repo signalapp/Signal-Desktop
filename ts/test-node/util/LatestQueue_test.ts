@@ -18,7 +18,7 @@ describe('LatestQueue', () => {
     const spy = sinon.spy();
 
     let openFirstTaskGate: undefined | (() => void);
-    const firstTaskGate = new Promise(resolve => {
+    const firstTaskGate = new Promise<void>(resolve => {
       openFirstTaskGate = resolve;
     });
     if (!openFirstTaskGate) {

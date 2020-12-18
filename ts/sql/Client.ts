@@ -317,7 +317,7 @@ async function _shutdown() {
   }
 
   // Outstanding jobs; we need to wait until the last one is done
-  _shutdownPromise = new Promise((resolve, reject) => {
+  _shutdownPromise = new Promise<void>((resolve, reject) => {
     _shutdownCallback = (error: Error) => {
       window.log.info('data.shutdown: process complete');
       if (error) {
@@ -1364,7 +1364,7 @@ async function removeOtherData() {
 }
 
 async function callChannel(name: string) {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     ipcRenderer.send(name);
     ipcRenderer.once(`${name}-done`, (_, error) => {
       if (error) {

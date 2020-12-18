@@ -14328,7 +14328,7 @@
     "rule": "DOM-innerHTML",
     "path": "ts/backbone/views/Lightbox.js",
     "line": "    container.innerHTML = '';",
-    "lineNumber": 10,
+    "lineNumber": 11,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-17T20:50:40.689Z",
     "reasonDetail": "Hard-coded value"
@@ -14337,7 +14337,7 @@
     "rule": "DOM-innerHTML",
     "path": "ts/backbone/views/Lightbox.js",
     "line": "    container.innerHTML = '';",
-    "lineNumber": 19,
+    "lineNumber": 21,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-17T20:50:40.689Z",
     "reasonDetail": "Hard-coded value"
@@ -14364,7 +14364,7 @@
     "rule": "React-useRef",
     "path": "ts/components/AvatarPopup.js",
     "line": "    const focusRef = React.useRef(null);",
-    "lineNumber": 20,
+    "lineNumber": 33,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Only used to focus the element."
@@ -14373,7 +14373,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CallNeedPermissionScreen.js",
     "line": "    const autoCloseAtRef = react_1.useRef(Date.now() + AUTO_CLOSE_MS);",
-    "lineNumber": 19,
+    "lineNumber": 32,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Doesn't touch the DOM."
@@ -14382,7 +14382,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CallScreen.js",
     "line": "    const localVideoRef = react_1.useRef(null);",
-    "lineNumber": 41,
+    "lineNumber": 54,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T21:35:52.858Z",
     "reasonDetail": "Used to get the local video element for rendering."
@@ -14391,7 +14391,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CallingLobby.js",
     "line": "    const localVideoRef = react_1.default.useRef(null);",
-    "lineNumber": 24,
+    "lineNumber": 25,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Used to get the local video element for rendering."
@@ -14400,7 +14400,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CallingPip.js",
     "line": "    const videoContainerRef = react_1.default.useRef(null);",
-    "lineNumber": 25,
+    "lineNumber": 26,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Element is measured. Its HTML is not used."
@@ -14409,7 +14409,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CallingPip.js",
     "line": "    const localVideoRef = react_1.default.useRef(null);",
-    "lineNumber": 26,
+    "lineNumber": 27,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Used to get the local video element for rendering."
@@ -14427,7 +14427,7 @@
     "rule": "React-createRef",
     "path": "ts/components/CaptionEditor.js",
     "line": "        this.inputRef = react_1.default.createRef();",
-    "lineNumber": 28,
+    "lineNumber": 41,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-09T00:08:44.242Z",
     "reasonDetail": "Used only to set focus"
@@ -14445,7 +14445,7 @@
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.js",
     "line": "    el.innerHTML = '';",
-    "lineNumber": 28,
+    "lineNumber": 41,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-20T20:10:43.540Z",
     "reasonDetail": "Our code, no user input, only clearing out the dom"
@@ -14454,7 +14454,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionArea.js",
     "line": "    const inputApiRef = React.useRef();",
-    "lineNumber": 46,
+    "lineNumber": 59,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Doesn't refer to a DOM element."
@@ -14463,7 +14463,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionArea.js",
     "line": "    const attSlotRef = React.useRef(null);",
-    "lineNumber": 69,
+    "lineNumber": 82,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Needed for the composition area."
@@ -14472,7 +14472,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionArea.js",
     "line": "    const micCellRef = React.useRef(null);",
-    "lineNumber": 103,
+    "lineNumber": 116,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Needed for the composition area."
@@ -14490,7 +14490,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
     "line": "    const emojiCompletionRef = React.useRef();",
-    "lineNumber": 43,
+    "lineNumber": 56,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Doesn't refer to a DOM element."
@@ -14499,7 +14499,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
     "line": "    const mentionCompletionRef = React.useRef();",
-    "lineNumber": 44,
+    "lineNumber": 57,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T23:54:34.273Z",
     "reasonDetail": "Doesn't refer to a DOM element."
@@ -14508,7 +14508,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
     "line": "    const quillRef = React.useRef();",
-    "lineNumber": 45,
+    "lineNumber": 58,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Doesn't refer to a DOM element."
@@ -14517,7 +14517,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
     "line": "    const scrollerRef = React.useRef(null);",
-    "lineNumber": 46,
+    "lineNumber": 59,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Used with Quill for scrolling."
@@ -14526,7 +14526,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
     "line": "    const propsRef = React.useRef(props);",
-    "lineNumber": 47,
+    "lineNumber": 60,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Doesn't refer to a DOM element."
@@ -14535,7 +14535,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
     "line": "    const memberRepositoryRef = React.useRef(new memberRepository_1.MemberRepository());",
-    "lineNumber": 48,
+    "lineNumber": 61,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T23:56:13.482Z",
     "reasonDetail": "Doesn't refer to a DOM element."
@@ -14544,7 +14544,7 @@
     "rule": "React-useRef",
     "path": "ts/components/DirectCallRemoteParticipant.js",
     "line": "    const remoteVideoRef = react_1.useRef(null);",
-    "lineNumber": 15,
+    "lineNumber": 28,
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-11T21:56:04.179Z",
     "reasonDetail": "Needed to render the remote video element."
@@ -14553,7 +14553,7 @@
     "rule": "React-useRef",
     "path": "ts/components/GroupCallRemoteParticipant.js",
     "line": "    const remoteVideoRef = react_1.useRef(null);",
-    "lineNumber": 31,
+    "lineNumber": 44,
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-11T21:56:04.179Z",
     "reasonDetail": "Needed to render the remote video element."
@@ -14562,7 +14562,7 @@
     "rule": "React-useRef",
     "path": "ts/components/GroupCallRemoteParticipant.js",
     "line": "    const canvasContextRef = react_1.useRef(null);",
-    "lineNumber": 32,
+    "lineNumber": 45,
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-17T23:29:38.698Z",
     "reasonDetail": "Doesn't touch the DOM."
@@ -14571,7 +14571,7 @@
     "rule": "React-useRef",
     "path": "ts/components/GroupCallRemoteParticipant.js",
     "line": "    const frameBufferRef = react_1.useRef(new ArrayBuffer(FRAME_BUFFER_SIZE));",
-    "lineNumber": 33,
+    "lineNumber": 46,
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-17T16:24:25.480Z",
     "reasonDetail": "Doesn't touch the DOM."
@@ -14580,7 +14580,7 @@
     "rule": "jQuery-$(",
     "path": "ts/components/Intl.js",
     "line": "        const FIND_REPLACEMENTS = /\\$([^$]+)\\$/g;",
-    "lineNumber": 35,
+    "lineNumber": 36,
     "reasonCategory": "falseMatch",
     "updated": "2020-07-21T18:34:59.251Z"
   },
@@ -14596,7 +14596,7 @@
     "rule": "React-createRef",
     "path": "ts/components/LeftPane.js",
     "line": "        this.listRef = react_1.default.createRef();",
-    "lineNumber": 32,
+    "lineNumber": 33,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-11T17:24:56.124Z",
     "reasonDetail": "Used for scroll calculations"
@@ -14605,7 +14605,7 @@
     "rule": "React-createRef",
     "path": "ts/components/LeftPane.js",
     "line": "        this.containerRef = react_1.default.createRef();",
-    "lineNumber": 33,
+    "lineNumber": 34,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-11T17:24:56.124Z",
     "reasonDetail": "Used for scroll calculations"
@@ -14614,7 +14614,7 @@
     "rule": "React-createRef",
     "path": "ts/components/Lightbox.js",
     "line": "        this.containerRef = react_1.default.createRef();",
-    "lineNumber": 163,
+    "lineNumber": 176,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-06T19:56:38.557Z",
     "reasonDetail": "Used to double-check outside clicks"
@@ -14623,7 +14623,7 @@
     "rule": "React-createRef",
     "path": "ts/components/Lightbox.js",
     "line": "        this.videoRef = react_1.default.createRef();",
-    "lineNumber": 164,
+    "lineNumber": 177,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-14T23:03:44.863Z"
   },
@@ -14631,7 +14631,7 @@
     "rule": "React-createRef",
     "path": "ts/components/Lightbox.js",
     "line": "        this.focusRef = react_1.default.createRef();",
-    "lineNumber": 165,
+    "lineNumber": 178,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-06T19:56:38.557Z",
     "reasonDetail": "Used to manage focus"
@@ -14640,7 +14640,7 @@
     "rule": "React-createRef",
     "path": "ts/components/MainHeader.js",
     "line": "        this.inputRef = react_1.default.createRef();",
-    "lineNumber": 145,
+    "lineNumber": 146,
     "reasonCategory": "usageTrusted",
     "updated": "2020-02-14T20:02:37.507Z",
     "reasonDetail": "Used only to set focus"
@@ -14658,7 +14658,7 @@
     "rule": "React-createRef",
     "path": "ts/components/SafetyNumberChangeDialog.js",
     "line": "    const cancelButtonRef = React.createRef();",
-    "lineNumber": 17,
+    "lineNumber": 30,
     "reasonCategory": "usageTrusted",
     "updated": "2020-06-23T06:48:06.829Z",
     "reasonDetail": "Used to focus cancel button when dialog opens"
@@ -14667,7 +14667,7 @@
     "rule": "React-createRef",
     "path": "ts/components/SearchResults.js",
     "line": "        this.listRef = react_1.default.createRef();",
-    "lineNumber": 26,
+    "lineNumber": 27,
     "reasonCategory": "usageTrusted",
     "updated": "2019-08-09T00:44:31.008Z",
     "reasonDetail": "SearchResults needs to interact with its child List directly"
@@ -14676,7 +14676,7 @@
     "rule": "React-createRef",
     "path": "ts/components/SearchResults.js",
     "line": "        this.containerRef = react_1.default.createRef();",
-    "lineNumber": 27,
+    "lineNumber": 28,
     "reasonCategory": "usageTrusted",
     "updated": "2019-08-09T00:44:31.008Z",
     "reasonDetail": "SearchResults needs to interact with its child List directly"
@@ -14685,7 +14685,7 @@
     "rule": "React-useRef",
     "path": "ts/components/ShortcutGuide.js",
     "line": "    const focusRef = React.useRef(null);",
-    "lineNumber": 169,
+    "lineNumber": 182,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Only used to focus the element."
@@ -14694,7 +14694,7 @@
     "rule": "React-useRef",
     "path": "ts/components/Tooltip.js",
     "line": "    const wrapperRef = react_1.default.useRef(null);",
-    "lineNumber": 18,
+    "lineNumber": 19,
     "reasonCategory": "usageTrusted",
     "updated": "2020-12-04T00:11:08.128Z",
     "reasonDetail": "Used to add (and remove) event listeners."
@@ -14703,7 +14703,7 @@
     "rule": "React-useRef",
     "path": "ts/components/conversation/CallingNotification.js",
     "line": "    const previousHeightRef = react_1.useRef(null);",
-    "lineNumber": 24,
+    "lineNumber": 37,
     "reasonCategory": "usageTrusted",
     "updated": "2020-12-04T00:11:08.128Z",
     "reasonDetail": "Doesn't interact with the DOM."
@@ -14712,7 +14712,7 @@
     "rule": "React-useRef",
     "path": "ts/components/conversation/ContactModal.js",
     "line": "    const overlayRef = react_1.default.useRef(null);",
-    "lineNumber": 16,
+    "lineNumber": 17,
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-09T17:48:12.173Z"
   },
@@ -14720,7 +14720,7 @@
     "rule": "React-useRef",
     "path": "ts/components/conversation/ContactModal.js",
     "line": "    const closeButtonRef = react_1.default.useRef(null);",
-    "lineNumber": 17,
+    "lineNumber": 18,
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-10T21:27:04.909Z"
   },
@@ -14728,7 +14728,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.js",
     "line": "        this.menuTriggerRef = react_1.default.createRef();",
-    "lineNumber": 29,
+    "lineNumber": 30,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-28T16:12:19.904Z",
     "reasonDetail": "Used to reference popup menu"
@@ -14746,7 +14746,7 @@
     "rule": "React-useRef",
     "path": "ts/components/conversation/ConversationHero.js",
     "line": "    const firstRenderRef = React.useRef(true);",
-    "lineNumber": 67,
+    "lineNumber": 80,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Doesn't refer to a DOM element."
@@ -14764,7 +14764,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/InlineNotificationWrapper.js",
     "line": "        this.focusRef = react_1.default.createRef();",
-    "lineNumber": 12,
+    "lineNumber": 13,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-06T19:56:38.557Z",
     "reasonDetail": "Used to manage focus"
@@ -14782,7 +14782,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.js",
     "line": "        this.audioRef = react_1.default.createRef();",
-    "lineNumber": 61,
+    "lineNumber": 74,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-28T16:12:19.904Z"
   },
@@ -14790,7 +14790,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.js",
     "line": "        this.focusRef = react_1.default.createRef();",
-    "lineNumber": 62,
+    "lineNumber": 75,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-11T17:24:56.124Z",
     "reasonDetail": "Used for managing focus only"
@@ -14799,7 +14799,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.js",
     "line": "        this.reactionsContainerRef = react_1.default.createRef();",
-    "lineNumber": 63,
+    "lineNumber": 76,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-28T16:12:19.904Z",
     "reasonDetail": "Used for detecting clicks outside reaction viewer"
@@ -14832,7 +14832,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/MessageDetail.js",
     "line": "        this.focusRef = react_1.default.createRef();",
-    "lineNumber": 20,
+    "lineNumber": 21,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-01T22:46:33.013Z",
     "reasonDetail": "Used for setting focus only"
@@ -14841,7 +14841,7 @@
     "rule": "React-useRef",
     "path": "ts/components/conversation/ReactionPicker.js",
     "line": "    const focusRef = React.useRef(null);",
-    "lineNumber": 30,
+    "lineNumber": 43,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Only used to focus the element."
@@ -14850,7 +14850,7 @@
     "rule": "React-useRef",
     "path": "ts/components/conversation/ReactionViewer.js",
     "line": "    const focusRef = React.useRef(null);",
-    "lineNumber": 75,
+    "lineNumber": 88,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Only used to focus the element."
@@ -14859,7 +14859,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Timeline.js",
     "line": "        this.listRef = react_1.default.createRef();",
-    "lineNumber": 30,
+    "lineNumber": 31,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Timeline needs to interact with its child List directly"
@@ -14868,7 +14868,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/media-gallery/MediaGallery.js",
     "line": "        this.focusRef = react_1.default.createRef();",
-    "lineNumber": 30,
+    "lineNumber": 31,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-01T22:46:33.013Z",
     "reasonDetail": "Used for setting focus only"
@@ -14886,7 +14886,7 @@
     "rule": "React-useRef",
     "path": "ts/components/emoji/EmojiPicker.js",
     "line": "    const focusRef = React.useRef(null);",
-    "lineNumber": 40,
+    "lineNumber": 53,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Only used to focus the element."
@@ -14895,7 +14895,7 @@
     "rule": "React-createRef",
     "path": "ts/components/stickers/StickerManager.js",
     "line": "    const focusRef = React.createRef();",
-    "lineNumber": 20,
+    "lineNumber": 33,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-21T06:13:49.384Z",
     "reasonDetail": "Used for setting focus only"
@@ -14904,7 +14904,7 @@
     "rule": "React-useRef",
     "path": "ts/components/stickers/StickerPicker.js",
     "line": "    const focusRef = React.useRef(null);",
-    "lineNumber": 42,
+    "lineNumber": 55,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Only used to focus the element."
@@ -14913,7 +14913,7 @@
     "rule": "React-useRef",
     "path": "ts/components/stickers/StickerPreviewModal.js",
     "line": "    const focusRef = React.useRef(null);",
-    "lineNumber": 37,
+    "lineNumber": 50,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Only used to focus the element."
@@ -14922,7 +14922,7 @@
     "rule": "React-createRef",
     "path": "ts/quill/mentions/completion.js",
     "line": "        this.suggestionListRef = react_1.default.createRef();",
-    "lineNumber": 24,
+    "lineNumber": 25,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-30T23:03:08.319Z"
   },
@@ -14930,7 +14930,7 @@
     "rule": "DOM-innerHTML",
     "path": "ts/quill/signal-clipboard/index.js",
     "line": "    return div.innerHTML;",
-    "lineNumber": 19,
+    "lineNumber": 20,
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-06T17:43:07.381Z",
     "reasonDetail": "used for figuring out clipboard contents"
@@ -14948,7 +14948,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/shims/textsecure.js",
     "line": "    wrap(textsecure.messaging.sendStickerPackSync([",
-    "lineNumber": 13,
+    "lineNumber": 14,
     "reasonCategory": "falseMatch",
     "updated": "2020-02-07T19:52:28.522Z"
   },
@@ -14964,7 +14964,7 @@
     "rule": "jQuery-before(",
     "path": "ts/test-electron/models/messages_test.js",
     "line": "    before(async () => {",
-    "lineNumber": 35,
+    "lineNumber": 47,
     "reasonCategory": "testCode",
     "updated": "2020-10-21T00:45:53.649Z",
     "reasonDetail": "Test code and a false positive."
@@ -14973,7 +14973,7 @@
     "rule": "jQuery-load(",
     "path": "ts/test-electron/models/messages_test.js",
     "line": "        await window.ConversationController.load();",
-    "lineNumber": 37,
+    "lineNumber": 49,
     "reasonCategory": "testCode",
     "updated": "2020-10-21T00:45:53.649Z",
     "reasonDetail": "Test code and a false positive."
@@ -14982,7 +14982,7 @@
     "rule": "jQuery-after(",
     "path": "ts/test-electron/models/messages_test.js",
     "line": "    after(async () => {",
-    "lineNumber": 41,
+    "lineNumber": 53,
     "reasonCategory": "testCode",
     "updated": "2020-10-21T00:45:53.649Z",
     "reasonDetail": "Test code and a false positive."
@@ -15018,7 +15018,7 @@
     "rule": "jQuery-before(",
     "path": "ts/test-node/util/windowsZoneIdentifier_test.js",
     "line": "    before(function thisNeeded() {",
-    "lineNumber": 21,
+    "lineNumber": 33,
     "reasonCategory": "testCode",
     "updated": "2020-09-02T18:59:59.432Z",
     "reasonDetail": "This is test code (and isn't jQuery code)."
@@ -15036,7 +15036,7 @@
     "rule": "jQuery-append(",
     "path": "ts/textsecure/ContactsParser.js",
     "line": "        this.buffer.append(arrayBuffer);",
-    "lineNumber": 9,
+    "lineNumber": 10,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -15164,7 +15164,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/WebAPI.js",
     "line": "            const byteBuffer = window.dcodeIO.ByteBuffer.wrap(quote, 'binary', window.dcodeIO.ByteBuffer.LITTLE_ENDIAN);",
-    "lineNumber": 1265,
+    "lineNumber": 1278,
     "reasonCategory": "falseMatch",
     "updated": "2020-09-08T23:07:22.682Z"
   },
