@@ -191,6 +191,7 @@ $color-deep-red: #ff261f;
 // -- A few layout variables used cross-file
 
 $left-pane-width: 320px;
+$left-pane-hide-breakpoint: 799px;
 $header-height: 52px;
 
 $ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);

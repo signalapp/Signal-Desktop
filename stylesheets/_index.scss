@@ -46,10 +46,15 @@
   float: left;
   width: $left-pane-width;
   user-select: none;
+  transition: width 0.5s ease-in-out;
 
   .content {
     overflow-y: scroll;
     max-height: calc(100% - 88px);
+  }
+
+  @media (max-width: $left-pane-hide-breakpoint) {
+    width: 0px;
   }
 }
 
