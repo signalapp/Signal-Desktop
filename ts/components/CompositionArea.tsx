@@ -249,6 +249,7 @@ export const CompositionArea = ({
         i18n={i18n}
         doSend={handleForceSend}
         onPickEmoji={insertEmoji}
+        onClose={focusInput}
         recentEmojis={recentEmojis}
         skinTone={skinTone}
         onSetSkinTone={onSetSkinTone}
