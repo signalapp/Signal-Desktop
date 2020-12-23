@@ -289,7 +289,7 @@ export class EmojiCompletion {
             role="listbox"
             aria-expanded
             aria-activedescendant={`emoji-result--${
-              emojiResults.length
+              emojiResults.length && emojiResults[emojiResultsIndex]
                 ? emojiResults[emojiResultsIndex].short_name
                 : ''
             }`}
