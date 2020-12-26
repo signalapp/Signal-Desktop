@@ -189,6 +189,9 @@ try {
   installGetter('spell-check', 'getSpellCheck');
   installSetter('spell-check', 'setSpellCheck');
 
+  installGetter('auto-substitute-ascii-emojis', 'getAutoSubstituteAsciiEmojis');
+  installSetter('auto-substitute-ascii-emojis', 'setAutoSubstituteAsciiEmojis');
+
   installGetter('always-relay-calls', 'getAlwaysRelayCalls');
   installSetter('always-relay-calls', 'setAlwaysRelayCalls');
 

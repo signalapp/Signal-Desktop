@@ -1292,6 +1292,8 @@ installSettingsSetter('badge-count-muted-conversations');
 
 installSettingsGetter('spell-check');
 installSettingsSetter('spell-check');
+installSettingsGetter('auto-substitute-ascii-emojis');
+installSettingsSetter('auto-substitute-ascii-emojis');
 
 installSettingsGetter('always-relay-calls');
 installSettingsSetter('always-relay-calls');

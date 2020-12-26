@@ -152,6 +152,14 @@
           window.setSpellCheck(val);
         },
       });
+      new CheckboxView({
+        el: this.$('.auto-substitute-ascii-emojis'),
+        name: 'auto-substitute-ascii-emojis',
+        value: window.initialData.autoSubstituteAsciiEmojis,
+        setFn: val => {
+          window.setAutoSubstituteAsciiEmojis(val);
+        },
+      });
       if (Settings.isHideMenuBarSupported()) {
         new CheckboxView({
           el: this.$('.menu-bar-setting'),
@@ -219,6 +227,7 @@
         nameAndMessage: i18n('nameAndMessage'),
         noNameOrMessage: i18n('noNameOrMessage'),
         nameOnly: i18n('nameOnly'),
+        autoSubstituteAsciiEmojisDescription: i18n('autoSubstituteAsciiEmojisDescription'),
         notificationDrawAttention: i18n('notificationDrawAttention'),
         audioNotificationDescription: i18n('audioNotificationDescription'),
         isAudioNotificationSupported: Settings.isAudioNotificationSupported(),
@@ -258,7 +267,7 @@
         spellCheckDisplay: spellCheckDirty ? 'inherit' : 'none',
         spellCheckDirtyText: appStartSpellCheck
           ? i18n('spellCheckWillBeDisabled')
-          : i18n('spellCheckWillBeEnabled'),
+        : i18n('spellCheckWillBeEnabled'),
       };
     },
     onClose() {

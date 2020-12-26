@@ -110,14 +110,18 @@
       <label for='badge-count-muted-conversations'>{{ countMutedConversationsDescription }}</label>
     </div>
     <hr>
-      <h3>{{ generalHeader }}</h3>
-      <div class='spell-check-setting'>
-        <input type='checkbox' name='spell-check-setting' id='spell-check-setting' />
-        <label for='spell-check-setting'>{{ spellCheckDescription }}</label>
-        <p class='spell-check-setting-message' style='display: {{ spellCheckDisplay }};' aria-hidden='{{ spellCheckHidden }}'>
-          {{ spellCheckDirtyText }}
-        </p>
-      </div>
+    <h3>{{ generalHeader }}</h3>
+    <div class='spell-check-setting'>
+      <input type='checkbox' name='spell-check-setting' id='spell-check-setting' />
+      <label for='spell-check-setting'>{{ spellCheckDescription }}</label>
+      <p class='spell-check-setting-message' style='display: {{ spellCheckDisplay }};' aria-hidden='{{ spellCheckHidden }}'>
+        {{ spellCheckDirtyText }}
+      </p>
+    </div>
+    <div class='auto-substitute-ascii-emojis'>
+      <input type='checkbox' name='auto-substitute-ascii-emojis' id='auto-substitute-ascii-emojis' />
+      <label for='auto-substitute-ascii-emojis'>{{ autoSubstituteAsciiEmojisDescription }}</label>
+    </div>
     <hr>
     <div class='calling-setting'>
       <h3>{{ calling }}</h3>

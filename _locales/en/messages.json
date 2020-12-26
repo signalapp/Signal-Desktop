@@ -1334,6 +1334,10 @@
     "message": "Enable spell check of text entered in message composition box",
     "description": "Description of the media permission description"
   },
+  "autoSubstituteAsciiEmojisDescription": {
+    "message": "Substitute ASCII emojis with their graphical version",
+    "description": "While entering ASCII emojis into a text input in chat windows, they will be replaced with graphical ones"
+  },
   "spellCheckWillBeEnabled": {
     "message": "Spell check will be enabled the next time Signal starts.",
     "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."

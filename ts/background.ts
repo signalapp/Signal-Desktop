@@ -410,6 +410,12 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         window.storage.put('spell-check', value);
       },
 
+      getAutoSubstituteAsciiEmojis: () =>
+        window.storage.get('auto-substitute-ascii-emojis', true),
+      setAutoSubstituteAsciiEmojis: (value: WhatIsThis) => {
+        window.storage.put('auto-substitute-ascii-emojis', value);
+      },
+
       getAlwaysRelayCalls: () => window.storage.get('always-relay-calls'),
       setAlwaysRelayCalls: (value: WhatIsThis) =>
         window.storage.put('always-relay-calls', value),

@@ -34,11 +34,13 @@ import {
 } from '../quill/util';
 import { SignalClipboard } from '../quill/signal-clipboard';
 import { DirectionalBlot } from '../quill/block/blot';
+import { AutoSubstituteAsciiEmojis } from '../quill/auto-substitute-ascii-emojis';
 
 Quill.register('formats/emoji', EmojiBlot);
 Quill.register('formats/mention', MentionBlot);
 Quill.register('formats/block', DirectionalBlot);
 Quill.register('modules/emojiCompletion', EmojiCompletion);
+Quill.register('modules/autoSubstituteAsciiEmojis', AutoSubstituteAsciiEmojis);
 Quill.register('modules/mentionCompletion', MentionCompletion);
 Quill.register('modules/signalClipboard', SignalClipboard);
 
@@ -503,6 +505,9 @@ export const CompositionInput: React.ComponentType<Props> = props => {
                 onEscape: { key: 27, handler: onEscape }, // 27 = Escape
                 onBackspace: { key: 8, handler: onBackspace }, // 8 = Backspace
               },
+            },
+            autoSubstituteAsciiEmojis: {
+              skinTone,
             },
             emojiCompletion: {
               setEmojiPickerElement: setEmojiCompletionElement,

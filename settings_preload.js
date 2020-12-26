@@ -3,34 +3,34 @@
 
 /* global window */
 
-const { ipcRenderer, remote } = require('electron');
+const {ipcRenderer, remote} = require('electron');
 
 const url = require('url');
 const i18n = require('./js/modules/i18n');
 
 const config = url.parse(window.location.toString(), true).query;
-const { locale } = config;
+const {locale} = config;
 const localeMessages = ipcRenderer.sendSync('locale-data');
 
-const { nativeTheme } = remote.require('electron');
+const {nativeTheme} = remote.require('electron');
 
 window.platform = process.platform;
 window.theme = config.theme;
 window.i18n = i18n.setup(locale, localeMessages);
 window.appStartInitialSpellcheckSetting =
-  config.appStartInitialSpellcheckSetting === 'true';
+    config.appStartInitialSpellcheckSetting === 'true';
 
 function setSystemTheme() {
-  window.systemTheme = nativeTheme.shouldUseDarkColors ? 'dark' : 'light';
+    window.systemTheme = nativeTheme.shouldUseDarkColors ? 'dark' : 'light';
 }
 
 setSystemTheme();
 
 window.subscribeToSystemThemeChange = fn => {
-  nativeTheme.on('updated', () => {
-    setSystemTheme();
-    fn();
-  });
+    nativeTheme.on('updated', () => {
+        setSystemTheme();
+        fn();
+    });
 };
 
 window.getEnvironment = () => config.environment;
@@ -41,9 +41,9 @@ window.getAppInstance = () => config.appInstance;
 const Signal = require('./js/modules/signal');
 
 window.Signal = Signal.setup({
-  Attachments: null,
-  userDataPath: null,
-  getRegionCode: () => null,
+    Attachments: null,
+    userDataPath: null,
+    getRegionCode: () => null,
 });
 
 window.closeSettings = () => ipcRenderer.send('close-settings');
@@ -57,6 +57,9 @@ window.setHideMenuBar = makeSetter('hide-menu-bar');
 
 window.getSpellCheck = makeGetter('spell-check');
 window.setSpellCheck = makeSetter('spell-check');
+
+window.getAutoSubstituteAsciiEmojis = makeGetter('auto-substitute-ascii-emojis');
+window.setAutoSubstituteAsciiEmojis = makeSetter('auto-substitute-ascii-emojis');
 
 window.getAlwaysRelayCalls = makeGetter('always-relay-calls');
 window.setAlwaysRelayCalls = makeSetter('always-relay-calls');
@@ -74,10 +77,10 @@ window.setCallSystemNotification = makeSetter('call-system-notification');
 window.getIncomingCallNotification = makeGetter('incoming-call-notification');
 window.setIncomingCallNotification = makeSetter('incoming-call-notification');
 window.getCountMutedConversations = makeGetter(
-  'badge-count-muted-conversations'
+    'badge-count-muted-conversations'
 );
 window.setCountMutedConversations = makeSetter(
-  'badge-count-muted-conversations'
+    'badge-count-muted-conversations'
 );
 
 window.getMediaPermissions = makeGetter('media-permissions');
@@ -93,31 +96,32 @@ window.setLastSyncTime = makeSetter('sync-time');
 window.deleteAllData = () => ipcRenderer.send('delete-all-data');
 
 function makeGetter(name) {
-  return () =>
-    new Promise((resolve, reject) => {
-      ipcRenderer.once(`get-success-${name}`, (event, error, value) => {
-        if (error) {
-          return reject(error);
-        }
+    return () => {
+        return new Promise((resolve, reject) => {
+            ipcRenderer.once(`get-success-${name}`, (event, error, value) => {
+                if (error) {
+                    return reject(error);
+                }
 
-        return resolve(value);
-      });
-      ipcRenderer.send(`get-${name}`);
-    });
+                return resolve(value);
+            });
+            ipcRenderer.send(`get-${name}`);
+        });
+    }
 }
 
 function makeSetter(name) {
-  return value =>
-    new Promise((resolve, reject) => {
-      ipcRenderer.once(`set-success-${name}`, (event, error) => {
-        if (error) {
-          return reject(error);
-        }
+    return value =>
+        new Promise((resolve, reject) => {
+            ipcRenderer.once(`set-success-${name}`, (event, error) => {
+                if (error) {
+                    return reject(error);
+                }
 
-        return resolve();
-      });
-      ipcRenderer.send(`set-${name}`, value);
-    });
+                return resolve();
+            });
+            ipcRenderer.send(`set-${name}`, value);
+        });
 }
 
 require('./js/logging');
