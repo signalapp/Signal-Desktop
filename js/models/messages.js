@@ -567,8 +567,7 @@
       const conversation = this.getConversation();
 
       const isModerator =
-        conversation &&
-        !!conversation.isModerator(textsecure.storage.user.getNumber());
+        conversation && !!conversation.isModerator(phoneNumber);
 
       const convoId = conversation ? conversation.id : undefined;
       const isGroup = !!conversation && !conversation.isPrivate();
