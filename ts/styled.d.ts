@@ -35,6 +35,7 @@ declare module 'styled-components' {
       // text
       textColor: string;
       textColorSubtle: string;
+      textColorSubtleNoOpacity: string;
       textColorOpposite: string;
       textHighlight: string;
       // inbox
