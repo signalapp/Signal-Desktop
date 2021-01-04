@@ -24,10 +24,6 @@ import { ConversationModel } from './models/conversations';
 import { ProfileNameChangeType } from './util/getStringForProfileChange';
 import { CapabilitiesType } from './textsecure/WebAPI';
 
-interface ModelAttributesInterface {
-  [key: string]: any;
-}
-
 export type WhatIsThis = any;
 
 type DeletesAttributesType = {

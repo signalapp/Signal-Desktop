@@ -18,8 +18,6 @@ import utils from './textsecure/Helpers';
 import { CallingMessage as CallingMessageClass } from 'ringrtc';
 import { WhatIsThis } from './window.d';
 
-type AttachmentType = any;
-
 export type UnprocessedType = {
   attempts: number;
   decrypted?: string;
