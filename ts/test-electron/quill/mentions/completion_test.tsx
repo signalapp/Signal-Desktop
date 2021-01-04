@@ -53,8 +53,6 @@ const members: Array<ConversationType> = [
 ];
 
 describe('MentionCompletion', () => {
-  const mockSetMentionPickerElement = sinon.spy();
-
   let mockQuill: Omit<
     Partial<{ [K in keyof Quill]: SinonStub }>,
     'keyboard'
@@ -72,7 +70,7 @@ describe('MentionCompletion', () => {
       i18n: sinon.stub(),
       me,
       memberRepositoryRef,
-      setMentionPickerElement: mockSetMentionPickerElement,
+      setMentionPickerElement: sinon.stub(),
     };
 
     mockQuill = {
