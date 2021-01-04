@@ -3,9 +3,13 @@
 
 /* global window */
 
+window.React = require('react');
+window.ReactDOM = require('react-dom');
+
 const { ipcRenderer, remote } = require('electron');
 const url = require('url');
 const i18n = require('./js/modules/i18n');
+const { ConfirmationModal } = require('./ts/components/ConfirmationModal');
 const { makeGetter, makeSetter } = require('./preload_utils');
 
 const { nativeTheme } = remote.require('electron');
@@ -20,6 +24,11 @@ window.theme = config.theme;
 window.i18n = i18n.setup(locale, localeMessages);
 window.forCalling = config.forCalling === 'true';
 window.forCamera = config.forCamera === 'true';
+window.Signal = {
+  Components: {
+    ConfirmationModal,
+  },
+};
 
 function setSystemTheme() {
   window.systemTheme = nativeTheme.shouldUseDarkColors ? 'dark' : 'light';

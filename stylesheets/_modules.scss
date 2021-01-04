@@ -8308,7 +8308,8 @@ button.module-image__border-overlay:focus {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 5;
+    // THIS Z-INDEX IS OVER NINE THOUSAND. OVER NINE THOUSAND?! THAT CAN'T BE!
+    z-index: 9001;
   }
 
   &__container {

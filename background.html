@@ -114,18 +114,6 @@
       <button class='finish' tabIndex='1'><span class='icon'></span></button>
   </script>
 
-  <script type='text/x-tmpl-mustache' id='confirmation-dialog'>
-    <div class="content">
-      <div class='message'>{{ message }}</div>
-      <div class='buttons'>
-        <button class='ok' tabindex='2'>{{ ok }}</button>
-        {{ #showCancel }}
-          <button class='cancel' tabindex='1'>{{ cancel }}</button>
-        {{ /showCancel }}
-      </div>
-    </div>
-  </script>
-
   <script type='text/x-tmpl-mustache' id='safety-number-change-dialog'>
     <div class='safety-number-change-dialog-wrapper'></div>
   </script>
@@ -361,7 +349,7 @@
   <script type='text/javascript' src='js/views/recorder_view.js'></script>
   <script type='text/javascript' src='ts/views/conversation_view.js'></script>
   <script type='text/javascript' src='js/views/inbox_view.js'></script>
-  <script type='text/javascript' src='js/views/confirmation_dialog_view.js'></script>
+  <script type='text/javascript' src='ts/shims/showConfirmationDialog.js'></script>
   <script type='text/javascript' src='js/views/identicon_svg_view.js'></script>
   <script type='text/javascript' src='js/views/install_view.js'></script>
   <script type='text/javascript' src='js/views/banner_view.js'></script>

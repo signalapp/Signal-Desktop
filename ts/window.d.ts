@@ -64,6 +64,7 @@ import { MessageModel } from './models/messages';
 import { ConversationModel } from './models/conversations';
 import { combineNames } from './util';
 import { BatcherType } from './util/batcher';
+import { ConfirmationModal } from './components/ConfirmationModal';
 import { ErrorModal } from './components/ErrorModal';
 import { ProgressModal } from './components/ProgressModal';
 import { ContactModal } from './components/conversation/ContactModal';
@@ -73,6 +74,17 @@ export { Long } from 'long';
 type TaskResultType = any;
 
 export type WhatIsThis = any;
+
+// Synced with the type in ts/shims/showConfirmationDialog
+// we are duplicating it here because that file cannot import/export.
+type ConfirmationDialogViewProps = {
+  cancelText?: string;
+  confirmStyle?: 'affirmative' | 'negative';
+  message: string;
+  okText: string;
+  reject?: () => void;
+  resolve: () => void;
+};
 
 declare global {
   interface Window {
@@ -160,6 +172,7 @@ declare global {
     setAutoHideMenuBar: (value: WhatIsThis) => void;
     setBadgeCount: (count: number) => void;
     setMenuBarVisibility: (value: WhatIsThis) => void;
+    showConfirmationDialog: (options: ConfirmationDialogViewProps) => void;
     showKeyboardShortcuts: () => void;
     storage: {
       addBlockedGroup: (group: string) => void;
@@ -397,6 +410,7 @@ declare global {
       Components: {
         AttachmentList: any;
         CaptionEditor: any;
+        ConfirmationModal: typeof ConfirmationModal;
         ContactDetail: any;
         ErrorModal: typeof ErrorModal;
         ContactModal: typeof ContactModal;
@@ -600,7 +614,6 @@ export type WhisperType = {
   MessageType: MessageModel;
   GroupMemberConversation: WhatIsThis;
   KeyChangeListener: WhatIsThis;
-  ConfirmationDialogView: WhatIsThis;
   ClearDataView: WhatIsThis;
   ReactWrapperView: WhatIsThis;
   activeConfirmationView: WhatIsThis;

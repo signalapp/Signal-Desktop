@@ -287,15 +287,6 @@
     "reasonDetail": "Protected from arbitrary input"
   },
   {
-    "rule": "jQuery-appendTo(",
-    "path": "js/permissions_popup_start.js",
-    "line": "window.view.$el.appendTo($body);",
-    "lineNumber": 52,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-06-02T21:51:34.813Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "js/settings_start.js",
     "line": "$(document).on('keydown', e => {",
@@ -356,15 +347,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/confirmation_dialog_view.js",
-    "line": "      setTimeout(() => this.$('.cancel').focus(), 1);",
-    "lineNumber": 76,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-12-07T02:04:56.987Z",
-    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-append(",
@@ -1360,19 +1342,10 @@
     "reasonDetail": "Value set came directly from Mustache tempating engine"
   },
   {
-    "rule": "jQuery-append(",
-    "path": "js/views/whisper_view.js",
-    "line": "          this.$el.append(dialog.el);",
-    "lineNumber": 63,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "js/views/whisper_view.js",
     "line": "        $('script[type=\"text/x-tmpl-mustache\"]').each((i, el) => {",
-    "lineNumber": 72,
+    "lineNumber": 70,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1381,7 +1354,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/whisper_view.js",
     "line": "          const $el = $(el);",
-    "lineNumber": 73,
+    "lineNumber": 71,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1390,7 +1363,7 @@
     "rule": "jQuery-html(",
     "path": "js/views/whisper_view.js",
     "line": "          templates[id] = $el.html();",
-    "lineNumber": 75,
+    "lineNumber": 73,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-15T00:38:04.183Z",
     "reasonDetail": "Getting the value, not setting it"

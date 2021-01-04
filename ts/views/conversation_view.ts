@@ -2034,7 +2034,8 @@ Whisper.ConversationView = Whisper.View.extend({
     this.$('.microphone').hide();
   },
   handleAudioConfirm(blob: any, lostFocus: any) {
-    const dialog = new Whisper.ConfirmationDialogView({
+    window.showConfirmationDialog({
+      confirmStyle: 'negative',
       cancelText: window.i18n('discard'),
       message: lostFocus
         ? window.i18n('voiceRecordingInterruptedBlur')
@@ -2044,9 +2045,6 @@ Whisper.ConversationView = Whisper.View.extend({
         await this.handleAudioCapture(blob);
       },
     });
-
-    this.$el.prepend(dialog.el);
-    dialog.focusCancel();
   },
   async handleAudioCapture(blob: any) {
     if (this.hasFiles()) {
@@ -2346,7 +2344,8 @@ Whisper.ConversationView = Whisper.View.extend({
       throw new Error(`forceSend: Did not find message for id ${messageId}`);
     }
 
-    const dialog = new Whisper.ConfirmationDialogView({
+    window.showConfirmationDialog({
+      confirmStyle: 'negative',
       message: window.i18n('identityKeyErrorOnSend', {
         name1: contact.getTitle(),
         name2: contact.getTitle(),
@@ -2367,9 +2366,6 @@ Whisper.ConversationView = Whisper.View.extend({
         message.resend(contact.getSendTarget());
       },
     });
-
-    this.$el.prepend(dialog.el);
-    dialog.focusCancel();
   },
 
   showSafetyNumber(id: any) {
@@ -2513,7 +2509,8 @@ Whisper.ConversationView = Whisper.View.extend({
       );
     }
 
-    const dialog = new Whisper.ConfirmationDialogView({
+    window.showConfirmationDialog({
+      confirmStyle: 'negative',
       message: window.i18n('deleteWarning'),
       okText: window.i18n('delete'),
       resolve: () => {
@@ -2530,9 +2527,6 @@ Whisper.ConversationView = Whisper.View.extend({
         this.resetPanel();
       },
     });
-
-    this.$el.prepend(dialog.el);
-    dialog.focusCancel();
   },
 
   deleteMessageForEveryone(messageId: string) {
@@ -2543,7 +2537,8 @@ Whisper.ConversationView = Whisper.View.extend({
       );
     }
 
-    const dialog = new Whisper.ConfirmationDialogView({
+    window.showConfirmationDialog({
+      confirmStyle: 'negative',
       message: window.i18n('deleteForEveryoneWarning'),
       okText: window.i18n('delete'),
       resolve: async () => {
@@ -2551,9 +2546,6 @@ Whisper.ConversationView = Whisper.View.extend({
         this.resetPanel();
       },
     });
-
-    this.$el.prepend(dialog.el);
-    dialog.focusCancel();
   },
 
   showStickerPackPreview(packId: any, packKey: any) {

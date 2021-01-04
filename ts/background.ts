@@ -241,15 +241,14 @@ type WhatIsThis = import('./window.d').WhatIsThis;
 
         try {
           await new Promise((resolve, reject) => {
-            const dialog = new window.Whisper.ConfirmationDialogView({
+            window.showConfirmationDialog({
+              cancelText: window.i18n('quit'),
+              confirmStyle: 'negative',
               message: window.i18n('deleteOldIndexedDBData'),
               okText: window.i18n('deleteOldData'),
-              cancelText: window.i18n('quit'),
-              resolve,
-              reject,
+              reject: () => reject(),
+              resolve: () => resolve(),
             });
-            document.body.append(dialog.el);
-            dialog.focusCancel();
           });
         } catch (error) {
           window.log.info(
