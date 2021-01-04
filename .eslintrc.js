@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // For reference: https://github.com/airbnb/javascript
@@ -19,7 +19,9 @@ const rules = {
   //   https://github.com/typescript-eslint/typescript-eslint/releases/tag/v4.0.0
   '@typescript-eslint/no-redeclare': 'error',
   '@typescript-eslint/no-shadow': 'error',
+  '@typescript-eslint/no-useless-constructor': ['error'],
   'no-shadow': 'off',
+  'no-useless-constructor': 'off',
 
   // prevents us from accidentally checking in exclusive tests (`.only`):
   'mocha/no-exclusive-tests': 'error',
