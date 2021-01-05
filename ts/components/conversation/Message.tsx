@@ -621,6 +621,7 @@ class MessageInner extends React.PureComponent<Props, State> {
       isRss,
       conversationType,
       convoId,
+      multiSelectMode,
     } = this.props;
 
     const contents =
@@ -650,6 +651,7 @@ class MessageInner extends React.PureComponent<Props, State> {
           bodyPending={bodyPending}
           isGroup={conversationType === 'group'}
           convoId={convoId}
+          disableLinks={multiSelectMode}
         />
       </div>
     );
