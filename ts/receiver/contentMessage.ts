@@ -203,7 +203,6 @@ async function decryptWithSessionProtocol(
   const plaintext = plaintextWithMetadata.subarray(0, plainTextEnd);
 
   // 3. ) Verify the signature
-  // FIXME, why don't we have a sodium.crypto_sign_verify ?
   const isValid = sodium.crypto_sign_verify_detached(
     signature,
     concatUInt8Array(

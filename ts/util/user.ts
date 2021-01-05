@@ -25,7 +25,7 @@ export async function getPrimary(): Promise<PrimaryPubKey> {
 }
 
 /**
- * This return the stored x25519 identity keypair for that user
+ * This return the stored x25519 identity keypair for the current logged in user
  */
 export async function getIdentityKeyPair(): Promise<KeyPair | undefined> {
   const item = await getItemById('identityKey');

@@ -195,6 +195,7 @@ class ActionsPanelPrivate extends React.Component<Props> {
     if (userED25519KeyPairHex) {
       return;
     }
+
     window.showResetSessionIdDialog();
   }
 }
