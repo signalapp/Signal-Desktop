@@ -709,6 +709,9 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       await this.onSendMessage();
     } else if (event.key === 'Escape' && this.state.showEmojiPanel) {
       this.hideEmojiPanel();
+    } else if (event.key === 'PageUp' || event.key === 'PageDown') {
+      // swallow pageUp events if they occurs on the composition box (it breaks the app layout)
+      event.preventDefault();
     }
   }
 

@@ -307,6 +307,7 @@ export class SessionConversation extends React.Component<Props, State> {
           /> */}
 
         <div
+          // if you change the classname, also update it on onKeyDown
           className={classNames(
             'conversation-content',
             selectionMode && 'selection-mode'
@@ -888,26 +889,28 @@ export class SessionConversation extends React.Component<Props, State> {
       }
       // EXIT WHAT ELSE?
     }
-    switch (event.key) {
-      case 'Escape':
-        if (selectionMode) {
-          this.resetSelection();
-        }
-        break;
-      // Scrolling
-      case 'ArrowUp':
-        messageContainer.scrollBy(0, -arrowScrollPx);
-        break;
-      case 'ArrowDown':
-        messageContainer.scrollBy(0, arrowScrollPx);
-        break;
-      case 'PageUp':
-        messageContainer.scrollBy(0, -pageScrollPx);
-        break;
-      case 'PageDown':
-        messageContainer.scrollBy(0, pageScrollPx);
-        break;
-      default:
+    if (event.target.classList.contains('conversation-content')) {
+      switch (event.key) {
+        case 'Escape':
+          if (selectionMode) {
+            this.resetSelection();
+          }
+          break;
+        // Scrolling
+        case 'ArrowUp':
+          messageContainer.scrollBy(0, -arrowScrollPx);
+          break;
+        case 'ArrowDown':
+          messageContainer.scrollBy(0, arrowScrollPx);
+          break;
+        case 'PageUp':
+          messageContainer.scrollBy(0, -pageScrollPx);
+          break;
+        case 'PageDown':
+          messageContainer.scrollBy(0, pageScrollPx);
+          break;
+        default:
+      }
     }
   }
 
