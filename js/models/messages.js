@@ -3,7 +3,6 @@
   Backbone,
   storage,
   filesize,
-  ConversationController,
   getMessageController,
   i18n,
   Signal,
@@ -177,9 +176,9 @@
         } else if (groupUpdate.left) {
           return i18n(
             'leftTheGroup',
-            ConversationController.getContactProfileNameOrShortenedPubKey(
-              groupUpdate.left
-            )
+            window
+              .getConversationController()
+              .getContactProfileNameOrShortenedPubKey(groupUpdate.left)
           );
         }
 
@@ -196,7 +195,9 @@
         }
         if (groupUpdate.joined && groupUpdate.joined.length) {
           const names = groupUpdate.joined.map(pubKey =>
-            ConversationController.getContactProfileNameOrFullPubKey(pubKey)
+            window
+              .getConversationController()
+              .getContactProfileNameOrFullPubKey(pubKey)
           );
 
           if (names.length > 1) {
@@ -209,7 +210,8 @@
         if (groupUpdate.kicked && groupUpdate.kicked.length) {
           const names = _.map(
             groupUpdate.kicked,
-            ConversationController.getContactProfileNameOrShortenedPubKey
+            window.getConversationController()
+              .getContactProfileNameOrShortenedPubKey
           );
 
           if (names.length > 1) {
@@ -260,9 +262,9 @@
         );
         const pubkeysInDesc = description.match(regex);
         (pubkeysInDesc || []).forEach(pubkey => {
-          const displayName = ConversationController.getContactProfileNameOrShortenedPubKey(
-            pubkey.slice(1)
-          );
+          const displayName = window
+            .getConversationController()
+            .getContactProfileNameOrShortenedPubKey(pubkey.slice(1));
           if (displayName && displayName.length) {
             description = description.replace(pubkey, `@${displayName}`);
           }
@@ -383,7 +385,7 @@
       };
     },
     findContact(phoneNumber) {
-      return ConversationController.get(phoneNumber);
+      return window.getConversationController().get(phoneNumber);
     },
     findAndFormatContact(phoneNumber) {
       const { format } = PhoneNumber;
@@ -726,7 +728,7 @@
       const regionCode = storage.get('regionCode');
 
       const { author, id, referencedMessageNotFound } = quote;
-      const contact = author && ConversationController.get(author);
+      const contact = author && window.getConversationController().get(author);
 
       const authorPhoneNumber = format(author, {
         ourRegionCode: regionCode,
@@ -1029,7 +1031,9 @@
 
         const { body, attachments, preview, quote } = await this.uploadData();
         const ourNumber = window.storage.get('primaryDevicePubKey');
-        const ourConversation = window.ConversationController.get(ourNumber);
+        const ourConversation = window
+          .getConversationController()
+          .get(ourNumber);
 
         const chatParams = {
           identifier: this.id,
@@ -1304,7 +1308,7 @@
         if (error.name === 'SignedPreKeyRotationError') {
           await window.getAccountManager().rotateSignedPreKey();
         } else if (error.name === 'OutgoingIdentityKeyError') {
-          const c = ConversationController.get(sentMessage.device);
+          const c = window.getConversationController().get(sentMessage.device);
           await c.getProfiles();
         }
       }
@@ -1330,15 +1334,16 @@
       // This needs to be an unsafe call, because this method is called during
       //   initial module setup. We may be in the middle of the initial fetch to
       //   the database.
-      return ConversationController.getUnsafe(this.get('conversationId'));
+      return window
+        .getConversationController()
+        .getUnsafe(this.get('conversationId'));
     },
     getSourceDeviceConversation() {
       // This gets the conversation of the device that sent this message
       // while getConversation will return the primary device conversation
-      return ConversationController.getOrCreateAndWait(
-        this.get('source'),
-        'private'
-      );
+      return window
+        .getConversationController()
+        .getOrCreateAndWait(this.get('source'), 'private');
     },
     getIncomingContact() {
       if (!this.isIncoming()) {
@@ -1351,7 +1356,7 @@
 
       const key = source.key ? source.key : source;
 
-      return ConversationController.getOrCreate(key, 'private');
+      return window.getConversationController().getOrCreate(key, 'private');
     },
     getQuoteContact() {
       const quote = this.get('quote');
@@ -1363,7 +1368,7 @@
         return null;
       }
 
-      return ConversationController.get(author);
+      return window.getConversationController().get(author);
     },
 
     getSource() {
@@ -1384,7 +1389,9 @@
       // is PubKey ano not a string
       const sourceStr = source.key ? source.key : source;
 
-      return ConversationController.getOrCreate(sourceStr, 'private');
+      return window
+        .getConversationController()
+        .getOrCreate(sourceStr, 'private');
     },
     isOutgoing() {
       return this.get('type') === 'outgoing';

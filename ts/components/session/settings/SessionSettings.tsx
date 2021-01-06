@@ -18,6 +18,7 @@ import {
 import { mapDispatchToProps } from '../../../state/actions';
 import { connect } from 'react-redux';
 import { StateType } from '../../../state/reducer';
+import { ConversationController } from '../../../session/conversations';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -341,7 +342,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
     }
 
     const secretWords = window.mnemonic.pubkey_to_secret_words(pubKey);
-    const conv = window.ConversationController.get(pubKey);
+    const conv = ConversationController.getInstance().get(pubKey);
     const deviceAlias = conv ? conv.getNickname() : 'Unnamed Device';
 
     return { deviceAlias, secretWords };
@@ -594,7 +595,9 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
     for (const blockedNumber of blockedNumbers) {
       let title: string;
 
-      const currentModel = window.ConversationController.get(blockedNumber);
+      const currentModel = ConversationController.getInstance().get(
+        blockedNumber
+      );
       if (currentModel) {
         title =
           currentModel.getProfileName() ||

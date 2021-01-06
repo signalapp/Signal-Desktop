@@ -13,6 +13,7 @@ import { StateType } from '../../state/reducer';
 import { MessageEncrypter } from '../../session/crypto';
 import { PubKey } from '../../session/types';
 import { UserUtil } from '../../util';
+import { ConversationController } from '../../session/conversations';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -89,7 +90,7 @@ class ActionsPanelPrivate extends React.Component<Props> {
 
     if (type === SectionType.Profile) {
       const ourPrimary = window.storage.get('primaryDevicePubKey');
-      const conversation = window.ConversationController.get(ourPrimary);
+      const conversation = ConversationController.getInstance().get(ourPrimary);
 
       const profile = conversation?.getLokiProfile();
       const userName = (profile && profile.displayName) || ourPrimary;

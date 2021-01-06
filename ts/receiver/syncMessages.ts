@@ -17,6 +17,7 @@ import { handleContacts } from './multidevice';
 import { updateOrCreateGroupFromSync } from '../session/medium_group';
 import { MultiDeviceProtocol } from '../session/protocols';
 import { BlockedNumberController } from '../util';
+import { ConversationController } from '../session/conversations';
 
 export async function handleSyncMessage(
   envelope: EnvelopePlus,
@@ -107,8 +108,6 @@ async function handleSentMessage(
     return;
   }
 
-  const { ConversationController } = window;
-
   // tslint:disable-next-line no-bitwise
   if (msg.flags && msg.flags & SignalService.DataMessage.Flags.END_SESSION) {
     await handleEndSession(destination as string);
@@ -125,7 +124,9 @@ async function handleSentMessage(
   // handle profileKey and avatar updates
   if (envelope.source === primaryDevicePubKey) {
     const { profileKey, profile } = message;
-    const primaryConversation = ConversationController.get(primaryDevicePubKey);
+    const primaryConversation = ConversationController.getInstance().get(
+      primaryDevicePubKey
+    );
     if (profile) {
       await updateProfile(primaryConversation, profile, profileKey);
     }
@@ -188,7 +189,7 @@ async function handleBlocked(
     );
 
     async function markConvoBlocked(block: boolean, n: string) {
-      const conv = window.ConversationController.get(n);
+      const conv = ConversationController.getInstance().get(n);
       if (conv) {
         if (conv.isPrivate()) {
           await BlockedNumberController.setBlocked(n, block);
@@ -260,7 +261,7 @@ async function handleVerified(
 }
 
 export async function onVerified(ev: any) {
-  const { ConversationController, textsecure, Whisper } = window;
+  const { Whisper } = window;
   const { Errors } = window.Signal.Types;
 
   const number = ev.verified.destination;
@@ -300,7 +301,7 @@ export async function onVerified(ev: any) {
     ev.viaContactSync ? 'via contact sync' : ''
   );
 
-  const contact = await ConversationController.getOrCreateAndWait(
+  const contact = await ConversationController.getInstance().getOrCreateAndWait(
     number,
     'private'
   );

@@ -19,7 +19,7 @@
       // get current list of moderators
       this.channelAPI = await convo.getPublicSendData();
       const modPubKeys = await this.channelAPI.getModerators();
-      const convos = window.getConversations().models;
+      const convos = window.getConversationController().getConversations();
       const moderators = modPubKeys
         .map(
           pubKey =>

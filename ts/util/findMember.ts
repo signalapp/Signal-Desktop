@@ -1,4 +1,5 @@
 import { ConversationModel } from '../../js/models/conversations';
+import { ConversationController } from '../session/conversations/ConversationController';
 
 // tslint:disable: no-unnecessary-class
 export class FindMember {
@@ -9,9 +10,11 @@ export class FindMember {
   ): Promise<ConversationModel | null> {
     let groupMembers;
 
-    const groupConvos = window.getConversations().models.filter((d: any) => {
-      return !d.isPrivate();
-    });
+    const groupConvos = ConversationController.getInstance()
+      .getConversations()
+      .filter((d: any) => {
+        return !d.isPrivate();
+      });
     const thisConvo = groupConvos.find((d: any) => {
       return d.id === convoId;
     });
@@ -29,14 +32,16 @@ export class FindMember {
       const publicMembers = await window.lokiPublicChatAPI.getListOfMembers();
       const memberConversations = publicMembers
         .map(publicMember =>
-          window.ConversationController.get(publicMember.authorPhoneNumber)
+          ConversationController.getInstance().get(
+            publicMember.authorPhoneNumber
+          )
         )
         .filter((c: any) => !!c);
       groupMembers = memberConversations;
     } else {
-      const privateConvos = window
+      const privateConvos = ConversationController.getInstance()
         .getConversations()
-        .models.filter((d: any) => d.isPrivate());
+        .filter((d: any) => d.isPrivate());
       const members = thisConvo.attributes.members;
       if (!members) {
         return null;

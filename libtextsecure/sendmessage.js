@@ -152,9 +152,9 @@ Message.prototype = {
         profile.displayName = this.profile.displayName;
       }
 
-      const conversation = window.ConversationController.get(
-        textsecure.storage.user.getNumber()
-      );
+      const conversation = window
+        .getConversationController()
+        .get(textsecure.storage.user.getNumber());
       const avatarPointer = conversation.get('avatarPointer');
       if (avatarPointer) {
         profile.avatar = avatarPointer;

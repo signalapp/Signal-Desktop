@@ -284,6 +284,7 @@ class MessageInner extends React.PureComponent<Props, State> {
             showSkipControls={false}
             showJumpControls={false}
             showDownloadProgress={false}
+            listenInterval={100}
             customIcons={{
               play: (
                 <SessionIcon

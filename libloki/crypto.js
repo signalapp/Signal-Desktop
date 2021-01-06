@@ -417,10 +417,9 @@
 
       let conversation;
       try {
-        conversation = await window.ConversationController.getOrCreateAndWait(
-          this.protocolAddress.getName(),
-          'private'
-        );
+        conversation = await window
+          .getConversationController()
+          .getOrCreateAndWait(this.protocolAddress.getName(), 'private');
       } catch (e) {
         window.log.info(
           'Error getting conversation: ',

@@ -1,7 +1,8 @@
 // tslint:disable-next-line: no-implicit-dependencies
 import { assert } from 'chai';
+import { ConversationController } from '../../ts/session/conversations';
 
-const { libsignal, Whisper, ConversationController } = window;
+const { libsignal, Whisper } = window;
 
 describe('KeyChangeListener', () => {
   const phoneNumberWithKeyChange = '+13016886524'; // nsa
@@ -29,10 +30,10 @@ describe('KeyChangeListener', () => {
 
     let convo: any;
     before(async () => {
-      convo = ConversationController.dangerouslyCreateAndAdd({
+      convo = ConversationController.getInstance().dangerouslyCreateAndAdd({
         id: phoneNumberWithKeyChange,
         type: 'private',
-      });
+      } as any);
       await window.Signal.Data.saveConversation(convo.attributes, {
         Conversation: Whisper.Conversation,
       });
@@ -58,11 +59,11 @@ describe('KeyChangeListener', () => {
     let convo: any;
 
     before(async () => {
-      convo = ConversationController.dangerouslyCreateAndAdd({
+      convo = ConversationController.getInstance().dangerouslyCreateAndAdd({
         id: 'groupId',
         type: 'group',
         members: [phoneNumberWithKeyChange],
-      });
+      } as any);
       await window.Signal.Data.saveConversation(convo.attributes, {
         Conversation: Whisper.Conversation,
       });

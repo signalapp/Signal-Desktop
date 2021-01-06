@@ -13,6 +13,7 @@ import { PubKey } from '../session/types';
 
 import ByteBuffer from 'bytebuffer';
 import { BlockedNumberController } from '../util';
+import { ConversationController } from '../session/conversations';
 
 async function unpairingRequestIsLegit(source: string, ourPubKey: string) {
   const { textsecure, storage, lokiFileServerAPI } = window;
@@ -144,7 +145,7 @@ async function handleAuthorisationForSelf(
   pairingAuthorisation: SignalService.IPairingAuthorisationMessage,
   dataMessage: SignalService.IDataMessage | undefined | null
 ) {
-  const { ConversationController, libloki, Whisper } = window;
+  const { libloki, Whisper } = window;
 
   const valid = await libloki.crypto.validateAuthorisation(
     pairingAuthorisation
@@ -174,7 +175,7 @@ async function handleAuthorisationForSelf(
       await MultiDeviceProtocol.savePairingAuthorisation(
         pairingAuthorisation as Data.PairingAuthorisation
       );
-      const primaryConversation = await ConversationController.getOrCreateAndWait(
+      const primaryConversation = await ConversationController.getInstance().getOrCreateAndWait(
         primaryDevicePubKey,
         'private'
       );
@@ -186,7 +187,7 @@ async function handleAuthorisationForSelf(
 
         if (profile && profileKey) {
           const ourNumber = window.storage.get('primaryDevicePubKey');
-          const me = window.ConversationController.get(ourNumber);
+          const me = ConversationController.getInstance().get(ourNumber);
           if (me) {
             await updateProfile(me, profile, profileKey);
           }
@@ -298,13 +299,7 @@ export async function handleContacts(
 
 // tslint:disable-next-line: max-func-body-length
 async function onContactReceived(details: any) {
-  const {
-    ConversationController,
-    storage,
-    textsecure,
-    libloki,
-    Whisper,
-  } = window;
+  const { storage, textsecure, libloki, Whisper } = window;
   const { Errors } = window.Signal.Types;
 
   const id = details.number;
@@ -334,7 +329,7 @@ async function onContactReceived(details: any) {
   }
 
   try {
-    const conversation = await ConversationController.getOrCreateAndWait(
+    const conversation = await ConversationController.getInstance().getOrCreateAndWait(
       id,
       'private'
     );
@@ -349,13 +344,13 @@ async function onContactReceived(details: any) {
 
     const primaryDevice = await MultiDeviceProtocol.getPrimaryDevice(id);
     const secondaryDevices = await MultiDeviceProtocol.getSecondaryDevices(id);
-    const primaryConversation = await ConversationController.getOrCreateAndWait(
+    const primaryConversation = await ConversationController.getInstance().getOrCreateAndWait(
       primaryDevice.key,
       'private'
     );
     const secondaryConversations = await Promise.all(
       secondaryDevices.map(async d => {
-        const secondaryConv = await ConversationController.getOrCreateAndWait(
+        const secondaryConv = await ConversationController.getInstance().getOrCreateAndWait(
           d.key,
           'private'
         );

@@ -3,6 +3,7 @@ import _, { omit } from 'lodash';
 import { Constants } from '../../session';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { MessageModel } from '../../../js/models/messages';
+import { ConversationController } from '../../session/conversations';
 
 // State
 
@@ -92,7 +93,9 @@ async function getMessages(
   conversationKey: string,
   numMessages: number
 ): Promise<Array<MessageTypeInConvo>> {
-  const conversation = window.ConversationController.get(conversationKey);
+  const conversation = ConversationController.getInstance().get(
+    conversationKey
+  );
   if (!conversation) {
     // no valid conversation, early return
     window.log.error('Failed to get convo on reducer.');

@@ -1,4 +1,4 @@
-/* global Whisper, SignalProtocolStore, ConversationController, _ */
+/* global Whisper, SignalProtocolStore, _ */
 
 /* eslint-disable more/no-then */
 
@@ -15,13 +15,14 @@
       }
 
       signalProtocolStore.on('keychange', async id => {
-        const conversation = await ConversationController.getOrCreateAndWait(
-          id,
-          'private'
-        );
+        const conversation = await window
+          .getConversationController()
+          .getOrCreateAndWait(id, 'private');
         conversation.addKeyChange(id);
 
-        const groups = await ConversationController.getAllGroupsInvolvingId(id);
+        const groups = await window
+          .getConversationController()
+          .getAllGroupsInvolvingId(id);
         _.forEach(groups, group => {
           group.addKeyChange(id);
         });

@@ -6,7 +6,6 @@
   Signal,
   storage,
   Whisper,
-  ConversationController,
 */
 
 // eslint-disable-next-line func-names
@@ -138,7 +137,7 @@
         );
 
         const allMembers = allPubKeys.map(pubKey => {
-          const conv = ConversationController.get(pubKey);
+          const conv = window.getConversationController().get(pubKey);
           let profileName = 'Anonymous';
           if (conv) {
             profileName = conv.getProfileName();
@@ -1149,8 +1148,9 @@
         }
 
         const privateConvos = window
+          .getConversationController()
           .getConversations()
-          .models.filter(d => d.isPrivate());
+          .filter(d => d.isPrivate());
         const memberConvos = members
           .map(m => privateConvos.find(c => c.id === m))
           .filter(c => !!c && c.getLokiProfile());

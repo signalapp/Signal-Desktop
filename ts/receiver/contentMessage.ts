@@ -20,6 +20,7 @@ import { StringUtils } from '../session/utils';
 import { UserUtil } from '../util';
 import { fromHex, toHex } from '../session/utils/String';
 import { concatUInt8Array, getSodium } from '../session/crypto';
+import { ConversationController } from '../session/conversations';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   try {
@@ -147,7 +148,7 @@ async function decryptWithSessionProtocol(
     case SignalService.Envelope.Type.MEDIUM_GROUP_CIPHERTEXT: {
       const hexEncodedGroupPublicKey = envelope.source;
 
-      isMediumGroup = window.ConversationController.isMediumGroup(
+      isMediumGroup = ConversationController.getInstance().isMediumGroup(
         hexEncodedGroupPublicKey
       );
 
@@ -490,7 +491,7 @@ async function decrypt(
       //    include the prekeyId in that new message.
       //    We won't find this preKeyId as we already burnt it when the sender established the session.
 
-      const convo = window.ConversationController.get(envelope.source);
+      const convo = ConversationController.getInstance().get(envelope.source);
       if (!convo) {
         window.log.warn('PreKeyMissing but convo is missing too. Dropping...');
         return;
@@ -543,7 +544,7 @@ function shouldDropBlockedUserMessage(content: SignalService.Content): boolean {
   }
   const groupId = StringUtils.decode(content.dataMessage.group.id, 'utf8');
 
-  const groupConvo = window.ConversationController.get(groupId);
+  const groupConvo = ConversationController.getInstance().get(groupId);
   if (!groupConvo) {
     return true;
   }
@@ -579,7 +580,6 @@ export async function innerHandleContentMessage(
   envelope: EnvelopePlus,
   plaintext: ArrayBuffer
 ): Promise<void> {
-  const { ConversationController } = window;
   try {
     const content = SignalService.Content.decode(new Uint8Array(plaintext));
 
@@ -597,7 +597,10 @@ export async function innerHandleContentMessage(
     }
     const { FALLBACK_MESSAGE } = SignalService.Envelope.Type;
 
-    await ConversationController.getOrCreateAndWait(envelope.source, 'private');
+    await ConversationController.getInstance().getOrCreateAndWait(
+      envelope.source,
+      'private'
+    );
 
     if (envelope.type !== FALLBACK_MESSAGE) {
       const device = new PubKey(envelope.source);
@@ -737,7 +740,6 @@ async function handleTypingMessage(
 
   const typingMessage = iTypingMessage as SignalService.TypingMessage;
 
-  const { ConversationController } = window;
   const { timestamp, groupId, action } = typingMessage;
   const { source } = envelope;
 
@@ -770,7 +772,7 @@ async function handleTypingMessage(
 
   const convoId = (primaryDevice && primaryDevice.key) || source;
 
-  const conversation = ConversationController.get(convoId);
+  const conversation = ConversationController.getInstance().get(convoId);
 
   const started = action === SignalService.TypingMessage.Action.STARTED;
 

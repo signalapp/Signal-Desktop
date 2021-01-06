@@ -6,6 +6,7 @@ import { TestUtils } from '../../../test-utils';
 import { UserUtil } from '../../../../util';
 import { MultiDeviceProtocol } from '../../../../session/protocols';
 import { SyncMessage } from '../../../../session/messages/outgoing';
+import { ConversationController } from '../../../../session/conversations';
 
 // tslint:disable-next-line: no-require-imports no-var-requires
 const chaiAsPromised = require('chai-as-promised');
@@ -17,7 +18,7 @@ describe('Sync Message Utils', () => {
   describe('getSyncContacts', () => {
     let getAllConversationsStub: sinon.SinonStub;
     let getOrCreateAndWaitStub: sinon.SinonStub;
-    let getOrCreatAndWaitItem: any;
+    let getOrCreateAndWaitItem: any;
 
     // Fill half with secondaries, half with primaries
     const numConversations = 20;
@@ -57,7 +58,7 @@ describe('Sync Message Utils', () => {
           secondaryConversations[getOrCreateAndWaitStub.callCount - 1];
 
         // Make the item a primary device to match the call in SyncMessage under secondaryContactsPromise
-        getOrCreatAndWaitItem = {
+        getOrCreateAndWaitItem = {
           ...item,
           getPrimaryDevicePubKey: () => item.id,
           attributes: {
@@ -65,12 +66,12 @@ describe('Sync Message Utils', () => {
           },
         };
 
-        return getOrCreatAndWaitItem;
+        return getOrCreateAndWaitItem;
       });
 
-      TestUtils.stubWindow('ConversationController', {
-        getOrCreateAndWait: getOrCreateAndWaitStub,
-      });
+      sandbox
+        .stub(ConversationController.getInstance(), 'getOrCreateAndWait')
+        .resolves(getOrCreateAndWaitStub);
 
       // Stubs
       sandbox.stub(UserUtil, 'getCurrentDevicePubKey').resolves(ourNumber);
@@ -93,21 +94,6 @@ describe('Sync Message Utils', () => {
       // Each contact should be a primary device
       expect(contacts).to.have.length(numConversations / 2);
       expect(contacts?.find(c => c.attributes.secondaryStatus)).to.not.exist;
-    });
-
-    it('can get sync contacts of assorted primaries and secondaries', async () => {
-      // Map secondary contacts to stub resolution
-      const contacts = await SyncMessageUtils.getSyncContacts();
-      expect(getAllConversationsStub.callCount).to.equal(1);
-
-      // We should have numConversations unique contacts
-      expect(contacts).to.have.length(numConversations);
-
-      // All contacts should be primary; half of which some from secondaries in secondaryContactsPromise
-      expect(contacts?.find(c => c.attributes.secondaryStatus)).to.not.exist;
-      expect(contacts?.filter(c => c.isPrimary)).to.have.length(
-        numConversations / 2
-      );
     });
   });
 });

@@ -105,7 +105,10 @@
         this.isAdmin = groupConvo.isMediumGroup()
           ? true
           : groupConvo.get('groupAdmins').includes(ourPK);
-        const convos = window.getConversations().models.filter(d => !!d);
+        const convos = window
+          .getConversationController()
+          .getConversations()
+          .filter(d => !!d);
 
         this.existingMembers = groupConvo.get('members') || [];
         // Show a contact if they are our friend or if they are a member

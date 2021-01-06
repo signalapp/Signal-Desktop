@@ -1,4 +1,4 @@
-/* global log, textsecure, libloki, Signal, Whisper, ConversationController,
+/* global log, textsecure, libloki, Signal, Whisper,
 clearTimeout, getMessageController, libsignal, StringView, window, _,
 dcodeIO, Buffer, process */
 const nodeFetch = require('node-fetch');
@@ -599,7 +599,7 @@ class LokiAppDotNetServerAPI {
       const ourNumber =
         window.storage.get('primaryDevicePubKey') ||
         textsecure.storage.user.getNumber();
-      const profileConvo = ConversationController.get(ourNumber);
+      const profileConvo = window.getConversationController().get(ourNumber);
       const profile = profileConvo && profileConvo.getLokiProfile();
       const profileName = profile && profile.displayName;
       // if doesn't match, write it to the network
@@ -1050,7 +1050,9 @@ class LokiPublicChannelAPI {
     this.channelId = channelId;
     this.baseChannelUrl = `channels/${this.channelId}`;
     this.conversationId = conversationId;
-    this.conversation = ConversationController.getOrThrow(conversationId);
+    this.conversation = window
+      .getConversationController()
+      .getOrThrow(conversationId);
     this.lastMessageServerID = null;
     this.modStatus = false;
     this.deleteLastId = 1;
@@ -2012,7 +2014,9 @@ class LokiPublicChannelAPI {
     // if we received one of our own messages
     if (lastProfileName !== false) {
       // get current profileName
-      const profileConvo = ConversationController.get(ourNumberProfile);
+      const profileConvo = window
+        .getConversationController()
+        .get(ourNumberProfile);
       const profileName = profileConvo.getProfileName();
       // check to see if it out of sync
       if (profileName !== lastProfileName) {

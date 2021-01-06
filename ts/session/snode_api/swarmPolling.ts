@@ -7,6 +7,7 @@ import _ from 'lodash';
 import * as Data from '../../../js/modules/data';
 
 import { StringUtils } from '../../session/utils';
+import { ConversationController } from '../conversations/ConversationController';
 
 type PubkeyToHash = { [key: string]: string };
 
@@ -147,7 +148,7 @@ export class SwarmPolling {
 
   private loadGroupIds() {
     // Start polling for medium size groups as well (they might be in different swarms)
-    const convos = window
+    const convos = ConversationController.getInstance()
       .getConversations()
       .filter((c: any) => c.isMediumGroup());
 

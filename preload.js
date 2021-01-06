@@ -180,6 +180,9 @@ window.libsession = require('./ts/session');
 window.getMessageController =
   window.libsession.Messages.MessageController.getInstance;
 
+window.getConversationController =
+  window.libsession.Conversations.ConversationController.getInstance;
+
 // We never do these in our code, so we'll prevent it everywhere
 window.open = () => null;
 // eslint-disable-next-line no-eval, no-multi-assign
@@ -217,9 +220,9 @@ window.onUnblockNumber = async number => {
   }
 
   // Update the conversation
-  if (window.ConversationController) {
+  if (window.getConversationController()) {
     try {
-      const conversation = window.ConversationController.get(number);
+      const conversation = window.getConversationController().get(number);
       await conversation.unblock();
     } catch (e) {
       window.log.info(
@@ -415,7 +418,6 @@ window.Signal = Signal.setup({
 
 // Pulling these in separately since they access filesystem, electron
 window.Signal.Backup = require('./js/modules/backup');
-window.Signal.Debug = require('./js/modules/debug');
 window.Signal.Logs = require('./js/modules/logs');
 
 window.addEventListener('contextmenu', e => {

@@ -28,6 +28,7 @@ import { ConversationModel } from '../../../js/models/conversations';
 import { MediumGroupUpdateMessage } from '../messages/outgoing/content/data/mediumgroup/MediumGroupUpdateMessage';
 import uuid from 'uuid';
 import { BlockedNumberController } from '../../util/blockedNumberController';
+import { ConversationController } from '../conversations';
 
 export {
   createSenderKeyForGroup,
@@ -63,7 +64,7 @@ export async function createMediumGroup(
   groupName: string,
   members: Array<string>
 ) {
-  const { ConversationController, libsignal } = window;
+  const { libsignal } = window;
 
   // ***** 1. Create group parameters *****
 
@@ -92,7 +93,7 @@ export async function createMediumGroup(
 
   // ***** 2. Send group update message *****
 
-  const convo = await ConversationController.getOrCreateAndWait(
+  const convo = await ConversationController.getInstance().getOrCreateAndWait(
     groupId,
     'group'
   );
@@ -142,7 +143,7 @@ export async function createLegacyGroup(
   groupName: string,
   members: Array<string>
 ) {
-  const { ConversationController, libsignal } = window;
+  const { libsignal } = window;
 
   const keypair = await libsignal.KeyHelper.generateIdentityKeyPair();
   const groupId = toHex(keypair.pubKey);
@@ -163,7 +164,7 @@ export async function createLegacyGroup(
 
   await updateOrCreateGroup(groupDetails);
 
-  const convo = await ConversationController.getOrCreateAndWait(
+  const convo = await ConversationController.getInstance().getOrCreateAndWait(
     groupId,
     'group'
   );
@@ -187,7 +188,6 @@ export async function createLegacyGroup(
 }
 
 export async function leaveMediumGroup(groupId: string) {
-  const { ConversationController } = window;
   // NOTE: we should probably remove sender keys for groupId,
   // and its secret key, but it is low priority
 
@@ -195,7 +195,7 @@ export async function leaveMediumGroup(groupId: string) {
   window.SwarmPolling.removePubkey(groupId);
   // TODO audric: we just left a group, we have to regenerate our senderkey
 
-  const maybeConvo = ConversationController.get(groupId);
+  const maybeConvo = ConversationController.getInstance().get(groupId);
 
   if (!maybeConvo) {
     window.log.error('Cannot leave non-existing group');
@@ -360,9 +360,7 @@ export async function initiateGroupUpdate(
   members: Array<string>,
   avatar: any
 ) {
-  const { ConversationController } = window;
-
-  const convo = await ConversationController.getOrCreateAndWait(
+  const convo = await ConversationController.getInstance().getOrCreateAndWait(
     groupId,
     'group'
   );
@@ -470,8 +468,7 @@ async function sendToMembers(
   message: MediumGroupMessage,
   dbMessage: MessageModel
 ) {
-  const { ConversationController } = window;
-  const convo = await ConversationController.getOrCreateAndWait(
+  const convo = await ConversationController.getInstance().getOrCreateAndWait(
     groupId,
     'group'
   );
@@ -801,7 +798,7 @@ export async function updateOrCreateGroupFromSync(details: GroupInfo) {
 
 // update conversation model
 async function updateOrCreateGroup(details: GroupInfo) {
-  const { ConversationController, libloki, storage, textsecure } = window;
+  const { libloki, textsecure } = window;
 
   const { id } = details;
 
@@ -812,7 +809,7 @@ async function updateOrCreateGroup(details: GroupInfo) {
     details
   );
 
-  const conversation = await ConversationController.getOrCreateAndWait(
+  const conversation = await ConversationController.getInstance().getOrCreateAndWait(
     id,
     'group'
   );

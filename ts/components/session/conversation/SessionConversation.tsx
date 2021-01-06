@@ -31,6 +31,7 @@ import { MessageView } from '../../MainViewController';
 import { getMessageById } from '../../../../js/modules/data';
 import { pushUnblockToSend } from '../../../session/utils/Toast';
 import { MessageDetail } from '../../conversation/MessageDetail';
+import { ConversationController } from '../../../session/conversations';
 
 interface State {
   // Message sending progress
@@ -87,7 +88,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
     const { conversationKey } = this.props;
 
-    const conversationModel = window.ConversationController.get(
+    const conversationModel = ConversationController.getInstance().get(
       conversationKey
     );
 
@@ -253,7 +254,7 @@ export class SessionConversation extends React.Component<Props, State> {
     const selectionMode = !!selectedMessages.length;
 
     const { conversation, conversationKey, messages } = this.props;
-    const conversationModel = window.ConversationController.get(
+    const conversationModel = ConversationController.getInstance().get(
       conversationKey
     );
 
@@ -395,7 +396,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
   public async loadInitialMessages() {
     const { conversationKey } = this.props;
-    const conversationModel = window.ConversationController.get(
+    const conversationModel = ConversationController.getInstance().get(
       conversationKey
     );
     if (!conversationModel) {
@@ -419,7 +420,7 @@ export class SessionConversation extends React.Component<Props, State> {
       infoViewState,
       messageDetailShowProps,
     } = this.state;
-    const conversation = window.ConversationController.getOrThrow(
+    const conversation = ConversationController.getInstance().getOrThrow(
       conversationKey
     );
     const expireTimer = conversation.get('expireTimer');
@@ -545,7 +546,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
   public getRightPanelProps() {
     const { conversationKey } = this.props;
-    const conversation = window.ConversationController.getOrThrow(
+    const conversation = ConversationController.getInstance().getOrThrow(
       conversationKey
     );
 
@@ -661,7 +662,7 @@ export class SessionConversation extends React.Component<Props, State> {
     // Get message objects
     const { conversationKey, messages } = this.props;
 
-    const conversationModel = window.ConversationController.getOrThrow(
+    const conversationModel = ConversationController.getInstance().getOrThrow(
       conversationKey
     );
     const selectedMessages = messages.filter(message =>
@@ -815,7 +816,7 @@ export class SessionConversation extends React.Component<Props, State> {
     }
     if (!_.isEqual(this.state.quotedMessageTimestamp, quotedMessageTimestamp)) {
       const { messages, conversationKey } = this.props;
-      const conversationModel = window.ConversationController.getOrThrow(
+      const conversationModel = ConversationController.getInstance().getOrThrow(
         conversationKey
       );
 
@@ -1222,7 +1223,7 @@ export class SessionConversation extends React.Component<Props, State> {
     );
 
     const allMembers = allPubKeys.map((pubKey: string) => {
-      const conv = window.ConversationController.get(pubKey);
+      const conv = ConversationController.getInstance().get(pubKey);
       let profileName = 'Anonymous';
       if (conv) {
         profileName = conv.getProfileName();

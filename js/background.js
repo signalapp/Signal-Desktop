@@ -2,7 +2,6 @@
   $,
   _,
   Backbone,
-  ConversationController,
   getAccountManager,
   Signal,
   storage,
@@ -371,7 +370,7 @@
 
     try {
       await Promise.all([
-        ConversationController.load(),
+        window.getConversationController().load(),
         textsecure.storage.protocol.hydrateCaches(),
         BlockedNumberController.load(),
       ]);
@@ -406,7 +405,9 @@
         return;
       }
 
-      const conversation = ConversationController.get(conversationId);
+      const conversation = window
+        .getConversationController()
+        .get(conversationId);
       messageIds.forEach(id => {
         if (conversation) {
           conversation.removeMessage(id);
@@ -561,10 +562,9 @@
 
     window.showEditProfileDialog = async () => {
       const ourNumber = window.storage.get('primaryDevicePubKey');
-      const conversation = await ConversationController.getOrCreateAndWait(
-        ourNumber,
-        'private'
-      );
+      const conversation = await window
+        .getConversationController()
+        .getOrCreateAndWait(ourNumber, 'private');
 
       const readFile = attachment =>
         new Promise((resolve, reject) => {
@@ -679,6 +679,7 @@
 
             if (avatar) {
               window
+                .getConversationController()
                 .getConversations()
                 .filter(convo => convo.isPublic() && !convo.isRss())
                 .forEach(convo =>
@@ -765,9 +766,9 @@
       const conversationId = `publicChat:${channelId}@${rawServerURL}`;
 
       // Quickly peak to make sure we don't already have it
-      const conversationExists = window.ConversationController.get(
-        conversationId
-      );
+      const conversationExists = window
+        .getConversationController()
+        .get(conversationId);
       if (conversationExists) {
         // We are already a member of this public chat
         return new Promise((_resolve, reject) => {
@@ -788,10 +789,9 @@
       }
 
       // Create conversation
-      const conversation = await window.ConversationController.getOrCreateAndWait(
-        conversationId,
-        'group'
-      );
+      const conversation = await window
+        .getConversationController()
+        .getOrCreateAndWait(conversationId, 'group');
 
       // Convert conversation to a public one
       await conversation.setPublicSource(completeServerURL, channelId);
@@ -842,7 +842,9 @@
         const sslServerUrl = `https://${rawServerUrl}`;
         const conversationId = `publicChat:${channelId}@${rawServerUrl}`;
 
-        const conversationExists = ConversationController.get(conversationId);
+        const conversationExists = window
+          .getConversationController()
+          .get(conversationId);
         if (conversationExists) {
           window.log.warn('We are already a member of this public chat');
           window.libsession.Utils.ToastUtils.pushAlreadyMemberOpenGroup();
@@ -850,10 +852,9 @@
           return;
         }
 
-        const conversation = await ConversationController.getOrCreateAndWait(
-          conversationId,
-          'group'
-        );
+        const conversation = await window
+          .getConversationController()
+          .getOrCreateAndWait(conversationId, 'group');
         await conversation.setPublicSource(sslServerUrl, channelId);
 
         const channelAPI = await window.lokiPublicChatAPI.findOrCreateChannel(
@@ -897,10 +898,9 @@
     });
 
     Whisper.events.on('onShowUserDetails', async ({ userPubKey }) => {
-      const conversation = await ConversationController.getOrCreateAndWait(
-        userPubKey,
-        'private'
-      );
+      const conversation = await window
+        .getConversationController()
+        .getOrCreateAndWait(userPubKey, 'private');
 
       const avatarPath = conversation.getAvatarPath();
       const profile = conversation.getLokiProfile();
@@ -953,7 +953,7 @@
 
     Whisper.events.on('calculatingPoW', ({ pubKey, timestamp }) => {
       try {
-        const conversation = ConversationController.get(pubKey);
+        const conversation = window.getConversationController().get(pubKey);
         conversation.onCalculatingPoW(pubKey, timestamp);
       } catch (e) {
         window.log.error('Error showing PoW cog');
@@ -964,7 +964,7 @@
       'publicMessageSent',
       ({ pubKey, timestamp, serverId, serverTimestamp }) => {
         try {
-          const conversation = ConversationController.get(pubKey);
+          const conversation = window.getConversationController().get(pubKey);
           conversation.onPublicMessageSent(
             pubKey,
             timestamp,
@@ -1031,7 +1031,7 @@
       await libsession.getMessageQueue().send(device, unlinkMessage);
       // Remove all traces of the device
       setTimeout(() => {
-        ConversationController.deleteContact(pubKey);
+        window.getConversationController().deleteContact(pubKey);
         Whisper.events.trigger('refreshLinkedDeviceList');
         callback();
       }, 1000);

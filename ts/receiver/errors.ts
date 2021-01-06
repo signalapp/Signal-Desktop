@@ -2,13 +2,12 @@ import { initIncomingMessage } from './dataMessage';
 import { toNumber } from 'lodash';
 import { SessionProtocol } from '../session/protocols';
 import { PubKey } from '../session/types';
+import { ConversationController } from '../session/conversations';
 
 async function onNoSession(ev: any) {
-  const { ConversationController, Whisper } = window;
-
   const pubkey = ev.proto.source;
 
-  const convo = await ConversationController.getOrCreateAndWait(
+  const convo = await ConversationController.getInstance().getOrCreateAndWait(
     pubkey,
     'private'
   );
@@ -40,7 +39,6 @@ export async function onError(ev: any) {
     return;
   }
 
-  const { ConversationController, Whisper } = window;
   const { error } = ev;
   window.log.error(
     'background onError:',
@@ -62,7 +60,7 @@ export async function onError(ev: any) {
 
     message.saveErrors(error || new Error('Error was null'));
     const id = message.get('conversationId');
-    const conversation = await ConversationController.getOrCreateAndWait(
+    const conversation = await ConversationController.getInstance().getOrCreateAndWait(
       id,
       'private'
     );
