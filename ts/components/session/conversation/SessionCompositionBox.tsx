@@ -81,7 +81,6 @@ interface State {
   message: string;
   showRecordingView: boolean;
 
-  mediaSetting: boolean | null;
   showEmojiPanel: boolean;
   voiceRecording?: Blob;
   ignoredLink?: string; // set the the ignored url when users closed the link preview
@@ -115,7 +114,6 @@ const getDefaultState = () => {
     message: '',
     voiceRecording: undefined,
     showRecordingView: false,
-    mediaSetting: null,
     showEmojiPanel: false,
     ignoredLink: undefined,
     stagedLinkPreview: undefined,
@@ -175,11 +173,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     this.focusCompositionBox = this.focusCompositionBox.bind(this);
 
     this.fetchUsersForGroup = this.fetchUsersForGroup.bind(this);
-  }
-
-  public async componentWillMount() {
-    const mediaSetting = await window.getSettingValue('media-permissions');
-    this.setState({ mediaSetting });
   }
 
   public componentDidMount() {
@@ -937,9 +930,9 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     this.onExitVoiceNoteView();
   }
 
-  private onLoadVoiceNoteView() {
+  private async onLoadVoiceNoteView() {
     // Do stuff for component, then run callback to SessionConversation
-    const { mediaSetting } = this.state;
+    const mediaSetting = await window.getSettingValue('media-permissions');
 
     if (mediaSetting) {
       this.setState({
