@@ -323,7 +323,7 @@ async function queryConversationsAndContacts(
 
 // Reducer
 
-function getEmptyState(): SearchStateType {
+export function getEmptyState(): SearchStateType {
   return {
     startSearchCounter: 0,
     query: '',

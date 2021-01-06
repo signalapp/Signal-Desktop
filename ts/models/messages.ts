@@ -288,27 +288,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     };
   }
 
-  // Other top-level prop-generation
-  getPropsForSearchResult(): WhatIsThis {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const sourceId = this.getContactId()!;
-    const from = this.findAndFormatContact(sourceId);
-    const conversationId = this.get('conversationId');
-    const to = this.findAndFormatContact(conversationId);
-
-    return {
-      from,
-      to,
-
-      isSelected: this.isSelected,
-
-      id: this.id,
-      conversationId,
-      sentAt: this.get('sent_at'),
-      snippet: this.get('snippet'),
-    };
-  }
-
   getPropsForMessageDetail(): WhatIsThis {
     const newIdentity = window.i18n('newIdentity');
     const OUTGOING_KEY_ERROR = 'OutgoingIdentityKeyError';

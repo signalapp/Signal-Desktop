@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import memoizee from 'memoizee';
@@ -15,6 +15,7 @@ import {
   MessagesByConversationType,
   MessageType,
 } from '../ducks/conversations';
+import { getOwn } from '../../util/getOwn';
 import type { CallsByConversationType } from '../ducks/calling';
 import { getCallsByConversation } from './calling';
 import { getBubbleProps } from '../../shims/Whisper';
@@ -30,6 +31,20 @@ import {
 } from './user';
 import { getPinnedConversationIds } from './items';
 
+let placeholderContact: ConversationType;
+export const getPlaceholderContact = (): ConversationType => {
+  if (placeholderContact) {
+    return placeholderContact;
+  }
+
+  placeholderContact = {
+    id: 'placeholder-contact',
+    type: 'direct',
+    title: window.i18n('unknownContact'),
+  };
+  return placeholderContact;
+};
+
 export const getConversations = (state: StateType): ConversationsStateType =>
   state.conversations;
 
@@ -37,6 +52,27 @@ export const getConversationLookup = createSelector(
   getConversations,
   (state: ConversationsStateType): ConversationLookupType => {
     return state.conversationLookup;
+  }
+);
+
+export const getConversationsByUuid = createSelector(
+  getConversations,
+  (state: ConversationsStateType): ConversationLookupType => {
+    return state.conversationsByUuid;
+  }
+);
+
+export const getConversationsByE164 = createSelector(
+  getConversations,
+  (state: ConversationsStateType): ConversationLookupType => {
+    return state.conversationsByE164;
+  }
+);
+
+export const getConversationsByGroupId = createSelector(
+  getConversations,
+  (state: ConversationsStateType): ConversationLookupType => {
+    return state.conversationsByGroupId;
   }
 );
 
@@ -201,17 +237,21 @@ export const getMe = createSelector(
 //      Backbone-based prop-generation functions expect to get Conversation information
 //      directly via ConversationController
 export function _conversationSelector(
-  conversation: ConversationType
+  conversation?: ConversationType
   // regionCode: string,
   // userNumber: string
 ): ConversationType {
-  return conversation;
+  if (conversation) {
+    return conversation;
+  }
+
+  return getPlaceholderContact();
 }
 
 // A little optimization to reset our selector cache when high-level application data
 //   changes: regionCode and userNumber.
 type CachedConversationSelectorType = (
-  conversation: ConversationType
+  conversation?: ConversationType
 ) => ConversationType;
 export const getCachedSelectorForConversation = createSelector(
   getRegionCode,
@@ -223,23 +263,51 @@ export const getCachedSelectorForConversation = createSelector(
   }
 );
 
-export type GetConversationByIdType = (
-  id: string
-) => ConversationType | undefined;
+export type GetConversationByIdType = (id?: string) => ConversationType;
 export const getConversationSelector = createSelector(
   getCachedSelectorForConversation,
   getConversationLookup,
+  getConversationsByUuid,
+  getConversationsByE164,
+  getConversationsByGroupId,
   (
     selector: CachedConversationSelectorType,
-    lookup: ConversationLookupType
+    byId: ConversationLookupType,
+    byUuid: ConversationLookupType,
+    byE164: ConversationLookupType,
+    byGroupId: ConversationLookupType
   ): GetConversationByIdType => {
-    return (id: string) => {
-      const conversation = lookup[id];
-      if (!conversation) {
-        return undefined;
+    return (id?: string) => {
+      if (!id) {
+        window.log.warn(
+          `getConversationSelector: Called with a falsey id ${id}`
+        );
+        // This will return a placeholder contact
+        return selector(undefined);
       }
 
-      return selector(conversation);
+      const onE164 = getOwn(byE164, id);
+      if (onE164) {
+        return selector(onE164);
+      }
+      const onUuid = getOwn(byUuid, id);
+      if (onUuid) {
+        return selector(onUuid);
+      }
+      const onGroupId = getOwn(byGroupId, id);
+      if (onGroupId) {
+        return selector(onGroupId);
+      }
+      const onId = getOwn(byId, id);
+      if (onId) {
+        return selector(onId);
+      }
+
+      window.log.warn(
+        `getConversationSelector: No conversation found for id ${id}`
+      );
+      // This will return a placeholder contact
+      return selector(undefined);
     };
   }
 );

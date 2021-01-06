@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable camelcase */
@@ -112,7 +112,8 @@ export type ConversationLookupType = {
 export type MessageType = {
   id: string;
   conversationId: string;
-  source: string;
+  source?: string;
+  sourceUuid?: string;
   type:
     | 'incoming'
     | 'outgoing'
@@ -185,11 +186,14 @@ export type ConversationMessageType = {
 };
 
 export type MessagesByConversationType = {
-  [key: string]: ConversationMessageType | null;
+  [key: string]: ConversationMessageType | undefined;
 };
 
 export type ConversationsStateType = {
   conversationLookup: ConversationLookupType;
+  conversationsByE164: ConversationLookupType;
+  conversationsByUuid: ConversationLookupType;
+  conversationsByGroupId: ConversationLookupType;
   selectedConversation?: string;
   selectedMessage?: string;
   selectedMessageCounter: number;
@@ -731,6 +735,9 @@ function showArchivedConversations(): ShowArchivedConversationsActionType {
 export function getEmptyState(): ConversationsStateType {
   return {
     conversationLookup: {},
+    conversationsByE164: {},
+    conversationsByUuid: {},
+    conversationsByGroupId: {},
     messagesByConversation: {},
     messagesLookup: {},
     selectedMessageCounter: 0,
@@ -811,6 +818,55 @@ function hasMessageHeightChanged(
   return false;
 }
 
+export function updateConversationLookups(
+  added: ConversationType | undefined,
+  removed: ConversationType | undefined,
+  state: ConversationsStateType
+): Pick<
+  ConversationsStateType,
+  'conversationsByE164' | 'conversationsByUuid' | 'conversationsByGroupId'
+> {
+  const result = {
+    conversationsByE164: state.conversationsByE164,
+    conversationsByUuid: state.conversationsByUuid,
+    conversationsByGroupId: state.conversationsByGroupId,
+  };
+
+  if (removed && removed.e164) {
+    result.conversationsByE164 = omit(result.conversationsByE164, removed.e164);
+  }
+  if (removed && removed.uuid) {
+    result.conversationsByUuid = omit(result.conversationsByUuid, removed.uuid);
+  }
+  if (removed && removed.groupId) {
+    result.conversationsByGroupId = omit(
+      result.conversationsByGroupId,
+      removed.groupId
+    );
+  }
+
+  if (added && added.e164) {
+    result.conversationsByE164 = {
+      ...result.conversationsByE164,
+      [added.e164]: added,
+    };
+  }
+  if (added && added.uuid) {
+    result.conversationsByUuid = {
+      ...result.conversationsByUuid,
+      [added.uuid]: added,
+    };
+  }
+  if (added && added.groupId) {
+    result.conversationsByGroupId = {
+      ...result.conversationsByGroupId,
+      [added.groupId]: added,
+    };
+  }
+
+  return result;
+}
+
 export function reducer(
   state: Readonly<ConversationsStateType> = getEmptyState(),
   action: Readonly<ConversationActionType>
@@ -826,6 +882,7 @@ export function reducer(
         ...conversationLookup,
         [id]: data,
       },
+      ...updateConversationLookups(data, undefined, state),
     };
   }
   if (action.type === 'CONVERSATION_CHANGED') {
@@ -863,16 +920,24 @@ export function reducer(
         ...conversationLookup,
         [id]: data,
       },
+      ...updateConversationLookups(data, existing, state),
     };
   }
   if (action.type === 'CONVERSATION_REMOVED') {
     const { payload } = action;
     const { id } = payload;
     const { conversationLookup } = state;
+    const existing = getOwn(conversationLookup, id);
+
+    // No need to make a change if we didn't have a record of this conversation!
+    if (!existing) {
+      return state;
+    }
 
     return {
       ...state,
       conversationLookup: omit(conversationLookup, [id]),
+      ...updateConversationLookups(undefined, existing, state),
     };
   }
   if (action.type === 'CONVERSATION_UNLOADED') {

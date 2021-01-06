@@ -9,8 +9,10 @@ import {
   ConversationsStateType,
   ConversationType,
   getConversationCallMode,
+  getEmptyState,
   MessageType,
   reducer,
+  updateConversationLookups,
 } from '../../../state/ducks/conversations';
 import { CallMode } from '../../../types/Calling';
 
@@ -126,6 +128,136 @@ describe('both/state/ducks/conversations', () => {
         );
       });
     });
+
+    describe('updateConversationLookups', () => {
+      function getDefaultConversation(id: string): ConversationType {
+        return {
+          id,
+          type: 'direct',
+          title: `${id} title`,
+        };
+      }
+
+      it('does not change lookups if no conversations provided', () => {
+        const state = getEmptyState();
+        const result = updateConversationLookups(undefined, undefined, state);
+
+        assert.strictEqual(
+          state.conversationsByE164,
+          result.conversationsByE164
+        );
+        assert.strictEqual(
+          state.conversationsByUuid,
+          result.conversationsByUuid
+        );
+        assert.strictEqual(
+          state.conversationsByGroupId,
+          result.conversationsByGroupId
+        );
+      });
+
+      it('adds and removes e164-only contact', () => {
+        const removed = {
+          ...getDefaultConversation('id-removed'),
+          e164: 'e164-removed',
+        };
+
+        const state = {
+          ...getEmptyState(),
+          conversationsByE164: {
+            [removed.e164]: removed,
+          },
+        };
+        const added = {
+          ...getDefaultConversation('id-added'),
+          e164: 'e164-added',
+        };
+
+        const expected = {
+          [added.e164]: added,
+        };
+
+        const actual = updateConversationLookups(added, removed, state);
+
+        assert.deepEqual(actual.conversationsByE164, expected);
+        assert.strictEqual(
+          state.conversationsByUuid,
+          actual.conversationsByUuid
+        );
+        assert.strictEqual(
+          state.conversationsByGroupId,
+          actual.conversationsByGroupId
+        );
+      });
+
+      it('adds and removes uuid-only contact', () => {
+        const removed = {
+          ...getDefaultConversation('id-removed'),
+          uuid: 'uuid-removed',
+        };
+
+        const state = {
+          ...getEmptyState(),
+          conversationsByuuid: {
+            [removed.uuid]: removed,
+          },
+        };
+        const added = {
+          ...getDefaultConversation('id-added'),
+          uuid: 'uuid-added',
+        };
+
+        const expected = {
+          [added.uuid]: added,
+        };
+
+        const actual = updateConversationLookups(added, removed, state);
+
+        assert.strictEqual(
+          state.conversationsByE164,
+          actual.conversationsByE164
+        );
+        assert.deepEqual(actual.conversationsByUuid, expected);
+        assert.strictEqual(
+          state.conversationsByGroupId,
+          actual.conversationsByGroupId
+        );
+      });
+
+      it('adds and removes groupId-only contact', () => {
+        const removed = {
+          ...getDefaultConversation('id-removed'),
+          groupId: 'groupId-removed',
+        };
+
+        const state = {
+          ...getEmptyState(),
+          conversationsBygroupId: {
+            [removed.groupId]: removed,
+          },
+        };
+        const added = {
+          ...getDefaultConversation('id-added'),
+          groupId: 'groupId-added',
+        };
+
+        const expected = {
+          [added.groupId]: added,
+        };
+
+        const actual = updateConversationLookups(added, removed, state);
+
+        assert.strictEqual(
+          state.conversationsByE164,
+          actual.conversationsByE164
+        );
+        assert.strictEqual(
+          state.conversationsByUuid,
+          actual.conversationsByUuid
+        );
+        assert.deepEqual(actual.conversationsByGroupId, expected);
+      });
+    });
   });
 
   describe('reducer', () => {
@@ -135,22 +267,12 @@ describe('both/state/ducks/conversations', () => {
     const messageIdTwo = 'message-guid-2';
     const messageIdThree = 'message-guid-3';
 
-    function getDefaultState(): ConversationsStateType {
-      return {
-        conversationLookup: {},
-        selectedMessageCounter: 0,
-        selectedConversationPanelDepth: 0,
-        showArchived: false,
-        messagesLookup: {},
-        messagesByConversation: {},
-      };
-    }
-
     function getDefaultMessage(id: string): MessageType {
       return {
         id,
         conversationId: 'conversationId',
         source: 'source',
+        sourceUuid: 'sourceUuid',
         type: 'incoming' as const,
         received_at: Date.now(),
         attachments: [],
@@ -174,7 +296,7 @@ describe('both/state/ducks/conversations', () => {
 
     describe('MESSAGE_SIZE_CHANGED', () => {
       const stateWithActiveConversation = {
-        ...getDefaultState(),
+        ...getEmptyState(),
         messagesByConversation: {
           [conversationId]: {
             heightChangeMessageIds: [],
@@ -192,7 +314,7 @@ describe('both/state/ducks/conversations', () => {
       };
 
       it('does nothing if no conversation is active', () => {
-        const state = getDefaultState();
+        const state = getEmptyState();
 
         assert.strictEqual(
           reducer(state, messageSizeChanged('messageId', 'convoId')),
@@ -246,7 +368,7 @@ describe('both/state/ducks/conversations', () => {
       it('updates newest', () => {
         const action = repairNewestMessage(conversationId);
         const state: ConversationsStateType = {
-          ...getDefaultState(),
+          ...getEmptyState(),
           messagesLookup: {
             [messageId]: {
               ...getDefaultMessage(messageId),
@@ -265,7 +387,7 @@ describe('both/state/ducks/conversations', () => {
         };
 
         const expected: ConversationsStateType = {
-          ...getDefaultState(),
+          ...getEmptyState(),
           messagesLookup: {
             [messageId]: {
               ...getDefaultMessage(messageId),
@@ -294,7 +416,7 @@ describe('both/state/ducks/conversations', () => {
       it('clears newest', () => {
         const action = repairNewestMessage(conversationId);
         const state: ConversationsStateType = {
-          ...getDefaultState(),
+          ...getEmptyState(),
           messagesLookup: {
             [messageId]: {
               ...getDefaultMessage(messageId),
@@ -317,7 +439,7 @@ describe('both/state/ducks/conversations', () => {
         };
 
         const expected: ConversationsStateType = {
-          ...getDefaultState(),
+          ...getEmptyState(),
           messagesLookup: {
             [messageId]: {
               ...getDefaultMessage(messageId),
@@ -342,7 +464,7 @@ describe('both/state/ducks/conversations', () => {
 
       it('returns state if conversation not present', () => {
         const action = repairNewestMessage(conversationId);
-        const state: ConversationsStateType = getDefaultState();
+        const state: ConversationsStateType = getEmptyState();
         const actual = reducer(state, action);
 
         assert.equal(actual, state);
@@ -353,7 +475,7 @@ describe('both/state/ducks/conversations', () => {
       it('updates oldest', () => {
         const action = repairOldestMessage(conversationId);
         const state: ConversationsStateType = {
-          ...getDefaultState(),
+          ...getEmptyState(),
           messagesLookup: {
             [messageId]: {
               ...getDefaultMessage(messageId),
@@ -372,7 +494,7 @@ describe('both/state/ducks/conversations', () => {
         };
 
         const expected: ConversationsStateType = {
-          ...getDefaultState(),
+          ...getEmptyState(),
           messagesLookup: {
             [messageId]: {
               ...getDefaultMessage(messageId),
@@ -401,7 +523,7 @@ describe('both/state/ducks/conversations', () => {
       it('clears oldest', () => {
         const action = repairOldestMessage(conversationId);
         const state: ConversationsStateType = {
-          ...getDefaultState(),
+          ...getEmptyState(),
           messagesLookup: {
             [messageId]: {
               ...getDefaultMessage(messageId),
@@ -424,7 +546,7 @@ describe('both/state/ducks/conversations', () => {
         };
 
         const expected: ConversationsStateType = {
-          ...getDefaultState(),
+          ...getEmptyState(),
           messagesLookup: {
             [messageId]: {
               ...getDefaultMessage(messageId),
@@ -449,7 +571,7 @@ describe('both/state/ducks/conversations', () => {
 
       it('returns state if conversation not present', () => {
         const action = repairOldestMessage(conversationId);
-        const state: ConversationsStateType = getDefaultState();
+        const state: ConversationsStateType = getEmptyState();
         const actual = reducer(state, action);
 
         assert.equal(actual, state);

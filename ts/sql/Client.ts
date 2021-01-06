@@ -55,7 +55,11 @@ import { ConversationModel } from '../models/conversations';
 
 // We listen to a lot of events on ipcRenderer, often on the same channel. This prevents
 //   any warnings that might be sent to the console in that case.
-ipcRenderer.setMaxListeners(0);
+if (ipcRenderer && ipcRenderer.setMaxListeners) {
+  ipcRenderer.setMaxListeners(0);
+} else {
+  window.log.warn('sql/Client: ipcRenderer is not available!');
+}
 
 const DATABASE_UPDATE_TIMEOUT = 2 * 60 * 1000; // two minutes
 
@@ -413,35 +417,39 @@ function _getJob(id: number) {
   return _jobs[id];
 }
 
-ipcRenderer.on(
-  `${SQL_CHANNEL_KEY}-done`,
-  (_, jobId, errorForDisplay, result) => {
-    const job = _getJob(jobId);
-    if (!job) {
-      throw new Error(
-        `Received SQL channel reply to job ${jobId}, but did not have it in our registry!`
-      );
+if (ipcRenderer && ipcRenderer.on) {
+  ipcRenderer.on(
+    `${SQL_CHANNEL_KEY}-done`,
+    (_, jobId, errorForDisplay, result) => {
+      const job = _getJob(jobId);
+      if (!job) {
+        throw new Error(
+          `Received SQL channel reply to job ${jobId}, but did not have it in our registry!`
+        );
+      }
+
+      const { resolve, reject, fnName } = job;
+
+      if (!resolve || !reject) {
+        throw new Error(
+          `SQL channel job ${jobId} (${fnName}): didn't have a resolve or reject`
+        );
+      }
+
+      if (errorForDisplay) {
+        return reject(
+          new Error(
+            `Error received from SQL channel job ${jobId} (${fnName}): ${errorForDisplay}`
+          )
+        );
+      }
+
+      return resolve(result);
     }
-
-    const { resolve, reject, fnName } = job;
-
-    if (!resolve || !reject) {
-      throw new Error(
-        `SQL channel job ${jobId} (${fnName}): didn't have a resolve or reject`
-      );
-    }
-
-    if (errorForDisplay) {
-      return reject(
-        new Error(
-          `Error received from SQL channel job ${jobId} (${fnName}): ${errorForDisplay}`
-        )
-      );
-    }
-
-    return resolve(result);
-  }
-);
+  );
+} else {
+  window.log.warn('sql/Client: ipcRenderer.on is not available!');
+}
 
 function makeChannel(fnName: string) {
   return async (...args: Array<any>) => {
