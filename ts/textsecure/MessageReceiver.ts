@@ -406,8 +406,8 @@ class MessageReceiverInner extends EventTarget {
         }
 
         // Make non-private envelope IDs dashless so they don't get redacted
-        // from logs
-        envelope.id = (envelope.serverGuid || getGuid()).replace(/-/g, '');
+        //   from logs
+        envelope.id = getGuid().replace(/-/g, '');
         envelope.serverTimestamp = envelope.serverTimestamp
           ? envelope.serverTimestamp.toNumber()
           : null;
@@ -567,7 +567,7 @@ class MessageReceiverInner extends EventTarget {
       const envelope = window.textsecure.protobuf.Envelope.decode(
         envelopePlaintext
       );
-      envelope.id = envelope.serverGuid || item.id;
+      envelope.id = item.id;
       envelope.source = envelope.source || item.source;
       envelope.sourceUuid = envelope.sourceUuid || item.sourceUuid;
       envelope.sourceDevice = envelope.sourceDevice || item.sourceDevice;
