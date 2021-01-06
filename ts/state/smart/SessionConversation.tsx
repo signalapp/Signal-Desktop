@@ -9,7 +9,6 @@ const mapStateToProps = (state: StateType) => {
     (conversationKey &&
       state.conversations.conversationLookup[conversationKey]) ||
     null;
-
   return {
     conversation,
     conversationKey,

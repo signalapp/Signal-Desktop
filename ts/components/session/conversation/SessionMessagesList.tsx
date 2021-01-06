@@ -325,6 +325,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
     messageProps.i18n = window.i18n;
     messageProps.selected = selected;
     messageProps.firstMessageOfSeries = firstMessageOfSeries;
+
     messageProps.multiSelectMode = multiSelectMode;
     messageProps.onSelectMessage = this.props.selectMessage;
     messageProps.onDeleteMessage = this.props.deleteMessage;
