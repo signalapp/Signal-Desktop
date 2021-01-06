@@ -213,38 +213,6 @@
     "updated": "2020-03-25T15:45:04.024Z"
   },
   {
-    "rule": "jQuery-append(",
-    "path": "js/modules/debuglogs.js",
-    "line": "  form.append('key', fields.key);",
-    "lineNumber": 53,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-03-20T20:40:34.498Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/modules/debuglogs.js",
-    "line": "      form.append(key, value);",
-    "lineNumber": 57,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-03-20T20:40:34.498Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/modules/debuglogs.js",
-    "line": "  form.append('Content-Type', contentType);",
-    "lineNumber": 62,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-03-20T20:40:34.498Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/modules/debuglogs.js",
-    "line": "  form.append('file', contentBuffer, {",
-    "lineNumber": 63,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-09-11T17:24:56.124Z"
-  },
-  {
     "rule": "jQuery-load(",
     "path": "js/modules/emojis.js",
     "line": "async function load() {",
@@ -406,7 +374,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "          el: this.$('.result'),",
-    "lineNumber": 79,
+    "lineNumber": 82,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-01T17:11:39.527Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -415,7 +383,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "        this.$('.loading').removeClass('loading');",
-    "lineNumber": 81,
+    "lineNumber": 84,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-01T17:11:39.527Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -424,7 +392,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "        this.$('.link').focus().select();",
-    "lineNumber": 83,
+    "lineNumber": 86,
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -433,7 +401,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "        this.$('.loading').removeClass('loading');",
-    "lineNumber": 89,
+    "lineNumber": 92,
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -442,7 +410,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "        this.$('.result').text(i18n('debugLogError'));",
-    "lineNumber": 90,
+    "lineNumber": 93,
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -13572,6 +13540,30 @@
   },
   {
     "rule": "jQuery-append(",
+    "path": "node_modules/request/node_modules/form-data/lib/form_data.js",
+    "line": "  append(header);",
+    "lineNumber": 73,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-12-17T18:08:07.752Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/request/node_modules/form-data/lib/form_data.js",
+    "line": "  append(value);",
+    "lineNumber": 74,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-12-17T18:08:07.752Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/request/node_modules/form-data/lib/form_data.js",
+    "line": "  append(footer);",
+    "lineNumber": 75,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-12-17T18:08:07.752Z"
+  },
+  {
+    "rule": "jQuery-append(",
     "path": "node_modules/request/request.js",
     "line": "        requestForm.append(key, value.value, value.options)",
     "lineNumber": 324,
@@ -14890,6 +14882,70 @@
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Only used to focus the element."
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "ts/logging/debuglogs.js",
+    "line": "    form.append('key', fields.key);",
+    "lineNumber": 45,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-12-17T18:08:07.752Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "ts/logging/debuglogs.js",
+    "line": "        form.append(key, value);",
+    "lineNumber": 49,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-12-17T18:08:07.752Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "ts/logging/debuglogs.js",
+    "line": "    form.append('Content-Type', contentType);",
+    "lineNumber": 53,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-12-17T18:08:07.752Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "ts/logging/debuglogs.js",
+    "line": "    form.append('file', contentBuffer, {",
+    "lineNumber": 54,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-12-17T18:08:07.752Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "ts/logging/debuglogs.ts",
+    "line": "  form.append('key', fields.key);",
+    "lineNumber": 55,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-12-17T18:08:07.752Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "ts/logging/debuglogs.ts",
+    "line": "      form.append(key, value);",
+    "lineNumber": 59,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-12-17T18:08:07.752Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "ts/logging/debuglogs.ts",
+    "line": "  form.append('Content-Type', contentType);",
+    "lineNumber": 64,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-12-17T18:08:07.752Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "ts/logging/debuglogs.ts",
+    "line": "  form.append('file', contentBuffer, {",
+    "lineNumber": 65,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-12-17T18:08:07.752Z"
   },
   {
     "rule": "React-createRef",

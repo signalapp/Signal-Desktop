@@ -1,4 +1,4 @@
-// Copyright 2015-2020 Signal Messenger, LLC
+// Copyright 2015-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* global i18n: false */
@@ -73,7 +73,10 @@
       this.$('.result').addClass('loading');
 
       try {
-        const publishedLogURL = await window.log.publish(text);
+        const publishedLogURL = await window.log.publish(
+          text,
+          window.getVersion()
+        );
         const view = new Whisper.DebugLogLinkView({
           url: publishedLogURL,
           el: this.$('.result'),

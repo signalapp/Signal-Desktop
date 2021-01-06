@@ -1,4 +1,4 @@
-// Copyright 2017-2020 Signal Messenger, LLC
+// Copyright 2017-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-env node */
@@ -8,7 +8,7 @@
 const electron = require('electron');
 const _ = require('lodash');
 
-const debuglogs = require('./modules/debuglogs');
+const { uploadDebugLogs } = require('../ts/logging/debuglogs');
 const Privacy = require('./modules/privacy');
 const { createBatcher } = require('../ts/util/batcher');
 
@@ -97,7 +97,7 @@ function fetch() {
   });
 }
 
-const publish = debuglogs.upload;
+const publish = uploadDebugLogs;
 
 // A modern logging interface for the browser
 
