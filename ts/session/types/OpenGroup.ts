@@ -1,4 +1,5 @@
 import { ConversationModel } from '../../../js/models/conversations';
+import { ConversationController } from '../conversations';
 import { PromiseUtils } from '../utils';
 
 interface OpenGroupParams {
@@ -160,7 +161,7 @@ export class OpenGroup {
     const conversationId = `publicChat:${channelId}@${rawServerURL}`;
 
     // Quickly peak to make sure we don't already have it
-    return window.ConversationController.get(conversationId);
+    return ConversationController.getInstance().get(conversationId);
   }
 
   /**

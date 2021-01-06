@@ -81,6 +81,7 @@ export class MockConversation {
     this.attributes = {
       id: this.id,
       name: '',
+      type: '',
       members,
       left: false,
       expireTimer: dayInSeconds,

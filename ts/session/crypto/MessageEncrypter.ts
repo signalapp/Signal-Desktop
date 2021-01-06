@@ -6,6 +6,7 @@ import { encryptWithSenderKey } from '../../session/medium_group/ratchet';
 import { PubKey } from '../types';
 import { StringUtils } from '../utils';
 import { concatUInt8Array, getSodium } from '.';
+export { concatUInt8Array, getSodium };
 
 /**
  * Add padding to a message buffer
@@ -95,13 +96,16 @@ export async function encryptUsingSessionProtocol(
   );
 
   // merge all arrays into one
-  const data = concatUInt8Array(
+  const dataForSign = concatUInt8Array(
     plaintext,
     userED25519PubKeyBytes,
     recipientX25519PublicKey
   );
 
-  const signature = sodium.crypto_sign(data, userED25519SecretKeyBytes);
+  const signature = sodium.crypto_sign_detached(
+    dataForSign,
+    userED25519SecretKeyBytes
+  );
   if (!signature) {
     throw new Error("Couldn't sign message");
   }

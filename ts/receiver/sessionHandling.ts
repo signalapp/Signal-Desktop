@@ -1,10 +1,10 @@
+import { ConversationController } from '../session/conversations';
+
 export async function handleEndSession(number: string): Promise<void> {
   window.log.info('got end session');
 
-  const { ConversationController } = window;
-
   try {
-    const conversation = ConversationController.get(number);
+    const conversation = ConversationController.getInstance().get(number);
     if (conversation) {
       // this just marks the conversation as being waiting for a new session
       // it does trigger a message to be sent. (the message is sent from handleSessionRequestMessage())

@@ -16,6 +16,7 @@ import _ from 'lodash';
 import { StringUtils } from '../session/utils';
 import { DeliveryReceiptMessage } from '../session/messages/outgoing';
 import { getMessageQueue } from '../session';
+import { ConversationController } from '../session/conversations';
 
 export async function updateProfile(
   conversation: any,
@@ -75,11 +76,10 @@ export async function updateProfile(
   const allUserDevices = await MultiDeviceProtocol.getAllDevices(
     conversation.id
   );
-  const { ConversationController } = window;
 
   await Promise.all(
     allUserDevices.map(async device => {
-      const conv = await ConversationController.getOrCreateAndWait(
+      const conv = await ConversationController.getInstance().getOrCreateAndWait(
         device.key,
         'private'
       );
@@ -300,7 +300,7 @@ export async function handleDataMessage(
   const ourPubKey = window.textsecure.storage.user.getNumber();
   const senderPubKey = envelope.senderIdentity || envelope.source;
   const isMe = senderPubKey === ourPubKey;
-  const conversation = window.ConversationController.get(senderPubKey);
+  const conversation = ConversationController.getInstance().get(senderPubKey);
 
   const { UNPAIRING_REQUEST } = SignalService.DataMessage.Flags;
 
@@ -417,7 +417,7 @@ async function handleProfileUpdate(
   const profileKey = StringUtils.decode(profileKeyBuffer, 'base64');
 
   if (!isIncoming) {
-    const receiver = await window.ConversationController.getOrCreateAndWait(
+    const receiver = await ConversationController.getInstance().getOrCreateAndWait(
       convoId,
       convoType
     );
@@ -427,7 +427,7 @@ async function handleProfileUpdate(
 
     // Then we update our own profileKey if it's different from what we have
     const ourNumber = window.textsecure.storage.user.getNumber();
-    const me = await window.ConversationController.getOrCreate(
+    const me = await ConversationController.getInstance().getOrCreate(
       ourNumber,
       'private'
     );
@@ -435,7 +435,7 @@ async function handleProfileUpdate(
     // Will do the save for us if needed
     await me.setProfileKey(profileKey);
   } else {
-    const sender = await window.ConversationController.getOrCreateAndWait(
+    const sender = await ConversationController.getInstance().getOrCreateAndWait(
       convoId,
       'private'
     );
@@ -669,7 +669,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
     );
   }
 
-  const conv = await window.ConversationController.getOrCreateAndWait(
+  const conv = await ConversationController.getInstance().getOrCreateAndWait(
     conversationId,
     type
   );
@@ -720,7 +720,9 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   }
 
   // the conversation with the primary device of that source (can be the same as conversationOrigin)
-  const conversation = window.ConversationController.getOrThrow(conversationId);
+  const conversation = ConversationController.getInstance().getOrThrow(
+    conversationId
+  );
 
   conversation.queueJob(() => {
     handleMessageJob(

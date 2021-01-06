@@ -2,6 +2,8 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getMessageQueue } from '../../session';
+import { ConversationController } from '../../session/conversations/ConversationController';
+import { MessageController } from '../../session/messages';
 import { OpenGroupMessage } from '../../session/messages/outgoing';
 import { RawMessage } from '../../session/types';
 import { createStore } from '../../state/createStore';
@@ -130,7 +132,7 @@ export class SessionInboxView extends React.Component<Props, State> {
     }
 
     // find the corresponding conversation of this message
-    const conv = window.ConversationController.get(
+    const conv = ConversationController.getInstance().get(
       tmpMsg.get('conversationId')
     );
 
@@ -175,13 +177,15 @@ export class SessionInboxView extends React.Component<Props, State> {
 
   private async setupLeftPane() {
     // Here we set up a full redux store with initial state for our LeftPane Root
-    const convoCollection = window.getConversations();
+    const convoCollection = ConversationController.getInstance().getConversations();
     const conversations = convoCollection.map(
       (conversation: any) => conversation.cachedProps
     );
 
     const filledConversations = conversations.map(async (conv: any) => {
-      const messages = await window.getMessagesByKey(conv.id);
+      const messages = await MessageController.getInstance().getMessagesByKeyFromDb(
+        conv.id
+      );
       return { ...conv, messages };
     });
 

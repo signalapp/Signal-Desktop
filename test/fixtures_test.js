@@ -1,4 +1,4 @@
-/* global $, ConversationController, textsecure, Whisper */
+/* global $, textsecure, Whisper */
 
 'use strict';
 
@@ -14,17 +14,16 @@ describe('Fixtures', () => {
       'testDevice'
     );
 
-    await ConversationController.getOrCreateAndWait(
-      textsecure.storage.user.getNumber(),
-      'private'
-    );
+    await window
+      .getConversationController()
+      .getOrCreateAndWait(textsecure.storage.user.getNumber(), 'private');
   });
 
   it('renders', async () => {
     await Whisper.Fixtures().saveAll();
 
-    ConversationController.reset();
-    await ConversationController.load();
+    window.getConversationController().reset();
+    await window.getConversationController().load();
 
     let view = new Whisper.InboxView({ window });
     view.$el.prependTo($('#render-light-theme'));

@@ -4,6 +4,7 @@ import { getMessageQueue } from '../session';
 import { PubKey } from '../session/types';
 import _ from 'lodash';
 import { BlockedNumberController } from '../util/blockedNumberController';
+import { ConversationController } from '../session/conversations';
 
 function isGroupBlocked(groupId: string) {
   return BlockedNumberController.isGroupBlocked(groupId);
@@ -34,7 +35,7 @@ export async function preprocessGroupMessage(
   primarySource: string
 ) {
   const conversationId = group.id;
-  const conversation = await window.ConversationController.getOrCreateAndWait(
+  const conversation = await ConversationController.getInstance().getOrCreateAndWait(
     conversationId,
     'group'
   );

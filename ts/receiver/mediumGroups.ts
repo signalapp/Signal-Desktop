@@ -14,6 +14,7 @@ import {
   createSenderKeyForGroup,
   shareSenderKeys,
 } from '../session/medium_group/senderKeys';
+import { ConversationController } from '../session/conversations';
 
 async function handleSenderKeyRequest(
   envelope: EnvelopePlus,
@@ -161,7 +162,7 @@ async function handleNewGroup(
   const members = membersBinary.map(toHex);
   const admins = adminsBinary.map(toHex);
 
-  const maybeConvo = window.ConversationController.get(groupId);
+  const maybeConvo = ConversationController.getInstance().get(groupId);
 
   const groupExists = !!maybeConvo;
 
@@ -185,7 +186,10 @@ async function handleNewGroup(
 
   const convo =
     maybeConvo ||
-    (await window.ConversationController.getOrCreateAndWait(groupId, 'group'));
+    (await ConversationController.getInstance().getOrCreateAndWait(
+      groupId,
+      'group'
+    ));
 
   await SenderKeyAPI.addUpdateMessage(convo, { newName: name }, 'incoming');
 
@@ -265,7 +269,7 @@ async function handleMediumGroupChange(
 
   const groupId = toHex(groupPublicKey);
 
-  const convo = window.ConversationController.get(groupId);
+  const convo = ConversationController.getInstance().get(groupId);
 
   if (!convo) {
     log.warn(

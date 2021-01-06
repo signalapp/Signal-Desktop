@@ -28,6 +28,7 @@ import { Mention, MentionsInput } from 'react-mentions';
 import { MemberItem } from '../../conversation/MemberList';
 import { CaptionEditor } from '../../CaptionEditor';
 import { DefaultTheme } from 'styled-components';
+import { ConversationController } from '../../../session/conversations/ConversationController';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -451,7 +452,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   private fetchUsersForClosedGroup(query: any, callback: any) {
-    const conversationModel = window.ConversationController.get(
+    const conversationModel = ConversationController.getInstance().get(
       this.props.conversationKey
     );
     if (!conversationModel) {
@@ -460,7 +461,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     const allPubKeys = conversationModel.get('members');
 
     const allMembers = allPubKeys.map(pubKey => {
-      const conv = window.ConversationController.get(pubKey);
+      const conv = ConversationController.getInstance().get(pubKey);
       let profileName = 'Anonymous';
       if (conv) {
         profileName = conv.getProfileName();
@@ -709,6 +710,9 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       await this.onSendMessage();
     } else if (event.key === 'Escape' && this.state.showEmojiPanel) {
       this.hideEmojiPanel();
+    } else if (event.key === 'PageUp' || event.key === 'PageDown') {
+      // swallow pageUp events if they occurs on the composition box (it breaks the app layout)
+      event.preventDefault();
     }
   }
 
@@ -719,7 +723,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     // Also, check for a message length change before firing it up, to avoid
     // catching ESC, tab, or whatever which is not typing
     if (message.length && message.length !== this.lastBumpTypingMessageLength) {
-      const conversationModel = window.ConversationController.get(
+      const conversationModel = ConversationController.getInstance().get(
         this.props.conversationKey
       );
       if (!conversationModel) {

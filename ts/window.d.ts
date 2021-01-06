@@ -28,7 +28,6 @@ If you import anything in global.d.ts, the type system won't work correctly.
 declare global {
   interface Window {
     CONSTANTS: any;
-    ConversationController: ConversationControllerType;
     SignalProtocolStore: any;
     Events: any;
     Lodash: any;
@@ -104,6 +103,10 @@ declare global {
     ContactBuffer: any;
     GroupBuffer: any;
     SwarmPolling: SwarmPolling;
+    SnodePool: {
+      getSnodesFor: (string) => any;
+    };
+    profileImages: any;
     MediaRecorder: any;
     dataURLToBlobSync: any;
     autoOrientImage: any;
@@ -113,7 +116,6 @@ declare global {
     ) => Promise<{ pubKey: ArrayBufferLike; privKey: ArrayBufferLike }>;
     setClockParams: any;
     clientClockSynced: number | undefined;
-    getMessagesByKey: any;
     inboxStore: Store;
     getSocketStatus: any;
     actionsCreators: any;

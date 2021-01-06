@@ -1,4 +1,4 @@
-/* global Backbone, i18n, Whisper, storage, _, ConversationController, $ */
+/* global Backbone, i18n, Whisper, storage, _, $ */
 
 /* eslint-disable more/no-then */
 
@@ -112,9 +112,12 @@
           window,
           initialLoadComplete: options.initialLoadComplete,
         });
-        return ConversationController.loadPromise().then(() => {
-          this.openView(this.inboxView);
-        });
+        return window
+          .getConversationController()
+          .loadPromise()
+          .then(() => {
+            this.openView(this.inboxView);
+          });
       }
       if (!$.contains(this.el, this.inboxView.el)) {
         this.openView(this.inboxView);
@@ -212,7 +215,8 @@
       window.confirmationDialog({
         title,
         message,
-        resolve: () => ConversationController.deleteContact(groupConvo.id),
+        resolve: () =>
+          window.getConversationController().deleteContact(groupConvo.id),
         theme: this.getThemeObject(),
       });
     },

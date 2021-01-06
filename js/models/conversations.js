@@ -4,7 +4,6 @@
   i18n,
   Backbone,
   libsession,
-  ConversationController,
   getMessageController,
   storage,
   textsecure,
@@ -670,10 +669,9 @@
           device
         );
 
-        return ConversationController.getOrCreateAndWait(
-          primary.key,
-          'private'
-        );
+        return window
+          .getConversationController()
+          .getOrCreateAndWait(primary.key, 'private');
       }
 
       // Something funky has happened
@@ -925,11 +923,14 @@
       );
 
       if (this.isPrivate()) {
-        ConversationController.getAllGroupsInvolvingId(this.id).then(groups => {
-          _.forEach(groups, group => {
-            group.addVerifiedChange(this.id, verified, options);
+        window
+          .getConversationController()
+          .getAllGroupsInvolvingId(this.id)
+          .then(groups => {
+            _.forEach(groups, group => {
+              group.addVerifiedChange(this.id, verified, options);
+            });
           });
-        });
       }
     },
 
@@ -2026,7 +2027,9 @@
     // This function is wrongly named by signal
     // This is basically an `update` function and thus we have overwritten it with such
     async getProfile(id) {
-      const c = await ConversationController.getOrCreateAndWait(id, 'private');
+      const c = await window
+        .getConversationController()
+        .getOrCreateAndWait(id, 'private');
 
       // We only need to update the profile as they are all stored inside the conversation
       await c.updateProfileName();
@@ -2141,7 +2144,7 @@
       }
       const members = this.get('members') || [];
       const promises = members.map(number =>
-        ConversationController.getOrCreateAndWait(number, 'private')
+        window.getConversationController().getOrCreateAndWait(number, 'private')
       );
 
       return Promise.all(promises).then(contacts => {
@@ -2188,7 +2191,7 @@
         title,
         message,
         resolve: () => {
-          ConversationController.deleteContact(this.id);
+          window.getConversationController().deleteContact(this.id);
         },
       });
     },
@@ -2364,7 +2367,9 @@
         // Secondary devices have their profile stored
         // in their primary device's conversation
         const ourNumber = window.storage.get('primaryDevicePubKey');
-        const ourConversation = window.ConversationController.get(ourNumber);
+        const ourConversation = window
+          .getConversationController()
+          .get(ourNumber);
         let profileKey = null;
         if (this.get('profileSharing')) {
           profileKey = new Uint8Array(storage.get('profileKey'));
@@ -2424,32 +2429,32 @@
       }
       const conversationId = this.id;
 
-      return ConversationController.getOrCreateAndWait(
-        message.get('source'),
-        'private'
-      ).then(sender =>
-        sender.getNotificationIcon().then(iconUrl => {
-          const messageJSON = message.toJSON();
-          const messageSentAt = messageJSON.sent_at;
-          const messageId = message.id;
-          const isExpiringMessage = Message.hasExpiration(messageJSON);
+      return window
+        .getConversationController()
+        .getOrCreateAndWait(message.get('source'), 'private')
+        .then(sender =>
+          sender.getNotificationIcon().then(iconUrl => {
+            const messageJSON = message.toJSON();
+            const messageSentAt = messageJSON.sent_at;
+            const messageId = message.id;
+            const isExpiringMessage = Message.hasExpiration(messageJSON);
 
-          // window.log.info('Add notification', {
-          //   conversationId: this.idForLogging(),
-          //   isExpiringMessage,
-          //   messageSentAt,
-          // });
-          Whisper.Notifications.add({
-            conversationId,
-            iconUrl,
-            isExpiringMessage,
-            message: message.getNotificationText(),
-            messageId,
-            messageSentAt,
-            title: sender.getTitle(),
-          });
-        })
-      );
+            // window.log.info('Add notification', {
+            //   conversationId: this.idForLogging(),
+            //   isExpiringMessage,
+            //   messageSentAt,
+            // });
+            Whisper.Notifications.add({
+              conversationId,
+              iconUrl,
+              isExpiringMessage,
+              message: message.getNotificationText(),
+              messageId,
+              messageSentAt,
+              title: sender.getTitle(),
+            });
+          })
+        );
     },
     notifyTyping(options = {}) {
       const { isTyping, sender, senderDevice } = options;

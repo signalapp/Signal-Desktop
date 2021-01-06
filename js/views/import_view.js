@@ -1,4 +1,4 @@
-/* global Whisper, storage, i18n, ConversationController */
+/* global Whisper, storage, i18n */
 
 /* eslint-disable more/no-then */
 
@@ -171,9 +171,11 @@
         });
     },
     finishLightImport(directory) {
-      ConversationController.reset();
+      window.getConversationController().reset();
 
-      return ConversationController.load()
+      return window
+        .getConversationController()
+        .load()
         .then(() =>
           Promise.all([
             Whisper.Import.saveLocation(directory),

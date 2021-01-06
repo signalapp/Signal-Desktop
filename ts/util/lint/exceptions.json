@@ -76,22 +76,6 @@
     "reasonDetail": "Protected from arbitrary input"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "js/conversation_controller.js",
-    "line": "    async load() {",
-    "lineNumber": 178,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-10-02T21:00:44.007Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "js/conversation_controller.js",
-    "line": "      this._initialPromise = load();",
-    "lineNumber": 213,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-10-02T21:00:44.007Z"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "js/debug_log_start.js",
     "line": "$(document).on('keyup', e => {",
@@ -208,14 +192,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "js/signal_protocol_store.js",
-    "line": "      await ConversationController.load();",
-    "lineNumber": 868,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -340,14 +316,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-15T00:38:04.183Z",
     "reasonDetail": "Getting the value, not setting it"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "js/views/import_view.js",
-    "line": "      return ConversationController.load()",
-    "lineNumber": 176,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
   },
   {
     "rule": "jQuery-$(",

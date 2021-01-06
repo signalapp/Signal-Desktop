@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { SessionToast, SessionToastType } from './session/SessionToast';
 import { ToastUtils } from '../session/utils';
 import { DefaultTheme } from 'styled-components';
+import { ConversationController } from '../session/conversations';
 
 interface Props {
   onClose: any;
@@ -191,7 +192,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
       throw new Error('pubKeyToUnpair must be set in renderUnpairDeviceView()');
     }
     const secretWords = window.mnemonic.pubkey_to_secret_words(pubKeyToUnpair);
-    const conv = window.ConversationController.get(pubKeyToUnpair);
+    const conv = ConversationController.getInstance().get(pubKeyToUnpair);
     let description;
 
     if (conv && conv.getNickname()) {
@@ -302,7 +303,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
       );
       const { currentPubKey } = this.state;
       if (currentPubKey) {
-        const conv = window.ConversationController.get(currentPubKey);
+        const conv = ConversationController.getInstance().get(currentPubKey);
         if (conv) {
           void conv.setNickname(this.state.deviceAlias);
         }
