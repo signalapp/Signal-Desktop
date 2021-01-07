@@ -4277,156 +4277,168 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 .module-main-header {
   height: $header-height;
-  width: $left-pane-width;
+  width: 100%;
 
   padding-left: 16px;
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.module-main-header__search {
-  margin-left: 12px;
-  position: relative;
-}
-
-.module-main-header__search__input {
-  height: 28px;
-
-  // 320 - 28 (avatar) - 32 (left/right margin) - 12 (space to avatar)
-  width: 248px;
-
-  padding-left: 30px;
-  padding-right: 5px;
-
-  border-radius: 14px;
-  border: none;
-
-  @include font-body-2;
-
-  @include light-theme {
-    background-color: $color-gray-05;
-    color: $color-gray-90;
-    border: solid 1px $color-gray-02;
-  }
-  @include dark-theme {
-    color: $color-gray-05;
-    background-color: $color-gray-95;
-    border: solid 1px $color-gray-80;
-  }
-
-  &:placeholder {
-    color: $color-gray-45;
-  }
-
-  &:focus {
-    border: solid 1px $ultramarine-ui-light;
-    outline: none;
-  }
-}
-
-.module-main-header__search__input--with-text {
-  padding-right: 30px;
-}
-
-.module-main-header__search__input--in-conversation {
-  padding-left: 50px;
-}
-
-.module-main-header__search__icon {
-  position: absolute;
-  left: 8px;
-  top: 6px;
-  height: 16px;
-  width: 16px;
-
-  cursor: text;
-
-  @include light-theme {
-    @include color-svg('../images/icons/v2/search-16.svg', $color-gray-75);
-  }
-  @include dark-theme {
-    @include color-svg('../images/icons/v2/search-16.svg', $color-gray-25);
-  }
-}
-
-.module-main-header__search__in-conversation-pill {
-  position: absolute;
-  left: 3px;
-  top: 3px;
-  bottom: 3px;
-
-  border-radius: 14px;
-  width: 42px;
+  padding-right: 16px;
 
   display: flex;
   flex-direction: row;
   align-items: center;
 
-  // Overriding some default button styling
-  border: none;
-  padding: 0;
-  outline: none;
+  & > * {
+    margin-right: 12px;
 
-  @include light-theme {
-    background-color: $color-gray-15;
+    &:last-child {
+      margin-right: 0;
+    }
   }
-  @include dark-theme {
-    background-color: $color-gray-75;
-  }
-}
-.module-main-header__search__in-conversation-pill__avatar-container {
-  margin-left: 4px;
-  height: 16px;
-  width: 16px;
-  border-radius: 8px;
 
-  background-color: $ultramarine-ui-light;
-}
-.module-main-header__search__in-conversation-pill__avatar {
-  height: 16px;
-  width: 16px;
+  &__search {
+    flex-grow: 1;
+    position: relative;
+    display: flex;
+    flex-direction: row;
 
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/profile-circle-outline-24.svg',
-      $color-white
-    );
-  }
-  @include dark-theme {
-    @include color-svg(
-      '../images/icons/v2/profile-circle-solid-24.svg',
-      $color-gray-05
-    );
-  }
-}
-.module-main-header__search__in-conversation-pill__x-button {
-  margin-left: 2px;
+    &__input {
+      flex-grow: 1;
+      height: 28px;
 
-  height: 16px;
-  width: 16px;
+      padding-left: 30px;
+      padding-right: 5px;
 
-  @include light-theme {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
-  }
-  @include dark-theme {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-25);
-  }
-}
+      border-radius: 14px;
+      border: none;
 
-.module-main-header__search__cancel-icon {
-  position: absolute;
-  right: 8px;
-  top: 5px;
-  height: 18px;
-  width: 18px;
+      @include font-body-2;
 
-  @include light-theme {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
-  }
-  @include dark-theme {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-25);
+      @include light-theme {
+        background-color: $color-gray-05;
+        color: $color-gray-90;
+        border: solid 1px $color-gray-02;
+      }
+      @include dark-theme {
+        color: $color-gray-05;
+        background-color: $color-gray-95;
+        border: solid 1px $color-gray-80;
+      }
+
+      &:placeholder {
+        color: $color-gray-45;
+      }
+
+      &:focus {
+        border: solid 1px $ultramarine-ui-light;
+        outline: none;
+      }
+
+      &--with-text {
+        padding-right: 30px;
+      }
+
+      &--in-conversation {
+        padding-left: 50px;
+      }
+    }
+
+    &__icon {
+      position: absolute;
+      left: 8px;
+      top: 6px;
+      height: 16px;
+      width: 16px;
+
+      cursor: text;
+
+      @include light-theme {
+        @include color-svg('../images/icons/v2/search-16.svg', $color-gray-75);
+      }
+      @include dark-theme {
+        @include color-svg('../images/icons/v2/search-16.svg', $color-gray-25);
+      }
+    }
+
+    &__in-conversation-pill {
+      position: absolute;
+      left: 3px;
+      top: 3px;
+      bottom: 3px;
+
+      border-radius: 14px;
+      width: 42px;
+
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      // Overriding some default button styling
+      border: none;
+      padding: 0;
+      outline: none;
+
+      @include light-theme {
+        background-color: $color-gray-15;
+      }
+      @include dark-theme {
+        background-color: $color-gray-75;
+      }
+
+      &__avatar-container {
+        margin-left: 4px;
+        height: 16px;
+        width: 16px;
+        border-radius: 8px;
+
+        background-color: $ultramarine-ui-light;
+      }
+
+      &__avatar {
+        height: 16px;
+        width: 16px;
+
+        @include light-theme {
+          @include color-svg(
+            '../images/icons/v2/profile-circle-outline-24.svg',
+            $color-white
+          );
+        }
+        @include dark-theme {
+          @include color-svg(
+            '../images/icons/v2/profile-circle-solid-24.svg',
+            $color-gray-05
+          );
+        }
+      }
+
+      &__x-button {
+        margin-left: 2px;
+
+        height: 16px;
+        width: 16px;
+
+        @include light-theme {
+          @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
+        }
+        @include dark-theme {
+          @include color-svg('../images/icons/v2/x-24.svg', $color-gray-25);
+        }
+      }
+    }
+
+    &__cancel-icon {
+      position: absolute;
+      right: 8px;
+      top: 5px;
+      height: 18px;
+      width: 18px;
+
+      @include light-theme {
+        @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
+      }
+      @include dark-theme {
+        @include color-svg('../images/icons/v2/x-24.svg', $color-gray-25);
+      }
+    }
   }
 }
 
