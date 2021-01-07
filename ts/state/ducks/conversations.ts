@@ -4,6 +4,7 @@ import { Constants } from '../../session';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { MessageModel } from '../../../js/models/messages';
 import { ConversationController } from '../../session/conversations';
+import { StateType } from '../reducer';
 
 // State
 
@@ -122,11 +123,18 @@ async function getMessages(
   // Set first member of series here.
   const messageModels = messageSet.models;
 
+  const isPublic = conversation.isPublic();
+
+  const sortedMessage = sortMessages(messageModels, isPublic);
+
   // no need to do that `firstMessageOfSeries` on a private chat
   if (conversation.isPrivate()) {
-    return messageModels;
+    return sortedMessage;
   }
+  return updateFirstMessageOfSeries(sortedMessage);
+}
 
+const updateFirstMessageOfSeries = (messageModels: Array<any>) => {
   // messages are got from the more recent to the oldest, so we need to check if
   // the next messages in the list is still the same author.
   // The message is the first of the series if the next message is not from the same author
@@ -138,13 +146,13 @@ async function getMessages(
       i < messageModels.length - 1
         ? messageModels[i + 1].propsForMessage?.authorPhoneNumber
         : undefined;
-    if (i > 0 && currentSender === nextSender) {
+    if (i >= 0 && currentSender === nextSender) {
       firstMessageOfSeries = false;
     }
     messageModels[i].firstMessageOfSeries = firstMessageOfSeries;
   }
   return messageModels;
-}
+};
 
 const fetchMessagesForConversation = createAsyncThunk(
   'messages/fetchByConversationKey',
@@ -422,6 +430,138 @@ function getEmptyState(): ConversationsStateType {
   };
 }
 
+function sortMessages(
+  messages: Array<MessageTypeInConvo>,
+  isPublic: boolean
+): Array<MessageTypeInConvo> {
+  // we order by serverTimestamp for public convos
+  if (isPublic) {
+    return messages.sort(
+      (a: any, b: any) =>
+        b.attributes.serverTimestamp - a.attributes.serverTimestamp
+    );
+  }
+  return messages.sort(
+    (a: any, b: any) => b.attributes.timestamp - a.attributes.timestamp
+  );
+}
+
+function handleMessageAdded(
+  state: ConversationsStateType,
+  action: MessageAddedActionType
+) {
+  const { messages } = state;
+  const { conversationKey, messageModel } = action.payload;
+  if (conversationKey === state.selectedConversation) {
+    const addedMessage = _.pick(
+      messageModel as any,
+      toPickFromMessageModel
+    ) as MessageTypeInConvo;
+    const messagesWithNewMessage = [...messages, addedMessage];
+    const convo = state.conversationLookup[state.selectedConversation];
+    const isPublic = convo?.isPublic || false;
+
+    if (convo) {
+      const sortedMessage = sortMessages(messagesWithNewMessage, isPublic);
+      const updatedWithFirstMessageOfSeries = updateFirstMessageOfSeries(
+        sortedMessage
+      );
+
+      return {
+        ...state,
+        messages: updatedWithFirstMessageOfSeries,
+      };
+    }
+  }
+  return state;
+}
+
+function handleMessageChanged(
+  state: ConversationsStateType,
+  action: MessageChangedActionType
+) {
+  const messageInStoreIndex = state?.messages?.findIndex(
+    m => m.id === action.payload.id
+  );
+  if (messageInStoreIndex >= 0) {
+    const changedMessage = _.pick(
+      action.payload as any,
+      toPickFromMessageModel
+    ) as MessageTypeInConvo;
+    // we cannot edit the array directly, so slice the first part, insert our edited message, and slice the second part
+    const editedMessages = [
+      ...state.messages.slice(0, messageInStoreIndex),
+      changedMessage,
+      ...state.messages.slice(messageInStoreIndex + 1),
+    ];
+
+    // reorder the messages depending on the timestamp (we might have an updated serverTimestamp now)
+    const updatedWithFirstMessageOfSeries = updateFirstMessageOfSeries(
+      editedMessages
+    );
+
+    return {
+      ...state,
+      messages: updatedWithFirstMessageOfSeries,
+    };
+  }
+
+  return state;
+}
+
+function handleMessageExpiredOrDeleted(
+  state: ConversationsStateType,
+  action: MessageDeletedActionType | MessageExpiredActionType
+) {
+  const { conversationKey, messageId } = action.payload;
+  if (conversationKey === state.selectedConversation) {
+    // search if we find this message id.
+    // we might have not loaded yet, so this case might not happen
+    const messageInStoreIndex = state?.messages.findIndex(
+      m => m.id === messageId
+    );
+    if (messageInStoreIndex >= 0) {
+      // we cannot edit the array directly, so slice the first part, and slice the second part,
+      // keeping the index removed out
+      const editedMessages = [
+        ...state.messages.slice(0, messageInStoreIndex),
+        ...state.messages.slice(messageInStoreIndex + 1),
+      ];
+
+      const updatedWithFirstMessageOfSeries = updateFirstMessageOfSeries(
+        editedMessages
+      );
+
+      // FIXME two other thing we have to do:
+      // * update the last message text if the message deleted was the last one
+      // * update the unread count of the convo if the message was the one counted as an unread
+
+      return {
+        ...state,
+        messages: updatedWithFirstMessageOfSeries,
+      };
+    }
+
+    return state;
+  }
+  return state;
+}
+
+function handleConversationReset(
+  state: ConversationsStateType,
+  action: ConversationResetActionType
+) {
+  const { conversationKey } = action.payload;
+  if (conversationKey === state.selectedConversation) {
+    // just empty the list of messages
+    return {
+      ...state,
+      messages: [],
+    };
+  }
+  return state;
+}
+
 // tslint:disable: cyclomatic-complexity
 // tslint:disable: max-func-body-length
 export function reducer(
@@ -492,6 +632,7 @@ export function reducer(
     const { id } = payload;
     const oldSelectedConversation = state.selectedConversation;
     const newSelectedConversation = id;
+
     if (newSelectedConversation !== oldSelectedConversation) {
       // empty the message list
       return {
@@ -505,6 +646,8 @@ export function reducer(
       selectedConversation: id,
     };
   }
+
+  // this is called once the messages are loaded from the db for the currently selected conversation
   if (action.type === fetchMessagesForConversation.fulfilled.type) {
     const { messages, conversationKey } = action.payload as any;
     // double check that this update is for the shown convo
@@ -521,102 +664,18 @@ export function reducer(
   }
 
   if (action.type === 'MESSAGE_CHANGED') {
-    const messageInStoreIndex = state?.messages?.findIndex(
-      m => m.id === action.payload.id
-    );
-    if (messageInStoreIndex >= 0) {
-      const changedMessage = _.pick(
-        action.payload as any,
-        toPickFromMessageModel
-      ) as MessageTypeInConvo;
-      // we cannot edit the array directly, so slice the first part, insert our edited message, and slice the second part
-      const editedMessages = [
-        ...state.messages.slice(0, messageInStoreIndex),
-        changedMessage,
-        ...state.messages.slice(messageInStoreIndex + 1),
-      ];
-      return {
-        ...state,
-        messages: editedMessages,
-      };
-    }
-
-    return state;
+    return handleMessageChanged(state, action);
   }
 
   if (action.type === 'MESSAGE_ADDED') {
-    const { conversationKey, messageModel } = action.payload;
-    if (conversationKey === state.selectedConversation) {
-      const { messages } = state;
-      const addedMessage = _.pick(
-        messageModel as any,
-        toPickFromMessageModel
-      ) as MessageTypeInConvo;
-      const messagesWithNewMessage = [...messages, addedMessage];
-      const convo = state.conversationLookup[state.selectedConversation];
-      const isPublic = convo?.isPublic;
-
-      if (convo && isPublic) {
-        return {
-          ...state,
-          messages: messagesWithNewMessage.sort(
-            (a: any, b: any) =>
-              b.attributes.serverTimestamp - a.attributes.serverTimestamp
-          ),
-        };
-      }
-      if (convo) {
-        return {
-          ...state,
-          messages: messagesWithNewMessage.sort(
-            (a, b) => b.attributes.timestamp - a.attributes.timestamp
-          ),
-        };
-      }
-    }
-    return state;
+    return handleMessageAdded(state, action);
   }
   if (action.type === 'MESSAGE_EXPIRED' || action.type === 'MESSAGE_DELETED') {
-    const { conversationKey, messageId } = action.payload;
-    if (conversationKey === state.selectedConversation) {
-      // search if we find this message id.
-      // we might have not loaded yet, so this case might not happen
-      const messageInStoreIndex = state?.messages.findIndex(
-        m => m.id === messageId
-      );
-      if (messageInStoreIndex >= 0) {
-        // we cannot edit the array directly, so slice the first part, and slice the second part,
-        // keeping the index removed out
-        const editedMessages = [
-          ...state.messages.slice(0, messageInStoreIndex),
-          ...state.messages.slice(messageInStoreIndex + 1),
-        ];
-
-        // FIXME two other thing we have to do:
-        // * update the last message text if the message deleted was the last one
-        // * update the unread count of the convo if the message was one one counted as an unread
-
-        return {
-          ...state,
-          messages: editedMessages,
-        };
-      }
-
-      return state;
-    }
-    return state;
+    return handleMessageExpiredOrDeleted(state, action);
   }
 
   if (action.type === 'CONVERSATION_RESET') {
-    const { conversationKey } = action.payload;
-    if (conversationKey === state.selectedConversation) {
-      // just empty the list of messages
-      return {
-        ...state,
-        messages: [],
-      };
-    }
-    return state;
+    return handleConversationReset(state, action);
   }
 
   return state;
