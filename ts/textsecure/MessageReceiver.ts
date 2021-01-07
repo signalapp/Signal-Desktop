@@ -113,7 +113,7 @@ class MessageReceiverInner extends EventTarget {
 
   count: number;
 
-  deviceId: number;
+  deviceId?: number;
 
   hasConnected?: boolean;
 
@@ -121,7 +121,7 @@ class MessageReceiverInner extends EventTarget {
 
   isEmptied?: boolean;
 
-  number_id: string | null;
+  number_id?: string;
 
   password: string;
 
@@ -143,7 +143,7 @@ class MessageReceiverInner extends EventTarget {
 
   uuid: string;
 
-  uuid_id: string | null;
+  uuid_id?: string;
 
   wsr?: WebSocketResource;
 
@@ -176,12 +176,14 @@ class MessageReceiverInner extends EventTarget {
       options.serverTrustRoot
     );
 
-    this.number_id = oldUsername ? utils.unencodeNumber(oldUsername)[0] : null;
-    this.uuid_id = username ? utils.unencodeNumber(username)[0] : null;
-    this.deviceId = parseInt(
-      utils.unencodeNumber(username || oldUsername)[1],
-      10
-    );
+    this.number_id = oldUsername
+      ? utils.unencodeNumber(oldUsername)[0]
+      : undefined;
+    this.uuid_id = username ? utils.unencodeNumber(username)[0] : undefined;
+    this.deviceId =
+      username || oldUsername
+        ? parseInt(utils.unencodeNumber(username || oldUsername)[1], 10)
+        : undefined;
 
     this.incomingQueue = new PQueue({ concurrency: 1, timeout: 1000 * 60 * 2 });
     this.pendingQueue = new PQueue({ concurrency: 1, timeout: 1000 * 60 * 2 });
