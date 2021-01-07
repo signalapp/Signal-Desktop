@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable class-methods-use-this */
@@ -34,6 +34,7 @@ import {
 import { GroupChangeClass } from '../textsecure.d';
 import { BodyRangesType } from '../types/Util';
 import { getTextWithMentions } from '../util';
+import { migrateColor } from '../util/migrateColor';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -4103,7 +4104,6 @@ export class ConversationModel extends window.Backbone.Model<
       return 'signal-blue';
     }
 
-    const { migrateColor } = Util;
     return migrateColor(this.get('color'));
   }
 
