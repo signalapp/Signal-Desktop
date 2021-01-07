@@ -879,14 +879,7 @@ export class Message extends React.PureComponent<Props, State> {
             i18n={i18n}
           />
         ) : null}
-        <div
-          className={classNames(
-            'module-message__link-preview__content',
-            withContentAbove || isFullSizeImage
-              ? 'module-message__link-preview__content--with-content-above'
-              : null
-          )}
-        >
+        <div className="module-message__link-preview__content">
           {first.image && previewHasImage && !isFullSizeImage ? (
             <div className="module-message__link-preview__icon_container">
               <Image

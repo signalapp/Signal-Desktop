@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // Using BEM syntax explained here: https://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/
@@ -307,6 +307,7 @@
   padding-top: 10px;
   padding-bottom: 10px;
   min-width: 0px;
+  overflow: hidden;
 
   @include light-theme {
     border: 1px solid $color-white;
@@ -854,8 +855,6 @@
 
   margin-top: -10px;
   margin-bottom: 5px;
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
   overflow: hidden;
 
   @include keyboard-mode {
@@ -867,35 +866,20 @@
 
 .module-message__link-preview--with-content-above {
   margin-top: 4px;
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
 }
 
 .module-message__link-preview__content {
-  padding: 8px;
-  border: 1px solid transparent; /* Color overwritten below. */
-  border-bottom: 0;
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
-  background-color: $color-white;
+  padding: 8px 12px;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
 
   @include light-theme {
-    border-color: $color-black-alpha-20;
+    background-color: $color-gray-02;
   }
   @include dark-theme {
-    background-color: $color-gray-95;
-    border-color: $color-gray-60;
+    background-color: $color-gray-80;
   }
-}
-
-.module-message__link-preview__content--with-content-above {
-  border-top: none;
-  border-bottom: none;
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
 }
 
 .module-message__link-preview__icon_container {
@@ -946,7 +930,7 @@
   display: flex;
   flex-flow: row wrap;
   align-items: center;
-  margin-top: 4px;
+  margin-top: 2px;
 
   @include light-theme {
     color: $color-gray-60;
