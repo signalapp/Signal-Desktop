@@ -5422,7 +5422,9 @@ button.module-image__border-overlay:focus {
   flex-grow: 1;
 }
 
-.module-search-results__conversations-header {
+.module-search-results__conversations-header,
+.module-search-results__contacts-header,
+.module-search-results__messages-header {
   @include font-body-1-bold;
 
   height: 52px;
@@ -5455,30 +5457,6 @@ button.module-image__border-overlay:focus {
   width: 100%;
   text-align: center;
   outline: none;
-}
-
-.module-search-results__contacts-header {
-  @include font-body-1-bold;
-
-  height: 52px;
-  margin-left: 16px;
-
-  @include dark-theme {
-    color: $color-gray-05;
-  }
-}
-
-.module-search-results__messages-header {
-  @include font-body-1-bold;
-
-  height: 52px;
-  margin-left: 16px;
-  padding-bottom: 8px;
-  padding-top: 8px;
-
-  @include dark-theme {
-    color: $color-gray-05;
-  }
 }
 
 .module-search-results__spinner-container {
