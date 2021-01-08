@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -10,6 +10,7 @@ import {
   GroupCallVideoRequest,
   VideoFrameSource,
 } from '../types/Calling';
+import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer';
 import { LocalizerType } from '../types/Util';
 import { usePageVisibility } from '../util/hooks';
 import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant';
@@ -72,6 +73,7 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
     height: 0,
   });
   const isPageVisible = usePageVisibility();
+  const getFrameBuffer = useGetCallingFrameBuffer();
 
   // 1. Figure out the maximum number of possible rows that could fit on the screen.
   //
@@ -216,6 +218,7 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
         return (
           <GroupCallRemoteParticipant
             key={remoteParticipant.demuxId}
+            getFrameBuffer={getFrameBuffer}
             getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
             height={gridParticipantHeight}
             i18n={i18n}

@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, {
@@ -21,11 +21,10 @@ import { Avatar, AvatarSize } from './Avatar';
 import { ConfirmationModal } from './ConfirmationModal';
 import { Intl } from './Intl';
 import { ContactName } from './conversation/ContactName';
-
-// The max size video frame we'll support (in RGBA)
-const FRAME_BUFFER_SIZE = 1920 * 1080 * 4;
+import { MAX_FRAME_SIZE } from '../calling/constants';
 
 interface BasePropsType {
+  getFrameBuffer: () => ArrayBuffer;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
   remoteParticipant: GroupCallRemoteParticipantType;
@@ -47,7 +46,7 @@ export type PropsType = BasePropsType & (InPipPropsType | NotInPipPropsType);
 
 export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
   props => {
-    const { getGroupCallVideoFrameSource, i18n } = props;
+    const { getFrameBuffer, getGroupCallVideoFrameSource, i18n } = props;
 
     const {
       avatarPath,
@@ -66,9 +65,6 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
 
     const remoteVideoRef = useRef<HTMLCanvasElement | null>(null);
     const canvasContextRef = useRef<CanvasRenderingContext2D | null>(null);
-    const frameBufferRef = useRef<ArrayBuffer>(
-      new ArrayBuffer(FRAME_BUFFER_SIZE)
-    );
 
     const videoFrameSource = useMemo(
       () => getGroupCallVideoFrameSource(demuxId),
@@ -86,15 +82,22 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
         return;
       }
 
-      const frameDimensions = videoFrameSource.receiveVideoFrame(
-        frameBufferRef.current
-      );
+      // This frame buffer is shared by all participants, so it may contain pixel data
+      //   for other participants, or pixel data from a previous frame. That's why we
+      //   return early and use the `frameWidth` and `frameHeight`.
+      const frameBuffer = getFrameBuffer();
+      const frameDimensions = videoFrameSource.receiveVideoFrame(frameBuffer);
       if (!frameDimensions) {
         return;
       }
 
       const [frameWidth, frameHeight] = frameDimensions;
-      if (frameWidth < 2 || frameHeight < 2) {
+
+      if (
+        frameWidth < 2 ||
+        frameHeight < 2 ||
+        frameWidth * frameHeight > MAX_FRAME_SIZE
+      ) {
         return;
       }
 
@@ -103,11 +106,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
 
       canvasContext.putImageData(
         new ImageData(
-          new Uint8ClampedArray(
-            frameBufferRef.current,
-            0,
-            frameWidth * frameHeight * 4
-          ),
+          new Uint8ClampedArray(frameBuffer, 0, frameWidth * frameHeight * 4),
           frameWidth,
           frameHeight
         ),
@@ -116,7 +115,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       );
 
       setIsWide(frameWidth > frameHeight);
-    }, [videoFrameSource]);
+    }, [getFrameBuffer, videoFrameSource]);
 
     useEffect(() => {
       if (!hasRemoteVideo) {

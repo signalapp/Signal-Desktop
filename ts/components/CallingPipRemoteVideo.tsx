@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useMemo, useEffect } from 'react';
@@ -16,6 +16,7 @@ import {
   VideoFrameSource,
 } from '../types/Calling';
 import { SetRendererCanvasType } from '../state/ducks/calling';
+import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer';
 import { usePageVisibility } from '../util/hooks';
 import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant';
 
@@ -76,6 +77,8 @@ export const CallingPipRemoteVideo = ({
   setRendererCanvas,
 }: PropsType): JSX.Element => {
   const { conversation } = activeCall;
+
+  const getGroupCallFrameBuffer = useGetCallingFrameBuffer();
 
   const isPageVisible = usePageVisibility();
 
@@ -155,6 +158,7 @@ export const CallingPipRemoteVideo = ({
     return (
       <div className="module-calling-pip__video--remote">
         <GroupCallRemoteParticipant
+          getFrameBuffer={getGroupCallFrameBuffer}
           getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
           i18n={i18n}
           isInPip

@@ -14327,6 +14327,15 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/calling/useGetCallingFrameBuffer.js",
+    "line": "    const ref = react_1.useRef(null);",
+    "lineNumber": 17,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-01-06T00:47:54.313Z",
+    "reasonDetail": "Needed to render remote video elements. Doesn't interact with the DOM."
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/AvatarPopup.js",
     "line": "    const focusRef = React.useRef(null);",
     "lineNumber": 33,
@@ -14518,7 +14527,7 @@
     "rule": "React-useRef",
     "path": "ts/components/GroupCallRemoteParticipant.js",
     "line": "    const remoteVideoRef = react_1.useRef(null);",
-    "lineNumber": 44,
+    "lineNumber": 43,
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-11T21:56:04.179Z",
     "reasonDetail": "Needed to render the remote video element."
@@ -14527,18 +14536,9 @@
     "rule": "React-useRef",
     "path": "ts/components/GroupCallRemoteParticipant.js",
     "line": "    const canvasContextRef = react_1.useRef(null);",
-    "lineNumber": 45,
+    "lineNumber": 44,
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-17T23:29:38.698Z",
-    "reasonDetail": "Doesn't touch the DOM."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/GroupCallRemoteParticipant.js",
-    "line": "    const frameBufferRef = react_1.useRef(new ArrayBuffer(FRAME_BUFFER_SIZE));",
-    "lineNumber": 46,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-11-17T16:24:25.480Z",
     "reasonDetail": "Doesn't touch the DOM."
   },
   {
