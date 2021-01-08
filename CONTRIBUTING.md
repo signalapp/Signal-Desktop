@@ -25,12 +25,11 @@ you can just run `nvm use` in the project directory and it will switch to the pr
 desired Node.js version. [nvm for windows](https://github.com/coreybutler/nvm-windows) is
 still useful, but it doesn't support `.nvmrc` files.
 
-Then you need `git`, if you don't have that yet: https://git-scm.com/
+Then you need [`git`](https://git-scm.com/) and [`git-lfs`](https://github.com/git-lfs/git-lfs/wiki/Installation), if you don't have those yet.
 
 ### macOS
 
-1.  Install the [Xcode Command-Line Tools](http://osxdaily.com/2014/02/12/install-command-line-tools-mac-os-x/).
-2.  Ensure [git-lfs](https://github.com/git-lfs/git-lfs/wiki/Installation) is installed. You'll need it to to checkout and install the node requirements. Install with `brew install git-lfs`
+Install the [Xcode Command-Line Tools](http://osxdaily.com/2014/02/12/install-command-line-tools-mac-os-x/).
 
 ### Windows
 
