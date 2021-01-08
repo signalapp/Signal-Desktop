@@ -21,6 +21,7 @@ import { Avatar, AvatarSize } from './Avatar';
 import { ConfirmationModal } from './ConfirmationModal';
 import { Intl } from './Intl';
 import { ContactName } from './conversation/ContactName';
+import { useIntersectionObserver } from '../util/hooks';
 import { MAX_FRAME_SIZE } from '../calling/constants';
 
 interface BasePropsType {
@@ -34,15 +35,19 @@ interface InPipPropsType {
   isInPip: true;
 }
 
-interface NotInPipPropsType {
+interface InOverflowAreaPropsType {
   height: number;
   isInPip?: false;
-  left: number;
-  top: number;
   width: number;
 }
 
-export type PropsType = BasePropsType & (InPipPropsType | NotInPipPropsType);
+interface InGridPropsType extends InOverflowAreaPropsType {
+  left: number;
+  top: number;
+}
+
+export type PropsType = BasePropsType &
+  (InPipPropsType | InOverflowAreaPropsType | InGridPropsType);
 
 export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
   props => {
@@ -57,14 +62,25 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       isBlocked,
       profileName,
       title,
+      videoAspectRatio,
     } = props.remoteParticipant;
 
-    const [isWide, setIsWide] = useState(true);
+    const [isWide, setIsWide] = useState<boolean>(
+      videoAspectRatio ? videoAspectRatio >= 1 : true
+    );
     const [hasHover, setHover] = useState(false);
     const [showBlockInfo, setShowBlockInfo] = useState(false);
 
     const remoteVideoRef = useRef<HTMLCanvasElement | null>(null);
     const canvasContextRef = useRef<CanvasRenderingContext2D | null>(null);
+
+    const [
+      intersectionRef,
+      intersectionObserverEntry,
+    ] = useIntersectionObserver();
+    const isVisible = intersectionObserverEntry
+      ? intersectionObserverEntry.isIntersecting
+      : true;
 
     const videoFrameSource = useMemo(
       () => getGroupCallVideoFrameSource(demuxId),
@@ -118,7 +134,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
     }, [getFrameBuffer, videoFrameSource]);
 
     useEffect(() => {
-      if (!hasRemoteVideo) {
+      if (!hasRemoteVideo || !isVisible) {
         return noop;
       }
 
@@ -132,7 +148,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       return () => {
         cancelAnimationFrame(rafId);
       };
-    }, [hasRemoteVideo, renderVideoFrame, videoFrameSource]);
+    }, [hasRemoteVideo, isVisible, renderVideoFrame, videoFrameSource]);
 
     let canvasStyles: CSSProperties;
     let containerStyles: CSSProperties;
@@ -155,7 +171,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       containerStyles = canvasStyles;
       avatarSize = AvatarSize.FIFTY_TWO;
     } else {
-      const { top, left, width, height } = props;
+      const { width, height } = props;
       const shorterDimension = Math.min(width, height);
 
       if (shorterDimension >= 240) {
@@ -168,15 +184,18 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
 
       containerStyles = {
         height,
-        left,
-        position: 'absolute',
-        top,
         width,
       };
+
+      if ('top' in props) {
+        containerStyles.position = 'absolute';
+        containerStyles.top = props.top;
+        containerStyles.left = props.left;
+      }
     }
 
     const showHover = hasHover && !props.isInPip;
-    const canShowVideo = hasRemoteVideo && !isBlocked;
+    const canShowVideo = hasRemoteVideo && !isBlocked && isVisible;
 
     return (
       <>
@@ -218,6 +237,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
 
         <div
           className="module-ongoing-call__group-call-remote-participant"
+          ref={intersectionRef}
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
           style={containerStyles}

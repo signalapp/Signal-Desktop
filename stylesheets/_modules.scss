@@ -5842,7 +5842,7 @@ button.module-image__border-overlay:focus {
 .module-calling {
   &__container {
     align-items: center;
-    background-color: $color-gray-95;
+    background-color: $calling-background-color;
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -6253,6 +6253,7 @@ button.module-image__border-overlay:focus {
     top: 0;
     width: 100%;
     z-index: 2;
+    padding-bottom: 1rem;
   }
 
   &__header-message {
@@ -6262,10 +6263,110 @@ button.module-image__border-overlay:focus {
     letter-spacing: -0.0025em;
   }
 
-  &__grid {
-    flex-grow: 1;
+  &__participants {
+    display: flex;
+    flex: 1 1 0;
     width: 100%;
-    position: relative;
+
+    &__grid {
+      flex-grow: 1;
+      position: relative;
+    }
+
+    &__overflow {
+      flex: 0 0 auto;
+      position: relative;
+
+      &__inner {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        max-height: 100%;
+        overflow-y: scroll;
+
+        &::-webkit-scrollbar,
+        &::-webkit-scrollbar-thumb {
+          width: 0;
+          background: transparent;
+        }
+      }
+
+      & .module-ongoing-call__group-call-remote-participant {
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+
+      &__scroll-marker {
+        $scroll-marker-selector: &;
+
+        display: flex;
+        justify-content: center;
+        left: 0;
+        opacity: 1;
+        position: absolute;
+        scroll-behavior: smooth;
+        transition: opacity 200ms ease-out;
+        width: 100%;
+        z-index: 1;
+
+        &--hidden {
+          opacity: 0;
+        }
+
+        &__button {
+          &::before {
+            @include color-svg(
+              '../images/icons/v2/arrow-down-24.svg',
+              $color-white
+            );
+
+            content: '';
+            display: block;
+            height: 100%;
+            width: 100%;
+          }
+
+          background: $color-gray-60;
+          border-radius: 100%;
+          border: 0;
+          box-shadow: 0 0 5px rgba($color-gray-95, 0.5);
+          height: 28px;
+          margin: 12px 0;
+          opacity: 0;
+          outline: none;
+          transition: opacity 200ms ease-out;
+          width: 28px;
+        }
+
+        &--top {
+          top: 0;
+          background: linear-gradient(
+            $calling-background-color,
+            transparent 20px,
+            transparent
+          );
+
+          #{$scroll-marker-selector}__button {
+            transform: rotate(180deg);
+          }
+        }
+
+        &--bottom {
+          bottom: 0;
+          background: linear-gradient(
+            to top,
+            $calling-background-color,
+            transparent 20px,
+            transparent
+          );
+        }
+      }
+
+      &:hover &__scroll-marker__button {
+        opacity: 1;
+      }
+    }
   }
 
   &__group-call-remote-participant {

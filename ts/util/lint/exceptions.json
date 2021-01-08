@@ -14525,9 +14525,18 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/GroupCallOverflowArea.js",
+    "line": "    const overflowRef = react_1.useRef(null);",
+    "lineNumber": 36,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-01-08T15:48:46.313Z",
+    "reasonDetail": "Used to deal with scroll position."
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/GroupCallRemoteParticipant.js",
     "line": "    const remoteVideoRef = react_1.useRef(null);",
-    "lineNumber": 43,
+    "lineNumber": 44,
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-11T21:56:04.179Z",
     "reasonDetail": "Needed to render the remote video element."
@@ -14536,7 +14545,7 @@
     "rule": "React-useRef",
     "path": "ts/components/GroupCallRemoteParticipant.js",
     "line": "    const canvasContextRef = react_1.useRef(null);",
-    "lineNumber": 44,
+    "lineNumber": 45,
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-17T23:29:38.698Z",
     "reasonDetail": "Doesn't touch the DOM."
@@ -15204,5 +15213,14 @@
     "lineNumber": 2177,
     "reasonCategory": "falseMatch",
     "updated": "2020-09-08T23:07:22.682Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/util/hooks.js",
+    "line": "    const unobserveRef = React.useRef(null);",
+    "lineNumber": 95,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-01-08T15:46:32.143Z",
+    "reasonDetail": "Doesn't manipulate the DOM. This is just a function."
   }
 ]

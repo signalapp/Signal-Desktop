@@ -1306,6 +1306,14 @@
     "message": "You won't receive their audio or video and they won't receive yours.",
     "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
   },
+  "calling__overflow__scroll-up": {
+    "message": "Scroll up",
+    "description": "Label for the \"scroll up\" button in a call's overflow area"
+  },
+  "calling__overflow__scroll-down": {
+    "message": "Scroll down",
+    "description": "Label for the \"scroll down\" button in a call's overflow area"
+  },
   "alwaysRelayCallsDescription": {
     "message": "Always relay calls",
     "description": "Description of the always relay calls setting"

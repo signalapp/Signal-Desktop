@@ -1,4 +1,4 @@
-// Copyright 2015-2020 Signal Messenger, LLC
+// Copyright 2015-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 $inter: Inter, 'Helvetica Neue', 'Source Sans Pro', 'Source Han Sans SC',
@@ -194,3 +194,5 @@ $left-pane-width: 320px;
 $header-height: 52px;
 
 $ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+
+$calling-background-color: $color-gray-95;
