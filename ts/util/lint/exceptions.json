@@ -14782,7 +14782,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.js",
     "line": "        this.audioRef = react_1.default.createRef();",
-    "lineNumber": 62,
+    "lineNumber": 61,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-28T16:12:19.904Z"
   },
@@ -14790,7 +14790,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.js",
     "line": "        this.focusRef = react_1.default.createRef();",
-    "lineNumber": 63,
+    "lineNumber": 62,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-11T17:24:56.124Z",
     "reasonDetail": "Used for managing focus only"
@@ -14799,7 +14799,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.js",
     "line": "        this.reactionsContainerRef = react_1.default.createRef();",
-    "lineNumber": 64,
+    "lineNumber": 63,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-28T16:12:19.904Z",
     "reasonDetail": "Used for detecting clicks outside reaction viewer"
@@ -14808,7 +14808,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public audioRef: React.RefObject<HTMLAudioElement> = React.createRef();",
-    "lineNumber": 226,
+    "lineNumber": 216,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-08T20:19:01.913Z"
   },
@@ -14816,7 +14816,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
-    "lineNumber": 228,
+    "lineNumber": 218,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-08T20:19:01.913Z"
   },
@@ -14824,7 +14824,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  > = React.createRef();",
-    "lineNumber": 232,
+    "lineNumber": 222,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-28T19:36:40.817Z"
   },

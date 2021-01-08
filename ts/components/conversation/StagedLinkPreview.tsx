@@ -32,7 +32,7 @@ export const StagedLinkPreview: React.FC<Props> = ({
   date,
   domain,
 }: Props) => {
-  const isImage = image && isImageAttachment(image);
+  const isImage = isImageAttachment(image);
 
   return (
     <div
