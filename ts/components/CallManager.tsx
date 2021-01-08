@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback } from 'react';
@@ -73,6 +73,7 @@ export interface PropsType {
   hangUp: (_: HangUpType) => void;
   togglePip: () => void;
   toggleSettings: () => void;
+  toggleSpeakerView: () => void;
 }
 
 interface ActiveCallManagerPropsType extends PropsType {
@@ -100,6 +101,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
   toggleParticipants,
   togglePip,
   toggleSettings,
+  toggleSpeakerView,
 }) => {
   const {
     conversation,
@@ -265,6 +267,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
         toggleParticipants={toggleParticipants}
         togglePip={togglePip}
         toggleSettings={toggleSettings}
+        toggleSpeakerView={toggleSpeakerView}
       />
       {settingsDialogOpen && renderDeviceSelection()}
       {showParticipantsList && activeCall.callMode === CallMode.Group ? (

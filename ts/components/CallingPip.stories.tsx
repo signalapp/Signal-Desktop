@@ -39,6 +39,7 @@ const getCommonActiveCallData = () => ({
   conversation,
   hasLocalAudio: boolean('hasLocalAudio', true),
   hasLocalVideo: boolean('hasLocalVideo', false),
+  isInSpeakerView: boolean('isInSpeakerView', false),
   joinedAt: Date.now(),
   pip: true,
   settingsDialogOpen: false,

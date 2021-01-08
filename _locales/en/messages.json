@@ -3147,6 +3147,14 @@
     "message": "Fullscreen call",
     "description": "Title for picture-in-picture toggle"
   },
+  "calling__switch-view--to-grid": {
+    "message": "Switch to grid view",
+    "description": "Title for grid/speaker view toggle when on a call"
+  },
+  "calling__switch-view--to-speaker": {
+    "message": "Switch to speaker view",
+    "description": "Title for grid/speaker view toggle when on a call"
+  },
   "calling__hangup": {
     "message": "Leave call",
     "description": "Title for hang up button"

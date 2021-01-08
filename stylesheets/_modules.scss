@@ -6090,11 +6090,13 @@ button.module-image__border-overlay:focus {
 }
 
 .module-calling-button {
+  $size: 22px;
+
   &__participants {
     @include color-svg('../images/icons/v2/group-solid-24.svg', $color-white);
     display: inline-block;
-    height: 22px;
-    width: 22px;
+    height: $size;
+    width: $size;
 
     &--container {
       @include button-reset;
@@ -6123,14 +6125,32 @@ button.module-image__border-overlay:focus {
       '../images/icons/v2/settings-solid-16.svg',
       $color-white
     );
-    height: 22px;
-    width: 22px;
+    height: $size;
+    width: $size;
+  }
+
+  &__grid-view {
+    @include color-svg(
+      '../images/icons/v2/grid-view-solid-24.svg',
+      $color-white
+    );
+    height: $size;
+    width: $size;
+  }
+
+  &__speaker-view {
+    @include color-svg(
+      '../images/icons/v2/speaker-view-solid-24.svg',
+      $color-white
+    );
+    height: $size;
+    width: $size;
   }
 
   &__pip {
     @include color-svg('../images/icons/v2/pip-minimize-24.svg', $color-white);
-    height: 22px;
-    width: 22px;
+    height: $size;
+    width: $size;
   }
 }
 

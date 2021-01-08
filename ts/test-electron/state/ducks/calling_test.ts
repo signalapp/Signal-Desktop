@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -43,6 +43,7 @@ describe('calling duck', () => {
       conversationId: 'fake-direct-call-conversation-id',
       hasLocalAudio: true,
       hasLocalVideo: false,
+      isInSpeakerView: false,
       showParticipantsList: false,
       safetyNumberChangedUuids: [],
       pip: false,
@@ -98,6 +99,7 @@ describe('calling duck', () => {
       conversationId: 'fake-group-call-conversation-id',
       hasLocalAudio: true,
       hasLocalVideo: false,
+      isInSpeakerView: false,
       showParticipantsList: false,
       safetyNumberChangedUuids: [],
       pip: false,
@@ -202,6 +204,7 @@ describe('calling duck', () => {
           conversationId: 'fake-direct-call-conversation-id',
           hasLocalAudio: true,
           hasLocalVideo: true,
+          isInSpeakerView: false,
           showParticipantsList: false,
           safetyNumberChangedUuids: [],
           pip: false,
@@ -578,6 +581,7 @@ describe('calling duck', () => {
           conversationId: 'fake-group-call-conversation-id',
           hasLocalAudio: true,
           hasLocalVideo: false,
+          isInSpeakerView: false,
           showParticipantsList: false,
           safetyNumberChangedUuids: [],
           pip: false,
@@ -815,6 +819,7 @@ describe('calling duck', () => {
           conversationId: 'fake-conversation-id',
           hasLocalAudio: true,
           hasLocalVideo: true,
+          isInSpeakerView: false,
           showParticipantsList: false,
           safetyNumberChangedUuids: [],
           pip: false,
@@ -1050,6 +1055,7 @@ describe('calling duck', () => {
           conversationId: 'fake-conversation-id',
           hasLocalAudio: true,
           hasLocalVideo: false,
+          isInSpeakerView: false,
           showParticipantsList: false,
           safetyNumberChangedUuids: [],
           pip: false,
@@ -1118,6 +1124,23 @@ describe('calling duck', () => {
         assert.isTrue(afterOneToggle.activeCallState?.pip);
         assert.isFalse(afterTwoToggles.activeCallState?.pip);
         assert.isTrue(afterThreeToggles.activeCallState?.pip);
+      });
+    });
+
+    describe('toggleSpeakerView', () => {
+      const { toggleSpeakerView } = actions;
+
+      it('toggles speaker view', () => {
+        const afterOneToggle = reducer(
+          stateWithActiveGroupCall,
+          toggleSpeakerView()
+        );
+        const afterTwoToggles = reducer(afterOneToggle, toggleSpeakerView());
+        const afterThreeToggles = reducer(afterTwoToggles, toggleSpeakerView());
+
+        assert.isTrue(afterOneToggle.activeCallState?.isInSpeakerView);
+        assert.isFalse(afterTwoToggles.activeCallState?.isInSpeakerView);
+        assert.isTrue(afterThreeToggles.activeCallState?.isInSpeakerView);
       });
     });
   });

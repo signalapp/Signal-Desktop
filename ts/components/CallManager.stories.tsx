@@ -42,6 +42,7 @@ const getCommonActiveCallData = () => ({
   joinedAt: Date.now(),
   hasLocalAudio: boolean('hasLocalAudio', true),
   hasLocalVideo: boolean('hasLocalVideo', false),
+  isInSpeakerView: boolean('isInSpeakerView', false),
   pip: boolean('pip', false),
   settingsDialogOpen: boolean('settingsDialogOpen', false),
   showParticipantsList: boolean('showParticipantsList', false),
@@ -87,6 +88,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   toggleParticipants: action('toggle-participants'),
   togglePip: action('toggle-pip'),
   toggleSettings: action('toggle-settings'),
+  toggleSpeakerView: action('toggle-speaker-view'),
 });
 
 const story = storiesOf('Components/CallManager', module);

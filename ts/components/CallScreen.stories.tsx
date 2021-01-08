@@ -44,6 +44,7 @@ const conversation = {
 interface OverridePropsBase {
   hasLocalAudio?: boolean;
   hasLocalVideo?: boolean;
+  isInSpeakerView?: boolean;
 }
 
 interface DirectCallOverrideProps extends OverridePropsBase {
@@ -113,6 +114,10 @@ const createActiveCallProp = (
       'hasLocalVideo',
       overrideProps.hasLocalVideo || false
     ),
+    isInSpeakerView: boolean(
+      'isInSpeakerView',
+      overrideProps.isInSpeakerView || false
+    ),
     pip: false,
     settingsDialogOpen: false,
     showParticipantsList: false,
@@ -152,6 +157,7 @@ const createProps = (
   toggleParticipants: action('toggle-participants'),
   togglePip: action('toggle-pip'),
   toggleSettings: action('toggle-settings'),
+  toggleSpeakerView: action('toggle-speaker-view'),
 });
 
 const story = storiesOf('Components/CallScreen', module);

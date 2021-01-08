@@ -38,6 +38,7 @@ interface GridArrangement {
 interface PropsType {
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
+  isInSpeakerView: boolean;
   remoteParticipants: ReadonlyArray<GroupCallRemoteParticipantType>;
   setGroupCallVideoRequest: (_: Array<GroupCallVideoRequest>) => void;
 }
@@ -68,6 +69,7 @@ interface PropsType {
 export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
   getGroupCallVideoFrameSource,
   i18n,
+  isInSpeakerView,
   remoteParticipants,
   setGroupCallVideoRequest,
 }) => {
@@ -122,6 +124,14 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
     [remoteParticipants]
   );
   const gridParticipants: Array<GroupCallRemoteParticipantType> = useMemo(() => {
+    if (!sortedParticipants.length) {
+      return [];
+    }
+
+    const candidateParticipants = isInSpeakerView
+      ? [sortedParticipants[0]]
+      : sortedParticipants;
+
     // Imagine that we laid out all of the rows end-to-end. That's the maximum total
     //   width. So if there were 5 rows and the container was 100px wide, then we can't
     //   possibly fit more than 500px of participants.
@@ -130,11 +140,16 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
     // We do the same thing for participants, "laying them out end-to-end" until they
     //   exceed the maximum total width.
     let totalWidth = 0;
-    return takeWhile(sortedParticipants, remoteParticipant => {
+    return takeWhile(candidateParticipants, remoteParticipant => {
       totalWidth += remoteParticipant.videoAspectRatio * MIN_RENDERED_HEIGHT;
       return totalWidth < maxTotalWidth;
     }).sort(stableParticipantComparator);
-  }, [maxRowCount, containerDimensions.width, sortedParticipants]);
+  }, [
+    containerDimensions.width,
+    isInSpeakerView,
+    maxRowCount,
+    sortedParticipants,
+  ]);
   const overflowedParticipants: Array<GroupCallRemoteParticipantType> = useMemo(
     () =>
       sortedParticipants

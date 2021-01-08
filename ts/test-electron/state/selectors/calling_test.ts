@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -40,6 +40,7 @@ describe('state/selectors/calling', () => {
       conversationId: 'fake-direct-call-conversation-id',
       hasLocalAudio: true,
       hasLocalVideo: false,
+      isInSpeakerView: false,
       showParticipantsList: false,
       safetyNumberChangedUuids: [],
       pip: false,
