@@ -338,7 +338,7 @@ function renderShortcut(
               }
 
               return (
-                <span
+                <kbd
                   key={`shortcut__key--${key}`}
                   className={classNames(
                     'module-shortcut-guide__shortcut__key',
@@ -348,7 +348,7 @@ function renderShortcut(
                   )}
                 >
                   {label}
-                </span>
+                </kbd>
               );
             })}
           </div>
