@@ -7,7 +7,7 @@ Signal Desktop is an Electron application that links with Signal
 on [Android](https://github.com/signalapp/Signal-Android)
 or [iOS](https://github.com/signalapp/Signal-iOS).
 
-## Install the production version: [Signal Download](https://signal.org/download/)
+## Install the production version: [Download Signal](https://signal.org/download/)
 
 ## Install the beta
 
