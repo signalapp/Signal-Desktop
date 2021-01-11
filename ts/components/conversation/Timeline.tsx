@@ -659,6 +659,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       renderLoadingRow,
       renderLastSeenIndicator,
       renderTypingBubble,
+      replyToMessage,
       unblurAvatar,
       updateSharedGroups,
     } = this.props;
@@ -719,10 +720,19 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       }
       const messageId = items[itemIndex];
       rowContents = (
+        // Double clicking on this item is meant for mouse use only
+        // eslint-disable-next-line max-len
+        // eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/click-events-have-key-events
         <div
           id={messageId}
           data-row={row}
           className="module-timeline__message-container"
+          onDoubleClick={(event: React.MouseEvent) => {
+            event.stopPropagation();
+            event.preventDefault();
+
+            replyToMessage(messageId);
+          }}
           style={styleWithWidth}
           role="row"
         >
