@@ -127,6 +127,7 @@ export class EmojiCompletion {
 
     if (leftTokenTextMatch) {
       const [, leftTokenText, isSelfClosing] = leftTokenTextMatch;
+      leftTokenText = leftTokenText.toLowerCase();
 
       if (isSelfClosing || justPressedColon) {
         if (isShortName(leftTokenText)) {
