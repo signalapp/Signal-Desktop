@@ -290,55 +290,66 @@ export function TimelineMessage(props: Props): JSX.Element {
           {i18n('deleteWarning')}
         </ConfirmationDialog>
       )}
-      <Message
-        {...props}
-        renderingContext="conversation/TimelineItem"
-        onContextMenu={handleContextMenu}
-        menu={
-          <Manager>
-            <MessageMenu
-              i18n={i18n}
-              triggerId={triggerId}
-              isWindowWidthNotNarrow={isWindowWidthNotNarrow}
-              direction={direction}
-              menuTriggerRef={menuTriggerRef}
-              showMenu={handleContextMenu}
-              onDownload={handleDownload}
-              onReplyToMessage={handleReplyToMessage}
-              onReact={handleReact}
-            />
+      <div
+        onDoubleClick={ev => {
+          if (!handleReplyToMessage) {
+            return;
+          }
 
-            {reactionPickerRoot &&
-              createPortal(
-                <Popper
-                  placement="top"
-                  modifiers={[
-                    offsetDistanceModifier(4),
-                    popperPreventOverflowModifier(),
-                  ]}
-                >
-                  {({ ref, style }) =>
-                    renderReactionPicker({
-                      ref,
-                      style,
-                      selected: selectedReaction,
-                      onClose: toggleReactionPicker,
-                      onPick: emoji => {
-                        toggleReactionPicker(true);
-                        reactToMessage(id, {
-                          emoji,
-                          remove: emoji === selectedReaction,
-                        });
-                      },
-                      renderEmojiPicker,
-                    })
-                  }
-                </Popper>,
-                reactionPickerRoot
-              )}
-          </Manager>
-        }
-      />
+          ev.stopPropagation();
+          ev.preventDefault();
+          handleReplyToMessage();
+        }}
+      >
+        <Message
+          {...props}
+          renderingContext="conversation/TimelineItem"
+          onContextMenu={handleContextMenu}
+          menu={
+            <Manager>
+              <MessageMenu
+                i18n={i18n}
+                triggerId={triggerId}
+                isWindowWidthNotNarrow={isWindowWidthNotNarrow}
+                direction={direction}
+                menuTriggerRef={menuTriggerRef}
+                showMenu={handleContextMenu}
+                onDownload={handleDownload}
+                onReplyToMessage={handleReplyToMessage}
+                onReact={handleReact}
+              />
+              {reactionPickerRoot &&
+                createPortal(
+                  <Popper
+                    placement="top"
+                    modifiers={[
+                      offsetDistanceModifier(4),
+                      popperPreventOverflowModifier(),
+                    ]}
+                  >
+                    {({ ref, style }) =>
+                      renderReactionPicker({
+                        ref,
+                        style,
+                        selected: selectedReaction,
+                        onClose: toggleReactionPicker,
+                        onPick: emoji => {
+                          toggleReactionPicker(true);
+                          reactToMessage(id, {
+                            emoji,
+                            remove: emoji === selectedReaction,
+                          });
+                        },
+                        renderEmojiPicker,
+                      })
+                    }
+                  </Popper>,
+                  reactionPickerRoot
+                )}
+            </Manager>
+          }
+        />
+      </div>
 
       <MessageContextMenu
         i18n={i18n}
@@ -412,6 +423,10 @@ function MessageMenu({
                   'module-message__buttons__menu',
                   `module-message__buttons__download--${direction}`
                 )}
+                onDoubleClick={ev => {
+                  // Prevent double click from triggering the replyToMessage action
+                  ev.stopPropagation();
+                }}
               />
             </ContextMenuTrigger>
           </StopPropagation>
@@ -455,6 +470,10 @@ function MessageMenu({
                     role="button"
                     className="module-message__buttons__react"
                     aria-label={i18n('reactToMessage')}
+                    onDoubleClick={ev => {
+                      // Prevent double click from triggering the replyToMessage action
+                      ev.stopPropagation();
+                    }}
                   />
                 );
               }}
@@ -473,6 +492,10 @@ function MessageMenu({
                 'module-message__buttons__download',
                 `module-message__buttons__download--${direction}`
               )}
+              onDoubleClick={ev => {
+                // Prevent double click from triggering the replyToMessage action
+                ev.stopPropagation();
+              }}
             />
           )}
 
@@ -494,6 +517,10 @@ function MessageMenu({
                 'module-message__buttons__reply',
                 `module-message__buttons__download--${direction}`
               )}
+              onDoubleClick={ev => {
+                // Prevent double click from triggering the replyToMessage action
+                ev.stopPropagation();
+              }}
             />
           )}
         </>
