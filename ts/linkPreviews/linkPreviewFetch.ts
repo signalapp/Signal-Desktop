@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { RequestInit, Response } from 'node-fetch';
@@ -12,6 +12,8 @@ import {
   IMAGE_WEBP,
   MIMEType,
 } from '../types/MIME';
+
+const USER_AGENT = 'WhatsApp/2';
 
 const MAX_REQUEST_COUNT_WITH_REDIRECTS = 20;
 
@@ -408,7 +410,7 @@ export async function fetchLinkPreviewMetadata(
     response = await fetchWithRedirects(fetchFn, href, {
       headers: {
         Accept: 'text/html,application/xhtml+xml',
-        'User-Agent': 'WhatsApp',
+        'User-Agent': USER_AGENT,
       },
       signal: abortSignal,
     });
@@ -504,7 +506,7 @@ export async function fetchLinkPreviewImage(
   try {
     response = await fetchWithRedirects(fetchFn, href, {
       headers: {
-        'User-Agent': 'WhatsApp',
+        'User-Agent': USER_AGENT,
       },
       size: MAX_IMAGE_CONTENT_LENGTH,
       signal: abortSignal,

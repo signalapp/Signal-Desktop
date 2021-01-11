@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -143,7 +143,7 @@ describe('link preview fetching', () => {
       sinon.assert.notCalled(warn);
     });
 
-    it('sends "WhatsApp" as the User-Agent for compatibility', async () => {
+    it('sends WhatsApp as the User-Agent for compatibility', async () => {
       const fakeFetch = stub().resolves(makeResponse());
 
       await fetchLinkPreviewMetadata(
@@ -157,7 +157,7 @@ describe('link preview fetching', () => {
         'https://example.com',
         sinon.match({
           headers: {
-            'User-Agent': 'WhatsApp',
+            'User-Agent': 'WhatsApp/2',
           },
         })
       );
@@ -1273,7 +1273,7 @@ describe('link preview fetching', () => {
       );
     });
 
-    it('sends "WhatsApp" as the User-Agent for compatibility', async () => {
+    it('sends WhatsApp as the User-Agent for compatibility', async () => {
       const fakeFetch = stub().resolves(new Response(null));
 
       await fetchLinkPreviewImage(
@@ -1287,7 +1287,7 @@ describe('link preview fetching', () => {
         'https://example.com/img',
         sinon.match({
           headers: {
-            'User-Agent': 'WhatsApp',
+            'User-Agent': 'WhatsApp/2',
           },
         })
       );
