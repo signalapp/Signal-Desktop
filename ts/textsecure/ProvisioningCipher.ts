@@ -66,6 +66,7 @@ class ProvisioningCipherInner {
             const ret: ProvisionDecryptResult = {
               identityKeyPair: keyPair,
               number: provisionMessage.number,
+              uuid: provisionMessage.uuid,
               provisioningCode: provisionMessage.provisioningCode,
               userAgent: provisionMessage.userAgent,
               readReceipts: provisionMessage.readReceipts,

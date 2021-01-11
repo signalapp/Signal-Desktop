@@ -487,7 +487,7 @@ export default class AccountManager extends EventTarget {
     readReceipts?: boolean | null,
     options: { accessKey?: ArrayBuffer; uuid?: string } = {}
   ): Promise<void> {
-    const { accessKey } = options;
+    const { accessKey, uuid } = options;
     let password = btoa(
       utils.getString(window.libsignal.crypto.getRandomBytes(16))
     );
@@ -526,8 +526,7 @@ export default class AccountManager extends EventTarget {
     );
 
     const numberChanged = previousNumber && previousNumber !== number;
-    const uuidChanged =
-      previousUuid && response.uuid && previousUuid !== response.uuid;
+    const uuidChanged = previousUuid && uuid && previousUuid !== uuid;
 
     if (numberChanged || uuidChanged) {
       if (numberChanged) {
@@ -576,10 +575,9 @@ export default class AccountManager extends EventTarget {
       deviceName
     );
 
-    const setUuid = response.uuid;
-    if (setUuid) {
+    if (uuid) {
       await window.textsecure.storage.user.setUuidAndDeviceId(
-        setUuid,
+        uuid,
         response.deviceId || 1
       );
     }
