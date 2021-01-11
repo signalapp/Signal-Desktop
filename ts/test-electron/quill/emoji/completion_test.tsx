@@ -7,9 +7,6 @@ import sinon from 'sinon';
 import { EmojiCompletion } from '../../../quill/emoji/completion';
 import { EmojiData } from '../../../components/emoji/lib';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const globalAsAny = global as any;
-
 describe('emojiCompletion', () => {
   let emojiCompletion: EmojiCompletion;
   const mockOnPickEmoji = sinon.spy();
@@ -18,14 +15,6 @@ describe('emojiCompletion', () => {
   let mockQuill: any;
 
   beforeEach(function beforeEach() {
-    this.oldDocument = globalAsAny.document;
-    globalAsAny.document = {
-      body: {
-        appendChild: () => null,
-      },
-      createElement: () => null,
-    };
-
     mockQuill = {
       getLeaf: sinon.stub(),
       getSelection: sinon.stub(),
@@ -55,12 +44,6 @@ describe('emojiCompletion', () => {
     mockOnPickEmoji.resetHistory();
     mockSetEmojiPickerElement.resetHistory();
     (emojiCompletion.render as sinon.SinonStub).resetHistory();
-
-    if (this.oldDocument === undefined) {
-      delete globalAsAny.document;
-    } else {
-      globalAsAny.document = this.oldDocument;
-    }
   });
 
   describe('getCurrentLeafTextPartitions', () => {

@@ -52,20 +52,6 @@ const members: Array<ConversationType> = [
   me,
 ];
 
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace NodeJS {
-    interface Global {
-      document: {
-        body: {
-          appendChild: unknown;
-        };
-        createElement: unknown;
-      };
-    }
-  }
-}
-
 describe('MentionCompletion', () => {
   const mockSetMentionPickerElement = sinon.spy();
 
@@ -78,13 +64,6 @@ describe('MentionCompletion', () => {
   let mentionCompletion: MentionCompletion;
 
   beforeEach(function beforeEach() {
-    global.document = {
-      body: {
-        appendChild: sinon.spy(),
-      },
-      createElement: sinon.spy(),
-    };
-
     const memberRepositoryRef: MutableRefObject<MemberRepository> = {
       current: new MemberRepository(members),
     };
