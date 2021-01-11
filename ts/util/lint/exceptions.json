@@ -14694,7 +14694,7 @@
     "rule": "React-useRef",
     "path": "ts/components/Tooltip.js",
     "line": "    const wrapperRef = react_1.default.useRef(null);",
-    "lineNumber": 17,
+    "lineNumber": 18,
     "reasonCategory": "usageTrusted",
     "updated": "2020-12-04T00:11:08.128Z",
     "reasonDetail": "Used to add (and remove) event listeners."

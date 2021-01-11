@@ -1,7 +1,8 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
+import classNames from 'classnames';
 import { noop } from 'lodash';
 import { Manager, Reference, Popper } from 'react-popper';
 import { Theme, themeClassName } from '../util/theme';
@@ -97,7 +98,9 @@ export const Tooltip: React.FC<PropsType> = ({
 
   const showTooltip = isHovering || Boolean(sticky);
 
-  const tooltipTheme = theme ? themeClassName(theme) : undefined;
+  const tooltipThemeClassName = theme
+    ? `module-tooltip--${themeClassName(theme)}`
+    : undefined;
 
   return (
     <Manager>
@@ -111,20 +114,18 @@ export const Tooltip: React.FC<PropsType> = ({
       <Popper placement={direction}>
         {({ arrowProps, placement, ref, style }) =>
           showTooltip && (
-            <div className={tooltipTheme}>
+            <div
+              className={classNames('module-tooltip', tooltipThemeClassName)}
+              ref={ref}
+              style={style}
+              data-placement={placement}
+            >
+              {content}
               <div
-                className="module-tooltip"
-                ref={ref}
-                style={style}
-                data-placement={placement}
-              >
-                {content}
-                <div
-                  className="module-tooltip-arrow"
-                  ref={arrowProps.ref}
-                  style={arrowProps.style}
-                />
-              </div>
+                className="module-tooltip-arrow"
+                ref={arrowProps.ref}
+                style={arrowProps.style}
+              />
             </div>
           )
         }
