@@ -531,33 +531,6 @@ story.add('Link Preview with no date', () => {
   return renderBothDirections(props);
 });
 
-story.add('Link Preview with too old a date', () => {
-  const props = createProps({
-    previews: [
-      {
-        domain: 'signal.org',
-        image: {
-          contentType: IMAGE_PNG,
-          fileName: 'the-sax.png',
-          height: 240,
-          url: pngUrl,
-          width: 320,
-        },
-        isStickerPack: false,
-        title: 'Signal',
-        description:
-          'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
-        url: 'https://www.signal.org',
-        date: 123,
-      },
-    ],
-    status: 'sent',
-    text: 'Be sure to look at https://www.signal.org',
-  });
-
-  return renderBothDirections(props);
-});
-
 story.add('Link Preview with too new a date', () => {
   const props = createProps({
     previews: [
