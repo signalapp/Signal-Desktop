@@ -8,6 +8,7 @@ import * as Data from '../../../js/modules/data';
 
 import { StringUtils } from '../../session/utils';
 import { ConversationController } from '../conversations/ConversationController';
+import { ConversationModel } from '../../../js/models/conversations';
 
 type PubkeyToHash = { [key: string]: string };
 
@@ -53,6 +54,7 @@ export class SwarmPolling {
 
   public addGroupId(pubkey: PubKey) {
     if (this.groupPubkeys.findIndex(m => m.key === pubkey.key) === -1) {
+      window.log.info('Swarm addGroupId: adding pubkey to polling', pubkey.key);
       this.groupPubkeys.push(pubkey);
     }
   }
@@ -66,6 +68,11 @@ export class SwarmPolling {
 
   public removePubkey(pk: PubKey | string) {
     const pubkey = PubKey.cast(pk);
+    window.log.info(
+      'Swarm removePubkey: removing pubkey from polling',
+      pubkey.key
+    );
+
     this.pubkeys = this.pubkeys.filter(key => !pubkey.isEqual(key));
     this.groupPubkeys = this.groupPubkeys.filter(key => !pubkey.isEqual(key));
   }
@@ -150,7 +157,13 @@ export class SwarmPolling {
     // Start polling for medium size groups as well (they might be in different swarms)
     const convos = ConversationController.getInstance()
       .getConversations()
-      .filter((c: any) => c.isMediumGroup());
+      .filter(
+        (c: ConversationModel) =>
+          c.isMediumGroup() &&
+          !c.isBlocked() &&
+          !c.get('isKickedFromGroup') &&
+          !c.get('left')
+      );
 
     convos.forEach((c: any) => {
       this.addGroupId(new PubKey(c.id));

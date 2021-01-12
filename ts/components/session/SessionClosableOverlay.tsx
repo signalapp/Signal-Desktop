@@ -266,13 +266,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
           buttonType={SessionButtonType.BrandOutline}
           text={buttonText}
           disabled={noContactsForClosedGroup}
-          onClick={() =>
-            onButtonClick(
-              groupName,
-              selectedMembers,
-              window.lokiFeatureFlags.enableSenderKeys
-            )
-          }
+          onClick={() => onButtonClick(groupName, selectedMembers)}
         />
       </div>
     );

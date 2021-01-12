@@ -7,7 +7,7 @@ import { GroupUtils, PromiseUtils } from '../../../../session/utils';
 import { Stubs, TestUtils } from '../../../../test/test-utils';
 import { MessageQueue } from '../../../../session/sending/MessageQueue';
 import {
-  ClosedGroupMessage,
+  ClosedGroupV2Message,
   ContentMessage,
   OpenGroupMessage,
 } from '../../../../session/messages/outgoing';
@@ -260,10 +260,11 @@ describe('MessageQueue', () => {
 
   describe('sendToGroup', () => {
     it('should throw an error if invalid non-group message was passed', async () => {
-      const chatMessage = TestUtils.generateChatMessage();
-      await expect(
-        messageQueueStub.sendToGroup(chatMessage)
-      ).to.be.rejectedWith('Invalid group message passed in sendToGroup.');
+      // const chatMessage = TestUtils.generateChatMessage();
+      // await expect(
+      //   messageQueueStub.sendToGroup(chatMessage)
+      // ).to.be.rejectedWith('Invalid group message passed in sendToGroup.');
+      // Cannot happen with typescript as this function only accept group message now
     });
 
     describe('closed groups', async () => {
@@ -288,9 +289,9 @@ describe('MessageQueue', () => {
         expect(sendUsingMultiDeviceStub.callCount).to.equal(members.length);
 
         const arg = sendUsingMultiDeviceStub.getCall(0).args;
-        expect(arg[1] instanceof ClosedGroupMessage).to.equal(
+        expect(arg[1] instanceof ClosedGroupV2Message).to.equal(
           true,
-          'message sent to group member was not a ClosedGroupMessage'
+          'message sent to group member was not a ClosedGroupV2Message'
         );
       });
 

@@ -71,9 +71,11 @@ class WorkerInterface {
       resolve: value => {
         this._removeJob(id);
         const end = Date.now();
-        window.log.info(
-          `Worker job ${id} (${fnName}) succeeded in ${end - start}ms`
-        );
+        if (this._DEBUG) {
+          window.log.info(
+            `Worker job ${id} (${fnName}) succeeded in ${end - start}ms`
+          );
+        }
         return resolve(value);
       },
       reject: error => {

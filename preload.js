@@ -436,8 +436,6 @@ window.DataMessageReceiver = require('./ts/receiver/dataMessage');
 window.NewSnodeAPI = require('./ts/session/snode_api/serviceNodeAPI');
 window.SnodePool = require('./ts/session/snode_api/snodePool');
 
-window.MediumGroups = require('./ts/session/medium_group');
-
 const { SwarmPolling } = require('./ts/session/snode_api/swarmPolling');
 const { SwarmPollingStub } = require('./ts/session/snode_api/swarmPollingStub');
 
@@ -462,7 +460,6 @@ window.lokiFeatureFlags = {
   useOnionRequestsV2: true,
   useFileOnionRequests: true,
   useFileOnionRequestsV2: true, // more compact encoding of files in response
-  enableSenderKeys: true,
   onionRequestHops: 3,
   debugMessageLogs: process.env.ENABLE_MESSAGE_LOGS,
   useMultiDevice: false,
@@ -501,7 +498,6 @@ if (config.environment.includes('test-integration')) {
     useFileOnionRequests: false,
     useOnionRequestsV2: false,
     debugMessageLogs: true,
-    enableSenderKeys: true,
     useMultiDevice: false,
   };
   /* eslint-disable global-require, import/no-extraneous-dependencies */

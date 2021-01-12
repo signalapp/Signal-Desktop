@@ -1,23 +1,24 @@
 import { SignalService } from '../../../../../../protobuf';
 import { ChatMessage } from '../ChatMessage';
-import { ClosedGroupMessage } from './ClosedGroupMessage';
+import { ClosedGroupV2Message } from './ClosedGroupV2Message';
 import { PubKey } from '../../../../../types';
 import { Constants } from '../../../../..';
 
-interface ClosedGroupChatMessageParams {
+interface ClosedGroupV2ChatMessageParams {
   identifier?: string;
   groupId: string | PubKey;
   chatMessage: ChatMessage;
 }
 
-export class ClosedGroupChatMessage extends ClosedGroupMessage {
+export class ClosedGroupV2ChatMessage extends ClosedGroupV2Message {
   private readonly chatMessage: ChatMessage;
 
-  constructor(params: ClosedGroupChatMessageParams) {
+  constructor(params: ClosedGroupV2ChatMessageParams) {
     super({
       timestamp: params.chatMessage.timestamp,
       identifier: params.identifier ?? params.chatMessage.identifier,
       groupId: params.groupId,
+      expireTimer: params.chatMessage.expireTimer || 0,
     });
     this.chatMessage = params.chatMessage;
   }
@@ -28,16 +29,7 @@ export class ClosedGroupChatMessage extends ClosedGroupMessage {
 
   public dataProto(): SignalService.DataMessage {
     const messageProto = this.chatMessage.dataProto();
-    messageProto.group = this.groupContext();
 
     return messageProto;
-  }
-
-  protected groupContext(): SignalService.GroupContext {
-    // use the parent method to fill id correctly
-    const groupContext = super.groupContext();
-    groupContext.type = SignalService.GroupContext.Type.DELIVER;
-
-    return groupContext;
   }
 }

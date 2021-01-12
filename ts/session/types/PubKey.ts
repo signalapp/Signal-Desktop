@@ -1,3 +1,5 @@
+import { fromHexToArray } from '../utils/String';
+
 export class PubKey {
   public static readonly PUBKEY_LEN = 66;
   private static readonly HEX = '[0-9a-fA-F]';
@@ -79,6 +81,18 @@ export class PubKey {
     return comparator instanceof PubKey
       ? this.key === comparator.key
       : this.key === comparator.toLowerCase();
+  }
+
+  public withoutPrefix(): string {
+    return PubKey.remove05PrefixIfNeeded(this.key);
+  }
+
+  public toArray(): Uint8Array {
+    return fromHexToArray(this.key);
+  }
+
+  public withoutPrefixToArray(): Uint8Array {
+    return fromHexToArray(PubKey.remove05PrefixIfNeeded(this.key));
   }
 }
 

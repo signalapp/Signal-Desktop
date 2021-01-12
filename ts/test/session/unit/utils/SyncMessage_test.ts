@@ -69,9 +69,11 @@ describe('Sync Message Utils', () => {
         return getOrCreateAndWaitItem;
       });
 
-      sandbox
-        .stub(ConversationController.getInstance(), 'getOrCreateAndWait')
-        .resolves(getOrCreateAndWaitStub);
+      // FIXME audric
+      throw new Error();
+      // sandbox
+      //   .stub(ConversationController.getInstance(), 'getOrCreateAndWait')
+      //   .resolves(getOrCreateAndWaitStub);
 
       // Stubs
       sandbox.stub(UserUtil, 'getCurrentDevicePubKey').resolves(ourNumber);

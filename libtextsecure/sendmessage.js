@@ -243,7 +243,7 @@ MessageSender.prototype = {
 
     const mediumGroups = activeGroups.filter(c => c.isMediumGroup());
 
-    window.MediumGroups.syncMediumGroups(mediumGroups);
+    window.libsession.ClosedGroupV2.syncMediumGroups(mediumGroups);
 
     const legacyGroups = activeGroups.filter(c => !c.isMediumGroup());
 

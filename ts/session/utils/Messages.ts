@@ -1,7 +1,9 @@
 import { RawMessage } from '../types/RawMessage';
-import { ContentMessage, MediumGroupChatMessage } from '../messages/outgoing';
+import { ContentMessage } from '../messages/outgoing';
 import { EncryptionType, PubKey } from '../types';
-import { MediumGroupUpdateMessage } from '../messages/outgoing/content/data/mediumgroup/MediumGroupUpdateMessage';
+import { ClosedGroupV2Message } from '../messages/outgoing/content/data/groupv2/ClosedGroupV2Message';
+import { ClosedGroupV2NewMessage } from '../messages/outgoing/content/data/groupv2/ClosedGroupV2NewMessage';
+import { ClosedGroupV2ChatMessage } from '../messages/outgoing/content/data/groupv2/ClosedGroupV2ChatMessage';
 
 export async function toRawMessage(
   device: PubKey,
@@ -12,11 +14,14 @@ export async function toRawMessage(
   const plainTextBuffer = message.plainTextBuffer();
 
   let encryption: EncryptionType;
+
+  // ClosedGroupV2NewMessage is sent using established channels, so using fallback
   if (
-    message instanceof MediumGroupChatMessage ||
-    message instanceof MediumGroupUpdateMessage
+    (message instanceof ClosedGroupV2ChatMessage ||
+      message instanceof ClosedGroupV2Message) &&
+    !(message instanceof ClosedGroupV2NewMessage)
   ) {
-    encryption = EncryptionType.MediumGroup;
+    encryption = EncryptionType.ClosedGroup;
   } else {
     encryption = EncryptionType.Fallback;
   }

@@ -10,6 +10,10 @@ export type HexKeyPair = {
   privKey: string;
 };
 
+/**
+ * Returns the real public key of this device. We might be a primary or a secondary device.
+ * If you want the primary, call getPrimary() instead.
+ */
 export async function getCurrentDevicePubKey(): Promise<string | undefined> {
   const item = await getItemById('number_id');
   if (!item || !item.value) {
@@ -19,6 +23,10 @@ export async function getCurrentDevicePubKey(): Promise<string | undefined> {
   return item.value.split('.')[0];
 }
 
+/**
+ * Returns our primary device pubkey.
+ * If we are a secondary device, our primary PubKey won't be the same as our currentDevicePubKey
+ */
 export async function getPrimary(): Promise<PrimaryPubKey> {
   const ourNumber = (await getCurrentDevicePubKey()) as string;
   return MultiDeviceProtocol.getPrimaryDevice(ourNumber);

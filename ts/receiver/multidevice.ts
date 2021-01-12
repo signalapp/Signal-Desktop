@@ -432,7 +432,7 @@ async function onContactReceived(details: any) {
     }
     conversation.updateTextInputState();
 
-    conversation.trigger('change', conversation);
+    await conversation.commit();
   } catch (error) {
     window.log.error('onContactReceived error:', Errors.toLogFormat(error));
   }

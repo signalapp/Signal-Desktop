@@ -1196,7 +1196,7 @@
         }
 
         if (this.isMediumGroup()) {
-          const mediumGroupChatMessage = new libsession.Messages.Outgoing.MediumGroupChatMessage(
+          const closedGroupV2ChatMessage = new libsession.Messages.Outgoing.ClosedGroupV2ChatMessage(
             {
               chatMessage,
               groupId: destination,
@@ -1206,32 +1206,13 @@
           // we need the return await so that errors are caught in the catch {}
           return await libsession
             .getMessageQueue()
-            .sendToGroup(mediumGroupChatMessage);
+            .sendToGroup(closedGroupV2ChatMessage);
         }
 
         if (this.isClosedGroup()) {
-          const members = this.get('members');
-          const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
-            {
-              chatMessage,
-              groupId: destination,
-            }
+          throw new Error(
+            'Legacy group are not supported anymore. You need to recreate this group.'
           );
-
-          // Special-case the self-send case - we send only a sync message
-          if (members.length === 1) {
-            const isOurDevice = await libsession.Protocols.MultiDeviceProtocol.isOurDevice(
-              members[0]
-            );
-            if (isOurDevice) {
-              // we need the return await so that errors are caught in the catch {}
-              return await message.sendSyncMessageOnly(closedGroupChatMessage);
-            }
-          }
-          // we need the return await so that errors are caught in the catch {}
-          return await libsession
-            .getMessageQueue()
-            .sendToGroup(closedGroupChatMessage);
         }
 
         throw new TypeError(`Invalid conversation type: '${this.get('type')}'`);
@@ -1661,56 +1642,6 @@
       return message;
     },
 
-    async sendGroupInfo(recipient) {
-      // Only send group info if we're a closed group and we haven't left
-      if (this.isClosedGroup() && !this.get('left')) {
-        const updateParams = {
-          timestamp: Date.now(),
-          groupId: this.id,
-          name: this.get('name'),
-          avatar: this.get('avatar'),
-          members: this.get('members'),
-          admins: this.get('groupAdmins'),
-        };
-        const groupUpdateMessage = new libsession.Messages.Outgoing.ClosedGroupUpdateMessage(
-          updateParams
-        );
-        const recipientPubKey = new libsession.Types.PubKey(recipient);
-        if (!recipientPubKey) {
-          window.log.warn('sendGroupInfo invalid pubkey:', recipient);
-          return;
-        }
-
-        try {
-          await libsession
-            .getMessageQueue()
-            .send(recipientPubKey, groupUpdateMessage);
-
-          const expireTimer = this.get('expireTimer');
-
-          if (!expireTimer) {
-            return;
-          }
-
-          const expireUpdate = {
-            timestamp: Date.now(),
-            expireTimer,
-            groupId: this.get('id'),
-          };
-
-          const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
-            expireUpdate
-          );
-
-          await libsession
-            .getMessageQueue()
-            .sendUsingMultiDevice(recipientPubKey, expirationTimerMessage);
-        } catch (e) {
-          log.error('Failed to send groupInfo:', e);
-        }
-      }
-    },
-
     async leaveGroup() {
       if (this.get('type') !== 'group') {
         log.error('Cannot leave a non-group conversation');
@@ -1718,45 +1649,10 @@
       }
 
       if (this.isMediumGroup()) {
-        await window.MediumGroups.leaveMediumGroup(this.id);
+        await window.libsession.ClosedGroupV2.leaveClosedGroupV2(this.id);
       } else {
-        const now = Date.now();
-
-        this.set({ left: true });
-        this.commit();
-
-        const message = this.messageCollection.add({
-          group_update: { left: 'You' },
-          conversationId: this.id,
-          type: 'outgoing',
-          sent_at: now,
-          received_at: now,
-        });
-
-        const id = await message.commit();
-        message.set({ id });
-        window.Whisper.events.trigger('messageAdded', {
-          conversationKey: this.id,
-          messageModel: message,
-        });
-
-        // FIXME what about public groups?
-        const quitGroup = {
-          identifier: id,
-          timestamp: now,
-          groupId: this.id,
-          // if we do set an identifier here, be sure to not sync it a second time in handleMessageSentSuccess()
-        };
-        const quitGroupMessage = new libsession.Messages.Outgoing.ClosedGroupLeaveMessage(
-          quitGroup
-        );
-
-        const members = this.get('members');
-
-        await window.MediumGroups.sendClosedGroupMessage(
-          quitGroupMessage,
-          members,
-          message
+        throw new Error(
+          'Legacy group are not supported anymore. You need to create this group again.'
         );
       }
 

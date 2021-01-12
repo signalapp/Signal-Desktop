@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { PrimaryPubKey, PubKey } from '../types';
 import { MultiDeviceProtocol } from '../protocols';
 import { ConversationController } from '../conversations';
+import { fromHex, fromHexToArray } from './String';
 
 export async function getGroupMembers(
   groupId: PubKey
@@ -33,4 +34,9 @@ export function isMediumGroup(groupId: PubKey): boolean {
   }
 
   return Boolean(conversation.isMediumGroup());
+}
+
+export function encodeGroupPubKeyFromHex(hexGroupPublicKey: string | PubKey) {
+  const pubkey = PubKey.cast(hexGroupPublicKey);
+  return fromHexToArray(pubkey.key);
 }

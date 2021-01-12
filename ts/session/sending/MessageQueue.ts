@@ -1,14 +1,13 @@
 import { EventEmitter } from 'events';
 import {
+  GroupMessageType,
   MessageQueueInterface,
   MessageQueueInterfaceEvents,
 } from './MessageQueueInterface';
 import {
-  ClosedGroupMessage,
+  ClosedGroupV2Message,
   ContentMessage,
   ExpirationTimerUpdateMessage,
-  MediumGroupChatMessage,
-  MediumGroupMessage,
   OpenGroupMessage,
   SessionRequestMessage,
   SyncMessage,
@@ -16,10 +15,11 @@ import {
 } from '../messages/outgoing';
 import { PendingMessageCache } from './PendingMessageCache';
 import { GroupUtils, JobQueue, TypedEventEmitter } from '../utils';
-import { PubKey } from '../types';
+import { PubKey, RawMessage } from '../types';
 import { MessageSender } from '.';
 import { MultiDeviceProtocol, SessionProtocol } from '../protocols';
 import { UserUtil } from '../../util';
+import { ClosedGroupV2ChatMessage } from '../messages/outgoing/content/data/groupv2/ClosedGroupV2ChatMessage';
 
 export class MessageQueue implements MessageQueueInterface {
   public readonly events: TypedEventEmitter<MessageQueueInterfaceEvents>;
@@ -34,7 +34,8 @@ export class MessageQueue implements MessageQueueInterface {
 
   public async sendUsingMultiDevice(
     user: PubKey,
-    message: ContentMessage
+    message: ContentMessage,
+    sentCb?: (message: RawMessage) => Promise<void>
   ): Promise<void> {
     if (message instanceof SyncMessage) {
       return this.sendSyncMessage(message);
@@ -44,16 +45,24 @@ export class MessageQueue implements MessageQueueInterface {
     await this.sendMessageToDevices(userDevices, message);
   }
 
-  public async send(device: PubKey, message: ContentMessage): Promise<void> {
+  public async send(
+    device: PubKey,
+    message: ContentMessage,
+    sentCb?: (message: RawMessage) => Promise<void>
+  ): Promise<void> {
     if (message instanceof SyncMessage) {
       return this.sendSyncMessage(message);
     }
-
-    await this.sendMessageToDevices([device], message);
+    await this.sendMessageToDevices([device], message, sentCb);
   }
 
+  /**
+   *
+   * @param sentCb currently only called for medium groups sent message
+   */
   public async sendToGroup(
-    message: OpenGroupMessage | ContentMessage | MediumGroupMessage
+    message: GroupMessageType,
+    sentCb?: (message: RawMessage) => Promise<void>
   ): Promise<void> {
     // Open groups
     if (message instanceof OpenGroupMessage) {
@@ -78,7 +87,7 @@ export class MessageQueue implements MessageQueueInterface {
           window.Whisper.events.trigger('publicMessageSent', messageEventData);
         }
       } catch (e) {
-        console.warn(
+        window.log.warn(
           `Failed to send message to open group: ${message.group.server}`,
           e
         );
@@ -89,13 +98,11 @@ export class MessageQueue implements MessageQueueInterface {
     }
 
     let groupId: PubKey | undefined;
-    if (message instanceof ClosedGroupMessage) {
-      groupId = message.groupId;
-    } else if (message instanceof TypingMessage) {
+    if (message instanceof TypingMessage) {
       groupId = message.groupId;
     } else if (message instanceof ExpirationTimerUpdateMessage) {
       groupId = message.groupId;
-    } else if (message instanceof MediumGroupMessage) {
+    } else if (message instanceof ClosedGroupV2Message) {
       groupId = message.groupId;
     }
 
@@ -104,10 +111,10 @@ export class MessageQueue implements MessageQueueInterface {
     }
     // if this is a medium group message. We just need to send to the group pubkey
     if (
-      message instanceof MediumGroupMessage ||
-      message instanceof MediumGroupChatMessage
+      message instanceof ClosedGroupV2ChatMessage ||
+      message instanceof ClosedGroupV2Message
     ) {
-      return this.send(PubKey.cast(groupId), message);
+      return this.send(PubKey.cast(groupId), message, sentCb);
     }
 
     // Get devices in group
@@ -134,14 +141,15 @@ export class MessageQueue implements MessageQueueInterface {
   }
 
   public async sendSyncMessage(
-    message: SyncMessage | undefined
+    message: SyncMessage | undefined,
+    sentCb?: (message: RawMessage) => Promise<void>
   ): Promise<void> {
     if (!message) {
       return;
     }
 
     const ourDevices = await MultiDeviceProtocol.getOurDevices();
-    await this.sendMessageToDevices(ourDevices, message);
+    await this.sendMessageToDevices(ourDevices, message, sentCb);
   }
 
   public async processPending(device: PubKey) {
@@ -165,6 +173,14 @@ export class MessageQueue implements MessageQueueInterface {
           try {
             const wrappedEnvelope = await MessageSender.send(message);
             this.events.emit('sendSuccess', message, wrappedEnvelope);
+            const cb = this.pendingMessageCache.callbacks.get(
+              message.identifier
+            );
+
+            if (cb) {
+              await cb(message);
+            }
+            this.pendingMessageCache.callbacks.delete(message.identifier);
           } catch (e) {
             this.events.emit('sendFail', message, e);
           } finally {
@@ -179,10 +195,11 @@ export class MessageQueue implements MessageQueueInterface {
 
   public async sendMessageToDevices(
     devices: Array<PubKey>,
-    message: ContentMessage
+    message: ContentMessage,
+    sentCb?: (message: RawMessage) => Promise<void>
   ) {
     const promises = devices.map(async device => {
-      await this.process(device, message);
+      await this.process(device, message, sentCb);
     });
 
     return Promise.all(promises);
@@ -197,7 +214,8 @@ export class MessageQueue implements MessageQueueInterface {
 
   private async process(
     device: PubKey,
-    message: ContentMessage
+    message: ContentMessage,
+    sentCb?: (message: RawMessage) => Promise<void>
   ): Promise<void> {
     // Don't send to ourselves
     const currentDevice = await UserUtil.getCurrentDevicePubKey();
@@ -209,7 +227,7 @@ export class MessageQueue implements MessageQueueInterface {
       return SessionProtocol.sendSessionRequest(message, device);
     }
 
-    await this.pendingMessageCache.add(device, message);
+    await this.pendingMessageCache.add(device, message, sentCb);
     void this.processPending(device);
   }
 

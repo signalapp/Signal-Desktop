@@ -62,7 +62,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
     this.state = {
       contactList: contacts,
       errorDisplayed: false,
-      errorMessage: 'placeholder',
+      errorMessage: '',
     };
 
     window.addEventListener('keyup', this.onKeyUp);

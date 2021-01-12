@@ -11,7 +11,6 @@ import { Stubs, TestUtils } from '../../../test-utils';
 import { UserUtil } from '../../../../util';
 import { SignalService } from '../../../../protobuf';
 
-import * as Ratchet from '../../../../session/medium_group/ratchet';
 import { StringUtils } from '../../../../session/utils';
 
 import chaiBytes from 'chai-bytes';
@@ -59,21 +58,23 @@ describe('MessageEncrypter', () => {
 
   describe('EncryptionType', () => {
     describe('MediumGroup', () => {
-      it('should return a MEDIUM_GROUP_CIPHERTEXT envelope type', async () => {
+      it('should return a CLOSED_GROUP_CIPHERTEXT envelope type', async () => {
         const data = crypto.randomBytes(10);
 
-        sandbox
-          .stub(Ratchet, 'encryptWithSenderKey')
-          .resolves({ ciphertext: '' });
+        // FIXME audric
+        throw new Error();
+        // sandbox
+        //   .stub(Ratchet, 'encryptWithSenderKey')
+        //   .resolves({ ciphertext: '' });
 
         const result = await MessageEncrypter.encrypt(
           TestUtils.generateFakePubKey(),
           data,
-          EncryptionType.MediumGroup
+          EncryptionType.ClosedGroup
         );
         chai
           .expect(result.envelopeType)
-          .to.deep.equal(SignalService.Envelope.Type.MEDIUM_GROUP_CIPHERTEXT);
+          .to.deep.equal(SignalService.Envelope.Type.CLOSED_GROUP_CIPHERTEXT);
       });
     });
 

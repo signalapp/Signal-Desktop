@@ -163,7 +163,10 @@ export class ConversationController {
     return false;
   }
 
-  public async getOrCreateAndWait(id: any, type: string) {
+  public async getOrCreateAndWait(
+    id: any,
+    type: 'private' | 'group'
+  ): Promise<ConversationModel> {
     const initialPromise =
       this._initialPromise !== undefined
         ? this._initialPromise

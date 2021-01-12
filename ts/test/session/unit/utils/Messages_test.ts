@@ -1,15 +1,10 @@
 import chai from 'chai';
 import * as sinon from 'sinon';
-import crypto from 'crypto';
 import { TestUtils } from '../../../test-utils';
 import { MessageUtils } from '../../../../session/utils';
 import { EncryptionType, PubKey } from '../../../../session/types';
 import { SessionProtocol } from '../../../../session/protocols';
-import {
-  MediumGroupChatMessage,
-  SessionRequestMessage,
-} from '../../../../session/messages/outgoing';
-
+import { ClosedGroupV2ChatMessage } from '../../../../session/messages/outgoing/content/data/groupv2/ClosedGroupV2ChatMessage';
 // tslint:disable-next-line: no-require-imports no-var-requires
 const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
@@ -95,10 +90,10 @@ describe('Message Utils', () => {
       const device = TestUtils.generateFakePubKey();
       const groupId = TestUtils.generateFakePubKey();
       const chatMessage = TestUtils.generateChatMessage();
-      const message = new MediumGroupChatMessage({ chatMessage, groupId });
+      const message = new ClosedGroupV2ChatMessage({ chatMessage, groupId });
 
       const rawMessage = await MessageUtils.toRawMessage(device, message);
-      expect(rawMessage.encryption).to.equal(EncryptionType.MediumGroup);
+      expect(rawMessage.encryption).to.equal(EncryptionType.ClosedGroup);
     });
 
     it('should set encryption to Fallback on other messages if we do not have a session', async () => {

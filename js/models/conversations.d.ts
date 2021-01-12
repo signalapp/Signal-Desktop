@@ -107,7 +107,6 @@ export interface ConversationModel
   notifyTyping: any;
   setSecondaryStatus: any;
   queueJob: any;
-  sendGroupInfo: any;
   onUpdateGroupName: any;
   getContactProfileNameOrShortenedPubKey: () => string;
   getContactProfileNameOrFullPubKey: () => string;

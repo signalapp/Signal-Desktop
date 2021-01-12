@@ -1,19 +1,18 @@
 import {
-  ClosedGroupMessage,
   ContentMessage,
-  MediumGroupMessage,
   OpenGroupMessage,
   SyncMessage,
 } from '../messages/outgoing';
 import { RawMessage } from '../types/RawMessage';
 import { TypedEventEmitter } from '../utils';
 import { PubKey } from '../types';
+import { ClosedGroupV2Message } from '../messages/outgoing/content/data/groupv2/ClosedGroupV2Message';
+import { ClosedGroupV2ChatMessage } from '../messages/outgoing/content/data/groupv2/ClosedGroupV2ChatMessage';
 
-type GroupMessageType =
+export type GroupMessageType =
   | OpenGroupMessage
-  | ClosedGroupMessage
-  | MediumGroupMessage;
-
+  | ClosedGroupV2ChatMessage
+  | ClosedGroupV2Message;
 export interface MessageQueueInterfaceEvents {
   sendSuccess: (
     message: RawMessage | OpenGroupMessage,
@@ -26,7 +25,10 @@ export interface MessageQueueInterface {
   events: TypedEventEmitter<MessageQueueInterfaceEvents>;
   sendUsingMultiDevice(user: PubKey, message: ContentMessage): Promise<void>;
   send(device: PubKey, message: ContentMessage): Promise<void>;
-  sendToGroup(message: GroupMessageType): Promise<void>;
+  sendToGroup(
+    message: GroupMessageType,
+    sentCb?: (message?: RawMessage) => Promise<void>
+  ): Promise<void>;
   sendSyncMessage(message: SyncMessage | undefined): Promise<void>;
   processPending(device: PubKey): Promise<void>;
 }

@@ -122,7 +122,7 @@ export class SessionProtocol {
     // try {
     //   await SessionProtocol.sendSessionRequest(sessionReset, pubkey);
     // } catch (error) {
-    //   console.warn('Failed to send session request to:', pubkey.key, error);
+    //   window.log.warn('Failed to send session request to:', pubkey.key, error);
     // }
   }
 
