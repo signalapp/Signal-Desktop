@@ -2297,7 +2297,7 @@ export class ConversationModel extends window.Backbone.Model<
         this.get('members')!.map(id => {
           const c = window.ConversationController.get(id);
 
-          // In groups we won't sent to contacts we believe are unregistered
+          // In groups we won't send to contacts we believe are unregistered
           if (c && c.isUnregistered()) {
             return null;
           }
