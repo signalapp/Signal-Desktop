@@ -33,6 +33,7 @@ export type OwnProps = {
   readonly groupVersion?: 1 | 2;
   readonly isGroupV1AndDisabled?: boolean;
   readonly isMissingMandatoryProfileSharing?: boolean;
+  readonly left?: boolean;
   readonly messageRequestsEnabled?: boolean;
   readonly acceptedMessageRequest?: boolean;
   readonly compositionApi?: React.MutableRefObject<{
@@ -131,6 +132,7 @@ export const CompositionArea = ({
   groupVersion,
   isBlocked,
   isMissingMandatoryProfileSharing,
+  left,
   messageRequestsEnabled,
   name,
   onAccept,
@@ -370,6 +372,7 @@ export const CompositionArea = ({
 
   // If no message request, but we haven't shared profile yet, we show profile-sharing UI
   if (
+    !left &&
     (conversationType === 'direct' ||
       (conversationType === 'group' && groupVersion === 1)) &&
     isMissingMandatoryProfileSharing
@@ -391,7 +394,7 @@ export const CompositionArea = ({
   }
 
   // If this is a V1 group, now disabled entirely, we show UI to help them upgrade
-  if (isGroupV1AndDisabled) {
+  if (!left && isGroupV1AndDisabled) {
     return (
       <GroupV1DisabledActions
         i18n={i18n}

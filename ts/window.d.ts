@@ -497,6 +497,8 @@ declare global {
     GV2_ENABLE_SINGLE_CHANGE_PROCESSING: boolean;
     GV2_ENABLE_CHANGE_PROCESSING: boolean;
     GV2_ENABLE_STATE_PROCESSING: boolean;
+    GV2_MIGRATION_DISABLE_ADD: boolean;
+    GV2_MIGRATION_DISABLE_INVITE: boolean;
   }
 
   interface Error {

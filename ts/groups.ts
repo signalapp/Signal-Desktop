@@ -705,7 +705,7 @@ export async function hasV1GroupBeenMigrated(
     return true;
   } catch (error) {
     const { code } = error;
-    return code !== GROUP_NONEXISTENT_CODE && code !== GROUP_ACCESS_DENIED_CODE;
+    return code !== GROUP_NONEXISTENT_CODE;
   }
 }
 
@@ -806,6 +806,13 @@ export async function getGroupMigrationMembers(
             `getGroupMigrationMembers/${logId}: membersV2 - missing local contact for ${e164}, skipping.`
           );
         }
+        if (!contact.isMe() && window.GV2_MIGRATION_DISABLE_ADD) {
+          window.log.warn(
+            `getGroupMigrationMembers/${logId}: membersV2 - skipping ${e164} due to GV2_MIGRATION_DISABLE_ADD flag`
+          );
+          return null;
+        }
+
         if (!contact.get('uuid')) {
           window.log.warn(
             `getGroupMigrationMembers/${logId}: membersV2 - missing uuid for ${e164}, skipping.`
@@ -883,6 +890,14 @@ export async function getGroupMigrationMembers(
       const conversationId = contact.id;
       // If we've already added this contact above, we'll skip here
       if (memberLookup[conversationId]) {
+        return null;
+      }
+
+      if (!contact.isMe() && window.GV2_MIGRATION_DISABLE_INVITE) {
+        window.log.warn(
+          `getGroupMigrationMembers/${logId}: pendingMembersV2 - skipping ${e164} due to GV2_MIGRATION_DISABLE_INVITE flag`
+        );
+        droppedGV2MemberIds.push(conversationId);
         return null;
       }
 
@@ -1251,11 +1266,10 @@ export async function respondToGroupV2Migration({
     !conversation.get('left') &&
     ourConversationId &&
     conversation.hasMember(ourConversationId);
-  if (!ourConversationId || !wereWePreviouslyAMember) {
-    window.log.info(
-      `respondToGroupV2Migration: Not currently a member of ${conversation.idForLogging()}, returning early.`
+  if (!ourConversationId) {
+    throw new Error(
+      `respondToGroupV2Migration: No conversationId when attempting to migrate ${conversation.idForLogging()}. Returning early.`
     );
-    return;
   }
 
   // Derive GroupV2 fields
@@ -1317,12 +1331,56 @@ export async function respondToGroupV2Migration({
       window.log.info(
         `respondToGroupV2Migration/${logId}: Failed to access log endpoint; fetching full group state`
       );
-      firstGroupState = await makeRequestWithTemporalRetry({
-        logId: `getGroup/${logId}`,
-        publicParams,
-        secretParams,
-        request: (sender, options) => sender.getGroup(options),
-      });
+      try {
+        firstGroupState = await makeRequestWithTemporalRetry({
+          logId: `getGroup/${logId}`,
+          publicParams,
+          secretParams,
+          request: (sender, options) => sender.getGroup(options),
+        });
+      } catch (secondError) {
+        if (secondError.code === GROUP_ACCESS_DENIED_CODE) {
+          window.log.info(
+            `respondToGroupV2Migration/${logId}: Failed to access state endpoint; user is no longer part of group`
+          );
+
+          // We don't want to add another event to the timeline
+          if (wereWePreviouslyAMember) {
+            const ourNumber = window.textsecure.storage.user.getNumber();
+            await updateGroup({
+              conversation,
+              receivedAt,
+              sentAt,
+              updates: {
+                newAttributes: {
+                  ...conversation.attributes,
+                  left: true,
+                  members: (conversation.get('members') || []).filter(
+                    item => item !== ourConversationId && item !== ourNumber
+                  ),
+                },
+                groupChangeMessages: [
+                  {
+                    ...generateBasicMessage(),
+                    type: 'group-v2-change',
+                    groupV2Change: {
+                      details: [
+                        {
+                          type: 'member-remove' as const,
+                          conversationId: ourConversationId,
+                        },
+                      ],
+                    },
+                  },
+                ],
+                members: [],
+              },
+            });
+            return;
+          }
+        }
+        throw secondError;
+      }
     } else {
       throw error;
     }
