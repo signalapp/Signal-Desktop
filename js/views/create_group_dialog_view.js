@@ -105,6 +105,7 @@
         this.isAdmin = groupConvo.isMediumGroup()
           ? true
           : groupConvo.get('groupAdmins').includes(ourPK);
+        this.admins = groupConvo.get('groupAdmins');
         const convos = window
           .getConversationController()
           .getConversations()
@@ -142,6 +143,7 @@
           existingMembers: this.existingMembers,
           contactList: this.contactsAndMembers,
           isAdmin: this.isAdmin,
+          admins: this.admins,
           onClose: this.close,
           onSubmit: this.onSubmit,
           groupId: this.groupId,

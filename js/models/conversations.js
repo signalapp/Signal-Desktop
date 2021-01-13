@@ -34,8 +34,6 @@
     upgradeMessageSchema,
     loadAttachmentData,
     getAbsoluteAttachmentPath,
-    // eslint-disable-next-line no-unused-vars
-    writeNewAttachmentData,
     deleteAttachmentData,
   } = window.Signal.Migrations;
 

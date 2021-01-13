@@ -9,6 +9,7 @@ import {
   SessionMemberListItem,
 } from '../session/SessionMemberListItem';
 import { DefaultTheme } from 'styled-components';
+import { ToastUtils } from '../../session/utils';
 
 interface Props {
   titleText: string;
@@ -19,6 +20,8 @@ interface Props {
   contactList: Array<any>;
   isAdmin: boolean;
   existingMembers: Array<String>;
+  admins: Array<String>; // used for closed group v2
+
   i18n: any;
   onSubmit: any;
   onClose: any;
@@ -165,23 +168,6 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
     ));
   }
 
-  private onShowError(msg: string) {
-    if (this.state.errorDisplayed) {
-      return;
-    }
-
-    this.setState({
-      errorDisplayed: true,
-      errorMessage: msg,
-    });
-
-    setTimeout(() => {
-      this.setState({
-        errorDisplayed: false,
-      });
-    }, 3000);
-  }
-
   private onKeyUp(event: any) {
     switch (event.key) {
       case 'Enter':
@@ -218,12 +204,23 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
   }
 
   private onMemberClicked(selected: any) {
-    if (selected.existingMember && !this.props.isAdmin) {
+    const { isAdmin, admins } = this.props;
+    const { contactList } = this.state;
+
+    if (selected.existingMember && !isAdmin) {
       window.log.warn('Only group admin can remove members!');
       return;
     }
 
-    const updatedContacts = this.state.contactList.map(member => {
+    if (selected.existingMember && admins.includes(selected.id)) {
+      window.log.warn(
+        `User ${selected.id} cannot be removed as he is the creator of this closed group v2.`
+      );
+      ToastUtils.pushCannotRemoveCreatorFromGroup();
+      return;
+    }
+
+    const updatedContacts = contactList.map(member => {
       if (member.id === selected.id) {
         return { ...member, checkmarked: !member.checkmarked };
       } else {

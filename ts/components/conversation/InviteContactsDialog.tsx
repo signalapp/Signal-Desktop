@@ -113,13 +113,16 @@ class InviteContactsDialogInner extends React.Component<Props, State> {
 
   private renderMemberList() {
     const members = this.state.contactList;
+    const selectedContacts = this.state.contactList
+      .filter(d => d.checkmarked)
+      .map(d => d.id);
 
     return members.map((member: ContactType, index: number) => (
       <SessionMemberListItem
         member={member}
         key={index}
         index={index}
-        isSelected={false}
+        isSelected={selectedContacts.some(m => m === member.id)}
         onSelect={(selectedMember: ContactType) => {
           this.onMemberClicked(selectedMember);
         }}

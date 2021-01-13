@@ -26,21 +26,13 @@ interface Props {
   theme: DefaultTheme;
 }
 
-interface State {
-  isSelected: boolean;
-}
-
-class SessionMemberListItemInner extends React.Component<Props, State> {
+class SessionMemberListItemInner extends React.Component<Props> {
   public static defaultProps = {
     isSelected: false,
   };
 
   constructor(props: any) {
     super(props);
-
-    this.state = {
-      isSelected: this.props.isSelected,
-    };
 
     this.handleSelectionAction = this.handleSelectionAction.bind(this);
     this.selectMember = this.selectMember.bind(this);
@@ -49,7 +41,7 @@ class SessionMemberListItemInner extends React.Component<Props, State> {
   }
 
   public render() {
-    const { isSelected } = this.state;
+    const { isSelected } = this.props;
 
     const name = this.props.member.authorProfileName;
 
@@ -105,7 +97,7 @@ class SessionMemberListItemInner extends React.Component<Props, State> {
   }
 
   private handleSelectionAction() {
-    if (this.state.isSelected) {
+    if (this.props.isSelected) {
       this.unselectMember();
 
       return;
@@ -115,20 +107,12 @@ class SessionMemberListItemInner extends React.Component<Props, State> {
   }
 
   private selectMember() {
-    this.setState({
-      isSelected: true,
-    });
-
     if (this.props.onSelect) {
       this.props.onSelect(this.props.member);
     }
   }
 
   private unselectMember() {
-    this.setState({
-      isSelected: false,
-    });
-
     if (this.props.onUnselect) {
       this.props.onUnselect(this.props.member);
     }

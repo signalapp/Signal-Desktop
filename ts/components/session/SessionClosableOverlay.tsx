@@ -13,7 +13,6 @@ import {
 } from './SessionButton';
 import { SessionSpinner } from './SessionSpinner';
 import { PillDivider } from './PillDivider';
-import classNames from 'classnames';
 import { DefaultTheme } from 'styled-components';
 
 export enum SessionClosableOverlayType {
@@ -274,10 +273,11 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
 
   private renderMemberList(members: any) {
     return members.map((member: ContactType, index: number) => (
+      // tslint:disable-next-line: use-simple-attributes
       <SessionMemberListItem
         member={member}
         index={index}
-        isSelected={false}
+        isSelected={this.state.selectedMembers.some(m => m.id === member.id)}
         key={member.id}
         onSelect={(selectedMember: ContactType) => {
           this.handleSelectMember(selectedMember);

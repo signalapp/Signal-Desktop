@@ -24,7 +24,8 @@ class StubMessageAPI {
 
     const data64 = StringUtils.decode(data, 'base64');
     await fetch(
-      `${this.baseUrl
+      `${
+        this.baseUrl
       }/messages?pubkey=${pubKey}&timestamp=${messageTimeStamp}&data=${encodeURIComponent(
         data64
       )}`,

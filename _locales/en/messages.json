@@ -1748,6 +1748,14 @@
     "message": "As you are the admin of this group, if you leave it it will be removed for every current members. Are you sure you want to leave this group?",
     "description": "Confirmation dialog text that tells the user what will happen if they leave the group as admin."
   },
+  "cannotRemoveCreatorFromGroup": {
+    "message": "Cannot remove this user",
+    "description": "Toast title when the user tries to remove the creator from a closed group v2 member list."
+  },
+  "cannotRemoveCreatorFromGroupDesc": {
+    "message": "You cannot remove this user as he is the creator of the group.",
+    "description": "Toast description when the user tries to remove the creator from a closed group v2 member list."
+  },
   "noContactsForGroup": {
     "message": "You don't have any contacts yet",
     "androidKey": "activity_create_closed_group_empty_state_message"
