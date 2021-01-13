@@ -1314,6 +1314,7 @@ export class ConversationModel extends window.Backbone.Model<
           MessageCollection: window.Whisper.MessageCollection,
           limit: 100,
           receivedAt: first ? first.get('received_at') : undefined,
+          sentAt: first ? first.get('sent_at') : undefined,
           messageId: first ? first.id : undefined,
         }
       );

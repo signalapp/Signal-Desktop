@@ -840,8 +840,10 @@ Whisper.ConversationView = Whisper.View.extend({
         }
 
         const receivedAt = message.get('received_at');
+        const sentAt = message.get('sent_at');
         const models = await getOlderMessagesByConversation(conversationId, {
           receivedAt,
+          sentAt,
           messageId: oldestMessageId,
           limit: 500,
           MessageCollection: Whisper.MessageCollection,
@@ -894,8 +896,10 @@ Whisper.ConversationView = Whisper.View.extend({
         }
 
         const receivedAt = message.get('received_at');
+        const sentAt = message.get('sent_at');
         const models = await getNewerMessagesByConversation(this.model.id, {
           receivedAt,
+          sentAt,
           limit: 500,
           MessageCollection: Whisper.MessageCollection,
         });
@@ -1075,15 +1079,18 @@ Whisper.ConversationView = Whisper.View.extend({
       }
 
       const receivedAt = message.get('received_at');
+      const sentAt = message.get('sent_at');
       const older = await getOlderMessagesByConversation(conversationId, {
         limit: 250,
         receivedAt,
+        sentAt,
         messageId,
         MessageCollection: Whisper.MessageCollection,
       });
       const newer = await getNewerMessagesByConversation(conversationId, {
         limit: 250,
         receivedAt,
+        sentAt,
         MessageCollection: Whisper.MessageCollection,
       });
       const metrics = await getMessageMetricsForConversation(conversationId);

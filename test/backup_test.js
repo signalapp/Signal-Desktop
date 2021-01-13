@@ -457,6 +457,7 @@ describe('Backup', () => {
           body: 'Totally!',
           source: OUR_NUMBER,
           received_at: 1524185933350,
+          sent_at: 1524185933350,
           timestamp: 1524185933350,
           errors: [],
           attachments: [
