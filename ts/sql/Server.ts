@@ -129,6 +129,7 @@ const dataInterface: ServerInterface = {
   saveMessage,
   saveMessages,
   removeMessage,
+  removeMessages,
   getUnreadByConversation,
   getMessageBySender,
   getMessageById,
@@ -236,6 +237,7 @@ type PromisifiedSQLDatabase = {
     statement: string,
     params?: { [key: string]: any }
   ) => Promise<Array<any>>;
+  on: (event: 'trace', handler: (sql: string) => void) => void;
 };
 
 function promisify(rawInstance: sql.Database): PromisifiedSQLDatabase {
@@ -244,6 +246,7 @@ function promisify(rawInstance: sql.Database): PromisifiedSQLDatabase {
     run: pify(rawInstance.run.bind(rawInstance)),
     get: pify(rawInstance.get.bind(rawInstance)),
     all: pify(rawInstance.all.bind(rawInstance)),
+    on: rawInstance.on.bind(rawInstance),
   };
 }
 
@@ -928,51 +931,51 @@ async function updateToSchemaVersion12(
 
   try {
     await instance.run(`CREATE TABLE sticker_packs(
-    id TEXT PRIMARY KEY,
-    key TEXT NOT NULL,
+      id TEXT PRIMARY KEY,
+      key TEXT NOT NULL,
 
-    author STRING,
-    coverStickerId INTEGER,
-    createdAt INTEGER,
-    downloadAttempts INTEGER,
-    installedAt INTEGER,
-    lastUsed INTEGER,
-    status STRING,
-    stickerCount INTEGER,
-    title STRING
-  );`);
+      author STRING,
+      coverStickerId INTEGER,
+      createdAt INTEGER,
+      downloadAttempts INTEGER,
+      installedAt INTEGER,
+      lastUsed INTEGER,
+      status STRING,
+      stickerCount INTEGER,
+      title STRING
+    );`);
 
     await instance.run(`CREATE TABLE stickers(
-    id INTEGER NOT NULL,
-    packId TEXT NOT NULL,
+      id INTEGER NOT NULL,
+      packId TEXT NOT NULL,
 
-    emoji STRING,
-    height INTEGER,
-    isCoverOnly INTEGER,
-    lastUsed INTEGER,
-    path STRING,
-    width INTEGER,
+      emoji STRING,
+      height INTEGER,
+      isCoverOnly INTEGER,
+      lastUsed INTEGER,
+      path STRING,
+      width INTEGER,
 
-    PRIMARY KEY (id, packId),
-    CONSTRAINT stickers_fk
-      FOREIGN KEY (packId)
-      REFERENCES sticker_packs(id)
-      ON DELETE CASCADE
-  );`);
+      PRIMARY KEY (id, packId),
+      CONSTRAINT stickers_fk
+        FOREIGN KEY (packId)
+        REFERENCES sticker_packs(id)
+        ON DELETE CASCADE
+    );`);
 
     await instance.run(`CREATE INDEX stickers_recents
-    ON stickers (
-      lastUsed
-  ) WHERE lastUsed IS NOT NULL;`);
+      ON stickers (
+        lastUsed
+    ) WHERE lastUsed IS NOT NULL;`);
 
     await instance.run(`CREATE TABLE sticker_references(
-    messageId STRING,
-    packId TEXT,
-    CONSTRAINT sticker_references_fk
-      FOREIGN KEY(packId)
-      REFERENCES sticker_packs(id)
-      ON DELETE CASCADE
-  );`);
+      messageId STRING,
+      packId TEXT,
+      CONSTRAINT sticker_references_fk
+        FOREIGN KEY(packId)
+        REFERENCES sticker_packs(id)
+        ON DELETE CASCADE
+    );`);
 
     await instance.run('PRAGMA user_version = 12;');
     await instance.run('COMMIT TRANSACTION;');
@@ -1685,24 +1688,26 @@ async function initialize({
   try {
     promisified = await openAndSetUpSQLCipher(databaseFilePath, { key });
 
-    // promisified.on('trace', async statement => {
-    //   if (
-    //     !globalInstance ||
-    //     statement.startsWith('--') ||
-    //     statement.includes('COMMIT') ||
-    //     statement.includes('BEGIN') ||
-    //     statement.includes('ROLLBACK')
-    //   ) {
-    //     return;
-    //   }
+    // if (promisified) {
+    //   promisified.on('trace', async statement => {
+    //     if (
+    //       !globalInstance ||
+    //       statement.startsWith('--') ||
+    //       statement.includes('COMMIT') ||
+    //       statement.includes('BEGIN') ||
+    //       statement.includes('ROLLBACK')
+    //     ) {
+    //       return;
+    //     }
 
-    //   // Note that this causes problems when attempting to commit transactions - this
-    //   //   statement is running, and we get at SQLITE_BUSY error. So we delay.
-    //   await new Promise(resolve => setTimeout(resolve, 1000));
+    //     // Note that this causes problems when attempting to commit transactions - this
+    //     //   statement is running, and we get at SQLITE_BUSY error. So we delay.
+    //     await new Promise(resolve => setTimeout(resolve, 1000));
 
-    //   const data = await db.get(`EXPLAIN QUERY PLAN ${statement}`);
-    //   console._log(`EXPLAIN QUERY PLAN ${statement}\n`, data && data.detail);
-    // });
+    //     const data = await promisified.get(`EXPLAIN QUERY PLAN ${statement}`);
+    //     console._log(`EXPLAIN QUERY PLAN ${statement}\n`, data && data.detail);
+    //   });
+    // }
 
     await updateSchema(promisified);
 
@@ -2583,22 +2588,16 @@ async function saveMessages(
 }
 saveMessages.needsSerial = true;
 
-async function removeMessage(id: Array<string> | string) {
+async function removeMessage(id: string) {
   const db = getInstance();
-  if (!Array.isArray(id)) {
-    await db.run('DELETE FROM messages WHERE id = $id;', { $id: id });
+  await db.run('DELETE FROM messages WHERE id = $id;', { $id: id });
+}
 
-    return;
-  }
-
-  if (!id.length) {
-    throw new Error('removeMessages: No ids to delete!');
-  }
-
-  // Our node interface doesn't seem to allow you to replace one single ? with an array
+async function removeMessages(ids: Array<string>) {
+  const db = getInstance();
   await db.run(
-    `DELETE FROM messages WHERE id IN ( ${id.map(() => '?').join(', ')} );`,
-    id
+    `DELETE FROM messages WHERE id IN ( ${ids.map(() => '?').join(', ')} );`,
+    ids
   );
 }
 

@@ -150,6 +150,7 @@ const dataInterface: ClientInterface = {
   saveMessage,
   saveMessages,
   removeMessage,
+  removeMessages,
   getUnreadByConversation,
 
   getMessageBySender,
@@ -225,7 +226,6 @@ const dataInterface: ClientInterface = {
   // Client-side only, and test-only
 
   _removeConversations,
-  _removeMessages,
   _cleanData,
   _jobs,
 };
@@ -903,8 +903,8 @@ async function removeMessage(
 }
 
 // Note: this method will not clean up external files, just delete from SQL
-async function _removeMessages(ids: Array<string>) {
-  await channels.removeMessage(ids);
+async function removeMessages(ids: Array<string>) {
+  await channels.removeMessages(ids);
 }
 
 async function getMessageById(
@@ -1074,15 +1074,23 @@ async function migrateConversationMessages(
 async function removeAllMessagesInConversation(
   conversationId: string,
   {
+    logId,
     MessageCollection,
-  }: { MessageCollection: typeof MessageModelCollectionType }
+  }: {
+    logId: string;
+    MessageCollection: typeof MessageModelCollectionType;
+  }
 ) {
   let messages;
   do {
-    // Yes, we really want the await in the loop. We're deleting 100 at a
+    const chunkSize = 20;
+    window.log.info(
+      `removeAllMessagesInConversation/${logId}: Fetching chunk of ${chunkSize} messages`
+    );
+    // Yes, we really want the await in the loop. We're deleting a chunk at a
     //   time so we don't use too much memory.
     messages = await getOlderMessagesByConversation(conversationId, {
-      limit: 100,
+      limit: chunkSize,
       MessageCollection,
     });
 
@@ -1092,13 +1100,17 @@ async function removeAllMessagesInConversation(
 
     const ids = messages.map((message: MessageModel) => message.id);
 
+    window.log.info(`removeAllMessagesInConversation/${logId}: Cleanup...`);
     // Note: It's very important that these models are fully hydrated because
     //   we need to delete all associated on-disk files along with the database delete.
-    await Promise.all(
-      messages.map(async (message: MessageModel) => message.cleanup())
+    const queue = new window.PQueue({ concurrency: 3, timeout: 1000 * 60 * 2 });
+    queue.addAll(
+      messages.map((message: MessageModel) => async () => message.cleanup())
     );
+    await queue.onIdle();
 
-    await channels.removeMessage(ids);
+    window.log.info(`removeAllMessagesInConversation/${logId}: Deleting...`);
+    await channels.removeMessages(ids);
   } while (messages.length > 0);
 }
 

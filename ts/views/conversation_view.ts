@@ -2873,16 +2873,14 @@ Whisper.ConversationView = Whisper.View.extend({
   async destroyMessages() {
     try {
       await this.confirm(window.i18n('deleteConversationConfirmation'));
-      try {
-        this.model.trigger('unload', 'delete messages');
-        await this.model.destroyMessages();
-        this.model.updateLastMessage();
-      } catch (error) {
-        window.log.error(
-          'destroyMessages: Failed to successfully delete conversation',
-          error && error.stack ? error.stack : error
-        );
-      }
+      this.longRunningTaskWrapper({
+        name: 'destroymessages',
+        task: async () => {
+          this.model.trigger('unload', 'delete messages');
+          await this.model.destroyMessages();
+          this.model.updateLastMessage();
+        },
+      });
     } catch (error) {
       // nothing to see here, user canceled out of dialog
     }
