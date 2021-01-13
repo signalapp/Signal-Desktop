@@ -1594,6 +1594,7 @@ Whisper.ConversationView = Whisper.View.extend({
   updateAttachmentsView() {
     this.attachmentListView.update(this.getPropsForAttachmentList());
     this.toggleMicrophone();
+    this.focusMessageField();
     if (this.hasFiles()) {
       this.removeLinkPreview();
     }
