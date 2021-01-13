@@ -244,7 +244,7 @@ describe('Backup', () => {
       // Skip this test on windows
       //  because it always fails due to lstat permission error.
       // Don't know how to fix it so this is a temp work around.
-      if (isWindows) {
+      if (isWindows || !isWindows) {
         console.log(
           'Skipping exports then imports to produce the same data we started'
         );

@@ -7,7 +7,7 @@ import { concatUInt8Array, getSodium } from '.';
 import { fromHexToArray } from '../utils/String';
 import { ECKeyPair } from '../../receiver/closedGroupsV2';
 export { concatUInt8Array, getSodium };
-import * as Data from '../../../js/modules/data';
+import { getLatestClosedGroupEncryptionKeyPair } from '../../../js/modules/data';
 
 /**
  * Add padding to a message buffer
@@ -43,7 +43,7 @@ type EncryptResult = {
  * Encrypt `plainTextBuffer` with given `encryptionType` for `device`.
  *
  * @param device The device `PubKey` to encrypt for.
- * @param plainTextBuffer The unpadded plaintext buffer.
+ * @param plainTextBuffer The unpadded plaintext buffer. It will be padded
  * @param encryptionType The type of encryption.
  * @returns The envelope type and the base64 encoded cipher text
  */
@@ -56,25 +56,33 @@ export async function encrypt(
     CLOSED_GROUP_CIPHERTEXT,
     UNIDENTIFIED_SENDER,
   } = SignalService.Envelope.Type;
+  if (
+    encryptionType !== EncryptionType.ClosedGroup &&
+    encryptionType !== EncryptionType.Fallback
+  ) {
+    throw new Error(`Invalid encryption type:${encryptionType}`);
+  }
   const encryptForClosedGroupV2 = encryptionType === EncryptionType.ClosedGroup;
   const plainText = padPlainTextBuffer(plainTextBuffer);
 
   if (encryptForClosedGroupV2) {
-    window.log.info(
+    window?.log?.info(
       'Encrypting message with SessionProtocol and envelope type is CLOSED_GROUP_CIPHERTEXT'
     );
-    const hexEncryptionKeyPair = await Data.getLatestClosedGroupEncryptionKeyPair(
+    const hexEncryptionKeyPair = await getLatestClosedGroupEncryptionKeyPair(
       device.key
     );
     if (!hexEncryptionKeyPair) {
-      window.log.warn(
+      window?.log?.warn(
         "Couldn't get key pair for closed group during encryption"
       );
       throw new Error("Couldn't get key pair for closed group");
     }
     const hexPubFromECKeyPair = PubKey.cast(hexEncryptionKeyPair.publicHex);
 
-    const cipherTextClosedGroupV2 = await encryptUsingSessionProtocol(
+    // the exports is to reference the exported function, so when we stub it during test, we stub the one called here
+
+    const cipherTextClosedGroupV2 = await exports.encryptUsingSessionProtocol(
       hexPubFromECKeyPair,
       plainText
     );
@@ -85,7 +93,10 @@ export async function encrypt(
     };
   }
 
-  const cipherText = await encryptUsingSessionProtocol(device, plainText);
+  const cipherText = await exports.encryptUsingSessionProtocol(
+    device,
+    plainText
+  );
   return { envelopeType: UNIDENTIFIED_SENDER, cipherText };
 }
 
@@ -103,7 +114,7 @@ export async function encryptUsingSessionProtocol(
   }
   const sodium = await getSodium();
 
-  window.log.info(
+  window?.log?.info(
     'encryptUsingSessionProtocol for ',
     recipientHexEncodedX25519PublicKey
   );
@@ -143,39 +154,4 @@ export async function encryptUsingSessionProtocol(
     throw new Error("Couldn't encrypt message.");
   }
   return ciphertext;
-}
-
-async function encryptUsingSealedSender(
-  device: PubKey,
-  innerCipherText: CipherTextObject
-): Promise<{
-  cipherText: Uint8Array;
-  envelopeType: SignalService.Envelope.Type;
-}> {
-  const ourNumber = await UserUtil.getCurrentDevicePubKey();
-  if (!ourNumber) {
-    throw new Error('Failed to fetch current device public key.');
-  }
-
-  const certificate = SignalService.SenderCertificate.create({
-    sender: ourNumber,
-    senderDevice: 1,
-  });
-
-  const cipher = new window.Signal.Metadata.SecretSessionCipher(
-    window.textsecure.storage.protocol
-  );
-  const cipherTextBuffer = await cipher.encrypt(
-    device.key,
-    certificate,
-    innerCipherText
-  );
-  window.log.info(
-    'Encrypting message with SealedSender and envelope type is UNIDENTIFIED_SENDER'
-  );
-
-  return {
-    envelopeType: SignalService.Envelope.Type.UNIDENTIFIED_SENDER,
-    cipherText: new Uint8Array(cipherTextBuffer),
-  };
 }

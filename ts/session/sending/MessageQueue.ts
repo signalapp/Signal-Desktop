@@ -87,7 +87,7 @@ export class MessageQueue implements MessageQueueInterface {
           window.Whisper.events.trigger('publicMessageSent', messageEventData);
         }
       } catch (e) {
-        window.log.warn(
+        window?.log?.warn(
           `Failed to send message to open group: ${message.group.server}`,
           e
         );

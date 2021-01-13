@@ -7,7 +7,6 @@ import { GroupUtils, PromiseUtils } from '../../../../session/utils';
 import { Stubs, TestUtils } from '../../../../test/test-utils';
 import { MessageQueue } from '../../../../session/sending/MessageQueue';
 import {
-  ClosedGroupV2Message,
   ContentMessage,
   OpenGroupMessage,
 } from '../../../../session/messages/outgoing';
@@ -20,6 +19,7 @@ import {
 } from '../../../../session/protocols';
 import { PendingMessageCacheStub } from '../../../test-utils/stubs';
 import { TestSyncMessage } from '../../../test-utils/stubs/messages/TestSyncMessage';
+import { ClosedGroupV2Message } from '../../../../session/messages/outgoing/content/data/groupv2';
 
 // tslint:disable-next-line: no-require-imports no-var-requires
 const chaiAsPromised = require('chai-as-promised');
@@ -280,15 +280,13 @@ describe('MessageQueue', () => {
         );
         sandbox.stub(GroupUtils, 'getGroupMembers').resolves(members);
 
-        const sendUsingMultiDeviceStub = sandbox
-          .stub(messageQueueStub, 'sendUsingMultiDevice')
-          .resolves();
+        const send = sandbox.stub(messageQueueStub, 'send').resolves();
 
         const message = TestUtils.generateClosedGroupMessage();
         await messageQueueStub.sendToGroup(message);
-        expect(sendUsingMultiDeviceStub.callCount).to.equal(members.length);
+        expect(send.callCount).to.equal(1);
 
-        const arg = sendUsingMultiDeviceStub.getCall(0).args;
+        const arg = send.getCall(0).args;
         expect(arg[1] instanceof ClosedGroupV2Message).to.equal(
           true,
           'message sent to group member was not a ClosedGroupV2Message'
