@@ -38,7 +38,7 @@ const linkify = LinkifyIt()
 
 export interface Props {
   text: string;
-  /** Allows you to customize now non-links are rendered. Simplest is just a <span>. */
+  /** Allows you to customize how non-links are rendered. Simplest is just a <span>. */
   renderNonLink?: RenderTextCallbackType;
 }
 
