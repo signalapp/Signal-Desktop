@@ -76,7 +76,6 @@ class StubAppDotNetAPI extends LokiAppDotNetServerAPI {
     options: { method?: string } = {}
   ) {
     const { method } = options;
-    // console.warn('STUBBED ', method, ':', endpoint);
 
     if (
       endpoint === 'loki/v1/rss/messenger' ||

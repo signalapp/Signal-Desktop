@@ -11,6 +11,7 @@ export async function toRawMessage(
 ): Promise<RawMessage> {
   const timestamp = message.timestamp;
   const ttl = message.ttl();
+  window.log.debug('toRawMessage proto:', message.contentProto());
   const plainTextBuffer = message.plainTextBuffer();
 
   let encryption: EncryptionType;

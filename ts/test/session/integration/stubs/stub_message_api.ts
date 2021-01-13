@@ -18,15 +18,13 @@ class StubMessageAPI {
     ttl: number,
     options = {}
   ) {
-    // console.warn('STUBBED message api ', pubKey, ttl);
     const post = {
       method: 'POST',
     };
 
     const data64 = StringUtils.decode(data, 'base64');
     await fetch(
-      `${
-        this.baseUrl
+      `${this.baseUrl
       }/messages?pubkey=${pubKey}&timestamp=${messageTimeStamp}&data=${encodeURIComponent(
         data64
       )}`,
