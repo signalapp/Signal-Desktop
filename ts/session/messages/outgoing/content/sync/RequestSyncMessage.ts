@@ -19,7 +19,7 @@ export abstract class RequestSyncMessage extends SyncMessage {
     return Constants.TTL_DEFAULT.REGULAR_MESSAGE;
   }
 
-  protected contentProto(): SignalService.Content {
+  public contentProto(): SignalService.Content {
     return new SignalService.Content({
       syncMessage: this.syncProto(),
     });

@@ -20,7 +20,7 @@ export abstract class ReceiptMessage extends ContentMessage {
 
   public abstract getReceiptType(): SignalService.ReceiptMessage.Type;
 
-  protected contentProto(): SignalService.Content {
+  public contentProto(): SignalService.Content {
     return new SignalService.Content({
       receiptMessage: this.receiptProto(),
     });

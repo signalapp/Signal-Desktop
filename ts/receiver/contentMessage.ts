@@ -85,8 +85,7 @@ async function decryptForClosedGroupV2(
         keyIndex++;
       } catch (e) {
         window.log.info(
-          `Failed to decrypt closed group v2 with key index ${keyIndex}`,
-          e
+          `Failed to decrypt closed group v2 with key index ${keyIndex}. We have ${encryptionKeyPairs.length} keys to try left.`
         );
       }
     } while (encryptionKeyPairs.length > 0);

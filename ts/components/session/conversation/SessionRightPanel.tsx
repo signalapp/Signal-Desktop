@@ -309,10 +309,6 @@ class SessionRightPanel extends React.Component<Props, State> {
             {window.i18n('groupMembers')}
           </div>
         )}
-        {/*<div className="group-settings-item">
-          {window.i18n('notifications')}
-        </div>
-        */}
 
         {hasDisappearingMessages && (
           <SessionDropdown
@@ -330,6 +326,7 @@ class SessionRightPanel extends React.Component<Props, State> {
           <SessionButton
             text={leaveGroupString}
             buttonColor={SessionButtonColor.Danger}
+            disabled={isKickedFromGroup}
             buttonType={SessionButtonType.SquareOutline}
             onClick={onLeaveGroup}
           />

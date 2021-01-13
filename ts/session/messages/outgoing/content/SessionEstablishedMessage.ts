@@ -22,7 +22,7 @@ export class SessionEstablishedMessage extends ContentMessage {
     return Constants.TTL_DEFAULT.SESSION_ESTABLISHED;
   }
 
-  protected contentProto(): SignalService.Content {
+  public contentProto(): SignalService.Content {
     const nullMessage = new SignalService.NullMessage({});
 
     nullMessage.padding = this.padding;

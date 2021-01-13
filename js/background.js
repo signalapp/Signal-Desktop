@@ -1172,7 +1172,6 @@
       'sent',
       window.DataMessageReceiver.handleMessageEvent
     );
-    messageReceiver.addEventListener('empty', onEmpty);
     messageReceiver.addEventListener('reconnect', onReconnect);
     messageReceiver.addEventListener('configuration', onConfiguration);
     // messageReceiver.addEventListener('typing', onTyping);
@@ -1249,15 +1248,6 @@
     initialLoadComplete = true;
 
     window.readyForUpdates();
-
-    // let interval = setInterval(() => {
-    //   const view = window.owsDesktopApp.appView;
-    //   if (view) {
-    //     clearInterval(interval);
-    //     interval = null;
-    //     view.onEmpty();
-    //   }
-    // }, 500);
 
     Whisper.Notifications.enable();
   }

@@ -24,6 +24,7 @@ export type PropsContextConversationItem = {
 
   onDeleteMessages?: () => void;
   onDeleteContact?: () => void;
+  onLeaveGroup?: () => void;
   onBlockContact?: () => void;
   onCopyPublicKey?: () => void;
   onUnblockContact?: () => void;
@@ -51,6 +52,7 @@ export const ConversationListItemContextMenu = (
     onCopyPublicKey,
     onUnblockContact,
     onInviteContacts,
+    onLeaveGroup,
   } = props;
 
   return (
@@ -104,7 +106,7 @@ export const ConversationListItemContextMenu = (
         type === 'group',
         isPublic,
         isRss,
-        onDeleteContact,
+        onLeaveGroup,
         window.i18n
       )}
     </Menu>

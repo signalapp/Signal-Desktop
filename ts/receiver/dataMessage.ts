@@ -486,7 +486,7 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
     messageGroupId && messageGroupId.length > 0 ? messageGroupId : null;
 
   if (groupId) {
-    groupId = groupId.replace(PubKey.PREFIX_GROUP_TEXTSECURE, '');
+    groupId = PubKey.removeTextSecurePrefixIfNeeded(groupId);
   }
 
   const messageData: any = {
@@ -658,10 +658,8 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   //  - group.id if it is a group message
   if (isGroupMessage) {
     // remove the prefix from the source object so this is correct for all other
-    message.group.id = message.group.id.replace(
-      PubKey.PREFIX_GROUP_TEXTSECURE,
-      ''
-    );
+    message.group.id = PubKey.removeTextSecurePrefixIfNeeded(message.group.id);
+
     conversationId = message.group.id;
   }
 

@@ -1735,10 +1735,18 @@
     "androidKey": "conversation__menu_leave_group",
     "ignoreCase": true
   },
+  "leaveAndRemoveForEveryone": {
+    "message": "Leave Group and remove for everyone",
+    "description": "Button action confirmation that the user can click to leave the group as an admin"
+  },
   "leaveGroupConfirmation": {
     "message": "Are you sure you want to leave this group?",
     "description": "Confirmation dialog text that tells the user what will happen if they leave the group.",
     "androidKey": "activity_home_leave_group_dialog_message"
+  },
+  "leaveGroupConfirmationAdmin": {
+    "message": "As you are the admin of this group, if you leave it it will be removed for every current members. Are you sure you want to leave this group?",
+    "description": "Confirmation dialog text that tells the user what will happen if they leave the group as admin."
   },
   "noContactsForGroup": {
     "message": "You don't have any contacts yet",

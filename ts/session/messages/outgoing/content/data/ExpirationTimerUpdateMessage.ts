@@ -35,12 +35,13 @@ export class ExpirationTimerUpdateMessage extends DataMessage {
 
     data.flags = SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
 
+    // FIXME we shouldn't need this once android recieving refactor is done.
+    // the envelope stores the groupId for a closed group v2 already.
     if (this.groupId) {
       const groupMessage = new SignalService.GroupContext();
-      let groupIdWithPrefix: string = this.groupId.key;
-      if (!this.groupId.key.startsWith(PubKey.PREFIX_GROUP_TEXTSECURE)) {
-        groupIdWithPrefix = PubKey.PREFIX_GROUP_TEXTSECURE + this.groupId.key;
-      }
+      const groupIdWithPrefix = PubKey.addTextSecurePrefixIfNeeded(
+        this.groupId.key
+      );
       const encoded = StringUtils.encode(groupIdWithPrefix, 'utf8');
       const id = new Uint8Array(encoded);
       groupMessage.id = id;

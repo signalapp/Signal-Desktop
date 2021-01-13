@@ -90,18 +90,6 @@
       this.closeStandalone();
     },
     openInbox(options = {}) {
-      // The inbox can be created before the 'empty' event fires or afterwards. If
-      //   before, it's straightforward: the onEmpty() handler below updates the
-      //   view directly, and we're in good shape. If we create the inbox late, we
-      //   need to be sure that the current value of initialLoadComplete is provided
-      //   so its loading screen doesn't stick around forever.
-
-      // Two primary techniques at play for this situation:
-      //   - background.js has X number of openInbox() calls,
-      //      and passes initalLoadComplete directly via the options parameter.
-      //   - in other situations openInbox() will be called with no options. So this
-      //     view keeps track of whether onEmpty() has ever been called with
-      //     this.initialLoadComplete. An example of this: on a phone-pairing setup.
       _.defaults(options, { initialLoadComplete: this.initialLoadComplete });
 
       if (!this.inboxView) {
@@ -125,7 +113,6 @@
       window.focus(); // FIXME
       return Promise.resolve();
     },
-    onEmpty() {},
     showEditProfileDialog(options) {
       // eslint-disable-next-line no-param-reassign
       options.theme = this.getThemeObject();
@@ -211,19 +198,35 @@
 
       const title = i18n('leaveGroup');
       const message = i18n('leaveGroupConfirmation');
+      const ourPK = window.textsecure.storage.user.getNumber();
+      const isAdmin = (groupConvo.get('groupAdmins') || []).includes(ourPK);
+      const isClosedGroup = groupConvo.get('is_medium_group') || false;
 
-      window.confirmationDialog({
-        title,
-        message,
-        resolve: () =>
-          window.getConversationController().deleteContact(groupConvo.id),
-        theme: this.getThemeObject(),
-      });
+      // if this is not a closed group, or we are not admin, we can just show a confirmation dialog
+      if (!isClosedGroup || (isClosedGroup && !isAdmin)) {
+        window.confirmationDialog({
+          title,
+          message,
+          resolve: () =>
+            window.getConversationController().deleteContact(groupConvo.id),
+          theme: this.getThemeObject(),
+        });
+      } else {
+        // we are the admin on a closed group. We have to warn the user about the group Deletion
+        this.showAdminLeaveClosedGroupDialog(groupConvo);
+      }
     },
     showInviteContactsDialog(groupConvo) {
       // eslint-disable-next-line no-param-reassign
       groupConvo.theme = this.getThemeObject();
       const dialog = new Whisper.InviteContactsDialogView(groupConvo);
+      this.el.append(dialog.el);
+    },
+
+    showAdminLeaveClosedGroupDialog(groupConvo) {
+      // eslint-disable-next-line no-param-reassign
+      groupConvo.theme = this.getThemeObject();
+      const dialog = new Whisper.AdminLeaveClosedGroupDialog(groupConvo);
       this.el.append(dialog.el);
     },
     showAddModeratorsDialog(groupConvo) {

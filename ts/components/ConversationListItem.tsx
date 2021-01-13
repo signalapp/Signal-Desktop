@@ -64,6 +64,7 @@ type PropsHousekeeping = {
   onClick?: (id: string) => void;
   onDeleteMessages?: () => void;
   onDeleteContact?: () => void;
+  onLeaveGroup?: () => void;
   onBlockContact?: () => void;
   onCopyPublicKey?: () => void;
   onUnblockContact?: () => void;

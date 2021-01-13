@@ -523,6 +523,9 @@
         onUnblockContact: () => this.unblock(),
         onCopyPublicKey: () => this.copyPublicKey(),
         onDeleteContact: () => this.deleteContact(),
+        onLeaveGroup: () => {
+          window.Whisper.events.trigger('leaveGroup', this);
+        },
         onDeleteMessages: () => this.deleteMessages(),
         onInviteContacts: () => {
           window.Whisper.events.trigger('inviteContacts', this);

@@ -70,11 +70,49 @@ export class PubKey {
     return this.regex.test(pubkeyString);
   }
 
-  public static remove05PrefixIfNeeded(recipient: string): string {
-    if (recipient.length === 66 && recipient.startsWith('05')) {
-      return recipient.substr(2);
+  /**
+   * This removes the 05 prefix from a Pubkey which have it and have a length of 66
+   * @param keyWithOrWithoutPrefix the key with or without the prefix
+   */
+  public static remove05PrefixIfNeeded(keyWithOrWithoutPrefix: string): string {
+    if (
+      keyWithOrWithoutPrefix.length === 66 &&
+      keyWithOrWithoutPrefix.startsWith('05')
+    ) {
+      return keyWithOrWithoutPrefix.substr(2);
     }
-    return recipient;
+    return keyWithOrWithoutPrefix;
+  }
+
+  /**
+   * This adds the `__textsecure_group__!` prefix to a pubkey if this pubkey does not already have it
+   * @param keyWithOrWithoutPrefix the key to use as base
+   */
+  public static addTextSecurePrefixIfNeeded(
+    keyWithOrWithoutPrefix: string | PubKey
+  ): string {
+    const key =
+      keyWithOrWithoutPrefix instanceof PubKey
+        ? keyWithOrWithoutPrefix.key
+        : keyWithOrWithoutPrefix;
+    if (!key.startsWith(PubKey.PREFIX_GROUP_TEXTSECURE)) {
+      return PubKey.PREFIX_GROUP_TEXTSECURE + key;
+    }
+    return key;
+  }
+
+  /**
+   * This removes the `__textsecure_group__!` prefix from a pubkey if this pubkey have one
+   * @param keyWithOrWithoutPrefix the key to use as base
+   */
+  public static removeTextSecurePrefixIfNeeded(
+    keyWithOrWithoutPrefix: string | PubKey
+  ): string {
+    const key =
+      keyWithOrWithoutPrefix instanceof PubKey
+        ? keyWithOrWithoutPrefix.key
+        : keyWithOrWithoutPrefix;
+    return key.replace(PubKey.PREFIX_GROUP_TEXTSECURE, '');
   }
 
   public isEqual(comparator: PubKey | string) {

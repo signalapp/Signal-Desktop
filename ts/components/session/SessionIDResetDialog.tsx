@@ -1,14 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { SessionModal } from './SessionModal';
 import { SessionButton, SessionButtonColor } from './SessionButton';
 import { DefaultTheme, withTheme } from 'styled-components';
-import {
-  SessionIcon,
-  SessionIconButton,
-  SessionIconSize,
-  SessionIconType,
-} from './icon';
+import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 
 type Props = {
   onClose: any;

@@ -39,11 +39,7 @@ export class SessionRequestMessage extends ContentMessage {
     return Constants.TTL_DEFAULT.SESSION_REQUEST;
   }
 
-  protected getPreKeyBundleMessage(): SignalService.PreKeyBundleMessage {
-    return new SignalService.PreKeyBundleMessage(this.preKeyBundle);
-  }
-
-  protected contentProto(): SignalService.Content {
+  public contentProto(): SignalService.Content {
     const nullMessage = new SignalService.NullMessage({});
     const preKeyBundleMessage = this.getPreKeyBundleMessage();
     nullMessage.padding = this.padding;
@@ -51,5 +47,9 @@ export class SessionRequestMessage extends ContentMessage {
       nullMessage,
       preKeyBundleMessage,
     });
+  }
+
+  protected getPreKeyBundleMessage(): SignalService.PreKeyBundleMessage {
+    return new SignalService.PreKeyBundleMessage(this.preKeyBundle);
   }
 }

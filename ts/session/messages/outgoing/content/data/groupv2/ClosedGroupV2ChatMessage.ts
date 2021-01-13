@@ -3,6 +3,7 @@ import { ChatMessage } from '../ChatMessage';
 import { ClosedGroupV2Message } from './ClosedGroupV2Message';
 import { PubKey } from '../../../../../types';
 import { Constants } from '../../../../..';
+import { StringUtils } from '../../../../../utils';
 
 interface ClosedGroupV2ChatMessageParams {
   identifier?: string;
@@ -28,8 +29,21 @@ export class ClosedGroupV2ChatMessage extends ClosedGroupV2Message {
   }
 
   public dataProto(): SignalService.DataMessage {
-    const messageProto = this.chatMessage.dataProto();
+    const dataProto = this.chatMessage.dataProto();
 
-    return messageProto;
+    if (this.groupId) {
+      const groupMessage = new SignalService.GroupContext();
+      const groupIdWithPrefix = PubKey.addTextSecurePrefixIfNeeded(
+        this.groupId.key
+      );
+      const encoded = StringUtils.encode(groupIdWithPrefix, 'utf8');
+      const id = new Uint8Array(encoded);
+      groupMessage.id = id;
+      groupMessage.type = SignalService.GroupContext.Type.DELIVER;
+
+      dataProto.group = groupMessage;
+    }
+
+    return dataProto;
   }
 }
