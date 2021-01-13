@@ -442,7 +442,6 @@ export class SessionConversation extends React.Component<Props, State> {
       isBlocked: conversation.isBlocked(),
       isGroup: !conversation.isPrivate(),
       isPrivate: conversation.isPrivate(),
-      isOnline: conversation.isOnline(),
       isPublic: conversation.isPublic(),
       isRss: conversation.isRss(),
       amMod: conversation.isModerator(

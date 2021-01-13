@@ -60,7 +60,6 @@ interface Props {
   hasNickname?: boolean;
 
   isBlocked: boolean;
-  isOnline?: boolean;
 
   isKickedFromGroup: boolean;
   selectionMode: boolean; // is the UI on the message selection mode or not

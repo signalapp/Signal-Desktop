@@ -56,7 +56,6 @@
         sessionResetStatus: SessionResetEnum.none,
         groupAdmins: [],
         isKickedFromGroup: false,
-        isOnline: false,
         profileSharing: false,
       };
     },
@@ -154,10 +153,6 @@
       };
       this.on('change', generateProps);
       generateProps();
-    },
-
-    isOnline() {
-      return this.isMe() || this.get('isOnline');
     },
     isMe() {
       return this.isOurLocalDevice() || this.isOurPrimaryDevice();
@@ -511,7 +506,6 @@
           text: this.get('lastMessage'),
           isRss: this.isRss(),
         },
-        isOnline: this.isOnline(),
         hasNickname: !!this.getNickname(),
         isKickedFromGroup: !!this.get('isKickedFromGroup'),
         leftGroup: !!this.get('left'),

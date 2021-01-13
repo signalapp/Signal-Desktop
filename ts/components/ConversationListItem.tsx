@@ -50,7 +50,6 @@ export type ConversationListItemProps = {
   };
 
   isBlocked?: boolean;
-  isOnline?: boolean;
   hasNickname?: boolean;
   isSecondary?: boolean;
   isGroupInvitation?: boolean;
