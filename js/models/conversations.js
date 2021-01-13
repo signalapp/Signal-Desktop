@@ -57,6 +57,7 @@
         groupAdmins: [],
         isKickedFromGroup: false,
         profileSharing: false,
+        left: false,
       };
     },
 
@@ -214,9 +215,7 @@
         ? BlockedNumberController.block(this.id)
         : BlockedNumberController.blockGroup(this.id);
       await promise;
-      this.trigger('change', this);
-      this.messageCollection.forEach(m => m.trigger('change'));
-      this.updateTextInputState();
+      this.commit();
       await textsecure.messaging.sendBlockedListSyncMessage();
     },
     async unblock() {
@@ -227,14 +226,11 @@
         ? BlockedNumberController.unblock(this.id)
         : BlockedNumberController.unblockGroup(this.id);
       await promise;
-      this.trigger('change', this);
-      this.messageCollection.forEach(m => m.trigger('change'));
-      this.updateTextInputState();
+      this.commit();
       await textsecure.messaging.sendBlockedListSyncMessage();
     },
     async bumpTyping() {
-      if (this.isPublic()) {
-        window.log.debug('public conversation... No need to bumpTyping');
+      if (this.isPublic() || this.isMediumGroup()) {
         return;
       }
       // We don't send typing messages if the setting is disabled or we do not have a session
@@ -308,49 +304,37 @@
     },
 
     sendTypingMessage(isTyping) {
-      // Loki - Temporarily disable typing messages for groups
       if (!this.isPrivate()) {
         return;
       }
 
-      const groupId = !this.isPrivate() ? this.id : null;
-      const recipientId = this.isPrivate() ? this.id : null;
+      const recipientId = this.id;
 
-      // We don't want to send typing messages to our other devices, but we will
-      //   in the group case.
-      const primaryDevicePubkey = window.storage.get('primaryDevicePubKey');
-      if (recipientId && primaryDevicePubkey === recipientId) {
-        return;
+      if (!recipientId) {
+        throw new Error('Need to provide either recipientId');
       }
 
-      if (!recipientId && !groupId) {
-        throw new Error('Need to provide either recipientId or groupId!');
+      const primaryDevicePubkey = window.storage.get('primaryDevicePubKey');
+      if (recipientId && primaryDevicePubkey === recipientId) {
+        // note to self
+        return;
       }
 
       const typingParams = {
         timestamp: Date.now(),
         isTyping,
         typingTimestamp: Date.now(),
-        groupId, // might be null
       };
       const typingMessage = new libsession.Messages.Outgoing.TypingMessage(
         typingParams
       );
 
       // send the message to a single recipient if this is a session chat
-      if (this.isPrivate()) {
-        const device = new libsession.Types.PubKey(recipientId);
-        libsession
-          .getMessageQueue()
-          .sendUsingMultiDevice(device, typingMessage)
-          .catch(log.error);
-      } else {
-        // the recipients on the case of a group are found by the messageQueue using message.groupId
-        libsession
-          .getMessageQueue()
-          .sendToGroup(typingMessage)
-          .catch(log.error);
-      }
+      const device = new libsession.Types.PubKey(recipientId);
+      libsession
+        .getMessageQueue()
+        .sendUsingMultiDevice(device, typingMessage)
+        .catch(log.error);
     },
 
     async cleanup() {
@@ -460,7 +444,7 @@
         messageModel: model,
       });
 
-      this.trigger('change', this);
+      this.commit();
     },
     addSingleMessage(message, setToExpire = true) {
       const model = this.messageCollection.add(message, { merge: true });
@@ -508,7 +492,7 @@
         },
         hasNickname: !!this.getNickname(),
         isKickedFromGroup: !!this.get('isKickedFromGroup'),
-        leftGroup: !!this.get('left'),
+        left: !!this.get('left'),
 
         onClick: () => this.trigger('select', this),
         onBlockContact: () => this.block(),
@@ -560,8 +544,6 @@
           }
         })
       );
-
-      this.onMemberVerifiedChange();
     },
     setVerifiedDefault(options) {
       const { DEFAULT } = this.verifiedEnum;
@@ -671,36 +653,6 @@
 
       // Something funky has happened
       return this;
-    },
-    async updateTextInputState() {
-      if (this.isRss()) {
-        // or if we're an rss conversation, disable it
-        this.trigger('disable:input', true);
-        return;
-      }
-      if (this.isSecondaryDevice()) {
-        // Or if we're a secondary device, update the primary device text input
-        const primaryConversation = await this.getPrimaryConversation();
-        primaryConversation.updateTextInputState();
-        return;
-      }
-      if (this.get('isKickedFromGroup')) {
-        this.trigger('disable:input', true);
-        return;
-      }
-      if (!this.isPrivate() && this.get('left')) {
-        this.trigger('disable:input', true);
-        this.trigger('change:placeholder', 'left-group');
-        return;
-      }
-      if (this.isBlocked()) {
-        this.trigger('disable:input', true);
-        this.trigger('change:placeholder', 'blocked-user');
-        return;
-      }
-      // otherwise, enable the input and set default placeholder
-      this.trigger('disable:input', false);
-      this.trigger('change:placeholder', 'chat');
     },
     isSecondaryDevice() {
       return !!this.get('secondaryStatus');
@@ -818,12 +770,6 @@
           })
         );
       });
-    },
-    onMemberVerifiedChange() {
-      // If the verified state of a member changes, our aggregate state changes.
-      // We trigger both events to replicate the behavior of Backbone.Model.set()
-      this.trigger('change:verified', this);
-      this.trigger('change', this);
     },
     toggleVerified() {
       if (this.isVerified()) {
@@ -1650,8 +1596,6 @@
           'Legacy group are not supported anymore. You need to create this group again.'
         );
       }
-
-      this.updateTextInputState();
     },
 
     async markRead(newestUnreadDate, providedOptions) {
@@ -2039,14 +1983,6 @@
       );
 
       return Promise.all(promises).then(contacts => {
-        _.forEach(contacts, contact => {
-          this.listenTo(
-            contact,
-            'change:verified',
-            this.onMemberVerifiedChange
-          );
-        });
-
         this.contactCollection.reset(contacts);
       });
     },
@@ -2401,14 +2337,14 @@
         if (!record) {
           // User was not previously typing before. State change!
           this.trigger('typing-update');
-          this.trigger('change', this);
+          this.commit();
         }
       } else {
         delete this.contactTypingTimers[identifier];
         if (record) {
           // User was previously typing, and is no longer. State change!
           this.trigger('typing-update');
-          this.trigger('change', this);
+          this.commit();
         }
       }
     },
@@ -2423,7 +2359,7 @@
 
         // User was previously typing, but timed out or we received message. State change!
         this.trigger('typing-update');
-        this.trigger('change', this);
+        this.commit();
       }
     },
   });

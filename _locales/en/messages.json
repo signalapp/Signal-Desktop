@@ -959,10 +959,6 @@
     "message": "Message",
     "description": "Placeholder text in the message entry field"
   },
-  "sendMessageLeftGroup": {
-    "message": "You have left the group.",
-    "androidKey": "MessageRecord_left_group"
-  },
   "sendMessageBlockedUser": {
     "message": "You have blocked this contact"
   },

@@ -33,7 +33,7 @@ export class ConversationController {
     return this.conversations.get(id);
   }
 
-  public getOrThrow(id: string) {
+  public getOrThrow(id: string): ConversationModel {
     if (!this._initialFetchComplete) {
       throw new Error(
         'ConversationController.get() needs complete initial fetch'

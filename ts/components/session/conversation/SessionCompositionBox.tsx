@@ -63,7 +63,7 @@ interface Props {
   isBlocked: boolean;
   isPrivate: boolean;
   isKickedFromGroup: boolean;
-  leftGroup: boolean;
+  left: boolean;
   conversationKey: string;
   isPublic: boolean;
 
@@ -259,9 +259,9 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   private isTypingEnabled(): boolean {
-    const { isBlocked, isKickedFromGroup, leftGroup, isPrivate } = this.props;
+    const { isBlocked, isKickedFromGroup, left, isPrivate } = this.props;
 
-    return !(isBlocked || isKickedFromGroup || leftGroup);
+    return !(isBlocked || isKickedFromGroup || left);
   }
 
   private renderCompositionView() {
@@ -347,10 +347,10 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   private renderTextArea() {
     const { i18n } = window;
     const { message } = this.state;
-    const { isKickedFromGroup, leftGroup, isPrivate, isBlocked } = this.props;
+    const { isKickedFromGroup, left, isPrivate, isBlocked } = this.props;
     const messagePlaceHolder = isKickedFromGroup
       ? i18n('youGotKickedFromGroup')
-      : leftGroup
+      : left
       ? i18n('youLeftTheGroup')
       : isBlocked && isPrivate
       ? i18n('unblockToSend')
@@ -784,7 +784,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       this.parseEmojis(this.state.message)
     );
 
-    const { isBlocked, isPrivate, leftGroup, isKickedFromGroup } = this.props;
+    const { isBlocked, isPrivate, left, isKickedFromGroup } = this.props;
 
     // deny sending of message if our app version is expired
     if (window.extension.expiredStatus() === true) {
@@ -827,7 +827,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       }
     }
 
-    if (!isPrivate && leftGroup) {
+    if (!isPrivate && left) {
       ToastUtils.pushYouLeftTheGroup();
       return;
     }

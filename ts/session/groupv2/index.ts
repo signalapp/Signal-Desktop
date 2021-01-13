@@ -262,7 +262,6 @@ export async function updateOrCreateClosedGroupV2(details: GroupInfo) {
   }
 
   await conversation.commit();
-  conversation.updateTextInputState();
 
   const { expireTimer } = details;
 
@@ -294,7 +293,7 @@ export async function leaveClosedGroupV2(groupId: string) {
   // FIXME audric, add a flag to conversation model when a group is destroyed
   if (isCurrentUserAdmin) {
     window.log.info('Admin left a closed group v2. We need to destroy it');
-    convo.set({ left: true, isKickedFromGroup: true });
+    convo.set({ left: true });
     members = [];
   } else {
     convo.set({ left: true });

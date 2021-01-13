@@ -207,8 +207,7 @@
         window.confirmationDialog({
           title,
           message,
-          resolve: () =>
-            window.getConversationController().deleteContact(groupConvo.id),
+          resolve: () => groupConvo.leaveGroup(),
           theme: this.getThemeObject(),
         });
       } else {

@@ -179,7 +179,7 @@ async function handleAuthorisationForSelf(
         primaryDevicePubKey,
         'private'
       );
-      primaryConversation.trigger('change');
+      await primaryConversation.commit();
       Whisper.events.trigger('secondaryDeviceRegistration');
       // Update profile
       if (dataMessage) {
@@ -430,7 +430,6 @@ async function onContactReceived(details: any) {
     if (conversation.isPrivate()) {
       await BlockedNumberController.setBlocked(conversation.id, isBlocked);
     }
-    conversation.updateTextInputState();
 
     await conversation.commit();
   } catch (error) {

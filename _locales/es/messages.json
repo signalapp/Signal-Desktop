@@ -1207,9 +1207,6 @@
     "deviceUnpaired": {
         "message": "Tu dispositivo se ha desvinculado correctamente"
     },
-    "sendMessageLeftGroup": {
-        "message": "Has abandonado el grupo."
-    },
     "moreInformation": {
         "message": "Más detalles"
     },

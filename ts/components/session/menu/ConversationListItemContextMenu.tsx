@@ -21,6 +21,7 @@ export type PropsContextConversationItem = {
   isBlocked?: boolean;
   hasNickname?: boolean;
   isKickedFromGroup?: boolean;
+  left?: boolean;
 
   onDeleteMessages?: () => void;
   onDeleteContact?: () => void;
@@ -44,6 +45,7 @@ export const ConversationListItemContextMenu = (
     isPublic,
     hasNickname,
     type,
+    left,
     isKickedFromGroup,
     onDeleteContact,
     onDeleteMessages,
@@ -103,6 +105,7 @@ export const ConversationListItemContextMenu = (
       )}
       {getLeaveGroupMenuItem(
         isKickedFromGroup,
+        left,
         type === 'group',
         isPublic,
         isRss,

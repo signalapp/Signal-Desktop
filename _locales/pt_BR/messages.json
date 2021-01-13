@@ -1207,9 +1207,6 @@
     "deviceUnpaired": {
         "message": "O seu dispositivo foi dessincronizado com sucesso"
     },
-    "sendMessageLeftGroup": {
-        "message": "Você saiu do grupo."
-    },
     "moreInformation": {
         "message": "Mais informações"
     },

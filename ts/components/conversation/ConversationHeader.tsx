@@ -62,6 +62,7 @@ interface Props {
   isBlocked: boolean;
 
   isKickedFromGroup: boolean;
+  left: boolean;
   selectionMode: boolean; // is the UI on the message selection mode or not
 
   onInviteContacts: () => void;

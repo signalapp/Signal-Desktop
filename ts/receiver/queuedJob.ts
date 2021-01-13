@@ -420,9 +420,6 @@ async function handleRegularMessage(
 
   conversation.set({ active_at: now });
 
-  // Re-enable typing if re-joined the group
-  conversation.updateTextInputState();
-
   // Handle expireTimer found directly as part of a regular message
   await handleExpireTimer(
     source,

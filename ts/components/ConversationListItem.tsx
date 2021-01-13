@@ -54,6 +54,7 @@ export type ConversationListItemProps = {
   isSecondary?: boolean;
   isGroupInvitation?: boolean;
   isKickedFromGroup?: boolean;
+  left?: boolean;
   memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
 };
 

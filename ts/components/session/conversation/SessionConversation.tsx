@@ -346,7 +346,7 @@ export class SessionConversation extends React.Component<Props, State> {
             // tslint:disable-next-line: use-simple-attributes
             <SessionCompositionBox
               isBlocked={conversation.isBlocked}
-              leftGroup={conversation.leftGroup}
+              left={conversation.left}
               isKickedFromGroup={conversation.isKickedFromGroup}
               isPrivate={conversation.type === 'direct'}
               isPublic={conversation.isPublic || false}
@@ -450,6 +450,7 @@ export class SessionConversation extends React.Component<Props, State> {
       members,
       subscriberCount: conversation.get('subscriberCount'),
       isKickedFromGroup: conversation.get('isKickedFromGroup'),
+      left: conversation.get('left'),
       expirationSettingName,
       showBackButton: Boolean(infoViewState || messageDetailShowProps),
       timerOptions: window.Whisper.ExpirationTimerOptions.map((item: any) => ({
@@ -561,10 +562,10 @@ export class SessionConversation extends React.Component<Props, State> {
       memberCount: members.length,
       phoneNumber: conversation.getNumber(),
       profileName: conversation.getProfileName(),
-      description: '', // TODO VINCE: ENSURE DESCRIPTION IS SET
       avatarPath: conversation.getAvatarPath(),
       amMod: conversation.isModerator(),
-      isKickedFromGroup: conversation.attributes.isKickedFromGroup,
+      isKickedFromGroup: conversation.get('isKickedFromGroup'),
+      left: conversation.get('left'),
       isGroup: !conversation.isPrivate(),
       isPublic: conversation.isPublic(),
       isAdmin,

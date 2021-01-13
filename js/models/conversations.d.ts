@@ -51,7 +51,6 @@ export interface ConversationModel
   getRecipients: () => Array<string>;
   getTitle: () => string;
   onReadMessage: (message: MessageModel) => void;
-  updateTextInputState: () => void;
   getName: () => string;
   addMessage: (attributes: Partial<MessageAttributes>) => Promise<MessageModel>;
   isMediumGroup: () => boolean;

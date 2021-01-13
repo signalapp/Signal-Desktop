@@ -188,14 +188,16 @@ async function handleNewClosedGroupV2(
   const groupExists = !!maybeConvo;
 
   if (groupExists) {
-    if (maybeConvo && maybeConvo.get('isKickedFromGroup')) {
+    if (
+      maybeConvo &&
+      (maybeConvo.get('isKickedFromGroup') || maybeConvo.get('left'))
+    ) {
       // TODO: indicate that we've been re-invited
       // to the group if that is the case
 
       // Enable typing:
       maybeConvo.set('isKickedFromGroup', false);
       maybeConvo.set('left', false);
-      maybeConvo.updateTextInputState();
     } else {
       log.warn(
         'Ignoring a closed group v2 message of type NEW: the conversation already exists'
@@ -305,7 +307,6 @@ async function handleUpdateClosedGroupV2(
     );
     convo.set('isKickedFromGroup', true);
     // Disable typing:
-    convo.updateTextInputState();
     window.SwarmPolling.removePubkey(groupPublicKey);
   } else {
     if (convo.get('isKickedFromGroup')) {
@@ -314,7 +315,6 @@ async function handleUpdateClosedGroupV2(
       convo.set('left', false);
       // Subscribe to this group id
       window.SwarmPolling.addGroupId(new PubKey(groupPublicKey));
-      convo.updateTextInputState();
     }
   }
 
