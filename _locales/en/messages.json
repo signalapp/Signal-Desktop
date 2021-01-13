@@ -1753,7 +1753,7 @@
     "description": "Toast title when the user tries to remove the creator from a closed group v2 member list."
   },
   "cannotRemoveCreatorFromGroupDesc": {
-    "message": "You cannot remove this user as he is the creator of the group.",
+    "message": "You cannot remove this user as they are the creator of the group.",
     "description": "Toast description when the user tries to remove the creator from a closed group v2 member list."
   },
   "noContactsForGroup": {

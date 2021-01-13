@@ -82,27 +82,9 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
   }
 
   public render() {
-    const checkMarkedCount = this.getMemberCount(this.state.contactList);
+    const { okText, cancelText, contactList, titleText } = this.props;
 
-    const okText = this.props.okText;
-    const cancelText = this.props.cancelText;
-
-    let titleText;
-    let noFriendsClasses;
-
-    if (this.props.isPublic) {
-      // no member count in title
-      titleText = `${this.props.titleText}`;
-      // hide the no-friend message
-      noFriendsClasses = classNames('no-friends', 'hidden');
-    } else {
-      // private group
-      titleText = this.props.titleText;
-      noFriendsClasses =
-        this.state.contactList.length === 0
-          ? 'no-friends'
-          : classNames('no-friends', 'hidden');
-    }
+    const showNoMembersMessage = contactList.length === 0;
 
     const errorMsg = this.state.errorMessage;
     const errorMessageClasses = classNames(
@@ -120,23 +102,13 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
       >
         <div className="spacer-md" />
 
-        {!this.props.isPublic && (
-          <>
-            <small className="create-group-dialog__member-count">
-              {`${checkMarkedCount} members`}
-            </small>
-          </>
-        )}
-
         <p className={errorMessageClasses}>{errorMsg}</p>
         <div className="spacer-md" />
 
         <div className="group-member-list__selection">
           {this.renderMemberList()}
         </div>
-        <p className={noFriendsClasses}>{`(${this.props.i18n(
-          'noMembersInThisGroup'
-        )})`}</p>
+        {showNoMembersMessage && <p>{window.i18n('noMembersInThisGroup')}</p>}
 
         <div className="spacer-lg" />
 
@@ -192,11 +164,6 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
     });
   }
 
-  private getMemberCount(users: Array<Contact>) {
-    // Adding one to include ourselves
-    return this.getWouldBeMembers(users).length + 1;
-  }
-
   private closeDialog() {
     window.removeEventListener('keyup', this.onKeyUp);
 
@@ -214,7 +181,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
 
     if (selected.existingMember && admins.includes(selected.id)) {
       window.log.warn(
-        `User ${selected.id} cannot be removed as he is the creator of this closed group v2.`
+        `User ${selected.id} cannot be removed as they are the creator of the closed group v2.`
       );
       ToastUtils.pushCannotRemoveCreatorFromGroup();
       return;
