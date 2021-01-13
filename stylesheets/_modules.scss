@@ -1918,7 +1918,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   flex: initial;
   min-width: 54px;
   width: 54px;
-  max-height: 54px;
   position: relative;
 
   img {
@@ -2788,38 +2787,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
         '../images/icons/v2/profile-circle-outline-24.svg',
         $ultramarine-ui-light
       );
-    }
-  }
-}
-
-span.module-in-contacts-icon__tooltip {
-  /* Written in this way to add more specificity and avoid !important */
-  .module-tooltip {
-    color: $color-white;
-    background-color: $ultramarine-ui-light;
-
-    &[data-placement='top'] {
-      .module-tooltip-arrow::after {
-        border-top-color: $ultramarine-ui-light;
-      }
-    }
-
-    &[data-placement='right'] {
-      .module-tooltip-arrow::after {
-        border-right-color: $ultramarine-ui-light;
-      }
-    }
-
-    &[data-placement='bottom'] {
-      .module-tooltip-arrow::after {
-        border-bottom-color: $ultramarine-ui-light;
-      }
-    }
-
-    &[data-placement='left'] {
-      .module-tooltip-arrow::after {
-        border-left-color: $ultramarine-ui-light;
-      }
     }
   }
 }
@@ -10434,21 +10401,28 @@ $contact-modal-padding: 18px;
 }
 
 .module-tooltip {
+  --tooltip-text-color: #{$color-gray-75};
+  --tooltip-background-color: #{$color-gray-02};
+
+  @mixin tooltip-dark-theme-variables {
+    --tooltip-text-color: #{$color-gray-05};
+    --tooltip-background-color: #{$color-gray-65};
+  }
+  &--dark-theme {
+    @include tooltip-dark-theme-variables;
+  }
+  @include dark-theme {
+    @include tooltip-dark-theme-variables;
+  }
+
+  background-color: var(--tooltip-background-color);
   border-radius: 8px;
+  color: var(--tooltip-text-color);
   display: inline-block;
   padding: 8px 21px;
   position: fixed;
   text-align: center;
   z-index: 999;
-
-  @include light-theme {
-    background-color: $color-gray-02;
-    color: $color-gray-75;
-  }
-  @include dark-theme {
-    background-color: $color-gray-65;
-    color: $color-gray-05;
-  }
 
   .module-tooltip-arrow {
     position: absolute;
@@ -10474,13 +10448,7 @@ $contact-modal-padding: 18px;
 
     .module-tooltip-arrow::after {
       bottom: -12px;
-
-      @include light-theme {
-        border-top-color: $color-gray-02;
-      }
-      @include dark-theme {
-        border-top-color: $color-gray-65;
-      }
+      border-top-color: var(--tooltip-background-color);
     }
   }
 
@@ -10493,13 +10461,7 @@ $contact-modal-padding: 18px;
 
     .module-tooltip-arrow::after {
       left: -6px;
-
-      @include light-theme {
-        border-right-color: $color-gray-02;
-      }
-      @include dark-theme {
-        border-right-color: $color-gray-65;
-      }
+      border-right-color: var(--tooltip-background-color);
     }
   }
 
@@ -10512,13 +10474,7 @@ $contact-modal-padding: 18px;
 
     .module-tooltip-arrow::after {
       top: -6px;
-
-      @include light-theme {
-        border-bottom-color: $color-gray-02;
-      }
-      @include dark-theme {
-        border-bottom-color: $color-gray-65;
-      }
+      border-bottom-color: var(--tooltip-background-color);
     }
   }
 
@@ -10531,13 +10487,7 @@ $contact-modal-padding: 18px;
 
     .module-tooltip-arrow::after {
       right: -12px;
-
-      @include light-theme {
-        border-left-color: $color-gray-02;
-      }
-      @include dark-theme {
-        border-left-color: $color-gray-65;
-      }
+      border-left-color: var(--tooltip-background-color);
     }
   }
 }

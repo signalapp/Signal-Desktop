@@ -38,6 +38,7 @@ describe('KeyChangeListener', () => {
 
     after(async () => {
       await window.Signal.Data.removeAllMessagesInConversation(convo.id, {
+        logId: phoneNumberWithKeyChange,
         MessageCollection: Whisper.MessageCollection,
       });
       await window.Signal.Data.removeConversation(convo.id, {
@@ -78,6 +79,7 @@ describe('KeyChangeListener', () => {
     });
     after(async () => {
       await window.Signal.Data.removeAllMessagesInConversation(groupConvo.id, {
+        logId: phoneNumberWithKeyChange,
         MessageCollection: Whisper.MessageCollection,
       });
       await window.Signal.Data.removeConversation(groupConvo.id, {

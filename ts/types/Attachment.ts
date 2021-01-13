@@ -133,12 +133,12 @@ export function isImage(
 }
 
 export function isImageAttachment(
-  attachment: AttachmentType
-): boolean | undefined {
-  return (
+  attachment?: AttachmentType
+): attachment is AttachmentType {
+  return Boolean(
     attachment &&
-    attachment.contentType &&
-    isImageTypeSupported(attachment.contentType)
+      attachment.contentType &&
+      isImageTypeSupported(attachment.contentType)
   );
 }
 export function hasImage(

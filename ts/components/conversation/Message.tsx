@@ -26,6 +26,8 @@ import {
 import { Props as ReactionPickerProps } from './ReactionPicker';
 import { Emoji } from '../emoji/Emoji';
 import { LinkPreviewDate } from './LinkPreviewDate';
+import { LinkPreviewType } from '../../types/message/LinkPreviews';
+import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseFullSizeLinkPreviewImage';
 
 import {
   AttachmentType,
@@ -54,21 +56,9 @@ interface Trigger {
   handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-// Same as MIN_WIDTH in ImageGrid.tsx
-const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
 const STICKER_SIZE = 200;
 const SELECTED_TIMEOUT = 1000;
 const THREE_HOURS = 3 * 60 * 60 * 1000;
-
-interface LinkPreviewType {
-  title: string;
-  description?: string;
-  domain: string;
-  url: string;
-  isStickerPack: boolean;
-  image?: AttachmentType;
-  date?: number;
-}
 
 export const MessageStatuses = [
   'delivered',
@@ -850,12 +840,8 @@ export class Message extends React.PureComponent<Props, State> {
       Boolean(quote) ||
       (conversationType === 'group' && direction === 'incoming');
 
-    const previewHasImage = first.image && isImageAttachment(first.image);
-    const width = first.image && first.image.width;
-    const isFullSizeImage =
-      !first.isStickerPack &&
-      width &&
-      width >= MINIMUM_LINK_PREVIEW_IMAGE_WIDTH;
+    const previewHasImage = isImageAttachment(first.image);
+    const isFullSizeImage = shouldUseFullSizeLinkPreviewImage(first);
 
     const linkPreviewDate = first.date || null;
 
@@ -1498,25 +1484,16 @@ export class Message extends React.PureComponent<Props, State> {
       }
     }
 
-    if (previews && previews.length) {
-      const first = previews[0];
-
-      if (!first || !first.image) {
-        return undefined;
-      }
-      const { width } = first.image;
-
-      if (
-        !first.isStickerPack &&
-        isImageAttachment(first.image) &&
-        width &&
-        width >= MINIMUM_LINK_PREVIEW_IMAGE_WIDTH
-      ) {
-        const dimensions = getImageDimensions(first.image);
-        if (dimensions) {
-          // Add two for 1px border
-          return dimensions.width + 2;
-        }
+    const firstLinkPreview = (previews || [])[0];
+    if (
+      firstLinkPreview &&
+      firstLinkPreview.image &&
+      shouldUseFullSizeLinkPreviewImage(firstLinkPreview)
+    ) {
+      const dimensions = getImageDimensions(firstLinkPreview.image);
+      if (dimensions) {
+        // Add two for 1px border
+        return dimensions.width + 2;
       }
     }
 
@@ -1546,10 +1523,6 @@ export class Message extends React.PureComponent<Props, State> {
     if (previews && previews.length) {
       const first = previews[0];
       const { image } = first;
-
-      if (!image) {
-        return false;
-      }
 
       return isImageAttachment(image);
     }

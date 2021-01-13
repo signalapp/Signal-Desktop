@@ -2366,6 +2366,7 @@ export function initialize({
         password: auth.password,
         responseType: 'jsonwithdetails',
         data,
+        timeout: 30000,
         version,
       });
 
@@ -2489,6 +2490,7 @@ export function initialize({
         user: directoryAuth.username,
         password: directoryAuth.password,
         responseType: 'json',
+        timeout: 30000,
         data: JSON.stringify(data),
         version,
       });

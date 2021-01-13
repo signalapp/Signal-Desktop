@@ -20,6 +20,8 @@ import { Emoji } from '../../components/emoji/Emoji';
 import { EmojiPickDataType } from '../../components/emoji/EmojiPicker';
 import { getBlotTextPartitions, matchBlotTextPartitions } from '../util';
 
+const Keyboard = Quill.import('modules/keyboard');
+
 interface EmojiPickerOptions {
   onPickEmoji: (emoji: EmojiPickDataType) => void;
   setEmojiPickerElement: (element: JSX.Element | null) => void;
@@ -61,10 +63,10 @@ export class EmojiCompletion {
       return true;
     };
 
-    this.quill.keyboard.addBinding({ key: 37 }, clearResults); // 37 = Left
-    this.quill.keyboard.addBinding({ key: 38 }, changeIndex(-1)); // 38 = Up
-    this.quill.keyboard.addBinding({ key: 39 }, clearResults); // 39 = Right
-    this.quill.keyboard.addBinding({ key: 40 }, changeIndex(1)); // 40 = Down
+    this.quill.keyboard.addBinding({ key: Keyboard.keys.UP }, changeIndex(-1));
+    this.quill.keyboard.addBinding({ key: Keyboard.keys.RIGHT }, clearResults);
+    this.quill.keyboard.addBinding({ key: Keyboard.keys.DOWN }, changeIndex(1));
+    this.quill.keyboard.addBinding({ key: Keyboard.keys.LEFT }, clearResults);
     this.quill.keyboard.addBinding(
       {
         // 186 + Shift = Colon
@@ -181,6 +183,7 @@ export class EmojiCompletion {
 
       if (showEmojiResults.length > 0) {
         this.results = showEmojiResults;
+        this.index = Math.min(this.results.length - 1, this.index);
         this.render();
       } else if (this.results.length !== 0) {
         this.reset();
