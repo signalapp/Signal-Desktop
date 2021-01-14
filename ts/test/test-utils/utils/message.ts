@@ -91,6 +91,7 @@ export class MockConversation {
       isArchived: false,
       active_at: Date.now(),
       timestamp: Date.now(),
+      lastJoinedTimestamp: Date.now(),
       secondaryStatus: !this.isPrimary,
     };
   }

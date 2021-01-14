@@ -181,6 +181,15 @@ async function handleNewClosedGroupV2(
   const groupId = toHex(publicKey);
   const members = membersAsData.map(toHex);
   const admins = adminsAsData.map(toHex);
+
+  const ourPrimary = await UserUtil.getPrimary();
+  if (!members.includes(ourPrimary.key)) {
+    log.info(
+      'Got a new group message but apparently we are not a member of it. Dropping it.'
+    );
+    await removeFromCache(envelope);
+    return;
+  }
   // FIXME maybe we should handle an expiretimer here too? And on ClosedGroupV2 updates?
 
   const maybeConvo = ConversationController.getInstance().get(groupId);
@@ -198,6 +207,7 @@ async function handleNewClosedGroupV2(
       // Enable typing:
       maybeConvo.set('isKickedFromGroup', false);
       maybeConvo.set('left', false);
+      maybeConvo.set('lastJoinedTimestamp', Date.now());
     } else {
       log.warn(
         'Ignoring a closed group v2 message of type NEW: the conversation already exists'
@@ -222,14 +232,13 @@ async function handleNewClosedGroupV2(
     'incoming'
   );
 
-  // TODO: Check that we are even a part of this group
-
   convo.set('name', name);
   convo.set('members', members);
   // mark a closed group v2 as a medium group.
   // this field is used to poll for this groupPubKey on the swarm nodes, among other things
   convo.set('is_medium_group', true);
   convo.set('active_at', Date.now());
+  convo.set('lastJoinedTimestamp', Date.now());
 
   // We only set group admins on group creation
   convo.set('groupAdmins', admins);
@@ -268,6 +277,25 @@ async function handleUpdateClosedGroupV2(
   if (!convo) {
     log.warn(
       'Ignoring a closed group v2 update message (INFO) for a non-existing group'
+    );
+    await removeFromCache(envelope);
+    return;
+  }
+
+  // Check that the message isn't from before the group was created
+  let lastJoinedTimestamp = convo.get('lastJoinedTimestamp');
+  // might happen for existing groups
+  if (!lastJoinedTimestamp) {
+    const aYearAgo = Date.now() - 1000 * 60 * 24 * 365;
+    convo.set({
+      lastJoinedTimestamp: aYearAgo,
+    });
+    lastJoinedTimestamp = aYearAgo;
+  }
+
+  if (envelope.timestamp <= lastJoinedTimestamp) {
+    window.log.warn(
+      'Got a group update with an older timestamp than when we joined this group last time. Dropping it'
     );
     await removeFromCache(envelope);
     return;
@@ -520,6 +548,8 @@ export async function createClosedGroupV2(
   // be sure to call this before sending the message.
   // the sending pipeline needs to know from GroupUtils when a message is for a medium group
   await ClosedGroupV2.updateOrCreateClosedGroupV2(groupDetails);
+  convo.set('lastJoinedTimestamp', Date.now());
+
   // Send a closed group update message to all members individually
   const promises = listOfMembers.map(async m => {
     const messageParams: ClosedGroupV2NewMessageParams = {

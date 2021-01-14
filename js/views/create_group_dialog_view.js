@@ -189,7 +189,7 @@
 
       const xor = _.xor(notPresentInNew, notPresentInOld);
       if (xor.length === 0) {
-        window.log.log(
+        window.log.info(
           'skipping group update: no detected changes in group member list'
         );
 

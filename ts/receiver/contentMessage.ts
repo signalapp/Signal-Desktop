@@ -27,7 +27,7 @@ export async function handleContentMessage(envelope: EnvelopePlus) {
     const plaintext = await decrypt(envelope, envelope.content);
 
     if (!plaintext) {
-      window.log.warn('handleContentMessage: plaintext was falsey');
+      // window.log.warn('handleContentMessage: plaintext was falsey');
       return;
     } else if (plaintext instanceof ArrayBuffer && plaintext.byteLength === 0) {
       return;

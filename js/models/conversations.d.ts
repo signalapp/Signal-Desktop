@@ -14,6 +14,7 @@ interface ConversationAttributes {
   isArchived: boolean;
   active_at: number;
   timestamp: number; // timestamp of what?
+  lastJoinedTimestamp: number; // ClosedGroupV2: last time we were added to this group
   groupAdmins?: Array<string>;
   isKickedFromGroup?: boolean;
   avatarPath?: string;

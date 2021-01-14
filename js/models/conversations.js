@@ -58,6 +58,7 @@
         isKickedFromGroup: false,
         profileSharing: false,
         left: false,
+        lastJoinedTimestamp: new Date('1970-01-01Z00:00:00:000').getTime(),
       };
     },
 
