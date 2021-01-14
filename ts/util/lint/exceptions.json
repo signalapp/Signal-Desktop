@@ -328,35 +328,35 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
-    "line": "      this.$('textarea').val(i18n('loading'));",
-    "lineNumber": 44,
+    "line": "      this.textarea = this.$('.textarea').get(0);",
+    "lineNumber": 74,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-05-01T17:11:39.527Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2021-01-13T23:20:15.717Z",
+    "reasonDetail": "Needed to get a reference to a textarea."
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
-    "line": "        this.$('textarea').val(text);",
-    "lineNumber": 48,
+    "line": "      this.$('.submit').attr('disabled', 'disabled');",
+    "lineNumber": 106,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-05-01T17:11:39.527Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2021-01-13T23:20:15.717Z",
+    "reasonDetail": "Only changes attributes; doesn't write other data to the DOM. Is also trusted input."
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
-    "line": "      const text = this.$('textarea').val();",
-    "lineNumber": 67,
+    "line": "      this.$('.submit').removeAttr('disabled');",
+    "lineNumber": 120,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-05-01T17:11:39.527Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2021-01-13T23:20:15.717Z",
+    "reasonDetail": "Only changes attributes; doesn't write other data to the DOM. Is also trusted input."
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
-    "line": "      this.$('.buttons, textarea').remove();",
-    "lineNumber": 72,
+    "line": "      this.$('.buttons, .textarea').remove();",
+    "lineNumber": 178,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-01T17:11:39.527Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -365,7 +365,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "      this.$('.result').addClass('loading');",
-    "lineNumber": 73,
+    "lineNumber": 179,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-11T17:24:56.124Z",
     "reasonDetail": "Static selector argument"
@@ -374,7 +374,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "          el: this.$('.result'),",
-    "lineNumber": 82,
+    "lineNumber": 188,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-01T17:11:39.527Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -383,7 +383,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "        this.$('.loading').removeClass('loading');",
-    "lineNumber": 84,
+    "lineNumber": 190,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-01T17:11:39.527Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -392,7 +392,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "        this.$('.link').focus().select();",
-    "lineNumber": 86,
+    "lineNumber": 192,
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -401,7 +401,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "        this.$('.loading').removeClass('loading');",
-    "lineNumber": 92,
+    "lineNumber": 198,
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -410,7 +410,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "        this.$('.result').text(i18n('debugLogError'));",
-    "lineNumber": 93,
+    "lineNumber": 199,
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
