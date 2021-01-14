@@ -10,7 +10,7 @@ export enum CallMode {
   Group = 'Group',
 }
 
-interface ActiveCallBaseType {
+type ActiveCallBaseType = {
   conversation: ConversationType;
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
@@ -20,9 +20,9 @@ interface ActiveCallBaseType {
   settingsDialogOpen: boolean;
   showParticipantsList: boolean;
   showSafetyNumberDialog?: boolean;
-}
+};
 
-interface ActiveDirectCallType extends ActiveCallBaseType {
+type ActiveDirectCallType = ActiveCallBaseType & {
   callMode: CallMode.Direct;
   callState?: CallState;
   callEndedReason?: CallEndedReason;
@@ -32,9 +32,9 @@ interface ActiveDirectCallType extends ActiveCallBaseType {
       hasRemoteVideo: boolean;
     }
   ];
-}
+};
 
-interface ActiveGroupCallType extends ActiveCallBaseType {
+type ActiveGroupCallType = ActiveCallBaseType & {
   callMode: CallMode.Group;
   connectionState: GroupCallConnectionState;
   conversationsWithSafetyNumberChanges: Array<ConversationType>;
@@ -43,7 +43,7 @@ interface ActiveGroupCallType extends ActiveCallBaseType {
   deviceCount: number;
   peekedParticipants: Array<ConversationType>;
   remoteParticipants: Array<GroupCallRemoteParticipantType>;
-}
+};
 
 export type ActiveCallType = ActiveDirectCallType | ActiveGroupCallType;
 
@@ -96,28 +96,28 @@ export enum GroupCallJoinState {
   Joined = 2,
 }
 
-export interface GroupCallRemoteParticipantType extends ConversationType {
+export type GroupCallRemoteParticipantType = ConversationType & {
   demuxId: number;
   hasRemoteAudio: boolean;
   hasRemoteVideo: boolean;
   speakerTime?: number;
   videoAspectRatio: number;
-}
+};
 
 // Similar to RingRTC's `VideoRequest` but without the `framerate` property.
-export interface GroupCallVideoRequest {
+export type GroupCallVideoRequest = {
   demuxId: number;
   width: number;
   height: number;
-}
+};
 
 // Should match RingRTC's VideoFrameSource
-export interface VideoFrameSource {
+export type VideoFrameSource = {
   receiveVideoFrame(buffer: ArrayBuffer): [number, number] | undefined;
-}
+};
 
 // Must be kept in sync with RingRTC.AudioDevice
-export interface AudioDevice {
+export type AudioDevice = {
   // Device name.
   name: string;
   // Index of this device, starting from 0.
@@ -126,7 +126,7 @@ export interface AudioDevice {
   uniqueId: string;
   // If present, the identifier of a localized string to substitute for the device name.
   i18nKey?: string;
-}
+};
 
 export enum CallingDeviceType {
   CAMERA,
@@ -143,21 +143,21 @@ export type MediaDeviceSettings = {
   selectedCamera: string | undefined;
 };
 
-interface DirectCallHistoryDetailsType {
+type DirectCallHistoryDetailsType = {
   callMode: CallMode.Direct;
   wasIncoming: boolean;
   wasVideoCall: boolean;
   wasDeclined: boolean;
   acceptedTime?: number;
   endedTime: number;
-}
+};
 
-interface GroupCallHistoryDetailsType {
+type GroupCallHistoryDetailsType = {
   callMode: CallMode.Group;
   creatorUuid: string;
   eraId: string;
   startedTime: number;
-}
+};
 
 export type CallHistoryDetailsType =
   | DirectCallHistoryDetailsType

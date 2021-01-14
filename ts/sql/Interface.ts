@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable @typescript-eslint/ban-types */
@@ -30,7 +30,7 @@ export type StickerPackType = any;
 export type StickerType = any;
 export type UnprocessedType = any;
 
-export interface DataInterface {
+export type DataInterface = {
   close: () => Promise<void>;
   removeDB: () => Promise<void>;
   removeIndexedDBFiles: () => Promise<void>;
@@ -188,7 +188,7 @@ export interface DataInterface {
     conversationId: string,
     options: { limit: number }
   ) => Promise<Array<MessageType>>;
-}
+};
 
 // The reason for client/server divergence is the need to inject Backbone models and
 //   collections into data calls so those are the objects returned. This was necessary in

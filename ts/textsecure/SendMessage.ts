@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-nested-ternary */
@@ -70,10 +70,10 @@ export type SendOptionsType = {
   online?: boolean;
 };
 
-export interface CustomError extends Error {
+export type CustomError = Error & {
   identifier?: string;
   number?: string;
-}
+};
 
 export type CallbackResultType = {
   successfulIdentifiers?: Array<any>;
@@ -105,9 +105,9 @@ type GroupV1InfoType = {
   members: Array<string>;
 };
 
-interface GroupCallUpdateType {
+type GroupCallUpdateType = {
   eraId: string;
-}
+};
 
 type MessageOptionsType = {
   attachments?: Array<AttachmentType> | null;

@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -15,11 +15,11 @@ export const SpinnerDirections = [
 ] as const;
 export type SpinnerDirection = typeof SpinnerDirections[number];
 
-export interface Props {
+export type Props = {
   size?: string;
   svgSize: SpinnerSvgSize;
   direction?: SpinnerDirection;
-}
+};
 
 export const Spinner = ({ size, svgSize, direction }: Props): JSX.Element => (
   <div

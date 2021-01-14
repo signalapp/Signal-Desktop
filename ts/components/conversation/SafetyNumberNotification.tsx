@@ -7,13 +7,13 @@ import { ContactName } from './ContactName';
 import { Intl } from '../Intl';
 import { LocalizerType } from '../../types/Util';
 
-export interface ContactType {
+export type ContactType = {
   id: string;
   phoneNumber?: string;
   profileName?: string;
   title: string;
   name?: string;
-}
+};
 
 export type PropsData = {
   isGroup: boolean;

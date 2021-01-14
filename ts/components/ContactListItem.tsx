@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -11,7 +11,7 @@ import { InContactsIcon } from './InContactsIcon';
 import { LocalizerType } from '../types/Util';
 import { ColorType } from '../types/Colors';
 
-interface Props {
+type Props = {
   avatarPath?: string;
   color?: ColorType;
   i18n: LocalizerType;
@@ -23,7 +23,7 @@ interface Props {
   phoneNumber?: string;
   profileName?: string;
   title: string;
-}
+};
 
 export class ContactListItem extends React.Component<Props> {
   public renderAvatar(): JSX.Element {

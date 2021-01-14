@@ -10,16 +10,16 @@ import { Message } from './conversation/media-gallery/types/Message';
 import { AttachmentType } from '../types/Attachment';
 import { LocalizerType } from '../types/Util';
 
-export interface MediaItemType {
+export type MediaItemType = {
   objectURL?: string;
   thumbnailObjectUrl?: string;
   contentType?: MIME.MIMEType;
   index: number;
   attachment: AttachmentType;
   message: Message;
-}
+};
 
-export interface Props {
+export type Props = {
   close: () => void;
   i18n: LocalizerType;
   media: Array<MediaItemType>;
@@ -29,11 +29,11 @@ export interface Props {
     index: number;
   }) => void;
   selectedIndex: number;
-}
+};
 
-interface State {
+type State = {
   selectedIndex: number;
-}
+};
 
 export class LightboxGallery extends React.Component<Props, State> {
   public static defaultProps: Partial<Props> = {

@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -6,10 +6,10 @@ import { assert } from 'chai';
 import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation';
 
 describe('assignWithNoUnnecessaryAllocation', () => {
-  interface Person {
+  type Person = {
     name?: string;
     age?: number;
-  }
+  };
 
   it('returns the same object if there are no modifications', () => {
     const empty = {};

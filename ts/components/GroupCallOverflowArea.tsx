@@ -16,12 +16,12 @@ const OVERFLOW_SCROLL_BUTTON_RATIO = 0.75;
 // This should be an integer, as sub-pixel widths can cause performance issues.
 export const OVERFLOW_PARTICIPANT_WIDTH = 140;
 
-interface PropsType {
+type PropsType = {
   getFrameBuffer: () => ArrayBuffer;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
   overflowedParticipants: ReadonlyArray<GroupCallRemoteParticipantType>;
-}
+};
 
 export const GroupCallOverflowArea: FC<PropsType> = ({
   getFrameBuffer,

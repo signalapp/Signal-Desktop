@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -42,14 +42,14 @@ type PositionState =
       offsetX: number;
     };
 
-interface SnapCandidate {
+type SnapCandidate = {
   mode:
     | PositionMode.SnapToBottom
     | PositionMode.SnapToLeft
     | PositionMode.SnapToRight
     | PositionMode.SnapToTop;
   distanceToEdge: number;
-}
+};
 
 export type PropsType = {
   activeCall: ActiveCallType;

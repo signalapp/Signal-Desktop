@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import UpdatedDelta from 'quill-delta';
@@ -11,6 +11,8 @@ declare module 'react-quill' {
   type DeltaStatic = UpdatedDelta;
 }
 
+// We want to extend some existing interfaces.
+/* eslint-disable no-restricted-syntax */
 declare module 'quill' {
   // this type is fixed in @types/quill, but our version of react-quill cannot
   // use the version of quill that has this fix in its typings
@@ -76,3 +78,4 @@ declare module 'quill' {
     bindings: Record<string | number, Array<unknown>>;
   }
 }
+/* eslint-enable no-restricted-syntax */

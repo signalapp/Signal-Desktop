@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import Quill from 'quill';
@@ -22,11 +22,11 @@ import { getBlotTextPartitions, matchBlotTextPartitions } from '../util';
 
 const Keyboard = Quill.import('modules/keyboard');
 
-interface EmojiPickerOptions {
+type EmojiPickerOptions = {
   onPickEmoji: (emoji: EmojiPickDataType) => void;
   setEmojiPickerElement: (element: JSX.Element | null) => void;
   skinTone: number;
-}
+};
 
 export class EmojiCompletion {
   results: Array<EmojiData>;

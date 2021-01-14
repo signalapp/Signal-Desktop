@@ -32,7 +32,7 @@ export enum OutgoingCallButtonStyle {
   Join,
 }
 
-export interface PropsDataType {
+export type PropsDataType = {
   id: string;
   name?: string;
 
@@ -58,9 +58,9 @@ export interface PropsDataType {
 
   showBackButton?: boolean;
   outgoingCallButtonStyle: OutgoingCallButtonStyle;
-}
+};
 
-export interface PropsActionsType {
+export type PropsActionsType = {
   onSetMuteNotifications: (seconds: number) => void;
   onSetDisappearingMessages: (seconds: number) => void;
   onDeleteMessages: () => void;
@@ -78,11 +78,11 @@ export interface PropsActionsType {
   onArchive: () => void;
   onMarkUnread: () => void;
   onMoveToInbox: () => void;
-}
+};
 
-export interface PropsHousekeepingType {
+export type PropsHousekeepingType = {
   i18n: LocalizerType;
-}
+};
 
 export type PropsType = PropsDataType &
   PropsActionsType &

@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-nested-ternary */
@@ -56,6 +56,8 @@ import {
 } from './Interface';
 
 declare global {
+  // We want to extend `Function`'s properties, so we need to use an interface.
+  // eslint-disable-next-line no-restricted-syntax
   interface Function {
     needsSerial?: boolean;
   }

@@ -61,13 +61,13 @@ const NoVideo = ({
   );
 };
 
-export interface PropsType {
+export type PropsType = {
   activeCall: ActiveCallType;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
   setGroupCallVideoRequest: (_: Array<GroupCallVideoRequest>) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
-}
+};
 
 export const CallingPipRemoteVideo = ({
   activeCall,

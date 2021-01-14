@@ -25,23 +25,23 @@ const PARTICIPANT_MARGIN = 10;
 // We scale our video requests down for performance. This number is somewhat arbitrary.
 const VIDEO_REQUEST_SCALAR = 0.75;
 
-interface Dimensions {
+type Dimensions = {
   width: number;
   height: number;
-}
+};
 
-interface GridArrangement {
+type GridArrangement = {
   rows: Array<Array<GroupCallRemoteParticipantType>>;
   scalar: number;
-}
+};
 
-interface PropsType {
+type PropsType = {
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
   isInSpeakerView: boolean;
   remoteParticipants: ReadonlyArray<GroupCallRemoteParticipantType>;
   setGroupCallVideoRequest: (_: Array<GroupCallVideoRequest>) => void;
-}
+};
 
 // This component lays out group call remote participants. It uses a custom layout
 //   algorithm (in other words, nothing that the browser provides, like flexbox) in

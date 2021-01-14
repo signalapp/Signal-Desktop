@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -37,10 +37,10 @@ export type Props = {
   i18n: LocalizerType;
 } & Pick<React.HTMLProps<HTMLDivElement>, 'className'>;
 
-interface State {
-  imageBroken: boolean;
-  lastAvatarPath?: string;
-}
+type State = {
+  readonly imageBroken: boolean;
+  readonly lastAvatarPath?: string;
+};
 
 export class Avatar extends React.Component<Props, State> {
   public handleImageErrorBound: () => void;

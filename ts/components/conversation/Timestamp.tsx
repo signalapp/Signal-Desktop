@@ -9,7 +9,7 @@ import { formatRelativeTime } from '../../util/formatRelativeTime';
 
 import { LocalizerType } from '../../types/Util';
 
-export interface Props {
+export type Props = {
   timestamp?: number;
   extended?: boolean;
   module?: string;
@@ -19,7 +19,7 @@ export interface Props {
   withUnread?: boolean;
   direction?: 'incoming' | 'outgoing';
   i18n: LocalizerType;
-}
+};
 
 const UPDATE_FREQUENCY = 60 * 1000;
 

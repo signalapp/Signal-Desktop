@@ -10,7 +10,7 @@ import { Avatar } from '../Avatar';
 import { LocalizerType } from '../../types/Util';
 import { ColorType } from '../../types/Colors';
 
-export interface Props {
+export type Props = {
   avatarPath?: string;
   color: ColorType;
   name?: string;
@@ -19,7 +19,7 @@ export interface Props {
   title: string;
   conversationType: 'group' | 'direct';
   i18n: LocalizerType;
-}
+};
 
 export class TypingBubble extends React.PureComponent<Props> {
   public renderAvatar(): JSX.Element | null {

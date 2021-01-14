@@ -76,10 +76,10 @@ const COLORS = [
 
 const THREE_HOURS = 3 * 60 * 60 * 1000;
 
-interface CustomError extends Error {
+type CustomError = Error & {
   identifier?: string;
   number?: string;
-}
+};
 
 export class ConversationModel extends window.Backbone.Model<
   ConversationAttributesType
@@ -4556,9 +4556,9 @@ window.Whisper.GroupMemberConversation = window.Backbone.Model.extend({
   },
 });
 
-interface SortableByTitle {
+type SortableByTitle = {
   getTitle: () => string;
-}
+};
 
 const sortConversationTitles = (
   left: SortableByTitle,

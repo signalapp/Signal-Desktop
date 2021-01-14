@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -11,10 +11,10 @@ import { SizeClassType } from './emoji/lib';
 
 import { LocalizerType, RenderTextCallbackType } from '../types/Util';
 
-export interface Props {
+export type Props = {
   text: string;
   i18n: LocalizerType;
-}
+};
 
 const renderNewLines: RenderTextCallbackType = ({ text, key }) => (
   <AddNewLines key={key} text={text} />

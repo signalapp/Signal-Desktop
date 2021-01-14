@@ -15,14 +15,14 @@ import {
   isVideoAttachment,
 } from '../../types/Attachment';
 
-export interface Props {
+export type Props = {
   attachments: Array<AttachmentType>;
   i18n: LocalizerType;
   onClickAttachment: (attachment: AttachmentType) => void;
   onCloseAttachment: (attachment: AttachmentType) => void;
   onAddAttachment: () => void;
   onClose: () => void;
-}
+};
 
 const IMAGE_WIDTH = 120;
 const IMAGE_HEIGHT = 120;

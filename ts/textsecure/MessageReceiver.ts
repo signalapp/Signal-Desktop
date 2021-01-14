@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable @typescript-eslint/ban-types */
@@ -49,6 +49,8 @@ const GROUPV2_ID_LENGTH = 32;
 const RETRY_TIMEOUT = 2 * 60 * 1000;
 
 declare global {
+  // We want to extend `Event`, so we need an interface.
+  // eslint-disable-next-line no-restricted-syntax
   interface Event {
     code?: string | number;
     configuration?: any;
@@ -79,6 +81,8 @@ declare global {
     typing?: any;
     verified?: any;
   }
+  // We want to extend `Error`, so we need an interface.
+  // eslint-disable-next-line no-restricted-syntax
   interface Error {
     reason?: any;
     stackForLog?: string;

@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import is from '@sindresorhus/is';
@@ -20,7 +20,7 @@ const MIN_HEIGHT = 50;
 
 // Used for display
 
-export interface AttachmentType {
+export type AttachmentType = {
   blurHash?: string;
   caption?: string;
   contentType: MIME.MIMEType;
@@ -47,7 +47,7 @@ export interface AttachmentType {
     url: string;
     contentType: MIME.MIMEType;
   };
-}
+};
 
 // UI-focused functions
 
@@ -288,9 +288,9 @@ export type Attachment = {
   // digest?: ArrayBuffer;
 } & Partial<AttachmentSchemaVersion3>;
 
-interface AttachmentSchemaVersion3 {
+type AttachmentSchemaVersion3 = {
   path: string;
-}
+};
 
 export const isVisualMedia = (attachment: Attachment): boolean => {
   const { contentType } = attachment;

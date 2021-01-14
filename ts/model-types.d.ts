@@ -41,10 +41,10 @@ export declare class DeletesModelType extends Backbone.Model<
 
 type TaskResultType = any;
 
-export interface CustomError extends Error {
+export type CustomError = Error & {
   identifier?: string;
   number?: string;
-}
+};
 
 export type GroupMigrationType = {
   areWeInvited: boolean;

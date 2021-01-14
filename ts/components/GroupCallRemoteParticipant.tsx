@@ -24,27 +24,27 @@ import { ContactName } from './conversation/ContactName';
 import { useIntersectionObserver } from '../util/hooks';
 import { MAX_FRAME_SIZE } from '../calling/constants';
 
-interface BasePropsType {
+type BasePropsType = {
   getFrameBuffer: () => ArrayBuffer;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
   remoteParticipant: GroupCallRemoteParticipantType;
-}
+};
 
-interface InPipPropsType {
+type InPipPropsType = {
   isInPip: true;
-}
+};
 
-interface InOverflowAreaPropsType {
+type InOverflowAreaPropsType = {
   height: number;
   isInPip?: false;
   width: number;
-}
+};
 
-interface InGridPropsType extends InOverflowAreaPropsType {
+type InGridPropsType = InOverflowAreaPropsType & {
   left: number;
   top: number;
-}
+};
 
 export type PropsType = BasePropsType &
   (InPipPropsType | InOverflowAreaPropsType | InGridPropsType);

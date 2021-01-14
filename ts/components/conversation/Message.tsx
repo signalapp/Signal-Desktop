@@ -52,9 +52,9 @@ import { createRefMerger } from '../_util';
 import { emojiToData } from '../emoji/lib';
 import { SmartReactionPicker } from '../../state/smart/ReactionPicker';
 
-interface Trigger {
+type Trigger = {
   handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
-}
+};
 
 const STICKER_SIZE = 200;
 const SELECTED_TIMEOUT = 1000;
@@ -190,7 +190,7 @@ export type Props = PropsData &
   PropsActions &
   Pick<ReactionPickerProps, 'renderEmojiPicker'>;
 
-interface State {
+type State = {
   expiring: boolean;
   expired: boolean;
   imageBroken: boolean;
@@ -205,7 +205,7 @@ interface State {
 
   containerWidth: number;
   canDeleteForEveryone: boolean;
-}
+};
 
 const EXPIRATION_CHECK_MINIMUM = 2000;
 const EXPIRED_DELAY = 600;

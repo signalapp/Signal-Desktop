@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { hot } from 'react-hot-loader/root';
@@ -11,6 +11,8 @@ import { store } from './store';
 import { I18n } from './util/i18n';
 
 declare global {
+  // We want to extend `window` here.
+  // eslint-disable-next-line no-restricted-syntax
   interface Window {
     localeMessages: { [key: string]: { message: string } };
   }

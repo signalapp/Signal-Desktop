@@ -9,7 +9,7 @@ import { Spinner } from '../Spinner';
 import { LocalizerType } from '../../types/Util';
 import { AttachmentType } from '../../types/Attachment';
 
-export interface Props {
+export type Props = {
   alt: string;
   attachment: AttachmentType;
   url: string;
@@ -40,7 +40,7 @@ export interface Props {
   onClick?: (attachment: AttachmentType) => void;
   onClickClose?: (attachment: AttachmentType) => void;
   onError?: () => void;
-}
+};
 
 export class Image extends React.Component<Props> {
   private canClick() {

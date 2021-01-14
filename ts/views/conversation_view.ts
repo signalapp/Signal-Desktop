@@ -9,7 +9,7 @@
 // see https://github.com/microsoft/TypeScript/issues/41562
 type GroupV2PendingMemberType = import('../model-types.d').GroupV2PendingMemberType;
 
-interface GetLinkPreviewResult {
+type GetLinkPreviewResult = {
   title: string;
   url: string;
   image: {
@@ -21,7 +21,7 @@ interface GetLinkPreviewResult {
   };
   description: string | null;
   date: number | null;
-}
+};
 
 const FIVE_MINUTES = 1000 * 60 * 5;
 const LINK_PREVIEW_TIMEOUT = 60 * 1000;

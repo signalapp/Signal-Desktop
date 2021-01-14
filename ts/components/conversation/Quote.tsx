@@ -13,7 +13,7 @@ import { ColorType } from '../../types/Colors';
 import { ContactName } from './ContactName';
 import { getTextWithMentions } from '../../util/getTextWithMentions';
 
-export interface Props {
+export type Props = {
   attachment?: QuotedAttachmentType;
   authorTitle: string;
   authorPhoneNumber?: string;
@@ -29,25 +29,25 @@ export interface Props {
   onClose?: () => void;
   text: string;
   referencedMessageNotFound: boolean;
-}
+};
 
-interface State {
+type State = {
   imageBroken: boolean;
-}
+};
 
-export interface QuotedAttachmentType {
+export type QuotedAttachmentType = {
   contentType: MIME.MIMEType;
   fileName: string;
   /** Not included in protobuf */
   isVoiceMessage: boolean;
   thumbnail?: Attachment;
-}
+};
 
-interface Attachment {
+type Attachment = {
   contentType: MIME.MIMEType;
   /** Not included in protobuf, and is loaded asynchronously */
   objectUrl?: string;
-}
+};
 
 function validateQuote(quote: Props): boolean {
   if (quote.text) {

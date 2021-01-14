@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -42,20 +42,20 @@ Quill.register('modules/emojiCompletion', EmojiCompletion);
 Quill.register('modules/mentionCompletion', MentionCompletion);
 Quill.register('modules/signalClipboard', SignalClipboard);
 
-interface HistoryStatic {
+type HistoryStatic = {
   undo(): void;
   clear(): void;
-}
+};
 
-export interface InputApi {
+export type InputApi = {
   focus: () => void;
   insertEmoji: (e: EmojiPickDataType) => void;
   reset: () => void;
   resetEmojiResults: () => void;
   submit: () => void;
-}
+};
 
-export interface Props {
+export type Props = {
   readonly i18n: LocalizerType;
   readonly disabled?: boolean;
   readonly large?: boolean;
@@ -75,7 +75,7 @@ export interface Props {
   onSubmit(message: string, mentions: Array<BodyRangeType>): unknown;
   getQuotedMessage(): unknown;
   clearQuotedMessage(): unknown;
-}
+};
 
 const MAX_LENGTH = 64 * 1024;
 

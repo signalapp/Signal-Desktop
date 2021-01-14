@@ -30,24 +30,24 @@ import { LatestQueue } from '../../util/LatestQueue';
 
 // State
 
-export interface GroupCallPeekInfoType {
+export type GroupCallPeekInfoType = {
   uuids: Array<string>;
   creatorUuid?: string;
   eraId?: string;
   maxDevices: number;
   deviceCount: number;
-}
+};
 
-export interface GroupCallParticipantInfoType {
+export type GroupCallParticipantInfoType = {
   uuid: string;
   demuxId: number;
   hasRemoteAudio: boolean;
   hasRemoteVideo: boolean;
   speakerTime?: number;
   videoAspectRatio: number;
-}
+};
 
-export interface DirectCallStateType {
+export type DirectCallStateType = {
   callMode: CallMode.Direct;
   conversationId: string;
   callState?: CallState;
@@ -55,18 +55,18 @@ export interface DirectCallStateType {
   isIncoming: boolean;
   isVideoCall: boolean;
   hasRemoteVideo?: boolean;
-}
+};
 
-export interface GroupCallStateType {
+export type GroupCallStateType = {
   callMode: CallMode.Group;
   conversationId: string;
   connectionState: GroupCallConnectionState;
   joinState: GroupCallJoinState;
   peekInfo: GroupCallPeekInfoType;
   remoteParticipants: Array<GroupCallParticipantInfoType>;
-}
+};
 
-export interface ActiveCallStateType {
+export type ActiveCallStateType = {
   conversationId: string;
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
@@ -76,11 +76,11 @@ export interface ActiveCallStateType {
   safetyNumberChangedUuids: Array<string>;
   settingsDialogOpen: boolean;
   showParticipantsList: boolean;
-}
+};
 
-export interface CallsByConversationType {
+export type CallsByConversationType = {
   [conversationId: string]: DirectCallStateType | GroupCallStateType;
-}
+};
 
 export type CallingStateType = MediaDeviceSettings & {
   callsByConversation: CallsByConversationType;
@@ -145,15 +145,15 @@ type PeekNotConnectedGroupCallType = {
   conversationId: string;
 };
 
-interface StartDirectCallType {
+type StartDirectCallType = {
   conversationId: string;
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
-}
+};
 
-export interface StartCallType extends StartDirectCallType {
+export type StartCallType = StartDirectCallType & {
   callMode: CallMode.Direct | CallMode.Group;
-}
+};
 
 export type RemoteVideoChangeType = {
   conversationId: string;

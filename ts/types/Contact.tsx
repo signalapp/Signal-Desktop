@@ -1,9 +1,9 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { format as formatPhoneNumber } from './PhoneNumber';
 
-export interface ContactType {
+export type ContactType = {
   name?: Name;
   number?: Array<Phone>;
   email?: Array<Email>;
@@ -11,16 +11,16 @@ export interface ContactType {
   avatar?: Avatar;
   organization?: string;
   signalAccount?: string;
-}
+};
 
-interface Name {
+type Name = {
   givenName?: string;
   familyName?: string;
   prefix?: string;
   suffix?: string;
   middleName?: string;
   displayName?: string;
-}
+};
 
 export enum ContactFormType {
   HOME = 1,
@@ -35,19 +35,19 @@ export enum AddressType {
   CUSTOM = 3,
 }
 
-export interface Phone {
+export type Phone = {
   value: string;
   type: ContactFormType;
   label?: string;
-}
+};
 
-export interface Email {
+export type Email = {
   value: string;
   type: ContactFormType;
   label?: string;
-}
+};
 
-export interface PostalAddress {
+export type PostalAddress = {
   type: AddressType;
   label?: string;
   street?: string;
@@ -57,18 +57,18 @@ export interface PostalAddress {
   region?: string;
   postcode?: string;
   country?: string;
-}
+};
 
-interface Avatar {
+type Avatar = {
   avatar: Attachment;
   isProfile: boolean;
-}
+};
 
-interface Attachment {
+type Attachment = {
   path?: string;
   error?: boolean;
   pending?: boolean;
-}
+};
 
 export function contactSelector(
   contact: ContactType,

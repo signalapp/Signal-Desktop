@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { connect } from 'react-redux';
@@ -20,7 +20,7 @@ import { getOwn } from '../../util/getOwn';
 import { missingCaseError } from '../../util/missingCaseError';
 import { isGroupCallingEnabled } from '../../util/isGroupCallingEnabled';
 
-export interface OwnProps {
+export type OwnProps = {
   id: string;
 
   onDeleteMessages: () => void;
@@ -39,7 +39,7 @@ export interface OwnProps {
   onMarkUnread: () => void;
   onMoveToInbox: () => void;
   onShowSafetyNumber: () => void;
-}
+};
 
 const getOutgoingCallButtonStyle = (
   conversation: ConversationType,

@@ -41,24 +41,24 @@ const conversation = {
   lastUpdated: Date.now(),
 };
 
-interface OverridePropsBase {
+type OverridePropsBase = {
   hasLocalAudio?: boolean;
   hasLocalVideo?: boolean;
   isInSpeakerView?: boolean;
-}
+};
 
-interface DirectCallOverrideProps extends OverridePropsBase {
+type DirectCallOverrideProps = OverridePropsBase & {
   callMode: CallMode.Direct;
   callState?: CallState;
   hasRemoteVideo?: boolean;
-}
+};
 
-interface GroupCallOverrideProps extends OverridePropsBase {
+type GroupCallOverrideProps = OverridePropsBase & {
   callMode: CallMode.Group;
   connectionState?: GroupCallConnectionState;
   peekedParticipants?: Array<ConversationType>;
   remoteParticipants?: Array<GroupCallRemoteParticipantType>;
-}
+};
 
 const createActiveDirectCallProp = (
   overrideProps: DirectCallOverrideProps

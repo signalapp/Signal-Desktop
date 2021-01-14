@@ -39,11 +39,11 @@ import {
 import { LocalizerType } from '../types/Util';
 import { missingCaseError } from '../util/missingCaseError';
 
-interface MeType extends ConversationType {
+type MeType = ConversationType & {
   uuid: string;
-}
+};
 
-export interface PropsType {
+export type PropsType = {
   activeCall?: ActiveCallType;
   availableCameras: Array<MediaDeviceInfo>;
   cancelCall: (_: CancelCallType) => void;
@@ -74,11 +74,11 @@ export interface PropsType {
   togglePip: () => void;
   toggleSettings: () => void;
   toggleSpeakerView: () => void;
-}
+};
 
-interface ActiveCallManagerPropsType extends PropsType {
+type ActiveCallManagerPropsType = PropsType & {
   activeCall: ActiveCallType;
-}
+};
 
 const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
   activeCall,

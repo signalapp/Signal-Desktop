@@ -15100,7 +15100,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/Crypto.ts",
     "line": "    const data = window.dcodeIO.ByteBuffer.wrap(",
-    "lineNumber": 348,
+    "lineNumber": 350,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -15108,7 +15108,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/Crypto.ts",
     "line": "        given: window.dcodeIO.ByteBuffer.wrap(padded)",
-    "lineNumber": 377,
+    "lineNumber": 379,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -15116,7 +15116,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/Crypto.ts",
     "line": "          ? window.dcodeIO.ByteBuffer.wrap(padded)",
-    "lineNumber": 381,
+    "lineNumber": 383,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -15196,7 +15196,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/WebAPI.ts",
     "line": "      const byteBuffer = window.dcodeIO.ByteBuffer.wrap(",
-    "lineNumber": 2177,
+    "lineNumber": 2179,
     "reasonCategory": "falseMatch",
     "updated": "2020-09-08T23:07:22.682Z"
   },

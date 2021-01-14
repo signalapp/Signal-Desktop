@@ -87,6 +87,8 @@ type ConfirmationDialogViewProps = {
 };
 
 declare global {
+  // We want to extend `window`'s properties, so we need an interface.
+  // eslint-disable-next-line no-restricted-syntax
   interface Window {
     _: typeof Underscore;
     $: typeof jQuery;
@@ -501,6 +503,8 @@ declare global {
     GV2_MIGRATION_DISABLE_INVITE: boolean;
   }
 
+  // We want to extend `Error`, so we need an interface.
+  // eslint-disable-next-line no-restricted-syntax
   interface Error {
     cause?: Event;
   }
