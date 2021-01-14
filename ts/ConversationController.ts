@@ -103,13 +103,11 @@ export function start(): void {
       window.storage.put('unreadCount', newUnreadCount);
 
       if (newUnreadCount > 0) {
-        window.setBadgeCount(newUnreadCount);
         window.document.title = `${window.getTitle()} (${newUnreadCount})`;
       } else {
-        window.setBadgeCount(0);
         window.document.title = window.getTitle();
       }
-      window.updateTrayIcon(newUnreadCount);
+      window.setBadgeCount(newUnreadCount);
     },
   }))();
 

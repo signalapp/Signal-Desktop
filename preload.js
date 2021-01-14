@@ -121,9 +121,6 @@ try {
   window.closeAbout = () => ipc.send('close-about');
   window.readyForUpdates = () => ipc.send('ready-for-updates');
 
-  window.updateTrayIcon = unreadCount =>
-    ipc.send('update-tray-icon', unreadCount);
-
   ipc.on('set-up-as-new-device', () => {
     Whisper.events.trigger('setupAsNewDevice');
   });

@@ -1166,6 +1166,10 @@ app.on('will-finish-launching', () => {
 
 ipc.on('set-badge-count', (event, count) => {
   app.badgeCount = count;
+
+  if (tray) {
+    tray.updateIcon(count);
+  }
 });
 
 ipc.on('remove-setup-menu-items', () => {
@@ -1218,12 +1222,6 @@ ipc.on('close-about', () => {
       mainWindow.setFullScreen(true);
     }
     aboutWindow.close();
-  }
-});
-
-ipc.on('update-tray-icon', (event, unreadCount) => {
-  if (tray) {
-    tray.updateIcon(unreadCount);
   }
 });
 

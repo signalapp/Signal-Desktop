@@ -188,7 +188,6 @@ declare global {
     systemTheme: WhatIsThis;
     textsecure: TextSecureType;
     unregisterForActive: (handler: WhatIsThis) => void;
-    updateTrayIcon: (count: number) => void;
 
     Backbone: typeof Backbone;
     Signal: {
