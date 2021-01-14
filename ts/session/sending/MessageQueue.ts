@@ -98,46 +98,19 @@ export class MessageQueue implements MessageQueueInterface {
     }
 
     let groupId: PubKey | undefined;
-    if (message instanceof TypingMessage) {
-      groupId = message.groupId;
-    } else if (message instanceof ExpirationTimerUpdateMessage) {
-      groupId = message.groupId;
-    } else if (message instanceof ClosedGroupV2Message) {
+    if (
+      message instanceof TypingMessage ||
+      message instanceof ExpirationTimerUpdateMessage ||
+      message instanceof ClosedGroupV2Message
+    ) {
       groupId = message.groupId;
     }
 
     if (!groupId) {
       throw new Error('Invalid group message passed in sendToGroup.');
     }
-    // if this is a medium group message. We just need to send to the group pubkey
-    if (
-      message instanceof ClosedGroupV2ChatMessage ||
-      message instanceof ClosedGroupV2Message
-    ) {
-      return this.send(PubKey.cast(groupId), message, sentCb);
-    }
-
-    // Get devices in group
-    let recipients = await GroupUtils.getGroupMembers(groupId);
-
-    // Don't send to our own device as they'll likely be synced across.
-    const ourKey = await UserUtil.getCurrentDevicePubKey();
-    if (!ourKey) {
-      throw new Error('Cannot get current user public key');
-    }
-    const ourPrimary = await MultiDeviceProtocol.getPrimaryDevice(ourKey);
-    recipients = recipients.filter(member => !ourPrimary.isEqual(member));
-
-    if (recipients.length === 0) {
-      return;
-    }
-
-    // Send to all devices of members
-    await Promise.all(
-      recipients.map(async recipient =>
-        this.sendUsingMultiDevice(recipient, message)
-      )
-    );
+    // if groupId is set here, it means it's for a medium group. So send it as it
+    return this.send(PubKey.cast(groupId), message, sentCb);
   }
 
   public async sendSyncMessage(

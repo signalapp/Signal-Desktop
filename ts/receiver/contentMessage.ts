@@ -392,7 +392,7 @@ function shouldDropBlockedUserMessage(content: SignalService.Content): boolean {
   if (!content?.dataMessage?.group?.id) {
     return true;
   }
-  const groupId = StringUtils.decode(content.dataMessage.group.id, 'utf8');
+  const groupId = toHex(content.dataMessage.group.id);
 
   const groupConvo = ConversationController.getInstance().get(groupId);
   if (!groupConvo) {

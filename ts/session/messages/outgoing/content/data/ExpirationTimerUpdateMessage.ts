@@ -1,4 +1,3 @@
-import { ContentMessage } from '../ContentMessage';
 import { SignalService } from '../../../../../protobuf';
 import { MessageParams } from '../../Message';
 import { StringUtils } from '../../../../utils';

@@ -38,6 +38,10 @@ export class ClosedGroupV2NewMessage extends ClosedGroupV2Message {
     if (!params.members || params.members.length === 0) {
       throw new Error('Members must be set');
     }
+    // Assert that every admins is a member
+    if (!ClosedGroupV2Message.areAdminsMembers(params.admins, params.members)) {
+      throw new Error('Admins must all be members of the group');
+    }
     if (!params.name || params.name.length === 0) {
       throw new Error('Name must cannot be empty');
     }

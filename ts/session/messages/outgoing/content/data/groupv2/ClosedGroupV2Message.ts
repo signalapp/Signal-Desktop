@@ -26,6 +26,13 @@ export abstract class ClosedGroupV2Message extends DataMessage {
     }
   }
 
+  public static areAdminsMembers(
+    admins: Array<string>,
+    members: Array<string>
+  ) {
+    return admins.every(a => members.includes(a));
+  }
+
   public ttl(): number {
     return TTL_DEFAULT.REGULAR_MESSAGE;
   }

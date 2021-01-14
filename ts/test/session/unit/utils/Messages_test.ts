@@ -5,6 +5,12 @@ import { MessageUtils } from '../../../../session/utils';
 import { EncryptionType, PubKey } from '../../../../session/types';
 import { SessionProtocol } from '../../../../session/protocols';
 import { ClosedGroupV2ChatMessage } from '../../../../session/messages/outgoing/content/data/groupv2/ClosedGroupV2ChatMessage';
+import {
+  ClosedGroupV2EncryptionPairMessage,
+  ClosedGroupV2NewMessage,
+  ClosedGroupV2UpdateMessage,
+} from '../../../../session/messages/outgoing';
+import { SignalService } from '../../../../protobuf';
 // tslint:disable-next-line: no-require-imports no-var-requires
 const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
@@ -114,6 +120,81 @@ describe('Message Utils', () => {
       const rawMessage = await MessageUtils.toRawMessage(device, message);
 
       expect(rawMessage.encryption).to.equal(EncryptionType.Fallback);
+    });
+
+    it('passing ClosedGroupV2NewMessage returns Fallback', async () => {
+      const device = TestUtils.generateFakePubKey();
+      const member = TestUtils.generateFakePubKey().key;
+
+      const msg = new ClosedGroupV2NewMessage({
+        timestamp: Date.now(),
+        name: 'df',
+        members: [member],
+        admins: [member],
+        groupId: TestUtils.generateFakePubKey().key,
+        keypair: TestUtils.generateFakeECKeyPair(),
+        expireTimer: 0,
+      });
+      const rawMessage = await MessageUtils.toRawMessage(device, msg);
+      expect(rawMessage.encryption).to.equal(EncryptionType.Fallback);
+    });
+
+    it('passing ClosedGroupV2UpdateMessage returns ClosedGroup', async () => {
+      const device = TestUtils.generateFakePubKey();
+
+      const msg = new ClosedGroupV2UpdateMessage({
+        timestamp: Date.now(),
+        name: 'df',
+        members: [TestUtils.generateFakePubKey().key],
+        groupId: TestUtils.generateFakePubKey().key,
+        expireTimer: 0,
+      });
+      const rawMessage = await MessageUtils.toRawMessage(device, msg);
+      expect(rawMessage.encryption).to.equal(EncryptionType.ClosedGroup);
+    });
+
+    it('passing ClosedGroupV2EncryptionPairMessage returns ClosedGroup', async () => {
+      const device = TestUtils.generateFakePubKey();
+
+      const fakeWrappers = new Array<
+        SignalService.ClosedGroupUpdateV2.KeyPairWrapper
+      >();
+      fakeWrappers.push(
+        new SignalService.ClosedGroupUpdateV2.KeyPairWrapper({
+          publicKey: new Uint8Array(8),
+          encryptedKeyPair: new Uint8Array(8),
+        })
+      );
+      const msg = new ClosedGroupV2EncryptionPairMessage({
+        timestamp: Date.now(),
+        groupId: TestUtils.generateFakePubKey().key,
+        encryptedKeyPairs: fakeWrappers,
+        expireTimer: 0,
+      });
+      const rawMessage = await MessageUtils.toRawMessage(device, msg);
+      expect(rawMessage.encryption).to.equal(EncryptionType.ClosedGroup);
+    });
+
+    it('passing ClosedGroupV2EncryptionPairMessage returns ClosedGroup', async () => {
+      const device = TestUtils.generateFakePubKey();
+
+      const fakeWrappers = new Array<
+        SignalService.ClosedGroupUpdateV2.KeyPairWrapper
+      >();
+      fakeWrappers.push(
+        new SignalService.ClosedGroupUpdateV2.KeyPairWrapper({
+          publicKey: new Uint8Array(8),
+          encryptedKeyPair: new Uint8Array(8),
+        })
+      );
+      const msg = new ClosedGroupV2EncryptionPairMessage({
+        timestamp: Date.now(),
+        groupId: TestUtils.generateFakePubKey().key,
+        encryptedKeyPairs: fakeWrappers,
+        expireTimer: 0,
+      });
+      const rawMessage = await MessageUtils.toRawMessage(device, msg);
+      expect(rawMessage.encryption).to.equal(EncryptionType.ClosedGroup);
     });
   });
 });

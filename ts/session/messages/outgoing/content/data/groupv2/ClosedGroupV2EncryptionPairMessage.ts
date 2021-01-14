@@ -1,7 +1,5 @@
 import { Constants } from '../../../../..';
 import { SignalService } from '../../../../../../protobuf';
-import { PubKey } from '../../../../../types';
-import { fromHexToArray } from '../../../../../utils/String';
 import {
   ClosedGroupV2Message,
   ClosedGroupV2MessageParams,
