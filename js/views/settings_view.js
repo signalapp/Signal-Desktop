@@ -161,6 +161,12 @@
         });
       }
       new CheckboxView({
+        el: this.$('.tray-setting'),
+        name: 'tray-setting',
+        value: window.initialData.stayInTray,
+        setFn: window.setStayInTray,
+      });
+      new CheckboxView({
         el: this.$('.always-relay-calls-setting'),
         name: 'always-relay-calls-setting',
         value: window.initialData.alwaysRelayCalls,
@@ -229,6 +235,7 @@
         themeDark: i18n('themeDark'),
         themeSystem: i18n('themeSystem'),
         hideMenuBar: i18n('hideMenuBar'),
+        stayInTray: i18n('stayInTray'),
         clearDataHeader: i18n('clearDataHeader'),
         clearDataButton: i18n('clearDataButton'),
         clearDataExplanation: i18n('clearDataExplanation'),

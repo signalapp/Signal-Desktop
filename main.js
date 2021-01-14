@@ -63,9 +63,6 @@ function getMainWindow() {
 // Tray icon and related objects
 let tray = null;
 const startInTray = process.argv.some(arg => arg === '--start-in-tray');
-const usingTrayIcon =
-  startInTray || process.argv.some(arg => arg === '--use-tray-icon');
-
 const config = require('./app/config');
 
 // Very important to put before the single instance check, since it is based on the
@@ -129,9 +126,7 @@ function showWindow() {
   }
 
   // toggle the visibility of the show/hide tray icon menu entries
-  if (tray) {
-    tray.updateContextMenu();
-  }
+  tray.updateContextMenu();
 
   // show the app on the Dock in case it was hidden before
   dockIcon.show();
@@ -336,10 +331,11 @@ async function createWindow() {
   mainWindow = new BrowserWindow(windowOptions);
   mainWindowCreated = true;
   setupSpellChecker(mainWindow, locale.messages);
-  if (!usingTrayIcon && windowConfig && windowConfig.maximized) {
+
+  if (!startInTray && windowConfig && windowConfig.maximized) {
     mainWindow.maximize();
   }
-  if (!usingTrayIcon && windowConfig && windowConfig.fullscreen) {
+  if (!startInTray && windowConfig && windowConfig.fullscreen) {
     mainWindow.setFullScreen(true);
   }
 
@@ -430,17 +426,15 @@ async function createWindow() {
 
     // On Mac, or on other platforms when the tray icon is in use, the window
     // should be only hidden, not closed, when the user clicks the close button
+    const stayInTray = userConfig.get('stayInTray');
     if (
       !windowState.shouldQuit() &&
-      (usingTrayIcon || process.platform === 'darwin')
+      (stayInTray || process.platform === 'darwin')
     ) {
-      // toggle the visibility of the show/hide tray icon menu entries
-      if (tray) {
-        tray.updateContextMenu();
-      }
+      tray.updateContextMenu();
 
       // hide the app from the Dock on macOS if the tray icon is enabled
-      if (usingTrayIcon) {
+      if (stayInTray) {
         dockIcon.hide();
       }
 
@@ -1028,9 +1022,7 @@ app.on('ready', async () => {
   ready = true;
 
   await createWindow();
-  if (usingTrayIcon) {
-    tray = createTrayIcon(getMainWindow, locale.messages);
-  }
+  tray = createTrayIcon(getMainWindow, locale.messages);
 
   setupMenu();
 
@@ -1222,9 +1214,7 @@ ipc.on('close-about', () => {
 });
 
 ipc.on('update-tray-icon', (event, unreadCount) => {
-  if (tray) {
     tray.updateIcon(unreadCount);
-  }
 });
 
 // Debug Log-related IPC calls
@@ -1304,6 +1294,17 @@ installSettingsSetter('incoming-call-notification');
 
 // These ones are different because its single source of truth is userConfig,
 // not IndexedDB
+ipc.on('get-stay-in-tray', event => {
+  event.sender.send(
+    'get-success-stay-in-tray',
+    null,
+    userConfig.get('stayInTray') || false
+  );
+});
+ipc.on('set-stay-in-tray', (event, value) => {
+  userConfig.set('stayInTray', value);
+});
+
 ipc.on('get-media-permissions', event => {
   event.sender.send(
     'get-success-media-permissions',

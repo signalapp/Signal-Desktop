@@ -54,6 +54,8 @@ window.getThemeSetting = makeGetter('theme-setting');
 window.setThemeSetting = makeSetter('theme-setting');
 window.getHideMenuBar = makeGetter('hide-menu-bar');
 window.setHideMenuBar = makeSetter('hide-menu-bar');
+window.getStayInTray = makeGetter('stay-in-tray');
+window.setStayInTray = makeSetter('stay-in-tray');
 
 window.getSpellCheck = makeGetter('spell-check');
 window.setSpellCheck = makeSetter('spell-check');
