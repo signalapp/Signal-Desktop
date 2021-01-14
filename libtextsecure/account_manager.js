@@ -530,9 +530,13 @@
         const conversations = window
           .getConversationController()
           .getConversations();
-        await textsecure.messaging.sendGroupSyncMessage(conversations);
-        await textsecure.messaging.sendOpenGroupsSyncMessage(conversations);
-        await textsecure.messaging.sendContactSyncMessage();
+        await libsession.Utils.SyncMessageUtils.sendGroupSyncMessage(
+          conversations
+        );
+        await libsession.Utils.SyncMessageUtils.sendOpenGroupsSyncMessage(
+          conversations
+        );
+        await libsession.Utils.SyncMessageUtils.sendContactSyncMessage();
       }, 5000);
     },
     validatePubKeyHex(pubKey) {

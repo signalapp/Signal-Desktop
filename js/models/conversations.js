@@ -217,7 +217,7 @@
         : BlockedNumberController.blockGroup(this.id);
       await promise;
       this.commit();
-      await textsecure.messaging.sendBlockedListSyncMessage();
+      await libsession.Utils.SyncMessageUtils.sendBlockedListSyncMessage();
     },
     async unblock() {
       if (!this.id || this.isPublic() || this.isRss()) {
@@ -228,7 +228,7 @@
         : BlockedNumberController.unblockGroup(this.id);
       await promise;
       this.commit();
-      await textsecure.messaging.sendBlockedListSyncMessage();
+      await libsession.Utils.SyncMessageUtils.sendBlockedListSyncMessage();
     },
     async bumpTyping() {
       if (this.isPublic() || this.isMediumGroup()) {
@@ -612,13 +612,6 @@
           local: !options.viaSyncMessage,
         });
       }
-      if (!options.viaSyncMessage) {
-        await this.sendVerifySyncMessage(this.id, verified);
-      }
-    },
-    async sendVerifySyncMessage(number, state) {
-      const key = await textsecure.storage.protocol.loadIdentityKey(number);
-      return textsecure.messaging.syncVerification(number, state, key);
     },
     isVerified() {
       if (this.isPrivate()) {
@@ -1690,7 +1683,7 @@
         window.log.info(`Sending ${read.length} read receipts`);
         // Because syncReadMessages sends to our other devices, and sendReadReceipts goes
         //   to a contact, we need accessKeys for both.
-        await textsecure.messaging.syncReadMessages(read);
+        await libsession.Utils.SyncMessageUtils.syncReadMessages(read);
 
         if (storage.get('read-receipt-setting')) {
           await Promise.all(

@@ -5,7 +5,6 @@
 describe('Fixtures', () => {
   before(async () => {
     // NetworkStatusView checks this method every five seconds while showing
-    window.getSocketStatus = () => WebSocket.OPEN;
 
     await clearDatabase();
     await textsecure.storage.user.setNumberAndDeviceId(

@@ -3,7 +3,7 @@
 // 'use strict';
 // FIXME audric enable back those test
 describe('ConversationCollection', () => {
-  //   textsecure.messaging = new textsecure.MessageSender();
+  //   textsecure.messaging = true;
   //   before(clearDatabase);
   //   after(clearDatabase);
   //   it('should be ordered newest to oldest', () => {

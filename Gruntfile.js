@@ -90,8 +90,6 @@ module.exports = grunt => {
           'libtextsecure/websocket-resources.js',
           'libtextsecure/http-resources.js',
           'libtextsecure/message_receiver.js',
-          'libtextsecure/sendmessage.js',
-          'libtextsecure/sync_request.js',
           'libtextsecure/contacts_parser.js',
           'libtextsecure/ProvisioningCipher.js',
           'libtextsecure/task_with_timeout.js',
@@ -100,7 +98,6 @@ module.exports = grunt => {
       },
       libloki: {
         src: [
-          'libloki/api.js',
           'libloki/crypto.js',
           'libloki/service_nodes.js',
           'libloki/storage.js',

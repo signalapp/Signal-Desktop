@@ -340,10 +340,6 @@ if (config.proxyUrl) {
 
 window.nodeSetImmediate = setImmediate;
 
-const { initialize: initializeWebAPI } = require('./js/modules/web_api');
-
-window.WebAPI = initializeWebAPI();
-
 window.seedNodeList = JSON.parse(config.seedNodeList);
 
 const { OnionAPI } = require('./ts/session/onions');
@@ -461,7 +457,6 @@ window.lokiFeatureFlags = {
   useFileOnionRequests: true,
   useFileOnionRequestsV2: true, // more compact encoding of files in response
   onionRequestHops: 3,
-  debugMessageLogs: process.env.ENABLE_MESSAGE_LOGS,
   useMultiDevice: false,
 };
 
@@ -497,7 +492,6 @@ if (config.environment.includes('test-integration')) {
     useOnionRequests: false,
     useFileOnionRequests: false,
     useOnionRequestsV2: false,
-    debugMessageLogs: true,
     useMultiDevice: false,
   };
   /* eslint-disable global-require, import/no-extraneous-dependencies */

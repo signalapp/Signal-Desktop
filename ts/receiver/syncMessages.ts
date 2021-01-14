@@ -159,9 +159,6 @@ async function handleOpenGroups(
   openGroups: Array<SignalService.SyncMessage.IOpenGroupDetails>
 ) {
   const groupsArray = openGroups.map(openGroup => openGroup.url);
-  window.libloki.api.debug.logGroupSync(
-    `Received GROUP_SYNC with open groups: [${groupsArray}]`
-  );
   openGroups.forEach(({ url, channelId }) => {
     window.attemptConnection(url, channelId);
   });

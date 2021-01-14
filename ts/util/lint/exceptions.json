@@ -967,30 +967,6 @@
   },
   {
     "rule": "jQuery-wrap(",
-    "path": "libtextsecure/sync_request.js",
-    "line": "    wrap(sender.sendRequestConfigurationSyncMessage(sendOptions));",
-    "lineNumber": 33,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-28T19:48:16.607Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "libtextsecure/sync_request.js",
-    "line": "    wrap(sender.sendRequestContactSyncMessage(sendOptions))",
-    "lineNumber": 36,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-10-05T23:12:28.961Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "libtextsecure/sync_request.js",
-    "line": "        return wrap(sender.sendRequestGroupSyncMessage(sendOptions));",
-    "lineNumber": 39,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-10-05T23:12:28.961Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
     "path": "node_modules/@babel/runtime/node_modules/regenerator-runtime/runtime.js",
     "line": "  function wrap(innerFn, outerFn, self, tryLocsList) {",
     "lineNumber": 36,

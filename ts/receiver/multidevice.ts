@@ -303,12 +303,6 @@ async function onContactReceived(details: any) {
   const { Errors } = window.Signal.Types;
 
   const id = details.number;
-  libloki.api.debug.logContactSync(
-    'Got sync contact message with',
-    id,
-    ' details:',
-    details
-  );
 
   if (id === textsecure.storage.user.getNumber()) {
     // special case for syncing details about ourselves
