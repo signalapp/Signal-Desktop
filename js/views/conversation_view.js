@@ -37,12 +37,9 @@
     },
     initialize(options) {
       this.listenTo(this.model, 'destroy', this.stopListening);
-      this.listenTo(this.model, 'change:verified', this.onVerifiedChange);
       this.listenTo(this.model, 'newmessage', this.addMessage);
       this.listenTo(this.model, 'opened', this.onOpened);
       this.listenTo(this.model, 'prune', this.onPrune);
-      this.listenTo(this.model, 'disable:input', this.onDisableInput);
-      this.listenTo(this.model, 'change:placeholder', this.onChangePlaceholder);
       this.listenTo(this.model, 'unload', () => this.unload('model trigger'));
       this.listenTo(this.model, 'typing-update', this.renderTypingBubble);
       this.listenTo(
@@ -98,8 +95,6 @@
 
       this.render();
 
-      this.model.updateTextInputState();
-
       this.window = options.window;
 
       Whisper.events.on('mediaPermissionsChanged', () =>
@@ -126,8 +121,6 @@
 
       this.$('.send-message').focus(this.focusBottomBar.bind(this));
       this.$('.send-message').blur(this.unfocusBottomBar.bind(this));
-
-      this.model.updateTextInputState();
 
       this.selectMember = this.selectMember.bind(this);
 

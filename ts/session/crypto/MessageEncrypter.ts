@@ -2,11 +2,12 @@ import { EncryptionType } from '../types/EncryptionType';
 import { SignalService } from '../../protobuf';
 import { UserUtil } from '../../util';
 import { CipherTextObject } from '../../../libtextsecure/libsignal-protocol';
-import { encryptWithSenderKey } from '../../session/medium_group/ratchet';
 import { PubKey } from '../types';
-import { StringUtils } from '../utils';
 import { concatUInt8Array, getSodium } from '.';
+import { fromHexToArray } from '../utils/String';
+import { ECKeyPair } from '../../receiver/closedGroupsV2';
 export { concatUInt8Array, getSodium };
+import { getLatestClosedGroupEncryptionKeyPair } from '../../../js/modules/data';
 
 /**
  * Add padding to a message buffer
@@ -42,7 +43,7 @@ type EncryptResult = {
  * Encrypt `plainTextBuffer` with given `encryptionType` for `device`.
  *
  * @param device The device `PubKey` to encrypt for.
- * @param plainTextBuffer The unpadded plaintext buffer.
+ * @param plainTextBuffer The unpadded plaintext buffer. It will be padded
  * @param encryptionType The type of encryption.
  * @returns The envelope type and the base64 encoded cipher text
  */
@@ -51,24 +52,52 @@ export async function encrypt(
   plainTextBuffer: Uint8Array,
   encryptionType: EncryptionType
 ): Promise<EncryptResult> {
+  const {
+    CLOSED_GROUP_CIPHERTEXT,
+    UNIDENTIFIED_SENDER,
+  } = SignalService.Envelope.Type;
+  if (
+    encryptionType !== EncryptionType.ClosedGroup &&
+    encryptionType !== EncryptionType.Fallback
+  ) {
+    throw new Error(`Invalid encryption type:${encryptionType}`);
+  }
+  const encryptForClosedGroupV2 = encryptionType === EncryptionType.ClosedGroup;
   const plainText = padPlainTextBuffer(plainTextBuffer);
 
-  if (encryptionType === EncryptionType.MediumGroup) {
-    return encryptForMediumGroup(device, plainText);
-  }
-
-  const address = new window.libsignal.SignalProtocolAddress(device.key, 1);
-
-  if (encryptionType === EncryptionType.Signal) {
-    console.warn(
-      'EncryptionType.Signal is deprecated. Only Fallback is supported'
+  if (encryptForClosedGroupV2) {
+    window?.log?.info(
+      'Encrypting message with SessionProtocol and envelope type is CLOSED_GROUP_CIPHERTEXT'
     );
+    const hexEncryptionKeyPair = await getLatestClosedGroupEncryptionKeyPair(
+      device.key
+    );
+    if (!hexEncryptionKeyPair) {
+      window?.log?.warn(
+        "Couldn't get key pair for closed group during encryption"
+      );
+      throw new Error("Couldn't get key pair for closed group");
+    }
+    const hexPubFromECKeyPair = PubKey.cast(hexEncryptionKeyPair.publicHex);
+
+    // the exports is to reference the exported function, so when we stub it during test, we stub the one called here
+
+    const cipherTextClosedGroupV2 = await exports.encryptUsingSessionProtocol(
+      hexPubFromECKeyPair,
+      plainText
+    );
+
+    return {
+      envelopeType: CLOSED_GROUP_CIPHERTEXT,
+      cipherText: cipherTextClosedGroupV2,
+    };
   }
 
-  const cipher = new window.libloki.crypto.FallBackSessionCipher(address);
-  const innerCipherText = await cipher.encrypt(plainText.buffer);
-
-  return encryptUsingSealedSender(device, innerCipherText);
+  const cipherText = await exports.encryptUsingSessionProtocol(
+    device,
+    plainText
+  );
+  return { envelopeType: UNIDENTIFIED_SENDER, cipherText };
 }
 
 export async function encryptUsingSessionProtocol(
@@ -76,123 +105,53 @@ export async function encryptUsingSessionProtocol(
   plaintext: Uint8Array
 ): Promise<Uint8Array> {
   const userED25519KeyPairHex = await UserUtil.getUserED25519KeyPair();
-  if (!userED25519KeyPairHex) {
+  if (
+    !userED25519KeyPairHex ||
+    !userED25519KeyPairHex.pubKey?.length ||
+    !userED25519KeyPairHex.privKey?.length
+  ) {
     throw new Error("Couldn't find user ED25519 key pair.");
   }
   const sodium = await getSodium();
 
-  const recipientX25519PublicKeyWithoutPrefix = PubKey.remove05PrefixIfNeeded(
-    recipientHexEncodedX25519PublicKey.key
+  window?.log?.info(
+    'encryptUsingSessionProtocol for ',
+    recipientHexEncodedX25519PublicKey
   );
 
-  const recipientX25519PublicKey = new Uint8Array(
-    StringUtils.fromHex(recipientX25519PublicKeyWithoutPrefix)
-  );
-  const userED25519PubKeyBytes = new Uint8Array(
-    StringUtils.fromHex(userED25519KeyPairHex.pubKey)
-  );
-  const userED25519SecretKeyBytes = new Uint8Array(
-    StringUtils.fromHex(userED25519KeyPairHex.privKey)
+  const recipientX25519PublicKey = recipientHexEncodedX25519PublicKey.withoutPrefixToArray();
+  const userED25519PubKeyBytes = fromHexToArray(userED25519KeyPairHex.pubKey);
+  const userED25519SecretKeyBytes = fromHexToArray(
+    userED25519KeyPairHex.privKey
   );
 
   // merge all arrays into one
-  const dataForSign = concatUInt8Array(
+  const verificationData = concatUInt8Array(
     plaintext,
     userED25519PubKeyBytes,
     recipientX25519PublicKey
   );
 
   const signature = sodium.crypto_sign_detached(
-    dataForSign,
+    verificationData,
     userED25519SecretKeyBytes
   );
-  if (!signature) {
+  if (!signature || signature.length === 0) {
     throw new Error("Couldn't sign message");
   }
 
-  const dataForBoxSeal = concatUInt8Array(
+  const plaintextWithMetadata = concatUInt8Array(
     plaintext,
     userED25519PubKeyBytes,
     signature
   );
 
   const ciphertext = sodium.crypto_box_seal(
-    dataForBoxSeal,
+    plaintextWithMetadata,
     recipientX25519PublicKey
   );
   if (!ciphertext) {
     throw new Error("Couldn't encrypt message.");
   }
   return ciphertext;
-}
-
-export async function encryptForMediumGroup(
-  device: PubKey,
-  plainTextBuffer: Uint8Array
-): Promise<EncryptResult> {
-  const ourKey = (await UserUtil.getCurrentDevicePubKey()) as string;
-
-  // "Device" does not really make sense for medium groups, but
-  // that's where the group pubkey is currently stored
-  const groupId = device.key;
-
-  const { ciphertext, keyIdx } = await encryptWithSenderKey(
-    plainTextBuffer,
-    groupId,
-    ourKey
-  );
-
-  // We should include ciphertext idx in the message
-  const content = SignalService.MediumGroupCiphertext.encode({
-    ciphertext,
-    source: new Uint8Array(StringUtils.encode(ourKey, 'hex')),
-    keyIdx,
-  }).finish();
-
-  // Encrypt for the group's identity key to hide source and key idx:
-  const {
-    ciphertext: ciphertextOuter,
-    ephemeralKey,
-  } = await window.libloki.crypto.encryptForPubkey(groupId, content);
-
-  const contentOuter = SignalService.MediumGroupContent.encode({
-    ciphertext: ciphertextOuter,
-    ephemeralKey: new Uint8Array(ephemeralKey),
-  }).finish();
-
-  const envelopeType = SignalService.Envelope.Type.MEDIUM_GROUP_CIPHERTEXT;
-
-  return { envelopeType, cipherText: contentOuter };
-}
-
-async function encryptUsingSealedSender(
-  device: PubKey,
-  innerCipherText: CipherTextObject
-): Promise<{
-  envelopeType: SignalService.Envelope.Type;
-  cipherText: Uint8Array;
-}> {
-  const ourNumber = await UserUtil.getCurrentDevicePubKey();
-  if (!ourNumber) {
-    throw new Error('Failed to fetch current device public key.');
-  }
-
-  const certificate = SignalService.SenderCertificate.create({
-    sender: ourNumber,
-    senderDevice: 1,
-  });
-
-  const cipher = new window.Signal.Metadata.SecretSessionCipher(
-    window.textsecure.storage.protocol
-  );
-  const cipherTextBuffer = await cipher.encrypt(
-    device.key,
-    certificate,
-    innerCipherText
-  );
-
-  return {
-    envelopeType: SignalService.Envelope.Type.UNIDENTIFIED_SENDER,
-    cipherText: new Uint8Array(cipherTextBuffer),
-  };
 }

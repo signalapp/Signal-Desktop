@@ -8,5 +8,5 @@ export abstract class ContentMessage extends Message {
   }
 
   public abstract ttl(): number;
-  protected abstract contentProto(): SignalService.Content;
+  public abstract contentProto(): SignalService.Content;
 }

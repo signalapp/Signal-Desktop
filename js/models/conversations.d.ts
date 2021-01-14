@@ -14,6 +14,7 @@ interface ConversationAttributes {
   isArchived: boolean;
   active_at: number;
   timestamp: number; // timestamp of what?
+  lastJoinedTimestamp: number; // ClosedGroupV2: last time we were added to this group
   groupAdmins?: Array<string>;
   isKickedFromGroup?: boolean;
   avatarPath?: string;
@@ -51,7 +52,6 @@ export interface ConversationModel
   getRecipients: () => Array<string>;
   getTitle: () => string;
   onReadMessage: (message: MessageModel) => void;
-  updateTextInputState: () => void;
   getName: () => string;
   addMessage: (attributes: Partial<MessageAttributes>) => Promise<MessageModel>;
   isMediumGroup: () => boolean;
@@ -65,7 +65,6 @@ export interface ConversationModel
   isRss: () => boolean;
   isBlocked: () => boolean;
   isClosable: () => boolean;
-  isOnline: () => boolean;
   isModerator: (id?: string) => boolean;
   throttledBumpTyping: () => void;
 
@@ -107,7 +106,6 @@ export interface ConversationModel
   notifyTyping: any;
   setSecondaryStatus: any;
   queueJob: any;
-  sendGroupInfo: any;
   onUpdateGroupName: any;
   getContactProfileNameOrShortenedPubKey: () => string;
   getContactProfileNameOrFullPubKey: () => string;

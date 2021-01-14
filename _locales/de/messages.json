@@ -1333,9 +1333,6 @@
     "deviceUnpaired": {
         "message": "Ihr Gerät wurde erfolgreich getrennt."
     },
-    "sendMessageLeftGroup": {
-        "message": "Du hast die Gruppe verlassen"
-    },
     "moreInformation": {
         "message": "Mehr Informationen"
     },

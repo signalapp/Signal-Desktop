@@ -66,7 +66,7 @@ describe('MessageSender', () => {
         identifier: '1',
         device: TestUtils.generateFakePubKey().key,
         plainTextBuffer: crypto.randomBytes(10),
-        encryption: EncryptionType.Signal,
+        encryption: EncryptionType.Fallback,
         timestamp: Date.now(),
         ttl: 100,
       };
@@ -118,7 +118,7 @@ describe('MessageSender', () => {
           identifier: '1',
           device,
           plainTextBuffer: crypto.randomBytes(10),
-          encryption: EncryptionType.Signal,
+          encryption: EncryptionType.Fallback,
           timestamp,
           ttl,
         });
@@ -142,7 +142,7 @@ describe('MessageSender', () => {
           identifier: '1',
           device,
           plainTextBuffer,
-          encryption: EncryptionType.Signal,
+          encryption: EncryptionType.Fallback,
           timestamp,
           ttl: 1,
         });
@@ -182,7 +182,7 @@ describe('MessageSender', () => {
             identifier: '1',
             device,
             plainTextBuffer,
-            encryption: EncryptionType.Signal,
+            encryption: EncryptionType.Fallback,
             timestamp,
             ttl: 1,
           });

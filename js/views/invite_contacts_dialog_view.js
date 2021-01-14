@@ -101,7 +101,7 @@
           const groupId = this.convo.get('id');
           const groupName = this.convo.get('name');
 
-          window.MediumGroups.initiateGroupUpdate(
+          window.libsession.ClosedGroupV2.initiateGroupUpdate(
             groupId,
             groupName,
             uniqMembers

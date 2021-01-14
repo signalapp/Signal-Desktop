@@ -6,7 +6,6 @@ import _ from 'lodash';
 import ByteBuffer from 'bytebuffer';
 
 import { handleEndSession } from './sessionHandling';
-import { handleMediumGroupUpdate } from './mediumGroups';
 import {
   handleMessageEvent,
   isMessageEmpty,
@@ -14,7 +13,6 @@ import {
   updateProfile,
 } from './dataMessage';
 import { handleContacts } from './multidevice';
-import { updateOrCreateGroupFromSync } from '../session/medium_group';
 import { MultiDeviceProtocol } from '../session/protocols';
 import { BlockedNumberController } from '../util';
 import { ConversationController } from '../session/conversations';
@@ -114,7 +112,7 @@ async function handleSentMessage(
   }
 
   if (msg.mediumGroupUpdate) {
-    await handleMediumGroupUpdate(envelope, msg.mediumGroupUpdate);
+    throw new Error('Got a medium group update. This should not happen');
   }
 
   const message = await processDecrypted(envelope, msg);
@@ -196,7 +194,7 @@ async function handleBlocked(
         } else {
           window.log.warn('Ignoring block/unblock for group:', n);
         }
-        conv.trigger('change', conv);
+        await conv.commit();
       } else {
         window.log.warn('Did not find corresponding conversation to block', n);
       }
@@ -366,29 +364,29 @@ async function handleGroupsSync(
   envelope: EnvelopePlus,
   groups: SignalService.SyncMessage.IGroups
 ) {
-  window.log.info('group sync');
+  window.log.warn('FIXME group sync is not currently doing anything');
 
-  const attachmentPointer = handleAttachment(groups);
+  // const attachmentPointer = handleAttachment(groups);
 
-  const groupBuffer = new window.GroupBuffer(attachmentPointer.data);
-  let groupDetails = groupBuffer.next();
-  const promises = [];
-  while (groupDetails !== undefined) {
-    groupDetails.id = groupDetails.id.toBinary();
+  // const groupBuffer = new window.GroupBuffer(attachmentPointer.data);
+  // let groupDetails = groupBuffer.next();
+  // const promises = [];
+  // while (groupDetails !== undefined) {
+  //   groupDetails.id = groupDetails.id.toBinary();
 
-    const promise = updateOrCreateGroupFromSync(groupDetails).catch(
-      (e: any) => {
-        window.log.error('error processing group', e);
-      }
-    );
+  //   const promise = updateOrCreateGroupFromSync(groupDetails).catch(
+  //     (e: any) => {
+  //       window.log.error('error processing group', e);
+  //     }
+  //   );
 
-    promises.push(promise);
-    groupDetails = groupBuffer.next();
-  }
+  //   promises.push(promise);
+  //   groupDetails = groupBuffer.next();
+  // }
 
   // Note: we do not return here because we don't want to block the next message on
   // this attachment download and a lot of processing of that attachment.
-  void Promise.all(promises);
+  // void Promise.all(promises);
 
   await removeFromCache(envelope);
 }

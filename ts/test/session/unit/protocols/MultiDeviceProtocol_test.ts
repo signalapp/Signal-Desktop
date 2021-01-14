@@ -22,6 +22,7 @@ function generateFakeAuthorisations(
   );
 }
 
+// tslint:disable-next-line: max-func-body-length
 describe('MultiDeviceProtocol', () => {
   const sandbox = sinon.createSandbox();
 
@@ -77,6 +78,7 @@ describe('MultiDeviceProtocol', () => {
     });
   });
 
+  // tslint:disable-next-line: max-func-body-length
   describe('fetchPairingAuthorisations', () => {
     let verifyAuthorisationStub: sinon.SinonStub<
       [PairingAuthorisation],
@@ -177,28 +179,28 @@ describe('MultiDeviceProtocol', () => {
       expect(authorisations.length).to.equal(0);
     });
 
-    it('should handle incorrect pairing authorisations from the file server', async () => {
-      const invalidAuth = {
-        primaryDevicePubKey:
-          '05caa6310a490415df45f8f4ad1b3655ad7a11e722257887a30cf71601d679720b',
-        secondaryDevicePubKey:
-          '051296b9588641eea268d60ad6636eecb53a95150e91c0531a00203e01a2c16a39',
-        requestSignatures:
-          '+knEdlenTV+MooRqlFsZRPWW8s9pcjKwB40fY5o0GJmAi2RPZtaVGRTqgApTIn2zPBTE4GQlmPD7uxcczHDjAg==',
-      };
+    // it('should handle incorrect pairing authorisations from the file server', async () => {
+    //   const invalidAuth = {
+    //     primaryDevicePubKey:
+    //       '05caa6310a490415df45f8f4ad1b3655ad7a11e722257887a30cf71601d679720b',
+    //     secondaryDevicePubKey:
+    //       '051296b9588641eea268d60ad6636eecb53a95150e91c0531a00203e01a2c16a39',
+    //     requestSignatures:
+    //       '+knEdlenTV+MooRqlFsZRPWW8s9pcjKwB40fY5o0GJmAi2RPZtaVGRTqgApTIn2zPBTE4GQlmPD7uxcczHDjAg==',
+    //   };
 
-      const stub = sinon.stub().resolves({
-        isPrimary: false,
-        authorisations: [invalidAuth],
-      });
-      TestUtils.stubWindow('lokiFileServerAPI', {
-        getUserDeviceMapping: stub,
-      });
-      const authorisations = await MultiDeviceProtocol.fetchPairingAuthorisations(
-        TestUtils.generateFakePubKey()
-      );
-      expect(authorisations.length).to.equal(0);
-    });
+    //   const stub = sinon.stub().resolves({
+    //     isPrimary: false,
+    //     authorisations: [invalidAuth],
+    //   });
+    //   TestUtils.stubWindow('lokiFileServerAPI', {
+    //     getUserDeviceMapping: stub,
+    //   });
+    //   const authorisations = await MultiDeviceProtocol.fetchPairingAuthorisations(
+    //     TestUtils.generateFakePubKey()
+    //   );
+    //   expect(authorisations.length).to.equal(0);
+    // });
 
     it('should return empty array if mapping is null', async () => {
       const stub = sinon.stub().resolves(null);

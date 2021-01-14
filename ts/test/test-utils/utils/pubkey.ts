@@ -1,5 +1,7 @@
 import * as crypto from 'crypto';
+import { ECKeyPair } from '../../../receiver/closedGroupsV2';
 import { PubKey } from '../../../session/types';
+import { fromHexToArray } from '../../../session/utils/String';
 
 export function generateFakePubKey(): PubKey {
   // Generates a mock pubkey for testing
@@ -8,6 +10,12 @@ export function generateFakePubKey(): PubKey {
   const pubkeyString = `05${hexBuffer}`;
 
   return new PubKey(pubkeyString);
+}
+
+export function generateFakeECKeyPair(): ECKeyPair {
+  const pubkey = generateFakePubKey().toArray();
+  const privKey = new Uint8Array(crypto.randomBytes(64));
+  return new ECKeyPair(pubkey, privKey);
 }
 
 export function generateFakePubKeys(amount: number): Array<PubKey> {

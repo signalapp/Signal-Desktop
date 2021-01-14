@@ -1,7 +1,33 @@
 import { RawMessage } from '../types/RawMessage';
-import { ContentMessage, MediumGroupChatMessage } from '../messages/outgoing';
+import {
+  ContentMessage,
+  ExpirationTimerUpdateMessage,
+  TypingMessage,
+} from '../messages/outgoing';
 import { EncryptionType, PubKey } from '../types';
-import { MediumGroupUpdateMessage } from '../messages/outgoing/content/data/mediumgroup/MediumGroupUpdateMessage';
+import { ClosedGroupV2Message } from '../messages/outgoing/content/data/groupv2/ClosedGroupV2Message';
+import { ClosedGroupV2NewMessage } from '../messages/outgoing/content/data/groupv2/ClosedGroupV2NewMessage';
+
+export function getEncryptionTypeFromMessageType(
+  message: ContentMessage
+): EncryptionType {
+  // ClosedGroupV2NewMessage is sent using established channels, so using fallback
+  if (message instanceof ClosedGroupV2NewMessage) {
+    return EncryptionType.Fallback;
+  }
+
+  // 1. any ClosedGroupV2Message which is not a ClosedGroupV2NewMessage must be encoded with ClosedGroup
+  // 2. if TypingMessage or ExpirationTimer and groupId is set => must be encoded with ClosedGroup too
+  if (
+    message instanceof ClosedGroupV2Message ||
+    (message instanceof ExpirationTimerUpdateMessage && message.groupId) ||
+    (message instanceof TypingMessage && message.groupId)
+  ) {
+    return EncryptionType.ClosedGroup;
+  } else {
+    return EncryptionType.Fallback;
+  }
+}
 
 export async function toRawMessage(
   device: PubKey,
@@ -9,17 +35,11 @@ export async function toRawMessage(
 ): Promise<RawMessage> {
   const timestamp = message.timestamp;
   const ttl = message.ttl();
+  window?.log?.debug('toRawMessage proto:', message.contentProto());
   const plainTextBuffer = message.plainTextBuffer();
 
-  let encryption: EncryptionType;
-  if (
-    message instanceof MediumGroupChatMessage ||
-    message instanceof MediumGroupUpdateMessage
-  ) {
-    encryption = EncryptionType.MediumGroup;
-  } else {
-    encryption = EncryptionType.Fallback;
-  }
+  const encryption = getEncryptionTypeFromMessageType(message);
+
   // tslint:disable-next-line: no-unnecessary-local-variable
   const rawMessage: RawMessage = {
     identifier: message.identifier,

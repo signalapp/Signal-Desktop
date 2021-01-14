@@ -1,4 +1,4 @@
-import { DAYS, MINUTES } from './utils/Number';
+import { DAYS, MINUTES, SECONDS } from './utils/Number';
 // tslint:disable: binary-expression-operand-order
 
 export const TTL_DEFAULT = {
@@ -7,9 +7,9 @@ export const TTL_DEFAULT = {
   SESSION_REQUEST: 4 * DAYS,
   SESSION_ESTABLISHED: 2 * DAYS,
   END_SESSION_MESSAGE: 4 * DAYS,
-  TYPING_MESSAGE: 1 * MINUTES,
-  ONLINE_BROADCAST: 1 * MINUTES,
+  TYPING_MESSAGE: 20 * SECONDS,
   REGULAR_MESSAGE: 2 * DAYS,
+  ENCRYPTION_PAIR_V2_GROUP: 4 * DAYS,
 };
 
 // User Interface

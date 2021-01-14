@@ -959,10 +959,6 @@
     "message": "Message",
     "description": "Placeholder text in the message entry field"
   },
-  "sendMessageLeftGroup": {
-    "message": "You have left the group.",
-    "androidKey": "MessageRecord_left_group"
-  },
   "sendMessageBlockedUser": {
     "message": "You have blocked this contact"
   },
@@ -1735,10 +1731,26 @@
     "androidKey": "conversation__menu_leave_group",
     "ignoreCase": true
   },
+  "leaveAndRemoveForEveryone": {
+    "message": "Leave Group and remove for everyone",
+    "description": "Button action confirmation that the user can click to leave the group as an admin"
+  },
   "leaveGroupConfirmation": {
     "message": "Are you sure you want to leave this group?",
     "description": "Confirmation dialog text that tells the user what will happen if they leave the group.",
     "androidKey": "activity_home_leave_group_dialog_message"
+  },
+  "leaveGroupConfirmationAdmin": {
+    "message": "As you are the admin of this group, if you leave it it will be removed for every current members. Are you sure you want to leave this group?",
+    "description": "Confirmation dialog text that tells the user what will happen if they leave the group as admin."
+  },
+  "cannotRemoveCreatorFromGroup": {
+    "message": "Cannot remove this user",
+    "description": "Toast title when the user tries to remove the creator from a closed group v2 member list."
+  },
+  "cannotRemoveCreatorFromGroupDesc": {
+    "message": "You cannot remove this user as they are the creator of the group.",
+    "description": "Toast description when the user tries to remove the creator from a closed group v2 member list."
   },
   "noContactsForGroup": {
     "message": "You don't have any contacts yet",

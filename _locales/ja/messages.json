@@ -1207,9 +1207,6 @@
     "deviceUnpaired": {
         "message": "デバイスは正常にリンク解除されました"
     },
-    "sendMessageLeftGroup": {
-        "message": "グループを抜けました"
-    },
     "moreInformation": {
         "message": "詳細"
     },

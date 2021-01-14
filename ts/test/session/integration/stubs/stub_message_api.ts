@@ -18,7 +18,6 @@ class StubMessageAPI {
     ttl: number,
     options = {}
   ) {
-    // console.warn('STUBBED message api ', pubKey, ttl);
     const post = {
       method: 'POST',
     };

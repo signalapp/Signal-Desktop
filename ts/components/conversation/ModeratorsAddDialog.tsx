@@ -150,9 +150,7 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
               onMemberClicked={this.onMemberClicked}
             />
           </div>
-          {hasContacts ? null : (
-            <p className="no-friends">{i18n('noContactsToAdd')}</p>
-          )}
+          {hasContacts ? null : <p>{i18n('noContactsToAdd')}</p>}
         </div>
         <div className="buttons">
           <button className="cancel" tabIndex={0} onClick={this.closeDialog}>

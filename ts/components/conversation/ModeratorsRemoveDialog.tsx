@@ -67,9 +67,7 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
               onMemberClicked={this.onModClicked}
             />
           </div>
-          {hasMods ? null : (
-            <p className="no-friends">{i18n('noModeratorsToRemove')}</p>
-          )}
+          {hasMods ? null : <p>{i18n('noModeratorsToRemove')}</p>}
         </div>
         <div className="buttons">
           <button className="cancel" tabIndex={0} onClick={this.closeDialog}>

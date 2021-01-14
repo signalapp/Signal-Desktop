@@ -34,6 +34,13 @@ export class DeviceLinkRequestMessage extends ContentMessage {
     return Constants.TTL_DEFAULT.PAIRING_REQUEST;
   }
 
+  public contentProto(): SignalService.Content {
+    return new SignalService.Content({
+      pairingAuthorisation: this.getPairingAuthorisationMessage(),
+      dataMessage: this.getDataMessage(),
+    });
+  }
+
   protected getDataMessage(): SignalService.DataMessage | undefined {
     return undefined;
   }
@@ -44,13 +51,6 @@ export class DeviceLinkRequestMessage extends ContentMessage {
       secondaryDevicePubKey: this.secondaryDevicePubKey,
       requestSignature: new Uint8Array(this.requestSignature),
       grantSignature: null,
-    });
-  }
-
-  protected contentProto(): SignalService.Content {
-    return new SignalService.Content({
-      pairingAuthorisation: this.getPairingAuthorisationMessage(),
-      dataMessage: this.getDataMessage(),
     });
   }
 }

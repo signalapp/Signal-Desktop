@@ -7,9 +7,10 @@ function showTimerOptions(
   isPublic: boolean,
   isRss: boolean,
   isKickedFromGroup: boolean,
+  left: boolean,
   isBlocked: boolean
 ): boolean {
-  return !isPublic && !isRss && !isKickedFromGroup && !isBlocked;
+  return !isPublic && !isRss && !left && !isKickedFromGroup && !isBlocked;
 }
 
 function showMemberMenu(
@@ -89,18 +90,20 @@ function showRemoveModerators(
 
 function showUpdateGroupName(
   amMod: boolean,
-  isKickedFromGroup: boolean
+  isKickedFromGroup: boolean,
+  left: boolean
 ): boolean {
-  return !isKickedFromGroup && amMod;
+  return !isKickedFromGroup && !left && amMod;
 }
 
 function showLeaveGroup(
   isKickedFromGroup: boolean,
+  left: boolean,
   isGroup: boolean,
   isPublic: boolean,
   isRss: boolean
 ): boolean {
-  return !isKickedFromGroup && isGroup && !isPublic && !isRss;
+  return !isKickedFromGroup && !left && isGroup && !isPublic && !isRss;
 }
 
 function showInviteContact(isGroup: boolean, isPublic: boolean): boolean {
@@ -149,6 +152,7 @@ export function getDeleteContactMenuItem(
 
 export function getLeaveGroupMenuItem(
   isKickedFromGroup: boolean | undefined,
+  left: boolean | undefined,
   isGroup: boolean | undefined,
   isPublic: boolean | undefined,
   isRss: boolean | undefined,
@@ -158,6 +162,7 @@ export function getLeaveGroupMenuItem(
   if (
     showLeaveGroup(
       Boolean(isKickedFromGroup),
+      Boolean(left),
       Boolean(isGroup),
       Boolean(isPublic),
       Boolean(isRss)
@@ -171,10 +176,17 @@ export function getLeaveGroupMenuItem(
 export function getUpdateGroupNameMenuItem(
   amMod: boolean | undefined,
   isKickedFromGroup: boolean | undefined,
+  left: boolean | undefined,
   action: any,
   i18n: LocalizerType
 ): JSX.Element | null {
-  if (showUpdateGroupName(Boolean(amMod), Boolean(isKickedFromGroup))) {
+  if (
+    showUpdateGroupName(
+      Boolean(amMod),
+      Boolean(isKickedFromGroup),
+      Boolean(left)
+    )
+  ) {
     return <Item onClick={action}>{i18n('editGroup')}</Item>;
   }
   return null;
@@ -222,6 +234,7 @@ export function getDisappearingMenuItem(
   isPublic: boolean | undefined,
   isRss: boolean | undefined,
   isKickedFromGroup: boolean | undefined,
+  left: boolean | undefined,
   isBlocked: boolean | undefined,
   timerOptions: Array<TimerOption>,
   action: any,
@@ -232,6 +245,7 @@ export function getDisappearingMenuItem(
       Boolean(isPublic),
       Boolean(isRss),
       Boolean(isKickedFromGroup),
+      Boolean(left),
       Boolean(isBlocked)
     )
   ) {

@@ -251,3 +251,11 @@ export function pushDeleted() {
     SessionIconType.Check
   );
 }
+
+export function pushCannotRemoveCreatorFromGroup() {
+  pushToastWarning(
+    'cannotRemoveCreatorFromGroup',
+    window.i18n('cannotRemoveCreatorFromGroup'),
+    window.i18n('cannotRemoveCreatorFromGroupDesc')
+  );
+}

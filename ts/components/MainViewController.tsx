@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { createLegacyGroup, createMediumGroup } from '../session/medium_group';
 import { ContactType } from './session/SessionMemberListItem';
 import { ToastUtils } from '../session/utils';
+import { createClosedGroupV2 } from '../receiver/closedGroupsV2';
 
 export class MessageView extends React.Component {
   public render() {
@@ -72,11 +72,7 @@ async function createClosedGroup(
 
   const groupMemberIds = groupMembers.map(m => m.id);
 
-  if (window.lokiFeatureFlags.enableSenderKeys) {
-    await createMediumGroup(groupName, groupMemberIds);
-  } else {
-    await createLegacyGroup(groupName, groupMemberIds);
-  }
+  await createClosedGroupV2(groupName, groupMemberIds);
 
   if (onSuccess) {
     onSuccess();

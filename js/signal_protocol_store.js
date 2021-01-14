@@ -231,7 +231,6 @@
         };
       }
 
-      // throw new textsecure.PreKeyMissing();
       return undefined;
     },
     async loadPreKeyForContact(contactPubKey) {

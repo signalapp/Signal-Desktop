@@ -64,7 +64,7 @@
     },
     onSubmit(groupName, avatar) {
       if (groupName !== this.groupName || avatar !== this.avatarPath) {
-        window.MediumGroups.initiateGroupUpdate(
+        window.libsession.ClosedGroupV2.initiateGroupUpdate(
           this.groupId,
           groupName,
           this.members,
@@ -105,6 +105,7 @@
         this.isAdmin = groupConvo.isMediumGroup()
           ? true
           : groupConvo.get('groupAdmins').includes(ourPK);
+        this.admins = groupConvo.get('groupAdmins');
         const convos = window
           .getConversationController()
           .getConversations()
@@ -142,6 +143,7 @@
           existingMembers: this.existingMembers,
           contactList: this.contactsAndMembers,
           isAdmin: this.isAdmin,
+          admins: this.admins,
           onClose: this.close,
           onSubmit: this.onSubmit,
           groupId: this.groupId,
@@ -187,14 +189,14 @@
 
       const xor = _.xor(notPresentInNew, notPresentInOld);
       if (xor.length === 0) {
-        window.log.log(
+        window.log.info(
           'skipping group update: no detected changes in group member list'
         );
 
         return;
       }
 
-      window.MediumGroups.initiateGroupUpdate(
+      window.libsession.ClosedGroupV2.initiateGroupUpdate(
         this.groupId,
         this.groupName,
         filteredMemberes,

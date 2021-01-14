@@ -49,10 +49,11 @@ export interface ChatMessageParams extends MessageParams {
 }
 
 export class ChatMessage extends DataMessage {
+  public readonly expireTimer?: number;
+
   private readonly attachments?: Array<AttachmentPointer>;
   private readonly body?: string;
   private readonly quote?: Quote;
-  private readonly expireTimer?: number;
   private readonly profileKey?: Uint8Array;
   private readonly displayName?: string;
   private readonly avatarPointer?: string;

@@ -198,6 +198,11 @@ module.exports = {
   getSenderKeys,
   createOrUpdateSenderKeys,
   removeAllClosedGroupRatchets,
+
+  getAllEncryptionKeyPairsForGroupV2,
+  getLatestClosedGroupEncryptionKeyPair,
+  addClosedGroupEncryptionKeyPair,
+  removeAllClosedGroupEncryptionKeyPairs,
 };
 
 function init() {
@@ -740,12 +745,36 @@ async function getAllSessions(id) {
   return sessions;
 }
 
+// Swarm nodes
+
 async function getSwarmNodesForPubkey(pubkey) {
   return channels.getSwarmNodesForPubkey(pubkey);
 }
 
 async function updateSwarmNodesForPubkey(pubkey, snodeEdKeys) {
   await channels.updateSwarmNodesForPubkey(pubkey, snodeEdKeys);
+}
+
+// Closed group v2
+
+/**
+ * The returned array is ordered based on the timestamp, the latest is at the end.
+ * @param {*} groupPublicKey
+ */
+async function getAllEncryptionKeyPairsForGroupV2(groupPublicKey) {
+  return channels.getAllEncryptionKeyPairsForGroupV2(groupPublicKey);
+}
+
+async function getLatestClosedGroupEncryptionKeyPair(groupPublicKey) {
+  return channels.getLatestClosedGroupEncryptionKeyPair(groupPublicKey);
+}
+
+async function addClosedGroupEncryptionKeyPair(groupPublicKey, keypair) {
+  return channels.addClosedGroupEncryptionKeyPair(groupPublicKey, keypair);
+}
+
+async function removeAllClosedGroupEncryptionKeyPairs(groupPublicKey) {
+  return channels.removeAllClosedGroupEncryptionKeyPairs(groupPublicKey);
 }
 
 // Conversation

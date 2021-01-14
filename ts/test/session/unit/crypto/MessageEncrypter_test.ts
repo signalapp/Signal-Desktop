@@ -11,18 +11,95 @@ import { Stubs, TestUtils } from '../../../test-utils';
 import { UserUtil } from '../../../../util';
 import { SignalService } from '../../../../protobuf';
 
-import * as Ratchet from '../../../../session/medium_group/ratchet';
 import { StringUtils } from '../../../../session/utils';
 
 import chaiBytes from 'chai-bytes';
 import { PubKey } from '../../../../session/types';
 import { fromHex, toHex } from '../../../../session/utils/String';
+
 chai.use(chaiBytes);
 
 // tslint:disable-next-line: max-func-body-length
 describe('MessageEncrypter', () => {
   const sandbox = sinon.createSandbox();
   const ourNumber = '0123456789abcdef';
+  const ourUserEd25516Keypair = {
+    pubKey: '37e1631b002de498caf7c5c1712718bde7f257c6dadeed0c21abf5e939e6c309',
+    privKey:
+      'be1d11154ff9b6de77873f0b6b0bcc460000000000000000000000000000000037e1631b002de498caf7c5c1712718bde7f257c6dadeed0c21abf5e939e6c309',
+  };
+
+  const ourIdentityKeypair = {
+    pubKey: new Uint8Array([
+      5,
+      44,
+      2,
+      168,
+      162,
+      203,
+      50,
+      66,
+      136,
+      81,
+      30,
+      221,
+      57,
+      245,
+      1,
+      148,
+      162,
+      194,
+      255,
+      47,
+      134,
+      104,
+      180,
+      207,
+      188,
+      18,
+      71,
+      62,
+      58,
+      107,
+      23,
+      92,
+      97,
+    ]),
+    privKey: new Uint8Array([
+      200,
+      45,
+      226,
+      75,
+      253,
+      235,
+      213,
+      108,
+      187,
+      188,
+      217,
+      9,
+      51,
+      105,
+      65,
+      15,
+      97,
+      36,
+      233,
+      33,
+      21,
+      31,
+      7,
+      90,
+      145,
+      30,
+      52,
+      254,
+      47,
+      162,
+      192,
+      105,
+    ]),
+  };
 
   beforeEach(() => {
     TestUtils.stubWindow('libsignal', {
@@ -50,6 +127,9 @@ describe('MessageEncrypter', () => {
     });
 
     sandbox.stub(UserUtil, 'getCurrentDevicePubKey').resolves(ourNumber);
+    sandbox
+      .stub(UserUtil, 'getUserED25519KeyPair')
+      .resolves(ourUserEd25516Keypair);
   });
 
   afterEach(() => {
@@ -58,61 +138,32 @@ describe('MessageEncrypter', () => {
   });
 
   describe('EncryptionType', () => {
-    describe('MediumGroup', () => {
-      it('should return a MEDIUM_GROUP_CIPHERTEXT envelope type', async () => {
-        const data = crypto.randomBytes(10);
+    describe('ClosedGroupV2', () => {
+      it('should return a CLOSED_GROUP_CIPHERTEXT envelope type for ClosedGroup', async () => {
+        const hexKeyPair = {
+          publicHex: `05${ourUserEd25516Keypair.pubKey}`,
+          privateHex: '0123456789abcdef',
+        };
 
-        sandbox
-          .stub(Ratchet, 'encryptWithSenderKey')
-          .resolves({ ciphertext: '' });
+        TestUtils.stubData('getLatestClosedGroupEncryptionKeyPair').resolves(
+          hexKeyPair
+        );
+
+        const data = crypto.randomBytes(10);
 
         const result = await MessageEncrypter.encrypt(
           TestUtils.generateFakePubKey(),
           data,
-          EncryptionType.MediumGroup
+          EncryptionType.ClosedGroup
         );
         chai
           .expect(result.envelopeType)
-          .to.deep.equal(SignalService.Envelope.Type.MEDIUM_GROUP_CIPHERTEXT);
-      });
-    });
-
-    describe('SessionRequest', () => {
-      it('should call FallbackSessionCipher encrypt', async () => {
-        const data = crypto.randomBytes(10);
-        const spy = sandbox.spy(
-          Stubs.FallBackSessionCipherStub.prototype,
-          'encrypt'
-        );
-        await MessageEncrypter.encrypt(
-          TestUtils.generateFakePubKey(),
-          data,
-          EncryptionType.Fallback
-        );
-        chai
-          .expect(spy.called)
-          .to.equal(true, 'FallbackSessionCipher.encrypt should be called.');
+          .to.deep.equal(SignalService.Envelope.Type.CLOSED_GROUP_CIPHERTEXT);
       });
 
-      it('should pass the padded message body to encrypt', async () => {
+      it('should return a UNIDENTIFIED_SENDER envelope type for Fallback', async () => {
         const data = crypto.randomBytes(10);
-        const spy = sandbox.spy(
-          Stubs.FallBackSessionCipherStub.prototype,
-          'encrypt'
-        );
-        await MessageEncrypter.encrypt(
-          TestUtils.generateFakePubKey(),
-          data,
-          EncryptionType.Fallback
-        );
 
-        const paddedData = MessageEncrypter.padPlainTextBuffer(data);
-        const firstArgument = new Uint8Array(spy.args[0][0]);
-        chai.expect(firstArgument).to.deep.equal(paddedData);
-      });
-
-      it('should return an UNIDENTIFIED SENDER envelope type', async () => {
-        const data = crypto.randomBytes(10);
         const result = await MessageEncrypter.encrypt(
           TestUtils.generateFakePubKey(),
           data,
@@ -122,36 +173,17 @@ describe('MessageEncrypter', () => {
           .expect(result.envelopeType)
           .to.deep.equal(SignalService.Envelope.Type.UNIDENTIFIED_SENDER);
       });
-    });
-  });
 
-  describe('Sealed Sender', () => {
-    it('should pass the correct values to SecretSessionCipher encrypt', async () => {
-      const types = [EncryptionType.Fallback, EncryptionType.Signal];
-      for (const type of types) {
-        const spy = sandbox.spy(
-          Stubs.SecretSessionCipherStub.prototype,
-          'encrypt'
-        );
-
-        const user = TestUtils.generateFakePubKey();
-        await MessageEncrypter.encrypt(user, crypto.randomBytes(10), type);
-
-        const args = spy.args[0];
-        const [device, certificate] = args;
-
-        const expectedCertificate = SignalService.SenderCertificate.create({
-          sender: ourNumber,
-          senderDevice: 1,
-        });
-
-        chai.expect(device).to.equal(user.key);
-        chai
-          .expect(certificate.toJSON())
-          .to.deep.equal(expectedCertificate.toJSON());
-
-        spy.restore();
-      }
+      it('should throw an error for anything else than Fallback or ClosedGroup', async () => {
+        const data = crypto.randomBytes(10);
+        await expect(
+          MessageEncrypter.encrypt(
+            TestUtils.generateFakePubKey(),
+            data,
+            EncryptionType.Signal
+          )
+        ).to.be.rejectedWith(Error);
+      });
     });
   });
 
@@ -159,90 +191,9 @@ describe('MessageEncrypter', () => {
   describe('Session Protocol', () => {
     let sandboxSessionProtocol: sinon.SinonSandbox;
 
-    const ourUserEd25516Keypair = {
-      pubKey:
-        '37e1631b002de498caf7c5c1712718bde7f257c6dadeed0c21abf5e939e6c309',
-      privKey:
-        'be1d11154ff9b6de77873f0b6b0bcc460000000000000000000000000000000037e1631b002de498caf7c5c1712718bde7f257c6dadeed0c21abf5e939e6c309',
-    };
-
-    const ourIdentityKeypair = {
-      pubKey: new Uint8Array([
-        5,
-        44,
-        2,
-        168,
-        162,
-        203,
-        50,
-        66,
-        136,
-        81,
-        30,
-        221,
-        57,
-        245,
-        1,
-        148,
-        162,
-        194,
-        255,
-        47,
-        134,
-        104,
-        180,
-        207,
-        188,
-        18,
-        71,
-        62,
-        58,
-        107,
-        23,
-        92,
-        97,
-      ]),
-      privKey: new Uint8Array([
-        200,
-        45,
-        226,
-        75,
-        253,
-        235,
-        213,
-        108,
-        187,
-        188,
-        217,
-        9,
-        51,
-        105,
-        65,
-        15,
-        97,
-        36,
-        233,
-        33,
-        21,
-        31,
-        7,
-        90,
-        145,
-        30,
-        52,
-        254,
-        47,
-        162,
-        192,
-        105,
-      ]),
-    };
-
     beforeEach(async () => {
       sandboxSessionProtocol = sinon.createSandbox();
-      sandboxSessionProtocol
-        .stub(UserUtil, 'getUserED25519KeyPair')
-        .resolves(ourUserEd25516Keypair);
+
       sandboxSessionProtocol
         .stub(UserUtil, 'getIdentityKeyPair')
         .resolves(ourIdentityKeypair);
@@ -250,6 +201,21 @@ describe('MessageEncrypter', () => {
 
     afterEach(() => {
       sandboxSessionProtocol.restore();
+    });
+
+    it('should pass the padded message body to encrypt', async () => {
+      const data = crypto.randomBytes(10);
+      const spy = sinon.spy(MessageEncrypter, 'encryptUsingSessionProtocol');
+      await MessageEncrypter.encrypt(
+        TestUtils.generateFakePubKey(),
+        data,
+        EncryptionType.Fallback
+      );
+      chai.expect(spy.callCount).to.be.equal(1);
+      const paddedData = MessageEncrypter.padPlainTextBuffer(data);
+      const firstArgument = new Uint8Array(spy.args[0][1]);
+      chai.expect(firstArgument).to.deep.equal(paddedData);
+      spy.restore();
     });
 
     it('should pass the correct data for sodium crypto_sign', async () => {
@@ -329,6 +295,7 @@ describe('MessageEncrypter', () => {
         recipientX25519PublicKey,
         plainTextBytes
       );
+
       // decrypt content
       const plaintextWithMetadata = sodium.crypto_box_seal_open(
         ciphertext,

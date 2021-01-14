@@ -50,11 +50,11 @@ export type ConversationListItemProps = {
   };
 
   isBlocked?: boolean;
-  isOnline?: boolean;
   hasNickname?: boolean;
   isSecondary?: boolean;
   isGroupInvitation?: boolean;
   isKickedFromGroup?: boolean;
+  left?: boolean;
   memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
 };
 
@@ -64,6 +64,7 @@ type PropsHousekeeping = {
   onClick?: (id: string) => void;
   onDeleteMessages?: () => void;
   onDeleteContact?: () => void;
+  onLeaveGroup?: () => void;
   onBlockContact?: () => void;
   onCopyPublicKey?: () => void;
   onUnblockContact?: () => void;

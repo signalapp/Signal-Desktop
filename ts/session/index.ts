@@ -5,7 +5,7 @@ import * as Types from './types';
 import * as Utils from './utils';
 import * as Sending from './sending';
 import * as Constants from './constants';
-import * as MediumGroup from './medium_group';
+import * as ClosedGroupV2 from './groupv2';
 
 export * from './instance';
 
@@ -17,5 +17,5 @@ export {
   Types,
   Sending,
   Constants,
-  MediumGroup,
+  ClosedGroupV2,
 };

@@ -20,7 +20,5 @@ export interface LibTextsecure {
   TimestampError: any;
   PublicChatError: any;
   PublicTokenError: any;
-  SenderKeyMissing: any;
-  PreKeyMissing: any;
   createTaskWithTimeout(task: any, id: any, options?: any): Promise<any>;
 }

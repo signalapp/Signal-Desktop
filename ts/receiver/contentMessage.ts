@@ -7,7 +7,6 @@ import { SignalService } from '../protobuf';
 import * as Lodash from 'lodash';
 import * as libsession from '../session';
 import { handlePairingAuthorisationMessage } from './multidevice';
-import { MediumGroupRequestKeysMessage } from '../session/messages/outgoing';
 import { MultiDeviceProtocol, SessionProtocol } from '../session/protocols';
 import { PubKey } from '../session/types';
 
@@ -15,19 +14,20 @@ import { handleSyncMessage } from './syncMessages';
 import { onError } from './errors';
 import ByteBuffer from 'bytebuffer';
 import { BlockedNumberController } from '../util/blockedNumberController';
-import { decryptWithSenderKey } from '../session/medium_group/ratchet';
-import { StringUtils } from '../session/utils';
+import { GroupUtils, StringUtils } from '../session/utils';
 import { UserUtil } from '../util';
-import { fromHex, toHex } from '../session/utils/String';
+import { fromHexToArray, toHex } from '../session/utils/String';
 import { concatUInt8Array, getSodium } from '../session/crypto';
 import { ConversationController } from '../session/conversations';
+import * as Data from '../../js/modules/data';
+import { ECKeyPair } from './closedGroupsV2';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   try {
     const plaintext = await decrypt(envelope, envelope.content);
 
     if (!plaintext) {
-      window.log.warn('handleContentMessage: plaintext was falsey');
+      // window.log.warn('handleContentMessage: plaintext was falsey');
       return;
     } else if (plaintext instanceof ArrayBuffer && plaintext.byteLength === 0) {
       return;
@@ -38,139 +38,106 @@ export async function handleContentMessage(envelope: EnvelopePlus) {
   }
 }
 
-async function decryptWithSharedSenderKeys(
-  envelope: EnvelopePlus,
-  ciphertextObj: ArrayBuffer
-): Promise<ArrayBuffer | null> {
-  const { dcodeIO, libloki } = window;
-
-  const groupId = envelope.source;
-
-  const identity = await window.Signal.Data.getIdentityKeyById(groupId);
-  const secretKeyHex = identity.secretKey;
-
-  if (!secretKeyHex) {
-    throw new Error(`Secret key is empty for group ${groupId}!`);
-  }
-
-  const {
-    ciphertext: outerCiphertext,
-    ephemeralKey,
-  } = SignalService.MediumGroupContent.decode(new Uint8Array(ciphertextObj));
-
-  const secretKey = dcodeIO.ByteBuffer.wrap(
-    secretKeyHex,
-    'hex'
-  ).toArrayBuffer();
-
-  const mediumGroupCiphertext = await libloki.crypto.decryptForPubkey(
-    secretKey,
-    ephemeralKey,
-    outerCiphertext
-  );
-
-  const {
-    source,
-    ciphertext,
-    keyIdx,
-  } = SignalService.MediumGroupCiphertext.decode(
-    new Uint8Array(mediumGroupCiphertext)
-  );
-  const ourNumber = (await UserUtil.getCurrentDevicePubKey()) as string;
-  const sourceAsStr = StringUtils.decode(source, 'hex');
-  if (sourceAsStr === ourNumber) {
-    window.log.info(
-      'Dropping message from ourself after decryptForMediumGroup'
-    );
-    return null;
-  }
-  envelope.senderIdentity = sourceAsStr;
-  const plaintext = await decryptWithSenderKey(
-    ciphertext,
-    keyIdx,
-    groupId,
-    sourceAsStr
-  );
-  return plaintext ? unpad(plaintext) : null;
-}
-
-async function decryptForMediumGroup(
+async function decryptForClosedGroupV2(
   envelope: EnvelopePlus,
   ciphertext: ArrayBuffer
 ) {
-  window.log.info('received medium group message');
+  // case .closedGroupCiphertext: for ios
+  window.log.info('received closed group v2 message');
   try {
-    // keep the await so the try catch works as expcted
-    const retSessionProtocol = await decryptWithSessionProtocol(
-      envelope,
-      ciphertext
+    const hexEncodedGroupPublicKey = envelope.source;
+    if (!GroupUtils.isMediumGroup(PubKey.cast(hexEncodedGroupPublicKey))) {
+      window.log.warn(
+        'received medium group message but not for an existing medium group'
+      );
+      throw new Error('Invalid group public key'); // invalidGroupPublicKey
+    }
+    const encryptionKeyPairs = await Data.getAllEncryptionKeyPairsForGroupV2(
+      hexEncodedGroupPublicKey
     );
-    return retSessionProtocol;
+    const encryptionKeyPairsCount = encryptionKeyPairs?.length;
+    if (!encryptionKeyPairs?.length) {
+      throw new Error(
+        `No group keypairs for group ${hexEncodedGroupPublicKey}`
+      ); // noGroupKeyPair
+    }
+    // Loop through all known group key pairs in reverse order (i.e. try the latest key pair first (which'll more than
+    // likely be the one we want) but try older ones in case that didn't work)
+    let decryptedContent: ArrayBuffer | undefined;
+    let keyIndex = 0;
+    do {
+      try {
+        const hexEncryptionKeyPair = encryptionKeyPairs.pop();
+
+        if (!hexEncryptionKeyPair) {
+          throw new Error('No more encryption keypairs to try for message.');
+        }
+        const encryptionKeyPair = ECKeyPair.fromHexKeyPair(
+          hexEncryptionKeyPair
+        );
+
+        decryptedContent = await decryptWithSessionProtocol(
+          envelope,
+          ciphertext,
+          encryptionKeyPair,
+          true
+        );
+        keyIndex++;
+      } catch (e) {
+        window.log.info(
+          `Failed to decrypt closed group v2 with key index ${keyIndex}. We have ${encryptionKeyPairs.length} keys to try left.`
+        );
+      }
+    } while (encryptionKeyPairs.length > 0);
+
+    if (!decryptedContent) {
+      await removeFromCache(envelope);
+      throw new Error(
+        `Could not decrypt message for closed group v2 with any of the ${encryptionKeyPairsCount} keypairs.`
+      );
+    }
+    window.log.info('ClosedGroupV2 Message decrypted successfully.');
+    const ourDevicePubKey = await UserUtil.getCurrentDevicePubKey();
+
+    if (
+      envelope.senderIdentity &&
+      envelope.senderIdentity === ourDevicePubKey
+    ) {
+      await removeFromCache(envelope);
+      window.log.info(
+        'Dropping message from our current device after decrypt for closed group v2'
+      );
+      return null;
+    }
+
+    return unpad(decryptedContent);
   } catch (e) {
     window.log.warn(
       'decryptWithSessionProtocol for medium group message throw:',
       e
     );
-    const retSSK = await decryptWithSharedSenderKeys(envelope, ciphertext);
-    return retSSK;
+    await removeFromCache(envelope);
+    return null;
   }
 }
 
-async function decryptWithSessionProtocol(
+/**
+ * This function can be called to decrypt a keypair wrapper for a closed group update v2
+ * or a message sent to a closed group v2.
+ *
+ * We do not unpad the result here, as in the case of the keypair wrapper, there is not padding.
+ * Instead, it is the called who needs to unpad() the content.
+ */
+export async function decryptWithSessionProtocol(
   envelope: EnvelopePlus,
-  ciphertextObj: ArrayBuffer
+  ciphertextObj: ArrayBuffer,
+  x25519KeyPair: ECKeyPair,
+  isClosedGroupV2?: boolean
 ): Promise<ArrayBuffer> {
-  if (ciphertextObj.byteLength === 0) {
-    throw new Error('Received an empty envelope.'); // Error.noData
-  }
+  const recipientX25519PrivateKey = x25519KeyPair.privateKeyData;
+  const hex = toHex(new Uint8Array(x25519KeyPair.publicKeyData));
 
-  let recipientX25519PrivateKey: ArrayBuffer;
-  let recipientX25519PublicKey: Uint8Array;
-  let isMediumGroup = false;
-  switch (envelope.type) {
-    case SignalService.Envelope.Type.UNIDENTIFIED_SENDER: {
-      const userX25519KeyPair = await UserUtil.getIdentityKeyPair();
-      if (!userX25519KeyPair) {
-        throw new Error("Couldn't find user X25519 key pair."); // Error.noUserX25519KeyPair
-      }
-      recipientX25519PrivateKey = userX25519KeyPair.privKey;
-      const recipientX25519PublicKeyHex = toHex(userX25519KeyPair.pubKey);
-      const recipientX25519PublicKeyWithoutPrefix = PubKey.remove05PrefixIfNeeded(
-        recipientX25519PublicKeyHex
-      );
-      recipientX25519PublicKey = new Uint8Array(
-        fromHex(recipientX25519PublicKeyWithoutPrefix)
-      );
-      break;
-    }
-
-    // this is .closedGroupCiphertext for mobile
-    case SignalService.Envelope.Type.MEDIUM_GROUP_CIPHERTEXT: {
-      const hexEncodedGroupPublicKey = envelope.source;
-
-      isMediumGroup = ConversationController.getInstance().isMediumGroup(
-        hexEncodedGroupPublicKey
-      );
-
-      if (!isMediumGroup) {
-        throw new Error('Invalid group public key.'); // Error.invalidGroupPublicKey
-      }
-
-      recipientX25519PrivateKey = await libsession.MediumGroup.getGroupSecretKey(
-        hexEncodedGroupPublicKey
-      ); // throws if not found
-      const groupPubKeyHexWithoutPrefix = PubKey.remove05PrefixIfNeeded(
-        hexEncodedGroupPublicKey
-      );
-      recipientX25519PublicKey = new Uint8Array(
-        fromHex(groupPubKeyHexWithoutPrefix)
-      );
-
-      break;
-    }
-    default:
-      throw new Error('decryptWithSessionProtocol: Unknown message type');
-  }
+  const recipientX25519PublicKey = PubKey.remove05PrefixIfNeeded(hex);
 
   const sodium = await getSodium();
   const signatureSize = sodium.crypto_sign_BYTES;
@@ -179,7 +146,7 @@ async function decryptWithSessionProtocol(
   // 1. ) Decrypt the message
   const plaintextWithMetadata = sodium.crypto_box_seal_open(
     new Uint8Array(ciphertextObj),
-    recipientX25519PublicKey,
+    fromHexToArray(recipientX25519PublicKey),
     new Uint8Array(recipientX25519PrivateKey)
   );
   if (
@@ -209,7 +176,7 @@ async function decryptWithSessionProtocol(
     concatUInt8Array(
       plaintext,
       senderED25519PublicKey,
-      recipientX25519PublicKey
+      fromHexToArray(recipientX25519PublicKey)
     ),
     senderED25519PublicKey
   );
@@ -226,12 +193,12 @@ async function decryptWithSessionProtocol(
   }
 
   // set the sender identity on the envelope itself.
-  if (isMediumGroup) {
+  if (isClosedGroupV2) {
     envelope.senderIdentity = `05${toHex(senderX25519PublicKey)}`;
   } else {
     envelope.source = `05${toHex(senderX25519PublicKey)}`;
   }
-  return unpad(plaintext);
+  return plaintext;
 }
 
 function unpad(paddedData: ArrayBuffer): ArrayBuffer {
@@ -278,112 +245,33 @@ async function decryptPreKeyWhisperMessage(
   }
 }
 
-async function decryptWithSignalProtocol(
-  envelope: EnvelopePlus,
-  ciphertext: ArrayBuffer
-): Promise<ArrayBuffer | null> {
-  const { textsecure } = window;
-
-  const secretSessionCipher = new window.Signal.Metadata.SecretSessionCipher(
-    textsecure.storage.protocol
-  );
-
-  const ourNumber = textsecure.storage.user.getNumber();
-  const me = { number: ourNumber, deviceId: 1 };
-
-  let result;
-
-  const { source: originalSource } = envelope;
-
-  try {
-    result = await secretSessionCipher.decrypt(ciphertext, me);
-  } catch (error) {
-    window.log.error('Error decrypting unidentified sender: ', error);
-
-    const { sender: source } = error || {};
-
-    if (source) {
-      const blocked = await isBlocked(source.getName());
-      if (blocked) {
-        window.log.info(
-          'Dropping blocked message with error after sealed sender decryption'
-        );
-        await removeFromCache(envelope);
-        return null;
-      }
-
-      if (error.message.startsWith('No sessions for device ')) {
-        // Receives a message from a specific device but we did not have a session with him.
-        // We trigger a session request.
-        await SessionProtocol.sendSessionRequestIfNeeded(
-          PubKey.cast(source.getName())
-        );
-      }
-
-      // eslint-disable no-param-reassign
-      envelope.source = source.getName();
-      envelope.sourceDevice = source.getDeviceId();
-      envelope.unidentifiedDeliveryReceived = !originalSource;
-      // eslint-enable no-param-reassign
-      await removeFromCache(envelope);
-      throw error;
-    }
-
-    await removeFromCache(envelope);
-    throw error;
-  }
-
-  const { isMe, sender, content, type } = result;
-
-  // We need to drop incoming messages from ourself since server can't
-  //   do it for us
-  if (isMe) {
-    return null;
-  }
-
-  // We might have substituted the type based on decrypted content
-  if (type === SignalService.Envelope.Type.FALLBACK_MESSAGE) {
-    // eslint-disable-next-line no-param-reassign
-    envelope.type = SignalService.Envelope.Type.FALLBACK_MESSAGE;
-  }
-
-  // Here we take this sender information and attach it back to the envelope
-  //   to make the rest of the app work properly.
-
-  // eslint-disable-next-line no-param-reassign
-  envelope.source = sender.getName();
-  // eslint-disable-next-line no-param-reassign
-  envelope.sourceDevice = sender.getDeviceId();
-  // eslint-disable-next-line no-param-reassign
-  envelope.unidentifiedDeliveryReceived = !originalSource;
-
-  // Return just the content because that matches the signature of the other
-  // decrypt methods used above.
-  return unpad(content);
-}
-
 async function decryptUnidentifiedSender(
   envelope: EnvelopePlus,
   ciphertext: ArrayBuffer
 ): Promise<ArrayBuffer | null> {
   window.log.info('received unidentified sender message');
   try {
+    const userX25519KeyPair = await UserUtil.getIdentityKeyPair();
+    if (!userX25519KeyPair) {
+      throw new Error('Failed to find User x25519 keypair from stage'); // noUserX25519KeyPair
+    }
+    const ecKeyPair = ECKeyPair.fromArrayBuffer(
+      userX25519KeyPair.pubKey,
+      userX25519KeyPair.privKey
+    );
     // keep the await so the try catch works as expected
     const retSessionProtocol = await decryptWithSessionProtocol(
       envelope,
-      ciphertext
+      ciphertext,
+      ecKeyPair
     );
-    return retSessionProtocol;
+    return unpad(retSessionProtocol);
   } catch (e) {
     window.log.warn(
       'decryptWithSessionProtocol for unidentified message throw:',
       e
     );
-    const retSignalProtocol = await decryptWithSignalProtocol(
-      envelope,
-      ciphertext
-    );
-    return retSignalProtocol;
+    return null;
   }
 }
 
@@ -398,15 +286,18 @@ async function doDecrypt(
     textsecure.storage.protocol,
     address
   );
+  if (ciphertext.byteLength === 0) {
+    throw new Error('Received an empty envelope.'); // Error.noData
+  }
 
   switch (envelope.type) {
     case SignalService.Envelope.Type.CIPHERTEXT:
       window.log.info('message from', getEnvelopeId(envelope));
       return lokiSessionCipher.decryptWhisperMessage(ciphertext).then(unpad);
-    case SignalService.Envelope.Type.MEDIUM_GROUP_CIPHERTEXT:
-      return decryptForMediumGroup(envelope, ciphertext);
+    case SignalService.Envelope.Type.CLOSED_GROUP_CIPHERTEXT:
+      return decryptForClosedGroupV2(envelope, ciphertext);
     case SignalService.Envelope.Type.FALLBACK_MESSAGE: {
-      window.log.info('fallback message from ', envelope.source);
+      window.log.info('Fallback message from ', envelope.source);
 
       const fallBackSessionCipher = new libloki.crypto.FallBackSessionCipher(
         address
@@ -460,47 +351,6 @@ async function decrypt(
 
     return plaintext;
   } catch (error) {
-    if (error && error instanceof textsecure.SenderKeyMissing) {
-      const groupId = envelope.source;
-      const { senderIdentity } = error;
-      if (senderIdentity) {
-        log.info(
-          'Requesting missing key for identity: ',
-          senderIdentity,
-          'groupId: ',
-          groupId
-        );
-
-        const params = {
-          timestamp: Date.now(),
-          groupId,
-        };
-
-        const requestKeysMessage = new MediumGroupRequestKeysMessage(params);
-        const sender = new PubKey(senderIdentity);
-        void libsession.getMessageQueue().send(sender, requestKeysMessage);
-
-        return;
-      }
-    } else if (error instanceof window.textsecure.PreKeyMissing) {
-      // this error can mean two things
-      // 1. The sender received a session request message from us, used it to establish a session, but restored from seed
-      //    Depending on the the date of our messsage, on restore from seed the sender might get our session request again
-      //    He will try to use it to establish a session. In this case, we should reset the session as we cannot decode its message.
-      // 2. We sent a session request to the sender and he established it. But if he sends us a message before we send one to him, he will
-      //    include the prekeyId in that new message.
-      //    We won't find this preKeyId as we already burnt it when the sender established the session.
-
-      const convo = ConversationController.getInstance().get(envelope.source);
-      if (!convo) {
-        window.log.warn('PreKeyMissing but convo is missing too. Dropping...');
-        return;
-      }
-      void convo.endSession();
-
-      return;
-    }
-
     let errorToThrow = error;
 
     const noSession =
@@ -542,7 +392,7 @@ function shouldDropBlockedUserMessage(content: SignalService.Content): boolean {
   if (!content?.dataMessage?.group?.id) {
     return true;
   }
-  const groupId = StringUtils.decode(content.dataMessage.group.id, 'utf8');
+  const groupId = toHex(content.dataMessage.group.id);
 
   const groupConvo = ConversationController.getInstance().get(groupId);
   if (!groupConvo) {
