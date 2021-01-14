@@ -66,6 +66,8 @@ const startInTray = process.argv.some(arg => arg === '--start-in-tray');
 const usingTrayIcon =
   startInTray || process.argv.some(arg => arg === '--use-tray-icon');
 
+let badgeCountOverlay = null;
+
 const config = require('./app/config');
 
 // Very important to put before the single instance check, since it is based on the
@@ -85,6 +87,7 @@ const attachmentChannel = require('./app/attachment_channel');
 const bounce = require('./ts/services/bounce');
 const updater = require('./ts/updater/index');
 const createTrayIcon = require('./app/tray_icon');
+const createBadgeCountOverlay = require('./app/badge_count_overlay');
 const dockIcon = require('./app/dock_icon');
 const ephemeralConfig = require('./app/ephemeral_config');
 const logging = require('./app/logging');
@@ -1032,6 +1035,10 @@ app.on('ready', async () => {
     tray = createTrayIcon(getMainWindow, locale.messages);
   }
 
+  if (process.platform === 'win32') {
+    badgeCountOverlay = createBadgeCountOverlay(getMainWindow);
+  }
+
   setupMenu();
 
   ensureFilePermissions(['config.json', 'sql/db.sqlite']);
@@ -1169,6 +1176,10 @@ ipc.on('set-badge-count', (event, count) => {
 
   if (tray) {
     tray.updateIcon(count);
+  }
+
+  if (badgeCountOverlay) {
+    badgeCountOverlay.update(count);
   }
 });
 
