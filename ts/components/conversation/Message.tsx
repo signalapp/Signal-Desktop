@@ -2100,6 +2100,27 @@ export class Message extends React.PureComponent<Props, State> {
   };
 
   public renderContainer(): JSX.Element {
+    var conversation = window.getConversations().get(this.props.conversationId);
+    var extraClasses = "";
+    if(conversation && conversation.messageCollection && conversation.messageCollection.models) {
+      var messageIndex = conversation.messageCollection.models.findIndex((element) => element.id == this.props.id);
+
+      
+      if( conversation.messageCollection.models[messageIndex-1] && 
+          conversation.messageCollection.models[messageIndex-1].attributes && 
+          conversation.messageCollection.models[messageIndex-1].attributes.sourceUuid == conversation.messageCollection.models[messageIndex].attributes.sourceUuid
+          ) {
+          extraClasses+=" beforeSame"
+      }
+      if( conversation.messageCollection.models[messageIndex+1] && 
+          conversation.messageCollection.models[messageIndex+1].attributes && 
+          conversation.messageCollection.models[messageIndex+1].attributes.sourceUuid == conversation.messageCollection.models[messageIndex].attributes.sourceUuid
+          ) {
+          extraClasses+=" afterSame"
+      }
+      if(extraClasses && conversation.messageCollection.models[messageIndex].attributes.attachments.length>0) extraClasses+=" attachment";
+    }
+
     const {
       authorColor,
       deletedForEveryone,
@@ -2119,6 +2140,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     const containerClassnames = classNames(
       'module-message__container',
+      extraClasses ? extraClasses : null,
       isSelected && !isSticker ? 'module-message__container--selected' : null,
       isSticker ? 'module-message__container--with-sticker' : null,
       !isSticker ? `module-message__container--${direction}` : null,
