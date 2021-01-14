@@ -2462,22 +2462,8 @@
   },
   {
     "rule": "jQuery-$(",
-    "path": "node_modules/bunyan/node_modules/moment/min/locales.min.js",
-    "lineNumber": 75,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/bunyan/node_modules/moment/min/moment-with-locales.min.js",
-    "lineNumber": 1,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
     "path": "node_modules/bunyan/node_modules/moment/min/moment.min.js",
-    "lineNumber": 6,
+    "lineNumber": 1,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T21:59:32.770Z"
   },
