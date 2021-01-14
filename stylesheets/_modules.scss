@@ -1100,6 +1100,13 @@
   }
 }
 
+.module-message__text:after {
+  width: 56px;
+  display: inline-block;
+  vertical-align: middle;
+  content:"";
+}
+
 .module-message__text--incoming {
   @include light-theme {
     color: $color-white;
@@ -1161,11 +1168,15 @@
 }
 
 .module-message__metadata {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-top: 3px;
-  margin-bottom: -3px;
+
+  overflow-wrap: break-word;
+  height: 15px;
+  font-size: 11px;
+  line-height: 15px;
+  white-space: nowrap;
+  float: right;
+  margin: -10px 0 -5px 4px;
+  display: inline-block;
 
   &--outgoing {
     justify-content: flex-end;
@@ -7063,6 +7074,36 @@ button.module-image__border-overlay:focus {
 .module-timeline__message-container {
   padding-top: 4px;
   padding-bottom: 4px;
+}
+
+
+// TODO: negative margin top is hacky here, not sure how to get the beforeSame class on the parent so we can reduce the margin there.
+.beforeSame {
+  margin-top:-6px;
+}
+.afterSame .module-avatar {
+  display: none;
+}
+.module-message--incoming .beforeSame {
+  border-top-left-radius: 0;
+}
+.module-message--outgoing .beforeSame {
+  border-top-right-radius: 0;
+}
+.module-message--incoming .afterSame {
+  border-bottom-left-radius: 0;
+}
+.module-message--outgoing .afterSame {
+  border-bottom-right-radius: 0;
+}
+.beforeSame.attachment {
+  padding-top: 0;
+}
+.beforeSame .module-message__author {
+  display:none;
+}
+.beforeSame .module-message__attachment-container {
+  margin-top:0;
 }
 
 .ReactVirtualized__List {
