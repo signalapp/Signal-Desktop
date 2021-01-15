@@ -1106,7 +1106,9 @@
   vertical-align: middle;
   content:"";
 }
-
+.module-message__container--with-big-metadata-gap .module-message__text:after {
+  width: 95px;
+}
 .module-message__text--incoming {
   @include light-theme {
     color: $color-white;
@@ -7076,33 +7078,40 @@ button.module-image__border-overlay:focus {
   padding-bottom: 4px;
 }
 
-
-// TODO: negative margin top is hacky here, not sure how to get the beforeSame class on the parent so we can reduce the margin there.
-.beforeSame {
+// TODO: negative margin top is hacky here, not sure how to get the module-message__container--same-author-before class on the parent so we can reduce the margin there.
+.module-message__container--same-author-before {
   margin-top:-6px;
 }
-.afterSame .module-avatar {
+
+
+.module-message__container--same-author-after .module-avatar {
   display: none;
 }
-.module-message--incoming .beforeSame {
-  border-top-left-radius: 0;
+.module-message--incoming .module-message__container--same-author-before {
+  border-top-left-radius: 4px;
 }
-.module-message--outgoing .beforeSame {
-  border-top-right-radius: 0;
+.module-message--outgoing .module-message__container--same-author-before {
+  border-top-right-radius: 4px;
 }
-.module-message--incoming .afterSame {
-  border-bottom-left-radius: 0;
+.module-message--incoming .module-message__container--same-author-after {
+  border-bottom-left-radius: 4px;
 }
-.module-message--outgoing .afterSame {
-  border-bottom-right-radius: 0;
+.module-message--outgoing .module-message__container--same-author-after {
+  border-bottom-right-radius: 4px;
 }
-.beforeSame.attachment {
+.module-message__container--same-author-before.module-message__container--with-attachment {
   padding-top: 0;
 }
-.beforeSame .module-message__author {
+.module-message__container--same-author-before .module-message__author {
   display:none;
 }
-.beforeSame .module-message__attachment-container {
+.module-message__container--same-author-before .module-message__attachment-container {
+  margin-top:0;
+}
+.module-message__container--same-author-before.module-message__container--outgoing.module-message__container--with-attachment {
+  margin-top:4px;
+}
+.module-message__container--same-author-before.module-message__container--with-attachment .module-message__link-preview--with-content-above {
   margin-top:0;
 }
 
