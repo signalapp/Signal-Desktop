@@ -1,6 +1,7 @@
 // Copyright 2018-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import moment from 'moment';
 import React from 'react';
 import ReactDOM, { createPortal } from 'react-dom';
 import classNames from 'classnames';
@@ -2101,7 +2102,11 @@ export class Message extends React.PureComponent<Props, State> {
 
   public renderContainer(): JSX.Element {
     var conversation = window.getConversations().get(this.props.conversationId);
-    var extraClasses = "";
+    var beforeSame = false;
+    var afterSame = false;
+    var attachment = false;
+    var bigMetadataGap = false;
+
     if(conversation && conversation.messageCollection && conversation.messageCollection.models) {
       var messageIndex = conversation.messageCollection.models.findIndex((element) => element.id == this.props.id);
 
@@ -2110,16 +2115,23 @@ export class Message extends React.PureComponent<Props, State> {
           conversation.messageCollection.models[messageIndex-1].attributes && 
           conversation.messageCollection.models[messageIndex-1].attributes.sourceUuid == conversation.messageCollection.models[messageIndex].attributes.sourceUuid
           ) {
-          extraClasses+=" beforeSame"
+          beforeSame = true;
       }
       if( conversation.messageCollection.models[messageIndex+1] && 
           conversation.messageCollection.models[messageIndex+1].attributes && 
           conversation.messageCollection.models[messageIndex+1].attributes.sourceUuid == conversation.messageCollection.models[messageIndex].attributes.sourceUuid
           ) {
-          extraClasses+=" afterSame"
+          afterSame = true;
       }
-      if(extraClasses && conversation.messageCollection.models[messageIndex].attributes.attachments.length>0) extraClasses+=" attachment";
+      if (conversation.messageCollection.models[messageIndex].attributes.attachments.length > 0 || conversation.messageCollection.models[messageIndex].attributes.preview.length > 0)
+        attachment = true;
+      if(conversation.messageCollection.models[messageIndex].attributes.timestamp) {
+        const sameDay = moment(conversation.messageCollection.models[messageIndex].attributes.timestamp).isSame(new Date(), "day");
+        const isError = conversation.messageCollection.models[messageIndex].attributes.lastMessageStatus == "error";
+        bigMetadataGap = isError || !sameDay;
+      }
     }
+
 
     const {
       authorColor,
@@ -2140,7 +2152,11 @@ export class Message extends React.PureComponent<Props, State> {
 
     const containerClassnames = classNames(
       'module-message__container',
-      extraClasses ? extraClasses : null,
+      beforeSame ? 'module-message__container--same-author-before' : null,
+      afterSame ? 'module-message__container--same-author-after' : null,
+      attachment ? 'module-message__container--with-attachment' : null,
+      bigMetadataGap ? 'module-message__container--with-big-metadata-gap' : null,
+      isSticker ? 'module-message__container--with-sticker' : null,
       isSelected && !isSticker ? 'module-message__container--selected' : null,
       isSticker ? 'module-message__container--with-sticker' : null,
       !isSticker ? `module-message__container--${direction}` : null,
