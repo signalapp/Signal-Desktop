@@ -2118,7 +2118,6 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     ]);
     window.log.info('onEmpty: All outstanding database requests complete');
     initialLoadComplete = true;
-
     window.readyForUpdates();
 
     // Start listeners here, after we get through our queue.
@@ -2140,6 +2139,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         clearInterval(interval!);
         interval = null;
         view.onEmpty();
+        window.logAppLoadedEvent();
       }
     }, 500);
 

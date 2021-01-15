@@ -97,6 +97,8 @@ try {
 
   window.setBadgeCount = count => ipc.send('set-badge-count', count);
 
+  window.logAppLoadedEvent = () => ipc.send('signal-app-loaded');
+
   // We never do these in our code, so we'll prevent it everywhere
   window.open = () => null;
   // eslint-disable-next-line no-eval, no-multi-assign

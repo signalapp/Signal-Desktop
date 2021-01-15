@@ -493,6 +493,7 @@ declare global {
     hasSignalAccount: (number: string) => boolean;
     getServerTrustRoot: () => WhatIsThis;
     readyForUpdates: () => void;
+    logAppLoadedEvent: () => void;
 
     // Flags
     isGroupCallingEnabled: () => boolean;
