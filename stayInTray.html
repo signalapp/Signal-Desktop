@@ -1,0 +1,57 @@
+<!-- Copyright 2017-2020 Signal Messenger, LLC -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+
+<html>
+<head>
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'none';
+            child-src 'self';
+            connect-src 'self' https: wss:;
+            font-src 'self';
+            form-action 'self';
+            frame-src 'none';
+            img-src 'self' blob: data:;
+            media-src 'self' blob:;
+            object-src 'none';
+            script-src 'self';
+            style-src 'self' 'unsafe-inline';"
+  >
+  <link href="node_modules/sanitize.css/sanitize.css" rel="stylesheet" type="text/css" />
+  <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+      background-color: #3a76f0;
+      color: white;
+      font-size: 14px;
+    }
+
+    img {
+      margin-top: 1em;
+    }
+
+    a {
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class='module-splash-screen'>
+    <div>
+      <h2>Signal is still running in the background.</h2>
+
+      <p>You can disable this feature in the settings.</p>
+
+      <button class='grey' id="closeBtn">I Understand</button>
+    </div>
+
+
+  </div>
+  <script type='text/javascript' src='js/views/stayInTray_view.js'></script>
+
+</body>
+</html>

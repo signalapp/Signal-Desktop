@@ -426,19 +426,24 @@ async function createWindow() {
 
     // On Mac, or on other platforms when the tray icon is in use, the window
     // should be only hidden, not closed, when the user clicks the close button
-    const stayInTray = userConfig.get('stayInTray');
-    if (
-      !windowState.shouldQuit() &&
-      (stayInTray || process.platform === 'darwin')
-    ) {
+    if (!windowState.shouldQuit()) {
+      let stayInTray = userConfig.get('stayInTray');
+
+      if (!_.isBoolean(stayInTray)) {
+        showStayInTrayWindow();
+
+        userConfig.set('stayInTray', true);
+        stayInTray = true;
+      }
+
       tray.updateContextMenu();
 
       // hide the app from the Dock on macOS if the tray icon is enabled
       if (stayInTray) {
         dockIcon.hide();
+        return;
       }
 
-      return;
     }
 
     await requestShutdown();
@@ -615,6 +620,47 @@ function showAbout() {
     aboutWindow.show();
   });
 }
+
+
+let stayInTrayWindow;
+function showStayInTrayWindow() {
+  if (stayInTrayWindow) {
+    stayInTrayWindow.show();
+    return;
+  }
+
+  const options = {
+    width: 300,
+    height: 225,
+    resizable: false,
+    title: locale.messages.stayInTray.message,
+    autoHideMenuBar: true,
+    backgroundColor: '#3a76f0',
+    show: false,
+    webPreferences: {
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      contextIsolation: false,
+      preload: path.join(__dirname, 'stayInTray_preload.js'),
+      nativeWindowOpen: true,
+    },
+  };
+
+  stayInTrayWindow = new BrowserWindow(options);
+
+  handleCommonWindowEvents(stayInTrayWindow);
+
+  stayInTrayWindow.loadURL(prepareURL([__dirname, 'stayInTray.html']));
+
+  stayInTrayWindow.on('closed', () => {
+    stayInTrayWindow = null;
+  });
+
+  stayInTrayWindow.once('ready-to-show', () => {
+    stayInTrayWindow.show();
+  });
+}
+
 
 let settingsWindow;
 function showSettingsWindow() {
@@ -1212,6 +1258,13 @@ ipc.on('close-about', () => {
     aboutWindow.close();
   }
 });
+
+ipc.on('close-stay-in-tray-window', () => {
+  if (stayInTrayWindow) {
+    stayInTrayWindow.close();
+  }
+});
+
 
 ipc.on('update-tray-icon', (event, unreadCount) => {
     tray.updateIcon(unreadCount);
