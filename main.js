@@ -635,9 +635,16 @@ function showSettingsWindow() {
   addDarkOverlay();
 
   const size = mainWindow.getSize();
+  // center settings window over main window
+  const settingwidth = Math.min(500, size[0]);
+  const settingheight = Math.max(size[1] - 100, MIN_HEIGHT);
+  const mainPos = mainWindow.getPosition();
+  const mainSize = mainWindow.getSize();
   const options = {
-    width: Math.min(500, size[0]),
-    height: Math.max(size[1] - 100, MIN_HEIGHT),
+    x: Math.round(mainPos[0] + mainSize[0] / 2 - settingwidth / 2),
+    y: Math.round(mainPos[1] + mainSize[1] / 2 - settingheight / 2),
+    width: settingwidth,
+    height: settingheight,
     frame: false,
     resizable: false,
     title: locale.messages.signalDesktopPreferences.message,
