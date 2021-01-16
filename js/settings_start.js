@@ -29,7 +29,7 @@ const getInitialData = async () => ({
 
   themeSetting: await window.getThemeSetting(),
   hideMenuBar: await window.getHideMenuBar(),
-  stayInTray: await window.getStayInTray(),
+  stayInBackground: await window.getStayInBackground(),
 
   notificationSetting: await window.getNotificationSetting(),
   audioNotification: await window.getAudioNotification(),

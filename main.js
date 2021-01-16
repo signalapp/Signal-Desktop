@@ -62,7 +62,7 @@ function getMainWindow() {
 
 // Tray icon and related objects
 let tray = null;
-const startInTray = process.argv.some(arg => arg === '--start-in-tray');
+const startInBackground = process.argv.some(arg => arg === '--start-in-tray');
 const config = require('./app/config');
 
 // Very important to put before the single instance check, since it is based on the
@@ -276,7 +276,7 @@ if (OS === 'win32') {
 async function createWindow() {
   const { screen } = electron;
   const windowOptions = {
-    show: !startInTray, // allow to start minimised in tray
+    show: !startInBackground, // allow to start minimised in tray
     width: DEFAULT_WIDTH,
     height: DEFAULT_HEIGHT,
     minWidth: MIN_WIDTH,
@@ -332,10 +332,10 @@ async function createWindow() {
   mainWindowCreated = true;
   setupSpellChecker(mainWindow, locale.messages);
 
-  if (!startInTray && windowConfig && windowConfig.maximized) {
+  if (!startInBackground && windowConfig && windowConfig.maximized) {
     mainWindow.maximize();
   }
-  if (!startInTray && windowConfig && windowConfig.fullscreen) {
+  if (!startInBackground && windowConfig && windowConfig.fullscreen) {
     mainWindow.setFullScreen(true);
   }
 
@@ -427,19 +427,19 @@ async function createWindow() {
     // On Mac, or on other platforms when the tray icon is in use, the window
     // should be only hidden, not closed, when the user clicks the close button
     if (!windowState.shouldQuit()) {
-      let stayInTray = userConfig.get('stayInTray');
+      let stayInBackground = userConfig.get('stayInBackground');
 
-      if (!_.isBoolean(stayInTray)) {
-        showStayInTrayWindow();
+      if (!_.isBoolean(stayInBackground)) {
+        showStayInBackgroundWindow();
 
-        userConfig.set('stayInTray', true);
-        stayInTray = true;
+        userConfig.set('stayInBackground', true);
+        stayInBackground = true;
       }
 
       tray.updateContextMenu();
 
       // hide the app from the Dock on macOS if the tray icon is enabled
-      if (stayInTray) {
+      if (stayInBackground) {
         dockIcon.hide();
         return;
       }
@@ -622,18 +622,18 @@ function showAbout() {
 }
 
 
-let stayInTrayWindow;
-function showStayInTrayWindow() {
-  if (stayInTrayWindow) {
-    stayInTrayWindow.show();
+let stayInBackgroundWindow;
+function showStayInBackgroundWindow() {
+  if (stayInBackgroundWindow) {
+    stayInBackgroundWindow.show();
     return;
   }
 
   const options = {
     width: 300,
-    height: 225,
+    height: 300,
     resizable: false,
-    title: locale.messages.stayInTray.message,
+    title: locale.messages.stayInBackground.message,
     autoHideMenuBar: true,
     backgroundColor: '#3a76f0',
     show: false,
@@ -641,23 +641,23 @@ function showStayInTrayWindow() {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
       contextIsolation: false,
-      preload: path.join(__dirname, 'stayInTray_preload.js'),
+      preload: path.join(__dirname, 'stayInBackground_preload.js'),
       nativeWindowOpen: true,
     },
   };
 
-  stayInTrayWindow = new BrowserWindow(options);
+  stayInBackgroundWindow = new BrowserWindow(options);
 
-  handleCommonWindowEvents(stayInTrayWindow);
+  handleCommonWindowEvents(stayInBackgroundWindow);
 
-  stayInTrayWindow.loadURL(prepareURL([__dirname, 'stayInTray.html']));
+  stayInBackgroundWindow.loadURL(prepareURL([__dirname, 'stayInBackground.html']));
 
-  stayInTrayWindow.on('closed', () => {
-    stayInTrayWindow = null;
+  stayInBackgroundWindow.on('closed', () => {
+    stayInBackgroundWindow = null;
   });
 
-  stayInTrayWindow.once('ready-to-show', () => {
-    stayInTrayWindow.show();
+  stayInBackgroundWindow.once('ready-to-show', () => {
+    stayInBackgroundWindow.show();
   });
 }
 
@@ -1259,9 +1259,9 @@ ipc.on('close-about', () => {
   }
 });
 
-ipc.on('close-stay-in-tray-window', () => {
-  if (stayInTrayWindow) {
-    stayInTrayWindow.close();
+ipc.on('close-stay-in-background-window', () => {
+  if (stayInBackgroundWindow) {
+    stayInBackgroundWindow.close();
   }
 });
 
@@ -1347,15 +1347,15 @@ installSettingsSetter('incoming-call-notification');
 
 // These ones are different because its single source of truth is userConfig,
 // not IndexedDB
-ipc.on('get-stay-in-tray', event => {
+ipc.on('get-stay-in-background', event => {
   event.sender.send(
-    'get-success-stay-in-tray',
+    'get-success-stay-in-background',
     null,
-    userConfig.get('stayInTray') || false
+    userConfig.get('stayInBackground') || false
   );
 });
-ipc.on('set-stay-in-tray', (event, value) => {
-  userConfig.set('stayInTray', value);
+ipc.on('set-stay-in-background', (event, value) => {
+  userConfig.set('stayInBackground', value);
 });
 
 ipc.on('get-media-permissions', event => {

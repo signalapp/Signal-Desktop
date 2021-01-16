@@ -156,8 +156,8 @@ try {
   installGetter('hide-menu-bar', 'getHideMenuBar');
   installSetter('hide-menu-bar', 'setHideMenuBar');
 
-  installGetter('stay-in-tray', 'getStayInTray');
-  installSetter('stay-in-tray', 'setStayInTray');
+  installGetter('stay-in-background', 'getStayInBackground');
+  installSetter('stay-in-background', 'setStayInBackground');
 
   installGetter('notification-setting', 'getNotificationSetting');
   installSetter('notification-setting', 'setNotificationSetting');

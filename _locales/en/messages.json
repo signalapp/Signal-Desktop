@@ -1850,9 +1850,21 @@
     "message": "Hide menu bar",
     "description": "Label text for menu bar visibility setting"
   },
-  "stayInTray": {
-    "message": "Stay in Tray",
-    "description": "Label text for stay in tray setting"
+  "stayInBackground": {
+    "message": "Stay in Background",
+    "description": "Label text for stay in background setting"
+  },
+  "appRunningInBackground": {
+    "message": "Signal is still running in the background.",
+    "description": "Label header for stay in background"
+  },
+  "disableStayInBackgroundInSettings": {
+    "message": "You can disable this feature in the settings.",
+    "description": "Label text for stay in background setting"
+  },
+  "stayInBackground": {
+    "message": "Stay in Background",
+    "description": "Label text for stay in background setting"
   },
   "startConversation": {
     "message": "Start new conversation…",

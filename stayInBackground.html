@@ -1,10 +1,9 @@
 <!-- Copyright 2017-2020 Signal Messenger, LLC -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
-
 <html>
 <head>
   <meta http-equiv="Content-Security-Policy"
-    content="default-src 'none';
+        content="default-src 'none';
             child-src 'self';
             connect-src 'self' https: wss:;
             font-src 'self';
@@ -30,28 +29,27 @@
       font-size: 14px;
     }
 
-    img {
-      margin-top: 1em;
-    }
-
     a {
       color: white;
     }
   </style>
 </head>
 <body>
-  <div class='module-splash-screen'>
-    <div>
-      <h2>Signal is still running in the background.</h2>
-
-      <p>You can disable this feature in the settings.</p>
-
-      <button class='grey' id="closeBtn">I Understand</button>
-    </div>
-
-
-  </div>
-  <script type='text/javascript' src='js/views/stayInTray_view.js'></script>
-
 </body>
+<script type='text/x-tmpl-mustache' id='stayInBackground'>
+  <div class='stayInBackgroundPopup'>
+    <div>
+      <h2>{{ appRunningInBackground }}</h2>
+
+      <p>{{ disableStayInBackgroundInSettings }}</p>
+
+      <button class='grey close'>{{ okText }}</button>
+    </div>
+  </div>
+</script>
+<script type='text/javascript' src='js/components.js'></script>
+<script type='text/javascript' src='ts/backboneJquery.js'></script>
+<script type='text/javascript' src='js/views/whisper_view.js'></script>
+<script type='text/javascript' src='js/views/stayInBackground_view.js'></script>
+<script type='text/javascript' src='js/stayInBackground_popup_start.js'></script>
 </html>

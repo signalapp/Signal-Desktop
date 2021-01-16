@@ -163,8 +163,8 @@
       new CheckboxView({
         el: this.$('.tray-setting'),
         name: 'tray-setting',
-        value: window.initialData.stayInTray,
-        setFn: window.setStayInTray,
+        value: window.initialData.stayInBackground,
+        setFn: window.setStayInBackground,
       });
       new CheckboxView({
         el: this.$('.always-relay-calls-setting'),
@@ -235,7 +235,7 @@
         themeDark: i18n('themeDark'),
         themeSystem: i18n('themeSystem'),
         hideMenuBar: i18n('hideMenuBar'),
-        stayInTray: i18n('stayInTray'),
+        stayInBackground: i18n('stayInBackground'),
         clearDataHeader: i18n('clearDataHeader'),
         clearDataButton: i18n('clearDataButton'),
         clearDataExplanation: i18n('clearDataExplanation'),
