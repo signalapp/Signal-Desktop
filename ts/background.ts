@@ -410,6 +410,9 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         window.storage.put('spell-check', value);
       },
 
+      getChatHeaderContactSetting: () => window.storage.get('chat-header-contact-setting', 'name-only'),
+      setChatHeaderContactSetting: (value: WhatIsThis) => window.storage.put('chat-header-contact-setting', value),
+
       getAlwaysRelayCalls: () => window.storage.get('always-relay-calls'),
       setAlwaysRelayCalls: (value: WhatIsThis) =>
         window.storage.put('always-relay-calls', value),

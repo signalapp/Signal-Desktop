@@ -58,6 +58,9 @@ window.setHideMenuBar = makeSetter('hide-menu-bar');
 window.getSpellCheck = makeGetter('spell-check');
 window.setSpellCheck = makeSetter('spell-check');
 
+window.getChatHeaderContactSetting = makeGetter('chat-header-contact-setting');
+window.setChatHeaderContactSetting = makeSetter('chat-header-contact-setting');
+
 window.getAlwaysRelayCalls = makeGetter('always-relay-calls');
 window.setAlwaysRelayCalls = makeSetter('always-relay-calls');
 

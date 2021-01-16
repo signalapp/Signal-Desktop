@@ -32,6 +32,12 @@ export enum OutgoingCallButtonStyle {
   Join,
 }
 
+const ContactDetailsSettingNames = {
+  NAME_AND_NUMBER: 'name-and-number',
+  NAME_ONLY: 'name-only',
+  NO_NAME_AND_NUMBER: 'no-name-no-number',
+};
+
 export interface PropsDataType {
   id: string;
   name?: string;
@@ -58,6 +64,7 @@ export interface PropsDataType {
 
   showBackButton?: boolean;
   outgoingCallButtonStyle: OutgoingCallButtonStyle;
+  contactDetailsSetting: string
 }
 
 export interface PropsActionsType {
@@ -135,6 +142,7 @@ export class ConversationHeader extends React.Component<PropsType> {
       isMe,
       profileName,
       isVerified,
+      contactDetailsSetting
     } = this.props;
 
     if (isMe) {
@@ -146,11 +154,12 @@ export class ConversationHeader extends React.Component<PropsType> {
     }
 
     const shouldShowIcon = Boolean(name && type === 'direct');
-    const shouldShowNumber = Boolean(phoneNumber && (name || profileName));
+    const shouldShowName = Boolean(contactDetailsSetting == ContactDetailsSettingNames.NAME_ONLY || contactDetailsSetting == ContactDetailsSettingNames.NAME_AND_NUMBER)
+    const shouldShowNumber = Boolean(phoneNumber && (name || profileName) && contactDetailsSetting == ContactDetailsSettingNames.NAME_AND_NUMBER);
 
     return (
       <div className="module-conversation-header__title">
-        <Emojify text={title} />
+        {shouldShowName ? <Emojify text={title} /> : null}
         {shouldShowIcon ? (
           <span>
             {' '}

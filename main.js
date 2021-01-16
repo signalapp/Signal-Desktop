@@ -1293,6 +1293,9 @@ installSettingsSetter('badge-count-muted-conversations');
 installSettingsGetter('spell-check');
 installSettingsSetter('spell-check');
 
+installSettingsGetter('chat-header-contact-setting');
+installSettingsSetter('chat-header-contact-setting');
+
 installSettingsGetter('always-relay-calls');
 installSettingsSetter('always-relay-calls');
 installSettingsGetter('call-ringtone-notification');

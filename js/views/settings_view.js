@@ -152,6 +152,12 @@
           window.setSpellCheck(val);
         },
       });
+      new RadioButtonGroupView({
+        el: this.$('.chat-header-contact-setting'),
+        name: 'chat-header-contact-setting',
+        value: window.initialData.chatHeaderContactSetting,
+        setFn: window.setChatHeaderContactSetting,
+      });
       if (Settings.isHideMenuBarSupported()) {
         new CheckboxView({
           el: this.$('.menu-bar-setting'),
@@ -219,6 +225,9 @@
         nameAndMessage: i18n('nameAndMessage'),
         noNameOrMessage: i18n('noNameOrMessage'),
         nameOnly: i18n('nameOnly'),
+        hideChatContactPersonalDetailsDialog: i18n('hideChatContactPersonalDetailsDialog'),
+        nameAndNumber: i18n('nameAndNumber'),
+        noNameOrNumber: i18n('noNameOrNumber'),
         notificationDrawAttention: i18n('notificationDrawAttention'),
         audioNotificationDescription: i18n('audioNotificationDescription'),
         isAudioNotificationSupported: Settings.isAudioNotificationSupported(),

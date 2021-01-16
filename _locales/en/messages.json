@@ -1406,6 +1406,18 @@
     "message": "New Message",
     "description": "Displayed in notifications for only 1 message"
   },
+  "nameAndNumber": {
+    "message": "Name and number",
+    "description": "Show name and number of the contact in the chat header"
+  },
+  "noNameOrNumber": {
+    "message": "No name or number",
+    "description": "Do not show name and number of the contact in the chat header"
+  },
+  "hideChatContactPersonalDetailsDialog": {
+    "message": "Chat header shows",
+    "description": "Do not show name and number of the contact in the chat header"
+  },
   "notificationSenderInGroup": {
     "message": "$sender$ in $group$",
     "description": "Displayed in notifications for messages in a group",

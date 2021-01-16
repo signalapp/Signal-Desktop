@@ -54,6 +54,7 @@ const commonProps = {
   onMarkUnread: action('onMarkUnread'),
   onMoveToInbox: action('onMoveToInbox'),
   onSetPin: action('onSetPin'),
+  contactDetailsSetting: 'name-and-number'
 };
 
 const stories: Array<ConversationHeaderStory> = [
@@ -168,6 +169,40 @@ const stories: Array<ConversationHeaderStory> = [
           id: '6',
           acceptedMessageRequest: true,
           muteExpiresAt: new Date('3000-10-18T11:11:11Z').valueOf(),
+        },
+      },
+      {
+        title: 'chat header contact details is set to name only',
+        props: {
+          ...commonProps,
+          color: 'red',
+          isVerified: true,
+          avatarPath: gifUrl,
+          title: 'Someone 🔥 Somewhere',
+          name: 'Someone 🔥 Somewhere',
+          phoneNumber: '(202) 555-0001',
+          type: 'direct',
+          id: '1',
+          profileName: '🔥Flames🔥',
+          acceptedMessageRequest: true,
+          contactDetailsSetting: 'name-only'
+        },
+      },
+      {
+        title: 'chat header contact details is set to no name and no number',
+        props: {
+          ...commonProps,
+          color: 'red',
+          isVerified: true,
+          avatarPath: gifUrl,
+          title: 'Someone 🔥 Somewhere',
+          name: 'Someone 🔥 Somewhere',
+          phoneNumber: '(202) 555-0001',
+          type: 'direct',
+          id: '1',
+          profileName: '🔥Flames🔥',
+          acceptedMessageRequest: true,
+          contactDetailsSetting: 'no-name-no-number'
         },
       },
     ],

@@ -189,6 +189,9 @@ try {
   installGetter('spell-check', 'getSpellCheck');
   installSetter('spell-check', 'setSpellCheck');
 
+  installGetter('chat-header-contact-setting', 'getChatHeaderContactSetting');
+  installSetter('chat-header-contact-setting', 'setChatHeaderContactSetting')
+
   installGetter('always-relay-calls', 'getAlwaysRelayCalls');
   installSetter('always-relay-calls', 'setAlwaysRelayCalls');
 

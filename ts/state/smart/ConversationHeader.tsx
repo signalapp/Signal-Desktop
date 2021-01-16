@@ -75,6 +75,10 @@ const getOutgoingCallButtonStyle = (
   }
 };
 
+const getContactDetailsSetting = () => {
+  return window.Events.getChatHeaderContactSetting();
+};
+
 const mapStateToProps = (state: StateType, ownProps: OwnProps) => {
   const conversation = getConversationSelector(state)(ownProps.id);
   if (!conversation) {
@@ -105,6 +109,7 @@ const mapStateToProps = (state: StateType, ownProps: OwnProps) => {
     i18n: getIntl(state),
     showBackButton: state.conversations.selectedConversationPanelDepth > 0,
     outgoingCallButtonStyle: getOutgoingCallButtonStyle(conversation, state),
+    contactDetailsSetting: getContactDetailsSetting()
   };
 };
 

@@ -31,6 +31,7 @@ const getInitialData = async () => ({
   hideMenuBar: await window.getHideMenuBar(),
 
   notificationSetting: await window.getNotificationSetting(),
+  chatHeaderContactSetting: await window.getChatHeaderContactSetting(),
   audioNotification: await window.getAudioNotification(),
   notificationDrawAttention: await window.getNotificationDrawAttention(),
   countMutedConversations: await window.getCountMutedConversations(),

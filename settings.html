@@ -118,6 +118,21 @@
           {{ spellCheckDirtyText }}
         </p>
       </div>
+      <div class='chat-header-contact-setting'>
+        <p>{{ hideChatContactPersonalDetailsDialog }}</p>
+      <div>
+        <input type='radio' name='chat-header-contact-setting' id='chat-header-contact-setting-name-and-number' value='name-and-number'>
+        <label for='chat-contact-personal-details-name-and-number'>{{ nameAndNumber }} </label>
+      </div>
+      <div>
+        <input type='radio' name='chat-header-contact-setting' id='chat-header-contact-setting-name-only'  value='name-only'/>
+        <label for='chat-contact-personal-details-name-only'>{{ nameOnly }} </label>
+      </div>
+      <div>
+        <input type='radio' name='chat-header-contact-setting' id='chat-header-contact-setting-no-name-no-number' value='no-name-no-number'/>
+        <label for='chat-contact-personal-details-no-name-no-number'>{{ noNameOrNumber }} </label>
+      </div>
+      </div>
     <hr>
     <div class='calling-setting'>
       <h3>{{ calling }}</h3>
