@@ -1052,7 +1052,7 @@ export function initialize({
             break;
           default:
             message =
-              'The server rejected our query, please file a bug report.';
+              'The server rejected our query; please file a bug report.';
         }
         e.message = `${message} (original: ${e.message})`;
         throw e;
