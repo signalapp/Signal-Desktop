@@ -630,7 +630,7 @@ function showStayInBackgroundWindow() {
   }
 
   const options = {
-    width: 300,
+    width: 350,
     height: 300,
     resizable: false,
     title: locale.messages.stayInBackground.message,
