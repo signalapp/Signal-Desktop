@@ -119,9 +119,9 @@
         name: 'limit-width',
         value: window.initialData.limitWidth,
         setFn: limit => {
-          $(document.body).removeClass("limit-width");
+          $(document.body).removeClass('limit-width');
           if (limit) {
-            $(document.body).addClass("limit-width");
+            $(document.body).addClass('limit-width');
           }
           window.setLimitWidth(limit);
         },
