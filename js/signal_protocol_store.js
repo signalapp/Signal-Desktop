@@ -188,223 +188,21 @@
       window.log.error('Could not load identityKey from SignalData');
       return undefined;
     },
-    async getLocalRegistrationId() {
-      const item = await window.Signal.Data.getItemById('registrationId');
-      if (item) {
-        return item.value;
-      }
-
-      return 1;
-    },
 
     // PreKeys
 
-    async loadPreKey(keyId) {
-      const key = this.preKeys[keyId];
-      if (key) {
-        window.log.info('Successfully fetched prekey:', keyId);
-        return {
-          pubKey: key.publicKey,
-          privKey: key.privateKey,
-        };
-      }
-
-      return undefined;
-    },
-    async loadPreKeyForContact(contactPubKey) {
-      const key = await window.Signal.Data.getPreKeyByRecipient(contactPubKey);
-
-      if (key) {
-        window.log.info(
-          'Successfully fetched prekey for recipient:',
-          contactPubKey
-        );
-        return {
-          pubKey: key.publicKey,
-          privKey: key.privateKey,
-          keyId: key.id,
-          recipient: key.recipient,
-        };
-      }
-
-      return undefined;
-    },
-    async storePreKey(keyId, keyPair, contactPubKey) {
-      const data = {
-        id: keyId,
-        publicKey: keyPair.pubKey,
-        privateKey: keyPair.privKey,
-        recipient: contactPubKey,
-      };
-
-      this.preKeys[keyId] = data;
-      await window.Signal.Data.createOrUpdatePreKey(data);
-    },
-    async removePreKey(keyId) {
-      try {
-        this.trigger('removePreKey');
-      } catch (error) {
-        window.log.error(
-          'removePreKey error triggering removePreKey:',
-          error && error.stack ? error.stack : error
-        );
-      }
-
-      delete this.preKeys[keyId];
-      await window.Signal.Data.removePreKeyById(keyId);
-    },
     async clearPreKeyStore() {
       this.preKeys = Object.create(null);
       await window.Signal.Data.removeAllPreKeys();
     },
 
     // Signed PreKeys
-    /* Returns a signed keypair object or undefined */
-    async loadSignedPreKey(keyId) {
-      const key = this.signedPreKeys[keyId];
-      if (key) {
-        window.log.info('Successfully fetched signed prekey:', key.id);
-        return {
-          pubKey: key.publicKey,
-          privKey: key.privateKey,
-          created_at: key.created_at,
-          keyId: key.id,
-          confirmed: key.confirmed,
-          signature: key.signature,
-        };
-      }
-
-      window.log.error('Failed to fetch signed prekey:', keyId);
-      return undefined;
-    },
-    async loadSignedPreKeys() {
-      if (arguments.length > 0) {
-        throw new Error('loadSignedPreKeys takes no arguments');
-      }
-
-      const keys = Object.values(this.signedPreKeys);
-      return keys.map(prekey => ({
-        pubKey: prekey.publicKey,
-        privKey: prekey.privateKey,
-        created_at: prekey.created_at,
-        keyId: prekey.id,
-        confirmed: prekey.confirmed,
-        signature: prekey.signature,
-      }));
-    },
-    async storeSignedPreKey(keyId, keyPair, confirmed, signature) {
-      const data = {
-        id: keyId,
-        publicKey: keyPair.pubKey,
-        privateKey: keyPair.privKey,
-        created_at: Date.now(),
-        confirmed: Boolean(confirmed),
-        signature,
-      };
-
-      this.signedPreKeys[keyId] = data;
-      await window.Signal.Data.createOrUpdateSignedPreKey(data);
-    },
-    async removeSignedPreKey(keyId) {
-      delete this.signedPreKeys[keyId];
-      await window.Signal.Data.removeSignedPreKeyById(keyId);
-    },
     async clearSignedPreKeysStore() {
       this.signedPreKeys = Object.create(null);
       await window.Signal.Data.removeAllSignedPreKeys();
     },
 
     // Sessions
-
-    async loadSession(encodedNumber) {
-      if (encodedNumber === null || encodedNumber === undefined) {
-        throw new Error('Tried to get session for undefined/null number');
-      }
-
-      const session = this.sessions[encodedNumber];
-      if (session) {
-        return session.record;
-      }
-
-      return undefined;
-    },
-    async storeSession(encodedNumber, record) {
-      if (encodedNumber === null || encodedNumber === undefined) {
-        throw new Error('Tried to put session for undefined/null number');
-      }
-      const unencoded = textsecure.utils.unencodeNumber(encodedNumber);
-      const number = unencoded[0];
-      const deviceId = parseInt(unencoded[1], 10);
-
-      const data = {
-        id: encodedNumber,
-        number,
-        deviceId,
-        record,
-      };
-
-      this.sessions[encodedNumber] = data;
-      await window.Signal.Data.createOrUpdateSession(data);
-    },
-    async getDeviceIds(number) {
-      if (number === null || number === undefined) {
-        throw new Error('Tried to get device ids for undefined/null number');
-      }
-
-      const allSessions = Object.values(this.sessions);
-      const sessions = allSessions.filter(session => session.number === number);
-      return _.pluck(sessions, 'deviceId');
-    },
-    async removeAllSessions(number) {
-      if (number === null || number === undefined) {
-        throw new Error('Tried to remove sessions for undefined/null number');
-      }
-
-      const allSessions = Object.values(this.sessions);
-      for (let i = 0, max = allSessions.length; i < max; i += 1) {
-        const session = allSessions[i];
-        if (session.number === number) {
-          delete this.sessions[session.id];
-        }
-      }
-      await window.Signal.Data.removeSessionsByNumber(number);
-    },
-    async archiveSiblingSessions(identifier) {
-      const address = libsignal.SignalProtocolAddress.fromString(identifier);
-
-      const deviceIds = await this.getDeviceIds(address.getName());
-      const siblings = _.without(deviceIds, address.getDeviceId());
-
-      await Promise.all(
-        siblings.map(async deviceId => {
-          const sibling = new libsignal.SignalProtocolAddress(
-            address.getName(),
-            deviceId
-          );
-          window.log.info('closing session for', sibling.toString());
-          const sessionCipher = new libsignal.SessionCipher(
-            textsecure.storage.protocol,
-            sibling
-          );
-          await sessionCipher.closeOpenSessionForDevice();
-        })
-      );
-    },
-    async archiveAllSessions(number) {
-      const deviceIds = await this.getDeviceIds(number);
-
-      await Promise.all(
-        deviceIds.map(async deviceId => {
-          const address = new libsignal.SignalProtocolAddress(number, deviceId);
-          window.log.info('closing session for', address.toString());
-          const sessionCipher = new libsignal.SessionCipher(
-            textsecure.storage.protocol,
-            address
-          );
-          await sessionCipher.closeOpenSessionForDevice();
-        })
-      );
-    },
     async clearSessionStore() {
       this.sessions = Object.create(null);
       window.Signal.Data.removeAllSessions();
@@ -412,58 +210,6 @@
 
     // Identity Keys
 
-    async isTrustedIdentity(identifier, publicKey, direction) {
-      if (identifier === null || identifier === undefined) {
-        throw new Error('Tried to get identity key for undefined/null key');
-      }
-      const number = textsecure.utils.unencodeNumber(identifier)[0];
-      const isOurNumber = number === textsecure.storage.user.getNumber();
-
-      const identityRecord = this.identityKeys[number];
-
-      if (isOurNumber) {
-        const existing = identityRecord ? identityRecord.publicKey : null;
-        return equalArrayBuffers(existing, publicKey);
-      }
-
-      switch (direction) {
-        case Direction.SENDING:
-          return this.isTrustedForSending(publicKey, identityRecord);
-        case Direction.RECEIVING:
-          return true;
-        default:
-          throw new Error(`Unknown direction: ${direction}`);
-      }
-    },
-    isTrustedForSending(publicKey, identityRecord) {
-      if (!identityRecord) {
-        window.log.info(
-          'isTrustedForSending: No previous record, returning true...'
-        );
-        return true;
-      }
-
-      const existing = identityRecord.publicKey;
-
-      if (!existing) {
-        window.log.info('isTrustedForSending: Nothing here, returning true...');
-        return true;
-      }
-      if (!equalArrayBuffers(existing, publicKey)) {
-        window.log.info("isTrustedForSending: Identity keys don't match...");
-        return false;
-      }
-      if (identityRecord.verified === VerifiedStatus.UNVERIFIED) {
-        window.log.error('Needs unverified approval!');
-        return false;
-      }
-      if (this.isNonBlockingApprovalRequired(identityRecord)) {
-        window.log.error('isTrustedForSending: Needs non-blocking approval!');
-        return false;
-      }
-
-      return true;
-    },
     async loadIdentityKey(identifier) {
       if (identifier === null || identifier === undefined) {
         throw new Error('Tried to get identity key for undefined/null key');

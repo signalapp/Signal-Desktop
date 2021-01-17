@@ -7,7 +7,6 @@
   storage,
   textsecure,
   Whisper,
-  libloki,
   libsession,
   libsignal,
   BlockedNumberController,
@@ -110,7 +109,6 @@
 
   // start a background worker for ecc
   textsecure.startWorker('js/libsignal-protocol-worker.js');
-  Whisper.KeyChangeListener.init(textsecure.storage.protocol);
   let messageReceiver;
   Whisper.events = _.clone(Backbone.Events);
   Whisper.events.isListenedTo = eventName =>
@@ -488,9 +486,6 @@
         storage.put('link-preview-setting', false);
       });
 
-      // listeners
-      Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
-
       connect(true);
     });
 
@@ -509,9 +504,6 @@
       Whisper.Registration.isDone() &&
       !Whisper.Registration.ongoingSecondaryDeviceRegistration()
     ) {
-      // listeners
-      Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
-
       connect();
       appView.openInbox({
         initialLoadComplete,
@@ -1158,15 +1150,6 @@
     });
 
     window.textsecure.messaging = true;
-
-    libsession.Protocols.SessionProtocol.checkSessionRequestExpiry().catch(
-      e => {
-        window.log.error(
-          'Error occured which checking for session request expiry',
-          e
-        );
-      }
-    );
 
     storage.onready(async () => {
       idleDetector.start();

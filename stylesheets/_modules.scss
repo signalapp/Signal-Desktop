@@ -635,33 +635,6 @@
   text-align: center;
 }
 
-// Module: Safety Number Notification
-
-.module-safety-number-notification {
-  margin-top: 14px;
-  text-align: center;
-}
-
-.module-safety-number-notification__icon {
-  height: 24px;
-  width: 24px;
-  margin-inline-start: auto;
-  margin-inline-end: auto;
-  margin-bottom: 7px;
-  @include color-svg('../images/shield.svg', $color-gray-60);
-}
-
-.module-safety-number-notification__text {
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.3px;
-  color: $color-gray-60;
-}
-
-.module-safety-number-notification__contact {
-  font-weight: 300;
-}
-
 .module-verification-notification__button {
   margin-top: 5px;
   display: inline-block;

@@ -37,11 +37,7 @@ class LokiMessageAPI {
    *  Temporarily i've made it so `MessageSender` handles open group sends and calls this function for regular sends.
    */
   async sendMessage(pubKey, data, messageTimeStamp, ttl, options = {}) {
-    const {
-      isPublic = false,
-      numConnections = DEFAULT_CONNECTIONS,
-      publicSendData = null,
-    } = options;
+    const { isPublic = false, numConnections = DEFAULT_CONNECTIONS } = options;
     // Data required to identify a message in a conversation
     const messageEventData = {
       pubKey,

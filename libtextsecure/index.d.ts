@@ -9,7 +9,6 @@ export interface LibTextsecure {
   OutgoingIdentityKeyError: any;
   ReplayableError: any;
   MessageError: any;
-  SignedPreKeyRotationError: any;
   EmptySwarmError: any;
   SeedNodeError: any;
   DNSResolutionError: any;

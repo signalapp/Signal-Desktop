@@ -206,18 +206,10 @@
       if (this.isPublic() || this.isMediumGroup()) {
         return;
       }
-      // We don't send typing messages if the setting is disabled or we do not have a session
+      // We don't send typing messages if the setting is disabled
       // or we blocked that user
-      const devicePubkey = new libsession.Types.PubKey(this.id);
-      const hasSession = await libsession.Protocols.SessionProtocol.hasSession(
-        devicePubkey
-      );
 
-      if (
-        !storage.get('typing-indicators-setting') ||
-        !hasSession ||
-        this.isBlocked()
-      ) {
+      if (!storage.get('typing-indicators-setting') || this.isBlocked()) {
         return;
       }
 
@@ -391,13 +383,17 @@
       await Promise.all(messages.map(m => m.setCalculatingPoW()));
     },
 
-    async onPublicMessageSent(pubKey, timestamp, serverId, serverTimestamp) {
-      const messages = this.getMessagesWithTimestamp(pubKey, timestamp);
-      if (messages && messages.length === 1) {
-        await messages[0].setIsPublic(true);
-        await messages[0].setServerId(serverId);
-        await messages[0].setServerTimestamp(serverTimestamp);
+    async onPublicMessageSent(identifier, serverId, serverTimestamp) {
+      const registeredMessage = window.getMessageController().get(identifier);
+
+      if (!registeredMessage || !registeredMessage.message) {
+        return null;
       }
+      const model = registeredMessage.message;
+      await model.setIsPublic(true);
+      await model.setServerId(serverId);
+      await model.setServerTimestamp(serverTimestamp);
+      return undefined;
     },
 
     async onNewMessage(message) {

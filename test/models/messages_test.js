@@ -1,4 +1,4 @@
-/* global i18n, Whisper */
+/* global Whisper */
 
 'use strict';
 

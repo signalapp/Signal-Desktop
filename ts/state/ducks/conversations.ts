@@ -4,7 +4,6 @@ import { Constants } from '../../session';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { MessageModel } from '../../../js/models/messages';
 import { ConversationController } from '../../session/conversations';
-import { StateType } from '../reducer';
 
 // State
 

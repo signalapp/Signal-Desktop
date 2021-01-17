@@ -791,7 +791,6 @@ export class RegistrationTabs extends React.Component<any, State> {
     await window.storage.fetch();
     ConversationController.getInstance().reset();
     await ConversationController.getInstance().load();
-    window.Whisper.RotateSignedPreKeyListener.stop(window.Whisper.events);
 
     this.setState({
       loading: false,

@@ -98,8 +98,8 @@ export function serialiseByteBuffers(buffers: Array<Uint8Array>): ByteBuffer {
 }
 
 export async function sendContactSyncMessage(convos: Array<ConversationModel>) {
-  throw new Error('Still in use?');
-
+  window.log.warn('sendContactSyncMessage TODO');
+  return;
   // let convosToSync: Array<ConversationModel>;
   // if (!convos?.length) {
   //   convosToSync = await getSyncContacts();
@@ -180,8 +180,8 @@ async function createContactSyncMessage(sessionContacts: Array<any>) {
 export async function sendGroupSyncMessage(
   conversations: Array<ConversationModel>
 ) {
-  throw new Error('Still in use?');
-
+  window.log.warn('sendGroupSyncMessage TODO');
+  return;
   // If we havn't got a primaryDeviceKey then we are in the middle of pairing
   // primaryDevicePubKey is set to our own number if we are the master device
   // const primaryDeviceKey = window.storage.get('primaryDevicePubKey');
@@ -216,7 +216,8 @@ export async function sendGroupSyncMessage(
 export async function sendOpenGroupsSyncMessage(
   convos: Array<ConversationModel>
 ) {
-  throw new Error('Still in use?');
+  window.log.warn('sendOpenGroupsSyncMessage TODO');
+  return;
 
   // If we havn't got a primaryDeviceKey then we are in the middle of pairing
   // primaryDevicePubKey is set to our own number if we are the master device
@@ -248,8 +249,8 @@ export async function sendOpenGroupsSyncMessage(
 }
 
 export async function sendBlockedListSyncMessage() {
-  throw new Error('Still in use?');
-
+  window.log.warn('sendBlockedListSyncMessage TODO');
+  return;
   // If we havn't got a primaryDeviceKey then we are in the middle of pairing
   // primaryDevicePubKey is set to our own number if we are the master device
   // const primaryDeviceKey = window.storage.get('primaryDevicePubKey');
@@ -269,6 +270,7 @@ export async function sendBlockedListSyncMessage() {
 }
 
 export async function syncReadMessages() {
+  window.log.warn('syncReadMessages TODO');
   return;
   // FIXME currently not in used
   // const syncReadMessages = new SyncReadMessage(

@@ -5,16 +5,13 @@ import { getEnvelopeId } from './common';
 import { removeFromCache, updateCache } from './cache';
 import { SignalService } from '../protobuf';
 import * as Lodash from 'lodash';
-import * as libsession from '../session';
 import { handlePairingAuthorisationMessage } from './multidevice';
-import { MultiDeviceProtocol, SessionProtocol } from '../session/protocols';
+import { MultiDeviceProtocol } from '../session/protocols';
 import { PubKey } from '../session/types';
 
 import { handleSyncMessage } from './syncMessages';
-import { onError } from './errors';
-import ByteBuffer from 'bytebuffer';
 import { BlockedNumberController } from '../util/blockedNumberController';
-import { GroupUtils, StringUtils } from '../session/utils';
+import { GroupUtils } from '../session/utils';
 import { UserUtil } from '../util';
 import { fromHexToArray, toHex } from '../session/utils/String';
 import { concatUInt8Array, getSodium } from '../session/crypto';
@@ -221,30 +218,6 @@ export async function isBlocked(number: string) {
   return BlockedNumberController.isBlockedAsync(number);
 }
 
-async function decryptPreKeyWhisperMessage(
-  ciphertext: any,
-  sessionCipher: any,
-  address: any
-): Promise<ArrayBuffer> {
-  const padded = await sessionCipher.decryptPreKeyWhisperMessage(ciphertext);
-
-  try {
-    return unpad(padded);
-  } catch (e) {
-    if (e.message === 'Unknown identity key') {
-      // create an error that the UI will pick up and ask the
-      // user if they want to re-negotiate
-      const buffer = ByteBuffer.wrap(ciphertext);
-      throw new window.textsecure.IncomingIdentityKeyError(
-        address.toString(),
-        buffer.toArrayBuffer(),
-        e.identityKey
-      );
-    }
-    throw e;
-  }
-}
-
 async function decryptUnidentifiedSender(
   envelope: EnvelopePlus,
   ciphertext: ArrayBuffer
@@ -277,46 +250,36 @@ async function decryptUnidentifiedSender(
 
 async function doDecrypt(
   envelope: EnvelopePlus,
-  ciphertext: ArrayBuffer,
-  address: any
+  ciphertext: ArrayBuffer
 ): Promise<ArrayBuffer | null> {
-  const { textsecure, libloki } = window;
-
-  const lokiSessionCipher = new libloki.crypto.LokiSessionCipher(
-    textsecure.storage.protocol,
-    address
-  );
   if (ciphertext.byteLength === 0) {
     throw new Error('Received an empty envelope.'); // Error.noData
   }
 
   switch (envelope.type) {
-    case SignalService.Envelope.Type.CIPHERTEXT:
-      window.log.info('message from', getEnvelopeId(envelope));
-      return lokiSessionCipher.decryptWhisperMessage(ciphertext).then(unpad);
+    // Only UNIDENTIFIED_SENDER and CLOSED_GROUP_CIPHERTEXT are supported
     case SignalService.Envelope.Type.CLOSED_GROUP_CIPHERTEXT:
       return decryptForClosedGroupV2(envelope, ciphertext);
-    case SignalService.Envelope.Type.FALLBACK_MESSAGE: {
-      window.log.info('Fallback message from ', envelope.source);
-
-      const fallBackSessionCipher = new libloki.crypto.FallBackSessionCipher(
-        address
-      );
-
-      return fallBackSessionCipher.decrypt(ciphertext).then(unpad);
-    }
-    case SignalService.Envelope.Type.PREKEY_BUNDLE:
-      window.log.info('prekey message from', getEnvelopeId(envelope));
-      return decryptPreKeyWhisperMessage(
-        ciphertext,
-        lokiSessionCipher,
-        address
-      );
     case SignalService.Envelope.Type.UNIDENTIFIED_SENDER: {
       return decryptUnidentifiedSender(envelope, ciphertext);
     }
+    case SignalService.Envelope.Type.PREKEY_BUNDLE: {
+      window.log.info('prekey message from', getEnvelopeId(envelope));
+      throw new Error('Envelope.Type.PREKEY_BUNDLE cannot happen anymore');
+    }
+    case SignalService.Envelope.Type.CIPHERTEXT: {
+      window.log.info('CIPHERTEXT envelope from', getEnvelopeId(envelope));
+      throw new Error('Envelope.Type.CIPHERTEXT cannot happen anymore');
+    }
+    case SignalService.Envelope.Type.FALLBACK_MESSAGE: {
+      window.log.info(
+        'FALLBACK_MESSAGE envelope from',
+        getEnvelopeId(envelope)
+      );
+      throw new Error('Envelope.Type.FALLBACK_MESSAGE cannot happen anymore');
+    }
     default:
-      throw new Error('Unknown message type');
+      throw new Error(`Unknown message type:${envelope.type}`);
   }
 }
 
@@ -325,17 +288,10 @@ async function decrypt(
   envelope: EnvelopePlus,
   ciphertext: ArrayBuffer
 ): Promise<any> {
-  const { textsecure, libsignal, log } = window;
-
-  // Envelope.source will be null on UNIDENTIFIED_SENDER
-  // Don't use it there!
-  const address = new libsignal.SignalProtocolAddress(
-    envelope.source,
-    envelope.sourceDevice
-  );
+  const { textsecure } = window;
 
   try {
-    const plaintext = await doDecrypt(envelope, ciphertext, address);
+    const plaintext = await doDecrypt(envelope, ciphertext);
 
     if (!plaintext) {
       await removeFromCache(envelope);
@@ -351,34 +307,7 @@ async function decrypt(
 
     return plaintext;
   } catch (error) {
-    let errorToThrow = error;
-
-    const noSession =
-      error &&
-      (error.message.indexOf('No record for device') === 0 ||
-        error.message.indexOf('decryptWithSessionList: list is empty') === 0);
-
-    if (error && error.message === 'Unknown identity key') {
-      // create an error that the UI will pick up and ask the
-      // user if they want to re-negotiate
-      const buffer = ByteBuffer.wrap(ciphertext);
-      errorToThrow = new textsecure.IncomingIdentityKeyError(
-        address.toString(),
-        buffer.toArrayBuffer(),
-        error.identityKey
-      );
-    } else if (!noSession) {
-      // We want to handle "no-session" error, not re-throw it
-      throw error;
-    }
-    const ev: any = new Event('error');
-    ev.error = errorToThrow;
-    ev.proto = envelope;
-    ev.confirm = removeFromCache.bind(null, envelope);
-
-    const returnError = async () => Promise.reject(errorToThrow);
-
-    onError(ev).then(returnError, returnError);
+    throw error;
   }
 }
 
@@ -445,19 +374,11 @@ export async function innerHandleContentMessage(
         );
       }
     }
-    const { FALLBACK_MESSAGE } = SignalService.Envelope.Type;
 
     await ConversationController.getInstance().getOrCreateAndWait(
       envelope.source,
       'private'
     );
-
-    if (envelope.type !== FALLBACK_MESSAGE) {
-      const device = new PubKey(envelope.source);
-
-      await SessionProtocol.onSessionEstablished(device);
-      await libsession.getMessageQueue().processPending(device);
-    }
 
     if (content.pairingAuthorisation) {
       await handlePairingAuthorisationMessage(

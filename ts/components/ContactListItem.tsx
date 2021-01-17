@@ -33,15 +33,7 @@ export class ContactListItem extends React.Component<Props> {
   }
 
   public render() {
-    const {
-      i18n,
-      name,
-      onClick,
-      isMe,
-      phoneNumber,
-      profileName,
-      verified,
-    } = this.props;
+    const { i18n, name, onClick, isMe, phoneNumber, profileName } = this.props;
 
     const title = name ? name : phoneNumber;
     const displayName = isMe ? i18n('me') : title;

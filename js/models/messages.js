@@ -1132,7 +1132,6 @@
           e.number === number &&
           (e.name === 'MessageError' ||
             e.name === 'SendMessageNetworkError' ||
-            e.name === 'SignedPreKeyRotationError' ||
             e.name === 'OutgoingIdentityKeyError')
       );
       this.set({ errors: errors[1] });
@@ -1243,9 +1242,7 @@
     async handleMessageSentFailure(sentMessage, error) {
       if (error instanceof Error) {
         this.saveErrors(error);
-        if (error.name === 'SignedPreKeyRotationError') {
-          await window.getAccountManager().rotateSignedPreKey();
-        } else if (error.name === 'OutgoingIdentityKeyError') {
+        if (error.name === 'OutgoingIdentityKeyError') {
           const c = window.getConversationController().get(sentMessage.device);
           await c.getProfiles();
         }
@@ -1503,10 +1500,7 @@
     hasNetworkError() {
       const error = _.find(
         this.get('errors'),
-        e =>
-          e.name === 'MessageError' ||
-          e.name === 'SendMessageNetworkError' ||
-          e.name === 'SignedPreKeyRotationError'
+        e => e.name === 'MessageError' || e.name === 'SendMessageNetworkError'
       );
       return !!error;
     },

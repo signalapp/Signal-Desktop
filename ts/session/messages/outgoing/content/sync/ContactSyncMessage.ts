@@ -1,7 +1,7 @@
 import { SyncMessage } from './SyncMessage';
 import { SignalService } from '../../../../../protobuf';
 import { MessageParams } from '../../Message';
-import { StringUtils, SyncMessageUtils } from '../../../../utils';
+import { SyncMessageUtils } from '../../../../utils';
 
 interface RawContact {
   name: string;

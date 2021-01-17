@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 
 import * as Conversation from '../../types/Conversation';
-import { IncomingMessage, VerifiedChangeMessage } from '../../types/Message';
+import { IncomingMessage } from '../../types/Message';
 
 describe('Conversation', () => {
   describe('createLastMessageUpdate', () => {

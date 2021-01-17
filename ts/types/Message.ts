@@ -2,7 +2,7 @@ import { Attachment } from './Attachment';
 import { Contact } from './Contact';
 import { IndexableBoolean, IndexablePresence } from './IndexedDB';
 
-export type Message = UserMessage | VerifiedChangeMessage;
+export type Message = UserMessage;
 export type UserMessage = IncomingMessage;
 
 export type IncomingMessage = Readonly<
