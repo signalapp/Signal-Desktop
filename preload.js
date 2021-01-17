@@ -155,6 +155,8 @@ try {
   installSetter('theme-setting', 'setThemeSetting');
   installGetter('hide-menu-bar', 'getHideMenuBar');
   installSetter('hide-menu-bar', 'setHideMenuBar');
+  installGetter('limit-width', 'getLimitWidth');
+  installSetter('limit-width', 'setLimitWidth');
 
   installGetter('notification-setting', 'getNotificationSetting');
   installSetter('notification-setting', 'setNotificationSetting');

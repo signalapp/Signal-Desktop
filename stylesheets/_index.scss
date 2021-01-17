@@ -11,14 +11,27 @@
   position: relative;
 }
 
+.inbox-container {
+  .limit-width & {
+    max-width: 1280px;
+  }
+  width: 100%;
+  display: flex;
+}
+
 .inbox {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .scrollable {
   height: 100%;
   overflow: auto;
+}
+
+.conversation-stack {
+  flex-grow: 1;
 }
 
 .gutter {
@@ -43,9 +56,9 @@
     }
   }
 
-  float: left;
   width: $left-pane-width;
   user-select: none;
+  flex-shrink: 0;
 
   .content {
     overflow-y: scroll;
