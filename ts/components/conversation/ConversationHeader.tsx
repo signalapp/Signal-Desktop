@@ -37,7 +37,6 @@ interface Props {
   profileName?: string;
   avatarPath?: string;
 
-  isVerified: boolean;
   isMe: boolean;
   isClosable?: boolean;
   isGroup: boolean;
@@ -69,12 +68,10 @@ interface Props {
   onSetDisappearingMessages: (seconds: number) => void;
   onDeleteMessages: () => void;
   onDeleteContact: () => void;
-  onResetSession: () => void;
 
   onCloseOverlay: () => void;
   onDeleteSelectedMessages: () => void;
 
-  onShowSafetyNumber: () => void;
   onGoBack: () => void;
 
   onBlockUser: () => void;

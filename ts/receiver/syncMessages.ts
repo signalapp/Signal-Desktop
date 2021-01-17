@@ -5,7 +5,6 @@ import { getEnvelopeId } from './common';
 import _ from 'lodash';
 import ByteBuffer from 'bytebuffer';
 
-import { handleEndSession } from './sessionHandling';
 import {
   handleMessageEvent,
   isMessageEmpty,
@@ -73,9 +72,13 @@ export async function handleSyncMessage(
     window.log.info('read messages from', getEnvelopeId(envelope));
     await handleRead(envelope, syncMessage.read);
   } else if (syncMessage.verified) {
-    await handleVerified(envelope, syncMessage.verified);
+    window.log.info('Got syncMessage.verified. Dropping it...');
+    await removeFromCache(envelope);
+    return;
   } else if (syncMessage.configuration) {
-    await handleConfiguration(envelope, syncMessage.configuration);
+    window.log.info('Got syncMessage.configuration. Dropping it...');
+    await removeFromCache(envelope);
+    return;
   }
   throw new Error('Got empty SyncMessage');
 }
@@ -104,11 +107,6 @@ async function handleSentMessage(
     window.log.info('dropping empty message synced');
     await removeFromCache(envelope);
     return;
-  }
-
-  // tslint:disable-next-line no-bitwise
-  if (msg.flags && msg.flags & SignalService.DataMessage.Flags.END_SESSION) {
-    await handleEndSession(destination as string);
   }
 
   if (msg.mediumGroupUpdate) {
@@ -236,87 +234,6 @@ async function handleRead(
   await Promise.all(results);
 
   await removeFromCache(envelope);
-}
-
-async function handleVerified(
-  envelope: EnvelopePlus,
-  verified: SignalService.IVerified
-) {
-  const ev: any = new Event('verified');
-
-  ev.verified = {
-    state: verified.state,
-    destination: verified.destination,
-    identityKey: verified.identityKey?.buffer,
-  };
-
-  await onVerified(ev);
-
-  await removeFromCache(envelope);
-}
-
-export async function onVerified(ev: any) {
-  const { Whisper } = window;
-  const { Errors } = window.Signal.Types;
-
-  const number = ev.verified.destination;
-  const key = ev.verified.identityKey;
-  let state;
-
-  const c = new Whisper.Conversation({
-    id: number,
-  });
-  const error = c.validateNumber();
-  if (error) {
-    window.log.error(
-      'Invalid verified sync received:',
-      Errors.toLogFormat(error)
-    );
-    return;
-  }
-
-  switch (ev.verified.state) {
-    case SignalService.Verified.State.DEFAULT:
-      state = 'DEFAULT';
-      break;
-    case SignalService.Verified.State.VERIFIED:
-      state = 'VERIFIED';
-      break;
-    case SignalService.Verified.State.UNVERIFIED:
-      state = 'UNVERIFIED';
-      break;
-    default:
-      window.log.error(`Got unexpected verified state: ${ev.verified.state}`);
-  }
-
-  window.log.info(
-    'got verified sync for',
-    number,
-    state,
-    ev.viaContactSync ? 'via contact sync' : ''
-  );
-
-  const contact = await ConversationController.getInstance().getOrCreateAndWait(
-    number,
-    'private'
-  );
-  const options = {
-    viaSyncMessage: true,
-    viaContactSync: ev.viaContactSync,
-    key,
-  };
-
-  if (state === 'VERIFIED') {
-    await contact.setVerified(options);
-  } else if (state === 'DEFAULT') {
-    await contact.setVerifiedDefault(options);
-  } else {
-    await contact.setUnverified(options);
-  }
-
-  if (ev.confirm) {
-    ev.confirm();
-  }
 }
 
 async function handleConfiguration(

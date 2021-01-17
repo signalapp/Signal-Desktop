@@ -158,7 +158,6 @@ async function createContactSyncMessage(sessionContacts: Array<any>) {
       const name = profile
         ? profile.displayName
         : conversation.getProfileName();
-      const status = await conversation.safeGetVerified();
 
       return {
         name,
@@ -166,7 +165,6 @@ async function createContactSyncMessage(sessionContacts: Array<any>) {
         nickname: conversation.getNickname(),
         blocked: conversation.isBlocked(),
         expireTimer: conversation.get('expireTimer'),
-        verifiedStatus: status,
       };
     })
   );

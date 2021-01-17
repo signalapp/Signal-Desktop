@@ -60,7 +60,6 @@
     'save.svg',
     'shield.svg',
     'timer.svg',
-    'verified-check.svg',
     'video.svg',
     'warning.svg',
     'x.svg',
@@ -956,10 +955,11 @@
 
     Whisper.events.on(
       'publicMessageSent',
-      ({ pubKey, timestamp, serverId, serverTimestamp }) => {
+      ({ identifier, pubKey, timestamp, serverId, serverTimestamp }) => {
         try {
           const conversation = window.getConversationController().get(pubKey);
           conversation.onPublicMessageSent(
+            identifier,
             pubKey,
             timestamp,
             serverId,
@@ -1000,7 +1000,6 @@
     });
 
     Whisper.events.on('devicePairingRequestRejected', async pubKey => {
-      await libloki.storage.removeContactPreKeyBundle(pubKey);
       await libsession.Protocols.MultiDeviceProtocol.removePairingAuthorisations(
         pubKey
       );

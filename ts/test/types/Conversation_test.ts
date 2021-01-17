@@ -40,28 +40,6 @@ describe('Conversation', () => {
         assert.deepEqual(actual, expected);
       });
     });
-    context('for verified change message', () => {
-      it('should skip update', () => {
-        const input = {
-          currentTimestamp: 555,
-          lastMessage: {
-            type: 'verified-change',
-            conversationId: 'foo',
-            sent_at: 666,
-            timestamp: 666,
-          } as VerifiedChangeMessage,
-          lastMessageNotificationText: 'Verified Changed',
-        };
-        const expected = {
-          lastMessage: '',
-          lastMessageStatus: null,
-          timestamp: 555,
-        };
-
-        const actual = Conversation.createLastMessageUpdate(input);
-        assert.deepEqual(actual, expected);
-      });
-    });
 
     context('for expire timer update from sync', () => {
       it('should update message but not timestamp (to prevent bump to top)', () => {

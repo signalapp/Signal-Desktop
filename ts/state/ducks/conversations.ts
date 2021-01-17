@@ -43,8 +43,6 @@ type MessageTypeInConvo = {
   propsForSearchResult: Object;
   propsForGroupInvitation: Object;
   propsForTimerNotification: Object;
-  propsForVerificationNotification: Object;
-  propsForResetSessionNotification: Object;
   propsForGroupNotification: Object;
   firstMessageOfSeries: boolean;
   receivedAt: number;
@@ -407,7 +405,6 @@ const toPickFromMessageModel = [
   'propsForGroupInvitation',
   'propsForTimerNotification',
   'propsForVerificationNotification',
-  'propsForResetSessionNotification',
   'propsForGroupNotification',
   // FIXME below are what is needed to fetch on the fly messageDetails. This is not the react way
   'getPropsForMessageDetail',

@@ -27,14 +27,6 @@ export type IncomingMessage = Readonly<
     ExpirationTimerUpdate
 >;
 
-export type VerifiedChangeMessage = Readonly<
-  {
-    type: 'verified-change';
-  } & SharedMessageProperties &
-    MessageSchemaVersion5 &
-    ExpirationTimerUpdate
->;
-
 type SharedMessageProperties = Readonly<{
   conversationId: string;
   sent_at: number;

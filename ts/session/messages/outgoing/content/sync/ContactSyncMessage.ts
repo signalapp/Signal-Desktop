@@ -9,7 +9,6 @@ interface RawContact {
   nickname?: string;
   blocked: boolean;
   expireTimer?: number;
-  verifiedStatus: number;
 }
 interface ContactSyncMessageParams extends MessageParams {
   rawContacts: [RawContact];
@@ -25,19 +24,9 @@ export abstract class ContactSyncMessage extends SyncMessage {
 
   protected syncProto(): SignalService.SyncMessage {
     const syncMessage = super.syncProto();
-    const contactsWithVerified = this.rawContacts.map(c => {
-      const { DEFAULT, VERIFIED } = SignalService.Verified.State;
-      const protoState = c.verifiedStatus === 0 ? DEFAULT : VERIFIED;
-
-      const verified = new SignalService.Verified({
-        state: protoState,
-        destination: c.number,
-        identityKey: new Uint8Array(StringUtils.encode(c.number, 'hex')),
-      });
-
+    const contactsWithoutVerified = this.rawContacts.map(c => {
       return {
         name: c.name,
-        verified,
         number: c.number,
         nickname: c.nickname,
         blocked: c.blocked,
@@ -46,7 +35,7 @@ export abstract class ContactSyncMessage extends SyncMessage {
     });
 
     // Convert raw contacts to an array of buffers
-    const contactDetails = contactsWithVerified
+    const contactDetails = contactsWithoutVerified
       .map(x => new SignalService.ContactDetails(x))
       .map(x => SignalService.ContactDetails.encode(x).finish());
 

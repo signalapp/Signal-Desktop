@@ -7,12 +7,10 @@ type MessageDeliveryStatus =
   | 'delivered'
   | 'read'
   | 'error';
-export type EndSessionType = 'done' | 'ongoing';
 
 interface MessageAttributes {
   id: number;
   source: string;
-  endSessionType: EndSessionType;
   quote: any;
   expireTimer: number;
   received_at: number;
@@ -50,7 +48,6 @@ export interface MessageModel extends Backbone.Model<MessageAttributes> {
   isGroupUpdate: () => boolean;
   isExpirationTimerUpdate: () => boolean;
   getNotificationText: () => string;
-  isEndSession: () => boolean;
   markRead: () => void;
   merge: (other: MessageModel) => void;
   saveErrors: (error: any) => void;
@@ -64,9 +61,7 @@ export interface MessageModel extends Backbone.Model<MessageAttributes> {
 
   propsForMessage?: any;
   propsForTimerNotification?: any;
-  propsForResetSessionNotification?: any;
   propsForGroupInvitation?: any;
   propsForGroupNotification?: any;
-  propsForVerificationNotification?: any;
   firstMessageOfSeries: boolean;
 }

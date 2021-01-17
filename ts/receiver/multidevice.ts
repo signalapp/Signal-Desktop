@@ -408,15 +408,7 @@ async function onContactReceived(details: any) {
     }
 
     if (details.verified) {
-      const { verified } = details;
-      const verifiedEvent: any = {};
-      verifiedEvent.verified = {
-        state: verified.state,
-        destination: verified.destination,
-        identityKey: verified.identityKey.buffer,
-      };
-      verifiedEvent.viaContactSync = true;
-      await onVerified(verifiedEvent);
+      window.log.info('details.verified set but we do not care for now.');
     }
 
     const isBlocked = details.blocked || false;

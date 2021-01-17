@@ -265,7 +265,6 @@
           publicKey: identityKeyPair.pubKey,
           firstUse: true,
           timestamp: Date.now(),
-          verified: textsecure.storage.protocol.VerifiedStatus.VERIFIED,
           nonblockingApproval: true,
         }
       );

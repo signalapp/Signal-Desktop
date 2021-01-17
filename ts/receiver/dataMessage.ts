@@ -7,7 +7,6 @@ import { ConversationType, getEnvelopeId } from './common';
 import { MessageModel } from '../../js/models/messages';
 import { PubKey } from '../session/types';
 import { handleMessageJob } from './queuedJob';
-import { handleEndSession } from './sessionHandling';
 import { handleUnpairRequest } from './multidevice';
 import { downloadAttachment } from './attachments';
 import _ from 'lodash';
@@ -683,14 +682,6 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
       // mark created conversation as secondary if this is one
       conv.setSecondaryStatus(true, primaryDestination.key);
     }
-  }
-
-  // =========== Process flags =============
-
-  // tslint:disable-next-line: no-bitwise
-  if (message.flags & SESSION_RESTORE) {
-    // Show that the session reset is "in progress" even though we had a valid session
-    msg.set({ endSessionType: 'ongoing' });
   }
 
   const ourNumber = window.textsecure.storage.user.getNumber();

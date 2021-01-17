@@ -37,23 +37,11 @@
     deleteAttachmentData,
   } = window.Signal.Migrations;
 
-  // Possible session reset states
-  const SessionResetEnum = Object.freeze({
-    // No ongoing reset
-    none: 0,
-    // we initiated the session reset
-    initiated: 1,
-    // we received the session reset
-    request_received: 2,
-  });
-
   Whisper.Conversation = Backbone.Model.extend({
     storeName: 'conversations',
     defaults() {
       return {
         unreadCount: 0,
-        verified: textsecure.storage.protocol.VerifiedStatus.DEFAULT,
-        sessionResetStatus: SessionResetEnum.none,
         groupAdmins: [],
         isKickedFromGroup: false,
         profileSharing: false,
@@ -70,10 +58,6 @@
       return `group(${this.id})`;
     },
 
-    handleMessageError(message, errors) {
-      this.trigger('messageError', message, errors);
-    },
-
     getContactCollection() {
       const collection = new Backbone.Collection();
       const collator = new Intl.Collator();
@@ -87,7 +71,6 @@
 
     initialize() {
       this.ourNumber = textsecure.storage.user.getNumber();
-      this.verifiedEnum = textsecure.storage.protocol.VerifiedStatus;
 
       // This may be overridden by ConversationController.getOrCreate, and signify
       //   our first save to the database. Or first fetch from the database.
@@ -97,9 +80,6 @@
       this.messageCollection = new Whisper.MessageCollection([], {
         conversation: this,
       });
-
-      this.messageCollection.on('change:errors', this.handleMessageError, this);
-      this.messageCollection.on('send-error', this.onMessageError, this);
 
       this.throttledBumpTyping = _.throttle(this.bumpTyping, 300);
       const debouncedUpdateLastMessage = _.debounce(
@@ -111,15 +91,7 @@
         'add remove destroy',
         debouncedUpdateLastMessage
       );
-      this.listenTo(this.messageCollection, 'sent', this.updateLastMessage);
-      this.listenTo(
-        this.messageCollection,
-        'send-error',
-        this.updateLastMessage
-      );
-
       this.on('newmessage', this.onNewMessage);
-      this.on('change:profileKey', this.onChangeProfileKey);
 
       // Listening for out-of-band data updates
       this.on('updateMessage', this.updateAndMerge);
@@ -515,119 +487,6 @@
       return result;
     },
 
-    onMessageError() {
-      this.updateVerified();
-    },
-    safeGetVerified() {
-      const promise = textsecure.storage.protocol.getVerified(this.id);
-      return promise.catch(
-        () => textsecure.storage.protocol.VerifiedStatus.DEFAULT
-      );
-    },
-    async updateVerified() {
-      if (this.isPrivate()) {
-        await this.initialPromise;
-        const verified = await this.safeGetVerified();
-
-        this.set({ verified });
-
-        // we don't await here because we don't need to wait for this to finish
-        this.commit();
-
-        return;
-      }
-
-      await this.fetchContacts();
-      await Promise.all(
-        this.contactCollection.map(async contact => {
-          if (!contact.isMe()) {
-            await contact.updateVerified();
-          }
-        })
-      );
-    },
-    setVerifiedDefault(options) {
-      const { DEFAULT } = this.verifiedEnum;
-      return this.queueJob(() => this._setVerified(DEFAULT, options));
-    },
-    setVerified(options) {
-      const { VERIFIED } = this.verifiedEnum;
-      return this.queueJob(() => this._setVerified(VERIFIED, options));
-    },
-    setUnverified(options) {
-      const { UNVERIFIED } = this.verifiedEnum;
-      return this.queueJob(() => this._setVerified(UNVERIFIED, options));
-    },
-    async _setVerified(verified, providedOptions) {
-      const options = providedOptions || {};
-      _.defaults(options, {
-        viaSyncMessage: false,
-        viaContactSync: false,
-        key: null,
-      });
-
-      const { VERIFIED, UNVERIFIED } = this.verifiedEnum;
-
-      if (!this.isPrivate()) {
-        throw new Error(
-          'You cannot verify a group conversation. ' +
-            'You must verify individual contacts.'
-        );
-      }
-
-      const beginningVerified = this.get('verified');
-      let keyChange;
-      if (options.viaSyncMessage) {
-        // handle the incoming key from the sync messages - need different
-        // behavior if that key doesn't match the current key
-        keyChange = await textsecure.storage.protocol.processVerifiedMessage(
-          this.id,
-          verified,
-          options.key
-        );
-      } else {
-        keyChange = await textsecure.storage.protocol.setVerified(
-          this.id,
-          verified
-        );
-      }
-
-      this.set({ verified });
-      await this.commit();
-
-      // Three situations result in a verification notice in the conversation:
-      //   1) The message came from an explicit verification in another client (not
-      //      a contact sync)
-      //   2) The verification value received by the contact sync is different
-      //      from what we have on record (and it's not a transition to UNVERIFIED)
-      //   3) Our local verification status is VERIFIED and it hasn't changed,
-      //      but the key did change (Key1/VERIFIED to Key2/VERIFIED - but we don't
-      //      want to show DEFAULT->DEFAULT or UNVERIFIED->UNVERIFIED)
-      if (
-        !options.viaContactSync ||
-        (beginningVerified !== verified && verified !== UNVERIFIED) ||
-        (keyChange && verified === VERIFIED)
-      ) {
-        await this.addVerifiedChange(this.id, verified === VERIFIED, {
-          local: !options.viaSyncMessage,
-        });
-      }
-    },
-    isVerified() {
-      if (this.isPrivate()) {
-        return this.get('verified') === this.verifiedEnum.VERIFIED;
-      }
-      if (!this.contactCollection.length) {
-        return false;
-      }
-
-      return this.contactCollection.every(contact => {
-        if (contact.isMe()) {
-          return true;
-        }
-        return contact.isVerified();
-      });
-    },
     async getPrimaryConversation() {
       if (!this.isSecondaryDevice()) {
         // This is already the primary conversation
@@ -666,207 +525,6 @@
     async updateGroupAdmins(groupAdmins) {
       this.set({ groupAdmins });
       await this.commit();
-    },
-    isUnverified() {
-      if (this.isPrivate()) {
-        const verified = this.get('verified');
-        return (
-          verified !== this.verifiedEnum.VERIFIED &&
-          verified !== this.verifiedEnum.DEFAULT
-        );
-      }
-      if (!this.contactCollection.length) {
-        return true;
-      }
-
-      return this.contactCollection.any(contact => {
-        if (contact.isMe()) {
-          return false;
-        }
-        return contact.isUnverified();
-      });
-    },
-    getUnverified() {
-      if (this.isPrivate()) {
-        return this.isUnverified()
-          ? new Backbone.Collection([this])
-          : new Backbone.Collection();
-      }
-      return new Backbone.Collection(
-        this.contactCollection.filter(contact => {
-          if (contact.isMe()) {
-            return false;
-          }
-          return contact.isUnverified();
-        })
-      );
-    },
-    setApproved() {
-      if (!this.isPrivate()) {
-        throw new Error(
-          'You cannot set a group conversation as trusted. ' +
-            'You must set individual contacts as trusted.'
-        );
-      }
-
-      return textsecure.storage.protocol.setApproval(this.id, true);
-    },
-    safeIsUntrusted() {
-      return textsecure.storage.protocol
-        .isUntrusted(this.id)
-        .catch(() => false);
-    },
-    isUntrusted() {
-      if (this.isPrivate()) {
-        return this.safeIsUntrusted();
-      }
-      if (!this.contactCollection.length) {
-        return Promise.resolve(false);
-      }
-
-      return Promise.all(
-        this.contactCollection.map(contact => {
-          if (contact.isMe()) {
-            return false;
-          }
-          return contact.safeIsUntrusted();
-        })
-      ).then(results => _.any(results, result => result));
-    },
-    getUntrusted() {
-      // This is a bit ugly because isUntrusted() is async. Could do the work to cache
-      //   it locally, but we really only need it for this call.
-      if (this.isPrivate()) {
-        return this.isUntrusted().then(untrusted => {
-          if (untrusted) {
-            return new Backbone.Collection([this]);
-          }
-
-          return new Backbone.Collection();
-        });
-      }
-      return Promise.all(
-        this.contactCollection.map(contact => {
-          if (contact.isMe()) {
-            return [false, contact];
-          }
-          return Promise.all([contact.isUntrusted(), contact]);
-        })
-      ).then(results => {
-        const filtered = _.filter(results, result => {
-          const untrusted = result[0];
-          return untrusted;
-        });
-        return new Backbone.Collection(
-          _.map(filtered, result => {
-            const contact = result[1];
-            return contact;
-          })
-        );
-      });
-    },
-    toggleVerified() {
-      if (this.isVerified()) {
-        return this.setVerifiedDefault();
-      }
-      return this.setVerified();
-    },
-
-    async addKeyChange(keyChangedId) {
-      window.log.info(
-        'adding key change advisory for',
-        this.idForLogging(),
-        keyChangedId,
-        this.get('timestamp')
-      );
-
-      const timestamp = Date.now();
-      const message = {
-        conversationId: this.id,
-        type: 'keychange',
-        sent_at: this.get('timestamp'),
-        received_at: timestamp,
-        key_changed: keyChangedId,
-        unread: 1,
-      };
-
-      // no commit() here as this is not a message model object
-      const id = await window.Signal.Data.saveMessage(message, {
-        Message: Whisper.Message,
-      });
-
-      this.trigger(
-        'newmessage',
-        new Whisper.Message({
-          ...message,
-          id,
-        })
-      );
-    },
-    // Remove the message locally from our conversation
-    async _removeMessage(id) {
-      await window.Signal.Data.removeMessage(id, { Message: Whisper.Message });
-      const existing = this.messageCollection.get(id);
-      if (existing) {
-        this.messageCollection.remove(id);
-        existing.trigger('destroy');
-      }
-    },
-    async addVerifiedChange(verifiedChangeId, verified, providedOptions) {
-      const options = providedOptions || {};
-      _.defaults(options, { local: true });
-
-      if (this.isMe()) {
-        window.log.info(
-          'refusing to add verified change advisory for our own number'
-        );
-        return;
-      }
-
-      const lastMessage = this.get('timestamp') || Date.now();
-
-      window.log.info(
-        'adding verified change advisory for',
-        this.idForLogging(),
-        verifiedChangeId,
-        lastMessage
-      );
-
-      const timestamp = Date.now();
-      const message = {
-        conversationId: this.id,
-        type: 'verified-change',
-        sent_at: lastMessage,
-        received_at: timestamp,
-        verifiedChanged: verifiedChangeId,
-        verified,
-        local: options.local,
-        unread: 1,
-      };
-
-      // no commit() here as this is not a message model object
-      const id = await window.Signal.Data.saveMessage(message, {
-        Message: Whisper.Message,
-      });
-
-      this.trigger(
-        'newmessage',
-        new Whisper.Message({
-          ...message,
-          id,
-        })
-      );
-
-      if (this.isPrivate()) {
-        window
-          .getConversationController()
-          .getAllGroupsInvolvingId(this.id)
-          .then(groups => {
-            _.forEach(groups, group => {
-              group.addVerifiedChange(this.id, verified, options);
-            });
-          });
-      }
     },
 
     async onReadMessage(message, readAt) {
@@ -1161,8 +819,7 @@
       attachments,
       quote,
       preview,
-      groupInvitation = null,
-      otherOptions = {}
+      groupInvitation = null
     ) {
       this.clearTypingTimers();
 
@@ -1204,12 +861,9 @@
         messageWithSchema.destination = destination;
       }
 
-      const { sessionRestoration = false } = otherOptions;
-
       const attributes = {
         ...messageWithSchema,
         groupInvitation,
-        sessionRestoration,
         id: window.getGuid(),
       };
 
@@ -1454,109 +1108,6 @@
     isSearchable() {
       return !this.get('left');
     },
-    async setSessionResetStatus(newStatus) {
-      // Ensure that the new status is a valid SessionResetEnum value
-      if (!(newStatus in Object.values(SessionResetEnum))) {
-        return;
-      }
-      if (this.get('sessionResetStatus') !== newStatus) {
-        this.set({ sessionResetStatus: newStatus });
-        await this.commit();
-      }
-    },
-    async onSessionResetInitiated() {
-      await this.setSessionResetStatus(SessionResetEnum.initiated);
-    },
-    async onSessionResetReceived() {
-      await this.createAndStoreEndSessionMessage({
-        type: 'incoming',
-        endSessionType: 'ongoing',
-      });
-      await this.setSessionResetStatus(SessionResetEnum.request_received);
-    },
-
-    isSessionResetReceived() {
-      return (
-        this.get('sessionResetStatus') === SessionResetEnum.request_received
-      );
-    },
-
-    isSessionResetOngoing() {
-      return this.get('sessionResetStatus') !== SessionResetEnum.none;
-    },
-
-    async createAndStoreEndSessionMessage(attributes) {
-      const now = Date.now();
-      const message = this.messageCollection.add({
-        conversationId: this.id,
-        type: 'outgoing',
-        sent_at: now,
-        received_at: now,
-        destination: this.id,
-        recipients: this.getRecipients(),
-        flags: textsecure.protobuf.DataMessage.Flags.END_SESSION,
-        ...attributes,
-      });
-
-      const id = await message.commit();
-      message.set({ id });
-      window.Whisper.events.trigger('messageAdded', {
-        conversationKey: this.id,
-        messageModel: message,
-      });
-      return message;
-    },
-
-    async onNewSessionAdopted() {
-      if (this.get('sessionResetStatus') === SessionResetEnum.initiated) {
-        // send empty message to confirm that we have adopted the new session
-        const user = new libsession.Types.PubKey(this.id);
-
-        const sessionEstablished = new window.libsession.Messages.Outgoing.SessionEstablishedMessage(
-          { timestamp: Date.now() }
-        );
-        await libsession.getMessageQueue().send(user, sessionEstablished);
-      }
-      await this.createAndStoreEndSessionMessage({
-        type: 'incoming',
-        endSessionType: 'done',
-      });
-      await this.setSessionResetStatus(SessionResetEnum.none);
-    },
-
-    async endSession() {
-      if (this.isPrivate()) {
-        // Only create a new message if *we* initiated the session reset.
-        // On the receiver side, the actual message containing the END_SESSION flag
-        // will ensure the "session reset" message will be added to their conversation.
-        if (
-          this.get('sessionResetStatus') !== SessionResetEnum.request_received
-        ) {
-          await this.onSessionResetInitiated();
-          // const message = await this.createAndStoreEndSessionMessage({
-          //   type: 'outgoing',
-          //   endSessionType: 'ongoing',
-          // });
-          // window.log.info('resetting secure session');
-          // const device = new libsession.Types.PubKey(this.id);
-          // const preKeyBundle = await window.libloki.storage.getPreKeyBundleForContact(
-          //   device.key
-          // );
-          // // const endSessionMessage = new libsession.Messages.Outgoing.EndSessionMessage(
-          // //   {
-          // //     timestamp: message.get('sent_at'),
-          // //     preKeyBundle,
-          // //   }
-          // // );
-
-          // // await libsession.getMessageQueue().send(device, endSessionMessage);
-          // // // TODO handle errors to reset session reset status with the new pipeline
-          // // if (message.hasErrors()) {
-          // //   await this.setSessionResetStatus(SessionResetEnum.none);
-          // // }
-        }
-      }
-    },
 
     async commit() {
       await window.Signal.Data.updateConversation(this.id, this.attributes, {
@@ -1668,14 +1219,6 @@
 
       if (this.isPublic()) {
         window.log.debug('public conversation... No need to send read receipt');
-        return;
-      }
-
-      const devicePubkey = new libsession.Types.PubKey(this.id);
-      const hasSession = await libsession.Protocols.SessionProtocol.hasSession(
-        devicePubkey
-      );
-      if (!hasSession) {
         return;
       }
 
@@ -1835,13 +1378,6 @@
     },
 
     // SIGNAL PROFILES
-
-    onChangeProfileKey() {
-      if (this.isPrivate()) {
-        this.getProfiles();
-      }
-    },
-
     getProfiles() {
       // request all conversation members' keys
       let ids = [];
@@ -2054,13 +1590,6 @@
     },
 
     removeMessage(messageId) {
-      const message = this.messageCollection.models.find(
-        msg => msg.id === messageId
-      );
-      if (message) {
-        message.trigger('unload');
-        this.messageCollection.remove(messageId);
-      }
       window.Signal.Data.removeMessage(messageId, {
         Message: Whisper.Message,
       });
@@ -2092,7 +1621,6 @@
         MessageCollection: Whisper.MessageCollection,
       });
 
-      this.messageCollection.reset([]);
       window.Whisper.events.trigger('conversationReset', {
         conversationKey: this.id,
       });

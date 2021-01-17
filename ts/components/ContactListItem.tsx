@@ -10,7 +10,6 @@ interface Props {
   phoneNumber: string;
   isMe?: boolean;
   name?: string;
-  verified: boolean;
   profileName?: string;
   avatarPath?: string;
   i18n: LocalizerType;
@@ -60,7 +59,6 @@ export class ContactListItem extends React.Component<Props> {
       ) : null;
 
     const showNumber = isMe || name;
-    const showVerified = !isMe && verified;
 
     return (
       <div
@@ -75,14 +73,6 @@ export class ContactListItem extends React.Component<Props> {
         <div className="module-contact-list-item__text">
           <div className="module-contact-list-item__text__name">
             <Emojify text={displayName} i18n={i18n} /> {profileElement}
-          </div>
-          <div className="module-contact-list-item__text__additional-data">
-            {showVerified ? (
-              <div className="module-contact-list-item__text__verified-icon" />
-            ) : null}
-            {showVerified ? ` ${i18n('verified')}` : null}
-            {showVerified && showNumber ? ' ∙ ' : null}
-            {showNumber ? phoneNumber : null}
           </div>
         </div>
       </div>

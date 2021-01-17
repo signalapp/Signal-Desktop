@@ -15,28 +15,10 @@
 (function() {
   'use strict';
 
-  const TIMESTAMP_THRESHOLD = 5 * 1000; // 5 seconds
   const Direction = {
     SENDING: 1,
     RECEIVING: 2,
   };
-
-  const VerifiedStatus = {
-    DEFAULT: 0,
-    VERIFIED: 1,
-    UNVERIFIED: 2,
-  };
-
-  function validateVerifiedStatus(status) {
-    if (
-      status === VerifiedStatus.DEFAULT ||
-      status === VerifiedStatus.VERIFIED ||
-      status === VerifiedStatus.UNVERIFIED
-    ) {
-      return true;
-    }
-    return false;
-  }
 
   const StaticByteBufferProto = new dcodeIO.ByteBuffer().__proto__;
   const StaticArrayBufferProto = new ArrayBuffer().__proto__;
@@ -113,7 +95,6 @@
       'publicKey',
       'firstUse',
       'timestamp',
-      'verified',
       'nonblockingApproval',
     ],
     validate(attrs) {
@@ -143,9 +124,6 @@
       }
       if (typeof attrs.timestamp !== 'number' || !(attrs.timestamp >= 0)) {
         return new Error('Invalid identity key timestamp');
-      }
-      if (!validateVerifiedStatus(attrs.verified)) {
-        return new Error('Invalid identity key verified');
       }
       if (typeof attrs.nonblockingApproval !== 'boolean') {
         return new Error('Invalid identity key nonblockingApproval');
@@ -528,7 +506,6 @@
           publicKey,
           firstUse: true,
           timestamp: Date.now(),
-          verified: VerifiedStatus.DEFAULT,
           nonblockingApproval,
         });
 
@@ -538,54 +515,19 @@
       const oldpublicKey = identityRecord.publicKey;
       if (!equalArrayBuffers(oldpublicKey, publicKey)) {
         window.log.info('Replacing existing identity...');
-        const previousStatus = identityRecord.verified;
-        let verifiedStatus;
-        if (
-          previousStatus === VerifiedStatus.VERIFIED ||
-          previousStatus === VerifiedStatus.UNVERIFIED
-        ) {
-          verifiedStatus = VerifiedStatus.UNVERIFIED;
-        } else {
-          verifiedStatus = VerifiedStatus.DEFAULT;
-        }
 
         await this._saveIdentityKey({
           id: number,
           publicKey,
           firstUse: false,
           timestamp: Date.now(),
-          verified: verifiedStatus,
           nonblockingApproval,
         });
 
-        try {
-          this.trigger('keychange', number);
-        } catch (error) {
-          window.log.error(
-            'saveIdentity error triggering keychange:',
-            error && error.stack ? error.stack : error
-          );
-        }
-        await this.archiveSiblingSessions(identifier);
-
         return true;
-      } else if (this.isNonBlockingApprovalRequired(identityRecord)) {
-        window.log.info('Setting approval status...');
-
-        identityRecord.nonblockingApproval = nonblockingApproval;
-        await this._saveIdentityKey(identityRecord);
-
-        return false;
       }
 
       return false;
-    },
-    isNonBlockingApprovalRequired(identityRecord) {
-      return (
-        !identityRecord.firstUse &&
-        Date.now() - identityRecord.timestamp < TIMESTAMP_THRESHOLD &&
-        !identityRecord.nonblockingApproval
-      );
     },
     async saveIdentityWithAttributes(identifier, attributes) {
       if (identifier === null || identifier === undefined) {
@@ -626,230 +568,9 @@
       identityRecord.nonblockingApproval = nonblockingApproval;
       await this._saveIdentityKey(identityRecord);
     },
-    async setVerified(number, verifiedStatus, publicKey) {
-      if (number === null || number === undefined) {
-        throw new Error('Tried to set verified for undefined/null key');
-      }
-      if (!validateVerifiedStatus(verifiedStatus)) {
-        throw new Error('Invalid verified status');
-      }
-      if (arguments.length > 2 && !(publicKey instanceof ArrayBuffer)) {
-        throw new Error('Invalid public key');
-      }
-
-      const identityRecord = this.identityKeys[number];
-      if (!identityRecord) {
-        throw new Error(`No identity record for ${number}`);
-      }
-
-      if (
-        !publicKey ||
-        equalArrayBuffers(identityRecord.publicKey, publicKey)
-      ) {
-        identityRecord.verified = verifiedStatus;
-
-        const model = new IdentityRecord(identityRecord);
-        if (model.isValid()) {
-          await this._saveIdentityKey(identityRecord);
-        } else {
-          throw identityRecord.validationError;
-        }
-      } else {
-        window.log.info('No identity record for specified publicKey');
-      }
-    },
-    async getVerified(number) {
-      if (number === null || number === undefined) {
-        throw new Error('Tried to set verified for undefined/null key');
-      }
-
-      const identityRecord = this.identityKeys[number];
-      if (!identityRecord) {
-        throw new Error(`No identity record for ${number}`);
-      }
-
-      const verifiedStatus = identityRecord.verified;
-      if (validateVerifiedStatus(verifiedStatus)) {
-        return verifiedStatus;
-      }
-
-      return VerifiedStatus.DEFAULT;
-    },
-    // Resolves to true if a new identity key was saved
-    processContactSyncVerificationState(identifier, verifiedStatus, publicKey) {
-      if (verifiedStatus === VerifiedStatus.UNVERIFIED) {
-        return this.processUnverifiedMessage(
-          identifier,
-          verifiedStatus,
-          publicKey
-        );
-      }
-      return this.processVerifiedMessage(identifier, verifiedStatus, publicKey);
-    },
-    // This function encapsulates the non-Java behavior, since the mobile apps don't
-    //   currently receive contact syncs and therefore will see a verify sync with
-    //   UNVERIFIED status
-    async processUnverifiedMessage(number, verifiedStatus, publicKey) {
-      if (number === null || number === undefined) {
-        throw new Error('Tried to set verified for undefined/null key');
-      }
-      if (publicKey !== undefined && !(publicKey instanceof ArrayBuffer)) {
-        throw new Error('Invalid public key');
-      }
-
-      const identityRecord = this.identityKeys[number];
-      const isPresent = Boolean(identityRecord);
-      let isEqual = false;
-
-      if (isPresent && publicKey) {
-        isEqual = equalArrayBuffers(publicKey, identityRecord.publicKey);
-      }
-
-      if (
-        isPresent &&
-        isEqual &&
-        identityRecord.verified !== VerifiedStatus.UNVERIFIED
-      ) {
-        await textsecure.storage.protocol.setVerified(
-          number,
-          verifiedStatus,
-          publicKey
-        );
-        return false;
-      }
-
-      if (!isPresent || !isEqual) {
-        await textsecure.storage.protocol.saveIdentityWithAttributes(number, {
-          publicKey,
-          verified: verifiedStatus,
-          firstUse: false,
-          timestamp: Date.now(),
-          nonblockingApproval: true,
-        });
-
-        if (isPresent && !isEqual) {
-          try {
-            this.trigger('keychange', number);
-          } catch (error) {
-            window.log.error(
-              'processUnverifiedMessage error triggering keychange:',
-              error && error.stack ? error.stack : error
-            );
-          }
-
-          await this.archiveAllSessions(number);
-
-          return true;
-        }
-      }
-
-      // The situation which could get us here is:
-      //   1. had a previous key
-      //   2. new key is the same
-      //   3. desired new status is same as what we had before
-      return false;
-    },
-    // This matches the Java method as of
-    //   https://github.com/signalapp/Signal-Android/blob/d0bb68e1378f689e4d10ac6a46014164992ca4e4/src/org/thoughtcrime/securesms/util/IdentityUtil.java#L188
-    async processVerifiedMessage(number, verifiedStatus, publicKey) {
-      if (number === null || number === undefined) {
-        throw new Error('Tried to set verified for undefined/null key');
-      }
-      if (!validateVerifiedStatus(verifiedStatus)) {
-        throw new Error('Invalid verified status');
-      }
-      if (publicKey !== undefined && !(publicKey instanceof ArrayBuffer)) {
-        throw new Error('Invalid public key');
-      }
-
-      const identityRecord = this.identityKeys[number];
-
-      const isPresent = Boolean(identityRecord);
-      let isEqual = false;
-
-      if (isPresent && publicKey) {
-        isEqual = equalArrayBuffers(publicKey, identityRecord.publicKey);
-      }
-
-      if (!isPresent && verifiedStatus === VerifiedStatus.DEFAULT) {
-        window.log.info('No existing record for default status');
-        return false;
-      }
-
-      if (
-        isPresent &&
-        isEqual &&
-        identityRecord.verified !== VerifiedStatus.DEFAULT &&
-        verifiedStatus === VerifiedStatus.DEFAULT
-      ) {
-        await textsecure.storage.protocol.setVerified(
-          number,
-          verifiedStatus,
-          publicKey
-        );
-        return false;
-      }
-
-      if (
-        verifiedStatus === VerifiedStatus.VERIFIED &&
-        (!isPresent ||
-          (isPresent && !isEqual) ||
-          (isPresent && identityRecord.verified !== VerifiedStatus.VERIFIED))
-      ) {
-        await textsecure.storage.protocol.saveIdentityWithAttributes(number, {
-          publicKey,
-          verified: verifiedStatus,
-          firstUse: false,
-          timestamp: Date.now(),
-          nonblockingApproval: true,
-        });
-
-        if (isPresent && !isEqual) {
-          try {
-            this.trigger('keychange', number);
-          } catch (error) {
-            window.log.error(
-              'processVerifiedMessage error triggering keychange:',
-              error && error.stack ? error.stack : error
-            );
-          }
-
-          await this.archiveAllSessions(number);
-
-          // true signifies that we overwrote a previous key with a new one
-          return true;
-        }
-      }
-
-      // We get here if we got a new key and the status is DEFAULT. If the
-      //   message is out of date, we don't want to lose whatever more-secure
-      //   state we had before.
-      return false;
-    },
-    async isUntrusted(number) {
-      if (number === null || number === undefined) {
-        throw new Error('Tried to set verified for undefined/null key');
-      }
-
-      const identityRecord = this.identityKeys[number];
-      if (!identityRecord) {
-        throw new Error(`No identity record for ${number}`);
-      }
-
-      if (
-        Date.now() - identityRecord.timestamp < TIMESTAMP_THRESHOLD &&
-        !identityRecord.nonblockingApproval &&
-        !identityRecord.firstUse
-      ) {
-        return true;
-      }
-
-      return false;
-    },
     async removeIdentityKey(number) {
       delete this.identityKeys[number];
       await window.Signal.Data.removeIdentityKeyById(number);
-      await textsecure.storage.protocol.removeAllSessions(number);
     },
 
     // Not yet processed messages - for resiliency
@@ -905,5 +626,4 @@
 
   window.SignalProtocolStore = SignalProtocolStore;
   window.SignalProtocolStore.prototype.Direction = Direction;
-  window.SignalProtocolStore.prototype.VerifiedStatus = VerifiedStatus;
 })();

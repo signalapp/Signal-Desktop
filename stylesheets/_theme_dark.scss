@@ -53,16 +53,6 @@
     }
   }
 
-  .contact-details {
-    .number {
-      color: $color-dark-30;
-    }
-
-    .verified-icon {
-      @include color-svg('../images/verified-check.svg', $grey);
-    }
-  }
-
   .recipients-input {
     .recipients-container {
       background-color: white;
@@ -275,16 +265,6 @@
     color: $color-dark-30;
   }
 
-  // Module: Safety Number Notification
-
-  .module-safety-number-notification__icon {
-    @include color-svg('../images/shield.svg', $color-dark-30);
-  }
-
-  .module-safety-number-notification__text {
-    color: $color-dark-30;
-  }
-
   .module-verification-notification__button {
     color: $color-loki-green;
     background-color: $color-gray-75;
@@ -294,14 +274,6 @@
 
   .module-verification-notification {
     color: $color-dark-30;
-  }
-
-  .module-verification-notification__icon--mark-verified {
-    @include color-svg('../images/verified-check.svg', $color-dark-30);
-  }
-
-  .module-verification-notification__icon--mark-not-verified {
-    @include color-svg('../images/shield.svg', $color-dark-30);
   }
 
   // Module: Timer Notification
@@ -324,10 +296,6 @@
     color: $color-dark-30;
   }
 
-  .module-contact-list-item__text__verified-icon {
-    @include color-svg('../images/verified-check.svg', $color-dark-30);
-  }
-
   // Module: Message Detail
 
   .module-message-detail__delete-button {
@@ -341,10 +309,6 @@
     color: $session-color-danger;
   }
 
-  .module-message-detail__contact__show-safety-number {
-    color: $color-white;
-    background-color: $color-light-35;
-  }
   .module-message-detail__contact__send-anyway {
     color: $color-white;
     background-color: $session-color-danger;
