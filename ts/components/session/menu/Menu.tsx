@@ -75,25 +75,25 @@ function showDeleteContact(
 }
 
 function showAddModerators(
-  amMod: boolean,
+  isAdmin: boolean,
   isKickedFromGroup: boolean
 ): boolean {
-  return !isKickedFromGroup && amMod;
+  return !isKickedFromGroup && isAdmin;
 }
 
 function showRemoveModerators(
-  amMod: boolean,
+  isAdmin: boolean,
   isKickedFromGroup: boolean
 ): boolean {
-  return !isKickedFromGroup && amMod;
+  return !isKickedFromGroup && isAdmin;
 }
 
 function showUpdateGroupName(
-  amMod: boolean,
+  isAdmin: boolean,
   isKickedFromGroup: boolean,
   left: boolean
 ): boolean {
-  return !isKickedFromGroup && !left && amMod;
+  return !isKickedFromGroup && !left && isAdmin;
 }
 
 function showLeaveGroup(
@@ -174,7 +174,7 @@ export function getLeaveGroupMenuItem(
 }
 
 export function getUpdateGroupNameMenuItem(
-  amMod: boolean | undefined,
+  isAdmin: boolean | undefined,
   isKickedFromGroup: boolean | undefined,
   left: boolean | undefined,
   action: any,
@@ -182,7 +182,7 @@ export function getUpdateGroupNameMenuItem(
 ): JSX.Element | null {
   if (
     showUpdateGroupName(
-      Boolean(amMod),
+      Boolean(isAdmin),
       Boolean(isKickedFromGroup),
       Boolean(left)
     )
@@ -193,24 +193,24 @@ export function getUpdateGroupNameMenuItem(
 }
 
 export function getRemoveModeratorsMenuItem(
-  amMod: boolean | undefined,
+  isAdmin: boolean | undefined,
   isKickedFromGroup: boolean | undefined,
   action: any,
   i18n: LocalizerType
 ): JSX.Element | null {
-  if (showRemoveModerators(Boolean(amMod), Boolean(isKickedFromGroup))) {
+  if (showRemoveModerators(Boolean(isAdmin), Boolean(isKickedFromGroup))) {
     return <Item onClick={action}>{i18n('removeModerators')}</Item>;
   }
   return null;
 }
 
 export function getAddModeratorsMenuItem(
-  amMod: boolean | undefined,
+  isAdmin: boolean | undefined,
   isKickedFromGroup: boolean | undefined,
   action: any,
   i18n: LocalizerType
 ): JSX.Element | null {
-  if (showAddModerators(Boolean(amMod), Boolean(isKickedFromGroup))) {
+  if (showAddModerators(Boolean(isAdmin), Boolean(isKickedFromGroup))) {
     return <Item onClick={action}>{i18n('addModerators')}</Item>;
   }
   return null;

@@ -444,7 +444,7 @@ export class SessionConversation extends React.Component<Props, State> {
       isPrivate: conversation.isPrivate(),
       isPublic: conversation.isPublic(),
       isRss: conversation.isRss(),
-      amMod: conversation.isModerator(
+      isAdmin: conversation.isModerator(
         window.storage.get('primaryDevicePubKey')
       ),
       members,
@@ -484,7 +484,7 @@ export class SessionConversation extends React.Component<Props, State> {
       },
 
       onUpdateGroupName: () => {
-        conversation.onUpdateGroupName();
+        window.Whisper.events.trigger('updateGroupName', conversation);
       },
 
       onBlockUser: () => {
@@ -549,12 +549,14 @@ export class SessionConversation extends React.Component<Props, State> {
     const conversation = ConversationController.getInstance().getOrThrow(
       conversationKey
     );
+    const ourPrimary = window.storage.get('primaryDevicePubKey');
 
-    const ourPK = window.textsecure.storage.user.getNumber();
     const members = conversation.get('members') || [];
     const isAdmin = conversation.isMediumGroup()
       ? true
-      : conversation.get('groupAdmins')?.includes(ourPK);
+      : conversation.isPublic()
+      ? conversation.isModerator(ourPrimary)
+      : false;
 
     return {
       id: conversation.id,
@@ -563,7 +565,6 @@ export class SessionConversation extends React.Component<Props, State> {
       phoneNumber: conversation.getNumber(),
       profileName: conversation.getProfileName(),
       avatarPath: conversation.getAvatarPath(),
-      amMod: conversation.isModerator(),
       isKickedFromGroup: conversation.get('isKickedFromGroup'),
       left: conversation.get('left'),
       isGroup: !conversation.isPrivate(),
@@ -601,7 +602,13 @@ export class SessionConversation extends React.Component<Props, State> {
       onLeaveGroup: () => {
         window.Whisper.events.trigger('leaveGroup', conversation);
       },
+      onAddModerators: () => {
+        window.Whisper.events.trigger('addModerators', conversation);
+      },
 
+      onRemoveModerators: () => {
+        window.Whisper.events.trigger('removeModerators', conversation);
+      },
       onShowLightBox: (lightBoxOptions = {}) => {
         this.setState({ lightBoxOptions });
       },

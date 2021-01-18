@@ -21,17 +21,20 @@
       const modPubKeys = await this.channelAPI.getModerators();
 
       // private contacts (not you) that aren't already moderators
-      const contacts = convo.filter(
-        d =>
-          !!d &&
-          d.isPrivate() &&
-          !d.isBlocked() &&
-          !d.isMe() &&
-          !modPubKeys.includes(d.id)
-      );
+      const contacts = window
+        .getConversationController()
+        .getConversations()
+        .filter(
+          d =>
+            !!d &&
+            d.isPrivate() &&
+            !d.isBlocked() &&
+            !d.isMe() &&
+            !modPubKeys.includes(d.id)
+        );
 
       this.contacts = contacts;
-      this.this.theme = convo.theme;
+      this.theme = convo.theme;
 
       this.$el.focus();
       this.render();
