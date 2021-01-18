@@ -1,8 +1,7 @@
-# Copyright 2020 Signal Messenger, LLC
+# Copyright 2021 Signal Messenger, LLC
 # SPDX-License-Identifier: AGPL-3.0-only
 
 name: Snyk
-
 on:
   schedule:
     - cron:  '0 12 * * *'
@@ -15,8 +14,8 @@ jobs:
     steps:
     - run: lsb_release -a
     - run: uname -a
-    - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
       with:
         node-version: '12.13.0'
     - run: npm install -g yarn@1.22.0
