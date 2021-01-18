@@ -1,14 +1,17 @@
 import React from 'react';
 import { Contact, MemberList } from './MemberList';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
-import { DefaultTheme } from 'styled-components';
+import {
+  SessionButton,
+  SessionButtonColor,
+  SessionButtonType,
+} from '../session/SessionButton';
 
 interface Props {
   contactList: Array<any>;
   chatName: string;
   onSubmit: any;
   onClose: any;
-  // theme: DefaultTheme;
 }
 
 interface State {
@@ -117,7 +120,7 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
   }
 
   public render() {
-    const i18n = window.i18n;
+    const { i18n } = window;
 
     const hasContacts = this.state.contactList.length !== 0;
 
@@ -136,9 +139,12 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
             dir="auto"
             onChange={this.updateSearchBound}
           />
-          <button className="add" tabIndex={0} onClick={this.add}>
-            {i18n('add')}
-          </button>
+          <SessionButton
+            buttonType={SessionButtonType.Brand}
+            buttonColor={SessionButtonColor.Primary}
+            onClick={this.add}
+            text={i18n('addToTheListBelow')}
+          />
         </div>
         <div className="moderatorList">
           <p>From friends:</p>
@@ -152,13 +158,19 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
           </div>
           {hasContacts ? null : <p>{i18n('noContactsToAdd')}</p>}
         </div>
-        <div className="buttons">
-          <button className="cancel" tabIndex={0} onClick={this.closeDialog}>
-            {i18n('cancel')}
-          </button>
-          <button className="ok" tabIndex={0} onClick={this.onClickOK}>
-            {i18n('ok')}
-          </button>
+        <div className="session-modal__button-group">
+          <SessionButton
+            buttonType={SessionButtonType.Brand}
+            buttonColor={SessionButtonColor.Secondary}
+            onClick={this.closeDialog}
+            text={i18n('cancel')}
+          />
+          <SessionButton
+            buttonType={SessionButtonType.BrandOutline}
+            buttonColor={SessionButtonColor.Green}
+            onClick={this.onClickOK}
+            text={i18n('ok')}
+          />
         </div>
       </div>
     );

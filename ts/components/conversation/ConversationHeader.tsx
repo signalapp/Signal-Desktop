@@ -44,7 +44,7 @@ interface Props {
   isPrivate: boolean;
   isPublic: boolean;
   isRss: boolean;
-  amMod: boolean;
+  isAdmin: boolean;
 
   // We might not always have the full list of members,
   // e.g. for open groups where we could have thousands

@@ -1752,6 +1752,18 @@
     "message": "You cannot remove this user as they are the creator of the group.",
     "description": "Toast description when the user tries to remove the creator from a closed group v2 member list."
   },
+  "userNeedsToHaveJoined": {
+    "message": "User needs to have joined",
+    "description": "Toast title when the user tries to remove the creator from a closed group v2 member list."
+  },
+  "userNeedsToHaveJoinedDesc": {
+    "message": "Remember that this user needs to have already joined the server for this ADD to work.",
+    "description": "Toast description when the user adds a moderator for an open group."
+  },
+  "addToTheListBelow": {
+    "message": "Add to the list below",
+    "description": "Button action to add a moderator by pubkey"
+  },
   "noContactsForGroup": {
     "message": "You don't have any contacts yet",
     "androidKey": "activity_create_closed_group_empty_state_message"

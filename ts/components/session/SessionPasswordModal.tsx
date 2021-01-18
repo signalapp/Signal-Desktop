@@ -285,14 +285,18 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
     if (event.key === 'Enter') {
       return this.setPassword(this.props.onOk);
     }
-    this.setState({ currentPasswordEntered: event.target.value });
+    const currentPasswordEntered = event.target.value;
+
+    this.setState({ currentPasswordEntered });
   }
 
   private async onPasswordConfirmInput(event: any) {
     if (event.key === 'Enter') {
       return this.setPassword(this.props.onOk);
     }
-    this.setState({ currentPasswordConfirmEntered: event.target.value });
+    const currentPasswordConfirmEntered = event.target.value;
+
+    this.setState({ currentPasswordConfirmEntered });
   }
 }
 

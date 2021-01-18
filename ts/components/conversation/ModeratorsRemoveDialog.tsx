@@ -1,4 +1,9 @@
 import React from 'react';
+import {
+  SessionButton,
+  SessionButtonColor,
+  SessionButtonType,
+} from '../session/SessionButton';
 import { Contact, MemberList } from './MemberList';
 
 interface Props {
@@ -69,13 +74,19 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
           </div>
           {hasMods ? null : <p>{i18n('noModeratorsToRemove')}</p>}
         </div>
-        <div className="buttons">
-          <button className="cancel" tabIndex={0} onClick={this.closeDialog}>
-            {i18n('cancel')}
-          </button>
-          <button className="ok" tabIndex={0} onClick={this.onClickOK}>
-            {i18n('ok')}
-          </button>
+        <div className="session-modal__button-group">
+          <SessionButton
+            buttonType={SessionButtonType.Brand}
+            buttonColor={SessionButtonColor.Primary}
+            onClick={this.closeDialog}
+            text={i18n('cancel')}
+          />
+          <SessionButton
+            buttonType={SessionButtonType.BrandOutline}
+            buttonColor={SessionButtonColor.Green}
+            onClick={this.onClickOK}
+            text={i18n('ok')}
+          />
         </div>
       </div>
     );

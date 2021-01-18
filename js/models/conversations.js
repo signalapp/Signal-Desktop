@@ -1827,6 +1827,9 @@
       if (!this.isPublic()) {
         return false;
       }
+      if (!pubKey) {
+        throw new Error('isModerator() pubKey is falsy');
+      }
       const moderators = this.get('moderators');
       return Array.isArray(moderators) && moderators.includes(pubKey);
     },

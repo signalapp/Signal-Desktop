@@ -72,7 +72,6 @@ export class SessionInput extends React.PureComponent<Props, State> {
             this.updateInputValue(e);
           }}
           onKeyPress={event => {
-            event.persist();
             if (event.key === 'Enter' && this.props.onEnterPressed) {
               this.props.onEnterPressed();
             }

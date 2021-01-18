@@ -56,10 +56,15 @@
       this.remove();
     },
     async onSubmit(pubKeys) {
+      window.log.info(`asked to remove moderators ${pubKeys}`);
+
       const res = await this.channelAPI.serverAPI.removeModerators(pubKeys);
       if (res !== true) {
         // we have errors, deal with them...
         // how?
+        window.log.warn('failed to remove moderators:', res);
+      } else {
+        window.log.info(`${pubKeys} removed from moderators...`);
       }
     },
   });

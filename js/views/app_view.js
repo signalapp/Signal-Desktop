@@ -23,7 +23,7 @@
       openInbox: 'openInbox',
     },
     applyRtl() {
-      const rtlLocales = ['fa'];
+      const rtlLocales = ['fa', 'ar', 'he'];
 
       const loc = window.i18n.getLocale();
       if (rtlLocales.includes(loc)) {

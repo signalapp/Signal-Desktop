@@ -259,3 +259,11 @@ export function pushCannotRemoveCreatorFromGroup() {
     window.i18n('cannotRemoveCreatorFromGroupDesc')
   );
 }
+
+export function pushUserNeedsToHaveJoined() {
+  pushToastInfo(
+    'userNeedsToHaveJoined',
+    window.i18n('userNeedsToHaveJoined'),
+    window.i18n('userNeedsToHaveJoinedDesc')
+  );
+}
