@@ -65,7 +65,7 @@ export interface ConversationModel
   isRss: () => boolean;
   isBlocked: () => boolean;
   isClosable: () => boolean;
-  isModerator: (id?: string) => boolean;
+  isModerator: (id: string) => boolean;
   throttledBumpTyping: () => void;
 
   messageCollection: Backbone.Collection<MessageModel>;

@@ -29,7 +29,6 @@ interface Props {
   timerOptions: Array<TimerOption>;
   isPublic: boolean;
   isAdmin: boolean;
-  amMod: boolean;
   isKickedFromGroup: boolean;
   left: boolean;
   isBlocked: boolean;
@@ -40,6 +39,8 @@ interface Props {
   onInviteContacts: () => void;
   onLeaveGroup: () => void;
   onUpdateGroupName: () => void;
+  onAddModerators: () => void;
+  onRemoveModerators: () => void;
   onUpdateGroupMembers: () => void;
   onShowLightBox: (options: any) => void;
   onSetDisappearingMessages: (seconds: number) => void;
@@ -247,7 +248,6 @@ class SessionRightPanel extends React.Component<Props, State> {
       left,
       isPublic,
       isAdmin,
-      amMod,
       isBlocked,
       isGroup,
     } = this.props;
@@ -273,10 +273,9 @@ class SessionRightPanel extends React.Component<Props, State> {
       };
     });
 
-    const showUpdateGroupNameButton =
-      isPublic && !commonNoShow
-        ? amMod && !commonNoShow
-        : isAdmin && !commonNoShow;
+    const showUpdateGroupNameButton = isAdmin && !commonNoShow;
+    const showAddRemoveModeratorsButton = isAdmin && !commonNoShow && isPublic;
+
     const showUpdateGroupMembersButton = !isPublic && !commonNoShow && isAdmin;
 
     return (
@@ -305,6 +304,25 @@ class SessionRightPanel extends React.Component<Props, State> {
             {isPublic ? window.i18n('editGroup') : window.i18n('editGroupName')}
           </div>
         )}
+        {showAddRemoveModeratorsButton && (
+          <>
+            <div
+              className="group-settings-item"
+              role="button"
+              onClick={this.props.onAddModerators}
+            >
+              {window.i18n('addModerators')}
+            </div>
+            <div
+              className="group-settings-item"
+              role="button"
+              onClick={this.props.onRemoveModerators}
+            >
+              {window.i18n('removeModerators')}
+            </div>
+          </>
+        )}
+
         {showUpdateGroupMembersButton && (
           <div
             className="group-settings-item"

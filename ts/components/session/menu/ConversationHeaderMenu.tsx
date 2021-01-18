@@ -25,7 +25,7 @@ export type PropsConversationHeaderMenu = {
   isKickedFromGroup?: boolean;
   left?: boolean;
   isGroup: boolean;
-  amMod: boolean;
+  isAdmin: boolean;
   timerOptions: Array<TimerOption>;
   isPrivate: boolean;
   isBlocked: boolean;
@@ -54,7 +54,7 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
     isRss,
     isGroup,
     isKickedFromGroup,
-    amMod,
+    isAdmin,
     timerOptions,
     isBlocked,
     isPrivate,
@@ -115,19 +115,19 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
       {getCopyMenuItem(isPublic, isRss, isGroup, onCopyPublicKey, window.i18n)}
       {getDeleteMessagesMenuItem(isPublic, onDeleteMessages, window.i18n)}
       {getAddModeratorsMenuItem(
-        amMod,
+        isAdmin,
         isKickedFromGroup,
         onAddModerators,
         window.i18n
       )}
       {getRemoveModeratorsMenuItem(
-        amMod,
+        isAdmin,
         isKickedFromGroup,
         onRemoveModerators,
         window.i18n
       )}
       {getUpdateGroupNameMenuItem(
-        amMod,
+        isAdmin,
         isKickedFromGroup,
         left,
         onUpdateGroupName,

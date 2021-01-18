@@ -256,7 +256,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
   private renderAvatar() {
     const { avatar, profileName } = this.state;
     const { pubkey } = this.props;
-    const userName = name || profileName || pubkey;
+    const userName = profileName || pubkey;
 
     return (
       <Avatar avatarPath={avatar} name={userName} size={80} pubkey={pubkey} />
@@ -264,8 +264,6 @@ export class EditProfileDialog extends React.Component<Props, State> {
   }
 
   private onNameEdited(event: any) {
-    event.persist();
-
     const newName = event.target.value.replace(window.displayNameRegex, '');
 
     this.setState(state => {

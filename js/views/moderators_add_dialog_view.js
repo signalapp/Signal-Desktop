@@ -21,17 +21,20 @@
       const modPubKeys = await this.channelAPI.getModerators();
 
       // private contacts (not you) that aren't already moderators
-      const contacts = convo.filter(
-        d =>
-          !!d &&
-          d.isPrivate() &&
-          !d.isBlocked() &&
-          !d.isMe() &&
-          !modPubKeys.includes(d.id)
-      );
+      const contacts = window
+        .getConversationController()
+        .getConversations()
+        .filter(
+          d =>
+            !!d &&
+            d.isPrivate() &&
+            !d.isBlocked() &&
+            !d.isMe() &&
+            !modPubKeys.includes(d.id)
+        );
 
       this.contacts = contacts;
-      this.this.theme = convo.theme;
+      this.theme = convo.theme;
 
       this.$el.focus();
       this.render();
@@ -56,11 +59,16 @@
       this.remove();
     },
     async onSubmit(pubKeys) {
-      log.info(`asked to add ${pubKeys}`);
+      log.info(`asked to add moderators: ${pubKeys}`);
+      window.libsession.Utils.ToastUtils.pushUserNeedsToHaveJoined();
+
       const res = await this.channelAPI.serverAPI.addModerators(pubKeys);
       if (res !== true) {
         // we have errors, deal with them...
         // how?
+        window.log.warn('failed to add moderators:', res);
+      } else {
+        window.log.info(`${pubKeys} added as moderators...`);
       }
     },
   });

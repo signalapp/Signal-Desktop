@@ -157,12 +157,11 @@ class UpdateGroupNameDialogInner extends React.Component<Props, State> {
   }
 
   private onGroupNameChanged(event: any) {
-    event.persist();
-
+    const groupName = event.target.value;
     this.setState(state => {
       return {
         ...state,
-        groupName: event.target.value,
+        groupName,
       };
     });
   }
