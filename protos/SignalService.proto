@@ -12,7 +12,7 @@ message Envelope {
     PREKEY_BUNDLE = 3; //This field is used by Signal. DO NOT TOUCH!.
     RECEIPT       = 5;
     UNIDENTIFIED_SENDER = 6;
-    MEDIUM_GROUP_CIPHERTEXT = 7;
+    CLOSED_GROUP_CIPHERTEXT = 7;
     FALLBACK_MESSAGE = 101; // Custom Encryption for when we don't have a session or we need to establish a session
   }
 
@@ -49,6 +49,38 @@ message MediumGroupCiphertext {
 message MediumGroupContent {
   optional bytes ciphertext = 1;
   optional bytes ephemeralKey = 2;
+}
+
+message ClosedGroupUpdateV2 {
+
+  enum Type {
+    NEW                 = 1; // publicKey, name, encryptionKeyPair, members, admins
+    UPDATE              = 2; // name, members
+    ENCRYPTION_KEY_PAIR = 3; // wrappers
+  }
+
+  message KeyPair {
+    // @required
+    required bytes publicKey  = 1;
+    // @required
+    required bytes privateKey = 2;
+  }
+
+  message KeyPairWrapper {
+    // @required
+    required bytes publicKey        = 1; // The public key of the user the key pair is meant for
+    // @required
+    required bytes encryptedKeyPair = 2; // The encrypted key pair
+  }
+
+  // @required
+  required Type           type              = 1;
+  optional bytes          publicKey         = 2;
+  optional string         name              = 3;
+  optional KeyPair        encryptionKeyPair = 4;
+  repeated bytes          members           = 5;
+  repeated bytes          admins            = 6;
+  repeated KeyPairWrapper wrappers          = 7;
 }
 
 message MediumGroupUpdate {
@@ -252,9 +284,10 @@ message DataMessage {
   optional Quote              quote       = 8;
   repeated Contact            contact     = 9;
   repeated Preview            preview     = 10;
-  optional LokiProfile        profile     = 101; // Loki: The profile of the current user
-  optional GroupInvitation    groupInvitation = 102; // Loki: Invitation to a public chat
-  optional MediumGroupUpdate  mediumGroupUpdate = 103; // Loki
+  optional LokiProfile        profile               = 101; // Loki: The profile of the current user
+  optional GroupInvitation    groupInvitation       = 102; // Loki: Invitation to a public chat
+  optional MediumGroupUpdate  mediumGroupUpdate     = 103; // Loki
+  optional ClosedGroupUpdateV2 closedGroupUpdateV2  = 104; // Loki
 }
 
 message NullMessage {

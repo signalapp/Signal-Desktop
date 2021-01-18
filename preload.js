@@ -180,6 +180,9 @@ window.libsession = require('./ts/session');
 window.getMessageController =
   window.libsession.Messages.MessageController.getInstance;
 
+window.getConversationController =
+  window.libsession.Conversations.ConversationController.getInstance;
+
 // We never do these in our code, so we'll prevent it everywhere
 window.open = () => null;
 // eslint-disable-next-line no-eval, no-multi-assign
@@ -217,9 +220,9 @@ window.onUnblockNumber = async number => {
   }
 
   // Update the conversation
-  if (window.ConversationController) {
+  if (window.getConversationController()) {
     try {
-      const conversation = window.ConversationController.get(number);
+      const conversation = window.getConversationController().get(number);
       await conversation.unblock();
     } catch (e) {
       window.log.info(
@@ -415,7 +418,6 @@ window.Signal = Signal.setup({
 
 // Pulling these in separately since they access filesystem, electron
 window.Signal.Backup = require('./js/modules/backup');
-window.Signal.Debug = require('./js/modules/debug');
 window.Signal.Logs = require('./js/modules/logs');
 
 window.addEventListener('contextmenu', e => {
@@ -433,8 +435,6 @@ window.NewReceiver = require('./ts/receiver/receiver');
 window.DataMessageReceiver = require('./ts/receiver/dataMessage');
 window.NewSnodeAPI = require('./ts/session/snode_api/serviceNodeAPI');
 window.SnodePool = require('./ts/session/snode_api/snodePool');
-
-window.MediumGroups = require('./ts/session/medium_group');
 
 const { SwarmPolling } = require('./ts/session/snode_api/swarmPolling');
 const { SwarmPollingStub } = require('./ts/session/snode_api/swarmPollingStub');
@@ -460,7 +460,6 @@ window.lokiFeatureFlags = {
   useOnionRequestsV2: true,
   useFileOnionRequests: true,
   useFileOnionRequestsV2: true, // more compact encoding of files in response
-  enableSenderKeys: true,
   onionRequestHops: 3,
   debugMessageLogs: process.env.ENABLE_MESSAGE_LOGS,
   useMultiDevice: false,
@@ -499,7 +498,6 @@ if (config.environment.includes('test-integration')) {
     useFileOnionRequests: false,
     useOnionRequestsV2: false,
     debugMessageLogs: true,
-    enableSenderKeys: true,
     useMultiDevice: false,
   };
   /* eslint-disable global-require, import/no-extraneous-dependencies */

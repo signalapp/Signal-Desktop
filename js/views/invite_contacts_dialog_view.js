@@ -12,7 +12,7 @@
       this.close = this.close.bind(this);
       this.submit = this.submit.bind(this);
       this.theme = convo.theme;
-      const convos = window.getConversations().models;
+      const convos = window.getConversationController().getConversations();
 
       this.contacts = convos.filter(
         d =>
@@ -64,10 +64,9 @@
           channelId: this.channelId,
         };
         pubkeys.forEach(async pubkeyStr => {
-          const convo = await window.ConversationController.getOrCreateAndWait(
-            pubkeyStr,
-            'private'
-          );
+          const convo = await window
+            .getConversationController()
+            .getOrCreateAndWait(pubkeyStr, 'private');
 
           if (convo) {
             convo.sendMessage('', null, null, null, serverInfos);
@@ -102,7 +101,7 @@
           const groupId = this.convo.get('id');
           const groupName = this.convo.get('name');
 
-          window.MediumGroups.initiateGroupUpdate(
+          window.libsession.ClosedGroupV2.initiateGroupUpdate(
             groupId,
             groupName,
             uniqMembers

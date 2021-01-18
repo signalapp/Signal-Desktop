@@ -29,7 +29,7 @@ export class TypingMessage extends ContentMessage {
     return Constants.TTL_DEFAULT.TYPING_MESSAGE;
   }
 
-  protected contentProto(): SignalService.Content {
+  public contentProto(): SignalService.Content {
     return new SignalService.Content({
       typingMessage: this.typingProto(),
     });

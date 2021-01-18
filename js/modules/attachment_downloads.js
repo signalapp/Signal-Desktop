@@ -235,9 +235,9 @@ async function _finishJob(message, id) {
 
       if (fromConversation && message !== fromConversation) {
         fromConversation.set(message.attributes);
-        fromConversation.trigger('change', fromConversation);
+        fromConversation.commit();
       } else {
-        message.trigger('change', message);
+        message.commit();
       }
     }
   }

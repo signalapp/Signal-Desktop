@@ -1,4 +1,4 @@
-/* global ConversationController, i18n, Whisper */
+/* global i18n, Whisper */
 
 'use strict';
 
@@ -15,8 +15,8 @@ const source = '+14155555555';
 describe('MessageCollection', () => {
   before(async () => {
     await clearDatabase();
-    ConversationController.reset();
-    await ConversationController.load();
+    window.getConversationController().reset();
+    await window.getConversationController().load();
   });
   after(() => {
     return clearDatabase();

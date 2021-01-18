@@ -30,6 +30,7 @@ import { OpenGroup } from '../../session/types';
 import { ToastUtils } from '../../session/utils';
 import { DefaultTheme } from 'styled-components';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
+import { ConversationController } from '../../session/conversations';
 
 export interface Props {
   searchTerm: string;
@@ -395,7 +396,10 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     const error = validateNumber(pubkey);
     if (!error) {
-      await window.ConversationController.getOrCreateAndWait(pubkey, 'private');
+      await ConversationController.getInstance().getOrCreateAndWait(
+        pubkey,
+        'private'
+      );
       openConversationExternal(pubkey);
     } else {
       ToastUtils.pushToastError('invalidPubKey', error);

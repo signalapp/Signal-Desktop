@@ -3,6 +3,7 @@ import { UserUtil } from '../../util';
 import { PubKey } from '../../session/types';
 import React from 'react';
 import * as _ from 'lodash';
+import { ConversationController } from '../../session/conversations';
 
 export type ConversationAvatar = {
   avatarPath?: string;
@@ -69,7 +70,10 @@ export function usingClosedConversationDetails(WrappedComponent: any) {
         members = members.slice(0, 2);
         const memberConvos = await Promise.all(
           members.map(async m =>
-            window.ConversationController.getOrCreateAndWait(m.key, 'private')
+            ConversationController.getInstance().getOrCreateAndWait(
+              m.key,
+              'private'
+            )
           )
         );
         const memberAvatars = memberConvos.map(m => {

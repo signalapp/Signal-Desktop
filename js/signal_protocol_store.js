@@ -5,7 +5,6 @@
   _,
   libsignal,
   textsecure,
-  ConversationController,
   stringObject,
   BlockedNumberController
 */
@@ -232,7 +231,6 @@
         };
       }
 
-      // throw new textsecure.PreKeyMissing();
       return undefined;
     },
     async loadPreKeyForContact(contactPubKey) {
@@ -890,9 +888,9 @@
       window.storage.reset();
       await window.storage.fetch();
 
-      ConversationController.reset();
+      window.getConversationController().reset();
       BlockedNumberController.reset();
-      await ConversationController.load();
+      await window.getConversationController().load();
       await BlockedNumberController.load();
     },
     async removeAllConfiguration() {

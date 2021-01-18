@@ -1,3 +1,6 @@
+import { KeyPair } from '../../libtextsecure/libsignal-protocol';
+import { HexKeyPair } from '../../ts/receiver/closedGroupsV2';
+import { PubKey } from '../../ts/session/types';
 import { ConversationType } from '../../ts/state/ducks/conversations';
 import { Message } from '../../ts/types/Message';
 
@@ -413,3 +416,17 @@ export function getMessagesWithFileAttachments(
 export function getSenderKeys(groupId: any, senderIdentity: any): Promise<any>;
 export function createOrUpdateSenderKeys(data: any): Promise<void>;
 export function removeAllClosedGroupRatchets(groupId: string): Promise<void>;
+
+export function getAllEncryptionKeyPairsForGroupV2(
+  groupPublicKey: string | PubKey
+): Promise<Array<HexKeyPair> | undefined>;
+export function getLatestClosedGroupEncryptionKeyPair(
+  groupPublicKey: string
+): Promise<HexKeyPair | undefined>;
+export function addClosedGroupEncryptionKeyPair(
+  groupPublicKey: string,
+  keypair: HexKeyPair
+): Promise<void>;
+export function removeAllClosedGroupEncryptionKeyPairs(
+  groupPublicKey: string
+): Promise<void>;

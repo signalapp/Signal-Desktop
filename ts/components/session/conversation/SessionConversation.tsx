@@ -31,6 +31,7 @@ import { MessageView } from '../../MainViewController';
 import { getMessageById } from '../../../../js/modules/data';
 import { pushUnblockToSend } from '../../../session/utils/Toast';
 import { MessageDetail } from '../../conversation/MessageDetail';
+import { ConversationController } from '../../../session/conversations';
 
 interface State {
   // Message sending progress
@@ -87,7 +88,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
     const { conversationKey } = this.props;
 
-    const conversationModel = window.ConversationController.get(
+    const conversationModel = ConversationController.getInstance().get(
       conversationKey
     );
 
@@ -253,7 +254,7 @@ export class SessionConversation extends React.Component<Props, State> {
     const selectionMode = !!selectedMessages.length;
 
     const { conversation, conversationKey, messages } = this.props;
-    const conversationModel = window.ConversationController.get(
+    const conversationModel = ConversationController.getInstance().get(
       conversationKey
     );
 
@@ -307,6 +308,7 @@ export class SessionConversation extends React.Component<Props, State> {
           /> */}
 
         <div
+          // if you change the classname, also update it on onKeyDown
           className={classNames(
             'conversation-content',
             selectionMode && 'selection-mode'
@@ -344,7 +346,7 @@ export class SessionConversation extends React.Component<Props, State> {
             // tslint:disable-next-line: use-simple-attributes
             <SessionCompositionBox
               isBlocked={conversation.isBlocked}
-              leftGroup={conversation.leftGroup}
+              left={conversation.left}
               isKickedFromGroup={conversation.isKickedFromGroup}
               isPrivate={conversation.type === 'direct'}
               isPublic={conversation.isPublic || false}
@@ -394,7 +396,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
   public async loadInitialMessages() {
     const { conversationKey } = this.props;
-    const conversationModel = window.ConversationController.get(
+    const conversationModel = ConversationController.getInstance().get(
       conversationKey
     );
     if (!conversationModel) {
@@ -418,7 +420,7 @@ export class SessionConversation extends React.Component<Props, State> {
       infoViewState,
       messageDetailShowProps,
     } = this.state;
-    const conversation = window.ConversationController.getOrThrow(
+    const conversation = ConversationController.getInstance().getOrThrow(
       conversationKey
     );
     const expireTimer = conversation.get('expireTimer');
@@ -440,7 +442,6 @@ export class SessionConversation extends React.Component<Props, State> {
       isBlocked: conversation.isBlocked(),
       isGroup: !conversation.isPrivate(),
       isPrivate: conversation.isPrivate(),
-      isOnline: conversation.isOnline(),
       isPublic: conversation.isPublic(),
       isRss: conversation.isRss(),
       amMod: conversation.isModerator(
@@ -449,6 +450,7 @@ export class SessionConversation extends React.Component<Props, State> {
       members,
       subscriberCount: conversation.get('subscriberCount'),
       isKickedFromGroup: conversation.get('isKickedFromGroup'),
+      left: conversation.get('left'),
       expirationSettingName,
       showBackButton: Boolean(infoViewState || messageDetailShowProps),
       timerOptions: window.Whisper.ExpirationTimerOptions.map((item: any) => ({
@@ -544,7 +546,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
   public getRightPanelProps() {
     const { conversationKey } = this.props;
-    const conversation = window.ConversationController.getOrThrow(
+    const conversation = ConversationController.getInstance().getOrThrow(
       conversationKey
     );
 
@@ -560,10 +562,10 @@ export class SessionConversation extends React.Component<Props, State> {
       memberCount: members.length,
       phoneNumber: conversation.getNumber(),
       profileName: conversation.getProfileName(),
-      description: '', // TODO VINCE: ENSURE DESCRIPTION IS SET
       avatarPath: conversation.getAvatarPath(),
       amMod: conversation.isModerator(),
-      isKickedFromGroup: conversation.attributes.isKickedFromGroup,
+      isKickedFromGroup: conversation.get('isKickedFromGroup'),
+      left: conversation.get('left'),
       isGroup: !conversation.isPrivate(),
       isPublic: conversation.isPublic(),
       isAdmin,
@@ -660,7 +662,7 @@ export class SessionConversation extends React.Component<Props, State> {
     // Get message objects
     const { conversationKey, messages } = this.props;
 
-    const conversationModel = window.ConversationController.getOrThrow(
+    const conversationModel = ConversationController.getInstance().getOrThrow(
       conversationKey
     );
     const selectedMessages = messages.filter(message =>
@@ -814,7 +816,7 @@ export class SessionConversation extends React.Component<Props, State> {
     }
     if (!_.isEqual(this.state.quotedMessageTimestamp, quotedMessageTimestamp)) {
       const { messages, conversationKey } = this.props;
-      const conversationModel = window.ConversationController.getOrThrow(
+      const conversationModel = ConversationController.getInstance().getOrThrow(
         conversationKey
       );
 
@@ -888,26 +890,28 @@ export class SessionConversation extends React.Component<Props, State> {
       }
       // EXIT WHAT ELSE?
     }
-    switch (event.key) {
-      case 'Escape':
-        if (selectionMode) {
-          this.resetSelection();
-        }
-        break;
-      // Scrolling
-      case 'ArrowUp':
-        messageContainer.scrollBy(0, -arrowScrollPx);
-        break;
-      case 'ArrowDown':
-        messageContainer.scrollBy(0, arrowScrollPx);
-        break;
-      case 'PageUp':
-        messageContainer.scrollBy(0, -pageScrollPx);
-        break;
-      case 'PageDown':
-        messageContainer.scrollBy(0, pageScrollPx);
-        break;
-      default:
+    if (event.target.classList.contains('conversation-content')) {
+      switch (event.key) {
+        case 'Escape':
+          if (selectionMode) {
+            this.resetSelection();
+          }
+          break;
+        // Scrolling
+        case 'ArrowUp':
+          messageContainer.scrollBy(0, -arrowScrollPx);
+          break;
+        case 'ArrowDown':
+          messageContainer.scrollBy(0, arrowScrollPx);
+          break;
+        case 'PageUp':
+          messageContainer.scrollBy(0, -pageScrollPx);
+          break;
+        case 'PageDown':
+          messageContainer.scrollBy(0, pageScrollPx);
+          break;
+        default:
+      }
     }
   }
 
@@ -1219,7 +1223,7 @@ export class SessionConversation extends React.Component<Props, State> {
     );
 
     const allMembers = allPubKeys.map((pubKey: string) => {
-      const conv = window.ConversationController.get(pubKey);
+      const conv = ConversationController.getInstance().get(pubKey);
       let profileName = 'Anonymous';
       if (conv) {
         profileName = conv.getProfileName();

@@ -28,6 +28,7 @@ import { Mention, MentionsInput } from 'react-mentions';
 import { MemberItem } from '../../conversation/MemberList';
 import { CaptionEditor } from '../../CaptionEditor';
 import { DefaultTheme } from 'styled-components';
+import { ConversationController } from '../../../session/conversations/ConversationController';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -62,7 +63,7 @@ interface Props {
   isBlocked: boolean;
   isPrivate: boolean;
   isKickedFromGroup: boolean;
-  leftGroup: boolean;
+  left: boolean;
   conversationKey: string;
   isPublic: boolean;
 
@@ -81,7 +82,6 @@ interface State {
   message: string;
   showRecordingView: boolean;
 
-  mediaSetting: boolean | null;
   showEmojiPanel: boolean;
   voiceRecording?: Blob;
   ignoredLink?: string; // set the the ignored url when users closed the link preview
@@ -115,7 +115,6 @@ const getDefaultState = () => {
     message: '',
     voiceRecording: undefined,
     showRecordingView: false,
-    mediaSetting: null,
     showEmojiPanel: false,
     ignoredLink: undefined,
     stagedLinkPreview: undefined,
@@ -175,11 +174,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     this.focusCompositionBox = this.focusCompositionBox.bind(this);
 
     this.fetchUsersForGroup = this.fetchUsersForGroup.bind(this);
-  }
-
-  public async componentWillMount() {
-    const mediaSetting = await window.getSettingValue('media-permissions');
-    this.setState({ mediaSetting });
   }
 
   public componentDidMount() {
@@ -265,9 +259,9 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   private isTypingEnabled(): boolean {
-    const { isBlocked, isKickedFromGroup, leftGroup, isPrivate } = this.props;
+    const { isBlocked, isKickedFromGroup, left, isPrivate } = this.props;
 
-    return !(isBlocked || isKickedFromGroup || leftGroup);
+    return !(isBlocked || isKickedFromGroup || left);
   }
 
   private renderCompositionView() {
@@ -353,10 +347,10 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   private renderTextArea() {
     const { i18n } = window;
     const { message } = this.state;
-    const { isKickedFromGroup, leftGroup, isPrivate, isBlocked } = this.props;
+    const { isKickedFromGroup, left, isPrivate, isBlocked } = this.props;
     const messagePlaceHolder = isKickedFromGroup
       ? i18n('youGotKickedFromGroup')
-      : leftGroup
+      : left
       ? i18n('youLeftTheGroup')
       : isBlocked && isPrivate
       ? i18n('unblockToSend')
@@ -458,7 +452,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   private fetchUsersForClosedGroup(query: any, callback: any) {
-    const conversationModel = window.ConversationController.get(
+    const conversationModel = ConversationController.getInstance().get(
       this.props.conversationKey
     );
     if (!conversationModel) {
@@ -467,7 +461,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     const allPubKeys = conversationModel.get('members');
 
     const allMembers = allPubKeys.map(pubKey => {
-      const conv = window.ConversationController.get(pubKey);
+      const conv = ConversationController.getInstance().get(pubKey);
       let profileName = 'Anonymous';
       if (conv) {
         profileName = conv.getProfileName();
@@ -716,6 +710,9 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       await this.onSendMessage();
     } else if (event.key === 'Escape' && this.state.showEmojiPanel) {
       this.hideEmojiPanel();
+    } else if (event.key === 'PageUp' || event.key === 'PageDown') {
+      // swallow pageUp events if they occurs on the composition box (it breaks the app layout)
+      event.preventDefault();
     }
   }
 
@@ -726,7 +723,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     // Also, check for a message length change before firing it up, to avoid
     // catching ESC, tab, or whatever which is not typing
     if (message.length && message.length !== this.lastBumpTypingMessageLength) {
-      const conversationModel = window.ConversationController.get(
+      const conversationModel = ConversationController.getInstance().get(
         this.props.conversationKey
       );
       if (!conversationModel) {
@@ -787,7 +784,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       this.parseEmojis(this.state.message)
     );
 
-    const { isBlocked, isPrivate, leftGroup, isKickedFromGroup } = this.props;
+    const { isBlocked, isPrivate, left, isKickedFromGroup } = this.props;
 
     // deny sending of message if our app version is expired
     if (window.extension.expiredStatus() === true) {
@@ -830,7 +827,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       }
     }
 
-    if (!isPrivate && leftGroup) {
+    if (!isPrivate && left) {
       ToastUtils.pushYouLeftTheGroup();
       return;
     }
@@ -937,9 +934,9 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     this.onExitVoiceNoteView();
   }
 
-  private onLoadVoiceNoteView() {
+  private async onLoadVoiceNoteView() {
     // Do stuff for component, then run callback to SessionConversation
-    const { mediaSetting } = this.state;
+    const mediaSetting = await window.getSettingValue('media-permissions');
 
     if (mediaSetting) {
       this.setState({

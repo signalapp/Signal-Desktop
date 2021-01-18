@@ -382,7 +382,6 @@ class SessionRecordingInner extends React.Component<Props, State> {
         this.pauseAudio();
         return;
       }
-
       requestAnimationFrame(drawSweepingTimeline);
     };
 
@@ -497,7 +496,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
     processor.onaudioprocess = () => {
       const streamParams = { stream, media, input, processor };
       this.setState({ streamParams });
-      const { textColorSubtle } = this.props.theme.colors;
+      const { textColorSubtleNoOpacity } = this.props.theme.colors;
 
       const {
         width,
@@ -554,7 +553,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
           const offsetY = Math.ceil(height / 2 - barHeight / 2);
 
           if (canvasContext) {
-            canvasContext.fillStyle = textColorSubtle;
+            canvasContext.fillStyle = textColorSubtleNoOpacity;
             this.drawRoundedRect(canvasContext, offsetX, offsetY, barHeight);
           }
         }
@@ -612,7 +611,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
       minBarHeight,
     } = this.state.canvasParams;
 
-    const { textColorSubtle } = this.props.theme.colors;
+    const { textColorSubtleNoOpacity } = this.props.theme.colors;
 
     const numBars = width / (barPadding + barWidth);
 
@@ -668,7 +667,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
           const offsetX = Math.ceil(i * (barWidth + barPadding));
           const offsetY = Math.ceil(height / 2 - barHeight / 2);
 
-          canvasContext.fillStyle = textColorSubtle;
+          canvasContext.fillStyle = textColorSubtleNoOpacity;
 
           this.drawRoundedRect(canvasContext, offsetX, offsetY, barHeight);
         }

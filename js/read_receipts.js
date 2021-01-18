@@ -2,7 +2,6 @@
   Whisper,
   Backbone,
   _,
-  ConversationController,
   getMessageController,
   window
 */
@@ -105,9 +104,9 @@
         }
 
         // notify frontend listeners
-        const conversation = ConversationController.get(
-          message.get('conversationId')
-        );
+        const conversation = window
+          .getConversationController()
+          .get(message.get('conversationId'));
         if (conversation) {
           conversation.trigger('read', message);
         }

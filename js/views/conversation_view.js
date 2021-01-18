@@ -6,7 +6,6 @@
   Signal,
   storage,
   Whisper,
-  ConversationController,
 */
 
 // eslint-disable-next-line func-names
@@ -38,12 +37,9 @@
     },
     initialize(options) {
       this.listenTo(this.model, 'destroy', this.stopListening);
-      this.listenTo(this.model, 'change:verified', this.onVerifiedChange);
       this.listenTo(this.model, 'newmessage', this.addMessage);
       this.listenTo(this.model, 'opened', this.onOpened);
       this.listenTo(this.model, 'prune', this.onPrune);
-      this.listenTo(this.model, 'disable:input', this.onDisableInput);
-      this.listenTo(this.model, 'change:placeholder', this.onChangePlaceholder);
       this.listenTo(this.model, 'unload', () => this.unload('model trigger'));
       this.listenTo(this.model, 'typing-update', this.renderTypingBubble);
       this.listenTo(
@@ -99,8 +95,6 @@
 
       this.render();
 
-      this.model.updateTextInputState();
-
       this.window = options.window;
 
       Whisper.events.on('mediaPermissionsChanged', () =>
@@ -128,8 +122,6 @@
       this.$('.send-message').focus(this.focusBottomBar.bind(this));
       this.$('.send-message').blur(this.unfocusBottomBar.bind(this));
 
-      this.model.updateTextInputState();
-
       this.selectMember = this.selectMember.bind(this);
 
       const updateMemberList = async () => {
@@ -138,7 +130,7 @@
         );
 
         const allMembers = allPubKeys.map(pubKey => {
-          const conv = ConversationController.get(pubKey);
+          const conv = window.getConversationController().get(pubKey);
           let profileName = 'Anonymous';
           if (conv) {
             profileName = conv.getProfileName();
@@ -1149,8 +1141,9 @@
         }
 
         const privateConvos = window
+          .getConversationController()
           .getConversations()
-          .models.filter(d => d.isPrivate());
+          .filter(d => d.isPrivate());
         const memberConvos = members
           .map(m => privateConvos.find(c => c.id === m))
           .filter(c => !!c && c.getLokiProfile());

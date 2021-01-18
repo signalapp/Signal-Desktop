@@ -17,6 +17,7 @@ import { SessionLastSeenIndicator } from './SessionLastSeedIndicator';
 import { VerificationNotification } from '../../conversation/VerificationNotification';
 import { ToastUtils } from '../../../session/utils';
 import { TypingBubble } from '../../conversation/TypingBubble';
+import { ConversationController } from '../../../session/conversations';
 
 interface State {
   showScrollButton: boolean;
@@ -134,7 +135,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
 
     let displayedName = null;
     if (conversation.type === 'direct') {
-      displayedName = window.ConversationController.getContactProfileNameOrShortenedPubKey(
+      displayedName = ConversationController.getInstance().getContactProfileNameOrShortenedPubKey(
         conversationKey
       );
     }
@@ -324,6 +325,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
     messageProps.i18n = window.i18n;
     messageProps.selected = selected;
     messageProps.firstMessageOfSeries = firstMessageOfSeries;
+
     messageProps.multiSelectMode = multiSelectMode;
     messageProps.onSelectMessage = this.props.selectMessage;
     messageProps.onDeleteMessage = this.props.deleteMessage;
@@ -366,7 +368,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
       return;
     }
 
-    const conversation = window.ConversationController.getOrThrow(
+    const conversation = ConversationController.getInstance().getOrThrow(
       conversationKey
     );
 

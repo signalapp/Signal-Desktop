@@ -32,3 +32,5 @@ export function nonNullish<V>(v: V): v is NonNullable<V> {
 
 export const toHex = (d: BufferType) => decode(d, 'hex');
 export const fromHex = (d: string) => encode(d, 'hex');
+
+export const fromHexToArray = (d: string) => new Uint8Array(encode(d, 'hex'));

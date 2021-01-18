@@ -8,6 +8,7 @@ import _ from 'lodash';
 import { MultiDeviceProtocol } from '../session/protocols';
 import { SignalService } from '../protobuf';
 import { StringUtils } from '../session/utils';
+import { ConversationController } from '../session/conversations';
 
 async function handleGroups(
   conversation: ConversationModel,
@@ -372,7 +373,6 @@ async function handleRegularMessage(
   ourNumber: any,
   primarySource: PubKey
 ) {
-  const { ConversationController } = window;
   const { upgradeMessageSchema } = window.Signal.Migrations;
 
   const type = message.get('type');
@@ -420,9 +420,6 @@ async function handleRegularMessage(
 
   conversation.set({ active_at: now });
 
-  // Re-enable typing if re-joined the group
-  conversation.updateTextInputState();
-
   // Handle expireTimer found directly as part of a regular message
   await handleExpireTimer(
     source,
@@ -448,13 +445,13 @@ async function handleRegularMessage(
     !conversationTimestamp ||
     message.get('sent_at') > conversationTimestamp
   ) {
-    conversation.lastMessage = message.getNotificationText();
     conversation.set({
       timestamp: message.get('sent_at'),
+      lastMessage: message.getNotificationText(),
     });
   }
 
-  const sendingDeviceConversation = await ConversationController.getOrCreateAndWait(
+  const sendingDeviceConversation = await ConversationController.getInstance().getOrCreateAndWait(
     source,
     'private'
   );

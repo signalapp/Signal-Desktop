@@ -69,6 +69,9 @@ const {
 const {
   InviteContactsDialog,
 } = require('../../ts/components/conversation/InviteContactsDialog');
+const {
+  AdminLeaveClosedGroupDialog,
+} = require('../../ts/components/conversation/AdminLeaveClosedGroupDialog');
 
 const {
   AddModeratorsDialog,
@@ -237,6 +240,7 @@ exports.setup = (options = {}) => {
     UpdateGroupNameDialog,
     UpdateGroupMembersDialog,
     InviteContactsDialog,
+    AdminLeaveClosedGroupDialog,
     AddModeratorsDialog,
     RemoveModeratorsDialog,
     GroupInvitation,

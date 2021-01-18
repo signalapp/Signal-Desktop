@@ -1818,19 +1818,19 @@
   display: flex;
 
   input::placeholder {
-    color: white;
+    color: rgba($black, 0.6);
   }
 
   .session-input-with-label-container {
-    color: black;
-    background-color: $inputBackgroundColor;
-
+    @include themify($themes) {
+      background-color: #fcfcfc;
+      color: $black;
+    }
     width: 30vw;
-
     border-radius: 100px;
     #session-input-floating-label {
       padding: $session-margin-sm;
-      color: white;
+      color: $black;
     }
 
     label.session-input-with-label-container.filled {

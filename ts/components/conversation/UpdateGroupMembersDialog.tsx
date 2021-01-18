@@ -9,6 +9,7 @@ import {
   SessionMemberListItem,
 } from '../session/SessionMemberListItem';
 import { DefaultTheme } from 'styled-components';
+import { ToastUtils } from '../../session/utils';
 
 interface Props {
   titleText: string;
@@ -19,6 +20,8 @@ interface Props {
   contactList: Array<any>;
   isAdmin: boolean;
   existingMembers: Array<String>;
+  admins: Array<String>; // used for closed group v2
+
   i18n: any;
   onSubmit: any;
   onClose: any;
@@ -62,7 +65,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
     this.state = {
       contactList: contacts,
       errorDisplayed: false,
-      errorMessage: 'placeholder',
+      errorMessage: '',
     };
 
     window.addEventListener('keyup', this.onKeyUp);
@@ -79,27 +82,9 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
   }
 
   public render() {
-    const checkMarkedCount = this.getMemberCount(this.state.contactList);
+    const { okText, cancelText, contactList, titleText } = this.props;
 
-    const okText = this.props.okText;
-    const cancelText = this.props.cancelText;
-
-    let titleText;
-    let noFriendsClasses;
-
-    if (this.props.isPublic) {
-      // no member count in title
-      titleText = `${this.props.titleText}`;
-      // hide the no-friend message
-      noFriendsClasses = classNames('no-friends', 'hidden');
-    } else {
-      // private group
-      titleText = this.props.titleText;
-      noFriendsClasses =
-        this.state.contactList.length === 0
-          ? 'no-friends'
-          : classNames('no-friends', 'hidden');
-    }
+    const showNoMembersMessage = contactList.length === 0;
 
     const errorMsg = this.state.errorMessage;
     const errorMessageClasses = classNames(
@@ -117,23 +102,13 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
       >
         <div className="spacer-md" />
 
-        {!this.props.isPublic && (
-          <>
-            <small className="create-group-dialog__member-count">
-              {`${checkMarkedCount} members`}
-            </small>
-          </>
-        )}
-
         <p className={errorMessageClasses}>{errorMsg}</p>
         <div className="spacer-md" />
 
         <div className="group-member-list__selection">
           {this.renderMemberList()}
         </div>
-        <p className={noFriendsClasses}>{`(${this.props.i18n(
-          'noMembersInThisGroup'
-        )})`}</p>
+        {showNoMembersMessage && <p>{window.i18n('noMembersInThisGroup')}</p>}
 
         <div className="spacer-lg" />
 
@@ -165,23 +140,6 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
     ));
   }
 
-  private onShowError(msg: string) {
-    if (this.state.errorDisplayed) {
-      return;
-    }
-
-    this.setState({
-      errorDisplayed: true,
-      errorMessage: msg,
-    });
-
-    setTimeout(() => {
-      this.setState({
-        errorDisplayed: false,
-      });
-    }, 3000);
-  }
-
   private onKeyUp(event: any) {
     switch (event.key) {
       case 'Enter':
@@ -206,11 +164,6 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
     });
   }
 
-  private getMemberCount(users: Array<Contact>) {
-    // Adding one to include ourselves
-    return this.getWouldBeMembers(users).length + 1;
-  }
-
   private closeDialog() {
     window.removeEventListener('keyup', this.onKeyUp);
 
@@ -218,12 +171,23 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
   }
 
   private onMemberClicked(selected: any) {
-    if (selected.existingMember && !this.props.isAdmin) {
+    const { isAdmin, admins } = this.props;
+    const { contactList } = this.state;
+
+    if (selected.existingMember && !isAdmin) {
       window.log.warn('Only group admin can remove members!');
       return;
     }
 
-    const updatedContacts = this.state.contactList.map(member => {
+    if (selected.existingMember && admins.includes(selected.id)) {
+      window.log.warn(
+        `User ${selected.id} cannot be removed as they are the creator of the closed group v2.`
+      );
+      ToastUtils.pushCannotRemoveCreatorFromGroup();
+      return;
+    }
+
+    const updatedContacts = contactList.map(member => {
       if (member.id === selected.id) {
         return { ...member, checkmarked: !member.checkmarked };
       } else {

@@ -14,6 +14,7 @@ interface ConversationAttributes {
   isArchived: boolean;
   active_at: number;
   timestamp: number; // timestamp of what?
+  lastJoinedTimestamp: number; // ClosedGroupV2: last time we were added to this group
   groupAdmins?: Array<string>;
   isKickedFromGroup?: boolean;
   avatarPath?: string;
@@ -21,10 +22,15 @@ interface ConversationAttributes {
   subscriberCount?: number;
   sessionRestoreSeen?: boolean;
   is_medium_group?: boolean;
+  type: string;
+  lastMessage?: string;
 }
 
 export interface ConversationModel
   extends Backbone.Model<ConversationAttributes> {
+  destroyMessages();
+  getPublicSendData();
+  leaveGroup();
   idForLogging: () => string;
   // Save model changes to the database
   commit: () => Promise<void>;
@@ -46,7 +52,6 @@ export interface ConversationModel
   getRecipients: () => Array<string>;
   getTitle: () => string;
   onReadMessage: (message: MessageModel) => void;
-  updateTextInputState: () => void;
   getName: () => string;
   addMessage: (attributes: Partial<MessageAttributes>) => Promise<MessageModel>;
   isMediumGroup: () => boolean;
@@ -60,11 +65,9 @@ export interface ConversationModel
   isRss: () => boolean;
   isBlocked: () => boolean;
   isClosable: () => boolean;
-  isOnline: () => boolean;
   isModerator: (id?: string) => boolean;
   throttledBumpTyping: () => void;
 
-  lastMessage: string;
   messageCollection: Backbone.Collection<MessageModel>;
 
   // types to make more specific
@@ -103,7 +106,11 @@ export interface ConversationModel
   notifyTyping: any;
   setSecondaryStatus: any;
   queueJob: any;
-  sendGroupInfo: any;
   onUpdateGroupName: any;
   getContactProfileNameOrShortenedPubKey: () => string;
+  getContactProfileNameOrFullPubKey: () => string;
+  getProps(): any;
+  updateLastMessage: () => void;
+  updateProfileName: any;
+  updateProfileAvatar: any;
 }

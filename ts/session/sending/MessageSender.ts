@@ -45,7 +45,7 @@ export async function send(
     timestamp,
     cipherText
   );
-  // console.warn('sending', envelope, ' to ', device.key);
+  window?.log?.debug('Sending envelope', envelope, ' to ', device.key);
   const data = wrapEnvelope(envelope);
 
   return pRetry(
@@ -68,7 +68,7 @@ async function buildEnvelope(
 ): Promise<SignalService.Envelope> {
   let source: string | undefined;
 
-  if (type === SignalService.Envelope.Type.MEDIUM_GROUP_CIPHERTEXT) {
+  if (type === SignalService.Envelope.Type.CLOSED_GROUP_CIPHERTEXT) {
     source = sskSource;
   } else if (type !== SignalService.Envelope.Type.UNIDENTIFIED_SENDER) {
     source = await UserUtil.getCurrentDevicePubKey();

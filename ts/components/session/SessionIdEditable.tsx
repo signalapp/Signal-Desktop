@@ -69,7 +69,8 @@ export class SessionIdEditable extends React.PureComponent<Props> {
     const { editable, onChange } = this.props;
 
     if (editable) {
-      onChange(e.target.value);
+      const value = e.target.value?.replace(/(\r\n|\n|\r)/gm, '');
+      onChange(value);
     }
   }
 

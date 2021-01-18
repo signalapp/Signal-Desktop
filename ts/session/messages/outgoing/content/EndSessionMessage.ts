@@ -7,7 +7,7 @@ export class EndSessionMessage extends SessionRequestMessage {
     return Constants.TTL_DEFAULT.END_SESSION_MESSAGE;
   }
 
-  protected contentProto(): SignalService.Content {
+  public contentProto(): SignalService.Content {
     const dataMessage = new SignalService.DataMessage({
       body: 'TERMINATE',
       flags: SignalService.DataMessage.Flags.END_SESSION,

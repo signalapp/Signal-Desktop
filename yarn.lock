@@ -2044,6 +2044,11 @@ chai-as-promised@^7.1.1:
   dependencies:
     check-error "^1.0.2"
 
+chai-bytes@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/chai-bytes/-/chai-bytes-0.1.2.tgz#c297e81d47eb3106af0676ded5bb5e0c9f981db3"
+  integrity sha512-0ol6oJS0y1ozj6AZK8n1pyv1/G+l44nqUJygAkK1UrYl+IOGie5vcrEdrAlwmLYGIA9NVvtHWosPYwWWIXf/XA==
+
 chai@4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/chai/-/chai-4.1.2.tgz#0f64584ba642f0f2ace2806279f4f06ca23ad73c"

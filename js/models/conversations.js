@@ -4,7 +4,6 @@
   i18n,
   Backbone,
   libsession,
-  ConversationController,
   getMessageController,
   storage,
   textsecure,
@@ -35,8 +34,6 @@
     upgradeMessageSchema,
     loadAttachmentData,
     getAbsoluteAttachmentPath,
-    // eslint-disable-next-line no-unused-vars
-    writeNewAttachmentData,
     deleteAttachmentData,
   } = window.Signal.Migrations;
 
@@ -59,8 +56,9 @@
         sessionResetStatus: SessionResetEnum.none,
         groupAdmins: [],
         isKickedFromGroup: false,
-        isOnline: false,
         profileSharing: false,
+        left: false,
+        lastJoinedTimestamp: new Date('1970-01-01Z00:00:00:000').getTime(),
       };
     },
 
@@ -158,10 +156,6 @@
       this.on('change', generateProps);
       generateProps();
     },
-
-    isOnline() {
-      return this.isMe() || this.get('isOnline');
-    },
     isMe() {
       return this.isOurLocalDevice() || this.isOurPrimaryDevice();
     },
@@ -222,9 +216,7 @@
         ? BlockedNumberController.block(this.id)
         : BlockedNumberController.blockGroup(this.id);
       await promise;
-      this.trigger('change', this);
-      this.messageCollection.forEach(m => m.trigger('change'));
-      this.updateTextInputState();
+      this.commit();
       await textsecure.messaging.sendBlockedListSyncMessage();
     },
     async unblock() {
@@ -235,14 +227,11 @@
         ? BlockedNumberController.unblock(this.id)
         : BlockedNumberController.unblockGroup(this.id);
       await promise;
-      this.trigger('change', this);
-      this.messageCollection.forEach(m => m.trigger('change'));
-      this.updateTextInputState();
+      this.commit();
       await textsecure.messaging.sendBlockedListSyncMessage();
     },
     async bumpTyping() {
-      if (this.isPublic()) {
-        window.log.debug('public conversation... No need to bumpTyping');
+      if (this.isPublic() || this.isMediumGroup()) {
         return;
       }
       // We don't send typing messages if the setting is disabled or we do not have a session
@@ -316,49 +305,37 @@
     },
 
     sendTypingMessage(isTyping) {
-      // Loki - Temporarily disable typing messages for groups
       if (!this.isPrivate()) {
         return;
       }
 
-      const groupId = !this.isPrivate() ? this.id : null;
-      const recipientId = this.isPrivate() ? this.id : null;
+      const recipientId = this.id;
 
-      // We don't want to send typing messages to our other devices, but we will
-      //   in the group case.
-      const primaryDevicePubkey = window.storage.get('primaryDevicePubKey');
-      if (recipientId && primaryDevicePubkey === recipientId) {
-        return;
+      if (!recipientId) {
+        throw new Error('Need to provide either recipientId');
       }
 
-      if (!recipientId && !groupId) {
-        throw new Error('Need to provide either recipientId or groupId!');
+      const primaryDevicePubkey = window.storage.get('primaryDevicePubKey');
+      if (recipientId && primaryDevicePubkey === recipientId) {
+        // note to self
+        return;
       }
 
       const typingParams = {
         timestamp: Date.now(),
         isTyping,
         typingTimestamp: Date.now(),
-        groupId, // might be null
       };
       const typingMessage = new libsession.Messages.Outgoing.TypingMessage(
         typingParams
       );
 
       // send the message to a single recipient if this is a session chat
-      if (this.isPrivate()) {
-        const device = new libsession.Types.PubKey(recipientId);
-        libsession
-          .getMessageQueue()
-          .sendUsingMultiDevice(device, typingMessage)
-          .catch(log.error);
-      } else {
-        // the recipients on the case of a group are found by the messageQueue using message.groupId
-        libsession
-          .getMessageQueue()
-          .sendToGroup(typingMessage)
-          .catch(log.error);
-      }
+      const device = new libsession.Types.PubKey(recipientId);
+      libsession
+        .getMessageQueue()
+        .sendUsingMultiDevice(device, typingMessage)
+        .catch(log.error);
     },
 
     async cleanup() {
@@ -468,7 +445,7 @@
         messageModel: model,
       });
 
-      this.trigger('change', this);
+      this.commit();
     },
     addSingleMessage(message, setToExpire = true) {
       const model = this.messageCollection.add(message, { merge: true });
@@ -514,16 +491,18 @@
           text: this.get('lastMessage'),
           isRss: this.isRss(),
         },
-        isOnline: this.isOnline(),
         hasNickname: !!this.getNickname(),
         isKickedFromGroup: !!this.get('isKickedFromGroup'),
-        leftGroup: !!this.get('left'),
+        left: !!this.get('left'),
 
         onClick: () => this.trigger('select', this),
         onBlockContact: () => this.block(),
         onUnblockContact: () => this.unblock(),
         onCopyPublicKey: () => this.copyPublicKey(),
         onDeleteContact: () => this.deleteContact(),
+        onLeaveGroup: () => {
+          window.Whisper.events.trigger('leaveGroup', this);
+        },
         onDeleteMessages: () => this.deleteMessages(),
         onInviteContacts: () => {
           window.Whisper.events.trigger('inviteContacts', this);
@@ -566,8 +545,6 @@
           }
         })
       );
-
-      this.onMemberVerifiedChange();
     },
     setVerifiedDefault(options) {
       const { DEFAULT } = this.verifiedEnum;
@@ -670,44 +647,13 @@
           device
         );
 
-        return ConversationController.getOrCreateAndWait(
-          primary.key,
-          'private'
-        );
+        return window
+          .getConversationController()
+          .getOrCreateAndWait(primary.key, 'private');
       }
 
       // Something funky has happened
       return this;
-    },
-    async updateTextInputState() {
-      if (this.isRss()) {
-        // or if we're an rss conversation, disable it
-        this.trigger('disable:input', true);
-        return;
-      }
-      if (this.isSecondaryDevice()) {
-        // Or if we're a secondary device, update the primary device text input
-        const primaryConversation = await this.getPrimaryConversation();
-        primaryConversation.updateTextInputState();
-        return;
-      }
-      if (this.get('isKickedFromGroup')) {
-        this.trigger('disable:input', true);
-        return;
-      }
-      if (!this.isPrivate() && this.get('left')) {
-        this.trigger('disable:input', true);
-        this.trigger('change:placeholder', 'left-group');
-        return;
-      }
-      if (this.isBlocked()) {
-        this.trigger('disable:input', true);
-        this.trigger('change:placeholder', 'blocked-user');
-        return;
-      }
-      // otherwise, enable the input and set default placeholder
-      this.trigger('disable:input', false);
-      this.trigger('change:placeholder', 'chat');
     },
     isSecondaryDevice() {
       return !!this.get('secondaryStatus');
@@ -826,12 +772,6 @@
         );
       });
     },
-    onMemberVerifiedChange() {
-      // If the verified state of a member changes, our aggregate state changes.
-      // We trigger both events to replicate the behavior of Backbone.Model.set()
-      this.trigger('change:verified', this);
-      this.trigger('change', this);
-    },
     toggleVerified() {
       if (this.isVerified()) {
         return this.setVerifiedDefault();
@@ -925,11 +865,14 @@
       );
 
       if (this.isPrivate()) {
-        ConversationController.getAllGroupsInvolvingId(this.id).then(groups => {
-          _.forEach(groups, group => {
-            group.addVerifiedChange(this.id, verified, options);
+        window
+          .getConversationController()
+          .getAllGroupsInvolvingId(this.id)
+          .then(groups => {
+            _.forEach(groups, group => {
+              group.addVerifiedChange(this.id, verified, options);
+            });
           });
-        });
       }
     },
 
@@ -1195,7 +1138,7 @@
         }
 
         if (this.isMediumGroup()) {
-          const mediumGroupChatMessage = new libsession.Messages.Outgoing.MediumGroupChatMessage(
+          const closedGroupV2ChatMessage = new libsession.Messages.Outgoing.ClosedGroupV2ChatMessage(
             {
               chatMessage,
               groupId: destination,
@@ -1205,32 +1148,13 @@
           // we need the return await so that errors are caught in the catch {}
           return await libsession
             .getMessageQueue()
-            .sendToGroup(mediumGroupChatMessage);
+            .sendToGroup(closedGroupV2ChatMessage);
         }
 
         if (this.isClosedGroup()) {
-          const members = this.get('members');
-          const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
-            {
-              chatMessage,
-              groupId: destination,
-            }
+          throw new Error(
+            'Legacy group are not supported anymore. You need to recreate this group.'
           );
-
-          // Special-case the self-send case - we send only a sync message
-          if (members.length === 1) {
-            const isOurDevice = await libsession.Protocols.MultiDeviceProtocol.isOurDevice(
-              members[0]
-            );
-            if (isOurDevice) {
-              // we need the return await so that errors are caught in the catch {}
-              return await message.sendSyncMessageOnly(closedGroupChatMessage);
-            }
-          }
-          // we need the return await so that errors are caught in the catch {}
-          return await libsession
-            .getMessageQueue()
-            .sendToGroup(closedGroupChatMessage);
         }
 
         throw new TypeError(`Invalid conversation type: '${this.get('type')}'`);
@@ -1660,56 +1584,6 @@
       return message;
     },
 
-    async sendGroupInfo(recipient) {
-      // Only send group info if we're a closed group and we haven't left
-      if (this.isClosedGroup() && !this.get('left')) {
-        const updateParams = {
-          timestamp: Date.now(),
-          groupId: this.id,
-          name: this.get('name'),
-          avatar: this.get('avatar'),
-          members: this.get('members'),
-          admins: this.get('groupAdmins'),
-        };
-        const groupUpdateMessage = new libsession.Messages.Outgoing.ClosedGroupUpdateMessage(
-          updateParams
-        );
-        const recipientPubKey = new libsession.Types.PubKey(recipient);
-        if (!recipientPubKey) {
-          window.log.warn('sendGroupInfo invalid pubkey:', recipient);
-          return;
-        }
-
-        try {
-          await libsession
-            .getMessageQueue()
-            .send(recipientPubKey, groupUpdateMessage);
-
-          const expireTimer = this.get('expireTimer');
-
-          if (!expireTimer) {
-            return;
-          }
-
-          const expireUpdate = {
-            timestamp: Date.now(),
-            expireTimer,
-            groupId: this.get('id'),
-          };
-
-          const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
-            expireUpdate
-          );
-
-          await libsession
-            .getMessageQueue()
-            .sendUsingMultiDevice(recipientPubKey, expirationTimerMessage);
-        } catch (e) {
-          log.error('Failed to send groupInfo:', e);
-        }
-      }
-    },
-
     async leaveGroup() {
       if (this.get('type') !== 'group') {
         log.error('Cannot leave a non-group conversation');
@@ -1717,49 +1591,12 @@
       }
 
       if (this.isMediumGroup()) {
-        await window.MediumGroups.leaveMediumGroup(this.id);
+        await window.libsession.ClosedGroupV2.leaveClosedGroupV2(this.id);
       } else {
-        const now = Date.now();
-
-        this.set({ left: true });
-        this.commit();
-
-        const message = this.messageCollection.add({
-          group_update: { left: 'You' },
-          conversationId: this.id,
-          type: 'outgoing',
-          sent_at: now,
-          received_at: now,
-        });
-
-        const id = await message.commit();
-        message.set({ id });
-        window.Whisper.events.trigger('messageAdded', {
-          conversationKey: this.id,
-          messageModel: message,
-        });
-
-        // FIXME what about public groups?
-        const quitGroup = {
-          identifier: id,
-          timestamp: now,
-          groupId: this.id,
-          // if we do set an identifier here, be sure to not sync it a second time in handleMessageSentSuccess()
-        };
-        const quitGroupMessage = new libsession.Messages.Outgoing.ClosedGroupLeaveMessage(
-          quitGroup
-        );
-
-        const members = this.get('members');
-
-        await window.MediumGroups.sendClosedGroupMessage(
-          quitGroupMessage,
-          members,
-          message
+        throw new Error(
+          'Legacy group are not supported anymore. You need to create this group again.'
         );
       }
-
-      this.updateTextInputState();
     },
 
     async markRead(newestUnreadDate, providedOptions) {
@@ -2026,7 +1863,9 @@
     // This function is wrongly named by signal
     // This is basically an `update` function and thus we have overwritten it with such
     async getProfile(id) {
-      const c = await ConversationController.getOrCreateAndWait(id, 'private');
+      const c = await window
+        .getConversationController()
+        .getOrCreateAndWait(id, 'private');
 
       // We only need to update the profile as they are all stored inside the conversation
       await c.updateProfileName();
@@ -2141,18 +1980,10 @@
       }
       const members = this.get('members') || [];
       const promises = members.map(number =>
-        ConversationController.getOrCreateAndWait(number, 'private')
+        window.getConversationController().getOrCreateAndWait(number, 'private')
       );
 
       return Promise.all(promises).then(contacts => {
-        _.forEach(contacts, contact => {
-          this.listenTo(
-            contact,
-            'change:verified',
-            this.onMemberVerifiedChange
-          );
-        });
-
         this.contactCollection.reset(contacts);
       });
     },
@@ -2188,7 +2019,7 @@
         title,
         message,
         resolve: () => {
-          ConversationController.deleteContact(this.id);
+          window.getConversationController().deleteContact(this.id);
         },
       });
     },
@@ -2364,7 +2195,9 @@
         // Secondary devices have their profile stored
         // in their primary device's conversation
         const ourNumber = window.storage.get('primaryDevicePubKey');
-        const ourConversation = window.ConversationController.get(ourNumber);
+        const ourConversation = window
+          .getConversationController()
+          .get(ourNumber);
         let profileKey = null;
         if (this.get('profileSharing')) {
           profileKey = new Uint8Array(storage.get('profileKey'));
@@ -2424,32 +2257,32 @@
       }
       const conversationId = this.id;
 
-      return ConversationController.getOrCreateAndWait(
-        message.get('source'),
-        'private'
-      ).then(sender =>
-        sender.getNotificationIcon().then(iconUrl => {
-          const messageJSON = message.toJSON();
-          const messageSentAt = messageJSON.sent_at;
-          const messageId = message.id;
-          const isExpiringMessage = Message.hasExpiration(messageJSON);
+      return window
+        .getConversationController()
+        .getOrCreateAndWait(message.get('source'), 'private')
+        .then(sender =>
+          sender.getNotificationIcon().then(iconUrl => {
+            const messageJSON = message.toJSON();
+            const messageSentAt = messageJSON.sent_at;
+            const messageId = message.id;
+            const isExpiringMessage = Message.hasExpiration(messageJSON);
 
-          // window.log.info('Add notification', {
-          //   conversationId: this.idForLogging(),
-          //   isExpiringMessage,
-          //   messageSentAt,
-          // });
-          Whisper.Notifications.add({
-            conversationId,
-            iconUrl,
-            isExpiringMessage,
-            message: message.getNotificationText(),
-            messageId,
-            messageSentAt,
-            title: sender.getTitle(),
-          });
-        })
-      );
+            // window.log.info('Add notification', {
+            //   conversationId: this.idForLogging(),
+            //   isExpiringMessage,
+            //   messageSentAt,
+            // });
+            Whisper.Notifications.add({
+              conversationId,
+              iconUrl,
+              isExpiringMessage,
+              message: message.getNotificationText(),
+              messageId,
+              messageSentAt,
+              title: sender.getTitle(),
+            });
+          })
+        );
     },
     notifyTyping(options = {}) {
       const { isTyping, sender, senderDevice } = options;
@@ -2505,14 +2338,14 @@
         if (!record) {
           // User was not previously typing before. State change!
           this.trigger('typing-update');
-          this.trigger('change', this);
+          this.commit();
         }
       } else {
         delete this.contactTypingTimers[identifier];
         if (record) {
           // User was previously typing, and is no longer. State change!
           this.trigger('typing-update');
-          this.trigger('change', this);
+          this.commit();
         }
       }
     },
@@ -2527,7 +2360,7 @@
 
         // User was previously typing, but timed out or we received message. State change!
         this.trigger('typing-update');
-        this.trigger('change', this);
+        this.commit();
       }
     },
   });

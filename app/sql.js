@@ -173,6 +173,11 @@ module.exports = {
   getSenderKeys,
   createOrUpdateSenderKeys,
   removeAllClosedGroupRatchets,
+
+  getAllEncryptionKeyPairsForGroupV2,
+  getLatestClosedGroupEncryptionKeyPair,
+  addClosedGroupEncryptionKeyPair,
+  removeAllClosedGroupEncryptionKeyPairs,
 };
 
 function generateUUID() {
@@ -815,6 +820,8 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion7,
   updateToLokiSchemaVersion8,
   updateToLokiSchemaVersion9,
+  updateToLokiSchemaVersion10,
+  updateToLokiSchemaVersion11,
 ];
 
 async function updateToLokiSchemaVersion1(currentVersion, instance) {
@@ -1104,6 +1111,46 @@ async function updateToLokiSchemaVersion9(currentVersion, instance) {
   console.log('updateToLokiSchemaVersion9: success!');
 }
 
+async function updateToLokiSchemaVersion10(currentVersion, instance) {
+  if (currentVersion >= 10) {
+    return;
+  }
+  console.log('updateToLokiSchemaVersion10: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  await createEncryptionKeyPairsForClosedGroupV2(instance);
+
+  await instance.run(
+    `INSERT INTO loki_schema (
+        version
+      ) values (
+        10
+      );`
+  );
+  await instance.run('COMMIT TRANSACTION;');
+  console.log('updateToLokiSchemaVersion10: success!');
+}
+
+async function updateToLokiSchemaVersion11(currentVersion, instance) {
+  if (currentVersion >= 11) {
+    return;
+  }
+  console.log('updateToLokiSchemaVersion11: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  await updateExistingClosedGroupToClosedGroupV2(instance);
+
+  await instance.run(
+    `INSERT INTO loki_schema (
+        version
+      ) values (
+        11
+      );`
+  );
+  await instance.run('COMMIT TRANSACTION;');
+  console.log('updateToLokiSchemaVersion11: success!');
+}
+
 async function updateLokiSchema(instance) {
   const result = await instance.get(
     "SELECT name FROM sqlite_master WHERE type = 'table' AND name='loki_schema';"
@@ -1310,8 +1357,8 @@ const IDENTITY_KEYS_TABLE = 'identityKeys';
 async function createOrUpdateIdentityKey(data) {
   return createOrUpdate(IDENTITY_KEYS_TABLE, data);
 }
-async function getIdentityKeyById(id) {
-  return getById(IDENTITY_KEYS_TABLE, id);
+async function getIdentityKeyById(id, instance) {
+  return getById(IDENTITY_KEYS_TABLE, id, instance);
 }
 async function bulkAddIdentityKeys(array) {
   return bulkAdd(IDENTITY_KEYS_TABLE, array);
@@ -1740,10 +1787,13 @@ async function getSenderKeys(groupId, senderIdentity) {
   return jsonToObject(row.json);
 }
 
-async function getById(table, id) {
-  const row = await db.get(`SELECT * FROM ${table} WHERE id = $id;`, {
-    $id: id,
-  });
+async function getById(table, id, instance) {
+  const row = await (db || instance).get(
+    `SELECT * FROM ${table} WHERE id = $id;`,
+    {
+      $id: id,
+    }
+  );
 
   if (!row) {
     return null;
@@ -2867,6 +2917,7 @@ function getRemoveConfigurationPromises() {
     db.run('DELETE FROM lastHashes;'),
     db.run(`DELETE FROM ${SENDER_KEYS_TABLE};`),
     db.run(`DELETE FROM ${NODES_FOR_PUBKEY_TABLE};`),
+    db.run(`DELETE FROM ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE};`),
     db.run('DELETE FROM seenMessages;'),
   ];
 }
@@ -3175,5 +3226,135 @@ async function removePrefixFromGroupConversations(instance) {
         }
       );
     })
+  );
+}
+
+const CLOSED_GROUP_V2_KEY_PAIRS_TABLE = 'encryptionKeyPairsForClosedGroupV2';
+
+async function createEncryptionKeyPairsForClosedGroupV2(instance) {
+  await instance.run(
+    `CREATE TABLE ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE} (
+      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+      groupPublicKey TEXT,
+      timestamp NUMBER,
+      json TEXT
+    );` // json is the keypair
+  );
+}
+
+async function getAllClosedGroupConversations(instance) {
+  const rows = await (db || instance).all(
+    `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
+      type = 'group' AND
+      id NOT LIKE 'publicChat:%'
+     ORDER BY id ASC;`
+  );
+
+  return map(rows, row => jsonToObject(row.json));
+}
+
+function remove05PrefixFromStringIfNeeded(str) {
+  if (str.length === 66 && str.startsWith('05')) {
+    return str.substr(2);
+  }
+  return str;
+}
+
+async function updateExistingClosedGroupToClosedGroupV2(instance) {
+  // the migration is called only once, so all current groups not being open groups are v1 closed group.
+  const allClosedGroupV1 =
+    (await getAllClosedGroupConversations(instance)) || [];
+
+  await Promise.all(
+    allClosedGroupV1.map(async groupV1 => {
+      const groupId = groupV1.id;
+      try {
+        console.log('Migrating closed group v1 to v2: pubkey', groupId);
+        const groupV1IdentityKey = await getIdentityKeyById(groupId, instance);
+        const encryptionPubKeyWithoutPrefix = remove05PrefixFromStringIfNeeded(
+          groupV1IdentityKey.id
+        );
+
+        // Note:
+        // this is what we get from getIdentityKeyById:
+        //   {
+        //     id: string;
+        //     secretKey?: string;
+        //   }
+
+        // and this is what we want saved in db:
+        //   {
+        //    publicHex: string; // without prefix
+        //    privateHex: string;
+        //   }
+        const keyPair = {
+          publicHex: encryptionPubKeyWithoutPrefix,
+          privateHex: groupV1IdentityKey.secretKey,
+        };
+        await addClosedGroupEncryptionKeyPair(groupId, keyPair, instance);
+      } catch (e) {
+        console.warn(e);
+      }
+    })
+  );
+}
+
+/**
+ * The returned array is ordered based on the timestamp, the latest is at the end.
+ * @param {*} groupPublicKey string | PubKey
+ */
+async function getAllEncryptionKeyPairsForGroupV2(groupPublicKey) {
+  const pubkeyAsString = groupPublicKey.key
+    ? groupPublicKey.key
+    : groupPublicKey;
+  const rows = await db.all(
+    `SELECT * FROM ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE} WHERE groupPublicKey = $groupPublicKey ORDER BY timestamp ASC;`,
+    {
+      $groupPublicKey: pubkeyAsString,
+    }
+  );
+
+  return map(rows, row => jsonToObject(row.json));
+}
+
+async function getLatestClosedGroupEncryptionKeyPair(groupPublicKey) {
+  const rows = await getAllEncryptionKeyPairsForGroupV2(groupPublicKey);
+  if (!rows || rows.length === 0) {
+    return undefined;
+  }
+  return rows[rows.length - 1];
+}
+
+async function addClosedGroupEncryptionKeyPair(
+  groupPublicKey,
+  keypair,
+  instance
+) {
+  const timestamp = Date.now();
+
+  await (db || instance).run(
+    `INSERT OR REPLACE INTO ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE} (
+      groupPublicKey,
+      timestamp,
+        json
+        ) values (
+          $groupPublicKey,
+          $timestamp,
+          $json
+          );`,
+    {
+      $groupPublicKey: groupPublicKey,
+      $timestamp: timestamp,
+      $json: objectToJSON(keypair),
+    }
+  );
+}
+
+async function removeAllClosedGroupEncryptionKeyPairs(groupPublicKey) {
+  await db.run(
+    `DELETE FROM ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE} WHERE groupPublicKey = $groupPublicKey`,
+    {
+      $groupPublicKey: groupPublicKey,
+    }
   );
 }

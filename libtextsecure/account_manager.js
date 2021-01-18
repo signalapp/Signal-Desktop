@@ -13,7 +13,6 @@
   StringView,
   log,
   Event,
-  ConversationController,
   Whisper
 */
 
@@ -407,10 +406,9 @@
         textsecure.storage.put('primaryDevicePubKey', number);
       }
       // Ensure that we always have a conversation for ourself
-      const conversation = await ConversationController.getOrCreateAndWait(
-        number,
-        'private'
-      );
+      const conversation = await window
+        .getConversationController()
+        .getOrCreateAndWait(number, 'private');
       await conversation.setLokiProfile({ displayName });
 
       this.dispatchEvent(new Event('registration'));
@@ -419,10 +417,9 @@
       // throws if invalid
       this.validatePubKeyHex(primaryDevicePubKey);
       // we need a conversation for sending a message
-      await ConversationController.getOrCreateAndWait(
-        primaryDevicePubKey,
-        'private'
-      );
+      await window
+        .getConversationController()
+        .getOrCreateAndWait(primaryDevicePubKey, 'private');
       const ourPubKey = textsecure.storage.user.getNumber();
       if (primaryDevicePubKey === ourPubKey) {
         throw new Error('Cannot request to pair with ourselves');
@@ -491,10 +488,9 @@
       await libsession.Protocols.MultiDeviceProtocol.savePairingAuthorisation(
         authorisation
       );
-      const ourConversation = await ConversationController.getOrCreateAndWait(
-        ourPubKey,
-        'private'
-      );
+      const ourConversation = await window
+        .getConversationController()
+        .getOrCreateAndWait(ourPubKey, 'private');
 
       // We need to send the our profile to the secondary device
       const lokiProfile = ourConversation.getOurProfile();
@@ -531,7 +527,9 @@
       // Send sync messages
       // bad hack to send sync messages when secondary device is ready to process them
       setTimeout(async () => {
-        const conversations = window.getConversations().models;
+        const conversations = window
+          .getConversationController()
+          .getConversations();
         await textsecure.messaging.sendGroupSyncMessage(conversations);
         await textsecure.messaging.sendOpenGroupsSyncMessage(conversations);
         await textsecure.messaging.sendContactSyncMessage();

@@ -1,21 +1,21 @@
 import { SignalService } from './../protobuf';
 import { removeFromCache } from './cache';
-import { MultiDeviceProtocol, SessionProtocol } from '../session/protocols';
+import { MultiDeviceProtocol } from '../session/protocols';
 import { EnvelopePlus } from './types';
 import { ConversationType, getEnvelopeId } from './common';
-import { preprocessGroupMessage } from './groups';
 
 import { MessageModel } from '../../js/models/messages';
 import { PubKey } from '../session/types';
 import { handleMessageJob } from './queuedJob';
 import { handleEndSession } from './sessionHandling';
-import { handleMediumGroupUpdate } from './mediumGroups';
 import { handleUnpairRequest } from './multidevice';
 import { downloadAttachment } from './attachments';
 import _ from 'lodash';
 import { StringUtils } from '../session/utils';
 import { DeliveryReceiptMessage } from '../session/messages/outgoing';
 import { getMessageQueue } from '../session';
+import { ConversationController } from '../session/conversations';
+import { handleClosedGroupV2 } from './closedGroupsV2';
 
 export async function updateProfile(
   conversation: any,
@@ -75,11 +75,10 @@ export async function updateProfile(
   const allUserDevices = await MultiDeviceProtocol.getAllDevices(
     conversation.id
   );
-  const { ConversationController } = window;
 
   await Promise.all(
     allUserDevices.map(async device => {
-      const conv = await ConversationController.getOrCreateAndWait(
+      const conv = await ConversationController.getInstance().getOrCreateAndWait(
         device.key,
         'private'
       );
@@ -282,7 +281,11 @@ export async function handleDataMessage(
   window.log.info('data message from', getEnvelopeId(envelope));
 
   if (dataMessage.mediumGroupUpdate) {
-    await handleMediumGroupUpdate(envelope, dataMessage.mediumGroupUpdate);
+    throw new Error('Got a medium group update. This should not happen now.');
+  }
+
+  if (dataMessage.closedGroupUpdateV2) {
+    await handleClosedGroupV2(envelope, dataMessage.closedGroupUpdateV2);
     return;
   }
 
@@ -300,7 +303,7 @@ export async function handleDataMessage(
   const ourPubKey = window.textsecure.storage.user.getNumber();
   const senderPubKey = envelope.senderIdentity || envelope.source;
   const isMe = senderPubKey === ourPubKey;
-  const conversation = window.ConversationController.get(senderPubKey);
+  const conversation = ConversationController.getInstance().get(senderPubKey);
 
   const { UNPAIRING_REQUEST } = SignalService.DataMessage.Flags;
 
@@ -417,7 +420,7 @@ async function handleProfileUpdate(
   const profileKey = StringUtils.decode(profileKeyBuffer, 'base64');
 
   if (!isIncoming) {
-    const receiver = await window.ConversationController.getOrCreateAndWait(
+    const receiver = await ConversationController.getInstance().getOrCreateAndWait(
       convoId,
       convoType
     );
@@ -427,7 +430,7 @@ async function handleProfileUpdate(
 
     // Then we update our own profileKey if it's different from what we have
     const ourNumber = window.textsecure.storage.user.getNumber();
-    const me = await window.ConversationController.getOrCreate(
+    const me = await ConversationController.getInstance().getOrCreate(
       ourNumber,
       'private'
     );
@@ -435,7 +438,7 @@ async function handleProfileUpdate(
     // Will do the save for us if needed
     await me.setProfileKey(profileKey);
   } else {
-    const sender = await window.ConversationController.getOrCreateAndWait(
+    const sender = await ConversationController.getInstance().getOrCreateAndWait(
       convoId,
       'private'
     );
@@ -483,7 +486,7 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
     messageGroupId && messageGroupId.length > 0 ? messageGroupId : null;
 
   if (groupId) {
-    groupId = groupId.replace(PubKey.PREFIX_GROUP_TEXTSECURE, '');
+    groupId = PubKey.removeTextSecurePrefixIfNeeded(groupId);
   }
 
   const messageData: any = {
@@ -655,10 +658,8 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   //  - group.id if it is a group message
   if (isGroupMessage) {
     // remove the prefix from the source object so this is correct for all other
-    message.group.id = message.group.id.replace(
-      PubKey.PREFIX_GROUP_TEXTSECURE,
-      ''
-    );
+    message.group.id = PubKey.removeTextSecurePrefixIfNeeded(message.group.id);
+
     conversationId = message.group.id;
   }
 
@@ -669,7 +670,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
     );
   }
 
-  const conv = await window.ConversationController.getOrCreateAndWait(
+  const conv = await ConversationController.getInstance().getOrCreateAndWait(
     conversationId,
     type
   );
@@ -697,30 +698,15 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   // =========================================
 
   const primarySource = await MultiDeviceProtocol.getPrimaryDevice(source);
-  if (isGroupMessage) {
-    /* handle one part of the group logic here:
-       handle requesting info of a new group,
-       dropping an admin only update from a non admin, ...
-    */
-    const shouldReturn = await preprocessGroupMessage(
-      source,
-      message.group,
-      primarySource.key
-    );
-
-    // handleGroupMessage() can process fully a message in some cases
-    // so we need to return early if that's the case
-    if (shouldReturn) {
-      confirm();
-      return;
-    }
-  } else if (source !== ourNumber) {
+  if (!isGroupMessage && source !== ourNumber) {
     // Ignore auth from our devices
     conversationId = primarySource.key;
   }
 
   // the conversation with the primary device of that source (can be the same as conversationOrigin)
-  const conversation = window.ConversationController.getOrThrow(conversationId);
+  const conversation = ConversationController.getInstance().getOrThrow(
+    conversationId
+  );
 
   conversation.queueJob(() => {
     handleMessageJob(

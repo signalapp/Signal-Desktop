@@ -23,6 +23,7 @@ import { getEnvelopeId } from './common';
 import { StringUtils } from '../session/utils';
 import { SignalService } from '../protobuf';
 import { MultiDeviceProtocol } from '../session/protocols';
+import { ConversationController } from '../session/conversations';
 
 // TODO: check if some of these exports no longer needed
 
@@ -285,7 +286,7 @@ export async function handleUnencryptedMessage({ message: outerMessage }: any) {
   const isMe = source === ourNumber;
 
   if (!isMe && profile) {
-    const conversation = await window.ConversationController.getOrCreateAndWait(
+    const conversation = await ConversationController.getInstance().getOrCreateAndWait(
       source,
       'private'
     );

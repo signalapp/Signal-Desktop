@@ -17,6 +17,7 @@ import {
 import { ToastUtils } from '../../session/utils';
 import { DefaultTheme } from 'styled-components';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
+import { ConversationController } from '../../session/conversations';
 
 export interface Props {
   directContacts: Array<ConversationType>;
@@ -127,12 +128,11 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
       ToastUtils.pushToastError('addContact', error);
     } else {
       // tslint:disable-next-line: no-floating-promises
-      window.ConversationController.getOrCreateAndWait(
-        sessionID,
-        'private'
-      ).then(() => {
-        this.props.openConversationExternal(sessionID);
-      });
+      ConversationController.getInstance()
+        .getOrCreateAndWait(sessionID, 'private')
+        .then(() => {
+          this.props.openConversationExternal(sessionID);
+        });
     }
   }
 

@@ -1207,9 +1207,6 @@
     "deviceUnpaired": {
         "message": "Votre appareil a été déconnecté avec succès"
     },
-    "sendMessageLeftGroup": {
-        "message": "Vous avez quitté le groupe"
-    },
     "moreInformation": {
         "message": "Plus d’informations"
     },
@@ -1768,7 +1765,6 @@
     "enterOptionalPassword": {
         "message": "Entrer un mot de passe (optionel)"
     },
-
     "devicePairingHeaderReassure": {
         "message": "Linking may take up to one minute to register on your primary device. Please be patient."
     },

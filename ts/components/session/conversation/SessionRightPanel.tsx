@@ -31,6 +31,7 @@ interface Props {
   isAdmin: boolean;
   amMod: boolean;
   isKickedFromGroup: boolean;
+  left: boolean;
   isBlocked: boolean;
   isGroup: boolean;
   memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
@@ -235,6 +236,7 @@ class SessionRightPanel extends React.Component<Props, State> {
     this.props.onShowLightBox(options);
   }
 
+  // tslint:disable-next-line: cyclomatic-complexity
   public render() {
     const {
       memberCount,
@@ -242,6 +244,7 @@ class SessionRightPanel extends React.Component<Props, State> {
       timerOptions,
       onLeaveGroup,
       isKickedFromGroup,
+      left,
       isPublic,
       isAdmin,
       amMod,
@@ -250,12 +253,15 @@ class SessionRightPanel extends React.Component<Props, State> {
     } = this.props;
     const { documents, media, onItemClick } = this.state;
     const showMemberCount = !!(memberCount && memberCount > 0);
-    const hasDisappearingMessages =
-      !isPublic && !isKickedFromGroup && !isBlocked;
+    const commonNoShow = isKickedFromGroup || left || isBlocked;
+
+    const hasDisappearingMessages = !isPublic && !commonNoShow;
     const leaveGroupString = isPublic
       ? window.i18n('leaveGroup')
       : isKickedFromGroup
       ? window.i18n('youGotKickedFromGroup')
+      : left
+      ? window.i18n('youLeftTheGroup')
       : window.i18n('leaveGroup');
 
     const disappearingMessagesOptions = timerOptions.map(option => {
@@ -268,11 +274,10 @@ class SessionRightPanel extends React.Component<Props, State> {
     });
 
     const showUpdateGroupNameButton =
-      isPublic && !isKickedFromGroup
-        ? amMod && !isBlocked
-        : isAdmin && !isBlocked && !isKickedFromGroup;
-    const showUpdateGroupMembersButton =
-      !isPublic && !isKickedFromGroup && !isBlocked && isAdmin;
+      isPublic && !commonNoShow
+        ? amMod && !commonNoShow
+        : isAdmin && !commonNoShow;
+    const showUpdateGroupMembersButton = !isPublic && !commonNoShow && isAdmin;
 
     return (
       <div className="group-settings">
@@ -309,10 +314,6 @@ class SessionRightPanel extends React.Component<Props, State> {
             {window.i18n('groupMembers')}
           </div>
         )}
-        {/*<div className="group-settings-item">
-          {window.i18n('notifications')}
-        </div>
-        */}
 
         {hasDisappearingMessages && (
           <SessionDropdown
@@ -330,6 +331,7 @@ class SessionRightPanel extends React.Component<Props, State> {
           <SessionButton
             text={leaveGroupString}
             buttonColor={SessionButtonColor.Danger}
+            disabled={isKickedFromGroup || left}
             buttonType={SessionButtonType.SquareOutline}
             onClick={onLeaveGroup}
           />
@@ -352,10 +354,11 @@ class SessionRightPanel extends React.Component<Props, State> {
       name,
       profileName,
       phoneNumber,
+      left,
     } = this.props;
 
     const showInviteContacts =
-      (isPublic || isAdmin) && !isKickedFromGroup && !isBlocked;
+      (isPublic || isAdmin) && !isKickedFromGroup && !isBlocked && !left;
     const userName = name || profileName || phoneNumber;
 
     return (

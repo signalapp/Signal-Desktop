@@ -13,6 +13,7 @@ import { SessionIdEditable } from './SessionIdEditable';
 import { SessionSpinner } from './SessionSpinner';
 import { StringUtils, ToastUtils } from '../../session/utils';
 import { lightTheme } from '../../state/ducks/SessionTheme';
+import { ConversationController } from '../../session/conversations';
 
 enum SignInMode {
   Default,
@@ -788,8 +789,8 @@ export class RegistrationTabs extends React.Component<any, State> {
   private async resetRegistration() {
     await window.Signal.Data.removeAll();
     await window.storage.fetch();
-    window.ConversationController.reset();
-    await window.ConversationController.load();
+    ConversationController.getInstance().reset();
+    await ConversationController.getInstance().load();
     window.Whisper.RotateSignedPreKeyListener.stop(window.Whisper.events);
 
     this.setState({
@@ -960,7 +961,7 @@ export class RegistrationTabs extends React.Component<any, State> {
       const secretWords = window.mnemonic.pubkey_to_secret_words(pubkey);
       this.setState({ secretWords });
     } catch (e) {
-      window.log.log(e);
+      window.log.info(e);
       await this.resetRegistration();
 
       this.setState({

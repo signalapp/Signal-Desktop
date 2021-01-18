@@ -4,6 +4,7 @@ import { PartialRawMessage, RawMessage } from '../types/RawMessage';
 import { ContentMessage } from '../messages/outgoing';
 import { PubKey } from '../types';
 import { MessageUtils } from '../utils';
+import { GroupMessageType } from '.';
 
 // This is an abstraction for storing pending messages.
 // Ideally we want to store pending messages in the database so that
@@ -13,6 +14,11 @@ import { MessageUtils } from '../utils';
 // memory and sync its state with the database on modification (add or remove).
 
 export class PendingMessageCache {
+  public callbacks: Map<
+    string,
+    (message: RawMessage) => Promise<void>
+  > = new Map();
+
   protected loadPromise: Promise<void> | undefined;
   protected cache: Array<RawMessage> = [];
 
@@ -38,7 +44,8 @@ export class PendingMessageCache {
 
   public async add(
     device: PubKey,
-    message: ContentMessage
+    message: ContentMessage,
+    sentCb?: (message: any) => Promise<void>
   ): Promise<RawMessage> {
     await this.loadFromDBIfNeeded();
     const rawMessage = await MessageUtils.toRawMessage(device, message);
@@ -49,6 +56,9 @@ export class PendingMessageCache {
     }
 
     this.cache.push(rawMessage);
+    if (sentCb) {
+      this.callbacks.set(rawMessage.identifier, sentCb);
+    }
     await this.saveToDB();
 
     return rawMessage;
@@ -74,6 +84,7 @@ export class PendingMessageCache {
         )
     );
     this.cache = updatedCache;
+    this.callbacks.delete(message.identifier);
     await this.saveToDB();
 
     return updatedCache;
@@ -89,6 +100,7 @@ export class PendingMessageCache {
   public async clear() {
     // Clears the cache and syncs to DB
     this.cache = [];
+    this.callbacks = new Map();
     await this.saveToDB();
   }
 

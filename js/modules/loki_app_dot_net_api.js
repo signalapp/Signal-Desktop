@@ -1,4 +1,4 @@
-/* global log, textsecure, libloki, Signal, Whisper, ConversationController,
+/* global log, textsecure, libloki, Signal, Whisper,
 clearTimeout, getMessageController, libsignal, StringView, window, _,
 dcodeIO, Buffer, process */
 const nodeFetch = require('node-fetch');
@@ -599,7 +599,7 @@ class LokiAppDotNetServerAPI {
       const ourNumber =
         window.storage.get('primaryDevicePubKey') ||
         textsecure.storage.user.getNumber();
-      const profileConvo = ConversationController.get(ourNumber);
+      const profileConvo = window.getConversationController().get(ourNumber);
       const profile = profileConvo && profileConvo.getLokiProfile();
       const profileName = profile && profile.displayName;
       // if doesn't match, write it to the network
@@ -1050,8 +1050,10 @@ class LokiPublicChannelAPI {
     this.channelId = channelId;
     this.baseChannelUrl = `channels/${this.channelId}`;
     this.conversationId = conversationId;
-    this.conversation = ConversationController.getOrThrow(conversationId);
-    this.lastGot = null;
+    this.conversation = window
+      .getConversationController()
+      .getOrThrow(conversationId);
+    this.lastMessageServerID = null;
     this.modStatus = false;
     this.deleteLastId = 1;
     this.timers = {};
@@ -1664,14 +1666,20 @@ class LokiPublicChannelAPI {
     };
     if (!this.conversation) {
       log.warn('Trying to poll for non-existing public conversation');
-      this.lastGot = 0;
-    } else if (!this.lastGot) {
-      this.lastGot = this.conversation.getLastRetrievedMessage();
+      this.lastMessageServerID = 0;
+    } else if (!this.lastMessageServerID) {
+      this.lastMessageServerID = this.conversation.getLastRetrievedMessage();
     }
-    params.since_id = this.lastGot;
-    // Just grab the most recent 100 messages if you don't have a valid lastGot
-    params.count = this.lastGot === 0 ? -100 : 20;
-    // log.info(`Getting ${params.count} from ${this.lastGot} on ${this.baseChannelUrl}`);
+    // If lastMessageServerID is not set, it's the first pull of messages for this open group.
+    // We just pull 100 messages (server sends the most recent ones)
+    if (!this.lastMessageServerID || this.lastMessageServerID === 0) {
+      params.count = 100; // 64 on android
+    } else {
+      // if lastMessageServerID is set, we pull 200 messages per 200 messages, giving the since_id parameter set to our last received message id.
+      params.count = 200;
+      params.since_id = this.lastMessageServerID;
+    }
+    // log.info(`Getting ${params.count} from ${this.lastMessageServerID} on ${this.baseChannelUrl}`);
     const res = await this.serverRequest(`${this.baseChannelUrl}/messages`, {
       params,
     });
@@ -1709,9 +1717,9 @@ class LokiPublicChannelAPI {
       // process these in chronological order
       res.response.data.reverse().map(async adnMessage => {
         // still update our last received if deleted, not signed or not valid
-        this.lastGot = !this.lastGot
+        this.lastMessageServerID = !this.lastMessageServerID
           ? adnMessage.id
-          : Math.max(this.lastGot, adnMessage.id);
+          : Math.max(this.lastMessageServerID, adnMessage.id);
 
         if (
           !adnMessage.id ||
@@ -1850,7 +1858,7 @@ class LokiPublicChannelAPI {
 
     // return early if we should stop processing
     if (!pendingMessages.length || !this.running) {
-      this.conversation.setLastRetrievedMessage(this.lastGot);
+      this.conversation.setLastRetrievedMessage(this.lastMessageServerID);
       this.messagesPollLock = false;
       return;
     }
@@ -2006,7 +2014,9 @@ class LokiPublicChannelAPI {
     // if we received one of our own messages
     if (lastProfileName !== false) {
       // get current profileName
-      const profileConvo = ConversationController.get(ourNumberProfile);
+      const profileConvo = window
+        .getConversationController()
+        .get(ourNumberProfile);
       const profileName = profileConvo.getProfileName();
       // check to see if it out of sync
       if (profileName !== lastProfileName) {
@@ -2016,7 +2026,7 @@ class LokiPublicChannelAPI {
     }
 
     // finally update our position
-    this.conversation.setLastRetrievedMessage(this.lastGot);
+    this.conversation.setLastRetrievedMessage(this.lastMessageServerID);
     this.messagesPollLock = false;
   }
 

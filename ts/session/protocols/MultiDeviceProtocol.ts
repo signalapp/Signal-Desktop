@@ -122,7 +122,7 @@ export class MultiDeviceProtocol {
         PairingAuthorisation
       >;
     } catch (e) {
-      console.warn(
+      window.log.warn(
         `MultiDeviceProtocol::fetchPairingAuthorisation: Failed to map authorisations for ${device.key}.`,
         e
       );

@@ -152,9 +152,9 @@ Message.prototype = {
         profile.displayName = this.profile.displayName;
       }
 
-      const conversation = window.ConversationController.get(
-        textsecure.storage.user.getNumber()
-      );
+      const conversation = window
+        .getConversationController()
+        .get(textsecure.storage.user.getNumber());
       const avatarPointer = conversation.get('avatarPointer');
       if (avatarPointer) {
         profile.avatar = avatarPointer;
@@ -243,7 +243,7 @@ MessageSender.prototype = {
 
     const mediumGroups = activeGroups.filter(c => c.isMediumGroup());
 
-    window.MediumGroups.syncMediumGroups(mediumGroups);
+    window.libsession.ClosedGroupV2.syncMediumGroups(mediumGroups);
 
     const legacyGroups = activeGroups.filter(c => !c.isMediumGroup());
 

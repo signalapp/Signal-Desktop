@@ -1207,9 +1207,6 @@
     "deviceUnpaired": {
         "message": "Ваше устройство успешно отвязано"
     },
-    "sendMessageLeftGroup": {
-        "message": "Вы покинули группу."
-    },
     "moreInformation": {
         "message": "Больше информации"
     },

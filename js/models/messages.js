@@ -3,7 +3,6 @@
   Backbone,
   storage,
   filesize,
-  ConversationController,
   getMessageController,
   i18n,
   Signal,
@@ -177,9 +176,9 @@
         } else if (groupUpdate.left) {
           return i18n(
             'leftTheGroup',
-            ConversationController.getContactProfileNameOrShortenedPubKey(
-              groupUpdate.left
-            )
+            window
+              .getConversationController()
+              .getContactProfileNameOrShortenedPubKey(groupUpdate.left)
           );
         }
 
@@ -196,7 +195,9 @@
         }
         if (groupUpdate.joined && groupUpdate.joined.length) {
           const names = groupUpdate.joined.map(pubKey =>
-            ConversationController.getContactProfileNameOrFullPubKey(pubKey)
+            window
+              .getConversationController()
+              .getContactProfileNameOrFullPubKey(pubKey)
           );
 
           if (names.length > 1) {
@@ -209,7 +210,8 @@
         if (groupUpdate.kicked && groupUpdate.kicked.length) {
           const names = _.map(
             groupUpdate.kicked,
-            ConversationController.getContactProfileNameOrShortenedPubKey
+            window.getConversationController()
+              .getContactProfileNameOrShortenedPubKey
           );
 
           if (names.length > 1) {
@@ -260,9 +262,9 @@
         );
         const pubkeysInDesc = description.match(regex);
         (pubkeysInDesc || []).forEach(pubkey => {
-          const displayName = ConversationController.getContactProfileNameOrShortenedPubKey(
-            pubkey.slice(1)
-          );
+          const displayName = window
+            .getConversationController()
+            .getContactProfileNameOrShortenedPubKey(pubkey.slice(1));
           if (displayName && displayName.length) {
             description = description.replace(pubkey, `@${displayName}`);
           }
@@ -383,7 +385,7 @@
       };
     },
     findContact(phoneNumber) {
-      return ConversationController.get(phoneNumber);
+      return window.getConversationController().get(phoneNumber);
     },
     findAndFormatContact(phoneNumber) {
       const { format } = PhoneNumber;
@@ -567,8 +569,7 @@
       const conversation = this.getConversation();
 
       const isModerator =
-        conversation &&
-        !!conversation.isModerator(textsecure.storage.user.getNumber());
+        conversation && !!conversation.isModerator(phoneNumber);
 
       const convoId = conversation ? conversation.id : undefined;
       const isGroup = !!conversation && !conversation.isPrivate();
@@ -727,7 +728,7 @@
       const regionCode = storage.get('regionCode');
 
       const { author, id, referencedMessageNotFound } = quote;
-      const contact = author && ConversationController.get(author);
+      const contact = author && window.getConversationController().get(author);
 
       const authorPhoneNumber = format(author, {
         ourRegionCode: regionCode,
@@ -1030,7 +1031,9 @@
 
         const { body, attachments, preview, quote } = await this.uploadData();
         const ourNumber = window.storage.get('primaryDevicePubKey');
-        const ourConversation = window.ConversationController.get(ourNumber);
+        const ourConversation = window
+          .getConversationController()
+          .get(ourNumber);
 
         const chatParams = {
           identifier: this.id,
@@ -1070,7 +1073,7 @@
 
         // TODO should we handle medium groups message here too?
         // Not sure there is the concept of retrySend for those
-        const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
+        const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupV2ChatMessage(
           {
             identifier: this.id,
             chatMessage,
@@ -1129,7 +1132,7 @@
             .sendUsingMultiDevice(recipientPubKey, chatMessage);
         }
 
-        const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
+        const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupV2ChatMessage(
           {
             chatMessage,
             groupId: this.get('conversationId'),
@@ -1171,8 +1174,8 @@
       // FIXME this is not correct and will cause issues with syncing
       // At this point the only way to check for medium
       // group is by comparing the encryption type
-      const isMediumGroupMessage =
-        sentMessage.encryption === libsession.Types.EncryptionType.MediumGroup;
+      const isClosedGroupMessage =
+        sentMessage.encryption === libsession.Types.EncryptionType.ClosedGroup;
 
       const isOpenGroupMessage =
         !!sentMessage.group &&
@@ -1183,7 +1186,7 @@
       // if we did not sync or trigger a sync message for this specific message already
       const shouldTriggerSyncMessage =
         !isOurDevice &&
-        !isMediumGroupMessage &&
+        !isClosedGroupMessage &&
         !this.get('synced') &&
         !this.get('sentSync');
 
@@ -1201,46 +1204,6 @@
         const primaryPubKey = await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
           sentMessage.device
         );
-
-        if (isMediumGroupMessage) {
-          // Delete all ratchets (it's important that this happens * after * sending out the update)
-          const shouldTriggerRatchetReset =
-            dataMessage &&
-            dataMessage.mediumGroupUpdate &&
-            dataMessage.mediumGroupUpdate.senderKeys &&
-            dataMessage.mediumGroupUpdate.senderKeys.length === 0;
-          if (shouldTriggerRatchetReset) {
-            const { groupPublicKey } = dataMessage.mediumGroupUpdate;
-            const groupPubKeyUint = new Uint8Array(
-              groupPublicKey.toArrayBuffer()
-            );
-            const groupId = libsession.Utils.StringUtils.decode(
-              groupPubKeyUint,
-              'hex'
-            );
-            await window.Signal.Data.removeAllClosedGroupRatchets(groupId);
-            // Send out the user's new ratchet to all members (minus the removed ones) using established channels
-            const ourPrimary = await window.Signal.Util.UserUtil.getPrimary();
-
-            const userSenderKey = await window.libsession.MediumGroup.createSenderKeyForGroup(
-              groupId,
-              ourPrimary
-            );
-
-            const currentMembers = this.getConversation().get('members');
-
-            window.log.warn(
-              'Sharing our new senderKey with remainingMembers via established channels with',
-              currentMembers
-            );
-
-            await window.libsession.MediumGroup.shareSenderKeys(
-              groupId,
-              currentMembers,
-              userSenderKey
-            );
-          }
-        }
 
         /**
          * We should hit the notify endpoint for push notification only if:
@@ -1305,7 +1268,7 @@
         if (error.name === 'SignedPreKeyRotationError') {
           await window.getAccountManager().rotateSignedPreKey();
         } else if (error.name === 'OutgoingIdentityKeyError') {
-          const c = ConversationController.get(sentMessage.device);
+          const c = window.getConversationController().get(sentMessage.device);
           await c.getProfiles();
         }
       }
@@ -1331,15 +1294,16 @@
       // This needs to be an unsafe call, because this method is called during
       //   initial module setup. We may be in the middle of the initial fetch to
       //   the database.
-      return ConversationController.getUnsafe(this.get('conversationId'));
+      return window
+        .getConversationController()
+        .getUnsafe(this.get('conversationId'));
     },
     getSourceDeviceConversation() {
       // This gets the conversation of the device that sent this message
       // while getConversation will return the primary device conversation
-      return ConversationController.getOrCreateAndWait(
-        this.get('source'),
-        'private'
-      );
+      return window
+        .getConversationController()
+        .getOrCreateAndWait(this.get('source'), 'private');
     },
     getIncomingContact() {
       if (!this.isIncoming()) {
@@ -1352,7 +1316,7 @@
 
       const key = source.key ? source.key : source;
 
-      return ConversationController.getOrCreate(key, 'private');
+      return window.getConversationController().getOrCreate(key, 'private');
     },
     getQuoteContact() {
       const quote = this.get('quote');
@@ -1364,7 +1328,7 @@
         return null;
       }
 
-      return ConversationController.get(author);
+      return window.getConversationController().get(author);
     },
 
     getSource() {
@@ -1385,7 +1349,9 @@
       // is PubKey ano not a string
       const sourceStr = source.key ? source.key : source;
 
-      return ConversationController.getOrCreate(sourceStr, 'private');
+      return window
+        .getConversationController()
+        .getOrCreate(sourceStr, 'private');
     },
     isOutgoing() {
       return this.get('type') === 'outgoing';

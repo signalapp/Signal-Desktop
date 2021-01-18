@@ -2,16 +2,15 @@ import { expect } from 'chai';
 
 import {
   ChatMessage,
-  ClosedGroupChatMessage,
+  ClosedGroupV2ChatMessage,
 } from '../../../../session/messages/outgoing';
 import { SignalService } from '../../../../protobuf';
-import { TextEncoder } from 'util';
 import { TestUtils } from '../../../test-utils';
 import { StringUtils } from '../../../../session/utils';
 import { PubKey } from '../../../../session/types';
 import { Constants } from '../../../../session';
 
-describe('ClosedGroupChatMessage', () => {
+describe('ClosedGroupV2ChatMessage', () => {
   let groupId: PubKey;
   beforeEach(() => {
     groupId = TestUtils.generateFakePubKey();
@@ -21,7 +20,7 @@ describe('ClosedGroupChatMessage', () => {
       timestamp: Date.now(),
       body: 'body',
     });
-    const message = new ClosedGroupChatMessage({
+    const message = new ClosedGroupV2ChatMessage({
       groupId,
       chatMessage,
     });
@@ -54,7 +53,7 @@ describe('ClosedGroupChatMessage', () => {
     const chatMessage = new ChatMessage({
       timestamp: Date.now(),
     });
-    const message = new ClosedGroupChatMessage({
+    const message = new ClosedGroupV2ChatMessage({
       groupId,
       chatMessage,
     });
@@ -65,7 +64,7 @@ describe('ClosedGroupChatMessage', () => {
     const chatMessage = new ChatMessage({
       timestamp: Date.now(),
     });
-    const message = new ClosedGroupChatMessage({
+    const message = new ClosedGroupV2ChatMessage({
       groupId,
       chatMessage,
     });
@@ -82,7 +81,7 @@ describe('ClosedGroupChatMessage', () => {
       body: 'body',
       identifier: 'chatMessage',
     });
-    const message = new ClosedGroupChatMessage({
+    const message = new ClosedGroupV2ChatMessage({
       groupId,
       chatMessage,
       identifier: 'closedGroupMessage',
@@ -96,7 +95,7 @@ describe('ClosedGroupChatMessage', () => {
       body: 'body',
       identifier: 'chatMessage',
     });
-    const message = new ClosedGroupChatMessage({
+    const message = new ClosedGroupV2ChatMessage({
       groupId,
       chatMessage,
     });

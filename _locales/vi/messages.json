@@ -1192,9 +1192,6 @@
     "deviceUnpaired": {
         "message": "Thiết bị của bạn đã được hủy liên kết thành công"
     },
-    "sendMessageLeftGroup": {
-        "message": "Bạn đã rời nhóm."
-    },
     "resend": {
         "message": "Gửi lại"
     },

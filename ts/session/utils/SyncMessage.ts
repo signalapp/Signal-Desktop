@@ -9,6 +9,7 @@ import {
   SentSyncMessage,
 } from '../messages/outgoing';
 import { PubKey } from '../types';
+import { ConversationController } from '../conversations';
 
 export function getSentSyncMessage(params: {
   message: ContentMessage;
@@ -64,7 +65,7 @@ export async function getSyncContacts(): Promise<Array<any> | undefined> {
   );
 
   const secondaryContactsPromise = secondaryContactsPartial.map(async c =>
-    window.ConversationController.getOrCreateAndWait(
+    ConversationController.getInstance().getOrCreateAndWait(
       c.getPrimaryDevicePubKey(),
       'private'
     )
