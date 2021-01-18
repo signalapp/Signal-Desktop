@@ -1801,9 +1801,7 @@
           })
         );
     },
-    notifyTyping(options = {}) {
-      const { isTyping, sender, senderDevice } = options;
-
+    notifyTyping({ isTyping, sender }) {
       // We don't do anything with typing messages from our other devices
       if (sender === this.ourNumber) {
         return;
@@ -1826,10 +1824,8 @@
         }
       }
 
-      const identifier = `${sender}.${senderDevice}`;
-
       this.contactTypingTimers = this.contactTypingTimers || {};
-      const record = this.contactTypingTimers[identifier];
+      const record = this.contactTypingTimers[sender];
 
       if (record) {
         clearTimeout(record.timer);
@@ -1840,16 +1836,13 @@
       //   'change' causes a re-render of this conversation's list item in the left pane
 
       if (isTyping) {
-        this.contactTypingTimers[identifier] = this.contactTypingTimers[
-          identifier
-        ] || {
+        this.contactTypingTimers[sender] = this.contactTypingTimers[sender] || {
           timestamp: Date.now(),
           sender,
-          senderDevice,
         };
 
-        this.contactTypingTimers[identifier].timer = setTimeout(
-          this.clearContactTypingTimer.bind(this, identifier),
+        this.contactTypingTimers[sender].timer = setTimeout(
+          this.clearContactTypingTimer.bind(this, sender),
           15 * 1000
         );
         if (!record) {
@@ -1858,7 +1851,7 @@
           this.commit();
         }
       } else {
-        delete this.contactTypingTimers[identifier];
+        delete this.contactTypingTimers[sender];
         if (record) {
           // User was previously typing, and is no longer. State change!
           this.trigger('typing-update');
@@ -1867,13 +1860,13 @@
       }
     },
 
-    clearContactTypingTimer(identifier) {
+    clearContactTypingTimer(sender) {
       this.contactTypingTimers = this.contactTypingTimers || {};
-      const record = this.contactTypingTimers[identifier];
+      const record = this.contactTypingTimers[sender];
 
       if (record) {
         clearTimeout(record.timer);
-        delete this.contactTypingTimers[identifier];
+        delete this.contactTypingTimers[sender];
 
         // User was previously typing, but timed out or we received message. State change!
         this.trigger('typing-update');

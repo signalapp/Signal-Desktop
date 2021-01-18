@@ -458,6 +458,12 @@ async function handleRegularMessage(
   if (source !== ourNumber && primarySource) {
     message.set({ source: primarySource.key });
   }
+
+  // we just received a message from that user so we reset the typing indicator for this convo
+  conversation.notifyTyping({
+    isTyping: false,
+    sender: primarySource.key,
+  });
 }
 
 async function handleExpirationTimerUpdate(

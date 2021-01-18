@@ -469,10 +469,6 @@
         await window.Signal.Data.removeMessage(message.id, {
           Message: Whisper.Message,
         });
-        const conversation = message.getConversation();
-        if (conversation) {
-          await conversation.updateLastMessage();
-        }
       })
     );
     window.log.info('Cleanup: complete');

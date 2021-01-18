@@ -93,7 +93,9 @@ export interface ConversationModel
   block: any;
   copyPublicKey: any;
   getAvatar: any;
-  notifyTyping: any;
+  notifyTyping: (
+    { isTyping, sender } = { isTyping: boolean, sender: string }
+  ) => any;
   setSecondaryStatus: any;
   queueJob: any;
   onUpdateGroupName: any;

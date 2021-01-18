@@ -3,7 +3,6 @@
   dcodeIO,
   Backbone,
   _,
-  libsignal,
   textsecure,
   stringObject,
   BlockedNumberController

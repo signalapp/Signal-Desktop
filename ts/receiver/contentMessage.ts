@@ -511,7 +511,7 @@ async function handleTypingMessage(
 
   const typingMessage = iTypingMessage as SignalService.TypingMessage;
 
-  const { timestamp, groupId, action } = typingMessage;
+  const { timestamp, action } = typingMessage;
   const { source } = envelope;
 
   await removeFromCache(envelope);
@@ -548,11 +548,9 @@ async function handleTypingMessage(
   const started = action === SignalService.TypingMessage.Action.STARTED;
 
   if (conversation) {
-    const senderDevice = 1;
     conversation.notifyTyping({
       isTyping: started,
       sender: source,
-      senderDevice,
     });
   }
 }
