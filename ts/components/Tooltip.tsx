@@ -85,6 +85,7 @@ export type PropsType = {
   direction?: TooltipPlacement;
   sticky?: boolean;
   theme?: Theme;
+  popperBoundariesElement?: React.RefObject<HTMLDivElement>;
 };
 
 export const Tooltip: React.FC<PropsType> = ({
@@ -93,6 +94,7 @@ export const Tooltip: React.FC<PropsType> = ({
   direction,
   sticky,
   theme,
+  popperBoundariesElement,
 }) => {
   const [isHovering, setIsHovering] = React.useState(false);
 
@@ -111,7 +113,18 @@ export const Tooltip: React.FC<PropsType> = ({
           </TooltipEventWrapper>
         )}
       </Reference>
-      <Popper placement={direction}>
+      <Popper
+        placement={direction}
+        modifiers={{
+          preventOverflow: {
+            boundariesElement:
+              popperBoundariesElement &&
+              (popperBoundariesElement.current as HTMLElement),
+            // Only detect overflow on the left edge of the boundary
+            priority: ['left'],
+          },
+        }}
+      >
         {({ arrowProps, placement, ref, style }) =>
           showTooltip && (
             <div

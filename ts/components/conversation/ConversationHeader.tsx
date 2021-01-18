@@ -99,10 +99,13 @@ export class ConversationHeader extends React.Component<PropsType> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public menuTriggerRef: React.RefObject<any>;
 
+  public titleContainerRef: React.RefObject<HTMLDivElement>;
+
   public constructor(props: PropsType) {
     super(props);
 
     this.menuTriggerRef = React.createRef();
+    this.titleContainerRef = React.createRef();
     this.showMenuBound = this.showMenu.bind(this);
   }
 
@@ -158,7 +161,10 @@ export class ConversationHeader extends React.Component<PropsType> {
         {shouldShowIcon ? (
           <span>
             {' '}
-            <InContactsIcon i18n={i18n} />
+            <InContactsIcon
+              i18n={i18n}
+              popperBoundariesElement={this.titleContainerRef}
+            />
           </span>
         ) : null}
         {shouldShowNumber ? ` · ${phoneNumber}` : null}
@@ -574,7 +580,10 @@ export class ConversationHeader extends React.Component<PropsType> {
     return (
       <div className="module-conversation-header">
         {this.renderBackButton()}
-        <div className="module-conversation-header__title-container">
+        <div
+          className="module-conversation-header__title-container"
+          ref={this.titleContainerRef}
+        >
           {this.renderHeader()}
         </div>
         {this.renderExpirationLength()}
