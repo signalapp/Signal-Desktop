@@ -59,11 +59,16 @@
       this.remove();
     },
     async onSubmit(pubKeys) {
-      log.info(`asked to add ${pubKeys}`);
+      log.info(`asked to add moderators: ${pubKeys}`);
+      window.libsession.Utils.ToastUtils.pushUserNeedsToHaveJoined();
+
       const res = await this.channelAPI.serverAPI.addModerators(pubKeys);
       if (res !== true) {
         // we have errors, deal with them...
         // how?
+        window.log.warn('failed to add moderators:', res);
+      } else {
+        window.log.info(`${pubKeys} added as moderators...`);
       }
     },
   });

@@ -4,8 +4,6 @@ import { QRCode } from 'react-qr-svg';
 import { SessionModal } from './session/SessionModal';
 import { SessionButton, SessionButtonColor } from './session/SessionButton';
 import { SessionSpinner } from './session/SessionSpinner';
-import { toast } from 'react-toastify';
-import { SessionToast, SessionToastType } from './session/SessionToast';
 import { ToastUtils } from '../session/utils';
 import { DefaultTheme } from 'styled-components';
 import { ConversationController } from '../session/conversations';

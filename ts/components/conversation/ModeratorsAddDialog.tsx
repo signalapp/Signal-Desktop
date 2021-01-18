@@ -120,7 +120,7 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
   }
 
   public render() {
-    const i18n = window.i18n;
+    const { i18n } = window;
 
     const hasContacts = this.state.contactList.length !== 0;
 
@@ -143,7 +143,7 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
             buttonType={SessionButtonType.Brand}
             buttonColor={SessionButtonColor.Primary}
             onClick={this.add}
-            text={i18n('add')}
+            text={i18n('addToTheListBelow')}
           />
         </div>
         <div className="moderatorList">
