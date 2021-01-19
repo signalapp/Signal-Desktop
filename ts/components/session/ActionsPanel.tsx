@@ -55,6 +55,9 @@ class ActionsPanelPrivate extends React.Component<Props> {
     this.props.applyTheme(newThemeObject);
 
     void this.showResetSessionIDDialogIfNeeded();
+
+    // remove existing prekeys, sign prekeys and sessions
+    void window.getAccountManager().clearSessionsAndPreKeys();
   }
 
   public Section = ({

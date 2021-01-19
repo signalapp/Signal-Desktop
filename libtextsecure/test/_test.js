@@ -59,5 +59,3 @@ window.hexToArrayBuffer = str => {
   }
   return ret;
 };
-
-window.MockSocket.prototype.addEventListener = () => null;

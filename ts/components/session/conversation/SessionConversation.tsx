@@ -533,8 +533,8 @@ export class SessionConversation extends React.Component<Props, State> {
     const isAdmin = conversation.isMediumGroup()
       ? true
       : conversation.isPublic()
-        ? conversation.isAdmin(ourPrimary)
-        : false;
+      ? conversation.isAdmin(ourPrimary)
+      : false;
 
     return {
       id: conversation.id,
@@ -764,7 +764,7 @@ export class SessionConversation extends React.Component<Props, State> {
   public selectMessage(messageId: string) {
     const selectedMessages = this.state.selectedMessages.includes(messageId)
       ? // Add to array if not selected. Else remove.
-      this.state.selectedMessages.filter(id => id !== messageId)
+        this.state.selectedMessages.filter(id => id !== messageId)
       : [...this.state.selectedMessages, messageId];
 
     this.setState({ selectedMessages });
@@ -958,9 +958,9 @@ export class SessionConversation extends React.Component<Props, State> {
     const selectedIndex =
       media.length > 1
         ? media.findIndex(
-          (mediaMessage: any) =>
-            mediaMessage.attachment.path === attachment.path
-        )
+            (mediaMessage: any) =>
+              mediaMessage.attachment.path === attachment.path
+          )
         : 0;
     return (
       <LightboxGallery
