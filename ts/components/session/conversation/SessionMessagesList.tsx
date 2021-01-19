@@ -12,7 +12,10 @@ import { AttachmentType } from '../../../types/Attachment';
 import { GroupNotification } from '../../conversation/GroupNotification';
 import { GroupInvitation } from '../../conversation/GroupInvitation';
 import { ConversationType } from '../../../state/ducks/conversations';
-import { MessageModel } from '../../../../js/models/messages';
+import {
+  MessageModel,
+  MessageRegularProps,
+} from '../../../../js/models/messages';
 import { SessionLastSeenIndicator } from './SessionLastSeedIndicator';
 import { VerificationNotification } from '../../conversation/VerificationNotification';
 import { ToastUtils } from '../../../session/utils';
@@ -296,12 +299,25 @@ export class SessionMessagesList extends React.Component<Props, State> {
               </>
             );
           }
+          if (!messageProps) {
+            return;
+          }
 
           if (messageProps.conversationType === 'group') {
             messageProps.weAreAdmin = conversation.groupAdmins?.includes(
               ourPrimary
             );
           }
+          // a message is deletable if
+          // either we sent it,
+          // or the convo is not a public one (in this case, we will only be able to delete for us)
+          // or the convo is public and we are an admin
+          const isDeletable =
+            messageProps.authorPhoneNumber === this.props.ourPrimary ||
+            !conversation.isPublic ||
+            (conversation.isPublic && !!messageProps.weAreAdmin);
+
+          messageProps.isDeletable = isDeletable;
 
           // firstMessageOfSeries tells us to render the avatar only for the first message
           // in a series of messages from the same user
@@ -322,7 +338,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
   }
 
   private renderMessage(
-    messageProps: any,
+    messageProps: MessageRegularProps,
     firstMessageOfSeries: boolean,
     multiSelectMode: boolean,
     message: MessageModel
@@ -331,7 +347,6 @@ export class SessionMessagesList extends React.Component<Props, State> {
       !!messageProps?.id &&
       this.props.selectedMessages.includes(messageProps.id);
 
-    messageProps.i18n = window.i18n;
     messageProps.selected = selected;
     messageProps.firstMessageOfSeries = firstMessageOfSeries;
 
@@ -344,7 +359,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
       void this.props.showMessageDetails(messageDetailsProps);
     };
 
-    messageProps.onClickAttachment = (attachment: any) => {
+    messageProps.onClickAttachment = (attachment: AttachmentType) => {
       this.props.onClickAttachment(attachment, messageProps);
     };
     messageProps.onDownload = (attachment: AttachmentType) => {

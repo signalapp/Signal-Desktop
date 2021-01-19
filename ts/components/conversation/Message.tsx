@@ -38,6 +38,7 @@ import uuid from 'uuid';
 import { InView } from 'react-intersection-observer';
 import { DefaultTheme, withTheme } from 'styled-components';
 import { MessageMetadata } from './message/MessageMetadata';
+import { MessageRegularProps } from '../../../js/models/messages';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -49,74 +50,6 @@ interface LinkPreviewType {
   image?: AttachmentType;
 }
 
-export interface Props {
-  disableMenu?: boolean;
-  isDeletable: boolean;
-  isAdmin?: boolean;
-  weAreAdmin?: boolean;
-  text?: string;
-  bodyPending?: boolean;
-  id: string;
-  collapseMetadata?: boolean;
-  direction: 'incoming' | 'outgoing';
-  timestamp: number;
-  serverTimestamp?: number;
-  status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error' | 'pow';
-  // What if changed this over to a single contact like quote, and put the events on it?
-  contact?: Contact & {
-    hasSignalAccount: boolean;
-    onSendMessage?: () => void;
-    onClick?: () => void;
-  };
-  authorName?: string;
-  authorProfileName?: string;
-  /** Note: this should be formatted for display */
-  authorPhoneNumber: string;
-  conversationType: 'group' | 'direct';
-  attachments?: Array<AttachmentType>;
-  quote?: {
-    text: string;
-    attachment?: QuotedAttachmentType;
-    isFromMe: boolean;
-    authorPhoneNumber: string;
-    authorProfileName?: string;
-    authorName?: string;
-    messageId?: string;
-    onClick: (data: any) => void;
-    referencedMessageNotFound: boolean;
-  };
-  previews: Array<LinkPreviewType>;
-  authorAvatarPath?: string;
-  isExpired: boolean;
-  expirationLength?: number;
-  expirationTimestamp?: number;
-  convoId: string;
-  isPublic?: boolean;
-  isRss?: boolean;
-  selected: boolean;
-  isKickedFromGroup: boolean;
-  // whether or not to show check boxes
-  multiSelectMode: boolean;
-  firstMessageOfSeries: boolean;
-  isUnread: boolean;
-  isQuotedMessageToAnimate?: boolean;
-
-  onClickAttachment?: (attachment: AttachmentType) => void;
-  onClickLinkPreview?: (url: string) => void;
-  onCopyText?: () => void;
-  onSelectMessage: (messageId: string) => void;
-  onReply?: (messagId: number) => void;
-  onRetrySend?: () => void;
-  onDownload?: (attachment: AttachmentType) => void;
-  onDeleteMessage: (messageId: string) => void;
-  onCopyPubKey?: () => void;
-  onBanUser?: () => void;
-  onShowDetail: () => void;
-  onShowUserDetails: (userPubKey: string) => void;
-  markRead: (readAt: number) => Promise<void>;
-  theme: DefaultTheme;
-}
-
 interface State {
   expiring: boolean;
   expired: boolean;
@@ -126,14 +59,14 @@ interface State {
 const EXPIRATION_CHECK_MINIMUM = 2000;
 const EXPIRED_DELAY = 600;
 
-class MessageInner extends React.PureComponent<Props, State> {
+class MessageInner extends React.PureComponent<MessageRegularProps, State> {
   public handleImageErrorBound: () => void;
 
   public expirationCheckInterval: any;
   public expiredTimeout: any;
   public ctxMenuID: string;
 
-  public constructor(props: Props) {
+  public constructor(props: MessageRegularProps) {
     super(props);
 
     this.handleImageErrorBound = this.handleImageError.bind(this);
