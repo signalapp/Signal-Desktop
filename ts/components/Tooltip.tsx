@@ -4,7 +4,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
-import { Manager, Reference, Popper } from 'react-popper';
+import { Manager, Reference, Popper, PopperProps } from 'react-popper';
 import { Theme, themeClassName } from '../util/theme';
 
 type EventWrapperPropsType = {
@@ -83,9 +83,9 @@ export enum TooltipPlacement {
 export type PropsType = {
   content: string | JSX.Element;
   direction?: TooltipPlacement;
+  popperModifiers?: PopperProps['modifiers'];
   sticky?: boolean;
   theme?: Theme;
-  popperBoundariesElement?: React.RefObject<HTMLDivElement>;
 };
 
 export const Tooltip: React.FC<PropsType> = ({
@@ -94,7 +94,7 @@ export const Tooltip: React.FC<PropsType> = ({
   direction,
   sticky,
   theme,
-  popperBoundariesElement,
+  popperModifiers,
 }) => {
   const [isHovering, setIsHovering] = React.useState(false);
 
@@ -113,18 +113,7 @@ export const Tooltip: React.FC<PropsType> = ({
           </TooltipEventWrapper>
         )}
       </Reference>
-      <Popper
-        placement={direction}
-        modifiers={{
-          preventOverflow: {
-            boundariesElement:
-              popperBoundariesElement &&
-              (popperBoundariesElement.current as HTMLElement),
-            // Only detect overflow on the left edge of the boundary
-            priority: ['left'],
-          },
-        }}
-      >
+      <Popper placement={direction} modifiers={popperModifiers || undefined}>
         {({ arrowProps, placement, ref, style }) =>
           showTooltip && (
             <div

@@ -163,7 +163,7 @@ export class ConversationHeader extends React.Component<PropsType> {
             {' '}
             <InContactsIcon
               i18n={i18n}
-              popperBoundariesElement={this.titleContainerRef}
+              titleContainerRef={this.titleContainerRef}
             />
           </span>
         ) : null}

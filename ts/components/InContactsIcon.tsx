@@ -9,18 +9,25 @@ import { LocalizerType } from '../types/Util';
 
 type PropsType = {
   className?: string;
-  popperBoundariesElement?: React.RefObject<HTMLDivElement>;
+  titleContainerRef?: React.RefObject<HTMLDivElement>;
   i18n: LocalizerType;
 };
 
 export const InContactsIcon = (props: PropsType): JSX.Element => {
-  const { className, i18n, popperBoundariesElement } = props;
+  const { className, i18n, titleContainerRef } = props;
 
   /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
   return (
     <Tooltip
       content={i18n('contactInAddressBook')}
-      popperBoundariesElement={popperBoundariesElement}
+      popperModifiers={{
+        preventOverflow: {
+          boundariesElement:
+            titleContainerRef && (titleContainerRef.current as HTMLElement),
+          // Only detect overflow on the left edge of the boundary
+          priority: ['left'],
+        },
+      }}
     >
       <span
         aria-label={i18n('contactInAddressBook')}

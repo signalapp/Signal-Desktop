@@ -81,6 +81,53 @@ story.add('Sticky', () => (
   </Tooltip>
 ));
 
+story.add('Override Popper Boundary', () => {
+  const TooltipWithBoundary = () => {
+    const [boundaryRef, setBoundaryRef] = React.useState<HTMLDivElement | null>(
+      null
+    );
+
+    return (
+      <div>
+        {boundaryRef && (
+          <Tooltip
+            {...createProps({
+              direction: TooltipPlacement.Bottom,
+            })}
+            popperModifiers={{
+              preventOverflow: {
+                boundariesElement: boundaryRef as HTMLElement,
+                // Only detect overflow on the left edge of the boundary
+                priority: ['left'],
+              },
+            }}
+          >
+            {Trigger}
+          </Tooltip>
+        )}
+        <div
+          style={{
+            marginLeft: 200,
+            marginRight: 200,
+          }}
+        >
+          <div
+            style={{
+              width: '260px',
+              backgroundColor: 'blue',
+              color: 'white',
+            }}
+            ref={ref => setBoundaryRef(ref)}
+          >
+            This is the popper boundary element
+          </div>
+        </div>
+      </div>
+    );
+  };
+  return <TooltipWithBoundary />;
+});
+
 story.add('Dark Theme', () => (
   <Tooltip
     {...createProps({
