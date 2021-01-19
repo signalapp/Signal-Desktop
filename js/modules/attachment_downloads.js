@@ -231,14 +231,7 @@ async function _finishJob(message, id) {
     });
     const conversation = message.getConversation();
     if (conversation) {
-      const fromConversation = conversation.messageCollection.get(message.id);
-
-      if (fromConversation && message !== fromConversation) {
-        fromConversation.set(message.attributes);
-        fromConversation.commit();
-      } else {
-        message.commit();
-      }
+      message.commit();
     }
   }
 

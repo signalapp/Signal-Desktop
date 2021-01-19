@@ -1,4 +1,4 @@
-/* global i18n, Whisper */
+/* global Whisper */
 
 'use strict';
 
@@ -129,17 +129,5 @@ describe('MessageCollection', () => {
       "Group name is now 'blerg'. Bob joined the group.",
       'Notes when there are multiple changes to group_updates properties.'
     );
-
-    message = messages.add({ flags: true });
-    assert.equal(message.getDescription(), i18n('sessionEnded'));
-  });
-
-  it('checks if it is end of the session', () => {
-    const messages = new Whisper.MessageCollection();
-    let message = messages.add(attributes);
-    assert.notOk(message.isEndSession());
-
-    message = messages.add({ flags: true });
-    assert.ok(message.isEndSession());
   });
 });

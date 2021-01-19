@@ -509,7 +509,6 @@ describe('Backup', () => {
           timestamp: 1524185933350,
           type: 'private',
           unreadCount: 0,
-          verified: 0,
           sealedSender: 0,
           version: 2,
         };

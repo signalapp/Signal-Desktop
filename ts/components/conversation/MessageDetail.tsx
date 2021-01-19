@@ -20,7 +20,6 @@ interface Contact {
   errors?: Array<Error>;
 
   onSendAnyway: () => void;
-  onShowSafetyNumber: () => void;
 }
 
 interface Props {
@@ -74,12 +73,6 @@ export class MessageDetail extends React.Component<Props> {
 
     const errorComponent = contact.isOutgoingKeyError ? (
       <div className="module-message-detail__contact__error-buttons">
-        <button
-          className="module-message-detail__contact__show-safety-number"
-          onClick={contact.onShowSafetyNumber}
-        >
-          {i18n('showSafetyNumber')}
-        </button>
         <button
           className="module-message-detail__contact__send-anyway"
           onClick={contact.onSendAnyway}

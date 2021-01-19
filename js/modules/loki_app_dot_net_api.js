@@ -1813,7 +1813,6 @@ class LokiPublicChannelAPI {
           const messageData = {
             serverId: adnMessage.id,
             clientVerified: true,
-            isSessionRequest: false,
             source: pubKey,
             sourceDevice: 1,
             timestamp, // sender timestamp

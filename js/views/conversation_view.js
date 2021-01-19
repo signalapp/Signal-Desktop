@@ -80,10 +80,6 @@
         this.showMessageDetail
       );
 
-      this.lazyUpdateVerified = _.debounce(
-        this.model.updateVerified.bind(this.model),
-        1000 // one second
-      );
       this.throttledGetProfiles = _.throttle(
         this.model.getProfiles.bind(this.model),
         1000 * 60 * 5 // five minutes
@@ -273,69 +269,6 @@
         model.trigger('unload');
       });
     },
-
-    markAllAsVerifiedDefault(unverified) {
-      return Promise.all(
-        unverified.map(contact => {
-          if (contact.isUnverified()) {
-            return contact.setVerifiedDefault();
-          }
-
-          return null;
-        })
-      );
-    },
-
-    markAllAsApproved(untrusted) {
-      return Promise.all(untrusted.map(contact => contact.setApproved()));
-    },
-
-    openSafetyNumberScreens(unverified) {
-      if (unverified.length === 1) {
-        this.showSafetyNumber(unverified.at(0));
-        return;
-      }
-
-      this.showMembers(null, unverified, { needVerify: true });
-    },
-
-    onVerifiedChange() {
-      if (this.model.isUnverified()) {
-        const unverified = this.model.getUnverified();
-        let message;
-        if (!unverified.length) {
-          return;
-        }
-        if (unverified.length > 1) {
-          message = i18n('multipleNoLongerVerified');
-        } else {
-          message = i18n('noLongerVerified', unverified.at(0).getTitle());
-        }
-
-        // Need to re-add, since unverified set may have changed
-        if (this.banner) {
-          this.banner.remove();
-          this.banner = null;
-        }
-
-        this.banner = new Whisper.BannerView({
-          message,
-          onDismiss: () => {
-            this.markAllAsVerifiedDefault(unverified);
-          },
-          onClick: () => {
-            this.openSafetyNumberScreens(unverified);
-          },
-        });
-
-        const container = this.$('.discussion-container');
-        container.append(this.banner.el);
-      } else if (this.banner) {
-        this.banner.remove();
-        this.banner = null;
-      }
-    },
-
     renderTypingBubble() {
       const timers = this.model.contactTypingTimers || {};
       const records = _.values(timers);
@@ -385,17 +318,6 @@
         $('.conversation-stack').addClass('conversation-stack-no-border');
       }
 
-      // const statusPromise = this.throttledGetProfiles();
-      // // eslint-disable-next-line more/no-then
-      // this.statusFetch = statusPromise.then(() =>
-      //   // eslint-disable-next-line more/no-then
-      //   this.model.updateVerified().then(() => {
-      //     this.onVerifiedChange();
-      //     this.statusFetch = null;
-      //     window.log.info('done with status fetch');
-      //   })
-      // );
-
       // We schedule our catch-up decrypt right after any in-progress fetch of
       //   messages from the database, then ensure that the loading screen is only
       //   dismissed when that is complete.
@@ -439,8 +361,6 @@
 
     addMessage(message) {
       // This is debounced, so it won't hit the database too often.
-      this.lazyUpdateVerified();
-
       // We do this here because we don't want convo.messageCollection to have
       //   anything in it unless it has an associated view. This is so, when we
       //   fetch on open, it's clean.
@@ -558,28 +478,7 @@
     },
 
     forceSend({ contact, message }) {
-      window.confirmationDialog({
-        message: i18n('identityKeyErrorOnSend', [
-          contact.getTitle(),
-          contact.getTitle(),
-        ]),
-        messageSub: i18n('youMayWishToVerifyContact'),
-        okText: i18n('sendAnyway'),
-        resolve: async () => {
-          await contact.updateVerified();
-
-          if (contact.isUnverified()) {
-            await contact.setVerifiedDefault();
-          }
-
-          const untrusted = await contact.isUntrusted();
-          if (untrusted) {
-            await contact.setApproved();
-          }
-
-          message.resend(contact.id);
-        },
-      });
+      message.resend(contact.id);
     },
 
     showContactDetail({ contact, hasSignalAccount }) {
@@ -646,38 +545,6 @@
       }
     },
 
-    showSendConfirmationDialog(e, contacts) {
-      let message;
-      const isUnverified = this.model.isUnverified();
-
-      if (contacts.length > 1) {
-        if (isUnverified) {
-          message = i18n('changedSinceVerifiedMultiple');
-        } else {
-          message = i18n('changedRecentlyMultiple');
-        }
-      } else {
-        const contactName = contacts.at(0).getTitle();
-        if (isUnverified) {
-          message = i18n('changedSinceVerified', [contactName, contactName]);
-        } else {
-          message = i18n('changedRecently', [contactName, contactName]);
-        }
-      }
-
-      window.confirmationDialog({
-        title: i18n('changedSinceVerifiedTitle'),
-        message,
-        okText: i18n('sendAnyway'),
-        resolve: () => {
-          this.checkUnverifiedSendMessage(e, { force: true });
-        },
-        reject: () => {
-          this.focusMessageFieldAndClearDisabled();
-        },
-      });
-    },
-
     stripQuery(text, cursorPos) {
       const end = text.slice(cursorPos).search(/[^a-fA-F0-9]/);
       const mentionEnd = end === -1 ? text.length : cursorPos + end;
@@ -719,74 +586,6 @@
       this.$messageField[0].selectionStart = newCursorPos;
       this.$messageField[0].selectionEnd = newCursorPos;
       this.$messageField.trigger('input');
-    },
-
-    async handleSubmitPressed(e, options = {}) {
-      if (this.memberView.membersShown()) {
-        const member = this.memberView.selectedMember();
-        this.selectMember(member);
-      } else {
-        await this.checkUnverifiedSendMessage(e, options);
-      }
-    },
-
-    async checkUnverifiedSendMessage(e, options = {}) {
-      e.preventDefault();
-      this.sendStart = Date.now();
-      this.$messageField.attr('disabled', true);
-
-      _.defaults(options, { force: false });
-
-      // This will go to the trust store for the latest identity key information,
-      //   and may result in the display of a new banner for this conversation.
-      try {
-        await this.model.updateVerified();
-        const contacts = this.model.getUnverified();
-        if (!contacts.length) {
-          this.checkUntrustedSendMessage(e, options);
-          return;
-        }
-
-        if (options.force) {
-          await this.markAllAsVerifiedDefault(contacts);
-          this.checkUnverifiedSendMessage(e, options);
-          return;
-        }
-
-        this.showSendConfirmationDialog(e, contacts);
-      } catch (error) {
-        this.focusMessageFieldAndClearDisabled();
-        window.log.error(
-          'checkUnverifiedSendMessage error:',
-          error && error.stack ? error.stack : error
-        );
-      }
-    },
-
-    async checkUntrustedSendMessage(e, options = {}) {
-      _.defaults(options, { force: false });
-
-      try {
-        const contacts = await this.model.getUntrusted();
-        if (!contacts.length) {
-          this.sendMessage(e);
-          return;
-        }
-
-        if (options.force) {
-          await this.markAllAsApproved(contacts);
-          this.sendMessage(e);
-          return;
-        }
-
-        this.showSendConfirmationDialog(e, contacts);
-      } catch (error) {
-        this.focusMessageFieldAndClearDisabled();
-        window.log.error(
-          'checkUntrustedSendMessage error:',
-          error && error.stack ? error.stack : error
-        );
-      }
     },
 
     async sendMessage(e) {

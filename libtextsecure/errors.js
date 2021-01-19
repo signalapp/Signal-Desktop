@@ -72,14 +72,6 @@
   }
   inherit(ReplayableError, SendMessageNetworkError);
 
-  function SignedPreKeyRotationError() {
-    ReplayableError.call(this, {
-      name: 'SignedPreKeyRotationError',
-      message: 'Too many signed prekey rotation failures',
-    });
-  }
-  inherit(ReplayableError, SignedPreKeyRotationError);
-
   function MessageError(message, httpError) {
     this.code = httpError.code;
 
@@ -218,7 +210,6 @@
   window.textsecure.OutgoingIdentityKeyError = OutgoingIdentityKeyError;
   window.textsecure.ReplayableError = ReplayableError;
   window.textsecure.MessageError = MessageError;
-  window.textsecure.SignedPreKeyRotationError = SignedPreKeyRotationError;
   window.textsecure.EmptySwarmError = EmptySwarmError;
   window.textsecure.SeedNodeError = SeedNodeError;
   window.textsecure.DNSResolutionError = DNSResolutionError;
