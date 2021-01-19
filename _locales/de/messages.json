@@ -210,7 +210,7 @@
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
-        "message": "Archiv",
+        "message": "Archivieren",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "markUnread": {
@@ -958,7 +958,7 @@
         }
     },
     "ok": {
-        "message": "Okay",
+        "message": "OK",
         "description": ""
     },
     "cancel": {
@@ -1030,7 +1030,7 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Verschlüsselung neu starten",
+        "message": "Sitzung zurücksetzen",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
@@ -1084,7 +1084,7 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
-        "message": "Verschlüsselung zurückgesetzt",
+        "message": "Sichere Sitzung zurückgesetzt",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "quoteThumbnailAlt": {
@@ -3252,7 +3252,7 @@
         "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
-        "message": "O. K.",
+        "message": "OK",
         "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
     },
     "GroupV2--admin": {

@@ -1232,7 +1232,7 @@
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
-        "message": "உங்கள் வீடியோ முடக்கப்பட்டுள்ளது",
+        "message": "Your camera is off",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__lobby-summary--zero": {
@@ -4112,7 +4112,7 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
-        "message": "These members are not capable of joining New Groups, and will be removed from the group:",
+        "message": "இந்த உறுப்பினர்கள் புதிய குழுவில் சேர்க்கப்பட மாட்டார்கள். அவர்கள் குழுவிலிருந்து அகற்றப்படுவார்கள்:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--one": {

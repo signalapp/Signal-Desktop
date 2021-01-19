@@ -426,7 +426,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
     },
     "continueCall": {
-        "message": "Poursuivre l'appel",
+        "message": "Poursuivre l’appel",
         "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
@@ -1250,7 +1250,7 @@
         }
     },
     "calling__lobby-summary--self": {
-        "message": "Un de vos autres appareils est dans cet appel",
+        "message": "Un de vos autres appareils fait partie de cet appel",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
     "calling__lobby-summary--double": {
@@ -1332,7 +1332,7 @@
         }
     },
     "calling__block-info": {
-        "message": "Vous ne recevrez pas leur son ou leur vidéo et ils ne recevront pas les vôtres.",
+        "message": "Vous ne recevrez ni leur son ni leur vidéo et ils ne recevront pas les vôtres.",
         "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "alwaysRelayCallsDescription": {
@@ -1450,7 +1450,7 @@
         }
     },
     "notificationReaction": {
-        "message": "$sender$ a réagit  $emoji$ à votre message",
+        "message": "$sender$ a réagi  $emoji$ à votre message",
         "description": "",
         "placeholders": {
             "sender": {
@@ -3160,11 +3160,11 @@
         }
     },
     "calling__call-notification__button__in-another-call-tooltip": {
-        "message": "Vous êtes déjà dans un appel",
+        "message": "Vous êtes déjà en communication",
         "description": "Tooltip in disabled notification button when you're on another call"
     },
     "calling__call-notification__button__call-full-tooltip": {
-        "message": "L'appel a atteint la capacité de $max$ participants",
+        "message": "Le maximum de $max$ participants est atteint",
         "description": "Tooltip in disabled notification button when the call is full",
         "placeholders": {
             "max": {
@@ -4068,7 +4068,7 @@
         }
     },
     "GroupV1--Migration--was-upgraded": {
-        "message": "Ce groupe a été converti en nouveau groupe.",
+        "message": "Ce groupe a été converti en Nouveau groupe.",
         "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
     },
     "GroupV1--Migration--learn-more": {
@@ -4076,19 +4076,19 @@
         "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
     },
     "GroupV1--Migration--migrate": {
-        "message": "Mettre à niveau",
+        "message": "Convertir",
         "description": "Shown on Migrate dialog to kick off the process"
     },
     "GroupV1--Migration--info--title": {
-        "message": "Que sont les nouveaux groupes ?",
+        "message": "Que sont les Nouveaux groupes ?",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--title": {
-        "message": "Convertir en nouveau groupe",
+        "message": "Convertir en Nouveau groupe",
         "description": "Shown on Migration popup after choosing to migrate group"
     },
     "GroupV1--Migration--info--summary": {
-        "message": "Les nouveaux groupes offrent des fonctions telles que les @mentions et les administrateurs de groupes et en offriront d’autres dans le futur.",
+        "message": "Les Nouveaux groupes offrent des fonctions telles que les @mentions et les administrateurs de groupes et en offriront d’autres dans le futur.",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--keep-history": {
@@ -4100,7 +4100,7 @@
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
-        "message": "Vous devrez accepter une invitation afin de vous joindre à ce groupe de nouveau et vous ne recevrez aucun message du groupe avant d’en avoir accepté une :",
+        "message": "Vous devrez accepter une invitation afin de vous joindre à ce groupe de nouveau et vous ne recevrez aucun message du groupe avant d’en avoir accepté une.",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--info--invited--many": {
@@ -4112,27 +4112,27 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
-        "message": "Ces membres ne peuvent pas se joindre aux nouveaux groupes et seront supprimés du groupe :",
+        "message": "Ces membres ne peuvent pas se joindre aux Nouveaux groupes et seront supprimés du groupe :",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--one": {
-        "message": "Ce membre ne peut pas se joindre aux nouveaux groupes et sera supprimé du groupe :",
+        "message": "Ce membre ne peut pas se joindre aux Nouveaux groupes et sera supprimé du groupe :",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--many": {
-        "message": "Ces membres ne pouvaient pas se joindre à de nouveaux groupes et ont été supprimés du groupe :",
+        "message": "Ces membres ne pouvaient pas se joindre à de Nouveaux groupes et ont été supprimés du groupe :",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--one": {
-        "message": "Ce membre ne pouvait pas se joindre à de nouveaux groupes et a été supprimé du groupe :",
+        "message": "Ce membre ne pouvait pas se joindre à de Nouveaux groupes et a été supprimé du groupe :",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
-        "message": "Vous n'avez pas pu être ajouté au nouveau groupe et avez été invité à le rejoindre.",
+        "message": "Vous n’avez pas pu être ajouté au Nouveau groupe et avez été invité à vous y joindre",
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {
-        "message": "$contact$ n’a pas pu être ajouté au nouveau groupe et a été invité à s’y joindre.",
+        "message": "$contact$ n’a pas pu être ajouté au Nouveau groupe et a été invité à s’y joindre.",
         "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
         "placeholders": {
             "contact": {
@@ -4142,7 +4142,7 @@
         }
     },
     "GroupV1--Migration--invited--many": {
-        "message": "$count$ membres n’ont pas pu être ajoutés au nouveau groupe et ont été invités à s’y joindre.",
+        "message": "$count$ membres n’ont pas pu être ajoutés au Nouveau groupe et ont été invités à s’y joindre.",
         "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
         "placeholders": {
             "contact": {
