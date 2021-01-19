@@ -81,16 +81,6 @@ async function handleGroups(
   return groupUpdate;
 }
 
-function handleSessionReset(
-  conversation: ConversationModel,
-  message: MessageModel
-) {
-  const endSessionType = conversation.isSessionResetReceived()
-    ? 'ongoing'
-    : 'done';
-  message.set({ endSessionType });
-}
-
 function contentTypeSupported(type: any): boolean {
   const Chrome = window.Signal.Util.GoogleChrome;
   return Chrome.isImageTypeSupported(type) || Chrome.isVideoTypeSupported(type);
@@ -468,6 +458,12 @@ async function handleRegularMessage(
   if (source !== ourNumber && primarySource) {
     message.set({ source: primarySource.key });
   }
+
+  // we just received a message from that user so we reset the typing indicator for this convo
+  conversation.notifyTyping({
+    isTyping: false,
+    sender: primarySource.key,
+  });
 }
 
 async function handleExpirationTimerUpdate(
@@ -517,10 +513,7 @@ export async function handleMessageJob(
 
   try {
     message.set({ flags: initialMessage.flags });
-
-    if (message.isEndSession()) {
-      handleSessionReset(conversation, message);
-    } else if (message.isExpirationTimerUpdate()) {
+    if (message.isExpirationTimerUpdate()) {
       const { expireTimer } = initialMessage;
       const oldValue = conversation.get('expireTimer');
       if (expireTimer === oldValue) {

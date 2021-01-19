@@ -10,7 +10,6 @@ import {
 } from './SessionCompositionBox';
 
 import { Constants } from '../../../session';
-import { SessionKeyVerification } from '../SessionKeyVerification';
 import _ from 'lodash';
 import { AttachmentUtil, GoogleChrome, UserUtil } from '../../../util';
 import { MultiDeviceProtocol } from '../../../session/protocols';
@@ -51,9 +50,6 @@ interface State {
   showOverlay: boolean;
   showRecordingView: boolean;
   showOptionsPane: boolean;
-
-  // For displaying `Safety Number`, etc.
-  infoViewState?: 'safetyNumber';
 
   // if set, the `More Info` of a message screen is shown on top of the conversation.
   messageDetailShowProps?: any; // FIXME set the type for this
@@ -104,7 +100,6 @@ export class SessionConversation extends React.Component<Props, State> {
       showOverlay: false,
       showRecordingView: false,
       showOptionsPane: false,
-      infoViewState: undefined,
       stagedAttachments: [],
       isDraggingFile: false,
     };
@@ -213,7 +208,6 @@ export class SessionConversation extends React.Component<Props, State> {
         displayScrollToBottomButton: false,
         showOverlay: false,
         showRecordingView: false,
-        infoViewState: undefined,
         stagedAttachments: [],
         isDraggingFile: false,
         messageDetailShowProps: undefined,
@@ -248,7 +242,6 @@ export class SessionConversation extends React.Component<Props, State> {
       selectedMessages,
       isDraggingFile,
       stagedAttachments,
-      infoViewState,
       messageDetailShowProps,
     } = this.state;
     const selectionMode = !!selectedMessages.length;
@@ -292,7 +285,6 @@ export class SessionConversation extends React.Component<Props, State> {
 
     const shouldRenderRightPanel = !conversationModel.isRss();
 
-    const showSafetyNumber = infoViewState === 'safetyNumber';
     const showMessageDetails = !!messageDetailShowProps;
 
     return (
@@ -320,12 +312,9 @@ export class SessionConversation extends React.Component<Props, State> {
           <div
             className={classNames(
               'conversation-info-panel',
-              (infoViewState || showMessageDetails) && 'show'
+              showMessageDetails && 'show'
             )}
           >
-            {showSafetyNumber && (
-              <SessionKeyVerification conversation={conversationModel} />
-            )}
             {showMessageDetails && (
               <MessageDetail {...messageDetailShowProps} />
             )}
@@ -415,11 +404,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
   public getHeaderProps() {
     const { conversationKey } = this.props;
-    const {
-      selectedMessages,
-      infoViewState,
-      messageDetailShowProps,
-    } = this.state;
+    const { selectedMessages, messageDetailShowProps } = this.state;
     const conversation = ConversationController.getInstance().getOrThrow(
       conversationKey
     );
@@ -436,7 +421,6 @@ export class SessionConversation extends React.Component<Props, State> {
       phoneNumber: conversation.getNumber(),
       profileName: conversation.getProfileName(),
       avatarPath: conversation.getAvatarPath(),
-      isVerified: conversation.isVerified(),
       isMe: conversation.isMe(),
       isClosable: conversation.isClosable(),
       isBlocked: conversation.isBlocked(),
@@ -452,7 +436,7 @@ export class SessionConversation extends React.Component<Props, State> {
       isKickedFromGroup: conversation.get('isKickedFromGroup'),
       left: conversation.get('left'),
       expirationSettingName,
-      showBackButton: Boolean(infoViewState || messageDetailShowProps),
+      showBackButton: Boolean(messageDetailShowProps),
       timerOptions: window.Whisper.ExpirationTimerOptions.map((item: any) => ({
         name: item.getName(),
         value: item.get('seconds'),
@@ -468,17 +452,9 @@ export class SessionConversation extends React.Component<Props, State> {
         this.setState({ selectedMessages: [] });
       },
       onDeleteContact: () => conversation.deleteContact(),
-      onResetSession: () => {
-        void conversation.endSession();
-      },
-
-      onShowSafetyNumber: () => {
-        this.setState({ infoViewState: 'safetyNumber' });
-      },
 
       onGoBack: () => {
         this.setState({
-          infoViewState: undefined,
           messageDetailShowProps: undefined,
         });
       },

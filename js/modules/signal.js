@@ -10,7 +10,6 @@ const OS = require('../../ts/OS');
 const Settings = require('./settings');
 const Util = require('../../ts/util');
 const { migrateToSQL } = require('./migrate_to_sql');
-const Metadata = require('./metadata/SecretSessionCipher');
 const LinkPreviews = require('./link_previews');
 const AttachmentDownloads = require('./attachment_downloads');
 
@@ -299,7 +298,6 @@ exports.setup = (options = {}) => {
     Emoji,
     IndexedDB,
     LinkPreviews,
-    Metadata,
     migrateToSQL,
     Migrations,
     Notifications,

@@ -7,7 +7,6 @@
   storage,
   textsecure,
   Whisper,
-  libloki,
   libsession,
   libsignal,
   BlockedNumberController,
@@ -60,7 +59,6 @@
     'save.svg',
     'shield.svg',
     'timer.svg',
-    'verified-check.svg',
     'video.svg',
     'warning.svg',
     'x.svg',
@@ -111,14 +109,7 @@
 
   // start a background worker for ecc
   textsecure.startWorker('js/libsignal-protocol-worker.js');
-  Whisper.KeyChangeListener.init(textsecure.storage.protocol);
   let messageReceiver;
-  window.getSocketStatus = () => {
-    if (messageReceiver) {
-      return messageReceiver.getStatus();
-    }
-    return -1;
-  };
   Whisper.events = _.clone(Backbone.Events);
   Whisper.events.isListenedTo = eventName =>
     Whisper.events._events ? !!Whisper.events._events[eventName] : false;
@@ -478,10 +469,6 @@
         await window.Signal.Data.removeMessage(message.id, {
           Message: Whisper.Message,
         });
-        const conversation = message.getConversation();
-        if (conversation) {
-          await conversation.updateLastMessage();
-        }
       })
     );
     window.log.info('Cleanup: complete');
@@ -494,9 +481,6 @@
       storage.onready(async () => {
         storage.put('link-preview-setting', false);
       });
-
-      // listeners
-      Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
 
       connect(true);
     });
@@ -516,9 +500,6 @@
       Whisper.Registration.isDone() &&
       !Whisper.Registration.ongoingSecondaryDeviceRegistration()
     ) {
-      // listeners
-      Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
-
       connect();
       appView.openInbox({
         initialLoadComplete,
@@ -962,10 +943,11 @@
 
     Whisper.events.on(
       'publicMessageSent',
-      ({ pubKey, timestamp, serverId, serverTimestamp }) => {
+      ({ identifier, pubKey, timestamp, serverId, serverTimestamp }) => {
         try {
           const conversation = window.getConversationController().get(pubKey);
           conversation.onPublicMessageSent(
+            identifier,
             pubKey,
             timestamp,
             serverId,
@@ -1006,7 +988,6 @@
     });
 
     Whisper.events.on('devicePairingRequestRejected', async pubKey => {
-      await libloki.storage.removeContactPreKeyBundle(pubKey);
       await libsession.Protocols.MultiDeviceProtocol.removePairingAuthorisations(
         pubKey
       );
@@ -1038,9 +1019,6 @@
     });
   }
 
-  window.getSyncRequest = () =>
-    new textsecure.SyncRequest(textsecure.messaging, messageReceiver);
-
   let disconnectTimer = null;
   function onOffline() {
     window.log.info('offline');
@@ -1060,7 +1038,7 @@
     window.removeEventListener('online', onOnline);
     window.addEventListener('offline', onOffline);
 
-    if (disconnectTimer && isSocketOnline()) {
+    if (disconnectTimer) {
       window.log.warn('Already online. Had a blip in online/offline status.');
       clearTimeout(disconnectTimer);
       disconnectTimer = null;
@@ -1072,13 +1050,6 @@
     }
 
     connect();
-  }
-
-  function isSocketOnline() {
-    const socketStatus = window.getSocketStatus();
-    return (
-      socketStatus === WebSocket.CONNECTING || socketStatus === WebSocket.OPEN
-    );
   }
 
   async function disconnect() {
@@ -1124,14 +1095,8 @@
     if (messageReceiver) {
       await messageReceiver.close();
     }
-    const mySignalingKey = storage.get('signaling_key');
 
     connectCount += 1;
-    const options = {
-      retryCached: connectCount === 1,
-      serverTrustRoot: window.getServerTrustRoot(),
-    };
-
     Whisper.Notifications.disable(); // avoid notification flood until empty
     setTimeout(() => {
       Whisper.Notifications.enable();
@@ -1152,18 +1117,18 @@
       );
       window.lokiPublicChatAPI = null;
       window.feeds = [];
-      messageReceiver = new textsecure.MessageReceiver(mySignalingKey, options);
+      messageReceiver = new textsecure.MessageReceiver();
       messageReceiver.addEventListener(
         'message',
         window.DataMessageReceiver.handleMessageEvent
       );
-      window.textsecure.messaging = new textsecure.MessageSender();
+      window.textsecure.messaging = true;
       return;
     }
 
     initAPIs();
     await initSpecialConversations();
-    messageReceiver = new textsecure.MessageReceiver(mySignalingKey, options);
+    messageReceiver = new textsecure.MessageReceiver();
     messageReceiver.addEventListener(
       'message',
       window.DataMessageReceiver.handleMessageEvent
@@ -1180,64 +1145,7 @@
       logger: window.log,
     });
 
-    window.textsecure.messaging = new textsecure.MessageSender();
-
-    // On startup after upgrading to a new version, request a contact sync
-    //   (but only if we're not the primary device)
-    if (
-      !firstRun &&
-      connectCount === 1 &&
-      newVersion &&
-      // eslint-disable-next-line eqeqeq
-      textsecure.storage.user.getDeviceId() != '1'
-    ) {
-      window.getSyncRequest();
-    }
-
-    const deviceId = textsecure.storage.user.getDeviceId();
-    if (firstRun === true && deviceId !== '1') {
-      const hasThemeSetting = Boolean(storage.get('theme-setting'));
-      if (!hasThemeSetting && textsecure.storage.get('userAgent') === 'OWI') {
-        storage.put('theme-setting', 'ios');
-      }
-      const syncRequest = new textsecure.SyncRequest(
-        textsecure.messaging,
-        messageReceiver
-      );
-      Whisper.events.trigger('contactsync:begin');
-      syncRequest.addEventListener('success', () => {
-        window.log.info('sync successful');
-        storage.put('synced_at', Date.now());
-        Whisper.events.trigger('contactsync');
-      });
-      syncRequest.addEventListener('timeout', () => {
-        window.log.error('sync timed out');
-        Whisper.events.trigger('contactsync');
-      });
-
-      if (Whisper.Import.isComplete()) {
-        const { CONFIGURATION } = textsecure.protobuf.SyncMessage.Request.Type;
-        const { RequestSyncMessage } = window.libsession.Messages.Outgoing;
-
-        const requestConfigurationSyncMessage = new RequestSyncMessage({
-          timestamp: Date.now(),
-          reqestType: CONFIGURATION,
-        });
-        await libsession
-          .getMessageQueue()
-          .sendSyncMessage(requestConfigurationSyncMessage);
-        // sending of the message is handled in the 'private' case below
-      }
-    }
-
-    libsession.Protocols.SessionProtocol.checkSessionRequestExpiry().catch(
-      e => {
-        window.log.error(
-          'Error occured which checking for session request expiry',
-          e
-        );
-      }
-    );
+    window.textsecure.messaging = true;
 
     storage.onready(async () => {
       idleDetector.start();

@@ -5,7 +5,6 @@ export type BinaryString = string;
 export type CipherTextObject = {
   type: SignalService.Envelope.Type;
   body: BinaryString;
-  registrationId?: number;
 };
 export interface SignalProtocolAddressConstructor {
   new (hexEncodedPublicKey: string, deviceId: number): SignalProtocolAddress;
@@ -83,15 +82,6 @@ export interface CryptoInterface {
 
 export interface KeyHelperInterface {
   generateIdentityKeyPair(): Promise<KeyPair>;
-  generateRegistrationId(): number;
-  generateSignedPreKey(
-    identityKeyPair: KeyPair,
-    signedKeyId: number
-  ): Promise<{
-    keyId: number;
-    keyPair: KeyPair;
-    signature: ArrayBuffer;
-  }>;
   generatePreKey(
     keyId: number
   ): Promise<{
@@ -100,30 +90,9 @@ export interface KeyHelperInterface {
   }>;
 }
 
-export type SessionCipherConstructor = new (
-  storage: any,
-  remoteAddress: SignalProtocolAddress
-) => SessionCipher;
-export interface SessionCipher {
-  /**
-   * @returns The envelope type, registration id and binary encoded encrypted body.
-   */
-  encrypt(buffer: ArrayBuffer | Uint8Array): Promise<CipherTextObject>;
-  decryptPreKeyWhisperMessage(
-    buffer: ArrayBuffer | Uint8Array
-  ): Promise<ArrayBuffer>;
-  decryptWhisperMessage(buffer: ArrayBuffer | Uint8Array): Promise<ArrayBuffer>;
-  getRecord(encodedNumber: string): Promise<any | undefined>;
-  getRemoteRegistrationId(): Promise<number>;
-  hasOpenSession(): Promise<boolean>;
-  closeOpenSessionForDevice(): Promise<void>;
-  deleteAllSessionsForDevice(): Promise<void>;
-}
-
 export interface LibsignalProtocol {
   SignalProtocolAddress: SignalProtocolAddressConstructor;
   Curve: CurveInterface;
   crypto: CryptoInterface;
   KeyHelper: KeyHelperInterface;
-  SessionCipher: SessionCipherConstructor;
 }

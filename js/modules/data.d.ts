@@ -8,7 +8,6 @@ export type IdentityKey = {
   id: string;
   publicKey: ArrayBuffer;
   firstUse: boolean;
-  verified: number;
   nonblockingApproval: boolean;
   secretKey?: string; // found in medium groups
 };

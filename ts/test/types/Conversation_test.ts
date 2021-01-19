@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 
 import * as Conversation from '../../types/Conversation';
-import { IncomingMessage, VerifiedChangeMessage } from '../../types/Message';
+import { IncomingMessage } from '../../types/Message';
 
 describe('Conversation', () => {
   describe('createLastMessageUpdate', () => {
@@ -34,28 +34,6 @@ describe('Conversation', () => {
           lastMessage: 'New outgoing message',
           lastMessageStatus: 'read',
           timestamp: 666,
-        };
-
-        const actual = Conversation.createLastMessageUpdate(input);
-        assert.deepEqual(actual, expected);
-      });
-    });
-    context('for verified change message', () => {
-      it('should skip update', () => {
-        const input = {
-          currentTimestamp: 555,
-          lastMessage: {
-            type: 'verified-change',
-            conversationId: 'foo',
-            sent_at: 666,
-            timestamp: 666,
-          } as VerifiedChangeMessage,
-          lastMessageNotificationText: 'Verified Changed',
-        };
-        const expected = {
-          lastMessage: '',
-          lastMessageStatus: null,
-          timestamp: 555,
         };
 
         const actual = Conversation.createLastMessageUpdate(input);

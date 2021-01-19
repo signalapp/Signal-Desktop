@@ -28,7 +28,6 @@ If you import anything in global.d.ts, the type system won't work correctly.
 declare global {
   interface Window {
     CONSTANTS: any;
-    SignalProtocolStore: any;
     Events: any;
     Lodash: any;
     LokiAppDotNetServerAPI: any;
@@ -41,7 +40,6 @@ declare global {
     StringView: any;
     StubAppDotNetApi: any;
     StubMessageAPI: any;
-    WebAPI: any;
     Whisper: any;
     attemptConnection: ConversationType;
     clearLocalData: any;
@@ -67,7 +65,6 @@ declare global {
       useFileOnionRequests: boolean;
       useFileOnionRequestsV2: boolean;
       onionRequestHops: number;
-      debugMessageLogs: boolean;
       useMultiDevice: boolean;
     };
     lokiFileServerAPI: LokiFileServerInstance;
@@ -116,7 +113,6 @@ declare global {
     setClockParams: any;
     clientClockSynced: number | undefined;
     inboxStore: Store;
-    getSocketStatus: any;
     actionsCreators: any;
     extension: {
       expired: (boolean) => void;

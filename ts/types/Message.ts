@@ -2,7 +2,7 @@ import { Attachment } from './Attachment';
 import { Contact } from './Contact';
 import { IndexableBoolean, IndexablePresence } from './IndexedDB';
 
-export type Message = UserMessage | VerifiedChangeMessage;
+export type Message = UserMessage;
 export type UserMessage = IncomingMessage;
 
 export type IncomingMessage = Readonly<
@@ -24,14 +24,6 @@ export type IncomingMessage = Readonly<
   } & SharedMessageProperties &
     MessageSchemaVersion5 &
     MessageSchemaVersion6 &
-    ExpirationTimerUpdate
->;
-
-export type VerifiedChangeMessage = Readonly<
-  {
-    type: 'verified-change';
-  } & SharedMessageProperties &
-    MessageSchemaVersion5 &
     ExpirationTimerUpdate
 >;
 

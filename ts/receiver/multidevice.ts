@@ -5,11 +5,9 @@ import * as Data from '../../js/modules/data';
 
 import { SignalService } from '../protobuf';
 import { updateProfile } from './dataMessage';
-import { onVerified } from './syncMessages';
 
 import { StringUtils } from '../session/utils';
-import { MultiDeviceProtocol, SessionProtocol } from '../session/protocols';
-import { PubKey } from '../session/types';
+import { MultiDeviceProtocol } from '../session/protocols';
 
 import ByteBuffer from 'bytebuffer';
 import { BlockedNumberController } from '../util';
@@ -303,12 +301,6 @@ async function onContactReceived(details: any) {
   const { Errors } = window.Signal.Types;
 
   const id = details.number;
-  libloki.api.debug.logContactSync(
-    'Got sync contact message with',
-    id,
-    ' details:',
-    details
-  );
 
   if (id === textsecure.storage.user.getNumber()) {
     // special case for syncing details about ourselves
@@ -341,35 +333,6 @@ async function onContactReceived(details: any) {
       activeAt = activeAt || Date.now();
       conversation.set('active_at', activeAt);
     }
-
-    const primaryDevice = await MultiDeviceProtocol.getPrimaryDevice(id);
-    const secondaryDevices = await MultiDeviceProtocol.getSecondaryDevices(id);
-    const primaryConversation = await ConversationController.getInstance().getOrCreateAndWait(
-      primaryDevice.key,
-      'private'
-    );
-    const secondaryConversations = await Promise.all(
-      secondaryDevices.map(async d => {
-        const secondaryConv = await ConversationController.getInstance().getOrCreateAndWait(
-          d.key,
-          'private'
-        );
-        await secondaryConv.setSecondaryStatus(true, primaryDevice.key);
-        return conversation;
-      })
-    );
-
-    const deviceConversations = [
-      primaryConversation,
-      ...secondaryConversations,
-    ];
-
-    // triger session request with every devices of that user
-    // when we do not have a session with it already
-    deviceConversations.forEach(device => {
-      // tslint:disable-next-line: no-floating-promises
-      SessionProtocol.sendSessionRequestIfNeeded(new PubKey(device.id));
-    });
 
     if (details.profileKey) {
       const profileKey = StringUtils.decode(details.profileKey, 'base64');
@@ -414,15 +377,7 @@ async function onContactReceived(details: any) {
     }
 
     if (details.verified) {
-      const { verified } = details;
-      const verifiedEvent: any = {};
-      verifiedEvent.verified = {
-        state: verified.state,
-        destination: verified.destination,
-        identityKey: verified.identityKey.buffer,
-      };
-      verifiedEvent.viaContactSync = true;
-      await onVerified(verifiedEvent);
+      window.log.info('details.verified set but we do not care for now.');
     }
 
     const isBlocked = details.blocked || false;

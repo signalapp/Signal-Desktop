@@ -60,16 +60,18 @@
       this.setToExpire();
       // Keep props ready
       const generateProps = (triggerEvent = true) => {
-        if (this.isExpirationTimerUpdate()) {
+        // handle disabled message types first:
+        if (
+          this.isSessionRestoration() ||
+          this.isVerifiedChange() ||
+          this.isEndSession()
+        ) {
+          // do nothing
+          return;
+        } else if (this.isExpirationTimerUpdate()) {
           this.propsForTimerNotification = this.getPropsForTimerNotification();
-        } else if (this.isVerifiedChange()) {
-          this.propsForVerificationNotification = this.getPropsForVerificationNotification();
-        } else if (this.isEndSession()) {
-          this.propsForResetSessionNotification = this.getPropsForResetSessionNotification();
         } else if (this.isGroupUpdate()) {
           this.propsForGroupNotification = this.getPropsForGroupNotification();
-        } else if (this.isSessionRestoration()) {
-          // do nothing
         } else if (this.isGroupInvitation()) {
           this.propsForGroupInvitation = this.getPropsForGroupInvitation();
         } else {
@@ -120,25 +122,32 @@
         window.log.warn(`Message missing attributes: ${missing}`);
       }
     },
-    isEndSession() {
-      const endSessionFlag = textsecure.protobuf.DataMessage.Flags.END_SESSION;
-      // eslint-disable-next-line no-bitwise
-      return !!(this.get('flags') & endSessionFlag);
-    },
-    getEndSessionTranslationKey() {
-      const sessionType = this.get('endSessionType');
-      if (sessionType === 'ongoing') {
-        return 'sessionResetOngoing';
-      } else if (sessionType === 'failed') {
-        return 'sessionResetFailed';
-      }
-      return 'sessionEnded';
-    },
     isExpirationTimerUpdate() {
       const expirationTimerFlag =
         textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
       // eslint-disable-next-line no-bitwise
       return !!(this.get('flags') & expirationTimerFlag);
+    },
+    // Those 3 functions is just used to filter out messages of this type.
+    // This type is not used anymore, so we filter out existing message in DB with this flag set.
+    // isEndSession() isVerifiedChange() and isSessionRestoration()
+    isEndSession() {
+      const endSessionFlag = textsecure.protobuf.DataMessage.Flags.END_SESSION;
+      // eslint-disable-next-line no-bitwise
+      return !!(this.get('flags') & endSessionFlag);
+    },
+    isVerifiedChange() {
+      return this.get('type') === 'verified-change';
+    },
+    isSessionRestoration() {
+      const sessionRestoreFlag =
+        textsecure.protobuf.DataMessage.Flags.SESSION_RESTORE;
+      /* eslint-disable no-bitwise */
+      return (
+        !!this.get('sessionRestoration') ||
+        !!(this.get('flags') & sessionRestoreFlag)
+      );
+      /* eslint-enable no-bitwise */
     },
     isGroupUpdate() {
       return !!this.get('group_update');
@@ -222,9 +231,6 @@
         }
         return messages.join(' ');
       }
-      if (this.isEndSession()) {
-        return i18n(this.getEndSessionTranslationKey());
-      }
       if (this.isIncoming() && this.hasErrors()) {
         return i18n('incomingError');
       }
@@ -233,24 +239,12 @@
       }
       return this.get('body');
     },
-    isVerifiedChange() {
-      return this.get('type') === 'verified-change';
-    },
+
     isKeyChange() {
       return this.get('type') === 'keychange';
     },
     isGroupInvitation() {
       return !!this.get('groupInvitation');
-    },
-    isSessionRestoration() {
-      const sessionRestoreFlag =
-        textsecure.protobuf.DataMessage.Flags.SESSION_RESTORE;
-      /* eslint-disable no-bitwise */
-      return (
-        !!this.get('sessionRestoration') ||
-        !!(this.get('flags') & sessionRestoreFlag)
-      );
-      /* eslint-enable no-bitwise */
     },
     getNotificationText() {
       let description = this.getDescription();
@@ -346,22 +340,6 @@
       }
 
       return basicProps;
-    },
-    getPropsForVerificationNotification() {
-      const type = this.get('verified') ? 'markVerified' : 'markNotVerified';
-      const isLocal = this.get('local');
-      const phoneNumber = this.get('verifiedChanged');
-
-      return {
-        type,
-        isLocal,
-        contact: this.findAndFormatContact(phoneNumber),
-      };
-    },
-    getPropsForResetSessionNotification() {
-      return {
-        sessionResetMessageKey: this.getEndSessionTranslationKey(),
-      };
     },
     getPropsForGroupInvitation() {
       const invitation = this.get('groupInvitation');
@@ -1154,7 +1132,6 @@
           e.number === number &&
           (e.name === 'MessageError' ||
             e.name === 'SendMessageNetworkError' ||
-            e.name === 'SignedPreKeyRotationError' ||
             e.name === 'OutgoingIdentityKeyError')
       );
       this.set({ errors: errors[1] });
@@ -1265,9 +1242,7 @@
     async handleMessageSentFailure(sentMessage, error) {
       if (error instanceof Error) {
         this.saveErrors(error);
-        if (error.name === 'SignedPreKeyRotationError') {
-          await window.getAccountManager().rotateSignedPreKey();
-        } else if (error.name === 'OutgoingIdentityKeyError') {
+        if (error.name === 'OutgoingIdentityKeyError') {
           const c = window.getConversationController().get(sentMessage.device);
           await c.getProfiles();
         }
@@ -1519,20 +1494,13 @@
       });
       errors = errors.concat(this.get('errors') || []);
 
-      if (this.isEndSession()) {
-        this.set({ endSessionType: 'failed' });
-      }
-
       this.set({ errors });
       await this.commit();
     },
     hasNetworkError() {
       const error = _.find(
         this.get('errors'),
-        e =>
-          e.name === 'MessageError' ||
-          e.name === 'SendMessageNetworkError' ||
-          e.name === 'SignedPreKeyRotationError'
+        e => e.name === 'MessageError' || e.name === 'SendMessageNetworkError'
       );
       return !!error;
     },

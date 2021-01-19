@@ -35,7 +35,6 @@ export interface ConversationModel
   // Save model changes to the database
   commit: () => Promise<void>;
   notify: (message: MessageModel) => void;
-  isSessionResetReceived: () => boolean;
   updateExpirationTimer: (
     expireTimer: number | null,
     source?: string,
@@ -43,8 +42,6 @@ export interface ConversationModel
     options?: object
   ) => Promise<void>;
   isPrivate: () => boolean;
-  isVerified: () => boolean;
-  toggleVerified: () => Promise<void>;
   getProfile: (id: string) => Promise<any>;
   getProfiles: () => Promise<any>;
   setProfileKey: (key: string) => Promise<void>;
@@ -68,8 +65,6 @@ export interface ConversationModel
   isModerator: (id: string) => boolean;
   throttledBumpTyping: () => void;
 
-  messageCollection: Backbone.Collection<MessageModel>;
-
   // types to make more specific
   sendMessage: (
     body: any,
@@ -82,17 +77,12 @@ export interface ConversationModel
   updateGroupAdmins: any;
   setLokiProfile: any;
   getLokiProfile: any;
-  onSessionResetReceived: any;
-  setVerifiedDefault: any;
-  setVerified: any;
-  setUnverified: any;
   getNumber: any;
   getProfileName: any;
   getAvatarPath: any;
   markRead: (timestamp: number) => Promise<void>;
   showChannelLightbox: any;
   deletePublicMessages: any;
-  getMessagesWithTimestamp: any;
   makeQuote: any;
   unblock: any;
   deleteContact: any;
@@ -103,7 +93,9 @@ export interface ConversationModel
   block: any;
   copyPublicKey: any;
   getAvatar: any;
-  notifyTyping: any;
+  notifyTyping: (
+    { isTyping, sender } = { isTyping: boolean, sender: string }
+  ) => any;
   setSecondaryStatus: any;
   queueJob: any;
   onUpdateGroupName: any;

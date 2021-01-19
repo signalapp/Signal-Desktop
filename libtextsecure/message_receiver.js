@@ -1,24 +1,17 @@
 /* global window: false */
 /* global callWorker: false */
 /* global textsecure: false */
-/* global WebSocket: false */
 /* global Event: false */
 /* global dcodeIO: false */
 /* global lokiPublicChatAPI: false */
 /* global feeds: false */
-/* global WebAPI: false */
 
 /* eslint-disable more/no-then */
 /* eslint-disable no-unreachable */
 
 let openGroupBound = false;
 
-function MessageReceiver(username, password, signalingKey) {
-  this.count = 0;
-
-  this.signalingKey = signalingKey;
-  this.server = WebAPI.connect();
-
+function MessageReceiver() {
   this.pending = Promise.resolve();
 
   // only do this once to prevent duplicates
@@ -58,7 +51,6 @@ MessageReceiver.prototype.extend({
       return;
     }
 
-    this.count = 0;
     if (this.hasConnected) {
       const ev = new Event('reconnect');
       this.dispatchEvent(ev);
@@ -94,8 +86,6 @@ MessageReceiver.prototype.extend({
     if (lokiPublicChatAPI) {
       await lokiPublicChatAPI.close();
     }
-
-    return this.drain();
   },
   onopen() {
     window.log.info('websocket open');
@@ -112,42 +102,18 @@ MessageReceiver.prototype.extend({
       this.calledClose
     );
   },
-  drain() {
-    const { incoming } = this;
-    this.incoming = [];
-
-    // This promise will resolve when there are no more messages to be processed.
-    return Promise.all(incoming);
-  },
-  getStatus() {
-    if (this.hasConnected) {
-      return WebSocket.CLOSED;
-    }
-    return -1;
-  },
 });
 
 window.textsecure = window.textsecure || {};
 
-textsecure.MessageReceiver = function MessageReceiverWrapper(
-  username,
-  password,
-  signalingKey,
-  options
-) {
-  const messageReceiver = new MessageReceiver(
-    username,
-    password,
-    signalingKey,
-    options
-  );
+textsecure.MessageReceiver = function MessageReceiverWrapper() {
+  const messageReceiver = new MessageReceiver();
   this.addEventListener = messageReceiver.addEventListener.bind(
     messageReceiver
   );
   this.removeEventListener = messageReceiver.removeEventListener.bind(
     messageReceiver
   );
-  this.getStatus = messageReceiver.getStatus.bind(messageReceiver);
   this.close = messageReceiver.close.bind(messageReceiver);
 
   this.stopProcessing = messageReceiver.stopProcessing.bind(messageReceiver);

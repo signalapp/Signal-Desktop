@@ -4,7 +4,6 @@ import { Message } from '../../conversation/Message';
 import { TimerNotification } from '../../conversation/TimerNotification';
 
 import { SessionScrollButton } from '../SessionScrollButton';
-import { ResetSessionNotification } from '../../conversation/ResetSessionNotification';
 import { Constants } from '../../../session';
 import _ from 'lodash';
 import { contextMenu } from 'react-contexify';
@@ -14,7 +13,6 @@ import { GroupInvitation } from '../../conversation/GroupInvitation';
 import { ConversationType } from '../../../state/ducks/conversations';
 import { MessageModel } from '../../../../js/models/messages';
 import { SessionLastSeenIndicator } from './SessionLastSeedIndicator';
-import { VerificationNotification } from '../../conversation/VerificationNotification';
 import { ToastUtils } from '../../../session/utils';
 import { TypingBubble } from '../../conversation/TypingBubble';
 import { ConversationController } from '../../../session/conversations';
@@ -212,9 +210,6 @@ export class SessionMessagesList extends React.Component<Props, State> {
           const messageProps = message.propsForMessage;
 
           const timerProps = message.propsForTimerNotification;
-          const resetSessionProps = message.propsForResetSessionNotification;
-          const verificationSessionProps =
-            message.propsForVerificationNotification;
           const propsForGroupInvitation = message.propsForGroupInvitation;
 
           const groupNotificationProps = message.propsForGroupNotification;
@@ -254,30 +249,6 @@ export class SessionMessagesList extends React.Component<Props, State> {
               <>
                 <GroupInvitation
                   {...propsForGroupInvitation}
-                  key={message.id}
-                />
-                {unreadIndicator}
-              </>
-            );
-          }
-
-          if (verificationSessionProps) {
-            return (
-              <>
-                <VerificationNotification
-                  {...verificationSessionProps}
-                  key={message.id}
-                />
-                {unreadIndicator}
-              </>
-            );
-          }
-
-          if (resetSessionProps) {
-            return (
-              <>
-                <ResetSessionNotification
-                  {...resetSessionProps}
                   key={message.id}
                 />
                 {unreadIndicator}
@@ -581,15 +552,6 @@ export class SessionMessagesList extends React.Component<Props, State> {
     }
 
     const databaseId = targetMessage.id;
-    // const el = this.$(`#${databaseId}`);
-    // if (!el || el.length === 0) {
-    //   ToastUtils.pushOriginalNoLongerAvailable();
-    //   window.log.info(
-    //     `Error: had target message ${id} in messageCollection, but it was not in DOM`
-    //   );
-    //   return;
-    // }
-    // this probably does not work for us as we need to call getMessages before
     this.scrollToMessage(databaseId, true);
   }
 
@@ -608,28 +570,6 @@ export class SessionMessagesList extends React.Component<Props, State> {
   }
 
   private async onSendAnyway({ contact, message }: any) {
-    const { i18n } = window;
-    window.confirmationDialog({
-      message: i18n('identityKeyErrorOnSend', [
-        contact.getTitle(),
-        contact.getTitle(),
-      ]),
-      messageSub: i18n('youMayWishToVerifyContact'),
-      okText: i18n('sendAnyway'),
-      resolve: async () => {
-        await contact.updateVerified();
-
-        if (contact.isUnverified()) {
-          await contact.setVerifiedDefault();
-        }
-
-        const untrusted = await contact.isUntrusted();
-        if (untrusted) {
-          await contact.setApproved();
-        }
-
-        message.resend(contact.id);
-      },
-    });
+    message.resend(contact.id);
   }
 }

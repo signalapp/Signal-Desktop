@@ -58,10 +58,7 @@ export class MessageController {
       const { message, timestamp } = messageEntry;
       const conversation = message.getConversation();
 
-      if (
-        now - timestamp > 5 * 60 * 1000 &&
-        (!conversation || !conversation.messageCollection.length)
-      ) {
+      if (now - timestamp > 5 * 60 * 1000 && !conversation) {
         this.unregister(message.id);
       }
     });
