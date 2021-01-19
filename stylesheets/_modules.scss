@@ -4305,6 +4305,14 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  @include light-theme {
+    border-bottom: 1px $color-gray-05 solid;
+  }
+
+  @include dark-theme {
+    border-bottom: 1px $color-gray-70 solid;
+  }
 }
 
 .module-main-header__search {
@@ -6854,14 +6862,6 @@ button.module-image__border-overlay:focus {
 .module-left-pane__header {
   flex-grow: 0;
   flex-shrink: 0;
-
-  @include light-theme {
-    border-bottom: 1px $color-gray-05 solid;
-  }
-
-  @include dark-theme {
-    border-bottom: 1px $color-gray-70 solid;
-  }
 }
 
 .module-left-pane__archive-header {
