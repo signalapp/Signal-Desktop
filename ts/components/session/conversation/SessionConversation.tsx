@@ -72,8 +72,8 @@ interface State {
 
 interface Props {
   ourPrimary: string;
-  conversationKey: string;
-  conversation: ConversationType;
+  selectedConversationKey: string;
+  selectedConversation?: ConversationType;
   theme: DefaultTheme;
   messages: Array<any>;
   actions: any;
@@ -88,13 +88,7 @@ export class SessionConversation extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
 
-    const { conversationKey } = this.props;
-
-    const conversationModel = ConversationController.getInstance().get(
-      conversationKey
-    );
-
-    const unreadCount = conversationModel?.get('unreadCount') || 0;
+    const unreadCount = this.props.selectedConversation?.unreadCount || 0;
     this.state = {
       messageProgressVisible: false,
       sendingProgress: 0,
@@ -163,10 +157,10 @@ export class SessionConversation extends React.Component<Props, State> {
 
   public componentDidUpdate(prevProps: Props, prevState: State) {
     const {
-      conversationKey: newConversationKey,
-      conversation: newConversation,
+      selectedConversationKey: newConversationKey,
+      selectedConversation: newConversation,
     } = this.props;
-    const { conversationKey: oldConversationKey } = prevProps;
+    const { selectedConversationKey: oldConversationKey } = prevProps;
 
     // if the convo is valid, and it changed, register for drag events
     if (
@@ -255,18 +249,19 @@ export class SessionConversation extends React.Component<Props, State> {
     } = this.state;
     const selectionMode = !!selectedMessages.length;
 
-    const { conversation, conversationKey, messages } = this.props;
-    const conversationModel = ConversationController.getInstance().get(
-      conversationKey
-    );
+    const {
+      selectedConversation,
+      selectedConversationKey,
+      messages,
+    } = this.props;
 
-    if (!conversationModel || !messages) {
+    if (!selectedConversation || !messages) {
       // return an empty message view
       return <MessageView />;
     }
-
-    const { isRss } = conversation;
-
+    const conversationModel = ConversationController.getInstance().get(
+      selectedConversationKey
+    );
     // TODO VINCE: OPTIMISE FOR NEW SENDING???
     const sendMessageFn = (
       body: any,
@@ -276,6 +271,9 @@ export class SessionConversation extends React.Component<Props, State> {
       groupInvitation: any,
       otherOptions: any
     ) => {
+      if (!conversationModel) {
+        return;
+      }
       void conversationModel.sendMessage(
         body,
         attachments,
@@ -292,10 +290,11 @@ export class SessionConversation extends React.Component<Props, State> {
       }
     };
 
-    const shouldRenderRightPanel = !conversationModel.isRss();
-
     const showSafetyNumber = infoViewState === 'safetyNumber';
     const showMessageDetails = !!messageDetailShowProps;
+
+    const isPublic = selectedConversation.isPublic || false;
+    const isPrivate = selectedConversation.type === 'direct';
 
     return (
       <SessionTheme theme={this.props.theme}>
@@ -344,45 +343,41 @@ export class SessionConversation extends React.Component<Props, State> {
             {isDraggingFile && <SessionFileDropzone />}
           </div>
 
-          {!isRss && (
-            // tslint:disable-next-line: use-simple-attributes
-            <SessionCompositionBox
-              isBlocked={conversation.isBlocked}
-              left={conversation.left}
-              isKickedFromGroup={conversation.isKickedFromGroup}
-              isPrivate={conversation.type === 'direct'}
-              isPublic={conversation.isPublic || false}
-              conversationKey={conversationKey}
-              sendMessage={sendMessageFn}
-              stagedAttachments={stagedAttachments}
-              onMessageSending={this.onMessageSending}
-              onMessageSuccess={this.onMessageSuccess}
-              onMessageFailure={this.onMessageFailure}
-              onLoadVoiceNoteView={this.onLoadVoiceNoteView}
-              onExitVoiceNoteView={this.onExitVoiceNoteView}
-              quotedMessageProps={quotedMessageProps}
-              removeQuotedMessage={() => {
-                void this.replyToMessage(undefined);
-              }}
-              textarea={this.compositionBoxRef}
-              clearAttachments={this.clearAttachments}
-              removeAttachment={this.removeAttachment}
-              onChoseAttachments={this.onChoseAttachments}
-              theme={this.props.theme}
-            />
-          )}
+          <SessionCompositionBox
+            isBlocked={selectedConversation.isBlocked}
+            left={selectedConversation.left}
+            isKickedFromGroup={selectedConversation.isKickedFromGroup}
+            isPrivate={isPrivate}
+            isPublic={isPublic}
+            selectedConversationKey={selectedConversationKey}
+            selectedConversation={selectedConversation}
+            sendMessage={sendMessageFn}
+            stagedAttachments={stagedAttachments}
+            onMessageSending={this.onMessageSending}
+            onMessageSuccess={this.onMessageSuccess}
+            onMessageFailure={this.onMessageFailure}
+            onLoadVoiceNoteView={this.onLoadVoiceNoteView}
+            onExitVoiceNoteView={this.onExitVoiceNoteView}
+            quotedMessageProps={quotedMessageProps}
+            removeQuotedMessage={() => {
+              void this.replyToMessage(undefined);
+            }}
+            textarea={this.compositionBoxRef}
+            clearAttachments={this.clearAttachments}
+            removeAttachment={this.removeAttachment}
+            onChoseAttachments={this.onChoseAttachments}
+            theme={this.props.theme}
+          />
         </div>
 
-        {shouldRenderRightPanel && (
-          <div
-            className={classNames(
-              'conversation-item__options-pane',
-              showOptionsPane && 'show'
-            )}
-          >
-            <SessionRightPanelWithDetails {...this.getRightPanelProps()} />
-          </div>
-        )}
+        <div
+          className={classNames(
+            'conversation-item__options-pane',
+            showOptionsPane && 'show'
+          )}
+        >
+          <SessionRightPanelWithDetails {...this.getRightPanelProps()} />
+        </div>
       </SessionTheme>
     );
   }
@@ -397,33 +392,34 @@ export class SessionConversation extends React.Component<Props, State> {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   public async loadInitialMessages() {
-    const { conversationKey } = this.props;
-    const conversationModel = ConversationController.getInstance().get(
-      conversationKey
-    );
-    if (!conversationModel) {
+    const { selectedConversation, selectedConversationKey } = this.props;
+
+    if (!selectedConversation) {
       return;
     }
+    const conversationModel = ConversationController.getInstance().get(
+      selectedConversationKey
+    );
     const unreadCount = await conversationModel.getUnreadCount();
     const messagesToFetch = Math.max(
       Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT,
       unreadCount
     );
     this.props.actions.fetchMessagesForConversation({
-      conversationKey,
+      conversationKey: selectedConversationKey,
       count: messagesToFetch,
     });
   }
 
   public getHeaderProps() {
-    const { conversationKey } = this.props;
+    const { selectedConversationKey, ourPrimary } = this.props;
     const {
       selectedMessages,
       infoViewState,
       messageDetailShowProps,
     } = this.state;
     const conversation = ConversationController.getInstance().getOrThrow(
-      conversationKey
+      selectedConversationKey
     );
     const expireTimer = conversation.get('expireTimer');
     const expirationSettingName = expireTimer
@@ -446,9 +442,7 @@ export class SessionConversation extends React.Component<Props, State> {
       isPrivate: conversation.isPrivate(),
       isPublic: conversation.isPublic(),
       isRss: conversation.isRss(),
-      isAdmin: conversation.isModerator(
-        window.storage.get('primaryDevicePubKey')
-      ),
+      isAdmin: conversation.isAdmin(ourPrimary),
       members,
       subscriberCount: conversation.get('subscriberCount'),
       isKickedFromGroup: conversation.get('isKickedFromGroup'),
@@ -524,17 +518,23 @@ export class SessionConversation extends React.Component<Props, State> {
   }
 
   public getMessagesListProps() {
-    const { conversation, ourPrimary, messages, actions } = this.props;
+    const {
+      selectedConversation,
+      selectedConversationKey,
+      ourPrimary,
+      messages,
+      actions,
+    } = this.props;
     const { quotedMessageTimestamp, selectedMessages } = this.state;
 
     return {
       selectedMessages,
       ourPrimary,
-      conversationKey: conversation.id,
+      conversationKey: selectedConversationKey,
       messages,
       resetSelection: this.resetSelection,
       quotedMessageTimestamp,
-      conversation,
+      conversation: selectedConversation as ConversationType,
       selectMessage: this.selectMessage,
       deleteMessage: this.deleteMessage,
       fetchMessagesForConversation: actions.fetchMessagesForConversation,
@@ -548,9 +548,9 @@ export class SessionConversation extends React.Component<Props, State> {
   }
 
   public getRightPanelProps() {
-    const { conversationKey } = this.props;
+    const { selectedConversationKey } = this.props;
     const conversation = ConversationController.getInstance().getOrThrow(
-      conversationKey
+      selectedConversationKey
     );
     const ourPrimary = window.storage.get('primaryDevicePubKey');
 
@@ -558,7 +558,7 @@ export class SessionConversation extends React.Component<Props, State> {
     const isAdmin = conversation.isMediumGroup()
       ? true
       : conversation.isPublic()
-      ? conversation.isModerator(ourPrimary)
+      ? conversation.isAdmin(ourPrimary)
       : false;
 
     return {
@@ -670,26 +670,32 @@ export class SessionConversation extends React.Component<Props, State> {
     askUserForConfirmation: boolean
   ) {
     // Get message objects
-    const { conversationKey, messages } = this.props;
+    const {
+      selectedConversationKey,
+      selectedConversation,
+      messages,
+    } = this.props;
 
     const conversationModel = ConversationController.getInstance().getOrThrow(
-      conversationKey
+      selectedConversationKey
     );
+    if (!selectedConversation) {
+      window.log.info('No valid selected conversation.');
+      return;
+    }
     const selectedMessages = messages.filter(message =>
       messageIds.find(selectedMessage => selectedMessage === message.id)
     );
 
     const multiple = selectedMessages.length > 1;
 
-    const isPublic = conversationModel.isPublic();
-
     // In future, we may be able to unsend private messages also
     // isServerDeletable also defined in ConversationHeader.tsx for
     // future reference
-    const isServerDeletable = isPublic;
+    const isServerDeletable = selectedConversation.isPublic;
 
     const warningMessage = (() => {
-      if (isPublic) {
+      if (selectedConversation.isPublic) {
         return multiple
           ? window.i18n('deleteMultiplePublicWarning')
           : window.i18n('deletePublicWarning');
@@ -704,7 +710,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
       // VINCE TODO: MARK TO-DELETE MESSAGES AS READ
 
-      if (isPublic) {
+      if (selectedConversation.isPublic) {
         // Get our Moderator status
         const ourDevicePubkey = await UserUtil.getCurrentDevicePubKey();
         if (!ourDevicePubkey) {
@@ -713,7 +719,7 @@ export class SessionConversation extends React.Component<Props, State> {
         const ourPrimaryPubkey = (
           await MultiDeviceProtocol.getPrimaryDevice(ourDevicePubkey)
         ).key;
-        const isModerator = conversationModel.isModerator(ourPrimaryPubkey);
+        const isAdmin = conversationModel.isAdmin(ourPrimaryPubkey);
         const ourNumbers = (await MultiDeviceProtocol.getOurDevices()).map(
           m => m.key
         );
@@ -721,7 +727,7 @@ export class SessionConversation extends React.Component<Props, State> {
           ourNumbers.includes(message.attributes.source)
         );
 
-        if (!isAllOurs && !isModerator) {
+        if (!isAllOurs && !isAdmin) {
           ToastUtils.pushMessageDeleteForbidden();
 
           this.setState({ selectedMessages: [] });
@@ -820,14 +826,14 @@ export class SessionConversation extends React.Component<Props, State> {
   // ~~~~~~~~~~~~~~ MESSAGE QUOTE ~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   private async replyToMessage(quotedMessageTimestamp?: number) {
-    if (this.props.conversation.isBlocked) {
+    if (this.props.selectedConversation?.isBlocked) {
       pushUnblockToSend();
       return;
     }
     if (!_.isEqual(this.state.quotedMessageTimestamp, quotedMessageTimestamp)) {
-      const { messages, conversationKey } = this.props;
+      const { messages, selectedConversationKey } = this.props;
       const conversationModel = ConversationController.getInstance().getOrThrow(
-        conversationKey
+        selectedConversationKey
       );
 
       let quotedMessageProps = null;
@@ -1229,7 +1235,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
   private async updateMemberList() {
     const allPubKeys = await window.Signal.Data.getPubkeysInPublicConversation(
-      this.props.conversationKey
+      this.props.selectedConversationKey
     );
 
     const allMembers = allPubKeys.map((pubKey: string) => {

@@ -7,6 +7,7 @@ import { SearchStateType } from '../ducks/search';
 import {
   getConversationLookup,
   getSelectedConversation,
+  getSelectedConversationKey,
 } from './conversations';
 import { ConversationLookupType } from '../ducks/conversations';
 
@@ -38,7 +39,7 @@ export const getSearchResults = createSelector(
     getSearch,
     getRegionCode,
     getConversationLookup,
-    getSelectedConversation,
+    getSelectedConversationKey,
     getSelectedMessage,
   ],
   (

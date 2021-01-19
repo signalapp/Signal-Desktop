@@ -568,8 +568,7 @@
       // for the public group chat
       const conversation = this.getConversation();
 
-      const isModerator =
-        conversation && !!conversation.isModerator(phoneNumber);
+      const isAdmin = conversation && !!conversation.isAdmin(phoneNumber);
 
       const convoId = conversation ? conversation.id : undefined;
       const isGroup = !!conversation && !conversation.isPrivate();
@@ -606,9 +605,9 @@
           conversation && conversation.get('isKickedFromGroup'),
         isDeletable:
           !this.get('isPublic') ||
-          isModerator ||
+          isAdmin ||
           phoneNumber === textsecure.storage.user.getNumber(),
-        isModerator,
+        isAdmin,
 
         onCopyText: () => this.copyText(),
         onCopyPubKey: () => this.copyPubKey(),

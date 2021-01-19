@@ -7,6 +7,7 @@ import {
   ConversationLookupType,
   ConversationsStateType,
   ConversationType,
+  MessageTypeInConvo,
 } from '../ducks/conversations';
 
 import { getIntl, getRegionCode, getUserNumber } from './user';
@@ -23,10 +24,19 @@ export const getConversationLookup = createSelector(
   }
 );
 
-export const getSelectedConversation = createSelector(
+export const getSelectedConversationKey = createSelector(
   getConversations,
   (state: ConversationsStateType): string | undefined => {
     return state.selectedConversation;
+  }
+);
+
+export const getSelectedConversation = createSelector(
+  getConversations,
+  (state: ConversationsStateType): ConversationType | undefined => {
+    return state.selectedConversation
+      ? state.conversationLookup[state.selectedConversation]
+      : undefined;
   }
 );
 
@@ -34,6 +44,11 @@ export const getOurPrimaryConversation = createSelector(
   getConversations,
   (state: ConversationsStateType): ConversationType =>
     state.conversationLookup[window.storage.get('primaryDevicePubKey')]
+);
+
+export const getMessagesOfSelectedConversation = createSelector(
+  getConversations,
+  (state: ConversationsStateType): Array<MessageTypeInConvo> => state.messages
 );
 
 function getConversationTitle(
@@ -229,14 +244,14 @@ export const _getSessionConversationInfo = (
 export const getLeftPaneLists = createSelector(
   getConversationLookup,
   getConversationComparator,
-  getSelectedConversation,
+  getSelectedConversationKey,
   _getLeftPaneLists
 );
 
 export const getSessionConversationInfo = createSelector(
   getConversationLookup,
   getConversationComparator,
-  getSelectedConversation,
+  getSelectedConversationKey,
   _getSessionConversationInfo
 );
 

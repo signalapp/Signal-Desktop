@@ -1204,7 +1204,7 @@ class LokiPublicChannelAPI {
     }
 
     if (this.running) {
-      await this.conversation.setModerators(moderators || []);
+      await this.conversation.updateGroupAdmins(moderators || []);
     }
   }
 

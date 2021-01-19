@@ -14,7 +14,7 @@ import styled, { DefaultTheme } from 'styled-components';
 
 type Props = {
   disableMenu?: boolean;
-  isModerator?: boolean;
+  isAdmin?: boolean;
   isDeletable: boolean;
   text?: string;
   bodyPending?: boolean;
@@ -74,7 +74,7 @@ export const MessageMetadata = (props: Props) => {
     serverTimestamp,
     isShowingImage,
     isPublic,
-    isModerator,
+    isAdmin,
     theme,
   } = props;
 
@@ -109,7 +109,7 @@ export const MessageMetadata = (props: Props) => {
       <MetadataBadges
         direction={direction}
         isPublic={isPublic}
-        isModerator={isModerator}
+        isAdmin={isAdmin}
         id={id}
         withImageNoCaption={withImageNoCaption}
       />

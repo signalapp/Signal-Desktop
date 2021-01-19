@@ -8,7 +8,6 @@ import {
 import { reducer as user, UserStateType } from './ducks/user';
 import { reducer as theme, ThemeStateType } from './ducks/theme';
 import { reducer as section, SectionStateType } from './ducks/section';
-import { PubKey } from '../session/types';
 
 export type StateType = {
   search: SearchStateType;

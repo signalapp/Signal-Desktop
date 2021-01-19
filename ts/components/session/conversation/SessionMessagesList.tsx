@@ -297,9 +297,8 @@ export class SessionMessagesList extends React.Component<Props, State> {
             );
           }
 
-          // allow moderators feature on messages (like banning a user)
-          if (messageProps.isPublic) {
-            messageProps.weAreModerator = conversation.groupAdmins?.includes(
+          if (messageProps.conversationType === 'group') {
+            messageProps.weAreAdmin = conversation.groupAdmins?.includes(
               ourPrimary
             );
           }

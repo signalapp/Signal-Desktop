@@ -52,8 +52,8 @@ interface LinkPreviewType {
 export interface Props {
   disableMenu?: boolean;
   isDeletable: boolean;
-  isModerator?: boolean;
-  weAreModerator?: boolean;
+  isAdmin?: boolean;
+  weAreAdmin?: boolean;
   text?: string;
   bodyPending?: boolean;
   id: string;
@@ -574,7 +574,7 @@ class MessageInner extends React.PureComponent<Props, State> {
       authorPhoneNumber,
       authorProfileName,
       collapseMetadata,
-      isModerator,
+      isAdmin,
       conversationType,
       direction,
       onShowUserDetails,
@@ -605,7 +605,7 @@ class MessageInner extends React.PureComponent<Props, State> {
           }}
           pubkey={authorPhoneNumber}
         />
-        {isModerator && (
+        {isAdmin && (
           <div className="module-avatar__icon--crown-wrapper">
             <div className="module-avatar__icon--crown" />
           </div>
@@ -692,7 +692,7 @@ class MessageInner extends React.PureComponent<Props, State> {
       onRetrySend,
       onShowDetail,
       isPublic,
-      weAreModerator,
+      weAreAdmin,
       onBanUser,
     } = this.props;
 
@@ -760,7 +760,7 @@ class MessageInner extends React.PureComponent<Props, State> {
             </Item>
           </>
         ) : null}
-        {weAreModerator && isPublic ? (
+        {weAreAdmin && isPublic ? (
           <Item onClick={onBanUser}>{window.i18n('banUser')}</Item>
         ) : null}
       </Menu>
