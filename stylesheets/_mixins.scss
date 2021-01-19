@@ -429,3 +429,47 @@
   border-radius: 9999px; // This ensures the borders are completely rounded. (A value like 100% would make it an ellipse.)
   padding: 7px 14px;
 }
+
+@keyframes appear-animation__keyframes {
+  from {
+    transform: scale(0, 0);
+  }
+  to {
+    transform: scale(1, 1);
+  }
+}
+
+@mixin appear-animation {
+  animation-name: appear-animation__keyframes;
+  animation-duration: 0.2s;
+}
+
+@keyframes foldopen-animation__keyframes {
+  from {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+  to {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+}
+
+@mixin foldopen-animation {
+  animation-name: foldopen-animation__keyframes;
+  animation-duration: 0.2s;
+}
+
+@keyframes fadein-animation__keyframes {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@mixin fadein-animation {
+  animation-name: fadein-animation__keyframes;
+  animation-duration: 0.2s;
+}

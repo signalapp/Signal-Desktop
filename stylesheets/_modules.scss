@@ -7081,6 +7081,8 @@ button.module-image__border-overlay:focus {
 
   @include popper-shadow();
 
+  @include fadein-animation;
+
   @include light-theme {
     background: $color-gray-02;
     ::-webkit-scrollbar-thumb {
@@ -9320,6 +9322,8 @@ button.module-image__border-overlay:focus {
   position: absolute;
   right: 20px;
   bottom: 10px;
+
+  @include appear-animation;
 }
 
 .module-scroll-down__button {
@@ -9371,6 +9375,8 @@ button.module-image__border-overlay:focus {
 
   border-radius: 4px;
   padding-bottom: 4px;
+
+  @include fadein-animation;
 
   @include popper-shadow;
 
@@ -10503,6 +10509,8 @@ $contact-modal-padding: 18px;
   padding: 6px 0;
   opacity: 0;
   user-select: none;
+
+  transition: opacity 0.2s ease;
 
   @include light-theme {
     background-color: $color-white;
