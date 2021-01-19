@@ -18,6 +18,7 @@ import { VerificationNotification } from '../../conversation/VerificationNotific
 import { ToastUtils } from '../../../session/utils';
 import { TypingBubble } from '../../conversation/TypingBubble';
 import { ConversationController } from '../../../session/conversations';
+import { PubKey } from '../../../session/types';
 
 interface State {
   showScrollButton: boolean;
@@ -29,6 +30,7 @@ interface Props {
   conversationKey: string;
   messages: Array<MessageModel>;
   conversation: ConversationType;
+  ourPrimary: string;
   messageContainerRef: React.RefObject<any>;
   selectMessage: (messageId: string) => void;
   deleteMessage: (messageId: string) => void;
@@ -202,7 +204,8 @@ export class SessionMessagesList extends React.Component<Props, State> {
   }
 
   private renderMessages(messages: Array<MessageModel>) {
-    const multiSelectMode = Boolean(this.props.selectedMessages.length);
+    const { conversation, ourPrimary, selectedMessages } = this.props;
+    const multiSelectMode = Boolean(selectedMessages.length);
     let currentMessageIndex = 0;
     const displayUnreadBannerIndex = this.displayUnreadBannerIndex(messages);
 
@@ -291,6 +294,13 @@ export class SessionMessagesList extends React.Component<Props, State> {
                 <TimerNotification {...timerProps} key={message.id} />
                 {unreadIndicator}
               </>
+            );
+          }
+
+          // allow moderators feature on messages (like banning a user)
+          if (messageProps.isPublic) {
+            messageProps.weAreModerator = conversation.groupAdmins?.includes(
+              ourPrimary
             );
           }
 

@@ -132,6 +132,7 @@
         const user = {
           regionCode: window.storage.get('regionCode'),
           ourNumber: textsecure.storage.user.getNumber(),
+          ourPrimary: window.textsecure.storage.get('primaryDevicePubKey'),
           isSecondaryDevice: !!textsecure.storage.get('isSecondaryDevice'),
         };
         Whisper.events.trigger('userChanged', user);

@@ -79,6 +79,7 @@ export type ConversationType = {
   isKickedFromGroup: boolean;
   left: boolean;
   avatarPath?: string; // absolute filepath to the avatar
+  groupAdmins?: Array<string>; // admins for closed groups and moderators for open groups
 };
 export type ConversationLookupType = {
   [key: string]: ConversationType;

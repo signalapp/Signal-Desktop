@@ -32,9 +32,6 @@ const { UserDetailsDialog } = require('../../ts/components/UserDetailsDialog');
 const {
   DevicePairingDialog,
 } = require('../../ts/components/DevicePairingDialog');
-const {
-  SessionConversation,
-} = require('../../ts/components/session/conversation/SessionConversation');
 const { SessionModal } = require('../../ts/components/session/SessionModal');
 const {
   SessionSeedModal,
@@ -244,7 +241,6 @@ exports.setup = (options = {}) => {
     AddModeratorsDialog,
     RemoveModeratorsDialog,
     GroupInvitation,
-    SessionConversation,
     SessionConfirm,
     SessionModal,
     SessionSeedModal,

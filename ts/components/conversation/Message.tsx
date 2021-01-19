@@ -53,6 +53,7 @@ export interface Props {
   disableMenu?: boolean;
   isDeletable: boolean;
   isModerator?: boolean;
+  weAreModerator?: boolean;
   text?: string;
   bodyPending?: boolean;
   id: string;
@@ -691,7 +692,7 @@ class MessageInner extends React.PureComponent<Props, State> {
       onRetrySend,
       onShowDetail,
       isPublic,
-      isModerator,
+      weAreModerator,
       onBanUser,
     } = this.props;
 
@@ -759,7 +760,7 @@ class MessageInner extends React.PureComponent<Props, State> {
             </Item>
           </>
         ) : null}
-        {isModerator && isPublic ? (
+        {weAreModerator && isPublic ? (
           <Item onClick={onBanUser}>{window.i18n('banUser')}</Item>
         ) : null}
       </Menu>

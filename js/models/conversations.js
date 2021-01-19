@@ -462,6 +462,10 @@
       const regionCode = storage.get('regionCode');
       const typingKeys = Object.keys(this.contactTypingTimers || {});
 
+      const groupAdmins = this.isPublic()
+        ? this.get('moderators')
+        : this.get('groupAdmins');
+
       const result = {
         id: this.id,
         isArchived: this.get('isArchived'),
@@ -494,6 +498,7 @@
         hasNickname: !!this.getNickname(),
         isKickedFromGroup: !!this.get('isKickedFromGroup'),
         left: !!this.get('left'),
+        groupAdmins,
 
         onClick: () => this.trigger('select', this),
         onBlockContact: () => this.block(),

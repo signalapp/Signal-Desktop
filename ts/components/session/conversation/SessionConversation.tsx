@@ -32,6 +32,7 @@ import { getMessageById } from '../../../../js/modules/data';
 import { pushUnblockToSend } from '../../../session/utils/Toast';
 import { MessageDetail } from '../../conversation/MessageDetail';
 import { ConversationController } from '../../../session/conversations';
+import { PubKey } from '../../../session/types';
 
 interface State {
   // Message sending progress
@@ -70,6 +71,7 @@ interface State {
 }
 
 interface Props {
+  ourPrimary: string;
   conversationKey: string;
   conversation: ConversationType;
   theme: DefaultTheme;
@@ -522,11 +524,12 @@ export class SessionConversation extends React.Component<Props, State> {
   }
 
   public getMessagesListProps() {
-    const { conversation, messages, actions } = this.props;
+    const { conversation, ourPrimary, messages, actions } = this.props;
     const { quotedMessageTimestamp, selectedMessages } = this.state;
 
     return {
       selectedMessages,
+      ourPrimary,
       conversationKey: conversation.id,
       messages,
       resetSelection: this.resetSelection,

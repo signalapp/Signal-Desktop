@@ -26,3 +26,8 @@ export const getIsSecondaryDevice = createSelector(
   getUser,
   (state: UserStateType): boolean => state.isSecondaryDevice
 );
+
+export const getPrimaryPubkey = createSelector(
+  getUser,
+  (state: UserStateType): string => state.ourPrimary
+);

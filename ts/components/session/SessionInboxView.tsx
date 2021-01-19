@@ -200,6 +200,7 @@ export class SessionInboxView extends React.Component<Props, State> {
       },
       user: {
         regionCode: window.storage.get('regionCode'),
+        ourPrimary: window.storage.get('primaryDevicePubKey'),
         ourNumber:
           window.storage.get('primaryDevicePubKey') ||
           window.textsecure.storage.user.getNumber(),
