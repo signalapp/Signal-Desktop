@@ -42,10 +42,16 @@
 
     @include light-theme() {
       background-color: $color-white;
+      background-image: url("../images/chat-bg-light.svg");
+      background-repeat: repeat;
+      background-size: 250px 250px;
     }
 
     @include dark-theme() {
-      background-color: $color-gray-95;
+      background-color: $color-gray-90;
+      background-image: url("../images/chat-bg-dark.svg");
+      background-repeat: repeat;
+      background-size: 250px 250px;
     }
   }
 
@@ -196,11 +202,15 @@
 
   form.send {
     margin-bottom: 0px;
+
     @include light-theme {
-      background: $color-white;
+      border-top: 1px $color-gray-05 solid;
+      background: $color-gray-02;
     }
+
     @include dark-theme {
-      background-color: $color-gray-95;
+      border-top: 1px $color-gray-90 solid;
+      background-color: $color-gray-80;
     }
   }
 

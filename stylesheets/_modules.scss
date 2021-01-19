@@ -2804,11 +2804,15 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
   @include light-theme {
     color: $color-gray-90;
-    background-color: $color-white;
+    background-color: $color-gray-02;
+    border-bottom: 1px $color-gray-05 solid;
   }
+
   @include dark-theme {
     color: $color-gray-02;
-    background-color: $color-gray-95;
+    background-color: $color-gray-80;
+    border-bottom: 1px $color-gray-90 solid;
+    box-shadow: rgba($color: #000000, $alpha: 0.4) 0px 1px 3px 0px;
   }
 }
 
@@ -3695,6 +3699,23 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
       background-color: $color-gray-75;
     }
   }
+
+  &:after {
+    position: absolute;
+    bottom: 0;
+    left: 80px;
+    width: calc(100% - 92px);
+    height: 1px;
+    content: "";
+    
+    @include light-theme {
+      background-color: $color-gray-05;
+    }
+    
+    @include dark-theme {
+      background-color: $color-gray-70;
+    }
+  }
 }
 
 .module-conversation-list-item__muted {
@@ -3795,7 +3816,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   flex-grow: 1;
   flex-shrink: 1;
 
-  @include font-body-1-bold;
+  @include font-body-1;
 
   overflow: hidden;
   white-space: nowrap;
@@ -4131,7 +4152,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-avatar__label--32 {
-  font-size: 14px;
+  font-size: 10px;
   line-height: 32px;
 }
 
@@ -4147,7 +4168,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 .module-avatar__label--52 {
   width: 52px;
-  font-size: 22px;
+  font-size: 16px;
   letter-spacing: 0.19px;
   line-height: 52px;
 }
@@ -4173,7 +4194,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 .module-avatar__label--80 {
   width: 80px;
-  font-size: 40px;
+  font-size: 29px;
   line-height: 80px;
 }
 
@@ -4199,7 +4220,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 .module-avatar__label--96 {
   width: 96px;
-  font-size: 48px;
+  font-size: 35px;
   line-height: 96px;
 }
 
@@ -4220,7 +4241,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 .module-avatar__label--112 {
   width: 112px;
-  font-size: 56px;
+  font-size: 41px;
   line-height: 112px;
 }
 
@@ -4292,7 +4313,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-main-header__search__input {
-  height: 28px;
+  height: 32px;
 
   // 320 - 28 (avatar) - 32 (left/right margin) - 12 (space to avatar)
   width: 248px;
@@ -4337,9 +4358,11 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 .module-main-header__search__icon {
   position: absolute;
   left: 8px;
-  top: 6px;
-  height: 16px;
-  width: 16px;
+  top: 50%;
+  bottom: 50%;
+  transform: translateY(-50%);
+  height: 18px;
+  width: 18px;
 
   cursor: text;
 
@@ -6818,11 +6841,27 @@ button.module-image__border-overlay:focus {
 
   width: $left-pane-width;
   height: 100%;
+
+  @include light-theme {
+    border-right: 1px $color-gray-05 solid;
+  }
+
+  @include dark-theme {
+    border-right: 1px $color-gray-75 solid;
+  }
 }
 
 .module-left-pane__header {
   flex-grow: 0;
   flex-shrink: 0;
+
+  @include light-theme {
+    border-bottom: 1px $color-gray-05 solid;
+  }
+
+  @include dark-theme {
+    border-bottom: 1px $color-gray-70 solid;
+  }
 }
 
 .module-left-pane__archive-header {
@@ -9016,14 +9055,14 @@ button.module-image__border-overlay:focus {
 
     @include light-theme() {
       // Same as background color
-      border: 1px solid $color-white;
+      border: 1px solid $color-gray-02;
       background-color: $color-gray-05;
       color: $color-gray-90;
     }
 
     @include dark-theme() {
       // Same as background color
-      border: 1px solid $color-gray-95;
+      border: 1px solid $color-gray-80;
       background-color: $color-gray-75;
       color: $color-gray-05;
     }
@@ -9318,33 +9357,33 @@ button.module-image__border-overlay:focus {
 .module-scroll-down {
   z-index: 100;
   position: absolute;
-  right: 20px;
-  bottom: 10px;
+  right: 16px;
+  bottom: 20px;
 }
 
 .module-scroll-down__button {
-  height: 44px;
-  width: 44px;
-  border-radius: 22px;
+  height: 42px;
+  width: 42px;
+  border-radius: 21px;
   text-align: center;
   border: none;
   outline: none;
 
   @include light-theme {
-    background-color: $color-gray-25;
+    background-color: $color-white;
     &:hover {
-      background-color: $color-gray-45;
+      background-color: $color-gray-02;
     }
 
     box-shadow: 0px 3px 5px 0px $color-black-alpha-20;
   }
   @include dark-theme {
-    background-color: $color-gray-45;
+    background-color: $color-gray-80;
     &:hover {
-      background-color: $color-gray-25;
+      background-color: $color-gray-75;
     }
 
-    box-shadow: 0px 3px 5px 0px $color-white-alpha-20;
+    box-shadow: 0px 3px 5px 0px $color-black-alpha-20;
   }
 }
 
@@ -9357,11 +9396,19 @@ button.module-image__border-overlay:focus {
 }
 
 .module-scroll-down__icon {
-  @include color-svg('../images/icons/v2/arrow-down-24.svg', $color-white);
-  height: 36px;
-  width: 36px;
-  margin-left: -3px;
-  margin-top: -1px;
+  @include light-theme {
+    @include color-svg('../images/icons/v2/arrow-down-20.svg', $color-gray-35);
+  }
+
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/arrow-down-20.svg', $color-gray-45);
+  }
+  height: 19px;
+  width: 20px;
+  margin-left:auto;
+  margin-right:auto;
+  // margin-left: -3px;
+  // margin-top: -1px;
 }
 
 // Module: Avatar Popup
