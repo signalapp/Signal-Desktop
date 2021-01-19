@@ -424,7 +424,6 @@ export class SessionConversation extends React.Component<Props, State> {
       isGroup: !conversation.isPrivate(),
       isPrivate: conversation.isPrivate(),
       isPublic: conversation.isPublic(),
-      isRss: conversation.isRss(),
       isAdmin: conversation.isAdmin(ourPrimary),
       members,
       subscriberCount: conversation.get('subscriberCount'),
@@ -483,9 +482,7 @@ export class SessionConversation extends React.Component<Props, State> {
       },
 
       onAvatarClick: (pubkey: any) => {
-        if (!conversation.isRss()) {
-          this.toggleRightPanel();
-        }
+        this.toggleRightPanel();
       },
     };
 
@@ -548,7 +545,6 @@ export class SessionConversation extends React.Component<Props, State> {
       isGroup: !conversation.isPrivate(),
       isPublic: conversation.isPublic(),
       isAdmin,
-      isRss: conversation.isRss(),
       isBlocked: conversation.isBlocked(),
 
       timerOptions: window.Whisper.ExpirationTimerOptions.map((item: any) => ({

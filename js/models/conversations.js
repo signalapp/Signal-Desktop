@@ -150,15 +150,10 @@
       return !!(this.id && this.id.match(/^publicChat:/));
     },
     isClosedGroup() {
-      return (
-        this.get('type') === Message.GROUP && !this.isPublic() && !this.isRss()
-      );
+      return this.get('type') === Message.GROUP && !this.isPublic();
     },
     isClosable() {
-      return !this.isRss() || this.get('closable');
-    },
-    isRss() {
-      return !!(this.id && this.id.match(/^rss:/));
+      return this.get('closable');
     },
     isBlocked() {
       if (!this.id || this.isMe()) {
@@ -180,7 +175,7 @@
       return this.get('is_medium_group');
     },
     async block() {
-      if (!this.id || this.isPublic() || this.isRss()) {
+      if (!this.id || this.isPublic()) {
         return;
       }
 
@@ -192,7 +187,7 @@
       await libsession.Utils.SyncMessageUtils.sendBlockedListSyncMessage();
     },
     async unblock() {
-      if (!this.id || this.isPublic() || this.isRss()) {
+      if (!this.id || this.isPublic()) {
         return;
       }
       const promise = this.isPrivate()
@@ -313,7 +308,7 @@
     },
 
     async updateProfileAvatar() {
-      if (this.isRss() || this.isPublic()) {
+      if (this.isPublic()) {
         return;
       }
 
@@ -446,7 +441,6 @@
         type: this.isPrivate() ? 'direct' : 'group',
         isMe: this.isMe(),
         isPublic: this.isPublic(),
-        isRss: this.isRss(),
         isClosable: this.isClosable(),
         isTyping: typingKeys.length > 0,
         lastUpdated: this.get('timestamp'),
@@ -465,7 +459,6 @@
         lastMessage: {
           status: this.get('lastMessageStatus'),
           text: this.get('lastMessage'),
-          isRss: this.isRss(),
         },
         hasNickname: !!this.getNickname(),
         isKickedFromGroup: !!this.get('isKickedFromGroup'),
@@ -940,9 +933,6 @@
       if (!this.isPublic()) {
         return;
       }
-      if (this.isRss()) {
-        return;
-      }
       if (!this.get('profileSharing')) {
         return;
       }
@@ -1303,17 +1293,6 @@
     },
     getNickname() {
       return this.get('nickname');
-    },
-    getRssSettings() {
-      if (!this.isRss()) {
-        return null;
-      }
-      return {
-        RSS_FEED: this.get('rssFeed'),
-        CONVO_ID: this.id,
-        title: this.get('name'),
-        closeable: this.get('closable'),
-      };
     },
     // maybe "Backend" instead of "Source"?
     async setPublicSource(newServer, newChannelId) {

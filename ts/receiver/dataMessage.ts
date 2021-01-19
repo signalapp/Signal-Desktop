@@ -450,7 +450,6 @@ interface MessageCreationData {
   receivedAt: number;
   sourceDevice: number; // always 1 isn't it?
   unidentifiedDeliveryReceived: any; // ???
-  isRss: boolean;
   source: boolean;
   serverId: string;
   message: any;
@@ -469,7 +468,6 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
     receivedAt,
     sourceDevice,
     unidentifiedDeliveryReceived,
-    isRss,
     source,
     serverId,
     message,
@@ -498,7 +496,6 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
     direction: 'incoming', // +
     unread: 1, // +
     isPublic, // +
-    isRss, // +
   };
 
   return new window.Whisper.Message(messageData);
@@ -624,10 +621,6 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   source = source || msg.get('source');
 
   if (await isMessageDuplicate(data)) {
-    // RSS expects duplicates, so squelch log
-    if (!source.match(/^rss:/)) {
-      window.log.warn('Received duplicate message', msg.idForLogging());
-    }
     confirm();
     return;
   }

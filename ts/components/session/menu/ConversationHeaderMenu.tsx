@@ -18,7 +18,6 @@ export type PropsConversationHeaderMenu = {
   triggerId: string;
   isMe: boolean;
   isPublic?: boolean;
-  isRss?: boolean;
   isClosable?: boolean;
   isKickedFromGroup?: boolean;
   left?: boolean;
@@ -47,7 +46,6 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
     isMe,
     isClosable,
     isPublic,
-    isRss,
     isGroup,
     isKickedFromGroup,
     isAdmin,
@@ -73,7 +71,6 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
     <Menu id={triggerId} animation={animation.fade}>
       {getDisappearingMenuItem(
         isPublic,
-        isRss,
         isKickedFromGroup,
         left,
         isBlocked,
@@ -90,7 +87,7 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
         window.i18n
       )}
 
-      {getCopyMenuItem(isPublic, isRss, isGroup, onCopyPublicKey, window.i18n)}
+      {getCopyMenuItem(isPublic, isGroup, onCopyPublicKey, window.i18n)}
       {getDeleteMessagesMenuItem(isPublic, onDeleteMessages, window.i18n)}
       {getAddModeratorsMenuItem(
         isAdmin,
@@ -116,7 +113,6 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
         left,
         isGroup,
         isPublic,
-        isRss,
         onLeaveGroup,
         window.i18n
       )}
@@ -132,7 +128,6 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
         isClosable,
         isGroup,
         isPublic,
-        isRss,
         onDeleteContact,
         window.i18n
       )}

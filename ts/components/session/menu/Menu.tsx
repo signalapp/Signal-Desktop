@@ -5,20 +5,15 @@ import { Item, Submenu } from 'react-contexify';
 
 function showTimerOptions(
   isPublic: boolean,
-  isRss: boolean,
   isKickedFromGroup: boolean,
   left: boolean,
   isBlocked: boolean
 ): boolean {
-  return !isPublic && !isRss && !left && !isKickedFromGroup && !isBlocked;
+  return !isPublic && !left && !isKickedFromGroup && !isBlocked;
 }
 
-function showMemberMenu(
-  isPublic: boolean,
-  isRss: boolean,
-  isGroup: boolean
-): boolean {
-  return !isPublic && !isRss && isGroup;
+function showMemberMenu(isPublic: boolean, isGroup: boolean): boolean {
+  return !isPublic && isGroup;
 }
 
 function showBlock(isMe: boolean, isPrivate: boolean): boolean {
@@ -27,33 +22,27 @@ function showBlock(isMe: boolean, isPrivate: boolean): boolean {
 
 function showClearNickname(
   isPublic: boolean,
-  isRss: boolean,
   isMe: boolean,
   hasNickname: boolean
 ): boolean {
-  return !isPublic && !isRss && !isMe && hasNickname;
+  return !isPublic && !isMe && hasNickname;
 }
 
 function showDeleteMessages(isPublic: boolean): boolean {
   return !isPublic;
 }
 
-function showCopyId(
-  isPublic: boolean,
-  isRss: boolean,
-  isGroup: boolean
-): boolean {
-  return !isGroup && !isRss;
+function showCopyId(isPublic: boolean, isGroup: boolean): boolean {
+  return !isGroup;
 }
 
 function showDeleteContact(
   isMe: boolean,
   isClosable: boolean,
   isGroup: boolean,
-  isPublic: boolean,
-  isRss: boolean
+  isPublic: boolean
 ): boolean {
-  return !isMe && isClosable && !!(!isGroup || isPublic || isRss);
+  return !isMe && isClosable && !!(!isGroup || isPublic);
 }
 
 function showAddModerators(
@@ -82,10 +71,9 @@ function showLeaveGroup(
   isKickedFromGroup: boolean,
   left: boolean,
   isGroup: boolean,
-  isPublic: boolean,
-  isRss: boolean
+  isPublic: boolean
 ): boolean {
-  return !isKickedFromGroup && !left && isGroup && !isPublic && !isRss;
+  return !isKickedFromGroup && !left && isGroup && !isPublic;
 }
 
 function showInviteContact(isGroup: boolean, isPublic: boolean): boolean {
@@ -111,7 +99,6 @@ export function getDeleteContactMenuItem(
   isClosable: boolean | undefined,
   isGroup: boolean | undefined,
   isPublic: boolean | undefined,
-  isRss: boolean | undefined,
   action: any,
   i18n: LocalizerType
 ): JSX.Element | null {
@@ -120,8 +107,7 @@ export function getDeleteContactMenuItem(
       Boolean(isMe),
       Boolean(isClosable),
       Boolean(isGroup),
-      Boolean(isPublic),
-      Boolean(isRss)
+      Boolean(isPublic)
     )
   ) {
     if (isPublic) {
@@ -137,7 +123,6 @@ export function getLeaveGroupMenuItem(
   left: boolean | undefined,
   isGroup: boolean | undefined,
   isPublic: boolean | undefined,
-  isRss: boolean | undefined,
   action: any,
   i18n: LocalizerType
 ): JSX.Element | null {
@@ -146,8 +131,7 @@ export function getLeaveGroupMenuItem(
       Boolean(isKickedFromGroup),
       Boolean(left),
       Boolean(isGroup),
-      Boolean(isPublic),
-      Boolean(isRss)
+      Boolean(isPublic)
     )
   ) {
     return <Item onClick={action}>{i18n('leaveGroup')}</Item>;
@@ -200,12 +184,11 @@ export function getAddModeratorsMenuItem(
 
 export function getCopyMenuItem(
   isPublic: boolean | undefined,
-  isRss: boolean | undefined,
   isGroup: boolean | undefined,
   action: any,
   i18n: LocalizerType
 ): JSX.Element | null {
-  if (showCopyId(Boolean(isPublic), Boolean(isRss), Boolean(isGroup))) {
+  if (showCopyId(Boolean(isPublic), Boolean(isGroup))) {
     const copyIdLabel = i18n('copySessionID');
     return <Item onClick={action}>{copyIdLabel}</Item>;
   }
@@ -214,7 +197,6 @@ export function getCopyMenuItem(
 
 export function getDisappearingMenuItem(
   isPublic: boolean | undefined,
-  isRss: boolean | undefined,
   isKickedFromGroup: boolean | undefined,
   left: boolean | undefined,
   isBlocked: boolean | undefined,
@@ -225,7 +207,6 @@ export function getDisappearingMenuItem(
   if (
     showTimerOptions(
       Boolean(isPublic),
-      Boolean(isRss),
       Boolean(isKickedFromGroup),
       Boolean(left),
       Boolean(isBlocked)
@@ -260,12 +241,11 @@ export function isRtlBody(): boolean {
 
 export function getShowMemberMenuItem(
   isPublic: boolean | undefined,
-  isRss: boolean | undefined,
   isGroup: boolean | undefined,
   action: any,
   i18n: LocalizerType
 ): JSX.Element | null {
-  if (showMemberMenu(Boolean(isPublic), Boolean(isRss), Boolean(isGroup))) {
+  if (showMemberMenu(Boolean(isPublic), Boolean(isGroup))) {
     return <Item onClick={action}>{i18n('groupMembers')}</Item>;
   }
   return null;
@@ -289,19 +269,13 @@ export function getBlockMenuItem(
 
 export function getClearNicknameMenuItem(
   isPublic: boolean | undefined,
-  isRss: boolean | undefined,
   isMe: boolean | undefined,
   hasNickname: boolean | undefined,
   action: any,
   i18n: LocalizerType
 ): JSX.Element | null {
   if (
-    showClearNickname(
-      Boolean(isPublic),
-      Boolean(isRss),
-      Boolean(isMe),
-      Boolean(hasNickname)
-    )
+    showClearNickname(Boolean(isPublic), Boolean(isMe), Boolean(hasNickname))
   ) {
     return <Item onClick={action}>{i18n('clearNickname')}</Item>;
   }

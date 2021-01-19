@@ -662,7 +662,7 @@
               window
                 .getConversationController()
                 .getConversations()
-                .filter(convo => convo.isPublic() && !convo.isRss())
+                .filter(convo => convo.isPublic())
                 .forEach(convo =>
                   convo.trigger('ourAvatarChanged', { url, profileKey })
                 );
@@ -892,7 +892,6 @@
           profileName: displayName,
           pubkey: userPubKey,
           avatarPath,
-          isRss: conversation.isRss(),
           onStartConversation: () => {
             window.inboxStore.dispatch(
               window.actionsCreators.openConversationExternal(conversation.id)

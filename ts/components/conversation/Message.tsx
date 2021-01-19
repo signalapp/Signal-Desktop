@@ -553,7 +553,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       bodyPending,
       direction,
       status,
-      isRss,
       conversationType,
       convoId,
       multiSelectMode,
@@ -581,7 +580,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       >
         <MessageBody
           text={contents || ''}
-          isRss={isRss}
           i18n={window.i18n}
           bodyPending={bodyPending}
           isGroup={conversationType === 'group'}
@@ -916,8 +914,8 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
   private handleContextMenu(e: any) {
     e.preventDefault();
     e.stopPropagation();
-    const { isRss, multiSelectMode, isKickedFromGroup } = this.props;
-    const enableContextMenu = !isRss && !multiSelectMode && !isKickedFromGroup;
+    const { multiSelectMode, isKickedFromGroup } = this.props;
+    const enableContextMenu = !multiSelectMode && !isKickedFromGroup;
 
     if (enableContextMenu) {
       // Don't forget to pass the id and the event and voila!

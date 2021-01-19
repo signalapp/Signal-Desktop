@@ -16,7 +16,6 @@ export type PropsContextConversationItem = {
   type: 'group' | 'direct';
   isMe: boolean;
   isPublic?: boolean;
-  isRss?: boolean;
   isClosable?: boolean;
   isBlocked?: boolean;
   hasNickname?: boolean;
@@ -41,7 +40,6 @@ export const ConversationListItemContextMenu = (
     isBlocked,
     isMe,
     isClosable,
-    isRss,
     isPublic,
     hasNickname,
     type,
@@ -67,14 +65,13 @@ export const ConversationListItemContextMenu = (
         onUnblockContact,
         window.i18n
       )}
-      {/* {!isPublic && !isRss && !isMe ? (
+      {/* {!isPublic && !isMe ? (
         <Item onClick={onChangeNickname}>
           {i18n('changeNickname')}
         </Item>
       ) : null} */}
       {getClearNicknameMenuItem(
         isPublic,
-        isRss,
         isMe,
         hasNickname,
         onClearNickname,
@@ -82,7 +79,6 @@ export const ConversationListItemContextMenu = (
       )}
       {getCopyMenuItem(
         isPublic,
-        isRss,
         type === 'group',
         onCopyPublicKey,
         window.i18n
@@ -99,7 +95,6 @@ export const ConversationListItemContextMenu = (
         isClosable,
         type === 'group',
         isPublic,
-        isRss,
         onDeleteContact,
         window.i18n
       )}
@@ -108,7 +103,6 @@ export const ConversationListItemContextMenu = (
         left,
         type === 'group',
         isPublic,
-        isRss,
         onLeaveGroup,
         window.i18n
       )}

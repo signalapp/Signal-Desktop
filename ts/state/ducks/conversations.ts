@@ -57,13 +57,11 @@ export type ConversationType = {
   lastMessage?: {
     status: 'error' | 'sending' | 'sent' | 'delivered' | 'read';
     text: string;
-    isRss: boolean;
   };
   phoneNumber: string;
   type: 'direct' | 'group';
   isMe: boolean;
   isPublic?: boolean;
-  isRss?: boolean;
   isClosable?: boolean;
   lastUpdated: number;
   unreadCount: number;

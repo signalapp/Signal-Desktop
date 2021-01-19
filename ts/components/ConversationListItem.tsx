@@ -33,7 +33,6 @@ export type ConversationListItemProps = {
   avatarPath?: string;
   isMe: boolean;
   isPublic?: boolean;
-  isRss?: boolean;
   isClosable?: boolean;
   primaryDevice?: string;
 
@@ -46,7 +45,6 @@ export type ConversationListItemProps = {
   lastMessage?: {
     status: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
     text: string;
-    isRss: boolean;
   };
 
   isBlocked?: boolean;
@@ -170,13 +168,7 @@ class ConversationListItem extends React.PureComponent<Props> {
     if (!lastMessage && !isTyping) {
       return null;
     }
-    let text = lastMessage && lastMessage.text ? lastMessage.text : '';
-
-    // if coming from Rss feed
-    if (lastMessage && lastMessage.isRss) {
-      // strip any HTML
-      text = text.replace(/<[^>]*>?/gm, '');
-    }
+    const text = lastMessage && lastMessage.text ? lastMessage.text : '';
 
     if (isEmpty(text)) {
       return null;

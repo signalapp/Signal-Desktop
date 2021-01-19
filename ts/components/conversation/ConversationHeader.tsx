@@ -42,7 +42,6 @@ interface Props {
   isGroup: boolean;
   isPrivate: boolean;
   isPublic: boolean;
-  isRss: boolean;
   isAdmin: boolean;
 
   // We might not always have the full list of members,
@@ -120,7 +119,6 @@ class ConversationHeaderInner extends React.Component<Props> {
       profileName,
       isGroup,
       isPublic,
-      isRss,
       members,
       subscriberCount,
       isMe,
@@ -138,7 +136,7 @@ class ConversationHeaderInner extends React.Component<Props> {
     }
 
     const memberCount: number = (() => {
-      if (!isGroup || isRss) {
+      if (!isGroup) {
         return 0;
       }
 
@@ -262,7 +260,7 @@ class ConversationHeaderInner extends React.Component<Props> {
           </div>
           {!isKickedFromGroup && this.renderExpirationLength()}
 
-          {!this.props.isRss && !selectionMode && this.renderAvatar()}
+          {!selectionMode && this.renderAvatar()}
 
           <ConversationHeaderMenu {...this.getHeaderMenuProps(triggerId)} />
         </div>
