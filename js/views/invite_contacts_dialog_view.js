@@ -87,7 +87,7 @@
           // Do not trigger an update if there is too many members
           if (
             newMembers.length + existingMembers.length >
-            window.CONSTANTS.MEDIUM_GROUP_SIZE_LIMIT
+            window.CONSTANTS.CLOSED_GROUP_SIZE_LIMIT
           ) {
             window.libsession.Utils.ToastUtils.pushTooManyMembers();
             return;
