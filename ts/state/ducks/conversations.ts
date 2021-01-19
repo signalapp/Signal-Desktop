@@ -34,7 +34,7 @@ export type MessageType = {
   isSelected?: boolean;
 };
 
-type MessageTypeInConvo = {
+export type MessageTypeInConvo = {
   id: string;
   conversationId: string;
   attributes: any;
@@ -76,6 +76,8 @@ export type ConversationType = {
   isKickedFromGroup: boolean;
   left: boolean;
   avatarPath?: string; // absolute filepath to the avatar
+  groupAdmins?: Array<string>; // admins for closed groups and moderators for open groups
+  members?: Array<string>; // members for closed groups only
 };
 export type ConversationLookupType = {
   [key: string]: ConversationType;

@@ -87,7 +87,6 @@ module.exports = grunt => {
           'libtextsecure/stringview.js',
           'libtextsecure/event_target.js',
           'libtextsecure/account_manager.js',
-          'libtextsecure/websocket-resources.js',
           'libtextsecure/http-resources.js',
           'libtextsecure/message_receiver.js',
           'libtextsecure/contacts_parser.js',
@@ -115,7 +114,6 @@ module.exports = grunt => {
       libtextsecuretest: {
         src: [
           'node_modules/jquery/dist/jquery.js',
-          'components/mock-socket/dist/mock-socket.js',
           'node_modules/mocha/mocha.js',
           'node_modules/chai/chai.js',
           'libtextsecure/test/_test.js',

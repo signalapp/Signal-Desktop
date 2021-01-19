@@ -4,7 +4,8 @@ import moment from 'moment';
 
 import { Avatar } from '../Avatar';
 import { ContactName } from './ContactName';
-import { Message, Props as MessageProps } from './Message';
+import { Message } from './Message';
+import { MessageRegularProps } from '../../../js/models/messages';
 
 interface Contact {
   status: string;
@@ -25,7 +26,7 @@ interface Props {
   sentAt: number;
   receivedAt: number;
 
-  message: MessageProps;
+  message: MessageRegularProps;
   errors: Array<Error>;
   contacts: Array<Contact>;
 

@@ -85,8 +85,7 @@ window.CONSTANTS = new (function() {
   this.DEFAULT_PUBLIC_CHAT_URL = appConfig.get('defaultPublicChatServer');
   this.MAX_LINKED_DEVICES = 1;
   this.MAX_CONNECTION_DURATION = 5000;
-  // Limited due to the proof-of-work requirement
-  this.MEDIUM_GROUP_SIZE_LIMIT = 20;
+  this.CLOSED_GROUP_SIZE_LIMIT = 100;
   // Number of seconds to turn on notifications after reconnect/start of app
   this.NOTIFICATION_ENABLE_TIMEOUT_SECONDS = 10;
   this.SESSION_ID_LENGTH = 66;

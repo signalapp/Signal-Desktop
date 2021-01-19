@@ -425,10 +425,18 @@
     format() {
       return this.cachedProps;
     },
+    getGroupAdmins() {
+      return this.get('groupAdmins') || this.get('moderators');
+    },
     getProps() {
       const { format } = PhoneNumber;
       const regionCode = storage.get('regionCode');
       const typingKeys = Object.keys(this.contactTypingTimers || {});
+
+      const groupAdmins = this.getGroupAdmins();
+
+      const members =
+        this.isGroup() && !this.isPublic() ? this.get('members') : undefined;
 
       const result = {
         id: this.id,
@@ -462,7 +470,8 @@
         hasNickname: !!this.getNickname(),
         isKickedFromGroup: !!this.get('isKickedFromGroup'),
         left: !!this.get('left'),
-
+        groupAdmins,
+        members,
         onClick: () => this.trigger('select', this),
         onBlockContact: () => this.block(),
         onUnblockContact: () => this.unblock(),
@@ -519,6 +528,15 @@
       }
     },
     async updateGroupAdmins(groupAdmins) {
+      const existingAdmins = _.sortBy(this.getGroupAdmins());
+      const newAdmins = _.sortBy(groupAdmins);
+
+      if (_.isEqual(existingAdmins, newAdmins)) {
+        window.log.info(
+          'Skipping updates of groupAdmins/moderators. No change detected.'
+        );
+        return;
+      }
       this.set({ groupAdmins });
       await this.commit();
     },
@@ -1355,27 +1373,16 @@
         await this.commit();
       }
     },
-    isModerator(pubKey) {
+    isAdmin(pubKey) {
       if (!this.isPublic()) {
         return false;
       }
       if (!pubKey) {
-        throw new Error('isModerator() pubKey is falsy');
+        throw new Error('isAdmin() pubKey is falsy');
       }
-      const moderators = this.get('moderators');
-      return Array.isArray(moderators) && moderators.includes(pubKey);
+      const groupAdmins = this.getGroupAdmins();
+      return Array.isArray(groupAdmins) && groupAdmins.includes(pubKey);
     },
-    async setModerators(moderators) {
-      if (!this.isPublic()) {
-        return;
-      }
-      // TODO: compare array properly
-      if (!_.isEqual(this.get('moderators'), moderators)) {
-        this.set({ moderators });
-        await this.commit();
-      }
-    },
-
     // SIGNAL PROFILES
     getProfiles() {
       // request all conversation members' keys

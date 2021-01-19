@@ -19,6 +19,10 @@ import { mapDispatchToProps } from '../../../state/actions';
 import { connect } from 'react-redux';
 import { StateType } from '../../../state/reducer';
 import { ConversationController } from '../../../session/conversations';
+import {
+  getConversationLookup,
+  getConversations,
+} from '../../../state/selectors/conversations';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -746,10 +750,8 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
 }
 
 const mapStateToProps = (state: StateType) => {
-  const { conversations } = state;
-
   return {
-    conversations: conversations.conversationLookup,
+    conversations: getConversationLookup(state),
   };
 };
 

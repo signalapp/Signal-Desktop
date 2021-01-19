@@ -14,6 +14,8 @@ import {
   getOurPrimaryConversation,
 } from '../selectors/conversations';
 import { mapDispatchToProps } from '../actions';
+import { getFocusedSection } from '../selectors/section';
+import { getTheme } from '../selectors/theme';
 
 // Workaround: A react component's required properties are filtering up through connect()
 //   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
@@ -34,8 +36,8 @@ const mapStateToProps = (state: StateType) => {
     searchResults,
     i18n: getIntl(state),
     unreadMessageCount: leftPaneList.unreadCount,
-    theme: state.theme,
-    focusedSection: state.section.focusedSection,
+    theme: getTheme(state),
+    focusedSection: getFocusedSection(state),
   };
 };
 

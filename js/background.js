@@ -123,6 +123,7 @@
         const user = {
           regionCode: window.storage.get('regionCode'),
           ourNumber: textsecure.storage.user.getNumber(),
+          ourPrimary: window.textsecure.storage.get('primaryDevicePubKey'),
           isSecondaryDevice: !!textsecure.storage.get('isSecondaryDevice'),
         };
         Whisper.events.trigger('userChanged', user);
@@ -169,7 +170,6 @@
       return;
     }
     const ourKey = textsecure.storage.user.getNumber();
-    window.feeds = [];
     window.lokiMessageAPI = new window.LokiMessageAPI();
     // singleton to relay events to libtextsecure/message_receiver
     window.lokiPublicChatAPI = new window.LokiPublicChatAPI(ourKey);
@@ -1116,7 +1116,6 @@
         window.getDefaultFileServer()
       );
       window.lokiPublicChatAPI = null;
-      window.feeds = [];
       messageReceiver = new textsecure.MessageReceiver();
       messageReceiver.addEventListener(
         'message',

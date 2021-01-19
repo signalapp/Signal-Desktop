@@ -4,7 +4,6 @@
 /* global Event: false */
 /* global dcodeIO: false */
 /* global lokiPublicChatAPI: false */
-/* global feeds: false */
 
 /* eslint-disable more/no-then */
 /* eslint-disable no-unreachable */
@@ -63,10 +62,6 @@ MessageReceiver.prototype.extend({
     if (lokiPublicChatAPI) {
       lokiPublicChatAPI.open();
     }
-    // set up pollers for any RSS feeds
-    feeds.forEach(feed => {
-      feed.on('rssMessage', window.NewReceiver.handleUnencryptedMessage);
-    });
 
     // Ensures that an immediate 'empty' event from the websocket will fire only after
     //   all cached envelopes are processed.
@@ -87,21 +82,9 @@ MessageReceiver.prototype.extend({
       await lokiPublicChatAPI.close();
     }
   },
-  onopen() {
-    window.log.info('websocket open');
-  },
-  onerror() {
-    window.log.error('websocket error');
-  },
-  onclose(ev) {
-    window.log.info(
-      'websocket closed',
-      ev.code,
-      ev.reason || '',
-      'calledClose:',
-      this.calledClose
-    );
-  },
+  onopen() {},
+  onerror() {},
+  onclose() {},
 });
 
 window.textsecure = window.textsecure || {};

@@ -30,42 +30,6 @@
 
   window.textsecure = window.textsecure || {};
   window.textsecure.crypto = {
-    // Decrypts message into a raw string
-    decryptWebsocketMessage(message, signalingKey) {
-      const decodedMessage = message.toArrayBuffer();
-
-      if (signalingKey.byteLength !== 52) {
-        throw new Error('Got invalid length signalingKey');
-      }
-      if (decodedMessage.byteLength < 1 + 16 + 10) {
-        throw new Error('Got invalid length message');
-      }
-      if (new Uint8Array(decodedMessage)[0] !== 1) {
-        throw new Error(`Got bad version number: ${decodedMessage[0]}`);
-      }
-
-      const aesKey = signalingKey.slice(0, 32);
-      const macKey = signalingKey.slice(32, 32 + 20);
-
-      const iv = decodedMessage.slice(1, 1 + 16);
-      const ciphertext = decodedMessage.slice(
-        1 + 16,
-        decodedMessage.byteLength - 10
-      );
-      const ivAndCiphertext = decodedMessage.slice(
-        0,
-        decodedMessage.byteLength - 10
-      );
-      const mac = decodedMessage.slice(
-        decodedMessage.byteLength - 10,
-        decodedMessage.byteLength
-      );
-
-      return verifyMAC(ivAndCiphertext, macKey, mac, 10).then(() =>
-        decrypt(aesKey, ciphertext, iv)
-      );
-    },
-
     decryptAttachment(encryptedBin, keys, theirDigest) {
       if (keys.byteLength !== 64) {
         throw new Error('Got invalid length attachment keys');

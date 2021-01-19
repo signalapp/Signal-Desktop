@@ -546,11 +546,11 @@
       // for the public group chat
       const conversation = this.getConversation();
 
-      const isModerator =
-        conversation && !!conversation.isModerator(phoneNumber);
+      const isAdmin = conversation && !!conversation.isAdmin(phoneNumber);
 
       const convoId = conversation ? conversation.id : undefined;
       const isGroup = !!conversation && !conversation.isPrivate();
+      const isPublic = !!this.get('isPublic');
 
       const attachments = this.get('attachments') || [];
 
@@ -578,15 +578,11 @@
         isUnread: this.isUnread(),
         expirationLength,
         expirationTimestamp,
-        isPublic: !!this.get('isPublic'),
+        isPublic,
         isRss: !!this.get('isRss'),
         isKickedFromGroup:
           conversation && conversation.get('isKickedFromGroup'),
-        isDeletable:
-          !this.get('isPublic') ||
-          isModerator ||
-          phoneNumber === textsecure.storage.user.getNumber(),
-        isModerator,
+        isAdmin, // if the sender is an admin (not us)
 
         onCopyText: () => this.copyText(),
         onCopyPubKey: () => this.copyPubKey(),

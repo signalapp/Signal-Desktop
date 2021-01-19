@@ -69,7 +69,6 @@ export class LeftPane extends React.Component<Props> {
   }
 
   public render(): JSX.Element {
-    const ourPrimaryConversation = this.props.ourPrimaryConversation;
     return (
       <SessionTheme theme={this.props.theme}>
         <div className="module-left-pane-session">
@@ -77,8 +76,6 @@ export class LeftPane extends React.Component<Props> {
             {...this.props}
             selectedSection={this.props.focusedSection}
             onSectionSelected={this.handleSectionSelected}
-            unreadMessageCount={this.props.unreadMessageCount}
-            ourPrimaryConversation={ourPrimaryConversation}
           />
           <div className="module-left-pane">{this.renderSection()}</div>
         </div>
@@ -162,22 +159,13 @@ export class LeftPane extends React.Component<Props> {
   }
 
   private renderSettingSection() {
-    const {
-      isSecondaryDevice,
-      showSessionSettingsCategory,
-      settingsCategory,
-    } = this.props;
+    const { settingsCategory } = this.props;
 
     const category = settingsCategory || SessionSettingCategory.Appearance;
 
     return (
       <>
-        <LeftPaneSettingSection
-          {...this.props}
-          isSecondaryDevice={isSecondaryDevice}
-          showSessionSettingsCategory={showSessionSettingsCategory}
-          settingsCategory={category}
-        />
+        <LeftPaneSettingSection {...this.props} settingsCategory={category} />
       </>
     );
   }

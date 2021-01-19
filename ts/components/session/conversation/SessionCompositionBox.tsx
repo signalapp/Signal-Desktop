@@ -29,6 +29,7 @@ import { MemberItem } from '../../conversation/MemberList';
 import { CaptionEditor } from '../../CaptionEditor';
 import { DefaultTheme } from 'styled-components';
 import { ConversationController } from '../../../session/conversations/ConversationController';
+import { ConversationType } from '../../../state/ducks/conversations';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -64,7 +65,8 @@ interface Props {
   isPrivate: boolean;
   isKickedFromGroup: boolean;
   left: boolean;
-  conversationKey: string;
+  selectedConversationKey: string;
+  selectedConversation: ConversationType | undefined;
   isPublic: boolean;
 
   quotedMessageProps?: ReplyingToMessageProps;
@@ -186,7 +188,9 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
   public componentDidUpdate(prevProps: Props, _prevState: State) {
     // reset the state on new conversation key
-    if (prevProps.conversationKey !== this.props.conversationKey) {
+    if (
+      prevProps.selectedConversationKey !== this.props.selectedConversationKey
+    ) {
       this.setState(getDefaultState(), this.focusCompositionBox);
       this.lastBumpTypingMessageLength = 0;
     } else if (
@@ -452,13 +456,14 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   private fetchUsersForClosedGroup(query: any, callback: any) {
-    const conversationModel = ConversationController.getInstance().get(
-      this.props.conversationKey
-    );
-    if (!conversationModel) {
+    const { selectedConversation } = this.props;
+    if (!selectedConversation) {
       return;
     }
-    const allPubKeys = conversationModel.get('members');
+    const allPubKeys = selectedConversation.members;
+    if (!allPubKeys || allPubKeys.length === 0) {
+      return;
+    }
 
     const allMembers = allPubKeys.map(pubKey => {
       const conv = ConversationController.getInstance().get(pubKey);
@@ -724,7 +729,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     // catching ESC, tab, or whatever which is not typing
     if (message.length && message.length !== this.lastBumpTypingMessageLength) {
       const conversationModel = ConversationController.getInstance().get(
-        this.props.conversationKey
+        this.props.selectedConversationKey
       );
       if (!conversationModel) {
         return;

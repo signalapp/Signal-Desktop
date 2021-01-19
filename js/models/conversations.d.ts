@@ -62,7 +62,7 @@ export interface ConversationModel
   isRss: () => boolean;
   isBlocked: () => boolean;
   isClosable: () => boolean;
-  isModerator: (id: string) => boolean;
+  isAdmin: (id: string) => boolean;
   throttledBumpTyping: () => void;
 
   // types to make more specific
