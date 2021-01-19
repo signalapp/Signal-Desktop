@@ -3706,12 +3706,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
     left: 80px;
     width: calc(100% - 92px);
     height: 1px;
-    content: "";
-    
+    content: '';
+
     @include light-theme {
       background-color: $color-gray-05;
     }
-    
+
     @include dark-theme {
       background-color: $color-gray-70;
     }
@@ -9405,8 +9405,8 @@ button.module-image__border-overlay:focus {
   }
   height: 19px;
   width: 20px;
-  margin-left:auto;
-  margin-right:auto;
+  margin-left: auto;
+  margin-right: auto;
   // margin-left: -3px;
   // margin-top: -1px;
 }
