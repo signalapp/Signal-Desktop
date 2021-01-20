@@ -1031,27 +1031,37 @@ async function getNewerMessagesByConversation(
 
   return new MessageCollection(handleMessageJSON(messages));
 }
-async function getLastConversationActivity(
-  conversationId: string,
-  options: {
-    Message: typeof MessageModel;
-  }
-): Promise<MessageModel | undefined> {
-  const { Message } = options;
-  const result = await channels.getLastConversationActivity(conversationId);
+async function getLastConversationActivity({
+  conversationId,
+  ourConversationId,
+  Message,
+}: {
+  conversationId: string;
+  ourConversationId: string;
+  Message: typeof MessageModel;
+}): Promise<MessageModel | undefined> {
+  const result = await channels.getLastConversationActivity({
+    conversationId,
+    ourConversationId,
+  });
   if (result) {
     return new Message(result);
   }
   return undefined;
 }
-async function getLastConversationPreview(
-  conversationId: string,
-  options: {
-    Message: typeof MessageModel;
-  }
-): Promise<MessageModel | undefined> {
-  const { Message } = options;
-  const result = await channels.getLastConversationPreview(conversationId);
+async function getLastConversationPreview({
+  conversationId,
+  ourConversationId,
+  Message,
+}: {
+  conversationId: string;
+  ourConversationId: string;
+  Message: typeof MessageModel;
+}): Promise<MessageModel | undefined> {
+  const result = await channels.getLastConversationPreview({
+    conversationId,
+    ourConversationId,
+  });
   if (result) {
     return new Message(result);
   }

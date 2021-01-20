@@ -3,6 +3,9 @@
 
 describe('Conversations', () => {
   it('updates lastMessage even in race conditions with db', async () => {
+    const ourNumber = '+15550000000';
+    const ourUuid = window.getGuid();
+
     // Creating a fake conversation
     const conversation = new window.Whisper.Conversation({
       id: '8c45efca-67a4-4026-b990-9537d5d1a08f',
@@ -12,6 +15,13 @@ describe('Conversations', () => {
     });
 
     const destinationE164 = '+15557654321';
+    window.textsecure.storage.user.setNumberAndDeviceId(
+      ourNumber,
+      2,
+      'my device'
+    );
+    window.textsecure.storage.user.setUuidAndDeviceId(ourUuid, 2);
+    window.ConversationController._initialFetchComplete = true;
 
     // Creating a fake message
     const now = Date.now();

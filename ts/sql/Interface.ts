@@ -225,12 +225,14 @@ export type ServerInterface = DataInterface & {
     conversationId: string,
     options?: { limit?: number; receivedAt?: number; sentAt?: number }
   ) => Promise<Array<MessageTypeUnhydrated>>;
-  getLastConversationActivity: (
-    conversationId: string
-  ) => Promise<MessageType | undefined>;
-  getLastConversationPreview: (
-    conversationId: string
-  ) => Promise<MessageType | undefined>;
+  getLastConversationActivity: (options: {
+    conversationId: string;
+    ourConversationId: string;
+  }) => Promise<MessageType | undefined>;
+  getLastConversationPreview: (options: {
+    conversationId: string;
+    ourConversationId: string;
+  }) => Promise<MessageType | undefined>;
   getNextExpiringMessage: () => Promise<MessageType>;
   getNextTapToViewMessageToAgeOut: () => Promise<MessageType>;
   getOutgoingWithoutExpiresAt: () => Promise<Array<MessageType>>;
@@ -323,18 +325,16 @@ export type ClientInterface = DataInterface & {
       MessageCollection: typeof MessageModelCollectionType;
     }
   ) => Promise<MessageModelCollectionType>;
-  getLastConversationActivity: (
-    conversationId: string,
-    options: {
-      Message: typeof MessageModel;
-    }
-  ) => Promise<MessageModel | undefined>;
-  getLastConversationPreview: (
-    conversationId: string,
-    options: {
-      Message: typeof MessageModel;
-    }
-  ) => Promise<MessageModel | undefined>;
+  getLastConversationActivity: (options: {
+    conversationId: string;
+    ourConversationId: string;
+    Message: typeof MessageModel;
+  }) => Promise<MessageModel | undefined>;
+  getLastConversationPreview: (options: {
+    conversationId: string;
+    ourConversationId: string;
+    Message: typeof MessageModel;
+  }) => Promise<MessageModel | undefined>;
   getNextExpiringMessage: (options: {
     Message: typeof MessageModel;
   }) => Promise<MessageModel | null>;
