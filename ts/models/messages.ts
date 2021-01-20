@@ -1424,7 +1424,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
     const contacts = this.get('contact');
     if (contacts && contacts.length) {
-      return { text: Contact.getName(contacts[0]), emoji: '👤' };
+      return {
+        text: Contact.getName(contacts[0]) || window.i18n('unknownContact'),
+        emoji: '👤',
+      };
     }
 
     if (body) {

@@ -5,8 +5,11 @@
 
 import * as Backbone from 'backbone';
 import * as Underscore from 'underscore';
+import moment from 'moment';
+import PQueue from 'p-queue/dist';
 import { Ref } from 'react';
 import { bindActionCreators } from 'redux';
+import { imageToBlurHash } from './util/imageToBlurHash';
 import * as LinkPreviews from '../js/modules/link_previews.d';
 import * as Util from './util';
 import {
@@ -25,9 +28,14 @@ import { CallingClass } from './services/calling';
 import * as Groups from './groups';
 import * as Crypto from './Crypto';
 import * as RemoteConfig from './RemoteConfig';
+import * as OS from './OS';
 import * as zkgroup from './util/zkgroup';
 import { LocalizerType, BodyRangesType, BodyRangeType } from './types/Util';
+import * as Attachment from './types/Attachment';
 import { ColorType } from './types/Colors';
+import * as MIME from './types/MIME';
+import * as Contact from './types/Contact';
+import * as Errors from '../js/modules/types/errors';
 import { ConversationController } from './ConversationController';
 import { ReduxActions } from './state/types';
 import { createStore } from './state/createStore';
@@ -58,16 +66,24 @@ import { SendOptionsType } from './textsecure/SendMessage';
 import AccountManager from './textsecure/AccountManager';
 import Data from './sql/Client';
 import { UserMessage } from './types/Message';
-import PQueue from 'p-queue/dist';
 import { PhoneNumberFormat } from 'google-libphonenumber';
 import { MessageModel } from './models/messages';
 import { ConversationModel } from './models/conversations';
 import { combineNames } from './util';
 import { BatcherType } from './util/batcher';
+import { AttachmentList } from './components/conversation/AttachmentList';
+import { CaptionEditor } from './components/CaptionEditor';
 import { ConfirmationModal } from './components/ConfirmationModal';
-import { ErrorModal } from './components/ErrorModal';
-import { ProgressModal } from './components/ProgressModal';
+import { ContactDetail } from './components/conversation/ContactDetail';
 import { ContactModal } from './components/conversation/ContactModal';
+import { ErrorModal } from './components/ErrorModal';
+import { Lightbox } from './components/Lightbox';
+import { LightboxGallery } from './components/LightboxGallery';
+import { MediaGallery } from './components/conversation/media-gallery/MediaGallery';
+import { MessageDetail } from './components/conversation/MessageDetail';
+import { ProgressModal } from './components/ProgressModal';
+import { Quote } from './components/conversation/Quote';
+import { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
 
 export { Long } from 'long';
 
@@ -93,12 +109,12 @@ declare global {
     _: typeof Underscore;
     $: typeof jQuery;
 
-    moment: any;
-    imageToBlurHash: any;
+    moment: typeof moment;
+    imageToBlurHash: typeof imageToBlurHash;
     autoOrientImage: any;
     dataURLToBlobSync: any;
     loadImage: any;
-    isBehindProxy: any;
+    isBehindProxy: () => boolean;
 
     PQueue: typeof PQueue;
     PQueueType: PQueue;
@@ -159,7 +175,7 @@ declare global {
       error: LoggerType;
     };
     nodeSetImmediate: typeof setImmediate;
-    normalizeUuids: (obj: any, paths: Array<string>, context: string) => any;
+    normalizeUuids: (obj: any, paths: Array<string>, context: string) => void;
     owsDesktopApp: WhatIsThis;
     platform: string;
     preloadedImages: Array<WhatIsThis>;
@@ -321,26 +337,12 @@ declare global {
           ) => WhatIsThis;
 
           isVoiceMessage: (attachments: unknown) => boolean;
-          isImage: (attachments: unknown) => boolean;
-          isVideo: (attachments: unknown) => boolean;
-          isAudio: (attachments: unknown) => boolean;
+          isImage: typeof Attachment.isImage;
+          isVideo: typeof Attachment.isVideo;
+          isAudio: typeof Attachment.isAudio;
         };
-        MIME: {
-          IMAGE_GIF: unknown;
-          isImage: any;
-          isJPEG: any;
-        };
-        Contact: {
-          avatar?: { avatar?: unknown };
-          number: Array<{ value: string }>;
-          signalAccount: unknown;
-
-          contactSelector: (
-            contact: typeof window.Signal.Types.Contact,
-            options: unknown
-          ) => typeof window.Signal.Types.Contact;
-          getName: (contact: typeof window.Signal.Types.Contact) => string;
-        };
+        MIME: typeof MIME;
+        Contact: typeof Contact;
         Conversation: {
           computeHash: (data: string) => Promise<string>;
           deleteExternalFiles: (
@@ -372,9 +374,7 @@ declare global {
           e164: string;
           error: string;
         };
-        Errors: {
-          toLogFormat(error: Error): void;
-        };
+        Errors: typeof Errors;
         Message: {
           CURRENT_SCHEMA_VERSION: number;
           VERSION_NEEDED_FOR_DISPLAY: number;
@@ -410,23 +410,21 @@ declare global {
         renderChange: (change: unknown, things: unknown) => Array<string>;
       };
       Components: {
-        AttachmentList: any;
-        CaptionEditor: any;
+        AttachmentList: typeof AttachmentList;
+        CaptionEditor: typeof CaptionEditor;
         ConfirmationModal: typeof ConfirmationModal;
-        ContactDetail: any;
-        ErrorModal: typeof ErrorModal;
+        ContactDetail: typeof ContactDetail;
         ContactModal: typeof ContactModal;
-        Lightbox: any;
-        LightboxGallery: any;
-        MediaGallery: any;
-        MessageDetail: any;
+        ErrorModal: typeof ErrorModal;
+        Lightbox: typeof Lightbox;
+        LightboxGallery: typeof LightboxGallery;
+        MediaGallery: typeof MediaGallery;
+        MessageDetail: typeof MessageDetail;
         ProgressModal: typeof ProgressModal;
-        Quote: any;
-        StagedLinkPreview: any;
+        Quote: typeof Quote;
+        StagedLinkPreview: typeof StagedLinkPreview;
       };
-      OS: {
-        isLinux: () => boolean;
-      };
+      OS: typeof OS;
       Workflow: {
         IdleDetector: WhatIsThis;
         MessageDataMigrator: WhatIsThis;
