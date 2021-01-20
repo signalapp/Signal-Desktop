@@ -324,7 +324,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                 phoneNumber={phoneNumber}
                 profileName={profileName}
                 title={title}
-                size={28}
+                size={32}
                 innerRef={ref}
                 onClick={this.showAvatarPopup}
               />

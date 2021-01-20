@@ -43,16 +43,15 @@
     @include light-theme() {
       background-color: $color-white;
       background-image: url('../images/chat-bg-light.svg');
-      background-repeat: repeat;
-      background-size: 250px 250px;
     }
 
     @include dark-theme() {
-      background-color: $color-gray-90;
+      background-color: $color-gray-95;
       background-image: url('../images/chat-bg-dark.svg');
-      background-repeat: repeat;
-      background-size: 250px 250px;
     }
+
+    background-repeat: repeat;
+    background-size: 200px 200px;
   }
 
   .panel {
