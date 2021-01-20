@@ -23,23 +23,23 @@
 
 .gutter {
   @include light-theme {
-    background-color: $color-gray-02;
+    background-color: $color-white;
 
     ::-webkit-scrollbar-track {
-      background: $color-gray-02;
+      background: $color-white;
     }
     ::-webkit-scrollbar-thumb {
-      border: 2px solid $color-gray-02;
+      border: 2px solid $color-white;
     }
   }
   @include dark-theme {
-    background-color: $color-gray-80;
+    background-color: $color-gray-90;
 
     ::-webkit-scrollbar-track {
-      background: $color-gray-80;
+      background: $color-gray-90;
     }
     ::-webkit-scrollbar-thumb {
-      border: 2px solid $color-gray-80;
+      border: 2px solid $color-gray-90;
     }
   }
 

@@ -3700,22 +3700,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
     }
   }
 
-  &:after {
-    position: absolute;
-    bottom: 0;
-    left: 80px;
-    width: calc(100% - 92px);
-    height: 1px;
-    content: '';
-
-    @include light-theme {
-      background-color: $color-gray-05;
-    }
-
-    @include dark-theme {
-      background-color: $color-gray-70;
-    }
-  }
+  @include left-pane-delimiter;
 }
 
 .module-conversation-list-item__muted {
@@ -4307,10 +4292,14 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   align-items: center;
 
   @include light-theme {
+    background-color: $color-gray-02;
+    border-right: 1px $color-gray-05 solid;
     border-bottom: 1px $color-gray-05 solid;
   }
 
   @include dark-theme {
+    background-color: $color-gray-80;
+    border-right: 1px $color-gray-70 solid;
     border-bottom: 1px $color-gray-70 solid;
   }
 }
@@ -5441,17 +5430,15 @@ button.module-image__border-overlay:focus {
   flex-grow: 1;
 }
 
-.module-search-results__conversations-header {
+.module-search-results__conversations-header, 
+.module-search-results__contacts-header, 
+.module-search-results__messages-header {
   @include font-body-1-bold;
 
   height: 52px;
   margin-left: 16px;
-  padding-bottom: 8px;
-  padding-top: 8px;
-
-  @include dark-theme {
-    color: $color-gray-05;
-  }
+  padding-bottom: 12px;
+  padding-top: 12px;
 }
 
 .module-search-results__sms-not-supported {
@@ -5476,29 +5463,6 @@ button.module-image__border-overlay:focus {
   outline: none;
 }
 
-.module-search-results__contacts-header {
-  @include font-body-1-bold;
-
-  height: 52px;
-  margin-left: 16px;
-
-  @include dark-theme {
-    color: $color-gray-05;
-  }
-}
-
-.module-search-results__messages-header {
-  @include font-body-1-bold;
-
-  height: 52px;
-  margin-left: 16px;
-  padding-bottom: 8px;
-  padding-top: 8px;
-
-  @include dark-theme {
-    color: $color-gray-05;
-  }
-}
 
 .module-search-results__spinner-container {
   width: 100%;
@@ -5532,6 +5496,13 @@ button.module-image__border-overlay:focus {
     @include dark-theme {
       background-color: $color-gray-75;
     }
+  }
+
+  @include left-pane-delimiter;
+
+  .module-avatar {
+    margin-top: auto;
+    margin-bottom: auto;
   }
 }
 

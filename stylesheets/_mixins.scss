@@ -429,3 +429,22 @@
   border-radius: 9999px; // This ensures the borders are completely rounded. (A value like 100% would make it an ellipse.)
   padding: 7px 14px;
 }
+
+@mixin left-pane-delimiter {
+  &:after {
+    position: absolute;
+    bottom: 0;
+    left: 80px;
+    width: calc(100% - 92px);
+    height: 1px;
+    content: '';
+
+    @include light-theme {
+      background-color: $color-gray-05;
+    }
+
+    @include dark-theme {
+      background-color: $color-gray-70;
+    }
+  }
+}
