@@ -14,6 +14,7 @@ import { cleanId } from './_util';
 
 import { LocalizerType } from '../types/Util';
 import { ColorType } from '../types/Colors';
+import { isMuted } from '../util/isMuted';
 
 export const MessageStatuses = [
   'sending',
@@ -202,7 +203,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
               : null
           )}
         >
-          {muteExpiresAt && Date.now() < muteExpiresAt && (
+          {isMuted(muteExpiresAt) && (
             <span className="module-conversation-list-item__muted" />
           )}
           {!acceptedMessageRequest ? (

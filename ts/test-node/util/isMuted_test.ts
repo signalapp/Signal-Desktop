@@ -15,8 +15,16 @@ describe('isMuted', () => {
     assert.isFalse(isMuted(Date.now() - 123));
   });
 
-  it('returns false if passed a date in the future', () => {
+  it('returns false if passed a negative number less than -1', () => {
+    assert.isFalse(isMuted(-2));
+  });
+
+  it('returns true if passed a date in the future', () => {
     assert.isTrue(isMuted(Date.now() + 123));
     assert.isTrue(isMuted(Date.now() + 123456));
+  });
+
+  it('returns true if passed -1', () => {
+    assert.isTrue(isMuted(-1));
   });
 });

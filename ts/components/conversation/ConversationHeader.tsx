@@ -366,25 +366,31 @@ export class ConversationHeader extends React.Component<PropsType> {
 
     const muteOptions = [];
     if (isMuted(muteExpiresAt)) {
-      const expires = moment(muteExpiresAt);
-      const muteExpirationLabel = moment().isSame(expires, 'day')
-        ? expires.format('hh:mm A')
-        : expires.format('M/D/YY, hh:mm A');
+      if (muteExpiresAt === -1) {
+        muteOptions.push({
+          name: i18n('indefiniteMuteLabel'),
+          disabled: true,
+          value: 0,
+        });
+      } else {
+        const expires = moment(muteExpiresAt);
+        const muteExpirationLabel = moment().isSame(expires, 'day')
+          ? expires.format('hh:mm A')
+          : expires.format('M/D/YY, hh:mm A');
 
-      muteOptions.push(
-        ...[
-          {
-            name: i18n('muteExpirationLabel', [muteExpirationLabel]),
-            disabled: true,
-            value: 0,
-          },
-          {
-            name: i18n('unmute'),
-            value: 0,
-          },
-        ]
-      );
+        muteOptions.push({
+          name: i18n('muteExpirationLabel', [muteExpirationLabel]),
+          disabled: true,
+          value: 0,
+        });
+      }
+
+      muteOptions.push({
+        name: i18n('unmute'),
+        value: 0,
+      });
     }
+
     muteOptions.push(...getMuteOptions(i18n));
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

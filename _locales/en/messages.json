@@ -3183,9 +3183,17 @@
     "message": "Mute for one year",
     "description": "Label for muting the conversation"
   },
+  "muteIndefinite": {
+    "message": "Mute until I unmute",
+    "description": "Label for muting the conversation"
+  },
   "unmute": {
     "message": "Unmute",
     "description": "Label for unmuting the conversation"
+  },
+  "indefiniteMuteLabel": {
+    "message": "Muted until you unmute",
+    "description": "Shown in the mute notifications submenu whenever a conversation has been muted indefinitely"
   },
   "muteExpirationLabel": {
     "message": "Muted until $duration$",

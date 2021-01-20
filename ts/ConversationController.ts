@@ -59,15 +59,16 @@ export function start(): void {
     // we can reset the mute state on the model. If the mute has already expired
     // then we reset the state right away.
     initMuteExpirationTimer(model: ConversationModel): void {
-      if (model.isMuted()) {
+      const muteExpiresAt = model.get('muteExpiresAt');
+      if (model.isMuted() && muteExpiresAt !== -1) {
         window.Signal.Services.onTimeout(
-          model.get('muteExpiresAt'),
+          muteExpiresAt,
           () => {
             model.set({ muteExpiresAt: undefined });
           },
           model.getMuteTimeoutId()
         );
-      } else if (model.get('muteExpiresAt')) {
+      } else if (muteExpiresAt !== -1) {
         model.set({ muteExpiresAt: undefined });
       }
     },

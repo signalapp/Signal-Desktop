@@ -28,5 +28,9 @@ export function getMuteOptions(i18n: LocalizerType): Array<MuteOption> {
       name: i18n('muteYear'),
       value: moment.duration(1, 'year').as('milliseconds'),
     },
+    {
+      name: i18n('muteIndefinite'),
+      value: -1,
+    },
   ];
 }

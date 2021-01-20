@@ -417,7 +417,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
   getMuteExpirationLabel() {
     const muteExpiresAt = this.model.get('muteExpiresAt');
-    if (!this.model.isMuted()) {
+    if (!this.model.isMuted() || muteExpiresAt === -1) {
       return;
     }
 
@@ -2853,9 +2853,8 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   setMuteNotifications(ms: number) {
-    const muteExpiresAt = ms > 0 ? Date.now() + ms : undefined;
-
-    if (muteExpiresAt) {
+    if (ms > 0) {
+      const muteExpiresAt = Date.now() + ms;
       // we use a timeoutId here so that we can reference the mute that was
       // potentially set in the ConversationController. Specifically for a
       // scenario where a conversation is already muted and we boot up the app,
@@ -2871,9 +2870,12 @@ Whisper.ConversationView = Whisper.View.extend({
         },
         timeoutId
       );
+
+      this.model.set({ muteExpiresAt });
+    } else if (ms !== -1) {
+      this.model.set({ muteExpiresAt: undefined });
     }
 
-    this.model.set({ muteExpiresAt });
     this.saveModel();
   },
 
