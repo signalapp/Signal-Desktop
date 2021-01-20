@@ -151,7 +151,7 @@ export class ConversationHeader extends React.Component<PropsType> {
     return (
       <div className="module-conversation-header__title">
         <span className="module-conversation-header__title__name">
-        <Emojify text={title} />
+          <Emojify text={title} />
         </span>
         {shouldShowIcon ? (
           <span>
