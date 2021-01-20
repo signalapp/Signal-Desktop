@@ -126,7 +126,9 @@ function showWindow() {
   }
 
   // toggle the visibility of the show/hide tray icon menu entries
-  tray.updateContextMenu();
+  if(tray) {
+    tray.updateContextMenu();
+  }
 
   // show the app on the Dock in case it was hidden before
   dockIcon.show();
@@ -1267,7 +1269,9 @@ ipc.on('close-stay-in-background-window', () => {
 
 
 ipc.on('update-tray-icon', (event, unreadCount) => {
+  if(tray) {
     tray.updateIcon(unreadCount);
+  }
 });
 
 // Debug Log-related IPC calls
@@ -1348,10 +1352,11 @@ installSettingsSetter('incoming-call-notification');
 // These ones are different because its single source of truth is userConfig,
 // not IndexedDB
 ipc.on('get-stay-in-background', event => {
+  const stayInBackground = userConfig.get('stayInBackground');
   event.sender.send(
     'get-success-stay-in-background',
     null,
-    userConfig.get('stayInBackground') || false
+     _.isBoolean(stayInBackground) ? stayInBackground : null
   );
 });
 ipc.on('set-stay-in-background', (event, value) => {

@@ -4,7 +4,7 @@
 /* global $, Whisper */
 
 $(document).on('keydown', e => {
-  if (e.keyCode === 27) {
+  if (e.keyCode === /* escape key */27) {
     window.closeSettings();
   }
 });

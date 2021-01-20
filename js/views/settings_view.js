@@ -161,8 +161,8 @@
         });
       }
       new CheckboxView({
-        el: this.$('.tray-setting'),
-        name: 'tray-setting',
+        el: this.$('.stay-in-background-setting'),
+        name: 'stay-in-background-setting',
         value: window.initialData.stayInBackground,
         setFn: window.setStayInBackground,
       });

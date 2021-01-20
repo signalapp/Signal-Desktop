@@ -1851,7 +1851,7 @@
     "description": "Label text for menu bar visibility setting"
   },
   "stayInBackground": {
-    "message": "Stay in Background",
+    "message": "Keep running in the background",
     "description": "Label text for stay in background setting"
   },
   "appRunningInBackground": {
@@ -1860,10 +1860,6 @@
   },
   "disableStayInBackgroundInSettings": {
     "message": "You can disable this feature in the settings.",
-    "description": "Label text for stay in background setting"
-  },
-  "stayInBackground": {
-    "message": "Stay in Background",
     "description": "Label text for stay in background setting"
   },
   "startConversation": {
