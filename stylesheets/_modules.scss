@@ -5430,8 +5430,8 @@ button.module-image__border-overlay:focus {
   flex-grow: 1;
 }
 
-.module-search-results__conversations-header, 
-.module-search-results__contacts-header, 
+.module-search-results__conversations-header,
+.module-search-results__contacts-header,
 .module-search-results__messages-header {
   @include font-body-1-bold;
 
@@ -5462,7 +5462,6 @@ button.module-image__border-overlay:focus {
   text-align: center;
   outline: none;
 }
-
 
 .module-search-results__spinner-container {
   width: 100%;
