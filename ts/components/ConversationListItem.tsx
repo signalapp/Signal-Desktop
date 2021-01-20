@@ -49,7 +49,6 @@ export type ConversationListItemProps = {
 
   isBlocked?: boolean;
   hasNickname?: boolean;
-  isSecondary?: boolean;
   isGroupInvitation?: boolean;
   isKickedFromGroup?: boolean;
   left?: boolean;

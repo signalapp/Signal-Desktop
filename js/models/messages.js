@@ -60,15 +60,7 @@
       this.setToExpire();
       // Keep props ready
       const generateProps = (triggerEvent = true) => {
-        // handle disabled message types first:
-        if (
-          this.isSessionRestoration() ||
-          this.isVerifiedChange() ||
-          this.isEndSession()
-        ) {
-          // do nothing
-          return;
-        } else if (this.isExpirationTimerUpdate()) {
+        if (this.isExpirationTimerUpdate()) {
           this.propsForTimerNotification = this.getPropsForTimerNotification();
         } else if (this.isGroupUpdate()) {
           this.propsForGroupNotification = this.getPropsForGroupNotification();
@@ -127,27 +119,6 @@
         textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
       // eslint-disable-next-line no-bitwise
       return !!(this.get('flags') & expirationTimerFlag);
-    },
-    // Those 3 functions is just used to filter out messages of this type.
-    // This type is not used anymore, so we filter out existing message in DB with this flag set.
-    // isEndSession() isVerifiedChange() and isSessionRestoration()
-    isEndSession() {
-      const endSessionFlag = textsecure.protobuf.DataMessage.Flags.END_SESSION;
-      // eslint-disable-next-line no-bitwise
-      return !!(this.get('flags') & endSessionFlag);
-    },
-    isVerifiedChange() {
-      return this.get('type') === 'verified-change';
-    },
-    isSessionRestoration() {
-      const sessionRestoreFlag =
-        textsecure.protobuf.DataMessage.Flags.SESSION_RESTORE;
-      /* eslint-disable no-bitwise */
-      return (
-        !!this.get('sessionRestoration') ||
-        !!(this.get('flags') & sessionRestoreFlag)
-      );
-      /* eslint-enable no-bitwise */
     },
     isGroupUpdate() {
       return !!this.get('group_update');
@@ -818,16 +789,8 @@
           const isUnidentifiedDelivery =
             storage.get('unidentifiedDeliveryIndicators') &&
             this.isUnidentifiedDelivery(id, unidentifiedLookup);
-          const primary = await window.libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
-            id
-          );
-
-          const isPrimaryDevice = id === primary.key;
 
           const contact = this.findAndFormatContact(id);
-          const profileName = isPrimaryDevice
-            ? contact.profileName
-            : `${contact.profileName} (Secondary Device)`;
           return {
             ...contact,
             // fallback to the message status if we do not have a status with a user
@@ -836,8 +799,8 @@
             errors: errorsForContact,
             isOutgoingKeyError,
             isUnidentifiedDelivery,
-            isPrimaryDevice,
-            profileName,
+            isPrimaryDevice: true,
+            profileName: contact.profileName,
           };
         })
       );
@@ -1027,7 +990,7 @@
 
         // Special-case the self-send case - we send only a sync message
         if (recipients.length === 1) {
-          const isOurDevice = await libsession.Protocols.MultiDeviceProtocol.isOurDevice(
+          const isOurDevice = await libsession.Utils.UserUtil.isUs(
             recipients[0]
           );
           if (isOurDevice) {
@@ -1041,7 +1004,7 @@
 
           return libsession
             .getMessageQueue()
-            .sendUsingMultiDevice(recipientPubKey, chatMessage);
+            .sendToPubKey(recipientPubKey, chatMessage);
         }
 
         // TODO should we handle medium groups message here too?
@@ -1060,7 +1023,7 @@
             const recipientPubKey = new libsession.Types.PubKey(r);
             return libsession
               .getMessageQueue()
-              .sendUsingMultiDevice(recipientPubKey, closedGroupChatMessage);
+              .sendToPubKey(recipientPubKey, closedGroupChatMessage);
           })
         );
       } catch (e) {
@@ -1070,7 +1033,6 @@
     },
 
     // Called when the user ran into an error with a specific user, wants to send to them
-    //   One caller today: ConversationView.forceSend()
     async resend(number) {
       const error = this.removeOutgoingErrors(number);
       if (!error) {
@@ -1102,7 +1064,7 @@
         if (conversation.isPrivate()) {
           return libsession
             .getMessageQueue()
-            .sendUsingMultiDevice(recipientPubKey, chatMessage);
+            .sendToPubKey(recipientPubKey, chatMessage);
         }
 
         const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupV2ChatMessage(
@@ -1114,7 +1076,7 @@
         // resend tries to send the message to that specific user only in the context of a closed group
         return libsession
           .getMessageQueue()
-          .sendUsingMultiDevice(recipientPubKey, closedGroupChatMessage);
+          .sendToPubKey(recipientPubKey, closedGroupChatMessage);
       } catch (e) {
         await this.saveErrors(e);
         return null;
@@ -1140,7 +1102,7 @@
     async handleMessageSentSuccess(sentMessage, wrappedEnvelope) {
       let sentTo = this.get('sent_to') || [];
 
-      const isOurDevice = await window.libsession.Protocols.MultiDeviceProtocol.isOurDevice(
+      const isOurDevice = await window.libsession.Utils.UserUtil.isUs(
         sentMessage.device
       );
       // FIXME this is not correct and will cause issues with syncing
@@ -1173,9 +1135,6 @@
           sentMessage.plainTextBuffer
         );
         const { dataMessage } = contentDecoded;
-        const primaryPubKey = await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
-          sentMessage.device
-        );
 
         /**
          * We should hit the notify endpoint for push notification only if:
@@ -1203,7 +1162,7 @@
 
             window.LokiPushNotificationServer.notify(
               wrappedEnvelope,
-              primaryPubKey.key
+              sentMessage.device
             );
           }
         }
@@ -1217,7 +1176,7 @@
           this.set({ synced: true });
         }
 
-        sentTo = _.union(sentTo, [primaryPubKey.key]);
+        sentTo = _.union(sentTo, [sentMessage.device]);
       }
 
       this.set({
@@ -1242,7 +1201,7 @@
           await c.getProfiles();
         }
       }
-      const isOurDevice = await window.libsession.Protocols.MultiDeviceProtocol.isOurDevice(
+      const isOurDevice = await window.libsession.Utils.UserUtil.isUs(
         sentMessage.device
       );
       const expirationStartTimestamp = Date.now();
@@ -1412,22 +1371,24 @@
         return;
       }
 
-      const data =
-        dataMessage instanceof libsession.Messages.Outgoing.DataMessage
-          ? dataMessage.dataProto()
-          : dataMessage;
+      window.log.error('sendSyncMessage to upgrade to multi device protocol v2')
 
-      const syncMessage = new libsession.Messages.Outgoing.SentSyncMessage({
-        timestamp: this.get('sent_at'),
-        identifier: this.id,
-        dataMessage: data,
-        destination: this.get('destination'),
-        expirationStartTimestamp: this.get('expirationStartTimestamp'),
-        sent_to: this.get('sent_to'),
-        unidentifiedDeliveries: this.get('unidentifiedDeliveries'),
-      });
+      // const data =
+      //   dataMessage instanceof libsession.Messages.Outgoing.DataMessage
+      //     ? dataMessage.dataProto()
+      //     : dataMessage;
 
-      await libsession.getMessageQueue().sendSyncMessage(syncMessage);
+      // const syncMessage = new libsession.Messages.Outgoing.SentSyncMessage({
+      //   timestamp: this.get('sent_at'),
+      //   identifier: this.id,
+      //   dataMessage: data,
+      //   destination: this.get('destination'),
+      //   expirationStartTimestamp: this.get('expirationStartTimestamp'),
+      //   sent_to: this.get('sent_to'),
+      //   unidentifiedDeliveries: this.get('unidentifiedDeliveries'),
+      // });
+
+      // await libsession.getMessageQueue().sendSyncMessage(syncMessage);
 
       this.set({ sentSync: true });
       await this.commit();

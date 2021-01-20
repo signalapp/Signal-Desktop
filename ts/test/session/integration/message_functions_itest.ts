@@ -32,7 +32,7 @@ describe('Message Functions', function() {
 
   it('messageFunction: can send attachment', async () => {
     // create group and add new friend
-    await Common.addFriendToNewClosedGroup([app, app2], false);
+    await Common.addFriendToNewClosedGroup([app, app2]);
 
     // send attachment from app1 to closed group
     const fileLocation = path.join(__dirname, 'test_attachment');
@@ -55,7 +55,7 @@ describe('Message Functions', function() {
 
   it('messageFunction: can delete message', async () => {
     // create group and add new friend
-    await Common.addFriendToNewClosedGroup([app, app2], false);
+    await Common.addFriendToNewClosedGroup([app, app2]);
     const messageText = 'delete_me';
     await Common.sendMessage(app, messageText);
 

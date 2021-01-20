@@ -5,9 +5,8 @@ import { StateType } from '../reducer';
 import { getQuery, getSearchResults, isSearching } from '../selectors/search';
 import {
   getIntl,
-  getIsSecondaryDevice,
   getRegionCode,
-  getUserNumber,
+  getOurNumber,
 } from '../selectors/user';
 import {
   getLeftPaneLists,
@@ -31,8 +30,7 @@ const mapStateToProps = (state: StateType) => {
     ourPrimaryConversation: getOurPrimaryConversation(state), // used in actionPanel
     searchTerm: getQuery(state),
     regionCode: getRegionCode(state),
-    ourNumber: getUserNumber(state),
-    isSecondaryDevice: getIsSecondaryDevice(state),
+    ourNumber: getOurNumber(state),
     searchResults,
     i18n: getIntl(state),
     unreadMessageCount: leftPaneList.unreadCount,

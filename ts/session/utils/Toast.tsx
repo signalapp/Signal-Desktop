@@ -188,45 +188,6 @@ export function pushTooManyMembers() {
   pushToastError('tooManyMembers', window.i18n('closedGroupMaxSize'));
 }
 
-export function pushPairingRequestReceived(alreadyLinked: boolean) {
-  const title = alreadyLinked
-    ? window.i18n('devicePairingRequestReceivedLimitTitle')
-    : window.i18n('devicePairingRequestReceivedNoListenerTitle');
-
-  const description = alreadyLinked
-    ? window.i18n(
-        'devicePairingRequestReceivedLimitDescription',
-        window.CONSTANTS.MAX_LINKED_DEVICES
-      )
-    : window.i18n('devicePairingRequestReceivedNoListenerDescription');
-
-  if (alreadyLinked) {
-    toast.info(
-      <SessionToast
-        title={title}
-        description={description}
-        type={SessionToastType.Info}
-      />,
-      {
-        toastId: 'pairingRequestReceived',
-        autoClose: false,
-      }
-    );
-  } else {
-    toast.warning(
-      <SessionToast
-        title={title}
-        description={description}
-        type={SessionToastType.Warning}
-      />,
-      {
-        toastId: 'pairingRequestReceived',
-        autoClose: false,
-      }
-    );
-  }
-}
-
 export function pushUnblockToSend() {
   pushToastInfo('unblockToSend', window.i18n('unblockToSend'));
 }

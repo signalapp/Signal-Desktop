@@ -328,7 +328,6 @@ export class Common {
 
   public static async addFriendToNewClosedGroup(
     members: Array<Application>,
-    useSenderKeys?: boolean
   ) {
     const [app, ...others] = members;
 
@@ -365,13 +364,6 @@ export class Common {
     await app.client
       .element(ConversationPage.createClosedGroupMemberItemSelected)
       .isVisible().should.eventually.be.true;
-
-    if (useSenderKeys) {
-      // Select Sender Keys
-      await app.client
-        .element(ConversationPage.createClosedGroupSealedSenderToggle)
-        .click();
-    }
 
     // trigger the creation of the group
     await app.client
@@ -439,9 +431,6 @@ export class Common {
     // app needs to be logged in as user1 and app2 needs to be logged out
     // start the pairing dialog for the first app
     await app1.client.element(SettingsPage.settingsButtonSection).click();
-    await app1.client
-      .element(SettingsPage.settingsRowWithText('Devices'))
-      .click();
 
     await app1.client.isVisible(ConversationPage.noPairedDeviceMessage);
     // we should not find the linkDeviceButtonDisabled button (as DISABLED)
@@ -450,7 +439,6 @@ export class Common {
     await app1.client.element(ConversationPage.linkDeviceButton).click();
 
     // validate device pairing dialog is shown and has a qrcode
-    await app1.client.isVisible(ConversationPage.devicePairingDialog);
     await app1.client.isVisible(ConversationPage.qrImageDiv);
 
     // next trigger the link request from the app2 with the app1 pubkey
@@ -508,9 +496,6 @@ export class Common {
       .should.eventually.be.true;
 
     await app1.client.element(SettingsPage.settingsButtonSection).click();
-    await app1.client
-      .element(SettingsPage.settingsRowWithText('Devices'))
-      .click();
     await app1.client.isExisting(ConversationPage.linkDeviceButtonDisabled)
       .should.eventually.be.true;
     // click the unlink button

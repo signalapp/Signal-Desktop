@@ -10,7 +10,7 @@ import {
   MessageTypeInConvo,
 } from '../ducks/conversations';
 
-import { getIntl, getRegionCode, getUserNumber } from './user';
+import { getIntl, getRegionCode, getOurNumber } from './user';
 import { ConversationListItemProps } from '../../components/ConversationListItem';
 import { BlockedNumberController } from '../../util';
 
@@ -108,7 +108,6 @@ export const _getLeftPaneLists = (
   selectedConversation?: string
 ): {
   conversations: Array<ConversationType>;
-  archivedConversations: Array<ConversationType>;
   contacts: Array<ConversationType>;
   unreadCount: number;
 } => {
@@ -116,7 +115,6 @@ export const _getLeftPaneLists = (
   const sorted = values.sort(comparator);
 
   const conversations: Array<ConversationType> = [];
-  const archivedConversations: Array<ConversationType> = [];
   const allContacts: Array<ConversationType> = [];
 
   let unreadCount = 0;
@@ -168,45 +166,12 @@ export const _getLeftPaneLists = (
       unreadCount += conversation.unreadCount;
     }
 
-    if (conversation.isArchived) {
-      archivedConversations.push(conversation);
-    } else {
-      conversations.push(conversation);
-    }
+    conversations.push(conversation);
   }
 
-  const filterToPrimary = <
-    T extends Array<ConversationType | ConversationListItemProps>
-  >(
-    group: Array<ConversationType | ConversationListItemProps>
-  ): T => {
-    const secondariesToRemove: Array<string> = [];
-
-    group.forEach(device => {
-      if (!device.isSecondary) {
-        return;
-      }
-
-      const devicePrimary = group.find(c => c.id === device.primaryDevice);
-
-      // Remove secondary where primary already exists in group
-      if (group.some(c => c === devicePrimary)) {
-        secondariesToRemove.push(device.id);
-      }
-    });
-
-    const filteredGroup = [
-      ...new Set(group.filter(c => !secondariesToRemove.find(s => s === c.id))),
-    ];
-
-    return filteredGroup as T;
-  };
-
-  const contacts: Array<ConversationType> = filterToPrimary(allContacts);
   return {
     conversations,
-    archivedConversations,
-    contacts,
+    contacts: allContacts,
     unreadCount,
   };
 };
@@ -255,7 +220,7 @@ export const getSessionConversationInfo = createSelector(
 );
 
 export const getMe = createSelector(
-  [getConversationLookup, getUserNumber],
+  [getConversationLookup, getOurNumber],
   (lookup: ConversationLookupType, ourNumber: string): ConversationType => {
     return lookup[ourNumber];
   }

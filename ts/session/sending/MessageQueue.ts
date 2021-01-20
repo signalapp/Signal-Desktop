@@ -9,14 +9,11 @@ import {
   ContentMessage,
   ExpirationTimerUpdateMessage,
   OpenGroupMessage,
-  SyncMessage,
-  TypingMessage,
 } from '../messages/outgoing';
 import { PendingMessageCache } from './PendingMessageCache';
 import { JobQueue, TypedEventEmitter } from '../utils';
 import { PubKey, RawMessage } from '../types';
 import { MessageSender } from '.';
-import { MultiDeviceProtocol } from '../protocols';
 import { UserUtil } from '../../util';
 
 export class MessageQueue implements MessageQueueInterface {
@@ -30,17 +27,16 @@ export class MessageQueue implements MessageQueueInterface {
     void this.processAllPending();
   }
 
-  public async sendUsingMultiDevice(
+  public async sendToPubKey(
     user: PubKey,
     message: ContentMessage,
     sentCb?: (message: RawMessage) => Promise<void>
   ): Promise<void> {
-    if (message instanceof SyncMessage) {
-      return this.sendSyncMessage(message);
-    }
+    // if (message instanceof SyncMessage) {
+    //   return this.sendSyncMessage(message);
+    // }
 
-    const userDevices = await MultiDeviceProtocol.getAllDevices(user.key);
-    await this.sendMessageToDevices(userDevices, message);
+    await this.sendMessageToDevices([user], message);
   }
 
   public async send(
@@ -48,9 +44,9 @@ export class MessageQueue implements MessageQueueInterface {
     message: ContentMessage,
     sentCb?: (message: RawMessage) => Promise<void>
   ): Promise<void> {
-    if (message instanceof SyncMessage) {
-      return this.sendSyncMessage(message);
-    }
+    // if (message instanceof SyncMessage) {
+    //   return this.sendSyncMessage(message);
+    // }
     await this.sendMessageToDevices([device], message, sentCb);
   }
 
@@ -98,7 +94,6 @@ export class MessageQueue implements MessageQueueInterface {
 
     let groupId: PubKey | undefined;
     if (
-      message instanceof TypingMessage ||
       message instanceof ExpirationTimerUpdateMessage ||
       message instanceof ClosedGroupV2Message
     ) {
@@ -113,15 +108,21 @@ export class MessageQueue implements MessageQueueInterface {
   }
 
   public async sendSyncMessage(
-    message: SyncMessage | undefined,
+    message: any | undefined,
     sentCb?: (message: RawMessage) => Promise<void>
   ): Promise<void> {
     if (!message) {
       return;
     }
 
-    const ourDevices = await MultiDeviceProtocol.getOurDevices();
-    await this.sendMessageToDevices(ourDevices, message, sentCb);
+    const ourPubKey = await UserUtil.getCurrentDevicePubKey();
+
+    if(!ourPubKey) {
+      throw new Error('ourNumber is not set')
+    }
+
+    window.log.warn('sendSyncMessage TODO with syncTarget')
+    await this.sendMessageToDevices([PubKey.cast(ourPubKey)], message, sentCb);
   }
 
   public async processPending(device: PubKey) {

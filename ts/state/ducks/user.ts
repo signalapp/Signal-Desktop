@@ -4,9 +4,7 @@ import { LocalizerType } from '../../types/Util';
 
 export type UserStateType = {
   ourNumber: string;
-  ourPrimary: string;
   regionCode: string;
-  isSecondaryDevice: boolean;
   i18n: LocalizerType;
 };
 
@@ -18,7 +16,6 @@ type UserChangedActionType = {
     ourNumber: string;
     ourPrimary: string;
     regionCode: string;
-    isSecondaryDevice: boolean;
   };
 };
 
@@ -34,7 +31,6 @@ function userChanged(attributes: {
   ourNumber: string;
   ourPrimary: string;
   regionCode: string;
-  isSecondaryDevice: boolean;
 }): UserChangedActionType {
   return {
     type: 'USER_CHANGED',
@@ -47,9 +43,7 @@ function userChanged(attributes: {
 function getEmptyState(): UserStateType {
   return {
     ourNumber: 'missing',
-    ourPrimary: 'missing',
     regionCode: 'missing',
-    isSecondaryDevice: false,
     i18n: () => 'missing',
   };
 }

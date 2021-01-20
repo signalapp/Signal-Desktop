@@ -7,12 +7,12 @@ import {
 
 interface ClosedGroupV2EncryptionPairMessageParams
   extends ClosedGroupV2MessageParams {
-  encryptedKeyPairs: Array<SignalService.ClosedGroupUpdateV2.KeyPairWrapper>;
+  encryptedKeyPairs: Array<SignalService.DataMessage.ClosedGroupUpdateV2.KeyPairWrapper>;
 }
 
 export class ClosedGroupV2EncryptionPairMessage extends ClosedGroupV2Message {
   private readonly encryptedKeyPairs: Array<
-    SignalService.ClosedGroupUpdateV2.KeyPairWrapper
+    SignalService.DataMessage.ClosedGroupUpdateV2.KeyPairWrapper
   >;
 
   constructor(params: ClosedGroupV2EncryptionPairMessageParams) {
@@ -33,7 +33,7 @@ export class ClosedGroupV2EncryptionPairMessage extends ClosedGroupV2Message {
 
     // tslint:disable: no-non-null-assertion
     dataMessage.closedGroupUpdateV2!.type =
-      SignalService.ClosedGroupUpdateV2.Type.ENCRYPTION_KEY_PAIR;
+      SignalService.DataMessage.ClosedGroupUpdateV2.Type.ENCRYPTION_KEY_PAIR;
     dataMessage.closedGroupUpdateV2!.wrappers = this.encryptedKeyPairs.map(
       w => {
         const { publicKey, encryptedKeyPair } = w;

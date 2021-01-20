@@ -61,24 +61,6 @@ describe('TypingMessage', () => {
     expect(timestamp).to.be.approximately(Date.now(), 10);
   });
 
-  it('has groupId set if a value given', () => {
-    const groupId = TestUtils.generateFakePubKey();
-    const message = new TypingMessage({
-      timestamp: Date.now(),
-      isTyping: true,
-      groupId,
-    });
-    const plainText = message.plainTextBuffer();
-    const decoded = SignalService.Content.decode(plainText);
-    const manuallyEncodedGroupId = new Uint8Array(
-      StringUtils.encode(groupId.key, 'utf8')
-    );
-
-    expect(decoded.typingMessage?.groupId).to.be.deep.equal(
-      manuallyEncodedGroupId
-    );
-  });
-
   it('correct ttl', () => {
     const message = new TypingMessage({
       timestamp: Date.now(),

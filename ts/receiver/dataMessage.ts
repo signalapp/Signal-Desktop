@@ -1,13 +1,11 @@
 import { SignalService } from './../protobuf';
 import { removeFromCache } from './cache';
-import { MultiDeviceProtocol } from '../session/protocols';
 import { EnvelopePlus } from './types';
 import { ConversationType, getEnvelopeId } from './common';
 
 import { MessageModel } from '../../js/models/messages';
 import { PubKey } from '../session/types';
 import { handleMessageJob } from './queuedJob';
-import { handleUnpairRequest } from './multidevice';
 import { downloadAttachment } from './attachments';
 import _ from 'lodash';
 import { StringUtils } from '../session/utils';
@@ -15,6 +13,7 @@ import { DeliveryReceiptMessage } from '../session/messages/outgoing';
 import { getMessageQueue } from '../session';
 import { ConversationController } from '../session/conversations';
 import { handleClosedGroupV2 } from './closedGroupsV2';
+import { UserUtil } from '../util';
 
 export async function updateProfile(
   conversation: any,
@@ -29,16 +28,16 @@ export async function updateProfile(
   newProfile.displayName = profile.displayName;
 
   // TODO: may need to allow users to reset their avatars to null
-  if (profile.avatar) {
+  if (profile.profilePicture) {
     const prevPointer = conversation.get('avatarPointer');
-    const needsUpdate = !prevPointer || !_.isEqual(prevPointer, profile.avatar);
+    const needsUpdate = !prevPointer || !_.isEqual(prevPointer, profile.profilePicture);
 
     if (needsUpdate) {
-      conversation.set('avatarPointer', profile.avatar);
+      conversation.set('avatarPointer', profile.profilePicture);
       conversation.set('profileKey', profileKey);
 
       const downloaded = await downloadAttachment({
-        url: profile.avatar,
+        url: profile.profilePicture,
         isRaw: true,
       });
 
@@ -71,19 +70,11 @@ export async function updateProfile(
     newProfile.avatar = null;
   }
 
-  const allUserDevices = await MultiDeviceProtocol.getAllDevices(
-    conversation.id
+  const conv = await ConversationController.getInstance().getOrCreateAndWait(
+    conversation.id,
+    'private'
   );
-
-  await Promise.all(
-    allUserDevices.map(async device => {
-      const conv = await ConversationController.getInstance().getOrCreateAndWait(
-        device.key,
-        'private'
-      );
-      await conv.setLokiProfile(newProfile);
-    })
-  );
+  await conv.setLokiProfile(newProfile);
 }
 
 function cleanAttachment(attachment: any) {
@@ -174,21 +165,9 @@ export async function processDecrypted(envelope: EnvelopePlus, decrypted: any) {
   if (decrypted.expireTimer == null) {
     decrypted.expireTimer = 0;
   }
-  if (decrypted.flags & FLAGS.END_SESSION) {
+  if (decrypted.flags & FLAGS.EXPIRATION_TIMER_UPDATE) {
     decrypted.body = '';
     decrypted.attachments = [];
-    decrypted.group = null;
-    return Promise.resolve(decrypted);
-  } else if (decrypted.flags & FLAGS.EXPIRATION_TIMER_UPDATE) {
-    decrypted.body = '';
-    decrypted.attachments = [];
-  } else if (decrypted.flags & FLAGS.PROFILE_KEY_UPDATE) {
-    decrypted.body = '';
-    decrypted.attachments = [];
-  } else if (decrypted.flags & FLAGS.SESSION_RESTORE) {
-    // do nothing
-  } else if (decrypted.flags & FLAGS.UNPAIRING_REQUEST) {
-    // do nothing
   } else if (decrypted.flags !== 0) {
     throw new Error('Unknown flags in message');
   }
@@ -245,7 +224,6 @@ export function isMessageEmpty(message: SignalService.DataMessage) {
     contact,
     preview,
     groupInvitation,
-    mediumGroupUpdate,
   } = message;
 
   return (
@@ -257,8 +235,7 @@ export function isMessageEmpty(message: SignalService.DataMessage) {
     _.isEmpty(quote) &&
     _.isEmpty(contact) &&
     _.isEmpty(preview) &&
-    _.isEmpty(groupInvitation) &&
-    _.isEmpty(mediumGroupUpdate)
+    _.isEmpty(groupInvitation)
   );
 }
 
@@ -278,37 +255,16 @@ export async function handleDataMessage(
 ): Promise<void> {
   window.log.info('data message from', getEnvelopeId(envelope));
 
-  if (dataMessage.mediumGroupUpdate) {
-    throw new Error('Got a medium group update. This should not happen now.');
-  }
-
   if (dataMessage.closedGroupUpdateV2) {
     await handleClosedGroupV2(envelope, dataMessage.closedGroupUpdateV2);
     return;
   }
-  // tslint:disable no-bitwise
-  if (
-    dataMessage.flags &&
-    dataMessage.flags & SignalService.DataMessage.Flags.END_SESSION
-  ) {
-    return removeFromCache(envelope);
-  }
-  // tslint:enable no-bitwise
 
   const message = await processDecrypted(envelope, dataMessage);
   const ourPubKey = window.textsecure.storage.user.getNumber();
   const senderPubKey = envelope.senderIdentity || envelope.source;
   const isMe = senderPubKey === ourPubKey;
   const conversation = ConversationController.getInstance().get(senderPubKey);
-
-  const { UNPAIRING_REQUEST } = SignalService.DataMessage.Flags;
-
-  // tslint:disable-next-line: no-bitwise
-  const isUnpairingRequest = Boolean(message.flags & UNPAIRING_REQUEST);
-
-  if (isUnpairingRequest) {
-    return handleUnpairRequest(envelope, ourPubKey);
-  }
 
   // Check if we need to update any profile names
   if (!isMe && conversation && message.profile) {
@@ -320,7 +276,7 @@ export async function handleDataMessage(
   }
 
   const source = envelope.senderIdentity || senderPubKey;
-  const ownDevice = await MultiDeviceProtocol.isOurDevice(source);
+  const ownDevice = await UserUtil.isUs(source);
 
   const ownMessage = conversation?.isMediumGroup() && ownDevice;
 
@@ -343,7 +299,7 @@ export async function handleDataMessage(
   ev.confirm = () => removeFromCache(envelope);
   ev.data = {
     source,
-    sourceDevice: envelope.sourceDevice,
+    sourceDevice: 1,
     timestamp: _.toNumber(envelope.timestamp),
     receivedAt: envelope.receivedAt,
     unidentifiedDeliveryReceived: envelope.unidentifiedDeliveryReceived,
@@ -568,7 +524,7 @@ function sendDeliveryReceipt(source: string, timestamp: any) {
     timestamps: [timestamp],
   });
   const device = new PubKey(source);
-  void getMessageQueue().sendUsingMultiDevice(device, receiptMessage);
+  void getMessageQueue().sendToPubKey(device, receiptMessage);
 }
 
 interface MessageEvent {
@@ -599,12 +555,8 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
     ? ConversationType.GROUP
     : ConversationType.PRIVATE;
 
-  const { PROFILE_KEY_UPDATE } = SignalService.DataMessage.Flags;
-
-  // tslint:disable-next-line: no-bitwise
-  const isProfileUpdate = Boolean(message.flags & PROFILE_KEY_UPDATE);
   let conversationId = isIncoming ? source : destination;
-  if (isProfileUpdate) {
+  if (message.profileKey?.length) {
     await handleProfileUpdate(
       message.profileKey,
       conversationId,
@@ -626,7 +578,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   }
 
   // TODO: this shouldn't be called when source is not a pubkey!!!
-  const isOurDevice = await MultiDeviceProtocol.isOurDevice(source);
+  const isOurDevice = await UserUtil.isUs(source);
 
   const shouldSendReceipt =
     isIncoming &&
@@ -655,30 +607,13 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
       conversationId
     );
   }
-
-  const conv = await ConversationController.getInstance().getOrCreateAndWait(
-    conversationId,
-    type
-  );
-  if (!isGroupMessage && !isIncoming) {
-    const primaryDestination = await MultiDeviceProtocol.getPrimaryDevice(
-      destination
-    );
-
-    if (destination !== primaryDestination.key) {
-      // mark created conversation as secondary if this is one
-      conv.setSecondaryStatus(true, primaryDestination.key);
-    }
-  }
-
   const ourNumber = window.textsecure.storage.user.getNumber();
 
   // =========================================
 
-  const primarySource = await MultiDeviceProtocol.getPrimaryDevice(source);
   if (!isGroupMessage && source !== ourNumber) {
     // Ignore auth from our devices
-    conversationId = primarySource.key;
+    conversationId = source;
   }
 
   // the conversation with the primary device of that source (can be the same as conversationOrigin)
@@ -694,7 +629,6 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
       ourNumber,
       confirm,
       source,
-      primarySource
     ).ignore();
   });
 }

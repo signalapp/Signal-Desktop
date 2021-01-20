@@ -51,7 +51,6 @@ export type MessageTypeInConvo = {
 export type ConversationType = {
   id: string;
   name?: string;
-  isArchived: boolean;
   activeAt?: number;
   timestamp: number;
   lastMessage?: {
@@ -68,7 +67,6 @@ export type ConversationType = {
   mentionedUs: boolean;
   isSelected: boolean;
   isTyping: boolean;
-  isSecondary?: boolean;
   primaryDevice: string;
   isBlocked: boolean;
   isKickedFromGroup: boolean;
@@ -595,9 +593,9 @@ export function reducer(
       // Note: With today's stacked converastions architecture, this can result in weird
       //   behavior - no selected conversation in the left pane, but a conversation show
       //   in the right pane.
-      if (!existing.isArchived && data.isArchived) {
-        selectedConversation = undefined;
-      }
+      // if (!existing.isArchived && data.isArchived) {
+      //   selectedConversation = undefined;
+      // }
     }
     return {
       ...state,

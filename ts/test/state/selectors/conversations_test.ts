@@ -18,8 +18,6 @@ describe('state/selectors/conversations', () => {
           name: 'No timestamp',
           timestamp: 0,
           phoneNumber: 'notused',
-          isArchived: false,
-          isSecondary: false,
           primaryDevice: 'id1',
 
           type: 'direct',
@@ -39,8 +37,6 @@ describe('state/selectors/conversations', () => {
           name: 'B',
           timestamp: 20,
           phoneNumber: 'notused',
-          isArchived: false,
-          isSecondary: false,
           primaryDevice: 'id2',
 
           type: 'direct',
@@ -60,8 +56,6 @@ describe('state/selectors/conversations', () => {
           name: 'C',
           timestamp: 20,
           phoneNumber: 'notused',
-          isArchived: false,
-          isSecondary: false,
           primaryDevice: 'id3',
 
           type: 'direct',
@@ -81,8 +75,6 @@ describe('state/selectors/conversations', () => {
           name: 'Á',
           timestamp: 20,
           phoneNumber: 'notused',
-          isArchived: false,
-          isSecondary: false,
           primaryDevice: 'id4',
           type: 'direct',
           isMe: false,
@@ -101,10 +93,7 @@ describe('state/selectors/conversations', () => {
           name: 'First!',
           timestamp: 30,
           phoneNumber: 'notused',
-          isArchived: false,
-          isSecondary: false,
           primaryDevice: 'id5',
-
           type: 'direct',
           isMe: false,
           lastUpdated: Date.now(),

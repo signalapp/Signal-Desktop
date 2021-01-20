@@ -28,9 +28,6 @@ const { LightboxGallery } = require('../../ts/components/LightboxGallery');
 const { MemberList } = require('../../ts/components/conversation/MemberList');
 const { EditProfileDialog } = require('../../ts/components/EditProfileDialog');
 const { UserDetailsDialog } = require('../../ts/components/UserDetailsDialog');
-const {
-  DevicePairingDialog,
-} = require('../../ts/components/DevicePairingDialog');
 const { SessionModal } = require('../../ts/components/session/SessionModal');
 const {
   SessionSeedModal,
@@ -231,7 +228,6 @@ exports.setup = (options = {}) => {
     MemberList,
     EditProfileDialog,
     UserDetailsDialog,
-    DevicePairingDialog,
     SessionInboxView,
     UpdateGroupNameDialog,
     UpdateGroupMembersDialog,

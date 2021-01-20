@@ -88,11 +88,9 @@ export class MockConversation {
       profileSharing: true,
       mentionedUs: false,
       unreadCount: 99,
-      isArchived: false,
       active_at: Date.now(),
       timestamp: Date.now(),
       lastJoinedTimestamp: Date.now(),
-      secondaryStatus: !this.isPrimary,
     };
   }
 
@@ -100,20 +98,8 @@ export class MockConversation {
     return true;
   }
 
-  public isOurLocalDevice() {
-    return false;
-  }
-
   public isBlocked() {
     return false;
-  }
-
-  public getPrimaryDevicePubKey() {
-    if (this.type === MockConversationType.Group) {
-      return undefined;
-    }
-
-    return this.isPrimary ? this.id : generateFakePubKey().key;
   }
 
   public get(obj: string) {

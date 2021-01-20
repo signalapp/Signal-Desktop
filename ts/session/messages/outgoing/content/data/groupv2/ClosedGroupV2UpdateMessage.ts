@@ -38,9 +38,9 @@ export class ClosedGroupV2UpdateMessage extends ClosedGroupV2Message {
   public dataProto(): SignalService.DataMessage {
     const dataMessage = new SignalService.DataMessage();
 
-    dataMessage.closedGroupUpdateV2 = new SignalService.ClosedGroupUpdateV2();
+    dataMessage.closedGroupUpdateV2 = new SignalService.DataMessage.ClosedGroupUpdateV2();
     dataMessage.closedGroupUpdateV2.type =
-      SignalService.ClosedGroupUpdateV2.Type.UPDATE;
+      SignalService.DataMessage.ClosedGroupUpdateV2.Type.UPDATE;
     dataMessage.closedGroupUpdateV2.name = this.name;
     dataMessage.closedGroupUpdateV2.members = this.members.map(fromHexToArray);
 

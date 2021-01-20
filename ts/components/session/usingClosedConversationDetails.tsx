@@ -56,7 +56,7 @@ export function usingClosedConversationDetails(WrappedComponent: any) {
         (conversationType === 'group' || type === 'group' || isGroup)
       ) {
         const groupId = id || phoneNumber;
-        const ourPrimary = await UserUtil.getPrimary();
+        const ourPrimary = PubKey.cast(await UserUtil.getCurrentDevicePubKey());
         let members = await GroupUtils.getGroupMembers(PubKey.cast(groupId));
 
         const ourself = members.find(m => m.key !== ourPrimary.key);

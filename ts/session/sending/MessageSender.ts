@@ -77,7 +77,6 @@ async function buildEnvelope(
   return SignalService.Envelope.create({
     type,
     source,
-    sourceDevice: 1,
     timestamp,
     content,
   });

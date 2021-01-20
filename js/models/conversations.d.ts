@@ -8,10 +8,8 @@ interface ConversationAttributes {
   left: boolean;
   expireTimer: number;
   profileSharing: boolean;
-  secondaryStatus: boolean;
   mentionedUs: boolean;
   unreadCount: number;
-  isArchived: boolean;
   active_at: number;
   timestamp: number; // timestamp of what?
   lastJoinedTimestamp: number; // ClosedGroupV2: last time we were added to this group
@@ -95,7 +93,6 @@ export interface ConversationModel
   notifyTyping: (
     { isTyping, sender } = { isTyping: boolean, sender: string }
   ) => any;
-  setSecondaryStatus: any;
   queueJob: any;
   onUpdateGroupName: any;
   getContactProfileNameOrShortenedPubKey: () => string;

@@ -2,8 +2,7 @@ import React from 'react';
 
 import { RenderTextCallbackType } from '../../types/Util';
 import classNames from 'classnames';
-import { MultiDeviceProtocol } from '../../session/protocols';
-import { FindMember } from '../../util';
+import { FindMember, UserUtil } from '../../util';
 import { useInterval } from '../../hooks/useInterval';
 import { ConversationModel } from '../../../js/models/conversations';
 
@@ -25,7 +24,7 @@ const Mention = (props: MentionProps) => {
       );
 
       if (foundMember) {
-        const itsUs = await MultiDeviceProtocol.isOurDevice(foundMember.id);
+        const itsUs = await UserUtil.isUs(foundMember.id);
         setUs(itsUs);
         setFound(foundMember);
         // FIXME stop this interval once we found it.

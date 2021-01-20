@@ -20,9 +20,7 @@ export function getEncryptionTypeFromMessageType(
   // 2. if TypingMessage or ExpirationTimer and groupId is set => must be encoded with ClosedGroup too
   if (
     message instanceof ClosedGroupV2Message ||
-    (message instanceof ExpirationTimerUpdateMessage && message.groupId) ||
-    (message instanceof TypingMessage && message.groupId)
-  ) {
+    (message instanceof ExpirationTimerUpdateMessage && message.groupId)) {
     return EncryptionType.ClosedGroup;
   } else {
     return EncryptionType.Fallback;

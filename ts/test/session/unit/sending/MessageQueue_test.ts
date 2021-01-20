@@ -4,18 +4,16 @@ import _ from 'lodash';
 import { describe } from 'mocha';
 
 import { GroupUtils, PromiseUtils } from '../../../../session/utils';
-import { Stubs, TestUtils } from '../../../../test/test-utils';
+import {  TestUtils } from '../../../../test/test-utils';
 import { MessageQueue } from '../../../../session/sending/MessageQueue';
 import {
   ContentMessage,
   OpenGroupMessage,
 } from '../../../../session/messages/outgoing';
-import { PrimaryPubKey, PubKey, RawMessage } from '../../../../session/types';
+import {PubKey, RawMessage } from '../../../../session/types';
 import { UserUtil } from '../../../../util';
 import { MessageSender } from '../../../../session/sending';
-import { MultiDeviceProtocol } from '../../../../session/protocols';
 import { PendingMessageCacheStub } from '../../../test-utils/stubs';
-import { TestSyncMessage } from '../../../test-utils/stubs/messages/TestSyncMessage';
 import { ClosedGroupV2Message } from '../../../../session/messages/outgoing/content/data/groupv2';
 
 // tslint:disable-next-line: no-require-imports no-var-requires
@@ -37,8 +35,6 @@ describe('MessageQueue', () => {
 
   // Message Sender Stubs
   let sendStub: sinon.SinonStub<[RawMessage, (number | undefined)?]>;
-  // Utils Stubs
-  let isMediumGroupStub: sinon.SinonStub<[PubKey], boolean>;
 
   beforeEach(async () => {
     // Utils Stubs
@@ -50,11 +46,6 @@ describe('MessageQueue', () => {
 
     // Message Sender Stubs
     sendStub = sandbox.stub(MessageSender, 'send').resolves();
-
-    // Group Utils Stubs
-    isMediumGroupStub = sandbox
-      .stub(GroupUtils, 'isMediumGroup')
-      .returns(false);
 
     // Init Queue
     pendingMessageCache = new PendingMessageCacheStub();
@@ -149,32 +140,19 @@ describe('MessageQueue', () => {
     });
   });
 
-  describe('sendUsingMultiDevice', () => {
-    it('should send the message to all the devices', async () => {
-      const devices = TestUtils.generateFakePubKeys(3);
-      sandbox.stub(MultiDeviceProtocol, 'getAllDevices').resolves(devices);
+  describe('sendToPubKey', () => {
+    it('should send the message to the device', async () => {
+      const devices = TestUtils.generateFakePubKeys(1);
       const stub = sandbox
         .stub(messageQueueStub, 'sendMessageToDevices')
         .resolves();
 
       const message = TestUtils.generateChatMessage();
-      await messageQueueStub.sendUsingMultiDevice(devices[0], message);
+      await messageQueueStub.sendToPubKey(devices[0], message);
 
       const args = stub.lastCall.args as [Array<PubKey>, ContentMessage];
       expect(args[0]).to.have.same.members(devices);
       expect(args[1]).to.equal(message);
-    });
-
-    it('should send sync message if it was passed in', async () => {
-      const devices = TestUtils.generateFakePubKeys(3);
-      sandbox.stub(MultiDeviceProtocol, 'getAllDevices').resolves(devices);
-      const stub = sandbox.stub(messageQueueStub, 'sendSyncMessage').resolves();
-
-      const message = new TestSyncMessage({ timestamp: Date.now() });
-      await messageQueueStub.sendUsingMultiDevice(devices[0], message);
-
-      const args = stub.lastCall.args as [ContentMessage];
-      expect(args[0]).to.equal(message);
     });
   });
 
@@ -188,25 +166,6 @@ describe('MessageQueue', () => {
     });
   });
 
-  describe('sendSyncMessage', () => {
-    it('should send a message to all our devices', async () => {
-      const ourOtherDevices = TestUtils.generateFakePubKeys(2);
-      const ourDevices = [ourDevice, ...ourOtherDevices];
-      sandbox.stub(MultiDeviceProtocol, 'getAllDevices').resolves(ourDevices);
-
-      await messageQueueStub.sendSyncMessage(
-        new TestSyncMessage({ timestamp: Date.now() })
-      );
-
-      expect(pendingMessageCache.getCache()).to.have.length(
-        ourOtherDevices.length
-      );
-      expect(pendingMessageCache.getCache().map(c => c.device)).to.have.members(
-        ourOtherDevices.map(d => d.key)
-      );
-    });
-  });
-
   describe('sendToGroup', () => {
     it('should throw an error if invalid non-group message was passed', async () => {
       // const chatMessage = TestUtils.generateChatMessage();
@@ -217,15 +176,9 @@ describe('MessageQueue', () => {
     });
 
     describe('closed groups', async () => {
-      beforeEach(() => {
-        sandbox
-          .stub(MultiDeviceProtocol, 'getPrimaryDevice')
-          .resolves(new PrimaryPubKey(ourNumber));
-      });
-
       it('can send to closed group', async () => {
         const members = TestUtils.generateFakePubKeys(4).map(
-          p => new PrimaryPubKey(p.key)
+          p => new PubKey(p.key)
         );
         sandbox.stub(GroupUtils, 'getGroupMembers').resolves(members);
 
@@ -242,69 +195,45 @@ describe('MessageQueue', () => {
         );
       });
 
-      it('wont send message to empty closed group', async () => {
-        sandbox.stub(GroupUtils, 'getGroupMembers').resolves([]);
-        const sendUsingMultiDeviceStub = sandbox
-          .stub(messageQueueStub, 'sendUsingMultiDevice')
-          .resolves();
+      describe('open groups', async () => {
+        let sendToOpenGroupStub: sinon.SinonStub<
+          [OpenGroupMessage],
+          Promise<{ serverId: number; serverTimestamp: number }>
+        >;
+        beforeEach(() => {
+          sendToOpenGroupStub = sandbox
+            .stub(MessageSender, 'sendToOpenGroup')
+            .resolves({ serverId: -1, serverTimestamp: -1 });
+        });
 
-        const message = TestUtils.generateClosedGroupMessage();
-        await messageQueueStub.sendToGroup(message);
-        expect(sendUsingMultiDeviceStub.callCount).to.equal(0);
-      });
+        it('can send to open group', async () => {
+          const message = TestUtils.generateOpenGroupMessage();
+          await messageQueueStub.sendToGroup(message);
+          expect(sendToOpenGroupStub.callCount).to.equal(1);
+        });
 
-      it('wont send message to our device', async () => {
-        sandbox
-          .stub(GroupUtils, 'getGroupMembers')
-          .resolves([new PrimaryPubKey(ourNumber)]);
-        const sendUsingMultiDeviceStub = sandbox
-          .stub(messageQueueStub, 'sendUsingMultiDevice')
-          .resolves();
+        it('should emit a success event when send was successful', async () => {
+          sendToOpenGroupStub.resolves({ serverId: 5125, serverTimestamp: 5125 });
 
-        const message = TestUtils.generateClosedGroupMessage();
-        await messageQueueStub.sendToGroup(message);
-        expect(sendUsingMultiDeviceStub.callCount).to.equal(0);
-      });
-    });
+          const message = TestUtils.generateOpenGroupMessage();
+          const eventPromise = PromiseUtils.waitForTask(complete => {
+            messageQueueStub.events.once('sendSuccess', complete);
+          }, 2000);
 
-    describe('open groups', async () => {
-      let sendToOpenGroupStub: sinon.SinonStub<
-        [OpenGroupMessage],
-        Promise<{ serverId: number; serverTimestamp: number }>
-      >;
-      beforeEach(() => {
-        sendToOpenGroupStub = sandbox
-          .stub(MessageSender, 'sendToOpenGroup')
-          .resolves({ serverId: -1, serverTimestamp: -1 });
-      });
+          await messageQueueStub.sendToGroup(message);
+          await expect(eventPromise).to.be.fulfilled;
+        });
 
-      it('can send to open group', async () => {
-        const message = TestUtils.generateOpenGroupMessage();
-        await messageQueueStub.sendToGroup(message);
-        expect(sendToOpenGroupStub.callCount).to.equal(1);
-      });
+        it('should emit a fail event if something went wrong', async () => {
+          sendToOpenGroupStub.resolves({ serverId: -1, serverTimestamp: -1 });
+          const message = TestUtils.generateOpenGroupMessage();
+          const eventPromise = PromiseUtils.waitForTask(complete => {
+            messageQueueStub.events.once('sendFail', complete);
+          }, 2000);
 
-      it('should emit a success event when send was successful', async () => {
-        sendToOpenGroupStub.resolves({ serverId: 5125, serverTimestamp: 5125 });
-
-        const message = TestUtils.generateOpenGroupMessage();
-        const eventPromise = PromiseUtils.waitForTask(complete => {
-          messageQueueStub.events.once('sendSuccess', complete);
-        }, 2000);
-
-        await messageQueueStub.sendToGroup(message);
-        await expect(eventPromise).to.be.fulfilled;
-      });
-
-      it('should emit a fail event if something went wrong', async () => {
-        sendToOpenGroupStub.resolves({ serverId: -1, serverTimestamp: -1 });
-        const message = TestUtils.generateOpenGroupMessage();
-        const eventPromise = PromiseUtils.waitForTask(complete => {
-          messageQueueStub.events.once('sendFail', complete);
-        }, 2000);
-
-        await messageQueueStub.sendToGroup(message);
-        await expect(eventPromise).to.be.fulfilled;
+          await messageQueueStub.sendToGroup(message);
+          await expect(eventPromise).to.be.fulfilled;
+        });
       });
     });
   });

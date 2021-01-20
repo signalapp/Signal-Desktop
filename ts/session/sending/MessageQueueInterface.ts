@@ -1,7 +1,6 @@
 import {
   ContentMessage,
   OpenGroupMessage,
-  SyncMessage,
 } from '../messages/outgoing';
 import { RawMessage } from '../types/RawMessage';
 import { TypedEventEmitter } from '../utils';
@@ -23,12 +22,12 @@ export interface MessageQueueInterfaceEvents {
 
 export interface MessageQueueInterface {
   events: TypedEventEmitter<MessageQueueInterfaceEvents>;
-  sendUsingMultiDevice(user: PubKey, message: ContentMessage): Promise<void>;
+  sendToPubKey(user: PubKey, message: ContentMessage): Promise<void>;
   send(device: PubKey, message: ContentMessage): Promise<void>;
   sendToGroup(
     message: GroupMessageType,
     sentCb?: (message?: RawMessage) => Promise<void>
   ): Promise<void>;
-  sendSyncMessage(message: SyncMessage | undefined): Promise<void>;
+  sendSyncMessage(message: any): Promise<void>;
   processPending(device: PubKey): Promise<void>;
 }

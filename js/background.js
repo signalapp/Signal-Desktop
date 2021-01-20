@@ -124,7 +124,6 @@
           regionCode: window.storage.get('regionCode'),
           ourNumber: textsecure.storage.user.getNumber(),
           ourPrimary: window.textsecure.storage.get('primaryDevicePubKey'),
-          isSecondaryDevice: !!textsecure.storage.get('isSecondaryDevice'),
         };
         Whisper.events.trigger('userChanged', user);
 
@@ -183,10 +182,6 @@
     }
 
     window.initialisedAPI = true;
-
-    if (storage.get('isSecondaryDevice')) {
-      window.lokiFileServerAPI.updateOurDeviceMapping();
-    }
   };
 
   function mapOldThemeToNew(theme) {
@@ -235,12 +230,6 @@
       !storage.get('primaryDevicePubKey', null)
     ) {
       storage.put('primaryDevicePubKey', textsecure.storage.user.getNumber());
-    }
-
-    // 4th August 2020 - Force wipe of secondary devices as multi device is being disabled.
-    if (storage.get('isSecondaryDevice')) {
-      await window.deleteAccount('unlink');
-      return;
     }
 
     // These make key operations available to IPC handlers created in preload.js
@@ -445,10 +434,6 @@
           'expirationStartTimestamp'
         );
 
-        if (message.isEndSession()) {
-          return;
-        }
-
         if (message.hasErrors()) {
           return;
         }
@@ -497,8 +482,7 @@
       window.log.info('Import was interrupted, showing import error screen');
       appView.openImporter();
     } else if (
-      Whisper.Registration.isDone() &&
-      !Whisper.Registration.ongoingSecondaryDeviceRegistration()
+      Whisper.Registration.isDone()
     ) {
       connect();
       appView.openInbox({
@@ -919,18 +903,6 @@
       }
     });
 
-    Whisper.events.on('showDevicePairingDialog', async (options = {}) => {
-      if (appView) {
-        appView.showDevicePairingDialog(options);
-      }
-    });
-
-    Whisper.events.on('showDevicePairingWordsDialog', async () => {
-      if (appView) {
-        appView.showDevicePairingWordsDialog();
-      }
-    });
-
     Whisper.events.on('calculatingPoW', ({ pubKey, timestamp }) => {
       try {
         const conversation = window.getConversationController().get(pubKey);
@@ -962,59 +934,6 @@
       if (appView && appView.inboxView) {
         appView.inboxView.trigger('password-updated');
       }
-    });
-
-    Whisper.events.on('devicePairingRequestReceivedNoListener', async () => {
-      // If linking limit has been reached, let master know.
-      const ourKey = textsecure.storage.user.getNumber();
-      const ourPubKey = window.libsession.Types.PubKey.cast(ourKey);
-      const authorisations = await window.libsession.Protocols.MultiDeviceProtocol.fetchPairingAuthorisations(
-        ourPubKey
-      );
-
-      window.libsession.Utils.ToastUtils.pushPairingRequestReceived(
-        authorisations.length
-      );
-    });
-
-    Whisper.events.on('devicePairingRequestAccepted', async (pubKey, cb) => {
-      try {
-        await getAccountManager().authoriseSecondaryDevice(pubKey);
-        cb(null);
-      } catch (e) {
-        cb(e);
-      }
-    });
-
-    Whisper.events.on('devicePairingRequestRejected', async pubKey => {
-      await libsession.Protocols.MultiDeviceProtocol.removePairingAuthorisations(
-        pubKey
-      );
-    });
-
-    Whisper.events.on('deviceUnpairingRequested', async (pubKey, callback) => {
-      const isSecondaryDevice = !!textsecure.storage.get('isSecondaryDevice');
-      if (isSecondaryDevice) {
-        return;
-      }
-      await libsession.Protocols.MultiDeviceProtocol.removePairingAuthorisations(
-        pubKey
-      );
-      await window.lokiFileServerAPI.updateOurDeviceMapping();
-      const device = new libsession.Types.PubKey(pubKey);
-      const unlinkMessage = new libsession.Messages.Outgoing.DeviceUnlinkMessage(
-        {
-          timestamp: Date.now(),
-        }
-      );
-
-      await libsession.getMessageQueue().send(device, unlinkMessage);
-      // Remove all traces of the device
-      setTimeout(() => {
-        window.getConversationController().deleteContact(pubKey);
-        Whisper.events.trigger('refreshLinkedDeviceList');
-        callback();
-      }, 1000);
     });
   }
 
@@ -1107,22 +1026,6 @@
     window.SwarmPolling.start();
 
     window.NewReceiver.queueAllCached();
-
-    if (Whisper.Registration.ongoingSecondaryDeviceRegistration()) {
-      window.lokiMessageAPI = new window.LokiMessageAPI();
-      window.lokiFileServerAPIFactory = new window.LokiFileServerAPI(ourKey);
-      window.lokiFileServerAPI = window.lokiFileServerAPIFactory.establishHomeConnection(
-        window.getDefaultFileServer()
-      );
-      window.lokiPublicChatAPI = null;
-      messageReceiver = new textsecure.MessageReceiver();
-      messageReceiver.addEventListener(
-        'message',
-        window.DataMessageReceiver.handleMessageEvent
-      );
-      window.textsecure.messaging = true;
-      return;
-    }
 
     initAPIs();
     await initSpecialConversations();

@@ -3,12 +3,12 @@ import { queueAttachmentDownloads } from './attachments';
 import { Quote } from './types';
 import { ConversationModel } from '../../js/models/conversations';
 import { MessageModel } from '../../js/models/messages';
-import { PrimaryPubKey, PubKey } from '../session/types';
+import { PubKey } from '../session/types';
 import _ from 'lodash';
-import { MultiDeviceProtocol } from '../session/protocols';
 import { SignalService } from '../protobuf';
 import { StringUtils } from '../session/utils';
 import { ConversationController } from '../session/conversations';
+import { UserUtil } from '../util';
 
 async function handleGroups(
   conversation: ConversationModel,
@@ -55,7 +55,7 @@ async function handleGroups(
     const removedMembers = _.difference(oldMembers, attributes.members);
     const isOurDeviceMap = await Promise.all(
       removedMembers.map(async member =>
-        MultiDeviceProtocol.isOurDevice(member)
+        UserUtil.isUs(member)
       )
     );
     const ourDeviceWasRemoved = isOurDeviceMap.includes(true);
@@ -67,7 +67,7 @@ async function handleGroups(
       groupUpdate.kicked = removedMembers;
     }
   } else if (group.type === GROUP_TYPES.QUIT) {
-    if (await MultiDeviceProtocol.isOurDevice(source)) {
+    if (await UserUtil.isUs(source)) {
       attributes.left = true;
       groupUpdate = { left: 'You' };
     } else {
@@ -271,7 +271,7 @@ async function processProfileKey(
 function handleMentions(
   message: MessageModel,
   conversation: ConversationModel,
-  ourPrimaryNumber: PrimaryPubKey
+  ourPrimaryNumber: PubKey
 ) {
   const body = message.get('body');
   if (body && body.indexOf(`@${ourPrimaryNumber.key}`) !== -1) {
@@ -299,10 +299,6 @@ function updateReadStatus(
     // messages as read, as is done when we receive a read sync for
     // a message we already know about.
     conversation.onReadMessage(message);
-  } else {
-    conversation.set({
-      isArchived: false,
-    });
   }
 }
 
@@ -360,8 +356,7 @@ async function handleRegularMessage(
   message: MessageModel,
   initialMessage: any,
   source: string,
-  ourNumber: any,
-  primarySource: PubKey
+  ourNumber: string,
 ) {
   const { upgradeMessageSchema } = window.Signal.Migrations;
 
@@ -418,9 +413,9 @@ async function handleRegularMessage(
     conversation
   );
 
-  const ourPrimary = await MultiDeviceProtocol.getPrimaryDevice(ourNumber);
+  const ourPubKey = PubKey.cast(ourNumber)
 
-  handleMentions(message, conversation, ourPrimary);
+  handleMentions(message, conversation, ourPubKey);
 
   if (type === 'incoming') {
     updateReadStatus(message, conversation);
@@ -455,14 +450,10 @@ async function handleRegularMessage(
     );
   }
 
-  if (source !== ourNumber && primarySource) {
-    message.set({ source: primarySource.key });
-  }
-
   // we just received a message from that user so we reset the typing indicator for this convo
   conversation.notifyTyping({
     isTyping: false,
-    sender: primarySource.key,
+    sender: ourPubKey.key,
   });
 }
 
@@ -505,7 +496,6 @@ export async function handleMessageJob(
   ourNumber: string,
   confirm: () => void,
   source: string,
-  primarySource: PubKey
 ) {
   window.log.info(
     `Starting handleDataMessage for message ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
@@ -538,7 +528,6 @@ export async function handleMessageJob(
         initialMessage,
         source,
         ourNumber,
-        primarySource
       );
     }
 

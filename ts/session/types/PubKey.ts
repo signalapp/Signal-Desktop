@@ -47,7 +47,10 @@ export class PubKey {
    *
    * @param value The value to cast.
    */
-  public static cast(value: string | PubKey): PubKey {
+  public static cast(value?: string | PubKey): PubKey {
+    if(!value) {
+      throw new Error(`Invalid pubkey string passed: ${value}`);
+    }
     return typeof value === 'string' ? new PubKey(value) : value;
   }
 
@@ -133,6 +136,3 @@ export class PubKey {
     return fromHexToArray(PubKey.remove05PrefixIfNeeded(this.key));
   }
 }
-
-export class PrimaryPubKey extends PubKey {}
-export class SecondaryPubKey extends PubKey {}

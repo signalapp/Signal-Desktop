@@ -54,7 +54,7 @@ describe('MessageSender', () => {
       });
 
       encryptStub = sandbox.stub(MessageEncrypter, 'encrypt').resolves({
-        envelopeType: SignalService.Envelope.Type.CIPHERTEXT,
+        envelopeType: SignalService.Envelope.Type.UNIDENTIFIED_SENDER,
         cipherText: crypto.randomBytes(10),
       });
 
@@ -100,7 +100,7 @@ describe('MessageSender', () => {
 
     describe('logic', () => {
       let messageEncyrptReturnEnvelopeType =
-        SignalService.Envelope.Type.CIPHERTEXT;
+        SignalService.Envelope.Type.UNIDENTIFIED_SENDER;
 
       beforeEach(() => {
         encryptStub.callsFake(async (_device, plainTextBuffer, _type) => ({
@@ -131,7 +131,7 @@ describe('MessageSender', () => {
 
       it('should correctly build the envelope', async () => {
         messageEncyrptReturnEnvelopeType =
-          SignalService.Envelope.Type.CIPHERTEXT;
+          SignalService.Envelope.Type.UNIDENTIFIED_SENDER;
 
         // This test assumes the encryption stub returns the plainText passed into it.
         const device = TestUtils.generateFakePubKey().key;
@@ -161,9 +161,8 @@ describe('MessageSender', () => {
         const envelope = SignalService.Envelope.decode(
           webSocketMessage.request?.body as Uint8Array
         );
-        expect(envelope.type).to.equal(SignalService.Envelope.Type.CIPHERTEXT);
+        expect(envelope.type).to.equal(SignalService.Envelope.Type.UNIDENTIFIED_SENDER);
         expect(envelope.source).to.equal(ourNumber);
-        expect(envelope.sourceDevice).to.equal(1);
         expect(toNumber(envelope.timestamp)).to.equal(timestamp);
         expect(envelope.content).to.deep.equal(plainTextBuffer);
       });

@@ -143,11 +143,11 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
             buttonType={SessionButtonType.Brand}
             buttonColor={SessionButtonColor.Primary}
             onClick={this.add}
-            text={i18n('addToTheListBelow')}
+            text={i18n('add')}
           />
         </div>
         <div className="moderatorList">
-          <p>From friends:</p>
+          <p>Or, from friends:</p>
           <div className="contact-selection-list">
             <MemberList
               members={this.state.contactList}
@@ -177,7 +177,6 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
   }
 
   private onClickOK() {
-    this.add(); // process inputBox
     const selectedContacts = this.state.contactList
       .filter(d => d.checkmarked)
       .map(d => d.id);

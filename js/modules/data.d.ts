@@ -45,13 +45,6 @@ export type ContactSignedPreKey = {
   confirmed: boolean;
 };
 
-export type PairingAuthorisation = {
-  primaryDevicePubKey: string;
-  secondaryDevicePubKey: string;
-  requestSignature: ArrayBuffer;
-  grantSignature?: ArrayBuffer;
-};
-
 export type GuardNode = {
   ed25519PubKey: string;
 };
@@ -153,15 +146,6 @@ export function removeContactSignedPreKeyByIdentityKey(
   id: string
 ): Promise<void>;
 export function removeAllContactSignedPreKeys(): Promise<void>;
-
-// Authorisations & Linking
-export function createOrUpdatePairingAuthorisation(
-  data: PairingAuthorisation
-): Promise<void>;
-export function getPairingAuthorisationsFor(
-  pubKey: string
-): Promise<Array<PairingAuthorisation>>;
-export function removePairingAuthorisationsFor(pubKey: string): Promise<void>;
 
 // Guard Nodes
 export function getGuardNodes(): Promise<Array<GuardNode>>;
@@ -412,8 +396,6 @@ export function getMessagesWithFileAttachments(
 ): Promise<any>;
 
 // Sender Keys
-export function getSenderKeys(groupId: any, senderIdentity: any): Promise<any>;
-export function createOrUpdateSenderKeys(data: any): Promise<void>;
 export function removeAllClosedGroupRatchets(groupId: string): Promise<void>;
 
 export function getAllEncryptionKeyPairsForGroupV2(

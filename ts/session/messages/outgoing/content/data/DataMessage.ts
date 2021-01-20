@@ -1,5 +1,6 @@
 import { ContentMessage } from '../ContentMessage';
 import { SignalService } from '../../../../../protobuf';
+import { TTL_DEFAULT } from '../../../../constants';
 
 export abstract class DataMessage extends ContentMessage {
   public abstract dataProto(): SignalService.DataMessage;
@@ -8,5 +9,9 @@ export abstract class DataMessage extends ContentMessage {
     return new SignalService.Content({
       dataMessage: this.dataProto(),
     });
+  }
+
+  public ttl(): number {
+    return TTL_DEFAULT.REGULAR_MESSAGE;
   }
 }

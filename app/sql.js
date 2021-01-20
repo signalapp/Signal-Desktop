@@ -72,9 +72,6 @@ module.exports = {
   removeContactSignedPreKeyByIdentityKey,
   removeAllContactSignedPreKeys,
 
-  createOrUpdatePairingAuthorisation,
-  getPairingAuthorisationsFor,
-  removePairingAuthorisationsFor,
 
   createOrUpdateItem,
   getItemById,
@@ -170,8 +167,6 @@ module.exports = {
 
   removeKnownAttachments,
 
-  getSenderKeys,
-  createOrUpdateSenderKeys,
   removeAllClosedGroupRatchets,
 
   getAllEncryptionKeyPairsForGroupV2,
@@ -911,26 +906,6 @@ async function updateToLokiSchemaVersion3(currentVersion, instance) {
 
 const SENDER_KEYS_TABLE = 'senderKeys';
 
-async function createOrUpdateSenderKeys(data) {
-  const { groupId, senderIdentity } = data;
-
-  await db.run(
-    `INSERT OR REPLACE INTO ${SENDER_KEYS_TABLE} (
-      groupId,
-      senderIdentity,
-      json
-    ) values (
-      $groupId,
-      $senderIdentity,
-      $json
-    );`,
-    {
-      $groupId: groupId,
-      $senderIdentity: senderIdentity,
-      $json: objectToJSON(data),
-    }
-  );
-}
 
 async function removeAllClosedGroupRatchets(groupId) {
   await db.run(`DELETE FROM ${SENDER_KEYS_TABLE} WHERE groupId = $groupId;`, {
@@ -1575,51 +1550,6 @@ async function removeAllSignedPreKeys() {
   return removeAllFromTable(SIGNED_PRE_KEYS_TABLE);
 }
 
-const PAIRING_AUTHORISATIONS_TABLE = 'pairingAuthorisations';
-
-async function getPairingAuthorisationsFor(pubKey) {
-  const rows = await db.all(
-    `SELECT json FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE primaryDevicePubKey = $pubKey OR secondaryDevicePubKey = $pubKey;`,
-    { $pubKey: pubKey }
-  );
-
-  return rows.map(row => jsonToObject(row.json));
-}
-
-async function createOrUpdatePairingAuthorisation(data) {
-  const { primaryDevicePubKey, secondaryDevicePubKey, grantSignature } = data;
-  // remove any existing authorisation for this pubkey (we allow only one secondary device for now)
-  await removePairingAuthorisationsFor(primaryDevicePubKey);
-
-  await db.run(
-    `INSERT OR REPLACE INTO ${PAIRING_AUTHORISATIONS_TABLE} (
-      primaryDevicePubKey,
-      secondaryDevicePubKey,
-      isGranted,
-      json
-    ) values (
-      $primaryDevicePubKey,
-      $secondaryDevicePubKey,
-      $isGranted,
-      $json
-    )`,
-    {
-      $primaryDevicePubKey: primaryDevicePubKey,
-      $secondaryDevicePubKey: secondaryDevicePubKey,
-      $isGranted: Boolean(grantSignature),
-      $json: objectToJSON(data),
-    }
-  );
-}
-
-async function removePairingAuthorisationsFor(pubKey) {
-  await db.run(
-    `DELETE FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE primaryDevicePubKey = $pubKey OR secondaryDevicePubKey = $pubKey;`,
-    {
-      $pubKey: pubKey,
-    }
-  );
-}
 
 const GUARD_NODE_TABLE = 'guardNodes';
 
@@ -1769,22 +1699,6 @@ async function bulkAdd(table, array) {
   });
 
   await promise;
-}
-
-async function getSenderKeys(groupId, senderIdentity) {
-  const row = await db.get(
-    `SELECT * FROM ${SENDER_KEYS_TABLE} WHERE groupId = $groupId AND senderIdentity = $senderIdentity;`,
-    {
-      $groupId: groupId,
-      $senderIdentity: senderIdentity,
-    }
-  );
-
-  if (!row) {
-    return null;
-  }
-
-  return jsonToObject(row.json);
 }
 
 async function getById(table, id, instance) {

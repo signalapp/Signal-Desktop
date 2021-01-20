@@ -129,21 +129,6 @@
       generateProps();
     },
     isMe() {
-      return this.isOurLocalDevice() || this.isOurPrimaryDevice();
-    },
-    isOurPrimaryDevice() {
-      return this.id === window.storage.get('primaryDevicePubKey');
-    },
-    async isOurDevice() {
-      if (this.isMe()) {
-        return true;
-      }
-
-      return window.libsession.Protocols.MultiDeviceProtocol.isOurDevice(
-        this.id
-      );
-    },
-    isOurLocalDevice() {
       return this.id === this.ourNumber;
     },
     isPublic() {
@@ -165,8 +150,7 @@
       }
 
       if (this.isPrivate()) {
-        const primary = this.getPrimaryDevicePubKey();
-        return BlockedNumberController.isBlocked(primary);
+        return BlockedNumberController.isBlocked(this.id);
       }
 
       return false;
@@ -184,7 +168,6 @@
         : BlockedNumberController.blockGroup(this.id);
       await promise;
       this.commit();
-      await libsession.Utils.SyncMessageUtils.sendBlockedListSyncMessage();
     },
     async unblock() {
       if (!this.id || this.isPublic()) {
@@ -195,7 +178,6 @@
         : BlockedNumberController.unblockGroup(this.id);
       await promise;
       this.commit();
-      await libsession.Utils.SyncMessageUtils.sendBlockedListSyncMessage();
     },
     async bumpTyping() {
       if (this.isPublic() || this.isMediumGroup()) {
@@ -293,7 +275,7 @@
       const device = new libsession.Types.PubKey(recipientId);
       libsession
         .getMessageQueue()
-        .sendUsingMultiDevice(device, typingMessage)
+        .sendToPubKey(device, typingMessage)
         .catch(log.error);
     },
 
@@ -435,7 +417,6 @@
 
       const result = {
         id: this.id,
-        isArchived: this.get('isArchived'),
         activeAt: this.get('active_at'),
         avatarPath: this.getAvatarPath(),
         type: this.isPrivate() ? 'direct' : 'group',
@@ -451,8 +432,7 @@
         unreadCount: this.get('unreadCount') || 0,
         mentionedUs: this.get('mentionedUs') || false,
         isBlocked: this.isBlocked(),
-        isSecondary: !!this.get('secondaryStatus'),
-        primaryDevice: this.getPrimaryDevicePubKey(),
+        primaryDevice: this.id,
         phoneNumber: format(this.id, {
           ourRegionCode: regionCode,
         }),
@@ -485,41 +465,6 @@
       return result;
     },
 
-    async getPrimaryConversation() {
-      if (!this.isSecondaryDevice()) {
-        // This is already the primary conversation
-        return this;
-      }
-
-      const device = window.libsession.Types.PubKey.from(this.id);
-      if (device) {
-        const primary = await window.libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
-          device
-        );
-
-        return window
-          .getConversationController()
-          .getOrCreateAndWait(primary.key, 'private');
-      }
-
-      // Something funky has happened
-      return this;
-    },
-    isSecondaryDevice() {
-      return !!this.get('secondaryStatus');
-    },
-    getPrimaryDevicePubKey() {
-      return this.get('primaryDevicePubKey') || this.id;
-    },
-    async setSecondaryStatus(newStatus, primaryDevicePubKey) {
-      if (this.get('secondaryStatus') !== newStatus) {
-        this.set({
-          secondaryStatus: newStatus,
-          primaryDevicePubKey,
-        });
-        await this.commit();
-      }
-    },
     async updateGroupAdmins(groupAdmins) {
       const existingAdmins = _.sortBy(this.getGroupAdmins());
       const newAdmins = _.sortBy(groupAdmins);
@@ -743,11 +688,6 @@
           lokiProfile: this.getOurProfile(),
         });
 
-        if (this.isMe()) {
-          // we need the return await so that errors are caught in the catch {}
-          return await message.sendSyncMessageOnly(chatMessage);
-        }
-
         if (this.isPublic()) {
           const openGroup = this.toOpenGroup();
 
@@ -787,12 +727,12 @@
             // we need the return await so that errors are caught in the catch {}
             return await libsession
               .getMessageQueue()
-              .sendUsingMultiDevice(destinationPubkey, groupInvitMessage);
+              .sendToPubKey(destinationPubkey, groupInvitMessage);
           }
           // we need the return await so that errors are caught in the catch {}
           return await libsession
             .getMessageQueue()
-            .sendUsingMultiDevice(destinationPubkey, chatMessage);
+            .sendToPubKey(destinationPubkey, chatMessage);
         }
 
         if (this.isMediumGroup()) {
@@ -899,7 +839,6 @@
         lastMessageStatus: 'sending',
         active_at: now,
         timestamp: now,
-        isArchived: false,
       });
       await this.commit();
 
@@ -982,10 +921,7 @@
       }
     },
 
-    async setArchived(isArchived) {
-      this.set({ isArchived });
-      await this.commit();
-    },
+
 
     async updateExpirationTimer(
       providedExpireTimer,
@@ -1087,7 +1023,7 @@
         const pubkey = new libsession.Types.PubKey(this.get('id'));
         await libsession
           .getMessageQueue()
-          .sendUsingMultiDevice(pubkey, expirationTimerMessage);
+          .sendToPubKey(pubkey, expirationTimerMessage);
       } else {
         expireUpdate.groupId = this.get('id');
         const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
@@ -1095,12 +1031,10 @@
         );
         // special case when we are the only member of a closed group
         const ourNumber = textsecure.storage.user.getNumber();
-        const primary = await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
-          ourNumber
-        );
+
         if (
           this.get('members').length === 1 &&
-          this.get('members')[0] === primary.key
+          this.get('members')[0] === ourNumber
         ) {
           return message.sendSyncMessageOnly(expirationTimerMessage);
         }
@@ -1228,10 +1162,6 @@
 
       if (this.isPrivate() && read.length && options.sendReadReceipts) {
         window.log.info(`Sending ${read.length} read receipts`);
-        // Because syncReadMessages sends to our other devices, and sendReadReceipts goes
-        //   to a contact, we need accessKeys for both.
-        await libsession.Utils.SyncMessageUtils.syncReadMessages(read);
-
         if (storage.get('read-receipt-setting')) {
           await Promise.all(
             _.map(_.groupBy(read, 'sender'), async (receipts, sender) => {
@@ -1246,7 +1176,7 @@
               const device = new libsession.Types.PubKey(sender);
               await libsession
                 .getMessageQueue()
-                .sendUsingMultiDevice(device, receiptMessage);
+                .sendToPubKey(device, receiptMessage);
             })
           );
         }
@@ -1821,7 +1751,6 @@
       }
 
       // Note: We trigger two events because:
-      //   'typing-update' is a surgical update ConversationView does for in-convo bubble
       //   'change' causes a re-render of this conversation's list item in the left pane
 
       if (isTyping) {
@@ -1836,14 +1765,12 @@
         );
         if (!record) {
           // User was not previously typing before. State change!
-          this.trigger('typing-update');
           this.commit();
         }
       } else {
         delete this.contactTypingTimers[sender];
         if (record) {
           // User was previously typing, and is no longer. State change!
-          this.trigger('typing-update');
           this.commit();
         }
       }
@@ -1858,7 +1785,6 @@
         delete this.contactTypingTimers[sender];
 
         // User was previously typing, but timed out or we received message. State change!
-        this.trigger('typing-update');
         this.commit();
       }
     },

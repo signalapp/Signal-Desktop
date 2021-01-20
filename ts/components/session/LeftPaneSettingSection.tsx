@@ -16,7 +16,6 @@ import { DefaultTheme } from 'styled-components';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 
 interface Props {
-  isSecondaryDevice: boolean;
   settingsCategory: SessionSettingCategory;
   showSessionSettingsCategory: (category: SessionSettingCategory) => void;
   theme: DefaultTheme;
@@ -141,11 +140,8 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
   }
 
   public renderBottomButtons(): JSX.Element | undefined {
-    const { isSecondaryDevice } = this.props;
 
-    const dangerButtonText = isSecondaryDevice
-      ? window.i18n('unpairDevice')
-      : window.i18n('clearAllData');
+    const dangerButtonText = window.i18n('clearAllData');
     const showRecoveryPhrase = window.i18n('showRecoveryPhrase');
 
     return (
@@ -156,32 +152,24 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
           buttonColor={SessionButtonColor.Danger}
           onClick={this.onDeleteAccount}
         />
-        {!isSecondaryDevice && (
-          <SessionButton
-            text={showRecoveryPhrase}
-            buttonType={SessionButtonType.SquareOutline}
-            buttonColor={SessionButtonColor.White}
-            onClick={() => window.Whisper.events.trigger('showSeedDialog')}
-          />
-        )}
+        
+        <SessionButton
+          text={showRecoveryPhrase}
+          buttonType={SessionButtonType.SquareOutline}
+          buttonColor={SessionButtonColor.White}
+          onClick={() => window.Whisper.events.trigger('showSeedDialog')}
+        />
       </div>
     );
   }
 
   public onDeleteAccount() {
-    const { isSecondaryDevice } = this.props;
 
-    const title = window.i18n(
-      isSecondaryDevice ? 'unpairDevice' : 'clearAllData'
-    );
+    const title = window.i18n('clearAllData');
 
-    const message = window.i18n(
-      isSecondaryDevice ? 'unpairDeviceWarning' : 'deleteAccountWarning'
-    );
+    const message = window.i18n('unpairDeviceWarning');
 
-    let messageSub = isSecondaryDevice
-      ? window.i18n('unpairDeviceWarningSub')
-      : '';
+    let messageSub = '';
 
     const identityKey = window.textsecure.storage.get('identityKey');
     if (identityKey && identityKey.ed25519KeyPair === undefined) {
@@ -199,8 +187,6 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
   }
 
   public getCategories() {
-    const { isSecondaryDevice } = this.props;
-
     return [
       {
         id: SessionSettingCategory.Appearance,
@@ -226,11 +212,6 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
         id: SessionSettingCategory.Notifications,
         title: window.i18n('notificationsSettingsTitle'),
         hidden: false,
-      },
-      {
-        id: SessionSettingCategory.Devices,
-        title: window.i18n('devicesSettingsTitle'),
-        hidden: !window.lokiFeatureFlags.useMultiDevice || isSecondaryDevice,
       },
     ];
   }

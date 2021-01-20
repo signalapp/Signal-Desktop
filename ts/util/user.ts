@@ -1,9 +1,9 @@
 import { getItemById } from '../../js/modules/data';
 import { KeyPair } from '../../libtextsecure/libsignal-protocol';
-import { PrimaryPubKey } from '../session/types';
-import { MultiDeviceProtocol } from '../session/protocols';
 import { StringUtils } from '../session/utils';
 import _ from 'lodash';
+import { PubKey } from '../session/types';
+import { UserUtil } from '.';
 
 export type HexKeyPair = {
   pubKey: string;
@@ -11,8 +11,7 @@ export type HexKeyPair = {
 };
 
 /**
- * Returns the real public key of this device. We might be a primary or a secondary device.
- * If you want the primary, call getPrimary() instead.
+ * Returns the public key of this current device as a string
  */
 export async function getCurrentDevicePubKey(): Promise<string | undefined> {
   const item = await getItemById('number_id');
@@ -23,13 +22,24 @@ export async function getCurrentDevicePubKey(): Promise<string | undefined> {
   return item.value.split('.')[0];
 }
 
-/**
- * Returns our primary device pubkey.
- * If we are a secondary device, our primary PubKey won't be the same as our currentDevicePubKey
- */
-export async function getPrimary(): Promise<PrimaryPubKey> {
-  const ourNumber = (await getCurrentDevicePubKey()) as string;
-  return MultiDeviceProtocol.getPrimaryDevice(ourNumber);
+export async function getOurNumber(): Promise<PubKey> {
+  const ourNumber = await UserUtil.getCurrentDevicePubKey();
+  if(!ourNumber) {
+    throw new Error('ourNumber is not set');
+  }
+  return PubKey.cast(ourNumber);
+}
+
+export async function isUs(pubKey: string | PubKey | undefined): Promise<boolean> {
+  if(!pubKey) {
+    throw new Error('pubKey is not set');
+  }
+  const ourNumber = await UserUtil.getCurrentDevicePubKey();
+  if(!ourNumber) {
+    throw new Error('ourNumber is not set');
+  }
+  const pubKeyStr = pubKey instanceof PubKey ? pubKey.key : pubKey;
+  return pubKeyStr === ourNumber;
 }
 
 /**

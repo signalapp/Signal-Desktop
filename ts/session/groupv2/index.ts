@@ -2,7 +2,6 @@ import { PubKey } from '../types';
 import * as Data from '../../../js/modules/data';
 import _ from 'lodash';
 
-import { MultiDeviceProtocol } from '../protocols';
 import { fromHex, fromHexToArray, toHex } from '../utils/String';
 import { UserUtil } from '../../util';
 import { MessageModel, MessageModelType } from '../../../js/models/messages';
@@ -27,7 +26,6 @@ export interface GroupInfo {
   id: string;
   name: string;
   members: Array<string>; // Primary keys
-  is_medium_group: boolean;
   active?: boolean;
   expireTimer?: number | null;
   avatar?: any;
@@ -102,7 +100,6 @@ export async function initiateGroupUpdate(
     active: true,
     expireTimer: convo.get('expireTimer'),
     avatar,
-    is_medium_group: true,
   };
 
   const diff = buildGroupDiff(convo, groupDetails);
@@ -118,7 +115,6 @@ export async function initiateGroupUpdate(
     id: groupId,
     name: groupName,
     members,
-    is_medium_group: true,
     admins: convo.get('groupAdmins'),
     expireTimer: convo.get('expireTimer'),
   };
@@ -274,8 +270,8 @@ export async function leaveClosedGroupV2(groupId: string) {
     window.log.error('Cannot leave non-existing v2 group');
     return;
   }
-  const ourPrimary = await UserUtil.getPrimary();
-  const isCurrentUserAdmin = convo.get('groupAdmins')?.includes(ourPrimary.key);
+  const ourNumber = await UserUtil.getOurNumber();
+  const isCurrentUserAdmin = convo.get('groupAdmins')?.includes(ourNumber.key);
 
   const now = Date.now();
   let members: Array<string> = [];
@@ -288,7 +284,7 @@ export async function leaveClosedGroupV2(groupId: string) {
     members = [];
   } else {
     convo.set({ left: true });
-    members = convo.get('members').filter(m => m !== ourPrimary.key);
+    members = convo.get('members').filter(m => m !== ourNumber.key);
   }
   convo.set({ members });
   await convo.commit();
@@ -306,13 +302,12 @@ export async function leaveClosedGroupV2(groupId: string) {
     id: convo.get('id'),
     name: convo.get('name'),
     members,
-    is_medium_group: true,
     admins: convo.get('groupAdmins'),
   };
 
   await sendGroupUpdateForClosedV2(
     convo,
-    { leavingMembers: [ourPrimary.key] },
+    { leavingMembers: [ourNumber.key] },
     groupUpdate,
     dbMessage.id
   );
@@ -325,13 +320,13 @@ export async function sendGroupUpdateForClosedV2(
   messageId: string
 ) {
   const { id: groupId, members, name: groupName, expireTimer } = groupUpdate;
-  const ourPrimary = await UserUtil.getPrimary();
+  const ourNumber = await UserUtil.getOurNumber();
 
   const removedMembers = diff.leavingMembers || [];
   const newMembers = diff.joiningMembers || []; // joining members
   const wasAnyUserRemoved = removedMembers.length > 0;
-  const isUserLeaving = removedMembers.includes(ourPrimary.key);
-  const isCurrentUserAdmin = convo.get('groupAdmins')?.includes(ourPrimary.key);
+  const isUserLeaving = removedMembers.includes(ourNumber.key);
+  const isCurrentUserAdmin = convo.get('groupAdmins')?.includes(ourNumber.key);
   const expireTimerToShare = expireTimer || 0;
 
   const admins = groupUpdate.admins || [];
@@ -427,13 +422,13 @@ export async function sendGroupUpdateForClosedV2(
           'private'
         );
         const memberPubKey = PubKey.cast(m);
-        await getMessageQueue().sendUsingMultiDevice(
+        await getMessageQueue().sendToPubKey(
           memberPubKey,
           newClosedGroupUpdate
         );
 
         if (expirationTimerMessage) {
-          await getMessageQueue().sendUsingMultiDevice(
+          await getMessageQueue().sendToPubKey(
             memberPubKey,
             expirationTimerMessage
           );
@@ -442,9 +437,6 @@ export async function sendGroupUpdateForClosedV2(
       await Promise.all(promises);
     }
   }
-
-  // Update the group
-  // await SenderKeyAPI.updateOrCreateClosedGroupV2(groupDetails);
 }
 
 export async function generateAndSendNewEncryptionKeyPair(
@@ -469,8 +461,8 @@ export async function generateAndSendNewEncryptionKeyPair(
     return;
   }
 
-  const ourPrimary = await UserUtil.getPrimary();
-  if (!groupConvo.get('groupAdmins')?.includes(ourPrimary.key)) {
+  const ourNumber = await UserUtil.getOurNumber();
+  if (!groupConvo.get('groupAdmins')?.includes(ourNumber.key)) {
     window.log.warn(
       'generateAndSendNewEncryptionKeyPair: cannot send it as a non admin'
     );
@@ -486,11 +478,11 @@ export async function generateAndSendNewEncryptionKeyPair(
     );
     return;
   }
-  const proto = new SignalService.ClosedGroupUpdateV2.KeyPair({
+  const proto = new SignalService.DataMessage.ClosedGroupUpdateV2.KeyPair({
     privateKey: newKeyPair?.privateKeyData,
     publicKey: newKeyPair?.publicKeyData,
   });
-  const plaintext = SignalService.ClosedGroupUpdateV2.KeyPair.encode(
+  const plaintext = SignalService.DataMessage.ClosedGroupUpdateV2.KeyPair.encode(
     proto
   ).finish();
 
@@ -501,7 +493,7 @@ export async function generateAndSendNewEncryptionKeyPair(
         PubKey.cast(pubkey),
         plaintext
       );
-      return new SignalService.ClosedGroupUpdateV2.KeyPairWrapper({
+      return new SignalService.DataMessage.ClosedGroupUpdateV2.KeyPairWrapper({
         encryptedKeyPair: ciphertext,
         publicKey: fromHexToArray(pubkey),
       });

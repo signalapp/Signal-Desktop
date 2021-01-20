@@ -164,30 +164,16 @@
         m => !this.existingMembers.includes(m)
       );
 
-      const notPresentInNew = this.existingMembers.filter(
+      const membersToRemove = this.existingMembers.filter(
         m => !allMembers.includes(m)
       );
 
-      // Filter out all linked devices for cases in which one device
-      // exists in group, but hasn't yet synced with its other devices.
-      const getDevicesForRemoved = async () => {
-        const promises = notPresentInNew.map(member =>
-          window.libsession.Protocols.MultiDeviceProtocol.getAllDevices(member)
-        );
-        const devices = _.flatten(await Promise.all(promises));
-
-        return devices;
-      };
-
-      // Get all devices for notPresentInNew
-      const allDevicesOfMembersToRemove = await getDevicesForRemoved();
-
       // If any extra devices of removed exist in newMembers, ensure that you filter them
       const filteredMemberes = allMembers.filter(
-        member => !_.includes(allDevicesOfMembersToRemove, member)
+        member => !_.includes(membersToRemove, member)
       );
 
-      const xor = _.xor(notPresentInNew, notPresentInOld);
+      const xor = _.xor(membersToRemove, notPresentInOld);
       if (xor.length === 0) {
         window.log.info(
           'skipping group update: no detected changes in group member list'
