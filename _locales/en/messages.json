@@ -457,20 +457,6 @@
   "unverify": {
     "message": "Mark As Not Verified"
   },
-  "isVerified": {
-    "message": "You marked your safety number with $name$ verified",
-    "description": "Summary state shown at top of the safety number screen if user has verified contact.",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    },
-    "androidKey": "MessageRecord_you_marked_your_safety_number_with_s_verified",
-    "androidReplace": {
-      "%s": "$name$"
-    }
-  },
   "isNotVerified": {
     "message": "You have not verified your safety number with $name$.",
     "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
@@ -1044,18 +1030,6 @@
     "message": "Are you sure you want to delete this conversation?",
     "description": "Confirmation dialog text that tells the user what will happen if they delete the contact.",
     "androidKey": "activity_home_delete_conversation_dialog_message"
-  },
-  "sessionResetFailed": {
-    "message": "Secure session reset failed",
-    "description": "your secure session could not been transmitted to the other participant."
-  },
-  "sessionResetOngoing": {
-    "message": "Secure session reset in progress",
-    "description": "your secure session is currently being reset, waiting for the reset acknowledgment."
-  },
-  "sessionEnded": {
-    "message": "Secure session reset succeeded",
-    "description": "This is a past tense, informational message. In other words, your secure session has been reset."
   },
   "quoteThumbnailAlt": {
     "message": "Thumbnail of image from quoted message",

@@ -4,7 +4,6 @@ import { Constants } from '../../session';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { MessageModel } from '../../../js/models/messages';
 import { ConversationController } from '../../session/conversations';
-import { StateType } from '../reducer';
 
 // State
 
@@ -35,7 +34,7 @@ export type MessageType = {
   isSelected?: boolean;
 };
 
-type MessageTypeInConvo = {
+export type MessageTypeInConvo = {
   id: string;
   conversationId: string;
   attributes: any;
@@ -43,8 +42,6 @@ type MessageTypeInConvo = {
   propsForSearchResult: Object;
   propsForGroupInvitation: Object;
   propsForTimerNotification: Object;
-  propsForVerificationNotification: Object;
-  propsForResetSessionNotification: Object;
   propsForGroupNotification: Object;
   firstMessageOfSeries: boolean;
   receivedAt: number;
@@ -79,6 +76,8 @@ export type ConversationType = {
   isKickedFromGroup: boolean;
   left: boolean;
   avatarPath?: string; // absolute filepath to the avatar
+  groupAdmins?: Array<string>; // admins for closed groups and moderators for open groups
+  members?: Array<string>; // members for closed groups only
 };
 export type ConversationLookupType = {
   [key: string]: ConversationType;
@@ -407,7 +406,6 @@ const toPickFromMessageModel = [
   'propsForGroupInvitation',
   'propsForTimerNotification',
   'propsForVerificationNotification',
-  'propsForResetSessionNotification',
   'propsForGroupNotification',
   // FIXME below are what is needed to fetch on the fly messageDetails. This is not the react way
   'getPropsForMessageDetail',

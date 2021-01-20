@@ -13,10 +13,6 @@ const hasVisualMediaAttachment = hasAttachment(Attachment.isVisualMedia);
 export const initializeAttachmentMetadata = async (
   message: Message
 ): Promise<Message> => {
-  if (message.type === 'verified-change') {
-    return message;
-  }
-
   const hasAttachments = IndexedDB.toIndexableBoolean(
     message.attachments.length > 0
   );

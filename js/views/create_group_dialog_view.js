@@ -31,7 +31,7 @@
         this.titleText = i18n('updateGroupDialogTitle', this.groupName);
         // I'd much prefer to integrate mods with groupAdmins
         // but lets discuss first...
-        this.isAdmin = groupConvo.isModerator(
+        this.isAdmin = groupConvo.isAdmin(
           window.storage.get('primaryDevicePubKey')
         );
       }
@@ -92,7 +92,7 @@
         this.titleText = i18n('updateGroupDialogTitle', this.groupName);
         // I'd much prefer to integrate mods with groupAdmins
         // but lets discuss first...
-        this.isAdmin = groupConvo.isModerator(
+        this.isAdmin = groupConvo.isAdmin(
           window.storage.get('primaryDevicePubKey')
         );
         // zero out contactList for now

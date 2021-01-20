@@ -10,9 +10,6 @@ export interface CryptoInterface {
   DHEncrypt: any;
   DecryptGCM: any; // AES-GCM
   EncryptGCM: any; // AES-GCM
-  FallBackDecryptionError: any;
-  FallBackSessionCipher: any;
-  LokiSessionCipher: any;
   PairingType: PairingTypeEnum;
   _decodeSnodeAddressToPubKey: any;
   decryptForPubkey: any;

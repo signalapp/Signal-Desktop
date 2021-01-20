@@ -25,26 +25,18 @@ export const createLastMessageUpdate = ({
     };
   }
 
-  const { type, expirationTimerUpdate } = lastMessage;
-  const isVerifiedChangeMessage = type === 'verified-change';
+  const { expirationTimerUpdate } = lastMessage;
   const isExpireTimerUpdateFromSync = Boolean(
     expirationTimerUpdate && expirationTimerUpdate.fromSync
   );
 
-  const shouldUpdateTimestamp = Boolean(
-    !isVerifiedChangeMessage && !isExpireTimerUpdateFromSync
-  );
+  const shouldUpdateTimestamp = Boolean(!isExpireTimerUpdateFromSync);
   const newTimestamp = shouldUpdateTimestamp
     ? lastMessage.sent_at
     : currentTimestamp;
 
-  const shouldUpdateLastMessageText = !isVerifiedChangeMessage;
-  const newLastMessageText = shouldUpdateLastMessageText
-    ? lastMessageNotificationText
-    : '';
-
   return {
-    lastMessage: newLastMessageText || '',
+    lastMessage: lastMessageNotificationText || '',
     lastMessageStatus: lastMessageStatus || null,
     timestamp: newTimestamp || null,
   };

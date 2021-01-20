@@ -4,7 +4,8 @@ import moment from 'moment';
 
 import { Avatar } from '../Avatar';
 import { ContactName } from './ContactName';
-import { Message, Props as MessageProps } from './Message';
+import { Message } from './Message';
+import { MessageRegularProps } from '../../../js/models/messages';
 
 interface Contact {
   status: string;
@@ -19,14 +20,13 @@ interface Contact {
   errors?: Array<Error>;
 
   onSendAnyway: () => void;
-  onShowSafetyNumber: () => void;
 }
 
 interface Props {
   sentAt: number;
   receivedAt: number;
 
-  message: MessageProps;
+  message: MessageRegularProps;
   errors: Array<Error>;
   contacts: Array<Contact>;
 
@@ -73,12 +73,6 @@ export class MessageDetail extends React.Component<Props> {
 
     const errorComponent = contact.isOutgoingKeyError ? (
       <div className="module-message-detail__contact__error-buttons">
-        <button
-          className="module-message-detail__contact__show-safety-number"
-          onClick={contact.onShowSafetyNumber}
-        >
-          {i18n('showSafetyNumber')}
-        </button>
         <button
           className="module-message-detail__contact__send-anyway"
           onClick={contact.onSendAnyway}

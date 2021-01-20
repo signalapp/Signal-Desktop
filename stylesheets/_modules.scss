@@ -635,33 +635,6 @@
   text-align: center;
 }
 
-// Module: Safety Number Notification
-
-.module-safety-number-notification {
-  margin-top: 14px;
-  text-align: center;
-}
-
-.module-safety-number-notification__icon {
-  height: 24px;
-  width: 24px;
-  margin-inline-start: auto;
-  margin-inline-end: auto;
-  margin-bottom: 7px;
-  @include color-svg('../images/shield.svg', $color-gray-60);
-}
-
-.module-safety-number-notification__text {
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.3px;
-  color: $color-gray-60;
-}
-
-.module-safety-number-notification__contact {
-  font-weight: 300;
-}
-
 .module-verification-notification__button {
   margin-top: 5px;
   display: inline-block;
@@ -688,24 +661,6 @@
 
 .module-verification-notification__contact {
   font-weight: 300;
-}
-
-.module-verification-notification__icon--mark-verified {
-  height: 24px;
-  width: 24px;
-  margin-inline-start: auto;
-  margin-inline-end: auto;
-  margin-bottom: 4px;
-  @include color-svg('../images/verified-check.svg', $color-gray-60);
-}
-
-.module-verification-notification__icon--mark-not-verified {
-  height: 24px;
-  width: 24px;
-  margin-inline-start: auto;
-  margin-inline-end: auto;
-  margin-bottom: 7px;
-  @include color-svg('../images/shield.svg', $color-gray-60);
 }
 
 // Module: Timer Notification
@@ -824,17 +779,6 @@
   font-size: 14px;
 }
 
-.module-contact-list-item__text__verified-icon {
-  @include color-svg('../images/verified-check.svg', $color-gray-60);
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  vertical-align: text-bottom;
-
-  // Trying to account for the whitespace around the check mark
-  margin-bottom: -1px;
-}
-
 // Module: Conversation Header
 
 .module-conversation-header {
@@ -902,14 +846,6 @@
 
 .module-conversation-header__title__profile-name {
   font-style: italic;
-}
-
-.module-conversation-header__title__verified-icon {
-  @include color-svg('../images/verified-check.svg', $color-gray-90);
-  display: inline-block;
-  width: 1.25em;
-  height: 1.25em;
-  vertical-align: text-bottom;
 }
 
 .module-conversation-header__expiration {
@@ -1019,13 +955,6 @@
   text-align: right;
 }
 
-.module-message-detail__contact__show-safety-number {
-  @include button-reset;
-  padding: 4px;
-  color: $color-white;
-  background-color: $color-light-35;
-  border-radius: 4px;
-}
 .module-message-detail__contact__send-anyway {
   @include button-reset;
   color: $color-white;

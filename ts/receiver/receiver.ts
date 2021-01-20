@@ -210,8 +210,6 @@ async function queueCached(item: any) {
     envelope.sourceDevice = 1;
     envelope.senderIdentity = envelope.senderIdentity || item.senderIdentity;
     envelope.serverTimestamp = envelope.serverTimestamp || item.serverTimestamp;
-    envelope.preKeyBundleMessage =
-      envelope.preKeyBundleMessage || item.preKeyBundleMessage;
 
     const { decrypted } = item;
 

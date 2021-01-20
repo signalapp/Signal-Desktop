@@ -4,7 +4,6 @@ import { Message } from '../../conversation/Message';
 import { TimerNotification } from '../../conversation/TimerNotification';
 
 import { SessionScrollButton } from '../SessionScrollButton';
-import { ResetSessionNotification } from '../../conversation/ResetSessionNotification';
 import { Constants } from '../../../session';
 import _ from 'lodash';
 import { contextMenu } from 'react-contexify';
@@ -12,12 +11,15 @@ import { AttachmentType } from '../../../types/Attachment';
 import { GroupNotification } from '../../conversation/GroupNotification';
 import { GroupInvitation } from '../../conversation/GroupInvitation';
 import { ConversationType } from '../../../state/ducks/conversations';
-import { MessageModel } from '../../../../js/models/messages';
+import {
+  MessageModel,
+  MessageRegularProps,
+} from '../../../../js/models/messages';
 import { SessionLastSeenIndicator } from './SessionLastSeedIndicator';
-import { VerificationNotification } from '../../conversation/VerificationNotification';
 import { ToastUtils } from '../../../session/utils';
 import { TypingBubble } from '../../conversation/TypingBubble';
 import { ConversationController } from '../../../session/conversations';
+import { PubKey } from '../../../session/types';
 
 interface State {
   showScrollButton: boolean;
@@ -29,6 +31,7 @@ interface Props {
   conversationKey: string;
   messages: Array<MessageModel>;
   conversation: ConversationType;
+  ourPrimary: string;
   messageContainerRef: React.RefObject<any>;
   selectMessage: (messageId: string) => void;
   deleteMessage: (messageId: string) => void;
@@ -202,7 +205,8 @@ export class SessionMessagesList extends React.Component<Props, State> {
   }
 
   private renderMessages(messages: Array<MessageModel>) {
-    const multiSelectMode = Boolean(this.props.selectedMessages.length);
+    const { conversation, ourPrimary, selectedMessages } = this.props;
+    const multiSelectMode = Boolean(selectedMessages.length);
     let currentMessageIndex = 0;
     const displayUnreadBannerIndex = this.displayUnreadBannerIndex(messages);
 
@@ -212,9 +216,6 @@ export class SessionMessagesList extends React.Component<Props, State> {
           const messageProps = message.propsForMessage;
 
           const timerProps = message.propsForTimerNotification;
-          const resetSessionProps = message.propsForResetSessionNotification;
-          const verificationSessionProps =
-            message.propsForVerificationNotification;
           const propsForGroupInvitation = message.propsForGroupInvitation;
 
           const groupNotificationProps = message.propsForGroupNotification;
@@ -261,30 +262,6 @@ export class SessionMessagesList extends React.Component<Props, State> {
             );
           }
 
-          if (verificationSessionProps) {
-            return (
-              <>
-                <VerificationNotification
-                  {...verificationSessionProps}
-                  key={message.id}
-                />
-                {unreadIndicator}
-              </>
-            );
-          }
-
-          if (resetSessionProps) {
-            return (
-              <>
-                <ResetSessionNotification
-                  {...resetSessionProps}
-                  key={message.id}
-                />
-                {unreadIndicator}
-              </>
-            );
-          }
-
           if (timerProps) {
             return (
               <>
@@ -293,6 +270,25 @@ export class SessionMessagesList extends React.Component<Props, State> {
               </>
             );
           }
+          if (!messageProps) {
+            return;
+          }
+
+          if (messageProps.conversationType === 'group') {
+            messageProps.weAreAdmin = conversation.groupAdmins?.includes(
+              ourPrimary
+            );
+          }
+          // a message is deletable if
+          // either we sent it,
+          // or the convo is not a public one (in this case, we will only be able to delete for us)
+          // or the convo is public and we are an admin
+          const isDeletable =
+            messageProps.authorPhoneNumber === this.props.ourPrimary ||
+            !conversation.isPublic ||
+            (conversation.isPublic && !!messageProps.weAreAdmin);
+
+          messageProps.isDeletable = isDeletable;
 
           // firstMessageOfSeries tells us to render the avatar only for the first message
           // in a series of messages from the same user
@@ -313,7 +309,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
   }
 
   private renderMessage(
-    messageProps: any,
+    messageProps: MessageRegularProps,
     firstMessageOfSeries: boolean,
     multiSelectMode: boolean,
     message: MessageModel
@@ -322,7 +318,6 @@ export class SessionMessagesList extends React.Component<Props, State> {
       !!messageProps?.id &&
       this.props.selectedMessages.includes(messageProps.id);
 
-    messageProps.i18n = window.i18n;
     messageProps.selected = selected;
     messageProps.firstMessageOfSeries = firstMessageOfSeries;
 
@@ -335,7 +330,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
       void this.props.showMessageDetails(messageDetailsProps);
     };
 
-    messageProps.onClickAttachment = (attachment: any) => {
+    messageProps.onClickAttachment = (attachment: AttachmentType) => {
       this.props.onClickAttachment(attachment, messageProps);
     };
     messageProps.onDownload = (attachment: AttachmentType) => {
@@ -581,15 +576,6 @@ export class SessionMessagesList extends React.Component<Props, State> {
     }
 
     const databaseId = targetMessage.id;
-    // const el = this.$(`#${databaseId}`);
-    // if (!el || el.length === 0) {
-    //   ToastUtils.pushOriginalNoLongerAvailable();
-    //   window.log.info(
-    //     `Error: had target message ${id} in messageCollection, but it was not in DOM`
-    //   );
-    //   return;
-    // }
-    // this probably does not work for us as we need to call getMessages before
     this.scrollToMessage(databaseId, true);
   }
 
@@ -608,28 +594,6 @@ export class SessionMessagesList extends React.Component<Props, State> {
   }
 
   private async onSendAnyway({ contact, message }: any) {
-    const { i18n } = window;
-    window.confirmationDialog({
-      message: i18n('identityKeyErrorOnSend', [
-        contact.getTitle(),
-        contact.getTitle(),
-      ]),
-      messageSub: i18n('youMayWishToVerifyContact'),
-      okText: i18n('sendAnyway'),
-      resolve: async () => {
-        await contact.updateVerified();
-
-        if (contact.isUnverified()) {
-          await contact.setVerifiedDefault();
-        }
-
-        const untrusted = await contact.isUntrusted();
-        if (untrusted) {
-          await contact.setApproved();
-        }
-
-        message.resend(contact.id);
-      },
-    });
+    message.resend(contact.id);
   }
 }

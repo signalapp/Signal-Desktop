@@ -4,7 +4,6 @@ import * as _ from 'lodash';
 import { MessageUtils } from '../../../../session/utils';
 import { TestUtils } from '../../../../test/test-utils';
 import { PendingMessageCache } from '../../../../session/sending/PendingMessageCache';
-import { SessionProtocol } from '../../../../session/protocols';
 
 // Equivalent to Data.StorageItem
 interface StorageItem {
@@ -39,8 +38,6 @@ describe('PendingMessageCache', () => {
     });
 
     pendingMessageCacheStub = new PendingMessageCache();
-
-    sandbox.stub(SessionProtocol, 'hasSession').resolves(true);
   });
 
   afterEach(() => {

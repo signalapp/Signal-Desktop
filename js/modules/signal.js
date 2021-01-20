@@ -10,7 +10,6 @@ const OS = require('../../ts/OS');
 const Settings = require('./settings');
 const Util = require('../../ts/util');
 const { migrateToSQL } = require('./migrate_to_sql');
-const Metadata = require('./metadata/SecretSessionCipher');
 const LinkPreviews = require('./link_previews');
 const AttachmentDownloads = require('./attachment_downloads');
 
@@ -32,9 +31,6 @@ const { UserDetailsDialog } = require('../../ts/components/UserDetailsDialog');
 const {
   DevicePairingDialog,
 } = require('../../ts/components/DevicePairingDialog');
-const {
-  SessionConversation,
-} = require('../../ts/components/session/conversation/SessionConversation');
 const { SessionModal } = require('../../ts/components/session/SessionModal');
 const {
   SessionSeedModal,
@@ -244,7 +240,6 @@ exports.setup = (options = {}) => {
     AddModeratorsDialog,
     RemoveModeratorsDialog,
     GroupInvitation,
-    SessionConversation,
     SessionConfirm,
     SessionModal,
     SessionSeedModal,
@@ -299,7 +294,6 @@ exports.setup = (options = {}) => {
     Emoji,
     IndexedDB,
     LinkPreviews,
-    Metadata,
     migrateToSQL,
     Migrations,
     Notifications,

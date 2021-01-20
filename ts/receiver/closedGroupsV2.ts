@@ -366,10 +366,6 @@ async function handleUpdateClosedGroupV2(
     diff.newName
   ) {
     await ClosedGroupV2.addUpdateMessage(convo, diff, 'incoming');
-    if (diff.joiningMembers?.length) {
-      // send a session request for all the members we do not have a session with
-      await window.libloki.api.sendSessionRequestsToMembers(members);
-    }
   }
 
   convo.set('name', name);

@@ -10,10 +10,11 @@ import { ConversationType } from '../../state/ducks/conversations';
 import { noop } from 'lodash';
 import { DefaultTheme } from 'styled-components';
 import { StateType } from '../../state/reducer';
-import { MessageEncrypter } from '../../session/crypto';
-import { PubKey } from '../../session/types';
 import { UserUtil } from '../../util';
 import { ConversationController } from '../../session/conversations';
+import { getFocusedSection } from '../../state/selectors/section';
+import { getTheme } from '../../state/selectors/theme';
+import { getPrimaryPubkey } from '../../state/selectors/user';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -30,6 +31,7 @@ interface Props {
   selectedSection: SectionType;
   unreadMessageCount: number;
   ourPrimaryConversation: ConversationType;
+  ourPrimary: string;
   applyTheme?: any;
   theme: DefaultTheme;
 }
@@ -53,6 +55,9 @@ class ActionsPanelPrivate extends React.Component<Props> {
     this.props.applyTheme(newThemeObject);
 
     void this.showResetSessionIDDialogIfNeeded();
+
+    // remove existing prekeys, sign prekeys and sessions
+    void window.getAccountManager().clearSessionsAndPreKeys();
   }
 
   public Section = ({
@@ -68,6 +73,7 @@ class ActionsPanelPrivate extends React.Component<Props> {
     avatarPath?: string;
     notificationCount?: number;
   }) => {
+    const { ourPrimary } = this.props;
     const handleClick = onSelect
       ? () => {
           /* tslint:disable:no-void-expression */
@@ -89,7 +95,6 @@ class ActionsPanelPrivate extends React.Component<Props> {
       : undefined;
 
     if (type === SectionType.Profile) {
-      const ourPrimary = window.storage.get('primaryDevicePubKey');
       const conversation = ConversationController.getInstance().get(ourPrimary);
 
       const profile = conversation?.getLokiProfile();
@@ -202,11 +207,10 @@ class ActionsPanelPrivate extends React.Component<Props> {
 }
 
 const mapStateToProps = (state: StateType) => {
-  const { section, theme } = state;
-
   return {
-    section: section.focusedSection,
-    theme,
+    section: getFocusedSection(state),
+    theme: getTheme(state),
+    ourPrimary: getPrimaryPubkey(state),
   };
 };
 

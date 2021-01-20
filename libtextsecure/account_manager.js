@@ -49,8 +49,6 @@
     registerSingleDevice(mnemonic, mnemonicLanguage, profileName) {
       const createAccount = this.createAccount.bind(this);
       const clearSessionsAndPreKeys = this.clearSessionsAndPreKeys.bind(this);
-      const generateKeys = this.generateKeys.bind(this, 0);
-      const confirmKeys = this.confirmKeys.bind(this);
       const registrationDone = this.registrationDone.bind(this);
       let generateKeypair;
       if (mnemonic) {
@@ -73,8 +71,6 @@
           createAccount(identityKeyPair)
             .then(() => this.saveRecoveryPhrase(mnemonic))
             .then(clearSessionsAndPreKeys)
-            .then(generateKeys)
-            .then(confirmKeys)
             .then(() => {
               const pubKeyString = StringView.arrayBufferToHex(
                 identityKeyPair.pubKey
@@ -84,163 +80,16 @@
         )
       );
     },
-    rotateSignedPreKey() {
-      return this.queueTask(() => {
-        const signedKeyId = textsecure.storage.get('signedKeyId', 1);
-        if (typeof signedKeyId !== 'number') {
-          throw new Error('Invalid signedKeyId');
-        }
-
-        const store = textsecure.storage.protocol;
-        const { cleanSignedPreKeys } = this;
-
-        return store
-          .getIdentityKeyPair()
-          .then(
-            identityKey =>
-              libsignal.KeyHelper.generateSignedPreKey(
-                identityKey,
-                signedKeyId
-              ),
-            () => {
-              // We swallow any error here, because we don't want to get into
-              //   a loop of repeated retries.
-              window.log.error(
-                'Failed to get identity key. Canceling key rotation.'
-              );
-            }
-          )
-          .then(res => {
-            if (!res) {
-              return null;
-            }
-            window.log.info('Saving new signed prekey', res.keyId);
-            return Promise.all([
-              textsecure.storage.put('signedKeyId', signedKeyId + 1),
-              store.storeSignedPreKey(
-                res.keyId,
-                res.keyPair,
-                undefined,
-                res.signature
-              ),
-            ])
-              .then(() => {
-                const confirmed = true;
-                window.log.info('Confirming new signed prekey', res.keyId);
-                return Promise.all([
-                  textsecure.storage.remove('signedKeyRotationRejected'),
-                  store.storeSignedPreKey(
-                    res.keyId,
-                    res.keyPair,
-                    confirmed,
-                    res.signature
-                  ),
-                ]);
-              })
-              .then(() => cleanSignedPreKeys());
-          })
-          .catch(e => {
-            window.log.error(
-              'rotateSignedPrekey error:',
-              e && e.stack ? e.stack : e
-            );
-
-            if (
-              e instanceof Error &&
-              e.name === 'HTTPError' &&
-              e.code >= 400 &&
-              e.code <= 599
-            ) {
-              const rejections =
-                1 + textsecure.storage.get('signedKeyRotationRejected', 0);
-              textsecure.storage.put('signedKeyRotationRejected', rejections);
-              window.log.error(
-                'Signed key rotation rejected count:',
-                rejections
-              );
-            } else {
-              throw e;
-            }
-          });
-      });
-    },
     queueTask(task) {
       const taskWithTimeout = textsecure.createTaskWithTimeout(task);
       this.pending = this.pending.then(taskWithTimeout, taskWithTimeout);
 
       return this.pending;
     },
-    cleanSignedPreKeys() {
-      const MINIMUM_KEYS = 3;
-      const store = textsecure.storage.protocol;
-      return store.loadSignedPreKeys().then(allKeys => {
-        allKeys.sort((a, b) => (a.created_at || 0) - (b.created_at || 0));
-        allKeys.reverse(); // we want the most recent first
-        let confirmed = allKeys.filter(key => key.confirmed);
-        const unconfirmed = allKeys.filter(key => !key.confirmed);
-
-        const recent = allKeys[0] ? allKeys[0].keyId : 'none';
-        const recentConfirmed = confirmed[0] ? confirmed[0].keyId : 'none';
-        window.log.info(`Most recent signed key: ${recent}`);
-        window.log.info(`Most recent confirmed signed key: ${recentConfirmed}`);
-        window.log.info(
-          'Total signed key count:',
-          allKeys.length,
-          '-',
-          confirmed.length,
-          'confirmed'
-        );
-
-        let confirmedCount = confirmed.length;
-
-        // Keep MINIMUM_KEYS confirmed keys, then drop if older than a week
-        confirmed = confirmed.forEach((key, index) => {
-          if (index < MINIMUM_KEYS) {
-            return;
-          }
-          const createdAt = key.created_at || 0;
-          const age = Date.now() - createdAt;
-
-          if (age > ARCHIVE_AGE) {
-            window.log.info(
-              'Removing confirmed signed prekey:',
-              key.keyId,
-              'with timestamp:',
-              createdAt
-            );
-            store.removeSignedPreKey(key.keyId);
-            confirmedCount -= 1;
-          }
-        });
-
-        const stillNeeded = MINIMUM_KEYS - confirmedCount;
-
-        // If we still don't have enough total keys, we keep as many unconfirmed
-        // keys as necessary. If not necessary, and over a week old, we drop.
-        unconfirmed.forEach((key, index) => {
-          if (index < stillNeeded) {
-            return;
-          }
-
-          const createdAt = key.created_at || 0;
-          const age = Date.now() - createdAt;
-          if (age > ARCHIVE_AGE) {
-            window.log.info(
-              'Removing unconfirmed signed prekey:',
-              key.keyId,
-              'with timestamp:',
-              createdAt
-            );
-            store.removeSignedPreKey(key.keyId);
-          }
-        });
-      });
-    },
     async createAccount(identityKeyPair, userAgent, readReceipts) {
       const signalingKey = libsignal.crypto.getRandomBytes(32 + 20);
       let password = btoa(getString(libsignal.crypto.getRandomBytes(16)));
       password = password.substring(0, password.length - 2);
-      const registrationId = libsignal.KeyHelper.generateRegistrationId();
 
       await Promise.all([
         textsecure.storage.remove('identityKey'),
@@ -265,7 +114,6 @@
           publicKey: identityKeyPair.pubKey,
           firstUse: true,
           timestamp: Date.now(),
-          verified: textsecure.storage.protocol.VerifiedStatus.VERIFIED,
           nonblockingApproval: true,
         }
       );
@@ -273,7 +121,6 @@
       await textsecure.storage.put('identityKey', identityKeyPair);
       await textsecure.storage.put('signaling_key', signalingKey);
       await textsecure.storage.put('password', password);
-      await textsecure.storage.put('registrationId', registrationId);
       if (userAgent) {
         await textsecure.storage.put('userAgent', userAgent);
       }
@@ -292,12 +139,8 @@
     async clearSessionsAndPreKeys() {
       const store = textsecure.storage.protocol;
 
-      window.log.info('clearing all sessions, prekeys, and signed prekeys');
-      await Promise.all([
-        store.clearContactPreKeysStore(),
-        store.clearContactSignedPreKeysStore(),
-        store.clearSessionStore(),
-      ]);
+      window.log.info('clearing all sessions');
+      await Promise.all([store.clearSessionStore()]);
       // During secondary device registration we need to keep our prekeys sent
       // to other pubkeys
       if (textsecure.storage.get('secondaryDeviceStatus') !== 'ongoing') {
@@ -306,83 +149,6 @@
           store.clearSignedPreKeysStore(),
         ]);
       }
-    },
-    // Takes the same object returned by generateKeys
-    async confirmKeys(keys) {
-      const store = textsecure.storage.protocol;
-      const key = keys.signedPreKey;
-      const confirmed = true;
-
-      window.log.info('confirmKeys: confirming key', key.keyId);
-      await store.storeSignedPreKey(
-        key.keyId,
-        key.keyPair,
-        confirmed,
-        key.signature
-      );
-    },
-    generateKeys(count, providedProgressCallback) {
-      const progressCallback =
-        typeof providedProgressCallback === 'function'
-          ? providedProgressCallback
-          : null;
-      const startId = textsecure.storage.get('maxPreKeyId', 1);
-      const signedKeyId = textsecure.storage.get('signedKeyId', 1);
-
-      if (typeof startId !== 'number') {
-        throw new Error('Invalid maxPreKeyId');
-      }
-      if (typeof signedKeyId !== 'number') {
-        throw new Error('Invalid signedKeyId');
-      }
-
-      const store = textsecure.storage.protocol;
-      return store.getIdentityKeyPair().then(identityKey => {
-        const result = { preKeys: [], identityKey: identityKey.pubKey };
-        const promises = [];
-
-        for (let keyId = startId; keyId < startId + count; keyId += 1) {
-          promises.push(
-            libsignal.KeyHelper.generatePreKey(keyId).then(res => {
-              store.storePreKey(res.keyId, res.keyPair);
-              result.preKeys.push({
-                keyId: res.keyId,
-                publicKey: res.keyPair.pubKey,
-              });
-              if (progressCallback) {
-                progressCallback();
-              }
-            })
-          );
-        }
-
-        promises.push(
-          libsignal.KeyHelper.generateSignedPreKey(
-            identityKey,
-            signedKeyId
-          ).then(res => {
-            store.storeSignedPreKey(
-              res.keyId,
-              res.keyPair,
-              undefined,
-              res.signature
-            );
-            result.signedPreKey = {
-              keyId: res.keyId,
-              publicKey: res.keyPair.pubKey,
-              signature: res.signature,
-              keyPair: res.keyPair,
-            };
-          })
-        );
-
-        textsecure.storage.put('maxPreKeyId', startId + count);
-        textsecure.storage.put('signedKeyId', signedKeyId + 1);
-        return Promise.all(promises).then(() =>
-          // This is primarily for the signed prekey summary it logs out
-          this.cleanSignedPreKeys().then(() => result)
-        );
-      });
     },
     async generateMnemonic(language = 'english') {
       // Note: 4 bytes are converted into 3 seed words, so length 12 seed words
@@ -530,9 +296,13 @@
         const conversations = window
           .getConversationController()
           .getConversations();
-        await textsecure.messaging.sendGroupSyncMessage(conversations);
-        await textsecure.messaging.sendOpenGroupsSyncMessage(conversations);
-        await textsecure.messaging.sendContactSyncMessage();
+        await libsession.Utils.SyncMessageUtils.sendGroupSyncMessage(
+          conversations
+        );
+        await libsession.Utils.SyncMessageUtils.sendOpenGroupsSyncMessage(
+          conversations
+        );
+        await libsession.Utils.SyncMessageUtils.sendContactSyncMessage();
       }, 5000);
     },
     validatePubKeyHex(pubKey) {

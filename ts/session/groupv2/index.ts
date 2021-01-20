@@ -199,16 +199,7 @@ export function buildGroupDiff(
 }
 
 export async function updateOrCreateClosedGroupV2(details: GroupInfo) {
-  const { libloki } = window;
-
   const { id } = details;
-
-  libloki.api.debug.logGroupSync(
-    'Got sync group message  v2with group id',
-    id,
-    ' details:',
-    details
-  );
 
   const conversation = await ConversationController.getInstance().getOrCreateAndWait(
     id,

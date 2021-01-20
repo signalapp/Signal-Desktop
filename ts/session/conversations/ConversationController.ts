@@ -223,23 +223,6 @@ export class ConversationController {
       } else {
         channelAPI.serverAPI.partChannel(channelAPI.channelId);
       }
-    } else if (conversation.isPrivate()) {
-      const deviceIds = await window.textsecure.storage.protocol.getDeviceIds(
-        id
-      );
-      await Promise.all(
-        deviceIds.map((deviceId: string) => {
-          const address = new window.libsignal.SignalProtocolAddress(
-            id,
-            deviceId
-          );
-          const sessionCipher = new window.libsignal.SessionCipher(
-            window.textsecure.storage.protocol,
-            address
-          );
-          return sessionCipher.deleteAllSessionsForDevice();
-        })
-      );
     }
 
     await conversation.destroyMessages();

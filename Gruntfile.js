@@ -87,11 +87,8 @@ module.exports = grunt => {
           'libtextsecure/stringview.js',
           'libtextsecure/event_target.js',
           'libtextsecure/account_manager.js',
-          'libtextsecure/websocket-resources.js',
           'libtextsecure/http-resources.js',
           'libtextsecure/message_receiver.js',
-          'libtextsecure/sendmessage.js',
-          'libtextsecure/sync_request.js',
           'libtextsecure/contacts_parser.js',
           'libtextsecure/ProvisioningCipher.js',
           'libtextsecure/task_with_timeout.js',
@@ -100,7 +97,6 @@ module.exports = grunt => {
       },
       libloki: {
         src: [
-          'libloki/api.js',
           'libloki/crypto.js',
           'libloki/service_nodes.js',
           'libloki/storage.js',
@@ -118,7 +114,6 @@ module.exports = grunt => {
       libtextsecuretest: {
         src: [
           'node_modules/jquery/dist/jquery.js',
-          'components/mock-socket/dist/mock-socket.js',
           'node_modules/mocha/mocha.js',
           'node_modules/chai/chai.js',
           'libtextsecure/test/_test.js',

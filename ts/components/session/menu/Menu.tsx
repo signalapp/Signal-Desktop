@@ -21,24 +21,6 @@ function showMemberMenu(
   return !isPublic && !isRss && isGroup;
 }
 
-function showSafetyNumber(
-  isPublic: boolean,
-  isRss: boolean,
-  isGroup: boolean,
-  isMe: boolean
-): boolean {
-  return !isPublic && !isRss && !isGroup && !isMe;
-}
-
-function showResetSession(
-  isPublic: boolean,
-  isRss: boolean,
-  isGroup: boolean,
-  isBlocked: boolean
-): boolean {
-  return !isPublic && !isRss && !isGroup && !isBlocked;
-}
-
 function showBlock(isMe: boolean, isPrivate: boolean): boolean {
   return !isMe && isPrivate;
 }
@@ -285,48 +267,6 @@ export function getShowMemberMenuItem(
 ): JSX.Element | null {
   if (showMemberMenu(Boolean(isPublic), Boolean(isRss), Boolean(isGroup))) {
     return <Item onClick={action}>{i18n('groupMembers')}</Item>;
-  }
-  return null;
-}
-
-export function getShowSafetyNumberMenuItem(
-  isPublic: boolean | undefined,
-  isRss: boolean | undefined,
-  isGroup: boolean | undefined,
-  isMe: boolean | undefined,
-  action: any,
-  i18n: LocalizerType
-): JSX.Element | null {
-  if (
-    showSafetyNumber(
-      Boolean(isPublic),
-      Boolean(isRss),
-      Boolean(isGroup),
-      Boolean(isMe)
-    )
-  ) {
-    return <Item onClick={action}>{i18n('showSafetyNumber')}</Item>;
-  }
-  return null;
-}
-
-export function getResetSessionMenuItem(
-  isPublic: boolean | undefined,
-  isRss: boolean | undefined,
-  isGroup: boolean | undefined,
-  isBlocked: boolean | undefined,
-  action: any,
-  i18n: LocalizerType
-): JSX.Element | null {
-  if (
-    showResetSession(
-      Boolean(isPublic),
-      Boolean(isRss),
-      Boolean(isGroup),
-      Boolean(isBlocked)
-    )
-  ) {
-    return <Item onClick={action}>{i18n('resetSession')}</Item>;
   }
   return null;
 }

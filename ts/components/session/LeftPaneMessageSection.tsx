@@ -31,6 +31,7 @@ import { ToastUtils } from '../../session/utils';
 import { DefaultTheme } from 'styled-components';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { ConversationController } from '../../session/conversations';
+import { sendOpenGroupsSyncMessage } from '../../session/utils/SyncMessage';
 
 export interface Props {
   searchTerm: string;
@@ -456,9 +457,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       if (openGroupConversation) {
         // if no errors happened, trigger a sync with just this open group
         // so our other devices joins it
-        await window.textsecure.messaging.sendOpenGroupsSyncMessage(
-          openGroupConversation
-        );
+        await sendOpenGroupsSyncMessage([openGroupConversation]);
       } else {
         window.log.error(
           'Joined an opengroup but did not find ther corresponding conversation'

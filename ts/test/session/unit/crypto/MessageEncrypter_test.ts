@@ -104,7 +104,6 @@ describe('MessageEncrypter', () => {
   beforeEach(() => {
     TestUtils.stubWindow('libsignal', {
       SignalProtocolAddress: sandbox.stub(),
-      SessionCipher: Stubs.SessionCipherStub,
     } as any);
 
     TestUtils.stubWindow('textsecure', {
@@ -113,15 +112,8 @@ describe('MessageEncrypter', () => {
       },
     });
 
-    TestUtils.stubWindow('Signal', {
-      Metadata: {
-        SecretSessionCipher: Stubs.SecretSessionCipherStub,
-      },
-    });
-
     TestUtils.stubWindow('libloki', {
       crypto: {
-        FallBackSessionCipher: Stubs.FallBackSessionCipherStub,
         encryptForPubkey: sinon.fake.returns(''),
       } as any,
     });

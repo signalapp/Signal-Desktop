@@ -7,7 +7,6 @@ import { ConversationType, getEnvelopeId } from './common';
 import { MessageModel } from '../../js/models/messages';
 import { PubKey } from '../session/types';
 import { handleMessageJob } from './queuedJob';
-import { handleEndSession } from './sessionHandling';
 import { handleUnpairRequest } from './multidevice';
 import { downloadAttachment } from './attachments';
 import _ from 'lodash';
@@ -175,7 +174,6 @@ export async function processDecrypted(envelope: EnvelopePlus, decrypted: any) {
   if (decrypted.expireTimer == null) {
     decrypted.expireTimer = 0;
   }
-
   if (decrypted.flags & FLAGS.END_SESSION) {
     decrypted.body = '';
     decrypted.attachments = [];
@@ -288,13 +286,11 @@ export async function handleDataMessage(
     await handleClosedGroupV2(envelope, dataMessage.closedGroupUpdateV2);
     return;
   }
-
   // tslint:disable no-bitwise
   if (
     dataMessage.flags &&
     dataMessage.flags & SignalService.DataMessage.Flags.END_SESSION
   ) {
-    await handleEndSession(envelope.source);
     return removeFromCache(envelope);
   }
   // tslint:enable no-bitwise
@@ -606,10 +602,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
     ? ConversationType.GROUP
     : ConversationType.PRIVATE;
 
-  const {
-    PROFILE_KEY_UPDATE,
-    SESSION_RESTORE,
-  } = SignalService.DataMessage.Flags;
+  const { PROFILE_KEY_UPDATE } = SignalService.DataMessage.Flags;
 
   // tslint:disable-next-line: no-bitwise
   const isProfileUpdate = Boolean(message.flags & PROFILE_KEY_UPDATE);
@@ -683,14 +676,6 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
       // mark created conversation as secondary if this is one
       conv.setSecondaryStatus(true, primaryDestination.key);
     }
-  }
-
-  // =========== Process flags =============
-
-  // tslint:disable-next-line: no-bitwise
-  if (message.flags & SESSION_RESTORE) {
-    // Show that the session reset is "in progress" even though we had a valid session
-    msg.set({ endSessionType: 'ongoing' });
   }
 
   const ourNumber = window.textsecure.storage.user.getNumber();

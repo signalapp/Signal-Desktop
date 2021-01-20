@@ -1,7 +1,7 @@
 import { LibTextsecureCryptoInterface } from './crypto';
 
 export interface LibTextsecure {
-  messaging: any;
+  messaging: boolean;
   crypto: LibTextsecureCryptoInterface;
   storage: any;
   SendMessageNetworkError: any;
@@ -9,7 +9,6 @@ export interface LibTextsecure {
   OutgoingIdentityKeyError: any;
   ReplayableError: any;
   MessageError: any;
-  SignedPreKeyRotationError: any;
   EmptySwarmError: any;
   SeedNodeError: any;
   DNSResolutionError: any;

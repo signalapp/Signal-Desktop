@@ -85,8 +85,7 @@ window.CONSTANTS = new (function() {
   this.DEFAULT_PUBLIC_CHAT_URL = appConfig.get('defaultPublicChatServer');
   this.MAX_LINKED_DEVICES = 1;
   this.MAX_CONNECTION_DURATION = 5000;
-  // Limited due to the proof-of-work requirement
-  this.MEDIUM_GROUP_SIZE_LIMIT = 20;
+  this.CLOSED_GROUP_SIZE_LIMIT = 20;
   // Number of seconds to turn on notifications after reconnect/start of app
   this.NOTIFICATION_ENABLE_TIMEOUT_SECONDS = 10;
   this.SESSION_ID_LENGTH = 66;
@@ -340,10 +339,6 @@ if (config.proxyUrl) {
 
 window.nodeSetImmediate = setImmediate;
 
-const { initialize: initializeWebAPI } = require('./js/modules/web_api');
-
-window.WebAPI = initializeWebAPI();
-
 window.seedNodeList = JSON.parse(config.seedNodeList);
 
 const { OnionAPI } = require('./ts/session/onions');
@@ -461,7 +456,6 @@ window.lokiFeatureFlags = {
   useFileOnionRequests: true,
   useFileOnionRequestsV2: true, // more compact encoding of files in response
   onionRequestHops: 3,
-  debugMessageLogs: process.env.ENABLE_MESSAGE_LOGS,
   useMultiDevice: false,
 };
 
@@ -497,7 +491,6 @@ if (config.environment.includes('test-integration')) {
     useOnionRequests: false,
     useFileOnionRequests: false,
     useOnionRequestsV2: false,
-    debugMessageLogs: true,
     useMultiDevice: false,
   };
   /* eslint-disable global-require, import/no-extraneous-dependencies */
