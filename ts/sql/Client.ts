@@ -983,11 +983,13 @@ async function getOlderMessagesByConversation(
   {
     limit = 100,
     receivedAt = Number.MAX_VALUE,
+    sentAt = Number.MAX_VALUE,
     messageId,
     MessageCollection,
   }: {
     limit?: number;
     receivedAt?: number;
+    sentAt?: number;
     messageId?: string;
     MessageCollection: typeof MessageModelCollectionType;
   }
@@ -997,6 +999,7 @@ async function getOlderMessagesByConversation(
     {
       limit,
       receivedAt,
+      sentAt,
       messageId,
     }
   );
@@ -1008,10 +1011,12 @@ async function getNewerMessagesByConversation(
   {
     limit = 100,
     receivedAt = 0,
+    sentAt = 0,
     MessageCollection,
   }: {
     limit?: number;
     receivedAt?: number;
+    sentAt?: number;
     MessageCollection: typeof MessageModelCollectionType;
   }
 ) {
@@ -1020,6 +1025,7 @@ async function getNewerMessagesByConversation(
     {
       limit,
       receivedAt,
+      sentAt,
     }
   );
 

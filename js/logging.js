@@ -106,7 +106,7 @@ const IS_PRODUCTION = env === 'production';
 
 const ipcBatcher = createBatcher({
   wait: 500,
-  maxSize: 20,
+  maxSize: 500,
   processBatch: items => {
     ipc.send('batch-log', items);
   },

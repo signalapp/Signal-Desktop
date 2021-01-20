@@ -1,6 +1,6 @@
 {
     "softwareAcknowledgments": {
-        "message": "Software Acknowledgments",
+        "message": "Xác nhận Phần mềm",
         "description": "Shown in the about box for the link to software acknowledgments"
     },
     "privacyPolicy": {
@@ -12,7 +12,7 @@
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
     "unknownContact": {
-        "message": "Unknown contact",
+        "message": "Liên hệ không rõ",
         "description": "Shown as the name of a contact if we don't have any displayable information about them"
     },
     "unknownGroup": {
@@ -156,7 +156,7 @@
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "messageContextMenuButton": {
-        "message": "More actions",
+        "message": "Các thao tác khác",
         "description": "Label for context button next to each message"
     },
     "contextMenuCopyLink": {
@@ -164,11 +164,11 @@
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
     "contextMenuCopyImage": {
-        "message": "Copy Image",
+        "message": "Sao chép Ảnh",
         "description": "Shown in the context menu for an image to indicate that the user can copy the image"
     },
     "contextMenuNoSuggestions": {
-        "message": "No Suggestions",
+        "message": "Không có Gợi ý",
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
     },
     "avatarMenuViewArchive": {
@@ -222,15 +222,15 @@
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
-        "message": "Pin Conversation",
+        "message": "Ghim Cuộc trò chuyện",
         "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
     },
     "unpinConversation": {
-        "message": "Unpin Conversation",
+        "message": "Gỡ ghim Cuộc trò chuyện",
         "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
     },
     "pinnedConversationsFull": {
-        "message": "You can only pin up to 4 chats",
+        "message": "Bạn chỉ có thể ghim tối đa 4 cuộc trò chuyện",
         "description": ""
     },
     "chooseDirectory": {
@@ -308,11 +308,11 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "You are no longer a member of the group.",
+        "message": "Bạn không còn là thành viên của nhóm.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "invalidConversation": {
-        "message": "This group is invalid. Please create a new group.",
+        "message": "Nhóm này không có hiệu lực. Xin hãy tạo nhóm mới.",
         "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
     },
     "scrollDown": {
@@ -338,7 +338,7 @@
         }
     },
     "messageHistoryUnsynced": {
-        "message": "For your security, conversation history isn't transferred to new linked devices.",
+        "message": "Vì sự an ninh của bạn, lịch sử trò chuyện không được chuyển sang các thiết bị mới được liên kết.",
         "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
@@ -386,7 +386,7 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
-        "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name1$. Remember, this change could mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal.",
+        "message": "Số an toàn bạn đang cố để xác minh đã thay đổi. Xin hãy xem lại số an toàn mới của bạn với $name1$. Xin nhớ rằng, thay đổi này có thể có nghĩa là có người đang cố gắng chặn liên lạc của bạn hoặc đơn giản là $name2$ đã cài đặt lại Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name1": {
@@ -404,7 +404,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "identityKeyErrorOnSend": {
-        "message": "Your safety number with $name1$ has changed. This could either mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
+        "message": "Số an toàn bạn đang cố để xác minh đã thay đổi. Xin hãy xem lại số an toàn mới của bạn với $name1$. Xin nhớ rằng, thay đổi này có thể có nghĩa là có người đang cố gắng chặn liên lạc của bạn hoặc đơn giản là $name2$ đã cài đặt lại Signal. Bạn nên xác minh lại số an toàn của mình với liên hệ này.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name1": {
@@ -426,7 +426,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
     },
     "continueCall": {
-        "message": "Continue Call",
+        "message": "Tiếp tục Cuộc gọi",
         "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
@@ -456,11 +456,11 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopyAlt": {
-        "message": "Copy link to your clipboard",
+        "message": "Sao chép đường dẫn vào bảng sao chép của bạn",
         "description": "Shown as the alt text for the copy button on the debug log screen"
     },
     "debugLogLinkCopied": {
-        "message": "Link Copied to Your Clipboard",
+        "message": "Đường dẫn đã được sao chép vào bảng sao chép",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
@@ -638,11 +638,11 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Connect",
+        "message": "Kết nối",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Shouldn't be long...",
+        "message": "Sẽ không mất quá lâu...",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -682,7 +682,7 @@
         "description": "Item under the Help menu, takes you to the support page"
     },
     "joinTheBeta": {
-        "message": "Join the Beta",
+        "message": "Tham gia bản Beta",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
@@ -722,7 +722,7 @@
         "description": "Placeholder text in the search input"
     },
     "clearSearch": {
-        "message": "Clear Search",
+        "message": "Xoá Tìm kiếm",
         "description": "Aria label for clear search button"
     },
     "searchIn": {
@@ -784,7 +784,7 @@
         "description": "Used as the 'title' attribute for the typing animation"
     },
     "contactInAddressBook": {
-        "message": "This person is in your contacts.",
+        "message": "Người này có trong danh bạ của bạn.",
         "description": "Description of icon denoting that contact is from your address book"
     },
     "contactAvatarAlt": {
@@ -858,15 +858,15 @@
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceRecordingInterruptedMax": {
-        "message": "Voice message recording stopped because the maximum time limit was reached.",
+        "message": "Việc thu âm tin nhắn thoại dừng lại vì đã đạt mức giới hạn số lần tối đa.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
     },
     "voiceRecordingInterruptedBlur": {
-        "message": "Voice message recording stopped because you switched to another app.",
+        "message": "Việc thu âm tin nhắn thoại dừng vì bạn chuyển sang một ứng dụng khác.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Voice messages are limited to five minutes. Recording will stop if you switch to another app.",
+        "message": "Tin nhắn thoại được giới hạn lại ở năm phút. Việc thu âm sẽ dừng nếu bạn chuyển sang ứng dụng khác.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
@@ -902,11 +902,11 @@
         "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
-        "message": "For calling, you must allow Signal Desktop to access your microphone.",
+        "message": "Để thực hiện cuộc gọi, bạn cần phải cho phép Signal Desktop truy cập microphone của bạn.",
         "description": "Shown if the user attempts access the microphone for calling without audio permissions turned on"
     },
     "videoCallingPermissionNeeded": {
-        "message": "For video calling, you must allow Signal Desktop to access your camera.",
+        "message": "Để thực hiện cuộc gọi video, bạn cần phải cho phép Signal Desktop truy cập camera của bạn.",
         "description": "Shown if the user attempts access the camera for video calling without video permissions turned on"
     },
     "allowAccess": {
@@ -934,7 +934,7 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop failed to update, but there is a new version available. Please go to $url$ and install the new version manually, then either contact support or file a bug about this problem.",
+        "message": "Signal Desktop không thể cập nhật, nhưng đã có phiên bản mới hơn. Xin hãy truy cập $url$ và cài đặt thủ công phiên bản mới, sau đó hãy liên lạc bên hỗ trợ hoặc gửi thông báo lỗi về vấn đề này. ",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "url": {
@@ -944,7 +944,7 @@
         }
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving $app$ to $folder$ with Finder.",
+        "message": "Signal Desktop đang trong tình trạng cách ly trên macOS, và sẽ không thể tự-cập nhật được. Xin hãy dời $app$ đến $folder$ với ứng dụng Finder.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
@@ -986,11 +986,11 @@
         "description": ""
     },
     "deleteWarning": {
-        "message": "Clicking 'delete' will permanently remove this message from your devices only.",
+        "message": "Nhấn 'xoá' để vĩnh viễn xoá tin nhắn này từ chỉ từ các thiết bị của bạn.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "This message will be deleted for everyone in the conversation if they’re on a recent version of Signal. They will be able to see that you deleted a message.",
+        "message": "Tin nhắn này sẽ được xóa cho tất cả thành viên nhóm nếu họ đang dùng phiên bản Signal mới. Họ cũng có thể biết rằng bạn đã xóa tin nhắn.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "deleteThisMessage": {
@@ -1038,7 +1038,7 @@
         "description": ""
     },
     "viewRecentMedia": {
-        "message": "View recent media",
+        "message": "Xem các tập đa phương tiện gần đây",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
@@ -1056,7 +1056,7 @@
         "description": ""
     },
     "goBack": {
-        "message": "Go back",
+        "message": "Quay lại",
         "description": "Label for back button in a conversation"
     },
     "moreInfo": {
@@ -1068,11 +1068,11 @@
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Delete message for me",
+        "message": "Xoá tin nhắn này cho tôi",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessageForEveryone": {
-        "message": "Delete message for everyone",
+        "message": "Xoá tin nhắn này cho tất cả mọi người",
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
@@ -1172,7 +1172,7 @@
         "description": ""
     },
     "installTooOld": {
-        "message": "Update Signal on this device to link your phone.",
+        "message": "Cập nhật Signal trên thiết bị này để kết nối thiết bị của bạn.",
         "description": ""
     },
     "installErrorHeader": {
@@ -1192,55 +1192,55 @@
         "description": "Header for calling options on the settings screen"
     },
     "calling__start": {
-        "message": "Start Call",
+        "message": "Bắt đầu Cuộc gọi",
         "description": "Button label in the call lobby for starting a call"
     },
     "calling__join": {
-        "message": "Join Call",
+        "message": "Tham gia Cuộc gọi",
         "description": "Button label in the call lobby for joining a call"
     },
     "calling__return": {
-        "message": "Return to Call",
+        "message": "Quay về Cuộc gọi",
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__call-is-full": {
-        "message": "Call is full",
+        "message": "Cuộc gọi đã đầy",
         "description": "Button label in the call lobby when you can't join because the call is full"
     },
     "calling__button--video-disabled": {
-        "message": "Camera disabled",
+        "message": "Đã tắt Camera",
         "description": "Button tooltip label when the camera is disabled"
     },
     "calling__button--video-off": {
-        "message": "Turn off camera",
+        "message": "Tắt camera",
         "description": "Button tooltip label for turning off the camera"
     },
     "calling__button--video-on": {
-        "message": "Turn on camera",
+        "message": "Bật camera",
         "description": "Button tooltip label for turning on the camera"
     },
     "calling__button--audio-disabled": {
-        "message": "Microphone disabled",
+        "message": "Microphone đã được tắt",
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "Mute mic",
+        "message": "Tắt micro",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
-        "message": "Unmute mic",
+        "message": "Bật micro",
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
-        "message": "Your video is off",
+        "message": "Camera của bạn đang tắt",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__lobby-summary--zero": {
-        "message": "No one else is here",
+        "message": "Không có ai khác đang ở đây",
         "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--single": {
-        "message": "$first$ is in this call",
+        "message": "$first$ đang trong cuộc gọi này",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1250,11 +1250,11 @@
         }
     },
     "calling__lobby-summary--self": {
-        "message": "One of your other devices is in this call",
+        "message": "Một trong các thiết bị của bạn đang trong cuộc gọi này",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
     "calling__lobby-summary--double": {
-        "message": "$first$ and $second$ are in this call",
+        "message": "$first$ và $second$ đang trong cuộc gọi này",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1268,7 +1268,7 @@
         }
     },
     "calling__lobby-summary--triple": {
-        "message": "$first$, $second$, and $third$ are in this call",
+        "message": "$first$, $second$, và $third$ \u001dđang trong cuộc gọi này",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1286,7 +1286,7 @@
         }
     },
     "calling__lobby-summary--many": {
-        "message": "$first$, $second$, and $others$ others are in this call",
+        "message": "$first$, $second$, và $others$ người khác đang trong cuộc điện thoại này",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1304,15 +1304,15 @@
         }
     },
     "calling__in-this-call--zero": {
-        "message": "No one else is here",
+        "message": "Không có ai khác đang ở đây",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
-        "message": "In this call · 1 person",
+        "message": "Trong cuộc gọi này · 1 người",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--many": {
-        "message": "In this call · $people$ people",
+        "message": "Đang trong cuộc điện thoại · $people$ người",
         "description": "Shown in the participants list to describe how many people are in the call",
         "placeholders": {
             "people": {
@@ -1322,7 +1322,7 @@
         }
     },
     "calling__you-have-blocked": {
-        "message": "You have blocked $name$",
+        "message": "Bạn đã chặn $name$",
         "description": "when you block someone and cannot view their video",
         "placeholders": {
             "name": {
@@ -1332,7 +1332,7 @@
         }
     },
     "calling__block-info": {
-        "message": "You won't receive their audio or video and they won't receive yours.",
+        "message": "Bạn sẽ không nhận được âm thanh hoặc video từ họ và họ sẽ không nhận được các dữ liệu này của bạn.",
         "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "alwaysRelayCallsDescription": {
@@ -1348,11 +1348,11 @@
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "Allow access to the microphone",
+        "message": "Cho phép truy cập microphone",
         "description": "Description of the media permission description"
     },
     "mediaCameraPermissionsDescription": {
-        "message": "Allow access to the camera",
+        "message": "Cho phép truy cập camera",
         "description": "Description of the media permission description"
     },
     "general": {
@@ -1364,11 +1364,11 @@
         "description": "Description of the media permission description"
     },
     "spellCheckWillBeEnabled": {
-        "message": "Spell check will be enabled the next time Signal starts.",
+        "message": "Kiểm tra chính tả sẽ được bật lên lần tiếp theo Signal khởi động.",
         "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
     },
     "spellCheckWillBeDisabled": {
-        "message": "Spell check will be disabled the next time Signal starts.",
+        "message": "Kiểm tra chính tả đã được tắt lần tiếp theo Signal khởi động.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "clearDataHeader": {
@@ -1400,11 +1400,11 @@
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "deleteOldIndexedDBData": {
-        "message": "You have obsolete data from a prior installation of Signal Desktop. If you choose to continue, it will be deleted and you will start from scratch.",
+        "message": "Bạn có dữ liệu cũ từ một lần cài đặt trước của Signal Desktop. Nếu bạn chọn để tiếp tục, dữ liệu sẽ bị xoá và bạn sẽ bắt đầu lại từ đầu.",
         "description": "Shown if user last ran Signal Desktop before October 2018"
     },
     "deleteOldData": {
-        "message": "Delete Old Data",
+        "message": "Xoá Dữ liệu Cũ",
         "description": "Button to make the delete happen"
     },
     "notifications": {
@@ -1420,11 +1420,11 @@
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "Name, content, and actions",
+        "message": "Tên, nội dung, và hành động",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "No name or content",
+        "message": "Không có tên hoặc nội dung",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
@@ -1464,7 +1464,7 @@
         }
     },
     "notificationReactionMessage": {
-        "message": "$sender$ reacted $emoji$ to: $message$",
+        "message": "$sender$ đã phản hồi $emoji$ cho: $message$",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1486,7 +1486,7 @@
         "description": "Shown on outgoing message if it fails to send"
     },
     "partiallySent": {
-        "message": "Partially sent, click for details",
+        "message": "Gửi một phần, nhấn vào để xem chi tiết",
         "description": "Shown on outgoing message if it is partially sent"
     },
     "showMore": {
@@ -1594,7 +1594,7 @@
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "You set the disappearing message time to $time$.",
+        "message": "Bạn đã cài đặt thời gian tin nhắn tạm thời thành $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1604,7 +1604,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Updated the disappearing message time to $time$.",
+        "message": "Đã cập nhật thời gian tin nhắn tạm thời thành $time$.",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1614,7 +1614,7 @@
         }
     },
     "timerSetByMember": {
-        "message": "A member set the disappearing message time to $time$.",
+        "message": "Một thành viên đã cài đặt thời gian tin nhắn tạm thời là $time$.",
         "description": "Message displayed when timer is by an unknown group member.",
         "placeholders": {
             "time": {
@@ -1624,7 +1624,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the disappearing message time to $time$.",
+        "message": "$name$ đã cài đặt thời gian tin nhắn tạm thời thành $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1742,11 +1742,11 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disappearingMessagesDisabledByMember": {
-        "message": "A member disabled disappearing messages.",
+        "message": "Một thành viên đã tắt tin nhắn tạm thời.",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ disabled disappearing messages.",
+        "message": "$name$ đã tắt tin nhắn tạm thời.",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1774,19 +1774,19 @@
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
-        "message": "Play calling sounds",
+        "message": "Phát âm thanh gọi điện",
         "description": "Description for call ringtone notification setting"
     },
     "callSystemNotificationDescription": {
-        "message": "Show notifications for calls",
+        "message": "Hiện thông báo cuộc gọi",
         "description": "Description for call notification setting"
     },
     "incomingCallNotificationDescription": {
-        "message": "Enable incoming calls",
+        "message": "Cho phép cuộc gọi đến",
         "description": "Description for incoming calls setting"
     },
     "contactChangedProfileName": {
-        "message": "$sender$ changed their profile name from $oldProfile$ to $newProfile$.",
+        "message": "$sender$ đổi tên đại diện của họ từ $oldProfile$ thành $newProfile$.",
         "description": "Description for incoming calls setting",
         "placeholders": {
             "sender": {
@@ -1804,7 +1804,7 @@
         }
     },
     "changedProfileName": {
-        "message": "$oldProfile$ changed their profile name to $newProfile$.",
+        "message": "$oldProfile$ đã đổi tên đại diện của họ thành $newProfile$.",
         "description": "Shown when a contact not in your address book changes their profile name",
         "placeholders": {
             "oldProfile": {
@@ -1844,7 +1844,7 @@
         "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
     },
     "yourSafetyNumberWith": {
-        "message": "Your safety number with $name1$:",
+        "message": "Số an toàn của bạn với $name1$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name1": {
@@ -1874,7 +1874,7 @@
         "description": "Description for the Note to Self conversation"
     },
     "notificationDrawAttention": {
-        "message": "Draw attention to this window when a notification arrives",
+        "message": "Chú ý vào cửa sổ này khi có thông báo đến",
         "description": "Label text for the setting that controls whether new notifications draw attention to the window"
     },
     "hideMenuBar": {
@@ -1886,7 +1886,7 @@
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "notSupportedSMS": {
-        "message": "SMS/MMS messages are not supported.",
+        "message": "Tin nhắn SMS/MMS không được hỗ trợ.",
         "description": "Label underneath number informing user that SMS is not supported on desktop"
     },
     "newPhoneNumber": {
@@ -1930,7 +1930,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ đã rời nhóm.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1940,7 +1940,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ đã rời nhóm.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1950,7 +1950,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "$name$ updated the group.",
+        "message": "$name$ đã cập nhật nhóm.",
         "description": "Shown in the conversation history when someone updates the group",
         "placeholders": {
             "name": {
@@ -1964,11 +1964,11 @@
         "description": "Shown in the conversation history when you update a group"
     },
     "updatedGroupAvatar": {
-        "message": "Group avatar was updated.",
+        "message": "Ảnh đại diện của nhóm đã được cập nhật.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Group name is now '$name$'.",
+        "message": "Tên của nhóm bây giờ là '$name$'.",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1982,7 +1982,7 @@
         "description": "Shown in the conversation history when you are added to a group."
     },
     "joinedTheGroup": {
-        "message": "$name$ joined the group.",
+        "message": "$name$ đã tham gia nhóm.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1992,7 +1992,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group.",
+        "message": "$names$ đã tham gia nhóm.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -2124,23 +2124,23 @@
         "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerPicker--Open": {
-        "message": "Open the sticker picker",
+        "message": "Mở bộ chọn nhãn dán",
         "description": "Label for the open button for the sticker picker"
     },
     "stickers--StickerPicker--AddPack": {
-        "message": "Add a sticker pack",
+        "message": "Đã thêm bộ nhãn dán",
         "description": "Label for the add pack button in the sticker picker"
     },
     "stickers--StickerPicker--NextPage": {
-        "message": "Next Page",
+        "message": "Trang Tiếp theo",
         "description": "Label for the next page button in the sticker picker"
     },
     "stickers--StickerPicker--PrevPage": {
-        "message": "Previous Page",
+        "message": "Trang Trước",
         "description": "Label for the previous page button in the sticker picker"
     },
     "stickers--StickerPicker--Recents": {
-        "message": "Recent Sticker",
+        "message": "Nhãn dán Gần đây",
         "description": "Label for the recent stickers button in the sticker picker"
     },
     "stickers--StickerPicker--DownloadError": {
@@ -2194,7 +2194,7 @@
         }
     },
     "EmojiPicker__button--recents": {
-        "message": "Recents",
+        "message": "Gần đây",
         "description": "Label for recents emoji picker button"
     },
     "EmojiPicker__button--emoji": {
@@ -2202,7 +2202,7 @@
         "description": "Label for emoji emoji picker button"
     },
     "EmojiPicker__button--animal": {
-        "message": "Animal",
+        "message": "Thú vật",
         "description": "Label for animal emoji picker button"
     },
     "EmojiPicker__button--food": {
@@ -2210,23 +2210,23 @@
         "description": "Label for food emoji picker button"
     },
     "EmojiPicker__button--activity": {
-        "message": "Activity",
+        "message": "Hoạt động",
         "description": "Label for activity emoji picker button"
     },
     "EmojiPicker__button--travel": {
-        "message": "Travel",
+        "message": "Du lịch",
         "description": "Label for travel emoji picker button"
     },
     "EmojiPicker__button--object": {
-        "message": "Object",
+        "message": "Vật dụng",
         "description": "Label for object emoji picker button"
     },
     "EmojiPicker__button--symbol": {
-        "message": "Symbol",
+        "message": "Biểu tượng",
         "description": "Label for symbol emoji picker button"
     },
     "EmojiPicker__button--flag": {
-        "message": "Flag",
+        "message": "Cờ",
         "description": "Label for flag emoji picker button"
     },
     "confirmation-dialog--Cancel": {
@@ -2378,7 +2378,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Toggle emoji-reaction picker for selected message",
+        "message": "\u001dChuyển đổi bộ chọn emoji phản hồi cho tin nhắn đã chọn",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2414,7 +2414,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--conversation-by-index": {
-        "message": "Jump to conversation",
+        "message": "Nhảy đến cuộc trò chuyện",
         "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
     },
     "Keyboard--Key--ctrl": {
@@ -2438,11 +2438,11 @@
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--tab": {
-        "message": "Tab",
+        "message": "Thẻ",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--one-to-nine-range": {
-        "message": "1 to 9",
+        "message": "1 đến 9",
         "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
@@ -2478,11 +2478,11 @@
         "description": "Header of the keyboard shortcuts guide - calling section"
     },
     "Keyboard--toggle-audio": {
-        "message": "Toggle mute on and off",
+        "message": "Chuyển đổi bật tắt tắt tiếng",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-video": {
-        "message": "Toggle video on and off",
+        "message": "Chuyển đổi bật tắt video ",
         "description": "Shown in the shortcuts guide"
     },
     "close-popup": {
@@ -2510,7 +2510,7 @@
         "description": "A toast that shows up when the user unarchives a conversation"
     },
     "conversationMarkedUnread": {
-        "message": "Conversation marked unread",
+        "message": "Cuộc trò chuyện đã được đánh dấu chưa đọc",
         "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
@@ -2566,7 +2566,7 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--help": {
-        "message": "Stickers must be in PNG, APNG, or WebP format with a transparent background and 512x512 pixels. Recommended margin is 16px.",
+        "message": "Nhãn dán phải có định dạng PNG, APNG, hoặc WebP với ảnh nền trong suốt và 512x512 pixel. \bBản lề gợi ý là 16px.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
@@ -2698,19 +2698,19 @@
         "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
     },
     "StickerCreator--Toasts--APNG--notSquare": {
-        "message": "Animated PNG stickers must be square",
+        "message": "Bộ nhãn dán động PNG phải là hình vuông",
         "description": "Text for the toast when someone tries to upload a non-square APNG"
     },
     "StickerCreator--Toasts--mustLoopForever": {
-        "message": "Animated stickers must loop forever",
+        "message": "Bộ nhãn dán động phải lặp lại liên tục",
         "description": "Text for the toast when an image in the sticker creator does not animate forever"
     },
     "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
-        "message": "Animated PNG sticker dimensions are too large",
+        "message": "Kích cỡ Nhãn dán động PNG quá lớn",
         "description": "Text for the toast when an APNG image in the sticker creator is too large"
     },
     "StickerCreator--Toasts--APNG--dimensionsTooSmall": {
-        "message": "Animated PNG sticker dimensions are too small",
+        "message": "Kích cỡ Nhãn dán động PNG quá nhỏ",
         "description": "Text for the toast when an APNG image in the sticker creator is too small"
     },
     "StickerCreator--Toasts--errorUploading": {
@@ -2744,7 +2744,7 @@
         "description": "Shown when a reaction fails to send"
     },
     "ReactionsViewer--more": {
-        "message": "More",
+        "message": "Thêm",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
@@ -2752,7 +2752,7 @@
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "MessageRequests--message-direct": {
-        "message": "Let $name$ message you and share your name and photo with them? They won’t know you’ve seen their messages until you accept.",
+        "message": "Cho phép $name$ nhắn tin cho bạn và chia sẻ tên và ảnh của bạn với họ? Họ sẽ không biết bạn đã xem tin nhắn của họ cho tới khi bạn đồng ý.",
         "description": "Shown as the message for a message request in a direct message",
         "placeholders": {
             "name": {
@@ -2762,7 +2762,7 @@
         }
     },
     "MessageRequests--message-direct-blocked": {
-        "message": "Let $name$ message you and share your name and photo with them? You won't receive any messages until you unblock them.",
+        "message": "Cho phép $name$ nhắn tin cho bạn và chia sẻ tên và ảnh của bạn với họ? Bạn sẽ không nhận được tin nhắn nào cho tới khi bạn ngưng chặn họ.",
         "description": "Shown as the message for a message request in a direct message with a blocked account",
         "placeholders": {
             "name": {
@@ -2772,7 +2772,7 @@
         }
     },
     "MessageRequests--message-group": {
-        "message": "Join this group and share your name and photo with its members? They won’t know you’ve seen their messages until you accept.",
+        "message": "Tham gia nhóm này và chia sẻ tên và ảnh của bạn với các thành viên nhóm? Họ sẽ không biết bạn đã đọc tin nhắn của họ cho tới khi bạn đồng ý.",
         "description": "Shown as the message for a message request in a group",
         "placeholders": {
             "name": {
@@ -2794,7 +2794,7 @@
         "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-confirm-title": {
-        "message": "Unblock $name$?",
+        "message": "Ngưng chặn $name$?",
         "description": "Shown as a button to let the user unblock a message request",
         "placeholders": {
             "name": {
@@ -2828,7 +2828,7 @@
         "description": "Shown as a button to let the user block and delete a message request"
     },
     "MessageRequests--block-direct-confirm-title": {
-        "message": "Block $name$?",
+        "message": "Chặn $name$?",
         "description": "Shown as the title in the confirmation modal for blocking a private message request",
         "placeholders": {
             "name": {
@@ -2842,7 +2842,7 @@
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
-        "message": "Block and Leave $group$?",
+        "message": "Chặn và Rời $group$?",
         "description": "Shown as the title in the confirmation modal for blocking a group message request",
         "placeholders": {
             "group": {
@@ -2852,7 +2852,7 @@
         }
     },
     "MessageRequests--block-group-confirm-body": {
-        "message": "You will no longer receive messages or updates from this group and members won't be able to add you to this group again.",
+        "message": "Bạn sẽ không thể nhận được tin nhắn hoặc cập nhật từ nhóm này và các thành viên sẽ không thể thêm bạn vào lại nhóm này.",
         "description": "Shown as the body in the confirmation modal for blocking a group message request"
     },
     "MessageRequests--delete": {
@@ -2868,7 +2868,7 @@
         "description": "Shown as the body in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-group-confirm-title": {
-        "message": "Delete and Leave $group$?",
+        "message": "Xoá và Rời $group$?",
         "description": "Shown as the title in the confirmation modal for deleting a group message request",
         "placeholders": {
             "group": {
@@ -2898,7 +2898,7 @@
         "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
     },
     "MessageRequests--profile-sharing--group": {
-        "message": "Continue your conversation with this group and share your name and photo with its members? $learnMore$",
+        "message": "Tiếp tục cuộc trò chuyện của bạn với nhóm này và chia sẻ tên và ảnh của bạn với các thành viên nhóm? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a group yet",
         "placeholders": {
             "learnMore": {
@@ -2908,7 +2908,7 @@
         }
     },
     "MessageRequests--profile-sharing--direct": {
-        "message": "Continue this conversation with $firstName$ and share your name and photo with them? $learnMore$",
+        "message": "Tiếp tục cuộc trò chuyện của bạn với $firstName$ và chia sẻ tên và ảnh của bạn với họ? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
         "placeholders": {
             "firstName": {
@@ -2922,11 +2922,11 @@
         }
     },
     "MessageRequests--learn-more": {
-        "message": "Learn more.",
+        "message": "Tìm hiểu thêm.",
         "description": "Shown at the end of profile sharing messages as a link."
     },
     "ConversationHero--members": {
-        "message": "$count$ members",
+        "message": "$count$ thành viên",
         "description": "Specifies the number of members in a group conversation",
         "placeholders": {
             "count": {
@@ -2946,7 +2946,7 @@
         }
     },
     "ConversationHero--membership-1": {
-        "message": "Member of $group$.",
+        "message": "Thành viên của $group$.",
         "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
         "placeholders": {
             "group": {
@@ -2956,7 +2956,7 @@
         }
     },
     "ConversationHero--membership-2": {
-        "message": "Member of $group1$ and $group2$.",
+        "message": "Thành viên của $group1$ và $group2$.",
         "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
         "placeholders": {
             "group1": {
@@ -2970,7 +2970,7 @@
         }
     },
     "ConversationHero--membership-3": {
-        "message": "Member of $group1$, $group2$, and $group3$.",
+        "message": "Thành viên của $group1$, $group2$, và $group3$. ",
         "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
         "placeholders": {
             "group1": {
@@ -2988,7 +2988,7 @@
         }
     },
     "ConversationHero--membership-extra": {
-        "message": "Member of $group1$, $group2$, $group3$ and $remainingCount$ more.",
+        "message": "Thành viên của $group1$, $group2$, $group3$ và $remainingCount$ nhóm khác.",
         "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
         "placeholders": {
             "group1": {
@@ -3010,7 +3010,7 @@
         }
     },
     "ConversationHero--membership-added": {
-        "message": "$name$ added you to the group.",
+        "message": "$name$ đã thêm bạn vào nhóm.",
         "description": "Shown Indicates that you were added to a group by a given individual.",
         "placeholders": {
             "name": {
@@ -3032,67 +3032,67 @@
         "description": "Shown in tooltip for the button to decline a call (audio or video)"
     },
     "declinedIncomingAudioCall": {
-        "message": "You declined an audio call",
+        "message": "Bạn đã từ chối cuộc gọi âm thanh",
         "description": "Shown in conversation history when you declined an incoming audio call"
     },
     "declinedIncomingVideoCall": {
-        "message": "You declined a video call",
+        "message": "Bạn đã từ chối cuộc gọi video",
         "description": "Shown in conversation history when you declined an incoming video call"
     },
     "acceptedIncomingAudioCall": {
-        "message": "Incoming audio call",
+        "message": "Cuộc gọi âm thanh đang đến",
         "description": "Shown in conversation history when you accepted an incoming audio call"
     },
     "acceptedIncomingVideoCall": {
-        "message": "Incoming video call",
+        "message": "Cuộc gọi video đang đến",
         "description": "Shown in conversation history when you accepted an incoming video call"
     },
     "missedIncomingAudioCall": {
-        "message": "Missed audio call",
+        "message": "Cuộc gọi âm thanh bị nhỡ",
         "description": "Shown in conversation history when you missed an incoming audio call"
     },
     "missedIncomingVideoCall": {
-        "message": "Missed video call",
+        "message": "Cuộc gọi video bị nhỡ",
         "description": "Shown in conversation history when you missed an incoming video call"
     },
     "acceptedOutgoingAudioCall": {
-        "message": "Outgoing audio call",
+        "message": "Cuộc gọi âm thanh đang gọi đi",
         "description": "Shown in conversation history when you made an outgoing audio call"
     },
     "acceptedOutgoingVideoCall": {
-        "message": "Outgoing video call",
+        "message": "Cuộc gọi video đang gọi đi",
         "description": "Shown in conversation history when you made an outgoing video call"
     },
     "missedOrDeclinedOutgoingAudioCall": {
-        "message": "Unanswered audio call",
+        "message": "Cuộc gọi âm thanh không được trả lời",
         "description": "Shown in conversation history when your audio call is missed or declined"
     },
     "missedOrDeclinedOutgoingVideoCall": {
-        "message": "Unanswered video call",
+        "message": "Cuộc gọi video không được trả lời",
         "description": "Shown in conversation history when your video call is missed or declined"
     },
     "incomingAudioCall": {
-        "message": "Incoming audio call...",
+        "message": "Cuộc gọi âm thanh đang đến...",
         "description": "Shown in both the incoming call bar and notification for an incoming audio call"
     },
     "incomingVideoCall": {
-        "message": "Incoming video call...",
+        "message": "Cuộc gọi video đang đến...",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
     "outgoingCallPrering": {
-        "message": "Calling...",
+        "message": "Đang gọi...",
         "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
     },
     "outgoingCallRinging": {
-        "message": "Ringing...",
+        "message": "Đang đổ chuông...",
         "description": "Shown in the call screen when placing an outgoing call that is now ringing"
     },
     "makeOutgoingCall": {
-        "message": "Start a call",
+        "message": "Bắt đầu cuộc gọi",
         "description": "Title for the call button in a conversation"
     },
     "makeOutgoingVideoCall": {
-        "message": "Start a video call",
+        "message": "Bắt đầu cuộc gọi video",
         "description": "Title for the video call button in a conversation"
     },
     "joinOngoingCall": {
@@ -3100,7 +3100,7 @@
         "description": "Text that appears in a group when a call is active"
     },
     "callNeedPermission": {
-        "message": "$title$ will get a message request from you. You can call once your message request has been accepted.",
+        "message": "$title$ sẽ nhận được yêu cầu nhắn tin từ bạn. Bạn có thể gọi một khi yêu cầu nhắn tin của bạn đã được đồng ý.",
         "description": "Shown when a call is rejected because the other party hasn't approved the message/call request",
         "placeholders": {
             "title": {
@@ -3110,7 +3110,7 @@
         }
     },
     "callReconnecting": {
-        "message": "Reconnecting...",
+        "message": "Đang kết nối lại...",
         "description": "Shown in the call screen when the call is reconnecting due to network issues"
     },
     "callDuration": {
@@ -3128,7 +3128,7 @@
         "description": "Title for device selection settings"
     },
     "calling__participants": {
-        "message": "$people$ in call",
+        "message": "$people$ trong cuộc gọi",
         "description": "Title for participants list toggle",
         "placeholders": {
             "people": {
@@ -3138,19 +3138,19 @@
         }
     },
     "calling__call-notification__ended": {
-        "message": "The group call has ended",
+        "message": "Cuộc gọi nhóm đã kết thúc",
         "description": "Notification message when a group call has ended"
     },
     "calling__call-notification__started-by-someone": {
-        "message": "A group call was started",
+        "message": "Một cuộc gọi nhóm đã được bắt đầu",
         "description": "Notification message when a group call has started, but we don't know who started it"
     },
     "calling__call-notification__started-by-you": {
-        "message": "You started a group call",
+        "message": "Bạn đã bắt đầu cuộc gọi nhóm",
         "description": "Notification message when a group call has started by you"
     },
     "calling__call-notification__started": {
-        "message": "$name$ started a group call",
+        "message": "$name$ đã bắt đầu cuộc gọi nhóm",
         "description": "Notification message when a group call has started",
         "placeholders": {
             "name": {
@@ -3160,11 +3160,11 @@
         }
     },
     "calling__call-notification__button__in-another-call-tooltip": {
-        "message": "You are already in a call",
+        "message": "Bạn đã đang ở trong một cuộc gọi",
         "description": "Tooltip in disabled notification button when you're on another call"
     },
     "calling__call-notification__button__call-full-tooltip": {
-        "message": "Call has reached capacity of $max$ participants",
+        "message": "Cuộc gọi đã đạt giới hạn $max$ người tham dự",
         "description": "Tooltip in disabled notification button when the call is full",
         "placeholders": {
             "max": {
@@ -3174,15 +3174,15 @@
         }
     },
     "calling__pip--on": {
-        "message": "Minimize call",
+        "message": "Thu nhỏ cuộc gọi",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__pip--off": {
-        "message": "Fullscreen call",
+        "message": "Phóng toàn màn hình cuộc gọi",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__hangup": {
-        "message": "Leave call",
+        "message": "Rời cuộc gọi",
         "description": "Title for hang up button"
     },
     "callingDeviceSelection__label--video": {
@@ -3194,11 +3194,11 @@
         "description": "Label for audio input selector"
     },
     "callingDeviceSelection__label--audio-output": {
-        "message": "Speakers",
+        "message": "Loa",
         "description": "Label for audio output selector"
     },
     "callingDeviceSelection__select--no-device": {
-        "message": "No devices available",
+        "message": "Không có thiết bị có sẵn",
         "description": "Message for when there are no available devices to select for input/output audio or video"
     },
     "callingDeviceSelection__select--default": {
@@ -3230,7 +3230,7 @@
         "description": "Label for unmuting the conversation"
     },
     "muteExpirationLabel": {
-        "message": "Muted until $duration$",
+        "message": "Tắt tiếng cho tới $duration$",
         "description": "Shown in the mute notifications submenu whenever a conversation has been muted",
         "placeholders": {
             "duration": {
@@ -3248,7 +3248,7 @@
         "description": "Title of pop-up dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
-        "message": "Please try again or contact support.",
+        "message": "Xin hãy thử lại hoặc liên hệ hỗ trợ.",
         "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
@@ -3260,7 +3260,7 @@
         "description": "Shown next to the set of administrators in a group"
     },
     "updating": {
-        "message": "Updating...",
+        "message": "Đang cập nhật...",
         "description": "Shown along with a spinner when an update operation takes longer than one second"
     },
     "GroupV2--create--you": {
@@ -3268,7 +3268,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--create--other": {
-        "message": "$memberName$ created the group.",
+        "message": "$memberName$ đã tạo nhóm.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3278,11 +3278,11 @@
         }
     },
     "GroupV2--create--unknown": {
-        "message": "The group was created.",
+        "message": "Nhóm đã được tạo.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--change--other": {
-        "message": "$memberName$ changed the group name to \"$newTitle$\".",
+        "message": "$memberName$ đã thay đổi tên nhóm thành \"$newTitle$\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3296,7 +3296,7 @@
         }
     },
     "GroupV2--title--change--you": {
-        "message": "You changed the group name to \"$newTitle$\".",
+        "message": "Bạn đã thay đổi tên nhóm thành \"$newTitle$\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "newTitle": {
@@ -3306,7 +3306,7 @@
         }
     },
     "GroupV2--title--change--unknown": {
-        "message": "A member changed the group name to \"$newTitle$\".",
+        "message": "Một thành viên đã thay đổi tên nhóm thành \"$newTitle$\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "newTitle": {
@@ -3316,7 +3316,7 @@
         }
     },
     "GroupV2--title--remove--other": {
-        "message": "$memberName$ removed the group name.",
+        "message": "$memberName$ đã \u001dgỡ bỏ tên nhóm.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3330,11 +3330,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--remove--unknown": {
-        "message": "A member removed the group name.",
+        "message": "Một thành viên đã gỡ bỏ tên nhóm.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--other": {
-        "message": "$memberName$ changed the group avatar.",
+        "message": "$memberName$ đã thay đổi ảnh đại diện nhóm.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3348,11 +3348,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--unknown": {
-        "message": "A member changed the group avatar.",
+        "message": "Một thành viên đã thay đổi ảnh đại diện nhóm.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--other": {
-        "message": "$memberName$ removed the group avatar.",
+        "message": "$memberName$ đã gỡ bỏ ảnh đại diện nhóm.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3362,15 +3362,15 @@
         }
     },
     "GroupV2--avatar--remove--you": {
-        "message": "You removed the group avatar.",
+        "message": "Bạn đã gỡ bỏ ảnh đại diện nhóm.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--unknown": {
-        "message": "A member removed the group avatar.",
+        "message": "Một thành viên đã gỡ bỏ ảnh đại diện nhóm.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--other": {
-        "message": "$adminName$ changed who can edit group info to \"Only admins.\"",
+        "message": "$adminName$ đã thay đổi người có thể chỉnh sửa thông tin nhóm sang \"Chỉ có admin.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3380,15 +3380,15 @@
         }
     },
     "GroupV2--access-attributes--admins--you": {
-        "message": "You changed who can edit group info to \"Only admins.\"",
+        "message": "Bạn đã thay đổi người có thể chỉnh sửa thông tin nhóm thành \"Chỉ có admin.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--unknown": {
-        "message": "An admin changed who can edit group info to \"Only admins.\"",
+        "message": "Một admin đã thay đổi người có thể chỉnh sửa thông tin nhóm thành \"Chỉ admin\".",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--other": {
-        "message": "$adminName$ changed who can edit group info to \"All members.\"",
+        "message": "$adminName$ đã thay đổi người có thể chỉnh sửa thông tin nhóm thành \"Tất cả thành viên.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3398,15 +3398,15 @@
         }
     },
     "GroupV2--access-attributes--all--you": {
-        "message": "You changed who can edit group info to \"All members.\"",
+        "message": "Bạn đã thay đổi người có thể chỉnh sửa thông tin nhóm thành \"All members.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--unknown": {
-        "message": "An admin changed who can edit group info to \"All members.\"",
+        "message": "Một admin đã thay đổi người có thể chỉnh sửa thông tin nhóm thành \"Tất cả thành viên.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--other": {
-        "message": "$adminName$ changed who can edit group membership to \"Only admins.\"",
+        "message": "$adminName$ đã thay đổi người có thể chỉnh sửa thành viên nhóm thành \"Chỉ admin.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3416,15 +3416,15 @@
         }
     },
     "GroupV2--access-members--admins--you": {
-        "message": "You changed who can edit group membership to \"Only admins.\"",
+        "message": "Bạn đã thay đổi người có thể chỉnh sửa thành viên nhóm thành \"Chỉ admin.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--unknown": {
-        "message": "An admin changed who can edit group membership to \"Only admins.\"",
+        "message": "Một admin đã thay đổi người có thể chỉnh sửa thành viên nhóm thành \"Chỉ admin.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--other": {
-        "message": "$adminName$ changed who can edit group membership to \"All members.\"",
+        "message": "$adminName$ đã thay đổi người có thể chỉnh sửa thành viên nhóm thành \"Tất cả thành viên.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3434,15 +3434,15 @@
         }
     },
     "GroupV2--access-members--all--you": {
-        "message": "You changed who can edit group membership to \"All members.\"",
+        "message": "Bạn đã thay đổi người có thể chỉnh sửa thành viên nhóm thành \"Tất cả thành viên.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--unknown": {
-        "message": "An admin changed who can edit group membership to \"All members.\"",
+        "message": "Một admin đã thay đổi người có thể chỉnh sửa thành viên nhóm thành \"Tất cả thành viên.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {
-        "message": "You added invited member $inviteeName$.",
+        "message": "Bạn đã thêm thành viên được mời $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3452,7 +3452,7 @@
         }
     },
     "GroupV2--member-add--invited--other": {
-        "message": "$memberName$ added invited member $inviteeName$.",
+        "message": "$memberName$ đã thêm thành viên được mời $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3466,7 +3466,7 @@
         }
     },
     "GroupV2--member-add--invited--unknown": {
-        "message": "A member added invited member $inviteeName$.",
+        "message": "Một thành viên đã thêm thành viên được mời $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3476,7 +3476,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other": {
-        "message": "$inviteeName$ accepted an invitation to the group from $inviterName$.",
+        "message": "$inviteeName$ chấp nhận lời mời vào nhóm từ $inviterName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3490,7 +3490,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other-no-from": {
-        "message": "$inviteeName$ accepted an invitation to the group.",
+        "message": "$inviteeName$ chấp nhận một lời mời vào nhóm.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3500,7 +3500,7 @@
         }
     },
     "GroupV2--member-add--from-invite--you": {
-        "message": "You accepted an invitation to the group from $inviterName$.",
+        "message": "Bạn đã chấp nhận một lời mời vào nhóm từ $inviterName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -3514,7 +3514,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--from-invite--from-you": {
-        "message": "$inviteeName$ accepted your invitation to the group.",
+        "message": "$inviteeName$ đã chấp nhận lời mời vào nhóm của bạn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3524,7 +3524,7 @@
         }
     },
     "GroupV2--member-add--other--other": {
-        "message": "$adderName$ added $addeeName$.",
+        "message": "$adderName$ đã thêm $addeeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adderName": {
@@ -3538,7 +3538,7 @@
         }
     },
     "GroupV2--member-add--other--you": {
-        "message": "You added $memberName$.",
+        "message": "Bạn đã thêm $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3548,7 +3548,7 @@
         }
     },
     "GroupV2--member-add--other--unknown": {
-        "message": "A member added $memberName$.",
+        "message": "Một thành viên đã thêm $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3558,7 +3558,7 @@
         }
     },
     "GroupV2--member-add--you--other": {
-        "message": "$memberName$ added you to the group.",
+        "message": "$memberName$ đã thêm bạn vào nhóm.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3572,11 +3572,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--you--unknown": {
-        "message": "You were added to the group.",
+        "message": "Bạn đã được thêm vào nhóm. ",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-remove--other--other": {
-        "message": "$adminName$ removed $memberName$.",
+        "message": "$adminName$ đã gỡ bỏ $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3590,7 +3590,7 @@
         }
     },
     "GroupV2--member-remove--other--self": {
-        "message": "$memberName$ left the group.",
+        "message": "$memberName$ đã rời nhóm.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3600,7 +3600,7 @@
         }
     },
     "GroupV2--member-remove--other--you": {
-        "message": "You removed $memberName$.",
+        "message": "Bạn đã gỡ bỏ $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3610,7 +3610,7 @@
         }
     },
     "GroupV2--member-remove--other--unknown": {
-        "message": "A member removed $memberName$.",
+        "message": "Một thành viên đã gỡ bỏ $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3620,7 +3620,7 @@
         }
     },
     "GroupV2--member-remove--you--other": {
-        "message": "$adminName$ removed you.",
+        "message": "$adminName$ đã gỡ bỏ bạn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3638,7 +3638,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--promote--other--other": {
-        "message": "$adminName$ made $memberName$ an admin.",
+        "message": "$adminName$ đã đặt $memberName$ làm admin.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3652,7 +3652,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--you": {
-        "message": "You made $memberName$ an admin.",
+        "message": "Bạn đã đặt $memberName$ làm admin.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3662,7 +3662,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--unknown": {
-        "message": "An admin made $memberName$ an admin.",
+        "message": "Một admin đã đặt $memberName$ làm admin.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3672,7 +3672,7 @@
         }
     },
     "GroupV2--member-privilege--promote--you--other": {
-        "message": "$adminName$ made you an admin.",
+        "message": "$adminName$ đã đặt bạn làm admin.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3682,11 +3682,11 @@
         }
     },
     "GroupV2--member-privilege--promote--you--unknown": {
-        "message": "An admin made you an admin.",
+        "message": "Một admin đã đặt bạn làm admin.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--demote--other--other": {
-        "message": "$adminName$ revoked admin privileges from $memberName$.",
+        "message": "$adminName$ đã thu hồi quyền quản trị của bạn cho $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3700,7 +3700,7 @@
         }
     },
     "GroupV2--member-privilege--demote--other--you": {
-        "message": "You revoked admin privileges from $memberName$.",
+        "message": "Bạn đã thu hồi quyền quản trị của $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3710,11 +3710,11 @@
         }
     },
     "GroupV2--member-privilege--demote--other--unknown": {
-        "message": "An admin revoked admin privileges from $memberName$.",
+        "message": "Một admin đã thu hồi quyền quản trị của $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--demote--you--other": {
-        "message": "$adminName$ revoked your admin privileges.",
+        "message": "$adminName$ đã thu hồi quyền quản trị của bạn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3724,11 +3724,11 @@
         }
     },
     "GroupV2--member-privilege--demote--you--unknown": {
-        "message": "An admin revoked your admin privileges.",
+        "message": "Một admin đã thu hồi quyền quản trị của bạn.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--one--other--other": {
-        "message": "$memberName$ invited 1 person to the group.",
+        "message": "$memberName$ đã mời 1 người vào nhóm.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3738,7 +3738,7 @@
         }
     },
     "GroupV2--pending-add--one--other--you": {
-        "message": "You invited $inviteeName$ to the group.",
+        "message": "Bạn đã mời $inviteeName$ vào nhóm.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3748,7 +3748,7 @@
         }
     },
     "GroupV2--pending-add--one--other--unknown": {
-        "message": "One person was invited to the group.",
+        "message": "Một người đã được mời vào nhóm.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3758,7 +3758,7 @@
         }
     },
     "GroupV2--pending-add--one--you--other": {
-        "message": "$memberName$ invited you to the group.",
+        "message": "$memberName$ đã mời bạn vào nhóm.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3772,7 +3772,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--many--other": {
-        "message": "$memberName$ invited $count$ people to the group.",
+        "message": "$memberName$ đã mời $count$ người vào nhóm.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3786,7 +3786,7 @@
         }
     },
     "GroupV2--pending-add--many--you": {
-        "message": "You invited $count$ people to the group.",
+        "message": "Bạn đã mời $count$ người vào nhóm. ",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -3796,7 +3796,7 @@
         }
     },
     "GroupV2--pending-add--many--unknown": {
-        "message": "$count$ people were invited to the group.",
+        "message": "$count$ người đã được mời vào nhóm.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -3806,7 +3806,7 @@
         }
     },
     "GroupV2--pending-remove--decline--other": {
-        "message": "1 person invited by $memberName$ declined the invitation to the group.",
+        "message": "1 người được mời bởi $memberName$ đã từ chối \u001d\u001dlời mời vào nhóm. ",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3816,7 +3816,7 @@
         }
     },
     "GroupV2--pending-remove--decline--you": {
-        "message": "$inviteeName$ declined your invitation to the group.",
+        "message": "$inviteeName$ đã từ chối lời mời tham gia nhóm của bạn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3830,11 +3830,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--decline--unknown": {
-        "message": "1 person declined their invitation to the group.",
+        "message": "1 người đã từ chối lời mời tham gia nhóm của họ.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--revoke--one--other": {
-        "message": "$memberName$ revoked an invitation to the group for 1 person.",
+        "message": "$memberName$ đã thu hồi lời mời vào nhóm cho 1 người.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3844,7 +3844,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--one--you": {
-        "message": "You revoked an invitation to the group for 1 person.",
+        "message": "Bạn đã thu hồi lời mời vào nhóm cho 1 người.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3854,7 +3854,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-own--to-you": {
-        "message": "$inviterName$ revoked their invitation to you.",
+        "message": "$inviterName$ đã thu hồi lời mời cho bạn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -3864,7 +3864,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-own--unknown": {
-        "message": "$inviterName$ revoked their invitation to 1 person.",
+        "message": "$inviterName$ đã thu hồi lời mời của họ cho 1 người.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -3874,7 +3874,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--one--unknown": {
-        "message": "An admin revoked an invitation to the group for 1 person.",
+        "message": "Một admin đã thu hồi lời mời vào nhóm cho 1 người.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3884,7 +3884,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--other": {
-        "message": "$memberName$ revoked invitations to the group for $count$ people.",
+        "message": "$memberName$ đã thu hồi lời mời vào nhóm cho $count$ người.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3898,7 +3898,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--you": {
-        "message": "You revoked invitations to the group for $count$ people.",
+        "message": "Bạn đã thu hồi lời mời vào nhóm cho $count$ người.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -3908,7 +3908,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--unknown": {
-        "message": "An admin revoked invitations to the group for $count$ people.",
+        "message": "Một admin đã thu hồi lời mời vào nhóm cho $count$ người.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -3918,7 +3918,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--other": {
-        "message": "$adminName$ revoked an invitation to the group for 1 person invited by $memberName$.",
+        "message": "$adminName$ đã thu hồi lời mời vào nhóm cho 1 người được mời bởi $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3932,7 +3932,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--you": {
-        "message": "You revoked an invitation to the group for 1 person invited by $memberName$.",
+        "message": "Bạn đã thu hồi lời mời vào nhóm cho 1 người được mời bởi $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3942,7 +3942,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-        "message": "An admin revoked an invitation to the group for 1 person invited by $memberName$.",
+        "message": "Một admin đã thu hồi lời mời vào nhóm cho 1 người được mời bởi $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3952,7 +3952,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--other": {
-        "message": "$adminName$ revoked the invitation to the group you sent to $inviteeName$.",
+        "message": "$adminName$ đã thu hồi lời mời vào nhóm bạn đã gửi cho $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3962,7 +3962,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--you": {
-        "message": "You rescinded your invitation to $inviteeName$.",
+        "message": "Bạn đã huỷ bỏ lời mời cho $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3972,7 +3972,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--unknown": {
-        "message": "An admin revoked the invitation to the group you sent to $inviteeName$.",
+        "message": "Một admin đã thu hồi lời mời vào nhóm bạn gửi cho $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3982,7 +3982,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--other": {
-        "message": "$adminName$ revoked invitations to the group for $count$ people invited by $memberName$.",
+        "message": "$adminName$ đã thu hồi lời mời vào nhóm cho $count$ người đã được mời bởi $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3996,7 +3996,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--you": {
-        "message": "You revoked invitations to the group for $count$ people invited by $memberName$.",
+        "message": "Bạn đã thu hồi lời mời vào nhóm cho $count$ người được mời bởi $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4010,7 +4010,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-        "message": "An admin revoked invitations to the group for $count$ people invited by $memberName$.",
+        "message": "Một admin đã thu hồi lời mời vào nhóm cho $count$ người được mời bởi $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4024,7 +4024,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-        "message": "$adminName$ revoked the invitations to the group you sent to $count$ people.",
+        "message": "$adminName$ đã thu hồi lời mời vào nhóm bạn gửi cho $count$ người.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4038,7 +4038,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-        "message": "You rescinded your invitation to $count$ people.",
+        "message": "Bạn đã huỷ lời mời của bạn cho $count$ người.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4048,7 +4048,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-        "message": "An admin revoked the invitations to the group you sent to $count$ people.",
+        "message": "Một admin đã thu hồi lời mời vào nhóm bạn đã gửi cho $count$ người.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4058,7 +4058,7 @@
         }
     },
     "GroupV1--Migration--disabled": {
-        "message": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. $learnMore$",
+        "message": "Nâng cấp nhóm này để kích hoạt các tính năng mới như @nhắc tên và admin. Các thành viên chưa có chia sẻ tên và ảnh của họ trong nhóm này sẽ được mời tham gia. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
         "placeholders": {
             "learnMore": {
@@ -4068,7 +4068,7 @@
         }
     },
     "GroupV1--Migration--was-upgraded": {
-        "message": "This group was upgraded to a New Group.",
+        "message": "Nhóm này đã được nâng cấp Nhóm Mới.",
         "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
     },
     "GroupV1--Migration--learn-more": {
@@ -4080,59 +4080,59 @@
         "description": "Shown on Migrate dialog to kick off the process"
     },
     "GroupV1--Migration--info--title": {
-        "message": "What are New Groups?",
+        "message": "Nhóm Mới là gì?",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--title": {
-        "message": "Upgrade to New Group",
+        "message": "Nâng cấp lên Nhóm Mới",
         "description": "Shown on Migration popup after choosing to migrate group"
     },
     "GroupV1--Migration--info--summary": {
-        "message": "New Groups have features like @mentions and group admins, and will support more features in the future.",
+        "message": "Nhóm Mới có các tính năng như @nhắc và admin nhóm, và sẽ hỗ trợ nhiều tính năng trong tương lai.",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--keep-history": {
-        "message": "All message history and media has been kept from before the upgrade.",
+        "message": "Tất cả lịch sử tin nhắn và đa phương tiện đã được giữ lại trước khi cập nhật.",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--keep-history": {
-        "message": "All message history and media will be kept from before the upgrade.",
+        "message": "Tất cả lịch sử tin nhắn và đa phương tiện sẽ được giữ lại từ trước khi nâng cấp.",
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
-        "message": "You will need to accept an invite to join this group again, and will not receive group messages until you accept.",
+        "message": "Bạn sẽ cần phải chấp nhận lời mời để tham gia nhóm này một lần nữa, và sẽ không nhận tin nhắn nhóm cho tới khi bạn chấp nhận.",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--info--invited--many": {
-        "message": "These members will need to accept an invite to join this group again, and will not receive group messages until they accept:",
+        "message": "Những thành viên này sẽ cần đồng ý lời mời tham gia nhóm trở lại, và sẽ không nhận được tin nhắn cho tới khi họ đồng ý:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--one": {
-        "message": "This member will need to accept an invite to join this group again, and will not receive group messages until they accept:",
+        "message": "Thành viên này cần đồng ý lời mời tham gia nhóm trở lại, và sẽ không nhận được tin nhắn cho tới khi họ đồng ý:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
-        "message": "These members are not capable of joining New Groups, and will be removed from the group:",
+        "message": "Những thành viên này không thể tham gia các Nhóm Mới, và sẽ bị gỡ bỏ khỏi nhóm:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--one": {
-        "message": "This member is not capable of joining New Groups, and will be removed from the group:",
+        "message": "Thành viên này không thể tham gia các Nhóm Mới, và sẽ bị gỡ bỏ khỏi nhóm:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--many": {
-        "message": "These members were not capable of joining New Groups, and were removed from the group:",
+        "message": "Những thành viên này không có khả năng tham gia Nhóm Mới, và đã bị loại bỏ khỏi nhóm:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--one": {
-        "message": "This member was not capable of joining New Groups, and was removed from the group:",
+        "message": "Thành viên này không có khả năng tham gia Nhóm Mới, và đã được loại bỏ khỏi nhóm:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
-        "message": "You couldn't be added to the New Group and have been invited to join.",
+        "message": "Bạn không thể được thêm vào Nhóm Mới và đã được mời tham dự.",
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {
-        "message": "$contact$ couldn’t be added to the New Group and has been invited to join.",
+        "message": "$contact$ không thể được thêm vào Nhóm Mới và đã được mời tham gia.",
         "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
         "placeholders": {
             "contact": {
@@ -4142,7 +4142,7 @@
         }
     },
     "GroupV1--Migration--invited--many": {
-        "message": "$count$ members couldn’t be added to the New Group and have been invited to join.",
+        "message": "$count$ thành viên không thể được thêm vào Nhóm Mới và đã được mời tham gia.",
         "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
         "placeholders": {
             "contact": {
@@ -4152,7 +4152,7 @@
         }
     },
     "GroupV1--Migration--removed--one": {
-        "message": "$contact$ was removed from the group.",
+        "message": "$contact$ đã được loại bỏ khỏi nhóm.",
         "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade",
         "placeholders": {
             "contact": {
@@ -4162,7 +4162,7 @@
         }
     },
     "GroupV1--Migration--removed--many": {
-        "message": "$count$ members were removed from the group.",
+        "message": "$count$ thành viên đã được loại bỏ khỏi nhóm.",
         "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade",
         "placeholders": {
             "contact": {
@@ -4176,15 +4176,15 @@
         "description": "Generic close label"
     },
     "previous": {
-        "message": "previous",
+        "message": "trước",
         "description": "Generic previous label"
     },
     "next": {
-        "message": "next",
+        "message": "tiếp theo",
         "description": "Generic next label"
     },
     "CompositionArea--expand": {
-        "message": "Expand",
+        "message": "Mở rộng",
         "description": "Aria label for expanding composition area"
     },
     "CompositionArea--attach-file": {
@@ -4192,7 +4192,7 @@
         "description": "Aria label for file attachment button in composition area"
     },
     "countMutedConversationsDescription": {
-        "message": "Count muted conversations in badge count",
+        "message": "Đếm các cuộc trò chuyện đã được tắt tiếng trong biểu tượng số đếm",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -4200,7 +4200,7 @@
         "description": "Button text for send message button in Group Contact Details modal"
     },
     "ContactModal--make-admin": {
-        "message": "Make admin",
+        "message": "Đặt admin",
         "description": "Button text for make admin button in Group Contact Details modal"
     },
     "ContactModal--remove-from-group": {

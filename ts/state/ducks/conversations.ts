@@ -160,6 +160,7 @@ export type MessageType = {
 type MessagePointerType = {
   id: string;
   received_at: number;
+  sent_at?: number;
 };
 type MessageMetricsType = {
   newest?: MessagePointerType;
@@ -1011,7 +1012,7 @@ export function reducer(
     if (messages.length > 0) {
       const first = messages[0];
       if (first && (!oldest || first.received_at <= oldest.received_at)) {
-        oldest = pick(first, ['id', 'received_at']);
+        oldest = pick(first, ['id', 'received_at', 'sent_at']);
       }
 
       const last = messages[messages.length - 1];
@@ -1019,7 +1020,7 @@ export function reducer(
         last &&
         (!newest || unboundedFetch || last.received_at >= newest.received_at)
       ) {
-        newest = pick(last, ['id', 'received_at']);
+        newest = pick(last, ['id', 'received_at', 'sent_at']);
       }
     }
 
@@ -1172,12 +1173,14 @@ export function reducer(
 
       if (oldest && oldest.id === firstId && firstId === id) {
         const second = messagesLookup[oldIds[1]];
-        oldest = second ? pick(second, ['id', 'received_at']) : undefined;
+        oldest = second
+          ? pick(second, ['id', 'received_at', 'sent_at'])
+          : undefined;
       }
       if (newest && newest.id === lastId && lastId === id) {
         const penultimate = messagesLookup[oldIds[oldIds.length - 2]];
         newest = penultimate
-          ? pick(penultimate, ['id', 'received_at'])
+          ? pick(penultimate, ['id', 'received_at', 'sent_at'])
           : undefined;
       }
     }
@@ -1231,7 +1234,9 @@ export function reducer(
         ? messageIds[messageIds.length - 1]
         : undefined;
     const last = lastId ? getOwn(messagesLookup, lastId) : undefined;
-    const newest = last ? pick(last, ['id', 'received_at']) : undefined;
+    const newest = last
+      ? pick(last, ['id', 'received_at', 'sent_at'])
+      : undefined;
 
     return {
       ...state,
@@ -1260,7 +1265,9 @@ export function reducer(
     const { messageIds } = existingConversation;
     const firstId = messageIds && messageIds.length ? messageIds[0] : undefined;
     const first = firstId ? getOwn(messagesLookup, firstId) : undefined;
-    const oldest = first ? pick(first, ['id', 'received_at']) : undefined;
+    const oldest = first
+      ? pick(first, ['id', 'received_at', 'sent_at'])
+      : undefined;
 
     return {
       ...state,
@@ -1315,10 +1322,10 @@ export function reducer(
     const last = sorted[sorted.length - 1];
 
     if (!newest) {
-      newest = pick(first, ['id', 'received_at']);
+      newest = pick(first, ['id', 'received_at', 'sent_at']);
     }
     if (!oldest) {
-      oldest = pick(last, ['id', 'received_at']);
+      oldest = pick(last, ['id', 'received_at', 'sent_at']);
     }
 
     const existingTotal = existingConversation.messageIds.length;
@@ -1336,10 +1343,10 @@ export function reducer(
     // Update oldest and newest if we receive older/newer
     // messages (or duplicated timestamps!)
     if (first && oldest && first.received_at <= oldest.received_at) {
-      oldest = pick(first, ['id', 'received_at']);
+      oldest = pick(first, ['id', 'received_at', 'sent_at']);
     }
     if (last && newest && last.received_at >= newest.received_at) {
-      newest = pick(last, ['id', 'received_at']);
+      newest = pick(last, ['id', 'received_at', 'sent_at']);
     }
 
     const newIds = messages.map(message => message.id);
@@ -1357,6 +1364,7 @@ export function reducer(
         oldestUnread = pick(lookup[oldestId], [
           'id',
           'received_at',
+          'sent_at',
         ]) as MessagePointerType;
       }
     }

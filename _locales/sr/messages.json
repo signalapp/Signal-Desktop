@@ -666,7 +666,7 @@
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
     "contactUs": {
-        "message": "Contact Us",
+        "message": "Контактирајте нас",
         "description": "Item under the help menu, takes you to the contact us support page"
     },
     "goToReleaseNotes": {
@@ -990,7 +990,7 @@
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "This message will be deleted for everyone in the conversation if they’re on a recent version of Signal. They will be able to see that you deleted a message.",
+        "message": "Ова порука ће бити избрисана за све конверзацији ако користе најновију верзију апликације Signal. Моћи ће да виде да сте избрисали поруку.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "deleteThisMessage": {
@@ -1232,7 +1232,7 @@
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
-        "message": "Your video is off",
+        "message": "Your camera is off",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__lobby-summary--zero": {
@@ -4080,27 +4080,27 @@
         "description": "Shown on Migrate dialog to kick off the process"
     },
     "GroupV1--Migration--info--title": {
-        "message": "What are New Groups?",
+        "message": "Шта су нове групе?",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--title": {
-        "message": "Upgrade to New Group",
+        "message": "Надоградите у нову групу",
         "description": "Shown on Migration popup after choosing to migrate group"
     },
     "GroupV1--Migration--info--summary": {
-        "message": "New Groups have features like @mentions and group admins, and will support more features in the future.",
+        "message": "Нове групе имају функције попут @помињања и администратора групе и подржаваће више функција у будућности.",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--keep-history": {
-        "message": "All message history and media has been kept from before the upgrade.",
+        "message": "Сва историја порука и медији су сачувани од пре надоградње.",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--keep-history": {
-        "message": "All message history and media will be kept from before the upgrade.",
+        "message": "Сва историја порука и медији ће бити сачувани од пре надоградње.",
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
-        "message": "You will need to accept an invite to join this group again, and will not receive group messages until you accept.",
+        "message": "Мораћете да прихватите позивницу да бисте се поново придружили овој групи. Нећете примати нове групне поруке док не прихватите.",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--info--invited--many": {
@@ -4112,7 +4112,7 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
-        "message": "These members are not capable of joining New Groups, and will be removed from the group:",
+        "message": "Ови чланови не могу да се придруже новим групама и биће уклоњени из групе:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--one": {

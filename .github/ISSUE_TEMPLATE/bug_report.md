@@ -1,9 +1,18 @@
+---
+name: 🛠️ Bug report
+about: Create a report about a technical issue
+title: ''
+labels: ''
+assignees: ''
+---
+
 <!--
+Our bug tracker is ONLY for bugs. It is not for feature requests, questions, or comments.
+
 Please fill out this template with all the information you have. We can't do much without
 both the logs and a detailed description of what you've encountered. Please do your best!
 
-Please note that this tracker is only for bugs and feature requests. Please try these
-locations if you have a question or comment:
+Please note that this tracker is only for bugs. Please try these locations if you have a question or comment:
 
   https://community.signalusers.org/
   http://support.signal.org/

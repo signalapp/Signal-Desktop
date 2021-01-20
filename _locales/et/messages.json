@@ -1,6 +1,6 @@
 {
     "softwareAcknowledgments": {
-        "message": "Software Acknowledgments",
+        "message": "Tarkvara tänuavaldused",
         "description": "Shown in the about box for the link to software acknowledgments"
     },
     "privacyPolicy": {
@@ -312,7 +312,7 @@
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "invalidConversation": {
-        "message": "This group is invalid. Please create a new group.",
+        "message": "See grupp on vigane. Palun loo uus grupp.",
         "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
     },
     "scrollDown": {
@@ -426,7 +426,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
     },
     "continueCall": {
-        "message": "Continue Call",
+        "message": "Kõnega jätkamine",
         "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
@@ -682,7 +682,7 @@
         "description": "Item under the Help menu, takes you to the support page"
     },
     "joinTheBeta": {
-        "message": "Ühine beeta-programmiga",
+        "message": "Liitu beeta-programmiga",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
@@ -990,7 +990,7 @@
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "This message will be deleted for everyone in the conversation if they’re on a recent version of Signal. They will be able to see that you deleted a message.",
+        "message": "See sõnum kustutatakse kõigilt vestluse liikmetelt, kui nad kasutavad Signal-i värsket versiooni. Nad näevad, et sa kustutasid sõnumi.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "deleteThisMessage": {
@@ -1196,15 +1196,15 @@
         "description": "Button label in the call lobby for starting a call"
     },
     "calling__join": {
-        "message": "Ühine kõnega",
+        "message": "Liitu kõnega",
         "description": "Button label in the call lobby for joining a call"
     },
     "calling__return": {
-        "message": "Return to Call",
+        "message": "Tagasi kõnesse",
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__call-is-full": {
-        "message": "Call is full",
+        "message": "Kõne on täis",
         "description": "Button label in the call lobby when you can't join because the call is full"
     },
     "calling__button--video-disabled": {
@@ -1224,15 +1224,15 @@
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "Mute mic",
+        "message": "Vaigista mikrofon",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
-        "message": "Unmute mic",
+        "message": "Luba mikrofon",
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
-        "message": "Sinu video on väljas",
+        "message": "Sinu kaamera on väljas",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__lobby-summary--zero": {
@@ -1240,7 +1240,7 @@
         "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--single": {
-        "message": "$first$ is in this call",
+        "message": "$first$ on selles kõnes",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1250,11 +1250,11 @@
         }
     },
     "calling__lobby-summary--self": {
-        "message": "One of your other devices is in this call",
+        "message": "Üks sinu teistest seadmetes on selles kõnes",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
     "calling__lobby-summary--double": {
-        "message": "$first$ and $second$ are in this call",
+        "message": "$first$ ja $second$ on selles kõnes",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1268,7 +1268,7 @@
         }
     },
     "calling__lobby-summary--triple": {
-        "message": "$first$, $second$, and $third$ are in this call",
+        "message": "$first$, $second$ ja $third$ on selles kõnes",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1286,7 +1286,7 @@
         }
     },
     "calling__lobby-summary--many": {
-        "message": "$first$, $second$, and $others$ others are in this call",
+        "message": "$first$, $second$ ja $others$ muud kasutajat on selles kõnes",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1322,7 +1322,7 @@
         }
     },
     "calling__you-have-blocked": {
-        "message": "You have blocked $name$",
+        "message": "Sa blokeerisid kasutaja $name$",
         "description": "when you block someone and cannot view their video",
         "placeholders": {
             "name": {
@@ -1332,7 +1332,7 @@
         }
     },
     "calling__block-info": {
-        "message": "You won't receive their audio or video and they won't receive yours.",
+        "message": "Sina ei saa nende heli või videot ja nemad ei saa sinu oma.",
         "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "alwaysRelayCallsDescription": {
@@ -1874,7 +1874,7 @@
         "description": "Description for the Note to Self conversation"
     },
     "notificationDrawAttention": {
-        "message": "Draw attention to this window when a notification arrives",
+        "message": "Tõmba teavituse saabumisel sellele aknale tähelepanu",
         "description": "Label text for the setting that controls whether new notifications draw attention to the window"
     },
     "hideMenuBar": {
@@ -1978,11 +1978,11 @@
         }
     },
     "youJoinedTheGroup": {
-        "message": "Sa ühinesid grupiga.",
+        "message": "Sa liitusid grupiga.",
         "description": "Shown in the conversation history when you are added to a group."
     },
     "joinedTheGroup": {
-        "message": "$name$ ühines grupiga.",
+        "message": "$name$ liitus grupiga.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1992,7 +1992,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ ühinesid grupiga.",
+        "message": "$names$ liitusid grupiga.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -2378,7 +2378,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Toggle emoji-reaction picker for selected message",
+        "message": "Näita valitud sõnumi jaoks emojide valijat",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2510,7 +2510,7 @@
         "description": "A toast that shows up when the user unarchives a conversation"
     },
     "conversationMarkedUnread": {
-        "message": "Conversation marked unread",
+        "message": "Vestlus märgiti mitteloetuks",
         "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
@@ -2898,7 +2898,7 @@
         "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
     },
     "MessageRequests--profile-sharing--group": {
-        "message": "Continue your conversation with this group and share your name and photo with its members? $learnMore$",
+        "message": "Kas jätkata vestlust selle grupiga ja jagada sinu nime ja fotot selle liikmetele? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a group yet",
         "placeholders": {
             "learnMore": {
@@ -2908,7 +2908,7 @@
         }
     },
     "MessageRequests--profile-sharing--direct": {
-        "message": "Continue this conversation with $firstName$ and share your name and photo with them? $learnMore$",
+        "message": "Kas jätkata vestlus kasutajaga $firstName$ ja jagada talle sinu nime ja fotot? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
         "placeholders": {
             "firstName": {
@@ -3100,7 +3100,7 @@
         "description": "Text that appears in a group when a call is active"
     },
     "callNeedPermission": {
-        "message": "$title$ will get a message request from you. You can call once your message request has been accepted.",
+        "message": "$title$ saab sinult sooviavalduse. Saad helistada pärast seda, kui sinu sooviavaldus on rahuldatud.",
         "description": "Shown when a call is rejected because the other party hasn't approved the message/call request",
         "placeholders": {
             "title": {
@@ -3128,7 +3128,7 @@
         "description": "Title for device selection settings"
     },
     "calling__participants": {
-        "message": "$people$ in call",
+        "message": "$people$ kõnes",
         "description": "Title for participants list toggle",
         "placeholders": {
             "people": {
@@ -3138,19 +3138,19 @@
         }
     },
     "calling__call-notification__ended": {
-        "message": "The group call has ended",
+        "message": "Grupikõne lõppes",
         "description": "Notification message when a group call has ended"
     },
     "calling__call-notification__started-by-someone": {
-        "message": "A group call was started",
+        "message": "Grupikõne algas",
         "description": "Notification message when a group call has started, but we don't know who started it"
     },
     "calling__call-notification__started-by-you": {
-        "message": "You started a group call",
+        "message": "Sa alustasid grupikõne",
         "description": "Notification message when a group call has started by you"
     },
     "calling__call-notification__started": {
-        "message": "$name$ started a group call",
+        "message": "$name$ alustas grupikõne",
         "description": "Notification message when a group call has started",
         "placeholders": {
             "name": {
@@ -3160,11 +3160,11 @@
         }
     },
     "calling__call-notification__button__in-another-call-tooltip": {
-        "message": "You are already in a call",
+        "message": "Sa oled juba kõnes",
         "description": "Tooltip in disabled notification button when you're on another call"
     },
     "calling__call-notification__button__call-full-tooltip": {
-        "message": "Call has reached capacity of $max$ participants",
+        "message": "Selles kõnes on juba maksimaalselt $max$ osavõtjat",
         "description": "Tooltip in disabled notification button when the call is full",
         "placeholders": {
             "max": {
@@ -3174,15 +3174,15 @@
         }
     },
     "calling__pip--on": {
-        "message": "Minimize call",
+        "message": "Minimeeri kõne",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__pip--off": {
-        "message": "Fullscreen call",
+        "message": "Täisekraanil kõne",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__hangup": {
-        "message": "Leave call",
+        "message": "Lahku kõnest",
         "description": "Title for hang up button"
     },
     "callingDeviceSelection__label--video": {
@@ -3370,7 +3370,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--other": {
-        "message": "$adminName$ changed who can edit group info to \"Only admins.\"",
+        "message": "$adminName$ muutis grupi info muutjateks \"Ainult administraatorid\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3380,15 +3380,15 @@
         }
     },
     "GroupV2--access-attributes--admins--you": {
-        "message": "You changed who can edit group info to \"Only admins.\"",
+        "message": "Sa muutsid grupi info muutjateks \"Ainult administraatorid\".",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--unknown": {
-        "message": "An admin changed who can edit group info to \"Only admins.\"",
+        "message": "Administraator muutis grupi info muutjateks \"Ainult administraatorid\".",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--other": {
-        "message": "$adminName$ changed who can edit group info to \"All members.\"",
+        "message": "$adminName$ muutis grupi info muutjateks \"Kõik liikmed\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3398,15 +3398,15 @@
         }
     },
     "GroupV2--access-attributes--all--you": {
-        "message": "You changed who can edit group info to \"All members.\"",
+        "message": "Sa muutsid grupi info muutjateks \"Kõik liikmed\".",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--unknown": {
-        "message": "An admin changed who can edit group info to \"All members.\"",
+        "message": "Administraator muutis grupi info muutmise tasemeks “Kõik liikmed“.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--other": {
-        "message": "$adminName$ changed who can edit group membership to \"Only admins.\"",
+        "message": "$adminName$ muutis grupi liikmelisuse muutjateks \"Ainult administraatorid\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3424,7 +3424,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--other": {
-        "message": "$adminName$ changed who can edit group membership to \"All members.\"",
+        "message": "$adminName$ muutis grupi liikmelisuse muutjateks \"Kõik liikmed\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3434,11 +3434,11 @@
         }
     },
     "GroupV2--access-members--all--you": {
-        "message": "You changed who can edit group membership to \"All members.\"",
+        "message": "Sa muutsid grupi liikmelisuse muutjateks \"Kõik liikmed\".",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--unknown": {
-        "message": "An admin changed who can edit group membership to \"All members.\"",
+        "message": "Administraator muutis grupi liikmelisuse muutjateks \"Kõik liikmed\".",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {
@@ -3476,7 +3476,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other": {
-        "message": "$inviteeName$ accepted an invitation to the group from $inviterName$.",
+        "message": "$inviteeName$ kinnitas grupiga liitumise kutse kasutajalt $inviterName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3490,7 +3490,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other-no-from": {
-        "message": "$inviteeName$ accepted an invitation to the group.",
+        "message": "$inviteeName$kinnitas grupiga liitumise kutse.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3500,7 +3500,7 @@
         }
     },
     "GroupV2--member-add--from-invite--you": {
-        "message": "You accepted an invitation to the group from $inviterName$.",
+        "message": "Sa kinnitasid kasutaja $inviterName$ grupiga liitumise kutse.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -3568,7 +3568,7 @@
         }
     },
     "GroupV2--member-add--you--you": {
-        "message": "Sa ühinesid grupiga.",
+        "message": "Sa liitusid grupiga.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--you--unknown": {
@@ -3834,7 +3834,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--revoke--one--other": {
-        "message": "$memberName$ revoked an invitation to the group for 1 person.",
+        "message": "$memberName$ tühistas 1 isiku grupiga liitumise kutse.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3844,7 +3844,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--one--you": {
-        "message": "You revoked an invitation to the group for 1 person.",
+        "message": "Sa tühistasid 1 isiku grupiga liitumise kutse.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3854,7 +3854,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-own--to-you": {
-        "message": "$inviterName$ revoked their invitation to you.",
+        "message": "$inviterName$ tühistas sinule saadetud kutse.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -3864,7 +3864,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-own--unknown": {
-        "message": "$inviterName$ revoked their invitation to 1 person.",
+        "message": "$inviterName$ tühistas 1 isiku grupiga liitumise kutse.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -3874,7 +3874,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--one--unknown": {
-        "message": "An admin revoked an invitation to the group for 1 person.",
+        "message": "Administraator tühistas 1 isiku grupiga liitumise kutse.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3884,7 +3884,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--other": {
-        "message": "$memberName$ revoked invitations to the group for $count$ people.",
+        "message": "$memberName$tühistas $count$ kasutaja grupiga liitumise kutsed.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3898,7 +3898,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--you": {
-        "message": "You revoked invitations to the group for $count$ people.",
+        "message": "Sa tühistasid $count$ isiku grupiga liitumise kutsed.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -3908,7 +3908,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--unknown": {
-        "message": "An admin revoked invitations to the group for $count$ people.",
+        "message": "Administraator tühistas $count$ kasutaja grupiga liitumise kutsed. ",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -3918,7 +3918,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--other": {
-        "message": "$adminName$ revoked an invitation to the group for 1 person invited by $memberName$.",
+        "message": "$adminName$ tühistas $memberName$ poolt saadetud 1 kasutaja grupiga liitumise kutse. ",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3932,7 +3932,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--you": {
-        "message": "You revoked an invitation to the group for 1 person invited by $memberName$.",
+        "message": "Sa tühistasid $memberName$ poolt kutsutud 1 kasutaja grupiga liitumise kutse.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3942,7 +3942,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-        "message": "An admin revoked an invitation to the group for 1 person invited by $memberName$.",
+        "message": "Administraator tühistas $memberName$ poolt kutsutud 1 kasutaja grupiga liitumise kutse.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3952,7 +3952,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--other": {
-        "message": "$adminName$ revoked the invitation to the group you sent to $inviteeName$.",
+        "message": "$adminName$tühistas sinu poolt kasutajale $inviteeName$ saadetud grupiga liitumise kutse.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3962,7 +3962,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--you": {
-        "message": "You rescinded your invitation to $inviteeName$.",
+        "message": "Sa tühistasid kutse kasutajale $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3972,7 +3972,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--unknown": {
-        "message": "An admin revoked the invitation to the group you sent to $inviteeName$.",
+        "message": "Administraator tühistas sinu poolt kasutajale $inviteeName$ saadetud grupiga liitumise kutse.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3982,7 +3982,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--other": {
-        "message": "$adminName$ revoked invitations to the group for $count$ people invited by $memberName$.",
+        "message": "$adminName$tühistas $count$ inimese $memberName$ poolt saadetud grupiga liitumise kutsed.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3996,7 +3996,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--you": {
-        "message": "You revoked invitations to the group for $count$ people invited by $memberName$.",
+        "message": "Sa tühistasid $count$ inimese $memberName$ poolt saadetud grupiga liitumise kutset .",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4010,7 +4010,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-        "message": "An admin revoked invitations to the group for $count$ people invited by $memberName$.",
+        "message": "Administraator tühistas $count$ inimesele $memberName$ poolt saadetud grupiga liitumised kutsed.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4024,7 +4024,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-        "message": "$adminName$ revoked the invitations to the group you sent to $count$ people.",
+        "message": "$adminName$ tühistas sinu poolt $count$inimesele saadetud grupiga liitumise kutsed.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4038,7 +4038,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-        "message": "You rescinded your invitation to $count$ people.",
+        "message": "Sa tühistasid  $count$ inimese kutsed.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4048,7 +4048,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-        "message": "An admin revoked the invitations to the group you sent to $count$ people.",
+        "message": "Administraator tühistas sinu poolt $count$ inimesele saadetud grupiga liitumise kutsed.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4058,7 +4058,7 @@
         }
     },
     "GroupV1--Migration--disabled": {
-        "message": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. $learnMore$",
+        "message": "Uuenda seda gruppi, et aktiveerida uus funktsionaalsus nagu @mainimised ja administraatorid. Liikmed, kes pole selles grupis jaganud enda nime ja fotot kutsutakse liituma. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
         "placeholders": {
             "learnMore": {
@@ -4068,7 +4068,7 @@
         }
     },
     "GroupV1--Migration--was-upgraded": {
-        "message": "This group was upgraded to a New Group.",
+        "message": "See grupp uuendati uueks grupiks.",
         "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
     },
     "GroupV1--Migration--learn-more": {
@@ -4096,43 +4096,43 @@
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--keep-history": {
-        "message": "All message history and media will be kept from before the upgrade.",
+        "message": "Kogu sõnumite ajalugu ja meediafailid jäävad alles.",
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
-        "message": "You will need to accept an invite to join this group again, and will not receive group messages until you accept.",
+        "message": "Selle grupiga uuesti liitumiseks pead nõustuma kutsega ja sa ei saa grupi sõnumeid senikaua kuni oled nõustunud.",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--info--invited--many": {
-        "message": "These members will need to accept an invite to join this group again, and will not receive group messages until they accept:",
+        "message": "Need liikmed peavad selle grupiga liitumise kutse uuesti vastu võtma ning ei saa enne nõustumist grupi sõnumeid näha:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--one": {
-        "message": "This member will need to accept an invite to join this group again, and will not receive group messages until they accept:",
+        "message": "See liige peab selle grupiga liitumise kutse uuesti vastu võtma ning ei saa enne nõustumist grupi sõnumeid näha:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
-        "message": "These members are not capable of joining New Groups, and will be removed from the group:",
+        "message": "Need liikmed pole võimelised uute gruppidega liituma ja eemaldatakse grupist:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--one": {
-        "message": "This member is not capable of joining New Groups, and will be removed from the group:",
+        "message": "Need liikmed pole võimelised uute gruppidega liituma ja eemaldatakse grupist:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--many": {
-        "message": "These members were not capable of joining New Groups, and were removed from the group:",
+        "message": "Need liikmed polnud võimelised uue grupiga liituma ja eemaldati grupist:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--one": {
-        "message": "This member was not capable of joining New Groups, and was removed from the group:",
+        "message": "See liige polud võimeline uue grupiga liituma ja eemaldati grupist:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
-        "message": "You couldn't be added to the New Group and have been invited to join.",
+        "message": "Sind polnud võimalik uude gruppi lisada ja oled kutsutud grupiga liituma.",
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {
-        "message": "$contact$ couldn’t be added to the New Group and has been invited to join.",
+        "message": "$contact$ polnud võimalik uude gruppi lisada ja ta kutsuti liituma.",
         "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
         "placeholders": {
             "contact": {
@@ -4142,7 +4142,7 @@
         }
     },
     "GroupV1--Migration--invited--many": {
-        "message": "$count$ members couldn’t be added to the New Group and have been invited to join.",
+        "message": "$count$ liiget polnud võimalik uude gruppi lisada ja nad kutsuti liituma.",
         "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
         "placeholders": {
             "contact": {
@@ -4152,7 +4152,7 @@
         }
     },
     "GroupV1--Migration--removed--one": {
-        "message": "$contact$ was removed from the group.",
+        "message": "$contact$ eemaldati grupist.",
         "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade",
         "placeholders": {
             "contact": {
@@ -4162,7 +4162,7 @@
         }
     },
     "GroupV1--Migration--removed--many": {
-        "message": "$count$ members were removed from the group.",
+        "message": "$count$ isikut eemaldati grupist.",
         "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade",
         "placeholders": {
             "contact": {
@@ -4192,7 +4192,7 @@
         "description": "Aria label for file attachment button in composition area"
     },
     "countMutedConversationsDescription": {
-        "message": "Count muted conversations in badge count",
+        "message": "Arvesta vaigistatud vestlusi",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -4200,7 +4200,7 @@
         "description": "Button text for send message button in Group Contact Details modal"
     },
     "ContactModal--make-admin": {
-        "message": "Make admin",
+        "message": "Tee administraatoriks",
         "description": "Button text for make admin button in Group Contact Details modal"
     },
     "ContactModal--remove-from-group": {

@@ -382,11 +382,11 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Dina säkerhetsnummer med dessa gruppmedlemmar har ändrats sen du senast verifierade. Klicka på en gruppmedlem för att se ditt nya säkerhetsnummer.",
+        "message": "Ditt säkerhetsnummer med dessa gruppmedlemmar har ändrats sedan du senast verifierade. Klicka på en gruppmedlem för att se ditt säkerhetsnummer med medlemmen.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
-        "message": "Säkerhetsnumret du försöker verifiera har ändrats. Vänligen se över ditt nya säkerhetsnummer med $name1$. Kom ihåg att denna förändring kan innebära att någon försöker avläsa din kommunikation eller att $name2$ helt enkelt har installerat Signal igen.",
+        "message": "Säkerhetsnumret du försöker verifiera har ändrats. Vänligen se över ditt nya säkerhetsnummer med $name1$. Kom ihåg att denna förändring kan innebära att någon försöker avläsa din kommunikation eller att $name2$ helt enkelt har installerat om Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name1": {
@@ -404,7 +404,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "identityKeyErrorOnSend": {
-        "message": "Ditt säkerhetsnummer med $name1$ har ändrats. Det kan antingen innebära att någon försöker avläsa din kommunikation eller att $name2$ helt enkelt har installerat Signal igen. Du kanske vill verifiera ditt säkerhetsnummer med denna kontakt.",
+        "message": "Ditt säkerhetsnummer med $name1$ har ändrats. Det kan antingen innebära att någon försöker avläsa din kommunikation eller att $name2$ helt enkelt har installerat om Signal. Du kanske vill verifiera ditt säkerhetsnummer med denna kontakt.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name1": {
@@ -990,7 +990,7 @@
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "Det här meddelandet tas bort för alla i konversationen om de har en ny version av Signal. De kommer att kunna se att du har tagit bort ett meddelande.",
+        "message": "Detta meddelande tas bort för alla i konversationen om de har en ny version av Signal. De kommer att kunna se att du har tagit bort ett meddelande.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "deleteThisMessage": {
@@ -1052,7 +1052,7 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "Du har inte utbytt några meddelanden med denna kontakt ännu. Ditt säkerhetsnummer med dem kommer att vara tillgängligt efter det första meddelandet.",
+        "message": "Du har inte utbytt några meddelanden med denna kontakt ännu. Ditt säkerhetsnummer med kontakten kommer att vara tillgängligt efter det första meddelandet.",
         "description": ""
     },
     "goBack": {
@@ -1232,7 +1232,7 @@
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
-        "message": "Din video är avstängd",
+        "message": "Din kamera är avstängd",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__lobby-summary--zero": {
@@ -2410,7 +2410,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-attachments": {
-        "message": "Ta bort alla utkast till bilagor",
+        "message": "Ta bort alla bilageutkast ",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--conversation-by-index": {
@@ -2752,7 +2752,7 @@
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "MessageRequests--message-direct": {
-        "message": "Låt $name$ meddela dig och dela ditt namn och foto med dem? De vet inte att du har sett sina meddelanden förrän du accepterar.",
+        "message": "Tillåt att $name$ meddelar dig och dela ditt namn och foto med dem? Personen vet inte att du har sett sina meddelanden förrän du accepterar.",
         "description": "Shown as the message for a message request in a direct message",
         "placeholders": {
             "name": {
@@ -2762,7 +2762,7 @@
         }
     },
     "MessageRequests--message-direct-blocked": {
-        "message": "Låt $name$ meddela dig och dela ditt namn och foto med dem? Du får inte några meddelanden förrän du har slutat blockera dem.",
+        "message": "Tillåt att $name$ meddelar dig och dela ditt namn och foto med dem? Du får inte några meddelanden förrän du har slutat blockera personen.",
         "description": "Shown as the message for a message request in a direct message with a blocked account",
         "placeholders": {
             "name": {
@@ -2782,7 +2782,7 @@
         }
     },
     "MessageRequests--message-group-blocked": {
-        "message": "Ta bort blockeringen av denna grupp och dela ditt namn och foto med dess medlemmar? Du får inte några meddelanden förrän du har blockerat dem.",
+        "message": "Ta bort blockeringen av denna grupp och dela ditt namn och foto med dess medlemmar? Du får inte några meddelanden förrän du har avblockerat gruppen.",
         "description": "Shown as the message for a message request in a blocked group"
     },
     "MessageRequests--block": {
@@ -2908,7 +2908,7 @@
         }
     },
     "MessageRequests--profile-sharing--direct": {
-        "message": "Fortsätt den här konversationen med $firstName$ och dela ditt namn och foto med dem? $learnMore$",
+        "message": "Fortsätt denna konversation med $firstName$ och dela ditt namn och foto med personen? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
         "placeholders": {
             "firstName": {
@@ -4092,7 +4092,7 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--keep-history": {
-        "message": "All meddelandeshistorik och media har sparats från före uppgraderingen.",
+        "message": "All meddelandehistorik och media har sparats från före uppgraderingen.",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--keep-history": {
@@ -4108,7 +4108,7 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--one": {
-        "message": "Denna medlem måste acceptera en inbjudan att gå med i denna grupp igen och kommer inte att få gruppmeddelanden förrän de accepterar:",
+        "message": "Denna medlem måste acceptera en inbjudan att gå med i denna grupp igen och kommer inte att få gruppmeddelanden förrän medlemmen accepterar:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {

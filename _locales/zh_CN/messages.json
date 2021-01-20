@@ -1204,7 +1204,7 @@
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__call-is-full": {
-        "message": "Call is full",
+        "message": "通话人数已满",
         "description": "Button label in the call lobby when you can't join because the call is full"
     },
     "calling__button--video-disabled": {
@@ -1232,7 +1232,7 @@
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
-        "message": "您的视频已关闭",
+        "message": "摄像头已关闭",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__lobby-summary--zero": {
@@ -1332,7 +1332,7 @@
         }
     },
     "calling__block-info": {
-        "message": "You won't receive their audio or video and they won't receive yours.",
+        "message": "你将不会收到他们的音频或视频，他们也不会收到你的。",
         "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "alwaysRelayCallsDescription": {
@@ -3182,7 +3182,7 @@
         "description": "Title for picture-in-picture toggle"
     },
     "calling__hangup": {
-        "message": "Leave call",
+        "message": "离开通话",
         "description": "Title for hang up button"
     },
     "callingDeviceSelection__label--video": {
@@ -4128,7 +4128,7 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
-        "message": "You couldn't be added to the New Group and have been invited to join.",
+        "message": "您被邀请重新加入之前无法加入的新版群组。",
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {

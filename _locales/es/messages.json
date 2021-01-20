@@ -1232,11 +1232,11 @@
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
-        "message": "Tu vídeo está desactivado",
+        "message": "Tu cámara está desactivada",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__lobby-summary--zero": {
-        "message": "Nadie más está aquí",
+        "message": "No hay nadie más",
         "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--single": {
@@ -1304,7 +1304,7 @@
         }
     },
     "calling__in-this-call--zero": {
-        "message": "Nadie más está aquí",
+        "message": "No hay nadie más",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {

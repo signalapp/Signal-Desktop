@@ -1,6 +1,6 @@
 {
     "softwareAcknowledgments": {
-        "message": "Software Acknowledgments",
+        "message": "सॉफ्टवेअर पोचपावती",
         "description": "Shown in the about box for the link to software acknowledgments"
     },
     "privacyPolicy": {
@@ -12,7 +12,7 @@
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
     "unknownContact": {
-        "message": "Unknown contact",
+        "message": "अज्ञात संपर्क",
         "description": "Shown as the name of a contact if we don't have any displayable information about them"
     },
     "unknownGroup": {
@@ -32,7 +32,7 @@
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuCreateStickers": {
-        "message": "Create/upload sticker pack",
+        "message": "स्टिकर पॅक तयार करा/अपलोड करा",
         "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
@@ -156,7 +156,7 @@
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "messageContextMenuButton": {
-        "message": "More actions",
+        "message": "अधिक क्रिया",
         "description": "Label for context button next to each message"
     },
     "contextMenuCopyLink": {
@@ -164,11 +164,11 @@
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
     "contextMenuCopyImage": {
-        "message": "Copy Image",
+        "message": "चित्र कॉपी करा",
         "description": "Shown in the context menu for an image to indicate that the user can copy the image"
     },
     "contextMenuNoSuggestions": {
-        "message": "No Suggestions",
+        "message": "कोणत्याही सूचना नाहीत",
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
     },
     "avatarMenuViewArchive": {
@@ -198,7 +198,7 @@
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "LeftPane--pinned": {
-        "message": "Pinned",
+        "message": "पिन केलेला",
         "description": "Shown as a header for pinned conversations in the left pane"
     },
     "LeftPane--chats": {
@@ -214,7 +214,7 @@
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "markUnread": {
-        "message": "Mark as unread",
+        "message": "वाचले नाही अशी खुण करा",
         "description": "Shown in menu for conversation, and marks conversation as unread"
     },
     "moveConversationToInbox": {
@@ -222,15 +222,15 @@
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
-        "message": "Pin Conversation",
+        "message": "संभाषण पिन करा",
         "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
     },
     "unpinConversation": {
-        "message": "Unpin Conversation",
+        "message": "संभाषण अनपिन करा",
         "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
     },
     "pinnedConversationsFull": {
-        "message": "You can only pin up to 4 chats",
+        "message": "आपण फक्त 4 गप्पा pin करू शकता",
         "description": ""
     },
     "chooseDirectory": {
@@ -1232,7 +1232,7 @@
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
-        "message": "Your video is off",
+        "message": "Your camera is off",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__lobby-summary--zero": {
@@ -4080,7 +4080,7 @@
         "description": "Shown on Migrate dialog to kick off the process"
     },
     "GroupV1--Migration--info--title": {
-        "message": "What are New Groups?",
+        "message": "नवीन गट काय आहेत?",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--title": {

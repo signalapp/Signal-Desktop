@@ -217,12 +217,13 @@ export type ServerInterface = DataInterface & {
     options?: {
       limit?: number;
       receivedAt?: number;
+      sentAt?: number;
       messageId?: string;
     }
   ) => Promise<Array<MessageTypeUnhydrated>>;
   getNewerMessagesByConversation: (
     conversationId: string,
-    options?: { limit?: number; receivedAt?: number }
+    options?: { limit?: number; receivedAt?: number; sentAt?: number }
   ) => Promise<Array<MessageTypeUnhydrated>>;
   getLastConversationActivity: (
     conversationId: string
@@ -309,6 +310,7 @@ export type ClientInterface = DataInterface & {
       limit?: number;
       messageId?: string;
       receivedAt?: number;
+      sentAt?: number;
       MessageCollection: typeof MessageModelCollectionType;
     }
   ) => Promise<MessageModelCollectionType>;
@@ -317,6 +319,7 @@ export type ClientInterface = DataInterface & {
     options: {
       limit?: number;
       receivedAt?: number;
+      sentAt?: number;
       MessageCollection: typeof MessageModelCollectionType;
     }
   ) => Promise<MessageModelCollectionType>;

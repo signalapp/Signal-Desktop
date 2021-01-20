@@ -12,7 +12,7 @@
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
     "unknownContact": {
-        "message": "Unknown contact",
+        "message": "Ukjend kontakt",
         "description": "Shown as the name of a contact if we don't have any displayable information about them"
     },
     "unknownGroup": {
@@ -156,19 +156,19 @@
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "messageContextMenuButton": {
-        "message": "More actions",
+        "message": "Fleire handlingar",
         "description": "Label for context button next to each message"
     },
     "contextMenuCopyLink": {
-        "message": "Copy Link",
+        "message": "Kopier lenkje",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
     "contextMenuCopyImage": {
-        "message": "Copy Image",
+        "message": "Kopier bilde",
         "description": "Shown in the context menu for an image to indicate that the user can copy the image"
     },
     "contextMenuNoSuggestions": {
-        "message": "No Suggestions",
+        "message": "Ingen forslag",
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
     },
     "avatarMenuViewArchive": {
@@ -184,7 +184,7 @@
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
-        "message": "Optimaliserer meldingar … $status$fullført.",
+        "message": "Optimaliserer meldingar … $status$ fullført.",
         "description": "Message shown on the loading screen while we are doing application optimizations",
         "placeholders": {
             "status": {
@@ -210,7 +210,7 @@
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
-        "message": "Archive",
+        "message": "Arkiver",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "markUnread": {
@@ -218,19 +218,19 @@
         "description": "Shown in menu for conversation, and marks conversation as unread"
     },
     "moveConversationToInbox": {
-        "message": "Unarchive",
+        "message": "Angra arkivering",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
-        "message": "Pin Conversation",
+        "message": "Fest samtale",
         "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
     },
     "unpinConversation": {
-        "message": "Unpin Conversation",
+        "message": "Løys samtale",
         "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
     },
     "pinnedConversationsFull": {
-        "message": "You can only pin up to 4 chats",
+        "message": "Du kan berre festa opptil 4 samtalar",
         "description": ""
     },
     "chooseDirectory": {
@@ -246,7 +246,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Du har akkurat gått gjennom eksportprosessen; kontaktane og meldingane dine ventar tålmodig på datamaskina di. Vel mappa som inneheld den lagra Signal-eksporten.",
+        "message": "Du har akkurat gått gjennom eksportprosessen; kontaktane og meldingane dine ventar tolmodig på datamaskina di. Vel mappa som inneheld den lagra Signal-eksporten.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -304,15 +304,15 @@
         }
     },
     "view": {
-        "message": "Sjå",
+        "message": "Vis",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "You are no longer a member of the group.",
+        "message": "Du er ikkje lenger medlem av denne gruppa.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "invalidConversation": {
-        "message": "This group is invalid. Please create a new group.",
+        "message": "Denne gruppa er ugyldig. Opprett ei ny gruppe.",
         "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
     },
     "scrollDown": {
@@ -338,11 +338,11 @@
         }
     },
     "messageHistoryUnsynced": {
-        "message": "For your security, conversation history isn't transferred to new linked devices.",
+        "message": "Av tryggleiksgrunnar vert ikkje samtalehistorikk overført til nye tilkopla einingar.",
         "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
-        "message": "Du markerte tryggingsnummeret med $name$ som godkjent",
+        "message": "Du markerte tryggleiksnummeret med $name$ som godkjent",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -352,7 +352,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "Du markerte tryggingsnummeret med $name$ som ikkje godkjent",
+        "message": "Du markerte tryggleiksnummeret med $name$ som ikkje godkjent",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -362,7 +362,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "Du markerte tryggingsnummeret med $name$ som godkjent på ei anna eining",
+        "message": "Du markerte tryggleiksnummeret med $name$ som godkjent på ei anna eining",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -372,7 +372,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Du markerte tryggingsnummeret med $name$ som ikkje godkjent på ei anna eining",
+        "message": "Du markerte tryggleiksnummeret med $name$ som ikkje godkjent på ei anna eining",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -382,7 +382,7 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Tryggingsnummera dine med desse gruppemedlemmene er endra sidan førre gong du godkjente. Klikk på ein gruppemedlem for å sjå dei nye tryggingsnummera deira.",
+        "message": "Tryggleiksnummera dine med desse gruppemedlemmene er endra sidan førre gong du godkjente. Trykk på ein gruppemedlem for å sjå dei nye tryggleiksnummera deira.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
@@ -422,15 +422,15 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "callAnyway": {
-        "message": "Call Anyway",
+        "message": "Ring likevel",
         "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
     },
     "continueCall": {
-        "message": "Continue Call",
+        "message": "Fortset samtalen",
         "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
-        "message": "Tryggingsnummeret ditt med $name$ er endra og er ikkje lenger godkjent. Klikk for å visa nummeret.",
+        "message": "Tryggleiksnummeret ditt med $name$ er endra og er ikkje lenger godkjent. Trykk for å visa nummeret.",
         "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -440,7 +440,7 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "Tryggingsnummera dine med fleire medlemmer i gruppa er endra, og er ikkje lenger godkjende. Klikk for å visa.",
+        "message": "Tryggleiksnummera dine med fleire medlemmar i gruppa er endra, og er ikkje lenger godkjende. Trykk for å visa.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
@@ -456,11 +456,11 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopyAlt": {
-        "message": "Copy link to your clipboard",
+        "message": "Kopier lenkja til utklippstavla",
         "description": "Shown as the alt text for the copy button on the debug log screen"
     },
     "debugLogLinkCopied": {
-        "message": "Link Copied to Your Clipboard",
+        "message": "Lenkja er kopiert til utklippstavla",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
@@ -488,7 +488,7 @@
         "description": ""
     },
     "isVerified": {
-        "message": "Du har godkjent tryggingsnummeret ditt med $name$.",
+        "message": "Du har godkjent tryggleiksnummeret ditt med $name$.",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -498,7 +498,7 @@
         }
     },
     "isNotVerified": {
-        "message": "Du har ikkje godkjent tryggingsnummeret ditt med $name$.",
+        "message": "Du har ikkje godkjent tryggleiksnummeret ditt med $name$.",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -512,11 +512,11 @@
         "description": ""
     },
     "newIdentity": {
-        "message": "Nytt tryggingsnummer",
+        "message": "Nytt tryggleiksnummer",
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "Tryggingsnummeret ditt med denne kontakten er endra. Dette kan enten bety at nokon prøver å fanga opp kommunikasjonen din, eller denne kontakten kan ha installert Signal på nytt. Du vil kanskje godkjenna det nye tryggingsnummeret nedanfor.",
+        "message": "Tryggleiksnummeret ditt med denne kontakten er endra. Dette kan enten bety at nokon prøver å fanga opp kommunikasjonen din, eller denne kontakten kan ha installert Signal på nytt. Du vil kanskje godkjenna det nye tryggleiksnummeret nedanfor.",
         "description": ""
     },
     "incomingError": {
@@ -556,11 +556,11 @@
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
-        "message": "Vedleggstypen er ikkje støtta. Klikk for å lagra det.",
+        "message": "Vedleggstypen er ikkje støtta. Trykk for å lagra det.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "clickToSave": {
-        "message": "Klikk for å lagra",
+        "message": "Trykk for å lagra",
         "description": "Hover text for attachment filenames"
     },
     "unnamedFile": {
@@ -638,11 +638,11 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Connect",
+        "message": "Kopla til",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Shouldn't be long...",
+        "message": "Bør ikkje ta lang tid …",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -662,11 +662,11 @@
         "description": "View menu item to open the debug log (title case)"
     },
     "helpMenuShowKeyboardShortcuts": {
-        "message": "Show Keyboard Shortcuts",
+        "message": "Vis tastatursnarvegar",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
     "contactUs": {
-        "message": "Contact Us",
+        "message": "Kontakt oss",
         "description": "Item under the help menu, takes you to the contact us support page"
     },
     "goToReleaseNotes": {
@@ -682,7 +682,7 @@
         "description": "Item under the Help menu, takes you to the support page"
     },
     "joinTheBeta": {
-        "message": "Join the Beta",
+        "message": "Bli med i betaprogrammet",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
@@ -722,7 +722,7 @@
         "description": "Placeholder text in the search input"
     },
     "clearSearch": {
-        "message": "Clear Search",
+        "message": "Tøm søket",
         "description": "Aria label for clear search button"
     },
     "searchIn": {
@@ -764,7 +764,7 @@
         "description": "Shown to separate the types of search results"
     },
     "contactsHeader": {
-        "message": "Kontakt",
+        "message": "Kontaktar",
         "description": "Shown to separate the types of search results"
     },
     "messagesHeader": {
@@ -784,7 +784,7 @@
         "description": "Used as the 'title' attribute for the typing animation"
     },
     "contactInAddressBook": {
-        "message": "This person is in your contacts.",
+        "message": "Denne personen er i kontaktlista di.",
         "description": "Description of icon denoting that contact is from your address book"
     },
     "contactAvatarAlt": {
@@ -838,7 +838,7 @@
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "reactToMessage": {
-        "message": "React to Message",
+        "message": "Reager på meldinga",
         "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
     },
     "replyToMessage": {
@@ -862,19 +862,19 @@
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
     },
     "voiceRecordingInterruptedBlur": {
-        "message": "Voice message recording stopped because you switched to another app.",
+        "message": "Opptaket av talemeldinga stoppa fordi du bytte til ein annan app.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Voice messages are limited to five minutes. Recording will stop if you switch to another app.",
+        "message": "Talemeldingar kan vere opptil fem minutt lange. Opptaket stoppar dersom du byter til ein annan app.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "A voice message must have only one attachment.",
+        "message": "Ei talemelding kan berre ha eitt vedlegg.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "attachmentSaved": {
-        "message": "Attachment saved. Click to show in folder.",
+        "message": "Vedlegget er lagra. Trykk for å opna mappa.",
         "description": "Shown after user selects to save to downloads",
         "placeholders": {
             "name": {
@@ -902,11 +902,11 @@
         "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
-        "message": "For calling, you must allow Signal Desktop to access your microphone.",
+        "message": "Signal Desktop må ha tilgang til mikrofonen din for å ringa.",
         "description": "Shown if the user attempts access the microphone for calling without audio permissions turned on"
     },
     "videoCallingPermissionNeeded": {
-        "message": "For video calling, you must allow Signal Desktop to access your camera.",
+        "message": "Signal Desktop må ha tilgang til kameraet ditt din for å gjennomføre videosamtalar.",
         "description": "Shown if the user attempts access the camera for video calling without video permissions turned on"
     },
     "allowAccess": {
@@ -934,7 +934,7 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop failed to update, but there is a new version available. Please go to $url$ and install the new version manually, then either contact support or file a bug about this problem.",
+        "message": "Det er ei ny utgåve tilgjengeleg, men Signal Desktop klarte ikkje oppdatera automatisk. Gå til $url$ og installer den nye utgåva manuelt. Ta så kontakt med brukarstøtta eller send inn ei feilmelding om dette problemet.",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "url": {
@@ -944,7 +944,7 @@
         }
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving $app$ to $folder$ with Finder.",
+        "message": "Signal Desktop er sannsynlegvis i ein macOS-karantene, og kan ikkje oppdatera automatisk. Prøv å flytta $app$ til $folder$ med Finder.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
@@ -966,7 +966,7 @@
         "description": ""
     },
     "discard": {
-        "message": "Discard",
+        "message": "Forkast",
         "description": ""
     },
     "failedToSend": {
@@ -986,7 +986,7 @@
         "description": ""
     },
     "deleteWarning": {
-        "message": "Clicking 'delete' will permanently remove this message from your devices only.",
+        "message": "Trykker du «Slett», vil meldinga bli sletta permanent, men berre på dine einingar.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
@@ -1022,11 +1022,11 @@
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
-        "message": "Gruppemedlemmer",
+        "message": "Gruppemedlemmar",
         "description": ""
     },
     "showMembers": {
-        "message": "Vis medlemmer",
+        "message": "Vis medlemmar",
         "description": ""
     },
     "resetSession": {
@@ -1034,11 +1034,11 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
-        "message": "Vis tryggingsnummer",
+        "message": "Vis tryggleiksnummer",
         "description": ""
     },
     "viewRecentMedia": {
-        "message": "View recent media",
+        "message": "Vis ny media",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
@@ -1052,11 +1052,11 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "Du har ikkje utveksla nokon meldingar med denne kontakten enno. Tryggingsnummeret ditt med dei vil vera tilgjengeleg etter den første meldinga.",
+        "message": "Du har ikkje utveksla nokon meldingar med denne kontakten enno. Tryggleiksnummeret ditt med dei vil vera tilgjengeleg etter den første meldinga.",
         "description": ""
     },
     "goBack": {
-        "message": "Go back",
+        "message": "Gå tilbake",
         "description": "Label for back button in a conversation"
     },
     "moreInfo": {
@@ -1068,11 +1068,11 @@
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Delete message for me",
+        "message": "Slett meldinga for meg",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessageForEveryone": {
-        "message": "Delete message for everyone",
+        "message": "Slett meldinga for alle",
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
@@ -1128,11 +1128,11 @@
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "Kopla til telefonen din til Signal Desktop",
+        "message": "Kopla telefonen din til Signal Desktop",
         "description": "Shown on the front page when the application first starts, above the QR code"
     },
     "signalSettings": {
-        "message": "Instillingar for Signal",
+        "message": "Innstillingar for Signal",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkedDevices": {
@@ -1172,7 +1172,7 @@
         "description": ""
     },
     "installTooOld": {
-        "message": "Update Signal on this device to link your phone.",
+        "message": "Oppdater Signal på denne eininga for å kopla til telefonen din.",
         "description": ""
     },
     "installErrorHeader": {
@@ -1188,7 +1188,7 @@
         "description": "Header for theme settings"
     },
     "calling": {
-        "message": "Calling",
+        "message": "Ringer",
         "description": "Header for calling options on the settings screen"
     },
     "calling__start": {
@@ -1200,7 +1200,7 @@
         "description": "Button label in the call lobby for joining a call"
     },
     "calling__return": {
-        "message": "Return to Call",
+        "message": "Tilbake til samtalen",
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__call-is-full": {
@@ -1208,31 +1208,31 @@
         "description": "Button label in the call lobby when you can't join because the call is full"
     },
     "calling__button--video-disabled": {
-        "message": "Camera disabled",
+        "message": "Kamera slått av",
         "description": "Button tooltip label when the camera is disabled"
     },
     "calling__button--video-off": {
-        "message": "Turn off camera",
+        "message": "Slå av kamera",
         "description": "Button tooltip label for turning off the camera"
     },
     "calling__button--video-on": {
-        "message": "Turn on camera",
+        "message": "Slå på kamera",
         "description": "Button tooltip label for turning on the camera"
     },
     "calling__button--audio-disabled": {
-        "message": "Microphone disabled",
+        "message": "Mikrofon slått av",
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "Mute mic",
+        "message": "Slå av mikrofon",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
-        "message": "Unmute mic",
+        "message": "Slå på mikrofon",
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
-        "message": "Du har skrudd av video",
+        "message": "Kameraet ditt er slått av",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__lobby-summary--zero": {
@@ -1240,7 +1240,7 @@
         "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--single": {
-        "message": "$first$ is in this call",
+        "message": "$first$ er i denne samtalen",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1250,11 +1250,11 @@
         }
     },
     "calling__lobby-summary--self": {
-        "message": "One of your other devices is in this call",
+        "message": "Ei av dei andre einingane dine er i denne samtalen",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
     "calling__lobby-summary--double": {
-        "message": "$first$ and $second$ are in this call",
+        "message": "$first$ og $second$ er i denne samtalen",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1268,7 +1268,7 @@
         }
     },
     "calling__lobby-summary--triple": {
-        "message": "$first$, $second$, and $third$ are in this call",
+        "message": "$first$, $second$ og $third$ er i denne samtalen",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1286,7 +1286,7 @@
         }
     },
     "calling__lobby-summary--many": {
-        "message": "$first$, $second$, and $others$ others are in this call",
+        "message": "$first$, $second$ og $others$ er i denne samtalen",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1308,11 +1308,11 @@
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
-        "message": "In this call · 1 person",
+        "message": "I denne samtalen · 1 person",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--many": {
-        "message": "In this call · $people$ people",
+        "message": "I denne samtalen · $people$ personar",
         "description": "Shown in the participants list to describe how many people are in the call",
         "placeholders": {
             "people": {
@@ -1322,7 +1322,7 @@
         }
     },
     "calling__you-have-blocked": {
-        "message": "You have blocked $name$",
+        "message": "Du har blokkert $name$",
         "description": "when you block someone and cannot view their video",
         "placeholders": {
             "name": {
@@ -1348,11 +1348,11 @@
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "Allow access to the microphone",
+        "message": "Gi tilgang til mikrofonen",
         "description": "Description of the media permission description"
     },
     "mediaCameraPermissionsDescription": {
-        "message": "Allow access to the camera",
+        "message": "Gi tilgang til kameraet",
         "description": "Description of the media permission description"
     },
     "general": {
@@ -1364,11 +1364,11 @@
         "description": "Description of the media permission description"
     },
     "spellCheckWillBeEnabled": {
-        "message": "Spell check will be enabled the next time Signal starts.",
+        "message": "Stavekontroll blir slått på neste gong du startar Signal.",
         "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
     },
     "spellCheckWillBeDisabled": {
-        "message": "Spell check will be disabled the next time Signal starts.",
+        "message": "Stavekontroll blir slått av neste gong du startar Signal.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "clearDataHeader": {
@@ -1400,11 +1400,11 @@
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "deleteOldIndexedDBData": {
-        "message": "You have obsolete data from a prior installation of Signal Desktop. If you choose to continue, it will be deleted and you will start from scratch.",
+        "message": "Du har gamle data frå ein tidlegare installasjon av Signal Desktop. Desse blir sletta dersom du held fram, og du vil starte med blanke ark.",
         "description": "Shown if user last ran Signal Desktop before October 2018"
     },
     "deleteOldData": {
-        "message": "Delete Old Data",
+        "message": "Slett gamle data",
         "description": "Button to make the delete happen"
     },
     "notifications": {
@@ -1416,15 +1416,15 @@
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
-        "message": "Deaktiver varslingar",
+        "message": "Slå av varslingar",
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "Name, content, and actions",
+        "message": "Namn, innhald og handlingar",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "No name or content",
+        "message": "Utan namn og innhald",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
@@ -1436,7 +1436,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "notificationSenderInGroup": {
-        "message": "$sender$ in $group$",
+        "message": "$sender$ i $group$",
         "description": "Displayed in notifications for messages in a group",
         "placeholders": {
             "sender": {
@@ -1450,7 +1450,7 @@
         }
     },
     "notificationReaction": {
-        "message": "$sender$ reacted $emoji$ to your message",
+        "message": "$sender$ reagerte med $emoji$ på meldinga di",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1464,7 +1464,7 @@
         }
     },
     "notificationReactionMessage": {
-        "message": "$sender$ reacted $emoji$ to: $message$",
+        "message": "$sender$ reagerte med $emoji$ på: $message$",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1486,7 +1486,7 @@
         "description": "Shown on outgoing message if it fails to send"
     },
     "partiallySent": {
-        "message": "Partially sent, click for details",
+        "message": "Delvis sendt, trykk for detaljar",
         "description": "Shown on outgoing message if it is partially sent"
     },
     "showMore": {
@@ -1498,11 +1498,11 @@
         "description": "Hides the details of a key change"
     },
     "learnMore": {
-        "message": "Lær meir om å godkjenna tryggingsnummer",
+        "message": "Lær meir om å godkjenna tryggleiksnummer",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Denne utgåva av Signal Desktop er forelda. Oppgrader til siste utgåve for å fortsetja.",
+        "message": "Denne utgåva av Signal Desktop er forelda. Oppgrader til siste utgåve for å halda fram.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
@@ -1778,15 +1778,15 @@
         "description": "Description for call ringtone notification setting"
     },
     "callSystemNotificationDescription": {
-        "message": "Show notifications for calls",
+        "message": "Vis varsel for samtalar",
         "description": "Description for call notification setting"
     },
     "incomingCallNotificationDescription": {
-        "message": "Enable incoming calls",
+        "message": "Skru på innkommande samtalar",
         "description": "Description for incoming calls setting"
     },
     "contactChangedProfileName": {
-        "message": "$sender$ changed their profile name from $oldProfile$ to $newProfile$.",
+        "message": "$sender$ endra profilnamn frå $oldProfile$ til $newProfile$.",
         "description": "Description for incoming calls setting",
         "placeholders": {
             "sender": {
@@ -1804,7 +1804,7 @@
         }
     },
     "changedProfileName": {
-        "message": "$oldProfile$ changed their profile name to $newProfile$.",
+        "message": "$oldProfile$ endra profilnamn til $newProfile$.",
         "description": "Shown when a contact not in your address book changes their profile name",
         "placeholders": {
             "oldProfile": {
@@ -1818,7 +1818,7 @@
         }
     },
     "safetyNumberChanged": {
-        "message": "Tryggingsnummeret er endra",
+        "message": "Tryggleiksnummeret er endra",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChanges": {
@@ -1826,7 +1826,7 @@
         "description": "Title for safety number changed modal"
     },
     "safetyNumberChangedGroup": {
-        "message": "Tryggingsnummeret til $name$ er endra",
+        "message": "Tryggleiksnummeret til $name$ er endra",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -1836,15 +1836,15 @@
         }
     },
     "verifyNewNumber": {
-        "message": "Godkjenn tryggingsnummer",
+        "message": "Godkjenn tryggleiksnummer",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "cannotGenerateSafetyNumber": {
-        "message": "This user can't be verified until you've exchanged messages with them.",
+        "message": "Du kan ikkje godkjenne denne brukaren før de har utveksla meldingar.",
         "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
     },
     "yourSafetyNumberWith": {
-        "message": "Your safety number with $name1$:",
+        "message": "Tryggleiksnummeret ditt med $name1$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name1": {
@@ -1870,11 +1870,11 @@
         "description": "Name for the conversation with your own phone number"
     },
     "noteToSelfHero": {
-        "message": "Du kan legga til notat til deg sjølv i denne samtalen. Viss kontoen din har tilkopla einingar, så blir dei nye notata synkronisert.",
+        "message": "Du kan legga til notat til deg sjølv i denne samtalen. Viss kontoen din har tilkopla einingar, så blir dei nye notata synkroniserte.",
         "description": "Description for the Note to Self conversation"
     },
     "notificationDrawAttention": {
-        "message": "Draw attention to this window when a notification arrives",
+        "message": "Skift fokus til dette vindauget når det kjem nye varsel",
         "description": "Label text for the setting that controls whether new notifications draw attention to the window"
     },
     "hideMenuBar": {
@@ -1886,7 +1886,7 @@
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "notSupportedSMS": {
-        "message": "SMS/MMS messages are not supported.",
+        "message": "SMS- og MMS-meldingar er ikkje støtta.",
         "description": "Label underneath number informing user that SMS is not supported on desktop"
     },
     "newPhoneNumber": {
@@ -1930,7 +1930,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ forlét gruppa.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1940,7 +1940,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ forlét gruppa.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1950,7 +1950,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "$name$ updated the group.",
+        "message": "$name$ oppdaterte gruppa.",
         "description": "Shown in the conversation history when someone updates the group",
         "placeholders": {
             "name": {
@@ -1964,11 +1964,11 @@
         "description": "Shown in the conversation history when you update a group"
     },
     "updatedGroupAvatar": {
-        "message": "Group avatar was updated.",
+        "message": "Oppdaterte gruppe-avataren",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Group name is now '$name$'.",
+        "message": "Gruppenamnet er no «$name$».",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1978,11 +1978,11 @@
         }
     },
     "youJoinedTheGroup": {
-        "message": "Du blei med i gruppa.",
+        "message": "Du vart med i gruppa.",
         "description": "Shown in the conversation history when you are added to a group."
     },
     "joinedTheGroup": {
-        "message": "$name$ joined the group.",
+        "message": "$name$ vart med i gruppa.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1992,7 +1992,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group.",
+        "message": "$names$ vart med i gruppa.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -2026,7 +2026,7 @@
         "description": "Shown in notifications and in the left pane when a voice message is received."
     },
     "message--getNotificationText--audio-message": {
-        "message": "Audio Message",
+        "message": "Lydmelding",
         "description": "Shown in notifications and in the left pane when an audio message is received."
     },
     "message--getNotificationText--file": {
@@ -2072,7 +2072,7 @@
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "stickers--toast--InstallFailed": {
-        "message": "Klarte ikkje å opna pakka med klistremerker",
+        "message": "Klarte ikkje å opna pakka med klistremerke",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
     },
     "stickers--StickerManager--InstalledPacks": {
@@ -2128,15 +2128,15 @@
         "description": "Label for the open button for the sticker picker"
     },
     "stickers--StickerPicker--AddPack": {
-        "message": "Add a sticker pack",
+        "message": "Legg til ei klistremerkepakke",
         "description": "Label for the add pack button in the sticker picker"
     },
     "stickers--StickerPicker--NextPage": {
-        "message": "Next Page",
+        "message": "Neste side",
         "description": "Label for the next page button in the sticker picker"
     },
     "stickers--StickerPicker--PrevPage": {
-        "message": "Previous Page",
+        "message": "Førre side",
         "description": "Label for the previous page button in the sticker picker"
     },
     "stickers--StickerPicker--Recents": {
@@ -2152,7 +2152,7 @@
         "description": "Shown in the sticker picker when one or more stickers are still downloading."
     },
     "stickers--StickerPicker--Empty": {
-        "message": "Fann inga klistremerke",
+        "message": "Fann ingen klistremerke",
         "description": "Shown in the sticker picker when there are no stickers to show."
     },
     "stickers--StickerPicker--Hint": {
@@ -2160,7 +2160,7 @@
         "description": "Shown in the sticker picker the first time you have received new packs you can install."
     },
     "stickers--StickerPicker--NoPacks": {
-        "message": "Fann inga klistermerkepakker",
+        "message": "Fann ingen klistremerkepakker",
         "description": "Shown in the sticker picker when there are no installed sticker packs."
     },
     "stickers--StickerPicker--NoRecents": {
@@ -2176,7 +2176,7 @@
         "description": "The message that appears in the sticker preview modal when there is an error."
     },
     "EmojiPicker--empty": {
-        "message": "Fann ingen emoji",
+        "message": "Fann ingen emojiar",
         "description": "Shown in the emoji picker when a search yields 0 results."
     },
     "EmojiPicker--search-placeholder": {
@@ -2202,7 +2202,7 @@
         "description": "Label for emoji emoji picker button"
     },
     "EmojiPicker__button--animal": {
-        "message": "Animal",
+        "message": "Dyr",
         "description": "Label for animal emoji picker button"
     },
     "EmojiPicker__button--food": {
@@ -2210,11 +2210,11 @@
         "description": "Label for food emoji picker button"
     },
     "EmojiPicker__button--activity": {
-        "message": "Activity",
+        "message": "Aktivitet",
         "description": "Label for activity emoji picker button"
     },
     "EmojiPicker__button--travel": {
-        "message": "Travel",
+        "message": "Reise",
         "description": "Label for travel emoji picker button"
     },
     "EmojiPicker__button--object": {
@@ -2226,7 +2226,7 @@
         "description": "Label for symbol emoji picker button"
     },
     "EmojiPicker__button--flag": {
-        "message": "Flag",
+        "message": "Flagg",
         "description": "Label for flag emoji picker button"
     },
     "confirmation-dialog--Cancel": {
@@ -2274,7 +2274,7 @@
         "description": "Text shown on outgoing messages with with individual timers (inaccessible)"
     },
     "Message--tap-to-view--incoming--expired-toast": {
-        "message": "You already viewed this message.",
+        "message": "Du har allereie sett denne meldinga",
         "description": "Shown when user clicks on an expired incoming view-once bubble"
     },
     "Message--tap-to-view--outgoing--expired-toast": {
@@ -2306,31 +2306,31 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--previous-conversation": {
-        "message": "Previous conversation",
+        "message": "Førre samtale",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--next-conversation": {
-        "message": "Next conversation",
+        "message": "Neste samtale",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--previous-unread-conversation": {
-        "message": "Previous unread conversation",
+        "message": "Førre ulesne samtale",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--next-unread-conversation": {
-        "message": "Next unread conversation",
+        "message": "Neste ulesne samtale",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--preferences": {
-        "message": "Preferences",
+        "message": "Innstillingar",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-conversation-menu": {
-        "message": "Open conversation menu",
+        "message": "Opna samtalemenyen",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
-        "message": "Archive conversation",
+        "message": "Arkiver samtalen",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--unarchive-conversation": {
@@ -2342,7 +2342,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search-in-conversation": {
-        "message": "Search in conversation",
+        "message": "Søk i samtalen",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--focus-composer": {
@@ -2370,7 +2370,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--view-details-for-selected-message": {
-        "message": "View selected message details",
+        "message": "Vis detaljar for den valde meldinga",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reply": {
@@ -2382,15 +2382,15 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
-        "message": "Save attachment from selected message",
+        "message": "Lagra vedlegget i den valde meldinga",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--delete-message": {
-        "message": "Delete selected message",
+        "message": "Slett den valde meldinga",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--add-newline": {
-        "message": "Add newline to message",
+        "message": "Set inn linjeskift i meldinga",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--expand-composer": {
@@ -2398,11 +2398,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--send-in-expanded-composer": {
-        "message": "Send (in expanded composer)",
+        "message": "Send (i ekspandert meldingsboks)",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--attach-file": {
-        "message": "Attach file",
+        "message": "Legg ved ei fil",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-link-preview": {
@@ -2414,7 +2414,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--conversation-by-index": {
-        "message": "Jump to conversation",
+        "message": "Hopp til samtale",
         "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
     },
     "Keyboard--Key--ctrl": {
@@ -2422,7 +2422,7 @@
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--option": {
-        "message": "Option",
+        "message": "Val",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--alt": {
@@ -2442,15 +2442,15 @@
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--one-to-nine-range": {
-        "message": "1 to 9",
+        "message": "1 til 9",
         "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
-        "message": "Keyboard Shortcuts",
+        "message": "Tastatursnarvegar",
         "description": "Title header of the keyboard shortcuts guide"
     },
     "Keyboard--navigation-header": {
-        "message": "Navigation",
+        "message": "Navigering",
         "description": "Header of the keyboard shortcuts guide - navigation section"
     },
     "Keyboard--messages-header": {
@@ -2458,31 +2458,31 @@
         "description": "Header of the keyboard shortcuts guide - messages section"
     },
     "Keyboard--composer-header": {
-        "message": "Composer",
+        "message": "Tekstfelt",
         "description": "Header of the keyboard shortcuts guide - composer section"
     },
     "Keyboard--scroll-to-top": {
-        "message": "Scroll to top of list",
+        "message": "Rull til toppen av lista",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--scroll-to-bottom": {
-        "message": "Scroll to bottom of list",
+        "message": "Rull til botnen av lista",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--close-curent-conversation": {
-        "message": "Close current conversation",
+        "message": "Lukk samtalen",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--calling-header": {
-        "message": "Calling",
+        "message": "Ringer",
         "description": "Header of the keyboard shortcuts guide - calling section"
     },
     "Keyboard--toggle-audio": {
-        "message": "Toggle mute on and off",
+        "message": "Slå mikrofonen av og på",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-video": {
-        "message": "Toggle video on and off",
+        "message": "Slå video av og på",
         "description": "Shown in the shortcuts guide"
     },
     "close-popup": {
@@ -2490,27 +2490,27 @@
         "description": "Used as alt text for any button closing a popup"
     },
     "add-image-attachment": {
-        "message": "Add image attachment",
+        "message": "Legg ved bilde",
         "description": "Used in draft attachment list for the big 'add new attachment' button"
     },
     "remove-attachment": {
-        "message": "Remove attachment",
+        "message": "Fjern vedlegget",
         "description": "Used in draft attachment list to remove an individual attachment"
     },
     "backToInbox": {
-        "message": "Back to inbox",
+        "message": "Tilbake til innboksen",
         "description": "Used as alt-text of button on archived conversations screen"
     },
     "conversationArchived": {
-        "message": "Conversation archived",
+        "message": "Samtalen er arkivert",
         "description": "A toast that shows up when user archives a conversation"
     },
     "conversationReturnedToInbox": {
-        "message": "Conversation returned to inbox",
+        "message": "Samtalen er flytta til innboksen",
         "description": "A toast that shows up when the user unarchives a conversation"
     },
     "conversationMarkedUnread": {
-        "message": "Conversation marked unread",
+        "message": "Samtalen er markert som ulesen",
         "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
@@ -2522,11 +2522,11 @@
         "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
     },
     "StickerCreator--DropZone--activeText": {
-        "message": "Drop images here",
+        "message": "Slepp bilde her",
         "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
     },
     "StickerCreator--Preview--title": {
-        "message": "Sticker pack",
+        "message": "Klistremerkepakke",
         "description": "The 'title' of the sticker pack preview 'modal'"
     },
     "StickerCreator--ConfirmDialog--cancel": {
@@ -2558,11 +2558,11 @@
         "description": "Default text for the next button on all stages of the sticker creator"
     },
     "StickerCreator--AppStage--prev": {
-        "message": "Back",
+        "message": "Tilbake",
         "description": "Default text for the previous button on all stages of the sticker creator"
     },
     "StickerCreator--DropStage--title": {
-        "message": "Add your stickers",
+        "message": "Legg til dine klistremerke",
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--help": {
@@ -2570,11 +2570,11 @@
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
-        "message": "Show margins",
+        "message": "Vis margar",
         "description": "Text for the show margins toggle on the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--addMore": {
-        "message": "Add $count$ or more",
+        "message": "Legg til $count$ eller fleire",
         "description": "Text to show user how many more stickers they must add",
         "placeholders": {
             "hashtag": {
@@ -2592,15 +2592,15 @@
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--MetaStage--title": {
-        "message": "Just a few more details...",
+        "message": "Berre nokre få detaljar til …",
         "description": "Title for the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--title": {
-        "message": "Title",
+        "message": "Tittel",
         "description": "Label for the title input of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--author": {
-        "message": "Author",
+        "message": "Forfattar",
         "description": "Label for the author input of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--cover": {
@@ -2616,7 +2616,7 @@
         "description": "Title for the confirm dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--confirm": {
-        "message": "Upload",
+        "message": "Last opp",
         "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--text": {
@@ -2624,11 +2624,11 @@
         "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--UploadStage--title": {
-        "message": "Creating your sticker pack",
+        "message": "Opprettar klistremerkepakka di",
         "description": "Title for the upload stage of the sticker creator"
     },
     "StickerCreator--UploadStage-uploaded": {
-        "message": "$count$ of $total$ uploaded",
+        "message": "$count$ av $total$ er lasta opp",
         "description": "Title for the upload stage of the sticker creator",
         "placeholders": {
             "count": {
@@ -2642,7 +2642,7 @@
         }
     },
     "StickerCreator--ShareStage--title": {
-        "message": "Congratulations! You created a sticker pack.",
+        "message": "Gratulerer! Du har laga ei klistremerkepakke.",
         "description": "Title for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--help": {
@@ -2660,7 +2660,7 @@
         }
     },
     "StickerCreator--ShareStage--copyTitle": {
-        "message": "Sticker Pack URL",
+        "message": "URL til klistremerkepakke",
         "description": "Title for the copy button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--close": {
@@ -2668,15 +2668,15 @@
         "description": "Text for the close button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--createAnother": {
-        "message": "Create another sticker pack",
+        "message": "Lag endå ei klistremerkepakke",
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "Check out this new sticker pack I created for Signal. #makeprivacystick",
+        "message": "Sjekk denne nye klistremerkepakka eg laga for Signal. #makeprivacystick",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
-        "message": "$count$ image(s) added",
+        "message": "$count$ bilde er lagt til",
         "description": "Text for the toast when images are added to the sticker creator",
         "placeholders": {
             "count": {
@@ -2686,23 +2686,23 @@
         }
     },
     "StickerCreator--Toasts--animated": {
-        "message": "Animated stickers are not currently supported",
+        "message": "Me støtter ikkje enno animerte klistremerke",
         "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--tooLarge": {
-        "message": "Dropped image is too large",
+        "message": "Bildet du sleppte er for stort",
         "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--errorProcessing": {
-        "message": "Error processing image",
+        "message": "Klarte ikkje handsama bildet",
         "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
     },
     "StickerCreator--Toasts--APNG--notSquare": {
-        "message": "Animated PNG stickers must be square",
+        "message": "Animerte PNG-klistremerke må vere kvadratiske",
         "description": "Text for the toast when someone tries to upload a non-square APNG"
     },
     "StickerCreator--Toasts--mustLoopForever": {
-        "message": "Animated stickers must loop forever",
+        "message": "Animerte klistremerke må gå i evig løkke",
         "description": "Text for the toast when an image in the sticker creator does not animate forever"
     },
     "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
@@ -2714,7 +2714,7 @@
         "description": "Text for the toast when an APNG image in the sticker creator is too small"
     },
     "StickerCreator--Toasts--errorUploading": {
-        "message": "Error uploading stickers: $message$",
+        "message": "Feil under opplasting av klistremerke: $message$",
         "description": "Text for the toast when a sticker pack cannot be uploaded",
         "placeholders": {
             "message": {
@@ -2724,7 +2724,7 @@
         }
     },
     "StickerCreator--Toasts--linkedCopied": {
-        "message": "Link copied",
+        "message": "Lenkja er kopiert",
         "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
     },
     "StickerCreator--StickerPreview--light": {
@@ -2740,11 +2740,11 @@
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--error": {
-        "message": "Failed to send reaction. Please try again.",
+        "message": "Klarte ikkje sende reaksjonen. Prøv på nytt.",
         "description": "Shown when a reaction fails to send"
     },
     "ReactionsViewer--more": {
-        "message": "More",
+        "message": "Meir",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
@@ -2772,7 +2772,7 @@
         }
     },
     "MessageRequests--message-group": {
-        "message": "Join this group and share your name and photo with its members? They won’t know you’ve seen their messages until you accept.",
+        "message": "Vil du bli med i denne gruppa og dela namnet og bildet ditt med medlemmane? Dei får ikkje vita at du har sett meldingane deira før du godkjenner.",
         "description": "Shown as the message for a message request in a group",
         "placeholders": {
             "name": {
@@ -2794,7 +2794,7 @@
         "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-confirm-title": {
-        "message": "Unblock $name$?",
+        "message": "Fjerne blokkeringa av $name$?",
         "description": "Shown as a button to let the user unblock a message request",
         "placeholders": {
             "name": {
@@ -2814,7 +2814,7 @@
         }
     },
     "MessageRequests--unblock-group-confirm-body": {
-        "message": "Gruppemedlem vil kunna legga deg til i gruppa igjen.",
+        "message": "Gruppemedlemmar kan legga deg til i gruppa igjen.",
         "description": "Shown as the body in the confirmation modal for unblocking a group message request",
         "placeholders": {
             "name": {
@@ -2828,7 +2828,7 @@
         "description": "Shown as a button to let the user block and delete a message request"
     },
     "MessageRequests--block-direct-confirm-title": {
-        "message": "Block $name$?",
+        "message": "Blokkere $name$?",
         "description": "Shown as the title in the confirmation modal for blocking a private message request",
         "placeholders": {
             "name": {
@@ -2842,7 +2842,7 @@
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
-        "message": "Block and Leave $group$?",
+        "message": "Blokker og forlat $group$?",
         "description": "Shown as the title in the confirmation modal for blocking a group message request",
         "placeholders": {
             "group": {
@@ -2852,7 +2852,7 @@
         }
     },
     "MessageRequests--block-group-confirm-body": {
-        "message": "You will no longer receive messages or updates from this group and members won't be able to add you to this group again.",
+        "message": "Du vil ikkje få fleire meldingar eller oppdateringar frå denne gruppa. Medlemmar i gruppa vil heller ikkje kunna legga deg til igjen.",
         "description": "Shown as the body in the confirmation modal for blocking a group message request"
     },
     "MessageRequests--delete": {
@@ -2868,7 +2868,7 @@
         "description": "Shown as the body in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-group-confirm-title": {
-        "message": "Delete and Leave $group$?",
+        "message": "Slett og forlat $group$?",
         "description": "Shown as the title in the confirmation modal for deleting a group message request",
         "placeholders": {
             "group": {
@@ -2882,7 +2882,7 @@
         "description": "Shown as a button to let the user delete a direct message request"
     },
     "MessageRequests--delete-group": {
-        "message": "Delete and Leave",
+        "message": "Slett og forlat",
         "description": "Shown as a button to let the user delete a group message request"
     },
     "MessageRequests--delete-group-confirm-body": {
@@ -2898,7 +2898,7 @@
         "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
     },
     "MessageRequests--profile-sharing--group": {
-        "message": "Continue your conversation with this group and share your name and photo with its members? $learnMore$",
+        "message": "Vil du halda fram samtalen med denne gruppa og dela namnet og bildet ditt med gruppemedlemmane? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a group yet",
         "placeholders": {
             "learnMore": {
@@ -2908,7 +2908,7 @@
         }
     },
     "MessageRequests--profile-sharing--direct": {
-        "message": "Continue this conversation with $firstName$ and share your name and photo with them? $learnMore$",
+        "message": "Vil du halda fram samtalen med $firstName$ og dela namnet og bildet ditt? $learnMore$ ",
         "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
         "placeholders": {
             "firstName": {
@@ -2922,11 +2922,11 @@
         }
     },
     "MessageRequests--learn-more": {
-        "message": "Learn more.",
+        "message": "Lær meir",
         "description": "Shown at the end of profile sharing messages as a link."
     },
     "ConversationHero--members": {
-        "message": "$count$ members",
+        "message": "$count$ medlemmar",
         "description": "Specifies the number of members in a group conversation",
         "placeholders": {
             "count": {
@@ -2936,7 +2936,7 @@
         }
     },
     "ConversationHero--members-1": {
-        "message": "1 member",
+        "message": "1 medlem",
         "description": "Specifies the number of members in a group conversation when there is one member",
         "placeholders": {
             "count": {
@@ -2946,7 +2946,7 @@
         }
     },
     "ConversationHero--membership-1": {
-        "message": "Member of $group$.",
+        "message": "Medlem av $group$.",
         "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
         "placeholders": {
             "group": {
@@ -2956,7 +2956,7 @@
         }
     },
     "ConversationHero--membership-2": {
-        "message": "Member of $group1$ and $group2$.",
+        "message": "Medlem av $group1$ og $group2$.",
         "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
         "placeholders": {
             "group1": {
@@ -2970,7 +2970,7 @@
         }
     },
     "ConversationHero--membership-3": {
-        "message": "Member of $group1$, $group2$, and $group3$.",
+        "message": "Medlem av $group1$, $group2$ og $group3$.",
         "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
         "placeholders": {
             "group1": {
@@ -2988,7 +2988,7 @@
         }
     },
     "ConversationHero--membership-extra": {
-        "message": "Member of $group1$, $group2$, $group3$ and $remainingCount$ more.",
+        "message": "Medlem av $group1$, $group2$, $group3$ og $remainingCount$ andre.",
         "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
         "placeholders": {
             "group1": {
@@ -3010,7 +3010,7 @@
         }
     },
     "ConversationHero--membership-added": {
-        "message": "$name$ added you to the group.",
+        "message": "$name$ la deg til i gruppa.",
         "description": "Shown Indicates that you were added to a group by a given individual.",
         "placeholders": {
             "name": {
@@ -3032,19 +3032,19 @@
         "description": "Shown in tooltip for the button to decline a call (audio or video)"
     },
     "declinedIncomingAudioCall": {
-        "message": "You declined an audio call",
+        "message": "Du avviste ein lydsamtale",
         "description": "Shown in conversation history when you declined an incoming audio call"
     },
     "declinedIncomingVideoCall": {
-        "message": "You declined a video call",
+        "message": "Du avviste ein videosamtale",
         "description": "Shown in conversation history when you declined an incoming video call"
     },
     "acceptedIncomingAudioCall": {
-        "message": "Incoming audio call",
+        "message": "Inngåande lydsamtale",
         "description": "Shown in conversation history when you accepted an incoming audio call"
     },
     "acceptedIncomingVideoCall": {
-        "message": "Incoming video call",
+        "message": "Inngåande videosamtale",
         "description": "Shown in conversation history when you accepted an incoming video call"
     },
     "missedIncomingAudioCall": {
@@ -3056,11 +3056,11 @@
         "description": "Shown in conversation history when you missed an incoming video call"
     },
     "acceptedOutgoingAudioCall": {
-        "message": "Outgoing audio call",
+        "message": "Utgåande lydsamtale",
         "description": "Shown in conversation history when you made an outgoing audio call"
     },
     "acceptedOutgoingVideoCall": {
-        "message": "Outgoing video call",
+        "message": "Utgåande videosamtale",
         "description": "Shown in conversation history when you made an outgoing video call"
     },
     "missedOrDeclinedOutgoingAudioCall": {
@@ -3088,11 +3088,11 @@
         "description": "Shown in the call screen when placing an outgoing call that is now ringing"
     },
     "makeOutgoingCall": {
-        "message": "Start a call",
+        "message": "Start ein samtale",
         "description": "Title for the call button in a conversation"
     },
     "makeOutgoingVideoCall": {
-        "message": "Start a video call",
+        "message": "Start ein videosamtale",
         "description": "Title for the video call button in a conversation"
     },
     "joinOngoingCall": {
@@ -3100,7 +3100,7 @@
         "description": "Text that appears in a group when a call is active"
     },
     "callNeedPermission": {
-        "message": "$title$ will get a message request from you. You can call once your message request has been accepted.",
+        "message": "$title$ vil få ein meldingsførespurnad frå deg. Du kan ringa når førespurnaden er godteken.",
         "description": "Shown when a call is rejected because the other party hasn't approved the message/call request",
         "placeholders": {
             "title": {
@@ -3110,7 +3110,7 @@
         }
     },
     "callReconnecting": {
-        "message": "Reconnecting...",
+        "message": "Koplar til på nytt …",
         "description": "Shown in the call screen when the call is reconnecting due to network issues"
     },
     "callDuration": {
@@ -3128,7 +3128,7 @@
         "description": "Title for device selection settings"
     },
     "calling__participants": {
-        "message": "$people$ in call",
+        "message": "$people$ i samtalen",
         "description": "Title for participants list toggle",
         "placeholders": {
             "people": {
@@ -3138,19 +3138,19 @@
         }
     },
     "calling__call-notification__ended": {
-        "message": "The group call has ended",
+        "message": "Gruppesamtalen er avslutta",
         "description": "Notification message when a group call has ended"
     },
     "calling__call-notification__started-by-someone": {
-        "message": "A group call was started",
+        "message": "Ein gruppesamtale er starta",
         "description": "Notification message when a group call has started, but we don't know who started it"
     },
     "calling__call-notification__started-by-you": {
-        "message": "You started a group call",
+        "message": "Du har starta ein gruppesamtale",
         "description": "Notification message when a group call has started by you"
     },
     "calling__call-notification__started": {
-        "message": "$name$ started a group call",
+        "message": "$name$ har starta ein gruppesamtale",
         "description": "Notification message when a group call has started",
         "placeholders": {
             "name": {
@@ -3160,7 +3160,7 @@
         }
     },
     "calling__call-notification__button__in-another-call-tooltip": {
-        "message": "You are already in a call",
+        "message": "Du er allereie i ein annan samtale",
         "description": "Tooltip in disabled notification button when you're on another call"
     },
     "calling__call-notification__button__call-full-tooltip": {
@@ -3174,11 +3174,11 @@
         }
     },
     "calling__pip--on": {
-        "message": "Minimize call",
+        "message": "Minimer samtalen",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__pip--off": {
-        "message": "Fullscreen call",
+        "message": "Fullskjermsamtale",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__hangup": {
@@ -3190,15 +3190,15 @@
         "description": "Label for video input selector"
     },
     "callingDeviceSelection__label--audio-input": {
-        "message": "Microphone",
+        "message": "Mikrofon",
         "description": "Label for audio input selector"
     },
     "callingDeviceSelection__label--audio-output": {
-        "message": "Speakers",
+        "message": "Høgtalarar",
         "description": "Label for audio output selector"
     },
     "callingDeviceSelection__select--no-device": {
-        "message": "No devices available",
+        "message": "Ingen einingar er tilgjengelege",
         "description": "Message for when there are no available devices to select for input/output audio or video"
     },
     "callingDeviceSelection__select--default": {
@@ -3210,19 +3210,19 @@
         "description": "Label for the mute notifications drop-down selector"
     },
     "muteHour": {
-        "message": "Mute for one hour",
+        "message": "Demp i éin time",
         "description": "Label for muting the conversation"
     },
     "muteDay": {
-        "message": "Mute for one day",
+        "message": "Demp i eitt døgn",
         "description": "Label for muting the conversation"
     },
     "muteWeek": {
-        "message": "Mute for one week",
+        "message": "Demp i éi veke",
         "description": "Label for muting the conversation"
     },
     "muteYear": {
-        "message": "Mute for one year",
+        "message": "Demp i eitt år",
         "description": "Label for muting the conversation"
     },
     "unmute": {
@@ -3248,7 +3248,7 @@
         "description": "Title of pop-up dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
-        "message": "Please try again or contact support.",
+        "message": "Prøv på nytt eller kontakt brukarstøtte",
         "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
@@ -3260,7 +3260,7 @@
         "description": "Shown next to the set of administrators in a group"
     },
     "updating": {
-        "message": "Updating...",
+        "message": "Oppdaterer …",
         "description": "Shown along with a spinner when an update operation takes longer than one second"
     },
     "GroupV2--create--you": {
@@ -3268,7 +3268,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--create--other": {
-        "message": "$memberName$ created the group.",
+        "message": "$memberName$ oppretta gruppa.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3278,11 +3278,11 @@
         }
     },
     "GroupV2--create--unknown": {
-        "message": "The group was created.",
+        "message": "Gruppa er oppretta",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--change--other": {
-        "message": "$memberName$ changed the group name to \"$newTitle$\".",
+        "message": "$memberName$ endra gruppenamnet til «$newTitle$».",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3296,7 +3296,7 @@
         }
     },
     "GroupV2--title--change--you": {
-        "message": "You changed the group name to \"$newTitle$\".",
+        "message": "Du endra gruppenamnet til «$newTitle$».",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "newTitle": {
@@ -3306,7 +3306,7 @@
         }
     },
     "GroupV2--title--change--unknown": {
-        "message": "A member changed the group name to \"$newTitle$\".",
+        "message": "Ein medlem endra gruppenamnet til «$newTitle$».",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "newTitle": {
@@ -3316,7 +3316,7 @@
         }
     },
     "GroupV2--title--remove--other": {
-        "message": "$memberName$ removed the group name.",
+        "message": "$memberName$ fjerna gruppenamnet.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3326,11 +3326,11 @@
         }
     },
     "GroupV2--title--remove--you": {
-        "message": "You removed the group name.",
+        "message": "Du fjerna gruppenamnet.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--remove--unknown": {
-        "message": "A member removed the group name.",
+        "message": "Ein medlem fjerna gruppenamnet.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--other": {
@@ -3442,7 +3442,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {
-        "message": "You added invited member $inviteeName$.",
+        "message": "Du la til medlemmen $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3452,7 +3452,7 @@
         }
     },
     "GroupV2--member-add--invited--other": {
-        "message": "$memberName$ added invited member $inviteeName$.",
+        "message": "$memberName$ la til medlemmen $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3466,7 +3466,7 @@
         }
     },
     "GroupV2--member-add--invited--unknown": {
-        "message": "A member added invited member $inviteeName$.",
+        "message": "Ein medlem la til medlemmen $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3476,7 +3476,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other": {
-        "message": "$inviteeName$ accepted an invitation to the group from $inviterName$.",
+        "message": "$inviteeName$ godtok ein invitasjon til gruppa frå $inviterName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3490,7 +3490,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other-no-from": {
-        "message": "$inviteeName$ accepted an invitation to the group.",
+        "message": "$inviteeName$ godtok ein invitasjon til gruppa.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3500,7 +3500,7 @@
         }
     },
     "GroupV2--member-add--from-invite--you": {
-        "message": "You accepted an invitation to the group from $inviterName$.",
+        "message": "Du godtok ein invitasjon til gruppa frå $inviterName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -3510,11 +3510,11 @@
         }
     },
     "GroupV2--member-add--from-invite--you-no-from": {
-        "message": "You accepted an invitation to the group.",
+        "message": "Du godtok ein invitasjon til gruppa.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--from-invite--from-you": {
-        "message": "$inviteeName$ accepted your invitation to the group.",
+        "message": "$inviteeName$ godtok invitasjonen din til gruppa.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3524,7 +3524,7 @@
         }
     },
     "GroupV2--member-add--other--other": {
-        "message": "$adderName$ added $addeeName$.",
+        "message": "$adderName$ la til $addeeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adderName": {
@@ -3538,7 +3538,7 @@
         }
     },
     "GroupV2--member-add--other--you": {
-        "message": "You added $memberName$.",
+        "message": "Du la til $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3548,7 +3548,7 @@
         }
     },
     "GroupV2--member-add--other--unknown": {
-        "message": "A member added $memberName$.",
+        "message": "Ein medlem la til $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3558,7 +3558,7 @@
         }
     },
     "GroupV2--member-add--you--other": {
-        "message": "$memberName$ added you to the group.",
+        "message": "$memberName$ la deg til i gruppa.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3568,15 +3568,15 @@
         }
     },
     "GroupV2--member-add--you--you": {
-        "message": "Du blei med i gruppa.",
+        "message": "Du vart med i gruppa.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--you--unknown": {
-        "message": "You were added to the group.",
+        "message": "Du vart lagt til i gruppa.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-remove--other--other": {
-        "message": "$adminName$ removed $memberName$.",
+        "message": "$adminName$ fjerna $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3590,7 +3590,7 @@
         }
     },
     "GroupV2--member-remove--other--self": {
-        "message": "$memberName$ left the group.",
+        "message": "$memberName$ forlét gruppa.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3600,7 +3600,7 @@
         }
     },
     "GroupV2--member-remove--other--you": {
-        "message": "You removed $memberName$.",
+        "message": "Du fjerna $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3610,7 +3610,7 @@
         }
     },
     "GroupV2--member-remove--other--unknown": {
-        "message": "A member removed $memberName$.",
+        "message": "Ein medlem fjerna $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3620,7 +3620,7 @@
         }
     },
     "GroupV2--member-remove--you--other": {
-        "message": "$adminName$ removed you.",
+        "message": "$adminName$ fjerna deg.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3634,11 +3634,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-remove--you--unknown": {
-        "message": "You were removed from the group.",
+        "message": "Du vart fjerna frå gruppa.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--promote--other--other": {
-        "message": "$adminName$ made $memberName$ an admin.",
+        "message": "$adminName$ gjorde $memberName$ til administrator.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3652,7 +3652,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--you": {
-        "message": "You made $memberName$ an admin.",
+        "message": "Du gjorde $memberName$ til administrator.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3662,7 +3662,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--unknown": {
-        "message": "An admin made $memberName$ an admin.",
+        "message": "Ein administrator gjorde $memberName$ til administrator.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3672,7 +3672,7 @@
         }
     },
     "GroupV2--member-privilege--promote--you--other": {
-        "message": "$adminName$ made you an admin.",
+        "message": "$adminName$ gjorde deg til administrator.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3682,11 +3682,11 @@
         }
     },
     "GroupV2--member-privilege--promote--you--unknown": {
-        "message": "An admin made you an admin.",
+        "message": "Ein administrator gjorde deg til administrator.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--demote--other--other": {
-        "message": "$adminName$ revoked admin privileges from $memberName$.",
+        "message": "$adminName$ fjerna administratorrettane til $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3700,7 +3700,7 @@
         }
     },
     "GroupV2--member-privilege--demote--other--you": {
-        "message": "You revoked admin privileges from $memberName$.",
+        "message": "Du fjerna administratorrettane til $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3710,11 +3710,11 @@
         }
     },
     "GroupV2--member-privilege--demote--other--unknown": {
-        "message": "An admin revoked admin privileges from $memberName$.",
+        "message": "Ein administrator fjerna administratorrettane til $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--demote--you--other": {
-        "message": "$adminName$ revoked your admin privileges.",
+        "message": "$adminName$ fjerna administratorrettane dine.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3724,11 +3724,11 @@
         }
     },
     "GroupV2--member-privilege--demote--you--unknown": {
-        "message": "An admin revoked your admin privileges.",
+        "message": "Ein administrator fjerna administratorrettane dine.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--one--other--other": {
-        "message": "$memberName$ invited 1 person to the group.",
+        "message": "$memberName$ inviterte 1 person inn i gruppa.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3738,7 +3738,7 @@
         }
     },
     "GroupV2--pending-add--one--other--you": {
-        "message": "You invited $inviteeName$ to the group.",
+        "message": "Du inviterte $inviteeName$ inn i gruppa.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3748,7 +3748,7 @@
         }
     },
     "GroupV2--pending-add--one--other--unknown": {
-        "message": "One person was invited to the group.",
+        "message": "Ein person vart invitert inn i gruppa.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3758,7 +3758,7 @@
         }
     },
     "GroupV2--pending-add--one--you--other": {
-        "message": "$memberName$ invited you to the group.",
+        "message": "$memberName$ inviterte deg inn i gruppa.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3772,7 +3772,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--many--other": {
-        "message": "$memberName$ invited $count$ people to the group.",
+        "message": "$memberName$ inviterte $count$ personar inn i gruppa.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3786,7 +3786,7 @@
         }
     },
     "GroupV2--pending-add--many--you": {
-        "message": "You invited $count$ people to the group.",
+        "message": "Du inviterte $count$ personar inn i gruppa.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -3796,7 +3796,7 @@
         }
     },
     "GroupV2--pending-add--many--unknown": {
-        "message": "$count$ people were invited to the group.",
+        "message": "$count$ personar vart inviterte inn i gruppa.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -3806,7 +3806,7 @@
         }
     },
     "GroupV2--pending-remove--decline--other": {
-        "message": "1 person invited by $memberName$ declined the invitation to the group.",
+        "message": "1 person invitert av $memberName$ avslo invitasjonen til gruppa.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3816,7 +3816,7 @@
         }
     },
     "GroupV2--pending-remove--decline--you": {
-        "message": "$inviteeName$ declined your invitation to the group.",
+        "message": "$inviteeName$ avslo invitasjonen din til gruppa.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3830,7 +3830,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--decline--unknown": {
-        "message": "1 person declined their invitation to the group.",
+        "message": "1 person avslo invitasjonen til gruppa.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--revoke--one--other": {
@@ -4176,19 +4176,19 @@
         "description": "Generic close label"
     },
     "previous": {
-        "message": "previous",
+        "message": "førre",
         "description": "Generic previous label"
     },
     "next": {
-        "message": "next",
+        "message": "neste",
         "description": "Generic next label"
     },
     "CompositionArea--expand": {
-        "message": "Expand",
+        "message": "Utvid",
         "description": "Aria label for expanding composition area"
     },
     "CompositionArea--attach-file": {
-        "message": "Attach file",
+        "message": "Legg ved ei fil",
         "description": "Aria label for file attachment button in composition area"
     },
     "countMutedConversationsDescription": {
@@ -4200,7 +4200,7 @@
         "description": "Button text for send message button in Group Contact Details modal"
     },
     "ContactModal--make-admin": {
-        "message": "Make admin",
+        "message": "Gjer til administrator",
         "description": "Button text for make admin button in Group Contact Details modal"
     },
     "ContactModal--remove-from-group": {

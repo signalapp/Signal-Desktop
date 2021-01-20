@@ -198,7 +198,7 @@
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "LeftPane--pinned": {
-        "message": "Pinned",
+        "message": "पिन किया गया",
         "description": "Shown as a header for pinned conversations in the left pane"
     },
     "LeftPane--chats": {
@@ -214,7 +214,7 @@
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "markUnread": {
-        "message": "Mark as unread",
+        "message": "न पढ़ा हुआ मार्क करें",
         "description": "Shown in menu for conversation, and marks conversation as unread"
     },
     "moveConversationToInbox": {
@@ -400,7 +400,7 @@
         }
     },
     "changedVerificationWarning": {
-        "message": "The following people may have reinstalled or changed devices. Verify your safety number with them to ensure privacy.",
+        "message": "हो सकता है कि निम्नलिखित लोगों ने रीइंस्टॉल किया हो या डिवाइसेस को बदल लिया हो। गोपनीयता को सुनिश्चित करने के लिए उनके साथ अपने सुरक्षा नंबर को वेरिफाई करें।",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "identityKeyErrorOnSend": {
@@ -990,7 +990,7 @@
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "This message will be deleted for everyone in the conversation if they’re on a recent version of Signal. They will be able to see that you deleted a message.",
+        "message": "यह मैसेज वार्तालाप में शामिल सभी के लिए मिटा दिया जाएगा यदि वे Signal के नवीनमत वर्ज़न पर हैं। वे देख सकेंगे कि आपने एक मैसेज को मिटा दिया है।",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "deleteThisMessage": {
@@ -1192,11 +1192,11 @@
         "description": "Header for calling options on the settings screen"
     },
     "calling__start": {
-        "message": "Start Call",
+        "message": "कॉल शुरू करें",
         "description": "Button label in the call lobby for starting a call"
     },
     "calling__join": {
-        "message": "Join Call",
+        "message": "कॉल से जुड़ें",
         "description": "Button label in the call lobby for joining a call"
     },
     "calling__return": {
@@ -1204,7 +1204,7 @@
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__call-is-full": {
-        "message": "Call is full",
+        "message": "कॉल पूर्ण है",
         "description": "Button label in the call lobby when you can't join because the call is full"
     },
     "calling__button--video-disabled": {
@@ -1232,11 +1232,11 @@
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
-        "message": "Your video is off",
+        "message": "आपका कैमरा बंद है",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__lobby-summary--zero": {
-        "message": "No one else is here",
+        "message": "यहाँ और कोई नहीं है",
         "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--single": {
@@ -1304,7 +1304,7 @@
         }
     },
     "calling__in-this-call--zero": {
-        "message": "No one else is here",
+        "message": "यहाँ और कोई नहीं है",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
@@ -1332,7 +1332,7 @@
         }
     },
     "calling__block-info": {
-        "message": "You won't receive their audio or video and they won't receive yours.",
+        "message": "आपको उनके ऑडियो या वीडियो प्राप्त नहीं होंगे और उन्हें आपके नहीं।",
         "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "alwaysRelayCallsDescription": {
@@ -1822,7 +1822,7 @@
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChanges": {
-        "message": "Safety Number Changes",
+        "message": "सुरक्षा नंबर परिवर्तन",
         "description": "Title for safety number changed modal"
     },
     "safetyNumberChangedGroup": {
@@ -2206,7 +2206,7 @@
         "description": "Label for animal emoji picker button"
     },
     "EmojiPicker__button--food": {
-        "message": "Food",
+        "message": "भोजन",
         "description": "Label for food emoji picker button"
     },
     "EmojiPicker__button--activity": {
@@ -2782,7 +2782,7 @@
         }
     },
     "MessageRequests--message-group-blocked": {
-        "message": "Unblock this group and share your name and photo with its members? You won't receive any messages until you unblock them.",
+        "message": "इस ग्रुप को अनब्लॉक करना है और इसके मेंबर्स के साथ अपना नाम और तस्वीर शेयर करनी है? आप कोई भी मेसेज प्राप्त नहीं करेंगे जब तक आप उन्हें अनब्लॉक नहीं करते।",
         "description": "Shown as the message for a message request in a blocked group"
     },
     "MessageRequests--block": {
@@ -2860,7 +2860,7 @@
         "description": "Shown as a button to let the user delete any message request"
     },
     "MessageRequests--delete-direct-confirm-title": {
-        "message": "Delete conversation?",
+        "message": "संवाद हटाएं?",
         "description": "Shown as the title in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-direct-confirm-body": {
@@ -3024,11 +3024,11 @@
         "description": "Shown in tooltip for the button to accept a call (audio or video)"
     },
     "acceptCallWithoutVideo": {
-        "message": "Answer without video",
+        "message": "वीडियो के बिना जवाब दें",
         "description": "Shown in tooltip for the button to accept a video call without video"
     },
     "declineCall": {
-        "message": "Decline",
+        "message": "रद्द करें",
         "description": "Shown in tooltip for the button to decline a call (audio or video)"
     },
     "declinedIncomingAudioCall": {
@@ -3048,11 +3048,11 @@
         "description": "Shown in conversation history when you accepted an incoming video call"
     },
     "missedIncomingAudioCall": {
-        "message": "Missed audio call",
+        "message": "मिस हुई ऑडियो कॉल",
         "description": "Shown in conversation history when you missed an incoming audio call"
     },
     "missedIncomingVideoCall": {
-        "message": "Missed video call",
+        "message": "मिस हुई वीडियो कॉल",
         "description": "Shown in conversation history when you missed an incoming video call"
     },
     "acceptedOutgoingAudioCall": {
@@ -3096,7 +3096,7 @@
         "description": "Title for the video call button in a conversation"
     },
     "joinOngoingCall": {
-        "message": "Join",
+        "message": "जुड़ें",
         "description": "Text that appears in a group when a call is active"
     },
     "callNeedPermission": {
@@ -3182,7 +3182,7 @@
         "description": "Title for picture-in-picture toggle"
     },
     "calling__hangup": {
-        "message": "Leave call",
+        "message": "कॉल छोड़ें",
         "description": "Title for hang up button"
     },
     "callingDeviceSelection__label--video": {
@@ -3344,7 +3344,7 @@
         }
     },
     "GroupV2--avatar--change--you": {
-        "message": "You changed the group avatar.",
+        "message": "आपने ग्रुप का अवतार बदल दिया है।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--unknown": {
@@ -3630,7 +3630,7 @@
         }
     },
     "GroupV2--member-remove--you--you": {
-        "message": "You left the group.",
+        "message": "आपने ग्रुप को छोड़ दिया।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-remove--you--unknown": {
@@ -3826,7 +3826,7 @@
         }
     },
     "GroupV2--pending-remove--decline--from-you": {
-        "message": "You declined the invitation to the group.",
+        "message": "आपने ग्रुप के आमंत्रण को अस्वीकार कर दिया।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--decline--unknown": {
@@ -4080,27 +4080,27 @@
         "description": "Shown on Migrate dialog to kick off the process"
     },
     "GroupV1--Migration--info--title": {
-        "message": "What are New Groups?",
+        "message": "नए समूह क्या हैं?",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--title": {
-        "message": "Upgrade to New Group",
+        "message": "नए समूह में अपग्रेड करें",
         "description": "Shown on Migration popup after choosing to migrate group"
     },
     "GroupV1--Migration--info--summary": {
-        "message": "New Groups have features like @mentions and group admins, and will support more features in the future.",
+        "message": "नए ग्रुप्स में कई फीचर्स हैं जैसे कि @mentions और ग्रुप एडमिन, और भविष्य में और भी कई फीचर शामिल किए जाएँगे।",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--keep-history": {
-        "message": "All message history and media has been kept from before the upgrade.",
+        "message": "अपग्रेड करने से पहले के सभी मेसेज इतिहास और मीडिया को रख लिया गया है।",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--keep-history": {
-        "message": "All message history and media will be kept from before the upgrade.",
+        "message": "अपग्रेड करने से पहले के सभी मेसेज इतिहास और मीडिया को रख लिया जाएगा।",
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
-        "message": "You will need to accept an invite to join this group again, and will not receive group messages until you accept.",
+        "message": "इस ग्रुप में दोबारा जुड़ने के लिए बस आपको आमंत्रण को स्वीकार करना होगा, और जब तक आप स्वीकार नहीं कर लेते, आपको ग्रुप के मेसेज प्राप्त नहीं होंगे।",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--info--invited--many": {
@@ -4128,7 +4128,7 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
-        "message": "You couldn't be added to the New Group and have been invited to join.",
+        "message": "आपको नए ग्रुप में शमिल नहीं किया जा सका और आपको शामिल होने के लिए आमंत्रित किया गया है।",
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {

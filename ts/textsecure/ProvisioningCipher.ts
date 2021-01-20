@@ -63,6 +63,12 @@ class ProvisioningCipherInner {
         return window.libsignal.Curve.async
           .createKeyPair(privKey)
           .then(keyPair => {
+            window.normalizeUuids(
+              provisionMessage,
+              ['uuid'],
+              'ProvisioningCipher.decrypt'
+            );
+
             const ret: ProvisionDecryptResult = {
               identityKeyPair: keyPair,
               number: provisionMessage.number,
