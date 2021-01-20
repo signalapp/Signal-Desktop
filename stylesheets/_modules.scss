@@ -10239,6 +10239,8 @@ $contact-modal-padding: 18px;
     color: $color-gray-05;
   }
 
+  @include fadein-animation;
+
   &__overlay {
     background: $color-black-alpha-40;
     position: fixed;
