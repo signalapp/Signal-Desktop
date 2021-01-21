@@ -991,6 +991,10 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
         ToastUtils.pushUserNeedsToHaveJoined();
       } else {
         window.log.info(`${pubkey} added as moderator...`);
+        // refresh the moderator list. Will trigger a refresh
+        const modPubKeys = (await channelAPI.getModerators()) as Array<string>;
+        convo.updateGroupAdmins(modPubKeys);
+
         ToastUtils.pushUserAddedToModerators();
       }
     } catch (e) {
