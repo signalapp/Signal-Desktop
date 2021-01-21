@@ -1403,7 +1403,7 @@
         "message": "Пожалуйста, выберите как минимум 1 участников группы"
     },
     "closedGroupMaxSize": {
-        "message": "В закрытой группе не может быть больше 20 участников"
+        "message": "В закрытой группе не может быть больше 100 участников"
     },
     "contextMenuNoSuggestions": {
         "message": "No Suggestions",

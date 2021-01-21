@@ -1403,7 +1403,7 @@
         "message": "Veuillez sélectionner au moins 2 membres"
     },
     "closedGroupMaxSize": {
-        "message": "Un groupe privé ne peut pas avoir plus de 20 membres"
+        "message": "Un groupe privé ne peut pas avoir plus de 100 membres"
     },
     "contextMenuNoSuggestions": {
         "message": "Pas de suggestions",
