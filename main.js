@@ -1,4 +1,4 @@
-// Copyright 2017-2020 Signal Messenger, LLC
+// Copyright 2017-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-console */
@@ -85,7 +85,7 @@ const attachmentChannel = require('./app/attachment_channel');
 const bounce = require('./ts/services/bounce');
 const updater = require('./ts/updater/index');
 const createTrayIcon = require('./app/tray_icon');
-const dockIcon = require('./app/dock_icon');
+const dockIcon = require('./ts/dock_icon');
 const ephemeralConfig = require('./app/ephemeral_config');
 const logging = require('./app/logging');
 const sql = require('./ts/sql/Server').default;
