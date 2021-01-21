@@ -1397,7 +1397,7 @@
         "message": "Pilih setidaknya 2 anggota grup"
     },
     "closedGroupMaxSize": {
-        "message": "Grup tertutup maksimal berisi 20 anggota"
+        "message": "Grup tertutup maksimal berisi 100 anggota"
     },
     "noBlockedContacts": {
         "message": "Tidak ada kontak yang diblokir"
