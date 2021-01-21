@@ -46,6 +46,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   size: 80,
   style: {},
   title: text('title', overrideProps.title || ''),
+  fadeout: false
 });
 
 const stories = storiesOf('Components/Avatar Popup', module);

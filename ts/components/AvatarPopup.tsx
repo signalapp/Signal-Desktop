@@ -18,6 +18,8 @@ export type Props = {
   // Matches Popper's RefHandler type
   innerRef?: React.Ref<HTMLDivElement>;
   style: React.CSSProperties;
+
+  fadeout: Boolean;
 } & AvatarProps;
 
 export const AvatarPopup = (props: Props): JSX.Element => {
@@ -31,6 +33,7 @@ export const AvatarPopup = (props: Props): JSX.Element => {
     onViewPreferences,
     onViewArchive,
     style,
+    fadeout,
   } = props;
 
   const shouldShowNumber = Boolean(name || profileName);
@@ -41,7 +44,7 @@ export const AvatarPopup = (props: Props): JSX.Element => {
   useRestoreFocus(focusRef);
 
   return (
-    <div style={style} className="module-avatar-popup">
+    <div style={style} className={"module-avatar-popup" + (fadeout ?  " fadeout" : "")}>
       <div className="module-avatar-popup__profile">
         <Avatar {...props} size={52} />
         <div className="module-avatar-popup__profile__text">

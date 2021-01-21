@@ -9377,6 +9377,7 @@ button.module-image__border-overlay:focus {
   padding-bottom: 4px;
 
   @include fadein-animation;
+  @include fadeout-animation;
 
   @include popper-shadow;
 
@@ -9388,6 +9389,7 @@ button.module-image__border-overlay:focus {
     color: $color-gray-05;
     background-color: $color-gray-75;
   }
+
 }
 
 .module-avatar-popup__profile {

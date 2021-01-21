@@ -60,8 +60,14 @@ export interface PropsType {
   showArchivedConversations: () => void;
 }
 
+enum AvatarPopupState {
+  HIDDEN = 0,
+  VISIBLE = 1,
+  FADEOUT = 2
+}
+
 interface StateType {
-  showingAvatarPopup: boolean;
+  avatarPopupState: AvatarPopupState;
   popperRoot: HTMLDivElement | null;
 }
 
@@ -74,7 +80,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     this.inputRef = React.createRef();
 
     this.state = {
-      showingAvatarPopup: false,
+      avatarPopupState: AvatarPopupState.HIDDEN,
       popperRoot: null,
     };
   }
@@ -96,10 +102,10 @@ export class MainHeader extends React.Component<PropsType, StateType> {
   }
 
   public handleOutsideClick = ({ target }: MouseEvent): void => {
-    const { popperRoot, showingAvatarPopup } = this.state;
+    const { popperRoot, avatarPopupState } = this.state;
 
     if (
-      showingAvatarPopup &&
+      avatarPopupState &&
       popperRoot &&
       !popperRoot.contains(target as Node)
     ) {
@@ -114,15 +120,18 @@ export class MainHeader extends React.Component<PropsType, StateType> {
   };
 
   public showAvatarPopup = (): void => {
-    const popperRoot = document.createElement('div');
-    document.body.appendChild(popperRoot);
+    const { avatarPopupState } = this.state;
+    if (avatarPopupState === AvatarPopupState.HIDDEN) {
+      const popperRoot = document.createElement('div');
+      document.body.appendChild(popperRoot);
 
-    this.setState({
-      showingAvatarPopup: true,
-      popperRoot,
-    });
-    document.addEventListener('click', this.handleOutsideClick);
-    document.addEventListener('keydown', this.handleOutsideKeyDown);
+      this.setState({
+        avatarPopupState: AvatarPopupState.VISIBLE,
+        popperRoot,
+      });
+      document.addEventListener('click', this.handleOutsideClick);
+      document.addEventListener('keydown', this.handleOutsideKeyDown);
+    }
   };
 
   public hideAvatarPopup = (): void => {
@@ -132,13 +141,20 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     document.removeEventListener('keydown', this.handleOutsideKeyDown);
 
     this.setState({
-      showingAvatarPopup: false,
-      popperRoot: null,
+      avatarPopupState: AvatarPopupState.FADEOUT,
+      popperRoot: popperRoot,
     });
 
-    if (popperRoot && document.body.contains(popperRoot)) {
-      document.body.removeChild(popperRoot);
-    }
+    setTimeout(() => {
+      this.setState({
+        avatarPopupState: AvatarPopupState.HIDDEN,
+        popperRoot: null,
+      });
+      if (popperRoot && document.body.contains(popperRoot)) {
+        document.body.removeChild(popperRoot);
+      }
+    }, 200);
+
   };
 
   public componentWillUnmount(): void {
@@ -304,7 +320,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
       searchTerm,
       showArchivedConversations,
     } = this.props;
-    const { showingAvatarPopup, popperRoot } = this.state;
+    const { avatarPopupState, popperRoot } = this.state;
 
     const placeholder = searchConversationName
       ? i18n('searchIn', [searchConversationName])
@@ -330,7 +346,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
               />
             )}
           </Reference>
-          {showingAvatarPopup && popperRoot
+          {avatarPopupState && popperRoot
             ? createPortal(
                 <Popper placement="bottom-end">
                   {({ ref, style }) => (
@@ -346,6 +362,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                       title={title}
                       avatarPath={avatarPath}
                       size={28}
+                      fadeout={avatarPopupState === AvatarPopupState.FADEOUT}
                       onViewPreferences={() => {
                         showSettings();
                         this.hideAvatarPopup();

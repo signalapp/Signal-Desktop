@@ -473,3 +473,10 @@
   animation-name: fadein-animation__keyframes;
   animation-duration: 0.2s;
 }
+
+@mixin fadeout-animation {
+  &.fadeout {
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+}
