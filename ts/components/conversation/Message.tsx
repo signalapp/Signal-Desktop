@@ -39,6 +39,8 @@ import { withTheme } from 'styled-components';
 import { MessageMetadata } from './message/MessageMetadata';
 import { MessageRegularProps } from '../../../js/models/messages';
 import { PubKey } from '../../session/types';
+import { ToastUtils } from '../../session/utils';
+import { ConversationController } from '../../session/conversations';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -65,6 +67,8 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
     this.handleImageErrorBound = this.handleImageError.bind(this);
     this.onReplyPrivate = this.onReplyPrivate.bind(this);
     this.handleContextMenu = this.handleContextMenu.bind(this);
+    this.onAddModerator = this.onAddModerator.bind(this);
+    this.onRemoveFromModerator = this.onRemoveFromModerator.bind(this);
 
     this.state = {
       expiring: false,
@@ -688,12 +692,16 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
         {weAreAdmin && isPublic ? (
           <Item onClick={onBanUser}>{window.i18n('banUser')}</Item>
         ) : null}
-        {/* {weAreAdmin && isPublic && !isAdmin ? (
-          <Item onClick={onRemoveFromModerator}>{window.i18n('addAsModerator')}</Item>
+        {weAreAdmin && isPublic && !isAdmin ? (
+          <Item onClick={this.onAddModerator}>
+            {window.i18n('addAsModerator')}
+          </Item>
         ) : null}
         {weAreAdmin && isPublic && isAdmin ? (
-          <Item onClick={onAddModerator}>{window.i18n('removeFromModerators')}</Item>
-        ) : null} */}
+          <Item onClick={this.onRemoveFromModerator}>
+            {window.i18n('removeFromModerators')}
+          </Item>
+        ) : null}
       </Menu>
     );
   }
@@ -788,7 +796,8 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
     // We parse the message later, but we still need to do an early check
     // to see if the message mentions us, so we can display the entire
     // message differently
-    const mentions = text ? text.match(window.pubkeyPattern) : [];
+    const regex = new RegExp(`@${PubKey.regexForPubkeys}`, 'g');
+    const mentions = text ? text.match(regex) : [];
     const mentionMe =
       mentions &&
       mentions.some(m => m.slice(1) === window.lokiPublicChatAPI.ourKey);
@@ -967,6 +976,48 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
   private onReplyPrivate(e: any) {
     if (this.props && this.props.onReply) {
       this.props.onReply(this.props.timestamp);
+    }
+  }
+
+  private async onAddModerator() {
+    const { authorPhoneNumber: pubkey, convoId } = this.props;
+    try {
+      const convo = ConversationController.getInstance().getOrThrow(convoId);
+      const channelAPI = await convo.getPublicSendData();
+      const res = await channelAPI.serverAPI.addModerator([pubkey]);
+      if (!res) {
+        window.log.warn('failed to add moderators:', res);
+
+        ToastUtils.pushUserNeedsToHaveJoined();
+      } else {
+        window.log.info(`${pubkey} added as moderator...`);
+        ToastUtils.pushUserAddedToModerators();
+      }
+    } catch (e) {
+      window.log.error('Got error while adding moderator:', e);
+    }
+  }
+
+  private async onRemoveFromModerator() {
+    const { authorPhoneNumber: pubkey, convoId } = this.props;
+    try {
+      const convo = ConversationController.getInstance().getOrThrow(convoId);
+      const channelAPI = await convo.getPublicSendData();
+      const res = await channelAPI.serverAPI.removeModerators([pubkey]);
+      if (!res) {
+        window.log.warn('failed to remove moderators:', res);
+
+        ToastUtils.pushErrorHappenedWhileRemovingModerator();
+      } else {
+        // refresh the moderator list. Will trigger a refresh
+        const modPubKeys = (await channelAPI.getModerators()) as Array<string>;
+        convo.updateGroupAdmins(modPubKeys);
+
+        window.log.info(`${pubkey} removed from moderators...`);
+        ToastUtils.pushUserRemovedToModerators();
+      }
+    } catch (e) {
+      window.log.error('Got error while removing moderator:', e);
     }
   }
 }

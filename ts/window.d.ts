@@ -91,7 +91,6 @@ declare global {
     userConfig: any;
     versionInfo: any;
     getStoragePubKey: any;
-    pubkeyPattern: any;
     getConversations: () => ConversationCollection;
     getGuid: any;
     ContactBuffer: any;

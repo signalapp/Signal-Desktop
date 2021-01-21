@@ -1560,9 +1560,11 @@
         const profileName = this.getProfileName();
         const number = this.getNumber();
         let name;
-        if (window.shortenPubkey) {
+        if (window.libsession) {
           name = profileName
-            ? `${profileName} (${window.shortenPubkey(number)})`
+            ? `${profileName} (${window.libsession.Types.PubKey.shorten(
+                number
+              )})`
             : number;
         } else {
           name = profileName ? `${profileName} (${number})` : number;
@@ -1589,7 +1591,7 @@
       if (pubkey === textsecure.storage.user.getNumber()) {
         return i18n('you');
       }
-      return profileName || window.shortenPubkey(pubkey);
+      return profileName || window.libsession.Types.PubKey.shorten(pubkey);
     },
 
     /**

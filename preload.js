@@ -440,14 +440,6 @@ if (process.env.USE_STUBBED_NETWORK) {
   window.SwarmPolling = new SwarmPolling();
 }
 
-window.shortenPubkey = pubkey => {
-  const pk = pubkey.key ? pubkey.key : pubkey;
-
-  return `(...${pk.substring(pk.length - 6)})`;
-};
-
-window.pubkeyPattern = /@[a-fA-F0-9]{64,66}\b/g;
-
 window.lokiFeatureFlags = {
   multiDeviceUnpairing: true,
   privateGroupChats: true,

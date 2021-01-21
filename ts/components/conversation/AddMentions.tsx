@@ -66,7 +66,7 @@ export class AddMentions extends React.Component<Props> {
   public render() {
     const { text, renderOther, convoId } = this.props;
     const results: Array<any> = [];
-    const FIND_MENTIONS = window.pubkeyPattern;
+    const FIND_MENTIONS = new RegExp(`@${PubKey.regexForPubkeys}`, 'g');
 
     // We have to do this, because renderNonNewLine is not required in our Props object,
     //  but it is always provided via defaultProps.

@@ -246,3 +246,11 @@ export function pushUserRemovedToModerators() {
 export function pushInvalidPubKey() {
   pushToastSuccess('invalidPubKey', window.i18n('invalidPubkeyFormat'));
 }
+
+export function pushErrorHappenedWhileRemovingModerator() {
+  pushToastError(
+    'errorHappenedWhileRemovingModerator',
+    window.i18n('errorHappenedWhileRemovingModerator'),
+    window.i18n('errorHappenedWhileRemovingModeratorDesc')
+  );
+}

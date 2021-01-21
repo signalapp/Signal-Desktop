@@ -2221,5 +2221,11 @@
   },
   "userRemovedFromModerators": {
     "message": "User removed from moderator list"
+  },
+  "errorHappenedWhileRemovingModerator": {
+    "message": "An error happened"
+  },
+  "errorHappenedWhileRemovingModeratorDesc": {
+    "message": "An error happened while removing this user from the moderator list."
   }
 }
