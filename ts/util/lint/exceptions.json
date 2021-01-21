@@ -2384,35 +2384,35 @@
   },
   {
     "rule": "jQuery-append(",
-    "path": "node_modules/bl/bl.js",
-    "line": "    this.append(callback)",
-    "lineNumber": 29,
+    "path": "node_modules/bl/BufferList.js",
+    "line": "    this.append(buf)",
+    "lineNumber": 21,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2021-01-20T22:39:55.418Z"
   },
   {
     "rule": "jQuery-append(",
-    "path": "node_modules/bl/bl.js",
-    "line": "      this.append(buf[i])",
-    "lineNumber": 58,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/bl/bl.js",
-    "line": "      this.append(buf._bufs[i])",
-    "lineNumber": 62,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/bl/bl.js",
+    "path": "node_modules/bl/BufferList.js",
     "line": "    copy.append(this._bufs[i])",
-    "lineNumber": 239,
+    "lineNumber": 210,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2021-01-20T22:39:55.418Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/bl/BufferList.js",
+    "line": "      this.append(buf[i])",
+    "lineNumber": 226,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-01-20T22:39:55.418Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/bl/BufferList.js",
+    "line": "      this.append(buf._bufs[i])",
+    "lineNumber": 231,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-01-20T22:39:55.418Z"
   },
   {
     "rule": "jQuery-append(",
@@ -13605,7 +13605,7 @@
     "rule": "jQuery-$(",
     "path": "node_modules/sharp/lib/libvips.js",
     "line": "    const brewPkgConfigPath = spawnSync('which brew >/dev/null 2>&1 && eval $(brew --env) && echo $PKG_CONFIG_LIBDIR', spawnSyncOptions).stdout || '';",
-    "lineNumber": 76,
+    "lineNumber": 71,
     "reasonCategory": "falseMatch",
     "updated": "2019-12-11T01:10:06.091Z"
   },
@@ -13898,19 +13898,51 @@
   },
   {
     "rule": "jQuery-append(",
+    "path": "node_modules/tar-fs/node_modules/bl/BufferList.js",
+    "line": "    this.append(buf)",
+    "lineNumber": 21,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-01-20T22:42:00.662Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/tar-fs/node_modules/bl/BufferList.js",
+    "line": "    copy.append(this._bufs[i])",
+    "lineNumber": 219,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-01-20T22:42:00.662Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/tar-fs/node_modules/bl/BufferList.js",
+    "line": "      this.append(buf[i])",
+    "lineNumber": 235,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-01-20T22:42:00.662Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/tar-fs/node_modules/bl/BufferList.js",
+    "line": "      this.append(buf._bufs[i])",
+    "lineNumber": 240,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-01-20T22:42:00.662Z"
+  },
+  {
+    "rule": "jQuery-append(",
     "path": "node_modules/tar-fs/node_modules/tar-stream/extract.js",
     "line": "    b.append(data)",
-    "lineNumber": 231,
+    "lineNumber": 230,
     "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
+    "updated": "2021-01-20T22:39:55.418Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/tar-fs/node_modules/tar-stream/extract.js",
     "line": "  else b.append(data)",
-    "lineNumber": 247,
+    "lineNumber": 246,
     "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
+    "updated": "2021-01-20T22:39:55.418Z"
   },
   {
     "rule": "jQuery-append(",
@@ -13918,45 +13950,13 @@
     "line": "    b.append(data)",
     "lineNumber": 230,
     "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
+    "updated": "2021-01-20T22:42:00.662Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/tar-stream/extract.js",
     "line": "  else b.append(data)",
     "lineNumber": 246,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/tar-stream/node_modules/bl/BufferList.js",
-    "line": "    this.append(buf)",
-    "lineNumber": 21,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/tar-stream/node_modules/bl/BufferList.js",
-    "line": "    copy.append(this._bufs[i])",
-    "lineNumber": 210,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/tar-stream/node_modules/bl/BufferList.js",
-    "line": "      this.append(buf[i])",
-    "lineNumber": 226,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/tar-stream/node_modules/bl/BufferList.js",
-    "line": "      this.append(buf._bufs[i])",
-    "lineNumber": 231,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-30T22:35:27.860Z"
   },

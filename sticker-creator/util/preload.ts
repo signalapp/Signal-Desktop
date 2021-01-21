@@ -16,7 +16,7 @@ export type StickerImageData = {
   buffer: Buffer;
   src: string;
   path: string;
-  meta: Metadata & { pages?: number }; // Pages is not currently in the sharp metadata type
+  meta: Metadata;
 };
 
 type ProcessStickerImageFn = (path: string) => Promise<StickerImageData>;
