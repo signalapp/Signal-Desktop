@@ -1403,6 +1403,6 @@
         "message": "Por favor, elige al menos 2 miembros del grupo"
     },
     "closedGroupMaxSize": {
-        "message": "Un grupo cerrado no puede tener más de 20 miembros"
+        "message": "Un grupo cerrado no puede tener más de 100 miembros"
     }
 }

@@ -2203,7 +2203,7 @@
     "androidKey": "activity_create_closed_group_not_enough_group_members_error"
   },
   "closedGroupMaxSize": {
-    "message": "A closed group cannot have more than 20 members",
+    "message": "A closed group cannot have more than 100 members",
     "androidKey": "activity_create_closed_group_too_many_group_members_error"
   },
   "noBlockedContacts": {
