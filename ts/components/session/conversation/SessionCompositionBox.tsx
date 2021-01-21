@@ -25,11 +25,11 @@ import {
 import { AbortController } from 'abort-controller';
 import { SessionQuotedMessageComposition } from './SessionQuotedMessageComposition';
 import { Mention, MentionsInput } from 'react-mentions';
-import { MemberItem } from '../../conversation/MemberList';
 import { CaptionEditor } from '../../CaptionEditor';
 import { DefaultTheme } from 'styled-components';
 import { ConversationController } from '../../../session/conversations/ConversationController';
 import { ConversationType } from '../../../state/ducks/conversations';
+import { SessionMemberListItem } from '../SessionMemberListItem';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -351,7 +351,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   private renderTextArea() {
     const { i18n } = window;
     const { message } = this.state;
-    const { isKickedFromGroup, left, isPrivate, isBlocked } = this.props;
+    const { isKickedFromGroup, left, isPrivate, isBlocked, theme } = this.props;
     const messagePlaceHolder = isKickedFromGroup
       ? i18n('youGotKickedFromGroup')
       : left
@@ -362,6 +362,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       ? i18n('unblockGroupToSend')
       : i18n('sendMessage');
     const typingEnabled = this.isTypingEnabled();
+    let index = 0;
 
     return (
       <MentionsInput
@@ -394,23 +395,20 @@ export class SessionCompositionBox extends React.Component<Props, State> {
             _index,
             focused
           ) => (
-            <MemberItem
-              i18n={window.i18n}
-              selected={focused}
-              // tslint:disable-next-line: no-empty
-              onClicked={() => {}}
-              existingMember={false}
+            <SessionMemberListItem
+              theme={theme}
+              isSelected={focused}
+              index={index++}
               member={{
                 id: `${suggestion.id}`,
                 authorPhoneNumber: `${suggestion.id}`,
-                selected: false,
+                selected: focused,
                 authorProfileName: `${suggestion.display}`,
                 authorName: `${suggestion.display}`,
                 existingMember: false,
                 checkmarked: false,
                 authorAvatarPath: '',
               }}
-              checkmarked={false}
             />
           )}
         />

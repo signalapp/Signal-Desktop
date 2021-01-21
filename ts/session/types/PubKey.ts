@@ -54,6 +54,13 @@ export class PubKey {
     return typeof value === 'string' ? new PubKey(value) : value;
   }
 
+  public static shorten(value: string | PubKey): string {
+    const valAny = value as PubKey;
+    const pk = value instanceof PubKey ? valAny.key : value;
+
+    return `(...${pk.substring(pk.length - 6)})`;
+  }
+
   /**
    * Try convert `pubKeyString` to `PubKey`.
    *

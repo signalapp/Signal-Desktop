@@ -222,9 +222,27 @@ export function pushCannotRemoveCreatorFromGroup() {
 }
 
 export function pushUserNeedsToHaveJoined() {
-  pushToastInfo(
+  pushToastWarning(
     'userNeedsToHaveJoined',
     window.i18n('userNeedsToHaveJoined'),
     window.i18n('userNeedsToHaveJoinedDesc')
   );
+}
+
+export function pushUserAddedToModerators() {
+  pushToastSuccess(
+    'userAddedToModerators',
+    window.i18n('userAddedToModerators')
+  );
+}
+
+export function pushUserRemovedToModerators() {
+  pushToastSuccess(
+    'userRemovedFromModerators',
+    window.i18n('userRemovedFromModerators')
+  );
+}
+
+export function pushInvalidPubKey() {
+  pushToastSuccess('invalidPubKey', window.i18n('invalidPubkeyFormat'));
 }

@@ -6,6 +6,7 @@ import { FindMember } from '../../util';
 import { useInterval } from '../../hooks/useInterval';
 import { ConversationModel } from '../../../js/models/conversations';
 import { isUs } from '../../session/utils/User';
+import { PubKey } from '../../session/types';
 
 interface MentionProps {
   key: string;
@@ -46,9 +47,7 @@ const Mention = (props: MentionProps) => {
     return <span className={className}>{displayedName}</span>;
   } else {
     return (
-      <span className="mention-profile-name">
-        {window.shortenPubkey(props.text)}
-      </span>
+      <span className="mention-profile-name">{PubKey.shorten(props.text)}</span>
     );
   }
 };

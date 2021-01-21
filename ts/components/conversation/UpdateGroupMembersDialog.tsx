@@ -1,6 +1,5 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Contact } from './MemberList';
 
 import { SessionModal } from '../session/SessionModal';
 import { SessionButton, SessionButtonColor } from '../session/SessionButton';
@@ -29,7 +28,7 @@ interface Props {
 }
 
 interface State {
-  contactList: Array<Contact>;
+  contactList: Array<ContactType>;
   errorDisplayed: boolean;
   errorMessage: string;
 }
@@ -97,7 +96,6 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
         title={titleText}
         // tslint:disable-next-line: no-void-expression
         onClose={() => this.closeDialog()}
-        onOk={() => null}
         theme={this.props.theme}
       >
         <div className="spacer-md" />
@@ -155,7 +153,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
 
   // Return members that would comprise the group given the
   // current state in `users`
-  private getWouldBeMembers(users: Array<Contact>) {
+  private getWouldBeMembers(users: Array<ContactType>) {
     return users.filter(d => {
       return (
         (d.existingMember && !d.checkmarked) ||

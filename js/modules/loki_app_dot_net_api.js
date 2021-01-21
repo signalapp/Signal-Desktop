@@ -773,14 +773,13 @@ class LokiAppDotNetServerAPI {
     return (!res.err && res.response && res.response.moderators) || [];
   }
 
-  async addModerators(pubKeysParam) {
-    let pubKeys = pubKeysParam;
-    if (!Array.isArray(pubKeys)) {
-      pubKeys = [pubKeys];
-    }
-    pubKeys = pubKeys.map(key => `@${key}`);
-    const users = await this.getUsers(pubKeys);
+  async addModerator(pubKeyStr) {
+    const pubkey = `@${pubKeyStr}`;
+    const users = await this.getUsers([pubkey]);
     const validUsers = users.filter(user => !!user.id);
+    if (!validUsers || validUsers.length === 0) {
+      return false;
+    }
     const results = await Promise.all(
       validUsers.map(async user => {
         log.info(`POSTing loki/v1/moderators/${user.id}`);
@@ -790,8 +789,12 @@ class LokiAppDotNetServerAPI {
         return !!(!res.err && res.response && res.response.data);
       })
     );
+
     const anyFailures = results.some(test => !test);
-    return anyFailures ? results : true; // return failures or total success
+    if (anyFailures) {
+      window.log.info('failed to add moderator:', results);
+    }
+    return !anyFailures;
   }
 
   async removeModerators(pubKeysParam) {
@@ -812,7 +815,10 @@ class LokiAppDotNetServerAPI {
       })
     );
     const anyFailures = results.some(test => !test);
-    return anyFailures ? results : true; // return failures or total success
+    if (anyFailures) {
+      window.log.info('failed to remove moderator:', results);
+    }
+    return !anyFailures;
   }
 
   async getSubscribers(channelId, wantObjects) {

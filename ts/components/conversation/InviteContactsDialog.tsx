@@ -69,7 +69,6 @@ class InviteContactsDialogInner extends React.Component<Props, State> {
     return (
       <SessionModal
         title={titleText}
-        onOk={() => null}
         onClose={this.closeDialog}
         theme={this.props.theme}
       >

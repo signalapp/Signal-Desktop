@@ -7,7 +7,7 @@ import { MessageBody } from './MessageBody';
 import { ImageGrid } from './ImageGrid';
 import { Image } from './Image';
 import { ContactName } from './ContactName';
-import { Quote, QuotedAttachmentType } from './Quote';
+import { Quote } from './Quote';
 import { EmbeddedContact } from './EmbeddedContact';
 
 // Audio Player
@@ -27,7 +27,6 @@ import {
   isVideo,
 } from '../../../ts/types/Attachment';
 import { AttachmentType } from '../../types/Attachment';
-import { Contact } from '../../types/Contact';
 
 import { getIncrement } from '../../util/timer';
 import { isFileDangerous } from '../../util/isFileDangerous';
@@ -36,19 +35,13 @@ import _ from 'lodash';
 import { animation, contextMenu, Item, Menu } from 'react-contexify';
 import uuid from 'uuid';
 import { InView } from 'react-intersection-observer';
-import { DefaultTheme, withTheme } from 'styled-components';
+import { withTheme } from 'styled-components';
 import { MessageMetadata } from './message/MessageMetadata';
 import { MessageRegularProps } from '../../../js/models/messages';
+import { PubKey } from '../../session/types';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
-
-interface LinkPreviewType {
-  title: string;
-  domain: string;
-  url: string;
-  image?: AttachmentType;
-}
 
 interface State {
   expiring: boolean;
@@ -427,7 +420,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
     const withContentAbove =
       conversationType === 'group' && direction === 'incoming';
 
-    const shortenedPubkey = window.shortenPubkey(quote.authorPhoneNumber);
+    const shortenedPubkey = PubKey.shorten(quote.authorPhoneNumber);
 
     const displayedPubkey = quote.authorProfileName
       ? shortenedPubkey
@@ -624,6 +617,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       onShowDetail,
       isPublic,
       weAreAdmin,
+      isAdmin,
       onBanUser,
     } = this.props;
 
@@ -694,6 +688,12 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
         {weAreAdmin && isPublic ? (
           <Item onClick={onBanUser}>{window.i18n('banUser')}</Item>
         ) : null}
+        {/* {weAreAdmin && isPublic && !isAdmin ? (
+          <Item onClick={onRemoveFromModerator}>{window.i18n('addAsModerator')}</Item>
+        ) : null}
+        {weAreAdmin && isPublic && isAdmin ? (
+          <Item onClick={onAddModerator}>{window.i18n('removeFromModerators')}</Item>
+        ) : null} */}
       </Menu>
     );
   }
@@ -943,7 +943,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       return null;
     }
 
-    const shortenedPubkey = window.shortenPubkey(authorPhoneNumber);
+    const shortenedPubkey = PubKey.shorten(authorPhoneNumber);
 
     const displayedPubkey = authorProfileName
       ? shortenedPubkey

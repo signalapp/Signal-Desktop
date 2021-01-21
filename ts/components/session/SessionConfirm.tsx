@@ -47,7 +47,6 @@ const SessionConfirmInner = (props: Props) => {
     <SessionModal
       title={title}
       onClose={onClickClose}
-      onOk={() => null}
       showExitIcon={false}
       showHeader={showHeader}
       theme={props.theme}

@@ -1,225 +1,136 @@
 import React from 'react';
-import { Contact, MemberList } from './MemberList';
-import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import {
   SessionButton,
   SessionButtonColor,
   SessionButtonType,
 } from '../session/SessionButton';
-
+import { PubKey } from '../../session/types';
+import { ConversationModel } from '../../../js/models/conversations';
+import { ToastUtils } from '../../session/utils';
+import { SessionModal } from '../session/SessionModal';
+import { DefaultTheme } from 'styled-components';
+import { SessionSpinner } from '../session/SessionSpinner';
+import { Flex } from '../session/Flex';
 interface Props {
-  contactList: Array<any>;
-  chatName: string;
-  onSubmit: any;
+  convo: ConversationModel;
   onClose: any;
+  theme: DefaultTheme;
 }
 
 interface State {
-  contactList: Array<Contact>;
   inputBoxValue: string;
+  addingInProgress: boolean;
+  firstLoading: boolean;
 }
 
 export class AddModeratorsDialog extends React.Component<Props, State> {
-  private readonly updateSearchBound: (
-    event: React.FormEvent<HTMLInputElement>
-  ) => void;
-  private readonly inputRef: React.RefObject<HTMLInputElement>;
+  private channelAPI: any;
 
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
 
-    this.updateSearchBound = this.updateSearch.bind(this);
-    this.onMemberClicked = this.onMemberClicked.bind(this);
-    this.add = this.add.bind(this);
-    this.closeDialog = this.closeDialog.bind(this);
-    this.onClickOK = this.onClickOK.bind(this);
-    this.onKeyUp = this.onKeyUp.bind(this);
-    this.inputRef = React.createRef();
+    this.addAsModerator = this.addAsModerator.bind(this);
+    this.onPubkeyBoxChanges = this.onPubkeyBoxChanges.bind(this);
 
-    let contacts = this.props.contactList;
-    contacts = contacts.map(d => {
-      const lokiProfile = d.getLokiProfile();
-      const name = lokiProfile ? lokiProfile.displayName : 'Anonymous';
-
-      // TODO: should take existing members into account
-      const existingMember = false;
-
-      return {
-        id: d.id,
-        authorPhoneNumber: d.id,
-        authorProfileName: name,
-        selected: false,
-        authorName: name,
-        checkmarked: false,
-        existingMember,
-      };
-    });
     this.state = {
-      contactList: contacts,
       inputBoxValue: '',
+      addingInProgress: false,
+      firstLoading: true,
     };
-
-    window.addEventListener('keyup', this.onKeyUp);
   }
 
-  public updateSearch(event: React.FormEvent<HTMLInputElement>) {
-    const searchTerm = event.currentTarget.value;
+  public async componentDidMount() {
+    this.channelAPI = await this.props.convo.getPublicSendData();
 
-    const cleanedTerm = cleanSearchTerm(searchTerm);
-    if (!cleanedTerm) {
+    this.setState({ firstLoading: false });
+  }
+
+  public async addAsModerator() {
+    // if we don't have valid data entered by the user
+    const pubkey = PubKey.from(this.state.inputBoxValue);
+    if (!pubkey) {
+      window.log.info(
+        'invalid pubkey for adding as moderator:',
+        this.state.inputBoxValue
+      );
+      ToastUtils.pushInvalidPubKey();
       return;
     }
 
-    this.setState(state => {
-      return {
-        ...state,
-        inputBoxValue: searchTerm,
-      };
-    });
-  }
-  public add() {
-    // if we have valid data
-    if (this.state.inputBoxValue.length > 64) {
-      const weHave = this.state.contactList.some(
-        user => user.authorPhoneNumber === this.state.inputBoxValue
-      );
-      if (!weHave) {
-        // lookup to verify it's registered?
+    window.log.info(`asked to add moderator: ${pubkey.key}`);
 
-        // convert pubKey into local object...
-        const contacts = this.state.contactList;
-        contacts.push({
-          id: this.state.inputBoxValue,
-          authorPhoneNumber: this.state.inputBoxValue,
-          authorProfileName: this.state.inputBoxValue,
-          authorAvatarPath: '',
-          selected: true,
-          authorName: this.state.inputBoxValue,
-          checkmarked: true,
-          existingMember: false,
-        });
-        this.setState(state => {
-          return {
-            ...state,
-            contactList: contacts,
-          };
+    try {
+      this.setState({
+        addingInProgress: true,
+      });
+      const res = await this.channelAPI.serverAPI.addModerator([pubkey.key]);
+      if (!res) {
+        window.log.warn('failed to add moderators:', res);
+
+        ToastUtils.pushUserNeedsToHaveJoined();
+      } else {
+        window.log.info(`${pubkey.key} added as moderator...`);
+        ToastUtils.pushUserAddedToModerators();
+
+        // clear input box
+        this.setState({
+          inputBoxValue: '',
         });
       }
-      //
+    } catch (e) {
+      window.log.error('Got error while adding moderator:', e);
+    } finally {
+      this.setState({
+        addingInProgress: false,
+      });
     }
-    // clear
-    if (this.inputRef.current) {
-      this.inputRef.current.value = '';
-    }
-    this.setState(state => {
-      return {
-        ...state,
-        inputBoxValue: '',
-      };
-    });
   }
 
   public render() {
     const { i18n } = window;
+    const { addingInProgress, inputBoxValue, firstLoading } = this.state;
+    const chatName = this.props.convo.get('name');
 
-    const hasContacts = this.state.contactList.length !== 0;
+    const title = `${i18n('addModerators')}: ${chatName}`;
+
+    const renderContent = !firstLoading;
 
     return (
-      <div className="content">
-        <p className="titleText">
-          {i18n('addModerators')} <span>{this.props.chatName}</span>
-        </p>
-        <div className="addModeratorBox">
-          <p>Add Moderator:</p>
-          <input
-            type="text"
-            ref={this.inputRef}
-            className="module-main-header__search__input"
-            placeholder={i18n('search')}
-            dir="auto"
-            onChange={this.updateSearchBound}
-          />
-          <SessionButton
-            buttonType={SessionButtonType.Brand}
-            buttonColor={SessionButtonColor.Primary}
-            onClick={this.add}
-            text={i18n('add')}
-          />
-        </div>
-        <div className="moderatorList">
-          <p>Or, from friends:</p>
-          <div className="contact-selection-list">
-            <MemberList
-              members={this.state.contactList}
-              selected={{}}
-              i18n={i18n}
-              onMemberClicked={this.onMemberClicked}
-            />
-          </div>
-          {hasContacts ? null : <p>{i18n('noContactsToAdd')}</p>}
-        </div>
-        <div className="session-modal__button-group">
-          <SessionButton
-            buttonType={SessionButtonType.Brand}
-            buttonColor={SessionButtonColor.Secondary}
-            onClick={this.closeDialog}
-            text={i18n('cancel')}
-          />
-          <SessionButton
-            buttonType={SessionButtonType.BrandOutline}
-            buttonColor={SessionButtonColor.Green}
-            onClick={this.onClickOK}
-            text={i18n('ok')}
-          />
-        </div>
-      </div>
+      <SessionModal
+        title={title}
+        onClose={() => this.props.onClose()}
+        theme={this.props.theme}
+      >
+        <Flex container={true} flexDirection="column" alignItems="center">
+          {renderContent && (
+            <>
+              <p>Add Moderator:</p>
+              <input
+                type="text"
+                className="module-main-header__search__input"
+                placeholder={i18n('enterSessionID')}
+                dir="auto"
+                onChange={this.onPubkeyBoxChanges}
+                disabled={addingInProgress}
+                value={inputBoxValue}
+              />
+              <SessionButton
+                buttonType={SessionButtonType.Brand}
+                buttonColor={SessionButtonColor.Primary}
+                onClick={this.addAsModerator}
+                text={i18n('add')}
+                disabled={addingInProgress}
+              />
+            </>
+          )}
+          <SessionSpinner loading={addingInProgress || firstLoading} />
+        </Flex>
+      </SessionModal>
     );
   }
 
-  private onClickOK() {
-    const selectedContacts = this.state.contactList
-      .filter(d => d.checkmarked)
-      .map(d => d.id);
-    if (selectedContacts.length > 0) {
-      this.props.onSubmit(selectedContacts);
-    }
-
-    this.closeDialog();
-  }
-
-  private onKeyUp(event: any) {
-    switch (event.key) {
-      case 'Enter':
-        this.onClickOK();
-        break;
-      case 'Esc':
-      case 'Escape':
-        this.closeDialog();
-        break;
-      default:
-    }
-  }
-
-  private closeDialog() {
-    window.removeEventListener('keyup', this.onKeyUp);
-
-    this.props.onClose();
-  }
-
-  private onMemberClicked(selected: any) {
-    const updatedContacts = this.state.contactList.map(member => {
-      if (member.id === selected.id) {
-        return { ...member, checkmarked: !member.checkmarked };
-      } else {
-        return member;
-      }
-    });
-
-    this.setState(state => {
-      return {
-        ...state,
-        contactList: updatedContacts,
-      };
-    });
+  private onPubkeyBoxChanges(e: any) {
+    const val = e.target.value;
+    this.setState({ inputBoxValue: val });
   }
 }

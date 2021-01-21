@@ -1102,9 +1102,12 @@
     async handleMessageSentSuccess(sentMessage, wrappedEnvelope) {
       let sentTo = this.get('sent_to') || [];
 
-      const isOurDevice = await window.libsession.Utils.UserUtils.isUs(
-        sentMessage.device
-      );
+      let isOurDevice = false;
+      if (sentMessage.device) {
+        isOurDevice = await window.libsession.Utils.UserUtils.isUs(
+          sentMessage.device
+        );
+      }
       // FIXME this is not correct and will cause issues with syncing
       // At this point the only way to check for medium
       // group is by comparing the encryption type
@@ -1183,7 +1186,6 @@
         sent_to: sentTo,
         sent: true,
         expirationStartTimestamp: Date.now(),
-        // unidentifiedDeliveries: result.unidentifiedDeliveries,
       });
 
       await this.commit();
@@ -1201,9 +1203,13 @@
           await c.getProfiles();
         }
       }
-      const isOurDevice = await window.libsession.Utils.UserUtils.isUs(
-        sentMessage.device
-      );
+      let isOurDevice = false;
+      if (sentMessage.device) {
+        isOurDevice = await window.libsession.Utils.UserUtils.isUs(
+          sentMessage.device
+        );
+      }
+
       const expirationStartTimestamp = Date.now();
       if (isOurDevice && !this.get('sync')) {
         this.set({ sentSync: false });
@@ -1211,7 +1217,6 @@
       this.set({
         sent: true,
         expirationStartTimestamp,
-        // unidentifiedDeliveries: result.unidentifiedDeliveries,
       });
       await this.commit();
 

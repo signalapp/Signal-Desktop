@@ -78,7 +78,6 @@ declare global {
     seedNodeList: any;
     setPassword: any;
     setSettingValue: any;
-    shortenPubkey: (pubKey: string) => string;
     showEditProfileDialog: any;
     showResetSessionIdDialog: any;
     storage: any;

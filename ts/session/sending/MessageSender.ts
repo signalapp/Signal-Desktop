@@ -72,7 +72,6 @@ async function buildEnvelope(
     source = sskSource;
   }
 
-
   return SignalService.Envelope.create({
     type,
     source,
