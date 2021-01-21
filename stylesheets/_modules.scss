@@ -1616,10 +1616,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 .module-quote {
   @include button-reset;
-
-  display: block;
-  // To leave room for image thumbnail
-  min-height: 54px;
   width: 100%;
 
   position: relative;
@@ -1760,7 +1756,8 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   padding-top: 7px;
   padding-bottom: 7px;
 
-  max-width: 100%;
+  // To leave room for image thumbnail
+  min-height: 54px;
 }
 
 .module-quote__primary__author {
@@ -1899,16 +1896,11 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-quote__icon-container {
-  flex: initial;
-  min-width: 54px;
-  width: 54px;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  flex: auto auto 54px;
   position: relative;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
 }
 
 .module-quote__icon-container__inner {
