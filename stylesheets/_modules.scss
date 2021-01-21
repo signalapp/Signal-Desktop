@@ -10522,10 +10522,11 @@ $contact-modal-padding: 18px;
   @include dark-theme {
     background-color: $color-gray-75;
   }
+
+  z-index: 1000;
 }
 
 .react-contextmenu--visible {
-  z-index: 1000;
   opacity: 1;
 }
 
