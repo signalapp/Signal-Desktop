@@ -410,7 +410,7 @@ export class RegistrationTabs extends React.Component<any, State> {
         </div>
       );
     }
-   
+
     if (signUpMode === SignUpMode.EnterDetails) {
       return (
         <div className={classNames('session-registration__entry-fields')}>

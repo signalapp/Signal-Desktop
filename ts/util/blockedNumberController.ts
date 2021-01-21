@@ -1,6 +1,6 @@
-import { UserUtil } from '.';
 import { createOrUpdateItem, getItemById } from '../../js/modules/data';
 import { PubKey } from '../session/types';
+import { UserUtils } from '../session/utils';
 
 const BLOCKED_NUMBERS_ID = 'blocked';
 const BLOCKED_GROUPS_ID = 'blocked-groups';
@@ -18,7 +18,7 @@ export class BlockedNumberController {
    */
   public static async isBlockedAsync(user: string | PubKey): Promise<boolean> {
     await this.load();
-    const isOurDevice = await UserUtil.isUs(user);
+    const isOurDevice = await UserUtils.isUs(user);
     if (isOurDevice) {
       return false;
     }

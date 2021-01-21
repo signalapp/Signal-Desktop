@@ -578,9 +578,7 @@ export function reducer(
   if (action.type === 'CONVERSATION_CHANGED') {
     const { payload } = action;
     const { id, data } = payload;
-    const { conversationLookup } = state;
-
-    let selectedConversation = state.selectedConversation;
+    const { conversationLookup, selectedConversation } = state;
 
     const existing = conversationLookup[id];
     // In the change case we only modify the lookup if we already had that conversation

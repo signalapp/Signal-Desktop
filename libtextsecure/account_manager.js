@@ -2,16 +2,12 @@
   window,
   textsecure,
   libsignal,
-  libloki,
-  libsession,
-  lokiFileServerAPI,
   mnemonic,
   btoa,
   getString,
   Event,
   dcodeIO,
   StringView,
-  log,
   Event,
   Whisper
 */
@@ -146,7 +142,6 @@
         store.clearPreKeyStore(),
         store.clearSignedPreKeysStore(),
       ]);
-      
     },
     async generateMnemonic(language = 'english') {
       // Note: 4 bytes are converted into 3 seed words, so length 12 seed words
@@ -166,7 +161,7 @@
       window.log.info('registration done');
 
       textsecure.storage.put('primaryDevicePubKey', number);
-      
+
       // Ensure that we always have a conversation for ourself
       const conversation = await window
         .getConversationController()

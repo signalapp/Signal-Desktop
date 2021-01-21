@@ -19,10 +19,9 @@ export { processMessage };
 import { handleMessageEvent, updateProfile } from './dataMessage';
 
 import { getEnvelopeId } from './common';
-import { StringUtils } from '../session/utils';
+import { StringUtils, UserUtils } from '../session/utils';
 import { SignalService } from '../protobuf';
 import { ConversationController } from '../session/conversations';
-import { UserUtil } from '../util';
 
 // TODO: check if some of these exports no longer needed
 
@@ -286,7 +285,7 @@ export async function handleUnencryptedMessage({ message: outerMessage }: any) {
     await updateProfile(conversation, profile, profileKey);
   }
 
-  const isOurDevice = await UserUtil.isUs(source);
+  const isOurDevice = await UserUtils.isUs(source);
   const isPublicChatMessage =
     group && group.id && !!group.id.match(/^publicChat:/);
 

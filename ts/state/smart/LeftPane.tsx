@@ -3,11 +3,7 @@ import { LeftPane } from '../../components/LeftPane';
 import { StateType } from '../reducer';
 
 import { getQuery, getSearchResults, isSearching } from '../selectors/search';
-import {
-  getIntl,
-  getRegionCode,
-  getOurNumber,
-} from '../selectors/user';
+import { getIntl, getOurNumber, getRegionCode } from '../selectors/user';
 import {
   getLeftPaneLists,
   getOurPrimaryConversation,
@@ -17,7 +13,7 @@ import { getFocusedSection } from '../selectors/section';
 import { getTheme } from '../selectors/theme';
 
 // Workaround: A react component's required properties are filtering up through connect()
-//   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
+//   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/3136k3
 
 const mapStateToProps = (state: StateType) => {
   const showSearch = isSearching(state);

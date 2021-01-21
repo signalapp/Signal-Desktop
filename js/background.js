@@ -2,7 +2,6 @@
   $,
   _,
   Backbone,
-  getAccountManager,
   Signal,
   storage,
   textsecure,
@@ -481,9 +480,7 @@
     if (Whisper.Import.isIncomplete()) {
       window.log.info('Import was interrupted, showing import error screen');
       appView.openImporter();
-    } else if (
-      Whisper.Registration.isDone()
-    ) {
+    } else if (Whisper.Registration.isDone()) {
       connect();
       appView.openInbox({
         initialLoadComplete,

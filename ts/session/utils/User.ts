@@ -1,9 +1,23 @@
-import { getItemById } from '../../js/modules/data';
-import { KeyPair } from '../../libtextsecure/libsignal-protocol';
-import { StringUtils } from '../session/utils';
 import _ from 'lodash';
-import { PubKey } from '../session/types';
-import { UserUtil } from '.';
+import { UserUtils } from '.';
+import { getItemById } from '../../../js/modules/data';
+import { KeyPair } from '../../../libtextsecure/libsignal-protocol';
+import { PubKey } from '../types';
+import { toHex } from './String';
+
+export async function isUs(
+  pubKey: string | PubKey | undefined
+): Promise<boolean> {
+  if (!pubKey) {
+    throw new Error('pubKey is not set');
+  }
+  const ourNumber = await UserUtils.getCurrentDevicePubKey();
+  if (!ourNumber) {
+    throw new Error('ourNumber is not set');
+  }
+  const pubKeyStr = pubKey instanceof PubKey ? pubKey.key : pubKey;
+  return pubKeyStr === ourNumber;
+}
 
 export type HexKeyPair = {
   pubKey: string;
@@ -23,23 +37,11 @@ export async function getCurrentDevicePubKey(): Promise<string | undefined> {
 }
 
 export async function getOurNumber(): Promise<PubKey> {
-  const ourNumber = await UserUtil.getCurrentDevicePubKey();
-  if(!ourNumber) {
+  const ourNumber = await UserUtils.getCurrentDevicePubKey();
+  if (!ourNumber) {
     throw new Error('ourNumber is not set');
   }
   return PubKey.cast(ourNumber);
-}
-
-export async function isUs(pubKey: string | PubKey | undefined): Promise<boolean> {
-  if(!pubKey) {
-    throw new Error('pubKey is not set');
-  }
-  const ourNumber = await UserUtil.getCurrentDevicePubKey();
-  if(!ourNumber) {
-    throw new Error('ourNumber is not set');
-  }
-  const pubKeyStr = pubKey instanceof PubKey ? pubKey.key : pubKey;
-  return pubKeyStr === ourNumber;
 }
 
 /**
@@ -60,8 +62,8 @@ export async function getUserED25519KeyPair(): Promise<HexKeyPair | undefined> {
     const pubKeyAsArray = _.map(ed25519KeyPair.publicKey, a => a);
     const privKeyAsArray = _.map(ed25519KeyPair.privateKey, a => a);
     return {
-      pubKey: StringUtils.toHex(new Uint8Array(pubKeyAsArray)),
-      privKey: StringUtils.toHex(new Uint8Array(privKeyAsArray)),
+      pubKey: toHex(new Uint8Array(pubKeyAsArray)),
+      privKey: toHex(new Uint8Array(privKeyAsArray)),
     };
   }
   return undefined;

@@ -3,24 +3,24 @@ import * as Data from '../../../js/modules/data';
 import _ from 'lodash';
 
 import { fromHex, fromHexToArray, toHex } from '../utils/String';
-import { UserUtil } from '../../util';
 import { MessageModel, MessageModelType } from '../../../js/models/messages';
 import { ConversationModel } from '../../../js/models/conversations';
 import { BlockedNumberController } from '../../util/blockedNumberController';
 import { ConversationController } from '../conversations';
 import { updateOpenGroup } from '../../receiver/openGroups';
-import { ECKeyPair } from '../../receiver/closedGroupsV2';
 import { getMessageQueue } from '../instance';
 import {
   ClosedGroupV2EncryptionPairMessage,
   ClosedGroupV2NewMessage,
   ClosedGroupV2UpdateMessage,
   ExpirationTimerUpdateMessage,
-} from '../messages/outgoing';
+} from '../messages/outgoing/';
 import uuid from 'uuid';
 import { SignalService } from '../../protobuf';
 import { generateCurve25519KeyPairWithoutPrefix } from '../crypto';
 import { encryptUsingSessionProtocol } from '../crypto/MessageEncrypter';
+import { ECKeyPair } from '../../receiver/keypairs';
+import { UserUtils } from '../utils';
 
 export interface GroupInfo {
   id: string;
@@ -255,7 +255,7 @@ export async function updateOrCreateClosedGroupV2(details: GroupInfo) {
   if (expireTimer === undefined || typeof expireTimer !== 'number') {
     return;
   }
-  const source = await UserUtil.getCurrentDevicePubKey();
+  const source = await UserUtils.getCurrentDevicePubKey();
   await conversation.updateExpirationTimer(expireTimer, source, Date.now(), {
     fromSync: true,
   });
@@ -270,7 +270,7 @@ export async function leaveClosedGroupV2(groupId: string) {
     window.log.error('Cannot leave non-existing v2 group');
     return;
   }
-  const ourNumber = await UserUtil.getOurNumber();
+  const ourNumber = await UserUtils.getOurNumber();
   const isCurrentUserAdmin = convo.get('groupAdmins')?.includes(ourNumber.key);
 
   const now = Date.now();
@@ -320,7 +320,7 @@ export async function sendGroupUpdateForClosedV2(
   messageId: string
 ) {
   const { id: groupId, members, name: groupName, expireTimer } = groupUpdate;
-  const ourNumber = await UserUtil.getOurNumber();
+  const ourNumber = await UserUtils.getOurNumber();
 
   const removedMembers = diff.leavingMembers || [];
   const newMembers = diff.joiningMembers || []; // joining members
@@ -461,7 +461,7 @@ export async function generateAndSendNewEncryptionKeyPair(
     return;
   }
 
-  const ourNumber = await UserUtil.getOurNumber();
+  const ourNumber = await UserUtils.getOurNumber();
   if (!groupConvo.get('groupAdmins')?.includes(ourNumber.key)) {
     window.log.warn(
       'generateAndSendNewEncryptionKeyPair: cannot send it as a non admin'

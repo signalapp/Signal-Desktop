@@ -1,4 +1,4 @@
-/* global window, setTimeout, clearTimeout, IDBKeyRange, dcodeIO */
+/* global window, setTimeout, clearTimeout, IDBKeyRange */
 const electron = require('electron');
 
 const { ipcRenderer } = electron;
@@ -597,7 +597,6 @@ async function removeContactSignedPreKeyByIdentityKey(id) {
 async function removeAllContactSignedPreKeys() {
   await channels.removeAllContactSignedPreKeys();
 }
-
 
 function getGuardNodes() {
   return channels.getGuardNodes();

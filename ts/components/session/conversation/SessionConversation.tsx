@@ -11,7 +11,7 @@ import {
 
 import { Constants } from '../../../session';
 import _ from 'lodash';
-import { AttachmentUtil, GoogleChrome, UserUtil } from '../../../util';
+import { AttachmentUtil, GoogleChrome } from '../../../util';
 import { ConversationHeaderWithDetails } from '../../conversation/ConversationHeader';
 import { SessionRightPanelWithDetails } from './SessionRightPanel';
 import { SessionTheme } from '../../../state/ducks/SessionTheme';
@@ -21,7 +21,7 @@ import { LightboxGallery, MediaItemType } from '../../LightboxGallery';
 import { Message } from '../../conversation/media-gallery/types/Message';
 
 import { AttachmentType, save } from '../../../types/Attachment';
-import { ToastUtils } from '../../../session/utils';
+import { ToastUtils, UserUtils } from '../../../session/utils';
 import * as MIME from '../../../types/MIME';
 import { SessionFileDropzone } from './SessionFileDropzone';
 import { ConversationType } from '../../../state/ducks/conversations';
@@ -682,14 +682,15 @@ export class SessionConversation extends React.Component<Props, State> {
 
       if (selectedConversation.isPublic) {
         // Get our Moderator status
-        const ourDevicePubkey = await UserUtil.getCurrentDevicePubKey();
+        const ourDevicePubkey = await UserUtils.getCurrentDevicePubKey();
         if (!ourDevicePubkey) {
           return;
         }
 
         const isAdmin = conversationModel.isAdmin(ourDevicePubkey);
-        const isAllOurs = selectedMessages.every(message =>
-          ourDevicePubkey === message.attributes.source);
+        const isAllOurs = selectedMessages.every(
+          message => ourDevicePubkey === message.attributes.source
+        );
 
         if (!isAllOurs && !isAdmin) {
           ToastUtils.pushMessageDeleteForbidden();

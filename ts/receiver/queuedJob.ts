@@ -6,9 +6,8 @@ import { MessageModel } from '../../js/models/messages';
 import { PubKey } from '../session/types';
 import _ from 'lodash';
 import { SignalService } from '../protobuf';
-import { StringUtils } from '../session/utils';
+import { StringUtils, UserUtils } from '../session/utils';
 import { ConversationController } from '../session/conversations';
-import { UserUtil } from '../util';
 
 async function handleGroups(
   conversation: ConversationModel,
@@ -54,9 +53,7 @@ async function handleGroups(
     // Check if anyone got kicked:
     const removedMembers = _.difference(oldMembers, attributes.members);
     const isOurDeviceMap = await Promise.all(
-      removedMembers.map(async member =>
-        UserUtil.isUs(member)
-      )
+      removedMembers.map(async member => UserUtils.isUs(member))
     );
     const ourDeviceWasRemoved = isOurDeviceMap.includes(true);
 
@@ -67,7 +64,7 @@ async function handleGroups(
       groupUpdate.kicked = removedMembers;
     }
   } else if (group.type === GROUP_TYPES.QUIT) {
-    if (await UserUtil.isUs(source)) {
+    if (await UserUtils.isUs(source)) {
       attributes.left = true;
       groupUpdate = { left: 'You' };
     } else {
@@ -356,7 +353,7 @@ async function handleRegularMessage(
   message: MessageModel,
   initialMessage: any,
   source: string,
-  ourNumber: string,
+  ourNumber: string
 ) {
   const { upgradeMessageSchema } = window.Signal.Migrations;
 
@@ -413,7 +410,7 @@ async function handleRegularMessage(
     conversation
   );
 
-  const ourPubKey = PubKey.cast(ourNumber)
+  const ourPubKey = PubKey.cast(ourNumber);
 
   handleMentions(message, conversation, ourPubKey);
 
@@ -453,7 +450,7 @@ async function handleRegularMessage(
   // we just received a message from that user so we reset the typing indicator for this convo
   conversation.notifyTyping({
     isTyping: false,
-    sender: ourPubKey.key,
+    sender: source,
   });
 }
 
@@ -495,7 +492,7 @@ export async function handleMessageJob(
   initialMessage: any,
   ourNumber: string,
   confirm: () => void,
-  source: string,
+  source: string
 ) {
   window.log.info(
     `Starting handleDataMessage for message ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
@@ -527,7 +524,7 @@ export async function handleMessageJob(
         message,
         initialMessage,
         source,
-        ourNumber,
+        ourNumber
       );
     }
 

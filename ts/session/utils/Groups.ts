@@ -3,9 +3,7 @@ import { PubKey } from '../types';
 import { ConversationController } from '../conversations';
 import { fromHexToArray } from './String';
 
-export async function getGroupMembers(
-  groupId: PubKey
-): Promise<Array<PubKey>> {
+export async function getGroupMembers(groupId: PubKey): Promise<Array<PubKey>> {
   const groupConversation = ConversationController.getInstance().get(
     groupId.key
   );

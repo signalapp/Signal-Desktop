@@ -5,16 +5,15 @@ import {
   MessageQueueInterfaceEvents,
 } from './MessageQueueInterface';
 import {
-  ClosedGroupV2Message,
   ContentMessage,
   ExpirationTimerUpdateMessage,
   OpenGroupMessage,
 } from '../messages/outgoing';
 import { PendingMessageCache } from './PendingMessageCache';
-import { JobQueue, TypedEventEmitter } from '../utils';
+import { JobQueue, TypedEventEmitter, UserUtils } from '../utils';
 import { PubKey, RawMessage } from '../types';
 import { MessageSender } from '.';
-import { UserUtil } from '../../util';
+import { ClosedGroupV2Message } from '../messages/outgoing/content/data/groupv2/ClosedGroupV2Message';
 
 export class MessageQueue implements MessageQueueInterface {
   public readonly events: TypedEventEmitter<MessageQueueInterfaceEvents>;
@@ -115,13 +114,13 @@ export class MessageQueue implements MessageQueueInterface {
       return;
     }
 
-    const ourPubKey = await UserUtil.getCurrentDevicePubKey();
+    const ourPubKey = await UserUtils.getCurrentDevicePubKey();
 
-    if(!ourPubKey) {
-      throw new Error('ourNumber is not set')
+    if (!ourPubKey) {
+      throw new Error('ourNumber is not set');
     }
 
-    window.log.warn('sendSyncMessage TODO with syncTarget')
+    window.log.warn('sendSyncMessage TODO with syncTarget');
     await this.sendMessageToDevices([PubKey.cast(ourPubKey)], message, sentCb);
   }
 
@@ -183,7 +182,7 @@ export class MessageQueue implements MessageQueueInterface {
     sentCb?: (message: RawMessage) => Promise<void>
   ): Promise<void> {
     // Don't send to ourselves
-    const currentDevice = await UserUtil.getCurrentDevicePubKey();
+    const currentDevice = await UserUtils.getCurrentDevicePubKey();
     if (currentDevice && device.isEqual(currentDevice)) {
       return;
     }

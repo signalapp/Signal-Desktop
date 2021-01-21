@@ -34,17 +34,20 @@
         return null;
       }
 
-
       const message = messages.find(
-        item => !item.isIncoming() && originalSource === item.get('conversationId')
+        item =>
+          !item.isIncoming() && originalSource === item.get('conversationId')
       );
       if (message) {
         return message;
       }
 
-      const groups = await window.Signal.Data.getAllGroupsInvolvingId(originalSource, {
-        ConversationCollection: Whisper.ConversationCollection,
-      });
+      const groups = await window.Signal.Data.getAllGroupsInvolvingId(
+        originalSource,
+        {
+          ConversationCollection: Whisper.ConversationCollection,
+        }
+      );
 
       const ids = groups.pluck('id');
       ids.push(originalSource);

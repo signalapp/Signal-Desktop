@@ -1,7 +1,7 @@
 import { DataMessage } from '../DataMessage';
 import { MessageParams } from '../../../Message';
-import { PubKey } from '../../../../../types';
 import { SignalService } from '../../../../../../protobuf';
+import { PubKey } from '../../../../../types/PubKey';
 
 export interface ClosedGroupV2MessageParams extends MessageParams {
   groupId: string | PubKey;

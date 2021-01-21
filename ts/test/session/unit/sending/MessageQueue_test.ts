@@ -3,18 +3,17 @@ import * as sinon from 'sinon';
 import _ from 'lodash';
 import { describe } from 'mocha';
 
-import { GroupUtils, PromiseUtils } from '../../../../session/utils';
-import {  TestUtils } from '../../../../test/test-utils';
+import { GroupUtils, PromiseUtils, UserUtils } from '../../../../session/utils';
+import { TestUtils } from '../../../../test/test-utils';
 import { MessageQueue } from '../../../../session/sending/MessageQueue';
 import {
   ContentMessage,
   OpenGroupMessage,
 } from '../../../../session/messages/outgoing';
-import {PubKey, RawMessage } from '../../../../session/types';
-import { UserUtil } from '../../../../util';
+import { PubKey, RawMessage } from '../../../../session/types';
 import { MessageSender } from '../../../../session/sending';
 import { PendingMessageCacheStub } from '../../../test-utils/stubs';
-import { ClosedGroupV2Message } from '../../../../session/messages/outgoing/content/data/groupv2';
+import { ClosedGroupV2Message } from '../../../../session/messages/outgoing/content/data/groupv2/ClosedGroupV2Message';
 
 // tslint:disable-next-line: no-require-imports no-var-requires
 const chaiAsPromised = require('chai-as-promised');
@@ -38,7 +37,7 @@ describe('MessageQueue', () => {
 
   beforeEach(async () => {
     // Utils Stubs
-    sandbox.stub(UserUtil, 'getCurrentDevicePubKey').resolves(ourNumber);
+    sandbox.stub(UserUtils, 'getCurrentDevicePubKey').resolves(ourNumber);
 
     TestUtils.stubWindow('libsignal', {
       SignalProtocolAddress: sandbox.stub(),
@@ -213,7 +212,10 @@ describe('MessageQueue', () => {
         });
 
         it('should emit a success event when send was successful', async () => {
-          sendToOpenGroupStub.resolves({ serverId: 5125, serverTimestamp: 5125 });
+          sendToOpenGroupStub.resolves({
+            serverId: 5125,
+            serverTimestamp: 5125,
+          });
 
           const message = TestUtils.generateOpenGroupMessage();
           const eventPromise = PromiseUtils.waitForTask(complete => {

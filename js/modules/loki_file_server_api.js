@@ -1,8 +1,7 @@
-/* global log, libloki, window */
+/* global log, window */
 /* global log: false */
 
 const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
-
 
 // can have multiple of these instances as each user can have a
 // different home server

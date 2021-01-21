@@ -1,7 +1,4 @@
-import {
-  ContentMessage,
-  OpenGroupMessage,
-} from '../messages/outgoing';
+import { ContentMessage, OpenGroupMessage } from '../messages/outgoing';
 import { RawMessage } from '../types/RawMessage';
 import { TypedEventEmitter } from '../utils';
 import { PubKey } from '../types';

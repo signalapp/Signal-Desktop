@@ -3,8 +3,9 @@ import * as sinon from 'sinon';
 import { BlockedNumberController } from '../../util/blockedNumberController';
 import { TestUtils } from '../test-utils';
 import { PubKey } from '../../session/types';
-import { UserUtil } from '../../util';
+import { UserUtils } from '../../session/utils';
 
+// tslint:disable-next-line: max-func-body-length
 describe('BlockedNumberController', () => {
   const sandbox = sinon.createSandbox();
   let memoryDB: { [key: string]: any };
@@ -78,10 +79,9 @@ describe('BlockedNumberController', () => {
   describe('unblock', async () => {
     it('should unblock the user', async () => {
       const primary = TestUtils.generateFakePubKey();
-      const secondary = TestUtils.generateFakePubKey();
       memoryDB.blocked = [primary.key];
 
-      await BlockedNumberController.unblock(secondary);
+      await BlockedNumberController.unblock(primary);
 
       const blockedNumbers = BlockedNumberController.getBlockedNumbers();
       expect(blockedNumbers).to.be.empty;
@@ -166,14 +166,11 @@ describe('BlockedNumberController', () => {
     let ourDevice: PubKey;
     beforeEach(() => {
       ourDevice = TestUtils.generateFakePubKey();
-      sandbox.stub(UserUtil, 'getCurrentDevicePubKey').resolves(ourDevice.key);
+      sandbox.stub(UserUtils, 'getCurrentDevicePubKey').resolves(ourDevice.key);
     });
     it('should return false for our device', async () => {
       const isBlocked = await BlockedNumberController.isBlockedAsync(ourDevice);
-      expect(isBlocked).to.equal(
-        false,
-        'Expected our device to return false'
-      );
+      expect(isBlocked).to.equal(false, 'Expected our device to return false');
     });
 
     it('should return true if the device is blocked', async () => {

@@ -990,7 +990,7 @@
 
         // Special-case the self-send case - we send only a sync message
         if (recipients.length === 1) {
-          const isOurDevice = await libsession.Utils.UserUtil.isUs(
+          const isOurDevice = await libsession.Utils.UserUtils.isUs(
             recipients[0]
           );
           if (isOurDevice) {
@@ -1102,7 +1102,7 @@
     async handleMessageSentSuccess(sentMessage, wrappedEnvelope) {
       let sentTo = this.get('sent_to') || [];
 
-      const isOurDevice = await window.libsession.Utils.UserUtil.isUs(
+      const isOurDevice = await window.libsession.Utils.UserUtils.isUs(
         sentMessage.device
       );
       // FIXME this is not correct and will cause issues with syncing
@@ -1201,7 +1201,7 @@
           await c.getProfiles();
         }
       }
-      const isOurDevice = await window.libsession.Utils.UserUtil.isUs(
+      const isOurDevice = await window.libsession.Utils.UserUtils.isUs(
         sentMessage.device
       );
       const expirationStartTimestamp = Date.now();
@@ -1366,12 +1366,14 @@
       await this.sendSyncMessage(data);
     },
 
-    async sendSyncMessage(dataMessage) {
+    async sendSyncMessage(/* dataMessage */) {
       if (this.get('synced') || this.get('sentSync')) {
         return;
       }
 
-      window.log.error('sendSyncMessage to upgrade to multi device protocol v2')
+      window.log.error(
+        'sendSyncMessage to upgrade to multi device protocol v2'
+      );
 
       // const data =
       //   dataMessage instanceof libsession.Messages.Outgoing.DataMessage

@@ -102,11 +102,7 @@ export class SessionInboxView extends React.Component<Props, State> {
     const category =
       this.state.settingsCategory || SessionSettingCategory.Appearance;
 
-    return (
-      <FilteredSettingsView
-        category={category}
-      />
-    );
+    return <FilteredSettingsView category={category} />;
   }
 
   private renderSessionConversation() {

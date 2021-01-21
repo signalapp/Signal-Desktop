@@ -48,7 +48,7 @@ export class PubKey {
    * @param value The value to cast.
    */
   public static cast(value?: string | PubKey): PubKey {
-    if(!value) {
+    if (!value) {
       throw new Error(`Invalid pubkey string passed: ${value}`);
     }
     return typeof value === 'string' ? new PubKey(value) : value;

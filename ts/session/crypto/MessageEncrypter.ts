@@ -1,13 +1,11 @@
 import { EncryptionType } from '../types/EncryptionType';
 import { SignalService } from '../../protobuf';
-import { UserUtil } from '../../util';
-import { CipherTextObject } from '../../../libtextsecure/libsignal-protocol';
 import { PubKey } from '../types';
 import { concatUInt8Array, getSodium } from '.';
 import { fromHexToArray } from '../utils/String';
-import { ECKeyPair } from '../../receiver/closedGroupsV2';
 export { concatUInt8Array, getSodium };
 import { getLatestClosedGroupEncryptionKeyPair } from '../../../js/modules/data';
+import { UserUtils } from '../utils';
 
 /**
  * Add padding to a message buffer
@@ -104,7 +102,7 @@ export async function encryptUsingSessionProtocol(
   recipientHexEncodedX25519PublicKey: PubKey,
   plaintext: Uint8Array
 ): Promise<Uint8Array> {
-  const userED25519KeyPairHex = await UserUtil.getUserED25519KeyPair();
+  const userED25519KeyPairHex = await UserUtils.getUserED25519KeyPair();
   if (
     !userED25519KeyPairHex ||
     !userED25519KeyPairHex.pubKey?.length ||

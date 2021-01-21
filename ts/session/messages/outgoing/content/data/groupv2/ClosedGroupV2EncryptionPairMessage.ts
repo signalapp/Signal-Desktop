@@ -7,7 +7,9 @@ import {
 
 interface ClosedGroupV2EncryptionPairMessageParams
   extends ClosedGroupV2MessageParams {
-  encryptedKeyPairs: Array<SignalService.DataMessage.ClosedGroupUpdateV2.KeyPairWrapper>;
+  encryptedKeyPairs: Array<
+    SignalService.DataMessage.ClosedGroupUpdateV2.KeyPairWrapper
+  >;
 }
 
 export class ClosedGroupV2EncryptionPairMessage extends ClosedGroupV2Message {

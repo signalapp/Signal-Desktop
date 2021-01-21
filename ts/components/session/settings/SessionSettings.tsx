@@ -7,11 +7,9 @@ import {
   SessionButtonColor,
   SessionButtonType,
 } from '../SessionButton';
-import { BlockedNumberController, UserUtil } from '../../../util';
+import { BlockedNumberController } from '../../../util';
 import { ToastUtils } from '../../../session/utils';
-import {
-  ConversationLookupType,
-} from '../../../state/ducks/conversations';
+import { ConversationLookupType } from '../../../state/ducks/conversations';
 import { StateType } from '../../../state/reducer';
 import { ConversationController } from '../../../session/conversations';
 import {
@@ -102,7 +100,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
     const { category } = this.props;
 
     let settings: Array<LocalSettingType>;
-    
+
     if (category === SessionSettingCategory.Blocked) {
       // special case for blocked user
       settings = this.getBlockedUserSettings();
@@ -632,7 +630,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
 
     return results;
   }
-
 
   private async onKeyUp(event: any) {
     const lockPasswordFocussed = ($('#password-lock-input') as any).is(

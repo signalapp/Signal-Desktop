@@ -3,10 +3,10 @@
 import { RawMessage } from '../types/RawMessage';
 import { OpenGroupMessage } from '../messages/outgoing';
 import { SignalService } from '../../protobuf';
-import { UserUtil } from '../../util';
 import { MessageEncrypter } from '../crypto';
 import pRetry from 'p-retry';
 import { PubKey } from '../types';
+import { UserUtils } from '../utils';
 
 // ================ Regular ================
 
@@ -70,9 +70,8 @@ async function buildEnvelope(
 
   if (type === SignalService.Envelope.Type.CLOSED_GROUP_CIPHERTEXT) {
     source = sskSource;
-  } else if (type !== SignalService.Envelope.Type.UNIDENTIFIED_SENDER) {
-    source = await UserUtil.getCurrentDevicePubKey();
   }
+
 
   return SignalService.Envelope.create({
     type,

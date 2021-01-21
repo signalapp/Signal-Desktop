@@ -10,8 +10,7 @@ import {
   MessageTypeInConvo,
 } from '../ducks/conversations';
 
-import { getIntl, getRegionCode, getOurNumber } from './user';
-import { ConversationListItemProps } from '../../components/ConversationListItem';
+import { getIntl, getOurNumber, getRegionCode } from './user';
 import { BlockedNumberController } from '../../util';
 
 export const getConversations = (state: StateType): ConversationsStateType =>

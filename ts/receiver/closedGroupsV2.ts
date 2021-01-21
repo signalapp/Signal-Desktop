@@ -2,10 +2,10 @@ import { SignalService } from '../protobuf';
 import { removeFromCache } from './cache';
 import { EnvelopePlus } from './types';
 import { PubKey } from '../session/types';
-import { fromHexToArray, toHex } from '../session/utils/String';
+import { toHex } from '../session/utils/String';
 import { ConversationController } from '../session/conversations';
 import * as ClosedGroupV2 from '../session/groupv2';
-import { BlockedNumberController, UserUtil } from '../util';
+import { BlockedNumberController } from '../util';
 import {
   generateClosedGroupV2PublicKey,
   generateCurve25519KeyPairWithoutPrefix,
@@ -18,55 +18,9 @@ import {
   ClosedGroupV2NewMessageParams,
 } from '../session/messages/outgoing/content/data/groupv2/ClosedGroupV2NewMessage';
 
-import { KeyPair } from '../../libtextsecure/libsignal-protocol';
-import { getOurNumber } from '../util/user';
-
-export type HexKeyPair = {
-  publicHex: string;
-  privateHex: string;
-};
-
-export class ECKeyPair {
-  public readonly publicKeyData: Uint8Array;
-  public readonly privateKeyData: Uint8Array;
-
-  constructor(publicKeyData: Uint8Array, privateKeyData: Uint8Array) {
-    this.publicKeyData = publicKeyData;
-    this.privateKeyData = privateKeyData;
-  }
-
-  public static fromArrayBuffer(pub: ArrayBuffer, priv: ArrayBuffer) {
-    return new ECKeyPair(new Uint8Array(pub), new Uint8Array(priv));
-  }
-
-  public static fromKeyPair(pair: KeyPair) {
-    return new ECKeyPair(
-      new Uint8Array(pair.pubKey),
-      new Uint8Array(pair.privKey)
-    );
-  }
-
-  public static fromHexKeyPair(pair: HexKeyPair) {
-    return new ECKeyPair(
-      fromHexToArray(pair.publicHex),
-      fromHexToArray(pair.privateHex)
-    );
-  }
-
-  public toString() {
-    const hexKeypair = this.toHexKeyPair();
-    return `ECKeyPair: ${hexKeypair.publicHex} ${hexKeypair.privateHex}`;
-  }
-
-  public toHexKeyPair(): HexKeyPair {
-    const publicHex = toHex(this.publicKeyData);
-    const privateHex = toHex(this.privateKeyData);
-    return {
-      publicHex,
-      privateHex,
-    };
-  }
-}
+import { ECKeyPair } from './keypairs';
+import { getOurNumber } from '../session/utils/User';
+import { UserUtils } from '../session/utils';
 
 export async function handleClosedGroupV2(
   envelope: EnvelopePlus,
@@ -161,7 +115,9 @@ async function handleNewClosedGroupV2(
 ) {
   const { log } = window;
 
-  if (groupUpdate.type !== SignalService.DataMessage.ClosedGroupUpdateV2.Type.NEW) {
+  if (
+    groupUpdate.type !== SignalService.DataMessage.ClosedGroupUpdateV2.Type.NEW
+  ) {
     return;
   }
   if (!sanityCheckNewGroupV2(groupUpdate)) {
@@ -182,7 +138,7 @@ async function handleNewClosedGroupV2(
   const members = membersAsData.map(toHex);
   const admins = adminsAsData.map(toHex);
 
-  const ourPrimary = await UserUtil.getOurNumber();
+  const ourPrimary = await UserUtils.getOurNumber();
   if (!members.includes(ourPrimary.key)) {
     log.info(
       'Got a new group message but apparently we are not a member of it. Dropping it.'
@@ -263,7 +219,10 @@ async function handleUpdateClosedGroupV2(
   envelope: EnvelopePlus,
   groupUpdate: SignalService.DataMessage.ClosedGroupUpdateV2
 ) {
-  if (groupUpdate.type !== SignalService.DataMessage.ClosedGroupUpdateV2.Type.UPDATE) {
+  if (
+    groupUpdate.type !==
+    SignalService.DataMessage.ClosedGroupUpdateV2.Type.UPDATE
+  ) {
     return;
   }
   const { name, members: membersBinary } = groupUpdate;
@@ -317,7 +276,7 @@ async function handleUpdateClosedGroupV2(
   const diff = ClosedGroupV2.buildGroupDiff(convo, { name, members });
 
   // Check whether we are still in the group
-  const ourNumber = await UserUtil.getOurNumber();
+  const ourNumber = await UserUtils.getOurNumber();
   const wasCurrentUserRemoved = !members.includes(ourNumber.key);
   const isCurrentUserAdmin = curAdmins?.includes(ourNumber.key);
 
@@ -391,9 +350,9 @@ async function handleKeyPairClosedGroupV2(
   ) {
     return;
   }
-  const ourNumber = await UserUtil.getOurNumber();
+  const ourNumber = await UserUtils.getOurNumber();
   const groupPublicKey = envelope.source;
-  const ourKeyPair = await UserUtil.getIdentityKeyPair();
+  const ourKeyPair = await UserUtils.getIdentityKeyPair();
 
   if (!ourKeyPair) {
     window.log.warn("Couldn't find user X25519 key pair.");
@@ -455,7 +414,9 @@ async function handleKeyPairClosedGroupV2(
   // Parse it
   let proto: SignalService.DataMessage.ClosedGroupUpdateV2.KeyPair;
   try {
-    proto = SignalService.DataMessage.ClosedGroupUpdateV2.KeyPair.decode(plaintext);
+    proto = SignalService.DataMessage.ClosedGroupUpdateV2.KeyPair.decode(
+      plaintext
+    );
     if (
       !proto ||
       proto.privateKey.length === 0 ||

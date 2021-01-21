@@ -8,13 +8,12 @@ import * as Lodash from 'lodash';
 import { PubKey } from '../session/types';
 
 import { BlockedNumberController } from '../util/blockedNumberController';
-import { GroupUtils } from '../session/utils';
-import { UserUtil } from '../util';
+import { GroupUtils, UserUtils } from '../session/utils';
 import { fromHexToArray, toHex } from '../session/utils/String';
 import { concatUInt8Array, getSodium } from '../session/crypto';
 import { ConversationController } from '../session/conversations';
 import * as Data from '../../js/modules/data';
-import { ECKeyPair } from './closedGroupsV2';
+import { ECKeyPair } from './keypairs';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   try {
@@ -91,7 +90,7 @@ async function decryptForClosedGroupV2(
       );
     }
     window.log.info('ClosedGroupV2 Message decrypted successfully.');
-    const ourDevicePubKey = await UserUtil.getCurrentDevicePubKey();
+    const ourDevicePubKey = await UserUtils.getCurrentDevicePubKey();
 
     if (
       envelope.senderIdentity &&
@@ -221,7 +220,7 @@ async function decryptUnidentifiedSender(
 ): Promise<ArrayBuffer | null> {
   window.log.info('received unidentified sender message');
   try {
-    const userX25519KeyPair = await UserUtil.getIdentityKeyPair();
+    const userX25519KeyPair = await UserUtils.getIdentityKeyPair();
     if (!userX25519KeyPair) {
       throw new Error('Failed to find User x25519 keypair from stage'); // noUserX25519KeyPair
     }

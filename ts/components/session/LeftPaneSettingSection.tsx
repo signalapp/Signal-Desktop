@@ -140,7 +140,6 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
   }
 
   public renderBottomButtons(): JSX.Element | undefined {
-
     const dangerButtonText = window.i18n('clearAllData');
     const showRecoveryPhrase = window.i18n('showRecoveryPhrase');
 
@@ -152,7 +151,7 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
           buttonColor={SessionButtonColor.Danger}
           onClick={this.onDeleteAccount}
         />
-        
+
         <SessionButton
           text={showRecoveryPhrase}
           buttonType={SessionButtonType.SquareOutline}
@@ -164,7 +163,6 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
   }
 
   public onDeleteAccount() {
-
     const title = window.i18n('clearAllData');
 
     const message = window.i18n('unpairDeviceWarning');

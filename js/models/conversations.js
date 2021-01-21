@@ -921,8 +921,6 @@
       }
     },
 
-
-
     async updateExpirationTimer(
       providedExpireTimer,
       providedSource,

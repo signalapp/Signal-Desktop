@@ -8,12 +8,12 @@ import { PubKey } from '../session/types';
 import { handleMessageJob } from './queuedJob';
 import { downloadAttachment } from './attachments';
 import _ from 'lodash';
-import { StringUtils } from '../session/utils';
+import { StringUtils, UserUtils } from '../session/utils';
 import { DeliveryReceiptMessage } from '../session/messages/outgoing';
 import { getMessageQueue } from '../session';
 import { ConversationController } from '../session/conversations';
 import { handleClosedGroupV2 } from './closedGroupsV2';
-import { UserUtil } from '../util';
+import { isUs } from '../session/utils/User';
 
 export async function updateProfile(
   conversation: any,
@@ -30,7 +30,8 @@ export async function updateProfile(
   // TODO: may need to allow users to reset their avatars to null
   if (profile.profilePicture) {
     const prevPointer = conversation.get('avatarPointer');
-    const needsUpdate = !prevPointer || !_.isEqual(prevPointer, profile.profilePicture);
+    const needsUpdate =
+      !prevPointer || !_.isEqual(prevPointer, profile.profilePicture);
 
     if (needsUpdate) {
       conversation.set('avatarPointer', profile.profilePicture);
@@ -276,7 +277,7 @@ export async function handleDataMessage(
   }
 
   const source = envelope.senderIdentity || senderPubKey;
-  const ownDevice = await UserUtil.isUs(source);
+  const ownDevice = await isUs(source);
 
   const ownMessage = conversation?.isMediumGroup() && ownDevice;
 
@@ -563,8 +564,6 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
       type,
       isIncoming
     );
-    confirm();
-    return;
   }
 
   const msg = createMessage(data, isIncoming);
@@ -578,7 +577,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   }
 
   // TODO: this shouldn't be called when source is not a pubkey!!!
-  const isOurDevice = await UserUtil.isUs(source);
+  const isOurDevice = await UserUtils.isUs(source);
 
   const shouldSendReceipt =
     isIncoming &&
@@ -628,7 +627,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
       message,
       ourNumber,
       confirm,
-      source,
+      source
     ).ignore();
   });
 }

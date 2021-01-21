@@ -260,7 +260,6 @@ async function queryConversationsAndContacts(
     query
   );
 
-
   // Split into two groups - active conversations and items just from address book
   let conversations: Array<string> = [];
   let contacts: Array<string> = [];

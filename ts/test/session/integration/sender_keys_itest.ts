@@ -55,7 +55,6 @@ async function makeFriendsPlusMessage(
 async function testTwoMembers() {
   const [app, app2] = await Common.startAppsAsFriends();
 
-
   // create group and add new friend
   await Common.addFriendToNewClosedGroup([app, app2]);
 

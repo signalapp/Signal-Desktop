@@ -4,7 +4,7 @@ import {
   ClosedGroupV2MessageParams,
 } from './ClosedGroupV2Message';
 import { fromHexToArray } from '../../../../../utils/String';
-import { ECKeyPair } from '../../../../../../receiver/closedGroupsV2';
+import { ECKeyPair } from '../../../../../../receiver/keypairs';
 
 export interface ClosedGroupV2NewMessageParams
   extends ClosedGroupV2MessageParams {

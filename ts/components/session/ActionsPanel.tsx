@@ -10,11 +10,11 @@ import { ConversationType } from '../../state/ducks/conversations';
 import { noop } from 'lodash';
 import { DefaultTheme } from 'styled-components';
 import { StateType } from '../../state/reducer';
-import { UserUtil } from '../../util';
 import { ConversationController } from '../../session/conversations';
 import { getFocusedSection } from '../../state/selectors/section';
 import { getTheme } from '../../state/selectors/theme';
 import { getOurNumber } from '../../state/selectors/user';
+import { UserUtils } from '../../session/utils';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -197,7 +197,7 @@ class ActionsPanelPrivate extends React.Component<Props> {
   };
 
   private async showResetSessionIDDialogIfNeeded() {
-    const userED25519KeyPairHex = await UserUtil.getUserED25519KeyPair();
+    const userED25519KeyPairHex = await UserUtils.getUserED25519KeyPair();
     if (userED25519KeyPairHex) {
       return;
     }

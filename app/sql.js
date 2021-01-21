@@ -72,7 +72,6 @@ module.exports = {
   removeContactSignedPreKeyByIdentityKey,
   removeAllContactSignedPreKeys,
 
-
   createOrUpdateItem,
   getItemById,
   getAllItems,
@@ -906,7 +905,6 @@ async function updateToLokiSchemaVersion3(currentVersion, instance) {
 
 const SENDER_KEYS_TABLE = 'senderKeys';
 
-
 async function removeAllClosedGroupRatchets(groupId) {
   await db.run(`DELETE FROM ${SENDER_KEYS_TABLE} WHERE groupId = $groupId;`, {
     $groupId: groupId,
@@ -1549,7 +1547,6 @@ async function removeSignedPreKeyById(id) {
 async function removeAllSignedPreKeys() {
   return removeAllFromTable(SIGNED_PRE_KEYS_TABLE);
 }
-
 
 const GUARD_NODE_TABLE = 'guardNodes';
 

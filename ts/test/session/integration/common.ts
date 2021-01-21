@@ -326,9 +326,7 @@ export class Common {
     return [app1, app2];
   }
 
-  public static async addFriendToNewClosedGroup(
-    members: Array<Application>,
-  ) {
+  public static async addFriendToNewClosedGroup(members: Array<Application>) {
     const [app, ...others] = members;
 
     await app.client
