@@ -579,7 +579,6 @@
         expirationLength,
         expirationTimestamp,
         isPublic,
-        isRss: !!this.get('isRss'),
         isKickedFromGroup:
           conversation && conversation.get('isKickedFromGroup'),
         isAdmin, // if the sender is an admin (not us)

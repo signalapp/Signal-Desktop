@@ -12,7 +12,6 @@ import { DefaultTheme } from 'styled-components';
 
 interface Props {
   i18n: any;
-  isRss: boolean;
   profileName: string;
   avatarPath: string;
   pubkey: string;
@@ -37,7 +36,7 @@ export class UserDetailsDialog extends React.Component<Props, State> {
   }
 
   public render() {
-    const { i18n, isRss } = this.props;
+    const { i18n } = this.props;
 
     return (
       <SessionModal
@@ -52,14 +51,12 @@ export class UserDetailsDialog extends React.Component<Props, State> {
         <SessionIdEditable editable={false} text={this.props.pubkey} />
 
         <div className="session-modal__button-group__center">
-          {!isRss && (
-            <SessionButton
-              text={i18n('startConversation')}
-              buttonType={SessionButtonType.Default}
-              buttonColor={SessionButtonColor.Primary}
-              onClick={this.onClickStartConversation}
-            />
-          )}
+          <SessionButton
+            text={i18n('startConversation')}
+            buttonType={SessionButtonType.Default}
+            buttonColor={SessionButtonColor.Primary}
+            onClick={this.onClickStartConversation}
+          />
         </div>
       </SessionModal>
     );

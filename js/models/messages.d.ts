@@ -87,7 +87,6 @@ export interface MessageRegularProps {
   expirationTimestamp?: number;
   convoId: string;
   isPublic?: boolean;
-  isRss?: boolean;
   selected: boolean;
   isKickedFromGroup: boolean;
   // whether or not to show check boxes

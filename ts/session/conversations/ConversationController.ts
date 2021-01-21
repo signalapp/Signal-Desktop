@@ -127,7 +127,7 @@ export class ConversationController {
           )
         );
       }
-      if (!conversation.isPublic() && !conversation.isRss()) {
+      if (!conversation.isPublic()) {
         await Promise.all([
           conversation.updateProfileAvatar(),
           // NOTE: we request snodes updating the cache, but ignore the result
