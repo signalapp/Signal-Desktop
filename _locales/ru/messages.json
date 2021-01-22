@@ -1698,7 +1698,7 @@
         "message": "Failed to set password"
     },
     "passwordLengthError": {
-        "message": "Password must be between 6 and 50 characters long",
+        "message": "Password must be between 6 and 64 characters long",
         "description": "Error string shown to the user when password doesn't meet length criteria"
     },
     "passwordTypeError": {

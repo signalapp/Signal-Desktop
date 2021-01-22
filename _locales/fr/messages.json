@@ -1698,7 +1698,7 @@
         "message": "Échec de la définition du mot de passe"
     },
     "passwordLengthError": {
-        "message": "Le mot de passe doit avoir une longueur comprise entre 6 et 50 caractères",
+        "message": "Le mot de passe doit avoir une longueur comprise entre 6 et 64 caractères",
         "description": "Error string shown to the user when password doesn't meet length criteria"
     },
     "passwordTypeError": {
