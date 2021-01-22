@@ -308,16 +308,6 @@
 
       this.model.updateLastMessage();
 
-      if (this.model.isRss()) {
-        $('.compose').hide();
-        $('.conversation-stack').removeClass('conversation-stack-no-border');
-        $('.conversation-stack').addClass('conversation-stack-border');
-      } else {
-        $('.compose').show();
-        $('.conversation-stack').removeClass('conversation-stack-border');
-        $('.conversation-stack').addClass('conversation-stack-no-border');
-      }
-
       // We schedule our catch-up decrypt right after any in-progress fetch of
       //   messages from the database, then ensure that the loading screen is only
       //   dismissed when that is complete.

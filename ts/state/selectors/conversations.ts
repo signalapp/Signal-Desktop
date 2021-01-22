@@ -151,7 +151,6 @@ export const _getLeftPaneLists = (
       conversation.lastMessage = {
         status: 'sending',
         text: '',
-        isRss: false,
       };
     }
 

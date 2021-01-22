@@ -2,9 +2,6 @@
 
 import LokiAppDotNetServerAPI from '../../../../../js/modules/loki_app_dot_net_api';
 
-const sampleFeed =
-  '<?xml version="1.0" encoding="windows-1252"?><rss version="2.0"><channel>    <title>FeedForAll Sample Feed</title></channel></rss>';
-
 const samplesGetMessages = {
   meta: { code: 200 },
   data: [
@@ -76,18 +73,6 @@ class StubAppDotNetAPI extends LokiAppDotNetServerAPI {
     options: { method?: string } = {}
   ) {
     const { method } = options;
-
-    if (
-      endpoint === 'loki/v1/rss/messenger' ||
-      endpoint === 'loki/v1/rss/loki'
-    ) {
-      return {
-        statusCode: 200,
-        response: {
-          data: sampleFeed,
-        },
-      };
-    }
 
     if (endpoint === 'channels/1/messages') {
       if (!method) {

@@ -77,9 +77,7 @@ export async function filterOpenGroupsConvos(
   }
 
   // We only want to sync across open groups that we haven't left
-  return conversations.filter(
-    c => c.isPublic() && !c.isRss() && !c.get('left')
-  );
+  return conversations.filter(c => c.isPublic() && !c.get('left'));
 }
 
 // Serialise as <Element0.length><Element0><Element1.length><Element1>...
