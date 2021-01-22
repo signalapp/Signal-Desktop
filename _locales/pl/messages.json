@@ -1400,7 +1400,7 @@
         "message": "Wprowadź krótszą nazwę grupy"
     },
     "closedGroupMaxSize": {
-        "message": "Grupa zamknięta nie może mieć więcej niż 20 członków"
+        "message": "Grupa zamknięta nie może mieć więcej niż 100 członków"
     },
     "noBlockedContacts": {
         "message": "Brak zablokowanych kontaktów"

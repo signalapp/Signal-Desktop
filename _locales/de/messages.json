@@ -1457,6 +1457,6 @@
         "message": "Bitte wählen Sie mindestens zwei Gruppenmitglieder aus."
     },
     "closedGroupMaxSize": {
-        "message": "Eine geschlossene Gruppe kann maximal zwanzig Mitglieder haben."
+        "message": "Eine geschlossene Gruppe kann maximal einhundert Mitglieder haben."
     }
 }

@@ -263,23 +263,31 @@ export async function handleDataMessage(
 
   const message = await processDecrypted(envelope, dataMessage);
   const ourPubKey = window.textsecure.storage.user.getNumber();
+  const source = envelope.source;
   const senderPubKey = envelope.senderIdentity || envelope.source;
   const isMe = senderPubKey === ourPubKey;
-  const conversation = ConversationController.getInstance().get(senderPubKey);
+  const senderConversation = await ConversationController.getInstance().getOrCreateAndWait(
+    senderPubKey,
+    'private'
+  );
 
   // Check if we need to update any profile names
-  if (!isMe && conversation && message.profile) {
-    await updateProfile(conversation, message.profile, message.profileKey);
+  if (!isMe && senderConversation && message.profile) {
+    await updateProfile(
+      senderConversation,
+      message.profile,
+      message.profileKey
+    );
   }
   if (isMessageEmpty(message)) {
     window.log.warn(`Message ${getEnvelopeId(envelope)} ignored; it was empty`);
     return removeFromCache(envelope);
   }
 
-  const source = envelope.senderIdentity || senderPubKey;
-  const ownDevice = await isUs(source);
+  const ownDevice = await isUs(senderPubKey);
 
-  const ownMessage = conversation?.isMediumGroup() && ownDevice;
+  const sourceConversation = ConversationController.getInstance().get(source);
+  const ownMessage = sourceConversation?.isMediumGroup() && ownDevice;
 
   const ev: any = {};
   if (ownMessage) {
@@ -299,7 +307,7 @@ export async function handleDataMessage(
 
   ev.confirm = () => removeFromCache(envelope);
   ev.data = {
-    source,
+    source: senderPubKey,
     sourceDevice: 1,
     timestamp: _.toNumber(envelope.timestamp),
     receivedAt: envelope.receivedAt,

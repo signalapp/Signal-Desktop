@@ -1361,6 +1361,6 @@
         "message": "Vui lòng chọn ít nhất 2 thành viên trong nhóm"
     },
     "closedGroupMaxSize": {
-        "message": "Một nhóm kín không thể có nhiều hơn 20 thành viên"
+        "message": "Một nhóm kín không thể có nhiều hơn 100 thành viên"
     }
 }
