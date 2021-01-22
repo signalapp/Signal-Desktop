@@ -15,6 +15,7 @@ export type OwnProps = {
   readonly packs: ReadonlyArray<StickerPackType>;
   readonly recentStickers: ReadonlyArray<StickerType>;
   readonly showPickerHint?: boolean;
+  readonly fadeout?: boolean;
 };
 
 export type Props = OwnProps & Pick<React.HTMLProps<HTMLDivElement>, 'style'>;
@@ -67,6 +68,7 @@ export const StickerPicker = React.memo(
         onPickSticker,
         showPickerHint,
         style,
+        fadeout,
       }: Props,
       ref
     ) => {
@@ -147,7 +149,13 @@ export const StickerPicker = React.memo(
       const showLongText = showPickerHint;
 
       return (
-        <div className="module-sticker-picker" ref={ref} style={style}>
+        <div 
+          className={classNames(
+            'module-sticker-picker',
+            fadeout ? 'fadeout' : null
+          )}
+          ref={ref} 
+          style={style}>
           <div className="module-sticker-picker__header">
             <div className="module-sticker-picker__header__packs">
               <div

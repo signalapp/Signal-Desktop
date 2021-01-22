@@ -36,7 +36,7 @@ export type OwnProps = {
   readonly onSetSkinTone?: (tone: number) => unknown;
   readonly recentEmojis?: Array<string>;
   readonly onClose?: () => unknown;
-  readonly fadeout?: Boolean;
+  readonly fadeout?: boolean;
 };
 
 export type Props = OwnProps & Pick<React.HTMLProps<HTMLDivElement>, 'style'>;

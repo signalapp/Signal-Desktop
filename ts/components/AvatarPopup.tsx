@@ -19,7 +19,7 @@ export type Props = {
   innerRef?: React.Ref<HTMLDivElement>;
   style: React.CSSProperties;
 
-  fadeout?: Boolean;
+  fadeout?: boolean;
 } & AvatarProps;
 
 export const AvatarPopup = (props: Props): JSX.Element => {

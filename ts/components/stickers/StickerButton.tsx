@@ -31,6 +31,12 @@ export type OwnProps = {
 
 export type Props = OwnProps;
 
+enum OpenState {
+  HIDDEN = 0,
+  VISIBLE,
+  FADEOUT
+}
+
 export const StickerButton = React.memo(
   ({
     i18n,
@@ -49,10 +55,20 @@ export const StickerButton = React.memo(
     clearShowPickerHint,
     position = 'top-end',
   }: Props) => {
-    const [open, setOpen] = React.useState(false);
+    const [openState, setOpenState] = React.useState<OpenState>(OpenState.HIDDEN);
     const [popperRoot, setPopperRoot] = React.useState<HTMLElement | null>(
       null
     );
+
+    const hide = React.useCallback(() => {
+      if (openState !== OpenState.VISIBLE) {
+        return;
+      }
+      setOpenState(OpenState.FADEOUT);
+      setTimeout(() => {
+        setOpenState(OpenState.HIDDEN);
+      }, 200);
+    }, [openState, popperRoot, setOpenState]);
 
     const handleClickButton = React.useCallback(() => {
       // Clear tooltip state
@@ -63,9 +79,9 @@ export const StickerButton = React.memo(
       if (installedPacks.length === 0) {
         onClickAddPack();
       } else if (popperRoot) {
-        setOpen(false);
+        hide();
       } else {
-        setOpen(true);
+        setOpenState(OpenState.VISIBLE);
       }
     }, [
       clearInstalledStickerPack,
@@ -73,23 +89,23 @@ export const StickerButton = React.memo(
       installedPacks,
       onClickAddPack,
       popperRoot,
-      setOpen,
+      setOpenState,
     ]);
 
     const handlePickSticker = React.useCallback(
       (packId: string, stickerId: number) => {
-        setOpen(false);
+        hide();
         onPickSticker(packId, stickerId);
       },
-      [setOpen, onPickSticker]
+      [setOpenState, onPickSticker]
     );
 
     const handleClose = React.useCallback(() => {
-      setOpen(false);
-    }, [setOpen]);
+      hide();
+    }, [setOpenState]);
 
     const handleClickAddPack = React.useCallback(() => {
-      setOpen(false);
+      hide();
       if (showPickerHint) {
         clearShowPickerHint();
       }
@@ -103,7 +119,7 @@ export const StickerButton = React.memo(
 
     // Create popper root and handle outside clicks
     React.useEffect(() => {
-      if (open) {
+      if (openState) {
         const root = document.createElement('div');
         setPopperRoot(root);
         document.body.appendChild(root);
@@ -118,7 +134,7 @@ export const StickerButton = React.memo(
             className.indexOf('module-sticker-picker__header__button') < 0;
 
           if (!root.contains(targetElement) && isMissingButtonClass) {
-            setOpen(false);
+            hide();
           }
         };
         document.addEventListener('click', handleOutsideClick);
@@ -131,7 +147,7 @@ export const StickerButton = React.memo(
       }
 
       return noop;
-    }, [open, setOpen, setPopperRoot]);
+    }, [openState !== OpenState.HIDDEN, setOpenState, setPopperRoot]);
 
     // Install keyboard shortcut to open sticker picker
     React.useEffect(() => {
@@ -151,7 +167,11 @@ export const StickerButton = React.memo(
           event.stopPropagation();
           event.preventDefault();
 
-          setOpen(!open);
+          if (openState === OpenState.HIDDEN) {
+            setOpenState(OpenState.VISIBLE);
+          } else {
+            hide();
+          }
         }
       };
       document.addEventListener('keydown', handleKeydown);
@@ -159,7 +179,7 @@ export const StickerButton = React.memo(
       return () => {
         document.removeEventListener('keydown', handleKeydown);
       };
-    }, [open, setOpen]);
+    }, [openState !== OpenState.HIDDEN, setOpenState]);
 
     // Clear the installed pack after one minute
     React.useEffect(() => {
@@ -195,13 +215,13 @@ export const StickerButton = React.memo(
               onClick={handleClickButton}
               className={classNames({
                 'module-sticker-button__button': true,
-                'module-sticker-button__button--active': open,
+                'module-sticker-button__button--active': openState !== OpenState.HIDDEN,
               })}
               aria-label={i18n('stickers--StickerPicker--Open')}
             />
           )}
         </Reference>
-        {!open && !showIntroduction && installedPack ? (
+        {!openState && !showIntroduction && installedPack ? (
           <Popper placement={position} key={installedPack.id}>
             {({ ref, style, placement, arrowProps }) => (
               <button
@@ -238,7 +258,7 @@ export const StickerButton = React.memo(
             )}
           </Popper>
         ) : null}
-        {!open && showIntroduction ? (
+        {!openState && showIntroduction ? (
           <Popper placement={position}>
             {({ ref, style, placement, arrowProps }) => (
               <button
@@ -285,7 +305,7 @@ export const StickerButton = React.memo(
             )}
           </Popper>
         ) : null}
-        {open && popperRoot
+        {openState && popperRoot
           ? createPortal(
               <Popper placement={position}>
                 {({ ref, style }) => (
@@ -299,6 +319,7 @@ export const StickerButton = React.memo(
                     onPickSticker={handlePickSticker}
                     recentStickers={recentStickers}
                     showPickerHint={showPickerHint}
+                    fadeout={openState === OpenState.FADEOUT}
                   />
                 )}
               </Popper>,
