@@ -23,7 +23,7 @@ function MessageReceiver() {
       // bind events
       lokiPublicChatAPI.on(
         'publicMessage',
-        window.NewReceiver.handleUnencryptedMessage
+        window.NewReceiver.handlePublicMessage
       );
       openGroupBound = true;
     }
