@@ -9326,7 +9326,8 @@ button.module-image__border-overlay:focus {
   right: 20px;
   bottom: 10px;
 
-  @include appear-animation;
+  @include expand-animation;
+  @include collapse-animation;
 }
 
 .module-scroll-down__button {

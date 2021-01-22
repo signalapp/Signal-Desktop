@@ -430,18 +430,16 @@
   padding: 7px 14px;
 }
 
-@keyframes appear-animation__keyframes {
-  from {
-    transform: scale(0, 0);
-  }
-  to {
-    transform: scale(1, 1);
-  }
+@mixin expand-animation {
+  transform: scale(1, 1);
+  transition: transform 0.2s;
 }
 
-@mixin appear-animation {
-  animation-name: appear-animation__keyframes;
-  animation-duration: 0.2s;
+@mixin collapse-animation {
+  &.collapse {
+    transform: scale(0, 0);
+    transition: transform 0.2s;
+  }
 }
 
 @keyframes foldopen-animation__keyframes {
@@ -462,7 +460,7 @@
 @mixin foldclose-animation {
   &.foldclose {
     transform: translateY(100%);
-    transition: transform max-height 0.2s;
+    transition: transform 0.2s;
   }
 }
 

@@ -13,6 +13,8 @@ export type Props = {
   scrollDown: (conversationId: string) => void;
 
   i18n: LocalizerType;
+
+  collapse?: boolean;
 };
 
 export const ScrollDownButton = ({
@@ -20,11 +22,14 @@ export const ScrollDownButton = ({
   withNewMessages,
   i18n,
   scrollDown,
+  collapse,
 }: Props): JSX.Element => {
   const altText = withNewMessages ? i18n('messagesBelow') : i18n('scrollDown');
 
   return (
-    <div className="module-scroll-down">
+    <div
+      className={classNames('module-scroll-down', collapse ? 'collapse' : null)}
+    >
       <button
         type="button"
         className={classNames(
