@@ -74,7 +74,6 @@ declare global {
     lokiSnodeAPI: LokiSnodeAPI;
     mnemonic: RecoveryPhraseUtil;
     onLogin: any;
-    passwordUtil: any;
     resetDatabase: any;
     restart: any;
     seedNodeList: any;

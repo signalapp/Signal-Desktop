@@ -2,7 +2,7 @@ import React from 'react';
 
 import { SessionModal } from './SessionModal';
 import { SessionButton, SessionButtonColor } from './SessionButton';
-import { PasswordUtil } from '../../util/';
+import { missingCaseError, PasswordUtil } from '../../util/';
 import { ToastUtils } from '../../session/utils';
 import { toast } from 'react-toastify';
 import { SessionToast, SessionToastType } from './SessionToast';
@@ -46,8 +46,6 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
 
     this.onPasswordInput = this.onPasswordInput.bind(this);
     this.onPasswordConfirmInput = this.onPasswordConfirmInput.bind(this);
-
-    this.onPaste = this.onPaste.bind(this);
   }
 
   public componentDidMount() {
@@ -86,8 +84,6 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
             }}
             placeholder={placeholders[0]}
             onKeyUp={this.onPasswordInput}
-            maxLength={window.CONSTANTS.MAX_PASSWORD_LENGTH}
-            onPaste={this.onPaste}
           />
           {action !== PasswordAction.Remove && (
             <input
@@ -95,8 +91,6 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
               id="password-modal-input-confirm"
               placeholder={placeholders[1]}
               onKeyUp={this.onPasswordConfirmInput}
-              maxLength={window.CONSTANTS.MAX_PASSWORD_LENGTH}
-              onPaste={this.onPaste}
             />
           )}
         </div>
@@ -108,7 +102,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
           <SessionButton
             text={window.i18n('ok')}
             buttonColor={confirmButtonColor}
-            onClick={async () => this.setPassword(onOk)}
+            onClick={this.setPassword}
           />
 
           <SessionButton
@@ -145,8 +139,106 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
     );
   }
 
+  /**
+   * Returns false and set the state error field in the input is not a valid password
+   * or returns true
+   */
+  private validatePassword(firstPassword: string) {
+    // if user did not fill the first password field, we can't do anything
+    const errorFirstInput = PasswordUtil.validatePassword(
+      firstPassword,
+      window.i18n
+    );
+    if (errorFirstInput !== null) {
+      this.setState({
+        error: errorFirstInput,
+      });
+      return false;
+    }
+    return true;
+  }
+
+  private async handleActionSet(
+    enteredPassword: string,
+    enteredPasswordConfirm: string
+  ) {
+    // be sure both password are valid
+    if (!this.validatePassword(enteredPassword)) {
+      return;
+    }
+    // no need to validate second password. we just need to check that enteredPassword is valid, and that both password matches
+
+    if (enteredPassword !== enteredPasswordConfirm) {
+      this.setState({
+        error: window.i18n('setPasswordInvalid'),
+      });
+      return;
+    }
+    await window.setPassword(enteredPassword, null);
+    ToastUtils.pushToastSuccess(
+      'setPasswordSuccessToast',
+      window.i18n('setPasswordTitle'),
+      window.i18n('setPasswordToastDescription'),
+      SessionIconType.Lock
+    );
+
+    this.props.onOk(this.props.action);
+    this.closeDialog();
+  }
+
+  private async handleActionChange(oldPassword: string, newPassword: string) {
+    // We don't validate oldPassword on change: this is validate on the validatePasswordHash below
+    // we only validate the newPassword here
+    if (!this.validatePassword(newPassword)) {
+      return;
+    }
+    const isValidWithStoredInDB = Boolean(
+      await this.validatePasswordHash(oldPassword)
+    );
+    if (!isValidWithStoredInDB) {
+      this.setState({
+        error: window.i18n('changePasswordInvalid'),
+      });
+      return;
+    }
+    await window.setPassword(newPassword, oldPassword);
+
+    ToastUtils.pushToastSuccess(
+      'setPasswordSuccessToast',
+      window.i18n('changePasswordTitle'),
+      window.i18n('changePasswordToastDescription'),
+      SessionIconType.Lock
+    );
+
+    this.props.onOk(this.props.action);
+    this.closeDialog();
+  }
+
+  private async handleActionRemove(oldPassword: string) {
+    // We don't validate oldPassword on change: this is validate on the validatePasswordHash below
+    const isValidWithStoredInDB = Boolean(
+      await this.validatePasswordHash(oldPassword)
+    );
+    if (!isValidWithStoredInDB) {
+      this.setState({
+        error: window.i18n('removePasswordInvalid'),
+      });
+      return;
+    }
+    await window.setPassword(null, oldPassword);
+
+    ToastUtils.pushToastWarning(
+      'setPasswordSuccessToast',
+      window.i18n('removePasswordTitle'),
+      window.i18n('removePasswordToastDescription')
+    );
+
+    this.props.onOk(this.props.action);
+    this.closeDialog();
+  }
+
   // tslint:disable-next-line: cyclomatic-complexity
-  private async setPassword(onSuccess?: any) {
+  private async setPassword() {
     const { action } = this.props;
     const {
       currentPasswordEntered,
@@ -155,106 +247,28 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
     const { Set, Remove, Change } = PasswordAction;
 
     // Trim leading / trailing whitespace for UX
-    const enteredPassword = (currentPasswordEntered || '').trim();
-    const enteredPasswordConfirm = (currentPasswordConfirmEntered || '').trim();
+    const firstPasswordEntered = (currentPasswordEntered || '').trim();
+    const secondPasswordEntered = (currentPasswordConfirmEntered || '').trim();
 
-    // if user did not fill the first password field, we can't do anything
-    const errorFirstInput = PasswordUtil.validatePassword(
-      enteredPassword,
-      window.i18n
-    );
-    if (errorFirstInput !== null) {
-      this.setState({
-        error: errorFirstInput,
-      });
-      return;
-    }
-
-    // if action is Set or Change, we need a valid ConfirmPassword
-    if (action === Set || action === Change) {
-      const errorSecondInput = PasswordUtil.validatePassword(
-        enteredPasswordConfirm,
-        window.i18n
-      );
-      if (errorSecondInput !== null) {
-        this.setState({
-          error: errorSecondInput,
-        });
+    switch (action) {
+      case Set: {
+        await this.handleActionSet(firstPasswordEntered, secondPasswordEntered);
         return;
       }
-    }
-
-    // Passwords match or remove password successful
-    const newPassword = action === Remove ? null : enteredPasswordConfirm;
-    const oldPassword = action === Set ? null : enteredPassword;
-
-    // Check if password match, when setting, changing or removing
-    let valid;
-    if (action === Set) {
-      valid = enteredPassword === enteredPasswordConfirm;
-    } else {
-      valid = Boolean(await this.validatePasswordHash(oldPassword));
-    }
-
-    if (!valid) {
-      let str;
-      switch (action) {
-        case Set:
-          str = window.i18n('setPasswordInvalid');
-          break;
-        case Change:
-          str = window.i18n('changePasswordInvalid');
-          break;
-        case Remove:
-          str = window.i18n('removePasswordInvalid');
-          break;
-        default:
-          throw new Error(`Invalid action ${action}`);
+      case Change: {
+        await this.handleActionChange(
+          firstPasswordEntered,
+          secondPasswordEntered
+        );
+        return;
       }
-      this.setState({
-        error: str,
-      });
-
-      return;
-    }
-
-    await window.setPassword(newPassword, oldPassword);
-    let title;
-    let description;
-    switch (action) {
-      case Set:
-        title = window.i18n('setPasswordTitle');
-        description = window.i18n('setPasswordToastDescription');
-        break;
-      case Change:
-        title = window.i18n('changePasswordTitle');
-        description = window.i18n('changePasswordToastDescription');
-        break;
-      case Remove:
-        title = window.i18n('removePasswordTitle');
-        description = window.i18n('removePasswordToastDescription');
-        break;
+      case Remove: {
+        await this.handleActionRemove(firstPasswordEntered);
+        return;
+      }
       default:
-        throw new Error(`Invalid action ${action}`);
+        throw missingCaseError(action);
     }
-
-    if (action !== Remove) {
-      ToastUtils.pushToastSuccess(
-        'setPasswordSuccessToast',
-        title,
-        description,
-        SessionIconType.Lock
-      );
-    } else {
-      ToastUtils.pushToastWarning(
-        'setPasswordSuccessToast',
-        title,
-        description
-      );
-    }
-
-    onSuccess(this.props.action);
-    this.closeDialog();
   }
 
   private closeDialog() {
@@ -263,26 +277,9 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
     }
   }
 
-  private onPaste(event: any) {
-    const clipboard = event.clipboardData.getData('text');
-
-    if (clipboard.length > window.CONSTANTS.MAX_PASSWORD_LENGTH) {
-      const title = String(
-        window.i18n(
-          'pasteLongPasswordToastTitle',
-          window.CONSTANTS.MAX_PASSWORD_LENGTH
-        )
-      );
-      ToastUtils.pushToastWarning('passwordModal', title);
-    }
-
-    // Prevent pating into input
-    return false;
-  }
-
   private async onPasswordInput(event: any) {
     if (event.key === 'Enter') {
-      return this.setPassword(this.props.onOk);
+      return this.setPassword();
     }
     const currentPasswordEntered = event.target.value;
 
@@ -291,7 +288,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
 
   private async onPasswordConfirmInput(event: any) {
     if (event.key === 'Enter') {
-      return this.setPassword(this.props.onOk);
+      return this.setPassword();
     }
     const currentPasswordConfirmEntered = event.target.value;
 

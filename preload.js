@@ -87,7 +87,7 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
 };
 
 // eslint-disable-next-line func-names
-window.CONSTANTS = new (function() {
+window.CONSTANTS = new (function () {
   this.MAX_LOGIN_TRIES = 3;
   this.MAX_PASSWORD_LENGTH = 64;
   this.MAX_USERNAME_LENGTH = 20;
@@ -183,7 +183,13 @@ window.setPassword = (passPhrase, oldPhrase) =>
     ipc.send('set-password', passPhrase, oldPhrase);
   });
 
-window.passwordUtil = require('./ts/util/passwordUtils');
+window.libsession = require('./ts/session');
+
+window.getMessageController =
+  window.libsession.Messages.MessageController.getInstance;
+
+window.getConversationController =
+  window.libsession.Conversations.ConversationController.getInstance;
 
 // We never do these in our code, so we'll prevent it everywhere
 window.open = () => null;
@@ -392,7 +398,7 @@ window.callWorker = (fnName, ...args) => utilWorker.callWorker(fnName, ...args);
 
 // Linux seems to periodically let the event loop stop, so this is a global workaround
 setInterval(() => {
-  window.nodeSetImmediate(() => {});
+  window.nodeSetImmediate(() => { });
 }, 1000);
 
 const { autoOrientImage } = require('./js/modules/auto_orient_image');
@@ -455,9 +461,9 @@ if (process.env.USE_STUBBED_NETWORK) {
 }
 
 // eslint-disable-next-line no-extend-native,func-names
-Promise.prototype.ignore = function() {
+Promise.prototype.ignore = function () {
   // eslint-disable-next-line more/no-then
-  this.then(() => {});
+  this.then(() => { });
 };
 
 if (
