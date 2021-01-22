@@ -3039,11 +3039,6 @@ Whisper.ConversationView = Whisper.View.extend({
       await this.saveModel();
     }
 
-    if (this.quoteView) {
-      this.quoteView.remove();
-      this.quoteView = null;
-    }
-
     if (model) {
       const message = window.MessageController.register(model.id, model);
       this.quotedMessage = message;
@@ -3061,8 +3056,17 @@ Whisper.ConversationView = Whisper.View.extend({
 
   renderQuotedMessage() {
     if (this.quoteView) {
-      this.quoteView.remove();
-      this.quoteView = null;
+      if (this.quotedMessage) {
+        this.quoteView.remove();
+        this.quoteView = null;
+      } else {
+        console.log(this.quoteView);
+        this.quoteView.$el.find('.module-quote').addClass('foldclose');
+        setTimeout(() => {
+          this.quoteView.remove();
+          this.quoteView = null;
+        }, 200);
+      }
     }
     if (!this.quotedMessage) {
       return;

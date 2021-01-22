@@ -459,6 +459,13 @@
   transform-origin: bottom;
 }
 
+@mixin foldclose-animation {
+  &.foldclose {
+    transform: translateY(100%);
+    transition: transform max-height 0.2s;
+  }
+}
+
 @keyframes fadein-animation__keyframes {
   from {
     opacity: 0;
