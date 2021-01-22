@@ -40,14 +40,14 @@ export const EmojiButton = React.memo(
     );
 
     const hide = React.useCallback(() => {
-      if (openState != OpenState.VISIBLE) {
+      if (openState !== OpenState.VISIBLE) {
         return;
       }
       setOpenState(OpenState.FADEOUT);
       setTimeout(() => {
         setOpenState(OpenState.HIDDEN);
       }, 200);
-    }, [popperRoot, setOpenState]);
+    }, [openState, popperRoot, setOpenState]);
 
     const handleClickButton = React.useCallback(() => {
       if (popperRoot) {
