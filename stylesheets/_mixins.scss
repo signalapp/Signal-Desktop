@@ -446,18 +446,17 @@
 
 @keyframes foldopen-animation__keyframes {
   from {
-    transform: scaleY(0);
-    transform-origin: bottom;
+    transform: translateY(100%);
   }
   to {
-    transform: scaleY(1);
-    transform-origin: bottom;
+    transform: translateY(0);
   }
 }
 
 @mixin foldopen-animation {
   animation-name: foldopen-animation__keyframes;
   animation-duration: 0.2s;
+  transform-origin: bottom;
 }
 
 @keyframes fadein-animation__keyframes {
