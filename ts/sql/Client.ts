@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-await-in-loop */
@@ -250,9 +250,10 @@ const channelsAsUnknown = fromPairs(
 
 const channels: ServerInterface = channelsAsUnknown;
 
-// When IPC arguments are prepared for the cross-process send, they are JSON.stringified.
-//   We can't send ArrayBuffers or BigNumbers (what we get from proto library for dates),
-//   We also cannot send objects with function-value keys, like what protobufjs gives us.
+// When IPC arguments are prepared for the cross-process send, they are serialized with
+//   the [structured clone algorithm][0]. We can't send some values, like BigNumbers and
+//   functions (both of which come from protobufjs), so we clean them up.
+// [0]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm
 function _cleanData(data: any, path = 'root') {
   if (data === null || data === undefined) {
     window.log.warn(`_cleanData: null or undefined value at path ${path}`);
@@ -279,7 +280,6 @@ function _cleanData(data: any, path = 'root') {
     }
 
     if (isFunction(value)) {
-      // To prepare for Electron v9 IPC, we need to take functions off of any object
       delete data[key];
     } else if (isFunction(value.toNumber)) {
       data[key] = value.toNumber();

@@ -62,7 +62,7 @@
     "fs-xattr": "0.3.0"
   },
   "dependencies": {
-    "@journeyapps/sqlcipher": "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#b10f232fac62ba7f8775c9e086bb5558fe7d948b",
+    "@journeyapps/sqlcipher": "https://github.com/EvanHahn-signal/node-sqlcipher.git#16916949f0c010f6e6d3d5869b10a0ab813eae75",
     "@sindresorhus/is": "0.8.0",
     "abort-controller": "3.0.0",
     "array-move": "2.1.0",
@@ -136,7 +136,7 @@
     "redux-ts-utils": "3.2.2",
     "reselect": "4.0.0",
     "rimraf": "2.6.2",
-    "ringrtc": "https://github.com/signalapp/signal-ringrtc-node.git#5bab04da0b73ddac4e863df5a37fb74dac1435be",
+    "ringrtc": "https://github.com/signalapp/signal-ringrtc-node.git#3235e40ef2e81c2586bc005973d2923167b3b817",
     "sanitize-filename": "1.6.3",
     "sanitize.css": "11.0.0",
     "semver": "5.4.1",
@@ -217,8 +217,8 @@
     "core-js": "2.4.1",
     "cross-env": "5.2.0",
     "css-loader": "3.2.0",
-    "electron": "8.5.2",
-    "electron-builder": "22.3.6",
+    "electron": "11.2.0",
+    "electron-builder": "22.9.1",
     "electron-mocha": "8.1.1",
     "electron-notarize": "0.1.1",
     "eslint": "7.7.0",
@@ -265,7 +265,7 @@
     "@storybook/react/@storybook/core/node-fetch": "2.6.1"
   },
   "engines": {
-    "node": "12.13.0"
+    "node": "12.18.3"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
