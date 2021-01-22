@@ -19,7 +19,7 @@ export type Props = {
   innerRef?: React.Ref<HTMLDivElement>;
   style: React.CSSProperties;
 
-  fadeout: Boolean;
+  fadeout?: Boolean;
 } & AvatarProps;
 
 export const AvatarPopup = (props: Props): JSX.Element => {
@@ -44,7 +44,12 @@ export const AvatarPopup = (props: Props): JSX.Element => {
   useRestoreFocus(focusRef);
 
   return (
-    <div style={style} className={"module-avatar-popup" + (fadeout ?  " fadeout" : "")}>
+    <div 
+      style={style} 
+      className={classNames(
+        'module-avatar-popup',
+        fadeout ?  'fadeout' : null
+      )}>
       <div className="module-avatar-popup__profile">
         <Avatar {...props} size={52} />
         <div className="module-avatar-popup__profile__text">

@@ -7082,6 +7082,7 @@ button.module-image__border-overlay:focus {
   @include popper-shadow();
 
   @include fadein-animation;
+  @include fadeout-animation;
 
   @include light-theme {
     background: $color-gray-02;

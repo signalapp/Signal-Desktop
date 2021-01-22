@@ -36,6 +36,7 @@ export type OwnProps = {
   readonly onSetSkinTone?: (tone: number) => unknown;
   readonly recentEmojis?: Array<string>;
   readonly onClose?: () => unknown;
+  readonly fadeout?: Boolean;
 };
 
 export type Props = OwnProps & Pick<React.HTMLProps<HTMLDivElement>, 'style'>;
@@ -72,6 +73,7 @@ export const EmojiPicker = React.memo(
         recentEmojis = [],
         style,
         onClose,
+        fadeout,
       }: Props,
       ref
     ) => {
@@ -303,7 +305,13 @@ export const EmojiPicker = React.memo(
       );
 
       return (
-        <div className="module-emoji-picker" ref={ref} style={style}>
+        <div 
+          className={classNames(
+            'module-emoji-picker',
+            fadeout ? 'fadeout' : null
+          )} 
+          ref={ref} 
+          style={style}>
           <header className="module-emoji-picker__header">
             <button
               type="button"
