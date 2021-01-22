@@ -517,8 +517,6 @@
       // for the public group chat
       const conversation = this.getConversation();
 
-      const isAdmin = conversation && !!conversation.isAdmin(phoneNumber);
-
       const convoId = conversation ? conversation.id : undefined;
       const isGroup = !!conversation && !conversation.isPrivate();
       const isPublic = !!this.get('isPublic');
@@ -552,7 +550,6 @@
         isPublic,
         isKickedFromGroup:
           conversation && conversation.get('isKickedFromGroup'),
-        isAdmin, // if the sender is an admin (not us)
 
         onCopyText: () => this.copyText(),
         onCopyPubKey: () => this.copyPubKey(),

@@ -289,6 +289,9 @@ export class SessionMessagesList extends React.Component<Props, State> {
             (conversation.isPublic && !!messageProps.weAreAdmin);
 
           messageProps.isDeletable = isDeletable;
+          messageProps.isAdmin = conversation.groupAdmins?.includes(
+            messageProps.authorPhoneNumber
+          );
 
           // firstMessageOfSeries tells us to render the avatar only for the first message
           // in a series of messages from the same user
