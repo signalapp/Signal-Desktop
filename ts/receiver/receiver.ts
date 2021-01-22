@@ -276,7 +276,7 @@ async function handleDecryptedEnvelope(
   }
 }
 
-export async function handleUnencryptedMessage({ message: outerMessage }: any) {
+export async function handlePublicMessage({ message: outerMessage }: any) {
   const { source } = outerMessage;
   const { group, profile, profileKey } = outerMessage.message;
 
@@ -295,9 +295,15 @@ export async function handleUnencryptedMessage({ message: outerMessage }: any) {
   const isPublicChatMessage =
     group && group.id && !!group.id.match(/^publicChat:/);
 
+  if (!isPublicChatMessage) {
+    throw new Error(
+      'handlePublicMessage Should only be called with public message groups'
+    );
+  }
+
   const ev = {
     // Public chat messages from ourselves should be outgoing
-    type: isPublicChatMessage && isOurDevice ? 'sent' : 'message',
+    type: isOurDevice ? 'sent' : 'message',
     data: outerMessage,
     confirm: () => {
       /* do nothing */
