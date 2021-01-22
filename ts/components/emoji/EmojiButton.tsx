@@ -22,7 +22,7 @@ export type Props = OwnProps &
 enum OpenState {
   HIDDEN = 0,
   VISIBLE,
-  FADEOUT
+  FADEOUT,
 }
 
 export const EmojiButton = React.memo(
@@ -34,7 +34,9 @@ export const EmojiButton = React.memo(
     onSetSkinTone,
     recentEmojis,
   }: Props) => {
-    const [openState, setOpenState] = React.useState<OpenState>(OpenState.HIDDEN);
+    const [openState, setOpenState] = React.useState<OpenState>(
+      OpenState.HIDDEN
+    );
     const [popperRoot, setPopperRoot] = React.useState<HTMLElement | null>(
       null
     );
@@ -126,7 +128,8 @@ export const EmojiButton = React.memo(
               onClick={handleClickButton}
               className={classNames({
                 'module-emoji-button__button': true,
-                'module-emoji-button__button--active': openState > OpenState.HIDDEN
+                'module-emoji-button__button--active':
+                  openState > OpenState.HIDDEN,
               })}
               aria-label={i18n('EmojiButton__label')}
             />

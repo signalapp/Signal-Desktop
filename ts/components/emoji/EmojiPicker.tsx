@@ -305,13 +305,14 @@ export const EmojiPicker = React.memo(
       );
 
       return (
-        <div 
+        <div
           className={classNames(
             'module-emoji-picker',
             fadeout ? 'fadeout' : null
-          )} 
-          ref={ref} 
-          style={style}>
+          )}
+          ref={ref}
+          style={style}
+        >
           <header className="module-emoji-picker__header">
             <button
               type="button"

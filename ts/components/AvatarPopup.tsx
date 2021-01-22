@@ -44,12 +44,10 @@ export const AvatarPopup = (props: Props): JSX.Element => {
   useRestoreFocus(focusRef);
 
   return (
-    <div 
-      style={style} 
-      className={classNames(
-        'module-avatar-popup',
-        fadeout ?  'fadeout' : null
-      )}>
+    <div
+      style={style}
+      className={classNames('module-avatar-popup', fadeout ? 'fadeout' : null)}
+    >
       <div className="module-avatar-popup__profile">
         <Avatar {...props} size={52} />
         <div className="module-avatar-popup__profile__text">

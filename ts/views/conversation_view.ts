@@ -3060,7 +3060,6 @@ Whisper.ConversationView = Whisper.View.extend({
         this.quoteView.remove();
         this.quoteView = null;
       } else {
-        console.log(this.quoteView);
         this.quoteView.$el.find('.module-quote').addClass('foldclose');
         setTimeout(() => {
           this.quoteView.remove();

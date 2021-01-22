@@ -149,13 +149,14 @@ export const StickerPicker = React.memo(
       const showLongText = showPickerHint;
 
       return (
-        <div 
+        <div
           className={classNames(
             'module-sticker-picker',
             fadeout ? 'fadeout' : null
           )}
-          ref={ref} 
-          style={style}>
+          ref={ref}
+          style={style}
+        >
           <div className="module-sticker-picker__header">
             <div className="module-sticker-picker__header__packs">
               <div

@@ -34,7 +34,7 @@ export type Props = OwnProps;
 enum OpenState {
   HIDDEN = 0,
   VISIBLE,
-  FADEOUT
+  FADEOUT,
 }
 
 export const StickerButton = React.memo(
@@ -55,7 +55,9 @@ export const StickerButton = React.memo(
     clearShowPickerHint,
     position = 'top-end',
   }: Props) => {
-    const [openState, setOpenState] = React.useState<OpenState>(OpenState.HIDDEN);
+    const [openState, setOpenState] = React.useState<OpenState>(
+      OpenState.HIDDEN
+    );
     const [popperRoot, setPopperRoot] = React.useState<HTMLElement | null>(
       null
     );
@@ -215,7 +217,8 @@ export const StickerButton = React.memo(
               onClick={handleClickButton}
               className={classNames({
                 'module-sticker-button__button': true,
-                'module-sticker-button__button--active': openState !== OpenState.HIDDEN,
+                'module-sticker-button__button--active':
+                  openState !== OpenState.HIDDEN,
               })}
               aria-label={i18n('stickers--StickerPicker--Open')}
             />

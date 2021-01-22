@@ -63,7 +63,7 @@ export interface PropsType {
 enum AvatarPopupState {
   HIDDEN = 0,
   VISIBLE = 1,
-  FADEOUT = 2
+  FADEOUT = 2,
 }
 
 interface StateType {
@@ -154,7 +154,6 @@ export class MainHeader extends React.Component<PropsType, StateType> {
         document.body.removeChild(popperRoot);
       }
     }, 200);
-
   };
 
   public componentWillUnmount(): void {
