@@ -185,8 +185,8 @@ interactive session with `NODE_ENV=test yarn run start`.
 If you want to run the `libtextsecure` tests, you can run `yarn run test-electron`,
 which also runs the unit tests.
 
-To run Node.js tests, you can run `yarn test-server` from the command line. You can get
-code coverage numbers for this kind of run via `yarn test-server-coverage`, then display
+To run Node.js tests, you can run `yarn run test-node` from the command line. You can get
+code coverage numbers for this kind of run via `yarn run test-node-coverage`, then display
 the report with `yarn open-coverage`.
 
 ## Pull requests
