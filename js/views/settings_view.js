@@ -227,7 +227,9 @@
         nameAndMessage: i18n('nameAndMessage'),
         noNameOrMessage: i18n('noNameOrMessage'),
         nameOnly: i18n('nameOnly'),
-        autoSubstituteAsciiEmojisDescription: i18n('autoSubstituteAsciiEmojisDescription'),
+        autoSubstituteAsciiEmojisDescription: i18n(
+          'autoSubstituteAsciiEmojisDescription'
+        ),
         notificationDrawAttention: i18n('notificationDrawAttention'),
         audioNotificationDescription: i18n('audioNotificationDescription'),
         isAudioNotificationSupported: Settings.isAudioNotificationSupported(),
@@ -267,7 +269,7 @@
         spellCheckDisplay: spellCheckDirty ? 'inherit' : 'none',
         spellCheckDirtyText: appStartSpellCheck
           ? i18n('spellCheckWillBeDisabled')
-        : i18n('spellCheckWillBeEnabled'),
+          : i18n('spellCheckWillBeEnabled'),
       };
     },
     onClose() {

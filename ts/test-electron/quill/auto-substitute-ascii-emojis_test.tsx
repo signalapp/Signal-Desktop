@@ -5,10 +5,8 @@ import { assert } from 'chai';
 import Delta from 'quill-delta';
 import sinon from 'sinon';
 
-
 import { convertShortName, EmojiData } from '../../components/emoji/lib';
 import { AutoSubstituteAsciiEmojis } from '../../quill/auto-substitute-ascii-emojis';
-
 
 describe('autoSubstituteAsciiEmojis', () => {
   let emojiSubstitution: AutoSubstituteAsciiEmojis;
@@ -32,18 +30,18 @@ describe('autoSubstituteAsciiEmojis', () => {
     };
 
     window.Events = {
-      getAutoSubstituteAsciiEmojis: () => true
-    }
+      getAutoSubstituteAsciiEmojis: () => true,
+    };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    emojiSubstitution = new AutoSubstituteAsciiEmojis(mockQuill as any, options);
+    emojiSubstitution = new AutoSubstituteAsciiEmojis(
+      mockQuill as any,
+      options
+    );
   });
 
   describe('onTextChange', () => {
-    let insertEmojiStub: sinon.SinonStub<
-      [EmojiData, number, number],
-      void
-    >;
+    let insertEmojiStub: sinon.SinonStub<[EmojiData, number, number], void>;
 
     beforeEach(function beforeEach() {
       insertEmojiStub = sinon
@@ -55,7 +53,7 @@ describe('autoSubstituteAsciiEmojis', () => {
       insertEmojiStub.restore();
     });
 
-    describe('given an ascii-emoji is not starting (no colon or semicolon)', () => {
+    describe('given there is no valid ascii emoji', () => {
       beforeEach(function beforeEach() {
         mockQuill.getSelection.returns({
           index: 2,
@@ -110,7 +108,7 @@ describe('autoSubstituteAsciiEmojis', () => {
         emojiSubstitution.onTextChange();
       });
 
-      it('does not show results', () => {
+      it('does not substitute', () => {
         assert.equal(insertEmojiStub.notCalled, true);
       });
     });
@@ -130,7 +128,7 @@ describe('autoSubstituteAsciiEmojis', () => {
         emojiSubstitution.onTextChange();
       });
 
-      it('does not show results', () => {
+      it('does not substitute', () => {
         assert.equal(insertEmojiStub.notCalled, true);
       });
     });
@@ -152,8 +150,11 @@ describe('autoSubstituteAsciiEmojis', () => {
 
       it('replaces the ascii-text with the emoji', () => {
         assert.equal(insertEmojiStub.called, true);
-        const emoji = convertShortName('slightly_smiling_face', options.skinTone);
-        const delta = new Delta().delete(3).insert({emoji});
+        const emoji = convertShortName(
+          'slightly_smiling_face',
+          options.skinTone
+        );
+        const delta = new Delta().delete(3).insert({ emoji });
         sinon.assert.calledOnceWithMatch(mockQuill.updateContents, delta);
       });
     });
@@ -175,19 +176,19 @@ describe('autoSubstituteAsciiEmojis', () => {
 
       it('replaces the ascii-text with the emoji', () => {
         assert.equal(insertEmojiStub.called, true);
-        const emoji = convertShortName('slightly_smiling_face', options.skinTone);
-        const delta = new Delta().delete(2).insert({emoji});
+        const emoji = convertShortName(
+          'slightly_smiling_face',
+          options.skinTone
+        );
+        const delta = new Delta().delete(2).insert({ emoji });
         sinon.assert.calledOnceWithMatch(mockQuill.updateContents, delta);
       });
     });
 
-
     describe('given it matches a ascii emoji inside a larger string', () => {
-      const text = 'have a :-) nice day';
-
       beforeEach(function beforeEach() {
         const blot = {
-          text: ':-)'
+          text: ':-)',
         };
         mockQuill.getSelection.returns({
           index: 10,
@@ -200,8 +201,11 @@ describe('autoSubstituteAsciiEmojis', () => {
 
       it('inserts the emoji at the current cursor position', () => {
         assert.equal(insertEmojiStub.called, true);
-        const emoji = convertShortName('slightly_smiling_face', options.skinTone);
-        const delta = new Delta().retain(7).delete(3).insert({emoji});
+        const emoji = convertShortName(
+          'slightly_smiling_face',
+          options.skinTone
+        );
+        const delta = new Delta().retain(7).delete(3).insert({ emoji });
         sinon.assert.calledOnceWithMatch(mockQuill.updateContents, delta);
       });
 

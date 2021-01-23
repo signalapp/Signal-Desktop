@@ -19,14 +19,26 @@ const emojiMap: Record<string, string> = {
   ':-)': 'slightly_smiling_face',
   ':(': 'slightly_frowning_face',
   ':-(': 'slightly_frowning_face',
-  ':D': 'grinning',
-  ':-D': 'grinning',
+  ':D': 'smiley',
+  ':-D': 'smiley',
   ':*': 'kissing',
   ':-*': 'kissing',
   ':P': 'stuck_out_tongue',
   ':-P': 'stuck_out_tongue',
   ';P': 'stuck_out_tongue_winking_eye',
   ';-P': 'stuck_out_tongue_winking_eye',
+  'D:': 'anguished',
+  "D-':": 'anguished',
+  ':O': 'open_mouth',
+  ':-O': 'open_mouth',
+  ":'(": 'cry',
+  ":'-(": 'cry',
+  ':/': 'confused',
+  ':-/': 'confused',
+  ';)': 'wink',
+  ';-)': 'wink',
+  '(Y)': '+1',
+  '(N)': '-1',
 };
 
 export class AutoSubstituteAsciiEmojis {
@@ -79,7 +91,7 @@ export class AutoSubstituteAsciiEmojis {
 
   insertEmoji(emojiData: EmojiData, index: number, range: number): void {
     const emoji = convertShortName(emojiData.short_name, this.options.skinTone);
-    const delta = new Delta().retain(index).delete(range).insert({emoji});
+    const delta = new Delta().retain(index).delete(range).insert({ emoji });
     this.quill.updateContents(delta, 'user');
     this.quill.setSelection(index + 1, 0);
   }
