@@ -9,11 +9,8 @@ import {
   convertShortNameToData,
   EmojiData,
 } from '../../components/emoji/lib';
-import { EmojiPickDataType } from '../../components/emoji/EmojiPicker';
 
 interface AutoSubstituteAsciiEmojisOptions {
-  onPickEmoji: (emoji: EmojiPickDataType) => void;
-  setEmojiPickerElement: (element: JSX.Element | null) => void;
   skinTone: number;
 }
 
