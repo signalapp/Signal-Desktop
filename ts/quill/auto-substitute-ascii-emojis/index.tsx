@@ -19,10 +19,17 @@ interface AutoSubstituteAsciiEmojisOptions {
 
 const emojiMap: Record<string, string> = {
   ':)': 'slightly_smiling_face',
+  ':-)': 'slightly_smiling_face',
   ':(': 'slightly_frowning_face',
+  ':-(': 'slightly_frowning_face',
   ':D': 'grinning',
-  ':-*': 'kissing',
+  ':-D': 'grinning',
   ':*': 'kissing',
+  ':-*': 'kissing',
+  ':P': 'stuck_out_tongue',
+  ':-P': 'stuck_out_tongue',
+  ';P': 'stuck_out_tongue_winking_eye',
+  ';-P': 'stuck_out_tongue_winking_eye',
 };
 
 export class AutoSubstituteAsciiEmojis {
