@@ -90,7 +90,7 @@ export type PropsType = {
 enum Visibility {
   HIDDEN = 0,
   VISIBLE = 1,
-  FADEOUT = 2
+  FADEOUT = 2,
 }
 
 export const Tooltip: React.FC<PropsType> = ({
@@ -100,7 +100,9 @@ export const Tooltip: React.FC<PropsType> = ({
   sticky,
   theme,
 }) => {
-  const [visibility, setVisibility] = React.useState<Visibility>(Visibility.HIDDEN);
+  const [visibility, setVisibility] = React.useState<Visibility>(
+    Visibility.HIDDEN
+  );
 
   const showTooltip = Boolean(sticky) ? Visibility.VISIBLE : visibility;
 
@@ -114,27 +116,30 @@ export const Tooltip: React.FC<PropsType> = ({
     }
   }, [visibility, setVisibility]);
 
-  const changeVisibility = React.useCallback((hovering) => {
-    switch (visibility) {
-      case Visibility.HIDDEN: {
-        if (hovering) {
+  const changeVisibility = React.useCallback(
+    hovering => {
+      switch (visibility) {
+        case Visibility.HIDDEN: {
+          if (hovering) {
+            setVisibility(Visibility.VISIBLE);
+          }
+          break;
+        }
+        case Visibility.VISIBLE: {
+          if (!hovering) {
+            setVisibility(Visibility.FADEOUT);
+            setTimeout(hideIfFading, 200);
+          }
+          break;
+        }
+        case Visibility.FADEOUT: {
           setVisibility(Visibility.VISIBLE);
+          break;
         }
-        break;
       }
-      case Visibility.VISIBLE: {
-        if (!hovering) {
-          setVisibility(Visibility.FADEOUT);
-          setTimeout(hideIfFading, 200);
-        }
-        break;
-      }
-      case Visibility.FADEOUT: {
-        setVisibility(Visibility.VISIBLE);
-        break;
-      }
-    }
-  }, [visibility, setVisibility]);
+    },
+    [visibility, setVisibility]
+  );
 
   return (
     <Manager>
@@ -149,7 +154,11 @@ export const Tooltip: React.FC<PropsType> = ({
         {({ arrowProps, placement, ref, style }) =>
           showTooltip !== Visibility.HIDDEN && (
             <div
-              className={classNames('module-tooltip', tooltipThemeClassName, showTooltip === Visibility.FADEOUT ? 'fadeout' : null)}
+              className={classNames(
+                'module-tooltip',
+                tooltipThemeClassName,
+                showTooltip === Visibility.FADEOUT ? 'fadeout' : null
+              )}
               ref={ref}
               style={style}
               data-placement={placement}
