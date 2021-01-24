@@ -122,10 +122,12 @@
 }
 
 .module-message__buttons--incoming {
-  left: calc(100% + 8px);
+  left: 100%;
+  padding-left: 8px;
 }
 .module-message__buttons--outgoing {
-  right: calc(100% + 8px);
+  right: 100%;
+  padding-right: 8px;
   flex-direction: row-reverse;
 }
 
