@@ -87,6 +87,12 @@ export type PropsType = {
   theme?: Theme;
 };
 
+enum Visibility {
+  HIDDEN = 0,
+  VISIBLE = 1,
+  FADEOUT = 2
+}
+
 export const Tooltip: React.FC<PropsType> = ({
   children,
   content,
@@ -94,28 +100,56 @@ export const Tooltip: React.FC<PropsType> = ({
   sticky,
   theme,
 }) => {
-  const [isHovering, setIsHovering] = React.useState(false);
+  const [visibility, setVisibility] = React.useState<Visibility>(Visibility.HIDDEN);
 
-  const showTooltip = isHovering || Boolean(sticky);
+  const showTooltip = Boolean(sticky) ? Visibility.VISIBLE : visibility;
 
   const tooltipThemeClassName = theme
     ? `module-tooltip--${themeClassName(theme)}`
     : undefined;
 
+  const hideIfFading = React.useCallback(() => {
+    if (visibility === Visibility.FADEOUT) {
+      setVisibility(Visibility.HIDDEN);
+    }
+  }, [visibility, setVisibility]);
+
+  const changeVisibility = React.useCallback((hovering) => {
+    switch (visibility) {
+      case Visibility.HIDDEN: {
+        if (hovering) {
+          setVisibility(Visibility.VISIBLE);
+        }
+        break;
+      }
+      case Visibility.VISIBLE: {
+        if (!hovering) {
+          setVisibility(Visibility.FADEOUT);
+          setTimeout(hideIfFading, 200);
+        }
+        break;
+      }
+      case Visibility.FADEOUT: {
+        setVisibility(Visibility.VISIBLE);
+        break;
+      }
+    }
+  }, [visibility, setVisibility]);
+
   return (
     <Manager>
       <Reference>
         {({ ref }) => (
-          <TooltipEventWrapper ref={ref} onHoverChanged={setIsHovering}>
+          <TooltipEventWrapper ref={ref} onHoverChanged={changeVisibility}>
             {children}
           </TooltipEventWrapper>
         )}
       </Reference>
       <Popper placement={direction}>
         {({ arrowProps, placement, ref, style }) =>
-          showTooltip && (
+          showTooltip !== Visibility.HIDDEN && (
             <div
-              className={classNames('module-tooltip', tooltipThemeClassName)}
+              className={classNames('module-tooltip', tooltipThemeClassName, showTooltip === Visibility.FADEOUT ? 'fadeout' : null)}
               ref={ref}
               style={style}
               data-placement={placement}
