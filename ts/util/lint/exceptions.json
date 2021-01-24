@@ -317,7 +317,7 @@
     "rule": "jQuery-appendTo(",
     "path": "js/settings_start.js",
     "line": "    window.view.$el.appendTo($body);",
-    "lineNumber": 59,
+    "lineNumber": 60,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -1030,8 +1030,17 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
+    "line": "        el: this.$('.auto-substitute-ascii-emojis'),",
+    "lineNumber": 156,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-01-24T09:56:29.636Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
     "line": "          el: this.$('.menu-bar-setting'),",
-    "lineNumber": 157,
+    "lineNumber": 165,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1040,7 +1049,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        el: this.$('.always-relay-calls-setting'),",
-    "lineNumber": 164,
+    "lineNumber": 172,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1049,7 +1058,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        el: this.$('.call-ringtone-notification-setting'),",
-    "lineNumber": 170,
+    "lineNumber": 178,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1058,7 +1067,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        el: this.$('.call-system-notification-setting'),",
-    "lineNumber": 176,
+    "lineNumber": 184,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1067,7 +1076,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        el: this.$('.incoming-call-notification-setting'),",
-    "lineNumber": 182,
+    "lineNumber": 190,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1076,7 +1085,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        el: this.$('.media-permissions'),",
-    "lineNumber": 188,
+    "lineNumber": 196,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1085,7 +1094,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        el: this.$('.media-camera-permissions'),",
-    "lineNumber": 193,
+    "lineNumber": 201,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1094,7 +1103,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        this.$('.sync-setting').append(syncView.el);",
-    "lineNumber": 199,
+    "lineNumber": 207,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1103,7 +1112,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/settings_view.js",
     "line": "        this.$('.sync-setting').append(syncView.el);",
-    "lineNumber": 199,
+    "lineNumber": 207,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -1112,7 +1121,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync').text(i18n('syncNow'));",
-    "lineNumber": 283,
+    "lineNumber": 294,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1121,7 +1130,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync').removeAttr('disabled');",
-    "lineNumber": 284,
+    "lineNumber": 295,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-11T17:24:56.124Z",
     "reasonDetail": "Static selector argument"
@@ -1130,7 +1139,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync').attr('disabled', 'disabled');",
-    "lineNumber": 287,
+    "lineNumber": 298,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1139,7 +1148,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync').text(i18n('syncing'));",
-    "lineNumber": 288,
+    "lineNumber": 299,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-11T17:24:56.124Z",
     "reasonDetail": "Static selector argument"
@@ -1148,7 +1157,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.synced_at').hide();",
-    "lineNumber": 299,
+    "lineNumber": 310,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1157,7 +1166,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync_failed').show();",
-    "lineNumber": 300,
+    "lineNumber": 311,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-11T17:24:56.124Z",
     "reasonDetail": "Static selector argument"
@@ -1166,7 +1175,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync_failed').hide();",
-    "lineNumber": 304,
+    "lineNumber": 315,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -14490,24 +14499,6 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
     "line": "    const emojiCompletionRef = React.useRef();",
-    "lineNumber": 43,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-10-26T19:12:24.410Z",
-    "reasonDetail": "Doesn't refer to a DOM element."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CompositionInput.js",
-    "line": "    const mentionCompletionRef = React.useRef();",
-    "lineNumber": 44,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-10-26T23:54:34.273Z",
-    "reasonDetail": "Doesn't refer to a DOM element."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CompositionInput.js",
-    "line": "    const quillRef = React.useRef();",
     "lineNumber": 45,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
@@ -14516,16 +14507,16 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
-    "line": "    const scrollerRef = React.useRef(null);",
+    "line": "    const mentionCompletionRef = React.useRef();",
     "lineNumber": 46,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-26T19:12:24.410Z",
-    "reasonDetail": "Used with Quill for scrolling."
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-26T23:54:34.273Z",
+    "reasonDetail": "Doesn't refer to a DOM element."
   },
   {
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
-    "line": "    const propsRef = React.useRef(props);",
+    "line": "    const quillRef = React.useRef();",
     "lineNumber": 47,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
@@ -14534,8 +14525,26 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
-    "line": "    const memberRepositoryRef = React.useRef(new memberRepository_1.MemberRepository());",
+    "line": "    const scrollerRef = React.useRef(null);",
     "lineNumber": 48,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Used with Quill for scrolling."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionInput.js",
+    "line": "    const propsRef = React.useRef(props);",
+    "lineNumber": 49,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-10-26T19:12:24.410Z",
+    "reasonDetail": "Doesn't refer to a DOM element."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionInput.js",
+    "line": "    const memberRepositoryRef = React.useRef(new memberRepository_1.MemberRepository());",
+    "lineNumber": 50,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T23:56:13.482Z",
     "reasonDetail": "Doesn't refer to a DOM element."
