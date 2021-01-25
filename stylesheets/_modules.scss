@@ -10436,6 +10436,8 @@ $contact-modal-padding: 18px;
     @include tooltip-dark-theme-variables;
   }
 
+  @include popper-shadow();
+
   background-color: var(--tooltip-background-color);
   border-radius: 8px;
   color: var(--tooltip-text-color);
