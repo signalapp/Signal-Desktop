@@ -5,19 +5,15 @@ import { getEnvelopeId } from './common';
 import { removeFromCache, updateCache } from './cache';
 import { SignalService } from '../protobuf';
 import * as Lodash from 'lodash';
-import { handlePairingAuthorisationMessage } from './multidevice';
-import { MultiDeviceProtocol } from '../session/protocols';
 import { PubKey } from '../session/types';
 
-import { handleSyncMessage } from './syncMessages';
 import { BlockedNumberController } from '../util/blockedNumberController';
-import { GroupUtils } from '../session/utils';
-import { UserUtil } from '../util';
+import { GroupUtils, UserUtils } from '../session/utils';
 import { fromHexToArray, toHex } from '../session/utils/String';
 import { concatUInt8Array, getSodium } from '../session/crypto';
 import { ConversationController } from '../session/conversations';
 import * as Data from '../../js/modules/data';
-import { ECKeyPair } from './closedGroupsV2';
+import { ECKeyPair } from './keypairs';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   try {
@@ -94,7 +90,7 @@ async function decryptForClosedGroupV2(
       );
     }
     window.log.info('ClosedGroupV2 Message decrypted successfully.');
-    const ourDevicePubKey = await UserUtil.getCurrentDevicePubKey();
+    const ourDevicePubKey = await UserUtils.getCurrentDevicePubKey();
 
     if (
       envelope.senderIdentity &&
@@ -224,7 +220,7 @@ async function decryptUnidentifiedSender(
 ): Promise<ArrayBuffer | null> {
   window.log.info('received unidentified sender message');
   try {
-    const userX25519KeyPair = await UserUtil.getIdentityKeyPair();
+    const userX25519KeyPair = await UserUtils.getIdentityKeyPair();
     if (!userX25519KeyPair) {
       throw new Error('Failed to find User x25519 keypair from stage'); // noUserX25519KeyPair
     }
@@ -262,21 +258,6 @@ async function doDecrypt(
       return decryptForClosedGroupV2(envelope, ciphertext);
     case SignalService.Envelope.Type.UNIDENTIFIED_SENDER: {
       return decryptUnidentifiedSender(envelope, ciphertext);
-    }
-    case SignalService.Envelope.Type.PREKEY_BUNDLE: {
-      window.log.info('prekey message from', getEnvelopeId(envelope));
-      throw new Error('Envelope.Type.PREKEY_BUNDLE cannot happen anymore');
-    }
-    case SignalService.Envelope.Type.CIPHERTEXT: {
-      window.log.info('CIPHERTEXT envelope from', getEnvelopeId(envelope));
-      throw new Error('Envelope.Type.CIPHERTEXT cannot happen anymore');
-    }
-    case SignalService.Envelope.Type.FALLBACK_MESSAGE: {
-      window.log.info(
-        'FALLBACK_MESSAGE envelope from',
-        getEnvelopeId(envelope)
-      );
-      throw new Error('Envelope.Type.FALLBACK_MESSAGE cannot happen anymore');
     }
     default:
       throw new Error(`Unknown message type:${envelope.type}`);
@@ -380,20 +361,6 @@ export async function innerHandleContentMessage(
       'private'
     );
 
-    if (content.pairingAuthorisation) {
-      await handlePairingAuthorisationMessage(
-        envelope,
-        content.pairingAuthorisation,
-        content.dataMessage
-      );
-      return;
-    }
-
-    if (content.syncMessage) {
-      await handleSyncMessage(envelope, content.syncMessage);
-      return;
-    }
-
     if (content.dataMessage) {
       if (
         content.dataMessage.profileKey &&
@@ -404,25 +371,12 @@ export async function innerHandleContentMessage(
       await handleDataMessage(envelope, content.dataMessage);
       return;
     }
-    if (content.nullMessage) {
-      await handleNullMessage(envelope);
-      return;
-    }
-    if (content.callMessage) {
-      await handleCallMessage(envelope);
-      return;
-    }
+
     if (content.receiptMessage) {
       await handleReceiptMessage(envelope, content.receiptMessage);
       return;
     }
     if (content.typingMessage) {
-      if (
-        content.typingMessage.groupId &&
-        content.typingMessage.groupId.length === 0
-      ) {
-        content.typingMessage.groupId = null;
-      }
       await handleTypingMessage(envelope, content.typingMessage);
       return;
     }
@@ -493,16 +447,6 @@ async function handleReceiptMessage(
   await removeFromCache(envelope);
 }
 
-async function handleNullMessage(envelope: EnvelopePlus) {
-  window.log.info('null message from', getEnvelopeId(envelope));
-  await removeFromCache(envelope);
-}
-
-async function handleCallMessage(envelope: EnvelopePlus) {
-  window.log.info('call message from', getEnvelopeId(envelope));
-  await removeFromCache(envelope);
-}
-
 async function handleTypingMessage(
   envelope: EnvelopePlus,
   iTypingMessage: SignalService.ITypingMessage
@@ -533,17 +477,8 @@ async function handleTypingMessage(
     return;
   }
 
-  // A sender here could be referring to a group.
-  // Groups don't have primary devices so we need to take that into consideration.
-  // Note: we do not support group typing message for now.
-  const user = PubKey.from(source);
-  const primaryDevice = user
-    ? await MultiDeviceProtocol.getPrimaryDevice(user)
-    : null;
-
-  const convoId = (primaryDevice && primaryDevice.key) || source;
-
-  const conversation = ConversationController.getInstance().get(convoId);
+  // typing message are only working with direct chats/ not groups
+  const conversation = ConversationController.getInstance().get(source);
 
   const started = action === SignalService.TypingMessage.Action.STARTED;
 

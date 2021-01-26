@@ -2,16 +2,12 @@
   window,
   textsecure,
   libsignal,
-  libloki,
-  libsession,
-  lokiFileServerAPI,
   mnemonic,
   btoa,
   getString,
   Event,
   dcodeIO,
   StringView,
-  log,
   Event,
   Whisper
 */
@@ -119,7 +115,6 @@
       );
 
       await textsecure.storage.put('identityKey', identityKeyPair);
-      await textsecure.storage.put('signaling_key', signalingKey);
       await textsecure.storage.put('password', password);
       if (userAgent) {
         await textsecure.storage.put('userAgent', userAgent);
@@ -143,12 +138,10 @@
       await Promise.all([store.clearSessionStore()]);
       // During secondary device registration we need to keep our prekeys sent
       // to other pubkeys
-      if (textsecure.storage.get('secondaryDeviceStatus') !== 'ongoing') {
-        await Promise.all([
-          store.clearPreKeyStore(),
-          store.clearSignedPreKeysStore(),
-        ]);
-      }
+      await Promise.all([
+        store.clearPreKeyStore(),
+        store.clearSignedPreKeysStore(),
+      ]);
     },
     async generateMnemonic(language = 'english') {
       // Note: 4 bytes are converted into 3 seed words, so length 12 seed words
@@ -167,10 +160,8 @@
     async registrationDone(number, displayName) {
       window.log.info('registration done');
 
-      if (!textsecure.storage.get('secondaryDeviceStatus')) {
-        // We have registered as a primary device
-        textsecure.storage.put('primaryDevicePubKey', number);
-      }
+      textsecure.storage.put('primaryDevicePubKey', number);
+
       // Ensure that we always have a conversation for ourself
       const conversation = await window
         .getConversationController()
@@ -178,132 +169,6 @@
       await conversation.setLokiProfile({ displayName });
 
       this.dispatchEvent(new Event('registration'));
-    },
-    async requestPairing(primaryDevicePubKey) {
-      // throws if invalid
-      this.validatePubKeyHex(primaryDevicePubKey);
-      // we need a conversation for sending a message
-      await window
-        .getConversationController()
-        .getOrCreateAndWait(primaryDevicePubKey, 'private');
-      const ourPubKey = textsecure.storage.user.getNumber();
-      if (primaryDevicePubKey === ourPubKey) {
-        throw new Error('Cannot request to pair with ourselves');
-      }
-      const requestSignature = await libloki.crypto.generateSignatureForPairing(
-        primaryDevicePubKey,
-        libloki.crypto.PairingType.REQUEST
-      );
-
-      const primaryDevice = new libsession.Types.PubKey(primaryDevicePubKey);
-
-      const requestPairingMessage = new window.libsession.Messages.Outgoing.DeviceLinkRequestMessage(
-        {
-          timestamp: Date.now(),
-          primaryDevicePubKey,
-          secondaryDevicePubKey: ourPubKey,
-          requestSignature: new Uint8Array(requestSignature),
-        }
-      );
-      await window.libsession
-        .getMessageQueue()
-        .send(primaryDevice, requestPairingMessage);
-    },
-    async authoriseSecondaryDevice(secondaryDeviceStr) {
-      const ourPubKey = textsecure.storage.user.getNumber();
-      if (secondaryDeviceStr === ourPubKey) {
-        throw new Error(
-          'Cannot register primary device pubkey as secondary device'
-        );
-      }
-      const secondaryDevicePubKey = libsession.Types.PubKey.from(
-        secondaryDeviceStr
-      );
-
-      if (!secondaryDevicePubKey) {
-        window.log.error(
-          'Invalid secondary pubkey on authoriseSecondaryDevice'
-        );
-
-        return;
-      }
-      const grantSignature = await libloki.crypto.generateSignatureForPairing(
-        secondaryDeviceStr,
-        libloki.crypto.PairingType.GRANT
-      );
-      const authorisations = await libsession.Protocols.MultiDeviceProtocol.getPairingAuthorisations(
-        secondaryDeviceStr
-      );
-      const existingAuthorisation = authorisations.find(
-        pairing => pairing.secondaryDevicePubKey === secondaryDeviceStr
-      );
-      if (!existingAuthorisation) {
-        throw new Error(
-          'authoriseSecondaryDevice: request signature missing from database!'
-        );
-      }
-      const { requestSignature } = existingAuthorisation;
-      const authorisation = {
-        primaryDevicePubKey: ourPubKey,
-        secondaryDevicePubKey: secondaryDeviceStr,
-        requestSignature,
-        grantSignature,
-      };
-
-      // Update authorisation in database with the new grant signature
-      await libsession.Protocols.MultiDeviceProtocol.savePairingAuthorisation(
-        authorisation
-      );
-      const ourConversation = await window
-        .getConversationController()
-        .getOrCreateAndWait(ourPubKey, 'private');
-
-      // We need to send the our profile to the secondary device
-      const lokiProfile = ourConversation.getOurProfile();
-
-      // Try to upload to the file server and then send a message
-      try {
-        await lokiFileServerAPI.updateOurDeviceMapping();
-        const requestPairingMessage = new libsession.Messages.Outgoing.DeviceLinkGrantMessage(
-          {
-            timestamp: Date.now(),
-            primaryDevicePubKey: ourPubKey,
-            secondaryDevicePubKey: secondaryDeviceStr,
-            requestSignature: new Uint8Array(requestSignature),
-            grantSignature: new Uint8Array(grantSignature),
-            lokiProfile,
-          }
-        );
-        await libsession
-          .getMessageQueue()
-          .send(secondaryDevicePubKey, requestPairingMessage);
-      } catch (e) {
-        log.error(
-          'Failed to authorise secondary device: ',
-          e && e.stack ? e.stack : e
-        );
-        // File server upload failed or message sending failed, we should rollback changes
-        await libsession.Protocols.MultiDeviceProtocol.removePairingAuthorisations(
-          secondaryDeviceStr
-        );
-        await lokiFileServerAPI.updateOurDeviceMapping();
-        throw e;
-      }
-
-      // Send sync messages
-      // bad hack to send sync messages when secondary device is ready to process them
-      setTimeout(async () => {
-        const conversations = window
-          .getConversationController()
-          .getConversations();
-        await libsession.Utils.SyncMessageUtils.sendGroupSyncMessage(
-          conversations
-        );
-        await libsession.Utils.SyncMessageUtils.sendOpenGroupsSyncMessage(
-          conversations
-        );
-        await libsession.Utils.SyncMessageUtils.sendContactSyncMessage();
-      }, 5000);
     },
     validatePubKeyHex(pubKey) {
       const c = new Whisper.Conversation({

@@ -4,7 +4,8 @@ import classNames from 'classnames';
 import { Avatar } from '../Avatar';
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 import { Constants } from '../../session';
-import { DefaultTheme, withTheme } from 'styled-components';
+import { DefaultTheme } from 'styled-components';
+import { PubKey } from '../../session/types';
 
 export interface ContactType {
   id: string;
@@ -41,9 +42,10 @@ class SessionMemberListItemInner extends React.Component<Props> {
   }
 
   public render() {
-    const { isSelected } = this.props;
+    const { isSelected, member } = this.props;
 
-    const name = this.props.member.authorProfileName;
+    const name =
+      member.authorProfileName || PubKey.shorten(member.authorPhoneNumber);
 
     return (
       <div

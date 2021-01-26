@@ -14,7 +14,6 @@ import {
   RemoveAllConversationsActionType,
   SelectedConversationChangedActionType,
 } from './conversations';
-import { MultiDeviceProtocol } from '../../session/protocols';
 
 // State
 
@@ -254,21 +253,11 @@ async function queryConversationsAndContacts(
   providedQuery: string,
   options: SearchOptions
 ) {
-  const { ourNumber, noteToSelf, isSecondaryDevice } = options;
+  const { ourNumber, noteToSelf } = options;
   const query = providedQuery.replace(/[+-.()]*/g, '');
 
   const searchResults: Array<ConversationType> = await searchConversations(
     query
-  );
-
-  const ourPrimaryDevice = await MultiDeviceProtocol.getPrimaryDevice(
-    ourNumber
-  );
-
-  const resultPrimaryDevices = await Promise.all(
-    searchResults.map(async conversation =>
-      MultiDeviceProtocol.getPrimaryDevice(conversation.id)
-    )
   );
 
   // Split into two groups - active conversations and items just from address book
@@ -277,13 +266,13 @@ async function queryConversationsAndContacts(
   const max = searchResults.length;
   for (let i = 0; i < max; i += 1) {
     const conversation = searchResults[i];
-    const primaryDevice = resultPrimaryDevices[i];
+    const primaryDevice = searchResults[i].id;
 
     if (primaryDevice) {
-      if (isSecondaryDevice && primaryDevice.isEqual(ourPrimaryDevice)) {
+      if (primaryDevice === ourNumber) {
         conversations.push(ourNumber);
       } else {
-        conversations.push(primaryDevice.key);
+        conversations.push(primaryDevice);
       }
     } else if (conversation.type === 'direct') {
       contacts.push(conversation.id);

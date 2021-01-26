@@ -7,22 +7,16 @@ import {
   SessionButtonColor,
   SessionButtonType,
 } from '../SessionButton';
-import { BlockedNumberController, UserUtil } from '../../../util';
-import { MultiDeviceProtocol } from '../../../session/protocols';
-import { PubKey } from '../../../session/types';
+import { BlockedNumberController } from '../../../util';
 import { ToastUtils } from '../../../session/utils';
-import {
-  ConversationLookupType,
-  ConversationType,
-} from '../../../state/ducks/conversations';
-import { mapDispatchToProps } from '../../../state/actions';
-import { connect } from 'react-redux';
+import { ConversationLookupType } from '../../../state/ducks/conversations';
 import { StateType } from '../../../state/reducer';
 import { ConversationController } from '../../../session/conversations';
 import {
   getConversationLookup,
   getConversations,
 } from '../../../state/selectors/conversations';
+import { connect } from 'react-redux';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -30,7 +24,6 @@ export enum SessionSettingCategory {
   Privacy = 'privacy',
   Permissions = 'permissions',
   Notifications = 'notifications',
-  Devices = 'devices',
   Blocked = 'blocked',
 }
 
@@ -43,7 +36,6 @@ export enum SessionSettingType {
 
 export interface SettingsViewProps {
   category: SessionSettingCategory;
-  isSecondaryDevice: boolean;
   // pass the conversation as props, so our render is called everytime they change.
   // we have to do this to make the list refresh on unblock()
   conversations?: ConversationLookupType;
@@ -54,7 +46,6 @@ interface State {
   pwdLockError: string | null;
   mediaSetting: boolean | null;
   shouldLockSettings: boolean | null;
-  linkedPubKeys: Array<any>;
 }
 
 interface LocalSettingType {
@@ -83,7 +74,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
       pwdLockError: null,
       mediaSetting: null,
       shouldLockSettings: true,
-      linkedPubKeys: new Array(),
     };
 
     this.settingsViewRef = React.createRef();
@@ -91,7 +81,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
     this.validatePasswordLock = this.validatePasswordLock.bind(this);
 
     this.hasPassword();
-    this.refreshLinkedDevice = this.refreshLinkedDevice.bind(this);
 
     this.onKeyUp = this.onKeyUp.bind(this);
     window.addEventListener('keyup', this.onKeyUp);
@@ -104,17 +93,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
 
   public componentDidMount() {
     setTimeout(() => ($('#password-lock-input') as any).focus(), 100);
-
-    window.Whisper.events.on('refreshLinkedDeviceList', async () => {
-      setTimeout(() => {
-        void this.refreshLinkedDevice();
-      }, 1000);
-    });
-    void this.refreshLinkedDevice();
-  }
-
-  public componentWillUnmount() {
-    window.Whisper.events.off('refreshLinkedDeviceList');
   }
 
   /* tslint:disable-next-line:max-func-body-length */
@@ -123,10 +101,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
 
     let settings: Array<LocalSettingType>;
 
-    if (category === SessionSettingCategory.Devices) {
-      // special case for linked devices
-      settings = this.getLinkedDeviceSettings();
-    } else if (category === SessionSettingCategory.Blocked) {
+    if (category === SessionSettingCategory.Blocked) {
       // special case for blocked user
       settings = this.getBlockedUserSettings();
     } else {
@@ -254,16 +229,14 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
   }
 
   public render() {
-    const { category, isSecondaryDevice } = this.props;
+    const { category } = this.props;
     const shouldRenderPasswordLock =
       this.state.shouldLockSettings && this.state.hasPassword;
 
     return (
       <div className="session-settings">
         <SettingsHeader
-          showLinkDeviceButton={!shouldRenderPasswordLock}
           category={category}
-          isSecondaryDevice={isSecondaryDevice}
           categoryTitle={window.i18n(`${category}SettingsTitle`)}
         />
 
@@ -656,84 +629,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
     }
 
     return results;
-  }
-
-  private getLinkedDeviceSettings(): Array<LocalSettingType> {
-    const { linkedPubKeys } = this.state;
-    const { isSecondaryDevice } = this.props;
-    const noPairedDeviceText = isSecondaryDevice
-      ? window.i18n('deviceIsSecondaryNoPairing')
-      : window.i18n('noPairedDevices');
-
-    if (linkedPubKeys && linkedPubKeys.length > 0) {
-      return linkedPubKeys.map((pubkey: any) => {
-        const { deviceAlias, secretWords } = this.getPubkeyName(pubkey);
-        const description = `${secretWords} ${window.shortenPubkey(pubkey)}`;
-
-        if (window.lokiFeatureFlags.multiDeviceUnpairing) {
-          return {
-            id: pubkey,
-            title: deviceAlias,
-            description: description,
-            type: SessionSettingType.Button,
-            category: SessionSettingCategory.Devices,
-            content: {
-              buttonColor: SessionButtonColor.Danger,
-              buttonText: window.i18n('unpairDevice'),
-            },
-            comparisonValue: undefined,
-            setFn: () => {
-              window.Whisper.events.trigger('showDevicePairingDialog', {
-                pubKeyToUnpair: pubkey,
-              });
-            },
-            hidden: undefined,
-            onClick: undefined,
-            confirmationDialogParams: undefined,
-          };
-        } else {
-          return {
-            id: pubkey,
-            title: deviceAlias,
-            description: description,
-            type: undefined,
-            category: SessionSettingCategory.Devices,
-            content: {},
-            comparisonValue: undefined,
-            setFn: undefined,
-            hidden: undefined,
-            onClick: undefined,
-            confirmationDialogParams: undefined,
-          };
-        }
-      });
-    } else {
-      return [
-        {
-          id: 'no-linked-device',
-          title: noPairedDeviceText,
-          type: undefined,
-          description: '',
-          category: SessionSettingCategory.Devices,
-          content: {},
-          comparisonValue: undefined,
-          onClick: undefined,
-          setFn: undefined,
-          hidden: undefined,
-          confirmationDialogParams: undefined,
-        },
-      ];
-    }
-  }
-
-  private async refreshLinkedDevice() {
-    const ourPubKey = await UserUtil.getCurrentDevicePubKey();
-    if (ourPubKey) {
-      const pubKey = new PubKey(ourPubKey);
-      const devices = await MultiDeviceProtocol.getSecondaryDevices(pubKey);
-
-      this.setState({ linkedPubKeys: devices.map(d => d.key) });
-    }
   }
 
   private async onKeyUp(event: any) {

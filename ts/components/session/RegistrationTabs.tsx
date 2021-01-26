@@ -18,7 +18,6 @@ import { ConversationController } from '../../session/conversations';
 enum SignInMode {
   Default,
   UsingRecoveryPhrase,
-  LinkingDevice,
 }
 
 enum SignUpMode {
@@ -99,9 +98,6 @@ export class RegistrationTabs extends React.Component<any, State> {
     this.onSecondDeviceSessionIDChanged = this.onSecondDeviceSessionIDChanged.bind(
       this
     );
-    this.onSecondaryDeviceRegistered = this.onSecondaryDeviceRegistered.bind(
-      this
-    );
     this.onCompleteSignUpClick = this.onCompleteSignUpClick.bind(this);
     this.handlePressEnter = this.handlePressEnter.bind(this);
     this.handleContinueYourSessionClick = this.handleContinueYourSessionClick.bind(
@@ -133,7 +129,6 @@ export class RegistrationTabs extends React.Component<any, State> {
 
   public componentDidMount() {
     this.generateMnemonicAndKeyPair().ignore();
-    window.textsecure.storage.remove('secondaryDeviceStatus');
     this.resetRegistration().ignore();
   }
 
@@ -193,9 +188,6 @@ export class RegistrationTabs extends React.Component<any, State> {
   }
 
   private readonly handleTabSelect = (tabType: TabType): void => {
-    if (tabType !== TabType.SignIn) {
-      this.cancelSecondaryDevice().ignore();
-    }
     this.setState({
       selectedTab: tabType,
       signInMode: SignInMode.Default,
@@ -418,53 +410,7 @@ export class RegistrationTabs extends React.Component<any, State> {
         </div>
       );
     }
-    if (signInMode === SignInMode.LinkingDevice) {
-      return (
-        <div className="registration-content-centered">
-          <div className="session-signin-device-pairing-header">
-            {!!this.state.secretWords ? (
-              <p>{window.i18n('devicePairingHeaderReassure')}</p>
-            ) : (
-              <ol>
-                <li>
-                  <SessionHtmlRenderer
-                    html={window.i18n('devicePairingHeader_Step1')}
-                  />
-                </li>
-                <li>
-                  <SessionHtmlRenderer
-                    html={window.i18n('devicePairingHeader_Step2')}
-                  />
-                </li>
-                <li>
-                  <SessionHtmlRenderer
-                    html={window.i18n('devicePairingHeader_Step3')}
-                  />
-                </li>
-                <li>
-                  <SessionHtmlRenderer
-                    html={window.i18n('devicePairingHeader_Step4')}
-                  />
-                </li>
-              </ol>
-            )}
-          </div>
-          {this.renderEnterSessionID(!this.state.secretWords)}
-          {this.state.secretWords && (
-            <div
-              className={classNames(
-                'session-registration__content__secret-words',
-                'session-info-box'
-              )}
-            >
-              <label>Secret words</label>
-              <div className="subtle">{this.state.secretWords}</div>
-            </div>
-          )}
-          <SessionSpinner loading={!!this.state.secretWords} />
-        </div>
-      );
-    }
+
     if (signUpMode === SignUpMode.EnterDetails) {
       return (
         <div className={classNames('session-registration__entry-fields')}>
@@ -570,44 +516,11 @@ export class RegistrationTabs extends React.Component<any, State> {
             SessionButtonType.BrandOutline,
             SessionButtonColor.Green
           )}
-          {window.lokiFeatureFlags.useMultiDevice && (
-            <>
-              <h4>{or}</h4>
-              {this.renderLinkDeviceToExistingAccountButton()}
-            </>
-          )}
         </div>
       );
     }
 
-    if (signInMode === SignInMode.LinkingDevice) {
-      return (
-        <div>
-          {this.renderContinueYourSessionButton()}
-          {!this.state.secretWords && (
-            <>
-              <h4>{or}</h4>
-              {this.renderRestoreUsingRecoveryPhraseButton(
-                SessionButtonType.BrandOutline,
-                SessionButtonColor.White
-              )}
-            </>
-          )}
-        </div>
-      );
-    }
-
-    return (
-      <div>
-        {this.renderContinueYourSessionButton()}
-        {window.lokiFeatureFlags.useMultiDevice && (
-          <>
-            <h4>{or}</h4>
-            {this.renderLinkDeviceToExistingAccountButton()}
-          </>
-        )}
-      </div>
-    );
+    return <></>;
   }
 
   private renderTermsConditionAgreement() {
@@ -621,66 +534,7 @@ export class RegistrationTabs extends React.Component<any, State> {
   private handleContinueYourSessionClick() {
     if (this.state.signInMode === SignInMode.UsingRecoveryPhrase) {
       this.register('english').ignore();
-    } else {
-      this.registerSecondaryDevice().ignore();
     }
-  }
-
-  private renderContinueYourSessionButton() {
-    const {
-      signUpMode,
-      signInMode,
-      passwordErrorString,
-      passwordFieldsMatch,
-      displayNameError,
-      mnemonicError,
-      primaryDevicePubKey,
-      displayName,
-      recoveryPhrase,
-      password,
-    } = this.state;
-
-    let enableContinue = true;
-    let text = window.i18n('continueYourSession');
-    const displayNameOK = !displayNameError && !!displayName; // Display name required
-    const mnemonicOK = !mnemonicError && !!recoveryPhrase; // Mnemonic required
-    const passwordsOK =
-      !password || (!passwordErrorString && passwordFieldsMatch); // password is valid if empty, or if no error and fields are matching
-    if (signInMode === SignInMode.UsingRecoveryPhrase) {
-      enableContinue = displayNameOK && mnemonicOK && passwordsOK;
-    } else if (signInMode === SignInMode.LinkingDevice) {
-      enableContinue = !!primaryDevicePubKey;
-      text = window.i18n('linkDevice');
-    } else if (signUpMode === SignUpMode.EnterDetails) {
-      enableContinue = displayNameOK && passwordsOK;
-    }
-
-    const shouldRenderCancel =
-      this.state.signInMode === SignInMode.LinkingDevice &&
-      !!this.state.secretWords;
-
-    text = shouldRenderCancel ? window.i18n('cancel') : text;
-    const buttonColor = shouldRenderCancel
-      ? SessionButtonColor.White
-      : SessionButtonColor.Green;
-    const buttonType = shouldRenderCancel
-      ? SessionButtonType.BrandOutline
-      : SessionButtonType.Brand;
-    const onClick = () => {
-      shouldRenderCancel
-        ? this.cancelSecondaryDevice()
-        : this.handleContinueYourSessionClick();
-    };
-
-    return (
-      <SessionButton
-        onClick={onClick}
-        buttonType={buttonType}
-        buttonColor={buttonColor}
-        text={text}
-        disabled={!enableContinue}
-      />
-    );
   }
 
   private renderRestoreUsingRecoveryPhraseButton(
@@ -690,7 +544,6 @@ export class RegistrationTabs extends React.Component<any, State> {
     return (
       <SessionButton
         onClick={() => {
-          this.cancelSecondaryDevice().ignore();
           this.setState({
             signInMode: SignInMode.UsingRecoveryPhrase,
             primaryDevicePubKey: '',
@@ -702,24 +555,6 @@ export class RegistrationTabs extends React.Component<any, State> {
         buttonType={buttonType}
         buttonColor={buttonColor}
         text={window.i18n('restoreUsingRecoveryPhrase')}
-      />
-    );
-  }
-
-  private renderLinkDeviceToExistingAccountButton() {
-    return (
-      <SessionButton
-        onClick={() => {
-          this.setState({
-            signInMode: SignInMode.LinkingDevice,
-            recoveryPhrase: '',
-            displayName: '',
-            signUpMode: SignUpMode.Default,
-          });
-        }}
-        buttonType={SessionButtonType.BrandOutline}
-        buttonColor={SessionButtonColor.White}
-        text={window.i18n('linkDeviceToExistingAccount')}
       />
     );
   }
@@ -850,9 +685,6 @@ export class RegistrationTabs extends React.Component<any, State> {
       return;
     }
 
-    // Ensure we clear the secondary device registration status
-    window.textsecure.storage.remove('secondaryDeviceStatus');
-
     const seedToUse =
       signInMode === SignInMode.UsingRecoveryPhrase
         ? recoveryPhrase
@@ -882,101 +714,5 @@ export class RegistrationTabs extends React.Component<any, State> {
       }
       window.log.warn('exception during registration:', exmsg);
     }
-  }
-
-  private async cancelSecondaryDevice() {
-    window.Whisper.events.off(
-      'secondaryDeviceRegistration',
-      this.onSecondaryDeviceRegistered
-    );
-
-    await this.resetRegistration();
-  }
-
-  private async registerSecondaryDevice() {
-    window.log.warn('starting registerSecondaryDevice');
-
-    // tslint:disable-next-line: no-backbone-get-set-outside-model
-    if (window.textsecure.storage.get('secondaryDeviceStatus') === 'ongoing') {
-      window.log.warn('registering secondary device already ongoing');
-      ToastUtils.pushToastError(
-        'pairingOngoing',
-        window.i18n('pairingOngoing')
-      );
-      return;
-    }
-    this.setState({
-      loading: true,
-    });
-    await this.resetRegistration();
-    window.textsecure.storage.put('secondaryDeviceStatus', 'ongoing');
-
-    const primaryPubKey = this.state.primaryDevicePubKey;
-
-    // Ensure only one listener
-    window.Whisper.events.off(
-      'secondaryDeviceRegistration',
-      this.onSecondaryDeviceRegistered
-    );
-    window.Whisper.events.once(
-      'secondaryDeviceRegistration',
-      this.onSecondaryDeviceRegistered
-    );
-
-    const onError = async (error: any) => {
-      window.log.error(error);
-      // clear the ... to make sure the user realize we're not doing anything
-      this.setState({
-        loading: false,
-      });
-      await this.resetRegistration();
-    };
-
-    const c = new window.Whisper.Conversation({
-      id: primaryPubKey,
-      type: 'private',
-    });
-
-    const validationError = c.validateNumber();
-    if (validationError) {
-      onError('Invalid public key').ignore();
-      ToastUtils.pushToastError(
-        'invalidNumberError',
-        window.i18n('invalidNumberError')
-      );
-      return;
-    }
-    try {
-      const fakeMnemonic = this.state.recoveryPhrase;
-
-      await this.accountManager.registerSingleDevice(
-        fakeMnemonic,
-        'english',
-        null
-      );
-
-      await this.accountManager.requestPairing(primaryPubKey);
-      const pubkey = window.textsecure.storage.user.getNumber();
-      const secretWords = window.mnemonic.pubkey_to_secret_words(pubkey);
-      this.setState({ secretWords });
-    } catch (e) {
-      window.log.info(e);
-      await this.resetRegistration();
-
-      this.setState({
-        loading: false,
-      });
-    }
-  }
-
-  private async onSecondaryDeviceRegistered() {
-    // Ensure the left menu is updated
-    this.setState({
-      loading: false,
-    });
-    trigger('userChanged', { isSecondaryDevice: true });
-    // will re-run the background initialisation
-    trigger('registration_done');
-    trigger('openInbox');
   }
 }

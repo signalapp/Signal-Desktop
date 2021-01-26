@@ -60,7 +60,6 @@ class SessionSeedModalInner extends React.Component<Props, State> {
         {!loading && (
           <SessionModal
             title={i18n('showRecoveryPhrase')}
-            onOk={() => null}
             onClose={onClose}
             theme={this.props.theme}
           >

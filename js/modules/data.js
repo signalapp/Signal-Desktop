@@ -1,4 +1,4 @@
-/* global window, setTimeout, clearTimeout, IDBKeyRange, dcodeIO */
+/* global window, setTimeout, clearTimeout, IDBKeyRange */
 const electron = require('electron');
 
 const { ipcRenderer } = electron;
@@ -86,10 +86,6 @@ module.exports = {
   bulkAddContactSignedPreKeys,
   removeContactSignedPreKeyByIdentityKey,
   removeAllContactSignedPreKeys,
-
-  createOrUpdatePairingAuthorisation,
-  getPairingAuthorisationsFor,
-  removePairingAuthorisationsFor,
 
   getGuardNodes,
   updateGuardNodes,
@@ -195,8 +191,6 @@ module.exports = {
   getMessagesWithVisualMediaAttachments,
   getMessagesWithFileAttachments,
 
-  getSenderKeys,
-  createOrUpdateSenderKeys,
   removeAllClosedGroupRatchets,
 
   getAllEncryptionKeyPairsForGroupV2,
@@ -604,41 +598,6 @@ async function removeAllContactSignedPreKeys() {
   await channels.removeAllContactSignedPreKeys();
 }
 
-function signatureToBase64(signature) {
-  if (typeof signature === 'string') {
-    return signature;
-  }
-
-  // Ensure signature is ByteBuffer, ArrayBuffer or Uint8Array otherwise throw error
-  return dcodeIO.ByteBuffer.wrap(signature).toString('base64');
-}
-
-async function createOrUpdatePairingAuthorisation(data) {
-  const { requestSignature, grantSignature } = data;
-
-  return channels.createOrUpdatePairingAuthorisation({
-    ...data,
-    requestSignature: signatureToBase64(requestSignature),
-    grantSignature: grantSignature ? signatureToBase64(grantSignature) : null,
-  });
-}
-
-async function getPairingAuthorisationsFor(pubKey) {
-  const authorisations = await channels.getPairingAuthorisationsFor(pubKey);
-
-  return authorisations.map(authorisation => ({
-    ...authorisation,
-    requestSignature: base64ToArrayBuffer(authorisation.requestSignature),
-    grantSignature: authorisation.grantSignature
-      ? base64ToArrayBuffer(authorisation.grantSignature)
-      : undefined,
-  }));
-}
-
-async function removePairingAuthorisationsFor(pubKey) {
-  await channels.removePairingAuthorisationsFor(pubKey);
-}
-
 function getGuardNodes() {
   return channels.getGuardNodes();
 }
@@ -702,15 +661,6 @@ async function removeAllItems() {
 }
 
 // Sender Keys
-
-async function getSenderKeys(groupId, senderIdentity) {
-  return channels.getSenderKeys(groupId, senderIdentity);
-}
-
-async function createOrUpdateSenderKeys(data) {
-  await channels.createOrUpdateSenderKeys(data);
-}
-
 async function removeAllClosedGroupRatchets(groupId) {
   await channels.removeAllClosedGroupRatchets(groupId);
 }

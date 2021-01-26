@@ -34,24 +34,23 @@
         return null;
       }
 
-      const primary = await window.libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
-        originalSource
-      );
-      const source = primary.key;
-
       const message = messages.find(
-        item => !item.isIncoming() && source === item.get('conversationId')
+        item =>
+          !item.isIncoming() && originalSource === item.get('conversationId')
       );
       if (message) {
         return message;
       }
 
-      const groups = await window.Signal.Data.getAllGroupsInvolvingId(source, {
-        ConversationCollection: Whisper.ConversationCollection,
-      });
+      const groups = await window.Signal.Data.getAllGroupsInvolvingId(
+        originalSource,
+        {
+          ConversationCollection: Whisper.ConversationCollection,
+        }
+      );
 
       const ids = groups.pluck('id');
-      ids.push(source);
+      ids.push(originalSource);
 
       const target = messages.find(
         item =>

@@ -2,13 +2,13 @@ import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
 import { SessionConversation } from '../../components/session/conversation/SessionConversation';
 import { StateType } from '../reducer';
-import { getPrimaryPubkey } from '../selectors/user';
 import { getTheme } from '../selectors/theme';
 import {
   getMessagesOfSelectedConversation,
   getSelectedConversation,
   getSelectedConversationKey,
 } from '../selectors/conversations';
+import { getOurNumber } from '../selectors/user';
 
 const mapStateToProps = (state: StateType) => {
   return {
@@ -16,7 +16,7 @@ const mapStateToProps = (state: StateType) => {
     selectedConversationKey: getSelectedConversationKey(state),
     theme: getTheme(state),
     messages: getMessagesOfSelectedConversation(state),
-    ourPrimary: getPrimaryPubkey(state),
+    ourNumber: getOurNumber(state),
   };
 };
 

@@ -65,7 +65,6 @@ declare global {
       useFileOnionRequests: boolean;
       useFileOnionRequestsV2: boolean;
       onionRequestHops: number;
-      useMultiDevice: boolean;
     };
     lokiFileServerAPI: LokiFileServerInstance;
     lokiMessageAPI: LokiMessageInterface;
@@ -79,7 +78,6 @@ declare global {
     seedNodeList: any;
     setPassword: any;
     setSettingValue: any;
-    shortenPubkey: (pubKey: string) => string;
     showEditProfileDialog: any;
     showResetSessionIdDialog: any;
     storage: any;
@@ -93,7 +91,6 @@ declare global {
     userConfig: any;
     versionInfo: any;
     getStoragePubKey: any;
-    pubkeyPattern: any;
     getConversations: () => ConversationCollection;
     getGuid: any;
     ContactBuffer: any;

@@ -2,10 +2,10 @@ import { SignalService } from '../protobuf';
 import { removeFromCache } from './cache';
 import { EnvelopePlus } from './types';
 import { PubKey } from '../session/types';
-import { fromHexToArray, toHex } from '../session/utils/String';
+import { toHex } from '../session/utils/String';
 import { ConversationController } from '../session/conversations';
 import * as ClosedGroupV2 from '../session/groupv2';
-import { BlockedNumberController, UserUtil } from '../util';
+import { BlockedNumberController } from '../util';
 import {
   generateClosedGroupV2PublicKey,
   generateCurve25519KeyPairWithoutPrefix,
@@ -13,67 +13,21 @@ import {
 import { getMessageQueue } from '../session';
 import { decryptWithSessionProtocol } from './contentMessage';
 import * as Data from '../../js/modules/data';
-import { getPrimary } from '../util/user';
 import {
   ClosedGroupV2NewMessage,
   ClosedGroupV2NewMessageParams,
 } from '../session/messages/outgoing/content/data/groupv2/ClosedGroupV2NewMessage';
 
-import { KeyPair } from '../../libtextsecure/libsignal-protocol';
-
-export type HexKeyPair = {
-  publicHex: string;
-  privateHex: string;
-};
-
-export class ECKeyPair {
-  public readonly publicKeyData: Uint8Array;
-  public readonly privateKeyData: Uint8Array;
-
-  constructor(publicKeyData: Uint8Array, privateKeyData: Uint8Array) {
-    this.publicKeyData = publicKeyData;
-    this.privateKeyData = privateKeyData;
-  }
-
-  public static fromArrayBuffer(pub: ArrayBuffer, priv: ArrayBuffer) {
-    return new ECKeyPair(new Uint8Array(pub), new Uint8Array(priv));
-  }
-
-  public static fromKeyPair(pair: KeyPair) {
-    return new ECKeyPair(
-      new Uint8Array(pair.pubKey),
-      new Uint8Array(pair.privKey)
-    );
-  }
-
-  public static fromHexKeyPair(pair: HexKeyPair) {
-    return new ECKeyPair(
-      fromHexToArray(pair.publicHex),
-      fromHexToArray(pair.privateHex)
-    );
-  }
-
-  public toString() {
-    const hexKeypair = this.toHexKeyPair();
-    return `ECKeyPair: ${hexKeypair.publicHex} ${hexKeypair.privateHex}`;
-  }
-
-  public toHexKeyPair(): HexKeyPair {
-    const publicHex = toHex(this.publicKeyData);
-    const privateHex = toHex(this.privateKeyData);
-    return {
-      publicHex,
-      privateHex,
-    };
-  }
-}
+import { ECKeyPair } from './keypairs';
+import { getOurNumber } from '../session/utils/User';
+import { UserUtils } from '../session/utils';
 
 export async function handleClosedGroupV2(
   envelope: EnvelopePlus,
   groupUpdate: any
 ) {
   const { type } = groupUpdate;
-  const { Type } = SignalService.ClosedGroupUpdateV2;
+  const { Type } = SignalService.DataMessage.ClosedGroupUpdateV2;
 
   if (BlockedNumberController.isGroupBlocked(PubKey.cast(envelope.source))) {
     window.log.warn('Message ignored; destined for blocked group');
@@ -93,7 +47,7 @@ export async function handleClosedGroupV2(
 }
 
 function sanityCheckNewGroupV2(
-  groupUpdate: SignalService.ClosedGroupUpdateV2
+  groupUpdate: SignalService.DataMessage.ClosedGroupUpdateV2
 ): boolean {
   // for a new group message, we need everything to be set
   const { name, publicKey, members, admins, encryptionKeyPair } = groupUpdate;
@@ -157,11 +111,13 @@ function sanityCheckNewGroupV2(
 
 async function handleNewClosedGroupV2(
   envelope: EnvelopePlus,
-  groupUpdate: SignalService.ClosedGroupUpdateV2
+  groupUpdate: SignalService.DataMessage.ClosedGroupUpdateV2
 ) {
   const { log } = window;
 
-  if (groupUpdate.type !== SignalService.ClosedGroupUpdateV2.Type.NEW) {
+  if (
+    groupUpdate.type !== SignalService.DataMessage.ClosedGroupUpdateV2.Type.NEW
+  ) {
     return;
   }
   if (!sanityCheckNewGroupV2(groupUpdate)) {
@@ -182,7 +138,7 @@ async function handleNewClosedGroupV2(
   const members = membersAsData.map(toHex);
   const admins = adminsAsData.map(toHex);
 
-  const ourPrimary = await UserUtil.getPrimary();
+  const ourPrimary = await UserUtils.getOurNumber();
   if (!members.includes(ourPrimary.key)) {
     log.info(
       'Got a new group message but apparently we are not a member of it. Dropping it.'
@@ -261,9 +217,12 @@ async function handleNewClosedGroupV2(
 
 async function handleUpdateClosedGroupV2(
   envelope: EnvelopePlus,
-  groupUpdate: SignalService.ClosedGroupUpdateV2
+  groupUpdate: SignalService.DataMessage.ClosedGroupUpdateV2
 ) {
-  if (groupUpdate.type !== SignalService.ClosedGroupUpdateV2.Type.UPDATE) {
+  if (
+    groupUpdate.type !==
+    SignalService.DataMessage.ClosedGroupUpdateV2.Type.UPDATE
+  ) {
     return;
   }
   const { name, members: membersBinary } = groupUpdate;
@@ -317,9 +276,9 @@ async function handleUpdateClosedGroupV2(
   const diff = ClosedGroupV2.buildGroupDiff(convo, { name, members });
 
   // Check whether we are still in the group
-  const ourPrimary = await UserUtil.getPrimary();
-  const wasCurrentUserRemoved = !members.includes(ourPrimary.key);
-  const isCurrentUserAdmin = curAdmins?.includes(ourPrimary.key);
+  const ourNumber = await UserUtils.getOurNumber();
+  const wasCurrentUserRemoved = !members.includes(ourNumber.key);
+  const isCurrentUserAdmin = curAdmins?.includes(ourNumber.key);
 
   if (wasCurrentUserRemoved) {
     if (isCurrentUserAdmin) {
@@ -383,17 +342,17 @@ async function handleUpdateClosedGroupV2(
  */
 async function handleKeyPairClosedGroupV2(
   envelope: EnvelopePlus,
-  groupUpdate: SignalService.ClosedGroupUpdateV2
+  groupUpdate: SignalService.DataMessage.ClosedGroupUpdateV2
 ) {
   if (
     groupUpdate.type !==
-    SignalService.ClosedGroupUpdateV2.Type.ENCRYPTION_KEY_PAIR
+    SignalService.DataMessage.ClosedGroupUpdateV2.Type.ENCRYPTION_KEY_PAIR
   ) {
     return;
   }
-  const ourPrimary = await UserUtil.getPrimary();
+  const ourNumber = await UserUtils.getOurNumber();
   const groupPublicKey = envelope.source;
-  const ourKeyPair = await UserUtil.getIdentityKeyPair();
+  const ourKeyPair = await UserUtils.getIdentityKeyPair();
 
   if (!ourKeyPair) {
     window.log.warn("Couldn't find user X25519 key pair.");
@@ -426,7 +385,7 @@ async function handleKeyPairClosedGroupV2(
 
   // Find our wrapper and decrypt it if possible
   const ourWrapper = groupUpdate.wrappers.find(
-    w => toHex(w.publicKey) === ourPrimary.key
+    w => toHex(w.publicKey) === ourNumber.key
   );
   if (!ourWrapper) {
     window.log.warn(
@@ -453,9 +412,11 @@ async function handleKeyPairClosedGroupV2(
   }
 
   // Parse it
-  let proto: SignalService.ClosedGroupUpdateV2.KeyPair;
+  let proto: SignalService.DataMessage.ClosedGroupUpdateV2.KeyPair;
   try {
-    proto = SignalService.ClosedGroupUpdateV2.KeyPair.decode(plaintext);
+    proto = SignalService.DataMessage.ClosedGroupUpdateV2.KeyPair.decode(
+      plaintext
+    );
     if (
       !proto ||
       proto.privateKey.length === 0 ||
@@ -495,7 +456,7 @@ export async function createClosedGroupV2(
 ) {
   const setOfMembers = new Set(members);
 
-  const ourPrimary = await getPrimary();
+  const ourNumber = await getOurNumber();
   // Create Group Identity
   // Generate the key pair that'll be used for encryption and decryption
   // Generate the group's public key
@@ -507,7 +468,7 @@ export async function createClosedGroupV2(
     );
   }
   // Ensure the current uses' primary device is included in the member list
-  setOfMembers.add(ourPrimary.key);
+  setOfMembers.add(ourNumber.key);
   const listOfMembers = [...setOfMembers];
 
   // Create the group
@@ -516,7 +477,7 @@ export async function createClosedGroupV2(
     'group'
   );
 
-  const admins = [ourPrimary.key];
+  const admins = [ourNumber.key];
 
   const groupDetails = {
     id: groupPublicKey,
@@ -525,7 +486,6 @@ export async function createClosedGroupV2(
     admins,
     active: true,
     expireTimer: 0,
-    is_medium_group: true,
   };
 
   // used for UI only, adding of a message to remind who is in the group and the name of the group
@@ -567,7 +527,7 @@ export async function createClosedGroupV2(
       groupPublicKey,
       encryptionKeyPair.toHexKeyPair()
     );
-    return getMessageQueue().sendUsingMultiDevice(PubKey.cast(m), message);
+    return getMessageQueue().sendToPubKey(PubKey.cast(m), message);
   });
 
   // Subscribe to this group id

@@ -4,7 +4,7 @@ import {
   ClosedGroupV2MessageParams,
 } from './ClosedGroupV2Message';
 import { fromHexToArray } from '../../../../../utils/String';
-import { ECKeyPair } from '../../../../../../receiver/closedGroupsV2';
+import { ECKeyPair } from '../../../../../../receiver/keypairs';
 
 export interface ClosedGroupV2NewMessageParams
   extends ClosedGroupV2MessageParams {
@@ -58,10 +58,10 @@ export class ClosedGroupV2NewMessage extends ClosedGroupV2Message {
 
     dataMessage.expireTimer = this.expireTimer;
 
-    dataMessage.closedGroupUpdateV2 = new SignalService.ClosedGroupUpdateV2();
+    dataMessage.closedGroupUpdateV2 = new SignalService.DataMessage.ClosedGroupUpdateV2();
 
     dataMessage.closedGroupUpdateV2.type =
-      SignalService.ClosedGroupUpdateV2.Type.NEW;
+      SignalService.DataMessage.ClosedGroupUpdateV2.Type.NEW;
     dataMessage.closedGroupUpdateV2.publicKey = fromHexToArray(
       this.groupId.key
     );
@@ -70,7 +70,7 @@ export class ClosedGroupV2NewMessage extends ClosedGroupV2Message {
     dataMessage.closedGroupUpdateV2.admins = this.admins.map(fromHexToArray);
     dataMessage.closedGroupUpdateV2.members = this.members.map(fromHexToArray);
     try {
-      dataMessage.closedGroupUpdateV2.encryptionKeyPair = new SignalService.ClosedGroupUpdateV2.KeyPair();
+      dataMessage.closedGroupUpdateV2.encryptionKeyPair = new SignalService.DataMessage.ClosedGroupUpdateV2.KeyPair();
       dataMessage.closedGroupUpdateV2.encryptionKeyPair.privateKey = new Uint8Array(
         this.keypair.privateKeyData
       );

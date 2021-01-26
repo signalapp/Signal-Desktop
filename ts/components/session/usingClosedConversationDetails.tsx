@@ -1,5 +1,4 @@
-import { GroupUtils } from '../../session/utils';
-import { UserUtil } from '../../util';
+import { GroupUtils, UserUtils } from '../../session/utils';
 import { PubKey } from '../../session/types';
 import React from 'react';
 import * as _ from 'lodash';
@@ -56,7 +55,9 @@ export function usingClosedConversationDetails(WrappedComponent: any) {
         (conversationType === 'group' || type === 'group' || isGroup)
       ) {
         const groupId = id || phoneNumber;
-        const ourPrimary = await UserUtil.getPrimary();
+        const ourPrimary = PubKey.cast(
+          await UserUtils.getCurrentDevicePubKey()
+        );
         let members = await GroupUtils.getGroupMembers(PubKey.cast(groupId));
 
         const ourself = members.find(m => m.key !== ourPrimary.key);

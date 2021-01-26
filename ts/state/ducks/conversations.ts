@@ -51,7 +51,6 @@ export type MessageTypeInConvo = {
 export type ConversationType = {
   id: string;
   name?: string;
-  isArchived: boolean;
   activeAt?: number;
   timestamp: number;
   lastMessage?: {
@@ -68,7 +67,6 @@ export type ConversationType = {
   mentionedUs: boolean;
   isSelected: boolean;
   isTyping: boolean;
-  isSecondary?: boolean;
   primaryDevice: string;
   isBlocked: boolean;
   isKickedFromGroup: boolean;
@@ -580,9 +578,7 @@ export function reducer(
   if (action.type === 'CONVERSATION_CHANGED') {
     const { payload } = action;
     const { id, data } = payload;
-    const { conversationLookup } = state;
-
-    let selectedConversation = state.selectedConversation;
+    const { conversationLookup, selectedConversation } = state;
 
     const existing = conversationLookup[id];
     // In the change case we only modify the lookup if we already had that conversation
@@ -595,9 +591,9 @@ export function reducer(
       // Note: With today's stacked converastions architecture, this can result in weird
       //   behavior - no selected conversation in the left pane, but a conversation show
       //   in the right pane.
-      if (!existing.isArchived && data.isArchived) {
-        selectedConversation = undefined;
-      }
+      // if (!existing.isArchived && data.isArchived) {
+      //   selectedConversation = undefined;
+      // }
     }
     return {
       ...state,

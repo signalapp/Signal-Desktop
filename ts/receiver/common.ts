@@ -3,9 +3,9 @@ import { EnvelopePlus } from './types';
 
 export function getEnvelopeId(envelope: EnvelopePlus) {
   if (envelope.source) {
-    return `${envelope.source}.${envelope.sourceDevice} ${toNumber(
-      envelope.timestamp
-    )} (${envelope.id})`;
+    return `${envelope.source} ${toNumber(envelope.timestamp)} (${
+      envelope.id
+    })`;
   }
 
   return envelope.id;

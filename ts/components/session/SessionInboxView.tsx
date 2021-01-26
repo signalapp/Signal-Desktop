@@ -99,18 +99,10 @@ export class SessionInboxView extends React.Component<Props, State> {
   }
 
   private renderSettings() {
-    const isSecondaryDevice = !!window.textsecure.storage.get(
-      'isSecondaryDevice'
-    );
     const category =
       this.state.settingsCategory || SessionSettingCategory.Appearance;
 
-    return (
-      <FilteredSettingsView
-        isSecondaryDevice={isSecondaryDevice}
-        category={category}
-      />
-    );
+    return <FilteredSettingsView category={category} />;
   }
 
   private renderSessionConversation() {
@@ -204,7 +196,6 @@ export class SessionInboxView extends React.Component<Props, State> {
         ourNumber:
           window.storage.get('primaryDevicePubKey') ||
           window.textsecure.storage.user.getNumber(),
-        isSecondaryDevice: !!window.storage.get('isSecondaryDevice'),
         i18n: window.i18n,
       },
       section: {

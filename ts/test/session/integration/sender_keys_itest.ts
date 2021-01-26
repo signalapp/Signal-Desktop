@@ -55,10 +55,8 @@ async function makeFriendsPlusMessage(
 async function testTwoMembers() {
   const [app, app2] = await Common.startAppsAsFriends();
 
-  const useSenderKeys = true;
-
   // create group and add new friend
-  await Common.addFriendToNewClosedGroup([app, app2], useSenderKeys);
+  await Common.addFriendToNewClosedGroup([app, app2]);
 
   const text1 = await generateAndSendMessage(app);
 
@@ -111,11 +109,9 @@ async function testThreeMembers() {
 
   await makeFriendsPlusMessage(app1, [app3, Common.TEST_PUBKEY3]);
 
-  const useSenderKeys = true;
-
   // 3. Add all three to the group
 
-  await Common.addFriendToNewClosedGroup([app1, app2, app3], useSenderKeys);
+  await Common.addFriendToNewClosedGroup([app1, app2, app3]);
 
   // 4. Test that all members can see the message from app1
   const text1 = await generateAndSendMessage(app1);
@@ -136,21 +132,3 @@ async function testThreeMembers() {
   //   5000
   // );
 }
-
-describe('senderkeys', function() {
-  this.timeout(60000);
-  this.slow(20000);
-  beforeEach(async () => {
-    await Common.killallElectron();
-    await Common.stopStubSnodeServer();
-  });
-
-  afterEach(async () => {
-    await Common.killallElectron();
-    await Common.stopStubSnodeServer();
-  });
-
-  it('Two member group', testTwoMembers);
-
-  it('Three member group: test session requests', testThreeMembers);
-});

@@ -1,6 +1,6 @@
 import { createOrUpdateItem, getItemById } from '../../js/modules/data';
 import { PubKey } from '../session/types';
-import { MultiDeviceProtocol } from '../session/protocols';
+import { UserUtils } from '../session/utils';
 
 const BLOCKED_NUMBERS_ID = 'blocked';
 const BLOCKED_GROUPS_ID = 'blocked-groups';
@@ -13,19 +13,18 @@ export class BlockedNumberController {
 
   /**
    * Check if a device is blocked.
-   * This will use `MultiDeviceProtocol` to determine wether a user is blocked or not.
    *
    * @param user The user.
    */
   public static async isBlockedAsync(user: string | PubKey): Promise<boolean> {
     await this.load();
-    const isOurDevice = await MultiDeviceProtocol.isOurDevice(user);
+    const isOurDevice = await UserUtils.isUs(user);
     if (isOurDevice) {
       return false;
     }
 
-    const primary = await MultiDeviceProtocol.getPrimaryDevice(user);
-    return this.blockedNumbers.has(primary.key);
+    const pubkey = PubKey.cast(user);
+    return this.blockedNumbers.has(pubkey.key);
   }
 
   /**
@@ -67,9 +66,9 @@ export class BlockedNumberController {
     // `isBlocked` is used synchronously in the code. To check if any device is blocked needs it to be async, which would mean all calls to `isBlocked` will also need to be async and so on
     // This is too much of a hassle at the moment as some UI code will have to be migrated to work with this async call.
     await this.load();
-    const primary = await MultiDeviceProtocol.getPrimaryDevice(user);
-    if (!this.blockedNumbers.has(primary.key)) {
-      this.blockedNumbers.add(primary.key);
+    const toBlock = PubKey.cast(user);
+    if (!this.blockedNumbers.has(toBlock.key)) {
+      this.blockedNumbers.add(toBlock.key);
       await this.saveToDB(BLOCKED_NUMBERS_ID, this.blockedNumbers);
     }
   }
@@ -82,9 +81,10 @@ export class BlockedNumberController {
    */
   public static async unblock(user: string | PubKey): Promise<void> {
     await this.load();
-    const primary = await MultiDeviceProtocol.getPrimaryDevice(user);
-    if (this.blockedNumbers.has(primary.key)) {
-      this.blockedNumbers.delete(primary.key);
+    const toUnblock = PubKey.cast(user);
+
+    if (this.blockedNumbers.has(toUnblock.key)) {
+      this.blockedNumbers.delete(toUnblock.key);
       await this.saveToDB(BLOCKED_NUMBERS_ID, this.blockedNumbers);
     }
   }

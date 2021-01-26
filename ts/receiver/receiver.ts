@@ -11,18 +11,16 @@ import { onError } from './errors';
 import {
   handleContentMessage,
   innerHandleContentMessage,
-  onDeliveryReceipt,
 } from './contentMessage';
 import _ from 'lodash';
 
-export { processMessage, onDeliveryReceipt };
+export { processMessage };
 
 import { handleMessageEvent, updateProfile } from './dataMessage';
 
 import { getEnvelopeId } from './common';
-import { StringUtils } from '../session/utils';
+import { StringUtils, UserUtils } from '../session/utils';
 import { SignalService } from '../protobuf';
-import { MultiDeviceProtocol } from '../session/protocols';
 import { ConversationController } from '../session/conversations';
 
 // TODO: check if some of these exports no longer needed
@@ -39,10 +37,6 @@ async function handleEnvelope(envelope: EnvelopePlus) {
   // if (this.stoppingProcessing) {
   //   return Promise.resolve();
   // }
-
-  if (envelope.type === SignalService.Envelope.Type.RECEIPT) {
-    return onDeliveryReceipt(envelope.source, envelope.timestamp);
-  }
 
   if (envelope.content && envelope.content.length > 0) {
     return handleContentMessage(envelope);
@@ -291,7 +285,7 @@ export async function handlePublicMessage({ message: outerMessage }: any) {
     await updateProfile(conversation, profile, profileKey);
   }
 
-  const isOurDevice = await MultiDeviceProtocol.isOurDevice(source);
+  const isOurDevice = await UserUtils.isUs(source);
   const isPublicChatMessage =
     group && group.id && !!group.id.match(/^publicChat:/);
 

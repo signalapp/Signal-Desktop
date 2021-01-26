@@ -19,7 +19,6 @@ const SessionIDResetDialogInner = (props: Props) => {
   return (
     <SessionModal
       title="Mandatory Upgrade Session ID"
-      onOk={() => null}
       onClose={() => null}
       theme={props.theme}
     >

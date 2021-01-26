@@ -90,7 +90,6 @@ module.exports = grunt => {
           'libtextsecure/http-resources.js',
           'libtextsecure/message_receiver.js',
           'libtextsecure/contacts_parser.js',
-          'libtextsecure/ProvisioningCipher.js',
           'libtextsecure/task_with_timeout.js',
         ],
         dest: 'js/libtextsecure.js',

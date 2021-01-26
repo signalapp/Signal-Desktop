@@ -5,9 +5,8 @@ export { MessageEncrypter };
 // libsodium-wrappers requires the `require` call to work
 // tslint:disable-next-line: no-require-imports
 import libsodiumwrappers = require('libsodium-wrappers');
-import { fromHex } from 'bytebuffer';
 import { toHex } from '../utils/String';
-import { ECKeyPair } from '../../receiver/closedGroupsV2';
+import { ECKeyPair } from '../../receiver/keypairs';
 
 export async function getSodium(): Promise<typeof libsodiumwrappers> {
   await libsodiumwrappers.ready;

@@ -72,7 +72,6 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
     return (
       <SessionModal
         title={window.i18n(`${action}Password`)}
-        onOk={() => null}
         onClose={this.closeDialog}
         theme={this.props.theme}
       >

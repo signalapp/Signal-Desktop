@@ -10,11 +10,11 @@ import { ConversationType } from '../../state/ducks/conversations';
 import { noop } from 'lodash';
 import { DefaultTheme } from 'styled-components';
 import { StateType } from '../../state/reducer';
-import { UserUtil } from '../../util';
 import { ConversationController } from '../../session/conversations';
 import { getFocusedSection } from '../../state/selectors/section';
 import { getTheme } from '../../state/selectors/theme';
-import { getPrimaryPubkey } from '../../state/selectors/user';
+import { getOurNumber } from '../../state/selectors/user';
+import { UserUtils } from '../../session/utils';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -31,7 +31,7 @@ interface Props {
   selectedSection: SectionType;
   unreadMessageCount: number;
   ourPrimaryConversation: ConversationType;
-  ourPrimary: string;
+  ourNumber: string;
   applyTheme?: any;
   theme: DefaultTheme;
 }
@@ -73,7 +73,7 @@ class ActionsPanelPrivate extends React.Component<Props> {
     avatarPath?: string;
     notificationCount?: number;
   }) => {
-    const { ourPrimary } = this.props;
+    const { ourNumber } = this.props;
     const handleClick = onSelect
       ? () => {
           /* tslint:disable:no-void-expression */
@@ -95,17 +95,17 @@ class ActionsPanelPrivate extends React.Component<Props> {
       : undefined;
 
     if (type === SectionType.Profile) {
-      const conversation = ConversationController.getInstance().get(ourPrimary);
+      const conversation = ConversationController.getInstance().get(ourNumber);
 
       const profile = conversation?.getLokiProfile();
-      const userName = (profile && profile.displayName) || ourPrimary;
+      const userName = (profile && profile.displayName) || ourNumber;
       return (
         <Avatar
           avatarPath={avatarPath}
           size={28}
           onAvatarClick={handleClick}
           name={userName}
-          pubkey={ourPrimary}
+          pubkey={ourNumber}
         />
       );
     }
@@ -197,7 +197,7 @@ class ActionsPanelPrivate extends React.Component<Props> {
   };
 
   private async showResetSessionIDDialogIfNeeded() {
-    const userED25519KeyPairHex = await UserUtil.getUserED25519KeyPair();
+    const userED25519KeyPairHex = await UserUtils.getUserED25519KeyPair();
     if (userED25519KeyPairHex) {
       return;
     }
@@ -210,7 +210,7 @@ const mapStateToProps = (state: StateType) => {
   return {
     section: getFocusedSection(state),
     theme: getTheme(state),
-    ourPrimary: getPrimaryPubkey(state),
+    ourNumber: getOurNumber(state),
   };
 };
 

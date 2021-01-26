@@ -11,8 +11,7 @@ import {
 
 import { Constants } from '../../../session';
 import _ from 'lodash';
-import { AttachmentUtil, GoogleChrome, UserUtil } from '../../../util';
-import { MultiDeviceProtocol } from '../../../session/protocols';
+import { AttachmentUtil, GoogleChrome } from '../../../util';
 import { ConversationHeaderWithDetails } from '../../conversation/ConversationHeader';
 import { SessionRightPanelWithDetails } from './SessionRightPanel';
 import { SessionTheme } from '../../../state/ducks/SessionTheme';
@@ -22,7 +21,7 @@ import { LightboxGallery, MediaItemType } from '../../LightboxGallery';
 import { Message } from '../../conversation/media-gallery/types/Message';
 
 import { AttachmentType, save } from '../../../types/Attachment';
-import { ToastUtils } from '../../../session/utils';
+import { ToastUtils, UserUtils } from '../../../session/utils';
 import * as MIME from '../../../types/MIME';
 import { SessionFileDropzone } from './SessionFileDropzone';
 import { ConversationType } from '../../../state/ducks/conversations';
@@ -67,7 +66,7 @@ interface State {
 }
 
 interface Props {
-  ourPrimary: string;
+  ourNumber: string;
   selectedConversationKey: string;
   selectedConversation?: ConversationType;
   theme: DefaultTheme;
@@ -400,7 +399,7 @@ export class SessionConversation extends React.Component<Props, State> {
   }
 
   public getHeaderProps() {
-    const { selectedConversationKey, ourPrimary } = this.props;
+    const { selectedConversationKey, ourNumber } = this.props;
     const { selectedMessages, messageDetailShowProps } = this.state;
     const conversation = ConversationController.getInstance().getOrThrow(
       selectedConversationKey
@@ -424,7 +423,7 @@ export class SessionConversation extends React.Component<Props, State> {
       isGroup: !conversation.isPrivate(),
       isPrivate: conversation.isPrivate(),
       isPublic: conversation.isPublic(),
-      isAdmin: conversation.isAdmin(ourPrimary),
+      isAdmin: conversation.isAdmin(ourNumber),
       members,
       subscriberCount: conversation.get('subscriberCount'),
       isKickedFromGroup: conversation.get('isKickedFromGroup'),
@@ -493,7 +492,7 @@ export class SessionConversation extends React.Component<Props, State> {
     const {
       selectedConversation,
       selectedConversationKey,
-      ourPrimary,
+      ourNumber,
       messages,
       actions,
     } = this.props;
@@ -501,7 +500,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
     return {
       selectedMessages,
-      ourPrimary,
+      ourPrimary: ourNumber,
       conversationKey: selectedConversationKey,
       messages,
       resetSelection: this.resetSelection,
@@ -683,19 +682,14 @@ export class SessionConversation extends React.Component<Props, State> {
 
       if (selectedConversation.isPublic) {
         // Get our Moderator status
-        const ourDevicePubkey = await UserUtil.getCurrentDevicePubKey();
+        const ourDevicePubkey = await UserUtils.getCurrentDevicePubKey();
         if (!ourDevicePubkey) {
           return;
         }
-        const ourPrimaryPubkey = (
-          await MultiDeviceProtocol.getPrimaryDevice(ourDevicePubkey)
-        ).key;
-        const isAdmin = conversationModel.isAdmin(ourPrimaryPubkey);
-        const ourNumbers = (await MultiDeviceProtocol.getOurDevices()).map(
-          m => m.key
-        );
-        const isAllOurs = selectedMessages.every(message =>
-          ourNumbers.includes(message.attributes.source)
+
+        const isAdmin = conversationModel.isAdmin(ourDevicePubkey);
+        const isAllOurs = selectedMessages.every(
+          message => ourDevicePubkey === message.attributes.source
         );
 
         if (!isAllOurs && !isAdmin) {

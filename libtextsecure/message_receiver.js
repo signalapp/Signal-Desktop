@@ -36,9 +36,6 @@ MessageReceiver.stringToArrayBuffer = string =>
   Promise.resolve(dcodeIO.ByteBuffer.wrap(string, 'binary').toArrayBuffer());
 MessageReceiver.arrayBufferToString = arrayBuffer =>
   Promise.resolve(dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('binary'));
-
-MessageReceiver.stringToArrayBufferBase64 = string =>
-  callWorker('stringToArrayBufferBase64', string);
 MessageReceiver.arrayBufferToStringBase64 = arrayBuffer =>
   callWorker('arrayBufferToStringBase64', arrayBuffer);
 
@@ -112,7 +109,5 @@ textsecure.MessageReceiver.stringToArrayBuffer =
   MessageReceiver.stringToArrayBuffer;
 textsecure.MessageReceiver.arrayBufferToString =
   MessageReceiver.arrayBufferToString;
-textsecure.MessageReceiver.stringToArrayBufferBase64 =
-  MessageReceiver.stringToArrayBufferBase64;
 textsecure.MessageReceiver.arrayBufferToStringBase64 =
   MessageReceiver.arrayBufferToStringBase64;

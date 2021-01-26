@@ -82,12 +82,6 @@ export interface CryptoInterface {
 
 export interface KeyHelperInterface {
   generateIdentityKeyPair(): Promise<KeyPair>;
-  generatePreKey(
-    keyId: number
-  ): Promise<{
-    keyId: number;
-    keyPair: KeyPair;
-  }>;
 }
 
 export interface LibsignalProtocol {

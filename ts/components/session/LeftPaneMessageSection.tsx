@@ -31,11 +31,9 @@ import { ToastUtils } from '../../session/utils';
 import { DefaultTheme } from 'styled-components';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { ConversationController } from '../../session/conversations';
-import { sendOpenGroupsSyncMessage } from '../../session/utils/SyncMessage';
 
 export interface Props {
   searchTerm: string;
-  isSecondaryDevice: boolean;
 
   contacts: Array<ConversationType>;
   conversations?: Array<ConversationListItemProps>;
@@ -262,14 +260,13 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
   public search() {
     const { search } = this.props;
-    const { searchTerm, isSecondaryDevice } = this.props;
+    const { searchTerm } = this.props;
 
     if (search) {
       search(searchTerm, {
         noteToSelf: window.i18n('noteToSelf').toLowerCase(),
         ourNumber: window.textsecure.storage.user.getNumber(),
         regionCode: '',
-        isSecondaryDevice,
       });
     }
   }
@@ -454,11 +451,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       this.setState({ loading: false });
       const openGroupConversation = await OpenGroup.getConversation(serverUrl);
 
-      if (openGroupConversation) {
-        // if no errors happened, trigger a sync with just this open group
-        // so our other devices joins it
-        await sendOpenGroupsSyncMessage([openGroupConversation]);
-      } else {
+      if (!openGroupConversation) {
         window.log.error(
           'Joined an opengroup but did not find ther corresponding conversation'
         );

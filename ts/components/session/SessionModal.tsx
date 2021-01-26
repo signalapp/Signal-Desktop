@@ -8,7 +8,6 @@ import { DefaultTheme } from 'styled-components';
 interface Props {
   title: string;
   onClose: any;
-  onOk: any;
   showExitIcon?: boolean;
   showHeader?: boolean;
   headerReverse?: boolean;

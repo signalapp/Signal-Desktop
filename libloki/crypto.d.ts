@@ -1,5 +1,3 @@
-import { PairingAuthorisation } from '../js/modules/data';
-
 declare enum PairingTypeEnum {
   REQUEST = 1,
   GRANT,
@@ -16,9 +14,5 @@ export interface CryptoInterface {
   decryptToken: any;
   encryptForPubkey: any;
   generateEphemeralKeyPair: any;
-  generateSignatureForPairing: any;
   sha512: any;
-  validateAuthorisation: any;
-  verifyAuthorisation(authorisation: PairingAuthorisation): Promise<boolean>;
-  verifyPairingSignature: any;
 }

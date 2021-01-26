@@ -29,9 +29,9 @@
 }
 
 .module-avatar__icon--crown-wrapper {
-  position: relative;
-  bottom: -38px;
-  right: -16px;
+  position: absolute;
+  bottom: 0%;
+  right: 12%;
   height: 21px;
   width: 21px;
   transform: translate(25%, 25%);

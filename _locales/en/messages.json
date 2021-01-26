@@ -1731,7 +1731,7 @@
     "description": "Toast title when the user tries to remove the creator from a closed group v2 member list."
   },
   "userNeedsToHaveJoinedDesc": {
-    "message": "Remember that this user needs to have already joined the server for this ADD to work.",
+    "message": "An error happened. The user needs to have already joined the server for this ADD to work.",
     "description": "Toast description when the user adds a moderator for an open group."
   },
   "addToTheListBelow": {
@@ -1974,6 +1974,12 @@
   "removeModerators": {
     "message": "Remove Moderators"
   },
+  "addAsModerator": {
+    "message": "Add As Moderator"
+  },
+  "removeFromModerators": {
+    "message": "Remove From Moderators"
+  },
   "add": {
     "message": "Add",
     "androidKey": "fragment_add_public_chat_add_button_title_1"
@@ -2209,5 +2215,17 @@
   "noBlockedContacts": {
     "message": "No blocked contacts",
     "androidKey": "blocked_contacts_fragment__no_blocked_contacts"
+  },
+  "userAddedToModerators": {
+    "message": "User added to moderator list"
+  },
+  "userRemovedFromModerators": {
+    "message": "User removed from moderator list"
+  },
+  "errorHappenedWhileRemovingModerator": {
+    "message": "An error happened"
+  },
+  "errorHappenedWhileRemovingModeratorDesc": {
+    "message": "An error happened while removing this user from the moderator list."
   }
 }

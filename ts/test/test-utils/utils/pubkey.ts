@@ -1,7 +1,6 @@
 import * as crypto from 'crypto';
-import { ECKeyPair } from '../../../receiver/closedGroupsV2';
+import { ECKeyPair } from '../../../receiver/keypairs';
 import { PubKey } from '../../../session/types';
-import { fromHexToArray } from '../../../session/utils/String';
 
 export function generateFakePubKey(): PubKey {
   // Generates a mock pubkey for testing

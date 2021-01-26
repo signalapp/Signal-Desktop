@@ -85,7 +85,6 @@ class UpdateGroupNameDialogInner extends React.Component<Props, State> {
         title={titleText}
         // tslint:disable-next-line: no-void-expression
         onClose={() => this.closeDialog()}
-        onOk={() => null}
         theme={this.props.theme}
       >
         <div className="spacer-md" />
