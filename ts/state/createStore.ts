@@ -54,5 +54,6 @@ const middlewareList = [
 
 const enhancer = applyMiddleware(...middlewareList);
 
-export const createStore = (initialState: DeepPartial<StateType>): Store =>
-  reduxCreateStore(reducer, initialState, enhancer);
+export const createStore = (
+  initialState: DeepPartial<StateType>
+): Store<StateType> => reduxCreateStore(reducer, initialState, enhancer);
