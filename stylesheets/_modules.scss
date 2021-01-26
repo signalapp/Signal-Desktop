@@ -2077,6 +2077,32 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 }
 
+.module-about {
+  &__container {
+    margin-bottom: 8px;
+    max-width: 248px;
+  }
+
+  &__text {
+    @include font-body-1;
+    @include light-theme {
+      color: $color-gray-60;
+    }
+    @include dark-theme {
+      color: $color-gray-25;
+    }
+    max-width: 400px;
+
+    img.emoji {
+      height: 1em;
+      margin-right: 3px;
+      margin-bottom: 3px;
+      vertical-align: middle;
+      width: 1em;
+    }
+  }
+}
+
 // Module: Embedded Contact
 
 .module-embedded-contact {
@@ -2689,6 +2715,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 .module-contact-list-item__text {
   margin-left: 8px;
 
+  align-items: center;
   display: flex;
   flex-direction: row;
 
@@ -2696,7 +2723,13 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-contact-list-item__text__name {
-  @include font-body-2-bold;
+  @include font-body-1-bold;
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
 }
 
 .module-contact-list-item__text__profile-name {
@@ -2731,7 +2764,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   text-align: right;
   height: 100%;
 
-  @include font-body-2-bold;
+  @include font-body-2;
 }
 
 // Module: In Contacts Icon
@@ -10299,7 +10332,7 @@ $contact-modal-padding: 18px;
 .module-contact-modal {
   @include font-body-2;
 
-  min-width: 250px;
+  min-width: 280px;
   padding: $contact-modal-padding;
   border-radius: 8px;
   overflow: hidden;
@@ -10336,7 +10369,7 @@ $contact-modal-padding: 18px;
 }
 
 .module-contact-modal__name {
-  @include font-body-1-bold;
+  @include font-title-2;
 
   margin-top: 6px;
 }

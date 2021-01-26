@@ -201,21 +201,6 @@ a {
   .container {
     outline: none;
   }
-
-  .members .contact {
-    @include light-theme {
-      border-bottom: 1px solid $color-gray-05;
-      &:last-of-type {
-        border-bottom: none;
-      }
-    }
-    @include dark-theme {
-      border-bottom: 1px solid $color-gray-75;
-      &:last-of-type {
-        border-bottom: none;
-      }
-    }
-  }
 }
 
 .banner {

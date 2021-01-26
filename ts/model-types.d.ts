@@ -201,6 +201,8 @@ export type ConversationAttributesType = {
   e164?: string;
 
   // Private other fields
+  about?: string;
+  aboutEmoji?: string;
   profileFamilyName?: string;
   profileKey?: string;
   profileName?: string;

@@ -5,6 +5,7 @@ import React, { ReactPortal } from 'react';
 import { createPortal } from 'react-dom';
 
 import { ConversationType } from '../../state/ducks/conversations';
+import { About } from './About';
 import { Avatar } from '../Avatar';
 import { LocalizerType } from '../../types/Util';
 
@@ -110,6 +111,9 @@ export const ContactModal = ({
               title={contact.title}
             />
             <div className="module-contact-modal__name">{contact.title}</div>
+            <div className="module-about__container">
+              <About text={contact.about} />
+            </div>
             {contact.phoneNumber && (
               <div className="module-contact-modal__profile-and-number">
                 {contact.phoneNumber}

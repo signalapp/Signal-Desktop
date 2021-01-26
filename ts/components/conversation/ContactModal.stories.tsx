@@ -24,6 +24,7 @@ const defaultContact: ConversationType = {
   title: 'Pauline Oliveros',
   type: 'direct',
   phoneNumber: '(333) 444-5515',
+  about: '👍 Free to chat',
 };
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({

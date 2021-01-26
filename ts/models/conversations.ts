@@ -1173,6 +1173,7 @@ export class ConversationModel extends window.Backbone.Model<
       uuid: this.get('uuid'),
       e164: this.get('e164'),
 
+      about: this.getAboutText(),
       acceptedMessageRequest: this.getAccepted(),
       activeAt: this.get('active_at')!,
       areWePending: Boolean(
@@ -1882,6 +1883,17 @@ export class ConversationModel extends window.Backbone.Model<
     }
 
     return !this.get('profileSharing');
+  }
+
+  getAboutText(): string | undefined {
+    if (!this.get('about')) {
+      return undefined;
+    }
+
+    return window.i18n('message--getNotificationText--text-with-emoji', {
+      text: this.get('about'),
+      emoji: this.get('aboutEmoji'),
+    });
   }
 
   /**
@@ -3755,6 +3767,30 @@ export class ConversationModel extends window.Backbone.Model<
         });
       }
 
+      if (profile.about) {
+        const key = this.get('profileKey');
+        if (key) {
+          const keyBuffer = base64ToArrayBuffer(key);
+          const decrypted = await window.textsecure.crypto.decryptProfile(
+            base64ToArrayBuffer(profile.about),
+            keyBuffer
+          );
+          this.set('about', stringFromBytes(decrypted));
+        }
+      }
+
+      if (profile.aboutEmoji) {
+        const key = this.get('profileKey');
+        if (key) {
+          const keyBuffer = base64ToArrayBuffer(key);
+          const decrypted = await window.textsecure.crypto.decryptProfile(
+            base64ToArrayBuffer(profile.aboutEmoji),
+            keyBuffer
+          );
+          this.set('aboutEmoji', stringFromBytes(decrypted));
+        }
+      }
+
       if (profile.capabilities) {
         c.set({ capabilities: profile.capabilities });
       }
@@ -3900,6 +3936,8 @@ export class ConversationModel extends window.Backbone.Model<
         `Setting sealedSender to UNKNOWN for conversation ${this.idForLogging()}`
       );
       this.set({
+        about: undefined,
+        aboutEmoji: undefined,
         profileAvatar: undefined,
         profileKey,
         profileKeyVersion: undefined,
@@ -3943,6 +3981,8 @@ export class ConversationModel extends window.Backbone.Model<
       }
 
       this.set({
+        about: undefined,
+        aboutEmoji: undefined,
         profileKey: undefined,
         profileKeyVersion: undefined,
         profileKeyCredential: null,

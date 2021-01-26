@@ -51,6 +51,7 @@ export type ConversationType = {
   name?: string;
   firstName?: string;
   profileName?: string;
+  about?: string;
   avatarPath?: string;
   areWeAdmin?: boolean;
   areWePending?: boolean;
