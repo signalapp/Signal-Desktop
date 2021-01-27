@@ -910,14 +910,6 @@
     "reasonDetail": "Getting the value, not setting it"
   },
   {
-    "rule": "jQuery-append(",
-    "path": "libtextsecure/contacts_parser.js",
-    "line": "  this.buffer.append(arrayBuffer);",
-    "lineNumber": 6,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/crypto.js",
     "line": "      const data = dcodeIO.ByteBuffer.wrap(",

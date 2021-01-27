@@ -14,9 +14,6 @@ const LinkPreviews = require('./link_previews');
 const AttachmentDownloads = require('./attachment_downloads');
 
 // Components
-const {
-  ContactDetail,
-} = require('../../ts/components/conversation/ContactDetail');
 const { ContactListItem } = require('../../ts/components/ContactListItem');
 const { ContactName } = require('../../ts/components/conversation/ContactName');
 const {
@@ -217,7 +214,6 @@ exports.setup = (options = {}) => {
   });
 
   const Components = {
-    ContactDetail,
     ContactListItem,
     ContactName,
     EmbeddedContact,

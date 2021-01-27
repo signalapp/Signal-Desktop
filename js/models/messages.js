@@ -51,7 +51,6 @@
       this.on('destroy', this.onDestroy);
       this.on('change:expirationStartTimestamp', this.setToExpire);
       this.on('change:expireTimer', this.setToExpire);
-      this.on('unload', this.unload);
       this.on('expired', this.onExpired);
       this.setToExpire();
       // Keep props ready
@@ -266,13 +265,7 @@
     },
     async cleanup() {
       getMessageController().unregister(this.id);
-      this.unload();
       await deleteExternalMessageFiles(this.attributes);
-    },
-    unload() {
-      if (this.quotedMessage) {
-        this.quotedMessage = null;
-      }
     },
     onExpired() {
       this.hasExpired = true;
