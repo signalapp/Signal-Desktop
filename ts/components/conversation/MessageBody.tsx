@@ -82,9 +82,7 @@ export class MessageBody extends React.Component<Props> {
     isGroup: false,
   };
 
-  public addDownloading(jsx: JSX.Element): JSX.Element {
-    const { i18n } = this.props;
-
+  public renderJsxSelectable(jsx: JSX.Element): JSX.Element {
     return <span className="text-selectable">{jsx}</span>;
   }
 
@@ -100,7 +98,7 @@ export class MessageBody extends React.Component<Props> {
     const sizeClass = disableJumbomoji ? undefined : getSizeClass(text);
 
     if (disableLinks) {
-      return this.addDownloading(
+      return this.renderJsxSelectable(
         renderEmoji({
           i18n,
           text,
@@ -113,24 +111,7 @@ export class MessageBody extends React.Component<Props> {
       );
     }
 
-    const bodyContents = this.addDownloading(
-      <Linkify
-        text={text}
-        renderNonLink={({ key, text: nonLinkText }) => {
-          return renderEmoji({
-            i18n,
-            text: nonLinkText,
-            sizeClass,
-            key,
-            renderNonEmoji: renderNewLines,
-            isGroup,
-            convoId,
-          });
-        }}
-      />
-    );
-
-    return this.addDownloading(
+    return this.renderJsxSelectable(
       <Linkify
         text={text}
         renderNonLink={({ key, text: nonLinkText }) => {

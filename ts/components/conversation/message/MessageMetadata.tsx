@@ -96,14 +96,14 @@ export const MessageMetadata = (props: Props) => {
           theme={theme}
         />
       ) : (
-        <Timestamp
-          timestamp={serverTimestamp || timestamp}
-          extended={true}
-          withImageNoCaption={withImageNoCaption}
-          isConversationListItem={false}
-          theme={theme}
-        />
-      )}
+          <Timestamp
+            timestamp={serverTimestamp || timestamp}
+            extended={true}
+            withImageNoCaption={withImageNoCaption}
+            isConversationListItem={false}
+            theme={theme}
+          />
+        )}
       <MetadataBadges
         direction={direction}
         isPublic={isPublic}
@@ -121,7 +121,6 @@ export const MessageMetadata = (props: Props) => {
           theme={theme}
         />
       ) : null}
-      <MetadataSpacer />
       <MetadataSpacer />
       {showStatus ? (
         <OutgoingMessageStatus
