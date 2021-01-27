@@ -374,7 +374,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         spellCheck={true}
         inputRef={this.textarea}
         disabled={!typingEnabled}
-        maxLength={Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH}
+        // maxLength={Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH}
         rows={1}
         style={sendMessageStyle}
         suggestionsPortalHost={this.container}
@@ -751,25 +751,8 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
   // tslint:disable-next-line: cyclomatic-complexity
   private async onSendMessage() {
-    const toUnicode = (str: string) => {
-      return str
-        .split('')
-        .map(value => {
-          const temp = value
-            .charCodeAt(0)
-            .toString(16)
-            .toUpperCase();
-          if (temp.length > 2) {
-            return `\\u${temp}`;
-          }
-          return value;
-        })
-        .join('');
-    };
-
     // this is dirty but we have to replace all @(xxx) by @xxx manually here
     const cleanMentions = (text: string): string => {
-      const textUnicode = toUnicode(text);
       const matches = text.match(this.mentionsRegex);
       let replacedMentions = text;
       (matches || []).forEach(match => {
@@ -808,10 +791,10 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     }
     // Verify message length
     const msgLen = messagePlaintext?.length || 0;
-    if (msgLen > Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH) {
-      ToastUtils.pushMessageBodyTooLong();
-      return;
-    }
+    // if (msgLen > Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH) {
+    //   ToastUtils.pushMessageBodyTooLong();
+    //   return;
+    // }
     if (msgLen === 0 && this.props.stagedAttachments?.length === 0) {
       ToastUtils.pushMessageBodyMissing();
       return;

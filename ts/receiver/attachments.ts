@@ -75,32 +75,6 @@ export async function downloadAttachment(attachment: any) {
   };
 }
 
-async function processLongAttachments(
-  message: MessageModel,
-  attachments: Array<any>
-): Promise<boolean> {
-  if (attachments.length === 0) {
-    return false;
-  }
-
-  if (attachments.length > 1) {
-    window.log.error(
-      `Received more than one long message attachment in message ${message.idForLogging()}`
-    );
-  }
-
-  const attachment = attachments[0];
-
-  message.set({ bodyPending: true });
-  await window.Signal.AttachmentDownloads.addJob(attachment, {
-    messageId: message.id,
-    type: 'long-message',
-    index: 0,
-  });
-
-  return true;
-}
-
 async function processNormalAttachments(
   message: MessageModel,
   normalAttachments: Array<any>
@@ -247,15 +221,7 @@ export async function queueAttachmentDownloads(
 
   let count = 0;
 
-  const [longMessageAttachments, normalAttachments] = _.partition(
-    message.get('attachments') || [],
-    (attachment: any) =>
-      attachment.contentType === Whisper.Message.LONG_MESSAGE_CONTENT_TYPE
-  );
-
-  if (await processLongAttachments(message, longMessageAttachments)) {
-    count += 1;
-  }
+  const normalAttachments = message.get('attachments') || [];
 
   count += await processNormalAttachments(message, normalAttachments);
 

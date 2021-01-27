@@ -547,7 +547,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
   public renderText() {
     const {
       text,
-      bodyPending,
       direction,
       status,
       conversationType,
@@ -578,7 +577,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
         <MessageBody
           text={contents || ''}
           i18n={window.i18n}
-          bodyPending={bodyPending}
           isGroup={conversationType === 'group'}
           convoId={convoId}
           disableLinks={multiSelectMode}
