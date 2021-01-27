@@ -29,7 +29,6 @@
     loadQuoteData,
     loadPreviewData,
   } = window.Signal.Migrations;
-  const { bytesFromString } = window.Signal.Crypto;
 
   window.AccountCache = Object.create(null);
   window.AccountJobs = Object.create(null);
@@ -525,7 +524,6 @@
 
       return {
         text: this.createNonBreakingLastSeparator(this.get('body')),
-        bodyPending: this.get('bodyPending'),
         id: this.id,
         direction: this.isIncoming() ? 'incoming' : 'outgoing',
         timestamp: this.get('sent_at'),
@@ -870,17 +868,10 @@
       // TODO: In the future it might be best if we cache the upload results if possible.
       // This way we don't upload duplicated data.
 
-      const attachmentsWithData = await Promise.all(
+      const finalAttachments = await Promise.all(
         (this.get('attachments') || []).map(loadAttachmentData)
       );
-      const {
-        body,
-        attachments: finalAttachments,
-      } = Whisper.Message.getLongMessageAttachment({
-        body: this.get('body'),
-        attachments: attachmentsWithData,
-        now: this.get('sent_at'),
-      });
+
       const filenameOverridenAttachments = finalAttachments.map(attachment => ({
         ...attachment,
         fileName: Signal.Types.Attachment.getSuggestedFilenameSending({
@@ -906,7 +897,7 @@
       ]);
 
       return {
-        body,
+        body: this.get('body'),
         attachments,
         preview,
         quote,
@@ -1530,31 +1521,6 @@
       }
     },
   });
-
-  // Receive will be enabled before we enable send
-  Whisper.Message.LONG_MESSAGE_CONTENT_TYPE = 'text/x-signal-plain';
-
-  Whisper.Message.getLongMessageAttachment = ({ body, attachments, now }) => {
-    if (body.length <= 2048) {
-      return {
-        body,
-        attachments,
-      };
-    }
-
-    const data = bytesFromString(body);
-    const attachment = {
-      contentType: Whisper.Message.LONG_MESSAGE_CONTENT_TYPE,
-      fileName: `long-message-${now}.txt`,
-      data,
-      size: data.byteLength,
-    };
-
-    return {
-      body: body.slice(0, 2048),
-      attachments: [attachment, ...attachments],
-    };
-  };
 
   Whisper.Message.refreshExpirationTimer = () =>
     Whisper.ExpiringMessagesListener.update();
