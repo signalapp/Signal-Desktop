@@ -6,7 +6,7 @@ export function makeLookup<T>(
   key: keyof T
 ): Record<string, T> {
   return (items || []).reduce((lookup, item) => {
-    if (item && item[key]) {
+    if (item !== undefined && item[key] !== undefined) {
       // The force cast is necessary if we want the keyof T above, and the flexibility
       //   to pass anything in. And of course we're modifying a parameter!
       // eslint-disable-next-line no-param-reassign

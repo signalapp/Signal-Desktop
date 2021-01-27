@@ -169,6 +169,7 @@ export type DataInterface = {
   getRecentStickers: (options?: {
     limit?: number;
   }) => Promise<Array<StickerType>>;
+  clearAllErrorStickerPackAttempts: () => Promise<void>;
 
   updateEmojiUsage: (shortName: string, timeUsed?: number) => Promise<void>;
   getRecentEmojis: (limit?: number) => Promise<Array<EmojiType>>;

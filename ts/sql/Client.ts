@@ -203,6 +203,7 @@ const dataInterface: ClientInterface = {
   getAllStickerPacks,
   getAllStickers,
   getRecentStickers,
+  clearAllErrorStickerPackAttempts,
 
   updateEmojiUsage,
   getRecentEmojis,
@@ -1332,6 +1333,9 @@ async function getRecentStickers() {
   const recentStickers = await channels.getRecentStickers();
 
   return recentStickers;
+}
+async function clearAllErrorStickerPackAttempts() {
+  await channels.clearAllErrorStickerPackAttempts();
 }
 
 // Emojis

@@ -180,6 +180,7 @@ const dataInterface: ServerInterface = {
   getAllStickerPacks,
   getAllStickers,
   getRecentStickers,
+  clearAllErrorStickerPackAttempts,
 
   updateEmojiUsage,
   getRecentEmojis,
@@ -3463,6 +3464,13 @@ async function updateStickerPackStatus(
       $status: status,
       $installedAt: installedAt,
     }
+  );
+}
+async function clearAllErrorStickerPackAttempts(): Promise<void> {
+  const db = getInstance();
+
+  await db.run(
+    "UPDATE sticker_packs SET downloadAttempts = 0 WHERE status = 'error';"
   );
 }
 async function createOrUpdateSticker(sticker: StickerType) {

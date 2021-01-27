@@ -524,6 +524,13 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         await window.Signal.Services.eraseAllStorageServiceState();
       }
 
+      if (
+        lastVersion === 'v1.40.0-beta.1' &&
+        window.isAfterVersion(lastVersion, 'v1.40.0-beta.1')
+      ) {
+        await window.Signal.Data.clearAllErrorStickerPackAttempts();
+      }
+
       // This one should always be last - it could restart the app
       if (window.isBeforeVersion(lastVersion, 'v1.15.0-beta.5')) {
         await window.Signal.Logs.deleteAll();

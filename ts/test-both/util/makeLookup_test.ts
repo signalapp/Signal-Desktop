@@ -33,11 +33,22 @@ describe('makeLookup', () => {
     });
   });
 
-  it('ignores falsy properties', () => {
-    const arr = [{}, { foo: '' }, { foo: false }, { foo: null }];
+  it('ignores undefined properties', () => {
+    const arr = [{}, { foo: undefined }];
     const result = makeLookup(arr, 'foo');
 
     assert.deepEqual(result, {});
+  });
+
+  it('allows key of 0', () => {
+    const arr = [{}, { id: 0 }, { id: 1 }, { id: 2 }];
+    const result = makeLookup(arr, 'id');
+
+    assert.deepEqual(result, {
+      0: { id: 0 },
+      1: { id: 1 },
+      2: { id: 2 },
+    });
   });
 
   it('converts the lookup to a string', () => {
