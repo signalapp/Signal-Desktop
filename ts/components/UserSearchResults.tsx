@@ -6,7 +6,6 @@ import { PubKey } from '../session/types';
 
 export type Props = {
   contacts: Array<ConversationListItemProps>;
-  regionCode: string;
   searchTerm: string;
   selectedContact: number;
   onContactSelected: any;

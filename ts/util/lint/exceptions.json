@@ -499,15 +499,6 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/phone-input-view.js",
-    "line": "      const regionCode = this.$('li.active')",
-    "lineNumber": 22,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/phone-input-view.js",
     "line": "        this.$('.number-container').removeClass('invalid');",
     "lineNumber": 29,
     "reasonCategory": "usageTrusted",

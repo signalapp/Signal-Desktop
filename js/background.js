@@ -120,7 +120,6 @@
       accountManager = new textsecure.AccountManager(USERNAME, PASSWORD);
       accountManager.addEventListener('registration', () => {
         const user = {
-          regionCode: window.storage.get('regionCode'),
           ourNumber: textsecure.storage.user.getNumber(),
           ourPrimary: window.textsecure.storage.get('primaryDevicePubKey'),
         };

@@ -4,7 +4,6 @@ import { LocalizerType } from '../../types/Util';
 
 export type UserStateType = {
   ourNumber: string;
-  regionCode: string;
   i18n: LocalizerType;
 };
 
@@ -15,7 +14,6 @@ type UserChangedActionType = {
   payload: {
     ourNumber: string;
     ourPrimary: string;
-    regionCode: string;
   };
 };
 
@@ -30,7 +28,6 @@ export const actions = {
 function userChanged(attributes: {
   ourNumber: string;
   ourPrimary: string;
-  regionCode: string;
 }): UserChangedActionType {
   return {
     type: 'USER_CHANGED',
@@ -43,7 +40,6 @@ function userChanged(attributes: {
 function getEmptyState(): UserStateType {
   return {
     ourNumber: 'missing',
-    regionCode: 'missing',
     i18n: () => 'missing',
   };
 }

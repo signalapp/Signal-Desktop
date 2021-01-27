@@ -20,7 +20,7 @@
 
   window.Whisper = window.Whisper || {};
 
-  const { Message: TypedMessage, Contact, PhoneNumber } = Signal.Types;
+  const { Message: TypedMessage, Contact } = Signal.Types;
 
   const {
     deleteExternalMessageFiles,
@@ -326,9 +326,6 @@
       return window.getConversationController().get(phoneNumber);
     },
     findAndFormatContact(phoneNumber) {
-      const { format } = PhoneNumber;
-      const regionCode = storage.get('regionCode');
-
       const contactModel = this.findContact(phoneNumber);
       let profileName;
       if (phoneNumber === window.storage.get('primaryDevicePubKey')) {
@@ -338,9 +335,7 @@
       }
 
       return {
-        phoneNumber: format(phoneNumber, {
-          ourRegionCode: regionCode,
-        }),
+        phoneNumber,
         color: null,
         avatarPath: contactModel ? contactModel.getAvatarPath() : null,
         name: contactModel ? contactModel.getName() : null,
@@ -520,7 +515,6 @@
         timestamp: this.get('sent_at'),
         serverTimestamp: this.get('serverTimestamp'),
         status: this.getMessagePropStatus(),
-        contact: this.getPropsForEmbeddedContact(),
         authorName: contact.name,
         authorProfileName: contact.profileName,
         authorPhoneNumber: contact.phoneNumber,
@@ -565,38 +559,6 @@
             ? _.reduce(spaces, accumulator => accumulator + nbsp, '')
             : spaces;
         return `${start}${newSpaces}${end}`;
-      });
-    },
-    getPropsForEmbeddedContact() {
-      const regionCode = storage.get('regionCode');
-      const { contactSelector } = Contact;
-
-      const contacts = this.get('contact');
-      if (!contacts || !contacts.length) {
-        return null;
-      }
-
-      const contact = contacts[0];
-      const firstNumber =
-        contact.number && contact.number[0] && contact.number[0].value;
-      const onSendMessage = firstNumber
-        ? () => {
-            this.trigger('open-conversation', firstNumber);
-          }
-        : null;
-      const onClick = async () => {
-        // First let's be sure that the signal account check is complete.
-
-        this.trigger('show-contact-detail', {
-          contact,
-        });
-      };
-
-      return contactSelector(contact, {
-        regionCode,
-        getAbsoluteAttachmentPath,
-        onSendMessage,
-        onClick,
       });
     },
     processQuoteAttachment(attachment) {
@@ -652,15 +614,9 @@
         return null;
       }
 
-      const { format } = PhoneNumber;
-      const regionCode = storage.get('regionCode');
-
       const { author, id, referencedMessageNotFound } = quote;
       const contact = author && window.getConversationController().get(author);
 
-      const authorPhoneNumber = format(author, {
-        ourRegionCode: regionCode,
-      });
       const authorName = contact ? contact.getName() : null;
       const isFromMe = contact
         ? contact.id === textsecure.storage.user.getNumber()
@@ -684,7 +640,7 @@
           ? this.processQuoteAttachment(firstAttachment)
           : null,
         isFromMe,
-        authorPhoneNumber,
+        authorPhoneNumber: author,
         messageId: id,
         authorName,
         onClick,

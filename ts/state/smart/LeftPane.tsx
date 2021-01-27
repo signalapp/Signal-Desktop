@@ -3,7 +3,7 @@ import { LeftPane } from '../../components/LeftPane';
 import { StateType } from '../reducer';
 
 import { getQuery, getSearchResults, isSearching } from '../selectors/search';
-import { getIntl, getOurNumber, getRegionCode } from '../selectors/user';
+import { getIntl, getOurNumber } from '../selectors/user';
 import {
   getLeftPaneLists,
   getOurPrimaryConversation,
@@ -25,7 +25,6 @@ const mapStateToProps = (state: StateType) => {
     ...lists,
     ourPrimaryConversation: getOurPrimaryConversation(state), // used in actionPanel
     searchTerm: getQuery(state),
-    regionCode: getRegionCode(state),
     ourNumber: getOurNumber(state),
     searchResults,
     i18n: getIntl(state),

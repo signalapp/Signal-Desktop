@@ -13,8 +13,7 @@ import { SessionSearchInput } from './SessionSearchInput';
 import { debounce } from 'lodash';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { SearchOptions } from '../../types/Search';
-import { validateNumber } from '../../types/PhoneNumber';
-import { LeftPane, RowRendererParamsType } from '../LeftPane';
+import { RowRendererParamsType } from '../LeftPane';
 import {
   SessionClosableOverlay,
   SessionClosableOverlayType,
@@ -26,7 +25,7 @@ import {
   SessionButtonColor,
   SessionButtonType,
 } from './SessionButton';
-import { OpenGroup } from '../../session/types';
+import { OpenGroup, PubKey } from '../../session/types';
 import { ToastUtils } from '../../session/utils';
 import { DefaultTheme } from 'styled-components';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
@@ -266,7 +265,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       search(searchTerm, {
         noteToSelf: window.i18n('noteToSelf').toLowerCase(),
         ourNumber: window.textsecure.storage.user.getNumber(),
-        regionCode: '',
       });
     }
   }
@@ -392,7 +390,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     pubkey = this.state.valuePasted || this.props.searchTerm;
     pubkey = pubkey.trim();
 
-    const error = validateNumber(pubkey);
+    const error = PubKey.validateWithError(pubkey);
     if (!error) {
       await ConversationController.getInstance().getOrCreateAndWait(
         pubkey,

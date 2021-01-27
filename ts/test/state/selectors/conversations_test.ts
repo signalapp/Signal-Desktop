@@ -10,7 +10,6 @@ describe('state/selectors/conversations', () => {
   describe('#getLeftPaneList', () => {
     it('sorts conversations based on timestamp then by intl-friendly title', () => {
       const i18n = (key: string) => key;
-      const regionCode = 'US';
       const data: ConversationLookupType = {
         id1: {
           id: 'id1',
@@ -101,7 +100,7 @@ describe('state/selectors/conversations', () => {
           left: false,
         },
       };
-      const comparator = _getConversationComparator(i18n, regionCode);
+      const comparator = _getConversationComparator(i18n);
       const { conversations } = _getLeftPaneLists(data, comparator);
 
       assert.strictEqual(conversations[0].name, 'First!');

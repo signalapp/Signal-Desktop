@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect';
-import { format } from '../../types/PhoneNumber';
 
 import { LocalizerType } from '../../types/Util';
 import { StateType } from '../reducer';
@@ -10,7 +9,7 @@ import {
   MessageTypeInConvo,
 } from '../ducks/conversations';
 
-import { getIntl, getOurNumber, getRegionCode } from './user';
+import { getIntl, getOurNumber } from './user';
 import { BlockedNumberController } from '../../util';
 
 export const getConversations = (state: StateType): ConversationsStateType =>
@@ -50,27 +49,21 @@ export const getMessagesOfSelectedConversation = createSelector(
   (state: ConversationsStateType): Array<MessageTypeInConvo> => state.messages
 );
 
-function getConversationTitle(
-  conversation: ConversationType,
-  options: { i18n: LocalizerType; ourRegionCode: string }
-): string {
+function getConversationTitle(conversation: ConversationType): string {
   if (conversation.name) {
     return conversation.name;
   }
 
   if (conversation.type === 'group') {
-    const { i18n } = options;
+    const { i18n } = window;
     return i18n('unknown');
   }
-  return format(conversation.phoneNumber, options);
+  return conversation.id;
 }
 
 const collator = new Intl.Collator();
 
-export const _getConversationComparator = (
-  i18n: LocalizerType,
-  ourRegionCode: string
-) => {
+export const _getConversationComparator = (i18n: LocalizerType) => {
   return (left: ConversationType, right: ConversationType): number => {
     const leftTimestamp = left.timestamp;
     const rightTimestamp = right.timestamp;
@@ -83,21 +76,14 @@ export const _getConversationComparator = (
     if (leftTimestamp && rightTimestamp && leftTimestamp !== rightTimestamp) {
       return rightTimestamp - leftTimestamp;
     }
-    const leftTitle = getConversationTitle(left, {
-      i18n,
-      ourRegionCode,
-    }).toLowerCase();
-    const rightTitle = getConversationTitle(right, {
-      i18n,
-      ourRegionCode,
-    }).toLowerCase();
+    const leftTitle = getConversationTitle(left).toLowerCase();
+    const rightTitle = getConversationTitle(right).toLowerCase();
 
     return collator.compare(leftTitle, rightTitle);
   };
 };
 export const getConversationComparator = createSelector(
   getIntl,
-  getRegionCode,
   _getConversationComparator
 );
 

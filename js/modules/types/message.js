@@ -1,6 +1,5 @@
 const { isFunction, isObject, isString, omit } = require('lodash');
 
-const Contact = require('./contact');
 const Attachment = require('./attachment');
 const Errors = require('./errors');
 const SchemaVersion = require('./schema_version');
@@ -283,12 +282,6 @@ const toVersion5 = exports._withSchemaVersion({
   schemaVersion: 5,
   upgrade: initializeAttachmentMetadata,
 });
-const toVersion6 = exports._withSchemaVersion({
-  schemaVersion: 6,
-  upgrade: exports._mapContact(
-    Contact.parseAndWriteAvatar(Attachment.migrateDataToFileSystem)
-  ),
-});
 // IMPORTANT: We’ve updated our definition of `initializeAttachmentMetadata`, so
 // we need to run it again on existing items that have previously been incorrectly
 // classified:
@@ -318,7 +311,6 @@ const VERSIONS = [
   toVersion3,
   toVersion4,
   toVersion5,
-  toVersion6,
   toVersion7,
   toVersion8,
   toVersion9,
@@ -334,7 +326,6 @@ exports.upgradeSchema = async (
   rawMessage,
   {
     writeNewAttachmentData,
-    getRegionCode,
     getAbsoluteAttachmentPath,
     makeObjectUrl,
     revokeObjectUrl,
@@ -347,9 +338,6 @@ exports.upgradeSchema = async (
 ) => {
   if (!isFunction(writeNewAttachmentData)) {
     throw new TypeError('context.writeNewAttachmentData is required');
-  }
-  if (!isFunction(getRegionCode)) {
-    throw new TypeError('context.getRegionCode is required');
   }
   if (!isFunction(getAbsoluteAttachmentPath)) {
     throw new TypeError('context.getAbsoluteAttachmentPath is required');
@@ -386,7 +374,6 @@ exports.upgradeSchema = async (
     // eslint-disable-next-line no-await-in-loop
     message = await currentVersion(message, {
       writeNewAttachmentData,
-      regionCode: getRegionCode(),
       getAbsoluteAttachmentPath,
       makeObjectUrl,
       revokeObjectUrl,

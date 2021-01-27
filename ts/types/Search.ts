@@ -1,5 +1,4 @@
 export type SearchOptions = {
-  regionCode: string;
   ourNumber: string;
   noteToSelf: string;
 };

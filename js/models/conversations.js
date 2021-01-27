@@ -22,7 +22,7 @@
 
   window.Whisper = window.Whisper || {};
 
-  const { Contact, Conversation, Message, PhoneNumber } = window.Signal.Types;
+  const { Contact, Conversation, Message } = window.Signal.Types;
   const {
     upgradeMessageSchema,
     loadAttachmentData,
@@ -352,8 +352,6 @@
       return this.get('groupAdmins') || this.get('moderators');
     },
     getProps() {
-      const { format } = PhoneNumber;
-      const regionCode = storage.get('regionCode');
       const typingKeys = Object.keys(this.contactTypingTimers || {});
 
       const groupAdmins = this.getGroupAdmins();
@@ -377,9 +375,6 @@
         unreadCount: this.get('unreadCount') || 0,
         mentionedUs: this.get('mentionedUs') || false,
         isBlocked: this.isBlocked(),
-        phoneNumber: format(this.id, {
-          ourRegionCode: regionCode,
-        }),
         lastMessage: {
           status: this.get('lastMessageStatus'),
           text: this.get('lastMessage'),

@@ -1,6 +1,5 @@
 import { omit, reject } from 'lodash';
 
-import { normalize } from '../../types/PhoneNumber';
 import { AdvancedSearchOptions, SearchOptions } from '../../types/Search';
 import { getMessageModel } from '../../shims/Whisper';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
@@ -14,6 +13,7 @@ import {
   RemoveAllConversationsActionType,
   SelectedConversationChangedActionType,
 } from './conversations';
+import { PubKey } from '../../session/types';
 
 // State
 
@@ -89,8 +89,6 @@ async function doSearch(
   query: string,
   options: SearchOptions
 ): Promise<SearchResultsPayloadType> {
-  const { regionCode } = options;
-
   const advancedSearchOptions = getAdvancedSearchOptionsFromQuery(query);
   const processedQuery = advancedSearchOptions.query;
   const isAdvancedQuery = query !== processedQuery;
@@ -120,7 +118,7 @@ async function doSearch(
 
   return {
     query,
-    normalizedPhoneNumber: normalize(query, { regionCode }),
+    normalizedPhoneNumber: PubKey.normalize(query),
     conversations,
     contacts,
     messages: getMessageProps(filteredMessages) || [],
