@@ -61,7 +61,6 @@ export type ConversationType = {
   type: 'direct' | 'group';
   isMe: boolean;
   isPublic?: boolean;
-  isClosable?: boolean;
   lastUpdated: number;
   unreadCount: number;
   mentionedUs: boolean;
@@ -158,7 +157,15 @@ const fetchMessagesForConversation = createAsyncThunk(
     conversationKey: string;
     count: number;
   }) => {
+    const beforeTimestamp = Date.now();
     const messages = await getMessages(conversationKey, count);
+    const afterTimestamp = Date.now();
+
+    const time = afterTimestamp - beforeTimestamp;
+    window.log.info(
+      `Loading ${messages.length} messages took ${time}ms to load.`
+    );
+
     return {
       conversationKey,
       messages,

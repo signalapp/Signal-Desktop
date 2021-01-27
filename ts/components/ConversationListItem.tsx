@@ -34,7 +34,6 @@ export type ConversationListItemProps = {
   avatarPath?: string;
   isMe: boolean;
   isPublic?: boolean;
-  isClosable?: boolean;
   primaryDevice?: string;
 
   lastUpdated: number;

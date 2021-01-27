@@ -16,7 +16,6 @@ export type PropsContextConversationItem = {
   type: 'group' | 'direct';
   isMe: boolean;
   isPublic?: boolean;
-  isClosable?: boolean;
   isBlocked?: boolean;
   hasNickname?: boolean;
   isKickedFromGroup?: boolean;
@@ -39,7 +38,6 @@ export const ConversationListItemContextMenu = (
     triggerId,
     isBlocked,
     isMe,
-    isClosable,
     isPublic,
     hasNickname,
     type,
@@ -92,7 +90,6 @@ export const ConversationListItemContextMenu = (
       )}
       {getDeleteContactMenuItem(
         isMe,
-        isClosable,
         type === 'group',
         isPublic,
         onDeleteContact,

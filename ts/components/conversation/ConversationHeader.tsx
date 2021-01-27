@@ -38,7 +38,6 @@ interface Props {
   avatarPath?: string;
 
   isMe: boolean;
-  isClosable?: boolean;
   isGroup: boolean;
   isPrivate: boolean;
   isPublic: boolean;

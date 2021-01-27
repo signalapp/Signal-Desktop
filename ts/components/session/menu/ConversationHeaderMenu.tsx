@@ -18,7 +18,6 @@ export type PropsConversationHeaderMenu = {
   triggerId: string;
   isMe: boolean;
   isPublic?: boolean;
-  isClosable?: boolean;
   isKickedFromGroup?: boolean;
   left?: boolean;
   isGroup: boolean;
@@ -44,7 +43,6 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
   const {
     triggerId,
     isMe,
-    isClosable,
     isPublic,
     isGroup,
     isKickedFromGroup,
@@ -125,7 +123,6 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
       )}
       {getDeleteContactMenuItem(
         isMe,
-        isClosable,
         isGroup,
         isPublic,
         onDeleteContact,

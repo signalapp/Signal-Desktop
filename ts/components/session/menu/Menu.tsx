@@ -33,16 +33,15 @@ function showDeleteMessages(isPublic: boolean): boolean {
 }
 
 function showCopyId(isPublic: boolean, isGroup: boolean): boolean {
-  return !isGroup;
+  return !isGroup || isPublic;
 }
 
 function showDeleteContact(
   isMe: boolean,
-  isClosable: boolean,
   isGroup: boolean,
   isPublic: boolean
 ): boolean {
-  return !isMe && isClosable && !!(!isGroup || isPublic);
+  return !isMe && Boolean(!isGroup || isPublic);
 }
 
 function showAddModerators(
@@ -96,20 +95,12 @@ export function getInviteContactMenuItem(
 
 export function getDeleteContactMenuItem(
   isMe: boolean | undefined,
-  isClosable: boolean | undefined,
   isGroup: boolean | undefined,
   isPublic: boolean | undefined,
   action: any,
   i18n: LocalizerType
 ): JSX.Element | null {
-  if (
-    showDeleteContact(
-      Boolean(isMe),
-      Boolean(isClosable),
-      Boolean(isGroup),
-      Boolean(isPublic)
-    )
-  ) {
+  if (showDeleteContact(Boolean(isMe), Boolean(isGroup), Boolean(isPublic))) {
     if (isPublic) {
       return <Item onClick={action}>{i18n('leaveGroup')}</Item>;
     }

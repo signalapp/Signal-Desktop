@@ -115,9 +115,7 @@
     isClosedGroup() {
       return this.get('type') === Message.GROUP && !this.isPublic();
     },
-    isClosable() {
-      return this.get('closable');
-    },
+
     isBlocked() {
       if (!this.id || this.isMe()) {
         return false;
@@ -400,7 +398,6 @@
         type: this.isPrivate() ? 'direct' : 'group',
         isMe: this.isMe(),
         isPublic: this.isPublic(),
-        isClosable: this.isClosable(),
         isTyping: typingKeys.length > 0,
         lastUpdated: this.get('timestamp'),
         name: this.getName(),

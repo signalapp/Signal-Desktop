@@ -418,7 +418,6 @@ export class SessionConversation extends React.Component<Props, State> {
       profileName: conversation.getProfileName(),
       avatarPath: conversation.getAvatarPath(),
       isMe: conversation.isMe(),
-      isClosable: conversation.isClosable(),
       isBlocked: conversation.isBlocked(),
       isGroup: !conversation.isPrivate(),
       isPrivate: conversation.isPrivate(),
