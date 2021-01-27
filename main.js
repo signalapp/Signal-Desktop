@@ -87,7 +87,7 @@ const updater = require('./ts/updater/index');
 const createTrayIcon = require('./app/tray_icon');
 const dockIcon = require('./ts/dock_icon');
 const ephemeralConfig = require('./app/ephemeral_config');
-const logging = require('./app/logging');
+const logging = require('./ts/logging/main_process_logging');
 const sql = require('./ts/sql/Server').default;
 const sqlChannels = require('./app/sql_channel');
 const windowState = require('./app/window_state');
@@ -897,8 +897,7 @@ app.on('ready', async () => {
 
   installPermissionsHandler({ session, userConfig });
 
-  await logging.initialize();
-  logger = logging.getLogger();
+  logger = await logging.initialize();
   logger.info('app ready');
   logger.info(`starting version ${packageJson.version}`);
 

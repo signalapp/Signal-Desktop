@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* global window */
@@ -19,4 +19,4 @@ window.closeAbout = () => ipcRenderer.send('close-about');
 
 window.i18n = i18n.setup(locale, localeMessages);
 
-require('./js/logging');
+require('./ts/logging/set_up_renderer_logging');

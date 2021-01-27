@@ -24,6 +24,7 @@ import {
 } from './libsignal.d';
 import { ContactRecordIdentityState, TextSecureType } from './textsecure.d';
 import { WebAPIConnectType } from './textsecure/WebAPI';
+import { uploadDebugLogs } from './logging/debuglogs';
 import { CallingClass } from './services/calling';
 import * as Groups from './groups';
 import * as Crypto from './Crypto';
@@ -142,6 +143,7 @@ declare global {
     getInteractionMode: () => 'mouse' | 'keyboard';
     getMediaCameraPermissions: () => Promise<boolean>;
     getMediaPermissions: () => Promise<boolean>;
+    getNodeVersion: () => string;
     getServerPublicParams: () => string;
     getSfuUrl: () => string;
     getSocketStatus: () => number;
@@ -170,9 +172,14 @@ declare global {
     };
     libsignal: LibSignalType;
     log: {
+      fatal: LoggerType;
       info: LoggerType;
       warn: LoggerType;
       error: LoggerType;
+      debug: LoggerType;
+      trace: LoggerType;
+      fetch: () => Promise<string>;
+      publish: typeof uploadDebugLogs;
     };
     nodeSetImmediate: typeof setImmediate;
     normalizeUuids: (obj: any, paths: Array<string>, context: string) => void;
@@ -592,7 +599,7 @@ export class CanvasVideoRenderer {
   constructor(canvas: Ref<HTMLCanvasElement>);
 }
 
-export type LoggerType = (...args: Array<any>) => void;
+export type LoggerType = (...args: Array<unknown>) => void;
 
 export type WhisperType = {
   events: {

@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* global window */
@@ -31,7 +31,7 @@ window.Backbone = require('backbone');
 
 window.localeMessages = ipc.sendSync('locale-data');
 
-require('../js/logging');
+require('../ts/logging/set_up_renderer_logging');
 
 window.log.info('sticker-creator starting up...');
 

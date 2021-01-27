@@ -24,7 +24,7 @@ window.waitForAllBatchers = async () => {
 export type BatcherOptionsType<ItemType> = {
   wait: number;
   maxSize: number;
-  processBatch: (items: Array<ItemType>) => Promise<void>;
+  processBatch: (items: Array<ItemType>) => void | Promise<void>;
 };
 
 export type BatcherType<ItemType> = {

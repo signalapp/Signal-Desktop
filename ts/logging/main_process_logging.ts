@@ -1,41 +1,44 @@
-// Copyright 2017-2020 Signal Messenger, LLC
+// Copyright 2017-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // NOTE: Temporarily allow `then` until we convert the entire file to `async` / `await`:
 /* eslint-disable more/no-then */
+/* eslint-disable no-console */
 
-const path = require('path');
-const fs = require('fs');
+import * as path from 'path';
+import * as fs from 'fs';
+import { app, ipcMain as ipc } from 'electron';
+import * as bunyan from 'bunyan';
+import * as mkdirp from 'mkdirp';
+import * as _ from 'lodash';
+import readFirstLine from 'firstline';
+import { read as readLastLines } from 'read-last-lines';
+import rimraf from 'rimraf';
 
-const electron = require('electron');
-const bunyan = require('bunyan');
-const mkdirp = require('mkdirp');
-const _ = require('lodash');
-const readFirstLine = require('firstline');
-const readLastLines = require('read-last-lines').read;
-const rimraf = require('rimraf');
+import {
+  LogEntryType,
+  LogLevel,
+  cleanArgs,
+  getLogLevelString,
+  isLogEntry,
+} from './shared';
 
-const { redactAll } = require('../js/modules/privacy');
+declare global {
+  // We want to extend `Console`, so we need an interface.
+  // eslint-disable-next-line no-restricted-syntax
+  interface Console {
+    _log: typeof console.log;
+    _warn: typeof console.warn;
+    _error: typeof console.error;
+  }
+}
 
-const { app, ipcMain: ipc } = electron;
-const LEVELS = ['fatal', 'error', 'warn', 'info', 'debug', 'trace'];
-let logger;
+let globalLogger: undefined | bunyan;
 
 const isRunningFromConsole = Boolean(process.stdout.isTTY);
 
-module.exports = {
-  initialize,
-  getLogger,
-  // for tests only:
-  isLineAfterDate,
-  eliminateOutOfDateFiles,
-  eliminateOldEntries,
-  fetchLog,
-  fetch,
-};
-
-async function initialize() {
-  if (logger) {
+export async function initialize(): Promise<bunyan> {
+  if (globalLogger) {
     throw new Error('Already called initialize!');
   }
 
@@ -59,7 +62,7 @@ async function initialize() {
   }
 
   const logFile = path.join(logPath, 'log.log');
-  const loggerOptions = {
+  const loggerOptions: bunyan.LoggerOptions = {
     name: 'log',
     streams: [
       {
@@ -72,28 +75,36 @@ async function initialize() {
   };
 
   if (isRunningFromConsole) {
-    loggerOptions.streams.push({
+    loggerOptions.streams?.push({
       level: 'debug',
       stream: process.stdout,
     });
   }
 
-  logger = bunyan.createLogger(loggerOptions);
+  const logger = bunyan.createLogger(loggerOptions);
 
-  LEVELS.forEach(level => {
-    ipc.on(`log-${level}`, (first, ...rest) => {
-      logger[level](...rest);
-    });
-  });
-
-  ipc.on('batch-log', (first, batch) => {
-    batch.forEach(item => {
-      logger[item.level](
-        {
-          time: new Date(item.timestamp),
-        },
-        item.logText
+  ipc.on('batch-log', (_first, batch: unknown) => {
+    if (!Array.isArray(batch)) {
+      logger.error(
+        'batch-log IPC event was called with a non-array; dropping logs'
       );
+      return;
+    }
+
+    batch.forEach(item => {
+      if (isLogEntry(item)) {
+        const levelString = getLogLevelString(item.level);
+        logger[levelString](
+          {
+            time: item.time,
+          },
+          item.msg
+        );
+      } else {
+        logger.error(
+          'batch-log IPC event was called with an invalid log entry; dropping entry'
+        );
+      }
     });
   });
 
@@ -117,9 +128,13 @@ async function initialize() {
 
     event.sender.send('delete-all-logs-complete');
   });
+
+  globalLogger = logger;
+
+  return logger;
 }
 
-async function deleteAllLogs(logPath) {
+async function deleteAllLogs(logPath: string): Promise<void> {
   return new Promise((resolve, reject) => {
     rimraf(
       logPath,
@@ -137,7 +152,7 @@ async function deleteAllLogs(logPath) {
   });
 }
 
-async function cleanupLogs(logPath) {
+async function cleanupLogs(logPath: string) {
   const now = new Date();
   const earliestDate = new Date(
     Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - 3)
@@ -164,7 +179,8 @@ async function cleanupLogs(logPath) {
   }
 }
 
-function isLineAfterDate(line, date) {
+// Exported for testing only.
+export function isLineAfterDate(line: string, date: Readonly<Date>): boolean {
   if (!line) {
     return false;
   }
@@ -178,7 +194,17 @@ function isLineAfterDate(line, date) {
   }
 }
 
-function eliminateOutOfDateFiles(logPath, date) {
+// Exported for testing only.
+export function eliminateOutOfDateFiles(
+  logPath: string,
+  date: Readonly<Date>
+): Promise<
+  Array<{
+    path: string;
+    start: boolean;
+    end: boolean;
+  }>
+> {
   const files = fs.readdirSync(logPath);
   const paths = files.map(file => path.join(logPath, file));
 
@@ -208,16 +234,15 @@ function eliminateOutOfDateFiles(logPath, date) {
   );
 }
 
-function eliminateOldEntries(files, date) {
-  const earliest = date.getTime();
-
-  return Promise.all(
+// Exported for testing only.
+export async function eliminateOldEntries(
+  files: ReadonlyArray<{ path: string }>,
+  date: Readonly<Date>
+): Promise<void> {
+  await Promise.all(
     _.map(files, file =>
       fetchLog(file.path).then(lines => {
-        const recent = _.filter(
-          lines,
-          line => new Date(line.time).getTime() >= earliest
-        );
+        const recent = _.filter(lines, line => new Date(line.time) >= date);
         const text = _.map(recent, line => JSON.stringify(line)).join('\n');
 
         return fs.writeFileSync(file.path, `${text}\n`);
@@ -226,15 +251,8 @@ function eliminateOldEntries(files, date) {
   );
 }
 
-function getLogger() {
-  if (!logger) {
-    throw new Error("Logger hasn't been initialized yet!");
-  }
-
-  return logger;
-}
-
-function fetchLog(logFile) {
+// Exported for testing only.
+export function fetchLog(logFile: string): Promise<Array<LogEntryType>> {
   return new Promise((resolve, reject) => {
     fs.readFile(logFile, { encoding: 'utf8' }, (err, text) => {
       if (err) {
@@ -245,7 +263,8 @@ function fetchLog(logFile) {
       const data = _.compact(
         lines.map(line => {
           try {
-            return _.pick(JSON.parse(line), ['level', 'time', 'msg']);
+            const result = _.pick(JSON.parse(line), ['level', 'time', 'msg']);
+            return isLogEntry(result) ? result : null;
           } catch (e) {
             return null;
           }
@@ -257,15 +276,15 @@ function fetchLog(logFile) {
   });
 }
 
-function fetch(logPath) {
+// Exported for testing only.
+export function fetch(logPath: string): Promise<Array<LogEntryType>> {
   const files = fs.readdirSync(logPath);
   const paths = files.map(file => path.join(logPath, file));
 
   // creating a manual log entry for the final log result
-  const now = new Date();
-  const fileListEntry = {
-    level: 30, // INFO
-    time: now.toJSON(),
+  const fileListEntry: LogEntryType = {
+    level: LogLevel.Info,
+    time: new Date().toISOString(),
     msg: `Loaded this list of log files from logPath: ${files.join(', ')}`,
   };
 
@@ -274,25 +293,14 @@ function fetch(logPath) {
 
     data.push(fileListEntry);
 
-    return _.sortBy(data, 'time');
+    return _.sortBy(data, logEntry => logEntry.time);
   });
 }
 
-function logAtLevel(level, ...args) {
-  if (logger) {
-    // To avoid [Object object] in our log since console.log handles non-strings smoothly
-    const str = args.map(item => {
-      if (typeof item !== 'string') {
-        try {
-          return JSON.stringify(item);
-        } catch (e) {
-          return item;
-        }
-      }
-
-      return item;
-    });
-    logger[level](redactAll(str.join(' ')));
+function logAtLevel(level: LogLevel, ...args: ReadonlyArray<unknown>) {
+  if (globalLogger) {
+    const levelString = getLogLevelString(level);
+    globalLogger[levelString](cleanArgs(args));
   } else if (isRunningFromConsole) {
     console._log(...args);
   }
@@ -301,9 +309,9 @@ function logAtLevel(level, ...args) {
 // This blows up using mocha --watch, so we ensure it is run just once
 if (!console._log) {
   console._log = console.log;
-  console.log = _.partial(logAtLevel, 'info');
+  console.log = _.partial(logAtLevel, LogLevel.Info);
   console._error = console.error;
-  console.error = _.partial(logAtLevel, 'error');
+  console.error = _.partial(logAtLevel, LogLevel.Error);
   console._warn = console.warn;
-  console.warn = _.partial(logAtLevel, 'warn');
+  console.warn = _.partial(logAtLevel, LogLevel.Warn);
 }

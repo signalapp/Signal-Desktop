@@ -1,4 +1,4 @@
-// Copyright 2017-2020 Signal Messenger, LLC
+// Copyright 2017-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* global Whisper, window */
@@ -359,7 +359,7 @@ try {
 
   // We pull these dependencies in now, from here, because they have Node.js dependencies
 
-  require('./js/logging');
+  require('./ts/logging/set_up_renderer_logging');
 
   if (config.proxyUrl) {
     window.log.info('Using provided proxy url');
