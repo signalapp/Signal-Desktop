@@ -1086,17 +1086,12 @@ export function initialize({
     }
 
     async function getSenderCertificate(omitE164?: boolean) {
-      const baseParameters = '?includeUuid=true';
-      const urlParameters = `${baseParameters}${
-        omitE164 ? '&includeE164=false' : ''
-      }`;
-
       return _ajax({
         call: 'deliveryCert',
         httpType: 'GET',
         responseType: 'json',
         validateResponse: { certificate: 'string' },
-        urlParameters,
+        ...(omitE164 ? { urlParameters: '?includeE164=false' } : {}),
       });
     }
 
