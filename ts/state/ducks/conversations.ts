@@ -66,7 +66,6 @@ export type ConversationType = {
   mentionedUs: boolean;
   isSelected: boolean;
   isTyping: boolean;
-  primaryDevice: string;
   isBlocked: boolean;
   isKickedFromGroup: boolean;
   left: boolean;

@@ -125,7 +125,7 @@ export const _getLeftPaneLists = (
       };
     }
     const isBlocked =
-      BlockedNumberController.isBlocked(conversation.primaryDevice) ||
+      BlockedNumberController.isBlocked(conversation.id) ||
       BlockedNumberController.isGroupBlocked(conversation.id);
 
     if (isBlocked) {

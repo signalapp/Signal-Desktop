@@ -22,7 +22,7 @@
 
   window.Whisper = window.Whisper || {};
 
-  const { Contact, Message, PhoneNumber } = window.Signal.Types;
+  const { Contact, Conversation, Message, PhoneNumber } = window.Signal.Types;
   const {
     upgradeMessageSchema,
     loadAttachmentData,
@@ -58,25 +58,21 @@
       //   our first save to the database. Or first fetch from the database.
       this.initialPromise = Promise.resolve();
 
-      this.contactCollection = this.getContactCollection();
       this.messageCollection = new Whisper.MessageCollection([], {
         conversation: this,
       });
 
       this.throttledBumpTyping = _.throttle(this.bumpTyping, 300);
-      const debouncedUpdateLastMessage = _.debounce(
-        this.updateLastMessage.bind(this),
-        200
+      this.updateLastMessage = _.throttle(
+        this.bouncyUpdateLastMessage.bind(this),
+        1000
       );
-      this.listenTo(
-        this.messageCollection,
-        'add remove destroy',
-        debouncedUpdateLastMessage
-      );
-      this.on('newmessage', this.onNewMessage);
-
+      // this.listenTo(
+      //   this.messageCollection,
+      //   'add remove destroy',
+      //   debouncedUpdateLastMessage
+      // );
       // Listening for out-of-band data updates
-      this.on('updateMessage', this.updateAndMerge);
       this.on('delivered', this.updateAndMerge);
       this.on('read', this.updateAndMerge);
       this.on('expiration-change', this.updateAndMerge);
@@ -289,7 +285,6 @@
         existing.merge(message.attributes);
       };
 
-      await this.inProgressFetch;
       mergeMessage();
     },
 
@@ -311,11 +306,6 @@
         existing.trigger('expired');
       };
 
-      // If a fetch is in progress, then we need to wait until that's complete to
-      //   do this removal. Otherwise we could remove from messageCollection, then
-      //   the async database fetch could include the removed message.
-
-      await this.inProgressFetch;
       removeMessage();
     },
 
@@ -347,26 +337,6 @@
       await model.setServerId(serverId);
       await model.setServerTimestamp(serverTimestamp);
       return undefined;
-    },
-
-    async onNewMessage(message) {
-      await this.updateLastMessage();
-
-      // Clear typing indicator for a given contact if we receive a message from them
-      const identifier = message.get
-        ? `${message.get('source')}.${message.get('sourceDevice')}`
-        : `${message.source}.${message.sourceDevice}`;
-      this.clearContactTypingTimer(identifier);
-
-      const model = this.addSingleMessage(message);
-      getMessageController().register(model.id, model);
-
-      window.Whisper.events.trigger('messageAdded', {
-        conversationKey: this.id,
-        messageModel: model,
-      });
-
-      this.commit();
     },
     addSingleMessage(message, setToExpire = true) {
       const model = this.messageCollection.add(message, { merge: true });
@@ -407,7 +377,6 @@
         unreadCount: this.get('unreadCount') || 0,
         mentionedUs: this.get('mentionedUs') || false,
         isBlocked: this.isBlocked(),
-        primaryDevice: this.id,
         phoneNumber: format(this.id, {
           ourRegionCode: regionCode,
         }),
