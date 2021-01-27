@@ -22,14 +22,7 @@
 
   window.Whisper = window.Whisper || {};
 
-  const SEALED_SENDER = {
-    UNKNOWN: 0,
-    ENABLED: 1,
-    DISABLED: 2,
-    UNRESTRICTED: 3,
-  };
-
-  const { Conversation, Contact, Message, PhoneNumber } = window.Signal.Types;
+  const { Contact, Message, PhoneNumber } = window.Signal.Types;
   const {
     upgradeMessageSchema,
     loadAttachmentData,
@@ -109,10 +102,6 @@
         this.set('profileSharing', true);
       }
 
-      const sealedSender = this.get('sealedSender');
-      if (sealedSender === undefined) {
-        this.set({ sealedSender: SEALED_SENDER.UNKNOWN });
-      }
       this.unset('unidentifiedDelivery');
       this.unset('unidentifiedDeliveryUnrestricted');
       this.unset('hasFetchedProfile');
@@ -1355,13 +1344,9 @@
     async setProfileKey(profileKey) {
       // profileKey is a string so we can compare it directly
       if (this.get('profileKey') !== profileKey) {
-        window.log.info(
-          `Setting sealedSender to UNKNOWN for conversation ${this.idForLogging()}`
-        );
         this.set({
           profileKey,
           accessKey: null,
-          sealedSender: SEALED_SENDER.UNKNOWN,
         });
 
         await this.deriveAccessKeyIfNeeded();

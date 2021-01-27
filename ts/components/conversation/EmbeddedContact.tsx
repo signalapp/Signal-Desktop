@@ -12,7 +12,6 @@ import {
 
 interface Props {
   contact: Contact;
-  hasSignalAccount: boolean;
   i18n: LocalizerType;
   isIncoming: boolean;
   withContentAbove: boolean;

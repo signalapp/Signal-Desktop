@@ -20,7 +20,6 @@ import { LocalizerType } from '../../types/Util';
 
 interface Props {
   contact: Contact;
-  hasSignalAccount: boolean;
   i18n: LocalizerType;
   onSendMessage: () => void;
 }
@@ -73,11 +72,9 @@ function getLabelForAddress(
 
 export class ContactDetail extends React.Component<Props> {
   public renderSendMessage({
-    hasSignalAccount,
     i18n,
     onSendMessage,
   }: {
-    hasSignalAccount: boolean;
     i18n: (key: string, values?: Array<string>) => string;
     onSendMessage: () => void;
   }) {
@@ -161,7 +158,7 @@ export class ContactDetail extends React.Component<Props> {
   }
 
   public render() {
-    const { contact, hasSignalAccount, i18n, onSendMessage } = this.props;
+    const { contact, i18n, onSendMessage } = this.props;
     const isIncoming = false;
     const module = 'contact-detail';
 
@@ -172,7 +169,7 @@ export class ContactDetail extends React.Component<Props> {
         </div>
         {renderName({ contact, isIncoming, module })}
         {renderContactShorthand({ contact, isIncoming, module })}
-        {this.renderSendMessage({ hasSignalAccount, i18n, onSendMessage })}
+        {this.renderSendMessage({ i18n, onSendMessage })}
         {this.renderPhone(contact.number, i18n)}
         {this.renderAddresses(contact.address, i18n)}
       </div>

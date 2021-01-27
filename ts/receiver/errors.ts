@@ -40,7 +40,7 @@ export async function onError(ev: any) {
       conversation.set({ timestamp: message.get('sent_at') });
     }
 
-    conversation.trigger('newmessage', message);
+    conversation.updateLastMessage();
     conversation.notify(message);
 
     if (ev.confirm) {

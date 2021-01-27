@@ -37,10 +37,6 @@
   window.doesAcountCheckJobExist = number =>
     Boolean(window.AccountJobs[number]);
 
-  window.isSignalAccountCheckComplete = number =>
-    window.AccountCache[number] !== undefined;
-  window.hasSignalAccount = () => true;
-
   window.Whisper.Message = Backbone.Model.extend({
     initialize(attributes) {
       if (_.isObject(attributes)) {
@@ -600,7 +596,6 @@
 
         this.trigger('show-contact-detail', {
           contact,
-          hasSignalAccount: window.hasSignalAccount(firstNumber),
         });
       };
 
@@ -609,7 +604,6 @@
         getAbsoluteAttachmentPath,
         onSendMessage,
         onClick,
-        hasSignalAccount: window.hasSignalAccount(firstNumber),
       });
     },
     processQuoteAttachment(attachment) {

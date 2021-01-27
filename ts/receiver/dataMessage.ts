@@ -585,6 +585,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   }
 
   // TODO: this shouldn't be called when source is not a pubkey!!!
+
   const isOurDevice = await UserUtils.isUs(source);
 
   const shouldSendReceipt =
@@ -624,18 +625,19 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   }
 
   // the conversation with the primary device of that source (can be the same as conversationOrigin)
+
   const conversation = ConversationController.getInstance().getOrThrow(
     conversationId
   );
 
-  conversation.queueJob(() => {
-    handleMessageJob(
+  conversation.queueJob(async () => {
+    await handleMessageJob(
       msg,
       conversation,
       message,
       ourNumber,
       confirm,
       source
-    ).ignore();
+    );
   });
 }

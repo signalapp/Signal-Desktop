@@ -72,7 +72,6 @@ export function contactSelector(
   contact: Contact,
   options: {
     regionCode: string;
-    hasSignalAccount: boolean;
     getAbsoluteAttachmentPath: (path: string) => string;
     onSendMessage: () => void;
     onClick: () => void;
@@ -80,7 +79,6 @@ export function contactSelector(
 ) {
   const {
     getAbsoluteAttachmentPath,
-    hasSignalAccount,
     onClick,
     onSendMessage,
     regionCode,
@@ -105,7 +103,6 @@ export function contactSelector(
 
   return {
     ...contact,
-    hasSignalAccount,
     onSendMessage,
     onClick,
     avatar,

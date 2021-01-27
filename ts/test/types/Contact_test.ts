@@ -63,7 +63,6 @@ describe('Contact', () => {
   });
   describe('contactSelector', () => {
     const regionCode = '1';
-    const hasSignalAccount = true;
     const getAbsoluteAttachmentPath = (path: string) => `absolute:${path}`;
     const onSendMessage = () => null;
     const onClick = () => null;
@@ -91,14 +90,12 @@ describe('Contact', () => {
         },
         organization: 'Somewhere, Inc.',
         avatar: undefined,
-        hasSignalAccount,
         onSendMessage,
         onClick,
         number: undefined,
       };
       const actual = contactSelector(contact, {
         regionCode,
-        hasSignalAccount,
         getAbsoluteAttachmentPath,
         onSendMessage,
         onClick,
@@ -135,14 +132,12 @@ describe('Contact', () => {
             path: undefined,
           },
         },
-        hasSignalAccount,
         onSendMessage,
         onClick,
         number: undefined,
       };
       const actual = contactSelector(contact, {
         regionCode,
-        hasSignalAccount,
         getAbsoluteAttachmentPath,
         onSendMessage,
         onClick,
@@ -178,14 +173,12 @@ describe('Contact', () => {
             path: 'absolute:somewhere',
           },
         },
-        hasSignalAccount,
         onSendMessage,
         onClick,
         number: undefined,
       };
       const actual = contactSelector(contact, {
         regionCode,
-        hasSignalAccount,
         getAbsoluteAttachmentPath,
         onSendMessage,
         onClick,

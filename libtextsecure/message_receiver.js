@@ -17,14 +17,6 @@ function MessageReceiver() {
   if (lokiPublicChatAPI) {
     window.log.info('Binding open group events handler', openGroupBound);
     if (!openGroupBound) {
-      // clear any previous binding
-      lokiPublicChatAPI.removeAllListeners('publicMessage');
-      // we only need one MR in the system handling these
-      // bind events
-      lokiPublicChatAPI.on(
-        'publicMessage',
-        window.NewReceiver.handlePublicMessage
-      );
       openGroupBound = true;
     }
   } else {

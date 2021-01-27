@@ -487,7 +487,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
     return (
       <EmbeddedContact
         contact={contact}
-        hasSignalAccount={contact.hasSignalAccount}
         isIncoming={direction === 'incoming'}
         i18n={window.i18n}
         onClick={contact.onClick}
