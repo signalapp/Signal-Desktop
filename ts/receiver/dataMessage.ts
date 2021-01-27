@@ -626,9 +626,12 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
 
   // the conversation with the primary device of that source (can be the same as conversationOrigin)
 
-  const conversation = ConversationController.getInstance().getOrThrow(
-    conversationId
-  );
+  const conversation = ConversationController.getInstance().get(conversationId);
+
+  if (!conversation) {
+    window.log.warn('Skipping handleJob for unknown convo: ', conversationId);
+    return;
+  }
 
   conversation.queueJob(async () => {
     await handleMessageJob(

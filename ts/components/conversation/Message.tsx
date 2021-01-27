@@ -506,6 +506,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       isAdmin,
       conversationType,
       direction,
+      isPublic,
       onShowUserDetails,
       firstMessageOfSeries,
     } = this.props;
@@ -534,7 +535,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
           }}
           pubkey={authorPhoneNumber}
         />
-        {isAdmin && (
+        {isPublic && isAdmin && (
           <div className="module-avatar__icon--crown-wrapper">
             <div className="module-avatar__icon--crown" />
           </div>

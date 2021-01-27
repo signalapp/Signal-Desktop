@@ -298,7 +298,7 @@ export async function handlePublicMessage({ message: outerMessage }: any) {
   const ev = {
     // Public chat messages from ourselves should be outgoing
     type: isOurDevice ? 'sent' : 'message',
-    data: outerMessage,
+    data: messageData,
     confirm: () => {
       /* do nothing */
     },
