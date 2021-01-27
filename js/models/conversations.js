@@ -849,16 +849,18 @@
       );
       await serverAPI.setAvatar(url, profileKey);
     },
-    async updateLastMessage() {
+    async bouncyUpdateLastMessage() {
       if (!this.id) {
         return;
       }
-
+      if (!this.get('active_at')) {
+        window.log.info('Skipping update last message as active_at is falsy');
+        return;
+      }
       const messages = await window.Signal.Data.getMessagesByConversation(
         this.id,
         { limit: 1, MessageCollection: Whisper.MessageCollection }
       );
-
       const lastMessageModel = messages.at(0);
       const lastMessageJSON = lastMessageModel
         ? lastMessageModel.toJSON()
@@ -874,12 +876,10 @@
           ? lastMessageModel.getNotificationText()
           : null,
       });
-
       // Because we're no longer using Backbone-integrated saves, we need to manually
       //   clear the changed fields here so our hasChanged() check below is useful.
       this.changed = {};
       this.set(lastMessageUpdate);
-
       if (this.hasChanged()) {
         await this.commit();
       }
