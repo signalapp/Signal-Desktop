@@ -270,12 +270,11 @@ async function handleDecryptedEnvelope(
   }
 }
 
-export async function handlePublicMessage({ message: outerMessage }: any) {
-  const { source } = outerMessage;
-  const { group, profile, profileKey } = outerMessage.message;
+export async function handlePublicMessage(messageData: any) {
+  const { source } = messageData;
+  const { group, profile, profileKey } = messageData.message;
 
-  const ourNumber = window.textsecure.storage.user.getNumber();
-  const isMe = source === ourNumber;
+  const isMe = await UserUtils.isUs(source);
 
   if (!isMe && profile) {
     const conversation = await ConversationController.getInstance().getOrCreateAndWait(
@@ -285,7 +284,6 @@ export async function handlePublicMessage({ message: outerMessage }: any) {
     await updateProfile(conversation, profile, profileKey);
   }
 
-  const isOurDevice = await UserUtils.isUs(source);
   const isPublicChatMessage =
     group && group.id && !!group.id.match(/^publicChat:/);
 
@@ -297,7 +295,7 @@ export async function handlePublicMessage({ message: outerMessage }: any) {
 
   const ev = {
     // Public chat messages from ourselves should be outgoing
-    type: isOurDevice ? 'sent' : 'message',
+    type: isMe ? 'sent' : 'message',
     data: messageData,
     confirm: () => {
       /* do nothing */

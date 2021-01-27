@@ -527,9 +527,7 @@ export async function handleMessageJob(
         ourNumber
       );
     }
-
     const { Whisper, getMessageController } = window;
-
     const id = await message.commit();
     message.set({ id });
     getMessageController().register(message.id, message);
