@@ -7,7 +7,6 @@ import { darkTheme, lightTheme } from '../../state/ducks/SessionTheme';
 import { SessionToastContainer } from './SessionToastContainer';
 import { mapDispatchToProps } from '../../state/actions';
 import { ConversationType } from '../../state/ducks/conversations';
-import { noop } from 'lodash';
 import { DefaultTheme } from 'styled-components';
 import { StateType } from '../../state/reducer';
 import { ConversationController } from '../../session/conversations';
@@ -145,7 +144,7 @@ class ActionsPanelPrivate extends React.Component<Props> {
   };
 
   public editProfileHandle() {
-    window.showEditProfileDialog(noop);
+    window.showEditProfileDialog();
   }
 
   public render(): JSX.Element {
@@ -161,7 +160,7 @@ class ActionsPanelPrivate extends React.Component<Props> {
       <div className="module-left-pane__sections-container">
         <this.Section
           type={SectionType.Profile}
-          avatarPath={this.props.ourPrimaryConversation?.avatarPath}
+          avatarPath={this.props.ourPrimaryConversation.avatarPath}
           isSelected={isProfilePageSelected}
           onSelect={this.handleSectionSelect}
         />

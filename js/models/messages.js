@@ -1385,25 +1385,6 @@
       await this.commit();
     },
 
-    someRecipientsFailed() {
-      const c = this.getConversation();
-      if (!c || c.isPrivate()) {
-        return false;
-      }
-
-      const recipients = c.contactCollection.length - 1;
-      const errors = this.get('errors');
-      if (!errors) {
-        return false;
-      }
-
-      if (errors.length > 0 && recipients > 0 && errors.length < recipients) {
-        return true;
-      }
-
-      return false;
-    },
-
     async markMessageSyncOnly(dataMessage) {
       this.set({
         // These are the same as a normal send()

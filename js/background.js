@@ -618,6 +618,7 @@
                   displayName: newName,
                   avatar: newAvatarPath,
                 });
+                conversation.commit();
               } catch (error) {
                 window.log.error(
                   'showEditProfileDialog Error ensuring that image is properly sized:',

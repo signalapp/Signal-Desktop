@@ -51,17 +51,6 @@
       return `group(${this.id})`;
     },
 
-    getContactCollection() {
-      const collection = new Backbone.Collection();
-      const collator = new Intl.Collator();
-      collection.comparator = (left, right) => {
-        const leftLower = left.getTitle().toLowerCase();
-        const rightLower = right.getTitle().toLowerCase();
-        return collator.compare(leftLower, rightLower);
-      };
-      return collection;
-    },
-
     initialize() {
       this.ourNumber = textsecure.storage.user.getNumber();
 
@@ -833,21 +822,10 @@
 
       // We're offline!
       if (!textsecure.messaging) {
-        let errors;
-        if (this.contactCollection.length) {
-          errors = this.contactCollection.map(contact => {
-            const error = new Error('Network is not available');
-            error.name = 'SendMessageNetworkError';
-            error.number = contact.id;
-            return error;
-          });
-        } else {
-          const error = new Error('Network is not available');
-          error.name = 'SendMessageNetworkError';
-          error.number = this.id;
-          errors = [error];
-        }
-        await message.saveErrors(errors);
+        const error = new Error('Network is not available');
+        error.name = 'SendMessageNetworkError';
+        error.number = this.id;
+        await message.saveErrors([error]);
         return null;
       }
 
@@ -1399,20 +1377,6 @@
 
     hasMember(number) {
       return _.contains(this.get('members'), number);
-    },
-    fetchContacts() {
-      if (this.isPrivate()) {
-        this.contactCollection.reset([this]);
-        return Promise.resolve();
-      }
-      const members = this.get('members') || [];
-      const promises = members.map(number =>
-        window.getConversationController().getOrCreateAndWait(number, 'private')
-      );
-
-      return Promise.all(promises).then(contacts => {
-        this.contactCollection.reset(contacts);
-      });
     },
     // returns true if this is a closed/medium or open group
     isGroup() {
