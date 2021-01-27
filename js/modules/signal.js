@@ -16,9 +16,6 @@ const AttachmentDownloads = require('./attachment_downloads');
 // Components
 const { ContactListItem } = require('../../ts/components/ContactListItem');
 const { ContactName } = require('../../ts/components/conversation/ContactName');
-const {
-  EmbeddedContact,
-} = require('../../ts/components/conversation/EmbeddedContact');
 const { Emojify } = require('../../ts/components/conversation/Emojify');
 const { Lightbox } = require('../../ts/components/Lightbox');
 const { LightboxGallery } = require('../../ts/components/LightboxGallery');
@@ -212,7 +209,6 @@ exports.setup = (options = {}) => {
   const Components = {
     ContactListItem,
     ContactName,
-    EmbeddedContact,
     Emojify,
     Lightbox,
     LightboxGallery,

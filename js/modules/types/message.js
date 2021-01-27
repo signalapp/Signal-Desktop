@@ -7,6 +7,7 @@ const {
   initializeAttachmentMetadata,
 } = require('../../../ts/types/message/initializeAttachmentMetadata');
 const MessageTS = require('../../../ts/types/Message');
+const Contact = require('./contact');
 
 const GROUP = 'group';
 const PRIVATE = 'private';
@@ -282,6 +283,12 @@ const toVersion5 = exports._withSchemaVersion({
   schemaVersion: 5,
   upgrade: initializeAttachmentMetadata,
 });
+const toVersion6 = exports._withSchemaVersion({
+  schemaVersion: 6,
+  upgrade: exports._mapContact(
+    Contact.parseAndWriteAvatar(Attachment.migrateDataToFileSystem)
+  ),
+});
 // IMPORTANT: We’ve updated our definition of `initializeAttachmentMetadata`, so
 // we need to run it again on existing items that have previously been incorrectly
 // classified:
@@ -311,6 +318,7 @@ const VERSIONS = [
   toVersion3,
   toVersion4,
   toVersion5,
+  toVersion6,
   toVersion7,
   toVersion8,
   toVersion9,

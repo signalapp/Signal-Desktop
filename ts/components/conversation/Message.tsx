@@ -8,7 +8,6 @@ import { ImageGrid } from './ImageGrid';
 import { Image } from './Image';
 import { ContactName } from './ContactName';
 import { Quote } from './Quote';
-import { EmbeddedContact } from './EmbeddedContact';
 
 // Audio Player
 import H5AudioPlayer from 'react-h5-audio-player';
@@ -467,35 +466,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
     );
   }
 
-  public renderEmbeddedContact() {
-    const {
-      collapseMetadata,
-      contact,
-      conversationType,
-      direction,
-      text,
-    } = this.props;
-    if (!contact) {
-      return null;
-    }
-
-    const withCaption = Boolean(text);
-    const withContentAbove =
-      conversationType === 'group' && direction === 'incoming';
-    const withContentBelow = withCaption || !collapseMetadata;
-
-    return (
-      <EmbeddedContact
-        contact={contact}
-        isIncoming={direction === 'incoming'}
-        i18n={window.i18n}
-        onClick={contact.onClick}
-        withContentAbove={withContentAbove}
-        withContentBelow={withContentBelow}
-      />
-    );
-  }
-
   public renderAvatar() {
     const {
       authorAvatarPath,
@@ -906,7 +876,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
             {this.renderQuote()}
             {this.renderAttachment()}
             {this.renderPreview()}
-            {this.renderEmbeddedContact()}
             {this.renderText()}
             <MessageMetadata
               {...this.props}

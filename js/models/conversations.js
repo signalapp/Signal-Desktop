@@ -375,6 +375,7 @@
         unreadCount: this.get('unreadCount') || 0,
         mentionedUs: this.get('mentionedUs') || false,
         isBlocked: this.isBlocked(),
+        phoneNumber: this.id,
         lastMessage: {
           status: this.get('lastMessageStatus'),
           text: this.get('lastMessage'),

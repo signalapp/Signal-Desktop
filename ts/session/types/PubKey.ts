@@ -60,7 +60,9 @@ export class PubKey {
     const pk = value instanceof PubKey ? valAny.key : value;
 
     if (!pk) {
-      throw new Error('PubkKey.shorten was given an invalid PubKey to shorten.')
+      throw new Error(
+        'PubkKey.shorten was given an invalid PubKey to shorten.'
+      );
     }
 
     return `(...${pk.substring(pk.length - 6)})`;
@@ -100,7 +102,10 @@ export class PubKey {
   /**
    * Returns a localized string of the error, or undefined in the given pubkey is valid.
    */
-  public static validateWithError(pubkey: string, i18n: LocalizerType = window.i18n): string | undefined {
+  public static validateWithError(
+    pubkey: string,
+    i18n: LocalizerType = window.i18n
+  ): string | undefined {
     // Check if it's hex
     const isHex = pubkey.replace(/[\s]*/g, '').match(/^[0-9a-fA-F]+$/);
     if (!isHex) {

@@ -24,7 +24,6 @@ const TypingBubbleContainer = styled.div<TypingBubbleProps>`
 `;
 
 export const TypingBubble = (props: TypingBubbleProps) => {
-
   if (props.conversationType === 'group') {
     return <></>;
   }
