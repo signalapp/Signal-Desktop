@@ -1915,11 +1915,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-quote__icon-container {
-  background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  flex: auto auto 54px;
+  background-size: cover;
+  flex: 0 0 54px;
   position: relative;
+  width: 54px;
 }
 
 .module-quote__icon-container__inner {
