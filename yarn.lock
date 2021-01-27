@@ -5739,13 +5739,6 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
-"curve25519-n@https://github.com/scottnonnenberg-signal/node-curve25519.git#3e94f60bc54b2426476520d8d1a0aa835c25f5cc":
-  version "1.5.0"
-  resolved "https://github.com/scottnonnenberg-signal/node-curve25519.git#3e94f60bc54b2426476520d8d1a0aa835c25f5cc"
-  dependencies:
-    bindings "^1.5.0"
-    nan "^2.14.0"
-
 cyclist@~0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-0.2.2.tgz#1b33792e11e914a2fd6d6ed6447464444e5fa640"
@@ -10290,6 +10283,12 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
+"libsignal-client@https://github.com/signalapp/libsignal-client-node.git#b6f498fa544bcce3bee0be037a7b6445d4efda45":
+  version "0.2.0"
+  resolved "https://github.com/signalapp/libsignal-client-node.git#b6f498fa544bcce3bee0be037a7b6445d4efda45"
+  dependencies:
+    bindings "^1.5.0"
+
 lie@*:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/lie/-/lie-3.2.0.tgz#4f13f2f8bbb027d383db338c43043545791aa8dc"
@@ -11271,7 +11270,7 @@ nan@^2.10.0, nan@^2.11.0:
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.11.1.tgz#90e22bccb8ca57ea4cd37cc83d3819b52eea6766"
   integrity sha512-iji6k87OSXa0CcrLl9z+ZiYSuR2o+c0bGuNmXdrhTQTakxytAFsC56SArGYoiHlJlFoHSnvmhpceZJaXkVuOtA==
 
-nan@^2.12.1, nan@^2.13.2, nan@^2.14.0:
+nan@^2.12.1, nan@^2.13.2:
   version "2.14.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.0.tgz#7818f722027b2459a86f0295d434d1fc2336c52c"
   integrity sha512-INOFj37C7k3AfaNTtX8RhsTw7qRy7eLET14cROi9+5HAVbbHuIWUHEauBv5qT4Av2tWasiTY1Jw6puUNqRJXQg==

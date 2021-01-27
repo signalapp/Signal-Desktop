@@ -8,7 +8,7 @@
 try {
   const electron = require('electron');
   const semver = require('semver');
-  const curve = require('curve25519-n');
+  const client = require('libsignal-client');
   const _ = require('lodash');
   const { installGetter, installSetter } = require('./preload_utils');
 
@@ -484,40 +484,45 @@ try {
   }
   const externalCurve = {
     generateKeyPair: () => {
-      const { privKey, pubKey } = curve.generateKeyPair();
+      const privKey = client.PrivateKey.generate();
+      const pubKey = privKey.getPublicKey();
 
       return {
-        privKey: window.Signal.Crypto.typedArrayToArrayBuffer(privKey),
-        pubKey: window.Signal.Crypto.typedArrayToArrayBuffer(pubKey),
+        privKey: privKey.serialize().buffer,
+        pubKey: pubKey.serialize().buffer,
       };
     },
     createKeyPair: incomingKey => {
       const incomingKeyBuffer = Buffer.from(incomingKey);
-      const { privKey, pubKey } = curve.createKeyPair(incomingKeyBuffer);
+      const privKey = client.PrivateKey.deserialize(incomingKeyBuffer);
+      const pubKey = privKey.getPublicKey();
 
       return {
-        privKey: window.Signal.Crypto.typedArrayToArrayBuffer(privKey),
-        pubKey: window.Signal.Crypto.typedArrayToArrayBuffer(pubKey),
+        privKey: privKey.serialize().buffer,
+        pubKey: pubKey.serialize().buffer,
       };
     },
     calculateAgreement: (pubKey, privKey) => {
       const pubKeyBuffer = Buffer.from(pubKey);
       const privKeyBuffer = Buffer.from(privKey);
 
-      const buffer = curve.calculateAgreement(pubKeyBuffer, privKeyBuffer);
-
-      return window.Signal.Crypto.typedArrayToArrayBuffer(buffer);
+      const pubKeyObj = client.PublicKey.deserialize(
+        Buffer.concat([
+          Buffer.from([0x05]),
+          externalCurve.validatePubKeyFormat(pubKeyBuffer),
+        ])
+      );
+      const privKeyObj = client.PrivateKey.deserialize(privKeyBuffer);
+      const sharedSecret = privKeyObj.agree(pubKeyObj);
+      return sharedSecret.buffer;
     },
     verifySignature: (pubKey, message, signature) => {
       const pubKeyBuffer = Buffer.from(pubKey);
       const messageBuffer = Buffer.from(message);
       const signatureBuffer = Buffer.from(signature);
 
-      const result = curve.verifySignature(
-        pubKeyBuffer,
-        messageBuffer,
-        signatureBuffer
-      );
+      const pubKeyObj = client.PublicKey.deserialize(pubKeyBuffer);
+      const result = !pubKeyObj.verify(messageBuffer, signatureBuffer);
 
       return result;
     },
@@ -525,14 +530,23 @@ try {
       const privKeyBuffer = Buffer.from(privKey);
       const messageBuffer = Buffer.from(message);
 
-      const buffer = curve.calculateSignature(privKeyBuffer, messageBuffer);
-
-      return window.Signal.Crypto.typedArrayToArrayBuffer(buffer);
+      const privKeyObj = client.PrivateKey.deserialize(privKeyBuffer);
+      const signature = privKeyObj.sign(messageBuffer);
+      return signature.buffer;
     },
     validatePubKeyFormat: pubKey => {
-      const pubKeyBuffer = Buffer.from(pubKey);
+      if (
+        pubKey === undefined ||
+        ((pubKey.byteLength !== 33 || new Uint8Array(pubKey)[0] !== 5) &&
+          pubKey.byteLength !== 32)
+      ) {
+        throw new Error('Invalid public key');
+      }
+      if (pubKey.byteLength === 33) {
+        return pubKey.slice(1);
+      }
 
-      return curve.validatePubKeyFormat(pubKeyBuffer);
+      return pubKey;
     },
   };
   externalCurve.ECDHE = externalCurve.calculateAgreement;

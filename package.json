@@ -75,7 +75,6 @@
     "classnames": "2.2.5",
     "config": "1.28.1",
     "copy-text-to-clipboard": "2.1.0",
-    "curve25519-n": "https://github.com/scottnonnenberg-signal/node-curve25519.git#3e94f60bc54b2426476520d8d1a0aa835c25f5cc",
     "dashdash": "1.14.1",
     "emoji-datasource": "6.0.0",
     "emoji-datasource-apple": "6.0.0",
@@ -149,7 +148,8 @@
     "underscore": "1.9.0",
     "uuid": "3.3.2",
     "websocket": "1.0.28",
-    "zkgroup": "https://github.com/signalapp/signal-zkgroup-node.git#2d7db946cc88492b65cc66e9aa9de0c9e664fd8d"
+    "zkgroup": "https://github.com/signalapp/signal-zkgroup-node.git#2d7db946cc88492b65cc66e9aa9de0c9e664fd8d",
+    "libsignal-client": "https://github.com/signalapp/libsignal-client-node.git#b6f498fa544bcce3bee0be037a7b6445d4efda45"
   },
   "devDependencies": {
     "@babel/core": "7.7.7",
@@ -273,7 +273,8 @@
     "mac": {
       "asarUnpack": [
         "**/*.node",
-        "node_modules/zkgroup/libzkgroup.*"
+        "node_modules/zkgroup/libzkgroup.*",
+        "node_modules/libsignal-client/build/*.node"
       ],
       "artifactName": "${name}-mac-${version}.${ext}",
       "category": "public.app-category.social-networking",
@@ -298,7 +299,8 @@
         "**/*.node",
         "node_modules/spellchecker/vendor/hunspell_dictionaries",
         "node_modules/sharp",
-        "node_modules/zkgroup/libzkgroup.*"
+        "node_modules/zkgroup/libzkgroup.*",
+        "node_modules/libsignal-client/build/*.node"
       ],
       "artifactName": "${name}-win-${version}.${ext}",
       "certificateSubjectName": "Signal (Quiet Riddle Ventures, LLC)",
@@ -327,7 +329,8 @@
         "**/*.node",
         "node_modules/spellchecker/vendor/hunspell_dictionaries",
         "node_modules/sharp",
-        "node_modules/zkgroup/libzkgroup.*"
+        "node_modules/zkgroup/libzkgroup.*",
+        "node_modules/libsignal-client/build/*.node"
       ],
       "target": [
         "deb"
@@ -397,7 +400,6 @@
       "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,__pycache__,thumbs.db,.gitignore,.gitattributes,.flowconfig,.yarn-metadata.json,.idea,appveyor.yml,.travis.yml,circle.yml,npm-debug.log,.nyc_output,yarn.lock,.yarn-integrity}",
       "node_modules/spellchecker/build/Release/*.node",
       "node_modules/websocket/build/Release/*.node",
-      "node_modules/curve25519-n/build/Release/*.node",
       "node_modules/ref-napi/build/Release/*.node",
       "node_modules/ffi-napi/build/Release/*.node",
       "node_modules/socks/build/*.js",
@@ -409,6 +411,7 @@
       "!node_modules/@journeyapps/sqlcipher/deps/*",
       "!node_modules/@journeyapps/sqlcipher/build/*",
       "!node_modules/@journeyapps/sqlcipher/lib/binding/node-*",
+      "node_modules/libsignal-client/build/*.node",
       "node_modules/ringrtc/build/${platform}/**"
     ]
   }
