@@ -40,7 +40,6 @@ window.CONSTANTS = {
   MAX_USERNAME_LENGTH: 20,
 };
 
-window.passwordUtil = require('./ts/util/passwordUtils');
 window.Signal.Logs = require('./js/modules/logs');
 
 window.resetDatabase = () => {

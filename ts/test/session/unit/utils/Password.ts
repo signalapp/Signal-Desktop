@@ -1,17 +1,16 @@
-const { assert } = require('chai');
-
-const passwordUtil = require('../../ts/util/passwordUtils');
+import { assert } from 'chai';
+import { PasswordUtil } from '../../../../util';
 
 describe('Password Util', () => {
   describe('hash generation', () => {
     it('generates the same hash for the same phrase', () => {
-      const first = passwordUtil.generateHash('phrase');
-      const second = passwordUtil.generateHash('phrase');
+      const first = PasswordUtil.generateHash('phrase');
+      const second = PasswordUtil.generateHash('phrase');
       assert.strictEqual(first, second);
     });
     it('generates different hashes for different phrases', () => {
-      const first = passwordUtil.generateHash('0');
-      const second = passwordUtil.generateHash('1');
+      const first = PasswordUtil.generateHash('0');
+      const second = PasswordUtil.generateHash('1');
       assert.notStrictEqual(first, second);
     });
   });
@@ -19,12 +18,12 @@ describe('Password Util', () => {
   describe('hash matching', () => {
     it('returns true for the same hash', () => {
       const phrase = 'phrase';
-      const hash = passwordUtil.generateHash(phrase);
-      assert.isTrue(passwordUtil.matchesHash(phrase, hash));
+      const hash = PasswordUtil.generateHash(phrase);
+      assert.isTrue(PasswordUtil.matchesHash(phrase, hash));
     });
     it('returns false for different hashes', () => {
-      const hash = passwordUtil.generateHash('phrase');
-      assert.isFalse(passwordUtil.matchesHash('phrase2', hash));
+      const hash = PasswordUtil.generateHash('phrase');
+      assert.isFalse(PasswordUtil.matchesHash('phrase2', hash));
     });
   });
 
@@ -44,26 +43,26 @@ describe('Password Util', () => {
         '#'.repeat(50),
       ];
       valid.forEach(pass => {
-        assert.isNull(passwordUtil.validatePassword(pass));
+        assert.isNull(PasswordUtil.validatePassword(pass));
       });
     });
 
     it('should return an error if password is not a string', () => {
-      const invalid = [0, 123456, [], {}, null, undefined];
-      invalid.forEach(pass => {
+      const invalid = [0, 123456, [], {}, null, undefined] as any;
+      invalid.forEach((pass: any) => {
         assert.strictEqual(
-          passwordUtil.validatePassword(pass),
+          PasswordUtil.validatePassword(pass),
           'Password must be a string'
         );
       });
     });
 
-    it('should return an error if password is not between 6 and 50 characters', () => {
+    it('should return an error if password is not between 6 and 64 characters', () => {
       const invalid = ['a', 'abcde', '#'.repeat(51), '#'.repeat(100)];
       invalid.forEach(pass => {
         assert.strictEqual(
-          passwordUtil.validatePassword(pass),
-          'Password must be between 6 and 50 characters long'
+          PasswordUtil.validatePassword(pass),
+          'Password must be between 6 and 64 characters long'
         );
       });
     });
@@ -82,7 +81,7 @@ describe('Password Util', () => {
       ];
       invalid.forEach(pass => {
         assert.strictEqual(
-          passwordUtil.validatePassword(pass),
+          PasswordUtil.validatePassword(pass),
           'Password must only contain letters, numbers and symbols'
         );
       });

@@ -173,7 +173,6 @@ window.setPassword = (passPhrase, oldPhrase) =>
     ipc.send('set-password', passPhrase, oldPhrase);
   });
 
-window.passwordUtil = require('./ts/util/passwordUtils');
 window.libsession = require('./ts/session');
 
 window.getMessageController =

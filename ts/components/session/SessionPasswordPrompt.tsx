@@ -32,7 +32,6 @@ class SessionPasswordPromptInner extends React.PureComponent<
     };
 
     this.onKeyUp = this.onKeyUp.bind(this);
-    this.onPaste = this.onPaste.bind(this);
 
     this.initLogin = this.initLogin.bind(this);
     this.initClearDataView = this.initClearDataView.bind(this);
@@ -72,8 +71,6 @@ class SessionPasswordPromptInner extends React.PureComponent<
         defaultValue=""
         placeholder={' '}
         onKeyUp={this.onKeyUp}
-        maxLength={window.CONSTANTS.MAX_PASSWORD_LENGTH}
-        onPaste={this.onPaste}
         ref={this.inputRef}
       />
     );
@@ -133,24 +130,6 @@ class SessionPasswordPromptInner extends React.PureComponent<
       default:
     }
     event.preventDefault();
-  }
-
-  public onPaste(event: any) {
-    const clipboard = event.clipboardData.getData('text');
-
-    if (clipboard.length > window.CONSTANTS.MAX_PASSWORD_LENGTH) {
-      this.setState({
-        error: String(
-          window.i18n(
-            'pasteLongPasswordToastTitle',
-            window.CONSTANTS.MAX_PASSWORD_LENGTH
-          )
-        ),
-      });
-    }
-
-    // Prevent pasting into input
-    return false;
   }
 
   public async onLogin(passPhrase: string) {

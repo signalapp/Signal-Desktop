@@ -14,6 +14,7 @@ import { SessionSpinner } from './SessionSpinner';
 import { StringUtils, ToastUtils } from '../../session/utils';
 import { lightTheme } from '../../state/ducks/SessionTheme';
 import { ConversationController } from '../../session/conversations';
+import { PasswordUtil } from '../../util';
 
 enum SignInMode {
   Default,
@@ -454,7 +455,6 @@ export class RegistrationTabs extends React.Component<any, State> {
           error={this.state.passwordErrorString}
           type="password"
           placeholder={window.i18n('enterOptionalPassword')}
-          maxLength={window.CONSTANTS.MAX_PASSWORD_LENGTH}
           onValueChanged={(val: string) => {
             this.onPasswordChanged(val);
           }}
@@ -470,7 +470,6 @@ export class RegistrationTabs extends React.Component<any, State> {
             error={passwordsDoNotMatch}
             type="password"
             placeholder={window.i18n('confirmPassword')}
-            maxLength={window.CONSTANTS.MAX_PASSWORD_LENGTH}
             onValueChanged={(val: string) => {
               this.onPasswordVerifyChanged(val);
             }}
@@ -592,7 +591,7 @@ export class RegistrationTabs extends React.Component<any, State> {
       return;
     }
 
-    const error = window.passwordUtil.validatePassword(input, window.i18n);
+    const error = PasswordUtil.validatePassword(input, window.i18n);
     if (error) {
       this.setState({
         passwordErrorString: error,

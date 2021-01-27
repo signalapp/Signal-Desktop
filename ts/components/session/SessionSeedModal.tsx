@@ -4,6 +4,7 @@ import { SessionModal } from './SessionModal';
 import { SessionButton } from './SessionButton';
 import { ToastUtils } from '../../session/utils';
 import { DefaultTheme, withTheme } from 'styled-components';
+import { PasswordUtil } from '../../util';
 
 interface Props {
   onClose: any;
@@ -77,7 +78,6 @@ class SessionSeedModalInner extends React.Component<Props, State> {
   }
 
   private renderPasswordView() {
-    const maxPasswordLen = 64;
     const error = this.state.error;
     const i18n = window.i18n;
     const { onClose } = this.props;
@@ -90,7 +90,6 @@ class SessionSeedModalInner extends React.Component<Props, State> {
           id="seed-input-password"
           placeholder={i18n('password')}
           onKeyUp={this.onEnter}
-          maxLength={maxPasswordLen}
         />
 
         {error && (
@@ -143,8 +142,8 @@ class SessionSeedModalInner extends React.Component<Props, State> {
   private confirmPassword() {
     const passwordHash = this.state.passwordHash;
     const passwordValue = jQuery('#seed-input-password').val();
-    const isPasswordValid = window.passwordUtil.matchesHash(
-      passwordValue,
+    const isPasswordValid = PasswordUtil.matchesHash(
+      passwordValue as string,
       passwordHash
     );
 
