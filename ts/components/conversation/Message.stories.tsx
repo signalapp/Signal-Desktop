@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -201,7 +201,7 @@ story.add('Older', () => {
   return renderBothDirections(props);
 });
 
-story.add('Reactions', () => {
+story.add('Reactions (wider message)', () => {
   const props = createProps({
     text: 'Hello there from a pal!',
     timestamp: Date.now() - 180 * 24 * 60 * 60 * 1000,
@@ -286,6 +286,98 @@ story.add('Reactions', () => {
           title: 'Amelia',
         },
         timestamp: Date.now() - 10,
+      },
+    ],
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('Reactions (short message)', () => {
+  const props = createProps({
+    text: 'h',
+    timestamp: Date.now(),
+    reactions: [
+      {
+        emoji: '👍',
+        from: {
+          isMe: true,
+          id: '+14155552672',
+          phoneNumber: '+14155552672',
+          name: 'Me',
+          title: 'Me',
+        },
+        timestamp: Date.now(),
+      },
+      {
+        emoji: '👍',
+        from: {
+          id: '+14155552672',
+          phoneNumber: '+14155552672',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        },
+        timestamp: Date.now(),
+      },
+      {
+        emoji: '👍',
+        from: {
+          id: '+14155552673',
+          phoneNumber: '+14155552673',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        },
+        timestamp: Date.now(),
+      },
+      {
+        emoji: '😂',
+        from: {
+          id: '+14155552674',
+          phoneNumber: '+14155552674',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        },
+        timestamp: Date.now(),
+      },
+      {
+        emoji: '😂',
+        from: {
+          id: '+14155552676',
+          phoneNumber: '+14155552676',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        },
+        timestamp: Date.now(),
+      },
+      {
+        emoji: '😡',
+        from: {
+          id: '+14155552677',
+          phoneNumber: '+14155552677',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        },
+        timestamp: Date.now(),
+      },
+      {
+        emoji: '👎',
+        from: {
+          id: '+14155552678',
+          phoneNumber: '+14155552678',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        },
+        timestamp: Date.now(),
+      },
+      {
+        emoji: '❤️',
+        from: {
+          id: '+14155552679',
+          phoneNumber: '+14155552679',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        },
+        timestamp: Date.now(),
       },
     ],
   });

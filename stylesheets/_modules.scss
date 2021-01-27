@@ -103,10 +103,6 @@
   margin-left: 32px;
 }
 
-.module-message--incoming.module-message--group {
-  margin-left: 52px;
-}
-
 .module-message__buttons {
   position: absolute;
   top: 0;
@@ -298,6 +294,11 @@
   right: 8px;
 }
 
+.module-message__container-outer {
+  line-height: 0;
+  display: flex;
+  flex-direction: column;
+}
 .module-message__container {
   position: relative;
   display: inline-block;
@@ -1387,13 +1388,21 @@
   }
 }
 
+.module-message__author-avatar-container {
+  align-items: flex-end;
+  display: flex;
+  justify-content: center;
+  margin-right: 8px;
+
+  &--with-reactions {
+    padding-bottom: 12px;
+  }
+}
+
 .module-message__author-avatar {
   @include button-reset;
 
   cursor: pointer;
-  position: absolute;
-  bottom: 0px;
-  right: calc(100% + 8px);
 
   &:focus {
     outline: none;
@@ -1415,11 +1424,21 @@
 }
 
 .module-message__reactions {
-  position: absolute;
-  bottom: 0px;
+  position: relative;
   z-index: 2;
   height: 22px;
   display: flex;
+
+  &--incoming {
+    align-self: flex-end;
+    padding-right: 8px;
+    margin-left: 8px;
+  }
+  &--outgoing {
+    align-self: flex-start;
+    padding-left: 8px;
+    margin-right: 8px;
+  }
 }
 
 .module-message__reactions__reaction {
@@ -10764,8 +10783,16 @@ $contact-modal-padding: 18px;
   // 2px to allow for 1px border
   max-width: 302px;
 
+  &--incoming {
+    align-self: flex-start;
+  }
+
+  &--outgoing {
+    align-self: flex-end;
+  }
+
   &--with-reactions {
-    margin-bottom: 12px;
+    margin-bottom: -10px;
   }
 
   &--deleted-for-everyone {

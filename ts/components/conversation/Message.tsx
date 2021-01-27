@@ -1,10 +1,9 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
 import ReactDOM, { createPortal } from 'react-dom';
 import classNames from 'classnames';
-import Measure from 'react-measure';
 import { drop, groupBy, orderBy, take } from 'lodash';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { Manager, Popper, Reference } from 'react-popper';
@@ -203,7 +202,6 @@ type State = {
 
   isWide: boolean;
 
-  containerWidth: number;
   canDeleteForEveryone: boolean;
 };
 
@@ -252,7 +250,6 @@ export class Message extends React.PureComponent<Props, State> {
 
       isWide: this.wideMl.matches,
 
-      containerWidth: 0,
       canDeleteForEveryone: props.canDeleteForEveryone,
     };
   }
@@ -284,6 +281,11 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     return newState;
+  }
+
+  private hasReactions(): boolean {
+    const { reactions } = this.props;
+    return Boolean(reactions && reactions.length);
   }
 
   public handleWideMlChange = (event: MediaQueryListEvent): void => {
@@ -532,7 +534,6 @@ export class Message extends React.PureComponent<Props, State> {
       expirationTimestamp,
       isSticker,
       isTapToViewExpired,
-      reactions,
       status,
       text,
       textPending,
@@ -544,7 +545,6 @@ export class Message extends React.PureComponent<Props, State> {
 
     const isShowingImage = this.isShowingImage();
     const withImageNoCaption = Boolean(!isSticker && !text && isShowingImage);
-    const withReactions = reactions && reactions.length > 0;
     const metadataDirection = isSticker ? undefined : direction;
 
     return (
@@ -552,7 +552,9 @@ export class Message extends React.PureComponent<Props, State> {
         className={classNames(
           'module-message__metadata',
           `module-message__metadata--${direction}`,
-          withReactions ? 'module-message__metadata--with-reactions' : null,
+          this.hasReactions()
+            ? 'module-message__metadata--with-reactions'
+            : null,
           withImageNoCaption
             ? 'module-message__metadata--with-image-no-caption'
             : null
@@ -1061,24 +1063,30 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     return (
-      <button
-        type="button"
-        className="module-message__author-avatar"
-        onClick={() => showContactModal(authorId)}
-        tabIndex={0}
+      <div
+        className={classNames('module-message__author-avatar-container', {
+          'module-message__author-avatar-container--with-reactions': this.hasReactions(),
+        })}
       >
-        <Avatar
-          avatarPath={authorAvatarPath}
-          color={authorColor}
-          conversationType="direct"
-          i18n={i18n}
-          name={authorName}
-          phoneNumber={authorPhoneNumber}
-          profileName={authorProfileName}
-          title={authorTitle}
-          size={28}
-        />
-      </button>
+        <button
+          type="button"
+          className="module-message__author-avatar"
+          onClick={() => showContactModal(authorId)}
+          tabIndex={0}
+        >
+          <Avatar
+            avatarPath={authorAvatarPath}
+            color={authorColor}
+            conversationType="direct"
+            i18n={i18n}
+            name={authorName}
+            phoneNumber={authorPhoneNumber}
+            profileName={authorProfileName}
+            title={authorTitle}
+            size={28}
+          />
+        </button>
+      </div>
     );
   }
 
@@ -1718,9 +1726,9 @@ export class Message extends React.PureComponent<Props, State> {
   };
 
   public renderReactions(outgoing: boolean): JSX.Element | null {
-    const { reactions, i18n } = this.props;
+    const { reactions = [], i18n } = this.props;
 
-    if (!reactions || (reactions && reactions.length === 0)) {
+    if (!this.hasReactions()) {
       return null;
     }
 
@@ -1763,25 +1771,7 @@ export class Message extends React.PureComponent<Props, State> {
       someNotRendered &&
       maybeNotRendered.some(res => res.some(re => Boolean(re.from.isMe)));
 
-    const { reactionViewerRoot, containerWidth } = this.state;
-
-    // Calculate the width of the reactions container
-    const reactionsWidth = toRender.reduce((sum, res, i, arr) => {
-      if (someNotRendered && i === arr.length - 1) {
-        return sum + 28;
-      }
-
-      if (res.count > 1) {
-        return sum + 40;
-      }
-
-      return sum + 28;
-    }, 0);
-
-    const reactionsXAxisOffset = Math.max(
-      containerWidth - reactionsWidth - 6,
-      6
-    );
+    const { reactionViewerRoot } = this.state;
 
     const popperPlacement = outgoing ? 'bottom-end' : 'bottom-start';
 
@@ -1800,9 +1790,6 @@ export class Message extends React.PureComponent<Props, State> {
                   ? 'module-message__reactions--outgoing'
                   : 'module-message__reactions--incoming'
               )}
-              style={{
-                [outgoing ? 'right' : 'left']: `${reactionsXAxisOffset}px`,
-              }}
             >
               {toRender.map((re, i) => {
                 const isLast = i === toRender.length - 1;
@@ -2101,7 +2088,6 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToView,
       isTapToViewExpired,
       isTapToViewError,
-      reactions,
     } = this.props;
     const { isSelected } = this.state;
 
@@ -2131,9 +2117,7 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToViewError
         ? 'module-message__container--with-tap-to-view-error'
         : null,
-      reactions && reactions.length > 0
-        ? 'module-message__container--with-reactions'
-        : null,
+      this.hasReactions() ? 'module-message__container--with-reactions' : null,
       deletedForEveryone
         ? 'module-message__container--deleted-for-everyone'
         : null
@@ -2143,24 +2127,13 @@ export class Message extends React.PureComponent<Props, State> {
     };
 
     return (
-      <Measure
-        bounds
-        onResize={({ bounds = { width: 0 } }) => {
-          this.setState({ containerWidth: bounds.width });
-        }}
-      >
-        {({ measureRef }) => (
-          <div
-            ref={measureRef}
-            className={containerClassnames}
-            style={containerStyles}
-          >
-            {this.renderAuthor()}
-            {this.renderContents()}
-            {this.renderAvatar()}
-          </div>
-        )}
-      </Measure>
+      <div className="module-message__container-outer">
+        <div className={containerClassnames} style={containerStyles}>
+          {this.renderAuthor()}
+          {this.renderContents()}
+        </div>
+        {this.renderReactions(direction === 'outgoing')}
+      </div>
     );
   }
 
@@ -2168,7 +2141,6 @@ export class Message extends React.PureComponent<Props, State> {
     const {
       authorPhoneNumber,
       attachments,
-      conversationType,
       direction,
       id,
       isSticker,
@@ -2194,8 +2166,7 @@ export class Message extends React.PureComponent<Props, State> {
           'module-message',
           `module-message--${direction}`,
           isSelected ? 'module-message--selected' : null,
-          expiring ? 'module-message--expired' : null,
-          conversationType === 'group' ? 'module-message--group' : null
+          expiring ? 'module-message--expired' : null
         )}
         tabIndex={0}
         // We pretend to be a button because we sometimes contain buttons and a button
@@ -2208,11 +2179,11 @@ export class Message extends React.PureComponent<Props, State> {
       >
         {this.renderError(direction === 'incoming')}
         {this.renderMenu(direction === 'outgoing', triggerId)}
+        {this.renderAvatar()}
         {this.renderContainer()}
         {this.renderError(direction === 'outgoing')}
         {this.renderMenu(direction === 'incoming', triggerId)}
         {this.renderContextMenu(triggerId)}
-        {this.renderReactions(direction === 'outgoing')}
       </div>
     );
   }
