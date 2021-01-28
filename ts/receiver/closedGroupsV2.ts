@@ -27,7 +27,7 @@ export async function handleClosedGroupV2(
   groupUpdate: any
 ) {
   const { type } = groupUpdate;
-  const { Type } = SignalService.DataMessage.ClosedGroupUpdateV2;
+  const { Type } = SignalService.DataMessage.ClosedGroupControlMessage;
 
   if (BlockedNumberController.isGroupBlocked(PubKey.cast(envelope.source))) {
     window.log.warn('Message ignored; destined for blocked group');
@@ -47,7 +47,7 @@ export async function handleClosedGroupV2(
 }
 
 function sanityCheckNewGroupV2(
-  groupUpdate: SignalService.DataMessage.ClosedGroupUpdateV2
+  groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage
 ): boolean {
   // for a new group message, we need everything to be set
   const { name, publicKey, members, admins, encryptionKeyPair } = groupUpdate;
@@ -111,12 +111,12 @@ function sanityCheckNewGroupV2(
 
 async function handleNewClosedGroupV2(
   envelope: EnvelopePlus,
-  groupUpdate: SignalService.DataMessage.ClosedGroupUpdateV2
+  groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage
 ) {
   const { log } = window;
 
   if (
-    groupUpdate.type !== SignalService.DataMessage.ClosedGroupUpdateV2.Type.NEW
+    groupUpdate.type !== SignalService.DataMessage.ClosedGroupControlMessage.Type.NEW
   ) {
     return;
   }
@@ -217,11 +217,11 @@ async function handleNewClosedGroupV2(
 
 async function handleUpdateClosedGroupV2(
   envelope: EnvelopePlus,
-  groupUpdate: SignalService.DataMessage.ClosedGroupUpdateV2
+  groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage
 ) {
   if (
     groupUpdate.type !==
-    SignalService.DataMessage.ClosedGroupUpdateV2.Type.UPDATE
+    SignalService.DataMessage.ClosedGroupControlMessage.Type.UPDATE
   ) {
     return;
   }
@@ -342,11 +342,11 @@ async function handleUpdateClosedGroupV2(
  */
 async function handleKeyPairClosedGroupV2(
   envelope: EnvelopePlus,
-  groupUpdate: SignalService.DataMessage.ClosedGroupUpdateV2
+  groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage
 ) {
   if (
     groupUpdate.type !==
-    SignalService.DataMessage.ClosedGroupUpdateV2.Type.ENCRYPTION_KEY_PAIR
+    SignalService.DataMessage.ClosedGroupControlMessage.Type.ENCRYPTION_KEY_PAIR
   ) {
     return;
   }
@@ -412,9 +412,9 @@ async function handleKeyPairClosedGroupV2(
   }
 
   // Parse it
-  let proto: SignalService.DataMessage.ClosedGroupUpdateV2.KeyPair;
+  let proto: SignalService.DataMessage.ClosedGroupControlMessage.KeyPair;
   try {
-    proto = SignalService.DataMessage.ClosedGroupUpdateV2.KeyPair.decode(
+    proto = SignalService.DataMessage.ClosedGroupControlMessage.KeyPair.decode(
       plaintext
     );
     if (

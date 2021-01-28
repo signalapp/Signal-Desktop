@@ -38,11 +38,11 @@ export class ClosedGroupV2UpdateMessage extends ClosedGroupV2Message {
   public dataProto(): SignalService.DataMessage {
     const dataMessage = new SignalService.DataMessage();
 
-    dataMessage.closedGroupUpdateV2 = new SignalService.DataMessage.ClosedGroupUpdateV2();
-    dataMessage.closedGroupUpdateV2.type =
-      SignalService.DataMessage.ClosedGroupUpdateV2.Type.UPDATE;
-    dataMessage.closedGroupUpdateV2.name = this.name;
-    dataMessage.closedGroupUpdateV2.members = this.members.map(fromHexToArray);
+    dataMessage.closedGroupControlMessage = new SignalService.DataMessage.ClosedGroupControlMessage();
+    dataMessage.closedGroupControlMessage.type =
+      SignalService.DataMessage.ClosedGroupControlMessage.Type.UPDATE;
+    dataMessage.closedGroupControlMessage.name = this.name;
+    dataMessage.closedGroupControlMessage.members = this.members.map(fromHexToArray);
 
     return dataMessage;
   }

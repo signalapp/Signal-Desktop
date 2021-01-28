@@ -134,10 +134,10 @@ describe('Message Utils', () => {
       const device = TestUtils.generateFakePubKey();
 
       const fakeWrappers = new Array<
-        SignalService.DataMessage.ClosedGroupUpdateV2.KeyPairWrapper
+        SignalService.DataMessage.ClosedGroupControlMessage.KeyPairWrapper
       >();
       fakeWrappers.push(
-        new SignalService.DataMessage.ClosedGroupUpdateV2.KeyPairWrapper({
+        new SignalService.DataMessage.ClosedGroupControlMessage.KeyPairWrapper({
           publicKey: new Uint8Array(8),
           encryptedKeyPair: new Uint8Array(8),
         })
@@ -156,10 +156,10 @@ describe('Message Utils', () => {
       const device = TestUtils.generateFakePubKey();
 
       const fakeWrappers = new Array<
-        SignalService.DataMessage.ClosedGroupUpdateV2.KeyPairWrapper
+        SignalService.DataMessage.ClosedGroupControlMessage.KeyPairWrapper
       >();
       fakeWrappers.push(
-        new SignalService.DataMessage.ClosedGroupUpdateV2.KeyPairWrapper({
+        new SignalService.DataMessage.ClosedGroupControlMessage.KeyPairWrapper({
           publicKey: new Uint8Array(8),
           encryptedKeyPair: new Uint8Array(8),
         })

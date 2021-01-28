@@ -241,14 +241,9 @@ export function isMessageEmpty(message: SignalService.DataMessage) {
 }
 
 function isBodyEmpty(body: string) {
-  return _.isEmpty(body) || isBodyAutoFRContent(body);
+  return _.isEmpty(body);
 }
 
-function isBodyAutoFRContent(body: string) {
-  return (
-    body === 'Please accept to enable messages to be synced across devices'
-  );
-}
 
 export async function handleDataMessage(
   envelope: EnvelopePlus,
@@ -256,8 +251,8 @@ export async function handleDataMessage(
 ): Promise<void> {
   window.log.info('data message from', getEnvelopeId(envelope));
 
-  if (dataMessage.closedGroupUpdateV2) {
-    await handleClosedGroupV2(envelope, dataMessage.closedGroupUpdateV2);
+  if (dataMessage.closedGroupControlMessage) {
+    await handleClosedGroupV2(envelope, dataMessage.closedGroupControlMessage);
     return;
   }
 

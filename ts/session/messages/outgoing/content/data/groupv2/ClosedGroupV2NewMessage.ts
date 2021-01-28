@@ -58,23 +58,23 @@ export class ClosedGroupV2NewMessage extends ClosedGroupV2Message {
 
     dataMessage.expireTimer = this.expireTimer;
 
-    dataMessage.closedGroupUpdateV2 = new SignalService.DataMessage.ClosedGroupUpdateV2();
+    dataMessage.closedGroupControlMessage = new SignalService.DataMessage.ClosedGroupControlMessage();
 
-    dataMessage.closedGroupUpdateV2.type =
-      SignalService.DataMessage.ClosedGroupUpdateV2.Type.NEW;
-    dataMessage.closedGroupUpdateV2.publicKey = fromHexToArray(
+    dataMessage.closedGroupControlMessage.type =
+      SignalService.DataMessage.ClosedGroupControlMessage.Type.NEW;
+    dataMessage.closedGroupControlMessage.publicKey = fromHexToArray(
       this.groupId.key
     );
-    dataMessage.closedGroupUpdateV2.name = this.name;
+    dataMessage.closedGroupControlMessage.name = this.name;
 
-    dataMessage.closedGroupUpdateV2.admins = this.admins.map(fromHexToArray);
-    dataMessage.closedGroupUpdateV2.members = this.members.map(fromHexToArray);
+    dataMessage.closedGroupControlMessage.admins = this.admins.map(fromHexToArray);
+    dataMessage.closedGroupControlMessage.members = this.members.map(fromHexToArray);
     try {
-      dataMessage.closedGroupUpdateV2.encryptionKeyPair = new SignalService.DataMessage.ClosedGroupUpdateV2.KeyPair();
-      dataMessage.closedGroupUpdateV2.encryptionKeyPair.privateKey = new Uint8Array(
+      dataMessage.closedGroupControlMessage.encryptionKeyPair = new SignalService.DataMessage.ClosedGroupControlMessage.KeyPair();
+      dataMessage.closedGroupControlMessage.encryptionKeyPair.privateKey = new Uint8Array(
         this.keypair.privateKeyData
       );
-      dataMessage.closedGroupUpdateV2.encryptionKeyPair.publicKey = new Uint8Array(
+      dataMessage.closedGroupControlMessage.encryptionKeyPair.publicKey = new Uint8Array(
         this.keypair.publicKeyData
       );
     } catch (e) {

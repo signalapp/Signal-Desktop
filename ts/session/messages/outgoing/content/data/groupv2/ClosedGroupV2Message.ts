@@ -35,7 +35,7 @@ export abstract class ClosedGroupV2Message extends DataMessage {
   public dataProto(): SignalService.DataMessage {
     const dataMessage = new SignalService.DataMessage();
 
-    dataMessage.closedGroupUpdateV2 = new SignalService.DataMessage.ClosedGroupUpdateV2();
+    dataMessage.closedGroupControlMessage = new SignalService.DataMessage.ClosedGroupControlMessage();
     dataMessage.expireTimer = this.expireTimer;
 
     return dataMessage;

@@ -478,11 +478,11 @@ export async function generateAndSendNewEncryptionKeyPair(
     );
     return;
   }
-  const proto = new SignalService.DataMessage.ClosedGroupUpdateV2.KeyPair({
+  const proto = new SignalService.DataMessage.ClosedGroupControlMessage.KeyPair({
     privateKey: newKeyPair?.privateKeyData,
     publicKey: newKeyPair?.publicKeyData,
   });
-  const plaintext = SignalService.DataMessage.ClosedGroupUpdateV2.KeyPair.encode(
+  const plaintext = SignalService.DataMessage.ClosedGroupControlMessage.KeyPair.encode(
     proto
   ).finish();
 
@@ -493,7 +493,7 @@ export async function generateAndSendNewEncryptionKeyPair(
         PubKey.cast(pubkey),
         plaintext
       );
-      return new SignalService.DataMessage.ClosedGroupUpdateV2.KeyPairWrapper({
+      return new SignalService.DataMessage.ClosedGroupControlMessage.KeyPairWrapper({
         encryptedKeyPair: ciphertext,
         publicKey: fromHexToArray(pubkey),
       });
