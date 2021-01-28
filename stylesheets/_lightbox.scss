@@ -21,7 +21,8 @@
   // as they are inline and the `:hover` `background` change won’t override the
   // base `background` definition. Revisit this as we adopt a more sophisticated
   // style system in the future:
-  background: transparent;
+  background-color: transparent;
+  transition: background-color 0.1s;
   width: 50px;
   height: 50px;
 
@@ -38,7 +39,7 @@
 
   &:hover,
   &:focus {
-    background: $color-gray-60;
+    background-color: $color-gray-60;
   }
 
   &.save {
