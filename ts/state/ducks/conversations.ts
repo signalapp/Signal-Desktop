@@ -416,7 +416,6 @@ const toPickFromMessageModel = [
   'isIncoming',
   'findAndFormatContact',
   'findContact',
-  'isUnidentifiedDelivery',
   'getStatus',
   'getMessagePropStatus',
   'hasErrors',

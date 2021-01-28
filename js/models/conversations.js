@@ -86,9 +86,6 @@
       if (this.isPublic) {
         this.set('profileSharing', true);
       }
-
-      this.unset('unidentifiedDelivery');
-      this.unset('unidentifiedDeliveryUnrestricted');
       this.unset('hasFetchedProfile');
       this.unset('tokens');
 

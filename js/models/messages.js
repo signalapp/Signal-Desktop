@@ -677,24 +677,9 @@
           : null,
       };
     },
-    isUnidentifiedDelivery(contactId, lookup) {
-      if (this.isIncoming()) {
-        return this.get('unidentifiedDeliveryReceived');
-      }
-
-      return Boolean(lookup[contactId]);
-    },
     async getPropsForMessageDetail() {
       const newIdentity = i18n('newIdentity');
       const OUTGOING_KEY_ERROR = 'OutgoingIdentityKeyError';
-
-      const unidentifiedLookup = (
-        this.get('unidentifiedDeliveries') || []
-      ).reduce((accumulator, item) => {
-        // eslint-disable-next-line no-param-reassign
-        accumulator[item] = true;
-        return accumulator;
-      }, Object.create(null));
 
       // We include numbers we didn't successfully send to so we can display errors.
       // Older messages don't have the recipients included on the message, so we fall
@@ -726,9 +711,6 @@
           const isOutgoingKeyError = Boolean(
             _.find(errorsForContact, error => error.name === OUTGOING_KEY_ERROR)
           );
-          const isUnidentifiedDelivery =
-            storage.get('unidentifiedDeliveryIndicators') &&
-            this.isUnidentifiedDelivery(id, unidentifiedLookup);
 
           const contact = this.findAndFormatContact(id);
           return {
@@ -738,7 +720,6 @@
             status: this.getStatus(id) || this.getMessagePropStatus(),
             errors: errorsForContact,
             isOutgoingKeyError,
-            isUnidentifiedDelivery,
             isPrimaryDevice: true,
             profileName: contact.profileName,
           };

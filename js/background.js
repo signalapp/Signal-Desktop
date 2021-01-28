@@ -1071,24 +1071,9 @@
   }
   function onConfiguration(ev) {
     const { configuration } = ev;
-    const {
-      readReceipts,
-      typingIndicators,
-      unidentifiedDeliveryIndicators,
-      linkPreviews,
-    } = configuration;
+    const { readReceipts, typingIndicators, linkPreviews } = configuration;
 
     storage.put('read-receipt-setting', readReceipts);
-
-    if (
-      unidentifiedDeliveryIndicators === true ||
-      unidentifiedDeliveryIndicators === false
-    ) {
-      storage.put(
-        'unidentifiedDeliveryIndicators',
-        unidentifiedDeliveryIndicators
-      );
-    }
 
     if (typingIndicators === true || typingIndicators === false) {
       storage.put('typing-indicators-setting', typingIndicators);
