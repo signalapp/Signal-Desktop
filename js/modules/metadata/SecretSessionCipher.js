@@ -76,8 +76,10 @@ function _decodePoint(serialized, offset = 0) {
 
 // public ServerCertificate(byte[] serialized)
 function _createServerCertificateFromBuffer(serialized) {
+  console.log('merhaba');
+  console.log(serialized);
   const wrapper = textsecure.protobuf.ServerCertificate.decode(serialized);
-
+  console.log(wrapper);
   if (!wrapper.certificate || !wrapper.signature) {
     throw new Error('Missing fields');
   }
@@ -86,7 +88,8 @@ function _createServerCertificateFromBuffer(serialized) {
     wrapper.certificate.toArrayBuffer()
   );
 
-  if (!certificate.id || !certificate.key) {
+  // !certificate.id || 
+  if (!certificate.key) {
     throw new Error('Missing fields');
   }
 

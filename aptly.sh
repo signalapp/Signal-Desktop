@@ -25,11 +25,11 @@
 
 echo "Releasing $NAME build version $VERSION"
 
-REPO=signal-desktop
+REPO=dedi-desktop
 CURRENT=xenial
 # PREVIOUS=xenial
-ENDPOINT=signal-desktop-apt # Matches endpoint name in .aptly.conf
-SNAPSHOT=signal-desktop_v$VERSION
+ENDPOINT=dedi-desktop-apt # Matches endpoint name in .aptly.conf
+SNAPSHOT=dedi-desktop_v$VERSION
 GPG_KEYID=57F6FB06
 
 aptly repo add $REPO release/$NAME\_$VERSION\_*.deb

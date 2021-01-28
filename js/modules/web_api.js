@@ -1002,7 +1002,7 @@ function initialize({
 
     async function getAttachment(id) {
       // This is going to the CDN, not the service, so we use _outerAjax
-      return _outerAjax(`${cdnUrl}/attachments/${id}`, {
+      return _outerAjax(`${cdnUrl}/${id}`, {
         certificateAuthority,
         proxyUrl,
         responseType: 'arraybuffer',
@@ -1024,7 +1024,7 @@ function initialize({
       const params = makePutParams(response, encryptedBin);
 
       // This is going to the CDN, not the service, so we use _outerAjax
-      await _outerAjax(`${cdnUrl}/attachments/`, {
+      await _outerAjax(`${cdnUrl}`, {
         ...params,
         certificateAuthority,
         proxyUrl,

@@ -92,7 +92,7 @@
       const last = this.last().toJSON();
       switch (userSetting) {
         case SettingNames.COUNT:
-          title = 'Signal';
+          title = 'Dedi';
           message = newMessageCountLabel;
           break;
         case SettingNames.NAME: {
