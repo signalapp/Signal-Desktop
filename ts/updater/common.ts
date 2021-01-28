@@ -343,7 +343,7 @@ function getGotOptions(): GotOptions<null> {
     ca,
     headers: {
       'Cache-Control': 'no-cache',
-      'User-Agent': `Signal Desktop ${packageJson.version}`,
+      'User-Agent': `Dedi Desktop ${packageJson.version}`,
     },
     useElectronNet: false,
   };

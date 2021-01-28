@@ -88,7 +88,7 @@ describe('Privacy', () => {
 
   describe('_redactPath', () => {
     it('should redact file paths', () => {
-      const testPath = '/Users/meow/Library/Application Support/Signal Beta';
+      const testPath = '/Users/meow/Library/Application Support/Dedi Beta';
       const text =
         'This is a log line with sensitive information:\n' +
         `path1 ${testPath}/main.js\n` +
@@ -103,7 +103,7 @@ describe('Privacy', () => {
     });
 
     it('should redact URL-encoded paths', () => {
-      const testPath = '/Users/meow/Library/Application Support/Signal Beta';
+      const testPath = '/Users/meow/Library/Application Support/Dedi Beta';
       const encodedTestPath = encodeURI(testPath);
       const text =
         'This is a log line with sensitive information:\n' +

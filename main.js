@@ -50,8 +50,7 @@ app.allowRendererProcessReuse = true;
 //   be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 let mainWindowCreated = false;
-let loadingWindow;
-
+let loadingWindow; 
 function getMainWindow() {
   return mainWindow;
 }
@@ -261,7 +260,7 @@ let windowIcon;
 const OS = process.platform;
 
 if (OS === 'win32') {
-  windowIcon = path.join(__dirname, 'build', 'icons', 'win', 'icon.ico');
+  windowIcon = path.join(__dirname, 'build', 'icons', 'win', 'icon2.ico');
 } else if (OS === 'linux') {
   windowIcon = path.join(__dirname, 'images', 'signal-logo-desktop-linux.png');
 } else {

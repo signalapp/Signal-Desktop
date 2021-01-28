@@ -133,6 +133,8 @@ module.exports = {
   getNewerMessagesByConversation,
   getMessageMetricsForConversation,
 
+  deleteFromEveryOne,
+
   getUnprocessedCount,
   getAllUnprocessed,
   getUnprocessedById,
@@ -655,6 +657,15 @@ const updateConversationBatcher = createBatcher({
 });
 
 function updateConversation(id, data) {
+if(data.isAnnouncementGroup){
+  console.log('Duyuru grubu');  
+}
+else{
+  console.log('normal grup');
+
+
+}
+
   updateConversationBatcher.add(data);
 }
 
@@ -1189,4 +1200,12 @@ async function getMessagesWithFileAttachments(conversationId, { limit }) {
   return channels.getMessagesWithFileAttachments(conversationId, {
     limit,
   });
+}
+
+
+async function deleteFromEveryOne(sent_at, sourceDevice){
+  console.log('delete from everyone çağrılıyor ' + sent_at +' '+ sourceDevice);
+  return channels.deleteFromEveryOne(sent_at, sourceDevice);
+
+
 }

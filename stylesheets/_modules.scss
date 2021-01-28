@@ -1,7 +1,9 @@
 // Using BEM syntax explained here: https://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/
 
 .module-splash-screen__logo {
-  @include color-svg('../images/signal-logo.svg', $color-white);
+  //@include color-svg('../images/signal-logo.svg', rgba(0, 0, 0, 0));
+  background: url('../images/signal-logo.svg');
+  background-color: transparent!important;
   margin: 24px auto;
 
   &.module-img--256 {
@@ -6214,6 +6216,7 @@ button.module-image__border-overlay:focus {
 }
 
 .module-sticker-button__button {
+  display: none;
   border: 0;
   background: none;
   width: 32px;

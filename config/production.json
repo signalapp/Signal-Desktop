@@ -1,6 +1,6 @@
 {
-  "serverUrl": "https://textsecure-service.whispersystems.org",
-  "cdnUrl": "https://cdn.signal.org",
-  "serverTrustRoot": "BXu6QIKVz5MA8gstzfOgRQGqyLqOwNKHL6INkv3IHWMF",
-  "updatesEnabled": true
+  "serverUrl": "https://dedi.btk.gov.tr",
+  "cdnUrl": "https://dedi.btk.gov.tr:80/dedi",
+  "serverTrustRoot": "BZD/HiPdVqn4TwDzvHuHnz+GK9AE61ZF91QquzXEnjoa",
+  "updatesEnabled": false
 }

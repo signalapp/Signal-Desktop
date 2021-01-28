@@ -25,10 +25,7 @@ exports.createTemplate = (options, messages) => {
     {
       label: messages.mainMenuFile.message,
       submenu: [
-        {
-          label: messages.mainMenuCreateStickers.message,
-          click: showStickerCreator,
-        },
+       
         {
           label: messages.mainMenuSettings.message,
           accelerator: 'CommandOrControl+,',
@@ -43,95 +40,48 @@ exports.createTemplate = (options, messages) => {
         },
       ],
     },
-    {
-      label: messages.mainMenuEdit.message,
-      submenu: [
-        {
-          role: 'undo',
-          label: messages.editMenuUndo.message,
-        },
-        {
-          role: 'redo',
-          label: messages.editMenuRedo.message,
-        },
-        {
-          type: 'separator',
-        },
-        {
-          role: 'cut',
-          label: messages.editMenuCut.message,
-        },
-        {
-          role: 'copy',
-          label: messages.editMenuCopy.message,
-        },
-        {
-          role: 'paste',
-          label: messages.editMenuPaste.message,
-        },
-        {
-          role: 'pasteandmatchstyle',
-          label: messages.editMenuPasteAndMatchStyle.message,
-        },
-        {
-          role: 'delete',
-          label: messages.editMenuDelete.message,
-        },
-        {
-          role: 'selectall',
-          label: messages.editMenuSelectAll.message,
-        },
-      ],
-    },
-    {
-      label: messages.mainMenuView.message,
-      submenu: [
-        {
-          role: 'resetzoom',
-          label: messages.viewMenuResetZoom.message,
-        },
-        {
-          accelerator: platform === 'darwin' ? 'Command+=' : 'Control+=',
-          role: 'zoomin',
-          label: messages.viewMenuZoomIn.message,
-        },
-        {
-          role: 'zoomout',
-          label: messages.viewMenuZoomOut.message,
-        },
-        {
-          type: 'separator',
-        },
-        {
-          role: 'togglefullscreen',
-          label: messages.viewMenuToggleFullScreen.message,
-        },
-        {
-          type: 'separator',
-        },
-        {
-          label: messages.debugLog.message,
-          click: showDebugLog,
-        },
-        {
-          type: 'separator',
-        },
-        {
-          role: 'toggledevtools',
-          label: messages.viewMenuToggleDevTools.message,
-        },
-      ],
-    },
-    {
-      label: messages.mainMenuWindow.message,
-      role: 'window',
-      submenu: [
-        {
-          role: 'minimize',
-          label: messages.windowMenuMinimize.message,
-        },
-      ],
-    },
+      
+     
+     
+ /* {
+    label: messages.mainMenuView.message,
+    submenu: [
+      {
+        role: 'resetzoom',
+        label: messages.viewMenuResetZoom.message,
+      },
+      {
+        accelerator: platform === 'darwin' ? 'Command+=' : 'Control+=',
+        role: 'zoomin',
+        label: messages.viewMenuZoomIn.message,
+      },
+      {
+        role: 'zoomout',
+        label: messages.viewMenuZoomOut.message,
+      },
+      {
+        type: 'separator',
+      },
+      {
+        role: 'togglefullscreen',
+        label: messages.viewMenuToggleFullScreen.message,
+      },
+      {
+        type: 'separator',
+      },
+      {
+        label: messages.debugLog.message,
+        click: showDebugLog,
+      },
+      {
+        type: 'separator',
+      },
+      {
+        role: 'toggledevtools',
+        label: messages.viewMenuToggleDevTools.message,
+      },
+    ],
+  },    */
     {
       label: messages.mainMenuHelp.message,
       role: 'help',
@@ -144,25 +94,7 @@ exports.createTemplate = (options, messages) => {
         {
           type: 'separator',
         },
-        {
-          label: messages.goToReleaseNotes.message,
-          click: openReleaseNotes,
-        },
-        {
-          label: messages.goToForums.message,
-          click: openForums,
-        },
-        {
-          label: messages.goToSupportPage.message,
-          click: openSupportPage,
-        },
-        {
-          label: messages.menuReportIssue.message,
-          click: openNewBugForm,
-        },
-        {
-          type: 'separator',
-        },
+         
         {
           label: messages.aboutSignalDesktop.message,
           click: showAbout,
@@ -212,7 +144,7 @@ function updateForMac(template, messages, options) {
   fileMenu.submenu.pop();
   fileMenu.submenu.pop();
 
-  // Add the OSX-specific Signal Desktop menu at the far left
+  // Add the OSX-specific Dedi Desktop menu at the far left
   template.unshift({
     label: messages.signalDesktop.message,
     submenu: [
