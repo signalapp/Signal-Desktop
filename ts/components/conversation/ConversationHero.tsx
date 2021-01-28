@@ -191,7 +191,7 @@ export const ConversationHero = ({
           />
         )}
       </h1>
-      {about && (
+      {about && !isMe && (
         <div className="module-about__container">
           <About text={about} />
         </div>

@@ -29,6 +29,7 @@ import {
   fromEncodedBinaryToArrayBuffer,
   getRandomBytes,
   stringFromBytes,
+  trimForDisplay,
   verifyAccessKey,
 } from '../Crypto';
 import { GroupChangeClass } from '../textsecure.d';
@@ -3768,26 +3769,26 @@ export class ConversationModel extends window.Backbone.Model<
       }
 
       if (profile.about) {
-        const key = this.get('profileKey');
+        const key = c.get('profileKey');
         if (key) {
           const keyBuffer = base64ToArrayBuffer(key);
           const decrypted = await window.textsecure.crypto.decryptProfile(
             base64ToArrayBuffer(profile.about),
             keyBuffer
           );
-          this.set('about', stringFromBytes(decrypted));
+          c.set('about', stringFromBytes(trimForDisplay(decrypted)));
         }
       }
 
       if (profile.aboutEmoji) {
-        const key = this.get('profileKey');
+        const key = c.get('profileKey');
         if (key) {
           const keyBuffer = base64ToArrayBuffer(key);
           const decrypted = await window.textsecure.crypto.decryptProfile(
             base64ToArrayBuffer(profile.aboutEmoji),
             keyBuffer
           );
-          this.set('aboutEmoji', stringFromBytes(decrypted));
+          c.set('aboutEmoji', stringFromBytes(trimForDisplay(decrypted)));
         }
       }
 

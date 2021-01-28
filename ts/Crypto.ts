@@ -773,3 +773,17 @@ export function splitUuids(arrayBuffer: ArrayBuffer): Array<string | null> {
   }
   return uuids;
 }
+
+export function trimForDisplay(arrayBuffer: ArrayBuffer): ArrayBuffer {
+  const padded = new Uint8Array(arrayBuffer);
+
+  let paddingEnd = 0;
+  for (paddingEnd; paddingEnd < padded.length; paddingEnd += 1) {
+    if (padded[paddingEnd] === 0x00) {
+      break;
+    }
+  }
+  return window.dcodeIO.ByteBuffer.wrap(padded)
+    .slice(0, paddingEnd)
+    .toArrayBuffer();
+}

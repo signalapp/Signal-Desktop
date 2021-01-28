@@ -458,6 +458,7 @@ Whisper.ConversationView = Whisper.View.extend({
         {
           id: this.model.id,
 
+          onShowContactModal: this.showContactModal.bind(this),
           onSetDisappearingMessages: (seconds: number) =>
             this.setDisappearingMessages(seconds),
           onDeleteMessages: () => this.destroyMessages(),

@@ -47,6 +47,7 @@ const commonProps = {
 
   onShowSafetyNumber: action('onShowSafetyNumber'),
   onShowAllMedia: action('onShowAllMedia'),
+  onShowContactModal: action('onShowContactModal'),
   onShowGroupMembers: action('onShowGroupMembers'),
   onGoBack: action('onGoBack'),
 

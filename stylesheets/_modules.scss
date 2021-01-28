@@ -2100,7 +2100,10 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 .module-about {
   &__container {
     margin-bottom: 8px;
+    margin-left: auto;
+    margin-right: auto;
     max-width: 248px;
+    text-align: center;
   }
 
   &__text {
@@ -2112,6 +2115,13 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
       color: $color-gray-25;
     }
     max-width: 400px;
+
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    overflow: hidden;
+    text-align: left;
+    text-overflow: ellipsis;
 
     img.emoji {
       height: 1em;
@@ -2740,6 +2750,11 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   flex-direction: row;
 
   flex-grow: 1;
+  justify-content: space-between;
+}
+
+.module-contact-list-item__left {
+  flex: 1;
 }
 
 .module-contact-list-item__text__name {
@@ -2780,7 +2795,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-contact-list-item__admin {
-  flex-grow: 1;
   text-align: right;
   height: 100%;
 
@@ -2895,6 +2909,10 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   align-items: center;
   height: $header-height;
   max-width: 100%;
+}
+
+.module-conversation-header__title-clickable {
+  cursor: pointer;
 }
 
 .module-conversation-header__note-to-self {

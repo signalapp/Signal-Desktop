@@ -63,6 +63,7 @@ export type PropsDataType = {
 export type PropsActionsType = {
   onSetMuteNotifications: (seconds: number) => void;
   onSetDisappearingMessages: (seconds: number) => void;
+  onShowContactModal: (contactId: string) => void;
   onDeleteMessages: () => void;
   onResetSession: () => void;
   onSearchInConversation: () => void;
@@ -468,6 +469,42 @@ export class ConversationHeader extends React.Component<PropsType> {
     );
   }
 
+  private renderHeader(): JSX.Element {
+    const { id, isMe, onShowContactModal, type } = this.props;
+
+    if (type === 'group' || isMe) {
+      return (
+        <div className="module-conversation-header__title-flex">
+          {this.renderAvatar()}
+          {this.renderTitle()}
+        </div>
+      );
+    }
+
+    const onContactClick = () => onShowContactModal(id);
+    const onKeyDown = (e: React.KeyboardEvent): void => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.stopPropagation();
+        e.preventDefault();
+
+        onShowContactModal(id);
+      }
+    };
+
+    return (
+      <div
+        className="module-conversation-header__title-flex module-conversation-header__title-clickable"
+        onClick={onContactClick}
+        onKeyDown={onKeyDown}
+        role="button"
+        tabIndex={0}
+      >
+        {this.renderAvatar()}
+        {this.renderTitle()}
+      </div>
+    );
+  }
+
   public render(): JSX.Element {
     const { id } = this.props;
     const triggerId = `conversation-${id}`;
@@ -476,10 +513,7 @@ export class ConversationHeader extends React.Component<PropsType> {
       <div className="module-conversation-header">
         {this.renderBackButton()}
         <div className="module-conversation-header__title-container">
-          <div className="module-conversation-header__title-flex">
-            {this.renderAvatar()}
-            {this.renderTitle()}
-          </div>
+          {this.renderHeader()}
         </div>
         {this.renderExpirationLength()}
         {this.renderOutgoingCallButtons()}

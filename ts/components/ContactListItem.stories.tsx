@@ -64,7 +64,7 @@ storiesOf('Components/ContactListItem', module)
         name="Someone 🔥 Somewhere"
         phoneNumber="(202) 555-0011"
         profileName="🔥Flames🔥"
-        about="👍 Free to chat"
+        about="👍 This is my really long status message that I have in order to test line breaking"
         avatarPath={gifUrl}
         onClick={onClick}
       />
