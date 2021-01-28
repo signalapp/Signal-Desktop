@@ -67,7 +67,7 @@ const stickerCreatorConfig: Configuration = {
   plugins: [
     new EnvironmentPlugin(['NODE_ENV']),
     new HtmlWebpackPlugin({
-      title: 'Dedi Sticker Creator',
+      title: 'Signal Sticker Creator',
       template: resolve(context, 'sticker-creator/index.html'),
       meta: {
         'Content-Security-Policy': {

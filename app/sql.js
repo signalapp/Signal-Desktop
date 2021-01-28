@@ -101,8 +101,6 @@ module.exports = {
   getNewerMessagesByConversation,
   getMessageMetricsForConversation,
 
-  deleteFromEveryOne,
-
   getUnprocessedCount,
   getAllUnprocessed,
   saveUnprocessed,
@@ -1203,7 +1201,6 @@ async function updateToSchemaVersion19(currentVersion, instance) {
      ADD COLUMN profileFullName TEXT;`
   );
 
-
   // Preload new field with the profileName we already have
   await instance.run('UPDATE conversations SET profileFullName = profileName');
 
@@ -1481,7 +1478,7 @@ async function updateSchema(instance) {
 
   if (userVersion > maxUserVersion) {
     throw new Error(
-      `SQL: User version is ${userVersion} but the expected maximum version is ${maxUserVersion}. Did you try to start an old version of Dedi?`
+      `SQL: User version is ${userVersion} but the expected maximum version is ${maxUserVersion}. Did you try to start an old version of Signal?`
     );
   }
 
@@ -3651,50 +3648,4 @@ async function removeKnownDraftAttachments(allStickers) {
   );
 
   return Object.keys(lookup);
-}
-
-
-async function deleteFromEveryOne(sent_at, sourceDevice ) {
-
-
-  console.log('Delete from everyone repo calisiyor')
-  const sorgu = 'Delete from everyone çağrıldı '+ sent_at + ' ' + sourceDevice;
-console.log('Delete from everyone çağrıldı '+ sent_at + ' ' + sourceDevice);
-
-const payload = {
-   
-  $sent_at: sent_at 
-};
-
-var dataObject= {
-  body : "Merhaba abidin onur ciner"
-}
-
-var json = objectToJSON(dataObject)
-
-
-const row = await db.get('SELECT * FROM messages WHERE sent_at= $sent_at;', {
-  $sent_at: sent_at,
-});
-
-
-
-await db.run(
-  `UPDATE messages SET
-  json = $json 
-  WHERE sent_at= $sent_at `,
-  {
-    $sent_at: sent_at,
-    $json : json
-  }
-);
-
-console.log(json);
-console.log('*********************************************************************************************************************************************');
-console.log(row);
-console.log('*********************************************************************************************************************************************');
-
-
-return row;
-
 }

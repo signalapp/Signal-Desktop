@@ -56,7 +56,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Dedi'den Çık",
+        "message": "Signal'den Çık",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -194,7 +194,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Dışa aktarma işlemini tamamladınız ve kişileriniz ile iletileriniz sabırla  bilgisayarınızda bekliyor. Kaydettiğiniz Dedi verilerinizi içeren klasörü seçin.",
+        "message": "Dışa aktarma işlemini tamamladınız ve kişileriniz ile iletileriniz sabırla  bilgisayarınızda bekliyor. Kaydettiğiniz Signal verilerinizi içeren klasörü seçin.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -210,7 +210,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Kaydedilmiş Dedi verilerinizi içeren doğru dizini seçtiğinizden emin olun. Dizinin ismi 'Dedi Export' ile başlamalı. Verinizin yeni bir kopyasını Chrome Uygulamasından kaydededebilirsiniz.",
+        "message": "Kaydedilmiş Signal verilerinizi içeren doğru dizini seçtiğinizden emin olun. Dizinin ismi 'Signal Export' ile başlamalı. Verinizin yeni bir kopyasını Chrome Uygulamasından kaydededebilirsiniz.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -226,7 +226,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Dedi Desktop'ı kullanmaya başlayın",
+        "message": "Signal Desktop'ı kullanmaya başlayın",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -330,50 +330,50 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Birden fazla grup üyesiyle olan güvenlik numaralarınız son doğrulamanızdan bu yana. Bu, birisinin iletişiminizi kesmeye çalıştığı ya da kişilerin Dedi'yi yeniden yüklemiş olduğu anlamına gelebilir.",
+        "message": "Birden fazla grup üyesiyle olan güvenlik numaralarınız son doğrulamanızdan bu yana. Bu, birisinin iletişiminizi kesmeye çalıştığı ya da kişilerin Signal'i yeniden yüklemiş olduğu anlamına gelebilir.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "$name$ ile olan güvenlik numaranız son doğrulamanızdan bu yana değişti. Bu, birisinin iletişiminizi kesmeye çalıştığı ya da $name$ Dedi'i yeniden yüklemiş olduğu anlamına gelebilir.",
+        "message": "$name$ ile olan güvenlik numaranız son doğrulamanızdan bu yana değişti. Bu, birisinin iletişiminizi kesmeye çalıştığı ya da $name$ Signal'i yeniden yüklemiş olduğu anlamına gelebilir.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
                 "content": "$1",
-                "example": "Fatih"
+                "example": "Bob"
             }
         }
     },
     "changedRightAfterVerify": {
-        "message": "Doğrulamaya çalıştığınız güvenlik numarası değişti. Lütfen $name$ ile olan yeni güvenlik numaranızı gözden geçirin. Unutmayın, bu değişiklik birisinin iletişiminizi kesmeye çalıştığı ya da $name$ Dedi'yi yeniden yüklemiş olduğu anlamına gelebilir.",
+        "message": "Doğrulamaya çalıştığınız güvenlik numarası değişti. Lütfen $name$ ile olan yeni güvenlik numaranızı gözden geçirin. Unutmayın, bu değişiklik birisinin iletişiminizi kesmeye çalıştığı ya da $name$ Signal'i yeniden yüklemiş olduğu anlamına gelebilir.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
                 "content": "$1",
-                "example": "Fatih"
+                "example": "Bob"
             }
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Birden fazla grup üyesiyle olan güvenlik numaralarınız yakın zamanda değişti. Bu, birisinin iletişiminizi kesmeye çalıştığı ya da kişilerin Dedi'yi yeniden yüklemiş olduğu anlamına gelebilir.",
+        "message": "Birden fazla grup üyesiyle olan güvenlik numaralarınız yakın zamanda değişti. Bu, birisinin iletişiminizi kesmeye çalıştığı ya da kişilerin Signal'i yeniden yüklemiş olduğu anlamına gelebilir.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "$name$ ile olan güvenlik numaranız yakın zamanda değişti. Bu, birisinin iletişiminizi kesmeye çalıştığı ya da $name$ Dedi'yi yeniden yüklemiş olduğu anlamına gelebilir.",
+        "message": "$name$ ile olan güvenlik numaranız yakın zamanda değişti. Bu, birisinin iletişiminizi kesmeye çalıştığı ya da $name$ Signal'i yeniden yüklemiş olduğu anlamına gelebilir.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
                 "content": "$1",
-                "example": "Fatih"
+                "example": "Bob"
             }
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "$name$ ile olan güvenlik numaranız değişti. Bu, birisinin iletişiminizi kesmeye çalıştığı ya da $name$ Dedi'yi yeniden yüklemiş olduğu anlamına gelebilir. Bu kişi ile güvenlik numaranızı doğrulamak isteyebilirsiniz.",
+        "message": "$name$ ile olan güvenlik numaranız değişti. Bu, birisinin iletişiminizi kesmeye çalıştığı ya da $name$ Signal'i yeniden yüklemiş olduğu anlamına gelebilir. Bu kişi ile güvenlik numaranızı doğrulamak isteyebilirsiniz.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
                 "content": "$1",
-                "example": "Fatih"
+                "example": "Bob"
             }
         }
     },
@@ -387,7 +387,7 @@
         "placeholders": {
             "name": {
                 "content": "$1",
-                "example": "Fatih"
+                "example": "Bob"
             }
         }
     },
@@ -433,7 +433,7 @@
         "placeholders": {
             "name": {
                 "content": "$1",
-                "example": "Fatih"
+                "example": "Bob"
             }
         }
     },
@@ -443,7 +443,7 @@
         "placeholders": {
             "name": {
                 "content": "$1",
-                "example": "Fatih"
+                "example": "Bob"
             }
         }
     },
@@ -456,7 +456,7 @@
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "Bu kişiyle olan güvenlik numaranız değişti. Bu birisinin iletişiminizi kesmeye çalıştığı veya bu kişinin Dedi'i yeniden yüklemiş olduğu anlamına gelebilir. Aşağıdaki yeni güvenlik numarasını doğrulamak isteyebilirsiniz.",
+        "message": "Bu kişiyle olan güvenlik numaranız değişti. Bu birisinin iletişiminizi kesmeye çalıştığı veya bu kişinin Signal'i yeniden yüklemiş olduğu anlamına gelebilir. Aşağıdaki yeni güvenlik numarasını doğrulamak isteyebilirsiniz.",
         "description": ""
     },
     "incomingError": {
@@ -517,11 +517,11 @@
     },
     "loadingPreview": {
         "message": "Öz İzleme Yükleniyor...",
-        "description": "Shown while Dedi Desktop is fetching metadata for a url in composition area"
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
         "message": "$domain$ için bağlantı ön izlemesi küçük resim taslağı",
-        "description": "Shown while Dedi Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -531,7 +531,7 @@
     },
     "previewThumbnail": {
         "message": "$domain$ için bağlantı ön izlemesi küçük resmi",
-        "description": "Shown while Dedi Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -618,15 +618,15 @@
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "signalDesktopPreferences": {
-        "message": "Dedi Desktop Tercihleri",
-        "description": "Title of the window that pops up with Dedi Desktop preferences in it"
+        "message": "Signal Desktop Tercihleri",
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
         "message": "Çıkartma paketi oluşturucusu",
-        "description": "Title of the window that pops up with Dedi Desktop preferences in it"
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "Dedi Desktop Hakkında",
+        "message": "Signal Desktop Hakkında",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
@@ -646,7 +646,7 @@
         "description": "Command in the tray icon menu, to quit the application"
     },
     "signalDesktop": {
-        "message": "Dedi Desktop",
+        "message": "Signal Desktop",
         "description": "Tooltip for the tray icon"
     },
     "search": {
@@ -696,7 +696,7 @@
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSignal": {
-        "message": "Dedi'ye Hoşgeldin",
+        "message": "Signal'e Hoşgeldin",
         "description": ""
     },
     "selectAContact": {
@@ -719,7 +719,7 @@
     },
     "sendMessageToContact": {
         "message": "İleti Gönder",
-        "description": "Shown when you are sent a contact and that contact has a dedi account"
+        "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
         "message": "ev",
@@ -818,7 +818,7 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "Sesli iletiler göndermek için, Dedi Desktop'ın mikrofonunuza erişimine izin verin.",
+        "message": "Sesli iletiler göndermek için, Signal Desktop'ın mikrofonunuza erişimine izin verin.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -846,22 +846,22 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Dedi Desktop güncellenemedi, ama yeni bir sürüm mevcut. Lütfen  $url$ adresine gidin ve yeni sürümü kurun, daha sonrasında bu sorun hakkında destekle iletişime geçin veya hata raporu doldurun.",
+        "message": "Signal Desktop güncellenemedi, ama yeni bir sürüm mevcut. Lütfen  $url$ adresine gidin ve yeni sürümü kurun, daha sonrasında bu sorun hakkında destekle iletişime geçin veya hata raporu doldurun.",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "url": {
                 "content": "$1",
-                "example": "https://dedi.com.tr/download"
+                "example": "https://signal.org/download"
             }
         }
     },
     "readOnlyVolume": {
-        "message": "Dedi Desktop muhtemelen macOS karantinasında ve otomatik güncellenemeyecek. Lütfen Bulucu ile  $app$ uygulamasını  $folder$ klasörüne taşıyın.",
+        "message": "Signal Desktop muhtemelen macOS karantinasında ve otomatik güncellenemeyecek. Lütfen Bulucu ile  $app$ uygulamasını  $folder$ klasörüne taşıyın.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
                 "content": "$1",
-                "example": "Dedi.app"
+                "example": "Signal.app"
             },
             "folder": {
                 "content": "$2",
@@ -1020,32 +1020,32 @@
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
-        "message": "Dedi Desktop'a Hoş Geldiniz",
+        "message": "Signal Desktop'a Hoş Geldiniz",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
-        "message": "Gizlilik mümkün. Dedi ise bunu kolaylaştırır.",
+        "message": "Gizlilik mümkün. Signal ise bunu kolaylaştırır.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "Dedi Desktop'a telefonunuzu bağlayın",
+        "message": "Signal Desktop'a telefonunuzu bağlayın",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
-        "message": "Dedi Ayarları",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Dedi mobile app"
+        "message": "Signal Ayarları",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkedDevices": {
         "message": "Bağlı cihazlar",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Dedi mobile app"
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "plusButton": {
         "message": "'+' Düğmesi",
-        "description": "The button used in Dedi Android to add a new linked device"
+        "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
         "message": "Yeni Cihaz Bağla",
-        "description": "The menu option shown in Dedi iOS to add a new linked device"
+        "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "deviceName": {
         "message": "Cihaz adı",
@@ -1248,7 +1248,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Dedi Desktop'ın bu sürümü kullanım dışı kaldı. İletişime devam etmek için lütfen en son sürüme yükseltin.",
+        "message": "Signal Desktop'ın bu sürümü kullanım dışı kaldı. İletişime devam etmek için lütfen en son sürüme yükseltin.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
@@ -1268,7 +1268,7 @@
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "Tüm Dedi gruplarını ve kişileri mobil cihazınızdan buraya aktarın.",
+        "message": "Tüm Signal gruplarını ve kişileri mobil cihazınızdan buraya aktarın.",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
@@ -1566,7 +1566,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "İletişime devam etmek için Dedi Desktop'ı mobil cihazınıza yeniden bağlayın.",
+        "message": "İletişime devam etmek için Signal Desktop'ı mobil cihazınıza yeniden bağlayın.",
         "description": ""
     },
     "unlinked": {
@@ -1578,19 +1578,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Dedi güncellemesi mevcut",
+        "message": "Signal güncellemesi mevcut",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Dedi'ın yeni bir sürümü mevcut.",
+        "message": "Signal'ın yeni bir sürümü mevcut.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Güncellemeleri uygulamak için 'Dedi'i Yeniden Başlat'a basınız.",
+        "message": "Güncellemeleri uygulamak için 'Signal'i Yeniden Başlat'a basınız.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Dedi'yi Yeniden Başlat",
+        "message": "Signal'i Yeniden Başlat",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
@@ -1661,7 +1661,7 @@
     },
     "message--getDescription--unsupported-message": {
         "message": "Desteklenmeyen ileti",
-        "description": "Shown in notifications and in the left pane when a message has features too new for this dedi install."
+        "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
     "message--getDescription--disappearing-media": {
         "message": "Tek görümlük İçerik",
@@ -1688,11 +1688,11 @@
         "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
     },
     "stickers--StickerManager--BlessedPacks": {
-        "message": "Dedi Tarafından",
+        "message": "Signal Tarafından",
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
-        "message": "Dedi çıkartmaları mevcut değil",
+        "message": "Signal çıkartmaları mevcut değil",
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
@@ -1717,15 +1717,15 @@
     },
     "stickers--StickerManager--Introduction--Image": {
         "message": "Karşınızda Çıkartmalar: Eşkıya Kedi",
-        "description": "Alt text on a tooltip image when the user upgrades to a version of Dedi supporting stickers."
+        "description": "Alt text on a tooltip image when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Title": {
         "message": "Karşınızda Çıkartmalar",
-        "description": "Shown as the title on a tooltip when the user upgrades to a version of Dedi supporting stickers."
+        "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Body": {
         "message": "Çıkartma kullanabilecek iken neden kelimeler kullanasınız?",
-        "description": "Shown as the body on a tooltip when the user upgrades to a version of Dedi supporting stickers."
+        "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerPicker--DownloadError": {
         "message": "Bazı çıkartmalar indirilemedi.",
@@ -1782,7 +1782,7 @@
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "Message--unsupported-message": {
-        "message": "$contact$ size Dedi'in yeni özelliğini kullanan bir ileti gönderdiği için işlenemiyor veya görüntülenemiyor.",
+        "message": "$contact$ size Signal'in yeni özelliğini kullanan bir ileti gönderdiği için işlenemiyor veya görüntülenemiyor.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1792,7 +1792,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "Dedi'nin güncel sürümünü kullandığınıza göre $contact$ kişisinin mesajı tekrar göndermesini isteyebilirsiniz.",
+        "message": "Signal'in güncel sürümünü kullandığınıza göre $contact$ kişisinin mesajı tekrar göndermesini isteyebilirsiniz.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1802,16 +1802,16 @@
         }
     },
     "Message--from-me-unsupported-message": {
-        "message": "Cihazlarınızdan biri Dedi'nin yeni özelliğini kullanan bir ileti gönderdiği için işlenemiyor veya görüntülenemiyor.",
+        "message": "Cihazlarınızdan biri Signal'in yeni özelliğini kullanan bir ileti gönderdiği için işlenemiyor veya görüntülenemiyor.",
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
-        "message": "Dedi'nin güncel sürümünü kullandığınıza göre gelecekteki buna benzer mesajlar artık eşitlenecektir.",
+        "message": "Signal'in güncel sürümünü kullandığınıza göre gelecekteki buna benzer mesajlar artık eşitlenecektir.",
         "description": ""
     },
     "Message--update-signal": {
-        "message": "Dedi'yi Güncelle",
-        "description": "Text for a button which will take user to Dedi download page"
+        "message": "Signal'i Güncelle",
+        "description": "Text for a button which will take user to Signal download page"
     },
     "Message--tap-to-view-expired": {
         "message": "Görüldü",
@@ -2192,7 +2192,7 @@
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "Dedi için oluşturduğum bu çıkartma paketine göz atın. #makeprivacystick",
+        "message": "Signal için oluşturduğum bu çıkartma paketine göz atın. #makeprivacystick",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
@@ -2240,7 +2240,7 @@
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "Çıkartma Paketi oluşturucusunu kullanmak için lütfen Dedi'yi telefonunuzda ve bilgisayarınızda kurun.",
+        "message": "Çıkartma Paketi oluşturucusunu kullanmak için lütfen Signal'i telefonunuzda ve bilgisayarınızda kurun.",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--error": {
@@ -2253,6 +2253,6 @@
     },
     "privacyPolicy": {
         "message": "Şartlar ve Gizlilik İlkesi",
-        "description": "Shown in the about box for the link to https://dedi.com.tr/legal"
+        "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }

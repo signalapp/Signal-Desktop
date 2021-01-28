@@ -15,7 +15,7 @@
         "type": "separator"
       },
       {
-        "label": "Quit Dedi",
+        "label": "Quit Signal",
         "role": "quit"
       }
     ]
@@ -141,7 +141,7 @@
         "type": "separator"
       },
       {
-        "label": "About Dedi Desktop",
+        "label": "About Signal Desktop",
         "click": null
       }
     ]

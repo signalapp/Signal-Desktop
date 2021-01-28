@@ -1,14 +1,14 @@
 {
-  "name": "dedi-desktop",
-  "productName": "Dedi",
+  "name": "signal-desktop",
+  "productName": "Signal",
   "description": "Private messaging from your desktop",
-  "desktopName": "dedi.desktop",
+  "desktopName": "signal.desktop",
   "repository": "https://github.com/signalapp/Signal-Desktop.git",
   "version": "1.33.4",
   "license": "GPL-3.0",
   "author": {
     "name": "Open Whisper Systems",
-    "email": "destek@dedi.com.tr"
+    "email": "support@signal.org"
   },
   "main": "main.js",
   "scripts": {
@@ -250,7 +250,7 @@
     "node": "12.13.0"
   },
   "build": {
-    "appId": "org.btider.dedi-desktop",
+    "appId": "org.whispersystems.signal-desktop",
     "mac": {
       "artifactName": "${name}-mac-${version}.${ext}",
       "category": "public.app-category.social-networking",
@@ -261,7 +261,7 @@
       "publish": [
         {
           "provider": "generic",
-          "url": "https://updates.dedi.com.tr/desktop"
+          "url": "https://updates.signal.org/desktop"
         }
       ],
       "target": [
@@ -276,14 +276,14 @@
         "node_modules/sharp"
       ],
       "artifactName": "${name}-win-${version}.${ext}",
-      "certificateSubjectName": "Dedi",
-      "certificateSha1": "4FDA31794AE0214E172540814244042085FDAEC5",
-      "publisherName": "Dedi",
-      "icon": "build/icons/win/icon2.ico",
+      "certificateSubjectName": "Signal (Quiet Riddle Ventures, LLC)",
+      "certificateSha1": "77B2AA4421E5F377454B8B91E573746592D1543D",
+      "publisherName": "Signal (Quiet Riddle Ventures, LLC)",
+      "icon": "build/icons/win/icon.ico",
       "publish": [
         {
           "provider": "generic",
-          "url": "https://updates.dedi.com.tr/desktop"
+          "url": "https://updates.signal.org/desktop"
         }
       ],
       "target": [
@@ -296,7 +296,7 @@
     "linux": {
       "category": "Network;InstantMessaging;Chat",
       "desktop": {
-        "StartupWMClass": "Dedi"
+        "StartupWMClass": "Signal"
       },
       "asarUnpack": [
         "node_modules/spellchecker/vendor/hunspell_dictionaries",

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import { get, noop } from 'lodash';
-import { Manager, Popper } from 'react-popper';
+import { Manager, Popper, Reference } from 'react-popper';
 import { createPortal } from 'react-dom';
 import { StickerPicker } from './StickerPicker';
 import { countStickers } from './lib';
@@ -52,7 +52,27 @@ export const StickerButton = React.memo(
       null
     );
 
-   
+    const handleClickButton = React.useCallback(() => {
+      // Clear tooltip state
+      clearInstalledStickerPack();
+      clearShowIntroduction();
+
+      // Handle button click
+      if (installedPacks.length === 0) {
+        onClickAddPack();
+      } else if (popperRoot) {
+        setOpen(false);
+      } else {
+        setOpen(true);
+      }
+    }, [
+      clearInstalledStickerPack,
+      onClickAddPack,
+      installedPacks,
+      popperRoot,
+      setOpen,
+    ]);
+
     const handlePickSticker = React.useCallback(
       (packId: string, stickerId: number) => {
         setOpen(false);
@@ -165,7 +185,18 @@ export const StickerButton = React.memo(
 
     return (
       <Manager>
-       
+        <Reference>
+          {({ ref }) => (
+            <button
+              ref={ref}
+              onClick={handleClickButton}
+              className={classNames({
+                'module-sticker-button__button': true,
+                'module-sticker-button__button--active': open,
+              })}
+            />
+          )}
+        </Reference>
         {!open && !showIntroduction && installedPack ? (
           <Popper placement={position} key={installedPack.id}>
             {({ ref, style, placement, arrowProps }) => (

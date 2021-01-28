@@ -56,7 +56,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Dedi বন্ধ করুন",
+        "message": "Signal বন্ধ করুন",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -194,7 +194,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "আপনি সবেমাত্র রফতানি প্রক্রিয়াটি শেষ করেছেন এবং আপনার পরিচিতি এবং বার্তাগুলি আপনার কম্পিউটারে সংরক্ষিত হয়েছে। আপনার Dedi সংরক্ষিত ডেটাযুক্ত ফোল্ডারটি নির্বাচন করুন।",
+        "message": "আপনি সবেমাত্র রফতানি প্রক্রিয়াটি শেষ করেছেন এবং আপনার পরিচিতি এবং বার্তাগুলি আপনার কম্পিউটারে সংরক্ষিত হয়েছে। আপনার Signal সংরক্ষিত ডেটাযুক্ত ফোল্ডারটি নির্বাচন করুন।",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -210,7 +210,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "আপনার Dedi থেকে সংরক্ষিত ডেটা রয়েছে এমন সঠিক ডিরেক্টরিটি চয়ন করেছেন তা নিশ্চিত করুন। এর নামটি 'Dediএক্সপোর্ট' দিয়ে শুরু হয়েছে। আপনি ক্রোম অ্যাপ থেকে আপনার ডেটার একটি নতুন অনুলিপিও সংরক্ষণ করতে পারেন।",
+        "message": "আপনার Signal থেকে সংরক্ষিত ডেটা রয়েছে এমন সঠিক ডিরেক্টরিটি চয়ন করেছেন তা নিশ্চিত করুন। এর নামটি 'Signalএক্সপোর্ট' দিয়ে শুরু হয়েছে। আপনি ক্রোম অ্যাপ থেকে আপনার ডেটার একটি নতুন অনুলিপিও সংরক্ষণ করতে পারেন।",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -226,7 +226,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Dedi ডেস্কটপ ব্যবহার শুরু করুন",
+        "message": "Signal ডেস্কটপ ব্যবহার শুরু করুন",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -330,11 +330,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "আপনি শেষ বার যাচাই করার পরে একাধিক গ্রুপের সদস্য সহ আপনার নিরাপত্তা নম্বরগুলি পরিবর্তন হয়েছে। এর অর্থ এই হতে পারে যে কেউ আপনার যোগাযোগ বাধা দেওয়ার চেষ্টা করছেন বা তারা কেবল Dedi পুনরায় ইনস্টল করেছেন।",
+        "message": "আপনি শেষ বার যাচাই করার পরে একাধিক গ্রুপের সদস্য সহ আপনার নিরাপত্তা নম্বরগুলি পরিবর্তন হয়েছে। এর অর্থ এই হতে পারে যে কেউ আপনার যোগাযোগ বাধা দেওয়ার চেষ্টা করছেন বা তারা কেবল Signal পুনরায় ইনস্টল করেছেন।",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "$name$ এর সাথে আপনার নিরাপত্তা নাম্বার পরিবর্তিত হয়েছে। এর অর্থ হয় যে কেউ আপনার যোগাযোগ বাধা দেওয়ার চেষ্টা করছে, বা $name$ কেবল Dedi পুনরায় ইনস্টল করেছে।",
+        "message": "$name$ এর সাথে আপনার নিরাপত্তা নাম্বার পরিবর্তিত হয়েছে। এর অর্থ হয় যে কেউ আপনার যোগাযোগ বাধা দেওয়ার চেষ্টা করছে, বা $name$ কেবল Signal পুনরায় ইনস্টল করেছে।",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -344,7 +344,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "আপনি যে নিরাপত্তা নাম্বার যাচাই করার চেষ্টা করছেন সেটি পরিবর্তিত হয়েছে। দয়া করে আপনার নতুন সুরক্ষা নম্বরটি $name$এর সাথে পর্যালোচনা করুন। মনে রাখবেন, এই পরিবর্তনের অর্থ এই হতে পারে যে কেউ আপনার যোগাযোগ বাধা দেওয়ার চেষ্টা করছে বা $name$ কেবল Dedi পুনরায় ইনস্টল করেছে।",
+        "message": "আপনি যে নিরাপত্তা নাম্বার যাচাই করার চেষ্টা করছেন সেটি পরিবর্তিত হয়েছে। দয়া করে আপনার নতুন সুরক্ষা নম্বরটি $name$এর সাথে পর্যালোচনা করুন। মনে রাখবেন, এই পরিবর্তনের অর্থ এই হতে পারে যে কেউ আপনার যোগাযোগ বাধা দেওয়ার চেষ্টা করছে বা $name$ কেবল Signal পুনরায় ইনস্টল করেছে।",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -354,11 +354,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "একাধিক গ্রুপের সদস্যের সাথে আপনার নিরাপত্তা নম্বরগুলি সম্প্রতি পরিবর্তিত হয়েছে। এর অর্থ এই হতে পারে যে কেউ আপনার যোগাযোগ বাধা দেওয়ার চেষ্টা করছেন বা তারা কেবল Dedi পুনরায় ইনস্টল করেছেন।",
+        "message": "একাধিক গ্রুপের সদস্যের সাথে আপনার নিরাপত্তা নম্বরগুলি সম্প্রতি পরিবর্তিত হয়েছে। এর অর্থ এই হতে পারে যে কেউ আপনার যোগাযোগ বাধা দেওয়ার চেষ্টা করছেন বা তারা কেবল Signal পুনরায় ইনস্টল করেছেন।",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "$name$ এর সাথে আপনার নিরাপত্তা নাম্বার সাম্প্রতি পরিবর্তিত হয়েছে। এর অর্থ হয় যে কেউ আপনার যোগাযোগ বাধা দেওয়ার চেষ্টা করছে, বা $name$ কেবল Dedi পুনরায় ইনস্টল করেছে।",
+        "message": "$name$ এর সাথে আপনার নিরাপত্তা নাম্বার সাম্প্রতি পরিবর্তিত হয়েছে। এর অর্থ হয় যে কেউ আপনার যোগাযোগ বাধা দেওয়ার চেষ্টা করছে, বা $name$ কেবল Signal পুনরায় ইনস্টল করেছে।",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -368,7 +368,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "$name$ এর সাথে আপনার নিরাপত্তা নাম্বার পরিবর্তিত হয়েছে। এর অর্থ হয় যে কেউ আপনার যোগাযোগ বাধা দেওয়ার চেষ্টা করছে বা $name$ কেবল Dedi পুনরায় ইনস্টল করেছে। আপনি এই পরিচিতি এর সাথে আপনার নিরাপত্তা নাম্বার যাচাই করতে চাইতে পারেন।",
+        "message": "$name$ এর সাথে আপনার নিরাপত্তা নাম্বার পরিবর্তিত হয়েছে। এর অর্থ হয় যে কেউ আপনার যোগাযোগ বাধা দেওয়ার চেষ্টা করছে বা $name$ কেবল Signal পুনরায় ইনস্টল করেছে। আপনি এই পরিচিতি এর সাথে আপনার নিরাপত্তা নাম্বার যাচাই করতে চাইতে পারেন।",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -456,7 +456,7 @@
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "এই পরিচিতির সাথে আপনার নিরাপত্তা নাম্বার পরিবর্তন হয়েছে। এর অর্থ হয় যে কেউ আপনার যোগাযোগ বাধা দেওয়ার চেষ্টা করছে বা এই পরিচিতি কেবল Dedi পুনরায় ইনস্টল করেছে। আপনি নীচের নতুন নিরাপত্তা নাম্বার যাচাই করতে চাইতে পারেন।",
+        "message": "এই পরিচিতির সাথে আপনার নিরাপত্তা নাম্বার পরিবর্তন হয়েছে। এর অর্থ হয় যে কেউ আপনার যোগাযোগ বাধা দেওয়ার চেষ্টা করছে বা এই পরিচিতি কেবল Signal পুনরায় ইনস্টল করেছে। আপনি নীচের নতুন নিরাপত্তা নাম্বার যাচাই করতে চাইতে পারেন।",
         "description": ""
     },
     "incomingError": {
@@ -517,11 +517,11 @@
     },
     "loadingPreview": {
         "message": "পূর্বরূপ লোড হচ্ছে ...",
-        "description": "Shown while Dedi Desktop is fetching metadata for a url in composition area"
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
         "message": "$domain$ লিঙ্ক এর জন্য ছোট খসড়া পূর্বরূপ",
-        "description": "Shown while Dedi Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -531,7 +531,7 @@
     },
     "previewThumbnail": {
         "message": "$domain$ লিঙ্ক এর জন্য ছোট পূর্বরূপ",
-        "description": "Shown while Dedi Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -618,15 +618,15 @@
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "signalDesktopPreferences": {
-        "message": "Dedi ডেস্কটপ পছন্দসমূহ",
-        "description": "Title of the window that pops up with Dedi Desktop preferences in it"
+        "message": "Signal ডেস্কটপ পছন্দসমূহ",
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
         "message": "Sticker pack creator",
-        "description": "Title of the window that pops up with Dedi Desktop preferences in it"
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "Dedi ডেস্কটপ সম্পর্কে",
+        "message": "Signal ডেস্কটপ সম্পর্কে",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
@@ -646,7 +646,7 @@
         "description": "Command in the tray icon menu, to quit the application"
     },
     "signalDesktop": {
-        "message": "Dedi ডেস্কটপ",
+        "message": "Signal ডেস্কটপ",
         "description": "Tooltip for the tray icon"
     },
     "search": {
@@ -696,7 +696,7 @@
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSignal": {
-        "message": "Dedi এ স্বাগতম!",
+        "message": "Signal এ স্বাগতম!",
         "description": ""
     },
     "selectAContact": {
@@ -719,7 +719,7 @@
     },
     "sendMessageToContact": {
         "message": "বার্তা পাঠান",
-        "description": "Shown when you are sent a contact and that contact has a Dedi account"
+        "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
         "message": "পারিবারিক",
@@ -818,7 +818,7 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "অডিও বার্তা পাঠাতে Dedi ডেস্কটপ কে আপনার মাইক্রোফোন ব্যাবহারের অনুমতি দিন।",
+        "message": "অডিও বার্তা পাঠাতে Signal ডেস্কটপ কে আপনার মাইক্রোফোন ব্যাবহারের অনুমতি দিন।",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -846,22 +846,22 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Dedi Desktop failed to update, but there is a new version available. Please go to $url$ and install the new version manually, then either contact support or file a bug about this problem.",
+        "message": "Signal Desktop failed to update, but there is a new version available. Please go to $url$ and install the new version manually, then either contact support or file a bug about this problem.",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "url": {
                 "content": "$1",
-                "example": "https://dedi.com.tr/download"
+                "example": "https://signal.org/download"
             }
         }
     },
     "readOnlyVolume": {
-        "message": "Dedi Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving $app$ to $folder$ with Finder.",
+        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving $app$ to $folder$ with Finder.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
                 "content": "$1",
-                "example": "Dedi.app"
+                "example": "Signal.app"
             },
             "folder": {
                 "content": "$2",
@@ -1020,32 +1020,32 @@
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
-        "message": "Dedi ডেস্কটপ এ স্বাগতম!",
+        "message": "Signal ডেস্কটপ এ স্বাগতম!",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
-        "message": "গোপনীয়তা সম্ভব। Dedi এটি সহজ করে তোলে।",
+        "message": "গোপনীয়তা সম্ভব। Signal এটি সহজ করে তোলে।",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "Dedi ডেস্কটপে আপনার ফোন সংযুক্ত করুন",
+        "message": "Signal ডেস্কটপে আপনার ফোন সংযুক্ত করুন",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
-        "message": "Dedi সেটিংস",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Dedi mobile app"
+        "message": "Signal সেটিংস",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkedDevices": {
         "message": "সংযুক্ত ডিভাইসগুলি",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Dedi mobile app"
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "plusButton": {
         "message": "'+' বোতাম",
-        "description": "The button used in Dedi Android to add a new linked device"
+        "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
         "message": "নতুন ডিভাইস যুক্ত করুন",
-        "description": "The menu option shown in Dedi iOS to add a new linked device"
+        "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "deviceName": {
         "message": "ডিভাইস এর নাম",
@@ -1248,7 +1248,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Dedi ডেস্কটপের এই সংস্করণটির মেয়াদ শেষ হয়ে গেছে। বার্তা আদান-প্রদান চালিয়ে যেতে দয়া করে সর্বশেষতম সংস্করণে আপগ্রেড করুন।",
+        "message": "Signal ডেস্কটপের এই সংস্করণটির মেয়াদ শেষ হয়ে গেছে। বার্তা আদান-প্রদান চালিয়ে যেতে দয়া করে সর্বশেষতম সংস্করণে আপগ্রেড করুন।",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
@@ -1268,7 +1268,7 @@
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "আপনার মোবাইল ডিভাইস থেকে সমস্ত Dedi গ্রুপ এবং পরিচিতিসমূহ আমদানি করুন।",
+        "message": "আপনার মোবাইল ডিভাইস থেকে সমস্ত Signal গ্রুপ এবং পরিচিতিসমূহ আমদানি করুন।",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
@@ -1566,7 +1566,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "বার্তা আদান-প্রদান চালিয়ে যেতে আপনার মোবাইল ডিভাইস থেকে Dedi ডেস্কটপটিকে পুনরায় সংযুক্ত করুন।",
+        "message": "বার্তা আদান-প্রদান চালিয়ে যেতে আপনার মোবাইল ডিভাইস থেকে Signal ডেস্কটপটিকে পুনরায় সংযুক্ত করুন।",
         "description": ""
     },
     "unlinked": {
@@ -1578,19 +1578,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Dedi আপডেট পাওয়া যাচ্ছে",
+        "message": "Signal আপডেট পাওয়া যাচ্ছে",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Dedi  এর একটি নতুন সংস্করণ পাওয়া যাচ্ছে",
+        "message": "Signal  এর একটি নতুন সংস্করণ পাওয়া যাচ্ছে",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "আপডেটগুলি প্রয়োগ করতে Dedi পূনরায় চালু করুন।",
+        "message": "আপডেটগুলি প্রয়োগ করতে Signal পূনরায় চালু করুন।",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Dedi পুনরায় চালু করুন",
+        "message": "Signal পুনরায় চালু করুন",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
@@ -1661,7 +1661,7 @@
     },
     "message--getDescription--unsupported-message": {
         "message": "অসমর্থিত বার্তা",
-        "description": "Shown in notifications and in the left pane when a message has features too new for this Dedi install."
+        "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
     "message--getDescription--disappearing-media": {
         "message": "একবার দেখা মিডিয়া",
@@ -1688,11 +1688,11 @@
         "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
     },
     "stickers--StickerManager--BlessedPacks": {
-        "message": "Dedi  শিল্পী সিরিজ",
+        "message": "Signal  শিল্পী সিরিজ",
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
-        "message": "কোনও Dedi আর্টিস্ট স্টিকার পাওয়া যাচ্ছে না",
+        "message": "কোনও Signal আর্টিস্ট স্টিকার পাওয়া যাচ্ছে না",
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
@@ -1717,15 +1717,15 @@
     },
     "stickers--StickerManager--Introduction--Image": {
         "message": "Introducing Stickers: Bandit the Cat",
-        "description": "Alt text on a tooltip image when the user upgrades to a version of Dedi supporting stickers."
+        "description": "Alt text on a tooltip image when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Title": {
         "message": "স্টিকারের সাথে পরিচিত হন",
-        "description": "Shown as the title on a tooltip when the user upgrades to a version of Dedi supporting stickers."
+        "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Body": {
         "message": "আপনি যখন স্টিকার ব্যবহার করতে পারেন তখন কেন শব্দ ব্যবহার করবেন?",
-        "description": "Shown as the body on a tooltip when the user upgrades to a version of Dedi supporting stickers."
+        "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerPicker--DownloadError": {
         "message": "কিছু স্টিকার ডাউনলোড করা যায়নি।",
@@ -1782,7 +1782,7 @@
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "Message--unsupported-message": {
-        "message": "$contact$ একটি বার্তা প্রেরণ করেছে যা এখানে প্রক্রিয়া করা বা প্রদর্শিত করা যাচ্ছে না  কারণ এটি একটি নতুন Dedi বৈশিষ্ট্য ব্যবহার করেছে।",
+        "message": "$contact$ একটি বার্তা প্রেরণ করেছে যা এখানে প্রক্রিয়া করা বা প্রদর্শিত করা যাচ্ছে না  কারণ এটি একটি নতুন Signal বৈশিষ্ট্য ব্যবহার করেছে।",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1792,7 +1792,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "আপনি $contact$ কে এই বার্তাটি এখনই আবার পাঠাতে বলতে পারেন যে আপনি Dedi এর একটি আধুনিক সংস্করণ ব্যবহার করছেন।",
+        "message": "আপনি $contact$ কে এই বার্তাটি এখনই আবার পাঠাতে বলতে পারেন যে আপনি Signal এর একটি আধুনিক সংস্করণ ব্যবহার করছেন।",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1802,16 +1802,16 @@
         }
     },
     "Message--from-me-unsupported-message": {
-        "message": "আপনার একটি ডিভাইস একটি বার্তা প্রেরণ করেছে যা এখানে প্রক্রিয়া করা বা প্রদর্শিত করা যাচ্ছে না  কারণ এটি একটি নতুন Dedi বৈশিষ্ট্য ব্যবহার করেছে।",
+        "message": "আপনার একটি ডিভাইস একটি বার্তা প্রেরণ করেছে যা এখানে প্রক্রিয়া করা বা প্রদর্শিত করা যাচ্ছে না  কারণ এটি একটি নতুন Signal বৈশিষ্ট্য ব্যবহার করেছে।",
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
-        "message": "এই জাতীয় ভবিষ্যতের বার্তাগুলি এখন সমন্বয় হবে কারন আপনি Dedi এর একটি আধুনিক সংস্করণ ব্যবহার করছেন।",
+        "message": "এই জাতীয় ভবিষ্যতের বার্তাগুলি এখন সমন্বয় হবে কারন আপনি Signal এর একটি আধুনিক সংস্করণ ব্যবহার করছেন।",
         "description": ""
     },
     "Message--update-signal": {
-        "message": "Dedi আপডেট করুন",
-        "description": "Text for a button which will take user to Dedi download page"
+        "message": "Signal আপডেট করুন",
+        "description": "Text for a button which will take user to Signal download page"
     },
     "Message--tap-to-view-expired": {
         "message": "দেখা হয়েছে",
@@ -2192,7 +2192,7 @@
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "Check out this new sticker pack I created for Dedi. #makeprivacystick",
+        "message": "Check out this new sticker pack I created for Signal. #makeprivacystick",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
@@ -2240,7 +2240,7 @@
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "Please set up Dedi on your phone and desktop to use the Sticker Pack Creator",
+        "message": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--error": {
@@ -2253,6 +2253,6 @@
     },
     "privacyPolicy": {
         "message": "শর্তাদি এবং গোপনীয়তা নীতি",
-        "description": "Shown in the about box for the link to https://dedi.com.tr/legal"
+        "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }

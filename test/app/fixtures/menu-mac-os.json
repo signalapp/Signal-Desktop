@@ -1,9 +1,9 @@
 [
   {
-    "label": "Dedi Desktop",
+    "label": "Signal Desktop",
     "submenu": [
       {
-        "label": "About Dedi Desktop",
+        "label": "About Signal Desktop",
         "click": null
       },
       {
@@ -33,7 +33,7 @@
         "type": "separator"
       },
       {
-        "label": "Quit Dedi",
+        "label": "Quit Signal",
         "role": "quit"
       }
     ]
