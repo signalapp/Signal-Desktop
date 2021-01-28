@@ -56,7 +56,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Quit Dedi",
+        "message": "Quit Signal",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -194,7 +194,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Току-що сте преминали процеса на експортиране и вашите контакти и съобщения чакат търпеливо на вашия компютър. Изберете папката, която съдържа запаметените ви данни на Dedi.",
+        "message": "Току-що сте преминали процеса на експортиране и вашите контакти и съобщения чакат търпеливо на вашия компютър. Изберете папката, която съдържа запаметените ви данни на Signal.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -210,7 +210,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Make sure you have chosen the correct directory that contains your saved Dedi data. Its name should begin with 'Dedi Export.' You can also save a new copy of your data from the Chrome App.",
+        "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -226,7 +226,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Започнете да използвате Dedi Desktop",
+        "message": "Започнете да използвате Signal Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -368,7 +368,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Dedi. You may wish to verify your safety number with this contact.",
+        "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -517,11 +517,11 @@
     },
     "loadingPreview": {
         "message": "Loading Preview...",
-        "description": "Shown while Dedi Desktop is fetching metadata for a url in composition area"
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
         "message": "Draft thumbnail link preview for $domain$",
-        "description": "Shown while Dedi Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -531,7 +531,7 @@
     },
     "previewThumbnail": {
         "message": "Thumbnail link preview for $domain$",
-        "description": "Shown while Dedi Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -618,12 +618,12 @@
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "signalDesktopPreferences": {
-        "message": "Dedi Desktop Preferences",
-        "description": "Title of the window that pops up with Dedi Desktop preferences in it"
+        "message": "Signal Desktop Preferences",
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
         "message": "Sticker pack creator",
-        "description": "Title of the window that pops up with Dedi Desktop preferences in it"
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
         "message": "Относно Сигнал Десктоп",
@@ -719,7 +719,7 @@
     },
     "sendMessageToContact": {
         "message": "Send Message",
-        "description": "Shown when you are sent a contact and that contact has a Dedi account"
+        "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
         "message": "home",
@@ -818,7 +818,7 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "To send audio messages, allow Dedi Desktop to access your microphone.",
+        "message": "To send audio messages, allow Signal Desktop to access your microphone.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -846,22 +846,22 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Dedi Desktop failed to update, but there is a new version available. Please go to $url$ and install the new version manually, then either contact support or file a bug about this problem.",
+        "message": "Signal Desktop failed to update, but there is a new version available. Please go to $url$ and install the new version manually, then either contact support or file a bug about this problem.",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "url": {
                 "content": "$1",
-                "example": "https://dedi.com.tr/download"
+                "example": "https://signal.org/download"
             }
         }
     },
     "readOnlyVolume": {
-        "message": "Dedi Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving $app$ to $folder$ with Finder.",
+        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving $app$ to $folder$ with Finder.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
                 "content": "$1",
-                "example": "Dedi.app"
+                "example": "Signal.app"
             },
             "folder": {
                 "content": "$2",
@@ -1028,24 +1028,24 @@
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "Свържете телефона си със Dedi Desktop",
+        "message": "Свържете телефона си със Signal Desktop",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
-        "message": "Dedi Настройки",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Dedi mobile app"
+        "message": "Signal Настройки",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkedDevices": {
         "message": "Свързани Устройства",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Dedi mobile app"
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "plusButton": {
         "message": "'+' Бутон",
-        "description": "The button used in Dedi Android to add a new linked device"
+        "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
         "message": "Свържи Ново Устройство",
-        "description": "The menu option shown in Dedi iOS to add a new linked device"
+        "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "deviceName": {
         "message": "Име на Устройството",
@@ -1586,11 +1586,11 @@
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Натиснете Рестарт на Dedi за да валидирате промените.",
+        "message": "Натиснете Рестарт на Signal за да валидирате промените.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Рестарт на Dedi",
+        "message": "Рестарт на Signal",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
@@ -1661,7 +1661,7 @@
     },
     "message--getDescription--unsupported-message": {
         "message": "Unsupported message",
-        "description": "Shown in notifications and in the left pane when a message has features too new for this Dedi install."
+        "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
     "message--getDescription--disappearing-media": {
         "message": "View-once Media",
@@ -1688,11 +1688,11 @@
         "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
     },
     "stickers--StickerManager--BlessedPacks": {
-        "message": "Dedi Artist серии",
+        "message": "Signal Artist серии",
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
-        "message": "No Dedi Artist stickers available",
+        "message": "No Signal Artist stickers available",
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
@@ -1717,15 +1717,15 @@
     },
     "stickers--StickerManager--Introduction--Image": {
         "message": "Introducing Stickers: Bandit the Cat",
-        "description": "Alt text on a tooltip image when the user upgrades to a version of Dedi supporting stickers."
+        "description": "Alt text on a tooltip image when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Title": {
         "message": "Introducing Stickers",
-        "description": "Shown as the title on a tooltip when the user upgrades to a version of Dedi supporting stickers."
+        "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Body": {
         "message": "Why use words when you can use stickers?",
-        "description": "Shown as the body on a tooltip when the user upgrades to a version of Dedi supporting stickers."
+        "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerPicker--DownloadError": {
         "message": "Some stickers could not be downloaded.",
@@ -1782,7 +1782,7 @@
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "Message--unsupported-message": {
-        "message": "$contact$ sent you a message that can't be processed or displayed because it uses a new Dedi feature.",
+        "message": "$contact$ sent you a message that can't be processed or displayed because it uses a new Signal feature.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1792,7 +1792,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "You can ask $contact$ to re-send this message now that you are using an up-to-date version of Dedi.",
+        "message": "You can ask $contact$ to re-send this message now that you are using an up-to-date version of Signal.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1802,16 +1802,16 @@
         }
     },
     "Message--from-me-unsupported-message": {
-        "message": "One of your devices sent a message that can't be processed or displayed because it uses a new Dedi feature.",
+        "message": "One of your devices sent a message that can't be processed or displayed because it uses a new Signal feature.",
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
-        "message": "Future messages like this will be synchronized now that you are using an up-to-date version of Dedi.",
+        "message": "Future messages like this will be synchronized now that you are using an up-to-date version of Signal.",
         "description": ""
     },
     "Message--update-signal": {
-        "message": "Update Dedi",
-        "description": "Text for a button which will take user to Dedi download page"
+        "message": "Update Signal",
+        "description": "Text for a button which will take user to Signal download page"
     },
     "Message--tap-to-view-expired": {
         "message": "Viewed",
@@ -2192,7 +2192,7 @@
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "Check out this new sticker pack I created for Dedi. #makeprivacystick",
+        "message": "Check out this new sticker pack I created for Signal. #makeprivacystick",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
@@ -2240,7 +2240,7 @@
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "Please set up Dedi on your phone and desktop to use the Sticker Pack Creator",
+        "message": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--error": {
@@ -2253,6 +2253,6 @@
     },
     "privacyPolicy": {
         "message": "Terms & Privacy Policy",
-        "description": "Shown in the about box for the link to https://dedi.com.tr/legal"
+        "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }

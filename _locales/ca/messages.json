@@ -56,7 +56,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Surt del Dedi",
+        "message": "Surt del Signal",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -194,7 +194,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Acabeu de passar pel procés d'exportació i els vostres contactes i missatges esperen pacientment a l'ordinador. Seleccioneu la carpeta que conté les dades de Dedi desades.",
+        "message": "Acabeu de passar pel procés d'exportació i els vostres contactes i missatges esperen pacientment a l'ordinador. Seleccioneu la carpeta que conté les dades de Signal desades.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -210,7 +210,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Assegureu-vos que heu triat el directori correcte que conté les dades de Dedi desades. El seu nom hauria de començar amb \"Dedi Export\". També podeu desar una còpia nova de les dades des de l'aplicació Chrome.",
+        "message": "Assegureu-vos que heu triat el directori correcte que conté les dades de Signal desades. El seu nom hauria de començar amb \"Signal Export\". També podeu desar una còpia nova de les dades des de l'aplicació Chrome.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -226,7 +226,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Comenceu a usar el Dedi Desktop",
+        "message": "Comenceu a usar el Signal Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -330,11 +330,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Els números de seguretat amb múltiples membres de grup han canviat des que els vau verificar l'últim cop. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que simplement ha reinstal·lat el Dedi.",
+        "message": "Els números de seguretat amb múltiples membres de grup han canviat des que els vau verificar l'últim cop. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que simplement ha reinstal·lat el Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "El número de seguretat amb $name$ ha canviat des que el vau verificar l'últim cop. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que $name$ simplement ha reinstal·lat el Dedi.",
+        "message": "El número de seguretat amb $name$ ha canviat des que el vau verificar l'últim cop. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que $name$ simplement ha reinstal·lat el Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -344,7 +344,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "El número de seguretat que intenteu verificar ha canviat. Si us plau, reviseu el número de seguretat nou amb $name$. Recordeu que aquest canvi podria voler dir que algú està provant d'interceptar les vostres comunicacions o que $name$ simplement ha reinstal·lat el Dedi.",
+        "message": "El número de seguretat que intenteu verificar ha canviat. Si us plau, reviseu el número de seguretat nou amb $name$. Recordeu que aquest canvi podria voler dir que algú està provant d'interceptar les vostres comunicacions o que $name$ simplement ha reinstal·lat el Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -354,11 +354,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Els números de seguretat amb múltiples membres de grup han canviat recentment. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que simplement ha reinstal·lat el Dedi.",
+        "message": "Els números de seguretat amb múltiples membres de grup han canviat recentment. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que simplement ha reinstal·lat el Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "El número de seguretat amb $name$ ha canviat recentment. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que $name$ simplement ha reinstal·lat el Dedi.",
+        "message": "El número de seguretat amb $name$ ha canviat recentment. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que $name$ simplement ha reinstal·lat el Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -368,7 +368,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "El número de seguretat amb $name$ ha canviat. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que $name$ simplement ha reinstal·lat el Dedi. Potser hauríeu de verificar el número de seguretat amb aquest contacte.",
+        "message": "El número de seguretat amb $name$ ha canviat. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que $name$ simplement ha reinstal·lat el Signal. Potser hauríeu de verificar el número de seguretat amb aquest contacte.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -456,7 +456,7 @@
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "El número de seguretat amb aquest contacte ha canviat. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que aquest contacte simplement ha reinstal·lat el Dedi. Potser hauríeu de verificar el número de seguretat nou.",
+        "message": "El número de seguretat amb aquest contacte ha canviat. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que aquest contacte simplement ha reinstal·lat el Signal. Potser hauríeu de verificar el número de seguretat nou.",
         "description": ""
     },
     "incomingError": {
@@ -517,11 +517,11 @@
     },
     "loadingPreview": {
         "message": "Carregant la previsualització...",
-        "description": "Shown while Dedi Desktop is fetching metadata for a url in composition area"
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
         "message": "Previsualització de l'esborrany de la vista en miniatura de l'enllaç $domain$",
-        "description": "Shown while Dedi Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -531,7 +531,7 @@
     },
     "previewThumbnail": {
         "message": "Previsualització de la vista en miniatura de l'enllaç $domain$",
-        "description": "Shown while Dedi Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -618,15 +618,15 @@
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "signalDesktopPreferences": {
-        "message": "Preferències del Dedi Desktop",
-        "description": "Title of the window that pops up with Dedi Desktop preferences in it"
+        "message": "Preferències del Signal Desktop",
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
         "message": "Creador de paquets d'adhesius",
-        "description": "Title of the window that pops up with Dedi Desktop preferences in it"
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "Quan al Dedi Desktop",
+        "message": "Quan al Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
@@ -646,7 +646,7 @@
         "description": "Command in the tray icon menu, to quit the application"
     },
     "signalDesktop": {
-        "message": "Dedi Desktop",
+        "message": "Signal Desktop",
         "description": "Tooltip for the tray icon"
     },
     "search": {
@@ -696,7 +696,7 @@
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSignal": {
-        "message": "Benvingut al Dedi",
+        "message": "Benvingut al Signal",
         "description": ""
     },
     "selectAContact": {
@@ -719,7 +719,7 @@
     },
     "sendMessageToContact": {
         "message": "Envia un missatge",
-        "description": "Shown when you are sent a contact and that contact has a Dedi account"
+        "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
         "message": "casa",
@@ -818,7 +818,7 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "Per enviar missatges d'àudio, permeteu que el Dedi Desktop tingui accés al micròfon.",
+        "message": "Per enviar missatges d'àudio, permeteu que el Signal Desktop tingui accés al micròfon.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -846,22 +846,22 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "El Dedi Desktop no es pot actualitzar, però n'hi ha una versió nova disponible. Si us plau, aneu a  $url$ i instal·leu-ne la versió nova manualment. Després o bé contacteu amb el personal de suport o bé feu un informe d'error sobre aquest problema.",
+        "message": "El Signal Desktop no es pot actualitzar, però n'hi ha una versió nova disponible. Si us plau, aneu a  $url$ i instal·leu-ne la versió nova manualment. Després o bé contacteu amb el personal de suport o bé feu un informe d'error sobre aquest problema.",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "url": {
                 "content": "$1",
-                "example": "https://dedi.com.tr/download"
+                "example": "https://signal.org/download"
             }
         }
     },
     "readOnlyVolume": {
-        "message": "El Dedi Desktop es troba probablement en una quarentena de macOS i no es podrà actualitzar automàticament. Si us plau, proveu de moure  $app$ a  $folder$ amb el Finder.",
+        "message": "El Signal Desktop es troba probablement en una quarentena de macOS i no es podrà actualitzar automàticament. Si us plau, proveu de moure  $app$ a  $folder$ amb el Finder.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
                 "content": "$1",
-                "example": "Dedi.app"
+                "example": "Signal.app"
             },
             "folder": {
                 "content": "$2",
@@ -1020,7 +1020,7 @@
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
-        "message": "Us donem la benvinguda al Dedi Desktop",
+        "message": "Us donem la benvinguda al Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
@@ -1028,24 +1028,24 @@
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "Enllaceu el mòbil amb el Dedi Desktop",
+        "message": "Enllaceu el mòbil amb el Signal Desktop",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
-        "message": "Configuració del Dedi",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Dedi mobile app"
+        "message": "Configuració del Signal",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkedDevices": {
         "message": "Dispositius enllaçats",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Dedi mobile app"
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "plusButton": {
         "message": "Botó «+»",
-        "description": "The button used in Dedi Android to add a new linked device"
+        "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
         "message": "Enllaça un dispositiu nou",
-        "description": "The menu option shown in Dedi iOS to add a new linked device"
+        "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "deviceName": {
         "message": "Nom del dispositiu",
@@ -1248,7 +1248,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Aquesta versió del Dedi Desktop ha expirat. Actualitzeu a l'última versió per a poder seguir enviant i rebent missatges.",
+        "message": "Aquesta versió del Signal Desktop ha expirat. Actualitzeu a l'última versió per a poder seguir enviant i rebent missatges.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
@@ -1268,7 +1268,7 @@
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "Importa tots els grups i contactes del Dedi des del dispositiu mòbil.",
+        "message": "Importa tots els grups i contactes del Signal des del dispositiu mòbil.",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
@@ -1566,7 +1566,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Torneu a enllaçar el Dedi Desktop amb el dispositiu mòbil per continuar enviant missatges.",
+        "message": "Torneu a enllaçar el Signal Desktop amb el dispositiu mòbil per continuar enviant missatges.",
         "description": ""
     },
     "unlinked": {
@@ -1578,19 +1578,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Disponible una actualització del Dedi",
+        "message": "Disponible una actualització del Signal",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Hi ha disponible una versió nova del Dedi.",
+        "message": "Hi ha disponible una versió nova del Signal.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Premeu Reinicia el Dedi per aplicar les actualitzacions.",
+        "message": "Premeu Reinicia el Signal per aplicar les actualitzacions.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Reinicia el Dedi",
+        "message": "Reinicia el Signal",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
@@ -1661,7 +1661,7 @@
     },
     "message--getDescription--unsupported-message": {
         "message": "Missatge no compatible",
-        "description": "Shown in notifications and in the left pane when a message has features too new for this Dedi install."
+        "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
     "message--getDescription--disappearing-media": {
         "message": "Contingut d'una sola visualització",
@@ -1688,11 +1688,11 @@
         "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
     },
     "stickers--StickerManager--BlessedPacks": {
-        "message": "Sèries d'artistes de Dedi",
+        "message": "Sèries d'artistes de Signal",
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
-        "message": "No hi ha adhesius d'artistes de Dedi disponibles.",
+        "message": "No hi ha adhesius d'artistes de Signal disponibles.",
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
@@ -1717,15 +1717,15 @@
     },
     "stickers--StickerManager--Introduction--Image": {
         "message": "S'introdueixen els adhesius: el gat Bandit",
-        "description": "Alt text on a tooltip image when the user upgrades to a version of Dedi supporting stickers."
+        "description": "Alt text on a tooltip image when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Title": {
         "message": "S'introdueixen els adhesius.",
-        "description": "Shown as the title on a tooltip when the user upgrades to a version of Dedi supporting stickers."
+        "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Body": {
         "message": "Per què usar paraules quan podeu fer servir adhesius?",
-        "description": "Shown as the body on a tooltip when the user upgrades to a version of Dedi supporting stickers."
+        "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerPicker--DownloadError": {
         "message": "No s'han pogut baixar alguns adhesius.",
@@ -1782,7 +1782,7 @@
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "Message--unsupported-message": {
-        "message": "$contact$ us ha enviat un missatge que no es pot processar o mostrar perquè usa una funció nova del Dedi.",
+        "message": "$contact$ us ha enviat un missatge que no es pot processar o mostrar perquè usa una funció nova del Signal.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1792,7 +1792,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "Podeu demanar a $contact$ que torni a enviar aquest missatge ara que useu una versió actualitzada del Dedi.",
+        "message": "Podeu demanar a $contact$ que torni a enviar aquest missatge ara que useu una versió actualitzada del Signal.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1802,16 +1802,16 @@
         }
     },
     "Message--from-me-unsupported-message": {
-        "message": "Un dels vostres dispositius ha enviat un missatge que no es pot processar o mostrar perquè usa una funció nova del Dedi.",
+        "message": "Un dels vostres dispositius ha enviat un missatge que no es pot processar o mostrar perquè usa una funció nova del Signal.",
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
-        "message": "Missatges futurs com aquest se sincronitzaran ara que useu una versió actualitzada del Dedi.",
+        "message": "Missatges futurs com aquest se sincronitzaran ara que useu una versió actualitzada del Signal.",
         "description": ""
     },
     "Message--update-signal": {
-        "message": "Actualitza el Dedi",
-        "description": "Text for a button which will take user to Dedi download page"
+        "message": "Actualitza el Signal",
+        "description": "Text for a button which will take user to Signal download page"
     },
     "Message--tap-to-view-expired": {
         "message": "Vista",
@@ -2192,7 +2192,7 @@
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "Mireu aquest paquet d'adhesius nou que he creat per al Dedi. #makeprivacystick",
+        "message": "Mireu aquest paquet d'adhesius nou que he creat per al Signal. #makeprivacystick",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
@@ -2240,7 +2240,7 @@
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "Si us plau, configureu el Dedi del telèfon i de l'escriptori perquè usi el Creador de paquets d'adhesius.",
+        "message": "Si us plau, configureu el Signal del telèfon i de l'escriptori perquè usi el Creador de paquets d'adhesius.",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--error": {
@@ -2253,6 +2253,6 @@
     },
     "privacyPolicy": {
         "message": "Condicions de servei i política de privadesa",
-        "description": "Shown in the about box for the link to https://dedi.com.tr/legal"
+        "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }

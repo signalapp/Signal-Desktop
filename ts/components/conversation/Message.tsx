@@ -1812,7 +1812,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public openGenericAttachment = (event?: React.MouseEvent) => {
     const { attachments, downloadAttachment, timestamp } = this.props;
-    console.log('Merhaba dünya burası çalışacak mı onu deniyorum');
+
     if (event) {
       event.preventDefault();
       event.stopPropagation();

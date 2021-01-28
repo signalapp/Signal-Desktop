@@ -1136,7 +1136,6 @@ MessageSender.prototype = {
     profileKey,
     options
   ) {
-    console.log('--------------------------------------------------------------------------------------------------------------------');
     const myE164 = textsecure.storage.user.getNumber();
     const myUuid = textsecure.storage.user.getNumber();
     const attrs = {

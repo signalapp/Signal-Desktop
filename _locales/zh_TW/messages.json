@@ -846,22 +846,22 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Dedi 電腦版更新失敗，但是有可用的新版本。 請到 $url$並手動安裝新版本，然後與支援人員聯繫或提供有關此問題的錯誤。",
+        "message": "Signal 電腦版更新失敗，但是有可用的新版本。 請到 $url$並手動安裝新版本，然後與支援人員聯繫或提供有關此問題的錯誤。",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "url": {
                 "content": "$1",
-                "example": "https://Dedi.org/download"
+                "example": "https://signal.org/download"
             }
         }
     },
     "readOnlyVolume": {
-        "message": "Dedi 電腦版可能在macOS隔離區中，將無法自動更新。 請嘗試使用Finder移動 $app$到 $folder$。",
+        "message": "Signal 電腦版可能在macOS隔離區中，將無法自動更新。 請嘗試使用Finder移動 $app$到 $folder$。",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
                 "content": "$1",
-                "example": "Dedi.app"
+                "example": "Signal.app"
             },
             "folder": {
                 "content": "$2",
@@ -1020,32 +1020,32 @@
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
-        "message": "歡迎來到 Dedi Desktop版",
+        "message": "歡迎來到 Signal Desktop版",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
-        "message": "Dedi 讓隱私更簡單。",
+        "message": "隱私是有可能的。Signal 讓隱私更簡單。",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "您的手機與 Dedi Desktop連結",
+        "message": "您的手機與 Signal Desktop連結",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
-        "message": "Dedi 設定",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Dedi mobile app"
+        "message": "Signal 設定",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkedDevices": {
         "message": "已連結的裝置",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Dedi mobile app"
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "plusButton": {
         "message": "「+」按鈕",
-        "description": "The button used in Dedi Android to add a new linked device"
+        "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
         "message": "連結新裝置",
-        "description": "The menu option shown in Dedi iOS to add a new linked device"
+        "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "deviceName": {
         "message": "裝置名稱",
@@ -1248,7 +1248,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Dedi Desktop版的版本已經過期。請更新到最新版來傳送訊息。",
+        "message": "Signal Desktop版的版本已經過期。請更新到最新版來傳送訊息。",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
@@ -1268,7 +1268,7 @@
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "從你的行動裝置，匯入 Dedi 群組和聯絡人。",
+        "message": "從你的行動裝置，匯入 Signal 群組和聯絡人。",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
@@ -1566,7 +1566,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "重新連結 Dedi Desktop到你的行動裝置來持續發送訊息。",
+        "message": "重新連結 Signal Desktop到你的行動裝置來持續發送訊息。",
         "description": ""
     },
     "unlinked": {
@@ -1578,19 +1578,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Dedi 可用的更新",
+        "message": "Signal 可用的更新",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "這是新版本的 Dedi",
+        "message": "這是新版本的 Signal。",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "點選重啟 Dedi 來套用更新。",
+        "message": "點選重啟 Signal 來套用更新。",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "重啟 Dedi",
+        "message": "重啟 Signal",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
@@ -1688,11 +1688,11 @@
         "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
     },
     "stickers--StickerManager--BlessedPacks": {
-        "message": "Dedi 藝術家系列",
+        "message": "Signal 藝術家系列",
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
-        "message": "Dedi 藝術家貼圖提供",
+        "message": "無Signal 藝術家貼圖提供",
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
@@ -1717,15 +1717,15 @@
     },
     "stickers--StickerManager--Introduction--Image": {
         "message": "介紹貼圖: 土匪貓",
-        "description": "Alt text on a tooltip image when the user upgrades to a version of Dedi supporting stickers."
+        "description": "Alt text on a tooltip image when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Title": {
         "message": "介紹貼圖",
-        "description": "Shown as the title on a tooltip when the user upgrades to a version of Dedi supporting stickers."
+        "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Body": {
         "message": "如果你可以使用貼圖，為什麼要使用文字？",
-        "description": "Shown as the body on a tooltip when the user upgrades to a version of Dedi supporting stickers."
+        "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerPicker--DownloadError": {
         "message": "有些貼圖無法被下載。",
@@ -1802,7 +1802,7 @@
         }
     },
     "Message--from-me-unsupported-message": {
-        "message": "你的某個裝置傳送了無法處理或顯示的訊息，因為它使用了新的 Dedi 功能。",
+        "message": "你的某個裝置傳送了無法處理或顯示的訊息，因為它使用了新的 Signal 功能。",
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
@@ -1810,8 +1810,8 @@
         "description": ""
     },
     "Message--update-signal": {
-        "message": "更新 Dedi",
-        "description": "Text for a button which will take user to Dedi download page"
+        "message": "更新 Signal",
+        "description": "Text for a button which will take user to Signal download page"
     },
     "Message--tap-to-view-expired": {
         "message": "已查看",
@@ -2240,7 +2240,7 @@
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "請在手機和桌上型電腦設定 Dedi 以使用貼圖包製作器",
+        "message": "請在手機和桌上型電腦設定 Signal 以使用貼圖包製作器",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--error": {
@@ -2253,6 +2253,6 @@
     },
     "privacyPolicy": {
         "message": "服務條款與隱私政策",
-        "description": "Shown in the about box for the link to https://Dedi.org/legal"
+        "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }

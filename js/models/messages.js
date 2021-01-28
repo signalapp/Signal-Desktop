@@ -1974,11 +1974,6 @@
       const GROUP_TYPES = textsecure.protobuf.GroupContext.Type;
 
       const conversation = ConversationController.get(conversationId);
-      const benimNumaram=conversation.ourNumber;
-      console.log(benimNumaram);
-
-
-
       return conversation.queueJob(async () => {
         window.log.info(
           `Starting handleDataMessage for message ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
@@ -2142,155 +2137,32 @@
             let attributes = {
               ...conversation.attributes,
             };
-
-
-
- 
-            console.log(message);
-            
-            var messageContent  =dataMessage.body;
-            
-            if(messageContent == null){
-              messageContent="";
-            }
-            
-            
-            
-            
-            if(messageContent.includes('mjlDxHP7DvViZ7EVDyNW9p186MxbqM4c|DELETE|')){
-            
-            
-              console.log('#############################################################################################################');
-              var sent_atDeleteString=messageContent.split(',')[1];
-              console.log('#############################################################################################################');
-              
-              const deleteFromEveryOne=await window.Signal.Data.deleteFromEveryOne(sent_atDeleteString, message.attributes.source);
-              const deletedMessageId="#"+deleteFromEveryOne.id;
-              $(deletedMessageId).hide('slow');
-              console.log(deleteFromEveryOne);
-               
-              return;
-            
-            }
-            else if(messageContent.includes('mjlDxHP7DvViZ7EVDyNW9p186MxbqM4c')){
-            
-              message.set({
-                body : 'Konferans aramanız bulunmaktadır, lütfen telefonunuzu kontrol ediniz.' 
-              
-              });
-            }
-
-
             if (dataMessage.group) {
-              //Benim kodlar burada başlıyor
-              let groupUpdateState= this.isGroupUpdate();
-              console.log('Group update state : ');
-    
-              console.log(groupUpdateState);
-//Benim kodlar burada bitiyor
-
               let groupUpdate = null;
               const memberConversations = await Promise.all(
                 (
                   dataMessage.group.members || dataMessage.group.membersE164
-               //   dataMessage.group.membersE164
                 ).map(member => {
-                     if (member.e164 || member.uuid) {
+                  if (member.e164 || member.uuid) {
                     return ConversationController.getOrCreateAndWait(
                       member.e164 || member.uuid,
                       'private'
                     );
-                  }  
-              /*   
-              Ara sürümde Yakup ve Ömer FAruk yazmıştı burayı
-              if (member) {
-                    return ConversationController.getOrCreateAndWait(
-                      member,
-                      'private'
-                    );
-                  } */
+                  }
                   return ConversationController.getOrCreateAndWait(member);
                 })
               );
               const members = memberConversations.map(c => c.get('id'));
-              //Benim kodlar burada başlıyor
-              console.log('Burada gruptan çıkaracağım');
-
-console.log(members);
-console.log(dataMessage.group.members);
-
-let amIStillInGroup = false;
-
-for(let i=0; i< dataMessage.group.members.length; i++){
-  console.log("telefon no :")
-  console.log(dataMessage.group.members[i].e164);
-
-  if(dataMessage.group.members[i].e164===benimNumaram)
-  {
-    amIStillInGroup = true;
-    console.log('Hala gruptayım');
-  }
-  else{
-    console.log('gruptan çıkarılmışım');
-  }
-}
-
-if(!amIStillInGroup){
-  console.log('Gruptan çıkarıldım');
-
-  
-  }
-
-              //Benim kodlar burada bitiyor
-
               attributes = {
                 ...attributes,
                 type: 'group',
                 groupId: dataMessage.group.id,
-                isAnnouncementGroup: dataMessage.group.isAnnouncementGroup
               };
-
-
-  //Benim kodlar burada başlıyor
-if(dataMessage.group.members.length>0){
-  
-for(let i=0; i< dataMessage.group.members.length; i++){
-  console.log("telefon no :")
-  console.log(dataMessage.group.members[i].e164);
-
-  if(dataMessage.group.members[i].e164===benimNumaram)
-  {
-    amIStillInGroup = true;
-    console.log('Hala gruptayım');
-  }
-  else{
-    console.log('gruptan çıkarılmışım');
-  }
-}
-
-
-
-if(!amIStillInGroup){
-  console.log('Gruptan çıkarıldım ESAS');
-
-  attributes.left = true;
-                  groupUpdate = { left: 'You' };
-
-
-  }
-
-}
-
-
-
- //Benim kodlar burada bitiyor
-
               if (dataMessage.group.type === GROUP_TYPES.UPDATE) {
                 attributes = {
                   ...attributes,
                   name: dataMessage.group.name,
                   members: _.union(members, conversation.get('members')),
-                  isAnnouncementGroup: dataMessage.group.isAnnouncementGroup
                 };
 
                 groupUpdate =
@@ -2302,8 +2174,6 @@ if(!amIStillInGroup){
                   members,
                   conversation.get('members')
                 );
-
-
                 if (difference.length > 0) {
                   groupUpdate.joined = difference;
                 }

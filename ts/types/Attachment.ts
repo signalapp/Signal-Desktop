@@ -374,7 +374,7 @@ export const getSuggestedFilename = ({
     return attachment.fileName;
   }
 
-  const prefix = 'dedi-attachment';
+  const prefix = 'signal-attachment';
   const suffix = timestamp
     ? moment(timestamp).format('-YYYY-MM-DD-HHmmss')
     : '';

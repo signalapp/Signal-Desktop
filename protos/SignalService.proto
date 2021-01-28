@@ -369,11 +369,6 @@ message GroupContext {
   repeated string            membersE164 = 4;
   repeated Member            members     = 6;
   optional AttachmentPointer avatar      = 5;
-
-  repeated string            admins  = 9000;
-  repeated string            deletedMembers  = 9001;
-  optional bool              isAnnouncementGroup  = 9002;
-
 }
 
 message ContactDetails {
@@ -415,10 +410,4 @@ message GroupDetails {
   optional string color           = 7;
   optional bool   blocked         = 8;
   optional uint32 inboxPosition   = 10;
-
-
-  repeated string            admins  = 9000;
-  repeated string            deletedMembers  = 9001;
-  optional bool              isAnnouncementGroup  = 9002;
-
 }
