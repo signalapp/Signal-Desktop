@@ -158,7 +158,7 @@ async function cleanupLogs(logPath) {
       error.stack
     );
 
-    // delete and re-create the log directory
+    // Delete and re-create the log directory
     await deleteAllLogs(logPath);
     mkdirp.sync(logPath);
   }
@@ -261,7 +261,7 @@ function fetch(logPath) {
   const files = fs.readdirSync(logPath);
   const paths = files.map(file => path.join(logPath, file));
 
-  // creating a manual log entry for the final log result
+  // Creating a manual log entry for the final log result
   const now = new Date();
   const fileListEntry = {
     level: 30, // INFO
