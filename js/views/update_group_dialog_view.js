@@ -64,7 +64,7 @@
     },
     onSubmit(groupName, avatar) {
       if (groupName !== this.groupName || avatar !== this.avatarPath) {
-        window.libsession.ClosedGroupV2.initiateGroupUpdate(
+        window.libsession.ClosedGroup.initiateGroupUpdate(
           this.groupId,
           groupName,
           this.members,
@@ -182,7 +182,7 @@
         return;
       }
 
-      window.libsession.ClosedGroupV2.initiateGroupUpdate(
+      window.libsession.ClosedGroup.initiateGroupUpdate(
         this.groupId,
         this.groupName,
         filteredMemberes,

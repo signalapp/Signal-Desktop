@@ -12,7 +12,7 @@ import { StringUtils, UserUtils } from '../session/utils';
 import { DeliveryReceiptMessage } from '../session/messages/outgoing';
 import { getMessageQueue } from '../session';
 import { ConversationController } from '../session/conversations';
-import { handleClosedGroupV2 } from './closedGroupsV2';
+import { handleClosedGroup } from './closedGroups';
 import { isUs } from '../session/utils/User';
 
 export async function updateProfile(
@@ -244,7 +244,6 @@ function isBodyEmpty(body: string) {
   return _.isEmpty(body);
 }
 
-
 export async function handleDataMessage(
   envelope: EnvelopePlus,
   dataMessage: SignalService.IDataMessage
@@ -252,7 +251,7 @@ export async function handleDataMessage(
   window.log.info('data message from', getEnvelopeId(envelope));
 
   if (dataMessage.closedGroupControlMessage) {
-    await handleClosedGroupV2(envelope, dataMessage.closedGroupControlMessage);
+    await handleClosedGroup(envelope, dataMessage.closedGroupControlMessage);
     return;
   }
 

@@ -1,20 +1,20 @@
 import { SignalService } from '../../../../../../protobuf';
 import { ChatMessage } from '../ChatMessage';
-import { ClosedGroupV2Message } from './ClosedGroupV2Message';
+import { ClosedGroupMessage } from './ClosedGroupMessage';
 import { PubKey } from '../../../../../types';
 import { Constants } from '../../../../..';
 import { StringUtils } from '../../../../../utils';
 
-interface ClosedGroupV2ChatMessageParams {
+interface ClosedGroupChatMessageParams {
   identifier?: string;
   groupId: string | PubKey;
   chatMessage: ChatMessage;
 }
 
-export class ClosedGroupV2ChatMessage extends ClosedGroupV2Message {
+export class ClosedGroupChatMessage extends ClosedGroupMessage {
   private readonly chatMessage: ChatMessage;
 
-  constructor(params: ClosedGroupV2ChatMessageParams) {
+  constructor(params: ClosedGroupChatMessageParams) {
     super({
       timestamp: params.chatMessage.timestamp,
       identifier: params.identifier ?? params.chatMessage.identifier,

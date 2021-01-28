@@ -1,22 +1,22 @@
 import { SignalService } from '../../../../../../protobuf';
 import {
-  ClosedGroupV2Message,
-  ClosedGroupV2MessageParams,
-} from './ClosedGroupV2Message';
+  ClosedGroupMessage,
+  ClosedGroupMessageParams,
+} from './ClosedGroupMessage';
 import { fromHexToArray } from '../../../../../utils/String';
 
-export interface ClosedGroupV2UpdateMessageParams
-  extends ClosedGroupV2MessageParams {
+export interface ClosedGroupUpdateMessageParams
+  extends ClosedGroupMessageParams {
   name: string;
   members: Array<string>;
   expireTimer: number;
 }
 
-export class ClosedGroupV2UpdateMessage extends ClosedGroupV2Message {
+export class ClosedGroupUpdateMessage extends ClosedGroupMessage {
   private readonly name: string;
   private readonly members: Array<string>;
 
-  constructor(params: ClosedGroupV2UpdateMessageParams) {
+  constructor(params: ClosedGroupUpdateMessageParams) {
     super({
       timestamp: params.timestamp,
       identifier: params.identifier,
@@ -42,7 +42,9 @@ export class ClosedGroupV2UpdateMessage extends ClosedGroupV2Message {
     dataMessage.closedGroupControlMessage.type =
       SignalService.DataMessage.ClosedGroupControlMessage.Type.UPDATE;
     dataMessage.closedGroupControlMessage.name = this.name;
-    dataMessage.closedGroupControlMessage.members = this.members.map(fromHexToArray);
+    dataMessage.closedGroupControlMessage.members = this.members.map(
+      fromHexToArray
+    );
 
     return dataMessage;
   }

@@ -60,10 +60,10 @@ export async function encrypt(
   ) {
     throw new Error(`Invalid encryption type:${encryptionType}`);
   }
-  const encryptForClosedGroupV2 = encryptionType === EncryptionType.ClosedGroup;
+  const encryptForClosedGroup = encryptionType === EncryptionType.ClosedGroup;
   const plainText = padPlainTextBuffer(plainTextBuffer);
 
-  if (encryptForClosedGroupV2) {
+  if (encryptForClosedGroup) {
     window?.log?.info(
       'Encrypting message with SessionProtocol and envelope type is CLOSED_GROUP_CIPHERTEXT'
     );
@@ -80,14 +80,14 @@ export async function encrypt(
 
     // the exports is to reference the exported function, so when we stub it during test, we stub the one called here
 
-    const cipherTextClosedGroupV2 = await exports.encryptUsingSessionProtocol(
+    const cipherTextClosedGroup = await exports.encryptUsingSessionProtocol(
       hexPubFromECKeyPair,
       plainText
     );
 
     return {
       envelopeType: CLOSED_GROUP_CIPHERTEXT,
-      cipherText: cipherTextClosedGroupV2,
+      cipherText: cipherTextClosedGroup,
     };
   }
 

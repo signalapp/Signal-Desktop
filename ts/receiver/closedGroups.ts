@@ -4,25 +4,25 @@ import { EnvelopePlus } from './types';
 import { PubKey } from '../session/types';
 import { toHex } from '../session/utils/String';
 import { ConversationController } from '../session/conversations';
-import * as ClosedGroupV2 from '../session/groupv2';
+import * as ClosedGroup from '../session/group';
 import { BlockedNumberController } from '../util';
 import {
-  generateClosedGroupV2PublicKey,
+  generateClosedGroupPublicKey,
   generateCurve25519KeyPairWithoutPrefix,
 } from '../session/crypto';
 import { getMessageQueue } from '../session';
 import { decryptWithSessionProtocol } from './contentMessage';
 import * as Data from '../../js/modules/data';
 import {
-  ClosedGroupV2NewMessage,
-  ClosedGroupV2NewMessageParams,
-} from '../session/messages/outgoing/content/data/groupv2/ClosedGroupV2NewMessage';
+  ClosedGroupNewMessage,
+  ClosedGroupNewMessageParams,
+} from '../session/messages/outgoing/content/data/group/ClosedGroupNewMessage';
 
 import { ECKeyPair } from './keypairs';
 import { getOurNumber } from '../session/utils/User';
 import { UserUtils } from '../session/utils';
 
-export async function handleClosedGroupV2(
+export async function handleClosedGroup(
   envelope: EnvelopePlus,
   groupUpdate: any
 ) {
@@ -36,17 +36,17 @@ export async function handleClosedGroupV2(
   }
 
   if (type === Type.ENCRYPTION_KEY_PAIR) {
-    await handleKeyPairClosedGroupV2(envelope, groupUpdate);
+    await handleKeyPairClosedGroup(envelope, groupUpdate);
   } else if (type === Type.NEW) {
-    await handleNewClosedGroupV2(envelope, groupUpdate);
+    await handleNewClosedGroup(envelope, groupUpdate);
   } else if (type === Type.UPDATE) {
-    await handleUpdateClosedGroupV2(envelope, groupUpdate);
+    await handleUpdateClosedGroup(envelope, groupUpdate);
   } else {
-    window.log.error('Unknown group update type v2: ', type);
+    window.log.error('Unknown group update type: ', type);
   }
 }
 
-function sanityCheckNewGroupV2(
+function sanityCheckNewGroup(
   groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage
 ): boolean {
   // for a new group message, we need everything to be set
@@ -54,74 +54,75 @@ function sanityCheckNewGroupV2(
   const { log } = window;
 
   if (!name?.length) {
-    log.warn('groupUpdateV2: name is empty');
+    log.warn('groupUpdate: name is empty');
     return false;
   }
 
   if (!name?.length) {
-    log.warn('groupUpdateV2: name is empty');
+    log.warn('groupUpdate: name is empty');
     return false;
   }
 
   if (!publicKey?.length) {
-    log.warn('groupUpdateV2: publicKey is empty');
+    log.warn('groupUpdate: publicKey is empty');
     return false;
   }
 
   const hexGroupPublicKey = toHex(publicKey);
   if (!PubKey.from(hexGroupPublicKey)) {
     log.warn(
-      'groupUpdateV2: publicKey is not recognized as a valid pubkey',
+      'groupUpdate: publicKey is not recognized as a valid pubkey',
       hexGroupPublicKey
     );
     return false;
   }
 
   if (!members?.length) {
-    log.warn('groupUpdateV2: members is empty');
+    log.warn('groupUpdate: members is empty');
     return false;
   }
 
   if (members.some(m => m.length === 0)) {
-    log.warn('groupUpdateV2: one of the member pubkey is empty');
+    log.warn('groupUpdate: one of the member pubkey is empty');
     return false;
   }
 
   if (!admins?.length) {
-    log.warn('groupUpdateV2: admins is empty');
+    log.warn('groupUpdate: admins is empty');
     return false;
   }
 
   if (admins.some(a => a.length === 0)) {
-    log.warn('groupUpdateV2: one of the admins pubkey is empty');
+    log.warn('groupUpdate: one of the admins pubkey is empty');
     return false;
   }
 
   if (!encryptionKeyPair?.publicKey?.length) {
-    log.warn('groupUpdateV2: keypair publicKey is empty');
+    log.warn('groupUpdate: keypair publicKey is empty');
     return false;
   }
 
   if (!encryptionKeyPair?.privateKey?.length) {
-    log.warn('groupUpdateV2: keypair privateKey is empty');
+    log.warn('groupUpdate: keypair privateKey is empty');
     return false;
   }
   return true;
 }
 
-async function handleNewClosedGroupV2(
+async function handleNewClosedGroup(
   envelope: EnvelopePlus,
   groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage
 ) {
   const { log } = window;
 
   if (
-    groupUpdate.type !== SignalService.DataMessage.ClosedGroupControlMessage.Type.NEW
+    groupUpdate.type !==
+    SignalService.DataMessage.ClosedGroupControlMessage.Type.NEW
   ) {
     return;
   }
-  if (!sanityCheckNewGroupV2(groupUpdate)) {
-    log.warn('Sanity check for newGroupV2 failed, dropping the message...');
+  if (!sanityCheckNewGroup(groupUpdate)) {
+    log.warn('Sanity check for newGroup failed, dropping the message...');
     await removeFromCache(envelope);
     return;
   }
@@ -146,7 +147,7 @@ async function handleNewClosedGroupV2(
     await removeFromCache(envelope);
     return;
   }
-  // FIXME maybe we should handle an expiretimer here too? And on ClosedGroupV2 updates?
+  // FIXME maybe we should handle an expiretimer here too? And on ClosedGroup updates?
 
   const maybeConvo = ConversationController.getInstance().get(groupId);
 
@@ -166,7 +167,7 @@ async function handleNewClosedGroupV2(
       maybeConvo.set('lastJoinedTimestamp', Date.now());
     } else {
       log.warn(
-        'Ignoring a closed group v2 message of type NEW: the conversation already exists'
+        'Ignoring a closed group message of type NEW: the conversation already exists'
       );
       await removeFromCache(envelope);
       return;
@@ -180,9 +181,9 @@ async function handleNewClosedGroupV2(
       'group'
     ));
   // ***** Creating a new group *****
-  log.info('Received a new ClosedGroupV2 of id:', groupId);
+  log.info('Received a new ClosedGroup of id:', groupId);
 
-  await ClosedGroupV2.addUpdateMessage(
+  await ClosedGroup.addUpdateMessage(
     convo,
     { newName: name, joiningMembers: members },
     'incoming'
@@ -190,7 +191,7 @@ async function handleNewClosedGroupV2(
 
   convo.set('name', name);
   convo.set('members', members);
-  // mark a closed group v2 as a medium group.
+  // mark a closed group as a medium group.
   // this field is used to poll for this groupPubKey on the swarm nodes, among other things
   convo.set('is_medium_group', true);
   convo.set('active_at', Date.now());
@@ -215,7 +216,7 @@ async function handleNewClosedGroupV2(
   await removeFromCache(envelope);
 }
 
-async function handleUpdateClosedGroupV2(
+async function handleUpdateClosedGroup(
   envelope: EnvelopePlus,
   groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage
 ) {
@@ -228,14 +229,14 @@ async function handleUpdateClosedGroupV2(
   const { name, members: membersBinary } = groupUpdate;
   const { log } = window;
 
-  // for a closed group v2 update message, the envelope.source is the groupPublicKey
+  // for a closed group update message, the envelope.source is the groupPublicKey
   const groupPublicKey = envelope.source;
 
   const convo = ConversationController.getInstance().get(groupPublicKey);
 
   if (!convo) {
     log.warn(
-      'Ignoring a closed group v2 update message (INFO) for a non-existing group'
+      'Ignoring a closed group update message (INFO) for a non-existing group'
     );
     await removeFromCache(envelope);
     return;
@@ -265,15 +266,15 @@ async function handleUpdateClosedGroupV2(
   const oldMembers = convo.get('members') || [];
   if (!oldMembers.includes(envelope.senderIdentity)) {
     log.error(
-      `Error: closed group v2: ignoring closed group update message from non-member. ${envelope.senderIdentity} is not a current member.`
+      `Error: closed group: ignoring closed group update message from non-member. ${envelope.senderIdentity} is not a current member.`
     );
     await removeFromCache(envelope);
     return;
   }
 
-  // NOTE: admins cannot change with closed groups v2
+  // NOTE: admins cannot change with closed groups
   const members = membersBinary.map(toHex);
-  const diff = ClosedGroupV2.buildGroupDiff(convo, { name, members });
+  const diff = ClosedGroup.buildGroupDiff(convo, { name, members });
 
   // Check whether we are still in the group
   const ourNumber = await UserUtils.getOurNumber();
@@ -282,9 +283,9 @@ async function handleUpdateClosedGroupV2(
 
   if (wasCurrentUserRemoved) {
     if (isCurrentUserAdmin) {
-      // cannot remove the admin from a v2 closed group
+      // cannot remove the admin from a closed group
       log.info(
-        'Dropping message trying to remove the admin (us) from a v2 closed group'
+        'Dropping message trying to remove the admin (us) from a closed group'
       );
       await removeFromCache(envelope);
       return;
@@ -312,7 +313,7 @@ async function handleUpdateClosedGroupV2(
     window.log.info(
       'Handling group update: A user was removed and we are the admin. Generating and sending a new ECKeyPair'
     );
-    await ClosedGroupV2.generateAndSendNewEncryptionKeyPair(
+    await ClosedGroup.generateAndSendNewEncryptionKeyPair(
       groupPublicKey,
       members
     );
@@ -324,7 +325,7 @@ async function handleUpdateClosedGroupV2(
     diff.leavingMembers?.length ||
     diff.newName
   ) {
-    await ClosedGroupV2.addUpdateMessage(convo, diff, 'incoming');
+    await ClosedGroup.addUpdateMessage(convo, diff, 'incoming');
   }
 
   convo.set('name', name);
@@ -336,11 +337,11 @@ async function handleUpdateClosedGroupV2(
 }
 
 /**
- * This function is called when we get a message with the new encryption keypair for a closed group v2.
+ * This function is called when we get a message with the new encryption keypair for a closed group.
  * In this message, we have n-times the same keypair encoded with n being the number of current members.
  * One of that encoded keypair is the one for us. We need to find it, decode it, and save it for use with this group.
  */
-async function handleKeyPairClosedGroupV2(
+async function handleKeyPairClosedGroup(
   envelope: EnvelopePlus,
   groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage
 ) {
@@ -450,7 +451,7 @@ async function handleKeyPairClosedGroupV2(
   await removeFromCache(envelope);
 }
 
-export async function createClosedGroupV2(
+export async function createClosedGroup(
   groupName: string,
   members: Array<string>
 ) {
@@ -460,12 +461,10 @@ export async function createClosedGroupV2(
   // Create Group Identity
   // Generate the key pair that'll be used for encryption and decryption
   // Generate the group's public key
-  const groupPublicKey = await generateClosedGroupV2PublicKey();
+  const groupPublicKey = await generateClosedGroupPublicKey();
   const encryptionKeyPair = await generateCurve25519KeyPairWithoutPrefix();
   if (!encryptionKeyPair) {
-    throw new Error(
-      'Could not create encryption keypair for new closed group v2'
-    );
+    throw new Error('Could not create encryption keypair for new closed group');
   }
   // Ensure the current uses' primary device is included in the member list
   setOfMembers.add(ourNumber.key);
@@ -489,12 +488,12 @@ export async function createClosedGroupV2(
   };
 
   // used for UI only, adding of a message to remind who is in the group and the name of the group
-  const groupDiff: ClosedGroupV2.GroupDiff = {
+  const groupDiff: ClosedGroup.GroupDiff = {
     newName: groupName,
     joiningMembers: listOfMembers,
   };
 
-  const dbMessage = await ClosedGroupV2.addUpdateMessage(
+  const dbMessage = await ClosedGroup.addUpdateMessage(
     convo,
     groupDiff,
     'outgoing'
@@ -503,12 +502,12 @@ export async function createClosedGroupV2(
 
   // be sure to call this before sending the message.
   // the sending pipeline needs to know from GroupUtils when a message is for a medium group
-  await ClosedGroupV2.updateOrCreateClosedGroupV2(groupDetails);
+  await ClosedGroup.updateOrCreateClosedGroup(groupDetails);
   convo.set('lastJoinedTimestamp', Date.now());
 
   // Send a closed group update message to all members individually
   const promises = listOfMembers.map(async m => {
-    const messageParams: ClosedGroupV2NewMessageParams = {
+    const messageParams: ClosedGroupNewMessageParams = {
       groupId: groupPublicKey,
       name: groupName,
       members: listOfMembers,
@@ -518,7 +517,7 @@ export async function createClosedGroupV2(
       identifier: dbMessage.id,
       expireTimer: 0,
     };
-    const message = new ClosedGroupV2NewMessage(messageParams);
+    const message = new ClosedGroupNewMessage(messageParams);
     window.log.info(
       `Creating a new group and an encryptionKeyPair for group ${groupPublicKey}`
     );

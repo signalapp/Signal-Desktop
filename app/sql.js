@@ -168,7 +168,7 @@ module.exports = {
 
   removeAllClosedGroupRatchets,
 
-  getAllEncryptionKeyPairsForGroupV2,
+  getAllEncryptionKeyPairsForGroup,
   getLatestClosedGroupEncryptionKeyPair,
   addClosedGroupEncryptionKeyPair,
   removeAllClosedGroupEncryptionKeyPairs,
@@ -1091,7 +1091,7 @@ async function updateToLokiSchemaVersion10(currentVersion, instance) {
   console.log('updateToLokiSchemaVersion10: starting...');
   await instance.run('BEGIN TRANSACTION;');
 
-  await createEncryptionKeyPairsForClosedGroupV2(instance);
+  await createEncryptionKeyPairsForClosedGroup(instance);
 
   await instance.run(
     `INSERT INTO loki_schema (
@@ -1111,7 +1111,7 @@ async function updateToLokiSchemaVersion11(currentVersion, instance) {
   console.log('updateToLokiSchemaVersion11: starting...');
   await instance.run('BEGIN TRANSACTION;');
 
-  await updateExistingClosedGroupToClosedGroupV2(instance);
+  await updateExistingClosedGroupToClosedGroup(instance);
 
   await instance.run(
     `INSERT INTO loki_schema (
@@ -3142,7 +3142,7 @@ async function removePrefixFromGroupConversations(instance) {
 
 const CLOSED_GROUP_V2_KEY_PAIRS_TABLE = 'encryptionKeyPairsForClosedGroupV2';
 
-async function createEncryptionKeyPairsForClosedGroupV2(instance) {
+async function createEncryptionKeyPairsForClosedGroup(instance) {
   await instance.run(
     `CREATE TABLE ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE} (
       id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -3171,7 +3171,7 @@ function remove05PrefixFromStringIfNeeded(str) {
   return str;
 }
 
-async function updateExistingClosedGroupToClosedGroupV2(instance) {
+async function updateExistingClosedGroupToClosedGroup(instance) {
   // the migration is called only once, so all current groups not being open groups are v1 closed group.
   const allClosedGroupV1 =
     (await getAllClosedGroupConversations(instance)) || [];
@@ -3214,7 +3214,7 @@ async function updateExistingClosedGroupToClosedGroupV2(instance) {
  * The returned array is ordered based on the timestamp, the latest is at the end.
  * @param {*} groupPublicKey string | PubKey
  */
-async function getAllEncryptionKeyPairsForGroupV2(groupPublicKey) {
+async function getAllEncryptionKeyPairsForGroup(groupPublicKey) {
   const pubkeyAsString = groupPublicKey.key
     ? groupPublicKey.key
     : groupPublicKey;
@@ -3229,7 +3229,7 @@ async function getAllEncryptionKeyPairsForGroupV2(groupPublicKey) {
 }
 
 async function getLatestClosedGroupEncryptionKeyPair(groupPublicKey) {
-  const rows = await getAllEncryptionKeyPairsForGroupV2(groupPublicKey);
+  const rows = await getAllEncryptionKeyPairsForGroup(groupPublicKey);
   if (!rows || rows.length === 0) {
     return undefined;
   }

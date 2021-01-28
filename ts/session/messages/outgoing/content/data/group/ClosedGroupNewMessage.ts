@@ -1,26 +1,25 @@
 import { SignalService } from '../../../../../../protobuf';
 import {
-  ClosedGroupV2Message,
-  ClosedGroupV2MessageParams,
-} from './ClosedGroupV2Message';
+  ClosedGroupMessage,
+  ClosedGroupMessageParams,
+} from './ClosedGroupMessage';
 import { fromHexToArray } from '../../../../../utils/String';
 import { ECKeyPair } from '../../../../../../receiver/keypairs';
 
-export interface ClosedGroupV2NewMessageParams
-  extends ClosedGroupV2MessageParams {
+export interface ClosedGroupNewMessageParams extends ClosedGroupMessageParams {
   name: string;
   members: Array<string>;
   admins: Array<string>;
   keypair: ECKeyPair;
 }
 
-export class ClosedGroupV2NewMessage extends ClosedGroupV2Message {
+export class ClosedGroupNewMessage extends ClosedGroupMessage {
   private readonly name: string;
   private readonly members: Array<string>;
   private readonly admins: Array<string>;
   private readonly keypair: ECKeyPair;
 
-  constructor(params: ClosedGroupV2NewMessageParams) {
+  constructor(params: ClosedGroupNewMessageParams) {
     super({
       timestamp: params.timestamp,
       identifier: params.identifier,
@@ -39,7 +38,7 @@ export class ClosedGroupV2NewMessage extends ClosedGroupV2Message {
       throw new Error('Members must be set');
     }
     // Assert that every admins is a member
-    if (!ClosedGroupV2Message.areAdminsMembers(params.admins, params.members)) {
+    if (!ClosedGroupMessage.areAdminsMembers(params.admins, params.members)) {
       throw new Error('Admins must all be members of the group');
     }
     if (!params.name || params.name.length === 0) {
@@ -67,8 +66,12 @@ export class ClosedGroupV2NewMessage extends ClosedGroupV2Message {
     );
     dataMessage.closedGroupControlMessage.name = this.name;
 
-    dataMessage.closedGroupControlMessage.admins = this.admins.map(fromHexToArray);
-    dataMessage.closedGroupControlMessage.members = this.members.map(fromHexToArray);
+    dataMessage.closedGroupControlMessage.admins = this.admins.map(
+      fromHexToArray
+    );
+    dataMessage.closedGroupControlMessage.members = this.members.map(
+      fromHexToArray
+    );
     try {
       dataMessage.closedGroupControlMessage.encryptionKeyPair = new SignalService.DataMessage.ClosedGroupControlMessage.KeyPair();
       dataMessage.closedGroupControlMessage.encryptionKeyPair.privateKey = new Uint8Array(
@@ -78,8 +81,8 @@ export class ClosedGroupV2NewMessage extends ClosedGroupV2Message {
         this.keypair.publicKeyData
       );
     } catch (e) {
-      window.log.error('Failed to add encryptionKeyPair to v2 group:', e);
-      throw new Error('Failed to add encryptionKeyPair to v2 group:');
+      window.log.error('Failed to add encryptionKeyPair to group:', e);
+      throw new Error('Failed to add encryptionKeyPair to group:');
     }
 
     return dataMessage;

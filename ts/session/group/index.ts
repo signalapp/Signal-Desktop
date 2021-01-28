@@ -10,11 +10,11 @@ import { ConversationController } from '../conversations';
 import { updateOpenGroup } from '../../receiver/openGroups';
 import { getMessageQueue } from '../instance';
 import {
-  ClosedGroupV2EncryptionPairMessage,
-  ClosedGroupV2NewMessage,
-  ClosedGroupV2UpdateMessage,
+  ClosedGroupEncryptionPairMessage,
+  ClosedGroupNewMessage,
+  ClosedGroupUpdateMessage,
   ExpirationTimerUpdateMessage,
-} from '../messages/outgoing/';
+} from '../messages/outgoing';
 import uuid from 'uuid';
 import { SignalService } from '../../protobuf';
 import { generateCurve25519KeyPairWithoutPrefix } from '../crypto';
@@ -104,7 +104,7 @@ export async function initiateGroupUpdate(
 
   const diff = buildGroupDiff(convo, groupDetails);
 
-  await updateOrCreateClosedGroupV2(groupDetails);
+  await updateOrCreateClosedGroup(groupDetails);
 
   if (avatar) {
     // would get to download this file on each client in the group
@@ -122,7 +122,7 @@ export async function initiateGroupUpdate(
   const dbMessage = await addUpdateMessage(convo, diff, 'outgoing');
   window.getMessageController().register(dbMessage.id, dbMessage);
 
-  await sendGroupUpdateForClosedV2(convo, diff, updateObj, dbMessage.id);
+  await sendGroupUpdateForClosed(convo, diff, updateObj, dbMessage.id);
 }
 
 export async function addUpdateMessage(
@@ -194,7 +194,7 @@ export function buildGroupDiff(
   return groupDiff;
 }
 
-export async function updateOrCreateClosedGroupV2(details: GroupInfo) {
+export async function updateOrCreateClosedGroup(details: GroupInfo) {
   const { id } = details;
 
   const conversation = await ConversationController.getInstance().getOrCreateAndWait(
@@ -261,13 +261,13 @@ export async function updateOrCreateClosedGroupV2(details: GroupInfo) {
   });
 }
 
-export async function leaveClosedGroupV2(groupId: string) {
+export async function leaveClosedGroup(groupId: string) {
   window.SwarmPolling.removePubkey(groupId);
 
   const convo = ConversationController.getInstance().get(groupId);
 
   if (!convo) {
-    window.log.error('Cannot leave non-existing v2 group');
+    window.log.error('Cannot leave non-existing group');
     return;
   }
   const ourNumber = await UserUtils.getOurNumber();
@@ -279,7 +279,7 @@ export async function leaveClosedGroupV2(groupId: string) {
   // for now, a destroyed group is one with those 2 flags set to true.
   // FIXME audric, add a flag to conversation model when a group is destroyed
   if (isCurrentUserAdmin) {
-    window.log.info('Admin left a closed group v2. We need to destroy it');
+    window.log.info('Admin left a closed group. We need to destroy it');
     convo.set({ left: true });
     members = [];
   } else {
@@ -305,7 +305,7 @@ export async function leaveClosedGroupV2(groupId: string) {
     admins: convo.get('groupAdmins'),
   };
 
-  await sendGroupUpdateForClosedV2(
+  await sendGroupUpdateForClosed(
     convo,
     { leavingMembers: [ourNumber.key] },
     groupUpdate,
@@ -313,7 +313,7 @@ export async function leaveClosedGroupV2(groupId: string) {
   );
 }
 
-export async function sendGroupUpdateForClosedV2(
+export async function sendGroupUpdateForClosed(
   convo: ConversationModel,
   diff: MemberChanges,
   groupUpdate: GroupInfo,
@@ -356,7 +356,7 @@ export async function sendGroupUpdateForClosedV2(
   }
 
   // Send the update to the group
-  const mainClosedGroupUpdate = new ClosedGroupV2UpdateMessage({
+  const mainClosedGroupUpdate = new ClosedGroupUpdateMessage({
     timestamp: Date.now(),
     groupId,
     name: groupName,
@@ -393,7 +393,7 @@ export async function sendGroupUpdateForClosedV2(
 
     if (newMembers.length) {
       // Send closed group update messages to any new members individually
-      const newClosedGroupUpdate = new ClosedGroupV2NewMessage({
+      const newClosedGroupUpdate = new ClosedGroupNewMessage({
         timestamp: Date.now(),
         name: groupName,
         groupId,
@@ -404,7 +404,7 @@ export async function sendGroupUpdateForClosedV2(
         expireTimer: expireTimerToShare,
       });
 
-      // if an expiretimer in this ClosedGroupV2 already, send it in another message
+      // if an expiretimer in this ClosedGroup already, send it in another message
       // if an expire timer is set, we have to send it to the joining members
       let expirationTimerMessage: ExpirationTimerUpdateMessage | undefined;
       if (expireTimer && expireTimer > 0) {
@@ -455,7 +455,7 @@ export async function generateAndSendNewEncryptionKeyPair(
   }
   if (!groupConvo.isMediumGroup()) {
     window.log.warn(
-      'generateAndSendNewEncryptionKeyPair: conversation not a closed group v2',
+      'generateAndSendNewEncryptionKeyPair: conversation not a closed group',
       groupPublicKey
     );
     return;
@@ -478,10 +478,12 @@ export async function generateAndSendNewEncryptionKeyPair(
     );
     return;
   }
-  const proto = new SignalService.DataMessage.ClosedGroupControlMessage.KeyPair({
-    privateKey: newKeyPair?.privateKeyData,
-    publicKey: newKeyPair?.publicKeyData,
-  });
+  const proto = new SignalService.DataMessage.ClosedGroupControlMessage.KeyPair(
+    {
+      privateKey: newKeyPair?.privateKeyData,
+      publicKey: newKeyPair?.publicKeyData,
+    }
+  );
   const plaintext = SignalService.DataMessage.ClosedGroupControlMessage.KeyPair.encode(
     proto
   ).finish();
@@ -493,16 +495,18 @@ export async function generateAndSendNewEncryptionKeyPair(
         PubKey.cast(pubkey),
         plaintext
       );
-      return new SignalService.DataMessage.ClosedGroupControlMessage.KeyPairWrapper({
-        encryptedKeyPair: ciphertext,
-        publicKey: fromHexToArray(pubkey),
-      });
+      return new SignalService.DataMessage.ClosedGroupControlMessage.KeyPairWrapper(
+        {
+          encryptedKeyPair: ciphertext,
+          publicKey: fromHexToArray(pubkey),
+        }
+      );
     })
   );
 
   const expireTimerToShare = groupConvo.get('expireTimer') || 0;
 
-  const keypairsMessage = new ClosedGroupV2EncryptionPairMessage({
+  const keypairsMessage = new ClosedGroupEncryptionPairMessage({
     groupId: toHex(groupId),
     timestamp: Date.now(),
     encryptedKeyPairs: wrappers,
@@ -511,7 +515,7 @@ export async function generateAndSendNewEncryptionKeyPair(
 
   const messageSentCallback = async () => {
     window.log.info(
-      `KeyPairMessage for ClosedGroupV2 ${groupPublicKey} is sent. Saving the new encryptionKeyPair.`
+      `KeyPairMessage for ClosedGroup ${groupPublicKey} is sent. Saving the new encryptionKeyPair.`
     );
 
     // tslint:disable-next-line: no-non-null-assertion

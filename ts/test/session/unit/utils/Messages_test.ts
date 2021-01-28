@@ -3,11 +3,11 @@ import * as sinon from 'sinon';
 import { TestUtils } from '../../../test-utils';
 import { MessageUtils } from '../../../../session/utils';
 import { EncryptionType, PubKey } from '../../../../session/types';
-import { ClosedGroupV2ChatMessage } from '../../../../session/messages/outgoing/content/data/groupv2/ClosedGroupV2ChatMessage';
+import { ClosedGroupChatMessage } from '../../../../session/messages/outgoing/content/data/group/ClosedGroupChatMessage';
 import {
-  ClosedGroupV2EncryptionPairMessage,
-  ClosedGroupV2NewMessage,
-  ClosedGroupV2UpdateMessage,
+  ClosedGroupEncryptionPairMessage,
+  ClosedGroupNewMessage,
+  ClosedGroupUpdateMessage,
 } from '../../../../session/messages/outgoing';
 import { SignalService } from '../../../../protobuf';
 // tslint:disable-next-line: no-require-imports no-var-requires
@@ -23,6 +23,7 @@ describe('Message Utils', () => {
     sandbox.restore();
   });
 
+  // tslint:disable-next-line: max-func-body-length
   describe('toRawMessage', () => {
     it('can convert to raw message', async () => {
       const device = TestUtils.generateFakePubKey();
@@ -81,11 +82,11 @@ describe('Message Utils', () => {
       );
     });
 
-    it('should set encryption to ClosedGroup if a ClosedGroupV2ChatMessage is passed in', async () => {
+    it('should set encryption to ClosedGroup if a ClosedGroupChatMessage is passed in', async () => {
       const device = TestUtils.generateFakePubKey();
       const groupId = TestUtils.generateFakePubKey();
       const chatMessage = TestUtils.generateChatMessage();
-      const message = new ClosedGroupV2ChatMessage({ chatMessage, groupId });
+      const message = new ClosedGroupChatMessage({ chatMessage, groupId });
 
       const rawMessage = await MessageUtils.toRawMessage(device, message);
       expect(rawMessage.encryption).to.equal(EncryptionType.ClosedGroup);
@@ -99,11 +100,11 @@ describe('Message Utils', () => {
       expect(rawMessage.encryption).to.equal(EncryptionType.Fallback);
     });
 
-    it('passing ClosedGroupV2NewMessage returns Fallback', async () => {
+    it('passing ClosedGroupNewMessage returns Fallback', async () => {
       const device = TestUtils.generateFakePubKey();
       const member = TestUtils.generateFakePubKey().key;
 
-      const msg = new ClosedGroupV2NewMessage({
+      const msg = new ClosedGroupNewMessage({
         timestamp: Date.now(),
         name: 'df',
         members: [member],
@@ -116,10 +117,10 @@ describe('Message Utils', () => {
       expect(rawMessage.encryption).to.equal(EncryptionType.Fallback);
     });
 
-    it('passing ClosedGroupV2UpdateMessage returns ClosedGroup', async () => {
+    it('passing ClosedGroupUpdateMessage returns ClosedGroup', async () => {
       const device = TestUtils.generateFakePubKey();
 
-      const msg = new ClosedGroupV2UpdateMessage({
+      const msg = new ClosedGroupUpdateMessage({
         timestamp: Date.now(),
         name: 'df',
         members: [TestUtils.generateFakePubKey().key],
@@ -130,7 +131,7 @@ describe('Message Utils', () => {
       expect(rawMessage.encryption).to.equal(EncryptionType.ClosedGroup);
     });
 
-    it('passing ClosedGroupV2EncryptionPairMessage returns ClosedGroup', async () => {
+    it('passing ClosedGroupEncryptionPairMessage returns ClosedGroup', async () => {
       const device = TestUtils.generateFakePubKey();
 
       const fakeWrappers = new Array<
@@ -142,7 +143,7 @@ describe('Message Utils', () => {
           encryptedKeyPair: new Uint8Array(8),
         })
       );
-      const msg = new ClosedGroupV2EncryptionPairMessage({
+      const msg = new ClosedGroupEncryptionPairMessage({
         timestamp: Date.now(),
         groupId: TestUtils.generateFakePubKey().key,
         encryptedKeyPairs: fakeWrappers,
@@ -152,7 +153,7 @@ describe('Message Utils', () => {
       expect(rawMessage.encryption).to.equal(EncryptionType.ClosedGroup);
     });
 
-    it('passing ClosedGroupV2EncryptionPairMessage returns ClosedGroup', async () => {
+    it('passing ClosedGroupEncryptionPairMessage returns ClosedGroup', async () => {
       const device = TestUtils.generateFakePubKey();
 
       const fakeWrappers = new Array<
@@ -164,7 +165,7 @@ describe('Message Utils', () => {
           encryptedKeyPair: new Uint8Array(8),
         })
       );
-      const msg = new ClosedGroupV2EncryptionPairMessage({
+      const msg = new ClosedGroupEncryptionPairMessage({
         timestamp: Date.now(),
         groupId: TestUtils.generateFakePubKey().key,
         encryptedKeyPairs: fakeWrappers,

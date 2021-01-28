@@ -31,12 +31,12 @@ export async function handleContentMessage(envelope: EnvelopePlus) {
   }
 }
 
-async function decryptForClosedGroupV2(
+async function decryptForClosedGroup(
   envelope: EnvelopePlus,
   ciphertext: ArrayBuffer
 ) {
   // case .closedGroupCiphertext: for ios
-  window.log.info('received closed group v2 message');
+  window.log.info('received closed group message');
   try {
     const hexEncodedGroupPublicKey = envelope.source;
     if (!GroupUtils.isMediumGroup(PubKey.cast(hexEncodedGroupPublicKey))) {
@@ -45,7 +45,7 @@ async function decryptForClosedGroupV2(
       );
       throw new Error('Invalid group public key'); // invalidGroupPublicKey
     }
-    const encryptionKeyPairs = await Data.getAllEncryptionKeyPairsForGroupV2(
+    const encryptionKeyPairs = await Data.getAllEncryptionKeyPairsForGroup(
       hexEncodedGroupPublicKey
     );
     const encryptionKeyPairsCount = encryptionKeyPairs?.length;
@@ -78,7 +78,7 @@ async function decryptForClosedGroupV2(
         keyIndex++;
       } catch (e) {
         window.log.info(
-          `Failed to decrypt closed group v2 with key index ${keyIndex}. We have ${encryptionKeyPairs.length} keys to try left.`
+          `Failed to decrypt closed group with key index ${keyIndex}. We have ${encryptionKeyPairs.length} keys to try left.`
         );
       }
     } while (encryptionKeyPairs.length > 0);
@@ -86,10 +86,10 @@ async function decryptForClosedGroupV2(
     if (!decryptedContent) {
       await removeFromCache(envelope);
       throw new Error(
-        `Could not decrypt message for closed group v2 with any of the ${encryptionKeyPairsCount} keypairs.`
+        `Could not decrypt message for closed group with any of the ${encryptionKeyPairsCount} keypairs.`
       );
     }
-    window.log.info('ClosedGroupV2 Message decrypted successfully.');
+    window.log.info('ClosedGroup Message decrypted successfully.');
     const ourDevicePubKey = await UserUtils.getCurrentDevicePubKey();
 
     if (
@@ -98,7 +98,7 @@ async function decryptForClosedGroupV2(
     ) {
       await removeFromCache(envelope);
       window.log.info(
-        'Dropping message from our current device after decrypt for closed group v2'
+        'Dropping message from our current device after decrypt for closed group'
       );
       return null;
     }
@@ -115,8 +115,8 @@ async function decryptForClosedGroupV2(
 }
 
 /**
- * This function can be called to decrypt a keypair wrapper for a closed group update v2
- * or a message sent to a closed group v2.
+ * This function can be called to decrypt a keypair wrapper for a closed group update
+ * or a message sent to a closed group.
  *
  * We do not unpad the result here, as in the case of the keypair wrapper, there is not padding.
  * Instead, it is the called who needs to unpad() the content.
@@ -125,7 +125,7 @@ export async function decryptWithSessionProtocol(
   envelope: EnvelopePlus,
   ciphertextObj: ArrayBuffer,
   x25519KeyPair: ECKeyPair,
-  isClosedGroupV2?: boolean
+  isClosedGroup?: boolean
 ): Promise<ArrayBuffer> {
   const recipientX25519PrivateKey = x25519KeyPair.privateKeyData;
   const hex = toHex(new Uint8Array(x25519KeyPair.publicKeyData));
@@ -186,7 +186,7 @@ export async function decryptWithSessionProtocol(
   }
 
   // set the sender identity on the envelope itself.
-  if (isClosedGroupV2) {
+  if (isClosedGroup) {
     envelope.senderIdentity = `05${toHex(senderX25519PublicKey)}`;
   } else {
     envelope.source = `05${toHex(senderX25519PublicKey)}`;
@@ -255,7 +255,7 @@ async function doDecrypt(
   switch (envelope.type) {
     // Only UNIDENTIFIED_SENDER and CLOSED_GROUP_CIPHERTEXT are supported
     case SignalService.Envelope.Type.CLOSED_GROUP_CIPHERTEXT:
-      return decryptForClosedGroupV2(envelope, ciphertext);
+      return decryptForClosedGroup(envelope, ciphertext);
     case SignalService.Envelope.Type.UNIDENTIFIED_SENDER: {
       return decryptUnidentifiedSender(envelope, ciphertext);
     }

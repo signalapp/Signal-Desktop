@@ -19,7 +19,7 @@ interface Props {
   contactList: Array<any>;
   isAdmin: boolean;
   existingMembers: Array<String>;
-  admins: Array<String>; // used for closed group v2
+  admins: Array<String>; // used for closed group
 
   i18n: any;
   onSubmit: any;
@@ -179,7 +179,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
 
     if (selected.existingMember && admins.includes(selected.id)) {
       window.log.warn(
-        `User ${selected.id} cannot be removed as they are the creator of the closed group v2.`
+        `User ${selected.id} cannot be removed as they are the creator of the closed group.`
       );
       ToastUtils.pushCannotRemoveCreatorFromGroup();
       return;

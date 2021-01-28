@@ -129,7 +129,7 @@ describe('MessageEncrypter', () => {
   });
 
   describe('EncryptionType', () => {
-    describe('ClosedGroupV2', () => {
+    describe('ClosedGroup', () => {
       it('should return a CLOSED_GROUP_CIPHERTEXT envelope type for ClosedGroup', async () => {
         const hexKeyPair = {
           publicHex: `05${ourUserEd25516Keypair.pubKey}`,

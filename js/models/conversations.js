@@ -673,7 +673,7 @@
         }
 
         if (this.isMediumGroup()) {
-          const closedGroupV2ChatMessage = new libsession.Messages.Outgoing.ClosedGroupV2ChatMessage(
+          const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
             {
               chatMessage,
               groupId: destination,
@@ -683,7 +683,7 @@
           // we need the return await so that errors are caught in the catch {}
           return await libsession
             .getMessageQueue()
-            .sendToGroup(closedGroupV2ChatMessage);
+            .sendToGroup(closedGroupChatMessage);
         }
 
         if (this.isClosedGroup()) {
@@ -997,7 +997,7 @@
       }
 
       if (this.isMediumGroup()) {
-        await window.libsession.ClosedGroupV2.leaveClosedGroupV2(this.id);
+        await window.libsession.ClosedGroup.leaveClosedGroup(this.id);
       } else {
         throw new Error(
           'Legacy group are not supported anymore. You need to create this group again.'

@@ -930,7 +930,7 @@
 
         // TODO should we handle medium groups message here too?
         // Not sure there is the concept of retrySend for those
-        const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupV2ChatMessage(
+        const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
           {
             identifier: this.id,
             chatMessage,
@@ -988,7 +988,7 @@
             .sendToPubKey(recipientPubKey, chatMessage);
         }
 
-        const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupV2ChatMessage(
+        const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
           {
             chatMessage,
             groupId: this.get('conversationId'),

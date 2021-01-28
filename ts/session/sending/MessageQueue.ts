@@ -13,7 +13,7 @@ import { PendingMessageCache } from './PendingMessageCache';
 import { JobQueue, TypedEventEmitter, UserUtils } from '../utils';
 import { PubKey, RawMessage } from '../types';
 import { MessageSender } from '.';
-import { ClosedGroupV2Message } from '../messages/outgoing/content/data/groupv2/ClosedGroupV2Message';
+import { ClosedGroupMessage } from '../messages/outgoing/content/data/group/ClosedGroupMessage';
 
 export class MessageQueue implements MessageQueueInterface {
   public readonly events: TypedEventEmitter<MessageQueueInterfaceEvents>;
@@ -94,7 +94,7 @@ export class MessageQueue implements MessageQueueInterface {
     let groupId: PubKey | undefined;
     if (
       message instanceof ExpirationTimerUpdateMessage ||
-      message instanceof ClosedGroupV2Message
+      message instanceof ClosedGroupMessage
     ) {
       groupId = message.groupId;
     }

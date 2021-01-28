@@ -193,7 +193,7 @@ module.exports = {
 
   removeAllClosedGroupRatchets,
 
-  getAllEncryptionKeyPairsForGroupV2,
+  getAllEncryptionKeyPairsForGroup,
   getLatestClosedGroupEncryptionKeyPair,
   addClosedGroupEncryptionKeyPair,
   removeAllClosedGroupEncryptionKeyPairs,
@@ -705,14 +705,14 @@ async function updateSwarmNodesForPubkey(pubkey, snodeEdKeys) {
   await channels.updateSwarmNodesForPubkey(pubkey, snodeEdKeys);
 }
 
-// Closed group v2
+// Closed group
 
 /**
  * The returned array is ordered based on the timestamp, the latest is at the end.
  * @param {*} groupPublicKey
  */
-async function getAllEncryptionKeyPairsForGroupV2(groupPublicKey) {
-  return channels.getAllEncryptionKeyPairsForGroupV2(groupPublicKey);
+async function getAllEncryptionKeyPairsForGroup(groupPublicKey) {
+  return channels.getAllEncryptionKeyPairsForGroup(groupPublicKey);
 }
 
 async function getLatestClosedGroupEncryptionKeyPair(groupPublicKey) {
