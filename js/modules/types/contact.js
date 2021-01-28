@@ -2,7 +2,6 @@ const { omit, compact, map } = require('lodash');
 
 const { toLogFormat } = require('./errors');
 const { SignalService } = require('../../../ts/protobuf');
-const { parse: parsePhoneNumber } = require('../../../ts/types/PhoneNumber');
 
 const DEFAULT_PHONE_TYPE = SignalService.DataMessage.Contact.Phone.Type.HOME;
 
@@ -80,7 +79,7 @@ function parsePhoneItem(item) {
 
   return Object.assign({}, item, {
     type: item.type || DEFAULT_PHONE_TYPE,
-    value: parsePhoneNumber(item.value),
+    value: item.value,
   });
 }
 

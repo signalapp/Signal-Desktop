@@ -530,6 +530,10 @@ export async function handleMessageJob(
     const { Whisper, getMessageController } = window;
     const id = await message.commit();
     message.set({ id });
+    window.Whisper.events.trigger('messageAdded', {
+      conversationKey: conversation.id,
+      messageModel: message,
+    });
     getMessageController().register(message.id, message);
 
     // Note that this can save the message again, if jobs were queued. We need to
