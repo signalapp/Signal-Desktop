@@ -13,7 +13,7 @@ import {
   ConversationType,
 } from '../state/ducks/conversations';
 import { getActiveCall } from '../state/ducks/calling';
-import { getCallSelector } from '../state/selectors/calling';
+import { getCallSelector, isInCall } from '../state/selectors/calling';
 import { PropsData } from '../components/conversation/Message';
 import { CallbackResultType } from '../textsecure/SendMessage';
 import { ExpirationTimerOptions } from '../util/ExpirationTimerOptions';
@@ -38,6 +38,7 @@ import {
   getCallingNotificationText,
 } from '../util/callingNotification';
 import { PropsType as ProfileChangeNotificationPropsType } from '../components/conversation/ProfileChangeNotification';
+import { isImage, isVideo } from '../types/Attachment';
 
 /* eslint-disable camelcase */
 /* eslint-disable more/no-then */
@@ -2136,14 +2137,23 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   canDownload(): boolean {
-    const conversation = this.getConversation();
-    const isAccepted = Boolean(conversation && conversation.getAccepted());
-
     if (this.isOutgoing()) {
       return true;
     }
 
-    return isAccepted;
+    const conversation = this.getConversation();
+    const isAccepted = Boolean(conversation && conversation.getAccepted());
+    if (!isAccepted) {
+      return false;
+    }
+
+    // Ensure that all attachments are downloadable
+    const attachments = this.get('attachments');
+    if (attachments && attachments.length) {
+      return attachments.every(attachment => Boolean(attachment.path));
+    }
+
+    return true;
   }
 
   canReply(): boolean {
@@ -3527,8 +3537,16 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
         // Only queue attachments for downloads if this is an outgoing message
         // or we've accepted the conversation
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        if (this.getConversation()!.getAccepted() || message.isOutgoing()) {
+        const reduxState = window.reduxStore.getState();
+        const attachments = this.get('attachments') || [];
+        const shouldHoldOffDownload =
+          (isImage(attachments) || isVideo(attachments)) &&
+          isInCall(reduxState);
+        if (
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          (this.getConversation()!.getAccepted() || message.isOutgoing()) &&
+          !shouldHoldOffDownload
+        ) {
           await message.queueAttachmentDownloads();
         }
 

@@ -36,6 +36,7 @@ const defaultMessageProps: MessagesProps = {
   i18n,
   id: 'messageId',
   interactionMode: 'keyboard',
+  kickOffAttachmentDownload: () => null,
   openConversation: () => null,
   openLink: () => null,
   previews: [],

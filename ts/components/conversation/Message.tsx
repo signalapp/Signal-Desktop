@@ -35,6 +35,8 @@ import {
   getGridDimensions,
   getImageDimensions,
   hasImage,
+  hasNotDownloaded,
+  hasVideoBlurHash,
   hasVideoScreenshot,
   isAudio,
   isImage,
@@ -162,6 +164,10 @@ export type PropsActions = {
   }) => void;
   showContactModal: (contactId: string) => void;
 
+  kickOffAttachmentDownload: (options: {
+    attachment: AttachmentType;
+    messageId: string;
+  }) => void;
   showVisualAttachment: (options: {
     attachment: AttachmentType;
     messageId: string;
@@ -657,6 +663,7 @@ export class Message extends React.PureComponent<Props, State> {
       direction,
       i18n,
       id,
+      kickOffAttachmentDownload,
       quote,
       showVisualAttachment,
       isSticker,
@@ -680,7 +687,8 @@ export class Message extends React.PureComponent<Props, State> {
       displayImage &&
       !imageBroken &&
       ((isImage(attachments) && hasImage(attachments)) ||
-        (isVideo(attachments) && hasVideoScreenshot(attachments)))
+        (isVideo(attachments) &&
+          (hasVideoBlurHash(attachments) || hasVideoScreenshot(attachments))))
     ) {
       const prefix = isSticker ? 'sticker' : 'attachment';
       const bottomOverlay = !isSticker && !collapseMetadata;
@@ -713,7 +721,11 @@ export class Message extends React.PureComponent<Props, State> {
             onError={this.handleImageError}
             tabIndex={tabIndex}
             onClick={attachment => {
-              showVisualAttachment({ attachment, messageId: id });
+              if (hasNotDownloaded(attachment)) {
+                kickOffAttachmentDownload({ attachment, messageId: id });
+              } else {
+                showVisualAttachment({ attachment, messageId: id });
+              }
             }}
           />
         </div>
@@ -1517,7 +1529,8 @@ export class Message extends React.PureComponent<Props, State> {
       return (
         displayImage &&
         ((isImage(attachments) && hasImage(attachments)) ||
-          (isVideo(attachments) && hasVideoScreenshot(attachments)))
+          (isVideo(attachments) &&
+            (hasVideoBlurHash(attachments) || hasVideoScreenshot(attachments))))
       );
     }
 
@@ -1922,6 +1935,7 @@ export class Message extends React.PureComponent<Props, State> {
       id,
       isTapToView,
       isTapToViewExpired,
+      kickOffAttachmentDownload,
       openConversation,
       showContactDetail,
       showVisualAttachment,
@@ -1958,9 +1972,28 @@ export class Message extends React.PureComponent<Props, State> {
       attachments &&
       attachments.length > 0 &&
       !isAttachmentPending &&
+      (isImage(attachments) || isVideo(attachments)) &&
+      hasNotDownloaded(attachments[0])
+    ) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const attachment = attachments[0];
+
+      kickOffAttachmentDownload({ attachment, messageId: id });
+
+      return;
+    }
+
+    if (
+      !imageBroken &&
+      attachments &&
+      attachments.length > 0 &&
+      !isAttachmentPending &&
       canDisplayImage(attachments) &&
       ((isImage(attachments) && hasImage(attachments)) ||
-        (isVideo(attachments) && hasVideoScreenshot(attachments)))
+        (isVideo(attachments) &&
+          (hasVideoBlurHash(attachments) || hasVideoScreenshot(attachments))))
     ) {
       event.preventDefault();
       event.stopPropagation();

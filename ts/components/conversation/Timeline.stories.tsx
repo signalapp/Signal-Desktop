@@ -231,6 +231,7 @@ const actions = () => ({
   openConversation: action('openConversation'),
   showContactDetail: action('showContactDetail'),
   showContactModal: action('showContactModal'),
+  kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   showVisualAttachment: action('showVisualAttachment'),
   downloadAttachment: action('downloadAttachment'),
   displayTapToViewMessage: action('displayTapToViewMessage'),

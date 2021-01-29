@@ -742,6 +742,13 @@ Whisper.ConversationView = Whisper.View.extend({
     const showContactDetail = (options: any) => {
       this.showContactDetail(options);
     };
+    const kickOffAttachmentDownload = async (options: any) => {
+      if (!this.model.messageCollection) {
+        throw new Error('Message collection does not exist');
+      }
+      const message = this.model.messageCollection.get(options.messageId);
+      await message.queueAttachmentDownloads();
+    };
     const showVisualAttachment = (options: any) => {
       this.showLightbox(options);
     };
@@ -924,6 +931,7 @@ Whisper.ConversationView = Whisper.View.extend({
         displayTapToViewMessage,
         downloadAttachment,
         downloadNewVersion,
+        kickOffAttachmentDownload,
         loadNewerMessages,
         loadNewestMessages: this.loadNewestMessages.bind(this),
         loadAndScroll: this.loadAndScroll.bind(this),

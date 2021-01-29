@@ -169,6 +169,16 @@ export function isVideoAttachment(
   );
 }
 
+export function hasNotDownloaded(attachment?: AttachmentType): boolean {
+  return Boolean(attachment && !attachment.url && attachment.blurHash);
+}
+
+export function hasVideoBlurHash(attachments?: Array<AttachmentType>): boolean {
+  const firstAttachment = attachments ? attachments[0] : null;
+
+  return Boolean(firstAttachment && firstAttachment.blurHash);
+}
+
 export function hasVideoScreenshot(
   attachments?: Array<AttachmentType>
 ): string | null | undefined {

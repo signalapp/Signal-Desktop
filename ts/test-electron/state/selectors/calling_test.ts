@@ -9,6 +9,7 @@ import {
   getCallsByConversation,
   getCallSelector,
   getIncomingCall,
+  isInCall,
 } from '../../../state/selectors/calling';
 import { getEmptyState, CallingStateType } from '../../../state/ducks/calling';
 
@@ -130,6 +131,16 @@ describe('state/selectors/calling', () => {
           hasRemoteVideo: false,
         }
       );
+    });
+  });
+
+  describe('isInCall', () => {
+    it('returns should be false if we are not in a call', () => {
+      assert.isFalse(isInCall(getEmptyRootState()));
+    });
+
+    it('should be true if we are in a call', () => {
+      assert.isTrue(isInCall(getCallingState(stateWithActiveDirectCall)));
     });
   });
 });

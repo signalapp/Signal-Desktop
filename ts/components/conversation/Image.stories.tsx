@@ -121,6 +121,20 @@ story.add('Pending', () => {
   return <Image {...props} />;
 });
 
+story.add('Pending w/blurhash', () => {
+  const props = createProps();
+  props.attachment.pending = true;
+
+  return (
+    <Image
+      {...props}
+      blurHash="LDA,FDBnm+I=p{tkIUI;~UkpELV]"
+      width={300}
+      height={400}
+    />
+  );
+});
+
 story.add('Curved Corners', () => {
   const props = createProps({
     curveBottomLeft: true,
@@ -176,6 +190,7 @@ story.add('Blurhash', () => {
 
   return <Image {...props} />;
 });
+
 story.add('Missing Image', () => {
   const defaultProps = createProps();
   const props = {

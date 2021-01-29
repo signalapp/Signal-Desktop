@@ -17,18 +17,25 @@ export const SpinnerDirections = [
 export type SpinnerDirection = typeof SpinnerDirections[number];
 
 export type Props = {
+  moduleClassName?: string;
+  direction?: SpinnerDirection;
   size?: string;
   svgSize: SpinnerSvgSize;
-  direction?: SpinnerDirection;
 };
 
-export const Spinner = ({ size, svgSize, direction }: Props): JSX.Element => (
+export const Spinner = ({
+  moduleClassName,
+  size,
+  svgSize,
+  direction,
+}: Props): JSX.Element => (
   <div
     className={classNames(
       'module-spinner__container',
       `module-spinner__container--${svgSize}`,
       direction ? `module-spinner__container--${direction}` : null,
-      direction ? `module-spinner__container--${svgSize}-${direction}` : null
+      direction ? `module-spinner__container--${svgSize}-${direction}` : null,
+      moduleClassName ? `${moduleClassName}__container` : null
     )}
     style={{
       height: size,
@@ -40,7 +47,8 @@ export const Spinner = ({ size, svgSize, direction }: Props): JSX.Element => (
         'module-spinner__circle',
         `module-spinner__circle--${svgSize}`,
         direction ? `module-spinner__circle--${direction}` : null,
-        direction ? `module-spinner__circle--${svgSize}-${direction}` : null
+        direction ? `module-spinner__circle--${svgSize}-${direction}` : null,
+        moduleClassName ? `${moduleClassName}__circle` : null
       )}
     />
     <div
@@ -48,7 +56,8 @@ export const Spinner = ({ size, svgSize, direction }: Props): JSX.Element => (
         'module-spinner__arc',
         `module-spinner__arc--${svgSize}`,
         direction ? `module-spinner__arc--${direction}` : null,
-        direction ? `module-spinner__arc--${svgSize}-${direction}` : null
+        direction ? `module-spinner__arc--${svgSize}-${direction}` : null,
+        moduleClassName ? `${moduleClassName}__arc` : null
       )}
     />
   </div>

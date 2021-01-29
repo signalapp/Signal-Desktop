@@ -4964,6 +4964,86 @@ button.module-conversation-details__action-button {
   overflow: hidden;
 }
 
+.module-image--not-downloaded {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+  i {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    background-color: $color-gray-75;
+    border-radius: 48px;
+    height: 48px;
+    width: 48px;
+
+    &:after {
+      content: '';
+      height: 17px;
+      width: 17px;
+      @include color-svg('../images/icons/v2/arrow-down-24.svg', $color-white);
+    }
+  }
+
+  &:hover {
+    i {
+      background-color: $color-black;
+    }
+  }
+
+  &:focus {
+    i {
+      background-color: $color-gray-75;
+      border: 4px solid $ultramarine-ui-light;
+      box-sizing: border-box;
+      outline: none;
+    }
+  }
+}
+
+.module-image__download-pending {
+  position: relative;
+
+  &--spinner-container {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
+  &--spinner {
+    background-color: $color-gray-75;
+    border-radius: 48px;
+    height: 48px;
+    width: 48px;
+
+    .module-image-spinner {
+      &__container {
+        margin: 12px auto;
+      }
+
+      &__arc {
+        background-color: $color-gray-75;
+      }
+
+      &__circle {
+        background-color: $color-white;
+      }
+
+      @include dark-theme {
+        &__arc {
+          background-color: $color-gray-75;
+        }
+      }
+    }
+  }
+}
+
 .module-image--with-background {
   @include light-theme {
     background-color: $color-white;
