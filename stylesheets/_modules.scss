@@ -3151,6 +3151,467 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 }
 
+// Module: Conversation Details
+
+.conversation-details-panel {
+  max-width: 750px;
+  margin: 0 auto;
+
+  @at-root .conversation #{&} {
+    overflow-y: auto;
+  }
+}
+
+// Brought this up here to add specificity
+button.module-conversation-details__action-button {
+  margin-left: 16px;
+}
+
+.module-conversation-details {
+  &-header {
+    &__root {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 24px;
+      text-align: center;
+    }
+
+    &__title {
+      @include font-body-1-bold;
+      padding-top: 12px;
+      padding-bottom: 8px;
+    }
+
+    &__subtitle {
+      @include font-body-1;
+      color: $color-gray-60;
+      padding-bottom: 6px;
+
+      @include dark-theme {
+        color: $color-gray-25;
+      }
+    }
+  }
+
+  &__tabs {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  &__tab {
+    @include font-body-1;
+    cursor: pointer;
+    padding: 15px;
+
+    &:focus {
+      @include mouse-mode {
+        outline: none;
+      }
+    }
+
+    &--selected {
+      @include font-body-1-bold;
+      border-bottom: 2px solid $color-black;
+    }
+  }
+
+  &__pending--info {
+    @include font-subtitle;
+    @include light-theme {
+      color: $color-gray-60;
+    }
+    @include dark-theme {
+      color: $color-gray-25;
+    }
+    padding: 0 28px;
+    padding-top: 16px;
+  }
+
+  &-icon {
+    &__button {
+      background: none;
+      border: none;
+      padding: none;
+
+      &:focus {
+        @include mouse-mode {
+          outline: none;
+        }
+      }
+    }
+
+    &__icon {
+      height: 32px;
+      width: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &::after {
+        display: block;
+        content: '';
+        width: 24px;
+        height: 24px;
+        -webkit-mask-size: 100%;
+      }
+
+      &--timer {
+        &::after {
+          -webkit-mask: url(../images/icons/v2/timer-disabled-24.svg) no-repeat
+            center;
+
+          @include light-theme {
+            background-color: $color-gray-75;
+          }
+
+          @include dark-theme {
+            background-color: $color-gray-15;
+          }
+        }
+      }
+
+      &--lock {
+        &::after {
+          -webkit-mask: url(../images/icons/v2/lock-outline-24.svg) no-repeat
+            center;
+
+          @include light-theme {
+            background-color: $color-gray-75;
+          }
+
+          @include dark-theme {
+            background-color: $color-gray-15;
+          }
+        }
+      }
+
+      &--approve {
+        &::after {
+          -webkit-mask: url(../images/icons/v2/check-24.svg) no-repeat center;
+
+          @include light-theme {
+            background-color: $color-gray-75;
+          }
+
+          @include dark-theme {
+            background-color: $color-gray-15;
+          }
+        }
+      }
+
+      &--link {
+        &::after {
+          -webkit-mask: url(../images/icons/v2/link-16.svg) no-repeat center;
+
+          @include light-theme {
+            background-color: $color-gray-75;
+          }
+
+          @include dark-theme {
+            background-color: $color-gray-15;
+          }
+        }
+      }
+
+      &--share {
+        &::after {
+          -webkit-mask: url(../images/icons/v2/share-ios-24.svg) no-repeat
+            center;
+
+          @include light-theme {
+            background-color: $color-gray-75;
+          }
+
+          @include dark-theme {
+            background-color: $color-gray-15;
+          }
+        }
+      }
+
+      &--reset {
+        &::after {
+          transform: scaleX(-1);
+          -webkit-mask: url(../images/icons/v2/undo-24.svg) no-repeat center;
+
+          @include light-theme {
+            background-color: $color-gray-75;
+          }
+
+          @include dark-theme {
+            background-color: $color-gray-15;
+          }
+        }
+      }
+
+      &--trash {
+        &::after {
+          -webkit-mask: url(../images/icons/v2/trash-outline-24.svg) no-repeat
+            center;
+
+          @include light-theme {
+            background-color: $color-gray-75;
+          }
+
+          @include dark-theme {
+            background-color: $color-gray-15;
+          }
+        }
+      }
+
+      &--invites {
+        &::after {
+          -webkit-mask: url(../images/icons/v2/pending-invite-24.svg) no-repeat
+            center;
+
+          @include light-theme {
+            background-color: $color-gray-75;
+          }
+
+          @include dark-theme {
+            background-color: $color-gray-15;
+          }
+        }
+      }
+
+      &--down {
+        border-radius: 18px;
+        @include light-theme {
+          background-color: $color-gray-02;
+        }
+
+        @include dark-theme {
+          background-color: $color-gray-90;
+        }
+
+        &::after {
+          -webkit-mask: url(../images/icons/v2/chevron-down-16.svg) no-repeat
+            center;
+
+          @include light-theme {
+            background-color: $color-gray-60;
+          }
+
+          @include dark-theme {
+            background-color: $color-gray-25;
+          }
+        }
+      }
+
+      &--leave {
+        &::after {
+          -webkit-mask: url(../images/icons/v2/leave-24.svg) no-repeat center;
+          background-color: $color-accent-red;
+        }
+      }
+
+      &--block {
+        &::after {
+          -webkit-mask: url(../images/icons/v2/block-24.svg) no-repeat center;
+          background-color: $color-accent-red;
+        }
+      }
+    }
+  }
+
+  &-media-list {
+    &__root {
+      display: flex;
+      justify-content: center;
+      padding: 0 20px;
+
+      .module-media-grid-item {
+        border-radius: 4px;
+        height: auto;
+        margin: 0 4px;
+        max-height: 94px;
+        overflow: hidden;
+        width: calc(100% / 6);
+
+        .module-media-grid-item__icon {
+          &::before {
+            content: '';
+            display: block;
+            padding-top: 100%;
+          }
+        }
+
+        .module-media-grid-item__image-container,
+        img {
+          margin: 0;
+        }
+      }
+    }
+
+    &__show-all {
+      background: none;
+      border: none;
+      padding: 0;
+    }
+  }
+
+  &-panel-row {
+    &__root {
+      align-items: center;
+      display: flex;
+      padding: 16px 24px;
+      user-select: none;
+      width: 100%;
+
+      &--button {
+        color: inherit;
+        background: none;
+        border: none;
+      }
+
+      &:hover {
+        @include light-theme {
+          background-color: $color-gray-02;
+        }
+
+        @include dark-theme {
+          background-color: $color-gray-90;
+        }
+
+        & .module-conversation-details-panel-row__actions {
+          opacity: 1;
+        }
+      }
+    }
+
+    &__icon {
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    &__label {
+      flex-grow: 1;
+      text-align: left;
+      margin-right: 12px;
+    }
+
+    &__info {
+      @include font-body-2;
+      color: $color-gray-60;
+      margin-top: 4px;
+    }
+
+    &__right {
+      color: $color-gray-45;
+    }
+
+    &__actions {
+      margin-left: 12px;
+      overflow: hidden;
+      opacity: 0;
+
+      &:focus-within {
+        opacity: 1;
+      }
+    }
+  }
+
+  &-panel-section {
+    &__root {
+      position: relative;
+
+      &:not(:first-child)::before {
+        border-top: 1px solid transparent;
+
+        @include light-theme {
+          border-top-color: $color-gray-15;
+        }
+
+        @include dark-theme {
+          border-top-color: $color-gray-65;
+        }
+
+        content: '';
+        display: block;
+        left: 0;
+        margin: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+
+      &--borderless {
+        &:not(:first-child)::before {
+          border-top: none;
+        }
+      }
+    }
+
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      padding: 18px 24px 12px;
+
+      &--center {
+        justify-content: center;
+      }
+    }
+
+    &__title {
+      @include font-body-1-bold;
+    }
+  }
+
+  &-select {
+    position: relative;
+
+    select {
+      @include font-body-2;
+      -webkit-appearance: none;
+      border-radius: 4px;
+      border: 1px solid $color-gray-25;
+      cursor: pointer;
+      height: 40px;
+      min-width: 124px;
+      outline: 0;
+      padding: 10px;
+      padding-left: 12px;
+      padding-right: 32px;
+      text-overflow: ellipsis;
+      width: 100%;
+
+      @include dark-theme {
+        background-color: $color-gray-90;
+        border-color: $color-gray-60;
+        color: $color-gray-05;
+      }
+
+      &:focus {
+        border: 3px solid $ultramarine-ui-light;
+        line-height: 14px;
+        padding-left: 10px;
+      }
+    }
+
+    &::after {
+      border: 2px solid $color-gray-60;
+      border-radius: 2px;
+      border-right: 0;
+      border-top: 0;
+      content: ' ';
+      display: block;
+      height: 10px;
+      pointer-events: none;
+      position: absolute;
+      right: 15px;
+      top: 14px;
+      transform-origin: center;
+      transform: rotate(-45deg);
+      width: 10px;
+      z-index: 2;
+
+      @include dark-theme {
+        border-color: $color-gray-15;
+      }
+    }
+  }
+}
+
 // Module: Message Detail
 
 .module-message-detail {
@@ -10329,6 +10790,33 @@ button.module-image__border-overlay:focus {
 }
 
 .module-button {
+  &__small {
+    @include font-body-2;
+    @include button-reset;
+
+    @include keyboard-mode {
+      &:focus {
+        box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
+      }
+    }
+
+    @include light-theme {
+      color: $color-gray-90;
+      border-color: $color-gray-15;
+    }
+
+    @include dark-theme {
+      color: $color-gray-05;
+      border-color: $color-gray-65;
+    }
+
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px;
+    outline: none;
+    padding: 7px 12px;
+  }
+
   &__gray {
     @include font-body-1-bold;
     background-color: $color-gray-45;
@@ -10500,6 +10988,25 @@ $contact-modal-padding: 18px;
   @include dark-theme {
     @include color-svg(
       '../images/icons/v2/safety-number-outline-24.svg',
+      $color-gray-15
+    );
+  }
+}
+
+.module-contact-modal__make-admin__bubble-icon {
+  height: 16px;
+  width: 18px;
+
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/group-outline-20.svg',
+      $color-gray-75
+    );
+  }
+
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/group-outline-20.svg',
       $color-gray-15
     );
   }

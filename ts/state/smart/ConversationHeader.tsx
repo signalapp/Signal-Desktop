@@ -40,6 +40,7 @@ export type OwnProps = {
   onMarkUnread: () => void;
   onMoveToInbox: () => void;
   onShowSafetyNumber: () => void;
+  onShowConversationDetails: () => void;
 };
 
 const getOutgoingCallButtonStyle = (
@@ -102,7 +103,9 @@ const mapStateToProps = (state: StateType, ownProps: OwnProps) => {
       'profileName',
       'title',
       'type',
+      'groupVersion',
     ]),
+    conversationTitle: state.conversations.selectedConversationTitle,
     i18n: getIntl(state),
     showBackButton: state.conversations.selectedConversationPanelDepth > 0,
     outgoingCallButtonStyle: getOutgoingCallButtonStyle(conversation, state),

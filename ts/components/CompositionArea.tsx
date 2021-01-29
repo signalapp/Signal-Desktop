@@ -54,7 +54,7 @@ export type OwnProps = {
 
 export type Props = Pick<
   CompositionInputProps,
-  | 'members'
+  | 'sortedGroupMembers'
   | 'onSubmit'
   | 'onEditorStateChange'
   | 'onTextTooLong'
@@ -106,7 +106,7 @@ export const CompositionArea = ({
   draftBodyRanges,
   clearQuotedMessage,
   getQuotedMessage,
-  members,
+  sortedGroupMembers,
   // EmojiButton
   onPickEmoji,
   onSetSkinTone,
@@ -450,7 +450,7 @@ export const CompositionArea = ({
             draftBodyRanges={draftBodyRanges}
             clearQuotedMessage={clearQuotedMessage}
             getQuotedMessage={getQuotedMessage}
-            members={members}
+            sortedGroupMembers={sortedGroupMembers}
           />
         </div>
         {!large ? (

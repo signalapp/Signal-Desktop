@@ -33,6 +33,7 @@ export enum OutgoingCallButtonStyle {
 }
 
 export type PropsDataType = {
+  conversationTitle?: string;
   id: string;
   name?: string;
 
@@ -51,6 +52,7 @@ export type PropsDataType = {
   isMissingMandatoryProfileSharing?: boolean;
   left?: boolean;
   markedUnread?: boolean;
+  groupVersion?: number;
 
   canChangeTimer?: boolean;
   expireTimer?: number;
@@ -71,6 +73,7 @@ export type PropsActionsType = {
   onOutgoingVideoCallInConversation: () => void;
   onSetPin: (value: boolean) => void;
 
+  onShowConversationDetails: () => void;
   onShowSafetyNumber: () => void;
   onShowAllMedia: () => void;
   onShowGroupMembers: () => void;
@@ -126,7 +129,7 @@ export class ConversationHeader extends React.Component<PropsType> {
     );
   }
 
-  public renderTitle(): JSX.Element {
+  public renderTitle(): JSX.Element | null {
     const {
       name,
       phoneNumber,
@@ -352,11 +355,13 @@ export class ConversationHeader extends React.Component<PropsType> {
       muteExpiresAt,
       isMissingMandatoryProfileSharing,
       left,
+      groupVersion,
       onDeleteMessages,
       onResetSession,
       onSetDisappearingMessages,
       onSetMuteNotifications,
       onShowAllMedia,
+      onShowConversationDetails,
       onShowGroupMembers,
       onShowSafetyNumber,
       onArchive,
@@ -401,6 +406,11 @@ export class ConversationHeader extends React.Component<PropsType> {
         isMissingMandatoryProfileSharing
     );
 
+    const hasGV2AdminEnabled =
+      isGroup &&
+      groupVersion === 2 &&
+      window.Signal.RemoteConfig.isEnabled('desktop.gv2Admin');
+
     return (
       <ContextMenu id={triggerId}>
         {disableTimerChanges ? null : (
@@ -430,7 +440,12 @@ export class ConversationHeader extends React.Component<PropsType> {
             </MenuItem>
           ))}
         </SubMenu>
-        {isGroup ? (
+        {hasGV2AdminEnabled ? (
+          <MenuItem onClick={onShowConversationDetails}>
+            {i18n('showConversationDetails')}
+          </MenuItem>
+        ) : null}
+        {isGroup && !hasGV2AdminEnabled ? (
           <MenuItem onClick={onShowGroupMembers}>
             {i18n('showMembers')}
           </MenuItem>
@@ -470,7 +485,23 @@ export class ConversationHeader extends React.Component<PropsType> {
   }
 
   private renderHeader(): JSX.Element {
-    const { id, isMe, onShowContactModal, type } = this.props;
+    const {
+      conversationTitle,
+      id,
+      isMe,
+      onShowContactModal,
+      type,
+    } = this.props;
+
+    if (conversationTitle) {
+      return (
+        <div className="module-conversation-header__title-flex">
+          <div className="module-conversation-header__title">
+            {conversationTitle}
+          </div>
+        </div>
+      );
+    }
 
     if (type === 'group' || isMe) {
       return (

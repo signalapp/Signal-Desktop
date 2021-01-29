@@ -34,6 +34,7 @@ export type AttachmentType = {
   pending?: boolean;
   width?: number;
   height?: number;
+  path?: string;
   screenshot?: {
     height: number;
     width: number;
@@ -46,6 +47,7 @@ export type AttachmentType = {
     width: number;
     url: string;
     contentType: MIME.MIMEType;
+    path: string;
   };
 };
 

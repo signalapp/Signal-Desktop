@@ -43,9 +43,13 @@ import { createStore } from './state/createStore';
 import { createCallManager } from './state/roots/createCallManager';
 import { createCompositionArea } from './state/roots/createCompositionArea';
 import { createContactModal } from './state/roots/createContactModal';
+import { createConversationDetails } from './state/roots/createConversationDetails';
 import { createConversationHeader } from './state/roots/createConversationHeader';
+import { createGroupLinkManagement } from './state/roots/createGroupLinkManagement';
 import { createGroupV1MigrationModal } from './state/roots/createGroupV1MigrationModal';
+import { createGroupV2Permissions } from './state/roots/createGroupV2Permissions';
 import { createLeftPane } from './state/roots/createLeftPane';
+import { createPendingInvites } from './state/roots/createPendingInvites';
 import { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer';
 import { createShortcutGuideModal } from './state/roots/createShortcutGuideModal';
 import { createStickerManager } from './state/roots/createStickerManager';
@@ -85,6 +89,7 @@ import { MessageDetail } from './components/conversation/MessageDetail';
 import { ProgressModal } from './components/ProgressModal';
 import { Quote } from './components/conversation/Quote';
 import { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
+import { MIMEType } from './types/MIME';
 
 export { Long } from 'long';
 
@@ -335,8 +340,9 @@ declare global {
             path: string;
             objectUrl: string;
           };
-          contentType: string;
+          contentType: MIMEType;
           error: unknown;
+          caption: string;
 
           migrateDataToFileSystem: (
             attachment: WhatIsThis,
@@ -448,9 +454,13 @@ declare global {
           createCallManager: typeof createCallManager;
           createCompositionArea: typeof createCompositionArea;
           createContactModal: typeof createContactModal;
+          createConversationDetails: typeof createConversationDetails;
           createConversationHeader: typeof createConversationHeader;
+          createGroupLinkManagement: typeof createGroupLinkManagement;
           createGroupV1MigrationModal: typeof createGroupV1MigrationModal;
+          createGroupV2Permissions: typeof createGroupV2Permissions;
           createLeftPane: typeof createLeftPane;
+          createPendingInvites: typeof createPendingInvites;
           createSafetyNumberViewer: typeof createSafetyNumberViewer;
           createShortcutGuideModal: typeof createShortcutGuideModal;
           createStickerManager: typeof createStickerManager;
@@ -641,6 +651,7 @@ export type WhisperType = {
   BannerView: any;
   RecorderView: any;
   GroupMemberList: any;
+  GroupLinkCopiedToast: typeof Backbone.View;
   KeyVerificationPanelView: any;
   SafetyNumberChangeDialogView: any;
   BodyRangesType: BodyRangesType;

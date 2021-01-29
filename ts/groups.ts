@@ -49,8 +49,10 @@ import {
   computeHash,
   deriveMasterKeyFromGroupV1,
   fromEncodedBinaryToArrayBuffer,
+  getRandomBytes,
 } from './Crypto';
 import {
+  AccessRequiredEnum,
   GroupAttributeBlobClass,
   GroupChangeClass,
   GroupChangesClass,
@@ -225,6 +227,35 @@ const TEMPORAL_AUTH_REJECTED_CODE = 401;
 const GROUP_ACCESS_DENIED_CODE = 403;
 const GROUP_NONEXISTENT_CODE = 404;
 const SUPPORTED_CHANGE_EPOCH = 1;
+const GROUP_INVITE_LINK_PASSWORD_LENGTH = 16;
+
+// Group Links
+
+export function generateGroupInviteLinkPassword(): ArrayBuffer {
+  return getRandomBytes(GROUP_INVITE_LINK_PASSWORD_LENGTH);
+}
+
+export function toWebSafeBase64(base64: string): string {
+  return base64.replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
+}
+
+export function buildGroupLink(conversation: ConversationModel): string {
+  const { masterKey, groupInviteLinkPassword } = conversation.attributes;
+
+  const subProto = new window.textsecure.protobuf.GroupInviteLink.GroupInviteLinkContentsV1();
+  subProto.groupMasterKey = window.Signal.Crypto.base64ToArrayBuffer(masterKey);
+  subProto.inviteLinkPassword = window.Signal.Crypto.base64ToArrayBuffer(
+    groupInviteLinkPassword
+  );
+
+  const proto = new window.textsecure.protobuf.GroupInviteLink();
+  proto.v1Contents = subProto;
+
+  const bytes = proto.toArrayBuffer();
+  const hash = toWebSafeBase64(window.Signal.Crypto.arrayBufferToBase64(bytes));
+
+  return `sgnl://signal.group/#${hash}`;
+}
 
 // Group Modifications
 
@@ -457,11 +488,119 @@ export function buildDisappearingMessagesTimerChange({
   return actions;
 }
 
-export function buildDeletePendingMemberChange({
+export function buildInviteLinkPasswordChange(
+  group: ConversationAttributesType,
+  inviteLinkPassword: string
+): GroupChangeClass.Actions {
+  const inviteLinkPasswordAction = new window.textsecure.protobuf.GroupChange.Actions.ModifyInviteLinkPasswordAction();
+  inviteLinkPasswordAction.inviteLinkPassword = base64ToArrayBuffer(
+    inviteLinkPassword
+  );
+
+  const actions = new window.textsecure.protobuf.GroupChange.Actions();
+  actions.version = (group.revision || 0) + 1;
+  actions.modifyInviteLinkPassword = inviteLinkPasswordAction;
+
+  return actions;
+}
+
+export function buildNewGroupLinkChange(
+  group: ConversationAttributesType,
+  inviteLinkPassword: string,
+  addFromInviteLinkAccess: AccessRequiredEnum
+): GroupChangeClass.Actions {
+  const accessControlAction = new window.textsecure.protobuf.GroupChange.Actions.ModifyAddFromInviteLinkAccessControlAction();
+  accessControlAction.addFromInviteLinkAccess = addFromInviteLinkAccess;
+
+  const inviteLinkPasswordAction = new window.textsecure.protobuf.GroupChange.Actions.ModifyInviteLinkPasswordAction();
+  inviteLinkPasswordAction.inviteLinkPassword = base64ToArrayBuffer(
+    inviteLinkPassword
+  );
+
+  const actions = new window.textsecure.protobuf.GroupChange.Actions();
+  actions.version = (group.revision || 0) + 1;
+  actions.modifyAddFromInviteLinkAccess = accessControlAction;
+  actions.modifyInviteLinkPassword = inviteLinkPasswordAction;
+
+  return actions;
+}
+
+export function buildAccessControlAddFromInviteLinkChange(
+  group: ConversationAttributesType,
+  value: AccessRequiredEnum
+): GroupChangeClass.Actions {
+  const accessControlAction = new window.textsecure.protobuf.GroupChange.Actions.ModifyAddFromInviteLinkAccessControlAction();
+  accessControlAction.addFromInviteLinkAccess = value;
+
+  const actions = new window.textsecure.protobuf.GroupChange.Actions();
+  actions.version = (group.revision || 0) + 1;
+  actions.modifyAddFromInviteLinkAccess = accessControlAction;
+
+  return actions;
+}
+
+export function buildAccessControlAttributesChange(
+  group: ConversationAttributesType,
+  value: AccessRequiredEnum
+): GroupChangeClass.Actions {
+  const accessControlAction = new window.textsecure.protobuf.GroupChange.Actions.ModifyAttributesAccessControlAction();
+  accessControlAction.attributesAccess = value;
+
+  const actions = new window.textsecure.protobuf.GroupChange.Actions();
+  actions.version = (group.revision || 0) + 1;
+  actions.modifyAttributesAccess = accessControlAction;
+
+  return actions;
+}
+
+export function buildAccessControlMembersChange(
+  group: ConversationAttributesType,
+  value: AccessRequiredEnum
+): GroupChangeClass.Actions {
+  const accessControlAction = new window.textsecure.protobuf.GroupChange.Actions.ModifyMembersAccessControlAction();
+  accessControlAction.membersAccess = value;
+
+  const actions = new window.textsecure.protobuf.GroupChange.Actions();
+  actions.version = (group.revision || 0) + 1;
+  actions.modifyMemberAccess = accessControlAction;
+
+  return actions;
+}
+
+// TODO AND-1101
+export function buildDeletePendingAdminApprovalMemberChange({
+  group,
   uuid,
+}: {
+  group: ConversationAttributesType;
+  uuid: string;
+}): GroupChangeClass.Actions {
+  const actions = new window.textsecure.protobuf.GroupChange.Actions();
+
+  if (!group.secretParams) {
+    throw new Error(
+      'buildDeletePendingAdminApprovalMemberChange: group was missing secretParams!'
+    );
+  }
+  const clientZkGroupCipher = getClientZkGroupCipher(group.secretParams);
+  const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
+
+  const deleteMemberPendingAdminApproval = new window.textsecure.protobuf.GroupChange.Actions.DeleteMemberPendingAdminApprovalAction();
+  deleteMemberPendingAdminApproval.deletedUserId = uuidCipherTextBuffer;
+
+  actions.version = (group.revision || 0) + 1;
+  actions.deleteMemberPendingAdminApprovals = [
+    deleteMemberPendingAdminApproval,
+  ];
+
+  return actions;
+}
+
+export function buildDeletePendingMemberChange({
+  uuids,
   group,
 }: {
-  uuid: string;
+  uuids: Array<string>;
   group: ConversationAttributesType;
 }): GroupChangeClass.Actions {
   const actions = new window.textsecure.protobuf.GroupChange.Actions();
@@ -472,13 +611,16 @@ export function buildDeletePendingMemberChange({
     );
   }
   const clientZkGroupCipher = getClientZkGroupCipher(group.secretParams);
-  const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
 
-  const deletePendingMember = new window.textsecure.protobuf.GroupChange.Actions.DeleteMemberPendingProfileKeyAction();
-  deletePendingMember.deletedUserId = uuidCipherTextBuffer;
+  const deletePendingMembers = uuids.map(uuid => {
+    const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
+    const deletePendingMember = new window.textsecure.protobuf.GroupChange.Actions.DeleteMemberPendingProfileKeyAction();
+    deletePendingMember.deletedUserId = uuidCipherTextBuffer;
+    return deletePendingMember;
+  });
 
   actions.version = (group.revision || 0) + 1;
-  actions.deletePendingMembers = [deletePendingMember];
+  actions.deletePendingMembers = deletePendingMembers;
 
   return actions;
 }
@@ -503,6 +645,63 @@ export function buildDeleteMemberChange({
 
   actions.version = (group.revision || 0) + 1;
   actions.deleteMembers = [deleteMember];
+
+  return actions;
+}
+
+export function buildModifyMemberRoleChange({
+  uuid,
+  group,
+  role,
+}: {
+  uuid: string;
+  group: ConversationAttributesType;
+  role: number;
+}): GroupChangeClass.Actions {
+  const actions = new window.textsecure.protobuf.GroupChange.Actions();
+
+  if (!group.secretParams) {
+    throw new Error('buildMakeAdminChange: group was missing secretParams!');
+  }
+
+  const clientZkGroupCipher = getClientZkGroupCipher(group.secretParams);
+  const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
+
+  const toggleAdmin = new window.textsecure.protobuf.GroupChange.Actions.ModifyMemberRoleAction();
+  toggleAdmin.userId = uuidCipherTextBuffer;
+  toggleAdmin.role = role;
+
+  actions.version = (group.revision || 0) + 1;
+  actions.modifyMemberRoles = [toggleAdmin];
+
+  return actions;
+}
+
+export function buildPromotePendingAdminApprovalMemberChange({
+  group,
+  uuid,
+}: {
+  group: ConversationAttributesType;
+  uuid: string;
+}): GroupChangeClass.Actions {
+  const MEMBER_ROLE_ENUM = window.textsecure.protobuf.Member.Role;
+  const actions = new window.textsecure.protobuf.GroupChange.Actions();
+
+  if (!group.secretParams) {
+    throw new Error(
+      'buildAddPendingAdminApprovalMemberChange: group was missing secretParams!'
+    );
+  }
+
+  const clientZkGroupCipher = getClientZkGroupCipher(group.secretParams);
+  const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
+
+  const promotePendingMember = new window.textsecure.protobuf.GroupChange.Actions.PromoteMemberPendingAdminApprovalAction();
+  promotePendingMember.userId = uuidCipherTextBuffer;
+  promotePendingMember.role = MEMBER_ROLE_ENUM.DEFAULT;
+
+  actions.version = (group.revision || 0) + 1;
+  actions.promoteMemberPendingAdminApprovals = [promotePendingMember];
 
   return actions;
 }
@@ -4299,8 +4498,6 @@ function decryptMemberPendingAdminApproval(
 
   return member;
 }
-
-/* eslint-enable no-param-reassign */
 
 export function getMembershipList(
   conversationId: string

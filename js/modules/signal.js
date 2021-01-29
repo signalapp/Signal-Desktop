@@ -67,13 +67,25 @@ const {
   createContactModal,
 } = require('../../ts/state/roots/createContactModal');
 const {
+  createConversationDetails,
+} = require('../../ts/state/roots/createConversationDetails');
+const {
   createConversationHeader,
 } = require('../../ts/state/roots/createConversationHeader');
 const { createCallManager } = require('../../ts/state/roots/createCallManager');
 const {
+  createGroupLinkManagement,
+} = require('../../ts/state/roots/createGroupLinkManagement');
+const {
   createGroupV1MigrationModal,
 } = require('../../ts/state/roots/createGroupV1MigrationModal');
 const { createLeftPane } = require('../../ts/state/roots/createLeftPane');
+const {
+  createGroupV2Permissions,
+} = require('../../ts/state/roots/createGroupV2Permissions');
+const {
+  createPendingInvites,
+} = require('../../ts/state/roots/createPendingInvites');
 const {
   createSafetyNumberViewer,
 } = require('../../ts/state/roots/createSafetyNumberViewer');
@@ -324,9 +336,13 @@ exports.setup = (options = {}) => {
     createCallManager,
     createCompositionArea,
     createContactModal,
+    createConversationDetails,
     createConversationHeader,
+    createGroupLinkManagement,
     createGroupV1MigrationModal,
+    createGroupV2Permissions,
     createLeftPane,
+    createPendingInvites,
     createSafetyNumberViewer,
     createShortcutGuideModal,
     createStickerManager,

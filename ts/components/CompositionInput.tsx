@@ -63,7 +63,7 @@ export type Props = {
   readonly skinTone?: EmojiPickDataType['skinTone'];
   readonly draftText?: string;
   readonly draftBodyRanges?: Array<BodyRangeType>;
-  members?: Array<ConversationType>;
+  sortedGroupMembers?: Array<ConversationType>;
   onDirtyChange?(dirty: boolean): unknown;
   onEditorStateChange?(
     messageText: string,
@@ -92,7 +92,7 @@ export const CompositionInput: React.ComponentType<Props> = props => {
     draftBodyRanges,
     getQuotedMessage,
     clearQuotedMessage,
-    members,
+    sortedGroupMembers,
   } = props;
 
   const [emojiCompletionElement, setEmojiCompletionElement] = React.useState<
@@ -459,11 +459,11 @@ export const CompositionInput: React.ComponentType<Props> = props => {
     quill.updateContents(newDelta as any);
   };
 
-  const memberIds = members ? members.map(m => m.id) : [];
+  const memberIds = sortedGroupMembers ? sortedGroupMembers.map(m => m.id) : [];
 
   React.useEffect(() => {
-    memberRepositoryRef.current.updateMembers(members || []);
-    removeStaleMentions(members || []);
+    memberRepositoryRef.current.updateMembers(sortedGroupMembers || []);
+    removeStaleMentions(sortedGroupMembers || []);
     // We are still depending on members, but ESLint can't tell
     // Comparing the actual members list does not work for a couple reasons:
     //    * Arrays with the same objects are not "equal" to React
@@ -510,7 +510,9 @@ export const CompositionInput: React.ComponentType<Props> = props => {
               skinTone,
             },
             mentionCompletion: {
-              me: members ? members.find(foo => foo.isMe) : undefined,
+              me: sortedGroupMembers
+                ? sortedGroupMembers.find(foo => foo.isMe)
+                : undefined,
               memberRepositoryRef,
               setMentionPickerElement: setMentionCompletionElement,
               i18n,

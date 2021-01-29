@@ -13,22 +13,26 @@ export type PropsType = {
   areWeAdmin: boolean;
   contact?: ConversationType;
   readonly i18n: LocalizerType;
+  isAdmin: boolean;
   isMember: boolean;
   onClose: () => void;
   openConversation: (conversationId: string) => void;
   removeMember: (conversationId: string) => void;
   showSafetyNumber: (conversationId: string) => void;
+  toggleAdmin: (conversationId: string) => void;
 };
 
 export const ContactModal = ({
   areWeAdmin,
   contact,
   i18n,
+  isAdmin,
   isMember,
   onClose,
   openConversation,
   removeMember,
   showSafetyNumber,
+  toggleAdmin,
 }: PropsType): ReactPortal | null => {
   if (!contact) {
     throw new Error('Contact modal opened without a matching contact');
@@ -143,16 +147,32 @@ export const ContactModal = ({
                 </button>
               )}
               {!contact.isMe && areWeAdmin && isMember && (
-                <button
-                  type="button"
-                  className="module-contact-modal__button module-contact-modal__remove-from-group"
-                  onClick={() => removeMember(contact.id)}
-                >
-                  <div className="module-contact-modal__bubble-icon">
-                    <div className="module-contact-modal__remove-from-group__bubble-icon" />
-                  </div>
-                  <span>{i18n('ContactModal--remove-from-group')}</span>
-                </button>
+                <>
+                  <button
+                    type="button"
+                    className="module-contact-modal__button module-contact-modal__make-admin"
+                    onClick={() => toggleAdmin(contact.id)}
+                  >
+                    <div className="module-contact-modal__bubble-icon">
+                      <div className="module-contact-modal__make-admin__bubble-icon" />
+                    </div>
+                    {isAdmin ? (
+                      <span>{i18n('ContactModal--rm-admin')}</span>
+                    ) : (
+                      <span>{i18n('ContactModal--make-admin')}</span>
+                    )}
+                  </button>
+                  <button
+                    type="button"
+                    className="module-contact-modal__button module-contact-modal__remove-from-group"
+                    onClick={() => removeMember(contact.id)}
+                  >
+                    <div className="module-contact-modal__bubble-icon">
+                      <div className="module-contact-modal__remove-from-group__bubble-icon" />
+                    </div>
+                    <span>{i18n('ContactModal--remove-from-group')}</span>
+                  </button>
+                </>
               )}
             </div>
           </div>

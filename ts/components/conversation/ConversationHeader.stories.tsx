@@ -33,6 +33,7 @@ const commonProps = {
 
   i18n,
 
+  onShowConversationDetails: action('onShowConversationDetails'),
   onSetDisappearingMessages: action('onSetDisappearingMessages'),
   onDeleteMessages: action('onDeleteMessages'),
   onResetSession: action('onResetSession'),

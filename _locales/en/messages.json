@@ -523,6 +523,10 @@
     "message": "You don’t have any media in this conversation",
     "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
+  "allMedia": {
+    "message": "All Media",
+    "description": "Header for the media gallery"
+  },
   "documents": {
     "message": "Documents",
     "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
@@ -965,6 +969,17 @@
   },
   "delete": {
     "message": "Delete"
+  },
+  "accept": {
+    "message": "Accept"
+  },
+  "on": {
+    "message": "On",
+    "description": "Label for when something is turned on"
+  },
+  "off": {
+    "message": "Off",
+    "description": "Label for when something is turned off"
   },
   "deleteWarning": {
     "message": "Clicking 'delete' will permanently remove this message from your devices only.",
@@ -3233,7 +3248,11 @@
 
   "GroupV2--admin": {
     "message": "Admin",
-    "description": "Shown next to the set of administrators in a group"
+    "description": "Label for a group administrator"
+  },
+  "GroupV2--all-members": {
+    "message": "All members",
+    "description": "Label for describing the general non-privileged members of a group"
   },
   "updating": {
     "message": "Updating...",
@@ -4422,12 +4441,296 @@
     "message": "Message",
     "description": "Button text for send message button in Group Contact Details modal"
   },
+  "ContactModal--rm-admin": {
+    "message": "Remove as admin",
+    "description": "Button text for removing as admin button in Group Contact Details modal"
+  },
   "ContactModal--make-admin": {
     "message": "Make admin",
     "description": "Button text for make admin button in Group Contact Details modal"
   },
+  "ContactModal--make-admin-info": {
+    "message": "$contact$ will be able to edit this group and its members.",
+    "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone",
+    "placeholders": {
+      "contact": {
+        "content": "$1",
+        "example": "Homer"
+      }
+    }
+  },
+  "ContactModal--rm-admin-info": {
+    "message": "Remove $contact$ as group admin",
+    "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
+    "placeholders": {
+      "contact": {
+        "content": "$1",
+        "example": "Homer"
+      }
+    }
+  },
   "ContactModal--remove-from-group": {
     "message": "Remove from group",
     "description": "Button text for remove from group button in Group Contact Details modal"
+  },
+  "showConversationDetails": {
+    "message": "Group settings",
+    "description": "This is a button in the conversation context menu to show group settings"
+  },
+  "ConversationDetails--group-link": {
+    "message": "Group link",
+    "description": "This is the label for the group link management panel"
+  },
+  "ConversationDetails--disappearing-messages-label": {
+    "message": "Disappearing messages",
+    "description": "This is the label for the disappearing messages setting panel"
+  },
+  "ConversationDetails--disappearing-messages-info": {
+    "message": "When enabled, messages sent and received in this group will disappear after they've been seen.",
+    "description": "This is the info about the disappearing messages setting"
+  },
+  "ConversationDetails--group-info-label": {
+    "message": "Who can edit group info",
+    "description": "This is the label for the 'who can edit the group' panel"
+  },
+  "ConversationDetails--group-info-info": {
+    "message": "Choose who can edit group name, avatar, and disappearing messages timer.",
+    "description": "This is the additional info for the 'who can edit the group' panel"
+  },
+  "ConversationDetails--add-members-label": {
+    "message": "Who can add members",
+    "description": "This is the label for the 'who can add members' panel"
+  },
+  "ConversationDetails--add-members-info": {
+    "message": "Choose who can add members to this group.",
+    "description": "This is the additional info for the 'who can add members' panel"
+  },
+  "ConversationDetails--requests-and-invites": {
+    "message": "Requests & Invites",
+    "description": "This is a button to display which members have been invited but have not joined yet"
+  },
+  "ConversationDetailsActions--leave-group": {
+    "message": "Leave group",
+    "description": "This is a button to leave a group"
+  },
+  "ConversationDetailsActions--block-group": {
+    "message": "Block group",
+    "description": "This is a button to block a group"
+  },
+  "ConversationDetailsActions--leave-group-modal-title": {
+    "message": "Do you really want to leave?",
+    "description": "This is the modal title for confirming leaving a group"
+  },
+  "ConversationDetailsActions--leave-group-modal-content": {
+    "message": "You will no longer be able to send or receive messages in this group.",
+    "description": "This is the modal content for confirming leaving a group"
+  },
+  "ConversationDetailsActions--leave-group-modal-confirm": {
+    "message": "Leave",
+    "description": "This is the modal button to confirm leaving a group"
+  },
+  "ConversationDetailsActions--block-group-modal-title": {
+    "message": "Block and Leave the \"$groupName$\" Group?",
+    "description": "This is the modal title for confirming blocking a group",
+    "placeholders": {
+      "groupName": {
+        "content": "$1",
+        "example": "Our Conversation"
+      }
+    }
+  },
+  "ConversationDetailsActions--block-group-modal-content": {
+    "message": "You will no longer receive messages or updates from this group.",
+    "description": "This is the modal content for confirming blocking a group"
+  },
+  "ConversationDetailsActions--block-group-modal-confirm": {
+    "message": "Block",
+    "description": "This is the modal button to confirm blocking a group"
+  },
+  "ConversationDetailsHeader--members": {
+    "message": "$number$ members",
+    "description": "This is the number of members in a group",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "10"
+      }
+    }
+  },
+  "ConversationDetailsMediaList--shared-media": {
+    "message": "Shared media",
+    "description": "Title for the media thumbnails in the conversation details screen"
+  },
+  "ConversationDetailsMediaList--show-all": {
+    "message": "See all",
+    "description": "This is a button on the conversation details to show all media"
+  },
+  "ConversationDetailsMembershipList--title": {
+    "message": "$number$ members",
+    "description": "The title of the membership list panel",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "10"
+      }
+    }
+  },
+  "ConversationDetailsMembershipList--show-all": {
+    "message": "See all",
+    "description": "This is a button on the conversation details to show all members"
+  },
+  "GroupLinkManagement--clipboard": {
+    "message": "Group link copied.",
+    "description": "Shown in a toast when a user selects to copy group link"
+  },
+  "GroupLinkManagement--share": {
+    "message": "Copy link",
+    "description": "This lets users share their group link"
+  },
+  "GroupLinkManagement--confirm-reset": {
+    "message": "Are you sure you want to reset the group link? People will no longer be able to join the group using the current link.",
+    "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
+  },
+  "GroupLinkManagement--reset": {
+    "message": "Reset link",
+    "description": "This lets users generate a new group link"
+  },
+  "GroupLinkManagement--approve-label": {
+    "message": "Approve new members",
+    "description": "Title for the approve new members select area"
+  },
+  "GroupLinkManagement--approve-info": {
+    "message": "Require an admin to approve new members joining via the group link",
+    "description": "Description for the approve new members select area"
+  },
+  "PendingInvites--tab-requests": {
+    "message": "Requests ($count$)",
+    "description": "Label for the tab to view pending requests",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "4"
+      }
+    }
+  },
+  "PendingInvites--tab-invites": {
+    "message": "Invites ($count$)",
+    "description": "Label for the tab to view pending invites",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "2"
+      }
+    }
+  },
+  "PendingRequests--approve-for": {
+    "message": "Approve request from \"$name$\"?",
+    "description": "This is the modal content when confirming approving a group request to join",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Meowsy Purrington"
+      }
+    }
+  },
+  "PendingRequests--deny-for": {
+    "message": "Deny request from \"$name$\"?",
+    "description": "This is the modal content when confirming denying a group request to join",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Meowsy Purrington"
+      }
+    }
+  },
+  "PendingInvites--invites": {
+    "message": "Invited by you",
+    "description": "This is the title list of all invites"
+  },
+  "PendingInvites--invited-by-you": {
+    "message": "Invited by you",
+    "description": "This is the title for the list of members you have invited"
+  },
+  "PendingInvites--invited-by-others": {
+    "message": "Invited by others",
+    "description": "This is the title for the list of members who have invited other people"
+  },
+  "PendingInvites--invited-count": {
+    "message": "Invited $number$",
+    "description": "This is the label for the number of members someone has invited",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "PendingInvites--revoke-for-label": {
+    "message": "Revoke group invite",
+    "description": "This is aria label for revoking a group invite icon"
+  },
+  "PendingInvites--revoke-for": {
+    "message": "Revoke group invite for \"$name$\"?",
+    "description": "This is the modal content when confirming revoking a single invite",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "3"
+      },
+      "name": {
+        "content": "$2",
+        "example": "Fred Riley III"
+      }
+    }
+  },
+  "PendingInvites--revoke-from-singular": {
+    "message": "Revoke 1 invite sent by \"$name$\"?",
+    "description": "This is the modal content when confirming revoking a single invite",
+    "placeholders": {
+      "name": {
+        "content": "$2",
+        "example": "Fred Riley III"
+      }
+    }
+  },
+  "PendingInvites--revoke-from-plural": {
+    "message": "Revoke $number$ invites sent by \"$name$\"",
+    "description": "This is the modal content when confirming revoking multiple invites",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "3"
+      },
+      "name": {
+        "content": "$2",
+        "example": "Fred Riley III"
+      }
+    }
+  },
+  "PendingInvites--revoke": {
+    "message": "Revoke",
+    "description": "This is the modal button to confirm revoking invites"
+  },
+  "PendingRequests--approve": {
+    "message": "Approve Request",
+    "description": "This is the modal button to approve group request to join"
+  },
+  "PendingRequests--deny": {
+    "message": "Deny Request",
+    "description": "This is the modal button to deny group request to join"
+  },
+  "PendingRequests--info": {
+    "message": "People on this list are attempting to join \"$name$\" via the group link.",
+    "description": "Inforamtion shown below the pending admin approval list",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Tahoe List"
+      }
+    }
+  },
+  "PendingInvites--info": {
+    "message": "Details about people invited to this group aren’t shown until they join. Invitees will only see messages after they join the group.",
+    "description": "Information shown below the invite list"
   }
 }

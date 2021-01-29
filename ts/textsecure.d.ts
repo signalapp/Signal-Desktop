@@ -504,6 +504,12 @@ export declare class GroupExternalCredentialClass {
 }
 
 export declare class GroupInviteLinkClass {
+  static decode: (
+    data: ArrayBuffer | ByteBufferClass,
+    encoding?: string
+  ) => GroupInviteLinkClass;
+  toArrayBuffer: () => ArrayBuffer;
+
   v1Contents?: GroupInviteLinkClass.GroupInviteLinkContentsV1;
 
   // Note: this isn't part of the proto, but our protobuf library tells us which

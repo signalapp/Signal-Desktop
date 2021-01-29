@@ -255,12 +255,14 @@ export type GroupV2MemberType = {
   joinedFromLink?: boolean;
   approvedByAdmin?: boolean;
 };
+
 export type GroupV2PendingMemberType = {
   addedByUserId?: string;
   conversationId: string;
   timestamp: number;
   role: MemberRoleEnum;
 };
+
 export type GroupV2PendingAdminApprovalType = {
   conversationId: string;
   timestamp: number;

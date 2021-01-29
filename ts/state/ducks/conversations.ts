@@ -24,6 +24,12 @@ import { AttachmentType } from '../../types/Attachment';
 import { ColorType } from '../../types/Colors';
 import { BodyRangeType } from '../../types/Util';
 import { CallMode, CallHistoryDetailsFromDiskType } from '../../types/Calling';
+import {
+  GroupV2PendingMembership,
+  GroupV2RequestingMembership,
+} from '../../components/conversation/conversation-details/PendingInvites';
+import { GroupV2Membership } from '../../components/conversation/conversation-details/ConversationDetailsMembershipList';
+import { MediaItemType } from '../../components/LightboxGallery';
 
 // State
 
@@ -56,6 +62,7 @@ export type ConversationType = {
   areWeAdmin?: boolean;
   areWePending?: boolean;
   canChangeTimer?: boolean;
+  canEditGroupInfo?: boolean;
   color?: ColorType;
   isAccepted?: boolean;
   isArchived?: boolean;
@@ -76,12 +83,21 @@ export type ConversationType = {
   markedUnread?: boolean;
   phoneNumber?: string;
   membersCount?: number;
+  accessControlAddFromInviteLink?: number;
+  accessControlAttributes?: number;
+  accessControlMembers?: number;
   expireTimer?: number;
-  members?: Array<ConversationType>;
+  // This is used by the ConversationDetails set of components, it includes the
+  // membersV2 data and also has some extra metadata attached to the object
+  memberships?: Array<GroupV2Membership>;
+  pendingMemberships?: Array<GroupV2PendingMembership>;
+  pendingApprovalMemberships?: Array<GroupV2RequestingMembership>;
   muteExpiresAt?: number;
   type: ConversationTypeType;
   isMe?: boolean;
   lastUpdated?: number;
+  // This is used by the CompositionInput for @mentions
+  sortedGroupMembers?: Array<ConversationType>;
   title: string;
   unreadCount?: number;
   isSelected?: boolean;
@@ -92,6 +108,7 @@ export type ConversationType = {
     phoneNumber?: string;
     profileName?: string;
   } | null;
+  recentMediaItems?: Array<MediaItemType>;
 
   shouldShowDraft?: boolean;
   draftText?: string | null;
@@ -101,6 +118,7 @@ export type ConversationType = {
   sharedGroupNames?: Array<string>;
   groupVersion?: 1 | 2;
   groupId?: string;
+  groupLink?: string;
   isMissingMandatoryProfileSharing?: boolean;
   messageRequestsEnabled?: boolean;
   acceptedMessageRequest?: boolean;
@@ -198,6 +216,7 @@ export type ConversationsStateType = {
   selectedConversation?: string;
   selectedMessage?: string;
   selectedMessageCounter: number;
+  selectedConversationTitle?: string;
   selectedConversationPanelDepth: number;
   showArchived: boolean;
 
@@ -347,6 +366,10 @@ export type SetIsNearBottomActionType = {
     isNearBottom: boolean;
   };
 };
+export type SetConversationHeaderTitleActionType = {
+  type: 'SET_CONVERSATION_HEADER_TITLE';
+  payload: { title?: string };
+};
 export type SetSelectedConversationPanelDepthActionType = {
   type: 'SET_SELECTED_CONVERSATION_PANEL_DEPTH';
   payload: { panelDepth: number };
@@ -389,6 +412,13 @@ export type ShowArchivedConversationsActionType = {
   type: 'SHOW_ARCHIVED_CONVERSATIONS';
   payload: null;
 };
+type SetRecentMediaItemsActionType = {
+  type: 'SET_RECENT_MEDIA_ITEMS';
+  payload: {
+    id: string;
+    recentMediaItems: Array<MediaItemType>;
+  };
+};
 
 export type ConversationActionType =
   | ConversationAddedActionType
@@ -411,41 +441,45 @@ export type ConversationActionType =
   | ClearSelectedMessageActionType
   | ClearUnreadMetricsActionType
   | ScrollToMessageActionType
+  | SetConversationHeaderTitleActionType
   | SetSelectedConversationPanelDepthActionType
   | SelectedConversationChangedActionType
   | MessageDeletedActionType
   | SelectedConversationChangedActionType
+  | SetRecentMediaItemsActionType
   | ShowInboxActionType
   | ShowArchivedConversationsActionType;
 
 // Action Creators
 
 export const actions = {
+  clearChangedMessages,
+  clearSelectedMessage,
+  clearUnreadMetrics,
   conversationAdded,
   conversationChanged,
   conversationRemoved,
   conversationUnloaded,
-  removeAllConversations,
-  selectMessage,
-  messageDeleted,
   messageChanged,
+  messageDeleted,
   messageSizeChanged,
   messagesAdded,
   messagesReset,
-  setMessagesLoading,
-  setLoadCountdownStart,
-  setIsNearBottom,
-  setSelectedConversationPanelDepth,
-  clearChangedMessages,
-  clearSelectedMessage,
-  clearUnreadMetrics,
-  scrollToMessage,
-  openConversationInternal,
   openConversationExternal,
-  showInbox,
-  showArchivedConversations,
+  openConversationInternal,
+  removeAllConversations,
   repairNewestMessage,
   repairOldestMessage,
+  scrollToMessage,
+  selectMessage,
+  setIsNearBottom,
+  setLoadCountdownStart,
+  setMessagesLoading,
+  setRecentMediaItems,
+  setSelectedConversationHeaderTitle,
+  setSelectedConversationPanelDepth,
+  showArchivedConversations,
+  showInbox,
 };
 
 function conversationAdded(
@@ -642,12 +676,29 @@ function setIsNearBottom(
     },
   };
 }
+function setSelectedConversationHeaderTitle(
+  title?: string
+): SetConversationHeaderTitleActionType {
+  return {
+    type: 'SET_CONVERSATION_HEADER_TITLE',
+    payload: { title },
+  };
+}
 function setSelectedConversationPanelDepth(
   panelDepth: number
 ): SetSelectedConversationPanelDepthActionType {
   return {
     type: 'SET_SELECTED_CONVERSATION_PANEL_DEPTH',
     payload: { panelDepth },
+  };
+}
+function setRecentMediaItems(
+  id: string,
+  recentMediaItems: Array<MediaItemType>
+): SetRecentMediaItemsActionType {
+  return {
+    type: 'SET_RECENT_MEDIA_ITEMS',
+    payload: { id, recentMediaItems },
   };
 }
 function clearChangedMessages(
@@ -743,6 +794,7 @@ export function getEmptyState(): ConversationsStateType {
     messagesLookup: {},
     selectedMessageCounter: 0,
     showArchived: false,
+    selectedConversationTitle: '',
     selectedConversationPanelDepth: 0,
   };
 }
@@ -1544,6 +1596,38 @@ export function reducer(
     return {
       ...state,
       showArchived: true,
+    };
+  }
+
+  if (action.type === 'SET_CONVERSATION_HEADER_TITLE') {
+    return {
+      ...state,
+      selectedConversationTitle: action.payload.title,
+    };
+  }
+
+  if (action.type === 'SET_RECENT_MEDIA_ITEMS') {
+    const { id, recentMediaItems } = action.payload;
+    const { conversationLookup } = state;
+
+    const conversationData = conversationLookup[id];
+
+    if (!conversationData) {
+      return state;
+    }
+
+    const data = {
+      ...conversationData,
+      recentMediaItems,
+    };
+
+    return {
+      ...state,
+      conversationLookup: {
+        ...conversationLookup,
+        [id]: data,
+      },
+      ...updateConversationLookups(data, undefined, state),
     };
   }
 

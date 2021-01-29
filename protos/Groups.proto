@@ -116,7 +116,6 @@ message GroupChange {
       Member.Role role   = 2;
     }
 
-
     message ModifyTitleAction {
       bytes title = 1;
     }
