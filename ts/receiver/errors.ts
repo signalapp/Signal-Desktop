@@ -1,6 +1,7 @@
 import { initIncomingMessage } from './dataMessage';
 import { toNumber } from 'lodash';
 import { ConversationController } from '../session/conversations';
+import { MessageController } from '../session/messages';
 
 export async function onError(ev: any) {
   const { error } = ev;
@@ -10,19 +11,11 @@ export async function onError(ev: any) {
   );
 
   if (ev.proto) {
-    if (error && error.name === 'MessageCounterError') {
-      if (ev.confirm) {
-        ev.confirm();
-      }
-      // Ignore this message. It is likely a duplicate delivery
-      // because the server lost our ack the first time.
-      return;
-    }
     const envelope = ev.proto;
 
     const message = initIncomingMessage(envelope);
 
-    message.saveErrors(error || new Error('Error was null'));
+    await message.saveErrors(error || new Error('Error was null'));
     const id = message.get('conversationId');
     const conversation = await ConversationController.getInstance().getOrCreateAndWait(
       id,
@@ -42,6 +35,12 @@ export async function onError(ev: any) {
 
     conversation.updateLastMessage();
     await conversation.notify(message);
+    MessageController.getInstance().register(message.id, message);
+    window.Whisper.events.trigger('messageAdded', {
+      conversationKey: conversation.id,
+      messageModel: message,
+    });
+
 
     if (ev.confirm) {
       ev.confirm();
