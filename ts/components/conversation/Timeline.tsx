@@ -18,6 +18,7 @@ import { LocalizerType } from '../../types/Util';
 
 import { PropsActions as MessageActionsType } from './Message';
 import { PropsActions as SafetyNumberActionsType } from './SafetyNumberNotification';
+import { MessageModel } from '../../models/messages';
 
 const AT_BOTTOM_THRESHOLD = 15;
 const NEAR_BOTTOM_THRESHOLD = 15;
@@ -595,11 +596,42 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
         );
       }
       const messageId = items[itemIndex];
+      const conversation = window.getConversations().get(id);
+      const messages = conversation.messageCollection?.models;
+
+      let beforeSame = false;
+      let afterSame = false;
+
+      if (messages) {
+        const messageIdx = messages.findIndex(msg => msg.id === messageId);
+        const msg = messages[messageIdx];
+
+        const fromSameAuthor = (msg1: MessageModel, msg2: MessageModel) =>
+          msg1 &&
+          msg1.attributes &&
+          msg2 &&
+          msg2.attributes &&
+          (msg1.attributes.sourceUuid === msg2.attributes.sourceUuid ||
+            (msg1.attributes.type === 'outgoing' &&
+              msg2.attributes.type === 'outgoing'));
+
+        beforeSame = fromSameAuthor(messages[messageIdx - 1], msg);
+        afterSame = fromSameAuthor(messages[messageIdx + 1], msg);
+      }
+
       rowContents = (
         <div
           id={messageId}
           data-row={row}
-          className="module-timeline__message-container"
+          className={classNames(
+            'module-timeline__message-container',
+            beforeSame
+              ? 'module-timeline__message-container--same-author-before'
+              : null,
+            afterSame
+              ? 'module-timeline__message-container--same-author-after'
+              : null
+          )}
           style={styleWithWidth}
           role="row"
         >
