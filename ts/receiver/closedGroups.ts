@@ -508,7 +508,6 @@ async function handleClosedGroupMembersAdded(
   const membersNotAlreadyPresent = addedMembers.filter(
     m => !oldMembers.includes(m)
   );
-  console.warn('membersNotAlreadyPresent', membersNotAlreadyPresent);
 
   if (membersNotAlreadyPresent.length === 0) {
     window.log.info(
@@ -535,7 +534,7 @@ async function handleClosedGroupMembersRemoved(
   envelope: EnvelopePlus,
   groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage,
   convo: ConversationModel
-) {}
+) { }
 
 async function handleClosedGroupMemberLeft(
   envelope: EnvelopePlus,
