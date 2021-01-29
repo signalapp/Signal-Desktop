@@ -120,7 +120,6 @@
       accountManager = new textsecure.AccountManager(USERNAME, PASSWORD);
       accountManager.addEventListener('registration', () => {
         const user = {
-          regionCode: window.storage.get('regionCode'),
           ourNumber: textsecure.storage.user.getNumber(),
           ourPrimary: window.textsecure.storage.get('primaryDevicePubKey'),
         };
@@ -618,6 +617,7 @@
                   displayName: newName,
                   avatar: newAvatarPath,
                 });
+                conversation.commit();
               } catch (error) {
                 window.log.error(
                   'showEditProfileDialog Error ensuring that image is properly sized:',
@@ -1071,24 +1071,9 @@
   }
   function onConfiguration(ev) {
     const { configuration } = ev;
-    const {
-      readReceipts,
-      typingIndicators,
-      unidentifiedDeliveryIndicators,
-      linkPreviews,
-    } = configuration;
+    const { readReceipts, typingIndicators, linkPreviews } = configuration;
 
     storage.put('read-receipt-setting', readReceipts);
-
-    if (
-      unidentifiedDeliveryIndicators === true ||
-      unidentifiedDeliveryIndicators === false
-    ) {
-      storage.put(
-        'unidentifiedDeliveryIndicators',
-        unidentifiedDeliveryIndicators
-      );
-    }
 
     if (typingIndicators === true || typingIndicators === false) {
       storage.put('typing-indicators-setting', typingIndicators);

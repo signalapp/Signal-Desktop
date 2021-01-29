@@ -24,25 +24,6 @@ const TypingBubbleContainer = styled.div<TypingBubbleProps>`
 `;
 
 export const TypingBubble = (props: TypingBubbleProps) => {
-  // const renderAvatar = () => {
-  //   const { avatarPath, displayedName, conversationType, phoneNumber } = props;
-
-  //   if (conversationType !== 'group') {
-  //     return;
-  //   }
-
-  //   return (
-  //     <div className="module-message__author-avatar">
-  //       <Avatar
-  //         avatarPath={avatarPath}
-  //         name={displayedName || phoneNumber}
-  //         size={36}
-  //         pubkey={phoneNumber}
-  //       />
-  //     </div>
-  //   );
-  // };
-
   if (props.conversationType === 'group') {
     return <></>;
   }

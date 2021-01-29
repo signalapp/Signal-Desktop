@@ -406,7 +406,6 @@ window.moment.locale(locale);
 window.Signal = Signal.setup({
   Attachments,
   userDataPath: app.getPath('userData'),
-  getRegionCode: () => window.storage.get('regionCode'),
   logger: window.log,
 });
 

@@ -1,12 +1,7 @@
 // @ts-ignore
-import Attachments from '../../app/attachments';
-import { format as formatPhoneNumber } from '../types/PhoneNumber';
-
 export interface Contact {
   name?: Name;
   number?: Array<Phone>;
-  email?: Array<Email>;
-  address?: Array<PostalAddress>;
   avatar?: Avatar;
   organization?: string;
 }
@@ -39,24 +34,6 @@ export interface Phone {
   label?: string;
 }
 
-export interface Email {
-  value: string;
-  type: ContactType;
-  label?: string;
-}
-
-export interface PostalAddress {
-  type: AddressType;
-  label?: string;
-  street?: string;
-  pobox?: string;
-  neighborhood?: string;
-  city?: string;
-  region?: string;
-  postcode?: string;
-  country?: string;
-}
-
 interface Avatar {
   avatar: Attachment;
   isProfile: boolean;
@@ -66,58 +43,6 @@ interface Attachment {
   path?: string;
   error?: boolean;
   pending?: boolean;
-}
-
-export function contactSelector(
-  contact: Contact,
-  options: {
-    regionCode: string;
-    hasSignalAccount: boolean;
-    getAbsoluteAttachmentPath: (path: string) => string;
-    onSendMessage: () => void;
-    onClick: () => void;
-  }
-) {
-  const {
-    getAbsoluteAttachmentPath,
-    hasSignalAccount,
-    onClick,
-    onSendMessage,
-    regionCode,
-  } = options;
-
-  let { avatar } = contact;
-  if (avatar && avatar.avatar) {
-    if (avatar.avatar.error) {
-      avatar = undefined;
-    } else {
-      avatar = {
-        ...avatar,
-        avatar: {
-          ...avatar.avatar,
-          path: avatar.avatar.path
-            ? getAbsoluteAttachmentPath(avatar.avatar.path)
-            : undefined,
-        },
-      };
-    }
-  }
-
-  return {
-    ...contact,
-    hasSignalAccount,
-    onSendMessage,
-    onClick,
-    avatar,
-    number:
-      contact.number &&
-      contact.number.map(item => ({
-        ...item,
-        value: formatPhoneNumber(item.value, {
-          ourRegionCode: regionCode,
-        }),
-      })),
-  };
 }
 
 export function getName(contact: Contact): string | undefined {

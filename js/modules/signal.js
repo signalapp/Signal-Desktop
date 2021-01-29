@@ -14,14 +14,8 @@ const LinkPreviews = require('./link_previews');
 const AttachmentDownloads = require('./attachment_downloads');
 
 // Components
-const {
-  ContactDetail,
-} = require('../../ts/components/conversation/ContactDetail');
 const { ContactListItem } = require('../../ts/components/ContactListItem');
 const { ContactName } = require('../../ts/components/conversation/ContactName');
-const {
-  EmbeddedContact,
-} = require('../../ts/components/conversation/EmbeddedContact');
 const { Emojify } = require('../../ts/components/conversation/Emojify');
 const { Lightbox } = require('../../ts/components/Lightbox');
 const { LightboxGallery } = require('../../ts/components/LightboxGallery');
@@ -104,7 +98,6 @@ const Errors = require('./types/errors');
 const MediaGalleryMessage = require('../../ts/components/conversation/media-gallery/types/Message');
 const MessageType = require('./types/message');
 const MIME = require('../../ts/types/MIME');
-const PhoneNumber = require('../../ts/types/PhoneNumber');
 const SettingsType = require('../../ts/types/Settings');
 
 // Views
@@ -116,7 +109,6 @@ const MessageDataMigrator = require('./messages_data_migrator');
 
 function initializeMigrations({
   userDataPath,
-  getRegionCode,
   Attachments,
   Type,
   VisualType,
@@ -181,7 +173,6 @@ function initializeMigrations({
 
       return MessageType.upgradeSchema(message, {
         writeNewAttachmentData,
-        getRegionCode,
         getAbsoluteAttachmentPath,
         makeObjectUrl,
         revokeObjectUrl,
@@ -203,13 +194,12 @@ function initializeMigrations({
 }
 
 exports.setup = (options = {}) => {
-  const { Attachments, userDataPath, getRegionCode, logger } = options;
+  const { Attachments, userDataPath, logger } = options;
 
   Data.init();
 
   const Migrations = initializeMigrations({
     userDataPath,
-    getRegionCode,
     Attachments,
     Type: AttachmentType,
     VisualType: VisualAttachment,
@@ -217,10 +207,8 @@ exports.setup = (options = {}) => {
   });
 
   const Components = {
-    ContactDetail,
     ContactListItem,
     ContactName,
-    EmbeddedContact,
     Emojify,
     Lightbox,
     LightboxGallery,
@@ -265,7 +253,6 @@ exports.setup = (options = {}) => {
     Errors,
     Message: MessageType,
     MIME,
-    PhoneNumber,
     Settings: SettingsType,
     VisualAttachment,
   };

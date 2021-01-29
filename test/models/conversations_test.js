@@ -42,29 +42,6 @@ describe('ConversationCollection', () => {
   //     // await message.commit(false);
   //   });
   //   after(clearDatabase);
-  //   it('sorts its contacts in an intl-friendly way', () => {
-  //     const convo = new Whisper.Conversation({
-  //       id: '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
-  //     });
-  //     convo.contactCollection.add(
-  //       new Whisper.Conversation({
-  //         name: 'C',
-  //       })
-  //     );
-  //     convo.contactCollection.add(
-  //       new Whisper.Conversation({
-  //         name: 'B',
-  //       })
-  //     );
-  //     convo.contactCollection.add(
-  //       new Whisper.Conversation({
-  //         name: 'Á',
-  //       })
-  //     );
-  //     assert.strictEqual(convo.contactCollection.at('0').get('name'), 'Á');
-  //     assert.strictEqual(convo.contactCollection.at('1').get('name'), 'B');
-  //     assert.strictEqual(convo.contactCollection.at('2').get('name'), 'C');
-  //   });
   //   it('contains its own messages', async () => {
   //     const convo = new Whisper.ConversationCollection().add({
   //       id: '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',

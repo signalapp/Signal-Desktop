@@ -11,6 +11,5 @@ export interface Quote {
 export interface EnvelopePlus extends SignalService.Envelope {
   senderIdentity: string; // Sender's pubkey after it's been decrypted (for medium groups)
   receivedAt: number; // We only seem to set this for public messages?
-  unidentifiedDeliveryReceived: boolean;
   id: string;
 }

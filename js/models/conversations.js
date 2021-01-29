@@ -22,14 +22,7 @@
 
   window.Whisper = window.Whisper || {};
 
-  const SEALED_SENDER = {
-    UNKNOWN: 0,
-    ENABLED: 1,
-    DISABLED: 2,
-    UNRESTRICTED: 3,
-  };
-
-  const { Conversation, Contact, Message, PhoneNumber } = window.Signal.Types;
+  const { Contact, Conversation, Message } = window.Signal.Types;
   const {
     upgradeMessageSchema,
     loadAttachmentData,
@@ -58,17 +51,6 @@
       return `group(${this.id})`;
     },
 
-    getContactCollection() {
-      const collection = new Backbone.Collection();
-      const collator = new Intl.Collator();
-      collection.comparator = (left, right) => {
-        const leftLower = left.getTitle().toLowerCase();
-        const rightLower = right.getTitle().toLowerCase();
-        return collator.compare(leftLower, rightLower);
-      };
-      return collection;
-    },
-
     initialize() {
       this.ourNumber = textsecure.storage.user.getNumber();
 
@@ -76,25 +58,21 @@
       //   our first save to the database. Or first fetch from the database.
       this.initialPromise = Promise.resolve();
 
-      this.contactCollection = this.getContactCollection();
       this.messageCollection = new Whisper.MessageCollection([], {
         conversation: this,
       });
 
       this.throttledBumpTyping = _.throttle(this.bumpTyping, 300);
-      const debouncedUpdateLastMessage = _.debounce(
-        this.updateLastMessage.bind(this),
-        200
+      this.updateLastMessage = _.throttle(
+        this.bouncyUpdateLastMessage.bind(this),
+        1000
       );
-      this.listenTo(
-        this.messageCollection,
-        'add remove destroy',
-        debouncedUpdateLastMessage
-      );
-      this.on('newmessage', this.onNewMessage);
-
+      // this.listenTo(
+      //   this.messageCollection,
+      //   'add remove destroy',
+      //   debouncedUpdateLastMessage
+      // );
       // Listening for out-of-band data updates
-      this.on('updateMessage', this.updateAndMerge);
       this.on('delivered', this.updateAndMerge);
       this.on('read', this.updateAndMerge);
       this.on('expiration-change', this.updateAndMerge);
@@ -108,13 +86,6 @@
       if (this.isPublic) {
         this.set('profileSharing', true);
       }
-
-      const sealedSender = this.get('sealedSender');
-      if (sealedSender === undefined) {
-        this.set({ sealedSender: SEALED_SENDER.UNKNOWN });
-      }
-      this.unset('unidentifiedDelivery');
-      this.unset('unidentifiedDeliveryUnrestricted');
       this.unset('hasFetchedProfile');
       this.unset('tokens');
 
@@ -137,9 +108,7 @@
     isClosedGroup() {
       return this.get('type') === Message.GROUP && !this.isPublic();
     },
-    isClosable() {
-      return this.get('closable');
-    },
+
     isBlocked() {
       if (!this.id || this.isMe()) {
         return false;
@@ -313,7 +282,6 @@
         existing.merge(message.attributes);
       };
 
-      await this.inProgressFetch;
       mergeMessage();
     },
 
@@ -335,11 +303,6 @@
         existing.trigger('expired');
       };
 
-      // If a fetch is in progress, then we need to wait until that's complete to
-      //   do this removal. Otherwise we could remove from messageCollection, then
-      //   the async database fetch could include the removed message.
-
-      await this.inProgressFetch;
       removeMessage();
     },
 
@@ -372,26 +335,6 @@
       await model.setServerTimestamp(serverTimestamp);
       return undefined;
     },
-
-    async onNewMessage(message) {
-      await this.updateLastMessage();
-
-      // Clear typing indicator for a given contact if we receive a message from them
-      const identifier = message.get
-        ? `${message.get('source')}.${message.get('sourceDevice')}`
-        : `${message.source}.${message.sourceDevice}`;
-      this.clearContactTypingTimer(identifier);
-
-      const model = this.addSingleMessage(message);
-      getMessageController().register(model.id, model);
-
-      window.Whisper.events.trigger('messageAdded', {
-        conversationKey: this.id,
-        messageModel: model,
-      });
-
-      this.commit();
-    },
     addSingleMessage(message, setToExpire = true) {
       const model = this.messageCollection.add(message, { merge: true });
       if (setToExpire) {
@@ -406,8 +349,6 @@
       return this.get('groupAdmins') || this.get('moderators');
     },
     getProps() {
-      const { format } = PhoneNumber;
-      const regionCode = storage.get('regionCode');
       const typingKeys = Object.keys(this.contactTypingTimers || {});
 
       const groupAdmins = this.getGroupAdmins();
@@ -422,7 +363,6 @@
         type: this.isPrivate() ? 'direct' : 'group',
         isMe: this.isMe(),
         isPublic: this.isPublic(),
-        isClosable: this.isClosable(),
         isTyping: typingKeys.length > 0,
         lastUpdated: this.get('timestamp'),
         name: this.getName(),
@@ -432,10 +372,7 @@
         unreadCount: this.get('unreadCount') || 0,
         mentionedUs: this.get('mentionedUs') || false,
         isBlocked: this.isBlocked(),
-        primaryDevice: this.id,
-        phoneNumber: format(this.id, {
-          ourRegionCode: regionCode,
-        }),
+        phoneNumber: this.id,
         lastMessage: {
           status: this.get('lastMessageStatus'),
           text: this.get('lastMessage'),
@@ -844,21 +781,10 @@
 
       // We're offline!
       if (!textsecure.messaging) {
-        let errors;
-        if (this.contactCollection.length) {
-          errors = this.contactCollection.map(contact => {
-            const error = new Error('Network is not available');
-            error.name = 'SendMessageNetworkError';
-            error.number = contact.id;
-            return error;
-          });
-        } else {
-          const error = new Error('Network is not available');
-          error.name = 'SendMessageNetworkError';
-          error.number = this.id;
-          errors = [error];
-        }
-        await message.saveErrors(errors);
+        const error = new Error('Network is not available');
+        error.name = 'SendMessageNetworkError';
+        error.number = this.id;
+        await message.saveErrors([error]);
         return null;
       }
 
@@ -885,16 +811,18 @@
       );
       await serverAPI.setAvatar(url, profileKey);
     },
-    async updateLastMessage() {
+    async bouncyUpdateLastMessage() {
       if (!this.id) {
         return;
       }
-
+      if (!this.get('active_at')) {
+        window.log.info('Skipping update last message as active_at is falsy');
+        return;
+      }
       const messages = await window.Signal.Data.getMessagesByConversation(
         this.id,
         { limit: 1, MessageCollection: Whisper.MessageCollection }
       );
-
       const lastMessageModel = messages.at(0);
       const lastMessageJSON = lastMessageModel
         ? lastMessageModel.toJSON()
@@ -910,12 +838,10 @@
           ? lastMessageModel.getNotificationText()
           : null,
       });
-
       // Because we're no longer using Backbone-integrated saves, we need to manually
       //   clear the changed fields here so our hasChanged() check below is useful.
       this.changed = {};
       this.set(lastMessageUpdate);
-
       if (this.hasChanged()) {
         await this.commit();
       }
@@ -1355,13 +1281,9 @@
     async setProfileKey(profileKey) {
       // profileKey is a string so we can compare it directly
       if (this.get('profileKey') !== profileKey) {
-        window.log.info(
-          `Setting sealedSender to UNKNOWN for conversation ${this.idForLogging()}`
-        );
         this.set({
           profileKey,
           accessKey: null,
-          sealedSender: SEALED_SENDER.UNKNOWN,
         });
 
         await this.deriveAccessKeyIfNeeded();
@@ -1414,20 +1336,6 @@
 
     hasMember(number) {
       return _.contains(this.get('members'), number);
-    },
-    fetchContacts() {
-      if (this.isPrivate()) {
-        this.contactCollection.reset([this]);
-        return Promise.resolve();
-      }
-      const members = this.get('members') || [];
-      const promises = members.map(number =>
-        window.getConversationController().getOrCreateAndWait(number, 'private')
-      );
-
-      return Promise.all(promises).then(contacts => {
-        this.contactCollection.reset(contacts);
-      });
     },
     // returns true if this is a closed/medium or open group
     isGroup() {

@@ -58,7 +58,6 @@ export interface ConversationModel
   isPublic: () => boolean;
   isClosedGroup: () => boolean;
   isBlocked: () => boolean;
-  isClosable: () => boolean;
   isAdmin: (id: string) => boolean;
   throttledBumpTyping: () => void;
 

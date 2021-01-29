@@ -311,7 +311,6 @@ export async function handleDataMessage(
     sourceDevice: 1,
     timestamp: _.toNumber(envelope.timestamp),
     receivedAt: envelope.receivedAt,
-    unidentifiedDeliveryReceived: envelope.unidentifiedDeliveryReceived,
     message,
   };
 
@@ -414,7 +413,6 @@ interface MessageCreationData {
   isPublic: boolean;
   receivedAt: number;
   sourceDevice: number; // always 1 isn't it?
-  unidentifiedDeliveryReceived: any; // ???
   source: boolean;
   serverId: string;
   message: any;
@@ -432,7 +430,6 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
     isPublic,
     receivedAt,
     sourceDevice,
-    unidentifiedDeliveryReceived,
     source,
     serverId,
     message,
@@ -456,7 +453,6 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
     serverTimestamp,
     received_at: receivedAt || Date.now(),
     conversationId: groupId ?? source,
-    unidentifiedDeliveryReceived, // +
     type,
     direction: 'incoming', // +
     unread: 1, // +
@@ -585,13 +581,10 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   }
 
   // TODO: this shouldn't be called when source is not a pubkey!!!
+
   const isOurDevice = await UserUtils.isUs(source);
 
-  const shouldSendReceipt =
-    isIncoming &&
-    data.unidentifiedDeliveryReceived &&
-    !isGroupMessage &&
-    !isOurDevice;
+  const shouldSendReceipt = isIncoming && !isGroupMessage && !isOurDevice;
 
   if (shouldSendReceipt) {
     sendDeliveryReceipt(source, data.timestamp);
@@ -624,18 +617,22 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   }
 
   // the conversation with the primary device of that source (can be the same as conversationOrigin)
-  const conversation = ConversationController.getInstance().getOrThrow(
-    conversationId
-  );
 
-  conversation.queueJob(() => {
-    handleMessageJob(
+  const conversation = ConversationController.getInstance().get(conversationId);
+
+  if (!conversation) {
+    window.log.warn('Skipping handleJob for unknown convo: ', conversationId);
+    return;
+  }
+
+  conversation.queueJob(async () => {
+    await handleMessageJob(
       msg,
       conversation,
       message,
       ourNumber,
       confirm,
       source
-    ).ignore();
+    );
   });
 }

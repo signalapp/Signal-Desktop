@@ -57,7 +57,6 @@ export interface MessageRegularProps {
   status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error' | 'pow';
   // What if changed this over to a single contact like quote, and put the events on it?
   contact?: Contact & {
-    hasSignalAccount: boolean;
     onSendMessage?: () => void;
     onClick?: () => void;
   };

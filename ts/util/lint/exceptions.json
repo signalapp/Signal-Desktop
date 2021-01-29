@@ -499,15 +499,6 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/phone-input-view.js",
-    "line": "      const regionCode = this.$('li.active')",
-    "lineNumber": 22,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/phone-input-view.js",
     "line": "        this.$('.number-container').removeClass('invalid');",
     "lineNumber": 29,
     "reasonCategory": "usageTrusted",
@@ -908,14 +899,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-15T00:38:04.183Z",
     "reasonDetail": "Getting the value, not setting it"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "libtextsecure/contacts_parser.js",
-    "line": "  this.buffer.append(arrayBuffer);",
-    "lineNumber": 6,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
   },
   {
     "rule": "jQuery-wrap(",

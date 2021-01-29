@@ -61,13 +61,11 @@ export type ConversationType = {
   type: 'direct' | 'group';
   isMe: boolean;
   isPublic?: boolean;
-  isClosable?: boolean;
   lastUpdated: number;
   unreadCount: number;
   mentionedUs: boolean;
   isSelected: boolean;
   isTyping: boolean;
-  primaryDevice: string;
   isBlocked: boolean;
   isKickedFromGroup: boolean;
   left: boolean;
@@ -158,7 +156,15 @@ const fetchMessagesForConversation = createAsyncThunk(
     conversationKey: string;
     count: number;
   }) => {
+    const beforeTimestamp = Date.now();
     const messages = await getMessages(conversationKey, count);
+    const afterTimestamp = Date.now();
+
+    const time = afterTimestamp - beforeTimestamp;
+    window.log.info(
+      `Loading ${messages.length} messages took ${time}ms to load.`
+    );
+
     return {
       conversationKey,
       messages,
@@ -410,7 +416,6 @@ const toPickFromMessageModel = [
   'isIncoming',
   'findAndFormatContact',
   'findContact',
-  'isUnidentifiedDelivery',
   'getStatus',
   'getMessagePropStatus',
   'hasErrors',

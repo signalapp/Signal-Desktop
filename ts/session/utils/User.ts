@@ -28,12 +28,7 @@ export type HexKeyPair = {
  * Returns the public key of this current device as a string
  */
 export async function getCurrentDevicePubKey(): Promise<string | undefined> {
-  const item = await getItemById('number_id');
-  if (!item || !item.value) {
-    return undefined;
-  }
-
-  return item.value.split('.')[0];
+  return window.textsecure.storage.user.getNumber();
 }
 
 export async function getOurNumber(): Promise<PubKey> {

@@ -1049,9 +1049,8 @@ class LokiAppDotNetServerAPI {
 
 // functions to a specific ADN channel on an ADN server
 class LokiPublicChannelAPI {
-  constructor(chatAPI, serverAPI, channelId, conversationId) {
+  constructor(_, serverAPI, channelId, conversationId) {
     // properties
-    this.chatAPI = chatAPI;
     this.serverAPI = serverAPI;
     this.channelId = channelId;
     this.baseChannelUrl = `channels/${this.channelId}`;
@@ -1679,7 +1678,7 @@ class LokiPublicChannelAPI {
     // If lastMessageServerID is not set, it's the first pull of messages for this open group.
     // We just pull 100 messages (server sends the most recent ones)
     if (!this.lastMessageServerID || this.lastMessageServerID === 0) {
-      params.count = 100; // 64 on android
+      params.count = 100;
     } else {
       // if lastMessageServerID is set, we pull 200 messages per 200 messages, giving the since_id parameter set to our last received message id.
       params.count = 200;
@@ -1740,6 +1739,7 @@ class LokiPublicChannelAPI {
         const pubKey = adnMessage.user.username;
         try {
           const messengerData = await this.getMessengerData(adnMessage);
+
           if (messengerData === false) {
             return false;
           }
@@ -1769,9 +1769,12 @@ class LokiPublicChannelAPI {
               testedMessage,
               testedMessage.user.username
             );
+          const isThisMessageDuplicate = this.lastMessagesCache.some(m =>
+            isDuplicate(m, adnMessage)
+          );
 
           // Filter out any messages that we got previously
-          if (this.lastMessagesCache.some(m => isDuplicate(m, adnMessage))) {
+          if (isThisMessageDuplicate) {
             return false; // Duplicate message
           }
 
@@ -1860,7 +1863,6 @@ class LokiPublicChannelAPI {
         }
       })
     );
-
     // return early if we should stop processing
     if (!pendingMessages.length || !this.running) {
       this.conversation.setLastRetrievedMessage(this.lastMessageServerID);
@@ -1872,21 +1874,24 @@ class LokiPublicChannelAPI {
     pendingMessages = pendingMessages.filter(messageData => !!messageData);
 
     // process all messages in the order received
-    pendingMessages.forEach(message => {
+
+    // trigger the handling of those messages sequentially
+
+    // eslint-disable-next-line no-plusplus
+    for (let index = 0; index < pendingMessages.length; index++) {
       if (this.running) {
         log.info(
-          'emitting pending message',
-          message.serverId,
+          'emitting pending public message',
+          pendingMessages[index].serverId,
           'on',
           this.channelId,
           'at',
           this.serverAPI.baseServerUrl
         );
-        this.chatAPI.emit('publicMessage', {
-          message,
-        });
+        // eslint-disable-next-line no-await-in-loop
+        window.NewReceiver.handlePublicMessage(pendingMessages[index]);
       }
-    });
+    }
 
     /* eslint-enable no-param-reassign */
 

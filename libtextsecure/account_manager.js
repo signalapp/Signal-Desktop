@@ -129,7 +129,6 @@
       await textsecure.storage.put('typing-indicators-setting', Boolean(true));
 
       await textsecure.storage.user.setNumberAndDeviceId(pubKeyString, 1);
-      await textsecure.storage.put('regionCode', null);
     },
     async clearSessionsAndPreKeys() {
       const store = textsecure.storage.protocol;

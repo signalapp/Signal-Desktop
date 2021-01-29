@@ -1,6 +1,5 @@
 const { isFunction, isObject, isString, omit } = require('lodash');
 
-const Contact = require('./contact');
 const Attachment = require('./attachment');
 const Errors = require('./errors');
 const SchemaVersion = require('./schema_version');
@@ -8,6 +7,7 @@ const {
   initializeAttachmentMetadata,
 } = require('../../../ts/types/message/initializeAttachmentMetadata');
 const MessageTS = require('../../../ts/types/Message');
+const Contact = require('./contact');
 
 const GROUP = 'group';
 const PRIVATE = 'private';
@@ -334,7 +334,6 @@ exports.upgradeSchema = async (
   rawMessage,
   {
     writeNewAttachmentData,
-    getRegionCode,
     getAbsoluteAttachmentPath,
     makeObjectUrl,
     revokeObjectUrl,
@@ -347,9 +346,6 @@ exports.upgradeSchema = async (
 ) => {
   if (!isFunction(writeNewAttachmentData)) {
     throw new TypeError('context.writeNewAttachmentData is required');
-  }
-  if (!isFunction(getRegionCode)) {
-    throw new TypeError('context.getRegionCode is required');
   }
   if (!isFunction(getAbsoluteAttachmentPath)) {
     throw new TypeError('context.getAbsoluteAttachmentPath is required');
@@ -386,7 +382,6 @@ exports.upgradeSchema = async (
     // eslint-disable-next-line no-await-in-loop
     message = await currentVersion(message, {
       writeNewAttachmentData,
-      regionCode: getRegionCode(),
       getAbsoluteAttachmentPath,
       makeObjectUrl,
       revokeObjectUrl,

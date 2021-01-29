@@ -20,7 +20,7 @@
 
   window.Whisper = window.Whisper || {};
 
-  const { Message: TypedMessage, Contact, PhoneNumber } = Signal.Types;
+  const { Message: TypedMessage, Contact } = Signal.Types;
 
   const {
     deleteExternalMessageFiles,
@@ -36,10 +36,6 @@
   window.doesAcountCheckJobExist = number =>
     Boolean(window.AccountJobs[number]);
 
-  window.isSignalAccountCheckComplete = number =>
-    window.AccountCache[number] !== undefined;
-  window.hasSignalAccount = () => true;
-
   window.Whisper.Message = Backbone.Model.extend({
     initialize(attributes) {
       if (_.isObject(attributes)) {
@@ -54,7 +50,6 @@
       this.on('destroy', this.onDestroy);
       this.on('change:expirationStartTimestamp', this.setToExpire);
       this.on('change:expireTimer', this.setToExpire);
-      this.on('unload', this.unload);
       this.on('expired', this.onExpired);
       this.setToExpire();
       // Keep props ready
@@ -269,13 +264,7 @@
     },
     async cleanup() {
       getMessageController().unregister(this.id);
-      this.unload();
       await deleteExternalMessageFiles(this.attributes);
-    },
-    unload() {
-      if (this.quotedMessage) {
-        this.quotedMessage = null;
-      }
     },
     onExpired() {
       this.hasExpired = true;
@@ -336,9 +325,6 @@
       return window.getConversationController().get(phoneNumber);
     },
     findAndFormatContact(phoneNumber) {
-      const { format } = PhoneNumber;
-      const regionCode = storage.get('regionCode');
-
       const contactModel = this.findContact(phoneNumber);
       let profileName;
       if (phoneNumber === window.storage.get('primaryDevicePubKey')) {
@@ -348,9 +334,7 @@
       }
 
       return {
-        phoneNumber: format(phoneNumber, {
-          ourRegionCode: regionCode,
-        }),
+        phoneNumber,
         color: null,
         avatarPath: contactModel ? contactModel.getAvatarPath() : null,
         name: contactModel ? contactModel.getName() : null,
@@ -529,7 +513,6 @@
         timestamp: this.get('sent_at'),
         serverTimestamp: this.get('serverTimestamp'),
         status: this.getMessagePropStatus(),
-        contact: this.getPropsForEmbeddedContact(),
         authorName: contact.name,
         authorProfileName: contact.profileName,
         authorPhoneNumber: contact.phoneNumber,
@@ -574,40 +557,6 @@
             ? _.reduce(spaces, accumulator => accumulator + nbsp, '')
             : spaces;
         return `${start}${newSpaces}${end}`;
-      });
-    },
-    getPropsForEmbeddedContact() {
-      const regionCode = storage.get('regionCode');
-      const { contactSelector } = Contact;
-
-      const contacts = this.get('contact');
-      if (!contacts || !contacts.length) {
-        return null;
-      }
-
-      const contact = contacts[0];
-      const firstNumber =
-        contact.number && contact.number[0] && contact.number[0].value;
-      const onSendMessage = firstNumber
-        ? () => {
-            this.trigger('open-conversation', firstNumber);
-          }
-        : null;
-      const onClick = async () => {
-        // First let's be sure that the signal account check is complete.
-
-        this.trigger('show-contact-detail', {
-          contact,
-          hasSignalAccount: window.hasSignalAccount(firstNumber),
-        });
-      };
-
-      return contactSelector(contact, {
-        regionCode,
-        getAbsoluteAttachmentPath,
-        onSendMessage,
-        onClick,
-        hasSignalAccount: window.hasSignalAccount(firstNumber),
       });
     },
     processQuoteAttachment(attachment) {
@@ -663,15 +612,9 @@
         return null;
       }
 
-      const { format } = PhoneNumber;
-      const regionCode = storage.get('regionCode');
-
       const { author, id, referencedMessageNotFound } = quote;
       const contact = author && window.getConversationController().get(author);
 
-      const authorPhoneNumber = format(author, {
-        ourRegionCode: regionCode,
-      });
       const authorName = contact ? contact.getName() : null;
       const isFromMe = contact
         ? contact.id === textsecure.storage.user.getNumber()
@@ -695,7 +638,7 @@
           ? this.processQuoteAttachment(firstAttachment)
           : null,
         isFromMe,
-        authorPhoneNumber,
+        authorPhoneNumber: author,
         messageId: id,
         authorName,
         onClick,
@@ -732,24 +675,9 @@
           : null,
       };
     },
-    isUnidentifiedDelivery(contactId, lookup) {
-      if (this.isIncoming()) {
-        return this.get('unidentifiedDeliveryReceived');
-      }
-
-      return Boolean(lookup[contactId]);
-    },
     async getPropsForMessageDetail() {
       const newIdentity = i18n('newIdentity');
       const OUTGOING_KEY_ERROR = 'OutgoingIdentityKeyError';
-
-      const unidentifiedLookup = (
-        this.get('unidentifiedDeliveries') || []
-      ).reduce((accumulator, item) => {
-        // eslint-disable-next-line no-param-reassign
-        accumulator[item] = true;
-        return accumulator;
-      }, Object.create(null));
 
       // We include numbers we didn't successfully send to so we can display errors.
       // Older messages don't have the recipients included on the message, so we fall
@@ -781,9 +709,6 @@
           const isOutgoingKeyError = Boolean(
             _.find(errorsForContact, error => error.name === OUTGOING_KEY_ERROR)
           );
-          const isUnidentifiedDelivery =
-            storage.get('unidentifiedDeliveryIndicators') &&
-            this.isUnidentifiedDelivery(id, unidentifiedLookup);
 
           const contact = this.findAndFormatContact(id);
           return {
@@ -793,7 +718,6 @@
             status: this.getStatus(id) || this.getMessagePropStatus(),
             errors: errorsForContact,
             isOutgoingKeyError,
-            isUnidentifiedDelivery,
             isPrimaryDevice: true,
             profileName: contact.profileName,
           };
@@ -1387,25 +1311,6 @@
 
       this.set({ sentSync: true });
       await this.commit();
-    },
-
-    someRecipientsFailed() {
-      const c = this.getConversation();
-      if (!c || c.isPrivate()) {
-        return false;
-      }
-
-      const recipients = c.contactCollection.length - 1;
-      const errors = this.get('errors');
-      if (!errors) {
-        return false;
-      }
-
-      if (errors.length > 0 && recipients > 0 && errors.length < recipients) {
-        return true;
-      }
-
-      return false;
     },
 
     async markMessageSyncOnly(dataMessage) {

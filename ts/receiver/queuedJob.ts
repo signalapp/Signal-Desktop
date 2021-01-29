@@ -527,23 +527,26 @@ export async function handleMessageJob(
         ourNumber
       );
     }
-
     const { Whisper, getMessageController } = window;
-
     const id = await message.commit();
     message.set({ id });
+    window.Whisper.events.trigger('messageAdded', {
+      conversationKey: conversation.id,
+      messageModel: message,
+    });
     getMessageController().register(message.id, message);
 
     // Note that this can save the message again, if jobs were queued. We need to
     //   call it after we have an id for this message, because the jobs refer back
     //   to their source message.
+
     await queueAttachmentDownloads(message);
-    // this is
+
     const unreadCount = await conversation.getUnreadCount();
     conversation.set({ unreadCount });
+    // this is a throttled call and will only run once every 1 sec
+    conversation.updateLastMessage();
     await conversation.commit();
-
-    conversation.trigger('newmessage', message);
 
     try {
       // We go to the database here because, between the message save above and
@@ -555,6 +558,7 @@ export async function handleMessageJob(
           Message: Whisper.Message,
         }
       );
+
       const previousUnread = message.get('unread');
 
       // Important to update message with latest read state from database

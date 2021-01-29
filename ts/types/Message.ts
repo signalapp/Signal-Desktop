@@ -38,7 +38,7 @@ type ExpirationTimerUpdate = Partial<
     expirationTimerUpdate: Readonly<{
       expireTimer: number;
       fromSync: boolean;
-      source: string; // PhoneNumber
+      source: string;
     }>;
   }>
 >;
