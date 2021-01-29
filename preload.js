@@ -327,6 +327,21 @@ try {
     }
   });
 
+  ipc.on('show-group-via-link', (_event, info) => {
+    const { hash } = info;
+    const { showGroupViaLink } = window.Events;
+    if (showGroupViaLink) {
+      showGroupViaLink(hash);
+    }
+  });
+
+  ipc.on('unknown-sgnl-link', () => {
+    const { unknownSignalLink } = window.Events;
+    if (unknownSignalLink) {
+      unknownSignalLink();
+    }
+  });
+
   ipc.on('install-sticker-pack', (_event, info) => {
     const { packId, packKey } = info;
     const { installStickerPack } = window.Events;

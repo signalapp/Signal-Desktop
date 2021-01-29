@@ -211,6 +211,9 @@ export type ConversationAttributesType = {
 
   // Group-only
   groupId?: string;
+  // A shorthand, representing whether the user is part of the group. Not strictly for
+  //   when the user manually left the group. But historically, that was the only way
+  //   to leave a group.
   left: boolean;
   groupVersion?: number;
 
@@ -233,7 +236,7 @@ export type ConversationAttributesType = {
   avatar?: {
     url: string;
     path: string;
-    hash: string;
+    hash?: string;
   } | null;
   expireTimer?: number;
   membersV2?: Array<GroupV2MemberType>;
@@ -242,6 +245,10 @@ export type ConversationAttributesType = {
   groupInviteLinkPassword?: string;
   previousGroupV1Id?: string;
   previousGroupV1Members?: Array<string>;
+
+  // Used only when user is waiting for approval to join via link
+  isTemporary?: boolean;
+  temporaryMemberCount?: number;
 };
 
 export type GroupV2MemberType = {

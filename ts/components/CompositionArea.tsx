@@ -22,6 +22,10 @@ import {
   GroupV1DisabledActions,
   PropsType as GroupV1DisabledActionsPropsType,
 } from './conversation/GroupV1DisabledActions';
+import {
+  GroupV2PendingApprovalActions,
+  PropsType as GroupV2PendingApprovalActionsPropsType,
+} from './conversation/GroupV2PendingApprovalActions';
 import { MandatoryProfileSharingActions } from './conversation/MandatoryProfileSharingActions';
 import { countStickers } from './stickers/lib';
 import { LocalizerType } from '../types/Util';
@@ -30,6 +34,7 @@ import { EmojiPickDataType } from './emoji/EmojiPicker';
 export type OwnProps = {
   readonly i18n: LocalizerType;
   readonly areWePending?: boolean;
+  readonly areWePendingApproval?: boolean;
   readonly groupVersion?: 1 | 2;
   readonly isGroupV1AndDisabled?: boolean;
   readonly isMissingMandatoryProfileSharing?: boolean;
@@ -84,6 +89,7 @@ export type Props = Pick<
   > &
   MessageRequestActionsProps &
   Pick<GroupV1DisabledActionsPropsType, 'onStartGroupMigration'> &
+  Pick<GroupV2PendingApprovalActionsPropsType, 'onCancelJoinRequest'> &
   OwnProps;
 
 const emptyElement = (el: HTMLElement) => {
@@ -128,6 +134,7 @@ export const CompositionArea = ({
   // Message Requests
   acceptedMessageRequest,
   areWePending,
+  areWePendingApproval,
   conversationType,
   groupVersion,
   isBlocked,
@@ -146,6 +153,8 @@ export const CompositionArea = ({
   // GroupV1 Disabled Actions
   isGroupV1AndDisabled,
   onStartGroupMigration,
+  // GroupV2 Pending Approval Actions
+  onCancelJoinRequest,
 }: Props): JSX.Element => {
   const [disabled, setDisabled] = React.useState(false);
   const [showMic, setShowMic] = React.useState(!draftText);
@@ -399,6 +408,15 @@ export const CompositionArea = ({
       <GroupV1DisabledActions
         i18n={i18n}
         onStartGroupMigration={onStartGroupMigration}
+      />
+    );
+  }
+
+  if (areWePendingApproval) {
+    return (
+      <GroupV2PendingApprovalActions
+        i18n={i18n}
+        onCancelJoinRequest={onCancelJoinRequest}
       />
     );
   }

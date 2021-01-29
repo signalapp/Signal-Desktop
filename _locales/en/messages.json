@@ -3246,6 +3246,114 @@
     "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
   },
 
+  "unknown-sgnl-link": {
+    "message": "Sorry, that sgnl:// link didn't make sense!",
+    "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
+  },
+
+  "GroupV2--join--invalid-link--title": {
+    "message": "Invalid Link",
+    "description": "Shown if we are unable to parse a group link"
+  },
+  "GroupV2--join--invalid-link": {
+    "message": "This is not a valid group link. Make sure the entire link is intact and correct before attempting to join.",
+    "description": "Shown if we are unable to parse a group link"
+  },
+  "GroupV2--join--prompt": {
+    "message": "Do you want to join this group and share your name and photo with its members?",
+    "description": "Shown when you click on a group link to confirm"
+  },
+  "GroupV2--join--already-in-group": {
+    "message": "You're already in this group.",
+    "description": "Shown if you click a group link for a group where you're already a member"
+  },
+  "GroupV2--join--already-awaiting-approval": {
+    "message": "You have already requested approval to join this group.",
+    "description": "Shown if you click a group link for a group where you've already requested approval'"
+  },
+
+  "GroupV2--join--unknown-link-version--title": {
+    "message": "Unknown link version",
+    "description": "This group link is no longer valid."
+  },
+  "GroupV2--join--unknown-link-version": {
+    "message": "This link is not supported by this version of Signal Desktop.",
+    "description": "Shown if you click a group link and we can't get information about it"
+  },
+  "GroupV2--join--link-revoked--title": {
+    "message": "Can’t Join Group",
+    "description": "Shown if you click a group link and we can't get information about it"
+  },
+  "GroupV2--join--link-revoked": {
+    "message": "This group link is no longer valid.",
+    "description": "Shown if you click a group link and we can't get information about it"
+  },
+  "GroupV2--join--prompt-with-approval": {
+    "message": "An admin of this group must approve your request before you can join this group. If approved, your name and photo will be shared with its members.",
+    "description": "Shown when you click on a group link to confirm, if it requires admin approval"
+  },
+  "GroupV2--join--join-button": {
+    "message": "Join",
+    "description": "The button to join the group"
+  },
+  "GroupV2--join--request-to-join-button": {
+    "message": "Request to Join",
+    "description": "The button to join the group, if approval is required"
+  },
+  "GroupV2--join--cancel-request-to-join": {
+    "message": "Cancel Request",
+    "description": "The button to cancel request to join the group"
+  },
+  "GroupV2--join--cancel-request-to-join--confirmation": {
+    "message": "Cancel your request to join this group?",
+    "description": "A confirmation message that shows after you click the button"
+  },
+  "GroupV2--join--cancel-request-to-join--yes": {
+    "message": "Yes",
+    "description": "Choosing to continue in the cancel join confirmation dialog"
+  },
+  "GroupV2--join--cancel-request-to-join--no": {
+    "message": "No",
+    "description": "Choosing not to continue in the cancel join confirmation dialog"
+  },
+  "GroupV2--join--member-count--single": {
+    "message": "1 member",
+    "description": "Shown in the metadata section if group has just one member"
+  },
+  "GroupV2--join--member-count--multiple": {
+    "message": "$count$ members",
+    "description": "Shown in the metadata section if group has more than one member",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "12"
+      }
+    }
+  },
+  "GroupV2--join--group-metadata": {
+    "message": "Group · $memberCount$",
+    "description": "A holder for two pieces of information - the type of conversation, and the member count",
+    "placeholders": {
+      "memberCount": {
+        "content": "$1",
+        "example": "12 members"
+      }
+    }
+  },
+  "GroupV2--join--requested": {
+    "message": "Your request to join has been sent to the group admin. You’ll be notified when they take action.",
+    "description": "Shown in composition area when you've requested to join a group"
+  },
+
+  "GroupV2--join--general-join-failure--title": {
+    "message": "Link Error",
+    "description": "Shown if something went wrong when you try to join via a group link"
+  },
+  "GroupV2--join--general-join-failure": {
+    "message": "Joining via this link failed. Try joining again later.",
+    "description": "Shown if something went wrong when you try to join via a group link"
+  },
+
   "GroupV2--admin": {
     "message": "Admin",
     "description": "Label for a group administrator"

@@ -29,6 +29,7 @@ import { v4 as getGuid } from 'uuid';
 
 import { Long } from '../window.d';
 import { getUserAgent } from '../util/getUserAgent';
+import { toWebSafeBase64 } from '../util/webSafeBase64';
 import { isPackIdValid, redactPackId } from '../../js/modules/stickers';
 import {
   arrayBufferToBase64,
@@ -50,6 +51,7 @@ import {
   GroupChangeClass,
   GroupChangesClass,
   GroupClass,
+  GroupJoinInfoClass,
   GroupExternalCredentialClass,
   StorageServiceCallOptionsType,
   StorageServiceCredentials,
@@ -57,6 +59,11 @@ import {
 
 import { WebSocket } from './WebSocket';
 import MessageSender from './SendMessage';
+
+// Note: this will break some code that expects to be able to use err.response when a
+//   web request fails, because it will force it to text. But it is very useful for
+//   debugging failed requests.
+const DEBUG = false;
 
 type SgxConstantsType = {
   SGX_FLAGS_INITTED: Long;
@@ -340,6 +347,10 @@ type ArrayBufferWithDetailsType = {
   response: Response;
 };
 
+function isSuccess(status: number): boolean {
+  return status >= 0 && status < 400;
+}
+
 async function _promiseAjax(
   providedUrl: string | null,
   options: PromiseAjaxOptionsType
@@ -432,7 +443,9 @@ async function _promiseAjax(
         }
 
         let resultPromise;
-        if (
+        if (DEBUG && !isSuccess(response.status)) {
+          resultPromise = response.text();
+        } else if (
           (options.responseType === 'json' ||
             options.responseType === 'jsonwithdetails') &&
           response.headers.get('Content-Type') === 'application/json'
@@ -448,45 +461,51 @@ async function _promiseAjax(
         }
 
         return resultPromise.then(result => {
-          if (
-            options.responseType === 'arraybuffer' ||
-            options.responseType === 'arraybufferwithdetails'
-          ) {
-            result = result.buffer.slice(
-              result.byteOffset,
-              result.byteOffset + result.byteLength
-            );
-          }
-          if (
-            options.responseType === 'json' ||
-            options.responseType === 'jsonwithdetails'
-          ) {
-            if (options.validateResponse) {
-              if (!_validateResponse(result, options.validateResponse)) {
-                if (options.redactUrl) {
-                  window.log.info(
-                    options.type,
-                    options.redactUrl(url),
-                    response.status,
-                    'Error'
+          if (isSuccess(response.status)) {
+            if (
+              options.responseType === 'arraybuffer' ||
+              options.responseType === 'arraybufferwithdetails'
+            ) {
+              result = result.buffer.slice(
+                result.byteOffset,
+                result.byteOffset + result.byteLength
+              );
+            }
+            if (
+              options.responseType === 'json' ||
+              options.responseType === 'jsonwithdetails'
+            ) {
+              if (options.validateResponse) {
+                if (!_validateResponse(result, options.validateResponse)) {
+                  if (options.redactUrl) {
+                    window.log.info(
+                      options.type,
+                      options.redactUrl(url),
+                      response.status,
+                      'Error'
+                    );
+                  } else {
+                    window.log.error(
+                      options.type,
+                      url,
+                      response.status,
+                      'Error'
+                    );
+                  }
+                  reject(
+                    makeHTTPError(
+                      'promiseAjax: invalid response',
+                      response.status,
+                      result,
+                      options.stack
+                    )
                   );
-                } else {
-                  window.log.error(options.type, url, response.status, 'Error');
-                }
-                reject(
-                  makeHTTPError(
-                    'promiseAjax: invalid response',
-                    response.status,
-                    result,
-                    options.stack
-                  )
-                );
 
-                return;
+                  return;
+                }
               }
             }
-          }
-          if (response.status >= 0 && response.status < 400) {
+
             if (options.redactUrl) {
               window.log.info(
                 options.type,
@@ -605,6 +624,10 @@ function makeHTTPError(
   const e = new Error(`${message}; code: ${code}`);
   e.name = 'HTTPError';
   e.code = code;
+  if (DEBUG && response) {
+    e.stack += `\nresponse: ${response}`;
+  }
+
   e.stack += `\nOriginal stack:\n${stack}`;
   if (response) {
     e.response = response;
@@ -628,6 +651,7 @@ const URL_CALLS = {
   getStickerPackUpload: 'v1/sticker/pack/form',
   groupLog: 'v1/groups/logs',
   groups: 'v1/groups',
+  groupsViaLink: 'v1/groups/join',
   groupToken: 'v1/groups/token',
   keys: 'v2/keys',
   messages: 'v1/messages',
@@ -734,6 +758,10 @@ export type WebAPIType = {
   getAvatar: (path: string) => Promise<any>;
   getDevices: () => Promise<any>;
   getGroup: (options: GroupCredentialsType) => Promise<GroupClass>;
+  getGroupFromLink: (
+    inviteLinkPassword: string,
+    auth: GroupCredentialsType
+  ) => Promise<GroupJoinInfoClass>;
   getGroupAvatar: (key: string) => Promise<ArrayBuffer>;
   getGroupCredentials: (
     startDay: number,
@@ -803,7 +831,8 @@ export type WebAPIType = {
   ) => Promise<ArrayBufferWithDetailsType>;
   modifyGroup: (
     changes: GroupChangeClass.Actions,
-    options: GroupCredentialsType
+    options: GroupCredentialsType,
+    inviteLinkBase64?: string
   ) => Promise<GroupChangeClass>;
   modifyStorageRecords: MessageSender['modifyStorageRecords'];
   putAttachment: (encryptedBin: ArrayBuffer) => Promise<any>;
@@ -955,6 +984,8 @@ export function initialize({
     return {
       confirmCode,
       createGroup,
+      fetchLinkPreviewImage,
+      fetchLinkPreviewMetadata,
       getAttachment,
       getAvatar,
       getConfig,
@@ -963,6 +994,7 @@ export function initialize({
       getGroupAvatar,
       getGroupCredentials,
       getGroupExternalCredential,
+      getGroupFromLink,
       getGroupLog,
       getIceServers,
       getKeysForIdentifier,
@@ -979,8 +1011,6 @@ export function initialize({
       getStorageManifest,
       getStorageRecords,
       getUuidsForE164s,
-      fetchLinkPreviewMetadata,
-      fetchLinkPreviewImage,
       makeProxiedRequest,
       makeSfuRequest,
       modifyGroup,
@@ -2052,9 +2082,32 @@ export function initialize({
       return window.textsecure.protobuf.Group.decode(response);
     }
 
+    async function getGroupFromLink(
+      inviteLinkPassword: string,
+      auth: GroupCredentialsType
+    ): Promise<GroupJoinInfoClass> {
+      const basicAuth = generateGroupAuth(
+        auth.groupPublicParamsHex,
+        auth.authCredentialPresentationHex
+      );
+
+      const response: ArrayBuffer = await _ajax({
+        basicAuth,
+        call: 'groupsViaLink',
+        contentType: 'application/x-protobuf',
+        host: storageUrl,
+        httpType: 'GET',
+        responseType: 'arraybuffer',
+        urlParameters: `/${toWebSafeBase64(inviteLinkPassword)}`,
+      });
+
+      return window.textsecure.protobuf.GroupJoinInfo.decode(response);
+    }
+
     async function modifyGroup(
       changes: GroupChangeClass.Actions,
-      options: GroupCredentialsType
+      options: GroupCredentialsType,
+      inviteLinkBase64?: string
     ): Promise<GroupChangeClass> {
       const basicAuth = generateGroupAuth(
         options.groupPublicParamsHex,
@@ -2070,6 +2123,9 @@ export function initialize({
         host: storageUrl,
         httpType: 'PATCH',
         responseType: 'arraybuffer',
+        urlParameters: inviteLinkBase64
+          ? `?inviteLinkPassword=${toWebSafeBase64(inviteLinkBase64)}`
+          : undefined,
       });
 
       return window.textsecure.protobuf.GroupChange.decode(response);

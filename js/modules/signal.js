@@ -79,6 +79,9 @@ const {
 const {
   createGroupV1MigrationModal,
 } = require('../../ts/state/roots/createGroupV1MigrationModal');
+const {
+  createGroupV2JoinModal,
+} = require('../../ts/state/roots/createGroupV2JoinModal');
 const { createLeftPane } = require('../../ts/state/roots/createLeftPane');
 const {
   createGroupV2Permissions,
@@ -340,6 +343,7 @@ exports.setup = (options = {}) => {
     createConversationHeader,
     createGroupLinkManagement,
     createGroupV1MigrationModal,
+    createGroupV2JoinModal,
     createGroupV2Permissions,
     createLeftPane,
     createPendingInvites,

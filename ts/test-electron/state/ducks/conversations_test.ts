@@ -20,6 +20,7 @@ const {
   messageSizeChanged,
   repairNewestMessage,
   repairOldestMessage,
+  setPreJoinConversation,
 } = actions;
 
 describe('both/state/ducks/conversations', () => {
@@ -575,6 +576,40 @@ describe('both/state/ducks/conversations', () => {
         const actual = reducer(state, action);
 
         assert.equal(actual, state);
+      });
+    });
+
+    describe('SET_PRE_JOIN_CONVERSATION', () => {
+      const startState = {
+        ...getEmptyState(),
+      };
+
+      it('starts with empty value', () => {
+        assert.isUndefined(startState.preJoinConversation);
+      });
+
+      it('sets value as provided', () => {
+        const preJoinConversation = {
+          title: 'Pre-join group!',
+          memberCount: 4,
+          approvalRequired: false,
+        };
+        const stateWithData = reducer(
+          startState,
+          setPreJoinConversation(preJoinConversation)
+        );
+
+        assert.deepEqual(
+          stateWithData.preJoinConversation,
+          preJoinConversation
+        );
+
+        const resetState = reducer(
+          stateWithData,
+          setPreJoinConversation(undefined)
+        );
+
+        assert.isUndefined(resetState.preJoinConversation);
       });
     });
   });

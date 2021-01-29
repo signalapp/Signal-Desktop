@@ -331,6 +331,22 @@ export class ConversationModel extends window.Backbone.Model<
     );
   }
 
+  isMemberAwaitingApproval(conversationId: string): boolean {
+    if (!this.isGroupV2()) {
+      return false;
+    }
+    const pendingAdminApprovalV2 = this.get('pendingAdminApprovalV2');
+
+    if (!pendingAdminApprovalV2 || !pendingAdminApprovalV2.length) {
+      return false;
+    }
+
+    return window._.any(
+      pendingAdminApprovalV2,
+      item => item.conversationId === conversationId
+    );
+  }
+
   isMember(conversationId: string): boolean {
     if (!this.isGroupV2()) {
       throw new Error(
@@ -483,6 +499,97 @@ export class ConversationModel extends window.Backbone.Model<
     });
   }
 
+  async addPendingApprovalRequest(): Promise<
+    GroupChangeClass.Actions | undefined
+  > {
+    const idLog = this.idForLogging();
+
+    // Hard-coded to our own ID, because you don't add other users for admin approval
+    const conversationId = window.ConversationController.getOurConversationIdOrThrow();
+
+    const toRequest = window.ConversationController.get(conversationId);
+    if (!toRequest) {
+      throw new Error(
+        `addPendingApprovalRequest/${idLog}: No conversation found for conversation ${conversationId}`
+      );
+    }
+
+    // We need the user's profileKeyCredential, which requires a roundtrip with the
+    //   server, and most definitely their profileKey. A getProfiles() call will
+    //   ensure that we have as much as we can get with the data we have.
+    let profileKeyCredentialBase64 = toRequest.get('profileKeyCredential');
+    if (!profileKeyCredentialBase64) {
+      await toRequest.getProfiles();
+
+      profileKeyCredentialBase64 = toRequest.get('profileKeyCredential');
+      if (!profileKeyCredentialBase64) {
+        throw new Error(
+          `promotePendingMember/${idLog}: No profileKeyCredential for conversation ${toRequest.idForLogging()}`
+        );
+      }
+    }
+
+    // This user's pending state may have changed in the time between the user's
+    //   button press and when we get here. It's especially important to check here
+    //   in conflict/retry cases.
+    if (this.isMemberAwaitingApproval(conversationId)) {
+      window.log.warn(
+        `addPendingApprovalRequest/${idLog}: ${conversationId} already in pending approval.`
+      );
+      return undefined;
+    }
+
+    return window.Signal.Groups.buildAddPendingAdminApprovalMemberChange({
+      group: this.attributes,
+      profileKeyCredentialBase64,
+      serverPublicParamsBase64: window.getServerPublicParams(),
+    });
+  }
+
+  async addMember(
+    conversationId: string
+  ): Promise<GroupChangeClass.Actions | undefined> {
+    const idLog = this.idForLogging();
+
+    const toRequest = window.ConversationController.get(conversationId);
+    if (!toRequest) {
+      throw new Error(
+        `addMember/${idLog}: No conversation found for conversation ${conversationId}`
+      );
+    }
+
+    // We need the user's profileKeyCredential, which requires a roundtrip with the
+    //   server, and most definitely their profileKey. A getProfiles() call will
+    //   ensure that we have as much as we can get with the data we have.
+    let profileKeyCredentialBase64 = toRequest.get('profileKeyCredential');
+    if (!profileKeyCredentialBase64) {
+      await toRequest.getProfiles();
+
+      profileKeyCredentialBase64 = toRequest.get('profileKeyCredential');
+      if (!profileKeyCredentialBase64) {
+        throw new Error(
+          `addMember/${idLog}: No profileKeyCredential for conversation ${toRequest.idForLogging()}`
+        );
+      }
+    }
+
+    // This user's pending state may have changed in the time between the user's
+    //   button press and when we get here. It's especially important to check here
+    //   in conflict/retry cases.
+    if (this.isMember(conversationId)) {
+      window.log.warn(
+        `addMember/${idLog}: ${conversationId} already a member.`
+      );
+      return undefined;
+    }
+
+    return window.Signal.Groups.buildAddMember({
+      group: this.attributes,
+      profileKeyCredentialBase64,
+      serverPublicParamsBase64: window.getServerPublicParams(),
+    });
+  }
+
   async removePendingMember(
     conversationIds: Array<string>
   ): Promise<GroupChangeClass.Actions | undefined> {
@@ -609,142 +716,19 @@ export class ConversationModel extends window.Backbone.Model<
 
   async modifyGroupV2({
     name,
+    inviteLinkPassword,
     createGroupChange,
   }: {
     name: string;
+    inviteLinkPassword?: string;
     createGroupChange: () => Promise<GroupChangeClass.Actions | undefined>;
   }): Promise<void> {
-    const idLog = `${name}/${this.idForLogging()}`;
-
-    if (!this.isGroupV2()) {
-      throw new Error(
-        `modifyGroupV2/${idLog}: Called for non-GroupV2 conversation`
-      );
-    }
-
-    const ONE_MINUTE = 1000 * 60;
-    const startTime = Date.now();
-    const timeoutTime = startTime + ONE_MINUTE;
-
-    const MAX_ATTEMPTS = 5;
-
-    for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt += 1) {
-      window.log.info(`modifyGroupV2/${idLog}: Starting attempt ${attempt}`);
-      try {
-        // eslint-disable-next-line no-await-in-loop
-        await window.waitForEmptyEventQueue();
-
-        window.log.info(`modifyGroupV2/${idLog}: Queuing attempt ${attempt}`);
-
-        // eslint-disable-next-line no-await-in-loop
-        await this.queueJob(async () => {
-          window.log.info(`modifyGroupV2/${idLog}: Running attempt ${attempt}`);
-
-          const actions = await createGroupChange();
-          if (!actions) {
-            window.log.warn(
-              `modifyGroupV2/${idLog}: No change actions. Returning early.`
-            );
-            return;
-          }
-
-          // The new revision has to be exactly one more than the current revision
-          //   or it won't upload properly, and it won't apply in maybeUpdateGroup
-          const currentRevision = this.get('revision');
-          const newRevision = actions.version;
-
-          if ((currentRevision || 0) + 1 !== newRevision) {
-            throw new Error(
-              `modifyGroupV2/${idLog}: Revision mismatch - ${currentRevision} to ${newRevision}.`
-            );
-          }
-
-          // Upload. If we don't have permission, the server will return an error here.
-          const groupChange = await window.Signal.Groups.uploadGroupChange({
-            actions,
-            group: this.attributes,
-          });
-
-          const groupChangeBuffer = groupChange.toArrayBuffer();
-          const groupChangeBase64 = arrayBufferToBase64(groupChangeBuffer);
-
-          // Apply change locally, just like we would with an incoming change. This will
-          //   change conversation state and add change notifications to the timeline.
-          await window.Signal.Groups.maybeUpdateGroup({
-            conversation: this,
-            groupChangeBase64,
-            newRevision,
-          });
-
-          // Send message to notify group members (including pending members) of change
-          const profileKey = this.get('profileSharing')
-            ? window.storage.get('profileKey')
-            : undefined;
-
-          const sendOptions = this.getSendOptions();
-          const timestamp = Date.now();
-
-          const promise = this.wrapSend(
-            window.textsecure.messaging.sendMessageToGroup(
-              {
-                groupV2: this.getGroupV2Info({
-                  groupChange: groupChangeBuffer,
-                  includePendingMembers: true,
-                }),
-                timestamp,
-                profileKey,
-              },
-              sendOptions
-            )
-          );
-
-          // We don't save this message; we just use it to ensure that a sync message is
-          //   sent to our linked devices.
-          const m = new window.Whisper.Message(({
-            conversationId: this.id,
-            type: 'not-to-save',
-            sent_at: timestamp,
-            received_at: timestamp,
-            // TODO: DESKTOP-722
-            // this type does not fully implement the interface it is expected to
-          } as unknown) as MessageAttributesType);
-
-          // This is to ensure that the functions in send() and sendSyncMessage()
-          //   don't save anything to the database.
-          m.doNotSave = true;
-
-          await m.send(promise);
-        });
-
-        // If we've gotten here with no error, we exit!
-        window.log.info(
-          `modifyGroupV2/${idLog}: Update complete, with attempt ${attempt}!`
-        );
-        break;
-      } catch (error) {
-        if (error.code === 409 && Date.now() <= timeoutTime) {
-          window.log.info(
-            `modifyGroupV2/${idLog}: Conflict while updating. Trying again...`
-          );
-
-          // eslint-disable-next-line no-await-in-loop
-          await this.fetchLatestGroupV2Data();
-        } else if (error.code === 409) {
-          window.log.error(
-            `modifyGroupV2/${idLog}: Conflict while updating. Timed out; not retrying.`
-          );
-          // We don't wait here because we're breaking out of the loop immediately.
-          this.fetchLatestGroupV2Data();
-          throw error;
-        } else {
-          const errorString = error && error.stack ? error.stack : error;
-          window.log.error(
-            `modifyGroupV2/${idLog}: Error updating: ${errorString}`
-          );
-          throw error;
-        }
-      }
-    }
+    await window.Signal.Groups.modifyGroupV2({
+      createGroupChange,
+      conversation: this,
+      inviteLinkPassword,
+      name,
+    });
   }
 
   isEverUnregistered(): boolean {
@@ -1324,6 +1308,9 @@ export class ConversationModel extends window.Backbone.Model<
       areWePending: Boolean(
         ourConversationId && this.isMemberPending(ourConversationId)
       ),
+      areWePendingApproval: Boolean(
+        ourConversationId && this.isMemberAwaitingApproval(ourConversationId)
+      ),
       areWeAdmin: this.areWeAdmin(),
       canChangeTimer: this.canChangeTimer(),
       canEditGroupInfo: this.canEditGroupInfo(),
@@ -1353,9 +1340,7 @@ export class ConversationModel extends window.Backbone.Model<
       lastUpdated: this.get('timestamp')!,
       left: Boolean(this.get('left')),
       markedUnread: this.get('markedUnread')!,
-      membersCount: this.isPrivate()
-        ? undefined
-        : (this.get('membersV2')! || this.get('members')! || []).length,
+      membersCount: this.getMembersCount(),
       memberships: this.getMemberships(),
       pendingMemberships: this.getPendingMemberships(),
       pendingApprovalMemberships: this.getPendingApprovalMemberships(),
@@ -1425,6 +1410,26 @@ export class ConversationModel extends window.Backbone.Model<
       messageCount: (this.get('messageCount') || 0) + 1,
     });
     window.Signal.Data.updateConversation(this.attributes);
+  }
+
+  getMembersCount(): number {
+    if (this.isPrivate()) {
+      return 1;
+    }
+
+    const memberList = this.get('membersV2') || this.get('members');
+
+    // We'll fail over if the member list is empty
+    if (memberList && memberList.length) {
+      return memberList.length;
+    }
+
+    const temporaryMemberCount = this.get('temporaryMemberCount');
+    if (window._.isNumber(temporaryMemberCount)) {
+      return temporaryMemberCount;
+    }
+
+    return 0;
   }
 
   decrementMessageCount(): void {
@@ -1621,6 +1626,98 @@ export class ConversationModel extends window.Backbone.Model<
     } finally {
       window.Signal.Data.updateConversation(this.attributes);
     }
+  }
+
+  async joinGroupV2ViaLinkAndMigrate({
+    approvalRequired,
+    inviteLinkPassword,
+    revision,
+  }: {
+    approvalRequired: boolean;
+    inviteLinkPassword: string;
+    revision: number;
+  }): Promise<void> {
+    await window.Signal.Groups.joinGroupV2ViaLinkAndMigrate({
+      approvalRequired,
+      conversation: this,
+      inviteLinkPassword,
+      revision,
+    });
+  }
+
+  async joinGroupV2ViaLink({
+    inviteLinkPassword,
+    approvalRequired,
+  }: {
+    inviteLinkPassword: string;
+    approvalRequired: boolean;
+  }): Promise<void> {
+    const ourConversationId = window.ConversationController.getOurConversationIdOrThrow();
+    try {
+      if (approvalRequired) {
+        await this.modifyGroupV2({
+          name: 'requestToJoin',
+          inviteLinkPassword,
+          createGroupChange: () => this.addPendingApprovalRequest(),
+        });
+      } else {
+        await this.modifyGroupV2({
+          name: 'joinGroup',
+          inviteLinkPassword,
+          createGroupChange: () => this.addMember(ourConversationId),
+        });
+      }
+    } catch (error) {
+      const ALREADY_REQUESTED_TO_JOIN =
+        '{"code":400,"message":"cannot ask to join via invite link if already asked to join"}';
+      if (!error.response) {
+        throw error;
+      } else {
+        const errorDetails = stringFromBytes(error.response);
+        if (errorDetails !== ALREADY_REQUESTED_TO_JOIN) {
+          throw error;
+        } else {
+          window.log.info(
+            'joinGroupV2ViaLink: Got 400, but server is telling us we have already requested to join. Forcing that local state'
+          );
+          this.set({
+            pendingAdminApprovalV2: [
+              {
+                conversationId: ourConversationId,
+                timestamp: Date.now(),
+              },
+            ],
+          });
+        }
+      }
+    }
+
+    const messageRequestEnum =
+      window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
+
+    // Ensure active_at is set, because this is an event that justifies putting the group
+    //   in the left pane.
+    this.set({
+      messageRequestResponseType: messageRequestEnum.ACCEPT,
+      active_at: this.get('active_at') || Date.now(),
+    });
+    window.Signal.Data.updateConversation(this.attributes);
+  }
+
+  async cancelJoinRequest(): Promise<void> {
+    const ourConversationId = window.ConversationController.getOurConversationIdOrThrow();
+
+    const inviteLinkPassword = this.get('groupInviteLinkPassword');
+    if (!inviteLinkPassword) {
+      throw new Error('Missing groupInviteLinkPassword!');
+    }
+
+    await this.modifyGroupV2({
+      name: 'cancelJoinRequest',
+      inviteLinkPassword,
+      createGroupChange: () =>
+        this.denyPendingApprovalRequest(ourConversationId),
+    });
   }
 
   async leaveGroupV2(): Promise<void> {

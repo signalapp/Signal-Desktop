@@ -61,6 +61,7 @@ export type ConversationType = {
   avatarPath?: string;
   areWeAdmin?: boolean;
   areWePending?: boolean;
+  areWePendingApproval?: boolean;
   canChangeTimer?: boolean;
   canEditGroupInfo?: boolean;
   color?: ColorType;
@@ -208,7 +209,18 @@ export type MessagesByConversationType = {
   [key: string]: ConversationMessageType | undefined;
 };
 
+export type PreJoinConversationType = {
+  avatar?: {
+    loading?: boolean;
+    url?: string;
+  };
+  memberCount: number;
+  title: string;
+  approvalRequired: boolean;
+};
+
 export type ConversationsStateType = {
+  preJoinConversation?: PreJoinConversationType;
   conversationLookup: ConversationLookupType;
   conversationsByE164: ConversationLookupType;
   conversationsByUuid: ConversationLookupType;
@@ -251,6 +263,13 @@ export const getConversationCallMode = (
 };
 
 // Actions
+
+type SetPreJoinConversationActionType = {
+  type: 'SET_PRE_JOIN_CONVERSATION';
+  payload: {
+    data: PreJoinConversationType | undefined;
+  };
+};
 
 type ConversationAddedActionType = {
   type: 'CONVERSATION_ADDED';
@@ -421,34 +440,33 @@ type SetRecentMediaItemsActionType = {
 };
 
 export type ConversationActionType =
+  | ClearChangedMessagesActionType
+  | ClearSelectedMessageActionType
+  | ClearUnreadMetricsActionType
   | ConversationAddedActionType
   | ConversationChangedActionType
   | ConversationRemovedActionType
   | ConversationUnloadedActionType
-  | RemoveAllConversationsActionType
-  | MessageSelectedActionType
-  | MessageSizeChangedActionType
   | MessageChangedActionType
   | MessageDeletedActionType
   | MessagesAddedActionType
+  | MessageSelectedActionType
+  | MessageSizeChangedActionType
+  | MessagesResetActionType
+  | RemoveAllConversationsActionType
   | RepairNewestMessageActionType
   | RepairOldestMessageActionType
-  | MessagesResetActionType
-  | SetMessagesLoadingActionType
+  | ScrollToMessageActionType
+  | SelectedConversationChangedActionType
+  | SetConversationHeaderTitleActionType
   | SetIsNearBottomActionType
   | SetLoadCountdownStartActionType
-  | ClearChangedMessagesActionType
-  | ClearSelectedMessageActionType
-  | ClearUnreadMetricsActionType
-  | ScrollToMessageActionType
-  | SetConversationHeaderTitleActionType
-  | SetSelectedConversationPanelDepthActionType
-  | SelectedConversationChangedActionType
-  | MessageDeletedActionType
-  | SelectedConversationChangedActionType
+  | SetMessagesLoadingActionType
+  | SetPreJoinConversationActionType
   | SetRecentMediaItemsActionType
-  | ShowInboxActionType
-  | ShowArchivedConversationsActionType;
+  | SetSelectedConversationPanelDepthActionType
+  | ShowArchivedConversationsActionType
+  | ShowInboxActionType;
 
 // Action Creators
 
@@ -462,8 +480,8 @@ export const actions = {
   conversationUnloaded,
   messageChanged,
   messageDeleted,
-  messageSizeChanged,
   messagesAdded,
+  messageSizeChanged,
   messagesReset,
   openConversationExternal,
   openConversationInternal,
@@ -475,6 +493,7 @@ export const actions = {
   setIsNearBottom,
   setLoadCountdownStart,
   setMessagesLoading,
+  setPreJoinConversation,
   setRecentMediaItems,
   setSelectedConversationHeaderTitle,
   setSelectedConversationPanelDepth,
@@ -482,6 +501,16 @@ export const actions = {
   showInbox,
 };
 
+function setPreJoinConversation(
+  data: PreJoinConversationType | undefined
+): SetPreJoinConversationActionType {
+  return {
+    type: 'SET_PRE_JOIN_CONVERSATION',
+    payload: {
+      data,
+    },
+  };
+}
 function conversationAdded(
   id: string,
   data: ConversationType
@@ -924,6 +953,15 @@ export function reducer(
   state: Readonly<ConversationsStateType> = getEmptyState(),
   action: Readonly<ConversationActionType>
 ): ConversationsStateType {
+  if (action.type === 'SET_PRE_JOIN_CONVERSATION') {
+    const { payload } = action;
+    const { data } = payload;
+
+    return {
+      ...state,
+      preJoinConversation: data,
+    };
+  }
   if (action.type === 'CONVERSATION_ADDED') {
     const { payload } = action;
     const { id, data } = payload;

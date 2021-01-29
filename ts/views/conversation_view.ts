@@ -280,6 +280,14 @@ Whisper.MaxAttachmentsToast = Whisper.ToastView.extend({
   template: window.i18n('maximumAttachments'),
 });
 
+Whisper.AlreadyGroupMemberToast = Whisper.ToastView.extend({
+  template: window.i18n('GroupV2--join--already-in-group'),
+});
+
+Whisper.AlreadyRequestedToJoinToast = Whisper.ToastView.extend({
+  template: window.i18n('GroupV2--join--already-awaiting-approval'),
+});
+
 Whisper.ConversationLoadingScreen = Whisper.View.extend({
   templateName: 'conversation-loading-screen',
   className: 'conversation-loading-screen',
@@ -660,6 +668,21 @@ Whisper.ConversationView = Whisper.View.extend({
         });
       },
       onStartGroupMigration: () => this.startMigrationToGV2(),
+      onCancelJoinRequest: async () => {
+        await window.showConfirmationDialog({
+          message: window.i18n(
+            'GroupV2--join--cancel-request-to-join--confirmation'
+          ),
+          okText: window.i18n('GroupV2--join--cancel-request-to-join--yes'),
+          cancelText: window.i18n('GroupV2--join--cancel-request-to-join--no'),
+          resolve: () => {
+            this.longRunningTaskWrapper({
+              name: 'onCancelJoinRequest',
+              task: async () => this.model.cancelJoinRequest(),
+            });
+          },
+        });
+      },
     };
 
     this.compositionAreaView = new Whisper.ReactWrapperView({
@@ -681,79 +704,12 @@ Whisper.ConversationView = Whisper.View.extend({
     name: string;
     task: () => Promise<T>;
   }): Promise<T> {
-    const idLog = `${name}/${this.model.idForLogging()}`;
-    const ONE_SECOND = 1000;
-    const TWO_SECONDS = 2000;
-
-    let progressView: any | undefined;
-    let spinnerStart;
-    let progressTimeout: NodeJS.Timeout | undefined = setTimeout(() => {
-      window.log.info(`longRunningTaskWrapper/${idLog}: Creating spinner`);
-
-      // Note: this component uses a portal to render itself into the top-level DOM. No
-      //   need to attach it to the DOM here.
-      progressView = new Whisper.ReactWrapperView({
-        className: 'progress-modal-wrapper',
-        Component: window.Signal.Components.ProgressModal,
-      });
-      spinnerStart = Date.now();
-    }, TWO_SECONDS);
-
-    // Note: any task we put here needs to have its own safety valve; this function will
-    //   show a spinner until it's done
-    try {
-      window.log.info(`longRunningTaskWrapper/${idLog}: Starting task`);
-      const result = await task();
-      window.log.info(
-        `longRunningTaskWrapper/${idLog}: Task completed successfully`
-      );
-
-      if (progressTimeout) {
-        clearTimeout(progressTimeout);
-        progressTimeout = undefined;
-      }
-      if (progressView) {
-        const now = Date.now();
-        if (spinnerStart && now - spinnerStart < ONE_SECOND) {
-          window.log.info(
-            `longRunningTaskWrapper/${idLog}: Spinner shown for less than second, showing for another second`
-          );
-          await window.Signal.Util.sleep(ONE_SECOND);
-        }
-        progressView.remove();
-        progressView = undefined;
-      }
-
-      return result;
-    } catch (error) {
-      window.log.error(
-        `longRunningTaskWrapper/${idLog}: Error!`,
-        error && error.stack ? error.stack : error
-      );
-
-      if (progressTimeout) {
-        clearTimeout(progressTimeout);
-        progressTimeout = undefined;
-      }
-      if (progressView) {
-        progressView.remove();
-        progressView = undefined;
-      }
-
-      window.log.info(`longRunningTaskWrapper/${idLog}: Showing error dialog`);
-
-      // Note: this component uses a portal to render itself into the top-level DOM. No
-      //   need to attach it to the DOM here.
-      const errorView = new Whisper.ReactWrapperView({
-        className: 'error-modal-wrapper',
-        Component: window.Signal.Components.ErrorModal,
-        props: {
-          onClose: () => errorView.remove(),
-        },
-      });
-
-      throw error;
-    }
+    const idForLogging = this.model.idForLogging();
+    return window.Signal.Util.longRunningTaskWrapper({
+      name,
+      idForLogging,
+      task,
+    });
   },
 
   setupTimeline() {

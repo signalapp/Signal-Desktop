@@ -14,6 +14,7 @@ import {
   MessageLookupType,
   MessagesByConversationType,
   MessageType,
+  PreJoinConversationType,
 } from '../ducks/conversations';
 import { getOwn } from '../../util/getOwn';
 import type { CallsByConversationType } from '../ducks/calling';
@@ -48,6 +49,12 @@ export const getPlaceholderContact = (): ConversationType => {
 export const getConversations = (state: StateType): ConversationsStateType =>
   state.conversations;
 
+export const getPreJoinConversation = createSelector(
+  getConversations,
+  (state: ConversationsStateType): PreJoinConversationType | undefined => {
+    return state.preJoinConversation;
+  }
+);
 export const getConversationLookup = createSelector(
   getConversations,
   (state: ConversationsStateType): ConversationLookupType => {

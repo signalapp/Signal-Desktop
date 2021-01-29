@@ -12,6 +12,7 @@ export const SpinnerDirections = [
   'incoming',
   'on-background',
   'on-progress-dialog',
+  'on-avatar',
 ] as const;
 export type SpinnerDirection = typeof SpinnerDirections[number];
 

@@ -7,9 +7,9 @@ import { LocalizerType } from '../types/Util';
 import { ConfirmationModal } from './ConfirmationModal';
 
 export type PropsType = {
-  buttonText: string;
-  description: string;
-  title: string;
+  buttonText?: string;
+  description?: string;
+  title?: string;
 
   onClose: () => void;
   i18n: LocalizerType;

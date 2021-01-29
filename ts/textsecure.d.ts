@@ -176,6 +176,7 @@ type GroupsProtobufTypes = {
   GroupAttributeBlob: typeof GroupAttributeBlobClass;
   GroupExternalCredential: typeof GroupExternalCredentialClass;
   GroupInviteLink: typeof GroupInviteLinkClass;
+  GroupJoinInfo: typeof GroupJoinInfoClass;
 };
 
 type SignalServiceProtobufTypes = {
@@ -494,6 +495,22 @@ export declare namespace GroupChangesClass {
   }
 }
 
+export declare class GroupAttributeBlobClass {
+  static decode: (
+    data: ArrayBuffer | ByteBufferClass,
+    encoding?: string
+  ) => GroupAttributeBlobClass;
+  toArrayBuffer(): ArrayBuffer;
+
+  title?: string;
+  avatar?: ProtoBinaryType;
+  disappearingMessagesDuration?: number;
+
+  // Note: this isn't part of the proto, but our protobuf library tells us which
+  //   field has been set with this prop.
+  content: 'title' | 'avatar' | 'disappearingMessagesDuration';
+}
+
 export declare class GroupExternalCredentialClass {
   static decode: (
     data: ArrayBuffer | ByteBufferClass,
@@ -524,20 +541,19 @@ export declare namespace GroupInviteLinkClass {
   }
 }
 
-export declare class GroupAttributeBlobClass {
+export declare class GroupJoinInfoClass {
   static decode: (
     data: ArrayBuffer | ByteBufferClass,
     encoding?: string
-  ) => GroupAttributeBlobClass;
-  toArrayBuffer(): ArrayBuffer;
+  ) => GroupJoinInfoClass;
 
-  title?: string;
-  avatar?: ProtoBinaryType;
-  disappearingMessagesDuration?: number;
-
-  // Note: this isn't part of the proto, but our protobuf library tells us which
-  //   field has been set with this prop.
-  content: 'title' | 'avatar' | 'disappearingMessagesDuration';
+  publicKey?: ProtoBinaryType;
+  title?: ProtoBinaryType;
+  avatar?: string;
+  memberCount?: number;
+  addFromInviteLink?: AccessControlClass.AccessRequired;
+  version?: number;
+  pendingAdminApproval?: boolean;
 }
 
 // Previous protos

@@ -427,29 +427,102 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         await window.Signal.Data.shutdown();
       },
 
-      showStickerPack: async (packId: string, key: string) => {
+      showStickerPack: (packId: string, key: string) => {
         // We can get these events even if the user has never linked this instance.
         if (!window.Signal.Util.Registration.everDone()) {
+          window.log.warn('showStickerPack: Not registered, returning early');
           return;
         }
+        if (window.isShowingModal) {
+          window.log.warn(
+            'showStickerPack: Already showing modal, returning early'
+          );
+          return;
+        }
+        try {
+          window.isShowingModal = true;
 
-        // Kick off the download
-        window.Signal.Stickers.downloadEphemeralPack(packId, key);
+          // Kick off the download
+          window.Signal.Stickers.downloadEphemeralPack(packId, key);
 
-        const props = {
-          packId,
-          onClose: async () => {
-            stickerPreviewModalView.remove();
-            await window.Signal.Stickers.removeEphemeralPack(packId);
+          const props = {
+            packId,
+            onClose: async () => {
+              window.isShowingModal = false;
+              stickerPreviewModalView.remove();
+              await window.Signal.Stickers.removeEphemeralPack(packId);
+            },
+          };
+
+          const stickerPreviewModalView = new window.Whisper.ReactWrapperView({
+            className: 'sticker-preview-modal-wrapper',
+            JSX: window.Signal.State.Roots.createStickerPreviewModal(
+              window.reduxStore,
+              props
+            ),
+          });
+        } catch (error) {
+          window.isShowingModal = false;
+          window.log.error(
+            'showStickerPack: Ran into an error!',
+            error && error.stack ? error.stack : error
+          );
+          const errorView = new window.Whisper.ReactWrapperView({
+            className: 'error-modal-wrapper',
+            Component: window.Signal.Components.ErrorModal,
+            props: {
+              onClose: () => {
+                errorView.remove();
+              },
+            },
+          });
+        }
+      },
+      showGroupViaLink: async (hash: string) => {
+        // We can get these events even if the user has never linked this instance.
+        if (!window.Signal.Util.Registration.everDone()) {
+          window.log.warn('showGroupViaLink: Not registered, returning early');
+          return;
+        }
+        if (window.isShowingModal) {
+          window.log.warn(
+            'showGroupViaLink: Already showing modal, returning early'
+          );
+          return;
+        }
+        try {
+          await window.Signal.Groups.joinViaLink(hash);
+        } catch (error) {
+          window.log.error(
+            'showGroupViaLink: Ran into an error!',
+            error && error.stack ? error.stack : error
+          );
+          const errorView = new window.Whisper.ReactWrapperView({
+            className: 'error-modal-wrapper',
+            Component: window.Signal.Components.ErrorModal,
+            props: {
+              title: window.i18n('GroupV2--join--general-join-failure--title'),
+              description: window.i18n('GroupV2--join--general-join-failure'),
+              onClose: () => {
+                errorView.remove();
+              },
+            },
+          });
+        }
+        window.isShowingModal = false;
+      },
+
+      unknownSignalLink: () => {
+        window.log.warn('unknownSignalLink: Showing error dialog');
+        const errorView = new window.Whisper.ReactWrapperView({
+          className: 'error-modal-wrapper',
+          Component: window.Signal.Components.ErrorModal,
+          props: {
+            description: window.i18n('unknown-sgnl-link'),
+            onClose: () => {
+              errorView.remove();
+            },
           },
-        };
-
-        const stickerPreviewModalView = new window.Whisper.ReactWrapperView({
-          className: 'sticker-preview-modal-wrapper',
-          JSX: window.Signal.State.Roots.createStickerPreviewModal(
-            window.reduxStore,
-            props
-          ),
         });
       },
 

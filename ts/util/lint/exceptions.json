@@ -14478,7 +14478,7 @@
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.js",
     "line": "    el.innerHTML = '';",
-    "lineNumber": 41,
+    "lineNumber": 42,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-20T20:10:43.540Z",
     "reasonDetail": "Our code, no user input, only clearing out the dom"
@@ -14487,7 +14487,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionArea.js",
     "line": "    const inputApiRef = React.useRef();",
-    "lineNumber": 59,
+    "lineNumber": 62,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Doesn't refer to a DOM element."
@@ -14496,7 +14496,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionArea.js",
     "line": "    const attSlotRef = React.useRef(null);",
-    "lineNumber": 82,
+    "lineNumber": 85,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Needed for the composition area."
@@ -14505,7 +14505,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionArea.js",
     "line": "    const micCellRef = React.useRef(null);",
-    "lineNumber": 116,
+    "lineNumber": 119,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Needed for the composition area."
@@ -14514,7 +14514,7 @@
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.tsx",
     "line": "  el.innerHTML = '';",
-    "lineNumber": 92,
+    "lineNumber": 98,
     "reasonCategory": "usageTrusted",
     "updated": "2020-06-03T19:23:21.195Z",
     "reasonDetail": "Our code, no user input, only clearing out the dom"
@@ -15279,7 +15279,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/WebAPI.js",
     "line": "            const byteBuffer = window.dcodeIO.ByteBuffer.wrap(quote, 'binary', window.dcodeIO.ByteBuffer.LITTLE_ENDIAN);",
-    "lineNumber": 1270,
+    "lineNumber": 1302,
     "reasonCategory": "falseMatch",
     "updated": "2020-09-08T23:07:22.682Z"
   },
@@ -15287,7 +15287,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/WebAPI.ts",
     "line": "      const byteBuffer = window.dcodeIO.ByteBuffer.wrap(",
-    "lineNumber": 2174,
+    "lineNumber": 2230,
     "reasonCategory": "falseMatch",
     "updated": "2020-09-08T23:07:22.682Z"
   },

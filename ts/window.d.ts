@@ -47,6 +47,7 @@ import { createConversationDetails } from './state/roots/createConversationDetai
 import { createConversationHeader } from './state/roots/createConversationHeader';
 import { createGroupLinkManagement } from './state/roots/createGroupLinkManagement';
 import { createGroupV1MigrationModal } from './state/roots/createGroupV1MigrationModal';
+import { createGroupV2JoinModal } from './state/roots/createGroupV2JoinModal';
 import { createGroupV2Permissions } from './state/roots/createGroupV2Permissions';
 import { createLeftPane } from './state/roots/createLeftPane';
 import { createPendingInvites } from './state/roots/createPendingInvites';
@@ -458,6 +459,7 @@ declare global {
           createConversationHeader: typeof createConversationHeader;
           createGroupLinkManagement: typeof createGroupLinkManagement;
           createGroupV1MigrationModal: typeof createGroupV1MigrationModal;
+          createGroupV2JoinModal: typeof createGroupV2JoinModal;
           createGroupV2Permissions: typeof createGroupV2Permissions;
           createLeftPane: typeof createLeftPane;
           createPendingInvites: typeof createPendingInvites;
@@ -510,7 +512,10 @@ declare global {
     readyForUpdates: () => void;
     logAppLoadedEvent: () => void;
 
-    // Flags
+    // Runtime Flags
+    isShowingModal?: boolean;
+
+    // Feature Flags
     isGroupCallingEnabled: () => boolean;
     GV2_ENABLE_SINGLE_CHANGE_PROCESSING: boolean;
     GV2_ENABLE_CHANGE_PROCESSING: boolean;
@@ -640,7 +645,7 @@ export type WhisperType = {
   ReactWrapperView: WhatIsThis;
   activeConfirmationView: WhatIsThis;
   ToastView: typeof Whisper.View & {
-    show: (view: Backbone.View, el: Element) => void;
+    show: (view: typeof Backbone.View, el: Element) => void;
   };
   ConversationArchivedToast: WhatIsThis;
   ConversationUnarchivedToast: WhatIsThis;
@@ -715,6 +720,8 @@ export type WhisperType = {
   deliveryReceiptBatcher: BatcherType<WhatIsThis>;
   RotateSignedPreKeyListener: WhatIsThis;
 
+  AlreadyGroupMemberToast: typeof Whisper.ToastView;
+  AlreadyRequestedToJoinToast: typeof Whisper.ToastView;
   BlockedGroupToast: typeof Whisper.ToastView;
   BlockedToast: typeof Whisper.ToastView;
   CannotMixImageAndNonImageAttachmentsToast: typeof Whisper.ToastView;

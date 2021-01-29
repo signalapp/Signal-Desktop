@@ -38,6 +38,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     overrideProps.conversationType || 'direct'
   ),
   i18n,
+  loading: boolean('loading', overrideProps.loading || false),
   name: text('name', overrideProps.name || ''),
   noteToSelf: boolean('noteToSelf', overrideProps.noteToSelf || false),
   onClick: action('onClick'),
@@ -46,7 +47,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   title: '',
 });
 
-const sizes: Array<Props['size']> = [112, 80, 52, 32, 28];
+const sizes: Array<Props['size']> = [112, 96, 80, 52, 32, 28];
 
 story.add('Avatar', () => {
   const props = createProps({
@@ -120,6 +121,14 @@ story.add('Broken Avatar for Group', () => {
   const props = createProps({
     avatarPath: 'badimage.png',
     conversationType: 'group',
+  });
+
+  return sizes.map(size => <Avatar key={size} {...props} size={size} />);
+});
+
+story.add('Loading', () => {
+  const props = createProps({
+    loading: true,
   });
 
   return sizes.map(size => <Avatar key={size} {...props} size={size} />);

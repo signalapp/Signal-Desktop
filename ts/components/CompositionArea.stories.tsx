@@ -71,6 +71,8 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   title: '',
   // GroupV1 Disabled Actions
   onStartGroupMigration: action('onStartGroupMigration'),
+  // GroupV2 Pending Approval Actions
+  onCancelJoinRequest: action('onCancelJoinRequest'),
 });
 
 story.add('Default', () => {

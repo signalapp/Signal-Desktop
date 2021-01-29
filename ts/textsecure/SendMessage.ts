@@ -35,6 +35,7 @@ import {
   GroupChangeClass,
   GroupClass,
   GroupExternalCredentialClass,
+  GroupJoinInfoClass,
   StorageServiceCallOptionsType,
   StorageServiceCredentials,
   SyncMessageClass,
@@ -1769,6 +1770,13 @@ export default class MessageSender {
     return this.server.getGroup(options);
   }
 
+  async getGroupFromLink(
+    groupInviteLink: string,
+    auth: GroupCredentialsType
+  ): Promise<GroupJoinInfoClass> {
+    return this.server.getGroupFromLink(groupInviteLink, auth);
+  }
+
   async getGroupLog(
     startVersion: number,
     options: GroupCredentialsType
@@ -1782,9 +1790,10 @@ export default class MessageSender {
 
   async modifyGroup(
     changes: GroupChangeClass.Actions,
-    options: GroupCredentialsType
+    options: GroupCredentialsType,
+    inviteLinkBase64?: string
   ): Promise<GroupChangeClass> {
-    return this.server.modifyGroup(changes, options);
+    return this.server.modifyGroup(changes, options, inviteLinkBase64);
   }
 
   async leaveGroup(

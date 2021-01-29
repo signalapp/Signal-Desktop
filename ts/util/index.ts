@@ -22,6 +22,8 @@ import { makeLookup } from './makeLookup';
 import { missingCaseError } from './missingCaseError';
 import { parseRemoteClientExpiration } from './parseRemoteClientExpiration';
 import { sleep } from './sleep';
+import { longRunningTaskWrapper } from './longRunningTaskWrapper';
+import { toWebSafeBase64, fromWebSafeBase64 } from './webSafeBase64';
 import * as zkgroup from './zkgroup';
 
 export {
@@ -31,6 +33,7 @@ export {
   createWaitBatcher,
   deleteForEveryone,
   downloadAttachment,
+  fromWebSafeBase64,
   generateSecurityNumber,
   getSafetyNumberPlaceholder,
   getStringForProfileChange,
@@ -39,10 +42,12 @@ export {
   GoogleChrome,
   hasExpired,
   isFileDangerous,
+  longRunningTaskWrapper,
   makeLookup,
   missingCaseError,
   parseRemoteClientExpiration,
   Registration,
   sleep,
+  toWebSafeBase64,
   zkgroup,
 };

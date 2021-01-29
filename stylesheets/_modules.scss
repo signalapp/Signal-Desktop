@@ -4762,6 +4762,10 @@ button.module-conversation-details__action-button {
   }
 }
 
+.module-avatar__spinner-container {
+  padding: 4px;
+}
+
 .module-avatar--signal-blue {
   background-color: $ultramarine-ui-light;
 }
@@ -5846,6 +5850,9 @@ button.module-image__border-overlay:focus {
   }
 }
 
+.module-spinner__circle--on-avatar {
+  background-color: $color-white-alpha-40;
+}
 .module-spinner__circle--on-background {
   @include light-theme {
     background-color: $color-gray-05;
@@ -5873,6 +5880,9 @@ button.module-image__border-overlay:focus {
 }
 .module-spinner__arc--on-progress-dialog {
   background-color: $ultramarine-ui-light;
+}
+.module-spinner__arc--on-avatar {
+  background-color: $color-white;
 }
 
 // Module: Highlighted Message Body
@@ -10576,6 +10586,60 @@ button.module-image__border-overlay:focus {
   @include button-primary;
 }
 
+// Module: GroupV2 Pending Approval Actions
+
+.module-group-v2-pending-approval-actions {
+  padding: 8px 16px 12px 16px;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @include light-theme {
+    background: $color-white;
+  }
+
+  @include dark-theme {
+    background: $color-gray-95;
+  }
+}
+
+.module-group-v2-pending-approval-actions__message {
+  @include font-body-2;
+  text-align: center;
+  margin-bottom: 12px;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
+
+.module-group-v2-pending-approval-actions__buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.module-group-v2-pending-approval-actions__buttons__button {
+  @include button-reset;
+  @include font-body-1-bold;
+
+  border-radius: 4px;
+
+  padding: 8px;
+  padding-left: 30px;
+  padding-right: 30px;
+
+  @include button-secondary;
+
+  @include light-theme {
+    color: $color-gray-60;
+    background-color: $color-gray-05;
+  }
+}
+
 // Module: Modal Host
 
 .module-modal-host__overlay {
@@ -10732,6 +10796,99 @@ button.module-image__border-overlay:focus {
 }
 
 .module-group-v2-migration-dialog__button--secondary {
+  @include button-secondary;
+}
+
+// Module: GroupV2 Join Dialog
+
+.module-group-v2-join-dialog {
+  @include font-body-1;
+  border-radius: 8px;
+  width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+
+  position: relative;
+
+  @include light-theme {
+    background-color: $color-white;
+  }
+  @include dark-theme {
+    background-color: $color-gray-95;
+  }
+}
+.module-group-v2-join-dialog__close-button {
+  @include button-reset;
+
+  position: absolute;
+  right: 12px;
+  top: 12px;
+
+  height: 24px;
+  width: 24px;
+
+  @include light-theme {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-75);
+  }
+
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
+  }
+
+  &:focus {
+    @include keyboard-mode {
+      background-color: $ultramarine-ui-light;
+    }
+    @include dark-keyboard-mode {
+      background-color: $ultramarine-ui-dark;
+    }
+  }
+}
+.module-group-v2-join-dialog__title {
+  @include font-title-2;
+  text-align: center;
+  margin-top: 12px;
+  margin-bottom: 2px;
+}
+.module-group-v2-join-dialog__avatar {
+  text-align: center;
+}
+.module-group-v2-join-dialog__metadata {
+  text-align: center;
+}
+.module-group-v2-join-dialog__prompt {
+  margin-top: 40px;
+}
+.module-group-v2-join-dialog__buttons {
+  margin-top: 16px;
+
+  text-align: center;
+
+  display: flex;
+}
+.module-group-v2-join-dialog__button {
+  @include button-reset;
+  @include font-body-1-bold;
+
+  // Start flex basis at zero so text width doesn't affect layout. We want the buttons
+  //   evenly distributed.
+  flex: 1 1 0px;
+
+  border-radius: 4px;
+
+  padding: 8px;
+  padding-left: 15px;
+  padding-right: 15px;
+
+  @include button-primary;
+
+  &:not(:first-of-type) {
+    margin-left: 16px;
+  }
+}
+
+.module-group-v2-join-dialog__button--secondary {
   @include button-secondary;
 }
 
