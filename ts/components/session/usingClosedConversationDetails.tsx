@@ -55,9 +55,7 @@ export function usingClosedConversationDetails(WrappedComponent: any) {
         (conversationType === 'group' || type === 'group' || isGroup)
       ) {
         const groupId = id || phoneNumber;
-        const ourPrimary = PubKey.cast(
-          await UserUtils.getCurrentDevicePubKey()
-        );
+        const ourPrimary = await UserUtils.getOurPubKeyFromCache();
         let members = await GroupUtils.getGroupMembers(PubKey.cast(groupId));
 
         const ourself = members.find(m => m.key !== ourPrimary.key);
@@ -79,7 +77,7 @@ export function usingClosedConversationDetails(WrappedComponent: any) {
         );
         const memberAvatars = memberConvos.map(m => {
           return {
-            avatarPath: m.getAvatar()?.url || null,
+            avatarPath: m.getAvatar()?.url || undefined,
             id: m.id,
             name: m.get('name') || m.get('profileName') || m.id,
           };

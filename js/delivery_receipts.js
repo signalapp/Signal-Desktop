@@ -45,7 +45,8 @@
       const groups = await window.Signal.Data.getAllGroupsInvolvingId(
         originalSource,
         {
-          ConversationCollection: Whisper.ConversationCollection,
+          ConversationCollection:
+            window.models.Conversation.ConversationCollection,
         }
       );
 
@@ -67,7 +68,7 @@
         const messages = await window.Signal.Data.getMessagesBySentAt(
           receipt.get('timestamp'),
           {
-            MessageCollection: Whisper.MessageCollection,
+            MessageCollection: window.models.Message.MessageCollection,
           }
         );
 

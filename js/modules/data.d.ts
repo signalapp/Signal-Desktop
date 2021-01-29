@@ -183,7 +183,6 @@ export function getAllConversations({
 }): Promise<Array<ConversationCollection>>;
 
 export function getAllConversationIds(): Promise<Array<string>>;
-export function getAllPublicConversations(): Promise<Array<string>>;
 export function getPublicConversationsByServer(
   server: string,
   { ConversationCollection }: { ConversationCollection: any }
@@ -254,7 +253,7 @@ export function getMessageBySender(
 export function getMessagesBySender(
   { source, sourceDevice }: { source: any; sourceDevice: any },
   { Message }: { Message: any }
-): Promise<Whisper.MessageCollection>;
+): Promise<window.models.Message.MessageCollection>;
 export function getMessageIdsFromServerIds(
   serverIds: any,
   conversationId: any

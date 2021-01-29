@@ -596,9 +596,7 @@ class LokiAppDotNetServerAPI {
       // get our profile name
       // this should be primaryDevicePubKey
       // because the rest of the profile system uses that...
-      const ourNumber =
-        window.storage.get('primaryDevicePubKey') ||
-        textsecure.storage.user.getNumber();
+      const ourNumber = window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
       const profileConvo = window.getConversationController().get(ourNumber);
       const profile = profileConvo && profileConvo.getLokiProfile();
       const profileName = profile && profile.displayName;
@@ -1195,17 +1193,14 @@ class LokiPublicChannelAPI {
     const res = await this.serverRequest(
       `loki/v1/channels/${this.channelId}/moderators`
     );
-    const ourNumberDevice = textsecure.storage.user.getNumber();
-    const ourNumberProfile = window.storage.get('primaryDevicePubKey');
+    const ourNumberDevice = window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
 
     // Get the list of moderators if no errors occurred
     const moderators = !res.err && res.response && res.response.moderators;
 
     // if we encountered problems then we'll keep the old mod status
     if (moderators) {
-      this.modStatus =
-        (ourNumberProfile && moderators.includes(ourNumberProfile)) ||
-        moderators.includes(ourNumberDevice);
+      this.modStatus = moderators.includes(ourNumberDevice);
     }
 
     if (this.running) {
@@ -1711,7 +1706,7 @@ class LokiPublicChannelAPI {
     let pendingMessages = [];
 
     // get our profile name
-    const ourNumberDevice = textsecure.storage.user.getNumber();
+    const ourNumberDevice = window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
     // if no primaryDevicePubKey fall back to ourNumberDevice
     const ourNumberProfile =
       window.storage.get('primaryDevicePubKey') || ourNumberDevice;
@@ -2021,7 +2016,7 @@ class LokiPublicChannelAPI {
 
       // copied from model/message.js copyFromQuotedMessage
       const collection = await Signal.Data.getMessagesBySentAt(quote.id, {
-        MessageCollection: Whisper.MessageCollection,
+        MessageCollection: window.models.Message.MessageCollection,
       });
       const found = collection.find(item => {
         const messageAuthor = item.getContact();

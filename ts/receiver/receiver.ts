@@ -274,7 +274,7 @@ export async function handlePublicMessage(messageData: any) {
   const { source } = messageData;
   const { group, profile, profileKey } = messageData.message;
 
-  const isMe = await UserUtils.isUs(source);
+  const isMe = UserUtils.isUsFromCache(source);
 
   if (!isMe && profile) {
     const conversation = await ConversationController.getInstance().getOrCreateAndWait(

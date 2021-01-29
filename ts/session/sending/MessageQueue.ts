@@ -113,12 +113,7 @@ export class MessageQueue implements MessageQueueInterface {
     if (!message) {
       return;
     }
-
-    const ourPubKey = await UserUtils.getCurrentDevicePubKey();
-
-    if (!ourPubKey) {
-      throw new Error('ourNumber is not set');
-    }
+    const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
 
     window.log.warn('sendSyncMessage TODO with syncTarget');
     await this.sendMessageToDevices([PubKey.cast(ourPubKey)], message, sentCb);
@@ -182,7 +177,7 @@ export class MessageQueue implements MessageQueueInterface {
     sentCb?: (message: RawMessage) => Promise<void>
   ): Promise<void> {
     // Don't send to ourselves
-    const currentDevice = await UserUtils.getCurrentDevicePubKey();
+    const currentDevice = UserUtils.getOurPubKeyFromCache();
     if (currentDevice && device.isEqual(currentDevice)) {
       return;
     }

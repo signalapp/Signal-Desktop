@@ -881,7 +881,7 @@ async function saveSeenMessageHash(data) {
 
 async function saveMessage(data, { forceSave, Message } = {}) {
   const id = await channels.saveMessage(_cleanData(data), { forceSave });
-  Message.refreshExpirationTimer();
+  window.Whisper.ExpiringMessagesListener.update();
   return id;
 }
 

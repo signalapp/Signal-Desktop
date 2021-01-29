@@ -10,7 +10,6 @@ import { LocalizerType, RenderTextCallbackType } from '../../types/Util';
 
 interface Props {
   text: string;
-  bodyPending?: boolean;
   /** If set, all emoji will be the same size. Otherwise, just one emoji will be large. */
   disableJumbomoji?: boolean;
   /** If set, links will be left alone instead of turned into clickable `<a>` tags. */
@@ -84,25 +83,14 @@ export class MessageBody extends React.Component<Props> {
   };
 
   public addDownloading(jsx: JSX.Element): JSX.Element {
-    const { i18n, bodyPending } = this.props;
+    const { i18n } = this.props;
 
-    return (
-      <span className="text-selectable">
-        {jsx}
-        {bodyPending ? (
-          <span className="module-message-body__highlight">
-            {' '}
-            {i18n('downloading')}
-          </span>
-        ) : null}
-      </span>
-    );
+    return <span className="text-selectable">{jsx}</span>;
   }
 
   public render() {
     const {
       text,
-      bodyPending,
       disableJumbomoji,
       disableLinks,
       i18n,
@@ -110,23 +98,12 @@ export class MessageBody extends React.Component<Props> {
       convoId,
     } = this.props;
     const sizeClass = disableJumbomoji ? undefined : getSizeClass(text);
-    const textWithPending = bodyPending ? `${text}...` : text;
-
-    const emoji = renderEmoji({
-      i18n,
-      text: textWithPending,
-      sizeClass,
-      key: 0,
-      renderNonEmoji: renderNewLines,
-      isGroup,
-      convoId,
-    });
 
     if (disableLinks) {
       return this.addDownloading(
         renderEmoji({
           i18n,
-          text: textWithPending,
+          text,
           sizeClass,
           key: 0,
           renderNonEmoji: renderNewLines,
@@ -138,7 +115,7 @@ export class MessageBody extends React.Component<Props> {
 
     const bodyContents = this.addDownloading(
       <Linkify
-        text={textWithPending}
+        text={text}
         renderNonLink={({ key, text: nonLinkText }) => {
           return renderEmoji({
             i18n,
@@ -155,7 +132,7 @@ export class MessageBody extends React.Component<Props> {
 
     return this.addDownloading(
       <Linkify
-        text={textWithPending}
+        text={text}
         renderNonLink={({ key, text: nonLinkText }) => {
           return renderEmoji({
             i18n,

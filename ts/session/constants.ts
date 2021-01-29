@@ -1,9 +1,7 @@
-import { DAYS, MINUTES, SECONDS } from './utils/Number';
+import { DAYS, SECONDS } from './utils/Number';
 // tslint:disable: binary-expression-operand-order
 
 export const TTL_DEFAULT = {
-  PAIRING_REQUEST: 2 * MINUTES,
-  DEVICE_UNPAIRING: 4 * DAYS,
   TYPING_MESSAGE: 20 * SECONDS,
   REGULAR_MESSAGE: 2 * DAYS,
   ENCRYPTION_PAIR_GROUP: 4 * DAYS,
@@ -15,7 +13,7 @@ export const CONVERSATION = {
   DEFAULT_MEDIA_FETCH_COUNT: 50,
   DEFAULT_DOCUMENTS_FETCH_COUNT: 150,
   DEFAULT_MESSAGE_FETCH_COUNT: 30,
-  MAX_MESSAGE_FETCH_COUNT: 500,
+  MAX_MESSAGE_FETCH_COUNT: 1000,
   // Maximum voice message duraton of 5 minutes
   // which equates to 1.97 MB
   MAX_VOICE_MESSAGE_DURATION: 300,

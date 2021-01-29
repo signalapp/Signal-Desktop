@@ -8,7 +8,7 @@ Whisper.Fixtures = () => {
   const MICHEL_ID = '0505cd123456789abcdef05123456789abcdef05123456789abcdef05123456789'; // twh
 
   const now = Date.now();
-  const conversationCollection = new Whisper.ConversationCollection([
+  const conversationCollection = new window.models.Conversation.ConversationCollection([
     {
       name: 'Vera Zasulich',
       id: VERA_ID,

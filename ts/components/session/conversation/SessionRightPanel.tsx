@@ -17,6 +17,7 @@ import {
 } from '../usingClosedConversationDetails';
 import { save } from '../../../types/Attachment';
 import { DefaultTheme, withTheme } from 'styled-components';
+import { MessageCollection } from '../../../models/message';
 
 interface Props {
   id: string;
@@ -110,14 +111,14 @@ class SessionRightPanel extends React.Component<Props, State> {
       conversationId,
       {
         limit: Constants.CONVERSATION.DEFAULT_MEDIA_FETCH_COUNT,
-        MessageCollection: window.Whisper.MessageCollection,
+        MessageCollection,
       }
     );
     const rawDocuments = await window.Signal.Data.getMessagesWithFileAttachments(
       conversationId,
       {
         limit: Constants.CONVERSATION.DEFAULT_DOCUMENTS_FETCH_COUNT,
-        MessageCollection: window.Whisper.MessageCollection,
+        MessageCollection,
       }
     );
 

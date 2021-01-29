@@ -17,7 +17,7 @@ import {
 } from './session/icon';
 import { SessionModal } from './session/SessionModal';
 import { PillDivider } from './session/PillDivider';
-import { ToastUtils } from '../session/utils';
+import { ToastUtils, UserUtils } from '../session/utils';
 import { DefaultTheme } from 'styled-components';
 
 interface Props {
@@ -69,11 +69,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
     const viewEdit = this.state.mode === 'edit';
     const viewQR = this.state.mode === 'qr';
 
-    /* tslint:disable:no-backbone-get-set-outside-model */
-    const sessionID =
-      window.textsecure.storage.get('primaryDevicePubKey') ||
-      window.textsecure.storage.user.getNumber();
-    /* tslint:enable:no-backbone-get-set-outside-model */
+    const sessionID = UserUtils.getOurPubKeyStrFromCache();
 
     const backButton =
       viewEdit || viewQR

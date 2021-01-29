@@ -102,6 +102,8 @@ export const _getLeftPaneLists = (
   const conversations: Array<ConversationType> = [];
   const allContacts: Array<ConversationType> = [];
 
+  let index = 0;
+
   let unreadCount = 0;
   for (let conversation of sorted) {
     if (selectedConversation === conversation.id) {
@@ -120,6 +122,8 @@ export const _getLeftPaneLists = (
         isBlocked: true,
       };
     }
+
+    conversation.index = index;
 
     // Add Open Group to list as soon as the name has been set
     if (
@@ -152,6 +156,7 @@ export const _getLeftPaneLists = (
     }
 
     conversations.push(conversation);
+    index++;
   }
 
   return {

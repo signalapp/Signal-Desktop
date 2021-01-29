@@ -37,7 +37,7 @@ describe('MessageQueue', () => {
 
   beforeEach(async () => {
     // Utils Stubs
-    sandbox.stub(UserUtils, 'getCurrentDevicePubKey').resolves(ourNumber);
+    sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
 
     TestUtils.stubWindow('libsignal', {
       SignalProtocolAddress: sandbox.stub(),

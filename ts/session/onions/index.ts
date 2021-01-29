@@ -3,6 +3,7 @@ import * as Data from '../../../js/modules/data';
 import * as SnodePool from '../snode_api/snodePool';
 import _ from 'lodash';
 import fetch from 'node-fetch';
+import { UserUtils } from '../utils';
 
 type Snode = SnodePool.Snode;
 
@@ -126,7 +127,7 @@ class OnionPaths {
 
     const url = `https://${snode.ip}:${snode.port}${endpoint}`;
 
-    const ourPK = window.textsecure.storage.user.getNumber();
+    const ourPK = UserUtils.getOurPubKeyStrFromCache();
     const pubKey = window.getStoragePubKey(ourPK); // truncate if testnet
 
     const method = 'get_snodes_for_pubkey';

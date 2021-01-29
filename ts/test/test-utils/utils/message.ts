@@ -1,12 +1,12 @@
 import {
   ChatMessage,
-  ClosedGroupChatMessage,
   OpenGroupMessage,
 } from '../../../session/messages/outgoing';
 import { v4 as uuid } from 'uuid';
 import { OpenGroup } from '../../../session/types';
 import { generateFakePubKey, generateFakePubKeys } from './pubkey';
-import { ConversationAttributes } from '../../../../js/models/conversations';
+import { ClosedGroupChatMessage } from '../../../session/messages/outgoing/content/data/group';
+import { ConversationAttributes } from '../../../models/conversation';
 
 export function generateChatMessage(identifier?: string): ChatMessage {
   return new ChatMessage({
@@ -89,8 +89,8 @@ export class MockConversation {
       mentionedUs: false,
       unreadCount: 99,
       active_at: Date.now(),
-      timestamp: Date.now(),
       lastJoinedTimestamp: Date.now(),
+      lastMessageStatus: null,
     };
   }
 

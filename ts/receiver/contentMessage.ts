@@ -90,7 +90,7 @@ async function decryptForClosedGroup(
       );
     }
     window.log.info('ClosedGroup Message decrypted successfully.');
-    const ourDevicePubKey = await UserUtils.getCurrentDevicePubKey();
+    const ourDevicePubKey = UserUtils.getOurPubKeyStrFromCache();
 
     if (
       envelope.senderIdentity &&

@@ -25,13 +25,13 @@ exports.processNext = async ({
 } = {}) => {
   if (!isFunction(BackboneMessage)) {
     throw new TypeError(
-      "'BackboneMessage' (Whisper.Message) constructor is required"
+      "'BackboneMessage' (MessageModel) constructor is required"
     );
   }
 
   if (!isFunction(BackboneMessageCollection)) {
     throw new TypeError(
-      "'BackboneMessageCollection' (Whisper.MessageCollection)" +
+      "'BackboneMessageCollection' (window.models.Message.MessageCollection)" +
         ' constructor is required'
     );
   }

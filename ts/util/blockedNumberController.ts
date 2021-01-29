@@ -18,7 +18,7 @@ export class BlockedNumberController {
    */
   public static async isBlockedAsync(user: string | PubKey): Promise<boolean> {
     await this.load();
-    const isOurDevice = await UserUtils.isUs(user);
+    const isOurDevice = UserUtils.isUsFromCache(user);
     if (isOurDevice) {
       return false;
     }

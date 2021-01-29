@@ -1,8 +1,8 @@
 // You can see MessageController for in memory registered messages.
 // Ee register messages to it everytime we send one, so that when an event happens we can find which message it was based on this id.
 
-import { ConversationModel } from '../../../js/models/conversations';
-import { MessageModel } from '../../../js/models/messages';
+import { ConversationModel } from '../../models/conversation';
+import { MessageCollection, MessageModel } from '../../models/message';
 
 type MessageControllerEntry = {
   message: MessageModel;
@@ -75,7 +75,7 @@ export class MessageController {
     let messages = [];
     const messageSet = await window.Signal.Data.getMessagesByConversation(key, {
       limit: 100,
-      MessageCollection: window.Whisper.MessageCollection,
+      MessageCollection,
     });
 
     messages = messageSet.models.map(

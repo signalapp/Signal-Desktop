@@ -27,7 +27,7 @@ import { SessionQuotedMessageComposition } from './SessionQuotedMessageCompositi
 import { Mention, MentionsInput } from 'react-mentions';
 import { CaptionEditor } from '../../CaptionEditor';
 import { DefaultTheme } from 'styled-components';
-import { ConversationController } from '../../../session/conversations/ConversationController';
+import { ConversationController } from '../../../session/conversations';
 import { ConversationType } from '../../../state/ducks/conversations';
 import { SessionMemberListItem } from '../SessionMemberListItem';
 
@@ -467,7 +467,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       const conv = ConversationController.getInstance().get(pubKey);
       let profileName = 'Anonymous';
       if (conv) {
-        profileName = conv.getProfileName();
+        profileName = conv.getProfileName() || 'Anonymous';
       }
       return {
         id: pubKey,

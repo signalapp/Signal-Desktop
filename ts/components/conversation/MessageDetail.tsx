@@ -5,7 +5,7 @@ import moment from 'moment';
 import { Avatar } from '../Avatar';
 import { ContactName } from './ContactName';
 import { Message } from './Message';
-import { MessageRegularProps } from '../../../js/models/messages';
+import { MessageRegularProps } from '../../models/messageType';
 
 interface Contact {
   status: string;

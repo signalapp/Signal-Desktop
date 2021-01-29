@@ -23,36 +23,12 @@ import { createPortal } from 'react-dom';
 import { OutgoingMessageStatus } from './conversation/message/OutgoingMessageStatus';
 import { DefaultTheme, withTheme } from 'styled-components';
 import { PubKey } from '../session/types';
+import { ConversationType } from '../state/ducks/conversations';
 
-export type ConversationListItemProps = {
-  id: string;
-  phoneNumber: string;
-  color?: string;
-  profileName?: string;
-  name?: string;
-  type: 'group' | 'direct';
-  avatarPath?: string;
-  isMe: boolean;
-  isPublic?: boolean;
-
-  lastUpdated: number;
-  unreadCount: number;
-  mentionedUs: boolean;
-  isSelected: boolean;
-
-  isTyping: boolean;
-  lastMessage?: {
-    status: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
-    text: string;
-  };
-
-  isBlocked?: boolean;
-  hasNickname?: boolean;
-  isGroupInvitation?: boolean;
-  isKickedFromGroup?: boolean;
-  left?: boolean;
+export interface ConversationListItemProps extends ConversationType {
+  index: number; // used to force a refresh when one conversation is removed on top of the list
   memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
-};
+}
 
 type PropsHousekeeping = {
   i18n: LocalizerType;
@@ -110,7 +86,7 @@ class ConversationListItem extends React.PureComponent<Props> {
   }
 
   public renderHeader() {
-    const { unreadCount, mentionedUs, i18n, isMe, lastUpdated } = this.props;
+    const { unreadCount, mentionedUs, activeAt } = this.props;
 
     let atSymbol = null;
     let unreadCountDiv = null;
@@ -148,7 +124,7 @@ class ConversationListItem extends React.PureComponent<Props> {
           >
             {
               <Timestamp
-                timestamp={lastUpdated}
+                timestamp={activeAt}
                 extended={false}
                 isConversationListItem={true}
                 theme={this.props.theme}

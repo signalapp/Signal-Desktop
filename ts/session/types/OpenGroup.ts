@@ -1,4 +1,4 @@
-import { ConversationModel } from '../../../js/models/conversations';
+import { ConversationModel } from '../../models/conversation';
 import { ConversationController } from '../conversations';
 import { PromiseUtils } from '../utils';
 

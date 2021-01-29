@@ -7,8 +7,8 @@ import _ from 'lodash';
 import * as Data from '../../../js/modules/data';
 
 import { StringUtils } from '../../session/utils';
-import { ConversationController } from '../conversations/ConversationController';
-import { ConversationModel } from '../../../js/models/conversations';
+import { ConversationController } from '../conversations';
+import { ConversationModel } from '../../models/conversation';
 
 type PubkeyToHash = { [key: string]: string };
 
@@ -155,17 +155,17 @@ export class SwarmPolling {
 
   private loadGroupIds() {
     // Start polling for medium size groups as well (they might be in different swarms)
-    const convos = ConversationController.getInstance()
-      .getConversations()
-      .filter(
-        (c: ConversationModel) =>
-          c.isMediumGroup() &&
-          !c.isBlocked() &&
-          !c.get('isKickedFromGroup') &&
-          !c.get('left')
-      );
+    const convos = ConversationController.getInstance().getConversations();
 
-    convos.forEach((c: any) => {
+    const mediumGroupsOnly = convos.filter(
+      (c: ConversationModel) =>
+        c.isMediumGroup() &&
+        !c.isBlocked() &&
+        !c.get('isKickedFromGroup') &&
+        !c.get('left')
+    );
+
+    mediumGroupsOnly.forEach((c: any) => {
       this.addGroupId(new PubKey(c.id));
       // TODO: unsubscribe if the group is deleted
     });

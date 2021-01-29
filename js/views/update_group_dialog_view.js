@@ -101,7 +101,7 @@
       } else {
         this.titleText = i18n('updateGroupDialogTitle', this.groupName);
         // anybody can edit a closed group name or members
-        const ourPK = window.textsecure.storage.user.getNumber();
+        const ourPK = window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
         this.isAdmin = groupConvo.isMediumGroup()
           ? true
           : groupConvo.get('groupAdmins').includes(ourPK);
@@ -156,7 +156,7 @@
     },
     async onSubmit(newMembers) {
       const _ = window.Lodash;
-      const ourPK = textsecure.storage.user.getNumber();
+      const ourPK = window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
       const allMembers = window.Lodash.concat(newMembers, [ourPK]);
 
       // We need to NOT trigger an group update if the list of member is the same.

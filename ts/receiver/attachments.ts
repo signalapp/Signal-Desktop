@@ -1,7 +1,7 @@
-import { MessageModel } from '../../js/models/messages';
 import _ from 'lodash';
 
 import * as Data from '../../js/modules/data';
+import { MessageModel } from '../models/message';
 
 export async function downloadAttachment(attachment: any) {
   const serverUrl = new URL(attachment.url).origin;
@@ -73,32 +73,6 @@ export async function downloadAttachment(attachment: any) {
     ..._.omit(attachment, 'digest', 'key'),
     data,
   };
-}
-
-async function processLongAttachments(
-  message: MessageModel,
-  attachments: Array<any>
-): Promise<boolean> {
-  if (attachments.length === 0) {
-    return false;
-  }
-
-  if (attachments.length > 1) {
-    window.log.error(
-      `Received more than one long message attachment in message ${message.idForLogging()}`
-    );
-  }
-
-  const attachment = attachments[0];
-
-  message.set({ bodyPending: true });
-  await window.Signal.AttachmentDownloads.addJob(attachment, {
-    messageId: message.id,
-    type: 'long-message',
-    index: 0,
-  });
-
-  return true;
 }
 
 async function processNormalAttachments(
@@ -247,17 +221,7 @@ export async function queueAttachmentDownloads(
 
   let count = 0;
 
-  const [longMessageAttachments, normalAttachments] = _.partition(
-    message.get('attachments') || [],
-    (attachment: any) =>
-      attachment.contentType === Whisper.Message.LONG_MESSAGE_CONTENT_TYPE
-  );
-
-  if (await processLongAttachments(message, longMessageAttachments)) {
-    count += 1;
-  }
-
-  count += await processNormalAttachments(message, normalAttachments);
+  count += await processNormalAttachments(message, message.get('attachments'));
 
   count += await processPreviews(message);
 
@@ -271,7 +235,7 @@ export async function queueAttachmentDownloads(
 
   if (count > 0) {
     await Data.saveMessage(message.attributes, {
-      Message: Whisper.Message,
+      Message: MessageModel,
     });
 
     return true;

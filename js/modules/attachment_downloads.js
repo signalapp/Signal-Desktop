@@ -143,7 +143,7 @@ async function _runJob(job) {
     }
 
     const found = await getMessageById(messageId, {
-      Message: Whisper.Message,
+      Message: window.models.Message.MessageModel,
     });
     if (!found) {
       logger.error('_runJob: Source message not found, deleting job');
@@ -227,7 +227,7 @@ async function _runJob(job) {
 async function _finishJob(message, id) {
   if (message) {
     await saveMessage(message.attributes, {
-      Message: Whisper.Message,
+      Message: window.models.Message.MessageModel,
     });
     const conversation = message.getConversation();
     if (conversation) {
@@ -263,7 +263,6 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
       const { data } = await Signal.Migrations.loadAttachmentData(attachment);
       message.set({
         body: attachment.isError ? message.get('body') : stringFromBytes(data),
-        bodyPending: false,
       });
     } finally {
       Signal.Migrations.deleteAttachmentData(attachment.path);

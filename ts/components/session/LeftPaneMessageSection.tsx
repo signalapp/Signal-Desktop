@@ -26,7 +26,7 @@ import {
   SessionButtonType,
 } from './SessionButton';
 import { OpenGroup, PubKey } from '../../session/types';
-import { ToastUtils } from '../../session/utils';
+import { ToastUtils, UserUtils } from '../../session/utils';
 import { DefaultTheme } from 'styled-components';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { ConversationController } from '../../session/conversations';
@@ -264,7 +264,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     if (search) {
       search(searchTerm, {
         noteToSelf: window.i18n('noteToSelf').toLowerCase(),
-        ourNumber: window.textsecure.storage.user.getNumber(),
+        ourNumber: UserUtils.getOurPubKeyStrFromCache(),
       });
     }
   }

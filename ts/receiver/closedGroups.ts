@@ -19,12 +19,12 @@ import {
 } from '../session/messages/outgoing/content/data/group/ClosedGroupNewMessage';
 
 import { ECKeyPair } from './keypairs';
-import { getOurNumber } from '../session/utils/User';
 import { UserUtils } from '../session/utils';
+import { ConversationModel } from '../models/conversation';
 
-export async function handleClosedGroup(
+export async function handleClosedGroupControlMessage(
   envelope: EnvelopePlus,
-  groupUpdate: any
+  groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage
 ) {
   const { type } = groupUpdate;
   const { Type } = SignalService.DataMessage.ClosedGroupControlMessage;
@@ -36,11 +36,17 @@ export async function handleClosedGroup(
   }
 
   if (type === Type.ENCRYPTION_KEY_PAIR) {
-    await handleKeyPairClosedGroup(envelope, groupUpdate);
+    await handleClosedGroupEncryptionKeyPair(envelope, groupUpdate);
   } else if (type === Type.NEW) {
     await handleNewClosedGroup(envelope, groupUpdate);
-  } else if (type === Type.UPDATE) {
-    await handleUpdateClosedGroup(envelope, groupUpdate);
+  } else if (
+    type === Type.NAME_CHANGE ||
+    type === Type.MEMBERS_REMOVED ||
+    type === Type.MEMBERS_ADDED ||
+    type === Type.MEMBER_LEFT ||
+    type === Type.UPDATE
+  ) {
+    await performIfValid(envelope, groupUpdate);
   } else {
     window.log.error('Unknown group update type: ', type);
   }
@@ -139,7 +145,7 @@ async function handleNewClosedGroup(
   const members = membersAsData.map(toHex);
   const admins = adminsAsData.map(toHex);
 
-  const ourPrimary = await UserUtils.getOurNumber();
+  const ourPrimary = UserUtils.getOurPubKeyFromCache();
   if (!members.includes(ourPrimary.key)) {
     log.info(
       'Got a new group message but apparently we are not a member of it. Dropping it.'
@@ -218,66 +224,23 @@ async function handleNewClosedGroup(
 
 async function handleUpdateClosedGroup(
   envelope: EnvelopePlus,
-  groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage
+  groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage,
+  convo: ConversationModel
 ) {
-  if (
-    groupUpdate.type !==
-    SignalService.DataMessage.ClosedGroupControlMessage.Type.UPDATE
-  ) {
-    return;
-  }
   const { name, members: membersBinary } = groupUpdate;
   const { log } = window;
 
   // for a closed group update message, the envelope.source is the groupPublicKey
   const groupPublicKey = envelope.source;
 
-  const convo = ConversationController.getInstance().get(groupPublicKey);
-
-  if (!convo) {
-    log.warn(
-      'Ignoring a closed group update message (INFO) for a non-existing group'
-    );
-    await removeFromCache(envelope);
-    return;
-  }
-
-  // Check that the message isn't from before the group was created
-  let lastJoinedTimestamp = convo.get('lastJoinedTimestamp');
-  // might happen for existing groups
-  if (!lastJoinedTimestamp) {
-    const aYearAgo = Date.now() - 1000 * 60 * 24 * 365;
-    convo.set({
-      lastJoinedTimestamp: aYearAgo,
-    });
-    lastJoinedTimestamp = aYearAgo;
-  }
-
-  if (envelope.timestamp <= lastJoinedTimestamp) {
-    window.log.warn(
-      'Got a group update with an older timestamp than when we joined this group last time. Dropping it'
-    );
-    await removeFromCache(envelope);
-    return;
-  }
   const curAdmins = convo.get('groupAdmins');
-
-  // Check that the sender is a member of the group (before the update)
-  const oldMembers = convo.get('members') || [];
-  if (!oldMembers.includes(envelope.senderIdentity)) {
-    log.error(
-      `Error: closed group: ignoring closed group update message from non-member. ${envelope.senderIdentity} is not a current member.`
-    );
-    await removeFromCache(envelope);
-    return;
-  }
 
   // NOTE: admins cannot change with closed groups
   const members = membersBinary.map(toHex);
   const diff = ClosedGroup.buildGroupDiff(convo, { name, members });
 
   // Check whether we are still in the group
-  const ourNumber = await UserUtils.getOurNumber();
+  const ourNumber = UserUtils.getOurPubKeyFromCache();
   const wasCurrentUserRemoved = !members.includes(ourNumber.key);
   const isCurrentUserAdmin = curAdmins?.includes(ourNumber.key);
 
@@ -293,8 +256,8 @@ async function handleUpdateClosedGroup(
     await window.Signal.Data.removeAllClosedGroupEncryptionKeyPairs(
       groupPublicKey
     );
-    convo.set('isKickedFromGroup', true);
     // Disable typing:
+    convo.set('isKickedFromGroup', true);
     window.SwarmPolling.removePubkey(groupPublicKey);
   } else {
     if (convo.get('isKickedFromGroup')) {
@@ -341,7 +304,7 @@ async function handleUpdateClosedGroup(
  * In this message, we have n-times the same keypair encoded with n being the number of current members.
  * One of that encoded keypair is the one for us. We need to find it, decode it, and save it for use with this group.
  */
-async function handleKeyPairClosedGroup(
+async function handleClosedGroupEncryptionKeyPair(
   envelope: EnvelopePlus,
   groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage
 ) {
@@ -351,7 +314,7 @@ async function handleKeyPairClosedGroup(
   ) {
     return;
   }
-  const ourNumber = await UserUtils.getOurNumber();
+  const ourNumber = UserUtils.getOurPubKeyFromCache();
   const groupPublicKey = envelope.source;
   const ourKeyPair = await UserUtils.getIdentityKeyPair();
 
@@ -451,13 +414,195 @@ async function handleKeyPairClosedGroup(
   await removeFromCache(envelope);
 }
 
+async function performIfValid(
+  envelope: EnvelopePlus,
+  groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage
+) {
+  const { Type } = SignalService.DataMessage.ClosedGroupControlMessage;
+
+  const groupPublicKey = envelope.source;
+
+  const convo = ConversationController.getInstance().get(groupPublicKey);
+  if (!convo) {
+    window.log.warn('dropping message for nonexistent group');
+    return;
+  }
+
+  if (!convo) {
+    window.log.warn(
+      'Ignoring a closed group update message (INFO) for a non-existing group'
+    );
+    return removeFromCache(envelope);
+  }
+
+  // Check that the message isn't from before the group was created
+  let lastJoinedTimestamp = convo.get('lastJoinedTimestamp');
+  // might happen for existing groups
+  if (!lastJoinedTimestamp) {
+    const aYearAgo = Date.now() - 1000 * 60 * 24 * 365;
+    convo.set({
+      lastJoinedTimestamp: aYearAgo,
+    });
+    lastJoinedTimestamp = aYearAgo;
+  }
+
+  if (envelope.timestamp <= lastJoinedTimestamp) {
+    window.log.warn(
+      'Got a group update with an older timestamp than when we joined this group last time. Dropping it.'
+    );
+    return removeFromCache(envelope);
+  }
+
+  // Check that the sender is a member of the group (before the update)
+  const oldMembers = convo.get('members') || [];
+  if (!oldMembers.includes(envelope.senderIdentity)) {
+    window.log.error(
+      `Error: closed group: ignoring closed group update message from non-member. ${envelope.senderIdentity} is not a current member.`
+    );
+    await removeFromCache(envelope);
+    return;
+  }
+
+  if (groupUpdate.type === Type.UPDATE) {
+    await handleUpdateClosedGroup(envelope, groupUpdate, convo);
+  } else if (groupUpdate.type === Type.NAME_CHANGE) {
+    await handleClosedGroupNameChanged(envelope, groupUpdate, convo);
+  } else if (groupUpdate.type === Type.MEMBERS_ADDED) {
+    await handleClosedGroupMembersAdded(envelope, groupUpdate, convo);
+  } else if (groupUpdate.type === Type.MEMBERS_REMOVED) {
+    await handleClosedGroupMembersRemoved(envelope, groupUpdate, convo);
+  } else if (groupUpdate.type === Type.MEMBER_LEFT) {
+    await handleClosedGroupMemberLeft(envelope, groupUpdate, convo);
+  }
+
+  return true;
+}
+
+async function handleClosedGroupNameChanged(
+  envelope: EnvelopePlus,
+  groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage,
+  convo: ConversationModel
+) {
+  // Only add update message if we have something to show
+  const newName = groupUpdate.name;
+  if (newName !== convo.get('name')) {
+    const groupDiff: ClosedGroup.GroupDiff = {
+      newName,
+    };
+    await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming');
+    convo.set({ name: newName });
+    await convo.commit();
+  }
+
+  await removeFromCache(envelope);
+}
+
+async function handleClosedGroupMembersAdded(
+  envelope: EnvelopePlus,
+  groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage,
+  convo: ConversationModel
+) {
+  const { members: addedMembersBinary } = groupUpdate;
+  const addedMembers = (addedMembersBinary || []).map(toHex);
+  const oldMembers = convo.get('members') || [];
+  const membersNotAlreadyPresent = addedMembers.filter(
+    m => !oldMembers.includes(m)
+  );
+  console.warn('membersNotAlreadyPresent', membersNotAlreadyPresent);
+
+  if (membersNotAlreadyPresent.length === 0) {
+    window.log.info(
+      'no new members in this group update compared to what we have already. Skipping update'
+    );
+    await removeFromCache(envelope);
+    return;
+  }
+
+  const members = [...oldMembers, ...membersNotAlreadyPresent];
+  // Only add update message if we have something to show
+
+  const groupDiff: ClosedGroup.GroupDiff = {
+    joiningMembers: membersNotAlreadyPresent,
+  };
+  await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming');
+
+  convo.set({ members });
+  await convo.commit();
+  await removeFromCache(envelope);
+}
+
+async function handleClosedGroupMembersRemoved(
+  envelope: EnvelopePlus,
+  groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage,
+  convo: ConversationModel
+) {}
+
+async function handleClosedGroupMemberLeft(
+  envelope: EnvelopePlus,
+  groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage,
+  convo: ConversationModel
+) {
+  const sender = envelope.senderIdentity;
+  const groupPublicKey = envelope.source;
+  const didAdminLeave = convo.get('groupAdmins')?.includes(sender) || false;
+  // If the admin leaves the group is disbanded
+  // otherwise, we remove the sender from the list of current members in this group
+  const oldMembers = convo.get('members') || [];
+  const leftMemberWasPresent = oldMembers.includes(sender);
+  const members = didAdminLeave ? [] : oldMembers.filter(s => s !== sender);
+  // Guard against self-sends
+  const ourPubkey = UserUtils.getOurPubKeyStrFromCache();
+  if (!ourPubkey) {
+    throw new Error('Could not get user pubkey');
+  }
+  if (sender === ourPubkey) {
+    window.log.info('self send group update ignored');
+    await removeFromCache(envelope);
+    return;
+  }
+
+  // Generate and distribute a new encryption key pair if needed
+  const isCurrentUserAdmin =
+    convo.get('groupAdmins')?.includes(ourPubkey) || false;
+  if (isCurrentUserAdmin && !!members.length) {
+    await ClosedGroup.generateAndSendNewEncryptionKeyPair(
+      groupPublicKey,
+      members
+    );
+  }
+
+  if (didAdminLeave) {
+    await window.Signal.Data.removeAllClosedGroupEncryptionKeyPairs(
+      groupPublicKey
+    );
+    // Disable typing:
+    convo.set('isKickedFromGroup', true);
+    window.SwarmPolling.removePubkey(groupPublicKey);
+  }
+  // Update the group
+
+  // Only add update message if we have something to show
+  if (leftMemberWasPresent) {
+    const groupDiff: ClosedGroup.GroupDiff = {
+      leavingMembers: didAdminLeave ? oldMembers : [sender],
+    };
+    await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming');
+  }
+
+  convo.set('members', members);
+
+  await convo.commit();
+
+  await removeFromCache(envelope);
+}
+
 export async function createClosedGroup(
   groupName: string,
   members: Array<string>
 ) {
   const setOfMembers = new Set(members);
 
-  const ourNumber = await getOurNumber();
+  const ourNumber = UserUtils.getOurPubKeyFromCache();
   // Create Group Identity
   // Generate the key pair that'll be used for encryption and decryption
   // Generate the group's public key
@@ -504,6 +649,7 @@ export async function createClosedGroup(
   // the sending pipeline needs to know from GroupUtils when a message is for a medium group
   await ClosedGroup.updateOrCreateClosedGroup(groupDetails);
   convo.set('lastJoinedTimestamp', Date.now());
+  await convo.commit();
 
   // Send a closed group update message to all members individually
   const promises = listOfMembers.map(async m => {

@@ -5,13 +5,19 @@ import { KeyPair } from '../../../libtextsecure/libsignal-protocol';
 import { PubKey } from '../types';
 import { toHex } from './String';
 
-export async function isUs(
-  pubKey: string | PubKey | undefined
-): Promise<boolean> {
+export type HexKeyPair = {
+  pubKey: string;
+  privKey: string;
+};
+
+/**
+ * Check if this pubkey is us, using the cache.
+ */
+export function isUsFromCache(pubKey: string | PubKey | undefined): boolean {
   if (!pubKey) {
     throw new Error('pubKey is not set');
   }
-  const ourNumber = await UserUtils.getCurrentDevicePubKey();
+  const ourNumber = UserUtils.getOurPubKeyStrFromCache();
   if (!ourNumber) {
     throw new Error('ourNumber is not set');
   }
@@ -19,20 +25,22 @@ export async function isUs(
   return pubKeyStr === ourNumber;
 }
 
-export type HexKeyPair = {
-  pubKey: string;
-  privKey: string;
-};
-
 /**
- * Returns the public key of this current device as a string
+ * Returns the public key of this current device as a STRING, or throws an error
  */
-export async function getCurrentDevicePubKey(): Promise<string | undefined> {
-  return window.textsecure.storage.user.getNumber();
+export function getOurPubKeyStrFromCache(): string {
+  const ourNumber = window.textsecure.storage.user.getNumber();
+  if (!ourNumber) {
+    throw new Error('ourNumber is not set');
+  }
+  return ourNumber;
 }
 
-export async function getOurNumber(): Promise<PubKey> {
-  const ourNumber = await UserUtils.getCurrentDevicePubKey();
+/**
+ * Returns the public key of this current device as a PubKey, or throws an error
+ */
+export function getOurPubKeyFromCache(): PubKey {
+  const ourNumber = UserUtils.getOurPubKeyStrFromCache();
   if (!ourNumber) {
     throw new Error('ourNumber is not set');
   }

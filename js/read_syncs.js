@@ -30,7 +30,7 @@
         const messages = await window.Signal.Data.getMessagesBySentAt(
           receipt.get('timestamp'),
           {
-            MessageCollection: Whisper.MessageCollection,
+            MessageCollection: window.models.Message.MessageCollection,
           }
         );
 

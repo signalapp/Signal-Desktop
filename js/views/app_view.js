@@ -186,7 +186,7 @@
 
       const title = i18n('leaveGroup');
       const message = i18n('leaveGroupConfirmation');
-      const ourPK = window.textsecure.storage.user.getNumber();
+      const ourPK = window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
       const isAdmin = (groupConvo.get('groupAdmins') || []).includes(ourPK);
       const isClosedGroup = groupConvo.get('is_medium_group') || false;
 

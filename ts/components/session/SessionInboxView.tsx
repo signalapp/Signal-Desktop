@@ -1,11 +1,13 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { MessageModel } from '../../models/message';
 import { getMessageQueue } from '../../session';
-import { ConversationController } from '../../session/conversations/ConversationController';
+import { ConversationController } from '../../session/conversations';
 import { MessageController } from '../../session/messages';
 import { OpenGroupMessage } from '../../session/messages/outgoing';
 import { RawMessage } from '../../session/types';
+import { UserUtils } from '../../session/utils';
 import { createStore } from '../../state/createStore';
 import { actions as conversationActions } from '../../state/ducks/conversations';
 import { actions as userActions } from '../../state/ducks/user';
@@ -114,24 +116,6 @@ export class SessionInboxView extends React.Component<Props, State> {
   }
 
   private async fetchHandleMessageSentData(m: RawMessage | OpenGroupMessage) {
-    // nobody is listening to this freshly fetched message .trigger calls
-    const tmpMsg = await window.Signal.Data.getMessageById(m.identifier, {
-      Message: window.Whisper.Message,
-    });
-
-    if (!tmpMsg) {
-      return null;
-    }
-
-    // find the corresponding conversation of this message
-    const conv = ConversationController.getInstance().get(
-      tmpMsg.get('conversationId')
-    );
-
-    if (!conv) {
-      return null;
-    }
-
     const msg = window.getMessageController().get(m.identifier);
 
     if (!msg || !msg.message) {
@@ -183,6 +167,8 @@ export class SessionInboxView extends React.Component<Props, State> {
 
     const fullFilledConversations = await Promise.all(filledConversations);
 
+    console.warn('fullFilledConversations', fullFilledConversations);
+
     const initialState = {
       conversations: {
         conversationLookup: window.Signal.Util.makeLookup(
@@ -192,9 +178,7 @@ export class SessionInboxView extends React.Component<Props, State> {
       },
       user: {
         ourPrimary: window.storage.get('primaryDevicePubKey'),
-        ourNumber:
-          window.storage.get('primaryDevicePubKey') ||
-          window.textsecure.storage.user.getNumber(),
+        ourNumber: UserUtils.getOurPubKeyStrFromCache(),
         i18n: window.i18n,
       },
       section: {

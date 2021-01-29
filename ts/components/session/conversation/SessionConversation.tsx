@@ -31,6 +31,7 @@ import { pushUnblockToSend } from '../../../session/utils/Toast';
 import { MessageDetail } from '../../conversation/MessageDetail';
 import { ConversationController } from '../../../session/conversations';
 import { PubKey } from '../../../session/types';
+import { MessageModel } from '../../../models/message';
 
 interface State {
   // Message sending progress
@@ -260,8 +261,7 @@ export class SessionConversation extends React.Component<Props, State> {
       attachments: any,
       quote: any,
       preview: any,
-      groupInvitation: any,
-      otherOptions: any
+      groupInvitation: any
     ) => {
       if (!conversationModel) {
         return;
@@ -271,8 +271,7 @@ export class SessionConversation extends React.Component<Props, State> {
         attachments,
         quote,
         preview,
-        groupInvitation,
-        otherOptions
+        groupInvitation
       );
       if (this.messageContainerRef.current) {
         // force scrolling to bottom on message sent
@@ -436,14 +435,13 @@ export class SessionConversation extends React.Component<Props, State> {
       hasNickname: !!conversation.getNickname(),
       selectionMode: !!selectedMessages.length,
 
-      onSetDisappearingMessages: (seconds: any) =>
-        conversation.updateExpirationTimer(seconds),
-      onDeleteMessages: () => conversation.deleteMessages(),
+      onSetDisappearingMessages: conversation.updateExpirationTimer,
+      onDeleteMessages: conversation.deleteMessages,
       onDeleteSelectedMessages: this.deleteSelectedMessages,
       onCloseOverlay: () => {
         this.setState({ selectedMessages: [] });
       },
-      onDeleteContact: () => conversation.deleteContact(),
+      onDeleteContact: conversation.deleteContact,
 
       onGoBack: () => {
         this.setState({
@@ -456,10 +454,10 @@ export class SessionConversation extends React.Component<Props, State> {
       },
 
       onBlockUser: () => {
-        conversation.block();
+        void conversation.block();
       },
       onUnblockUser: () => {
-        conversation.unblock();
+        void conversation.unblock();
       },
       onCopyPublicKey: () => {
         conversation.copyPublicKey();
@@ -681,7 +679,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
       if (selectedConversation.isPublic) {
         // Get our Moderator status
-        const ourDevicePubkey = await UserUtils.getCurrentDevicePubKey();
+        const ourDevicePubkey = UserUtils.getOurPubKeyStrFromCache();
         if (!ourDevicePubkey) {
           return;
         }
@@ -808,7 +806,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
         if (quotedMessage) {
           const quotedMessageModel = await getMessageById(quotedMessage.id, {
-            Message: window.Whisper.Message,
+            Message: MessageModel,
           });
           if (quotedMessageModel) {
             quotedMessageProps = await conversationModel.makeQuote(
@@ -1204,10 +1202,8 @@ export class SessionConversation extends React.Component<Props, State> {
 
     const allMembers = allPubKeys.map((pubKey: string) => {
       const conv = ConversationController.getInstance().get(pubKey);
-      let profileName = 'Anonymous';
-      if (conv) {
-        profileName = conv.getProfileName();
-      }
+      const profileName = conv?.getProfileName() || 'Anonymous';
+
       return {
         id: pubKey,
         authorPhoneNumber: pubKey,

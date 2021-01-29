@@ -120,7 +120,7 @@
       accountManager = new textsecure.AccountManager(USERNAME, PASSWORD);
       accountManager.addEventListener('registration', () => {
         const user = {
-          ourNumber: textsecure.storage.user.getNumber(),
+          ourNumber: libsession.Utils.UserUtils.getOurPubKeyStrFromCache(),
           ourPrimary: window.textsecure.storage.get('primaryDevicePubKey'),
         };
         Whisper.events.trigger('userChanged', user);
@@ -152,7 +152,8 @@
     }
     const publicConversations = await window.Signal.Data.getAllPublicConversations(
       {
-        ConversationCollection: Whisper.ConversationCollection,
+        ConversationCollection:
+          window.models.Conversation.ConversationCollection,
       }
     );
     publicConversations.forEach(conversation => {
@@ -166,7 +167,7 @@
     if (window.initialisedAPI) {
       return;
     }
-    const ourKey = textsecure.storage.user.getNumber();
+    const ourKey = libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
     window.lokiMessageAPI = new window.LokiMessageAPI();
     // singleton to relay events to libtextsecure/message_receiver
     window.lokiPublicChatAPI = new window.LokiPublicChatAPI(ourKey);
@@ -227,7 +228,10 @@
       Whisper.Registration.isDone() &&
       !storage.get('primaryDevicePubKey', null)
     ) {
-      storage.put('primaryDevicePubKey', textsecure.storage.user.getNumber());
+      storage.put(
+        'primaryDevicePubKey',
+        window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache()
+      );
     }
 
     // These make key operations available to IPC handlers created in preload.js
@@ -322,8 +326,8 @@
 
       if (!isMigrationWithIndexComplete) {
         const batchWithIndex = await MessageDataMigrator.processNext({
-          BackboneMessage: Whisper.Message,
-          BackboneMessageCollection: Whisper.MessageCollection,
+          BackboneMessage: window.models.Message.MessageModel,
+          BackboneMessageCollection: window.models.Message.MessageCollection,
           numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
           upgradeMessageSchema,
           getMessagesNeedingUpgrade:
@@ -391,7 +395,7 @@
           conversation.removeMessage(id);
         }
         window.Signal.Data.removeMessage(id, {
-          Message: Whisper.Message,
+          Message: window.models.Message.MessageModel,
         });
       });
     }
@@ -411,7 +415,7 @@
 
     const results = await Promise.all([
       window.Signal.Data.getOutgoingWithoutExpiresAt({
-        MessageCollection: Whisper.MessageCollection,
+        MessageCollection: window.models.Message.MessageCollection,
       }),
     ]);
 
@@ -450,7 +454,7 @@
 
         window.log.info(`Cleanup: Deleting unsent message ${sentAt}`);
         await window.Signal.Data.removeMessage(message.id, {
-          Message: Whisper.Message,
+          Message: window.models.Message.MessageModel,
         });
       })
     );
@@ -1018,7 +1022,7 @@
     }, window.CONSTANTS.NOTIFICATION_ENABLE_TIMEOUT_SECONDS * 1000);
 
     // TODO: Investigate the case where we reconnect
-    const ourKey = textsecure.storage.user.getNumber();
+    const ourKey = window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
     window.SwarmPolling.addPubkey(ourKey);
     window.SwarmPolling.start();
 

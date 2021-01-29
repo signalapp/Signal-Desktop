@@ -166,7 +166,9 @@ describe('BlockedNumberController', () => {
     let ourDevice: PubKey;
     beforeEach(() => {
       ourDevice = TestUtils.generateFakePubKey();
-      sandbox.stub(UserUtils, 'getCurrentDevicePubKey').resolves(ourDevice.key);
+      sandbox
+        .stub(UserUtils, 'getOurPubKeyStrFromCache')
+        .returns(ourDevice.key);
     });
     it('should return false for our device', async () => {
       const isBlocked = await BlockedNumberController.isBlockedAsync(ourDevice);

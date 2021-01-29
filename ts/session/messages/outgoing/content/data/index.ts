@@ -5,6 +5,5 @@ export * from './group/ClosedGroupMessage';
 export * from './group/ClosedGroupChatMessage';
 export * from './group/ClosedGroupEncryptionPairMessage';
 export * from './group/ClosedGroupNewMessage';
-export * from './group/ClosedGroupUpdateMessage';
 export * from './group/ClosedGroupMessage';
 export * from './ExpirationTimerUpdateMessage';

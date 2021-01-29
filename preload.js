@@ -55,6 +55,16 @@ window.getStoragePubKey = key =>
 window.getDefaultFileServer = () => config.defaultFileServer;
 window.initialisedAPI = false;
 
+window.lokiFeatureFlags = {
+  multiDeviceUnpairing: true,
+  privateGroupChats: true,
+  useOnionRequests: true,
+  useOnionRequestsV2: true,
+  useFileOnionRequests: true,
+  useFileOnionRequestsV2: true, // more compact encoding of files in response
+  onionRequestHops: 3,
+};
+
 if (
   typeof process.env.NODE_ENV === 'string' &&
   process.env.NODE_ENV.includes('test-integration')
@@ -174,13 +184,6 @@ window.setPassword = (passPhrase, oldPhrase) =>
   });
 
 window.passwordUtil = require('./ts/util/passwordUtils');
-window.libsession = require('./ts/session');
-
-window.getMessageController =
-  window.libsession.Messages.MessageController.getInstance;
-
-window.getConversationController =
-  window.libsession.Conversations.ConversationController.getInstance;
 
 // We never do these in our code, so we'll prevent it everywhere
 window.open = () => null;
@@ -336,14 +339,31 @@ require('./js/logging');
 if (config.proxyUrl) {
   window.log.info('Using provided proxy url');
 }
-
 window.nodeSetImmediate = setImmediate;
 
-window.seedNodeList = JSON.parse(config.seedNodeList);
+const Signal = require('./js/modules/signal');
+const i18n = require('./js/modules/i18n');
+const Attachments = require('./app/attachments');
 
-const { OnionAPI } = require('./ts/session/onions');
+const { locale } = config;
+window.i18n = i18n.setup(locale, localeMessages);
 
-window.OnionAPI = OnionAPI;
+window.moment = require('moment');
+
+window.moment.updateLocale(locale, {
+  relativeTime: {
+    s: window.i18n('timestamp_s'),
+    m: window.i18n('timestamp_m'),
+    h: window.i18n('timestamp_h'),
+  },
+});
+window.moment.locale(locale);
+
+window.Signal = Signal.setup({
+  Attachments,
+  userDataPath: app.getPath('userData'),
+  logger: window.log,
+});
 
 if (process.env.USE_STUBBED_NETWORK) {
   const StubMessageAPI = require('./ts/test/session/integration/stubs/stub_message_api');
@@ -367,6 +387,7 @@ const WorkerInterface = require('./js/modules/util_worker_interface');
 // A Worker with a 3 minute timeout
 const utilWorkerPath = path.join(app.getAppPath(), 'js', 'util_worker.js');
 const utilWorker = new WorkerInterface(utilWorkerPath, 3 * 60 * 1000);
+
 window.callWorker = (fnName, ...args) => utilWorker.callWorker(fnName, ...args);
 
 // Linux seems to periodically let the event loop stop, so this is a global workaround
@@ -385,30 +406,24 @@ window.profileImages = require('./app/profile_images');
 
 window.React = require('react');
 window.ReactDOM = require('react-dom');
-window.moment = require('moment');
 
 window.clipboard = clipboard;
 
-const Signal = require('./js/modules/signal');
-const i18n = require('./js/modules/i18n');
-const Attachments = require('./app/attachments');
+window.seedNodeList = JSON.parse(config.seedNodeList);
 
-const { locale } = config;
-window.i18n = i18n.setup(locale, localeMessages);
-window.moment.updateLocale(locale, {
-  relativeTime: {
-    s: window.i18n('timestamp_s'),
-    m: window.i18n('timestamp_m'),
-    h: window.i18n('timestamp_h'),
-  },
-});
-window.moment.locale(locale);
+const { OnionAPI } = require('./ts/session/onions');
 
-window.Signal = Signal.setup({
-  Attachments,
-  userDataPath: app.getPath('userData'),
-  logger: window.log,
-});
+window.OnionAPI = OnionAPI;
+
+window.libsession = require('./ts/session');
+
+window.models = require('./ts/models');
+
+window.getMessageController = () =>
+  window.libsession.Messages.MessageController.getInstance();
+
+window.getConversationController = () =>
+  window.libsession.Conversations.ConversationController.getInstance();
 
 // Pulling these in separately since they access filesystem, electron
 window.Signal.Backup = require('./js/modules/backup');
@@ -438,16 +453,6 @@ if (process.env.USE_STUBBED_NETWORK) {
 } else {
   window.SwarmPolling = new SwarmPolling();
 }
-
-window.lokiFeatureFlags = {
-  multiDeviceUnpairing: true,
-  privateGroupChats: true,
-  useOnionRequests: true,
-  useOnionRequestsV2: true,
-  useFileOnionRequests: true,
-  useFileOnionRequestsV2: true, // more compact encoding of files in response
-  onionRequestHops: 3,
-};
 
 // eslint-disable-next-line no-extend-native,func-names
 Promise.prototype.ignore = function() {

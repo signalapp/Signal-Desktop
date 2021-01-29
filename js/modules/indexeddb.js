@@ -54,7 +54,7 @@ async function mandatoryMessageUpgrade({ upgradeMessageSchema } = {}) {
         numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
         upgradeMessageSchema,
         maxVersion: MESSAGE_MINIMUM_VERSION,
-        BackboneMessage: Whisper.Message,
+        BackboneMessage: window.models.Message.MessageModel,
         saveMessage: window.Signal.Data.saveLegacyMessage,
       }
     );
@@ -70,8 +70,8 @@ async function mandatoryMessageUpgrade({ upgradeMessageSchema } = {}) {
   while (!isMigrationWithIndexComplete) {
     // eslint-disable-next-line no-await-in-loop
     const batchWithIndex = await MessageDataMigrator.processNext({
-      BackboneMessage: Whisper.Message,
-      BackboneMessageCollection: Whisper.MessageCollection,
+      BackboneMessage: window.models.Message.MessageModel,
+      BackboneMessageCollection: window.models.Message.MessageCollection,
       numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
       upgradeMessageSchema,
       getMessagesNeedingUpgrade:

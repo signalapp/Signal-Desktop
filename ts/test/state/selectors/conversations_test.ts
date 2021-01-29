@@ -20,7 +20,6 @@ describe('state/selectors/conversations', () => {
 
           type: 'direct',
           isMe: false,
-          lastUpdated: Date.now(),
           unreadCount: 1,
           mentionedUs: false,
           isSelected: false,
@@ -38,7 +37,6 @@ describe('state/selectors/conversations', () => {
 
           type: 'direct',
           isMe: false,
-          lastUpdated: Date.now(),
           unreadCount: 1,
           mentionedUs: false,
           isSelected: false,
@@ -56,7 +54,6 @@ describe('state/selectors/conversations', () => {
 
           type: 'direct',
           isMe: false,
-          lastUpdated: Date.now(),
           unreadCount: 1,
           mentionedUs: false,
           isSelected: false,
@@ -73,7 +70,6 @@ describe('state/selectors/conversations', () => {
           phoneNumber: 'notused',
           type: 'direct',
           isMe: false,
-          lastUpdated: Date.now(),
           unreadCount: 1,
           mentionedUs: false,
           isSelected: false,
@@ -90,7 +86,6 @@ describe('state/selectors/conversations', () => {
           phoneNumber: 'notused',
           type: 'direct',
           isMe: false,
-          lastUpdated: Date.now(),
           unreadCount: 1,
           mentionedUs: false,
           isSelected: false,

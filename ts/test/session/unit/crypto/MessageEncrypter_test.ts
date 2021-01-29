@@ -117,7 +117,7 @@ describe('MessageEncrypter', () => {
       } as any,
     });
 
-    sandbox.stub(UserUtils, 'getCurrentDevicePubKey').resolves(ourNumber);
+    sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
     sandbox
       .stub(UserUtils, 'getUserED25519KeyPair')
       .resolves(ourUserEd25516Keypair);

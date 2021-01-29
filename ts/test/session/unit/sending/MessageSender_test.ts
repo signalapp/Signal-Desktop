@@ -59,7 +59,7 @@ describe('MessageSender', () => {
         cipherText: crypto.randomBytes(10),
       });
 
-      sandbox.stub(UserUtils, 'getCurrentDevicePubKey').resolves(ourNumber);
+      sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
     });
 
     describe('retry', () => {

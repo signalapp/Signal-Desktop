@@ -20,6 +20,8 @@ import { Store } from 'redux';
 import { MessageController } from './session/messages/MessageController';
 import { DefaultTheme } from 'styled-components';
 
+import { ConversationCollection } from './models/conversation';
+
 /*
 We declare window stuff here instead of global.d.ts because we are importing other declarations.
 If you import anything in global.d.ts, the type system won't work correctly.
@@ -90,7 +92,7 @@ declare global {
     tokenlessFileServerAdnAPI: LokiAppDotNetServerInterface;
     userConfig: any;
     versionInfo: any;
-    getStoragePubKey: any;
+    getStoragePubKey: (key: string) => string;
     getConversations: () => ConversationCollection;
     getGuid: any;
     SwarmPolling: SwarmPolling;
@@ -116,5 +118,7 @@ declare global {
     openUrl: (string) => void;
     lightTheme: DefaultTheme;
     darkTheme: DefaultTheme;
+    LokiPushNotificationServer: any;
+    LokiPushNotificationServerApi: any;
   }
 }

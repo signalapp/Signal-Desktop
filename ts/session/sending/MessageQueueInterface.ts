@@ -1,4 +1,8 @@
-import { ContentMessage, OpenGroupMessage } from '../messages/outgoing';
+import {
+  ContentMessage,
+  ExpirationTimerUpdateMessage,
+  OpenGroupMessage,
+} from '../messages/outgoing';
 import { RawMessage } from '../types/RawMessage';
 import { TypedEventEmitter } from '../utils';
 import { PubKey } from '../types';
@@ -8,7 +12,8 @@ import { ClosedGroupChatMessage } from '../messages/outgoing/content/data/group/
 export type GroupMessageType =
   | OpenGroupMessage
   | ClosedGroupChatMessage
-  | ClosedGroupMessage;
+  | ClosedGroupMessage
+  | ExpirationTimerUpdateMessage;
 export interface MessageQueueInterfaceEvents {
   sendSuccess: (
     message: RawMessage | OpenGroupMessage,

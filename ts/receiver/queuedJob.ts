@@ -1,13 +1,13 @@
 import { queueAttachmentDownloads } from './attachments';
 
 import { Quote } from './types';
-import { ConversationModel } from '../../js/models/conversations';
-import { MessageModel } from '../../js/models/messages';
 import { PubKey } from '../session/types';
 import _ from 'lodash';
 import { SignalService } from '../protobuf';
 import { StringUtils, UserUtils } from '../session/utils';
 import { ConversationController } from '../session/conversations';
+import { ConversationModel } from '../models/conversation';
+import { MessageCollection, MessageModel } from '../models/message';
 
 async function handleGroups(
   conversation: ConversationModel,
@@ -52,10 +52,9 @@ async function handleGroups(
 
     // Check if anyone got kicked:
     const removedMembers = _.difference(oldMembers, attributes.members);
-    const isOurDeviceMap = await Promise.all(
-      removedMembers.map(async member => UserUtils.isUs(member))
+    const ourDeviceWasRemoved = removedMembers.some(async member =>
+      UserUtils.isUsFromCache(member)
     );
-    const ourDeviceWasRemoved = isOurDeviceMap.includes(true);
 
     if (ourDeviceWasRemoved) {
       groupUpdate.kicked = 'You';
@@ -64,7 +63,7 @@ async function handleGroups(
       groupUpdate.kicked = removedMembers;
     }
   } else if (group.type === GROUP_TYPES.QUIT) {
-    if (await UserUtils.isUs(source)) {
+    if (UserUtils.isUsFromCache(source)) {
       attributes.left = true;
       groupUpdate = { left: 'You' };
     } else {
@@ -100,7 +99,7 @@ async function copyFromQuotedMessage(
   const firstAttachment = attachments[0];
 
   const collection = await window.Signal.Data.getMessagesBySentAt(id, {
-    MessageCollection: Whisper.MessageCollection,
+    MessageCollection,
   });
   const found = collection.find((item: any) => {
     const messageAuthor = item.getContact();
@@ -131,7 +130,7 @@ async function copyFromQuotedMessage(
   quote.referencedMessageNotFound = false;
 
   const queryMessage = getMessageController().register(found.id, found);
-  quote.text = queryMessage.get('body');
+  quote.text = queryMessage.get('body') || '';
 
   if (attemptCount > 1) {
     // Normally the caller would save the message, but in case we are
@@ -149,7 +148,7 @@ async function copyFromQuotedMessage(
 
   try {
     if (
-      queryMessage.get('schemaVersion') <
+      (queryMessage.get('schemaVersion') || 0) <
       TypedMessage.VERSION_NEEDED_FOR_DISPLAY
     ) {
       const upgradedMessage = await upgradeMessageSchema(
@@ -253,7 +252,7 @@ async function processProfileKey(
   sendingDeviceConversation: ConversationModel,
   profileKeyBuffer: Uint8Array
 ) {
-  const ourNumber = window.textsecure.storage.user.getNumber();
+  const ourNumber = UserUtils.getOurPubKeyStrFromCache();
 
   const profileKey = StringUtils.decode(profileKeyBuffer, 'base64');
   if (source === ourNumber) {
@@ -295,7 +294,7 @@ function updateReadStatus(
     // This is primarily to allow the conversation to mark all older
     // messages as read, as is done when we receive a read sync for
     // a message we already know about.
-    conversation.onReadMessage(message);
+    void conversation.onReadMessage(message, Date.now());
   }
 }
 
@@ -422,13 +421,13 @@ async function handleRegularMessage(
     handleSyncedReceipts(message, conversation);
   }
 
-  const conversationTimestamp = conversation.get('timestamp');
+  const conversationActiveAt = conversation.get('active_at');
   if (
-    !conversationTimestamp ||
-    message.get('sent_at') > conversationTimestamp
+    !conversationActiveAt ||
+    (message.get('sent_at') || 0) > conversationActiveAt
   ) {
     conversation.set({
-      timestamp: message.get('sent_at'),
+      active_at: message.get('sent_at'),
       lastMessage: message.getNotificationText(),
     });
   }
@@ -448,7 +447,7 @@ async function handleRegularMessage(
   }
 
   // we just received a message from that user so we reset the typing indicator for this convo
-  conversation.notifyTyping({
+  await conversation.notifyTyping({
     isTyping: false,
     sender: source,
   });
@@ -555,7 +554,7 @@ export async function handleMessageJob(
       const fetched = await window.Signal.Data.getMessageById(
         message.get('id'),
         {
-          Message: Whisper.Message,
+          Message: MessageModel,
         }
       );
 
@@ -572,7 +571,7 @@ export async function handleMessageJob(
         // We call markRead() even though the message is already
         // marked read because we need to start expiration
         // timers, etc.
-        message.markRead();
+        await message.markRead(Date.now());
       }
     } catch (error) {
       window.log.warn(
@@ -583,7 +582,7 @@ export async function handleMessageJob(
     }
 
     if (message.get('unread')) {
-      conversation.notify(message);
+      await conversation.notify(message);
     }
 
     if (confirm) {

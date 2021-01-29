@@ -3,7 +3,6 @@ import { removeFromCache } from './cache';
 import { EnvelopePlus } from './types';
 import { ConversationType, getEnvelopeId } from './common';
 
-import { MessageModel } from '../../js/models/messages';
 import { PubKey } from '../session/types';
 import { handleMessageJob } from './queuedJob';
 import { downloadAttachment } from './attachments';
@@ -12,8 +11,10 @@ import { StringUtils, UserUtils } from '../session/utils';
 import { DeliveryReceiptMessage } from '../session/messages/outgoing';
 import { getMessageQueue } from '../session';
 import { ConversationController } from '../session/conversations';
-import { handleClosedGroup } from './closedGroups';
-import { isUs } from '../session/utils/User';
+import { handleClosedGroupControlMessage } from './closedGroups';
+import { MessageModel } from '../models/message';
+import { isUsFromCache } from '../session/utils/User';
+import { MessageModelType } from '../models/messageType';
 
 export async function updateProfile(
   conversation: any,
@@ -251,12 +252,15 @@ export async function handleDataMessage(
   window.log.info('data message from', getEnvelopeId(envelope));
 
   if (dataMessage.closedGroupControlMessage) {
-    await handleClosedGroup(envelope, dataMessage.closedGroupControlMessage);
+    await handleClosedGroupControlMessage(
+      envelope,
+      dataMessage.closedGroupControlMessage as SignalService.DataMessage.ClosedGroupControlMessage
+    );
     return;
   }
 
   const message = await processDecrypted(envelope, dataMessage);
-  const ourPubKey = window.textsecure.storage.user.getNumber();
+  const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
   const source = envelope.source;
   const senderPubKey = envelope.senderIdentity || envelope.source;
   const isMe = senderPubKey === ourPubKey;
@@ -278,7 +282,7 @@ export async function handleDataMessage(
     return removeFromCache(envelope);
   }
 
-  const ownDevice = await isUs(senderPubKey);
+  const ownDevice = isUsFromCache(senderPubKey);
 
   const sourceConversation = ConversationController.getInstance().get(source);
   const ownMessage = sourceConversation?.isMediumGroup() && ownDevice;
@@ -331,7 +335,7 @@ async function isMessageDuplicate({
     const result = await window.Signal.Data.getMessageBySender(
       { source, sourceDevice, sent_at: timestamp },
       {
-        Message: window.Whisper.Message,
+        Message: MessageModel,
       }
     );
     if (!result) {
@@ -383,7 +387,7 @@ async function handleProfileUpdate(
     await receiver.commit();
 
     // Then we update our own profileKey if it's different from what we have
-    const ourNumber = window.textsecure.storage.user.getNumber();
+    const ourNumber = UserUtils.getOurPubKeyStrFromCache();
     const me = await ConversationController.getInstance().getOrCreate(
       ourNumber,
       'private'
@@ -453,7 +457,7 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
     isPublic, // +
   };
 
-  return new window.Whisper.Message(messageData);
+  return new MessageModel(messageData);
 }
 
 function createSentMessage(data: MessageCreationData): MessageModel {
@@ -492,18 +496,18 @@ function createSentMessage(data: MessageCreationData): MessageModel {
     ),
   };
 
-  const messageData: any = {
-    source: window.textsecure.storage.user.getNumber(),
+  const messageData = {
+    source: UserUtils.getOurPubKeyStrFromCache(),
     sourceDevice,
     serverTimestamp,
     sent_at: timestamp,
     received_at: isPublic ? receivedAt : now,
     conversationId: destination, // conversation ID will might change later (if it is a group)
-    type: 'outgoing',
+    type: 'outgoing' as MessageModelType,
     ...sentSpecificFields,
   };
 
-  return new window.Whisper.Message(messageData);
+  return new MessageModel(messageData);
 }
 
 function createMessage(
@@ -576,7 +580,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
 
   // TODO: this shouldn't be called when source is not a pubkey!!!
 
-  const isOurDevice = await UserUtils.isUs(source);
+  const isOurDevice = UserUtils.isUsFromCache(source);
 
   const shouldSendReceipt = isIncoming && !isGroupMessage && !isOurDevice;
 
@@ -601,7 +605,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
       conversationId
     );
   }
-  const ourNumber = window.textsecure.storage.user.getNumber();
+  const ourNumber = UserUtils.getOurPubKeyStrFromCache();
 
   // =========================================
 

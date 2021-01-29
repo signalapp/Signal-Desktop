@@ -727,5 +727,3 @@ exports.createAttachmentDataWriter = ({
     return messageWithoutAttachmentData;
   };
 };
-
-exports.hasExpiration = MessageTS.hasExpiration;

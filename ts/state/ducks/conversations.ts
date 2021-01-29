@@ -2,8 +2,8 @@ import _, { omit } from 'lodash';
 
 import { Constants } from '../../session';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { MessageModel } from '../../../js/models/messages';
 import { ConversationController } from '../../session/conversations';
+import { MessageCollection, MessageModel } from '../../models/message';
 
 // State
 
@@ -48,9 +48,13 @@ export type MessageTypeInConvo = {
   getPropsForMessageDetail(): Promise<any>;
 };
 
-export type ConversationType = {
+export interface ConversationType {
   id: string;
   name?: string;
+  profileName?: string;
+  hasNickname?: boolean;
+  index?: number;
+
   activeAt?: number;
   timestamp: number;
   lastMessage?: {
@@ -61,10 +65,10 @@ export type ConversationType = {
   type: 'direct' | 'group';
   isMe: boolean;
   isPublic?: boolean;
-  lastUpdated: number;
   unreadCount: number;
   mentionedUs: boolean;
   isSelected: boolean;
+
   isTyping: boolean;
   isBlocked: boolean;
   isKickedFromGroup: boolean;
@@ -72,7 +76,8 @@ export type ConversationType = {
   avatarPath?: string; // absolute filepath to the avatar
   groupAdmins?: Array<string>; // admins for closed groups and moderators for open groups
   members?: Array<string>; // members for closed groups only
-};
+}
+
 export type ConversationLookupType = {
   [key: string]: ConversationType;
 };
@@ -95,7 +100,7 @@ async function getMessages(
     window.log.error('Failed to get convo on reducer.');
     return [];
   }
-  const unreadCount = await conversation.getUnreadCount();
+  const unreadCount = (await conversation.getUnreadCount()) as number;
   let msgCount =
     numMessages ||
     Number(Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT) + unreadCount;
@@ -110,7 +115,7 @@ async function getMessages(
 
   const messageSet = await window.Signal.Data.getMessagesByConversation(
     conversationKey,
-    { limit: msgCount, MessageCollection: window.Whisper.MessageCollection }
+    { limit: msgCount, MessageCollection }
   );
 
   // Set first member of series here.
@@ -142,7 +147,11 @@ const updateFirstMessageOfSeries = (messageModels: Array<any>) => {
     if (i >= 0 && currentSender === nextSender) {
       firstMessageOfSeries = false;
     }
-    messageModels[i].firstMessageOfSeries = firstMessageOfSeries;
+    if (messageModels[i].propsForMessage) {
+      messageModels[
+        i
+      ].propsForMessage.firstMessageOfSeries = firstMessageOfSeries;
+    }
   }
   return messageModels;
 };

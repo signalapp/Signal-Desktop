@@ -144,7 +144,7 @@ async function exportConversationList(fileWriter) {
 
   stream.write('"conversations": ');
   const conversations = await window.Signal.Data.getAllConversations({
-    ConversationCollection: Whisper.ConversationCollection,
+    ConversationCollection: window.models.Conversation.ConversationCollection,
   });
   window.log.info(`Exporting ${conversations.length} conversations`);
   writeArray(stream, getPlainJS(conversations));
@@ -701,7 +701,7 @@ async function exportConversation(conversation, options = {}) {
       {
         limit: CHUNK_SIZE,
         receivedAt: lastReceivedAt,
-        MessageCollection: Whisper.MessageCollection,
+        MessageCollection: window.models.Message.MessageCollection,
       }
     );
     const messages = getPlainJS(collection);
@@ -842,7 +842,7 @@ async function exportConversations(options) {
   }
 
   const collection = await window.Signal.Data.getAllConversations({
-    ConversationCollection: Whisper.ConversationCollection,
+    ConversationCollection: window.models.Conversation.ConversationCollection,
   });
   const conversations = collection.models;
 
@@ -1117,7 +1117,7 @@ async function importConversations(dir, options) {
 }
 
 function getMessageKey(message) {
-  const ourNumber = textsecure.storage.user.getNumber();
+  const ourNumber = window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
   const source = message.source || ourNumber;
   if (source === ourNumber) {
     return `${source} ${message.timestamp}`;

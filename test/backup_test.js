@@ -488,7 +488,7 @@ describe('Backup', () => {
         console.log('Backup test: Create models, save to db/disk');
         const message = await upgradeMessageSchema(messageWithAttachments);
         await window.Signal.Data.saveMessage(message, {
-          Message: Whisper.Message,
+          Message: window.models.Message.MessageModel,
           forceSave: true,
         });
 
@@ -554,7 +554,8 @@ describe('Backup', () => {
         console.log('Backup test: Check conversations');
         const conversationCollection = await window.Signal.Data.getAllConversations(
           {
-            ConversationCollection: Whisper.ConversationCollection,
+            ConversationCollection:
+              window.models.Conversation.ConversationCollection,
           }
         );
         assert.strictEqual(conversationCollection.length, CONVERSATION_COUNT);
@@ -578,7 +579,7 @@ describe('Backup', () => {
 
         console.log('Backup test: Check messages');
         const messageCollection = await window.Signal.Data.getAllMessages({
-          MessageCollection: Whisper.MessageCollection,
+          MessageCollection: window.models.Message.MessageCollection,
         });
         assert.strictEqual(messageCollection.length, MESSAGE_COUNT);
         const messageFromDB = removeId(messageCollection.at(0).attributes);

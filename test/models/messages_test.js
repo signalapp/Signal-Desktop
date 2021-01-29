@@ -23,13 +23,13 @@ describe('MessageCollection', () => {
   });
 
   it('gets outgoing contact', () => {
-    const messages = new Whisper.MessageCollection();
+    const messages = new window.models.Message.MessageCollection();
     const message = messages.add(attributes);
     message.getContact();
   });
 
   it('gets incoming contact', () => {
-    const messages = new Whisper.MessageCollection();
+    const messages = new window.models.Message.MessageCollection();
     const message = messages.add({
       type: 'incoming',
       source,
@@ -38,7 +38,7 @@ describe('MessageCollection', () => {
   });
 
   it('should be ordered oldest to newest', () => {
-    const messages = new Whisper.MessageCollection();
+    const messages = new window.models.Message.MessageCollection();
     // Timestamps
     const today = new Date();
     const tomorrow = new Date();
@@ -57,7 +57,7 @@ describe('MessageCollection', () => {
   });
 
   it('checks if is incoming message', () => {
-    const messages = new Whisper.MessageCollection();
+    const messages = new window.models.Message.MessageCollection();
     let message = messages.add(attributes);
     assert.notOk(message.isIncoming());
     message = messages.add({ type: 'incoming' });
@@ -65,7 +65,7 @@ describe('MessageCollection', () => {
   });
 
   it('checks if is outgoing message', () => {
-    const messages = new Whisper.MessageCollection();
+    const messages = new window.models.Message.MessageCollection();
     let message = messages.add(attributes);
     assert.ok(message.isOutgoing());
     message = messages.add({ type: 'incoming' });
@@ -73,7 +73,7 @@ describe('MessageCollection', () => {
   });
 
   it('checks if is group update', () => {
-    const messages = new Whisper.MessageCollection();
+    const messages = new window.models.Message.MessageCollection();
     let message = messages.add(attributes);
     assert.notOk(message.isGroupUpdate());
 
@@ -82,7 +82,7 @@ describe('MessageCollection', () => {
   });
 
   it('returns an accurate description', () => {
-    const messages = new Whisper.MessageCollection();
+    const messages = new window.models.Message.MessageCollection();
     let message = messages.add(attributes);
 
     assert.equal(
