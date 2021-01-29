@@ -7,9 +7,13 @@ import { ClosedGroupChatMessage } from '../../../../session/messages/outgoing/co
 import {
   ClosedGroupEncryptionPairMessage,
   ClosedGroupNewMessage,
-  ClosedGroupUpdateMessage,
 } from '../../../../session/messages/outgoing';
 import { SignalService } from '../../../../protobuf';
+import {
+  ClosedGroupAddedMembersMessage,
+  ClosedGroupNameChangeMessage,
+  ClosedGroupRemovedMembersMessage,
+} from '../../../../session/messages/outgoing/content/data/group';
 // tslint:disable-next-line: no-require-imports no-var-requires
 const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
@@ -117,13 +121,38 @@ describe('Message Utils', () => {
       expect(rawMessage.encryption).to.equal(EncryptionType.Fallback);
     });
 
-    it('passing ClosedGroupUpdateMessage returns ClosedGroup', async () => {
+    it('passing ClosedGroupNameChangeMessage returns ClosedGroup', async () => {
       const device = TestUtils.generateFakePubKey();
 
-      const msg = new ClosedGroupUpdateMessage({
+      const msg = new ClosedGroupNameChangeMessage({
         timestamp: Date.now(),
         name: 'df',
-        members: [TestUtils.generateFakePubKey().key],
+        groupId: TestUtils.generateFakePubKey().key,
+        expireTimer: 0,
+      });
+      const rawMessage = await MessageUtils.toRawMessage(device, msg);
+      expect(rawMessage.encryption).to.equal(EncryptionType.ClosedGroup);
+    });
+
+    it('passing ClosedGroupAddedMembersMessage returns ClosedGroup', async () => {
+      const device = TestUtils.generateFakePubKey();
+
+      const msg = new ClosedGroupAddedMembersMessage({
+        timestamp: Date.now(),
+        addedMembers: [TestUtils.generateFakePubKey().key],
+        groupId: TestUtils.generateFakePubKey().key,
+        expireTimer: 0,
+      });
+      const rawMessage = await MessageUtils.toRawMessage(device, msg);
+      expect(rawMessage.encryption).to.equal(EncryptionType.ClosedGroup);
+    });
+
+    it('passing ClosedGroupRemovedMembersMessage returns ClosedGroup', async () => {
+      const device = TestUtils.generateFakePubKey();
+
+      const msg = new ClosedGroupRemovedMembersMessage({
+        timestamp: Date.now(),
+        removedMembers: [TestUtils.generateFakePubKey().key],
         groupId: TestUtils.generateFakePubKey().key,
         expireTimer: 0,
       });

@@ -12,7 +12,6 @@ import { getMessageQueue } from '../instance';
 import {
   ClosedGroupEncryptionPairMessage,
   ClosedGroupNewMessage,
-  ClosedGroupUpdateMessage,
   ExpirationTimerUpdateMessage,
 } from '../messages/outgoing';
 import uuid from 'uuid';
@@ -21,6 +20,12 @@ import { generateCurve25519KeyPairWithoutPrefix } from '../crypto';
 import { encryptUsingSessionProtocol } from '../crypto/MessageEncrypter';
 import { ECKeyPair } from '../../receiver/keypairs';
 import { UserUtils } from '../utils';
+import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/content/data/group/ClosedGroupMemberLeftMessage';
+import {
+  ClosedGroupAddedMembersMessage,
+  ClosedGroupNameChangeMessage,
+  ClosedGroupRemovedMembersMessage,
+} from '../messages/outgoing/content/data/group';
 
 export interface GroupInfo {
   id: string;
@@ -106,11 +111,6 @@ export async function initiateGroupUpdate(
 
   await updateOrCreateClosedGroup(groupDetails);
 
-  if (avatar) {
-    // would get to download this file on each client in the group
-    // and reference the local file
-  }
-
   const updateObj: GroupInfo = {
     id: groupId,
     name: groupName,
@@ -119,10 +119,51 @@ export async function initiateGroupUpdate(
     expireTimer: convo.get('expireTimer'),
   };
 
-  const dbMessage = await addUpdateMessage(convo, diff, 'outgoing');
-  window.getMessageController().register(dbMessage.id, dbMessage);
+  if (diff.newName?.length) {
+    const nameOnlyDiff: GroupDiff = { newName: diff.newName };
+    const dbMessageName = await addUpdateMessage(
+      convo,
+      nameOnlyDiff,
+      'outgoing'
+    );
+    window.getMessageController().register(dbMessageName.id, dbMessageName);
+    await sendNewName(convo, diff.newName, dbMessageName.id);
+  }
 
-  await sendGroupUpdateForClosed(convo, diff, updateObj, dbMessage.id);
+  if (diff.joiningMembers?.length) {
+    const joiningOnlyDiff: GroupDiff = { joiningMembers: diff.joiningMembers };
+    const dbMessageAdded = await addUpdateMessage(
+      convo,
+      joiningOnlyDiff,
+      'outgoing'
+    );
+    window.getMessageController().register(dbMessageAdded.id, dbMessageAdded);
+    await sendAddedMembers(
+      convo,
+      diff.joiningMembers,
+      dbMessageAdded.id,
+      updateObj
+    );
+  }
+
+  if (diff.leavingMembers?.length) {
+    const leavingOnlyDiff: GroupDiff = { leavingMembers: diff.leavingMembers };
+    const dbMessageLeaving = await addUpdateMessage(
+      convo,
+      leavingOnlyDiff,
+      'outgoing'
+    );
+    window
+      .getMessageController()
+      .register(dbMessageLeaving.id, dbMessageLeaving);
+    const stillMembers = members;
+    await sendRemovedMembers(
+      convo,
+      diff.leavingMembers,
+      dbMessageLeaving.id,
+      stillMembers
+    );
+  }
 }
 
 export async function addUpdateMessage(
@@ -146,7 +187,7 @@ export async function addUpdateMessage(
 
   const now = Date.now();
 
-  const markUnread = type === 'incoming';
+  const unread = type === 'incoming';
 
   const message = await convo.addMessage({
     conversationId: convo.get('id'),
@@ -154,10 +195,10 @@ export async function addUpdateMessage(
     sent_at: now,
     received_at: now,
     group_update: groupUpdate,
-    unread: markUnread,
+    unread,
   });
 
-  if (markUnread) {
+  if (unread) {
     // update the unreadCount for this convo
     const unreadCount = await convo.getUnreadCount();
     convo.set({
@@ -262,8 +303,6 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
 }
 
 export async function leaveClosedGroup(groupId: string) {
-  window.SwarmPolling.removePubkey(groupId);
-
   const convo = ConversationController.getInstance().get(groupId);
 
   if (!convo) {
@@ -275,18 +314,22 @@ export async function leaveClosedGroup(groupId: string) {
 
   const now = Date.now();
   let members: Array<string> = [];
+  let admins: Array<string> = [];
 
-  // for now, a destroyed group is one with those 2 flags set to true.
-  // FIXME audric, add a flag to conversation model when a group is destroyed
+  // if we are the admin, the group must be destroyed for every members
   if (isCurrentUserAdmin) {
     window.log.info('Admin left a closed group. We need to destroy it');
     convo.set({ left: true });
     members = [];
+    admins = [];
   } else {
+    // otherwise, just the exclude ourself from the members and trigger an update with this
     convo.set({ left: true });
     members = convo.get('members').filter(m => m !== ourNumber.key);
+    admins = convo.get('groupAdmins') || [];
   }
   convo.set({ members });
+  convo.set({ groupAdmins: admins });
   await convo.commit();
 
   const dbMessage = await convo.addMessage({
@@ -298,37 +341,62 @@ export async function leaveClosedGroup(groupId: string) {
   });
   window.getMessageController().register(dbMessage.id, dbMessage);
 
-  const groupUpdate: GroupInfo = {
-    id: convo.get('id'),
-    name: convo.get('name'),
-    members,
-    admins: convo.get('groupAdmins'),
-  };
+  // Send the update to the group
+  const ourLeavingMessage = new ClosedGroupMemberLeftMessage({
+    timestamp: Date.now(),
+    groupId,
+    identifier: dbMessage.id,
+    expireTimer: 0,
+  });
 
-  await sendGroupUpdateForClosed(
-    convo,
-    { leavingMembers: [ourNumber.key] },
-    groupUpdate,
-    dbMessage.id
+  window.log.info(
+    `We are leaving the group ${groupId}. Sending our leaving message.`
   );
+  // sent the message to the group and once done, remove everything related to this group
+  window.SwarmPolling.removePubkey(groupId);
+  await getMessageQueue().sendToGroup(ourLeavingMessage, async () => {
+    window.log.info(
+      `Leaving message sent ${groupId}. Removing everything related to this group.`
+    );
+    await Data.removeAllClosedGroupEncryptionKeyPairs(groupId);
+  });
 }
 
-export async function sendGroupUpdateForClosed(
+async function sendNewName(
   convo: ConversationModel,
-  diff: MemberChanges,
-  groupUpdate: GroupInfo,
+  name: string,
   messageId: string
 ) {
-  const { id: groupId, members, name: groupName, expireTimer } = groupUpdate;
-  const ourNumber = await UserUtils.getOurNumber();
+  if (name.length === 0) {
+    window.log.warn('No name given for group update. Skipping');
+    return;
+  }
 
-  const removedMembers = diff.leavingMembers || [];
-  const newMembers = diff.joiningMembers || []; // joining members
-  const wasAnyUserRemoved = removedMembers.length > 0;
-  const isUserLeaving = removedMembers.includes(ourNumber.key);
-  const isCurrentUserAdmin = convo.get('groupAdmins')?.includes(ourNumber.key);
-  const expireTimerToShare = expireTimer || 0;
+  const groupId = convo.get('id');
 
+  // Send the update to the group
+  const nameChangeMessage = new ClosedGroupNameChangeMessage({
+    timestamp: Date.now(),
+    groupId,
+    identifier: messageId,
+    expireTimer: 0,
+    name,
+  });
+  await getMessageQueue().sendToGroup(nameChangeMessage);
+}
+
+async function sendAddedMembers(
+  convo: ConversationModel,
+  addedMembers: Array<string>,
+  messageId: string,
+  groupUpdate: GroupInfo
+) {
+  if (!addedMembers?.length) {
+    window.log.warn('No addedMembers given for group update. Skipping');
+    return;
+  }
+
+  const { id: groupId, members, name: groupName } = groupUpdate;
   const admins = groupUpdate.admins || [];
 
   // Check preconditions
@@ -340,103 +408,106 @@ export async function sendGroupUpdateForClosed(
   }
 
   const encryptionKeyPair = ECKeyPair.fromHexKeyPair(hexEncryptionKeyPair);
+  const expireTimer = convo.get('expireTimer') || 0;
 
-  if (removedMembers.includes(admins[0]) && newMembers.length !== 0) {
-    throw new Error(
-      "Can't remove admin from closed group without removing everyone."
-    ); // Error.invalidClosedGroupUpdate
-  }
-
-  if (isUserLeaving && newMembers.length !== 0) {
-    if (removedMembers.length !== 1 || newMembers.length !== 0) {
-      throw new Error(
-        "Can't remove self and add or remove others simultaneously."
-      );
-    }
-  }
-
-  // Send the update to the group
-  const mainClosedGroupUpdate = new ClosedGroupUpdateMessage({
+  // Send the Added Members message to the group (only members already in the group will get it)
+  const closedGroupControlMessage = new ClosedGroupAddedMembersMessage({
     timestamp: Date.now(),
     groupId,
+    addedMembers,
+    identifier: messageId,
+    expireTimer,
+  });
+  await getMessageQueue().sendToGroup(closedGroupControlMessage);
+
+  // Send closed group update messages to any new members individually
+  const newClosedGroupUpdate = new ClosedGroupNewMessage({
+    timestamp: Date.now(),
     name: groupName,
+    groupId,
+    admins,
     members,
+    keypair: encryptionKeyPair,
     identifier: messageId || uuid(),
-    expireTimer: expireTimerToShare,
+    expireTimer,
   });
 
-  if (isUserLeaving) {
-    window.log.info(
-      `We are leaving the group ${groupId}. Sending our leaving message.`
-    );
-    // sent the message to the group and once done, remove everything related to this group
-    window.SwarmPolling.removePubkey(groupId);
-    await getMessageQueue().sendToGroup(mainClosedGroupUpdate, async () => {
-      window.log.info(
-        `Leaving message sent ${groupId}. Removing everything related to this group.`
+  // if an expire timer is set, we have to send it to the joining members
+  let expirationTimerMessage: ExpirationTimerUpdateMessage | undefined;
+  if (expireTimer && expireTimer > 0) {
+    const expireUpdate = {
+      timestamp: Date.now(),
+      expireTimer,
+      groupId: groupId,
+    };
+
+    expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
+  }
+  const promises = addedMembers.map(async m => {
+    await ConversationController.getInstance().getOrCreateAndWait(m, 'private');
+    const memberPubKey = PubKey.cast(m);
+    await getMessageQueue().sendToPubKey(memberPubKey, newClosedGroupUpdate);
+
+    if (expirationTimerMessage) {
+      await getMessageQueue().sendToPubKey(
+        memberPubKey,
+        expirationTimerMessage
       );
-      await Data.removeAllClosedGroupEncryptionKeyPairs(groupId);
-    });
-  } else {
-    // Send the group update, and only once sent, generate and distribute a new encryption key pair if needed
-    await getMessageQueue().sendToGroup(mainClosedGroupUpdate, async () => {
-      if (wasAnyUserRemoved && isCurrentUserAdmin) {
+    }
+  });
+  await Promise.all(promises);
+}
+
+async function sendRemovedMembers(
+  convo: ConversationModel,
+  removedMembers: Array<string>,
+  messageId: string,
+  stillMembers: Array<string>
+) {
+  if (!removedMembers?.length) {
+    window.log.warn('No removedMembers given for group update. Skipping');
+    return;
+  }
+  const ourNumber = await UserUtils.getOurNumber();
+  const admins = convo.get('groupAdmins') || [];
+  const groupId = convo.get('id');
+
+  const isCurrentUserAdmin = admins.includes(ourNumber.key);
+  const isUserLeaving = removedMembers.includes(ourNumber.key);
+  if (isUserLeaving) {
+    throw new Error(
+      'Cannot remove members and leave the group at the same time'
+    );
+  }
+  if (removedMembers.includes(admins[0]) && stillMembers.length !== 0) {
+    throw new Error(
+      "Can't remove admin from closed group without removing everyone."
+    );
+  }
+  const expireTimer = convo.get('expireTimer') || 0;
+
+  // Send the update to the group and generate + distribute a new encryption key pair if needed
+  const mainClosedGroupControlMessage = new ClosedGroupRemovedMembersMessage({
+    timestamp: Date.now(),
+    groupId,
+    removedMembers,
+    identifier: messageId,
+    expireTimer,
+  });
+  // Send the group update, and only once sent, generate and distribute a new encryption key pair if needed
+  await getMessageQueue().sendToGroup(
+    mainClosedGroupControlMessage,
+    async () => {
+      if (isCurrentUserAdmin) {
         // we send the new encryption key only to members already here before the update
-        const membersNotNew = members.filter(m => !newMembers.includes(m));
         window.log.info(
           `Sending group update: A user was removed from ${groupId} and we are the admin. Generating and sending a new EncryptionKeyPair`
         );
 
-        await generateAndSendNewEncryptionKeyPair(groupId, membersNotNew);
+        await generateAndSendNewEncryptionKeyPair(groupId, stillMembers);
       }
-    });
-
-    if (newMembers.length) {
-      // Send closed group update messages to any new members individually
-      const newClosedGroupUpdate = new ClosedGroupNewMessage({
-        timestamp: Date.now(),
-        name: groupName,
-        groupId,
-        admins,
-        members,
-        keypair: encryptionKeyPair,
-        identifier: messageId || uuid(),
-        expireTimer: expireTimerToShare,
-      });
-
-      // if an expiretimer in this ClosedGroup already, send it in another message
-      // if an expire timer is set, we have to send it to the joining members
-      let expirationTimerMessage: ExpirationTimerUpdateMessage | undefined;
-      if (expireTimer && expireTimer > 0) {
-        const expireUpdate = {
-          timestamp: Date.now(),
-          expireTimer,
-          groupId: groupId,
-        };
-
-        expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
-      }
-      const promises = newMembers.map(async m => {
-        await ConversationController.getInstance().getOrCreateAndWait(
-          m,
-          'private'
-        );
-        const memberPubKey = PubKey.cast(m);
-        await getMessageQueue().sendToPubKey(
-          memberPubKey,
-          newClosedGroupUpdate
-        );
-
-        if (expirationTimerMessage) {
-          await getMessageQueue().sendToPubKey(
-            memberPubKey,
-            expirationTimerMessage
-          );
-        }
-      });
-      await Promise.all(promises);
     }
-  }
+  );
 }
 
 export async function generateAndSendNewEncryptionKeyPair(
@@ -504,13 +575,13 @@ export async function generateAndSendNewEncryptionKeyPair(
     })
   );
 
-  const expireTimerToShare = groupConvo.get('expireTimer') || 0;
+  const expireTimer = groupConvo.get('expireTimer') || 0;
 
   const keypairsMessage = new ClosedGroupEncryptionPairMessage({
     groupId: toHex(groupId),
     timestamp: Date.now(),
     encryptedKeyPairs: wrappers,
-    expireTimer: expireTimerToShare,
+    expireTimer,
   });
 
   const messageSentCallback = async () => {
@@ -518,7 +589,6 @@ export async function generateAndSendNewEncryptionKeyPair(
       `KeyPairMessage for ClosedGroup ${groupPublicKey} is sent. Saving the new encryptionKeyPair.`
     );
 
-    // tslint:disable-next-line: no-non-null-assertion
     await Data.addClosedGroupEncryptionKeyPair(
       toHex(groupId),
       newKeyPair.toHexKeyPair()
