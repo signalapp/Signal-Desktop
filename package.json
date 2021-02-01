@@ -411,6 +411,7 @@
       "!node_modules/sharp/{install,src,vendor/include}",
       "!node_modules/@journeyapps/sqlcipher/deps/*",
       "!node_modules/@journeyapps/sqlcipher/build/*",
+      "!node_modules/@journeyapps/sqlcipher/build-tmp-napi-*",
       "!node_modules/@journeyapps/sqlcipher/lib/binding/node-*",
       "node_modules/libsignal-client/build/*.node",
       "node_modules/ringrtc/build/${platform}/**"
