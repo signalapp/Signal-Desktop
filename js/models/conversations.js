@@ -1360,7 +1360,11 @@
       let title = i18n('delete');
       let message = i18n('deleteContactConfirmation');
 
-      if (this.isGroup()) {
+      if (
+        this.isGroup() &&
+        !this.get('left') &&
+        !this.get('isKickedFromGroup')
+      ) {
         title = i18n('leaveGroup');
         message = i18n('leaveGroupConfirmation');
       }
