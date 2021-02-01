@@ -12,7 +12,7 @@ import { LibTextsecure } from '../libtextsecure';
 import { ConversationType } from '../js/modules/data';
 import { RecoveryPhraseUtil } from '../libloki/modules/mnemonic';
 import { ConfirmationDialogParams } from '../background';
-import {} from 'styled-components/cssprop';
+import { } from 'styled-components/cssprop';
 
 import { ConversationControllerType } from '../js/ConversationController';
 import { any } from 'underscore';
@@ -60,12 +60,11 @@ declare global {
     libsignal: LibsignalProtocol;
     log: any;
     lokiFeatureFlags: {
-      multiDeviceUnpairing: boolean;
-      privateGroupChats: boolean;
       useOnionRequests: boolean;
       useOnionRequestsV2: boolean;
       useFileOnionRequests: boolean;
       useFileOnionRequestsV2: boolean;
+      useExplicitGroupUpdatesSending: boolean;
       onionRequestHops: number;
     };
     lokiFileServerAPI: LokiFileServerInstance;

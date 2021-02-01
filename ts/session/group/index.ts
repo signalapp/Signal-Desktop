@@ -21,6 +21,7 @@ import {
   ClosedGroupNameChangeMessage,
   ClosedGroupNewMessage,
   ClosedGroupRemovedMembersMessage,
+  ClosedGroupUpdateMessage,
 } from '../messages/outgoing/content/data/group';
 import { ConversationModel } from '../../models/conversation';
 import { MessageModel } from '../../models/message';
@@ -76,6 +77,8 @@ export async function syncMediumGroups(groups: Array<ConversationModel>) {
   // await Promise.all(groups.map(syncMediumGroup));
 }
 
+// tslint:disable: max-func-body-length
+// tslint:disable: cyclomatic-complexity
 export async function initiateGroupUpdate(
   groupId: string,
   groupName: string,
@@ -117,6 +120,111 @@ export async function initiateGroupUpdate(
     admins: convo.get('groupAdmins'),
     expireTimer: convo.get('expireTimer'),
   };
+
+  if (!window.lokiFeatureFlags.useExplicitGroupUpdatesSending) {
+    // we still don't send any explicit group updates for now - only the receiving side is enabled
+    const dbMessageAdded = await addUpdateMessage(convo, diff, 'outgoing');
+    window.getMessageController().register(dbMessageAdded.id, dbMessageAdded);
+    // Check preconditions
+    const hexEncryptionKeyPair = await Data.getLatestClosedGroupEncryptionKeyPair(
+      groupId
+    );
+    if (!hexEncryptionKeyPair) {
+      throw new Error("Couldn't get key pair for closed group");
+    }
+
+    const encryptionKeyPair = ECKeyPair.fromHexKeyPair(hexEncryptionKeyPair);
+    const removedMembers = diff.leavingMembers || [];
+    const newMembers = diff.joiningMembers || []; // joining members
+    const wasAnyUserRemoved = removedMembers.length > 0;
+    const ourPrimary = await UserUtils.getOurNumber();
+    const isUserLeaving = removedMembers.includes(ourPrimary.key);
+    const isCurrentUserAdmin = convo
+      .get('groupAdmins')
+      ?.includes(ourPrimary.key);
+    const expireTimerToShare = groupDetails.expireTimer || 0;
+
+    const admins = convo.get('groupAdmins') || [];
+    if (removedMembers.includes(admins[0]) && newMembers.length !== 0) {
+      throw new Error(
+        "Can't remove admin from closed group without removing everyone."
+      ); // Error.invalidClosedGroupUpdate
+    }
+
+    if (isUserLeaving && newMembers.length !== 0) {
+      if (removedMembers.length !== 1 || newMembers.length !== 0) {
+        throw new Error(
+          "Can't remove self and add or remove others simultaneously."
+        );
+      }
+    }
+
+    // Send the update to the group
+    const mainClosedGroupUpdate = new ClosedGroupUpdateMessage({
+      timestamp: Date.now(),
+      groupId,
+      name: groupName,
+      members,
+      identifier: dbMessageAdded.id || uuid(),
+      expireTimer: expireTimerToShare,
+    });
+
+    if (isUserLeaving) {
+      window.log.info(
+        `We are leaving the group ${groupId}. Sending our leaving message.`
+      );
+      // sent the message to the group and once done, remove everything related to this group
+      window.SwarmPolling.removePubkey(groupId);
+      await getMessageQueue().sendToGroup(mainClosedGroupUpdate, async () => {
+        window.log.info(
+          `Leaving message sent ${groupId}. Removing everything related to this group.`
+        );
+        await Data.removeAllClosedGroupEncryptionKeyPairs(groupId);
+      });
+    } else {
+      // Send the group update, and only once sent, generate and distribute a new encryption key pair if needed
+      await getMessageQueue().sendToGroup(mainClosedGroupUpdate, async () => {
+        if (wasAnyUserRemoved && isCurrentUserAdmin) {
+          // we send the new encryption key only to members already here before the update
+          const membersNotNew = members.filter(m => !newMembers.includes(m));
+          window.log.info(
+            `Sending group update: A user was removed from ${groupId} and we are the admin. Generating and sending a new EncryptionKeyPair`
+          );
+
+          await generateAndSendNewEncryptionKeyPair(groupId, membersNotNew);
+        }
+      });
+
+      if (newMembers.length) {
+        // Send closed group update messages to any new members individually
+        const newClosedGroupUpdate = new ClosedGroupNewMessage({
+          timestamp: Date.now(),
+          name: groupName,
+          groupId,
+          admins,
+          members,
+          keypair: encryptionKeyPair,
+          identifier: dbMessageAdded.id || uuid(),
+          expireTimer: expireTimerToShare,
+        });
+
+        const promises = newMembers.map(async m => {
+          await ConversationController.getInstance().getOrCreateAndWait(
+            m,
+            'private'
+          );
+          const memberPubKey = PubKey.cast(m);
+          await getMessageQueue().sendToPubKey(
+            memberPubKey,
+            newClosedGroupUpdate
+          );
+        });
+        await Promise.all(promises);
+      }
+    }
+
+    return;
+  }
 
   if (diff.newName?.length) {
     const nameOnlyDiff: GroupDiff = { newName: diff.newName };
@@ -345,12 +453,26 @@ export async function leaveClosedGroup(groupId: string) {
   window.getMessageController().register(dbMessage.id, dbMessage);
   const existingExpireTimer = convo.get('expireTimer') || 0;
   // Send the update to the group
-  const ourLeavingMessage = new ClosedGroupMemberLeftMessage({
-    timestamp: Date.now(),
-    groupId,
-    identifier: dbMessage.id,
-    expireTimer: existingExpireTimer,
-  });
+  let ourLeavingMessage;
+
+  if (window.lokiFeatureFlags.useExplicitGroupUpdatesSending) {
+    ourLeavingMessage = new ClosedGroupMemberLeftMessage({
+      timestamp: Date.now(),
+      groupId,
+      identifier: dbMessage.id,
+      expireTimer: existingExpireTimer,
+    });
+  } else {
+    const ourPubkey = await UserUtils.getOurNumber();
+    ourLeavingMessage = new ClosedGroupUpdateMessage({
+      timestamp: Date.now(),
+      groupId,
+      identifier: dbMessage.id,
+      expireTimer: existingExpireTimer,
+      name: convo.get('name'),
+      members: convo.get('members').filter(m => m !== ourPubkey.key),
+    });
+  }
 
   window.log.info(
     `We are leaving the group ${groupId}. Sending our leaving message.`

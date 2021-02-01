@@ -56,13 +56,12 @@ window.getDefaultFileServer = () => config.defaultFileServer;
 window.initialisedAPI = false;
 
 window.lokiFeatureFlags = {
-  multiDeviceUnpairing: true,
-  privateGroupChats: true,
   useOnionRequests: true,
   useOnionRequestsV2: true,
   useFileOnionRequests: true,
   useFileOnionRequestsV2: true, // more compact encoding of files in response
   onionRequestHops: 3,
+  useExplicitGroupUpdatesSending: false,
 };
 
 if (
@@ -487,11 +486,10 @@ if (
 }
 if (config.environment.includes('test-integration')) {
   window.lokiFeatureFlags = {
-    multiDeviceUnpairing: true,
-    privateGroupChats: true,
     useOnionRequests: false,
     useFileOnionRequests: false,
     useOnionRequestsV2: false,
+    useExplicitGroupUpdatesSending: false,
   };
   /* eslint-disable global-require, import/no-extraneous-dependencies */
   window.sinon = require('sinon');
