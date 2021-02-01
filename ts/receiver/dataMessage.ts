@@ -251,7 +251,10 @@ export async function handleDataMessage(
   window.log.info('data message from', getEnvelopeId(envelope));
 
   if (dataMessage.closedGroupControlMessage) {
-    await handleClosedGroupControlMessage(envelope, dataMessage.closedGroupControlMessage as SignalService.DataMessage.ClosedGroupControlMessage);
+    await handleClosedGroupControlMessage(
+      envelope,
+      dataMessage.closedGroupControlMessage as SignalService.DataMessage.ClosedGroupControlMessage
+    );
     return;
   }
 

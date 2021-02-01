@@ -3215,6 +3215,12 @@ async function updateExistingClosedGroupToClosedGroup(instance) {
  * @param {*} groupPublicKey string | PubKey
  */
 async function getAllEncryptionKeyPairsForGroup(groupPublicKey) {
+  const rows = await getAllEncryptionKeyPairsForGroupRaw(groupPublicKey);
+
+  return map(rows, row => jsonToObject(row.json));
+}
+
+async function getAllEncryptionKeyPairsForGroupRaw(groupPublicKey) {
   const pubkeyAsString = groupPublicKey.key
     ? groupPublicKey.key
     : groupPublicKey;
@@ -3225,7 +3231,7 @@ async function getAllEncryptionKeyPairsForGroup(groupPublicKey) {
     }
   );
 
-  return map(rows, row => jsonToObject(row.json));
+  return rows;
 }
 
 async function getLatestClosedGroupEncryptionKeyPair(groupPublicKey) {
