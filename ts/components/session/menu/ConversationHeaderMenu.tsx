@@ -126,6 +126,7 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
         isGroup,
         isPublic,
         left,
+        isKickedFromGroup,
         onDeleteContact,
         window.i18n
       )}

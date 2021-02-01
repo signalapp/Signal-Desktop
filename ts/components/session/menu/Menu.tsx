@@ -40,10 +40,11 @@ function showDeleteContact(
   isMe: boolean,
   isGroup: boolean,
   isPublic: boolean,
-  isGroupLeft: boolean
+  isGroupLeft: boolean,
+  isKickedFromGroup: boolean
 ): boolean {
   // you need to have left a closed group first to be able to delete it completely.
-  return (!isMe && !isGroup) || (isGroup && isGroupLeft);
+  return (!isMe && !isGroup) || (isGroup && (isGroupLeft || isKickedFromGroup));
 }
 
 function showAddModerators(
@@ -100,6 +101,7 @@ export function getDeleteContactMenuItem(
   isGroup: boolean | undefined,
   isPublic: boolean | undefined,
   isLeft: boolean | undefined,
+  isKickedFromGroup: boolean | undefined,
   action: any,
   i18n: LocalizerType
 ): JSX.Element | null {
@@ -108,7 +110,8 @@ export function getDeleteContactMenuItem(
       Boolean(isMe),
       Boolean(isGroup),
       Boolean(isPublic),
-      Boolean(isLeft)
+      Boolean(isLeft),
+      Boolean(isKickedFromGroup)
     )
   ) {
     if (isPublic) {
