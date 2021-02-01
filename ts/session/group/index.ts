@@ -258,8 +258,11 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
     //   activeAt is null, then this group has been purposefully hidden.
     if (activeAt !== null) {
       updates.active_at = activeAt || Date.now();
+      updates.timestamp = updates.active_at;
     }
     updates.left = false;
+    updates.lastJoinedTimestamp = updates.active_at;
+
   } else {
     updates.left = true;
   }
