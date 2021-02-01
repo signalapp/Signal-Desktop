@@ -6910,6 +6910,8 @@ button.module-image__border-overlay:focus {
     &__overflow {
       flex: 0 0 auto;
       position: relative;
+      margin-left: 16px;
+      margin-right: 16px;
 
       &__inner {
         position: absolute;
