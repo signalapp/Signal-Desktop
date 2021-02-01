@@ -92,6 +92,8 @@ export const ConversationListItemContextMenu = (
         isMe,
         type === 'group',
         isPublic,
+        left,
+        isKickedFromGroup,
         onDeleteContact,
         window.i18n
       )}
