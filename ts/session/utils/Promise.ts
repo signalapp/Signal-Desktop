@@ -131,3 +131,11 @@ export async function timeout<T>(
 
   return Promise.race([timeoutPromise, promise]);
 }
+
+export async function delay(timeoutMs: number = 2000): Promise<Boolean> {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(true);
+    }, timeoutMs);
+  });
+}
