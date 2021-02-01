@@ -3,6 +3,16 @@
 
 // Using BEM syntax explained here: https://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/
 
+.module-title-bar-drag-area {
+  -webkit-app-region: drag;
+  height: var(--title-bar-drag-area-height);
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+}
+
 .module-splash-screen {
   display: flex;
   flex-direction: column;
@@ -2839,11 +2849,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 .module-conversation-header {
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: var(--title-bar-drag-area-height);
   display: flex;
   flex-direction: row;
   align-items: center;
 
-  height: $header-height;
+  height: calc(#{$header-height} + var(--title-bar-drag-area-height));
 
   @include light-theme {
     color: $color-gray-90;
@@ -4788,11 +4799,12 @@ button.module-conversation-details__action-button {
 // Module: Main Header
 
 .module-main-header {
-  height: $header-height;
+  height: calc(#{$header-height} + var(--title-bar-drag-area-height));
   width: 100%;
 
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: var(--title-bar-drag-area-height);
 
   display: flex;
   flex-direction: row;
@@ -6470,7 +6482,7 @@ button.module-image__border-overlay:focus {
     color: #ffffff;
     font-style: normal;
     padding-bottom: 24px;
-    padding-top: 24px;
+    padding-top: calc(24px + var(--title-bar-drag-area-height));
     text-align: center;
     text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
     width: 100%;
@@ -7190,7 +7202,7 @@ button.module-image__border-overlay:focus {
   display: flex;
   justify-content: flex-end;
   position: absolute;
-  top: 24px;
+  top: calc(24px + var(--title-bar-drag-area-height));
   width: 100%;
 
   &__button {
@@ -7537,12 +7549,13 @@ button.module-image__border-overlay:focus {
 }
 
 .module-left-pane__archive-header {
-  height: $header-height;
+  height: calc(#{$header-height} + var(--title-bar-drag-area-height));
   width: 100%;
 
   display: inline-flex;
   flex-direction: row;
   align-items: center;
+  padding-top: var(--title-bar-drag-area-height);
 }
 
 .module-left-pane__header-row {

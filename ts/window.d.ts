@@ -162,6 +162,7 @@ declare global {
     isActive: () => boolean;
     isAfterVersion: (version: WhatIsThis, anotherVersion: string) => boolean;
     isBeforeVersion: (version: WhatIsThis, anotherVersion: string) => boolean;
+    isFullScreen: () => boolean;
     isValidGuid: (maybeGuid: string | null) => boolean;
     isValidE164: (maybeE164: unknown) => boolean;
     libphonenumber: {
@@ -189,6 +190,7 @@ declare global {
     };
     nodeSetImmediate: typeof setImmediate;
     normalizeUuids: (obj: any, paths: Array<string>, context: string) => void;
+    onFullScreenChange: (fullScreen: boolean) => void;
     owsDesktopApp: WhatIsThis;
     platform: string;
     preloadedImages: Array<WhatIsThis>;
@@ -230,6 +232,7 @@ declare global {
     };
     systemTheme: WhatIsThis;
     textsecure: TextSecureType;
+    titleBarDoubleClick: () => void;
     unregisterForActive: (handler: () => void) => void;
     updateTrayIcon: (count: number) => void;
 

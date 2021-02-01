@@ -97,8 +97,16 @@ const {
   installWebHandler,
 } = require('./app/protocol_filter');
 const { installPermissionsHandler } = require('./app/permissions');
+const OS = require('./ts/OS');
 const { isBeta } = require('./ts/util/version');
 const { isSgnlHref, parseSgnlHref } = require('./ts/util/sgnlHref');
+const {
+  toggleMaximizedBrowserWindow,
+} = require('./ts/util/toggleMaximizedBrowserWindow');
+const {
+  getTitleBarVisibility,
+  TitleBarVisibility,
+} = require('./ts/types/Settings');
 
 let appStartInitialSpellcheckSetting = true;
 
@@ -268,11 +276,10 @@ function isVisible(window, bounds) {
 }
 
 let windowIcon;
-const OS = process.platform;
 
-if (OS === 'win32') {
+if (OS.isWindows()) {
   windowIcon = path.join(__dirname, 'build', 'icons', 'win', 'icon.ico');
-} else if (OS === 'linux') {
+} else if (OS.isLinux()) {
   windowIcon = path.join(__dirname, 'images', 'signal-logo-desktop-linux.png');
 } else {
   windowIcon = path.join(__dirname, 'build', 'icons', 'png', '512x512.png');
@@ -287,6 +294,10 @@ async function createWindow() {
     minWidth: MIN_WIDTH,
     minHeight: MIN_HEIGHT,
     autoHideMenuBar: false,
+    titleBarStyle:
+      getTitleBarVisibility() === TitleBarVisibility.Hidden
+        ? 'hidden'
+        : 'default',
     backgroundColor:
       config.environment === 'test' || config.environment === 'test-lib'
         ? '#ffffff' // Tests should always be rendered on a white background
@@ -383,14 +394,18 @@ async function createWindow() {
   // This is a fallback in case we drop an event for some reason.
   setInterval(setWindowFocus, 10000);
 
+  const moreKeys = {
+    isFullScreen: String(Boolean(mainWindow.isFullScreen())),
+  };
+
   if (config.environment === 'test') {
-    mainWindow.loadURL(prepareURL([__dirname, 'test', 'index.html']));
+    mainWindow.loadURL(prepareURL([__dirname, 'test', 'index.html'], moreKeys));
   } else if (config.environment === 'test-lib') {
     mainWindow.loadURL(
-      prepareURL([__dirname, 'libtextsecure', 'test', 'index.html'])
+      prepareURL([__dirname, 'libtextsecure', 'test', 'index.html'], moreKeys)
     );
   } else {
-    mainWindow.loadURL(prepareURL([__dirname, 'background.html']));
+    mainWindow.loadURL(prepareURL([__dirname, 'background.html'], moreKeys));
   }
 
   if (config.get('openDevTools')) {
@@ -440,10 +455,7 @@ async function createWindow() {
 
     // On Mac, or on other platforms when the tray icon is in use, the window
     // should be only hidden, not closed, when the user clicks the close button
-    if (
-      !windowState.shouldQuit() &&
-      (usingTrayIcon || process.platform === 'darwin')
-    ) {
+    if (!windowState.shouldQuit() && (usingTrayIcon || OS.isMacOS())) {
       // toggle the visibility of the show/hide tray icon menu entries
       if (tray) {
         tray.updateContextMenu();
@@ -471,10 +483,44 @@ async function createWindow() {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+
+  mainWindow.on('enter-full-screen', () => {
+    mainWindow.webContents.send('full-screen-change', true);
+  });
+  mainWindow.on('leave-full-screen', () => {
+    mainWindow.webContents.send('full-screen-change', false);
+  });
 }
 
 ipc.on('show-window', () => {
   showWindow();
+});
+
+ipc.on('title-bar-double-click', () => {
+  if (!mainWindow) {
+    return;
+  }
+
+  if (OS.isMacOS()) {
+    switch (
+      systemPreferences.getUserDefault('AppleActionOnDoubleClick', 'string')
+    ) {
+      case 'Minimize':
+        mainWindow.minimize();
+        break;
+      case 'Maximize':
+        toggleMaximizedBrowserWindow(mainWindow);
+        break;
+      default:
+        // If this is disabled, it'll be 'None'. If it's anything else, that's unexpected,
+        //   but we'll just no-op.
+        break;
+    }
+  } else {
+    // This is currently only supported on macOS. This `else` branch is just here when/if
+    //   we add support for other operating systems.
+    toggleMaximizedBrowserWindow(mainWindow);
+  }
 });
 
 let isReadyForUpdates = false;
@@ -886,7 +932,7 @@ app.on('ready', async () => {
       protocol: electronProtocol,
       userDataPath,
       installPath,
-      isWindows: process.platform === 'win32',
+      isWindows: OS.isWindows(),
     });
   }
 
@@ -1138,7 +1184,7 @@ app.on('window-all-closed', () => {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   const shouldAutoClose =
-    process.platform !== 'darwin' ||
+    !OS.isMacOS() ||
     config.environment === 'test' ||
     config.environment === 'test-lib';
 
@@ -1203,7 +1249,7 @@ ipc.on('draw-attention', () => {
     return;
   }
 
-  if (process.platform === 'win32' || process.platform === 'linux') {
+  if (OS.isWindows() || OS.isLinux()) {
     mainWindow.flashFrame(true);
   }
 });
@@ -1232,7 +1278,7 @@ ipc.on('close-about', () => {
   if (aboutWindow) {
     // Exiting child window when on full screen mode (MacOs only) hides the main window
     // Fix to issue #4540
-    if (mainWindow.isFullScreen() && process.platform === 'darwin') {
+    if (mainWindow.isFullScreen() && OS.isMacOS()) {
       mainWindow.setFullScreen(false);
       mainWindow.show();
       mainWindow.setFullScreen(true);

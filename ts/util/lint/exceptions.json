@@ -15034,6 +15034,42 @@
     "updated": "2020-12-17T18:08:07.752Z"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "ts/manage_full_screen_class.js",
+    "line": "$(document).ready(() => {",
+    "lineNumber": 4,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-01-21T23:06:13.270Z",
+    "reasonDetail": "Doesn't manipulate the DOM."
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/manage_full_screen_class.js",
+    "line": "        $(document.body).toggleClass('full-screen', isFullScreen);",
+    "lineNumber": 6,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-01-21T23:06:13.270Z",
+    "reasonDetail": "Manipulates a trusted class."
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/manage_full_screen_class.ts",
+    "line": "$(document).ready(() => {",
+    "lineNumber": 4,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-01-21T23:06:13.270Z",
+    "reasonDetail": "Doesn't manipulate the DOM."
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/manage_full_screen_class.ts",
+    "line": "    $(document.body).toggleClass('full-screen', isFullScreen);",
+    "lineNumber": 6,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-01-21T23:06:13.270Z",
+    "reasonDetail": "Manipulates a trusted class."
+  },
+  {
     "rule": "React-createRef",
     "path": "ts/quill/mentions/completion.js",
     "line": "        this.suggestionListRef = react_1.default.createRef();",
@@ -15058,6 +15094,42 @@
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-06T17:43:07.381Z",
     "reasonDetail": "used for figuring out clipboard contents"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/set_os_class.js",
+    "line": "$(document).ready(() => {",
+    "lineNumber": 4,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-01-21T23:06:13.270Z",
+    "reasonDetail": "Doesn't manipulate the DOM."
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/set_os_class.js",
+    "line": "    $(document.body).addClass(className);",
+    "lineNumber": 18,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-01-21T23:06:13.270Z",
+    "reasonDetail": "Adds a trusted CSS class."
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/set_os_class.ts",
+    "line": "$(document).ready(() => {",
+    "lineNumber": 4,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-01-21T23:06:13.270Z",
+    "reasonDetail": "Doesn't manipulate the DOM."
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/set_os_class.ts",
+    "line": "  $(document.body).addClass(className);",
+    "lineNumber": 16,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-01-21T23:06:13.270Z",
+    "reasonDetail": "Adds a trusted CSS class."
   },
   {
     "rule": "jQuery-wrap(",

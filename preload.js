@@ -113,6 +113,10 @@ try {
     ipc.send('show-window');
   };
 
+  window.titleBarDoubleClick = () => {
+    ipc.send('title-bar-double-click');
+  };
+
   window.setAutoHideMenuBar = autoHide =>
     ipc.send('set-auto-hide-menu-bar', autoHide);
 
@@ -141,6 +145,19 @@ try {
   ipc.on('set-up-as-standalone', () => {
     Whisper.events.trigger('setupAsStandalone');
   });
+
+  {
+    let isFullScreen = config.isFullScreen === 'true';
+
+    window.isFullScreen = () => isFullScreen;
+    // This is later overwritten.
+    window.onFullScreenChange = _.noop;
+
+    ipc.on('full-screen-change', (_event, isFull) => {
+      isFullScreen = Boolean(isFull);
+      window.onFullScreenChange(isFullScreen);
+    });
+  }
 
   // Settings-related events
 

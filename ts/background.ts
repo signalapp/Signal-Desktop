@@ -70,6 +70,17 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     },
   });
 
+  window.addEventListener('dblclick', (event: Event) => {
+    const target = event.target as HTMLElement;
+    const isDoubleClickOnTitleBar = Boolean(
+      target.classList.contains('module-title-bar-drag-area') ||
+        target.closest('module-title-bar-drag-area')
+    );
+    if (isDoubleClickOnTitleBar) {
+      window.titleBarDoubleClick();
+    }
+  });
+
   // Globally disable drag and drop
   document.body.addEventListener(
     'dragover',

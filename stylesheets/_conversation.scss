@@ -31,14 +31,13 @@
   }
 
   .panel {
-    height: calc(100% - #{$header-height});
+    height: calc(100% - #{$header-height} - var(--title-bar-drag-area-height));
     overflow-y: scroll;
     z-index: 1;
     position: absolute;
     left: 0;
-    top: $header-height;
+    top: calc(#{$header-height} + var(--title-bar-drag-area-height));
     width: 100%;
-    height: calc(100% - $header-height);
 
     @include light-theme() {
       background-color: $color-white;
