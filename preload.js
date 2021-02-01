@@ -440,12 +440,12 @@ if (process.env.USE_STUBBED_NETWORK) {
 
 window.lokiFeatureFlags = {
   multiDeviceUnpairing: true,
-  privateGroupChats: true,
   useOnionRequests: true,
   useOnionRequestsV2: true,
   useFileOnionRequests: true,
   useFileOnionRequestsV2: true, // more compact encoding of files in response
   onionRequestHops: 3,
+  useExplicitGroupUpdatesSending: false,
 };
 
 // eslint-disable-next-line no-extend-native,func-names
@@ -476,10 +476,10 @@ if (
 if (config.environment.includes('test-integration')) {
   window.lokiFeatureFlags = {
     multiDeviceUnpairing: true,
-    privateGroupChats: true,
     useOnionRequests: false,
     useFileOnionRequests: false,
     useOnionRequestsV2: false,
+    useExplicitGroupUpdatesSending: false,
   };
   /* eslint-disable global-require, import/no-extraneous-dependencies */
   window.sinon = require('sinon');
