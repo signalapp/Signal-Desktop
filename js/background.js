@@ -106,8 +106,6 @@
 
   window.document.title = window.getTitle();
 
-  // start a background worker for ecc
-  textsecure.startWorker('js/libsignal-protocol-worker.js');
   let messageReceiver;
   Whisper.events = _.clone(Backbone.Events);
   Whisper.events.isListenedTo = eventName =>

@@ -64,7 +64,6 @@ const excludedFiles = [
   '^test/test.js',
 
   // From libsignal-protocol-javascript project
-  '^js/libsignal-protocol-worker.js',
   '^libtextsecure/libsignal-protocol.js',
 
   // Test files
