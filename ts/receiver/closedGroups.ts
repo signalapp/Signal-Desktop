@@ -21,6 +21,7 @@ import {
 import { ECKeyPair } from './keypairs';
 import { UserUtils } from '../session/utils';
 import { ConversationModel } from '../models/conversation';
+import _ from 'lodash';
 
 export async function handleClosedGroupControlMessage(
   envelope: EnvelopePlus,
@@ -295,6 +296,7 @@ async function handleUpdateClosedGroup(
   convo.set('members', members);
 
   await convo.commit();
+  convo.updateLastMessage();
 
   await removeFromCache(envelope);
 }
@@ -315,6 +317,9 @@ async function handleClosedGroupEncryptionKeyPair(
     return;
   }
   const ourNumber = UserUtils.getOurPubKeyFromCache();
+  window.log.info(
+    `Got a group update for group ${envelope.source}, type: ENCRYPTION_KEY_PAIR`
+  );
   const groupPublicKey = envelope.source;
   const ourKeyPair = await UserUtils.getIdentityKeyPair();
 
@@ -485,12 +490,17 @@ async function handleClosedGroupNameChanged(
 ) {
   // Only add update message if we have something to show
   const newName = groupUpdate.name;
+  window.log.info(
+    `Got a group update for group ${envelope.source}, type: NAME_CHANGED`
+  );
+
   if (newName !== convo.get('name')) {
     const groupDiff: ClosedGroup.GroupDiff = {
       newName,
     };
     await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming');
     convo.set({ name: newName });
+    convo.updateLastMessage();
     await convo.commit();
   }
 
@@ -507,6 +517,10 @@ async function handleClosedGroupMembersAdded(
   const oldMembers = convo.get('members') || [];
   const membersNotAlreadyPresent = addedMembers.filter(
     m => !oldMembers.includes(m)
+  );
+  console.warn('membersNotAlreadyPresent', membersNotAlreadyPresent);
+  window.log.info(
+    `Got a group update for group ${envelope.source}, type: MEMBERS_ADDED`
   );
 
   if (membersNotAlreadyPresent.length === 0) {
@@ -526,6 +540,7 @@ async function handleClosedGroupMembersAdded(
   await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming');
 
   convo.set({ members });
+  convo.updateLastMessage();
   await convo.commit();
   await removeFromCache(envelope);
 }
@@ -534,7 +549,77 @@ async function handleClosedGroupMembersRemoved(
   envelope: EnvelopePlus,
   groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage,
   convo: ConversationModel
-) { }
+) {
+  // Check that the admin wasn't removed
+  const currentMembers = convo.get('members');
+  // removedMembers are all members in the diff
+  const removedMembers = groupUpdate.members.map(toHex);
+  // effectivelyRemovedMembers are the members which where effectively on this group before the update
+  // and is used for the group update message only
+  const effectivelyRemovedMembers = removedMembers.filter(m =>
+    currentMembers.includes(m)
+  );
+  const groupPubKey = envelope.source;
+  window.log.info(
+    `Got a group update for group ${envelope.source}, type: MEMBERS_REMOVED`
+  );
+
+  const membersAfterUpdate = _.difference(currentMembers, removedMembers);
+  const groupAdmins = convo.get('groupAdmins');
+  if (!groupAdmins?.length) {
+    throw new Error('No admins found for closed group member removed update.');
+  }
+  const firstAdmin = groupAdmins[0];
+
+  if (removedMembers.includes(firstAdmin)) {
+    window.log.warn(
+      'Ignoring invalid closed group update: trying to remove the admin.'
+    );
+    await removeFromCache(envelope);
+    return;
+  }
+
+  // If the current user was removed:
+  // • Stop polling for the group
+  // • Remove the key pairs associated with the group
+  const ourPubKey = UserUtils.getOurPubKeyFromCache();
+  const wasCurrentUserRemoved = !membersAfterUpdate.includes(ourPubKey.key);
+  if (wasCurrentUserRemoved) {
+    await window.Signal.Data.removeAllClosedGroupEncryptionKeyPairs(
+      groupPubKey
+    );
+    // Disable typing:
+    convo.set('isKickedFromGroup', true);
+    window.SwarmPolling.removePubkey(groupPubKey);
+  }
+  // Generate and distribute a new encryption key pair if needed
+  const isCurrentUserAdmin = firstAdmin === ourPubKey.key;
+  if (isCurrentUserAdmin) {
+    try {
+      await ClosedGroup.generateAndSendNewEncryptionKeyPair(
+        groupPubKey,
+        membersAfterUpdate
+      );
+    } catch (e) {
+      window.log.warn('Could not distribute new encryption keypair.');
+    }
+  }
+
+  // Only add update message if we have something to show
+  if (membersAfterUpdate.length !== currentMembers.length) {
+    const groupDiff: ClosedGroup.GroupDiff = {
+      leavingMembers: effectivelyRemovedMembers,
+    };
+    await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming');
+    convo.updateLastMessage();
+  }
+
+  // Update the group
+  convo.set({ members: membersAfterUpdate });
+
+  await convo.commit();
+  await removeFromCache(envelope);
+}
 
 async function handleClosedGroupMemberLeft(
   envelope: EnvelopePlus,
@@ -578,7 +663,6 @@ async function handleClosedGroupMemberLeft(
     convo.set('isKickedFromGroup', true);
     window.SwarmPolling.removePubkey(groupPublicKey);
   }
-  // Update the group
 
   // Only add update message if we have something to show
   if (leftMemberWasPresent) {
@@ -586,6 +670,7 @@ async function handleClosedGroupMemberLeft(
       leavingMembers: didAdminLeave ? oldMembers : [sender],
     };
     await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming');
+    convo.updateLastMessage();
   }
 
   convo.set('members', members);
@@ -648,7 +733,9 @@ export async function createClosedGroup(
   // the sending pipeline needs to know from GroupUtils when a message is for a medium group
   await ClosedGroup.updateOrCreateClosedGroup(groupDetails);
   convo.set('lastJoinedTimestamp', Date.now());
+  convo.set('active_at', Date.now());
   await convo.commit();
+  convo.updateLastMessage();
 
   // Send a closed group update message to all members individually
   const promises = listOfMembers.map(async m => {

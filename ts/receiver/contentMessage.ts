@@ -1,6 +1,5 @@
 import { EnvelopePlus } from './types';
 import { handleDataMessage } from './dataMessage';
-import { getEnvelopeId } from './common';
 
 import { removeFromCache, updateCache } from './cache';
 import { SignalService } from '../protobuf';
@@ -75,6 +74,9 @@ async function decryptForClosedGroup(
           encryptionKeyPair,
           true
         );
+        if (decryptedContent?.byteLength) {
+          break;
+        }
         keyIndex++;
       } catch (e) {
         window.log.info(
@@ -83,13 +85,21 @@ async function decryptForClosedGroup(
       }
     } while (encryptionKeyPairs.length > 0);
 
-    if (!decryptedContent) {
+    if (!decryptedContent?.byteLength) {
       await removeFromCache(envelope);
       throw new Error(
         `Could not decrypt message for closed group with any of the ${encryptionKeyPairsCount} keypairs.`
       );
     }
-    window.log.info('ClosedGroup Message decrypted successfully.');
+    if (keyIndex !== 0) {
+      window.log.warn(
+        'Decrypted a closed group message with not the latest encryptionkeypair we have'
+      );
+    }
+    window.log.info(
+      'ClosedGroup Message decrypted successfully with keyIndex:',
+      keyIndex
+    );
     const ourDevicePubKey = UserUtils.getOurPubKeyStrFromCache();
 
     if (
@@ -483,7 +493,7 @@ async function handleTypingMessage(
   const started = action === SignalService.TypingMessage.Action.STARTED;
 
   if (conversation) {
-    conversation.notifyTyping({
+    await conversation.notifyTyping({
       isTyping: started,
       sender: source,
     });

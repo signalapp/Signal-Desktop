@@ -341,13 +341,13 @@ export async function leaveClosedGroup(groupId: string) {
     expireTimer: 0,
   });
   window.getMessageController().register(dbMessage.id, dbMessage);
-
+  const existingExpireTimer = convo.get('expireTimer') || 0;
   // Send the update to the group
   const ourLeavingMessage = new ClosedGroupMemberLeftMessage({
     timestamp: Date.now(),
     groupId,
     identifier: dbMessage.id,
-    expireTimer: 0,
+    expireTimer: existingExpireTimer,
   });
 
   window.log.info(

@@ -114,7 +114,7 @@ export async function encryptUsingSessionProtocol(
 
   window?.log?.info(
     'encryptUsingSessionProtocol for ',
-    recipientHexEncodedX25519PublicKey
+    recipientHexEncodedX25519PublicKey.key
   );
 
   const recipientX25519PublicKey = recipientHexEncodedX25519PublicKey.withoutPrefixToArray();
