@@ -165,6 +165,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     this.onChooseAttachment = this.onChooseAttachment.bind(this);
     this.onClickAttachment = this.onClickAttachment.bind(this);
     this.renderCaptionEditor = this.renderCaptionEditor.bind(this);
+    this.abortLinkPreviewFetch = this.abortLinkPreviewFetch.bind(this);
 
     // On Sending
     this.onSendMessage = this.onSendMessage.bind(this);
@@ -183,7 +184,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   public componentWillUnmount() {
-    this.linkPreviewAbortController?.abort();
+    this.abortLinkPreviewFetch();
     this.linkPreviewAbortController = undefined;
   }
   public componentDidUpdate(prevProps: Props, _prevState: State) {
@@ -566,7 +567,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       },
     });
     const abortController = new AbortController();
-    this.linkPreviewAbortController?.abort();
+    this.abortLinkPreviewFetch();
     this.linkPreviewAbortController = abortController;
     setTimeout(() => {
       abortController.abort();
@@ -590,31 +591,64 @@ export class SessionCompositionBox extends React.Component<Props, State> {
             }
           }
         }
-        this.setState({
-          stagedLinkPreview: {
-            isLoaded: true,
-            title: ret?.title || null,
-            description: ret?.description || '',
-            url: ret?.url || null,
-            domain:
-              (ret?.url && window.Signal.LinkPreviews.getDomain(ret.url)) || '',
-            image,
-          },
-        });
+        // we finished loading the preview, and checking the abortConrtoller, we are still not aborted.
+        // => update the staged preview
+        if (
+          this.linkPreviewAbortController &&
+          !this.linkPreviewAbortController.signal.aborted
+        ) {
+          this.setState({
+            stagedLinkPreview: {
+              isLoaded: true,
+              title: ret?.title || null,
+              description: ret?.description || '',
+              url: ret?.url || null,
+              domain:
+                (ret?.url && window.Signal.LinkPreviews.getDomain(ret.url)) ||
+                '',
+              image,
+            },
+          });
+        } else if (this.linkPreviewAbortController) {
+          this.setState({
+            stagedLinkPreview: {
+              isLoaded: false,
+              title: null,
+              description: null,
+              url: null,
+              domain: null,
+              image: undefined,
+            },
+          });
+          this.linkPreviewAbortController = undefined;
+        }
       })
       .catch(err => {
         window.log.warn('fetch link preview: ', err);
-        abortController.abort();
-        this.setState({
-          stagedLinkPreview: {
-            isLoaded: true,
-            title: null,
-            domain: null,
-            description: null,
-            url: firstLink,
-            image: undefined,
-          },
-        });
+        const aborted = this.linkPreviewAbortController?.signal.aborted;
+        this.linkPreviewAbortController = undefined;
+        // if we were aborted, it either means the UI was unmount, or more probably,
+        // than the message was sent without the link preview.
+        // So be sure to reset the staged link preview so it is not sent with the next message.
+
+        // if we were not aborted, it's probably just an error on the fetch. Nothing to do excpet mark the fetch as done (with errors)
+
+        if (aborted) {
+          this.setState({
+            stagedLinkPreview: undefined,
+          });
+        } else {
+          this.setState({
+            stagedLinkPreview: {
+              isLoaded: true,
+              title: null,
+              description: null,
+              url: firstLink,
+              domain: null,
+              image: undefined,
+            },
+          });
+        }
       });
   }
 
@@ -751,6 +785,8 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
   // tslint:disable-next-line: cyclomatic-complexity
   private async onSendMessage() {
+    this.abortLinkPreviewFetch();
+
     // this is dirty but we have to replace all @(xxx) by @xxx manually here
     const cleanMentions = (text: string): string => {
       const matches = text.match(this.mentionsRegex);
@@ -835,10 +871,13 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       'attachments'
     );
 
+    // we consider that a link previews without a title at least is not a preview
     const linkPreviews =
-      (stagedLinkPreview && [
-        _.pick(stagedLinkPreview, 'url', 'image', 'title'),
-      ]) ||
+      (stagedLinkPreview &&
+        stagedLinkPreview.isLoaded &&
+        stagedLinkPreview.title?.length && [
+          _.pick(stagedLinkPreview, 'url', 'image', 'title'),
+        ]) ||
       [];
 
     try {
@@ -854,20 +893,15 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
       // Message sending sucess
       this.props.onMessageSuccess();
+      this.props.clearAttachments();
 
-      // Empty composition box
+      // Empty composition box and stagedAttachments
       this.setState({
         message: '',
         showEmojiPanel: false,
+        stagedLinkPreview: undefined,
+        ignoredLink: undefined,
       });
-      // Empty stagedAttachments
-      this.props.clearAttachments();
-      if (stagedLinkPreview && stagedLinkPreview.url) {
-        this.setState({
-          stagedLinkPreview: undefined,
-          ignoredLink: undefined,
-        });
-      }
     } catch (e) {
       // Message sending failed
       window.log.error(e);
@@ -982,5 +1016,9 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   private focusCompositionBox() {
     // Focus the textarea when user clicks anywhere in the composition box
     this.textarea.current?.focus();
+  }
+
+  private abortLinkPreviewFetch() {
+    this.linkPreviewAbortController?.abort();
   }
 }
