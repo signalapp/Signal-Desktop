@@ -262,7 +262,6 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
     }
     updates.left = false;
     updates.lastJoinedTimestamp = updates.active_at;
-
   } else {
     updates.left = true;
   }
