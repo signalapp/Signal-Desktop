@@ -3,16 +3,16 @@ import { MessageParams } from '../../../Message';
 import { SignalService } from '../../../../../../protobuf';
 import { PubKey } from '../../../../../types/PubKey';
 
-export interface ClosedGroupV2MessageParams extends MessageParams {
+export interface ClosedGroupMessageParams extends MessageParams {
   groupId: string | PubKey;
   expireTimer: number;
 }
 
-export abstract class ClosedGroupV2Message extends DataMessage {
+export abstract class ClosedGroupMessage extends DataMessage {
   public readonly groupId: PubKey;
   public readonly expireTimer: number;
 
-  constructor(params: ClosedGroupV2MessageParams) {
+  constructor(params: ClosedGroupMessageParams) {
     super({
       timestamp: params.timestamp,
       identifier: params.identifier,
@@ -35,7 +35,7 @@ export abstract class ClosedGroupV2Message extends DataMessage {
   public dataProto(): SignalService.DataMessage {
     const dataMessage = new SignalService.DataMessage();
 
-    dataMessage.closedGroupUpdateV2 = new SignalService.DataMessage.ClosedGroupUpdateV2();
+    dataMessage.closedGroupControlMessage = new SignalService.DataMessage.ClosedGroupControlMessage();
     dataMessage.expireTimer = this.expireTimer;
 
     return dataMessage;

@@ -1,23 +1,23 @@
 import { Constants } from '../../../../..';
 import { SignalService } from '../../../../../../protobuf';
 import {
-  ClosedGroupV2Message,
-  ClosedGroupV2MessageParams,
-} from './ClosedGroupV2Message';
+  ClosedGroupMessage,
+  ClosedGroupMessageParams,
+} from './ClosedGroupMessage';
 
-interface ClosedGroupV2EncryptionPairMessageParams
-  extends ClosedGroupV2MessageParams {
+interface ClosedGroupEncryptionPairMessageParams
+  extends ClosedGroupMessageParams {
   encryptedKeyPairs: Array<
-    SignalService.DataMessage.ClosedGroupUpdateV2.KeyPairWrapper
+    SignalService.DataMessage.ClosedGroupControlMessage.KeyPairWrapper
   >;
 }
 
-export class ClosedGroupV2EncryptionPairMessage extends ClosedGroupV2Message {
+export class ClosedGroupEncryptionPairMessage extends ClosedGroupMessage {
   private readonly encryptedKeyPairs: Array<
-    SignalService.DataMessage.ClosedGroupUpdateV2.KeyPairWrapper
+    SignalService.DataMessage.ClosedGroupControlMessage.KeyPairWrapper
   >;
 
-  constructor(params: ClosedGroupV2EncryptionPairMessageParams) {
+  constructor(params: ClosedGroupEncryptionPairMessageParams) {
     super({
       timestamp: params.timestamp,
       identifier: params.identifier,
@@ -34,9 +34,9 @@ export class ClosedGroupV2EncryptionPairMessage extends ClosedGroupV2Message {
     const dataMessage = super.dataProto();
 
     // tslint:disable: no-non-null-assertion
-    dataMessage.closedGroupUpdateV2!.type =
-      SignalService.DataMessage.ClosedGroupUpdateV2.Type.ENCRYPTION_KEY_PAIR;
-    dataMessage.closedGroupUpdateV2!.wrappers = this.encryptedKeyPairs.map(
+    dataMessage.closedGroupControlMessage!.type =
+      SignalService.DataMessage.ClosedGroupControlMessage.Type.ENCRYPTION_KEY_PAIR;
+    dataMessage.closedGroupControlMessage!.wrappers = this.encryptedKeyPairs.map(
       w => {
         const { publicKey, encryptedKeyPair } = w;
         return {
@@ -50,6 +50,6 @@ export class ClosedGroupV2EncryptionPairMessage extends ClosedGroupV2Message {
   }
 
   public ttl(): number {
-    return Constants.TTL_DEFAULT.ENCRYPTION_PAIR_V2_GROUP;
+    return Constants.TTL_DEFAULT.ENCRYPTION_PAIR_GROUP;
   }
 }

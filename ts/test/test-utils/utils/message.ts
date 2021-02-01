@@ -1,6 +1,6 @@
 import {
   ChatMessage,
-  ClosedGroupV2ChatMessage,
+  ClosedGroupChatMessage,
   OpenGroupMessage,
 } from '../../../session/messages/outgoing';
 import { v4 as uuid } from 'uuid';
@@ -40,8 +40,8 @@ export function generateOpenGroupMessage(): OpenGroupMessage {
 
 export function generateClosedGroupMessage(
   groupId?: string
-): ClosedGroupV2ChatMessage {
-  return new ClosedGroupV2ChatMessage({
+): ClosedGroupChatMessage {
+  return new ClosedGroupChatMessage({
     identifier: uuid(),
     groupId: groupId ?? generateFakePubKey().key,
     chatMessage: generateChatMessage(),

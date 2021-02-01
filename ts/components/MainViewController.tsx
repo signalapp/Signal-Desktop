@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ContactType } from './session/SessionMemberListItem';
 import { ToastUtils } from '../session/utils';
-import { createClosedGroupV2 } from '../receiver/closedGroupsV2';
+import { createClosedGroup as createClosedGroupV2 } from '../receiver/closedGroups';
 
 export class MessageView extends React.Component {
   public render() {

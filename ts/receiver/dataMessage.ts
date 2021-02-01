@@ -12,7 +12,7 @@ import { StringUtils, UserUtils } from '../session/utils';
 import { DeliveryReceiptMessage } from '../session/messages/outgoing';
 import { getMessageQueue } from '../session';
 import { ConversationController } from '../session/conversations';
-import { handleClosedGroupV2 } from './closedGroupsV2';
+import { handleClosedGroupControlMessage } from './closedGroups';
 import { isUs } from '../session/utils/User';
 
 export async function updateProfile(
@@ -241,13 +241,7 @@ export function isMessageEmpty(message: SignalService.DataMessage) {
 }
 
 function isBodyEmpty(body: string) {
-  return _.isEmpty(body) || isBodyAutoFRContent(body);
-}
-
-function isBodyAutoFRContent(body: string) {
-  return (
-    body === 'Please accept to enable messages to be synced across devices'
-  );
+  return _.isEmpty(body);
 }
 
 export async function handleDataMessage(
@@ -256,8 +250,11 @@ export async function handleDataMessage(
 ): Promise<void> {
   window.log.info('data message from', getEnvelopeId(envelope));
 
-  if (dataMessage.closedGroupUpdateV2) {
-    await handleClosedGroupV2(envelope, dataMessage.closedGroupUpdateV2);
+  if (dataMessage.closedGroupControlMessage) {
+    await handleClosedGroupControlMessage(
+      envelope,
+      dataMessage.closedGroupControlMessage as SignalService.DataMessage.ClosedGroupControlMessage
+    );
     return;
   }
 

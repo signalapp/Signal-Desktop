@@ -1,12 +1,10 @@
-import { DAYS, MINUTES, SECONDS } from './utils/Number';
+import { DAYS, SECONDS } from './utils/Number';
 // tslint:disable: binary-expression-operand-order
 
 export const TTL_DEFAULT = {
-  PAIRING_REQUEST: 2 * MINUTES,
-  DEVICE_UNPAIRING: 4 * DAYS,
   TYPING_MESSAGE: 20 * SECONDS,
   REGULAR_MESSAGE: 2 * DAYS,
-  ENCRYPTION_PAIR_V2_GROUP: 4 * DAYS,
+  ENCRYPTION_PAIR_GROUP: 4 * DAYS,
 };
 
 // User Interface

@@ -13,7 +13,7 @@ import {
 import { PubKey, RawMessage } from '../../../../session/types';
 import { MessageSender } from '../../../../session/sending';
 import { PendingMessageCacheStub } from '../../../test-utils/stubs';
-import { ClosedGroupV2Message } from '../../../../session/messages/outgoing/content/data/groupv2/ClosedGroupV2Message';
+import { ClosedGroupMessage } from '../../../../session/messages/outgoing/content/data/group/ClosedGroupMessage';
 
 // tslint:disable-next-line: no-require-imports no-var-requires
 const chaiAsPromised = require('chai-as-promised');
@@ -188,9 +188,9 @@ describe('MessageQueue', () => {
         expect(send.callCount).to.equal(1);
 
         const arg = send.getCall(0).args;
-        expect(arg[1] instanceof ClosedGroupV2Message).to.equal(
+        expect(arg[1] instanceof ClosedGroupMessage).to.equal(
           true,
-          'message sent to group member was not a ClosedGroupV2Message'
+          'message sent to group member was not a ClosedGroupMessage'
         );
       });
 
