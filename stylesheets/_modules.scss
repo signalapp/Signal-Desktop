@@ -2924,6 +2924,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 .module-conversation-header__title-clickable {
   cursor: pointer;
+
+  &:focus {
+    @include mouse-mode {
+      outline: none;
+    }
+  }
 }
 
 .module-conversation-header__note-to-self {
@@ -3189,7 +3195,7 @@ button.module-conversation-details__action-button {
     }
 
     &__title {
-      @include font-body-1-bold;
+      @include font-title-1;
       padding-top: 12px;
       padding-bottom: 8px;
     }
@@ -3203,6 +3209,14 @@ button.module-conversation-details__action-button {
         color: $color-gray-25;
       }
     }
+  }
+
+  &__leave-group {
+    color: $color-accent-red;
+  }
+
+  &__block-group {
+    color: $color-accent-red;
   }
 
   &__tabs {
@@ -3342,8 +3356,7 @@ button.module-conversation-details__action-button {
 
       &--reset {
         &::after {
-          transform: scaleX(-1);
-          -webkit-mask: url(../images/icons/v2/undo-24.svg) no-repeat center;
+          -webkit-mask: url(../images/icons/v2/refresh-24.svg) no-repeat center;
 
           @include light-theme {
             background-color: $color-gray-75;
@@ -3430,6 +3443,7 @@ button.module-conversation-details__action-button {
       display: flex;
       justify-content: center;
       padding: 0 20px;
+      padding-bottom: 24px;
 
       .module-media-grid-item {
         border-radius: 4px;
@@ -3458,6 +3472,13 @@ button.module-conversation-details__action-button {
       background: none;
       border: none;
       padding: 0;
+
+      @include light-theme {
+        color: $color-gray-95;
+      }
+      @include dark-theme {
+        color: $color-gray-05;
+      }
     }
   }
 

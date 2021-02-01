@@ -9,7 +9,7 @@ export type Props = {
   alwaysShowActions?: boolean;
   className?: string;
   icon?: React.ReactNode;
-  label: string;
+  label: string | React.ReactNode;
   info?: string;
   right?: string | React.ReactNode;
   actions?: React.ReactNode;
@@ -30,15 +30,15 @@ export const PanelRow: React.ComponentType<Props> = ({
 }) => {
   const content = (
     <>
-      {icon && <div className={bem('icon')}>{icon}</div>}
+      {icon !== undefined ? <div className={bem('icon')}>{icon}</div> : null}
       <div className={bem('label')}>
         <div>{label}</div>
-        {info && <div className={bem('info')}>{info}</div>}
+        {info !== undefined ? <div className={bem('info')}>{info}</div> : null}
       </div>
-      {right && <div className={bem('right')}>{right}</div>}
-      {actions && (
+      {right !== undefined ? <div className={bem('right')}>{right}</div> : null}
+      {actions !== undefined ? (
         <div className={alwaysShowActions ? '' : bem('actions')}>{actions}</div>
-      )}
+      ) : null}
     </>
   );
 

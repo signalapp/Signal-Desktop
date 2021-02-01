@@ -487,18 +487,49 @@ export class ConversationHeader extends React.Component<PropsType> {
   private renderHeader(): JSX.Element {
     const {
       conversationTitle,
+      groupVersion,
       id,
       isMe,
       onShowContactModal,
+      onShowConversationDetails,
       type,
     } = this.props;
 
-    if (conversationTitle) {
+    if (conversationTitle !== undefined) {
       return (
         <div className="module-conversation-header__title-flex">
           <div className="module-conversation-header__title">
             {conversationTitle}
           </div>
+        </div>
+      );
+    }
+
+    const hasGV2AdminEnabled =
+      groupVersion === 2 &&
+      window.Signal.RemoteConfig.isEnabled('desktop.gv2Admin');
+
+    if (type === 'group' && hasGV2AdminEnabled) {
+      const onHeaderClick = () => onShowConversationDetails();
+      const onKeyDown = (e: React.KeyboardEvent): void => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.stopPropagation();
+          e.preventDefault();
+
+          onShowConversationDetails();
+        }
+      };
+
+      return (
+        <div
+          className="module-conversation-header__title-flex module-conversation-header__title-clickable"
+          onClick={onHeaderClick}
+          onKeyDown={onKeyDown}
+          role="button"
+          tabIndex={0}
+        >
+          {this.renderAvatar()}
+          {this.renderTitle()}
         </div>
       );
     }

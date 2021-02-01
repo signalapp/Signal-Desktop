@@ -45,16 +45,32 @@ const createProps = (overrideProps: Partial<Props>): Props => ({
   memberships: overrideProps.memberships || [],
 });
 
-story.add('Basic', () => {
-  const memberships = createMemberships(10);
+story.add('Few', () => {
+  const memberships = createMemberships(3);
 
   const props = createProps({ memberships });
 
   return <ConversationDetailsMembershipList {...props} />;
 });
 
-story.add('Few', () => {
-  const memberships = createMemberships(3);
+story.add('Limit', () => {
+  const memberships = createMemberships(5);
+
+  const props = createProps({ memberships });
+
+  return <ConversationDetailsMembershipList {...props} />;
+});
+
+story.add('Limit +1', () => {
+  const memberships = createMemberships(6);
+
+  const props = createProps({ memberships });
+
+  return <ConversationDetailsMembershipList {...props} />;
+});
+
+story.add('Limit +2', () => {
+  const memberships = createMemberships(7);
 
   const props = createProps({ memberships });
 

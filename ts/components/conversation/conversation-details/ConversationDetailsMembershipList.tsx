@@ -24,7 +24,7 @@ export type Props = {
   i18n: LocalizerType;
 };
 
-const INITIAL_MEMBER_COUNT = 5;
+const MAX_MEMBER_COUNT = 5;
 
 export const ConversationDetailsMembershipList: React.ComponentType<Props> = ({
   memberships,
@@ -33,44 +33,47 @@ export const ConversationDetailsMembershipList: React.ComponentType<Props> = ({
 }) => {
   const [showAllMembers, setShowAllMembers] = React.useState<boolean>(false);
 
+  const shouldHideRestMembers = memberships.length - MAX_MEMBER_COUNT > 1;
+  const membersToShow =
+    shouldHideRestMembers && !showAllMembers
+      ? MAX_MEMBER_COUNT
+      : memberships.length;
+
   return (
     <PanelSection
       title={i18n('ConversationDetailsMembershipList--title', [
         memberships.length.toString(),
       ])}
     >
-      {memberships
-        .slice(0, showAllMembers ? undefined : INITIAL_MEMBER_COUNT)
-        .map(({ isAdmin, member }) => (
-          <PanelRow
-            key={member.id}
-            onClick={() => showContactModal(member.id)}
-            icon={
-              <Avatar
-                conversationType="direct"
-                i18n={i18n}
-                size={32}
-                {...member}
-              />
-            }
-            label={member.title}
-            right={isAdmin ? i18n('GroupV2--admin') : ''}
-          />
-        ))}
-      {showAllMembers === false &&
-        memberships.length > INITIAL_MEMBER_COUNT && (
-          <PanelRow
-            className="module-conversation-details-membership-list--show-all"
-            icon={
-              <ConversationDetailsIcon
-                ariaLabel={i18n('ConversationDetailsMembershipList--show-all')}
-                icon="down"
-              />
-            }
-            onClick={() => setShowAllMembers(true)}
-            label={i18n('ConversationDetailsMembershipList--show-all')}
-          />
-        )}
+      {memberships.slice(0, membersToShow).map(({ isAdmin, member }) => (
+        <PanelRow
+          key={member.id}
+          onClick={() => showContactModal(member.id)}
+          icon={
+            <Avatar
+              conversationType="direct"
+              i18n={i18n}
+              size={32}
+              {...member}
+            />
+          }
+          label={member.title}
+          right={isAdmin ? i18n('GroupV2--admin') : ''}
+        />
+      ))}
+      {showAllMembers === false && shouldHideRestMembers && (
+        <PanelRow
+          className="module-conversation-details-membership-list--show-all"
+          icon={
+            <ConversationDetailsIcon
+              ariaLabel={i18n('ConversationDetailsMembershipList--show-all')}
+              icon="down"
+            />
+          }
+          onClick={() => setShowAllMembers(true)}
+          label={i18n('ConversationDetailsMembershipList--show-all')}
+        />
+      )}
     </PanelSection>
   );
 };

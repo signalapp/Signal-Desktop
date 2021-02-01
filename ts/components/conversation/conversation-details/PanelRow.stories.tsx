@@ -19,7 +19,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   icon: boolean('with icon', overrideProps.icon !== undefined) ? (
     <ConversationDetailsIcon ariaLabel="timer" icon="timer" />
   ) : null,
-  label: text('label', overrideProps.label || ''),
+  label: text('label', (overrideProps.label as string) || ''),
   info: text('info', overrideProps.info || ''),
   right: text('right', (overrideProps.right as string) || ''),
   actions: boolean('with action', overrideProps.actions !== undefined) ? (

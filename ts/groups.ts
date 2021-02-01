@@ -274,7 +274,7 @@ export function buildGroupLink(conversation: ConversationModel): string {
   const bytes = proto.toArrayBuffer();
   const hash = toWebSafeBase64(window.Signal.Crypto.arrayBufferToBase64(bytes));
 
-  return `sgnl://signal.group/#${hash}`;
+  return `https://signal.group/#${hash}`;
 }
 
 export function parseGroupLink(

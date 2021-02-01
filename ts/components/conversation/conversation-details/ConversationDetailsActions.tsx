@@ -37,7 +37,11 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
               icon="leave"
             />
           }
-          label={i18n('ConversationDetailsActions--leave-group')}
+          label={
+            <div className="module-conversation-details__leave-group">
+              {i18n('ConversationDetailsActions--leave-group')}
+            </div>
+          }
         />
         <PanelRow
           onClick={() => setConfirmingBlock(true)}
@@ -47,7 +51,11 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
               icon="block"
             />
           }
-          label={i18n('ConversationDetailsActions--block-group')}
+          label={
+            <div className="module-conversation-details__block-group">
+              {i18n('ConversationDetailsActions--block-group')}
+            </div>
+          }
         />
       </PanelSection>
 
