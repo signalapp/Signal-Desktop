@@ -39,9 +39,11 @@ function showCopyId(isPublic: boolean, isGroup: boolean): boolean {
 function showDeleteContact(
   isMe: boolean,
   isGroup: boolean,
-  isPublic: boolean
+  isPublic: boolean,
+  isGroupLeft: boolean
 ): boolean {
-  return !isMe && Boolean(!isGroup || isPublic);
+  // you need to have left a closed group first to be able to delete it completely.
+  return (!isMe && !isGroup) || (isGroup && isGroupLeft);
 }
 
 function showAddModerators(
@@ -97,10 +99,18 @@ export function getDeleteContactMenuItem(
   isMe: boolean | undefined,
   isGroup: boolean | undefined,
   isPublic: boolean | undefined,
+  isLeft: boolean | undefined,
   action: any,
   i18n: LocalizerType
 ): JSX.Element | null {
-  if (showDeleteContact(Boolean(isMe), Boolean(isGroup), Boolean(isPublic))) {
+  if (
+    showDeleteContact(
+      Boolean(isMe),
+      Boolean(isGroup),
+      Boolean(isPublic),
+      Boolean(isLeft)
+    )
+  ) {
     if (isPublic) {
       return <Item onClick={action}>{i18n('leaveGroup')}</Item>;
     }
