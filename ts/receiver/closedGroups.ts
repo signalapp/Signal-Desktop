@@ -197,16 +197,19 @@ async function handleNewClosedGroup(
     'incoming'
   );
 
-  convo.set('name', name);
-  convo.set('members', members);
-  // mark a closed group as a medium group.
-  // this field is used to poll for this groupPubKey on the swarm nodes, among other things
-  convo.set('is_medium_group', true);
-  convo.set('active_at', Date.now());
-  convo.set('lastJoinedTimestamp', Date.now());
-
   // We only set group admins on group creation
-  convo.set('groupAdmins', admins);
+  const groupDetails = {
+    id: groupId,
+    name: name,
+    members: members,
+    admins,
+    active: true,
+  };
+
+  // be sure to call this before sending the message.
+  // the sending pipeline needs to know from GroupUtils when a message is for a medium group
+  await ClosedGroup.updateOrCreateClosedGroup(groupDetails);
+
   await convo.commit();
   // sanity checks validate this
   // tslint:disable: no-non-null-assertion
@@ -733,8 +736,6 @@ export async function createClosedGroup(
   // be sure to call this before sending the message.
   // the sending pipeline needs to know from GroupUtils when a message is for a medium group
   await ClosedGroup.updateOrCreateClosedGroup(groupDetails);
-  convo.set('lastJoinedTimestamp', Date.now());
-  convo.set('active_at', Date.now());
   await convo.commit();
   convo.updateLastMessage();
 
