@@ -41,7 +41,6 @@ export class UserDetailsDialog extends React.Component<Props, State> {
     return (
       <SessionModal
         title={this.props.profileName}
-        onOk={() => null}
         onClose={this.closeDialog}
         theme={this.props.theme}
       >

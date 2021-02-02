@@ -7,8 +7,7 @@ import { MessageBody } from './MessageBody';
 import { ImageGrid } from './ImageGrid';
 import { Image } from './Image';
 import { ContactName } from './ContactName';
-import { Quote, QuotedAttachmentType } from './Quote';
-import { EmbeddedContact } from './EmbeddedContact';
+import { Quote } from './Quote';
 
 // Audio Player
 import H5AudioPlayer from 'react-h5-audio-player';
@@ -27,7 +26,6 @@ import {
   isVideo,
 } from '../../../ts/types/Attachment';
 import { AttachmentType } from '../../types/Attachment';
-import { Contact } from '../../types/Contact';
 
 import { getIncrement } from '../../util/timer';
 import { isFileDangerous } from '../../util/isFileDangerous';
@@ -36,19 +34,15 @@ import _ from 'lodash';
 import { animation, contextMenu, Item, Menu } from 'react-contexify';
 import uuid from 'uuid';
 import { InView } from 'react-intersection-observer';
-import { DefaultTheme, withTheme } from 'styled-components';
+import { withTheme } from 'styled-components';
 import { MessageMetadata } from './message/MessageMetadata';
 import { MessageRegularProps } from '../../../js/models/messages';
+import { PubKey } from '../../session/types';
+import { ToastUtils } from '../../session/utils';
+import { ConversationController } from '../../session/conversations';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
-
-interface LinkPreviewType {
-  title: string;
-  domain: string;
-  url: string;
-  image?: AttachmentType;
-}
 
 interface State {
   expiring: boolean;
@@ -72,6 +66,8 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
     this.handleImageErrorBound = this.handleImageError.bind(this);
     this.onReplyPrivate = this.onReplyPrivate.bind(this);
     this.handleContextMenu = this.handleContextMenu.bind(this);
+    this.onAddModerator = this.onAddModerator.bind(this);
+    this.onRemoveFromModerator = this.onRemoveFromModerator.bind(this);
 
     this.state = {
       expiring: false,
@@ -427,7 +423,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
     const withContentAbove =
       conversationType === 'group' && direction === 'incoming';
 
-    const shortenedPubkey = window.shortenPubkey(quote.authorPhoneNumber);
+    const shortenedPubkey = PubKey.shorten(quote.authorPhoneNumber);
 
     const displayedPubkey = quote.authorProfileName
       ? shortenedPubkey
@@ -470,36 +466,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
     );
   }
 
-  public renderEmbeddedContact() {
-    const {
-      collapseMetadata,
-      contact,
-      conversationType,
-      direction,
-      text,
-    } = this.props;
-    if (!contact) {
-      return null;
-    }
-
-    const withCaption = Boolean(text);
-    const withContentAbove =
-      conversationType === 'group' && direction === 'incoming';
-    const withContentBelow = withCaption || !collapseMetadata;
-
-    return (
-      <EmbeddedContact
-        contact={contact}
-        hasSignalAccount={contact.hasSignalAccount}
-        isIncoming={direction === 'incoming'}
-        i18n={window.i18n}
-        onClick={contact.onClick}
-        withContentAbove={withContentAbove}
-        withContentBelow={withContentBelow}
-      />
-    );
-  }
-
   public renderAvatar() {
     const {
       authorAvatarPath,
@@ -510,6 +476,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       isAdmin,
       conversationType,
       direction,
+      isPublic,
       onShowUserDetails,
       firstMessageOfSeries,
     } = this.props;
@@ -538,7 +505,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
           }}
           pubkey={authorPhoneNumber}
         />
-        {isAdmin && (
+        {isPublic && isAdmin && (
           <div className="module-avatar__icon--crown-wrapper">
             <div className="module-avatar__icon--crown" />
           </div>
@@ -550,7 +517,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
   public renderText() {
     const {
       text,
-      bodyPending,
       direction,
       status,
       conversationType,
@@ -581,7 +547,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
         <MessageBody
           text={contents || ''}
           i18n={window.i18n}
-          bodyPending={bodyPending}
           isGroup={conversationType === 'group'}
           convoId={convoId}
           disableLinks={multiSelectMode}
@@ -624,6 +589,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       onShowDetail,
       isPublic,
       weAreAdmin,
+      isAdmin,
       onBanUser,
     } = this.props;
 
@@ -693,6 +659,16 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
         ) : null}
         {weAreAdmin && isPublic ? (
           <Item onClick={onBanUser}>{window.i18n('banUser')}</Item>
+        ) : null}
+        {weAreAdmin && isPublic && !isAdmin ? (
+          <Item onClick={this.onAddModerator}>
+            {window.i18n('addAsModerator')}
+          </Item>
+        ) : null}
+        {weAreAdmin && isPublic && isAdmin ? (
+          <Item onClick={this.onRemoveFromModerator}>
+            {window.i18n('removeFromModerators')}
+          </Item>
         ) : null}
       </Menu>
     );
@@ -788,7 +764,8 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
     // We parse the message later, but we still need to do an early check
     // to see if the message mentions us, so we can display the entire
     // message differently
-    const mentions = text ? text.match(window.pubkeyPattern) : [];
+    const regex = new RegExp(`@${PubKey.regexForPubkeys}`, 'g');
+    const mentions = text ? text.match(regex) : [];
     const mentionMe =
       mentions &&
       mentions.some(m => m.slice(1) === window.lokiPublicChatAPI.ourKey);
@@ -897,7 +874,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
             {this.renderQuote()}
             {this.renderAttachment()}
             {this.renderPreview()}
-            {this.renderEmbeddedContact()}
             {this.renderText()}
             <MessageMetadata
               {...this.props}
@@ -943,7 +919,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       return null;
     }
 
-    const shortenedPubkey = window.shortenPubkey(authorPhoneNumber);
+    const shortenedPubkey = PubKey.shorten(authorPhoneNumber);
 
     const displayedPubkey = authorProfileName
       ? shortenedPubkey
@@ -967,6 +943,52 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
   private onReplyPrivate(e: any) {
     if (this.props && this.props.onReply) {
       this.props.onReply(this.props.timestamp);
+    }
+  }
+
+  private async onAddModerator() {
+    const { authorPhoneNumber: pubkey, convoId } = this.props;
+    try {
+      const convo = ConversationController.getInstance().getOrThrow(convoId);
+      const channelAPI = await convo.getPublicSendData();
+      const res = await channelAPI.serverAPI.addModerator([pubkey]);
+      if (!res) {
+        window.log.warn('failed to add moderators:', res);
+
+        ToastUtils.pushUserNeedsToHaveJoined();
+      } else {
+        window.log.info(`${pubkey} added as moderator...`);
+        // refresh the moderator list. Will trigger a refresh
+        const modPubKeys = (await channelAPI.getModerators()) as Array<string>;
+        convo.updateGroupAdmins(modPubKeys);
+
+        ToastUtils.pushUserAddedToModerators();
+      }
+    } catch (e) {
+      window.log.error('Got error while adding moderator:', e);
+    }
+  }
+
+  private async onRemoveFromModerator() {
+    const { authorPhoneNumber: pubkey, convoId } = this.props;
+    try {
+      const convo = ConversationController.getInstance().getOrThrow(convoId);
+      const channelAPI = await convo.getPublicSendData();
+      const res = await channelAPI.serverAPI.removeModerators([pubkey]);
+      if (!res) {
+        window.log.warn('failed to remove moderators:', res);
+
+        ToastUtils.pushErrorHappenedWhileRemovingModerator();
+      } else {
+        // refresh the moderator list. Will trigger a refresh
+        const modPubKeys = (await channelAPI.getModerators()) as Array<string>;
+        convo.updateGroupAdmins(modPubKeys);
+
+        window.log.info(`${pubkey} removed from moderators...`);
+        ToastUtils.pushUserRemovedToModerators();
+      }
+    } catch (e) {
+      window.log.error('Got error while removing moderator:', e);
     }
   }
 }

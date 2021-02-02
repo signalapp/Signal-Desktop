@@ -1,13 +1,11 @@
 import { EncryptionType } from '../types/EncryptionType';
 import { SignalService } from '../../protobuf';
-import { UserUtil } from '../../util';
-import { CipherTextObject } from '../../../libtextsecure/libsignal-protocol';
 import { PubKey } from '../types';
 import { concatUInt8Array, getSodium } from '.';
 import { fromHexToArray } from '../utils/String';
-import { ECKeyPair } from '../../receiver/closedGroupsV2';
 export { concatUInt8Array, getSodium };
 import { getLatestClosedGroupEncryptionKeyPair } from '../../../js/modules/data';
+import { UserUtils } from '../utils';
 
 /**
  * Add padding to a message buffer
@@ -62,10 +60,10 @@ export async function encrypt(
   ) {
     throw new Error(`Invalid encryption type:${encryptionType}`);
   }
-  const encryptForClosedGroupV2 = encryptionType === EncryptionType.ClosedGroup;
+  const encryptForClosedGroup = encryptionType === EncryptionType.ClosedGroup;
   const plainText = padPlainTextBuffer(plainTextBuffer);
 
-  if (encryptForClosedGroupV2) {
+  if (encryptForClosedGroup) {
     window?.log?.info(
       'Encrypting message with SessionProtocol and envelope type is CLOSED_GROUP_CIPHERTEXT'
     );
@@ -82,14 +80,14 @@ export async function encrypt(
 
     // the exports is to reference the exported function, so when we stub it during test, we stub the one called here
 
-    const cipherTextClosedGroupV2 = await exports.encryptUsingSessionProtocol(
+    const cipherTextClosedGroup = await exports.encryptUsingSessionProtocol(
       hexPubFromECKeyPair,
       plainText
     );
 
     return {
       envelopeType: CLOSED_GROUP_CIPHERTEXT,
-      cipherText: cipherTextClosedGroupV2,
+      cipherText: cipherTextClosedGroup,
     };
   }
 
@@ -104,7 +102,7 @@ export async function encryptUsingSessionProtocol(
   recipientHexEncodedX25519PublicKey: PubKey,
   plaintext: Uint8Array
 ): Promise<Uint8Array> {
-  const userED25519KeyPairHex = await UserUtil.getUserED25519KeyPair();
+  const userED25519KeyPairHex = await UserUtils.getUserED25519KeyPair();
   if (
     !userED25519KeyPairHex ||
     !userED25519KeyPairHex.pubKey?.length ||
@@ -116,7 +114,7 @@ export async function encryptUsingSessionProtocol(
 
   window?.log?.info(
     'encryptUsingSessionProtocol for ',
-    recipientHexEncodedX25519PublicKey
+    recipientHexEncodedX25519PublicKey.key
   );
 
   const recipientX25519PublicKey = recipientHexEncodedX25519PublicKey.withoutPrefixToArray();

@@ -6,12 +6,10 @@ import { LeftPaneMessageSection } from './session/LeftPaneMessageSection';
 import { ConversationListItemProps } from './ConversationListItem';
 import { SearchResultsProps } from './SearchResults';
 import { SearchOptions } from '../types/Search';
-import { LeftPaneSectionHeader } from './session/LeftPaneSectionHeader';
 
 import { ConversationType } from '../state/ducks/conversations';
 import { LeftPaneContactSection } from './session/LeftPaneContactSection';
 import { LeftPaneSettingSection } from './session/LeftPaneSettingSection';
-import { SessionIconType } from './session/icon';
 import { SessionTheme } from '../state/ducks/SessionTheme';
 import { DefaultTheme } from 'styled-components';
 import { SessionSettingCategory } from './session/settings/SessionSettings';
@@ -36,7 +34,6 @@ interface Props {
   unreadMessageCount: number;
   searchResults?: SearchResultsProps;
   searchTerm: string;
-  isSecondaryDevice: boolean;
   focusedSection: SectionType;
   focusSection: (section: SectionType) => void;
   isExpired: boolean;
@@ -103,19 +100,11 @@ export class LeftPane extends React.Component<Props> {
       contacts,
       searchResults,
       searchTerm,
-      isSecondaryDevice,
       updateSearchTerm,
       search,
       clearSearch,
       isExpired,
     } = this.props;
-    // be sure to filter out secondary conversations
-    let filteredConversations = conversations;
-    if (conversations !== undefined) {
-      filteredConversations = conversations.filter(
-        conversation => !conversation.isSecondary
-      );
-    }
 
     return (
       <>
@@ -125,10 +114,9 @@ export class LeftPane extends React.Component<Props> {
           theme={this.props.theme}
           contacts={contacts}
           openConversationExternal={openConversationExternal}
-          conversations={filteredConversations}
+          conversations={conversations}
           searchResults={searchResults}
           searchTerm={searchTerm}
-          isSecondaryDevice={isSecondaryDevice}
           updateSearchTerm={updateSearchTerm}
           search={search}
           clearSearch={clearSearch}

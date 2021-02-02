@@ -2,10 +2,10 @@ import React from 'react';
 import { ConversationListItemProps } from './ConversationListItem';
 
 import classNames from 'classnames';
+import { PubKey } from '../session/types';
 
 export type Props = {
   contacts: Array<ConversationListItemProps>;
-  regionCode: string;
   searchTerm: string;
   selectedContact: number;
   onContactSelected: any;
@@ -46,7 +46,7 @@ export class UserSearchResults extends React.Component<Props> {
     const { profileName, phoneNumber } = contact;
     const { selectedContact } = this.props;
 
-    const shortenedPubkey = window.shortenPubkey(phoneNumber);
+    const shortenedPubkey = PubKey.shorten(phoneNumber);
     const rowContent = `${profileName} ${shortenedPubkey}`;
 
     return (

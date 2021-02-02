@@ -1,14 +1,13 @@
 import React from 'react';
 
 import { ConversationListItemWithDetails } from '../ConversationListItem';
-import { LeftPane, RowRendererParamsType } from '../LeftPane';
+import { RowRendererParamsType } from '../LeftPane';
 import {
   SessionButton,
   SessionButtonColor,
   SessionButtonType,
 } from './SessionButton';
 import { AutoSizer, List } from 'react-virtualized';
-import { validateNumber } from '../../types/PhoneNumber';
 import { ConversationType } from '../../state/ducks/conversations';
 import {
   SessionClosableOverlay,
@@ -18,6 +17,7 @@ import { ToastUtils } from '../../session/utils';
 import { DefaultTheme } from 'styled-components';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { ConversationController } from '../../session/conversations';
+import { PubKey } from '../../session/types';
 
 export interface Props {
   directContacts: Array<ConversationType>;
@@ -122,7 +122,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
 
   private handleOnAddContact() {
     const sessionID = this.state.addContactRecipientID.trim();
-    const error = validateNumber(sessionID, window.i18n);
+    const error = PubKey.validateWithError(sessionID, window.i18n);
 
     if (error) {
       ToastUtils.pushToastError('addContact', error);

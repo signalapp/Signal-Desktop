@@ -27,7 +27,6 @@ class AdminLeaveClosedGroupDialogInner extends React.Component<Props> {
     return (
       <SessionModal
         title={titleText}
-        onOk={() => null}
         onClose={this.closeDialog}
         theme={this.props.theme}
       >

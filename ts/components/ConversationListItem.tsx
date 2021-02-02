@@ -22,6 +22,7 @@ import {
 import { createPortal } from 'react-dom';
 import { OutgoingMessageStatus } from './conversation/message/OutgoingMessageStatus';
 import { DefaultTheme, withTheme } from 'styled-components';
+import { PubKey } from '../session/types';
 
 export type ConversationListItemProps = {
   id: string;
@@ -33,8 +34,6 @@ export type ConversationListItemProps = {
   avatarPath?: string;
   isMe: boolean;
   isPublic?: boolean;
-  isClosable?: boolean;
-  primaryDevice?: string;
 
   lastUpdated: number;
   unreadCount: number;
@@ -49,7 +48,6 @@ export type ConversationListItemProps = {
 
   isBlocked?: boolean;
   hasNickname?: boolean;
-  isSecondary?: boolean;
   isGroupInvitation?: boolean;
   isKickedFromGroup?: boolean;
   left?: boolean;
@@ -272,7 +270,7 @@ class ConversationListItem extends React.PureComponent<Props> {
   private renderUser() {
     const { name, phoneNumber, profileName, isMe, i18n } = this.props;
 
-    const shortenedPubkey = window.shortenPubkey(phoneNumber);
+    const shortenedPubkey = PubKey.shorten(phoneNumber);
 
     const displayedPubkey = profileName ? shortenedPubkey : phoneNumber;
     const displayName = isMe ? i18n('noteToSelf') : profileName;

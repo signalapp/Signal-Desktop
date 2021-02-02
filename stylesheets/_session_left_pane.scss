@@ -469,6 +469,12 @@ $session-compose-margin: 20px;
 .left-pane-setting {
   &-bottom-buttons {
     @include bottom-buttons();
+
+    .session-button {
+      vertical-align: middle;
+      white-space: normal;
+      text-align: center;
+    }
   }
 
   &-content,

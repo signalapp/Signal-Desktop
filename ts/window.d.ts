@@ -59,13 +59,12 @@ declare global {
     log: any;
     lokiFeatureFlags: {
       multiDeviceUnpairing: boolean;
-      privateGroupChats: boolean;
       useOnionRequests: boolean;
       useOnionRequestsV2: boolean;
       useFileOnionRequests: boolean;
       useFileOnionRequestsV2: boolean;
+      useExplicitGroupUpdatesSending: boolean;
       onionRequestHops: number;
-      useMultiDevice: boolean;
     };
     lokiFileServerAPI: LokiFileServerInstance;
     lokiMessageAPI: LokiMessageInterface;
@@ -73,13 +72,11 @@ declare global {
     lokiSnodeAPI: LokiSnodeAPI;
     mnemonic: RecoveryPhraseUtil;
     onLogin: any;
-    passwordUtil: any;
     resetDatabase: any;
     restart: any;
     seedNodeList: any;
     setPassword: any;
     setSettingValue: any;
-    shortenPubkey: (pubKey: string) => string;
     showEditProfileDialog: any;
     showResetSessionIdDialog: any;
     storage: any;
@@ -93,11 +90,8 @@ declare global {
     userConfig: any;
     versionInfo: any;
     getStoragePubKey: any;
-    pubkeyPattern: any;
     getConversations: () => ConversationCollection;
     getGuid: any;
-    ContactBuffer: any;
-    GroupBuffer: any;
     SwarmPolling: SwarmPolling;
     SnodePool: {
       getSnodesFor: (string) => any;

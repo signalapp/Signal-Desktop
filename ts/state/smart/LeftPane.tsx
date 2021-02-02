@@ -3,12 +3,7 @@ import { LeftPane } from '../../components/LeftPane';
 import { StateType } from '../reducer';
 
 import { getQuery, getSearchResults, isSearching } from '../selectors/search';
-import {
-  getIntl,
-  getIsSecondaryDevice,
-  getRegionCode,
-  getUserNumber,
-} from '../selectors/user';
+import { getIntl, getOurNumber } from '../selectors/user';
 import {
   getLeftPaneLists,
   getOurPrimaryConversation,
@@ -18,7 +13,7 @@ import { getFocusedSection } from '../selectors/section';
 import { getTheme } from '../selectors/theme';
 
 // Workaround: A react component's required properties are filtering up through connect()
-//   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
+//   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/3136k3
 
 const mapStateToProps = (state: StateType) => {
   const showSearch = isSearching(state);
@@ -30,9 +25,7 @@ const mapStateToProps = (state: StateType) => {
     ...lists,
     ourPrimaryConversation: getOurPrimaryConversation(state), // used in actionPanel
     searchTerm: getQuery(state),
-    regionCode: getRegionCode(state),
-    ourNumber: getUserNumber(state),
-    isSecondaryDevice: getIsSecondaryDevice(state),
+    ourNumber: getOurNumber(state),
     searchResults,
     i18n: getIntl(state),
     unreadMessageCount: leftPaneList.unreadCount,

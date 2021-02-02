@@ -1,12 +1,11 @@
 import { expect } from 'chai';
-import * as crypto from 'crypto';
-import Sinon, * as sinon from 'sinon';
+import * as sinon from 'sinon';
 import { BlockedNumberController } from '../../util/blockedNumberController';
 import { TestUtils } from '../test-utils';
 import { PubKey } from '../../session/types';
-import { MultiDeviceProtocol } from '../../session/protocols';
-import { UserUtil } from '../../util';
+import { UserUtils } from '../../session/utils';
 
+// tslint:disable-next-line: max-func-body-length
 describe('BlockedNumberController', () => {
   const sandbox = sinon.createSandbox();
   let memoryDB: { [key: string]: any };
@@ -64,29 +63,25 @@ describe('BlockedNumberController', () => {
   });
 
   describe('block', async () => {
-    it('should block the primary device of the user', async () => {
-      const primary = TestUtils.generateFakePubKey();
-      const secondary = TestUtils.generateFakePubKey();
-      sandbox.stub(MultiDeviceProtocol, 'getPrimaryDevice').resolves(primary);
+    it('should block the user', async () => {
+      const other = TestUtils.generateFakePubKey();
 
-      await BlockedNumberController.block(secondary);
+      await BlockedNumberController.block(other);
 
       const blockedNumbers = BlockedNumberController.getBlockedNumbers();
       expect(blockedNumbers).to.have.lengthOf(1);
-      expect(blockedNumbers).to.include(primary.key);
-      expect(memoryDB.blocked).to.include(primary.key);
+      expect(blockedNumbers).to.include(other.key);
+      expect(memoryDB.blocked).to.include(other.key);
       expect(BlockedNumberController.getBlockedGroups()).to.be.empty;
     });
   });
 
   describe('unblock', async () => {
-    it('should unblock the primary device', async () => {
+    it('should unblock the user', async () => {
       const primary = TestUtils.generateFakePubKey();
-      const secondary = TestUtils.generateFakePubKey();
       memoryDB.blocked = [primary.key];
-      sandbox.stub(MultiDeviceProtocol, 'getPrimaryDevice').resolves(primary);
 
-      await BlockedNumberController.unblock(secondary);
+      await BlockedNumberController.unblock(primary);
 
       const blockedNumbers = BlockedNumberController.getBlockedNumbers();
       expect(blockedNumbers).to.be.empty;
@@ -97,7 +92,6 @@ describe('BlockedNumberController', () => {
       const pubKey = TestUtils.generateFakePubKey();
       const another = TestUtils.generateFakePubKey();
       memoryDB.blocked = [pubKey.key, another.key];
-      sandbox.stub(MultiDeviceProtocol, 'getPrimaryDevice').resolves(pubKey);
 
       await BlockedNumberController.unblock(pubKey);
 
@@ -169,28 +163,21 @@ describe('BlockedNumberController', () => {
   });
 
   describe('isBlockedAsync', () => {
-    let ourDevices: Array<PubKey>;
+    let ourDevice: PubKey;
     beforeEach(() => {
-      ourDevices = TestUtils.generateFakePubKeys(2);
-      sandbox.stub(MultiDeviceProtocol, 'getOurDevices').resolves(ourDevices);
+      ourDevice = TestUtils.generateFakePubKey();
+      sandbox.stub(UserUtils, 'getCurrentDevicePubKey').resolves(ourDevice.key);
     });
     it('should return false for our device', async () => {
-      for (const device of ourDevices) {
-        const isBlocked = await BlockedNumberController.isBlockedAsync(device);
-        expect(isBlocked).to.equal(
-          false,
-          'Expected our devices to return false'
-        );
-      }
+      const isBlocked = await BlockedNumberController.isBlockedAsync(ourDevice);
+      expect(isBlocked).to.equal(false, 'Expected our device to return false');
     });
 
-    it('should return true if the primary device is blocked', async () => {
-      const primary = TestUtils.generateFakePubKey();
-      const secondary = TestUtils.generateFakePubKey();
-      sandbox.stub(MultiDeviceProtocol, 'getPrimaryDevice').resolves(primary);
-      memoryDB.blocked = [primary.key];
+    it('should return true if the device is blocked', async () => {
+      const other = TestUtils.generateFakePubKey();
+      memoryDB.blocked = [other.key];
 
-      const isBlocked = await BlockedNumberController.isBlockedAsync(secondary);
+      const isBlocked = await BlockedNumberController.isBlockedAsync(other);
       expect(isBlocked).to.equal(
         true,
         'Expected isBlockedAsync to return true.'
@@ -198,11 +185,10 @@ describe('BlockedNumberController', () => {
     });
 
     it('should return false if device is not blocked', async () => {
-      const primary = TestUtils.generateFakePubKey();
-      sandbox.stub(MultiDeviceProtocol, 'getPrimaryDevice').resolves(primary);
+      const other = TestUtils.generateFakePubKey();
       memoryDB.blocked = [];
 
-      const isBlocked = await BlockedNumberController.isBlockedAsync(primary);
+      const isBlocked = await BlockedNumberController.isBlockedAsync(other);
       expect(isBlocked).to.equal(
         false,
         'Expected isBlockedAsync to return false.'

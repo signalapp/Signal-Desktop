@@ -39,7 +39,6 @@ interface MessageAttributes {
   expirationTimerUpdate: any;
   unread: boolean;
   group: any;
-  bodyPending: boolean;
   timestamp: number;
   status: MessageDeliveryStatus;
 }
@@ -50,7 +49,6 @@ export interface MessageRegularProps {
   isAdmin?: boolean;
   weAreAdmin?: boolean;
   text?: string;
-  bodyPending?: boolean;
   id: string;
   collapseMetadata?: boolean;
   direction: 'incoming' | 'outgoing';
@@ -59,7 +57,6 @@ export interface MessageRegularProps {
   status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error' | 'pow';
   // What if changed this over to a single contact like quote, and put the events on it?
   contact?: Contact & {
-    hasSignalAccount: boolean;
     onSendMessage?: () => void;
     onClick?: () => void;
   };

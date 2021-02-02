@@ -163,18 +163,6 @@
         themeSettings === 'light' ? window.lightTheme : window.darkTheme;
       return theme;
     },
-    showDevicePairingDialog(options) {
-      // eslint-disable-next-line no-param-reassign
-      options.theme = this.getThemeObject();
-      const dialog = new Whisper.DevicePairingDialogView(options);
-      this.el.prepend(dialog.el);
-    },
-    showDevicePairingWordsDialog() {
-      const options = { theme: this.getThemeObject() };
-
-      const dialog = new Whisper.DevicePairingWordsDialogView(options);
-      this.el.prepend(dialog.el);
-    },
     showUpdateGroupNameDialog(groupConvo) {
       // eslint-disable-next-line no-param-reassign
       groupConvo.theme = this.getThemeObject();

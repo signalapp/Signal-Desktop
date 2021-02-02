@@ -11,18 +11,16 @@ import { onError } from './errors';
 import {
   handleContentMessage,
   innerHandleContentMessage,
-  onDeliveryReceipt,
 } from './contentMessage';
 import _ from 'lodash';
 
-export { processMessage, onDeliveryReceipt };
+export { processMessage };
 
 import { handleMessageEvent, updateProfile } from './dataMessage';
 
 import { getEnvelopeId } from './common';
-import { StringUtils } from '../session/utils';
+import { StringUtils, UserUtils } from '../session/utils';
 import { SignalService } from '../protobuf';
-import { MultiDeviceProtocol } from '../session/protocols';
 import { ConversationController } from '../session/conversations';
 
 // TODO: check if some of these exports no longer needed
@@ -39,10 +37,6 @@ async function handleEnvelope(envelope: EnvelopePlus) {
   // if (this.stoppingProcessing) {
   //   return Promise.resolve();
   // }
-
-  if (envelope.type === SignalService.Envelope.Type.RECEIPT) {
-    return onDeliveryReceipt(envelope.source, envelope.timestamp);
-  }
 
   if (envelope.content && envelope.content.length > 0) {
     return handleContentMessage(envelope);
@@ -276,12 +270,11 @@ async function handleDecryptedEnvelope(
   }
 }
 
-export async function handlePublicMessage({ message: outerMessage }: any) {
-  const { source } = outerMessage;
-  const { group, profile, profileKey } = outerMessage.message;
+export async function handlePublicMessage(messageData: any) {
+  const { source } = messageData;
+  const { group, profile, profileKey } = messageData.message;
 
-  const ourNumber = window.textsecure.storage.user.getNumber();
-  const isMe = source === ourNumber;
+  const isMe = await UserUtils.isUs(source);
 
   if (!isMe && profile) {
     const conversation = await ConversationController.getInstance().getOrCreateAndWait(
@@ -291,7 +284,6 @@ export async function handlePublicMessage({ message: outerMessage }: any) {
     await updateProfile(conversation, profile, profileKey);
   }
 
-  const isOurDevice = await MultiDeviceProtocol.isOurDevice(source);
   const isPublicChatMessage =
     group && group.id && !!group.id.match(/^publicChat:/);
 
@@ -303,8 +295,8 @@ export async function handlePublicMessage({ message: outerMessage }: any) {
 
   const ev = {
     // Public chat messages from ourselves should be outgoing
-    type: isOurDevice ? 'sent' : 'message',
-    data: outerMessage,
+    type: isMe ? 'sent' : 'message',
+    data: messageData,
     confirm: () => {
       /* do nothing */
     },

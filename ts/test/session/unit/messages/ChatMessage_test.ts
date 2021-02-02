@@ -63,7 +63,7 @@ describe('ChatMessage', () => {
       .to.have.deep.property('displayName', 'displayName');
     expect(decoded.dataMessage)
       .to.have.property('profile')
-      .to.have.deep.property('avatar', 'avatarPointer');
+      .to.have.deep.property('profilePicture', 'avatarPointer');
     expect(decoded.dataMessage).to.have.deep.property('profileKey', profileKey);
   });
 

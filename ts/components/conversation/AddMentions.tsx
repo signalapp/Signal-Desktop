@@ -2,10 +2,11 @@ import React from 'react';
 
 import { RenderTextCallbackType } from '../../types/Util';
 import classNames from 'classnames';
-import { MultiDeviceProtocol } from '../../session/protocols';
 import { FindMember } from '../../util';
 import { useInterval } from '../../hooks/useInterval';
 import { ConversationModel } from '../../../js/models/conversations';
+import { isUs } from '../../session/utils/User';
+import { PubKey } from '../../session/types';
 
 interface MentionProps {
   key: string;
@@ -25,7 +26,7 @@ const Mention = (props: MentionProps) => {
       );
 
       if (foundMember) {
-        const itsUs = await MultiDeviceProtocol.isOurDevice(foundMember.id);
+        const itsUs = await isUs(foundMember.id);
         setUs(itsUs);
         setFound(foundMember);
         // FIXME stop this interval once we found it.
@@ -46,9 +47,7 @@ const Mention = (props: MentionProps) => {
     return <span className={className}>{displayedName}</span>;
   } else {
     return (
-      <span className="mention-profile-name">
-        {window.shortenPubkey(props.text)}
-      </span>
+      <span className="mention-profile-name">{PubKey.shorten(props.text)}</span>
     );
   }
 };
@@ -67,7 +66,7 @@ export class AddMentions extends React.Component<Props> {
   public render() {
     const { text, renderOther, convoId } = this.props;
     const results: Array<any> = [];
-    const FIND_MENTIONS = window.pubkeyPattern;
+    const FIND_MENTIONS = new RegExp(`@${PubKey.regexForPubkeys}`, 'g');
 
     // We have to do this, because renderNonNewLine is not required in our Props object,
     //  but it is always provided via defaultProps.

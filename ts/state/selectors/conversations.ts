@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect';
-import { format } from '../../types/PhoneNumber';
 
 import { LocalizerType } from '../../types/Util';
 import { StateType } from '../reducer';
@@ -10,8 +9,7 @@ import {
   MessageTypeInConvo,
 } from '../ducks/conversations';
 
-import { getIntl, getRegionCode, getUserNumber } from './user';
-import { ConversationListItemProps } from '../../components/ConversationListItem';
+import { getIntl, getOurNumber } from './user';
 import { BlockedNumberController } from '../../util';
 
 export const getConversations = (state: StateType): ConversationsStateType =>
@@ -51,27 +49,21 @@ export const getMessagesOfSelectedConversation = createSelector(
   (state: ConversationsStateType): Array<MessageTypeInConvo> => state.messages
 );
 
-function getConversationTitle(
-  conversation: ConversationType,
-  options: { i18n: LocalizerType; ourRegionCode: string }
-): string {
+function getConversationTitle(conversation: ConversationType): string {
   if (conversation.name) {
     return conversation.name;
   }
 
   if (conversation.type === 'group') {
-    const { i18n } = options;
+    const { i18n } = window;
     return i18n('unknown');
   }
-  return format(conversation.phoneNumber, options);
+  return conversation.id;
 }
 
 const collator = new Intl.Collator();
 
-export const _getConversationComparator = (
-  i18n: LocalizerType,
-  ourRegionCode: string
-) => {
+export const _getConversationComparator = (i18n: LocalizerType) => {
   return (left: ConversationType, right: ConversationType): number => {
     const leftTimestamp = left.timestamp;
     const rightTimestamp = right.timestamp;
@@ -84,21 +76,14 @@ export const _getConversationComparator = (
     if (leftTimestamp && rightTimestamp && leftTimestamp !== rightTimestamp) {
       return rightTimestamp - leftTimestamp;
     }
-    const leftTitle = getConversationTitle(left, {
-      i18n,
-      ourRegionCode,
-    }).toLowerCase();
-    const rightTitle = getConversationTitle(right, {
-      i18n,
-      ourRegionCode,
-    }).toLowerCase();
+    const leftTitle = getConversationTitle(left).toLowerCase();
+    const rightTitle = getConversationTitle(right).toLowerCase();
 
     return collator.compare(leftTitle, rightTitle);
   };
 };
 export const getConversationComparator = createSelector(
   getIntl,
-  getRegionCode,
   _getConversationComparator
 );
 
@@ -108,7 +93,6 @@ export const _getLeftPaneLists = (
   selectedConversation?: string
 ): {
   conversations: Array<ConversationType>;
-  archivedConversations: Array<ConversationType>;
   contacts: Array<ConversationType>;
   unreadCount: number;
 } => {
@@ -116,7 +100,6 @@ export const _getLeftPaneLists = (
   const sorted = values.sort(comparator);
 
   const conversations: Array<ConversationType> = [];
-  const archivedConversations: Array<ConversationType> = [];
   const allContacts: Array<ConversationType> = [];
 
   let unreadCount = 0;
@@ -128,7 +111,7 @@ export const _getLeftPaneLists = (
       };
     }
     const isBlocked =
-      BlockedNumberController.isBlocked(conversation.primaryDevice) ||
+      BlockedNumberController.isBlocked(conversation.id) ||
       BlockedNumberController.isGroupBlocked(conversation.id);
 
     if (isBlocked) {
@@ -168,45 +151,12 @@ export const _getLeftPaneLists = (
       unreadCount += conversation.unreadCount;
     }
 
-    if (conversation.isArchived) {
-      archivedConversations.push(conversation);
-    } else {
-      conversations.push(conversation);
-    }
+    conversations.push(conversation);
   }
 
-  const filterToPrimary = <
-    T extends Array<ConversationType | ConversationListItemProps>
-  >(
-    group: Array<ConversationType | ConversationListItemProps>
-  ): T => {
-    const secondariesToRemove: Array<string> = [];
-
-    group.forEach(device => {
-      if (!device.isSecondary) {
-        return;
-      }
-
-      const devicePrimary = group.find(c => c.id === device.primaryDevice);
-
-      // Remove secondary where primary already exists in group
-      if (group.some(c => c === devicePrimary)) {
-        secondariesToRemove.push(device.id);
-      }
-    });
-
-    const filteredGroup = [
-      ...new Set(group.filter(c => !secondariesToRemove.find(s => s === c.id))),
-    ];
-
-    return filteredGroup as T;
-  };
-
-  const contacts: Array<ConversationType> = filterToPrimary(allContacts);
   return {
     conversations,
-    archivedConversations,
-    contacts,
+    contacts: allContacts,
     unreadCount,
   };
 };
@@ -255,7 +205,7 @@ export const getSessionConversationInfo = createSelector(
 );
 
 export const getMe = createSelector(
-  [getConversationLookup, getUserNumber],
+  [getConversationLookup, getOurNumber],
   (lookup: ConversationLookupType, ourNumber: string): ConversationType => {
     return lookup[ourNumber];
   }

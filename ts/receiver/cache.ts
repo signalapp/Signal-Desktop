@@ -89,8 +89,6 @@ export async function updateCache(
   }
 
   item.source = envelope.source;
-  item.sourceDevice = envelope.sourceDevice;
-  item.serverTimestamp = envelope.serverTimestamp;
 
   // For medium-size closed groups
   if (envelope.senderIdentity) {

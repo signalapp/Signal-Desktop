@@ -101,7 +101,7 @@ export class ChatMessage extends DataMessage {
       const profile = new SignalService.DataMessage.LokiProfile();
 
       if (this.avatarPointer) {
-        profile.avatar = this.avatarPointer;
+        profile.profilePicture = this.avatarPointer;
       }
 
       if (this.displayName) {

@@ -263,7 +263,6 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
       const { data } = await Signal.Migrations.loadAttachmentData(attachment);
       message.set({
         body: attachment.isError ? message.get('body') : stringFromBytes(data),
-        bodyPending: false,
       });
     } finally {
       Signal.Migrations.deleteAttachmentData(attachment.path);

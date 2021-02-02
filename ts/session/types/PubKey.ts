@@ -1,3 +1,4 @@
+import { LocalizerType } from '../../types/Util';
 import { fromHexToArray } from '../utils/String';
 
 export class PubKey {
@@ -47,8 +48,24 @@ export class PubKey {
    *
    * @param value The value to cast.
    */
-  public static cast(value: string | PubKey): PubKey {
+  public static cast(value?: string | PubKey): PubKey {
+    if (!value) {
+      throw new Error(`Invalid pubkey string passed: ${value}`);
+    }
     return typeof value === 'string' ? new PubKey(value) : value;
+  }
+
+  public static shorten(value: string | PubKey): string {
+    const valAny = value as PubKey;
+    const pk = value instanceof PubKey ? valAny.key : value;
+
+    if (!pk) {
+      throw new Error(
+        'PubkKey.shorten was given an invalid PubKey to shorten.'
+      );
+    }
+
+    return `(...${pk.substring(pk.length - 6)})`;
   }
 
   /**
@@ -66,8 +83,41 @@ export class PubKey {
     return undefined;
   }
 
+  /**
+   * Returns the pubkey as a string if it's valid, or undefined
+   */
+  public static normalize(pubkeyString: string): string | undefined {
+    // Returns a new instance if the pubkey is valid
+    if (PubKey.validate(pubkeyString)) {
+      return pubkeyString;
+    }
+
+    return undefined;
+  }
+
   public static validate(pubkeyString: string): boolean {
     return this.regex.test(pubkeyString);
+  }
+
+  /**
+   * Returns a localized string of the error, or undefined in the given pubkey is valid.
+   */
+  public static validateWithError(
+    pubkey: string,
+    i18n: LocalizerType = window.i18n
+  ): string | undefined {
+    // Check if it's hex
+    const isHex = pubkey.replace(/[\s]*/g, '').match(/^[0-9a-fA-F]+$/);
+    if (!isHex) {
+      return i18n('invalidSessionId');
+    }
+
+    // Check if the pubkey length is 33 and leading with 05 or of length 32
+    const len = pubkey.length;
+    if ((len !== 33 * 2 || !/^05/.test(pubkey)) && len !== 32 * 2) {
+      return i18n('invalidPubkeyFormat');
+    }
+    return undefined;
   }
 
   /**
@@ -133,6 +183,3 @@ export class PubKey {
     return fromHexToArray(PubKey.remove05PrefixIfNeeded(this.key));
   }
 }
-
-export class PrimaryPubKey extends PubKey {}
-export class SecondaryPubKey extends PubKey {}

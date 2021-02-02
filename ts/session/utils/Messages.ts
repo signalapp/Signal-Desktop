@@ -5,23 +5,22 @@ import {
   TypingMessage,
 } from '../messages/outgoing';
 import { EncryptionType, PubKey } from '../types';
-import { ClosedGroupV2Message } from '../messages/outgoing/content/data/groupv2/ClosedGroupV2Message';
-import { ClosedGroupV2NewMessage } from '../messages/outgoing/content/data/groupv2/ClosedGroupV2NewMessage';
+import { ClosedGroupMessage } from '../messages/outgoing/content/data/group/ClosedGroupMessage';
+import { ClosedGroupNewMessage } from '../messages/outgoing/content/data/group/ClosedGroupNewMessage';
 
 export function getEncryptionTypeFromMessageType(
   message: ContentMessage
 ): EncryptionType {
-  // ClosedGroupV2NewMessage is sent using established channels, so using fallback
-  if (message instanceof ClosedGroupV2NewMessage) {
+  // ClosedGroupNewMessage is sent using established channels, so using fallback
+  if (message instanceof ClosedGroupNewMessage) {
     return EncryptionType.Fallback;
   }
 
-  // 1. any ClosedGroupV2Message which is not a ClosedGroupV2NewMessage must be encoded with ClosedGroup
+  // 1. any ClosedGroupMessage which is not a ClosedGroupNewMessage must be encoded with ClosedGroup
   // 2. if TypingMessage or ExpirationTimer and groupId is set => must be encoded with ClosedGroup too
   if (
-    message instanceof ClosedGroupV2Message ||
-    (message instanceof ExpirationTimerUpdateMessage && message.groupId) ||
-    (message instanceof TypingMessage && message.groupId)
+    message instanceof ClosedGroupMessage ||
+    (message instanceof ExpirationTimerUpdateMessage && message.groupId)
   ) {
     return EncryptionType.ClosedGroup;
   } else {
@@ -35,7 +34,7 @@ export async function toRawMessage(
 ): Promise<RawMessage> {
   const timestamp = message.timestamp;
   const ttl = message.ttl();
-  window?.log?.debug('toRawMessage proto:', message.contentProto());
+  // window?.log?.debug('toRawMessage proto:', message.contentProto());
   const plainTextBuffer = message.plainTextBuffer();
 
   const encryption = getEncryptionTypeFromMessageType(message);

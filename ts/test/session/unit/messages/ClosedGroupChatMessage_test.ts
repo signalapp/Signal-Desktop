@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import {
   ChatMessage,
-  ClosedGroupV2ChatMessage,
+  ClosedGroupChatMessage,
 } from '../../../../session/messages/outgoing';
 import { SignalService } from '../../../../protobuf';
 import { TestUtils } from '../../../test-utils';
@@ -10,7 +10,7 @@ import { StringUtils } from '../../../../session/utils';
 import { PubKey } from '../../../../session/types';
 import { Constants } from '../../../../session';
 
-describe('ClosedGroupV2ChatMessage', () => {
+describe('ClosedGroupChatMessage', () => {
   let groupId: PubKey;
   beforeEach(() => {
     groupId = TestUtils.generateFakePubKey();
@@ -20,7 +20,7 @@ describe('ClosedGroupV2ChatMessage', () => {
       timestamp: Date.now(),
       body: 'body',
     });
-    const message = new ClosedGroupV2ChatMessage({
+    const message = new ClosedGroupChatMessage({
       groupId,
       chatMessage,
     });
@@ -53,7 +53,7 @@ describe('ClosedGroupV2ChatMessage', () => {
     const chatMessage = new ChatMessage({
       timestamp: Date.now(),
     });
-    const message = new ClosedGroupV2ChatMessage({
+    const message = new ClosedGroupChatMessage({
       groupId,
       chatMessage,
     });
@@ -64,7 +64,7 @@ describe('ClosedGroupV2ChatMessage', () => {
     const chatMessage = new ChatMessage({
       timestamp: Date.now(),
     });
-    const message = new ClosedGroupV2ChatMessage({
+    const message = new ClosedGroupChatMessage({
       groupId,
       chatMessage,
     });
@@ -81,7 +81,7 @@ describe('ClosedGroupV2ChatMessage', () => {
       body: 'body',
       identifier: 'chatMessage',
     });
-    const message = new ClosedGroupV2ChatMessage({
+    const message = new ClosedGroupChatMessage({
       groupId,
       chatMessage,
       identifier: 'closedGroupMessage',
@@ -95,7 +95,7 @@ describe('ClosedGroupV2ChatMessage', () => {
       body: 'body',
       identifier: 'chatMessage',
     });
-    const message = new ClosedGroupV2ChatMessage({
+    const message = new ClosedGroupChatMessage({
       groupId,
       chatMessage,
     });

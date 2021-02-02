@@ -299,7 +299,6 @@ describe('Message', () => {
           assert.deepEqual(attachmentData, expectedAttachmentData);
           return 'abc/abcdefg';
         },
-        getRegionCode: () => 'US',
         getAbsoluteAttachmentPath: () => 'some/path/on/disk',
         makeObjectUrl: () => 'blob://FAKE',
         revokeObjectUrl: () => null,

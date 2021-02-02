@@ -5,9 +5,8 @@ export { MessageEncrypter };
 // libsodium-wrappers requires the `require` call to work
 // tslint:disable-next-line: no-require-imports
 import libsodiumwrappers = require('libsodium-wrappers');
-import { fromHex } from 'bytebuffer';
 import { toHex } from '../utils/String';
-import { ECKeyPair } from '../../receiver/closedGroupsV2';
+import { ECKeyPair } from '../../receiver/keypairs';
 
 export async function getSodium(): Promise<typeof libsodiumwrappers> {
   await libsodiumwrappers.ready;
@@ -29,10 +28,10 @@ export const concatUInt8Array = (...args: Array<Uint8Array>): Uint8Array => {
 
 /**
  * Returns a generated curve25519 hex public key being of length 66 and starting with 05.
- * For a closed group v2, we have one publicKey (with prefix) used for polling (this function),
+ * For a closed group, we have one publicKey (with prefix) used for polling (this function),
  * and one keypair without prefix used for encoding of the messages (function generateCurve25519KeyPairWithoutPrefix).
  */
-export async function generateClosedGroupV2PublicKey() {
+export async function generateClosedGroupPublicKey() {
   const sodium = await getSodium();
 
   const ed25519KeyPair = sodium.crypto_sign_keypair();

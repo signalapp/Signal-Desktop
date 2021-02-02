@@ -17,7 +17,6 @@ type Props = {
   isAdmin?: boolean;
   isDeletable: boolean;
   text?: string;
-  bodyPending?: boolean;
   id: string;
   collapseMetadata?: boolean;
   direction: 'incoming' | 'outgoing';
@@ -69,7 +68,6 @@ export const MessageMetadata = (props: Props) => {
     expirationTimestamp,
     status,
     text,
-    bodyPending,
     timestamp,
     serverTimestamp,
     isShowingImage,
@@ -86,7 +84,7 @@ export const MessageMetadata = (props: Props) => {
   const withImageNoCaption = Boolean(!text && isShowingImage);
   const showError = status === 'error' && isOutgoing;
 
-  const showStatus = Boolean(!bodyPending && status?.length && isOutgoing);
+  const showStatus = Boolean(status?.length && isOutgoing);
   const messageStatusColor = withImageNoCaption
     ? 'white'
     : props.theme.colors.sentMessageText;
@@ -123,8 +121,6 @@ export const MessageMetadata = (props: Props) => {
           theme={theme}
         />
       ) : null}
-      <MetadataSpacer />
-      {bodyPending ? <Spinner size="mini" direction={direction} /> : null}
       <MetadataSpacer />
       {showStatus ? (
         <OutgoingMessageStatus

@@ -11,8 +11,6 @@ import {
 } from './conversations';
 import { ConversationLookupType } from '../ducks/conversations';
 
-import { getRegionCode } from './user';
-
 export const getSearch = (state: StateType): SearchStateType => state.search;
 
 export const getQuery = createSelector(
@@ -37,14 +35,12 @@ export const isSearching = createSelector(
 export const getSearchResults = createSelector(
   [
     getSearch,
-    getRegionCode,
     getConversationLookup,
     getSelectedConversationKey,
     getSelectedMessage,
   ],
   (
     state: SearchStateType,
-    regionCode: string,
     lookup: ConversationLookupType,
     selectedConversation?: string,
     selectedMessage?: string
@@ -94,7 +90,6 @@ export const getSearchResults = createSelector(
 
         return message;
       }),
-      regionCode: regionCode,
       searchTerm: state.query,
     };
   }

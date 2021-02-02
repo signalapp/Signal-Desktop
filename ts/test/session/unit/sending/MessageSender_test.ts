@@ -5,12 +5,12 @@ import { toNumber } from 'lodash';
 import { MessageSender } from '../../../../session/sending';
 import LokiMessageAPI from '../../../../../js/modules/loki_message_api';
 import { TestUtils } from '../../../test-utils';
-import { UserUtil } from '../../../../util';
 import { MessageEncrypter } from '../../../../session/crypto';
 import { SignalService } from '../../../../protobuf';
 import { OpenGroupMessage } from '../../../../session/messages/outgoing';
 import { EncryptionType } from '../../../../session/types/EncryptionType';
 import { PubKey } from '../../../../session/types';
+import { UserUtils } from '../../../../session/utils';
 
 describe('MessageSender', () => {
   const sandbox = sinon.createSandbox();
@@ -35,6 +35,7 @@ describe('MessageSender', () => {
     });
   });
 
+  // tslint:disable-next-line: max-func-body-length
   describe('send', () => {
     const ourNumber = '0123456789abcdef';
     let lokiMessageAPISendStub: sinon.SinonStub<
@@ -54,11 +55,11 @@ describe('MessageSender', () => {
       });
 
       encryptStub = sandbox.stub(MessageEncrypter, 'encrypt').resolves({
-        envelopeType: SignalService.Envelope.Type.CIPHERTEXT,
+        envelopeType: SignalService.Envelope.Type.UNIDENTIFIED_SENDER,
         cipherText: crypto.randomBytes(10),
       });
 
-      sandbox.stub(UserUtil, 'getCurrentDevicePubKey').resolves(ourNumber);
+      sandbox.stub(UserUtils, 'getCurrentDevicePubKey').resolves(ourNumber);
     });
 
     describe('retry', () => {
@@ -100,7 +101,7 @@ describe('MessageSender', () => {
 
     describe('logic', () => {
       let messageEncyrptReturnEnvelopeType =
-        SignalService.Envelope.Type.CIPHERTEXT;
+        SignalService.Envelope.Type.UNIDENTIFIED_SENDER;
 
       beforeEach(() => {
         encryptStub.callsFake(async (_device, plainTextBuffer, _type) => ({
@@ -131,7 +132,7 @@ describe('MessageSender', () => {
 
       it('should correctly build the envelope', async () => {
         messageEncyrptReturnEnvelopeType =
-          SignalService.Envelope.Type.CIPHERTEXT;
+          SignalService.Envelope.Type.UNIDENTIFIED_SENDER;
 
         // This test assumes the encryption stub returns the plainText passed into it.
         const device = TestUtils.generateFakePubKey().key;
@@ -161,9 +162,10 @@ describe('MessageSender', () => {
         const envelope = SignalService.Envelope.decode(
           webSocketMessage.request?.body as Uint8Array
         );
-        expect(envelope.type).to.equal(SignalService.Envelope.Type.CIPHERTEXT);
-        expect(envelope.source).to.equal(ourNumber);
-        expect(envelope.sourceDevice).to.equal(1);
+        expect(envelope.type).to.equal(
+          SignalService.Envelope.Type.UNIDENTIFIED_SENDER
+        );
+        expect(envelope.source).to.equal('');
         expect(toNumber(envelope.timestamp)).to.equal(timestamp);
         expect(envelope.content).to.deep.equal(plainTextBuffer);
       });

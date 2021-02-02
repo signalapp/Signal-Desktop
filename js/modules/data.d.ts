@@ -1,5 +1,5 @@
 import { KeyPair } from '../../libtextsecure/libsignal-protocol';
-import { HexKeyPair } from '../../ts/receiver/closedGroupsV2';
+import { HexKeyPair } from '../../ts/receiver/closedGroups';
 import { PubKey } from '../../ts/session/types';
 import { ConversationType } from '../../ts/state/ducks/conversations';
 import { Message } from '../../ts/types/Message';
@@ -43,13 +43,6 @@ export type ContactSignedPreKey = {
   signature: ArrayBuffer;
   created_at: number;
   confirmed: boolean;
-};
-
-export type PairingAuthorisation = {
-  primaryDevicePubKey: string;
-  secondaryDevicePubKey: string;
-  requestSignature: ArrayBuffer;
-  grantSignature?: ArrayBuffer;
 };
 
 export type GuardNode = {
@@ -153,15 +146,6 @@ export function removeContactSignedPreKeyByIdentityKey(
   id: string
 ): Promise<void>;
 export function removeAllContactSignedPreKeys(): Promise<void>;
-
-// Authorisations & Linking
-export function createOrUpdatePairingAuthorisation(
-  data: PairingAuthorisation
-): Promise<void>;
-export function getPairingAuthorisationsFor(
-  pubKey: string
-): Promise<Array<PairingAuthorisation>>;
-export function removePairingAuthorisationsFor(pubKey: string): Promise<void>;
 
 // Guard Nodes
 export function getGuardNodes(): Promise<Array<GuardNode>>;
@@ -412,11 +396,9 @@ export function getMessagesWithFileAttachments(
 ): Promise<any>;
 
 // Sender Keys
-export function getSenderKeys(groupId: any, senderIdentity: any): Promise<any>;
-export function createOrUpdateSenderKeys(data: any): Promise<void>;
 export function removeAllClosedGroupRatchets(groupId: string): Promise<void>;
 
-export function getAllEncryptionKeyPairsForGroupV2(
+export function getAllEncryptionKeyPairsForGroup(
   groupPublicKey: string | PubKey
 ): Promise<Array<HexKeyPair> | undefined>;
 export function getLatestClosedGroupEncryptionKeyPair(

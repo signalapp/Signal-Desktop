@@ -51,7 +51,6 @@ const results: Array<ExceptionType> = [];
 const excludedFiles = [
   // High-traffic files in our project
   '^js/models/messages.js',
-  '^js/views/conversation_view.js',
   '^js/background.js',
 
   // Generated files
@@ -65,7 +64,6 @@ const excludedFiles = [
   '^test/test.js',
 
   // From libsignal-protocol-javascript project
-  '^js/libsignal-protocol-worker.js',
   '^libtextsecure/libsignal-protocol.js',
 
   // Test files

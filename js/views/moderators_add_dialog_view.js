@@ -1,4 +1,4 @@
-/* global Whisper, log */
+/* global Whisper */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -10,32 +10,8 @@
     className: 'loki-dialog modal',
     async initialize(convo) {
       this.close = this.close.bind(this);
-      this.onSubmit = this.onSubmit.bind(this);
-
-      this.chatName = convo.get('name');
-      this.chatServer = convo.get('server');
-      this.channelId = convo.get('channelId');
-
-      // get current list of moderators
-      this.channelAPI = await convo.getPublicSendData();
-      const modPubKeys = await this.channelAPI.getModerators();
-
-      // private contacts (not you) that aren't already moderators
-      const contacts = window
-        .getConversationController()
-        .getConversations()
-        .filter(
-          d =>
-            !!d &&
-            d.isPrivate() &&
-            !d.isBlocked() &&
-            !d.isMe() &&
-            !modPubKeys.includes(d.id)
-        );
-
-      this.contacts = contacts;
       this.theme = convo.theme;
-
+      this.convo = convo;
       this.$el.focus();
       this.render();
     },
@@ -44,10 +20,8 @@
         className: 'add-moderators-dialog',
         Component: window.Signal.Components.AddModeratorsDialog,
         props: {
-          contactList: this.contacts,
-          chatName: this.chatName,
-          onSubmit: this.onSubmit,
           onClose: this.close,
+          convo: this.convo,
           theme: this.theme,
         },
       });
@@ -57,19 +31,6 @@
     },
     close() {
       this.remove();
-    },
-    async onSubmit(pubKeys) {
-      log.info(`asked to add moderators: ${pubKeys}`);
-      window.libsession.Utils.ToastUtils.pushUserNeedsToHaveJoined();
-
-      const res = await this.channelAPI.serverAPI.addModerators(pubKeys);
-      if (res !== true) {
-        // we have errors, deal with them...
-        // how?
-        window.log.warn('failed to add moderators:', res);
-      } else {
-        window.log.info(`${pubKeys} added as moderators...`);
-      }
     },
   });
 })();

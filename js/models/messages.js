@@ -20,7 +20,7 @@
 
   window.Whisper = window.Whisper || {};
 
-  const { Message: TypedMessage, Contact, PhoneNumber } = Signal.Types;
+  const { Message: TypedMessage, Contact } = Signal.Types;
 
   const {
     deleteExternalMessageFiles,
@@ -29,17 +29,12 @@
     loadQuoteData,
     loadPreviewData,
   } = window.Signal.Migrations;
-  const { bytesFromString } = window.Signal.Crypto;
 
   window.AccountCache = Object.create(null);
   window.AccountJobs = Object.create(null);
 
   window.doesAcountCheckJobExist = number =>
     Boolean(window.AccountJobs[number]);
-
-  window.isSignalAccountCheckComplete = number =>
-    window.AccountCache[number] !== undefined;
-  window.hasSignalAccount = () => true;
 
   window.Whisper.Message = Backbone.Model.extend({
     initialize(attributes) {
@@ -55,20 +50,11 @@
       this.on('destroy', this.onDestroy);
       this.on('change:expirationStartTimestamp', this.setToExpire);
       this.on('change:expireTimer', this.setToExpire);
-      this.on('unload', this.unload);
       this.on('expired', this.onExpired);
       this.setToExpire();
       // Keep props ready
       const generateProps = (triggerEvent = true) => {
-        // handle disabled message types first:
-        if (
-          this.isSessionRestoration() ||
-          this.isVerifiedChange() ||
-          this.isEndSession()
-        ) {
-          // do nothing
-          return;
-        } else if (this.isExpirationTimerUpdate()) {
+        if (this.isExpirationTimerUpdate()) {
           this.propsForTimerNotification = this.getPropsForTimerNotification();
         } else if (this.isGroupUpdate()) {
           this.propsForGroupNotification = this.getPropsForGroupNotification();
@@ -127,27 +113,6 @@
         textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
       // eslint-disable-next-line no-bitwise
       return !!(this.get('flags') & expirationTimerFlag);
-    },
-    // Those 3 functions is just used to filter out messages of this type.
-    // This type is not used anymore, so we filter out existing message in DB with this flag set.
-    // isEndSession() isVerifiedChange() and isSessionRestoration()
-    isEndSession() {
-      const endSessionFlag = textsecure.protobuf.DataMessage.Flags.END_SESSION;
-      // eslint-disable-next-line no-bitwise
-      return !!(this.get('flags') & endSessionFlag);
-    },
-    isVerifiedChange() {
-      return this.get('type') === 'verified-change';
-    },
-    isSessionRestoration() {
-      const sessionRestoreFlag =
-        textsecure.protobuf.DataMessage.Flags.SESSION_RESTORE;
-      /* eslint-disable no-bitwise */
-      return (
-        !!this.get('sessionRestoration') ||
-        !!(this.get('flags') & sessionRestoreFlag)
-      );
-      /* eslint-enable no-bitwise */
     },
     isGroupUpdate() {
       return !!this.get('group_update');
@@ -299,13 +264,7 @@
     },
     async cleanup() {
       getMessageController().unregister(this.id);
-      this.unload();
       await deleteExternalMessageFiles(this.attributes);
-    },
-    unload() {
-      if (this.quotedMessage) {
-        this.quotedMessage = null;
-      }
     },
     onExpired() {
       this.hasExpired = true;
@@ -366,9 +325,6 @@
       return window.getConversationController().get(phoneNumber);
     },
     findAndFormatContact(phoneNumber) {
-      const { format } = PhoneNumber;
-      const regionCode = storage.get('regionCode');
-
       const contactModel = this.findContact(phoneNumber);
       let profileName;
       if (phoneNumber === window.storage.get('primaryDevicePubKey')) {
@@ -378,9 +334,7 @@
       }
 
       return {
-        phoneNumber: format(phoneNumber, {
-          ourRegionCode: regionCode,
-        }),
+        phoneNumber,
         color: null,
         avatarPath: contactModel ? contactModel.getAvatarPath() : null,
         name: contactModel ? contactModel.getName() : null,
@@ -546,8 +500,6 @@
       // for the public group chat
       const conversation = this.getConversation();
 
-      const isAdmin = conversation && !!conversation.isAdmin(phoneNumber);
-
       const convoId = conversation ? conversation.id : undefined;
       const isGroup = !!conversation && !conversation.isPrivate();
       const isPublic = !!this.get('isPublic');
@@ -556,13 +508,11 @@
 
       return {
         text: this.createNonBreakingLastSeparator(this.get('body')),
-        bodyPending: this.get('bodyPending'),
         id: this.id,
         direction: this.isIncoming() ? 'incoming' : 'outgoing',
         timestamp: this.get('sent_at'),
         serverTimestamp: this.get('serverTimestamp'),
         status: this.getMessagePropStatus(),
-        contact: this.getPropsForEmbeddedContact(),
         authorName: contact.name,
         authorProfileName: contact.profileName,
         authorPhoneNumber: contact.phoneNumber,
@@ -581,7 +531,6 @@
         isPublic,
         isKickedFromGroup:
           conversation && conversation.get('isKickedFromGroup'),
-        isAdmin, // if the sender is an admin (not us)
 
         onCopyText: () => this.copyText(),
         onCopyPubKey: () => this.copyPubKey(),
@@ -608,40 +557,6 @@
             ? _.reduce(spaces, accumulator => accumulator + nbsp, '')
             : spaces;
         return `${start}${newSpaces}${end}`;
-      });
-    },
-    getPropsForEmbeddedContact() {
-      const regionCode = storage.get('regionCode');
-      const { contactSelector } = Contact;
-
-      const contacts = this.get('contact');
-      if (!contacts || !contacts.length) {
-        return null;
-      }
-
-      const contact = contacts[0];
-      const firstNumber =
-        contact.number && contact.number[0] && contact.number[0].value;
-      const onSendMessage = firstNumber
-        ? () => {
-            this.trigger('open-conversation', firstNumber);
-          }
-        : null;
-      const onClick = async () => {
-        // First let's be sure that the signal account check is complete.
-
-        this.trigger('show-contact-detail', {
-          contact,
-          hasSignalAccount: window.hasSignalAccount(firstNumber),
-        });
-      };
-
-      return contactSelector(contact, {
-        regionCode,
-        getAbsoluteAttachmentPath,
-        onSendMessage,
-        onClick,
-        hasSignalAccount: window.hasSignalAccount(firstNumber),
       });
     },
     processQuoteAttachment(attachment) {
@@ -697,15 +612,9 @@
         return null;
       }
 
-      const { format } = PhoneNumber;
-      const regionCode = storage.get('regionCode');
-
       const { author, id, referencedMessageNotFound } = quote;
       const contact = author && window.getConversationController().get(author);
 
-      const authorPhoneNumber = format(author, {
-        ourRegionCode: regionCode,
-      });
       const authorName = contact ? contact.getName() : null;
       const isFromMe = contact
         ? contact.id === textsecure.storage.user.getNumber()
@@ -729,7 +638,7 @@
           ? this.processQuoteAttachment(firstAttachment)
           : null,
         isFromMe,
-        authorPhoneNumber,
+        authorPhoneNumber: author,
         messageId: id,
         authorName,
         onClick,
@@ -766,24 +675,9 @@
           : null,
       };
     },
-    isUnidentifiedDelivery(contactId, lookup) {
-      if (this.isIncoming()) {
-        return this.get('unidentifiedDeliveryReceived');
-      }
-
-      return Boolean(lookup[contactId]);
-    },
     async getPropsForMessageDetail() {
       const newIdentity = i18n('newIdentity');
       const OUTGOING_KEY_ERROR = 'OutgoingIdentityKeyError';
-
-      const unidentifiedLookup = (
-        this.get('unidentifiedDeliveries') || []
-      ).reduce((accumulator, item) => {
-        // eslint-disable-next-line no-param-reassign
-        accumulator[item] = true;
-        return accumulator;
-      }, Object.create(null));
 
       // We include numbers we didn't successfully send to so we can display errors.
       // Older messages don't have the recipients included on the message, so we fall
@@ -815,19 +709,8 @@
           const isOutgoingKeyError = Boolean(
             _.find(errorsForContact, error => error.name === OUTGOING_KEY_ERROR)
           );
-          const isUnidentifiedDelivery =
-            storage.get('unidentifiedDeliveryIndicators') &&
-            this.isUnidentifiedDelivery(id, unidentifiedLookup);
-          const primary = await window.libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
-            id
-          );
-
-          const isPrimaryDevice = id === primary.key;
 
           const contact = this.findAndFormatContact(id);
-          const profileName = isPrimaryDevice
-            ? contact.profileName
-            : `${contact.profileName} (Secondary Device)`;
           return {
             ...contact,
             // fallback to the message status if we do not have a status with a user
@@ -835,9 +718,8 @@
             status: this.getStatus(id) || this.getMessagePropStatus(),
             errors: errorsForContact,
             isOutgoingKeyError,
-            isUnidentifiedDelivery,
-            isPrimaryDevice,
-            profileName,
+            isPrimaryDevice: true,
+            profileName: contact.profileName,
           };
         })
       );
@@ -910,17 +792,10 @@
       // TODO: In the future it might be best if we cache the upload results if possible.
       // This way we don't upload duplicated data.
 
-      const attachmentsWithData = await Promise.all(
+      const finalAttachments = await Promise.all(
         (this.get('attachments') || []).map(loadAttachmentData)
       );
-      const {
-        body,
-        attachments: finalAttachments,
-      } = Whisper.Message.getLongMessageAttachment({
-        body: this.get('body'),
-        attachments: attachmentsWithData,
-        now: this.get('sent_at'),
-      });
+
       const filenameOverridenAttachments = finalAttachments.map(attachment => ({
         ...attachment,
         fileName: Signal.Types.Attachment.getSuggestedFilenameSending({
@@ -946,7 +821,7 @@
       ]);
 
       return {
-        body,
+        body: this.get('body'),
         attachments,
         preview,
         quote,
@@ -1027,7 +902,7 @@
 
         // Special-case the self-send case - we send only a sync message
         if (recipients.length === 1) {
-          const isOurDevice = await libsession.Protocols.MultiDeviceProtocol.isOurDevice(
+          const isOurDevice = await libsession.Utils.UserUtils.isUs(
             recipients[0]
           );
           if (isOurDevice) {
@@ -1041,12 +916,12 @@
 
           return libsession
             .getMessageQueue()
-            .sendUsingMultiDevice(recipientPubKey, chatMessage);
+            .sendToPubKey(recipientPubKey, chatMessage);
         }
 
         // TODO should we handle medium groups message here too?
         // Not sure there is the concept of retrySend for those
-        const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupV2ChatMessage(
+        const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
           {
             identifier: this.id,
             chatMessage,
@@ -1060,7 +935,7 @@
             const recipientPubKey = new libsession.Types.PubKey(r);
             return libsession
               .getMessageQueue()
-              .sendUsingMultiDevice(recipientPubKey, closedGroupChatMessage);
+              .sendToPubKey(recipientPubKey, closedGroupChatMessage);
           })
         );
       } catch (e) {
@@ -1070,7 +945,6 @@
     },
 
     // Called when the user ran into an error with a specific user, wants to send to them
-    //   One caller today: ConversationView.forceSend()
     async resend(number) {
       const error = this.removeOutgoingErrors(number);
       if (!error) {
@@ -1102,10 +976,10 @@
         if (conversation.isPrivate()) {
           return libsession
             .getMessageQueue()
-            .sendUsingMultiDevice(recipientPubKey, chatMessage);
+            .sendToPubKey(recipientPubKey, chatMessage);
         }
 
-        const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupV2ChatMessage(
+        const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
           {
             chatMessage,
             groupId: this.get('conversationId'),
@@ -1114,7 +988,7 @@
         // resend tries to send the message to that specific user only in the context of a closed group
         return libsession
           .getMessageQueue()
-          .sendUsingMultiDevice(recipientPubKey, closedGroupChatMessage);
+          .sendToPubKey(recipientPubKey, closedGroupChatMessage);
       } catch (e) {
         await this.saveErrors(e);
         return null;
@@ -1140,9 +1014,12 @@
     async handleMessageSentSuccess(sentMessage, wrappedEnvelope) {
       let sentTo = this.get('sent_to') || [];
 
-      const isOurDevice = await window.libsession.Protocols.MultiDeviceProtocol.isOurDevice(
-        sentMessage.device
-      );
+      let isOurDevice = false;
+      if (sentMessage.device) {
+        isOurDevice = await window.libsession.Utils.UserUtils.isUs(
+          sentMessage.device
+        );
+      }
       // FIXME this is not correct and will cause issues with syncing
       // At this point the only way to check for medium
       // group is by comparing the encryption type
@@ -1173,9 +1050,6 @@
           sentMessage.plainTextBuffer
         );
         const { dataMessage } = contentDecoded;
-        const primaryPubKey = await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
-          sentMessage.device
-        );
 
         /**
          * We should hit the notify endpoint for push notification only if:
@@ -1203,7 +1077,7 @@
 
             window.LokiPushNotificationServer.notify(
               wrappedEnvelope,
-              primaryPubKey.key
+              sentMessage.device
             );
           }
         }
@@ -1217,14 +1091,13 @@
           this.set({ synced: true });
         }
 
-        sentTo = _.union(sentTo, [primaryPubKey.key]);
+        sentTo = _.union(sentTo, [sentMessage.device]);
       }
 
       this.set({
         sent_to: sentTo,
         sent: true,
         expirationStartTimestamp: Date.now(),
-        // unidentifiedDeliveries: result.unidentifiedDeliveries,
       });
 
       await this.commit();
@@ -1242,9 +1115,13 @@
           await c.getProfiles();
         }
       }
-      const isOurDevice = await window.libsession.Protocols.MultiDeviceProtocol.isOurDevice(
-        sentMessage.device
-      );
+      let isOurDevice = false;
+      if (sentMessage.device) {
+        isOurDevice = await window.libsession.Utils.UserUtils.isUs(
+          sentMessage.device
+        );
+      }
+
       const expirationStartTimestamp = Date.now();
       if (isOurDevice && !this.get('sync')) {
         this.set({ sentSync: false });
@@ -1252,7 +1129,6 @@
       this.set({
         sent: true,
         expirationStartTimestamp,
-        // unidentifiedDeliveries: result.unidentifiedDeliveries,
       });
       await this.commit();
 
@@ -1407,49 +1283,34 @@
       await this.sendSyncMessage(data);
     },
 
-    async sendSyncMessage(dataMessage) {
+    async sendSyncMessage(/* dataMessage */) {
       if (this.get('synced') || this.get('sentSync')) {
         return;
       }
 
-      const data =
-        dataMessage instanceof libsession.Messages.Outgoing.DataMessage
-          ? dataMessage.dataProto()
-          : dataMessage;
+      window.log.error(
+        'sendSyncMessage to upgrade to multi device protocol v2'
+      );
 
-      const syncMessage = new libsession.Messages.Outgoing.SentSyncMessage({
-        timestamp: this.get('sent_at'),
-        identifier: this.id,
-        dataMessage: data,
-        destination: this.get('destination'),
-        expirationStartTimestamp: this.get('expirationStartTimestamp'),
-        sent_to: this.get('sent_to'),
-        unidentifiedDeliveries: this.get('unidentifiedDeliveries'),
-      });
+      // const data =
+      //   dataMessage instanceof libsession.Messages.Outgoing.DataMessage
+      //     ? dataMessage.dataProto()
+      //     : dataMessage;
 
-      await libsession.getMessageQueue().sendSyncMessage(syncMessage);
+      // const syncMessage = new libsession.Messages.Outgoing.SentSyncMessage({
+      //   timestamp: this.get('sent_at'),
+      //   identifier: this.id,
+      //   dataMessage: data,
+      //   destination: this.get('destination'),
+      //   expirationStartTimestamp: this.get('expirationStartTimestamp'),
+      //   sent_to: this.get('sent_to'),
+      //   unidentifiedDeliveries: this.get('unidentifiedDeliveries'),
+      // });
+
+      // await libsession.getMessageQueue().sendSyncMessage(syncMessage);
 
       this.set({ sentSync: true });
       await this.commit();
-    },
-
-    someRecipientsFailed() {
-      const c = this.getConversation();
-      if (!c || c.isPrivate()) {
-        return false;
-      }
-
-      const recipients = c.contactCollection.length - 1;
-      const errors = this.get('errors');
-      if (!errors) {
-        return false;
-      }
-
-      if (errors.length > 0 && recipients > 0 && errors.length < recipients) {
-        return true;
-      }
-
-      return false;
     },
 
     async markMessageSyncOnly(dataMessage) {
@@ -1565,31 +1426,6 @@
       }
     },
   });
-
-  // Receive will be enabled before we enable send
-  Whisper.Message.LONG_MESSAGE_CONTENT_TYPE = 'text/x-signal-plain';
-
-  Whisper.Message.getLongMessageAttachment = ({ body, attachments, now }) => {
-    if (body.length <= 2048) {
-      return {
-        body,
-        attachments,
-      };
-    }
-
-    const data = bytesFromString(body);
-    const attachment = {
-      contentType: Whisper.Message.LONG_MESSAGE_CONTENT_TYPE,
-      fileName: `long-message-${now}.txt`,
-      data,
-      size: data.byteLength,
-    };
-
-    return {
-      body: body.slice(0, 2048),
-      attachments: [attachment, ...attachments],
-    };
-  };
 
   Whisper.Message.refreshExpirationTimer = () =>
     Whisper.ExpiringMessagesListener.update();

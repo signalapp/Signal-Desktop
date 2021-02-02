@@ -85,7 +85,7 @@ window.CONSTANTS = new (function() {
   this.DEFAULT_PUBLIC_CHAT_URL = appConfig.get('defaultPublicChatServer');
   this.MAX_LINKED_DEVICES = 1;
   this.MAX_CONNECTION_DURATION = 5000;
-  this.CLOSED_GROUP_SIZE_LIMIT = 100;
+  this.CLOSED_GROUP_SIZE_LIMIT = 20;
   // Number of seconds to turn on notifications after reconnect/start of app
   this.NOTIFICATION_ENABLE_TIMEOUT_SECONDS = 10;
   this.SESSION_ID_LENGTH = 66;
@@ -173,7 +173,6 @@ window.setPassword = (passPhrase, oldPhrase) =>
     ipc.send('set-password', passPhrase, oldPhrase);
   });
 
-window.passwordUtil = require('./ts/util/passwordUtils');
 window.libsession = require('./ts/session');
 
 window.getMessageController =
@@ -407,7 +406,6 @@ window.moment.locale(locale);
 window.Signal = Signal.setup({
   Attachments,
   userDataPath: app.getPath('userData'),
-  getRegionCode: () => window.storage.get('regionCode'),
   logger: window.log,
 });
 
@@ -440,23 +438,14 @@ if (process.env.USE_STUBBED_NETWORK) {
   window.SwarmPolling = new SwarmPolling();
 }
 
-window.shortenPubkey = pubkey => {
-  const pk = pubkey.key ? pubkey.key : pubkey;
-
-  return `(...${pk.substring(pk.length - 6)})`;
-};
-
-window.pubkeyPattern = /@[a-fA-F0-9]{64,66}\b/g;
-
 window.lokiFeatureFlags = {
   multiDeviceUnpairing: true,
-  privateGroupChats: true,
   useOnionRequests: true,
   useOnionRequestsV2: true,
   useFileOnionRequests: true,
   useFileOnionRequestsV2: true, // more compact encoding of files in response
   onionRequestHops: 3,
-  useMultiDevice: false,
+  useExplicitGroupUpdatesSending: false,
 };
 
 // eslint-disable-next-line no-extend-native,func-names
@@ -487,11 +476,10 @@ if (
 if (config.environment.includes('test-integration')) {
   window.lokiFeatureFlags = {
     multiDeviceUnpairing: true,
-    privateGroupChats: true,
     useOnionRequests: false,
     useFileOnionRequests: false,
     useOnionRequestsV2: false,
-    useMultiDevice: false,
+    useExplicitGroupUpdatesSending: false,
   };
   /* eslint-disable global-require, import/no-extraneous-dependencies */
   window.sinon = require('sinon');
@@ -509,13 +497,10 @@ window.deleteAccount = async reason => {
   try {
     window.log.info('Deleting everything!');
 
-    const { Logs } = window.Signal;
-    await Logs.deleteAll();
-
+    await window.Signal.Logs.deleteAll();
     await window.Signal.Data.removeAll();
     await window.Signal.Data.close();
     await window.Signal.Data.removeDB();
-
     await window.Signal.Data.removeOtherData();
     // 'unlink' => toast will be shown on app restart
     window.localStorage.setItem('restart-reason', reason);

@@ -104,7 +104,6 @@ export = {
   linkDeviceButtonDisabled: commonPage.divRoleButtonWithTextDisabled(
     'Link New Device'
   ),
-  devicePairingDialog: '//*[contains(@class,"device-pairing-dialog")]',
   qrImageDiv: commonPage.divWithClass('qr-image'),
   allowPairingButton: commonPage.divRoleButtonWithText('Allow Linking'),
   okButton: commonPage.divRoleButtonWithText('OK'),

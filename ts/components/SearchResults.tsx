@@ -15,7 +15,6 @@ export type SearchResultsProps = {
   conversations: Array<ConversationListItemProps>;
   hideMessagesHeader: boolean;
   messages: Array<MessageSearchResultProps>;
-  regionCode: string;
   searchTerm: string;
 };
 

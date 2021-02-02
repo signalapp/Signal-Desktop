@@ -25,11 +25,11 @@ import {
 import { AbortController } from 'abort-controller';
 import { SessionQuotedMessageComposition } from './SessionQuotedMessageComposition';
 import { Mention, MentionsInput } from 'react-mentions';
-import { MemberItem } from '../../conversation/MemberList';
 import { CaptionEditor } from '../../CaptionEditor';
 import { DefaultTheme } from 'styled-components';
 import { ConversationController } from '../../../session/conversations/ConversationController';
 import { ConversationType } from '../../../state/ducks/conversations';
+import { SessionMemberListItem } from '../SessionMemberListItem';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -165,6 +165,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     this.onChooseAttachment = this.onChooseAttachment.bind(this);
     this.onClickAttachment = this.onClickAttachment.bind(this);
     this.renderCaptionEditor = this.renderCaptionEditor.bind(this);
+    this.abortLinkPreviewFetch = this.abortLinkPreviewFetch.bind(this);
 
     // On Sending
     this.onSendMessage = this.onSendMessage.bind(this);
@@ -183,7 +184,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   public componentWillUnmount() {
-    this.linkPreviewAbortController?.abort();
+    this.abortLinkPreviewFetch();
     this.linkPreviewAbortController = undefined;
   }
   public componentDidUpdate(prevProps: Props, _prevState: State) {
@@ -351,7 +352,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   private renderTextArea() {
     const { i18n } = window;
     const { message } = this.state;
-    const { isKickedFromGroup, left, isPrivate, isBlocked } = this.props;
+    const { isKickedFromGroup, left, isPrivate, isBlocked, theme } = this.props;
     const messagePlaceHolder = isKickedFromGroup
       ? i18n('youGotKickedFromGroup')
       : left
@@ -362,6 +363,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       ? i18n('unblockGroupToSend')
       : i18n('sendMessage');
     const typingEnabled = this.isTypingEnabled();
+    let index = 0;
 
     return (
       <MentionsInput
@@ -373,7 +375,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         spellCheck={true}
         inputRef={this.textarea}
         disabled={!typingEnabled}
-        maxLength={Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH}
+        // maxLength={Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH}
         rows={1}
         style={sendMessageStyle}
         suggestionsPortalHost={this.container}
@@ -394,23 +396,20 @@ export class SessionCompositionBox extends React.Component<Props, State> {
             _index,
             focused
           ) => (
-            <MemberItem
-              i18n={window.i18n}
-              selected={focused}
-              // tslint:disable-next-line: no-empty
-              onClicked={() => {}}
-              existingMember={false}
+            <SessionMemberListItem
+              theme={theme}
+              isSelected={focused}
+              index={index++}
               member={{
                 id: `${suggestion.id}`,
                 authorPhoneNumber: `${suggestion.id}`,
-                selected: false,
+                selected: focused,
                 authorProfileName: `${suggestion.display}`,
                 authorName: `${suggestion.display}`,
                 existingMember: false,
                 checkmarked: false,
                 authorAvatarPath: '',
               }}
-              checkmarked={false}
             />
           )}
         />
@@ -568,7 +567,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       },
     });
     const abortController = new AbortController();
-    this.linkPreviewAbortController?.abort();
+    this.abortLinkPreviewFetch();
     this.linkPreviewAbortController = abortController;
     setTimeout(() => {
       abortController.abort();
@@ -592,31 +591,64 @@ export class SessionCompositionBox extends React.Component<Props, State> {
             }
           }
         }
-        this.setState({
-          stagedLinkPreview: {
-            isLoaded: true,
-            title: ret?.title || null,
-            description: ret?.description || '',
-            url: ret?.url || null,
-            domain:
-              (ret?.url && window.Signal.LinkPreviews.getDomain(ret.url)) || '',
-            image,
-          },
-        });
+        // we finished loading the preview, and checking the abortConrtoller, we are still not aborted.
+        // => update the staged preview
+        if (
+          this.linkPreviewAbortController &&
+          !this.linkPreviewAbortController.signal.aborted
+        ) {
+          this.setState({
+            stagedLinkPreview: {
+              isLoaded: true,
+              title: ret?.title || null,
+              description: ret?.description || '',
+              url: ret?.url || null,
+              domain:
+                (ret?.url && window.Signal.LinkPreviews.getDomain(ret.url)) ||
+                '',
+              image,
+            },
+          });
+        } else if (this.linkPreviewAbortController) {
+          this.setState({
+            stagedLinkPreview: {
+              isLoaded: false,
+              title: null,
+              description: null,
+              url: null,
+              domain: null,
+              image: undefined,
+            },
+          });
+          this.linkPreviewAbortController = undefined;
+        }
       })
       .catch(err => {
         window.log.warn('fetch link preview: ', err);
-        abortController.abort();
-        this.setState({
-          stagedLinkPreview: {
-            isLoaded: true,
-            title: null,
-            domain: null,
-            description: null,
-            url: firstLink,
-            image: undefined,
-          },
-        });
+        const aborted = this.linkPreviewAbortController?.signal.aborted;
+        this.linkPreviewAbortController = undefined;
+        // if we were aborted, it either means the UI was unmount, or more probably,
+        // than the message was sent without the link preview.
+        // So be sure to reset the staged link preview so it is not sent with the next message.
+
+        // if we were not aborted, it's probably just an error on the fetch. Nothing to do excpet mark the fetch as done (with errors)
+
+        if (aborted) {
+          this.setState({
+            stagedLinkPreview: undefined,
+          });
+        } else {
+          this.setState({
+            stagedLinkPreview: {
+              isLoaded: true,
+              title: null,
+              description: null,
+              url: firstLink,
+              domain: null,
+              image: undefined,
+            },
+          });
+        }
       });
   }
 
@@ -753,25 +785,10 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
   // tslint:disable-next-line: cyclomatic-complexity
   private async onSendMessage() {
-    const toUnicode = (str: string) => {
-      return str
-        .split('')
-        .map(value => {
-          const temp = value
-            .charCodeAt(0)
-            .toString(16)
-            .toUpperCase();
-          if (temp.length > 2) {
-            return `\\u${temp}`;
-          }
-          return value;
-        })
-        .join('');
-    };
+    this.abortLinkPreviewFetch();
 
     // this is dirty but we have to replace all @(xxx) by @xxx manually here
     const cleanMentions = (text: string): string => {
-      const textUnicode = toUnicode(text);
       const matches = text.match(this.mentionsRegex);
       let replacedMentions = text;
       (matches || []).forEach(match => {
@@ -810,10 +827,10 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     }
     // Verify message length
     const msgLen = messagePlaintext?.length || 0;
-    if (msgLen > Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH) {
-      ToastUtils.pushMessageBodyTooLong();
-      return;
-    }
+    // if (msgLen > Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH) {
+    //   ToastUtils.pushMessageBodyTooLong();
+    //   return;
+    // }
     if (msgLen === 0 && this.props.stagedAttachments?.length === 0) {
       ToastUtils.pushMessageBodyMissing();
       return;
@@ -854,10 +871,13 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       'attachments'
     );
 
+    // we consider that a link previews without a title at least is not a preview
     const linkPreviews =
-      (stagedLinkPreview && [
-        _.pick(stagedLinkPreview, 'url', 'image', 'title'),
-      ]) ||
+      (stagedLinkPreview &&
+        stagedLinkPreview.isLoaded &&
+        stagedLinkPreview.title?.length && [
+          _.pick(stagedLinkPreview, 'url', 'image', 'title'),
+        ]) ||
       [];
 
     try {
@@ -873,20 +893,15 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
       // Message sending sucess
       this.props.onMessageSuccess();
+      this.props.clearAttachments();
 
-      // Empty composition box
+      // Empty composition box and stagedAttachments
       this.setState({
         message: '',
         showEmojiPanel: false,
+        stagedLinkPreview: undefined,
+        ignoredLink: undefined,
       });
-      // Empty stagedAttachments
-      this.props.clearAttachments();
-      if (stagedLinkPreview && stagedLinkPreview.url) {
-        this.setState({
-          stagedLinkPreview: undefined,
-          ignoredLink: undefined,
-        });
-      }
     } catch (e) {
       // Message sending failed
       window.log.error(e);
@@ -1001,5 +1016,9 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   private focusCompositionBox() {
     // Focus the textarea when user clicks anywhere in the composition box
     this.textarea.current?.focus();
+  }
+
+  private abortLinkPreviewFetch() {
+    this.linkPreviewAbortController?.abort();
   }
 }

@@ -8,10 +8,9 @@ import {
 } from '../../../../session/crypto';
 import { EncryptionType } from '../../../../session/types/EncryptionType';
 import { Stubs, TestUtils } from '../../../test-utils';
-import { UserUtil } from '../../../../util';
 import { SignalService } from '../../../../protobuf';
 
-import { StringUtils } from '../../../../session/utils';
+import { StringUtils, UserUtils } from '../../../../session/utils';
 
 import chaiBytes from 'chai-bytes';
 import { PubKey } from '../../../../session/types';
@@ -118,9 +117,9 @@ describe('MessageEncrypter', () => {
       } as any,
     });
 
-    sandbox.stub(UserUtil, 'getCurrentDevicePubKey').resolves(ourNumber);
+    sandbox.stub(UserUtils, 'getCurrentDevicePubKey').resolves(ourNumber);
     sandbox
-      .stub(UserUtil, 'getUserED25519KeyPair')
+      .stub(UserUtils, 'getUserED25519KeyPair')
       .resolves(ourUserEd25516Keypair);
   });
 
@@ -130,7 +129,7 @@ describe('MessageEncrypter', () => {
   });
 
   describe('EncryptionType', () => {
-    describe('ClosedGroupV2', () => {
+    describe('ClosedGroup', () => {
       it('should return a CLOSED_GROUP_CIPHERTEXT envelope type for ClosedGroup', async () => {
         const hexKeyPair = {
           publicHex: `05${ourUserEd25516Keypair.pubKey}`,
@@ -187,7 +186,7 @@ describe('MessageEncrypter', () => {
       sandboxSessionProtocol = sinon.createSandbox();
 
       sandboxSessionProtocol
-        .stub(UserUtil, 'getIdentityKeyPair')
+        .stub(UserUtils, 'getIdentityKeyPair')
         .resolves(ourIdentityKeypair);
     });
 
@@ -211,7 +210,7 @@ describe('MessageEncrypter', () => {
     });
 
     it('should pass the correct data for sodium crypto_sign', async () => {
-      const keypair = await UserUtil.getUserED25519KeyPair();
+      const keypair = await UserUtils.getUserED25519KeyPair();
       const recipient = TestUtils.generateFakePubKey();
       const sodium = await getSodium();
       const cryptoSignDetachedSpy = sandboxSessionProtocol.spy(
@@ -266,8 +265,8 @@ describe('MessageEncrypter', () => {
 
     it('should return valid decodable ciphertext', async () => {
       // for testing, we encode a message to ourself
-      const userX25519KeyPair = await UserUtil.getIdentityKeyPair();
-      const userEd25519KeyPair = await UserUtil.getUserED25519KeyPair();
+      const userX25519KeyPair = await UserUtils.getIdentityKeyPair();
+      const userEd25519KeyPair = await UserUtils.getUserED25519KeyPair();
 
       const plainTextBytes = new Uint8Array(
         StringUtils.encode('123456789', 'utf8')

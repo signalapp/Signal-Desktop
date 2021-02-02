@@ -30,14 +30,8 @@
     );
   }
 
+  // this is all the Session Protocols
   loadProtoBufs('SignalService.proto');
+  // this is for websocket wrapping of messages
   loadProtoBufs('SubProtocol.proto');
-  loadProtoBufs('DeviceMessages.proto');
-  loadProtoBufs('WhisperTextProtocol.proto');
-
-  // Just for encrypting device names
-  loadProtoBufs('DeviceName.proto');
-
-  // Metadata-specific protos
-  loadProtoBufs('UnidentifiedDelivery.proto');
 })();

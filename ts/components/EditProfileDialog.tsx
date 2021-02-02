@@ -91,7 +91,6 @@ export class EditProfileDialog extends React.Component<Props, State> {
     return (
       <SessionModal
         title={i18n('editProfileModalTitle')}
-        onOk={this.onClickOK}
         onClose={this.closeDialog}
         headerReverse={viewEdit || viewQR}
         headerIconButtons={backButton}

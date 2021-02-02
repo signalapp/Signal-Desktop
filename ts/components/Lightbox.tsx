@@ -237,8 +237,7 @@ export class Lightbox extends React.Component<Props> {
     }
 
     if (current.paused) {
-      // tslint:disable-next-line no-floating-promises
-      current.play();
+      void current.play();
     } else {
       current.pause();
     }
@@ -272,7 +271,7 @@ export class Lightbox extends React.Component<Props> {
             </div>
           </div>
           <div style={styles.controls}>
-            <Flex flexGrow={1}>
+            <Flex flex="1 1 auto">
               <IconButton
                 type="close"
                 onClick={this.onClose}

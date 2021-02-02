@@ -5,19 +5,15 @@ import { getEnvelopeId } from './common';
 import { removeFromCache, updateCache } from './cache';
 import { SignalService } from '../protobuf';
 import * as Lodash from 'lodash';
-import { handlePairingAuthorisationMessage } from './multidevice';
-import { MultiDeviceProtocol } from '../session/protocols';
 import { PubKey } from '../session/types';
 
-import { handleSyncMessage } from './syncMessages';
 import { BlockedNumberController } from '../util/blockedNumberController';
-import { GroupUtils } from '../session/utils';
-import { UserUtil } from '../util';
+import { GroupUtils, UserUtils } from '../session/utils';
 import { fromHexToArray, toHex } from '../session/utils/String';
 import { concatUInt8Array, getSodium } from '../session/crypto';
 import { ConversationController } from '../session/conversations';
 import * as Data from '../../js/modules/data';
-import { ECKeyPair } from './closedGroupsV2';
+import { ECKeyPair } from './keypairs';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   try {
@@ -35,12 +31,12 @@ export async function handleContentMessage(envelope: EnvelopePlus) {
   }
 }
 
-async function decryptForClosedGroupV2(
+async function decryptForClosedGroup(
   envelope: EnvelopePlus,
   ciphertext: ArrayBuffer
 ) {
   // case .closedGroupCiphertext: for ios
-  window.log.info('received closed group v2 message');
+  window.log.info('received closed group message');
   try {
     const hexEncodedGroupPublicKey = envelope.source;
     if (!GroupUtils.isMediumGroup(PubKey.cast(hexEncodedGroupPublicKey))) {
@@ -49,7 +45,7 @@ async function decryptForClosedGroupV2(
       );
       throw new Error('Invalid group public key'); // invalidGroupPublicKey
     }
-    const encryptionKeyPairs = await Data.getAllEncryptionKeyPairsForGroupV2(
+    const encryptionKeyPairs = await Data.getAllEncryptionKeyPairsForGroup(
       hexEncodedGroupPublicKey
     );
     const encryptionKeyPairsCount = encryptionKeyPairs?.length;
@@ -79,22 +75,33 @@ async function decryptForClosedGroupV2(
           encryptionKeyPair,
           true
         );
+        if (decryptedContent?.byteLength) {
+          break;
+        }
         keyIndex++;
       } catch (e) {
         window.log.info(
-          `Failed to decrypt closed group v2 with key index ${keyIndex}. We have ${encryptionKeyPairs.length} keys to try left.`
+          `Failed to decrypt closed group with key index ${keyIndex}. We have ${encryptionKeyPairs.length} keys to try left.`
         );
       }
     } while (encryptionKeyPairs.length > 0);
 
-    if (!decryptedContent) {
+    if (!decryptedContent?.byteLength) {
       await removeFromCache(envelope);
       throw new Error(
-        `Could not decrypt message for closed group v2 with any of the ${encryptionKeyPairsCount} keypairs.`
+        `Could not decrypt message for closed group with any of the ${encryptionKeyPairsCount} keypairs.`
       );
     }
-    window.log.info('ClosedGroupV2 Message decrypted successfully.');
-    const ourDevicePubKey = await UserUtil.getCurrentDevicePubKey();
+    if (keyIndex !== 0) {
+      window.log.warn(
+        'Decrypted a closed group message with not the latest encryptionkeypair we have'
+      );
+    }
+    window.log.info(
+      'ClosedGroup Message decrypted successfully with keyIndex:',
+      keyIndex
+    );
+    const ourDevicePubKey = await UserUtils.getCurrentDevicePubKey();
 
     if (
       envelope.senderIdentity &&
@@ -102,7 +109,7 @@ async function decryptForClosedGroupV2(
     ) {
       await removeFromCache(envelope);
       window.log.info(
-        'Dropping message from our current device after decrypt for closed group v2'
+        'Dropping message from our current device after decrypt for closed group'
       );
       return null;
     }
@@ -119,8 +126,8 @@ async function decryptForClosedGroupV2(
 }
 
 /**
- * This function can be called to decrypt a keypair wrapper for a closed group update v2
- * or a message sent to a closed group v2.
+ * This function can be called to decrypt a keypair wrapper for a closed group update
+ * or a message sent to a closed group.
  *
  * We do not unpad the result here, as in the case of the keypair wrapper, there is not padding.
  * Instead, it is the called who needs to unpad() the content.
@@ -129,7 +136,7 @@ export async function decryptWithSessionProtocol(
   envelope: EnvelopePlus,
   ciphertextObj: ArrayBuffer,
   x25519KeyPair: ECKeyPair,
-  isClosedGroupV2?: boolean
+  isClosedGroup?: boolean
 ): Promise<ArrayBuffer> {
   const recipientX25519PrivateKey = x25519KeyPair.privateKeyData;
   const hex = toHex(new Uint8Array(x25519KeyPair.publicKeyData));
@@ -190,7 +197,7 @@ export async function decryptWithSessionProtocol(
   }
 
   // set the sender identity on the envelope itself.
-  if (isClosedGroupV2) {
+  if (isClosedGroup) {
     envelope.senderIdentity = `05${toHex(senderX25519PublicKey)}`;
   } else {
     envelope.source = `05${toHex(senderX25519PublicKey)}`;
@@ -224,7 +231,7 @@ async function decryptUnidentifiedSender(
 ): Promise<ArrayBuffer | null> {
   window.log.info('received unidentified sender message');
   try {
-    const userX25519KeyPair = await UserUtil.getIdentityKeyPair();
+    const userX25519KeyPair = await UserUtils.getIdentityKeyPair();
     if (!userX25519KeyPair) {
       throw new Error('Failed to find User x25519 keypair from stage'); // noUserX25519KeyPair
     }
@@ -259,24 +266,9 @@ async function doDecrypt(
   switch (envelope.type) {
     // Only UNIDENTIFIED_SENDER and CLOSED_GROUP_CIPHERTEXT are supported
     case SignalService.Envelope.Type.CLOSED_GROUP_CIPHERTEXT:
-      return decryptForClosedGroupV2(envelope, ciphertext);
+      return decryptForClosedGroup(envelope, ciphertext);
     case SignalService.Envelope.Type.UNIDENTIFIED_SENDER: {
       return decryptUnidentifiedSender(envelope, ciphertext);
-    }
-    case SignalService.Envelope.Type.PREKEY_BUNDLE: {
-      window.log.info('prekey message from', getEnvelopeId(envelope));
-      throw new Error('Envelope.Type.PREKEY_BUNDLE cannot happen anymore');
-    }
-    case SignalService.Envelope.Type.CIPHERTEXT: {
-      window.log.info('CIPHERTEXT envelope from', getEnvelopeId(envelope));
-      throw new Error('Envelope.Type.CIPHERTEXT cannot happen anymore');
-    }
-    case SignalService.Envelope.Type.FALLBACK_MESSAGE: {
-      window.log.info(
-        'FALLBACK_MESSAGE envelope from',
-        getEnvelopeId(envelope)
-      );
-      throw new Error('Envelope.Type.FALLBACK_MESSAGE cannot happen anymore');
     }
     default:
       throw new Error(`Unknown message type:${envelope.type}`);
@@ -380,20 +372,6 @@ export async function innerHandleContentMessage(
       'private'
     );
 
-    if (content.pairingAuthorisation) {
-      await handlePairingAuthorisationMessage(
-        envelope,
-        content.pairingAuthorisation,
-        content.dataMessage
-      );
-      return;
-    }
-
-    if (content.syncMessage) {
-      await handleSyncMessage(envelope, content.syncMessage);
-      return;
-    }
-
     if (content.dataMessage) {
       if (
         content.dataMessage.profileKey &&
@@ -404,25 +382,12 @@ export async function innerHandleContentMessage(
       await handleDataMessage(envelope, content.dataMessage);
       return;
     }
-    if (content.nullMessage) {
-      await handleNullMessage(envelope);
-      return;
-    }
-    if (content.callMessage) {
-      await handleCallMessage(envelope);
-      return;
-    }
+
     if (content.receiptMessage) {
       await handleReceiptMessage(envelope, content.receiptMessage);
       return;
     }
     if (content.typingMessage) {
-      if (
-        content.typingMessage.groupId &&
-        content.typingMessage.groupId.length === 0
-      ) {
-        content.typingMessage.groupId = null;
-      }
       await handleTypingMessage(envelope, content.typingMessage);
       return;
     }
@@ -493,16 +458,6 @@ async function handleReceiptMessage(
   await removeFromCache(envelope);
 }
 
-async function handleNullMessage(envelope: EnvelopePlus) {
-  window.log.info('null message from', getEnvelopeId(envelope));
-  await removeFromCache(envelope);
-}
-
-async function handleCallMessage(envelope: EnvelopePlus) {
-  window.log.info('call message from', getEnvelopeId(envelope));
-  await removeFromCache(envelope);
-}
-
 async function handleTypingMessage(
   envelope: EnvelopePlus,
   iTypingMessage: SignalService.ITypingMessage
@@ -533,17 +488,8 @@ async function handleTypingMessage(
     return;
   }
 
-  // A sender here could be referring to a group.
-  // Groups don't have primary devices so we need to take that into consideration.
-  // Note: we do not support group typing message for now.
-  const user = PubKey.from(source);
-  const primaryDevice = user
-    ? await MultiDeviceProtocol.getPrimaryDevice(user)
-    : null;
-
-  const convoId = (primaryDevice && primaryDevice.key) || source;
-
-  const conversation = ConversationController.getInstance().get(convoId);
+  // typing message are only working with direct chats/ not groups
+  const conversation = ConversationController.getInstance().get(source);
 
   const started = action === SignalService.TypingMessage.Action.STARTED;
 

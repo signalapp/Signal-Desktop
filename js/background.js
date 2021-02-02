@@ -2,7 +2,6 @@
   $,
   _,
   Backbone,
-  getAccountManager,
   Signal,
   storage,
   textsecure,
@@ -107,8 +106,6 @@
 
   window.document.title = window.getTitle();
 
-  // start a background worker for ecc
-  textsecure.startWorker('js/libsignal-protocol-worker.js');
   let messageReceiver;
   Whisper.events = _.clone(Backbone.Events);
   Whisper.events.isListenedTo = eventName =>
@@ -121,10 +118,8 @@
       accountManager = new textsecure.AccountManager(USERNAME, PASSWORD);
       accountManager.addEventListener('registration', () => {
         const user = {
-          regionCode: window.storage.get('regionCode'),
           ourNumber: textsecure.storage.user.getNumber(),
           ourPrimary: window.textsecure.storage.get('primaryDevicePubKey'),
-          isSecondaryDevice: !!textsecure.storage.get('isSecondaryDevice'),
         };
         Whisper.events.trigger('userChanged', user);
 
@@ -183,10 +178,6 @@
     }
 
     window.initialisedAPI = true;
-
-    if (storage.get('isSecondaryDevice')) {
-      window.lokiFileServerAPI.updateOurDeviceMapping();
-    }
   };
 
   function mapOldThemeToNew(theme) {
@@ -235,12 +226,6 @@
       !storage.get('primaryDevicePubKey', null)
     ) {
       storage.put('primaryDevicePubKey', textsecure.storage.user.getNumber());
-    }
-
-    // 4th August 2020 - Force wipe of secondary devices as multi device is being disabled.
-    if (storage.get('isSecondaryDevice')) {
-      await window.deleteAccount('unlink');
-      return;
     }
 
     // These make key operations available to IPC handlers created in preload.js
@@ -445,10 +430,6 @@
           'expirationStartTimestamp'
         );
 
-        if (message.isEndSession()) {
-          return;
-        }
-
         if (message.hasErrors()) {
           return;
         }
@@ -496,10 +477,7 @@
     if (Whisper.Import.isIncomplete()) {
       window.log.info('Import was interrupted, showing import error screen');
       appView.openImporter();
-    } else if (
-      Whisper.Registration.isDone() &&
-      !Whisper.Registration.ongoingSecondaryDeviceRegistration()
-    ) {
+    } else if (Whisper.Registration.isDone()) {
       connect();
       appView.openInbox({
         initialLoadComplete,
@@ -637,6 +615,7 @@
                   displayName: newName,
                   avatar: newAvatarPath,
                 });
+                conversation.commit();
               } catch (error) {
                 window.log.error(
                   'showEditProfileDialog Error ensuring that image is properly sized:',
@@ -919,18 +898,6 @@
       }
     });
 
-    Whisper.events.on('showDevicePairingDialog', async (options = {}) => {
-      if (appView) {
-        appView.showDevicePairingDialog(options);
-      }
-    });
-
-    Whisper.events.on('showDevicePairingWordsDialog', async () => {
-      if (appView) {
-        appView.showDevicePairingWordsDialog();
-      }
-    });
-
     Whisper.events.on('calculatingPoW', ({ pubKey, timestamp }) => {
       try {
         const conversation = window.getConversationController().get(pubKey);
@@ -962,59 +929,6 @@
       if (appView && appView.inboxView) {
         appView.inboxView.trigger('password-updated');
       }
-    });
-
-    Whisper.events.on('devicePairingRequestReceivedNoListener', async () => {
-      // If linking limit has been reached, let master know.
-      const ourKey = textsecure.storage.user.getNumber();
-      const ourPubKey = window.libsession.Types.PubKey.cast(ourKey);
-      const authorisations = await window.libsession.Protocols.MultiDeviceProtocol.fetchPairingAuthorisations(
-        ourPubKey
-      );
-
-      window.libsession.Utils.ToastUtils.pushPairingRequestReceived(
-        authorisations.length
-      );
-    });
-
-    Whisper.events.on('devicePairingRequestAccepted', async (pubKey, cb) => {
-      try {
-        await getAccountManager().authoriseSecondaryDevice(pubKey);
-        cb(null);
-      } catch (e) {
-        cb(e);
-      }
-    });
-
-    Whisper.events.on('devicePairingRequestRejected', async pubKey => {
-      await libsession.Protocols.MultiDeviceProtocol.removePairingAuthorisations(
-        pubKey
-      );
-    });
-
-    Whisper.events.on('deviceUnpairingRequested', async (pubKey, callback) => {
-      const isSecondaryDevice = !!textsecure.storage.get('isSecondaryDevice');
-      if (isSecondaryDevice) {
-        return;
-      }
-      await libsession.Protocols.MultiDeviceProtocol.removePairingAuthorisations(
-        pubKey
-      );
-      await window.lokiFileServerAPI.updateOurDeviceMapping();
-      const device = new libsession.Types.PubKey(pubKey);
-      const unlinkMessage = new libsession.Messages.Outgoing.DeviceUnlinkMessage(
-        {
-          timestamp: Date.now(),
-        }
-      );
-
-      await libsession.getMessageQueue().send(device, unlinkMessage);
-      // Remove all traces of the device
-      setTimeout(() => {
-        window.getConversationController().deleteContact(pubKey);
-        Whisper.events.trigger('refreshLinkedDeviceList');
-        callback();
-      }, 1000);
     });
   }
 
@@ -1108,22 +1022,6 @@
 
     window.NewReceiver.queueAllCached();
 
-    if (Whisper.Registration.ongoingSecondaryDeviceRegistration()) {
-      window.lokiMessageAPI = new window.LokiMessageAPI();
-      window.lokiFileServerAPIFactory = new window.LokiFileServerAPI(ourKey);
-      window.lokiFileServerAPI = window.lokiFileServerAPIFactory.establishHomeConnection(
-        window.getDefaultFileServer()
-      );
-      window.lokiPublicChatAPI = null;
-      messageReceiver = new textsecure.MessageReceiver();
-      messageReceiver.addEventListener(
-        'message',
-        window.DataMessageReceiver.handleMessageEvent
-      );
-      window.textsecure.messaging = true;
-      return;
-    }
-
     initAPIs();
     await initSpecialConversations();
     messageReceiver = new textsecure.MessageReceiver();
@@ -1171,24 +1069,9 @@
   }
   function onConfiguration(ev) {
     const { configuration } = ev;
-    const {
-      readReceipts,
-      typingIndicators,
-      unidentifiedDeliveryIndicators,
-      linkPreviews,
-    } = configuration;
+    const { readReceipts, typingIndicators, linkPreviews } = configuration;
 
     storage.put('read-receipt-setting', readReceipts);
-
-    if (
-      unidentifiedDeliveryIndicators === true ||
-      unidentifiedDeliveryIndicators === false
-    ) {
-      storage.put(
-        'unidentifiedDeliveryIndicators',
-        unidentifiedDeliveryIndicators
-      );
-    }
 
     if (typingIndicators === true || typingIndicators === false) {
       storage.put('typing-indicators-setting', typingIndicators);

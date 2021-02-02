@@ -10,7 +10,6 @@ describe('state/selectors/conversations', () => {
   describe('#getLeftPaneList', () => {
     it('sorts conversations based on timestamp then by intl-friendly title', () => {
       const i18n = (key: string) => key;
-      const regionCode = 'US';
       const data: ConversationLookupType = {
         id1: {
           id: 'id1',
@@ -18,9 +17,6 @@ describe('state/selectors/conversations', () => {
           name: 'No timestamp',
           timestamp: 0,
           phoneNumber: 'notused',
-          isArchived: false,
-          isSecondary: false,
-          primaryDevice: 'id1',
 
           type: 'direct',
           isMe: false,
@@ -39,9 +35,6 @@ describe('state/selectors/conversations', () => {
           name: 'B',
           timestamp: 20,
           phoneNumber: 'notused',
-          isArchived: false,
-          isSecondary: false,
-          primaryDevice: 'id2',
 
           type: 'direct',
           isMe: false,
@@ -60,9 +53,6 @@ describe('state/selectors/conversations', () => {
           name: 'C',
           timestamp: 20,
           phoneNumber: 'notused',
-          isArchived: false,
-          isSecondary: false,
-          primaryDevice: 'id3',
 
           type: 'direct',
           isMe: false,
@@ -81,9 +71,6 @@ describe('state/selectors/conversations', () => {
           name: 'Á',
           timestamp: 20,
           phoneNumber: 'notused',
-          isArchived: false,
-          isSecondary: false,
-          primaryDevice: 'id4',
           type: 'direct',
           isMe: false,
           lastUpdated: Date.now(),
@@ -101,10 +88,6 @@ describe('state/selectors/conversations', () => {
           name: 'First!',
           timestamp: 30,
           phoneNumber: 'notused',
-          isArchived: false,
-          isSecondary: false,
-          primaryDevice: 'id5',
-
           type: 'direct',
           isMe: false,
           lastUpdated: Date.now(),
@@ -117,7 +100,7 @@ describe('state/selectors/conversations', () => {
           left: false,
         },
       };
-      const comparator = _getConversationComparator(i18n, regionCode);
+      const comparator = _getConversationComparator(i18n);
       const { conversations } = _getLeftPaneLists(data, comparator);
 
       assert.strictEqual(conversations[0].name, 'First!');

@@ -72,10 +72,6 @@ module.exports = {
   removeContactSignedPreKeyByIdentityKey,
   removeAllContactSignedPreKeys,
 
-  createOrUpdatePairingAuthorisation,
-  getPairingAuthorisationsFor,
-  removePairingAuthorisationsFor,
-
   createOrUpdateItem,
   getItemById,
   getAllItems,
@@ -170,11 +166,9 @@ module.exports = {
 
   removeKnownAttachments,
 
-  getSenderKeys,
-  createOrUpdateSenderKeys,
   removeAllClosedGroupRatchets,
 
-  getAllEncryptionKeyPairsForGroupV2,
+  getAllEncryptionKeyPairsForGroup,
   getLatestClosedGroupEncryptionKeyPair,
   addClosedGroupEncryptionKeyPair,
   removeAllClosedGroupEncryptionKeyPairs,
@@ -911,27 +905,6 @@ async function updateToLokiSchemaVersion3(currentVersion, instance) {
 
 const SENDER_KEYS_TABLE = 'senderKeys';
 
-async function createOrUpdateSenderKeys(data) {
-  const { groupId, senderIdentity } = data;
-
-  await db.run(
-    `INSERT OR REPLACE INTO ${SENDER_KEYS_TABLE} (
-      groupId,
-      senderIdentity,
-      json
-    ) values (
-      $groupId,
-      $senderIdentity,
-      $json
-    );`,
-    {
-      $groupId: groupId,
-      $senderIdentity: senderIdentity,
-      $json: objectToJSON(data),
-    }
-  );
-}
-
 async function removeAllClosedGroupRatchets(groupId) {
   await db.run(`DELETE FROM ${SENDER_KEYS_TABLE} WHERE groupId = $groupId;`, {
     $groupId: groupId,
@@ -1118,7 +1091,7 @@ async function updateToLokiSchemaVersion10(currentVersion, instance) {
   console.log('updateToLokiSchemaVersion10: starting...');
   await instance.run('BEGIN TRANSACTION;');
 
-  await createEncryptionKeyPairsForClosedGroupV2(instance);
+  await createEncryptionKeyPairsForClosedGroup(instance);
 
   await instance.run(
     `INSERT INTO loki_schema (
@@ -1138,7 +1111,7 @@ async function updateToLokiSchemaVersion11(currentVersion, instance) {
   console.log('updateToLokiSchemaVersion11: starting...');
   await instance.run('BEGIN TRANSACTION;');
 
-  await updateExistingClosedGroupToClosedGroupV2(instance);
+  await updateExistingClosedGroupToClosedGroup(instance);
 
   await instance.run(
     `INSERT INTO loki_schema (
@@ -1575,52 +1548,6 @@ async function removeAllSignedPreKeys() {
   return removeAllFromTable(SIGNED_PRE_KEYS_TABLE);
 }
 
-const PAIRING_AUTHORISATIONS_TABLE = 'pairingAuthorisations';
-
-async function getPairingAuthorisationsFor(pubKey) {
-  const rows = await db.all(
-    `SELECT json FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE primaryDevicePubKey = $pubKey OR secondaryDevicePubKey = $pubKey;`,
-    { $pubKey: pubKey }
-  );
-
-  return rows.map(row => jsonToObject(row.json));
-}
-
-async function createOrUpdatePairingAuthorisation(data) {
-  const { primaryDevicePubKey, secondaryDevicePubKey, grantSignature } = data;
-  // remove any existing authorisation for this pubkey (we allow only one secondary device for now)
-  await removePairingAuthorisationsFor(primaryDevicePubKey);
-
-  await db.run(
-    `INSERT OR REPLACE INTO ${PAIRING_AUTHORISATIONS_TABLE} (
-      primaryDevicePubKey,
-      secondaryDevicePubKey,
-      isGranted,
-      json
-    ) values (
-      $primaryDevicePubKey,
-      $secondaryDevicePubKey,
-      $isGranted,
-      $json
-    )`,
-    {
-      $primaryDevicePubKey: primaryDevicePubKey,
-      $secondaryDevicePubKey: secondaryDevicePubKey,
-      $isGranted: Boolean(grantSignature),
-      $json: objectToJSON(data),
-    }
-  );
-}
-
-async function removePairingAuthorisationsFor(pubKey) {
-  await db.run(
-    `DELETE FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE primaryDevicePubKey = $pubKey OR secondaryDevicePubKey = $pubKey;`,
-    {
-      $pubKey: pubKey,
-    }
-  );
-}
-
 const GUARD_NODE_TABLE = 'guardNodes';
 
 async function getGuardNodes() {
@@ -1769,22 +1696,6 @@ async function bulkAdd(table, array) {
   });
 
   await promise;
-}
-
-async function getSenderKeys(groupId, senderIdentity) {
-  const row = await db.get(
-    `SELECT * FROM ${SENDER_KEYS_TABLE} WHERE groupId = $groupId AND senderIdentity = $senderIdentity;`,
-    {
-      $groupId: groupId,
-      $senderIdentity: senderIdentity,
-    }
-  );
-
-  if (!row) {
-    return null;
-  }
-
-  return jsonToObject(row.json);
 }
 
 async function getById(table, id, instance) {
@@ -3231,7 +3142,7 @@ async function removePrefixFromGroupConversations(instance) {
 
 const CLOSED_GROUP_V2_KEY_PAIRS_TABLE = 'encryptionKeyPairsForClosedGroupV2';
 
-async function createEncryptionKeyPairsForClosedGroupV2(instance) {
+async function createEncryptionKeyPairsForClosedGroup(instance) {
   await instance.run(
     `CREATE TABLE ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE} (
       id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -3260,7 +3171,7 @@ function remove05PrefixFromStringIfNeeded(str) {
   return str;
 }
 
-async function updateExistingClosedGroupToClosedGroupV2(instance) {
+async function updateExistingClosedGroupToClosedGroup(instance) {
   // the migration is called only once, so all current groups not being open groups are v1 closed group.
   const allClosedGroupV1 =
     (await getAllClosedGroupConversations(instance)) || [];
@@ -3303,7 +3214,13 @@ async function updateExistingClosedGroupToClosedGroupV2(instance) {
  * The returned array is ordered based on the timestamp, the latest is at the end.
  * @param {*} groupPublicKey string | PubKey
  */
-async function getAllEncryptionKeyPairsForGroupV2(groupPublicKey) {
+async function getAllEncryptionKeyPairsForGroup(groupPublicKey) {
+  const rows = await getAllEncryptionKeyPairsForGroupRaw(groupPublicKey);
+
+  return map(rows, row => jsonToObject(row.json));
+}
+
+async function getAllEncryptionKeyPairsForGroupRaw(groupPublicKey) {
   const pubkeyAsString = groupPublicKey.key
     ? groupPublicKey.key
     : groupPublicKey;
@@ -3314,11 +3231,11 @@ async function getAllEncryptionKeyPairsForGroupV2(groupPublicKey) {
     }
   );
 
-  return map(rows, row => jsonToObject(row.json));
+  return rows;
 }
 
 async function getLatestClosedGroupEncryptionKeyPair(groupPublicKey) {
-  const rows = await getAllEncryptionKeyPairsForGroupV2(groupPublicKey);
+  const rows = await getAllEncryptionKeyPairsForGroup(groupPublicKey);
   if (!rows || rows.length === 0) {
     return undefined;
   }

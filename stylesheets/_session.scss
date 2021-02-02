@@ -328,9 +328,10 @@ textarea {
 }
 
 .module-message__author-avatar {
-  display: inline-flex;
+  position: relative;
   margin-inline-end: 20px;
   padding-top: 5px;
+  padding-inline-end: 4px;
   margin-bottom: auto;
 }
 
@@ -552,10 +553,6 @@ label {
 .session-modal__body {
   display: flex;
   flex-direction: column;
-
-  .contact-selection-list {
-    width: unset;
-  }
 }
 
 .session-confirm {

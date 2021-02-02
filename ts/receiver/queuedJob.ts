@@ -3,11 +3,10 @@ import { queueAttachmentDownloads } from './attachments';
 import { Quote } from './types';
 import { ConversationModel } from '../../js/models/conversations';
 import { MessageModel } from '../../js/models/messages';
-import { PrimaryPubKey, PubKey } from '../session/types';
+import { PubKey } from '../session/types';
 import _ from 'lodash';
-import { MultiDeviceProtocol } from '../session/protocols';
 import { SignalService } from '../protobuf';
-import { StringUtils } from '../session/utils';
+import { StringUtils, UserUtils } from '../session/utils';
 import { ConversationController } from '../session/conversations';
 
 async function handleGroups(
@@ -54,9 +53,7 @@ async function handleGroups(
     // Check if anyone got kicked:
     const removedMembers = _.difference(oldMembers, attributes.members);
     const isOurDeviceMap = await Promise.all(
-      removedMembers.map(async member =>
-        MultiDeviceProtocol.isOurDevice(member)
-      )
+      removedMembers.map(async member => UserUtils.isUs(member))
     );
     const ourDeviceWasRemoved = isOurDeviceMap.includes(true);
 
@@ -67,7 +64,7 @@ async function handleGroups(
       groupUpdate.kicked = removedMembers;
     }
   } else if (group.type === GROUP_TYPES.QUIT) {
-    if (await MultiDeviceProtocol.isOurDevice(source)) {
+    if (await UserUtils.isUs(source)) {
       attributes.left = true;
       groupUpdate = { left: 'You' };
     } else {
@@ -271,7 +268,7 @@ async function processProfileKey(
 function handleMentions(
   message: MessageModel,
   conversation: ConversationModel,
-  ourPrimaryNumber: PrimaryPubKey
+  ourPrimaryNumber: PubKey
 ) {
   const body = message.get('body');
   if (body && body.indexOf(`@${ourPrimaryNumber.key}`) !== -1) {
@@ -299,10 +296,6 @@ function updateReadStatus(
     // messages as read, as is done when we receive a read sync for
     // a message we already know about.
     conversation.onReadMessage(message);
-  } else {
-    conversation.set({
-      isArchived: false,
-    });
   }
 }
 
@@ -360,8 +353,7 @@ async function handleRegularMessage(
   message: MessageModel,
   initialMessage: any,
   source: string,
-  ourNumber: any,
-  primarySource: PubKey
+  ourNumber: string
 ) {
   const { upgradeMessageSchema } = window.Signal.Migrations;
 
@@ -418,9 +410,9 @@ async function handleRegularMessage(
     conversation
   );
 
-  const ourPrimary = await MultiDeviceProtocol.getPrimaryDevice(ourNumber);
+  const ourPubKey = PubKey.cast(ourNumber);
 
-  handleMentions(message, conversation, ourPrimary);
+  handleMentions(message, conversation, ourPubKey);
 
   if (type === 'incoming') {
     updateReadStatus(message, conversation);
@@ -455,14 +447,10 @@ async function handleRegularMessage(
     );
   }
 
-  if (source !== ourNumber && primarySource) {
-    message.set({ source: primarySource.key });
-  }
-
   // we just received a message from that user so we reset the typing indicator for this convo
   conversation.notifyTyping({
     isTyping: false,
-    sender: primarySource.key,
+    sender: source,
   });
 }
 
@@ -504,8 +492,7 @@ export async function handleMessageJob(
   initialMessage: any,
   ourNumber: string,
   confirm: () => void,
-  source: string,
-  primarySource: PubKey
+  source: string
 ) {
   window.log.info(
     `Starting handleDataMessage for message ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
@@ -537,27 +524,29 @@ export async function handleMessageJob(
         message,
         initialMessage,
         source,
-        ourNumber,
-        primarySource
+        ourNumber
       );
     }
-
     const { Whisper, getMessageController } = window;
-
     const id = await message.commit();
     message.set({ id });
+    window.Whisper.events.trigger('messageAdded', {
+      conversationKey: conversation.id,
+      messageModel: message,
+    });
     getMessageController().register(message.id, message);
 
     // Note that this can save the message again, if jobs were queued. We need to
     //   call it after we have an id for this message, because the jobs refer back
     //   to their source message.
+
     await queueAttachmentDownloads(message);
-    // this is
+
     const unreadCount = await conversation.getUnreadCount();
     conversation.set({ unreadCount });
+    // this is a throttled call and will only run once every 1 sec
+    conversation.updateLastMessage();
     await conversation.commit();
-
-    conversation.trigger('newmessage', message);
 
     try {
       // We go to the database here because, between the message save above and
@@ -569,6 +558,7 @@ export async function handleMessageJob(
           Message: Whisper.Message,
         }
       );
+
       const previousUnread = message.get('unread');
 
       // Important to update message with latest read state from database

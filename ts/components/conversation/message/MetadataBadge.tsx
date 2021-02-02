@@ -53,7 +53,7 @@ export const MetadataBadges = (props: BadgesProps): JSX.Element => {
   const { id, direction, isPublic, isAdmin, withImageNoCaption } = props;
   const badges = [
     (isPublic && 'Public') || null,
-    (isAdmin && 'Mod') || null,
+    (isPublic && isAdmin && 'Mod') || null,
   ].filter(nonNullish);
 
   if (!badges || badges.length === 0) {

@@ -1,0 +1,29 @@
+this.messageCollection
+
+indexeddb
+
+
+remove from db
+    * 'sentSessionsTimestamp'
+    * 'processedSessionsTimestamp'
+    * 'sessions'
+    * 'preKeys'
+    * 'signedPreKeys'
+    * senderkeys
+
+
+remove what is is Storage / user.js
+remove on the UI ts files the calls to conversationModel. everything should be on the props
+conversationModel
+    .get()
+
+getOurNumber
+primaryDevicePubKey
+getRecipients() does not make asny sense right
+
+ReadSyncs
+SyncMessage
+sendSyncMessage needs to be rewritten
+sendSyncMessageOnly to fix 
+
+

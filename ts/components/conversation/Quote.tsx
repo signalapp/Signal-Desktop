@@ -9,6 +9,7 @@ import * as GoogleChrome from '../../../ts/util/GoogleChrome';
 import { MessageBody } from './MessageBody';
 import { ColorType, LocalizerType } from '../../types/Util';
 import { ContactName } from './ContactName';
+import { PubKey } from '../../session/types';
 
 interface Props {
   attachment?: QuotedAttachmentType;
@@ -316,7 +317,7 @@ export class Quote extends React.Component<Props, State> {
           i18n('you')
         ) : (
           <ContactName
-            phoneNumber={window.shortenPubkey(authorPhoneNumber)}
+            phoneNumber={PubKey.shorten(authorPhoneNumber)}
             name={authorName}
             profileName={authorProfileName}
             i18n={i18n}
