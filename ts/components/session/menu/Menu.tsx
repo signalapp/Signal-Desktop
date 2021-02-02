@@ -33,7 +33,7 @@ function showDeleteMessages(isPublic: boolean): boolean {
 }
 
 function showCopyId(isPublic: boolean, isGroup: boolean): boolean {
-  return !isGroup || isPublic;
+  return !isGroup; // || isPublic;
 }
 
 function showDeleteContact(
@@ -44,7 +44,10 @@ function showDeleteContact(
   isKickedFromGroup: boolean
 ): boolean {
   // you need to have left a closed group first to be able to delete it completely.
-  return (!isMe && !isGroup) || (isGroup && (isGroupLeft || isKickedFromGroup));
+  return (
+    (!isMe && !isGroup) ||
+    (isGroup && (isGroupLeft || isKickedFromGroup || isPublic))
+  );
 }
 
 function showAddModerators(
