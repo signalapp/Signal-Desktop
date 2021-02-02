@@ -858,6 +858,14 @@
 
 .module-message__link-preview {
   @include button-reset;
+
+  &--nonclickable {
+    cursor: inherit;
+    .module-image__image {
+      cursor: inherit;
+    }
+  }
+
   display: block;
 
   margin-left: -12px;

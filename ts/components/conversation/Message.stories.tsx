@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
+import { isBoolean } from 'lodash';
 
 import { action } from '@storybook/addon-actions';
 import { boolean, number, text } from '@storybook/addon-knobs';
@@ -72,6 +73,12 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
   id: text('id', overrideProps.id || ''),
   interactionMode: overrideProps.interactionMode || 'keyboard',
+  isBlocked: isBoolean(overrideProps.isBlocked)
+    ? overrideProps.isBlocked
+    : false,
+  isMessageRequestAccepted: isBoolean(overrideProps.isMessageRequestAccepted)
+    ? overrideProps.isMessageRequestAccepted
+    : true,
   isTapToView: overrideProps.isTapToView,
   isTapToViewError: overrideProps.isTapToViewError,
   isTapToViewExpired: overrideProps.isTapToViewExpired,
@@ -884,4 +891,32 @@ story.add('All the context menus', () => {
   });
 
   return <Message {...props} direction="outgoing" />;
+});
+
+story.add('Not approved, with link preview', () => {
+  const props = createProps({
+    previews: [
+      {
+        domain: 'signal.org',
+        image: {
+          contentType: IMAGE_PNG,
+          fileName: 'the-sax.png',
+          height: 240,
+          url: pngUrl,
+          width: 320,
+        },
+        isStickerPack: false,
+        title: 'Signal',
+        description:
+          'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
+        url: 'https://www.signal.org',
+        date: new Date(2020, 2, 10).valueOf(),
+      },
+    ],
+    status: 'sent',
+    text: 'Be sure to look at https://www.signal.org',
+    isMessageRequestAccepted: false,
+  });
+
+  return renderBothDirections(props);
 });

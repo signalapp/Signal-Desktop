@@ -876,6 +876,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       deletedForEveryone: this.get('deletedForEveryone') || false,
       bodyRanges: this.processBodyRanges(),
+
+      isMessageRequestAccepted: conversation
+        ? conversation.getAccepted()
+        : true,
+      isBlocked: Boolean(conversation?.isBlocked()),
     };
   }
 

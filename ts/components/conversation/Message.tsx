@@ -134,6 +134,8 @@ export type PropsData = {
   canReply: boolean;
   canDownload: boolean;
   canDeleteForEveryone: boolean;
+  isBlocked: boolean;
+  isMessageRequestAccepted: boolean;
   bodyRanges?: BodyRangesType;
 };
 
@@ -464,6 +466,11 @@ export class Message extends React.PureComponent<Props, State> {
       };
       this.expiredTimeout = setTimeout(setExpired, EXPIRED_DELAY);
     }
+  }
+
+  private areLinksEnabled(): boolean {
+    const { isMessageRequestAccepted, isBlocked } = this.props;
+    return isMessageRequestAccepted && !isBlocked;
   }
 
   public renderTimestamp(): JSX.Element {
@@ -859,31 +866,18 @@ export class Message extends React.PureComponent<Props, State> {
 
     const linkPreviewDate = first.date || null;
 
-    return (
-      <button
-        type="button"
-        className={classNames(
-          'module-message__link-preview',
-          `module-message__link-preview--${direction}`,
-          withContentAbove
-            ? 'module-message__link-preview--with-content-above'
-            : null
-        )}
-        onKeyDown={(event: React.KeyboardEvent) => {
-          if (event.key === 'Enter' || event.key === 'Space') {
-            event.stopPropagation();
-            event.preventDefault();
+    const isClickable = this.areLinksEnabled();
 
-            openLink(first.url);
-          }
-        }}
-        onClick={(event: React.MouseEvent) => {
-          event.stopPropagation();
-          event.preventDefault();
-
-          openLink(first.url);
-        }}
-      >
+    const className = classNames(
+      'module-message__link-preview',
+      `module-message__link-preview--${direction}`,
+      {
+        'module-message__link-preview--with-content-above': withContentAbove,
+        'module-message__link-preview--nonclickable': !isClickable,
+      }
+    );
+    const contents = (
+      <>
         {first.image && previewHasImage && isFullSizeImage ? (
           <ImageGrid
             attachments={[first.image]}
@@ -938,7 +932,32 @@ export class Message extends React.PureComponent<Props, State> {
             </div>
           </div>
         </div>
+      </>
+    );
+
+    return isClickable ? (
+      <button
+        type="button"
+        className={className}
+        onKeyDown={(event: React.KeyboardEvent) => {
+          if (event.key === 'Enter' || event.key === 'Space') {
+            event.stopPropagation();
+            event.preventDefault();
+
+            openLink(first.url);
+          }
+        }}
+        onClick={(event: React.MouseEvent) => {
+          event.stopPropagation();
+          event.preventDefault();
+
+          openLink(first.url);
+        }}
+      >
+        {contents}
       </button>
+    ) : (
+      <div className={className}>{contents}</div>
     );
   }
 
@@ -1138,6 +1157,7 @@ export class Message extends React.PureComponent<Props, State> {
       >
         <MessageBody
           bodyRanges={bodyRanges}
+          disableLinks={!this.areLinksEnabled()}
           direction={direction}
           i18n={i18n}
           openConversation={openConversation}

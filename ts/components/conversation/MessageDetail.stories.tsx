@@ -33,6 +33,8 @@ const defaultMessage: MessageProps = {
   i18n,
   id: 'my-message',
   interactionMode: 'keyboard',
+  isBlocked: false,
+  isMessageRequestAccepted: true,
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   openConversation: () => null,
   openLink: () => null,
