@@ -394,14 +394,17 @@ const Attachments = require('./app/attachments');
 
 const { locale } = config;
 window.i18n = i18n.setup(locale, localeMessages);
-window.moment.updateLocale(locale, {
+// moment does not support es-419 correctly (and cause white screen on app start)
+const localeForMoment = locale === 'es-419' ? 'es' : locale;
+
+window.moment.updateLocale(localeForMoment, {
   relativeTime: {
     s: window.i18n('timestamp_s'),
     m: window.i18n('timestamp_m'),
     h: window.i18n('timestamp_h'),
   },
 });
-window.moment.locale(locale);
+window.moment.locale(localeForMoment);
 
 window.Signal = Signal.setup({
   Attachments,
