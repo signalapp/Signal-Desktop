@@ -350,20 +350,6 @@ const Signal = require('./js/modules/signal');
 const i18n = require('./js/modules/i18n');
 const Attachments = require('./app/attachments');
 
-const { locale } = config;
-window.i18n = i18n.setup(locale, localeMessages);
-
-window.moment = require('moment');
-
-window.moment.updateLocale(locale, {
-  relativeTime: {
-    s: window.i18n('timestamp_s'),
-    m: window.i18n('timestamp_m'),
-    h: window.i18n('timestamp_h'),
-  },
-});
-window.moment.locale(locale);
-
 window.Signal = Signal.setup({
   Attachments,
   userDataPath: app.getPath('userData'),
@@ -417,6 +403,20 @@ window.clipboard = clipboard;
 window.seedNodeList = JSON.parse(config.seedNodeList);
 
 const { OnionAPI } = require('./ts/session/onions');
+
+const { locale } = config;
+window.i18n = i18n.setup(locale, localeMessages);
+// moment does not support es-419 correctly (and cause white screen on app start)
+const localeForMoment = locale === 'es-419' ? 'es' : locale;
+
+window.moment.updateLocale(localeForMoment, {
+  relativeTime: {
+    s: window.i18n('timestamp_s'),
+    m: window.i18n('timestamp_m'),
+    h: window.i18n('timestamp_h'),
+  },
+});
+window.moment.locale(localeForMoment);
 
 window.OnionAPI = OnionAPI;
 
