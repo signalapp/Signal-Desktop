@@ -506,7 +506,7 @@ export class RegistrationTabs extends React.Component<any, State> {
   private renderSignInButtons() {
     const { signInMode } = this.state;
 
-    const or = window.i18n('or');
+    // const or = window.i18n('or');
 
     if (signInMode === SignInMode.Default) {
       return (
@@ -519,7 +519,14 @@ export class RegistrationTabs extends React.Component<any, State> {
       );
     }
 
-    return <></>;
+    return (
+      <SessionButton
+        onClick={this.handleContinueYourSessionClick}
+        buttonType={SessionButtonType.Brand}
+        buttonColor={SessionButtonColor.Green}
+        text={window.i18n('continueYourSession')}
+      />
+    );
   }
 
   private renderTermsConditionAgreement() {
