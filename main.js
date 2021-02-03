@@ -386,6 +386,9 @@ async function createWindow() {
   mainWindow.on('move', debouncedCaptureStats);
 
   const setWindowFocus = () => {
+    if (!mainWindow) {
+      return;
+    }
     mainWindow.webContents.send('set-window-focus', mainWindow.isFocused());
   };
   mainWindow.on('focus', setWindowFocus);
