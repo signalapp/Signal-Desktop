@@ -1,11 +1,9 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as MIME from '../types/MIME';
 
-interface MIMETypeSupportMap {
-  [key: string]: boolean;
-}
+type MIMETypeSupportMap = Record<string, boolean>;
 
 // See: https://en.wikipedia.org/wiki/Comparison_of_web_browsers#Image_format_support
 const SUPPORTED_IMAGE_MIME_TYPES: MIMETypeSupportMap = {

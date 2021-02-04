@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -8,11 +8,11 @@ import { NetworkStateType } from '../state/ducks/network';
 
 const FIVE_SECONDS = 5 * 1000;
 
-export interface PropsType extends NetworkStateType {
+export type PropsType = NetworkStateType & {
   hasNetworkDialog: boolean;
   i18n: LocalizerType;
   manualReconnect: () => void;
-}
+};
 
 type RenderDialogTypes = {
   title: string;

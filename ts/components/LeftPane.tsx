@@ -17,7 +17,7 @@ import {
 import { LocalizerType } from '../types/Util';
 import { cleanId } from './_util';
 
-export interface PropsType {
+export type PropsType = {
   conversations?: Array<ConversationListItemPropsType>;
   archivedConversations?: Array<ConversationListItemPropsType>;
   pinnedConversations?: Array<ConversationListItemPropsType>;
@@ -43,7 +43,7 @@ export interface PropsType {
   renderNetworkStatus: () => JSX.Element;
   renderRelinkDialog: () => JSX.Element;
   renderUpdateDialog: () => JSX.Element;
-}
+};
 
 // from https://github.com/bvaughn/react-virtualized/blob/fb3484ed5dcc41bffae8eab029126c0fb8f7abc0/source/List/types.js#L5
 type RowRendererParamsType = {
@@ -69,26 +69,26 @@ export enum HeaderType {
   Chats,
 }
 
-interface ArchiveButtonRow {
+type ArchiveButtonRow = {
   type: RowType.ArchiveButton;
-}
+};
 
-interface ConversationRow {
+type ConversationRow = {
   index: number;
   type:
     | RowType.ArchivedConversation
     | RowType.Conversation
     | RowType.PinnedConversation;
-}
+};
 
-interface HeaderRow {
+type HeaderRow = {
   headerType: HeaderType;
   type: RowType.Header;
-}
+};
 
-interface UndefinedRow {
+type UndefinedRow = {
   type: RowType.Undefined;
-}
+};
 
 type Row = ArchiveButtonRow | ConversationRow | HeaderRow | UndefinedRow;
 

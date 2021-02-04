@@ -23,11 +23,13 @@ const INVITEE_A = 'INVITEE_A';
 class AccessControlEnum {
   static UNKNOWN = 0;
 
-  static ADMINISTRATOR = 1;
+  static ANY = 1;
 
-  static ANY = 2;
+  static MEMBER = 2;
 
-  static MEMBER = 3;
+  static ADMINISTRATOR = 3;
+
+  static UNSATISFIABLE = 4;
 }
 
 class RoleEnum {
@@ -342,6 +344,64 @@ storiesOf('Components/Conversation/GroupV2Change', module)
       </>
     );
   })
+  .add('Access (Invite Link)', () => {
+    return (
+      <>
+        {renderChange({
+          from: OUR_ID,
+          details: [
+            {
+              type: 'access-invite-link',
+              newPrivilege: AccessControlEnum.ANY,
+            },
+          ],
+        })}
+        {renderChange({
+          from: ADMIN_A,
+          details: [
+            {
+              type: 'access-invite-link',
+              newPrivilege: AccessControlEnum.ANY,
+            },
+          ],
+        })}
+        {renderChange({
+          details: [
+            {
+              type: 'access-invite-link',
+              newPrivilege: AccessControlEnum.ANY,
+            },
+          ],
+        })}
+        {renderChange({
+          from: OUR_ID,
+          details: [
+            {
+              type: 'access-invite-link',
+              newPrivilege: AccessControlEnum.ADMINISTRATOR,
+            },
+          ],
+        })}
+        {renderChange({
+          from: ADMIN_A,
+          details: [
+            {
+              type: 'access-invite-link',
+              newPrivilege: AccessControlEnum.ADMINISTRATOR,
+            },
+          ],
+        })}
+        {renderChange({
+          details: [
+            {
+              type: 'access-invite-link',
+              newPrivilege: AccessControlEnum.ADMINISTRATOR,
+            },
+          ],
+        })}
+      </>
+    );
+  })
   .add('Member Add', () => {
     return (
       <>
@@ -400,7 +460,7 @@ storiesOf('Components/Conversation/GroupV2Change', module)
       </>
     );
   })
-  .add('Member Add - add invited', () => {
+  .add('Member Add (from invited)', () => {
     return (
       <>
         {/* the strings where someone added you - shown like a normal add */}
@@ -498,6 +558,87 @@ storiesOf('Components/Conversation/GroupV2Change', module)
           details: [
             {
               type: 'member-add-from-invite',
+              conversationId: CONTACT_A,
+            },
+          ],
+        })}
+      </>
+    );
+  })
+  .add('Member Add (from link)', () => {
+    return (
+      <>
+        {renderChange({
+          from: OUR_ID,
+          details: [
+            {
+              type: 'member-add-from-link',
+              conversationId: OUR_ID,
+            },
+          ],
+        })}
+        {renderChange({
+          from: CONTACT_A,
+          details: [
+            {
+              type: 'member-add-from-link',
+              conversationId: CONTACT_A,
+            },
+          ],
+        })}
+        {renderChange({
+          details: [
+            {
+              type: 'member-add-from-link',
+              conversationId: CONTACT_A,
+            },
+          ],
+        })}
+      </>
+    );
+  })
+  .add('Member Add (from admin approval)', () => {
+    return (
+      <>
+        {renderChange({
+          from: ADMIN_A,
+          details: [
+            {
+              type: 'member-add-from-admin-approval',
+              conversationId: OUR_ID,
+            },
+          ],
+        })}
+        {renderChange({
+          details: [
+            {
+              type: 'member-add-from-admin-approval',
+              conversationId: OUR_ID,
+            },
+          ],
+        })}
+        {renderChange({
+          from: OUR_ID,
+          details: [
+            {
+              type: 'member-add-from-admin-approval',
+              conversationId: CONTACT_A,
+            },
+          ],
+        })}
+        {renderChange({
+          from: ADMIN_A,
+          details: [
+            {
+              type: 'member-add-from-admin-approval',
+              conversationId: CONTACT_A,
+            },
+          ],
+        })}
+        {renderChange({
+          details: [
+            {
+              type: 'member-add-from-admin-approval',
               conversationId: CONTACT_A,
             },
           ],
@@ -982,6 +1123,202 @@ storiesOf('Components/Conversation/GroupV2Change', module)
             {
               type: 'pending-remove-many',
               count: 5,
+            },
+          ],
+        })}
+      </>
+    );
+  })
+  .add('Admin Approval (Add)', () => {
+    return (
+      <>
+        {renderChange({
+          details: [
+            {
+              type: 'admin-approval-add-one',
+              conversationId: OUR_ID,
+            },
+          ],
+        })}
+        {renderChange({
+          details: [
+            {
+              type: 'admin-approval-add-one',
+              conversationId: CONTACT_A,
+            },
+          ],
+        })}
+      </>
+    );
+  })
+  .add('Admin Approval (Remove)', () => {
+    return (
+      <>
+        {renderChange({
+          from: OUR_ID,
+          details: [
+            {
+              type: 'admin-approval-remove-one',
+              conversationId: OUR_ID,
+            },
+          ],
+        })}
+        {renderChange({
+          details: [
+            {
+              type: 'admin-approval-remove-one',
+              conversationId: OUR_ID,
+            },
+          ],
+        })}
+        {renderChange({
+          from: OUR_ID,
+          details: [
+            {
+              type: 'admin-approval-remove-one',
+              conversationId: CONTACT_A,
+            },
+          ],
+        })}
+        {renderChange({
+          from: CONTACT_A,
+          details: [
+            {
+              type: 'admin-approval-remove-one',
+              conversationId: CONTACT_A,
+            },
+          ],
+        })}
+        {renderChange({
+          from: ADMIN_A,
+          details: [
+            {
+              type: 'admin-approval-remove-one',
+              conversationId: CONTACT_A,
+            },
+          ],
+        })}
+        {renderChange({
+          details: [
+            {
+              type: 'admin-approval-remove-one',
+              conversationId: CONTACT_A,
+            },
+          ],
+        })}
+      </>
+    );
+  })
+  .add('Group Link (Add)', () => {
+    return (
+      <>
+        {renderChange({
+          from: OUR_ID,
+          details: [
+            {
+              type: 'group-link-add',
+              privilege: AccessControlEnum.ANY,
+            },
+          ],
+        })}
+        {renderChange({
+          from: ADMIN_A,
+          details: [
+            {
+              type: 'group-link-add',
+              privilege: AccessControlEnum.ANY,
+            },
+          ],
+        })}
+        {renderChange({
+          details: [
+            {
+              type: 'group-link-add',
+              privilege: AccessControlEnum.ANY,
+            },
+          ],
+        })}
+        {renderChange({
+          from: OUR_ID,
+          details: [
+            {
+              type: 'group-link-add',
+              privilege: AccessControlEnum.ADMINISTRATOR,
+            },
+          ],
+        })}
+        {renderChange({
+          from: ADMIN_A,
+          details: [
+            {
+              type: 'group-link-add',
+              privilege: AccessControlEnum.ADMINISTRATOR,
+            },
+          ],
+        })}
+        {renderChange({
+          details: [
+            {
+              type: 'group-link-add',
+              privilege: AccessControlEnum.ADMINISTRATOR,
+            },
+          ],
+        })}
+      </>
+    );
+  })
+  .add('Group Link (Reset)', () => {
+    return (
+      <>
+        {renderChange({
+          from: OUR_ID,
+          details: [
+            {
+              type: 'group-link-reset',
+            },
+          ],
+        })}
+        {renderChange({
+          from: ADMIN_A,
+          details: [
+            {
+              type: 'group-link-reset',
+            },
+          ],
+        })}
+        {renderChange({
+          details: [
+            {
+              type: 'group-link-reset',
+            },
+          ],
+        })}
+      </>
+    );
+  })
+  .add('Group Link (Remove)', () => {
+    return (
+      <>
+        {renderChange({
+          from: OUR_ID,
+          details: [
+            {
+              type: 'group-link-remove',
+            },
+          ],
+        })}
+        {renderChange({
+          from: ADMIN_A,
+          details: [
+            {
+              type: 'group-link-remove',
+            },
+          ],
+        })}
+        {renderChange({
+          details: [
+            {
+              type: 'group-link-remove',
             },
           ],
         })}

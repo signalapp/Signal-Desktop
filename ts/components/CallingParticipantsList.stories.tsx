@@ -9,7 +9,7 @@ import { v4 as generateUuid } from 'uuid';
 import { CallingParticipantsList, PropsType } from './CallingParticipantsList';
 import { Colors } from '../types/Colors';
 import { GroupCallRemoteParticipantType } from '../types/Calling';
-import { getDefaultConversation } from '../util/getDefaultConversation';
+import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
 

@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -42,20 +42,20 @@ Quill.register('modules/emojiCompletion', EmojiCompletion);
 Quill.register('modules/mentionCompletion', MentionCompletion);
 Quill.register('modules/signalClipboard', SignalClipboard);
 
-interface HistoryStatic {
+type HistoryStatic = {
   undo(): void;
   clear(): void;
-}
+};
 
-export interface InputApi {
+export type InputApi = {
   focus: () => void;
   insertEmoji: (e: EmojiPickDataType) => void;
   reset: () => void;
   resetEmojiResults: () => void;
   submit: () => void;
-}
+};
 
-export interface Props {
+export type Props = {
   readonly i18n: LocalizerType;
   readonly disabled?: boolean;
   readonly large?: boolean;
@@ -63,7 +63,7 @@ export interface Props {
   readonly skinTone?: EmojiPickDataType['skinTone'];
   readonly draftText?: string;
   readonly draftBodyRanges?: Array<BodyRangeType>;
-  members?: Array<ConversationType>;
+  sortedGroupMembers?: Array<ConversationType>;
   onDirtyChange?(dirty: boolean): unknown;
   onEditorStateChange?(
     messageText: string,
@@ -75,7 +75,7 @@ export interface Props {
   onSubmit(message: string, mentions: Array<BodyRangeType>): unknown;
   getQuotedMessage(): unknown;
   clearQuotedMessage(): unknown;
-}
+};
 
 const MAX_LENGTH = 64 * 1024;
 
@@ -92,7 +92,7 @@ export const CompositionInput: React.ComponentType<Props> = props => {
     draftBodyRanges,
     getQuotedMessage,
     clearQuotedMessage,
-    members,
+    sortedGroupMembers,
   } = props;
 
   const [emojiCompletionElement, setEmojiCompletionElement] = React.useState<
@@ -459,11 +459,11 @@ export const CompositionInput: React.ComponentType<Props> = props => {
     quill.updateContents(newDelta as any);
   };
 
-  const memberIds = members ? members.map(m => m.id) : [];
+  const memberIds = sortedGroupMembers ? sortedGroupMembers.map(m => m.id) : [];
 
   React.useEffect(() => {
-    memberRepositoryRef.current.updateMembers(members || []);
-    removeStaleMentions(members || []);
+    memberRepositoryRef.current.updateMembers(sortedGroupMembers || []);
+    removeStaleMentions(sortedGroupMembers || []);
     // We are still depending on members, but ESLint can't tell
     // Comparing the actual members list does not work for a couple reasons:
     //    * Arrays with the same objects are not "equal" to React
@@ -510,7 +510,9 @@ export const CompositionInput: React.ComponentType<Props> = props => {
               skinTone,
             },
             mentionCompletion: {
-              me: members ? members.find(foo => foo.isMe) : undefined,
+              me: sortedGroupMembers
+                ? sortedGroupMembers.find(foo => foo.isMe)
+                : undefined,
               memberRepositoryRef,
               setMentionPickerElement: setMentionCompletionElement,
               i18n,

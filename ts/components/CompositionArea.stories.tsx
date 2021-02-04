@@ -39,7 +39,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   draftText: overrideProps.draftText || undefined,
   clearQuotedMessage: action('clearQuotedMessage'),
   getQuotedMessage: action('getQuotedMessage'),
-  members: [],
+  sortedGroupMembers: [],
   // EmojiButton
   onPickEmoji: action('onPickEmoji'),
   onSetSkinTone: action('onSetSkinTone'),
@@ -71,6 +71,8 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   title: '',
   // GroupV1 Disabled Actions
   onStartGroupMigration: action('onStartGroupMigration'),
+  // GroupV2 Pending Approval Actions
+  onCancelJoinRequest: action('onCancelJoinRequest'),
 });
 
 story.add('Default', () => {

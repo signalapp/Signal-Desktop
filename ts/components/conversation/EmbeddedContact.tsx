@@ -13,7 +13,7 @@ import {
   renderName,
 } from './_contactUtil';
 
-export interface Props {
+export type Props = {
   contact: ContactType;
   i18n: LocalizerType;
   isIncoming: boolean;
@@ -21,7 +21,7 @@ export interface Props {
   withContentBelow: boolean;
   tabIndex: number;
   onClick?: () => void;
-}
+};
 
 export class EmbeddedContact extends React.Component<Props> {
   public render(): JSX.Element {

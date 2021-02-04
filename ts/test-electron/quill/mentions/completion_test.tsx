@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -53,8 +53,6 @@ const members: Array<ConversationType> = [
 ];
 
 describe('MentionCompletion', () => {
-  const mockSetMentionPickerElement = sinon.spy();
-
   let mockQuill: Omit<
     Partial<{ [K in keyof Quill]: SinonStub }>,
     'keyboard'
@@ -72,7 +70,7 @@ describe('MentionCompletion', () => {
       i18n: sinon.stub(),
       me,
       memberRepositoryRef,
-      setMentionPickerElement: mockSetMentionPickerElement,
+      setMentionPickerElement: sinon.stub(),
     };
 
     mockQuill = {

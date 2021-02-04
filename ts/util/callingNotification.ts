@@ -1,20 +1,20 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { LocalizerType } from '../types/Util';
 import { CallMode } from '../types/Calling';
 import { missingCaseError } from './missingCaseError';
 
-interface DirectCallNotificationType {
+type DirectCallNotificationType = {
   callMode: CallMode.Direct;
   wasIncoming: boolean;
   wasVideoCall: boolean;
   wasDeclined: boolean;
   acceptedTime?: number;
   endedTime: number;
-}
+};
 
-interface GroupCallNotificationType {
+type GroupCallNotificationType = {
   activeCallConversationId?: string;
   callMode: CallMode.Group;
   conversationId: string;
@@ -27,7 +27,7 @@ interface GroupCallNotificationType {
   deviceCount: number;
   maxDevices: number;
   startedTime: number;
-}
+};
 
 export type CallingNotificationType =
   | DirectCallNotificationType

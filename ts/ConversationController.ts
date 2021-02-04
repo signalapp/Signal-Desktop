@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { debounce, reduce, uniq, without } from 'lodash';
+import PQueue from 'p-queue';
+
 import dataInterface from './sql/Client';
 import {
   ConversationModelCollectionType,
@@ -150,6 +152,11 @@ export class ConversationController {
     return this._conversations.add(attributes);
   }
 
+  dangerouslyRemoveById(id: string): void {
+    this._conversations.remove(id);
+    this._conversations.resetLookups();
+  }
+
   getOrCreate(
     identifier: string | null,
     type: ConversationAttributesTypeType,
@@ -283,6 +290,16 @@ export class ConversationController {
     return this.ensureContactIds({ e164, uuid, highTrust: true });
   }
 
+  getOurConversationIdOrThrow(): string {
+    const conversationId = this.getOurConversationId();
+    if (!conversationId) {
+      throw new Error(
+        'getOurConversationIdOrThrow: Failed to fetch ourConversationId'
+      );
+    }
+    return conversationId;
+  }
+
   /**
    * Given a UUID and/or an E164, resolves to a string representing the local
    * database id of the given contact. In high trust mode, it may create new contacts,
@@ -378,10 +395,8 @@ export class ConversationController {
       // 3. Handle match on only UUID
     }
     if (!convoE164 && convoUuid) {
-      window.log.info(
-        `ensureContactIds: UUID-only match found (have e164: ${Boolean(e164)})`
-      );
       if (e164 && highTrust) {
+        window.log.info('ensureContactIds: Adding e164 to UUID-only match');
         convoUuid.updateE164(e164);
         updateConversation(convoUuid.attributes);
       }
@@ -713,7 +728,30 @@ export class ConversationController {
           ConversationCollection: window.Whisper.ConversationCollection,
         });
 
-        this._conversations.add(collection.models);
+        // Get rid of temporary conversations
+        const temporaryConversations = collection.filter(conversation =>
+          Boolean(conversation.get('isTemporary'))
+        );
+
+        if (temporaryConversations.length) {
+          window.log.warn(
+            `ConversationController: Removing ${temporaryConversations.length} temporary conversations`
+          );
+        }
+        const queue = new PQueue({ concurrency: 3, timeout: 1000 * 60 * 2 });
+        queue.addAll(
+          temporaryConversations.map(item => async () => {
+            await removeConversation(item.id, {
+              Conversation: window.Whisper.Conversation,
+            });
+          })
+        );
+        await queue.onIdle();
+
+        // Hydrate the final set of conversations
+        this._conversations.add(
+          collection.filter(conversation => !conversation.get('isTemporary'))
+        );
 
         this._initialFetchComplete = true;
 
@@ -723,10 +761,6 @@ export class ConversationController {
               const isChanged = await maybeDeriveGroupV2Id(conversation);
               if (isChanged) {
                 updateConversation(conversation.attributes);
-              }
-
-              if (!conversation.get('lastMessage')) {
-                await conversation.updateLastMessage();
               }
 
               // In case a too-large draft was saved to the database

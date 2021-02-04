@@ -32,6 +32,7 @@ import {
 } from './storageRecordOps';
 import { ConversationModel } from '../models/conversations';
 import { storageJobQueue } from '../util/JobQueue';
+import { sleep } from '../util/sleep';
 
 const {
   eraseStorageServiceStateFromConversations,
@@ -66,11 +67,7 @@ const BACKOFF: BackoffType = {
 
 function backOff(count: number) {
   const ms = BACKOFF[count] || BACKOFF.max;
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve();
-    }, ms);
-  });
+  return sleep(ms);
 }
 
 type UnknownRecord = {

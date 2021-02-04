@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -59,8 +59,9 @@ export const UploadStage: React.ComponentType = () => {
         <H2>{i18n('StickerCreator--UploadStage--title')}</H2>
         <Text>
           {i18n('StickerCreator--UploadStage-uploaded', {
-            count: complete,
-            total,
+            // We convert these to string so that 0 isn't falsy, which i18n checks for.
+            count: String(complete),
+            total: String(total),
           })}
         </Text>
         <ProgressBar

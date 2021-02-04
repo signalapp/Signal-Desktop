@@ -10,7 +10,7 @@ import { LinkPreviewDate } from './LinkPreviewDate';
 import { AttachmentType, isImageAttachment } from '../../types/Attachment';
 import { LocalizerType } from '../../types/Util';
 
-export interface Props {
+export type Props = {
   isLoaded: boolean;
   title: string;
   description: null | string;
@@ -20,7 +20,7 @@ export interface Props {
 
   i18n: LocalizerType;
   onClose?: () => void;
-}
+};
 
 export const StagedLinkPreview: React.FC<Props> = ({
   isLoaded,

@@ -108,7 +108,7 @@ export async function downloadUpdate(
     const downloadStream = stream(updateFileUrl, getGotOptions());
     const writeStream = createWriteStream(targetUpdatePath);
 
-    await new Promise((resolve, reject) => {
+    await new Promise<void>((resolve, reject) => {
       downloadStream.on('error', error => {
         reject(error);
       });

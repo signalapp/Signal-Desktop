@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -10,6 +10,7 @@ import { Theme } from '../util/theme';
 export type PropsType = {
   canPip?: boolean;
   i18n: LocalizerType;
+  isInSpeakerView?: boolean;
   isGroupCall?: boolean;
   message?: string;
   participantCount: number;
@@ -18,11 +19,13 @@ export type PropsType = {
   toggleParticipants?: () => void;
   togglePip?: () => void;
   toggleSettings: () => void;
+  toggleSpeakerView?: () => void;
 };
 
 export const CallingHeader = ({
   canPip = false,
   i18n,
+  isInSpeakerView,
   isGroupCall = false,
   message,
   participantCount,
@@ -31,6 +34,7 @@ export const CallingHeader = ({
   toggleParticipants,
   togglePip,
   toggleSettings,
+  toggleSpeakerView,
 }: PropsType): JSX.Element => (
   <div className="module-calling__header">
     {title ? (
@@ -80,6 +84,33 @@ export const CallingHeader = ({
           />
         </Tooltip>
       </div>
+      {isGroupCall && participantCount > 2 && toggleSpeakerView && (
+        <div className="module-calling-tools__button">
+          <Tooltip
+            content={i18n(
+              isInSpeakerView
+                ? 'calling__switch-view--to-grid'
+                : 'calling__switch-view--to-speaker'
+            )}
+            theme={Theme.Dark}
+          >
+            <button
+              aria-label={i18n(
+                isInSpeakerView
+                  ? 'calling__switch-view--to-grid'
+                  : 'calling__switch-view--to-speaker'
+              )}
+              className={
+                isInSpeakerView
+                  ? 'module-calling-button__grid-view'
+                  : 'module-calling-button__speaker-view'
+              }
+              onClick={toggleSpeakerView}
+              type="button"
+            />
+          </Tooltip>
+        </div>
+      )}
       {canPip && (
         <div className="module-calling-tools__button">
           <Tooltip content={i18n('calling__pip--on')} theme={Theme.Dark}>

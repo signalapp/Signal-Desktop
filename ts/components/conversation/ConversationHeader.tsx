@@ -32,7 +32,8 @@ export enum OutgoingCallButtonStyle {
   Join,
 }
 
-export interface PropsDataType {
+export type PropsDataType = {
+  conversationTitle?: string;
   id: string;
   name?: string;
 
@@ -51,6 +52,7 @@ export interface PropsDataType {
   isMissingMandatoryProfileSharing?: boolean;
   left?: boolean;
   markedUnread?: boolean;
+  groupVersion?: number;
 
   canChangeTimer?: boolean;
   expireTimer?: number;
@@ -58,11 +60,12 @@ export interface PropsDataType {
 
   showBackButton?: boolean;
   outgoingCallButtonStyle: OutgoingCallButtonStyle;
-}
+};
 
-export interface PropsActionsType {
+export type PropsActionsType = {
   onSetMuteNotifications: (seconds: number) => void;
   onSetDisappearingMessages: (seconds: number) => void;
+  onShowContactModal: (contactId: string) => void;
   onDeleteMessages: () => void;
   onResetSession: () => void;
   onSearchInConversation: () => void;
@@ -70,6 +73,7 @@ export interface PropsActionsType {
   onOutgoingVideoCallInConversation: () => void;
   onSetPin: (value: boolean) => void;
 
+  onShowConversationDetails: () => void;
   onShowSafetyNumber: () => void;
   onShowAllMedia: () => void;
   onShowGroupMembers: () => void;
@@ -78,11 +82,11 @@ export interface PropsActionsType {
   onArchive: () => void;
   onMarkUnread: () => void;
   onMoveToInbox: () => void;
-}
+};
 
-export interface PropsHousekeepingType {
+export type PropsHousekeepingType = {
   i18n: LocalizerType;
-}
+};
 
 export type PropsType = PropsDataType &
   PropsActionsType &
@@ -125,7 +129,7 @@ export class ConversationHeader extends React.Component<PropsType> {
     );
   }
 
-  public renderTitle(): JSX.Element {
+  public renderTitle(): JSX.Element | null {
     const {
       name,
       phoneNumber,
@@ -351,11 +355,13 @@ export class ConversationHeader extends React.Component<PropsType> {
       muteExpiresAt,
       isMissingMandatoryProfileSharing,
       left,
+      groupVersion,
       onDeleteMessages,
       onResetSession,
       onSetDisappearingMessages,
       onSetMuteNotifications,
       onShowAllMedia,
+      onShowConversationDetails,
       onShowGroupMembers,
       onShowSafetyNumber,
       onArchive,
@@ -400,6 +406,11 @@ export class ConversationHeader extends React.Component<PropsType> {
         isMissingMandatoryProfileSharing
     );
 
+    const hasGV2AdminEnabled =
+      isGroup &&
+      groupVersion === 2 &&
+      window.Signal.RemoteConfig.isEnabled('desktop.gv2Admin');
+
     return (
       <ContextMenu id={triggerId}>
         {disableTimerChanges ? null : (
@@ -429,7 +440,12 @@ export class ConversationHeader extends React.Component<PropsType> {
             </MenuItem>
           ))}
         </SubMenu>
-        {isGroup ? (
+        {hasGV2AdminEnabled ? (
+          <MenuItem onClick={onShowConversationDetails}>
+            {i18n('showConversationDetails')}
+          </MenuItem>
+        ) : null}
+        {isGroup && !hasGV2AdminEnabled ? (
           <MenuItem onClick={onShowGroupMembers}>
             {i18n('showMembers')}
           </MenuItem>
@@ -468,6 +484,89 @@ export class ConversationHeader extends React.Component<PropsType> {
     );
   }
 
+  private renderHeader(): JSX.Element {
+    const {
+      conversationTitle,
+      groupVersion,
+      id,
+      isMe,
+      onShowContactModal,
+      onShowConversationDetails,
+      type,
+    } = this.props;
+
+    if (conversationTitle !== undefined) {
+      return (
+        <div className="module-conversation-header__title-flex">
+          <div className="module-conversation-header__title">
+            {conversationTitle}
+          </div>
+        </div>
+      );
+    }
+
+    const hasGV2AdminEnabled =
+      groupVersion === 2 &&
+      window.Signal.RemoteConfig.isEnabled('desktop.gv2Admin');
+
+    if (type === 'group' && hasGV2AdminEnabled) {
+      const onHeaderClick = () => onShowConversationDetails();
+      const onKeyDown = (e: React.KeyboardEvent): void => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.stopPropagation();
+          e.preventDefault();
+
+          onShowConversationDetails();
+        }
+      };
+
+      return (
+        <div
+          className="module-conversation-header__title-flex module-conversation-header__title-clickable"
+          onClick={onHeaderClick}
+          onKeyDown={onKeyDown}
+          role="button"
+          tabIndex={0}
+        >
+          {this.renderAvatar()}
+          {this.renderTitle()}
+        </div>
+      );
+    }
+
+    if (type === 'group' || isMe) {
+      return (
+        <div className="module-conversation-header__title-flex">
+          {this.renderAvatar()}
+          {this.renderTitle()}
+        </div>
+      );
+    }
+
+    const onContactClick = () => onShowContactModal(id);
+    const onKeyDown = (e: React.KeyboardEvent): void => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.stopPropagation();
+        e.preventDefault();
+
+        onShowContactModal(id);
+      }
+    };
+
+    return (
+      <div
+        className="module-conversation-header__title-flex module-conversation-header__title-clickable"
+        onClick={onContactClick}
+        onKeyDown={onKeyDown}
+        role="button"
+        tabIndex={0}
+      >
+        {this.renderAvatar()}
+        {this.renderTitle()}
+      </div>
+    );
+  }
+
   public render(): JSX.Element {
     const { id } = this.props;
     const triggerId = `conversation-${id}`;
@@ -476,10 +575,7 @@ export class ConversationHeader extends React.Component<PropsType> {
       <div className="module-conversation-header">
         {this.renderBackButton()}
         <div className="module-conversation-header__title-container">
-          <div className="module-conversation-header__title-flex">
-            {this.renderAvatar()}
-            {this.renderTitle()}
-          </div>
+          {this.renderHeader()}
         </div>
         {this.renderExpirationLength()}
         {this.renderOutgoingCallButtons()}

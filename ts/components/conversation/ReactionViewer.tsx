@@ -46,12 +46,12 @@ const DEFAULT_EMOJI_ORDER = [
   'rage',
 ];
 
-interface ReactionCategory {
+type ReactionCategory = {
   count: number;
   emoji?: string;
   id: string;
   index: number;
-}
+};
 
 type ReactionWithEmojiData = Reaction & EmojiData;
 

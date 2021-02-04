@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable camelcase */
@@ -24,6 +24,12 @@ import { AttachmentType } from '../../types/Attachment';
 import { ColorType } from '../../types/Colors';
 import { BodyRangeType } from '../../types/Util';
 import { CallMode, CallHistoryDetailsFromDiskType } from '../../types/Calling';
+import {
+  GroupV2PendingMembership,
+  GroupV2RequestingMembership,
+} from '../../components/conversation/conversation-details/PendingInvites';
+import { GroupV2Membership } from '../../components/conversation/conversation-details/ConversationDetailsMembershipList';
+import { MediaItemType } from '../../components/LightboxGallery';
 
 // State
 
@@ -51,10 +57,13 @@ export type ConversationType = {
   name?: string;
   firstName?: string;
   profileName?: string;
+  about?: string;
   avatarPath?: string;
   areWeAdmin?: boolean;
   areWePending?: boolean;
+  areWePendingApproval?: boolean;
   canChangeTimer?: boolean;
+  canEditGroupInfo?: boolean;
   color?: ColorType;
   isAccepted?: boolean;
   isArchived?: boolean;
@@ -75,12 +84,21 @@ export type ConversationType = {
   markedUnread?: boolean;
   phoneNumber?: string;
   membersCount?: number;
+  accessControlAddFromInviteLink?: number;
+  accessControlAttributes?: number;
+  accessControlMembers?: number;
   expireTimer?: number;
-  members?: Array<ConversationType>;
+  // This is used by the ConversationDetails set of components, it includes the
+  // membersV2 data and also has some extra metadata attached to the object
+  memberships?: Array<GroupV2Membership>;
+  pendingMemberships?: Array<GroupV2PendingMembership>;
+  pendingApprovalMemberships?: Array<GroupV2RequestingMembership>;
   muteExpiresAt?: number;
   type: ConversationTypeType;
   isMe?: boolean;
   lastUpdated?: number;
+  // This is used by the CompositionInput for @mentions
+  sortedGroupMembers?: Array<ConversationType>;
   title: string;
   unreadCount?: number;
   isSelected?: boolean;
@@ -91,6 +109,7 @@ export type ConversationType = {
     phoneNumber?: string;
     profileName?: string;
   } | null;
+  recentMediaItems?: Array<MediaItemType>;
 
   shouldShowDraft?: boolean;
   draftText?: string | null;
@@ -100,6 +119,7 @@ export type ConversationType = {
   sharedGroupNames?: Array<string>;
   groupVersion?: 1 | 2;
   groupId?: string;
+  groupLink?: string;
   isMissingMandatoryProfileSharing?: boolean;
   messageRequestsEnabled?: boolean;
   acceptedMessageRequest?: boolean;
@@ -112,7 +132,8 @@ export type ConversationLookupType = {
 export type MessageType = {
   id: string;
   conversationId: string;
-  source: string;
+  source?: string;
+  sourceUuid?: string;
   type:
     | 'incoming'
     | 'outgoing'
@@ -121,7 +142,7 @@ export type MessageType = {
     | 'verified-change'
     | 'message-history-unsynced'
     | 'call-history';
-  quote?: { author: string };
+  quote?: { author?: string; authorUuid?: string };
   received_at: number;
   sent_at?: number;
   hasSignalAccount?: boolean;
@@ -185,14 +206,29 @@ export type ConversationMessageType = {
 };
 
 export type MessagesByConversationType = {
-  [key: string]: ConversationMessageType | null;
+  [key: string]: ConversationMessageType | undefined;
+};
+
+export type PreJoinConversationType = {
+  avatar?: {
+    loading?: boolean;
+    url?: string;
+  };
+  memberCount: number;
+  title: string;
+  approvalRequired: boolean;
 };
 
 export type ConversationsStateType = {
+  preJoinConversation?: PreJoinConversationType;
   conversationLookup: ConversationLookupType;
+  conversationsByE164: ConversationLookupType;
+  conversationsByUuid: ConversationLookupType;
+  conversationsByGroupId: ConversationLookupType;
   selectedConversation?: string;
   selectedMessage?: string;
   selectedMessageCounter: number;
+  selectedConversationTitle?: string;
   selectedConversationPanelDepth: number;
   showArchived: boolean;
 
@@ -227,6 +263,13 @@ export const getConversationCallMode = (
 };
 
 // Actions
+
+type SetPreJoinConversationActionType = {
+  type: 'SET_PRE_JOIN_CONVERSATION';
+  payload: {
+    data: PreJoinConversationType | undefined;
+  };
+};
 
 type ConversationAddedActionType = {
   type: 'CONVERSATION_ADDED';
@@ -342,6 +385,10 @@ export type SetIsNearBottomActionType = {
     isNearBottom: boolean;
   };
 };
+export type SetConversationHeaderTitleActionType = {
+  type: 'SET_CONVERSATION_HEADER_TITLE';
+  payload: { title?: string };
+};
 export type SetSelectedConversationPanelDepthActionType = {
   type: 'SET_SELECTED_CONVERSATION_PANEL_DEPTH';
   payload: { panelDepth: number };
@@ -384,65 +431,86 @@ export type ShowArchivedConversationsActionType = {
   type: 'SHOW_ARCHIVED_CONVERSATIONS';
   payload: null;
 };
+type SetRecentMediaItemsActionType = {
+  type: 'SET_RECENT_MEDIA_ITEMS';
+  payload: {
+    id: string;
+    recentMediaItems: Array<MediaItemType>;
+  };
+};
 
 export type ConversationActionType =
+  | ClearChangedMessagesActionType
+  | ClearSelectedMessageActionType
+  | ClearUnreadMetricsActionType
   | ConversationAddedActionType
   | ConversationChangedActionType
   | ConversationRemovedActionType
   | ConversationUnloadedActionType
-  | RemoveAllConversationsActionType
-  | MessageSelectedActionType
-  | MessageSizeChangedActionType
   | MessageChangedActionType
   | MessageDeletedActionType
   | MessagesAddedActionType
+  | MessageSelectedActionType
+  | MessageSizeChangedActionType
+  | MessagesResetActionType
+  | RemoveAllConversationsActionType
   | RepairNewestMessageActionType
   | RepairOldestMessageActionType
-  | MessagesResetActionType
-  | SetMessagesLoadingActionType
+  | ScrollToMessageActionType
+  | SelectedConversationChangedActionType
+  | SetConversationHeaderTitleActionType
   | SetIsNearBottomActionType
   | SetLoadCountdownStartActionType
-  | ClearChangedMessagesActionType
-  | ClearSelectedMessageActionType
-  | ClearUnreadMetricsActionType
-  | ScrollToMessageActionType
+  | SetMessagesLoadingActionType
+  | SetPreJoinConversationActionType
+  | SetRecentMediaItemsActionType
   | SetSelectedConversationPanelDepthActionType
-  | SelectedConversationChangedActionType
-  | MessageDeletedActionType
-  | SelectedConversationChangedActionType
-  | ShowInboxActionType
-  | ShowArchivedConversationsActionType;
+  | ShowArchivedConversationsActionType
+  | ShowInboxActionType;
 
 // Action Creators
 
 export const actions = {
+  clearChangedMessages,
+  clearSelectedMessage,
+  clearUnreadMetrics,
   conversationAdded,
   conversationChanged,
   conversationRemoved,
   conversationUnloaded,
-  removeAllConversations,
-  selectMessage,
-  messageDeleted,
   messageChanged,
-  messageSizeChanged,
+  messageDeleted,
   messagesAdded,
+  messageSizeChanged,
   messagesReset,
-  setMessagesLoading,
-  setLoadCountdownStart,
-  setIsNearBottom,
-  setSelectedConversationPanelDepth,
-  clearChangedMessages,
-  clearSelectedMessage,
-  clearUnreadMetrics,
-  scrollToMessage,
-  openConversationInternal,
   openConversationExternal,
-  showInbox,
-  showArchivedConversations,
+  openConversationInternal,
+  removeAllConversations,
   repairNewestMessage,
   repairOldestMessage,
+  scrollToMessage,
+  selectMessage,
+  setIsNearBottom,
+  setLoadCountdownStart,
+  setMessagesLoading,
+  setPreJoinConversation,
+  setRecentMediaItems,
+  setSelectedConversationHeaderTitle,
+  setSelectedConversationPanelDepth,
+  showArchivedConversations,
+  showInbox,
 };
 
+function setPreJoinConversation(
+  data: PreJoinConversationType | undefined
+): SetPreJoinConversationActionType {
+  return {
+    type: 'SET_PRE_JOIN_CONVERSATION',
+    payload: {
+      data,
+    },
+  };
+}
 function conversationAdded(
   id: string,
   data: ConversationType
@@ -637,12 +705,29 @@ function setIsNearBottom(
     },
   };
 }
+function setSelectedConversationHeaderTitle(
+  title?: string
+): SetConversationHeaderTitleActionType {
+  return {
+    type: 'SET_CONVERSATION_HEADER_TITLE',
+    payload: { title },
+  };
+}
 function setSelectedConversationPanelDepth(
   panelDepth: number
 ): SetSelectedConversationPanelDepthActionType {
   return {
     type: 'SET_SELECTED_CONVERSATION_PANEL_DEPTH',
     payload: { panelDepth },
+  };
+}
+function setRecentMediaItems(
+  id: string,
+  recentMediaItems: Array<MediaItemType>
+): SetRecentMediaItemsActionType {
+  return {
+    type: 'SET_RECENT_MEDIA_ITEMS',
+    payload: { id, recentMediaItems },
   };
 }
 function clearChangedMessages(
@@ -731,10 +816,14 @@ function showArchivedConversations(): ShowArchivedConversationsActionType {
 export function getEmptyState(): ConversationsStateType {
   return {
     conversationLookup: {},
+    conversationsByE164: {},
+    conversationsByUuid: {},
+    conversationsByGroupId: {},
     messagesByConversation: {},
     messagesLookup: {},
     selectedMessageCounter: 0,
     showArchived: false,
+    selectedConversationTitle: '',
     selectedConversationPanelDepth: 0,
   };
 }
@@ -811,10 +900,68 @@ function hasMessageHeightChanged(
   return false;
 }
 
+export function updateConversationLookups(
+  added: ConversationType | undefined,
+  removed: ConversationType | undefined,
+  state: ConversationsStateType
+): Pick<
+  ConversationsStateType,
+  'conversationsByE164' | 'conversationsByUuid' | 'conversationsByGroupId'
+> {
+  const result = {
+    conversationsByE164: state.conversationsByE164,
+    conversationsByUuid: state.conversationsByUuid,
+    conversationsByGroupId: state.conversationsByGroupId,
+  };
+
+  if (removed && removed.e164) {
+    result.conversationsByE164 = omit(result.conversationsByE164, removed.e164);
+  }
+  if (removed && removed.uuid) {
+    result.conversationsByUuid = omit(result.conversationsByUuid, removed.uuid);
+  }
+  if (removed && removed.groupId) {
+    result.conversationsByGroupId = omit(
+      result.conversationsByGroupId,
+      removed.groupId
+    );
+  }
+
+  if (added && added.e164) {
+    result.conversationsByE164 = {
+      ...result.conversationsByE164,
+      [added.e164]: added,
+    };
+  }
+  if (added && added.uuid) {
+    result.conversationsByUuid = {
+      ...result.conversationsByUuid,
+      [added.uuid]: added,
+    };
+  }
+  if (added && added.groupId) {
+    result.conversationsByGroupId = {
+      ...result.conversationsByGroupId,
+      [added.groupId]: added,
+    };
+  }
+
+  return result;
+}
+
 export function reducer(
   state: Readonly<ConversationsStateType> = getEmptyState(),
   action: Readonly<ConversationActionType>
 ): ConversationsStateType {
+  if (action.type === 'SET_PRE_JOIN_CONVERSATION') {
+    const { payload } = action;
+    const { data } = payload;
+
+    return {
+      ...state,
+      preJoinConversation: data,
+    };
+  }
   if (action.type === 'CONVERSATION_ADDED') {
     const { payload } = action;
     const { id, data } = payload;
@@ -826,6 +973,7 @@ export function reducer(
         ...conversationLookup,
         [id]: data,
       },
+      ...updateConversationLookups(data, undefined, state),
     };
   }
   if (action.type === 'CONVERSATION_CHANGED') {
@@ -863,16 +1011,24 @@ export function reducer(
         ...conversationLookup,
         [id]: data,
       },
+      ...updateConversationLookups(data, existing, state),
     };
   }
   if (action.type === 'CONVERSATION_REMOVED') {
     const { payload } = action;
     const { id } = payload;
     const { conversationLookup } = state;
+    const existing = getOwn(conversationLookup, id);
+
+    // No need to make a change if we didn't have a record of this conversation!
+    if (!existing) {
+      return state;
+    }
 
     return {
       ...state,
       conversationLookup: omit(conversationLookup, [id]),
+      ...updateConversationLookups(undefined, existing, state),
     };
   }
   if (action.type === 'CONVERSATION_UNLOADED') {
@@ -1478,6 +1634,38 @@ export function reducer(
     return {
       ...state,
       showArchived: true,
+    };
+  }
+
+  if (action.type === 'SET_CONVERSATION_HEADER_TITLE') {
+    return {
+      ...state,
+      selectedConversationTitle: action.payload.title,
+    };
+  }
+
+  if (action.type === 'SET_RECENT_MEDIA_ITEMS') {
+    const { id, recentMediaItems } = action.payload;
+    const { conversationLookup } = state;
+
+    const conversationData = conversationLookup[id];
+
+    if (!conversationData) {
+      return state;
+    }
+
+    const data = {
+      ...conversationData,
+      recentMediaItems,
+    };
+
+    return {
+      ...state,
+      conversationLookup: {
+        ...conversationLookup,
+        [id]: data,
+      },
+      ...updateConversationLookups(data, undefined, state),
     };
   }
 

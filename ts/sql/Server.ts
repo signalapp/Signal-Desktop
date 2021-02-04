@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-nested-ternary */
@@ -56,6 +56,8 @@ import {
 } from './Interface';
 
 declare global {
+  // We want to extend `Function`'s properties, so we need to use an interface.
+  // eslint-disable-next-line no-restricted-syntax
   interface Function {
     needsSerial?: boolean;
   }
@@ -178,6 +180,7 @@ const dataInterface: ServerInterface = {
   getAllStickerPacks,
   getAllStickers,
   getRecentStickers,
+  clearAllErrorStickerPackAttempts,
 
   updateEmojiUsage,
   getRecentEmojis,
@@ -1595,6 +1598,53 @@ async function updateToSchemaVersion21(
   }
 }
 
+async function updateToSchemaVersion22(
+  currentVersion: number,
+  instance: PromisifiedSQLDatabase
+) {
+  if (currentVersion >= 22) {
+    return;
+  }
+  try {
+    await instance.run('BEGIN TRANSACTION;');
+    await instance.run(
+      `ALTER TABLE unprocessed
+     ADD COLUMN sourceUuid STRING;`
+    );
+
+    await instance.run('PRAGMA user_version = 22;');
+    await instance.run('COMMIT TRANSACTION;');
+    console.log('updateToSchemaVersion22: success!');
+  } catch (error) {
+    await instance.run('ROLLBACK');
+    throw error;
+  }
+}
+
+async function updateToSchemaVersion23(
+  currentVersion: number,
+  instance: PromisifiedSQLDatabase
+) {
+  if (currentVersion >= 23) {
+    return;
+  }
+  try {
+    await instance.run('BEGIN TRANSACTION;');
+
+    // Remove triggers which keep full-text search up to date
+    await instance.run('DROP TRIGGER messages_on_insert;');
+    await instance.run('DROP TRIGGER messages_on_update;');
+    await instance.run('DROP TRIGGER messages_on_delete;');
+
+    await instance.run('PRAGMA user_version = 23;');
+    await instance.run('COMMIT TRANSACTION;');
+    console.log('updateToSchemaVersion23: success!');
+  } catch (error) {
+    await instance.run('ROLLBACK');
+    throw error;
+  }
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -1617,6 +1667,8 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion19,
   updateToSchemaVersion20,
   updateToSchemaVersion21,
+  updateToSchemaVersion22,
+  updateToSchemaVersion23,
 ];
 
 async function updateSchema(instance: PromisifiedSQLDatabase) {
@@ -1822,6 +1874,7 @@ async function getIdentityKeyById(id: string) {
 async function bulkAddIdentityKeys(array: Array<IdentityKeyType>) {
   return bulkAdd(IDENTITY_KEYS_TABLE, array);
 }
+bulkAddIdentityKeys.needsSerial = true;
 async function removeIdentityKeyById(id: string) {
   return removeById(IDENTITY_KEYS_TABLE, id);
 }
@@ -1842,6 +1895,7 @@ async function getPreKeyById(id: number) {
 async function bulkAddPreKeys(array: Array<PreKeyType>) {
   return bulkAdd(PRE_KEYS_TABLE, array);
 }
+bulkAddPreKeys.needsSerial = true;
 async function removePreKeyById(id: number) {
   return removeById(PRE_KEYS_TABLE, id);
 }
@@ -1862,6 +1916,7 @@ async function getSignedPreKeyById(id: number) {
 async function bulkAddSignedPreKeys(array: Array<SignedPreKeyType>) {
   return bulkAdd(SIGNED_PRE_KEYS_TABLE, array);
 }
+bulkAddSignedPreKeys.needsSerial = true;
 async function removeSignedPreKeyById(id: number) {
   return removeById(SIGNED_PRE_KEYS_TABLE, id);
 }
@@ -1891,6 +1946,7 @@ async function getAllItems() {
 async function bulkAddItems(array: Array<ItemType>) {
   return bulkAdd(ITEMS_TABLE, array);
 }
+bulkAddItems.needsSerial = true;
 async function removeItemById(id: string) {
   return removeById(ITEMS_TABLE, id);
 }
@@ -1963,6 +2019,7 @@ async function getSessionsById(conversationId: string) {
 async function bulkAddSessions(array: Array<SessionType>) {
   return bulkAdd(SESSIONS_TABLE, array);
 }
+bulkAddSessions.needsSerial = true;
 async function removeSessionById(id: string) {
   return removeById(SESSIONS_TABLE, id);
 }
@@ -2016,6 +2073,7 @@ async function bulkAdd(table: string, array: Array<any>) {
     throw error;
   }
 }
+bulkAdd.needsSerial = true;
 
 async function getById(table: string, id: string | number) {
   const db = getInstance();
@@ -2425,7 +2483,10 @@ async function getMessageCount(conversationId?: string) {
 
 async function saveMessage(
   data: MessageType,
-  { forceSave }: { forceSave?: boolean } = {}
+  {
+    forceSave,
+    alreadyInTransaction,
+  }: { forceSave?: boolean; alreadyInTransaction?: boolean } = {}
 ) {
   const db = getInstance();
   const {
@@ -2475,32 +2536,69 @@ async function saveMessage(
   };
 
   if (id && !forceSave) {
-    await db.run(
-      `UPDATE messages SET
-        id = $id,
-        json = $json,
+    if (!alreadyInTransaction) {
+      await db.run('BEGIN TRANSACTION;');
+    }
 
-        body = $body,
-        conversationId = $conversationId,
-        expirationStartTimestamp = $expirationStartTimestamp,
-        expires_at = $expires_at,
-        expireTimer = $expireTimer,
-        hasAttachments = $hasAttachments,
-        hasFileAttachments = $hasFileAttachments,
-        hasVisualMediaAttachments = $hasVisualMediaAttachments,
-        isErased = $isErased,
-        isViewOnce = $isViewOnce,
-        received_at = $received_at,
-        schemaVersion = $schemaVersion,
-        sent_at = $sent_at,
-        source = $source,
-        sourceUuid = $sourceUuid,
-        sourceDevice = $sourceDevice,
-        type = $type,
-        unread = $unread
-      WHERE id = $id;`,
-      payload
-    );
+    try {
+      await Promise.all([
+        db.run(
+          `UPDATE messages SET
+            id = $id,
+            json = $json,
+  
+            body = $body,
+            conversationId = $conversationId,
+            expirationStartTimestamp = $expirationStartTimestamp,
+            expires_at = $expires_at,
+            expireTimer = $expireTimer,
+            hasAttachments = $hasAttachments,
+            hasFileAttachments = $hasFileAttachments,
+            hasVisualMediaAttachments = $hasVisualMediaAttachments,
+            isErased = $isErased,
+            isViewOnce = $isViewOnce,
+            received_at = $received_at,
+            schemaVersion = $schemaVersion,
+            sent_at = $sent_at,
+            source = $source,
+            sourceUuid = $sourceUuid,
+            sourceDevice = $sourceDevice,
+            type = $type,
+            unread = $unread
+          WHERE id = $id;`,
+          payload
+        ),
+        db.run('DELETE FROM messages_fts WHERE id = $id;', {
+          $id: id,
+        }),
+      ]);
+
+      if (body) {
+        await db.run(
+          `INSERT INTO messages_fts(
+             id,
+             body
+           ) VALUES (
+             $id,
+             $body
+           );
+          `,
+          {
+            $id: id,
+            $body: body,
+          }
+        );
+      }
+
+      if (!alreadyInTransaction) {
+        await db.run('COMMIT TRANSACTION;');
+      }
+    } catch (error) {
+      if (!alreadyInTransaction) {
+        await db.run('ROLLBACK;');
+      }
+      throw error;
+    }
 
     return id;
   }
@@ -2510,61 +2608,93 @@ async function saveMessage(
     id: id || generateUUID(),
   };
 
-  await db.run(
-    `INSERT INTO messages (
-    id,
-    json,
+  if (!alreadyInTransaction) {
+    await db.run('BEGIN TRANSACTION;');
+  }
 
-    body,
-    conversationId,
-    expirationStartTimestamp,
-    expires_at,
-    expireTimer,
-    hasAttachments,
-    hasFileAttachments,
-    hasVisualMediaAttachments,
-    isErased,
-    isViewOnce,
-    received_at,
-    schemaVersion,
-    sent_at,
-    source,
-    sourceUuid,
-    sourceDevice,
-    type,
-    unread
-  ) values (
-    $id,
-    $json,
+  try {
+    await Promise.all([
+      db.run(
+        `INSERT INTO messages (
+          id,
+          json,
+  
+          body,
+          conversationId,
+          expirationStartTimestamp,
+          expires_at,
+          expireTimer,
+          hasAttachments,
+          hasFileAttachments,
+          hasVisualMediaAttachments,
+          isErased,
+          isViewOnce,
+          received_at,
+          schemaVersion,
+          sent_at,
+          source,
+          sourceUuid,
+          sourceDevice,
+          type,
+          unread
+        ) values (
+          $id,
+          $json,
+  
+          $body,
+          $conversationId,
+          $expirationStartTimestamp,
+          $expires_at,
+          $expireTimer,
+          $hasAttachments,
+          $hasFileAttachments,
+          $hasVisualMediaAttachments,
+          $isErased,
+          $isViewOnce,
+          $received_at,
+          $schemaVersion,
+          $sent_at,
+          $source,
+          $sourceUuid,
+          $sourceDevice,
+          $type,
+          $unread
+        );`,
+        {
+          ...payload,
+          $id: toCreate.id,
+          $json: objectToJSON(toCreate),
+        }
+      ),
+      db.run(
+        `INSERT INTO messages_fts(
+           id,
+           body
+         ) VALUES (
+           $id,
+           $body
+         );
+        `,
+        {
+          $id: id,
+          $body: body,
+        }
+      ),
+    ]);
 
-    $body,
-    $conversationId,
-    $expirationStartTimestamp,
-    $expires_at,
-    $expireTimer,
-    $hasAttachments,
-    $hasFileAttachments,
-    $hasVisualMediaAttachments,
-    $isErased,
-    $isViewOnce,
-    $received_at,
-    $schemaVersion,
-    $sent_at,
-    $source,
-    $sourceUuid,
-    $sourceDevice,
-    $type,
-    $unread
-  );`,
-    {
-      ...payload,
-      $id: toCreate.id,
-      $json: objectToJSON(toCreate),
+    if (!alreadyInTransaction) {
+      await db.run('COMMIT TRANSACTION;');
     }
-  );
+  } catch (error) {
+    if (!alreadyInTransaction) {
+      await db.run('ROLLBACK;');
+    }
+    throw error;
+  }
 
   return toCreate.id;
 }
+saveMessage.needsSerial = true;
 
 async function saveMessages(
   arrayOfMessages: Array<MessageType>,
@@ -2576,7 +2706,7 @@ async function saveMessages(
   try {
     await Promise.all([
       ...map(arrayOfMessages, async message =>
-        saveMessage(message, { forceSave })
+        saveMessage(message, { forceSave, alreadyInTransaction: true })
       ),
     ]);
 
@@ -2590,16 +2720,49 @@ saveMessages.needsSerial = true;
 
 async function removeMessage(id: string) {
   const db = getInstance();
-  await db.run('DELETE FROM messages WHERE id = $id;', { $id: id });
+  await db.run('BEGIN TRANSACTION;');
+
+  try {
+    await Promise.all([
+      db.run('DELETE FROM messages WHERE id = $id;', { $id: id }),
+      db.run('DELETE FROM messages_fts WHERE id = $id;', { $id: id }),
+    ]);
+
+    await db.run('COMMIT TRANSACTION;');
+  } catch (error) {
+    await db.run('ROLLBACK;');
+    throw error;
+  }
 }
+removeMessage.needsSerial = true;
 
 async function removeMessages(ids: Array<string>) {
   const db = getInstance();
-  await db.run(
-    `DELETE FROM messages WHERE id IN ( ${ids.map(() => '?').join(', ')} );`,
-    ids
-  );
+  await db.run('BEGIN TRANSACTION;');
+
+  try {
+    await Promise.all([
+      db.run(
+        `DELETE FROM messages WHERE id IN ( ${ids
+          .map(() => '?')
+          .join(', ')} );`,
+        ids
+      ),
+      db.run(
+        `DELETE FROM messages_fts WHERE id IN ( ${ids
+          .map(() => '?')
+          .join(', ')} );`,
+        ids
+      ),
+    ]);
+
+    await db.run('COMMIT TRANSACTION;');
+  } catch (error) {
+    await db.run('ROLLBACK;');
+    throw error;
+  }
 }
+removeMessages.needsSerial = true;
 
 async function getMessageById(id: string) {
   const db = getInstance();
@@ -2795,19 +2958,44 @@ async function getNewestMessageForConversation(conversationId: string) {
   return row;
 }
 
-async function getLastConversationActivity(
-  conversationId: string
-): Promise<MessageType | null> {
+async function getLastConversationActivity({
+  conversationId,
+  ourConversationId,
+}: {
+  conversationId: string;
+  ourConversationId: string;
+}): Promise<MessageType | null> {
   const db = getInstance();
   const row = await db.get(
     `SELECT * FROM messages WHERE
        conversationId = $conversationId AND
-       (type IS NULL OR type NOT IN ('profile-change', 'verified-change', 'message-history-unsynced', 'keychange', 'group-v1-migration')) AND
-       (json_extract(json, '$.expirationTimerUpdate.fromSync') IS NULL OR json_extract(json, '$.expirationTimerUpdate.fromSync') != 1)
+       (type IS NULL 
+        OR
+        type NOT IN (
+          'profile-change',
+          'verified-change',
+          'message-history-unsynced',
+          'keychange',
+          'group-v1-migration'
+        )
+       ) AND
+       (
+         json_extract(json, '$.expirationTimerUpdate.fromSync') IS NULL
+         OR
+         json_extract(json, '$.expirationTimerUpdate.fromSync') != 1
+       ) AND NOT
+       (
+         type = 'group-v2-change' AND
+         json_extract(json, '$.groupV2Change.from') != $ourConversationId AND
+         json_extract(json, '$.groupV2Change.details.length') = 1 AND
+         json_extract(json, '$.groupV2Change.details[0].type') = 'member-remove' AND
+         json_extract(json, '$.groupV2Change.details[0].conversationId') != $ourConversationId
+       )
      ORDER BY received_at DESC, sent_at DESC
      LIMIT 1;`,
     {
       $conversationId: conversationId,
+      $ourConversationId: ourConversationId,
     }
   );
 
@@ -2817,18 +3005,39 @@ async function getLastConversationActivity(
 
   return jsonToObject(row.json);
 }
-async function getLastConversationPreview(
-  conversationId: string
-): Promise<MessageType | null> {
+async function getLastConversationPreview({
+  conversationId,
+  ourConversationId,
+}: {
+  conversationId: string;
+  ourConversationId: string;
+}): Promise<MessageType | null> {
   const db = getInstance();
   const row = await db.get(
     `SELECT * FROM messages WHERE
        conversationId = $conversationId AND
-       (type IS NULL OR type NOT IN ('profile-change', 'verified-change', 'message-history-unsynced', 'group-v1-migration'))
+       (
+        type IS NULL
+        OR
+        type NOT IN (
+          'profile-change',
+          'verified-change',
+          'message-history-unsynced',
+          'group-v1-migration'
+        )
+       ) AND NOT
+       (
+         type = 'group-v2-change' AND
+         json_extract(json, '$.groupV2Change.from') != $ourConversationId AND
+         json_extract(json, '$.groupV2Change.details.length') = 1 AND
+         json_extract(json, '$.groupV2Change.details[0].type') = 'member-remove' AND
+         json_extract(json, '$.groupV2Change.details[0].conversationId') != $ourConversationId
+       )
      ORDER BY received_at DESC, sent_at DESC
      LIMIT 1;`,
     {
       $conversationId: conversationId,
+      $ourConversationId: ourConversationId,
     }
   );
 
@@ -3133,11 +3342,12 @@ async function updateUnprocessedAttempts(id: string, attempts: number) {
 }
 async function updateUnprocessedWithData(id: string, data: UnprocessedType) {
   const db = getInstance();
-  const { source, sourceDevice, serverTimestamp, decrypted } = data;
+  const { source, sourceUuid, sourceDevice, serverTimestamp, decrypted } = data;
 
   await db.run(
     `UPDATE unprocessed SET
       source = $source,
+      sourceUuid = $sourceUuid,
       sourceDevice = $sourceDevice,
       serverTimestamp = $serverTimestamp,
       decrypted = $decrypted
@@ -3145,6 +3355,7 @@ async function updateUnprocessedWithData(id: string, data: UnprocessedType) {
     {
       $id: id,
       $source: source,
+      $sourceUuid: sourceUuid,
       $sourceDevice: sourceDevice,
       $serverTimestamp: serverTimestamp,
       $decrypted: decrypted,
@@ -3415,6 +3626,13 @@ async function updateStickerPackStatus(
       $status: status,
       $installedAt: installedAt,
     }
+  );
+}
+async function clearAllErrorStickerPackAttempts(): Promise<void> {
+  const db = getInstance();
+
+  await db.run(
+    "UPDATE sticker_packs SET downloadAttempts = 0 WHERE status = 'error';"
   );
 }
 async function createOrUpdateSticker(sticker: StickerType) {

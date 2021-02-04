@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useRef, useEffect } from 'react';
@@ -8,7 +8,7 @@ import { Intl } from './Intl';
 import { ContactName } from './conversation/ContactName';
 import { ColorType } from '../types/Colors';
 
-interface Props {
+type Props = {
   conversation: {
     avatarPath?: string;
     color?: ColorType;
@@ -19,7 +19,7 @@ interface Props {
   };
   i18n: LocalizerType;
   close: () => void;
-}
+};
 
 const AUTO_CLOSE_MS = 10000;
 

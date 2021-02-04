@@ -45,6 +45,7 @@ const getDefaultProps = () => ({
   retrySend: action('retrySend'),
   deleteMessage: action('deleteMessage'),
   deleteMessageForEveryone: action('deleteMessageForEveryone'),
+  kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   showMessageDetail: action('showMessageDetail'),
   openConversation: action('openConversation'),
   showContactDetail: action('showContactDetail'),

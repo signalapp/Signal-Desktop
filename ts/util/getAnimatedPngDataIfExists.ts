@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 const PNG_SIGNATURE = new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10]);
@@ -6,9 +6,9 @@ const ACTL_CHUNK_BYTES = new TextEncoder().encode('acTL');
 const IDAT_CHUNK_BYTES = new TextEncoder().encode('IDAT');
 const MAX_BYTES_TO_READ = 1024 * 1024;
 
-interface AnimatedPngData {
+type AnimatedPngData = {
   numPlays: number;
-}
+};
 
 /**
  * This is a naïve implementation. It only performs two checks:

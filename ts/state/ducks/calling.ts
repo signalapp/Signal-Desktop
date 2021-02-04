@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ThunkAction } from 'redux-thunk';
@@ -30,24 +30,24 @@ import { LatestQueue } from '../../util/LatestQueue';
 
 // State
 
-export interface GroupCallPeekInfoType {
+export type GroupCallPeekInfoType = {
   uuids: Array<string>;
   creatorUuid?: string;
   eraId?: string;
   maxDevices: number;
   deviceCount: number;
-}
+};
 
-export interface GroupCallParticipantInfoType {
+export type GroupCallParticipantInfoType = {
   uuid: string;
   demuxId: number;
   hasRemoteAudio: boolean;
   hasRemoteVideo: boolean;
   speakerTime?: number;
   videoAspectRatio: number;
-}
+};
 
-export interface DirectCallStateType {
+export type DirectCallStateType = {
   callMode: CallMode.Direct;
   conversationId: string;
   callState?: CallState;
@@ -55,31 +55,32 @@ export interface DirectCallStateType {
   isIncoming: boolean;
   isVideoCall: boolean;
   hasRemoteVideo?: boolean;
-}
+};
 
-export interface GroupCallStateType {
+export type GroupCallStateType = {
   callMode: CallMode.Group;
   conversationId: string;
   connectionState: GroupCallConnectionState;
   joinState: GroupCallJoinState;
   peekInfo: GroupCallPeekInfoType;
   remoteParticipants: Array<GroupCallParticipantInfoType>;
-}
+};
 
-export interface ActiveCallStateType {
+export type ActiveCallStateType = {
   conversationId: string;
-  joinedAt?: number;
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
+  isInSpeakerView: boolean;
+  joinedAt?: number;
   pip: boolean;
-  settingsDialogOpen: boolean;
   safetyNumberChangedUuids: Array<string>;
+  settingsDialogOpen: boolean;
   showParticipantsList: boolean;
-}
+};
 
-export interface CallsByConversationType {
+export type CallsByConversationType = {
   [conversationId: string]: DirectCallStateType | GroupCallStateType;
-}
+};
 
 export type CallingStateType = MediaDeviceSettings & {
   callsByConversation: CallsByConversationType;
@@ -144,15 +145,15 @@ type PeekNotConnectedGroupCallType = {
   conversationId: string;
 };
 
-interface StartDirectCallType {
+type StartDirectCallType = {
   conversationId: string;
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
-}
+};
 
-export interface StartCallType extends StartDirectCallType {
+export type StartCallType = StartDirectCallType & {
   callMode: CallMode.Direct | CallMode.Group;
-}
+};
 
 export type RemoteVideoChangeType = {
   conversationId: string;
@@ -243,6 +244,7 @@ const START_DIRECT_CALL = 'calling/START_DIRECT_CALL';
 const TOGGLE_PARTICIPANTS = 'calling/TOGGLE_PARTICIPANTS';
 const TOGGLE_PIP = 'calling/TOGGLE_PIP';
 const TOGGLE_SETTINGS = 'calling/TOGGLE_SETTINGS';
+const TOGGLE_SPEAKER_VIEW = 'calling/TOGGLE_SPEAKER_VIEW';
 
 type AcceptCallPendingActionType = {
   type: 'calling/ACCEPT_CALL_PENDING';
@@ -365,6 +367,10 @@ type ToggleSettingsActionType = {
   type: 'calling/TOGGLE_SETTINGS';
 };
 
+type ToggleSpeakerViewActionType = {
+  type: 'calling/TOGGLE_SPEAKER_VIEW';
+};
+
 export type CallingActionType =
   | AcceptCallPendingActionType
   | CancelCallActionType
@@ -389,7 +395,8 @@ export type CallingActionType =
   | StartDirectCallActionType
   | ToggleParticipantsActionType
   | TogglePipActionType
-  | ToggleSettingsActionType;
+  | ToggleSettingsActionType
+  | ToggleSpeakerViewActionType;
 
 // Action Creators
 
@@ -468,8 +475,9 @@ async function showCallNotification(
   title: string,
   isVideoCall: boolean
 ): Promise<void> {
-  const canNotify = await window.getCallSystemNotification();
-  if (!canNotify) {
+  const shouldNotify =
+    !window.isActive() && (await window.getCallSystemNotification());
+  if (!shouldNotify) {
     return;
   }
   notify({
@@ -855,6 +863,12 @@ function toggleSettings(): ToggleSettingsActionType {
   };
 }
 
+function toggleSpeakerView(): ToggleSpeakerViewActionType {
+  return {
+    type: TOGGLE_SPEAKER_VIEW,
+  };
+}
+
 export const actions = {
   acceptCall,
   cancelCall,
@@ -883,6 +897,7 @@ export const actions = {
   toggleParticipants,
   togglePip,
   toggleSettings,
+  toggleSpeakerView,
 };
 
 export type ActionsType = typeof actions;
@@ -973,6 +988,7 @@ export function reducer(
         conversationId: action.payload.conversationId,
         hasLocalAudio: action.payload.hasLocalAudio,
         hasLocalVideo: action.payload.hasLocalVideo,
+        isInSpeakerView: false,
         pip: false,
         safetyNumberChangedUuids: [],
         settingsDialogOpen: false,
@@ -998,6 +1014,7 @@ export function reducer(
         conversationId: action.payload.conversationId,
         hasLocalAudio: action.payload.hasLocalAudio,
         hasLocalVideo: action.payload.hasLocalVideo,
+        isInSpeakerView: false,
         pip: false,
         safetyNumberChangedUuids: [],
         settingsDialogOpen: false,
@@ -1018,6 +1035,7 @@ export function reducer(
         conversationId: action.payload.conversationId,
         hasLocalAudio: true,
         hasLocalVideo: action.payload.asVideoCall,
+        isInSpeakerView: false,
         pip: false,
         safetyNumberChangedUuids: [],
         settingsDialogOpen: false,
@@ -1083,6 +1101,7 @@ export function reducer(
         conversationId: action.payload.conversationId,
         hasLocalAudio: action.payload.hasLocalAudio,
         hasLocalVideo: action.payload.hasLocalVideo,
+        isInSpeakerView: false,
         pip: false,
         safetyNumberChangedUuids: [],
         settingsDialogOpen: false,
@@ -1404,6 +1423,24 @@ export function reducer(
       activeCallState: {
         ...activeCallState,
         pip: !activeCallState.pip,
+      },
+    };
+  }
+
+  if (action.type === TOGGLE_SPEAKER_VIEW) {
+    const { activeCallState } = state;
+    if (!activeCallState) {
+      window.log.warn(
+        'Cannot toggle speaker view when there is no active call'
+      );
+      return state;
+    }
+
+    return {
+      ...state,
+      activeCallState: {
+        ...activeCallState,
+        isInSpeakerView: !activeCallState.isInSpeakerView,
       },
     };
   }

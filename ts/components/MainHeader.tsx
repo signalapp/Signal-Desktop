@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -13,7 +13,7 @@ import { AvatarPopup } from './AvatarPopup';
 import { LocalizerType } from '../types/Util';
 import { ColorType } from '../types/Colors';
 
-export interface PropsType {
+export type PropsType = {
   searchTerm: string;
   searchConversationName?: string;
   searchConversationId?: string;
@@ -58,7 +58,7 @@ export interface PropsType {
   clearSearch: () => void;
 
   showArchivedConversations: () => void;
-}
+};
 
 enum AvatarPopupState {
   HIDDEN = 0,
@@ -66,10 +66,11 @@ enum AvatarPopupState {
   FADEOUT = 2,
 }
 
-interface StateType {
+type StateType = {
   avatarPopupState: AvatarPopupState;
+  showingAvatarPopup: boolean;
   popperRoot: HTMLDivElement | null;
-}
+};
 
 export class MainHeader extends React.Component<PropsType, StateType> {
   private readonly inputRef: React.RefObject<HTMLInputElement>;

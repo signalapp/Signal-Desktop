@@ -5,11 +5,13 @@ import * as React from 'react';
 import { take } from 'lodash';
 import { Avatar, Props as AvatarProps } from '../Avatar';
 import { ContactName } from './ContactName';
+import { About } from './About';
 import { Emojify } from './Emojify';
 import { Intl } from '../Intl';
 import { LocalizerType } from '../../types/Util';
 
 export type Props = {
+  about?: string;
   i18n: LocalizerType;
   isMe?: boolean;
   sharedGroupNames?: Array<string>;
@@ -111,6 +113,7 @@ const renderMembershipRow = ({
 
 export const ConversationHero = ({
   i18n,
+  about,
   avatarPath,
   color,
   conversationType,
@@ -188,6 +191,11 @@ export const ConversationHero = ({
           />
         )}
       </h1>
+      {about && !isMe && (
+        <div className="module-about__container">
+          <About text={about} />
+        </div>
+      )}
       {!isMe ? (
         <div className="module-conversation-hero__with">
           {membersCount === 1

@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback } from 'react';
@@ -39,11 +39,11 @@ import {
 import { LocalizerType } from '../types/Util';
 import { missingCaseError } from '../util/missingCaseError';
 
-interface MeType extends ConversationType {
+type MeType = ConversationType & {
   uuid: string;
-}
+};
 
-export interface PropsType {
+export type PropsType = {
   activeCall?: ActiveCallType;
   availableCameras: Array<MediaDeviceInfo>;
   cancelCall: (_: CancelCallType) => void;
@@ -73,11 +73,12 @@ export interface PropsType {
   hangUp: (_: HangUpType) => void;
   togglePip: () => void;
   toggleSettings: () => void;
-}
+  toggleSpeakerView: () => void;
+};
 
-interface ActiveCallManagerPropsType extends PropsType {
+type ActiveCallManagerPropsType = PropsType & {
   activeCall: ActiveCallType;
-}
+};
 
 const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
   activeCall,
@@ -100,6 +101,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
   toggleParticipants,
   togglePip,
   toggleSettings,
+  toggleSpeakerView,
 }) => {
   const {
     conversation,
@@ -265,6 +267,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
         toggleParticipants={toggleParticipants}
         togglePip={togglePip}
         toggleSettings={toggleSettings}
+        toggleSpeakerView={toggleSpeakerView}
       />
       {settingsDialogOpen && renderDeviceSelection()}
       {showParticipantsList && activeCall.callMode === CallMode.Group ? (

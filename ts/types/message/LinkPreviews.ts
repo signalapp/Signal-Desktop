@@ -3,7 +3,7 @@
 
 import { AttachmentType } from '../Attachment';
 
-export interface LinkPreviewType {
+export type LinkPreviewType = {
   title: string;
   description?: string;
   domain: string;
@@ -11,4 +11,4 @@ export interface LinkPreviewType {
   isStickerPack: boolean;
   image?: AttachmentType;
   date?: number;
-}
+};
