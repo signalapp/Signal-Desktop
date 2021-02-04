@@ -663,7 +663,6 @@ function showAbout() {
       preload: path.join(__dirname, 'about_preload.js'),
       nativeWindowOpen: true,
     },
-    parent: mainWindow,
   };
 
   aboutWindow = new BrowserWindow(options);
