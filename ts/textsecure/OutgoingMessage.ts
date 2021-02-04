@@ -476,7 +476,7 @@ export default class OutgoingMessage {
           if (error.code === 409) {
             p = this.removeDeviceIdsForIdentifier(
               identifier,
-              error.response.extraDevices
+              error.response.extraDevices || []
             );
           } else {
             p = Promise.all(

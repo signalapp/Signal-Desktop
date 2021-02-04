@@ -100,11 +100,12 @@ describe('sgnlHref', () => {
         'sgnl://foo?',
         'SGNL://foo?',
         'sgnl://user:pass@foo',
-        'sgnl://foo/path/data#hash-data',
+        'sgnl://foo/path/data',
       ].forEach(href => {
         assert.deepEqual(parseSgnlHref(href, explodingLogger), {
           command: 'foo',
           args: new Map<string, string>(),
+          hash: undefined,
         });
       });
     });
@@ -124,6 +125,7 @@ describe('sgnlHref', () => {
             ['empty', ''],
             ['encoded', 'hello world'],
           ]),
+          hash: undefined,
         }
       );
     });
@@ -144,17 +146,30 @@ describe('sgnlHref', () => {
       );
     });
 
+    it('includes hash', () => {
+      [
+        'sgnl://foo?bar=baz#somehash',
+        'sgnl://user:pass@foo?bar=baz#somehash',
+      ].forEach(href => {
+        assert.deepEqual(parseSgnlHref(href, explodingLogger), {
+          command: 'foo',
+          args: new Map([['bar', 'baz']]),
+          hash: 'somehash',
+        });
+      });
+    });
+
     it('ignores other parts of the URL', () => {
       [
         'sgnl://foo?bar=baz',
         'sgnl://foo/?bar=baz',
         'sgnl://foo/lots/of/path?bar=baz',
-        'sgnl://foo?bar=baz#hash',
         'sgnl://user:pass@foo?bar=baz',
       ].forEach(href => {
         assert.deepEqual(parseSgnlHref(href, explodingLogger), {
           command: 'foo',
           args: new Map([['bar', 'baz']]),
+          hash: undefined,
         });
       });
     });

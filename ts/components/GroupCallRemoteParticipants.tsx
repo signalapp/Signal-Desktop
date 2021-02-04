@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -6,36 +6,42 @@ import Measure from 'react-measure';
 import { takeWhile, chunk, maxBy, flatten } from 'lodash';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
 import {
+  GroupCallOverflowArea,
+  OVERFLOW_PARTICIPANT_WIDTH,
+} from './GroupCallOverflowArea';
+import {
   GroupCallRemoteParticipantType,
   GroupCallVideoRequest,
   VideoFrameSource,
 } from '../types/Calling';
+import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer';
 import { LocalizerType } from '../types/Util';
 import { usePageVisibility } from '../util/hooks';
 import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant';
 
-const MIN_RENDERED_HEIGHT = 10;
+const MIN_RENDERED_HEIGHT = 180;
 const PARTICIPANT_MARGIN = 10;
 
 // We scale our video requests down for performance. This number is somewhat arbitrary.
 const VIDEO_REQUEST_SCALAR = 0.75;
 
-interface Dimensions {
+type Dimensions = {
   width: number;
   height: number;
-}
+};
 
-interface GridArrangement {
+type GridArrangement = {
   rows: Array<Array<GroupCallRemoteParticipantType>>;
   scalar: number;
-}
+};
 
-interface PropsType {
+type PropsType = {
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
+  isInSpeakerView: boolean;
   remoteParticipants: ReadonlyArray<GroupCallRemoteParticipantType>;
   setGroupCallVideoRequest: (_: Array<GroupCallVideoRequest>) => void;
-}
+};
 
 // This component lays out group call remote participants. It uses a custom layout
 //   algorithm (in other words, nothing that the browser provides, like flexbox) in
@@ -53,9 +59,8 @@ interface PropsType {
 //
 // 1. Figure out the maximum number of possible rows that could fit on the screen; this is
 //    `maxRowCount`.
-// 2. Figure out how many participants should be visible if all participants were rendered
-//    at the minimum height. Most of the time, we'll be able to render all of them, but on
-//    full calls with lots of participants, there could be some lost.
+// 2. Split the participants into two groups: ones in the main grid and ones in the
+//    overflow area. The grid should prioritize participants who have recently spoken.
 // 3. For each possible number of rows (starting at 0 and ending at `maxRowCount`),
 //    distribute participants across the rows at the minimum height. Then find the
 //    "scalar": how much can we scale these boxes up while still fitting them on the
@@ -64,6 +69,7 @@ interface PropsType {
 export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
   getGroupCallVideoFrameSource,
   i18n,
+  isInSpeakerView,
   remoteParticipants,
   setGroupCallVideoRequest,
 }) => {
@@ -71,7 +77,13 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
     width: 0,
     height: 0,
   });
+  const [gridDimensions, setGridDimensions] = useState<Dimensions>({
+    width: 0,
+    height: 0,
+  });
+
   const isPageVisible = usePageVisibility();
+  const getFrameBuffer = useGetCallingFrameBuffer();
 
   // 1. Figure out the maximum number of possible rows that could fit on the screen.
   //
@@ -90,13 +102,36 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
     )
   );
 
-  // 2. Figure out how many participants should be visible if all participants were
-  //   rendered at the minimum height. Most of the time, we'll be able to render all of
-  //   them, but on full calls with lots of participants, there could be some lost.
+  // 2. Split participants into two groups: ones in the main grid and ones in the overflow
+  //   sidebar.
   //
-  // This is primarily memoized for clarity, not performance. We only need the result,
-  //   not any of the "intermediate" values.
-  const visibleParticipants: Array<GroupCallRemoteParticipantType> = useMemo(() => {
+  // We start by sorting by `speakerTime` so that the most recent speakers are first in
+  //   line for the main grid. Then we split the list in two: one for the grid and one for
+  //   the overflow area.
+  //
+  // Once we've sorted participants into their respective groups, we sort them on
+  //   something stable (the `demuxId`, but we could choose something else) so that people
+  //   don't jump around within the group.
+  //
+  // These are primarily memoized for clarity, not performance.
+  const sortedParticipants: Array<GroupCallRemoteParticipantType> = useMemo(
+    () =>
+      remoteParticipants
+        .concat()
+        .sort(
+          (a, b) => (b.speakerTime || -Infinity) - (a.speakerTime || -Infinity)
+        ),
+    [remoteParticipants]
+  );
+  const gridParticipants: Array<GroupCallRemoteParticipantType> = useMemo(() => {
+    if (!sortedParticipants.length) {
+      return [];
+    }
+
+    const candidateParticipants = isInSpeakerView
+      ? [sortedParticipants[0]]
+      : sortedParticipants;
+
     // Imagine that we laid out all of the rows end-to-end. That's the maximum total
     //   width. So if there were 5 rows and the container was 100px wide, then we can't
     //   possibly fit more than 500px of participants.
@@ -105,13 +140,22 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
     // We do the same thing for participants, "laying them out end-to-end" until they
     //   exceed the maximum total width.
     let totalWidth = 0;
-    return takeWhile(remoteParticipants, remoteParticipant => {
+    return takeWhile(candidateParticipants, remoteParticipant => {
       totalWidth += remoteParticipant.videoAspectRatio * MIN_RENDERED_HEIGHT;
       return totalWidth < maxTotalWidth;
-    });
-  }, [maxRowCount, containerDimensions.width, remoteParticipants]);
-  const overflowedParticipants: Array<GroupCallRemoteParticipantType> = remoteParticipants.slice(
-    visibleParticipants.length
+    }).sort(stableParticipantComparator);
+  }, [
+    containerDimensions.width,
+    isInSpeakerView,
+    maxRowCount,
+    sortedParticipants,
+  ]);
+  const overflowedParticipants: Array<GroupCallRemoteParticipantType> = useMemo(
+    () =>
+      sortedParticipants
+        .slice(gridParticipants.length)
+        .sort(stableParticipantComparator),
+    [sortedParticipants, gridParticipants.length]
   );
 
   // 3. For each possible number of rows (starting at 0 and ending at `maxRowCount`),
@@ -124,22 +168,22 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
       rows: [],
     };
 
-    if (!visibleParticipants.length) {
+    if (!gridParticipants.length) {
       return bestArrangement;
     }
 
     for (let rowCount = 1; rowCount <= maxRowCount; rowCount += 1) {
-      // We do something pretty naïve here and chunk the visible participants into rows.
-      //   For example, if there were 12 visible participants and `rowCount === 3`, there
+      // We do something pretty naïve here and chunk the grid's participants into rows.
+      //   For example, if there were 12 grid participants and `rowCount === 3`, there
       //   would be 4 participants per row.
       //
       // This naïve chunking is suboptimal in terms of absolute best fit, but it is much
       //   faster and simpler than trying to do this perfectly. In practice, this works
       //   fine in the UI from our testing.
       const numberOfParticipantsInRow = Math.ceil(
-        visibleParticipants.length / rowCount
+        gridParticipants.length / rowCount
       );
-      const rows = chunk(visibleParticipants, numberOfParticipantsInRow);
+      const rows = chunk(gridParticipants, numberOfParticipantsInRow);
 
       // We need to find the scalar for this arrangement. Imagine that we have these
       //   participants at the minimum heights, and we want to scale everything up until
@@ -156,11 +200,10 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
         continue;
       }
       const widthScalar =
-        (containerDimensions.width -
-          (widestRow.length + 1) * PARTICIPANT_MARGIN) /
+        (gridDimensions.width - (widestRow.length + 1) * PARTICIPANT_MARGIN) /
         totalRemoteParticipantWidthAtMinHeight(widestRow);
       const heightScalar =
-        (containerDimensions.height - (rowCount + 1) * PARTICIPANT_MARGIN) /
+        (gridDimensions.height - (rowCount + 1) * PARTICIPANT_MARGIN) /
         (rowCount * MIN_RENDERED_HEIGHT);
       const scalar = Math.min(widthScalar, heightScalar);
 
@@ -172,10 +215,10 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
 
     return bestArrangement;
   }, [
-    visibleParticipants,
+    gridParticipants,
     maxRowCount,
-    containerDimensions.width,
-    containerDimensions.height,
+    gridDimensions.width,
+    gridDimensions.height,
   ]);
 
   // 4. Lay out this arrangement on the screen.
@@ -187,7 +230,7 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
   const gridTotalRowHeightWithMargin =
     gridParticipantHeightWithMargin * gridArrangement.rows.length;
   const gridTopOffset = Math.floor(
-    (containerDimensions.height - gridTotalRowHeightWithMargin) / 2
+    (gridDimensions.height - gridTotalRowHeightWithMargin) / 2
   );
 
   const rowElements: Array<Array<JSX.Element>> = gridArrangement.rows.map(
@@ -200,9 +243,7 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
       const totalRowWidth =
         totalRowWidthWithoutMargins +
         PARTICIPANT_MARGIN * (remoteParticipantsInRow.length - 1);
-      const leftOffset = Math.floor(
-        (containerDimensions.width - totalRowWidth) / 2
-      );
+      const leftOffset = Math.floor((gridDimensions.width - totalRowWidth) / 2);
 
       let rowWidthSoFar = 0;
       return remoteParticipantsInRow.map(remoteParticipant => {
@@ -216,6 +257,7 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
         return (
           <GroupCallRemoteParticipant
             key={remoteParticipant.demuxId}
+            getFrameBuffer={getFrameBuffer}
             getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
             height={gridParticipantHeight}
             i18n={i18n}
@@ -232,7 +274,7 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
   useEffect(() => {
     if (isPageVisible) {
       setGroupCallVideoRequest([
-        ...visibleParticipants.map(participant => {
+        ...gridParticipants.map(participant => {
           if (participant.hasRemoteVideo) {
             return {
               demuxId: participant.demuxId,
@@ -246,7 +288,21 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
           }
           return nonRenderedRemoteParticipant(participant);
         }),
-        ...overflowedParticipants.map(nonRenderedRemoteParticipant),
+        ...overflowedParticipants.map(participant => {
+          if (participant.hasRemoteVideo) {
+            return {
+              demuxId: participant.demuxId,
+              width: Math.floor(
+                OVERFLOW_PARTICIPANT_WIDTH * VIDEO_REQUEST_SCALAR
+              ),
+              height: Math.floor(
+                (OVERFLOW_PARTICIPANT_WIDTH / participant.videoAspectRatio) *
+                  VIDEO_REQUEST_SCALAR
+              ),
+            };
+          }
+          return nonRenderedRemoteParticipant(participant);
+        }),
       ]);
     } else {
       setGroupCallVideoRequest(
@@ -259,7 +315,7 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
     overflowedParticipants,
     remoteParticipants,
     setGroupCallVideoRequest,
-    visibleParticipants,
+    gridParticipants,
   ]);
 
   return (
@@ -273,9 +329,37 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
         setContainerDimensions(bounds);
       }}
     >
-      {({ measureRef }) => (
-        <div className="module-ongoing-call__grid" ref={measureRef}>
-          {flatten(rowElements)}
+      {containerMeasure => (
+        <div
+          className="module-ongoing-call__participants"
+          ref={containerMeasure.measureRef}
+        >
+          <Measure
+            bounds
+            onResize={({ bounds }) => {
+              if (!bounds) {
+                window.log.error('We should be measuring the bounds');
+                return;
+              }
+              setGridDimensions(bounds);
+            }}
+          >
+            {gridMeasure => (
+              <div
+                className="module-ongoing-call__participants__grid"
+                ref={gridMeasure.measureRef}
+              >
+                {flatten(rowElements)}
+              </div>
+            )}
+          </Measure>
+
+          <GroupCallOverflowArea
+            getFrameBuffer={getFrameBuffer}
+            getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
+            i18n={i18n}
+            overflowedParticipants={overflowedParticipants}
+          />
         </div>
       )}
     </Measure>
@@ -290,4 +374,11 @@ function totalRemoteParticipantWidthAtMinHeight(
       result + videoAspectRatio * MIN_RENDERED_HEIGHT,
     0
   );
+}
+
+function stableParticipantComparator(
+  a: Readonly<{ demuxId: number }>,
+  b: Readonly<{ demuxId: number }>
+): number {
+  return a.demuxId - b.demuxId;
 }

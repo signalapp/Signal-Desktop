@@ -1,6 +1,6 @@
 {
     "softwareAcknowledgments": {
-        "message": "הוקרות של התוכנה",
+        "message": "הוקרות התוכנה",
         "description": "Shown in the about box for the link to software acknowledgments"
     },
     "privacyPolicy": {
@@ -104,11 +104,11 @@
         "description": "Edit menu command to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
-        "message": "התחלת דיבור",
+        "message": "התחל לדבר",
         "description": "Edit menu item under 'speech' to start dictation"
     },
     "editMenuStopSpeaking": {
-        "message": "הפסקת דיבור",
+        "message": "הפסק לדבר",
         "description": "Edit menu item under 'speech' to stop dictation"
     },
     "windowMenuClose": {
@@ -426,7 +426,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
     },
     "continueCall": {
-        "message": "Continue Call",
+        "message": "המשך שיחה",
         "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
@@ -888,7 +888,7 @@
         "description": "Shown when the user represented is the current user."
     },
     "replyingTo": {
-        "message": "משיב אל $name$",
+        "message": "משיב/ה אל $name$",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -1104,7 +1104,7 @@
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "imageCaptionIconAlt": {
-        "message": "ראות צלמית שיש לתמונה זו כיתוב",
+        "message": "ראות איקון שיש לתמונה זו כיתוב",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
     "addACaption": {
@@ -1116,7 +1116,7 @@
         "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
     },
     "fileIconAlt": {
-        "message": "צלמית קובץ",
+        "message": "איקון קובץ",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
@@ -1200,7 +1200,7 @@
         "description": "Button label in the call lobby for joining a call"
     },
     "calling__return": {
-        "message": "Return to Call",
+        "message": "חזור אל השיחה",
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__call-is-full": {
@@ -1232,7 +1232,7 @@
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
-        "message": "הוידאו שלך כבוי",
+        "message": "המצלמה שלך כבויה",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__lobby-summary--zero": {
@@ -1250,7 +1250,7 @@
         }
     },
     "calling__lobby-summary--self": {
-        "message": "One of your other devices is in this call",
+        "message": "אחד המכשירים האחרים שלך בשיחה זו",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
     "calling__lobby-summary--double": {
@@ -1322,7 +1322,7 @@
         }
     },
     "calling__you-have-blocked": {
-        "message": "You have blocked $name$",
+        "message": "חסמת את $name$",
         "description": "when you block someone and cannot view their video",
         "placeholders": {
             "name": {
@@ -2646,7 +2646,7 @@
         "description": "Title for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--help": {
-        "message": "השג גישה אל המדבקות החדשות שלך דרך צלמית המדבקות, או שתף עם חבריך ע״י שימוש בקישור למטה.",
+        "message": "השג גישה אל המדבקות החדשות שלך דרך איקון המדבקות, או שתף עם חבריך ע״י שימוש בקישור למטה.",
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
@@ -3142,15 +3142,15 @@
         "description": "Notification message when a group call has ended"
     },
     "calling__call-notification__started-by-someone": {
-        "message": "A group call was started",
+        "message": "שיחה קבוצתית התחילה",
         "description": "Notification message when a group call has started, but we don't know who started it"
     },
     "calling__call-notification__started-by-you": {
-        "message": "You started a group call",
+        "message": "התחלת שיחה קבוצתית",
         "description": "Notification message when a group call has started by you"
     },
     "calling__call-notification__started": {
-        "message": "$name$ started a group call",
+        "message": "$name$ התחיל/ה שיחה קבוצתית",
         "description": "Notification message when a group call has started",
         "placeholders": {
             "name": {
@@ -3160,11 +3160,11 @@
         }
     },
     "calling__call-notification__button__in-another-call-tooltip": {
-        "message": "You are already in a call",
+        "message": "אתה כבר בשיחה",
         "description": "Tooltip in disabled notification button when you're on another call"
     },
     "calling__call-notification__button__call-full-tooltip": {
-        "message": "Call has reached capacity of $max$ participants",
+        "message": "השיחה הגיעה אל קיבולת של $max$ משתתפים",
         "description": "Tooltip in disabled notification button when the call is full",
         "placeholders": {
             "max": {
@@ -4058,7 +4058,7 @@
         }
     },
     "GroupV1--Migration--disabled": {
-        "message": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. $learnMore$",
+        "message": "שדרג קבוצה זו כדי להפעיל מאפיינים חדשים כמו @אזכורים ומנהלנים. חברי קבוצה שלא שיתפו את השם או התמונה שלהם בקבוצה זו יוזמנו להצטרף. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
         "placeholders": {
             "learnMore": {

@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import emojiRegex from 'emoji-regex';
@@ -9,10 +9,10 @@ import Op from 'quill-delta/dist/Op';
 import { BodyRangeType } from '../types/Util';
 import { MentionBlot } from './mentions/blot';
 
-export interface MentionBlotValue {
+export type MentionBlotValue = {
   uuid: string;
   title: string;
-}
+};
 
 export const isMentionBlot = (blot: LeafBlot): blot is MentionBlot =>
   blot.value() && blot.value().mention;

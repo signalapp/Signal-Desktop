@@ -67,7 +67,7 @@ function manualReconnect(): NoopActionType {
 
 // Reducer
 
-function getEmptyState(): UserStateType {
+export function getEmptyState(): UserStateType {
   return {
     attachmentsPath: 'missing',
     stickersPath: 'missing',

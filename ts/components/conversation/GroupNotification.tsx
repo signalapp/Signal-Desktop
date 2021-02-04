@@ -10,21 +10,21 @@ import { LocalizerType } from '../../types/Util';
 
 import { missingCaseError } from '../../util/missingCaseError';
 
-interface Contact {
+type Contact = {
   phoneNumber?: string;
   profileName?: string;
   name?: string;
   title: string;
   isMe?: boolean;
-}
+};
 
 export type ChangeType = 'add' | 'remove' | 'name' | 'avatar' | 'general';
 
-interface Change {
+type Change = {
   type: ChangeType;
   newName?: string;
   contacts?: Array<Contact>;
-}
+};
 
 export type PropsData = {
   from: Contact;

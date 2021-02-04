@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-param-reassign */
@@ -56,15 +56,15 @@ export const minStickers = 1;
 export const maxStickers = 200;
 export const maxByteSize = 300 * 1024;
 
-interface StateStickerData {
+type StateStickerData = {
   readonly imageData?: StickerImageData;
   readonly emoji?: EmojiPickDataType;
-}
+};
 
-interface StateToastData {
+type StateToastData = {
   key: string;
   subs?: Array<number | string>;
-}
+};
 
 export type State = {
   readonly order: Array<string>;

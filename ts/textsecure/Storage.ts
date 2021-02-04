@@ -1,11 +1,11 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import utils from './Helpers';
 
 // Default implmentation working with localStorage
-const localStorageImpl = {
+const localStorageImpl: StorageInterface = {
   put(key: string, value: any) {
     if (value === undefined) {
       throw new Error('Tried to store undefined');
@@ -26,14 +26,14 @@ const localStorageImpl = {
   },
 };
 
-export interface StorageInterface {
+export type StorageInterface = {
   put(key: string, value: any): void | Promise<void>;
   get(key: string, defaultValue: any): any;
   remove(key: string): void | Promise<void>;
-}
+};
 
 const Storage = {
-  impl: localStorageImpl as StorageInterface,
+  impl: localStorageImpl,
 
   put(key: string, value: unknown): Promise<void> | void {
     return Storage.impl.put(key, value);

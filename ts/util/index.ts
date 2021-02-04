@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as GoogleChrome from './GoogleChrome';
@@ -19,10 +19,11 @@ import { getUserAgent } from './getUserAgent';
 import { hasExpired } from './hasExpired';
 import { isFileDangerous } from './isFileDangerous';
 import { makeLookup } from './makeLookup';
-import { migrateColor } from './migrateColor';
 import { missingCaseError } from './missingCaseError';
 import { parseRemoteClientExpiration } from './parseRemoteClientExpiration';
 import { sleep } from './sleep';
+import { longRunningTaskWrapper } from './longRunningTaskWrapper';
+import { toWebSafeBase64, fromWebSafeBase64 } from './webSafeBase64';
 import * as zkgroup from './zkgroup';
 
 export {
@@ -32,6 +33,7 @@ export {
   createWaitBatcher,
   deleteForEveryone,
   downloadAttachment,
+  fromWebSafeBase64,
   generateSecurityNumber,
   getSafetyNumberPlaceholder,
   getStringForProfileChange,
@@ -40,11 +42,12 @@ export {
   GoogleChrome,
   hasExpired,
   isFileDangerous,
+  longRunningTaskWrapper,
   makeLookup,
-  migrateColor,
   missingCaseError,
   parseRemoteClientExpiration,
   Registration,
   sleep,
+  toWebSafeBase64,
   zkgroup,
 };

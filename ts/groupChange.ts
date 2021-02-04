@@ -138,10 +138,12 @@ export function renderChangeDetail(
       }
       return renderString('GroupV2--access-attributes--all--unknown', i18n);
     }
-    throw new Error(
+    window.log.warn(
       `access-attributes change type, privilege ${newPrivilege} is unknown`
     );
-  } else if (detail.type === 'access-members') {
+    return '';
+  }
+  if (detail.type === 'access-members') {
     const { newPrivilege } = detail;
 
     if (newPrivilege === AccessControlEnum.ADMINISTRATOR) {
@@ -166,10 +168,52 @@ export function renderChangeDetail(
       }
       return renderString('GroupV2--access-members--all--unknown', i18n);
     }
-    throw new Error(
+    window.log.warn(
       `access-members change type, privilege ${newPrivilege} is unknown`
     );
-  } else if (detail.type === 'member-add') {
+    return '';
+  }
+  if (detail.type === 'access-invite-link') {
+    const { newPrivilege } = detail;
+
+    if (newPrivilege === AccessControlEnum.ADMINISTRATOR) {
+      if (fromYou) {
+        return renderString('GroupV2--access-invite-link--enabled--you', i18n);
+      }
+      if (from) {
+        return renderString(
+          'GroupV2--access-invite-link--enabled--other',
+          i18n,
+          [renderContact(from)]
+        );
+      }
+      return renderString(
+        'GroupV2--access-invite-link--enabled--unknown',
+        i18n
+      );
+    }
+    if (newPrivilege === AccessControlEnum.ANY) {
+      if (fromYou) {
+        return renderString('GroupV2--access-invite-link--disabled--you', i18n);
+      }
+      if (from) {
+        return renderString(
+          'GroupV2--access-invite-link--disabled--other',
+          i18n,
+          [renderContact(from)]
+        );
+      }
+      return renderString(
+        'GroupV2--access-invite-link--disabled--unknown',
+        i18n
+      );
+    }
+    window.log.warn(
+      `access-invite-link change type, privilege ${newPrivilege} is unknown`
+    );
+    return '';
+  }
+  if (detail.type === 'member-add') {
     const { conversationId } = detail;
     const weAreJoiner = conversationId === ourConversationId;
 
@@ -198,7 +242,8 @@ export function renderChangeDetail(
     return renderString('GroupV2--member-add--other--unknown', i18n, [
       renderContact(conversationId),
     ]);
-  } else if (detail.type === 'member-add-from-invite') {
+  }
+  if (detail.type === 'member-add-from-invite') {
     const { conversationId, inviter } = detail;
     const weAreJoiner = conversationId === ourConversationId;
     const weAreInviter = Boolean(inviter && inviter === ourConversationId);
@@ -259,7 +304,80 @@ export function renderChangeDetail(
         inviteeName: renderContact(conversationId),
       }
     );
-  } else if (detail.type === 'member-remove') {
+  }
+  if (detail.type === 'member-add-from-link') {
+    const { conversationId } = detail;
+
+    if (fromYou && conversationId === ourConversationId) {
+      return renderString('GroupV2--member-add-from-link--you--you', i18n);
+    }
+    if (from && conversationId === from) {
+      return renderString('GroupV2--member-add-from-link--other', i18n, [
+        renderContact(from),
+      ]);
+    }
+
+    // Note: this shouldn't happen, because we only capture 'add-from-link' status
+    //   from group change events, which always have a sender.
+    window.log.warn('member-add-from-link change type; we have no from!');
+    return renderString('GroupV2--member-add--other--unknown', i18n, [
+      renderContact(conversationId),
+    ]);
+  }
+  if (detail.type === 'member-add-from-admin-approval') {
+    const { conversationId } = detail;
+    const weAreJoiner = conversationId === ourConversationId;
+
+    if (weAreJoiner) {
+      if (from) {
+        return renderString(
+          'GroupV2--member-add-from-admin-approval--you--other',
+          i18n,
+          [renderContact(from)]
+        );
+      }
+
+      // Note: this shouldn't happen, because we only capture 'add-from-admin-approval'
+      //   status from group change events, which always have a sender.
+      window.log.warn(
+        'member-add-from-admin-approval change type; we have no from, and we are joiner!'
+      );
+      return renderString(
+        'GroupV2--member-add-from-admin-approval--you--unknown',
+        i18n
+      );
+    }
+
+    if (fromYou) {
+      return renderString(
+        'GroupV2--member-add-from-admin-approval--other--you',
+        i18n,
+        [renderContact(conversationId)]
+      );
+    }
+    if (from) {
+      return renderString(
+        'GroupV2--member-add-from-admin-approval--other--other',
+        i18n,
+        {
+          adminName: renderContact(from),
+          joinerName: renderContact(conversationId),
+        }
+      );
+    }
+
+    // Note: this shouldn't happen, because we only capture 'add-from-admin-approval'
+    //   status from group change events, which always have a sender.
+    window.log.warn(
+      'member-add-from-admin-approval change type; we have no from'
+    );
+    return renderString(
+      'GroupV2--member-add-from-admin-approval--other--unknown',
+      i18n,
+      [renderContact(conversationId)]
+    );
+  }
+  if (detail.type === 'member-remove') {
     const { conversationId } = detail;
     const weAreLeaver = conversationId === ourConversationId;
 
@@ -294,7 +412,8 @@ export function renderChangeDetail(
     return renderString('GroupV2--member-remove--other--unknown', i18n, [
       renderContact(conversationId),
     ]);
-  } else if (detail.type === 'member-privilege') {
+  }
+  if (detail.type === 'member-privilege') {
     const { conversationId, newPrivilege } = detail;
     const weAreMember = conversationId === ourConversationId;
 
@@ -375,10 +494,12 @@ export function renderChangeDetail(
         [renderContact(conversationId)]
       );
     }
-    throw new Error(
+    window.log.warn(
       `member-privilege change type, privilege ${newPrivilege} is unknown`
     );
-  } else if (detail.type === 'pending-add-one') {
+    return '';
+  }
+  if (detail.type === 'pending-add-one') {
     const { conversationId } = detail;
     const weAreInvited = conversationId === ourConversationId;
     if (weAreInvited) {
@@ -400,7 +521,8 @@ export function renderChangeDetail(
       ]);
     }
     return renderString('GroupV2--pending-add--one--other--unknown', i18n);
-  } else if (detail.type === 'pending-add-many') {
+  }
+  if (detail.type === 'pending-add-many') {
     const { count } = detail;
 
     if (fromYou) {
@@ -417,7 +539,8 @@ export function renderChangeDetail(
     return renderString('GroupV2--pending-add--many--unknown', i18n, [
       count.toString(),
     ]);
-  } else if (detail.type === 'pending-remove-one') {
+  }
+  if (detail.type === 'pending-remove-one') {
     const { inviter, conversationId } = detail;
     const weAreInviter = Boolean(inviter && inviter === ourConversationId);
     const weAreInvited = conversationId === ourConversationId;
@@ -511,7 +634,8 @@ export function renderChangeDetail(
       ]);
     }
     return renderString('GroupV2--pending-remove--revoke--one--unknown', i18n);
-  } else if (detail.type === 'pending-remove-many') {
+  }
+  if (detail.type === 'pending-remove-many') {
     const { count, inviter } = detail;
     const weAreInviter = Boolean(inviter && inviter === ourConversationId);
 
@@ -590,7 +714,120 @@ export function renderChangeDetail(
       i18n,
       [count.toString()]
     );
-  } else {
-    throw missingCaseError(detail);
   }
+  if (detail.type === 'admin-approval-add-one') {
+    const { conversationId } = detail;
+    const weAreJoiner = conversationId === ourConversationId;
+
+    if (weAreJoiner) {
+      return renderString('GroupV2--admin-approval-add-one--you', i18n);
+    }
+    return renderString('GroupV2--admin-approval-add-one--other', i18n, [
+      renderContact(conversationId),
+    ]);
+  }
+  if (detail.type === 'admin-approval-remove-one') {
+    const { conversationId } = detail;
+    const weAreJoiner = conversationId === ourConversationId;
+
+    if (weAreJoiner) {
+      if (fromYou) {
+        return renderString(
+          'GroupV2--admin-approval-remove-one--you--you',
+          i18n
+        );
+      }
+      return renderString(
+        'GroupV2--admin-approval-remove-one--you--unknown',
+        i18n
+      );
+    }
+
+    if (fromYou) {
+      return renderString(
+        'GroupV2--admin-approval-remove-one--other--you',
+        i18n,
+        [renderContact(conversationId)]
+      );
+    }
+    if (from && from === conversationId) {
+      return renderString(
+        'GroupV2--admin-approval-remove-one--other--own',
+        i18n,
+        [renderContact(conversationId)]
+      );
+    }
+    if (from) {
+      return renderString(
+        'GroupV2--admin-approval-remove-one--other--other',
+        i18n,
+        {
+          adminName: renderContact(from),
+          joinerName: renderContact(conversationId),
+        }
+      );
+    }
+
+    // We default to the user canceling their request, because it is far more likely that
+    //   if an admin does the denial, we'll get a change event from them.
+    return renderString(
+      'GroupV2--admin-approval-remove-one--other--own',
+      i18n,
+      [renderContact(conversationId)]
+    );
+  }
+  if (detail.type === 'group-link-add') {
+    const { privilege } = detail;
+
+    if (privilege === AccessControlEnum.ADMINISTRATOR) {
+      if (fromYou) {
+        return renderString('GroupV2--group-link-add--enabled--you', i18n);
+      }
+      if (from) {
+        return renderString('GroupV2--group-link-add--enabled--other', i18n, [
+          renderContact(from),
+        ]);
+      }
+      return renderString('GroupV2--group-link-add--enabled--unknown', i18n);
+    }
+    if (privilege === AccessControlEnum.ANY) {
+      if (fromYou) {
+        return renderString('GroupV2--group-link-add--disabled--you', i18n);
+      }
+      if (from) {
+        return renderString('GroupV2--group-link-add--disabled--other', i18n, [
+          renderContact(from),
+        ]);
+      }
+      return renderString('GroupV2--group-link-add--disabled--unknown', i18n);
+    }
+    window.log.warn(
+      `group-link-add change type, privilege ${privilege} is unknown`
+    );
+    return '';
+  }
+  if (detail.type === 'group-link-reset') {
+    if (fromYou) {
+      return renderString('GroupV2--group-link-reset--you', i18n);
+    }
+    if (from) {
+      return renderString('GroupV2--group-link-reset--other', i18n, [
+        renderContact(from),
+      ]);
+    }
+    return renderString('GroupV2--group-link-reset--unknown', i18n);
+  }
+  if (detail.type === 'group-link-remove') {
+    if (fromYou) {
+      return renderString('GroupV2--group-link-remove--you', i18n);
+    }
+    if (from) {
+      return renderString('GroupV2--group-link-remove--other', i18n, [
+        renderContact(from),
+      ]);
+    }
+    return renderString('GroupV2--group-link-remove--unknown', i18n);
+  }
+
+  throw missingCaseError(detail);
 }

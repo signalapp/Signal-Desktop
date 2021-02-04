@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -9,8 +9,6 @@ import { EmojiData } from '../../../components/emoji/lib';
 
 describe('emojiCompletion', () => {
   let emojiCompletion: EmojiCompletion;
-  const mockOnPickEmoji = sinon.spy();
-  const mockSetEmojiPickerElement = sinon.spy();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let mockQuill: any;
 
@@ -26,10 +24,8 @@ describe('emojiCompletion', () => {
       updateContents: sinon.stub(),
     };
     const options = {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      onPickEmoji: mockOnPickEmoji as any,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      setEmojiPickerElement: mockSetEmojiPickerElement as any,
+      onPickEmoji: sinon.stub(),
+      setEmojiPickerElement: sinon.stub(),
       skinTone: 0,
     };
 
@@ -38,12 +34,6 @@ describe('emojiCompletion', () => {
 
     // Stub rendering to avoid missing DOM until we bring in Enzyme
     emojiCompletion.render = sinon.stub();
-  });
-
-  afterEach(function afterEach() {
-    mockOnPickEmoji.resetHistory();
-    mockSetEmojiPickerElement.resetHistory();
-    (emojiCompletion.render as sinon.SinonStub).resetHistory();
   });
 
   describe('getCurrentLeafTextPartitions', () => {

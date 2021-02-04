@@ -23,7 +23,6 @@ storiesOf('Components/ContactListItem', module)
         title="Someone 🔥 Somewhere"
         name="Someone 🔥 Somewhere"
         phoneNumber="(202) 555-0011"
-        isVerified
         profileName="🔥Flames🔥"
         avatarPath={gifUrl}
         onClick={onClick}
@@ -39,6 +38,7 @@ storiesOf('Components/ContactListItem', module)
           name="Someone 🔥 Somewhere"
           phoneNumber="(202) 555-0011"
           profileName="🔥Flames🔥"
+          about="👍 Free to chat"
           avatarPath={gifUrl}
           onClick={onClick}
         />
@@ -48,24 +48,11 @@ storiesOf('Components/ContactListItem', module)
           name="Another ❄️ Yes"
           phoneNumber="(202) 555-0011"
           profileName="❄️Ice❄️"
+          about="🙏 Be kind"
           avatarPath={gifUrl}
           onClick={onClick}
         />
       </div>
-    );
-  })
-  .add('With name and profile, verified', () => {
-    return (
-      <ContactListItem
-        i18n={i18n}
-        title="Someone 🔥 Somewhere"
-        name="Someone 🔥 Somewhere"
-        phoneNumber="(202) 555-0011"
-        profileName="🔥Flames🔥"
-        isVerified
-        avatarPath={gifUrl}
-        onClick={onClick}
-      />
     );
   })
   .add('With name and profile, admin', () => {
@@ -77,7 +64,7 @@ storiesOf('Components/ContactListItem', module)
         name="Someone 🔥 Somewhere"
         phoneNumber="(202) 555-0011"
         profileName="🔥Flames🔥"
-        isVerified
+        about="👍 This is my really long status message that I have in order to test line breaking"
         avatarPath={gifUrl}
         onClick={onClick}
       />
@@ -90,6 +77,7 @@ storiesOf('Components/ContactListItem', module)
         isAdmin
         title="(202) 555-0011"
         phoneNumber="(202) 555-0011"
+        about="👍 Free to chat"
         avatarPath={gifUrl}
         onClick={onClick}
       />
@@ -104,6 +92,7 @@ storiesOf('Components/ContactListItem', module)
         color="teal"
         phoneNumber="(202) 555-0011"
         profileName="🔥Flames🔥"
+        about="👍 Free to chat"
         onClick={onClick}
       />
     );
@@ -115,18 +104,17 @@ storiesOf('Components/ContactListItem', module)
         phoneNumber="(202) 555-0011"
         title="🔥Flames🔥"
         profileName="🔥Flames🔥"
+        about="👍 Free to chat"
         onClick={onClick}
       />
     );
   })
-  .add('Verified, profile, no name, no avatar', () => {
+  .add('No name, no profile, no avatar, no about', () => {
     return (
       <ContactListItem
         i18n={i18n}
         phoneNumber="(202) 555-0011"
-        title="🔥Flames🔥"
-        profileName="🔥Flames🔥"
-        isVerified
+        title="(202) 555-0011"
         onClick={onClick}
       />
     );
@@ -135,19 +123,9 @@ storiesOf('Components/ContactListItem', module)
     return (
       <ContactListItem
         i18n={i18n}
-        phoneNumber="(202) 555-0011"
         title="(202) 555-0011"
-        onClick={onClick}
-      />
-    );
-  })
-  .add('Verified, no name, no profile, no avatar', () => {
-    return (
-      <ContactListItem
-        i18n={i18n}
-        title="(202) 555-0011"
+        about="👍 Free to chat"
         phoneNumber="(202) 555-0011"
-        isVerified
         onClick={onClick}
       />
     );

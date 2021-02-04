@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
@@ -53,6 +53,7 @@ export type PropsType = {
   toggleParticipants: () => void;
   togglePip: () => void;
   toggleSettings: () => void;
+  toggleSpeakerView: () => void;
 };
 
 export const CallScreen: React.FC<PropsType> = ({
@@ -71,6 +72,7 @@ export const CallScreen: React.FC<PropsType> = ({
   toggleParticipants,
   togglePip,
   toggleSettings,
+  toggleSpeakerView,
 }) => {
   const {
     conversation,
@@ -190,6 +192,7 @@ export const CallScreen: React.FC<PropsType> = ({
         <GroupCallRemoteParticipants
           getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
           i18n={i18n}
+          isInSpeakerView={activeCall.isInSpeakerView}
           remoteParticipants={activeCall.remoteParticipants}
           setGroupCallVideoRequest={setGroupCallVideoRequest}
         />
@@ -244,6 +247,7 @@ export const CallScreen: React.FC<PropsType> = ({
         <CallingHeader
           canPip
           i18n={i18n}
+          isInSpeakerView={activeCall.isInSpeakerView}
           isGroupCall={activeCall.callMode === CallMode.Group}
           message={headerMessage}
           participantCount={participantCount}
@@ -252,6 +256,7 @@ export const CallScreen: React.FC<PropsType> = ({
           toggleParticipants={toggleParticipants}
           togglePip={togglePip}
           toggleSettings={toggleSettings}
+          toggleSpeakerView={toggleSpeakerView}
         />
       </div>
       {remoteParticipantsElement}

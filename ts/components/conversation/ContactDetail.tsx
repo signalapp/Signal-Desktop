@@ -21,12 +21,12 @@ import {
 
 import { LocalizerType } from '../../types/Util';
 
-export interface Props {
+export type Props = {
   contact: ContactType;
   hasSignalAccount: boolean;
   i18n: LocalizerType;
   onSendMessage: () => void;
-}
+};
 
 function getLabelForEmail(method: Email, i18n: LocalizerType): string {
   switch (method.type) {

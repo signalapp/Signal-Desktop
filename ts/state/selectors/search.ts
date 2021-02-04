@@ -3,7 +3,6 @@
 
 import memoizee from 'memoizee';
 import { createSelector } from 'reselect';
-import { getSearchResultsProps } from '../../shims/Whisper';
 import { instance } from '../../util/libphonenumberInstance';
 
 import { StateType } from '../reducer';
@@ -24,7 +23,7 @@ import {
 } from '../../components/SearchResults';
 import { PropsDataType as MessageSearchResultPropsDataType } from '../../components/MessageSearchResult';
 
-import { getRegionCode, getUserNumber } from './user';
+import { getRegionCode, getUserConversationId } from './user';
 import { getUserAgent } from './items';
 import {
   GetConversationByIdType,
@@ -221,18 +220,21 @@ export const getSearchResults = createSelector(
 
 export function _messageSearchResultSelector(
   message: MessageSearchResultType,
-  _ourNumber: string,
-  _regionCode: string,
-  _sender?: ConversationType,
-  _recipient?: ConversationType,
+  from: ConversationType,
+  to: ConversationType,
   searchConversationId?: string,
   selectedMessageId?: string
 ): MessageSearchResultPropsDataType {
-  // Note: We don't use all of those parameters here, but the shim we call does.
-  //   We want to call this function again if any of those parameters change.
   return {
-    ...getSearchResultsProps(message),
-    isSelected: message.id === selectedMessageId,
+    from,
+    to,
+
+    id: message.id,
+    conversationId: message.conversationId,
+    sentAt: message.sent_at,
+    snippet: message.snippet,
+
+    isSelected: Boolean(selectedMessageId && message.id === selectedMessageId),
     isSearchingInConversation: Boolean(searchConversationId),
   };
 }
@@ -241,16 +243,13 @@ export function _messageSearchResultSelector(
 //   changes: regionCode and userNumber.
 type CachedMessageSearchResultSelectorType = (
   message: MessageSearchResultType,
-  ourNumber: string,
-  regionCode: string,
-  sender?: ConversationType,
-  recipient?: ConversationType,
+  from: ConversationType,
+  to: ConversationType,
   searchConversationId?: string,
   selectedMessageId?: string
 ) => MessageSearchResultPropsDataType;
 export const getCachedSelectorForMessageSearchResult = createSelector(
-  getRegionCode,
-  getUserNumber,
+  getUserConversationId,
   (): CachedMessageSearchResultSelectorType => {
     // Note: memoizee will check all parameters provided, and only run our selector
     //   if any of them have changed.
@@ -267,43 +266,47 @@ export const getMessageSearchResultSelector = createSelector(
   getSelectedMessage,
   getConversationSelector,
   getSearchConversationId,
-  getRegionCode,
-  getUserNumber,
+  getUserConversationId,
   (
     messageSearchResultSelector: CachedMessageSearchResultSelectorType,
     messageSearchResultLookup: MessageSearchResultLookupType,
-    selectedMessage: string | undefined,
+    selectedMessageId: string | undefined,
     conversationSelector: GetConversationByIdType,
     searchConversationId: string | undefined,
-    regionCode: string,
-    ourNumber: string
+    ourConversationId: string
   ): GetMessageSearchResultByIdType => {
     return (id: string) => {
       const message = messageSearchResultLookup[id];
       if (!message) {
+        window.log.warn(
+          `getMessageSearchResultSelector: messageSearchResultLookup was missing id ${id}`
+        );
         return undefined;
       }
 
-      const { conversationId, source, type } = message;
-      let sender: ConversationType | undefined;
-      let recipient: ConversationType | undefined;
+      const { conversationId, source, sourceUuid, type } = message;
+      let from: ConversationType;
+      let to: ConversationType;
 
       if (type === 'incoming') {
-        sender = conversationSelector(source);
-        recipient = conversationSelector(ourNumber);
+        from = conversationSelector(sourceUuid || source);
+        to = conversationSelector(conversationId);
       } else if (type === 'outgoing') {
-        sender = conversationSelector(ourNumber);
-        recipient = conversationSelector(conversationId);
+        from = conversationSelector(ourConversationId);
+        to = conversationSelector(conversationId);
+      } else {
+        window.log.warn(
+          `getMessageSearchResultSelector: Got unexpected type ${type}`
+        );
+        return undefined;
       }
 
       return messageSearchResultSelector(
         message,
-        ourNumber,
-        regionCode,
-        sender,
-        recipient,
+        from,
+        to,
         searchConversationId,
-        selectedMessage
+        selectedMessageId
       );
     };
   }

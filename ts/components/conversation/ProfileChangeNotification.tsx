@@ -11,11 +11,11 @@ import {
   ProfileNameChangeType,
 } from '../../util/getStringForProfileChange';
 
-export interface PropsType {
+export type PropsType = {
   change: ProfileNameChangeType;
   changedContact: ConversationType;
   i18n: LocalizerType;
-}
+};
 
 export function ProfileChangeNotification(props: PropsType): JSX.Element {
   const { change, changedContact, i18n } = props;

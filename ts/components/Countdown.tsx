@@ -1,16 +1,16 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
 
-export interface Props {
+export type Props = {
   duration: number;
   expiresAt: number;
   onComplete?: () => unknown;
-}
-interface State {
+};
+type State = {
   ratio: number;
-}
+};
 
 const CIRCUMFERENCE = 11.013 * 2 * Math.PI;
 

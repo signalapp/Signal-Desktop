@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import formatFileSize from 'filesize';
 
-interface Props {
+type Props = {
   // Required
   timestamp: number;
 
@@ -16,7 +16,7 @@ interface Props {
   fileSize?: number;
   onClick?: () => void;
   shouldShowSeparator?: boolean;
-}
+};
 
 export class DocumentListItem extends React.Component<Props> {
   public static defaultProps: Partial<Props> = {

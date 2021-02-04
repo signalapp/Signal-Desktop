@@ -31,14 +31,13 @@
   }
 
   .panel {
-    height: calc(100% - #{$header-height});
+    height: calc(100% - #{$header-height} - var(--title-bar-drag-area-height));
     overflow-y: scroll;
     z-index: 1;
     position: absolute;
     left: 0;
-    top: $header-height;
+    top: calc(#{$header-height} + var(--title-bar-drag-area-height));
     width: 100%;
-    height: calc(100% - $header-height);
 
     @include light-theme() {
       background-color: $color-white;
@@ -292,79 +291,10 @@
   cursor: pointer;
 }
 
-.confirmation-dialog {
-  .content {
-    max-width: 350px;
-    margin: 100px auto;
-    padding: 1em;
-
-    border-radius: 5px;
-    overflow: auto;
-
-    @include light-theme {
-      background: $color-white;
-      box-shadow: 0px 0px 15px 0px $color-black-alpha-20;
-    }
-    @include dark-theme {
-      background: $color-black;
-      color: $color-gray-02;
-      box-shadow: 0px 0px 15px 0px $color-white-alpha-20;
-    }
-
-    .buttons {
-      margin-top: 10px;
-
-      button {
-        float: right;
-        margin-left: 10px;
-        padding: 5px 8px;
-        border-radius: 5px;
-
-        outline: none;
-        @include keyboard-mode {
-          &:focus {
-            outline: -webkit-focus-ring-color auto 5px;
-          }
-        }
-
-        @include light-theme {
-          background-color: $color-gray-02;
-          border: 1px solid $color-gray-15;
-        }
-        @include dark-theme {
-          background-color: $color-gray-90;
-          border: 1px solid $color-gray-45;
-          color: $color-gray-02;
-        }
-
-        &:hover {
-          @include light-theme {
-            background-color: $color-gray-15;
-            border-color: $color-gray-25;
-          }
-          @include dark-theme {
-            background-color: $color-gray-75;
-            border-color: $color-gray-45;
-          }
-        }
-      }
-    }
-  }
-}
-
 .permissions-popup,
 .debug-log-window {
   .modal {
     background-color: transparent;
     padding: 0;
-  }
-
-  .confirmation-dialog .content {
-    box-shadow: 0px 0px 0px 0px;
-    max-width: 1000px;
-    margin: 0;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 15px;
   }
 }

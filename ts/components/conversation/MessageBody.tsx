@@ -20,7 +20,7 @@ type OpenConversationActionType = (
   messageId?: string
 ) => void;
 
-export interface Props {
+export type Props = {
   direction?: 'incoming' | 'outgoing';
   text: string;
   textPending?: boolean;
@@ -31,7 +31,7 @@ export interface Props {
   i18n: LocalizerType;
   bodyRanges?: BodyRangesType;
   openConversation?: OpenConversationActionType;
-}
+};
 
 const renderEmoji = ({
   text,

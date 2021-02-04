@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { connect } from 'react-redux';
@@ -20,7 +20,7 @@ import { getOwn } from '../../util/getOwn';
 import { missingCaseError } from '../../util/missingCaseError';
 import { isGroupCallingEnabled } from '../../util/isGroupCallingEnabled';
 
-export interface OwnProps {
+export type OwnProps = {
   id: string;
 
   onDeleteMessages: () => void;
@@ -33,13 +33,15 @@ export interface OwnProps {
   onSetMuteNotifications: (seconds: number) => void;
   onSetPin: (value: boolean) => void;
   onShowAllMedia: () => void;
+  onShowContactModal: (contactId: string) => void;
   onShowGroupMembers: () => void;
 
   onArchive: () => void;
   onMarkUnread: () => void;
   onMoveToInbox: () => void;
   onShowSafetyNumber: () => void;
-}
+  onShowConversationDetails: () => void;
+};
 
 const getOutgoingCallButtonStyle = (
   conversation: ConversationType,
@@ -101,7 +103,9 @@ const mapStateToProps = (state: StateType, ownProps: OwnProps) => {
       'profileName',
       'title',
       'type',
+      'groupVersion',
     ]),
+    conversationTitle: state.conversations.selectedConversationTitle,
     i18n: getIntl(state),
     showBackButton: state.conversations.selectedConversationPanelDepth > 0,
     outgoingCallButtonStyle: getOutgoingCallButtonStyle(conversation, state),

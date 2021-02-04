@@ -11,6 +11,7 @@ import enMessages from '../../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
 
+const getAbout = () => text('about', '👍 Free to chat');
 const getTitle = () => text('name', 'Cayce Bollard');
 const getName = () => text('name', 'Cayce Bollard');
 const getProfileName = () => text('profileName', 'Cayce Bollard (profile)');
@@ -23,6 +24,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
     return (
       <div style={{ width: '480px' }}>
         <ConversationHero
+          about={getAbout()}
           i18n={i18n}
           title={getTitle()}
           avatarPath={getAvatarPath()}
@@ -39,6 +41,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
     return (
       <div style={{ width: '480px' }}>
         <ConversationHero
+          about={getAbout()}
           i18n={i18n}
           title={getTitle()}
           avatarPath={getAvatarPath()}
@@ -55,6 +58,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
     return (
       <div style={{ width: '480px' }}>
         <ConversationHero
+          about={getAbout()}
           i18n={i18n}
           title={getTitle()}
           avatarPath={getAvatarPath()}
@@ -71,6 +75,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
     return (
       <div style={{ width: '480px' }}>
         <ConversationHero
+          about={getAbout()}
           i18n={i18n}
           title={getTitle()}
           avatarPath={getAvatarPath()}
@@ -87,6 +92,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
     return (
       <div style={{ width: '480px' }}>
         <ConversationHero
+          about={getAbout()}
           i18n={i18n}
           title={text('title', 'Cayce Bollard (profile)')}
           avatarPath={getAvatarPath()}
@@ -103,6 +109,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
     return (
       <div style={{ width: '480px' }}>
         <ConversationHero
+          about={getAbout()}
           i18n={i18n}
           title={text('title', '+1 (646) 327-2700')}
           avatarPath={getAvatarPath()}

@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-nested-ternary */
@@ -56,6 +56,8 @@ import {
 } from './Interface';
 
 declare global {
+  // We want to extend `Function`'s properties, so we need to use an interface.
+  // eslint-disable-next-line no-restricted-syntax
   interface Function {
     needsSerial?: boolean;
   }
@@ -178,6 +180,7 @@ const dataInterface: ServerInterface = {
   getAllStickerPacks,
   getAllStickers,
   getRecentStickers,
+  clearAllErrorStickerPackAttempts,
 
   updateEmojiUsage,
   getRecentEmojis,
@@ -454,16 +457,16 @@ async function updateToSchemaVersion1(
     );`);
 
     await instance.run(`CREATE TABLE unprocessed(
-    id STRING,
-    timestamp INTEGER,
-    json TEXT
-  );`);
+      id STRING,
+      timestamp INTEGER,
+      json TEXT
+    );`);
     await instance.run(`CREATE INDEX unprocessed_id ON unprocessed (
-    id
-  );`);
+      id
+    );`);
     await instance.run(`CREATE INDEX unprocessed_timestamp ON unprocessed (
-    timestamp
-  );`);
+      timestamp
+    );`);
 
     await instance.run('PRAGMA user_version = 1;');
     await instance.run('COMMIT TRANSACTION;');
@@ -694,19 +697,19 @@ async function updateToSchemaVersion7(
 
     await instance.run(
       `CREATE TABLE sessions(
-      id TEXT PRIMARY KEY,
-      number TEXT,
-      json TEXT
-    );`
+        id TEXT PRIMARY KEY,
+        number TEXT,
+        json TEXT
+      );`
     );
 
     await instance.run(`CREATE INDEX sessions_number ON sessions (
-    number
-  ) WHERE number IS NOT NULL;`);
+      number
+    ) WHERE number IS NOT NULL;`);
 
     await instance.run(`INSERT INTO sessions(id, number, json)
-    SELECT "+" || id, number, json FROM sessions_old;
-  `);
+      SELECT "+" || id, number, json FROM sessions_old;
+    `);
 
     await instance.run('DROP TABLE sessions_old;');
 
@@ -741,43 +744,43 @@ async function updateToSchemaVersion8(
 
     // Then we create our full-text search table and populate it
     await instance.run(`
-    CREATE VIRTUAL TABLE messages_fts
-    USING fts5(id UNINDEXED, body);
-  `);
+      CREATE VIRTUAL TABLE messages_fts
+      USING fts5(id UNINDEXED, body);
+    `);
     await instance.run(`
-    INSERT INTO messages_fts(id, body)
-    SELECT id, body FROM messages;
-  `);
+      INSERT INTO messages_fts(id, body)
+      SELECT id, body FROM messages;
+    `);
 
     // Then we set up triggers to keep the full-text search table up to date
     await instance.run(`
-    CREATE TRIGGER messages_on_insert AFTER INSERT ON messages BEGIN
-      INSERT INTO messages_fts (
-        id,
-        body
-      ) VALUES (
-        new.id,
-        new.body
-      );
-    END;
-  `);
+      CREATE TRIGGER messages_on_insert AFTER INSERT ON messages BEGIN
+        INSERT INTO messages_fts (
+          id,
+          body
+        ) VALUES (
+          new.id,
+          new.body
+        );
+      END;
+    `);
     await instance.run(`
-    CREATE TRIGGER messages_on_delete AFTER DELETE ON messages BEGIN
-      DELETE FROM messages_fts WHERE id = old.id;
-    END;
-  `);
+      CREATE TRIGGER messages_on_delete AFTER DELETE ON messages BEGIN
+        DELETE FROM messages_fts WHERE id = old.id;
+      END;
+    `);
     await instance.run(`
-    CREATE TRIGGER messages_on_update AFTER UPDATE ON messages BEGIN
-      DELETE FROM messages_fts WHERE id = old.id;
-      INSERT INTO messages_fts(
-        id,
-        body
-      ) VALUES (
-        new.id,
-        new.body
-      );
-    END;
-  `);
+      CREATE TRIGGER messages_on_update AFTER UPDATE ON messages BEGIN
+        DELETE FROM messages_fts WHERE id = old.id;
+        INSERT INTO messages_fts(
+          id,
+          body
+        ) VALUES (
+          new.id,
+          new.body
+        );
+      END;
+    `);
 
     // For formatting search results:
     //   https://sqlite.org/fts5.html#the_highlight_function
@@ -804,20 +807,20 @@ async function updateToSchemaVersion9(
 
   try {
     await instance.run(`CREATE TABLE attachment_downloads(
-    id STRING primary key,
-    timestamp INTEGER,
-    pending INTEGER,
-    json TEXT
-  );`);
+      id STRING primary key,
+      timestamp INTEGER,
+      pending INTEGER,
+      json TEXT
+    );`);
 
     await instance.run(`CREATE INDEX attachment_downloads_timestamp
-    ON attachment_downloads (
-      timestamp
-  ) WHERE pending = 0;`);
+      ON attachment_downloads (
+        timestamp
+    ) WHERE pending = 0;`);
     await instance.run(`CREATE INDEX attachment_downloads_pending
-    ON attachment_downloads (
-      pending
-  ) WHERE pending != 0;`);
+      ON attachment_downloads (
+        pending
+    ) WHERE pending != 0;`);
 
     await instance.run('PRAGMA user_version = 9;');
     await instance.run('COMMIT TRANSACTION;');
@@ -844,46 +847,46 @@ async function updateToSchemaVersion10(
     await instance.run('ALTER TABLE unprocessed RENAME TO unprocessed_old;');
 
     await instance.run(`CREATE TABLE unprocessed(
-    id STRING,
-    timestamp INTEGER,
-    version INTEGER,
-    attempts INTEGER,
-    envelope TEXT,
-    decrypted TEXT,
-    source TEXT,
-    sourceDevice TEXT,
-    serverTimestamp INTEGER
-  );`);
+      id STRING,
+      timestamp INTEGER,
+      version INTEGER,
+      attempts INTEGER,
+      envelope TEXT,
+      decrypted TEXT,
+      source TEXT,
+      sourceDevice TEXT,
+      serverTimestamp INTEGER
+    );`);
 
     await instance.run(`CREATE INDEX unprocessed_id ON unprocessed (
-    id
-  );`);
+      id
+    );`);
     await instance.run(`CREATE INDEX unprocessed_timestamp ON unprocessed (
-    timestamp
-  );`);
+      timestamp
+    );`);
 
     await instance.run(`INSERT INTO unprocessed (
-    id,
-    timestamp,
-    version,
-    attempts,
-    envelope,
-    decrypted,
-    source,
-    sourceDevice,
-    serverTimestamp
-  ) SELECT
-    id,
-    timestamp,
-    json_extract(json, '$.version'),
-    json_extract(json, '$.attempts'),
-    json_extract(json, '$.envelope'),
-    json_extract(json, '$.decrypted'),
-    json_extract(json, '$.source'),
-    json_extract(json, '$.sourceDevice'),
-    json_extract(json, '$.serverTimestamp')
-  FROM unprocessed_old;
-  `);
+      id,
+      timestamp,
+      version,
+      attempts,
+      envelope,
+      decrypted,
+      source,
+      sourceDevice,
+      serverTimestamp
+    ) SELECT
+      id,
+      timestamp,
+      json_extract(json, '$.version'),
+      json_extract(json, '$.attempts'),
+      json_extract(json, '$.envelope'),
+      json_extract(json, '$.decrypted'),
+      json_extract(json, '$.source'),
+      json_extract(json, '$.sourceDevice'),
+      json_extract(json, '$.serverTimestamp')
+    FROM unprocessed_old;
+    `);
 
     await instance.run('DROP TABLE unprocessed_old;');
 
@@ -1024,14 +1027,14 @@ async function updateToSchemaVersion14(
 
   try {
     await instance.run(`CREATE TABLE emojis(
-    shortName STRING PRIMARY KEY,
-    lastUsage INTEGER
-  );`);
+      shortName STRING PRIMARY KEY,
+      lastUsage INTEGER
+    );`);
 
     await instance.run(`CREATE INDEX emojis_lastUsage
-    ON emojis (
-      lastUsage
-  );`);
+      ON emojis (
+        lastUsage
+    );`);
 
     await instance.run('PRAGMA user_version = 14;');
     await instance.run('COMMIT TRANSACTION;');
@@ -1595,6 +1598,53 @@ async function updateToSchemaVersion21(
   }
 }
 
+async function updateToSchemaVersion22(
+  currentVersion: number,
+  instance: PromisifiedSQLDatabase
+) {
+  if (currentVersion >= 22) {
+    return;
+  }
+  try {
+    await instance.run('BEGIN TRANSACTION;');
+    await instance.run(
+      `ALTER TABLE unprocessed
+     ADD COLUMN sourceUuid STRING;`
+    );
+
+    await instance.run('PRAGMA user_version = 22;');
+    await instance.run('COMMIT TRANSACTION;');
+    console.log('updateToSchemaVersion22: success!');
+  } catch (error) {
+    await instance.run('ROLLBACK');
+    throw error;
+  }
+}
+
+async function updateToSchemaVersion23(
+  currentVersion: number,
+  instance: PromisifiedSQLDatabase
+) {
+  if (currentVersion >= 23) {
+    return;
+  }
+  try {
+    await instance.run('BEGIN TRANSACTION;');
+
+    // Remove triggers which keep full-text search up to date
+    await instance.run('DROP TRIGGER messages_on_insert;');
+    await instance.run('DROP TRIGGER messages_on_update;');
+    await instance.run('DROP TRIGGER messages_on_delete;');
+
+    await instance.run('PRAGMA user_version = 23;');
+    await instance.run('COMMIT TRANSACTION;');
+    console.log('updateToSchemaVersion23: success!');
+  } catch (error) {
+    await instance.run('ROLLBACK');
+    throw error;
+  }
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -1617,6 +1667,8 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion19,
   updateToSchemaVersion20,
   updateToSchemaVersion21,
+  updateToSchemaVersion22,
+  updateToSchemaVersion23,
 ];
 
 async function updateSchema(instance: PromisifiedSQLDatabase) {
@@ -1822,6 +1874,7 @@ async function getIdentityKeyById(id: string) {
 async function bulkAddIdentityKeys(array: Array<IdentityKeyType>) {
   return bulkAdd(IDENTITY_KEYS_TABLE, array);
 }
+bulkAddIdentityKeys.needsSerial = true;
 async function removeIdentityKeyById(id: string) {
   return removeById(IDENTITY_KEYS_TABLE, id);
 }
@@ -1842,6 +1895,7 @@ async function getPreKeyById(id: number) {
 async function bulkAddPreKeys(array: Array<PreKeyType>) {
   return bulkAdd(PRE_KEYS_TABLE, array);
 }
+bulkAddPreKeys.needsSerial = true;
 async function removePreKeyById(id: number) {
   return removeById(PRE_KEYS_TABLE, id);
 }
@@ -1862,6 +1916,7 @@ async function getSignedPreKeyById(id: number) {
 async function bulkAddSignedPreKeys(array: Array<SignedPreKeyType>) {
   return bulkAdd(SIGNED_PRE_KEYS_TABLE, array);
 }
+bulkAddSignedPreKeys.needsSerial = true;
 async function removeSignedPreKeyById(id: number) {
   return removeById(SIGNED_PRE_KEYS_TABLE, id);
 }
@@ -1891,6 +1946,7 @@ async function getAllItems() {
 async function bulkAddItems(array: Array<ItemType>) {
   return bulkAdd(ITEMS_TABLE, array);
 }
+bulkAddItems.needsSerial = true;
 async function removeItemById(id: string) {
   return removeById(ITEMS_TABLE, id);
 }
@@ -1963,6 +2019,7 @@ async function getSessionsById(conversationId: string) {
 async function bulkAddSessions(array: Array<SessionType>) {
   return bulkAdd(SESSIONS_TABLE, array);
 }
+bulkAddSessions.needsSerial = true;
 async function removeSessionById(id: string) {
   return removeById(SESSIONS_TABLE, id);
 }
@@ -2016,6 +2073,7 @@ async function bulkAdd(table: string, array: Array<any>) {
     throw error;
   }
 }
+bulkAdd.needsSerial = true;
 
 async function getById(table: string, id: string | number) {
   const db = getInstance();
@@ -2363,7 +2421,7 @@ async function searchMessages(
     INNER JOIN messages on messages_fts.id = messages.id
     WHERE
       messages_fts match $query
-    ORDER BY messages.received_at DESC
+    ORDER BY messages.received_at DESC, messages.sent_at DESC
     LIMIT $limit;`,
     {
       $query: query,
@@ -2392,7 +2450,7 @@ async function searchMessagesInConversation(
     WHERE
       messages_fts match $query AND
       messages.conversationId = $conversationId
-    ORDER BY messages.received_at DESC
+    ORDER BY messages.received_at DESC, messages.sent_at DESC
     LIMIT $limit;`,
     {
       $query: query,
@@ -2425,7 +2483,10 @@ async function getMessageCount(conversationId?: string) {
 
 async function saveMessage(
   data: MessageType,
-  { forceSave }: { forceSave?: boolean } = {}
+  {
+    forceSave,
+    alreadyInTransaction,
+  }: { forceSave?: boolean; alreadyInTransaction?: boolean } = {}
 ) {
   const db = getInstance();
   const {
@@ -2475,32 +2536,69 @@ async function saveMessage(
   };
 
   if (id && !forceSave) {
-    await db.run(
-      `UPDATE messages SET
-        id = $id,
-        json = $json,
+    if (!alreadyInTransaction) {
+      await db.run('BEGIN TRANSACTION;');
+    }
 
-        body = $body,
-        conversationId = $conversationId,
-        expirationStartTimestamp = $expirationStartTimestamp,
-        expires_at = $expires_at,
-        expireTimer = $expireTimer,
-        hasAttachments = $hasAttachments,
-        hasFileAttachments = $hasFileAttachments,
-        hasVisualMediaAttachments = $hasVisualMediaAttachments,
-        isErased = $isErased,
-        isViewOnce = $isViewOnce,
-        received_at = $received_at,
-        schemaVersion = $schemaVersion,
-        sent_at = $sent_at,
-        source = $source,
-        sourceUuid = $sourceUuid,
-        sourceDevice = $sourceDevice,
-        type = $type,
-        unread = $unread
-      WHERE id = $id;`,
-      payload
-    );
+    try {
+      await Promise.all([
+        db.run(
+          `UPDATE messages SET
+            id = $id,
+            json = $json,
+  
+            body = $body,
+            conversationId = $conversationId,
+            expirationStartTimestamp = $expirationStartTimestamp,
+            expires_at = $expires_at,
+            expireTimer = $expireTimer,
+            hasAttachments = $hasAttachments,
+            hasFileAttachments = $hasFileAttachments,
+            hasVisualMediaAttachments = $hasVisualMediaAttachments,
+            isErased = $isErased,
+            isViewOnce = $isViewOnce,
+            received_at = $received_at,
+            schemaVersion = $schemaVersion,
+            sent_at = $sent_at,
+            source = $source,
+            sourceUuid = $sourceUuid,
+            sourceDevice = $sourceDevice,
+            type = $type,
+            unread = $unread
+          WHERE id = $id;`,
+          payload
+        ),
+        db.run('DELETE FROM messages_fts WHERE id = $id;', {
+          $id: id,
+        }),
+      ]);
+
+      if (body) {
+        await db.run(
+          `INSERT INTO messages_fts(
+             id,
+             body
+           ) VALUES (
+             $id,
+             $body
+           );
+          `,
+          {
+            $id: id,
+            $body: body,
+          }
+        );
+      }
+
+      if (!alreadyInTransaction) {
+        await db.run('COMMIT TRANSACTION;');
+      }
+    } catch (error) {
+      if (!alreadyInTransaction) {
+        await db.run('ROLLBACK;');
+      }
+      throw error;
+    }
 
     return id;
   }
@@ -2510,61 +2608,93 @@ async function saveMessage(
     id: id || generateUUID(),
   };
 
-  await db.run(
-    `INSERT INTO messages (
-    id,
-    json,
+  if (!alreadyInTransaction) {
+    await db.run('BEGIN TRANSACTION;');
+  }
 
-    body,
-    conversationId,
-    expirationStartTimestamp,
-    expires_at,
-    expireTimer,
-    hasAttachments,
-    hasFileAttachments,
-    hasVisualMediaAttachments,
-    isErased,
-    isViewOnce,
-    received_at,
-    schemaVersion,
-    sent_at,
-    source,
-    sourceUuid,
-    sourceDevice,
-    type,
-    unread
-  ) values (
-    $id,
-    $json,
+  try {
+    await Promise.all([
+      db.run(
+        `INSERT INTO messages (
+          id,
+          json,
+  
+          body,
+          conversationId,
+          expirationStartTimestamp,
+          expires_at,
+          expireTimer,
+          hasAttachments,
+          hasFileAttachments,
+          hasVisualMediaAttachments,
+          isErased,
+          isViewOnce,
+          received_at,
+          schemaVersion,
+          sent_at,
+          source,
+          sourceUuid,
+          sourceDevice,
+          type,
+          unread
+        ) values (
+          $id,
+          $json,
+  
+          $body,
+          $conversationId,
+          $expirationStartTimestamp,
+          $expires_at,
+          $expireTimer,
+          $hasAttachments,
+          $hasFileAttachments,
+          $hasVisualMediaAttachments,
+          $isErased,
+          $isViewOnce,
+          $received_at,
+          $schemaVersion,
+          $sent_at,
+          $source,
+          $sourceUuid,
+          $sourceDevice,
+          $type,
+          $unread
+        );`,
+        {
+          ...payload,
+          $id: toCreate.id,
+          $json: objectToJSON(toCreate),
+        }
+      ),
+      db.run(
+        `INSERT INTO messages_fts(
+           id,
+           body
+         ) VALUES (
+           $id,
+           $body
+         );
+        `,
+        {
+          $id: id,
+          $body: body,
+        }
+      ),
+    ]);
 
-    $body,
-    $conversationId,
-    $expirationStartTimestamp,
-    $expires_at,
-    $expireTimer,
-    $hasAttachments,
-    $hasFileAttachments,
-    $hasVisualMediaAttachments,
-    $isErased,
-    $isViewOnce,
-    $received_at,
-    $schemaVersion,
-    $sent_at,
-    $source,
-    $sourceUuid,
-    $sourceDevice,
-    $type,
-    $unread
-  );`,
-    {
-      ...payload,
-      $id: toCreate.id,
-      $json: objectToJSON(toCreate),
+    if (!alreadyInTransaction) {
+      await db.run('COMMIT TRANSACTION;');
     }
-  );
+  } catch (error) {
+    if (!alreadyInTransaction) {
+      await db.run('ROLLBACK;');
+    }
+    throw error;
+  }
 
   return toCreate.id;
 }
+saveMessage.needsSerial = true;
 
 async function saveMessages(
   arrayOfMessages: Array<MessageType>,
@@ -2576,7 +2706,7 @@ async function saveMessages(
   try {
     await Promise.all([
       ...map(arrayOfMessages, async message =>
-        saveMessage(message, { forceSave })
+        saveMessage(message, { forceSave, alreadyInTransaction: true })
       ),
     ]);
 
@@ -2590,16 +2720,49 @@ saveMessages.needsSerial = true;
 
 async function removeMessage(id: string) {
   const db = getInstance();
-  await db.run('DELETE FROM messages WHERE id = $id;', { $id: id });
+  await db.run('BEGIN TRANSACTION;');
+
+  try {
+    await Promise.all([
+      db.run('DELETE FROM messages WHERE id = $id;', { $id: id }),
+      db.run('DELETE FROM messages_fts WHERE id = $id;', { $id: id }),
+    ]);
+
+    await db.run('COMMIT TRANSACTION;');
+  } catch (error) {
+    await db.run('ROLLBACK;');
+    throw error;
+  }
 }
+removeMessage.needsSerial = true;
 
 async function removeMessages(ids: Array<string>) {
   const db = getInstance();
-  await db.run(
-    `DELETE FROM messages WHERE id IN ( ${ids.map(() => '?').join(', ')} );`,
-    ids
-  );
+  await db.run('BEGIN TRANSACTION;');
+
+  try {
+    await Promise.all([
+      db.run(
+        `DELETE FROM messages WHERE id IN ( ${ids
+          .map(() => '?')
+          .join(', ')} );`,
+        ids
+      ),
+      db.run(
+        `DELETE FROM messages_fts WHERE id IN ( ${ids
+          .map(() => '?')
+          .join(', ')} );`,
+        ids
+      ),
+    ]);
+
+    await db.run('COMMIT TRANSACTION;');
+  } catch (error) {
+    await db.run('ROLLBACK;');
+    throw error;
+  }
 }
+removeMessages.needsSerial = true;
 
 async function getMessageById(id: string) {
   const db = getInstance();
@@ -2662,7 +2825,7 @@ async function getUnreadByConversation(conversationId: string) {
     `SELECT json FROM messages WHERE
       unread = $unread AND
       conversationId = $conversationId
-     ORDER BY received_at DESC;`,
+     ORDER BY received_at DESC, sent_at DESC;`,
     {
       $unread: 1,
       $conversationId: conversationId,
@@ -2677,10 +2840,12 @@ async function getOlderMessagesByConversation(
   {
     limit = 100,
     receivedAt = Number.MAX_VALUE,
+    sentAt = Number.MAX_VALUE,
     messageId,
   }: {
     limit?: number;
     receivedAt?: number;
+    sentAt?: number;
     messageId?: string;
   } = {}
 ) {
@@ -2691,13 +2856,17 @@ async function getOlderMessagesByConversation(
     rows = await db.all(
       `SELECT json FROM messages WHERE
        conversationId = $conversationId AND
-       received_at <= $received_at AND
-       id != $messageId
-     ORDER BY received_at DESC
+       id != $messageId AND
+       (
+         (received_at = $received_at AND sent_at < $sent_at) OR
+         received_at < $received_at
+       )
+     ORDER BY received_at DESC, sent_at DESC
      LIMIT $limit;`,
       {
         $conversationId: conversationId,
         $received_at: receivedAt,
+        $sent_at: sentAt,
         $limit: limit,
         $messageId: messageId,
       }
@@ -2706,12 +2875,16 @@ async function getOlderMessagesByConversation(
     rows = await db.all(
       `SELECT json FROM messages WHERE
        conversationId = $conversationId AND
-       received_at < $received_at
-     ORDER BY received_at DESC
+       (
+         (received_at = $received_at AND sent_at < $sent_at) OR
+         received_at < $received_at
+       )
+     ORDER BY received_at DESC, sent_at DESC
      LIMIT $limit;`,
       {
         $conversationId: conversationId,
         $received_at: receivedAt,
+        $sent_at: sentAt,
         $limit: limit,
       }
     );
@@ -2722,18 +2895,26 @@ async function getOlderMessagesByConversation(
 
 async function getNewerMessagesByConversation(
   conversationId: string,
-  { limit = 100, receivedAt = 0 }: { limit?: number; receivedAt?: number } = {}
+  {
+    limit = 100,
+    receivedAt = 0,
+    sentAt = 0,
+  }: { limit?: number; receivedAt?: number; sentAt?: number } = {}
 ) {
   const db = getInstance();
   const rows = await db.all(
     `SELECT json FROM messages WHERE
        conversationId = $conversationId AND
-       received_at > $received_at
-     ORDER BY received_at ASC
+       (
+         (received_at = $received_at AND sent_at > $sent_at) OR
+         received_at > $received_at
+       )
+     ORDER BY received_at ASC, sent_at ASC
      LIMIT $limit;`,
     {
       $conversationId: conversationId,
       $received_at: receivedAt,
+      $sent_at: sentAt,
       $limit: limit,
     }
   );
@@ -2745,7 +2926,7 @@ async function getOldestMessageForConversation(conversationId: string) {
   const row = await db.get(
     `SELECT * FROM messages WHERE
        conversationId = $conversationId
-     ORDER BY received_at ASC
+     ORDER BY received_at ASC, sent_at ASC
      LIMIT 1;`,
     {
       $conversationId: conversationId,
@@ -2763,7 +2944,7 @@ async function getNewestMessageForConversation(conversationId: string) {
   const row = await db.get(
     `SELECT * FROM messages WHERE
        conversationId = $conversationId
-     ORDER BY received_at DESC
+     ORDER BY received_at DESC, sent_at DESC
      LIMIT 1;`,
     {
       $conversationId: conversationId,
@@ -2777,19 +2958,44 @@ async function getNewestMessageForConversation(conversationId: string) {
   return row;
 }
 
-async function getLastConversationActivity(
-  conversationId: string
-): Promise<MessageType | null> {
+async function getLastConversationActivity({
+  conversationId,
+  ourConversationId,
+}: {
+  conversationId: string;
+  ourConversationId: string;
+}): Promise<MessageType | null> {
   const db = getInstance();
   const row = await db.get(
     `SELECT * FROM messages WHERE
        conversationId = $conversationId AND
-       (type IS NULL OR type NOT IN ('profile-change', 'verified-change', 'message-history-unsynced', 'keychange', 'group-v1-migration')) AND
-       (json_extract(json, '$.expirationTimerUpdate.fromSync') IS NULL OR json_extract(json, '$.expirationTimerUpdate.fromSync') != 1)
-     ORDER BY received_at DESC
+       (type IS NULL 
+        OR
+        type NOT IN (
+          'profile-change',
+          'verified-change',
+          'message-history-unsynced',
+          'keychange',
+          'group-v1-migration'
+        )
+       ) AND
+       (
+         json_extract(json, '$.expirationTimerUpdate.fromSync') IS NULL
+         OR
+         json_extract(json, '$.expirationTimerUpdate.fromSync') != 1
+       ) AND NOT
+       (
+         type = 'group-v2-change' AND
+         json_extract(json, '$.groupV2Change.from') != $ourConversationId AND
+         json_extract(json, '$.groupV2Change.details.length') = 1 AND
+         json_extract(json, '$.groupV2Change.details[0].type') = 'member-remove' AND
+         json_extract(json, '$.groupV2Change.details[0].conversationId') != $ourConversationId
+       )
+     ORDER BY received_at DESC, sent_at DESC
      LIMIT 1;`,
     {
       $conversationId: conversationId,
+      $ourConversationId: ourConversationId,
     }
   );
 
@@ -2799,18 +3005,39 @@ async function getLastConversationActivity(
 
   return jsonToObject(row.json);
 }
-async function getLastConversationPreview(
-  conversationId: string
-): Promise<MessageType | null> {
+async function getLastConversationPreview({
+  conversationId,
+  ourConversationId,
+}: {
+  conversationId: string;
+  ourConversationId: string;
+}): Promise<MessageType | null> {
   const db = getInstance();
   const row = await db.get(
     `SELECT * FROM messages WHERE
        conversationId = $conversationId AND
-       (type IS NULL OR type NOT IN ('profile-change', 'verified-change', 'message-history-unsynced', 'group-v1-migration'))
-     ORDER BY received_at DESC
+       (
+        type IS NULL
+        OR
+        type NOT IN (
+          'profile-change',
+          'verified-change',
+          'message-history-unsynced',
+          'group-v1-migration'
+        )
+       ) AND NOT
+       (
+         type = 'group-v2-change' AND
+         json_extract(json, '$.groupV2Change.from') != $ourConversationId AND
+         json_extract(json, '$.groupV2Change.details.length') = 1 AND
+         json_extract(json, '$.groupV2Change.details[0].type') = 'member-remove' AND
+         json_extract(json, '$.groupV2Change.details[0].conversationId') != $ourConversationId
+       )
+     ORDER BY received_at DESC, sent_at DESC
      LIMIT 1;`,
     {
       $conversationId: conversationId,
+      $ourConversationId: ourConversationId,
     }
   );
 
@@ -2826,7 +3053,7 @@ async function getOldestUnreadMessageForConversation(conversationId: string) {
     `SELECT * FROM messages WHERE
        conversationId = $conversationId AND
        unread = 1
-     ORDER BY received_at ASC
+     ORDER BY received_at ASC, sent_at ASC
      LIMIT 1;`,
     {
       $conversationId: conversationId,
@@ -2870,10 +3097,10 @@ async function getMessageMetricsForConversation(conversationId: string) {
   const [oldest, newest, oldestUnread, totalUnread] = results;
 
   return {
-    oldest: oldest ? pick(oldest, ['received_at', 'id']) : null,
-    newest: newest ? pick(newest, ['received_at', 'id']) : null,
+    oldest: oldest ? pick(oldest, ['received_at', 'sent_at', 'id']) : null,
+    newest: newest ? pick(newest, ['received_at', 'sent_at', 'id']) : null,
     oldestUnread: oldestUnread
-      ? pick(oldestUnread, ['received_at', 'id'])
+      ? pick(oldestUnread, ['received_at', 'sent_at', 'id'])
       : null,
     totalUnread,
   };
@@ -2932,7 +3159,7 @@ async function getMessagesBySentAt(sentAt: number) {
   const rows = await db.all(
     `SELECT * FROM messages
      WHERE sent_at = $sent_at
-     ORDER BY received_at DESC;`,
+     ORDER BY received_at DESC, sent_at DESC;`,
     {
       $sent_at: sentAt,
     }
@@ -2998,7 +3225,7 @@ async function getNextTapToViewMessageToAgeOut() {
     WHERE
       isViewOnce = 1
       AND (isErased IS NULL OR isErased != 1)
-    ORDER BY received_at ASC
+    ORDER BY received_at ASC, sent_at ASC
     LIMIT 1;
   `);
 
@@ -3019,7 +3246,7 @@ async function getTapToViewMessagesNeedingErase() {
       isViewOnce = 1
       AND (isErased IS NULL OR isErased != 1)
       AND received_at <= $THIRTY_DAYS_AGO
-    ORDER BY received_at ASC;`,
+    ORDER BY received_at ASC, sent_at ASC;`,
     {
       $THIRTY_DAYS_AGO: THIRTY_DAYS_AGO,
     }
@@ -3115,11 +3342,12 @@ async function updateUnprocessedAttempts(id: string, attempts: number) {
 }
 async function updateUnprocessedWithData(id: string, data: UnprocessedType) {
   const db = getInstance();
-  const { source, sourceDevice, serverTimestamp, decrypted } = data;
+  const { source, sourceUuid, sourceDevice, serverTimestamp, decrypted } = data;
 
   await db.run(
     `UPDATE unprocessed SET
       source = $source,
+      sourceUuid = $sourceUuid,
       sourceDevice = $sourceDevice,
       serverTimestamp = $serverTimestamp,
       decrypted = $decrypted
@@ -3127,6 +3355,7 @@ async function updateUnprocessedWithData(id: string, data: UnprocessedType) {
     {
       $id: id,
       $source: source,
+      $sourceUuid: sourceUuid,
       $sourceDevice: sourceDevice,
       $serverTimestamp: serverTimestamp,
       $decrypted: decrypted,
@@ -3397,6 +3626,13 @@ async function updateStickerPackStatus(
       $status: status,
       $installedAt: installedAt,
     }
+  );
+}
+async function clearAllErrorStickerPackAttempts(): Promise<void> {
+  const db = getInstance();
+
+  await db.run(
+    "UPDATE sticker_packs SET downloadAttempts = 0 WHERE status = 'error';"
   );
 }
 async function createOrUpdateSticker(sticker: StickerType) {
@@ -3824,7 +4060,7 @@ async function getMessagesWithVisualMediaAttachments(
     `SELECT json FROM messages WHERE
       conversationId = $conversationId AND
       hasVisualMediaAttachments = 1
-     ORDER BY received_at DESC
+     ORDER BY received_at DESC, sent_at DESC
      LIMIT $limit;`,
     {
       $conversationId: conversationId,
@@ -3844,7 +4080,7 @@ async function getMessagesWithFileAttachments(
     `SELECT json FROM messages WHERE
       conversationId = $conversationId AND
       hasFileAttachments = 1
-     ORDER BY received_at DESC
+     ORDER BY received_at DESC, sent_at DESC
      LIMIT $limit;`,
     {
       $conversationId: conversationId,

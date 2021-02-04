@@ -282,7 +282,7 @@ async function queryConversationsAndContacts(
   }
 ) {
   const { ourConversationId, noteToSelf } = options;
-  const query = providedQuery.replace(/[+-.()]*/g, '');
+  const query = providedQuery.replace(/[+.()]*/g, '');
 
   const searchResults: Array<DBConversationType> = await dataSearchConversations(
     query
@@ -323,7 +323,7 @@ async function queryConversationsAndContacts(
 
 // Reducer
 
-function getEmptyState(): SearchStateType {
+export function getEmptyState(): SearchStateType {
   return {
     startSearchCounter: 0,
     query: '',

@@ -1,12 +1,8 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
 
-import {
-  isImageTypeSupported,
-  isVideoTypeSupported,
-} from '../../util/GoogleChrome';
 import { Image } from './Image';
 import { StagedGenericAttachment } from './StagedGenericAttachment';
 import { StagedPlaceholderAttachment } from './StagedPlaceholderAttachment';
@@ -15,20 +11,25 @@ import {
   areAllAttachmentsVisual,
   AttachmentType,
   getUrl,
+  isImageAttachment,
   isVideoAttachment,
 } from '../../types/Attachment';
 
-export interface Props {
+export type Props = {
   attachments: Array<AttachmentType>;
   i18n: LocalizerType;
   onClickAttachment: (attachment: AttachmentType) => void;
   onCloseAttachment: (attachment: AttachmentType) => void;
   onAddAttachment: () => void;
   onClose: () => void;
-}
+};
 
 const IMAGE_WIDTH = 120;
 const IMAGE_HEIGHT = 120;
+
+// This is a 1x1 black square.
+const BLANK_VIDEO_THUMBNAIL =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQAAAAA3bvkkAAAACklEQVR42mNiAAAABgADm78GJQAAAABJRU5ErkJggg==';
 
 export const AttachmentList = ({
   attachments,
@@ -58,28 +59,33 @@ export const AttachmentList = ({
       ) : null}
       <div className="module-attachments__rail">
         {(attachments || []).map((attachment, index) => {
-          const { contentType } = attachment;
-          if (
-            isImageTypeSupported(contentType) ||
-            isVideoTypeSupported(contentType)
-          ) {
-            const imageKey = getUrl(attachment) || attachment.fileName || index;
+          const url = getUrl(attachment);
+
+          const key = url || attachment.fileName || index;
+
+          const isImage = isImageAttachment(attachment);
+          const isVideo = isVideoAttachment(attachment);
+
+          if (isImage || isVideo) {
             const clickCallback =
               attachments.length > 1 ? onClickAttachment : undefined;
 
+            const imageUrl =
+              isVideo && !attachment.screenshot ? BLANK_VIDEO_THUMBNAIL : url;
+
             return (
               <Image
-                key={imageKey}
+                key={key}
                 alt={i18n('stagedImageAttachment', [
-                  getUrl(attachment) || attachment.fileName,
+                  url || attachment.fileName,
                 ])}
                 i18n={i18n}
                 attachment={attachment}
                 softCorners
-                playIconOverlay={isVideoAttachment(attachment)}
+                playIconOverlay={isVideo}
                 height={IMAGE_HEIGHT}
                 width={IMAGE_WIDTH}
-                url={getUrl(attachment)}
+                url={imageUrl}
                 closeButton
                 onClick={clickCallback}
                 onClickClose={onCloseAttachment}
@@ -90,11 +96,9 @@ export const AttachmentList = ({
             );
           }
 
-          const genericKey = getUrl(attachment) || attachment.fileName || index;
-
           return (
             <StagedGenericAttachment
-              key={genericKey}
+              key={key}
               attachment={attachment}
               i18n={i18n}
               onClose={onCloseAttachment}

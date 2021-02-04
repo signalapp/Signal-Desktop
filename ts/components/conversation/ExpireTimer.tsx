@@ -6,14 +6,14 @@ import classNames from 'classnames';
 
 import { getIncrement, getTimerBucket } from '../../util/timer';
 
-export interface Props {
+export type Props = {
   withImageNoCaption?: boolean;
   withSticker?: boolean;
   withTapToViewExpired?: boolean;
   expirationLength: number;
   expirationTimestamp: number;
   direction?: 'incoming' | 'outgoing';
-}
+};
 
 export class ExpireTimer extends React.Component<Props> {
   private interval: NodeJS.Timeout | null;

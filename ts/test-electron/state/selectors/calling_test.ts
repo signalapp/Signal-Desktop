@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -9,6 +9,7 @@ import {
   getCallsByConversation,
   getCallSelector,
   getIncomingCall,
+  isInCall,
 } from '../../../state/selectors/calling';
 import { getEmptyState, CallingStateType } from '../../../state/ducks/calling';
 
@@ -40,6 +41,7 @@ describe('state/selectors/calling', () => {
       conversationId: 'fake-direct-call-conversation-id',
       hasLocalAudio: true,
       hasLocalVideo: false,
+      isInSpeakerView: false,
       showParticipantsList: false,
       safetyNumberChangedUuids: [],
       pip: false,
@@ -129,6 +131,16 @@ describe('state/selectors/calling', () => {
           hasRemoteVideo: false,
         }
       );
+    });
+  });
+
+  describe('isInCall', () => {
+    it('returns should be false if we are not in a call', () => {
+      assert.isFalse(isInCall(getEmptyRootState()));
+    });
+
+    it('should be true if we are in a call', () => {
+      assert.isTrue(isInCall(getCallingState(stateWithActiveDirectCall)));
     });
   });
 });

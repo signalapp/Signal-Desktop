@@ -6,10 +6,10 @@ import classNames from 'classnames';
 
 import { LocalizerType } from '../../types/Util';
 
-export interface Props {
+export type Props = {
   i18n: LocalizerType;
   color?: string;
-}
+};
 
 export const TypingAnimation = ({ i18n, color }: Props): JSX.Element => (
   <div className="module-typing-animation" title={i18n('typingAlt')}>

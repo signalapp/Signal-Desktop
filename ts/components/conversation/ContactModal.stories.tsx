@@ -24,17 +24,20 @@ const defaultContact: ConversationType = {
   title: 'Pauline Oliveros',
   type: 'direct',
   phoneNumber: '(333) 444-5515',
+  about: '👍 Free to chat',
 };
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   areWeAdmin: boolean('areWeAdmin', overrideProps.areWeAdmin || false),
   contact: overrideProps.contact || defaultContact,
   i18n,
+  isAdmin: boolean('isAdmin', overrideProps.isAdmin || false),
   isMember: boolean('isMember', overrideProps.isMember || true),
   onClose: action('onClose'),
   openConversation: action('openConversation'),
   removeMember: action('removeMember'),
   showSafetyNumber: action('showSafetyNumber'),
+  toggleAdmin: action('toggleAdmin'),
 });
 
 story.add('As non-admin', () => {

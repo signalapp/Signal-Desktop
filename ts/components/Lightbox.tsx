@@ -24,7 +24,7 @@ const colorSVG = (url: string, color: string) => {
   };
 };
 
-export interface Props {
+export type Props = {
   close: () => void;
   contentType: MIME.MIMEType | undefined;
   i18n: LocalizerType;
@@ -34,10 +34,10 @@ export interface Props {
   onNext?: () => void;
   onPrevious?: () => void;
   onSave?: () => void;
-}
-interface State {
+};
+type State = {
   videoTime?: number;
-}
+};
 
 const CONTROLS_WIDTH = 50;
 const CONTROLS_SPACING = 10;
@@ -158,12 +158,12 @@ const styles = {
   },
 };
 
-interface IconButtonProps {
+type IconButtonProps = {
   i18n: LocalizerType;
   onClick?: () => void;
   style?: React.CSSProperties;
   type: 'save' | 'close' | 'previous' | 'next';
-}
+};
 
 const IconButton = ({ i18n, onClick, style, type }: IconButtonProps) => {
   const clickHandler = (event: React.MouseEvent<HTMLButtonElement>): void => {

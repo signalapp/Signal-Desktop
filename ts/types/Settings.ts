@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as OS from '../OS';
@@ -34,3 +34,12 @@ export const isHideMenuBarSupported = (): boolean => !OS.isMacOS();
 
 // the "draw attention on notification" option is specific to Windows and Linux
 export const isDrawAttentionSupported = (): boolean => !OS.isMacOS();
+
+export enum TitleBarVisibility {
+  Visible,
+  Hidden,
+}
+
+// This should match the "logic" in `stylesheets/_global.scss`.
+export const getTitleBarVisibility = (): TitleBarVisibility =>
+  OS.isMacOS() ? TitleBarVisibility.Hidden : TitleBarVisibility.Visible;

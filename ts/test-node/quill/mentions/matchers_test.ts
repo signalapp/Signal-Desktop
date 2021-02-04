@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -69,14 +69,14 @@ const memberRepositoryRef: RefObject<MemberRepository> = {
 
 const matcher = matchMention(memberRepositoryRef);
 
-interface Mention {
+type Mention = {
   uuid: string;
   title: string;
-}
+};
 
-interface MentionInsert {
+type MentionInsert = {
   mention: Mention;
-}
+};
 
 const isMention = (insert?: unknown): insert is MentionInsert => {
   if (insert) {

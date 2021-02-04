@@ -21,12 +21,15 @@ const ERASE_SQL_KEY = 'erase-sql-key';
 let singleQueue = null;
 let multipleQueue = null;
 
+// Note: we don't want queue timeouts, because delays here are due to in-progress sql
+//   operations. For example we might try to start a transaction when the prevous isn't
+//   done, causing that database operation to fail.
 function makeNewSingleQueue() {
-  singleQueue = new Queue({ concurrency: 1, timeout: 1000 * 60 * 2 });
+  singleQueue = new Queue({ concurrency: 1 });
   return singleQueue;
 }
 function makeNewMultipleQueue() {
-  multipleQueue = new Queue({ concurrency: 10, timeout: 1000 * 60 * 2 });
+  multipleQueue = new Queue({ concurrency: 10 });
   return multipleQueue;
 }
 

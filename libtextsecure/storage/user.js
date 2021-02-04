@@ -32,7 +32,7 @@
     getUuid() {
       const uuid = textsecure.storage.get('uuid_id');
       if (uuid === undefined) return undefined;
-      return textsecure.utils.unencodeNumber(uuid)[0];
+      return textsecure.utils.unencodeNumber(uuid.toLowerCase())[0];
     },
 
     getDeviceId() {

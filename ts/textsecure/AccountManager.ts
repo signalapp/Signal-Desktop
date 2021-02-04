@@ -18,7 +18,7 @@ import WebSocketResource, {
   IncomingWebSocketRequest,
 } from './WebsocketResources';
 
-const ARCHIVE_AGE = 7 * 24 * 60 * 60 * 1000;
+const ARCHIVE_AGE = 30 * 24 * 60 * 60 * 1000;
 
 function getIdentifier(id: string) {
   if (!id || !id.length) {
@@ -166,7 +166,7 @@ export default class AccountManager extends EventTarget {
             .then(async (keys: GeneratedKeysType) =>
               registerKeys(keys).then(async () => confirmKeys(keys))
             )
-            .then(async () => registrationDone({ number }));
+            .then(async () => registrationDone());
         }
       )
     );
@@ -274,9 +274,7 @@ export default class AccountManager extends EventTarget {
                                   confirmKeys(keys)
                                 )
                               )
-                              .then(async () =>
-                                registrationDone(provisionMessage)
-                              );
+                              .then(registrationDone);
                           }
                         )
                       )
@@ -582,10 +580,23 @@ export default class AccountManager extends EventTarget {
       );
     }
 
+    // This needs to be done very early, because it changes how things are saved in the
+    //   database. Your identity, for example, in the saveIdentityWithAttributes call
+    //   below.
+    const conversationId = window.ConversationController.ensureContactIds({
+      e164: number,
+      uuid,
+      highTrust: true,
+    });
+
+    if (!conversationId) {
+      throw new Error('registrationDone: no conversationId!');
+    }
+
     // update our own identity key, which may have changed
     // if we're relinking after a reinstall on the master device
     await window.textsecure.storage.protocol.saveIdentityWithAttributes(
-      number,
+      uuid || number,
       {
         publicKey: identityKeyPair.pubKey,
         firstUse: true,
@@ -714,20 +725,8 @@ export default class AccountManager extends EventTarget {
     });
   }
 
-  async registrationDone({ uuid, number }: { uuid?: string; number?: string }) {
+  async registrationDone() {
     window.log.info('registration done');
-
-    const conversationId = window.ConversationController.ensureContactIds({
-      e164: number,
-      uuid,
-      highTrust: true,
-    });
-    if (!conversationId) {
-      throw new Error('registrationDone: no conversationId!');
-    }
-
-    window.log.info('dispatching registration event');
-
     this.dispatchEvent(new Event('registration'));
   }
 }

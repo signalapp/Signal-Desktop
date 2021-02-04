@@ -20,7 +20,6 @@ import {
 } from 'lodash';
 import { Emoji } from './Emoji';
 import { dataByCategory, search } from './lib';
-import { useRestoreFocus } from '../../util/hooks';
 import { LocalizerType } from '../../types/Util';
 
 export type EmojiPickDataType = {
@@ -75,7 +74,6 @@ export const EmojiPicker = React.memo(
       }: Props,
       ref
     ) => {
-      const focusRef = React.useRef<HTMLButtonElement>(null);
       const [firstRecent] = React.useState(recentEmojis);
       const [selectedCategory, setSelectedCategory] = React.useState(
         categories[0]
@@ -187,9 +185,6 @@ export const EmojiPicker = React.memo(
           document.removeEventListener('keydown', handler);
         };
       }, [onClose, searchMode]);
-
-      // Focus after initial render, restore focus on teardown
-      useRestoreFocus(focusRef);
 
       const [, ...renderableCategories] = categories;
 
@@ -307,7 +302,6 @@ export const EmojiPicker = React.memo(
           <header className="module-emoji-picker__header">
             <button
               type="button"
-              ref={focusRef}
               onClick={handleToggleSearch}
               title={i18n('EmojiPicker--search-placeholder')}
               className={classNames(

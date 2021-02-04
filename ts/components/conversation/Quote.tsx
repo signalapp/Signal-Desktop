@@ -1,7 +1,8 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useRef, useState, useEffect, ReactNode } from 'react';
+import { noop } from 'lodash';
 import classNames from 'classnames';
 
 import * as MIME from '../../types/MIME';
@@ -13,7 +14,7 @@ import { ColorType } from '../../types/Colors';
 import { ContactName } from './ContactName';
 import { getTextWithMentions } from '../../util/getTextWithMentions';
 
-export interface Props {
+export type Props = {
   attachment?: QuotedAttachmentType;
   authorTitle: string;
   authorPhoneNumber?: string;
@@ -29,25 +30,25 @@ export interface Props {
   onClose?: () => void;
   text: string;
   referencedMessageNotFound: boolean;
-}
+};
 
-interface State {
+type State = {
   imageBroken: boolean;
-}
+};
 
-export interface QuotedAttachmentType {
+export type QuotedAttachmentType = {
   contentType: MIME.MIMEType;
   fileName: string;
   /** Not included in protobuf */
   isVoiceMessage: boolean;
   thumbnail?: Attachment;
-}
+};
 
-interface Attachment {
+type Attachment = {
   contentType: MIME.MIMEType;
   /** Not included in protobuf, and is loaded asynchronously */
   objectUrl?: string;
-}
+};
 
 function validateQuote(quote: Props): boolean {
   if (quote.text) {
@@ -132,11 +133,7 @@ export class Quote extends React.Component<Props, State> {
     });
   };
 
-  public renderImage(
-    url: string,
-    i18n: LocalizerType,
-    icon?: string
-  ): JSX.Element {
+  public renderImage(url: string, icon?: string): JSX.Element {
     const iconElement = icon ? (
       <div className="module-quote__icon-container__inner">
         <div className="module-quote__icon-container__circle-background">
@@ -151,14 +148,9 @@ export class Quote extends React.Component<Props, State> {
     ) : null;
 
     return (
-      <div className="module-quote__icon-container">
-        <img
-          src={url}
-          alt={i18n('quoteThumbnailAlt')}
-          onError={this.handleImageError}
-        />
+      <ThumbnailImage src={url} onError={this.handleImageError}>
         {iconElement}
-      </div>
+      </ThumbnailImage>
     );
   }
 
@@ -213,7 +205,7 @@ export class Quote extends React.Component<Props, State> {
   }
 
   public renderIconContainer(): JSX.Element | null {
-    const { attachment, i18n } = this.props;
+    const { attachment } = this.props;
     const { imageBroken } = this.state;
 
     if (!attachment) {
@@ -225,12 +217,12 @@ export class Quote extends React.Component<Props, State> {
 
     if (GoogleChrome.isVideoTypeSupported(contentType)) {
       return objectUrl && !imageBroken
-        ? this.renderImage(objectUrl, i18n, 'play')
+        ? this.renderImage(objectUrl, 'play')
         : this.renderIcon('movie');
     }
     if (GoogleChrome.isImageTypeSupported(contentType)) {
       return objectUrl && !imageBroken
-        ? this.renderImage(objectUrl, i18n)
+        ? this.renderImage(objectUrl)
         : this.renderIcon('image');
     }
     if (MIME.isAudio(contentType)) {
@@ -440,4 +432,52 @@ export class Quote extends React.Component<Props, State> {
       </div>
     );
   }
+}
+
+function ThumbnailImage({
+  src,
+  onError,
+  children,
+}: Readonly<{
+  src: string;
+  onError: () => void;
+  children: ReactNode;
+}>): JSX.Element {
+  const imageRef = useRef(new Image());
+  const [loadedSrc, setLoadedSrc] = useState<null | string>(null);
+
+  useEffect(() => {
+    const image = new Image();
+    image.onload = () => {
+      setLoadedSrc(src);
+    };
+    image.src = src;
+    imageRef.current = image;
+    return () => {
+      image.onload = noop;
+    };
+  }, [src]);
+
+  useEffect(() => {
+    setLoadedSrc(null);
+  }, [src]);
+
+  useEffect(() => {
+    const image = imageRef.current;
+    image.onerror = onError;
+    return () => {
+      image.onerror = noop;
+    };
+  }, [onError]);
+
+  return (
+    <div
+      className="module-quote__icon-container"
+      style={
+        loadedSrc ? { backgroundImage: `url('${escape(loadedSrc)}')` } : {}
+      }
+    >
+      {children}
+    </div>
+  );
 }

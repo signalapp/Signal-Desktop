@@ -14,14 +14,14 @@ import {
 import { missingCaseError } from '../../util/missingCaseError';
 import { Tooltip, TooltipPlacement } from '../Tooltip';
 
-export interface PropsActionsType {
+export type PropsActionsType = {
   messageSizeChanged: (messageId: string, conversationId: string) => void;
   returnToActiveCall: () => void;
   startCallingLobby: (_: {
     conversationId: string;
     isVideoCall: boolean;
   }) => void;
-}
+};
 
 type PropsHousekeeping = {
   i18n: LocalizerType;

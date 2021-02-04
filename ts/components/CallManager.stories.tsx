@@ -1,8 +1,7 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { noop } from 'lodash';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { boolean, select, text } from '@storybook/addon-knobs';
@@ -17,7 +16,8 @@ import {
 } from '../types/Calling';
 import { ConversationTypeType } from '../state/ducks/conversations';
 import { Colors, ColorType } from '../types/Colors';
-import { getDefaultConversation } from '../util/getDefaultConversation';
+import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import { Props as SafetyNumberViewerProps } from '../state/smart/SafetyNumberViewer';
 import enMessages from '../../_locales/en/messages.json';
@@ -42,6 +42,7 @@ const getCommonActiveCallData = () => ({
   joinedAt: Date.now(),
   hasLocalAudio: boolean('hasLocalAudio', true),
   hasLocalVideo: boolean('hasLocalVideo', false),
+  isInSpeakerView: boolean('isInSpeakerView', false),
   pip: boolean('pip', false),
   settingsDialogOpen: boolean('settingsDialogOpen', false),
   showParticipantsList: boolean('showParticipantsList', false),
@@ -64,10 +65,8 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   cancelCall: action('cancel-call'),
   closeNeedPermissionScreen: action('close-need-permission-screen'),
   declineCall: action('decline-call'),
-  // We allow `any` here because this is fake and actually comes from RingRTC, which we
-  //   can't import.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getGroupCallVideoFrameSource: noop as any,
+  getGroupCallVideoFrameSource: (_: string, demuxId: number) =>
+    fakeGetGroupCallVideoFrameSource(demuxId),
   hangUp: action('hang-up'),
   i18n,
   keyChangeOk: action('key-change-ok'),
@@ -89,6 +88,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   toggleParticipants: action('toggle-participants'),
   togglePip: action('toggle-pip'),
   toggleSettings: action('toggle-settings'),
+  toggleSpeakerView: action('toggle-speaker-view'),
 });
 
 const story = storiesOf('Components/CallManager', module);

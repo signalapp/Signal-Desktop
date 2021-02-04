@@ -18,7 +18,7 @@ import { Image } from './Image';
 
 import { LocalizerType } from '../../types/Util';
 
-export interface Props {
+export type Props = {
   attachments: Array<AttachmentType>;
   withContentAbove?: boolean;
   withContentBelow?: boolean;
@@ -31,7 +31,7 @@ export interface Props {
 
   onError: () => void;
   onClick?: (attachment: AttachmentType) => void;
-}
+};
 
 export const ImageGrid = ({
   attachments,

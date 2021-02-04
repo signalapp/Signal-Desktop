@@ -1,12 +1,15 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // Captures the globals put in place by preload.js, background.js and others
 
 import * as Backbone from 'backbone';
 import * as Underscore from 'underscore';
+import moment from 'moment';
+import PQueue from 'p-queue/dist';
 import { Ref } from 'react';
 import { bindActionCreators } from 'redux';
+import { imageToBlurHash } from './util/imageToBlurHash';
 import * as LinkPreviews from '../js/modules/link_previews.d';
 import * as Util from './util';
 import {
@@ -21,22 +24,34 @@ import {
 } from './libsignal.d';
 import { ContactRecordIdentityState, TextSecureType } from './textsecure.d';
 import { WebAPIConnectType } from './textsecure/WebAPI';
+import { uploadDebugLogs } from './logging/debuglogs';
 import { CallingClass } from './services/calling';
 import * as Groups from './groups';
 import * as Crypto from './Crypto';
 import * as RemoteConfig from './RemoteConfig';
+import * as OS from './OS';
+import { getEnvironment } from './environment';
 import * as zkgroup from './util/zkgroup';
 import { LocalizerType, BodyRangesType, BodyRangeType } from './types/Util';
+import * as Attachment from './types/Attachment';
 import { ColorType } from './types/Colors';
+import * as MIME from './types/MIME';
+import * as Contact from './types/Contact';
+import * as Errors from '../js/modules/types/errors';
 import { ConversationController } from './ConversationController';
 import { ReduxActions } from './state/types';
 import { createStore } from './state/createStore';
 import { createCallManager } from './state/roots/createCallManager';
 import { createCompositionArea } from './state/roots/createCompositionArea';
 import { createContactModal } from './state/roots/createContactModal';
+import { createConversationDetails } from './state/roots/createConversationDetails';
 import { createConversationHeader } from './state/roots/createConversationHeader';
+import { createGroupLinkManagement } from './state/roots/createGroupLinkManagement';
 import { createGroupV1MigrationModal } from './state/roots/createGroupV1MigrationModal';
+import { createGroupV2JoinModal } from './state/roots/createGroupV2JoinModal';
+import { createGroupV2Permissions } from './state/roots/createGroupV2Permissions';
 import { createLeftPane } from './state/roots/createLeftPane';
+import { createPendingInvites } from './state/roots/createPendingInvites';
 import { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer';
 import { createShortcutGuideModal } from './state/roots/createShortcutGuideModal';
 import { createStickerManager } from './state/roots/createStickerManager';
@@ -58,15 +73,25 @@ import { SendOptionsType } from './textsecure/SendMessage';
 import AccountManager from './textsecure/AccountManager';
 import Data from './sql/Client';
 import { UserMessage } from './types/Message';
-import PQueue from 'p-queue/dist';
 import { PhoneNumberFormat } from 'google-libphonenumber';
 import { MessageModel } from './models/messages';
 import { ConversationModel } from './models/conversations';
 import { combineNames } from './util';
 import { BatcherType } from './util/batcher';
-import { ErrorModal } from './components/ErrorModal';
-import { ProgressModal } from './components/ProgressModal';
+import { AttachmentList } from './components/conversation/AttachmentList';
+import { CaptionEditor } from './components/CaptionEditor';
+import { ConfirmationModal } from './components/ConfirmationModal';
+import { ContactDetail } from './components/conversation/ContactDetail';
 import { ContactModal } from './components/conversation/ContactModal';
+import { ErrorModal } from './components/ErrorModal';
+import { Lightbox } from './components/Lightbox';
+import { LightboxGallery } from './components/LightboxGallery';
+import { MediaGallery } from './components/conversation/media-gallery/MediaGallery';
+import { MessageDetail } from './components/conversation/MessageDetail';
+import { ProgressModal } from './components/ProgressModal';
+import { Quote } from './components/conversation/Quote';
+import { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
+import { MIMEType } from './types/MIME';
 
 export { Long } from 'long';
 
@@ -74,17 +99,30 @@ type TaskResultType = any;
 
 export type WhatIsThis = any;
 
+// Synced with the type in ts/shims/showConfirmationDialog
+// we are duplicating it here because that file cannot import/export.
+type ConfirmationDialogViewProps = {
+  cancelText?: string;
+  confirmStyle?: 'affirmative' | 'negative';
+  message: string;
+  okText: string;
+  reject?: () => void;
+  resolve: () => void;
+};
+
 declare global {
+  // We want to extend `window`'s properties, so we need an interface.
+  // eslint-disable-next-line no-restricted-syntax
   interface Window {
     _: typeof Underscore;
     $: typeof jQuery;
 
-    moment: any;
-    imageToBlurHash: any;
+    moment: typeof moment;
+    imageToBlurHash: typeof imageToBlurHash;
     autoOrientImage: any;
     dataURLToBlobSync: any;
     loadImage: any;
-    isBehindProxy: any;
+    isBehindProxy: () => boolean;
 
     PQueue: typeof PQueue;
     PQueueType: PQueue;
@@ -104,7 +142,7 @@ declare global {
     getCallSystemNotification: () => Promise<boolean>;
     getConversations: () => ConversationModelCollectionType;
     getCountMutedConversations: () => Promise<boolean>;
-    getEnvironment: () => string;
+    getEnvironment: typeof getEnvironment;
     getExpiration: () => string;
     getGuid: () => string;
     getInboxCollection: () => ConversationModelCollectionType;
@@ -112,6 +150,7 @@ declare global {
     getInteractionMode: () => 'mouse' | 'keyboard';
     getMediaCameraPermissions: () => Promise<boolean>;
     getMediaPermissions: () => Promise<boolean>;
+    getNodeVersion: () => string;
     getServerPublicParams: () => string;
     getSfuUrl: () => string;
     getSocketStatus: () => number;
@@ -124,6 +163,7 @@ declare global {
     isActive: () => boolean;
     isAfterVersion: (version: WhatIsThis, anotherVersion: string) => boolean;
     isBeforeVersion: (version: WhatIsThis, anotherVersion: string) => boolean;
+    isFullScreen: () => boolean;
     isValidGuid: (maybeGuid: string | null) => boolean;
     isValidE164: (maybeE164: unknown) => boolean;
     libphonenumber: {
@@ -140,19 +180,24 @@ declare global {
     };
     libsignal: LibSignalType;
     log: {
+      fatal: LoggerType;
       info: LoggerType;
       warn: LoggerType;
       error: LoggerType;
+      debug: LoggerType;
+      trace: LoggerType;
+      fetch: () => Promise<string>;
+      publish: typeof uploadDebugLogs;
     };
     nodeSetImmediate: typeof setImmediate;
-    normalizeUuids: (obj: any, paths: Array<string>, context: string) => any;
+    normalizeUuids: (obj: any, paths: Array<string>, context: string) => void;
+    onFullScreenChange: (fullScreen: boolean) => void;
     owsDesktopApp: WhatIsThis;
     platform: string;
     preloadedImages: Array<WhatIsThis>;
     reduxActions: ReduxActions;
     reduxStore: WhatIsThis;
-    registerForActive: (handler: WhatIsThis) => void;
-    resetActiveTimer: () => void;
+    registerForActive: (handler: () => void) => void;
     restart: () => void;
     setImmediate: typeof setImmediate;
     showWindow: () => void;
@@ -161,6 +206,7 @@ declare global {
     setAutoHideMenuBar: (value: WhatIsThis) => void;
     setBadgeCount: (count: number) => void;
     setMenuBarVisibility: (value: WhatIsThis) => void;
+    showConfirmationDialog: (options: ConfirmationDialogViewProps) => void;
     showKeyboardShortcuts: () => void;
     storage: {
       addBlockedGroup: (group: string) => void;
@@ -187,7 +233,8 @@ declare global {
     };
     systemTheme: WhatIsThis;
     textsecure: TextSecureType;
-    unregisterForActive: (handler: WhatIsThis) => void;
+    titleBarDoubleClick: () => void;
+    unregisterForActive: (handler: () => void) => void;
     updateTrayIcon: (count: number) => void;
 
     Backbone: typeof Backbone;
@@ -298,8 +345,9 @@ declare global {
             path: string;
             objectUrl: string;
           };
-          contentType: string;
+          contentType: MIMEType;
           error: unknown;
+          caption: string;
 
           migrateDataToFileSystem: (
             attachment: WhatIsThis,
@@ -307,26 +355,12 @@ declare global {
           ) => WhatIsThis;
 
           isVoiceMessage: (attachments: unknown) => boolean;
-          isImage: (attachments: unknown) => boolean;
-          isVideo: (attachments: unknown) => boolean;
-          isAudio: (attachments: unknown) => boolean;
+          isImage: typeof Attachment.isImage;
+          isVideo: typeof Attachment.isVideo;
+          isAudio: typeof Attachment.isAudio;
         };
-        MIME: {
-          IMAGE_GIF: unknown;
-          isImage: any;
-          isJPEG: any;
-        };
-        Contact: {
-          avatar?: { avatar?: unknown };
-          number: Array<{ value: string }>;
-          signalAccount: unknown;
-
-          contactSelector: (
-            contact: typeof window.Signal.Types.Contact,
-            options: unknown
-          ) => typeof window.Signal.Types.Contact;
-          getName: (contact: typeof window.Signal.Types.Contact) => string;
-        };
+        MIME: typeof MIME;
+        Contact: typeof Contact;
         Conversation: {
           computeHash: (data: string) => Promise<string>;
           deleteExternalFiles: (
@@ -358,9 +392,7 @@ declare global {
           e164: string;
           error: string;
         };
-        Errors: {
-          toLogFormat(error: Error): void;
-        };
+        Errors: typeof Errors;
         Message: {
           CURRENT_SCHEMA_VERSION: number;
           VERSION_NEEDED_FOR_DISPLAY: number;
@@ -396,22 +428,21 @@ declare global {
         renderChange: (change: unknown, things: unknown) => Array<string>;
       };
       Components: {
-        AttachmentList: any;
-        CaptionEditor: any;
-        ContactDetail: any;
-        ErrorModal: typeof ErrorModal;
+        AttachmentList: typeof AttachmentList;
+        CaptionEditor: typeof CaptionEditor;
+        ConfirmationModal: typeof ConfirmationModal;
+        ContactDetail: typeof ContactDetail;
         ContactModal: typeof ContactModal;
-        Lightbox: any;
-        LightboxGallery: any;
-        MediaGallery: any;
-        MessageDetail: any;
+        ErrorModal: typeof ErrorModal;
+        Lightbox: typeof Lightbox;
+        LightboxGallery: typeof LightboxGallery;
+        MediaGallery: typeof MediaGallery;
+        MessageDetail: typeof MessageDetail;
         ProgressModal: typeof ProgressModal;
-        Quote: any;
-        StagedLinkPreview: any;
+        Quote: typeof Quote;
+        StagedLinkPreview: typeof StagedLinkPreview;
       };
-      OS: {
-        isLinux: () => boolean;
-      };
+      OS: typeof OS;
       Workflow: {
         IdleDetector: WhatIsThis;
         MessageDataMigrator: WhatIsThis;
@@ -428,9 +459,14 @@ declare global {
           createCallManager: typeof createCallManager;
           createCompositionArea: typeof createCompositionArea;
           createContactModal: typeof createContactModal;
+          createConversationDetails: typeof createConversationDetails;
           createConversationHeader: typeof createConversationHeader;
+          createGroupLinkManagement: typeof createGroupLinkManagement;
           createGroupV1MigrationModal: typeof createGroupV1MigrationModal;
+          createGroupV2JoinModal: typeof createGroupV2JoinModal;
+          createGroupV2Permissions: typeof createGroupV2Permissions;
           createLeftPane: typeof createLeftPane;
+          createPendingInvites: typeof createPendingInvites;
           createSafetyNumberViewer: typeof createSafetyNumberViewer;
           createShortcutGuideModal: typeof createShortcutGuideModal;
           createStickerManager: typeof createStickerManager;
@@ -478,13 +514,22 @@ declare global {
     hasSignalAccount: (number: string) => boolean;
     getServerTrustRoot: () => WhatIsThis;
     readyForUpdates: () => void;
+    logAppLoadedEvent: () => void;
 
-    STORYBOOK_ENV?: string;
+    // Runtime Flags
+    isShowingModal?: boolean;
 
-    // Flags
+    // Feature Flags
     isGroupCallingEnabled: () => boolean;
+    GV2_ENABLE_SINGLE_CHANGE_PROCESSING: boolean;
+    GV2_ENABLE_CHANGE_PROCESSING: boolean;
+    GV2_ENABLE_STATE_PROCESSING: boolean;
+    GV2_MIGRATION_DISABLE_ADD: boolean;
+    GV2_MIGRATION_DISABLE_INVITE: boolean;
   }
 
+  // We want to extend `Error`, so we need an interface.
+  // eslint-disable-next-line no-restricted-syntax
   interface Error {
     cause?: Event;
   }
@@ -573,7 +618,7 @@ export class CanvasVideoRenderer {
   constructor(canvas: Ref<HTMLCanvasElement>);
 }
 
-export type LoggerType = (...args: Array<any>) => void;
+export type LoggerType = (...args: Array<unknown>) => void;
 
 export type WhisperType = {
   events: {
@@ -600,12 +645,11 @@ export type WhisperType = {
   MessageType: MessageModel;
   GroupMemberConversation: WhatIsThis;
   KeyChangeListener: WhatIsThis;
-  ConfirmationDialogView: WhatIsThis;
   ClearDataView: WhatIsThis;
   ReactWrapperView: WhatIsThis;
   activeConfirmationView: WhatIsThis;
   ToastView: typeof Whisper.View & {
-    show: (view: Backbone.View, el: Element) => void;
+    show: (view: typeof Backbone.View, el: Element) => void;
   };
   ConversationArchivedToast: WhatIsThis;
   ConversationUnarchivedToast: WhatIsThis;
@@ -616,6 +660,7 @@ export type WhisperType = {
   BannerView: any;
   RecorderView: any;
   GroupMemberList: any;
+  GroupLinkCopiedToast: typeof Backbone.View;
   KeyVerificationPanelView: any;
   SafetyNumberChangeDialogView: any;
   BodyRangesType: BodyRangesType;
@@ -679,6 +724,8 @@ export type WhisperType = {
   deliveryReceiptBatcher: BatcherType<WhatIsThis>;
   RotateSignedPreKeyListener: WhatIsThis;
 
+  AlreadyGroupMemberToast: typeof Whisper.ToastView;
+  AlreadyRequestedToJoinToast: typeof Whisper.ToastView;
   BlockedGroupToast: typeof Whisper.ToastView;
   BlockedToast: typeof Whisper.ToastView;
   CannotMixImageAndNonImageAttachmentsToast: typeof Whisper.ToastView;

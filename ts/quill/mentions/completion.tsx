@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import _ from 'lodash';
@@ -15,14 +15,16 @@ import { LocalizerType } from '../../types/Util';
 import { MemberRepository } from '../memberRepository';
 import { matchBlotTextPartitions } from '../util';
 
-export interface MentionCompletionOptions {
+export type MentionCompletionOptions = {
   i18n: LocalizerType;
   memberRepositoryRef: RefObject<MemberRepository>;
   setMentionPickerElement: (element: JSX.Element | null) => void;
   me?: ConversationType;
-}
+};
 
 declare global {
+  // We want to extend `HTMLElement`'s properties, so we need an interface.
+  // eslint-disable-next-line no-restricted-syntax
   interface HTMLElement {
     // Webkit-specific
     scrollIntoViewIfNeeded: (bringToCenter: boolean) => void;

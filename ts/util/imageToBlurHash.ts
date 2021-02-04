@@ -19,21 +19,25 @@ const loadImageData = async (input: Input): Promise<ImageData> => {
           reject(processError);
           return;
         }
-        if (canvasOrError instanceof HTMLCanvasElement) {
-          const context = canvasOrError.getContext('2d');
-          resolve(
-            context?.getImageData(
-              0,
-              0,
-              canvasOrError.width,
-              canvasOrError.height
+
+        if (!(canvasOrError instanceof HTMLCanvasElement)) {
+          reject(new Error('imageToBlurHash: result is not a canvas'));
+          return;
+        }
+
+        const context = canvasOrError.getContext('2d');
+        if (!context) {
+          reject(
+            new Error(
+              'imageToBlurHash: cannot get CanvasRenderingContext2D from canvas'
             )
           );
+          return;
         }
-        const error = new Error(
-          'imageToBlurHash: Failed to place image on canvas'
+
+        resolve(
+          context.getImageData(0, 0, canvasOrError.width, canvasOrError.height)
         );
-        reject(error);
       },
       // Calculating the blurhash on large images is a long-running and
       // synchronous operation, so here we ensure the images are a reasonable

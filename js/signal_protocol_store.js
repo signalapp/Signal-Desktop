@@ -345,7 +345,6 @@
 
       try {
         const id = await normalizeEncodedAddress(encodedAddress);
-        window.log.info('loadSession', { encodedAddress, id });
         const session = this.sessions[id];
 
         if (session) {
@@ -366,7 +365,6 @@
 
       try {
         const id = await normalizeEncodedAddress(encodedAddress);
-        window.log.info('storeSession', { encodedAddress, id });
 
         const data = {
           id,
@@ -544,8 +542,13 @@
       const identityRecord = this.getIdentityRecord(identifier);
 
       if (isOurIdentifier) {
-        const existing = identityRecord ? identityRecord.publicKey : null;
-        return equalArrayBuffers(existing, publicKey);
+        if (identityRecord && identityRecord.publicKey) {
+          return equalArrayBuffers(identityRecord.publicKey, publicKey);
+        }
+        window.log.warn(
+          'isTrustedIdentity: No local record for our own identifier. Returning true.'
+        );
+        return true;
       }
 
       switch (direction) {

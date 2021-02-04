@@ -12,11 +12,12 @@ export type ActionSpec = {
 };
 
 export type OwnProps = {
-  readonly i18n: LocalizerType;
-  readonly children: React.ReactNode;
-  readonly title?: string | React.ReactNode;
   readonly actions: Array<ActionSpec>;
+  readonly cancelText?: string;
+  readonly children?: React.ReactNode;
+  readonly i18n: LocalizerType;
   readonly onClose: () => unknown;
+  readonly title?: string | React.ReactNode;
 };
 
 export type Props = OwnProps;
@@ -28,7 +29,7 @@ function focusRef(el: HTMLElement | null) {
 }
 
 export const ConfirmationDialog = React.memo(
-  ({ i18n, onClose, children, title, actions }: Props) => {
+  ({ i18n, onClose, cancelText, children, title, actions }: Props) => {
     React.useEffect(() => {
       const handler = ({ key }: KeyboardEvent) => {
         if (key === 'Escape') {
@@ -53,12 +54,12 @@ export const ConfirmationDialog = React.memo(
 
     const handleAction = React.useCallback(
       (e: React.MouseEvent<HTMLButtonElement>) => {
-        onClose();
         if (e.currentTarget.dataset.action) {
           const actionIndex = parseInt(e.currentTarget.dataset.action, 10);
           const { action } = actions[actionIndex];
           action();
         }
+        onClose();
       },
       [onClose, actions]
     );
@@ -81,7 +82,7 @@ export const ConfirmationDialog = React.memo(
               ref={focusRef}
               className="module-confirmation-dialog__container__buttons__button"
             >
-              {i18n('confirmation-dialog--Cancel')}
+              {cancelText || i18n('confirmation-dialog--Cancel')}
             </button>
             {actions.map((action, i) => (
               <button

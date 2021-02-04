@@ -3,13 +3,212 @@
 
 import { assert } from 'chai';
 
-import { ConversationLookupType } from '../../../state/ducks/conversations';
+import {
+  ConversationLookupType,
+  ConversationType,
+  getEmptyState,
+} from '../../../state/ducks/conversations';
 import {
   _getConversationComparator,
   _getLeftPaneLists,
+  getConversationSelector,
+  getPlaceholderContact,
 } from '../../../state/selectors/conversations';
+import { noopAction } from '../../../state/ducks/noop';
+import { StateType, reducer as rootReducer } from '../../../state/reducer';
 
 describe('both/state/selectors/conversations', () => {
+  const getEmptyRootState = (): StateType => {
+    return rootReducer(undefined, noopAction());
+  };
+
+  function getDefaultConversation(id: string): ConversationType {
+    return {
+      id,
+      type: 'direct',
+      title: `${id} title`,
+    };
+  }
+
+  describe('#getConversationSelector', () => {
+    it('returns empty placeholder if falsey id provided', () => {
+      const state = getEmptyRootState();
+      const selector = getConversationSelector(state);
+
+      const actual = selector(undefined);
+
+      assert.deepEqual(actual, getPlaceholderContact());
+    });
+    it('returns empty placeholder if no match', () => {
+      const state = {
+        ...getEmptyRootState(),
+      };
+      const selector = getConversationSelector(state);
+
+      const actual = selector('random-id');
+
+      assert.deepEqual(actual, getPlaceholderContact());
+    });
+
+    it('returns conversation by e164 first', () => {
+      const id = 'id';
+
+      const conversation = getDefaultConversation(id);
+      const wrongConversation = getDefaultConversation('wrong');
+
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            [id]: wrongConversation,
+          },
+          conversationsByE164: {
+            [id]: conversation,
+          },
+          conversationsByUuid: {
+            [id]: wrongConversation,
+          },
+          conversationsByGroupId: {
+            [id]: wrongConversation,
+          },
+        },
+      };
+
+      const selector = getConversationSelector(state);
+
+      const actual = selector(id);
+
+      assert.strictEqual(actual, conversation);
+    });
+    it('returns conversation by uuid', () => {
+      const id = 'id';
+
+      const conversation = getDefaultConversation(id);
+      const wrongConversation = getDefaultConversation('wrong');
+
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            [id]: wrongConversation,
+          },
+          conversationsByUuid: {
+            [id]: conversation,
+          },
+          conversationsByGroupId: {
+            [id]: wrongConversation,
+          },
+        },
+      };
+
+      const selector = getConversationSelector(state);
+
+      const actual = selector(id);
+
+      assert.strictEqual(actual, conversation);
+    });
+    it('returns conversation by groupId', () => {
+      const id = 'id';
+
+      const conversation = getDefaultConversation(id);
+      const wrongConversation = getDefaultConversation('wrong');
+
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            [id]: wrongConversation,
+          },
+          conversationsByGroupId: {
+            [id]: conversation,
+          },
+        },
+      };
+
+      const selector = getConversationSelector(state);
+
+      const actual = selector(id);
+
+      assert.strictEqual(actual, conversation);
+    });
+    it('returns conversation by conversationId', () => {
+      const id = 'id';
+
+      const conversation = getDefaultConversation(id);
+
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            [id]: conversation,
+          },
+        },
+      };
+
+      const selector = getConversationSelector(state);
+
+      const actual = selector(id);
+
+      assert.strictEqual(actual, conversation);
+    });
+
+    // Less important now, given that all prop-generation for conversations is in
+    //   models/conversation.getProps() and not here.
+    it('does proper caching of result', () => {
+      const id = 'id';
+
+      const conversation = getDefaultConversation(id);
+
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            [id]: conversation,
+          },
+        },
+      };
+
+      const selector = getConversationSelector(state);
+
+      const actual = selector(id);
+
+      const secondState = {
+        ...state,
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            [id]: conversation,
+          },
+        },
+      };
+
+      const secondSelector = getConversationSelector(secondState);
+      const secondActual = secondSelector(id);
+
+      assert.strictEqual(actual, secondActual);
+
+      const thirdState = {
+        ...state,
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            [id]: getDefaultConversation('third'),
+          },
+        },
+      };
+
+      const thirdSelector = getConversationSelector(thirdState);
+      const thirdActual = thirdSelector(id);
+
+      assert.notStrictEqual(actual, thirdActual);
+    });
+  });
+
   describe('#getLeftPaneList', () => {
     it('sorts conversations based on timestamp then by intl-friendly title', () => {
       const data: ConversationLookupType = {

@@ -89,12 +89,19 @@
       });
 
       if (status.type !== 'ok') {
+        window.log.info(
+          `Not updating notifications; notification status is ${status.type}. ${
+            status.shouldClearNotifications ? 'Also clearing notifications' : ''
+          }`
+        );
+
         if (status.shouldClearNotifications) {
           this.notificationData = null;
         }
 
         return;
       }
+      window.log.info('Showing a notification');
 
       let notificationTitle;
       let notificationMessage;
