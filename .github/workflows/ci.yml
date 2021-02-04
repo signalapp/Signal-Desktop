@@ -18,14 +18,6 @@ jobs:
         node-version: '12.18.3'
     - run: npm install -g yarn@1.22.0
 
-    - name: Cache node modules
-      uses: actions/cache@v1
-      env:
-        cache-name: cache-node-modules
-      with:
-        path: node_modules
-        key: ${{ runner.os }}-node_modules-${{ hashFiles('yarn.lock') }}-${{ hashFiles('patches/*') }}
-
     - run: yarn install --frozen-lockfile
     - run: yarn generate
     - run: yarn lint
@@ -45,14 +37,6 @@ jobs:
       with:
         node-version: '12.18.3'
     - run: npm install -g yarn@1.22.0
-
-    - name: Cache node modules
-      uses: actions/cache@v1
-      env:
-        cache-name: cache-node-modules
-      with:
-        path: node_modules
-        key: ${{ runner.os }}-node_modules-${{ hashFiles('yarn.lock') }}-${{ hashFiles('patches/*') }}
 
     - run: yarn install --frozen-lockfile
     - run: yarn generate
@@ -78,14 +62,6 @@ jobs:
         node-version: '12.18.3'
     - run: sudo apt-get install xvfb
     - run: npm install -g yarn@1.22.0
-
-    - name: Cache node modules
-      uses: actions/cache@v1
-      env:
-        cache-name: cache-node-modules
-      with:
-        path: node_modules
-        key: ${{ runner.os }}-node_modules-${{ hashFiles('yarn.lock') }}-${{ hashFiles('patches/*') }}
 
     - run: yarn install --frozen-lockfile
     - run: yarn generate
@@ -114,14 +90,6 @@ jobs:
       with:
         node-version: '12.18.3'
     - run: npm install -g yarn@1.22.0
-
-    - name: Cache node modules
-      uses: actions/cache@v1
-      env:
-        cache-name: cache-node-modules
-      with:
-        path: node_modules
-        key: ${{ runner.os }}-node_modules-${{ hashFiles('yarn.lock') }}-${{ hashFiles('patches/*') }}
 
     - run: yarn install --frozen-lockfile
     - run: yarn generate
