@@ -40,7 +40,6 @@ jobs:
 
     - run: yarn install --frozen-lockfile
     - run: yarn generate
-    - run: yarn lint
     - run: yarn prepare-beta-build
     - run: yarn build
     - run: yarn test-node
@@ -65,7 +64,6 @@ jobs:
 
     - run: yarn install --frozen-lockfile
     - run: yarn generate
-    - run: yarn lint
     - run: yarn prepare-beta-build
     - run: yarn build
     - run: xvfb-run --auto-servernum yarn test-node
@@ -93,7 +91,6 @@ jobs:
 
     - run: yarn install --frozen-lockfile
     - run: yarn generate
-    - run: yarn lint
     - run: node build\grunt.js
     - run: yarn test-node
     - run: copy package.json temp.json
