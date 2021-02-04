@@ -2,8 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 
 name: CI
-
-on: [push]
+on: [push, pull_request]
 
 jobs:
   lint:
@@ -12,12 +11,11 @@ jobs:
     steps:
     - run: lsb_release -a
     - run: uname -a
-    - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
       with:
         node-version: '12.18.3'
     - run: npm install -g yarn@1.22.0
-
     - run: yarn install --frozen-lockfile
     - run: yarn generate
     - run: yarn lint
@@ -32,12 +30,11 @@ jobs:
 
     steps:
     - run: uname -a
-    - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
       with:
         node-version: '12.18.3'
     - run: npm install -g yarn@1.22.0
-
     - run: yarn install --frozen-lockfile
     - run: yarn generate
     - run: yarn prepare-beta-build
@@ -55,13 +52,12 @@ jobs:
     steps:
     - run: lsb_release -a
     - run: uname -a
-    - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
       with:
         node-version: '12.18.3'
     - run: sudo apt-get install xvfb
     - run: npm install -g yarn@1.22.0
-
     - run: yarn install --frozen-lockfile
     - run: yarn generate
     - run: yarn prepare-beta-build
@@ -83,12 +79,11 @@ jobs:
     - run: systeminfo
     - run: git config --global core.autocrlf false
     - run: git config --global core.eol lf
-    - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
       with:
         node-version: '12.18.3'
     - run: npm install -g yarn@1.22.0
-
     - run: yarn install --frozen-lockfile
     - run: yarn generate
     - run: node build\grunt.js
