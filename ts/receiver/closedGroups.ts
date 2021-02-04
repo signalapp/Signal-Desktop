@@ -385,11 +385,9 @@ async function handleClosedGroupEncryptionKeyPair(
   }
 
   // Parse it
-  let proto: SignalService.DataMessage.ClosedGroupControlMessage.KeyPair;
+  let proto: SignalService.KeyPair;
   try {
-    proto = SignalService.DataMessage.ClosedGroupControlMessage.KeyPair.decode(
-      plaintext
-    );
+    proto = SignalService.KeyPair.decode(plaintext);
     if (
       !proto ||
       proto.privateKey.length === 0 ||

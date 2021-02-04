@@ -16,4 +16,8 @@ export abstract class Message {
     }
     this.identifier = identifier || uuid();
   }
+
+  public isSelfSendValid() {
+    return false;
+  }
 }

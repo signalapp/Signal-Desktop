@@ -73,7 +73,7 @@ export class ClosedGroupNewMessage extends ClosedGroupMessage {
       fromHexToArray
     );
     try {
-      dataMessage.closedGroupControlMessage.encryptionKeyPair = new SignalService.DataMessage.ClosedGroupControlMessage.KeyPair();
+      dataMessage.closedGroupControlMessage.encryptionKeyPair = new SignalService.KeyPair();
       dataMessage.closedGroupControlMessage.encryptionKeyPair.privateKey = new Uint8Array(
         this.keypair.privateKeyData
       );
@@ -86,5 +86,9 @@ export class ClosedGroupNewMessage extends ClosedGroupMessage {
     }
 
     return dataMessage;
+  }
+
+  public isSelfSendValid() {
+    return true;
   }
 }

@@ -673,15 +673,11 @@ export async function generateAndSendNewEncryptionKeyPair(
     );
     return;
   }
-  const proto = new SignalService.DataMessage.ClosedGroupControlMessage.KeyPair(
-    {
-      privateKey: newKeyPair?.privateKeyData,
-      publicKey: newKeyPair?.publicKeyData,
-    }
-  );
-  const plaintext = SignalService.DataMessage.ClosedGroupControlMessage.KeyPair.encode(
-    proto
-  ).finish();
+  const proto = new SignalService.KeyPair({
+    privateKey: newKeyPair?.privateKeyData,
+    publicKey: newKeyPair?.publicKeyData,
+  });
+  const plaintext = SignalService.KeyPair.encode(proto).finish();
 
   // Distribute it
   const wrappers = await Promise.all(
