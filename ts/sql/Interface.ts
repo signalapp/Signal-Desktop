@@ -393,7 +393,6 @@ export type ClientInterface = DataInterface & {
   // Client-side only, and test-only
 
   _removeConversations: (ids: Array<string>) => Promise<void>;
-  _cleanData: (data: any, path?: string) => any;
   _jobs: { [id: string]: ClientJobType };
 };
 

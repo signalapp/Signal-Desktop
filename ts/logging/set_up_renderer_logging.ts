@@ -19,6 +19,7 @@ import {
   getLogLevelString,
   isLogEntry,
 } from './shared';
+import * as log from './log';
 import { reallyJsonStringify } from '../util/reallyJsonStringify';
 
 // To make it easier to visually scan logs, we make all levels the same length
@@ -33,13 +34,13 @@ function now() {
   return date.toJSON();
 }
 
-function log(...args: ReadonlyArray<unknown>) {
+function consoleLog(...args: ReadonlyArray<unknown>) {
   logAtLevel(LogLevel.Info, ...args);
 }
 
 if (window.console) {
   console._log = console.log;
-  console.log = log;
+  console.log = consoleLog;
 }
 
 // The mechanics of preparing a log for publish
@@ -126,13 +127,15 @@ function logAtLevel(level: LogLevel, ...args: ReadonlyArray<unknown>): void {
   });
 }
 
+log.setLogAtLevel(logAtLevel);
+
 window.log = {
-  fatal: _.partial(logAtLevel, LogLevel.Fatal),
-  error: _.partial(logAtLevel, LogLevel.Error),
-  warn: _.partial(logAtLevel, LogLevel.Warn),
-  info: _.partial(logAtLevel, LogLevel.Info),
-  debug: _.partial(logAtLevel, LogLevel.Debug),
-  trace: _.partial(logAtLevel, LogLevel.Trace),
+  fatal: log.fatal,
+  error: log.error,
+  warn: log.warn,
+  info: log.info,
+  debug: log.debug,
+  trace: log.trace,
   fetch,
   publish,
 };

@@ -3,21 +3,25 @@
 
 const path = require('path');
 const { app } = require('electron');
-
-let environment;
+const {
+  Environment,
+  getEnvironment,
+  setEnvironment,
+  parseEnvironment,
+} = require('../ts/environment');
 
 // In production mode, NODE_ENV cannot be customized by the user
-if (!app.isPackaged) {
-  environment = process.env.NODE_ENV || 'development';
+if (app.isPackaged) {
+  setEnvironment(Environment.Production);
 } else {
-  environment = 'production';
+  setEnvironment(parseEnvironment(process.env.NODE_ENV || 'development'));
 }
 
 // Set environment vars to configure node-config before requiring it
-process.env.NODE_ENV = environment;
+process.env.NODE_ENV = getEnvironment();
 process.env.NODE_CONFIG_DIR = path.join(__dirname, '..', 'config');
 
-if (environment === 'production') {
+if (getEnvironment() === Environment.Production) {
   // harden production config against the local env
   process.env.NODE_CONFIG = '';
   process.env.NODE_CONFIG_STRICT_MODE = true;
@@ -30,9 +34,10 @@ if (environment === 'production') {
 }
 
 // We load config after we've made our modifications to NODE_ENV
+// eslint-disable-next-line import/order
 const config = require('config');
 
-config.environment = environment;
+config.environment = getEnvironment();
 config.enableHttp = process.env.SIGNAL_ENABLE_HTTP;
 
 // Log resulting env vars in use by config

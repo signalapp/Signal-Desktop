@@ -11,14 +11,20 @@ const url = require('url');
 const i18n = require('./js/modules/i18n');
 const { ConfirmationModal } = require('./ts/components/ConfirmationModal');
 const { makeGetter, makeSetter } = require('./preload_utils');
+const {
+  getEnvironment,
+  setEnvironment,
+  parseEnvironment,
+} = require('./ts/environment');
 
 const { nativeTheme } = remote.require('electron');
 
 const config = url.parse(window.location.toString(), true).query;
 const { locale } = config;
 const localeMessages = ipcRenderer.sendSync('locale-data');
+setEnvironment(parseEnvironment(config.environment));
 
-window.getEnvironment = () => config.environment;
+window.getEnvironment = getEnvironment;
 window.getVersion = () => config.version;
 window.theme = config.theme;
 window.i18n = i18n.setup(locale, localeMessages);

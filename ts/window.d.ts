@@ -30,6 +30,7 @@ import * as Groups from './groups';
 import * as Crypto from './Crypto';
 import * as RemoteConfig from './RemoteConfig';
 import * as OS from './OS';
+import { getEnvironment } from './environment';
 import * as zkgroup from './util/zkgroup';
 import { LocalizerType, BodyRangesType, BodyRangeType } from './types/Util';
 import * as Attachment from './types/Attachment';
@@ -141,7 +142,7 @@ declare global {
     getCallSystemNotification: () => Promise<boolean>;
     getConversations: () => ConversationModelCollectionType;
     getCountMutedConversations: () => Promise<boolean>;
-    getEnvironment: () => string;
+    getEnvironment: typeof getEnvironment;
     getExpiration: () => string;
     getGuid: () => string;
     getInboxCollection: () => ConversationModelCollectionType;

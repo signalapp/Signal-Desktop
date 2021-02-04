@@ -16,15 +16,17 @@ import {
   get,
   groupBy,
   isFunction,
-  isObject,
   last,
   map,
+  omit,
   set,
 } from 'lodash';
 
 import { arrayBufferToBase64, base64ToArrayBuffer } from '../Crypto';
 import { CURRENT_SCHEMA_VERSION } from '../../js/modules/types/message';
 import { createBatcher } from '../util/batcher';
+import { assert } from '../util/assert';
+import { cleanDataForIpc } from './cleanDataForIpc';
 
 import {
   ConversationModelCollectionType,
@@ -231,7 +233,6 @@ const dataInterface: ClientInterface = {
   // Client-side only, and test-only
 
   _removeConversations,
-  _cleanData,
   _jobs,
 };
 
@@ -251,55 +252,22 @@ const channelsAsUnknown = fromPairs(
 
 const channels: ServerInterface = channelsAsUnknown;
 
-// When IPC arguments are prepared for the cross-process send, they are serialized with
-//   the [structured clone algorithm][0]. We can't send some values, like BigNumbers and
-//   functions (both of which come from protobufjs), so we clean them up.
-// [0]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm
-function _cleanData(data: any, path = 'root') {
-  if (data === null || data === undefined) {
-    window.log.warn(`_cleanData: null or undefined value at path ${path}`);
+function _cleanData(
+  data: unknown
+): ReturnType<typeof cleanDataForIpc>['cleaned'] {
+  const { cleaned, pathsChanged } = cleanDataForIpc(data);
 
-    return data;
+  if (pathsChanged.length) {
+    window.log.info(
+      `_cleanData cleaned the following paths: ${pathsChanged.join(', ')}`
+    );
   }
 
-  if (
-    typeof data === 'string' ||
-    typeof data === 'number' ||
-    typeof data === 'boolean'
-  ) {
-    return data;
-  }
+  return cleaned;
+}
 
-  const keys = Object.keys(data);
-  const max = keys.length;
-  for (let index = 0; index < max; index += 1) {
-    const key = keys[index];
-    const value = data[key];
-
-    if (value === null || value === undefined) {
-      continue;
-    }
-
-    if (isFunction(value)) {
-      delete data[key];
-    } else if (isFunction(value.toNumber)) {
-      data[key] = value.toNumber();
-    } else if (Array.isArray(value)) {
-      data[key] = value.map((item, mapIndex) =>
-        _cleanData(item, `${path}.${key}.${mapIndex}`)
-      );
-    } else if (isObject(value)) {
-      data[key] = _cleanData(value, `${path}.${key}`);
-    } else if (
-      typeof value !== 'string' &&
-      typeof value !== 'number' &&
-      typeof value !== 'boolean'
-    ) {
-      window.log.info(`_cleanData: key ${key} had type ${typeof value}`);
-    }
-  }
-
-  return data;
+function _cleanMessageData(data: MessageType): MessageType {
+  return _cleanData(omit(data, ['dataMessage']));
 }
 
 async function _shutdown() {
@@ -764,7 +732,12 @@ function updateConversation(data: ConversationType) {
 }
 
 async function updateConversations(array: Array<ConversationType>) {
-  await channels.updateConversations(array);
+  const { cleaned, pathsChanged } = cleanDataForIpc(array);
+  assert(
+    !pathsChanged.length,
+    `Paths were cleaned: ${JSON.stringify(pathsChanged)}`
+  );
+  await channels.updateConversations(cleaned);
 }
 
 async function removeConversation(
@@ -884,7 +857,9 @@ async function saveMessage(
   data: MessageType,
   { forceSave, Message }: { forceSave?: boolean; Message: typeof MessageModel }
 ) {
-  const id = await channels.saveMessage(_cleanData(data), { forceSave });
+  const id = await channels.saveMessage(_cleanMessageData(data), {
+    forceSave,
+  });
   Message.updateTimers();
 
   return id;
@@ -894,7 +869,10 @@ async function saveMessages(
   arrayOfMessages: Array<MessageType>,
   { forceSave }: { forceSave?: boolean } = {}
 ) {
-  await channels.saveMessages(_cleanData(arrayOfMessages), { forceSave });
+  await channels.saveMessages(
+    arrayOfMessages.map(message => _cleanMessageData(message)),
+    { forceSave }
+  );
 }
 
 async function removeMessage(

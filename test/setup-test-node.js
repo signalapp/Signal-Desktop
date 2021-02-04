@@ -3,6 +3,12 @@
 
 /* eslint-disable no-console */
 
+const { setEnvironment, Environment } = require('../ts/environment');
+
+before(() => {
+  setEnvironment(Environment.Test);
+});
+
 // To replicate logic we have on the client side
 global.window = {
   log: {

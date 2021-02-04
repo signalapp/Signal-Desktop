@@ -11,6 +11,12 @@ try {
   const client = require('libsignal-client');
   const _ = require('lodash');
   const { installGetter, installSetter } = require('./preload_utils');
+  const {
+    getEnvironment,
+    setEnvironment,
+    parseEnvironment,
+    Environment,
+  } = require('./ts/environment');
 
   const { remote } = electron;
   const { app } = remote;
@@ -19,9 +25,11 @@ try {
   window.PROTO_ROOT = 'protos';
   const config = require('url').parse(window.location.toString(), true).query;
 
+  setEnvironment(parseEnvironment(config.environment));
+
   let title = config.name;
-  if (config.environment !== 'production') {
-    title += ` - ${config.environment}`;
+  if (getEnvironment() !== Environment.Production) {
+    title += ` - ${getEnvironment()}`;
   }
   if (config.appInstance) {
     title += ` - ${config.appInstance}`;
@@ -37,7 +45,7 @@ try {
 
   window.platform = process.platform;
   window.getTitle = () => title;
-  window.getEnvironment = () => config.environment;
+  window.getEnvironment = getEnvironment;
   window.getAppInstance = () => config.appInstance;
   window.getVersion = () => config.version;
   window.getExpiration = () => {
