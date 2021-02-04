@@ -1598,6 +1598,29 @@ async function updateToSchemaVersion21(
   }
 }
 
+async function updateToSchemaVersion22(
+  currentVersion: number,
+  instance: PromisifiedSQLDatabase
+) {
+  if (currentVersion >= 22) {
+    return;
+  }
+  try {
+    await instance.run('BEGIN TRANSACTION;');
+    await instance.run(
+      `ALTER TABLE unprocessed
+     ADD COLUMN sourceUuid STRING;`
+    );
+
+    await instance.run('PRAGMA user_version = 22;');
+    await instance.run('COMMIT TRANSACTION;');
+    console.log('updateToSchemaVersion22: success!');
+  } catch (error) {
+    await instance.run('ROLLBACK');
+    throw error;
+  }
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -1620,6 +1643,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion19,
   updateToSchemaVersion20,
   updateToSchemaVersion21,
+  updateToSchemaVersion22,
 ];
 
 async function updateSchema(instance: PromisifiedSQLDatabase) {
@@ -3182,11 +3206,12 @@ async function updateUnprocessedAttempts(id: string, attempts: number) {
 }
 async function updateUnprocessedWithData(id: string, data: UnprocessedType) {
   const db = getInstance();
-  const { source, sourceDevice, serverTimestamp, decrypted } = data;
+  const { source, sourceUuid, sourceDevice, serverTimestamp, decrypted } = data;
 
   await db.run(
     `UPDATE unprocessed SET
       source = $source,
+      sourceUuid = $sourceUuid,
       sourceDevice = $sourceDevice,
       serverTimestamp = $serverTimestamp,
       decrypted = $decrypted
@@ -3194,6 +3219,7 @@ async function updateUnprocessedWithData(id: string, data: UnprocessedType) {
     {
       $id: id,
       $source: source,
+      $sourceUuid: sourceUuid,
       $sourceDevice: sourceDevice,
       $serverTimestamp: serverTimestamp,
       $decrypted: decrypted,
