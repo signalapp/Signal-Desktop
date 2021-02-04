@@ -123,8 +123,8 @@ export class EmojiCompletion {
     const [leftTokenTextMatch, rightTokenTextMatch] = matchBlotTextPartitions(
       blot,
       index,
-      /(?<=^|\s):([-+0-9a-z_]*)(:?)$/,
-      /^([-+0-9a-z_]*):/
+      /(?<=^|\s):([-+0-9a-zA-Z_]*)(:?)$/,
+      /^([-+0-9a-zA-Z_]*):/
     );
 
     if (leftTokenTextMatch) {
