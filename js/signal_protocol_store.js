@@ -345,7 +345,6 @@
 
       try {
         const id = await normalizeEncodedAddress(encodedAddress);
-        window.log.info('loadSession', { encodedAddress, id });
         const session = this.sessions[id];
 
         if (session) {
@@ -366,7 +365,6 @@
 
       try {
         const id = await normalizeEncodedAddress(encodedAddress);
-        window.log.info('storeSession', { encodedAddress, id });
 
         const data = {
           id,

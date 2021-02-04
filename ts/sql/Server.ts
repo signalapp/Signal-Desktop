@@ -2828,7 +2828,7 @@ async function getLastConversationActivity({
          type = 'group-v2-change' AND
          json_extract(json, '$.groupV2Change.from') != $ourConversationId AND
          json_extract(json, '$.groupV2Change.details.length') = 1 AND
-         json_extract(json, '$.groupV2Change.details[0].type') != 'member-remove' AND
+         json_extract(json, '$.groupV2Change.details[0].type') = 'member-remove' AND
          json_extract(json, '$.groupV2Change.details[0].conversationId') != $ourConversationId
        )
      ORDER BY received_at DESC, sent_at DESC
@@ -2870,7 +2870,7 @@ async function getLastConversationPreview({
          type = 'group-v2-change' AND
          json_extract(json, '$.groupV2Change.from') != $ourConversationId AND
          json_extract(json, '$.groupV2Change.details.length') = 1 AND
-         json_extract(json, '$.groupV2Change.details[0].type') != 'member-remove' AND
+         json_extract(json, '$.groupV2Change.details[0].type') = 'member-remove' AND
          json_extract(json, '$.groupV2Change.details[0].conversationId') != $ourConversationId
        )
      ORDER BY received_at DESC, sent_at DESC

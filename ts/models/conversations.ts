@@ -2206,9 +2206,16 @@ export class ConversationModel extends window.Backbone.Model<
       return undefined;
     }
 
+    const emoji = this.get('aboutEmoji');
+    const text = this.get('about');
+
+    if (!emoji) {
+      return text;
+    }
+
     return window.i18n('message--getNotificationText--text-with-emoji', {
-      text: this.get('about'),
-      emoji: this.get('aboutEmoji'),
+      text,
+      emoji,
     });
   }
 
@@ -2742,10 +2749,6 @@ export class ConversationModel extends window.Backbone.Model<
         })
       );
     }
-
-    window.log.warn(
-      'getMembers: Group conversation had neither membersV2 nor members'
-    );
 
     return [];
   }

@@ -395,10 +395,8 @@ export class ConversationController {
       // 3. Handle match on only UUID
     }
     if (!convoE164 && convoUuid) {
-      window.log.info(
-        `ensureContactIds: UUID-only match found (have e164: ${Boolean(e164)})`
-      );
       if (e164 && highTrust) {
+        window.log.info('ensureContactIds: Adding e164 to UUID-only match');
         convoUuid.updateE164(e164);
         updateConversation(convoUuid.attributes);
       }

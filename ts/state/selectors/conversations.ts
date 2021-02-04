@@ -423,8 +423,8 @@ export const getMessageSelector = createSelector(
         author = conversationSelector(ourNumber);
       }
 
-      if (quote) {
-        quoted = conversationSelector(quote.author);
+      if (quote && (quote.author || quote.authorUuid)) {
+        quoted = conversationSelector(quote.authorUuid || quote.author);
       }
 
       return messageSelector(

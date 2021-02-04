@@ -142,7 +142,7 @@ export type MessageType = {
     | 'verified-change'
     | 'message-history-unsynced'
     | 'call-history';
-  quote?: { author: string };
+  quote?: { author?: string; authorUuid?: string };
   received_at: number;
   sent_at?: number;
   hasSignalAccount?: boolean;
