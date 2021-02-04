@@ -76,7 +76,7 @@ export const EmojiButton = React.memo(
         document.body.appendChild(root);
         const handleOutsideClick = (event: MouseEvent) => {
           if (!root.contains(event.target as Node)) {
-            hide();            
+            hide();
             handleClose();
             event.stopPropagation();
             event.preventDefault();
