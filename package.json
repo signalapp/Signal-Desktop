@@ -149,7 +149,7 @@
     "uuid": "3.3.2",
     "websocket": "1.0.28",
     "zkgroup": "https://github.com/signalapp/signal-zkgroup-node.git#2d7db946cc88492b65cc66e9aa9de0c9e664fd8d",
-    "libsignal-client": "https://github.com/signalapp/libsignal-client-node.git#b6f498fa544bcce3bee0be037a7b6445d4efda45"
+    "libsignal-client": "https://github.com/signalapp/libsignal-client-node.git#864ead5c492bd4e61d02c086a42aba476330fcfd"
   },
   "devDependencies": {
     "@babel/core": "7.7.7",
