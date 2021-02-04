@@ -44,6 +44,7 @@ const CallButton = ({
   return (
     <Tooltip content={tooltipContent} theme={Theme.Dark}>
       <button
+        aria-label={tooltipContent}
         className={`module-incoming-call__button module-incoming-call__button--${classSuffix}`}
         onClick={onClick}
         tabIndex={tabIndex}
