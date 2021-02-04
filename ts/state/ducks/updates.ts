@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { Dialogs } from '../../types/Dialogs';
 import * as updateIpc from '../../shims/updateIpc';
 import { trigger } from '../../shims/events';
@@ -108,8 +111,8 @@ function getEmptyState(): UpdatesStateType {
 }
 
 export function reducer(
-  state: UpdatesStateType = getEmptyState(),
-  action: UpdatesActionType
+  state: Readonly<UpdatesStateType> = getEmptyState(),
+  action: Readonly<UpdatesActionType>
 ): UpdatesStateType {
   if (action.type === SHOW_UPDATE_DIALOG) {
     return {

@@ -1,3 +1,6 @@
+// Copyright 2016-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 ;(function(){
 var Internal = {};
 window.libsignal = window.libsignal || {};
@@ -23621,6 +23624,8 @@ var Internal = Internal || {};
 
             return res.buffer;
         },
+        // This returns `true` if verification fails and `false` if it succeeds,
+        // which may be surprising.
         verify: function(pubKey, message, sig) {
             // Get a pointer to their public key
             var publicKey_ptr = _allocate(new Uint8Array(pubKey));
@@ -23805,6 +23810,8 @@ Curve25519Worker.prototype = {
 
                 return curve25519.sign(privKey, message);
             },
+            // This returns `true` if verification fails and `false` if it succeeds,
+            // which may be surprising.
             Ed25519Verify: function(pubKey, msg, sig) {
                 pubKey = validatePubKeyFormat(pubKey);
 
@@ -24484,6 +24491,7 @@ SessionBuilder.prototype = {
           device.signedPreKey.signature
         );
       }).then(didVerificationFail => {
+        // Ed25519Verify returns `false` when verification succeeds and `true` if it fails.
         if (didVerificationFail) {
           throw new Error('Signature verification failed');
         }
@@ -24832,7 +24840,14 @@ SessionCipher.prototype = {
     if (sessionList.length === 0) {
         var error = errors[0];
         if (!error) {
-          error = new Error('decryptWithSessionList: list is empty, but no errors in array');
+            error = new Error('decryptWithSessionList: list is empty, but no errors in array');
+        }
+        if (errors.length > 1) {
+            errors.forEach((item, index) => {
+                var stackString = error && error.stack ? error.stack : error;
+                var extraString = error && error.extra ? JSON.stringify(error.extra) : '';
+                console.error(`decryptWithSessionList: Error at index ${index}: ${extraString} ${stackString}`);
+            });
         }
         return Promise.reject(error);
     }
@@ -24857,11 +24872,17 @@ SessionCipher.prototype = {
             if (!record) {
                 throw new Error("No record for device " + address);
             }
+
+            // Only used for printing out debug information when errors happen
+            var messageProto = buffer.slice(1, buffer.byteLength - 8);
+            var message = Internal.protobuf.WhisperMessage.decode(messageProto);
+            var byEphemeralKey = record.getSessionByRemoteEphemeralKey(util.toString(message.ephemeralKey));
+
             var errors = [];
             return this.decryptWithSessionList(buffer, record.getSessions(), errors).then(function(result) {
                 return this.getRecord(address).then(function(record) {
                     var openSession = record.getOpenSession();
-                    if (!openSession || result.session.indexInfo.baseKey !== openSession.indexInfo.baseKey) {
+                    if (!openSession) {
                       record.archiveCurrentState();
                       record.promoteState(result.session);
                     }
@@ -24881,7 +24902,35 @@ SessionCipher.prototype = {
                         });
                     }.bind(this));
                 }.bind(this));
-            }.bind(this));
+            }.bind(this)).catch(function(error) {
+                try {
+                    error.extra = error.extra || {};
+                    error.extra.foundMatchingSession = Boolean(byEphemeralKey);
+
+                    if (byEphemeralKey) {
+                        var receivingChainInfo = {};
+                        var entries = Object.entries(byEphemeralKey);                     
+                    
+                        entries.forEach(([key, item]) => {
+                            if (item && item.chainType === Internal.ChainType.RECEIVING && item.chainKey) {
+                                var hexKey = dcodeIO.ByteBuffer.wrap(key, 'binary').toString('hex');
+                                receivingChainInfo[hexKey] = {
+                                    counter: item.chainKey.counter,
+                                };
+                            }
+                        });
+
+                        error.extra.receivingChainInfo = receivingChainInfo;
+                    }
+                } catch (innerError) {
+                    console.error(
+                        'decryptWhisperMessage: Problem collecting extra information:', 
+                        innerError && innerError.stack ? innerError.stack : innerError
+                    );
+                }
+
+                throw error;
+            });
         }.bind(this));
       }.bind(this));
   },
@@ -24938,7 +24987,12 @@ SessionCipher.prototype = {
     var remoteEphemeralKey = message.ephemeralKey.toArrayBuffer();
 
     if (session === undefined) {
-        return Promise.reject(new Error("No session found to decrypt message from " + this.remoteAddress.toString()));
+        var error = new Error('No session found to decrypt message from ' + this.remoteAddress.toString());
+        error.extra = {
+            messageCounter: message.counter,
+            ratchetKey: message.ephemeralKey.toString('hex'),
+        };
+        return Promise.reject(error);
     }
     if (session.indexInfo.closed != -1) {
         console.log('decrypting message for closed session');
@@ -24953,7 +25007,7 @@ SessionCipher.prototype = {
         return this.fillMessageKeys(chain, message.counter).then(function() {
             var messageKey = chain.messageKeys[message.counter];
             if (messageKey === undefined) {
-                var e = new Error("Message key not found. The counter was repeated or the key was not filled.");
+                var e = new Error(`Message key not found. Counter ${message.counter} was repeated or the key was not filled.`);
                 e.name = 'MessageCounterError';
                 throw e;
             }
@@ -24971,24 +25025,19 @@ SessionCipher.prototype = {
             macInput[33*2] = (3 << 4) | 3;
             macInput.set(new Uint8Array(messageProto), 33*2 + 1);
 
-            return Internal.verifyMAC(macInput.buffer, keys[1], mac, 8).catch(function(error) {
-              function logArrayBuffer(name, arrayBuffer) {
-                console.log('Bad MAC: ' + name + ' - truthy: ' + Boolean(arrayBuffer) +', length: ' + (arrayBuffer ? arrayBuffer.byteLength : 'NaN'));
-              }
-
-              logArrayBuffer('ourPubKey', ourPubKey);
-              logArrayBuffer('remoteIdentityKey', remoteIdentityKey);
-              logArrayBuffer('messageProto', messageProto);
-              logArrayBuffer('mac', mac);
-
-              throw error;
-            });
+            return Internal.verifyMAC(macInput.buffer, keys[1], mac, 8);
         }.bind(this)).then(function() {
             return Internal.crypto.decrypt(keys[0], message.ciphertext.toArrayBuffer(), keys[2].slice(0, 16));
         });
     }.bind(this)).then(function(plaintext) {
         delete session.pendingPreKey;
         return plaintext;
+    }).catch(function(error) {
+        error.extra = {
+            messageCounter: message.counter,
+            ratchetKey: message.ephemeralKey.toString('hex'),
+        };
+        throw error;
     });
   },
   fillMessageKeys: function(chain, counter) {

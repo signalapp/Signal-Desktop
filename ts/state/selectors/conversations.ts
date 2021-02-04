@@ -1,3 +1,6 @@
+// Copyright 2019-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import memoizee from 'memoizee';
 import { fromPairs, isNumber } from 'lodash';
 import { createSelector } from 'reselect';
@@ -11,7 +14,11 @@ import {
   MessageLookupType,
   MessagesByConversationType,
   MessageType,
+  PreJoinConversationType,
 } from '../ducks/conversations';
+import { getOwn } from '../../util/getOwn';
+import type { CallsByConversationType } from '../ducks/calling';
+import { getCallsByConversation } from './calling';
 import { getBubbleProps } from '../../shims/Whisper';
 import { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline';
 import { TimelineItemType } from '../../components/conversation/TimelineItem';
@@ -23,14 +30,56 @@ import {
   getUserConversationId,
   getUserNumber,
 } from './user';
+import { getPinnedConversationIds } from './items';
+
+let placeholderContact: ConversationType;
+export const getPlaceholderContact = (): ConversationType => {
+  if (placeholderContact) {
+    return placeholderContact;
+  }
+
+  placeholderContact = {
+    id: 'placeholder-contact',
+    type: 'direct',
+    title: window.i18n('unknownContact'),
+  };
+  return placeholderContact;
+};
 
 export const getConversations = (state: StateType): ConversationsStateType =>
   state.conversations;
 
+export const getPreJoinConversation = createSelector(
+  getConversations,
+  (state: ConversationsStateType): PreJoinConversationType | undefined => {
+    return state.preJoinConversation;
+  }
+);
 export const getConversationLookup = createSelector(
   getConversations,
   (state: ConversationsStateType): ConversationLookupType => {
     return state.conversationLookup;
+  }
+);
+
+export const getConversationsByUuid = createSelector(
+  getConversations,
+  (state: ConversationsStateType): ConversationLookupType => {
+    return state.conversationsByUuid;
+  }
+);
+
+export const getConversationsByE164 = createSelector(
+  getConversations,
+  (state: ConversationsStateType): ConversationLookupType => {
+    return state.conversationsByE164;
+  }
+);
+
+export const getConversationsByGroupId = createSelector(
+  getConversations,
+  (state: ConversationsStateType): ConversationLookupType => {
+    return state.conversationsByGroupId;
   }
 );
 
@@ -124,7 +173,8 @@ export const getConversationComparator = createSelector(
 export const _getLeftPaneLists = (
   lookup: ConversationLookupType,
   comparator: (left: ConversationType, right: ConversationType) => number,
-  selectedConversation?: string
+  selectedConversation?: string,
+  pinnedConversationIds?: Array<string>
 ): {
   conversations: Array<ConversationType>;
   archivedConversations: Array<ConversationType>;
@@ -159,10 +209,10 @@ export const _getLeftPaneLists = (
   conversations.sort(comparator);
   archivedConversations.sort(comparator);
 
-  const pinnedConversationIds = window.ConversationController.getPinnedConversationIds();
   pinnedConversations.sort(
     (a, b) =>
-      pinnedConversationIds.indexOf(a.id) - pinnedConversationIds.indexOf(b.id)
+      (pinnedConversationIds || []).indexOf(a.id) -
+      (pinnedConversationIds || []).indexOf(b.id)
   );
 
   return { conversations, archivedConversations, pinnedConversations };
@@ -172,6 +222,7 @@ export const getLeftPaneLists = createSelector(
   getConversationLookup,
   getConversationComparator,
   getSelectedConversation,
+  getPinnedConversationIds,
   _getLeftPaneLists
 );
 
@@ -193,17 +244,21 @@ export const getMe = createSelector(
 //      Backbone-based prop-generation functions expect to get Conversation information
 //      directly via ConversationController
 export function _conversationSelector(
-  conversation: ConversationType
+  conversation?: ConversationType
   // regionCode: string,
   // userNumber: string
 ): ConversationType {
-  return conversation;
+  if (conversation) {
+    return conversation;
+  }
+
+  return getPlaceholderContact();
 }
 
 // A little optimization to reset our selector cache when high-level application data
 //   changes: regionCode and userNumber.
 type CachedConversationSelectorType = (
-  conversation: ConversationType
+  conversation?: ConversationType
 ) => ConversationType;
 export const getCachedSelectorForConversation = createSelector(
   getRegionCode,
@@ -215,23 +270,51 @@ export const getCachedSelectorForConversation = createSelector(
   }
 );
 
-export type GetConversationByIdType = (
-  id: string
-) => ConversationType | undefined;
+export type GetConversationByIdType = (id?: string) => ConversationType;
 export const getConversationSelector = createSelector(
   getCachedSelectorForConversation,
   getConversationLookup,
+  getConversationsByUuid,
+  getConversationsByE164,
+  getConversationsByGroupId,
   (
     selector: CachedConversationSelectorType,
-    lookup: ConversationLookupType
+    byId: ConversationLookupType,
+    byUuid: ConversationLookupType,
+    byE164: ConversationLookupType,
+    byGroupId: ConversationLookupType
   ): GetConversationByIdType => {
-    return (id: string) => {
-      const conversation = lookup[id];
-      if (!conversation) {
-        return undefined;
+    return (id?: string) => {
+      if (!id) {
+        window.log.warn(
+          `getConversationSelector: Called with a falsey id ${id}`
+        );
+        // This will return a placeholder contact
+        return selector(undefined);
       }
 
-      return selector(conversation);
+      const onE164 = getOwn(byE164, id);
+      if (onE164) {
+        return selector(onE164);
+      }
+      const onUuid = getOwn(byUuid, id);
+      if (onUuid) {
+        return selector(onUuid);
+      }
+      const onGroupId = getOwn(byGroupId, id);
+      if (onGroupId) {
+        return selector(onGroupId);
+      }
+      const onId = getOwn(byId, id);
+      if (onId) {
+        return selector(onId);
+      }
+
+      window.log.warn(
+        `getConversationSelector: No conversation found for id ${id}`
+      );
+      // This will return a placeholder contact
+      return selector(undefined);
     };
   }
 );
@@ -247,6 +330,7 @@ export function _messageSelector(
   _ourNumber: string,
   _regionCode: string,
   interactionMode: 'mouse' | 'keyboard',
+  _callsByConversation: CallsByConversationType,
   _conversation?: ConversationType,
   _author?: ConversationType,
   _quoted?: ConversationType,
@@ -285,6 +369,7 @@ type CachedMessageSelectorType = (
   ourNumber: string,
   regionCode: string,
   interactionMode: 'mouse' | 'keyboard',
+  callsByConversation: CallsByConversationType,
   conversation?: ConversationType,
   author?: ConversationType,
   quoted?: ConversationType,
@@ -310,6 +395,7 @@ export const getMessageSelector = createSelector(
   getRegionCode,
   getUserNumber,
   getInteractionMode,
+  getCallsByConversation,
   (
     messageSelector: CachedMessageSelectorType,
     messageLookup: MessageLookupType,
@@ -317,7 +403,8 @@ export const getMessageSelector = createSelector(
     conversationSelector: GetConversationByIdType,
     regionCode: string,
     ourNumber: string,
-    interactionMode: 'keyboard' | 'mouse'
+    interactionMode: 'keyboard' | 'mouse',
+    callsByConversation: CallsByConversationType
   ): GetMessageByIdType => {
     return (id: string) => {
       const message = messageLookup[id];
@@ -336,8 +423,8 @@ export const getMessageSelector = createSelector(
         author = conversationSelector(ourNumber);
       }
 
-      if (quote) {
-        quoted = conversationSelector(quote.author);
+      if (quote && (quote.author || quote.authorUuid)) {
+        quoted = conversationSelector(quote.authorUuid || quote.author);
       }
 
       return messageSelector(
@@ -345,6 +432,7 @@ export const getMessageSelector = createSelector(
         ourNumber,
         regionCode,
         interactionMode,
+        callsByConversation,
         conversation,
         author,
         quoted,

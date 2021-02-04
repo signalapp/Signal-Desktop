@@ -87,6 +87,10 @@ message CallingMessage {
     optional uint32 deviceId = 3;
   }
 
+  message Opaque {
+    optional bytes data = 1;
+  }
+
   optional Offer        offer               = 1;
   optional Answer       answer              = 2;
   repeated IceCandidate iceCandidates       = 3;
@@ -95,6 +99,7 @@ message CallingMessage {
   optional Hangup       hangup              = 7;
   optional bool         supportsMultiRing   = 8;
   optional uint32       destinationDeviceId = 9;
+  optional Opaque       opaque              = 10;
 }
 
 message DataMessage {
@@ -222,6 +227,10 @@ message DataMessage {
     //}
   }
 
+  message GroupCallUpdate {
+    optional string eraId = 1;
+  }
+
   enum ProtocolVersion {
     option allow_alias = true;
 
@@ -252,6 +261,7 @@ message DataMessage {
   optional Reaction           reaction                = 16;
   optional Delete             delete                  = 17;
   repeated BodyRange          bodyRanges              = 18;
+  optional GroupCallUpdate    groupCallUpdate         = 19;
 }
 
 message NullMessage {

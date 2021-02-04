@@ -1,8 +1,11 @@
+// Copyright 2020-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import * as Backbone from 'backbone';
 
 import { GroupV2ChangeType } from './groups';
-import { LocalizerType, BodyRangesType } from './types/Util';
-import { CallHistoryDetailsType } from './types/Calling';
+import { LocalizerType, BodyRangeType, BodyRangesType } from './types/Util';
+import { CallHistoryDetailsFromDiskType } from './types/Calling';
 import { ColorType } from './types/Colors';
 import {
   ConversationType,
@@ -10,15 +13,16 @@ import {
   LastMessageStatus,
 } from './state/ducks/conversations';
 import { SendOptionsType } from './textsecure/SendMessage';
-import { SyncMessageClass } from './textsecure.d';
+import {
+  AccessRequiredEnum,
+  MemberRoleEnum,
+  SyncMessageClass,
+} from './textsecure.d';
 import { UserMessage } from './types/Message';
 import { MessageModel } from './models/messages';
 import { ConversationModel } from './models/conversations';
 import { ProfileNameChangeType } from './util/getStringForProfileChange';
-
-interface ModelAttributesInterface {
-  [key: string]: any;
-}
+import { CapabilitiesType } from './textsecure/WebAPI';
 
 export type WhatIsThis = any;
 
@@ -37,15 +41,21 @@ export declare class DeletesModelType extends Backbone.Model<
 
 type TaskResultType = any;
 
-export interface CustomError extends Error {
+export type CustomError = Error & {
   identifier?: string;
   number?: string;
-}
+};
+
+export type GroupMigrationType = {
+  areWeInvited: boolean;
+  droppedMemberIds: Array<string>;
+  invitedMembers: Array<GroupV2PendingMemberType>;
+};
 
 export type MessageAttributesType = {
   bodyPending: boolean;
   bodyRanges: BodyRangesType;
-  callHistoryDetails: CallHistoryDetailsType;
+  callHistoryDetails: CallHistoryDetailsFromDiskType;
   changedId: string;
   dataMessage: ArrayBuffer | null;
   decrypted_at: number;
@@ -57,6 +67,7 @@ export type MessageAttributesType = {
   expirationStartTimestamp: number | null;
   expireTimer: number;
   expires_at: number;
+  groupMigration?: GroupMigrationType;
   group_update: {
     avatarUpdated: boolean;
     joined: Array<string>;
@@ -84,7 +95,7 @@ export type MessageAttributesType = {
     referencedMessageNotFound: boolean;
     text: string;
   } | null;
-  reactions: Array<{ fromId: string; emoji: unknown; timestamp: unknown }>;
+  reactions: Array<{ fromId: string; emoji: string; timestamp: number }>;
   read_by: Array<string | null>;
   requiredProtocolVersion: number;
   sent: boolean;
@@ -133,6 +144,10 @@ export type MessageAttributesType = {
 
   unread: number;
   timestamp: number;
+
+  // Backwards-compatibility with prerelease data schema
+  invitedGV2Members?: Array<GroupV2PendingMemberType>;
+  droppedGV2MemberIds?: Array<string>;
 };
 
 export type ConversationAttributesTypeType = 'private' | 'group';
@@ -140,15 +155,17 @@ export type ConversationAttributesTypeType = 'private' | 'group';
 export type ConversationAttributesType = {
   accessKey: string | null;
   addedBy?: string;
-  capabilities: { uuid: string };
-  color?: ColorType;
+  capabilities?: CapabilitiesType;
+  color?: string;
   discoveredUnregisteredAt: number;
   draftAttachments: Array<unknown>;
+  draftBodyRanges: Array<BodyRangeType>;
   draftTimestamp: number | null;
   inbox_position: number;
   isPinned: boolean;
-  lastMessageDeletedForEveryone: unknown;
+  lastMessageDeletedForEveryone: boolean;
   lastMessageStatus: LastMessageStatus | null;
+  markedUnread: boolean;
   messageCount: number;
   messageCountBeforeMessageRequests: number;
   messageRequestResponseType: number;
@@ -184,6 +201,8 @@ export type ConversationAttributesType = {
   e164?: string;
 
   // Private other fields
+  about?: string;
+  aboutEmoji?: string;
   profileFamilyName?: string;
   profileKey?: string;
   profileName?: string;
@@ -192,11 +211,15 @@ export type ConversationAttributesType = {
 
   // Group-only
   groupId?: string;
+  // A shorthand, representing whether the user is part of the group. Not strictly for
+  //   when the user manually left the group. But historically, that was the only way
+  //   to leave a group.
   left: boolean;
   groupVersion?: number;
 
   // GroupV1 only
   members?: Array<string>;
+  derivedGroupV2Id?: string;
 
   // GroupV2 core info
   masterKey?: string;
@@ -206,26 +229,48 @@ export type ConversationAttributesType = {
 
   // GroupV2 other fields
   accessControl?: {
-    attributes: number;
-    members: number;
+    attributes: AccessRequiredEnum;
+    members: AccessRequiredEnum;
+    addFromInviteLink: AccessRequiredEnum;
   };
   avatar?: {
     url: string;
     path: string;
-    hash: string;
+    hash?: string;
   } | null;
   expireTimer?: number;
   membersV2?: Array<GroupV2MemberType>;
   pendingMembersV2?: Array<GroupV2PendingMemberType>;
+  pendingAdminApprovalV2?: Array<GroupV2PendingAdminApprovalType>;
+  groupInviteLinkPassword?: string;
+  previousGroupV1Id?: string;
+  previousGroupV1Members?: Array<string>;
+
+  // Used only when user is waiting for approval to join via link
+  isTemporary?: boolean;
+  temporaryMemberCount?: number;
 };
 
 export type GroupV2MemberType = {
   conversationId: string;
-  role: number;
+  role: MemberRoleEnum;
   joinedAtVersion: number;
+
+  // Note that these are temporary flags, generated by applyGroupChange, but eliminated
+  //   by applyGroupState. They are used to make our diff-generation more intelligent but
+  //   not after that.
+  joinedFromLink?: boolean;
+  approvedByAdmin?: boolean;
 };
+
 export type GroupV2PendingMemberType = {
-  addedByUserId: string;
+  addedByUserId?: string;
+  conversationId: string;
+  timestamp: number;
+  role: MemberRoleEnum;
+};
+
+export type GroupV2PendingAdminApprovalType = {
   conversationId: string;
   timestamp: number;
 };

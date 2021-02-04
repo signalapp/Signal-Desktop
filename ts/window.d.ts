@@ -1,8 +1,17 @@
+// Copyright 2020-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 // Captures the globals put in place by preload.js, background.js and others
 
 import * as Backbone from 'backbone';
 import * as Underscore from 'underscore';
+import moment from 'moment';
+import PQueue from 'p-queue/dist';
 import { Ref } from 'react';
+import { bindActionCreators } from 'redux';
+import { imageToBlurHash } from './util/imageToBlurHash';
+import * as LinkPreviews from '../js/modules/link_previews.d';
+import * as Util from './util';
 import {
   ConversationModelCollectionType,
   MessageModelCollectionType,
@@ -15,46 +24,105 @@ import {
 } from './libsignal.d';
 import { ContactRecordIdentityState, TextSecureType } from './textsecure.d';
 import { WebAPIConnectType } from './textsecure/WebAPI';
+import { uploadDebugLogs } from './logging/debuglogs';
 import { CallingClass } from './services/calling';
 import * as Groups from './groups';
 import * as Crypto from './Crypto';
 import * as RemoteConfig from './RemoteConfig';
+import * as OS from './OS';
+import { getEnvironment } from './environment';
 import * as zkgroup from './util/zkgroup';
-import { LocalizerType, BodyRangesType } from './types/Util';
-import { CallHistoryDetailsType } from './types/Calling';
+import { LocalizerType, BodyRangesType, BodyRangeType } from './types/Util';
+import * as Attachment from './types/Attachment';
 import { ColorType } from './types/Colors';
+import * as MIME from './types/MIME';
+import * as Contact from './types/Contact';
+import * as Errors from '../js/modules/types/errors';
 import { ConversationController } from './ConversationController';
 import { ReduxActions } from './state/types';
+import { createStore } from './state/createStore';
+import { createCallManager } from './state/roots/createCallManager';
+import { createCompositionArea } from './state/roots/createCompositionArea';
+import { createContactModal } from './state/roots/createContactModal';
+import { createConversationDetails } from './state/roots/createConversationDetails';
+import { createConversationHeader } from './state/roots/createConversationHeader';
+import { createGroupLinkManagement } from './state/roots/createGroupLinkManagement';
+import { createGroupV1MigrationModal } from './state/roots/createGroupV1MigrationModal';
+import { createGroupV2JoinModal } from './state/roots/createGroupV2JoinModal';
+import { createGroupV2Permissions } from './state/roots/createGroupV2Permissions';
+import { createLeftPane } from './state/roots/createLeftPane';
+import { createPendingInvites } from './state/roots/createPendingInvites';
+import { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer';
+import { createShortcutGuideModal } from './state/roots/createShortcutGuideModal';
+import { createStickerManager } from './state/roots/createStickerManager';
+import { createStickerPreviewModal } from './state/roots/createStickerPreviewModal';
+import { createTimeline } from './state/roots/createTimeline';
+import * as callingDuck from './state/ducks/calling';
+import * as conversationsDuck from './state/ducks/conversations';
+import * as emojisDuck from './state/ducks/emojis';
+import * as expirationDuck from './state/ducks/expiration';
+import * as itemsDuck from './state/ducks/items';
+import * as networkDuck from './state/ducks/network';
+import * as updatesDuck from './state/ducks/updates';
+import * as userDuck from './state/ducks/user';
+import * as searchDuck from './state/ducks/search';
+import * as stickersDuck from './state/ducks/stickers';
+import * as conversationsSelectors from './state/selectors/conversations';
+import * as searchSelectors from './state/selectors/search';
 import { SendOptionsType } from './textsecure/SendMessage';
 import AccountManager from './textsecure/AccountManager';
 import Data from './sql/Client';
 import { UserMessage } from './types/Message';
-import PQueue from 'p-queue/dist';
 import { PhoneNumberFormat } from 'google-libphonenumber';
 import { MessageModel } from './models/messages';
 import { ConversationModel } from './models/conversations';
 import { combineNames } from './util';
 import { BatcherType } from './util/batcher';
+import { AttachmentList } from './components/conversation/AttachmentList';
+import { CaptionEditor } from './components/CaptionEditor';
+import { ConfirmationModal } from './components/ConfirmationModal';
+import { ContactDetail } from './components/conversation/ContactDetail';
+import { ContactModal } from './components/conversation/ContactModal';
 import { ErrorModal } from './components/ErrorModal';
+import { Lightbox } from './components/Lightbox';
+import { LightboxGallery } from './components/LightboxGallery';
+import { MediaGallery } from './components/conversation/media-gallery/MediaGallery';
+import { MessageDetail } from './components/conversation/MessageDetail';
 import { ProgressModal } from './components/ProgressModal';
+import { Quote } from './components/conversation/Quote';
+import { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
+import { MIMEType } from './types/MIME';
 
 export { Long } from 'long';
 
 type TaskResultType = any;
 
-type WhatIsThis = any;
+export type WhatIsThis = any;
+
+// Synced with the type in ts/shims/showConfirmationDialog
+// we are duplicating it here because that file cannot import/export.
+type ConfirmationDialogViewProps = {
+  cancelText?: string;
+  confirmStyle?: 'affirmative' | 'negative';
+  message: string;
+  okText: string;
+  reject?: () => void;
+  resolve: () => void;
+};
 
 declare global {
+  // We want to extend `window`'s properties, so we need an interface.
+  // eslint-disable-next-line no-restricted-syntax
   interface Window {
     _: typeof Underscore;
     $: typeof jQuery;
 
-    moment: any;
-    imageToBlurHash: any;
+    moment: typeof moment;
+    imageToBlurHash: typeof imageToBlurHash;
     autoOrientImage: any;
     dataURLToBlobSync: any;
     loadImage: any;
-    isBehindProxy: any;
+    isBehindProxy: () => boolean;
 
     PQueue: typeof PQueue;
     PQueueType: PQueue;
@@ -74,15 +142,17 @@ declare global {
     getCallSystemNotification: () => Promise<boolean>;
     getConversations: () => ConversationModelCollectionType;
     getCountMutedConversations: () => Promise<boolean>;
-    getEnvironment: () => string;
+    getEnvironment: typeof getEnvironment;
     getExpiration: () => string;
     getGuid: () => string;
     getInboxCollection: () => ConversationModelCollectionType;
     getIncomingCallNotification: () => Promise<boolean>;
-    getInteractionMode: () => string;
+    getInteractionMode: () => 'mouse' | 'keyboard';
     getMediaCameraPermissions: () => Promise<boolean>;
     getMediaPermissions: () => Promise<boolean>;
+    getNodeVersion: () => string;
     getServerPublicParams: () => string;
+    getSfuUrl: () => string;
     getSocketStatus: () => number;
     getSyncRequest: () => WhatIsThis;
     getTitle: () => string;
@@ -93,6 +163,7 @@ declare global {
     isActive: () => boolean;
     isAfterVersion: (version: WhatIsThis, anotherVersion: string) => boolean;
     isBeforeVersion: (version: WhatIsThis, anotherVersion: string) => boolean;
+    isFullScreen: () => boolean;
     isValidGuid: (maybeGuid: string | null) => boolean;
     isValidE164: (maybeE164: unknown) => boolean;
     libphonenumber: {
@@ -109,19 +180,24 @@ declare global {
     };
     libsignal: LibSignalType;
     log: {
+      fatal: LoggerType;
       info: LoggerType;
       warn: LoggerType;
       error: LoggerType;
+      debug: LoggerType;
+      trace: LoggerType;
+      fetch: () => Promise<string>;
+      publish: typeof uploadDebugLogs;
     };
     nodeSetImmediate: typeof setImmediate;
-    normalizeUuids: (obj: any, paths: Array<string>, context: string) => any;
+    normalizeUuids: (obj: any, paths: Array<string>, context: string) => void;
+    onFullScreenChange: (fullScreen: boolean) => void;
     owsDesktopApp: WhatIsThis;
     platform: string;
     preloadedImages: Array<WhatIsThis>;
     reduxActions: ReduxActions;
     reduxStore: WhatIsThis;
-    registerForActive: (handler: WhatIsThis) => void;
-    resetActiveTimer: () => void;
+    registerForActive: (handler: () => void) => void;
     restart: () => void;
     setImmediate: typeof setImmediate;
     showWindow: () => void;
@@ -130,6 +206,7 @@ declare global {
     setAutoHideMenuBar: (value: WhatIsThis) => void;
     setBadgeCount: (count: number) => void;
     setMenuBarVisibility: (value: WhatIsThis) => void;
+    showConfirmationDialog: (options: ConfirmationDialogViewProps) => void;
     showKeyboardShortcuts: () => void;
     storage: {
       addBlockedGroup: (group: string) => void;
@@ -140,11 +217,14 @@ declare global {
         <T = any>(key: string): T | undefined;
         <T>(key: string, defaultValue: T): T;
       };
+      getBlockedGroups: () => Array<string>;
+      getBlockedNumbers: () => Array<string>;
+      getBlockedUuids: () => Array<string>;
       getItemsState: () => WhatIsThis;
       isBlocked: (number: string) => boolean;
       isGroupBlocked: (group: unknown) => boolean;
       isUuidBlocked: (uuid: string) => boolean;
-      onready: WhatIsThis;
+      onready: (callback: () => unknown) => void;
       put: (key: string, value: any) => Promise<void>;
       remove: (key: string) => Promise<void>;
       removeBlockedGroup: (group: string) => void;
@@ -153,7 +233,8 @@ declare global {
     };
     systemTheme: WhatIsThis;
     textsecure: TextSecureType;
-    unregisterForActive: (handler: WhatIsThis) => void;
+    titleBarDoubleClick: () => void;
+    unregisterForActive: (handler: () => void) => void;
     updateTrayIcon: (count: number) => void;
 
     Backbone: typeof Backbone;
@@ -264,8 +345,9 @@ declare global {
             path: string;
             objectUrl: string;
           };
-          contentType: string;
+          contentType: MIMEType;
           error: unknown;
+          caption: string;
 
           migrateDataToFileSystem: (
             attachment: WhatIsThis,
@@ -273,26 +355,12 @@ declare global {
           ) => WhatIsThis;
 
           isVoiceMessage: (attachments: unknown) => boolean;
-          isImage: (attachments: unknown) => boolean;
-          isVideo: (attachments: unknown) => boolean;
-          isAudio: (attachments: unknown) => boolean;
+          isImage: typeof Attachment.isImage;
+          isVideo: typeof Attachment.isVideo;
+          isAudio: typeof Attachment.isAudio;
         };
-        MIME: {
-          IMAGE_GIF: unknown;
-          isImage: any;
-          isJPEG: any;
-        };
-        Contact: {
-          avatar?: { avatar?: unknown };
-          number: Array<{ value: string }>;
-          signalAccount: unknown;
-
-          contactSelector: (
-            contact: typeof window.Signal.Types.Contact,
-            options: unknown
-          ) => typeof window.Signal.Types.Contact;
-          getName: (contact: typeof window.Signal.Types.Contact) => string;
-        };
+        MIME: typeof MIME;
+        Contact: typeof Contact;
         Conversation: {
           computeHash: (data: string) => Promise<string>;
           deleteExternalFiles: (
@@ -324,9 +392,7 @@ declare global {
           e164: string;
           error: string;
         };
-        Errors: {
-          toLogFormat(error: Error): void;
-        };
+        Errors: typeof Errors;
         Message: {
           CURRENT_SCHEMA_VERSION: number;
           VERSION_NEEDED_FOR_DISPLAY: number;
@@ -356,78 +422,27 @@ declare global {
         };
         VisualAttachment: any;
       };
-      Util: {
-        isFileDangerous: any;
-        GoogleChrome: {
-          isImageTypeSupported: (contentType: string) => unknown;
-          isVideoTypeSupported: (contentType: string) => unknown;
-        };
-        downloadAttachment: (attachment: WhatIsThis) => WhatIsThis;
-        getStringForProfileChange: (
-          change: unknown,
-          changedContact: unknown,
-          i18n: unknown
-        ) => string;
-        getTextWithMentions: (
-          bodyRanges: BodyRangesType,
-          text: string
-        ) => string;
-        deleteForEveryone: (
-          message: unknown,
-          del: unknown,
-          bool: boolean
-        ) => void;
-        zkgroup: typeof zkgroup;
-        combineNames: typeof combineNames;
-        migrateColor: (color: string) => ColorType;
-        createBatcher: (options: WhatIsThis) => WhatIsThis;
-        Registration: {
-          everDone: () => boolean;
-          markDone: () => void;
-          markEverDone: () => void;
-          remove: () => void;
-        };
-        hasExpired: () => boolean;
-        makeLookup: (conversations: WhatIsThis, key: string) => void;
-        parseRemoteClientExpiration: (value: WhatIsThis) => WhatIsThis;
-      };
-      LinkPreviews: {
-        isMediaLinkInWhitelist: any;
-        getTitleMetaTag: any;
-        getImageMetaTag: any;
-        assembleChunks: any;
-        getChunkPattern: any;
-        isLinkInWhitelist: any;
-        isStickerPack: (url: string) => boolean;
-        isLinkSafeToPreview: (url: string) => boolean;
-        findLinks: (body: string, unknown?: any) => Array<string>;
-        getDomain: (url: string) => string;
-      };
+      Util: typeof Util;
+      LinkPreviews: typeof LinkPreviews;
       GroupChange: {
         renderChange: (change: unknown, things: unknown) => Array<string>;
       };
       Components: {
-        AttachmentList: any;
-        CaptionEditor: any;
-        ContactDetail: any;
-        ConversationHeader: any;
+        AttachmentList: typeof AttachmentList;
+        CaptionEditor: typeof CaptionEditor;
+        ConfirmationModal: typeof ConfirmationModal;
+        ContactDetail: typeof ContactDetail;
+        ContactModal: typeof ContactModal;
         ErrorModal: typeof ErrorModal;
-        Lightbox: any;
-        LightboxGallery: any;
-        MediaGallery: any;
-        MessageDetail: any;
+        Lightbox: typeof Lightbox;
+        LightboxGallery: typeof LightboxGallery;
+        MediaGallery: typeof MediaGallery;
+        MessageDetail: typeof MessageDetail;
         ProgressModal: typeof ProgressModal;
-        Quote: any;
-        StagedLinkPreview: any;
-
-        getCallingNotificationText: (
-          callHistoryDetails: unknown,
-          i18n: unknown
-        ) => string;
+        Quote: typeof Quote;
+        StagedLinkPreview: typeof StagedLinkPreview;
       };
-      OS: {
-        isLinux: () => boolean;
-      };
+      OS: typeof OS;
       Workflow: {
         IdleDetector: WhatIsThis;
         MessageDataMigrator: WhatIsThis;
@@ -437,7 +452,44 @@ declare global {
         doesDatabaseExist: WhatIsThis;
       };
       Views: WhatIsThis;
-      State: WhatIsThis;
+      State: {
+        bindActionCreators: typeof bindActionCreators;
+        createStore: typeof createStore;
+        Roots: {
+          createCallManager: typeof createCallManager;
+          createCompositionArea: typeof createCompositionArea;
+          createContactModal: typeof createContactModal;
+          createConversationDetails: typeof createConversationDetails;
+          createConversationHeader: typeof createConversationHeader;
+          createGroupLinkManagement: typeof createGroupLinkManagement;
+          createGroupV1MigrationModal: typeof createGroupV1MigrationModal;
+          createGroupV2JoinModal: typeof createGroupV2JoinModal;
+          createGroupV2Permissions: typeof createGroupV2Permissions;
+          createLeftPane: typeof createLeftPane;
+          createPendingInvites: typeof createPendingInvites;
+          createSafetyNumberViewer: typeof createSafetyNumberViewer;
+          createShortcutGuideModal: typeof createShortcutGuideModal;
+          createStickerManager: typeof createStickerManager;
+          createStickerPreviewModal: typeof createStickerPreviewModal;
+          createTimeline: typeof createTimeline;
+        };
+        Ducks: {
+          calling: typeof callingDuck;
+          conversations: typeof conversationsDuck;
+          emojis: typeof emojisDuck;
+          expiration: typeof expirationDuck;
+          items: typeof itemsDuck;
+          network: typeof networkDuck;
+          updates: typeof updatesDuck;
+          user: typeof userDuck;
+          search: typeof searchDuck;
+          stickers: typeof stickersDuck;
+        };
+        Selectors: {
+          conversations: typeof conversationsSelectors;
+          search: typeof searchSelectors;
+        };
+      };
       Logs: WhatIsThis;
       conversationControllerStart: WhatIsThis;
       Emojis: {
@@ -462,8 +514,22 @@ declare global {
     hasSignalAccount: (number: string) => boolean;
     getServerTrustRoot: () => WhatIsThis;
     readyForUpdates: () => void;
+    logAppLoadedEvent: () => void;
+
+    // Runtime Flags
+    isShowingModal?: boolean;
+
+    // Feature Flags
+    isGroupCallingEnabled: () => boolean;
+    GV2_ENABLE_SINGLE_CHANGE_PROCESSING: boolean;
+    GV2_ENABLE_CHANGE_PROCESSING: boolean;
+    GV2_ENABLE_STATE_PROCESSING: boolean;
+    GV2_MIGRATION_DISABLE_ADD: boolean;
+    GV2_MIGRATION_DISABLE_INVITE: boolean;
   }
 
+  // We want to extend `Error`, so we need an interface.
+  // eslint-disable-next-line no-restricted-syntax
   interface Error {
     cause?: Event;
   }
@@ -552,7 +618,7 @@ export class CanvasVideoRenderer {
   constructor(canvas: Ref<HTMLCanvasElement>);
 }
 
-export type LoggerType = (...args: Array<any>) => void;
+export type LoggerType = (...args: Array<unknown>) => void;
 
 export type WhisperType = {
   events: {
@@ -579,29 +645,26 @@ export type WhisperType = {
   MessageType: MessageModel;
   GroupMemberConversation: WhatIsThis;
   KeyChangeListener: WhatIsThis;
-  ConfirmationDialogView: WhatIsThis;
   ClearDataView: WhatIsThis;
   ReactWrapperView: WhatIsThis;
   activeConfirmationView: WhatIsThis;
   ToastView: typeof Whisper.View & {
-    show: (view: Backbone.View, el: Element) => void;
+    show: (view: typeof Backbone.View, el: Element) => void;
   };
   ConversationArchivedToast: WhatIsThis;
   ConversationUnarchivedToast: WhatIsThis;
+  ConversationMarkedUnreadToast: WhatIsThis;
   AppView: WhatIsThis;
   WallClockListener: WhatIsThis;
   MessageRequests: WhatIsThis;
   BannerView: any;
   RecorderView: any;
   GroupMemberList: any;
+  GroupLinkCopiedToast: typeof Backbone.View;
   KeyVerificationPanelView: any;
   SafetyNumberChangeDialogView: any;
-
-  ExpirationTimerOptions: {
-    map: any;
-    getName: (number: number) => string;
-    getAbbreviated: (number: number) => string;
-  };
+  BodyRangesType: BodyRangesType;
+  BodyRangeType: BodyRangeType;
 
   Notifications: {
     removeBy: (filter: Partial<unknown>) => void;
@@ -661,28 +724,32 @@ export type WhisperType = {
   deliveryReceiptBatcher: BatcherType<WhatIsThis>;
   RotateSignedPreKeyListener: WhatIsThis;
 
-  ExpiredToast: typeof Whisper.ToastView;
-  BlockedToast: typeof Whisper.ToastView;
+  AlreadyGroupMemberToast: typeof Whisper.ToastView;
+  AlreadyRequestedToJoinToast: typeof Whisper.ToastView;
   BlockedGroupToast: typeof Whisper.ToastView;
-  LeftGroupToast: typeof Whisper.ToastView;
-  OriginalNotFoundToast: typeof Whisper.ToastView;
-  OriginalNoLongerAvailableToast: typeof Whisper.ToastView;
+  BlockedToast: typeof Whisper.ToastView;
+  CannotMixImageAndNonImageAttachmentsToast: typeof Whisper.ToastView;
+  DangerousFileTypeToast: typeof Whisper.ToastView;
+  ExpiredToast: typeof Whisper.ToastView;
+  FileSavedToast: typeof Whisper.ToastView;
+  FileSizeToast: any;
   FoundButNotLoadedToast: typeof Whisper.ToastView;
-  VoiceNoteLimit: typeof Whisper.ToastView;
-  VoiceNoteMustBeOnlyAttachmentToast: typeof Whisper.ToastView;
+  InvalidConversationToast: typeof Whisper.ToastView;
+  LeftGroupToast: typeof Whisper.ToastView;
+  MaxAttachmentsToast: typeof Whisper.ToastView;
+  MessageBodyTooLongToast: typeof Whisper.ToastView;
+  OneNonImageAtATimeToast: typeof Whisper.ToastView;
+  OriginalNoLongerAvailableToast: typeof Whisper.ToastView;
+  OriginalNotFoundToast: typeof Whisper.ToastView;
+  PinnedConversationsFullToast: typeof Whisper.ToastView;
+  ReactionFailedToast: typeof Whisper.ToastView;
   TapToViewExpiredIncomingToast: typeof Whisper.ToastView;
   TapToViewExpiredOutgoingToast: typeof Whisper.ToastView;
-  FileSavedToast: typeof Whisper.ToastView;
-  ReactionFailedToast: typeof Whisper.ToastView;
-  MessageBodyTooLongToast: typeof Whisper.ToastView;
-  FileSizeToast: any;
-  UnableToLoadToast: typeof Whisper.ToastView;
-  DangerousFileTypeToast: typeof Whisper.ToastView;
-  OneNonImageAtATimeToast: typeof Whisper.ToastView;
-  CannotMixImageAndNonImageAttachmentsToast: typeof Whisper.ToastView;
-  MaxAttachmentsToast: typeof Whisper.ToastView;
   TimerConflictToast: typeof Whisper.ToastView;
-  PinnedConversationsFullToast: typeof Whisper.ToastView;
+  UnableToLoadToast: typeof Whisper.ToastView;
+  VoiceNoteLimit: typeof Whisper.ToastView;
+  VoiceNoteMustBeOnlyAttachmentToast: typeof Whisper.ToastView;
+
   ConversationLoadingScreen: typeof Whisper.View;
   ConversationView: typeof Whisper.View;
   View: typeof Backbone.View;

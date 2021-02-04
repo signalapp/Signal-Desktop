@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint-disable no-console */
 import * as fs from 'fs';
 import { join, relative } from 'path';
@@ -158,6 +161,7 @@ const excludedFilesRegexps = [
   '^node_modules/es6-shim/.+', // Currently only used in storybook
   '^node_modules/escodegen/.+',
   '^node_modules/eslint.+',
+  '^node_modules/@typescript-eslint.+',
   '^node_modules/esprima/.+',
   '^node_modules/express/.+',
   '^node_modules/file-loader/.+',

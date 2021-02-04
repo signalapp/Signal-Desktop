@@ -1,4 +1,7 @@
-/* global $, Whisper, i18n */
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+/* global $, i18n */
 
 $(document).on('keydown', e => {
   if (e.keyCode === 27) {
@@ -32,7 +35,8 @@ if (window.forCalling) {
   message = i18n('audioPermissionNeeded');
 }
 
-window.view = new Whisper.ConfirmationDialogView({
+window.showConfirmationDialog({
+  confirmStyle: 'affirmative',
   message,
   okText: i18n('allowAccess'),
   resolve: () => {
@@ -45,5 +49,3 @@ window.view = new Whisper.ConfirmationDialogView({
   },
   reject: window.closePermissionsPopup,
 });
-
-window.view.$el.appendTo($body);

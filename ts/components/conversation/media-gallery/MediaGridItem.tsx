@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import React from 'react';
 import classNames from 'classnames';
 
@@ -8,15 +11,15 @@ import {
 import { LocalizerType } from '../../../types/Util';
 import { MediaItemType } from '../../LightboxGallery';
 
-export interface Props {
+export type Props = {
   mediaItem: MediaItemType;
   onClick?: () => void;
   i18n: LocalizerType;
-}
+};
 
-interface State {
+type State = {
   imageBroken: boolean;
-}
+};
 
 export class MediaGridItem extends React.Component<Props, State> {
   private readonly onImageErrorBound: () => void;

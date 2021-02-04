@@ -1,3 +1,6 @@
+// Copyright 2018-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import is from '@sindresorhus/is';
 import moment from 'moment';
 import { isNumber, padStart } from 'lodash';
@@ -17,7 +20,7 @@ const MIN_HEIGHT = 50;
 
 // Used for display
 
-export interface AttachmentType {
+export type AttachmentType = {
   blurHash?: string;
   caption?: string;
   contentType: MIME.MIMEType;
@@ -31,6 +34,7 @@ export interface AttachmentType {
   pending?: boolean;
   width?: number;
   height?: number;
+  path?: string;
   screenshot?: {
     height: number;
     width: number;
@@ -43,8 +47,9 @@ export interface AttachmentType {
     width: number;
     url: string;
     contentType: MIME.MIMEType;
+    path: string;
   };
-}
+};
 
 // UI-focused functions
 
@@ -130,12 +135,12 @@ export function isImage(
 }
 
 export function isImageAttachment(
-  attachment: AttachmentType
-): boolean | undefined {
-  return (
+  attachment?: AttachmentType
+): attachment is AttachmentType {
+  return Boolean(
     attachment &&
-    attachment.contentType &&
-    isImageTypeSupported(attachment.contentType)
+      attachment.contentType &&
+      isImageTypeSupported(attachment.contentType)
   );
 }
 export function hasImage(
@@ -162,6 +167,16 @@ export function isVideoAttachment(
     attachment.contentType &&
     isVideoTypeSupported(attachment.contentType)
   );
+}
+
+export function hasNotDownloaded(attachment?: AttachmentType): boolean {
+  return Boolean(attachment && !attachment.url && attachment.blurHash);
+}
+
+export function hasVideoBlurHash(attachments?: Array<AttachmentType>): boolean {
+  const firstAttachment = attachments ? attachments[0] : null;
+
+  return Boolean(firstAttachment && firstAttachment.blurHash);
 }
 
 export function hasVideoScreenshot(
@@ -285,9 +300,9 @@ export type Attachment = {
   // digest?: ArrayBuffer;
 } & Partial<AttachmentSchemaVersion3>;
 
-interface AttachmentSchemaVersion3 {
+type AttachmentSchemaVersion3 = {
   path: string;
-}
+};
 
 export const isVisualMedia = (attachment: Attachment): boolean => {
   const { contentType } = attachment;

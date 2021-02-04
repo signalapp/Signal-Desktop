@@ -1,12 +1,15 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import * as React from 'react';
 
 import { LocalizerType } from '../types/Util';
 import { ConfirmationModal } from './ConfirmationModal';
 
 export type PropsType = {
-  buttonText: string;
-  description: string;
-  title: string;
+  buttonText?: string;
+  description?: string;
+  title?: string;
 
   onClose: () => void;
   i18n: LocalizerType;
@@ -38,7 +41,7 @@ export const ErrorModal = (props: PropsType): JSX.Element => {
           onClick={onClose}
           ref={focusRef}
         >
-          {buttonText || i18n('ErrorModal--buttonText')}
+          {buttonText || i18n('Confirmation--confirm')}
         </button>
       </div>
     </ConfirmationModal>

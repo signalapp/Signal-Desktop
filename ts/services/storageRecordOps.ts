@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { isNumber } from 'lodash';
 
 import {
@@ -13,7 +16,11 @@ import {
   GroupV2RecordClass,
   PinnedConversationClass,
 } from '../textsecure.d';
-import { deriveGroupFields, waitThenMaybeUpdateGroup } from '../groups';
+import {
+  deriveGroupFields,
+  waitThenMaybeUpdateGroup,
+  waitThenRespondToGroupV2Migration,
+} from '../groups';
 import { ConversationModel } from '../models/conversations';
 import { ConversationAttributesTypeType } from '../model-types.d';
 
@@ -113,6 +120,7 @@ export async function toContactRecord(
   contactRecord.blocked = conversation.isBlocked();
   contactRecord.whitelisted = Boolean(conversation.get('profileSharing'));
   contactRecord.archived = Boolean(conversation.get('isArchived'));
+  contactRecord.markedUnread = Boolean(conversation.get('markedUnread'));
 
   applyUnknownFields(contactRecord, conversation);
 
@@ -137,6 +145,9 @@ export async function toAccountRecord(
   }
   accountRecord.avatarUrl = window.storage.get('avatarUrl') || '';
   accountRecord.noteToSelfArchived = Boolean(conversation.get('isArchived'));
+  accountRecord.noteToSelfMarkedUnread = Boolean(
+    conversation.get('markedUnread')
+  );
   accountRecord.readReceipts = Boolean(
     window.storage.get('read-receipt-setting')
   );
@@ -218,6 +229,7 @@ export async function toGroupV1Record(
   groupV1Record.blocked = conversation.isBlocked();
   groupV1Record.whitelisted = Boolean(conversation.get('profileSharing'));
   groupV1Record.archived = Boolean(conversation.get('isArchived'));
+  groupV1Record.markedUnread = Boolean(conversation.get('markedUnread'));
 
   applyUnknownFields(groupV1Record, conversation);
 
@@ -236,6 +248,7 @@ export async function toGroupV2Record(
   groupV2Record.blocked = conversation.isBlocked();
   groupV2Record.whitelisted = Boolean(conversation.get('profileSharing'));
   groupV2Record.archived = Boolean(conversation.get('isArchived'));
+  groupV2Record.markedUnread = Boolean(conversation.get('markedUnread'));
 
   applyUnknownFields(groupV2Record, conversation);
 
@@ -386,6 +399,7 @@ export async function mergeGroupV1Record(
 
   conversation.set({
     isArchived: Boolean(groupV1Record.archived),
+    markedUnread: Boolean(groupV1Record.markedUnread),
     storageID,
   });
 
@@ -404,6 +418,53 @@ export async function mergeGroupV1Record(
   return hasPendingChanges;
 }
 
+async function getGroupV2Conversation(
+  masterKeyBuffer: ArrayBuffer
+): Promise<ConversationModel> {
+  const groupFields = deriveGroupFields(masterKeyBuffer);
+
+  const groupId = arrayBufferToBase64(groupFields.id);
+  const masterKey = arrayBufferToBase64(masterKeyBuffer);
+  const secretParams = arrayBufferToBase64(groupFields.secretParams);
+  const publicParams = arrayBufferToBase64(groupFields.publicParams);
+
+  // First we check for an existing GroupV2 group
+  const groupV2 = window.ConversationController.get(groupId);
+  if (groupV2) {
+    await groupV2.maybeRepairGroupV2({
+      masterKey,
+      secretParams,
+      publicParams,
+    });
+
+    return groupV2;
+  }
+
+  // Then check for V1 group with matching derived GV2 id
+  const groupV1 = window.ConversationController.getByDerivedGroupV2Id(groupId);
+  if (groupV1) {
+    return groupV1;
+  }
+
+  const conversationId = window.ConversationController.ensureGroup(groupId, {
+    // Note: We don't set active_at, because we don't want the group to show until
+    //   we have information about it beyond these initial details.
+    //   see maybeUpdateGroup().
+    groupVersion: 2,
+    masterKey,
+    secretParams,
+    publicParams,
+  });
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error(
+      `getGroupV2Conversation: Failed to create conversation for groupv2(${groupId})`
+    );
+  }
+
+  return conversation;
+}
+
 export async function mergeGroupV2Record(
   storageID: string,
   groupV2Record: GroupV2RecordClass
@@ -413,39 +474,11 @@ export async function mergeGroupV2Record(
   }
 
   const masterKeyBuffer = groupV2Record.masterKey.toArrayBuffer();
-  const groupFields = deriveGroupFields(masterKeyBuffer);
-
-  const groupId = arrayBufferToBase64(groupFields.id);
-  const masterKey = arrayBufferToBase64(masterKeyBuffer);
-  const secretParams = arrayBufferToBase64(groupFields.secretParams);
-  const publicParams = arrayBufferToBase64(groupFields.publicParams);
-
-  const now = Date.now();
-  const conversationId = window.ConversationController.ensureGroup(groupId, {
-    // Note: We don't set active_at, because we don't want the group to show until
-    //   we have information about it beyond these initial details.
-    //   see maybeUpdateGroup().
-    timestamp: now,
-    // Basic GroupV2 data
-    groupVersion: 2,
-    masterKey,
-    secretParams,
-    publicParams,
-  });
-  const conversation = window.ConversationController.get(conversationId);
-
-  if (!conversation) {
-    throw new Error(`No conversation for groupv2(${groupId})`);
-  }
-
-  conversation.maybeRepairGroupV2({
-    masterKey,
-    secretParams,
-    publicParams,
-  });
+  const conversation = await getGroupV2Conversation(masterKeyBuffer);
 
   conversation.set({
     isArchived: Boolean(groupV2Record.archived),
+    markedUnread: Boolean(groupV2Record.markedUnread),
     storageID,
   });
 
@@ -462,13 +495,25 @@ export async function mergeGroupV2Record(
   updateConversation(conversation.attributes);
 
   const isGroupNewToUs = !isNumber(conversation.get('revision'));
-  const isFirstSync = !isNumber(window.storage.get('manifestVersion'));
+  const isFirstSync = !window.storage.get('storageFetchComplete');
   const dropInitialJoinMessage = isFirstSync;
 
-  // We don't need to update GroupV2 groups all the time. We fetch group state the first
-  //   time we hear about these groups, from then on we rely on incoming messages or
-  //   the user opening that conversation.
-  if (isGroupNewToUs) {
+  if (conversation.isGroupV1()) {
+    // If we found a GroupV1 conversation from this incoming GroupV2 record, we need to
+    //   migrate it!
+
+    // We don't await this because this could take a very long time, waiting for queues to
+    //   empty, etc.
+    waitThenRespondToGroupV2Migration({
+      conversation,
+    });
+  } else if (isGroupNewToUs) {
+    // We don't need to update GroupV2 groups all the time. We fetch group state the first
+    //   time we hear about these groups, from then on we rely on incoming messages or
+    //   the user opening that conversation.
+
+    // We don't await this because this could take a very long time, waiting for queues to
+    //   empty, etc.
     waitThenMaybeUpdateGroup({
       conversation,
       dropInitialJoinMessage,
@@ -537,6 +582,7 @@ export async function mergeContactRecord(
 
   conversation.set({
     isArchived: Boolean(contactRecord.archived),
+    markedUnread: Boolean(contactRecord.markedUnread),
     storageID,
   });
 
@@ -559,6 +605,7 @@ export async function mergeAccountRecord(
     avatarUrl,
     linkPreviews,
     noteToSelfArchived,
+    noteToSelfMarkedUnread,
     pinnedConversations: remotelyPinnedConversationClasses,
     profileKey,
     readReceipts,
@@ -593,9 +640,9 @@ export async function mergeAccountRecord(
       conversation => conversation.get('id')
     );
 
-    const missingStoragePinnedConversationIds = window.ConversationController.getPinnedConversationIds().filter(
-      id => !modelPinnedConversationIds.includes(id)
-    );
+    const missingStoragePinnedConversationIds = window.storage
+      .get<Array<string>>('pinnedConversationIds', [])
+      .filter(id => !modelPinnedConversationIds.includes(id));
 
     if (missingStoragePinnedConversationIds.length !== 0) {
       window.log.info(
@@ -712,7 +759,7 @@ export async function mergeAccountRecord(
     });
 
     remotelyPinnedConversations.forEach(conversation => {
-      conversation.set({ isPinned: true });
+      conversation.set({ isPinned: true, isArchived: false });
       updateConversation(conversation.attributes);
     });
 
@@ -734,6 +781,7 @@ export async function mergeAccountRecord(
 
   conversation.set({
     isArchived: Boolean(noteToSelfArchived),
+    markedUnread: Boolean(noteToSelfMarkedUnread),
     storageID,
   });
 

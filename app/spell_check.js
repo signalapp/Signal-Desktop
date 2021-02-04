@@ -1,8 +1,12 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint-disable strict */
 
-const { Menu, clipboard } = require('electron');
+const { Menu, clipboard, nativeImage } = require('electron');
 const osLocale = require('os-locale');
 const { uniq } = require('lodash');
+const url = require('url');
 
 function getLanguages(userLocale, availableLocales) {
   const baseLocale = userLocale.split('-')[0];
@@ -37,7 +41,10 @@ exports.setup = (browserWindow, messages) => {
     const { editFlags } = params;
     const isMisspelled = Boolean(params.misspelledWord);
     const isLink = Boolean(params.linkURL);
-    const showMenu = params.isEditable || editFlags.canCopy || isLink;
+    const isImage =
+      params.mediaType === 'image' && params.hasImageContents && params.srcURL;
+    const showMenu =
+      params.isEditable || editFlags.canCopy || isLink || isImage;
 
     // Popup editor menu
     if (showMenu) {
@@ -79,25 +86,43 @@ exports.setup = (browserWindow, messages) => {
         }
       }
 
-      if (editFlags.canCopy || isLink) {
+      if (editFlags.canCopy || isLink || isImage) {
+        let click;
+        let label;
+
+        if (isLink) {
+          click = () => {
+            clipboard.writeText(params.linkURL);
+          };
+          label = messages.contextMenuCopyLink.message;
+        } else if (isImage) {
+          click = () => {
+            if (url.parse(params.srcURL).protocol !== 'file:') {
+              return;
+            }
+
+            const image = nativeImage.createFromPath(
+              url.fileURLToPath(params.srcURL)
+            );
+            clipboard.writeImage(image);
+          };
+          label = messages.contextMenuCopyImage.message;
+        } else {
+          label = messages.editMenuCopy.message;
+        }
+
         template.push({
-          label: isLink
-            ? messages.contextMenuCopyLink.message
-            : messages.editMenuCopy.message,
-          role: isLink ? undefined : 'copy',
-          click: isLink
-            ? () => {
-                clipboard.writeText(params.linkURL);
-              }
-            : undefined,
+          label,
+          role: isLink || isImage ? undefined : 'copy',
+          click,
         });
       }
 
-      if (editFlags.canPaste) {
+      if (editFlags.canPaste && !isImage) {
         template.push({ label: messages.editMenuPaste.message, role: 'paste' });
       }
 
-      if (editFlags.canPaste) {
+      if (editFlags.canPaste && !isImage) {
         template.push({
           label: messages.editMenuPasteAndMatchStyle.message,
           role: 'pasteAndMatchStyle',

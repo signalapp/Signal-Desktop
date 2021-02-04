@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { LoggerType } from '../types/Logging';
 
 function parseUrl(value: unknown, logger: LoggerType): null | URL {
@@ -22,7 +25,7 @@ export function isSgnlHref(value: string | URL, logger: LoggerType): boolean {
 
 type ParsedSgnlHref =
   | { command: null; args: Map<never, never> }
-  | { command: string; args: Map<string, string> };
+  | { command: string; args: Map<string, string>; hash: string | undefined };
 export function parseSgnlHref(
   href: string,
   logger: LoggerType
@@ -39,5 +42,9 @@ export function parseSgnlHref(
     }
   });
 
-  return { command: url.host, args };
+  return {
+    command: url.host,
+    args,
+    hash: url.hash ? url.hash.slice(1) : undefined,
+  };
 }

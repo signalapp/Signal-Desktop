@@ -163,16 +163,20 @@
         "message": "Copiar l'enllaç",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
+    "contextMenuCopyImage": {
+        "message": "Copia la imatge",
+        "description": "Shown in the context menu for an image to indicate that the user can copy the image"
+    },
     "contextMenuNoSuggestions": {
         "message": "Sense suggeriments",
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
     },
     "avatarMenuViewArchive": {
-        "message": "Veure Arxiu",
+        "message": "Mostra l'arxiu",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
-        "message": "Es carrega...",
+        "message": "S'està carregant...",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
@@ -206,11 +210,15 @@
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
-        "message": "Arxiva la conversa",
+        "message": "Arxiva",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
+    "markUnread": {
+        "message": "Marca com a no llegit",
+        "description": "Shown in menu for conversation, and marks conversation as unread"
+    },
     "moveConversationToInbox": {
-        "message": "Mou la conversa a la safata d'entrada",
+        "message": "Restaura",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
@@ -302,6 +310,10 @@
     "youLeftTheGroup": {
         "message": "Ja no sou membre del grup.",
         "description": "Displayed when a user can't send a message because they have left the group"
+    },
+    "invalidConversation": {
+        "message": "Aquest grup no és vàlid. Si us plau, creeu un grup nou.",
+        "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
     },
     "scrollDown": {
         "message": "Ves al final de la conversa",
@@ -412,6 +424,10 @@
     "callAnyway": {
         "message": "Truca-li tanmateix",
         "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+    },
+    "continueCall": {
+        "message": "Continua la trucada",
+        "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
         "message": "El número de seguretat amb $name$ ha canviat i ja no està verificat. Feu clic per veure'l.",
@@ -560,7 +576,7 @@
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "Es carrega la previsualització...",
+        "message": "S'està carregant la previsualització...",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
@@ -650,7 +666,7 @@
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
     "contactUs": {
-        "message": "Contacteu-nos",
+        "message": "Contacte",
         "description": "Item under the help menu, takes you to the contact us support page"
     },
     "goToReleaseNotes": {
@@ -665,10 +681,6 @@
         "message": "Ves a la pàgina de suport",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "goToGithub": {
-        "message": "Ves a GitHub",
-        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
-    },
     "joinTheBeta": {
         "message": "Uniu-vos a la versió Beta",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
@@ -682,7 +694,7 @@
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "Quan al Signal Desktop",
+        "message": "Quant al Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
@@ -1048,7 +1060,7 @@
         "description": "Label for back button in a conversation"
     },
     "moreInfo": {
-        "message": "Més informació...",
+        "message": "Més informació",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
@@ -1064,7 +1076,7 @@
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
-        "message": "Suprimeix els missatges",
+        "message": "Suprimeix",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
@@ -1187,6 +1199,14 @@
         "message": "Afegeix-me a la trucada",
         "description": "Button label in the call lobby for joining a call"
     },
+    "calling__return": {
+        "message": "Torna a la trucada",
+        "description": "Button label in the call lobby for returning to a call"
+    },
+    "calling__call-is-full": {
+        "message": "La trucada és plena",
+        "description": "Button label in the call lobby when you can't join because the call is full"
+    },
     "calling__button--video-disabled": {
         "message": "Càmera desactivada",
         "description": "Button tooltip label when the camera is disabled"
@@ -1204,7 +1224,7 @@
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "Desactiva el micròfon",
+        "message": "Silencia el micròfon",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
@@ -1214,6 +1234,106 @@
     "calling__your-video-is-off": {
         "message": "El vídeo està desactivat.",
         "description": "Label in the calling lobby indicating that your camera is off"
+    },
+    "calling__lobby-summary--zero": {
+        "message": "Aquí no hi ha ningú més.",
+        "description": "Shown in the calling lobby to describe who is in the call"
+    },
+    "calling__lobby-summary--single": {
+        "message": "$first$ és en aquesta trucada.",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__lobby-summary--self": {
+        "message": "Un dels altres dispositius vostres és en aquesta trucada.",
+        "description": "Shown in the calling lobby to describe when it is just you"
+    },
+    "calling__lobby-summary--double": {
+        "message": "$first$ i $second$ són en aquesta trucada.",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__lobby-summary--triple": {
+        "message": "$first$, $second$ i $third$ són en aquesta trucada.",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__lobby-summary--many": {
+        "message": "$first$, $second$ i $others$ més són en aquesta trucada.",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
+    "calling__in-this-call--zero": {
+        "message": "Aquí no hi ha ningú més.",
+        "description": "Shown in the participants list to describe how many people are in the call"
+    },
+    "calling__in-this-call--one": {
+        "message": "En aquesta trucada: 1 persona",
+        "description": "Shown in the participants list to describe how many people are in the call"
+    },
+    "calling__in-this-call--many": {
+        "message": "En aquesta trucada: $people$ persones",
+        "description": "Shown in the participants list to describe how many people are in the call",
+        "placeholders": {
+            "people": {
+                "content": "$1",
+                "example": "15"
+            }
+        }
+    },
+    "calling__you-have-blocked": {
+        "message": "Heu blocat $name$",
+        "description": "when you block someone and cannot view their video",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Henry Richard"
+            }
+        }
+    },
+    "calling__block-info": {
+        "message": "No en rebreu àudio ni vídeo ni rebran el vostre.",
+        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "alwaysRelayCallsDescription": {
         "message": "Retransmet sempre les trucades",
@@ -2258,7 +2378,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Commuta el selector de reaccions per al missatge seleccionat",
+        "message": "Commuta el selector de reaccions d'emoticones per al missatge seleccionat",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2388,6 +2508,10 @@
     "conversationReturnedToInbox": {
         "message": "La conversa ha tornat a la bústia d'entrada",
         "description": "A toast that shows up when the user unarchives a conversation"
+    },
+    "conversationMarkedUnread": {
+        "message": "Conversa marcada com a no llegida",
+        "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
         "message": "Creador de paquets d'adhesius",
@@ -2769,6 +2893,38 @@
         "message": "Ho accepto",
         "description": "Shown as a button to let the user accept a message request"
     },
+    "MessageRequests--continue": {
+        "message": "Continua",
+        "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
+    },
+    "MessageRequests--profile-sharing--group": {
+        "message": "Voleu continuar la conversa amb aquest grup i compartir-hi el nom i la fotografia? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a group yet",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--profile-sharing--direct": {
+        "message": "Voleu continuar la conversa amb $firstName$ i compartir-hi el nom i la fotografia? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
+        "placeholders": {
+            "firstName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "learnMore": {
+                "content": "$2",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--learn-more": {
+        "message": "Més informació",
+        "description": "Shown at the end of profile sharing messages as a link."
+    },
     "ConversationHero--members": {
         "message": "$count$ membres",
         "description": "Specifies the number of members in a group conversation",
@@ -2939,6 +3095,10 @@
         "message": "Inicia una trucada de vídeo",
         "description": "Title for the video call button in a conversation"
     },
+    "joinOngoingCall": {
+        "message": "Afegeix-m'hi",
+        "description": "Text that appears in a group when a call is active"
+    },
     "callNeedPermission": {
         "message": "$title$ rebrà una petició de missatge vostra. Podeu trucar-li un cop acceptada.",
         "description": "Shown when a call is rejected because the other party hasn't approved the message/call request",
@@ -2968,15 +3128,61 @@
         "description": "Title for device selection settings"
     },
     "calling__participants": {
-        "message": "Participants",
-        "description": "Title for participants list toggle"
+        "message": "$people$ a la trucada",
+        "description": "Title for participants list toggle",
+        "placeholders": {
+            "people": {
+                "content": "$1",
+                "example": "16"
+            }
+        }
     },
-    "calling__pip": {
-        "message": "Imatge en imatge",
+    "calling__call-notification__ended": {
+        "message": "La trucada ha acabat",
+        "description": "Notification message when a group call has ended"
+    },
+    "calling__call-notification__started-by-someone": {
+        "message": "S'ha iniciat una trucada de grup.",
+        "description": "Notification message when a group call has started, but we don't know who started it"
+    },
+    "calling__call-notification__started-by-you": {
+        "message": "Heu iniciat una trucada de grup.",
+        "description": "Notification message when a group call has started by you"
+    },
+    "calling__call-notification__started": {
+        "message": "$name$ ha iniciat una trucada de grup.",
+        "description": "Notification message when a group call has started",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "calling__call-notification__button__in-another-call-tooltip": {
+        "message": "Ja sou en una trucada.",
+        "description": "Tooltip in disabled notification button when you're on another call"
+    },
+    "calling__call-notification__button__call-full-tooltip": {
+        "message": "La trucada ha arribat a la capacitat de $max$ participants.",
+        "description": "Tooltip in disabled notification button when the call is full",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "calling__pip--on": {
+        "message": "Minimitza la trucada",
+        "description": "Title for picture-in-picture toggle"
+    },
+    "calling__pip--off": {
+        "message": "Trucada a pantalla completa",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__hangup": {
-        "message": "Penja",
+        "message": "Surt de la trucada",
         "description": "Title for hang up button"
     },
     "callingDeviceSelection__label--video": {
@@ -3045,7 +3251,7 @@
         "message": "Si us plau, torneu-ho a provar o contacteu amb l'assistència.",
         "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
     },
-    "ErrorModal--buttonText": {
+    "Confirmation--confirm": {
         "message": "D'acord",
         "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
     },
@@ -3851,6 +4057,120 @@
             }
         }
     },
+    "GroupV1--Migration--disabled": {
+        "message": "Actualitzeu aquest grup i activeu-ne les funcions noves com ara les @mencions i els administradors. Els membres que no hi han compartit el nom o la fotografia es convidaran a afegir-s'hi. $learnMore$",
+        "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn more."
+            }
+        }
+    },
+    "GroupV1--Migration--was-upgraded": {
+        "message": "Aquest grup s'ha actualitzat a un grup nou.",
+        "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
+    },
+    "GroupV1--Migration--learn-more": {
+        "message": "Més informació",
+        "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
+    },
+    "GroupV1--Migration--migrate": {
+        "message": "Actualitza",
+        "description": "Shown on Migrate dialog to kick off the process"
+    },
+    "GroupV1--Migration--info--title": {
+        "message": "Què són els grups nous?",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--migrate--title": {
+        "message": "Actualitza a grup nou",
+        "description": "Shown on Migration popup after choosing to migrate group"
+    },
+    "GroupV1--Migration--info--summary": {
+        "message": "Els grups nous tenen funcions com ara @mencions i administradors de grups, i admetran més funcions en el futur.",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--keep-history": {
+        "message": "S'han conservat tot l'historial de missatges i el contingut anteriors a l'actualització.",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--migrate--keep-history": {
+        "message": "Es conservaran tot l'historial i tot el contingut d'abans de l'actualització.",
+        "description": "Shown on Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--you": {
+        "message": "Haureu d'acceptar una invitació per a unir-vos al grup de nou, i no rebreu missatges del grup fins que ho feu.",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--many": {
+        "message": "Aquests membres hauran d'acceptar una invitació per tornar a afegir-se a aquest grup i no en rebran missatges fins que no l'acceptin:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--one": {
+        "message": "Aquest membre haurà d'acceptar una invitació per tornar a afegir-se a aquest grup i no en rebrà missatges fins que no l'accepti:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--before--many": {
+        "message": "Aquests membres no són capaços d'afegir-se als grups nous i se suprimiran del grup:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--before--one": {
+        "message": "Aquest membre no és capaç d'afegir-se als grups nous i se suprimirà del grup:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--after--many": {
+        "message": "Aquests membres no eren capaços d'afegir-se als grups nous i s'han suprimit del grup:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--after--one": {
+        "message": "Aquest membre no era capaços d'afegir-se als grups nous i s'ha suprimit del grup:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--invited--you": {
+        "message": "No se us ha pogut afegir al grup nou i se us ha convidat a afegir-vos-hi.",
+        "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
+    },
+    "GroupV1--Migration--invited--one": {
+        "message": "$contact$ no s'ha pogut afegir al grup nou i s'ha convidat a afegir-s'hi.",
+        "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--invited--many": {
+        "message": "$count$ membres no s'han pogut afegir al grup nou i s'han convidat a afegir-s'hi.",
+        "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--removed--one": {
+        "message": "$contact$ s'ha suprimit del grup.",
+        "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--removed--many": {
+        "message": "$count$ membres s'han suprimit del grup.",
+        "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
     "close": {
         "message": "Tanca",
         "description": "Generic close label"
@@ -3874,5 +4194,17 @@
     "countMutedConversationsDescription": {
         "message": "Compta les converses silenciades al recompte d'insígnies",
         "description": "Description for counting muted conversations in badge setting"
+    },
+    "ContactModal--message": {
+        "message": "Missatge",
+        "description": "Button text for send message button in Group Contact Details modal"
+    },
+    "ContactModal--make-admin": {
+        "message": "Fes adminstrador",
+        "description": "Button text for make admin button in Group Contact Details modal"
+    },
+    "ContactModal--remove-from-group": {
+        "message": "Suprimeix del grup",
+        "description": "Button text for remove from group button in Group Contact Details modal"
     }
 }

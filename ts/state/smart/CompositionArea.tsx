@@ -1,3 +1,6 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { get } from 'lodash';
@@ -34,7 +37,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     throw new Error(`Conversation id ${id} not found!`);
   }
 
-  const { draftText } = conversation;
+  const { draftText, draftBodyRanges } = conversation;
 
   const receivedPacks = getReceivedStickerPacks(state);
   const installedPacks = getInstalledStickerPacks(state);
@@ -58,7 +61,8 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   return {
     // Base
     i18n: getIntl(state),
-    startingText: draftText,
+    draftText,
+    draftBodyRanges,
     // Emojis
     recentEmojis,
     skinTone: get(state, ['items', 'skinTone'], 0),

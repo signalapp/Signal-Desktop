@@ -1,9 +1,12 @@
+// Copyright 2016-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* global $, Whisper, moment, WebAudioRecorder */
 
 /* eslint-disable more/no-then */
 
 // eslint-disable-next-line func-names
-(function() {
+(function () {
   window.Whisper = window.Whisper || {};
 
   Whisper.RecorderView = Whisper.View.extend({

@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import React from 'react';
 
 import { getSizeClass, SizeClassType } from '../emoji/lib';
@@ -17,7 +20,7 @@ type OpenConversationActionType = (
   messageId?: string
 ) => void;
 
-export interface Props {
+export type Props = {
   direction?: 'incoming' | 'outgoing';
   text: string;
   textPending?: boolean;
@@ -28,7 +31,7 @@ export interface Props {
   i18n: LocalizerType;
   bodyRanges?: BodyRangesType;
   openConversation?: OpenConversationActionType;
-}
+};
 
 const renderEmoji = ({
   text,

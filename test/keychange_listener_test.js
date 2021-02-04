@@ -1,3 +1,6 @@
+// Copyright 2017-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* global ConversationController, libsignal, SignalProtocolStore, Whisper */
 
 describe('KeyChangeListener', () => {
@@ -35,6 +38,7 @@ describe('KeyChangeListener', () => {
 
     after(async () => {
       await window.Signal.Data.removeAllMessagesInConversation(convo.id, {
+        logId: phoneNumberWithKeyChange,
         MessageCollection: Whisper.MessageCollection,
       });
       await window.Signal.Data.removeConversation(convo.id, {
@@ -75,6 +79,7 @@ describe('KeyChangeListener', () => {
     });
     after(async () => {
       await window.Signal.Data.removeAllMessagesInConversation(groupConvo.id, {
+        logId: phoneNumberWithKeyChange,
         MessageCollection: Whisper.MessageCollection,
       });
       await window.Signal.Data.removeConversation(groupConvo.id, {

@@ -163,6 +163,10 @@
     "message": "Copy Link",
     "description": "Shown in the context menu for a link to indicate that the user can copy the link"
   },
+  "contextMenuCopyImage": {
+    "message": "Copy Image",
+    "description": "Shown in the context menu for an image to indicate that the user can copy the image"
+  },
   "contextMenuNoSuggestions": {
     "message": "No Suggestions",
     "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
@@ -206,11 +210,15 @@
     "description": "Shown at the top of the archived conversations list in the left pane"
   },
   "archiveConversation": {
-    "message": "Archive Conversation",
+    "message": "Archive",
     "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
   },
+  "markUnread": {
+    "message": "Mark as unread",
+    "description": "Shown in menu for conversation, and marks conversation as unread"
+  },
   "moveConversationToInbox": {
-    "message": "Move Conversation to Inbox",
+    "message": "Unarchive",
     "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
   },
   "pinConversation": {
@@ -302,6 +310,10 @@
   "youLeftTheGroup": {
     "message": "You are no longer a member of the group.",
     "description": "Displayed when a user can't send a message because they have left the group"
+  },
+  "invalidConversation": {
+    "message": "This group is invalid. Please create a new group.",
+    "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
   },
   "scrollDown": {
     "message": "Scroll to bottom of conversation",
@@ -413,6 +425,10 @@
     "message": "Call Anyway",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "continueCall": {
+    "message": "Continue Call",
+    "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
+  },
   "noLongerVerified": {
     "message": "Your safety number with $name$ has changed and is no longer verified. Click to show.",
     "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified.",
@@ -506,6 +522,10 @@
   "mediaEmptyState": {
     "message": "You don’t have any media in this conversation",
     "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
+  },
+  "allMedia": {
+    "message": "All Media",
+    "description": "Header for the media gallery"
   },
   "documents": {
     "message": "Documents",
@@ -654,10 +674,6 @@
   "goToSupportPage": {
     "message": "Go to Support Page",
     "description": "Item under the Help menu, takes you to the support page"
-  },
-  "goToGithub": {
-    "message": "Go to GitHub",
-    "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
   },
   "joinTheBeta": {
     "message": "Join the Beta",
@@ -954,6 +970,17 @@
   "delete": {
     "message": "Delete"
   },
+  "accept": {
+    "message": "Accept"
+  },
+  "on": {
+    "message": "On",
+    "description": "Label for when something is turned on"
+  },
+  "off": {
+    "message": "Off",
+    "description": "Label for when something is turned off"
+  },
   "deleteWarning": {
     "message": "Clicking 'delete' will permanently remove this message from your devices only.",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
@@ -1023,7 +1050,7 @@
     "description": "Label for back button in a conversation"
   },
   "moreInfo": {
-    "message": "More Info...",
+    "message": "More Info",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
   "retrySend": {
@@ -1039,7 +1066,7 @@
     "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "deleteMessages": {
-    "message": "Delete messages",
+    "message": "Delete",
     "description": "Menu item for deleting messages, title case."
   },
   "deleteConversationConfirmation": {
@@ -1158,6 +1185,14 @@
     "message": "Join Call",
     "description": "Button label in the call lobby for joining a call"
   },
+  "calling__return": {
+    "message": "Return to Call",
+    "description": "Button label in the call lobby for returning to a call"
+  },
+  "calling__call-is-full": {
+    "message": "Call is full",
+    "description": "Button label in the call lobby when you can't join because the call is full"
+  },
   "calling__button--video-disabled": {
     "message": "Camera disabled",
     "description": "Button tooltip label when the camera is disabled"
@@ -1175,16 +1210,124 @@
     "description": "Button tooltip label when the microphone is disabled"
   },
   "calling__button--audio-off": {
-    "message": "Turn off microphone",
+    "message": "Mute mic",
     "description": "Button tooltip label for turning off the microphone"
   },
   "calling__button--audio-on": {
-    "message": "Turn on microphone",
+    "message": "Unmute mic",
     "description": "Button tooltip label for turning on the microphone"
   },
   "calling__your-video-is-off": {
-    "message": "Your video is off",
+    "message": "Your camera is off",
     "description": "Label in the calling lobby indicating that your camera is off"
+  },
+  "calling__lobby-summary--zero": {
+    "message": "No one else is here",
+    "description": "Shown in the calling lobby to describe who is in the call"
+  },
+  "calling__lobby-summary--single": {
+    "message": "$first$ is in this call",
+    "description": "Shown in the calling lobby to describe who is in the call",
+    "placeholders": {
+      "first": {
+        "content": "$1",
+        "example": "Sam"
+      }
+    }
+  },
+  "calling__lobby-summary--self": {
+    "message": "One of your other devices is in this call",
+    "description": "Shown in the calling lobby to describe when it is just you"
+  },
+  "calling__lobby-summary--double": {
+    "message": "$first$ and $second$ are in this call",
+    "description": "Shown in the calling lobby to describe who is in the call",
+    "placeholders": {
+      "first": {
+        "content": "$1",
+        "example": "Sam"
+      },
+      "second": {
+        "content": "$2",
+        "example": "Cayce"
+      }
+    }
+  },
+  "calling__lobby-summary--triple": {
+    "message": "$first$, $second$, and $third$ are in this call",
+    "description": "Shown in the calling lobby to describe who is in the call",
+    "placeholders": {
+      "first": {
+        "content": "$1",
+        "example": "Sam"
+      },
+      "second": {
+        "content": "$2",
+        "example": "Cayce"
+      },
+      "third": {
+        "content": "$3",
+        "example": "April"
+      }
+    }
+  },
+  "calling__lobby-summary--many": {
+    "message": "$first$, $second$, and $others$ others are in this call",
+    "description": "Shown in the calling lobby to describe who is in the call",
+    "placeholders": {
+      "first": {
+        "content": "$1",
+        "example": "Sam"
+      },
+      "second": {
+        "content": "$2",
+        "example": "Cayce"
+      },
+      "others": {
+        "content": "$3",
+        "example": "5"
+      }
+    }
+  },
+  "calling__in-this-call--zero": {
+    "message": "No one else is here",
+    "description": "Shown in the participants list to describe how many people are in the call"
+  },
+  "calling__in-this-call--one": {
+    "message": "In this call · 1 person",
+    "description": "Shown in the participants list to describe how many people are in the call"
+  },
+  "calling__in-this-call--many": {
+    "message": "In this call · $people$ people",
+    "description": "Shown in the participants list to describe how many people are in the call",
+    "placeholders": {
+      "people": {
+        "content": "$1",
+        "example": "15"
+      }
+    }
+  },
+  "calling__you-have-blocked": {
+    "message": "You have blocked $name$",
+    "description": "when you block someone and cannot view their video",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Henry Richard"
+      }
+    }
+  },
+  "calling__block-info": {
+    "message": "You won't receive their audio or video and they won't receive yours.",
+    "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
+  },
+  "calling__overflow__scroll-up": {
+    "message": "Scroll up",
+    "description": "Label for the \"scroll up\" button in a call's overflow area"
+  },
+  "calling__overflow__scroll-down": {
+    "message": "Scroll down",
+    "description": "Label for the \"scroll down\" button in a call's overflow area"
   },
   "alwaysRelayCallsDescription": {
     "message": "Always relay calls",
@@ -2216,7 +2359,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "Toggle reaction picker for selected message",
+    "message": "Toggle emoji-reaction picker for selected message",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -2346,6 +2489,10 @@
   "conversationReturnedToInbox": {
     "message": "Conversation returned to inbox",
     "description": "A toast that shows up when the user unarchives a conversation"
+  },
+  "conversationMarkedUnread": {
+    "message": "Conversation marked unread",
+    "description": "A toast that shows up when user marks a conversation as unread"
   },
   "StickerCreator--title": {
     "message": "Sticker pack creator",
@@ -2727,6 +2874,38 @@
     "message": "Accept",
     "description": "Shown as a button to let the user accept a message request"
   },
+  "MessageRequests--continue": {
+    "message": "Continue",
+    "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
+  },
+  "MessageRequests--profile-sharing--group": {
+    "message": "Continue your conversation with this group and share your name and photo with its members? $learnMore$",
+    "description": "Shown when user hasn't shared their profile in a group yet",
+    "placeholders": {
+      "learnMore": {
+        "content": "$1",
+        "example": "Learn More."
+      }
+    }
+  },
+  "MessageRequests--profile-sharing--direct": {
+    "message": "Continue this conversation with $firstName$ and share your name and photo with them? $learnMore$",
+    "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
+    "placeholders": {
+      "firstName": {
+        "content": "$1",
+        "example": "Alice"
+      },
+      "learnMore": {
+        "content": "$2",
+        "example": "Learn More."
+      }
+    }
+  },
+  "MessageRequests--learn-more": {
+    "message": "Learn more.",
+    "description": "Shown at the end of profile sharing messages as a link."
+  },
   "ConversationHero--members": {
     "message": "$count$ members",
     "description": "Specifies the number of members in a group conversation",
@@ -2897,6 +3076,10 @@
     "message": "Start a video call",
     "description": "Title for the video call button in a conversation"
   },
+  "joinOngoingCall": {
+    "message": "Join",
+    "description": "Text that appears in a group when a call is active"
+  },
   "callNeedPermission": {
     "message": "$title$ will get a message request from you. You can call once your message request has been accepted.",
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request",
@@ -2926,15 +3109,69 @@
     "description": "Title for device selection settings"
   },
   "calling__participants": {
-    "message": "Participants",
-    "description": "Title for participants list toggle"
+    "message": "$people$ in call",
+    "description": "Title for participants list toggle",
+    "placeholders": {
+      "people": {
+        "content": "$1",
+        "example": "16"
+      }
+    }
   },
-  "calling__pip": {
-    "message": "Picture-in-picture",
+  "calling__call-notification__ended": {
+    "message": "The group call has ended",
+    "description": "Notification message when a group call has ended"
+  },
+  "calling__call-notification__started-by-someone": {
+    "message": "A group call was started",
+    "description": "Notification message when a group call has started, but we don't know who started it"
+  },
+  "calling__call-notification__started-by-you": {
+    "message": "You started a group call",
+    "description": "Notification message when a group call has started by you"
+  },
+  "calling__call-notification__started": {
+    "message": "$name$ started a group call",
+    "description": "Notification message when a group call has started",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "calling__call-notification__button__in-another-call-tooltip": {
+    "message": "You are already in a call",
+    "description": "Tooltip in disabled notification button when you're on another call"
+  },
+  "calling__call-notification__button__call-full-tooltip": {
+    "message": "Call has reached capacity of $max$ participants",
+    "description": "Tooltip in disabled notification button when the call is full",
+    "placeholders": {
+      "max": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "calling__pip--on": {
+    "message": "Minimize call",
     "description": "Title for picture-in-picture toggle"
   },
+  "calling__pip--off": {
+    "message": "Fullscreen call",
+    "description": "Title for picture-in-picture toggle"
+  },
+  "calling__switch-view--to-grid": {
+    "message": "Switch to grid view",
+    "description": "Title for grid/speaker view toggle when on a call"
+  },
+  "calling__switch-view--to-speaker": {
+    "message": "Switch to speaker view",
+    "description": "Title for grid/speaker view toggle when on a call"
+  },
   "calling__hangup": {
-    "message": "Hang Up",
+    "message": "Leave call",
     "description": "Title for hang up button"
   },
   "callingDeviceSelection__label--video": {
@@ -3004,14 +3241,126 @@
     "message": "Please try again or contact support.",
     "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
   },
-  "ErrorModal--buttonText": {
+  "Confirmation--confirm": {
     "message": "Okay",
     "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
   },
 
+  "unknown-sgnl-link": {
+    "message": "Sorry, that sgnl:// link didn't make sense!",
+    "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
+  },
+
+  "GroupV2--join--invalid-link--title": {
+    "message": "Invalid Link",
+    "description": "Shown if we are unable to parse a group link"
+  },
+  "GroupV2--join--invalid-link": {
+    "message": "This is not a valid group link. Make sure the entire link is intact and correct before attempting to join.",
+    "description": "Shown if we are unable to parse a group link"
+  },
+  "GroupV2--join--prompt": {
+    "message": "Do you want to join this group and share your name and photo with its members?",
+    "description": "Shown when you click on a group link to confirm"
+  },
+  "GroupV2--join--already-in-group": {
+    "message": "You're already in this group.",
+    "description": "Shown if you click a group link for a group where you're already a member"
+  },
+  "GroupV2--join--already-awaiting-approval": {
+    "message": "You have already requested approval to join this group.",
+    "description": "Shown if you click a group link for a group where you've already requested approval'"
+  },
+
+  "GroupV2--join--unknown-link-version--title": {
+    "message": "Unknown link version",
+    "description": "This group link is no longer valid."
+  },
+  "GroupV2--join--unknown-link-version": {
+    "message": "This link is not supported by this version of Signal Desktop.",
+    "description": "Shown if you click a group link and we can't get information about it"
+  },
+  "GroupV2--join--link-revoked--title": {
+    "message": "Can’t Join Group",
+    "description": "Shown if you click a group link and we can't get information about it"
+  },
+  "GroupV2--join--link-revoked": {
+    "message": "This group link is no longer valid.",
+    "description": "Shown if you click a group link and we can't get information about it"
+  },
+  "GroupV2--join--prompt-with-approval": {
+    "message": "An admin of this group must approve your request before you can join this group. If approved, your name and photo will be shared with its members.",
+    "description": "Shown when you click on a group link to confirm, if it requires admin approval"
+  },
+  "GroupV2--join--join-button": {
+    "message": "Join",
+    "description": "The button to join the group"
+  },
+  "GroupV2--join--request-to-join-button": {
+    "message": "Request to Join",
+    "description": "The button to join the group, if approval is required"
+  },
+  "GroupV2--join--cancel-request-to-join": {
+    "message": "Cancel Request",
+    "description": "The button to cancel request to join the group"
+  },
+  "GroupV2--join--cancel-request-to-join--confirmation": {
+    "message": "Cancel your request to join this group?",
+    "description": "A confirmation message that shows after you click the button"
+  },
+  "GroupV2--join--cancel-request-to-join--yes": {
+    "message": "Yes",
+    "description": "Choosing to continue in the cancel join confirmation dialog"
+  },
+  "GroupV2--join--cancel-request-to-join--no": {
+    "message": "No",
+    "description": "Choosing not to continue in the cancel join confirmation dialog"
+  },
+  "GroupV2--join--member-count--single": {
+    "message": "1 member",
+    "description": "Shown in the metadata section if group has just one member"
+  },
+  "GroupV2--join--member-count--multiple": {
+    "message": "$count$ members",
+    "description": "Shown in the metadata section if group has more than one member",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "12"
+      }
+    }
+  },
+  "GroupV2--join--group-metadata": {
+    "message": "Group · $memberCount$",
+    "description": "A holder for two pieces of information - the type of conversation, and the member count",
+    "placeholders": {
+      "memberCount": {
+        "content": "$1",
+        "example": "12 members"
+      }
+    }
+  },
+  "GroupV2--join--requested": {
+    "message": "Your request to join has been sent to the group admin. You’ll be notified when they take action.",
+    "description": "Shown in composition area when you've requested to join a group"
+  },
+
+  "GroupV2--join--general-join-failure--title": {
+    "message": "Link Error",
+    "description": "Shown if something went wrong when you try to join via a group link"
+  },
+  "GroupV2--join--general-join-failure": {
+    "message": "Joining via this link failed. Try joining again later.",
+    "description": "Shown if something went wrong when you try to join via a group link"
+  },
+
   "GroupV2--admin": {
     "message": "Admin",
-    "description": "Shown next to the set of administrators in a group"
+    "description": "Label for a group administrator"
+  },
+  "GroupV2--all-members": {
+    "message": "All members",
+    "description": "Label for describing the general non-privileged members of a group"
   },
   "updating": {
     "message": "Updating...",
@@ -3199,6 +3548,42 @@
     "message": "An admin changed who can edit group membership to \"All members.\"",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "GroupV2--access-invite-link--disabled--you": {
+    "message": "You disabled admin approval for the group link.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--access-invite-link--disabled--other": {
+    "message": "$adminName$ disabled admin approval for the group link.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--access-invite-link--disabled--unknown": {
+    "message": "Admin approval for the group link has been disabled.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--access-invite-link--enabled--you": {
+    "message": "You enabled admin approval for the group link.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--access-invite-link--enabled--other": {
+    "message": "$adminName$ enabled admin approval for the group link.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--access-invite-link--enabled--unknown": {
+    "message": "Admin approval for the group link has been disabled.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
   "GroupV2--member-add--invited--you": {
     "message": "You added invited member $inviteeName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes",
@@ -3333,6 +3718,72 @@
     "message": "You were added to the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+
+  "GroupV2--member-add-from-link--you--you": {
+    "message": "You joined the group via the group link.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--member-add-from-link--other": {
+    "message": "$memberName$ joined the group via the group link.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "memberName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+
+  "GroupV2--member-add-from-admin-approval--you--other": {
+    "message": "$adminName$ approved your request to join the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--member-add-from-admin-approval--you--unknown": {
+    "message": "Your request to join the group has been approved.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+
+  "GroupV2--member-add-from-admin-approval--other--you": {
+    "message": "You approved a request to join the group from $joinerName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "joinerName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--member-add-from-admin-approval--other--other": {
+    "message": "$adminName$ approved a request to join the group from $joinerName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Bob"
+      },
+      "joinerName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--member-add-from-admin-approval--other--unknown": {
+    "message": "A request to join the group from $joinerName$ has been approved.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "joinerName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+
   "GroupV2--member-remove--other--other": {
     "message": "$adminName$ removed $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes",
@@ -3824,6 +4275,252 @@
       }
     }
   },
+  "GroupV2--admin-approval-add-one--you": {
+    "message": "You sent a request to join the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--admin-approval-add-one--other": {
+    "message": "$joinerName$ requested to join via the group link.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "joinerName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+
+  "GroupV2--admin-approval-remove-one--you--you": {
+    "message": "You canceled your request to join the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--admin-approval-remove-one--you--unknown": {
+    "message": "Your request to join the group has been denied by an admin.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+
+  "GroupV2--admin-approval-remove-one--other--you": {
+    "message": "You denied a request to join the group from $joinerName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "joinerName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--admin-approval-remove-one--other--own": {
+    "message": "$joinerName$ canceled their request to join the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "joinerName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--admin-approval-remove-one--other--other": {
+    "message": "$adminName$ denied a request to join the group from $joinerName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Bob"
+      },
+      "joinerName": {
+        "content": "$2",
+        "example": "Alice"
+      }
+    }
+  },
+
+  "GroupV2--group-link-add--disabled--you": {
+    "message": "You turned on the group link with admin approval disabled.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--group-link-add--disabled--other": {
+    "message": "$adminName$ turned on the group link with admin approval disabled.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--group-link-add--disabled--unknown": {
+    "message": "The group link has been turned on with admin approval disabled.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--group-link-add--enabled--you": {
+    "message": "You turned on the group link with admin approval enabled.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--group-link-add--enabled--other": {
+    "message": "$adminName$ turned on the group link with admin approval enabled.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--group-link-add--enabled--unknown": {
+    "message": "The group link has been turned on with admin approval enabled.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--group-link-remove--you": {
+    "message": "You turned off the group link.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--group-link-remove--other": {
+    "message": "$adminName$ turned off the group link.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--group-link-remove--unknown": {
+    "message": "The group link has been turned off.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--group-link-reset--you": {
+    "message": "You reset the group link.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--group-link-reset--other": {
+    "message": "$adminName$ reset the group link.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--group-link-reset--unknown": {
+    "message": "The group link has been reset.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+
+  "GroupV1--Migration--disabled": {
+    "message": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. $learnMore$",
+    "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
+    "placeholders": {
+      "learnMore": {
+        "content": "$1",
+        "example": "Learn more."
+      }
+    }
+  },
+  "GroupV1--Migration--was-upgraded": {
+    "message": "This group was upgraded to a New Group.",
+    "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
+  },
+  "GroupV1--Migration--learn-more": {
+    "message": "Learn More",
+    "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
+  },
+  "GroupV1--Migration--migrate": {
+    "message": "Upgrade",
+    "description": "Shown on Migrate dialog to kick off the process"
+  },
+  "GroupV1--Migration--info--title": {
+    "message": "What are New Groups?",
+    "description": "Shown on Learn More popup after GV1 migration"
+  },
+  "GroupV1--Migration--migrate--title": {
+    "message": "Upgrade to New Group",
+    "description": "Shown on Migration popup after choosing to migrate group"
+  },
+  "GroupV1--Migration--info--summary": {
+    "message": "New Groups have features like @mentions and group admins, and will support more features in the future.",
+    "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+  },
+  "GroupV1--Migration--info--keep-history": {
+    "message": "All message history and media has been kept from before the upgrade.",
+    "description": "Shown on Learn More popup after GV1 migration"
+  },
+  "GroupV1--Migration--migrate--keep-history": {
+    "message": "All message history and media will be kept from before the upgrade.",
+    "description": "Shown on Migration popup before GV1 migration"
+  },
+  "GroupV1--Migration--info--invited--you": {
+    "message": "You will need to accept an invite to join this group again, and will not receive group messages until you accept.",
+    "description": "Shown on Learn More popup after GV1 migration"
+  },
+  "GroupV1--Migration--info--invited--many": {
+    "message": "These members will need to accept an invite to join this group again, and will not receive group messages until they accept:",
+    "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+  },
+  "GroupV1--Migration--info--invited--one": {
+    "message": "This member will need to accept an invite to join this group again, and will not receive group messages until they accept:",
+    "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+  },
+  "GroupV1--Migration--info--removed--before--many": {
+    "message": "These members are not capable of joining New Groups, and will be removed from the group:",
+    "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+  },
+  "GroupV1--Migration--info--removed--before--one": {
+    "message": "This member is not capable of joining New Groups, and will be removed from the group:",
+    "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+  },
+  "GroupV1--Migration--info--removed--after--many": {
+    "message": "These members were not capable of joining New Groups, and were removed from the group:",
+    "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+  },
+  "GroupV1--Migration--info--removed--after--one": {
+    "message": "This member was not capable of joining New Groups, and was removed from the group:",
+    "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+  },
+  "GroupV1--Migration--invited--you": {
+    "message": "You couldn't be added to the New Group and have been invited to join.",
+    "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
+  },
+  "GroupV1--Migration--invited--one": {
+    "message": "$contact$ couldn’t be added to the New Group and has been invited to join.",
+    "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
+    "placeholders": {
+      "contact": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "GroupV1--Migration--invited--many": {
+    "message": "$count$ members couldn’t be added to the New Group and have been invited to join.",
+    "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
+    "placeholders": {
+      "contact": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "GroupV1--Migration--removed--one": {
+    "message": "$contact$ was removed from the group.",
+    "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade",
+    "placeholders": {
+      "contact": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "GroupV1--Migration--removed--many": {
+    "message": "$count$ members were removed from the group.",
+    "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade",
+    "placeholders": {
+      "contact": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
   "close": {
     "message": "Close",
     "description": "Generic close label"
@@ -3847,5 +4544,301 @@
   "countMutedConversationsDescription": {
     "message": "Count muted conversations in badge count",
     "description": "Description for counting muted conversations in badge setting"
+  },
+  "ContactModal--message": {
+    "message": "Message",
+    "description": "Button text for send message button in Group Contact Details modal"
+  },
+  "ContactModal--rm-admin": {
+    "message": "Remove as admin",
+    "description": "Button text for removing as admin button in Group Contact Details modal"
+  },
+  "ContactModal--make-admin": {
+    "message": "Make admin",
+    "description": "Button text for make admin button in Group Contact Details modal"
+  },
+  "ContactModal--make-admin-info": {
+    "message": "$contact$ will be able to edit this group and its members.",
+    "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone",
+    "placeholders": {
+      "contact": {
+        "content": "$1",
+        "example": "Homer"
+      }
+    }
+  },
+  "ContactModal--rm-admin-info": {
+    "message": "Remove $contact$ as group admin",
+    "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
+    "placeholders": {
+      "contact": {
+        "content": "$1",
+        "example": "Homer"
+      }
+    }
+  },
+  "ContactModal--remove-from-group": {
+    "message": "Remove from group",
+    "description": "Button text for remove from group button in Group Contact Details modal"
+  },
+  "showConversationDetails": {
+    "message": "Group settings",
+    "description": "This is a button in the conversation context menu to show group settings"
+  },
+  "ConversationDetails--group-link": {
+    "message": "Group link",
+    "description": "This is the label for the group link management panel"
+  },
+  "ConversationDetails--disappearing-messages-label": {
+    "message": "Disappearing messages",
+    "description": "This is the label for the disappearing messages setting panel"
+  },
+  "ConversationDetails--disappearing-messages-info": {
+    "message": "When enabled, messages sent and received in this group will disappear after they've been seen.",
+    "description": "This is the info about the disappearing messages setting"
+  },
+  "ConversationDetails--group-info-label": {
+    "message": "Who can edit group info",
+    "description": "This is the label for the 'who can edit the group' panel"
+  },
+  "ConversationDetails--group-info-info": {
+    "message": "Choose who can edit group name, avatar, and disappearing messages timer.",
+    "description": "This is the additional info for the 'who can edit the group' panel"
+  },
+  "ConversationDetails--add-members-label": {
+    "message": "Who can add members",
+    "description": "This is the label for the 'who can add members' panel"
+  },
+  "ConversationDetails--add-members-info": {
+    "message": "Choose who can add members to this group.",
+    "description": "This is the additional info for the 'who can add members' panel"
+  },
+  "ConversationDetails--requests-and-invites": {
+    "message": "Requests & Invites",
+    "description": "This is a button to display which members have been invited but have not joined yet"
+  },
+  "ConversationDetailsActions--leave-group": {
+    "message": "Leave group",
+    "description": "This is a button to leave a group"
+  },
+  "ConversationDetailsActions--block-group": {
+    "message": "Block group",
+    "description": "This is a button to block a group"
+  },
+  "ConversationDetailsActions--leave-group-modal-title": {
+    "message": "Do you really want to leave?",
+    "description": "This is the modal title for confirming leaving a group"
+  },
+  "ConversationDetailsActions--leave-group-modal-content": {
+    "message": "You will no longer be able to send or receive messages in this group.",
+    "description": "This is the modal content for confirming leaving a group"
+  },
+  "ConversationDetailsActions--leave-group-modal-confirm": {
+    "message": "Leave",
+    "description": "This is the modal button to confirm leaving a group"
+  },
+  "ConversationDetailsActions--block-group-modal-title": {
+    "message": "Block and Leave the \"$groupName$\" Group?",
+    "description": "This is the modal title for confirming blocking a group",
+    "placeholders": {
+      "groupName": {
+        "content": "$1",
+        "example": "Our Conversation"
+      }
+    }
+  },
+  "ConversationDetailsActions--block-group-modal-content": {
+    "message": "You will no longer receive messages or updates from this group.",
+    "description": "This is the modal content for confirming blocking a group"
+  },
+  "ConversationDetailsActions--block-group-modal-confirm": {
+    "message": "Block",
+    "description": "This is the modal button to confirm blocking a group"
+  },
+  "ConversationDetailsHeader--members": {
+    "message": "$number$ members",
+    "description": "This is the number of members in a group",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "10"
+      }
+    }
+  },
+  "ConversationDetailsMediaList--shared-media": {
+    "message": "Shared media",
+    "description": "Title for the media thumbnails in the conversation details screen"
+  },
+  "ConversationDetailsMediaList--show-all": {
+    "message": "See all",
+    "description": "This is a button on the conversation details to show all media"
+  },
+  "ConversationDetailsMembershipList--title": {
+    "message": "$number$ members",
+    "description": "The title of the membership list panel",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "10"
+      }
+    }
+  },
+  "ConversationDetailsMembershipList--show-all": {
+    "message": "See all",
+    "description": "This is a button on the conversation details to show all members"
+  },
+  "GroupLinkManagement--clipboard": {
+    "message": "Group link copied.",
+    "description": "Shown in a toast when a user selects to copy group link"
+  },
+  "GroupLinkManagement--share": {
+    "message": "Copy link",
+    "description": "This lets users share their group link"
+  },
+  "GroupLinkManagement--confirm-reset": {
+    "message": "Are you sure you want to reset the group link? People will no longer be able to join the group using the current link.",
+    "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
+  },
+  "GroupLinkManagement--reset": {
+    "message": "Reset link",
+    "description": "This lets users generate a new group link"
+  },
+  "GroupLinkManagement--approve-label": {
+    "message": "Approve new members",
+    "description": "Title for the approve new members select area"
+  },
+  "GroupLinkManagement--approve-info": {
+    "message": "Require an admin to approve new members joining via the group link",
+    "description": "Description for the approve new members select area"
+  },
+  "PendingInvites--tab-requests": {
+    "message": "Requests ($count$)",
+    "description": "Label for the tab to view pending requests",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "4"
+      }
+    }
+  },
+  "PendingInvites--tab-invites": {
+    "message": "Invites ($count$)",
+    "description": "Label for the tab to view pending invites",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "2"
+      }
+    }
+  },
+  "PendingRequests--approve-for": {
+    "message": "Approve request from \"$name$\"?",
+    "description": "This is the modal content when confirming approving a group request to join",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Meowsy Purrington"
+      }
+    }
+  },
+  "PendingRequests--deny-for": {
+    "message": "Deny request from \"$name$\"?",
+    "description": "This is the modal content when confirming denying a group request to join",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Meowsy Purrington"
+      }
+    }
+  },
+  "PendingInvites--invites": {
+    "message": "Invited by you",
+    "description": "This is the title list of all invites"
+  },
+  "PendingInvites--invited-by-you": {
+    "message": "Invited by you",
+    "description": "This is the title for the list of members you have invited"
+  },
+  "PendingInvites--invited-by-others": {
+    "message": "Invited by others",
+    "description": "This is the title for the list of members who have invited other people"
+  },
+  "PendingInvites--invited-count": {
+    "message": "Invited $number$",
+    "description": "This is the label for the number of members someone has invited",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "PendingInvites--revoke-for-label": {
+    "message": "Revoke group invite",
+    "description": "This is aria label for revoking a group invite icon"
+  },
+  "PendingInvites--revoke-for": {
+    "message": "Revoke group invite for \"$name$\"?",
+    "description": "This is the modal content when confirming revoking a single invite",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "3"
+      },
+      "name": {
+        "content": "$2",
+        "example": "Fred Riley III"
+      }
+    }
+  },
+  "PendingInvites--revoke-from-singular": {
+    "message": "Revoke 1 invite sent by \"$name$\"?",
+    "description": "This is the modal content when confirming revoking a single invite",
+    "placeholders": {
+      "name": {
+        "content": "$2",
+        "example": "Fred Riley III"
+      }
+    }
+  },
+  "PendingInvites--revoke-from-plural": {
+    "message": "Revoke $number$ invites sent by \"$name$\"",
+    "description": "This is the modal content when confirming revoking multiple invites",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "3"
+      },
+      "name": {
+        "content": "$2",
+        "example": "Fred Riley III"
+      }
+    }
+  },
+  "PendingInvites--revoke": {
+    "message": "Revoke",
+    "description": "This is the modal button to confirm revoking invites"
+  },
+  "PendingRequests--approve": {
+    "message": "Approve Request",
+    "description": "This is the modal button to approve group request to join"
+  },
+  "PendingRequests--deny": {
+    "message": "Deny Request",
+    "description": "This is the modal button to deny group request to join"
+  },
+  "PendingRequests--info": {
+    "message": "People on this list are attempting to join \"$name$\" via the group link.",
+    "description": "Inforamtion shown below the pending admin approval list",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Tahoe List"
+      }
+    }
+  },
+  "PendingInvites--info": {
+    "message": "Details about people invited to this group aren’t shown until they join. Invitees will only see messages after they join the group.",
+    "description": "Information shown below the invite list"
   }
 }

@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint-disable no-console */
 const assert = require('assert');
 const fs = require('fs');
@@ -10,7 +13,11 @@ const {
   optionalDependencies = {},
 } = require('../package.json');
 
-const SKIPPED_DEPENDENCIES = new Set(['ringrtc', 'zkgroup']);
+const SKIPPED_DEPENDENCIES = new Set([
+  'ringrtc',
+  'zkgroup',
+  'libsignal-client',
+]);
 
 const rootDir = join(__dirname, '..');
 const nodeModulesPath = join(rootDir, 'node_modules');
@@ -65,6 +72,20 @@ async function getMarkdownForDependency(dependencyName) {
   ].join('\n');
 }
 
+function licenseComment() {
+  const fileCreatedYear = 2020;
+  const currentYear = new Date().getFullYear();
+  const yearRange =
+    fileCreatedYear === currentYear
+      ? fileCreatedYear
+      : `${fileCreatedYear}-${currentYear}`;
+
+  return [
+    `<!-- Copyright ${yearRange} Signal Messenger, LLC -->`,
+    '<!-- SPDX-License-Identifier: AGPL-3.0-only -->',
+  ].join('\n');
+}
+
 async function main() {
   assert.deepStrictEqual(
     Object.keys(optionalDependencies),
@@ -90,6 +111,7 @@ async function main() {
   );
 
   const unformattedOutput = [
+    licenseComment(),
     '# Acknowledgments',
     '',
     'Signal Desktop makes use of the following open source projects.',

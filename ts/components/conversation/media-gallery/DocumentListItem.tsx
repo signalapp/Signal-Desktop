@@ -1,10 +1,13 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import React from 'react';
 import classNames from 'classnames';
 
 import moment from 'moment';
 import formatFileSize from 'filesize';
 
-interface Props {
+type Props = {
   // Required
   timestamp: number;
 
@@ -13,7 +16,7 @@ interface Props {
   fileSize?: number;
   onClick?: () => void;
   shouldShowSeparator?: boolean;
-}
+};
 
 export class DocumentListItem extends React.Component<Props> {
   public static defaultProps: Partial<Props> = {
@@ -52,7 +55,9 @@ export class DocumentListItem extends React.Component<Props> {
             {fileName}
           </span>
           <span className="module-document-list-item__file-size">
-            {typeof fileSize === 'number' ? formatFileSize(fileSize) : ''}
+            {typeof fileSize === 'number'
+              ? formatFileSize(fileSize, { round: 0 })
+              : ''}
           </span>
         </div>
         <div className="module-document-list-item__date">

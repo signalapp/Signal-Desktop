@@ -1,3 +1,6 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { Dictionary, omit, reject } from 'lodash';
 import dataInterface from '../../sql/Client';
 import {
@@ -370,8 +373,8 @@ function getEmptyState(): StickersStateType {
 }
 
 export function reducer(
-  state: StickersStateType = getEmptyState(),
-  action: StickersActionType
+  state: Readonly<StickersStateType> = getEmptyState(),
+  action: Readonly<StickersActionType>
 ): StickersStateType {
   if (action.type === 'stickers/STICKER_PACK_ADDED') {
     // ts complains due to `stickers: {}` being overridden by the payload

@@ -163,6 +163,10 @@
         "message": "लिंक कॉपी करें",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
+    "contextMenuCopyImage": {
+        "message": "Copy Image",
+        "description": "Shown in the context menu for an image to indicate that the user can copy the image"
+    },
     "contextMenuNoSuggestions": {
         "message": "No Suggestions",
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
@@ -194,7 +198,7 @@
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "LeftPane--pinned": {
-        "message": "Pinned",
+        "message": "पिन किया गया",
         "description": "Shown as a header for pinned conversations in the left pane"
     },
     "LeftPane--chats": {
@@ -206,11 +210,15 @@
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
-        "message": "वार्तालाप को संग्रहित करें",
+        "message": "संग्रहित करें",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
+    "markUnread": {
+        "message": "न पढ़ा हुआ मार्क करें",
+        "description": "Shown in menu for conversation, and marks conversation as unread"
+    },
     "moveConversationToInbox": {
-        "message": "वार्तालाप को इनबॉक्स में डालें",
+        "message": "अनारक्षित करें",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
@@ -303,6 +311,10 @@
         "message": "You are no longer a member of the group.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
+    "invalidConversation": {
+        "message": "This group is invalid. Please create a new group.",
+        "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
+    },
     "scrollDown": {
         "message": "संवाद के नीचे स्क्रॉल करें",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
@@ -388,7 +400,7 @@
         }
     },
     "changedVerificationWarning": {
-        "message": "The following people may have reinstalled or changed devices. Verify your safety number with them to ensure privacy.",
+        "message": "हो सकता है कि निम्नलिखित लोगों ने रीइंस्टॉल किया हो या डिवाइसेस को बदल लिया हो। गोपनीयता को सुनिश्चित करने के लिए उनके साथ अपने सुरक्षा नंबर को वेरिफाई करें।",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "identityKeyErrorOnSend": {
@@ -412,6 +424,10 @@
     "callAnyway": {
         "message": "फिर भी कॉल करें",
         "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+    },
+    "continueCall": {
+        "message": "Continue Call",
+        "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
         "message": "आपकी सुरक्षा नंबर के साथ$name$बदल गया है और अब सत्यापित नहीं है। दिखने के लिए क्लिक करें।",
@@ -664,10 +680,6 @@
     "goToSupportPage": {
         "message": "समर्थन पेज पर जाएँ",
         "description": "Item under the Help menu, takes you to the support page"
-    },
-    "goToGithub": {
-        "message": "Go to GitHub",
-        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
     },
     "joinTheBeta": {
         "message": "Join the Beta",
@@ -978,7 +990,7 @@
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "This message will be deleted for everyone in the conversation if they’re on a recent version of Signal. They will be able to see that you deleted a message.",
+        "message": "यह मैसेज वार्तालाप में शामिल सभी के लिए मिटा दिया जाएगा यदि वे Signal के नवीनमत वर्ज़न पर हैं। वे देख सकेंगे कि आपने एक मैसेज को मिटा दिया है।",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "deleteThisMessage": {
@@ -1048,7 +1060,7 @@
         "description": "Label for back button in a conversation"
     },
     "moreInfo": {
-        "message": "और जानें...",
+        "message": "औेर जानकारी",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
@@ -1064,7 +1076,7 @@
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
-        "message": "मेसेज हटाएँ",
+        "message": "हटाए ",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
@@ -1180,12 +1192,20 @@
         "description": "Header for calling options on the settings screen"
     },
     "calling__start": {
-        "message": "Start Call",
+        "message": "कॉल शुरू करें",
         "description": "Button label in the call lobby for starting a call"
     },
     "calling__join": {
-        "message": "Join Call",
+        "message": "कॉल से जुड़ें",
         "description": "Button label in the call lobby for joining a call"
+    },
+    "calling__return": {
+        "message": "Return to Call",
+        "description": "Button label in the call lobby for returning to a call"
+    },
+    "calling__call-is-full": {
+        "message": "कॉल पूर्ण है",
+        "description": "Button label in the call lobby when you can't join because the call is full"
     },
     "calling__button--video-disabled": {
         "message": "Camera disabled",
@@ -1204,16 +1224,116 @@
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "Turn off microphone",
+        "message": "Mute mic",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
-        "message": "Turn on microphone",
+        "message": "Unmute mic",
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
-        "message": "Your video is off",
+        "message": "आपका कैमरा बंद है",
         "description": "Label in the calling lobby indicating that your camera is off"
+    },
+    "calling__lobby-summary--zero": {
+        "message": "यहाँ और कोई नहीं है",
+        "description": "Shown in the calling lobby to describe who is in the call"
+    },
+    "calling__lobby-summary--single": {
+        "message": "$first$ is in this call",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__lobby-summary--self": {
+        "message": "One of your other devices is in this call",
+        "description": "Shown in the calling lobby to describe when it is just you"
+    },
+    "calling__lobby-summary--double": {
+        "message": "$first$ and $second$ are in this call",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__lobby-summary--triple": {
+        "message": "$first$, $second$, and $third$ are in this call",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__lobby-summary--many": {
+        "message": "$first$, $second$, and $others$ others are in this call",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
+    "calling__in-this-call--zero": {
+        "message": "यहाँ और कोई नहीं है",
+        "description": "Shown in the participants list to describe how many people are in the call"
+    },
+    "calling__in-this-call--one": {
+        "message": "In this call · 1 person",
+        "description": "Shown in the participants list to describe how many people are in the call"
+    },
+    "calling__in-this-call--many": {
+        "message": "In this call · $people$ people",
+        "description": "Shown in the participants list to describe how many people are in the call",
+        "placeholders": {
+            "people": {
+                "content": "$1",
+                "example": "15"
+            }
+        }
+    },
+    "calling__you-have-blocked": {
+        "message": "You have blocked $name$",
+        "description": "when you block someone and cannot view their video",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Henry Richard"
+            }
+        }
+    },
+    "calling__block-info": {
+        "message": "आपको उनके ऑडियो या वीडियो प्राप्त नहीं होंगे और उन्हें आपके नहीं।",
+        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "alwaysRelayCallsDescription": {
         "message": "हमेशा कॉल रिले करें",
@@ -1702,7 +1822,7 @@
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChanges": {
-        "message": "Safety Number Changes",
+        "message": "सुरक्षा नंबर परिवर्तन",
         "description": "Title for safety number changed modal"
     },
     "safetyNumberChangedGroup": {
@@ -2086,7 +2206,7 @@
         "description": "Label for animal emoji picker button"
     },
     "EmojiPicker__button--food": {
-        "message": "Food",
+        "message": "भोजन",
         "description": "Label for food emoji picker button"
     },
     "EmojiPicker__button--activity": {
@@ -2258,7 +2378,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Toggle reaction picker for selected message",
+        "message": "Toggle emoji-reaction picker for selected message",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2388,6 +2508,10 @@
     "conversationReturnedToInbox": {
         "message": "संवाद इनबॉक्स में वापस आ गया है",
         "description": "A toast that shows up when the user unarchives a conversation"
+    },
+    "conversationMarkedUnread": {
+        "message": "Conversation marked unread",
+        "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
         "message": "Sticker pack creator",
@@ -2658,7 +2782,7 @@
         }
     },
     "MessageRequests--message-group-blocked": {
-        "message": "Unblock this group and share your name and photo with its members? You won't receive any messages until you unblock them.",
+        "message": "इस ग्रुप को अनब्लॉक करना है और इसके मेंबर्स के साथ अपना नाम और तस्वीर शेयर करनी है? आप कोई भी मेसेज प्राप्त नहीं करेंगे जब तक आप उन्हें अनब्लॉक नहीं करते।",
         "description": "Shown as the message for a message request in a blocked group"
     },
     "MessageRequests--block": {
@@ -2714,7 +2838,7 @@
         }
     },
     "MessageRequests--block-direct-confirm-body": {
-        "message": "Blocked people won't be able to call you or send you messages.",
+        "message": "ब्लॉक किये गए लोग आपको कॉल नहीं कर पाएंगे या आपको संदेश नहीं भेज पाएंगे।",
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
@@ -2736,7 +2860,7 @@
         "description": "Shown as a button to let the user delete any message request"
     },
     "MessageRequests--delete-direct-confirm-title": {
-        "message": "Delete conversation?",
+        "message": "संवाद हटाएं?",
         "description": "Shown as the title in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-direct-confirm-body": {
@@ -2768,6 +2892,38 @@
     "MessageRequests--accept": {
         "message": "स्वीकृत ",
         "description": "Shown as a button to let the user accept a message request"
+    },
+    "MessageRequests--continue": {
+        "message": "आगे ",
+        "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
+    },
+    "MessageRequests--profile-sharing--group": {
+        "message": "Continue your conversation with this group and share your name and photo with its members? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a group yet",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--profile-sharing--direct": {
+        "message": "Continue this conversation with $firstName$ and share your name and photo with them? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
+        "placeholders": {
+            "firstName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "learnMore": {
+                "content": "$2",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--learn-more": {
+        "message": "Learn more.",
+        "description": "Shown at the end of profile sharing messages as a link."
     },
     "ConversationHero--members": {
         "message": "$count$ members",
@@ -2868,11 +3024,11 @@
         "description": "Shown in tooltip for the button to accept a call (audio or video)"
     },
     "acceptCallWithoutVideo": {
-        "message": "Answer without video",
+        "message": "वीडियो के बिना जवाब दें",
         "description": "Shown in tooltip for the button to accept a video call without video"
     },
     "declineCall": {
-        "message": "Decline",
+        "message": "रद्द करें",
         "description": "Shown in tooltip for the button to decline a call (audio or video)"
     },
     "declinedIncomingAudioCall": {
@@ -2892,11 +3048,11 @@
         "description": "Shown in conversation history when you accepted an incoming video call"
     },
     "missedIncomingAudioCall": {
-        "message": "Missed audio call",
+        "message": "मिस हुई ऑडियो कॉल",
         "description": "Shown in conversation history when you missed an incoming audio call"
     },
     "missedIncomingVideoCall": {
-        "message": "Missed video call",
+        "message": "मिस हुई वीडियो कॉल",
         "description": "Shown in conversation history when you missed an incoming video call"
     },
     "acceptedOutgoingAudioCall": {
@@ -2939,6 +3095,10 @@
         "message": "Start a video call",
         "description": "Title for the video call button in a conversation"
     },
+    "joinOngoingCall": {
+        "message": "जुड़ें",
+        "description": "Text that appears in a group when a call is active"
+    },
     "callNeedPermission": {
         "message": "$title$ will get a message request from you. You can call once your message request has been accepted.",
         "description": "Shown when a call is rejected because the other party hasn't approved the message/call request",
@@ -2968,15 +3128,61 @@
         "description": "Title for device selection settings"
     },
     "calling__participants": {
-        "message": "Participants",
-        "description": "Title for participants list toggle"
+        "message": "$people$ in call",
+        "description": "Title for participants list toggle",
+        "placeholders": {
+            "people": {
+                "content": "$1",
+                "example": "16"
+            }
+        }
     },
-    "calling__pip": {
-        "message": "Picture-in-picture",
+    "calling__call-notification__ended": {
+        "message": "The group call has ended",
+        "description": "Notification message when a group call has ended"
+    },
+    "calling__call-notification__started-by-someone": {
+        "message": "A group call was started",
+        "description": "Notification message when a group call has started, but we don't know who started it"
+    },
+    "calling__call-notification__started-by-you": {
+        "message": "You started a group call",
+        "description": "Notification message when a group call has started by you"
+    },
+    "calling__call-notification__started": {
+        "message": "$name$ started a group call",
+        "description": "Notification message when a group call has started",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "calling__call-notification__button__in-another-call-tooltip": {
+        "message": "You are already in a call",
+        "description": "Tooltip in disabled notification button when you're on another call"
+    },
+    "calling__call-notification__button__call-full-tooltip": {
+        "message": "Call has reached capacity of $max$ participants",
+        "description": "Tooltip in disabled notification button when the call is full",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "calling__pip--on": {
+        "message": "Minimize call",
+        "description": "Title for picture-in-picture toggle"
+    },
+    "calling__pip--off": {
+        "message": "Fullscreen call",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__hangup": {
-        "message": "Hang Up",
+        "message": "कॉल छोड़ें",
         "description": "Title for hang up button"
     },
     "callingDeviceSelection__label--video": {
@@ -3045,7 +3251,7 @@
         "message": "Please try again or contact support.",
         "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
     },
-    "ErrorModal--buttonText": {
+    "Confirmation--confirm": {
         "message": "ठीक है",
         "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
     },
@@ -3138,7 +3344,7 @@
         }
     },
     "GroupV2--avatar--change--you": {
-        "message": "You changed the group avatar.",
+        "message": "आपने ग्रुप का अवतार बदल दिया है।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--unknown": {
@@ -3424,7 +3630,7 @@
         }
     },
     "GroupV2--member-remove--you--you": {
-        "message": "You left the group.",
+        "message": "आपने ग्रुप को छोड़ दिया।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-remove--you--unknown": {
@@ -3620,7 +3826,7 @@
         }
     },
     "GroupV2--pending-remove--decline--from-you": {
-        "message": "You declined the invitation to the group.",
+        "message": "आपने ग्रुप के आमंत्रण को अस्वीकार कर दिया।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--decline--unknown": {
@@ -3851,6 +4057,120 @@
             }
         }
     },
+    "GroupV1--Migration--disabled": {
+        "message": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. $learnMore$",
+        "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn more."
+            }
+        }
+    },
+    "GroupV1--Migration--was-upgraded": {
+        "message": "This group was upgraded to a New Group.",
+        "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
+    },
+    "GroupV1--Migration--learn-more": {
+        "message": "और जानें",
+        "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
+    },
+    "GroupV1--Migration--migrate": {
+        "message": "अपग्रेड",
+        "description": "Shown on Migrate dialog to kick off the process"
+    },
+    "GroupV1--Migration--info--title": {
+        "message": "नए समूह क्या हैं?",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--migrate--title": {
+        "message": "नए समूह में अपग्रेड करें",
+        "description": "Shown on Migration popup after choosing to migrate group"
+    },
+    "GroupV1--Migration--info--summary": {
+        "message": "नए ग्रुप्स में कई फीचर्स हैं जैसे कि @mentions और ग्रुप एडमिन, और भविष्य में और भी कई फीचर शामिल किए जाएँगे।",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--keep-history": {
+        "message": "अपग्रेड करने से पहले के सभी मेसेज इतिहास और मीडिया को रख लिया गया है।",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--migrate--keep-history": {
+        "message": "अपग्रेड करने से पहले के सभी मेसेज इतिहास और मीडिया को रख लिया जाएगा।",
+        "description": "Shown on Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--you": {
+        "message": "इस ग्रुप में दोबारा जुड़ने के लिए बस आपको आमंत्रण को स्वीकार करना होगा, और जब तक आप स्वीकार नहीं कर लेते, आपको ग्रुप के मेसेज प्राप्त नहीं होंगे।",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--many": {
+        "message": "These members will need to accept an invite to join this group again, and will not receive group messages until they accept:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--one": {
+        "message": "This member will need to accept an invite to join this group again, and will not receive group messages until they accept:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--before--many": {
+        "message": "These members are not capable of joining New Groups, and will be removed from the group:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--before--one": {
+        "message": "This member is not capable of joining New Groups, and will be removed from the group:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--after--many": {
+        "message": "These members were not capable of joining New Groups, and were removed from the group:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--after--one": {
+        "message": "This member was not capable of joining New Groups, and was removed from the group:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--invited--you": {
+        "message": "आपको नए ग्रुप में शमिल नहीं किया जा सका और आपको शामिल होने के लिए आमंत्रित किया गया है।",
+        "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
+    },
+    "GroupV1--Migration--invited--one": {
+        "message": "$contact$ couldn’t be added to the New Group and has been invited to join.",
+        "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--invited--many": {
+        "message": "$count$ members couldn’t be added to the New Group and have been invited to join.",
+        "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--removed--one": {
+        "message": "$contact$ was removed from the group.",
+        "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--removed--many": {
+        "message": "$count$ members were removed from the group.",
+        "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
     "close": {
         "message": "बंद करो",
         "description": "Generic close label"
@@ -3874,5 +4194,17 @@
     "countMutedConversationsDescription": {
         "message": "Count muted conversations in badge count",
         "description": "Description for counting muted conversations in badge setting"
+    },
+    "ContactModal--message": {
+        "message": "मेसेज",
+        "description": "Button text for send message button in Group Contact Details modal"
+    },
+    "ContactModal--make-admin": {
+        "message": "Make admin",
+        "description": "Button text for make admin button in Group Contact Details modal"
+    },
+    "ContactModal--remove-from-group": {
+        "message": "ग्रूप से हटाएँ",
+        "description": "Button text for remove from group button in Group Contact Details modal"
     }
 }

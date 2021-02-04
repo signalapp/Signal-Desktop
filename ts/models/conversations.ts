@@ -1,3 +1,6 @@
+// Copyright 2020-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint-disable class-methods-use-this */
 /* eslint-disable camelcase */
 import {
@@ -7,7 +10,12 @@ import {
   ConversationAttributesType,
   VerificationOptions,
 } from '../model-types.d';
-import { CallHistoryDetailsType } from '../types/Calling';
+import {
+  GroupV2PendingMembership,
+  GroupV2RequestingMembership,
+} from '../components/conversation/conversation-details/PendingInvites';
+import { GroupV2Membership } from '../components/conversation/conversation-details/ConversationDetailsMembershipList';
+import { CallMode, CallHistoryDetailsType } from '../types/Calling';
 import { CallbackResultType, GroupV2InfoType } from '../textsecure/SendMessage';
 import {
   ConversationType,
@@ -15,6 +23,8 @@ import {
 } from '../state/ducks/conversations';
 import { ColorType } from '../types/Colors';
 import { MessageModel } from './messages';
+import { isMuted } from '../util/isMuted';
+import { missingCaseError } from '../util/missingCaseError';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import { MIMEType, IMAGE_WEBP } from '../types/MIME';
 import {
@@ -24,9 +34,13 @@ import {
   fromEncodedBinaryToArrayBuffer,
   getRandomBytes,
   stringFromBytes,
+  trimForDisplay,
   verifyAccessKey,
 } from '../Crypto';
 import { GroupChangeClass } from '../textsecure.d';
+import { BodyRangesType } from '../types/Util';
+import { getTextWithMentions } from '../util';
+import { migrateColor } from '../util/migrateColor';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -68,10 +82,10 @@ const COLORS = [
 
 const THREE_HOURS = 3 * 60 * 60 * 1000;
 
-interface CustomError extends Error {
+type CustomError = Error & {
   identifier?: string;
   number?: string;
-}
+};
 
 export class ConversationModel extends window.Backbone.Model<
   ConversationAttributesType
@@ -79,6 +93,8 @@ export class ConversationModel extends window.Backbone.Model<
   static COLORS: string;
 
   cachedProps?: ConversationType | null;
+
+  oldCachedProps?: ConversationType | null;
 
   contactTypingTimers?: Record<
     string,
@@ -88,11 +104,6 @@ export class ConversationModel extends window.Backbone.Model<
   contactCollection?: Backbone.Collection<WhatIsThis>;
 
   debouncedUpdateLastMessage?: () => void;
-
-  // backbone ensures this exists in initialize()
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  generateProps: () => void;
 
   // backbone ensures this exists
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -122,6 +133,10 @@ export class ConversationModel extends window.Backbone.Model<
   typingPauseTimer?: NodeJS.Timer | null;
 
   verifiedEnum?: typeof window.textsecure.storage.protocol.VerifiedStatus;
+
+  intlCollator = new Intl.Collator();
+
+  private cachedLatestGroupCallEraId?: string;
 
   // eslint-disable-next-line class-methods-use-this
   defaults(): Partial<ConversationAttributesType> {
@@ -237,12 +252,14 @@ export class ConversationModel extends window.Backbone.Model<
     this.typingRefreshTimer = null;
     this.typingPauseTimer = null;
 
-    // Keep props ready
-    this.generateProps = () => {
-      this.cachedProps = this.getProps();
-    };
-    this.on('change', this.generateProps);
-    this.generateProps();
+    // We clear our cached props whenever we change so that the next call to format() will
+    //   result in refresh via a getProps() call. See format() below.
+    this.on('change', () => {
+      if (this.cachedProps) {
+        this.oldCachedProps = this.cachedProps;
+      }
+      this.cachedProps = null;
+    });
   }
 
   isMe(): boolean {
@@ -259,7 +276,8 @@ export class ConversationModel extends window.Backbone.Model<
       return false;
     }
 
-    return fromEncodedBinaryToArrayBuffer(groupId).byteLength === 16;
+    const buffer = fromEncodedBinaryToArrayBuffer(groupId);
+    return buffer.byteLength === window.Signal.Groups.ID_V1_LENGTH;
   }
 
   isGroupV2(): boolean {
@@ -270,14 +288,36 @@ export class ConversationModel extends window.Backbone.Model<
 
     const groupVersion = this.get('groupVersion') || 0;
 
-    return groupVersion === 2 && base64ToArrayBuffer(groupId).byteLength === 32;
+    try {
+      return (
+        groupVersion === 2 &&
+        base64ToArrayBuffer(groupId).byteLength ===
+          window.Signal.Groups.ID_LENGTH
+      );
+    } catch (error) {
+      window.log.error('isGroupV2: Failed to process groupId in base64!');
+      return false;
+    }
+  }
+
+  isMemberRequestingToJoin(conversationId: string): boolean {
+    if (!this.isGroupV2()) {
+      return false;
+    }
+    const pendingAdminApprovalV2 = this.get('pendingAdminApprovalV2');
+
+    if (!pendingAdminApprovalV2 || !pendingAdminApprovalV2.length) {
+      return false;
+    }
+
+    return pendingAdminApprovalV2.some(
+      item => item.conversationId === conversationId
+    );
   }
 
   isMemberPending(conversationId: string): boolean {
     if (!this.isGroupV2()) {
-      throw new Error(
-        `isPendingMember: Called for non-GroupV2 conversation ${this.idForLogging()}`
-      );
+      return false;
     }
     const pendingMembersV2 = this.get('pendingMembersV2');
 
@@ -287,6 +327,22 @@ export class ConversationModel extends window.Backbone.Model<
 
     return window._.any(
       pendingMembersV2,
+      item => item.conversationId === conversationId
+    );
+  }
+
+  isMemberAwaitingApproval(conversationId: string): boolean {
+    if (!this.isGroupV2()) {
+      return false;
+    }
+    const pendingAdminApprovalV2 = this.get('pendingAdminApprovalV2');
+
+    if (!pendingAdminApprovalV2 || !pendingAdminApprovalV2.length) {
+      return false;
+    }
+
+    return window._.any(
+      pendingAdminApprovalV2,
       item => item.conversationId === conversationId
     );
   }
@@ -373,7 +429,7 @@ export class ConversationModel extends window.Backbone.Model<
     });
   }
 
-  async removePendingMember(
+  async approvePendingApprovalRequest(
     conversationId: string
   ): Promise<GroupChangeClass.Actions | undefined> {
     const idLog = this.idForLogging();
@@ -381,9 +437,9 @@ export class ConversationModel extends window.Backbone.Model<
     // This user's pending state may have changed in the time between the user's
     //   button press and when we get here. It's especially important to check here
     //   in conflict/retry cases.
-    if (!this.isMemberPending(conversationId)) {
+    if (!this.isMemberRequestingToJoin(conversationId)) {
       window.log.warn(
-        `removePendingMember/${idLog}: ${conversationId} is not a pending member of group. Returning early.`
+        `approvePendingApprovalRequest/${idLog}: ${conversationId} is not requesting to join the group. Returning early.`
       );
       return undefined;
     }
@@ -391,20 +447,192 @@ export class ConversationModel extends window.Backbone.Model<
     const pendingMember = window.ConversationController.get(conversationId);
     if (!pendingMember) {
       throw new Error(
-        `removePendingMember/${idLog}: No conversation found for conversation ${conversationId}`
+        `approvePendingApprovalRequest/${idLog}: No conversation found for conversation ${conversationId}`
       );
     }
 
     const uuid = pendingMember.get('uuid');
     if (!uuid) {
       throw new Error(
-        `removePendingMember/${idLog}: Missing uuid for conversation ${pendingMember.idForLogging()}`
+        `approvePendingApprovalRequest/${idLog}: Missing uuid for conversation ${conversationId}`
       );
+    }
+
+    return window.Signal.Groups.buildPromotePendingAdminApprovalMemberChange({
+      group: this.attributes,
+      uuid,
+    });
+  }
+
+  async denyPendingApprovalRequest(
+    conversationId: string
+  ): Promise<GroupChangeClass.Actions | undefined> {
+    const idLog = this.idForLogging();
+
+    // This user's pending state may have changed in the time between the user's
+    //   button press and when we get here. It's especially important to check here
+    //   in conflict/retry cases.
+    if (!this.isMemberRequestingToJoin(conversationId)) {
+      window.log.warn(
+        `denyPendingApprovalRequest/${idLog}: ${conversationId} is not requesting to join the group. Returning early.`
+      );
+      return undefined;
+    }
+
+    const pendingMember = window.ConversationController.get(conversationId);
+    if (!pendingMember) {
+      throw new Error(
+        `denyPendingApprovalRequest/${idLog}: No conversation found for conversation ${conversationId}`
+      );
+    }
+
+    const uuid = pendingMember.get('uuid');
+    if (!uuid) {
+      throw new Error(
+        `denyPendingApprovalRequest/${idLog}: Missing uuid for conversation ${pendingMember.idForLogging()}`
+      );
+    }
+
+    return window.Signal.Groups.buildDeletePendingAdminApprovalMemberChange({
+      group: this.attributes,
+      uuid,
+    });
+  }
+
+  async addPendingApprovalRequest(): Promise<
+    GroupChangeClass.Actions | undefined
+  > {
+    const idLog = this.idForLogging();
+
+    // Hard-coded to our own ID, because you don't add other users for admin approval
+    const conversationId = window.ConversationController.getOurConversationIdOrThrow();
+
+    const toRequest = window.ConversationController.get(conversationId);
+    if (!toRequest) {
+      throw new Error(
+        `addPendingApprovalRequest/${idLog}: No conversation found for conversation ${conversationId}`
+      );
+    }
+
+    // We need the user's profileKeyCredential, which requires a roundtrip with the
+    //   server, and most definitely their profileKey. A getProfiles() call will
+    //   ensure that we have as much as we can get with the data we have.
+    let profileKeyCredentialBase64 = toRequest.get('profileKeyCredential');
+    if (!profileKeyCredentialBase64) {
+      await toRequest.getProfiles();
+
+      profileKeyCredentialBase64 = toRequest.get('profileKeyCredential');
+      if (!profileKeyCredentialBase64) {
+        throw new Error(
+          `promotePendingMember/${idLog}: No profileKeyCredential for conversation ${toRequest.idForLogging()}`
+        );
+      }
+    }
+
+    // This user's pending state may have changed in the time between the user's
+    //   button press and when we get here. It's especially important to check here
+    //   in conflict/retry cases.
+    if (this.isMemberAwaitingApproval(conversationId)) {
+      window.log.warn(
+        `addPendingApprovalRequest/${idLog}: ${conversationId} already in pending approval.`
+      );
+      return undefined;
+    }
+
+    return window.Signal.Groups.buildAddPendingAdminApprovalMemberChange({
+      group: this.attributes,
+      profileKeyCredentialBase64,
+      serverPublicParamsBase64: window.getServerPublicParams(),
+    });
+  }
+
+  async addMember(
+    conversationId: string
+  ): Promise<GroupChangeClass.Actions | undefined> {
+    const idLog = this.idForLogging();
+
+    const toRequest = window.ConversationController.get(conversationId);
+    if (!toRequest) {
+      throw new Error(
+        `addMember/${idLog}: No conversation found for conversation ${conversationId}`
+      );
+    }
+
+    // We need the user's profileKeyCredential, which requires a roundtrip with the
+    //   server, and most definitely their profileKey. A getProfiles() call will
+    //   ensure that we have as much as we can get with the data we have.
+    let profileKeyCredentialBase64 = toRequest.get('profileKeyCredential');
+    if (!profileKeyCredentialBase64) {
+      await toRequest.getProfiles();
+
+      profileKeyCredentialBase64 = toRequest.get('profileKeyCredential');
+      if (!profileKeyCredentialBase64) {
+        throw new Error(
+          `addMember/${idLog}: No profileKeyCredential for conversation ${toRequest.idForLogging()}`
+        );
+      }
+    }
+
+    // This user's pending state may have changed in the time between the user's
+    //   button press and when we get here. It's especially important to check here
+    //   in conflict/retry cases.
+    if (this.isMember(conversationId)) {
+      window.log.warn(
+        `addMember/${idLog}: ${conversationId} already a member.`
+      );
+      return undefined;
+    }
+
+    return window.Signal.Groups.buildAddMember({
+      group: this.attributes,
+      profileKeyCredentialBase64,
+      serverPublicParamsBase64: window.getServerPublicParams(),
+    });
+  }
+
+  async removePendingMember(
+    conversationIds: Array<string>
+  ): Promise<GroupChangeClass.Actions | undefined> {
+    const idLog = this.idForLogging();
+
+    const uuids = conversationIds
+      .map(conversationId => {
+        // This user's pending state may have changed in the time between the user's
+        //   button press and when we get here. It's especially important to check here
+        //   in conflict/retry cases.
+        if (!this.isMemberPending(conversationId)) {
+          window.log.warn(
+            `removePendingMember/${idLog}: ${conversationId} is not a pending member of group. Returning early.`
+          );
+          return undefined;
+        }
+
+        const pendingMember = window.ConversationController.get(conversationId);
+        if (!pendingMember) {
+          window.log.warn(
+            `removePendingMember/${idLog}: No conversation found for conversation ${conversationId}`
+          );
+          return undefined;
+        }
+
+        const uuid = pendingMember.get('uuid');
+        if (!uuid) {
+          window.log.warn(
+            `removePendingMember/${idLog}: Missing uuid for conversation ${pendingMember.idForLogging()}`
+          );
+          return undefined;
+        }
+        return uuid;
+      })
+      .filter((uuid): uuid is string => Boolean(uuid));
+
+    if (!uuids.length) {
+      return undefined;
     }
 
     return window.Signal.Groups.buildDeletePendingMemberChange({
       group: this.attributes,
-      uuid,
+      uuids,
     });
   }
 
@@ -443,145 +671,64 @@ export class ConversationModel extends window.Backbone.Model<
     });
   }
 
-  async modifyGroupV2({
-    name,
-    createGroupChange,
-  }: {
-    name: string;
-    createGroupChange: () => Promise<GroupChangeClass.Actions | undefined>;
-  }): Promise<void> {
-    const idLog = `${name}/${this.idForLogging()}`;
-
+  async toggleAdminChange(
+    conversationId: string
+  ): Promise<GroupChangeClass.Actions | undefined> {
     if (!this.isGroupV2()) {
+      return undefined;
+    }
+
+    const idLog = this.idForLogging();
+
+    if (!this.isMember(conversationId)) {
+      window.log.warn(
+        `toggleAdminChange/${idLog}: ${conversationId} is not a pending member of group. Returning early.`
+      );
+      return undefined;
+    }
+
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
       throw new Error(
-        `modifyGroupV2/${idLog}: Called for non-GroupV2 conversation`
+        `toggleAdminChange/${idLog}: No conversation found for conversation ${conversationId}`
       );
     }
 
-    const ONE_MINUTE = 1000 * 60;
-    const startTime = Date.now();
-    const timeoutTime = startTime + ONE_MINUTE;
-
-    const MAX_ATTEMPTS = 5;
-
-    for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt += 1) {
-      window.log.info(`modifyGroupV2/${idLog}: Starting attempt ${attempt}`);
-      try {
-        // eslint-disable-next-line no-await-in-loop
-        await window.waitForEmptyEventQueue();
-
-        window.log.info(`modifyGroupV2/${idLog}: Queuing attempt ${attempt}`);
-
-        // eslint-disable-next-line no-await-in-loop
-        await this.queueJob(async () => {
-          window.log.info(`modifyGroupV2/${idLog}: Running attempt ${attempt}`);
-
-          const actions = await createGroupChange();
-          if (!actions) {
-            window.log.warn(
-              `modifyGroupV2/${idLog}: No change actions. Returning early.`
-            );
-            return;
-          }
-
-          // The new revision has to be exactly one more than the current revision
-          //   or it won't upload properly, and it won't apply in maybeUpdateGroup
-          const currentRevision = this.get('revision');
-          const newRevision = actions.version;
-
-          if ((currentRevision || 0) + 1 !== newRevision) {
-            throw new Error(
-              `modifyGroupV2/${idLog}: Revision mismatch - ${currentRevision} to ${newRevision}.`
-            );
-          }
-
-          // Upload. If we don't have permission, the server will return an error here.
-          const groupChange = await window.Signal.Groups.uploadGroupChange({
-            actions,
-            group: this.attributes,
-            serverPublicParamsBase64: window.getServerPublicParams(),
-          });
-
-          const groupChangeBuffer = groupChange.toArrayBuffer();
-          const groupChangeBase64 = arrayBufferToBase64(groupChangeBuffer);
-
-          // Apply change locally, just like we would with an incoming change. This will
-          //   change conversation state and add change notifications to the timeline.
-          await window.Signal.Groups.maybeUpdateGroup({
-            conversation: this,
-            groupChangeBase64,
-            newRevision,
-          });
-
-          // Send message to notify group members (including pending members) of change
-          const profileKey = this.get('profileSharing')
-            ? window.storage.get('profileKey')
-            : undefined;
-
-          const sendOptions = this.getSendOptions();
-          const timestamp = Date.now();
-
-          const promise = this.wrapSend(
-            window.textsecure.messaging.sendMessageToGroup(
-              {
-                groupV2: this.getGroupV2Info({
-                  groupChange: groupChangeBuffer,
-                  includePendingMembers: true,
-                }),
-                timestamp,
-                profileKey,
-              },
-              sendOptions
-            )
-          );
-
-          // We don't save this message; we just use it to ensure that a sync message is
-          //   sent to our linked devices.
-          const m = new window.Whisper.Message(({
-            conversationId: this.id,
-            type: 'not-to-save',
-            sent_at: timestamp,
-            received_at: timestamp,
-            // TODO: DESKTOP-722
-            // this type does not fully implement the interface it is expected to
-          } as unknown) as MessageAttributesType);
-
-          // This is to ensure that the functions in send() and sendSyncMessage()
-          //   don't save anything to the database.
-          m.doNotSave = true;
-
-          await m.send(promise);
-        });
-
-        // If we've gotten here with no error, we exit!
-        window.log.info(
-          `modifyGroupV2/${idLog}: Update complete, with attempt ${attempt}!`
-        );
-        break;
-      } catch (error) {
-        if (error.code === 409 && Date.now() <= timeoutTime) {
-          window.log.info(
-            `modifyGroupV2/${idLog}: Conflict while updating. Trying again...`
-          );
-
-          // eslint-disable-next-line no-await-in-loop
-          await this.fetchLatestGroupV2Data();
-        } else if (error.code === 409) {
-          window.log.error(
-            `modifyGroupV2/${idLog}: Conflict while updating. Timed out; not retrying.`
-          );
-          // We don't wait here because we're breaking out of the loop immediately.
-          this.fetchLatestGroupV2Data();
-          throw error;
-        } else {
-          const errorString = error && error.stack ? error.stack : error;
-          window.log.error(
-            `modifyGroupV2/${idLog}: Error updating: ${errorString}`
-          );
-          throw error;
-        }
-      }
+    const uuid = conversation.get('uuid');
+    if (!uuid) {
+      throw new Error(
+        `toggleAdminChange/${idLog}: Missing uuid for conversation ${conversationId}`
+      );
     }
+
+    const MEMBER_ROLES = window.textsecure.protobuf.Member.Role;
+
+    const role = this.isAdmin(conversationId)
+      ? MEMBER_ROLES.DEFAULT
+      : MEMBER_ROLES.ADMINISTRATOR;
+
+    return window.Signal.Groups.buildModifyMemberRoleChange({
+      group: this.attributes,
+      uuid,
+      role,
+    });
+  }
+
+  async modifyGroupV2({
+    name,
+    inviteLinkPassword,
+    createGroupChange,
+  }: {
+    name: string;
+    inviteLinkPassword?: string;
+    createGroupChange: () => Promise<GroupChangeClass.Actions | undefined>;
+  }): Promise<void> {
+    await window.Signal.Groups.modifyGroupV2({
+      createGroupChange,
+      conversation: this,
+      inviteLinkPassword,
+      name,
+    });
   }
 
   isEverUnregistered(): boolean {
@@ -616,6 +763,13 @@ export class ConversationModel extends window.Backbone.Model<
       discoveredUnregisteredAt: undefined,
     });
     window.Signal.Data.updateConversation(this.attributes);
+  }
+
+  isGroupV1AndDisabled(): boolean {
+    return (
+      this.isGroupV1() &&
+      window.Signal.RemoteConfig.isEnabled('desktop.disableGV1')
+    );
   }
 
   isBlocked(): boolean {
@@ -726,8 +880,11 @@ export class ConversationModel extends window.Backbone.Model<
 
   getDraftPreview(): string {
     const draft = this.get('draft');
+
     if (draft) {
-      return draft;
+      const bodyRanges = this.get('draftBodyRanges') || [];
+
+      return getTextWithMentions(bodyRanges, draft);
     }
 
     const draftAttachments = this.get('draftAttachments') || [];
@@ -814,6 +971,25 @@ export class ConversationModel extends window.Backbone.Model<
     });
   }
 
+  isValid(): boolean {
+    return this.isPrivate() || this.isGroupV1() || this.isGroupV2();
+  }
+
+  async maybeMigrateV1Group(): Promise<void> {
+    if (!this.isGroupV1()) {
+      return;
+    }
+
+    const isMigrated = await window.Signal.Groups.hasV1GroupBeenMigrated(this);
+    if (!isMigrated) {
+      return;
+    }
+
+    await window.Signal.Groups.waitThenRespondToGroupV2Migration({
+      conversation: this,
+    });
+  }
+
   maybeRepairGroupV2(data: {
     masterKey: string;
     secretParams: string;
@@ -870,6 +1046,23 @@ export class ConversationModel extends window.Backbone.Model<
     };
   }
 
+  getGroupIdBuffer(): ArrayBuffer | undefined {
+    const groupIdString = this.get('groupId');
+
+    if (!groupIdString) {
+      return undefined;
+    }
+
+    if (this.isGroupV1()) {
+      return fromEncodedBinaryToArrayBuffer(groupIdString);
+    }
+    if (this.isGroupV2()) {
+      return base64ToArrayBuffer(groupIdString);
+    }
+
+    return undefined;
+  }
+
   sendTypingMessage(isTyping: boolean): void {
     if (!window.textsecure.messaging) {
       return;
@@ -881,7 +1074,7 @@ export class ConversationModel extends window.Backbone.Model<
     }
 
     const recipientId = this.isPrivate() ? this.getSendTarget() : undefined;
-    const groupId = !this.isPrivate() ? this.get('groupId') : undefined;
+    const groupId = this.getGroupIdBuffer();
     const groupMembers = this.getRecipients();
 
     // We don't send typing messages if our recipients list is empty
@@ -1027,19 +1220,39 @@ export class ConversationModel extends window.Backbone.Model<
     });
   }
 
-  format(): ConversationType | null | undefined {
+  format(): ConversationType {
+    if (this.cachedProps) {
+      return this.cachedProps;
+    }
+
+    const oldFormat = this.format;
+    // We don't want to crash or have an infinite loop if we loop back into this function
+    //   again. We'll log a warning and returned old cached props or throw an error.
+    this.format = () => {
+      const { stack } = new Error('for stack');
+      window.log.warn(
+        `Conversation.format()/${this.idForLogging()} reentrant call! ${stack}`
+      );
+      if (!this.oldCachedProps) {
+        throw new Error(
+          `Conversation.format()/${this.idForLogging()} reentrant call, no old cached props!`
+        );
+      }
+      return this.oldCachedProps;
+    };
+
+    this.cachedProps = this.getProps();
+
+    this.format = oldFormat;
+
     return this.cachedProps;
   }
 
-  getProps(): ConversationType | null {
-    // This is to prevent race conditions on startup; Conversation models are created
-    //   but the full window.ConversationController.load() sequence isn't complete. So, we
-    //   don't cache props on create, but we do later when load() calls generateProps()
-    //   for us.
-    if (!window.ConversationController.isFetchComplete()) {
-      return null;
-    }
-
+  // Note: this should never be called directly. Use conversation.format() instead, which
+  //   maintains a cache, and protects against reentrant calls.
+  // Note: When writing code inside this function, do not call .format() on a conversation
+  //   unless you are sure that it's not this very same conversation.
+  private getProps(): ConversationType {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const color = this.getColor()!;
 
@@ -1056,6 +1269,7 @@ export class ConversationModel extends window.Backbone.Model<
     const draftTimestamp = this.get('draftTimestamp');
     const draftPreview = this.getDraftPreview();
     const draftText = this.get('draft');
+    const draftBodyRanges = this.get('draftBodyRanges');
     const shouldShowDraft = (this.hasDraft() &&
       draftTimestamp &&
       draftTimestamp >= timestamp) as boolean;
@@ -1063,27 +1277,60 @@ export class ConversationModel extends window.Backbone.Model<
     const messageRequestsEnabled = window.Signal.RemoteConfig.isEnabled(
       'desktop.messageRequests'
     );
+    const ourConversationId = window.ConversationController.getOurConversationId();
+
+    let groupVersion: undefined | 1 | 2;
+    if (this.isGroupV1()) {
+      groupVersion = 1;
+    } else if (this.isGroupV2()) {
+      groupVersion = 2;
+    }
+
+    const sortedGroupMembers = this.isGroupV2()
+      ? this.getMembers()
+          .sort((left, right) =>
+            sortConversationTitles(left, right, this.intlCollator)
+          )
+          .map(member => member.format())
+          .filter((member): member is ConversationType => member !== null)
+      : undefined;
 
     // TODO: DESKTOP-720
     /* eslint-disable @typescript-eslint/no-non-null-assertion */
-    const result = {
+    const result: ConversationType = {
       id: this.id,
       uuid: this.get('uuid'),
       e164: this.get('e164'),
 
+      about: this.getAboutText(),
       acceptedMessageRequest: this.getAccepted(),
       activeAt: this.get('active_at')!,
+      areWePending: Boolean(
+        ourConversationId && this.isMemberPending(ourConversationId)
+      ),
+      areWePendingApproval: Boolean(
+        ourConversationId && this.isMemberAwaitingApproval(ourConversationId)
+      ),
+      areWeAdmin: this.areWeAdmin(),
+      canChangeTimer: this.canChangeTimer(),
+      canEditGroupInfo: this.canEditGroupInfo(),
       avatarPath: this.getAvatarPath()!,
       color,
+      draftBodyRanges,
       draftPreview,
       draftText,
       firstName: this.get('profileName')!,
+      groupVersion,
+      groupId: this.get('groupId'),
+      groupLink: this.getGroupLink(),
       inboxPosition,
-      isAccepted: this.getAccepted(),
       isArchived: this.get('isArchived')!,
       isBlocked: this.isBlocked(),
       isMe: this.isMe(),
+      isGroupV1AndDisabled: this.isGroupV1AndDisabled(),
       isPinned: this.get('isPinned'),
+      isMissingMandatoryProfileSharing: this.isMissingRequiredProfileSharing(),
+      isUntrusted: this.isUntrusted(),
       isVerified: this.isVerified(),
       lastMessage: {
         status: this.get('lastMessageStatus')!,
@@ -1091,22 +1338,41 @@ export class ConversationModel extends window.Backbone.Model<
         deletedForEveryone: this.get('lastMessageDeletedForEveryone')!,
       },
       lastUpdated: this.get('timestamp')!,
-      membersCount: this.isPrivate()
-        ? undefined
-        : (this.get('membersV2')! || this.get('members')! || []).length,
+      left: Boolean(this.get('left')),
+      markedUnread: this.get('markedUnread')!,
+      membersCount: this.getMembersCount(),
+      memberships: this.getMemberships(),
+      pendingMemberships: this.getPendingMemberships(),
+      pendingApprovalMemberships: this.getPendingApprovalMemberships(),
       messageRequestsEnabled,
+      accessControlAddFromInviteLink: this.get('accessControl')
+        ?.addFromInviteLink,
+      accessControlAttributes: this.get('accessControl')?.attributes,
+      accessControlMembers: this.get('accessControl')?.members,
+      expireTimer: this.get('expireTimer'),
       muteExpiresAt: this.get('muteExpiresAt')!,
       name: this.get('name')!,
       phoneNumber: this.getNumber()!,
       profileName: this.getProfileName()!,
+      publicParams: this.get('publicParams'),
+      secretParams: this.get('secretParams'),
       sharedGroupNames: this.get('sharedGroupNames')!,
       shouldShowDraft,
+      sortedGroupMembers,
       timestamp,
       title: this.getTitle()!,
       type: (this.isPrivate() ? 'direct' : 'group') as ConversationTypeType,
-      typingContact: typingContact ? typingContact.format() : null,
       unreadCount: this.get('unreadCount')! || 0,
     };
+
+    if (typingContact) {
+      // We don't want to call .format() on our own conversation
+      if (typingContact.id === this.id) {
+        result.typingContact = result;
+      } else {
+        result.typingContact = typingContact.format();
+      }
+    }
     /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
     return result;
@@ -1144,6 +1410,26 @@ export class ConversationModel extends window.Backbone.Model<
       messageCount: (this.get('messageCount') || 0) + 1,
     });
     window.Signal.Data.updateConversation(this.attributes);
+  }
+
+  getMembersCount(): number {
+    if (this.isPrivate()) {
+      return 1;
+    }
+
+    const memberList = this.get('membersV2') || this.get('members');
+
+    // We'll fail over if the member list is empty
+    if (memberList && memberList.length) {
+      return memberList.length;
+    }
+
+    const temporaryMemberCount = this.get('temporaryMemberCount');
+    if (window._.isNumber(temporaryMemberCount)) {
+      return temporaryMemberCount;
+    }
+
+    return 0;
   }
 
   decrementMessageCount(): void {
@@ -1189,6 +1475,7 @@ export class ConversationModel extends window.Backbone.Model<
           MessageCollection: window.Whisper.MessageCollection,
           limit: 100,
           receivedAt: first ? first.get('received_at') : undefined,
+          sentAt: first ? first.get('sent_at') : undefined,
           messageId: first ? first.id : undefined,
         }
       );
@@ -1217,7 +1504,17 @@ export class ConversationModel extends window.Backbone.Model<
       }
 
       // eslint-disable-next-line no-await-in-loop
-      await Promise.all(readMessages.map(m => m.queueAttachmentDownloads()));
+      await Promise.all(
+        readMessages.map(async m => {
+          const registered = window.MessageController.register(m.id, m);
+          const shouldSave = await registered.queueAttachmentDownloads();
+          if (shouldSave) {
+            await window.Signal.Data.saveMessage(registered.attributes, {
+              Message: window.Whisper.Message,
+            });
+          }
+        })
+      );
     } while (messages.length > 0);
   }
 
@@ -1225,107 +1522,202 @@ export class ConversationModel extends window.Backbone.Model<
     response: number,
     { fromSync = false, viaStorageServiceSync = false } = {}
   ): Promise<void> {
-    const messageRequestEnum =
-      window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
-    const isLocalAction = !fromSync && !viaStorageServiceSync;
-    const ourConversationId = window.ConversationController.getOurConversationId();
+    try {
+      const messageRequestEnum =
+        window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
+      const isLocalAction = !fromSync && !viaStorageServiceSync;
+      const ourConversationId = window.ConversationController.getOurConversationId();
 
-    const currentMessageRequestState = this.get('messageRequestResponseType');
-    const didResponseChange = response !== currentMessageRequestState;
-    const wasPreviouslyAccepted = this.getAccepted();
+      const currentMessageRequestState = this.get('messageRequestResponseType');
+      const didResponseChange = response !== currentMessageRequestState;
+      const wasPreviouslyAccepted = this.getAccepted();
 
-    // Apply message request response locally
-    this.set({
-      messageRequestResponseType: response,
+      // Apply message request response locally
+      this.set({
+        messageRequestResponseType: response,
+      });
+
+      if (response === messageRequestEnum.ACCEPT) {
+        this.unblock({ viaStorageServiceSync });
+        this.enableProfileSharing({ viaStorageServiceSync });
+
+        // We really don't want to call this if we don't have to. It can take a lot of
+        //   time to go through old messages to download attachments.
+        if (didResponseChange && !wasPreviouslyAccepted) {
+          await this.handleReadAndDownloadAttachments({ isLocalAction });
+        }
+
+        if (isLocalAction) {
+          if (this.isGroupV1() || this.isPrivate()) {
+            this.sendProfileKeyUpdate();
+          } else if (
+            ourConversationId &&
+            this.isGroupV2() &&
+            this.isMemberPending(ourConversationId)
+          ) {
+            await this.modifyGroupV2({
+              name: 'promotePendingMember',
+              createGroupChange: () =>
+                this.promotePendingMember(ourConversationId),
+            });
+          } else if (
+            ourConversationId &&
+            this.isGroupV2() &&
+            this.isMember(ourConversationId)
+          ) {
+            window.log.info(
+              'applyMessageRequestResponse/accept: Already a member of v2 group'
+            );
+          } else {
+            window.log.error(
+              'applyMessageRequestResponse/accept: Neither member nor pending member of v2 group'
+            );
+          }
+        }
+      } else if (response === messageRequestEnum.BLOCK) {
+        // Block locally, other devices should block upon receiving the sync message
+        this.block({ viaStorageServiceSync });
+        this.disableProfileSharing({ viaStorageServiceSync });
+
+        if (isLocalAction) {
+          if (this.isGroupV1() || this.isPrivate()) {
+            await this.leaveGroup();
+          } else if (this.isGroupV2()) {
+            await this.leaveGroupV2();
+          }
+        }
+      } else if (response === messageRequestEnum.DELETE) {
+        this.disableProfileSharing({ viaStorageServiceSync });
+
+        // Delete messages locally, other devices should delete upon receiving
+        // the sync message
+        await this.destroyMessages();
+        this.updateLastMessage();
+
+        if (isLocalAction) {
+          this.trigger('unload', 'deleted from message request');
+
+          if (this.isGroupV1() || this.isPrivate()) {
+            await this.leaveGroup();
+          } else if (this.isGroupV2()) {
+            await this.leaveGroupV2();
+          }
+        }
+      } else if (response === messageRequestEnum.BLOCK_AND_DELETE) {
+        // Block locally, other devices should block upon receiving the sync message
+        this.block({ viaStorageServiceSync });
+        this.disableProfileSharing({ viaStorageServiceSync });
+
+        // Delete messages locally, other devices should delete upon receiving
+        // the sync message
+        await this.destroyMessages();
+        this.updateLastMessage();
+
+        if (isLocalAction) {
+          this.trigger('unload', 'blocked and deleted from message request');
+
+          if (this.isGroupV1() || this.isPrivate()) {
+            await this.leaveGroup();
+          } else if (this.isGroupV2()) {
+            await this.leaveGroupV2();
+          }
+        }
+      }
+    } finally {
+      window.Signal.Data.updateConversation(this.attributes);
+    }
+  }
+
+  async joinGroupV2ViaLinkAndMigrate({
+    approvalRequired,
+    inviteLinkPassword,
+    revision,
+  }: {
+    approvalRequired: boolean;
+    inviteLinkPassword: string;
+    revision: number;
+  }): Promise<void> {
+    await window.Signal.Groups.joinGroupV2ViaLinkAndMigrate({
+      approvalRequired,
+      conversation: this,
+      inviteLinkPassword,
+      revision,
     });
-    window.Signal.Data.updateConversation(this.attributes);
+  }
 
-    if (response === messageRequestEnum.ACCEPT) {
-      this.unblock({ viaStorageServiceSync });
-      this.enableProfileSharing({ viaStorageServiceSync });
-
-      // We really don't want to call this if we don't have to. It can take a lot of time
-      //   to go through old messages to download attachments.
-      if (didResponseChange && !wasPreviouslyAccepted) {
-        await this.handleReadAndDownloadAttachments({ isLocalAction });
+  async joinGroupV2ViaLink({
+    inviteLinkPassword,
+    approvalRequired,
+  }: {
+    inviteLinkPassword: string;
+    approvalRequired: boolean;
+  }): Promise<void> {
+    const ourConversationId = window.ConversationController.getOurConversationIdOrThrow();
+    try {
+      if (approvalRequired) {
+        await this.modifyGroupV2({
+          name: 'requestToJoin',
+          inviteLinkPassword,
+          createGroupChange: () => this.addPendingApprovalRequest(),
+        });
+      } else {
+        await this.modifyGroupV2({
+          name: 'joinGroup',
+          inviteLinkPassword,
+          createGroupChange: () => this.addMember(ourConversationId),
+        });
       }
-
-      if (isLocalAction) {
-        if (this.isGroupV1() || this.isPrivate()) {
-          this.sendProfileKeyUpdate();
-        } else if (
-          ourConversationId &&
-          this.isGroupV2() &&
-          this.isMemberPending(ourConversationId)
-        ) {
-          await this.modifyGroupV2({
-            name: 'promotePendingMember',
-            createGroupChange: () =>
-              this.promotePendingMember(ourConversationId),
-          });
-        } else if (
-          ourConversationId &&
-          this.isGroupV2() &&
-          this.isMember(ourConversationId)
-        ) {
-          window.log.info(
-            'applyMessageRequestResponse/accept: Already a member of v2 group'
-          );
+    } catch (error) {
+      const ALREADY_REQUESTED_TO_JOIN =
+        '{"code":400,"message":"cannot ask to join via invite link if already asked to join"}';
+      if (!error.response) {
+        throw error;
+      } else {
+        const errorDetails = stringFromBytes(error.response);
+        if (errorDetails !== ALREADY_REQUESTED_TO_JOIN) {
+          throw error;
         } else {
-          window.log.error(
-            'applyMessageRequestResponse/accept: Neither member nor pending member of v2 group'
+          window.log.info(
+            'joinGroupV2ViaLink: Got 400, but server is telling us we have already requested to join. Forcing that local state'
           );
-        }
-      }
-    } else if (response === messageRequestEnum.BLOCK) {
-      // Block locally, other devices should block upon receiving the sync message
-      this.block({ viaStorageServiceSync });
-      this.disableProfileSharing({ viaStorageServiceSync });
-
-      if (isLocalAction) {
-        if (this.isGroupV1() || this.isPrivate()) {
-          await this.leaveGroup();
-        } else if (this.isGroupV2()) {
-          await this.leaveGroupV2();
-        }
-      }
-    } else if (response === messageRequestEnum.DELETE) {
-      this.disableProfileSharing({ viaStorageServiceSync });
-
-      // Delete messages locally, other devices should delete upon receiving
-      // the sync message
-      await this.destroyMessages();
-      this.updateLastMessage();
-
-      if (isLocalAction) {
-        this.trigger('unload', 'deleted from message request');
-
-        if (this.isGroupV1() || this.isPrivate()) {
-          await this.leaveGroup();
-        } else if (this.isGroupV2()) {
-          await this.leaveGroupV2();
-        }
-      }
-    } else if (response === messageRequestEnum.BLOCK_AND_DELETE) {
-      // Block locally, other devices should block upon receiving the sync message
-      this.block({ viaStorageServiceSync });
-      this.disableProfileSharing({ viaStorageServiceSync });
-
-      // Delete messages locally, other devices should delete upon receiving
-      // the sync message
-      await this.destroyMessages();
-      this.updateLastMessage();
-
-      if (isLocalAction) {
-        this.trigger('unload', 'blocked and deleted from message request');
-
-        if (this.isGroupV1() || this.isPrivate()) {
-          await this.leaveGroup();
-        } else if (this.isGroupV2()) {
-          await this.leaveGroupV2();
+          this.set({
+            pendingAdminApprovalV2: [
+              {
+                conversationId: ourConversationId,
+                timestamp: Date.now(),
+              },
+            ],
+          });
         }
       }
     }
+
+    const messageRequestEnum =
+      window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
+
+    // Ensure active_at is set, because this is an event that justifies putting the group
+    //   in the left pane.
+    this.set({
+      messageRequestResponseType: messageRequestEnum.ACCEPT,
+      active_at: this.get('active_at') || Date.now(),
+    });
+    window.Signal.Data.updateConversation(this.attributes);
+  }
+
+  async cancelJoinRequest(): Promise<void> {
+    const ourConversationId = window.ConversationController.getOurConversationIdOrThrow();
+
+    const inviteLinkPassword = this.get('groupInviteLinkPassword');
+    if (!inviteLinkPassword) {
+      throw new Error('Missing groupInviteLinkPassword!');
+    }
+
+    await this.modifyGroupV2({
+      name: 'cancelJoinRequest',
+      inviteLinkPassword,
+      createGroupChange: () =>
+        this.denyPendingApprovalRequest(ourConversationId),
+    });
   }
 
   async leaveGroupV2(): Promise<void> {
@@ -1338,7 +1730,7 @@ export class ConversationModel extends window.Backbone.Model<
     ) {
       await this.modifyGroupV2({
         name: 'delete',
-        createGroupChange: () => this.removePendingMember(ourConversationId),
+        createGroupChange: () => this.removePendingMember([ourConversationId]),
       });
     } else if (
       ourConversationId &&
@@ -1352,6 +1744,89 @@ export class ConversationModel extends window.Backbone.Model<
     } else {
       window.log.error(
         'leaveGroupV2: We were neither a member nor a pending member of the group'
+      );
+    }
+  }
+
+  async toggleAdmin(conversationId: string): Promise<void> {
+    if (!this.isGroupV2()) {
+      return;
+    }
+
+    if (!this.isMember(conversationId)) {
+      window.log.error(
+        `toggleAdmin: Member ${conversationId} is not a member of the group`
+      );
+      return;
+    }
+
+    await this.modifyGroupV2({
+      name: 'toggleAdmin',
+      createGroupChange: () => this.toggleAdminChange(conversationId),
+    });
+  }
+
+  async approvePendingMembershipFromGroupV2(
+    conversationId: string
+  ): Promise<void> {
+    if (this.isGroupV2() && this.isMemberRequestingToJoin(conversationId)) {
+      await this.modifyGroupV2({
+        name: 'approvePendingApprovalRequest',
+        createGroupChange: () =>
+          this.approvePendingApprovalRequest(conversationId),
+      });
+    }
+  }
+
+  async revokePendingMembershipsFromGroupV2(
+    conversationIds: Array<string>
+  ): Promise<void> {
+    if (!this.isGroupV2()) {
+      return;
+    }
+
+    const [conversationId] = conversationIds;
+
+    // Only pending memberships can be revoked for multiple members at once
+    if (conversationIds.length > 1) {
+      await this.modifyGroupV2({
+        name: 'removePendingMember',
+        createGroupChange: () => this.removePendingMember(conversationIds),
+      });
+    } else if (this.isMemberRequestingToJoin(conversationId)) {
+      await this.modifyGroupV2({
+        name: 'denyPendingApprovalRequest',
+        createGroupChange: () =>
+          this.denyPendingApprovalRequest(conversationId),
+      });
+    } else if (this.isMemberPending(conversationId)) {
+      await this.modifyGroupV2({
+        name: 'removePendingMember',
+        createGroupChange: () => this.removePendingMember([conversationId]),
+      });
+    }
+  }
+
+  async removeFromGroupV2(conversationId: string): Promise<void> {
+    if (this.isGroupV2() && this.isMemberRequestingToJoin(conversationId)) {
+      await this.modifyGroupV2({
+        name: 'denyPendingApprovalRequest',
+        createGroupChange: () =>
+          this.denyPendingApprovalRequest(conversationId),
+      });
+    } else if (this.isGroupV2() && this.isMemberPending(conversationId)) {
+      await this.modifyGroupV2({
+        name: 'removePendingMember',
+        createGroupChange: () => this.removePendingMember([conversationId]),
+      });
+    } else if (this.isGroupV2() && this.isMember(conversationId)) {
+      await this.modifyGroupV2({
+        name: 'removeFromGroup',
+        createGroupChange: () => this.removeMember(conversationId),
+      });
+    } else {
+      window.log.error(
+        `removeFromGroupV2: Member ${conversationId} is neither a member nor a pending member of the group`
       );
     }
   }
@@ -1370,17 +1845,46 @@ export class ConversationModel extends window.Backbone.Model<
       }
     );
 
-    await wrap(
-      window.textsecure.messaging.syncMessageRequestResponse(
-        {
-          threadE164: this.get('e164'),
-          threadUuid: this.get('uuid'),
-          groupId: this.get('groupId'),
-          type: response,
-        },
-        sendOptions
-      )
-    );
+    const groupId = this.getGroupIdBuffer();
+
+    try {
+      await wrap(
+        window.textsecure.messaging.syncMessageRequestResponse(
+          {
+            threadE164: this.get('e164'),
+            threadUuid: this.get('uuid'),
+            groupId,
+            type: response,
+          },
+          sendOptions
+        )
+      );
+    } catch (result) {
+      this.processSendResponse(result);
+    }
+  }
+
+  // We only want to throw if there's a 'real' error contained with this information
+  //   coming back from our low-level send infrastructure.
+  processSendResponse(
+    result: Error | CallbackResultType
+  ): result is CallbackResultType {
+    if (result instanceof Error) {
+      throw result;
+    } else if (result && result.errors) {
+      // We filter out unregistered user errors, because we ignore those in groups
+      const wasThereARealError = window._.some(
+        result.errors,
+        error => error.name !== 'UnregisteredUserError'
+      );
+      if (wasThereARealError) {
+        throw result;
+      }
+
+      return true;
+    }
+
+    return true;
   }
 
   onMessageError(): void {
@@ -1625,64 +2129,51 @@ export class ConversationModel extends window.Backbone.Model<
     return window.textsecure.storage.protocol.setApproval(this.id, true);
   }
 
-  async safeIsUntrusted(): Promise<boolean> {
-    return window.textsecure.storage.protocol
-      .isUntrusted(this.id)
-      .catch(() => false);
+  safeIsUntrusted(): boolean {
+    try {
+      return window.textsecure.storage.protocol.isUntrusted(this.id);
+    } catch (err) {
+      return false;
+    }
   }
 
-  async isUntrusted(): Promise<boolean> {
+  isUntrusted(): boolean {
     if (this.isPrivate()) {
       return this.safeIsUntrusted();
     }
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     if (!this.contactCollection!.length) {
-      return Promise.resolve(false);
+      return false;
     }
 
-    return Promise.all(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      this.contactCollection!.map(contact => {
-        if (contact.isMe()) {
-          return false;
-        }
-        return contact.safeIsUntrusted();
-      })
-    ).then(results => window._.any(results, result => result));
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return this.contactCollection!.any(contact => {
+      if (contact.isMe()) {
+        return false;
+      }
+      return contact.safeIsUntrusted();
+    });
   }
 
-  async getUntrusted(): Promise<Backbone.Collection> {
-    // This is a bit ugly because isUntrusted() is async. Could do the work to cache
-    //   it locally, but we really only need it for this call.
+  getUntrusted(): Backbone.Collection {
     if (this.isPrivate()) {
-      return this.isUntrusted().then(untrusted => {
-        if (untrusted) {
-          return new window.Backbone.Collection([this]);
-        }
-
-        return new window.Backbone.Collection();
-      });
+      if (this.isUntrusted()) {
+        return new window.Backbone.Collection([this]);
+      }
+      return new window.Backbone.Collection();
     }
-    return Promise.all(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      this.contactCollection!.map(contact => {
-        if (contact.isMe()) {
-          return [false, contact];
-        }
-        return Promise.all([contact.isUntrusted(), contact]);
-      })
-    ).then(results => {
-      const filtered = window._.filter(results, result => {
-        const untrusted = result[0];
-        return untrusted;
-      });
-      return new window.Backbone.Collection(
-        window._.map(filtered, result => {
-          const contact = result[1];
-          return contact;
-        })
-      );
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const results = this.contactCollection!.map(contact => {
+      if (contact.isMe()) {
+        return [false, contact];
+      }
+      return [contact.isUntrusted(), contact];
     });
+
+    return new window.Backbone.Collection(
+      results.filter(result => result[0]).map(result => result[1])
+    );
   }
 
   getSentMessageCount(): number {
@@ -1691,6 +2182,41 @@ export class ConversationModel extends window.Backbone.Model<
 
   getMessageRequestResponseType(): number {
     return this.get('messageRequestResponseType') || 0;
+  }
+
+  isMissingRequiredProfileSharing(): boolean {
+    const mandatoryProfileSharingEnabled = window.Signal.RemoteConfig.isEnabled(
+      'desktop.mandatoryProfileSharing'
+    );
+
+    if (!mandatoryProfileSharingEnabled) {
+      return false;
+    }
+
+    const hasNoMessages = (this.get('messageCount') || 0) === 0;
+    if (hasNoMessages) {
+      return false;
+    }
+
+    return !this.get('profileSharing');
+  }
+
+  getAboutText(): string | undefined {
+    if (!this.get('about')) {
+      return undefined;
+    }
+
+    const emoji = this.get('aboutEmoji');
+    const text = this.get('about');
+
+    if (!emoji) {
+      return text;
+    }
+
+    return window.i18n('message--getNotificationText--text-with-emoji', {
+      text,
+      emoji,
+    });
   }
 
   /**
@@ -1782,7 +2308,15 @@ export class ConversationModel extends window.Backbone.Model<
       })
     );
 
+    const isUntrusted = await this.isUntrusted();
+
     this.trigger('newmessage', model);
+
+    const uuid = this.get('uuid');
+    // Group calls are always with folks that have a UUID
+    if (isUntrusted && uuid) {
+      window.reduxActions.calling.keyChanged({ uuid });
+    }
   }
 
   async addVerifiedChange(
@@ -1849,14 +2383,36 @@ export class ConversationModel extends window.Backbone.Model<
   async addCallHistory(
     callHistoryDetails: CallHistoryDetailsType
   ): Promise<void> {
-    const { acceptedTime, endedTime, wasDeclined } = callHistoryDetails;
+    let timestamp: number;
+    let unread: boolean;
+    let detailsToSave: CallHistoryDetailsType;
+
+    switch (callHistoryDetails.callMode) {
+      case CallMode.Direct:
+        timestamp = callHistoryDetails.endedTime;
+        unread =
+          !callHistoryDetails.wasDeclined && !callHistoryDetails.acceptedTime;
+        detailsToSave = {
+          ...callHistoryDetails,
+          callMode: CallMode.Direct,
+        };
+        break;
+      case CallMode.Group:
+        timestamp = callHistoryDetails.startedTime;
+        unread = false;
+        detailsToSave = callHistoryDetails;
+        break;
+      default:
+        throw missingCaseError(callHistoryDetails);
+    }
+
     const message = ({
       conversationId: this.id,
       type: 'call-history',
-      sent_at: endedTime,
-      received_at: endedTime,
-      unread: !wasDeclined && !acceptedTime,
-      callHistoryDetails,
+      sent_at: timestamp,
+      received_at: timestamp,
+      unread,
+      callHistoryDetails: detailsToSave,
       // TODO: DESKTOP-722
     } as unknown) as typeof window.Whisper.MessageAttributesType;
 
@@ -1872,6 +2428,28 @@ export class ConversationModel extends window.Backbone.Model<
     );
 
     this.trigger('newmessage', model);
+  }
+
+  async updateCallHistoryForGroupCall(
+    eraId: string,
+    creatorUuid: string
+  ): Promise<void> {
+    // We want to update the cache quickly in case this function is called multiple times.
+    const oldCachedEraId = this.cachedLatestGroupCallEraId;
+    this.cachedLatestGroupCallEraId = eraId;
+
+    const alreadyHasMessage =
+      (oldCachedEraId && oldCachedEraId === eraId) ||
+      (await window.Signal.Data.hasGroupCallHistoryMessage(this.id, eraId));
+
+    if (!alreadyHasMessage) {
+      this.addCallHistory({
+        callMode: CallMode.Group,
+        creatorUuid,
+        eraId,
+        startedTime: Date.now(),
+      });
+    }
   }
 
   async addProfileChange(
@@ -2018,9 +2596,117 @@ export class ConversationModel extends window.Backbone.Model<
     return this.jobQueue.add(taskWithTimeout);
   }
 
+  isAdmin(conversationId: string): boolean {
+    if (!this.isGroupV2()) {
+      return false;
+    }
+
+    const members = this.get('membersV2') || [];
+    const member = members.find(x => x.conversationId === conversationId);
+    if (!member) {
+      return false;
+    }
+
+    const MEMBER_ROLES = window.textsecure.protobuf.Member.Role;
+
+    return member.role === MEMBER_ROLES.ADMINISTRATOR;
+  }
+
+  getMemberships(): Array<GroupV2Membership> {
+    if (!this.isGroupV2()) {
+      return [];
+    }
+
+    const members = this.get('membersV2') || [];
+    return members
+      .map(member => {
+        const conversationModel = window.ConversationController.get(
+          member.conversationId
+        );
+        if (!conversationModel || conversationModel.isUnregistered()) {
+          return null;
+        }
+
+        return {
+          isAdmin:
+            member.role ===
+            window.textsecure.protobuf.Member.Role.ADMINISTRATOR,
+          metadata: member,
+          member: conversationModel.format(),
+        };
+      })
+      .filter(
+        (membership): membership is GroupV2Membership => membership !== null
+      );
+  }
+
+  getGroupLink(): string | undefined {
+    if (!this.isGroupV2()) {
+      return undefined;
+    }
+
+    if (!this.get('groupInviteLinkPassword')) {
+      return undefined;
+    }
+
+    return window.Signal.Groups.buildGroupLink(this);
+  }
+
+  getPendingMemberships(): Array<GroupV2PendingMembership> {
+    if (!this.isGroupV2()) {
+      return [];
+    }
+
+    const members = this.get('pendingMembersV2') || [];
+    return members
+      .map(member => {
+        const conversationModel = window.ConversationController.get(
+          member.conversationId
+        );
+        if (!conversationModel || conversationModel.isUnregistered()) {
+          return null;
+        }
+
+        return {
+          metadata: member,
+          member: conversationModel.format(),
+        };
+      })
+      .filter(
+        (membership): membership is GroupV2PendingMembership =>
+          membership !== null
+      );
+  }
+
+  getPendingApprovalMemberships(): Array<GroupV2RequestingMembership> {
+    if (!this.isGroupV2()) {
+      return [];
+    }
+
+    const members = this.get('pendingAdminApprovalV2') || [];
+    return members
+      .map(member => {
+        const conversationModel = window.ConversationController.get(
+          member.conversationId
+        );
+        if (!conversationModel || conversationModel.isUnregistered()) {
+          return null;
+        }
+
+        return {
+          metadata: member,
+          member: conversationModel.format(),
+        };
+      })
+      .filter(
+        (membership): membership is GroupV2RequestingMembership =>
+          membership !== null
+      );
+  }
+
   getMembers(
     options: { includePendingMembers?: boolean } = {}
-  ): Array<WhatIsThis> {
+  ): Array<ConversationModel> {
     if (this.isPrivate()) {
       return [this];
     }
@@ -2054,7 +2740,7 @@ export class ConversationModel extends window.Backbone.Model<
         this.get('members')!.map(id => {
           const c = window.ConversationController.get(id);
 
-          // In groups we won't sent to contacts we believe are unregistered
+          // In groups we won't send to contacts we believe are unregistered
           if (c && c.isUnregistered()) {
             return null;
           }
@@ -2063,10 +2749,6 @@ export class ConversationModel extends window.Backbone.Model<
         })
       );
     }
-
-    window.log.warn(
-      'getMembers: Group conversation had neither membersV2 nor members'
-    );
 
     return [];
   }
@@ -2187,7 +2869,6 @@ export class ConversationModel extends window.Backbone.Model<
         : '';
 
     return {
-      author: contact.get('e164'),
       authorUuid: contact.get('uuid'),
       bodyRanges: quotedMessage.get('bodyRanges'),
       id: quotedMessage.get('sent_at'),
@@ -2353,7 +3034,6 @@ export class ConversationModel extends window.Backbone.Model<
   async sendReactionMessage(
     reaction: { emoji: string; remove: boolean },
     target: {
-      targetAuthorE164: string;
       targetAuthorUuid: string;
       targetTimestamp: number;
     }
@@ -2405,6 +3085,10 @@ export class ConversationModel extends window.Backbone.Model<
       // We are only creating this model so we can use its sync message
       // sending functionality. It will not be saved to the datbase.
       const message = new window.Whisper.Message(attributes);
+
+      // This is to ensure that the functions in send() and sendSyncMessage() don't save
+      //   anything to the database.
+      message.doNotSave = true;
 
       // We're offline!
       if (!window.textsecure.messaging) {
@@ -2464,10 +3148,6 @@ export class ConversationModel extends window.Backbone.Model<
         );
       })();
 
-      // This is to ensure that the functions in send() and sendSyncMessage() don't save
-      //   anything to the database.
-      message.doNotSave = true;
-
       return message.send(this.wrapSend(promise));
     }).catch(error => {
       window.log.error('Error sending reaction', reaction, target, error);
@@ -2506,7 +3186,8 @@ export class ConversationModel extends window.Backbone.Model<
     attachments: Array<WhatIsThis>,
     quote: WhatIsThis,
     preview: WhatIsThis,
-    sticker: WhatIsThis
+    sticker?: WhatIsThis,
+    mentions?: BodyRangesType
   ): void {
     this.clearTypingTimers();
 
@@ -2546,12 +3227,13 @@ export class ConversationModel extends window.Backbone.Model<
         expireTimer,
         recipients,
         sticker,
+        bodyRanges: mentions,
       });
 
       if (this.isPrivate()) {
         messageWithSchema.destination = destination;
       }
-      const attributes = {
+      const attributes: MessageModel = {
         ...messageWithSchema,
         id: window.getGuid(),
       };
@@ -2642,6 +3324,7 @@ export class ConversationModel extends window.Backbone.Model<
             quote,
             sticker,
             timestamp: now,
+            mentions,
           },
           options
         );
@@ -2675,8 +3358,7 @@ export class ConversationModel extends window.Backbone.Model<
         if (result) {
           await this.handleMessageSendResult(
             result.failoverIdentifiers,
-            result.unidentifiedDeliveries,
-            result.discoveredIdentifierPairs
+            result.unidentifiedDeliveries
           );
         }
         return result;
@@ -2686,8 +3368,7 @@ export class ConversationModel extends window.Backbone.Model<
         if (result) {
           await this.handleMessageSendResult(
             result.failoverIdentifiers,
-            result.unidentifiedDeliveries,
-            result.discoveredIdentifierPairs
+            result.unidentifiedDeliveries
           );
         }
         throw result;
@@ -2697,23 +3378,8 @@ export class ConversationModel extends window.Backbone.Model<
 
   async handleMessageSendResult(
     failoverIdentifiers: Array<string> | undefined,
-    unidentifiedDeliveries: Array<string> | undefined,
-    discoveredIdentifierPairs:
-      | Array<{
-          uuid: string | null;
-          e164: string | null;
-        }>
-      | undefined
+    unidentifiedDeliveries: Array<string> | undefined
   ): Promise<void> {
-    (discoveredIdentifierPairs || []).forEach(item => {
-      const { uuid, e164 } = item;
-      window.ConversationController.ensureContactIds({
-        uuid,
-        e164,
-        highTrust: true,
-      });
-    });
-
     await Promise.all(
       (failoverIdentifiers || []).map(async identifier => {
         const conversation = window.ConversationController.get(identifier);
@@ -2772,10 +3438,6 @@ export class ConversationModel extends window.Backbone.Model<
     };
   }
 
-  getUuidCapable(): boolean {
-    return Boolean(window._.property('uuid')(this.get('capabilities')));
-  }
-
   getSendMetadata(
     options: { syncMessage?: string; disableMeCheck?: boolean } = {}
   ): WhatIsThis | null {
@@ -2802,7 +3464,6 @@ export class ConversationModel extends window.Backbone.Model<
 
     const accessKey = this.get('accessKey');
     const sealedSender = this.get('sealedSender');
-    const uuidCapable = this.getUuidCapable();
 
     // We never send sync messages as sealed sender
     if (syncMessage && this.isMe()) {
@@ -2816,9 +3477,6 @@ export class ConversationModel extends window.Backbone.Model<
     if (sealedSender === SEALED_SENDER.UNKNOWN) {
       const info = {
         accessKey: accessKey || arrayBufferToBase64(getRandomBytes(16)),
-        // Indicates that a client is capable of receiving uuid-only messages.
-        // Not used yet.
-        uuidCapable,
       };
       return {
         ...(e164 ? { [e164]: info } : {}),
@@ -2835,9 +3493,6 @@ export class ConversationModel extends window.Backbone.Model<
         accessKey && sealedSender === SEALED_SENDER.ENABLED
           ? accessKey
           : arrayBufferToBase64(getRandomBytes(16)),
-      // Indicates that a client is capable of receiving uuid-only messages.
-      // Not used yet.
-      uuidCapable,
     };
 
     return {
@@ -2874,11 +3529,21 @@ export class ConversationModel extends window.Backbone.Model<
       return;
     }
 
+    const ourConversationId = window.ConversationController.getOurConversationId();
+    if (!ourConversationId) {
+      throw new Error('updateLastMessage: Failed to fetch ourConversationId');
+    }
+
+    const conversationId = this.id;
     let [previewMessage, activityMessage] = await Promise.all([
-      window.Signal.Data.getLastConversationPreview(this.id, {
+      window.Signal.Data.getLastConversationPreview({
+        conversationId,
+        ourConversationId,
         Message: window.Whisper.Message,
       }),
-      window.Signal.Data.getLastConversationActivity(this.id, {
+      window.Signal.Data.getLastConversationActivity({
+        conversationId,
+        ourConversationId,
         Message: window.Whisper.Message,
       }),
     ]);
@@ -2924,7 +3589,7 @@ export class ConversationModel extends window.Backbone.Model<
         (previewMessage ? previewMessage.getMessagePropStatus() : null) || null,
       timestamp,
       lastMessageDeletedForEveryone: previewMessage
-        ? previewMessage.deletedForEveryone
+        ? previewMessage.get('deletedForEveryone')
         : false,
     });
 
@@ -2945,6 +3610,179 @@ export class ConversationModel extends window.Backbone.Model<
       }
       this.captureChange('isArchived');
     }
+  }
+
+  setMarkedUnread(markedUnread: boolean): void {
+    const previousMarkedUnread = this.get('markedUnread');
+
+    this.set({ markedUnread });
+    window.Signal.Data.updateConversation(this.attributes);
+
+    if (Boolean(previousMarkedUnread) !== Boolean(markedUnread)) {
+      this.captureChange('markedUnread');
+    }
+
+    window.Whisper.events.trigger('updateUnreadCount');
+  }
+
+  async refreshGroupLink(): Promise<void> {
+    if (!this.isGroupV2()) {
+      return;
+    }
+
+    const groupInviteLinkPassword = arrayBufferToBase64(
+      window.Signal.Groups.generateGroupInviteLinkPassword()
+    );
+
+    window.log.info('refreshGroupLink for conversation', this.idForLogging());
+
+    await this.modifyGroupV2({
+      name: 'updateInviteLinkPassword',
+      createGroupChange: async () =>
+        window.Signal.Groups.buildInviteLinkPasswordChange(
+          this.attributes,
+          groupInviteLinkPassword
+        ),
+    });
+
+    this.set({ groupInviteLinkPassword });
+  }
+
+  async toggleGroupLink(value: boolean): Promise<void> {
+    if (!this.isGroupV2()) {
+      return;
+    }
+
+    const shouldCreateNewGroupLink =
+      value && !this.get('groupInviteLinkPassword');
+    const groupInviteLinkPassword =
+      this.get('groupInviteLinkPassword') ||
+      arrayBufferToBase64(
+        window.Signal.Groups.generateGroupInviteLinkPassword()
+      );
+
+    window.log.info(
+      'toggleGroupLink for conversation',
+      this.idForLogging(),
+      value
+    );
+
+    const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
+    const addFromInviteLink = value
+      ? ACCESS_ENUM.ANY
+      : ACCESS_ENUM.UNSATISFIABLE;
+
+    if (shouldCreateNewGroupLink) {
+      await this.modifyGroupV2({
+        name: 'updateNewGroupLink',
+        createGroupChange: async () =>
+          window.Signal.Groups.buildNewGroupLinkChange(
+            this.attributes,
+            groupInviteLinkPassword,
+            addFromInviteLink
+          ),
+      });
+    } else {
+      await this.modifyGroupV2({
+        name: 'updateAccessControlAddFromInviteLink',
+        createGroupChange: async () =>
+          window.Signal.Groups.buildAccessControlAddFromInviteLinkChange(
+            this.attributes,
+            addFromInviteLink
+          ),
+      });
+    }
+
+    this.set({
+      accessControl: {
+        addFromInviteLink,
+        attributes: this.get('accessControl')?.attributes || ACCESS_ENUM.MEMBER,
+        members: this.get('accessControl')?.members || ACCESS_ENUM.MEMBER,
+      },
+    });
+
+    if (shouldCreateNewGroupLink) {
+      this.set({ groupInviteLinkPassword });
+    }
+  }
+
+  async updateAccessControlAddFromInviteLink(value: boolean): Promise<void> {
+    if (!this.isGroupV2()) {
+      return;
+    }
+
+    const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
+
+    const addFromInviteLink = value
+      ? ACCESS_ENUM.ADMINISTRATOR
+      : ACCESS_ENUM.ANY;
+
+    await this.modifyGroupV2({
+      name: 'updateAccessControlAddFromInviteLink',
+      createGroupChange: async () =>
+        window.Signal.Groups.buildAccessControlAddFromInviteLinkChange(
+          this.attributes,
+          addFromInviteLink
+        ),
+    });
+
+    this.set({
+      accessControl: {
+        addFromInviteLink,
+        attributes: this.get('accessControl')?.attributes || ACCESS_ENUM.MEMBER,
+        members: this.get('accessControl')?.members || ACCESS_ENUM.MEMBER,
+      },
+    });
+  }
+
+  async updateAccessControlAttributes(value: number): Promise<void> {
+    if (!this.isGroupV2()) {
+      return;
+    }
+
+    await this.modifyGroupV2({
+      name: 'updateAccessControlAttributes',
+      createGroupChange: async () =>
+        window.Signal.Groups.buildAccessControlAttributesChange(
+          this.attributes,
+          value
+        ),
+    });
+
+    const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
+    this.set({
+      accessControl: {
+        addFromInviteLink:
+          this.get('accessControl')?.addFromInviteLink || ACCESS_ENUM.MEMBER,
+        attributes: value,
+        members: this.get('accessControl')?.members || ACCESS_ENUM.MEMBER,
+      },
+    });
+  }
+
+  async updateAccessControlMembers(value: number): Promise<void> {
+    if (!this.isGroupV2()) {
+      return;
+    }
+
+    await this.modifyGroupV2({
+      name: 'updateAccessControlMembers',
+      createGroupChange: async () =>
+        window.Signal.Groups.buildAccessControlMembersChange(
+          this.attributes,
+          value
+        ),
+    });
+
+    const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
+    this.set({
+      accessControl: {
+        addFromInviteLink:
+          this.get('accessControl')?.addFromInviteLink || ACCESS_ENUM.MEMBER,
+        attributes: this.get('accessControl')?.attributes || ACCESS_ENUM.MEMBER,
+        members: value,
+      },
+    });
   }
 
   async updateExpirationTimer(
@@ -3516,6 +4354,30 @@ export class ConversationModel extends window.Backbone.Model<
         });
       }
 
+      if (profile.about) {
+        const key = c.get('profileKey');
+        if (key) {
+          const keyBuffer = base64ToArrayBuffer(key);
+          const decrypted = await window.textsecure.crypto.decryptProfile(
+            base64ToArrayBuffer(profile.about),
+            keyBuffer
+          );
+          c.set('about', stringFromBytes(trimForDisplay(decrypted)));
+        }
+      }
+
+      if (profile.aboutEmoji) {
+        const key = c.get('profileKey');
+        if (key) {
+          const keyBuffer = base64ToArrayBuffer(key);
+          const decrypted = await window.textsecure.crypto.decryptProfile(
+            base64ToArrayBuffer(profile.aboutEmoji),
+            keyBuffer
+          );
+          c.set('aboutEmoji', stringFromBytes(trimForDisplay(decrypted)));
+        }
+      }
+
       if (profile.capabilities) {
         c.set({ capabilities: profile.capabilities });
       }
@@ -3661,6 +4523,8 @@ export class ConversationModel extends window.Backbone.Model<
         `Setting sealedSender to UNKNOWN for conversation ${this.idForLogging()}`
       );
       this.set({
+        about: undefined,
+        aboutEmoji: undefined,
         profileAvatar: undefined,
         profileKey,
         profileKeyVersion: undefined,
@@ -3704,6 +4568,8 @@ export class ConversationModel extends window.Backbone.Model<
       }
 
       this.set({
+        about: undefined,
+        aboutEmoji: undefined,
         profileKey: undefined,
         profileKeyVersion: undefined,
         profileKeyCredential: null,
@@ -3786,6 +4652,7 @@ export class ConversationModel extends window.Backbone.Model<
     window.Signal.Data.updateConversation(this.attributes);
 
     await window.Signal.Data.removeAllMessagesInConversation(this.id, {
+      logId: this.idForLogging(),
       MessageCollection: window.Whisper.MessageCollection,
     });
   }
@@ -3802,7 +4669,7 @@ export class ConversationModel extends window.Backbone.Model<
     return this.get('name') || window.i18n('unknownGroup');
   }
 
-  getProfileName(): string | null {
+  getProfileName(): string | undefined {
     if (this.isPrivate()) {
       return Util.combineNames(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -3810,7 +4677,8 @@ export class ConversationModel extends window.Backbone.Model<
         this.get('profileFamilyName')
       );
     }
-    return null;
+
+    return undefined;
   }
 
   getNumber(): string {
@@ -3863,26 +4731,28 @@ export class ConversationModel extends window.Backbone.Model<
       return 'signal-blue';
     }
 
-    const { migrateColor } = Util;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return migrateColor(this.get('color')!);
+    return migrateColor(this.get('color'));
   }
 
-  getAvatarPath(): string | null {
+  getAvatarPath(): string | undefined {
     const avatar = this.isMe()
       ? this.get('profileAvatar') || this.get('avatar')
       : this.get('avatar') || this.get('profileAvatar');
 
-    if (avatar && avatar.path) {
-      return getAbsoluteAttachmentPath(avatar.path);
+    if (!avatar || !avatar.path) {
+      return undefined;
     }
 
-    return null;
+    return getAbsoluteAttachmentPath(avatar.path);
   }
 
-  canChangeTimer(): boolean {
+  private canChangeTimer(): boolean {
     if (this.isPrivate()) {
       return true;
+    }
+
+    if (this.isGroupV1AndDisabled()) {
+      return false;
     }
 
     if (!this.isGroupV2()) {
@@ -3900,6 +4770,26 @@ export class ConversationModel extends window.Backbone.Model<
       return true;
     }
 
+    return this.areWeAdmin();
+  }
+
+  canEditGroupInfo(): boolean {
+    if (!this.isGroupV2()) {
+      return false;
+    }
+
+    return (
+      this.areWeAdmin() ||
+      this.get('accessControl')?.attributes ===
+        window.textsecure.protobuf.AccessControl.AccessRequired.MEMBER
+    );
+  }
+
+  areWeAdmin(): boolean {
+    if (!this.isGroupV2()) {
+      return false;
+    }
+
     const memberEnum = window.textsecure.protobuf.Member.Role;
     const members = this.get('membersV2') || [];
     const myId = window.ConversationController.getOurConversationId();
@@ -3908,12 +4798,7 @@ export class ConversationModel extends window.Backbone.Model<
       return false;
     }
 
-    const isAdministrator = me.role === memberEnum.ADMINISTRATOR;
-    if (isAdministrator) {
-      return true;
-    }
-
-    return false;
+    return me.role === memberEnum.ADMINISTRATOR;
   }
 
   // Set of items to captureChanges on:
@@ -3927,10 +4812,11 @@ export class ConversationModel extends window.Backbone.Model<
   // [X] blocked
   // [X] whitelisted
   // [X] archived
+  // [X] markedUnread
   captureChange(property: string): void {
-    if (!window.Signal.RemoteConfig.isEnabled('desktop.storageWrite')) {
+    if (!window.Signal.RemoteConfig.isEnabled('desktop.storageWrite2')) {
       window.log.info(
-        'conversation.captureChange: Returning early; desktop.storageWrite is falsey'
+        'conversation.captureChange: Returning early; desktop.storageWrite2 is falsey'
       );
 
       return;
@@ -3949,10 +4835,7 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   isMuted(): boolean {
-    return (
-      Boolean(this.get('muteExpiresAt')) &&
-      Date.now() < this.get('muteExpiresAt')
-    );
+    return isMuted(this.get('muteExpiresAt'));
   }
 
   getMuteTimeoutId(): string {
@@ -4014,19 +4897,16 @@ export class ConversationModel extends window.Backbone.Model<
     });
   }
 
-  notifyTyping(
-    options: {
-      isTyping: boolean;
-      senderId: string;
-      isMe: boolean;
-      senderDevice: string;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } = ({} as unknown) as any
-  ): void {
-    const { isTyping, senderId, isMe, senderDevice } = options;
+  notifyTyping(options: {
+    isTyping: boolean;
+    senderId: string;
+    fromMe: boolean;
+    senderDevice: string;
+  }): void {
+    const { isTyping, senderId, fromMe, senderDevice } = options;
 
     // We don't do anything with typing messages from our other devices
-    if (isMe) {
+    if (fromMe) {
       return;
     }
 
@@ -4151,7 +5031,7 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
             delete this._byUuid[oldValue];
           }
           if (idProp === 'groupId') {
-            delete this._byGroupid[oldValue];
+            delete this._byGroupId[oldValue];
           }
         }
         if (model.get('e164')) {
@@ -4161,7 +5041,7 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
           this._byUuid[model.get('uuid')] = model;
         }
         if (model.get('groupId')) {
-          this._byGroupid[model.get('groupId')] = model;
+          this._byGroupId[model.get('groupId')] = model;
         }
       }
     );
@@ -4212,15 +5092,37 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
     this._byGroupId = Object.create(null);
   },
 
-  add(...models: Array<WhatIsThis>) {
-    const result = window.Backbone.Collection.prototype.add.apply(
-      this,
-      models as WhatIsThis
+  add(data: WhatIsThis | Array<WhatIsThis>) {
+    let hydratedData;
+
+    // First, we need to ensure that the data we're working with is Conversation models
+    if (Array.isArray(data)) {
+      hydratedData = [];
+      for (let i = 0, max = data.length; i < max; i += 1) {
+        const item = data[i];
+
+        // We create a new model if it's not already a model
+        if (!item.get) {
+          hydratedData.push(new Whisper.Conversation(item));
+        } else {
+          hydratedData.push(item);
+        }
+      }
+    } else if (!data.get) {
+      hydratedData = new Whisper.Conversation(data);
+    } else {
+      hydratedData = data;
+    }
+
+    // Next, we update our lookups first to prevent infinite loops on the 'add' event
+    this.generateLookups(
+      Array.isArray(hydratedData) ? hydratedData : [hydratedData]
     );
 
-    this.generateLookups(Array.isArray(result) ? result.slice(0) : [result]);
+    // Lastly, we fire off the add events related to this change
+    window.Backbone.Collection.prototype.add.call(this, hydratedData);
 
-    return result;
+    return hydratedData;
   },
 
   /**
@@ -4293,6 +5195,20 @@ window.Whisper.GroupMemberConversation = window.Backbone.Model.extend({
   },
 });
 
+type SortableByTitle = {
+  getTitle: () => string;
+};
+
+const sortConversationTitles = (
+  left: SortableByTitle,
+  right: SortableByTitle,
+  collator: Intl.Collator
+) => {
+  const leftLower = left.getTitle().toLowerCase();
+  const rightLower = right.getTitle().toLowerCase();
+  return collator.compare(leftLower, rightLower);
+};
+
 // We need a custom collection here to get the sorting we need
 window.Whisper.GroupConversationCollection = window.Backbone.Collection.extend({
   model: window.Whisper.GroupMemberConversation,
@@ -4309,8 +5225,6 @@ window.Whisper.GroupConversationCollection = window.Backbone.Collection.extend({
       return 1;
     }
 
-    const leftLower = left.getTitle().toLowerCase();
-    const rightLower = right.getTitle().toLowerCase();
-    return this.collator.compare(leftLower, rightLower);
+    return sortConversationTitles(left, right, this.collator);
   },
 });

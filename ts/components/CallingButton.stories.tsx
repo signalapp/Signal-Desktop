@@ -1,14 +1,13 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import { number, select } from '@storybook/addon-knobs';
+import { select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
-import {
-  CallingButton,
-  CallingButtonType,
-  PropsType,
-  TooltipDirection,
-} from './CallingButton';
+import { CallingButton, CallingButtonType, PropsType } from './CallingButton';
+import { TooltipPlacement } from './Tooltip';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
 
@@ -24,12 +23,8 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   onClick: action('on-click'),
   tooltipDirection: select(
     'tooltipDirection',
-    TooltipDirection,
-    overrideProps.tooltipDirection || TooltipDirection.DOWN
-  ),
-  tooltipDistance: number(
-    'tooltipDistance',
-    overrideProps.tooltipDistance || 16
+    TooltipPlacement,
+    overrideProps.tooltipDirection || TooltipPlacement.Bottom
   ),
 });
 
@@ -84,7 +79,7 @@ story.add('Video Disabled', () => {
 
 story.add('Tooltip right', () => {
   const props = createProps({
-    tooltipDirection: TooltipDirection.RIGHT,
+    tooltipDirection: TooltipPlacement.Right,
   });
   return <CallingButton {...props} />;
 });

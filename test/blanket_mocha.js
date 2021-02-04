@@ -1,3 +1,6 @@
+// Copyright 2014-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /*! blanket - v1.1.5 */
 
 (function(define) {
@@ -5817,7 +5820,7 @@ blanket.defaultReporter = function(coverage) {
               try {
                 if (_blanket.options('debug')) {
                   console.log(
-                    'BLANKET-instrument of:' + url + ' was successfull.'
+                    'BLANKET-instrument of:' + url + ' was successful.'
                   );
                 }
                 _blanket.utils.blanketEval(instrumented);

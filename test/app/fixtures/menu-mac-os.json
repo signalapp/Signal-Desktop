@@ -162,6 +162,7 @@
       },
       {
         "label": "Show",
+        "accelerator": "CmdOrCtrl+Shift+0",
         "click": null
       },
       {
@@ -199,10 +200,6 @@
       },
       {
         "label": "Go to Support Page",
-        "click": null
-      },
-      {
-        "label": "Go to GitHub",
         "click": null
       },
       {

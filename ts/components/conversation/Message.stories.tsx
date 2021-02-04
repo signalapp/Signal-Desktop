@@ -1,4 +1,8 @@
+// Copyright 2020-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import * as React from 'react';
+import { isBoolean } from 'lodash';
 
 import { action } from '@storybook/addon-actions';
 import { boolean, number, text } from '@storybook/addon-knobs';
@@ -40,11 +44,13 @@ const renderEmojiPicker: Props['renderEmojiPicker'] = ({
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   attachments: overrideProps.attachments,
+  authorId: overrideProps.authorId || 'some-id',
   authorColor: overrideProps.authorColor || 'blue',
   authorAvatarPath: overrideProps.authorAvatarPath,
   authorTitle: text('authorTitle', overrideProps.authorTitle || ''),
   bodyRanges: overrideProps.bodyRanges,
   canReply: true,
+  canDownload: true,
   canDeleteForEveryone: overrideProps.canDeleteForEveryone || false,
   clearSelectedMessage: action('clearSelectedMessage'),
   collapseMetadata: overrideProps.collapseMetadata,
@@ -67,9 +73,16 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
   id: text('id', overrideProps.id || ''),
   interactionMode: overrideProps.interactionMode || 'keyboard',
+  isBlocked: isBoolean(overrideProps.isBlocked)
+    ? overrideProps.isBlocked
+    : false,
+  isMessageRequestAccepted: isBoolean(overrideProps.isMessageRequestAccepted)
+    ? overrideProps.isMessageRequestAccepted
+    : true,
   isTapToView: overrideProps.isTapToView,
   isTapToViewError: overrideProps.isTapToViewError,
   isTapToViewExpired: overrideProps.isTapToViewExpired,
+  kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   openConversation: action('openConversation'),
   openLink: action('openLink'),
   previews: overrideProps.previews || [],
@@ -81,6 +94,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
   selectMessage: action('selectMessage'),
   showContactDetail: action('showContactDetail'),
+  showContactModal: action('showContactModal'),
   showExpiredIncomingTapToViewToast: action(
     'showExpiredIncomingTapToViewToast'
   ),
@@ -195,7 +209,7 @@ story.add('Older', () => {
   return renderBothDirections(props);
 });
 
-story.add('Reactions', () => {
+story.add('Reactions (wider message)', () => {
   const props = createProps({
     text: 'Hello there from a pal!',
     timestamp: Date.now() - 180 * 24 * 60 * 60 * 1000,
@@ -280,6 +294,98 @@ story.add('Reactions', () => {
           title: 'Amelia',
         },
         timestamp: Date.now() - 10,
+      },
+    ],
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('Reactions (short message)', () => {
+  const props = createProps({
+    text: 'h',
+    timestamp: Date.now(),
+    reactions: [
+      {
+        emoji: '👍',
+        from: {
+          isMe: true,
+          id: '+14155552672',
+          phoneNumber: '+14155552672',
+          name: 'Me',
+          title: 'Me',
+        },
+        timestamp: Date.now(),
+      },
+      {
+        emoji: '👍',
+        from: {
+          id: '+14155552672',
+          phoneNumber: '+14155552672',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        },
+        timestamp: Date.now(),
+      },
+      {
+        emoji: '👍',
+        from: {
+          id: '+14155552673',
+          phoneNumber: '+14155552673',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        },
+        timestamp: Date.now(),
+      },
+      {
+        emoji: '😂',
+        from: {
+          id: '+14155552674',
+          phoneNumber: '+14155552674',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        },
+        timestamp: Date.now(),
+      },
+      {
+        emoji: '😂',
+        from: {
+          id: '+14155552676',
+          phoneNumber: '+14155552676',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        },
+        timestamp: Date.now(),
+      },
+      {
+        emoji: '😡',
+        from: {
+          id: '+14155552677',
+          phoneNumber: '+14155552677',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        },
+        timestamp: Date.now(),
+      },
+      {
+        emoji: '👎',
+        from: {
+          id: '+14155552678',
+          phoneNumber: '+14155552678',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        },
+        timestamp: Date.now(),
+      },
+      {
+        emoji: '❤️',
+        from: {
+          id: '+14155552679',
+          phoneNumber: '+14155552679',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        },
+        timestamp: Date.now(),
       },
     ],
   });
@@ -516,33 +622,6 @@ story.add('Link Preview with no date', () => {
         description:
           'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
         url: 'https://www.signal.org',
-      },
-    ],
-    status: 'sent',
-    text: 'Be sure to look at https://www.signal.org',
-  });
-
-  return renderBothDirections(props);
-});
-
-story.add('Link Preview with too old a date', () => {
-  const props = createProps({
-    previews: [
-      {
-        domain: 'signal.org',
-        image: {
-          contentType: IMAGE_PNG,
-          fileName: 'the-sax.png',
-          height: 240,
-          url: pngUrl,
-          width: 320,
-        },
-        isStickerPack: false,
-        title: 'Signal',
-        description:
-          'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
-        url: 'https://www.signal.org',
-        date: 123,
       },
     ],
     status: 'sent',
@@ -791,6 +870,52 @@ story.add('@Mentions', () => {
       },
     ],
     text: '\uFFFC This Is It. The Moment We Should Have Trained For.',
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('All the context menus', () => {
+  const props = createProps({
+    attachments: [
+      {
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        contentType: IMAGE_JPEG,
+        width: 128,
+        height: 128,
+      },
+    ],
+    status: 'partial-sent',
+    canDeleteForEveryone: true,
+  });
+
+  return <Message {...props} direction="outgoing" />;
+});
+
+story.add('Not approved, with link preview', () => {
+  const props = createProps({
+    previews: [
+      {
+        domain: 'signal.org',
+        image: {
+          contentType: IMAGE_PNG,
+          fileName: 'the-sax.png',
+          height: 240,
+          url: pngUrl,
+          width: 320,
+        },
+        isStickerPack: false,
+        title: 'Signal',
+        description:
+          'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
+        url: 'https://www.signal.org',
+        date: new Date(2020, 2, 10).valueOf(),
+      },
+    ],
+    status: 'sent',
+    text: 'Be sure to look at https://www.signal.org',
+    isMessageRequestAccepted: false,
   });
 
   return renderBothDirections(props);

@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import React, { CSSProperties } from 'react';
 import classNames from 'classnames';
 import { isNumber } from 'lodash';
@@ -35,11 +38,12 @@ export type PropsData = {
   isMe?: boolean;
   muteExpiresAt?: number;
 
-  lastUpdated: number;
+  lastUpdated?: number;
   unreadCount?: number;
-  isSelected: boolean;
+  markedUnread?: boolean;
+  isSelected?: boolean;
 
-  isAccepted?: boolean;
+  acceptedMessageRequest?: boolean;
   draftPreview?: string;
   shouldShowDraft?: boolean;
 
@@ -93,13 +97,19 @@ export class ConversationListItem extends React.PureComponent<Props> {
     );
   }
 
+  isUnread(): boolean {
+    const { markedUnread, unreadCount } = this.props;
+
+    return Boolean((isNumber(unreadCount) && unreadCount > 0) || markedUnread);
+  }
+
   public renderUnread(): JSX.Element | null {
     const { unreadCount } = this.props;
 
-    if (isNumber(unreadCount) && unreadCount > 0) {
+    if (this.isUnread()) {
       return (
         <div className="module-conversation-list-item__unread-count">
-          {unreadCount}
+          {unreadCount || ''}
         </div>
       );
     }
@@ -109,7 +119,6 @@ export class ConversationListItem extends React.PureComponent<Props> {
 
   public renderHeader(): JSX.Element {
     const {
-      unreadCount,
       i18n,
       isMe,
       lastUpdated,
@@ -119,14 +128,12 @@ export class ConversationListItem extends React.PureComponent<Props> {
       title,
     } = this.props;
 
-    const withUnread = isNumber(unreadCount) && unreadCount > 0;
-
     return (
       <div className="module-conversation-list-item__header">
         <div
           className={classNames(
             'module-conversation-list-item__header__name',
-            withUnread
+            this.isUnread()
               ? 'module-conversation-list-item__header__name--with-unread'
               : null
           )}
@@ -146,7 +153,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
         <div
           className={classNames(
             'module-conversation-list-item__header__date',
-            withUnread
+            this.isUnread()
               ? 'module-conversation-list-item__header__date--has-unread'
               : null
           )}
@@ -155,7 +162,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
             timestamp={lastUpdated}
             extended={false}
             module="module-conversation-list-item__header__timestamp"
-            withUnread={withUnread}
+            withUnread={this.isUnread()}
             i18n={i18n}
           />
         </div>
@@ -167,41 +174,30 @@ export class ConversationListItem extends React.PureComponent<Props> {
     const {
       draftPreview,
       i18n,
-      isAccepted,
+      acceptedMessageRequest,
       lastMessage,
       muteExpiresAt,
       shouldShowDraft,
       typingContact,
-      unreadCount,
     } = this.props;
     if (!lastMessage && !typingContact) {
       return null;
     }
 
-    const withUnread = isNumber(unreadCount) && unreadCount > 0;
+    const messageBody = lastMessage ? lastMessage.text : '';
     const showingDraft = shouldShowDraft && draftPreview;
     const deletedForEveryone = Boolean(
       lastMessage && lastMessage.deletedForEveryone
     );
 
-    // Note: instead of re-using showingDraft here we explode it because
-    //   typescript can't tell that draftPreview is truthy otherwise
-    // Avoiding touching logic to fix linting
     /* eslint-disable no-nested-ternary */
-    const text =
-      shouldShowDraft && draftPreview
-        ? draftPreview
-        : lastMessage && lastMessage.text
-        ? lastMessage.text
-        : '';
-
     return (
       <div className="module-conversation-list-item__message">
         <div
           dir="auto"
           className={classNames(
             'module-conversation-list-item__message__text',
-            withUnread
+            this.isUnread()
               ? 'module-conversation-list-item__message__text--has-unread'
               : null
           )}
@@ -209,7 +205,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
           {muteExpiresAt && Date.now() < muteExpiresAt && (
             <span className="module-conversation-list-item__muted" />
           )}
-          {!isAccepted ? (
+          {!acceptedMessageRequest ? (
             <span className="module-conversation-list-item__message-request">
               {i18n('ConversationListItem--message-request')}
             </span>
@@ -218,20 +214,29 @@ export class ConversationListItem extends React.PureComponent<Props> {
           ) : (
             <>
               {showingDraft ? (
-                <span className="module-conversation-list-item__message__draft-prefix">
-                  {i18n('ConversationListItem--draft-prefix')}
-                </span>
+                <>
+                  <span className="module-conversation-list-item__message__draft-prefix">
+                    {i18n('ConversationListItem--draft-prefix')}
+                  </span>
+                  <MessageBody
+                    text={(draftPreview || '').split('\n')[0]}
+                    disableJumbomoji
+                    disableLinks
+                    i18n={i18n}
+                  />
+                </>
               ) : deletedForEveryone ? (
                 <span className="module-conversation-list-item__message__deleted-for-everyone">
                   {i18n('message--deletedForEveryone')}
                 </span>
-              ) : null}
-              <MessageBody
-                text={text.split('\n')[0]}
-                disableJumbomoji
-                disableLinks
-                i18n={i18n}
-              />
+              ) : (
+                <MessageBody
+                  text={(messageBody || '').split('\n')[0]}
+                  disableJumbomoji
+                  disableLinks
+                  i18n={i18n}
+                />
+              )}
             </>
           )}
         </div>
@@ -249,8 +254,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
   /* eslint-enable no-nested-ternary */
 
   public render(): JSX.Element {
-    const { unreadCount, onClick, id, isSelected, style } = this.props;
-    const withUnread = isNumber(unreadCount) && unreadCount > 0;
+    const { id, isSelected, onClick, style } = this.props;
 
     return (
       <button
@@ -263,7 +267,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
         style={style}
         className={classNames(
           'module-conversation-list-item',
-          withUnread ? 'module-conversation-list-item--has-unread' : null,
+          this.isUnread() ? 'module-conversation-list-item--has-unread' : null,
           isSelected ? 'module-conversation-list-item--is-selected' : null
         )}
         data-id={cleanId(id)}

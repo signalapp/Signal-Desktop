@@ -1,10 +1,13 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint-disable no-console */
 
 const fs = require('fs');
 const _ = require('lodash');
 
 const packageJson = require('./package.json');
-const { isBeta } = require('./app/version');
+const { isBeta } = require('./ts/util/version');
 
 const { version } = packageJson;
 

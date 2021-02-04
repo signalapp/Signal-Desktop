@@ -1,42 +1,90 @@
 diff --git a/node_modules/node-fetch/lib/index.es.js b/node_modules/node-fetch/lib/index.es.js
-index 61906c9..51ee2bd 100644
+index 61906c9..f09f5bd 100644
 --- a/node_modules/node-fetch/lib/index.es.js
 +++ b/node_modules/node-fetch/lib/index.es.js
-@@ -1404,6 +1404,9 @@ function fetch(url, opts) {
- 		// build request object
- 		const request = new Request(url, opts);
- 		const options = getNodeRequestOptions(request);
-+		if (opts && opts.ca) {
-+			options.ca = opts.ca;
-+		}
+@@ -1231,6 +1231,9 @@ class Request {
+ 		this.compress = init.compress !== undefined ? init.compress : input.compress !== undefined ? input.compress : true;
+ 		this.counter = init.counter || input.counter || 0;
+ 		this.agent = init.agent || input.agent;
++
++		// Custom Signal Desktop option
++		this.ca = init.ca || input.ca;
+ 	}
  
- 		const send = (options.protocol === 'https:' ? https : http).request;
- 		const signal = request.signal;
+ 	get method() {
+@@ -1350,7 +1353,7 @@ function getNodeRequestOptions(request) {
+ 		method: request.method,
+ 		headers: exportNodeCompatibleHeaders(headers),
+ 		agent
+-	});
++	}, request.ca ? { ca: request.ca } : {});
+ }
+ 
+ /**
+@@ -1514,7 +1517,8 @@ function fetch(url, opts) {
+ 							body: request.body,
+ 							signal: request.signal,
+ 							timeout: request.timeout,
+-							size: request.size
++							size: request.size,
++							ca: request.ca,
+ 						};
+ 
+ 						// HTTP-redirect fetch step 9
 diff --git a/node_modules/node-fetch/lib/index.js b/node_modules/node-fetch/lib/index.js
-index 4b241bf..88de03f 100644
+index 4b241bf..23fa901 100644
 --- a/node_modules/node-fetch/lib/index.js
 +++ b/node_modules/node-fetch/lib/index.js
-@@ -1408,6 +1408,9 @@ function fetch(url, opts) {
- 		// build request object
- 		const request = new Request(url, opts);
- 		const options = getNodeRequestOptions(request);
-+		if (opts && opts.ca) {
-+			options.ca = opts.ca;
-+		}
+@@ -1235,6 +1235,9 @@ class Request {
+ 		this.compress = init.compress !== undefined ? init.compress : input.compress !== undefined ? input.compress : true;
+ 		this.counter = init.counter || input.counter || 0;
+ 		this.agent = init.agent || input.agent;
++
++		// Custom Signal Desktop option
++		this.ca = init.ca || input.ca;
+ 	}
  
- 		const send = (options.protocol === 'https:' ? https : http).request;
- 		const signal = request.signal;
+ 	get method() {
+@@ -1354,7 +1357,7 @@ function getNodeRequestOptions(request) {
+ 		method: request.method,
+ 		headers: exportNodeCompatibleHeaders(headers),
+ 		agent
+-	});
++	}, request.ca ? { ca: request.ca } : {});
+ }
+ 
+ /**
+@@ -1518,7 +1521,8 @@ function fetch(url, opts) {
+ 							body: request.body,
+ 							signal: request.signal,
+ 							timeout: request.timeout,
+-							size: request.size
++							size: request.size,
++							ca: request.ca,
+ 						};
+ 
+ 						// HTTP-redirect fetch step 9
 diff --git a/node_modules/node-fetch/lib/index.mjs b/node_modules/node-fetch/lib/index.mjs
-index ecf59af..b4af5ff 100644
+index ecf59af..b723a5c 100644
 --- a/node_modules/node-fetch/lib/index.mjs
 +++ b/node_modules/node-fetch/lib/index.mjs
-@@ -1402,6 +1402,9 @@ function fetch(url, opts) {
- 		// build request object
- 		const request = new Request(url, opts);
- 		const options = getNodeRequestOptions(request);
-+		if (opts && opts.ca) {
-+			options.ca = opts.ca;
-+		}
+@@ -1229,6 +1229,9 @@ class Request {
+ 		this.compress = init.compress !== undefined ? init.compress : input.compress !== undefined ? input.compress : true;
+ 		this.counter = init.counter || input.counter || 0;
+ 		this.agent = init.agent || input.agent;
++
++		// Custom Signal Desktop option
++		this.ca = init.ca || input.ca;
+ 	}
  
- 		const send = (options.protocol === 'https:' ? https : http).request;
- 		const signal = request.signal;
+ 	get method() {
+@@ -1512,7 +1515,8 @@ function fetch(url, opts) {
+ 							body: request.body,
+ 							signal: request.signal,
+ 							timeout: request.timeout,
+-							size: request.size
++							size: request.size,
++							ca: request.ca,
+ 						};
+ 
+ 						// HTTP-redirect fetch step 9

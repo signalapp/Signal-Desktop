@@ -1,3 +1,6 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import React from 'react';
 import classNames from 'classnames';
 
@@ -7,7 +10,7 @@ import { LinkPreviewDate } from './LinkPreviewDate';
 import { AttachmentType, isImageAttachment } from '../../types/Attachment';
 import { LocalizerType } from '../../types/Util';
 
-export interface Props {
+export type Props = {
   isLoaded: boolean;
   title: string;
   description: null | string;
@@ -17,7 +20,7 @@ export interface Props {
 
   i18n: LocalizerType;
   onClose?: () => void;
-}
+};
 
 export const StagedLinkPreview: React.FC<Props> = ({
   isLoaded,
@@ -29,7 +32,7 @@ export const StagedLinkPreview: React.FC<Props> = ({
   date,
   domain,
 }: Props) => {
-  const isImage = image && isImageAttachment(image);
+  const isImage = isImageAttachment(image);
 
   return (
     <div

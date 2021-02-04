@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 export default function createTaskWithTimeout<T>(
   task: () => Promise<T>,
   id: string,
@@ -12,8 +15,9 @@ export default function createTaskWithTimeout<T>(
       let complete = false;
       let timer: NodeJS.Timeout | null = setTimeout(() => {
         if (!complete) {
-          const message = `${id ||
-            ''} task did not complete in time. Calling stack: ${
+          const message = `${
+            id || ''
+          } task did not complete in time. Calling stack: ${
             errorForStack.stack
           }`;
 

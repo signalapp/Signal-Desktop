@@ -1,4 +1,7 @@
-(function() {
+// Copyright 2014-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+(function () {
   'use strict';
 
   /*
@@ -9,7 +12,7 @@
 
   window.libphonenumber = window.libphonenumber || {};
   window.libphonenumber.util = {
-    getRegionCodeForNumber: function(number) {
+    getRegionCodeForNumber: function (number) {
       try {
         var parsedNumber = libphonenumber.parse(number);
         return libphonenumber.getRegionCodeForNumber(parsedNumber);
@@ -18,7 +21,7 @@
       }
     },
 
-    splitCountryCode: function(number) {
+    splitCountryCode: function (number) {
       var parsedNumber = libphonenumber.parse(number);
       return {
         country_code: parsedNumber.values_[1],
@@ -26,12 +29,12 @@
       };
     },
 
-    getCountryCode: function(regionCode) {
+    getCountryCode: function (regionCode) {
       var cc = libphonenumber.getCountryCodeForRegion(regionCode);
       return cc !== 0 ? cc : '';
     },
 
-    parseNumber: function(number, defaultRegionCode) {
+    parseNumber: function (number, defaultRegionCode) {
       try {
         var parsedNumber = libphonenumber.parse(number, defaultRegionCode);
 
@@ -50,7 +53,7 @@
       }
     },
 
-    getAllRegionCodes: function() {
+    getAllRegionCodes: function () {
       return {
         AD: 'Andorra',
         AE: 'United Arab Emirates',

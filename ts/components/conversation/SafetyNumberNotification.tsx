@@ -1,16 +1,19 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import React from 'react';
 
 import { ContactName } from './ContactName';
 import { Intl } from '../Intl';
 import { LocalizerType } from '../../types/Util';
 
-export interface ContactType {
+export type ContactType = {
   id: string;
   phoneNumber?: string;
   profileName?: string;
   title: string;
   name?: string;
-}
+};
 
 export type PropsData = {
   isGroup: boolean;

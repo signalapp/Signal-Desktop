@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable more/no-then */
@@ -15,7 +18,7 @@ import WebSocketResource, {
   IncomingWebSocketRequest,
 } from './WebsocketResources';
 
-const ARCHIVE_AGE = 7 * 24 * 60 * 60 * 1000;
+const ARCHIVE_AGE = 30 * 24 * 60 * 60 * 1000;
 
 function getIdentifier(id: string) {
   if (!id || !id.length) {
@@ -163,7 +166,7 @@ export default class AccountManager extends EventTarget {
             .then(async (keys: GeneratedKeysType) =>
               registerKeys(keys).then(async () => confirmKeys(keys))
             )
-            .then(async () => registrationDone({ number }));
+            .then(async () => registrationDone());
         }
       )
     );
@@ -271,9 +274,7 @@ export default class AccountManager extends EventTarget {
                                   confirmKeys(keys)
                                 )
                               )
-                              .then(async () =>
-                                registrationDone(provisionMessage)
-                              );
+                              .then(registrationDone);
                           }
                         )
                       )
@@ -484,7 +485,7 @@ export default class AccountManager extends EventTarget {
     readReceipts?: boolean | null,
     options: { accessKey?: ArrayBuffer; uuid?: string } = {}
   ): Promise<void> {
-    const { accessKey } = options;
+    const { accessKey, uuid } = options;
     let password = btoa(
       utils.getString(window.libsignal.crypto.getRandomBytes(16))
     );
@@ -523,8 +524,7 @@ export default class AccountManager extends EventTarget {
     );
 
     const numberChanged = previousNumber && previousNumber !== number;
-    const uuidChanged =
-      previousUuid && response.uuid && previousUuid !== response.uuid;
+    const uuidChanged = previousUuid && uuid && previousUuid !== uuid;
 
     if (numberChanged || uuidChanged) {
       if (numberChanged) {
@@ -573,18 +573,30 @@ export default class AccountManager extends EventTarget {
       deviceName
     );
 
-    const setUuid = response.uuid;
-    if (setUuid) {
+    if (uuid) {
       await window.textsecure.storage.user.setUuidAndDeviceId(
-        setUuid,
+        uuid,
         response.deviceId || 1
       );
+    }
+
+    // This needs to be done very early, because it changes how things are saved in the
+    //   database. Your identity, for example, in the saveIdentityWithAttributes call
+    //   below.
+    const conversationId = window.ConversationController.ensureContactIds({
+      e164: number,
+      uuid,
+      highTrust: true,
+    });
+
+    if (!conversationId) {
+      throw new Error('registrationDone: no conversationId!');
     }
 
     // update our own identity key, which may have changed
     // if we're relinking after a reinstall on the master device
     await window.textsecure.storage.protocol.saveIdentityWithAttributes(
-      number,
+      uuid || number,
       {
         publicKey: identityKeyPair.pubKey,
         firstUse: true,
@@ -713,20 +725,8 @@ export default class AccountManager extends EventTarget {
     });
   }
 
-  async registrationDone({ uuid, number }: { uuid?: string; number?: string }) {
+  async registrationDone() {
     window.log.info('registration done');
-
-    const conversationId = window.ConversationController.ensureContactIds({
-      e164: number,
-      uuid,
-      highTrust: true,
-    });
-    if (!conversationId) {
-      throw new Error('registrationDone: no conversationId!');
-    }
-
-    window.log.info('dispatching registration event');
-
     this.dispatchEvent(new Event('registration'));
   }
 }

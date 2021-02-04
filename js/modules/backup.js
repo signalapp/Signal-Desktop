@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* global Signal: false */
 /* global Whisper: false */
 /* global _: false */
@@ -20,6 +23,7 @@ const rimraf = require('rimraf');
 const electronRemote = require('electron').remote;
 
 const crypto = require('../../ts/Crypto');
+const { getEnvironment } = require('../../ts/environment');
 
 const { dialog, BrowserWindow } = electronRemote;
 
@@ -184,7 +188,6 @@ async function importConversationsFromJSON(conversations, options) {
     if (haveConversationAlready) {
       skipCount += 1;
       count += 1;
-      // eslint-disable-next-line no-continue
       continue;
     }
 
@@ -671,6 +674,7 @@ async function exportConversation(conversation, options = {}) {
 
   // We're looping from the most recent to the oldest
   let lastReceivedAt = Number.MAX_VALUE;
+  let lastSentAt = Number.MAX_VALUE;
 
   while (!complete) {
     // eslint-disable-next-line no-await-in-loop
@@ -679,6 +683,7 @@ async function exportConversation(conversation, options = {}) {
       {
         limit: CHUNK_SIZE,
         receivedAt: lastReceivedAt,
+        sentAt: lastSentAt,
         MessageCollection: Whisper.MessageCollection,
       }
     );
@@ -694,7 +699,6 @@ async function exportConversation(conversation, options = {}) {
 
       // skip message if it is disappearing, no matter the amount of time left
       if (message.expireTimer || message.messageTimer || message.isViewOnce) {
-        // eslint-disable-next-line no-continue
         continue;
       }
 
@@ -770,6 +774,7 @@ async function exportConversation(conversation, options = {}) {
     const last = messages.length > 0 ? messages[messages.length - 1] : null;
     if (last) {
       lastReceivedAt = last.received_at;
+      lastSentAt = last.sent_at;
     }
 
     if (messages.length < CHUNK_SIZE) {
@@ -1194,7 +1199,7 @@ function deleteAll(pattern) {
 const ARCHIVE_NAME = 'messages.tar.gz';
 
 async function exportToDirectory(directory, options) {
-  const env = window.getEnvironment();
+  const env = getEnvironment();
   if (env !== 'test') {
     throw new Error('export is only supported in test mode');
   }
@@ -1262,7 +1267,7 @@ async function importFromDirectory(directory, options) {
 
     const archivePath = path.join(directory, ARCHIVE_NAME);
     if (fs.existsSync(archivePath)) {
-      const env = window.getEnvironment();
+      const env = getEnvironment();
       if (env !== 'test') {
         throw new Error('import is only supported in test mode');
       }

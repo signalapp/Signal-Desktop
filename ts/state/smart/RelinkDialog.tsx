@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
 import { RelinkDialog } from '../../components/RelinkDialog';

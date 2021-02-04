@@ -1,13 +1,22 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { get, throttle } from 'lodash';
 import { WebAPIType } from './textsecure/WebAPI';
 
 type ConfigKeyType =
-  | 'desktop.messageRequests'
-  | 'desktop.gv2'
   | 'desktop.cds'
+  | 'desktop.clientExpiration'
+  | 'desktop.disableGV1'
+  | 'desktop.groupCalling'
+  | 'desktop.gv2'
+  | 'desktop.gv2Admin'
+  | 'desktop.mandatoryProfileSharing'
+  | 'desktop.messageRequests'
   | 'desktop.storage'
-  | 'desktop.storageWrite'
-  | 'desktop.clientExpiration';
+  | 'desktop.storageWrite2'
+  | 'global.groupsv2.maxGroupSize'
+  | 'global.groupsv2.groupSizeHardLimit';
 type ConfigValueType = {
   name: ConfigKeyType;
   enabled: boolean;
@@ -107,4 +116,8 @@ export const maybeRefreshRemoteConfig = throttle(
 
 export function isEnabled(name: ConfigKeyType): boolean {
   return get(config, [name, 'enabled'], false);
+}
+
+export function getValue(name: ConfigKeyType): string | undefined {
+  return get(config, [name, 'value'], undefined);
 }

@@ -1,10 +1,13 @@
+// Copyright 2020-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import React from 'react';
 
 import { Dialogs } from '../types/Dialogs';
 import { Intl } from './Intl';
 import { LocalizerType } from '../types/Util';
 
-export interface PropsType {
+export type PropsType = {
   ackRender: () => void;
   dialogType: Dialogs;
   didSnooze: boolean;
@@ -14,7 +17,7 @@ export interface PropsType {
   showEventsCount: number;
   snoozeUpdate: () => void;
   startUpdate: () => void;
-}
+};
 
 export const UpdateDialog = ({
   ackRender,

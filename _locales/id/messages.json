@@ -1,6 +1,6 @@
 {
     "softwareAcknowledgments": {
-        "message": "Software Acknowledgments",
+        "message": "Pernyataan Resmi Perangkat Lunak",
         "description": "Shown in the about box for the link to software acknowledgments"
     },
     "privacyPolicy": {
@@ -163,6 +163,10 @@
         "message": "Salin Tautan",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
+    "contextMenuCopyImage": {
+        "message": "Salin Gambar",
+        "description": "Shown in the context menu for an image to indicate that the user can copy the image"
+    },
     "contextMenuNoSuggestions": {
         "message": "Tidak ada usulan",
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
@@ -206,11 +210,15 @@
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
-        "message": "Arsipkan Percakapan",
+        "message": "Arsip",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
+    "markUnread": {
+        "message": "Tandai belum dibaca",
+        "description": "Shown in menu for conversation, and marks conversation as unread"
+    },
     "moveConversationToInbox": {
-        "message": "Pindahkan Percakapan ke Kotak Masuk",
+        "message": "Tidak Terarsip",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
@@ -300,8 +308,12 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "You are no longer a member of the group.",
+        "message": "Anda sudah bukan anggota dari grup ini.",
         "description": "Displayed when a user can't send a message because they have left the group"
+    },
+    "invalidConversation": {
+        "message": "This group is invalid. Please create a new group.",
+        "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
     },
     "scrollDown": {
         "message": "Gulir ke bagian bawah pembicaraan",
@@ -374,7 +386,7 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
-        "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name1$. Remember, this change could mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal.",
+        "message": "Nomor keamanan yang Anda coba verifikasi telah berubah. Mohon tinjau ulang nomor keamanan baru Anda dengan $name1$. Ingat, perubahan ini berarti seseorang telah mencoba menghadang komunikasi Anda atau $name2$ telah memasang ulang Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name1": {
@@ -388,11 +400,11 @@
         }
     },
     "changedVerificationWarning": {
-        "message": "The following people may have reinstalled or changed devices. Verify your safety number with them to ensure privacy.",
+        "message": "Orang-orang berikut mungkin telah memasang ulang atau mengganti perangkat. Verifikasi nomor keamanan Anda dengan mereka untuk memastikan privasi.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "identityKeyErrorOnSend": {
-        "message": "Your safety number with $name1$ has changed. This could either mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
+        "message": "Nomor keamanan Anda dengan $name1$ telah berubah. Ini bisa berarti seseorang mencoba mencegat komunikasi Anda atau $name2$ hanya memasang ulang Signal. Anda bisa memverifikasi nomor keamanan Anda dengan kontak ini.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name1": {
@@ -412,6 +424,10 @@
     "callAnyway": {
         "message": "Telepon saja",
         "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+    },
+    "continueCall": {
+        "message": "Lanjutkan Panggilan",
+        "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
         "message": "Nomor keamanan Anda dengan $name$ telah berubah dan tidak lagi diverifikasi. Klik untuk menampilkan.",
@@ -665,10 +681,6 @@
         "message": "Cek halaman bantuan",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "goToGithub": {
-        "message": "Ke Github",
-        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
-    },
     "joinTheBeta": {
         "message": "Gabung uji versi beta",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
@@ -710,7 +722,7 @@
         "description": "Placeholder text in the search input"
     },
     "clearSearch": {
-        "message": "Clear Search",
+        "message": "Bersihkan Pencarian",
         "description": "Aria label for clear search button"
     },
     "searchIn": {
@@ -772,7 +784,7 @@
         "description": "Used as the 'title' attribute for the typing animation"
     },
     "contactInAddressBook": {
-        "message": "This person is in your contacts.",
+        "message": "Orang ini ada di kontak Anda.",
         "description": "Description of icon denoting that contact is from your address book"
     },
     "contactAvatarAlt": {
@@ -890,11 +902,11 @@
         "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
-        "message": "For calling, you must allow Signal Desktop to access your microphone.",
+        "message": "Untuk melakukan panggilan, Anda harus mengizinkan Signal Desktop untuk mengakses mikrofon Anda.",
         "description": "Shown if the user attempts access the microphone for calling without audio permissions turned on"
     },
     "videoCallingPermissionNeeded": {
-        "message": "For video calling, you must allow Signal Desktop to access your camera.",
+        "message": "Untuk panggilan video, Anda harus mengizinkan Signal Desktop mengakses kamera Anda.",
         "description": "Shown if the user attempts access the camera for video calling without video permissions turned on"
     },
     "allowAccess": {
@@ -974,11 +986,11 @@
         "description": ""
     },
     "deleteWarning": {
-        "message": "Clicking 'delete' will permanently remove this message from your devices only.",
+        "message": "Mengklik 'hapus' akan secara permanen menghapus pesan ini hanya dari perangkat Anda.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "This message will be deleted for everyone in the conversation if they’re on a recent version of Signal. They will be able to see that you deleted a message.",
+        "message": "Pesan ini akan dihapus untuk setiap orang dalam percakapan ini jika mereka menggunakan versi terbaru Signal. Mereka dapat melihat ketika Anda menghapus sebuah pesan.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "deleteThisMessage": {
@@ -1044,11 +1056,11 @@
         "description": ""
     },
     "goBack": {
-        "message": "Go back",
+        "message": "Kembali",
         "description": "Label for back button in a conversation"
     },
     "moreInfo": {
-        "message": "Informasi Selengkapnya...",
+        "message": "Info lebih lanjut",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
@@ -1056,15 +1068,15 @@
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Delete message for me",
+        "message": "Hapus pesan untuk saya",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessageForEveryone": {
-        "message": "Delete message for everyone",
+        "message": "Hapus pesan untuk semua",
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
-        "message": "Hapus pesan",
+        "message": "Hapus",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
@@ -1180,40 +1192,148 @@
         "description": "Header for calling options on the settings screen"
     },
     "calling__start": {
-        "message": "Start Call",
+        "message": "Mulai Panggilan",
         "description": "Button label in the call lobby for starting a call"
     },
     "calling__join": {
-        "message": "Join Call",
+        "message": "Bergabung Panggilan",
         "description": "Button label in the call lobby for joining a call"
     },
+    "calling__return": {
+        "message": "Kembali ke Panggilan",
+        "description": "Button label in the call lobby for returning to a call"
+    },
+    "calling__call-is-full": {
+        "message": "Panggilan penuh",
+        "description": "Button label in the call lobby when you can't join because the call is full"
+    },
     "calling__button--video-disabled": {
-        "message": "Camera disabled",
+        "message": "Kamera dinonaktifkan",
         "description": "Button tooltip label when the camera is disabled"
     },
     "calling__button--video-off": {
-        "message": "Turn off camera",
+        "message": "Matikan kamera",
         "description": "Button tooltip label for turning off the camera"
     },
     "calling__button--video-on": {
-        "message": "Turn on camera",
+        "message": "Nyalakan kamera",
         "description": "Button tooltip label for turning on the camera"
     },
     "calling__button--audio-disabled": {
-        "message": "Microphone disabled",
+        "message": "Mikrofon dinonaktifkan",
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "Turn off microphone",
+        "message": "Bisukan mikrofon",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
-        "message": "Turn on microphone",
+        "message": "Bunyikan mikrofon",
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
-        "message": "Your video is off",
+        "message": "Kamera Anda mati",
         "description": "Label in the calling lobby indicating that your camera is off"
+    },
+    "calling__lobby-summary--zero": {
+        "message": "Tidak ada orang lain di sini",
+        "description": "Shown in the calling lobby to describe who is in the call"
+    },
+    "calling__lobby-summary--single": {
+        "message": "$first$ ada dalam panggilan ini",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__lobby-summary--self": {
+        "message": "Satu dari perangkat lain Anda sedang dalam panggilan ini",
+        "description": "Shown in the calling lobby to describe when it is just you"
+    },
+    "calling__lobby-summary--double": {
+        "message": "$first$dan$second$ ada dalam panggilan ini",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__lobby-summary--triple": {
+        "message": "$first$,$second$. dan $third$ berada dalam panggilan ini",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__lobby-summary--many": {
+        "message": "$first$, $second$, dan $others$ lainnya sedang dalam panggilan ini",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
+    "calling__in-this-call--zero": {
+        "message": "Tidak ada orang lain di sini",
+        "description": "Shown in the participants list to describe how many people are in the call"
+    },
+    "calling__in-this-call--one": {
+        "message": "Dalam panggilan ini · 1 orang",
+        "description": "Shown in the participants list to describe how many people are in the call"
+    },
+    "calling__in-this-call--many": {
+        "message": "Dalam panggilan ini · $people$ orang",
+        "description": "Shown in the participants list to describe how many people are in the call",
+        "placeholders": {
+            "people": {
+                "content": "$1",
+                "example": "15"
+            }
+        }
+    },
+    "calling__you-have-blocked": {
+        "message": "Anda telah memblokir $name$",
+        "description": "when you block someone and cannot view their video",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Henry Richard"
+            }
+        }
+    },
+    "calling__block-info": {
+        "message": "Anda tidak akan bisa menerima panggilan suara atau video dan mereka tidak bisa menerima panggilan Anda.",
+        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "alwaysRelayCallsDescription": {
         "message": "Selalu relay panggilan",
@@ -1228,11 +1348,11 @@
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "Allow access to the microphone",
+        "message": "Izinkan akses ke mikrofon",
         "description": "Description of the media permission description"
     },
     "mediaCameraPermissionsDescription": {
-        "message": "Allow access to the camera",
+        "message": "Izinkan akses ke kamera",
         "description": "Description of the media permission description"
     },
     "general": {
@@ -1300,11 +1420,11 @@
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "Name, content, and actions",
+        "message": "Nama, konten, dan tindakan",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "No name or content",
+        "message": "Tidak ada nama atau konten",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
@@ -1316,7 +1436,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "notificationSenderInGroup": {
-        "message": "$sender$ in $group$",
+        "message": "$sender$ dalam $group$",
         "description": "Displayed in notifications for messages in a group",
         "placeholders": {
             "sender": {
@@ -1366,7 +1486,7 @@
         "description": "Shown on outgoing message if it fails to send"
     },
     "partiallySent": {
-        "message": "Partially sent, click for details",
+        "message": "Terkirim sebagian, klik untuk detail",
         "description": "Shown on outgoing message if it is partially sent"
     },
     "showMore": {
@@ -1474,7 +1594,7 @@
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "You set the disappearing message time to $time$.",
+        "message": "Anda mengatur waktu penghilang pesan menjadi $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1484,7 +1604,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Updated the disappearing message time to $time$.",
+        "message": "Waktu penghilang pesan diperbarui ke $time$.",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1494,7 +1614,7 @@
         }
     },
     "timerSetByMember": {
-        "message": "A member set the disappearing message time to $time$.",
+        "message": "Seorang anggota mengatur waktu penghilang pesan ke $time$.",
         "description": "Message displayed when timer is by an unknown group member.",
         "placeholders": {
             "time": {
@@ -1504,7 +1624,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the disappearing message time to $time$.",
+        "message": "$name$ mengatur waktu penghilang pesan menjadi $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1622,11 +1742,11 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disappearingMessagesDisabledByMember": {
-        "message": "A member disabled disappearing messages.",
+        "message": "Seorang anggota menonaktifkan penghilang pesan.",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ disabled disappearing messages.",
+        "message": "$name$ menonaktifkan penghilang pesan.",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1654,19 +1774,19 @@
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
-        "message": "Play calling sounds",
+        "message": "Nyalakan suara panggilan masuk",
         "description": "Description for call ringtone notification setting"
     },
     "callSystemNotificationDescription": {
-        "message": "Show notifications for calls",
+        "message": "Tampilkan notifikasi untuk panggilan",
         "description": "Description for call notification setting"
     },
     "incomingCallNotificationDescription": {
-        "message": "Enable incoming calls",
+        "message": "Aktifkan panggilan masuk",
         "description": "Description for incoming calls setting"
     },
     "contactChangedProfileName": {
-        "message": "$sender$ changed their profile name from $oldProfile$ to $newProfile$.",
+        "message": "$sender$ mengubah nama profil dari $oldProfile$ to $newProfile$.",
         "description": "Description for incoming calls setting",
         "placeholders": {
             "sender": {
@@ -1684,7 +1804,7 @@
         }
     },
     "changedProfileName": {
-        "message": "$oldProfile$ changed their profile name to $newProfile$.",
+        "message": "$oldProfile$ mengubah nama profil menjadi $newProfile$.",
         "description": "Shown when a contact not in your address book changes their profile name",
         "placeholders": {
             "oldProfile": {
@@ -1702,7 +1822,7 @@
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChanges": {
-        "message": "Safety Number Changes",
+        "message": "Nomor Keamanan Berubah",
         "description": "Title for safety number changed modal"
     },
     "safetyNumberChangedGroup": {
@@ -1724,7 +1844,7 @@
         "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
     },
     "yourSafetyNumberWith": {
-        "message": "Your safety number with $name1$:",
+        "message": "Nomor keamanan Anda dengan $name1$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name1": {
@@ -1754,7 +1874,7 @@
         "description": "Description for the Note to Self conversation"
     },
     "notificationDrawAttention": {
-        "message": "Draw attention to this window when a notification arrives",
+        "message": "Gambar dalam jendela ini saat notifikasi sampai",
         "description": "Label text for the setting that controls whether new notifications draw attention to the window"
     },
     "hideMenuBar": {
@@ -2004,23 +2124,23 @@
         "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerPicker--Open": {
-        "message": "Open the sticker picker",
+        "message": "Buka pemilih stiker",
         "description": "Label for the open button for the sticker picker"
     },
     "stickers--StickerPicker--AddPack": {
-        "message": "Add a sticker pack",
+        "message": "Tambahkan paket stiker",
         "description": "Label for the add pack button in the sticker picker"
     },
     "stickers--StickerPicker--NextPage": {
-        "message": "Next Page",
+        "message": "Halaman Selanjutnya",
         "description": "Label for the next page button in the sticker picker"
     },
     "stickers--StickerPicker--PrevPage": {
-        "message": "Previous Page",
+        "message": "Halaman Sebelumnya",
         "description": "Label for the previous page button in the sticker picker"
     },
     "stickers--StickerPicker--Recents": {
-        "message": "Recent Sticker",
+        "message": "Stiker Terbaru",
         "description": "Label for the recent stickers button in the sticker picker"
     },
     "stickers--StickerPicker--DownloadError": {
@@ -2082,7 +2202,7 @@
         "description": "Label for emoji emoji picker button"
     },
     "EmojiPicker__button--animal": {
-        "message": "Animal",
+        "message": "Binatang",
         "description": "Label for animal emoji picker button"
     },
     "EmojiPicker__button--food": {
@@ -2090,23 +2210,23 @@
         "description": "Label for food emoji picker button"
     },
     "EmojiPicker__button--activity": {
-        "message": "Activity",
+        "message": "Aktifitas",
         "description": "Label for activity emoji picker button"
     },
     "EmojiPicker__button--travel": {
-        "message": "Travel",
+        "message": "Perjalanan",
         "description": "Label for travel emoji picker button"
     },
     "EmojiPicker__button--object": {
-        "message": "Object",
+        "message": "Objek",
         "description": "Label for object emoji picker button"
     },
     "EmojiPicker__button--symbol": {
-        "message": "Symbol",
+        "message": "Simbol",
         "description": "Label for symbol emoji picker button"
     },
     "EmojiPicker__button--flag": {
-        "message": "Flag",
+        "message": "Bendera",
         "description": "Label for flag emoji picker button"
     },
     "confirmation-dialog--Cancel": {
@@ -2258,7 +2378,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Ganti stiker/emoji untuk menganggapi pesan",
+        "message": "Ganti pemilih emoji-reaksi untuk pesan yang dipilih",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2358,11 +2478,11 @@
         "description": "Header of the keyboard shortcuts guide - calling section"
     },
     "Keyboard--toggle-audio": {
-        "message": "Toggle mute on and off",
+        "message": "Ganti mode senyap nyala dan mati",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-video": {
-        "message": "Toggle video on and off",
+        "message": "Ganti video aktif dan mati",
         "description": "Shown in the shortcuts guide"
     },
     "close-popup": {
@@ -2388,6 +2508,10 @@
     "conversationReturnedToInbox": {
         "message": "Percakapan dipindahkan ke kotak masuk",
         "description": "A toast that shows up when the user unarchives a conversation"
+    },
+    "conversationMarkedUnread": {
+        "message": "Percakapan ditandai telah dibaca",
+        "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
         "message": "Pembuat Paket Stiker",
@@ -2442,7 +2566,7 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--help": {
-        "message": "Stickers must be in PNG, APNG, or WebP format with a transparent background and 512x512 pixels. Recommended margin is 16px.",
+        "message": "Stiker harus dalam format PNG, APNG, atau WebP dengan latar transparan dan berukuran 512x512 piksel. Batas yang disarankan adalah 16px.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
@@ -2548,7 +2672,7 @@
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "Lihat koleksi stikerku di Signal. #stikerpribadiku",
+        "message": "Lihat koleksi stikerku di Signal. #stikerpribadiku #makeprivacystick",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
@@ -2574,19 +2698,19 @@
         "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
     },
     "StickerCreator--Toasts--APNG--notSquare": {
-        "message": "Animated PNG stickers must be square",
+        "message": "Stiker animasi PNG harus berbentuk persegi",
         "description": "Text for the toast when someone tries to upload a non-square APNG"
     },
     "StickerCreator--Toasts--mustLoopForever": {
-        "message": "Animated stickers must loop forever",
+        "message": "Stiker animasi harus selalu berputar",
         "description": "Text for the toast when an image in the sticker creator does not animate forever"
     },
     "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
-        "message": "Animated PNG sticker dimensions are too large",
+        "message": "Dimensi stiker animasi PNG terlalu besar",
         "description": "Text for the toast when an APNG image in the sticker creator is too large"
     },
     "StickerCreator--Toasts--APNG--dimensionsTooSmall": {
-        "message": "Animated PNG sticker dimensions are too small",
+        "message": "Dimensi stiker animasi PNG terlalu kecil",
         "description": "Text for the toast when an APNG image in the sticker creator is too small"
     },
     "StickerCreator--Toasts--errorUploading": {
@@ -2628,7 +2752,7 @@
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "MessageRequests--message-direct": {
-        "message": "Let $name$ message you and share your name and photo with them? They won’t know you’ve seen their messages until you accept.",
+        "message": "Izinkan $name$ mengirimkan Anda pesan dan membagikan nama dan foto Anda dengan mereka? Mereka tidak akan mengetahui jika Anda telah membaca pesan tersebut sampai Anda menerimanya.",
         "description": "Shown as the message for a message request in a direct message",
         "placeholders": {
             "name": {
@@ -2638,7 +2762,7 @@
         }
     },
     "MessageRequests--message-direct-blocked": {
-        "message": "Let $name$ message you and share your name and photo with them? You won't receive any messages until you unblock them.",
+        "message": "Izinkan $name$ mengirimkan Anda pesan dan membagikan nama dan foto Anda dengan mereka? Anda tidak akan menerima pesan apapun sampai Anda membuka blokir mereka.",
         "description": "Shown as the message for a message request in a direct message with a blocked account",
         "placeholders": {
             "name": {
@@ -2648,7 +2772,7 @@
         }
     },
     "MessageRequests--message-group": {
-        "message": "Join this group and share your name and photo with its members? They won’t know you’ve seen their messages until you accept.",
+        "message": "Gabung ke grup ini dan bagikan nama dan foto Anda dengan anggota? Mereka tidak akan mengetahui Anda telah melihat pesannya sampai Anda menerimanya.",
         "description": "Shown as the message for a message request in a group",
         "placeholders": {
             "name": {
@@ -2658,7 +2782,7 @@
         }
     },
     "MessageRequests--message-group-blocked": {
-        "message": "Unblock this group and share your name and photo with its members? You won't receive any messages until you unblock them.",
+        "message": "Buka blokir grup ini dan bagikan nama dan foto Anda dengan anggotanya? Anda tidak akan menerima pesan apapun sampai Anda membuka blokirnya.",
         "description": "Shown as the message for a message request in a blocked group"
     },
     "MessageRequests--block": {
@@ -2670,7 +2794,7 @@
         "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-confirm-title": {
-        "message": "Unblock $name$?",
+        "message": "Buka blokir $name$? ",
         "description": "Shown as a button to let the user unblock a message request",
         "placeholders": {
             "name": {
@@ -2704,7 +2828,7 @@
         "description": "Shown as a button to let the user block and delete a message request"
     },
     "MessageRequests--block-direct-confirm-title": {
-        "message": "Block $name$?",
+        "message": "Blokir $name$?",
         "description": "Shown as the title in the confirmation modal for blocking a private message request",
         "placeholders": {
             "name": {
@@ -2718,7 +2842,7 @@
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
-        "message": "Block and Leave $group$?",
+        "message": "Blokir dan Keluar dari $group$?",
         "description": "Shown as the title in the confirmation modal for blocking a group message request",
         "placeholders": {
             "group": {
@@ -2728,7 +2852,7 @@
         }
     },
     "MessageRequests--block-group-confirm-body": {
-        "message": "You will no longer receive messages or updates from this group and members won't be able to add you to this group again.",
+        "message": "Anda tidak lagi dapat menerima pesan atau pembaruan dari grup ini dan anggota tidak akan dapat menambahkan Anda ke grup ini lagi.",
         "description": "Shown as the body in the confirmation modal for blocking a group message request"
     },
     "MessageRequests--delete": {
@@ -2744,7 +2868,7 @@
         "description": "Shown as the body in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-group-confirm-title": {
-        "message": "Delete and Leave $group$?",
+        "message": "Hapus dan Keluar dari $group$?",
         "description": "Shown as the title in the confirmation modal for deleting a group message request",
         "placeholders": {
             "group": {
@@ -2769,8 +2893,40 @@
         "message": "Terima",
         "description": "Shown as a button to let the user accept a message request"
     },
+    "MessageRequests--continue": {
+        "message": "Lanjut",
+        "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
+    },
+    "MessageRequests--profile-sharing--group": {
+        "message": "Lanjutkan percakapan Anda dengan grup ini dan bagikan nama dan foto Anda dengan anggota grup?$learnMore$",
+        "description": "Shown when user hasn't shared their profile in a group yet",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--profile-sharing--direct": {
+        "message": "Lanjutkan percakapan ini dengan $firstName$ dan bagikan nama dan foto Anda dengan mereka? $learnMore$",
+        "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
+        "placeholders": {
+            "firstName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "learnMore": {
+                "content": "$2",
+                "example": "Learn More."
+            }
+        }
+    },
+    "MessageRequests--learn-more": {
+        "message": "Pelajari lebih lanjut",
+        "description": "Shown at the end of profile sharing messages as a link."
+    },
     "ConversationHero--members": {
-        "message": "$count$ members",
+        "message": "$count$ anggota",
         "description": "Specifies the number of members in a group conversation",
         "placeholders": {
             "count": {
@@ -2790,7 +2946,7 @@
         }
     },
     "ConversationHero--membership-1": {
-        "message": "Member of $group$.",
+        "message": "Anggota dari $group$.",
         "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
         "placeholders": {
             "group": {
@@ -2800,7 +2956,7 @@
         }
     },
     "ConversationHero--membership-2": {
-        "message": "Member of $group1$ and $group2$.",
+        "message": "Anggota dari $group1$ dan $group2$.",
         "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
         "placeholders": {
             "group1": {
@@ -2814,7 +2970,7 @@
         }
     },
     "ConversationHero--membership-3": {
-        "message": "Member of $group1$, $group2$, and $group3$.",
+        "message": "Anggota dari $group1$, $group2$, dan $group3$.",
         "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
         "placeholders": {
             "group1": {
@@ -2832,7 +2988,7 @@
         }
     },
     "ConversationHero--membership-extra": {
-        "message": "Member of $group1$, $group2$, $group3$ and $remainingCount$ more.",
+        "message": "Anggota dari $group1$, $group2$,$group3$ dan $remainingCount$ lainnya.",
         "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
         "placeholders": {
             "group1": {
@@ -2854,7 +3010,7 @@
         }
     },
     "ConversationHero--membership-added": {
-        "message": "$name$ added you to the group.",
+        "message": "$name$ menambahkan Anda ke grup.",
         "description": "Shown Indicates that you were added to a group by a given individual.",
         "placeholders": {
             "name": {
@@ -2868,7 +3024,7 @@
         "description": "Shown in tooltip for the button to accept a call (audio or video)"
     },
     "acceptCallWithoutVideo": {
-        "message": "Answer without video",
+        "message": "Jawab tanpa video",
         "description": "Shown in tooltip for the button to accept a video call without video"
     },
     "declineCall": {
@@ -2876,71 +3032,75 @@
         "description": "Shown in tooltip for the button to decline a call (audio or video)"
     },
     "declinedIncomingAudioCall": {
-        "message": "You declined an audio call",
+        "message": "Anda menolak panggilan suara",
         "description": "Shown in conversation history when you declined an incoming audio call"
     },
     "declinedIncomingVideoCall": {
-        "message": "You declined a video call",
+        "message": "Anda menolak panggilan video",
         "description": "Shown in conversation history when you declined an incoming video call"
     },
     "acceptedIncomingAudioCall": {
-        "message": "Incoming audio call",
+        "message": "Panggilan suara masuk",
         "description": "Shown in conversation history when you accepted an incoming audio call"
     },
     "acceptedIncomingVideoCall": {
-        "message": "Incoming video call",
+        "message": "Panggilan video masuk",
         "description": "Shown in conversation history when you accepted an incoming video call"
     },
     "missedIncomingAudioCall": {
-        "message": "Missed audio call",
+        "message": "Panggilan suara tidak terjawab",
         "description": "Shown in conversation history when you missed an incoming audio call"
     },
     "missedIncomingVideoCall": {
-        "message": "Missed video call",
+        "message": "Panggilan video tidak terjawab",
         "description": "Shown in conversation history when you missed an incoming video call"
     },
     "acceptedOutgoingAudioCall": {
-        "message": "Outgoing audio call",
+        "message": "Panggilan suara keluar",
         "description": "Shown in conversation history when you made an outgoing audio call"
     },
     "acceptedOutgoingVideoCall": {
-        "message": "Outgoing video call",
+        "message": "Panggilan video keluar",
         "description": "Shown in conversation history when you made an outgoing video call"
     },
     "missedOrDeclinedOutgoingAudioCall": {
-        "message": "Unanswered audio call",
+        "message": "Panggilan suara tidak terjawab",
         "description": "Shown in conversation history when your audio call is missed or declined"
     },
     "missedOrDeclinedOutgoingVideoCall": {
-        "message": "Unanswered video call",
+        "message": "Panggilan video tidak terjawab",
         "description": "Shown in conversation history when your video call is missed or declined"
     },
     "incomingAudioCall": {
-        "message": "Incoming audio call...",
+        "message": "Panggilan suara masuk...",
         "description": "Shown in both the incoming call bar and notification for an incoming audio call"
     },
     "incomingVideoCall": {
-        "message": "Incoming video call...",
+        "message": "Panggilan video masuk...",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
     "outgoingCallPrering": {
-        "message": "Calling...",
+        "message": "Memanggil...",
         "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
     },
     "outgoingCallRinging": {
-        "message": "Ringing...",
+        "message": "Berdering...",
         "description": "Shown in the call screen when placing an outgoing call that is now ringing"
     },
     "makeOutgoingCall": {
-        "message": "Start a call",
+        "message": "Mulai panggilan",
         "description": "Title for the call button in a conversation"
     },
     "makeOutgoingVideoCall": {
-        "message": "Start a video call",
+        "message": "Mulai panggilan video",
         "description": "Title for the video call button in a conversation"
     },
+    "joinOngoingCall": {
+        "message": "Bergabung",
+        "description": "Text that appears in a group when a call is active"
+    },
     "callNeedPermission": {
-        "message": "$title$ will get a message request from you. You can call once your message request has been accepted.",
+        "message": "$title$ akan mendapatkan permintaan pesan dari Anda. Anda dapat memanggil saat permintaan pesan Anda telah diterima. ",
         "description": "Shown when a call is rejected because the other party hasn't approved the message/call request",
         "placeholders": {
             "title": {
@@ -2950,7 +3110,7 @@
         }
     },
     "callReconnecting": {
-        "message": "Reconnecting...",
+        "message": "Menyambungkan ulang...",
         "description": "Shown in the call screen when the call is reconnecting due to network issues"
     },
     "callDuration": {
@@ -2968,15 +3128,61 @@
         "description": "Title for device selection settings"
     },
     "calling__participants": {
-        "message": "Participants",
-        "description": "Title for participants list toggle"
+        "message": "$people$ dalam panggilan",
+        "description": "Title for participants list toggle",
+        "placeholders": {
+            "people": {
+                "content": "$1",
+                "example": "16"
+            }
+        }
     },
-    "calling__pip": {
-        "message": "Picture-in-picture",
+    "calling__call-notification__ended": {
+        "message": "Panggilan grup telah berakhir",
+        "description": "Notification message when a group call has ended"
+    },
+    "calling__call-notification__started-by-someone": {
+        "message": "Panggilan grup dimulai",
+        "description": "Notification message when a group call has started, but we don't know who started it"
+    },
+    "calling__call-notification__started-by-you": {
+        "message": "Anda memulai panggilan grup",
+        "description": "Notification message when a group call has started by you"
+    },
+    "calling__call-notification__started": {
+        "message": "$name$ memulai panggilan grup",
+        "description": "Notification message when a group call has started",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "calling__call-notification__button__in-another-call-tooltip": {
+        "message": "Anda telah berada dalam panggilan",
+        "description": "Tooltip in disabled notification button when you're on another call"
+    },
+    "calling__call-notification__button__call-full-tooltip": {
+        "message": "Panggilan telah mencapai batas $max$ peserta",
+        "description": "Tooltip in disabled notification button when the call is full",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "calling__pip--on": {
+        "message": "Kecilkan Panggilan",
+        "description": "Title for picture-in-picture toggle"
+    },
+    "calling__pip--off": {
+        "message": "Tampilkan panggilan di layar penuh",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__hangup": {
-        "message": "Hang Up",
+        "message": "Tinggalkan panggilan",
         "description": "Title for hang up button"
     },
     "callingDeviceSelection__label--video": {
@@ -2984,15 +3190,15 @@
         "description": "Label for video input selector"
     },
     "callingDeviceSelection__label--audio-input": {
-        "message": "Microphone",
+        "message": "Mikrofon",
         "description": "Label for audio input selector"
     },
     "callingDeviceSelection__label--audio-output": {
-        "message": "Speakers",
+        "message": "Pengeras Suara",
         "description": "Label for audio output selector"
     },
     "callingDeviceSelection__select--no-device": {
-        "message": "No devices available",
+        "message": "Tidak ada perangkat tersedia",
         "description": "Message for when there are no available devices to select for input/output audio or video"
     },
     "callingDeviceSelection__select--default": {
@@ -3024,7 +3230,7 @@
         "description": "Label for unmuting the conversation"
     },
     "muteExpirationLabel": {
-        "message": "Muted until $duration$",
+        "message": "Senyapkan sampai $duration$",
         "description": "Shown in the mute notifications submenu whenever a conversation has been muted",
         "placeholders": {
             "duration": {
@@ -3042,10 +3248,10 @@
         "description": "Title of pop-up dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
-        "message": "Please try again or contact support.",
+        "message": "Coba lagi atau hubungi bantuan.",
         "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
     },
-    "ErrorModal--buttonText": {
+    "Confirmation--confirm": {
         "message": "Oke",
         "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
     },
@@ -3054,7 +3260,7 @@
         "description": "Shown next to the set of administrators in a group"
     },
     "updating": {
-        "message": "Updating...",
+        "message": "Memperbarui...",
         "description": "Shown along with a spinner when an update operation takes longer than one second"
     },
     "GroupV2--create--you": {
@@ -3062,7 +3268,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--create--other": {
-        "message": "$memberName$ created the group.",
+        "message": "$memberName$ membuat grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3072,11 +3278,11 @@
         }
     },
     "GroupV2--create--unknown": {
-        "message": "The group was created.",
+        "message": "Grup telah dibuat.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--change--other": {
-        "message": "$memberName$ changed the group name to \"$newTitle$\".",
+        "message": "$memberName$ mengubah nama grup menjadi \"$newTitle$\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3090,7 +3296,7 @@
         }
     },
     "GroupV2--title--change--you": {
-        "message": "You changed the group name to \"$newTitle$\".",
+        "message": "Anda mengubah nama grup menjadi \"$newTitle$\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "newTitle": {
@@ -3100,7 +3306,7 @@
         }
     },
     "GroupV2--title--change--unknown": {
-        "message": "A member changed the group name to \"$newTitle$\".",
+        "message": "Seorang anggota mengganti nama grup menjadi \"$newTitle$\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "newTitle": {
@@ -3110,7 +3316,7 @@
         }
     },
     "GroupV2--title--remove--other": {
-        "message": "$memberName$ removed the group name.",
+        "message": "$memberName$ menghapus nama grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3124,11 +3330,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--remove--unknown": {
-        "message": "A member removed the group name.",
+        "message": "Seorang anggota menghapus nama grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--other": {
-        "message": "$memberName$ changed the group avatar.",
+        "message": "$memberName$ mengubah avatar grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3138,15 +3344,15 @@
         }
     },
     "GroupV2--avatar--change--you": {
-        "message": "You changed the group avatar.",
+        "message": "Anda mengubah avatar grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--unknown": {
-        "message": "A member changed the group avatar.",
+        "message": "Seorang anggota mengganti avatar grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--other": {
-        "message": "$memberName$ removed the group avatar.",
+        "message": "$memberName$ menghapus avatar grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3156,15 +3362,15 @@
         }
     },
     "GroupV2--avatar--remove--you": {
-        "message": "You removed the group avatar.",
+        "message": "Anda menghapus avatar grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--unknown": {
-        "message": "A member removed the group avatar.",
+        "message": "Seorang anggota menghapus avatar grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--other": {
-        "message": "$adminName$ changed who can edit group info to \"Only admins.\"",
+        "message": "$adminName$ mengubah akses menyunting informasi grup ke \"Hanya Admin.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3174,15 +3380,15 @@
         }
     },
     "GroupV2--access-attributes--admins--you": {
-        "message": "You changed who can edit group info to \"Only admins.\"",
+        "message": "Anda mengubah akses menyunting informasi grup ke \"Hanya Admin.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--unknown": {
-        "message": "An admin changed who can edit group info to \"Only admins.\"",
+        "message": "Seorang admin mengubah akses menyunting informasi grup kepada \"Hanya Admin.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--other": {
-        "message": "$adminName$ changed who can edit group info to \"All members.\"",
+        "message": "$adminName$ mengubah akses menyunting informasi grup ke \"Semua anggota.\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3192,15 +3398,15 @@
         }
     },
     "GroupV2--access-attributes--all--you": {
-        "message": "You changed who can edit group info to \"All members.\"",
+        "message": "Anda mengubah akses menyunting informasi grup ke \"Semua anggota.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--unknown": {
-        "message": "An admin changed who can edit group info to \"All members.\"",
+        "message": "Seorang admin mengubah akses menyunting informasi grup ke \"Semua anggota.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--other": {
-        "message": "$adminName$ changed who can edit group membership to \"Only admins.\"",
+        "message": "$adminName$ mengubah akses menyunting keanggotaan grup ke \"Hanya admin.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3210,15 +3416,15 @@
         }
     },
     "GroupV2--access-members--admins--you": {
-        "message": "You changed who can edit group membership to \"Only admins.\"",
+        "message": "Anda mengubah akses menyunting keanggotaan grup ke \"Hanya admin.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--unknown": {
-        "message": "An admin changed who can edit group membership to \"Only admins.\"",
+        "message": "Seorang admin mengubah akses menyunting keanggotaan grup ke \"Hanya admin.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--other": {
-        "message": "$adminName$ changed who can edit group membership to \"All members.\"",
+        "message": "$adminName$ mengubah akses menyunting keanggotaan grup ke \"Semua anggota.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3228,15 +3434,15 @@
         }
     },
     "GroupV2--access-members--all--you": {
-        "message": "You changed who can edit group membership to \"All members.\"",
+        "message": "Anda mengubah akses menyunting keanggotaan grup ke \"Semua anggota.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--unknown": {
-        "message": "An admin changed who can edit group membership to \"All members.\"",
+        "message": "Seorang admin mengubah akses menyunting keanggotaan grup ke \"Semua orang,\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {
-        "message": "You added invited member $inviteeName$.",
+        "message": "Anda menambahkan anggota undangan $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3246,7 +3452,7 @@
         }
     },
     "GroupV2--member-add--invited--other": {
-        "message": "$memberName$ added invited member $inviteeName$.",
+        "message": "$memberName$ menambahkan anggota undangan $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3260,7 +3466,7 @@
         }
     },
     "GroupV2--member-add--invited--unknown": {
-        "message": "A member added invited member $inviteeName$.",
+        "message": "Seorang anggota menambahkan anggota undangan $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3270,7 +3476,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other": {
-        "message": "$inviteeName$ accepted an invitation to the group from $inviterName$.",
+        "message": "$inviteeName$ menerima undangan masuk grup dari $inviterName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3851,6 +4057,120 @@
             }
         }
     },
+    "GroupV1--Migration--disabled": {
+        "message": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. $learnMore$",
+        "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn more."
+            }
+        }
+    },
+    "GroupV1--Migration--was-upgraded": {
+        "message": "This group was upgraded to a New Group.",
+        "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
+    },
+    "GroupV1--Migration--learn-more": {
+        "message": "Pelajari Lebih Lanjut",
+        "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
+    },
+    "GroupV1--Migration--migrate": {
+        "message": "Pemutakhiran",
+        "description": "Shown on Migrate dialog to kick off the process"
+    },
+    "GroupV1--Migration--info--title": {
+        "message": "Apakah Grup Baru?",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--migrate--title": {
+        "message": "Perbarui ke Grup Baru",
+        "description": "Shown on Migration popup after choosing to migrate group"
+    },
+    "GroupV1--Migration--info--summary": {
+        "message": "New Groups have features like @mentions and group admins, and will support more features in the future.",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--keep-history": {
+        "message": "Setiap riwayat pesan dan media disimpang sebelum pembaruan.",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--migrate--keep-history": {
+        "message": "Setiap riwayat pesan dan media disimpan sebelum pembaruan.",
+        "description": "Shown on Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--you": {
+        "message": "Anda perlu menerima undangan untuk bergabung ke grup ini lagi, dan tidak akan menerima pesan grup sampai Anda menerimanya.",
+        "description": "Shown on Learn More popup after GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--many": {
+        "message": "These members will need to accept an invite to join this group again, and will not receive group messages until they accept:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--invited--one": {
+        "message": "This member will need to accept an invite to join this group again, and will not receive group messages until they accept:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--before--many": {
+        "message": "Anggota ini tidak dapat bergabung ke Grup Baru, dan akan dikeluarkan dari grup:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--before--one": {
+        "message": "This member is not capable of joining New Groups, and will be removed from the group:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--after--many": {
+        "message": "These members were not capable of joining New Groups, and were removed from the group:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--info--removed--after--one": {
+        "message": "This member was not capable of joining New Groups, and was removed from the group:",
+        "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    },
+    "GroupV1--Migration--invited--you": {
+        "message": "You couldn't be added to the New Group and have been invited to join.",
+        "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
+    },
+    "GroupV1--Migration--invited--one": {
+        "message": "$contact$ couldn’t be added to the New Group and has been invited to join.",
+        "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--invited--many": {
+        "message": "$count$ members couldn’t be added to the New Group and have been invited to join.",
+        "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--removed--one": {
+        "message": "$contact$ was removed from the group.",
+        "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV1--Migration--removed--many": {
+        "message": "$count$ members were removed from the group.",
+        "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
     "close": {
         "message": "Tutup",
         "description": "Generic close label"
@@ -3874,5 +4194,17 @@
     "countMutedConversationsDescription": {
         "message": "Count muted conversations in badge count",
         "description": "Description for counting muted conversations in badge setting"
+    },
+    "ContactModal--message": {
+        "message": "Pesan",
+        "description": "Button text for send message button in Group Contact Details modal"
+    },
+    "ContactModal--make-admin": {
+        "message": "Make admin",
+        "description": "Button text for make admin button in Group Contact Details modal"
+    },
+    "ContactModal--remove-from-group": {
+        "message": "Keluarkan dari grup",
+        "description": "Button text for remove from group button in Group Contact Details modal"
     }
 }

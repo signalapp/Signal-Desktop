@@ -1,3 +1,6 @@
+// Copyright 2015-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 $inter: Inter, 'Helvetica Neue', 'Source Sans Pro', 'Source Han Sans SC',
   'Source Han Sans CN', 'Hiragino Sans GB', 'Hiragino Kaku Gothic',
   'Microsoft Yahei UI', Helvetica, Arial, sans-serif;
@@ -25,6 +28,7 @@ $color-gray-95: #121212;
 $color-black: #000000;
 
 $color-white-alpha-20: rgba($color-white, 0.2);
+$color-white-alpha-40: rgba($color-white, 0.4);
 $color-white-alpha-60: rgba($color-white, 0.6);
 $color-white-alpha-80: rgba($color-white, 0.8);
 $color-white-alpha-90: rgba($color-white, 0.9);
@@ -187,6 +191,8 @@ $color-deep-red: #ff261f;
 // -- A few layout variables used cross-file
 
 $left-pane-width: 320px;
-$header-height: 48px;
+$header-height: 52px;
 
 $ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+
+$calling-background-color: $color-gray-95;

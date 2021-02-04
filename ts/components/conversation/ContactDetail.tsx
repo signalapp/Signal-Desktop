@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import React from 'react';
 
 import {
@@ -18,12 +21,12 @@ import {
 
 import { LocalizerType } from '../../types/Util';
 
-export interface Props {
+export type Props = {
   contact: ContactType;
   hasSignalAccount: boolean;
   i18n: LocalizerType;
   onSendMessage: () => void;
-}
+};
 
 function getLabelForEmail(method: Email, i18n: LocalizerType): string {
   switch (method.type) {

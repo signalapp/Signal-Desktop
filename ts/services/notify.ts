@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { Sound } from '../util/Sound';
 import {
   AudioNotificationSupport,
@@ -40,7 +43,7 @@ export function notify({
   notification.onclick = onNotificationClick;
 
   if (!silent && audioNotificationSupport === AudioNotificationSupport.Custom) {
-    // We kick off the sound to be played. No neet to await it.
+    // We kick off the sound to be played. No need to await it.
     new Sound({ src: 'sounds/notification.ogg' }).play();
   }
 

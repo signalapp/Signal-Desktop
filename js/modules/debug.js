@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint-env node */
 /* global log, Signal, Whisper */
 
@@ -16,7 +19,7 @@ const {
 
 const Attachments = require('../../app/attachments');
 const Message = require('./types/message');
-const { sleep } = require('./sleep');
+const { sleep } = require('../../ts/util/sleep');
 
 // See: https://en.wikipedia.org/wiki/Fictitious_telephone_number#North_American_Numbering_Plan
 const SENDER_ID = '+12126647665';

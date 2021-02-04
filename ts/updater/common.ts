@@ -1,3 +1,6 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint-disable no-console */
 import {
   createWriteStream,
@@ -105,7 +108,7 @@ export async function downloadUpdate(
     const downloadStream = stream(updateFileUrl, getGotOptions());
     const writeStream = createWriteStream(targetUpdatePath);
 
-    await new Promise((resolve, reject) => {
+    await new Promise<void>((resolve, reject) => {
       downloadStream.on('error', error => {
         reject(error);
       });

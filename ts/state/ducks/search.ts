@@ -1,3 +1,6 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { omit, reject } from 'lodash';
 
 import { normalize } from '../../types/PhoneNumber';
@@ -320,7 +323,7 @@ async function queryConversationsAndContacts(
 
 // Reducer
 
-function getEmptyState(): SearchStateType {
+export function getEmptyState(): SearchStateType {
   return {
     startSearchCounter: 0,
     query: '',
@@ -334,8 +337,8 @@ function getEmptyState(): SearchStateType {
 }
 
 export function reducer(
-  state: SearchStateType = getEmptyState(),
-  action: SearchActionType
+  state: Readonly<SearchStateType> = getEmptyState(),
+  action: Readonly<SearchActionType>
 ): SearchStateType {
   if (action.type === 'SHOW_ARCHIVED_CONVERSATIONS') {
     return getEmptyState();

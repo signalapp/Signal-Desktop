@@ -1,6 +1,8 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import * as React from 'react';
 
-import 'draft-js/dist/Draft.css';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { boolean, date, select, text } from '@storybook/addon-knobs';
@@ -24,9 +26,11 @@ story.addDecorator(storyFn => (
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   ...overrideProps,
   i18n,
-  isAccepted: boolean(
-    'isAccepted',
-    overrideProps.isAccepted !== undefined ? overrideProps.isAccepted : true
+  acceptedMessageRequest: boolean(
+    'acceptedMessageRequest',
+    overrideProps.acceptedMessageRequest !== undefined
+      ? overrideProps.acceptedMessageRequest
+      : true
   ),
   isMe: boolean('isMe', overrideProps.isMe || false),
   avatarPath: text('avatarPath', overrideProps.avatarPath || ''),
@@ -36,6 +40,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   name: overrideProps.name || 'Some Person',
   type: overrideProps.type || 'direct',
   onClick: action('onClick'),
+  markedUnread: boolean('markedUnread', overrideProps.markedUnread || false),
   lastMessage: overrideProps.lastMessage || {
     text: text('lastMessage.text', 'Hi there!'),
     status: select(
@@ -101,9 +106,30 @@ story.add('Typing Status', () => {
   return <ConversationListItem {...props} />;
 });
 
+story.add('With draft', () => {
+  const props = createProps({
+    shouldShowDraft: true,
+    draftPreview: "I'm in the middle of typing this...",
+  });
+
+  return <ConversationListItem {...props} />;
+});
+
+story.add('Deleted for everyone', () => {
+  const props = createProps({
+    lastMessage: {
+      status: 'sent',
+      text: 'You should not see this!',
+      deletedForEveryone: true,
+    },
+  });
+
+  return <ConversationListItem {...props} />;
+});
+
 story.add('Message Request', () => {
   const props = createProps({
-    isAccepted: false,
+    acceptedMessageRequest: false,
     lastMessage: {
       text: 'A Message',
       status: 'delivered',
@@ -115,18 +141,32 @@ story.add('Message Request', () => {
 
 story.add('Unread', () => {
   const counts = [4, 10, 250];
+  const defaultProps = createProps({
+    lastMessage: {
+      text: 'Hey there!',
+      status: 'delivered',
+    },
+  });
 
-  return counts.map(unreadCount => {
-    const props = createProps({
-      lastMessage: {
-        text: 'Hey there!',
-        status: 'delivered',
-      },
+  const items = counts.map(unreadCount => {
+    const props = {
+      ...defaultProps,
       unreadCount,
-    });
+    };
 
     return <ConversationListItem key={unreadCount} {...props} />;
   });
+
+  const markedUnreadProps = {
+    ...defaultProps,
+    markedUnread: true,
+  };
+
+  const markedUnreadItem = [
+    <ConversationListItem key={5} {...markedUnreadProps} />,
+  ];
+
+  return [...items, ...markedUnreadItem];
 });
 
 story.add('Selected', () => {

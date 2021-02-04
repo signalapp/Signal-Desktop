@@ -2,7 +2,7 @@
   "name": "signal-desktop",
   "version": "0.0.0",
   "homepage": "https://github.com/signalapp/Signal-Desktop",
-  "license": "GPLV3",
+  "license": "AGPL-3.0-only",
   "private": true,
   "dependencies": {
     "mp3lameencoder": "https://github.com/higuma/mp3-lame-encoder-js.git",

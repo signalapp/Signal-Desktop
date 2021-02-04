@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import * as React from 'react';
 
 import { ConfirmationModal } from './ConfirmationModal';
@@ -8,6 +11,7 @@ import {
   ChangeIODevicePayloadType,
   MediaDeviceSettings,
 } from '../types/Calling';
+import { Theme } from '../util/theme';
 
 export type Props = MediaDeviceSettings & {
   changeIODevice: (payload: ChangeIODevicePayloadType) => void;
@@ -131,7 +135,12 @@ export const CallingDeviceSelection = ({
     : undefined;
 
   return (
-    <ConfirmationModal actions={[]} i18n={i18n} onClose={toggleSettings}>
+    <ConfirmationModal
+      actions={[]}
+      i18n={i18n}
+      theme={Theme.Dark}
+      onClose={toggleSettings}
+    >
       <div className="module-calling-device-selection">
         <button
           type="button"

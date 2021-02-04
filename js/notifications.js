@@ -1,3 +1,6 @@
+// Copyright 2015-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* global Signal:false */
 /* global Backbone: false */
 
@@ -8,7 +11,7 @@
 /* global _: false */
 
 // eslint-disable-next-line func-names
-(function() {
+(function () {
   window.Whisper = window.Whisper || {};
 
   // The keys and values don't match here. This is because the values correspond to old
@@ -86,12 +89,19 @@
       });
 
       if (status.type !== 'ok') {
+        window.log.info(
+          `Not updating notifications; notification status is ${status.type}. ${
+            status.shouldClearNotifications ? 'Also clearing notifications' : ''
+          }`
+        );
+
         if (status.shouldClearNotifications) {
           this.notificationData = null;
         }
 
         return;
       }
+      window.log.info('Showing a notification');
 
       let notificationTitle;
       let notificationMessage;

@@ -1,3 +1,6 @@
+// Copyright 2014-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 const { join } = require('path');
 const importOnce = require('node-sass-import-once');
 const rimraf = require('rimraf');

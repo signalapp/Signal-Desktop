@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import React from 'react';
 
 import classNames from 'classnames';
@@ -8,6 +11,9 @@ import { RenderTextCallbackType } from '../../types/Util';
 import { emojiToImage, SizeClassType } from '../emoji/lib';
 
 // Some of this logic taken from emoji-js/replacement
+// the DOM structure for this getImageTag should match the other emoji implementations:
+// ts/components/emoji/Emoji.tsx
+// ts/quill/emoji/blot.tsx
 function getImageTag({
   match,
   sizeClass,
@@ -34,13 +40,13 @@ function getImageTag({
   );
 }
 
-export interface Props {
+export type Props = {
   text: string;
   /** A class name to be added to the generated emoji images */
   sizeClass?: SizeClassType;
   /** Allows you to customize now non-newlines are rendered. Simplest is just a <span>. */
   renderNonEmoji?: RenderTextCallbackType;
-}
+};
 
 export class Emojify extends React.Component<Props> {
   public static defaultProps: Partial<Props> = {

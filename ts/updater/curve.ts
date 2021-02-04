@@ -1,22 +1,22 @@
-import { randomBytes } from 'crypto';
-import {
-  calculateSignature,
-  generateKeyPair,
-  verifySignature,
-} from 'curve25519-n';
+// Copyright 2019-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+import { PrivateKey, PublicKey } from 'libsignal-client';
 
 export function keyPair(): Record<string, Buffer> {
-  const privateKey = randomBytes(32);
-  const { pubKey, privKey } = generateKeyPair(privateKey);
+  const privKey = PrivateKey.generate();
+  const pubKey = privKey.getPublicKey();
 
   return {
-    publicKey: pubKey,
-    privateKey: privKey,
+    publicKey: pubKey.serialize(),
+    privateKey: privKey.serialize(),
   };
 }
 
 export function sign(privateKey: Buffer, message: Buffer): Buffer {
-  return calculateSignature(privateKey, message);
+  const privKeyObj = PrivateKey.deserialize(privateKey);
+  const signature = privKeyObj.sign(message);
+  return signature;
 }
 
 export function verify(
@@ -24,7 +24,7 @@ export function verify(
   message: Buffer,
   signature: Buffer
 ): boolean {
-  const failed = verifySignature(publicKey, message, signature);
-
-  return !failed;
+  const pubKeyObj = PublicKey.deserialize(publicKey);
+  const result = pubKeyObj.verify(message, signature);
+  return result;
 }

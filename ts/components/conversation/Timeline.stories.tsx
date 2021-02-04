@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { boolean, number } from '@storybook/addon-knobs';
@@ -5,7 +8,7 @@ import { action } from '@storybook/addon-actions';
 
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
-import { Props, Timeline } from './Timeline';
+import { PropsType, Timeline } from './Timeline';
 import { TimelineItem, TimelineItemType } from './TimelineItem';
 import { LastSeenIndicator } from './LastSeenIndicator';
 import { TimelineLoadingRow } from './TimelineLoadingRow';
@@ -227,6 +230,8 @@ const actions = () => ({
   showMessageDetail: action('showMessageDetail'),
   openConversation: action('openConversation'),
   showContactDetail: action('showContactDetail'),
+  showContactModal: action('showContactModal'),
+  kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   showVisualAttachment: action('showVisualAttachment'),
   downloadAttachment: action('downloadAttachment'),
   displayTapToViewMessage: action('displayTapToViewMessage'),
@@ -243,6 +248,10 @@ const actions = () => ({
   showIdentity: action('showIdentity'),
 
   downloadNewVersion: action('downloadNewVersion'),
+
+  messageSizeChanged: action('messageSizeChanged'),
+  startCallingLobby: action('startCallingLobby'),
+  returnToActiveCall: action('returnToActiveCall'),
 });
 
 const renderItem = (id: string) => (
@@ -274,7 +283,7 @@ const renderTypingBubble = () => (
   />
 );
 
-const createProps = (overrideProps: Partial<Props> = {}): Props => ({
+const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   i18n,
 
   haveNewest: boolean('haveNewest', overrideProps.haveNewest !== false),

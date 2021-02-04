@@ -1,5 +1,7 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import * as React from 'react';
-import { Editor } from 'draft-js';
 import { get, noop } from 'lodash';
 import classNames from 'classnames';
 import { EmojiButton, Props as EmojiButtonProps } from './emoji/EmojiButton';
@@ -16,12 +18,27 @@ import {
   MessageRequestActions,
   Props as MessageRequestActionsProps,
 } from './conversation/MessageRequestActions';
+import {
+  GroupV1DisabledActions,
+  PropsType as GroupV1DisabledActionsPropsType,
+} from './conversation/GroupV1DisabledActions';
+import {
+  GroupV2PendingApprovalActions,
+  PropsType as GroupV2PendingApprovalActionsPropsType,
+} from './conversation/GroupV2PendingApprovalActions';
+import { MandatoryProfileSharingActions } from './conversation/MandatoryProfileSharingActions';
 import { countStickers } from './stickers/lib';
 import { LocalizerType } from '../types/Util';
 import { EmojiPickDataType } from './emoji/EmojiPicker';
 
 export type OwnProps = {
   readonly i18n: LocalizerType;
+  readonly areWePending?: boolean;
+  readonly areWePendingApproval?: boolean;
+  readonly groupVersion?: 1 | 2;
+  readonly isGroupV1AndDisabled?: boolean;
+  readonly isMissingMandatoryProfileSharing?: boolean;
+  readonly left?: boolean;
   readonly messageRequestsEnabled?: boolean;
   readonly acceptedMessageRequest?: boolean;
   readonly compositionApi?: React.MutableRefObject<{
@@ -42,11 +59,12 @@ export type OwnProps = {
 
 export type Props = Pick<
   CompositionInputProps,
+  | 'sortedGroupMembers'
   | 'onSubmit'
-  | 'onEditorSizeChange'
   | 'onEditorStateChange'
   | 'onTextTooLong'
-  | 'startingText'
+  | 'draftText'
+  | 'draftBodyRanges'
   | 'clearQuotedMessage'
   | 'getQuotedMessage'
 > &
@@ -70,6 +88,8 @@ export type Props = Pick<
     | 'clearShowPickerHint'
   > &
   MessageRequestActionsProps &
+  Pick<GroupV1DisabledActionsPropsType, 'onStartGroupMigration'> &
+  Pick<GroupV2PendingApprovalActionsPropsType, 'onCancelJoinRequest'> &
   OwnProps;
 
 const emptyElement = (el: HTMLElement) => {
@@ -86,12 +106,13 @@ export const CompositionArea = ({
   // CompositionInput
   onSubmit,
   compositionApi,
-  onEditorSizeChange,
   onEditorStateChange,
   onTextTooLong,
-  startingText,
+  draftText,
+  draftBodyRanges,
   clearQuotedMessage,
   getQuotedMessage,
+  sortedGroupMembers,
   // EmojiButton
   onPickEmoji,
   onSetSkinTone,
@@ -112,8 +133,13 @@ export const CompositionArea = ({
   clearShowPickerHint,
   // Message Requests
   acceptedMessageRequest,
+  areWePending,
+  areWePendingApproval,
   conversationType,
+  groupVersion,
   isBlocked,
+  isMissingMandatoryProfileSharing,
+  left,
   messageRequestsEnabled,
   name,
   onAccept,
@@ -124,13 +150,17 @@ export const CompositionArea = ({
   phoneNumber,
   profileName,
   title,
+  // GroupV1 Disabled Actions
+  isGroupV1AndDisabled,
+  onStartGroupMigration,
+  // GroupV2 Pending Approval Actions
+  onCancelJoinRequest,
 }: Props): JSX.Element => {
   const [disabled, setDisabled] = React.useState(false);
-  const [showMic, setShowMic] = React.useState(!startingText);
+  const [showMic, setShowMic] = React.useState(!draftText);
   const [micActive, setMicActive] = React.useState(false);
   const [dirty, setDirty] = React.useState(false);
   const [large, setLarge] = React.useState(false);
-  const editorRef = React.useRef<Editor>(null);
   const inputApiRef = React.useRef<InputApi | undefined>();
 
   const handleForceSend = React.useCallback(() => {
@@ -149,10 +179,10 @@ export const CompositionArea = ({
   );
 
   const focusInput = React.useCallback(() => {
-    if (editorRef.current) {
-      editorRef.current.focus();
+    if (inputApiRef.current) {
+      inputApiRef.current.focus();
     }
-  }, [editorRef]);
+  }, [inputApiRef]);
 
   const withStickers =
     countStickers({
@@ -326,7 +356,11 @@ export const CompositionArea = ({
     };
   }, [setLarge]);
 
-  if ((!acceptedMessageRequest || isBlocked) && messageRequestsEnabled) {
+  if (
+    isBlocked ||
+    areWePending ||
+    (messageRequestsEnabled && !acceptedMessageRequest)
+  ) {
     return (
       <MessageRequestActions
         i18n={i18n}
@@ -341,6 +375,48 @@ export const CompositionArea = ({
         profileName={profileName}
         phoneNumber={phoneNumber}
         title={title}
+      />
+    );
+  }
+
+  // If no message request, but we haven't shared profile yet, we show profile-sharing UI
+  if (
+    !left &&
+    (conversationType === 'direct' ||
+      (conversationType === 'group' && groupVersion === 1)) &&
+    isMissingMandatoryProfileSharing
+  ) {
+    return (
+      <MandatoryProfileSharingActions
+        i18n={i18n}
+        conversationType={conversationType}
+        onBlock={onBlock}
+        onBlockAndDelete={onBlockAndDelete}
+        onDelete={onDelete}
+        onAccept={onAccept}
+        name={name}
+        profileName={profileName}
+        phoneNumber={phoneNumber}
+        title={title}
+      />
+    );
+  }
+
+  // If this is a V1 group, now disabled entirely, we show UI to help them upgrade
+  if (!left && isGroupV1AndDisabled) {
+    return (
+      <GroupV1DisabledActions
+        i18n={i18n}
+        onStartGroupMigration={onStartGroupMigration}
+      />
+    );
+  }
+
+  if (areWePendingApproval) {
+    return (
+      <GroupV2PendingApprovalActions
+        i18n={i18n}
+        onCancelJoinRequest={onCancelJoinRequest}
       />
     );
   }
@@ -381,18 +457,18 @@ export const CompositionArea = ({
             i18n={i18n}
             disabled={disabled}
             large={large}
-            editorRef={editorRef}
             inputApi={inputApiRef}
             onPickEmoji={onPickEmoji}
             onSubmit={handleSubmit}
-            onEditorSizeChange={onEditorSizeChange}
             onEditorStateChange={onEditorStateChange}
             onTextTooLong={onTextTooLong}
             onDirtyChange={setDirty}
             skinTone={skinTone}
-            startingText={startingText}
+            draftText={draftText}
+            draftBodyRanges={draftBodyRanges}
             clearQuotedMessage={clearQuotedMessage}
             getQuotedMessage={getQuotedMessage}
+            sortedGroupMembers={sortedGroupMembers}
           />
         </div>
         {!large ? (

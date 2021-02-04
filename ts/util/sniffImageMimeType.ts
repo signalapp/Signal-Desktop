@@ -1,3 +1,6 @@
+// Copyright 2020-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import {
   IMAGE_BMP,
   IMAGE_GIF,
@@ -26,11 +29,11 @@ export function sniffImageMimeType(
   return undefined;
 }
 
-interface Type {
+type Type = {
   mimeType: MIMEType;
   bytePattern: Uint8Array;
   patternMask?: Uint8Array;
-}
+};
 const TYPES: Array<Type> = [
   {
     mimeType: IMAGE_ICO,

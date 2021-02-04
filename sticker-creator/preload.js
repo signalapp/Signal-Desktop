@@ -1,3 +1,6 @@
+// Copyright 2019-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* global window */
 const { ipcRenderer: ipc, remote } = require('electron');
 const sharp = require('sharp');
@@ -7,6 +10,11 @@ const config = require('url').parse(window.location.toString(), true).query;
 const { noop, uniqBy } = require('lodash');
 const pMap = require('p-map');
 const { deriveStickerPackKey } = require('../ts/Crypto');
+const {
+  getEnvironment,
+  setEnvironment,
+  parseEnvironment,
+} = require('../ts/environment');
 const { makeGetter } = require('../preload_utils');
 
 const { dialog } = remote;
@@ -15,11 +23,14 @@ const { nativeTheme } = remote.require('electron');
 const STICKER_SIZE = 512;
 const MIN_STICKER_DIMENSION = 10;
 const MAX_STICKER_DIMENSION = STICKER_SIZE;
+const MAX_WEBP_STICKER_BYTE_LENGTH = 100 * 1024;
 const MAX_ANIMATED_STICKER_BYTE_LENGTH = 300 * 1024;
+
+setEnvironment(parseEnvironment(config.environment));
 
 window.ROOT_PATH = window.location.href.startsWith('file') ? '../../' : '/';
 window.PROTO_ROOT = '../../protos';
-window.getEnvironment = () => config.environment;
+window.getEnvironment = getEnvironment;
 window.getVersion = () => config.version;
 window.getGuid = require('uuid/v4');
 window.PQueue = require('p-queue').default;
@@ -27,7 +38,7 @@ window.Backbone = require('backbone');
 
 window.localeMessages = ipc.sendSync('locale-data');
 
-require('../js/logging');
+require('../ts/logging/set_up_renderer_logging');
 
 window.log.info('sticker-creator starting up...');
 
@@ -48,8 +59,8 @@ const WebAPI = initializeWebAPI({
   directoryEnclaveId: config.directoryEnclaveId,
   directoryTrustAnchor: config.directoryTrustAnchor,
   cdnUrlObject: {
-    '0': config.cdnUrl0,
-    '2': config.cdnUrl2,
+    0: config.cdnUrl0,
+    2: config.cdnUrl2,
   },
   certificateAuthority: config.certificateAuthority,
   contentProxyUrl: config.contentProxyUrl,
@@ -128,6 +139,12 @@ window.processStickerImage = async path => {
       })
       .webp()
       .toBuffer();
+    if (processedBuffer.byteLength > MAX_WEBP_STICKER_BYTE_LENGTH) {
+      throw processStickerError(
+        'Sticker file was too large',
+        'StickerCreator--Toasts--tooLarge'
+      );
+    }
   }
 
   return {

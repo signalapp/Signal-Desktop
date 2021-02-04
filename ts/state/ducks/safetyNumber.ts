@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { generateSecurityNumberBlock } from '../../util/safetyNumber';
 import { ConversationType } from './conversations';
 import {
@@ -160,8 +163,8 @@ function getEmptyState(): SafetyNumberStateType {
 }
 
 export function reducer(
-  state: SafetyNumberStateType = getEmptyState(),
-  action: SafetyNumberActionType
+  state: Readonly<SafetyNumberStateType> = getEmptyState(),
+  action: Readonly<SafetyNumberActionType>
 ): SafetyNumberStateType {
   if (action.type === TOGGLE_VERIFIED_PENDING) {
     const { contact } = action.payload;

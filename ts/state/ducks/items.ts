@@ -1,3 +1,6 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { omit } from 'lodash';
 import { createSelector } from 'reselect';
 import { useSelector } from 'react-redux';
@@ -106,8 +109,8 @@ function getEmptyState(): ItemsStateType {
 }
 
 export function reducer(
-  state: ItemsStateType = getEmptyState(),
-  action: ItemsActionType
+  state: Readonly<ItemsStateType> = getEmptyState(),
+  action: Readonly<ItemsActionType>
 ): ItemsStateType {
   if (action.type === 'items/PUT_EXTERNAL') {
     const { payload } = action;

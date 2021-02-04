@@ -1,3 +1,6 @@
+// Copyright 2020-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -27,7 +30,7 @@ export type StickerPackType = any;
 export type StickerType = any;
 export type UnprocessedType = any;
 
-export interface DataInterface {
+export type DataInterface = {
   close: () => Promise<void>;
   removeDB: () => Promise<void>;
   removeIndexedDBFiles: () => Promise<void>;
@@ -100,6 +103,10 @@ export interface DataInterface {
   getMessageMetricsForConversation: (
     conversationId: string
   ) => Promise<ConverationMetricsType>;
+  hasGroupCallHistoryMessage: (
+    conversationId: string,
+    eraId: string
+  ) => Promise<boolean>;
   migrateConversationMessages: (
     obsoleteId: string,
     currentId: string
@@ -162,6 +169,7 @@ export interface DataInterface {
   getRecentStickers: (options?: {
     limit?: number;
   }) => Promise<Array<StickerType>>;
+  clearAllErrorStickerPackAttempts: () => Promise<void>;
 
   updateEmojiUsage: (shortName: string, timeUsed?: number) => Promise<void>;
   getRecentEmojis: (limit?: number) => Promise<Array<EmojiType>>;
@@ -181,7 +189,7 @@ export interface DataInterface {
     conversationId: string,
     options: { limit: number }
   ) => Promise<Array<MessageType>>;
-}
+};
 
 // The reason for client/server divergence is the need to inject Backbone models and
 //   collections into data calls so those are the objects returned. This was necessary in
@@ -210,19 +218,22 @@ export type ServerInterface = DataInterface & {
     options?: {
       limit?: number;
       receivedAt?: number;
+      sentAt?: number;
       messageId?: string;
     }
   ) => Promise<Array<MessageTypeUnhydrated>>;
   getNewerMessagesByConversation: (
     conversationId: string,
-    options?: { limit?: number; receivedAt?: number }
+    options?: { limit?: number; receivedAt?: number; sentAt?: number }
   ) => Promise<Array<MessageTypeUnhydrated>>;
-  getLastConversationActivity: (
-    conversationId: string
-  ) => Promise<MessageType | undefined>;
-  getLastConversationPreview: (
-    conversationId: string
-  ) => Promise<MessageType | undefined>;
+  getLastConversationActivity: (options: {
+    conversationId: string;
+    ourConversationId: string;
+  }) => Promise<MessageType | undefined>;
+  getLastConversationPreview: (options: {
+    conversationId: string;
+    ourConversationId: string;
+  }) => Promise<MessageType | undefined>;
   getNextExpiringMessage: () => Promise<MessageType>;
   getNextTapToViewMessageToAgeOut: () => Promise<MessageType>;
   getOutgoingWithoutExpiresAt: () => Promise<Array<MessageType>>;
@@ -231,7 +242,8 @@ export type ServerInterface = DataInterface & {
     conversationId: string
   ) => Promise<Array<MessageType>>;
   removeConversation: (id: Array<string> | string) => Promise<void>;
-  removeMessage: (id: Array<string> | string) => Promise<void>;
+  removeMessage: (id: string) => Promise<void>;
+  removeMessages: (ids: Array<string>) => Promise<void>;
   saveMessage: (
     data: MessageType,
     options: { forceSave?: boolean }
@@ -259,51 +271,41 @@ export type ServerInterface = DataInterface & {
 };
 
 export type ClientInterface = DataInterface & {
-  getAllConversations: ({
-    ConversationCollection,
-  }: {
+  getAllConversations: (options: {
     ConversationCollection: typeof ConversationModelCollectionType;
   }) => Promise<ConversationModelCollectionType>;
   getAllGroupsInvolvingId: (
     id: string,
-    {
-      ConversationCollection,
-    }: {
+    options: {
       ConversationCollection: typeof ConversationModelCollectionType;
     }
   ) => Promise<ConversationModelCollectionType>;
-  getAllPrivateConversations: ({
-    ConversationCollection,
-  }: {
+  getAllPrivateConversations: (options: {
     ConversationCollection: typeof ConversationModelCollectionType;
   }) => Promise<ConversationModelCollectionType>;
   getConversationById: (
     id: string,
-    { Conversation }: { Conversation: typeof ConversationModel }
+    options: { Conversation: typeof ConversationModel }
   ) => Promise<ConversationModel>;
-  getExpiredMessages: ({
-    MessageCollection,
-  }: {
+  getExpiredMessages: (options: {
     MessageCollection: typeof MessageModelCollectionType;
   }) => Promise<MessageModelCollectionType>;
   getMessageById: (
     id: string,
-    { Message }: { Message: typeof MessageModel }
+    options: { Message: typeof MessageModel }
   ) => Promise<MessageType | undefined>;
   getMessageBySender: (
-    options: {
+    data: {
       source: string;
       sourceUuid: string;
       sourceDevice: string;
       sent_at: number;
     },
-    { Message }: { Message: typeof MessageModel }
+    options: { Message: typeof MessageModel }
   ) => Promise<MessageModel | null>;
   getMessagesBySentAt: (
     sentAt: number,
-    {
-      MessageCollection,
-    }: { MessageCollection: typeof MessageModelCollectionType }
+    options: { MessageCollection: typeof MessageModelCollectionType }
   ) => Promise<MessageModelCollectionType>;
   getOlderMessagesByConversation: (
     conversationId: string,
@@ -311,6 +313,7 @@ export type ClientInterface = DataInterface & {
       limit?: number;
       messageId?: string;
       receivedAt?: number;
+      sentAt?: number;
       MessageCollection: typeof MessageModelCollectionType;
     }
   ) => Promise<MessageModelCollectionType>;
@@ -319,54 +322,47 @@ export type ClientInterface = DataInterface & {
     options: {
       limit?: number;
       receivedAt?: number;
+      sentAt?: number;
       MessageCollection: typeof MessageModelCollectionType;
     }
   ) => Promise<MessageModelCollectionType>;
-  getLastConversationActivity: (
-    conversationId: string,
-    options: {
-      Message: typeof MessageModel;
-    }
-  ) => Promise<MessageModel | undefined>;
-  getLastConversationPreview: (
-    conversationId: string,
-    options: {
-      Message: typeof MessageModel;
-    }
-  ) => Promise<MessageModel | undefined>;
-  getNextExpiringMessage: ({
-    Message,
-  }: {
+  getLastConversationActivity: (options: {
+    conversationId: string;
+    ourConversationId: string;
+    Message: typeof MessageModel;
+  }) => Promise<MessageModel | undefined>;
+  getLastConversationPreview: (options: {
+    conversationId: string;
+    ourConversationId: string;
+    Message: typeof MessageModel;
+  }) => Promise<MessageModel | undefined>;
+  getNextExpiringMessage: (options: {
     Message: typeof MessageModel;
   }) => Promise<MessageModel | null>;
-  getNextTapToViewMessageToAgeOut: ({
-    Message,
-  }: {
+  getNextTapToViewMessageToAgeOut: (options: {
     Message: typeof MessageModel;
   }) => Promise<MessageModel | null>;
-  getOutgoingWithoutExpiresAt: ({
-    MessageCollection,
-  }: {
+  getOutgoingWithoutExpiresAt: (options: {
     MessageCollection: typeof MessageModelCollectionType;
   }) => Promise<MessageModelCollectionType>;
-  getTapToViewMessagesNeedingErase: ({
-    MessageCollection,
-  }: {
+  getTapToViewMessagesNeedingErase: (options: {
     MessageCollection: typeof MessageModelCollectionType;
   }) => Promise<MessageModelCollectionType>;
   getUnreadByConversation: (
     conversationId: string,
-    {
-      MessageCollection,
-    }: { MessageCollection: typeof MessageModelCollectionType }
+    options: { MessageCollection: typeof MessageModelCollectionType }
   ) => Promise<MessageModelCollectionType>;
   removeConversation: (
     id: string,
-    { Conversation }: { Conversation: typeof ConversationModel }
+    options: { Conversation: typeof ConversationModel }
   ) => Promise<void>;
   removeMessage: (
     id: string,
-    { Message }: { Message: typeof MessageModel }
+    options: { Message: typeof MessageModel }
+  ) => Promise<void>;
+  removeMessages: (
+    ids: Array<string>,
+    options: { Message: typeof MessageModel }
   ) => Promise<void>;
   saveMessage: (
     data: MessageType,
@@ -376,9 +372,7 @@ export type ClientInterface = DataInterface & {
 
   // Test-only
 
-  _getAllMessages: ({
-    MessageCollection,
-  }: {
+  _getAllMessages: (options: {
     MessageCollection: typeof MessageModelCollectionType;
   }) => Promise<MessageModelCollectionType>;
 
@@ -387,9 +381,10 @@ export type ClientInterface = DataInterface & {
   shutdown: () => Promise<void>;
   removeAllMessagesInConversation: (
     conversationId: string,
-    {
-      MessageCollection,
-    }: { MessageCollection: typeof MessageModelCollectionType }
+    options: {
+      logId: string;
+      MessageCollection: typeof MessageModelCollectionType;
+    }
   ) => Promise<void>;
   removeOtherData: () => Promise<void>;
   cleanupOrphanedAttachments: () => Promise<void>;
@@ -398,8 +393,6 @@ export type ClientInterface = DataInterface & {
   // Client-side only, and test-only
 
   _removeConversations: (ids: Array<string>) => Promise<void>;
-  _removeMessages: (ids: Array<string>) => Promise<void>;
-  _cleanData: (data: any, path?: string) => any;
   _jobs: { [id: string]: ClientJobType };
 };
 

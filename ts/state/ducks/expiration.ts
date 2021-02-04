@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 // State
 
 export type ExpirationStateType = {
@@ -37,8 +40,8 @@ function getEmptyState(): ExpirationStateType {
 }
 
 export function reducer(
-  state: ExpirationStateType = getEmptyState(),
-  action: ExpirationActionType
+  state: Readonly<ExpirationStateType> = getEmptyState(),
+  action: Readonly<ExpirationActionType>
 ): ExpirationStateType {
   if (action.type === HYDRATE_EXPIRATION_STATUS) {
     return {

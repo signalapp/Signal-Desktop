@@ -1,7 +1,10 @@
+// Copyright 2015-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* global textsecure, window */
 
 // eslint-disable-next-line func-names
-(function() {
+(function () {
   /** *******************************************
    *** Utilities to store data about the user ***
    ********************************************* */
@@ -29,7 +32,7 @@
     getUuid() {
       const uuid = textsecure.storage.get('uuid_id');
       if (uuid === undefined) return undefined;
-      return textsecure.utils.unencodeNumber(uuid)[0];
+      return textsecure.utils.unencodeNumber(uuid.toLowerCase())[0];
     },
 
     getDeviceId() {

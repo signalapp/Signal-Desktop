@@ -1,17 +1,20 @@
-interface Environment {
+// Copyright 2018-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+type Environment = {
   isAppFocused: boolean;
   isAudioNotificationEnabled: boolean;
   isEnabled: boolean;
   hasNotifications: boolean;
   userSetting: UserSetting;
-}
+};
 
-interface Status {
+type Status = {
   shouldClearNotifications: boolean;
   shouldPlayNotificationSound: boolean;
   shouldShowNotifications: boolean;
   type: Type;
-}
+};
 
 type UserSetting = 'off' | 'count' | 'name' | 'message';
 

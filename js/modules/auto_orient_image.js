@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 const loadImage = require('blueimp-load-image');
 
 const DEFAULT_JPEG_QUALITY = 0.85;

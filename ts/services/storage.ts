@@ -1,4 +1,7 @@
-import _ from 'lodash';
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+import { debounce, isNumber, partition } from 'lodash';
 import pMap from 'p-map';
 
 import Crypto from '../textsecure/Crypto';
@@ -29,6 +32,7 @@ import {
 } from './storageRecordOps';
 import { ConversationModel } from '../models/conversations';
 import { storageJobQueue } from '../util/JobQueue';
+import { sleep } from '../util/sleep';
 
 const {
   eraseStorageServiceStateFromConversations,
@@ -63,11 +67,7 @@ const BACKOFF: BackoffType = {
 
 function backOff(count: number) {
   const ms = BACKOFF[count] || BACKOFF.max;
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve();
-    }, ms);
-  });
+  return sleep(ms);
 }
 
 type UnknownRecord = {
@@ -753,7 +753,7 @@ async function processManifest(
 
   // Merge Account records last
   const sortedStorageItems = ([] as Array<MergeableItemType>).concat(
-    ..._.partition(
+    ...partition(
       decryptedStorageItems,
       storageRecord => storageRecord.storageRecord.account === undefined
     )
@@ -897,7 +897,14 @@ async function sync(): Promise<void> {
   window.log.info('storageService.sync: starting...');
 
   try {
-    const localManifestVersion = window.storage.get('manifestVersion') || 0;
+    // If we've previously interacted with strage service, update 'fetchComplete' record
+    const previousFetchComplete = window.storage.get('storageFetchComplete');
+    const manifestFromStorage = window.storage.get('manifestVersion');
+    if (!previousFetchComplete && isNumber(manifestFromStorage)) {
+      window.storage.put('storageFetchComplete', true);
+    }
+
+    const localManifestVersion = manifestFromStorage || 0;
     const manifest = await fetchManifest(localManifestVersion);
 
     // Guarding against no manifests being returned, everything should be ok
@@ -918,6 +925,9 @@ async function sync(): Promise<void> {
     if (hasConflicts) {
       await upload();
     }
+
+    // We now know that we've successfully completed a storage service fetch
+    window.storage.put('storageFetchComplete', true);
   } catch (err) {
     window.log.error(
       'storageService.sync: error processing manifest',
@@ -943,9 +953,9 @@ async function upload(): Promise<void> {
 
     return;
   }
-  if (!isEnabled('desktop.storageWrite')) {
+  if (!isEnabled('desktop.storageWrite2')) {
     window.log.info(
-      'storageService.upload: Not starting desktop.storageWrite is falsey'
+      'storageService.upload: Not starting desktop.storageWrite2 is falsey'
     );
 
     return;
@@ -1013,7 +1023,7 @@ export async function eraseAllStorageServiceState(): Promise<void> {
   window.log.info('storageService.eraseAllStorageServiceState: complete');
 }
 
-export const storageServiceUploadJob = _.debounce(() => {
+export const storageServiceUploadJob = debounce(() => {
   if (!storageServiceEnabled) {
     window.log.info(
       'storageService.storageServiceUploadJob: called before enabled'
@@ -1024,7 +1034,7 @@ export const storageServiceUploadJob = _.debounce(() => {
   storageJobQueue(upload, `upload v${window.storage.get('manifestVersion')}`);
 }, 500);
 
-export const runStorageServiceSyncJob = _.debounce(() => {
+export const runStorageServiceSyncJob = debounce(() => {
   if (!storageServiceEnabled) {
     window.log.info(
       'storageService.runStorageServiceSyncJob: called before enabled'

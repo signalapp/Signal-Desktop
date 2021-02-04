@@ -1,3 +1,6 @@
+<!-- Copyright 2014-2020 Signal Messenger, LLC -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,14 +24,16 @@
   >
   <title>Signal</title>
   <link href="node_modules/sanitize.css/sanitize.css" rel="stylesheet" type="text/css" />
+  <link href="node_modules/react-quill/dist/quill.core.css" rel="stylesheet" type="text/css" />
   <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
-  <link href="node_modules/draft-js/dist/Draft.css" rel="stylesheet" type="text/css" />
 
   <!--
     When making changes to these templates, be sure to update test/index.html as well
   -->
 
   <script type='text/x-tmpl-mustache' id='app-loading-screen'>
+    <div class='module-title-bar-drag-area'></div>
+
     <div class='content'>
       <div class="module-splash-screen__logo module-img--150"></div>
       <div class='container'>
@@ -41,6 +46,8 @@
   </script>
 
   <script type='text/x-tmpl-mustache' id='conversation-loading-screen'>
+    <div class='module-title-bar-drag-area'></div>
+
     <div class='content'>
       <div class="module-splash-screen__logo module-img--128"></div>
       <div class='container'>
@@ -52,6 +59,8 @@
   </script>
 
   <script type='text/x-tmpl-mustache' id='two-column'>
+    <div class='module-title-bar-drag-area'></div>
+
     <div class='call-manager-placeholder'></div>
     <div class='inbox-container'>
       <div class='gutter'>
@@ -109,18 +118,6 @@
       <button class='close' tabIndex='2'><span class='icon'></span></button>
       <span class='time'>0:00</span>
       <button class='finish' tabIndex='1'><span class='icon'></span></button>
-  </script>
-
-  <script type='text/x-tmpl-mustache' id='confirmation-dialog'>
-    <div class="content">
-      <div class='message'>{{ message }}</div>
-      <div class='buttons'>
-        <button class='ok' tabindex='2'>{{ ok }}</button>
-        {{ #showCancel }}
-          <button class='cancel' tabindex='1'>{{ cancel }}</button>
-        {{ /showCancel }}
-      </div>
-    </div>
   </script>
 
   <script type='text/x-tmpl-mustache' id='safety-number-change-dialog'>
@@ -326,6 +323,8 @@
   </script>
 
   <script type='text/javascript' src='js/components.js'></script>
+  <script type='text/javascript' src='ts/set_os_class.js'></script>
+  <script type='text/javascript' src='ts/manage_full_screen_class.js'></script>
   <script type='text/javascript' src='ts/backboneJquery.js'></script>
   <script type='text/javascript' src='js/reliable_trigger.js'></script>
   <script type='text/javascript' src='js/database.js'></script>
@@ -358,7 +357,7 @@
   <script type='text/javascript' src='js/views/recorder_view.js'></script>
   <script type='text/javascript' src='ts/views/conversation_view.js'></script>
   <script type='text/javascript' src='js/views/inbox_view.js'></script>
-  <script type='text/javascript' src='js/views/confirmation_dialog_view.js'></script>
+  <script type='text/javascript' src='ts/shims/showConfirmationDialog.js'></script>
   <script type='text/javascript' src='js/views/identicon_svg_view.js'></script>
   <script type='text/javascript' src='js/views/install_view.js'></script>
   <script type='text/javascript' src='js/views/banner_view.js'></script>
@@ -374,6 +373,8 @@
 </head>
 <body class="overflow-hidden">
   <div class='app-loading-screen'>
+    <div class='module-title-bar-drag-area'></div>
+
     <div class='content'>
       <div class="module-splash-screen__logo module-img--150"></div>
       <div class='container'>

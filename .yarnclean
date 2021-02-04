@@ -29,7 +29,6 @@ Gruntfile.js
 # configs
 .tern-project
 .gitattributes
-.editorconfig
 .*ignore
 .eslintrc
 .jshintrc

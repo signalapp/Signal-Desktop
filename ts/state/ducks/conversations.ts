@@ -1,4 +1,8 @@
+// Copyright 2019-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint-disable camelcase */
+import { ThunkAction } from 'redux-thunk';
 import {
   difference,
   fromPairs,
@@ -10,10 +14,22 @@ import {
   values,
   without,
 } from 'lodash';
+
+import { StateType as RootStateType } from '../reducer';
+import { calling } from '../../services/calling';
+import { getOwn } from '../../util/getOwn';
 import { trigger } from '../../shims/events';
 import { NoopActionType } from './noop';
 import { AttachmentType } from '../../types/Attachment';
 import { ColorType } from '../../types/Colors';
+import { BodyRangeType } from '../../types/Util';
+import { CallMode, CallHistoryDetailsFromDiskType } from '../../types/Calling';
+import {
+  GroupV2PendingMembership,
+  GroupV2RequestingMembership,
+} from '../../components/conversation/conversation-details/PendingInvites';
+import { GroupV2Membership } from '../../components/conversation/conversation-details/ConversationDetailsMembershipList';
+import { MediaItemType } from '../../components/LightboxGallery';
 
 // State
 
@@ -41,25 +57,48 @@ export type ConversationType = {
   name?: string;
   firstName?: string;
   profileName?: string;
+  about?: string;
   avatarPath?: string;
+  areWeAdmin?: boolean;
+  areWePending?: boolean;
+  areWePendingApproval?: boolean;
+  canChangeTimer?: boolean;
+  canEditGroupInfo?: boolean;
   color?: ColorType;
+  isAccepted?: boolean;
   isArchived?: boolean;
   isBlocked?: boolean;
+  isGroupV1AndDisabled?: boolean;
   isPinned?: boolean;
+  isUntrusted?: boolean;
   isVerified?: boolean;
   activeAt?: number;
   timestamp?: number;
   inboxPosition?: number;
+  left?: boolean;
   lastMessage?: {
     status: LastMessageStatus;
     text: string;
+    deletedForEveryone?: boolean;
   };
+  markedUnread?: boolean;
   phoneNumber?: string;
   membersCount?: number;
+  accessControlAddFromInviteLink?: number;
+  accessControlAttributes?: number;
+  accessControlMembers?: number;
+  expireTimer?: number;
+  // This is used by the ConversationDetails set of components, it includes the
+  // membersV2 data and also has some extra metadata attached to the object
+  memberships?: Array<GroupV2Membership>;
+  pendingMemberships?: Array<GroupV2PendingMembership>;
+  pendingApprovalMemberships?: Array<GroupV2RequestingMembership>;
   muteExpiresAt?: number;
   type: ConversationTypeType;
   isMe?: boolean;
-  lastUpdated: number;
+  lastUpdated?: number;
+  // This is used by the CompositionInput for @mentions
+  sortedGroupMembers?: Array<ConversationType>;
   title: string;
   unreadCount?: number;
   isSelected?: boolean;
@@ -70,13 +109,22 @@ export type ConversationType = {
     phoneNumber?: string;
     profileName?: string;
   } | null;
+  recentMediaItems?: Array<MediaItemType>;
 
   shouldShowDraft?: boolean;
   draftText?: string | null;
+  draftBodyRanges?: Array<BodyRangeType>;
   draftPreview?: string;
 
+  sharedGroupNames?: Array<string>;
+  groupVersion?: 1 | 2;
+  groupId?: string;
+  groupLink?: string;
+  isMissingMandatoryProfileSharing?: boolean;
   messageRequestsEnabled?: boolean;
   acceptedMessageRequest?: boolean;
+  secretParams?: string;
+  publicParams?: string;
 };
 export type ConversationLookupType = {
   [key: string]: ConversationType;
@@ -84,7 +132,8 @@ export type ConversationLookupType = {
 export type MessageType = {
   id: string;
   conversationId: string;
-  source: string;
+  source?: string;
+  sourceUuid?: string;
   type:
     | 'incoming'
     | 'outgoing'
@@ -93,14 +142,16 @@ export type MessageType = {
     | 'verified-change'
     | 'message-history-unsynced'
     | 'call-history';
-  quote?: { author: string };
+  quote?: { author?: string; authorUuid?: string };
   received_at: number;
+  sent_at?: number;
   hasSignalAccount?: boolean;
   bodyPending?: boolean;
   attachments: Array<AttachmentType>;
   sticker: {
     data?: {
-      pending: boolean;
+      pending?: boolean;
+      blurHash?: string;
     };
   };
   unread: boolean;
@@ -121,6 +172,7 @@ export type MessageType = {
 
   errors?: Array<Error>;
   group_update?: unknown;
+  callHistoryDetails?: CallHistoryDetailsFromDiskType;
 
   // No need to go beyond this; unused at this stage, since this goes into
   //   a reducer still in plain JavaScript and comes out well-formed
@@ -129,6 +181,7 @@ export type MessageType = {
 type MessagePointerType = {
   id: string;
   received_at: number;
+  sent_at?: number;
 };
 type MessageMetricsType = {
   newest?: MessagePointerType;
@@ -153,14 +206,30 @@ export type ConversationMessageType = {
 };
 
 export type MessagesByConversationType = {
-  [key: string]: ConversationMessageType | null;
+  [key: string]: ConversationMessageType | undefined;
+};
+
+export type PreJoinConversationType = {
+  avatar?: {
+    loading?: boolean;
+    url?: string;
+  };
+  memberCount: number;
+  title: string;
+  approvalRequired: boolean;
 };
 
 export type ConversationsStateType = {
+  preJoinConversation?: PreJoinConversationType;
   conversationLookup: ConversationLookupType;
+  conversationsByE164: ConversationLookupType;
+  conversationsByUuid: ConversationLookupType;
+  conversationsByGroupId: ConversationLookupType;
   selectedConversation?: string;
   selectedMessage?: string;
   selectedMessageCounter: number;
+  selectedConversationTitle?: string;
+  selectedConversationPanelDepth: number;
   showArchived: boolean;
 
   // Note: it's very important that both of these locations are always kept up to date
@@ -168,7 +237,39 @@ export type ConversationsStateType = {
   messagesByConversation: MessagesByConversationType;
 };
 
+// Helpers
+
+export const getConversationCallMode = (
+  conversation: ConversationType
+): CallMode => {
+  if (
+    conversation.left ||
+    conversation.isBlocked ||
+    conversation.isMe ||
+    !conversation.acceptedMessageRequest
+  ) {
+    return CallMode.None;
+  }
+
+  if (conversation.type === 'direct') {
+    return CallMode.Direct;
+  }
+
+  if (conversation.type === 'group' && conversation.groupVersion === 2) {
+    return CallMode.Group;
+  }
+
+  return CallMode.None;
+};
+
 // Actions
+
+type SetPreJoinConversationActionType = {
+  type: 'SET_PRE_JOIN_CONVERSATION';
+  payload: {
+    data: PreJoinConversationType | undefined;
+  };
+};
 
 type ConversationAddedActionType = {
   type: 'CONVERSATION_ADDED';
@@ -222,6 +323,13 @@ export type MessageDeletedActionType = {
     conversationId: string;
   };
 };
+type MessageSizeChangedActionType = {
+  type: 'MESSAGE_SIZE_CHANGED';
+  payload: {
+    id: string;
+    conversationId: string;
+  };
+};
 export type MessagesAddedActionType = {
   type: 'MESSAGES_ADDED';
   payload: {
@@ -229,6 +337,19 @@ export type MessagesAddedActionType = {
     messages: Array<MessageType>;
     isNewMessage: boolean;
     isActive: boolean;
+  };
+};
+
+export type RepairNewestMessageActionType = {
+  type: 'REPAIR_NEWEST_MESSAGE';
+  payload: {
+    conversationId: string;
+  };
+};
+export type RepairOldestMessageActionType = {
+  type: 'REPAIR_OLDEST_MESSAGE';
+  payload: {
+    conversationId: string;
   };
 };
 export type MessagesResetActionType = {
@@ -263,6 +384,14 @@ export type SetIsNearBottomActionType = {
     conversationId: string;
     isNearBottom: boolean;
   };
+};
+export type SetConversationHeaderTitleActionType = {
+  type: 'SET_CONVERSATION_HEADER_TITLE';
+  payload: { title?: string };
+};
+export type SetSelectedConversationPanelDepthActionType = {
+  type: 'SET_SELECTED_CONVERSATION_PANEL_DEPTH';
+  payload: { panelDepth: number };
 };
 export type ScrollToMessageActionType = {
   type: 'SCROLL_TO_MESSAGE';
@@ -302,57 +431,86 @@ export type ShowArchivedConversationsActionType = {
   type: 'SHOW_ARCHIVED_CONVERSATIONS';
   payload: null;
 };
+type SetRecentMediaItemsActionType = {
+  type: 'SET_RECENT_MEDIA_ITEMS';
+  payload: {
+    id: string;
+    recentMediaItems: Array<MediaItemType>;
+  };
+};
 
 export type ConversationActionType =
+  | ClearChangedMessagesActionType
+  | ClearSelectedMessageActionType
+  | ClearUnreadMetricsActionType
   | ConversationAddedActionType
   | ConversationChangedActionType
   | ConversationRemovedActionType
   | ConversationUnloadedActionType
-  | RemoveAllConversationsActionType
-  | MessageSelectedActionType
   | MessageChangedActionType
   | MessageDeletedActionType
   | MessagesAddedActionType
+  | MessageSelectedActionType
+  | MessageSizeChangedActionType
   | MessagesResetActionType
-  | SetMessagesLoadingActionType
-  | SetIsNearBottomActionType
-  | SetLoadCountdownStartActionType
-  | ClearChangedMessagesActionType
-  | ClearSelectedMessageActionType
-  | ClearUnreadMetricsActionType
+  | RemoveAllConversationsActionType
+  | RepairNewestMessageActionType
+  | RepairOldestMessageActionType
   | ScrollToMessageActionType
   | SelectedConversationChangedActionType
-  | MessageDeletedActionType
-  | SelectedConversationChangedActionType
-  | ShowInboxActionType
-  | ShowArchivedConversationsActionType;
+  | SetConversationHeaderTitleActionType
+  | SetIsNearBottomActionType
+  | SetLoadCountdownStartActionType
+  | SetMessagesLoadingActionType
+  | SetPreJoinConversationActionType
+  | SetRecentMediaItemsActionType
+  | SetSelectedConversationPanelDepthActionType
+  | ShowArchivedConversationsActionType
+  | ShowInboxActionType;
 
 // Action Creators
 
 export const actions = {
+  clearChangedMessages,
+  clearSelectedMessage,
+  clearUnreadMetrics,
   conversationAdded,
   conversationChanged,
   conversationRemoved,
   conversationUnloaded,
-  removeAllConversations,
-  selectMessage,
-  messageDeleted,
   messageChanged,
+  messageDeleted,
   messagesAdded,
+  messageSizeChanged,
   messagesReset,
-  setMessagesLoading,
-  setLoadCountdownStart,
-  setIsNearBottom,
-  clearChangedMessages,
-  clearSelectedMessage,
-  clearUnreadMetrics,
-  scrollToMessage,
-  openConversationInternal,
   openConversationExternal,
-  showInbox,
+  openConversationInternal,
+  removeAllConversations,
+  repairNewestMessage,
+  repairOldestMessage,
+  scrollToMessage,
+  selectMessage,
+  setIsNearBottom,
+  setLoadCountdownStart,
+  setMessagesLoading,
+  setPreJoinConversation,
+  setRecentMediaItems,
+  setSelectedConversationHeaderTitle,
+  setSelectedConversationPanelDepth,
   showArchivedConversations,
+  showInbox,
 };
 
+function setPreJoinConversation(
+  data: PreJoinConversationType | undefined
+): SetPreJoinConversationActionType {
+  return {
+    type: 'SET_PRE_JOIN_CONVERSATION',
+    payload: {
+      data,
+    },
+  };
+}
 function conversationAdded(
   id: string,
   data: ConversationType
@@ -368,13 +526,17 @@ function conversationAdded(
 function conversationChanged(
   id: string,
   data: ConversationType
-): ConversationChangedActionType {
-  return {
-    type: 'CONVERSATION_CHANGED',
-    payload: {
-      id,
-      data,
-    },
+): ThunkAction<void, RootStateType, unknown, ConversationChangedActionType> {
+  return dispatch => {
+    calling.groupMembersChanged(id);
+
+    dispatch({
+      type: 'CONVERSATION_CHANGED',
+      payload: {
+        id,
+        data,
+      },
+    });
   };
 }
 function conversationRemoved(id: string): ConversationRemovedActionType {
@@ -439,6 +601,18 @@ function messageDeleted(
     },
   };
 }
+function messageSizeChanged(
+  id: string,
+  conversationId: string
+): MessageSizeChangedActionType {
+  return {
+    type: 'MESSAGE_SIZE_CHANGED',
+    payload: {
+      id,
+      conversationId,
+    },
+  };
+}
 function messagesAdded(
   conversationId: string,
   messages: Array<MessageType>,
@@ -455,6 +629,28 @@ function messagesAdded(
     },
   };
 }
+
+function repairNewestMessage(
+  conversationId: string
+): RepairNewestMessageActionType {
+  return {
+    type: 'REPAIR_NEWEST_MESSAGE',
+    payload: {
+      conversationId,
+    },
+  };
+}
+function repairOldestMessage(
+  conversationId: string
+): RepairOldestMessageActionType {
+  return {
+    type: 'REPAIR_OLDEST_MESSAGE',
+    payload: {
+      conversationId,
+    },
+  };
+}
+
 function messagesReset(
   conversationId: string,
   messages: Array<MessageType>,
@@ -507,6 +703,31 @@ function setIsNearBottom(
       conversationId,
       isNearBottom,
     },
+  };
+}
+function setSelectedConversationHeaderTitle(
+  title?: string
+): SetConversationHeaderTitleActionType {
+  return {
+    type: 'SET_CONVERSATION_HEADER_TITLE',
+    payload: { title },
+  };
+}
+function setSelectedConversationPanelDepth(
+  panelDepth: number
+): SetSelectedConversationPanelDepthActionType {
+  return {
+    type: 'SET_SELECTED_CONVERSATION_PANEL_DEPTH',
+    payload: { panelDepth },
+  };
+}
+function setRecentMediaItems(
+  id: string,
+  recentMediaItems: Array<MediaItemType>
+): SetRecentMediaItemsActionType {
+  return {
+    type: 'SET_RECENT_MEDIA_ITEMS',
+    payload: { id, recentMediaItems },
   };
 }
 function clearChangedMessages(
@@ -592,13 +813,18 @@ function showArchivedConversations(): ShowArchivedConversationsActionType {
 
 // Reducer
 
-function getEmptyState(): ConversationsStateType {
+export function getEmptyState(): ConversationsStateType {
   return {
     conversationLookup: {},
+    conversationsByE164: {},
+    conversationsByUuid: {},
+    conversationsByGroupId: {},
     messagesByConversation: {},
     messagesLookup: {},
     selectedMessageCounter: 0,
     showArchived: false,
+    selectedConversationTitle: '',
+    selectedConversationPanelDepth: 0,
   };
 }
 
@@ -629,6 +855,7 @@ function hasMessageHeightChanged(
     message.sticker.data &&
     previous.sticker &&
     previous.sticker.data &&
+    !previous.sticker.data.blurHash &&
     previous.sticker.data.pending !== message.sticker.data.pending;
   if (stickerPendingChanged) {
     return true;
@@ -673,10 +900,68 @@ function hasMessageHeightChanged(
   return false;
 }
 
+export function updateConversationLookups(
+  added: ConversationType | undefined,
+  removed: ConversationType | undefined,
+  state: ConversationsStateType
+): Pick<
+  ConversationsStateType,
+  'conversationsByE164' | 'conversationsByUuid' | 'conversationsByGroupId'
+> {
+  const result = {
+    conversationsByE164: state.conversationsByE164,
+    conversationsByUuid: state.conversationsByUuid,
+    conversationsByGroupId: state.conversationsByGroupId,
+  };
+
+  if (removed && removed.e164) {
+    result.conversationsByE164 = omit(result.conversationsByE164, removed.e164);
+  }
+  if (removed && removed.uuid) {
+    result.conversationsByUuid = omit(result.conversationsByUuid, removed.uuid);
+  }
+  if (removed && removed.groupId) {
+    result.conversationsByGroupId = omit(
+      result.conversationsByGroupId,
+      removed.groupId
+    );
+  }
+
+  if (added && added.e164) {
+    result.conversationsByE164 = {
+      ...result.conversationsByE164,
+      [added.e164]: added,
+    };
+  }
+  if (added && added.uuid) {
+    result.conversationsByUuid = {
+      ...result.conversationsByUuid,
+      [added.uuid]: added,
+    };
+  }
+  if (added && added.groupId) {
+    result.conversationsByGroupId = {
+      ...result.conversationsByGroupId,
+      [added.groupId]: added,
+    };
+  }
+
+  return result;
+}
+
 export function reducer(
-  state: ConversationsStateType = getEmptyState(),
-  action: ConversationActionType
+  state: Readonly<ConversationsStateType> = getEmptyState(),
+  action: Readonly<ConversationActionType>
 ): ConversationsStateType {
+  if (action.type === 'SET_PRE_JOIN_CONVERSATION') {
+    const { payload } = action;
+    const { data } = payload;
+
+    return {
+      ...state,
+      preJoinConversation: data,
+    };
+  }
   if (action.type === 'CONVERSATION_ADDED') {
     const { payload } = action;
     const { id, data } = payload;
@@ -688,6 +973,7 @@ export function reducer(
         ...conversationLookup,
         [id]: data,
       },
+      ...updateConversationLookups(data, undefined, state),
     };
   }
   if (action.type === 'CONVERSATION_CHANGED') {
@@ -725,16 +1011,24 @@ export function reducer(
         ...conversationLookup,
         [id]: data,
       },
+      ...updateConversationLookups(data, existing, state),
     };
   }
   if (action.type === 'CONVERSATION_REMOVED') {
     const { payload } = action;
     const { id } = payload;
     const { conversationLookup } = state;
+    const existing = getOwn(conversationLookup, id);
+
+    // No need to make a change if we didn't have a record of this conversation!
+    if (!existing) {
+      return state;
+    }
 
     return {
       ...state,
       conversationLookup: omit(conversationLookup, [id]),
+      ...updateConversationLookups(undefined, existing, state),
     };
   }
   if (action.type === 'CONVERSATION_UNLOADED') {
@@ -754,12 +1048,19 @@ export function reducer(
     return {
       ...state,
       selectedConversation,
+      selectedConversationPanelDepth: 0,
       messagesLookup: omit(state.messagesLookup, messageIds),
       messagesByConversation: omit(state.messagesByConversation, [id]),
     };
   }
   if (action.type === 'CONVERSATIONS_REMOVE_ALL') {
     return getEmptyState();
+  }
+  if (action.type === 'SET_SELECTED_CONVERSATION_PANEL_DEPTH') {
+    return {
+      ...state,
+      selectedConversationPanelDepth: action.payload.panelDepth,
+    };
   }
   if (action.type === 'MESSAGE_SELECTED') {
     const { messageId, conversationId } = action.payload;
@@ -812,6 +1113,31 @@ export function reducer(
       },
     };
   }
+  if (action.type === 'MESSAGE_SIZE_CHANGED') {
+    const { id, conversationId } = action.payload;
+
+    const existingConversation = getOwn(
+      state.messagesByConversation,
+      conversationId
+    );
+    if (!existingConversation) {
+      return state;
+    }
+
+    return {
+      ...state,
+      messagesByConversation: {
+        ...state.messagesByConversation,
+        [conversationId]: {
+          ...existingConversation,
+          heightChangeMessageIds: uniq([
+            ...existingConversation.heightChangeMessageIds,
+            id,
+          ]),
+        },
+      },
+    };
+  }
   if (action.type === 'MESSAGES_RESET') {
     const {
       conversationId,
@@ -827,7 +1153,11 @@ export function reducer(
       ? existingConversation.resetCounter + 1
       : 0;
 
-    const sorted = orderBy(messages, ['received_at'], ['ASC']);
+    const sorted = orderBy(
+      messages,
+      ['received_at', 'sent_at'],
+      ['ASC', 'ASC']
+    );
     const messageIds = sorted.map(message => message.id);
 
     const lookup = fromPairs(messages.map(message => [message.id, message]));
@@ -838,7 +1168,7 @@ export function reducer(
     if (messages.length > 0) {
       const first = messages[0];
       if (first && (!oldest || first.received_at <= oldest.received_at)) {
-        oldest = pick(first, ['id', 'received_at']);
+        oldest = pick(first, ['id', 'received_at', 'sent_at']);
       }
 
       const last = messages[messages.length - 1];
@@ -846,7 +1176,7 @@ export function reducer(
         last &&
         (!newest || unboundedFetch || last.received_at >= newest.received_at)
       ) {
-        newest = pick(last, ['id', 'received_at']);
+        newest = pick(last, ['id', 'received_at', 'sent_at']);
       }
     }
 
@@ -999,12 +1329,14 @@ export function reducer(
 
       if (oldest && oldest.id === firstId && firstId === id) {
         const second = messagesLookup[oldIds[1]];
-        oldest = second ? pick(second, ['id', 'received_at']) : undefined;
+        oldest = second
+          ? pick(second, ['id', 'received_at', 'sent_at'])
+          : undefined;
       }
       if (newest && newest.id === lastId && lastId === id) {
         const penultimate = messagesLookup[oldIds[oldIds.length - 2]];
         newest = penultimate
-          ? pick(penultimate, ['id', 'received_at'])
+          ? pick(penultimate, ['id', 'received_at', 'sent_at'])
           : undefined;
       }
     }
@@ -1042,6 +1374,72 @@ export function reducer(
       },
     };
   }
+
+  if (action.type === 'REPAIR_NEWEST_MESSAGE') {
+    const { conversationId } = action.payload;
+    const { messagesByConversation, messagesLookup } = state;
+
+    const existingConversation = getOwn(messagesByConversation, conversationId);
+    if (!existingConversation) {
+      return state;
+    }
+
+    const { messageIds } = existingConversation;
+    const lastId =
+      messageIds && messageIds.length
+        ? messageIds[messageIds.length - 1]
+        : undefined;
+    const last = lastId ? getOwn(messagesLookup, lastId) : undefined;
+    const newest = last
+      ? pick(last, ['id', 'received_at', 'sent_at'])
+      : undefined;
+
+    return {
+      ...state,
+      messagesByConversation: {
+        ...messagesByConversation,
+        [conversationId]: {
+          ...existingConversation,
+          metrics: {
+            ...existingConversation.metrics,
+            newest,
+          },
+        },
+      },
+    };
+  }
+
+  if (action.type === 'REPAIR_OLDEST_MESSAGE') {
+    const { conversationId } = action.payload;
+    const { messagesByConversation, messagesLookup } = state;
+
+    const existingConversation = getOwn(messagesByConversation, conversationId);
+    if (!existingConversation) {
+      return state;
+    }
+
+    const { messageIds } = existingConversation;
+    const firstId = messageIds && messageIds.length ? messageIds[0] : undefined;
+    const first = firstId ? getOwn(messagesLookup, firstId) : undefined;
+    const oldest = first
+      ? pick(first, ['id', 'received_at', 'sent_at'])
+      : undefined;
+
+    return {
+      ...state,
+      messagesByConversation: {
+        ...messagesByConversation,
+        [conversationId]: {
+          ...existingConversation,
+          metrics: {
+            ...existingConversation.metrics,
+            oldest,
+          },
+        },
+      },
+    };
+  }
+
   if (action.type === 'MESSAGES_ADDED') {
     const { conversationId, isActive, isNewMessage, messages } = action.payload;
     const { messagesByConversation, messagesLookup } = state;
@@ -1069,17 +1467,21 @@ export function reducer(
       lookup[message.id] = message;
     });
 
-    const sorted = orderBy(values(lookup), ['received_at'], ['ASC']);
+    const sorted = orderBy(
+      values(lookup),
+      ['received_at', 'sent_at'],
+      ['ASC', 'ASC']
+    );
     const messageIds = sorted.map(message => message.id);
 
     const first = sorted[0];
     const last = sorted[sorted.length - 1];
 
     if (!newest) {
-      newest = pick(first, ['id', 'received_at']);
+      newest = pick(first, ['id', 'received_at', 'sent_at']);
     }
     if (!oldest) {
-      oldest = pick(last, ['id', 'received_at']);
+      oldest = pick(last, ['id', 'received_at', 'sent_at']);
     }
 
     const existingTotal = existingConversation.messageIds.length;
@@ -1097,10 +1499,10 @@ export function reducer(
     // Update oldest and newest if we receive older/newer
     // messages (or duplicated timestamps!)
     if (first && oldest && first.received_at <= oldest.received_at) {
-      oldest = pick(first, ['id', 'received_at']);
+      oldest = pick(first, ['id', 'received_at', 'sent_at']);
     }
     if (last && newest && last.received_at >= newest.received_at) {
-      newest = pick(last, ['id', 'received_at']);
+      newest = pick(last, ['id', 'received_at', 'sent_at']);
     }
 
     const newIds = messages.map(message => message.id);
@@ -1118,6 +1520,7 @@ export function reducer(
         oldestUnread = pick(lookup[oldestId], [
           'id',
           'received_at',
+          'sent_at',
         ]) as MessagePointerType;
       }
     }
@@ -1231,6 +1634,38 @@ export function reducer(
     return {
       ...state,
       showArchived: true,
+    };
+  }
+
+  if (action.type === 'SET_CONVERSATION_HEADER_TITLE') {
+    return {
+      ...state,
+      selectedConversationTitle: action.payload.title,
+    };
+  }
+
+  if (action.type === 'SET_RECENT_MEDIA_ITEMS') {
+    const { id, recentMediaItems } = action.payload;
+    const { conversationLookup } = state;
+
+    const conversationData = conversationLookup[id];
+
+    if (!conversationData) {
+      return state;
+    }
+
+    const data = {
+      ...conversationData,
+      recentMediaItems,
+    };
+
+    return {
+      ...state,
+      conversationLookup: {
+        ...conversationLookup,
+        [id]: data,
+      },
+      ...updateConversationLookups(data, undefined, state),
     };
   }
 

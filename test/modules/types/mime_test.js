@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 const { assert } = require('chai');
 
 const MIME = require('../../../ts/types/MIME');

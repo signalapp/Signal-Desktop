@@ -1,3 +1,6 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { trigger } from '../../shims/events';
 
 import { NoopActionType } from './noop';
@@ -64,7 +67,7 @@ function manualReconnect(): NoopActionType {
 
 // Reducer
 
-function getEmptyState(): UserStateType {
+export function getEmptyState(): UserStateType {
   return {
     attachmentsPath: 'missing',
     stickersPath: 'missing',
@@ -80,8 +83,8 @@ function getEmptyState(): UserStateType {
 }
 
 export function reducer(
-  state: UserStateType = getEmptyState(),
-  action: UserActionType
+  state: Readonly<UserStateType> = getEmptyState(),
+  action: Readonly<UserActionType>
 ): UserStateType {
   if (!state) {
     return getEmptyState();

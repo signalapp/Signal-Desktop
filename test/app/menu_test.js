@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 const { assert } = require('chai');
 
 const SignalMenu = require('../../app/menu');
@@ -49,7 +52,6 @@ describe('SignalMenu', () => {
                 isBeta: false,
                 openContactUs: null,
                 openForums: null,
-                openGithub: null,
                 openJoinTheBeta: null,
                 openReleaseNotes: null,
                 openSupportPage: null,

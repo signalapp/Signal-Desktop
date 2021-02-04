@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { actions as calling } from './ducks/calling';
 import { actions as conversations } from './ducks/conversations';
 import { actions as emojis } from './ducks/emojis';

@@ -1,10 +1,13 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* global Backbone: false */
 /* global i18n: false */
 /* global React: false */
 /* global ReactDOM: false */
 
 // eslint-disable-next-line func-names
-(function() {
+(function () {
   window.Whisper = window.Whisper || {};
 
   window.Whisper.ReactWrapperView = Backbone.View.extend({

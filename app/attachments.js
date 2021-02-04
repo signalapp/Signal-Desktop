@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 const crypto = require('crypto');
 const path = require('path');
 const { app, dialog, shell, remote } = require('electron');
@@ -23,7 +26,7 @@ try {
   // eslint-disable-next-line global-require, import/no-extraneous-dependencies, import/no-unresolved
   xattr = require('fs-xattr');
 } catch (e) {
-  console.log('x-attr dependncy did not load successfully');
+  console.log('x-attr dependency did not load successfully');
 }
 
 const PATH = 'attachments.noindex';

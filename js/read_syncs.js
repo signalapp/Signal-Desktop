@@ -1,3 +1,6 @@
+// Copyright 2017-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* global
   Backbone,
   Whisper,
@@ -7,7 +10,7 @@
 /* eslint-disable more/no-then */
 
 // eslint-disable-next-line func-names
-(function() {
+(function () {
   window.Whisper = window.Whisper || {};
   Whisper.ReadSyncs = new (Backbone.Collection.extend({
     forMessage(message) {

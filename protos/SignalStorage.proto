@@ -73,20 +73,23 @@ message ContactRecord {
   optional bool          blocked       = 9;
   optional bool          whitelisted   = 10;
   optional bool          archived      = 11;
+  optional bool          markedUnread  = 12;
 }
 
 message GroupV1Record {
-  optional bytes id          = 1;
-  optional bool  blocked     = 2;
-  optional bool  whitelisted = 3;
-  optional bool  archived    = 4;
+  optional bytes id           = 1;
+  optional bool  blocked      = 2;
+  optional bool  whitelisted  = 3;
+  optional bool  archived     = 4;
+  optional bool  markedUnread = 5;
 }
 
 message GroupV2Record {
-  optional bytes masterKey   = 1;
-  optional bool  blocked     = 2;
-  optional bool  whitelisted = 3;
-  optional bool  archived    = 4;
+  optional bytes masterKey    = 1;
+  optional bool  blocked      = 2;
+  optional bool  whitelisted  = 3;
+  optional bool  archived     = 4;
+  optional bool  markedUnread = 5;
 }
 
 message AccountRecord {
@@ -112,7 +115,7 @@ message AccountRecord {
   optional bool               sealedSenderIndicators = 7;
   optional bool               typingIndicators       = 8;
   optional bool               proxiedLinkPreviews    = 9;
-  optional bool               noteToSelfUnread       = 10;
+  optional bool               noteToSelfMarkedUnread = 10;
   optional bool               linkPreviews           = 11;
   repeated PinnedConversation pinnedConversations    = 14;
 }

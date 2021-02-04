@@ -1,3 +1,6 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import * as React from 'react';
 import classNames from 'classnames';
 import { emojiToImage, getImagePath, SkinToneKey } from './lib';
@@ -7,7 +10,6 @@ export const EmojiSizes = [16, 18, 20, 24, 28, 32, 48, 64, 66] as const;
 export type EmojiSizeType = typeof EmojiSizes[number];
 
 export type OwnProps = {
-  inline?: boolean;
   emoji?: string;
   shortName?: string;
   skinTone?: SkinToneKey | number;
@@ -18,19 +20,14 @@ export type OwnProps = {
 export type Props = OwnProps &
   Pick<React.HTMLProps<HTMLDivElement>, 'style' | 'className'>;
 
+// the DOM structure of this Emoji should match the other emoji implementations:
+// ts/components/conversation/Emojify.tsx
+// ts/quill/emoji/blot.tsx
+
 export const Emoji = React.memo(
   React.forwardRef<HTMLDivElement, Props>(
     (
-      {
-        style = {},
-        size = 28,
-        shortName,
-        skinTone,
-        emoji,
-        inline,
-        className,
-        children,
-      }: Props,
+      { style = {}, size = 28, shortName, skinTone, emoji, className }: Props,
       ref
     ) => {
       let image = '';
@@ -40,32 +37,22 @@ export const Emoji = React.memo(
         image = emojiToImage(emoji) || '';
       }
 
-      const backgroundStyle = inline
-        ? { backgroundImage: `url('${image}')` }
-        : {};
-
       return (
         <span
           ref={ref}
           className={classNames(
             'module-emoji',
             `module-emoji--${size}px`,
-            inline ? `module-emoji--${size}px--inline` : null,
             className
           )}
-          style={{ ...style, ...backgroundStyle }}
+          style={style}
         >
-          {inline ? (
-            // When using this component as a draft.js decorator it is very
-            // important that these children are the only elements to render
-            children
-          ) : (
-            <img
-              className={`module-emoji__image--${size}px`}
-              src={image}
-              alt={shortName}
-            />
-          )}
+          <img
+            className={`module-emoji__image--${size}px`}
+            src={image}
+            aria-label={emoji}
+            title={emoji}
+          />
         </span>
       );
     }

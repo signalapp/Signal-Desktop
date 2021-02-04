@@ -1,12 +1,44 @@
+// Copyright 2015-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* global window, dcodeIO, textsecure */
 
 // eslint-disable-next-line func-names
-(function() {
-  window.textsecure = window.textsecure || {};
-  window.textsecure.protobuf = {};
+(function () {
+  const FILES_TO_LOAD = [
+    'SignalService.proto',
+    'SignalStorage.proto',
+    'SubProtocol.proto',
+    'DeviceMessages.proto',
+    'Stickers.proto',
 
-  function loadProtoBufs(filename) {
-    return dcodeIO.ProtoBuf.loadProtoFile(
+    // Just for encrypting device names
+    'DeviceName.proto',
+
+    // Metadata-specific protos
+    'UnidentifiedDelivery.proto',
+
+    // Groups
+    'Groups.proto',
+  ];
+
+  let remainingFilesToLoad = FILES_TO_LOAD.length;
+  const hasFinishedLoading = () => remainingFilesToLoad <= 0;
+  let onLoadCallbacks = [];
+
+  window.textsecure = window.textsecure || {};
+  window.textsecure.protobuf = {
+    onLoad: callback => {
+      if (hasFinishedLoading()) {
+        setTimeout(callback, 0);
+      } else {
+        onLoadCallbacks.push(callback);
+      }
+    },
+  };
+
+  FILES_TO_LOAD.forEach(filename => {
+    dcodeIO.ProtoBuf.loadProtoFile(
       { root: window.PROTO_ROOT, file: filename },
       (error, result) => {
         if (error) {
@@ -26,22 +58,13 @@
         for (const protoName in protos) {
           textsecure.protobuf[protoName] = protos[protoName];
         }
+
+        remainingFilesToLoad -= 1;
+        if (hasFinishedLoading()) {
+          onLoadCallbacks.forEach(callback => callback());
+          onLoadCallbacks = [];
+        }
       }
     );
-  }
-
-  loadProtoBufs('SignalService.proto');
-  loadProtoBufs('SignalStorage.proto');
-  loadProtoBufs('SubProtocol.proto');
-  loadProtoBufs('DeviceMessages.proto');
-  loadProtoBufs('Stickers.proto');
-
-  // Just for encrypting device names
-  loadProtoBufs('DeviceName.proto');
-
-  // Metadata-specific protos
-  loadProtoBufs('UnidentifiedDelivery.proto');
-
-  // Groups
-  loadProtoBufs('Groups.proto');
+  });
 })();

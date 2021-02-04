@@ -1,3 +1,6 @@
+// Copyright 2014-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* global chai, Whisper, _, Backbone */
 
 mocha.setup('bdd');
@@ -76,11 +79,6 @@ before(async () => {
   await window.Signal.Data.removeAll();
   await window.storage.fetch();
 });
-
-window.clearDatabase = async () => {
-  await window.Signal.Data.removeAll();
-  await window.storage.fetch();
-};
 
 window.Whisper = window.Whisper || {};
 window.Whisper.events = _.clone(Backbone.Events);

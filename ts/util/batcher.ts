@@ -1,6 +1,13 @@
+// Copyright 2019-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import PQueue from 'p-queue';
 
+import { sleep } from './sleep';
+
 declare global {
+  // We want to extend `window`'s properties, so we need an interface.
+  // eslint-disable-next-line no-restricted-syntax
   interface Window {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     batchers: Array<BatcherType<any>>;
@@ -17,7 +24,7 @@ window.waitForAllBatchers = async () => {
 export type BatcherOptionsType<ItemType> = {
   wait: number;
   maxSize: number;
-  processBatch: (items: Array<ItemType>) => Promise<void>;
+  processBatch: (items: Array<ItemType>) => void | Promise<void>;
 };
 
 export type BatcherType<ItemType> = {
@@ -27,10 +34,6 @@ export type BatcherType<ItemType> = {
   flushAndWait: () => Promise<void>;
   unregister: () => void;
 };
-
-async function sleep(ms: number): Promise<void> {
-  await new Promise(resolve => setTimeout(resolve, ms));
-}
 
 export function createBatcher<ItemType>(
   options: BatcherOptionsType<ItemType>

@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint-disable more/no-then */
 /* eslint-disable max-classes-per-file */
 
@@ -60,9 +63,16 @@ class ProvisioningCipherInner {
         return window.libsignal.Curve.async
           .createKeyPair(privKey)
           .then(keyPair => {
+            window.normalizeUuids(
+              provisionMessage,
+              ['uuid'],
+              'ProvisioningCipher.decrypt'
+            );
+
             const ret: ProvisionDecryptResult = {
               identityKeyPair: keyPair,
               number: provisionMessage.number,
+              uuid: provisionMessage.uuid,
               provisioningCode: provisionMessage.provisioningCode,
               userAgent: provisionMessage.userAgent,
               readReceipts: provisionMessage.readReceipts,

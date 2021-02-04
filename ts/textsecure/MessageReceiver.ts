@@ -1,3 +1,6 @@
+// Copyright 2020-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable no-bitwise */
 /* eslint-disable class-methods-use-this */
@@ -6,7 +9,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-classes-per-file */
 
-import { isNumber, map, omit } from 'lodash';
+import { isNumber, map, omit, noop } from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 
@@ -20,6 +23,7 @@ import WebSocketResource, {
   IncomingWebSocketRequest,
 } from './WebsocketResources';
 import Crypto from './Crypto';
+import { deriveMasterKeyFromGroupV1 } from '../Crypto';
 import { ContactBuffer, GroupBuffer } from './ContactsParser';
 import { IncomingIdentityKeyError } from './Errors';
 
@@ -40,9 +44,13 @@ import { WebSocket } from './WebSocket';
 
 import { deriveGroupFields, MASTER_KEY_LENGTH } from '../groups';
 
+const GROUPV1_ID_LENGTH = 16;
+const GROUPV2_ID_LENGTH = 32;
 const RETRY_TIMEOUT = 2 * 60 * 1000;
 
 declare global {
+  // We want to extend `Event`, so we need an interface.
+  // eslint-disable-next-line no-restricted-syntax
   interface Event {
     code?: string | number;
     configuration?: any;
@@ -55,7 +63,8 @@ declare global {
     eventType?: string | number;
     groupDetails?: any;
     groupId?: string;
-    messageRequestResponseType?: number;
+    groupV2Id?: string;
+    messageRequestResponseType?: number | null;
     proto?: any;
     read?: any;
     reason?: any;
@@ -65,15 +74,18 @@ declare global {
     source?: any;
     sourceUuid?: any;
     stickerPacks?: any;
-    threadE164?: string;
-    threadUuid?: string;
+    threadE164?: string | null;
+    threadUuid?: string | null;
     storageServiceKey?: ArrayBuffer;
     timestamp?: any;
     typing?: any;
     verified?: any;
   }
+  // We want to extend `Error`, so we need an interface.
+  // eslint-disable-next-line no-restricted-syntax
   interface Error {
     reason?: any;
+    stackForLog?: string;
     sender?: SignalProtocolAddressClass;
     senderUuid?: SignalProtocolAddressClass;
   }
@@ -105,7 +117,7 @@ class MessageReceiverInner extends EventTarget {
 
   count: number;
 
-  deviceId: number;
+  deviceId?: number;
 
   hasConnected?: boolean;
 
@@ -113,7 +125,7 @@ class MessageReceiverInner extends EventTarget {
 
   isEmptied?: boolean;
 
-  number_id: string | null;
+  number_id?: string;
 
   password: string;
 
@@ -135,7 +147,7 @@ class MessageReceiverInner extends EventTarget {
 
   uuid: string;
 
-  uuid_id: string | null;
+  uuid_id?: string;
 
   wsr?: WebSocketResource;
 
@@ -168,12 +180,14 @@ class MessageReceiverInner extends EventTarget {
       options.serverTrustRoot
     );
 
-    this.number_id = oldUsername ? utils.unencodeNumber(oldUsername)[0] : null;
-    this.uuid_id = username ? utils.unencodeNumber(username)[0] : null;
-    this.deviceId = parseInt(
-      utils.unencodeNumber(username || oldUsername)[1],
-      10
-    );
+    this.number_id = oldUsername
+      ? utils.unencodeNumber(oldUsername)[0]
+      : undefined;
+    this.uuid_id = username ? utils.unencodeNumber(username)[0] : undefined;
+    this.deviceId =
+      username || oldUsername
+        ? parseInt(utils.unencodeNumber(username || oldUsername)[1], 10)
+        : undefined;
 
     this.incomingQueue = new PQueue({ concurrency: 1, timeout: 1000 * 60 * 2 });
     this.pendingQueue = new PQueue({ concurrency: 1, timeout: 1000 * 60 * 2 });
@@ -194,9 +208,6 @@ class MessageReceiverInner extends EventTarget {
       maxSize: 30,
       processBatch: this.cacheRemoveBatch.bind(this),
     });
-
-    // We always process our cache before any websocket message
-    this.pendingQueue.add(async () => this.queueAllCached());
   }
 
   static stringToArrayBuffer = (string: string): ArrayBuffer =>
@@ -215,6 +226,9 @@ class MessageReceiverInner extends EventTarget {
     if (this.calledClose) {
       return;
     }
+
+    // We always process our cache before processing a new websocket message
+    this.pendingQueue.add(async () => this.queueAllCached());
 
     this.count = 0;
     if (this.hasConnected) {
@@ -266,9 +280,10 @@ class MessageReceiverInner extends EventTarget {
 
   shutdown() {
     if (this.socket) {
-      delete this.socket.onclose;
-      delete this.socket.onerror;
-      delete this.socket.onopen;
+      this.socket.onclose = noop;
+      this.socket.onerror = noop;
+      this.socket.onopen = noop;
+
       this.socket = undefined;
     }
 
@@ -397,8 +412,8 @@ class MessageReceiverInner extends EventTarget {
         }
 
         // Make non-private envelope IDs dashless so they don't get redacted
-        // from logs
-        envelope.id = (envelope.serverGuid || getGuid()).replace(/-/g, '');
+        //   from logs
+        envelope.id = getGuid().replace(/-/g, '');
         envelope.serverTimestamp = envelope.serverTimestamp
           ? envelope.serverTimestamp.toNumber()
           : null;
@@ -558,7 +573,7 @@ class MessageReceiverInner extends EventTarget {
       const envelope = window.textsecure.protobuf.Envelope.decode(
         envelopePlaintext
       );
-      envelope.id = envelope.serverGuid || item.id;
+      envelope.id = item.id;
       envelope.source = envelope.source || item.source;
       envelope.sourceUuid = envelope.sourceUuid || item.sourceUuid;
       envelope.sourceDevice = envelope.sourceDevice || item.sourceDevice;
@@ -681,19 +696,26 @@ class MessageReceiverInner extends EventTarget {
     try {
       await window.textsecure.storage.unprocessed.batchAdd(dataArray);
       items.forEach(item => {
-        item.request.respond(200, 'OK');
+        try {
+          item.request.respond(200, 'OK');
+        } catch (error) {
+          window.log.error(
+            'cacheAndQueueBatch: Failed to send 200 to server; still queuing envelope'
+          );
+        }
         this.queueEnvelope(item.envelope);
       });
 
       this.maybeScheduleRetryTimeout();
     } catch (error) {
-      items.forEach(item => {
-        item.request.respond(500, 'Failed to cache message');
-      });
       window.log.error(
         'cacheAndQueue error trying to add messages to cache:',
         error && error.stack ? error.stack : error
       );
+
+      items.forEach(item => {
+        item.request.respond(500, 'Failed to cache message');
+      });
     }
   }
 
@@ -759,6 +781,7 @@ class MessageReceiverInner extends EventTarget {
     return promise.catch(error => {
       window.log.error(
         `queueDecryptedEnvelope error handling envelope ${id}:`,
+        error && error.extra ? JSON.stringify(error.extra) : '',
         error && error.stack ? error.stack : error
       );
     });
@@ -780,6 +803,7 @@ class MessageReceiverInner extends EventTarget {
         'queueEnvelope error handling envelope',
         this.getEnvelopeId(envelope),
         ':',
+        error && error.extra ? JSON.stringify(error.extra) : '',
         error && error.stack ? error.stack : error,
       ];
       if (error.warn) {
@@ -1197,7 +1221,13 @@ class MessageReceiverInner extends EventTarget {
       );
     }
 
-    this.deriveGroupsV2Data(msg);
+    if (this.isInvalidGroupData(msg, envelope)) {
+      this.removeFromCache(envelope);
+      return undefined;
+    }
+
+    await this.deriveGroupV1Data(msg);
+    this.deriveGroupV2Data(msg);
 
     if (
       msg.flags &&
@@ -1373,7 +1403,7 @@ class MessageReceiverInner extends EventTarget {
     return Promise.all(results);
   }
 
-  handleTypingMessage(
+  async handleTypingMessage(
     envelope: EnvelopeClass,
     typingMessage: TypingMessageClass
   ) {
@@ -1399,24 +1429,28 @@ class MessageReceiverInner extends EventTarget {
     ev.senderUuid = envelope.sourceUuid;
     ev.senderDevice = envelope.sourceDevice;
 
-    const groupIdBuffer = groupId ? groupId.toArrayBuffer() : null;
-
     ev.typing = {
       typingMessage,
       timestamp: timestamp ? timestamp.toNumber() : Date.now(),
-      groupId:
-        groupIdBuffer && groupIdBuffer.byteLength <= 16
-          ? groupId.toString('binary')
-          : null,
-      groupV2Id:
-        groupIdBuffer && groupIdBuffer.byteLength > 16
-          ? groupId.toString('base64')
-          : null,
       started:
         action === window.textsecure.protobuf.TypingMessage.Action.STARTED,
       stopped:
         action === window.textsecure.protobuf.TypingMessage.Action.STOPPED,
     };
+
+    const groupIdBuffer = groupId ? groupId.toArrayBuffer() : null;
+
+    if (groupIdBuffer && groupIdBuffer.byteLength > 0) {
+      if (groupIdBuffer.byteLength === GROUPV1_ID_LENGTH) {
+        ev.typing.groupId = groupId.toString('binary');
+        ev.typing.groupV2Id = await this.deriveGroupV2FromV1(groupIdBuffer);
+      } else if (groupIdBuffer.byteLength === GROUPV2_ID_LENGTH) {
+        ev.typing.groupV2Id = groupId.toString('base64');
+      } else {
+        window.log.error('handleTypingMessage: Received invalid groupId value');
+        this.removeFromCache(envelope);
+      }
+    }
 
     return this.dispatchEvent(ev);
   }
@@ -1426,7 +1460,76 @@ class MessageReceiverInner extends EventTarget {
     this.removeFromCache(envelope);
   }
 
-  deriveGroupsV2Data(message: DataMessageClass) {
+  isInvalidGroupData(
+    message: DataMessageClass,
+    envelope: EnvelopeClass
+  ): boolean {
+    const { group, groupV2 } = message;
+
+    if (group) {
+      const id = group.id.toArrayBuffer();
+      const isInvalid = id.byteLength !== GROUPV1_ID_LENGTH;
+
+      if (isInvalid) {
+        window.log.info(
+          'isInvalidGroupData: invalid GroupV1 message from',
+          this.getEnvelopeId(envelope)
+        );
+      }
+
+      return isInvalid;
+    }
+
+    if (groupV2) {
+      const masterKey = groupV2.masterKey.toArrayBuffer();
+      const isInvalid = masterKey.byteLength !== MASTER_KEY_LENGTH;
+
+      if (isInvalid) {
+        window.log.info(
+          'isInvalidGroupData: invalid GroupV2 message from',
+          this.getEnvelopeId(envelope)
+        );
+      }
+      return isInvalid;
+    }
+
+    return false;
+  }
+
+  async deriveGroupV2FromV1(groupId: ArrayBuffer): Promise<string> {
+    if (groupId.byteLength !== GROUPV1_ID_LENGTH) {
+      throw new Error(
+        `deriveGroupV2FromV1: had id with wrong byteLength: ${groupId.byteLength}`
+      );
+    }
+    const masterKey = await deriveMasterKeyFromGroupV1(groupId);
+    const data = deriveGroupFields(masterKey);
+
+    const toBase64 = MessageReceiverInner.arrayBufferToStringBase64;
+    return toBase64(data.id);
+  }
+
+  async deriveGroupV1Data(message: DataMessageClass) {
+    const { group } = message;
+
+    if (!group) {
+      return;
+    }
+
+    if (!group.id) {
+      throw new Error('deriveGroupV1Data: had falsey id');
+    }
+
+    const id = group.id.toArrayBuffer();
+    if (id.byteLength !== GROUPV1_ID_LENGTH) {
+      throw new Error(
+        `deriveGroupV1Data: had id with wrong byteLength: ${id.byteLength}`
+      );
+    }
+    group.derivedGroupV2Id = await this.deriveGroupV2FromV1(id);
+  }
+
+  deriveGroupV2Data(message: DataMessageClass) {
     const { groupV2 } = message;
 
     if (!groupV2) {
@@ -1434,10 +1537,10 @@ class MessageReceiverInner extends EventTarget {
     }
 
     if (!isNumber(groupV2.revision)) {
-      throw new Error('deriveGroupsV2Data: revision was not a number');
+      throw new Error('deriveGroupV2Data: revision was not a number');
     }
     if (!groupV2.masterKey) {
-      throw new Error('deriveGroupsV2Data: had falsey masterKey');
+      throw new Error('deriveGroupV2Data: had falsey masterKey');
     }
 
     const toBase64 = MessageReceiverInner.arrayBufferToStringBase64;
@@ -1445,7 +1548,7 @@ class MessageReceiverInner extends EventTarget {
     const length = masterKey.byteLength;
     if (length !== MASTER_KEY_LENGTH) {
       throw new Error(
-        `deriveGroupsV2Data: masterKey had length ${length}, expected ${MASTER_KEY_LENGTH}`
+        `deriveGroupV2Data: masterKey had length ${length}, expected ${MASTER_KEY_LENGTH}`
       );
     }
 
@@ -1518,7 +1621,13 @@ class MessageReceiverInner extends EventTarget {
         );
       }
 
-      this.deriveGroupsV2Data(sentMessage.message);
+      if (this.isInvalidGroupData(sentMessage.message, envelope)) {
+        this.removeFromCache(envelope);
+        return undefined;
+      }
+
+      await this.deriveGroupV1Data(sentMessage.message);
+      this.deriveGroupV2Data(sentMessage.message);
 
       window.log.info(
         'sent message to',
@@ -1626,14 +1735,32 @@ class MessageReceiverInner extends EventTarget {
     ev.confirm = this.removeFromCache.bind(this, envelope);
     ev.threadE164 = sync.threadE164;
     ev.threadUuid = sync.threadUuid;
-    ev.groupId = sync.groupId ? sync.groupId.toString('binary') : null;
     ev.messageRequestResponseType = sync.type;
+
+    const idBuffer: ArrayBuffer = sync.groupId
+      ? sync.groupId.toArrayBuffer()
+      : null;
+
+    if (idBuffer && idBuffer.byteLength > 0) {
+      if (idBuffer.byteLength === GROUPV1_ID_LENGTH) {
+        ev.groupId = sync.groupId.toString('binary');
+        ev.groupV2Id = await this.deriveGroupV2FromV1(idBuffer);
+      } else if (idBuffer.byteLength === GROUPV2_ID_LENGTH) {
+        ev.groupV2Id = sync.groupId.toString('base64');
+      } else {
+        this.removeFromCache(envelope);
+        window.log.error('Received message request with invalid groupId');
+        return undefined;
+      }
+    }
 
     window.normalizeUuids(
       ev,
       ['threadUuid'],
       'MessageReceiver::handleMessageRequestResponse'
     );
+
+    return this.dispatchAndWait(ev);
   }
 
   async handleFetchLatest(
@@ -1925,8 +2052,11 @@ class MessageReceiverInner extends EventTarget {
           address
         );
 
-        window.log.info('deleting sessions for', address.toString());
-        return sessionCipher.deleteAllSessionsForDevice();
+        window.log.info(
+          'handleEndSession: closing sessions for',
+          address.toString()
+        );
+        return sessionCipher.closeOpenSessionForDevice();
       })
     );
   }

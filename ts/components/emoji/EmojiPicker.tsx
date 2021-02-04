@@ -1,3 +1,6 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import * as React from 'react';
 import classNames from 'classnames';
 import {
@@ -20,7 +23,10 @@ import { dataByCategory, search } from './lib';
 import { useRestoreFocus } from '../../util/hooks';
 import { LocalizerType } from '../../types/Util';
 
-export type EmojiPickDataType = { skinTone?: number; shortName: string };
+export type EmojiPickDataType = {
+  skinTone?: number;
+  shortName: string;
+};
 
 export type OwnProps = {
   readonly i18n: LocalizerType;
@@ -377,7 +383,6 @@ export const EmojiPicker = React.memo(
               <Emoji
                 shortName="slightly_frowning_face"
                 size={16}
-                inline
                 style={{ marginLeft: '4px' }}
               />
             </div>

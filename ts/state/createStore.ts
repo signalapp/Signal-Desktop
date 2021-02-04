@@ -1,3 +1,6 @@
+// Copyright 2019-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint-disable no-console */
 
 import {
@@ -8,11 +11,14 @@ import {
 } from 'redux';
 
 import promise from 'redux-promise-middleware';
+import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 
 import { reducer, StateType } from './reducer';
 
 declare global {
+  // We want to extend `window`'s properties, so we need an interface.
+  // eslint-disable-next-line no-restricted-syntax, @typescript-eslint/no-unused-vars
   interface Console {
     _log: Console['log'];
   }
@@ -32,12 +38,22 @@ const directConsole = {
 
 const logger = createLogger({
   logger: directConsole,
+  predicate: (_getState, action) => {
+    if (action.type === 'network/CHECK_NETWORK_STATUS') {
+      return false;
+    }
+    return true;
+  },
 });
 
-// Exclude logger if we're in production mode
-const middlewareList = env === 'production' ? [promise] : [promise, logger];
+const middlewareList = [
+  promise,
+  thunk,
+  ...(env === 'production' ? [] : [logger]),
+];
 
 const enhancer = applyMiddleware(...middlewareList);
 
-export const createStore = (initialState: DeepPartial<StateType>): Store =>
-  reduxCreateStore(reducer, initialState, enhancer);
+export const createStore = (
+  initialState: DeepPartial<StateType>
+): Store<StateType> => reduxCreateStore(reducer, initialState, enhancer);

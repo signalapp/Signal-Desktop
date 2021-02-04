@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import React from 'react';
 
 import classNames from 'classnames';
@@ -21,7 +24,7 @@ const colorSVG = (url: string, color: string) => {
   };
 };
 
-export interface Props {
+export type Props = {
   close: () => void;
   contentType: MIME.MIMEType | undefined;
   i18n: LocalizerType;
@@ -31,10 +34,10 @@ export interface Props {
   onNext?: () => void;
   onPrevious?: () => void;
   onSave?: () => void;
-}
-interface State {
+};
+type State = {
   videoTime?: number;
-}
+};
 
 const CONTROLS_WIDTH = 50;
 const CONTROLS_SPACING = 10;
@@ -155,12 +158,12 @@ const styles = {
   },
 };
 
-interface IconButtonProps {
+type IconButtonProps = {
   i18n: LocalizerType;
   onClick?: () => void;
   style?: React.CSSProperties;
   type: 'save' | 'close' | 'previous' | 'next';
-}
+};
 
 const IconButton = ({ i18n, onClick, style, type }: IconButtonProps) => {
   const clickHandler = (event: React.MouseEvent<HTMLButtonElement>): void => {
@@ -376,6 +379,7 @@ export class Lightbox extends React.Component<Props, State> {
             alt={i18n('lightboxImageAlt')}
             style={styles.img}
             src={objectURL}
+            onContextMenu={this.onContextMenu}
           />
         </button>
       );
@@ -413,6 +417,21 @@ export class Lightbox extends React.Component<Props, State> {
     return (
       <Icon i18n={i18n} onClick={this.onObjectClick} url="images/file.svg" />
     );
+  };
+
+  private readonly onContextMenu = (
+    event: React.MouseEvent<HTMLImageElement>
+  ) => {
+    const { contentType = '' } = this.props;
+
+    // These are the only image types supported by Electron's NativeImage
+    if (
+      event &&
+      contentType !== 'image/png' &&
+      !/image\/jpe?g/g.test(contentType)
+    ) {
+      event.preventDefault();
+    }
   };
 
   private readonly onClose = () => {

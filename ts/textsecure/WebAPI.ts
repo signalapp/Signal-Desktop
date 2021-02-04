@@ -1,3 +1,6 @@
+// Copyright 2020-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint-disable no-param-reassign */
 /* eslint-disable more/no-then */
 /* eslint-disable no-bitwise */
@@ -26,6 +29,7 @@ import { v4 as getGuid } from 'uuid';
 
 import { Long } from '../window.d';
 import { getUserAgent } from '../util/getUserAgent';
+import { toWebSafeBase64 } from '../util/webSafeBase64';
 import { isPackIdValid, redactPackId } from '../../js/modules/stickers';
 import {
   arrayBufferToBase64,
@@ -47,12 +51,19 @@ import {
   GroupChangeClass,
   GroupChangesClass,
   GroupClass,
+  GroupJoinInfoClass,
+  GroupExternalCredentialClass,
   StorageServiceCallOptionsType,
   StorageServiceCredentials,
 } from '../textsecure.d';
 
 import { WebSocket } from './WebSocket';
 import MessageSender from './SendMessage';
+
+// Note: this will break some code that expects to be able to use err.response when a
+//   web request fails, because it will force it to text. But it is very useful for
+//   debugging failed requests.
+const DEBUG = false;
 
 type SgxConstantsType = {
   SGX_FLAGS_INITTED: Long;
@@ -336,6 +347,10 @@ type ArrayBufferWithDetailsType = {
   response: Response;
 };
 
+function isSuccess(status: number): boolean {
+  return status >= 0 && status < 400;
+}
+
 async function _promiseAjax(
   providedUrl: string | null,
   options: PromiseAjaxOptionsType
@@ -402,7 +417,7 @@ async function _promiseAjax(
     } else if (unauthenticated) {
       if (!accessKey) {
         throw new Error(
-          '_promiseAjax: mode is aunathenticated, but accessKey was not provided'
+          '_promiseAjax: mode is unauthenticated, but accessKey was not provided'
         );
       }
       // Access key is already a Base64 string
@@ -428,7 +443,9 @@ async function _promiseAjax(
         }
 
         let resultPromise;
-        if (
+        if (DEBUG && !isSuccess(response.status)) {
+          resultPromise = response.text();
+        } else if (
           (options.responseType === 'json' ||
             options.responseType === 'jsonwithdetails') &&
           response.headers.get('Content-Type') === 'application/json'
@@ -444,45 +461,51 @@ async function _promiseAjax(
         }
 
         return resultPromise.then(result => {
-          if (
-            options.responseType === 'arraybuffer' ||
-            options.responseType === 'arraybufferwithdetails'
-          ) {
-            result = result.buffer.slice(
-              result.byteOffset,
-              result.byteOffset + result.byteLength
-            );
-          }
-          if (
-            options.responseType === 'json' ||
-            options.responseType === 'jsonwithdetails'
-          ) {
-            if (options.validateResponse) {
-              if (!_validateResponse(result, options.validateResponse)) {
-                if (options.redactUrl) {
-                  window.log.info(
-                    options.type,
-                    options.redactUrl(url),
-                    response.status,
-                    'Error'
+          if (isSuccess(response.status)) {
+            if (
+              options.responseType === 'arraybuffer' ||
+              options.responseType === 'arraybufferwithdetails'
+            ) {
+              result = result.buffer.slice(
+                result.byteOffset,
+                result.byteOffset + result.byteLength
+              );
+            }
+            if (
+              options.responseType === 'json' ||
+              options.responseType === 'jsonwithdetails'
+            ) {
+              if (options.validateResponse) {
+                if (!_validateResponse(result, options.validateResponse)) {
+                  if (options.redactUrl) {
+                    window.log.info(
+                      options.type,
+                      options.redactUrl(url),
+                      response.status,
+                      'Error'
+                    );
+                  } else {
+                    window.log.error(
+                      options.type,
+                      url,
+                      response.status,
+                      'Error'
+                    );
+                  }
+                  reject(
+                    makeHTTPError(
+                      'promiseAjax: invalid response',
+                      response.status,
+                      result,
+                      options.stack
+                    )
                   );
-                } else {
-                  window.log.error(options.type, url, response.status, 'Error');
-                }
-                reject(
-                  makeHTTPError(
-                    'promiseAjax: invalid response',
-                    response.status,
-                    result,
-                    options.stack
-                  )
-                );
 
-                return;
+                  return;
+                }
               }
             }
-          }
-          if (response.status >= 0 && response.status < 400) {
+
             if (options.redactUrl) {
               window.log.info(
                 options.type,
@@ -582,6 +605,8 @@ async function _outerAjax(url: string | null, options: PromiseAjaxOptionsType) {
 }
 
 declare global {
+  // We want to extend `Error`, so we need an interface.
+  // eslint-disable-next-line no-restricted-syntax
   interface Error {
     code?: number | string;
     response?: any;
@@ -599,6 +624,10 @@ function makeHTTPError(
   const e = new Error(`${message}; code: ${code}`);
   e.name = 'HTTPError';
   e.code = code;
+  if (DEBUG && response) {
+    e.stack += `\nresponse: ${response}`;
+  }
+
   e.stack += `\nOriginal stack:\n${stack}`;
   if (response) {
     e.response = response;
@@ -616,12 +645,14 @@ const URL_CALLS = {
   devices: 'v1/devices',
   directoryAuth: 'v1/directory/auth',
   discovery: 'v1/discovery',
-  getGroupAvatarUpload: '/v1/groups/avatar/form',
+  getGroupAvatarUpload: 'v1/groups/avatar/form',
   getGroupCredentials: 'v1/certificate/group',
   getIceServers: 'v1/accounts/turn',
   getStickerPackUpload: 'v1/sticker/pack/form',
   groupLog: 'v1/groups/logs',
   groups: 'v1/groups',
+  groupsViaLink: 'v1/groups/join',
+  groupToken: 'v1/groups/token',
   keys: 'v2/keys',
   messages: 'v1/messages',
   profile: 'v1/profile',
@@ -684,6 +715,15 @@ export type WebAPIConnectType = {
   connect: (options: ConnectParametersType) => WebAPIType;
 };
 
+export type CapabilitiesType = {
+  gv2: boolean;
+  'gv1-migration': boolean;
+};
+export type CapabilitiesUploadType = {
+  'gv2-3': boolean;
+  'gv1-migration': boolean;
+};
+
 type StickerPackManifestType = any;
 
 export type GroupCredentialType = {
@@ -718,11 +758,18 @@ export type WebAPIType = {
   getAvatar: (path: string) => Promise<any>;
   getDevices: () => Promise<any>;
   getGroup: (options: GroupCredentialsType) => Promise<GroupClass>;
+  getGroupFromLink: (
+    inviteLinkPassword: string,
+    auth: GroupCredentialsType
+  ) => Promise<GroupJoinInfoClass>;
   getGroupAvatar: (key: string) => Promise<ArrayBuffer>;
   getGroupCredentials: (
     startDay: number,
     endDay: number
   ) => Promise<Array<GroupCredentialType>>;
+  getGroupExternalCredential: (
+    options: GroupCredentialsType
+  ) => Promise<GroupExternalCredentialClass>;
   getGroupLog: (
     startVersion: number,
     options: GroupCredentialsType
@@ -776,13 +823,20 @@ export type WebAPIType = {
     targetUrl: string,
     options?: ProxiedRequestOptionsType
   ) => Promise<any>;
+  makeSfuRequest: (
+    targetUrl: string,
+    type: HTTPCodeType,
+    headers: HeaderListType,
+    body: ArrayBuffer | undefined
+  ) => Promise<ArrayBufferWithDetailsType>;
   modifyGroup: (
     changes: GroupChangeClass.Actions,
-    options: GroupCredentialsType
+    options: GroupCredentialsType,
+    inviteLinkBase64?: string
   ) => Promise<GroupChangeClass>;
   modifyStorageRecords: MessageSender['modifyStorageRecords'];
   putAttachment: (encryptedBin: ArrayBuffer) => Promise<any>;
-  registerCapabilities: (capabilities: Dictionary<boolean>) => Promise<void>;
+  registerCapabilities: (capabilities: CapabilitiesUploadType) => Promise<void>;
   putStickers: (
     encryptedManifest: ArrayBuffer,
     encryptedStickers: Array<ArrayBuffer>,
@@ -930,6 +984,8 @@ export function initialize({
     return {
       confirmCode,
       createGroup,
+      fetchLinkPreviewImage,
+      fetchLinkPreviewMetadata,
       getAttachment,
       getAvatar,
       getConfig,
@@ -937,6 +993,8 @@ export function initialize({
       getGroup,
       getGroupAvatar,
       getGroupCredentials,
+      getGroupExternalCredential,
+      getGroupFromLink,
       getGroupLog,
       getIceServers,
       getKeysForIdentifier,
@@ -953,9 +1011,8 @@ export function initialize({
       getStorageManifest,
       getStorageRecords,
       getUuidsForE164s,
-      fetchLinkPreviewMetadata,
-      fetchLinkPreviewImage,
       makeProxiedRequest,
+      makeSfuRequest,
       modifyGroup,
       modifyStorageRecords,
       putAttachment,
@@ -1052,18 +1109,19 @@ export function initialize({
         responseType: 'json',
       });
 
-      return res.config.filter(({ name }: { name: string }) =>
-        name.startsWith('desktop.')
+      return res.config.filter(
+        ({ name }: { name: string }) =>
+          name.startsWith('desktop.') || name.startsWith('global.')
       );
     }
 
-    async function getSenderCertificate() {
+    async function getSenderCertificate(omitE164?: boolean) {
       return _ajax({
         call: 'deliveryCert',
         httpType: 'GET',
         responseType: 'json',
         validateResponse: { certificate: 'string' },
-        urlParameters: '?includeUuid=true',
+        ...(omitE164 ? { urlParameters: '?includeE164=false' } : {}),
       });
     }
 
@@ -1138,7 +1196,7 @@ export function initialize({
       });
     }
 
-    async function registerCapabilities(capabilities: Dictionary<boolean>) {
+    async function registerCapabilities(capabilities: CapabilitiesUploadType) {
       return _ajax({
         call: 'registerCapabilities',
         httpType: 'PUT',
@@ -1264,11 +1322,14 @@ export function initialize({
       deviceName?: string | null,
       options: { accessKey?: ArrayBuffer } = {}
     ) {
+      const capabilities: CapabilitiesUploadType = {
+        'gv2-3': true,
+        'gv1-migration': true,
+      };
+
       const { accessKey } = options;
       const jsonData: any = {
-        capabilities: {
-          'gv2-3': true,
-        },
+        capabilities,
         fetchesMessages: true,
         name: deviceName || undefined,
         registrationId,
@@ -1830,6 +1891,24 @@ export function initialize({
       };
     }
 
+    async function makeSfuRequest(
+      targetUrl: string,
+      type: HTTPCodeType,
+      headers: HeaderListType,
+      body: ArrayBuffer | undefined
+    ): Promise<ArrayBufferWithDetailsType> {
+      return _outerAjax(targetUrl, {
+        certificateAuthority,
+        data: body,
+        headers,
+        proxyUrl,
+        responseType: 'arraybufferwithdetails',
+        timeout: 0,
+        type,
+        version,
+      });
+    }
+
     // Groups
 
     function generateGroupAuth(
@@ -1855,6 +1934,28 @@ export function initialize({
       });
 
       return response.credentials;
+    }
+
+    async function getGroupExternalCredential(
+      options: GroupCredentialsType
+    ): Promise<GroupExternalCredentialClass> {
+      const basicAuth = generateGroupAuth(
+        options.groupPublicParamsHex,
+        options.authCredentialPresentationHex
+      );
+
+      const response: ArrayBuffer = await _ajax({
+        basicAuth,
+        call: 'groupToken',
+        httpType: 'GET',
+        contentType: 'application/x-protobuf',
+        responseType: 'arraybuffer',
+        host: storageUrl,
+      });
+
+      return window.textsecure.protobuf.GroupExternalCredential.decode(
+        response
+      );
     }
 
     function verifyAttributes(attributes: AvatarUploadAttributesClass) {
@@ -1954,9 +2055,10 @@ export function initialize({
       await _ajax({
         basicAuth,
         call: 'groups',
-        httpType: 'PUT',
+        contentType: 'application/x-protobuf',
         data,
         host: storageUrl,
+        httpType: 'PUT',
       });
     }
 
@@ -1971,18 +2073,41 @@ export function initialize({
       const response: ArrayBuffer = await _ajax({
         basicAuth,
         call: 'groups',
-        httpType: 'GET',
         contentType: 'application/x-protobuf',
-        responseType: 'arraybuffer',
         host: storageUrl,
+        httpType: 'GET',
+        responseType: 'arraybuffer',
       });
 
       return window.textsecure.protobuf.Group.decode(response);
     }
 
+    async function getGroupFromLink(
+      inviteLinkPassword: string,
+      auth: GroupCredentialsType
+    ): Promise<GroupJoinInfoClass> {
+      const basicAuth = generateGroupAuth(
+        auth.groupPublicParamsHex,
+        auth.authCredentialPresentationHex
+      );
+
+      const response: ArrayBuffer = await _ajax({
+        basicAuth,
+        call: 'groupsViaLink',
+        contentType: 'application/x-protobuf',
+        host: storageUrl,
+        httpType: 'GET',
+        responseType: 'arraybuffer',
+        urlParameters: `/${toWebSafeBase64(inviteLinkPassword)}`,
+      });
+
+      return window.textsecure.protobuf.GroupJoinInfo.decode(response);
+    }
+
     async function modifyGroup(
       changes: GroupChangeClass.Actions,
-      options: GroupCredentialsType
+      options: GroupCredentialsType,
+      inviteLinkBase64?: string
     ): Promise<GroupChangeClass> {
       const basicAuth = generateGroupAuth(
         options.groupPublicParamsHex,
@@ -1993,11 +2118,14 @@ export function initialize({
       const response: ArrayBuffer = await _ajax({
         basicAuth,
         call: 'groups',
-        httpType: 'PATCH',
-        data,
         contentType: 'application/x-protobuf',
-        responseType: 'arraybuffer',
+        data,
         host: storageUrl,
+        httpType: 'PATCH',
+        responseType: 'arraybuffer',
+        urlParameters: inviteLinkBase64
+          ? `?inviteLinkPassword=${toWebSafeBase64(inviteLinkBase64)}`
+          : undefined,
       });
 
       return window.textsecure.protobuf.GroupChange.decode(response);
@@ -2015,11 +2143,11 @@ export function initialize({
       const withDetails: ArrayBufferWithDetailsType = await _ajax({
         basicAuth,
         call: 'groupLog',
-        urlParameters: `/${startVersion}`,
-        httpType: 'GET',
         contentType: 'application/x-protobuf',
-        responseType: 'arraybufferwithdetails',
         host: storageUrl,
+        httpType: 'GET',
+        responseType: 'arraybufferwithdetails',
+        urlParameters: `/${startVersion}`,
       });
       const { data, response } = withDetails;
       const changes = window.textsecure.protobuf.GroupChanges.decode(data);
@@ -2291,6 +2419,7 @@ export function initialize({
         password: auth.password,
         responseType: 'jsonwithdetails',
         data,
+        timeout: 30000,
         version,
       });
 
@@ -2414,6 +2543,7 @@ export function initialize({
         user: directoryAuth.username,
         password: directoryAuth.password,
         responseType: 'json',
+        timeout: 30000,
         data: JSON.stringify(data),
         version,
       });

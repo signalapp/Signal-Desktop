@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import React from 'react';
 
 import LinkifyIt from 'linkify-it';
@@ -33,11 +36,11 @@ const linkify = LinkifyIt()
     'travel',
   ]);
 
-export interface Props {
+export type Props = {
   text: string;
-  /** Allows you to customize now non-links are rendered. Simplest is just a <span>. */
+  /** Allows you to customize how non-links are rendered. Simplest is just a <span>. */
   renderNonLink?: RenderTextCallbackType;
-}
+};
 
 const SUPPORTED_PROTOCOLS = /^(http|https):/i;
 

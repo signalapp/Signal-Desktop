@@ -1,3 +1,6 @@
+// Copyright 2020-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 // Taken from:
 // https://github.com/DefinitelyTyped/DefinitelyTyped/blob/8bf8aedba75ada257428c4846d2bc7d14e3b4be8/types/sqlite3/index.d.ts
 
@@ -32,10 +35,10 @@ declare module '@journeyapps/sqlcipher' {
     ): Database;
   };
 
-  export interface RunResult extends Statement {
+  export type RunResult = Statement & {
     lastID: number;
     changes: number;
-  }
+  };
 
   export class Statement {
     bind(callback?: (err: Error | null) => void): this;

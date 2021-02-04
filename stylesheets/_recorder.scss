@@ -1,3 +1,6 @@
+// Copyright 2016-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 .capture-audio {
   text-align: center;
 
@@ -26,13 +29,13 @@
       @include light-theme {
         @include color-svg(
           '../images/icons/v2/mic-outline-24.svg',
-          $color-gray-60
+          $color-gray-75
         );
       }
       @include dark-theme {
         @include color-svg(
           '../images/icons/v2/mic-solid-24.svg',
-          $color-gray-25
+          $color-gray-15
         );
       }
     }

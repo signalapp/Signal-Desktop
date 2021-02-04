@@ -1,13 +1,28 @@
+// Copyright 2018-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import * as React from 'react';
 import classNames from 'classnames';
+
+import { Spinner } from './Spinner';
 
 import { getInitials } from '../util/getInitials';
 import { LocalizerType } from '../types/Util';
 import { ColorType } from '../types/Colors';
 
+export enum AvatarSize {
+  TWENTY_EIGHT = 28,
+  THIRTY_TWO = 32,
+  FIFTY_TWO = 52,
+  EIGHTY = 80,
+  NINETY_SIX = 96,
+  ONE_HUNDRED_TWELVE = 112,
+}
+
 export type Props = {
   avatarPath?: string;
   color?: ColorType;
+  loading?: boolean;
 
   conversationType: 'group' | 'direct';
   noteToSelf?: boolean;
@@ -15,7 +30,7 @@ export type Props = {
   name?: string;
   phoneNumber?: string;
   profileName?: string;
-  size: 28 | 32 | 52 | 80 | 112;
+  size: AvatarSize;
 
   onClick?: () => unknown;
 
@@ -25,10 +40,10 @@ export type Props = {
   i18n: LocalizerType;
 } & Pick<React.HTMLProps<HTMLDivElement>, 'className'>;
 
-interface State {
-  imageBroken: boolean;
-  lastAvatarPath?: string;
-}
+type State = {
+  readonly imageBroken: boolean;
+  readonly lastAvatarPath?: string;
+};
 
 export class Avatar extends React.Component<Props, State> {
   public handleImageErrorBound: () => void;
@@ -83,15 +98,9 @@ export class Avatar extends React.Component<Props, State> {
   }
 
   public renderNoImage(): JSX.Element {
-    const {
-      conversationType,
-      name,
-      noteToSelf,
-      profileName,
-      size,
-    } = this.props;
+    const { conversationType, noteToSelf, size, title } = this.props;
 
-    const initials = getInitials(name || profileName);
+    const initials = getInitials(title);
     const isGroup = conversationType === 'group';
 
     if (noteToSelf) {
@@ -130,11 +139,27 @@ export class Avatar extends React.Component<Props, State> {
     );
   }
 
+  public renderLoading(): JSX.Element {
+    const { size } = this.props;
+    const svgSize = size < 40 ? 'small' : 'normal';
+
+    return (
+      <div className="module-avatar__spinner-container">
+        <Spinner
+          size={`${size - 8}px`}
+          svgSize={svgSize}
+          direction="on-avatar"
+        />
+      </div>
+    );
+  }
+
   public render(): JSX.Element {
     const {
       avatarPath,
       color,
       innerRef,
+      loading,
       noteToSelf,
       onClick,
       size,
@@ -144,13 +169,15 @@ export class Avatar extends React.Component<Props, State> {
 
     const hasImage = !noteToSelf && avatarPath && !imageBroken;
 
-    if (![28, 32, 52, 80, 112].includes(size)) {
+    if (![28, 32, 52, 80, 96, 112].includes(size)) {
       throw new Error(`Size ${size} is not supported!`);
     }
 
     let contents;
 
-    if (onClick) {
+    if (loading) {
+      contents = this.renderLoading();
+    } else if (onClick) {
       contents = (
         <button
           type="button"

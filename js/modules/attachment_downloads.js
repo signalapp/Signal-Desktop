@@ -1,3 +1,6 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* global
   Whisper,
   Signal,
@@ -196,8 +199,9 @@ async function _runJob(job) {
       logger.warn(
         `_runJob: Got 404 from server for CDN ${
           attachment.cdnNumber
-        }, marking attachment ${attachment.cdnId ||
-          attachment.cdnKey} from message ${message.idForLogging()} as permanent error`
+        }, marking attachment ${
+          attachment.cdnId || attachment.cdnKey
+        } from message ${message.idForLogging()} as permanent error`
       );
 
       await _finishJob(message, id);

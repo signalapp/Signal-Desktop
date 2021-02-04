@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -157,6 +160,7 @@ const conversations = [
         text: 'The rabbit hopped silently in the night.',
         status: SENT,
       },
+      markedUnread: false,
     },
   },
   {
@@ -177,6 +181,7 @@ const conversations = [
         text: "What's going on?",
         status: SENT,
       },
+      markedUnread: false,
     },
   },
 ];
@@ -196,6 +201,7 @@ const contacts = [
       lastUpdated: Date.now() - 10 * 60 * 1000,
       unreadCount: 0,
       isSelected: false,
+      markedUnread: false,
     },
   },
   {
@@ -211,6 +217,7 @@ const contacts = [
       lastUpdated: Date.now() - 11 * 60 * 1000,
       unreadCount: 0,
       isSelected: false,
+      markedUnread: false,
     },
   },
 ];

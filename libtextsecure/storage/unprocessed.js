@@ -1,7 +1,10 @@
+// Copyright 2017-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* global window, textsecure */
 
 // eslint-disable-next-line func-names
-(function() {
+(function () {
   /** ***************************************
    *** Not-yet-processed message storage ***
    **************************************** */

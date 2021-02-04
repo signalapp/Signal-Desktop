@@ -1,4 +1,9 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { debounce, reduce, uniq, without } from 'lodash';
+import PQueue from 'p-queue';
+
 import dataInterface from './sql/Client';
 import {
   ConversationModelCollectionType,
@@ -7,6 +12,7 @@ import {
 } from './model-types.d';
 import { SendOptionsType, CallbackResultType } from './textsecure/SendMessage';
 import { ConversationModel } from './models/conversations';
+import { maybeDeriveGroupV2Id } from './groups';
 
 const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
 
@@ -71,9 +77,27 @@ export function start(): void {
       const canCountMutedConversations = window.storage.get(
         'badge-count-muted-conversations'
       );
+
+      const canCount = (m: ConversationModel) =>
+        !m.isMuted() || canCountMutedConversations;
+
+      const getUnreadCount = (m: ConversationModel) => {
+        const unreadCount = m.get('unreadCount');
+
+        if (unreadCount) {
+          return unreadCount;
+        }
+
+        if (m.get('markedUnread')) {
+          return 1;
+        }
+
+        return 0;
+      };
+
       const newUnreadCount = reduce(
         this.map((m: ConversationModel) =>
-          !canCountMutedConversations && m.isMuted() ? 0 : m.get('unreadCount')
+          canCount(m) ? getUnreadCount(m) : 0
         ),
         (item: number, memo: number) => (item || 0) + memo,
         0
@@ -126,6 +150,11 @@ export class ConversationController {
     attributes: Partial<ConversationModel>
   ): ConversationModel {
     return this._conversations.add(attributes);
+  }
+
+  dangerouslyRemoveById(id: string): void {
+    this._conversations.remove(id);
+    this._conversations.resetLookups();
   }
 
   getOrCreate(
@@ -201,6 +230,9 @@ export class ConversationController {
       }
 
       try {
+        if (conversation.isGroupV1()) {
+          await maybeDeriveGroupV2Id(conversation);
+        }
         await saveConversation(conversation.attributes);
       } catch (error) {
         window.log.error(
@@ -256,6 +288,16 @@ export class ConversationController {
     const e164 = window.textsecure.storage.user.getNumber();
     const uuid = window.textsecure.storage.user.getUuid();
     return this.ensureContactIds({ e164, uuid, highTrust: true });
+  }
+
+  getOurConversationIdOrThrow(): string {
+    const conversationId = this.getOurConversationId();
+    if (!conversationId) {
+      throw new Error(
+        'getOurConversationIdOrThrow: Failed to fetch ourConversationId'
+      );
+    }
+    return conversationId;
   }
 
   /**
@@ -353,10 +395,8 @@ export class ConversationController {
       // 3. Handle match on only UUID
     }
     if (!convoE164 && convoUuid) {
-      window.log.info(
-        `ensureContactIds: UUID-only match found (have e164: ${Boolean(e164)})`
-      );
       if (e164 && highTrust) {
+        window.log.info('ensureContactIds: Adding e164 to UUID-only match');
         convoUuid.updateE164(e164);
         updateConversation(convoUuid.attributes);
       }
@@ -480,7 +520,6 @@ export class ConversationController {
 
             byE164[e164] = conversation;
 
-            // eslint-disable-next-line no-continue
             continue;
           }
 
@@ -610,16 +649,7 @@ export class ConversationController {
     const messages = await getMessagesBySentAt(targetTimestamp, {
       MessageCollection: window.Whisper.MessageCollection,
     });
-    const targetMessage = messages.find(m => {
-      const contact = m.getContact();
-
-      if (!contact) {
-        return false;
-      }
-
-      const mcid = contact.get('id');
-      return mcid === targetFromId;
-    });
+    const targetMessage = messages.find(m => m.getContactId() === targetFromId);
 
     if (targetMessage) {
       return targetMessage.getConversation();
@@ -655,7 +685,20 @@ export class ConversationController {
     const groups = await getAllGroupsInvolvingId(conversationId, {
       ConversationCollection: window.Whisper.ConversationCollection,
     });
-    return groups.map(group => this._conversations.add(group));
+    return groups.map(group => {
+      const existing = this.get(group.id);
+      if (existing) {
+        return existing;
+      }
+
+      return this._conversations.add(group);
+    });
+  }
+
+  getByDerivedGroupV2Id(groupId: string): ConversationModel | undefined {
+    return this._conversations.find(
+      item => item.get('derivedGroupV2Id') === groupId
+    );
   }
 
   async loadPromise(): Promise<void> {
@@ -685,21 +728,39 @@ export class ConversationController {
           ConversationCollection: window.Whisper.ConversationCollection,
         });
 
-        this._conversations.add(collection.models);
+        // Get rid of temporary conversations
+        const temporaryConversations = collection.filter(conversation =>
+          Boolean(conversation.get('isTemporary'))
+        );
+
+        if (temporaryConversations.length) {
+          window.log.warn(
+            `ConversationController: Removing ${temporaryConversations.length} temporary conversations`
+          );
+        }
+        const queue = new PQueue({ concurrency: 3, timeout: 1000 * 60 * 2 });
+        queue.addAll(
+          temporaryConversations.map(item => async () => {
+            await removeConversation(item.id, {
+              Conversation: window.Whisper.Conversation,
+            });
+          })
+        );
+        await queue.onIdle();
+
+        // Hydrate the final set of conversations
+        this._conversations.add(
+          collection.filter(conversation => !conversation.get('isTemporary'))
+        );
 
         this._initialFetchComplete = true;
 
         await Promise.all(
           this._conversations.map(async conversation => {
             try {
-              // This call is important to allow Conversation models not to generate their
-              //   cached props on initial construction if we're in the middle of the load
-              //   from the database. Then we come back to the models when it is safe and
-              //   generate those props.
-              conversation.generateProps();
-
-              if (!conversation.get('lastMessage')) {
-                await conversation.updateLastMessage();
+              const isChanged = await maybeDeriveGroupV2Id(conversation);
+              if (isChanged) {
+                updateConversation(conversation.attributes);
               }
 
               // In case a too-large draft was saved to the database
@@ -731,38 +792,5 @@ export class ConversationController {
     this._initialPromise = load();
 
     return this._initialPromise;
-  }
-
-  getPinnedConversationIds(): Array<string> {
-    let pinnedConversationIds = window.storage.get<Array<string>>(
-      'pinnedConversationIds'
-    );
-
-    // If pinnedConversationIds is missing, we're upgrading from
-    // a previous version and need to backfill storage from pinned
-    // conversation models.
-    if (pinnedConversationIds === undefined) {
-      window.log.info(
-        'getPinnedConversationIds: no pinned conversations in storage'
-      );
-
-      const modelPinnedConversationIds = this._conversations
-        .filter(conversation => conversation.get('isPinned'))
-        // pinIndex is a deprecated field. We now rely on the order of
-        // the ids in storage, which is synced with the AccountRecord.
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        .sort((a, b) => (a.get('pinIndex') || 0) - (b.get('pinIndex') || 0))
-        .map(conversation => conversation.get('id'));
-
-      window.log.info(
-        `getPinnedConversationIds: falling back to ${modelPinnedConversationIds.length} pinned models`
-      );
-
-      window.storage.put('pinnedConversationIds', modelPinnedConversationIds);
-      pinnedConversationIds = modelPinnedConversationIds;
-    }
-
-    return pinnedConversationIds;
   }
 }

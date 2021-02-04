@@ -1,3 +1,6 @@
+# Copyright 2020-2021 Signal Messenger, LLC
+# SPDX-License-Identifier: AGPL-3.0-only
+
 name: CI
 
 on: [push]
@@ -12,22 +15,15 @@ jobs:
     - uses: actions/checkout@v1
     - uses: actions/setup-node@v1
       with:
-        node-version: '12.13.0'
+        node-version: '12.18.3'
     - run: npm install -g yarn@1.22.0
-
-    - name: Cache node modules
-      uses: actions/cache@v1
-      env:
-        cache-name: cache-node-modules
-      with:
-        path: node_modules
-        key: ${{ runner.os }}-node_modules-${{ hashFiles('yarn.lock') }}-${{ hashFiles('patches/*') }}
 
     - run: yarn install --frozen-lockfile
     - run: yarn generate
     - run: yarn lint
     - run: yarn lint-deps
-    - run: git diff --quiet --exit-code
+    # - run: yarn lint-license-comments
+    - run: git diff --exit-code
 
   macos:
     needs: lint
@@ -39,21 +35,11 @@ jobs:
     - uses: actions/checkout@v1
     - uses: actions/setup-node@v1
       with:
-        node-version: '12.13.0'
+        node-version: '12.18.3'
     - run: npm install -g yarn@1.22.0
-
-    - name: Cache node modules
-      uses: actions/cache@v1
-      env:
-        cache-name: cache-node-modules
-      with:
-        path: node_modules
-        key: ${{ runner.os }}-node_modules-${{ hashFiles('yarn.lock') }}-${{ hashFiles('patches/*') }}
 
     - run: yarn install --frozen-lockfile
     - run: yarn generate
-    - run: yarn lint
-    - run: yarn lint-deps
     - run: yarn prepare-beta-build
     - run: yarn build
     - run: yarn test-node
@@ -72,22 +58,12 @@ jobs:
     - uses: actions/checkout@v1
     - uses: actions/setup-node@v1
       with:
-        node-version: '12.13.0'
+        node-version: '12.18.3'
     - run: sudo apt-get install xvfb
     - run: npm install -g yarn@1.22.0
 
-    - name: Cache node modules
-      uses: actions/cache@v1
-      env:
-        cache-name: cache-node-modules
-      with:
-        path: node_modules
-        key: ${{ runner.os }}-node_modules-${{ hashFiles('yarn.lock') }}-${{ hashFiles('patches/*') }}
-
     - run: yarn install --frozen-lockfile
     - run: yarn generate
-    - run: yarn lint
-    - run: yarn lint-deps
     - run: yarn prepare-beta-build
     - run: yarn build
     - run: xvfb-run --auto-servernum yarn test-node
@@ -110,21 +86,11 @@ jobs:
     - uses: actions/checkout@v1
     - uses: actions/setup-node@v1
       with:
-        node-version: '12.13.0'
+        node-version: '12.18.3'
     - run: npm install -g yarn@1.22.0
-
-    - name: Cache node modules
-      uses: actions/cache@v1
-      env:
-        cache-name: cache-node-modules
-      with:
-        path: node_modules
-        key: ${{ runner.os }}-node_modules-${{ hashFiles('yarn.lock') }}-${{ hashFiles('patches/*') }}
 
     - run: yarn install --frozen-lockfile
     - run: yarn generate
-    - run: yarn lint
-    - run: yarn lint-deps
     - run: node build\grunt.js
     - run: yarn test-node
     - run: copy package.json temp.json

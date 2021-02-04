@@ -1,3 +1,6 @@
+<!-- Copyright 2018-2020 Signal Messenger, LLC -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+
 <html>
 <head>
   <meta http-equiv="Content-Security-Policy"
@@ -27,7 +30,7 @@
       <h1> {{ title }} </h1>
       <p> {{ debugLogExplanation }}</p>
     </div>
-    <textarea spellcheck='false' rows='5'></textarea>
+    <textarea class='textarea' spellcheck='false' rows='5'></textarea>
     <div class='buttons'>
       <button class='grey submit'>{{ submit }}</button>
     </div>
@@ -42,7 +45,7 @@
   </div>
   <p>
     <a class='report-link' target='_blank'
-        href='https://github.com/signalapp/Signal-Desktop/issues/new/'>
+        href='https://support.signal.org/hc/requests/new'>
         {{ reportIssue }}
     </a>
   </p>

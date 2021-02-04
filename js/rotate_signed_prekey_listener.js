@@ -1,7 +1,10 @@
+// Copyright 2017-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* global Whisper, storage, getAccountManager */
 
 // eslint-disable-next-line func-names
-(function() {
+(function () {
   window.Whisper = window.Whisper || {};
   const ROTATION_INTERVAL = 48 * 60 * 60 * 1000;
   let timeout;

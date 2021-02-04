@@ -1,7 +1,9 @@
+// Copyright 2020-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint-disable no-await-in-loop */
 /* eslint-disable camelcase */
 /* eslint-disable no-param-reassign */
-/* eslint-disable no-continue */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
@@ -14,15 +16,17 @@ import {
   get,
   groupBy,
   isFunction,
-  isObject,
   last,
   map,
+  omit,
   set,
 } from 'lodash';
 
 import { arrayBufferToBase64, base64ToArrayBuffer } from '../Crypto';
 import { CURRENT_SCHEMA_VERSION } from '../../js/modules/types/message';
 import { createBatcher } from '../util/batcher';
+import { assert } from '../util/assert';
+import { cleanDataForIpc } from './cleanDataForIpc';
 
 import {
   ConversationModelCollectionType,
@@ -53,7 +57,11 @@ import { ConversationModel } from '../models/conversations';
 
 // We listen to a lot of events on ipcRenderer, often on the same channel. This prevents
 //   any warnings that might be sent to the console in that case.
-ipcRenderer.setMaxListeners(0);
+if (ipcRenderer && ipcRenderer.setMaxListeners) {
+  ipcRenderer.setMaxListeners(0);
+} else {
+  window.log.warn('sql/Client: ipcRenderer is not available!');
+}
 
 const DATABASE_UPDATE_TIMEOUT = 2 * 60 * 1000; // two minutes
 
@@ -148,6 +156,7 @@ const dataInterface: ClientInterface = {
   saveMessage,
   saveMessages,
   removeMessage,
+  removeMessages,
   getUnreadByConversation,
 
   getMessageBySender,
@@ -164,6 +173,7 @@ const dataInterface: ClientInterface = {
   getLastConversationActivity,
   getLastConversationPreview,
   getMessageMetricsForConversation,
+  hasGroupCallHistoryMessage,
   migrateConversationMessages,
 
   getUnprocessedCount,
@@ -195,6 +205,7 @@ const dataInterface: ClientInterface = {
   getAllStickerPacks,
   getAllStickers,
   getRecentStickers,
+  clearAllErrorStickerPackAttempts,
 
   updateEmojiUsage,
   getRecentEmojis,
@@ -222,8 +233,6 @@ const dataInterface: ClientInterface = {
   // Client-side only, and test-only
 
   _removeConversations,
-  _removeMessages,
-  _cleanData,
   _jobs,
 };
 
@@ -243,55 +252,22 @@ const channelsAsUnknown = fromPairs(
 
 const channels: ServerInterface = channelsAsUnknown;
 
-// When IPC arguments are prepared for the cross-process send, they are JSON.stringified.
-//   We can't send ArrayBuffers or BigNumbers (what we get from proto library for dates),
-//   We also cannot send objects with function-value keys, like what protobufjs gives us.
-function _cleanData(data: any, path = 'root') {
-  if (data === null || data === undefined) {
-    window.log.warn(`_cleanData: null or undefined value at path ${path}`);
+function _cleanData(
+  data: unknown
+): ReturnType<typeof cleanDataForIpc>['cleaned'] {
+  const { cleaned, pathsChanged } = cleanDataForIpc(data);
 
-    return data;
+  if (pathsChanged.length) {
+    window.log.info(
+      `_cleanData cleaned the following paths: ${pathsChanged.join(', ')}`
+    );
   }
 
-  if (
-    typeof data === 'string' ||
-    typeof data === 'number' ||
-    typeof data === 'boolean'
-  ) {
-    return data;
-  }
+  return cleaned;
+}
 
-  const keys = Object.keys(data);
-  const max = keys.length;
-  for (let index = 0; index < max; index += 1) {
-    const key = keys[index];
-    const value = data[key];
-
-    if (value === null || value === undefined) {
-      continue;
-    }
-
-    if (isFunction(value)) {
-      // To prepare for Electron v9 IPC, we need to take functions off of any object
-      delete data[key];
-    } else if (isFunction(value.toNumber)) {
-      data[key] = value.toNumber();
-    } else if (Array.isArray(value)) {
-      data[key] = value.map((item, mapIndex) =>
-        _cleanData(item, `${path}.${key}.${mapIndex}`)
-      );
-    } else if (isObject(value)) {
-      data[key] = _cleanData(value, `${path}.${key}`);
-    } else if (
-      typeof value !== 'string' &&
-      typeof value !== 'number' &&
-      typeof value !== 'boolean'
-    ) {
-      window.log.info(`_cleanData: key ${key} had type ${typeof value}`);
-    }
-  }
-
-  return data;
+function _cleanMessageData(data: MessageType): MessageType {
+  return _cleanData(omit(data, ['dataMessage']));
 }
 
 async function _shutdown() {
@@ -314,7 +290,7 @@ async function _shutdown() {
   }
 
   // Outstanding jobs; we need to wait until the last one is done
-  _shutdownPromise = new Promise((resolve, reject) => {
+  _shutdownPromise = new Promise<void>((resolve, reject) => {
     _shutdownCallback = (error: Error) => {
       window.log.info('data.shutdown: process complete');
       if (error) {
@@ -410,35 +386,39 @@ function _getJob(id: number) {
   return _jobs[id];
 }
 
-ipcRenderer.on(
-  `${SQL_CHANNEL_KEY}-done`,
-  (_, jobId, errorForDisplay, result) => {
-    const job = _getJob(jobId);
-    if (!job) {
-      throw new Error(
-        `Received SQL channel reply to job ${jobId}, but did not have it in our registry!`
-      );
+if (ipcRenderer && ipcRenderer.on) {
+  ipcRenderer.on(
+    `${SQL_CHANNEL_KEY}-done`,
+    (_, jobId, errorForDisplay, result) => {
+      const job = _getJob(jobId);
+      if (!job) {
+        throw new Error(
+          `Received SQL channel reply to job ${jobId}, but did not have it in our registry!`
+        );
+      }
+
+      const { resolve, reject, fnName } = job;
+
+      if (!resolve || !reject) {
+        throw new Error(
+          `SQL channel job ${jobId} (${fnName}): didn't have a resolve or reject`
+        );
+      }
+
+      if (errorForDisplay) {
+        return reject(
+          new Error(
+            `Error received from SQL channel job ${jobId} (${fnName}): ${errorForDisplay}`
+          )
+        );
+      }
+
+      return resolve(result);
     }
-
-    const { resolve, reject, fnName } = job;
-
-    if (!resolve || !reject) {
-      throw new Error(
-        `SQL channel job ${jobId} (${fnName}): didn't have a resolve or reject`
-      );
-    }
-
-    if (errorForDisplay) {
-      return reject(
-        new Error(
-          `Error received from SQL channel job ${jobId} (${fnName}): ${errorForDisplay}`
-        )
-      );
-    }
-
-    return resolve(result);
-  }
-);
+  );
+} else {
+  window.log.warn('sql/Client: ipcRenderer.on is not available!');
+}
 
 function makeChannel(fnName: string) {
   return async (...args: Array<any>) => {
@@ -625,6 +605,7 @@ async function removeAllSignedPreKeys() {
 const ITEM_KEYS: { [key: string]: Array<string> | undefined } = {
   identityKey: ['value.pubKey', 'value.privKey'],
   senderCertificate: ['value.serialized'],
+  senderCertificateNoE164: ['value.serialized'],
   signaling_key: ['value'],
   profileKey: ['value'],
 };
@@ -751,7 +732,12 @@ function updateConversation(data: ConversationType) {
 }
 
 async function updateConversations(array: Array<ConversationType>) {
-  await channels.updateConversations(array);
+  const { cleaned, pathsChanged } = cleanDataForIpc(array);
+  assert(
+    !pathsChanged.length,
+    `Paths were cleaned: ${JSON.stringify(pathsChanged)}`
+  );
+  await channels.updateConversations(cleaned);
 }
 
 async function removeConversation(
@@ -871,7 +857,9 @@ async function saveMessage(
   data: MessageType,
   { forceSave, Message }: { forceSave?: boolean; Message: typeof MessageModel }
 ) {
-  const id = await channels.saveMessage(_cleanData(data), { forceSave });
+  const id = await channels.saveMessage(_cleanMessageData(data), {
+    forceSave,
+  });
   Message.updateTimers();
 
   return id;
@@ -881,7 +869,10 @@ async function saveMessages(
   arrayOfMessages: Array<MessageType>,
   { forceSave }: { forceSave?: boolean } = {}
 ) {
-  await channels.saveMessages(_cleanData(arrayOfMessages), { forceSave });
+  await channels.saveMessages(
+    arrayOfMessages.map(message => _cleanMessageData(message)),
+    { forceSave }
+  );
 }
 
 async function removeMessage(
@@ -899,8 +890,8 @@ async function removeMessage(
 }
 
 // Note: this method will not clean up external files, just delete from SQL
-async function _removeMessages(ids: Array<string>) {
-  await channels.removeMessage(ids);
+async function removeMessages(ids: Array<string>) {
+  await channels.removeMessages(ids);
 }
 
 async function getMessageById(
@@ -979,11 +970,13 @@ async function getOlderMessagesByConversation(
   {
     limit = 100,
     receivedAt = Number.MAX_VALUE,
+    sentAt = Number.MAX_VALUE,
     messageId,
     MessageCollection,
   }: {
     limit?: number;
     receivedAt?: number;
+    sentAt?: number;
     messageId?: string;
     MessageCollection: typeof MessageModelCollectionType;
   }
@@ -993,6 +986,7 @@ async function getOlderMessagesByConversation(
     {
       limit,
       receivedAt,
+      sentAt,
       messageId,
     }
   );
@@ -1004,10 +998,12 @@ async function getNewerMessagesByConversation(
   {
     limit = 100,
     receivedAt = 0,
+    sentAt = 0,
     MessageCollection,
   }: {
     limit?: number;
     receivedAt?: number;
+    sentAt?: number;
     MessageCollection: typeof MessageModelCollectionType;
   }
 ) {
@@ -1016,32 +1012,43 @@ async function getNewerMessagesByConversation(
     {
       limit,
       receivedAt,
+      sentAt,
     }
   );
 
   return new MessageCollection(handleMessageJSON(messages));
 }
-async function getLastConversationActivity(
-  conversationId: string,
-  options: {
-    Message: typeof MessageModel;
-  }
-): Promise<MessageModel | undefined> {
-  const { Message } = options;
-  const result = await channels.getLastConversationActivity(conversationId);
+async function getLastConversationActivity({
+  conversationId,
+  ourConversationId,
+  Message,
+}: {
+  conversationId: string;
+  ourConversationId: string;
+  Message: typeof MessageModel;
+}): Promise<MessageModel | undefined> {
+  const result = await channels.getLastConversationActivity({
+    conversationId,
+    ourConversationId,
+  });
   if (result) {
     return new Message(result);
   }
   return undefined;
 }
-async function getLastConversationPreview(
-  conversationId: string,
-  options: {
-    Message: typeof MessageModel;
-  }
-): Promise<MessageModel | undefined> {
-  const { Message } = options;
-  const result = await channels.getLastConversationPreview(conversationId);
+async function getLastConversationPreview({
+  conversationId,
+  ourConversationId,
+  Message,
+}: {
+  conversationId: string;
+  ourConversationId: string;
+  Message: typeof MessageModel;
+}): Promise<MessageModel | undefined> {
+  const result = await channels.getLastConversationPreview({
+    conversationId,
+    ourConversationId,
+  });
   if (result) {
     return new Message(result);
   }
@@ -1054,6 +1061,12 @@ async function getMessageMetricsForConversation(conversationId: string) {
 
   return result;
 }
+function hasGroupCallHistoryMessage(
+  conversationId: string,
+  eraId: string
+): Promise<boolean> {
+  return channels.hasGroupCallHistoryMessage(conversationId, eraId);
+}
 async function migrateConversationMessages(
   obsoleteId: string,
   currentId: string
@@ -1064,15 +1077,23 @@ async function migrateConversationMessages(
 async function removeAllMessagesInConversation(
   conversationId: string,
   {
+    logId,
     MessageCollection,
-  }: { MessageCollection: typeof MessageModelCollectionType }
+  }: {
+    logId: string;
+    MessageCollection: typeof MessageModelCollectionType;
+  }
 ) {
   let messages;
   do {
-    // Yes, we really want the await in the loop. We're deleting 100 at a
+    const chunkSize = 20;
+    window.log.info(
+      `removeAllMessagesInConversation/${logId}: Fetching chunk of ${chunkSize} messages`
+    );
+    // Yes, we really want the await in the loop. We're deleting a chunk at a
     //   time so we don't use too much memory.
     messages = await getOlderMessagesByConversation(conversationId, {
-      limit: 100,
+      limit: chunkSize,
       MessageCollection,
     });
 
@@ -1082,13 +1103,17 @@ async function removeAllMessagesInConversation(
 
     const ids = messages.map((message: MessageModel) => message.id);
 
+    window.log.info(`removeAllMessagesInConversation/${logId}: Cleanup...`);
     // Note: It's very important that these models are fully hydrated because
     //   we need to delete all associated on-disk files along with the database delete.
-    await Promise.all(
-      messages.map(async (message: MessageModel) => message.cleanup())
+    const queue = new window.PQueue({ concurrency: 3, timeout: 1000 * 60 * 2 });
+    queue.addAll(
+      messages.map((message: MessageModel) => async () => message.cleanup())
     );
+    await queue.onIdle();
 
-    await channels.removeMessage(ids);
+    window.log.info(`removeAllMessagesInConversation/${logId}: Deleting...`);
+    await channels.removeMessages(ids);
   } while (messages.length > 0);
 }
 
@@ -1287,6 +1312,9 @@ async function getRecentStickers() {
 
   return recentStickers;
 }
+async function clearAllErrorStickerPackAttempts() {
+  await channels.clearAllErrorStickerPackAttempts();
+}
 
 // Emojis
 async function updateEmojiUsage(shortName: string) {
@@ -1326,7 +1354,7 @@ async function removeOtherData() {
 }
 
 async function callChannel(name: string) {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     ipcRenderer.send(name);
     ipcRenderer.once(`${name}-done`, (_, error) => {
       if (error) {

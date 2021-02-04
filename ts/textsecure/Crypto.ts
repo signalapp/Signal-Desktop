@@ -1,3 +1,6 @@
+// Copyright 2020-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-bitwise */
 /* eslint-disable more/no-then */
@@ -6,6 +9,8 @@ import { ByteBufferClass } from '../window.d';
 declare global {
   // this is fixed in already, and won't be necessary when the new definitions
   // files are used: https://github.com/microsoft/TSJS-lib-generator/pull/843
+  // We want to extend `SubtleCrypto`, so we need an interface.
+  // eslint-disable-next-line no-restricted-syntax
   export interface SubtleCrypto {
     decrypt(
       algorithm:
@@ -105,10 +110,10 @@ const PROFILE_KEY_LENGTH = 32; // bytes
 const PROFILE_TAG_LENGTH = 128; // bits
 const PROFILE_NAME_PADDED_LENGTH = 53; // bytes
 
-interface EncryptedAttachment {
+type EncryptedAttachment = {
   ciphertext: ArrayBuffer;
   digest: ArrayBuffer;
-}
+};
 
 async function verifyDigest(
   data: ArrayBuffer,

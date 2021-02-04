@@ -1,13 +1,16 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import React from 'react';
 
 import { AttachmentType, getExtensionForDisplay } from '../../types/Attachment';
 import { LocalizerType } from '../../types/Util';
 
-export interface Props {
+export type Props = {
   attachment: AttachmentType;
   onClose: (attachment: AttachmentType) => void;
   i18n: LocalizerType;
-}
+};
 
 export const StagedGenericAttachment = ({
   attachment,

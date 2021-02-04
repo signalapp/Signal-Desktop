@@ -1,19 +1,31 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import React from 'react';
-import Tooltip from 'react-tooltip-lite';
 import { Avatar } from './Avatar';
+import { Tooltip } from './Tooltip';
+import { Theme } from '../util/theme';
 import { ContactName } from './conversation/ContactName';
 import { LocalizerType } from '../types/Util';
-import {
-  AcceptCallType,
-  CallDetailsType,
-  DeclineCallType,
-} from '../state/ducks/calling';
+import { ColorType } from '../types/Colors';
+import { AcceptCallType, DeclineCallType } from '../state/ducks/calling';
 
 export type PropsType = {
   acceptCall: (_: AcceptCallType) => void;
-  callDetails?: CallDetailsType;
   declineCall: (_: DeclineCallType) => void;
   i18n: LocalizerType;
+  call: {
+    isVideoCall: boolean;
+  };
+  conversation: {
+    id: string;
+    avatarPath?: string;
+    color?: ColorType;
+    title: string;
+    name?: string;
+    phoneNumber?: string;
+    profileName?: string;
+  };
 };
 
 type CallButtonProps = {
@@ -30,44 +42,37 @@ const CallButton = ({
   tooltipContent,
 }: CallButtonProps): JSX.Element => {
   return (
-    <button
-      className={`module-incoming-call__button module-incoming-call__button--${classSuffix}`}
-      onClick={onClick}
-      tabIndex={tabIndex}
-      type="button"
-    >
-      <Tooltip
-        arrowSize={6}
-        content={tooltipContent}
-        direction="bottom"
-        distance={16}
-        hoverDelay={0}
+    <Tooltip content={tooltipContent} theme={Theme.Dark}>
+      <button
+        aria-label={tooltipContent}
+        className={`module-incoming-call__button module-incoming-call__button--${classSuffix}`}
+        onClick={onClick}
+        tabIndex={tabIndex}
+        type="button"
       >
         <div />
-      </Tooltip>
-    </button>
+      </button>
+    </Tooltip>
   );
 };
 
 export const IncomingCallBar = ({
   acceptCall,
-  callDetails,
   declineCall,
   i18n,
+  call,
+  conversation,
 }: PropsType): JSX.Element | null => {
-  if (!callDetails) {
-    return null;
-  }
-
+  const { isVideoCall } = call;
   const {
+    id: conversationId,
     avatarPath,
-    callId,
     color,
     title,
     name,
     phoneNumber,
     profileName,
-  } = callDetails;
+  } = conversation;
 
   return (
     <div className="module-incoming-call">
@@ -100,21 +105,17 @@ export const IncomingCallBar = ({
             dir="auto"
             className="module-incoming-call__contact--message-text"
           >
-            {i18n(
-              callDetails.isVideoCall
-                ? 'incomingVideoCall'
-                : 'incomingAudioCall'
-            )}
+            {i18n(isVideoCall ? 'incomingVideoCall' : 'incomingAudioCall')}
           </div>
         </div>
       </div>
       <div className="module-incoming-call__actions">
-        {callDetails.isVideoCall ? (
+        {isVideoCall ? (
           <>
             <CallButton
               classSuffix="decline"
               onClick={() => {
-                declineCall({ callId });
+                declineCall({ conversationId });
               }}
               tabIndex={0}
               tooltipContent={i18n('declineCall')}
@@ -122,7 +123,7 @@ export const IncomingCallBar = ({
             <CallButton
               classSuffix="accept-video-as-audio"
               onClick={() => {
-                acceptCall({ callId, asVideoCall: false });
+                acceptCall({ conversationId, asVideoCall: false });
               }}
               tabIndex={0}
               tooltipContent={i18n('acceptCallWithoutVideo')}
@@ -130,7 +131,7 @@ export const IncomingCallBar = ({
             <CallButton
               classSuffix="accept-video"
               onClick={() => {
-                acceptCall({ callId, asVideoCall: true });
+                acceptCall({ conversationId, asVideoCall: true });
               }}
               tabIndex={0}
               tooltipContent={i18n('acceptCall')}
@@ -141,7 +142,7 @@ export const IncomingCallBar = ({
             <CallButton
               classSuffix="decline"
               onClick={() => {
-                declineCall({ callId });
+                declineCall({ conversationId });
               }}
               tabIndex={0}
               tooltipContent={i18n('declineCall')}
@@ -149,7 +150,7 @@ export const IncomingCallBar = ({
             <CallButton
               classSuffix="accept-audio"
               onClick={() => {
-                acceptCall({ callId, asVideoCall: false });
+                acceptCall({ conversationId, asVideoCall: false });
               }}
               tabIndex={0}
               tooltipContent={i18n('acceptCall')}

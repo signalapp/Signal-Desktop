@@ -1,4 +1,8 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import React from 'react';
+import moment from 'moment';
 import classNames from 'classnames';
 import {
   ContextMenu,
@@ -8,19 +12,28 @@ import {
 } from 'react-contextmenu';
 
 import { Emojify } from './Emojify';
-import { Avatar } from '../Avatar';
+import { Avatar, AvatarSize } from '../Avatar';
 import { InContactsIcon } from '../InContactsIcon';
 
 import { LocalizerType } from '../../types/Util';
 import { ColorType } from '../../types/Colors';
 import { getMuteOptions } from '../../util/getMuteOptions';
+import {
+  ExpirationTimerOptions,
+  TimerOption,
+} from '../../util/ExpirationTimerOptions';
+import { isMuted } from '../../util/isMuted';
+import { missingCaseError } from '../../util/missingCaseError';
 
-interface TimerOption {
-  name: string;
-  value: number;
+export enum OutgoingCallButtonStyle {
+  None,
+  JustVideo,
+  Both,
+  Join,
 }
 
-export interface PropsDataType {
+export type PropsDataType = {
+  conversationTitle?: string;
   id: string;
   name?: string;
 
@@ -31,22 +44,28 @@ export interface PropsDataType {
   type: 'direct' | 'group';
   title: string;
 
-  isAccepted?: boolean;
+  acceptedMessageRequest?: boolean;
   isVerified?: boolean;
   isMe?: boolean;
   isArchived?: boolean;
   isPinned?: boolean;
+  isMissingMandatoryProfileSharing?: boolean;
+  left?: boolean;
+  markedUnread?: boolean;
+  groupVersion?: number;
 
-  disableTimerChanges?: boolean;
-  expirationSettingName?: string;
-  muteExpirationLabel?: string;
+  canChangeTimer?: boolean;
+  expireTimer?: number;
+  muteExpiresAt?: number;
+
   showBackButton?: boolean;
-  timerOptions?: Array<TimerOption>;
-}
+  outgoingCallButtonStyle: OutgoingCallButtonStyle;
+};
 
-export interface PropsActionsType {
+export type PropsActionsType = {
   onSetMuteNotifications: (seconds: number) => void;
   onSetDisappearingMessages: (seconds: number) => void;
+  onShowContactModal: (contactId: string) => void;
   onDeleteMessages: () => void;
   onResetSession: () => void;
   onSearchInConversation: () => void;
@@ -54,18 +73,20 @@ export interface PropsActionsType {
   onOutgoingVideoCallInConversation: () => void;
   onSetPin: (value: boolean) => void;
 
+  onShowConversationDetails: () => void;
   onShowSafetyNumber: () => void;
   onShowAllMedia: () => void;
   onShowGroupMembers: () => void;
   onGoBack: () => void;
 
   onArchive: () => void;
+  onMarkUnread: () => void;
   onMoveToInbox: () => void;
-}
+};
 
-export interface PropsHousekeepingType {
+export type PropsHousekeepingType = {
   i18n: LocalizerType;
-}
+};
 
 export type PropsType = PropsDataType &
   PropsActionsType &
@@ -108,7 +129,7 @@ export class ConversationHeader extends React.Component<PropsType> {
     );
   }
 
-  public renderTitle(): JSX.Element {
+  public renderTitle(): JSX.Element | null {
     const {
       name,
       phoneNumber,
@@ -177,15 +198,18 @@ export class ConversationHeader extends React.Component<PropsType> {
           name={name}
           phoneNumber={phoneNumber}
           profileName={profileName}
-          size={28}
+          size={AvatarSize.THIRTY_TWO}
         />
       </span>
     );
   }
 
   public renderExpirationLength(): JSX.Element | null {
-    const { expirationSettingName, showBackButton } = this.props;
+    const { i18n, expireTimer, showBackButton } = this.props;
 
+    const expirationSettingName = expireTimer
+      ? ExpirationTimerOptions.getName(i18n, expireTimer)
+      : undefined;
     if (!expirationSettingName) {
       return null;
     }
@@ -247,85 +271,112 @@ export class ConversationHeader extends React.Component<PropsType> {
     );
   }
 
-  public renderOutgoingAudioCallButton(): JSX.Element | null {
+  private renderOutgoingCallButtons(): JSX.Element | null {
     const {
       i18n,
-      isMe,
       onOutgoingAudioCallInConversation,
+      onOutgoingVideoCallInConversation,
+      outgoingCallButtonStyle,
       showBackButton,
-      type,
     } = this.props;
 
-    if (type === 'group' || isMe) {
-      return null;
-    }
-
-    return (
-      <button
-        type="button"
-        onClick={onOutgoingAudioCallInConversation}
-        className={classNames(
-          'module-conversation-header__audio-calling-button',
-          showBackButton
-            ? null
-            : 'module-conversation-header__audio-calling-button--show'
-        )}
-        disabled={showBackButton}
-        aria-label={i18n('makeOutgoingCall')}
-      />
-    );
-  }
-
-  public renderOutgoingVideoCallButton(): JSX.Element | null {
-    const { i18n, isMe, type } = this.props;
-
-    if (type === 'group' || isMe) {
-      return null;
-    }
-
-    const { onOutgoingVideoCallInConversation, showBackButton } = this.props;
-
-    return (
+    const videoButton = (
       <button
         type="button"
         onClick={onOutgoingVideoCallInConversation}
         className={classNames(
-          'module-conversation-header__video-calling-button',
+          'module-conversation-header__calling-button',
+          'module-conversation-header__calling-button--video',
           showBackButton
             ? null
-            : 'module-conversation-header__video-calling-button--show'
+            : 'module-conversation-header__calling-button--show'
         )}
         disabled={showBackButton}
         aria-label={i18n('makeOutgoingVideoCall')}
       />
     );
+
+    switch (outgoingCallButtonStyle) {
+      case OutgoingCallButtonStyle.None:
+        return null;
+      case OutgoingCallButtonStyle.JustVideo:
+        return videoButton;
+      case OutgoingCallButtonStyle.Both:
+        return (
+          <>
+            {videoButton}
+            <button
+              type="button"
+              onClick={onOutgoingAudioCallInConversation}
+              className={classNames(
+                'module-conversation-header__calling-button',
+                'module-conversation-header__calling-button--audio',
+                showBackButton
+                  ? null
+                  : 'module-conversation-header__calling-button--show'
+              )}
+              disabled={showBackButton}
+              aria-label={i18n('makeOutgoingCall')}
+            />
+          </>
+        );
+      case OutgoingCallButtonStyle.Join:
+        return (
+          <button
+            type="button"
+            onClick={onOutgoingVideoCallInConversation}
+            className={classNames(
+              'module-conversation-header__calling-button',
+              'module-conversation-header__calling-button--join',
+              showBackButton
+                ? null
+                : 'module-conversation-header__calling-button--show'
+            )}
+            disabled={showBackButton}
+          >
+            {i18n('joinOngoingCall')}
+          </button>
+        );
+      default:
+        throw missingCaseError(outgoingCallButtonStyle);
+    }
   }
 
   public renderMenu(triggerId: string): JSX.Element {
     const {
-      disableTimerChanges,
       i18n,
-      isAccepted,
+      acceptedMessageRequest,
+      canChangeTimer,
+      isArchived,
       isMe,
       isPinned,
       type,
-      isArchived,
-      muteExpirationLabel,
+      markedUnread,
+      muteExpiresAt,
+      isMissingMandatoryProfileSharing,
+      left,
+      groupVersion,
       onDeleteMessages,
       onResetSession,
       onSetDisappearingMessages,
       onSetMuteNotifications,
       onShowAllMedia,
+      onShowConversationDetails,
       onShowGroupMembers,
       onShowSafetyNumber,
       onArchive,
+      onMarkUnread,
       onSetPin,
       onMoveToInbox,
-      timerOptions,
     } = this.props;
 
     const muteOptions = [];
-    if (muteExpirationLabel) {
+    if (isMuted(muteExpiresAt)) {
+      const expires = moment(muteExpiresAt);
+      const muteExpirationLabel = moment().isSame(expires, 'day')
+        ? expires.format('hh:mm A')
+        : expires.format('M/D/YY, hh:mm A');
+
       muteOptions.push(
         ...[
           {
@@ -348,18 +399,30 @@ export class ConversationHeader extends React.Component<PropsType> {
     const muteTitle = i18n('muteNotificationsTitle') as any;
     const isGroup = type === 'group';
 
+    const disableTimerChanges = Boolean(
+      !canChangeTimer ||
+        !acceptedMessageRequest ||
+        left ||
+        isMissingMandatoryProfileSharing
+    );
+
+    const hasGV2AdminEnabled =
+      isGroup &&
+      groupVersion === 2 &&
+      window.Signal.RemoteConfig.isEnabled('desktop.gv2Admin');
+
     return (
       <ContextMenu id={triggerId}>
         {disableTimerChanges ? null : (
           <SubMenu title={disappearingTitle}>
-            {(timerOptions || []).map(item => (
+            {ExpirationTimerOptions.map((item: typeof TimerOption) => (
               <MenuItem
-                key={item.value}
+                key={item.get('seconds')}
                 onClick={() => {
-                  onSetDisappearingMessages(item.value);
+                  onSetDisappearingMessages(item.get('seconds'));
                 }}
               >
-                {item.name}
+                {item.getName(i18n)}
               </MenuItem>
             ))}
           </SubMenu>
@@ -377,19 +440,28 @@ export class ConversationHeader extends React.Component<PropsType> {
             </MenuItem>
           ))}
         </SubMenu>
-        <MenuItem onClick={onShowAllMedia}>{i18n('viewRecentMedia')}</MenuItem>
-        {isGroup ? (
+        {hasGV2AdminEnabled ? (
+          <MenuItem onClick={onShowConversationDetails}>
+            {i18n('showConversationDetails')}
+          </MenuItem>
+        ) : null}
+        {isGroup && !hasGV2AdminEnabled ? (
           <MenuItem onClick={onShowGroupMembers}>
             {i18n('showMembers')}
           </MenuItem>
         ) : null}
+        <MenuItem onClick={onShowAllMedia}>{i18n('viewRecentMedia')}</MenuItem>
         {!isGroup && !isMe ? (
           <MenuItem onClick={onShowSafetyNumber}>
             {i18n('showSafetyNumber')}
           </MenuItem>
         ) : null}
-        {!isGroup && isAccepted ? (
+        {!isGroup && acceptedMessageRequest ? (
           <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
+        ) : null}
+        <MenuItem divider />
+        {!markedUnread ? (
+          <MenuItem onClick={onMarkUnread}>{i18n('markUnread')}</MenuItem>
         ) : null}
         {isArchived ? (
           <MenuItem onClick={onMoveToInbox}>
@@ -398,6 +470,7 @@ export class ConversationHeader extends React.Component<PropsType> {
         ) : (
           <MenuItem onClick={onArchive}>{i18n('archiveConversation')}</MenuItem>
         )}
+        <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
         {isPinned ? (
           <MenuItem onClick={() => onSetPin(false)}>
             {i18n('unpinConversation')}
@@ -407,8 +480,90 @@ export class ConversationHeader extends React.Component<PropsType> {
             {i18n('pinConversation')}
           </MenuItem>
         )}
-        <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
       </ContextMenu>
+    );
+  }
+
+  private renderHeader(): JSX.Element {
+    const {
+      conversationTitle,
+      groupVersion,
+      id,
+      isMe,
+      onShowContactModal,
+      onShowConversationDetails,
+      type,
+    } = this.props;
+
+    if (conversationTitle !== undefined) {
+      return (
+        <div className="module-conversation-header__title-flex">
+          <div className="module-conversation-header__title">
+            {conversationTitle}
+          </div>
+        </div>
+      );
+    }
+
+    const hasGV2AdminEnabled =
+      groupVersion === 2 &&
+      window.Signal.RemoteConfig.isEnabled('desktop.gv2Admin');
+
+    if (type === 'group' && hasGV2AdminEnabled) {
+      const onHeaderClick = () => onShowConversationDetails();
+      const onKeyDown = (e: React.KeyboardEvent): void => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.stopPropagation();
+          e.preventDefault();
+
+          onShowConversationDetails();
+        }
+      };
+
+      return (
+        <div
+          className="module-conversation-header__title-flex module-conversation-header__title-clickable"
+          onClick={onHeaderClick}
+          onKeyDown={onKeyDown}
+          role="button"
+          tabIndex={0}
+        >
+          {this.renderAvatar()}
+          {this.renderTitle()}
+        </div>
+      );
+    }
+
+    if (type === 'group' || isMe) {
+      return (
+        <div className="module-conversation-header__title-flex">
+          {this.renderAvatar()}
+          {this.renderTitle()}
+        </div>
+      );
+    }
+
+    const onContactClick = () => onShowContactModal(id);
+    const onKeyDown = (e: React.KeyboardEvent): void => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.stopPropagation();
+        e.preventDefault();
+
+        onShowContactModal(id);
+      }
+    };
+
+    return (
+      <div
+        className="module-conversation-header__title-flex module-conversation-header__title-clickable"
+        onClick={onContactClick}
+        onKeyDown={onKeyDown}
+        role="button"
+        tabIndex={0}
+      >
+        {this.renderAvatar()}
+        {this.renderTitle()}
+      </div>
     );
   }
 
@@ -420,15 +575,11 @@ export class ConversationHeader extends React.Component<PropsType> {
       <div className="module-conversation-header">
         {this.renderBackButton()}
         <div className="module-conversation-header__title-container">
-          <div className="module-conversation-header__title-flex">
-            {this.renderAvatar()}
-            {this.renderTitle()}
-          </div>
+          {this.renderHeader()}
         </div>
         {this.renderExpirationLength()}
+        {this.renderOutgoingCallButtons()}
         {this.renderSearchButton()}
-        {this.renderOutgoingVideoCallButton()}
-        {this.renderOutgoingAudioCallButton()}
         {this.renderMoreButton(triggerId)}
         {this.renderMenu(triggerId)}
       </div>

@@ -1,3 +1,6 @@
+// Copyright 2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 // This is inspired by the `is-path-inside` module on npm.
 import * as path from 'path';
 

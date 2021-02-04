@@ -1,14 +1,17 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import React from 'react';
 
 import { Avatar } from './Avatar';
 
 import { LocalizerType } from '../types/Util';
 
-export interface Props {
+export type Props = {
   phoneNumber: string;
   i18n: LocalizerType;
   onClick: () => void;
-}
+};
 
 export class StartNewConversation extends React.PureComponent<Props> {
   public render(): JSX.Element {

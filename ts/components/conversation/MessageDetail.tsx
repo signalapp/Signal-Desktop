@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
@@ -8,7 +11,7 @@ import { Message, MessageStatusType, Props as MessageProps } from './Message';
 import { LocalizerType } from '../../types/Util';
 import { ColorType } from '../../types/Colors';
 
-interface Contact {
+type Contact = {
   status: MessageStatusType;
 
   title: string;
@@ -24,9 +27,9 @@ interface Contact {
 
   onSendAnyway: () => void;
   onShowSafetyNumber: () => void;
-}
+};
 
-export interface Props {
+export type Props = {
   sentAt: number;
   receivedAt: number;
 
@@ -35,7 +38,7 @@ export interface Props {
   contacts: Array<Contact>;
 
   i18n: LocalizerType;
-}
+};
 
 const _keyForError = (error: Error): string => {
   return `${error.name}-${error.message}`;

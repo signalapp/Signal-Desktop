@@ -1,3 +1,6 @@
+// Copyright 2019-2020 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { pick } from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -98,7 +101,11 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
 
   return {
     id,
-    ...pick(conversation, ['unreadCount', 'typingContact']),
+    ...pick(conversation, [
+      'unreadCount',
+      'typingContact',
+      'isGroupV1AndDisabled',
+    ]),
     ...conversationMessages,
     selectedMessageId: selectedMessage ? selectedMessage.id : undefined,
     i18n: getIntl(state),
