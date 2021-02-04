@@ -54,12 +54,12 @@ export const ConfirmationDialog = React.memo(
 
     const handleAction = React.useCallback(
       (e: React.MouseEvent<HTMLButtonElement>) => {
-        onClose();
         if (e.currentTarget.dataset.action) {
           const actionIndex = parseInt(e.currentTarget.dataset.action, 10);
           const { action } = actions[actionIndex];
           action();
         }
+        onClose();
       },
       [onClose, actions]
     );

@@ -1621,6 +1621,30 @@ async function updateToSchemaVersion22(
   }
 }
 
+async function updateToSchemaVersion23(
+  currentVersion: number,
+  instance: PromisifiedSQLDatabase
+) {
+  if (currentVersion >= 23) {
+    return;
+  }
+  try {
+    await instance.run('BEGIN TRANSACTION;');
+
+    // Remove triggers which keep full-text search up to date
+    await instance.run('DROP TRIGGER messages_on_insert;');
+    await instance.run('DROP TRIGGER messages_on_update;');
+    await instance.run('DROP TRIGGER messages_on_delete;');
+
+    await instance.run('PRAGMA user_version = 23;');
+    await instance.run('COMMIT TRANSACTION;');
+    console.log('updateToSchemaVersion23: success!');
+  } catch (error) {
+    await instance.run('ROLLBACK');
+    throw error;
+  }
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -1644,6 +1668,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion20,
   updateToSchemaVersion21,
   updateToSchemaVersion22,
+  updateToSchemaVersion23,
 ];
 
 async function updateSchema(instance: PromisifiedSQLDatabase) {
@@ -1849,6 +1874,7 @@ async function getIdentityKeyById(id: string) {
 async function bulkAddIdentityKeys(array: Array<IdentityKeyType>) {
   return bulkAdd(IDENTITY_KEYS_TABLE, array);
 }
+bulkAddIdentityKeys.needsSerial = true;
 async function removeIdentityKeyById(id: string) {
   return removeById(IDENTITY_KEYS_TABLE, id);
 }
@@ -1869,6 +1895,7 @@ async function getPreKeyById(id: number) {
 async function bulkAddPreKeys(array: Array<PreKeyType>) {
   return bulkAdd(PRE_KEYS_TABLE, array);
 }
+bulkAddPreKeys.needsSerial = true;
 async function removePreKeyById(id: number) {
   return removeById(PRE_KEYS_TABLE, id);
 }
@@ -1889,6 +1916,7 @@ async function getSignedPreKeyById(id: number) {
 async function bulkAddSignedPreKeys(array: Array<SignedPreKeyType>) {
   return bulkAdd(SIGNED_PRE_KEYS_TABLE, array);
 }
+bulkAddSignedPreKeys.needsSerial = true;
 async function removeSignedPreKeyById(id: number) {
   return removeById(SIGNED_PRE_KEYS_TABLE, id);
 }
@@ -1918,6 +1946,7 @@ async function getAllItems() {
 async function bulkAddItems(array: Array<ItemType>) {
   return bulkAdd(ITEMS_TABLE, array);
 }
+bulkAddItems.needsSerial = true;
 async function removeItemById(id: string) {
   return removeById(ITEMS_TABLE, id);
 }
@@ -1990,6 +2019,7 @@ async function getSessionsById(conversationId: string) {
 async function bulkAddSessions(array: Array<SessionType>) {
   return bulkAdd(SESSIONS_TABLE, array);
 }
+bulkAddSessions.needsSerial = true;
 async function removeSessionById(id: string) {
   return removeById(SESSIONS_TABLE, id);
 }
@@ -2043,6 +2073,7 @@ async function bulkAdd(table: string, array: Array<any>) {
     throw error;
   }
 }
+bulkAdd.needsSerial = true;
 
 async function getById(table: string, id: string | number) {
   const db = getInstance();
@@ -2452,7 +2483,10 @@ async function getMessageCount(conversationId?: string) {
 
 async function saveMessage(
   data: MessageType,
-  { forceSave }: { forceSave?: boolean } = {}
+  {
+    forceSave,
+    alreadyInTransaction,
+  }: { forceSave?: boolean; alreadyInTransaction?: boolean } = {}
 ) {
   const db = getInstance();
   const {
@@ -2502,32 +2536,69 @@ async function saveMessage(
   };
 
   if (id && !forceSave) {
-    await db.run(
-      `UPDATE messages SET
-        id = $id,
-        json = $json,
+    if (!alreadyInTransaction) {
+      await db.run('BEGIN TRANSACTION;');
+    }
 
-        body = $body,
-        conversationId = $conversationId,
-        expirationStartTimestamp = $expirationStartTimestamp,
-        expires_at = $expires_at,
-        expireTimer = $expireTimer,
-        hasAttachments = $hasAttachments,
-        hasFileAttachments = $hasFileAttachments,
-        hasVisualMediaAttachments = $hasVisualMediaAttachments,
-        isErased = $isErased,
-        isViewOnce = $isViewOnce,
-        received_at = $received_at,
-        schemaVersion = $schemaVersion,
-        sent_at = $sent_at,
-        source = $source,
-        sourceUuid = $sourceUuid,
-        sourceDevice = $sourceDevice,
-        type = $type,
-        unread = $unread
-      WHERE id = $id;`,
-      payload
-    );
+    try {
+      await Promise.all([
+        db.run(
+          `UPDATE messages SET
+            id = $id,
+            json = $json,
+  
+            body = $body,
+            conversationId = $conversationId,
+            expirationStartTimestamp = $expirationStartTimestamp,
+            expires_at = $expires_at,
+            expireTimer = $expireTimer,
+            hasAttachments = $hasAttachments,
+            hasFileAttachments = $hasFileAttachments,
+            hasVisualMediaAttachments = $hasVisualMediaAttachments,
+            isErased = $isErased,
+            isViewOnce = $isViewOnce,
+            received_at = $received_at,
+            schemaVersion = $schemaVersion,
+            sent_at = $sent_at,
+            source = $source,
+            sourceUuid = $sourceUuid,
+            sourceDevice = $sourceDevice,
+            type = $type,
+            unread = $unread
+          WHERE id = $id;`,
+          payload
+        ),
+        db.run('DELETE FROM messages_fts WHERE id = $id;', {
+          $id: id,
+        }),
+      ]);
+
+      if (body) {
+        await db.run(
+          `INSERT INTO messages_fts(
+             id,
+             body
+           ) VALUES (
+             $id,
+             $body
+           );
+          `,
+          {
+            $id: id,
+            $body: body,
+          }
+        );
+      }
+
+      if (!alreadyInTransaction) {
+        await db.run('COMMIT TRANSACTION;');
+      }
+    } catch (error) {
+      if (!alreadyInTransaction) {
+        await db.run('ROLLBACK;');
+      }
+      throw error;
+    }
 
     return id;
   }
@@ -2537,61 +2608,93 @@ async function saveMessage(
     id: id || generateUUID(),
   };
 
-  await db.run(
-    `INSERT INTO messages (
-    id,
-    json,
+  if (!alreadyInTransaction) {
+    await db.run('BEGIN TRANSACTION;');
+  }
 
-    body,
-    conversationId,
-    expirationStartTimestamp,
-    expires_at,
-    expireTimer,
-    hasAttachments,
-    hasFileAttachments,
-    hasVisualMediaAttachments,
-    isErased,
-    isViewOnce,
-    received_at,
-    schemaVersion,
-    sent_at,
-    source,
-    sourceUuid,
-    sourceDevice,
-    type,
-    unread
-  ) values (
-    $id,
-    $json,
+  try {
+    await Promise.all([
+      db.run(
+        `INSERT INTO messages (
+          id,
+          json,
+  
+          body,
+          conversationId,
+          expirationStartTimestamp,
+          expires_at,
+          expireTimer,
+          hasAttachments,
+          hasFileAttachments,
+          hasVisualMediaAttachments,
+          isErased,
+          isViewOnce,
+          received_at,
+          schemaVersion,
+          sent_at,
+          source,
+          sourceUuid,
+          sourceDevice,
+          type,
+          unread
+        ) values (
+          $id,
+          $json,
+  
+          $body,
+          $conversationId,
+          $expirationStartTimestamp,
+          $expires_at,
+          $expireTimer,
+          $hasAttachments,
+          $hasFileAttachments,
+          $hasVisualMediaAttachments,
+          $isErased,
+          $isViewOnce,
+          $received_at,
+          $schemaVersion,
+          $sent_at,
+          $source,
+          $sourceUuid,
+          $sourceDevice,
+          $type,
+          $unread
+        );`,
+        {
+          ...payload,
+          $id: toCreate.id,
+          $json: objectToJSON(toCreate),
+        }
+      ),
+      db.run(
+        `INSERT INTO messages_fts(
+           id,
+           body
+         ) VALUES (
+           $id,
+           $body
+         );
+        `,
+        {
+          $id: id,
+          $body: body,
+        }
+      ),
+    ]);
 
-    $body,
-    $conversationId,
-    $expirationStartTimestamp,
-    $expires_at,
-    $expireTimer,
-    $hasAttachments,
-    $hasFileAttachments,
-    $hasVisualMediaAttachments,
-    $isErased,
-    $isViewOnce,
-    $received_at,
-    $schemaVersion,
-    $sent_at,
-    $source,
-    $sourceUuid,
-    $sourceDevice,
-    $type,
-    $unread
-  );`,
-    {
-      ...payload,
-      $id: toCreate.id,
-      $json: objectToJSON(toCreate),
+    if (!alreadyInTransaction) {
+      await db.run('COMMIT TRANSACTION;');
     }
-  );
+  } catch (error) {
+    if (!alreadyInTransaction) {
+      await db.run('ROLLBACK;');
+    }
+    throw error;
+  }
 
   return toCreate.id;
 }
+saveMessage.needsSerial = true;
 
 async function saveMessages(
   arrayOfMessages: Array<MessageType>,
@@ -2603,7 +2706,7 @@ async function saveMessages(
   try {
     await Promise.all([
       ...map(arrayOfMessages, async message =>
-        saveMessage(message, { forceSave })
+        saveMessage(message, { forceSave, alreadyInTransaction: true })
       ),
     ]);
 
@@ -2617,16 +2720,49 @@ saveMessages.needsSerial = true;
 
 async function removeMessage(id: string) {
   const db = getInstance();
-  await db.run('DELETE FROM messages WHERE id = $id;', { $id: id });
+  await db.run('BEGIN TRANSACTION;');
+
+  try {
+    await Promise.all([
+      db.run('DELETE FROM messages WHERE id = $id;', { $id: id }),
+      db.run('DELETE FROM messages_fts WHERE id = $id;', { $id: id }),
+    ]);
+
+    await db.run('COMMIT TRANSACTION;');
+  } catch (error) {
+    await db.run('ROLLBACK;');
+    throw error;
+  }
 }
+removeMessage.needsSerial = true;
 
 async function removeMessages(ids: Array<string>) {
   const db = getInstance();
-  await db.run(
-    `DELETE FROM messages WHERE id IN ( ${ids.map(() => '?').join(', ')} );`,
-    ids
-  );
+  await db.run('BEGIN TRANSACTION;');
+
+  try {
+    await Promise.all([
+      db.run(
+        `DELETE FROM messages WHERE id IN ( ${ids
+          .map(() => '?')
+          .join(', ')} );`,
+        ids
+      ),
+      db.run(
+        `DELETE FROM messages_fts WHERE id IN ( ${ids
+          .map(() => '?')
+          .join(', ')} );`,
+        ids
+      ),
+    ]);
+
+    await db.run('COMMIT TRANSACTION;');
+  } catch (error) {
+    await db.run('ROLLBACK;');
+    throw error;
+  }
 }
+removeMessages.needsSerial = true;
 
 async function getMessageById(id: string) {
   const db = getInstance();
