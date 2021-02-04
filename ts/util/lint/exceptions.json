@@ -14934,15 +14934,6 @@
     "reasonDetail": "Used for setting focus only"
   },
   {
-    "rule": "React-useRef",
-    "path": "ts/components/emoji/EmojiPicker.js",
-    "line": "    const focusRef = React.useRef(null);",
-    "lineNumber": 53,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-26T19:12:24.410Z",
-    "reasonDetail": "Only used to focus the element."
-  },
-  {
     "rule": "React-createRef",
     "path": "ts/components/stickers/StickerManager.js",
     "line": "    const focusRef = React.createRef();",
