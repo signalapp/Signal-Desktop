@@ -28,6 +28,7 @@ import {
   UserId,
   VideoFrameSource,
   VideoRequest,
+  BandwidthMode,
 } from 'ringrtc';
 import { uniqBy, noop } from 'lodash';
 
@@ -1489,6 +1490,7 @@ export class CallingClass {
     return {
       iceServer: JSON.parse(iceServerJson),
       hideIp: shouldRelayCalls || isContactUnknown,
+      bandwidthMode: BandwidthMode.Normal,
     };
   }
 
