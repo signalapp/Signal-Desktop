@@ -63,11 +63,10 @@ export const EmojiButton = React.memo(
 
     const handleClose = React.useCallback(() => {
       hide();
-      setOpen(false);
       if (onClose) {
         onClose();
       }
-    }, [setOpenState, setOpen, onClose]);
+    }, [setOpenState, onClose]);
 
     // Create popper root and handle outside clicks
     React.useEffect(() => {
@@ -93,7 +92,7 @@ export const EmojiButton = React.memo(
       }
 
       return noop;
-    }, [setOpenState, setPopperRoot, open, setOpen, setPopperRoot, handleClose]);
+    }, [setOpenState, setPopperRoot, openState, setPopperRoot, handleClose]);
 
     // Install keyboard shortcut to open emoji picker
     React.useEffect(() => {

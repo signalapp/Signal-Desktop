@@ -68,7 +68,6 @@ enum AvatarPopupState {
 
 type StateType = {
   avatarPopupState: AvatarPopupState;
-  showingAvatarPopup: boolean;
   popperRoot: HTMLDivElement | null;
 };
 
