@@ -362,6 +362,11 @@ export const CompositionArea = ({
     const handler = (e: KeyboardEvent) => {
       const { key } = e;
 
+      // We don't want to react to a control character
+      if (key.length !== 1) {
+        return;
+      }
+
       // We don't want to switch focus if another panel is up
       const panels = document.querySelectorAll('.conversation .panel');
       if (panels && panels.length > 1) {
@@ -374,13 +379,7 @@ export const CompositionArea = ({
         return;
       }
 
-      // Check if the key is a print character and not an control character
-      if (key.length === 1) {
-        const quills = document.getElementsByClassName('ql-editor');
-        if (quills.length > 0) {
-          (quills[0] as HTMLElement).focus();
-        }
-      }
+      inputApiRef.current?.focus();
     };
 
     document.addEventListener('keydown', handler);
