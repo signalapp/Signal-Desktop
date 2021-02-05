@@ -64,14 +64,14 @@ export const StickerButton = React.memo(
     const isVisible = openState !== OpenState.HIDDEN;
 
     const hide = React.useCallback(() => {
-      if (openState !== OpenState.VISIBLE) {
+      if (!isVisible) {
         return;
       }
       setOpenState(OpenState.FADEOUT);
       setTimeout(() => {
         setOpenState(OpenState.HIDDEN);
       }, 200);
-    }, [openState, setOpenState]);
+    }, [isVisible, setOpenState]);
 
     const handleClickButton = React.useCallback(() => {
       // Clear tooltip state
