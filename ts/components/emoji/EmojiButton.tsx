@@ -92,7 +92,7 @@ export const EmojiButton = React.memo(
       }
 
       return noop;
-    }, [setOpenState, setPopperRoot, openState, setPopperRoot, handleClose]);
+    }, [setOpenState, setPopperRoot, openState !== OpenState.HIDDEN, setPopperRoot, handleClose]);
 
     // Install keyboard shortcut to open emoji picker
     React.useEffect(() => {

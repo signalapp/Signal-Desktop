@@ -484,3 +484,22 @@
     transition: opacity 0.2s;
   }
 }
+
+@keyframes shrink {
+  0% {
+    transform: scale(1, 1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0, 0);
+    opacity: 0;
+  }
+}
+
+@mixin modal-shrink-out-animation($location: center) {
+  .fadeout & {
+    animation-name: shrink;
+    animation-duration: 0.2s;
+    transform-origin: $location;
+  }
+}

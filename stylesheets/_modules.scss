@@ -8687,6 +8687,7 @@ button.module-image__border-overlay:focus {
     z-index: 5;
 
     @include fadein-animation;
+    @include fadeout-animation;
   }
 
   &__container {
@@ -9075,6 +9076,8 @@ button.module-image__border-overlay:focus {
     align-items: center;
     // THIS Z-INDEX IS OVER NINE THOUSAND. OVER NINE THOUSAND?! THAT CAN'T BE!
     z-index: 9001;
+    @include fadein-animation();
+    @include fadeout-animation();
   }
 
   &__container {
@@ -9082,6 +9085,9 @@ button.module-image__border-overlay:focus {
     padding: 12px 16px;
     border-radius: 8px;
     @include popper-shadow();
+    @include fadein-animation();
+
+    @include modal-shrink-out-animation(bottom);
 
     @include light-theme() {
       background: $color-white;
@@ -11192,6 +11198,9 @@ $contact-modal-padding: 18px;
     justify-content: center;
     align-items: center;
     z-index: 5;
+
+    @include fadein-animation;
+    @include fadeout-animation;
   }
 }
 

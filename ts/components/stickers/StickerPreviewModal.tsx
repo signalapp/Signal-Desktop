@@ -79,6 +79,16 @@ export const StickerPreviewModal = React.memo((props: Props) => {
   const focusRef = React.useRef<HTMLButtonElement>(null);
   const [root, setRoot] = React.useState<HTMLElement | null>(null);
   const [confirmingUninstall, setConfirmingUninstall] = React.useState(false);
+  const [fadeout, setFadeout] = React.useState(false);
+
+  const close = React.useCallback(() => {
+    if (!fadeout) {
+      setFadeout(true);
+      setTimeout(() => {
+        onClose();
+      }, 200);
+    }
+  }, [fadeout, setFadeout, onClose]);
 
   // Restore focus on teardown
   useRestoreFocus(focusRef, root);
@@ -120,16 +130,16 @@ export const StickerPreviewModal = React.memo((props: Props) => {
       setConfirmingUninstall(true);
     } else if (pack.status === 'ephemeral') {
       downloadStickerPack(pack.id, pack.key, { finalStatus: 'installed' });
-      onClose();
+      close();
     } else {
       installStickerPack(pack.id, pack.key);
-      onClose();
+      close();
     }
   }, [
     downloadStickerPack,
     installStickerPack,
     isInstalled,
-    onClose,
+    close,
     pack,
     setConfirmingUninstall,
   ]);
@@ -146,7 +156,7 @@ export const StickerPreviewModal = React.memo((props: Props) => {
   React.useEffect(() => {
     const handler = ({ key }: KeyboardEvent) => {
       if (key === 'Escape') {
-        onClose();
+        close();
       }
     };
 
@@ -155,15 +165,15 @@ export const StickerPreviewModal = React.memo((props: Props) => {
     return () => {
       document.removeEventListener('keydown', handler);
     };
-  }, [onClose]);
+  }, [close]);
 
   const handleClickToClose = React.useCallback(
     (e: React.MouseEvent) => {
       if (e.target === e.currentTarget) {
-        onClose();
+        close();
       }
     },
-    [onClose]
+    [close]
   );
 
   return root
@@ -173,13 +183,16 @@ export const StickerPreviewModal = React.memo((props: Props) => {
         // eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/click-events-have-key-events
         <div
           role="button"
-          className="module-sticker-manager__preview-modal__overlay"
+          className={classNames(
+            'module-sticker-manager__preview-modal__overlay',
+            fadeout ? 'fadeout' : null
+          )}
           onClick={handleClickToClose}
         >
           {confirmingUninstall ? (
             <ConfirmationDialog
               i18n={i18n}
-              onClose={onClose}
+              onClose={close}
               actions={[
                 {
                   style: 'negative',
@@ -198,7 +211,7 @@ export const StickerPreviewModal = React.memo((props: Props) => {
                 </h2>
                 <button
                   type="button"
-                  onClick={onClose}
+                  onClick={close}
                   className="module-sticker-manager__preview-modal__container__header__close-button"
                   aria-label={i18n('close')}
                 />

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { ReactPortal } from 'react';
+import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 
 import { ConversationType } from '../../state/ducks/conversations';
@@ -41,6 +42,16 @@ export const ContactModal = ({
   const [root, setRoot] = React.useState<HTMLElement | null>(null);
   const overlayRef = React.useRef<HTMLElement | null>(null);
   const closeButtonRef = React.useRef<HTMLElement | null>(null);
+  const [fadeout, setFadeout] = React.useState(false);
+
+  const close = React.useCallback(() => {
+    if (!fadeout) {
+      setFadeout(true);
+      setTimeout(() => {
+        onClose();
+      }, 200);
+    }
+  }, [fadeout, setFadeout, onClose]);
 
   React.useEffect(() => {
     const div = document.createElement('div');
@@ -65,7 +76,7 @@ export const ContactModal = ({
         event.preventDefault();
         event.stopPropagation();
 
-        onClose();
+        close();
       }
     };
     document.addEventListener('keyup', handler);
@@ -73,14 +84,14 @@ export const ContactModal = ({
     return () => {
       document.removeEventListener('keyup', handler);
     };
-  }, [onClose]);
+  }, [close]);
 
   const onClickOverlay = (e: React.MouseEvent<HTMLElement>) => {
     if (e.target === overlayRef.current) {
       e.preventDefault();
       e.stopPropagation();
 
-      onClose();
+      close();
     }
   };
 
@@ -91,7 +102,10 @@ export const ContactModal = ({
             overlayRef.current = ref;
           }}
           role="presentation"
-          className="module-contact-modal__overlay"
+          className={classNames(
+            'module-contact-modal__overlay',
+            fadeout ? 'fadeout' : null
+          )}
           onClick={onClickOverlay}
         >
           <div className="module-contact-modal">
@@ -101,7 +115,7 @@ export const ContactModal = ({
               }}
               type="button"
               className="module-contact-modal__close-button"
-              onClick={onClose}
+              onClick={close}
               aria-label={i18n('close')}
             />
             <Avatar
