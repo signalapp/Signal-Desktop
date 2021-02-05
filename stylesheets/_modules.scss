@@ -10079,29 +10079,27 @@ button.module-image__border-overlay:focus {
 }
 
 .module-scroll-down__button {
-  height: 44px;
-  width: 44px;
-  border-radius: 22px;
+  height: 42px;
+  width: 42px;
+  border-radius: 21px;
   text-align: center;
   border: none;
   outline: none;
 
   @include light-theme {
-    background-color: $color-gray-25;
+    background-color: $color-white;
     &:hover {
-      background-color: $color-gray-45;
+      background-color: $color-gray-02;
     }
-
-    box-shadow: 0px 3px 5px 0px $color-black-alpha-20;
   }
   @include dark-theme {
-    background-color: $color-gray-45;
+    background-color: $color-gray-80;
     &:hover {
-      background-color: $color-gray-25;
+      background-color: $color-gray-75;
     }
-
-    box-shadow: 0px 3px 5px 0px $color-white-alpha-20;
   }
+
+  box-shadow: 0px 5px 7px 0px $color-black-alpha-40;
 }
 
 .module-scroll-down__button--new-messages {
@@ -10113,11 +10111,16 @@ button.module-image__border-overlay:focus {
 }
 
 .module-scroll-down__icon {
-  @include color-svg('../images/icons/v2/arrow-down-24.svg', $color-white);
-  height: 36px;
-  width: 36px;
-  margin-left: -3px;
-  margin-top: -1px;
+  @include light-theme {
+    @include color-svg('../images/icons/v2/arrow-down-20.svg', $color-gray-35);
+  }
+
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/arrow-down-20.svg', $color-gray-45);
+  }
+  height: 19px;
+  width: 20px;
+  margin: auto;
 }
 
 // Module: Avatar Popup
