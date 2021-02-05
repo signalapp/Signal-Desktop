@@ -302,5 +302,5 @@ export async function handlePublicMessage(messageData: any) {
     },
   };
 
-  await handleMessageEvent(ev);
+  await handleMessageEvent(ev); // open groups
 }

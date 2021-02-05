@@ -50,44 +50,36 @@ export function generateClosedGroupMessage(
 
 interface MockConversationParams {
   id?: string;
-  type: MockConversationType;
   members?: Array<string>;
-}
-
-export enum MockConversationType {
-  Primary = 'primary',
-  Secondary = 'secondary',
-  Group = 'group',
+  type: 'private' | 'group' | 'public';
+  isMediumGroup?: boolean;
 }
 
 export class MockConversation {
   public id: string;
-  public type: MockConversationType;
+  public type: 'private' | 'group' | 'public';
   public attributes: ConversationAttributes;
-  public isPrimary?: boolean;
 
   constructor(params: MockConversationParams) {
-    const dayInSeconds = 86400;
+    this.id = params.id ?? generateFakePubKey().key;
+
+    const members = params.isMediumGroup
+      ? params.members ?? generateFakePubKeys(10).map(m => m.key)
+      : [];
 
     this.type = params.type;
-    this.id = params.id ?? generateFakePubKey().key;
-    this.isPrimary = this.type === MockConversationType.Primary;
-
-    const members =
-      this.type === MockConversationType.Group
-        ? params.members ?? generateFakePubKeys(10).map(m => m.key)
-        : [];
 
     this.attributes = {
       id: this.id,
       name: '',
-      type: '',
+      type: params.type === 'public' ? 'group' : params.type,
       members,
       left: false,
-      expireTimer: dayInSeconds,
+      expireTimer: 0,
       profileSharing: true,
       mentionedUs: false,
-      unreadCount: 99,
+      unreadCount: 5,
+      isKickedFromGroup: false,
       active_at: Date.now(),
       timestamp: Date.now(),
       lastJoinedTimestamp: Date.now(),
@@ -95,11 +87,19 @@ export class MockConversation {
   }
 
   public isPrivate() {
-    return true;
+    return this.type === 'private';
   }
 
   public isBlocked() {
     return false;
+  }
+
+  public isPublic() {
+    return this.id.match(/^publicChat:/);
+  }
+
+  public isMediumGroup() {
+    return this.type === 'group';
   }
 
   public get(obj: string) {

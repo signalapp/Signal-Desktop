@@ -912,13 +912,13 @@
       ({ identifier, pubKey, timestamp, serverId, serverTimestamp }) => {
         try {
           const conversation = window.getConversationController().get(pubKey);
-          conversation.onPublicMessageSent(
+          conversation.onPublicMessageSent({
             identifier,
             pubKey,
             timestamp,
             serverId,
-            serverTimestamp
-          );
+            serverTimestamp,
+          });
         } catch (e) {
           window.log.error('Error setting public on message');
         }

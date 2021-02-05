@@ -9,7 +9,10 @@ import {
   requestSnodesForPubkey,
 } from './serviceNodeAPI';
 
-import * as Data from '../../../js/modules/data';
+import {
+  getSwarmNodesForPubkey,
+  updateSwarmNodesForPubkey,
+} from '../../../js/modules/data';
 
 import semver from 'semver';
 import _ from 'lodash';
@@ -329,7 +332,7 @@ export async function updateSnodesFor(
 
 async function internalUpdateSnodesFor(pubkey: string, edkeys: Array<string>) {
   nodesForPubkey.set(pubkey, edkeys);
-  await Data.updateSwarmNodesForPubkey(pubkey, edkeys);
+  await updateSwarmNodesForPubkey(pubkey, edkeys);
 }
 
 export async function getSnodesFor(pubkey: string): Promise<Array<Snode>> {
@@ -339,7 +342,7 @@ export async function getSnodesFor(pubkey: string): Promise<Array<Snode>> {
   // NOTE: important that maybeNodes is not [] here
   if (maybeNodes === undefined) {
     // First time access, try the database:
-    nodes = await Data.getSwarmNodesForPubkey(pubkey);
+    nodes = await getSwarmNodesForPubkey(pubkey);
     nodesForPubkey.set(pubkey, nodes);
   } else {
     nodes = maybeNodes;

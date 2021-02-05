@@ -12,7 +12,7 @@ import {
   ConfigurationMessageClosedGroup,
 } from '../messages/outgoing/content/ConfigurationMessage';
 import uuid from 'uuid';
-import * as Data from '../../../js/modules/data';
+import { getLatestClosedGroupEncryptionKeyPair } from '../../../js/modules/data';
 import { UserUtils } from '.';
 import { ECKeyPair } from '../../receiver/keypairs';
 import _ from 'lodash';
@@ -66,26 +66,24 @@ export const getCurrentConfigurationMessage = async (
 ) => {
   const ourPubKey = (await UserUtils.getOurNumber()).key;
   const openGroupsIds = convos
-    .filter(
-      c =>
-        !!c.get('active_at') &&
-        c.get('members').includes(ourPubKey) &&
-        c.isPublic() &&
-        !c.get('left')
-    )
-    .map(c => c.id) as Array<string>;
+    .filter(c => !!c.get('active_at') && c.isPublic() && !c.get('left'))
+    .map(c => c.id.substring((c.id as string).lastIndexOf('@') + 1)) as Array<
+    string
+  >;
   const closedGroupModels = convos.filter(
     c =>
       !!c.get('active_at') &&
       c.isMediumGroup() &&
+      c.get('members').includes(ourPubKey) &&
       !c.get('left') &&
-      !c.get('isKickedFromGroup')
+      !c.get('isKickedFromGroup') &&
+      !c.isBlocked()
   );
 
   const closedGroups = await Promise.all(
     closedGroupModels.map(async c => {
       const groupPubKey = c.get('id');
-      const fetchEncryptionKeyPair = await Data.getLatestClosedGroupEncryptionKeyPair(
+      const fetchEncryptionKeyPair = await getLatestClosedGroupEncryptionKeyPair(
         groupPubKey
       );
       if (!fetchEncryptionKeyPair) {

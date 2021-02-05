@@ -6,6 +6,7 @@ import { MessageParams } from '../Message';
 import { Constants } from '../../..';
 import { ECKeyPair } from '../../../../receiver/keypairs';
 import { fromHexToArray } from '../../../utils/String';
+import { PubKey } from '../../../types';
 
 interface ConfigurationMessageParams extends MessageParams {
   activeClosedGroups: Array<ConfigurationMessageClosedGroup>;
@@ -13,13 +14,21 @@ interface ConfigurationMessageParams extends MessageParams {
 }
 
 export class ConfigurationMessage extends ContentMessage {
-  private readonly activeClosedGroups: Array<ConfigurationMessageClosedGroup>;
-  private readonly activeOpenGroups: Array<string>;
+  public readonly activeClosedGroups: Array<ConfigurationMessageClosedGroup>;
+  public readonly activeOpenGroups: Array<string>;
 
   constructor(params: ConfigurationMessageParams) {
     super({ timestamp: params.timestamp, identifier: params.identifier });
     this.activeClosedGroups = params.activeClosedGroups;
     this.activeOpenGroups = params.activeOpenGroups;
+
+    if (!this.activeClosedGroups) {
+      throw new Error('closed group must be set');
+    }
+
+    if (!this.activeOpenGroups) {
+      throw new Error('open group must be set');
+    }
   }
 
   public ttl(): number {
@@ -73,6 +82,31 @@ export class ConfigurationMessageClosedGroup {
     this.encryptionKeyPair = encryptionKeyPair;
     this.members = members;
     this.admins = admins;
+
+    // will throw if publik key is invalid
+    PubKey.cast(publicKey);
+
+    if (
+      !encryptionKeyPair?.privateKeyData?.byteLength ||
+      !encryptionKeyPair?.publicKeyData?.byteLength
+    ) {
+      throw new Error('Encryption key pair looks invalid');
+    }
+
+    if (!this.name?.length) {
+      throw new Error('name must be set');
+    }
+
+    if (!this.members?.length) {
+      throw new Error('members must be set');
+    }
+    if (!this.admins?.length) {
+      throw new Error('admins must be set');
+    }
+
+    if (this.admins.some(a => !this.members.includes(a))) {
+      throw new Error('some admins are not members');
+    }
   }
 
   public toProto(): SignalService.ConfigurationMessage.ClosedGroup {

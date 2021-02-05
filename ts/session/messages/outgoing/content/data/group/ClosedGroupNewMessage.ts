@@ -87,8 +87,4 @@ export class ClosedGroupNewMessage extends ClosedGroupMessage {
 
     return dataMessage;
   }
-
-  public isSelfSendValid() {
-    return true;
-  }
 }

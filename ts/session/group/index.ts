@@ -1,5 +1,5 @@
 import { PubKey } from '../types';
-import * as Data from '../../../js/modules/data';
+
 import _ from 'lodash';
 
 import { fromHex, fromHexToArray, toHex } from '../utils/String';
@@ -14,6 +14,12 @@ import {
   ClosedGroupNewMessage,
   ExpirationTimerUpdateMessage,
 } from '../messages/outgoing';
+import {
+  addClosedGroupEncryptionKeyPair,
+  getIdentityKeyById,
+  getLatestClosedGroupEncryptionKeyPair,
+  removeAllClosedGroupEncryptionKeyPairs,
+} from '../../../js/modules/data';
 import uuid from 'uuid';
 import { SignalService } from '../../protobuf';
 import { generateCurve25519KeyPairWithoutPrefix } from '../crypto';
@@ -56,7 +62,7 @@ export interface MemberChanges {
 }
 
 export async function getGroupSecretKey(groupId: string): Promise<Uint8Array> {
-  const groupIdentity = await Data.getIdentityKeyById(groupId);
+  const groupIdentity = await getIdentityKeyById(groupId);
   if (!groupIdentity) {
     throw new Error(`Could not load secret key for group ${groupId}`);
   }
@@ -70,12 +76,6 @@ export async function getGroupSecretKey(groupId: string): Promise<Uint8Array> {
   }
 
   return new Uint8Array(fromHex(secretKey));
-}
-
-// Secondary devices are not expected to already have the group, so
-// we send messages of type NEW
-export async function syncMediumGroups(groups: Array<ConversationModel>) {
-  // await Promise.all(groups.map(syncMediumGroup));
 }
 
 // tslint:disable: max-func-body-length
@@ -127,7 +127,7 @@ export async function initiateGroupUpdate(
     const dbMessageAdded = await addUpdateMessage(convo, diff, 'outgoing');
     window.getMessageController().register(dbMessageAdded.id, dbMessageAdded);
     // Check preconditions
-    const hexEncryptionKeyPair = await Data.getLatestClosedGroupEncryptionKeyPair(
+    const hexEncryptionKeyPair = await getLatestClosedGroupEncryptionKeyPair(
       groupId
     );
     if (!hexEncryptionKeyPair) {
@@ -180,7 +180,7 @@ export async function initiateGroupUpdate(
         window.log.info(
           `Leaving message sent ${groupId}. Removing everything related to this group.`
         );
-        await Data.removeAllClosedGroupEncryptionKeyPairs(groupId);
+        await removeAllClosedGroupEncryptionKeyPairs(groupId);
       });
     } else {
       // Send the group update, and only once sent, generate and distribute a new encryption key pair if needed
@@ -482,7 +482,7 @@ export async function leaveClosedGroup(groupId: string) {
     window.log.info(
       `Leaving message sent ${groupId}. Removing everything related to this group.`
     );
-    await Data.removeAllClosedGroupEncryptionKeyPairs(groupId);
+    await removeAllClosedGroupEncryptionKeyPairs(groupId);
   });
 }
 
@@ -524,7 +524,7 @@ async function sendAddedMembers(
   const admins = groupUpdate.admins || [];
 
   // Check preconditions
-  const hexEncryptionKeyPair = await Data.getLatestClosedGroupEncryptionKeyPair(
+  const hexEncryptionKeyPair = await getLatestClosedGroupEncryptionKeyPair(
     groupId
   );
   if (!hexEncryptionKeyPair) {
@@ -709,7 +709,7 @@ export async function generateAndSendNewEncryptionKeyPair(
       `KeyPairMessage for ClosedGroup ${groupPublicKey} is sent. Saving the new encryptionKeyPair.`
     );
 
-    await Data.addClosedGroupEncryptionKeyPair(
+    await addClosedGroupEncryptionKeyPair(
       toHex(groupId),
       newKeyPair.toHexKeyPair()
     );

@@ -323,7 +323,7 @@
       await Promise.all(messages.map(m => m.setCalculatingPoW()));
     },
 
-    async onPublicMessageSent(identifier, serverId, serverTimestamp) {
+    async onPublicMessageSent({ identifier, serverId, serverTimestamp }) {
       const registeredMessage = window.getMessageController().get(identifier);
 
       if (!registeredMessage || !registeredMessage.message) {
@@ -648,6 +648,12 @@
 
         const destinationPubkey = new libsession.Types.PubKey(destination);
         if (this.isPrivate()) {
+          if (this.isMe()) {
+            chatMessage.syncTarget = this.id;
+            return await libsession
+              .getMessageQueue()
+              .sendSyncMessage(chatMessage);
+          }
           // Handle Group Invitation Message
           if (message.get('groupInvitation')) {
             const groupInvitation = message.get('groupInvitation');
@@ -737,13 +743,11 @@
         recipients,
       });
 
-      if (this.isPublic()) {
-        // Public chats require this data to detect duplicates
-        messageWithSchema.source = textsecure.storage.user.getNumber();
-        messageWithSchema.sourceDevice = 1;
-      } else {
+      if (!this.isPublic()) {
         messageWithSchema.destination = destination;
       }
+      messageWithSchema.source = textsecure.storage.user.getNumber();
+      messageWithSchema.sourceDevice = 1;
 
       const attributes = {
         ...messageWithSchema,
@@ -940,7 +944,7 @@
         return message.sendSyncMessageOnly(expirationTimerMessage);
       }
 
-      if (this.get('type') === 'private') {
+      if (this.isPrivate()) {
         const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
           expireUpdate
         );
@@ -953,15 +957,6 @@
         const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
           expireUpdate
         );
-        // special case when we are the only member of a closed group
-        const ourNumber = textsecure.storage.user.getNumber();
-
-        if (
-          this.get('members').length === 1 &&
-          this.get('members')[0] === ourNumber
-        ) {
-          return message.sendSyncMessageOnly(expirationTimerMessage);
-        }
         await libsession.getMessageQueue().sendToGroup(expirationTimerMessage);
       }
       return message;
@@ -1414,14 +1409,15 @@
       return toDeleteLocally;
     },
 
-    removeMessage(messageId) {
-      window.Signal.Data.removeMessage(messageId, {
+    async removeMessage(messageId) {
+      await window.Signal.Data.removeMessage(messageId, {
         Message: Whisper.Message,
       });
       window.Whisper.events.trigger('messageDeleted', {
         conversationKey: this.id,
         messageId,
       });
+      this.updateLastMessage();
     },
 
     deleteMessages() {

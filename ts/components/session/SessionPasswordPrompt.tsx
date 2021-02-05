@@ -16,6 +16,8 @@ interface State {
   clearDataView: boolean;
 }
 
+export const MAX_LOGIN_TRIES = 3;
+
 class SessionPasswordPromptInner extends React.PureComponent<
   { theme: DefaultTheme },
   State
@@ -44,8 +46,7 @@ class SessionPasswordPromptInner extends React.PureComponent<
   }
 
   public render() {
-    const showResetElements =
-      this.state.errorCount >= window.CONSTANTS.MAX_LOGIN_TRIES;
+    const showResetElements = this.state.errorCount >= MAX_LOGIN_TRIES;
 
     const wrapperClass = this.state.clearDataView
       ? 'clear-data-wrapper'
@@ -163,8 +164,7 @@ class SessionPasswordPromptInner extends React.PureComponent<
   }
 
   private renderPasswordViewButtons(): JSX.Element {
-    const showResetElements =
-      this.state.errorCount >= window.CONSTANTS.MAX_LOGIN_TRIES;
+    const showResetElements = this.state.errorCount >= MAX_LOGIN_TRIES;
 
     return (
       <div className={classNames(showResetElements && 'button-group')}>
