@@ -80,22 +80,22 @@ export const ConfirmationModal = React.memo(
 
     return root
       ? createPortal(
-        <div
-          role="presentation"
-          className={classNames(
-            'module-confirmation-dialog__overlay',
-            theme ? themeClassName(theme) : undefined,
-            fadeout ? 'fadeout' : null
-          )}
-          onClick={handleCancel}
-          onKeyUp={handleKeyCancel}
-        >
-          <ConfirmationDialog i18n={i18n} {...rest} onClose={close}>
-            {children}
-          </ConfirmationDialog>
-        </div>,
-        root
-      )
+          <div
+            role="presentation"
+            className={classNames(
+              'module-confirmation-dialog__overlay',
+              theme ? themeClassName(theme) : undefined,
+              fadeout ? 'fadeout' : null
+            )}
+            onClick={handleCancel}
+            onKeyUp={handleKeyCancel}
+          >
+            <ConfirmationDialog i18n={i18n} {...rest} onClose={close}>
+              {children}
+            </ConfirmationDialog>
+          </div>,
+          root
+        )
       : null;
   }
 );

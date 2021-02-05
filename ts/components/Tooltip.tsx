@@ -104,7 +104,7 @@ export const Tooltip: React.FC<PropsType> = ({
     Visibility.HIDDEN
   );
 
-  const showTooltip = Boolean(sticky) ? Visibility.VISIBLE : visibility;
+  const showTooltip = sticky ? Visibility.VISIBLE : visibility;
 
   const tooltipThemeClassName = theme
     ? `module-tooltip--${themeClassName(theme)}`
@@ -136,9 +136,12 @@ export const Tooltip: React.FC<PropsType> = ({
           setVisibility(Visibility.VISIBLE);
           break;
         }
+        default: {
+          break;
+        }
       }
     },
-    [visibility, setVisibility]
+    [visibility, setVisibility, hideIfFading]
   );
 
   return (

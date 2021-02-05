@@ -142,7 +142,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
 
     this.setState({
       avatarPopupState: AvatarPopupState.FADEOUT,
-      popperRoot: popperRoot,
+      popperRoot,
     });
 
     setTimeout(() => {

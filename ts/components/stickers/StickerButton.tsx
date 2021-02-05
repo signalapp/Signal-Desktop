@@ -61,6 +61,7 @@ export const StickerButton = React.memo(
     const [popperRoot, setPopperRoot] = React.useState<HTMLElement | null>(
       null
     );
+    const isVisible = openState !== OpenState.HIDDEN;
 
     const hide = React.useCallback(() => {
       if (openState !== OpenState.VISIBLE) {
@@ -70,7 +71,7 @@ export const StickerButton = React.memo(
       setTimeout(() => {
         setOpenState(OpenState.HIDDEN);
       }, 200);
-    }, [openState, popperRoot, setOpenState]);
+    }, [openState, setOpenState]);
 
     const handleClickButton = React.useCallback(() => {
       // Clear tooltip state
@@ -92,6 +93,7 @@ export const StickerButton = React.memo(
       onClickAddPack,
       popperRoot,
       setOpenState,
+      hide,
     ]);
 
     const handlePickSticker = React.useCallback(
@@ -99,12 +101,12 @@ export const StickerButton = React.memo(
         hide();
         onPickSticker(packId, stickerId);
       },
-      [setOpenState, onPickSticker]
+      [hide, onPickSticker]
     );
 
     const handleClose = React.useCallback(() => {
       hide();
-    }, [setOpenState]);
+    }, [hide]);
 
     const handleClickAddPack = React.useCallback(() => {
       hide();
@@ -112,7 +114,7 @@ export const StickerButton = React.memo(
         clearShowPickerHint();
       }
       onClickAddPack();
-    }, [onClickAddPack, showPickerHint, clearShowPickerHint]);
+    }, [hide, onClickAddPack, showPickerHint, clearShowPickerHint]);
 
     const handleClearIntroduction = React.useCallback(() => {
       clearInstalledStickerPack();
@@ -121,7 +123,7 @@ export const StickerButton = React.memo(
 
     // Create popper root and handle outside clicks
     React.useEffect(() => {
-      if (openState) {
+      if (isVisible) {
         const root = document.createElement('div');
         setPopperRoot(root);
         document.body.appendChild(root);
@@ -149,7 +151,7 @@ export const StickerButton = React.memo(
       }
 
       return noop;
-    }, [openState !== OpenState.HIDDEN, setOpenState, setPopperRoot]);
+    }, [isVisible, hide, setPopperRoot]);
 
     // Install keyboard shortcut to open sticker picker
     React.useEffect(() => {
@@ -169,7 +171,7 @@ export const StickerButton = React.memo(
           event.stopPropagation();
           event.preventDefault();
 
-          if (openState === OpenState.HIDDEN) {
+          if (!isVisible) {
             setOpenState(OpenState.VISIBLE);
           } else {
             hide();
@@ -181,7 +183,7 @@ export const StickerButton = React.memo(
       return () => {
         document.removeEventListener('keydown', handleKeydown);
       };
-    }, [openState !== OpenState.HIDDEN, setOpenState]);
+    }, [isVisible, setOpenState, hide]);
 
     // Clear the installed pack after one minute
     React.useEffect(() => {
