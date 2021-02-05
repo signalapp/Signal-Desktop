@@ -14673,7 +14673,7 @@
     "rule": "React-createRef",
     "path": "ts/components/MainHeader.js",
     "line": "        this.inputRef = react_1.default.createRef();",
-    "lineNumber": 146,
+    "lineNumber": 161,
     "reasonCategory": "usageTrusted",
     "updated": "2020-02-14T20:02:37.507Z",
     "reasonDetail": "Used only to set focus"
@@ -14682,7 +14682,7 @@
     "rule": "React-createRef",
     "path": "ts/components/MainHeader.tsx",
     "line": "    this.inputRef = React.createRef();",
-    "lineNumber": 74,
+    "lineNumber": 80,
     "reasonCategory": "usageTrusted",
     "updated": "2020-02-14T20:02:37.507Z",
     "reasonDetail": "Used only to set focus"
@@ -14745,7 +14745,7 @@
     "rule": "React-useRef",
     "path": "ts/components/conversation/ContactModal.js",
     "line": "    const overlayRef = react_1.default.useRef(null);",
-    "lineNumber": 18,
+    "lineNumber": 19,
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-09T17:48:12.173Z"
   },
@@ -14753,7 +14753,7 @@
     "rule": "React-useRef",
     "path": "ts/components/conversation/ContactModal.js",
     "line": "    const closeButtonRef = react_1.default.useRef(null);",
-    "lineNumber": 19,
+    "lineNumber": 20,
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-10T21:27:04.909Z"
   },
