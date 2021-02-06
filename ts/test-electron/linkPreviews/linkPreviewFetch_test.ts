@@ -135,17 +135,22 @@ describe('link preview fetching', () => {
       },
       {
         tag:
+          '<link rel="apple-touch-icon" href="https://example.com/apple-touch-icon.jpg">',
+        expectedHref: 'https://example.com/apple-touch-icon.jpg',
+      },
+      {
+        tag:
+          '<link rel="apple-touch-icon-precomposed" href="https://example.com/apple-touch-icon-precomposed.jpg">',
+        expectedHref: 'https://example.com/apple-touch-icon-precomposed.jpg',
+      },
+      {
+        tag:
           '<link rel="shortcut icon" href="https://example.com/shortcut-icon.jpg">',
         expectedHref: 'https://example.com/shortcut-icon.jpg',
       },
       {
         tag: '<link rel="icon" href="https://example.com/icon.jpg">',
         expectedHref: 'https://example.com/icon.jpg',
-      },
-      {
-        tag:
-          '<link rel="apple-touch-icon" href="https://example.com/apple-touch-icon.jpg">',
-        expectedHref: 'https://example.com/apple-touch-icon.jpg',
       },
     ];
     it('handles image href sources in the correct order', async () => {
