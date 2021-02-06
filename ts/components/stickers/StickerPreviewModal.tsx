@@ -86,7 +86,7 @@ export const StickerPreviewModal = React.memo((props: Props) => {
       setFadeout(true);
       setTimeout(() => {
         onClose();
-      }, 200);
+      }, 150);
     }
   }, [fadeout, setFadeout, onClose]);
 

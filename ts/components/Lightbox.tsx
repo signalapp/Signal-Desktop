@@ -447,7 +447,7 @@ export class Lightbox extends React.Component<Props, State> {
     });
     setTimeout(() => {
       close();
-    }, 200);
+    }, 150);
   };
 
   private readonly onTimeUpdate = () => {

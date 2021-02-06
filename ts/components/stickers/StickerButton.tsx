@@ -70,7 +70,7 @@ export const StickerButton = React.memo(
       setOpenState(OpenState.FADEOUT);
       setTimeout(() => {
         setOpenState(OpenState.HIDDEN);
-      }, 200);
+      }, 150);
     }, [isVisible, setOpenState]);
 
     const handleClickButton = React.useCallback(() => {

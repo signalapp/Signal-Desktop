@@ -3326,7 +3326,7 @@ Whisper.ConversationView = Whisper.View.extend({
         setTimeout(() => {
           this.quoteView.remove();
           this.quoteView = null;
-        }, 200);
+        }, 150);
       }
     }
     if (!this.quotedMessage) {

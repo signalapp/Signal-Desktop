@@ -153,7 +153,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
       if (popperRoot && document.body.contains(popperRoot)) {
         document.body.removeChild(popperRoot);
       }
-    }, 200);
+    }, 150);
   };
 
   public componentWillUnmount(): void {

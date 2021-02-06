@@ -128,7 +128,7 @@ export const Tooltip: React.FC<PropsType> = ({
         case Visibility.VISIBLE: {
           if (!hovering) {
             setVisibility(Visibility.FADEOUT);
-            setTimeout(hideIfFading, 200);
+            setTimeout(hideIfFading, 150);
           }
           break;
         }

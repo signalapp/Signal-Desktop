@@ -438,7 +438,7 @@
 @mixin collapse-animation {
   &.collapse {
     transform: scale(0, 0);
-    transition: transform 0.2s;
+    transition: transform 0.15s;
   }
 }
 
@@ -460,7 +460,7 @@
 @mixin foldclose-animation {
   &.foldclose {
     transform: translateY(100%);
-    transition: transform 0.2s;
+    transition: transform 0.15s;
   }
 }
 
@@ -481,7 +481,7 @@
 @mixin fadeout-animation {
   &.fadeout {
     opacity: 0;
-    transition: opacity 0.2s;
+    transition: opacity 0.15s;
   }
 }
 
@@ -499,7 +499,7 @@
 @mixin modal-shrink-out-animation($location: center) {
   .fadeout & {
     animation-name: shrink;
-    animation-duration: 0.2s;
+    animation-duration: 0.15s;
     transform-origin: $location;
   }
 }

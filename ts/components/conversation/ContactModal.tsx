@@ -49,7 +49,7 @@ export const ContactModal = ({
       setFadeout(true);
       setTimeout(() => {
         onClose();
-      }, 200);
+      }, 150);
     }
   }, [fadeout, setFadeout, onClose]);
 
