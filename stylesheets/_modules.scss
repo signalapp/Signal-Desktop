@@ -11762,6 +11762,7 @@ $contact-modal-padding: 18px;
 /* Lightbox */
 .module-lightbox {
   @include fadein-animation;
+  @include fadeout-animation;
 }
 
 /* Spec: container > 438px and container < 593px */

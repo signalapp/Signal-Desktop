@@ -37,6 +37,7 @@ export type Props = {
 };
 type State = {
   videoTime?: number;
+  fadeout: boolean;
 };
 
 const CONTROLS_WIDTH = 50;
@@ -223,7 +224,9 @@ export class Lightbox extends React.Component<Props, State> {
   public constructor(props: Props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      fadeout: false,
+    };
   }
 
   public componentDidMount(): void {
@@ -303,11 +306,11 @@ export class Lightbox extends React.Component<Props, State> {
       onPrevious,
       onSave,
     } = this.props;
-    const { videoTime } = this.state;
+    const { videoTime, fadeout } = this.state;
 
     return (
       <div
-        className="module-lightbox"
+        className={classNames('module-lightbox', fadeout ? 'fadeout' : null)}
         style={styles.container}
         onClick={this.onContainerClick}
         onKeyUp={this.onContainerKeyUp}
@@ -439,8 +442,12 @@ export class Lightbox extends React.Component<Props, State> {
     if (!close) {
       return;
     }
-
-    close();
+    this.setState({
+      fadeout: true,
+    });
+    setTimeout(() => {
+      close();
+    }, 200);
   };
 
   private readonly onTimeUpdate = () => {
