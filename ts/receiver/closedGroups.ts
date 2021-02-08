@@ -473,6 +473,9 @@ async function performIfValid(
   }
 
   if (groupUpdate.type === Type.UPDATE) {
+    window.log.warn(
+      'Received a groupUpdate non explicit. This should not happen anymore.'
+    );
     await handleUpdateClosedGroup(envelope, groupUpdate, convo);
   } else if (groupUpdate.type === Type.NAME_CHANGE) {
     await handleClosedGroupNameChanged(envelope, groupUpdate, convo);
