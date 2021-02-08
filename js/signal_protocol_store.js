@@ -163,20 +163,7 @@
     }
   }
 
-  function SignalProtocolStore() {
-    this.sessionUpdateBatcher = window.Signal.Util.createBatcher({
-      wait: 500,
-      maxSize: 20,
-      processBatch: async items => {
-        // We only care about the most recent update for each session
-        const byId = _.groupBy(items, item => item.id);
-        const ids = Object.keys(byId);
-        const mostRecent = ids.map(id => _.last(byId[id]));
-
-        await window.Signal.Data.createOrUpdateSessions(mostRecent);
-      },
-    });
-  }
+  function SignalProtocolStore() {}
 
   async function _hydrateCache(object, field, itemsPromise, idField) {
     const items = await itemsPromise;
@@ -350,8 +337,11 @@
         if (session) {
           return session.record;
         }
-      } catch (e) {
-        window.log.error(`could not load session ${encodedAddress}`);
+      } catch (error) {
+        const errorString = error && error.stack ? error.stack : error;
+        window.log.error(
+          `could not load session ${encodedAddress}: ${errorString}`
+        );
       }
 
       return undefined;
@@ -365,6 +355,7 @@
 
       try {
         const id = await normalizeEncodedAddress(encodedAddress);
+        const previousData = this.sessions[id];
 
         const data = {
           id,
@@ -373,13 +364,22 @@
           record,
         };
 
+        // Optimistically update in-memory cache; will revert if save fails.
         this.sessions[id] = data;
 
-        // Note: Because these are cached in memory, we batch and make these database
-        //   updates out of band.
-        this.sessionUpdateBatcher.add(data);
-      } catch (e) {
-        window.log.error(`could not store session for ${encodedAddress}`);
+        try {
+          await window.Signal.Data.createOrUpdateSession(data);
+        } catch (e) {
+          if (previousData) {
+            this.sessions[id] = previousData;
+          }
+          throw e;
+        }
+      } catch (error) {
+        const errorString = error && error.stack ? error.stack : error;
+        window.log.error(
+          `could not store session for ${encodedAddress}: ${errorString}`
+        );
       }
     },
     async getDeviceIds(identifier) {
@@ -604,8 +604,21 @@
     },
     async _saveIdentityKey(data) {
       const { id } = data;
+
+      const previousData = this.identityKeys[id];
+
+      // Optimistically update in-memory cache; will revert if save fails.
       this.identityKeys[id] = data;
-      await window.Signal.Data.createOrUpdateIdentityKey(data);
+
+      try {
+        await window.Signal.Data.createOrUpdateIdentityKey(data);
+      } catch (error) {
+        if (previousData) {
+          this.identityKeys[id] = previousData;
+        }
+
+        throw error;
+      }
     },
     async saveIdentity(encodedAddress, publicKey, nonblockingApproval) {
       if (encodedAddress === null || encodedAddress === undefined) {

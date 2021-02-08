@@ -937,7 +937,8 @@ class MessageReceiverInner extends EventTarget {
       options
     );
     const secretSessionCipher = new window.Signal.Metadata.SecretSessionCipher(
-      window.textsecure.storage.protocol
+      window.textsecure.storage.protocol,
+      options
     );
 
     const me = {
@@ -1096,6 +1097,12 @@ class MessageReceiverInner extends EventTarget {
             error.identityKey
           );
         }
+
+        if (envelope.timestamp && envelope.timestamp.toNumber) {
+          // eslint-disable-next-line no-param-reassign
+          envelope.timestamp = envelope.timestamp.toNumber();
+        }
+
         const ev = new Event('error');
         ev.error = errorToThrow;
         ev.proto = envelope;

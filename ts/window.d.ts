@@ -557,7 +557,10 @@ export class CertificateValidatorType {
 }
 
 export class SecretSessionCipherClass {
-  constructor(storage: StorageType);
+  constructor(
+    storage: StorageType,
+    options?: { messageKeysLimit?: number | boolean }
+  );
   decrypt: (
     validator: CertificateValidatorType,
     ciphertext: ArrayBuffer,
