@@ -12,15 +12,13 @@ export type HexKeyPair = {
 
 /**
  * Check if this pubkey is us, using the cache.
+ * Throws an error if our pubkey is not set
  */
 export function isUsFromCache(pubKey: string | PubKey | undefined): boolean {
   if (!pubKey) {
     throw new Error('pubKey is not set');
   }
   const ourNumber = UserUtils.getOurPubKeyStrFromCache();
-  if (!ourNumber) {
-    throw new Error('ourNumber is not set');
-  }
   const pubKeyStr = pubKey instanceof PubKey ? pubKey.key : pubKey;
   return pubKeyStr === ourNumber;
 }

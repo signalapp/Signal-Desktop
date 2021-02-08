@@ -111,7 +111,7 @@ async function handleRequestDetail(
 
   // The message is for a medium size group
   if (options.conversationId) {
-    const ourNumber = textsecure.storage.user.getNumber();
+    const ourNumber = UserUtils.getOurPubKeyStrFromCache();
     const senderIdentity = envelope.source;
 
     if (senderIdentity === ourNumber) {

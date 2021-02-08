@@ -1,4 +1,4 @@
-/* global Whisper, Signal, setTimeout, clearTimeout, getMessageController, NewReceiver */
+/* global Signal, setTimeout, clearTimeout, getMessageController, NewReceiver */
 
 const { isNumber, omit } = require('lodash');
 const getGuid = require('uuid/v4');

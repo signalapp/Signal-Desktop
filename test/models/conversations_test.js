@@ -30,7 +30,7 @@ describe('ConversationCollection', () => {
   //   before(async () => {
   //     const convo = new window.models.Conversation.ConversationCollection().add(attributes);
   //     await window.Signal.Data.saveConversation(convo.attributes, {
-  //       Conversation: Whisper.Conversation,
+  //       Conversation: window.models.Conversation.ConversationModel,
   //     });
   //     // const message = convo.messageCollection.add({
   //     //   body: 'hello world',
@@ -88,12 +88,12 @@ describe('ConversationCollection', () => {
   //   });
   //   describe('when set to private', () => {
   //     it('correctly validates hex numbers', () => {
-  //       const regularId = new Whisper.Conversation({
+  //       const regularId = new window.models.Conversation.ConversationModel({
   //         type: 'private',
   //         id:
   //           '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
   //       });
-  //       const invalidId = new Whisper.Conversation({
+  //       const invalidId = new window.models.Conversation.ConversationModel({
   //         type: 'private',
   //         id:
   //           'j71d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
@@ -102,20 +102,20 @@ describe('ConversationCollection', () => {
   //       assert.notOk(invalidId.isValid());
   //     });
   //     it('correctly validates length', () => {
-  //       const regularId33 = new Whisper.Conversation({
+  //       const regularId33 = new window.models.Conversation.ConversationModel({
   //         type: 'private',
   //         id:
   //           '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
   //       });
-  //       const regularId32 = new Whisper.Conversation({
+  //       const regularId32 = new window.models.Conversation.ConversationModel({
   //         type: 'private',
   //         id: '1d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
   //       });
-  //       const shortId = new Whisper.Conversation({
+  //       const shortId = new window.models.Conversation.ConversationModel({
   //         type: 'private',
   //         id: '771d11d',
   //       });
-  //       const longId = new Whisper.Conversation({
+  //       const longId = new window.models.Conversation.ConversationModel({
   //         type: 'private',
   //         id:
   //           '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94abaa',

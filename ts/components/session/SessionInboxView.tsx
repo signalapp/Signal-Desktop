@@ -1,6 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { getMessageById } from '../../../js/modules/data';
 import { MessageModel } from '../../models/message';
 import { getMessageQueue } from '../../session';
 import { ConversationController } from '../../session/conversations';
@@ -13,6 +14,7 @@ import { actions as conversationActions } from '../../state/ducks/conversations'
 import { actions as userActions } from '../../state/ducks/user';
 import { SmartLeftPane } from '../../state/smart/LeftPane';
 import { SmartSessionConversation } from '../../state/smart/SessionConversation';
+import { makeLookup } from '../../util';
 import {
   SessionSettingCategory,
   SmartSettingsView,
@@ -116,10 +118,21 @@ export class SessionInboxView extends React.Component<Props, State> {
   }
 
   private async fetchHandleMessageSentData(m: RawMessage | OpenGroupMessage) {
-    const msg = window.getMessageController().get(m.identifier);
+    // if a message was sent and this message was created after the last app restart,
+    // this message is still in memory in the MessageController
+    const msg = MessageController.getInstance().get(m.identifier);
 
     if (!msg || !msg.message) {
-      return null;
+      // otherwise, look for it in the database
+      // nobody is listening to this freshly fetched message .trigger calls
+      const dbMessage = await getMessageById(m.identifier, {
+        Message: MessageModel,
+      });
+
+      if (!dbMessage) {
+        return null;
+      }
+      return { msg: dbMessage };
     }
 
     return { msg: msg.message };
@@ -158,23 +171,15 @@ export class SessionInboxView extends React.Component<Props, State> {
       (conversation: any) => conversation.cachedProps
     );
 
-    const filledConversations = conversations.map(async (conv: any) => {
-      const messages = await MessageController.getInstance().getMessagesByKeyFromDb(
-        conv.id
-      );
-      return { ...conv, messages };
+    const filledConversations = conversations.map((conv: any) => {
+      return { ...conv, messages: [] };
     });
 
     const fullFilledConversations = await Promise.all(filledConversations);
 
-    console.warn('fullFilledConversations', fullFilledConversations);
-
     const initialState = {
       conversations: {
-        conversationLookup: window.Signal.Util.makeLookup(
-          fullFilledConversations,
-          'id'
-        ),
+        conversationLookup: makeLookup(fullFilledConversations, 'id'),
       },
       user: {
         ourPrimary: window.storage.get('primaryDevicePubKey'),

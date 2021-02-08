@@ -8,6 +8,8 @@ import { StringUtils, UserUtils } from '../session/utils';
 import { ConversationController } from '../session/conversations';
 import { ConversationModel } from '../models/conversation';
 import { MessageCollection, MessageModel } from '../models/message';
+import { MessageController } from '../session/messages';
+import { getMessageById } from '../../js/modules/data';
 
 async function handleGroups(
   conversation: ConversationModel,
@@ -87,7 +89,6 @@ async function copyFromQuotedMessage(
   quote: Quote,
   attemptCount: number = 1
 ): Promise<void> {
-  const { Whisper, getMessageController } = window;
   const { upgradeMessageSchema } = window.Signal.Migrations;
   const { Message: TypedMessage, Errors } = window.Signal.Types;
 
@@ -129,7 +130,10 @@ async function copyFromQuotedMessage(
   window.log.info(`Found quoted message id: ${id}`);
   quote.referencedMessageNotFound = false;
 
-  const queryMessage = getMessageController().register(found.id, found);
+  const queryMessage = MessageController.getInstance().register(
+    found.id,
+    found
+  );
   quote.text = queryMessage.get('body') || '';
 
   if (attemptCount > 1) {
@@ -526,14 +530,13 @@ export async function handleMessageJob(
         ourNumber
       );
     }
-    const { Whisper, getMessageController } = window;
     const id = await message.commit();
     message.set({ id });
     window.Whisper.events.trigger('messageAdded', {
       conversationKey: conversation.id,
       messageModel: message,
     });
-    getMessageController().register(message.id, message);
+    MessageController.getInstance().register(message.id, message);
 
     // Note that this can save the message again, if jobs were queued. We need to
     //   call it after we have an id for this message, because the jobs refer back
@@ -551,12 +554,9 @@ export async function handleMessageJob(
       // We go to the database here because, between the message save above and
       // the previous line's trigger() call, we might have marked all messages
       // unread in the database. This message might already be read!
-      const fetched = await window.Signal.Data.getMessageById(
-        message.get('id'),
-        {
-          Message: MessageModel,
-        }
-      );
+      const fetched = await getMessageById(message.get('id'), {
+        Message: MessageModel,
+      });
 
       const previousUnread = message.get('unread');
 

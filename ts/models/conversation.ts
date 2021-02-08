@@ -428,7 +428,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     serverId: any,
     serverTimestamp: any
   ) {
-    const registeredMessage = window.getMessageController().get(identifier);
+    const registeredMessage = MessageController.getInstance().get(identifier);
 
     if (!registeredMessage || !registeredMessage.message) {
       return null;

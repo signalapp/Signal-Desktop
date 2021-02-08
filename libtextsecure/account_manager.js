@@ -170,7 +170,7 @@
       this.dispatchEvent(new Event('registration'));
     },
     validatePubKeyHex(pubKey) {
-      const c = new Whisper.Conversation({
+      const c = new window.models.Conversation({
         id: pubKey,
         type: 'private',
       });

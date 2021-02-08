@@ -767,8 +767,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
     const regex = new RegExp(`@${PubKey.regexForPubkeys}`, 'g');
     const mentions = (text ? text.match(regex) : []) as Array<string>;
     const mentionMe =
-      mentions &&
-      mentions.some(m => m.slice(1) === UserUtils.getOurPubKeyStrFromCache());
+      mentions && mentions.some(m => UserUtils.isUsFromCache(m.slice(1)));
 
     const isIncoming = direction === 'incoming';
     const shouldHightlight = mentionMe && isIncoming && isPublic;

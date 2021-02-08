@@ -26,6 +26,7 @@ import {
 import { ConversationModel } from '../../models/conversation';
 import { MessageModel } from '../../models/message';
 import { MessageModelType } from '../../models/messageType';
+import { MessageController } from '../messages';
 
 export interface GroupInfo {
   id: string;
@@ -100,6 +101,8 @@ export async function initiateGroupUpdate(
     throw new Error('Legacy group are not supported anymore.');
   }
 
+  // do not give an admins field here. We don't want to be able to update admins and
+  // updateOrCreateClosedGroup() will update them if given the choice.
   const groupDetails = {
     id: groupId,
     name: groupName,
@@ -128,7 +131,7 @@ export async function initiateGroupUpdate(
       nameOnlyDiff,
       'outgoing'
     );
-    window.getMessageController().register(dbMessageName.id, dbMessageName);
+    MessageController.getInstance().register(dbMessageName.id, dbMessageName);
     await sendNewName(convo, diff.newName, dbMessageName.id);
   }
 
@@ -139,7 +142,7 @@ export async function initiateGroupUpdate(
       joiningOnlyDiff,
       'outgoing'
     );
-    window.getMessageController().register(dbMessageAdded.id, dbMessageAdded);
+    MessageController.getInstance().register(dbMessageAdded.id, dbMessageAdded);
     await sendAddedMembers(
       convo,
       diff.joiningMembers,
@@ -155,9 +158,10 @@ export async function initiateGroupUpdate(
       leavingOnlyDiff,
       'outgoing'
     );
-    window
-      .getMessageController()
-      .register(dbMessageLeaving.id, dbMessageLeaving);
+    MessageController.getInstance().register(
+      dbMessageLeaving.id,
+      dbMessageLeaving
+    );
     const stillMembers = members;
     await sendRemovedMembers(
       convo,
@@ -345,7 +349,7 @@ export async function leaveClosedGroup(groupId: string) {
     received_at: now,
     expireTimer: 0,
   });
-  window.getMessageController().register(dbMessage.id, dbMessage);
+  MessageController.getInstance().register(dbMessage.id, dbMessage);
   const existingExpireTimer = convo.get('expireTimer') || 0;
   // Send the update to the group
   const ourLeavingMessage = new ClosedGroupMemberLeftMessage({

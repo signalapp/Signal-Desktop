@@ -12,7 +12,7 @@ import { LibTextsecure } from '../libtextsecure';
 import { ConversationType } from '../js/modules/data';
 import { RecoveryPhraseUtil } from '../libloki/modules/mnemonic';
 import { ConfirmationDialogParams } from '../background';
-import { } from 'styled-components/cssprop';
+import {} from 'styled-components/cssprop';
 
 import { ConversationControllerType } from '../js/ConversationController';
 import { any } from 'underscore';
@@ -36,7 +36,6 @@ declare global {
     LokiFileServerAPI: any;
     LokiPublicChatAPI: any;
     LokiSnodeAPI: any;
-    getMessageController: () => MessageController;
     Session: any;
     Signal: SignalInterface;
     StringView: any;

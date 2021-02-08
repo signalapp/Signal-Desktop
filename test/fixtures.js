@@ -235,7 +235,7 @@ Whisper.Fixtures = () => {
     Promise.all(
       this.map(async (convo) => {
         await window.Signal.Data.saveConversation(convo.attributes, {
-          Conversation: Whisper.Conversation,
+          Conversation: window.models.Conversation.ConversationModel,
         });
 
         await Promise.all(

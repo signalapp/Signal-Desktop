@@ -375,7 +375,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         spellCheck={true}
         inputRef={this.textarea}
         disabled={!typingEnabled}
-        // maxLength={Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH}
         rows={1}
         style={sendMessageStyle}
         suggestionsPortalHost={this.container}
@@ -827,10 +826,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     }
     // Verify message length
     const msgLen = messagePlaintext?.length || 0;
-    // if (msgLen > Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH) {
-    //   ToastUtils.pushMessageBodyTooLong();
-    //   return;
-    // }
     if (msgLen === 0 && this.props.stagedAttachments?.length === 0) {
       ToastUtils.pushMessageBodyMissing();
       return;

@@ -198,7 +198,7 @@ async function importConversationsFromJSON(conversations, options) {
     );
     // eslint-disable-next-line no-await-in-loop
     await window.Signal.Data.saveConversation(migrated, {
-      Conversation: Whisper.Conversation,
+      Conversation: window.Wh,
     });
   }
 

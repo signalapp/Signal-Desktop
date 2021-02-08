@@ -85,7 +85,7 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
 };
 
 // eslint-disable-next-line func-names
-window.CONSTANTS = new (function () {
+window.CONSTANTS = new (function() {
   this.MAX_LOGIN_TRIES = 3;
   this.MAX_PASSWORD_LENGTH = 64;
   this.MAX_USERNAME_LENGTH = 20;
@@ -182,9 +182,6 @@ window.setPassword = (passPhrase, oldPhrase) =>
   });
 
 window.libsession = require('./ts/session');
-
-window.getMessageController =
-  window.libsession.Messages.MessageController.getInstance;
 
 window.getConversationController =
   window.libsession.Conversations.ConversationController.getInstance;
@@ -382,7 +379,7 @@ window.callWorker = (fnName, ...args) => utilWorker.callWorker(fnName, ...args);
 
 // Linux seems to periodically let the event loop stop, so this is a global workaround
 setInterval(() => {
-  window.nodeSetImmediate(() => { });
+  window.nodeSetImmediate(() => {});
 }, 1000);
 
 const { autoOrientImage } = require('./js/modules/auto_orient_image');
@@ -407,6 +404,8 @@ const { locale } = config;
 window.i18n = i18n.setup(locale, localeMessages);
 // moment does not support es-419 correctly (and cause white screen on app start)
 const localeForMoment = locale === 'es-419' ? 'es' : locale;
+
+window.moment = require('moment');
 
 window.moment.updateLocale(localeForMoment, {
   relativeTime: {
@@ -458,11 +457,10 @@ if (process.env.USE_STUBBED_NETWORK) {
   window.SwarmPolling = new SwarmPolling();
 }
 
-
 // eslint-disable-next-line no-extend-native,func-names
-Promise.prototype.ignore = function () {
+Promise.prototype.ignore = function() {
   // eslint-disable-next-line more/no-then
-  this.then(() => { });
+  this.then(() => {});
 };
 
 if (

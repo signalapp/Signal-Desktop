@@ -22,6 +22,7 @@ import { ECKeyPair } from './keypairs';
 import { UserUtils } from '../session/utils';
 import { ConversationModel } from '../models/conversation';
 import _ from 'lodash';
+import { MessageController } from '../session/messages';
 
 export async function handleClosedGroupControlMessage(
   envelope: EnvelopePlus,
@@ -733,7 +734,7 @@ export async function createClosedGroup(
     groupDiff,
     'outgoing'
   );
-  window.getMessageController().register(dbMessage.id, dbMessage);
+  MessageController.getInstance().register(dbMessage.id, dbMessage);
 
   // be sure to call this before sending the message.
   // the sending pipeline needs to know from GroupUtils when a message is for a medium group

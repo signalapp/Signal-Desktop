@@ -101,7 +101,7 @@ export class ConversationController {
 
       try {
         await window.Signal.Data.saveConversation(conversation.attributes, {
-          Conversation: window.Whisper.Conversation,
+          Conversation: ConversationModel,
         });
       } catch (error) {
         window.log.error(
@@ -229,7 +229,7 @@ export class ConversationController {
     await conversation.destroyMessages();
 
     await window.Signal.Data.removeConversation(id, {
-      Conversation: window.Whisper.Conversation,
+      Conversation: ConversationModel,
     });
     conversation.off('change', this.updateReduxConvoChanged);
     this.conversations.remove(conversation);

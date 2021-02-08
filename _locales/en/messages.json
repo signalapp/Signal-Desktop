@@ -1251,10 +1251,6 @@
     "message": "MMM D",
     "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
-  "messageBodyTooLong": {
-    "message": "Message body is too long.",
-    "description": "Shown if the user tries to send more than MAX_MESSAGE_BODY_LENGTH chars"
-  },
   "messageBodyMissing": {
     "message": "Please enter a message body.",
     "description": "Shown if the user tries to send an empty message (and no attachments)"

@@ -513,7 +513,7 @@ describe('Backup', () => {
         };
         console.log({ conversation });
         await window.Signal.Data.saveConversation(conversation, {
-          Conversation: Whisper.Conversation,
+          Conversation: window.models.Conversation.ConversationModel,
         });
 
         console.log(

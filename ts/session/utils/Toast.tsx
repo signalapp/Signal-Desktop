@@ -116,10 +116,6 @@ export function pushMaximumAttachmentsError() {
   pushToastError('maximumAttachments', window.i18n('maximumAttachments'));
 }
 
-export function pushMessageBodyTooLong() {
-  pushToastError('messageBodyTooLong', window.i18n('messageBodyTooLong'));
-}
-
 export function pushMessageBodyMissing() {
   pushToastError('messageBodyMissing', window.i18n('messageBodyMissing'));
 }

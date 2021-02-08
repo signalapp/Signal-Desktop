@@ -41,7 +41,6 @@ export async function onError(ev: any) {
       messageModel: message,
     });
 
-
     if (ev.confirm) {
       ev.confirm();
     }
