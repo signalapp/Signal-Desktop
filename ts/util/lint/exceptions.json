@@ -1448,23 +1448,6 @@
     "updated": "2020-10-09T22:28:48.591Z"
   },
   {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/@sinonjs/formatio/lib/formatio.js",
-    "line": "    // SVG elements have undefined innerHTML",
-    "lineNumber": 253,
-    "reasonCategory": "testCode",
-    "updated": "2020-10-09T22:28:48.591Z",
-    "reasonDetail": "Test code. Also a false match."
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/@sinonjs/formatio/lib/formatio.js",
-    "line": "    var content = element.innerHTML || \"\";",
-    "lineNumber": 254,
-    "reasonCategory": "testCode",
-    "updated": "2020-10-09T22:28:48.591Z"
-  },
-  {
     "rule": "jQuery-prepend(",
     "path": "node_modules/@sinonjs/text-encoding/lib/encoding.js",
     "line": "        stream.prepend(bite);",
