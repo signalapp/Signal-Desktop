@@ -3581,7 +3581,7 @@
     }
   },
   "GroupV2--access-invite-link--enabled--unknown": {
-    "message": "Admin approval for the group link has been disabled.",
+    "message": "Admin approval for the group link has been enabled.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add--invited--you": {
