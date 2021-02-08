@@ -20,6 +20,7 @@ import {
   MessageAttributesOptionals,
 } from './messageType';
 
+import autoBind from 'auto-bind';
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   public propsForTimerNotification: any;
   public propsForGroupNotification: any;
@@ -45,6 +46,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     this.on('change:expireTimer', this.setToExpire);
     // this.on('expired', this.onExpired);
     void this.setToExpire();
+    autoBind(this);
+    this.markRead = this.markRead.bind(this);
     // Keep props ready
     const generateProps = (triggerEvent = true) => {
       if (this.isExpirationTimerUpdate()) {
@@ -95,7 +98,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return !!this.get('unread');
   }
 
-  // Important to allow for this.unset('unread'), save to db, then fetch()
+  // Important to allow for this.set({ unread}), save to db, then fetch()
   // to propagate. We don't want the unset key in the db so our unread index
   // stays small.
   public merge(model: any) {
@@ -103,7 +106,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     const { unread } = attributes;
     if (unread === undefined) {
-      this.unset('unread');
+      this.set({ unread: false });
     }
 
     this.set(attributes);
@@ -1323,7 +1326,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public async markRead(readAt: number) {
-    this.unset('unread');
+    this.set({ unread: false });
 
     if (this.get('expireTimer') && !this.get('expirationStartTimestamp')) {
       const expirationStartTimestamp = Math.min(

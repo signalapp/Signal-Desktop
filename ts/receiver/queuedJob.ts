@@ -294,7 +294,8 @@ function updateReadStatus(
     }
   }
   if (readSync || message.isExpirationTimerUpdate()) {
-    message.unset('unread');
+    message.set({ unread: false });
+
     // This is primarily to allow the conversation to mark all older
     // messages as read, as is done when we receive a read sync for
     // a message we already know about.

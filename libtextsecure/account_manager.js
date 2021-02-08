@@ -169,16 +169,6 @@
 
       this.dispatchEvent(new Event('registration'));
     },
-    validatePubKeyHex(pubKey) {
-      const c = new window.models.Conversation({
-        id: pubKey,
-        type: 'private',
-      });
-      const validationError = c.validateNumber();
-      if (validationError) {
-        throw new Error(validationError);
-      }
-    },
   });
   textsecure.AccountManager = AccountManager;
 })();

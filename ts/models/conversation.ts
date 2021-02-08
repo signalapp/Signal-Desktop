@@ -21,6 +21,7 @@ import { SignalService } from '../protobuf';
 import { MessageCollection, MessageModel } from './message';
 import * as Data from '../../js/modules/data';
 import { MessageAttributesOptionals } from './messageType';
+import autoBind from 'auto-bind';
 
 export interface OurLokiProfile {
   displayName: string;
@@ -152,6 +153,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.messageCollection = new MessageCollection([], {
       conversation: this,
     });
+    autoBind(this);
 
     this.throttledBumpTyping = _.throttle(this.bumpTyping, 300);
     this.updateLastMessage = _.throttle(
@@ -177,8 +179,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (this.isPublic()) {
       this.set('profileSharing', true);
     }
-    this.unset('hasFetchedProfile');
-    this.unset('tokens');
 
     this.typingRefreshTimer = null;
     this.typingPauseTimer = null;
@@ -547,49 +547,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public async getUnreadCount() {
     return window.Signal.Data.getUnreadCountByConversation(this.id);
-  }
-
-  public validate(attributes: any) {
-    const required = ['id', 'type'];
-    const missing = _.filter(required, attr => !attributes[attr]);
-    if (missing.length) {
-      return `Conversation must have ${missing}`;
-    }
-
-    if (attributes.type !== 'private' && attributes.type !== 'group') {
-      return `Invalid conversation type: ${attributes.type}`;
-    }
-
-    const error = this.validateNumber();
-    if (error) {
-      return error;
-    }
-
-    return null;
-  }
-
-  public validateNumber() {
-    if (!this.id) {
-      return 'Invalid ID';
-    }
-    if (!this.isPrivate()) {
-      return null;
-    }
-
-    // Check if it's hex
-    const isHex = this.id.replace(/[\s]*/g, '').match(/^[0-9a-fA-F]+$/);
-    if (!isHex) {
-      return 'Invalid Hex ID';
-    }
-
-    // Check if the pubkey length is 33 and leading with 05 or of length 32
-    const len = this.id.length;
-    if ((len !== 33 * 2 || !/^05/.test(this.id)) && len !== 32 * 2) {
-      return 'Invalid Pubkey Format';
-    }
-
-    this.set({ id: this.id });
-    return null;
   }
 
   public queueJob(callback: any) {
