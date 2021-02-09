@@ -311,10 +311,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "שלח בכל זאת",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "מספר הבטיחות שלך עם $name$ השתנה ואינו מוֻדא יותר. לחץ כדי לראות.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",

@@ -311,10 +311,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "أرسل على كل حال",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "رقم الآمان الخاص بك مع $name$ قد تغير وغير متحقق منه. انقر للعرض.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",

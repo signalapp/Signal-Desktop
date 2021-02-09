@@ -324,10 +324,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "Trotzdem senden",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "Deine Sicherheitsnummer mit $name$ hat sich geändert und ist nicht mehr verifiziert. Zum Anzeigen anklicken.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",

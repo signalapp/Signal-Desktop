@@ -311,10 +311,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "仍要发送",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "您与 $name$ 的安全号码已发生改变，而且不再被确认。点击展示。",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",

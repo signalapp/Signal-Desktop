@@ -311,10 +311,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "Svejedno pošalji",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "Sigurnosni se broj s $name$ promijenio i više nije potvrđen. Kliknite za prikaz. ",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",

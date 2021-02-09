@@ -311,10 +311,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "Küldés ennek ellenére",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "Biztonsági számod $name$ nevű partnereddel megváltozott, ezért már nincs hitelesítve. Kattints a megjelenítéshez!",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",

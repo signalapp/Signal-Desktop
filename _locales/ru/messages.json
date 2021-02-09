@@ -311,10 +311,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "Отправить в любом случае",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "Код безопасности с $name$ изменился и более не является подтвержденным. Нажмите, чтобы показать.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",

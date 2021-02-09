@@ -66,8 +66,6 @@ export class SessionMessagesList extends React.Component<Props, State> {
     this.getScrollOffsetBottomPx = this.getScrollOffsetBottomPx.bind(this);
     this.displayUnreadBannerIndex = this.displayUnreadBannerIndex.bind(this);
 
-    this.onSendAnyway = this.onSendAnyway.bind(this);
-
     this.messageContainerRef = this.props.messageContainerRef;
     this.ignoreScrollEvents = true;
   }
@@ -591,9 +589,5 @@ export class SessionMessagesList extends React.Component<Props, State> {
     const scrollHeight = messageContainer.scrollHeight;
     const clientHeight = messageContainer.clientHeight;
     return scrollHeight - scrollTop - clientHeight;
-  }
-
-  private async onSendAnyway({ contact, message }: any) {
-    message.resend(contact.id);
   }
 }

@@ -311,10 +311,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "ยืนยันที่จะส่ง",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "มีการเปลี่ยนแปลงในรหัสความปลอดภัยของคุณกับ $name$ และถือว่ายังไม่ได้รับการยืนยัน คลิกเพื่อแสดง",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",

@@ -311,10 +311,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "Dërgoje Sido Qoftë",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "Numri juaj i sigurisë për me $name$ ka ndryshuar dhe s’është më i verifikuar. Klikoni që të shfaqet.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",

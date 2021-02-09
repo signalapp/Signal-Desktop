@@ -311,10 +311,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "Kirimkan Saja",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "Nomor keamanan Anda dengan $name$ telah berubah dan tidak lagi diverifikasi. Klik untuk menampilkan.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
