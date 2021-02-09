@@ -167,13 +167,11 @@ describe('MessageEncrypter', () => {
 
       it('should throw an error for anything else than Fallback or ClosedGroup', () => {
         const data = crypto.randomBytes(10);
-        expect(
-          MessageEncrypter.encrypt(
-            TestUtils.generateFakePubKey(),
-            data,
-            EncryptionType.Signal
-          )
-        ).to.be.rejectedWith(Error);
+        return MessageEncrypter.encrypt(
+          TestUtils.generateFakePubKey(),
+          data,
+          EncryptionType.Signal
+        ).should.eventually.be.rejectedWith(Error);
       });
     });
   });

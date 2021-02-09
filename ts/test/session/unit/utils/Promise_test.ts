@@ -8,6 +8,7 @@ import { PromiseUtils } from '../../../../session/utils';
 // tslint:disable-next-line: no-require-imports no-var-requires
 import chaiAsPromised from 'chai-as-promised';
 chai.use(chaiAsPromised as any);
+chai.should();
 
 const { expect } = chai;
 
@@ -51,10 +52,10 @@ describe('Promise Utils', () => {
       };
 
       const promise = PromiseUtils.poll(task, {});
-      await promise;
 
       expect(pollSpy.callCount).to.equal(1);
       expect(completionSpy.callCount).to.equal(1);
+      return promise;
     });
 
     it('can timeout a task', () => {
@@ -64,9 +65,11 @@ describe('Promise Utils', () => {
 
       const promise = PromiseUtils.poll(task, { timeoutMs: 1 });
 
-      promise.should.eventually.be.rejectedWith('Periodic check timeout');
       expect(pollSpy.callCount).to.equal(1);
       expect(completionSpy.callCount).to.equal(0);
+      return promise.should.eventually.be.rejectedWith(
+        'Periodic check timeout'
+      );
     });
 
     it('will recur according to interval option', async () => {
@@ -105,9 +108,9 @@ describe('Promise Utils', () => {
 
       const promise = PromiseUtils.waitForTask(task);
 
-      await promise;
       expect(waitForTaskSpy.callCount).to.equal(1);
       expect(completionSpy.callCount).to.equal(1);
+      return promise;
     });
 
     it('can timeout a task', () => {
@@ -117,9 +120,9 @@ describe('Promise Utils', () => {
 
       const promise = PromiseUtils.waitForTask(task, 1);
 
-      promise.should.eventually.be.rejectedWith('Task timed out.');
       expect(waitForTaskSpy.callCount).to.equal(1);
       expect(completionSpy.callCount).to.equal(0);
+      return promise.should.eventually.be.rejectedWith('Task timed out.');
     });
   });
 
@@ -127,17 +130,19 @@ describe('Promise Utils', () => {
     it('can wait for check', async () => {
       const check = () => true;
       const promise = PromiseUtils.waitUntil(check);
-      await promise;
 
       expect(waitUntilSpy.callCount).to.equal(1);
+      return promise;
     });
 
     it('can timeout a check', () => {
       const check = () => false;
       const promise = PromiseUtils.waitUntil(check, 1);
 
-      promise.should.eventually.be.rejectedWith('Periodic check timeout');
       expect(waitUntilSpy.callCount).to.equal(1);
+      return promise.should.eventually.be.rejectedWith(
+        'Periodic check timeout'
+      );
     });
   });
 });

@@ -54,7 +54,7 @@ async function handleGroups(
 
     // Check if anyone got kicked:
     const removedMembers = _.difference(oldMembers, attributes.members);
-    const ourDeviceWasRemoved = removedMembers.some(async member =>
+    const ourDeviceWasRemoved = removedMembers.some(member =>
       UserUtils.isUsFromCache(member)
     );
 

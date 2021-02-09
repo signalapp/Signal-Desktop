@@ -1,4 +1,5 @@
 import { KeyPair } from '../../libtextsecure/libsignal-protocol';
+import { MessageCollection } from '../../ts/models/message';
 import { HexKeyPair } from '../../ts/receiver/closedGroups';
 import { PubKey } from '../../ts/session/types';
 import { ConversationType } from '../../ts/state/ducks/conversations';
@@ -242,8 +243,7 @@ export function getUnreadByConversation(
   { MessageCollection }?: any
 ): Promise<any>;
 export function getUnreadCountByConversation(
-  conversationId: string,
-  { MessageCollection }?: any
+  conversationId: string
 ): Promise<any>;
 export function removeAllMessagesInConversation(
   conversationId: string,
@@ -261,7 +261,7 @@ export function getMessageBySender(
 export function getMessagesBySender(
   { source, sourceDevice }: { source: any; sourceDevice: any },
   { Message }: { Message: any }
-): Promise<window.models.Message.MessageCollection>;
+): Promise<MessageCollection>;
 export function getMessageIdsFromServerIds(
   serverIds: any,
   conversationId: any
