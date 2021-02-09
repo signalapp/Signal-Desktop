@@ -6594,6 +6594,7 @@ button.module-image__border-overlay:focus {
   background-color: $color-gray-75;
   display: flex;
   justify-content: space-between;
+  padding-top: var(--title-bar-drag-area-height);
 }
 
 .module-incoming-call__contact {
