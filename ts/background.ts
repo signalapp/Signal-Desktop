@@ -733,6 +733,8 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         selectedConversation: undefined,
         selectedMessage: undefined,
         selectedMessageCounter: 0,
+        selectedConversationPanelDepth: 0,
+        selectedConversationTitle: '',
         showArchived: false,
       },
       emojis: window.Signal.Emojis.getInitialState(),
