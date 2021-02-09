@@ -33,9 +33,17 @@ message TypingMessage {
 
 
 message Content {
-  optional DataMessage    dataMessage    = 1;
-  optional ReceiptMessage receiptMessage = 5;
-  optional TypingMessage  typingMessage  = 6;
+  optional DataMessage    dataMessage                   = 1;
+  optional ReceiptMessage receiptMessage                = 5;
+  optional TypingMessage  typingMessage                 = 6;
+  optional ConfigurationMessage  configurationMessage   = 7;
+}
+
+message KeyPair {
+  // @required
+  required bytes publicKey  = 1;
+  // @required
+  required bytes privateKey = 2;
 }
 
 
@@ -144,6 +152,7 @@ message DataMessage {
     optional string profilePicture = 2;
   }
 
+
   message ClosedGroupControlMessage {
 
 	  enum Type {
@@ -156,12 +165,7 @@ message DataMessage {
       MEMBER_LEFT         = 7;
 	  }
 
-	  message KeyPair {
-	    // @required
-	    required bytes publicKey  = 1;
-	    // @required
-	    required bytes privateKey = 2;
-	  }
+
 
 	  message KeyPairWrapper {
 	    // @required
@@ -186,20 +190,34 @@ message DataMessage {
     optional string serverName = 3;
   }
 
-  optional string             body        = 1;
-  repeated AttachmentPointer  attachments = 2;
-  optional GroupContext       group       = 3;
-  optional uint32             flags       = 4;
-  optional uint32             expireTimer = 5;
-  optional bytes              profileKey  = 6;
-  optional uint64             timestamp   = 7;
-  optional Quote              quote       = 8;
-  repeated Contact            contact     = 9;
-  repeated Preview            preview     = 10;
-  optional LokiProfile         profile             = 101;
-  optional GroupInvitation    groupInvitation       = 102;
+  optional string                    body                      = 1;
+  repeated AttachmentPointer         attachments               = 2;
+  optional GroupContext              group                     = 3;
+  optional uint32                    flags                     = 4;
+  optional uint32                    expireTimer               = 5;
+  optional bytes                     profileKey                = 6;
+  optional uint64                    timestamp                 = 7;
+  optional Quote                     quote                     = 8;
+  repeated Contact                   contact                   = 9;
+  repeated Preview                   preview                   = 10;
+  optional LokiProfile               profile                   = 101;
+  optional GroupInvitation           groupInvitation           = 102;
   optional ClosedGroupControlMessage closedGroupControlMessage = 104;
+  optional string                    syncTarget                = 105;
+}
 
+message ConfigurationMessage {
+
+  message ClosedGroup {
+    optional bytes   publicKey         = 1;
+    optional string  name              = 2;
+    optional KeyPair encryptionKeyPair = 3;
+    repeated bytes   members           = 4;
+    repeated bytes   admins            = 5;
+  }
+
+  repeated ClosedGroup closedGroups    = 1;
+  repeated string      openGroups      = 2;
 }
 
 message ReceiptMessage {

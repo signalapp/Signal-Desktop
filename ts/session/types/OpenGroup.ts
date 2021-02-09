@@ -1,6 +1,7 @@
 import { ConversationModel } from '../../models/conversation';
 import { ConversationController } from '../conversations';
 import { PromiseUtils } from '../utils';
+import { forceSyncConfigurationNowIfNeeded } from '../utils/syncUtils';
 
 interface OpenGroupParams {
   server: string;
@@ -52,6 +53,15 @@ export class OpenGroup {
     return this.serverRegex.test(serverUrl);
   }
 
+  public static getAllAlreadyJoinedOpenGroupsUrl(): Array<string> {
+    const convos = ConversationController.getInstance().getConversations();
+    return convos
+      .filter(c => !!c.get('active_at') && c.isPublic() && !c.get('left'))
+      .map(c => c.id.substring((c.id as string).lastIndexOf('@') + 1)) as Array<
+      string
+    >;
+  }
+
   /**
    * Try to make a new instance of `OpenGroup`.
    * This does NOT respect `ConversationController` and does not guarentee the conversation's existence.
@@ -95,7 +105,10 @@ export class OpenGroup {
    * @param onLoading Callback function to be called once server begins connecting
    * @returns `OpenGroup` if connection success or if already connected
    */
-  public static async join(server: string): Promise<OpenGroup | undefined> {
+  public static async join(
+    server: string,
+    fromSyncMessage: boolean = false
+  ): Promise<OpenGroup | undefined> {
     const prefixedServer = OpenGroup.prefixify(server);
     if (!OpenGroup.validate(server)) {
       return;
@@ -130,6 +143,12 @@ export class OpenGroup {
         throw new Error(window.i18n('connectToServerFail'));
       }
       conversationId = (conversation as any)?.cid;
+
+      // here we managed to connect to the group.
+      // if this is not a Sync Message, we should trigger one
+      if (!fromSyncMessage) {
+        await forceSyncConfigurationNowIfNeeded();
+      }
     } catch (e) {
       throw new Error(e);
     }

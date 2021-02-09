@@ -1,4 +1,10 @@
 import {
+  getAllConversations,
+  getAllGroupsInvolvingId,
+  removeConversation,
+  saveConversation,
+} from '../../../js/modules/data';
+import {
   ConversationAttributes,
   ConversationCollection,
   ConversationModel,
@@ -100,9 +106,7 @@ export class ConversationController {
       }
 
       try {
-        await window.Signal.Data.saveConversation(conversation.attributes, {
-          Conversation: ConversationModel,
-        });
+        await saveConversation(conversation.attributes);
       } catch (error) {
         window.log.error(
           'Conversation save failed! ',
@@ -191,8 +195,8 @@ export class ConversationController {
     });
   }
 
-  public async getAllGroupsInvolvingId(id: String) {
-    const groups = await window.Signal.Data.getAllGroupsInvolvingId(id, {
+  public async getAllGroupsInvolvingId(id: string) {
+    const groups = await getAllGroupsInvolvingId(id, {
       ConversationCollection,
     });
     return groups.map((group: any) => this.conversations.add(group));
@@ -228,7 +232,7 @@ export class ConversationController {
 
     await conversation.destroyMessages();
 
-    await window.Signal.Data.removeConversation(id, {
+    await removeConversation(id, {
       Conversation: ConversationModel,
     });
     conversation.off('change', this.updateReduxConvoChanged);
@@ -253,7 +257,7 @@ export class ConversationController {
 
     const load = async () => {
       try {
-        const collection = await window.Signal.Data.getAllConversations({
+        const collection = await getAllConversations({
           ConversationCollection,
         });
 

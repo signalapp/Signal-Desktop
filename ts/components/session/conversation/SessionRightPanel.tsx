@@ -17,7 +17,10 @@ import {
 } from '../usingClosedConversationDetails';
 import { save } from '../../../types/Attachment';
 import { DefaultTheme, withTheme } from 'styled-components';
-import { MessageCollection } from '../../../models/message';
+import {
+  getMessagesWithFileAttachments,
+  getMessagesWithVisualMediaAttachments,
+} from '../../../../js/modules/data';
 
 interface Props {
   id: string;
@@ -107,20 +110,15 @@ class SessionRightPanel extends React.Component<Props, State> {
     // We fetch more documents than media as they don’t require to be loaded
     // into memory right away. Revisit this once we have infinite scrolling:
     const conversationId = this.props.id;
-    const rawMedia = await window.Signal.Data.getMessagesWithVisualMediaAttachments(
+    const rawMedia = await getMessagesWithVisualMediaAttachments(
       conversationId,
       {
         limit: Constants.CONVERSATION.DEFAULT_MEDIA_FETCH_COUNT,
-        MessageCollection,
       }
     );
-    const rawDocuments = await window.Signal.Data.getMessagesWithFileAttachments(
-      conversationId,
-      {
-        limit: Constants.CONVERSATION.DEFAULT_DOCUMENTS_FETCH_COUNT,
-        MessageCollection,
-      }
-    );
+    const rawDocuments = await getMessagesWithFileAttachments(conversationId, {
+      limit: Constants.CONVERSATION.DEFAULT_DOCUMENTS_FETCH_COUNT,
+    });
 
     // First we upgrade these messages to ensure that they have thumbnails
     const max = rawMedia.length;

@@ -4,6 +4,7 @@ import { Constants } from '../../session';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ConversationController } from '../../session/conversations';
 import { MessageCollection, MessageModel } from '../../models/message';
+import { getMessagesByConversation } from '../../../js/modules/data';
 
 // State
 
@@ -112,10 +113,10 @@ async function getMessages(
     msgCount = Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT;
   }
 
-  const messageSet = await window.Signal.Data.getMessagesByConversation(
-    conversationKey,
-    { limit: msgCount, MessageCollection }
-  );
+  const messageSet = await getMessagesByConversation(conversationKey, {
+    limit: msgCount,
+    MessageCollection,
+  });
 
   // Set first member of series here.
   const messageModels = messageSet.models;

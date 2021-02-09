@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
-import * as Data from '../../js/modules/data';
 import { MessageModel } from '../models/message';
+import { saveMessage } from '../../js/modules/data';
 
 export async function downloadAttachment(attachment: any) {
   const serverUrl = new URL(attachment.url).origin;
@@ -55,6 +55,12 @@ export async function downloadAttachment(attachment: any) {
   let data = res;
   if (!attachment.isRaw) {
     const { key, digest, size } = attachment;
+
+    if (!key || !digest) {
+      throw new Error(
+        'Attachment is not raw but we do not have a key to decode it'
+      );
+    }
 
     data = await window.textsecure.crypto.decryptAttachment(
       data,
@@ -234,8 +240,8 @@ export async function queueAttachmentDownloads(
   }
 
   if (count > 0) {
-    await Data.saveMessage(message.attributes, {
-      Message: MessageModel,
+    await saveMessage(message.attributes, {
+      Message: Whisper.Message,
     });
 
     return true;

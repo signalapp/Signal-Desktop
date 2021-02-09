@@ -21,6 +21,8 @@ import {
 } from './messageType';
 
 import autoBind from 'auto-bind';
+import { saveMessage } from '../../js/modules/data';
+import { ConversationModel } from './conversation';
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   public propsForTimerNotification: any;
   public propsForGroupNotification: any;
@@ -837,7 +839,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     };
   }
 
-  // One caller today: event handler for the 'Retry Send' entry in triple-dot menu
+  // One caller today: event handler for the 'Retry Send' entry on right click of a failed send message
   public async retrySend() {
     if (!window.textsecure.messaging) {
       window.log.error('retrySend: Cannot retry since we are offline!');
@@ -847,7 +849,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     this.set({ errors: null });
     await this.commit();
     try {
-      const conversation = this.getConversation();
+      const conversation:
+        | ConversationModel
+        | undefined = this.getConversation();
       if (!conversation) {
         window.log.info(
           'cannot retry send message, the corresponding conversation was not found.'
@@ -1019,7 +1023,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       // Handle the sync logic here
       if (shouldTriggerSyncMessage) {
         if (dataMessage) {
-          await this.sendSyncMessage(dataMessage as DataMessage);
+          await this.sendSyncMessage(
+            dataMessage as SignalService.DataMessage,
+            sentMessage.timestamp
+          );
         }
       } else if (shouldMarkMessageAsSynced) {
         this.set({ synced: true });
@@ -1032,6 +1039,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       sent_to: sentTo,
       sent: true,
       expirationStartTimestamp: Date.now(),
+      sent_at: sentMessage.timestamp,
     });
 
     await this.commit();
@@ -1065,7 +1073,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     this.getConversation()?.updateLastMessage();
   }
 
-  public getConversation() {
+  public getConversation(): ConversationModel | undefined {
     // This needs to be an unsafe call, because this method is called during
     //   initial module setup. We may be in the middle of the initial fetch to
     //   the database.
@@ -1179,10 +1187,11 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public async sendSyncMessageOnly(dataMessage: any) {
+    const now = Date.now();
     this.set({
       sent_to: [UserUtils.getOurPubKeyStrFromCache()],
       sent: true,
-      expirationStartTimestamp: Date.now(),
+      expirationStartTimestamp: now,
     });
 
     await this.commit();
@@ -1191,33 +1200,33 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       dataMessage instanceof DataMessage
         ? dataMessage.dataProto()
         : dataMessage;
-    await this.sendSyncMessage(data);
+    await this.sendSyncMessage(data, now);
   }
 
-  public async sendSyncMessage(dataMessage: DataMessage) {
+  public async sendSyncMessage(
+    dataMessage: SignalService.DataMessage,
+    sentTimestamp: number
+  ) {
     if (this.get('synced') || this.get('sentSync')) {
       return;
     }
 
-    window.log.error('sendSyncMessage to upgrade to multi device protocol v2');
-
-    // const data =
-    //   dataMessage instanceof DataMessage
-    //     ? dataMessage.dataProto()
-    //     : dataMessage;
-
-    // const syncMessage = new SentSyncMessage({
-    //   timestamp: this.get('sent_at'),
-    //   identifier: this.id,
-    //   dataMessage: data,
-    //   destination: this.get('destination'),
-    //   expirationStartTimestamp: this.get('expirationStartTimestamp'),
-    //   sent_to: this.get('sent_to'),
-    //   unidentifiedDeliveries: this.get('unidentifiedDeliveries'),
-    // });
-
-    // await sendSyncMessage(syncMessage);
-
+    // if this message needs to be synced
+    if (
+      (dataMessage.body && dataMessage.body.length) ||
+      dataMessage.attachments.length
+    ) {
+      const conversation = this.getConversation();
+      if (!conversation) {
+        throw new Error('Cannot trigger syncMessage with unknown convo.');
+      }
+      const syncMessage = ChatMessage.buildSyncMessage(
+        dataMessage,
+        conversation.id,
+        sentTimestamp
+      );
+      await getMessageQueue().sendSyncMessage(syncMessage);
+    }
     this.set({ sentSync: true });
     await this.commit();
   }
@@ -1265,7 +1274,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
   public async commit(forceSave = false) {
     // TODO investigate the meaning of the forceSave
-    const id = await window.Signal.Data.saveMessage(this.attributes, {
+    const id = await saveMessage(this.attributes, {
       forceSave,
       Message: MessageModel,
     });

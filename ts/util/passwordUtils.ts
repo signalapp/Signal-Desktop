@@ -13,6 +13,8 @@ const sha512 = (text: string) => {
   return hash.digest('hex');
 };
 
+export const MAX_PASSWORD_LENGTH = 64;
+
 export const generateHash = (phrase: string) => phrase && sha512(phrase.trim());
 export const matchesHash = (phrase: string | null, hash: string) =>
   phrase && sha512(phrase.trim()) === hash.trim();
@@ -27,10 +29,7 @@ export const validatePassword = (phrase: string, i18n?: LocalizerType) => {
     return i18n ? i18n('noGivenPassword') : ERRORS.LENGTH;
   }
 
-  if (
-    trimmed.length < 6 ||
-    trimmed.length > window.CONSTANTS.MAX_PASSWORD_LENGTH
-  ) {
+  if (trimmed.length < 6 || trimmed.length > MAX_PASSWORD_LENGTH) {
     return i18n ? i18n('passwordLengthError') : ERRORS.LENGTH;
   }
 

@@ -5,7 +5,9 @@ import {
   MessageQueueInterfaceEvents,
 } from './MessageQueueInterface';
 import {
+  ChatMessage,
   ContentMessage,
+  DataMessage,
   ExpirationTimerUpdateMessage,
   OpenGroupMessage,
 } from '../messages/outgoing';
@@ -14,6 +16,7 @@ import { JobQueue, TypedEventEmitter, UserUtils } from '../utils';
 import { PubKey, RawMessage } from '../types';
 import { MessageSender } from '.';
 import { ClosedGroupMessage } from '../messages/outgoing/content/data/group/ClosedGroupMessage';
+import { ConfigurationMessage } from '../messages/outgoing/content/ConfigurationMessage';
 
 export class MessageQueue implements MessageQueueInterface {
   public readonly events: TypedEventEmitter<MessageQueueInterfaceEvents>;
@@ -31,9 +34,12 @@ export class MessageQueue implements MessageQueueInterface {
     message: ContentMessage,
     sentCb?: (message: RawMessage) => Promise<void>
   ): Promise<void> {
-    // if (message instanceof SyncMessage) {
-    //   return this.sendSyncMessage(message);
-    // }
+    if (
+      message instanceof ConfigurationMessage ||
+      !!(message as any).syncTarget
+    ) {
+      throw new Error('SyncMessage needs to be sent with sendSyncMessage');
+    }
 
     await this.sendMessageToDevices([user], message);
   }
@@ -43,9 +49,12 @@ export class MessageQueue implements MessageQueueInterface {
     message: ContentMessage,
     sentCb?: (message: RawMessage) => Promise<void>
   ): Promise<void> {
-    // if (message instanceof SyncMessage) {
-    //   return this.sendSyncMessage(message);
-    // }
+    if (
+      message instanceof ConfigurationMessage ||
+      !!(message as any).syncTarget
+    ) {
+      throw new Error('SyncMessage needs to be sent with sendSyncMessage');
+    }
     await this.sendMessageToDevices([device], message, sentCb);
   }
 
@@ -107,15 +116,25 @@ export class MessageQueue implements MessageQueueInterface {
   }
 
   public async sendSyncMessage(
-    message: any | undefined,
+    message?: ContentMessage,
     sentCb?: (message: RawMessage) => Promise<void>
   ): Promise<void> {
     if (!message) {
       return;
     }
+    if (
+      !(message instanceof ConfigurationMessage) &&
+      !(message as any)?.syncTarget
+    ) {
+      throw new Error('Invalid message given to sendSyncMessage');
+    }
+
     const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
 
-    window.log.warn('sendSyncMessage TODO with syncTarget');
+    if (!ourPubKey) {
+      throw new Error('ourNumber is not set');
+    }
+
     await this.sendMessageToDevices([PubKey.cast(ourPubKey)], message, sentCb);
   }
 
@@ -179,7 +198,16 @@ export class MessageQueue implements MessageQueueInterface {
     // Don't send to ourselves
     const currentDevice = UserUtils.getOurPubKeyFromCache();
     if (currentDevice && device.isEqual(currentDevice)) {
-      return;
+      // We allow a message for ourselve only if it's a ConfigurationMessage or a message with a syncTarget set
+      if (
+        message instanceof ConfigurationMessage ||
+        (message as any).syncTarget?.length > 0
+      ) {
+        window.log.warn('Processing sync message');
+      } else {
+        window.log.warn('Dropping message in process() to be sent to ourself');
+        return;
+      }
     }
 
     await this.pendingMessageCache.add(device, message, sentCb);

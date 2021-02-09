@@ -4,7 +4,12 @@ import { retrieveNextMessages } from './serviceNodeAPI';
 import { SignalService } from '../../protobuf';
 import * as Receiver from '../../receiver/receiver';
 import _ from 'lodash';
-import * as Data from '../../../js/modules/data';
+import {
+  getLastHashBySnode,
+  getSeenMessagesByHashList,
+  saveSeenMessageHashes,
+  updateLastHash,
+} from '../../../js/modules/data';
 
 import { StringUtils } from '../../session/utils';
 import { ConversationController } from '../conversations';
@@ -180,7 +185,7 @@ export class SwarmPolling {
 
     const incomingHashes = messages.map((m: Message) => m.hash);
 
-    const dupHashes = await Data.getSeenMessagesByHashList(incomingHashes);
+    const dupHashes = await getSeenMessagesByHashList(incomingHashes);
     const newMessages = messages.filter(
       (m: Message) => !dupHashes.includes(m.hash)
     );
@@ -190,7 +195,7 @@ export class SwarmPolling {
         expiresAt: m.expiration,
         hash: m.hash,
       }));
-      await Data.saveSeenMessageHashes(newHashes);
+      await saveSeenMessageHashes(newHashes);
     }
     return newMessages;
   }
@@ -220,7 +225,7 @@ export class SwarmPolling {
   ): Promise<void> {
     const pkStr = pubkey.key;
 
-    await Data.updateLastHash({
+    await updateLastHash({
       convoId: pkStr,
       snode: edkey,
       hash,
@@ -243,7 +248,7 @@ export class SwarmPolling {
     const nodeRecords = this.lastHashes[nodeEdKey];
 
     if (!nodeRecords || !nodeRecords[pubkey]) {
-      const lastHash = await Data.getLastHashBySnode(pubkey, nodeEdKey);
+      const lastHash = await getLastHashBySnode(pubkey, nodeEdKey);
 
       return lastHash || '';
     } else {

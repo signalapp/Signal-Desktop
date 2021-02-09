@@ -30,6 +30,9 @@ export interface MessageQueueInterface {
     message: GroupMessageType,
     sentCb?: (message?: RawMessage) => Promise<void>
   ): Promise<void>;
-  sendSyncMessage(message: any): Promise<void>;
+  sendSyncMessage(
+    message: any,
+    sentCb?: (message?: RawMessage) => Promise<void>
+  ): Promise<void>;
   processPending(device: PubKey): Promise<void>;
 }

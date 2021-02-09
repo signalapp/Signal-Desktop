@@ -10,11 +10,13 @@ import {
 import { trigger } from '../../shims/events';
 import { SessionHtmlRenderer } from './SessionHTMLRenderer';
 import { SessionIdEditable } from './SessionIdEditable';
-import { SessionSpinner } from './SessionSpinner';
 import { StringUtils, ToastUtils } from '../../session/utils';
 import { lightTheme } from '../../state/ducks/SessionTheme';
 import { ConversationController } from '../../session/conversations';
 import { PasswordUtil } from '../../util';
+import { removeAll } from '../../../js/modules/data';
+
+export const MAX_USERNAME_LENGTH = 20;
 
 enum SignInMode {
   Default,
@@ -440,7 +442,7 @@ export class RegistrationTabs extends React.Component<any, State> {
           type="text"
           placeholder={window.i18n('enterDisplayName')}
           value={this.state.displayName}
-          maxLength={window.CONSTANTS.MAX_USERNAME_LENGTH}
+          maxLength={MAX_USERNAME_LENGTH}
           onValueChanged={(val: string) => {
             this.onDisplayNameChanged(val);
           }}
@@ -628,7 +630,7 @@ export class RegistrationTabs extends React.Component<any, State> {
   }
 
   private async resetRegistration() {
-    await window.Signal.Data.removeAll();
+    await removeAll();
     await window.storage.fetch();
     ConversationController.getInstance().reset();
     await ConversationController.getInstance().load();

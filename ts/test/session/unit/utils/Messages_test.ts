@@ -1,7 +1,7 @@
 import chai from 'chai';
 import * as sinon from 'sinon';
 import { TestUtils } from '../../../test-utils';
-import { MessageUtils } from '../../../../session/utils';
+import { MessageUtils, UserUtils } from '../../../../session/utils';
 import { EncryptionType, PubKey } from '../../../../session/types';
 import { ClosedGroupChatMessage } from '../../../../session/messages/outgoing/content/data/group/ClosedGroupChatMessage';
 import {
@@ -14,6 +14,9 @@ import {
   ClosedGroupNameChangeMessage,
   ClosedGroupRemovedMembersMessage,
 } from '../../../../session/messages/outgoing/content/data/group';
+import { MockConversation } from '../../../test-utils/utils';
+import { ConfigurationMessage } from '../../../../session/messages/outgoing/content/ConfigurationMessage';
+import { ConversationModel } from '../../../../models/conversation';
 // tslint:disable-next-line: no-require-imports no-var-requires
 const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
@@ -203,5 +206,72 @@ describe('Message Utils', () => {
       const rawMessage = await MessageUtils.toRawMessage(device, msg);
       expect(rawMessage.encryption).to.equal(EncryptionType.ClosedGroup);
     });
+
+    it('passing a ConfigurationMessage returns Fallback', async () => {
+      const device = TestUtils.generateFakePubKey();
+
+      const msg = new ConfigurationMessage({
+        timestamp: Date.now(),
+        activeOpenGroups: [],
+        activeClosedGroups: [],
+      });
+      const rawMessage = await MessageUtils.toRawMessage(device, msg);
+      expect(rawMessage.encryption).to.equal(EncryptionType.Fallback);
+    });
+  });
+
+  describe('getCurrentConfigurationMessage', () => {
+    const ourNumber = TestUtils.generateFakePubKey().key;
+
+    let convos: Array<ConversationModel>;
+    const mockValidOpenGroup = new MockConversation({
+      type: 'public',
+      id: 'publicChat:1@chat-dev.lokinet.org',
+    });
+
+    const mockValidOpenGroup2 = new MockConversation({
+      type: 'public',
+      id: 'publicChat:1@chat-dev2.lokinet.org',
+    });
+
+    const mockValidClosedGroup = new MockConversation({
+      type: 'group',
+    });
+
+    const mockValidPrivate = {
+      id: TestUtils.generateFakePubKey(),
+      isMediumGroup: () => false,
+      isPublic: () => false,
+    };
+
+    beforeEach(() => {
+      convos = [];
+      sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').resolves(ourNumber);
+      sandbox
+        .stub(UserUtils, 'getOurPubKeyFromCache')
+        .resolves(PubKey.cast(ourNumber));
+    });
+
+    beforeEach(() => {
+      convos = [];
+      sandbox.restore();
+    });
+
+    // it('filter out non active open groups', async () => {
+    //   // override the first open group and make it inactive
+    //   (mockValidOpenGroup as any).attributes.active_at = undefined;
+
+    //   convos.push(
+    //     mockValidOpenGroup as any,
+    //     mockValidOpenGroup as any,
+    //     mockValidPrivate as any,
+    //     mockValidClosedGroup as any,
+    //     mockValidOpenGroup2 as any
+    //   );
+
+    //   const configMessage = await getCurrentConfigurationMessage(convos);
+    //   expect(configMessage.activeOpenGroups.length).to.equal(1);
+    //   expect(configMessage.activeOpenGroups[0]).to.equal('chat-dev2.lokinet.org');
+    // });
   });
 });

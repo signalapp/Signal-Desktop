@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { SessionToast, SessionToastType } from './SessionToast';
 import { SessionIconType } from './icon';
 import { DefaultTheme, withTheme } from 'styled-components';
+import { getPasswordHash } from '../../../js/modules/data';
 export enum PasswordAction {
   Set = 'set',
   Change = 'change',
@@ -116,7 +117,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
 
   public async validatePasswordHash(password: string | null) {
     // Check if the password matches the hash we have stored
-    const hash = await window.Signal.Data.getPasswordHash();
+    const hash = await getPasswordHash();
     if (hash && !PasswordUtil.matchesHash(password, hash)) {
       return false;
     }

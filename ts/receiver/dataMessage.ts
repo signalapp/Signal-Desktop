@@ -13,8 +13,8 @@ import { getMessageQueue } from '../session';
 import { ConversationController } from '../session/conversations';
 import { handleClosedGroupControlMessage } from './closedGroups';
 import { MessageModel } from '../models/message';
-import { isUsFromCache } from '../session/utils/User';
 import { MessageModelType } from '../models/messageType';
+import { getMessageBySender } from '../../js/modules/data';
 
 export async function updateProfile(
   conversation: any,
@@ -152,7 +152,10 @@ function cleanAttachments(decrypted: any) {
   }
 }
 
-export async function processDecrypted(envelope: EnvelopePlus, decrypted: any) {
+export async function processDecrypted(
+  envelope: EnvelopePlus,
+  decrypted: SignalService.IDataMessage
+) {
   /* tslint:disable:no-bitwise */
   const FLAGS = SignalService.DataMessage.Flags;
 
@@ -175,7 +178,7 @@ export async function processDecrypted(envelope: EnvelopePlus, decrypted: any) {
   }
 
   if (decrypted.group) {
-    decrypted.group.id = new TextDecoder('utf-8').decode(decrypted.group.id);
+    // decrypted.group.id = new TextDecoder('utf-8').decode(decrypted.group.id);
 
     switch (decrypted.group.type) {
       case SignalService.GroupContext.Type.UPDATE:
@@ -201,7 +204,7 @@ export async function processDecrypted(envelope: EnvelopePlus, decrypted: any) {
     }
   }
 
-  const attachmentCount = decrypted.attachments.length;
+  const attachmentCount = decrypted?.attachments?.length || 0;
   const ATTACHMENT_MAX = 32;
   if (attachmentCount > ATTACHMENT_MAX) {
     await removeFromCache(envelope);
@@ -212,7 +215,7 @@ export async function processDecrypted(envelope: EnvelopePlus, decrypted: any) {
 
   cleanAttachments(decrypted);
 
-  return decrypted;
+  return decrypted as SignalService.DataMessage;
   /* tslint:disable:no-bitwise */
 }
 
@@ -245,12 +248,22 @@ function isBodyEmpty(body: string) {
   return _.isEmpty(body);
 }
 
+/**
+ * We have a few origins possible
+ *    - if the message is from a private conversation with a friend and he wrote to us,
+ *        the conversation to add the message to is our friend pubkey, so envelope.source
+ *    - if the message is from a medium group conversation
+ *        * envelope.source is the medium group pubkey
+ *        * envelope.senderIdentity is the author pubkey (the one who sent the message)
+ *    - at last, if the message is a syncMessage,
+ *        * envelope.source is our pubkey (our other device has the same pubkey as us)
+ *        * dataMessage.syncTarget is either the group public key OR the private conversation this message is about.
+ */
 export async function handleDataMessage(
   envelope: EnvelopePlus,
   dataMessage: SignalService.IDataMessage
 ): Promise<void> {
-  window.log.info('data message from', getEnvelopeId(envelope));
-
+  // we handle group updates from our other devices in handleClosedGroupControlMessage()
   if (dataMessage.closedGroupControlMessage) {
     await handleClosedGroupControlMessage(
       envelope,
@@ -260,10 +273,23 @@ export async function handleDataMessage(
   }
 
   const message = await processDecrypted(envelope, dataMessage);
-  const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
-  const source = envelope.source;
+  const source = dataMessage.syncTarget || envelope.source;
   const senderPubKey = envelope.senderIdentity || envelope.source;
-  const isMe = senderPubKey === ourPubKey;
+  const isMe = UserUtils.isUsFromCache(senderPubKey);
+  const isSyncMessage = Boolean(dataMessage.syncTarget?.length);
+
+  window.log.info(`Handle dataMessage from ${source} `);
+
+  if (isSyncMessage && !isMe) {
+    window.log.warn(
+      'Got a sync message from someone else than me. Dropping it.'
+    );
+    return removeFromCache(envelope);
+  } else if (isSyncMessage && dataMessage.syncTarget) {
+    // override the envelope source
+    envelope.source = dataMessage.syncTarget;
+  }
+
   const senderConversation = await ConversationController.getInstance().getOrCreateAndWait(
     senderPubKey,
     'private'
@@ -282,13 +308,8 @@ export async function handleDataMessage(
     return removeFromCache(envelope);
   }
 
-  const ownDevice = isUsFromCache(senderPubKey);
-
-  const sourceConversation = ConversationController.getInstance().get(source);
-  const ownMessage = sourceConversation?.isMediumGroup() && ownDevice;
-
   const ev: any = {};
-  if (ownMessage) {
+  if (isMe) {
     // Data messages for medium groups don't arrive as sync messages. Instead,
     // linked devices poll for group messages independently, thus they need
     // to recognise some of those messages at their own.
@@ -299,13 +320,14 @@ export async function handleDataMessage(
 
   if (envelope.senderIdentity) {
     message.group = {
-      id: envelope.source,
+      id: envelope.source as any, // FIXME Uint8Array vs string
     };
   }
 
   ev.confirm = () => removeFromCache(envelope);
   ev.data = {
     source: senderPubKey,
+    destination: isMe ? message.syncTarget : undefined,
     sourceDevice: 1,
     timestamp: _.toNumber(envelope.timestamp),
     receivedAt: envelope.receivedAt,
@@ -332,12 +354,13 @@ async function isMessageDuplicate({
   const { Errors } = window.Signal.Types;
 
   try {
-    const result = await window.Signal.Data.getMessageBySender(
+    const result = await getMessageBySender(
       { source, sourceDevice, sent_at: timestamp },
       {
         Message: MessageModel,
       }
     );
+
     if (!result) {
       return false;
     }
@@ -412,7 +435,7 @@ interface MessageCreationData {
   receivedAt: number;
   sourceDevice: number; // always 1 isn't it?
   source: boolean;
-  serverId: string;
+  serverId: number;
   message: any;
   serverTimestamp: any;
 
@@ -467,6 +490,7 @@ function createSentMessage(data: MessageCreationData): MessageModel {
   const {
     timestamp,
     serverTimestamp,
+    serverId,
     isPublic,
     receivedAt,
     sourceDevice,
@@ -500,8 +524,10 @@ function createSentMessage(data: MessageCreationData): MessageModel {
     source: UserUtils.getOurPubKeyStrFromCache(),
     sourceDevice,
     serverTimestamp,
+    serverId,
     sent_at: timestamp,
     received_at: isPublic ? receivedAt : now,
+    isPublic,
     conversationId: destination, // conversation ID will might change later (if it is a group)
     type: 'outgoing' as MessageModelType,
     ...sentSpecificFields,
@@ -530,7 +556,7 @@ function sendDeliveryReceipt(source: string, timestamp: any) {
   void getMessageQueue().sendToPubKey(device, receiptMessage);
 }
 
-interface MessageEvent {
+export interface MessageEvent {
   data: any;
   type: string;
   confirm: () => void;
@@ -558,7 +584,12 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
     ? ConversationType.GROUP
     : ConversationType.PRIVATE;
 
-  let conversationId = isIncoming ? source : destination;
+  let conversationId = isIncoming ? source : destination || source; // for synced message
+  if (!conversationId) {
+    window.log.error('We cannot handle a message without a conversationId');
+    confirm();
+    return;
+  }
   if (message.profileKey?.length) {
     await handleProfileUpdate(
       message.profileKey,
@@ -574,11 +605,10 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   source = source || msg.get('source');
 
   if (await isMessageDuplicate(data)) {
+    window.log.info('Received duplicate message. Dropping it.');
     confirm();
     return;
   }
-
-  // TODO: this shouldn't be called when source is not a pubkey!!!
 
   const isOurDevice = UserUtils.isUsFromCache(source);
 
@@ -614,9 +644,10 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
     conversationId = source;
   }
 
-  // the conversation with the primary device of that source (can be the same as conversationOrigin)
-
-  const conversation = ConversationController.getInstance().get(conversationId);
+  const conversation = await ConversationController.getInstance().getOrCreateAndWait(
+    conversationId,
+    isGroupMessage ? 'group' : 'private'
+  );
 
   if (!conversation) {
     window.log.warn('Skipping handleJob for unknown convo: ', conversationId);

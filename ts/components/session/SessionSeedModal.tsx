@@ -5,6 +5,7 @@ import { SessionButton } from './SessionButton';
 import { ToastUtils } from '../../session/utils';
 import { DefaultTheme, withTheme } from 'styled-components';
 import { PasswordUtil } from '../../util';
+import { getPasswordHash } from '../../../js/modules/data';
 
 interface Props {
   onClose: any;
@@ -173,19 +174,16 @@ class SessionSeedModalInner extends React.Component<Props, State> {
     return true;
   }
 
-  private checkHasPassword() {
+  private async checkHasPassword() {
     if (!this.state.loadingPassword) {
       return;
     }
 
-    const hashPromise = window.Signal.Data.getPasswordHash();
-
-    hashPromise.then((hash: any) => {
-      this.setState({
-        hasPassword: !!hash,
-        passwordHash: hash,
-        loadingPassword: false,
-      });
+    const hash = await getPasswordHash();
+    this.setState({
+      hasPassword: !!hash,
+      passwordHash: hash || '',
+      loadingPassword: false,
     });
   }
 

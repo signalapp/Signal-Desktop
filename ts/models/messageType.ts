@@ -187,29 +187,3 @@ export interface MessageRegularProps {
   markRead: (readAt: number) => Promise<void>;
   theme: DefaultTheme;
 }
-
-// export interface MessageModel extends Backbone.Model<MessageAttributes> {
-//     setServerTimestamp(serverTimestamp: any);
-//     setServerId(serverId: any);
-//     setIsPublic(arg0: boolean);
-//     idForLogging: () => string;
-//     isGroupUpdate: () => boolean;
-//     isExpirationTimerUpdate: () => boolean;
-//     getNotificationText: () => string;
-//     markRead: (readAt: number) => Promise<void>;
-//     merge: (other: MessageModel) => void;
-//     saveErrors: (error: any) => promise<void>;
-//     sendSyncMessageOnly: (message: any) => void;
-//     isUnread: () => boolean;
-//     commit: () => Promise<number>;
-//     getPropsForMessageDetail: () => any;
-//     getConversation: () => ConversationModel;
-//     handleMessageSentSuccess: (sentMessage: any, wrappedEnvelope: any) => any;
-//     handleMessageSentFailure: (sentMessage: any, error: any) => any;
-
-//     propsForMessage?: MessageRegularProps;
-//     propsForTimerNotification?: any;
-//     propsForGroupInvitation?: any;
-//     propsForGroupNotification?: any;
-//     firstMessageOfSeries: boolean;
-// }

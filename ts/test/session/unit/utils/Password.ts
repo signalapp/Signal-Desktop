@@ -58,7 +58,7 @@ describe('Password Util', () => {
     });
 
     it('should return an error if password is not between 6 and 64 characters', () => {
-      const invalid = ['a', 'abcde', '#'.repeat(51), '#'.repeat(100)];
+      const invalid = ['a', 'abcde', '#'.repeat(65), '#'.repeat(100)];
       invalid.forEach(pass => {
         assert.strictEqual(
           PasswordUtil.validatePassword(pass),

@@ -9,7 +9,7 @@ import { ConversationController } from '../session/conversations';
 import { ConversationModel } from '../models/conversation';
 import { MessageCollection, MessageModel } from '../models/message';
 import { MessageController } from '../session/messages';
-import { getMessageById } from '../../js/modules/data';
+import { getMessageById, getMessagesBySentAt } from '../../js/modules/data';
 
 async function handleGroups(
   conversation: ConversationModel,
@@ -99,7 +99,7 @@ async function copyFromQuotedMessage(
   const { attachments, id, author } = quote;
   const firstAttachment = attachments[0];
 
-  const collection = await window.Signal.Data.getMessagesBySentAt(id, {
+  const collection = await getMessagesBySentAt(id, {
     MessageCollection,
   });
   const found = collection.find((item: any) => {
@@ -370,7 +370,7 @@ async function handleRegularMessage(
 
   const now = new Date().getTime();
 
-  // Medium grups might have `group` set even if with group chat messages...
+  // Medium groups might have `group` set even if with group chat messages...
   if (dataMessage.group && !conversation.isMediumGroup()) {
     // This is not necessarily a group update message, it could also be a regular group message
     const groupUpdate = await handleGroups(

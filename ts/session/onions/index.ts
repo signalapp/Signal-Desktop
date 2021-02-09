@@ -1,5 +1,5 @@
 import { allowOnlyOneAtATime } from '../../../js/modules/loki_primitives';
-import * as Data from '../../../js/modules/data';
+import { getGuardNodes } from '../../../js/modules/data';
 import * as SnodePool from '../snode_api/snodePool';
 import _ from 'lodash';
 import fetch from 'node-fetch';
@@ -235,7 +235,7 @@ class OnionPaths {
 
     if (this.guardNodes.length === 0) {
       // Not cached, load from DB
-      const nodes = await Data.getGuardNodes();
+      const nodes = await getGuardNodes();
 
       if (nodes.length === 0) {
         log.warn(

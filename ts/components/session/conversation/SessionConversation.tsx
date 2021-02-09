@@ -26,7 +26,10 @@ import * as MIME from '../../../types/MIME';
 import { SessionFileDropzone } from './SessionFileDropzone';
 import { ConversationType } from '../../../state/ducks/conversations';
 import { MessageView } from '../../MainViewController';
-import { getMessageById } from '../../../../js/modules/data';
+import {
+  getMessageById,
+  getPubkeysInPublicConversation,
+} from '../../../../js/modules/data';
 import { pushUnblockToSend } from '../../../session/utils/Toast';
 import { MessageDetail } from '../../conversation/MessageDetail';
 import { ConversationController } from '../../../session/conversations';
@@ -1196,7 +1199,7 @@ export class SessionConversation extends React.Component<Props, State> {
   }
 
   private async updateMemberList() {
-    const allPubKeys = await window.Signal.Data.getPubkeysInPublicConversation(
+    const allPubKeys = await getPubkeysInPublicConversation(
       this.props.selectedConversationKey
     );
 

@@ -17,6 +17,7 @@ import {
   getConversations,
 } from '../../../state/selectors/conversations';
 import { connect } from 'react-redux';
+import { getPasswordHash } from '../../../../js/modules/data';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -80,7 +81,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
     this.onPasswordUpdated = this.onPasswordUpdated.bind(this);
     this.validatePasswordLock = this.validatePasswordLock.bind(this);
 
-    this.hasPassword();
+    void this.hasPassword();
 
     this.onKeyUp = this.onKeyUp.bind(this);
     window.addEventListener('keyup', this.onKeyUp);
@@ -209,7 +210,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
     }
 
     // Check if the password matches the hash we have stored
-    const hash = await window.Signal.Data.getPasswordHash();
+    const hash = await getPasswordHash();
     if (hash && !PasswordUtil.matchesHash(enteredPassword, hash)) {
       this.setState({
         pwdLockError: window.i18n('invalidPassword'),
@@ -269,13 +270,11 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
     window.setSettingValue(settingID, selectedValue);
   }
 
-  public hasPassword() {
-    const hashPromise = window.Signal.Data.getPasswordHash();
+  public async hasPassword() {
+    const hash = await getPasswordHash();
 
-    hashPromise.then((hash: any) => {
-      this.setState({
-        hasPassword: !!hash,
-      });
+    this.setState({
+      hasPassword: !!hash,
     });
   }
 

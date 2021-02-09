@@ -4,15 +4,16 @@ import { handleDataMessage } from './dataMessage';
 import { removeFromCache, updateCache } from './cache';
 import { SignalService } from '../protobuf';
 import * as Lodash from 'lodash';
-import { PubKey } from '../session/types';
+import { OpenGroup, PubKey } from '../session/types';
 
 import { BlockedNumberController } from '../util/blockedNumberController';
 import { GroupUtils, UserUtils } from '../session/utils';
 import { fromHexToArray, toHex } from '../session/utils/String';
 import { concatUInt8Array, getSodium } from '../session/crypto';
 import { ConversationController } from '../session/conversations';
-import * as Data from '../../js/modules/data';
+import { getAllEncryptionKeyPairsForGroup } from '../../js/modules/data';
 import { ECKeyPair } from './keypairs';
+import { handleNewClosedGroup } from './closedGroups';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   try {
@@ -44,7 +45,7 @@ async function decryptForClosedGroup(
       );
       throw new Error('Invalid group public key'); // invalidGroupPublicKey
     }
-    const encryptionKeyPairs = await Data.getAllEncryptionKeyPairsForGroup(
+    const encryptionKeyPairs = await getAllEncryptionKeyPairsForGroup(
       hexEncodedGroupPublicKey
     );
     const encryptionKeyPairsCount = encryptionKeyPairs?.length;
@@ -100,18 +101,6 @@ async function decryptForClosedGroup(
       'ClosedGroup Message decrypted successfully with keyIndex:',
       keyIndex
     );
-    const ourDevicePubKey = UserUtils.getOurPubKeyStrFromCache();
-
-    if (
-      envelope.senderIdentity &&
-      envelope.senderIdentity === ourDevicePubKey
-    ) {
-      await removeFromCache(envelope);
-      window.log.info(
-        'Dropping message from our current device after decrypt for closed group'
-      );
-      return null;
-    }
 
     return unpad(decryptedContent);
   } catch (e) {
@@ -390,6 +379,14 @@ export async function innerHandleContentMessage(
       await handleTypingMessage(envelope, content.typingMessage);
       return;
     }
+
+    if (content.configurationMessage) {
+      await handleConfigurationMessage(
+        envelope,
+        content.configurationMessage as SignalService.ConfigurationMessage
+      );
+      return;
+    }
   } catch (e) {
     window.log.warn(e);
   }
@@ -498,4 +495,58 @@ async function handleTypingMessage(
       sender: source,
     });
   }
+}
+
+async function handleConfigurationMessage(
+  envelope: EnvelopePlus,
+  configurationMessage: SignalService.ConfigurationMessage
+): Promise<void> {
+  const ourPubkey = UserUtils.getOurPubKeyStrFromCache();
+  if (!ourPubkey) {
+    return;
+  }
+
+  if (envelope.source !== ourPubkey) {
+    window.log.info('dropping configuration change from someone else than us.');
+    return removeFromCache(envelope);
+  }
+
+  const numberClosedGroup = configurationMessage.closedGroups?.length || 0;
+
+  window.log.warn(
+    `Received ${numberClosedGroup} closed group on configuration. Creating them... `
+  );
+
+  await Promise.all(
+    configurationMessage.closedGroups.map(async c => {
+      const groupUpdate = new SignalService.DataMessage.ClosedGroupControlMessage(
+        {
+          type: SignalService.DataMessage.ClosedGroupControlMessage.Type.NEW,
+          encryptionKeyPair: c.encryptionKeyPair,
+          name: c.name,
+          admins: c.admins,
+          members: c.members,
+          publicKey: c.publicKey,
+        }
+      );
+      await handleNewClosedGroup(envelope, groupUpdate);
+    })
+  );
+
+  const allOpenGroups = OpenGroup.getAllAlreadyJoinedOpenGroupsUrl();
+  const numberOpenGroup = configurationMessage.openGroups?.length || 0;
+
+  // Trigger a join for all open groups we are not already in.
+  // Currently, if you left an open group but kept the conversation, you won't rejoin it here.
+  for (let i = 0; i < numberOpenGroup; i++) {
+    const current = configurationMessage.openGroups[i];
+    if (!allOpenGroups.includes(current)) {
+      window.log.info(
+        `triggering join of public chat '${current}' from ConfigurationMessage`
+      );
+      void OpenGroup.join(current);
+    }
+  }
+
+  await removeFromCache(envelope);
 }

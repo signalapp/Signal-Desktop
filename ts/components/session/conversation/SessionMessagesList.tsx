@@ -17,6 +17,7 @@ import { TypingBubble } from '../../conversation/TypingBubble';
 import { ConversationController } from '../../../session/conversations';
 import { MessageCollection, MessageModel } from '../../../models/message';
 import { MessageRegularProps } from '../../../models/messageType';
+import { getMessagesBySentAt } from '../../../../js/modules/data';
 
 interface State {
   showScrollButton: boolean;
@@ -554,7 +555,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
     // If there's no message already in memory, we won't be scrolling. So we'll gather
     //   some more information then show an informative toast to the user.
     if (!targetMessage) {
-      const collection = await window.Signal.Data.getMessagesBySentAt(quoteId, {
+      const collection = await getMessagesBySentAt(quoteId, {
         MessageCollection,
       });
       const found = Boolean(

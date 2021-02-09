@@ -19,6 +19,7 @@ import { SessionModal } from './session/SessionModal';
 import { PillDivider } from './session/PillDivider';
 import { ToastUtils, UserUtils } from '../session/utils';
 import { DefaultTheme } from 'styled-components';
+import { MAX_USERNAME_LENGTH } from './session/RegistrationTabs';
 
 interface Props {
   i18n: any;
@@ -213,7 +214,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
             value={this.state.profileName}
             placeholder={placeholderText}
             onChange={this.onNameEdited}
-            maxLength={window.CONSTANTS.MAX_USERNAME_LENGTH}
+            maxLength={MAX_USERNAME_LENGTH}
             tabIndex={0}
             required={true}
             aria-required={true}
@@ -292,10 +293,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
   private onClickOK() {
     const newName = this.state.profileName.trim();
 
-    if (
-      newName.length === 0 ||
-      newName.length > window.CONSTANTS.MAX_USERNAME_LENGTH
-    ) {
+    if (newName.length === 0 || newName.length > MAX_USERNAME_LENGTH) {
       return;
     }
 

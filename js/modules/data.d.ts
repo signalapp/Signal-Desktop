@@ -173,14 +173,18 @@ export function removeAllSessions(): Promise<void>;
 export function getConversationCount(): Promise<number>;
 export function saveConversation(data: ConversationType): Promise<void>;
 export function saveConversations(data: Array<ConversationType>): Promise<void>;
-export function updateConversation(data: ConversationType): Promise<void>;
-export function removeConversation(id: string): Promise<void>;
+export function updateConversation(
+  id: string,
+  data: ConversationType,
+  { Conversation }
+): Promise<void>;
+export function removeConversation(id: string, { Conversation }): Promise<void>;
 
 export function getAllConversations({
   ConversationCollection,
 }: {
   ConversationCollection: any;
-}): Promise<Array<ConversationCollection>>;
+}): Promise<ConversationCollection>;
 
 export function getAllConversationIds(): Promise<Array<string>>;
 export function getPublicConversationsByServer(
@@ -197,7 +201,7 @@ export function getPublicServerTokenByServerUrl(
 export function getAllGroupsInvolvingId(
   id: string,
   { ConversationCollection }: { ConversationCollection: any }
-): Promise<Array<ConversationCollection>>;
+): Promise<ConversationCollection>;
 
 // Returns conversation row
 // TODO: Make strict return types for search
@@ -234,6 +238,10 @@ export function saveMessages(
 ): Promise<any>;
 export function removeMessage(id: string, { Message }?: any): Promise<any>;
 export function getUnreadByConversation(
+  conversationId: string,
+  { MessageCollection }?: any
+): Promise<any>;
+export function getUnreadCountByConversation(
   conversationId: string,
   { MessageCollection }?: any
 ): Promise<any>;
