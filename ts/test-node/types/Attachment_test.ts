@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -9,6 +9,31 @@ import { SignalService } from '../../protobuf';
 import { stringToArrayBuffer } from '../../../js/modules/string_to_array_buffer';
 
 describe('Attachment', () => {
+  describe('getUploadSizeLimitKb', () => {
+    const { getUploadSizeLimitKb } = Attachment;
+
+    it('returns 6000 kilobytes for supported non-GIF images', () => {
+      assert.strictEqual(getUploadSizeLimitKb(MIME.IMAGE_JPEG), 6000);
+      assert.strictEqual(getUploadSizeLimitKb(MIME.IMAGE_PNG), 6000);
+      assert.strictEqual(getUploadSizeLimitKb(MIME.IMAGE_WEBP), 6000);
+    });
+
+    it('returns 25000 kilobytes for GIFs', () => {
+      assert.strictEqual(getUploadSizeLimitKb(MIME.IMAGE_GIF), 25000);
+    });
+
+    it('returns 100000 for other file types', () => {
+      assert.strictEqual(getUploadSizeLimitKb(MIME.APPLICATION_JSON), 100000);
+      assert.strictEqual(getUploadSizeLimitKb(MIME.AUDIO_AAC), 100000);
+      assert.strictEqual(getUploadSizeLimitKb(MIME.AUDIO_MP3), 100000);
+      assert.strictEqual(getUploadSizeLimitKb(MIME.VIDEO_MP4), 100000);
+      assert.strictEqual(
+        getUploadSizeLimitKb('image/vnd.adobe.photoshop' as MIME.MIMEType),
+        100000
+      );
+    });
+  });
+
   describe('getFileExtension', () => {
     it('should return file extension from content type', () => {
       const input: Attachment.Attachment = {

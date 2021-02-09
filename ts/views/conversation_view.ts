@@ -1695,29 +1695,9 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   isSizeOkay(attachment: any) {
-    let limitKb = 1000000;
-    const type =
-      attachment.contentType === 'image/gif'
-        ? 'gif'
-        : attachment.contentType.split('/')[0];
-
-    switch (type) {
-      case 'image':
-        limitKb = 6000;
-        break;
-      case 'gif':
-        limitKb = 25000;
-        break;
-      case 'audio':
-        limitKb = 100000;
-        break;
-      case 'video':
-        limitKb = 100000;
-        break;
-      default:
-        limitKb = 100000;
-        break;
-    }
+    const limitKb = window.Signal.Types.Attachment.getUploadSizeLimitKb(
+      attachment.contentType
+    );
     // this needs to be cast properly
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore

@@ -431,3 +431,13 @@ export const getFileExtension = (
       return attachment.contentType.split('/')[1];
   }
 };
+
+export const getUploadSizeLimitKb = (contentType: MIME.MIMEType): number => {
+  if (MIME.isGif(contentType)) {
+    return 25000;
+  }
+  if (isImageTypeSupported(contentType)) {
+    return 6000;
+  }
+  return 100000;
+};

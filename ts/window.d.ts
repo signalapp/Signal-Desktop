@@ -358,6 +358,8 @@ declare global {
           isImage: typeof Attachment.isImage;
           isVideo: typeof Attachment.isVideo;
           isAudio: typeof Attachment.isAudio;
+
+          getUploadSizeLimitKb: typeof Attachment.getUploadSizeLimitKb;
         };
         MIME: typeof MIME;
         Contact: typeof Contact;

@@ -17,6 +17,8 @@ export const VIDEO_MP4 = 'video/mp4' as MIMEType;
 export const VIDEO_QUICKTIME = 'video/quicktime' as MIMEType;
 export const LONG_MESSAGE = 'text/x-signal-plain' as MIMEType;
 
+export const isGif = (value: string): value is MIMEType =>
+  value === 'image/gif';
 export const isJPEG = (value: string): value is MIMEType =>
   value === 'image/jpeg';
 export const isImage = (value: string): value is MIMEType =>
