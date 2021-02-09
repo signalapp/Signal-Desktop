@@ -583,7 +583,12 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
     ? ConversationType.GROUP
     : ConversationType.PRIVATE;
 
-  let conversationId = isIncoming ? source : destination;
+  let conversationId = isIncoming ? source : destination || source; // for synced message
+  if (!conversationId) {
+    window.log.error('We cannot handle a message without a conversationId');
+    confirm();
+    return;
+  }
   if (message.profileKey?.length) {
     await handleProfileUpdate(
       message.profileKey,
