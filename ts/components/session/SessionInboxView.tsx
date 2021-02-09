@@ -132,7 +132,7 @@ export class SessionInboxView extends React.Component<Props, State> {
       return null;
     }
 
-    const msg = window.getMessageController().get(m.identifier);
+    const msg = MessageController.getInstance().get(m.identifier);
 
     if (!msg || !msg.message) {
       return null;

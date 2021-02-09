@@ -33,6 +33,7 @@ import {
   ClosedGroupRemovedMembersMessage,
   ClosedGroupUpdateMessage,
 } from '../messages/outgoing/content/data/group';
+import { MessageController } from '../messages';
 
 export interface GroupInfo {
   id: string;
@@ -122,111 +123,6 @@ export async function initiateGroupUpdate(
     expireTimer: convo.get('expireTimer'),
   };
 
-  if (!window.lokiFeatureFlags.useExplicitGroupUpdatesSending) {
-    // we still don't send any explicit group updates for now - only the receiving side is enabled
-    const dbMessageAdded = await addUpdateMessage(convo, diff, 'outgoing');
-    window.getMessageController().register(dbMessageAdded.id, dbMessageAdded);
-    // Check preconditions
-    const hexEncryptionKeyPair = await getLatestClosedGroupEncryptionKeyPair(
-      groupId
-    );
-    if (!hexEncryptionKeyPair) {
-      throw new Error("Couldn't get key pair for closed group");
-    }
-
-    const encryptionKeyPair = ECKeyPair.fromHexKeyPair(hexEncryptionKeyPair);
-    const removedMembers = diff.leavingMembers || [];
-    const newMembers = diff.joiningMembers || []; // joining members
-    const wasAnyUserRemoved = removedMembers.length > 0;
-    const ourPrimary = await UserUtils.getOurNumber();
-    const isUserLeaving = removedMembers.includes(ourPrimary.key);
-    const isCurrentUserAdmin = convo
-      .get('groupAdmins')
-      ?.includes(ourPrimary.key);
-    const expireTimerToShare = groupDetails.expireTimer || 0;
-
-    const admins = convo.get('groupAdmins') || [];
-    if (removedMembers.includes(admins[0]) && newMembers.length !== 0) {
-      throw new Error(
-        "Can't remove admin from closed group without removing everyone."
-      ); // Error.invalidClosedGroupUpdate
-    }
-
-    if (isUserLeaving && newMembers.length !== 0) {
-      if (removedMembers.length !== 1 || newMembers.length !== 0) {
-        throw new Error(
-          "Can't remove self and add or remove others simultaneously."
-        );
-      }
-    }
-
-    // Send the update to the group
-    const mainClosedGroupUpdate = new ClosedGroupUpdateMessage({
-      timestamp: Date.now(),
-      groupId,
-      name: groupName,
-      members,
-      identifier: dbMessageAdded.id || uuid(),
-      expireTimer: expireTimerToShare,
-    });
-
-    if (isUserLeaving) {
-      window.log.info(
-        `We are leaving the group ${groupId}. Sending our leaving message.`
-      );
-      // sent the message to the group and once done, remove everything related to this group
-      window.SwarmPolling.removePubkey(groupId);
-      await getMessageQueue().sendToGroup(mainClosedGroupUpdate, async () => {
-        window.log.info(
-          `Leaving message sent ${groupId}. Removing everything related to this group.`
-        );
-        await removeAllClosedGroupEncryptionKeyPairs(groupId);
-      });
-    } else {
-      // Send the group update, and only once sent, generate and distribute a new encryption key pair if needed
-      await getMessageQueue().sendToGroup(mainClosedGroupUpdate, async () => {
-        if (wasAnyUserRemoved && isCurrentUserAdmin) {
-          // we send the new encryption key only to members already here before the update
-          const membersNotNew = members.filter(m => !newMembers.includes(m));
-          window.log.info(
-            `Sending group update: A user was removed from ${groupId} and we are the admin. Generating and sending a new EncryptionKeyPair`
-          );
-
-          await generateAndSendNewEncryptionKeyPair(groupId, membersNotNew);
-        }
-      });
-
-      if (newMembers.length) {
-        // Send closed group update messages to any new members individually
-        const newClosedGroupUpdate = new ClosedGroupNewMessage({
-          timestamp: Date.now(),
-          name: groupName,
-          groupId,
-          admins,
-          members,
-          keypair: encryptionKeyPair,
-          identifier: dbMessageAdded.id || uuid(),
-          expireTimer: expireTimerToShare,
-        });
-
-        const promises = newMembers.map(async m => {
-          await ConversationController.getInstance().getOrCreateAndWait(
-            m,
-            'private'
-          );
-          const memberPubKey = PubKey.cast(m);
-          await getMessageQueue().sendToPubKey(
-            memberPubKey,
-            newClosedGroupUpdate
-          );
-        });
-        await Promise.all(promises);
-      }
-    }
-
-    return;
-  }
-
   if (diff.newName?.length) {
     const nameOnlyDiff: GroupDiff = { newName: diff.newName };
     const dbMessageName = await addUpdateMessage(
@@ -234,7 +130,7 @@ export async function initiateGroupUpdate(
       nameOnlyDiff,
       'outgoing'
     );
-    window.getMessageController().register(dbMessageName.id, dbMessageName);
+    MessageController.getInstance().register(dbMessageName.id, dbMessageName);
     await sendNewName(convo, diff.newName, dbMessageName.id);
   }
 
@@ -245,7 +141,7 @@ export async function initiateGroupUpdate(
       joiningOnlyDiff,
       'outgoing'
     );
-    window.getMessageController().register(dbMessageAdded.id, dbMessageAdded);
+    MessageController.getInstance().register(dbMessageAdded.id, dbMessageAdded);
     await sendAddedMembers(
       convo,
       diff.joiningMembers,
@@ -261,9 +157,10 @@ export async function initiateGroupUpdate(
       leavingOnlyDiff,
       'outgoing'
     );
-    window
-      .getMessageController()
-      .register(dbMessageLeaving.id, dbMessageLeaving);
+    MessageController.getInstance().register(
+      dbMessageLeaving.id,
+      dbMessageLeaving
+    );
     const stillMembers = members;
     await sendRemovedMembers(
       convo,
@@ -435,7 +332,7 @@ export async function leaveClosedGroup(groupId: string) {
   } else {
     // otherwise, just the exclude ourself from the members and trigger an update with this
     convo.set({ left: true });
-    members = convo.get('members').filter(m => m !== ourNumber.key);
+    members = convo.get('members').filter((m: string) => m !== ourNumber.key);
     admins = convo.get('groupAdmins') || [];
   }
   convo.set({ members });
@@ -449,29 +346,15 @@ export async function leaveClosedGroup(groupId: string) {
     sent_at: now,
     received_at: now,
   });
-  window.getMessageController().register(dbMessage.id, dbMessage);
+  MessageController.getInstance().register(dbMessage.id, dbMessage);
   const existingExpireTimer = convo.get('expireTimer') || 0;
   // Send the update to the group
-  let ourLeavingMessage;
-
-  if (window.lokiFeatureFlags.useExplicitGroupUpdatesSending) {
-    ourLeavingMessage = new ClosedGroupMemberLeftMessage({
-      timestamp: Date.now(),
-      groupId,
-      identifier: dbMessage.id,
-      expireTimer: existingExpireTimer,
-    });
-  } else {
-    const ourPubkey = await UserUtils.getOurNumber();
-    ourLeavingMessage = new ClosedGroupUpdateMessage({
-      timestamp: Date.now(),
-      groupId,
-      identifier: dbMessage.id,
-      expireTimer: existingExpireTimer,
-      name: convo.get('name'),
-      members: convo.get('members').filter(m => m !== ourPubkey.key),
-    });
-  }
+  const ourLeavingMessage = new ClosedGroupMemberLeftMessage({
+    timestamp: Date.now(),
+    groupId,
+    identifier: dbMessage.id,
+    expireTimer: existingExpireTimer,
+  });
 
   window.log.info(
     `We are leaving the group ${groupId}. Sending our leaving message.`

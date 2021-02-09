@@ -445,7 +445,6 @@ window.lokiFeatureFlags = {
   useFileOnionRequests: true,
   useFileOnionRequestsV2: true, // more compact encoding of files in response
   onionRequestHops: 3,
-  useExplicitGroupUpdatesSending: false,
 };
 
 // eslint-disable-next-line no-extend-native,func-names
@@ -479,7 +478,6 @@ if (config.environment.includes('test-integration')) {
     useOnionRequests: false,
     useFileOnionRequests: false,
     useOnionRequestsV2: false,
-    useExplicitGroupUpdatesSending: false,
   };
   /* eslint-disable global-require, import/no-extraneous-dependencies */
   window.sinon = require('sinon');

@@ -22,11 +22,11 @@ import {
 } from '../session/messages/outgoing/content/data/group/ClosedGroupNewMessage';
 
 import { ECKeyPair } from './keypairs';
-import { getOurNumber } from '../session/utils/User';
 import { UserUtils } from '../session/utils';
 import { ConversationModel } from '../../js/models/conversations';
 import _ from 'lodash';
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
+import { MessageController } from '../session/messages';
 
 export async function handleClosedGroupControlMessage(
   envelope: EnvelopePlus,
@@ -481,6 +481,9 @@ async function performIfValid(
   }
 
   if (groupUpdate.type === Type.UPDATE) {
+    window.log.warn(
+      'Received a groupUpdate non explicit. This should not happen anymore.'
+    );
     await handleUpdateClosedGroup(envelope, groupUpdate, convo);
   } else if (groupUpdate.type === Type.NAME_CHANGE) {
     await handleClosedGroupNameChanged(envelope, groupUpdate, convo);
@@ -693,7 +696,7 @@ export async function createClosedGroup(
 ) {
   const setOfMembers = new Set(members);
 
-  const ourNumber = await getOurNumber();
+  const ourNumber = await UserUtils.getOurNumber();
   // Create Group Identity
   // Generate the key pair that'll be used for encryption and decryption
   // Generate the group's public key
@@ -734,7 +737,7 @@ export async function createClosedGroup(
     groupDiff,
     'outgoing'
   );
-  window.getMessageController().register(dbMessage.id, dbMessage);
+  MessageController.getInstance().register(dbMessage.id, dbMessage);
 
   // be sure to call this before sending the message.
   // the sending pipeline needs to know from GroupUtils when a message is for a medium group
