@@ -78,9 +78,6 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
 
 // eslint-disable-next-line func-names
 window.CONSTANTS = new (function() {
-  this.MAX_LOGIN_TRIES = 3;
-  this.MAX_PASSWORD_LENGTH = 64;
-  this.MAX_USERNAME_LENGTH = 20;
   this.MAX_GROUP_NAME_LENGTH = 64;
   this.DEFAULT_PUBLIC_CHAT_URL = appConfig.get('defaultPublicChatServer');
   this.MAX_LINKED_DEVICES = 1;
@@ -495,9 +492,10 @@ const {
 
 window.BlockedNumberController = BlockedNumberController;
 window.deleteAccount = async reason => {
-  try {
-    window.log.info('Deleting everything!');
-
+  const syncedMessageSent = async () => {
+    window.log.info(
+      'configuration message sent successfully. Deleting everything'
+    );
     await window.Signal.Logs.deleteAll();
     await window.Signal.Data.removeAll();
     await window.Signal.Data.close();
@@ -505,11 +503,24 @@ window.deleteAccount = async reason => {
     await window.Signal.Data.removeOtherData();
     // 'unlink' => toast will be shown on app restart
     window.localStorage.setItem('restart-reason', reason);
+  };
+  try {
+    window.log.info('DeleteAccount => Sending a last SyncConfiguration');
+    // be sure to wait for the message being effectively sent. Otherwise we won't be able to encrypt it for our devices !
+    await window.libsession.Utils.SyncUtils.forceSyncConfigurationNowIfNeeded(
+      true
+    );
+    await syncedMessageSent();
   } catch (error) {
     window.log.error(
       'Something went wrong deleting all data:',
       error && error.stack ? error.stack : error
     );
+    try {
+      await syncedMessageSent();
+    } catch (e) {
+      window.log.error(e);
+    }
   }
   window.restart();
 };

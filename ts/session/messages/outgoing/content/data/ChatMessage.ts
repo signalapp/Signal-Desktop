@@ -4,6 +4,7 @@ import { MessageParams } from '../../Message';
 import { LokiProfile } from '../../../../../types/Message';
 import ByteBuffer from 'bytebuffer';
 import { Constants } from '../../../..';
+import { isNumber, toNumber } from 'lodash';
 
 export interface AttachmentPointer {
   id?: number;
@@ -46,6 +47,7 @@ export interface ChatMessageParams extends MessageParams {
   expireTimer?: number;
   lokiProfile?: LokiProfile;
   preview?: Array<Preview>;
+  syncTarget?: string; // null means it is not a synced message
 }
 
 export class ChatMessage extends DataMessage {
@@ -58,6 +60,10 @@ export class ChatMessage extends DataMessage {
   private readonly displayName?: string;
   private readonly avatarPointer?: string;
   private readonly preview?: Array<Preview>;
+
+  /// In the case of a sync message, the public key of the person the message was targeted at.
+  /// - Note: `null or undefined` if this isn't a sync message.
+  private readonly syncTarget?: string;
 
   constructor(params: ChatMessageParams) {
     super({ timestamp: params.timestamp, identifier: params.identifier });
@@ -74,6 +80,62 @@ export class ChatMessage extends DataMessage {
     this.displayName = params.lokiProfile && params.lokiProfile.displayName;
     this.avatarPointer = params.lokiProfile && params.lokiProfile.avatarPointer;
     this.preview = params.preview;
+    this.syncTarget = params.syncTarget;
+  }
+
+  public static buildSyncMessage(
+    dataMessage: SignalService.IDataMessage,
+    syncTarget: string,
+    sentTimestamp: number
+  ) {
+    const lokiProfile: any = {
+      profileKey: dataMessage.profileKey,
+    };
+
+    if ((dataMessage as any)?.$type?.name !== 'DataMessage') {
+      throw new Error(
+        'Tried to build a sync message from something else than a DataMessage'
+      );
+    }
+
+    if (!sentTimestamp || !isNumber(sentTimestamp)) {
+      throw new Error('Tried to build a sync message without a sentTimestamp');
+    }
+
+    if (dataMessage.profile) {
+      if (dataMessage.profile?.displayName) {
+        lokiProfile.displayName = dataMessage.profile.displayName;
+      }
+      if (dataMessage.profile?.profilePicture) {
+        lokiProfile.avatarPointer = dataMessage.profile.profilePicture;
+      }
+    }
+
+    const timestamp = toNumber(sentTimestamp);
+    const body = dataMessage.body || undefined;
+    const attachments = (dataMessage.attachments || []).map(attachment => {
+      return {
+        ...attachment,
+        key: attachment.key
+          ? new Uint8Array((attachment.key as any).toArrayBuffer())
+          : undefined,
+        digest: attachment.digest
+          ? new Uint8Array((attachment.digest as any).toArrayBuffer())
+          : undefined,
+      };
+    }) as Array<AttachmentPointer>;
+    const quote = (dataMessage.quote as Quote) || undefined;
+    const preview = (dataMessage.preview as Array<Preview>) || [];
+
+    return new ChatMessage({
+      timestamp,
+      attachments,
+      body,
+      quote,
+      lokiProfile,
+      preview,
+      syncTarget,
+    });
   }
 
   public ttl(): number {
@@ -95,6 +157,9 @@ export class ChatMessage extends DataMessage {
 
     if (this.preview) {
       dataMessage.preview = this.preview;
+    }
+    if (this.syncTarget) {
+      dataMessage.syncTarget = this.syncTarget;
     }
 
     if (this.avatarPointer || this.displayName) {
