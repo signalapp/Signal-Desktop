@@ -1,4 +1,4 @@
-/* global Whisper, i18n, textsecure, _ */
+/* global Whisper, i18n, _ */
 
 // eslint-disable-next-line func-names
 (function() {

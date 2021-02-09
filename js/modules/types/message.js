@@ -6,7 +6,6 @@ const SchemaVersion = require('./schema_version');
 const {
   initializeAttachmentMetadata,
 } = require('../../../ts/types/message/initializeAttachmentMetadata');
-const MessageTS = require('../../../ts/types/Message');
 const Contact = require('./contact');
 
 const GROUP = 'group';

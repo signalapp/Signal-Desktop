@@ -614,15 +614,6 @@ export function reducer(
       return state;
     }
 
-    if (selectedConversation === id) {
-      // Inbox -> Archived: no conversation is selected
-      // Note: With today's stacked converastions architecture, this can result in weird
-      //   behavior - no selected conversation in the left pane, but a conversation show
-      //   in the right pane.
-      // if (!existing.isArchived && data.isArchived) {
-      //   selectedConversation = undefined;
-      // }
-    }
     return {
       ...state,
       selectedConversation,

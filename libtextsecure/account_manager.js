@@ -9,7 +9,6 @@
   dcodeIO,
   StringView,
   Event,
-  Whisper
 */
 
 /* eslint-disable more/no-then */

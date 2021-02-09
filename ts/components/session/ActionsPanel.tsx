@@ -148,7 +148,16 @@ class ActionsPanelPrivate extends React.Component<Props> {
   }
 
   public render(): JSX.Element {
-    const { selectedSection, unreadMessageCount } = this.props;
+    const {
+      selectedSection,
+      unreadMessageCount,
+      ourPrimaryConversation,
+    } = this.props;
+
+    if (!ourPrimaryConversation) {
+      window.log.warn('ActionsPanel: ourPrimaryConversation is not set');
+      return <></>;
+    }
 
     const isProfilePageSelected = selectedSection === SectionType.Profile;
     const isMessagePageSelected = selectedSection === SectionType.Message;
@@ -160,7 +169,7 @@ class ActionsPanelPrivate extends React.Component<Props> {
       <div className="module-left-pane__sections-container">
         <this.Section
           type={SectionType.Profile}
-          avatarPath={this.props.ourPrimaryConversation.avatarPath}
+          avatarPath={ourPrimaryConversation.avatarPath}
           isSelected={isProfilePageSelected}
           onSelect={this.handleSectionSelect}
         />

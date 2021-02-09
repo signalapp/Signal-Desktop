@@ -1,5 +1,3 @@
-/* global Whisper */
-
 'use strict';
 
 const attributes = {
@@ -16,6 +14,8 @@ describe('MessageCollection', () => {
   before(async () => {
     await clearDatabase();
     window.getConversationController().reset();
+    window.textsecure.storage.user.getNumber = () =>
+      '051111111111111111111111111111111111111111111111111111111111111111';
     await window.getConversationController().load();
   });
   after(() => {

@@ -1,7 +1,5 @@
 /* global Signal: false */
-/* global Whisper: false */
 /* global _: false */
-/* global textsecure: false */
 /* global i18n: false */
 
 /* eslint-env browser */

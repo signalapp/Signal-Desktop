@@ -1,4 +1,4 @@
-/* global Signal, setTimeout, clearTimeout, getMessageController, NewReceiver */
+/* global Signal, setTimeout, clearTimeout, getMessageController, NewReceiver, models */
 
 const { isNumber, omit } = require('lodash');
 const getGuid = require('uuid/v4');
@@ -143,7 +143,7 @@ async function _runJob(job) {
     }
 
     const found = await getMessageById(messageId, {
-      Message: window.models.Message.MessageModel,
+      Message: models.Message.MessageModel,
     });
     if (!found) {
       logger.error('_runJob: Source message not found, deleting job');
@@ -227,7 +227,7 @@ async function _runJob(job) {
 async function _finishJob(message, id) {
   if (message) {
     await saveMessage(message.attributes, {
-      Message: window.models.Message.MessageModel,
+      Message: models.Message.MessageModel,
     });
     const conversation = message.getConversation();
     if (conversation) {
