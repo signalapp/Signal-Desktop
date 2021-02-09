@@ -24,6 +24,7 @@ export interface LokiAppDotNetServerInterface {
 }
 
 export interface LokiPublicChannelAPI {
+  banUser(source: string): Promise<boolean>;
   getModerators: () => Promise<Array<string>>;
   serverAPI: any;
   deleteMessages(arg0: any[]);

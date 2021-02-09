@@ -51,7 +51,7 @@ export class ConversationController {
     );
   }
   // Needed for some model setup which happens during the initial fetch() call below
-  public getUnsafe(id: string) {
+  public getUnsafe(id: string): ConversationModel | undefined {
     return this.conversations.get(id);
   }
 

@@ -142,7 +142,7 @@ export const _getLeftPaneLists = (
     }
 
     // Show loading icon while fetching messages
-    if (conversation.isPublic && !conversation.timestamp) {
+    if (conversation.isPublic && !conversation.activeAt) {
       conversation.lastMessage = {
         status: 'sending',
         text: '',

@@ -13,9 +13,8 @@ describe('state/selectors/conversations', () => {
       const data: ConversationLookupType = {
         id1: {
           id: 'id1',
-          activeAt: Date.now(),
+          activeAt: 0,
           name: 'No timestamp',
-          timestamp: 0,
           phoneNumber: 'notused',
 
           type: 'direct',
@@ -30,9 +29,8 @@ describe('state/selectors/conversations', () => {
         },
         id2: {
           id: 'id2',
-          activeAt: Date.now(),
+          activeAt: 20,
           name: 'B',
-          timestamp: 20,
           phoneNumber: 'notused',
 
           type: 'direct',
@@ -47,9 +45,8 @@ describe('state/selectors/conversations', () => {
         },
         id3: {
           id: 'id3',
-          activeAt: Date.now(),
+          activeAt: 20,
           name: 'C',
-          timestamp: 20,
           phoneNumber: 'notused',
 
           type: 'direct',
@@ -64,9 +61,8 @@ describe('state/selectors/conversations', () => {
         },
         id4: {
           id: 'id4',
-          activeAt: Date.now(),
+          activeAt: 20,
           name: 'Á',
-          timestamp: 20,
           phoneNumber: 'notused',
           type: 'direct',
           isMe: false,
@@ -80,9 +76,8 @@ describe('state/selectors/conversations', () => {
         },
         id5: {
           id: 'id5',
-          activeAt: Date.now(),
+          activeAt: 30,
           name: 'First!',
-          timestamp: 30,
           phoneNumber: 'notused',
           type: 'direct',
           isMe: false,

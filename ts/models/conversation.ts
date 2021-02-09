@@ -11,7 +11,7 @@ import {
   ReadReceiptMessage,
   TypingMessage,
 } from '../session/messages/outgoing';
-import { ClosedGroupChatMessage } from '../session/messages/outgoing/content/data/group';
+import { ClosedGroupChatMessage } from '../session/messages/outgoing/content/data/group/ClosedGroupChatMessage';
 import { OpenGroup, PubKey } from '../session/types';
 import { ToastUtils, UserUtils } from '../session/utils';
 import { BlockedNumberController } from '../util';
@@ -20,7 +20,7 @@ import { leaveClosedGroup } from '../session/group';
 import { SignalService } from '../protobuf';
 import { MessageCollection, MessageModel } from './message';
 import * as Data from '../../js/modules/data';
-import { MessageAttributesOptionals } from './messageType';
+import { MessageAttributesOptionals, MessageModelType } from './messageType';
 import autoBind from 'auto-bind';
 
 export interface OurLokiProfile {
@@ -160,15 +160,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       this.bouncyUpdateLastMessage.bind(this),
       1000
     );
-    // this.listenTo(
-    //   this.messageCollection,
-    //   'add remove destroy',
-    //   debouncedUpdateLastMessage
-    // );
     // Listening for out-of-band data updates
-    this.on('delivered', this.updateAndMerge);
-    this.on('read', this.updateAndMerge);
-    this.on('expiration-change', this.updateAndMerge);
     this.on('expired', this.onExpired);
 
     this.on('ourAvatarChanged', avatar =>
@@ -370,21 +362,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  public async updateAndMerge(message: any) {
-    await this.updateLastMessage();
-
-    const mergeMessage = () => {
-      const existing = this.messageCollection.get(message.id);
-      if (!existing) {
-        return;
-      }
-
-      existing.merge(message.attributes);
-    };
-
-    mergeMessage();
-  }
-
   public async onExpired(message: any) {
     await this.updateLastMessage();
 
@@ -439,16 +416,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     await model.setServerTimestamp(serverTimestamp);
     return undefined;
   }
-  public addSingleMessage(
-    message: MessageAttributesOptionals,
-    setToExpire = true
-  ) {
-    const model = this.messageCollection.add(message, { merge: true });
-    if (setToExpire) {
-      void model.setToExpire();
-    }
-    return model;
-  }
+
   public format() {
     return this.cachedProps;
   }
@@ -673,17 +641,23 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       conversationId: this.id,
     });
   }
-  public async sendMessageJob(message: any) {
+  public async sendMessageJob(message: MessageModel) {
     try {
       const uploads = await message.uploadData();
       const { id } = message;
       const expireTimer = this.get('expireTimer');
       const destination = this.id;
 
+      const sentAt = message.get('sent_at');
+
+      if (!sentAt) {
+        throw new Error('sendMessageJob() sent_at must be set.');
+      }
+
       const chatMessage = new ChatMessage({
         body: uploads.body,
         identifier: id,
-        timestamp: message.get('sent_at'),
+        timestamp: sentAt,
         attachments: uploads.attachments,
         expireTimer,
         preview: uploads.preview,
@@ -696,7 +670,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
         const openGroupParams = {
           body: uploads.body,
-          timestamp: message.get('sent_at'),
+          timestamp: sentAt,
           group: openGroup,
           attachments: uploads.attachments,
           preview: uploads.preview,
@@ -716,7 +690,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           const groupInvitation = message.get('groupInvitation');
           const groupInvitMessage = new GroupInvitationMessage({
             identifier: id,
-            timestamp: message.get('sent_at'),
+            timestamp: sentAt,
             serverName: groupInvitation.name,
             channelId: groupInvitation.channelId,
             serverAddress: groupInvitation.address,
@@ -767,6 +741,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.clearTypingTimers();
 
     const destination = this.id;
+    const isPrivate = this.isPrivate();
     const expireTimer = this.get('expireTimer');
     const recipients = this.getRecipients();
 
@@ -808,27 +783,15 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const attributes: MessageAttributesOptionals = {
       ...messageWithSchema,
       groupInvitation,
-      id: window.getGuid(),
       conversationId: this.id,
+      destination: isPrivate ? destination : undefined,
     };
 
-    const model = this.addSingleMessage(attributes);
-    MessageController.getInstance().register(model.id, model);
+    const model = await this.addSingleMessage(attributes);
 
-    const id = await model.commit();
-    model.set({ id });
-
-    if (this.isPrivate()) {
-      model.set({ destination });
-    }
     if (this.isPublic()) {
       await model.setServerTimestamp(new Date().getTime());
     }
-
-    window.Whisper.events.trigger('messageAdded', {
-      conversationKey: this.id,
-      messageModel: model,
-    });
 
     this.set({
       lastMessage: model.getNotificationText(),
@@ -912,7 +875,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public async updateExpirationTimer(
     providedExpireTimer: any,
     providedSource?: string,
-    receivedAt?: number,
+    receivedAt?: number, // is set if it comes from outside
     options: any = {}
   ) {
     let expireTimer = providedExpireTimer;
@@ -936,6 +899,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       source,
     });
 
+    const isOutgoing = Boolean(receivedAt);
+
     source = source || UserUtils.getOurPubKeyStrFromCache();
 
     // When we add a disappearing messages notification to the conversation, we want it
@@ -943,9 +908,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const timestamp = (receivedAt || Date.now()) - 1;
 
     this.set({ expireTimer });
-    await this.commit();
 
-    const message = new MessageModel({
+    const messageAttributes = {
       // Even though this isn't reflected to the user, we want to place the last seen
       //   indicator above it. We set it to 'unread' to trigger that placement.
       unread: true,
@@ -961,23 +925,14 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         fromGroupUpdate: options.fromGroupUpdate,
       },
       expireTimer: 0,
-      type: 'incoming',
-    });
+      type: isOutgoing ? 'outgoing' : ('incoming' as MessageModelType),
+      destination: this.id,
+      recipients: isOutgoing ? this.getRecipients() : undefined,
+    };
 
-    message.set({ destination: this.id });
+    const message = await this.addSingleMessage(messageAttributes);
 
-    if (message.isOutgoing()) {
-      message.set({ recipients: this.getRecipients() });
-    }
-
-    const id = await message.commit();
-
-    message.set({ id });
-    window.Whisper.events.trigger('messageAdded', {
-      conversationKey: this.id,
-      messageModel: message,
-    });
-
+    // tell the UI this conversation was updated
     await this.commit();
 
     // if change was made remotely, don't send it to the number/group
@@ -991,7 +946,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     const expireUpdate = {
-      identifier: id,
+      identifier: message.id,
       timestamp,
       expireTimer,
       profileKey,
@@ -1008,13 +963,16 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return message.sendSyncMessageOnly(expirationTimerMessage);
     }
 
-    if (this.get('type') === 'private') {
+    if (this.isPrivate()) {
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(
         expireUpdate
       );
       const pubkey = new PubKey(this.get('id'));
       await getMessageQueue().sendToPubKey(pubkey, expirationTimerMessage);
     } else {
+      window.log.warn(
+        'TODO: Expiration update for closed groups are to be updated'
+      );
       const expireUpdateForGroup = {
         ...expireUpdate,
         groupId: this.get('id'),
@@ -1023,22 +981,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(
         expireUpdateForGroup
       );
-      // special case when we are the only member of a closed group
-      const ourNumber = UserUtils.getOurPubKeyStrFromCache();
 
-      if (
-        this.get('members').length === 1 &&
-        this.get('members')[0] === ourNumber
-      ) {
-        return message.sendSyncMessageOnly(expirationTimerMessage);
-      }
       await getMessageQueue().sendToGroup(expirationTimerMessage);
     }
     return message;
-  }
-
-  public isSearchable() {
-    return !this.get('left');
   }
 
   public async commit() {
@@ -1048,27 +994,33 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.trigger('change', this);
   }
 
-  public async addMessage(messageAttributes: MessageAttributesOptionals) {
+  public async addSingleMessage(
+    messageAttributes: MessageAttributesOptionals,
+    setToExpire = true
+  ) {
     const model = new MessageModel(messageAttributes);
 
     const messageId = await model.commit();
     model.set({ id: messageId });
+
+    if (setToExpire) {
+      await model.setToExpire();
+    }
+    MessageController.getInstance().register(messageId, model);
+
     window.Whisper.events.trigger('messageAdded', {
       conversationKey: this.id,
       messageModel: model,
     });
+
     return model;
   }
 
   public async leaveGroup() {
-    if (this.get('type') !== ConversationType.GROUP) {
-      window.log.error('Cannot leave a non-group conversation');
-      return;
-    }
-
     if (this.isMediumGroup()) {
       await leaveClosedGroup(this.id);
     } else {
+      window.log.error('Cannot leave a non-medium group conversation');
       throw new Error(
         'Legacy group are not supported anymore. You need to create this group again.'
       );

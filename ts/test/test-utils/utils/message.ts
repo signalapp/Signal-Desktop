@@ -5,7 +5,7 @@ import {
 import { v4 as uuid } from 'uuid';
 import { OpenGroup } from '../../../session/types';
 import { generateFakePubKey, generateFakePubKeys } from './pubkey';
-import { ClosedGroupChatMessage } from '../../../session/messages/outgoing/content/data/group';
+import { ClosedGroupChatMessage } from '../../../session/messages/outgoing/content/data/group/ClosedGroupChatMessage';
 import { ConversationAttributes } from '../../../models/conversation';
 
 export function generateChatMessage(identifier?: string): ChatMessage {

@@ -194,7 +194,7 @@ export async function addUpdateMessage(
 
   const unread = type === 'incoming';
 
-  const message = await convo.addMessage({
+  const message = await convo.addSingleMessage({
     conversationId: convo.get('id'),
     type,
     sent_at: now,
@@ -340,7 +340,7 @@ export async function leaveClosedGroup(groupId: string) {
   convo.set({ groupAdmins: admins });
   await convo.commit();
 
-  const dbMessage = await convo.addMessage({
+  const dbMessage = await convo.addSingleMessage({
     group_update: { left: 'You' },
     conversationId: groupId,
     type: 'outgoing',

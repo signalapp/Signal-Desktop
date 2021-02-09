@@ -13,6 +13,8 @@ export type MessageDeliveryStatus =
   | 'error';
 
 export interface MessageAttributes {
+  // the id of the message
+  // this can have several uses:
   id: string;
   source: string;
   quote?: any;

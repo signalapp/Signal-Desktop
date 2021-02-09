@@ -11,7 +11,7 @@ import {
   DataMessage,
   OpenGroupMessage,
 } from '../../ts/session/messages/outgoing';
-import { ClosedGroupChatMessage } from '../../ts/session/messages/outgoing/content/data/group';
+import { ClosedGroupChatMessage } from '../../ts/session/messages/outgoing/content/data/group/ClosedGroupChatMessage';
 import { EncryptionType, PubKey } from '../../ts/session/types';
 import { ToastUtils, UserUtils } from '../../ts/session/utils';
 import {
@@ -41,9 +41,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       );
     }
 
-    this.on('destroy', this.onDestroy);
-    this.on('change:expirationStartTimestamp', this.setToExpire);
-    this.on('change:expireTimer', this.setToExpire);
     // this.on('expired', this.onExpired);
     void this.setToExpire();
     autoBind(this);
@@ -674,7 +671,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       ? [this.get('source')]
       : _.union(
           this.get('sent_to') || [],
-          this.get('recipients') || this.getConversation().getRecipients()
+          this.get('recipients') ||
+            this.getConversation()?.getRecipients() ||
+            []
         );
 
     // This will make the error message for outgoing key errors a bit nicer
@@ -750,8 +749,20 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       resolve: async () => {
         const source = this.get('source');
         const conversation = this.getConversation();
+        if (!conversation) {
+          window.log.info(
+            'cannot ban user, the corresponding conversation was not found.'
+          );
+          return;
+        }
 
         const channelAPI = await conversation.getPublicSendData();
+        if (!channelAPI) {
+          window.log.info(
+            'cannot ban user, the corresponding channelAPI was not found.'
+          );
+          return;
+        }
         const success = await channelAPI.banUser(source);
 
         if (success) {
@@ -805,7 +816,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     const conversation = this.getConversation();
     const openGroup =
-      conversation && conversation.isPublic() && conversation.toOpenGroup();
+      (conversation && conversation.isPublic() && conversation.toOpenGroup()) ||
+      undefined;
 
     const { AttachmentUtils } = Utils;
     const [attachments, preview, quote] = await Promise.all([
@@ -836,9 +848,12 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     await this.commit();
     try {
       const conversation = this.getConversation();
-      const intendedRecipients = this.get('recipients') || [];
-      const successfulRecipients = this.get('sent_to') || [];
-      const currentRecipients = conversation.getRecipients();
+      if (!conversation) {
+        window.log.info(
+          'cannot retry send message, the corresponding conversation was not found.'
+        );
+        return;
+      }
 
       if (conversation.isPublic()) {
         const openGroup = {
@@ -858,19 +873,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         return getMessageQueue().sendToGroup(openGroupMessage);
       }
 
-      let recipients = _.intersection(intendedRecipients, currentRecipients);
-      recipients = recipients.filter(
-        key => !successfulRecipients.includes(key)
-      );
-
-      if (!recipients.length) {
-        window.log.warn('retrySend: Nobody to send to!');
-
-        return this.commit();
-      }
-
       const { body, attachments, preview, quote } = await this.uploadData();
-      const ourNumber = window.storage.get('primaryDevicePubKey');
+      const ourNumber = UserUtils.getOurPubKeyStrFromCache();
       const ourConversation = ConversationController.getInstance().get(
         ourNumber
       );
@@ -893,86 +897,33 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       const chatMessage = new ChatMessage(chatParams);
 
       // Special-case the self-send case - we send only a sync message
-      if (recipients.length === 1) {
-        const isOurDevice = UserUtils.isUsFromCache(recipients[0]);
-        if (isOurDevice) {
-          return this.sendSyncMessageOnly(chatMessage);
-        }
-      }
-
-      if (conversation.isPrivate()) {
-        const [number] = recipients;
-        const recipientPubKey = new PubKey(number);
-
-        return getMessageQueue().sendToPubKey(recipientPubKey, chatMessage);
-      }
-
-      // TODO should we handle medium groups message here too?
-      // Not sure there is the concept of retrySend for those
-      const closedGroupChatMessage = new ClosedGroupChatMessage({
-        identifier: this.id,
-        chatMessage,
-        groupId: this.get('conversationId'),
-      });
-      // Because this is a partial group send, we send the message with the groupId field set, but individually
-      // to each recipient listed
-      return Promise.all(
-        recipients.map(async r => {
-          const recipientPubKey = new PubKey(r);
-          return getMessageQueue().sendToPubKey(
-            recipientPubKey,
-            closedGroupChatMessage
-          );
-        })
-      );
-    } catch (e) {
-      await this.saveErrors(e);
-      return null;
-    }
-  }
-
-  // Called when the user ran into an error with a specific user, wants to send to them
-  public async resend(number: string) {
-    const error = this.removeOutgoingErrors(number);
-    if (!error) {
-      window.log.warn('resend: requested number was not present in errors');
-      return null;
-    }
-
-    try {
-      const { body, attachments, preview, quote } = await this.uploadData();
-
-      const chatMessage = new ChatMessage({
-        identifier: this.id,
-        body,
-        timestamp: this.get('sent_at') || Date.now(),
-        expireTimer: this.get('expireTimer'),
-        attachments,
-        preview,
-        quote,
-      });
-
-      // Special-case the self-send case - we send only a sync message
-      if (UserUtils.isUsFromCache(number)) {
+      if (conversation.isMe()) {
         return this.sendSyncMessageOnly(chatMessage);
       }
 
-      const conversation = this.getConversation();
-      const recipientPubKey = new PubKey(number);
-
       if (conversation.isPrivate()) {
-        return getMessageQueue().sendToPubKey(recipientPubKey, chatMessage);
+        return getMessageQueue().sendToPubKey(
+          PubKey.cast(conversation.id),
+          chatMessage
+        );
+      }
+
+      // Here, the convo is neither an open group, a private convo or ourself. It can only be a medium group.
+      // For a medium group, retry send only means trigger a send again to all recipients
+      // as they are all polling from the same group swarm pubkey
+      if (!conversation.isMediumGroup()) {
+        throw new Error(
+          'We should only end up with a medium group here. Anything else is an error'
+        );
       }
 
       const closedGroupChatMessage = new ClosedGroupChatMessage({
+        identifier: this.id,
         chatMessage,
         groupId: this.get('conversationId'),
       });
-      // resend tries to send the message to that specific user only in the context of a closed group
-      return getMessageQueue().sendToPubKey(
-        recipientPubKey,
-        closedGroupChatMessage
-      );
+
+      return getMessageQueue().sendToGroup(closedGroupChatMessage);
     } catch (e) {
       await this.saveErrors(e);
       return null;
@@ -1085,9 +1036,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     await this.commit();
 
-    this.getConversation().updateLastMessage();
-
-    this.trigger('sent', this);
+    this.getConversation()?.updateLastMessage();
   }
 
   public async handleMessageSentFailure(sentMessage: any, error: any) {
@@ -1113,8 +1062,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     });
     await this.commit();
 
-    this.getConversation().updateLastMessage();
-    this.trigger('done');
+    this.getConversation()?.updateLastMessage();
   }
 
   public getConversation() {

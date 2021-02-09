@@ -56,7 +56,6 @@ export interface ConversationType {
   index?: number;
 
   activeAt?: number;
-  timestamp: number;
   lastMessage?: {
     status: 'error' | 'sending' | 'sent' | 'delivered' | 'read';
     text: string;
@@ -443,15 +442,26 @@ function sortMessages(
   isPublic: boolean
 ): Array<MessageTypeInConvo> {
   // we order by serverTimestamp for public convos
+  // be sure to update the sorting order to fetch messages from the DB too at getMessagesByConversation
   if (isPublic) {
     return messages.sort(
       (a: any, b: any) =>
         b.attributes.serverTimestamp - a.attributes.serverTimestamp
     );
   }
-  return messages.sort(
-    (a: any, b: any) => b.attributes.timestamp - a.attributes.timestamp
+  if (messages.some(n => !n.attributes.sent_at && !n.attributes.received_at)) {
+    throw new Error('Found some messages without any timestamp set');
+  }
+
+  // for non public convos, we order by sent_at or received_at timestamp.
+  // we assume that a message has either a sent_at or a received_at field set.
+  const messagesSorted = messages.sort(
+    (a: any, b: any) =>
+      (b.attributes.sent_at || b.attributes.received_at) -
+      (a.attributes.sent_at || a.attributes.received_at)
   );
+
+  return messagesSorted;
 }
 
 function handleMessageAdded(
@@ -488,12 +498,13 @@ function handleMessageChanged(
   state: ConversationsStateType,
   action: MessageChangedActionType
 ) {
+  const { payload } = action;
   const messageInStoreIndex = state?.messages?.findIndex(
-    m => m.id === action.payload.id
+    m => m.id === payload.id
   );
   if (messageInStoreIndex >= 0) {
     const changedMessage = _.pick(
-      action.payload as any,
+      payload as any,
       toPickFromMessageModel
     ) as MessageTypeInConvo;
     // we cannot edit the array directly, so slice the first part, insert our edited message, and slice the second part
@@ -503,7 +514,10 @@ function handleMessageChanged(
       ...state.messages.slice(messageInStoreIndex + 1),
     ];
 
+    const convo = state.conversationLookup[payload.get('conversationId')];
+    const isPublic = convo?.isPublic || false;
     // reorder the messages depending on the timestamp (we might have an updated serverTimestamp now)
+    const sortedMessage = sortMessages(editedMessages, isPublic);
     const updatedWithFirstMessageOfSeries = updateFirstMessageOfSeries(
       editedMessages
     );

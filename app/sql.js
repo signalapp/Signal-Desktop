@@ -2472,6 +2472,8 @@ async function getUnreadCountByConversation(conversationId) {
 }
 
 // Note: Sorting here is necessary for getting the last message (with limit 1)
+// be sure to update the sorting order to sort messages on reduxz too (sortMessages
+
 async function getMessagesByConversation(
   conversationId,
   { limit = 100, receivedAt = Number.MAX_VALUE, type = '%' } = {}
@@ -2482,7 +2484,7 @@ async function getMessagesByConversation(
       conversationId = $conversationId AND
       received_at < $received_at AND
       type LIKE $type
-      ORDER BY serverTimestamp DESC, serverId DESC, sent_at DESC
+      ORDER BY serverTimestamp DESC, serverId DESC, sent_at DESC, received_at DESC
     LIMIT $limit;
     `,
     {

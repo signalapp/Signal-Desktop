@@ -88,11 +88,6 @@
 
           const force = true;
           await message.setToExpire(force);
-
-          const conversation = message.getConversation();
-          if (conversation) {
-            conversation.trigger('expiration-change', message);
-          }
         }
 
         this.remove(receipt);
