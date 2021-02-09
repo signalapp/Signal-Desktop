@@ -19,6 +19,7 @@ import { ClosedGroupMessage } from '../../../../session/messages/outgoing/conten
 
 import chaiAsPromised from 'chai-as-promised';
 chai.use(chaiAsPromised as any);
+chai.should();
 
 const { expect } = chai;
 
