@@ -1,3 +1,4 @@
+// tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as _ from 'lodash';
@@ -17,7 +18,7 @@ describe('PendingMessageCache', () => {
   let data: StorageItem;
   let pendingMessageCacheStub: PendingMessageCache;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     // Stub out methods which touch the database
     const storageID = 'pendingMessages';
     data = {

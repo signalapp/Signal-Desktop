@@ -824,7 +824,7 @@ export class SessionConversation extends React.Component<Props, State> {
     }
   }
 
-  private async showMessageDetails(messageProps: any) {
+  private showMessageDetails(messageProps: any) {
     messageProps.onDeleteMessage = async (id: string) => {
       await this.deleteMessagesById([id], false);
       this.setState({ messageDetailShowProps: undefined });

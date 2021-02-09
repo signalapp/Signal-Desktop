@@ -52,7 +52,7 @@ export class SwarmPolling {
     this.lastHashes = {};
   }
 
-  public async start(): Promise<void> {
+  public start(): void {
     this.loadGroupIds();
     void this.pollForAllKeys();
   }

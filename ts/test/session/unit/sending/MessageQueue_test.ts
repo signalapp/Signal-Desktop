@@ -1,3 +1,5 @@
+// tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
+
 import chai from 'chai';
 import * as sinon from 'sinon';
 import _ from 'lodash';
@@ -15,9 +17,8 @@ import { MessageSender } from '../../../../session/sending';
 import { PendingMessageCacheStub } from '../../../test-utils/stubs';
 import { ClosedGroupMessage } from '../../../../session/messages/outgoing/content/data/group/ClosedGroupMessage';
 
-// tslint:disable-next-line: no-require-imports no-var-requires
-const chaiAsPromised = require('chai-as-promised');
-chai.use(chaiAsPromised);
+import chaiAsPromised from 'chai-as-promised';
+chai.use(chaiAsPromised as any);
 
 const { expect } = chai;
 
@@ -35,7 +36,7 @@ describe('MessageQueue', () => {
   // Message Sender Stubs
   let sendStub: sinon.SinonStub<[RawMessage, (number | undefined)?]>;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     // Utils Stubs
     sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
 
@@ -65,7 +66,8 @@ describe('MessageQueue', () => {
         messageQueueStub.events.once('sendSuccess', done);
       });
       await messageQueueStub.processPending(device);
-      await expect(successPromise).to.be.fulfilled;
+      // tslint:disable-next-line: no-unused-expression
+      expect(successPromise).to.eventually.be.fulfilled;
     });
 
     it('should remove message from cache', async () => {
@@ -88,7 +90,7 @@ describe('MessageQueue', () => {
           const messages = await pendingMessageCache.getForDevice(device);
           return messages.length === 0;
         });
-        await expect(promise).to.be.fulfilled;
+        return promise.should.be.fulfilled;
       }
     }).timeout(15000);
 
@@ -105,7 +107,6 @@ describe('MessageQueue', () => {
         });
 
         await messageQueueStub.processPending(device);
-        await expect(eventPromise).to.be.fulfilled;
 
         const rawMessage = await eventPromise;
         expect(rawMessage.identifier).to.equal(message.identifier);
@@ -130,7 +131,6 @@ describe('MessageQueue', () => {
         });
 
         await messageQueueStub.processPending(device);
-        await expect(eventPromise).to.be.fulfilled;
 
         const [rawMessage, error] = await eventPromise;
         expect(rawMessage.identifier).to.equal(message.identifier);
@@ -166,7 +166,7 @@ describe('MessageQueue', () => {
   });
 
   describe('sendToGroup', () => {
-    it('should throw an error if invalid non-group message was passed', async () => {
+    it('should throw an error if invalid non-group message was passed', () => {
       // const chatMessage = TestUtils.generateChatMessage();
       // await expect(
       //   messageQueueStub.sendToGroup(chatMessage)
@@ -174,7 +174,7 @@ describe('MessageQueue', () => {
       // Cannot happen with typescript as this function only accept group message now
     });
 
-    describe('closed groups', async () => {
+    describe('closed groups', () => {
       it('can send to closed group', async () => {
         const members = TestUtils.generateFakePubKeys(4).map(
           p => new PubKey(p.key)
@@ -194,7 +194,7 @@ describe('MessageQueue', () => {
         );
       });
 
-      describe('open groups', async () => {
+      describe('open groups', () => {
         let sendToOpenGroupStub: sinon.SinonStub<
           [OpenGroupMessage],
           Promise<{ serverId: number; serverTimestamp: number }>
@@ -223,7 +223,7 @@ describe('MessageQueue', () => {
           }, 2000);
 
           await messageQueueStub.sendToGroup(message);
-          await expect(eventPromise).to.be.fulfilled;
+          return eventPromise.should.be.fulfilled;
         });
 
         it('should emit a fail event if something went wrong', async () => {
@@ -234,7 +234,7 @@ describe('MessageQueue', () => {
           }, 2000);
 
           await messageQueueStub.sendToGroup(message);
-          await expect(eventPromise).to.be.fulfilled;
+          return eventPromise.should.be.fulfilled;
         });
       });
     });

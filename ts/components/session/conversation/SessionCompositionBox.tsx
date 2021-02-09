@@ -520,7 +520,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     }
     if (firstLink !== this.state.stagedLinkPreview?.url) {
       // trigger fetching of link preview data and image
-      void this.fetchLinkPreview(firstLink);
+      this.fetchLinkPreview(firstLink);
     }
 
     // if the fetch did not start yet, just don't show anything
@@ -553,7 +553,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     return <></>;
   }
 
-  private async fetchLinkPreview(firstLink: string) {
+  private fetchLinkPreview(firstLink: string) {
     // mark the link preview as loading, no data are set yet
     this.setState({
       stagedLinkPreview: {

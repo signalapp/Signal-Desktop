@@ -310,9 +310,7 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
 }
 
 export async function leaveClosedGroup(groupId: string) {
-  const convo = ConversationController.getInstance().get(
-    groupId
-  ) as ConversationModel;
+  const convo = ConversationController.getInstance().get(groupId);
 
   if (!convo) {
     window.log.error('Cannot leave non-existing group');
@@ -334,7 +332,9 @@ export async function leaveClosedGroup(groupId: string) {
   } else {
     // otherwise, just the exclude ourself from the members and trigger an update with this
     convo.set({ left: true });
-    members = (convo.get('members') || []).filter(m => m !== ourNumber.key);
+    members = (convo.get('members') || []).filter(
+      (m: string) => m !== ourNumber.key
+    );
     admins = convo.get('groupAdmins') || [];
   }
   convo.set({ members });

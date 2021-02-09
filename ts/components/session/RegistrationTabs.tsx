@@ -131,8 +131,8 @@ export class RegistrationTabs extends React.Component<any, State> {
   }
 
   public componentDidMount() {
-    this.generateMnemonicAndKeyPair().ignore();
-    this.resetRegistration().ignore();
+    void this.generateMnemonicAndKeyPair();
+    void this.resetRegistration();
   }
 
   public render() {
@@ -345,7 +345,7 @@ export class RegistrationTabs extends React.Component<any, State> {
       <SessionButton
         onClick={() => {
           if (signUpMode === SignUpMode.Default) {
-            this.onSignUpGenerateSessionIDClick().ignore();
+            this.onSignUpGenerateSessionIDClick();
           } else {
             this.onSignUpGetStartedClick();
           }
@@ -357,7 +357,7 @@ export class RegistrationTabs extends React.Component<any, State> {
     );
   }
 
-  private async onSignUpGenerateSessionIDClick() {
+  private onSignUpGenerateSessionIDClick() {
     this.setState(
       {
         signUpMode: SignUpMode.SessionIDShown,
@@ -375,7 +375,7 @@ export class RegistrationTabs extends React.Component<any, State> {
   }
 
   private onCompleteSignUpClick() {
-    this.register('english').ignore();
+    void this.register('english');
   }
 
   private renderSignIn() {
@@ -541,7 +541,7 @@ export class RegistrationTabs extends React.Component<any, State> {
 
   private handleContinueYourSessionClick() {
     if (this.state.signInMode === SignInMode.UsingRecoveryPhrase) {
-      this.register('english').ignore();
+      void this.register('english');
     }
   }
 

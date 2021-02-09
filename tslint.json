@@ -7,40 +7,31 @@
     "align": false,
     "newline-per-chained-call": false,
     "array-type": [true, "generic"],
-
     // Preferred by Prettier:
     "arrow-parens": [true, "ban-single-arg-parens"],
-
     "import-spacing": false,
     "indent": [true, "spaces", 2],
     "interface-name": [true, "never-prefix"],
-
     // Allows us to write inline `style`s. Revisit when we have a more sophisticated
     // CSS-in-JS solution:
     "jsx-no-multiline-js": false,
-
     // We'll make tradeoffs where appropriate
     "jsx-no-lambda": false,
     "react-this-binding-issue": false,
-
     "linebreak-style": [true, "LF"],
-
     // Prettier handles this for us
     "max-line-length": false,
-
     "mocha-avoid-only": true,
     // Disabled until we can allow dynamically generated tests:
     // https://github.com/Microsoft/tslint-microsoft-contrib/issues/85#issuecomment-371749352
     "mocha-no-side-effect-code": false,
     "mocha-unneeded-done": true,
-
     // We always want 'as Type'
     "no-angle-bracket-type-assertion": true,
-
     "no-consecutive-blank-lines": [true, 2],
     "object-literal-key-quotes": [true, "as-needed"],
     "object-literal-sort-keys": false,
-
+    "no-async-without-await": true,
     // Ignore import sources order until we can specify that we want ordering
     // based on import name vs module name:
     "ordered-imports": [
@@ -50,7 +41,6 @@
         "named-imports-order": "case-insensitive"
       }
     ],
-
     "quotemark": [
       true,
       "single",
@@ -58,10 +48,8 @@
       "avoid-template",
       "avoid-escape"
     ],
-
     // Preferred by Prettier:
     "semicolon": [true, "always", "ignore-bound-class-methods"],
-
     // Preferred by Prettier:
     "trailing-comma": [
       true,
@@ -76,11 +64,8 @@
         "esSpecCompliant": true
       }
     ],
-
     // Disabling a large set of Microsoft-recommended rules
-
     // Modifying:
-
     // React components and namespaces are Pascal case
     "variable-name": [
       true,
@@ -88,7 +73,6 @@
       "allow-leading-underscore",
       "allow-pascal-case"
     ],
-
     "function-name": [
       true,
       {
@@ -99,12 +83,9 @@
         "static-method-regex": "^[a-zA-Z][\\w\\d]+$"
       }
     ],
-
     // Adding select dev dependencies here for now, may turn on all in the future
     "no-implicit-dependencies": [true, ["dashdash", "electron"]],
-
     // Maybe will turn on:
-
     // We're not trying to be comprehensive with JSDoc right now. We have the style guide.
     "completed-docs": false,
     // Today we have files with a single named export which isn't the filename. Eventually.
@@ -121,9 +102,7 @@
     "no-unsafe-any": false,
     // Not everything needs to be typed right now
     "typedef": false,
-
     // Probably won't turn on:
-
     "possible-timing-attack": false,
     // We use null
     "no-null-keyword": false,

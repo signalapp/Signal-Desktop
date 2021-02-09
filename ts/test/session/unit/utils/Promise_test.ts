@@ -1,11 +1,13 @@
+// tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
+
 import chai from 'chai';
 import * as sinon from 'sinon';
 
 import { PromiseUtils } from '../../../../session/utils';
 
 // tslint:disable-next-line: no-require-imports no-var-requires
-const chaiAsPromised = require('chai-as-promised');
-chai.use(chaiAsPromised);
+import chaiAsPromised from 'chai-as-promised';
+chai.use(chaiAsPromised as any);
 
 const { expect } = chai;
 
@@ -49,20 +51,20 @@ describe('Promise Utils', () => {
       };
 
       const promise = PromiseUtils.poll(task, {});
+      await promise;
 
-      await expect(promise).to.be.fulfilled;
       expect(pollSpy.callCount).to.equal(1);
       expect(completionSpy.callCount).to.equal(1);
     });
 
-    it('can timeout a task', async () => {
+    it('can timeout a task', () => {
       // completionSpy will be called on done
       const completionSpy = sandbox.spy();
       const task = (_done: any) => undefined;
 
       const promise = PromiseUtils.poll(task, { timeoutMs: 1 });
 
-      await expect(promise).to.be.rejectedWith('Periodic check timeout');
+      promise.should.eventually.be.rejectedWith('Periodic check timeout');
       expect(pollSpy.callCount).to.equal(1);
       expect(completionSpy.callCount).to.equal(0);
     });
@@ -83,8 +85,8 @@ describe('Promise Utils', () => {
       };
 
       const promise = PromiseUtils.poll(task, { timeoutMs: timeout, interval });
+      await promise;
 
-      await expect(promise).to.be.fulfilled;
       expect(pollSpy.callCount).to.equal(1);
       expect(recurrenceSpy.callCount).to.equal(expectedRecurrences);
     });
@@ -103,19 +105,19 @@ describe('Promise Utils', () => {
 
       const promise = PromiseUtils.waitForTask(task);
 
-      await expect(promise).to.be.fulfilled;
+      await promise;
       expect(waitForTaskSpy.callCount).to.equal(1);
       expect(completionSpy.callCount).to.equal(1);
     });
 
-    it('can timeout a task', async () => {
+    it('can timeout a task', () => {
       // completionSpy will be called on done
       const completionSpy = sandbox.spy();
       const task = async (_done: any) => undefined;
 
       const promise = PromiseUtils.waitForTask(task, 1);
 
-      await expect(promise).to.be.rejectedWith('Task timed out.');
+      promise.should.eventually.be.rejectedWith('Task timed out.');
       expect(waitForTaskSpy.callCount).to.equal(1);
       expect(completionSpy.callCount).to.equal(0);
     });
@@ -125,16 +127,16 @@ describe('Promise Utils', () => {
     it('can wait for check', async () => {
       const check = () => true;
       const promise = PromiseUtils.waitUntil(check);
+      await promise;
 
-      await expect(promise).to.be.fulfilled;
       expect(waitUntilSpy.callCount).to.equal(1);
     });
 
-    it('can timeout a check', async () => {
+    it('can timeout a check', () => {
       const check = () => false;
       const promise = PromiseUtils.waitUntil(check, 1);
 
-      await expect(promise).to.be.rejectedWith('Periodic check timeout');
+      promise.should.eventually.be.rejectedWith('Periodic check timeout');
       expect(waitUntilSpy.callCount).to.equal(1);
     });
   });

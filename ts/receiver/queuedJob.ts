@@ -115,7 +115,7 @@ async function copyFromQuotedMessage(
         window.log.info(
           `Looking for the message id : ${id}, attempt: ${attemptCount + 1}`
         );
-        copyFromQuotedMessage(msg, quote, attemptCount + 1).ignore();
+        void copyFromQuotedMessage(msg, quote, attemptCount + 1);
       }, attemptCount * attemptCount * 500);
     } else {
       window.log.warn(

@@ -69,23 +69,23 @@ class SessionRightPanel extends React.Component<Props, State> {
   }
 
   public componentWillMount() {
-    this.getMediaGalleryProps()
-      .then(({ documents, media, onItemClick }) => {
+    void this.getMediaGalleryProps().then(
+      ({ documents, media, onItemClick }) => {
         this.setState({
           documents,
           media,
           onItemClick,
         });
-      })
-      .ignore();
+      }
+    );
   }
 
   public componentDidUpdate() {
     const mediaScanInterval = 1000;
 
     setTimeout(() => {
-      this.getMediaGalleryProps()
-        .then(({ documents, media, onItemClick }) => {
+      void this.getMediaGalleryProps().then(
+        ({ documents, media, onItemClick }) => {
           const { documents: oldDocs, media: oldMedias } = this.state;
           if (
             oldDocs.length !== documents.length ||
@@ -97,8 +97,8 @@ class SessionRightPanel extends React.Component<Props, State> {
               onItemClick,
             });
           }
-        })
-        .ignore();
+        }
+      );
     }, mediaScanInterval);
   }
 
@@ -193,7 +193,7 @@ class SessionRightPanel extends React.Component<Props, State> {
       }
     );
 
-    const saveAttachment = async ({ attachment, message }: any = {}) => {
+    const saveAttachment = ({ attachment, message }: any = {}) => {
       const timestamp = message.received_at;
       save({
         attachment,
@@ -203,10 +203,10 @@ class SessionRightPanel extends React.Component<Props, State> {
       });
     };
 
-    const onItemClick = async ({ message, attachment, type }: any) => {
+    const onItemClick = ({ message, attachment, type }: any) => {
       switch (type) {
         case 'documents': {
-          saveAttachment({ message, attachment }).ignore();
+          saveAttachment({ message, attachment });
           break;
         }
 

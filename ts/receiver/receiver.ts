@@ -52,7 +52,7 @@ class EnvelopeQueue {
   // Last pending promise
   private pending: Promise<any> = Promise.resolve();
 
-  public async add(task: any): Promise<any> {
+  public add(task: any): void {
     this.count += 1;
     const promise = this.pending.then(task, task);
     this.pending = promise;
@@ -85,16 +85,16 @@ function queueEnvelope(envelope: EnvelopePlus) {
     `queueEnvelope ${id}`
   );
 
-  const promise = envelopeQueue.add(taskWithTimeout);
-
-  promise.catch((error: any) => {
+  try {
+    envelopeQueue.add(taskWithTimeout);
+  } catch (error) {
     window.log.error(
       'queueEnvelope error handling envelope',
       id,
       ':',
       error && error.stack ? error.stack : error
     );
-  });
+  }
 }
 
 async function handleRequestDetail(
@@ -154,10 +154,7 @@ async function handleRequestDetail(
   }
 }
 
-export async function handleRequest(
-  body: any,
-  options: ReqOptions
-): Promise<void> {
+export function handleRequest(body: any, options: ReqOptions): void {
   // tslint:disable-next-line no-promise-as-boolean
   const lastPromise = _.last(incomingMessagePromises) || Promise.resolve();
 
@@ -210,7 +207,7 @@ async function queueCached(item: any) {
     if (decrypted) {
       const payloadPlaintext = StringUtils.encode(decrypted, 'base64');
 
-      await queueDecryptedEnvelope(envelope, payloadPlaintext);
+      queueDecryptedEnvelope(envelope, payloadPlaintext);
     } else {
       queueEnvelope(envelope);
     }
@@ -236,7 +233,7 @@ async function queueCached(item: any) {
   }
 }
 
-async function queueDecryptedEnvelope(envelope: any, plaintext: ArrayBuffer) {
+function queueDecryptedEnvelope(envelope: any, plaintext: ArrayBuffer) {
   const id = getEnvelopeId(envelope);
   window.log.info('queueing decrypted envelope', id);
 
@@ -245,14 +242,14 @@ async function queueDecryptedEnvelope(envelope: any, plaintext: ArrayBuffer) {
     task,
     `queueEncryptedEnvelope ${id}`
   );
-  const promise = envelopeQueue.add(taskWithTimeout);
-
-  return promise.catch(error => {
+  try {
+    envelopeQueue.add(taskWithTimeout);
+  } catch (error) {
     window.log.error(
       `queueDecryptedEnvelope error handling envelope ${id}:`,
       error && error.stack ? error.stack : error
     );
-  });
+  }
 }
 
 async function handleDecryptedEnvelope(

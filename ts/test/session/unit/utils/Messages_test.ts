@@ -17,9 +17,9 @@ import {
 import { MockConversation } from '../../../test-utils/utils';
 import { ConfigurationMessage } from '../../../../session/messages/outgoing/content/ConfigurationMessage';
 import { ConversationModel } from '../../../../models/conversation';
-// tslint:disable-next-line: no-require-imports no-var-requires
-const chaiAsPromised = require('chai-as-promised');
-chai.use(chaiAsPromised);
+
+import chaiAsPromised from 'chai-as-promised';
+chai.use(chaiAsPromised as any);
 
 const { expect } = chai;
 

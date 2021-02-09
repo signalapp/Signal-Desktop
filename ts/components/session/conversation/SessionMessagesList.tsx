@@ -41,7 +41,7 @@ interface Props {
     count: number;
   }) => void;
   replyToMessage: (messageId: number) => Promise<void>;
-  showMessageDetails: (messageProps: any) => Promise<void>;
+  showMessageDetails: (messageProps: any) => void;
   onClickAttachment: (attachment: any, message: any) => void;
   onDownloadAttachment: ({ attachment }: { attachment: any }) => void;
   onDeleteSelectedMessages: () => Promise<void>;
@@ -326,7 +326,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
     messageProps.onReply = this.props.replyToMessage;
     messageProps.onShowDetail = async () => {
       const messageDetailsProps = await message.getPropsForMessageDetail();
-      void this.props.showMessageDetails(messageDetailsProps);
+      this.props.showMessageDetails(messageDetailsProps);
     };
 
     messageProps.onClickAttachment = (attachment: AttachmentType) => {

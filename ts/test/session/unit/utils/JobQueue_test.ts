@@ -1,11 +1,12 @@
+// tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
+
 import chai from 'chai';
 import { v4 as uuid } from 'uuid';
 import { JobQueue } from '../../../../session/utils/JobQueue';
 import { TestUtils } from '../../../test-utils';
 
-// tslint:disable-next-line: no-require-imports no-var-requires
-const chaiAsPromised = require('chai-as-promised');
-chai.use(chaiAsPromised);
+import chaiAsPromised from 'chai-as-promised';
+chai.use(chaiAsPromised as any);
 
 const { assert } = chai;
 

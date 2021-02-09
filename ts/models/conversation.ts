@@ -422,7 +422,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (!registeredMessage || !registeredMessage.message) {
       return null;
     }
-    const model = registeredMessage.message as MessageModel;
+    const model = registeredMessage.message;
     await model.setIsPublic(true);
     await model.setServerId(serverId);
     await model.setServerTimestamp(serverTimestamp);
@@ -1298,7 +1298,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
   public async setSubscriberCount(count: number) {
-    this.set({ subscriberCount: count });
+    if (this.get('subscriberCount') !== count) {
+      this.set({ subscriberCount: count });
+      await this.commit();
+    }
     // Not sure if we care about updating the database
   }
   public async setGroupNameAndAvatar(name: any, avatarPath: any) {

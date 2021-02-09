@@ -50,8 +50,8 @@ class SessionSeedModalInner extends React.Component<Props, State> {
   public render() {
     const i18n = window.i18n;
 
-    this.checkHasPassword();
-    this.getRecoveryPhrase().ignore();
+    void this.checkHasPassword();
+    void this.getRecoveryPhrase();
 
     const { onClose } = this.props;
     const { hasPassword, passwordValid } = this.state;

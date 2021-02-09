@@ -1,3 +1,5 @@
+// tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
+
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { BlockedNumberController } from '../../util/blockedNumberController';
@@ -35,7 +37,7 @@ describe('BlockedNumberController', () => {
     TestUtils.restoreStubs();
   });
 
-  describe('load', async () => {
+  describe('load', () => {
     it('should load data from the database', async () => {
       const normal = TestUtils.generateFakePubKey();
       const group = TestUtils.generateFakePubKey();
@@ -62,7 +64,7 @@ describe('BlockedNumberController', () => {
     });
   });
 
-  describe('block', async () => {
+  describe('block', () => {
     it('should block the user', async () => {
       const other = TestUtils.generateFakePubKey();
 
@@ -76,7 +78,7 @@ describe('BlockedNumberController', () => {
     });
   });
 
-  describe('unblock', async () => {
+  describe('unblock', () => {
     it('should unblock the user', async () => {
       const primary = TestUtils.generateFakePubKey();
       memoryDB.blocked = [primary.key];
@@ -103,7 +105,7 @@ describe('BlockedNumberController', () => {
     });
   });
 
-  describe('blockGroup', async () => {
+  describe('blockGroup', () => {
     it('should block a group', async () => {
       const group = TestUtils.generateFakePubKey();
 
@@ -118,7 +120,7 @@ describe('BlockedNumberController', () => {
     });
   });
 
-  describe('unblockGroup', async () => {
+  describe('unblockGroup', () => {
     it('should unblock a group', async () => {
       const group = TestUtils.generateFakePubKey();
       const another = TestUtils.generateFakePubKey();
@@ -134,7 +136,7 @@ describe('BlockedNumberController', () => {
     });
   });
 
-  describe('isBlocked', async () => {
+  describe('isBlocked', () => {
     it('should return true if number is blocked', async () => {
       const pubKey = TestUtils.generateFakePubKey();
       const groupPubKey = TestUtils.generateFakePubKey();
@@ -198,7 +200,7 @@ describe('BlockedNumberController', () => {
     });
   });
 
-  describe('isGroupBlocked', async () => {
+  describe('isGroupBlocked', () => {
     it('should return true if group is blocked', async () => {
       const pubKey = TestUtils.generateFakePubKey();
       const groupPubKey = TestUtils.generateFakePubKey();

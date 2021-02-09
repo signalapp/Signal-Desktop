@@ -165,9 +165,9 @@ describe('MessageEncrypter', () => {
           .to.deep.equal(SignalService.Envelope.Type.UNIDENTIFIED_SENDER);
       });
 
-      it('should throw an error for anything else than Fallback or ClosedGroup', async () => {
+      it('should throw an error for anything else than Fallback or ClosedGroup', () => {
         const data = crypto.randomBytes(10);
-        await expect(
+        expect(
           MessageEncrypter.encrypt(
             TestUtils.generateFakePubKey(),
             data,
@@ -182,7 +182,7 @@ describe('MessageEncrypter', () => {
   describe('Session Protocol', () => {
     let sandboxSessionProtocol: sinon.SinonSandbox;
 
-    beforeEach(async () => {
+    beforeEach(() => {
       sandboxSessionProtocol = sinon.createSandbox();
 
       sandboxSessionProtocol
