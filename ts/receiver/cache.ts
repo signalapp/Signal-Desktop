@@ -4,6 +4,7 @@ import _ from 'lodash';
 
 export async function removeFromCache(envelope: EnvelopePlus) {
   const { id } = envelope;
+  window.log.info(`removing from cache envelope: ${id}`);
 
   return window.textsecure.storage.unprocessed.remove(id);
 }

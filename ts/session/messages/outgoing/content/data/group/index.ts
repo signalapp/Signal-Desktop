@@ -1,5 +1,7 @@
 export * from './ClosedGroupChatMessage';
 export * from './ClosedGroupEncryptionPairMessage';
+export * from './ClosedGroupEncryptionPairRequestMessage';
+export * from './ClosedGroupEncryptionPairReplyMessage';
 export * from './ClosedGroupNewMessage';
 export * from './ClosedGroupAddedMembersMessage';
 export * from './ClosedGroupNameChangeMessage';

@@ -16,12 +16,16 @@ import { getLatestClosedGroupEncryptionKeyPair } from '../../../js/modules/data'
 import { UserUtils } from '.';
 import { ECKeyPair } from '../../receiver/keypairs';
 import _ from 'lodash';
+import { ClosedGroupEncryptionPairReplyMessage } from '../messages/outgoing/content/data/group/ClosedGroupEncryptionPairReplyMessage';
 
-export function getEncryptionTypeFromMessageType(
+function getEncryptionTypeFromMessageType(
   message: ContentMessage
 ): EncryptionType {
   // ClosedGroupNewMessage is sent using established channels, so using fallback
-  if (message instanceof ClosedGroupNewMessage) {
+  if (
+    message instanceof ClosedGroupNewMessage ||
+    message instanceof ClosedGroupEncryptionPairReplyMessage
+  ) {
     return EncryptionType.Fallback;
   }
 

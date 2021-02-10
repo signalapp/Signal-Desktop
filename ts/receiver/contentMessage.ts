@@ -15,6 +15,8 @@ import { ConversationController } from '../session/conversations';
 import { getAllEncryptionKeyPairsForGroup } from '../../js/modules/data';
 import { ECKeyPair } from './keypairs';
 import { handleNewClosedGroup } from './closedGroups';
+import { KeyPairRequestManager } from './keyPairRequestManager';
+import { requestEncryptionKeyPair } from '../session/group';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   try {
@@ -59,6 +61,10 @@ async function decryptForClosedGroup(
     // likely be the one we want) but try older ones in case that didn't work)
     let decryptedContent: ArrayBuffer | undefined;
     let keyIndex = 0;
+
+    // If an error happens in here, we catch it in the inner try-catch
+    // When the loop is done, we check if the decryption is a success;
+    // If not, we trigger a new Error which will trigger in the outer try-catch
     do {
       try {
         const hexEncryptionKeyPair = encryptionKeyPairs.pop();
@@ -88,7 +94,6 @@ async function decryptForClosedGroup(
     } while (encryptionKeyPairs.length > 0);
 
     if (!decryptedContent?.byteLength) {
-      await removeFromCache(envelope);
       throw new Error(
         `Could not decrypt message for closed group with any of the ${encryptionKeyPairsCount} keypairs.`
       );
@@ -105,10 +110,23 @@ async function decryptForClosedGroup(
 
     return unpad(decryptedContent);
   } catch (e) {
+    /**
+     * If an error happened during the decoding,
+     * we trigger a request to get the latest EncryptionKeyPair for this medium group.
+     * Indeed, we might not have the latest one used by someone else, or not have any keypairs for this group.
+     *
+     */
+
     window.log.warn(
       'decryptWithSessionProtocol for medium group message throw:',
       e
     );
+    const keypairRequestManager = KeyPairRequestManager.getInstance();
+    const groupPubKey = PubKey.cast(envelope.source);
+    if (keypairRequestManager.canTriggerRequestWith(groupPubKey)) {
+      keypairRequestManager.markRequestSendFor(groupPubKey, Date.now());
+      await requestEncryptionKeyPair(groupPubKey);
+    }
     await removeFromCache(envelope);
     return null;
   }
@@ -269,8 +287,6 @@ async function decrypt(
   envelope: EnvelopePlus,
   ciphertext: ArrayBuffer
 ): Promise<any> {
-  const { textsecure } = window;
-
   try {
     const plaintext = await doDecrypt(envelope, ciphertext);
 
