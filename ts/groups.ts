@@ -3809,6 +3809,30 @@ async function applyGroupChange({
   };
 }
 
+export async function decryptGroupAvatar(
+  avatarKey: string,
+  secretParamsBase64: string
+): Promise<ArrayBuffer> {
+  const sender = window.textsecure.messaging;
+  if (!sender) {
+    throw new Error(
+      'decryptGroupAvatar: textsecure.messaging is not available!'
+    );
+  }
+
+  const ciphertext = await sender.getGroupAvatar(avatarKey);
+  const clientZkGroupCipher = getClientZkGroupCipher(secretParamsBase64);
+  const plaintext = decryptGroupBlob(clientZkGroupCipher, ciphertext);
+  const blob = window.textsecure.protobuf.GroupAttributeBlob.decode(plaintext);
+  if (blob.content !== 'avatar') {
+    throw new Error(
+      `decryptGroupAvatar: Returned blob had incorrect content: ${blob.content}`
+    );
+  }
+
+  return blob.avatar.toArrayBuffer();
+}
+
 // Ovewriting result.avatar as part of functionality
 /* eslint-disable no-param-reassign */
 export async function applyNewAvatar(
@@ -3825,30 +3849,11 @@ export async function applyNewAvatar(
 
     // Group has avatar; has it changed?
     if (newAvatar && (!result.avatar || result.avatar.url !== newAvatar)) {
-      const sender = window.textsecure.messaging;
-      if (!sender) {
-        throw new Error(
-          'applyNewAvatar: textsecure.messaging is not available!'
-        );
-      }
-
       if (!result.secretParams) {
         throw new Error('applyNewAvatar: group was missing secretParams!');
       }
 
-      const ciphertext = await sender.getGroupAvatar(newAvatar);
-      const clientZkGroupCipher = getClientZkGroupCipher(result.secretParams);
-      const plaintext = decryptGroupBlob(clientZkGroupCipher, ciphertext);
-      const blob = window.textsecure.protobuf.GroupAttributeBlob.decode(
-        plaintext
-      );
-      if (blob.content !== 'avatar') {
-        throw new Error(
-          `applyNewAvatar: Returned blob had incorrect content: ${blob.content}`
-        );
-      }
-
-      const data = blob.avatar.toArrayBuffer();
+      const data = await decryptGroupAvatar(newAvatar, result.secretParams);
       const hash = await computeHash(data);
 
       if (result.avatar && result.avatar.path && result.avatar.hash !== hash) {

@@ -99,7 +99,12 @@ const {
 const { installPermissionsHandler } = require('./app/permissions');
 const OS = require('./ts/OS');
 const { isBeta } = require('./ts/util/version');
-const { isSgnlHref, parseSgnlHref } = require('./ts/util/sgnlHref');
+const {
+  isSgnlHref,
+  isSignalHttpsLink,
+  parseSgnlHref,
+  parseSignalHttpsLink,
+} = require('./ts/util/sgnlHref');
 const {
   toggleMaximizedBrowserWindow,
 } = require('./ts/util/toggleMaximizedBrowserWindow');
@@ -227,6 +232,11 @@ async function handleUrl(event, target) {
   const { protocol, hostname } = url.parse(target);
   const isDevServer = config.enableHttp && hostname === 'localhost';
   // We only want to specially handle urls that aren't requesting the dev server
+  if (isSgnlHref(target) || isSignalHttpsLink(target)) {
+    handleSgnlHref(target);
+    return;
+  }
+
   if ((protocol === 'http:' || protocol === 'https:') && !isDevServer) {
     try {
       await shell.openExternal(target);
@@ -1476,7 +1486,16 @@ function getIncomingHref(argv) {
 }
 
 function handleSgnlHref(incomingHref) {
-  const { command, args, hash } = parseSgnlHref(incomingHref, logger);
+  let command;
+  let args;
+  let hash;
+
+  if (isSgnlHref(incomingHref)) {
+    ({ command, args, hash } = parseSgnlHref(incomingHref, logger));
+  } else if (isSignalHttpsLink(incomingHref)) {
+    ({ command, args, hash } = parseSignalHttpsLink(incomingHref, logger));
+  }
+
   if (command === 'addstickers' && mainWindow && mainWindow.webContents) {
     console.log('Opening sticker pack from sgnl protocol link');
     const packId = args.get('pack_id');
