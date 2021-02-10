@@ -29,8 +29,8 @@ import { ConversationModel } from '../../js/models/conversations';
 import _ from 'lodash';
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
 import { MessageController } from '../session/messages';
-import { ClosedGroupEncryptionPairMessage } from '../session/messages/outgoing';
 import { ClosedGroupEncryptionPairReplyMessage } from '../session/messages/outgoing/content/data/group';
+import { queueAllCachedFromSource } from './receiver';
 
 export async function handleClosedGroupControlMessage(
   envelope: EnvelopePlus,
@@ -250,6 +250,8 @@ export async function handleNewClosedGroup(
   window.SwarmPolling.addGroupId(PubKey.cast(groupId));
 
   await removeFromCache(envelope);
+  // trigger decrypting of all this group messages we did not decrypt successfully yet.
+  await queueAllCachedFromSource(groupId);
 }
 
 async function handleUpdateClosedGroup(
@@ -465,6 +467,8 @@ async function handleClosedGroupEncryptionKeyPair(
 
   await addClosedGroupEncryptionKeyPair(groupPublicKey, keyPair.toHexKeyPair());
   await removeFromCache(envelope);
+  // trigger decrypting of all this group messages we did not decrypt successfully yet.
+  await queueAllCachedFromSource(groupPublicKey);
 }
 
 async function performIfValid(
