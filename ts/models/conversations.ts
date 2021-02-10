@@ -1412,9 +1412,9 @@ export class ConversationModel extends window.Backbone.Model<
     window.Signal.Data.updateConversation(this.attributes);
   }
 
-  getMembersCount(): number {
+  getMembersCount(): number | undefined {
     if (this.isPrivate()) {
-      return 1;
+      return undefined;
     }
 
     const memberList = this.get('membersV2') || this.get('members');
@@ -1429,7 +1429,7 @@ export class ConversationModel extends window.Backbone.Model<
       return temporaryMemberCount;
     }
 
-    return 0;
+    return undefined;
   }
 
   decrementMessageCount(): void {
