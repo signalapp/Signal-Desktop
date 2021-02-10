@@ -12,7 +12,7 @@
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
     "unknownContact": {
-        "message": "جهة اتصال مجهولة",
+        "message": "جهة الاتصال مجهولة",
         "description": "Shown as the name of a contact if we don't have any displayable information about them"
     },
     "unknownGroup": {
@@ -24,7 +24,7 @@
         "description": "Shown in a popup if the database cannot start up properly"
     },
     "deleteAndRestart": {
-        "message": "مسح جميع البيانات وإعادة التشغيل",
+        "message": "مسح جميع البيانات ثم إعادة التشغيل",
         "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
     },
     "mainMenuFile": {
@@ -52,7 +52,7 @@
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
-        "message": "الإعدادات...",
+        "message": "التفضيلات...",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuHide": {
@@ -68,7 +68,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "الخروج من Signal",
+        "message": "مغادرة Signal",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -172,11 +172,11 @@
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
     },
     "avatarMenuViewArchive": {
-        "message": "فتح الأرشيف",
+        "message": "إظهار الأرشيف",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
-        "message": "قيد التحميل...",
+        "message": "‫قيد التحميل...‬",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
@@ -194,7 +194,7 @@
         }
     },
     "archivedConversations": {
-        "message": "أرشيف المحادثات",
+        "message": "المحادثات المؤرشفة",
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "LeftPane--pinned": {
@@ -226,7 +226,7 @@
         "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
     },
     "unpinConversation": {
-        "message": "إلغاء تثبيت المحادثة",
+        "message": "نزع تثبيت المحادثة",
         "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
     },
     "pinnedConversationsFull": {
@@ -254,19 +254,19 @@
         "description": "Title of the popup window used to select data previously exported"
     },
     "importErrorHeader": {
-        "message": "حدث خطأٌ ما !",
+        "message": "حدث خطأ ما !",
         "description": "Header of the error screen after a failed import"
     },
     "importingHeader": {
-        "message": "يتم تحميل جهات الاتصال والرسائل",
+        "message": "يجري تحميل جهات الاتصال والرسائل",
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "يُرجى التأكّد من اختيار المجلد الذي يحوي بيانات Signal. اسمه يجب أن يبدأ بـ 'تصدير Signal'. تستطيع أيضاً حفظ نسخة جديدة من بياناتك من تطبيقات Chrome.",
+        "message": "يُرجى التأكد من اختيار المجلد الذي يحوي بيانات Signal. اسمه يجب أن يبدأ بـ 'تصدير Signal'. يمكنك أيضا حفظ نسخة جديدة من بياناتك انطلاقا من تطبيق Chrome.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "إن لم تنفع هذه الخطوات معك، الرجاء إرسال سِجل الفحص (عرض -> سجل الفحص) لنستطيع مساعدتك على الانتقال !",
+        "message": "إن لم تنفع هذه الخطوات معك، الرجاء إرسال سِجل التصحيح  (عرض -> سجل التصحيح) لنستطيع مساعدتك على الترحيل !",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
@@ -278,7 +278,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "ابدأ باستخدام Signal للحاسوب",
+        "message": "ابدأ باستخدام Signal Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -290,11 +290,11 @@
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
-        "message": "يجري تحديث قاعدة البيانات. قد تستغرق العملية بعض الوقت...",
+        "message": "تجري ترقية قاعدة البيانات. قد تستغرق العملية بعض الوقت...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
-        "message": "يجري تحميل الرسائل. $count$ حتى الآن...",
+        "message": "‫يجري تحميل الرسائل. $count$ حتى الآن...‬",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -308,7 +308,7 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "لم تعد لديك العضوية في هذه المجموعة.",
+        "message": "لم تعد عضوا في هذه المجموعة.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "invalidConversation": {
@@ -320,11 +320,11 @@
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "messagesBelow": {
-        "message": "رسالة جديدة بالأسفل",
+        "message": "رسائل جديدة بالأسفل",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
-        "message": " رسالة واجدة غير مقروءة",
+        "message": " رسالة واحدة غير مقروءة",
         "description": "Text for unread message separator, just one message"
     },
     "unreadMessages": {
@@ -338,11 +338,11 @@
         }
     },
     "messageHistoryUnsynced": {
-        "message": "لأمانك، لم يتم نقل تاريخ المحادثة للأجهزة المرتبطة الجديدة.",
+        "message": "لأمانك، لم تُنقَل محفوظات محادثاتك إلى الأجهزة المرتبطة الجديدة.",
         "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
-        "message": "لقد حددت أن رقم الأمان الخاص بك مع $name$ تم التحقق منه ",
+        "message": "لقد حددت أن رقم أمانك مع $name$ تم التحقق منه ",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -352,7 +352,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "لقد حددت أن رقم الأمان الخاص بك مع $name$ لم يتم التحقق منه ",
+        "message": "لقد حددت أن رقم أمانك مع $name$ لم يتم التحقق منه ",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -362,7 +362,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "لقد حددت رقم الأمان الخاص بك مع $name$ تمّ التحقق منه من جهاز آخر",
+        "message": "لقد حددت أن رقم أمانك مع $name$ أنه تمّ التحقق منه من جهاز آخر",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -372,7 +372,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "لقد حددت رقم الأمان الخاص بك مع $name$ غير متحقق منه عن طريق جهاز آخر",
+        "message": "لقد حددت أن رقم أمانك مع $name$ غير متحقق منه عن طريق جهاز آخر",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -382,7 +382,7 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "لقد تغيّر رقم الأمان الخاص بك مع عدّة أفراد من هذه المجموعة منذ آخر عملية تحقق. يُرجى الضغط على عضو في المجموعة لرؤية رقم الأمان الجديد معهم.",
+        "message": "لقد تغيّر رقم أمانك مع عدة أفراد من هذه المجموعة منذ آخر عملية تحقق. يُرجى الضغط على عضو في المجموعة لرؤية رقم الأمان الجديد معه.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
@@ -404,7 +404,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "identityKeyErrorOnSend": {
-        "message": "تم تغيير رمز أمانك مع $name1$ . هذا قد يعني أن أحدهم يحاول اعتراض اتصالاتك أو ببساطة لأن $name2$ قام بإعادة تثبيت Signal. قد تريد التحقق من رمز أمانك مع هذا الشخص.",
+        "message": "تم تغيير رقم أمانك مع $name1$.  قد يعني هذا أن أحدهم يحاول اعتراض اتصالاتك أو ببساطة أن $name2$ قام بإعادة تثبيت Signal. قد تريد التحقق من رمز أمانك مع هذا الشخص.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name1": {
@@ -430,7 +430,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
-        "message": "لقد تغيّر رقم الأمان الخاص بك مع $name$وهو الآن غير متحقق منه. انقر لإظهاره.",
+        "message": "لقد تغيّر رقم أمانك مع $name$وهو الآن غير متحقق منه. انقر لإظهاره.",
         "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -448,7 +448,7 @@
         "description": ""
     },
     "debugLogError": {
-        "message": "حدث خطأ ما في الرفع! يرجى النظر في إضافة السجل الخاص بك يدوياً إلى الخطأ الذي سوف ترسله.",
+        "message": "حدث خطأ ما في الرفع ! يُرجى النظر في إرفاق السجل الخاص بك يدوياً إلى الخطأ الذي سوف ترسله.",
         "description": ""
     },
     "debugLogCopy": {
@@ -480,15 +480,15 @@
         "description": "Label for a button to accept a new safety number"
     },
     "verify": {
-        "message": "تحديد كـ \"متحقق منه\"",
+        "message": "علِّم كمُتحقَّق منه",
         "description": ""
     },
     "unverify": {
-        "message": "وضع علامة \"غير متحقق منه\"",
+        "message": "علِّم كغير مُتحقَّق منه",
         "description": ""
     },
     "isVerified": {
-        "message": "لقد تحققت من رقم الأمان الخاص بك مع $name$.",
+        "message": "لقد تحققت من رقم أمانك مع $name$.",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -498,7 +498,7 @@
         }
     },
     "isNotVerified": {
-        "message": "لم تقم بالتحقق من رقم الأمان الخاص بك مع $name$ .",
+        "message": "لم تقم بالتحقق من رقم أمانك مع $name$ .",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -508,7 +508,7 @@
         }
     },
     "verified": {
-        "message": "متحقق منه",
+        "message": "مُتحقَّق منه",
         "description": ""
     },
     "newIdentity": {
@@ -516,7 +516,7 @@
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "لقد تغيّر رقم الأمان الخاص بك مع هذا المستخدم. وهذا قد يعني أنّه إما أن هناك من يحاول اعتراض اتصالاتك, أو أنّ هذا المستخدم ببساطة أعاد تثبيت Signal. قد ترغب في التحقق من رقم الأمان الجديد أدناه.",
+        "message": "لقد تغير رقم أمانك مع هذا المستخدم. قد يعني ذلك أن هناك من يحاول اعتراض اتصالاتك، أو أن هذا المستخدم ببساطة أعاد تثبيت Signal. يمكنك التحقق من رقم الأمان الجديد أدناه.",
         "description": ""
     },
     "incomingError": {
@@ -530,6 +530,10 @@
     "mediaEmptyState": {
         "message": "ليس لديك أيّة وسائط في هذه المحادثة",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
+    },
+    "allMedia": {
+        "message": "جميع الوسائط",
+        "description": "Header for the media gallery"
     },
     "documents": {
         "message": "الوثائق",
@@ -572,7 +576,7 @@
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
-        "message": "صنف المرفق غير مسموح به لأسباب تتعلق بالأمان",
+        "message": "صنف المرفق غير مسموح به لأسباب أمنية",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
@@ -634,7 +638,7 @@
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "جاري الاتصال",
+        "message": "يجري الاتصال",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
@@ -642,7 +646,7 @@
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "لن يطول الأمر...",
+        "message": "لن يطول الأمر...‫",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -654,11 +658,11 @@
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "submitDebugLog": {
-        "message": "سِجل الفحص",
+        "message": "سِجل التصحيح",
         "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
-        "message": "سجل الفحص",
+        "message": "سِجل التصحيح",
         "description": "View menu item to open the debug log (title case)"
     },
     "helpMenuShowKeyboardShortcuts": {
@@ -686,7 +690,7 @@
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
-        "message": "إعدادات Signal للحاسوب",
+        "message": "تفضيلات Signal Desktop",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
@@ -694,7 +698,7 @@
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "عن Signal للحاسوب",
+        "message": "عن Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
@@ -714,7 +718,7 @@
         "description": "Command in the tray icon menu, to quit the application"
     },
     "signalDesktop": {
-        "message": "Signal للحاسوب",
+        "message": "Signal Desktop",
         "description": "Tooltip for the tray icon"
     },
     "search": {
@@ -736,7 +740,7 @@
         }
     },
     "noSearchResults": {
-        "message": "لم يجد نتائج حول \"$searchTerm$\"",
+        "message": "لم يعثر على نتائج حول \"$searchTerm$\"",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -746,7 +750,7 @@
         }
     },
     "noSearchResultsInConversation": {
-        "message": "لم يجد نتائج حول \"$searchTerm$\" في $conversationName$",
+        "message": "لم يعثر على نتائج حول \"$searchTerm$\" في $conversationName$",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -802,11 +806,11 @@
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
-        "message": "منزل",
+        "message": "المنزل",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "work": {
-        "message": "عمل",
+        "message": "العمل",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "mobile": {
@@ -818,7 +822,7 @@
         "description": "Generic label shown if contact email has custom type but no label"
     },
     "phone": {
-        "message": "هاتف",
+        "message": "الهاتف",
         "description": "Generic label shown if contact phone has custom type but no label"
     },
     "address": {
@@ -850,11 +854,11 @@
         "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
     },
     "originalMessageNotAvailable": {
-        "message": "الرسالة الأصلية لم تعد متوفرة",
+        "message": "الرسالة الأصلية لم تعد متاحة",
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
-        "message": "عُثِر على الرسالة الأصلية، ولكن لم يتم تحميلها. يُرجى التمرير لأعلى لتحميلها.",
+        "message": "عُثِر على الرسالة الأصلية، ولكن لم يتم تحميلها. يُرجى التمرير لأعلى لتحميلها.‫",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceRecordingInterruptedMax": {
@@ -866,7 +870,7 @@
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "الرسائل الصوتية لها حد أقصى هو خمس دقائق. سيتوقف التسجيل إن انتقلت لتطبيق آخر.",
+        "message": "الرسائل الصوتية لها حد أقصى هو خمس دقائق. سيتوقف التسجيل إن انتقلت إلى تطبيق آخر.‏",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
@@ -898,15 +902,15 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "لإرسال الرسائل الصوتية، يرجى السماح لـ Signal للحاسوب بالوصول إلى الميكروفون.",
+        "message": "لإرسال الرسائل الصوتية، يرجى السماح لـ Signal Desktop بالوصول إلى الميكروفون.",
         "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
-        "message": "للاتصال، يجب أن تسمح لـ Signal للحاسوب بالوصول للميكروفون الخاص بك.",
+        "message": "للاتصال، يجب أن تسمح لـ Signal Desktop بالوصول إلى ميكروفونك.",
         "description": "Shown if the user attempts access the microphone for calling without audio permissions turned on"
     },
     "videoCallingPermissionNeeded": {
-        "message": "لكي تستطيع القيام بمكالمات الفيديو، يجب أن تسمح لـ Signal للحاسوب بالوصول إلى الكاميرا.",
+        "message": "للقيام بمكالمات الفيديو، يجب السماح لـ Signal Desktop بالوصول إلى الكاميرا.",
         "description": "Shown if the user attempts access the camera for video calling without video permissions turned on"
     },
     "allowAccess": {
@@ -934,7 +938,7 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "فشل تحديث Signal للحاسوب، لكن تتوفر نسخة جديدة. الرجاء الذهاب إلى $url$ وتثبيت النسخة الجديدة يدوياً، ثم الاتصال بالدعم أو إرسال هذا الخطأ إلينا.",
+        "message": "فشل تحديث Signal Desktop، لكن يتوفر إصدار جديد. الرجاء الذهاب إلى $url$ وتثبيت الإصدار الجديد يدويا، ثم الاتصال بالدعم أو إرسال هذا الخطأ إلينا.",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "url": {
@@ -944,7 +948,7 @@
         }
     },
     "readOnlyVolume": {
-        "message": "من المحتمل أن يكون Signal للحاسوب في وحدة عزل نظام تشغيل macOS ، ولن يكون قادراً على التحديث التلقائي. من فضلك حاول نقل $app$إلى $folder$ باستخدام فايندر.",
+        "message": "من المحتمل أن يكون Signal Desktop في وحدة عزل نظام اشتغال ماك، لذا لن يكون قادرا على التحديث التلقائي. يُرجى محاولة نقل $app$ إلى $folder$ باستخدام برنامج « فايندر » (مدير الملفات).",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
@@ -958,7 +962,7 @@
         }
     },
     "ok": {
-        "message": "حسناً",
+        "message": "موافق",
         "description": ""
     },
     "cancel": {
@@ -985,8 +989,20 @@
         "message": "أحذف",
         "description": ""
     },
+    "accept": {
+        "message": "قُبول",
+        "description": ""
+    },
+    "on": {
+        "message": "مُشغَّل",
+        "description": "Label for when something is turned on"
+    },
+    "off": {
+        "message": "غير مُشغَّل",
+        "description": "Label for when something is turned off"
+    },
     "deleteWarning": {
-        "message": "الضغط على 'حذف' سوف يزيل نهائيا هذه الرسالة من أجهزتك فقط.",
+        "message": "الضغط على 'احذف' سوف يزيل نهائيا هذه الرسالة من أجهزتك فقط.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
@@ -1034,7 +1050,7 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
-        "message": "عرض رقم السلامة",
+        "message": "عرض رقم الأمان",
         "description": ""
     },
     "viewRecentMedia": {
@@ -1052,11 +1068,11 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "لم يتم تبادل أيّة رسائل مع هذا المستخدم حتى الآن. سيظهر رقم الأمان الخاص بك معه بعد إرسال أول رسالة.",
+        "message": "لم يتم تبادل أيّة رسائل مع هذا المستخدم حتى الآن. سيظهر رقم أمانك معه بعد إرسال أول رسالة.",
         "description": ""
     },
     "goBack": {
-        "message": "الرجوع للوراء",
+        "message": "العودة للوراء",
         "description": "Label for back button in a conversation"
     },
     "moreInfo": {
@@ -1084,7 +1100,7 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
-        "message": "إعادة التعيين الجلسة الآمنة",
+        "message": "إعادة التعيين جلسة آمنة",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "quoteThumbnailAlt": {
@@ -1120,7 +1136,7 @@
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
-        "message": "مرحباً بك في Signal للحاسوب",
+        "message": "مرحباً بك في Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
@@ -1148,7 +1164,7 @@
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "deviceName": {
-        "message": "اسم الجهاز",
+        "message": "‫اسم الجهاز",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
     "chooseDeviceName": {
@@ -1156,7 +1172,7 @@
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
-        "message": "الانتهاء من ربط الهاتف",
+        "message": "إتمام ربط الهاتف",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
@@ -1168,7 +1184,7 @@
         "description": "Displayed when we can't connect to the server."
     },
     "installTooManyDevices": {
-        "message": "معذرةً، لديك أجهزة كثيرة مرتبطة مسبقاً. حاول إزالة بعضها.",
+        "message": "معذرةً، لديك أجهزة كثيرة مرتبطة مسبقا. حاول إزالة بعضها.",
         "description": ""
     },
     "installTooOld": {
@@ -1216,19 +1232,19 @@
         "description": "Button tooltip label for turning off the camera"
     },
     "calling__button--video-on": {
-        "message": "شغَل الكاميرا",
+        "message": "شغِّل الكاميرا",
         "description": "Button tooltip label for turning on the camera"
     },
     "calling__button--audio-disabled": {
-        "message": "الميكروفون غير مشغَل",
+        "message": "الميكروفون غير مشغَّل",
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "اصمت الميكروفون",
+        "message": "اكتم الميكروفون",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
-        "message": "شغَل الميكروفون",
+        "message": "شغِّل الميكروفون",
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
@@ -1335,12 +1351,20 @@
         "message": "كلاكما لن يتلقى صوت الآخر ولا صورته.",
         "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
+    "calling__overflow__scroll-up": {
+        "message": "تمرير نحو اﻷعلى",
+        "description": "Label for the \"scroll up\" button in a call's overflow area"
+    },
+    "calling__overflow__scroll-down": {
+        "message": "تمرير نحو اﻷسفل",
+        "description": "Label for the \"scroll down\" button in a call's overflow area"
+    },
     "alwaysRelayCallsDescription": {
         "message": "مناوبة الاتصالات دوما",
         "description": "Description of the always relay calls setting"
     },
     "alwaysRelayCallsDetail": {
-        "message": "تمرير جميع المكالمات عبر خوادم Signal لتجنّب الإفصاح عن عنوان IP الخاص بك لجهة الاتصال. تفعيل هذه الخاصية سيقلل من جودة المكالمة.",
+        "message": "‫تمرير جميع المكالمات عبر خوادم Signal لتجنُّب الإفصاح عن عنوان IP الخاص بك لجهة الاتصال. تفعيل هذه الخاصية سيقلل من جودة المكالمة.‬",
         "description": "Details describing the always relay calls setting"
     },
     "permissions": {
@@ -1360,7 +1384,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "تفعيل التدقيق الإملائي للنص الذي تمّ إدخاله في مربع تحرير الرسالة",
+        "message": "تفعيل التدقيق الإملائي للنص الذي تم إدخاله في مربع تحرير الرسالة",
         "description": "Description of the media permission description"
     },
     "spellCheckWillBeEnabled": {
@@ -1396,11 +1420,11 @@
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
-        "message": "يتم الفصل وحذف جميع البيانات",
+        "message": "يجري فصل وحذف جميع البيانات",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "deleteOldIndexedDBData": {
-        "message": "لديك بيانات قديمة لم تعد تنفع من تثبيت سابق لـ Signal للحاسوب. إذا اخترت الاستمرار ، فسيتم حذفها ويجب البداية من الصفر.",
+        "message": "لديك بيانات قديمة لم تعد تنفع من تثبيت سابق لـ Signal Desktop. إذا اخترت الاستمرار، فستُحذَف ويجب بعدها البداية من الصفر.",
         "description": "Shown if user last ran Signal Desktop before October 2018"
     },
     "deleteOldData": {
@@ -1412,7 +1436,7 @@
         "description": "Header for notification settings"
     },
     "notificationSettingsDialog": {
-        "message": "عند وصول الرسائل، عرض إشعارات التي تظهر :",
+        "message": "‫عند وصول الرسائل، عرض الإشعارات التي تُظهِر :",
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
@@ -1486,7 +1510,7 @@
         "description": "Shown on outgoing message if it fails to send"
     },
     "partiallySent": {
-        "message": "تم الإرسال جزئياً، انقر للتفاصيل",
+        "message": "تم الإرسال جزئياً، اضغط للتفاصيل",
         "description": "Shown on outgoing message if it is partially sent"
     },
     "showMore": {
@@ -1498,15 +1522,15 @@
         "description": "Hides the details of a key change"
     },
     "learnMore": {
-        "message": "تعلّم المزيد عن التحقق من أرقام الأمان",
+        "message": "معرفة المزيد عن التحقق من أرقام الأمان",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "انتهت صلاحية هذا الإصدار من Signal للحاسوب. الرجاء التحديث لأحدث إصدار للتمكن من التراسُل.",
+        "message": "انتهت صلاحية هذا الإصدار من Signal Desktop. الرجاء التحديث لأحدث إصدار للتمكن من التراسُل.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "تحديث",
+        "message": "ترقية",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -1518,7 +1542,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "جهات الإتصال",
+        "message": "جهات الاتصال",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
@@ -1546,15 +1570,15 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
-        "message": "1 دقيقة",
+        "message": "منذ دقيقة واحدة",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
-        "message": "1 ساعة",
+        "message": "منذ ساعة واحدة",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "hoursAgo": {
-        "message": "$hours$ساعة",
+        "message": "منذ $hours$ ساعة",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1564,7 +1588,7 @@
         }
     },
     "minutesAgo": {
-        "message": "$minutes$ دقائق",
+        "message": "منذ $minutes$ دقائق",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1578,7 +1602,7 @@
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
-        "message": "الشهر ثم اليوم",
+        "message": "MMM D",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "messageBodyTooLong": {
@@ -1594,7 +1618,7 @@
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "لقد جعلت وقت الرسائل المتخفية $time$.",
+        "message": "لقد ضبطت اختفاء الرسائل بعد $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1604,7 +1628,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "تم تحديث وقت الرسائل المتخفية ليصبح $time$.",
+        "message": "لقد أُعيد ضبط الرسائل لتختفي بعد $time$.",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1614,7 +1638,7 @@
         }
     },
     "timerSetByMember": {
-        "message": "عيّن أحد الأعضاء مهلة اختفاء الرسالة خلال $time$.",
+        "message": "ضبط أحد الأعضاء اختفاء الرسائل بعد $time$.",
         "description": "Message displayed when timer is by an unknown group member.",
         "placeholders": {
             "time": {
@@ -1624,7 +1648,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "جعل $name$وقت الرسائل المتخفية $time$.",
+        "message": "لقد أعاد العضو $name$ ضبط الرسائل لتختفي بعد $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1642,47 +1666,47 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "timerOption_5_seconds": {
-        "message": "5 ثوان",
+        "message": "بعد 5 ثوان",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_10_seconds": {
-        "message": "10 ثوان",
+        "message": "بعد 10 ثوان",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_30_seconds": {
-        "message": "30 ثانية",
+        "message": "بعد 30 ثانية",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_minute": {
-        "message": "1 دقيقة",
+        "message": "بعد دقيقة واحدة",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_5_minutes": {
-        "message": "5 دقائق",
+        "message": "بعد 5 دقائق",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_30_minutes": {
-        "message": "30 دقيقة",
+        "message": "بعد 30 دقيقة",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_hour": {
-        "message": "1 ساعة",
+        "message": "بعد ساعة واحدة",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_6_hours": {
-        "message": "6 ساعات",
+        "message": "بعد 6 ساعات",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_12_hours": {
-        "message": "12 ساعة",
+        "message": "بعد 12 ساعة",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_day": {
-        "message": "1 يوم",
+        "message": "بعد يوم واحد",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_week": {
-        "message": "1 أسبوع",
+        "message": "بعد أسبوع واحد",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "disappearingMessages": {
@@ -1694,51 +1718,51 @@
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "timerOption_5_seconds_abbreviated": {
-        "message": "5 ثانية",
+        "message": "بعد 5 ثوان",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_10_seconds_abbreviated": {
-        "message": "10 ثانية",
+        "message": "بعد 10 ثوان",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_30_seconds_abbreviated": {
-        "message": "30 ثانية",
+        "message": "بعد 30 ثانية",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_minute_abbreviated": {
-        "message": "1 دقيقة",
+        "message": "بعد 1 دقيقة",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_minutes_abbreviated": {
-        "message": "5 دقائق",
+        "message": "بعد 5 دقائق",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_30_minutes_abbreviated": {
-        "message": "30 دقيقة",
+        "message": "بعد 30 دقيقة",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_hour_abbreviated": {
-        "message": "1 ساعة",
+        "message": "بعد 1 ساعة",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_6_hours_abbreviated": {
-        "message": "6 ساعات",
+        "message": "بعد 6 ساعات",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_12_hours_abbreviated": {
-        "message": "12 ساعة",
+        "message": "بعد 12 ساعة",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_day_abbreviated": {
-        "message": "1 يوم",
+        "message": "بعد 1 يوم",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_week_abbreviated": {
-        "message": "1 أسبوع",
+        "message": "بعد 1 أسبوع",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "disappearingMessagesDisabled": {
-        "message": "تم تعطيل الرسائل المختفية",
+        "message": "عُطلَت الرسائل المختفية",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disappearingMessagesDisabledByMember": {
@@ -1746,7 +1770,7 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "قام $name$بتعطيل الرسائل المختفية.",
+        "message": "قام $name$ بتعطيل الرسائل المختفية.",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1760,7 +1784,7 @@
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
-        "message": "أصبح المؤقت $time$",
+        "message": "ضُبط المؤقت لمدة $time$",
         "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
@@ -1770,15 +1794,15 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "تفعيل التنبيهات الصوتية",
+        "message": "تشغيل التنبيهات الصوتية",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
-        "message": "تفعيل أصوات الرنين عند الاتصال",
+        "message": "تشغيل أصوات الرنين عند الاتصال",
         "description": "Description for call ringtone notification setting"
     },
     "callSystemNotificationDescription": {
-        "message": "إظهار الإشعارات للمكالمات",
+        "message": "إظهار إشعارات المكالمات",
         "description": "Description for call notification setting"
     },
     "incomingCallNotificationDescription": {
@@ -1786,7 +1810,7 @@
         "description": "Description for incoming calls setting"
     },
     "contactChangedProfileName": {
-        "message": "لقد غيّر $sender$اسمه الشخصي من$oldProfile$إلى $newProfile$.",
+        "message": "لقد غيَّر العضو $sender$ اسمه الشخصي من$oldProfile$ إلى $newProfile$.",
         "description": "Description for incoming calls setting",
         "placeholders": {
             "sender": {
@@ -1804,7 +1828,7 @@
         }
     },
     "changedProfileName": {
-        "message": "غيّر $oldProfile$ اسمه الشخصي إلى $newProfile$.",
+        "message": "غيَّر العضو $oldProfile$ اسمه الشخصي إلى $newProfile$.",
         "description": "Shown when a contact not in your address book changes their profile name",
         "placeholders": {
             "oldProfile": {
@@ -1822,11 +1846,11 @@
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChanges": {
-        "message": "تغيّرات رقم الأمان",
+        "message": "تعديلات رقم الأمان",
         "description": "Title for safety number changed modal"
     },
     "safetyNumberChangedGroup": {
-        "message": "تم تغيير رقم الأمان الخاص مع $name$",
+        "message": "تم تغيير رقم الأمان مع $name$",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -1854,23 +1878,23 @@
         }
     },
     "themeLight": {
-        "message": "نهاري",
+        "message": "فاتح",
         "description": "Label text for light theme (normal)"
     },
     "themeDark": {
-        "message": "ليلي",
+        "message": "داكن",
         "description": "Label text for dark theme"
     },
     "themeSystem": {
-        "message": "تبعاً للنظام",
+        "message": "تبعا للنظام",
         "description": "Label text for system theme"
     },
     "noteToSelf": {
-        "message": "الملاحظات الشخصيّة",
+        "message": "الملاحظات الشخصية",
         "description": "Name for the conversation with your own phone number"
     },
     "noteToSelfHero": {
-        "message": "تستطيع إضافة ملاحظات لنفسك في هذه المحادثة. إذا كانت هناك أجهزة مرتبطة في حسابك سيتم مزامنتها مع باقى الأجهزة المتصلة.",
+        "message": "يمكنك إضافة ملاحظاتك الشخصية في هذه المحادثة. إذا كانت هناك أجهزة مرتبطة مع حسابك، ستتم المزامنة معها أيضا.",
         "description": "Description for the Note to Self conversation"
     },
     "notificationDrawAttention": {
@@ -1882,15 +1906,15 @@
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "ابدأ محادثة جديدة...",
+        "message": "بدء محادثة جديدة…‏",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "notSupportedSMS": {
-        "message": "رسائل  SMS و MMS غير مدعومة.",
+        "message": "‫رسائل SMS و MMS غير مدعومة.‬",
         "description": "Label underneath number informing user that SMS is not supported on desktop"
     },
     "newPhoneNumber": {
-        "message": " لإضافة جهة الاتصال، يُرجى إدخال رقم الهاتف.",
+        "message": " لإضافة جهة الاتصال، يُرجى إدخال رقم الهاتف.‏",
         "description": "Placeholder for adding a new number to a contact"
     },
     "invalidNumberError": {
@@ -1898,7 +1922,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "الرجاء إعادة ربط Signal للحاسوب مع هاتفك لمتابعة المراسلة.",
+        "message": "‫الرجاء إعادة ربط Signal Desktop مع هاتفك لمتابعة التراسل.‏‬",
         "description": ""
     },
     "unlinked": {
@@ -1910,27 +1934,27 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "يتوفر تحديث لـ Signal",
+        "message": "‫يتوفر تحديث لـ Signal‬",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "هناك إصدار جديد متوفر لـ Signal.",
+        "message": "‫هناك إصدار جديد متوفر لـ Signal.‬",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "اضغط إعادة تشغيل Signal لتطبيق التحديثات.",
+        "message": "‫يُرجى الضغط على إعادة تشغيل Signal لتطبيق التحديثات.‬",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "إعادة تشغيل Signal",
+        "message": "‫إعادة تشغيل Signal‬",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
-        "message": "لاحقاً",
+        "message": "لاحقا",
         "description": ""
     },
     "leftTheGroup": {
-        "message": "غادر $name$ المجموعة.",
+        "message": "غادر العضو $name$ المجموعة.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1940,7 +1964,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "غادر $name$ المجموعة.",
+        "message": "غادر العضو $name$ المجموعة.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1950,7 +1974,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "حدّث $name$ المجموعة.",
+        "message": "حدَّث العضو $name$ المجموعة.",
         "description": "Shown in the conversation history when someone updates the group",
         "placeholders": {
             "name": {
@@ -1960,7 +1984,7 @@
         }
     },
     "youUpdatedTheGroup": {
-        "message": "قمت بتحديث المجموعة.",
+        "message": "لقد قمت بتحديث المجموعة.",
         "description": "Shown in the conversation history when you update a group"
     },
     "updatedGroupAvatar": {
@@ -1968,7 +1992,7 @@
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "المجموعة أصبحت '$name$'.",
+        "message": "المجموعة أصبحت « $name$ ».",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1982,7 +2006,7 @@
         "description": "Shown in the conversation history when you are added to a group."
     },
     "joinedTheGroup": {
-        "message": "انضم $name$للمجموعة.",
+        "message": "انضم العضو $name$ للمجموعة.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1992,7 +2016,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "انضمَّ $names$ للمجموعة.",
+        "message": "انضمَّ  العضو $names$ للمجموعة.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -2002,7 +2026,7 @@
         }
     },
     "ConversationListItem--message-request": {
-        "message": "طلب مراسلة",
+        "message": "طلب التراسُل",
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
     },
     "ConversationListItem--draft-prefix": {
@@ -2010,7 +2034,7 @@
         "description": "Prefix shown in italic in conversation view when a draft is saved"
     },
     "message--getNotificationText--gif": {
-        "message": "صورة GIF",
+        "message": "صورة متحركة",
         "description": "Shown in notifications and in the left pane when a GIF is received."
     },
     "message--getNotificationText--photo": {
@@ -2022,7 +2046,7 @@
         "description": "Shown in notifications and in the left pane when a video is received."
     },
     "message--getNotificationText--voice-message": {
-        "message": "رسالة صوتية.",
+        "message": "رسالة صوتية",
         "description": "Shown in notifications and in the left pane when a voice message is received."
     },
     "message--getNotificationText--audio-message": {
@@ -2056,19 +2080,19 @@
         "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
     "message--getDescription--disappearing-media": {
-        "message": "ملف متعدّد الوسائط من نوع المشاهدة مرة-واحدة",
+        "message": "ملف وسائط للعرض مرة واحدة",
         "description": "Shown in notifications and in the left pane after view-once message is deleted."
     },
     "message--getDescription--disappearing-photo": {
-        "message": "الصورة من نوع المشاهدة مرة-واحدة",
+        "message": "الصورة للعرض مرة واحدة",
         "description": "Shown in notifications and in the left pane when a message is a view once photo."
     },
     "message--getDescription--disappearing-video": {
-        "message": "فيديو من نوع مشاهدة مرة-واحدة",
+        "message": "مقطع فيديو للعرض مرة واحدة",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
     },
     "message--deletedForEveryone": {
-        "message": "تم حذف هذه الرسالة.",
+        "message": "حُذفَت هذه الرسالة.",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "stickers--toast--InstallFailed": {
@@ -2084,7 +2108,7 @@
         "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
     },
     "stickers--StickerManager--BlessedPacks": {
-        "message": "سلسلة فناني Signal",
+        "message": "مسلسل فناني Signal",
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
@@ -2108,11 +2132,11 @@
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--UninstallWarning": {
-        "message": "قد لا تتمكن من إعادة تثبيت هذه الحزمة من الملصقات إذا لم تعد لديك رسالة الأصلية.",
+        "message": "قد يتعذر عليك إعادة تثبيت هذه الحزمة من الملصقات إذا لم تعد لديك رسالة الأصلية.",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--Introduction--Image": {
-        "message": "نقدم لكم الملصقات : القطة Bandit",
+        "message": "‫نقدم لكم الملصقات : القطة Bandit‬",
         "description": "Alt text on a tooltip image when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Title": {
@@ -2120,7 +2144,7 @@
         "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Body": {
-        "message": "لماذا تستخدم الكلمات بينما يمكنك استخدام الملصقات ؟",
+        "message": "ما الداعي لاستخدام للكلمات بينما يمكنك استخدام الملصقات ؟",
         "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerPicker--Open": {
@@ -2152,19 +2176,19 @@
         "description": "Shown in the sticker picker when one or more stickers are still downloading."
     },
     "stickers--StickerPicker--Empty": {
-        "message": "لم يعثر على أيّة ملصقات",
+        "message": "لم يعثر على أي ملصقات",
         "description": "Shown in the sticker picker when there are no stickers to show."
     },
     "stickers--StickerPicker--Hint": {
-        "message": "توجد حزم ملصقات جديدة متاحة من رسائلك وهي جاهزة للتثبيت",
+        "message": "هناك حزم ملصقات جديدة متاحة للاستخدام مع رسائلك، وهي جاهزة للتثبيت",
         "description": "Shown in the sticker picker the first time you have received new packs you can install."
     },
     "stickers--StickerPicker--NoPacks": {
-        "message": "لم يعثر على أيّ جزم للملصقات",
+        "message": "لم يعثر على أي حزم للملصقات",
         "description": "Shown in the sticker picker when there are no installed sticker packs."
     },
     "stickers--StickerPicker--NoRecents": {
-        "message": "ستظهر الملصقات المستخدمة مؤخراً هنا.",
+        "message": "ستظهر الملصقات المستخدمة مؤخرا هنا.",
         "description": "Shown in the sticker picker when there are no recent stickers to show."
     },
     "stickers--StickerPreview--Title": {
@@ -2172,7 +2196,7 @@
         "description": "The title that appears in the sticker pack preview modal."
     },
     "stickers--StickerPreview--Error": {
-        "message": "فشل فتح حزمة الملصقات. تحقق من اتصالك بالانترنت وحاول مرة أخرى.",
+        "message": "فشل فتح حزمة الملصقات. عليك التحقق من اتصالك بالانترنت ثم المحاولة مرة أخرى.",
         "description": "The message that appears in the sticker preview modal when there is an error."
     },
     "EmojiPicker--empty": {
@@ -2180,7 +2204,7 @@
         "description": "Shown in the emoji picker when a search yields 0 results."
     },
     "EmojiPicker--search-placeholder": {
-        "message": "البحث عن وجه تعبيري",
+        "message": "البحث عن وجه مُعبِّر",
         "description": "Shown as a placeholder inside the emoji picker search field."
     },
     "EmojiPicker--skin-tone": {
@@ -2194,7 +2218,7 @@
         }
     },
     "EmojiPicker__button--recents": {
-        "message": "مكالمات حديثة",
+        "message": "الأحدث",
         "description": "Label for recents emoji picker button"
     },
     "EmojiPicker__button--emoji": {
@@ -2234,7 +2258,7 @@
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "Message--unsupported-message": {
-        "message": "أرسل $contact$لك رسالة لا يمكن معالجتها أو عرضها لأنها تستخدم ميزة Signal جديدة.",
+        "message": "أرسل $contact$ لك رسالة لا يمكن معالجتها ولا عرضها لأنها تستخدم ميزة Signal جديدة.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -2244,7 +2268,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "بما أنّك أصبحت تستخدم نسخة Signal حديثة. يمكنك الطلب من $contact$ إعادة إرسال هذه الرسالة.",
+        "message": "بما أنك أصبحت تستخدم إصدار Signal مُرقّى. يمكنك الطلب من $contact$ إعادة إرسال هذه الرسالة.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -2254,15 +2278,15 @@
         }
     },
     "Message--from-me-unsupported-message": {
-        "message": " أرسل أحد أجهزتك رسالة لا يمكن معالجتها أو عرضها لأنها تستخدم ميزة Signal جديدة.",
+        "message": " أرسل أحد أجهزتك رسالة لا يمكن معالجتها ولا عرضها لأنها تستخدم ميزة Signal جديدة.",
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
-        "message": "بما أنّك أصبحت تستخدم نسخة حديثة من Signal، ستتم مزامنة الرسائل المستقبلية.",
+        "message": "بما أنك أصبحت تستخدم نسخة حديثة من Signal، ستتم مزامنة الرسائل المستقبلية.",
         "description": ""
     },
     "Message--update-signal": {
-        "message": "تحديث Signal",
+        "message": "‫تحديث Signal‬",
         "description": "Text for a button which will take user to Signal download page"
     },
     "Message--tap-to-view-expired": {
@@ -2274,11 +2298,11 @@
         "description": "Text shown on outgoing messages with with individual timers (inaccessible)"
     },
     "Message--tap-to-view--incoming--expired-toast": {
-        "message": "لقد قمت برؤية هذه الرسالة مسبقاً.",
+        "message": "لقد سبق لك رؤية هذه الرسالة.",
         "description": "Shown when user clicks on an expired incoming view-once bubble"
     },
     "Message--tap-to-view--outgoing--expired-toast": {
-        "message": "لن تحفظ الرسائل من نوع المشاهدة لمرة واحدة في تاريخ محادثتك",
+        "message": "لن تُحفَظ الرسائل من نوع المشاهدة لمرة واحدة في محفوظات محادثتك.",
         "description": "Shown when user clicks on an expired outgoing view-once bubble"
     },
     "Message--tap-to-view--incoming": {
@@ -2302,7 +2326,7 @@
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Keyboard--navigate-by-section": {
-        "message": "التنقل حسب القسم",
+        "message": "التصفح حسب القسم",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--previous-conversation": {
@@ -2322,7 +2346,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--preferences": {
-        "message": "الإعدادات",
+        "message": "التفضيلات",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-conversation-menu": {
@@ -2378,7 +2402,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "تبديل منتقي التفاعلات للرسائل المحددة",
+        "message": "تبديل منتقي ردود الفعل للرسائل المحددة",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2450,7 +2474,7 @@
         "description": "Title header of the keyboard shortcuts guide"
     },
     "Keyboard--navigation-header": {
-        "message": "التنقل",
+        "message": "التصفح",
         "description": "Header of the keyboard shortcuts guide - navigation section"
     },
     "Keyboard--messages-header": {
@@ -2470,7 +2494,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--close-curent-conversation": {
-        "message": "إغلاق المحادثات الحالة",
+        "message": "إغلاق المحادثة الحالية",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--calling-header": {
@@ -2478,7 +2502,7 @@
         "description": "Header of the keyboard shortcuts guide - calling section"
     },
     "Keyboard--toggle-audio": {
-        "message": "تفعيل أو تعطيل الكتم",
+        "message": "تفعيل أو تعطيل كتم الصوت",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-video": {
@@ -2518,7 +2542,7 @@
         "description": "The title of the Sticker Pack Creator window"
     },
     "StickerCreator--DropZone--staticText": {
-        "message": "يُرجى القيام بوضع الصور  أو إلقاءها هنا",
+        "message": "يُرجى القيام بإضافة الصور أو إلقاءها هنا",
         "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
     },
     "StickerCreator--DropZone--activeText": {
@@ -2566,7 +2590,7 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--help": {
-        "message": "يجب أن تكون الملصقات بصيغة PNG أو APNG أو WebP و يخلفية شفافة و مقاس 512x512 بِكْسل. طول الهامش المُوصى بها هو 16 بِكْسل.",
+        "message": "يجب أن تكون الملصقات بصيغة PNG أو APNG أو WebP و بخلفية شفافة و مقاس 512×512 بِكْسل. طول الهامش المُوصى بها هو 16 بِكْسل.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
@@ -2588,7 +2612,7 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--EmojiStage--help": {
-        "message": "هذا يسمح لنا باقتراح ملصقات أثناء التراسُل.",
+        "message": "يسمح لنا هذا باقتراح ملصقات أثناء التراسُل.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--MetaStage--title": {
@@ -2600,7 +2624,7 @@
         "description": "Label for the title input of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--author": {
-        "message": "المنشيء",
+        "message": "المؤلف",
         "description": "Label for the author input of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--cover": {
@@ -2608,11 +2632,11 @@
         "description": "Label for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--cover--help": {
-        "message": "هذه الصورة التي ستظهر عند مشاركة حزمة ملصقاتك",
+        "message": "هذه هي الصورة التي ستظهر عند مشاركة حزمة ملصقاتك",
         "description": "Help text for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--title": {
-        "message": "هل أنت متأكد من أنك تريد رفع حزمة ملصقاتك؟",
+        "message": "أأنت على يقين من رغبتك رفع حزمة ملصقاتك ؟",
         "description": "Title for the confirm dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--confirm": {
@@ -2620,11 +2644,11 @@
         "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--text": {
-        "message": "لن تستطيع التعديل أو الحذف بعد إنشاء حزمة المصقات.",
+        "message": "سيتعذر عليك التعديل أو الحذف بعد إنشاء حزمة الملصقات.",
         "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--UploadStage--title": {
-        "message": "يتم إنشاء حزمة ملصقاتك",
+        "message": "يجري إنشاء حزمة ملصقاتك",
         "description": "Title for the upload stage of the sticker creator"
     },
     "StickerCreator--UploadStage-uploaded": {
@@ -2646,11 +2670,11 @@
         "description": "Title for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--help": {
-        "message": "يُرجى الوصول إلى ملصقاتك الجديدة من خلال أيقونة الملصق ، أو مشاركتها مع أصدقائك باستخدام الوصلة أدناه.",
+        "message": "يُرجى الوصول إلى ملصقاتك الجديدة من خلال أيقونة الملصق، أو مشاركتها مع أصدقائك باستخدام الوصلة أدناه.",
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
-        "message": "يُرجى استخدام الهاشتاغ $hashtag$لمساعدة الآخرين على العثور على عنوان حزم الملصقات المخصصة المراد جعلها متاحة للعموم.",
+        "message": "يُرجى استخدام الهاشتاغ $hashtag$ لمساعدة الآخرين على العثور على عنوان حزم الملصقات المخصصة المراد جعلها متاحة للعموم.",
         "description": "Call to action text for the share stage of the sticker creator",
         "placeholders": {
             "hashtag": {
@@ -2660,7 +2684,7 @@
         }
     },
     "StickerCreator--ShareStage--copyTitle": {
-        "message": "عنوان الوب لحزمة الملصقات",
+        "message": "عنوان صفحة حزمة الملصقات",
         "description": "Title for the copy button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--close": {
@@ -2672,7 +2696,7 @@
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "ألقوا نظرة على هذه الحزمة من الملصقات الجديدة التي صممتها ﻷجل Signal.  #اجعل_الخصوصية_متوفرة_دائماً",
+        "message": "ألقوا نظرة على هذه الحزمة من الملصقات الجديدة التي صممتُها ﻷجل Signal.  #اجعل_الخصوصية_متوفرة_دائماً",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
@@ -2698,7 +2722,7 @@
         "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
     },
     "StickerCreator--Toasts--APNG--notSquare": {
-        "message": "يجب أن تكون ملصقات PNG المتحركة مربعة",
+        "message": "يجب أن تكون ملصقات PNG المتحركة داخل إطار مربع",
         "description": "Text for the toast when someone tries to upload a non-square APNG"
     },
     "StickerCreator--Toasts--mustLoopForever": {
@@ -2714,7 +2738,7 @@
         "description": "Text for the toast when an APNG image in the sticker creator is too small"
     },
     "StickerCreator--Toasts--errorUploading": {
-        "message": "فشل في رفع الملصقات: $message$",
+        "message": "فشل في رفع الملصقات : $message$",
         "description": "Text for the toast when a sticker pack cannot be uploaded",
         "placeholders": {
             "message": {
@@ -2728,19 +2752,19 @@
         "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
     },
     "StickerCreator--StickerPreview--light": {
-        "message": "ملصقي في حالة السمة النهارية",
+        "message": "ملصقي خلال السمة النهارية",
         "description": "Text for the sticker preview for the light theme"
     },
     "StickerCreator--StickerPreview--dark": {
-        "message": "ملصقي في حالة السمة الليلية",
+        "message": "ملصقي خلال السمة الليلية",
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "الرجاء إعداد Signal على هاتفك وعلى الحاسوب لاستخدام مُنشيء حزم الملصقات",
+        "message": "الرجاء إعداد Signal في هاتفك وفي الحاسوب لاستخدام مُنشيء حزم الملصقات",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--error": {
-        "message": "فشل إرسال التفاعل. قم بالمحاولة مرة أخرى.",
+        "message": "فشل إرسال التفاعل. عليك بالمحاولة مرة أخرى.",
         "description": "Shown when a reaction fails to send"
     },
     "ReactionsViewer--more": {
@@ -2752,7 +2776,7 @@
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "MessageRequests--message-direct": {
-        "message": "هل تود السماح لـ$name$ بمراسلتك، بالإضافة إلى مشاركة اسمك وصورتك معه ؟ لن يعرف أنك قرأت رسالته إلا أن سمحت بذلك.",
+        "message": "هل أسمح لـ $name$ بمراسلتك، بالإضافة إلى مشاركة اسمك وصورتك معه ؟ لن يعرف أنك قرأت رسالته إلا أن سمحت بذلك.",
         "description": "Shown as the message for a message request in a direct message",
         "placeholders": {
             "name": {
@@ -2762,7 +2786,7 @@
         }
     },
     "MessageRequests--message-direct-blocked": {
-        "message": "هل تود السماح لـ $name$ بمراسلتك، بالإضافة إلى مشاركة اسمك وصورتك معه ؟ لن تصله أيّة رسالة حتى تزيل الحظر عنه.",
+        "message": "هل أسمح لـ $name$ بمراسلتك، بالإضافة إلى مشاركة اسمك وصورتك معه ؟ لن تصله أيّة رسالة حتى تزيل الحظر عنه.",
         "description": "Shown as the message for a message request in a direct message with a blocked account",
         "placeholders": {
             "name": {
@@ -2772,7 +2796,7 @@
         }
     },
     "MessageRequests--message-group": {
-        "message": "الانضمام لهذه المجموعة ومشاركة اسمك وصورتك مع أعضائها؟ لن يعلموا أنك شاهدت رسائلهم حتى تقبل دعوة الانضمام.",
+        "message": "ألديك رغبة بالانضمام لهذه المجموعة ومشاركة اسمك وصورتك مع أعضائها ؟ لن يعلموا أنك شاهدت رسائلهم إلا بعد قبولك دعوة الانضمام إليهم.",
         "description": "Shown as the message for a message request in a group",
         "placeholders": {
             "name": {
@@ -2782,7 +2806,7 @@
         }
     },
     "MessageRequests--message-group-blocked": {
-        "message": "إزالة الحظر عن هذه المجموعة ومشاركة اسمك وصورتك مع أعضائها؟ لن تتلقى أيّة رسائل حتى تزيل الحظر عنهم.",
+        "message": "إزالة الحظر عن هذه المجموعة ومشاركة اسمك وصورتك مع أعضائها ؟ لن تصلك أي رسائل إلى حين رفعك الحظر عنهم.",
         "description": "Shown as the message for a message request in a blocked group"
     },
     "MessageRequests--block": {
@@ -2794,7 +2818,7 @@
         "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-confirm-title": {
-        "message": "إزالة الحظر عن $name$؟",
+        "message": "رفع الحظر عن $name$ ؟",
         "description": "Shown as a button to let the user unblock a message request",
         "placeholders": {
             "name": {
@@ -2852,7 +2876,7 @@
         }
     },
     "MessageRequests--block-group-confirm-body": {
-        "message": "لن تستقبل بعد الآن رسائل أو تحديثات من هذه المجموعة، ولن يتمكن الأعضاء من إضافتك مرة أخرى إلى هذه المجموعة.",
+        "message": "لن تصلك بعد الآن رسائل أو تحديثات من هذه المجموعة، ولن يتمكن الأعضاء من إضافتك مرة أخرى إليها.",
         "description": "Shown as the body in the confirmation modal for blocking a group message request"
     },
     "MessageRequests--delete": {
@@ -2860,15 +2884,15 @@
         "description": "Shown as a button to let the user delete any message request"
     },
     "MessageRequests--delete-direct-confirm-title": {
-        "message": "حذف المحادثة؟",
+        "message": "حذف المحادثة ؟",
         "description": "Shown as the title in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-direct-confirm-body": {
-        "message": "ستٌحذف هذه المحادثة من جميع أجهزتك.",
+        "message": "ستُحذَف هذه المحادثة من جميع أجهزتك.",
         "description": "Shown as the body in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-group-confirm-title": {
-        "message": "حذف ومغادرة $group$؟",
+        "message": "حذف ثم مغادرة $group$ ؟",
         "description": "Shown as the title in the confirmation modal for deleting a group message request",
         "placeholders": {
             "group": {
@@ -2886,15 +2910,15 @@
         "description": "Shown as a button to let the user delete a group message request"
     },
     "MessageRequests--delete-group-confirm-body": {
-        "message": "سوف تغادر هذه المجموعة، وستُحذَف من كل أجهزتك.",
+        "message": "سوف تغادر هذه المجموعة، ثم ستُحذَف من كل أجهزتك.",
         "description": "Shown as the body in the confirmation modal for deleting a group message request"
     },
     "MessageRequests--accept": {
-        "message": "موافقة",
+        "message": "الموافقة",
         "description": "Shown as a button to let the user accept a message request"
     },
     "MessageRequests--continue": {
-        "message": "استمرار",
+        "message": "الاستمرار",
         "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
     },
     "MessageRequests--profile-sharing--group": {
@@ -2988,7 +3012,7 @@
         }
     },
     "ConversationHero--membership-extra": {
-        "message": "عضو في $group1$،$group2$،$group3$ وبالإضافة إلى$remainingCount$ آخرين. ",
+        "message": "عضو في $group1$،$group2$،$group3$ وبالإضافة إلى $remainingCount$ آخرين. ",
         "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
         "placeholders": {
             "group1": {
@@ -3096,7 +3120,7 @@
         "description": "Title for the video call button in a conversation"
     },
     "joinOngoingCall": {
-        "message": "انضمام",
+        "message": "الانضمام",
         "description": "Text that appears in a group when a call is active"
     },
     "callNeedPermission": {
@@ -3114,7 +3138,7 @@
         "description": "Shown in the call screen when the call is reconnecting due to network issues"
     },
     "callDuration": {
-        "message": "$duration$ Signal",
+        "message": "Signal $duration$",
         "description": "Shown in the call screen to indicate how long the call has been connected",
         "placeholders": {
             "duration": {
@@ -3142,11 +3166,11 @@
         "description": "Notification message when a group call has ended"
     },
     "calling__call-notification__started-by-someone": {
-        "message": "بدأت مكالمة جماعية",
+        "message": "لقد بدأتْ مكالمة جماعية",
         "description": "Notification message when a group call has started, but we don't know who started it"
     },
     "calling__call-notification__started-by-you": {
-        "message": "لقد بدأت مكالمة جماعية",
+        "message": "لقد قمت ببدء مكالمة جماعية",
         "description": "Notification message when a group call has started by you"
     },
     "calling__call-notification__started": {
@@ -3180,6 +3204,14 @@
     "calling__pip--off": {
         "message": "مكالمة بملء الشاشة",
         "description": "Title for picture-in-picture toggle"
+    },
+    "calling__switch-view--to-grid": {
+        "message": "التبديل إلى عرض الشبكة",
+        "description": "Title for grid/speaker view toggle when on a call"
+    },
+    "calling__switch-view--to-speaker": {
+        "message": "التبديل إلى المتحدث",
+        "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__hangup": {
         "message": "مغادرة المكالمة",
@@ -3230,7 +3262,7 @@
         "description": "Label for unmuting the conversation"
     },
     "muteExpirationLabel": {
-        "message": "كُتم الصوت حتى $duration$",
+        "message": "كُتم الصوت لمدة $duration$",
         "description": "Shown in the mute notifications submenu whenever a conversation has been muted",
         "placeholders": {
             "duration": {
@@ -3255,16 +3287,124 @@
         "message": "حسنا",
         "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
     },
+    "unknown-sgnl-link": {
+        "message": "‫عذرا، لكن وصلة sgnl://‎ كهذه لا معنى لها !‬",
+        "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
+    },
+    "GroupV2--join--invalid-link--title": {
+        "message": "رابط غير صالح",
+        "description": "Shown if we are unable to parse a group link"
+    },
+    "GroupV2--join--invalid-link": {
+        "message": "إن رابط المجموعة غير صالح. تأكد من سلامة وصحة الرابط بأكمله قبل مُحاولة الانضمام.",
+        "description": "Shown if we are unable to parse a group link"
+    },
+    "GroupV2--join--prompt": {
+        "message": "هل تريد الانضمام إلى هذه المجموعة ومُشاركة اسمك وصورتك مع أعضائها؟",
+        "description": "Shown when you click on a group link to confirm"
+    },
+    "GroupV2--join--already-in-group": {
+        "message": "إنك بالفعل عضو في هذه المجموعة.",
+        "description": "Shown if you click a group link for a group where you're already a member"
+    },
+    "GroupV2--join--already-awaiting-approval": {
+        "message": "لقد سبق لك طلب الموافقة على الانضمام إلى هذه المجموعة.",
+        "description": "Shown if you click a group link for a group where you've already requested approval'"
+    },
+    "GroupV2--join--unknown-link-version--title": {
+        "message": "لم تعد وصلة هذه المجموعة صالحة.",
+        "description": "This group link is no longer valid."
+    },
+    "GroupV2--join--unknown-link-version": {
+        "message": "هذه الوصلة غير مدعومة بواسطة هذا اﻹصدار من Signal Desktop.",
+        "description": "Shown if you click a group link and we can't get information about it"
+    },
+    "GroupV2--join--link-revoked--title": {
+        "message": "لم يتمكن من الانضمام إلى المجموعة.",
+        "description": "Shown if you click a group link and we can't get information about it"
+    },
+    "GroupV2--join--link-revoked": {
+        "message": "لم يعُد رابط المجموعة هذا صالحاً.",
+        "description": "Shown if you click a group link and we can't get information about it"
+    },
+    "GroupV2--join--prompt-with-approval": {
+        "message": "ليصبح بإمكانك الانضمام إلى هذه المجموعة، يجب أن يوافق مشرف من هذه المجموعة على طلب انضمامك. إذا تم ذلك، سيتم مشاركة اسمك وصورتك مع أعضاء المجموعة.",
+        "description": "Shown when you click on a group link to confirm, if it requires admin approval"
+    },
+    "GroupV2--join--join-button": {
+        "message": "الانضمام",
+        "description": "The button to join the group"
+    },
+    "GroupV2--join--request-to-join-button": {
+        "message": "طلب الانضمام",
+        "description": "The button to join the group, if approval is required"
+    },
+    "GroupV2--join--cancel-request-to-join": {
+        "message": "إلغاء الطلب",
+        "description": "The button to cancel request to join the group"
+    },
+    "GroupV2--join--cancel-request-to-join--confirmation": {
+        "message": "إلغاء طلبك في الإنضمام لهذه المجموعة؟",
+        "description": "A confirmation message that shows after you click the button"
+    },
+    "GroupV2--join--cancel-request-to-join--yes": {
+        "message": "نعم",
+        "description": "Choosing to continue in the cancel join confirmation dialog"
+    },
+    "GroupV2--join--cancel-request-to-join--no": {
+        "message": "لا",
+        "description": "Choosing not to continue in the cancel join confirmation dialog"
+    },
+    "GroupV2--join--member-count--single": {
+        "message": "عضو واحد",
+        "description": "Shown in the metadata section if group has just one member"
+    },
+    "GroupV2--join--member-count--multiple": {
+        "message": "$count$ أعضاء",
+        "description": "Shown in the metadata section if group has more than one member",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "12"
+            }
+        }
+    },
+    "GroupV2--join--group-metadata": {
+        "message": "المجموعة · $memberCount$",
+        "description": "A holder for two pieces of information - the type of conversation, and the member count",
+        "placeholders": {
+            "memberCount": {
+                "content": "$1",
+                "example": "12 members"
+            }
+        }
+    },
+    "GroupV2--join--requested": {
+        "message": "لقد تمّ إرسال طلبك للإنضمام إلى مُشرف المجموعة. سيتم إخطارك عند اتخاذه للإجراء.",
+        "description": "Shown in composition area when you've requested to join a group"
+    },
+    "GroupV2--join--general-join-failure--title": {
+        "message": "خطأ في الوصلة",
+        "description": "Shown if something went wrong when you try to join via a group link"
+    },
+    "GroupV2--join--general-join-failure": {
+        "message": "فشِل الانضمام عبر هذه الوصلة. يُرجى محاولة الانضمام لاحقا.",
+        "description": "Shown if something went wrong when you try to join via a group link"
+    },
     "GroupV2--admin": {
         "message": "المشرف",
-        "description": "Shown next to the set of administrators in a group"
+        "description": "Label for a group administrator"
+    },
+    "GroupV2--all-members": {
+        "message": "جميع الأعضاء",
+        "description": "Label for describing the general non-privileged members of a group"
     },
     "updating": {
         "message": "يجري التحديث...",
         "description": "Shown along with a spinner when an update operation takes longer than one second"
     },
     "GroupV2--create--you": {
-        "message": "لقد أنشأتَ مجموعة.",
+        "message": "لقد قمت بإنشاء المجموعة.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--create--other": {
@@ -3306,7 +3446,7 @@
         }
     },
     "GroupV2--title--change--unknown": {
-        "message": "غيّر عضو اسم المجموعة إلى ''$newTitle$\".",
+        "message": "غيَّر عضو اسم المجموعة إلى ''$newTitle$\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "newTitle": {
@@ -3326,7 +3466,7 @@
         }
     },
     "GroupV2--title--remove--you": {
-        "message": "أزلتَ اسم المجموعة.",
+        "message": "لقد قمت بإزالة اسم المجموعة.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--remove--unknown": {
@@ -3348,7 +3488,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--unknown": {
-        "message": "عدّل عضو صورة المجموعة.",
+        "message": "عدَّل عضو صورة المجموعة.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--other": {
@@ -3362,7 +3502,7 @@
         }
     },
     "GroupV2--avatar--remove--you": {
-        "message": "لقد أزلت صورة المجموعة",
+        "message": "لقد قمت بإزالة صورة المجموعة.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--unknown": {
@@ -3441,6 +3581,42 @@
         "message": "قام مشرف بتغيير من بإمكانه تحرير معلومات عضوية المجموعة إلى \"كل اﻷعضاء\".",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
+    "GroupV2--access-invite-link--disabled--you": {
+        "message": "لقد عطلت موافقة المشرف على وصلة المجموعة.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--access-invite-link--disabled--other": {
+        "message": "لقد عطل $adminName$ موافقة المشرف على وصلة المجموعة.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--access-invite-link--disabled--unknown": {
+        "message": "لقد عُطلَت موافقة المشرف على وصلة المجموعة.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--access-invite-link--enabled--you": {
+        "message": "لقد فعَّلت موافقة المشرف على وصلة المجموعة.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--access-invite-link--enabled--other": {
+        "message": "لقد فعَّل $adminName$ موافقة المشرف على وصلة المجموعة.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--access-invite-link--enabled--unknown": {
+        "message": "لقد عُطلَت موافقة المشرف على وصلة المجموعة.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
     "GroupV2--member-add--invited--you": {
         "message": "لقد أضفت العضو المدعو $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
@@ -3476,7 +3652,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other": {
-        "message": "قبل العضو $inviteeName$ الدعوة للمجموعة من طرف $inviterName$.",
+        "message": "لقد قبل العضو $inviteeName$ الدعوة للمجموعة من طرف $inviterName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3490,7 +3666,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other-no-from": {
-        "message": "قبل العضو $inviteeName$ الدعوة إلى المجموعة.",
+        "message": "لقد قبل العضو $inviteeName$ الدعوة إلى المجموعة.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3514,7 +3690,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--from-invite--from-you": {
-        "message": "قبل العضو $inviteeName$ دعوتك إلى المجموعة.",
+        "message": "لقد قبل العضو $inviteeName$ دعوتك إلى المجموعة.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3575,6 +3751,68 @@
         "message": "لقد أُضفت إلى المجموعة.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
+    "GroupV2--member-add-from-link--you--you": {
+        "message": "لقد انضممت للمجموعة بواسطة رابط المجموعة.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--member-add-from-link--other": {
+        "message": "لقد انضم العضو $memberName$ للمجموعة عبر وصلة المجموعة.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--member-add-from-admin-approval--you--other": {
+        "message": "لقد وافق $adminName$ على طلب انضمامك للمجموعة.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--member-add-from-admin-approval--you--unknown": {
+        "message": "تمت الموافقة على طلبك للانضمام للمجموعة.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--member-add-from-admin-approval--other--you": {
+        "message": "لقد وافقت على طلب انضمام $joinerName$ للمجموعة.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--member-add-from-admin-approval--other--other": {
+        "message": "لقد وافق $adminName$ على طلب انضمام $joinerName$ للمجموعة.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--member-add-from-admin-approval--other--unknown": {
+        "message": "لقد تمت الموافقة على طلب انضمام $joinerName$ للمجموعة.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "GroupV2--member-remove--other--other": {
         "message": "أزيل العضو $memberName$ من طرف $adminName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
@@ -3634,7 +3872,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-remove--you--unknown": {
-        "message": "أُزلتَ من المجموعة.",
+        "message": "تمت إزالتك من المجموعة.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--promote--other--other": {
@@ -4057,6 +4295,134 @@
             }
         }
     },
+    "GroupV2--admin-approval-add-one--you": {
+        "message": "أنت قد أرسلت طلب إنضمام للمجموعة.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--admin-approval-add-one--other": {
+        "message": "طلب $joinerName$ الانضمام للمجموعة بواسطة وصلة المجموعة.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-remove-one--you--you": {
+        "message": "أنت قد ألغيتَ طلب انضمامك للمجموعة.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--admin-approval-remove-one--you--unknown": {
+        "message": "تمّ رفض طلبك للانضمام للمجموعة من قبل مشرف عليها.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--admin-approval-remove-one--other--you": {
+        "message": "لقد رفضت طلب انضمام $joinerName$ للمجموعة.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-remove-one--other--own": {
+        "message": "لقد ألغى $joinerName$ طلب الانضمام إلى المجموعة.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-remove-one--other--other": {
+        "message": "لقد رفض $adminName$ طلب انضمام $joinerName$ للمجموعة.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "joinerName": {
+                "content": "$2",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--group-link-add--disabled--you": {
+        "message": "لقد قمت بتشغيل وصلة المجموعة مع تعطيل موافقة المشرف.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-add--disabled--other": {
+        "message": "لقد قام $adminName$ بتشغيل وصلة المجموعة مع تعطيل موافقة المشرف.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--group-link-add--disabled--unknown": {
+        "message": "لقد تم تشغيل وصلة المجموعة مع تعطيل موافقة المشرف.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-add--enabled--you": {
+        "message": "لقد قمت بتشغيل وصلة المجموعة مع تفعيل موافقة المشرف.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-add--enabled--other": {
+        "message": "لقد قام $adminName$ بتشغيل وصلة المجموعة مع تفعيل موافقة المشرف.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--group-link-add--enabled--unknown": {
+        "message": "لقد تم تشغيل وصلة المجموعة مع تفعيل موافقة المشرف.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-remove--you": {
+        "message": "أنت قد أوقفت رابط المجموعة.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-remove--other": {
+        "message": "عطل $adminName$ وصلة المجموعة.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--group-link-remove--unknown": {
+        "message": "عُطلَت وصلة المجموعة.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-reset--you": {
+        "message": "أنت قد أعدتَ تعيين رابط المجموعة.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-reset--other": {
+        "message": "أعاد $adminName$ تعيين وصلة المجموعة.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--group-link-reset--unknown": {
+        "message": "لقد أُعيد تعيين وصلة المجموعة.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
     "GroupV1--Migration--disabled": {
         "message": "يجب القيام بترقية هذه المجموعة لتفعيل ميزات جديدة مثل ‎@mention والمشرفين عليها. ستتم دعوة اﻷعضاء الذين لم يشاركوا أسمائهم ولا صورهم مع هذه المجموعة للانضمام إليها. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
@@ -4072,11 +4438,11 @@
         "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
     },
     "GroupV1--Migration--learn-more": {
-        "message": "أعرف أكثر",
+        "message": "لمعرفة المزيد",
         "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
     },
     "GroupV1--Migration--migrate": {
-        "message": "ترقية",
+        "message": "الترقية",
         "description": "Shown on Migrate dialog to kick off the process"
     },
     "GroupV1--Migration--info--title": {
@@ -4084,11 +4450,11 @@
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--title": {
-        "message": "قم بالترقية إلى مجموعة جديدة",
+        "message": "الترقية إلى مجموعة جديدة",
         "description": "Shown on Migration popup after choosing to migrate group"
     },
     "GroupV1--Migration--info--summary": {
-        "message": "تحوي المجموعات الجديدة ميزات كـ ‎@mentions‎ ومشرفين على المجموعة، كما ستدعم مستقبلا المزيد من الميزات.",
+        "message": "تحوي المجموعات الجديدة ميزات كـ ‎@mentions‎ والمشرفين على المجموعة، كما ستدعم مستقبلا المزيد من الميزات.",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--keep-history": {
@@ -4116,23 +4482,23 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--one": {
-        "message": "لم يتمكن هذا العضو من الانضمام إلى المجموعات الجديدة، لذا سوف تتم إزالته من المجموعة :",
+        "message": "لا يتمكن هذا العضو من الانضمام إلى المجموعات الجديدة، لذا سوف تتم إزالته من المجموعة :",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--many": {
-        "message": "لم يتمكن هؤﻻء اﻷعضاء من الانضمام إلى المجموعات الجديدة، لذلك تمت إزالتهم من المجموعة :",
+        "message": "لا يتمكن هؤﻻء اﻷعضاء من الانضمام إلى المجموعات الجديدة، لذلك تمت إزالتهم من المجموعة :",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--one": {
-        "message": "لم يتمكن هذا العضو من الانضمام إلى المجموعات الجديدة، لذلك تمت إزالته من المجموعة :",
+        "message": "لا يتمكن هذا العضو من الانضمام إلى المجموعات الجديدة، لذلك تمت إزالته من المجموعة :",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
-        "message": "تعذرت إضافتك إلى المجموعات الجديدة وقد تمت دعوتك للانضمام.",
+        "message": "تعذرت إضافتك إلى المجموعات الجديدة والآن تمت دعوتك إليها.",
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {
-        "message": "تعذرت إضافة $contact$ إلى المجموعات الجديدة وقد تمت دعوتها للانضمام.",
+        "message": "تعذرت إضافة $contact$ إلى المجموعات الجديدة والآن تمت دعوتها للانضمام.",
         "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
         "placeholders": {
             "contact": {
@@ -4142,7 +4508,7 @@
         }
     },
     "GroupV1--Migration--invited--many": {
-        "message": "تعذرت إضافة $count$ عضوا إلى المجموعات الجديدة وقد تمت دعوتهم للانضمام.",
+        "message": "تعذرت إضافة $count$ عضوا إلى المجموعات الجديدة والآن تمت دعوتهم للانضمام.",
         "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
         "placeholders": {
             "contact": {
@@ -4199,12 +4565,296 @@
         "message": "إرسال",
         "description": "Button text for send message button in Group Contact Details modal"
     },
+    "ContactModal--rm-admin": {
+        "message": "أزل عنه ميزة الإشراف",
+        "description": "Button text for removing as admin button in Group Contact Details modal"
+    },
     "ContactModal--make-admin": {
-        "message": "اجعل مشرفا",
+        "message": "اجعله مشرفا",
         "description": "Button text for make admin button in Group Contact Details modal"
     },
+    "ContactModal--make-admin-info": {
+        "message": "سيتمكن $contact$ من تحرير هذه المجموعة وكذا أعضاءها.",
+        "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Homer"
+            }
+        }
+    },
+    "ContactModal--rm-admin-info": {
+        "message": "إزالة $contact$ من لائحة المشرفين على المجموعة ؟",
+        "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Homer"
+            }
+        }
+    },
     "ContactModal--remove-from-group": {
-        "message": "إزالة من المجموعة",
+        "message": "الإزالة من المجموعة",
         "description": "Button text for remove from group button in Group Contact Details modal"
+    },
+    "showConversationDetails": {
+        "message": "إعدادات المجموعة",
+        "description": "This is a button in the conversation context menu to show group settings"
+    },
+    "ConversationDetails--group-link": {
+        "message": "وصلة المجموعة",
+        "description": "This is the label for the group link management panel"
+    },
+    "ConversationDetails--disappearing-messages-label": {
+        "message": "الرسائل المختفية",
+        "description": "This is the label for the disappearing messages setting panel"
+    },
+    "ConversationDetails--disappearing-messages-info": {
+        "message": "عند تفعيل هذا الخيار، سوف تختفي كل الرسائل المُرسلَة والمُستلَمة في هذه المجموعة بعد قراءتها.",
+        "description": "This is the info about the disappearing messages setting"
+    },
+    "ConversationDetails--group-info-label": {
+        "message": "من يستطيع تعديل معلومات المجموعة",
+        "description": "This is the label for the 'who can edit the group' panel"
+    },
+    "ConversationDetails--group-info-info": {
+        "message": "عليك باختيار العضو الذي يمكنه تحرير اسم وصورة المجموعة وكذا مهلة اختفاء الرسائل.",
+        "description": "This is the additional info for the 'who can edit the group' panel"
+    },
+    "ConversationDetails--add-members-label": {
+        "message": "اﻷشخاص الذين يمكنهم إضافة الأعضاء",
+        "description": "This is the label for the 'who can add members' panel"
+    },
+    "ConversationDetails--add-members-info": {
+        "message": "عليك باختيار الأفراد الذين يمكنهم إضافة الأعضاء إلى هذه المجموعة.",
+        "description": "This is the additional info for the 'who can add members' panel"
+    },
+    "ConversationDetails--requests-and-invites": {
+        "message": "طلبات و دعوات اﻷعضاء",
+        "description": "This is a button to display which members have been invited but have not joined yet"
+    },
+    "ConversationDetailsActions--leave-group": {
+        "message": "مغادرة المجموعة",
+        "description": "This is a button to leave a group"
+    },
+    "ConversationDetailsActions--block-group": {
+        "message": "حظر المجموعة",
+        "description": "This is a button to block a group"
+    },
+    "ConversationDetailsActions--leave-group-modal-title": {
+        "message": "هل أنت متأكد من رغبتك في المغادرة؟",
+        "description": "This is the modal title for confirming leaving a group"
+    },
+    "ConversationDetailsActions--leave-group-modal-content": {
+        "message": "لن تتمكن من إرسال أو استلام رسائل لهذه المجموعة بعد اﻵن.",
+        "description": "This is the modal content for confirming leaving a group"
+    },
+    "ConversationDetailsActions--leave-group-modal-confirm": {
+        "message": "غادِر",
+        "description": "This is the modal button to confirm leaving a group"
+    },
+    "ConversationDetailsActions--block-group-modal-title": {
+        "message": "حظر المجموعة « $groupName$ » ثم مغادرتها ؟",
+        "description": "This is the modal title for confirming blocking a group",
+        "placeholders": {
+            "groupName": {
+                "content": "$1",
+                "example": "Our Conversation"
+            }
+        }
+    },
+    "ConversationDetailsActions--block-group-modal-content": {
+        "message": "لن تصلك الرسائل أو التحديثات من هذه المجموعة بعد الآن.",
+        "description": "This is the modal content for confirming blocking a group"
+    },
+    "ConversationDetailsActions--block-group-modal-confirm": {
+        "message": "حظر",
+        "description": "This is the modal button to confirm blocking a group"
+    },
+    "ConversationDetailsHeader--members": {
+        "message": "$number$ أعضاء",
+        "description": "This is the number of members in a group",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
+    "ConversationDetailsMediaList--shared-media": {
+        "message": "الملفّات المتعدّدة الوسائط التي تّم مشاركتها",
+        "description": "Title for the media thumbnails in the conversation details screen"
+    },
+    "ConversationDetailsMediaList--show-all": {
+        "message": "مشاهدة الكل",
+        "description": "This is a button on the conversation details to show all media"
+    },
+    "ConversationDetailsMembershipList--title": {
+        "message": "$number$ أعضاء",
+        "description": "The title of the membership list panel",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
+    "ConversationDetailsMembershipList--show-all": {
+        "message": "مشاهدة الكل",
+        "description": "This is a button on the conversation details to show all members"
+    },
+    "GroupLinkManagement--clipboard": {
+        "message": "لقد نُسِخت وصلة المجموعة.",
+        "description": "Shown in a toast when a user selects to copy group link"
+    },
+    "GroupLinkManagement--share": {
+        "message": "نسخ الوصلة",
+        "description": "This lets users share their group link"
+    },
+    "GroupLinkManagement--confirm-reset": {
+        "message": "هل أنت متأكد من رغبتك في إعادة تعيين رابط المجموعة؟ لن يتمكن الناس بعد الآن من الانضمام للمجموعة باستخدام الرابط الحالي.",
+        "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
+    },
+    "GroupLinkManagement--reset": {
+        "message": "إعادة تعيين الوصلة",
+        "description": "This lets users generate a new group link"
+    },
+    "GroupLinkManagement--approve-label": {
+        "message": "الموافقة على الأعضاء الجدد",
+        "description": "Title for the approve new members select area"
+    },
+    "GroupLinkManagement--approve-info": {
+        "message": "إلزام المشرف الموافقة على الأعضاء الطالبين للانضمام عبر وصلة المجموعة.",
+        "description": "Description for the approve new members select area"
+    },
+    "PendingInvites--tab-requests": {
+        "message": "الطلبات ($count$)",
+        "description": "Label for the tab to view pending requests",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "4"
+            }
+        }
+    },
+    "PendingInvites--tab-invites": {
+        "message": "الدعوات ($count$)",
+        "description": "Label for the tab to view pending invites",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "PendingRequests--approve-for": {
+        "message": "الموافقة على الطلب من « $name$ » ؟",
+        "description": "This is the modal content when confirming approving a group request to join",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Meowsy Purrington"
+            }
+        }
+    },
+    "PendingRequests--deny-for": {
+        "message": "رفض طلب « $name$ » ؟",
+        "description": "This is the modal content when confirming denying a group request to join",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Meowsy Purrington"
+            }
+        }
+    },
+    "PendingInvites--invites": {
+        "message": "الذين دعوتهم",
+        "description": "This is the title list of all invites"
+    },
+    "PendingInvites--invited-by-you": {
+        "message": "الذين دعوتهم",
+        "description": "This is the title for the list of members you have invited"
+    },
+    "PendingInvites--invited-by-others": {
+        "message": "الذين دعاهم الآخرون",
+        "description": "This is the title for the list of members who have invited other people"
+    },
+    "PendingInvites--invited-count": {
+        "message": "لقد دعا $number$",
+        "description": "This is the label for the number of members someone has invited",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "PendingInvites--revoke-for-label": {
+        "message": "إبطال الدعوات إلى المجموعة",
+        "description": "This is aria label for revoking a group invite icon"
+    },
+    "PendingInvites--revoke-for": {
+        "message": "إبطال دعوة « $name$ » إلى المجموعة ؟",
+        "description": "This is the modal content when confirming revoking a single invite",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "3"
+            },
+            "name": {
+                "content": "$2",
+                "example": "Fred Riley III"
+            }
+        }
+    },
+    "PendingInvites--revoke-from-singular": {
+        "message": "إبطال دعوة واجدة إلى المجموعة، أرسلها « $name$ » ؟",
+        "description": "This is the modal content when confirming revoking a single invite",
+        "placeholders": {
+            "name": {
+                "content": "$2",
+                "example": "Fred Riley III"
+            }
+        }
+    },
+    "PendingInvites--revoke-from-plural": {
+        "message": "إبطال $number$ دعوات إلى المجموعة، أرسلها « $name$ » ؟",
+        "description": "This is the modal content when confirming revoking multiple invites",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "3"
+            },
+            "name": {
+                "content": "$2",
+                "example": "Fred Riley III"
+            }
+        }
+    },
+    "PendingInvites--revoke": {
+        "message": "رفض",
+        "description": "This is the modal button to confirm revoking invites"
+    },
+    "PendingRequests--approve": {
+        "message": "الموافقة على الطلب",
+        "description": "This is the modal button to approve group request to join"
+    },
+    "PendingRequests--deny": {
+        "message": "رفض الطلب",
+        "description": "This is the modal button to deny group request to join"
+    },
+    "PendingRequests--info": {
+        "message": "يحاول الأفراد الموجودون في هذه اللائحة الانضمام إلى « $name$ » عبر وصلة المجموعة.",
+        "description": "Inforamtion shown below the pending admin approval list",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Tahoe List"
+            }
+        }
+    },
+    "PendingInvites--info": {
+        "message": "لن تظهر تفاصيل اﻷفراد المدعوين إلى هذه المجموعة حتى ينضموا إليها. لن يرى هؤلاء المدعوون الرسائل حتى ينضموا لهذه المجموعة.",
+        "description": "Information shown below the invite list"
     }
 }
