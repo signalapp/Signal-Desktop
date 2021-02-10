@@ -960,7 +960,16 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
 
     if (isNumber(messageHeightChangeIndex)) {
       const rowIndex = this.fromItemIndexToRow(messageHeightChangeIndex);
+      const rowCount = this.getRowCount();
       this.resize(rowIndex);
+      // The height of the previous and message may change as well since
+      // we have different paddings depending on the author.
+      if (rowIndex > 0) {
+        this.resize(rowIndex - 1);
+      }
+      if (rowIndex < rowCount - 1) {
+        this.resize(rowIndex + 1);
+      }
       clearChangedMessages(id);
 
       return;
