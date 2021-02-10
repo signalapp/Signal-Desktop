@@ -127,7 +127,12 @@ async function decryptForClosedGroup(
       keypairRequestManager.markRequestSendFor(groupPubKey, Date.now());
       await requestEncryptionKeyPair(groupPubKey);
     }
-    await removeFromCache(envelope);
+    throw new Error(
+      `Waiting for an encryption keypair to be received for group ${groupPubKey.key}`
+    );
+    // do not remove it from the cache yet. We will try to decrypt it once we get the encryption keypair
+    // TODO drop it if after some time we still don't get to decrypt it
+    // await removeFromCache(envelope);
     return null;
   }
 }

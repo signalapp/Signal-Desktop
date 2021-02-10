@@ -54,7 +54,7 @@ export async function getAllFromCache() {
       const attempts = _.toNumber(item.attempts || 0) + 1;
 
       try {
-        if (attempts >= 3) {
+        if (attempts >= 10) {
           window.log.warn(
             'getAllFromCache final attempt for envelope',
             item.id
