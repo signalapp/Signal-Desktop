@@ -319,12 +319,12 @@ $loading-height: 16px;
   background-color: $ultramarine-brand-light;
   color: $color-white;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
   user-select: none;
 
   .content {
-    margin-left: auto;
-    margin-right: auto;
     text-align: center;
   }
   .container {
@@ -336,6 +336,8 @@ $loading-height: 16px;
   .message {
     -webkit-user-select: text;
     max-width: 35em;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .dot {
