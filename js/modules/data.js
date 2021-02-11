@@ -196,6 +196,7 @@ module.exports = {
   getAllEncryptionKeyPairsForGroup,
   getLatestClosedGroupEncryptionKeyPair,
   addClosedGroupEncryptionKeyPair,
+  isKeyPairAlreadySaved,
   removeAllClosedGroupEncryptionKeyPairs,
 };
 
@@ -721,6 +722,10 @@ async function getLatestClosedGroupEncryptionKeyPair(groupPublicKey) {
 
 async function addClosedGroupEncryptionKeyPair(groupPublicKey, keypair) {
   return channels.addClosedGroupEncryptionKeyPair(groupPublicKey, keypair);
+}
+
+async function isKeyPairAlreadySaved(groupPublicKey, keypair) {
+  return channels.isKeyPairAlreadySaved(groupPublicKey, keypair);
 }
 
 async function removeAllClosedGroupEncryptionKeyPairs(groupPublicKey) {

@@ -2,13 +2,30 @@ import { ContentMessage, OpenGroupMessage } from '../messages/outgoing';
 import { RawMessage } from '../types/RawMessage';
 import { TypedEventEmitter } from '../utils';
 import { PubKey } from '../types';
-import { ClosedGroupMessage } from '../messages/outgoing/content/data/group/ClosedGroupMessage';
 import { ClosedGroupChatMessage } from '../messages/outgoing/content/data/group/ClosedGroupChatMessage';
+import {
+  ClosedGroupAddedMembersMessage,
+  ClosedGroupEncryptionPairMessage,
+  ClosedGroupNameChangeMessage,
+  ClosedGroupRemovedMembersMessage,
+  ClosedGroupUpdateMessage,
+} from '../messages/outgoing/content/data/group';
+import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/content/data/group/ClosedGroupMemberLeftMessage';
+import { ClosedGroupEncryptionPairRequestMessage } from '../messages/outgoing/content/data/group/ClosedGroupEncryptionPairRequestMessage';
 
 export type GroupMessageType =
   | OpenGroupMessage
   | ClosedGroupChatMessage
-  | ClosedGroupMessage;
+  | ClosedGroupAddedMembersMessage
+  | ClosedGroupRemovedMembersMessage
+  | ClosedGroupNameChangeMessage
+  | ClosedGroupMemberLeftMessage
+  | ClosedGroupUpdateMessage
+  | ClosedGroupEncryptionPairMessage
+  | ClosedGroupEncryptionPairRequestMessage;
+
+// ClosedGroupEncryptionPairReplyMessage must be sent to a user pubkey. Not a group.
+
 export interface MessageQueueInterfaceEvents {
   sendSuccess: (
     message: RawMessage | OpenGroupMessage,

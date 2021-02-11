@@ -4,6 +4,7 @@ import _ from 'lodash';
 
 export async function removeFromCache(envelope: EnvelopePlus) {
   const { id } = envelope;
+  window.log.info(`removing from cache envelope: ${id}`);
 
   return window.textsecure.storage.unprocessed.remove(id);
 }
@@ -30,9 +31,7 @@ export async function addToCache(
   return window.textsecure.storage.unprocessed.add(data);
 }
 
-export async function getAllFromCache() {
-  window.log.info('getAllFromCache');
-
+async function fetchAllFromCache(): Promise<Array<any>> {
   const { textsecure } = window;
 
   const count = await textsecure.storage.unprocessed.getCount();
@@ -46,14 +45,66 @@ export async function getAllFromCache() {
   }
 
   const items = await textsecure.storage.unprocessed.getAll();
+  return items;
+}
+
+export async function getAllFromCache() {
+  window.log.info('getAllFromCache');
+  const items = await fetchAllFromCache();
+
   window.log.info('getAllFromCache loaded', items.length, 'saved envelopes');
+  const { textsecure } = window;
 
   return Promise.all(
     _.map(items, async (item: any) => {
       const attempts = _.toNumber(item.attempts || 0) + 1;
 
       try {
-        if (attempts >= 3) {
+        if (attempts >= 10) {
+          window.log.warn(
+            'getAllFromCache final attempt for envelope',
+            item.id
+          );
+          await textsecure.storage.unprocessed.remove(item.id);
+        } else {
+          await textsecure.storage.unprocessed.updateAttempts(
+            item.id,
+            attempts
+          );
+        }
+      } catch (error) {
+        window.log.error(
+          'getAllFromCache error updating item after load:',
+          error && error.stack ? error.stack : error
+        );
+      }
+
+      return item;
+    })
+  );
+}
+
+export async function getAllFromCacheForSource(source: string) {
+  const items = await fetchAllFromCache();
+
+  // keep items without source too (for old message already added to the cache)
+  const itemsFromSource = items.filter(
+    item => !!item.senderIdentity || item.senderIdentity === source
+  );
+
+  window.log.info(
+    'getAllFromCacheForSource loaded',
+    itemsFromSource.length,
+    'saved envelopes'
+  );
+  const { textsecure } = window;
+
+  return Promise.all(
+    _.map(items, async (item: any) => {
+      const attempts = _.toNumber(item.attempts || 0) + 1;
+
+      try {
+        if (attempts >= 10) {
           window.log.warn(
             'getAllFromCache final attempt for envelope',
             item.id
