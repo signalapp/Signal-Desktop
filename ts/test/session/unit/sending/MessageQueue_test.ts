@@ -141,27 +141,15 @@ describe('MessageQueue', () => {
 
   describe('sendToPubKey', () => {
     it('should send the message to the device', async () => {
-      const devices = TestUtils.generateFakePubKeys(1);
-      const stub = sandbox
-        .stub(messageQueueStub, 'sendMessageToDevices')
-        .resolves();
+      const device = TestUtils.generateFakePubKey();
+      const stub = sandbox.stub(messageQueueStub as any, 'process').resolves();
 
       const message = TestUtils.generateChatMessage();
-      await messageQueueStub.sendToPubKey(devices[0], message);
+      await messageQueueStub.sendToPubKey(device, message);
 
       const args = stub.lastCall.args as [Array<PubKey>, ContentMessage];
-      expect(args[0]).to.have.same.members(devices);
+      expect(args[0]).to.be.equal(device);
       expect(args[1]).to.equal(message);
-    });
-  });
-
-  describe('sendMessageToDevices', () => {
-    it('can send to many devices', async () => {
-      const devices = TestUtils.generateFakePubKeys(5);
-      const message = TestUtils.generateChatMessage();
-
-      await messageQueueStub.sendMessageToDevices(devices, message);
-      expect(pendingMessageCache.getCache()).to.have.length(devices.length);
     });
   });
 

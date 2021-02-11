@@ -152,9 +152,9 @@ export async function handleNewClosedGroup(
     await removeFromCache(envelope);
     return;
   }
-  const ourPrimary = await UserUtils.getOurNumber();
+  const ourNumber = await UserUtils.getOurNumber();
 
-  if (envelope.senderIdentity === ourPrimary.key) {
+  if (envelope.senderIdentity === ourNumber.key) {
     window.log.warn(
       'Dropping new closed group updatemessage from our other device.'
     );
@@ -173,7 +173,7 @@ export async function handleNewClosedGroup(
   const members = membersAsData.map(toHex);
   const admins = adminsAsData.map(toHex);
 
-  if (!members.includes(ourPrimary.key)) {
+  if (!members.includes(ourNumber.key)) {
     log.info(
       'Got a new group message but apparently we are not a member of it. Dropping it.'
     );
@@ -694,15 +694,13 @@ async function handleClosedGroupMemberLeft(
   const oldMembers = convo.get('members') || [];
   const leftMemberWasPresent = oldMembers.includes(sender);
   const members = didAdminLeave ? [] : oldMembers.filter(s => s !== sender);
-  // Guard against self-sends
+  // Show log if we sent this message ourself (from another device or not)
   const ourPubkey = await UserUtils.getCurrentDevicePubKey();
   if (!ourPubkey) {
     throw new Error('Could not get user pubkey');
   }
-  if (sender === ourPubkey) {
-    window.log.info('self send group update ignored');
-    await removeFromCache(envelope);
-    return;
+  if (await UserUtils.isUs(sender)) {
+    window.log.info('Got self-sent group update member left...');
   }
 
   // Generate and distribute a new encryption key pair if needed

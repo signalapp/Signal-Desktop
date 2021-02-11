@@ -531,8 +531,7 @@ export async function handleConfigurationMessage(
   if (!ourPubkey) {
     return;
   }
-  console.warn('ourPubkey', ourPubkey);
-  console.warn('envelope.source', envelope.source);
+
   if (envelope.source !== ourPubkey) {
     window?.log?.info(
       'Dropping configuration change from someone else than us.'
