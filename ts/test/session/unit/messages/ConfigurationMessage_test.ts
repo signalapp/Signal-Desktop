@@ -5,7 +5,6 @@ import {
   ConfigurationMessage,
   ConfigurationMessageClosedGroup,
 } from '../../../../session/messages/outgoing/content/ConfigurationMessage';
-import { PubKey } from '../../../../session/types';
 import { TestUtils } from '../../../test-utils';
 
 describe('ConfigurationMessage', () => {

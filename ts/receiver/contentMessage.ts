@@ -12,7 +12,11 @@ import { GroupUtils, UserUtils } from '../session/utils';
 import { fromHexToArray, toHex } from '../session/utils/String';
 import { concatUInt8Array, getSodium } from '../session/crypto';
 import { ConversationController } from '../session/conversations';
-import { getAllEncryptionKeyPairsForGroup } from '../../js/modules/data';
+import {
+  createOrUpdateItem,
+  getAllEncryptionKeyPairsForGroup,
+  getItemById,
+} from '../../js/modules/data';
 import { ECKeyPair } from './keypairs';
 import { handleNewClosedGroup } from './closedGroups';
 import { KeyPairRequestManager } from './keyPairRequestManager';
@@ -519,7 +523,7 @@ async function handleTypingMessage(
   }
 }
 
-async function handleConfigurationMessage(
+export async function handleConfigurationMessage(
   envelope: EnvelopePlus,
   configurationMessage: SignalService.ConfigurationMessage
 ): Promise<void> {
@@ -527,15 +531,35 @@ async function handleConfigurationMessage(
   if (!ourPubkey) {
     return;
   }
-
+  console.warn('ourPubkey', ourPubkey);
+  console.warn('envelope.source', envelope.source);
   if (envelope.source !== ourPubkey) {
-    window.log.info('dropping configuration change from someone else than us.');
+    window?.log?.info(
+      'Dropping configuration change from someone else than us.'
+    );
     return removeFromCache(envelope);
   }
 
+  const ITEM_ID_PROCESSED_CONFIGURATION_MESSAGE =
+    'ITEM_ID_PROCESSED_CONFIGURATION_MESSAGE';
+  const didWeHandleAConfigurationMessageAlready =
+    (await getItemById(ITEM_ID_PROCESSED_CONFIGURATION_MESSAGE))?.value ||
+    false;
+  if (didWeHandleAConfigurationMessageAlready) {
+    window?.log?.warn(
+      'Dropping configuration change as we already handled one... '
+    );
+    await removeFromCache(envelope);
+    return;
+  }
+  await createOrUpdateItem({
+    id: ITEM_ID_PROCESSED_CONFIGURATION_MESSAGE,
+    value: true,
+  });
+
   const numberClosedGroup = configurationMessage.closedGroups?.length || 0;
 
-  window.log.warn(
+  window?.log?.warn(
     `Received ${numberClosedGroup} closed group on configuration. Creating them... `
   );
 
@@ -551,7 +575,13 @@ async function handleConfigurationMessage(
           publicKey: c.publicKey,
         }
       );
-      await handleNewClosedGroup(envelope, groupUpdate);
+      try {
+        await handleNewClosedGroup(envelope, groupUpdate);
+      } catch (e) {
+        window?.log?.warn(
+          'failed to handle  a new closed group from configuration message'
+        );
+      }
     })
   );
 
@@ -563,7 +593,7 @@ async function handleConfigurationMessage(
   for (let i = 0; i < numberOpenGroup; i++) {
     const current = configurationMessage.openGroups[i];
     if (!allOpenGroups.includes(current)) {
-      window.log.info(
+      window?.log?.info(
         `triggering join of public chat '${current}' from ConfigurationMessage`
       );
       void OpenGroup.join(current);
