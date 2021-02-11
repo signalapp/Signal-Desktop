@@ -1,6 +1,7 @@
 import { KeyPair } from '../../libtextsecure/libsignal-protocol';
 import { MessageCollection } from '../../ts/models/message';
 import { HexKeyPair } from '../../ts/receiver/closedGroups';
+import { ECKeyPair } from '../../ts/receiver/keypairs';
 import { PubKey } from '../../ts/session/types';
 import { ConversationType } from '../../ts/state/ducks/conversations';
 import { Message } from '../../ts/types/Message';
@@ -408,6 +409,10 @@ export function removeAllClosedGroupRatchets(groupId: string): Promise<void>;
 export function getAllEncryptionKeyPairsForGroup(
   groupPublicKey: string | PubKey
 ): Promise<Array<HexKeyPair> | undefined>;
+export function isKeyPairAlreadySaved(
+  groupPublicKey: string,
+  keypair: HexKeyPair
+): Promise<boolean>;
 export function getLatestClosedGroupEncryptionKeyPair(
   groupPublicKey: string
 ): Promise<HexKeyPair | undefined>;

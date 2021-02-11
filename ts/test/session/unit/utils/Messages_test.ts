@@ -1,3 +1,5 @@
+// tslint:disable: no-implicit-dependencies
+
 import chai from 'chai';
 import * as sinon from 'sinon';
 import { TestUtils } from '../../../test-utils';
@@ -16,10 +18,12 @@ import {
 } from '../../../../session/messages/outgoing/content/data/group';
 import { MockConversation } from '../../../test-utils/utils';
 import { ConfigurationMessage } from '../../../../session/messages/outgoing/content/ConfigurationMessage';
+
 import { ConversationModel } from '../../../../models/conversation';
 
 import chaiAsPromised from 'chai-as-promised';
 chai.use(chaiAsPromised as any);
+import { ClosedGroupEncryptionPairReplyMessage } from '../../../../session/messages/outgoing/content/data/group/ClosedGroupEncryptionPairReplyMessage';
 
 const { expect } = chai;
 
@@ -185,7 +189,7 @@ describe('Message Utils', () => {
       expect(rawMessage.encryption).to.equal(EncryptionType.ClosedGroup);
     });
 
-    it('passing ClosedGroupEncryptionPairMessage returns ClosedGroup', async () => {
+    it('passing ClosedGroupEncryptionKeyPairReply returns Fallback', async () => {
       const device = TestUtils.generateFakePubKey();
 
       const fakeWrappers = new Array<
@@ -197,14 +201,14 @@ describe('Message Utils', () => {
           encryptedKeyPair: new Uint8Array(8),
         })
       );
-      const msg = new ClosedGroupEncryptionPairMessage({
+      const msg = new ClosedGroupEncryptionPairReplyMessage({
         timestamp: Date.now(),
         groupId: TestUtils.generateFakePubKey().key,
         encryptedKeyPairs: fakeWrappers,
         expireTimer: 0,
       });
       const rawMessage = await MessageUtils.toRawMessage(device, msg);
-      expect(rawMessage.encryption).to.equal(EncryptionType.ClosedGroup);
+      expect(rawMessage.encryption).to.equal(EncryptionType.Fallback);
     });
 
     it('passing a ConfigurationMessage returns Fallback', async () => {

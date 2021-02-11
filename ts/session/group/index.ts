@@ -23,6 +23,7 @@ import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/content/data/
 import {
   ClosedGroupAddedMembersMessage,
   ClosedGroupEncryptionPairMessage,
+  ClosedGroupEncryptionPairRequestMessage,
   ClosedGroupNameChangeMessage,
   ClosedGroupNewMessage,
   ClosedGroupRemovedMembersMessage,
@@ -541,26 +542,10 @@ export async function generateAndSendNewEncryptionKeyPair(
     );
     return;
   }
-  const proto = new SignalService.KeyPair({
-    privateKey: newKeyPair?.privateKeyData,
-    publicKey: newKeyPair?.publicKeyData,
-  });
-  const plaintext = SignalService.KeyPair.encode(proto).finish();
-
   // Distribute it
-  const wrappers = await Promise.all(
-    targetMembers.map(async pubkey => {
-      const ciphertext = await encryptUsingSessionProtocol(
-        PubKey.cast(pubkey),
-        plaintext
-      );
-      return new SignalService.DataMessage.ClosedGroupControlMessage.KeyPairWrapper(
-        {
-          encryptedKeyPair: ciphertext,
-          publicKey: fromHexToArray(pubkey),
-        }
-      );
-    })
+  const wrappers = await buildEncryptionKeyPairWrappers(
+    targetMembers,
+    newKeyPair
   );
 
   const expireTimer = groupConvo.get('expireTimer') || 0;
@@ -582,6 +567,75 @@ export async function generateAndSendNewEncryptionKeyPair(
       newKeyPair.toHexKeyPair()
     );
   };
-
+  // this is to be sent to the group pubkey adress
   await getMessageQueue().sendToGroup(keypairsMessage, messageSentCallback);
+}
+
+export async function buildEncryptionKeyPairWrappers(
+  targetMembers: Array<string>,
+  encryptionKeyPair: ECKeyPair
+) {
+  if (
+    !encryptionKeyPair ||
+    !encryptionKeyPair.publicKeyData.length ||
+    !encryptionKeyPair.privateKeyData.length
+  ) {
+    throw new Error(
+      'buildEncryptionKeyPairWrappers() needs a valid encryptionKeyPair set'
+    );
+  }
+
+  const proto = new SignalService.KeyPair({
+    privateKey: encryptionKeyPair?.privateKeyData,
+    publicKey: encryptionKeyPair?.publicKeyData,
+  });
+  const plaintext = SignalService.KeyPair.encode(proto).finish();
+
+  const wrappers = await Promise.all(
+    targetMembers.map(async pubkey => {
+      const ciphertext = await encryptUsingSessionProtocol(
+        PubKey.cast(pubkey),
+        plaintext
+      );
+      return new SignalService.DataMessage.ClosedGroupControlMessage.KeyPairWrapper(
+        {
+          encryptedKeyPair: ciphertext,
+          publicKey: fromHexToArray(pubkey),
+        }
+      );
+    })
+  );
+  return wrappers;
+}
+
+export async function requestEncryptionKeyPair(
+  groupPublicKey: string | PubKey
+) {
+  const groupConvo = ConversationController.getInstance().get(
+    PubKey.cast(groupPublicKey).key
+  );
+
+  if (!groupConvo) {
+    window.log.warn(
+      'requestEncryptionKeyPair: Trying to request encryption key pair from unknown group'
+    );
+    return;
+  }
+
+  const ourNumber = UserUtils.getOurPubKeyFromCache();
+  if (!groupConvo.get('members').includes(ourNumber.key)) {
+    window.log.info(
+      'requestEncryptionKeyPair: We are not a member of this group.'
+    );
+    return;
+  }
+  const expireTimer = groupConvo.get('expireTimer') || 0;
+
+  const ecRequestMessage = new ClosedGroupEncryptionPairRequestMessage({
+    expireTimer,
+    groupId: groupPublicKey,
+    timestamp: Date.now(),
+  });
+
+  await getMessageQueue().sendToGroup(ecRequestMessage);
 }

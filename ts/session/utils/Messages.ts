@@ -16,12 +16,16 @@ import { UserUtils } from '.';
 import { ECKeyPair } from '../../receiver/keypairs';
 import _ from 'lodash';
 import { ConversationModel } from '../../models/conversation';
+import { ClosedGroupEncryptionPairReplyMessage } from '../messages/outgoing/content/data/group/ClosedGroupEncryptionPairReplyMessage';
 
-export function getEncryptionTypeFromMessageType(
+function getEncryptionTypeFromMessageType(
   message: ContentMessage
 ): EncryptionType {
   // ClosedGroupNewMessage is sent using established channels, so using fallback
-  if (message instanceof ClosedGroupNewMessage) {
+  if (
+    message instanceof ClosedGroupNewMessage ||
+    message instanceof ClosedGroupEncryptionPairReplyMessage
+  ) {
     return EncryptionType.Fallback;
   }
 
@@ -68,8 +72,8 @@ export const getCurrentConfigurationMessage = async (
   const openGroupsIds = convos
     .filter(c => !!c.get('active_at') && c.isPublic() && !c.get('left'))
     .map(c => c.id.substring((c.id as string).lastIndexOf('@') + 1)) as Array<
-    string
-  >;
+      string
+    >;
   const closedGroupModels = convos.filter(
     c =>
       !!c.get('active_at') &&

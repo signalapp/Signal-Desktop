@@ -10,7 +10,6 @@ export interface CryptoInterface {
   EncryptGCM: any; // AES-GCM
   PairingType: PairingTypeEnum;
   _decodeSnodeAddressToPubKey: any;
-  decryptForPubkey: any;
   decryptToken: any;
   encryptForPubkey: any;
   generateEphemeralKeyPair: any;

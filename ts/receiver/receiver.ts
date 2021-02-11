@@ -3,7 +3,12 @@
 import { EnvelopePlus } from './types';
 export { downloadAttachment } from './attachments';
 
-import { addToCache, getAllFromCache, removeFromCache } from './cache';
+import {
+  addToCache,
+  getAllFromCache,
+  getAllFromCacheForSource,
+  removeFromCache,
+} from './cache';
 import { processMessage } from '../session/snode_api/swarmPolling';
 import { onError } from './errors';
 
@@ -181,6 +186,13 @@ export function handleRequest(body: any, options: ReqOptions): void {
 
 export async function queueAllCached() {
   const items = await getAllFromCache();
+  items.forEach(async item => {
+    await queueCached(item);
+  });
+}
+
+export async function queueAllCachedFromSource(source: string) {
+  const items = await getAllFromCacheForSource(source);
   items.forEach(async item => {
     await queueCached(item);
   });

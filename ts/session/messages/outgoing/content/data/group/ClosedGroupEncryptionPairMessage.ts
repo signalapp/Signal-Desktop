@@ -1,11 +1,12 @@
 import { Constants } from '../../../../..';
 import { SignalService } from '../../../../../../protobuf';
+import { fromHexToArray } from '../../../../../utils/String';
 import {
   ClosedGroupMessage,
   ClosedGroupMessageParams,
 } from './ClosedGroupMessage';
 
-interface ClosedGroupEncryptionPairMessageParams
+export interface ClosedGroupEncryptionPairMessageParams
   extends ClosedGroupMessageParams {
   encryptedKeyPairs: Array<
     SignalService.DataMessage.ClosedGroupControlMessage.KeyPairWrapper
