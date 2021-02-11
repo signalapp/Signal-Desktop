@@ -125,18 +125,23 @@ async function decryptForClosedGroup(
       'decryptWithSessionProtocol for medium group message throw:',
       e
     );
-    const keypairRequestManager = KeyPairRequestManager.getInstance();
     const groupPubKey = PubKey.cast(envelope.source);
-    if (keypairRequestManager.canTriggerRequestWith(groupPubKey)) {
-      keypairRequestManager.markRequestSendFor(groupPubKey, Date.now());
-      await requestEncryptionKeyPair(groupPubKey);
+
+    // To enable back if we decide to enable encryption key pair request work again
+    if (window.lokiFeatureFlags.useRequestEncryptionKeyPair) {
+      const keypairRequestManager = KeyPairRequestManager.getInstance();
+      if (keypairRequestManager.canTriggerRequestWith(groupPubKey)) {
+        keypairRequestManager.markRequestSendFor(groupPubKey, Date.now());
+        await requestEncryptionKeyPair(groupPubKey);
+      }
     }
+    // IMPORTANT do not remove the message from the cache just yet.
+    // We will try to decrypt it once we get the encryption keypair.
+    // for that to work, we need to throw an error just like here.
     throw new Error(
       `Waiting for an encryption keypair to be received for group ${groupPubKey.key}`
     );
-    // do not remove it from the cache yet. We will try to decrypt it once we get the encryption keypair
-    // TODO drop it if after some time we still don't get to decrypt it
-    // await removeFromCache(envelope);
+
     return null;
   }
 }

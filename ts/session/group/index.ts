@@ -626,6 +626,10 @@ export async function buildEncryptionKeyPairWrappers(
 export async function requestEncryptionKeyPair(
   groupPublicKey: string | PubKey
 ) {
+  if (!window.lokiFeatureFlags.useRequestEncryptionKeyPair) {
+    throw new Error('useRequestEncryptionKeyPair is disabled');
+  }
+
   const groupConvo = ConversationController.getInstance().get(
     PubKey.cast(groupPublicKey).key
   );
