@@ -16,6 +16,7 @@ import {
   addClosedGroupEncryptionKeyPair,
   getAllEncryptionKeyPairsForGroup,
   getLatestClosedGroupEncryptionKeyPair,
+  isKeyPairAlreadySaved,
   removeAllClosedGroupEncryptionKeyPairs,
 } from '../../js/modules/data';
 import {
@@ -449,16 +450,12 @@ async function handleClosedGroupEncryptionKeyPair(
   // Store it if needed
   const newKeyPairInHex = keyPair.toHexKeyPair();
 
-  const keyPairsAlreadySaved = await getAllEncryptionKeyPairsForGroup(
-    groupPublicKey
-  );
-  const isKeyPairAlreadySaved = (keyPairsAlreadySaved || []).some(
-    k =>
-      newKeyPairInHex.publicHex === k.publicHex &&
-      newKeyPairInHex.privateHex === k.privateHex
+  const isKeyPairAlreadyHere = await isKeyPairAlreadySaved(
+    groupPublicKey,
+    newKeyPairInHex
   );
 
-  if (isKeyPairAlreadySaved) {
+  if (isKeyPairAlreadyHere) {
     window.log.info('Dropping already saved keypair for group', groupPublicKey);
     await removeFromCache(envelope);
     return;
