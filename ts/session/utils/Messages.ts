@@ -72,8 +72,8 @@ export const getCurrentConfigurationMessage = async (
   const openGroupsIds = convos
     .filter(c => !!c.get('active_at') && c.isPublic() && !c.get('left'))
     .map(c => c.id.substring((c.id as string).lastIndexOf('@') + 1)) as Array<
-      string
-    >;
+    string
+  >;
   const closedGroupModels = convos.filter(
     c =>
       !!c.get('active_at') &&

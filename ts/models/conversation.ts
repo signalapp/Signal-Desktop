@@ -1650,35 +1650,36 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public async notify(message: any) {
     if (!message.isIncoming()) {
-      return Promise.resolve();
+      return;
     }
     const conversationId = this.id;
 
-    return ConversationController.getInstance()
-      .getOrCreateAndWait(message.get('source'), 'private')
-      .then(sender =>
-        sender.getNotificationIcon().then((iconUrl: any) => {
-          const messageJSON = message.toJSON();
-          const messageSentAt = messageJSON.sent_at;
-          const messageId = message.id;
-          const isExpiringMessage = this.isExpiringMessage(messageJSON);
+    const convo = await ConversationController.getInstance().getOrCreateAndWait(
+      message.get('source'),
+      'private'
+    );
 
-          // window.log.info('Add notification', {
-          //   conversationId: this.idForLogging(),
-          //   isExpiringMessage,
-          //   messageSentAt,
-          // });
-          window.Whisper.Notifications.add({
-            conversationId,
-            iconUrl,
-            isExpiringMessage,
-            message: message.getNotificationText(),
-            messageId,
-            messageSentAt,
-            title: sender.getTitle(),
-          });
-        })
-      );
+    const iconUrl = await convo.getNotificationIcon();
+
+    const messageJSON = message.toJSON();
+    const messageSentAt = messageJSON.sent_at;
+    const messageId = message.id;
+    const isExpiringMessage = this.isExpiringMessage(messageJSON);
+
+    // window.log.info('Add notification', {
+    //   conversationId: this.idForLogging(),
+    //   isExpiringMessage,
+    //   messageSentAt,
+    // });
+    window.Whisper.Notifications.add({
+      conversationId,
+      iconUrl,
+      isExpiringMessage,
+      message: message.getNotificationText(),
+      messageId,
+      messageSentAt,
+      title: convo.getTitle(),
+    });
   }
   public async notifyTyping({ isTyping, sender }: any) {
     // We don't do anything with typing messages from our other devices

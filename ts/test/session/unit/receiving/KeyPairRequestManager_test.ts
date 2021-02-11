@@ -1,13 +1,14 @@
+// tslint:disable: no-implicit-dependencies
+
 import chai from 'chai';
-// tslint:disable: no-require-imports no-var-requires no-implicit-dependencies
 
 import _ from 'lodash';
 import { describe } from 'mocha';
 import { KeyPairRequestManager } from '../../../../receiver/keyPairRequestManager';
 import { TestUtils } from '../../../test-utils';
 
-const chaiAsPromised = require('chai-as-promised');
-chai.use(chaiAsPromised);
+import chaiAsPromised from 'chai-as-promised';
+chai.use(chaiAsPromised as any);
 
 chai.should();
 const { expect } = chai;

@@ -1,8 +1,8 @@
-import { MessageQueue, MessageQueueInterface } from './sending/';
+import { MessageQueue } from './sending/';
 
 let messageQueue: MessageQueue;
 
-function getMessageQueue(): MessageQueueInterface {
+function getMessageQueue(): MessageQueue {
   if (!messageQueue) {
     messageQueue = new MessageQueue();
   }

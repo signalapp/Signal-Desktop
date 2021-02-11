@@ -1,11 +1,7 @@
 import { EventEmitter } from 'events';
 import {
-  GroupMessageType,
-  MessageQueueInterface,
-  MessageQueueInterfaceEvents,
-} from './MessageQueueInterface';
-import {
   ChatMessage,
+  ClosedGroupChatMessage,
   ClosedGroupNewMessage,
   ContentMessage,
   DataMessage,
@@ -18,8 +14,38 @@ import { PubKey, RawMessage } from '../types';
 import { MessageSender } from '.';
 import { ClosedGroupMessage } from '../messages/outgoing/content/data/group/ClosedGroupMessage';
 import { ConfigurationMessage } from '../messages/outgoing/content/ConfigurationMessage';
+import { ClosedGroupNameChangeMessage } from '../messages/outgoing/content/data/group/ClosedGroupNameChangeMessage';
+import {
+  ClosedGroupAddedMembersMessage,
+  ClosedGroupEncryptionPairMessage,
+  ClosedGroupEncryptionPairRequestMessage,
+  ClosedGroupRemovedMembersMessage,
+  ClosedGroupUpdateMessage,
+} from '../messages/outgoing/content/data/group';
+import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/content/data/group/ClosedGroupMemberLeftMessage';
 
-export class MessageQueue implements MessageQueueInterface {
+export type GroupMessageType =
+  | OpenGroupMessage
+  | ClosedGroupChatMessage
+  | ClosedGroupAddedMembersMessage
+  | ClosedGroupRemovedMembersMessage
+  | ClosedGroupNameChangeMessage
+  | ClosedGroupMemberLeftMessage
+  | ClosedGroupUpdateMessage
+  | ExpirationTimerUpdateMessage
+  | ClosedGroupEncryptionPairMessage
+  | ClosedGroupEncryptionPairRequestMessage;
+
+// ClosedGroupEncryptionPairReplyMessage must be sent to a user pubkey. Not a group.
+export interface MessageQueueInterfaceEvents {
+  sendSuccess: (
+    message: RawMessage | OpenGroupMessage,
+    wrappedEnvelope?: Uint8Array
+  ) => void;
+  sendFail: (message: RawMessage | OpenGroupMessage, error: Error) => void;
+}
+
+export class MessageQueue {
   public readonly events: TypedEventEmitter<MessageQueueInterfaceEvents>;
   private readonly jobQueues: Map<string, JobQueue> = new Map();
   private readonly pendingMessageCache: PendingMessageCache;
