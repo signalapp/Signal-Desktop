@@ -157,7 +157,7 @@ export type ConversationAttributesType = {
   addedBy?: string;
   capabilities?: CapabilitiesType;
   color?: string;
-  discoveredUnregisteredAt: number;
+  discoveredUnregisteredAt?: number;
   draftAttachments: Array<unknown>;
   draftBodyRanges: Array<BodyRangeType>;
   draftTimestamp: number | null;
