@@ -2162,10 +2162,12 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       view.applyTheme();
     }
 
-    const theme = window.Events.getThemeSetting();
-    window.reduxActions.user.userChanged({
-      theme: theme === 'system' ? window.systemTheme : theme,
-    });
+    if (window.reduxActions && window.reduxActions.user) {
+      const theme = window.Events.getThemeSetting();
+      window.reduxActions.user.userChanged({
+        theme: theme === 'system' ? window.systemTheme : theme,
+      });
+    }
   }
 
   const FIVE_MINUTES = 5 * 60 * 1000;
