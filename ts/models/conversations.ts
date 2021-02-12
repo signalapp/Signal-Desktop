@@ -4023,6 +4023,12 @@ export class ConversationModel extends window.Backbone.Model<
   async leaveGroup(): Promise<void> {
     const now = Date.now();
     if (this.get('type') === 'group') {
+      const groupId = this.get('groupId');
+
+      if (!groupId) {
+        throw new Error(`leaveGroup/${this.idForLogging()}: No groupId!`);
+      }
+
       const groupIdentifiers = this.getRecipients();
       this.set({ left: true });
       window.Signal.Data.updateConversation(this.attributes);
@@ -4048,7 +4054,7 @@ export class ConversationModel extends window.Backbone.Model<
       message.send(
         this.wrapSend(
           window.textsecure.messaging.leaveGroup(
-            this.id,
+            groupId,
             groupIdentifiers,
             options
           )

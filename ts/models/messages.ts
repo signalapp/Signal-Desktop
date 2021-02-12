@@ -1470,11 +1470,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   // General
   idForLogging(): string {
-    const source = this.getSource();
+    const account = this.getSourceUuid() || this.getSource();
     const device = this.getSourceDevice();
     const timestamp = this.get('sent_at');
 
-    return `${source}.${device} ${timestamp}`;
+    return `${account}.${device} ${timestamp}`;
   }
 
   // eslint-disable-next-line class-methods-use-this

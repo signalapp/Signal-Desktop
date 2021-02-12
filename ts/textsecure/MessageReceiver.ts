@@ -622,10 +622,14 @@ class MessageReceiverInner extends EventTarget {
   }
 
   getEnvelopeId(envelope: EnvelopeClass) {
+    const timestamp =
+      envelope && envelope.timestamp && envelope.timestamp.toNumber
+        ? envelope.timestamp.toNumber()
+        : null;
+
     if (envelope.sourceUuid || envelope.source) {
-      return `${envelope.sourceUuid || envelope.source}.${
-        envelope.sourceDevice
-      } ${envelope.timestamp.toNumber()} (${envelope.id})`;
+      const sender = envelope.sourceUuid || envelope.source;
+      return `${sender}.${envelope.sourceDevice} ${timestamp} (${envelope.id})`;
     }
 
     return envelope.id;

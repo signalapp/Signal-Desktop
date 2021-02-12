@@ -534,6 +534,18 @@ try {
     },
     createKeyPair: incomingKey => {
       const incomingKeyBuffer = Buffer.from(incomingKey);
+
+      if (incomingKeyBuffer.length !== 32) {
+        throw new Error('key must be 32 bytes long');
+      }
+
+      // eslint-disable-next-line no-bitwise
+      incomingKeyBuffer[0] &= 248;
+      // eslint-disable-next-line no-bitwise
+      incomingKeyBuffer[31] &= 127;
+      // eslint-disable-next-line no-bitwise
+      incomingKeyBuffer[31] |= 64;
+
       const privKey = client.PrivateKey.deserialize(incomingKeyBuffer);
       const pubKey = privKey.getPublicKey();
 
