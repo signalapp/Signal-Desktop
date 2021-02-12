@@ -948,10 +948,9 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       const commandKey = window.platform === 'darwin' && metaKey;
       const controlKey = window.platform !== 'darwin' && ctrlKey;
       const commandOrCtrl = commandKey || controlKey;
-      const commandAndCtrl = commandKey && ctrlKey;
 
       const state = store.getState();
-      const selectedId = state.conversations.selectedConversation;
+      const selectedId = state.conversations.selectedConversationId;
       const conversation = window.ConversationController.get(selectedId);
       const isSearching = window.Signal.State.Selectors.search.isSearching(
         state
@@ -1259,40 +1258,6 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         /* eslint-enable @typescript-eslint/no-explicit-any */
 
         button.dispatchEvent(mouseEvent);
-
-        event.preventDefault();
-        event.stopPropagation();
-        return;
-      }
-
-      // Search
-      if (
-        commandOrCtrl &&
-        !commandAndCtrl &&
-        !shiftKey &&
-        (key === 'f' || key === 'F')
-      ) {
-        const { startSearch } = actions.search;
-        startSearch();
-
-        event.preventDefault();
-        event.stopPropagation();
-        return;
-      }
-
-      // Search in conversation
-      if (
-        conversation &&
-        commandOrCtrl &&
-        !commandAndCtrl &&
-        shiftKey &&
-        (key === 'f' || key === 'F')
-      ) {
-        const { searchInConversation } = actions.search;
-        const name = conversation.isMe()
-          ? window.i18n('noteToSelf')
-          : conversation.getTitle();
-        searchInConversation(conversation.id, name);
 
         event.preventDefault();
         event.stopPropagation();

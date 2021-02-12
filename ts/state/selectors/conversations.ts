@@ -22,6 +22,7 @@ import { getCallsByConversation } from './calling';
 import { getBubbleProps } from '../../shims/Whisper';
 import { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline';
 import { TimelineItemType } from '../../components/conversation/TimelineItem';
+import { assert } from '../../util/assert';
 
 import {
   getInteractionMode,
@@ -83,10 +84,29 @@ export const getConversationsByGroupId = createSelector(
   }
 );
 
-export const getSelectedConversation = createSelector(
+export const getSelectedConversationId = createSelector(
   getConversations,
   (state: ConversationsStateType): string | undefined => {
-    return state.selectedConversation;
+    return state.selectedConversationId;
+  }
+);
+
+export const getSelectedConversation = createSelector(
+  getSelectedConversationId,
+  getConversationLookup,
+  (
+    selectedConversationId: string | undefined,
+    conversationLookup: ConversationLookupType
+  ): undefined | ConversationType => {
+    if (!selectedConversationId) {
+      return undefined;
+    }
+    const conversation = getOwn(conversationLookup, selectedConversationId);
+    assert(
+      conversation,
+      'getSelectedConversation: could not find selected conversation in lookup; returning undefined'
+    );
+    return conversation;
   }
 );
 
@@ -221,7 +241,7 @@ export const _getLeftPaneLists = (
 export const getLeftPaneLists = createSelector(
   getConversationLookup,
   getConversationComparator,
-  getSelectedConversation,
+  getSelectedConversationId,
   getPinnedConversationIds,
   _getLeftPaneLists
 );

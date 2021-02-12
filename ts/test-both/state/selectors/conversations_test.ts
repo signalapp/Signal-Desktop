@@ -13,6 +13,8 @@ import {
   _getLeftPaneLists,
   getConversationSelector,
   getPlaceholderContact,
+  getSelectedConversation,
+  getSelectedConversationId,
 } from '../../../state/selectors/conversations';
 import { noopAction } from '../../../state/ducks/noop';
 import { StateType, reducer as rootReducer } from '../../../state/reducer';
@@ -444,6 +446,67 @@ describe('both/state/selectors/conversations', () => {
         assert.strictEqual(pinnedConversations[1].name, 'Pin Two');
         assert.strictEqual(pinnedConversations[2].name, 'Pin Three');
       });
+    });
+  });
+
+  describe('#getSelectedConversationId', () => {
+    it('returns undefined if no conversation is selected', () => {
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            abc123: getDefaultConversation('abc123'),
+          },
+        },
+      };
+      assert.isUndefined(getSelectedConversationId(state));
+    });
+
+    it('returns the selected conversation ID', () => {
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            abc123: getDefaultConversation('abc123'),
+          },
+          selectedConversationId: 'abc123',
+        },
+      };
+      assert.strictEqual(getSelectedConversationId(state), 'abc123');
+    });
+  });
+
+  describe('#getSelectedConversation', () => {
+    it('returns undefined if no conversation is selected', () => {
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            abc123: getDefaultConversation('abc123'),
+          },
+        },
+      };
+      assert.isUndefined(getSelectedConversation(state));
+    });
+
+    it('returns the selected conversation ID', () => {
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            abc123: getDefaultConversation('abc123'),
+          },
+          selectedConversationId: 'abc123',
+        },
+      };
+      assert.deepEqual(
+        getSelectedConversation(state),
+        getDefaultConversation('abc123')
+      );
     });
   });
 });

@@ -11,7 +11,7 @@ import { getSearchResults, isSearching } from '../selectors/search';
 import { getIntl } from '../selectors/user';
 import {
   getLeftPaneLists,
-  getSelectedConversation,
+  getSelectedConversationId,
   getShowArchived,
 } from '../selectors/conversations';
 
@@ -52,7 +52,7 @@ const mapStateToProps = (state: StateType) => {
 
   const lists = showSearch ? undefined : getLeftPaneLists(state);
   const searchResults = showSearch ? getSearchResults(state) : undefined;
-  const selectedConversationId = getSelectedConversation(state);
+  const selectedConversationId = getSelectedConversationId(state);
 
   return {
     ...lists,

@@ -12,12 +12,14 @@ import { Avatar } from './Avatar';
 import { AvatarPopup } from './AvatarPopup';
 import { LocalizerType } from '../types/Util';
 import { ColorType } from '../types/Colors';
+import { ConversationType } from '../state/ducks/conversations';
 
 export type PropsType = {
   searchTerm: string;
   searchConversationName?: string;
   searchConversationId?: string;
   startSearchCounter: number;
+  selectedConversation: undefined | ConversationType;
 
   // To be used as an ID
   ourConversationId: string;
@@ -36,7 +38,10 @@ export type PropsType = {
   avatarPath?: string;
 
   i18n: LocalizerType;
+
   updateSearchTerm: (searchTerm: string) => void;
+  startSearch: () => void;
+  searchInConversation: (id: string, name: string) => void;
   searchMessages: (
     query: string,
     options: {
@@ -53,7 +58,6 @@ export type PropsType = {
       noteToSelf: string;
     }
   ) => void;
-
   clearConversationSearch: () => void;
   clearSearch: () => void;
 
@@ -107,12 +111,6 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     }
   };
 
-  public handleOutsideKeyDown = (event: KeyboardEvent): void => {
-    if (event.key === 'Escape') {
-      this.hideAvatarPopup();
-    }
-  };
-
   public showAvatarPopup = (): void => {
     const popperRoot = document.createElement('div');
     document.body.appendChild(popperRoot);
@@ -122,14 +120,12 @@ export class MainHeader extends React.Component<PropsType, StateType> {
       popperRoot,
     });
     document.addEventListener('click', this.handleOutsideClick);
-    document.addEventListener('keydown', this.handleOutsideKeyDown);
   };
 
   public hideAvatarPopup = (): void => {
     const { popperRoot } = this.state;
 
     document.removeEventListener('click', this.handleOutsideClick);
-    document.removeEventListener('keydown', this.handleOutsideKeyDown);
 
     this.setState({
       showingAvatarPopup: false,
@@ -141,11 +137,15 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     }
   };
 
+  public componentDidMount(): void {
+    document.addEventListener('keydown', this.handleGlobalKeyDown);
+  }
+
   public componentWillUnmount(): void {
     const { popperRoot } = this.state;
 
     document.removeEventListener('click', this.handleOutsideClick);
-    document.removeEventListener('keydown', this.handleOutsideKeyDown);
+    document.removeEventListener('keydown', this.handleGlobalKeyDown);
 
     if (popperRoot && document.body.contains(popperRoot)) {
       document.body.removeChild(popperRoot);
@@ -225,7 +225,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     this.setFocus();
   };
 
-  public handleKeyDown = (
+  public handleInputKeyDown = (
     event: React.KeyboardEvent<HTMLInputElement>
   ): void => {
     const {
@@ -260,6 +260,50 @@ export class MainHeader extends React.Component<PropsType, StateType> {
 
     event.preventDefault();
     event.stopPropagation();
+  };
+
+  public handleGlobalKeyDown = (event: KeyboardEvent): void => {
+    const { showingAvatarPopup } = this.state;
+    const {
+      i18n,
+      selectedConversation,
+      startSearch,
+      searchInConversation,
+    } = this.props;
+
+    const { ctrlKey, metaKey, shiftKey, key } = event;
+    const commandKey = get(window, 'platform') === 'darwin' && metaKey;
+    const controlKey = get(window, 'platform') !== 'darwin' && ctrlKey;
+    const commandOrCtrl = commandKey || controlKey;
+    const commandAndCtrl = commandKey && ctrlKey;
+
+    if (showingAvatarPopup && key === 'Escape') {
+      this.hideAvatarPopup();
+    } else if (
+      commandOrCtrl &&
+      !commandAndCtrl &&
+      !shiftKey &&
+      (key === 'f' || key === 'F')
+    ) {
+      startSearch();
+
+      event.preventDefault();
+      event.stopPropagation();
+    } else if (
+      selectedConversation &&
+      commandOrCtrl &&
+      !commandAndCtrl &&
+      shiftKey &&
+      (key === 'f' || key === 'F')
+    ) {
+      const name = selectedConversation.isMe
+        ? i18n('noteToSelf')
+        : selectedConversation.title;
+      searchInConversation(selectedConversation.id, name);
+
+      event.preventDefault();
+      event.stopPropagation();
+    }
   };
 
   public handleXButton = (): void => {
@@ -398,7 +442,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
             )}
             placeholder={placeholder}
             dir="auto"
-            onKeyDown={this.handleKeyDown}
+            onKeyDown={this.handleInputKeyDown}
             value={searchTerm}
             onChange={this.updateSearch}
           />

@@ -225,7 +225,7 @@ export type ConversationsStateType = {
   conversationsByE164: ConversationLookupType;
   conversationsByUuid: ConversationLookupType;
   conversationsByGroupId: ConversationLookupType;
-  selectedConversation?: string;
+  selectedConversationId?: string;
   selectedMessage?: string;
   selectedMessageCounter: number;
   selectedConversationTitle?: string;
@@ -981,7 +981,7 @@ export function reducer(
     const { id, data } = payload;
     const { conversationLookup } = state;
 
-    let { showArchived, selectedConversation } = state;
+    let { showArchived, selectedConversationId } = state;
 
     const existing = conversationLookup[id];
     // In the change case we only modify the lookup if we already had that conversation
@@ -989,7 +989,7 @@ export function reducer(
       return state;
     }
 
-    if (selectedConversation === id) {
+    if (selectedConversationId === id) {
       // Archived -> Inbox: we go back to the normal inbox view
       if (existing.isArchived && !data.isArchived) {
         showArchived = false;
@@ -999,13 +999,13 @@ export function reducer(
       //   behavior - no selected conversation in the left pane, but a conversation show
       //   in the right pane.
       if (!existing.isArchived && data.isArchived) {
-        selectedConversation = undefined;
+        selectedConversationId = undefined;
       }
     }
 
     return {
       ...state,
-      selectedConversation,
+      selectedConversationId,
       showArchived,
       conversationLookup: {
         ...conversationLookup,
@@ -1040,14 +1040,14 @@ export function reducer(
     }
 
     const { messageIds } = existingConversation;
-    const selectedConversation =
-      state.selectedConversation !== id
-        ? state.selectedConversation
+    const selectedConversationId =
+      state.selectedConversationId !== id
+        ? state.selectedConversationId
         : undefined;
 
     return {
       ...state,
-      selectedConversation,
+      selectedConversationId,
       selectedConversationPanelDepth: 0,
       messagesLookup: omit(state.messagesLookup, messageIds),
       messagesByConversation: omit(state.messagesByConversation, [id]),
@@ -1065,7 +1065,7 @@ export function reducer(
   if (action.type === 'MESSAGE_SELECTED') {
     const { messageId, conversationId } = action.payload;
 
-    if (state.selectedConversation !== conversationId) {
+    if (state.selectedConversationId !== conversationId) {
       return state;
     }
 
@@ -1621,7 +1621,7 @@ export function reducer(
 
     return {
       ...state,
-      selectedConversation: id,
+      selectedConversationId: id,
     };
   }
   if (action.type === 'SHOW_INBOX') {

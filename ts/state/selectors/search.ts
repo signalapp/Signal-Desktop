@@ -29,7 +29,7 @@ import {
   GetConversationByIdType,
   getConversationLookup,
   getConversationSelector,
-  getSelectedConversation,
+  getSelectedConversationId,
 } from './conversations';
 
 export const getSearch = (state: StateType): SearchStateType => state.search;
@@ -78,7 +78,7 @@ export const getSearchResults = createSelector(
     getRegionCode,
     getUserAgent,
     getConversationLookup,
-    getSelectedConversation,
+    getSelectedConversationId,
     getSelectedMessage,
   ],
   (
