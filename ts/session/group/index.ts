@@ -35,6 +35,7 @@ import {
   ClosedGroupUpdateMessage,
 } from '../messages/outgoing/content/data/group';
 import { MessageController } from '../messages';
+import { distributingClosedGroupEncryptionKeyPairs } from '../../receiver/closedGroups';
 
 export interface GroupInfo {
   id: string;
@@ -572,10 +573,14 @@ export async function generateAndSendNewEncryptionKeyPair(
     expireTimer,
   });
 
+  distributingClosedGroupEncryptionKeyPairs.set(toHex(groupId), newKeyPair);
+
   const messageSentCallback = async () => {
     window.log.info(
       `KeyPairMessage for ClosedGroup ${groupPublicKey} is sent. Saving the new encryptionKeyPair.`
     );
+
+    distributingClosedGroupEncryptionKeyPairs.delete(toHex(groupId));
 
     await addClosedGroupEncryptionKeyPair(
       toHex(groupId),
@@ -626,6 +631,10 @@ export async function buildEncryptionKeyPairWrappers(
 export async function requestEncryptionKeyPair(
   groupPublicKey: string | PubKey
 ) {
+  if (!window.lokiFeatureFlags.useRequestEncryptionKeyPair) {
+    throw new Error('useRequestEncryptionKeyPair is disabled');
+  }
+
   const groupConvo = ConversationController.getInstance().get(
     PubKey.cast(groupPublicKey).key
   );

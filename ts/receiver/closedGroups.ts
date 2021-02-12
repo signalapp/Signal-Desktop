@@ -33,6 +33,11 @@ import { MessageController } from '../session/messages';
 import { ClosedGroupEncryptionPairReplyMessage } from '../session/messages/outgoing/content/data/group';
 import { queueAllCachedFromSource } from './receiver';
 
+export const distributingClosedGroupEncryptionKeyPairs = new Map<
+  string,
+  ECKeyPair
+>();
+
 export async function handleClosedGroupControlMessage(
   envelope: EnvelopePlus,
   groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage
@@ -456,6 +461,9 @@ async function handleClosedGroupEncryptionKeyPair(
   );
 
   if (isKeyPairAlreadyHere) {
+    const existingKeyPairs = await getAllEncryptionKeyPairsForGroup(
+      groupPublicKey
+    );
     window.log.info('Dropping already saved keypair for group', groupPublicKey);
     await removeFromCache(envelope);
     return;
@@ -532,11 +540,18 @@ async function performIfValid(
   } else if (groupUpdate.type === Type.MEMBER_LEFT) {
     await handleClosedGroupMemberLeft(envelope, groupUpdate, convo);
   } else if (groupUpdate.type === Type.ENCRYPTION_KEY_PAIR_REQUEST) {
-    await handleClosedGroupEncryptionKeyPairRequest(
-      envelope,
-      groupUpdate,
-      convo
-    );
+    if (window.lokiFeatureFlags.useRequestEncryptionKeyPair) {
+      await handleClosedGroupEncryptionKeyPairRequest(
+        envelope,
+        groupUpdate,
+        convo
+      );
+    } else {
+      window.log.warn(
+        'Received ENCRYPTION_KEY_PAIR_REQUEST message but it is not enabled for now.'
+      );
+      await removeFromCache(envelope);
+    }
     // if you add a case here, remember to add it where performIfValid is called too.
   }
 
@@ -590,6 +605,15 @@ async function handleClosedGroupMembersAdded(
     return;
   }
 
+  if (await areWeAdmin(convo)) {
+    await sendLatestKeyPairToUsers(
+      envelope,
+      convo,
+      convo.id,
+      membersNotAlreadyPresent
+    );
+  }
+
   const members = [...oldMembers, ...membersNotAlreadyPresent];
   // Only add update message if we have something to show
 
@@ -602,6 +626,16 @@ async function handleClosedGroupMembersAdded(
   convo.updateLastMessage();
   await convo.commit();
   await removeFromCache(envelope);
+}
+
+async function areWeAdmin(groupConvo: ConversationModel) {
+  if (!groupConvo) {
+    throw new Error('areWeAdmin needs a convo');
+  }
+
+  const groupAdmins = groupConvo.get('groupAdmins');
+  const ourNumber = (await UserUtils.getCurrentDevicePubKey()) as string;
+  return groupAdmins?.includes(ourNumber) || false;
 }
 
 async function handleClosedGroupMembersRemoved(
@@ -650,8 +684,7 @@ async function handleClosedGroupMembersRemoved(
     window.SwarmPolling.removePubkey(groupPubKey);
   }
   // Generate and distribute a new encryption key pair if needed
-  const isCurrentUserAdmin = firstAdmin === ourPubKey.key;
-  if (isCurrentUserAdmin) {
+  if (await areWeAdmin(convo)) {
     try {
       await ClosedGroup.generateAndSendNewEncryptionKeyPair(
         groupPubKey,
@@ -733,11 +766,70 @@ async function handleClosedGroupMemberLeft(
   await removeFromCache(envelope);
 }
 
+async function sendLatestKeyPairToUsers(
+  envelope: EnvelopePlus,
+  groupConvo: ConversationModel,
+  groupPubKey: string,
+  targetUsers: Array<string>
+) {
+  // use the inMemory keypair if found
+
+  const inMemoryKeyPair = distributingClosedGroupEncryptionKeyPairs.get(
+    groupPubKey
+  );
+
+  // Get the latest encryption key pair
+  const latestKeyPair = await getLatestClosedGroupEncryptionKeyPair(
+    groupPubKey
+  );
+  if (!inMemoryKeyPair && !latestKeyPair) {
+    window.log.info(
+      'We do not have the keypair ourself, so dropping this message.'
+    );
+    return;
+  }
+
+  const expireTimer = groupConvo.get('expireTimer') || 0;
+
+  await Promise.all(
+    targetUsers.map(async member => {
+      window.log.info(
+        `Sending latest closed group encryption key pair to: ${member}`
+      );
+      await ConversationController.getInstance().getOrCreateAndWait(
+        member,
+        'private'
+      );
+
+      const wrappers = await ClosedGroup.buildEncryptionKeyPairWrappers(
+        [member],
+        inMemoryKeyPair || ECKeyPair.fromHexKeyPair(latestKeyPair)
+      );
+
+      const keypairsMessage = new ClosedGroupEncryptionPairReplyMessage({
+        groupId: groupPubKey,
+        timestamp: Date.now(),
+        encryptedKeyPairs: wrappers,
+        expireTimer,
+      });
+
+      // the encryption keypair is sent using established channels
+      await getMessageQueue().sendToPubKey(
+        PubKey.cast(member),
+        keypairsMessage
+      );
+    })
+  );
+}
+
 async function handleClosedGroupEncryptionKeyPairRequest(
   envelope: EnvelopePlus,
   groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage,
-  convo: ConversationModel
+  groupConvo: ConversationModel
 ) {
+  if (!window.lokiFeatureFlags.useRequestEncryptionKeyPair) {
+    throw new Error('useRequestEncryptionKeyPair is disabled');
+  }
   const sender = envelope.senderIdentity;
   const groupPublicKey = envelope.source;
   // Guard against self-sends
@@ -748,43 +840,10 @@ async function handleClosedGroupEncryptionKeyPairRequest(
     await removeFromCache(envelope);
     return;
   }
-  // Get the latest encryption key pair
-  const latestKeyPair = await getLatestClosedGroupEncryptionKeyPair(
-    groupPublicKey
-  );
-  if (!latestKeyPair) {
-    window.log.info(
-      'We do not have the keypair ourself, so dropping this message.'
-    );
-    await removeFromCache(envelope);
-    return;
-  }
-
-  window.log.info(
-    `Responding to closed group encryption key pair request from: ${sender}`
-  );
-  await ConversationController.getInstance().getOrCreateAndWait(
+  await sendLatestKeyPairToUsers(envelope, groupConvo, groupPublicKey, [
     sender,
-    'private'
-  );
-
-  const wrappers = await ClosedGroup.buildEncryptionKeyPairWrappers(
-    [sender],
-    ECKeyPair.fromHexKeyPair(latestKeyPair)
-  );
-  const expireTimer = convo.get('expireTimer') || 0;
-
-  const keypairsMessage = new ClosedGroupEncryptionPairReplyMessage({
-    groupId: groupPublicKey,
-    timestamp: Date.now(),
-    encryptedKeyPairs: wrappers,
-    expireTimer,
-  });
-
-  // the encryption keypair is sent using established channels
-  await getMessageQueue().sendToPubKey(PubKey.cast(sender), keypairsMessage);
-
-  await removeFromCache(envelope);
+  ]);
+  return removeFromCache(envelope);
 }
 
 export async function createClosedGroup(
