@@ -33,6 +33,11 @@ import { MessageController } from '../session/messages';
 import { ClosedGroupEncryptionPairReplyMessage } from '../session/messages/outgoing/content/data/group';
 import { queueAllCachedFromSource } from './receiver';
 
+export const distributingClosedGroupEncryptionKeyPairs = new Map<
+  string,
+  ECKeyPair
+>();
+
 export async function handleClosedGroupControlMessage(
   envelope: EnvelopePlus,
   groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage
@@ -456,6 +461,9 @@ async function handleClosedGroupEncryptionKeyPair(
   );
 
   if (isKeyPairAlreadyHere) {
+    const existingKeyPairs = await getAllEncryptionKeyPairsForGroup(
+      groupPublicKey
+    );
     window.log.info('Dropping already saved keypair for group', groupPublicKey);
     await removeFromCache(envelope);
     return;
@@ -764,11 +772,17 @@ async function sendLatestKeyPairToUsers(
   groupPubKey: string,
   targetUsers: Array<string>
 ) {
+  // use the inMemory keypair if found
+
+  const inMemoryKeyPair = distributingClosedGroupEncryptionKeyPairs.get(
+    groupPubKey
+  );
+
   // Get the latest encryption key pair
   const latestKeyPair = await getLatestClosedGroupEncryptionKeyPair(
     groupPubKey
   );
-  if (!latestKeyPair) {
+  if (!inMemoryKeyPair && !latestKeyPair) {
     window.log.info(
       'We do not have the keypair ourself, so dropping this message.'
     );
@@ -789,7 +803,7 @@ async function sendLatestKeyPairToUsers(
 
       const wrappers = await ClosedGroup.buildEncryptionKeyPairWrappers(
         [member],
-        ECKeyPair.fromHexKeyPair(latestKeyPair)
+        inMemoryKeyPair || ECKeyPair.fromHexKeyPair(latestKeyPair)
       );
 
       const keypairsMessage = new ClosedGroupEncryptionPairReplyMessage({
