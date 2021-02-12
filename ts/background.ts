@@ -981,9 +981,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
           document.querySelector('.module-main-header__search__input'),
           document.querySelector('.module-left-pane__list'),
           document.querySelector('.module-search-results'),
-          document.querySelector(
-            '.module-composition-area .public-DraftEditor-content'
-          ),
+          document.querySelector('.module-composition-area .ql-editor'),
         ];
         const focusedIndex = targets.findIndex(target => {
           if (!target || !focusedElement) {
