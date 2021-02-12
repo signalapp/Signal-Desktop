@@ -109,6 +109,9 @@ export interface MessageRegularProps {
 }
 
 export interface MessageModel extends Backbone.Model<MessageAttributes> {
+  setIsPublic(arg0: boolean);
+  setServerId(serverId: any);
+  setServerTimestamp(serverTimestamp: any);
   idForLogging: () => string;
   isGroupUpdate: () => boolean;
   isExpirationTimerUpdate: () => boolean;

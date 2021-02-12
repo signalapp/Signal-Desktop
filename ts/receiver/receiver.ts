@@ -3,7 +3,12 @@
 import { EnvelopePlus } from './types';
 export { downloadAttachment } from './attachments';
 
-import { addToCache, getAllFromCache, removeFromCache } from './cache';
+import {
+  addToCache,
+  getAllFromCache,
+  getAllFromCacheForSource,
+  removeFromCache,
+} from './cache';
 import { processMessage } from '../session/snode_api/swarmPolling';
 import { onError } from './errors';
 
@@ -189,6 +194,13 @@ export async function queueAllCached() {
   });
 }
 
+export async function queueAllCachedFromSource(source: string) {
+  const items = await getAllFromCacheForSource(source);
+  items.forEach(async item => {
+    await queueCached(item);
+  });
+}
+
 async function queueCached(item: any) {
   const { textsecure } = window;
 
@@ -302,5 +314,5 @@ export async function handlePublicMessage(messageData: any) {
     },
   };
 
-  await handleMessageEvent(ev);
+  await handleMessageEvent(ev); // open groups
 }

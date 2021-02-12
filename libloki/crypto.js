@@ -69,14 +69,6 @@
     return { ciphertext, symmetricKey, ephemeralKey: ephemeral.pubKey };
   }
 
-  async function decryptForPubkey(seckeyX25519, ephemKey, ciphertext) {
-    const symmetricKey = await deriveSymmetricKey(ephemKey, seckeyX25519);
-
-    const plaintext = await DecryptGCM(symmetricKey, ciphertext);
-
-    return plaintext;
-  }
-
   async function EncryptGCM(symmetricKey, plaintext) {
     const nonce = crypto.getRandomValues(new Uint8Array(NONCE_LENGTH));
 
@@ -187,7 +179,6 @@
     PairingType,
     generateEphemeralKeyPair,
     encryptForPubkey,
-    decryptForPubkey,
     _decodeSnodeAddressToPubKey: decodeSnodeAddressToPubKey,
     sha512,
   };

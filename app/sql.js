@@ -171,6 +171,7 @@ module.exports = {
   getAllEncryptionKeyPairsForGroup,
   getLatestClosedGroupEncryptionKeyPair,
   addClosedGroupEncryptionKeyPair,
+  isKeyPairAlreadySaved,
   removeAllClosedGroupEncryptionKeyPairs,
 };
 
@@ -3264,6 +3265,18 @@ async function addClosedGroupEncryptionKeyPair(
       $timestamp: timestamp,
       $json: objectToJSON(keypair),
     }
+  );
+}
+
+async function isKeyPairAlreadySaved(
+  groupPublicKey,
+  newKeyPairInHex // : HexKeyPair
+) {
+  const allKeyPairs = await getAllEncryptionKeyPairsForGroup(groupPublicKey);
+  return (allKeyPairs || []).some(
+    k =>
+      newKeyPairInHex.publicHex === k.publicHex &&
+      newKeyPairInHex.privateHex === k.privateHex
   );
 }
 

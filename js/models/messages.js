@@ -829,171 +829,171 @@
     },
 
     // One caller today: event handler for the 'Retry Send' entry in triple-dot menu
-    async retrySend() {
-      if (!textsecure.messaging) {
-        window.log.error('retrySend: Cannot retry since we are offline!');
-        return null;
-      }
+    // async retrySend() {
+    //   if (!textsecure.messaging) {
+    //     window.log.error('retrySend: Cannot retry since we are offline!');
+    //     return null;
+    //   }
 
-      this.set({ errors: null });
-      await this.commit();
-      try {
-        const conversation = this.getConversation();
-        const intendedRecipients = this.get('recipients') || [];
-        const successfulRecipients = this.get('sent_to') || [];
-        const currentRecipients = conversation.getRecipients();
+    //   this.set({ errors: null });
+    //   await this.commit();
+    //   try {
+    //     const conversation = this.getConversation();
+    //     const intendedRecipients = this.get('recipients') || [];
+    //     const successfulRecipients = this.get('sent_to') || [];
+    //     const currentRecipients = conversation.getRecipients();
 
-        if (conversation.isPublic()) {
-          const openGroup = {
-            server: conversation.get('server'),
-            channel: conversation.get('channelId'),
-            conversationId: conversation.id,
-          };
-          const { body, attachments, preview, quote } = await this.uploadData();
+    //     if (conversation.isPublic()) {
+    //       const openGroup = {
+    //         server: conversation.get('server'),
+    //         channel: conversation.get('channelId'),
+    //         conversationId: conversation.id,
+    //       };
+    //       const { body, attachments, preview, quote } = await this.uploadData();
 
-          const openGroupParams = {
-            identifier: this.id,
-            body,
-            timestamp: Date.now(),
-            group: openGroup,
-            attachments,
-            preview,
-            quote,
-          };
-          const openGroupMessage = new libsession.Messages.Outgoing.OpenGroupMessage(
-            openGroupParams
-          );
-          return libsession.getMessageQueue().sendToGroup(openGroupMessage);
-        }
+    //       const openGroupParams = {
+    //         identifier: this.id,
+    //         body,
+    //         timestamp: Date.now(),
+    //         group: openGroup,
+    //         attachments,
+    //         preview,
+    //         quote,
+    //       };
+    //       const openGroupMessage = new libsession.Messages.Outgoing.OpenGroupMessage(
+    //         openGroupParams
+    //       );
+    //       return libsession.getMessageQueue().sendToGroup(openGroupMessage);
+    //     }
 
-        let recipients = _.intersection(intendedRecipients, currentRecipients);
-        recipients = recipients.filter(
-          key => !successfulRecipients.includes(key)
-        );
+    //     let recipients = _.intersection(intendedRecipients, currentRecipients);
+    //     recipients = recipients.filter(
+    //       key => !successfulRecipients.includes(key)
+    //     );
 
-        if (!recipients.length) {
-          window.log.warn('retrySend: Nobody to send to!');
+    //     if (!recipients.length) {
+    //       window.log.warn('retrySend: Nobody to send to!');
 
-          return this.commit();
-        }
+    //       return this.commit();
+    //     }
 
-        const { body, attachments, preview, quote } = await this.uploadData();
-        const ourNumber = window.storage.get('primaryDevicePubKey');
-        const ourConversation = window
-          .getConversationController()
-          .get(ourNumber);
+    //     const { body, attachments, preview, quote } = await this.uploadData();
+    //     const ourNumber = window.storage.get('primaryDevicePubKey');
+    //     const ourConversation = window
+    //       .getConversationController()
+    //       .get(ourNumber);
 
-        const chatParams = {
-          identifier: this.id,
-          body,
-          timestamp: this.get('sent_at'),
-          expireTimer: this.get('expireTimer'),
-          attachments,
-          preview,
-          quote,
-        };
-        if (ourConversation) {
-          chatParams.lokiProfile = ourConversation.getOurProfile();
-        }
+    //     const chatParams = {
+    //       identifier: this.id,
+    //       body,
+    //       timestamp: this.get('sent_at'),
+    //       expireTimer: this.get('expireTimer'),
+    //       attachments,
+    //       preview,
+    //       quote,
+    //     };
+    //     if (ourConversation) {
+    //       chatParams.lokiProfile = ourConversation.getOurProfile();
+    //     }
 
-        const chatMessage = new libsession.Messages.Outgoing.ChatMessage(
-          chatParams
-        );
+    //     const chatMessage = new libsession.Messages.Outgoing.ChatMessage(
+    //       chatParams
+    //     );
 
-        // Special-case the self-send case - we send only a sync message
-        if (recipients.length === 1) {
-          const isOurDevice = await libsession.Utils.UserUtils.isUs(
-            recipients[0]
-          );
-          if (isOurDevice) {
-            return this.sendSyncMessageOnly(chatMessage);
-          }
-        }
+    //     // Special-case the self-send case - we send only a sync message
+    //     if (recipients.length === 1) {
+    //       const isOurDevice = await libsession.Utils.UserUtils.isUs(
+    //         recipients[0]
+    //       );
+    //       if (isOurDevice) {
+    //         return this.sendSyncMessageOnly(chatMessage);
+    //       }
+    //     }
 
-        if (conversation.isPrivate()) {
-          const [number] = recipients;
-          const recipientPubKey = new libsession.Types.PubKey(number);
+    //     if (conversation.isPrivate()) {
+    //       const [number] = recipients;
+    //       const recipientPubKey = new libsession.Types.PubKey(number);
 
-          return libsession
-            .getMessageQueue()
-            .sendToPubKey(recipientPubKey, chatMessage);
-        }
+    //       return libsession
+    //         .getMessageQueue()
+    //         .sendToPubKey(recipientPubKey, chatMessage);
+    //     }
 
-        // TODO should we handle medium groups message here too?
-        // Not sure there is the concept of retrySend for those
-        const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
-          {
-            identifier: this.id,
-            chatMessage,
-            groupId: this.get('conversationId'),
-          }
-        );
-        // Because this is a partial group send, we send the message with the groupId field set, but individually
-        // to each recipient listed
-        return Promise.all(
-          recipients.map(async r => {
-            const recipientPubKey = new libsession.Types.PubKey(r);
-            return libsession
-              .getMessageQueue()
-              .sendToPubKey(recipientPubKey, closedGroupChatMessage);
-          })
-        );
-      } catch (e) {
-        await this.saveErrors(e);
-        return null;
-      }
-    },
+    //     // TODO should we handle medium groups message here too?
+    //     // Not sure there is the concept of retrySend for those
+    //     const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
+    //       {
+    //         identifier: this.id,
+    //         chatMessage,
+    //         groupId: this.get('conversationId'),
+    //       }
+    //     );
+    //     // Because this is a partial group send, we send the message with the groupId field set, but individually
+    //     // to each recipient listed
+    //     return Promise.all(
+    //       recipients.map(async r => {
+    //         const recipientPubKey = new libsession.Types.PubKey(r);
+    //         return libsession
+    //           .getMessageQueue()
+    //           .sendToPubKey(recipientPubKey, closedGroupChatMessage);
+    //       })
+    //     );
+    //   } catch (e) {
+    //     await this.saveErrors(e);
+    //     return null;
+    //   }
+    // },
 
-    // Called when the user ran into an error with a specific user, wants to send to them
-    async resend(number) {
-      const error = this.removeOutgoingErrors(number);
-      if (!error) {
-        window.log.warn('resend: requested number was not present in errors');
-        return null;
-      }
+    // // Called when the user ran into an error with a specific user, wants to send to them
+    // async resend(number) {
+    //   const error = this.removeOutgoingErrors(number);
+    //   if (!error) {
+    //     window.log.warn('resend: requested number was not present in errors');
+    //     return null;
+    //   }
 
-      try {
-        const { body, attachments, preview, quote } = await this.uploadData();
+    //   try {
+    //     const { body, attachments, preview, quote } = await this.uploadData();
 
-        const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
-          identifier: this.id,
-          body,
-          timestamp: this.get('sent_at'),
-          expireTimer: this.get('expireTimer'),
-          attachments,
-          preview,
-          quote,
-        });
+    //     const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
+    //       identifier: this.id,
+    //       body,
+    //       timestamp: this.get('sent_at'),
+    //       expireTimer: this.get('expireTimer'),
+    //       attachments,
+    //       preview,
+    //       quote,
+    //     });
 
-        // Special-case the self-send case - we send only a sync message
-        if (number === textsecure.storage.user.getNumber()) {
-          return this.sendSyncMessageOnly(chatMessage);
-        }
+    //     // Special-case the self-send case - we send only a sync message
+    //     if (number === textsecure.storage.user.getNumber()) {
+    //       return this.sendSyncMessageOnly(chatMessage);
+    //     }
 
-        const conversation = this.getConversation();
-        const recipientPubKey = new libsession.Types.PubKey(number);
+    //     const conversation = this.getConversation();
+    //     const recipientPubKey = new libsession.Types.PubKey(number);
 
-        if (conversation.isPrivate()) {
-          return libsession
-            .getMessageQueue()
-            .sendToPubKey(recipientPubKey, chatMessage);
-        }
+    //     if (conversation.isPrivate()) {
+    //       return libsession
+    //         .getMessageQueue()
+    //         .sendToPubKey(recipientPubKey, chatMessage);
+    //     }
 
-        const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
-          {
-            chatMessage,
-            groupId: this.get('conversationId'),
-          }
-        );
-        // resend tries to send the message to that specific user only in the context of a closed group
-        return libsession
-          .getMessageQueue()
-          .sendToPubKey(recipientPubKey, closedGroupChatMessage);
-      } catch (e) {
-        await this.saveErrors(e);
-        return null;
-      }
-    },
+    //     const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
+    //       {
+    //         chatMessage,
+    //         groupId: this.get('conversationId'),
+    //       }
+    //     );
+    //     // resend tries to send the message to that specific user only in the context of a closed group
+    //     return libsession
+    //       .getMessageQueue()
+    //       .sendToPubKey(recipientPubKey, closedGroupChatMessage);
+    //   } catch (e) {
+    //     await this.saveErrors(e);
+    //     return null;
+    //   }
+    // },
     removeOutgoingErrors(number) {
       const errors = _.partition(
         this.get('errors'),
@@ -1085,7 +1085,7 @@
         // Handle the sync logic here
         if (shouldTriggerSyncMessage) {
           if (dataMessage) {
-            await this.sendSyncMessage(dataMessage);
+            await this.sendSyncMessage(dataMessage, sentMessage.timestamp);
           }
         } else if (shouldMarkMessageAsSynced) {
           this.set({ synced: true });
@@ -1098,6 +1098,7 @@
         sent_to: sentTo,
         sent: true,
         expirationStartTimestamp: Date.now(),
+        sent_at: sentMessage.timestamp,
       });
 
       await this.commit();
@@ -1283,7 +1284,7 @@
       await this.sendSyncMessage(data);
     },
 
-    async sendSyncMessage(/* dataMessage */) {
+    async sendSyncMessage(dataMessage, sentTimestamp) {
       if (this.get('synced') || this.get('sentSync')) {
         return;
       }
@@ -1291,23 +1292,23 @@
       window.log.error(
         'sendSyncMessage to upgrade to multi device protocol v2'
       );
+      // if this message needs to be synced
+      if (
+        (dataMessage.body && dataMessage.body.length) ||
+        dataMessage.attachments.length
+      ) {
+        const syncMessage = libsession.Messages.Outgoing.ChatMessage.buildSyncMessage(
+          dataMessage,
+          this.getConversation().id,
+          sentTimestamp
+        );
+        await libsession.getMessageQueue().sendSyncMessage(syncMessage);
+      }
 
-      // const data =
-      //   dataMessage instanceof libsession.Messages.Outgoing.DataMessage
-      //     ? dataMessage.dataProto()
-      //     : dataMessage;
-
-      // const syncMessage = new libsession.Messages.Outgoing.SentSyncMessage({
-      //   timestamp: this.get('sent_at'),
-      //   identifier: this.id,
-      //   dataMessage: data,
-      //   destination: this.get('destination'),
-      //   expirationStartTimestamp: this.get('expirationStartTimestamp'),
-      //   sent_to: this.get('sent_to'),
-      //   unidentifiedDeliveries: this.get('unidentifiedDeliveries'),
-      // });
-
-      // await libsession.getMessageQueue().sendSyncMessage(syncMessage);
+      //    - copy all fields from dataMessage and create a new ChatMessage
+      //    - set the syncTarget on it
+      //    - send it as syncMessage
+      // what to do with groups?
 
       this.set({ sentSync: true });
       await this.commit();

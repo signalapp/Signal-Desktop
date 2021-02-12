@@ -34,12 +34,6 @@ window.Signal = {
   },
 };
 
-window.CONSTANTS = {
-  MAX_LOGIN_TRIES: 3,
-  MAX_PASSWORD_LENGTH: 64,
-  MAX_USERNAME_LENGTH: 20,
-};
-
 window.Signal.Logs = require('./js/modules/logs');
 
 window.resetDatabase = () => {

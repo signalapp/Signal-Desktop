@@ -78,14 +78,11 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
 
 // eslint-disable-next-line func-names
 window.CONSTANTS = new (function() {
-  this.MAX_LOGIN_TRIES = 3;
-  this.MAX_PASSWORD_LENGTH = 64;
-  this.MAX_USERNAME_LENGTH = 20;
   this.MAX_GROUP_NAME_LENGTH = 64;
   this.DEFAULT_PUBLIC_CHAT_URL = appConfig.get('defaultPublicChatServer');
   this.MAX_LINKED_DEVICES = 1;
   this.MAX_CONNECTION_DURATION = 5000;
-  this.CLOSED_GROUP_SIZE_LIMIT = 20;
+  this.CLOSED_GROUP_SIZE_LIMIT = 100;
   // Number of seconds to turn on notifications after reconnect/start of app
   this.NOTIFICATION_ENABLE_TIMEOUT_SECONDS = 10;
   this.SESSION_ID_LENGTH = 66;
@@ -394,14 +391,17 @@ const Attachments = require('./app/attachments');
 
 const { locale } = config;
 window.i18n = i18n.setup(locale, localeMessages);
-window.moment.updateLocale(locale, {
+// moment does not support es-419 correctly (and cause white screen on app start)
+const localeForMoment = locale === 'es-419' ? 'es' : locale;
+
+window.moment.updateLocale(localeForMoment, {
   relativeTime: {
     s: window.i18n('timestamp_s'),
     m: window.i18n('timestamp_m'),
     h: window.i18n('timestamp_h'),
   },
 });
-window.moment.locale(locale);
+window.moment.locale(localeForMoment);
 
 window.Signal = Signal.setup({
   Attachments,
@@ -445,7 +445,7 @@ window.lokiFeatureFlags = {
   useFileOnionRequests: true,
   useFileOnionRequestsV2: true, // more compact encoding of files in response
   onionRequestHops: 3,
-  useExplicitGroupUpdatesSending: false,
+  useRequestEncryptionKeyPair: false,
 };
 
 // eslint-disable-next-line no-extend-native,func-names
@@ -479,7 +479,7 @@ if (config.environment.includes('test-integration')) {
     useOnionRequests: false,
     useFileOnionRequests: false,
     useOnionRequestsV2: false,
-    useExplicitGroupUpdatesSending: false,
+    useRequestEncryptionKeyPair: false,
   };
   /* eslint-disable global-require, import/no-extraneous-dependencies */
   window.sinon = require('sinon');
@@ -494,9 +494,10 @@ const {
 
 window.BlockedNumberController = BlockedNumberController;
 window.deleteAccount = async reason => {
-  try {
-    window.log.info('Deleting everything!');
-
+  const syncedMessageSent = async () => {
+    window.log.info(
+      'configuration message sent successfully. Deleting everything'
+    );
     await window.Signal.Logs.deleteAll();
     await window.Signal.Data.removeAll();
     await window.Signal.Data.close();
@@ -504,11 +505,24 @@ window.deleteAccount = async reason => {
     await window.Signal.Data.removeOtherData();
     // 'unlink' => toast will be shown on app restart
     window.localStorage.setItem('restart-reason', reason);
+  };
+  try {
+    window.log.info('DeleteAccount => Sending a last SyncConfiguration');
+    // be sure to wait for the message being effectively sent. Otherwise we won't be able to encrypt it for our devices !
+    await window.libsession.Utils.SyncUtils.forceSyncConfigurationNowIfNeeded(
+      true
+    );
+    await syncedMessageSent();
   } catch (error) {
     window.log.error(
       'Something went wrong deleting all data:',
       error && error.stack ? error.stack : error
     );
+    try {
+      await syncedMessageSent();
+    } catch (e) {
+      window.log.error(e);
+    }
   }
   window.restart();
 };

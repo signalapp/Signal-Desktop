@@ -366,7 +366,7 @@ async function handleRegularMessage(
 
   const now = new Date().getTime();
 
-  // Medium grups might have `group` set even if with group chat messages...
+  // Medium groups might have `group` set even if with group chat messages...
   if (dataMessage.group && !conversation.isMediumGroup()) {
     // This is not necessarily a group update message, it could also be a regular group message
     const groupUpdate = await handleGroups(

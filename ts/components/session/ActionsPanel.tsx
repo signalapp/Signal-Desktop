@@ -14,6 +14,8 @@ import { getFocusedSection } from '../../state/selectors/section';
 import { getTheme } from '../../state/selectors/theme';
 import { getOurNumber } from '../../state/selectors/user';
 import { UserUtils } from '../../session/utils';
+import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
+import { DAYS } from '../../session/utils/Number';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -36,6 +38,8 @@ interface Props {
 }
 
 class ActionsPanelPrivate extends React.Component<Props> {
+  private syncInterval: NodeJS.Timeout | null = null;
+
   constructor(props: Props) {
     super(props);
 
@@ -57,6 +61,20 @@ class ActionsPanelPrivate extends React.Component<Props> {
 
     // remove existing prekeys, sign prekeys and sessions
     void window.getAccountManager().clearSessionsAndPreKeys();
+
+    // trigger a sync message if needed for our other devices
+    void syncConfigurationIfNeeded();
+
+    this.syncInterval = global.setInterval(() => {
+      void syncConfigurationIfNeeded();
+    }, DAYS * 2);
+  }
+
+  public componentWillUnmount() {
+    if (this.syncInterval) {
+      clearInterval(this.syncInterval);
+      this.syncInterval = null;
+    }
   }
 
   public Section = ({

@@ -5,15 +5,22 @@ import { getEnvelopeId } from './common';
 import { removeFromCache, updateCache } from './cache';
 import { SignalService } from '../protobuf';
 import * as Lodash from 'lodash';
-import { PubKey } from '../session/types';
+import { OpenGroup, PubKey } from '../session/types';
 
 import { BlockedNumberController } from '../util/blockedNumberController';
 import { GroupUtils, UserUtils } from '../session/utils';
 import { fromHexToArray, toHex } from '../session/utils/String';
 import { concatUInt8Array, getSodium } from '../session/crypto';
 import { ConversationController } from '../session/conversations';
-import * as Data from '../../js/modules/data';
+import {
+  createOrUpdateItem,
+  getAllEncryptionKeyPairsForGroup,
+  getItemById,
+} from '../../js/modules/data';
 import { ECKeyPair } from './keypairs';
+import { handleNewClosedGroup } from './closedGroups';
+import { KeyPairRequestManager } from './keyPairRequestManager';
+import { requestEncryptionKeyPair } from '../session/group';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   try {
@@ -45,7 +52,7 @@ async function decryptForClosedGroup(
       );
       throw new Error('Invalid group public key'); // invalidGroupPublicKey
     }
-    const encryptionKeyPairs = await Data.getAllEncryptionKeyPairsForGroup(
+    const encryptionKeyPairs = await getAllEncryptionKeyPairsForGroup(
       hexEncodedGroupPublicKey
     );
     const encryptionKeyPairsCount = encryptionKeyPairs?.length;
@@ -58,6 +65,10 @@ async function decryptForClosedGroup(
     // likely be the one we want) but try older ones in case that didn't work)
     let decryptedContent: ArrayBuffer | undefined;
     let keyIndex = 0;
+
+    // If an error happens in here, we catch it in the inner try-catch
+    // When the loop is done, we check if the decryption is a success;
+    // If not, we trigger a new Error which will trigger in the outer try-catch
     do {
       try {
         const hexEncryptionKeyPair = encryptionKeyPairs.pop();
@@ -87,7 +98,6 @@ async function decryptForClosedGroup(
     } while (encryptionKeyPairs.length > 0);
 
     if (!decryptedContent?.byteLength) {
-      await removeFromCache(envelope);
       throw new Error(
         `Could not decrypt message for closed group with any of the ${encryptionKeyPairsCount} keypairs.`
       );
@@ -101,26 +111,37 @@ async function decryptForClosedGroup(
       'ClosedGroup Message decrypted successfully with keyIndex:',
       keyIndex
     );
-    const ourDevicePubKey = await UserUtils.getCurrentDevicePubKey();
-
-    if (
-      envelope.senderIdentity &&
-      envelope.senderIdentity === ourDevicePubKey
-    ) {
-      await removeFromCache(envelope);
-      window.log.info(
-        'Dropping message from our current device after decrypt for closed group'
-      );
-      return null;
-    }
 
     return unpad(decryptedContent);
   } catch (e) {
+    /**
+     * If an error happened during the decoding,
+     * we trigger a request to get the latest EncryptionKeyPair for this medium group.
+     * Indeed, we might not have the latest one used by someone else, or not have any keypairs for this group.
+     *
+     */
+
     window.log.warn(
       'decryptWithSessionProtocol for medium group message throw:',
       e
     );
-    await removeFromCache(envelope);
+    const groupPubKey = PubKey.cast(envelope.source);
+
+    // To enable back if we decide to enable encryption key pair request work again
+    if (window.lokiFeatureFlags.useRequestEncryptionKeyPair) {
+      const keypairRequestManager = KeyPairRequestManager.getInstance();
+      if (keypairRequestManager.canTriggerRequestWith(groupPubKey)) {
+        keypairRequestManager.markRequestSendFor(groupPubKey, Date.now());
+        await requestEncryptionKeyPair(groupPubKey);
+      }
+    }
+    // IMPORTANT do not remove the message from the cache just yet.
+    // We will try to decrypt it once we get the encryption keypair.
+    // for that to work, we need to throw an error just like here.
+    throw new Error(
+      `Waiting for an encryption keypair to be received for group ${groupPubKey.key}`
+    );
+
     return null;
   }
 }
@@ -280,8 +301,6 @@ async function decrypt(
   envelope: EnvelopePlus,
   ciphertext: ArrayBuffer
 ): Promise<any> {
-  const { textsecure } = window;
-
   try {
     const plaintext = await doDecrypt(envelope, ciphertext);
 
@@ -389,6 +408,14 @@ export async function innerHandleContentMessage(
     }
     if (content.typingMessage) {
       await handleTypingMessage(envelope, content.typingMessage);
+      return;
+    }
+
+    if (content.configurationMessage) {
+      await handleConfigurationMessage(
+        envelope,
+        content.configurationMessage as SignalService.ConfigurationMessage
+      );
       return;
     }
   } catch (e) {
@@ -499,4 +526,83 @@ async function handleTypingMessage(
       sender: source,
     });
   }
+}
+
+export async function handleConfigurationMessage(
+  envelope: EnvelopePlus,
+  configurationMessage: SignalService.ConfigurationMessage
+): Promise<void> {
+  const ourPubkey = await UserUtils.getCurrentDevicePubKey();
+  if (!ourPubkey) {
+    return;
+  }
+
+  if (envelope.source !== ourPubkey) {
+    window?.log?.info(
+      'Dropping configuration change from someone else than us.'
+    );
+    return removeFromCache(envelope);
+  }
+
+  const ITEM_ID_PROCESSED_CONFIGURATION_MESSAGE =
+    'ITEM_ID_PROCESSED_CONFIGURATION_MESSAGE';
+  const didWeHandleAConfigurationMessageAlready =
+    (await getItemById(ITEM_ID_PROCESSED_CONFIGURATION_MESSAGE))?.value ||
+    false;
+  if (didWeHandleAConfigurationMessageAlready) {
+    window?.log?.warn(
+      'Dropping configuration change as we already handled one... '
+    );
+    await removeFromCache(envelope);
+    return;
+  }
+  await createOrUpdateItem({
+    id: ITEM_ID_PROCESSED_CONFIGURATION_MESSAGE,
+    value: true,
+  });
+
+  const numberClosedGroup = configurationMessage.closedGroups?.length || 0;
+
+  window?.log?.warn(
+    `Received ${numberClosedGroup} closed group on configuration. Creating them... `
+  );
+
+  await Promise.all(
+    configurationMessage.closedGroups.map(async c => {
+      const groupUpdate = new SignalService.DataMessage.ClosedGroupControlMessage(
+        {
+          type: SignalService.DataMessage.ClosedGroupControlMessage.Type.NEW,
+          encryptionKeyPair: c.encryptionKeyPair,
+          name: c.name,
+          admins: c.admins,
+          members: c.members,
+          publicKey: c.publicKey,
+        }
+      );
+      try {
+        await handleNewClosedGroup(envelope, groupUpdate);
+      } catch (e) {
+        window?.log?.warn(
+          'failed to handle  a new closed group from configuration message'
+        );
+      }
+    })
+  );
+
+  const allOpenGroups = OpenGroup.getAllAlreadyJoinedOpenGroupsUrl();
+  const numberOpenGroup = configurationMessage.openGroups?.length || 0;
+
+  // Trigger a join for all open groups we are not already in.
+  // Currently, if you left an open group but kept the conversation, you won't rejoin it here.
+  for (let i = 0; i < numberOpenGroup; i++) {
+    const current = configurationMessage.openGroups[i];
+    if (!allOpenGroups.includes(current)) {
+      window?.log?.info(
+        `triggering join of public chat '${current}' from ConfigurationMessage`
+      );
+      void OpenGroup.join(current);
+    }
+  }
+
+  await removeFromCache(envelope);
 }

@@ -287,7 +287,7 @@ const serverRequest = async (endpoint, options = {}) => {
 
       txtResponse = await result.text();
       // cloudflare timeouts (504s) will be html...
-      response = options.textResponse ? txtResponse : JSON.parse(txtResponse);
+      response = options.noJson ? txtResponse : JSON.parse(txtResponse);
 
       // result.status will always be 200
       // emulate the correct http code if available
@@ -303,7 +303,7 @@ const serverRequest = async (endpoint, options = {}) => {
         e.message,
         `json: ${txtResponse}`,
         'attempting connection to',
-        url
+        url.toString()
       );
     } else {
       log.error(
@@ -311,7 +311,7 @@ const serverRequest = async (endpoint, options = {}) => {
         e.code,
         e.message,
         'attempting connection to',
-        url
+        url.toString()
       );
     }
 
