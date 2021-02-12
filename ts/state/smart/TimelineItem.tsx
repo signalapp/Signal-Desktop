@@ -8,7 +8,7 @@ import { mapDispatchToProps } from '../actions';
 import { StateType } from '../reducer';
 
 import { TimelineItem } from '../../components/conversation/TimelineItem';
-import { getIntl } from '../selectors/user';
+import { getIntl, getTheme } from '../selectors/user';
 import {
   getMessageSelector,
   getSelectedMessage,
@@ -47,6 +47,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     isSelected,
     renderContact,
     i18n: getIntl(state),
+    theme: getTheme(state),
   };
 };
 

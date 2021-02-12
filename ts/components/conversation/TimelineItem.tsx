@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { LocalizerType } from '../../types/Util';
+import { LocalizerType, ThemeType } from '../../types/Util';
 
 import {
   Message,
@@ -126,6 +126,7 @@ type PropsLocalType = {
   selectMessage: (messageId: string, conversationId: string) => unknown;
   renderContact: SmartContactRendererType;
   i18n: LocalizerType;
+  theme?: ThemeType;
 };
 
 type PropsActionsType = MessageActionsType &
@@ -145,6 +146,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       isSelected,
       item,
       i18n,
+      theme,
       messageSizeChanged,
       renderContact,
       returnToActiveCall,
@@ -159,7 +161,9 @@ export class TimelineItem extends React.PureComponent<PropsType> {
     }
 
     if (item.type === 'message') {
-      return <Message {...this.props} {...item.data} i18n={i18n} />;
+      return (
+        <Message {...this.props} {...item.data} i18n={i18n} theme={theme} />
+      );
     }
 
     let notification;

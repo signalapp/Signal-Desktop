@@ -24,3 +24,8 @@ export type LocalizerType = (
   key: string,
   values?: Array<string | null> | ReplacementValuesType
 ) => string;
+
+export enum ThemeType {
+  'light' = 'light',
+  'dark' = 'dark',
+}

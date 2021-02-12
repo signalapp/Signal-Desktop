@@ -36,7 +36,6 @@ import {
   getImageDimensions,
   hasImage,
   hasNotDownloaded,
-  hasVideoBlurHash,
   hasVideoScreenshot,
   isAudio,
   isImage,
@@ -47,7 +46,7 @@ import { ContactType } from '../../types/Contact';
 
 import { getIncrement } from '../../util/timer';
 import { isFileDangerous } from '../../util/isFileDangerous';
-import { BodyRangesType, LocalizerType } from '../../types/Util';
+import { BodyRangesType, LocalizerType, ThemeType } from '../../types/Util';
 import { ColorType } from '../../types/Colors';
 import { createRefMerger } from '../_util';
 import { emojiToData } from '../emoji/lib';
@@ -141,6 +140,7 @@ export type PropsData = {
 
 export type PropsHousekeeping = {
   i18n: LocalizerType;
+  theme?: ThemeType;
   disableMenu?: boolean;
   disableScroll?: boolean;
   collapseMetadata?: boolean;
@@ -675,7 +675,9 @@ export class Message extends React.PureComponent<Props, State> {
       showVisualAttachment,
       isSticker,
       text,
+      theme,
     } = this.props;
+
     const { imageBroken } = this.state;
 
     if (!attachments || !attachments[0]) {
@@ -693,9 +695,7 @@ export class Message extends React.PureComponent<Props, State> {
     if (
       displayImage &&
       !imageBroken &&
-      ((isImage(attachments) && hasImage(attachments)) ||
-        (isVideo(attachments) &&
-          (hasVideoBlurHash(attachments) || hasVideoScreenshot(attachments))))
+      (isImage(attachments) || isVideo(attachments))
     ) {
       const prefix = isSticker ? 'sticker' : 'attachment';
       const bottomOverlay = !isSticker && !collapseMetadata;
@@ -725,6 +725,7 @@ export class Message extends React.PureComponent<Props, State> {
             stickerSize={STICKER_SIZE}
             bottomOverlay={bottomOverlay}
             i18n={i18n}
+            theme={theme}
             onError={this.handleImageError}
             tabIndex={tabIndex}
             onClick={attachment => {
@@ -783,7 +784,11 @@ export class Message extends React.PureComponent<Props, State> {
           event.stopPropagation();
           event.preventDefault();
 
-          if (!firstAttachment.url) {
+          if (hasNotDownloaded(firstAttachment)) {
+            kickOffAttachmentDownload({
+              attachment: firstAttachment,
+              messageId: id,
+            });
             return;
           }
 
@@ -841,6 +846,7 @@ export class Message extends React.PureComponent<Props, State> {
       openLink,
       previews,
       quote,
+      theme,
     } = this.props;
 
     // Attachments take precedence over Link Previews
@@ -885,6 +891,7 @@ export class Message extends React.PureComponent<Props, State> {
             withContentBelow
             onError={this.handleImageError}
             i18n={i18n}
+            theme={theme}
           />
         ) : null}
         <div className="module-message__link-preview__content">
@@ -1546,12 +1553,7 @@ export class Message extends React.PureComponent<Props, State> {
     if (attachments && attachments.length) {
       const displayImage = canDisplayImage(attachments);
 
-      return (
-        displayImage &&
-        ((isImage(attachments) && hasImage(attachments)) ||
-          (isVideo(attachments) &&
-            (hasVideoBlurHash(attachments) || hasVideoScreenshot(attachments))))
-      );
+      return displayImage && (isImage(attachments) || isVideo(attachments));
     }
 
     if (previews && previews.length) {
@@ -2012,8 +2014,7 @@ export class Message extends React.PureComponent<Props, State> {
       !isAttachmentPending &&
       canDisplayImage(attachments) &&
       ((isImage(attachments) && hasImage(attachments)) ||
-        (isVideo(attachments) &&
-          (hasVideoBlurHash(attachments) || hasVideoScreenshot(attachments))))
+        (isVideo(attachments) && hasVideoScreenshot(attachments)))
     ) {
       event.preventDefault();
       event.stopPropagation();

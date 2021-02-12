@@ -170,7 +170,7 @@ export function isVideoAttachment(
 }
 
 export function hasNotDownloaded(attachment?: AttachmentType): boolean {
-  return Boolean(attachment && !attachment.url && attachment.blurHash);
+  return Boolean(attachment && !attachment.url);
 }
 
 export function hasVideoBlurHash(attachments?: Array<AttachmentType>): boolean {

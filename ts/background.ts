@@ -326,7 +326,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     window.Events = {
       getDeviceName: () => window.textsecure.storage.user.getDeviceName(),
 
-      getThemeSetting: () =>
+      getThemeSetting: (): 'light' | 'dark' | 'system' =>
         window.storage.get(
           'theme-setting',
           window.platform === 'darwin' ? 'system' : 'light'
@@ -751,6 +751,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         platform: window.platform,
         i18n: window.i18n,
         interactionMode: window.getInteractionMode(),
+        theme: window.Events.getThemeSetting(),
       },
     };
 
@@ -2162,6 +2163,11 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     if (view) {
       view.applyTheme();
     }
+
+    const theme = window.Events.getThemeSetting();
+    window.reduxActions.user.userChanged({
+      theme: theme === 'system' ? window.systemTheme : theme,
+    });
   }
 
   const FIVE_MINUTES = 5 * 60 * 1000;

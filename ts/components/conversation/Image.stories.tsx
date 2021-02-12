@@ -10,6 +10,7 @@ import { storiesOf } from '@storybook/react';
 import { pngUrl } from '../../storybook/Fixtures';
 import { Image, Props } from './Image';
 import { IMAGE_PNG } from '../../types/MIME';
+import { ThemeType } from '../../types/Util';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
 
@@ -56,6 +57,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   ),
   softCorners: boolean('softCorners', overrideProps.softCorners || false),
   tabIndex: number('tabIndex', overrideProps.tabIndex || 0),
+  theme: text('theme', overrideProps.theme || 'light') as ThemeType,
   url: text('url', overrideProps.url || pngUrl),
   width: number('width', overrideProps.width || 100),
 });
@@ -186,6 +188,32 @@ story.add('Blurhash', () => {
     blurHash: 'thisisafakeblurhashthatwasmadeup',
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     url: undefined as any,
+  };
+
+  return <Image {...props} />;
+});
+
+story.add('undefined blurHash (light)', () => {
+  const defaultProps = createProps();
+  const props = {
+    ...defaultProps,
+    blurHash: undefined,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    url: undefined as any,
+    theme: ThemeType.light,
+  };
+
+  return <Image {...props} />;
+});
+
+story.add('undefined blurHash (dark)', () => {
+  const defaultProps = createProps();
+  const props = {
+    ...defaultProps,
+    blurHash: undefined,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    url: undefined as any,
+    theme: ThemeType.dark,
   };
 
   return <Image {...props} />;

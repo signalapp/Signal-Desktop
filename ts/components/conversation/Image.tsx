@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { Blurhash } from 'react-blurhash';
 
 import { Spinner } from '../Spinner';
-import { LocalizerType } from '../../types/Util';
+import { LocalizerType, ThemeType } from '../../types/Util';
 import { AttachmentType, hasNotDownloaded } from '../../types/Attachment';
 
 export type Props = {
@@ -37,6 +37,7 @@ export type Props = {
   blurHash?: string;
 
   i18n: LocalizerType;
+  theme?: ThemeType;
   onClick?: (attachment: AttachmentType) => void;
   onClickClose?: (attachment: AttachmentType) => void;
   onError?: () => void;
@@ -44,10 +45,10 @@ export type Props = {
 
 export class Image extends React.Component<Props> {
   private canClick() {
-    const { onClick, attachment, blurHash, url } = this.props;
+    const { onClick, attachment } = this.props;
     const { pending } = attachment || { pending: true };
 
-    return Boolean(onClick && !pending && (url || blurHash));
+    return Boolean(onClick && !pending);
   }
 
   public handleClick = (event: React.MouseEvent): void => {
@@ -150,6 +151,7 @@ export class Image extends React.Component<Props> {
       smallCurveTopLeft,
       softCorners,
       tabIndex,
+      theme,
       url,
       width = 0,
     } = this.props;
@@ -157,6 +159,12 @@ export class Image extends React.Component<Props> {
     const { caption, pending } = attachment || { caption: null, pending: true };
     const canClick = this.canClick();
     const imgNotDownloaded = hasNotDownloaded(attachment);
+
+    const defaulBlurHash =
+      theme === ThemeType.dark
+        ? 'L05OQnoffQofoffQfQfQfQfQfQfQ'
+        : 'L1Q]+w-;fQ-;~qfQfQfQfQfQfQfQ';
+    const resolvedBlurHash = blurHash || defaulBlurHash;
 
     const overlayClassName = classNames('module-image__border-overlay', {
       'module-image__border-overlay--with-border': !noBorder,
@@ -210,9 +218,9 @@ export class Image extends React.Component<Props> {
             width={width}
             src={url}
           />
-        ) : blurHash ? (
+        ) : resolvedBlurHash ? (
           <Blurhash
-            hash={blurHash}
+            hash={resolvedBlurHash}
             width={width}
             height={height}
             style={{ display: 'block' }}

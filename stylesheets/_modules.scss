@@ -5021,10 +5021,16 @@ button.module-conversation-details__action-button {
     align-items: center;
     display: flex;
     justify-content: center;
-    background-color: $color-gray-75;
     border-radius: 48px;
     height: 48px;
     width: 48px;
+
+    @include light-theme {
+      background-color: $color-gray-65;
+    }
+    @include dark-theme {
+      background-color: $color-gray-75;
+    }
 
     &:after {
       content: '';
