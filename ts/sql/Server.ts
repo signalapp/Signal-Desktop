@@ -2391,16 +2391,14 @@ async function searchConversations(
   const rows = await db.all(
     `SELECT json FROM conversations WHERE
       (
-        e164 LIKE $e164 OR
-        name LIKE $name OR
-        profileFullName LIKE $profileFullName
+        e164 LIKE $query OR
+        name LIKE $query OR
+        profileFullName LIKE $query
       )
      ORDER BY active_at DESC
      LIMIT $limit`,
     {
-      $e164: `%${query}%`,
-      $name: `%${query}%`,
-      $profileFullName: `%${query}%`,
+      $query: `%${query}%`,
       $limit: limit || 100,
     }
   );
