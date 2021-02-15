@@ -10,7 +10,7 @@ const {
   saveAttachmentDownloadJob,
   saveMessage,
   setAttachmentDownloadJobPending,
-} = require('./data');
+} = require('../../ts/data/data');
 const { stringFromBytes } = require('./crypto');
 
 module.exports = {

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { MessageModel } from '../models/message';
-import { saveMessage } from '../../js/modules/data';
+import { saveMessage } from '../../ts/data/data';
 
 export async function downloadAttachment(attachment: any) {
   const serverUrl = new URL(attachment.url).origin;
@@ -240,9 +240,7 @@ export async function queueAttachmentDownloads(
   }
 
   if (count > 0) {
-    await saveMessage(message.attributes, {
-      Message: Whisper.Message,
-    });
+    await saveMessage(message.attributes);
 
     return true;
   }

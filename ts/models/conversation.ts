@@ -29,7 +29,7 @@ import {
   removeAllMessagesInConversation,
   removeMessage as dataRemoveMessage,
   updateConversation,
-} from '../../js/modules/data';
+} from '../../ts/data/data';
 
 export interface OurLokiProfile {
   displayName: string;
@@ -520,12 +520,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async getUnread() {
-    return getUnreadByConversation(this.id, {
-      MessageCollection: MessageCollection,
-    });
+    return getUnreadByConversation(this.id);
   }
 
   public async getUnreadCount() {
+    window.log.warn('getUnreadCount is slow');
     return getUnreadCountByConversation(this.id);
   }
 
@@ -867,7 +866,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
     const messages = await getMessagesByConversation(this.id, {
       limit: 1,
-      MessageCollection: MessageCollection,
     });
     const lastMessageModel = messages.at(0);
     const lastMessageJSON = lastMessageModel ? lastMessageModel.toJSON() : null;
@@ -1009,9 +1007,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async commit() {
-    await updateConversation(this.id, this.attributes, {
-      Conversation: ConversationModel,
-    });
+    await updateConversation(this.id, this.attributes);
     this.trigger('change', this);
   }
 
@@ -1058,7 +1054,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         conversationId,
       })
     );
-    let unreadMessages = await this.getUnread();
+    let unreadMessages = (await this.getUnread()).models;
 
     const oldUnread = unreadMessages.filter(
       (message: any) => message.get('received_at') <= newestUnreadDate
@@ -1467,9 +1463,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async removeMessage(messageId: any) {
-    await dataRemoveMessage(messageId, {
-      Message: MessageModel,
-    });
+    await dataRemoveMessage(messageId);
     window.Whisper.events.trigger('messageDeleted', {
       conversationKey: this.id,
       messageId,
@@ -1494,9 +1488,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async destroyMessages() {
-    await removeAllMessagesInConversation(this.id, {
-      MessageCollection,
-    });
+    await removeAllMessagesInConversation(this.id);
 
     window.Whisper.events.trigger('conversationReset', {
       conversationKey: this.id,

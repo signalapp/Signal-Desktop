@@ -135,7 +135,7 @@ export class OpenGroup {
     // Try to connect to server
     try {
       conversation = await PromiseUtils.timeout(
-        window.attemptConnection(prefixedServer, channel),
+        OpenGroup.attemptConnection(prefixedServer, channel),
         20000
       );
 
@@ -238,5 +238,62 @@ export class OpenGroup {
     }
 
     return `http${hasSSL ? 's' : ''}://${server}`;
+  }
+
+  // Attempts a connection to an open group server
+  private static async attemptConnection(serverURL: string, channelId: number) {
+    let completeServerURL = serverURL.toLowerCase();
+    const valid = OpenGroup.validate(completeServerURL);
+    if (!valid) {
+      return new Promise((_resolve, reject) => {
+        reject(window.i18n('connectToServerFail'));
+      });
+    }
+
+    // Add http or https prefix to server
+    completeServerURL = OpenGroup.prefixify(completeServerURL);
+
+    const rawServerURL = serverURL
+      .replace(/^https?:\/\//i, '')
+      .replace(/[/\\]+$/i, '');
+
+    const conversationId = `publicChat:${channelId}@${rawServerURL}`;
+
+    // Quickly peak to make sure we don't already have it
+    const conversationExists = ConversationController.getInstance().get(
+      conversationId
+    );
+    if (conversationExists) {
+      // We are already a member of this public chat
+      return new Promise((_resolve, reject) => {
+        reject(window.i18n('publicChatExists'));
+      });
+    }
+
+    // Get server
+    const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(
+      completeServerURL
+    );
+    // SSL certificate failure or offline
+    if (!serverAPI) {
+      // Url incorrect or server not compatible
+      return new Promise((_resolve, reject) => {
+        reject(window.i18n('connectToServerFail'));
+      });
+    }
+
+    // Create conversation
+    const conversation = await ConversationController.getInstance().getOrCreateAndWait(
+      conversationId,
+      'group'
+    );
+
+    // Convert conversation to a public one
+    await conversation.setPublicSource(completeServerURL, channelId);
+
+    // and finally activate it
+    void conversation.getPublicSendData(); // may want "await" if you want to use the API
+
+    return conversation;
   }
 }

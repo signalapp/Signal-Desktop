@@ -15,7 +15,7 @@ import {
   createOrUpdateItem,
   getAllEncryptionKeyPairsForGroup,
   getItemById,
-} from '../../js/modules/data';
+} from '../../ts/data/data';
 import { ECKeyPair } from './keypairs';
 import { handleNewClosedGroup } from './closedGroups';
 import { KeyPairRequestManager } from './keyPairRequestManager';

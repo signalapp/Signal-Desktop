@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { UserUtils } from '.';
-import { getItemById } from '../../../js/modules/data';
+import { getItemById } from '../../../ts/data/data';
 import { KeyPair } from '../../../libtextsecure/libsignal-protocol';
 import { PubKey } from '../types';
 import { toHex } from './String';

@@ -1080,8 +1080,12 @@ class LokiPublicChannelAPI {
 
   async getPrivateKey() {
     if (!this.myPrivateKey) {
-      const myKeyPair = await textsecure.storage.protocol.getIdentityKeyPair();
-      this.myPrivateKey = myKeyPair.privKey;
+      const item = await window.Signal.Data.getItemById('identityKey');
+      const keyPair = (item && item.value) || undefined;
+      if (!keyPair) {
+        window.log.error('Could not get our Keypair from getItemById');
+      }
+      this.myPrivateKey = keyPair.privKey;
     }
     return this.myPrivateKey;
   }

@@ -43,11 +43,7 @@
       }
 
       const groups = await window.Signal.Data.getAllGroupsInvolvingId(
-        originalSource,
-        {
-          ConversationCollection:
-            window.models.Conversation.ConversationCollection,
-        }
+        originalSource
       );
 
       const ids = groups.pluck('id');

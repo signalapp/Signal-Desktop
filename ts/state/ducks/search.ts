@@ -2,7 +2,7 @@ import { omit, reject } from 'lodash';
 
 import { AdvancedSearchOptions, SearchOptions } from '../../types/Search';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
-import { searchConversations, searchMessages } from '../../../js/modules/data';
+import { searchConversations, searchMessages } from '../../../ts/data/data';
 import { makeLookup } from '../../util/makeLookup';
 
 import {

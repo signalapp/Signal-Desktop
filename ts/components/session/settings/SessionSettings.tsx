@@ -17,7 +17,7 @@ import {
   getConversations,
 } from '../../../state/selectors/conversations';
 import { connect } from 'react-redux';
-import { getPasswordHash } from '../../../../js/modules/data';
+import { getPasswordHash } from '../../../../ts/data/data';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',

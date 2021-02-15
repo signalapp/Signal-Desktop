@@ -12,7 +12,7 @@ import {
   getIdentityKeyById,
   getLatestClosedGroupEncryptionKeyPair,
   removeAllClosedGroupEncryptionKeyPairs,
-} from '../../../js/modules/data';
+} from '../../../ts/data/data';
 import uuid from 'uuid';
 import { SignalService } from '../../protobuf';
 import { generateCurve25519KeyPairWithoutPrefix } from '../crypto';

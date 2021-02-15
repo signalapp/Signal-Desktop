@@ -1,15 +1,13 @@
 // The idea with this file is to make it webpackable for the style guide
 
 const Crypto = require('./crypto');
-const Data = require('./data');
+const Data = require('../../ts/data/data');
 const Database = require('./database');
 const Emoji = require('../../ts/util/emoji');
-const IndexedDB = require('./indexeddb');
 const Notifications = require('../../ts/notifications');
 const OS = require('../../ts/OS');
 const Settings = require('./settings');
 const Util = require('../../ts/util');
-const { migrateToSQL } = require('./migrate_to_sql');
 const LinkPreviews = require('./link_previews');
 const AttachmentDownloads = require('./attachment_downloads');
 const { Message } = require('../../ts/components/conversation/Message');
@@ -57,13 +55,6 @@ const {
   RemoveModeratorsDialog,
 } = require('../../ts/components/conversation/ModeratorsRemoveDialog');
 
-// Migrations
-const {
-  getPlaceholderMigrations,
-  getCurrentVersion,
-} = require('./migrations/get_placeholder_migrations');
-const { run } = require('./migrations/migrations');
-
 // Types
 const AttachmentType = require('./types/attachment');
 const VisualAttachment = require('./types/visual_attachment');
@@ -76,10 +67,6 @@ const SettingsType = require('../../ts/types/Settings');
 
 // Views
 const Initialization = require('./views/initialization');
-
-// Workflow
-const { IdleDetector } = require('./idle_detector');
-const MessageDataMigrator = require('./messages_data_migrator');
 
 function initializeMigrations({
   userDataPath,
@@ -123,14 +110,11 @@ function initializeMigrations({
       deleteOnDisk,
     }),
     getAbsoluteAttachmentPath,
-    getPlaceholderMigrations,
-    getCurrentVersion,
     loadAttachmentData,
     loadMessage: MessageType.createAttachmentLoader(loadAttachmentData),
     loadPreviewData,
     loadQuoteData,
     readAttachmentData,
-    run,
     processNewAttachment: attachment =>
       MessageType.processNewAttachment(attachment, {
         writeNewAttachmentData,
@@ -213,11 +197,6 @@ exports.setup = (options = {}) => {
     Initialization,
   };
 
-  const Workflow = {
-    IdleDetector,
-    MessageDataMigrator,
-  };
-
   return {
     AttachmentDownloads,
     Components,
@@ -225,9 +204,7 @@ exports.setup = (options = {}) => {
     Data,
     Database,
     Emoji,
-    IndexedDB,
     LinkPreviews,
-    migrateToSQL,
     Migrations,
     Notifications,
     OS,
@@ -235,6 +212,5 @@ exports.setup = (options = {}) => {
     Types,
     Util,
     Views,
-    Workflow,
   };
 };

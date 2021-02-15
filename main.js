@@ -756,20 +756,6 @@ async function showMainWindow(sqlKey, passwordAttempt = false) {
   appStartInitialSpellcheckSetting = await getSpellCheckSetting();
   await sqlChannels.initialize();
 
-  try {
-    const IDB_KEY = 'indexeddb-delete-needed';
-    const item = await sql.getItemById(IDB_KEY);
-    if (item && item.value) {
-      await sql.removeIndexedDBFiles();
-      await sql.removeItemById(IDB_KEY);
-    }
-  } catch (error) {
-    console.log(
-      '(ready event handler) error deleting IndexedDB:',
-      error && error.stack ? error.stack : error
-    );
-  }
-
   async function cleanupOrphanedAttachments() {
     const allAttachments = await attachments.getAllAttachments(userDataPath);
     const orphanedAttachments = await sql.removeKnownAttachments(

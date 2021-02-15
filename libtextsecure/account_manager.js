@@ -82,7 +82,6 @@
       return this.pending;
     },
     async createAccount(identityKeyPair, userAgent, readReceipts) {
-      const signalingKey = libsignal.crypto.getRandomBytes(32 + 20);
       let password = btoa(getString(libsignal.crypto.getRandomBytes(16)));
       password = password.substring(0, password.length - 2);
 
@@ -102,16 +101,6 @@
       // update our own identity key, which may have changed
       // if we're relinking after a reinstall on the master device
       const pubKeyString = StringView.arrayBufferToHex(identityKeyPair.pubKey);
-      await textsecure.storage.protocol.saveIdentityWithAttributes(
-        pubKeyString,
-        {
-          id: pubKeyString,
-          publicKey: identityKeyPair.pubKey,
-          firstUse: true,
-          timestamp: Date.now(),
-          nonblockingApproval: true,
-        }
-      );
 
       await textsecure.storage.put('identityKey', identityKeyPair);
       await textsecure.storage.put('password', password);
@@ -130,15 +119,15 @@
       await textsecure.storage.user.setNumberAndDeviceId(pubKeyString, 1);
     },
     async clearSessionsAndPreKeys() {
-      const store = textsecure.storage.protocol;
-
       window.log.info('clearing all sessions');
-      await Promise.all([store.clearSessionStore()]);
       // During secondary device registration we need to keep our prekeys sent
       // to other pubkeys
       await Promise.all([
-        store.clearPreKeyStore(),
-        store.clearSignedPreKeysStore(),
+        window.Signal.Data.removeAllPreKeys(),
+        window.Signal.Data.removeAllSignedPreKeys(),
+        window.Signal.Data.removeAllContactPreKeys(),
+        window.Signal.Data.removeAllContactSignedPreKeys(),
+        window.Signal.Data.removeAllSessions(),
       ]);
     },
     async generateMnemonic(language = 'english') {

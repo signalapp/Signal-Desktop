@@ -18,13 +18,13 @@ import {
   getLatestClosedGroupEncryptionKeyPair,
   isKeyPairAlreadySaved,
   removeAllClosedGroupEncryptionKeyPairs,
-} from '../../js/modules/data';
+} from '../../ts/data/data';
 import {
   ClosedGroupNewMessage,
   ClosedGroupNewMessageParams,
 } from '../session/messages/outgoing/content/data/group/ClosedGroupNewMessage';
 
-import { ECKeyPair } from './keypairs';
+import { ECKeyPair, HexKeyPair } from './keypairs';
 import { UserUtils } from '../session/utils';
 import { ConversationModel } from '../models/conversation';
 import _ from 'lodash';
@@ -786,6 +786,9 @@ async function sendLatestKeyPairToUsers(
     return;
   }
 
+  const keyPairToUse =
+    inMemoryKeyPair || ECKeyPair.fromHexKeyPair(latestKeyPair as HexKeyPair);
+
   const expireTimer = groupConvo.get('expireTimer') || 0;
 
   await Promise.all(
@@ -800,7 +803,7 @@ async function sendLatestKeyPairToUsers(
 
       const wrappers = await ClosedGroup.buildEncryptionKeyPairWrappers(
         [member],
-        inMemoryKeyPair || ECKeyPair.fromHexKeyPair(latestKeyPair)
+        keyPairToUse
       );
 
       const keypairsMessage = new ClosedGroupEncryptionPairReplyMessage({

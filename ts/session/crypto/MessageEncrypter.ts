@@ -4,7 +4,7 @@ import { PubKey } from '../types';
 import { concatUInt8Array, getSodium } from '.';
 import { fromHexToArray } from '../utils/String';
 export { concatUInt8Array, getSodium };
-import { getLatestClosedGroupEncryptionKeyPair } from '../../../js/modules/data';
+import { getLatestClosedGroupEncryptionKeyPair } from '../../../ts/data/data';
 import { UserUtils } from '../utils';
 
 /**

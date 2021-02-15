@@ -26,15 +26,15 @@ import * as MIME from '../../../types/MIME';
 import { SessionFileDropzone } from './SessionFileDropzone';
 import { ConversationType } from '../../../state/ducks/conversations';
 import { MessageView } from '../../MainViewController';
-import {
-  getMessageById,
-  getPubkeysInPublicConversation,
-} from '../../../../js/modules/data';
 import { pushUnblockToSend } from '../../../session/utils/Toast';
 import { MessageDetail } from '../../conversation/MessageDetail';
 import { ConversationController } from '../../../session/conversations';
 import { PubKey } from '../../../session/types';
 import { MessageModel } from '../../../models/message';
+import {
+  getMessageById,
+  getPubkeysInPublicConversation,
+} from '../../../data/data';
 
 interface State {
   // Message sending progress
@@ -808,9 +808,7 @@ export class SessionConversation extends React.Component<Props, State> {
         );
 
         if (quotedMessage) {
-          const quotedMessageModel = await getMessageById(quotedMessage.id, {
-            Message: MessageModel,
-          });
+          const quotedMessageModel = await getMessageById(quotedMessage.id);
           if (quotedMessageModel) {
             quotedMessageProps = await conversationModel.makeQuote(
               quotedMessageModel

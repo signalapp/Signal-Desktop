@@ -9,7 +9,7 @@ import {
   getSeenMessagesByHashList,
   saveSeenMessageHashes,
   updateLastHash,
-} from '../../../js/modules/data';
+} from '../../../ts/data/data';
 
 import { StringUtils } from '../../session/utils';
 import { ConversationController } from '../conversations';

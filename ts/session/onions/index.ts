@@ -1,5 +1,5 @@
 import { allowOnlyOneAtATime } from '../../../js/modules/loki_primitives';
-import { getGuardNodes } from '../../../js/modules/data';
+import { getGuardNodes } from '../../../ts/data/data';
 import * as SnodePool from '../snode_api/snodePool';
 import _ from 'lodash';
 import fetch from 'node-fetch';

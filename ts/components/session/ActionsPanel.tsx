@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 import { Avatar } from '../Avatar';
-import { removeItemById } from '../../../js/modules/data';
 import { darkTheme, lightTheme } from '../../state/ducks/SessionTheme';
 import { SessionToastContainer } from './SessionToastContainer';
 import { mapDispatchToProps } from '../../state/actions';
@@ -16,6 +15,7 @@ import { getOurNumber } from '../../state/selectors/user';
 import { UserUtils } from '../../session/utils';
 import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
 import { DAYS } from '../../session/utils/Number';
+import { removeItemById } from '../../data/data';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {

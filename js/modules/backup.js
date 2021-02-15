@@ -141,9 +141,7 @@ async function exportConversationList(fileWriter) {
   stream.write('{');
 
   stream.write('"conversations": ');
-  const conversations = await window.Signal.Data.getAllConversations({
-    ConversationCollection: window.models.Conversation.ConversationCollection,
-  });
+  const conversations = await window.Signal.Data.getAllConversations();
   window.log.info(`Exporting ${conversations.length} conversations`);
   writeArray(stream, getPlainJS(conversations));
 
@@ -257,11 +255,7 @@ async function importFromJsonString(jsonString, targetPath, options) {
   await importConversationsFromJSON(conversations, options);
 
   const SAVE_FUNCTIONS = {
-    identityKeys: window.Signal.Data.createOrUpdateIdentityKey,
     items: window.Signal.Data.createOrUpdateItem,
-    preKeys: window.Signal.Data.createOrUpdatePreKey,
-    sessions: window.Signal.Data.createOrUpdateSession,
-    signedPreKeys: window.Signal.Data.createOrUpdateSignedPreKey,
   };
 
   await Promise.all(
@@ -839,9 +833,7 @@ async function exportConversations(options) {
     throw new Error('Need an attachments directory!');
   }
 
-  const collection = await window.Signal.Data.getAllConversations({
-    ConversationCollection: window.models.Conversation.ConversationCollection,
-  });
+  const collection = await window.Signal.Data.getAllConversations();
   const conversations = collection.models;
 
   for (let i = 0, max = conversations.length; i < max; i += 1) {

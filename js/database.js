@@ -7,8 +7,6 @@
 (function() {
   'use strict';
 
-  const { getPlaceholderMigrations } = window.Signal.Migrations;
-
   window.Whisper = window.Whisper || {};
   window.Whisper.Database = window.Whisper.Database || {};
   window.Whisper.Database.id = window.Whisper.Database.id || 'loki-messenger';
@@ -125,6 +123,4 @@
 
       request.onsuccess = resolve;
     });
-
-  Whisper.Database.migrations = getPlaceholderMigrations();
 })();

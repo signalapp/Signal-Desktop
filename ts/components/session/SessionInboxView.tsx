@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getMessageById } from '../../../js/modules/data';
+import { getMessageById } from '../../data/data';
 import { MessageModel } from '../../models/message';
 import { getMessageQueue } from '../../session';
 import { ConversationController } from '../../session/conversations';
@@ -125,9 +125,7 @@ export class SessionInboxView extends React.Component<Props, State> {
     if (!msg || !msg.message) {
       // otherwise, look for it in the database
       // nobody is listening to this freshly fetched message .trigger calls
-      const dbMessage = await getMessageById(m.identifier, {
-        Message: MessageModel,
-      });
+      const dbMessage = await getMessageById(m.identifier);
 
       if (!dbMessage) {
         return null;

@@ -4,11 +4,9 @@ import { SessionModal } from './SessionModal';
 import { SessionButton, SessionButtonColor } from './SessionButton';
 import { missingCaseError, PasswordUtil } from '../../util/';
 import { ToastUtils } from '../../session/utils';
-import { toast } from 'react-toastify';
-import { SessionToast, SessionToastType } from './SessionToast';
 import { SessionIconType } from './icon';
 import { DefaultTheme, withTheme } from 'styled-components';
-import { getPasswordHash } from '../../../js/modules/data';
+import { getPasswordHash } from '../../data/data';
 export enum PasswordAction {
   Set = 'set',
   Change = 'change',

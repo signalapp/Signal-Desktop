@@ -5,7 +5,7 @@ import { SessionButton } from './SessionButton';
 import { ToastUtils } from '../../session/utils';
 import { DefaultTheme, withTheme } from 'styled-components';
 import { PasswordUtil } from '../../util';
-import { getPasswordHash } from '../../../js/modules/data';
+import { getPasswordHash } from '../../data/data';
 
 interface Props {
   onClose: any;

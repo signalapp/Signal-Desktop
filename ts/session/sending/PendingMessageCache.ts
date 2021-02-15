@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { createOrUpdateItem, getItemById } from '../../../js/modules/data';
+import { createOrUpdateItem, getItemById } from '../../../ts/data/data';
 import { PartialRawMessage, RawMessage } from '../types/RawMessage';
 import { ContentMessage } from '../messages/outgoing';
 import { PubKey } from '../types';

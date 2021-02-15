@@ -1,7 +1,7 @@
 // You can see MessageController for in memory registered messages.
 // Ee register messages to it everytime we send one, so that when an event happens we can find which message it was based on this id.
 
-import { getMessagesByConversation } from '../../../js/modules/data';
+import { getMessagesByConversation } from '../../../ts/data/data';
 import { ConversationModel } from '../../models/conversation';
 import { MessageCollection, MessageModel } from '../../models/message';
 
@@ -70,20 +70,5 @@ export class MessageController {
   // tslint:disable-next-line: function-name
   public get(identifier: string) {
     return this.messageLookup.get(identifier);
-  }
-
-  public async getMessagesByKeyFromDb(key: string) {
-    // loadLive gets messages live, not from the database which can lag behind.
-
-    let messages = [];
-    const messageSet = await getMessagesByConversation(key, {
-      limit: 100,
-      MessageCollection,
-    });
-
-    messages = messageSet.models.map(
-      (conv: ConversationModel) => conv.attributes
-    );
-    return messages;
   }
 }

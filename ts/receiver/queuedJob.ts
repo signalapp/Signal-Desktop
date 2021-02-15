@@ -9,7 +9,7 @@ import { ConversationController } from '../session/conversations';
 import { ConversationModel } from '../models/conversation';
 import { MessageCollection, MessageModel } from '../models/message';
 import { MessageController } from '../session/messages';
-import { getMessageById, getMessagesBySentAt } from '../../js/modules/data';
+import { getMessageById, getMessagesBySentAt } from '../../ts/data/data';
 
 async function handleGroups(
   conversation: ConversationModel,
@@ -99,9 +99,7 @@ async function copyFromQuotedMessage(
   const { attachments, id, author } = quote;
   const firstAttachment = attachments[0];
 
-  const collection = await getMessagesBySentAt(id, {
-    MessageCollection,
-  });
+  const collection = await getMessagesBySentAt(id);
   const found = collection.find((item: any) => {
     const messageAuthor = item.getContact();
 
@@ -555,9 +553,7 @@ export async function handleMessageJob(
       // We go to the database here because, between the message save above and
       // the previous line's trigger() call, we might have marked all messages
       // unread in the database. This message might already be read!
-      const fetched = await getMessageById(message.get('id'), {
-        Message: MessageModel,
-      });
+      const fetched = await getMessageById(message.get('id'));
 
       const previousUnread = message.get('unread');
 

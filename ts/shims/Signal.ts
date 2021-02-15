@@ -1,4 +1,4 @@
-import { getPasswordHash } from '../../js/modules/data';
+import { getPasswordHash } from '../../ts/data/data';
 
 export async function hasPassword() {
   const hash = await getPasswordHash();

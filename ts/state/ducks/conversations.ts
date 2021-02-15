@@ -4,7 +4,7 @@ import { Constants } from '../../session';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ConversationController } from '../../session/conversations';
 import { MessageCollection, MessageModel } from '../../models/message';
-import { getMessagesByConversation } from '../../../js/modules/data';
+import { getMessagesByConversation } from '../../data/data';
 
 // State
 
@@ -100,7 +100,7 @@ async function getMessages(
     window.log.error('Failed to get convo on reducer.');
     return [];
   }
-  const unreadCount = (await conversation.getUnreadCount()) as number;
+  const unreadCount = await conversation.getUnreadCount();
   let msgCount =
     numMessages ||
     Number(Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT) + unreadCount;
@@ -115,15 +115,15 @@ async function getMessages(
 
   const messageSet = await getMessagesByConversation(conversationKey, {
     limit: msgCount,
-    MessageCollection,
   });
 
   // Set first member of series here.
   const messageModels = messageSet.models;
 
   const isPublic = conversation.isPublic();
+  const messagesPickedUp = messageModels.map(makeMessageTypeFromMessageModel);
 
-  const sortedMessage = sortMessages(messageModels, isPublic);
+  const sortedMessage = sortMessages(messagesPickedUp, isPublic);
 
   // no need to do that `firstMessageOfSeries` on a private chat
   if (conversation.isPrivate()) {
@@ -438,6 +438,10 @@ function getEmptyState(): ConversationsStateType {
   };
 }
 
+const makeMessageTypeFromMessageModel = (message: MessageModel) => {
+  return _.pick(message as any, toPickFromMessageModel) as MessageTypeInConvo;
+};
+
 function sortMessages(
   messages: Array<MessageTypeInConvo>,
   isPublic: boolean
@@ -472,10 +476,7 @@ function handleMessageAdded(
   const { messages } = state;
   const { conversationKey, messageModel } = action.payload;
   if (conversationKey === state.selectedConversation) {
-    const addedMessage = _.pick(
-      messageModel as any,
-      toPickFromMessageModel
-    ) as MessageTypeInConvo;
+    const addedMessage = makeMessageTypeFromMessageModel(messageModel);
     const messagesWithNewMessage = [...messages, addedMessage];
     const convo = state.conversationLookup[state.selectedConversation];
     const isPublic = convo?.isPublic || false;

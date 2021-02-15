@@ -26,51 +26,21 @@ module.exports = {
   initialize,
   close,
   removeDB,
-  removeIndexedDBFiles,
   setSQLPassword,
 
   getPasswordHash,
   savePasswordHash,
   removePasswordHash,
 
-  createOrUpdateIdentityKey,
   getIdentityKeyById,
-  bulkAddIdentityKeys,
-  removeIdentityKeyById,
   removeAllIdentityKeys,
   getAllIdentityKeys,
 
-  createOrUpdatePreKey,
-  getPreKeyById,
-  getPreKeyByRecipient,
-  bulkAddPreKeys,
-  removePreKeyById,
-  removeAllPreKeys,
-  getAllPreKeys,
-
-  createOrUpdateSignedPreKey,
-  getSignedPreKeyById,
-  getAllSignedPreKeys,
-  bulkAddSignedPreKeys,
-  removeSignedPreKeyById,
   removeAllSignedPreKeys,
-
-  createOrUpdateContactPreKey,
-  getContactPreKeyById,
-  getContactPreKeyByIdentityKey,
-  getContactPreKeys,
-  getAllContactPreKeys,
-  bulkAddContactPreKeys,
-  removeContactPreKeyByIdentityKey,
   removeAllContactPreKeys,
-
-  createOrUpdateContactSignedPreKey,
-  getContactSignedPreKeyById,
-  getContactSignedPreKeyByIdentityKey,
-  getContactSignedPreKeys,
-  bulkAddContactSignedPreKeys,
-  removeContactSignedPreKeyByIdentityKey,
   removeAllContactSignedPreKeys,
+  removeAllPreKeys,
+  removeAllSessions,
 
   createOrUpdateItem,
   getItemById,
@@ -78,15 +48,6 @@ module.exports = {
   bulkAddItems,
   removeItemById,
   removeAllItems,
-
-  createOrUpdateSession,
-  getSessionById,
-  getSessionsByNumber,
-  bulkAddSessions,
-  removeSessionById,
-  removeSessionsByNumber,
-  removeAllSessions,
-  getAllSessions,
 
   getSwarmNodesForPubkey,
   updateSwarmNodesForPubkey,
@@ -108,7 +69,6 @@ module.exports = {
   getAllConversationIds,
   getAllGroupsInvolvingId,
   removeAllConversations,
-  removeAllPrivateConversations,
 
   searchConversations,
   searchMessages,
@@ -126,7 +86,6 @@ module.exports = {
   getUnreadByConversation,
   getUnreadCountByConversation,
   getMessageBySender,
-  getMessagesBySender,
   getMessageIdsFromServerIds,
   getMessageById,
   getAllMessages,
@@ -158,15 +117,11 @@ module.exports = {
   removeAllAttachmentDownloadJobs,
 
   removeAll,
-  removeAllConfiguration,
 
-  getMessagesNeedingUpgrade,
   getMessagesWithVisualMediaAttachments,
   getMessagesWithFileAttachments,
 
   removeKnownAttachments,
-
-  removeAllClosedGroupRatchets,
 
   getAllEncryptionKeyPairsForGroup,
   getLatestClosedGroupEncryptionKeyPair,
@@ -906,12 +861,6 @@ async function updateToLokiSchemaVersion3(currentVersion, instance) {
 
 const SENDER_KEYS_TABLE = 'senderKeys';
 
-async function removeAllClosedGroupRatchets(groupId) {
-  await db.run(`DELETE FROM ${SENDER_KEYS_TABLE} WHERE groupId = $groupId;`, {
-    $groupId: groupId,
-  });
-}
-
 async function updateToLokiSchemaVersion4(currentVersion, instance) {
   if (currentVersion >= 4) {
     return;
@@ -1181,11 +1130,8 @@ async function createLokiSchemaTable(instance) {
 
 let db;
 let filePath;
-let indexedDBPath;
 
 function _initializePaths(configDir) {
-  indexedDBPath = path.join(configDir, 'IndexedDB');
-
   const dbDir = path.join(configDir, 'sql');
   mkdirp.sync(dbDir);
 
@@ -1297,18 +1243,6 @@ async function removeDB(configDir = null) {
   rimraf.sync(filePath);
 }
 
-async function removeIndexedDBFiles() {
-  if (!indexedDBPath) {
-    throw new Error(
-      'removeIndexedDBFiles: Need to initialize and set indexedDBPath first!'
-    );
-  }
-
-  const pattern = path.join(indexedDBPath, '*.leveldb');
-  rimraf.sync(pattern);
-  indexedDBPath = null;
-}
-
 // Password hash
 const PASS_HASH_ID = 'passHash';
 async function getPasswordHash() {
@@ -1328,17 +1262,8 @@ async function removePasswordHash() {
 }
 
 const IDENTITY_KEYS_TABLE = 'identityKeys';
-async function createOrUpdateIdentityKey(data) {
-  return createOrUpdate(IDENTITY_KEYS_TABLE, data);
-}
 async function getIdentityKeyById(id, instance) {
   return getById(IDENTITY_KEYS_TABLE, id, instance);
-}
-async function bulkAddIdentityKeys(array) {
-  return bulkAdd(IDENTITY_KEYS_TABLE, array);
-}
-async function removeIdentityKeyById(id) {
-  return removeById(IDENTITY_KEYS_TABLE, id);
 }
 async function removeAllIdentityKeys() {
   return removeAllFromTable(IDENTITY_KEYS_TABLE);
@@ -1348,203 +1273,24 @@ async function getAllIdentityKeys() {
 }
 
 const PRE_KEYS_TABLE = 'preKeys';
-async function createOrUpdatePreKey(data) {
-  const { id, recipient } = data;
-  if (!id) {
-    throw new Error('createOrUpdate: Provided data did not have a truthy id');
-  }
 
-  await db.run(
-    `INSERT OR REPLACE INTO ${PRE_KEYS_TABLE} (
-      id,
-      recipient,
-      json
-    ) values (
-      $id,
-      $recipient,
-      $json
-    )`,
-    {
-      $id: id,
-      $recipient: recipient || '',
-      $json: objectToJSON(data),
-    }
-  );
-}
-async function getPreKeyById(id) {
-  return getById(PRE_KEYS_TABLE, id);
-}
-async function getPreKeyByRecipient(recipient) {
-  const row = await db.get(
-    `SELECT * FROM ${PRE_KEYS_TABLE} WHERE recipient = $recipient;`,
-    {
-      $recipient: recipient,
-    }
-  );
-
-  if (!row) {
-    return null;
-  }
-
-  return jsonToObject(row.json);
-}
-async function bulkAddPreKeys(array) {
-  return bulkAdd(PRE_KEYS_TABLE, array);
-}
-async function removePreKeyById(id) {
-  return removeById(PRE_KEYS_TABLE, id);
-}
 async function removeAllPreKeys() {
   return removeAllFromTable(PRE_KEYS_TABLE);
 }
-async function getAllPreKeys() {
-  return getAllFromTable(PRE_KEYS_TABLE);
-}
 
 const CONTACT_PRE_KEYS_TABLE = 'contactPreKeys';
-async function createOrUpdateContactPreKey(data) {
-  const { keyId, identityKeyString } = data;
 
-  await db.run(
-    `INSERT OR REPLACE INTO ${CONTACT_PRE_KEYS_TABLE} (
-      keyId,
-      identityKeyString,
-      json
-    ) values (
-      $keyId,
-      $identityKeyString,
-      $json
-    )`,
-    {
-      $keyId: keyId,
-      $identityKeyString: identityKeyString || '',
-      $json: objectToJSON(data),
-    }
-  );
-}
-async function getContactPreKeyById(id) {
-  return getById(CONTACT_PRE_KEYS_TABLE, id);
-}
-async function getContactPreKeyByIdentityKey(key) {
-  const row = await db.get(
-    `SELECT * FROM ${CONTACT_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString ORDER BY keyId DESC LIMIT 1;`,
-    {
-      $identityKeyString: key,
-    }
-  );
-
-  if (!row) {
-    return null;
-  }
-
-  return jsonToObject(row.json);
-}
-async function getContactPreKeys(keyId, identityKeyString) {
-  const query = `SELECT * FROM ${CONTACT_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString AND keyId = $keyId;`;
-  const rows = await db.all(query, {
-    $keyId: keyId,
-    $identityKeyString: identityKeyString,
-  });
-  return map(rows, row => jsonToObject(row.json));
-}
-
-async function bulkAddContactPreKeys(array) {
-  return bulkAdd(CONTACT_PRE_KEYS_TABLE, array);
-}
-async function removeContactPreKeyByIdentityKey(key) {
-  await db.run(
-    `DELETE FROM ${CONTACT_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString;`,
-    {
-      $identityKeyString: key,
-    }
-  );
-}
 async function removeAllContactPreKeys() {
   return removeAllFromTable(CONTACT_PRE_KEYS_TABLE);
 }
 
 const CONTACT_SIGNED_PRE_KEYS_TABLE = 'contactSignedPreKeys';
-async function createOrUpdateContactSignedPreKey(data) {
-  const { keyId, identityKeyString } = data;
 
-  await db.run(
-    `INSERT OR REPLACE INTO ${CONTACT_SIGNED_PRE_KEYS_TABLE} (
-      keyId,
-      identityKeyString,
-      json
-    ) values (
-      $keyId,
-      $identityKeyString,
-      $json
-    )`,
-    {
-      $keyId: keyId,
-      $identityKeyString: identityKeyString || '',
-      $json: objectToJSON(data),
-    }
-  );
-}
-async function getContactSignedPreKeyById(id) {
-  return getById(CONTACT_SIGNED_PRE_KEYS_TABLE, id);
-}
-async function getContactSignedPreKeyByIdentityKey(key) {
-  const row = await db.get(
-    `SELECT * FROM ${CONTACT_SIGNED_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString ORDER BY keyId DESC;`,
-    {
-      $identityKeyString: key,
-    }
-  );
-
-  if (!row) {
-    return null;
-  }
-
-  return jsonToObject(row.json);
-}
-async function getContactSignedPreKeys(keyId, identityKeyString) {
-  const query = `SELECT * FROM ${CONTACT_SIGNED_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString AND keyId = $keyId;`;
-  const rows = await db.all(query, {
-    $keyId: keyId,
-    $identityKeyString: identityKeyString,
-  });
-  return map(rows, row => jsonToObject(row.json));
-}
-async function bulkAddContactSignedPreKeys(array) {
-  return bulkAdd(CONTACT_SIGNED_PRE_KEYS_TABLE, array);
-}
-async function removeContactSignedPreKeyByIdentityKey(key) {
-  await db.run(
-    `DELETE FROM ${CONTACT_SIGNED_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString;`,
-    {
-      $identityKeyString: key,
-    }
-  );
-}
 async function removeAllContactSignedPreKeys() {
   return removeAllFromTable(CONTACT_SIGNED_PRE_KEYS_TABLE);
 }
 
 const SIGNED_PRE_KEYS_TABLE = 'signedPreKeys';
-async function createOrUpdateSignedPreKey(data) {
-  return createOrUpdate(SIGNED_PRE_KEYS_TABLE, data);
-}
-async function getSignedPreKeyById(id) {
-  return getById(SIGNED_PRE_KEYS_TABLE, id);
-}
-async function getAllSignedPreKeys() {
-  const rows = await db.all('SELECT json FROM signedPreKeys ORDER BY id ASC;');
-  return map(rows, row => jsonToObject(row.json));
-}
-async function getAllContactPreKeys() {
-  const rows = await db.all('SELECT json FROM contactPreKeys ORDER BY id ASC;');
-  return map(rows, row => jsonToObject(row.json));
-}
-async function bulkAddSignedPreKeys(array) {
-  return bulkAdd(SIGNED_PRE_KEYS_TABLE, array);
-}
-async function removeSignedPreKeyById(id) {
-  return removeById(SIGNED_PRE_KEYS_TABLE, id);
-}
 async function removeAllSignedPreKeys() {
   return removeAllFromTable(SIGNED_PRE_KEYS_TABLE);
 }
@@ -1607,61 +1353,8 @@ async function removeAllItems() {
 }
 
 const SESSIONS_TABLE = 'sessions';
-async function createOrUpdateSession(data) {
-  const { id, number } = data;
-  if (!id) {
-    throw new Error(
-      'createOrUpdateSession: Provided data did not have a truthy id'
-    );
-  }
-  if (!number) {
-    throw new Error(
-      'createOrUpdateSession: Provided data did not have a truthy number'
-    );
-  }
-
-  await db.run(
-    `INSERT OR REPLACE INTO sessions (
-      id,
-      number,
-      json
-    ) values (
-      $id,
-      $number,
-      $json
-    )`,
-    {
-      $id: id,
-      $number: number,
-      $json: objectToJSON(data),
-    }
-  );
-}
-async function getSessionById(id) {
-  return getById(SESSIONS_TABLE, id);
-}
-async function getSessionsByNumber(number) {
-  const rows = await db.all('SELECT * FROM sessions WHERE number = $number;', {
-    $number: number,
-  });
-  return map(rows, row => jsonToObject(row.json));
-}
-async function bulkAddSessions(array) {
-  return bulkAdd(SESSIONS_TABLE, array);
-}
-async function removeSessionById(id) {
-  return removeById(SESSIONS_TABLE, id);
-}
-async function removeSessionsByNumber(number) {
-  await db.run('DELETE FROM sessions WHERE number = $number;', {
-    $number: number,
-  });
-}
 async function removeAllSessions() {
   return removeAllFromTable(SESSIONS_TABLE);
-}
-async function getAllSessions() {
-  return getAllFromTable(SESSIONS_TABLE);
 }
 
 async function createOrUpdate(table, data) {
@@ -2412,20 +2105,6 @@ async function getMessageBySender({ source, sourceDevice, sent_at }) {
   return map(rows, row => jsonToObject(row.json));
 }
 
-async function getMessagesBySender({ source, sourceDevice }) {
-  const rows = await db.all(
-    `SELECT json FROM ${MESSAGES_TABLE} WHERE
-      source = $source AND
-      sourceDevice = $sourceDevice`,
-    {
-      $source: source,
-      $sourceDevice: sourceDevice,
-    }
-  );
-
-  return map(rows, row => jsonToObject(row.json));
-}
-
 async function getAllUnsentMessages() {
   const rows = await db.all(`
     SELECT json FROM ${MESSAGES_TABLE} WHERE
@@ -2836,41 +2515,8 @@ function getRemoveConfigurationPromises() {
   ];
 }
 
-// Anything that isn't user-visible data
-async function removeAllConfiguration() {
-  let promise;
-
-  db.serialize(() => {
-    promise = Promise.all([
-      db.run('BEGIN TRANSACTION;'),
-      ...getRemoveConfigurationPromises(),
-      db.run('COMMIT TRANSACTION;'),
-    ]);
-  });
-
-  await promise;
-}
-
 async function removeAllConversations() {
   await removeAllFromTable(CONVERSATIONS_TABLE);
-}
-
-async function removeAllPrivateConversations() {
-  await db.run(`DELETE FROM ${CONVERSATIONS_TABLE} WHERE type = 'private'`);
-}
-
-async function getMessagesNeedingUpgrade(limit, { maxVersion }) {
-  const rows = await db.all(
-    `SELECT json FROM ${MESSAGES_TABLE}
-     WHERE schemaVersion IS NULL OR schemaVersion < $maxVersion
-     LIMIT $limit;`,
-    {
-      $maxVersion: maxVersion,
-      $limit: limit,
-    }
-  );
-
-  return map(rows, row => jsonToObject(row.json));
 }
 
 async function getMessagesWithVisualMediaAttachments(

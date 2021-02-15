@@ -21,7 +21,7 @@ import {
 } from './messageType';
 
 import autoBind from 'auto-bind';
-import { saveMessage } from '../../js/modules/data';
+import { saveMessage } from '../../ts/data/data';
 import { ConversationModel } from './conversation';
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   public propsForTimerNotification: any;
@@ -34,14 +34,12 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const filledAttrs = fillMessageAttributesWithDefaults(attributes);
     super(filledAttrs);
 
-    if (_.isObject(filledAttrs)) {
-      this.set(
-        window.Signal.Types.Message.initializeSchemaVersion({
-          message: filledAttrs,
-          logger: window.log,
-        })
-      );
-    }
+    this.set(
+      window.Signal.Types.Message.initializeSchemaVersion({
+        message: filledAttrs,
+        logger: window.log,
+      })
+    );
 
     // this.on('expired', this.onExpired);
     void this.setToExpire();
@@ -1276,7 +1274,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     // TODO investigate the meaning of the forceSave
     const id = await saveMessage(this.attributes, {
       forceSave,
-      Message: MessageModel,
     });
     this.trigger('change');
     return id;

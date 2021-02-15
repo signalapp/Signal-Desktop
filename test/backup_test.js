@@ -552,12 +552,7 @@ describe('Backup', () => {
         });
 
         console.log('Backup test: Check conversations');
-        const conversationCollection = await window.Signal.Data.getAllConversations(
-          {
-            ConversationCollection:
-              window.models.Conversation.ConversationCollection,
-          }
-        );
+        const conversationCollection = await window.Signal.Data.getAllConversations();
         assert.strictEqual(conversationCollection.length, CONVERSATION_COUNT);
 
         // We need to ommit any custom fields we have added

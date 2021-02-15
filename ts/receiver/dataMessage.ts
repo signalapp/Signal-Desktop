@@ -14,7 +14,7 @@ import { ConversationController } from '../session/conversations';
 import { handleClosedGroupControlMessage } from './closedGroups';
 import { MessageModel } from '../models/message';
 import { MessageModelType } from '../models/messageType';
-import { getMessageBySender } from '../../js/modules/data';
+import { getMessageBySender } from '../../ts/data/data';
 
 export async function updateProfile(
   conversation: any,
@@ -354,12 +354,11 @@ async function isMessageDuplicate({
   const { Errors } = window.Signal.Types;
 
   try {
-    const result = await getMessageBySender(
-      { source, sourceDevice, sent_at: timestamp },
-      {
-        Message: MessageModel,
-      }
-    );
+    const result = await getMessageBySender({
+      source,
+      sourceDevice,
+      sent_at: timestamp,
+    });
 
     if (!result) {
       return false;

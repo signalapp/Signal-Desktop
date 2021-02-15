@@ -11,7 +11,7 @@ import {
   ConfigurationMessageClosedGroup,
 } from '../messages/outgoing/content/ConfigurationMessage';
 import uuid from 'uuid';
-import { getLatestClosedGroupEncryptionKeyPair } from '../../../js/modules/data';
+import { getLatestClosedGroupEncryptionKeyPair } from '../../../ts/data/data';
 import { UserUtils } from '.';
 import { ECKeyPair } from '../../receiver/keypairs';
 import _ from 'lodash';

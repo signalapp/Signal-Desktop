@@ -9,7 +9,6 @@ import { LokiMessageInterface } from '../js/modules/loki_message_api';
 import { SwarmPolling } from './session/snode_api/swarmPolling';
 
 import { LibTextsecure } from '../libtextsecure';
-import { ConversationType } from '../js/modules/data';
 import { RecoveryPhraseUtil } from '../libloki/modules/mnemonic';
 import { ConfirmationDialogParams } from '../background';
 import {} from 'styled-components/cssprop';
@@ -21,6 +20,7 @@ import { MessageController } from './session/messages/MessageController';
 import { DefaultTheme } from 'styled-components';
 
 import { ConversationCollection } from './models/conversation';
+import { ConversationType } from './state/ducks/conversations';
 
 /*
 We declare window stuff here instead of global.d.ts because we are importing other declarations.
@@ -42,7 +42,6 @@ declare global {
     StubAppDotNetApi: any;
     StubMessageAPI: any;
     Whisper: any;
-    attemptConnection: ConversationType;
     clearLocalData: any;
     clipboard: any;
     confirmationDialog: (params: ConfirmationDialogParams) => any;

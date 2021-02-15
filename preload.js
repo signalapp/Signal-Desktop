@@ -86,7 +86,7 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
 };
 
 // eslint-disable-next-line func-names
-window.CONSTANTS = new (function () {
+window.CONSTANTS = new (function() {
   this.MAX_GROUP_NAME_LENGTH = 64;
   this.DEFAULT_PUBLIC_CHAT_URL = appConfig.get('defaultPublicChatServer');
   this.MAX_LINKED_DEVICES = 1;
@@ -377,7 +377,7 @@ window.callWorker = (fnName, ...args) => utilWorker.callWorker(fnName, ...args);
 
 // Linux seems to periodically let the event loop stop, so this is a global workaround
 setInterval(() => {
-  window.nodeSetImmediate(() => { });
+  window.nodeSetImmediate(() => {});
 }, 1000);
 
 const { autoOrientImage } = require('./js/modules/auto_orient_image');
@@ -417,8 +417,10 @@ window.moment.locale(localeForMoment);
 window.OnionAPI = OnionAPI;
 
 window.libsession = require('./ts/session');
-
 window.models = require('./ts/models');
+
+window.Signal = window.Signal || {};
+window.Signal.Data = require('./ts/data/data');
 
 window.getMessageController = () =>
   window.libsession.Messages.MessageController.getInstance();
@@ -446,19 +448,20 @@ window.DataMessageReceiver = require('./ts/receiver/dataMessage');
 window.NewSnodeAPI = require('./ts/session/snode_api/serviceNodeAPI');
 window.SnodePool = require('./ts/session/snode_api/snodePool');
 
-const { SwarmPolling } = require('./ts/session/snode_api/swarmPolling');
-const { SwarmPollingStub } = require('./ts/session/snode_api/swarmPollingStub');
-
 if (process.env.USE_STUBBED_NETWORK) {
+  const {
+    SwarmPollingStub,
+  } = require('./ts/session/snode_api/swarmPollingStub');
   window.SwarmPolling = new SwarmPollingStub();
 } else {
+  const { SwarmPolling } = require('./ts/session/snode_api/swarmPolling');
   window.SwarmPolling = new SwarmPolling();
 }
 
 // eslint-disable-next-line no-extend-native,func-names
-Promise.prototype.ignore = function () {
+Promise.prototype.ignore = function() {
   // eslint-disable-next-line more/no-then
-  this.then(() => { });
+  this.then(() => {});
 };
 
 if (
@@ -474,7 +477,6 @@ if (
     tmp: require('tmp'),
     path: require('path'),
     basePath: __dirname,
-    attachmentsPath: window.Signal.Migrations.attachmentsPath,
     isWindows,
   };
   /* eslint-enable global-require, import/no-extraneous-dependencies */

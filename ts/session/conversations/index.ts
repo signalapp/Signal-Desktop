@@ -3,7 +3,7 @@ import {
   getAllGroupsInvolvingId,
   removeConversation,
   saveConversation,
-} from '../../../js/modules/data';
+} from '../../../ts/data/data';
 import {
   ConversationAttributes,
   ConversationCollection,
@@ -196,9 +196,7 @@ export class ConversationController {
   }
 
   public async getAllGroupsInvolvingId(id: string) {
-    const groups = await getAllGroupsInvolvingId(id, {
-      ConversationCollection,
-    });
+    const groups = await getAllGroupsInvolvingId(id);
     return groups.map((group: any) => this.conversations.add(group));
   }
 
@@ -232,9 +230,7 @@ export class ConversationController {
 
     await conversation.destroyMessages();
 
-    await removeConversation(id, {
-      Conversation: ConversationModel,
-    });
+    await removeConversation(id);
     conversation.off('change', this.updateReduxConvoChanged);
     this.conversations.remove(conversation);
     if (window.inboxStore) {
@@ -257,9 +253,7 @@ export class ConversationController {
 
     const load = async () => {
       try {
-        const collection = await getAllConversations({
-          ConversationCollection,
-        });
+        const collection = await getAllConversations();
 
         this.conversations.add(collection.models);
 

@@ -46,10 +46,7 @@
         return message;
       }
 
-      const groups = await window.Signal.Data.getAllGroupsInvolvingId(reader, {
-        ConversationCollection:
-          window.models.Conversation.ConversationCollection,
-      });
+      const groups = await window.Signal.Data.getAllGroupsInvolvingId(reader);
       const ids = groups.pluck('id');
       ids.push(reader);
 

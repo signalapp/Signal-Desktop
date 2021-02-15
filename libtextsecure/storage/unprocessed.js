@@ -1,4 +1,4 @@
-/* global window, textsecure */
+/* global window */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -10,31 +10,30 @@
 
   window.textsecure.storage.unprocessed = {
     getCount() {
-      return textsecure.storage.protocol.getUnprocessedCount();
+      return window.Signal.Data.getUnprocessedCount();
     },
     getAll() {
-      return textsecure.storage.protocol.getAllUnprocessed();
+      return window.Signal.Data.getAllUnprocessed();
     },
     get(id) {
-      return textsecure.storage.protocol.getUnprocessedById(id);
+      return window.Signal.Data.getUnprocessedById(id);
     },
     add(data) {
-      return textsecure.storage.protocol.addUnprocessed(data);
+      return window.Signal.Data.saveUnprocessed(data, {
+        forceSave: true,
+      });
     },
     updateAttempts(id, attempts) {
-      return textsecure.storage.protocol.updateUnprocessedAttempts(
-        id,
-        attempts
-      );
+      return window.Signal.Data.updateUnprocessedAttempts(id, attempts);
     },
     addDecryptedData(id, data) {
-      return textsecure.storage.protocol.updateUnprocessedWithData(id, data);
+      return window.Signal.Data.updateUnprocessedWithData(id, data);
     },
     remove(id) {
-      return textsecure.storage.protocol.removeUnprocessed(id);
+      return window.Signal.Data.removeUnprocessed(id);
     },
     removeAll() {
-      return textsecure.storage.protocol.removeAllUnprocessed();
+      return window.Signal.Data.removeAllUnprocessed();
     },
   };
 })();

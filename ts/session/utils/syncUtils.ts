@@ -1,4 +1,4 @@
-import { createOrUpdateItem, getItemById } from '../../../js/modules/data';
+import { createOrUpdateItem, getItemById } from '../../../ts/data/data';
 import { getMessageQueue } from '..';
 import { ConversationController } from '../conversations';
 import { getCurrentConfigurationMessage } from './Messages';

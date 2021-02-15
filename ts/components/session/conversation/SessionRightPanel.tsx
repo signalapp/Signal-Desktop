@@ -20,7 +20,7 @@ import { DefaultTheme, withTheme } from 'styled-components';
 import {
   getMessagesWithFileAttachments,
   getMessagesWithVisualMediaAttachments,
-} from '../../../../js/modules/data';
+} from '../../../data/data';
 
 interface Props {
   id: string;

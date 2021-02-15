@@ -14,7 +14,7 @@ import { StringUtils, ToastUtils } from '../../session/utils';
 import { lightTheme } from '../../state/ducks/SessionTheme';
 import { ConversationController } from '../../session/conversations';
 import { PasswordUtil } from '../../util';
-import { removeAll } from '../../../js/modules/data';
+import { removeAll } from '../../data/data';
 
 export const MAX_USERNAME_LENGTH = 20;
 
