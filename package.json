@@ -87,7 +87,7 @@
     "fs-extra": "5.0.0",
     "fuse.js": "3.4.4",
     "glob": "7.1.6",
-    "google-libphonenumber": "3.2.6",
+    "google-libphonenumber": "3.2.17",
     "got": "8.3.2",
     "history": "4.9.0",
     "intl-tel-input": "12.1.15",

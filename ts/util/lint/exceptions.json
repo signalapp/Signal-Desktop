@@ -5353,100 +5353,75 @@
   {
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "      var a = !eval('\"use strict\";let x = 1; function f() { return typeof x; };f() == \"number\";');",
-    "lineNumber": 233,
+    "lineNumber": 34,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-11-27T01:31:13.384Z",
+    "updated": "2021-02-16T19:08:17.452Z",
     "reasonDetail": "Hard-coded string used for testing capabilities."
   },
   {
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "  eval(a);",
-    "lineNumber": 268,
+    "lineNumber": 36,
     "reasonCategory": "notExercisedByOurApp",
-    "updated": "2018-11-27T01:31:13.384Z",
+    "updated": "2021-02-16T19:08:17.452Z",
     "reasonDetail": "Used to load dependencies; parent function loadModuleFromSource_ is used in one place only."
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "          goog.global.eval(\"var _evalTest_ = 1;\");",
-    "lineNumber": 445,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-04-12T00:50:12.124Z",
-    "reasonDetail": "Hard-coded string used for testing capabilities"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "        goog.global.eval(a);",
-    "lineNumber": 459,
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2018-11-27T01:31:13.384Z",
-    "reasonDetail": "More transpilation logic"
   },
   {
     "rule": "jQuery-$(",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "  b && (a = a.replace(/\\{\\$([^}]+)}/g, function(a, c) {",
-    "lineNumber": 500,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-12-03T19:24:21.611Z"
+    "lineNumber": 45,
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2021-02-16T19:08:17.452Z",
+    "reasonDetail": "Regular expression, not jQuery call"
   },
   {
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "      return !!eval(a);",
-    "lineNumber": 642,
+    "lineNumber": 52,
     "reasonCategory": "notExercisedByOurApp",
-    "updated": "2018-11-27T01:31:13.384Z",
-    "reasonDetail": "More transpilation logic"
+    "updated": "2021-02-16T19:08:17.452Z",
+    "reasonDetail": "Transpilation logic"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "        d.load(f);",
-    "lineNumber": 794,
+    "lineNumber": 61,
     "reasonCategory": "notExercisedByOurApp",
-    "updated": "2019-04-12T00:50:12.124Z",
+    "updated": "2021-02-16T19:08:17.452Z",
     "reasonDetail": "Part of their google closure 'debug loader'"
   },
   {
     "rule": "jQuery-globalEval(",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "        goog.globalEval(c);",
-    "lineNumber": 991,
+    "lineNumber": 74,
     "reasonCategory": "notExercisedByOurApp",
-    "updated": "2019-04-12T00:50:12.124Z",
+    "updated": "2021-02-16T19:08:17.452Z",
     "reasonDetail": "Part of their google closure 'debug loader'"
   },
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "  a.innerHTML = goog.html.SafeHtml.unwrapTrustedHTML(goog.html.SafeHtml.EMPTY);",
-    "lineNumber": 3448,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-12-03T19:24:21.611Z",
-    "reasonDetail": "HTML is escaped"
+    "lineNumber": 279,
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2021-02-16T19:08:17.452Z",
+    "reasonDetail": "Debug capabilities"
   },
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "  a.innerHTML = goog.html.SafeHtml.unwrapTrustedHTML(b);",
-    "lineNumber": 3457,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-12-03T19:24:21.611Z",
-    "reasonDetail": "HTML is escaped"
+    "line": "goog.dom.safe.unsafeSetInnerHtmlDoNotUseOrElse=function(a,b){if(goog.dom.safe.isInnerHtmlCleanupRecursive_())for(;a.lastChild;)a.removeChild(a.lastChild);a.innerHTML=goog.html.SafeHtml.unwrapTrustedHTML(b)};",
+    "lineNumber": 280,
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2021-02-16T19:08:17.452Z",
+    "reasonDetail": "Debug capabilities"
   },
   {
     "rule": "DOM-outerHTML",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "  a.outerHTML = goog.html.SafeHtml.unwrapTrustedHTML(b);",
-    "lineNumber": 3469,
+    "lineNumber": 282,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-12-03T19:24:21.611Z",
-    "reasonDetail": "HTML is escaped"
+    "updated": "2021-02-16T19:08:17.452Z",
+    "reasonDetail": "Escapes HTML, HTML comes from a constant"
   },
   {
     "rule": "DOM-innerHTML",
