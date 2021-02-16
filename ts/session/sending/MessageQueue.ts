@@ -1,15 +1,12 @@
-import { EventEmitter } from 'events';
 import {
-  ChatMessage,
   ClosedGroupChatMessage,
   ClosedGroupNewMessage,
   ContentMessage,
-  DataMessage,
   ExpirationTimerUpdateMessage,
   OpenGroupMessage,
 } from '../messages/outgoing';
 import { PendingMessageCache } from './PendingMessageCache';
-import { JobQueue, TypedEventEmitter, UserUtils } from '../utils';
+import { JobQueue, UserUtils } from '../utils';
 import { PubKey, RawMessage } from '../types';
 import { MessageSender } from '.';
 import { ClosedGroupMessage } from '../messages/outgoing/content/data/group/ClosedGroupMessage';
@@ -23,9 +20,9 @@ import {
   ClosedGroupUpdateMessage,
 } from '../messages/outgoing/content/data/group';
 import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/content/data/group/ClosedGroupMemberLeftMessage';
+import { MessageSentHandler } from './MessageSentHandler';
 
-export type GroupMessageType =
-  | OpenGroupMessage
+type ClosedGroupMessageType =
   | ClosedGroupChatMessage
   | ClosedGroupAddedMembersMessage
   | ClosedGroupRemovedMembersMessage
@@ -37,21 +34,12 @@ export type GroupMessageType =
   | ClosedGroupEncryptionPairRequestMessage;
 
 // ClosedGroupEncryptionPairReplyMessage must be sent to a user pubkey. Not a group.
-export interface MessageQueueInterfaceEvents {
-  sendSuccess: (
-    message: RawMessage | OpenGroupMessage,
-    wrappedEnvelope?: Uint8Array
-  ) => void;
-  sendFail: (message: RawMessage | OpenGroupMessage, error: Error) => void;
-}
 
 export class MessageQueue {
-  public readonly events: TypedEventEmitter<MessageQueueInterfaceEvents>;
   private readonly jobQueues: Map<string, JobQueue> = new Map();
   private readonly pendingMessageCache: PendingMessageCache;
 
   constructor(cache?: PendingMessageCache) {
-    this.events = new EventEmitter();
     this.pendingMessageCache = cache ?? new PendingMessageCache();
     void this.processAllPending();
   }
@@ -70,18 +58,37 @@ export class MessageQueue {
     await this.process(user, message, sentCb);
   }
 
-  public async send(
-    device: PubKey,
-    message: ContentMessage,
-    sentCb?: (message: RawMessage) => Promise<void>
-  ): Promise<void> {
-    if (
-      message instanceof ConfigurationMessage ||
-      !!(message as any).syncTarget
-    ) {
-      throw new Error('SyncMessage needs to be sent with sendSyncMessage');
+  /**
+   * This function is synced. It will wait for the message to be delivered to the open
+   * group to return.
+   * So there is no need for a sendCb callback
+   *
+   */
+  public async sendToOpenGroup(message: OpenGroupMessage) {
+    // Open groups
+    if (!(message instanceof OpenGroupMessage)) {
+      throw new Error('sendToOpenGroup can only be used with OpenGroupMessage');
     }
-    await this.process(device, message, sentCb);
+    // No queue needed for Open Groups; send directly
+    const error = new Error('Failed to send message to open group.');
+
+    // This is absolutely yucky ... we need to make it not use Promise<boolean>
+    try {
+      const result = await MessageSender.sendToOpenGroup(message);
+      // sendToOpenGroup returns -1 if failed or an id if succeeded
+      if (result.serverId < 0) {
+        void MessageSentHandler.handleMessageSentFailure(message, error);
+      } else {
+        void MessageSentHandler.handleMessageSentSuccess(message);
+        void MessageSentHandler.handlePublicMessageSentSuccess(message, result);
+      }
+    } catch (e) {
+      window?.log?.warn(
+        `Failed to send message to open group: ${message.group.server}`,
+        e
+      );
+      void MessageSentHandler.handleMessageSentFailure(message, error);
+    }
   }
 
   /**
@@ -89,43 +96,9 @@ export class MessageQueue {
    * @param sentCb currently only called for medium groups sent message
    */
   public async sendToGroup(
-    message: GroupMessageType,
+    message: ClosedGroupMessageType,
     sentCb?: (message: RawMessage) => Promise<void>
   ): Promise<void> {
-    // Open groups
-    if (message instanceof OpenGroupMessage) {
-      // No queue needed for Open Groups; send directly
-      const error = new Error('Failed to send message to open group.');
-
-      // This is absolutely yucky ... we need to make it not use Promise<boolean>
-      try {
-        const result = await MessageSender.sendToOpenGroup(message);
-        // sendToOpenGroup returns -1 if failed or an id if succeeded
-        if (result.serverId < 0) {
-          this.events.emit('sendFail', message, error);
-        } else {
-          const messageEventData = {
-            identifier: message.identifier,
-            pubKey: message.group.groupId,
-            timestamp: message.timestamp,
-            serverId: result.serverId,
-            serverTimestamp: result.serverTimestamp,
-          };
-          this.events.emit('sendSuccess', message);
-
-          window.Whisper.events.trigger('publicMessageSent', messageEventData);
-        }
-      } catch (e) {
-        window?.log?.warn(
-          `Failed to send message to open group: ${message.group.server}`,
-          e
-        );
-        this.events.emit('sendFail', message, error);
-      }
-
-      return;
-    }
-
     let groupId: PubKey | undefined;
     if (
       message instanceof ExpirationTimerUpdateMessage ||
@@ -138,7 +111,7 @@ export class MessageQueue {
       throw new Error('Invalid group message passed in sendToGroup.');
     }
     // if groupId is set here, it means it's for a medium group. So send it as it
-    return this.send(PubKey.cast(groupId), message, sentCb);
+    return this.sendToPubKey(PubKey.cast(groupId), message, sentCb);
   }
 
   public async sendSyncMessage(
@@ -157,10 +130,6 @@ export class MessageQueue {
 
     const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
 
-    if (!ourPubKey) {
-      throw new Error('ourNumber is not set');
-    }
-
     await this.process(PubKey.cast(ourPubKey), message, sentCb);
   }
 
@@ -176,7 +145,11 @@ export class MessageQueue {
         const job = async () => {
           try {
             const wrappedEnvelope = await MessageSender.send(message);
-            this.events.emit('sendSuccess', message, wrappedEnvelope);
+            void MessageSentHandler.handleMessageSentSuccess(
+              message,
+              wrappedEnvelope
+            );
+
             const cb = this.pendingMessageCache.callbacks.get(
               message.identifier
             );
@@ -185,8 +158,8 @@ export class MessageQueue {
               await cb(message);
             }
             this.pendingMessageCache.callbacks.delete(message.identifier);
-          } catch (e) {
-            this.events.emit('sendFail', message, e);
+          } catch (error) {
+            void MessageSentHandler.handleMessageSentFailure(message, error);
           } finally {
             // Remove from the cache because retrying is done in the sender
             void this.pendingMessageCache.remove(message);
@@ -242,4 +215,13 @@ export class MessageQueue {
 
     return queue;
   }
+}
+
+let messageQueue: MessageQueue;
+
+export function getMessageQueue(): MessageQueue {
+  if (!messageQueue) {
+    messageQueue = new MessageQueue();
+  }
+  return messageQueue;
 }

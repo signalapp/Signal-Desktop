@@ -18,6 +18,7 @@ import { PendingMessageCacheStub } from '../../../test-utils/stubs';
 import { ClosedGroupMessage } from '../../../../session/messages/outgoing/content/data/group/ClosedGroupMessage';
 
 import chaiAsPromised from 'chai-as-promised';
+import { MessageSentHandler } from '../../../../session/sending/MessageSentHandler';
 chai.use(chaiAsPromised as any);
 chai.should();
 
@@ -32,6 +33,9 @@ describe('MessageQueue', () => {
 
   // Initialize new stubbed queue
   let pendingMessageCache: PendingMessageCacheStub;
+  let messageSentHandlerFailedStub: sinon.SinonStub;
+  let messageSentHandlerSuccessStub: sinon.SinonStub;
+  let messageSentPublicHandlerSuccessStub: sinon.SinonStub;
   let messageQueueStub: MessageQueue;
 
   // Message Sender Stubs
@@ -47,6 +51,15 @@ describe('MessageQueue', () => {
 
     // Message Sender Stubs
     sendStub = sandbox.stub(MessageSender, 'send').resolves();
+    messageSentHandlerFailedStub = sandbox
+      .stub(MessageSentHandler as any, 'handleMessageSentFailure')
+      .resolves();
+    messageSentHandlerSuccessStub = sandbox
+      .stub(MessageSentHandler as any, 'handleMessageSentSuccess')
+      .resolves();
+    messageSentPublicHandlerSuccessStub = sandbox
+      .stub(MessageSentHandler as any, 'handlePublicMessageSentSuccess')
+      .resolves();
 
     // Init Queue
     pendingMessageCache = new PendingMessageCacheStub();
@@ -59,16 +72,22 @@ describe('MessageQueue', () => {
   });
 
   describe('processPending', () => {
-    it('will send messages', async () => {
+    it('will send messages', done => {
       const device = TestUtils.generateFakePubKey();
-      await pendingMessageCache.add(device, TestUtils.generateChatMessage());
 
-      const successPromise = PromiseUtils.waitForTask(done => {
-        messageQueueStub.events.once('sendSuccess', done);
+      const waitForMessageSentEvent = new Promise(resolve => {
+        resolve(true);
+        done();
       });
-      await messageQueueStub.processPending(device);
-      // tslint:disable-next-line: no-unused-expression
-      expect(successPromise).to.eventually.be.fulfilled;
+
+      pendingMessageCache.add(
+        device,
+        TestUtils.generateChatMessage(),
+        waitForMessageSentEvent as any
+      );
+
+      messageQueueStub.processPending(device);
+      expect(waitForMessageSentEvent).to.be.fulfilled;
     });
 
     it('should remove message from cache', async () => {
@@ -96,46 +115,48 @@ describe('MessageQueue', () => {
     }).timeout(15000);
 
     describe('events', () => {
-      it('should send a success event if message was sent', async () => {
+      it('should send a success event if message was sent', done => {
         const device = TestUtils.generateFakePubKey();
         const message = TestUtils.generateChatMessage();
-        await pendingMessageCache.add(device, message);
-
-        const eventPromise = PromiseUtils.waitForTask<
-          RawMessage | OpenGroupMessage
-        >(complete => {
-          messageQueueStub.events.once('sendSuccess', complete);
+        const waitForMessageSentEvent = new Promise(resolve => {
+          resolve(true);
+          done();
         });
 
-        await messageQueueStub.processPending(device);
-
-        const rawMessage = await eventPromise;
-        expect(rawMessage.identifier).to.equal(message.identifier);
+        pendingMessageCache
+          .add(device, message, waitForMessageSentEvent as any)
+          .then(() => messageQueueStub.processPending(device))
+          .then(() => {
+            expect(messageSentHandlerSuccessStub.callCount).to.be.equal(1);
+            expect(
+              messageSentHandlerSuccessStub.lastCall.args[0].identifier
+            ).to.be.equal(message.identifier);
+          });
       });
 
-      it('should send a fail event if something went wrong while sending', async () => {
+      it('should send a fail event if something went wrong while sending', done => {
         sendStub.throws(new Error('failure'));
-
-        const spy = sandbox.spy();
-        messageQueueStub.events.on('sendFail', spy);
 
         const device = TestUtils.generateFakePubKey();
         const message = TestUtils.generateChatMessage();
-        await pendingMessageCache.add(device, message);
-
-        const eventPromise = PromiseUtils.waitForTask<
-          [RawMessage | OpenGroupMessage, Error]
-        >(complete => {
-          messageQueueStub.events.once('sendFail', (...args) => {
-            complete(args);
-          });
+        const waitForMessageSentEvent = new Promise(resolve => {
+          resolve(true);
+          done();
         });
 
-        await messageQueueStub.processPending(device);
-
-        const [rawMessage, error] = await eventPromise;
-        expect(rawMessage.identifier).to.equal(message.identifier);
-        expect(error.message).to.equal('failure');
+        pendingMessageCache
+          .add(device, message, waitForMessageSentEvent as any)
+          .then(() => messageQueueStub.processPending(device))
+          .then(() => {
+            expect(messageSentHandlerFailedStub.callCount).to.be.equal(1);
+            expect(
+              messageSentHandlerFailedStub.lastCall.args[0].identifier
+            ).to.be.equal(message.identifier);
+            expect(
+              messageSentHandlerFailedStub.lastCall.args[1].message
+            ).to.equal('failure');
+            expect(waitForMessageSentEvent).to.be.eventually.fulfilled;
+          });
       });
     });
   });
@@ -155,12 +176,11 @@ describe('MessageQueue', () => {
   });
 
   describe('sendToGroup', () => {
-    it('should throw an error if invalid non-group message was passed', () => {
-      // const chatMessage = TestUtils.generateChatMessage();
-      // await expect(
-      //   messageQueueStub.sendToGroup(chatMessage)
-      // ).to.be.rejectedWith('Invalid group message passed in sendToGroup.');
-      // Cannot happen with typescript as this function only accept group message now
+    it('should throw an error if invalid non-group message was passed', async () => {
+      const chatMessage = TestUtils.generateChatMessage();
+      await expect(
+        messageQueueStub.sendToGroup(chatMessage as any)
+      ).to.be.rejectedWith('Invalid group message passed in sendToGroup.');
     });
 
     describe('closed groups', () => {
@@ -170,7 +190,7 @@ describe('MessageQueue', () => {
         );
         sandbox.stub(GroupUtils, 'getGroupMembers').resolves(members);
 
-        const send = sandbox.stub(messageQueueStub, 'send').resolves();
+        const send = sandbox.stub(messageQueueStub, 'sendToPubKey').resolves();
 
         const message = TestUtils.generateClosedGroupMessage();
         await messageQueueStub.sendToGroup(message);
@@ -196,34 +216,43 @@ describe('MessageQueue', () => {
 
         it('can send to open group', async () => {
           const message = TestUtils.generateOpenGroupMessage();
-          await messageQueueStub.sendToGroup(message);
+          await messageQueueStub.sendToOpenGroup(message);
           expect(sendToOpenGroupStub.callCount).to.equal(1);
         });
 
         it('should emit a success event when send was successful', async () => {
           sendToOpenGroupStub.resolves({
             serverId: 5125,
-            serverTimestamp: 5125,
+            serverTimestamp: 5126,
           });
 
           const message = TestUtils.generateOpenGroupMessage();
-          const eventPromise = PromiseUtils.waitForTask(complete => {
-            messageQueueStub.events.once('sendSuccess', complete);
-          }, 2000);
-
-          await messageQueueStub.sendToGroup(message);
-          return eventPromise.should.be.fulfilled;
+          await messageQueueStub.sendToOpenGroup(message);
+          expect(messageSentHandlerSuccessStub.callCount).to.equal(1);
+          expect(
+            messageSentHandlerSuccessStub.lastCall.args[0].identifier
+          ).to.equal(message.identifier);
+          expect(messageSentPublicHandlerSuccessStub.callCount).to.equal(1);
+          expect(
+            messageSentPublicHandlerSuccessStub.lastCall.args[0].identifier
+          ).to.equal(message.identifier);
+          expect(
+            messageSentPublicHandlerSuccessStub.lastCall.args[1].serverId
+          ).to.equal(5125);
+          expect(
+            messageSentPublicHandlerSuccessStub.lastCall.args[1].serverTimestamp
+          ).to.equal(5126);
         });
 
         it('should emit a fail event if something went wrong', async () => {
           sendToOpenGroupStub.resolves({ serverId: -1, serverTimestamp: -1 });
           const message = TestUtils.generateOpenGroupMessage();
-          const eventPromise = PromiseUtils.waitForTask(complete => {
-            messageQueueStub.events.once('sendFail', complete);
-          }, 2000);
 
-          await messageQueueStub.sendToGroup(message);
-          return eventPromise.should.be.fulfilled;
+          await messageQueueStub.sendToOpenGroup(message);
+          expect(messageSentHandlerFailedStub.callCount).to.equal(1);
+          expect(
+            messageSentHandlerFailedStub.lastCall.args[0].identifier
+          ).to.equal(message.identifier);
         });
       });
     });

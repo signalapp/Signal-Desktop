@@ -46,11 +46,6 @@ export class SessionInboxView extends React.Component<Props, State> {
       isExpired: false,
     };
 
-    this.fetchHandleMessageSentData = this.fetchHandleMessageSentData.bind(
-      this
-    );
-    this.handleMessageSentFailure = this.handleMessageSentFailure.bind(this);
-    this.handleMessageSentSuccess = this.handleMessageSentSuccess.bind(this);
     this.showSessionSettingsCategory = this.showSessionSettingsCategory.bind(
       this
     );
@@ -117,51 +112,6 @@ export class SessionInboxView extends React.Component<Props, State> {
     );
   }
 
-  private async fetchHandleMessageSentData(m: RawMessage | OpenGroupMessage) {
-    // if a message was sent and this message was created after the last app restart,
-    // this message is still in memory in the MessageController
-    const msg = MessageController.getInstance().get(m.identifier);
-
-    if (!msg || !msg.message) {
-      // otherwise, look for it in the database
-      // nobody is listening to this freshly fetched message .trigger calls
-      const dbMessage = await getMessageById(m.identifier);
-
-      if (!dbMessage) {
-        return null;
-      }
-      return { msg: dbMessage };
-    }
-
-    return { msg: msg.message };
-  }
-
-  private async handleMessageSentSuccess(
-    sentMessage: RawMessage | OpenGroupMessage,
-    wrappedEnvelope: any
-  ) {
-    const fetchedData = await this.fetchHandleMessageSentData(sentMessage);
-    if (!fetchedData) {
-      return;
-    }
-    const { msg } = fetchedData;
-
-    void msg.handleMessageSentSuccess(sentMessage, wrappedEnvelope);
-  }
-
-  private async handleMessageSentFailure(
-    sentMessage: RawMessage | OpenGroupMessage,
-    error: any
-  ) {
-    const fetchedData = await this.fetchHandleMessageSentData(sentMessage);
-    if (!fetchedData) {
-      return;
-    }
-    const { msg } = fetchedData;
-
-    await msg.handleMessageSentFailure(sentMessage, error);
-  }
-
   private async setupLeftPane() {
     // Here we set up a full redux store with initial state for our LeftPane Root
     const convoCollection = ConversationController.getInstance().getConversations();
@@ -204,22 +154,6 @@ export class SessionInboxView extends React.Component<Props, State> {
     const { userChanged } = bindActionCreators(
       userActions,
       this.store.dispatch
-    );
-
-    this.fetchHandleMessageSentData = this.fetchHandleMessageSentData.bind(
-      this
-    );
-    this.handleMessageSentFailure = this.handleMessageSentFailure.bind(this);
-    this.handleMessageSentSuccess = this.handleMessageSentSuccess.bind(this);
-
-    getMessageQueue().events.addListener(
-      'sendSuccess',
-      this.handleMessageSentSuccess
-    );
-
-    getMessageQueue().events.addListener(
-      'sendFail',
-      this.handleMessageSentFailure
     );
 
     window.Whisper.events.on('messageExpired', messageExpired);

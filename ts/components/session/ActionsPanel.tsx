@@ -13,7 +13,10 @@ import { getFocusedSection } from '../../state/selectors/section';
 import { getTheme } from '../../state/selectors/theme';
 import { getOurNumber } from '../../state/selectors/user';
 import { UserUtils } from '../../session/utils';
-import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
+import {
+  forceSyncConfigurationNowIfNeeded,
+  syncConfigurationIfNeeded,
+} from '../../session/utils/syncUtils';
 import { DAYS } from '../../session/utils/Number';
 import { removeItemById } from '../../data/data';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports

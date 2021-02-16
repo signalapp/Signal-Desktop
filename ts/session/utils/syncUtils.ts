@@ -45,36 +45,33 @@ export const forceSyncConfigurationNowIfNeeded = async (
 ) => {
   const allConvos = ConversationController.getInstance().getConversations();
   const configMessage = await getCurrentConfigurationMessage(allConvos);
-  window.log.info('forceSyncConfigurationNowIfNeeded with', configMessage);
 
-  const waitForMessageSentEvent = new Promise(resolve => {
-    const ourResolver = (message: any) => {
+  async function waitForMessageSentEvent(message: RawMessage) {
+    return new Promise(resolve => {
       if (message.identifier === configMessage.identifier) {
-        getMessageQueue().events.off('sendSuccess', ourResolver);
-        getMessageQueue().events.off('sendFail', ourResolver);
         resolve(true);
       }
-    };
-    getMessageQueue().events.on('sendSuccess', ourResolver);
-    getMessageQueue().events.on('sendFail', ourResolver);
-  });
+    });
+  }
 
   try {
-    // this just adds the message to the sending queue.
-    // if waitForMessageSent is set, we need to effectively wait until then
-    await Promise.all([
-      getMessageQueue().sendSyncMessage(configMessage),
-      waitForMessageSentEvent,
-    ]);
+    // passing the callback like that
+    if (waitForMessageSent) {
+      await getMessageQueue().sendSyncMessage(
+        configMessage,
+        waitForMessageSentEvent as any
+      );
+      return Promise.resolve();
+    } else {
+      await getMessageQueue().sendSyncMessage(configMessage);
+      return waitForMessageSentEvent;
+    }
   } catch (e) {
     window.log.warn(
       'Caught an error while sending our ConfigurationMessage:',
       e
     );
   }
-  if (!waitForMessageSent) {
-    return;
-  }
 
-  return waitForMessageSentEvent;
+  return Promise.resolve();
 };

@@ -228,6 +228,15 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public isMediumGroup() {
     return this.get('is_medium_group');
   }
+  /**
+   * Returns true if this conversation is active
+   * i.e. the conversation is visibie on the left pane. (Either we or another user created this convo).
+   * This is useful because we do not want bumpTyping on the first message typing to a new convo to
+   *  send a message.
+   */
+  public isActive() {
+    return Boolean(this.get('active_at'));
+  }
   public async block() {
     if (!this.id || this.isPublic()) {
       return;
@@ -251,13 +260,15 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     await this.commit();
   }
   public async bumpTyping() {
-    if (this.isPublic() || this.isMediumGroup()) {
-      return;
-    }
     // We don't send typing messages if the setting is disabled
     // or we blocked that user
-
-    if (!window.storage.get('typing-indicators-setting') || this.isBlocked()) {
+    if (
+      this.isPublic() ||
+      this.isMediumGroup() ||
+      !this.isActive() ||
+      !window.storage.get('typing-indicators-setting') ||
+      this.isBlocked()
+    ) {
       return;
     }
 
@@ -406,27 +417,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public async onCalculatingPoW(pubKey: string, timestamp: number) {
     const messages = this.getMessagesWithTimestamp(pubKey, timestamp);
     await Promise.all(messages.map((m: any) => m.setCalculatingPoW()));
-  }
-
-  public async onPublicMessageSent({
-    identifier,
-    serverId,
-    serverTimestamp,
-  }: {
-    identifier: string;
-    serverId: number;
-    serverTimestamp: number;
-  }) {
-    const registeredMessage = MessageController.getInstance().get(identifier);
-
-    if (!registeredMessage || !registeredMessage.message) {
-      return null;
-    }
-    const model = registeredMessage.message;
-    await model.setIsPublic(true);
-    await model.setServerId(serverId);
-    await model.setServerTimestamp(serverTimestamp);
-    return undefined;
   }
 
   public format() {
@@ -679,7 +669,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         };
         const openGroupMessage = new OpenGroupMessage(openGroupParams);
         // we need the return await so that errors are caught in the catch {}
-        await getMessageQueue().sendToGroup(openGroupMessage);
+        await getMessageQueue().sendToOpenGroup(openGroupMessage);
         return;
       }
       const chatMessageParams: ChatMessageParams = {
@@ -800,18 +790,16 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     messageWithSchema.source = UserUtils.getOurPubKeyStrFromCache();
     messageWithSchema.sourceDevice = 1;
 
+    // set the serverTimestamp only if this conversation is a public one.
     const attributes: MessageAttributesOptionals = {
       ...messageWithSchema,
       groupInvitation,
       conversationId: this.id,
       destination: isPrivate ? destination : undefined,
+      serverTimestamp: this.isPublic() ? new Date().getTime() : undefined,
     };
 
     const model = await this.addSingleMessage(attributes);
-
-    if (this.isPublic()) {
-      await model.setServerTimestamp(new Date().getTime());
-    }
 
     this.set({
       lastMessage: model.getNotificationText(),

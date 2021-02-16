@@ -872,7 +872,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
           ...uploaded,
         };
         const openGroupMessage = new OpenGroupMessage(openGroupParams);
-        return getMessageQueue().sendToGroup(openGroupMessage);
+        return getMessageQueue().sendToOpenGroup(openGroupMessage);
       }
 
       const { body, attachments, preview, quote } = await this.uploadData();
@@ -1143,42 +1143,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     this.set({
       calculatingPoW: true,
-    });
-
-    await this.commit();
-  }
-
-  public async setServerId(serverId: number) {
-    if (_.isEqual(this.get('serverId'), serverId)) {
-      return;
-    }
-
-    this.set({
-      serverId,
-    });
-
-    await this.commit();
-  }
-
-  public async setServerTimestamp(serverTimestamp?: number) {
-    if (_.isEqual(this.get('serverTimestamp'), serverTimestamp)) {
-      return;
-    }
-
-    this.set({
-      serverTimestamp,
-    });
-
-    await this.commit();
-  }
-
-  public async setIsPublic(isPublic: boolean) {
-    if (_.isEqual(this.get('isPublic'), isPublic)) {
-      return;
-    }
-
-    this.set({
-      isPublic: !!isPublic,
     });
 
     await this.commit();

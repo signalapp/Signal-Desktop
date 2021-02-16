@@ -30,6 +30,11 @@ export class MessageController {
   }
 
   public register(id: string, message: MessageModel) {
+    if (!(message instanceof MessageModel)) {
+      throw new Error(
+        'Only MessageModels can be registered to the MessageController.'
+      );
+    }
     const existing = this.messageLookup.get(id);
     if (existing) {
       this.messageLookup.set(id, {

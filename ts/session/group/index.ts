@@ -6,7 +6,6 @@ import { fromHex, fromHexToArray, toHex } from '../utils/String';
 import { BlockedNumberController } from '../../util/blockedNumberController';
 import { ConversationController } from '../conversations';
 import { updateOpenGroup } from '../../receiver/openGroups';
-import { getMessageQueue } from '../instance';
 import {
   addClosedGroupEncryptionKeyPair,
   getIdentityKeyById,
@@ -33,6 +32,7 @@ import { MessageModel } from '../../models/message';
 import { MessageModelType } from '../../models/messageType';
 import { MessageController } from '../messages';
 import { distributingClosedGroupEncryptionKeyPairs } from '../../receiver/closedGroups';
+import { getMessageQueue } from '..';
 
 export interface GroupInfo {
   id: string;

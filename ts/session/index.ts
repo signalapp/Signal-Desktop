@@ -6,7 +6,7 @@ import * as Sending from './sending';
 import * as Constants from './constants';
 import * as ClosedGroup from './group';
 
-export * from './instance';
+const getMessageQueue = Sending.getMessageQueue;
 
 export {
   Conversations,
@@ -16,4 +16,5 @@ export {
   Sending,
   Constants,
   ClosedGroup,
+  getMessageQueue,
 };
