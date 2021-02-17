@@ -92,7 +92,7 @@ export class ChatMessage extends DataMessage {
       profileKey: dataMessage.profileKey,
     };
 
-    if ((dataMessage as any)?.$type?.name !== 'DataMessage') {
+    if ((dataMessage as any)?.$type?.name !== 'DataMessage' && !(dataMessage instanceof DataMessage)) {
       throw new Error(
         'Tried to build a sync message from something else than a DataMessage'
       );
