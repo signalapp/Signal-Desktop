@@ -531,6 +531,10 @@
         "message": "Bạn không có tập tin đa phương tiện nào trong cuộc trò chuyện này",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
+    "allMedia": {
+        "message": "Tất cả Tập tin đa phương tiện",
+        "description": "Header for the media gallery"
+    },
     "documents": {
         "message": "Tài liệu",
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
@@ -985,6 +989,18 @@
         "message": "Xóa",
         "description": ""
     },
+    "accept": {
+        "message": "Chấp nhận",
+        "description": ""
+    },
+    "on": {
+        "message": "Bật",
+        "description": "Label for when something is turned on"
+    },
+    "off": {
+        "message": "Tắt",
+        "description": "Label for when something is turned off"
+    },
     "deleteWarning": {
         "message": "Nhấn 'xoá' để vĩnh viễn xoá tin nhắn này từ chỉ từ các thiết bị của bạn.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
@@ -1334,6 +1350,14 @@
     "calling__block-info": {
         "message": "Bạn sẽ không nhận được âm thanh hoặc video từ họ và họ sẽ không nhận được các dữ liệu này của bạn.",
         "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
+    },
+    "calling__overflow__scroll-up": {
+        "message": "Kéo lên",
+        "description": "Label for the \"scroll up\" button in a call's overflow area"
+    },
+    "calling__overflow__scroll-down": {
+        "message": "Kéo xuống",
+        "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
     "alwaysRelayCallsDescription": {
         "message": "Luôn chuyển tiếp cuộc gọi",
@@ -3181,6 +3205,14 @@
         "message": "Phóng toàn màn hình cuộc gọi",
         "description": "Title for picture-in-picture toggle"
     },
+    "calling__switch-view--to-grid": {
+        "message": "Chuyển sang xem dạng lưới",
+        "description": "Title for grid/speaker view toggle when on a call"
+    },
+    "calling__switch-view--to-speaker": {
+        "message": "Chuyển sang xem dạng người nói",
+        "description": "Title for grid/speaker view toggle when on a call"
+    },
     "calling__hangup": {
         "message": "Rời cuộc gọi",
         "description": "Title for hang up button"
@@ -3255,9 +3287,117 @@
         "message": "OK",
         "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
     },
+    "unknown-sgnl-link": {
+        "message": "Xin lỗi, đường dẫn sgnl:// không đúng!",
+        "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
+    },
+    "GroupV2--join--invalid-link--title": {
+        "message": "Đường dẫn \u001dVô hiệu lực",
+        "description": "Shown if we are unable to parse a group link"
+    },
+    "GroupV2--join--invalid-link": {
+        "message": "Đây không phải là một đường dẫn nhóm có hiệu lực. Đảm bảo là toàn bộ đường dẫn được giữ nguyên và chính xác trước khi thử tham gia.",
+        "description": "Shown if we are unable to parse a group link"
+    },
+    "GroupV2--join--prompt": {
+        "message": "Bạn có muốn tham gia nhóm này và công khai tên và ảnh đại diện với các thành viên trong nhóm?",
+        "description": "Shown when you click on a group link to confirm"
+    },
+    "GroupV2--join--already-in-group": {
+        "message": "Bạn đã ở trong nhóm này rồi.",
+        "description": "Shown if you click a group link for a group where you're already a member"
+    },
+    "GroupV2--join--already-awaiting-approval": {
+        "message": "Bạn đã gửi yêu cầu chấp duyệt để tham gia nhóm này.",
+        "description": "Shown if you click a group link for a group where you've already requested approval'"
+    },
+    "GroupV2--join--unknown-link-version--title": {
+        "message": "Không rõ phiên bản đường dẫn",
+        "description": "This group link is no longer valid."
+    },
+    "GroupV2--join--unknown-link-version": {
+        "message": "Đường dẫn này không được hỗ trợ bởi phiên bản Signal Desktop này.",
+        "description": "Shown if you click a group link and we can't get information about it"
+    },
+    "GroupV2--join--link-revoked--title": {
+        "message": "Không thể Tham gia Nhóm",
+        "description": "Shown if you click a group link and we can't get information about it"
+    },
+    "GroupV2--join--link-revoked": {
+        "message": "Đường dẫn nhóm không còn hiệu lực.",
+        "description": "Shown if you click a group link and we can't get information about it"
+    },
+    "GroupV2--join--prompt-with-approval": {
+        "message": "Một người quản lý của nhóm này phải chấp duyệt yêu cầu của bạn trước khi bạn có thể tham gia nhóm này. Nếu được duyệt, tên và ảnh của bạn sẽ được chia sẻ với các thành viên nhóm.",
+        "description": "Shown when you click on a group link to confirm, if it requires admin approval"
+    },
+    "GroupV2--join--join-button": {
+        "message": "Tham gia",
+        "description": "The button to join the group"
+    },
+    "GroupV2--join--request-to-join-button": {
+        "message": "Yêu cầu để Tham gia",
+        "description": "The button to join the group, if approval is required"
+    },
+    "GroupV2--join--cancel-request-to-join": {
+        "message": "Hủy yêu cầu",
+        "description": "The button to cancel request to join the group"
+    },
+    "GroupV2--join--cancel-request-to-join--confirmation": {
+        "message": "Huỷ yêu cầu tham gia nhóm này của bạn?",
+        "description": "A confirmation message that shows after you click the button"
+    },
+    "GroupV2--join--cancel-request-to-join--yes": {
+        "message": "Có",
+        "description": "Choosing to continue in the cancel join confirmation dialog"
+    },
+    "GroupV2--join--cancel-request-to-join--no": {
+        "message": "Không",
+        "description": "Choosing not to continue in the cancel join confirmation dialog"
+    },
+    "GroupV2--join--member-count--single": {
+        "message": "1 thành viên",
+        "description": "Shown in the metadata section if group has just one member"
+    },
+    "GroupV2--join--member-count--multiple": {
+        "message": "$count$ thành viên",
+        "description": "Shown in the metadata section if group has more than one member",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "12"
+            }
+        }
+    },
+    "GroupV2--join--group-metadata": {
+        "message": "Nhóm · $memberCount$",
+        "description": "A holder for two pieces of information - the type of conversation, and the member count",
+        "placeholders": {
+            "memberCount": {
+                "content": "$1",
+                "example": "12 members"
+            }
+        }
+    },
+    "GroupV2--join--requested": {
+        "message": "Yêu cầu tham gia nhóm của bạn đã được gửi tới admin nhóm. Bạn sẽ được thông báo khi họ chọn hành động.",
+        "description": "Shown in composition area when you've requested to join a group"
+    },
+    "GroupV2--join--general-join-failure--title": {
+        "message": "Lỗi Đường dẫn",
+        "description": "Shown if something went wrong when you try to join via a group link"
+    },
+    "GroupV2--join--general-join-failure": {
+        "message": "Không thể tham gia qua đường dẫn này. Hãy thử tham gia lại sau.",
+        "description": "Shown if something went wrong when you try to join via a group link"
+    },
     "GroupV2--admin": {
         "message": "Quản trị viên",
-        "description": "Shown next to the set of administrators in a group"
+        "description": "Label for a group administrator"
+    },
+    "GroupV2--all-members": {
+        "message": "Tất cả thành viên",
+        "description": "Label for describing the general non-privileged members of a group"
     },
     "updating": {
         "message": "Đang cập nhật...",
@@ -3441,6 +3581,42 @@
         "message": "Một admin đã thay đổi người có thể chỉnh sửa thành viên nhóm thành \"Tất cả thành viên.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
+    "GroupV2--access-invite-link--disabled--you": {
+        "message": "Bạn đã tắt chấp duyệt của người quản lý cho đường dẫn nhóm.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--access-invite-link--disabled--other": {
+        "message": "$adminName$ đã tắt chấp duyệt của người quản lý cho đường dẫn nhóm.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--access-invite-link--disabled--unknown": {
+        "message": "Chấp duyệt của người quản lý cho đường dẫn nhóm đã được tắt.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--access-invite-link--enabled--you": {
+        "message": "Bạn đã bật chấp duyệt của người quản lý cho đường dẫn nhóm.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--access-invite-link--enabled--other": {
+        "message": "$adminName$ đã bật chấp duyệt của người quản lý cho đường dẫn nhóm.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--access-invite-link--enabled--unknown": {
+        "message": "Chấp duyệt của người quản lý cho đường dẫn nhóm đã được bật.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
     "GroupV2--member-add--invited--you": {
         "message": "Bạn đã thêm thành viên được mời $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
@@ -3574,6 +3750,68 @@
     "GroupV2--member-add--you--unknown": {
         "message": "Bạn đã được thêm vào nhóm. ",
         "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--member-add-from-link--you--you": {
+        "message": "Bạn đã tham gia nhóm qua đường dẫn nhóm.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--member-add-from-link--other": {
+        "message": "$memberName$ đã tham gia nhóm qua đường dẫn nhóm.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--member-add-from-admin-approval--you--other": {
+        "message": "$adminName$ đã chấp duyệt yêu cầu tham gia nhóm của bạn.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--member-add-from-admin-approval--you--unknown": {
+        "message": "Yêu cầu tham gia nhóm của bạn đã được chấp nhận.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--member-add-from-admin-approval--other--you": {
+        "message": "Bạn đã chấp duyệt yêu cầu tham gia nhóm từ $joinerName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--member-add-from-admin-approval--other--other": {
+        "message": "$adminName$ đã chấp duyệt yêu cầu tham gia nhóm từ $joinerName$. ",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--member-add-from-admin-approval--other--unknown": {
+        "message": "Yêu cầu để tham gia nhóm từ $joinerName$ đã được chấp duyệt.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
     },
     "GroupV2--member-remove--other--other": {
         "message": "$adminName$ đã gỡ bỏ $memberName$.",
@@ -4057,6 +4295,134 @@
             }
         }
     },
+    "GroupV2--admin-approval-add-one--you": {
+        "message": "Bạn đã gửi yêu cầu tham gia nhóm.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--admin-approval-add-one--other": {
+        "message": "$joinerName$ đã yêu cầu để tham gia qua đường dẫn nhóm.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-remove-one--you--you": {
+        "message": "Bạn đã hủy yêu cầu tham gia nhóm.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--admin-approval-remove-one--you--unknown": {
+        "message": "Yêu cầu tham gia nhóm của bạn đã bị từ chối bởi một quản trị viên.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--admin-approval-remove-one--other--you": {
+        "message": "Bạn đã từ chối yêu cầu tham gia nhóm từ $joinerName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-remove-one--other--own": {
+        "message": "$joinerName$ đã huỷ yêu cầu tham gia nhóm của họ.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-remove-one--other--other": {
+        "message": "$adminName$ từ chối yêu cầu tham gia nhóm từ $joinerName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "joinerName": {
+                "content": "$2",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--group-link-add--disabled--you": {
+        "message": "Bạn đã bật đường dẫn nhóm mà không cần chấp duyệt của người quản lý.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-add--disabled--other": {
+        "message": "$adminName$ đã bật đường dẫn nhóm mà không cần chấp duyệt của người quản lý.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--group-link-add--disabled--unknown": {
+        "message": "Đường dẫn nhóm đã được bật đường dẫn nhóm mà không cần chấp duyệt của người quản lý.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-add--enabled--you": {
+        "message": "Bạn đã bật đường dẫn nhóm mà cần chấp duyệt của người quản lý.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-add--enabled--other": {
+        "message": "$adminName$ đã bật đường dẫn nhóm mà cần chấp duyệt của người quản lý.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--group-link-add--enabled--unknown": {
+        "message": "Đường dẫn nhóm đã được bật đường dẫn nhóm mà cần chấp duyệt của người quản lý.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-remove--you": {
+        "message": "Bạn đã tắt đường dẫn nhóm.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-remove--other": {
+        "message": "$adminName$ đã tắt đường dẫn nhóm.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--group-link-remove--unknown": {
+        "message": "Đường dẫn nhóm đã được tắt.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-reset--you": {
+        "message": "Bạn đã đặt lại đường dẫn nhóm.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-reset--other": {
+        "message": "$adminName$ đã cài lại đường dẫn nhóm.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--group-link-reset--unknown": {
+        "message": "Đường dẫn nhóm đã được đặt lại.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
     "GroupV1--Migration--disabled": {
         "message": "Nâng cấp nhóm này để kích hoạt các tính năng mới như @nhắc tên và admin. Các thành viên chưa có chia sẻ tên và ảnh của họ trong nhóm này sẽ được mời tham gia. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
@@ -4199,12 +4565,296 @@
         "message": "Tin nhắn",
         "description": "Button text for send message button in Group Contact Details modal"
     },
+    "ContactModal--rm-admin": {
+        "message": "Bỏ quyền quản trị",
+        "description": "Button text for removing as admin button in Group Contact Details modal"
+    },
     "ContactModal--make-admin": {
         "message": "Đặt admin",
         "description": "Button text for make admin button in Group Contact Details modal"
     },
+    "ContactModal--make-admin-info": {
+        "message": "$contact$ sẽ có thể chỉnh sửa nhóm và các thành viên nhóm.",
+        "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Homer"
+            }
+        }
+    },
+    "ContactModal--rm-admin-info": {
+        "message": "Loại bỏ $contact$ khỏi người quản lý nhóm",
+        "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Homer"
+            }
+        }
+    },
     "ContactModal--remove-from-group": {
         "message": "Loại bỏ khỏi nhóm",
         "description": "Button text for remove from group button in Group Contact Details modal"
+    },
+    "showConversationDetails": {
+        "message": "Cài đặt nhóm",
+        "description": "This is a button in the conversation context menu to show group settings"
+    },
+    "ConversationDetails--group-link": {
+        "message": "Đường dẫn nhóm",
+        "description": "This is the label for the group link management panel"
+    },
+    "ConversationDetails--disappearing-messages-label": {
+        "message": "Tin nhắn tự hủy",
+        "description": "This is the label for the disappearing messages setting panel"
+    },
+    "ConversationDetails--disappearing-messages-info": {
+        "message": "Khi được bật, tin nhắn được gửi và nhận trong nhóm này sẽ biến mất sau khi chúng được xem.",
+        "description": "This is the info about the disappearing messages setting"
+    },
+    "ConversationDetails--group-info-label": {
+        "message": "Ai có thể sửa thông tin nhóm",
+        "description": "This is the label for the 'who can edit the group' panel"
+    },
+    "ConversationDetails--group-info-info": {
+        "message": "Chọn ai có thể chỉnh sửa tên nhóm, ảnh đại diện, và đồng hồ đếm ngược tin nhắn biến mất.",
+        "description": "This is the additional info for the 'who can edit the group' panel"
+    },
+    "ConversationDetails--add-members-label": {
+        "message": "Ai có thể thêm thành viên",
+        "description": "This is the label for the 'who can add members' panel"
+    },
+    "ConversationDetails--add-members-info": {
+        "message": "Chọn người có thể thêm thành viên vào nhóm này.",
+        "description": "This is the additional info for the 'who can add members' panel"
+    },
+    "ConversationDetails--requests-and-invites": {
+        "message": "Yêu cầu & Lời mời",
+        "description": "This is a button to display which members have been invited but have not joined yet"
+    },
+    "ConversationDetailsActions--leave-group": {
+        "message": "Rời nhóm",
+        "description": "This is a button to leave a group"
+    },
+    "ConversationDetailsActions--block-group": {
+        "message": "Chặn nhóm",
+        "description": "This is a button to block a group"
+    },
+    "ConversationDetailsActions--leave-group-modal-title": {
+        "message": "Bạn có chắc chắn muốn rời khỏi nhóm?",
+        "description": "This is the modal title for confirming leaving a group"
+    },
+    "ConversationDetailsActions--leave-group-modal-content": {
+        "message": "Bạn sẽ không thể gửi hoặc nhận tin nhắn trong nhóm này nữa.",
+        "description": "This is the modal content for confirming leaving a group"
+    },
+    "ConversationDetailsActions--leave-group-modal-confirm": {
+        "message": "Rời khỏi",
+        "description": "This is the modal button to confirm leaving a group"
+    },
+    "ConversationDetailsActions--block-group-modal-title": {
+        "message": "Chặn và Rời Nhóm \"$groupName$\"?",
+        "description": "This is the modal title for confirming blocking a group",
+        "placeholders": {
+            "groupName": {
+                "content": "$1",
+                "example": "Our Conversation"
+            }
+        }
+    },
+    "ConversationDetailsActions--block-group-modal-content": {
+        "message": "Bạn sẽ không còn nhận tin nhắn hay cập nhật từ nhóm này nữa.",
+        "description": "This is the modal content for confirming blocking a group"
+    },
+    "ConversationDetailsActions--block-group-modal-confirm": {
+        "message": "Chặn",
+        "description": "This is the modal button to confirm blocking a group"
+    },
+    "ConversationDetailsHeader--members": {
+        "message": "$number$ thành viên",
+        "description": "This is the number of members in a group",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
+    "ConversationDetailsMediaList--shared-media": {
+        "message": "Tệp đa phương tiện đã chia sẻ",
+        "description": "Title for the media thumbnails in the conversation details screen"
+    },
+    "ConversationDetailsMediaList--show-all": {
+        "message": "Xem tất cả",
+        "description": "This is a button on the conversation details to show all media"
+    },
+    "ConversationDetailsMembershipList--title": {
+        "message": "$number$ thành viên",
+        "description": "The title of the membership list panel",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
+    "ConversationDetailsMembershipList--show-all": {
+        "message": "Xem tất cả",
+        "description": "This is a button on the conversation details to show all members"
+    },
+    "GroupLinkManagement--clipboard": {
+        "message": "Đường dẫn nhóm đã được sao chép.",
+        "description": "Shown in a toast when a user selects to copy group link"
+    },
+    "GroupLinkManagement--share": {
+        "message": "Sao chép đường dẫn",
+        "description": "This lets users share their group link"
+    },
+    "GroupLinkManagement--confirm-reset": {
+        "message": "Bạn có muốn cài lại đường dẫn nhóm? Người dùng khác sẽ không thể tham gia nhóm bằng đường dẫn hiện tại.",
+        "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
+    },
+    "GroupLinkManagement--reset": {
+        "message": "Cài lại đường dẫn",
+        "description": "This lets users generate a new group link"
+    },
+    "GroupLinkManagement--approve-label": {
+        "message": "Chấp nhận thành viên mới",
+        "description": "Title for the approve new members select area"
+    },
+    "GroupLinkManagement--approve-info": {
+        "message": "Yêu cầu người quản lý chấp duyệt thành viên mới tham gia qua đường dẫn nhóm",
+        "description": "Description for the approve new members select area"
+    },
+    "PendingInvites--tab-requests": {
+        "message": "Yêu cầu ($count$)",
+        "description": "Label for the tab to view pending requests",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "4"
+            }
+        }
+    },
+    "PendingInvites--tab-invites": {
+        "message": "Lời mời ($count$)",
+        "description": "Label for the tab to view pending invites",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "PendingRequests--approve-for": {
+        "message": "Chấp duyệt yêu cầu từ \"$name$\"?",
+        "description": "This is the modal content when confirming approving a group request to join",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Meowsy Purrington"
+            }
+        }
+    },
+    "PendingRequests--deny-for": {
+        "message": "Từ chối yêu cầu từ \"$name$\"?",
+        "description": "This is the modal content when confirming denying a group request to join",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Meowsy Purrington"
+            }
+        }
+    },
+    "PendingInvites--invites": {
+        "message": "Được mời bởi bạn",
+        "description": "This is the title list of all invites"
+    },
+    "PendingInvites--invited-by-you": {
+        "message": "Được mời bởi bạn",
+        "description": "This is the title for the list of members you have invited"
+    },
+    "PendingInvites--invited-by-others": {
+        "message": "Được mời bởi người khác",
+        "description": "This is the title for the list of members who have invited other people"
+    },
+    "PendingInvites--invited-count": {
+        "message": "Được mời bởi $number$",
+        "description": "This is the label for the number of members someone has invited",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "PendingInvites--revoke-for-label": {
+        "message": "Thu hồi lời mời tham gia nhóm",
+        "description": "This is aria label for revoking a group invite icon"
+    },
+    "PendingInvites--revoke-for": {
+        "message": "Thu hồi lời mời tham gia nhóm cho \"$name$\"?",
+        "description": "This is the modal content when confirming revoking a single invite",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "3"
+            },
+            "name": {
+                "content": "$2",
+                "example": "Fred Riley III"
+            }
+        }
+    },
+    "PendingInvites--revoke-from-singular": {
+        "message": "Thu hồi 1 lời mời gửi bởi \"$name$\"?",
+        "description": "This is the modal content when confirming revoking a single invite",
+        "placeholders": {
+            "name": {
+                "content": "$2",
+                "example": "Fred Riley III"
+            }
+        }
+    },
+    "PendingInvites--revoke-from-plural": {
+        "message": "Thu hồi $number$ lời mời gửi bởi \"$name$\"",
+        "description": "This is the modal content when confirming revoking multiple invites",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "3"
+            },
+            "name": {
+                "content": "$2",
+                "example": "Fred Riley III"
+            }
+        }
+    },
+    "PendingInvites--revoke": {
+        "message": "Thu hồi",
+        "description": "This is the modal button to confirm revoking invites"
+    },
+    "PendingRequests--approve": {
+        "message": "Chấp duyệt Yêu cầu",
+        "description": "This is the modal button to approve group request to join"
+    },
+    "PendingRequests--deny": {
+        "message": "Từ chối Yêu cầu",
+        "description": "This is the modal button to deny group request to join"
+    },
+    "PendingRequests--info": {
+        "message": "Những người trên danh sách này đang cố tham gia \"$name$\" qua đường dẫn nhóm.",
+        "description": "Inforamtion shown below the pending admin approval list",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Tahoe List"
+            }
+        }
+    },
+    "PendingInvites--info": {
+        "message": "Chi tiết về những người được mời tham gia nhóm này sẽ không được hiện cho đến khi họ tham gia. Những người được mời sẽ chỉ thấy các tin nhắn sau khi họ tham gia nhóm.",
+        "description": "Information shown below the invite list"
     }
 }

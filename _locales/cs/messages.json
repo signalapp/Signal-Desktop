@@ -266,7 +266,7 @@
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "Pokud vám tento postup nefunguje, zašlete nám, prosím, ladící log (Zobrazit -> Ladící log) abychom ti pomohli dokončit migraci.",
+        "message": "Pokud vám tento postup nefunguje, zašlete nám, prosím, ladící log (Zobrazit -> Ladící log), abychom vám pomohli dokončit migraci.",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
@@ -386,7 +386,7 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
-        "message": "Bezpečnostní číslo, které se pokoušíte ověřit se změnilo. Prosím zkontrolujte s $name1$ své nové bezpečnostní číslo. Pamatujte, že tato změna může znamenat, že se někdo snaží vaši komunikaci odposlouchávat, nebo si $name2$ prostě znovu nainstaloval Signal.",
+        "message": "Bezpečnostní číslo, které se pokoušíte ověřit, se změnilo. Prosím, zkontrolujte s $name1$ své nové bezpečnostní číslo. Pamatujte, že tato změna může znamenat, že se někdo snaží vaši komunikaci odposlouchávat nebo si $name2$ prostě znovu nainstaloval Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name1": {
@@ -404,7 +404,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "identityKeyErrorOnSend": {
-        "message": "Vaše bezpečnostní číslo s  $name1$ se změnilo. To může znamenat, že se někdo pokouší odposlouchávat vaši komunikaci nebo že $name2$ prostě jen přeinstaloval Signal. Doporučujeme ověřit vaše bezpečnostní číslo s tímto kontaktem.",
+        "message": "Vaše bezpečnostní číslo s $name1$ se změnilo. To může znamenat, že se někdo pokouší odposlouchávat vaši komunikaci nebo že $name2$ prostě jen přeinstaloval Signal. Doporučujeme ověřit vaše bezpečnostní číslo s tímto kontaktem.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name1": {
@@ -440,7 +440,7 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "Bezpečnostní čísla s více uživateli této skupiny byla změněna, a nebyla dlouho ověřena. Klikněte pro jejich zobrazení.",
+        "message": "Bezpečnostní čísla s více uživateli této skupiny byla změněna a nebyla dlouho ověřena. Klikněte pro jejich zobrazení.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
@@ -516,7 +516,7 @@
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "Bezpečnostní číslo k tomuto kontaktu se změnilo. Může to znamenat buď to, že se někdo snaží vaši komunikaci odposlouchávat, nebo si kontakt prostě znovu nainstaloval Signal. Možná si budete chtít bezpečnostní číslo níže ověřit.",
+        "message": "Bezpečnostní číslo k tomuto kontaktu se změnilo. Může to znamenat buď to, že se někdo snaží vaši komunikaci odposlouchávat nebo si kontakt prostě znovu nainstaloval Signal. Možná si budete chtít bezpečnostní číslo níže ověřit.",
         "description": ""
     },
     "incomingError": {
@@ -530,6 +530,10 @@
     "mediaEmptyState": {
         "message": "V konverzaci nejsou žádná média",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
+    },
+    "allMedia": {
+        "message": "Všechna média",
+        "description": "Header for the media gallery"
     },
     "documents": {
         "message": "Dokumenty",
@@ -618,7 +622,7 @@
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
-        "message": ".K této zprávě již nelze přidat více příloh",
+        "message": "K této zprávě již nelze přidat více příloh.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
@@ -682,7 +686,7 @@
         "description": "Item under the Help menu, takes you to the support page"
     },
     "joinTheBeta": {
-        "message": "Přidat se k Beta",
+        "message": "Přidat se k beta programu",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
@@ -784,7 +788,7 @@
         "description": "Used as the 'title' attribute for the typing animation"
     },
     "contactInAddressBook": {
-        "message": "Tato osoba je ve vašich kontaktech",
+        "message": "Tato osoba je ve vašich kontaktech.",
         "description": "Description of icon denoting that contact is from your address book"
     },
     "contactAvatarAlt": {
@@ -814,7 +818,7 @@
         "description": "Shown on contact detail screen as a label for aa phone or email"
     },
     "email": {
-        "message": "email",
+        "message": "e-mail",
         "description": "Generic label shown if contact email has custom type but no label"
     },
     "phone": {
@@ -866,7 +870,7 @@
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Nahrávání zvukové zprávy je limitováno délkou pěti minut. Nahrávání se ukončí pokud přepnete do jiné aplikace.",
+        "message": "Nahrávání zvukové zprávy je limitováno délkou pěti minut. Nahrávání se ukončí, pokud se přepnete do jiné aplikace.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
@@ -906,7 +910,7 @@
         "description": "Shown if the user attempts access the microphone for calling without audio permissions turned on"
     },
     "videoCallingPermissionNeeded": {
-        "message": "Pro volání musíte Signal Desktop povolit přístup k vaší kameře.",
+        "message": "Pro videohovory musíte Signal Desktop povolit přístup k vaší kameře.",
         "description": "Shown if the user attempts access the camera for video calling without video permissions turned on"
     },
     "allowAccess": {
@@ -944,7 +948,7 @@
         }
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop je pravděpodobně v karanténě macOS a nebude schopen se sám aktualizovat. Zkuste  přesunout $app$ do $folder$ pomocí aplikace Finder.",
+        "message": "Signal Desktop je pravděpodobně v karanténě macOS a nebude schopen se sám aktualizovat. Zkuste přesunout $app$ do $folder$ pomocí aplikace Finder.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
@@ -984,6 +988,18 @@
     "delete": {
         "message": "Vymazat",
         "description": ""
+    },
+    "accept": {
+        "message": "Přijmout",
+        "description": ""
+    },
+    "on": {
+        "message": "Zap.",
+        "description": "Label for when something is turned on"
+    },
+    "off": {
+        "message": "Vyp.",
+        "description": "Label for when something is turned off"
     },
     "deleteWarning": {
         "message": "Kliknutí na 'smazat' trvale vymažete tuto zprávu pouze z vašich zařízení.",
@@ -1068,7 +1084,7 @@
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Smazat zprávu pro mě",
+        "message": "Smazat zprávu u mě",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessageForEveryone": {
@@ -1232,7 +1248,7 @@
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
-        "message": "Vaše video je vypnuté",
+        "message": "Vaše kamera je vypnutá",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__lobby-summary--zero": {
@@ -1335,6 +1351,14 @@
         "message": "Nebudete přijímat jejich audio ani video a oni vaše.",
         "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
+    "calling__overflow__scroll-up": {
+        "message": "Posunout nahoru",
+        "description": "Label for the \"scroll up\" button in a call's overflow area"
+    },
+    "calling__overflow__scroll-down": {
+        "message": "Posunout dolů",
+        "description": "Label for the \"scroll down\" button in a call's overflow area"
+    },
     "alwaysRelayCallsDescription": {
         "message": "Vždy předávat hovory",
         "description": "Description of the always relay calls setting"
@@ -1388,7 +1412,7 @@
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Chystáte se smazat všechny uložené informaci o účtu, včetně všech kontaktů a zpráv. Vaše mobilní zařízení můžete kdykoliv spárovat znovu, ale smazaný zprávy nebudou obnoveny.",
+        "message": "Chystáte se smazat všechny uložené informace o účtu včetně všech kontaktů a zpráv. Vaše mobilní zařízení můžete kdykoliv spárovat znovu, ale smazané zprávy nebudou obnoveny.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
@@ -1400,7 +1424,7 @@
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "deleteOldIndexedDBData": {
-        "message": "Máte zastaralá data z předchozí instalace Signal Desktop. Pokud budete pokračovat, tato dat budou smazaná a můžete začít od začátku.",
+        "message": "Máte zastaralá data z předchozí instalace Signal Desktop. Pokud budete pokračovat, tato data budou smazána a musíte začít od začátku.",
         "description": "Shown if user last ran Signal Desktop before October 2018"
     },
     "deleteOldData": {
@@ -1450,7 +1474,7 @@
         }
     },
     "notificationReaction": {
-        "message": "$sender$ zareagoval  $emoji$ na vaši zprávu. ",
+        "message": "$sender$ zareagoval(a) $emoji$ na vaši zprávu. ",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1464,7 +1488,7 @@
         }
     },
     "notificationReactionMessage": {
-        "message": "$sender$ zareagoval  $emoji$ na vaši $message$. ",
+        "message": "$sender$ zareagoval(a) $emoji$ na vaši $message$. ",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1522,7 +1546,7 @@
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "Importovat všechny skupiny a kontakty Signalu z mobilního zařízení.",
+        "message": "Importovat všechny skupiny a kontakty Signal z mobilního zařízení.",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
@@ -1550,7 +1574,7 @@
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
-        "message": "1 h",
+        "message": "1h",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "hoursAgo": {
@@ -1578,7 +1602,7 @@
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
-        "message": "D MMM",
+        "message": "D. MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "messageBodyTooLong": {
@@ -1590,7 +1614,7 @@
         "description": "Brief message shown when trying to message a blocked number"
     },
     "unblockGroupToSend": {
-        "message": "Odblokujte tuto skupinu pro odeslání zprávy.",
+        "message": "Pro odeslání zprávy tuto skupinu odblokujte.",
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
@@ -1624,7 +1648,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ nastavil časovač pro zmizení zprávy na $time$",
+        "message": "$name$ nastavil(a) časovač pro zmizení zprávy na $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1694,15 +1718,15 @@
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "timerOption_5_seconds_abbreviated": {
-        "message": "5 s",
+        "message": "5s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_10_seconds_abbreviated": {
-        "message": "10 s",
+        "message": "10s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_30_seconds_abbreviated": {
-        "message": "30 s",
+        "message": "30s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_minute_abbreviated": {
@@ -1718,19 +1742,19 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_hour_abbreviated": {
-        "message": "1 h",
+        "message": "1h",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_6_hours_abbreviated": {
-        "message": "6 h",
+        "message": "6h",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_12_hours_abbreviated": {
-        "message": "12 h",
+        "message": "12h",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_day_abbreviated": {
-        "message": "1 d",
+        "message": "1d",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_week_abbreviated": {
@@ -1786,7 +1810,7 @@
         "description": "Description for incoming calls setting"
     },
     "contactChangedProfileName": {
-        "message": "$sender$ změnil své jméno z $oldProfile$ na $newProfile$.",
+        "message": "$sender$ změnil(a) své jméno z $oldProfile$ na $newProfile$.",
         "description": "Description for incoming calls setting",
         "placeholders": {
             "sender": {
@@ -1804,7 +1828,7 @@
         }
     },
     "changedProfileName": {
-        "message": "$oldProfile$ změnil své jméno na $newProfile$.",
+        "message": "$oldProfile$ změnil(a) své jméno na $newProfile$.",
         "description": "Shown when a contact not in your address book changes their profile name",
         "placeholders": {
             "oldProfile": {
@@ -1840,7 +1864,7 @@
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "cannotGenerateSafetyNumber": {
-        "message": "Tento uživatel nemůže být ověřen, dokud neodešlete zprávu.",
+        "message": "Tento uživatel nemůže být ověřen, dokud si s ním nenapíšete.",
         "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
     },
     "yourSafetyNumberWith": {
@@ -1862,7 +1886,7 @@
         "description": "Label text for dark theme"
     },
     "themeSystem": {
-        "message": "Systém",
+        "message": "Systémový",
         "description": "Label text for system theme"
     },
     "noteToSelf": {
@@ -1874,7 +1898,7 @@
         "description": "Description for the Note to Self conversation"
     },
     "notificationDrawAttention": {
-        "message": "Zvýraznit toto okno jakmile přijde notifikace",
+        "message": "Zvýraznit toto okno, jakmile přijde notifikace",
         "description": "Label text for the setting that controls whether new notifications draw attention to the window"
     },
     "hideMenuBar": {
@@ -1890,7 +1914,7 @@
         "description": "Label underneath number informing user that SMS is not supported on desktop"
     },
     "newPhoneNumber": {
-        "message": "Zadejte telefonní číslo přidat kontakt.",
+        "message": "Zadejte telefonní číslo pro přidání kontaktu.",
         "description": "Placeholder for adding a new number to a contact"
     },
     "invalidNumberError": {
@@ -1918,7 +1942,7 @@
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Stiskněte na Restartovat Signal pro aplikování změn",
+        "message": "Klikněte na Restartovat Signal pro aplikování změn.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
@@ -1930,7 +1954,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ opustil skupinu",
+        "message": "$name$ opustil(a) skupinu.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1940,7 +1964,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ opustil skupinu",
+        "message": "$name$ opustil(a) skupinu.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1950,7 +1974,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "$name$ upravil skupinu.",
+        "message": "$name$ upravil(a) skupinu.",
         "description": "Shown in the conversation history when someone updates the group",
         "placeholders": {
             "name": {
@@ -1982,7 +2006,7 @@
         "description": "Shown in the conversation history when you are added to a group."
     },
     "joinedTheGroup": {
-        "message": "$name$ se připojil ke skupině.",
+        "message": "$name$ se připojil(a) ke skupině.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1992,7 +2016,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ se připojil ke skupině.",
+        "message": "$names$ se připojil(a) ke skupině.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -2108,7 +2132,7 @@
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--UninstallWarning": {
-        "message": "Pravděpodobně nebudete moci přeinstalovat tento balíček nálepek pokud již nemáte zdrojovou zprávu.",
+        "message": "Pravděpodobně nebudete moci přeinstalovat tento balíček nálepek, pokud již nemáte zdrojovou zprávu.",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--Introduction--Image": {
@@ -2234,7 +2258,7 @@
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "Message--unsupported-message": {
-        "message": "$contact$ vám zaslal zprávu, kterou zde nelze zobrazit, protože používá novější funkci Signal.",
+        "message": "$contact$ vám zaslal(a) zprávu, kterou zde nelze zobrazit, protože používá novější funkci Signal.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -2274,7 +2298,7 @@
         "description": "Text shown on outgoing messages with with individual timers (inaccessible)"
     },
     "Message--tap-to-view--incoming--expired-toast": {
-        "message": "Tuto zprávu jste už zobrazili",
+        "message": "Tuto zprávu jste již zobrazili.",
         "description": "Shown when user clicks on an expired incoming view-once bubble"
     },
     "Message--tap-to-view--outgoing--expired-toast": {
@@ -2518,7 +2542,7 @@
         "description": "The title of the Sticker Pack Creator window"
     },
     "StickerCreator--DropZone--staticText": {
-        "message": "Klepnutím sem přidáte nebo přetáhnete obrázky",
+        "message": "Klepnutím nebo přetažením sem přidáte obrázky",
         "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
     },
     "StickerCreator--DropZone--activeText": {
@@ -2588,7 +2612,7 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--EmojiStage--help": {
-        "message": "Toto nám umožňuje vám navrhovat nálepky zatímco píšete.",
+        "message": "Toto nám umožní vám navrhovat nálepky, zatímco píšete.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--MetaStage--title": {
@@ -2608,11 +2632,11 @@
         "description": "Label for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--cover--help": {
-        "message": "Tento obrázek bude viditelný když budete balíček nálepek sdílet.",
+        "message": "Tento obrázek bude viditelný, když budete balíček nálepek sdílet.",
         "description": "Help text for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--title": {
-        "message": "Jste si jistý, že chcete nahrát svůj balíček nálepek?",
+        "message": "Jste si jisti, že chcete nahrát svůj balíček nálepek?",
         "description": "Title for the confirm dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--confirm": {
@@ -2620,7 +2644,7 @@
         "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--text": {
-        "message": "Balíček nálepek nebudete možné po odeslání upravovat nebo mazat.",
+        "message": "Balíček nálepek nebude možné po odeslání upravit nebo smazat.",
         "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--UploadStage--title": {
@@ -2650,7 +2674,7 @@
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
-        "message": "Ostatní najdou jakýkoliv vytvořený balíček nálepek, který chcete vysdílet veřejně použitím hashtag $hashtag$.",
+        "message": "Ostatní najdou jakýkoliv vytvořený balíček nálepek, který chcete sdílet veřejně, použitím hashtag $hashtag$.",
         "description": "Call to action text for the share stage of the sticker creator",
         "placeholders": {
             "hashtag": {
@@ -2672,11 +2696,11 @@
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "Mrkněte na tenhle balíček nálepek, který jsem vytvořil pro Signal. #makeprivacystick",
+        "message": "Mrkněte na tenhle balíček nálepek, který jsem vytvořil(a) pro Signal. #makeprivacystick",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
-        "message": "$count$přidaných obrázků",
+        "message": "$count$ přidaných obrázků",
         "description": "Text for the toast when images are added to the sticker creator",
         "placeholders": {
             "count": {
@@ -2690,7 +2714,7 @@
         "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--tooLarge": {
-        "message": "Vložený obrázek byl moc velký",
+        "message": "Vložený obrázek je moc velký",
         "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--errorProcessing": {
@@ -2752,7 +2776,7 @@
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "MessageRequests--message-direct": {
-        "message": "Chcete povolit, aby vám $name$ mohli posílat zprávy a sdílet vaše jméno a fotografii? Nedozví se, že jste jejich zprávy viděli, dokud nepřijmete.",
+        "message": "Chcete povolit, aby vám $name$ mohli posílat zprávy a sdílet vaše jméno a fotografii? Nedozví se, že jste jejich zprávy viděli, dokud je nepřijmete.",
         "description": "Shown as the message for a message request in a direct message",
         "placeholders": {
             "name": {
@@ -2814,7 +2838,7 @@
         }
     },
     "MessageRequests--unblock-group-confirm-body": {
-        "message": "Členové skupiny budou moci přidat vás znovu do této skupiny.",
+        "message": "Členové skupiny vás budou moci znovu přidat do této skupiny.",
         "description": "Shown as the body in the confirmation modal for unblocking a group message request",
         "placeholders": {
             "name": {
@@ -3010,7 +3034,7 @@
         }
     },
     "ConversationHero--membership-added": {
-        "message": "$name$ vás přidal do skupiny.",
+        "message": "$name$ vás přidal(a) do skupiny.",
         "description": "Shown Indicates that you were added to a group by a given individual.",
         "placeholders": {
             "name": {
@@ -3032,11 +3056,11 @@
         "description": "Shown in tooltip for the button to decline a call (audio or video)"
     },
     "declinedIncomingAudioCall": {
-        "message": "Odmítl jste hovor",
+        "message": "Odmítli jste hovor",
         "description": "Shown in conversation history when you declined an incoming audio call"
     },
     "declinedIncomingVideoCall": {
-        "message": "Odmítl jste video hovor",
+        "message": "Odmítli jste videohovor",
         "description": "Shown in conversation history when you declined an incoming video call"
     },
     "acceptedIncomingAudioCall": {
@@ -3044,7 +3068,7 @@
         "description": "Shown in conversation history when you accepted an incoming audio call"
     },
     "acceptedIncomingVideoCall": {
-        "message": "Příchozí video hovor",
+        "message": "Příchozí videohovor",
         "description": "Shown in conversation history when you accepted an incoming video call"
     },
     "missedIncomingAudioCall": {
@@ -3052,7 +3076,7 @@
         "description": "Shown in conversation history when you missed an incoming audio call"
     },
     "missedIncomingVideoCall": {
-        "message": "Zmeškaný video hovor",
+        "message": "Zmeškaný videohovor",
         "description": "Shown in conversation history when you missed an incoming video call"
     },
     "acceptedOutgoingAudioCall": {
@@ -3060,7 +3084,7 @@
         "description": "Shown in conversation history when you made an outgoing audio call"
     },
     "acceptedOutgoingVideoCall": {
-        "message": "Odchozí vide hovor",
+        "message": "Odchozí videhovor",
         "description": "Shown in conversation history when you made an outgoing video call"
     },
     "missedOrDeclinedOutgoingAudioCall": {
@@ -3068,7 +3092,7 @@
         "description": "Shown in conversation history when your audio call is missed or declined"
     },
     "missedOrDeclinedOutgoingVideoCall": {
-        "message": "Nepřijatý video hovor",
+        "message": "Nepřijatý videohovor",
         "description": "Shown in conversation history when your video call is missed or declined"
     },
     "incomingAudioCall": {
@@ -3076,7 +3100,7 @@
         "description": "Shown in both the incoming call bar and notification for an incoming audio call"
     },
     "incomingVideoCall": {
-        "message": "Příchozí video hovor...",
+        "message": "Příchozí videohovor...",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
     "outgoingCallPrering": {
@@ -3092,7 +3116,7 @@
         "description": "Title for the call button in a conversation"
     },
     "makeOutgoingVideoCall": {
-        "message": "Zahájit video hovor",
+        "message": "Zahájit videohovor",
         "description": "Title for the video call button in a conversation"
     },
     "joinOngoingCall": {
@@ -3100,7 +3124,7 @@
         "description": "Text that appears in a group when a call is active"
     },
     "callNeedPermission": {
-        "message": "$title$od vás dostane žádost. Telefonovat můžete jakmile bude žádost akceptována.",
+        "message": "$title$ od vás dostane žádost. Telefonovat můžete, jakmile bude žádost akceptována.",
         "description": "Shown when a call is rejected because the other party hasn't approved the message/call request",
         "placeholders": {
             "title": {
@@ -3146,11 +3170,11 @@
         "description": "Notification message when a group call has started, but we don't know who started it"
     },
     "calling__call-notification__started-by-you": {
-        "message": "Zahájil jste skupinový hovor",
+        "message": "Zahájili jste skupinový hovor",
         "description": "Notification message when a group call has started by you"
     },
     "calling__call-notification__started": {
-        "message": "$name$zahájil skupinový hovor",
+        "message": "$name$ zahájil(a) skupinový hovor",
         "description": "Notification message when a group call has started",
         "placeholders": {
             "name": {
@@ -3181,6 +3205,14 @@
         "message": "Hovor přes celou obrazovku",
         "description": "Title for picture-in-picture toggle"
     },
+    "calling__switch-view--to-grid": {
+        "message": "Přepnout do zobrazení mřížky",
+        "description": "Title for grid/speaker view toggle when on a call"
+    },
+    "calling__switch-view--to-speaker": {
+        "message": "Přepnout na zobrazení mluvčího",
+        "description": "Title for grid/speaker view toggle when on a call"
+    },
     "calling__hangup": {
         "message": "Opustit hovor",
         "description": "Title for hang up button"
@@ -3190,7 +3222,7 @@
         "description": "Label for video input selector"
     },
     "callingDeviceSelection__label--audio-input": {
-        "message": "Mikrofón",
+        "message": "Mikrofon",
         "description": "Label for audio input selector"
     },
     "callingDeviceSelection__label--audio-output": {
@@ -3248,16 +3280,124 @@
         "description": "Title of pop-up dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
-        "message": "Zkuste to prosím znova, nebo kontaktujte podporu.",
+        "message": "Zkuste to prosím znova nebo kontaktujte podporu.",
         "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
         "message": "V pořádku",
         "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
     },
+    "unknown-sgnl-link": {
+        "message": "Omlouváme se, ale ten sgnl:// odkaz nedával žádný smysl.",
+        "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
+    },
+    "GroupV2--join--invalid-link--title": {
+        "message": "Neplatný odkaz",
+        "description": "Shown if we are unable to parse a group link"
+    },
+    "GroupV2--join--invalid-link": {
+        "message": "Toto je neplatný odkaz na skupinu. Než se pokusíte přidat, ujistěte se, že odkaz je neporušený a správný.",
+        "description": "Shown if we are unable to parse a group link"
+    },
+    "GroupV2--join--prompt": {
+        "message": "Připojit se k této skupině a sdílet vaše jméno a fotografii s jejími členy?",
+        "description": "Shown when you click on a group link to confirm"
+    },
+    "GroupV2--join--already-in-group": {
+        "message": "Již jste v této skupině.",
+        "description": "Shown if you click a group link for a group where you're already a member"
+    },
+    "GroupV2--join--already-awaiting-approval": {
+        "message": "Již jste požádali o schválení pro přidání do této skupiny.",
+        "description": "Shown if you click a group link for a group where you've already requested approval'"
+    },
+    "GroupV2--join--unknown-link-version--title": {
+        "message": "Neznámá verze odkazu",
+        "description": "This group link is no longer valid."
+    },
+    "GroupV2--join--unknown-link-version": {
+        "message": "Tento odkaz není podporovaný touto verzí aplikace Signal Desktop.",
+        "description": "Shown if you click a group link and we can't get information about it"
+    },
+    "GroupV2--join--link-revoked--title": {
+        "message": "Nelze přidat do skupiny",
+        "description": "Shown if you click a group link and we can't get information about it"
+    },
+    "GroupV2--join--link-revoked": {
+        "message": "Tento odkaz skupiny již není platný.",
+        "description": "Shown if you click a group link and we can't get information about it"
+    },
+    "GroupV2--join--prompt-with-approval": {
+        "message": "Správce této skupiny musí schválit vaši žádost, než se budete moct přidat do skupiny. Pokud bude žádost schválena, vaše jméno a fotografie bude sdílena s členy skupiny.",
+        "description": "Shown when you click on a group link to confirm, if it requires admin approval"
+    },
+    "GroupV2--join--join-button": {
+        "message": "Připojit",
+        "description": "The button to join the group"
+    },
+    "GroupV2--join--request-to-join-button": {
+        "message": "Žádost o připojení",
+        "description": "The button to join the group, if approval is required"
+    },
+    "GroupV2--join--cancel-request-to-join": {
+        "message": "Zrušit požadavek",
+        "description": "The button to cancel request to join the group"
+    },
+    "GroupV2--join--cancel-request-to-join--confirmation": {
+        "message": "Zrušit požadavek na připojení k této skupině?",
+        "description": "A confirmation message that shows after you click the button"
+    },
+    "GroupV2--join--cancel-request-to-join--yes": {
+        "message": "Ano",
+        "description": "Choosing to continue in the cancel join confirmation dialog"
+    },
+    "GroupV2--join--cancel-request-to-join--no": {
+        "message": "Ne",
+        "description": "Choosing not to continue in the cancel join confirmation dialog"
+    },
+    "GroupV2--join--member-count--single": {
+        "message": "1 člen",
+        "description": "Shown in the metadata section if group has just one member"
+    },
+    "GroupV2--join--member-count--multiple": {
+        "message": "Členové skupiny $count$",
+        "description": "Shown in the metadata section if group has more than one member",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "12"
+            }
+        }
+    },
+    "GroupV2--join--group-metadata": {
+        "message": "Skupina · $memberCount$",
+        "description": "A holder for two pieces of information - the type of conversation, and the member count",
+        "placeholders": {
+            "memberCount": {
+                "content": "$1",
+                "example": "12 members"
+            }
+        }
+    },
+    "GroupV2--join--requested": {
+        "message": "Váš požadavek na připojení ke skupině byl zaslán administrátorovi. Budete upozorněn(a), jakmile zareaguje.",
+        "description": "Shown in composition area when you've requested to join a group"
+    },
+    "GroupV2--join--general-join-failure--title": {
+        "message": "Chyba odkazu",
+        "description": "Shown if something went wrong when you try to join via a group link"
+    },
+    "GroupV2--join--general-join-failure": {
+        "message": "Přidání pomocí tohoto odkazu selhalo. Zkuste se přidat později znovu.",
+        "description": "Shown if something went wrong when you try to join via a group link"
+    },
     "GroupV2--admin": {
         "message": "Správce",
-        "description": "Shown next to the set of administrators in a group"
+        "description": "Label for a group administrator"
+    },
+    "GroupV2--all-members": {
+        "message": "Všichni členové",
+        "description": "Label for describing the general non-privileged members of a group"
     },
     "updating": {
         "message": "Aktualizuji...",
@@ -3268,7 +3408,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--create--other": {
-        "message": "$memberName$vytvořil skupinu.",
+        "message": "$memberName$ vytvořil(a) skupinu.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3282,7 +3422,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--change--other": {
-        "message": "$memberName$ změnil název skupiny na \"$newTitle$\".",
+        "message": "$memberName$ změnil(a) název skupiny na \"$newTitle$\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3296,7 +3436,7 @@
         }
     },
     "GroupV2--title--change--you": {
-        "message": "Změnil jste název skupiny na \"$newTitle$\".",
+        "message": "Změnili jste název skupiny na \"$newTitle$\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "newTitle": {
@@ -3316,7 +3456,7 @@
         }
     },
     "GroupV2--title--remove--other": {
-        "message": "$memberName$ odstranil název skupiny.",
+        "message": "$memberName$ odstranil(a) název skupiny.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3326,7 +3466,7 @@
         }
     },
     "GroupV2--title--remove--you": {
-        "message": "Odstranili jste jméno skupiny.",
+        "message": "Odstranili jste název skupiny.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--remove--unknown": {
@@ -3334,7 +3474,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--other": {
-        "message": "$memberName$ změnil avatar skupiny.",
+        "message": "$memberName$ změnil(a) avatar skupiny.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3344,7 +3484,7 @@
         }
     },
     "GroupV2--avatar--change--you": {
-        "message": "Změnili jste skupinový avatar.",
+        "message": "Změnili jste avatar skupiny.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--unknown": {
@@ -3352,7 +3492,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--other": {
-        "message": "$memberName$ odstranil avatar skupiny.",
+        "message": "$memberName$ odstranil(a) avatar skupiny.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3362,7 +3502,7 @@
         }
     },
     "GroupV2--avatar--remove--you": {
-        "message": "Odstranil jste avatar skupiny.",
+        "message": "Odstranili jste avatar skupiny.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--unknown": {
@@ -3380,7 +3520,7 @@
         }
     },
     "GroupV2--access-attributes--admins--you": {
-        "message": "Změnil jste, kdo může upravovat informace o skupině na \"Pouze správci\".",
+        "message": "Změnil(a) jste, kdo může upravovat informace o skupině na \"Pouze správci\".",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--unknown": {
@@ -3388,7 +3528,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--other": {
-        "message": "$adminName$ změnil, kdo může upravovat informace o skupině na \"Všichni členové\".",
+        "message": "$adminName$ změnil(a), kdo může upravovat informace o skupině na \"Všichni členové\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3398,7 +3538,7 @@
         }
     },
     "GroupV2--access-attributes--all--you": {
-        "message": "Změnil jste, kdo může upravovat informace o skupině na \"Všichni členové\".",
+        "message": "Změnili jste, kdo může upravovat informace o skupině na \"Všichni členové\".",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--unknown": {
@@ -3406,7 +3546,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--other": {
-        "message": "$adminName$ změnil, kdo může upravovat členství ve skupině na \"Pouze správci\".",
+        "message": "$adminName$ změnil(a), kdo může upravovat členství ve skupině na \"Pouze správci\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3416,7 +3556,7 @@
         }
     },
     "GroupV2--access-members--admins--you": {
-        "message": "Změnil jste, kdo může upravovat členství ve skupině na \"Pouze správci\".",
+        "message": "Změnili jste, kdo může upravovat členství ve skupině na \"Pouze správci\".",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--unknown": {
@@ -3424,7 +3564,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--other": {
-        "message": "$adminName$ změnil, kdo může upravovat členství ve skupině na \"Všichni členové\".",
+        "message": "$adminName$ změnil(a), kdo může upravovat členství ve skupině na \"Všichni členové\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3434,15 +3574,51 @@
         }
     },
     "GroupV2--access-members--all--you": {
-        "message": "Změnil jste, kdo může upravovat členství ve skupině na \"Všichni členové\".",
+        "message": "Změnili jste, kdo může upravovat členství ve skupině na \"Všichni členové\".",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--unknown": {
         "message": "Správce změnil, kdo může upravovat členství ve skupině na \"Všichni členové\".",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
+    "GroupV2--access-invite-link--disabled--you": {
+        "message": "Zrušili jste schválení správcem pro tento odkaz skupiny.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--access-invite-link--disabled--other": {
+        "message": "$adminName$ zrušil(a) schválení správcem pro tento odkaz skupiny.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--access-invite-link--disabled--unknown": {
+        "message": "Schválení správcem pro odkaz skupiny bylo zrušeno.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--access-invite-link--enabled--you": {
+        "message": "Povolili jste schválení správcem pro odkaz skupiny.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--access-invite-link--enabled--other": {
+        "message": "$adminName$ povolil(a) schválení správcem pro odkaz skupiny.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--access-invite-link--enabled--unknown": {
+        "message": "Schvalování odkazu skupiny správcem bylo zapnuto.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
     "GroupV2--member-add--invited--you": {
-        "message": "Přidal jste pozvaného člena $inviteeName$.",
+        "message": "Přidali jste pozvaného člena $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3452,7 +3628,7 @@
         }
     },
     "GroupV2--member-add--invited--other": {
-        "message": "$memberName$ přidal pozvaného člena $inviteeName$.",
+        "message": "$memberName$ přidal(a) pozvaného člena $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3476,7 +3652,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other": {
-        "message": "$inviteeName$ přijal pozvání do skupiny od $inviterName$.",
+        "message": "$inviteeName$ přijal(a) pozvání do skupiny od $inviterName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3490,7 +3666,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other-no-from": {
-        "message": "$inviteeName$ přijal pozvání do skupiny.",
+        "message": "$inviteeName$ přijal(a) pozvání do skupiny.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3500,7 +3676,7 @@
         }
     },
     "GroupV2--member-add--from-invite--you": {
-        "message": "Přijal jste pozvání do skupiny od $inviterName$.",
+        "message": "Přijali jste pozvání do skupiny od $inviterName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -3514,7 +3690,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--from-invite--from-you": {
-        "message": "$inviteeName$ přijal vaše pozvání do skupiny.",
+        "message": "$inviteeName$ přijal(a) vaše pozvání do skupiny.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3524,7 +3700,7 @@
         }
     },
     "GroupV2--member-add--other--other": {
-        "message": "$adderName$ přidal $addeeName$.",
+        "message": "$adderName$ přidal(a) $addeeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adderName": {
@@ -3538,7 +3714,7 @@
         }
     },
     "GroupV2--member-add--other--you": {
-        "message": "Přidal jste $memberName$.",
+        "message": "Přidali jste $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3558,7 +3734,7 @@
         }
     },
     "GroupV2--member-add--you--other": {
-        "message": "$memberName$ vás přidal do skupiny.",
+        "message": "$memberName$ vás přidal(a) do skupiny.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3572,11 +3748,73 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--you--unknown": {
-        "message": "Byl jste přidán do skupiny.",
+        "message": "Byli jste přidáni do skupiny.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
+    "GroupV2--member-add-from-link--you--you": {
+        "message": "Připojili jste se ke skupině pomocí odkazu skupiny.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--member-add-from-link--other": {
+        "message": "$memberName$ se připojil(a) ke skupině pomocí odkazu skupiny.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--member-add-from-admin-approval--you--other": {
+        "message": "$adminName$ schválil(a) vaši žádost o připojení do skupiny.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--member-add-from-admin-approval--you--unknown": {
+        "message": "Požadavek na vstup do skupiny byl schválen.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--member-add-from-admin-approval--other--you": {
+        "message": "Schválili jste žádost o připojení ke skupině od $joinerName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--member-add-from-admin-approval--other--other": {
+        "message": "$adminName$ schválil(a) žádost o připojení ke skupině od $joinerName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--member-add-from-admin-approval--other--unknown": {
+        "message": "Žádost o připojení ke skupině od $joinerName$ byla schválena.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "GroupV2--member-remove--other--other": {
-        "message": "$adminName$ odstranil $memberName$.",
+        "message": "$adminName$ odstranil(a) $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3590,7 +3828,7 @@
         }
     },
     "GroupV2--member-remove--other--self": {
-        "message": "$memberName$opustil skupinu.",
+        "message": "$memberName$ opustil(a) skupinu.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3600,7 +3838,7 @@
         }
     },
     "GroupV2--member-remove--other--you": {
-        "message": "Odstranil jste $memberName$.",
+        "message": "Odstranili jste $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3638,7 +3876,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--promote--other--other": {
-        "message": "$adminName$ přidal $memberName$ mezi správce.",
+        "message": "$adminName$ přidal(a) $memberName$ mezi správce.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3652,7 +3890,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--you": {
-        "message": "Přidal jste $memberName$ k správcům.",
+        "message": "Přidali jste $memberName$ mezi správce.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3672,7 +3910,7 @@
         }
     },
     "GroupV2--member-privilege--promote--you--other": {
-        "message": "$adminName$ vás přidal mezi správce.",
+        "message": "$adminName$ vás přidal(a) mezi správce.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3686,7 +3924,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--demote--other--other": {
-        "message": "$adminName$ odebral oprávnění správce uživateli $memberName$.",
+        "message": "$adminName$ odebral(a) oprávnění správce uživateli $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3700,7 +3938,7 @@
         }
     },
     "GroupV2--member-privilege--demote--other--you": {
-        "message": "Odebral jste oprávnění správce uživateli $memberName$.",
+        "message": "Odebrali jste oprávnění správce uživateli $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3714,7 +3952,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--demote--you--other": {
-        "message": "$adminName$ vám odebral oprávnění správce.",
+        "message": "$adminName$ vám odebral(a) oprávnění správce.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3728,7 +3966,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--one--other--other": {
-        "message": "$memberName$ pozval 1 osobu do skupiny.",
+        "message": "$memberName$ pozval(a) 1 osobu do skupiny.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3738,7 +3976,7 @@
         }
     },
     "GroupV2--pending-add--one--other--you": {
-        "message": "Pozval jste $inviteeName$ do skupiny.",
+        "message": "Pozvali jste $inviteeName$ do skupiny.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3758,7 +3996,7 @@
         }
     },
     "GroupV2--pending-add--one--you--other": {
-        "message": "$memberName$ vás pozval do skupiny.",
+        "message": "$memberName$ vás pozval(a) do skupiny.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3772,7 +4010,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--many--other": {
-        "message": "$memberName$ pozval $count$ osob do skupiny.",
+        "message": "$memberName$ pozval(a) $count$ osob do skupiny.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3786,7 +4024,7 @@
         }
     },
     "GroupV2--pending-add--many--you": {
-        "message": "Pozval jste $count$ osob do skupiny.",
+        "message": "Pozvali jste $count$ osob do skupiny.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -3796,7 +4034,7 @@
         }
     },
     "GroupV2--pending-add--many--unknown": {
-        "message": "$count$osob bylo pozváno do skupiny.",
+        "message": "$count$ osob bylo pozváno do skupiny.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -3834,7 +4072,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--revoke--one--other": {
-        "message": "$memberName$ zrušil pozvání 1 osoby do skupiny.",
+        "message": "$memberName$ zrušil(a) pozvání 1 osoby do skupiny.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3844,7 +4082,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--one--you": {
-        "message": "Zrušil jste pozvání do skupiny pro 1 osobu.",
+        "message": "Zrušili jste pozvání do skupiny pro 1 osobu.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3854,7 +4092,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-own--to-you": {
-        "message": "$inviterName$ odvolal vaše pozvání.",
+        "message": "$inviterName$ odvolal(a) vaše pozvání.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -3864,7 +4102,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-own--unknown": {
-        "message": "$inviterName$ odvolal pozvání 1 osoby.",
+        "message": "$inviterName$ odvolal(a) pozvání 1 osoby.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -3884,7 +4122,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--other": {
-        "message": "$memberName$ zrušil pozvání do skupiny pro $count$ osob.",
+        "message": "$memberName$ zrušil(a) pozvání do skupiny pro $count$ osob.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3898,7 +4136,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--you": {
-        "message": "Zrušil jste pozvání do skupiny pro $count$ osob.",
+        "message": "Zrušili jste pozvání do skupiny pro $count$ osob.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -3918,7 +4156,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--other": {
-        "message": "$adminName$ zrušil pozvání do skupiny pro 1 osobu pozvanou uživatelem $memberName$.",
+        "message": "$adminName$ zrušil(a) pozvání do skupiny pro 1 osobu pozvanou uživatelem $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3932,7 +4170,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--you": {
-        "message": "Zrušil jste pozvání do skupiny pro 1 osobu pozvanou uživatelem $memberName$.",
+        "message": "Zrušili jste pozvání do skupiny pro 1 osobu pozvanou uživatelem $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3952,7 +4190,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--other": {
-        "message": "$adminName$ zrušil vaše pozvání do skupiny pro uživatele $inviteeName$.",
+        "message": "$adminName$ zrušil(a) vaše pozvání do skupiny pro uživatele $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3962,7 +4200,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--you": {
-        "message": "Zrušil jste pozvání pro $inviteeName$.",
+        "message": "Zrušili jste pozvání pro $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3982,7 +4220,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--other": {
-        "message": "$adminName$ zrušil pozvání do skupiny pro $count$ osob pozvaných uživatelem $memberName$.",
+        "message": "$adminName$ zrušil(a) pozvání do skupiny pro $count$ osob pozvaných uživatelem $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3996,7 +4234,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--you": {
-        "message": "Zrušil jste pozvání do skupiny pro $count$ osob pozvaných uživatelem $memberName$.",
+        "message": "Zrušili jste pozvání do skupiny pro $count$ osob pozvaných uživatelem $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4024,7 +4262,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-        "message": "$adminName$ zrušil vaše pozvání do skupiny pro $count$ osob.",
+        "message": "$adminName$ zrušil(a) vaše pozvání do skupiny pro $count$ osob.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4057,8 +4295,136 @@
             }
         }
     },
+    "GroupV2--admin-approval-add-one--you": {
+        "message": "Odeslali jste požadavek na vstup do skupiny.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--admin-approval-add-one--other": {
+        "message": "$joinerName$ požádal(a) o připojení ke skupině pomocí odkazu skupiny.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-remove-one--you--you": {
+        "message": "Zrušili jste svůj požadavek na připojení ke skupině.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--admin-approval-remove-one--you--unknown": {
+        "message": "Požadavek na vstup do skupiny byl správcem zamítnut.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--admin-approval-remove-one--other--you": {
+        "message": "Zamítli jste žádost o připojení ke skupině od $joinerName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-remove-one--other--own": {
+        "message": "$joinerName$ zrušil(a) žádost o připojení ke skupině.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-remove-one--other--other": {
+        "message": "$adminName$ zamítl(a) žádost o připojení ke skupině od $joinerName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "joinerName": {
+                "content": "$2",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--group-link-add--disabled--you": {
+        "message": "Aktivovali jste odkaz skupiny bez schválení správcem.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-add--disabled--other": {
+        "message": "$adminName$ aktivoval(a) odkaz skupiny bez schválení správcem.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--group-link-add--disabled--unknown": {
+        "message": "Odkaz skupiny byl povolen bez schválení správcem.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-add--enabled--you": {
+        "message": "Aktivovali jste odkaz skupiny se schválením správcem.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-add--enabled--other": {
+        "message": "$adminName$ aktivoval(a) odkaz skupiny se schválením správcem.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--group-link-add--enabled--unknown": {
+        "message": "Odkaz skupiny se schválením správcem byl aktivován.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-remove--you": {
+        "message": "Vypnuli jste odkaz skupiny.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-remove--other": {
+        "message": "$adminName$ vypnul odkaz skupiny.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--group-link-remove--unknown": {
+        "message": "Odkaz skupiny byl vypnut.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-reset--you": {
+        "message": "Obnovili jste odkaz skupiny.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-reset--other": {
+        "message": "$adminName$ resetoval odkaz skupiny.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--group-link-reset--unknown": {
+        "message": "Odkaz skupiny byl obnoven.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
     "GroupV1--Migration--disabled": {
-        "message": "Aktualizujte tuto skupinu pro zpřístupnění nových funkcí jako @zmínky a správce. Uživatelé, kteří nesdíleli své jméno či fotografii budou znovu pozváni. $learnMore$",
+        "message": "Aktualizujte tuto skupinu pro zpřístupnění nových funkcí jako @zmínky a správce. Uživatelé, kteří nesdíleli své jméno či fotografii, budou znovu pozváni. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
         "placeholders": {
             "learnMore": {
@@ -4088,7 +4454,7 @@
         "description": "Shown on Migration popup after choosing to migrate group"
     },
     "GroupV1--Migration--info--summary": {
-        "message": "Nové skupiny mají funkce jako @zmínky a správce skupin, a v budoucnu budou podporovat další funkce.",
+        "message": "Nové skupiny mají funkce jako @zmínky a správce skupin a v budoucnu budou podporovat další funkce.",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--keep-history": {
@@ -4128,11 +4494,11 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
-        "message": "Byl jste pozván k nové verzi skupiny, ale nemohl jste být přidán.",
+        "message": "Byli jste pozváni k nové verzi skupiny, ale nemohli jste být přidáni.",
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {
-        "message": "$contact$ nemohl být přidán do nové verze skupiny a byl pozván",
+        "message": "$contact$ nemohl být přidán do nové verze skupiny a byl pozván.",
         "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
         "placeholders": {
             "contact": {
@@ -4142,7 +4508,7 @@
         }
     },
     "GroupV1--Migration--invited--many": {
-        "message": "$count$ členové nemohli být přidáni do nové verze skupiny a byli pozváni",
+        "message": "$count$ členové nemohli být přidáni do nové verze skupiny a byli pozváni.",
         "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
         "placeholders": {
             "contact": {
@@ -4199,12 +4565,296 @@
         "message": "Zpráva",
         "description": "Button text for send message button in Group Contact Details modal"
     },
+    "ContactModal--rm-admin": {
+        "message": "Odebrat jako správce",
+        "description": "Button text for removing as admin button in Group Contact Details modal"
+    },
     "ContactModal--make-admin": {
         "message": "Učinit správcem",
         "description": "Button text for make admin button in Group Contact Details modal"
     },
+    "ContactModal--make-admin-info": {
+        "message": "$contact$ bude moci upravovat tuto skupinu a její členy.",
+        "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Homer"
+            }
+        }
+    },
+    "ContactModal--rm-admin-info": {
+        "message": "Odstranit $contact$ jako správce skupiny",
+        "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Homer"
+            }
+        }
+    },
     "ContactModal--remove-from-group": {
         "message": "Odebrat ze skupiny",
         "description": "Button text for remove from group button in Group Contact Details modal"
+    },
+    "showConversationDetails": {
+        "message": "Nastavení skupiny",
+        "description": "This is a button in the conversation context menu to show group settings"
+    },
+    "ConversationDetails--group-link": {
+        "message": "Odkaz skupiny",
+        "description": "This is the label for the group link management panel"
+    },
+    "ConversationDetails--disappearing-messages-label": {
+        "message": "Mizející zprávy",
+        "description": "This is the label for the disappearing messages setting panel"
+    },
+    "ConversationDetails--disappearing-messages-info": {
+        "message": "Pokud je povoleno, zprávy odeslané a přijaté v této skupině zmizí poté, co budou zobrazeny.",
+        "description": "This is the info about the disappearing messages setting"
+    },
+    "ConversationDetails--group-info-label": {
+        "message": "Kdo může upravovat informace o skupině",
+        "description": "This is the label for the 'who can edit the group' panel"
+    },
+    "ConversationDetails--group-info-info": {
+        "message": "Zvolte, kdo může upravit jméno skupiny, avatar a časovač pro mizející zprávy.",
+        "description": "This is the additional info for the 'who can edit the group' panel"
+    },
+    "ConversationDetails--add-members-label": {
+        "message": "Kdo může přidat členy",
+        "description": "This is the label for the 'who can add members' panel"
+    },
+    "ConversationDetails--add-members-info": {
+        "message": "Vyberte, kdo může přidávat členy do této skupiny.",
+        "description": "This is the additional info for the 'who can add members' panel"
+    },
+    "ConversationDetails--requests-and-invites": {
+        "message": "Požadavky a pozvánky",
+        "description": "This is a button to display which members have been invited but have not joined yet"
+    },
+    "ConversationDetailsActions--leave-group": {
+        "message": "Opustit skupinu",
+        "description": "This is a button to leave a group"
+    },
+    "ConversationDetailsActions--block-group": {
+        "message": "Zablokovat skupinu",
+        "description": "This is a button to block a group"
+    },
+    "ConversationDetailsActions--leave-group-modal-title": {
+        "message": "Opravdu si přejete odejít?",
+        "description": "This is the modal title for confirming leaving a group"
+    },
+    "ConversationDetailsActions--leave-group-modal-content": {
+        "message": "Nebudete dále moci odesílat nebo přijímat zprávy v této skupině.",
+        "description": "This is the modal content for confirming leaving a group"
+    },
+    "ConversationDetailsActions--leave-group-modal-confirm": {
+        "message": "Opustit",
+        "description": "This is the modal button to confirm leaving a group"
+    },
+    "ConversationDetailsActions--block-group-modal-title": {
+        "message": "Zablokovat a opustit skupinu \"$groupName$\"?",
+        "description": "This is the modal title for confirming blocking a group",
+        "placeholders": {
+            "groupName": {
+                "content": "$1",
+                "example": "Our Conversation"
+            }
+        }
+    },
+    "ConversationDetailsActions--block-group-modal-content": {
+        "message": "Již nebudete přijímat zprávy a aktualizace od této skupiny.",
+        "description": "This is the modal content for confirming blocking a group"
+    },
+    "ConversationDetailsActions--block-group-modal-confirm": {
+        "message": "Zablokovat",
+        "description": "This is the modal button to confirm blocking a group"
+    },
+    "ConversationDetailsHeader--members": {
+        "message": "$number$ členů",
+        "description": "This is the number of members in a group",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
+    "ConversationDetailsMediaList--shared-media": {
+        "message": "Sdílená média",
+        "description": "Title for the media thumbnails in the conversation details screen"
+    },
+    "ConversationDetailsMediaList--show-all": {
+        "message": "Zobrazit vše",
+        "description": "This is a button on the conversation details to show all media"
+    },
+    "ConversationDetailsMembershipList--title": {
+        "message": "$number$ členů",
+        "description": "The title of the membership list panel",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
+    "ConversationDetailsMembershipList--show-all": {
+        "message": "Zobrazit vše",
+        "description": "This is a button on the conversation details to show all members"
+    },
+    "GroupLinkManagement--clipboard": {
+        "message": "Odkaz skupiny zkopírován.",
+        "description": "Shown in a toast when a user selects to copy group link"
+    },
+    "GroupLinkManagement--share": {
+        "message": "Zkopírovat odkaz",
+        "description": "This lets users share their group link"
+    },
+    "GroupLinkManagement--confirm-reset": {
+        "message": "Opravdu chcete obnovit odkaz skupiny? Pomocí současného odkazu se pak už lidé nebudou schopni ke skupině připojit.",
+        "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
+    },
+    "GroupLinkManagement--reset": {
+        "message": "Obnovit odkaz",
+        "description": "This lets users generate a new group link"
+    },
+    "GroupLinkManagement--approve-label": {
+        "message": "Schválit nové členy",
+        "description": "Title for the approve new members select area"
+    },
+    "GroupLinkManagement--approve-info": {
+        "message": "Požadovat, aby správce schválil nové členy, kteří se připojí pomocí odkazu skupiny",
+        "description": "Description for the approve new members select area"
+    },
+    "PendingInvites--tab-requests": {
+        "message": "Požadavky ($count$)",
+        "description": "Label for the tab to view pending requests",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "4"
+            }
+        }
+    },
+    "PendingInvites--tab-invites": {
+        "message": "Pozvánky ($count$)",
+        "description": "Label for the tab to view pending invites",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "PendingRequests--approve-for": {
+        "message": "Schválit žádost od \"$name$\"?",
+        "description": "This is the modal content when confirming approving a group request to join",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Meowsy Purrington"
+            }
+        }
+    },
+    "PendingRequests--deny-for": {
+        "message": "Zamítnout žádost od \"$name$\"?",
+        "description": "This is the modal content when confirming denying a group request to join",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Meowsy Purrington"
+            }
+        }
+    },
+    "PendingInvites--invites": {
+        "message": "Pozváni vámi",
+        "description": "This is the title list of all invites"
+    },
+    "PendingInvites--invited-by-you": {
+        "message": "Pozváni vámi",
+        "description": "This is the title for the list of members you have invited"
+    },
+    "PendingInvites--invited-by-others": {
+        "message": "Pozváni ostatními",
+        "description": "This is the title for the list of members who have invited other people"
+    },
+    "PendingInvites--invited-count": {
+        "message": "Pozváno $number$",
+        "description": "This is the label for the number of members someone has invited",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "PendingInvites--revoke-for-label": {
+        "message": "Zrušit pozvání do skupiny",
+        "description": "This is aria label for revoking a group invite icon"
+    },
+    "PendingInvites--revoke-for": {
+        "message": "Zrušit pozvání do skupiny pro \"$name$\"?",
+        "description": "This is the modal content when confirming revoking a single invite",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "3"
+            },
+            "name": {
+                "content": "$2",
+                "example": "Fred Riley III"
+            }
+        }
+    },
+    "PendingInvites--revoke-from-singular": {
+        "message": "Zrušit 1 pozvánku od \"$name$\"?",
+        "description": "This is the modal content when confirming revoking a single invite",
+        "placeholders": {
+            "name": {
+                "content": "$2",
+                "example": "Fred Riley III"
+            }
+        }
+    },
+    "PendingInvites--revoke-from-plural": {
+        "message": "Zrušit $number$ pozvánek od \"$name$\"",
+        "description": "This is the modal content when confirming revoking multiple invites",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "3"
+            },
+            "name": {
+                "content": "$2",
+                "example": "Fred Riley III"
+            }
+        }
+    },
+    "PendingInvites--revoke": {
+        "message": "Zrušit",
+        "description": "This is the modal button to confirm revoking invites"
+    },
+    "PendingRequests--approve": {
+        "message": "Schválit žádost",
+        "description": "This is the modal button to approve group request to join"
+    },
+    "PendingRequests--deny": {
+        "message": "Zamítnout požadavek",
+        "description": "This is the modal button to deny group request to join"
+    },
+    "PendingRequests--info": {
+        "message": "Lidé na tomto seznamu se snaží připojit ke skupině \"$name$\" pomocí odkazu skupiny.",
+        "description": "Inforamtion shown below the pending admin approval list",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Tahoe List"
+            }
+        }
+    },
+    "PendingInvites--info": {
+        "message": "Detaily o uživatelích pozvaných do skupiny se nezobrazí, dokud se nepřipojí. Pozvaní uvidí zprávy až poté, co se připojí ke skupině.",
+        "description": "Information shown below the invite list"
     }
 }

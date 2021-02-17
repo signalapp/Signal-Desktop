@@ -3206,11 +3206,11 @@
         "description": "Title for picture-in-picture toggle"
     },
     "calling__switch-view--to-grid": {
-        "message": "Basculer vers la vue en grille",
+        "message": "Afficher une vue en grille",
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__switch-view--to-speaker": {
-        "message": "Basculer vers la personne qui parle",
+        "message": "Afficher la personne qui parle",
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__hangup": {
@@ -3614,7 +3614,7 @@
         }
     },
     "GroupV2--access-invite-link--enabled--unknown": {
-        "message": "L’approbation d’un administrateur a été désactivée pour le lien du groupe.",
+        "message": "L’approbation d’un administrateur pour le lien du groupe a été activée.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {

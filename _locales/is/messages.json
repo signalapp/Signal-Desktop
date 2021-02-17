@@ -1,190 +1,190 @@
 {
     "softwareAcknowledgments": {
-        "message": "Software Acknowledgments",
+        "message": "Þakkir vegna hugbúnaðar",
         "description": "Shown in the about box for the link to software acknowledgments"
     },
     "privacyPolicy": {
-        "message": "Terma & Dasar Privasi",
+        "message": "Skilmálar og meðferð persónuupplýsinga",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
     "copyErrorAndQuit": {
-        "message": "Ralat menyalin dan berhenti",
+        "message": "Afrita villu og hætta",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
     "unknownContact": {
-        "message": "Unknown contact",
+        "message": "Óþekktur tengiliður",
         "description": "Shown as the name of a contact if we don't have any displayable information about them"
     },
     "unknownGroup": {
-        "message": "Kumpulan tidak diketahui",
+        "message": "Óþekktur hópur",
         "description": "Shown as the name of a group if we don't have any information about it"
     },
     "databaseError": {
-        "message": "Ralat Pangkalan Data",
+        "message": "Gagnagrunnsvilla",
         "description": "Shown in a popup if the database cannot start up properly"
     },
     "deleteAndRestart": {
-        "message": "Padam semua dan mula semula",
+        "message": "Eyða öllum gögnum og endurræsa",
         "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
     },
     "mainMenuFile": {
-        "message": "&Fail",
+        "message": "&Skrá",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuCreateStickers": {
-        "message": "Create/upload sticker pack",
+        "message": "Búa til/Senda inn límmerkjapakka",
         "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
-        "message": "&Edit",
+        "message": "Br&eyta",
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuView": {
-        "message": "&Lihat",
+        "message": "S&koða",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuWindow": {
-        "message": "%Tetingkap",
+        "message": "&Gluggi",
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuHelp": {
-        "message": "&Bantu",
+        "message": "&Hjálp",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
-        "message": "Pilihan...",
+        "message": "Kjörstillingar…",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuHide": {
-        "message": "Sembunyikan",
+        "message": "Fela",
         "description": "Application menu command to hide the window"
     },
     "appMenuHideOthers": {
-        "message": "Sembunyikan Lain-lain",
+        "message": "Fela annað",
         "description": "Application menu command to hide all other windows"
     },
     "appMenuUnhide": {
-        "message": "Papar Semua",
+        "message": "Birta allt",
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Keluar Signal",
+        "message": "Hætta í Signal",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
-        "message": "Buat Asal",
+        "message": "Afturkalla",
         "description": "Edit menu command to remove recently-typed text"
     },
     "editMenuRedo": {
-        "message": "Buat Semula",
+        "message": "Endurgera",
         "description": "Edit menu command to restore previously undone typed text"
     },
     "editMenuCut": {
-        "message": "Potong",
+        "message": "Klippa",
         "description": "Edit menu command to remove selected text and add it to clipboard"
     },
     "editMenuCopy": {
-        "message": "Salin",
+        "message": "Afrita",
         "description": "Edit menu command to add selected text to clipboard"
     },
     "editMenuPaste": {
-        "message": "Tampal",
+        "message": "Líma",
         "description": "Edit menu command to insert text from clipboard at cursor location"
     },
     "editMenuPasteAndMatchStyle": {
-        "message": "Tampal dan Padankan Gaya",
+        "message": "Líma og samsvara stíl",
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
-        "message": "Padam",
+        "message": "Eyða",
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
-        "message": "Pilih Semua",
+        "message": "Velja allt",
         "description": "Edit menu command to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
-        "message": "Mula bercakap",
+        "message": "Hefja tal",
         "description": "Edit menu item under 'speech' to start dictation"
     },
     "editMenuStopSpeaking": {
-        "message": "Henti bercakap",
+        "message": "Stöðva tal",
         "description": "Edit menu item under 'speech' to stop dictation"
     },
     "windowMenuClose": {
-        "message": "Tutup Tetingkap",
+        "message": "Loka glugga",
         "description": "Window menu command to close the current window"
     },
     "windowMenuMinimize": {
-        "message": "Minimumkan",
+        "message": "Lágmarka",
         "description": "Window menu command to minimize the current window"
     },
     "windowMenuZoom": {
-        "message": "Zum",
+        "message": "Aðdráttur",
         "description": "Window menu command to make the current window the size of the whole screen"
     },
     "windowMenuBringAllToFront": {
-        "message": "Bawakan Semua Ke Hadapan",
+        "message": "Setja allt fremst",
         "description": "Window menu command to bring all windows of current application to front"
     },
     "viewMenuResetZoom": {
-        "message": "Saiz Sebenar",
+        "message": "Raunstærð",
         "description": "View menu command to go back to the default zoom"
     },
     "viewMenuZoomIn": {
-        "message": "Zum Masuk",
+        "message": "Renna að",
         "description": "View menu command to make everything bigger"
     },
     "viewMenuZoomOut": {
-        "message": "Zum Keluar",
+        "message": "Renna frá",
         "description": "View menu command to make everything smaller"
     },
     "viewMenuToggleFullScreen": {
-        "message": "Togol Skrin Penuh",
+        "message": "Víxla skjáfylli af/á",
         "description": "View menu command to enter or leave Full Screen mode"
     },
     "viewMenuToggleDevTools": {
-        "message": "Togol Alat Pembangunan",
+        "message": "Víxla forritaratólum af/á",
         "description": "View menu command to show or hide the developer tools"
     },
     "menuSetupAsNewDevice": {
-        "message": "Pasang sebagai Peranti Baru",
+        "message": "Setja upp sem nýtt tæki",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "menuSetupAsStandalone": {
-        "message": "Pasang sebagai Peranti Kendiri",
+        "message": "Setja upp sem sjálfstætt tæki",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "messageContextMenuButton": {
-        "message": "More actions",
+        "message": "Fleiri aðgerðir",
         "description": "Label for context button next to each message"
     },
     "contextMenuCopyLink": {
-        "message": "Salin Pautan",
+        "message": "Afrita tengil",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
     "contextMenuCopyImage": {
-        "message": "Copy Image",
+        "message": "Afrita mynd",
         "description": "Shown in the context menu for an image to indicate that the user can copy the image"
     },
     "contextMenuNoSuggestions": {
-        "message": "No Suggestions",
+        "message": "Engar tillögur",
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
     },
     "avatarMenuViewArchive": {
-        "message": "Lihat Arkib",
+        "message": "Skoða safn",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
-        "message": "Memuatkan...",
+        "message": "Hleð inn...",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
-        "message": "Mengoptimumkan aplikasi...",
+        "message": "Besta forritið...",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
-        "message": "Mengoptimumkan mesej... $status$ selesai.",
+        "message": "Besta skilaboð... $status$ lokið.",
         "description": "Message shown on the loading screen while we are doing application optimizations",
         "placeholders": {
             "status": {
@@ -194,107 +194,107 @@
         }
     },
     "archivedConversations": {
-        "message": "Perbualan Diarkibkan",
+        "message": "Samtöl í safni",
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "LeftPane--pinned": {
-        "message": "Pinned",
+        "message": "Fest",
         "description": "Shown as a header for pinned conversations in the left pane"
     },
     "LeftPane--chats": {
-        "message": "Sembang",
+        "message": "Spjöll",
         "description": "Shown as a header for non-pinned conversations in the left pane"
     },
     "archiveHelperText": {
-        "message": "Perbualan ini diarkibkan dan hanya akan muncul dalam Peti Masuk jika mesej baru diterima.",
+        "message": "These conversations are archived and will only appear in the Inbox if new messages are received.",
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
-        "message": "Arkib",
+        "message": "Safn",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "markUnread": {
-        "message": "Mark as unread",
+        "message": "Merkja sem ólesið",
         "description": "Shown in menu for conversation, and marks conversation as unread"
     },
     "moveConversationToInbox": {
-        "message": "Nyaharkib",
+        "message": "Taka úr geymslu",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
-        "message": "Pin Conversation",
+        "message": "Festa samtal",
         "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
     },
     "unpinConversation": {
-        "message": "Unpin Conversation",
+        "message": "Losa samtal",
         "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
     },
     "pinnedConversationsFull": {
-        "message": "You can only pin up to 4 chats",
+        "message": "Aðeins hægt að festa allt að 4 samtöl",
         "description": ""
     },
     "chooseDirectory": {
-        "message": "Memilih folder",
+        "message": "Veldu möppu",
         "description": "Button to allow the user to find a folder on disk"
     },
     "chooseFile": {
-        "message": "Pilih fail",
+        "message": "Veldu skrá",
         "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
-        "message": "Muatkan data anda",
+        "message": "Hlaða inn gögnunum þínum",
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Anda baru sahaja melalui proses eksport, dan kenalan dan mesej anda menunggu dengan sabar di komputer anda. Pilih folder yang mengandungi data Signal anda yang disimpan.",
+        "message": "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Signal data.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
-        "message": "Pilih direktori dengan data dieksport",
+        "message": "Veldu möppu með útfluttum gögnum",
         "description": "Title of the popup window used to select data previously exported"
     },
     "importErrorHeader": {
-        "message": "Ada yang tidak kena!",
+        "message": "Eitthvað fór úrskeiðis!",
         "description": "Header of the error screen after a failed import"
     },
     "importingHeader": {
-        "message": "Memuatkan kenalan dan mesej",
+        "message": "Hleð tengiliðum og skilaboðum",
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Pastikan anda telah memilih direktori betul yang mengandungi data Signal anda yang disimpan. Namanya hendaklah bermula dengan 'Eksport Signal.' Anda juga boleh menyimpan salinan baru data anda daripada Aplikasi Chrome.",
+        "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "Jika langkah-langkah ini tidak berfungsi untuk anda, sila serahkan log nyahpepijat (Lihat -> Log Nyahpepijat) supaya kami dapat membantu anda berpindah!",
+        "message": "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
-        "message": "Pilih folder dan cuba lagi",
+        "message": "Veldu möppu og reyndu aftur",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "importCompleteHeader": {
-        "message": "Berjaya!",
+        "message": "Tókst!",
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Mula menggunakan Signal Desktop",
+        "message": "Byrja að nota Signal Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
-        "message": "Pautkan peranti ini pada telefon anda",
+        "message": "Tengja þetta tæki við símann þinn",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "selectedLocation": {
-        "message": "lokasi dipilih anda",
+        "message": "valin staðsetning",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
-        "message": "Menaik taraf pangkalan data. Ini akan mengambil sedikit masa...",
+        "message": "Uppfæri gagnagrunn. Þetta getur tekið smá tíma...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
-        "message": "Memuatkan mesej. $count$ setakat ini...",
+        "message": "Hleð inn skilaboðum. $count$ þegar hlaðin...",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -304,31 +304,31 @@
         }
     },
     "view": {
-        "message": "Lihat",
+        "message": "Skoða",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "You are no longer a member of the group.",
+        "message": "Þú ert ekki lengur meðlimur í þessum hóp.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "invalidConversation": {
-        "message": "This group is invalid. Please create a new group.",
+        "message": "Þessi hópur er ekki gildur. Útbúðu nýjan hóp.",
         "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
     },
     "scrollDown": {
-        "message": "Tatal ke bawah perbualan",
+        "message": "Skruna neðst í samtal",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "messagesBelow": {
-        "message": "Mesej-mesej baru di bawah",
+        "message": "Ný skilaboð fyrir neðan",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
-        "message": "1 Mesej Belum Dibaca",
+        "message": "1 ólesin skilaboð",
         "description": "Text for unread message separator, just one message"
     },
     "unreadMessages": {
-        "message": "$count$ Mesej Belum Dibaca",
+        "message": "$count$ ólesin skilaboð",
         "description": "Text for unread message separator, with count",
         "placeholders": {
             "count": {
@@ -338,11 +338,11 @@
         }
     },
     "messageHistoryUnsynced": {
-        "message": "For your security, conversation history isn't transferred to new linked devices.",
+        "message": "Af öryggisástæðum er ferill samtala ekki yfirfærður á nýtengd tæki.",
         "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
-        "message": "Anda telah menandakan sah kepada nombor keselamatan anda dengan $name$.",
+        "message": "Þú merktir öryggisnúmer þitt með $name$ sem sannreynt",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -352,7 +352,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "Anda telah menandakan tak sah kepada Nombor Keselamatan anda dengan $name$.",
+        "message": "Þú merktir öryggisnúmer þitt með $name$ sem ekki sannreynt",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -362,7 +362,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "Anda telah menandakan sah kepada Nombor Keselamatan anda dengan $name$ daripada peranti lain",
+        "message": "Þú merktir öryggisnúmer þitt með $name$ sem sannreynt á öðru tæki",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -372,7 +372,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Anda telah menandakan tak sah kepada Nombor Keselamatan anda dengan $name$ daripada peranti lain",
+        "message": "Þú merktir öryggisnúmer þitt með $name$ sem ekki sannreynt á öðru tæki",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -382,7 +382,7 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Nombor keselamatan anda dengan ahli-ahli kumpulan ini telah berubah sejak kali terakhir anda disahkan. Klik ahli kumpulan untuk melihat nombor keselamatan anda dengan mereka.",
+        "message": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
@@ -418,19 +418,19 @@
         }
     },
     "sendAnyway": {
-        "message": "Hantar Juga",
+        "message": "Senda samt",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "callAnyway": {
-        "message": "Panggil Juga",
+        "message": "hringja samt",
         "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
     },
     "continueCall": {
-        "message": "Continue Call",
+        "message": "Halda áfram með símtal",
         "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
-        "message": "Nombor keselamatan anda dengan $name$ telah ditukar dan tidak lagi disahkan. Klik untuk memaparkan.",
+        "message": "Öryggisnúmer þitt með $name$ hefur breyst og er ekki lengur staðfest. Smelltu til að birta.",
         "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -440,55 +440,55 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "Nombor keselamatan dengan pelbagai ahli pada kumpulan ini telah berubah dan tidak lagi disahkan. Klik untuk paparkan.",
+        "message": "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Log ini akan dihantarskan secara terbuka dalam talian untuk penyumbang lihat, anda boleh memeriksa dan mengeditnya sebelum menghantar.",
+        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
         "description": ""
     },
     "debugLogError": {
-        "message": "Sesuatu yang tidak kena berlaku dengan muat naik! Sila pertimbangkan menambah log anda secara manual kepada pepijat yang anda failkan.",
+        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
         "description": ""
     },
     "debugLogCopy": {
-        "message": "Salin",
+        "message": "Afrita",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopyAlt": {
-        "message": "Copy link to your clipboard",
+        "message": "Afrita tengil á klippispjaldið þitt",
         "description": "Shown as the alt text for the copy button on the debug log screen"
     },
     "debugLogLinkCopied": {
-        "message": "Link Copied to Your Clipboard",
+        "message": "Tengill afritaður á klippispjald",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
-        "message": "Laporkan isu",
+        "message": "Tilkynna um vandamál",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
-        "message": "Faham!",
+        "message": "Náði því!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "submit": {
-        "message": "Hantar",
+        "message": "Senda inn",
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Terima",
+        "message": "Samþykkja",
         "description": "Label for a button to accept a new safety number"
     },
     "verify": {
-        "message": "Tanda sebagai disahkan",
+        "message": "Merkja sem staðfest",
         "description": ""
     },
     "unverify": {
-        "message": "Tanda sebagai tidah disahkan",
+        "message": "Merkja sem óstaðfest",
         "description": ""
     },
     "isVerified": {
-        "message": "Anda telah menentusahkan nombor keselamatan anda dengan $name$.",
+        "message": "Þú hefur staðfest öryggisnúmer þitt og $name$.",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -498,7 +498,7 @@
         }
     },
     "isNotVerified": {
-        "message": "Anda tidak menentusahkan nombor keselamatan anda dengan $name$.",
+        "message": "Þú hefur ekki staðfest öryggisnúmer þitt og $name$.",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -508,83 +508,83 @@
         }
     },
     "verified": {
-        "message": "Disahkan",
+        "message": "Sannreynt",
         "description": ""
     },
     "newIdentity": {
-        "message": "Nombor selamat baru",
+        "message": "Nýtt öryggisnúmer",
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "Nombor keselamatan dengan kenalan ini telah berubah. Ini bermaksud sama ada seseorang sedang cuba untuk memintas komunikasi anda atau kenalan ini cuma memasang semula Signal. Anda mungkin ingin mengesahkan nombor keselamatan baru di bawah ini.",
+        "message": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below.",
         "description": ""
     },
     "incomingError": {
-        "message": "Ralat mengendalikan mesej masuk",
+        "message": "Villa við að meðhöndla skilaboð sem bárust",
         "description": ""
     },
     "media": {
-        "message": "Media",
+        "message": "Gögn",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
-        "message": "Anda tidak mempunyai sebarang media dalam perbualan ini",
+        "message": "Þú átt ekkert myndefni í þessu samtali",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "allMedia": {
-        "message": "Semua Media",
+        "message": "Allt myndefni",
         "description": "Header for the media gallery"
     },
     "documents": {
-        "message": "Dokumen",
+        "message": "Skjöl",
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "documentsEmptyState": {
-        "message": "Anda tidak mempunyai sebarang dokumen dalam perbualan ini",
+        "message": "Þú átt engin skjöl í þessu spjalli",
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "today": {
-        "message": "Hari ini",
+        "message": "Í dag",
         "description": "Section header in the media gallery"
     },
     "yesterday": {
-        "message": "Semalam",
+        "message": "Í gær",
         "description": "Section header in the media gallery"
     },
     "thisWeek": {
-        "message": "Minggu Ini",
+        "message": "Í þessari viku",
         "description": "Section header in the media gallery"
     },
     "thisMonth": {
-        "message": "Bulan Ini",
+        "message": "Í þessum mánuði",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
-        "message": "Jenis lampiran yang tidak disokong. Klik untuk menyimpan.",
+        "message": "Enginn stuðningur við tegund viðhengis. Smelltu til að vista.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "clickToSave": {
-        "message": "Klik untuk menyimpan",
+        "message": "Smelltu til að vista",
         "description": "Hover text for attachment filenames"
     },
     "unnamedFile": {
-        "message": "Fail tidak dinamakan",
+        "message": "Nafnlaus skrá",
         "description": "Hover text for attachment filenames"
     },
     "voiceMessage": {
-        "message": "Mesej Suara",
+        "message": "Talskilaboð",
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
-        "message": "Lampiran tidak dibenarkan atas sebab keselamatan",
+        "message": "Tegund viðhengis ekki leyft af öryggisástæðu",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "Memuatkan pratonton...",
+        "message": "Hleð inn forskoðun",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Pratonton pautan imej kecil draf untuk $domain$",
+        "message": "Drög að smámynd forskoðunar tengils fyrir $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -594,7 +594,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "Pratonton pautan imej kecil untuk $domain$",
+        "message": "Smámynd forskoðunar tengils fyrir $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -604,7 +604,7 @@
         }
     },
     "stagedImageAttachment": {
-        "message": "Lampiran imej draf:$path$",
+        "message": "Drög að myndaviðhengi: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -614,107 +614,107 @@
         }
     },
     "oneNonImageAtATimeToast": {
-        "message": "Apabila termasuk lampiran bukan imej, had adalah satu lampiran bagi setiap mesej.",
+        "message": "Þegar viðhengi er ekki mynd er fjöldi takmarkaður við eitt stk. per skilaboð.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAndNonImageAttachments": {
-        "message": "Anda tidak boleh menggabungkan lampiran bukan imej dan imej dalam satu mesej.",
+        "message": "Ekki er hægt að blanda saman myndum og annars konar viðhengum á sama tíma.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
-        "message": "Anda tidak boleh menambah lampiran lagi pada mesej ini.",
+        "message": "Þú getur ekki bætt við fleiri viðhengum við þessi skilaboð.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
-        "message": "Maaf, fail yang dipilih melebihi sekatan saiz mesej.",
+        "message": "Því miður þá er stærð viðhengis meiri en er leyft.",
         "description": ""
     },
     "unableToLoadAttachment": {
-        "message": "Tidak dapat memuatkan lampiran yang dipilih.",
+        "message": "Ekki hægt að hlaða þessu viðhengi.",
         "description": ""
     },
     "disconnected": {
-        "message": "Terputus sambungan",
+        "message": "Aftengt",
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Menyambung",
+        "message": "Tengist",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Connect",
+        "message": "Tengja",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Shouldn't be long...",
+        "message": "Ætti ekki að taka langan tíma...",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
-        "message": "Luar talian",
+        "message": "Ónettengt",
         "description": "Displayed when the desktop client has no network connection."
     },
     "checkNetworkConnection": {
-        "message": "Semak sambungan rangkaian anda.",
+        "message": "Athugaðu netsambandið þitt.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "submitDebugLog": {
-        "message": "Log Nyahpepijat",
+        "message": "Villumeldingaskrá",
         "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
-        "message": "Log Nyahpepijat",
+        "message": "Villumeldingaskrá",
         "description": "View menu item to open the debug log (title case)"
     },
     "helpMenuShowKeyboardShortcuts": {
-        "message": "Show Keyboard Shortcuts",
+        "message": "Birta flýtivísanir á lyklaborði",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
     "contactUs": {
-        "message": "Hubungi Kami",
+        "message": "Hafðu samband við okkur",
         "description": "Item under the help menu, takes you to the contact us support page"
     },
     "goToReleaseNotes": {
-        "message": "Pergi ke Nota Keluaran",
+        "message": "Fara í útgáfuupplýsingar",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
     },
     "goToForums": {
-        "message": "Pergi ke Forum",
+        "message": "Fara á spjallsvæði",
         "description": "Item under the Help menu, takes you to the forums"
     },
     "goToSupportPage": {
-        "message": "Pergi ke Halaman Sokongan",
+        "message": "Fara á hjálparsíðu",
         "description": "Item under the Help menu, takes you to the support page"
     },
     "joinTheBeta": {
-        "message": "Join the Beta",
+        "message": "Taka þátt í Beta-prófunum",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
-        "message": "Pilihan Signal Desktop",
+        "message": "Kjörstillingar Signal Desktop",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
-        "message": "Sticker pack creator",
+        "message": "Höfundur límmerkjapakka",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "Perihal Signal Desktop",
+        "message": "Um Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
-        "message": "Pertuturan",
+        "message": "Tal",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
     "show": {
-        "message": "Papar",
+        "message": "Birta",
         "description": "Command under Window menu, to show the window"
     },
     "hide": {
-        "message": "Sembunyikan",
+        "message": "Fela",
         "description": "Command in the tray icon menu, to hide the window"
     },
     "quit": {
-        "message": "Henti",
+        "message": "Hætta",
         "description": "Command in the tray icon menu, to quit the application"
     },
     "signalDesktop": {
@@ -722,15 +722,15 @@
         "description": "Tooltip for the tray icon"
     },
     "search": {
-        "message": "Cari",
+        "message": "Leita",
         "description": "Placeholder text in the search input"
     },
     "clearSearch": {
-        "message": "Clear Search",
+        "message": "Hreinsa leit",
         "description": "Aria label for clear search button"
     },
     "searchIn": {
-        "message": "Cari dalam $conversationName$",
+        "message": "Leita í $conversationName$",
         "description": "Shown in the search box before text is entered when searching in a specific conversation",
         "placeholders": {
             "conversationName": {
@@ -740,7 +740,7 @@
         }
     },
     "noSearchResults": {
-        "message": "Tiada keputusan untuk \"$searchTerm$\"",
+        "message": "Engin niðurstaða fyrir \"$searchTerm$\"",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -750,7 +750,7 @@
         }
     },
     "noSearchResultsInConversation": {
-        "message": "Tiada keputusan untuk \"$searchTerm$\" dalam $conversationName$",
+        "message": "Engin niðurstaða fyrir \"$searchTerm$\" í $conversationName$",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -764,35 +764,35 @@
         }
     },
     "conversationsHeader": {
-        "message": "Perbualan",
+        "message": "Samtöl",
         "description": "Shown to separate the types of search results"
     },
     "contactsHeader": {
-        "message": "Kenalan",
+        "message": "Tengiliðir",
         "description": "Shown to separate the types of search results"
     },
     "messagesHeader": {
-        "message": "Mesej",
+        "message": "Skilaboð",
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSignal": {
-        "message": "Selamat datang ke Signal",
+        "message": "Velkomin í Signal",
         "description": ""
     },
     "selectAContact": {
-        "message": "Pilih satu kenalan atau kumpulan untuk mula bersembang.",
+        "message": "Velja tengilið eða hóp til að hefja spjall.",
         "description": ""
     },
     "typingAlt": {
-        "message": "Menaip animasi untuk perbualan ini",
+        "message": "Hreyfimynd með framvindu ritunar í þessu samtali",
         "description": "Used as the 'title' attribute for the typing animation"
     },
     "contactInAddressBook": {
-        "message": "This person is in your contacts.",
+        "message": "Þessi einstaklingur er í tengiliðum þínum.",
         "description": "Description of icon denoting that contact is from your address book"
     },
     "contactAvatarAlt": {
-        "message": "Avatar untuk kenalan $name$",
+        "message": "Auðkennismynd fyrir tengiliðinn $name$",
         "description": "Used in the alt tag for the image avatar of a contact",
         "placeholders": {
             "name": {
@@ -802,83 +802,83 @@
         }
     },
     "sendMessageToContact": {
-        "message": "Hantar Mesej",
+        "message": "Senda skilaboð",
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
-        "message": "rumah",
+        "message": "heim",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "work": {
-        "message": "kerja",
+        "message": "vinna",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "mobile": {
-        "message": "telefon bimbit",
+        "message": "farsími",
         "description": "Shown on contact detail screen as a label for aa phone or email"
     },
     "email": {
-        "message": "e-mel",
+        "message": "tölvupóstur",
         "description": "Generic label shown if contact email has custom type but no label"
     },
     "phone": {
-        "message": "telefon",
+        "message": "Símar",
         "description": "Generic label shown if contact phone has custom type but no label"
     },
     "address": {
-        "message": "alamat",
+        "message": "vistfang",
         "description": "Generic label shown if contact address has custom type but no label"
     },
     "poBox": {
-        "message": "Peti Surat",
+        "message": "Pósthólf",
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloading": {
-        "message": "Memuat Turun",
+        "message": "Sæki gögn",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
     "downloadAttachment": {
-        "message": "Muat Turun Lampiran",
+        "message": "Sækja viðhengi",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "reactToMessage": {
-        "message": "React to Message",
+        "message": "Bregðast við skilaboðum",
         "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
     },
     "replyToMessage": {
-        "message": "Balas Mesej",
+        "message": "Svara skilaboðum",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
-        "message": "Mesej asal tidak dijumpai",
+        "message": "Upphafleg skilaboð finnast ekki",
         "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
     },
     "originalMessageNotAvailable": {
-        "message": "Mesej asal tidak lagi tersedia",
+        "message": "Upphafleg skilaboð ekki fáanleg",
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
-        "message": "Mesej asal dijumpai, tetapi tidak dimuatkan. Tatal ke atas untuk memuatkannya.",
+        "message": "Upphafleg skilaboð fundin, en ekki hlaðin. Flettu upp til að hlaða þeim.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceRecordingInterruptedMax": {
-        "message": "Voice message recording stopped because the maximum time limit was reached.",
+        "message": "Upptöku hljóðskilaboða hætt þar sem hámarks tíma var náð.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
     },
     "voiceRecordingInterruptedBlur": {
-        "message": "Voice message recording stopped because you switched to another app.",
+        "message": "Upptöku hljóðskilaboða hætt þar sem þú skiptir yfir í annað forrit.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Voice messages are limited to five minutes. Recording will stop if you switch to another app.",
+        "message": "Tími hljóðskilaboða er takmarkaður við fimm mínútur. Upptöku verður hætt ef þú skiptir yfir í annað forrit.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "A voice message must have only one attachment.",
+        "message": "Hljóðskilaboð geta aðeins haft eitt viðhengi.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "attachmentSaved": {
-        "message": "Attachment saved. Click to show in folder.",
+        "message": "Viðhengi vistað. Smelltu til að skoða í möppu.",
         "description": "Shown after user selects to save to downloads",
         "placeholders": {
             "name": {
@@ -888,11 +888,11 @@
         }
     },
     "you": {
-        "message": "Anda",
+        "message": "Þú",
         "description": "Shown when the user represented is the current user."
     },
     "replyingTo": {
-        "message": "Membalas kepada $name$",
+        "message": "Svarar $name$",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -902,39 +902,39 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "Untuk menghantar mesej audio, benarkan Signal Desktop untuk mengakses mikrofon anda.",
+        "message": "Svo hægt sé að senda hljóðskilaboð þarf Signal Desktop að fá aðgang að hljóðnemanum þínum.",
         "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
-        "message": "For calling, you must allow Signal Desktop to access your microphone.",
+        "message": "Svo hægt sé að hringja þarf Signal Desktop að fá aðgang að hljóðnemanum þínum.",
         "description": "Shown if the user attempts access the microphone for calling without audio permissions turned on"
     },
     "videoCallingPermissionNeeded": {
-        "message": "For video calling, you must allow Signal Desktop to access your camera.",
+        "message": "Svo hægt sé að hringa myndsímtal þarf Signal Desktop aðgang að myndavélinni þinni.",
         "description": "Shown if the user attempts access the camera for video calling without video permissions turned on"
     },
     "allowAccess": {
-        "message": "Benarkan Capaian",
+        "message": "Gefa aðgang",
         "description": "Button shown in popup asking to enable microphone/video permissions to send audio messages"
     },
     "showSettings": {
-        "message": "Paparkan Tetapan",
+        "message": "Sýna stillingar",
         "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
-        "message": "Audio`",
+        "message": "Hljóð",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "video": {
-        "message": "Video",
+        "message": "Myndskeið",
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "photo": {
-        "message": "Foto",
+        "message": "Ljósmynd",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "cannotUpdate": {
-        "message": "Tidak Dapat Kemas Kini",
+        "message": "Get ekki uppfært",
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
@@ -962,43 +962,43 @@
         }
     },
     "ok": {
-        "message": "OK",
+        "message": "Í lagi",
         "description": ""
     },
     "cancel": {
-        "message": "Batal",
+        "message": "Hætta við",
         "description": ""
     },
     "discard": {
-        "message": "Buang",
+        "message": "Henda",
         "description": ""
     },
     "failedToSend": {
-        "message": "Gagal menghantar kepada sesetengah kenalan. Semak sambungan rangkaian anda.",
+        "message": "Mistókst að senda á suma viðtakendur. Athugaðu netsambandið þitt.",
         "description": ""
     },
     "error": {
-        "message": "Ralat",
+        "message": "Villa",
         "description": ""
     },
     "messageDetail": {
-        "message": "Butiran Mesej",
+        "message": "Nánar um skilaboð",
         "description": ""
     },
     "delete": {
-        "message": "Padam",
+        "message": "Eyða",
         "description": ""
     },
     "accept": {
-        "message": "Terima",
+        "message": "Samþykkja",
         "description": ""
     },
     "on": {
-        "message": "Hidup",
+        "message": "Kveikt",
         "description": "Label for when something is turned on"
     },
     "off": {
-        "message": "Mati",
+        "message": "Slökkt",
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
@@ -1006,59 +1006,59 @@
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "Mesej ini akan dipadam untuk semua orang didalam perbualan jika mereka mempunyai versi terkini aplikasi Signal. Mereka akan dapat melihat bahawa anda telah memadamkan suatu mesej.",
+        "message": "This message will be deleted for everyone in the conversation if they’re on a recent version of Signal. They will be able to see that you deleted a message.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "deleteThisMessage": {
-        "message": "Padam mesej ini",
+        "message": "Eyða þessum skilaboðum",
         "description": ""
     },
     "from": {
-        "message": "Daripada",
+        "message": "Frá",
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "Kepada",
+        "message": "Til",
         "description": "Label for the receiver of a message"
     },
     "toJoiner": {
-        "message": "Kepada",
+        "message": "til",
         "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
     },
     "sent": {
-        "message": "Dihantar",
+        "message": "Sent",
         "description": "Label for the time a message was sent"
     },
     "received": {
-        "message": "Diterima",
+        "message": "Móttekið",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Menghantar mesej",
+        "message": "Senda skilaboð",
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
-        "message": "Ahli kumpulan",
+        "message": "Meðlimir í hópi",
         "description": ""
     },
     "showMembers": {
-        "message": "Paparkan ahli",
+        "message": "Sýna meðlimi",
         "description": ""
     },
     "resetSession": {
-        "message": "Tetapkan semula sesi",
+        "message": "Frumstilla setu",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
-        "message": "Lihat nombor keselamatan",
+        "message": "Skoða öryggisnúmer",
         "description": ""
     },
     "viewRecentMedia": {
-        "message": "View recent media",
+        "message": "Skoða nýlegt efni",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Jika anda ingin mengesahkan keselamatan penyulitan hujung ke hujung anda dengan $name$, bandingkan nombor-nombor di atas ini dengan nombor-nombor pada peranti mereka.",
+        "message": "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",
         "description": "",
         "placeholders": {
             "name": {
@@ -1068,195 +1068,195 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "Anda belum bertukar sebarang mesej dengan kenalan ini lagi. Nombor keselamatan anda dengan mereka akan tersedia selepas mesej pertama.",
+        "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
         "description": ""
     },
     "goBack": {
-        "message": "Go back",
+        "message": "Til baka",
         "description": "Label for back button in a conversation"
     },
     "moreInfo": {
-        "message": "Maklumat Lanjut",
+        "message": "Frekari upplýsingar",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
-        "message": "Cuba Hantar Semula",
+        "message": "Reyna aftur að senda",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Delete message for me",
+        "message": "Eyða skilaboðum hjá mér",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessageForEveryone": {
-        "message": "Delete message for everyone",
+        "message": "Eyða skilaboðum hjá öllum",
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
-        "message": "Padam",
+        "message": "Eyða",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
-        "message": "Padam perbualan ini secara kekal?",
+        "message": "Eyða þessu spjalli varanlega?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
-        "message": "Penetapan semula sesi selamat",
+        "message": "Endurstilling öruggrar setu",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "quoteThumbnailAlt": {
-        "message": "Imej kecil daripada mesej yang dipetik",
+        "message": "Smámynd af mynd úr tilvitnuðum skilaboðum",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
     "imageAttachmentAlt": {
-        "message": "Imej yang dilampirkan kepada mesej",
+        "message": "Mynd hengd við skilaboð",
         "description": "Used in alt tag of image attachment"
     },
     "videoAttachmentAlt": {
-        "message": "Tangkapan skrin video yang dilampirkan kepada mesej",
+        "message": "Skjámynd af myndskeiði hengdu við skilaboð",
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
-        "message": "Imej dihantar dalam perbualan",
+        "message": "Mynd send í skilaboðum",
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "imageCaptionIconAlt": {
-        "message": "Ikon menunjukkan bahawa imej ini mempunyai kapsyen",
+        "message": "Tákn sem sýnir að þessi mynd er með myndatexta",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
     "addACaption": {
-        "message": "Tambah kapsyen...",
+        "message": "Bæta við myndatexta...",
         "description": "Used as the placeholder text in the caption editor text field"
     },
     "save": {
-        "message": "Simpan",
+        "message": "Vista",
         "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
     },
     "fileIconAlt": {
-        "message": "Ikon fail",
+        "message": "Skráartákn",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
-        "message": "Selamat datang ke Signal Desktop",
+        "message": "Velkomin/n í Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
-        "message": "Privasi mampu dicapai. Signal memudahkannya.",
+        "message": "Gagnaleynd er möguleg. Signal gerir hana auðvelda.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "Pautkan telefon anda kepada Signal Desktop",
+        "message": "Tengja símann þinn við Signal Desktop",
         "description": "Shown on the front page when the application first starts, above the QR code"
     },
     "signalSettings": {
-        "message": "Tetapan Signal",
+        "message": "Signal stillingar",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkedDevices": {
-        "message": "Peranti Dipautkan",
+        "message": "Tengd tæki",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "plusButton": {
-        "message": "Butang '+'",
+        "message": "'+' hnappur",
         "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
-        "message": "Pautkan Peranti Baru",
+        "message": "Tengjast nýju tæki",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "deviceName": {
-        "message": "Nama peranti",
+        "message": "Heiti tækis",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
     "chooseDeviceName": {
-        "message": "Pilih nama peranti ini",
+        "message": "Veldu nafn þessa tækis",
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
-        "message": "Selesai memautkan telefon",
+        "message": "Klára að tengja síma",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
-        "message": "Menyegerakkan kenalan dan kumpulan",
+        "message": "Samstilla tengiliði og hópa",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
-        "message": "Gagal menyambung ke pelayan.",
+        "message": "Náði ekki að tengjast netþjóni.",
         "description": "Displayed when we can't connect to the server."
     },
     "installTooManyDevices": {
-        "message": "Maaf, anda mempunyai terlalu banyak peranti dipautkan, cuba alih keluar beberapa",
+        "message": "Því miður ertu þegar með of mörg tæki tengd. Prófaðu að fækka þeim.",
         "description": ""
     },
     "installTooOld": {
-        "message": "Update Signal on this device to link your phone.",
+        "message": "Uppfærðu Signal á þessu tæki til að tengja símann þinn.",
         "description": ""
     },
     "installErrorHeader": {
-        "message": "Ada yang tidak kena!",
+        "message": "Eitthvað fór úrskeiðis!",
         "description": ""
     },
     "installTryAgain": {
-        "message": "Cuba lagi",
+        "message": "Reyndu aftur",
         "description": ""
     },
     "theme": {
-        "message": "Tema",
+        "message": "Þema",
         "description": "Header for theme settings"
     },
     "calling": {
-        "message": "Memanggil",
+        "message": "Hringi",
         "description": "Header for calling options on the settings screen"
     },
     "calling__start": {
-        "message": "Start Call",
+        "message": "Byrja símtal",
         "description": "Button label in the call lobby for starting a call"
     },
     "calling__join": {
-        "message": "Join Call",
+        "message": "Taka þátt í símtali",
         "description": "Button label in the call lobby for joining a call"
     },
     "calling__return": {
-        "message": "Return to Call",
+        "message": "Snúa aftur í símtal",
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__call-is-full": {
-        "message": "Call is full",
+        "message": "Símtal er fullt",
         "description": "Button label in the call lobby when you can't join because the call is full"
     },
     "calling__button--video-disabled": {
-        "message": "Camera disabled",
+        "message": "Myndavél óvirk",
         "description": "Button tooltip label when the camera is disabled"
     },
     "calling__button--video-off": {
-        "message": "Turn off camera",
+        "message": "Slökkva á myndavél",
         "description": "Button tooltip label for turning off the camera"
     },
     "calling__button--video-on": {
-        "message": "Turn on camera",
+        "message": "Kveikja á myndavél",
         "description": "Button tooltip label for turning on the camera"
     },
     "calling__button--audio-disabled": {
-        "message": "Microphone disabled",
+        "message": "Hljóðnemi er óvirkur",
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "Mute mic",
+        "message": "Þagga hljóðnema",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
-        "message": "Unmute mic",
+        "message": "Kveikja á hljóðnema",
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
-        "message": "Your camera is off",
+        "message": "Það er slökkt á myndavél",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__lobby-summary--zero": {
-        "message": "No one else is here",
+        "message": "Það er enginn annar hérna",
         "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--single": {
-        "message": "$first$ is in this call",
+        "message": "$first$ er í símtalinu",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1266,11 +1266,11 @@
         }
     },
     "calling__lobby-summary--self": {
-        "message": "One of your other devices is in this call",
+        "message": "Eitt af hinum tækjum þínum er tengt þessu símtali",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
     "calling__lobby-summary--double": {
-        "message": "$first$ and $second$ are in this call",
+        "message": "$first$ og $second$ eru í símtalinu",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1284,7 +1284,7 @@
         }
     },
     "calling__lobby-summary--triple": {
-        "message": "$first$, $second$, and $third$ are in this call",
+        "message": "$first$, $second$, og $third$ eru í símtalinu  ",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1302,7 +1302,7 @@
         }
     },
     "calling__lobby-summary--many": {
-        "message": "$first$, $second$, and $others$ others are in this call",
+        "message": "$first$, $second$, og $others$ í viðbót eru í símtalinu",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1320,15 +1320,15 @@
         }
     },
     "calling__in-this-call--zero": {
-        "message": "No one else is here",
+        "message": "Það er enginn annar hérna",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
-        "message": "In this call · 1 person",
+        "message": "Í símtalinu er · 1 persóna",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--many": {
-        "message": "In this call · $people$ people",
+        "message": "Í símtalinu eru · $people$ persónur",
         "description": "Shown in the participants list to describe how many people are in the call",
         "placeholders": {
             "people": {
@@ -1338,7 +1338,7 @@
         }
     },
     "calling__you-have-blocked": {
-        "message": "You have blocked $name$",
+        "message": "Þú hefur lokað á $name$",
         "description": "when you block someone and cannot view their video",
         "placeholders": {
             "name": {
@@ -1348,119 +1348,119 @@
         }
     },
     "calling__block-info": {
-        "message": "You won't receive their audio or video and they won't receive yours.",
+        "message": "Þú munt hvorki fá hljóð né video frá þeim né þeir frá þér",
         "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "calling__overflow__scroll-up": {
-        "message": "Scroll up",
+        "message": "Skruna upp",
         "description": "Label for the \"scroll up\" button in a call's overflow area"
     },
     "calling__overflow__scroll-down": {
-        "message": "Scroll down",
+        "message": "Skruna niður",
         "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
     "alwaysRelayCallsDescription": {
-        "message": "Sentiasa menyampaikan panggilan",
+        "message": "Alltaf senda símtal áfram",
         "description": "Description of the always relay calls setting"
     },
     "alwaysRelayCallsDetail": {
-        "message": "Menyampaikan semua panggilan melalui pelayan Signal untuk elak mendedahkan alamat IP anda ke kenalan anda. Mendayakan akan mengurangkan kualiti panggilan.",
+        "message": "Senda símtöl áfram í gegnum netþjóna Signal til að minnka líkur á að þínir tengiliðu geti komist að þinni ip addressu. Að virkja þennan möguleika mun minnka gæði símtals.",
         "description": "Details describing the always relay calls setting"
     },
     "permissions": {
-        "message": "Kebenaran",
+        "message": "Heimildir",
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "Allow access to the microphone",
+        "message": "Leyfa aðgang að hljóðnema",
         "description": "Description of the media permission description"
     },
     "mediaCameraPermissionsDescription": {
-        "message": "Allow access to the camera",
+        "message": "Leyfa aðgang að myndavél",
         "description": "Description of the media permission description"
     },
     "general": {
-        "message": "Umum",
+        "message": "Almennt",
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Dayakan semakan ejaan teks yang dimasukkan dalam kotak komposisi mesej",
+        "message": "Leyfa villupúka að laga texta sem er skrifaður",
         "description": "Description of the media permission description"
     },
     "spellCheckWillBeEnabled": {
-        "message": "Spell check will be enabled the next time Signal starts.",
+        "message": "Villupúki verður vikjaður næst þegar Signal er ræst.",
         "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
     },
     "spellCheckWillBeDisabled": {
-        "message": "Spell check will be disabled the next time Signal starts.",
+        "message": "Villupúki verður óvirkur næst þegar Signal er ræst.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "clearDataHeader": {
-        "message": "Kosongkan Data",
+        "message": "Hreinsa gögn",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "Ini akan mengosongkan semua data dalam aplikasi, mengeluarkan semua mesej dan maklumat akaun yang disimpan.",
+        "message": "Þetta mun hreinsa út öll gögn í forritinu, fjarlægja öll skilaboð og vistaðar upplýsingar í notandasniði.",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
-        "message": "Kosongkan data",
+        "message": "Hreinsa gögn",
         "description": "Button in the settings dialog starting process to delete all data"
     },
     "deleteAllDataHeader": {
-        "message": "Padamkan semua data?",
+        "message": "Eyða öllum gögnum?",
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Anda akan memadam semua maklumat akaun aplikasi yang disimpan, ini termasuk semua kenalan dan semua mesej. Anda boleh memautkan dengan peranti mudah alih anda, tetapi itu tidak akan memulihkan mesej yang dipadam.",
+        "message": "Þú ert að fara eyða öllum vistuðum gögnum í þessu forriti, þar á meðal öllum tengiliðum og skilaboðum. Þú getur alltaf tengt tækið aftur við símann þinn, en það mun ekki endurvekja skilaboðum sem var eytt.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
-        "message": "Padamkan semua data",
+        "message": "Eyða öllum gögnum",
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
-        "message": "Memutuskan dan memadam semua data",
+        "message": "Aftengja og eyða öllum gögnum",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "deleteOldIndexedDBData": {
-        "message": "You have obsolete data from a prior installation of Signal Desktop. If you choose to continue, it will be deleted and you will start from scratch.",
+        "message": "Það eru úreld/eldri gögn þegar til staðar úr fyrri útgáfu af Signal Desktop. Ef þú velur að halda áfram verður öllum fyrri gögnum eytt og byrjað frá grunni.",
         "description": "Shown if user last ran Signal Desktop before October 2018"
     },
     "deleteOldData": {
-        "message": "Delete Old Data",
+        "message": "Eyða gömlum gögnum",
         "description": "Button to make the delete happen"
     },
     "notifications": {
-        "message": "Pemberitahuan",
+        "message": "Tilkynningar",
         "description": "Header for notification settings"
     },
     "notificationSettingsDialog": {
-        "message": "Apabila mesej tiba, paparkan pemberitahuan yang mendedahkan:",
+        "message": "Þegar skilaboð berast á að birta tilkynningu sem upplýsir um:",
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
-        "message": "Nyahdayakan pemberitahuan",
+        "message": "Slökkva á tilkynningum",
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "Name, content, and actions",
+        "message": "Nafn, efni og aðgerðir",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "No name or content",
+        "message": "Ekkert nafn eða efni",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
-        "message": "Nama sahaja",
+        "message": "Einungis heiti",
         "description": "Label for setting notifications to display sender name only"
     },
     "newMessage": {
-        "message": "Mesej Baru",
+        "message": "Ný skilaboð",
         "description": "Displayed in notifications for only 1 message"
     },
     "notificationSenderInGroup": {
-        "message": "$sender$ in $group$",
+        "message": "$sender$ í $group$",
         "description": "Displayed in notifications for messages in a group",
         "placeholders": {
             "sender": {
@@ -1506,79 +1506,79 @@
         }
     },
     "sendFailed": {
-        "message": "Penghantaran gagal",
+        "message": "Sending mistókst",
         "description": "Shown on outgoing message if it fails to send"
     },
     "partiallySent": {
-        "message": "Partially sent, click for details",
+        "message": "Sent að hluta, smelltu fyrir nánari upplýsingar",
         "description": "Shown on outgoing message if it is partially sent"
     },
     "showMore": {
-        "message": "Butiran",
+        "message": "Nánar",
         "description": "Displays the details of a key change"
     },
     "showLess": {
-        "message": "Sembunyikan butiran",
+        "message": "Fela nánari upplýsingar",
         "description": "Hides the details of a key change"
     },
     "learnMore": {
-        "message": "Ketahui lebih lanjut mengenai mengesahkan nombor keselamatan",
+        "message": "Fræðstu meira um hvernig öryggisnúmer eru sannreynd",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Versi Signal Desktop telah tamat tempoh. Sila naik taraf kepada versi terkini untuk meneruskan pemesejan.",
+        "message": "Þessi útgáfa Signal Desktop er útrunnin. Uppfærðu í nýjustu útgáfuna til að halda áfram samskiptum.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Naik taraf",
+        "message": "Uppfæra",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
-        "message": "Mesej Media",
+        "message": "Margmiðlunarskilaboð",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unregisteredUser": {
-        "message": "Nombor tidak didaftarkan",
+        "message": "Númer er ekki skráð",
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Kenalan",
+        "message": "Tengiliðir",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "Import semua kumpulan dan kenalan Signal daripada peranti mudah alih anda.",
+        "message": "Flyttu inn alla Signal-hópa og tengiliði af farsímanum þínum.",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
-        "message": "Import terakhir pada",
+        "message": "Síðasti innflutningur",
         "description": "Label for date and time of last sync operation"
     },
     "syncNow": {
-        "message": "Import sekarang",
+        "message": "Flytja inn núna",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncing": {
-        "message": "Mengimport...",
+        "message": "Flyt inn...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
-        "message": "Gagal mengimport. Pastikan komputer dan telefon anda telah menyambung kepada Internet.",
+        "message": "Innflutningur mistókst. Gakktu úr skugga um að tölvan þín og farsíminn séu tengd við internetið.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
-        "message": "sekarang",
+        "message": "núna",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
-        "message": "1m",
+        "message": "1mín",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
-        "message": "1j",
+        "message": "1klst",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "hoursAgo": {
-        "message": "$hours$ j",
+        "message": "$hours$klst",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1588,7 +1588,7 @@
         }
     },
     "minutesAgo": {
-        "message": "$minutes$ m",
+        "message": "$minutes$mín",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1598,23 +1598,23 @@
         }
     },
     "justNow": {
-        "message": "sekarang",
+        "message": "núna",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
-        "message": "MMM D",
+        "message": "D. MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "messageBodyTooLong": {
-        "message": "Isi mesej terlalu panjang",
+        "message": "Texti skilaboðanna er of langur.",
         "description": "Shown if the user tries to send more than 64kb of text"
     },
     "unblockToSend": {
-        "message": "Nyahsekat kenalan ini untuk menghantar mesej.",
+        "message": "Opna á að þessi tengiliður sendi skilaboð.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "unblockGroupToSend": {
-        "message": "Nyahsekat kumpulan ini untuk menghantar mesej",
+        "message": "Opna á að þessi hópur sendi skilaboð.",
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
@@ -1662,95 +1662,95 @@
         }
     },
     "timerOption_0_seconds": {
-        "message": "mati",
+        "message": "slökkt",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "timerOption_5_seconds": {
-        "message": "5 saat",
+        "message": "5 sekúndur",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_10_seconds": {
-        "message": "10 saat",
+        "message": "10 sekúndur",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_30_seconds": {
-        "message": "30 saat",
+        "message": "30 sekúndur",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_minute": {
-        "message": "1 minit",
+        "message": "1 mínúta",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_5_minutes": {
-        "message": "5 minit",
+        "message": "5 mínútur",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_30_minutes": {
-        "message": "30 minit",
+        "message": "30 mínútur",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_hour": {
-        "message": "1 jam",
+        "message": "1 klukkustund",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_6_hours": {
-        "message": "6 jam",
+        "message": "6 klukkustundir",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_12_hours": {
-        "message": "12 jam",
+        "message": "12 klukkustundir",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_day": {
-        "message": "1 hari",
+        "message": "1 dagur",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_week": {
-        "message": "1 minggu",
+        "message": "1 vika",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "disappearingMessages": {
-        "message": "Mesej hilang",
+        "message": "Skilaboð sem hverfa",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "mati",
+        "message": "slökkt",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "timerOption_5_seconds_abbreviated": {
-        "message": "5s",
+        "message": "5sek",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_10_seconds_abbreviated": {
-        "message": "10s",
+        "message": "10sek",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_30_seconds_abbreviated": {
-        "message": "30s",
+        "message": "30sek",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_minute_abbreviated": {
-        "message": "1m",
+        "message": "1mín",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_minutes_abbreviated": {
-        "message": "5m",
+        "message": "5mín",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_30_minutes_abbreviated": {
-        "message": "30m",
+        "message": "30mín",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_hour_abbreviated": {
-        "message": "1j",
+        "message": "1klst",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_6_hours_abbreviated": {
-        "message": "6j",
+        "message": "6klst",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_12_hours_abbreviated": {
-        "message": "12j",
+        "message": "12klst",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_day_abbreviated": {
@@ -1758,11 +1758,11 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_week_abbreviated": {
-        "message": "1w",
+        "message": "1v",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "disappearingMessagesDisabled": {
-        "message": "Mesej hilang dinyahdayakan",
+        "message": "Skilaboð sem hverfa eru óvirk",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disappearingMessagesDisabledByMember": {
@@ -1780,11 +1780,11 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "Anda telah menyahdayakan mesej hilang.",
+        "message": "Þú gerðir skilaboð sem hverfa óvirk",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
-        "message": "Pemasa ditetapkan kepada $time$1",
+        "message": "Tímataka sett á $time$",
         "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
@@ -1794,23 +1794,23 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Mainkan pemberitahuan audio",
+        "message": "Spila hljóðáminningu",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
-        "message": "Play calling sounds",
+        "message": "Spila hringihljóð",
         "description": "Description for call ringtone notification setting"
     },
     "callSystemNotificationDescription": {
-        "message": "Show notifications for calls",
+        "message": "Birta tilkynningar fyrir hringingar",
         "description": "Description for call notification setting"
     },
     "incomingCallNotificationDescription": {
-        "message": "Enable incoming calls",
+        "message": "Virkja innhringingar",
         "description": "Description for incoming calls setting"
     },
     "contactChangedProfileName": {
-        "message": "$sender$ changed their profile name from $oldProfile$ to $newProfile$.",
+        "message": "$sender$ breytti nafninu á sniðinu sínu úr $oldProfile$ yfir í $newProfile$",
         "description": "Description for incoming calls setting",
         "placeholders": {
             "sender": {
@@ -1828,7 +1828,7 @@
         }
     },
     "changedProfileName": {
-        "message": "$oldProfile$ changed their profile name to $newProfile$.",
+        "message": "$oldProfile$ breytti nafninu á sniðinu sínu yfir í $newProfile$",
         "description": "Shown when a contact not in your address book changes their profile name",
         "placeholders": {
             "oldProfile": {
@@ -1842,15 +1842,15 @@
         }
     },
     "safetyNumberChanged": {
-        "message": "Nombor Keselamatan telah berubah",
+        "message": "Öryggisnúmer hefur breyst",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChanges": {
-        "message": "Safety Number Changes",
+        "message": "Breytingar á öryggisnúmeri",
         "description": "Title for safety number changed modal"
     },
     "safetyNumberChangedGroup": {
-        "message": "Nombor Keselamatan dengan$name$ telah berubah.",
+        "message": "Öryggisnúmer með $name$ hefur breyst",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -1860,15 +1860,15 @@
         }
     },
     "verifyNewNumber": {
-        "message": "Sahkan Nombor Keselamatan",
+        "message": "Sannreyna öryggisnúmer",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "cannotGenerateSafetyNumber": {
-        "message": "Pengguna ini tidak boleh disahkan sehingga anda telah menukar mesej dengan mereka.",
+        "message": "Þessi notandi getur ekki verið staðfestur fyrr en þú hefur skrifast á við hann.",
         "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
     },
     "yourSafetyNumberWith": {
-        "message": "Your safety number with $name1$:",
+        "message": "Öryggisnúmer þitt með $name1$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name1": {
@@ -1878,83 +1878,83 @@
         }
     },
     "themeLight": {
-        "message": "Cerah",
+        "message": "Ljóst",
         "description": "Label text for light theme (normal)"
     },
     "themeDark": {
-        "message": "Gelap",
+        "message": "Dökkt",
         "description": "Label text for dark theme"
     },
     "themeSystem": {
-        "message": "Sistem",
+        "message": "Kerfis",
         "description": "Label text for system theme"
     },
     "noteToSelf": {
-        "message": "Nota untuk Diri Sendiri",
+        "message": "Minnispunktur til sjálfs þín",
         "description": "Name for the conversation with your own phone number"
     },
     "noteToSelfHero": {
-        "message": "Anda boleh menambah nota untuk diri sendiri dalam perbualan ini. Jika akaun anda mempunyai peranti dipautkan, nota baru akan disegerakkan.",
+        "message": "Þú getur bætt minnispunktum til sjálfs þín inn í þetta samtal. Ef aðgangurinn þinn er með önnur tengd tæki, verða nýir minnispunktar samstilltir milli þeirra.",
         "description": "Description for the Note to Self conversation"
     },
     "notificationDrawAttention": {
-        "message": "Draw attention to this window when a notification arrives",
+        "message": "Vekja athygli á þessum glugga þegar tilkynningar berast",
         "description": "Label text for the setting that controls whether new notifications draw attention to the window"
     },
     "hideMenuBar": {
-        "message": "Sembunyikan bar menu",
+        "message": "Fela valmyndastiku",
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "Mulakan perbualan baru...",
+        "message": "Hefja nýtt samtal…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "notSupportedSMS": {
-        "message": "SMS/MMS messages are not supported.",
+        "message": "Ekki er stuðningur við SMS/MMS skilaboð.",
         "description": "Label underneath number informing user that SMS is not supported on desktop"
     },
     "newPhoneNumber": {
-        "message": "Masukkan nombor telefon untuk tambah kenalan.",
+        "message": "Settu inn símanúmer til að bæta við tengilið.",
         "description": "Placeholder for adding a new number to a contact"
     },
     "invalidNumberError": {
-        "message": "Nombor tidak sah",
+        "message": "Ógilt númer",
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Pautkan semula Signal Desktop ke peranti mudah alih anda untuk terus menghantar mesej.",
+        "message": "Endurtengdu Signal Desktop við farsímann þinn til að halda áfram samskiptum.",
         "description": ""
     },
     "unlinked": {
-        "message": "Dinyahpautkan",
+        "message": "Ótengt",
         "description": ""
     },
     "relink": {
-        "message": "Pautkan semula",
+        "message": "Endurtengja",
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Kemas kini Signal tersedia",
+        "message": "Uppfærsla á Signal er tiltæk",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Terdapat versi baru Signal tersedia",
+        "message": "Það er nýrri útgáfa af Signal tiltæk.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Tekan Mula Semula Signal untuk gunakan kemas kini.",
+        "message": "Ýttu á 'Endurræsa Signal' til að setja inn uppfærslurnar.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Mulakan semula Signal",
+        "message": "Endurræsa Signal",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
-        "message": "Kemudian",
+        "message": "Seinna",
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ yfirgaf hópinn.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1964,7 +1964,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ yfirgaf hópinn.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1974,7 +1974,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "$name$ updated the group.",
+        "message": "$name$ uppfærði hópinn.",
         "description": "Shown in the conversation history when someone updates the group",
         "placeholders": {
             "name": {
@@ -1984,15 +1984,15 @@
         }
     },
     "youUpdatedTheGroup": {
-        "message": "Anda telah mengemas kini kumpulan.",
+        "message": "Þú uppfærðir hópinn.",
         "description": "Shown in the conversation history when you update a group"
     },
     "updatedGroupAvatar": {
-        "message": "Group avatar was updated.",
+        "message": "Auðkennismynd hópsins var uppfærð.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Group name is now '$name$'.",
+        "message": "Nafn hópsins er núna '$name$'.",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -2002,11 +2002,11 @@
         }
     },
     "youJoinedTheGroup": {
-        "message": "Anda menyertai kumpulan.",
+        "message": "Þú gekkst í hópinn.",
         "description": "Shown in the conversation history when you are added to a group."
     },
     "joinedTheGroup": {
-        "message": "$name$ joined the group.",
+        "message": "$name$ gekk í hópinn.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -2016,7 +2016,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group.",
+        "message": "$names$ gekk í hópinn.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -2026,39 +2026,39 @@
         }
     },
     "ConversationListItem--message-request": {
-        "message": "Permintaan Mesej",
+        "message": "Beiðni um skilaboð",
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
     },
     "ConversationListItem--draft-prefix": {
-        "message": "Draf:",
+        "message": "Drög:",
         "description": "Prefix shown in italic in conversation view when a draft is saved"
     },
     "message--getNotificationText--gif": {
-        "message": "GIF",
+        "message": "GIF-mynd",
         "description": "Shown in notifications and in the left pane when a GIF is received."
     },
     "message--getNotificationText--photo": {
-        "message": "Foto",
+        "message": "Ljósmynd",
         "description": "Shown in notifications and in the left pane when a photo is received."
     },
     "message--getNotificationText--video": {
-        "message": "Video",
+        "message": "Myndskeið",
         "description": "Shown in notifications and in the left pane when a video is received."
     },
     "message--getNotificationText--voice-message": {
-        "message": "Mesej Suara",
+        "message": "Talskilaboð",
         "description": "Shown in notifications and in the left pane when a voice message is received."
     },
     "message--getNotificationText--audio-message": {
-        "message": "Mesej Audio",
+        "message": "Hljóðskilaboð",
         "description": "Shown in notifications and in the left pane when an audio message is received."
     },
     "message--getNotificationText--file": {
-        "message": "Fail",
+        "message": "Skrá",
         "description": "Shown in notifications and in the left pane when a generic file is received."
     },
     "message--getNotificationText--stickers": {
-        "message": "Mesej pelekat",
+        "message": "Skilaboð með límmerki",
         "description": "Shown in notifications and in the left pane instead of sticker image."
     },
     "message--getNotificationText--text-with-emoji": {
@@ -2076,139 +2076,139 @@
         }
     },
     "message--getDescription--unsupported-message": {
-        "message": "Mesej tidak disokong",
+        "message": "Óstudd skilaboð",
         "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
     "message--getDescription--disappearing-media": {
-        "message": "View-once Media",
+        "message": "Skoða-einu-sinni margmiðlunarefni",
         "description": "Shown in notifications and in the left pane after view-once message is deleted."
     },
     "message--getDescription--disappearing-photo": {
-        "message": "View-once Photo",
+        "message": "Skoða-einu-sinni ljósmynd",
         "description": "Shown in notifications and in the left pane when a message is a view once photo."
     },
     "message--getDescription--disappearing-video": {
-        "message": "View-once Video",
+        "message": "Skoða-einu-sinni myndskeið",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
     },
     "message--deletedForEveryone": {
-        "message": "Mesej ini telah dipadam.",
+        "message": "Þessum skilaboðum var eytt.",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "stickers--toast--InstallFailed": {
-        "message": "Pek pelekat tidak dapat dipasang",
+        "message": "Ekki var hægt að setja upp límmerkjapakka",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
     },
     "stickers--StickerManager--InstalledPacks": {
-        "message": "Pelekat Dipasang",
+        "message": "Uppsett límmerki",
         "description": "Shown in the sticker pack manager above your installed sticker packs."
     },
     "stickers--StickerManager--InstalledPacks--Empty": {
-        "message": "Tiada pelekat dipasang",
+        "message": "Engin límmerki uppsett",
         "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
     },
     "stickers--StickerManager--BlessedPacks": {
-        "message": "Siri Artis Signal",
+        "message": "Signal Artist Series",
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
-        "message": "Tiada pelekat Artis Signal tersedia",
+        "message": "No Signal Artist stickers available",
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
-        "message": "Pelekat Yang Anda Terima",
+        "message": "Límmerki sem þú fékkst",
         "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
     },
     "stickers--StickerManager--ReceivedPacks--Empty": {
-        "message": "Pelekat daripada mesej masuk akan muncul di sini",
+        "message": "Límmerki úr skilaboðum sem þú hefur fengið munu birtast hér",
         "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
     },
     "stickers--StickerManager--Install": {
-        "message": "Memasang",
+        "message": "Setja upp",
         "description": "Shown in the sticker pack manager next to sticker packs which can be installed."
     },
     "stickers--StickerManager--Uninstall": {
-        "message": "Nyahpasang",
+        "message": "Fjarlægja",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--UninstallWarning": {
-        "message": "Anda mungkin tidak dapat memasang semula pek pelekat ini jika anda tidak lagi mempunyai sumber mesej.",
+        "message": "You may not be able to re-install this sticker pack if you no longer have the source message.",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--Introduction--Image": {
-        "message": "Introducing Stickers: Bandit the Cat",
+        "message": "Kynning á límmerkjum: Kötturinn Bandít",
         "description": "Alt text on a tooltip image when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Title": {
-        "message": "Memperkenalkan Pelekat",
+        "message": "Kynning á límmerkjum",
         "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Body": {
-        "message": "Mengapa menggunakan kata-kata apabila anda boleh menggunakan pelekat?",
+        "message": "Af hverju nota orð þegar þú getur notað límmerki?",
         "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerPicker--Open": {
-        "message": "Open the sticker picker",
+        "message": "Opna límmerkjapakkann",
         "description": "Label for the open button for the sticker picker"
     },
     "stickers--StickerPicker--AddPack": {
-        "message": "Add a sticker pack",
+        "message": "Bæta við límmerkjapakka",
         "description": "Label for the add pack button in the sticker picker"
     },
     "stickers--StickerPicker--NextPage": {
-        "message": "Next Page",
+        "message": "Næsta síða",
         "description": "Label for the next page button in the sticker picker"
     },
     "stickers--StickerPicker--PrevPage": {
-        "message": "Previous Page",
+        "message": "Fyrri síða",
         "description": "Label for the previous page button in the sticker picker"
     },
     "stickers--StickerPicker--Recents": {
-        "message": "Recent Sticker",
+        "message": "Nýlegt límmerki",
         "description": "Label for the recent stickers button in the sticker picker"
     },
     "stickers--StickerPicker--DownloadError": {
-        "message": "Sesetengah pelekat tidak dapat dimuat turun.",
+        "message": "Ekki var hægt að sækja sum límmerkin.",
         "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
     },
     "stickers--StickerPicker--DownloadPending": {
-        "message": "Memasang pek pelekat...",
+        "message": "Set upp límmerkjapakka...",
         "description": "Shown in the sticker picker when one or more stickers are still downloading."
     },
     "stickers--StickerPicker--Empty": {
-        "message": "Tiada pelekat dicari",
+        "message": "Engin límmerki fundust",
         "description": "Shown in the sticker picker when there are no stickers to show."
     },
     "stickers--StickerPicker--Hint": {
-        "message": "Pek pelekat baru daripada mesej anda sedia dipasang",
+        "message": "New sticker packs from your messages are available to install",
         "description": "Shown in the sticker picker the first time you have received new packs you can install."
     },
     "stickers--StickerPicker--NoPacks": {
-        "message": "Tiada pek pelekat dicari",
+        "message": "Engir límmerkjapakkar fundust",
         "description": "Shown in the sticker picker when there are no installed sticker packs."
     },
     "stickers--StickerPicker--NoRecents": {
-        "message": "Pelekat yang diguna baru-baru ini akan muncul di sini.",
+        "message": "Nýlega notuð límmerki munu birtast hér.",
         "description": "Shown in the sticker picker when there are no recent stickers to show."
     },
     "stickers--StickerPreview--Title": {
-        "message": "Pek Pelekat",
+        "message": "Límmerkjapakki",
         "description": "The title that appears in the sticker pack preview modal."
     },
     "stickers--StickerPreview--Error": {
-        "message": "Ralat membuka pek pelekat. Semak sambungan rangkaian dan cuba lagi.",
+        "message": "Mistókst að opna límmerkjapakka. Athugaðu netsambandið þitt og prófaðu aftur.",
         "description": "The message that appears in the sticker preview modal when there is an error."
     },
     "EmojiPicker--empty": {
-        "message": "Tiada emoji dijumpai",
+        "message": "Ekkert tjáningartákn fannst",
         "description": "Shown in the emoji picker when a search yields 0 results."
     },
     "EmojiPicker--search-placeholder": {
-        "message": "Cari Emoji",
+        "message": "Leita að táknum",
         "description": "Shown as a placeholder inside the emoji picker search field."
     },
     "EmojiPicker--skin-tone": {
-        "message": "Warna kulit $tone$",
+        "message": "Hörundslitur $tone$",
         "description": "Shown as a tooltip over the emoji tone buttons.",
         "placeholders": {
             "status": {
@@ -2218,47 +2218,47 @@
         }
     },
     "EmojiPicker__button--recents": {
-        "message": "Recents",
+        "message": "Nýlegt",
         "description": "Label for recents emoji picker button"
     },
     "EmojiPicker__button--emoji": {
-        "message": "Emoji",
+        "message": "Tjáningartákn",
         "description": "Label for emoji emoji picker button"
     },
     "EmojiPicker__button--animal": {
-        "message": "Animal",
+        "message": "Dýr",
         "description": "Label for animal emoji picker button"
     },
     "EmojiPicker__button--food": {
-        "message": "Food",
+        "message": "Matur",
         "description": "Label for food emoji picker button"
     },
     "EmojiPicker__button--activity": {
-        "message": "Activity",
+        "message": "Virkni",
         "description": "Label for activity emoji picker button"
     },
     "EmojiPicker__button--travel": {
-        "message": "Travel",
+        "message": "Ferðalög",
         "description": "Label for travel emoji picker button"
     },
     "EmojiPicker__button--object": {
-        "message": "Object",
+        "message": "Hlutur",
         "description": "Label for object emoji picker button"
     },
     "EmojiPicker__button--symbol": {
-        "message": "Symbol",
+        "message": "Tákn",
         "description": "Label for symbol emoji picker button"
     },
     "EmojiPicker__button--flag": {
-        "message": "Flag",
+        "message": "Fáni",
         "description": "Label for flag emoji picker button"
     },
     "confirmation-dialog--Cancel": {
-        "message": "Batal",
+        "message": "Hætta við",
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "Message--unsupported-message": {
-        "message": "$contact$ telah menghantar anda satu mesej yang tidak dapat diproses atau dipaparkan kerana ia menggunakan ciri-ciri Signal yang baru.",
+        "message": "$contact$ sent you a message that can't be processed or displayed because it uses a new Signal feature.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -2268,7 +2268,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "Anda boleh minta $contact$ untuk menghantar semula mesej sekarang kerana anda menggunakan versi Signal yang terkini.",
+        "message": "You can ask $contact$ to re-send this message now that you are using an up-to-date version of Signal.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -2278,127 +2278,127 @@
         }
     },
     "Message--from-me-unsupported-message": {
-        "message": "Salah satu peranti anda telah menghantar satu mesej yang tidak dapat diproses atau dipaparkan kerana ia menggunakan ciri-ciri Signal yang baru.",
+        "message": "One of your devices sent a message that can't be processed or displayed because it uses a new Signal feature.",
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
-        "message": "Mesej masa depan seperti ini akan disegerakkan bahawa anda menggunakan versi Signal terkini.",
+        "message": "Future messages like this will be synchronized now that you are using an up-to-date version of Signal.",
         "description": ""
     },
     "Message--update-signal": {
-        "message": "Kemas Kini Signal",
+        "message": "Uppfæra Signal",
         "description": "Text for a button which will take user to Signal download page"
     },
     "Message--tap-to-view-expired": {
-        "message": "Dilihat",
+        "message": "Skoðað",
         "description": "Text shown on messages with with individual timers, after user has viewed it"
     },
     "Message--tap-to-view--outgoing": {
-        "message": "Media",
+        "message": "Margmiðlun",
         "description": "Text shown on outgoing messages with with individual timers (inaccessible)"
     },
     "Message--tap-to-view--incoming--expired-toast": {
-        "message": "Anda telah melihat mesej ini.",
+        "message": "Þú hefur þegar skoðað þessi skilaboð.",
         "description": "Shown when user clicks on an expired incoming view-once bubble"
     },
     "Message--tap-to-view--outgoing--expired-toast": {
-        "message": "View-once messages are not stored in your conversation history.",
+        "message": "Skoða-einu-sinni skilaboð eru ekki geymd í samtalsferlinum.",
         "description": "Shown when user clicks on an expired outgoing view-once bubble"
     },
     "Message--tap-to-view--incoming": {
-        "message": "Lihat Foto",
+        "message": "Skoða mynd",
         "description": "Text shown on photo messages with with individual timers, before user has viewed it"
     },
     "Message--tap-to-view--incoming-video": {
-        "message": "Lihat Video",
+        "message": "Skoða myndskeið",
         "description": "Text shown on video messages with with individual timers, before user has viewed it"
     },
     "Conversation--getDraftPreview--attachment": {
-        "message": "(lampiran)",
+        "message": "(viðhengi)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--quote": {
-        "message": "(petikan)",
+        "message": "(tilvitnun)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--draft": {
-        "message": "(draf)",
+        "message": "(drög)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Keyboard--navigate-by-section": {
-        "message": "Navigasi mengikut bahagian",
+        "message": "Flakka eftir hlutum",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--previous-conversation": {
-        "message": "Perbualan sebelumnya",
+        "message": "Fyrra samtal",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--next-conversation": {
-        "message": "Perbualan seterusnya",
+        "message": "Næsta samtal",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--previous-unread-conversation": {
-        "message": "Perbualan belum dibaca sebelumnya",
+        "message": "Fyrra ólesið samtal",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--next-unread-conversation": {
-        "message": "Perbualan belum dibaca seterusnya",
+        "message": "Næsta ólesið samtal",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--preferences": {
-        "message": "Keutamaan",
+        "message": "Kjörstillingar",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-conversation-menu": {
-        "message": "Buka menu perbualan",
+        "message": "Opna valmynd samtals",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
-        "message": "Arkibkan perbualan",
+        "message": "Setja samtal í safn",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--unarchive-conversation": {
-        "message": "Nyaharkibkan perbualan",
+        "message": "Taka samtal úr safni",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search": {
-        "message": "Cari",
+        "message": "Leita",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search-in-conversation": {
-        "message": "Cari dalam perbualan",
+        "message": "Leita í samtali",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--focus-composer": {
-        "message": "Komposer fokus",
+        "message": "Gera ritil virkan",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-all-media-view": {
-        "message": "Buka pandangan Semua Media",
+        "message": "Opna sýn á allt myndefni",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-emoji-chooser": {
-        "message": "Buka pemilih emoji",
+        "message": "Opna val á emoji-táknum",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-sticker-chooser": {
-        "message": "Open sticker chooser",
+        "message": "Opna val á límmerkjum",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--begin-recording-voice-note": {
-        "message": "Mulakan nota suara rakaman",
+        "message": "Byrja upptöku á talminnispunkti",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--default-message-action": {
-        "message": "Tindakan lalai untuk mesej yang dipilih",
+        "message": "Sjálfgefin aðgerð fyrir valin skilaboð",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--view-details-for-selected-message": {
-        "message": "Lihat butiran mesej yang dipilih",
+        "message": "View selected message details",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reply": {
-        "message": "Togol balas kepada mesej yang dipilih",
+        "message": "Toggle reply to selected message",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
@@ -2406,39 +2406,39 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
-        "message": "Simpan lampiran daripada mesej yang dipilih",
+        "message": "Vista viðhengi úr völdum skilaboðum",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--delete-message": {
-        "message": "Padam mesej yang dipilih",
+        "message": "Eyða völdum skilaboðum",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--add-newline": {
-        "message": "Tambah baris baru kepada mesej",
+        "message": "Bæta nýlínu við skilaboð",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--expand-composer": {
-        "message": "Kembangkan komposer",
+        "message": "Þenja ritil",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--send-in-expanded-composer": {
-        "message": "Hantar (dalam komposer dikembangkan)",
+        "message": "Senda (í útflettum ritli)",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--attach-file": {
-        "message": "Lampirkan fail",
+        "message": "Hengja við skrá",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-link-preview": {
-        "message": "Alih keluar pralihat pautan",
+        "message": "Remove draft link preview",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-attachments": {
-        "message": "Alih keluar semua lampiran draf",
+        "message": "Remove all draft attachments",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--conversation-by-index": {
-        "message": "Jump to conversation",
+        "message": "Hoppa í samtal",
         "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
     },
     "Keyboard--Key--ctrl": {
@@ -2446,7 +2446,7 @@
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--option": {
-        "message": "Option",
+        "message": "Valkostir",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--alt": {
@@ -2462,71 +2462,71 @@
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--tab": {
-        "message": "Tab",
+        "message": "Dálklykill (tab)",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--one-to-nine-range": {
-        "message": "1 to 9",
+        "message": "1 til 9",
         "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
-        "message": "Keyboard Shortcuts",
+        "message": "Flýtileiðir á lyklaborði",
         "description": "Title header of the keyboard shortcuts guide"
     },
     "Keyboard--navigation-header": {
-        "message": "Navigation",
+        "message": "Flakk",
         "description": "Header of the keyboard shortcuts guide - navigation section"
     },
     "Keyboard--messages-header": {
-        "message": "Mesej",
+        "message": "Skilaboð",
         "description": "Header of the keyboard shortcuts guide - messages section"
     },
     "Keyboard--composer-header": {
-        "message": "Composer",
+        "message": "Samsetning",
         "description": "Header of the keyboard shortcuts guide - composer section"
     },
     "Keyboard--scroll-to-top": {
-        "message": "Scroll to top of list",
+        "message": "Skruna efst í lista",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--scroll-to-bottom": {
-        "message": "Tatal ke bahagian bawah senarai.",
+        "message": "Skruna neðst í lista",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--close-curent-conversation": {
-        "message": "Tutup perbualan semasa",
+        "message": "Loka þessu samtali",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--calling-header": {
-        "message": "Memanggil",
+        "message": "Hringi",
         "description": "Header of the keyboard shortcuts guide - calling section"
     },
     "Keyboard--toggle-audio": {
-        "message": "Toggle mute on and off",
+        "message": "Víxla þöggun af/á",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-video": {
-        "message": "Toggle video on and off",
+        "message": "Víxla myndmerki af/á",
         "description": "Shown in the shortcuts guide"
     },
     "close-popup": {
-        "message": "Close Popup",
+        "message": "Loka sprettglugga",
         "description": "Used as alt text for any button closing a popup"
     },
     "add-image-attachment": {
-        "message": "Add image attachment",
+        "message": "Bæta við myndaviðhengi",
         "description": "Used in draft attachment list for the big 'add new attachment' button"
     },
     "remove-attachment": {
-        "message": "Remove attachment",
+        "message": "Fjarlægja viðhengi",
         "description": "Used in draft attachment list to remove an individual attachment"
     },
     "backToInbox": {
-        "message": "Back to inbox",
+        "message": "Aftur í innhólf",
         "description": "Used as alt-text of button on archived conversations screen"
     },
     "conversationArchived": {
-        "message": "Conversation archived",
+        "message": "Samtal í safni",
         "description": "A toast that shows up when user archives a conversation"
     },
     "conversationReturnedToInbox": {
@@ -2534,31 +2534,31 @@
         "description": "A toast that shows up when the user unarchives a conversation"
     },
     "conversationMarkedUnread": {
-        "message": "Conversation marked unread",
+        "message": "Samtal merkt sem ólesið",
         "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
-        "message": "Sticker pack creator",
+        "message": "Höfundur límmerkjapakka",
         "description": "The title of the Sticker Pack Creator window"
     },
     "StickerCreator--DropZone--staticText": {
-        "message": "Click to add or drop images here",
+        "message": "Smelltu hér eða slepptu myndum",
         "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
     },
     "StickerCreator--DropZone--activeText": {
-        "message": "Drop images here",
+        "message": "Sleppa myndum hér",
         "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
     },
     "StickerCreator--Preview--title": {
-        "message": "Sticker pack",
+        "message": "Límmerkjapakki",
         "description": "The 'title' of the sticker pack preview 'modal'"
     },
     "StickerCreator--ConfirmDialog--cancel": {
-        "message": "Batal",
+        "message": "Hætta við",
         "description": "The default text for the confirm dialog cancel button"
     },
     "StickerCreator--CopyText--button": {
-        "message": "Salin",
+        "message": "Afrita",
         "description": "The text which appears on the copy button for the sticker creator share screen"
     },
     "StickerCreator--ShareButtons--facebook": {
@@ -2578,11 +2578,11 @@
         "description": "Title for WhatsApp button"
     },
     "StickerCreator--AppStage--next": {
-        "message": "Seterusnya",
+        "message": "Næsta",
         "description": "Default text for the next button on all stages of the sticker creator"
     },
     "StickerCreator--AppStage--prev": {
-        "message": "Kembali",
+        "message": "Til baka",
         "description": "Default text for the previous button on all stages of the sticker creator"
     },
     "StickerCreator--DropStage--title": {
@@ -2594,11 +2594,11 @@
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
-        "message": "Show margins",
+        "message": "Birta spássíur",
         "description": "Text for the show margins toggle on the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--addMore": {
-        "message": "Add $count$ or more",
+        "message": "Bæta við $count$ eða fleiri",
         "description": "Text to show user how many more stickers they must add",
         "placeholders": {
             "hashtag": {
@@ -2616,19 +2616,19 @@
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--MetaStage--title": {
-        "message": "Just a few more details...",
+        "message": "Aðeins ögn af nánari upplýsingum...",
         "description": "Title for the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--title": {
-        "message": "Tajuk",
+        "message": "Titill",
         "description": "Label for the title input of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--author": {
-        "message": "Pengarang",
+        "message": "Höfundur",
         "description": "Label for the author input of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--cover": {
-        "message": "Cover image",
+        "message": "Forsíðumynd",
         "description": "Label for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--cover--help": {
@@ -2640,7 +2640,7 @@
         "description": "Title for the confirm dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--confirm": {
-        "message": "Upload",
+        "message": "Senda inn",
         "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--text": {
@@ -2648,11 +2648,11 @@
         "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--UploadStage--title": {
-        "message": "Creating your sticker pack",
+        "message": "Búa til þinn eigin límmerkjapakka",
         "description": "Title for the upload stage of the sticker creator"
     },
     "StickerCreator--UploadStage-uploaded": {
-        "message": "$count$ of $total$ uploaded",
+        "message": "$count$ af $total$ sent inn",
         "description": "Title for the upload stage of the sticker creator",
         "placeholders": {
             "count": {
@@ -2666,7 +2666,7 @@
         }
     },
     "StickerCreator--ShareStage--title": {
-        "message": "Congratulations! You created a sticker pack.",
+        "message": "Til hamingju! Þú bjóst til límmerkjapakka.",
         "description": "Title for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--help": {
@@ -2684,15 +2684,15 @@
         }
     },
     "StickerCreator--ShareStage--copyTitle": {
-        "message": "Sticker Pack URL",
+        "message": "Slóð á límmerkjapakka",
         "description": "Title for the copy button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--close": {
-        "message": "Tutup",
+        "message": "Loka",
         "description": "Text for the close button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--createAnother": {
-        "message": "Create another sticker pack",
+        "message": "Búa til annan límmerkjapakka",
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
@@ -2700,7 +2700,7 @@
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
-        "message": "$count$ image(s) added",
+        "message": "$count$ mynd(um) bætt við",
         "description": "Text for the toast when images are added to the sticker creator",
         "placeholders": {
             "count": {
@@ -2714,11 +2714,11 @@
         "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--tooLarge": {
-        "message": "Dropped image is too large",
+        "message": "Myndin sem var sleppt er of stór",
         "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--errorProcessing": {
-        "message": "Error processing image",
+        "message": "Villa við meðhöndlun myndar",
         "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
     },
     "StickerCreator--Toasts--APNG--notSquare": {
@@ -2738,7 +2738,7 @@
         "description": "Text for the toast when an APNG image in the sticker creator is too small"
     },
     "StickerCreator--Toasts--errorUploading": {
-        "message": "Error uploading stickers: $message$",
+        "message": "Villa við að senda inn límmerki: $message$",
         "description": "Text for the toast when a sticker pack cannot be uploaded",
         "placeholders": {
             "message": {
@@ -2748,15 +2748,15 @@
         }
     },
     "StickerCreator--Toasts--linkedCopied": {
-        "message": "Link copied",
+        "message": "Tengill afritaður",
         "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
     },
     "StickerCreator--StickerPreview--light": {
-        "message": "My sticker in light theme",
+        "message": "Límmerkið mitt í ljósu þema",
         "description": "Text for the sticker preview for the light theme"
     },
     "StickerCreator--StickerPreview--dark": {
-        "message": "My sticker in dark theme",
+        "message": "Límmerkið mitt í dökku þema",
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
@@ -2768,11 +2768,11 @@
         "description": "Shown when a reaction fails to send"
     },
     "ReactionsViewer--more": {
-        "message": "More",
+        "message": "Meira",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
-        "message": "Semua",
+        "message": "Allt",
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "MessageRequests--message-direct": {
@@ -2810,15 +2810,15 @@
         "description": "Shown as the message for a message request in a blocked group"
     },
     "MessageRequests--block": {
-        "message": "Sekat",
+        "message": "Útiloka",
         "description": "Shown as a button to let the user block a message request"
     },
     "MessageRequests--unblock": {
-        "message": "Nyahsekat",
+        "message": "Opna á",
         "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-confirm-title": {
-        "message": "Unblock $name$?",
+        "message": "Aflétta útilokun af $name$?",
         "description": "Shown as a button to let the user unblock a message request",
         "placeholders": {
             "name": {
@@ -2828,7 +2828,7 @@
         }
     },
     "MessageRequests--unblock-direct-confirm-body": {
-        "message": "Anda akan dapat menghantar mesej dan membuat panggilan satu sama lain.",
+        "message": "Þið munuð geta sent hverju öðru skilaboð og hringt.",
         "description": "Shown as the body in the confirmation modal for unblocking a private message request",
         "placeholders": {
             "name": {
@@ -2838,7 +2838,7 @@
         }
     },
     "MessageRequests--unblock-group-confirm-body": {
-        "message": "Ahli-ahli kumpulan akan dapat menambah anda kepada kumpulan ini lagi.",
+        "message": "Hópmeðlimir geta bætt þér í þennan hóp aftur.",
         "description": "Shown as the body in the confirmation modal for unblocking a group message request",
         "placeholders": {
             "name": {
@@ -2848,11 +2848,11 @@
         }
     },
     "MessageRequests--block-and-delete": {
-        "message": "Sekat dan Padam",
+        "message": "Útiloka og eyða",
         "description": "Shown as a button to let the user block and delete a message request"
     },
     "MessageRequests--block-direct-confirm-title": {
-        "message": "Block $name$?",
+        "message": "Útiloka $name$?",
         "description": "Shown as the title in the confirmation modal for blocking a private message request",
         "placeholders": {
             "name": {
@@ -2862,11 +2862,11 @@
         }
     },
     "MessageRequests--block-direct-confirm-body": {
-        "message": "Orang-orang diblock tidak akan boleh untuk memanggil anda atau menghantar anda mesej.",
+        "message": "Útilokaðir einstaklingar munu ekki geta hringt í þig eða sent þér skilaboð.",
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
-        "message": "Block and Leave $group$?",
+        "message": "Útiloka og yfirgefa $group$?",
         "description": "Shown as the title in the confirmation modal for blocking a group message request",
         "placeholders": {
             "group": {
@@ -2880,19 +2880,19 @@
         "description": "Shown as the body in the confirmation modal for blocking a group message request"
     },
     "MessageRequests--delete": {
-        "message": "Padam",
+        "message": "Eyða",
         "description": "Shown as a button to let the user delete any message request"
     },
     "MessageRequests--delete-direct-confirm-title": {
-        "message": "Padamkan perbualan?",
+        "message": "Eyða samtali?",
         "description": "Shown as the title in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-direct-confirm-body": {
-        "message": "Perbualan ini akan dipadam daripada semua peranti anda.",
+        "message": "Þessu samtali verður eytt úr öllum þínum tækjum.",
         "description": "Shown as the body in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-group-confirm-title": {
-        "message": "Delete and Leave $group$?",
+        "message": "Eyða og yfirgefa $group$?",
         "description": "Shown as the title in the confirmation modal for deleting a group message request",
         "placeholders": {
             "group": {
@@ -2902,23 +2902,23 @@
         }
     },
     "MessageRequests--delete-direct": {
-        "message": "Padam",
+        "message": "Eyða",
         "description": "Shown as a button to let the user delete a direct message request"
     },
     "MessageRequests--delete-group": {
-        "message": "Padam dan Tinggalkan",
+        "message": "Eyða og yfirgefa",
         "description": "Shown as a button to let the user delete a group message request"
     },
     "MessageRequests--delete-group-confirm-body": {
-        "message": "Anda akan meninggalkan kumpulan ini, dan ia akan dipadam daripada semua peranti anda.",
+        "message": "Þú munt yfirgefa þennan hóp og verður honum eytt úr öllum þínum tækjum.",
         "description": "Shown as the body in the confirmation modal for deleting a group message request"
     },
     "MessageRequests--accept": {
-        "message": "Terima",
+        "message": "Samþykkja",
         "description": "Shown as a button to let the user accept a message request"
     },
     "MessageRequests--continue": {
-        "message": "Teruskan",
+        "message": "Halda áfram",
         "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
     },
     "MessageRequests--profile-sharing--group": {
@@ -2946,11 +2946,11 @@
         }
     },
     "MessageRequests--learn-more": {
-        "message": "Learn more.",
+        "message": "Kanna nánar.",
         "description": "Shown at the end of profile sharing messages as a link."
     },
     "ConversationHero--members": {
-        "message": "$count$ members",
+        "message": "$count$ þátttakendur",
         "description": "Specifies the number of members in a group conversation",
         "placeholders": {
             "count": {
@@ -2960,7 +2960,7 @@
         }
     },
     "ConversationHero--members-1": {
-        "message": "1 ahli",
+        "message": "1 meðlimur",
         "description": "Specifies the number of members in a group conversation when there is one member",
         "placeholders": {
             "count": {
@@ -2970,7 +2970,7 @@
         }
     },
     "ConversationHero--membership-1": {
-        "message": "Member of $group$.",
+        "message": "Meðlimur í $group$.",
         "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
         "placeholders": {
             "group": {
@@ -2980,7 +2980,7 @@
         }
     },
     "ConversationHero--membership-2": {
-        "message": "Member of $group1$ and $group2$.",
+        "message": "Meðlimur í $group1$ og $group2$.",
         "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
         "placeholders": {
             "group1": {
@@ -2994,7 +2994,7 @@
         }
     },
     "ConversationHero--membership-3": {
-        "message": "Member of $group1$, $group2$, and $group3$.",
+        "message": "Meðlimur í $group1$, $group2$ og $group3$.",
         "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
         "placeholders": {
             "group1": {
@@ -3012,7 +3012,7 @@
         }
     },
     "ConversationHero--membership-extra": {
-        "message": "Member of $group1$, $group2$, $group3$ and $remainingCount$ more.",
+        "message": "Meðlimur í $group1$, $group2$, $group3$ og $remainingCount$ til viðbótar.",
         "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
         "placeholders": {
             "group1": {
@@ -3034,7 +3034,7 @@
         }
     },
     "ConversationHero--membership-added": {
-        "message": "$name$ added you to the group.",
+        "message": "$name$ bætti þér í hópinn.",
         "description": "Shown Indicates that you were added to a group by a given individual.",
         "placeholders": {
             "name": {
@@ -3044,83 +3044,83 @@
         }
     },
     "acceptCall": {
-        "message": "Jawab",
+        "message": "Svara",
         "description": "Shown in tooltip for the button to accept a call (audio or video)"
     },
     "acceptCallWithoutVideo": {
-        "message": "Answer without video",
+        "message": "Svara án myndmerkis",
         "description": "Shown in tooltip for the button to accept a video call without video"
     },
     "declineCall": {
-        "message": "Decline",
+        "message": "Hafna",
         "description": "Shown in tooltip for the button to decline a call (audio or video)"
     },
     "declinedIncomingAudioCall": {
-        "message": "You declined an audio call",
+        "message": "Þú hafnaðir raddsímtali",
         "description": "Shown in conversation history when you declined an incoming audio call"
     },
     "declinedIncomingVideoCall": {
-        "message": "You declined a video call",
+        "message": "Þú hafnaðir myndsímtali",
         "description": "Shown in conversation history when you declined an incoming video call"
     },
     "acceptedIncomingAudioCall": {
-        "message": "Incoming audio call",
+        "message": "Innhringing hljóðsímtals",
         "description": "Shown in conversation history when you accepted an incoming audio call"
     },
     "acceptedIncomingVideoCall": {
-        "message": "Incoming video call",
+        "message": "Innhringing myndsamtals",
         "description": "Shown in conversation history when you accepted an incoming video call"
     },
     "missedIncomingAudioCall": {
-        "message": "Missed audio call",
+        "message": "Ósvarað raddsímtal",
         "description": "Shown in conversation history when you missed an incoming audio call"
     },
     "missedIncomingVideoCall": {
-        "message": "Missed video call",
+        "message": "Ósvarað myndsímtal",
         "description": "Shown in conversation history when you missed an incoming video call"
     },
     "acceptedOutgoingAudioCall": {
-        "message": "Outgoing audio call",
+        "message": "Úthringing hljóðsímtals",
         "description": "Shown in conversation history when you made an outgoing audio call"
     },
     "acceptedOutgoingVideoCall": {
-        "message": "Outgoing video call",
+        "message": "Hringt myndsímtal",
         "description": "Shown in conversation history when you made an outgoing video call"
     },
     "missedOrDeclinedOutgoingAudioCall": {
-        "message": "Unanswered audio call",
+        "message": "Ósvarað hljóðsímtal",
         "description": "Shown in conversation history when your audio call is missed or declined"
     },
     "missedOrDeclinedOutgoingVideoCall": {
-        "message": "Unanswered video call",
+        "message": "Ósvarað myndsímtal",
         "description": "Shown in conversation history when your video call is missed or declined"
     },
     "incomingAudioCall": {
-        "message": "Incoming audio call...",
+        "message": "Innhringing hljóðsímtals...",
         "description": "Shown in both the incoming call bar and notification for an incoming audio call"
     },
     "incomingVideoCall": {
-        "message": "Incoming video call...",
+        "message": "Innhringing myndsamtals...",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
     "outgoingCallPrering": {
-        "message": "Calling...",
+        "message": "Hringi...",
         "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
     },
     "outgoingCallRinging": {
-        "message": "Ringing...",
+        "message": "Hringing...",
         "description": "Shown in the call screen when placing an outgoing call that is now ringing"
     },
     "makeOutgoingCall": {
-        "message": "Start a call",
+        "message": "Byrja símtal",
         "description": "Title for the call button in a conversation"
     },
     "makeOutgoingVideoCall": {
-        "message": "Start a video call",
+        "message": "Hefja myndsamtal",
         "description": "Title for the video call button in a conversation"
     },
     "joinOngoingCall": {
-        "message": "Sertai",
+        "message": "Taka þátt",
         "description": "Text that appears in a group when a call is active"
     },
     "callNeedPermission": {
@@ -3134,7 +3134,7 @@
         }
     },
     "callReconnecting": {
-        "message": "Reconnecting...",
+        "message": "Endurtengist....",
         "description": "Shown in the call screen when the call is reconnecting due to network issues"
     },
     "callDuration": {
@@ -3148,11 +3148,11 @@
         }
     },
     "callingDeviceSelection__settings": {
-        "message": "Tetapan",
+        "message": "Stillingar",
         "description": "Title for device selection settings"
     },
     "calling__participants": {
-        "message": "$people$ in call",
+        "message": "$people$ í símtali",
         "description": "Title for participants list toggle",
         "placeholders": {
             "people": {
@@ -3162,19 +3162,19 @@
         }
     },
     "calling__call-notification__ended": {
-        "message": "The group call has ended",
+        "message": "Hópsímtalinu er lokið",
         "description": "Notification message when a group call has ended"
     },
     "calling__call-notification__started-by-someone": {
-        "message": "A group call was started",
+        "message": "Hópsímtal var sett í gang",
         "description": "Notification message when a group call has started, but we don't know who started it"
     },
     "calling__call-notification__started-by-you": {
-        "message": "You started a group call",
+        "message": "Þú hófst hópsímtal",
         "description": "Notification message when a group call has started by you"
     },
     "calling__call-notification__started": {
-        "message": "$name$ started a group call",
+        "message": "$name$ hóf hópsímtal",
         "description": "Notification message when a group call has started",
         "placeholders": {
             "name": {
@@ -3184,11 +3184,11 @@
         }
     },
     "calling__call-notification__button__in-another-call-tooltip": {
-        "message": "You are already in a call",
+        "message": "Þú ert nú þegar í samtali",
         "description": "Tooltip in disabled notification button when you're on another call"
     },
     "calling__call-notification__button__call-full-tooltip": {
-        "message": "Call has reached capacity of $max$ participants",
+        "message": "Samtal hefur náð hámarkinu $max$ þátttakendur",
         "description": "Tooltip in disabled notification button when the call is full",
         "placeholders": {
             "max": {
@@ -3198,71 +3198,71 @@
         }
     },
     "calling__pip--on": {
-        "message": "Minimize call",
+        "message": "Lágmarka símtal",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__pip--off": {
-        "message": "Fullscreen call",
+        "message": "Símtal á fullum skjá",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__switch-view--to-grid": {
-        "message": "Switch to grid view",
+        "message": "Skipta í reitasýn",
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__switch-view--to-speaker": {
-        "message": "Switch to speaker view",
+        "message": "Skipta í ræðumannssýn",
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__hangup": {
-        "message": "Leave call",
+        "message": "Hætta símtali",
         "description": "Title for hang up button"
     },
     "callingDeviceSelection__label--video": {
-        "message": "Video",
+        "message": "Myndskeið",
         "description": "Label for video input selector"
     },
     "callingDeviceSelection__label--audio-input": {
-        "message": "Microphone",
+        "message": "Hljóðnemi",
         "description": "Label for audio input selector"
     },
     "callingDeviceSelection__label--audio-output": {
-        "message": "Speakers",
+        "message": "Ræðumenn",
         "description": "Label for audio output selector"
     },
     "callingDeviceSelection__select--no-device": {
-        "message": "No devices available",
+        "message": "Engin tæki tiltæk",
         "description": "Message for when there are no available devices to select for input/output audio or video"
     },
     "callingDeviceSelection__select--default": {
-        "message": "Lalai",
+        "message": "Sjálfgefið",
         "description": "Shown when the device is the default device"
     },
     "muteNotificationsTitle": {
-        "message": "Bisukan pemberitahuan",
+        "message": "Þagga tilkynningar",
         "description": "Label for the mute notifications drop-down selector"
     },
     "muteHour": {
-        "message": "Bisukan untuk satu jam",
+        "message": "Þagga í einn klukkutíma",
         "description": "Label for muting the conversation"
     },
     "muteDay": {
-        "message": "Bisukan untuk satu hari",
+        "message": "Þagga í einn dag",
         "description": "Label for muting the conversation"
     },
     "muteWeek": {
-        "message": "Bisukan untuk satu minggu",
+        "message": "Þagga í eina viku",
         "description": "Label for muting the conversation"
     },
     "muteYear": {
-        "message": "Bisukan untuk satu tahun",
+        "message": "Þagga í eitt ár",
         "description": "Label for muting the conversation"
     },
     "unmute": {
-        "message": "Nyahbisukan",
+        "message": "Ekki þagga",
         "description": "Label for unmuting the conversation"
     },
     "muteExpirationLabel": {
-        "message": "Muted until $duration$",
+        "message": "Þagga þar til $duration$",
         "description": "Shown in the mute notifications submenu whenever a conversation has been muted",
         "placeholders": {
             "duration": {
@@ -3272,27 +3272,27 @@
         }
     },
     "EmojiButton__label": {
-        "message": "Emoji",
+        "message": "Tjáningartákn",
         "description": "Label for emoji button"
     },
     "ErrorModal--title": {
-        "message": "Ada yang tidak kena!",
+        "message": "Eitthvað fór úrskeiðis!",
         "description": "Title of pop-up dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
-        "message": "Please try again or contact support.",
+        "message": "Prófaðu aftur eða hafðu samband við aðstoðarteymi.",
         "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
-        "message": "Okay",
+        "message": "Í lagi",
         "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
-        "message": "Sorry, that sgnl:// link didn't make sense!",
+        "message": "Því miður, ekkert vit var í þessum sgnl:// tengli!",
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
     "GroupV2--join--invalid-link--title": {
-        "message": "Invalid Link",
+        "message": "Ógildur tengill",
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--invalid-link": {
@@ -3304,7 +3304,7 @@
         "description": "Shown when you click on a group link to confirm"
     },
     "GroupV2--join--already-in-group": {
-        "message": "You're already in this group.",
+        "message": "Þú ert þegar í þessum hópi.",
         "description": "Shown if you click a group link for a group where you're already a member"
     },
     "GroupV2--join--already-awaiting-approval": {
@@ -3312,35 +3312,35 @@
         "description": "Shown if you click a group link for a group where you've already requested approval'"
     },
     "GroupV2--join--unknown-link-version--title": {
-        "message": "Unknown link version",
+        "message": "Óþekkt útgáfa tengils",
         "description": "This group link is no longer valid."
     },
     "GroupV2--join--unknown-link-version": {
-        "message": "This link is not supported by this version of Signal Desktop.",
+        "message": "Þessi tengill er ekki studdur í þessari útgáfu af Signal Desktop.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked--title": {
-        "message": "Can’t Join Group",
+        "message": "Get ekki gengið í hóp",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked": {
-        "message": "This group link is no longer valid.",
+        "message": "Þessi hóptengill er ekki lengur gildur.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--prompt-with-approval": {
-        "message": "An admin of this group must approve your request before you can join this group. If approved, your name and photo will be shared with its members.",
+        "message": "Stjórnandi í hópnum verður að samþykkja beiðnina þína áður en þú getur gengið í hópinn. Ef hún er samþykkt, verður nafninu þínu og mynd deilt með meðlimum hópsins.",
         "description": "Shown when you click on a group link to confirm, if it requires admin approval"
     },
     "GroupV2--join--join-button": {
-        "message": "Sertai",
+        "message": "Taka þátt",
         "description": "The button to join the group"
     },
     "GroupV2--join--request-to-join-button": {
-        "message": "Request to Join",
+        "message": "Biðja um að taka þátt",
         "description": "The button to join the group, if approval is required"
     },
     "GroupV2--join--cancel-request-to-join": {
-        "message": "Batalkan Permintaan",
+        "message": "Hætta við beiðni",
         "description": "The button to cancel request to join the group"
     },
     "GroupV2--join--cancel-request-to-join--confirmation": {
@@ -3348,19 +3348,19 @@
         "description": "A confirmation message that shows after you click the button"
     },
     "GroupV2--join--cancel-request-to-join--yes": {
-        "message": "Ya",
+        "message": "Já",
         "description": "Choosing to continue in the cancel join confirmation dialog"
     },
     "GroupV2--join--cancel-request-to-join--no": {
-        "message": "Tidak",
+        "message": "Nei",
         "description": "Choosing not to continue in the cancel join confirmation dialog"
     },
     "GroupV2--join--member-count--single": {
-        "message": "1 ahli",
+        "message": "1 meðlimur",
         "description": "Shown in the metadata section if group has just one member"
     },
     "GroupV2--join--member-count--multiple": {
-        "message": "$count$ members",
+        "message": "$count$ þátttakendur",
         "description": "Shown in the metadata section if group has more than one member",
         "placeholders": {
             "count": {
@@ -3380,7 +3380,7 @@
         }
     },
     "GroupV2--join--requested": {
-        "message": "Your request to join has been sent to the group admin. You’ll be notified when they take action.",
+        "message": "Beiðni þín um þátttöku hefur verið send til stjórnenda hópsins. Þú munt fá að vita þegar þeir hafa brugðist við.",
         "description": "Shown in composition area when you've requested to join a group"
     },
     "GroupV2--join--general-join-failure--title": {
@@ -3392,23 +3392,23 @@
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
-        "message": "Pentadbir",
+        "message": "Stjórnandi",
         "description": "Label for a group administrator"
     },
     "GroupV2--all-members": {
-        "message": "Semua ahli",
+        "message": "Allir meðlimir",
         "description": "Label for describing the general non-privileged members of a group"
     },
     "updating": {
-        "message": "Updating...",
+        "message": "Uppfæri...",
         "description": "Shown along with a spinner when an update operation takes longer than one second"
     },
     "GroupV2--create--you": {
-        "message": "Anda mencipta kumpulan.",
+        "message": "Þú bjóst til hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--create--other": {
-        "message": "$memberName$ created the group.",
+        "message": "$memberName$ útbjó hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3422,7 +3422,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--change--other": {
-        "message": "$memberName$ changed the group name to \"$newTitle$\".",
+        "message": "$memberName$ breytti nafninu á hópnum í \"$newTitle$\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3436,7 +3436,7 @@
         }
     },
     "GroupV2--title--change--you": {
-        "message": "You changed the group name to \"$newTitle$\".",
+        "message": "Þú breyttir nafninu á hópnum í \"$newTitle$\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "newTitle": {
@@ -3446,7 +3446,7 @@
         }
     },
     "GroupV2--title--change--unknown": {
-        "message": "A member changed the group name to \"$newTitle$\".",
+        "message": "Meðlimur breytti nafninu á hópnum í \"$newTitle$\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "newTitle": {
@@ -3466,7 +3466,7 @@
         }
     },
     "GroupV2--title--remove--you": {
-        "message": "Anda mengeluarkan nama kumpulan.",
+        "message": "You removed the group name.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--remove--unknown": {
@@ -3484,7 +3484,7 @@
         }
     },
     "GroupV2--avatar--change--you": {
-        "message": "You changed the group avatar.",
+        "message": "Þú skiptir um auðkennismynd hópsins.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--unknown": {
@@ -3510,7 +3510,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--other": {
-        "message": "$adminName$ changed who can edit group info to \"Only admins.\"",
+        "message": "$adminName$ breytti þeim sem geta átt við lýsingu hóps yfir í \"Aðeins stjórnendur.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3520,15 +3520,15 @@
         }
     },
     "GroupV2--access-attributes--admins--you": {
-        "message": "You changed who can edit group info to \"Only admins.\"",
+        "message": "Þú breyttir þeim sem geta átt við lýsingu hóps yfir í \"Aðeins stjórnendur.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--unknown": {
-        "message": "An admin changed who can edit group info to \"Only admins.\"",
+        "message": "Stjórnandi breytti þeim sem geta átt við lýsingu hóps yfir í \"Aðeins stjórnendur.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--other": {
-        "message": "$adminName$ changed who can edit group info to \"All members.\"",
+        "message": "$adminName$ breytti þeim sem geta átt við lýsingu hóps yfir í \"Allir meðlimir.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3542,11 +3542,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--unknown": {
-        "message": "An admin changed who can edit group info to \"All members.\"",
+        "message": "Stjórnandi breytti þeim sem geta átt við lýsingu hóps yfir í \"Allir meðlimir.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--other": {
-        "message": "$adminName$ changed who can edit group membership to \"Only admins.\"",
+        "message": "$adminName$ breytti þeim sem geta átt við lýsingu hóps yfir í \"Allir meðlimir.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3556,15 +3556,15 @@
         }
     },
     "GroupV2--access-members--admins--you": {
-        "message": "You changed who can edit group membership to \"Only admins.\"",
+        "message": "Þú breyttir þeim sem geta sýslað með meðlimi hóps yfir í \"Aðeins stjórnendur.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--unknown": {
-        "message": "An admin changed who can edit group membership to \"Only admins.\"",
+        "message": "Stjórnandi breytti þeim sem geta sýslað með meðlimi hóps yfir í \"Aðeins stjórnendur.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--other": {
-        "message": "$adminName$ changed who can edit group membership to \"All members.\"",
+        "message": "$adminName$ breytti þeim sem geta sýslað með meðlimi hóps yfir í \"Allir meðlimir.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3578,7 +3578,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--unknown": {
-        "message": "An admin changed who can edit group membership to \"All members.\"",
+        "message": "Stjórnandi breytti þeim sem geta sýslað með meðlimi hóps yfir í \"Allir meðlimir.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--you": {
@@ -3618,7 +3618,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {
-        "message": "You added invited member $inviteeName$.",
+        "message": "Þú bættir við boðsmeðlimnum $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3628,7 +3628,7 @@
         }
     },
     "GroupV2--member-add--invited--other": {
-        "message": "$memberName$ added invited member $inviteeName$.",
+        "message": "$memberName$ bætti við boðsmeðlimnum $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3642,7 +3642,7 @@
         }
     },
     "GroupV2--member-add--invited--unknown": {
-        "message": "A member added invited member $inviteeName$.",
+        "message": "Meðlimur bætti við boðsmeðlimnum $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3652,7 +3652,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other": {
-        "message": "$inviteeName$ accepted an invitation to the group from $inviterName$.",
+        "message": "$inviteeName$ samþykkti boð frá $inviterName$ um að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3666,7 +3666,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other-no-from": {
-        "message": "$inviteeName$ accepted an invitation to the group.",
+        "message": "$inviteeName$ samþykkti boð um að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3676,7 +3676,7 @@
         }
     },
     "GroupV2--member-add--from-invite--you": {
-        "message": "You accepted an invitation to the group from $inviterName$.",
+        "message": "Þú samþykktir boð frá $inviterName$ um að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -3686,11 +3686,11 @@
         }
     },
     "GroupV2--member-add--from-invite--you-no-from": {
-        "message": "Anda menerima jemputan kepada kumpulan.",
+        "message": "Þú samþykktir boð um að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--from-invite--from-you": {
-        "message": "$inviteeName$ accepted your invitation to the group.",
+        "message": "$inviteeName$ samþykkti boð frá þér um að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3700,7 +3700,7 @@
         }
     },
     "GroupV2--member-add--other--other": {
-        "message": "$adderName$ added $addeeName$.",
+        "message": "$adderName$ bætti við $addeeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adderName": {
@@ -3714,7 +3714,7 @@
         }
     },
     "GroupV2--member-add--other--you": {
-        "message": "You added $memberName$.",
+        "message": "Þú bættir við $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3724,7 +3724,7 @@
         }
     },
     "GroupV2--member-add--other--unknown": {
-        "message": "A member added $memberName$.",
+        "message": "Meðlimur bætti við $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3734,7 +3734,7 @@
         }
     },
     "GroupV2--member-add--you--other": {
-        "message": "$memberName$ added you to the group.",
+        "message": "$memberName$ bætti þér í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3744,11 +3744,11 @@
         }
     },
     "GroupV2--member-add--you--you": {
-        "message": "Anda menyertai kumpulan.",
+        "message": "Þú gekkst í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--you--unknown": {
-        "message": "You were added to the group.",
+        "message": "Þér var bætt í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--you--you": {
@@ -3766,7 +3766,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--you--other": {
-        "message": "$adminName$ approved your request to join the group.",
+        "message": "$adminName$ samþykkti beiðni þína um að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3790,7 +3790,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--other--other": {
-        "message": "$adminName$ approved a request to join the group from $joinerName$.",
+        "message": "$adminName$ samþykkti beiðni frá $joinerName$ um að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3814,7 +3814,7 @@
         }
     },
     "GroupV2--member-remove--other--other": {
-        "message": "$adminName$ removed $memberName$.",
+        "message": "$adminName$ fjarlægði $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3828,7 +3828,7 @@
         }
     },
     "GroupV2--member-remove--other--self": {
-        "message": "$memberName$ left the group.",
+        "message": "$memberName$ yfirgaf hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3838,7 +3838,7 @@
         }
     },
     "GroupV2--member-remove--other--you": {
-        "message": "You removed $memberName$.",
+        "message": "Þú fjarlægðir $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3848,7 +3848,7 @@
         }
     },
     "GroupV2--member-remove--other--unknown": {
-        "message": "A member removed $memberName$.",
+        "message": "Meðlimur fjarlægði $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3858,7 +3858,7 @@
         }
     },
     "GroupV2--member-remove--you--other": {
-        "message": "$adminName$ removed you.",
+        "message": "$adminName$ fjarlægði þig.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3868,15 +3868,15 @@
         }
     },
     "GroupV2--member-remove--you--you": {
-        "message": "You left the group.",
+        "message": "Þú yfirgafst hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-remove--you--unknown": {
-        "message": "Anda dikeluarkan daripada kumpulan.",
+        "message": "Þú varst fjarlægð/ur úr hópnum.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--promote--other--other": {
-        "message": "$adminName$ made $memberName$ an admin.",
+        "message": "$adminName$ gerði $memberName$ að stjórnanda.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3890,7 +3890,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--you": {
-        "message": "You made $memberName$ an admin.",
+        "message": "Þú gerðir $memberName$ að stjórnanda.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3900,7 +3900,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--unknown": {
-        "message": "An admin made $memberName$ an admin.",
+        "message": "Stjórnandi gerði $memberName$ að stjórnanda.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3910,7 +3910,7 @@
         }
     },
     "GroupV2--member-privilege--promote--you--other": {
-        "message": "$adminName$ made you an admin.",
+        "message": "$adminName$ gerði þig að stjórnanda.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3920,11 +3920,11 @@
         }
     },
     "GroupV2--member-privilege--promote--you--unknown": {
-        "message": "An admin made you an admin.",
+        "message": "Stjórnandi gerði þig að stjórnanda.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--demote--other--other": {
-        "message": "$adminName$ revoked admin privileges from $memberName$.",
+        "message": "$adminName$ tók stjórnunarréttindi af $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3938,7 +3938,7 @@
         }
     },
     "GroupV2--member-privilege--demote--other--you": {
-        "message": "You revoked admin privileges from $memberName$.",
+        "message": "Þú tókst stjórnunarréttindi af $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3948,11 +3948,11 @@
         }
     },
     "GroupV2--member-privilege--demote--other--unknown": {
-        "message": "An admin revoked admin privileges from $memberName$.",
+        "message": "Stjórnandi tók stjórnunarréttindi af $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--demote--you--other": {
-        "message": "$adminName$ revoked your admin privileges.",
+        "message": "$adminName$ tók stjórnunarréttindi af þér.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3962,11 +3962,11 @@
         }
     },
     "GroupV2--member-privilege--demote--you--unknown": {
-        "message": "An admin revoked your admin privileges.",
+        "message": "Stjórnandi tók stjórnunarréttindi af þér.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--one--other--other": {
-        "message": "$memberName$ invited 1 person to the group.",
+        "message": "$memberName$ bauð 1 aðila í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3976,7 +3976,7 @@
         }
     },
     "GroupV2--pending-add--one--other--you": {
-        "message": "You invited $inviteeName$ to the group.",
+        "message": "Þú bauðst $inviteeName$ að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3986,7 +3986,7 @@
         }
     },
     "GroupV2--pending-add--one--other--unknown": {
-        "message": "One person was invited to the group.",
+        "message": "Einum aðila var boðið að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3996,7 +3996,7 @@
         }
     },
     "GroupV2--pending-add--one--you--other": {
-        "message": "$memberName$ invited you to the group.",
+        "message": "$memberName$ bauð þér að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4006,11 +4006,11 @@
         }
     },
     "GroupV2--pending-add--one--you--unknown": {
-        "message": "Anda dijemput kepada kumpulan.",
+        "message": "Þér var boðið að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--many--other": {
-        "message": "$memberName$ invited $count$ people to the group.",
+        "message": "$memberName$ bauð $count$ aðilum að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4024,7 +4024,7 @@
         }
     },
     "GroupV2--pending-add--many--you": {
-        "message": "You invited $count$ people to the group.",
+        "message": "Þú bauðst $count$ aðilum að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4034,7 +4034,7 @@
         }
     },
     "GroupV2--pending-add--many--unknown": {
-        "message": "$count$ people were invited to the group.",
+        "message": "$count$ aðilum var boðið að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4044,7 +4044,7 @@
         }
     },
     "GroupV2--pending-remove--decline--other": {
-        "message": "1 person invited by $memberName$ declined the invitation to the group.",
+        "message": "1 aðili hafnaði boði frá $memberName$ um að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4054,7 +4054,7 @@
         }
     },
     "GroupV2--pending-remove--decline--you": {
-        "message": "$inviteeName$ declined your invitation to the group.",
+        "message": "$inviteeName$ hafnaði boði þínu um að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4064,11 +4064,11 @@
         }
     },
     "GroupV2--pending-remove--decline--from-you": {
-        "message": "You declined the invitation to the group.",
+        "message": "Þú hafnaðir boði um að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--decline--unknown": {
-        "message": "1 person declined their invitation to the group.",
+        "message": "1 aðili hafnaði boði um að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--revoke--one--other": {
@@ -4112,7 +4112,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--one--unknown": {
-        "message": "An admin revoked an invitation to the group for 1 person.",
+        "message": "Stjórnandi afturkallaði boð til 1 aðila um að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4146,7 +4146,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--unknown": {
-        "message": "An admin revoked invitations to the group for $count$ people.",
+        "message": "Stjórnandi afturkallaði boð til $count$ aðila um að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4156,7 +4156,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--other": {
-        "message": "$adminName$ revoked an invitation to the group for 1 person invited by $memberName$.",
+        "message": "$adminName$ afturkallaði boð frá $memberName$ til 1 aðila um að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4180,7 +4180,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-        "message": "An admin revoked an invitation to the group for 1 person invited by $memberName$.",
+        "message": "Stjórnandi afturkallaði boð frá $memberName$ til 1 aðila um að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4190,7 +4190,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--other": {
-        "message": "$adminName$ revoked the invitation to the group you sent to $inviteeName$.",
+        "message": "$adminName$ afturkallaði boð um að ganga í hópinn sem þú sendir til $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4210,7 +4210,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--unknown": {
-        "message": "An admin revoked the invitation to the group you sent to $inviteeName$.",
+        "message": "Stjórnandi afturkallaði boð um að ganga í hópinn sem þú sendir til $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4220,7 +4220,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--other": {
-        "message": "$adminName$ revoked invitations to the group for $count$ people invited by $memberName$.",
+        "message": "$adminName$ afturkallaði boð frá $memberName$ til $count$ aðila um að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4248,7 +4248,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-        "message": "An admin revoked invitations to the group for $count$ people invited by $memberName$.",
+        "message": "Stjórnandi afturkallaði boð frá $memberName$ til $count$ aðila um að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4262,7 +4262,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-        "message": "$adminName$ revoked the invitations to the group you sent to $count$ people.",
+        "message": "$adminName$ afturkallaði boð sem þú sendir til $count$ aðila um að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4286,7 +4286,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-        "message": "An admin revoked the invitations to the group you sent to $count$ people.",
+        "message": "Stjórnandi afturkallaði boð sem þú sendir til $count$ aðila um að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4310,11 +4310,11 @@
         }
     },
     "GroupV2--admin-approval-remove-one--you--you": {
-        "message": "You canceled your request to join the group.",
+        "message": "Þú hættir við beiðni þína um að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--you--unknown": {
-        "message": "Your request to join the group has been denied by an admin.",
+        "message": "Beiðni þinni um þátttöku í hópnum hefur verið hafnað af stjórnanda.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--other--you": {
@@ -4338,7 +4338,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--other--other": {
-        "message": "$adminName$ denied a request to join the group from $joinerName$.",
+        "message": "$adminName$ hafnaði beiðni frá $joinerName$ um að ganga í hópinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4392,7 +4392,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--other": {
-        "message": "$adminName$ turned off the group link.",
+        "message": "$adminName$ slökkti á hóptenglinum.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4410,7 +4410,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--other": {
-        "message": "$adminName$ reset the group link.",
+        "message": "$adminName$ endurstillti hóptengilinn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4424,7 +4424,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
-        "message": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. $learnMore$",
+        "message": "Uppfærðu þennan hóp til að virkja nýja eiginleika á borð við @mentions og hópstjóra. Meðlimir sem ekki hafa deilt nafninu sínu eða mynd í hópnum fá boð um að taka þátt. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
         "placeholders": {
             "learnMore": {
@@ -4434,27 +4434,27 @@
         }
     },
     "GroupV1--Migration--was-upgraded": {
-        "message": "This group was upgraded to a New Group.",
+        "message": "Þessi hópur var uppfærður í nýja gerð hóps.",
         "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
     },
     "GroupV1--Migration--learn-more": {
-        "message": "Ketahui Lebih Lanjut",
+        "message": "Kanna nánar",
         "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
     },
     "GroupV1--Migration--migrate": {
-        "message": "Naik taraf",
+        "message": "Uppfæra",
         "description": "Shown on Migrate dialog to kick off the process"
     },
     "GroupV1--Migration--info--title": {
-        "message": "What are New Groups?",
+        "message": "Hvað er þessi nýja gerð hópa?",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--title": {
-        "message": "Naik taraf ke Group Baru",
+        "message": "Uppfæra í nýja gerð hóps",
         "description": "Shown on Migration popup after choosing to migrate group"
     },
     "GroupV1--Migration--info--summary": {
-        "message": "New Groups have features like @mentions and group admins, and will support more features in the future.",
+        "message": "Nýja gerðin af hópum er með eiginleika á borð við @mentions og hópstjóra, og mun styðja fleiri eiginleika í framtíðinni.",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--keep-history": {
@@ -4478,27 +4478,27 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
-        "message": "These members are not capable of joining New Groups, and will be removed from the group:",
+        "message": "Þessir meðlimir geta ekki tekið þátt í nýju gerðinni af hópum og verða því fjarlægðir úr hópnum:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--one": {
-        "message": "This member is not capable of joining New Groups, and will be removed from the group:",
+        "message": "Þessi meðlimur getur ekki tekið þátt í nýju gerðinni af hópum og verður því fjarlægður úr hópnum:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--many": {
-        "message": "These members were not capable of joining New Groups, and were removed from the group:",
+        "message": "Þessir meðlimir gátu ekki tekið þátt í nýju gerðinni af hópum og voru því fjarlægðir úr hópnum:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--one": {
-        "message": "This member was not capable of joining New Groups, and was removed from the group:",
+        "message": "Þessi meðlimur gat ekki tekið þátt í nýju gerðinni af hópum og var því fjarlægður úr hópnum:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
-        "message": "You couldn't be added to the New Group and have been invited to join.",
+        "message": "Ekki var hægt að bæta þér í nýju gerðina af hópum og var þér því boðin innganga.",
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {
-        "message": "$contact$ couldn’t be added to the New Group and has been invited to join.",
+        "message": "Ekki var hægt að bæta $contact$ í nýju gerðina af hópum og var honum/henni því boðin innganga.",
         "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
         "placeholders": {
             "contact": {
@@ -4508,7 +4508,7 @@
         }
     },
     "GroupV1--Migration--invited--many": {
-        "message": "$count$ members couldn’t be added to the New Group and have been invited to join.",
+        "message": "Ekki var hægt að bæta $count$ meðlimum í nýju gerðina af hópum og var þeim því boðin innganga.",
         "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
         "placeholders": {
             "contact": {
@@ -4518,7 +4518,7 @@
         }
     },
     "GroupV1--Migration--removed--one": {
-        "message": "$contact$ was removed from the group.",
+        "message": "$contact$ var fjarlægð/ur úr hópnum.",
         "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade",
         "placeholders": {
             "contact": {
@@ -4528,7 +4528,7 @@
         }
     },
     "GroupV1--Migration--removed--many": {
-        "message": "$count$ members were removed from the group.",
+        "message": "$count$ meðlimir voru fjarlægðir úr hópnum.",
         "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade",
         "placeholders": {
             "contact": {
@@ -4538,39 +4538,39 @@
         }
     },
     "close": {
-        "message": "Tutup",
+        "message": "Loka",
         "description": "Generic close label"
     },
     "previous": {
-        "message": "previous",
+        "message": "fyrri",
         "description": "Generic previous label"
     },
     "next": {
-        "message": "next",
+        "message": "næsta",
         "description": "Generic next label"
     },
     "CompositionArea--expand": {
-        "message": "Expand",
+        "message": "Fletta út",
         "description": "Aria label for expanding composition area"
     },
     "CompositionArea--attach-file": {
-        "message": "Lampirkan fail",
+        "message": "Hengja við skrá",
         "description": "Aria label for file attachment button in composition area"
     },
     "countMutedConversationsDescription": {
-        "message": "Count muted conversations in badge count",
+        "message": "Telja þögguð samtöl með í talningu á merki",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
-        "message": "Mesej",
+        "message": "Skilaboð",
         "description": "Button text for send message button in Group Contact Details modal"
     },
     "ContactModal--rm-admin": {
-        "message": "Remove as admin",
+        "message": "Fjarlæga stjórnunarréttindi",
         "description": "Button text for removing as admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin": {
-        "message": "Make admin",
+        "message": "Gera að stjórnanda",
         "description": "Button text for make admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin-info": {
@@ -4584,7 +4584,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Remove $contact$ as group admin",
+        "message": "Taka hópstjórarréttindi af $contact$",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -4594,19 +4594,19 @@
         }
     },
     "ContactModal--remove-from-group": {
-        "message": "Remove from group",
+        "message": "Fjarlægja úr hópi",
         "description": "Button text for remove from group button in Group Contact Details modal"
     },
     "showConversationDetails": {
-        "message": "Group settings",
+        "message": "Stillingar hóps",
         "description": "This is a button in the conversation context menu to show group settings"
     },
     "ConversationDetails--group-link": {
-        "message": "Group link",
+        "message": "Tengill hóps",
         "description": "This is the label for the group link management panel"
     },
     "ConversationDetails--disappearing-messages-label": {
-        "message": "Mesej hilang",
+        "message": "Skilaboð sem hverfa",
         "description": "This is the label for the disappearing messages setting panel"
     },
     "ConversationDetails--disappearing-messages-info": {
@@ -4634,23 +4634,23 @@
         "description": "This is a button to display which members have been invited but have not joined yet"
     },
     "ConversationDetailsActions--leave-group": {
-        "message": "Keluar kumpulan",
+        "message": "Yfirgefa hóp",
         "description": "This is a button to leave a group"
     },
     "ConversationDetailsActions--block-group": {
-        "message": "Block group",
+        "message": "Útiloka hóp",
         "description": "This is a button to block a group"
     },
     "ConversationDetailsActions--leave-group-modal-title": {
-        "message": "Adakah anda benar-benar mahu keluar?",
+        "message": "Ertu viss um að þú viljir fara?",
         "description": "This is the modal title for confirming leaving a group"
     },
     "ConversationDetailsActions--leave-group-modal-content": {
-        "message": "Anda tidak akan dapat menerima atau menghantar mesej dalam kumpulan ini.",
+        "message": "Þú munt ekki lengur geta tekið á móti eða sent skilaboð til þessa hóps.",
         "description": "This is the modal content for confirming leaving a group"
     },
     "ConversationDetailsActions--leave-group-modal-confirm": {
-        "message": "Tinggalkan",
+        "message": "Yfirgefa",
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--block-group-modal-title": {
@@ -4664,11 +4664,11 @@
         }
     },
     "ConversationDetailsActions--block-group-modal-content": {
-        "message": "Anda tidak akan menerima mesej dan kemas kini daripada kumpulan ini.",
+        "message": "Þú munt ekki lengur fá skilaboð eða uppfærslur frá þessum hóp.",
         "description": "This is the modal content for confirming blocking a group"
     },
     "ConversationDetailsActions--block-group-modal-confirm": {
-        "message": "Sekat",
+        "message": "Útiloka",
         "description": "This is the modal button to confirm blocking a group"
     },
     "ConversationDetailsHeader--members": {
@@ -4682,11 +4682,11 @@
         }
     },
     "ConversationDetailsMediaList--shared-media": {
-        "message": "Media yang dikongsi",
+        "message": "Deilt myndefni",
         "description": "Title for the media thumbnails in the conversation details screen"
     },
     "ConversationDetailsMediaList--show-all": {
-        "message": "See all",
+        "message": "Sjá allt",
         "description": "This is a button on the conversation details to show all media"
     },
     "ConversationDetailsMembershipList--title": {
@@ -4700,7 +4700,7 @@
         }
     },
     "ConversationDetailsMembershipList--show-all": {
-        "message": "See all",
+        "message": "Sjá allt",
         "description": "This is a button on the conversation details to show all members"
     },
     "GroupLinkManagement--clipboard": {
@@ -4716,7 +4716,7 @@
         "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
     },
     "GroupLinkManagement--reset": {
-        "message": "Reset link",
+        "message": "Endurstilla tengil",
         "description": "This lets users generate a new group link"
     },
     "GroupLinkManagement--approve-label": {
@@ -4724,7 +4724,7 @@
         "description": "Title for the approve new members select area"
     },
     "GroupLinkManagement--approve-info": {
-        "message": "Require an admin to approve new members joining via the group link",
+        "message": "Krefjast að stjórnandi samþykki nýja meðlimi sem taka þátt í gegnum hóptengil",
         "description": "Description for the approve new members select area"
     },
     "PendingInvites--tab-requests": {

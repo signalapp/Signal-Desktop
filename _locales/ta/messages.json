@@ -1,6 +1,6 @@
 {
     "softwareAcknowledgments": {
-        "message": "Software Acknowledgments",
+        "message": "மென்பொருள் ஒப்புதல்கள்",
         "description": "Shown in the about box for the link to software acknowledgments"
     },
     "privacyPolicy": {
@@ -32,7 +32,7 @@
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuCreateStickers": {
-        "message": " ஓட்டிகள் தொகுப்பை உருவாக்கவும் அல்லது பதிவேற்றவும்",
+        "message": " ஸ்டிக்கர் தொகுப்பை உருவாக்க/பதிவேற்ற",
         "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
@@ -156,19 +156,19 @@
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "messageContextMenuButton": {
-        "message": "More actions",
+        "message": "மேலும் செயல்கள்",
         "description": "Label for context button next to each message"
     },
     "contextMenuCopyLink": {
-        "message": "இணைப்பை நகலெடுக்கவும்",
+        "message": "இணைப்பை நகலெடுக்க",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
     "contextMenuCopyImage": {
-        "message": "Copy Image",
+        "message": "படத்தை நகலெடு",
         "description": "Shown in the context menu for an image to indicate that the user can copy the image"
     },
     "contextMenuNoSuggestions": {
-        "message": "No Suggestions",
+        "message": "பரிந்துரைகள் இல்லை",
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
     },
     "avatarMenuViewArchive": {
@@ -198,7 +198,7 @@
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "LeftPane--pinned": {
-        "message": "மேலே பொருத்தப்பட்ட செய்திகள்",
+        "message": "முக்கியமானது",
         "description": "Shown as a header for pinned conversations in the left pane"
     },
     "LeftPane--chats": {
@@ -214,23 +214,23 @@
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "markUnread": {
-        "message": "படிக்காதது என்று குறி",
+        "message": "படிக்கவில்லை என்று குறிக்க",
         "description": "Shown in menu for conversation, and marks conversation as unread"
     },
     "moveConversationToInbox": {
-        "message": "காப்பகப்படுத்தாதே",
+        "message": "வெளிப்படுத்து",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
-        "message": "Pin Conversation",
+        "message": "உரையாடலை பாதுகாக்கவும்",
         "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
     },
     "unpinConversation": {
-        "message": "Unpin Conversation",
+        "message": "உரையாடலைத் திறக்கவும்",
         "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
     },
     "pinnedConversationsFull": {
-        "message": "You can only pin up to 4 chats",
+        "message": " 4 உரையாடல்கள் மட்டுமே பாதுகாக்கமுடியும். ",
         "description": ""
     },
     "chooseDirectory": {
@@ -308,11 +308,11 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "You are no longer a member of the group.",
+        "message": "நீங்கள் இனியும்  இந்தக் குழு உறுப்பினர் இல்லை.  .",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "invalidConversation": {
-        "message": "This group is invalid. Please create a new group.",
+        "message": "இந்தக் குழு செல்லாது. தயவுசெய்து வேறு குழு ஆரம்பிக்கவும்.",
         "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
     },
     "scrollDown": {
@@ -338,7 +338,7 @@
         }
     },
     "messageHistoryUnsynced": {
-        "message": "உங்கள் பாதுகாப்பிற்காக, உரையாடல் வரலாறு புதிய இணைக்கப்பட்ட சாதனங்களுக்கு மாற்றமுடியாது.",
+        "message": "உரையாடல் விவரக் குறிப்பு புதிய இணைக்கப்பட்ட சாதனங்களுக்கு,  உங்கள் பாதுகாப்பு கருதி மாற்றப்படவில்லை.",
         "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
@@ -400,11 +400,11 @@
         }
     },
     "changedVerificationWarning": {
-        "message": "பின்வரும் நபர்கள் தொலைபேசிகளை மீண்டும் நிறுவியிருக்கலாம் அல்லது மாற்றியிருக்கலாம். தனியுரிமையை உறுதிப்படுத்த அவர்களுடன் உங்கள் பாதுகாப்பு எண்ணைச் சரிபார்க்கவும்.",
+        "message": "பின்வரும் நபர்கள் சாதனங்களை மீண்டும் நிறுவியிருக்கலாம் அல்லது மாற்றியிருக்கலாம். தனியுரிமையை உறுதிப்படுத்த அவர்களுடன் உங்கள் பாதுகாப்பு எண்ணைச் சரிபார்க்கவும்.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "identityKeyErrorOnSend": {
-        "message": "$name1$ உடனான உங்கள் பாதுகாப்பு எண் மாற்றப்பட்டுள்ளது. உங்கள் தகவல்தொடர்புகளை யாராவது இடைமறிக்க முயற்சிக்கிறார்கள் அல்லது $name2$ Signal சிக்னலை மீண்டும் நிறுவியிருக்கலாம் என்று இது குறிக்கலாம். இந்த தொடர்பு மூலம் உங்கள் பாதுகாப்பு எண்ணை சரிபார்க்க விரும்பலாம்.",
+        "message": "$name1$ உடனான உங்கள் பாதுகாப்பு எண் மாற்றப்பட்டுள்ளது. உங்கள் தகவல்தொடர்புகளை யாராவது இடைமறிக்க முயற்சிக்கிறார்கள் அல்லது $name2$ Signal சிக்னலை மீண்டும் நிறுவியிருக்கலாம்.  உங்கள் பாதுகாப்பு எண்ணை இவருடன் சரிபார்க்கவும்.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name1": {
@@ -422,11 +422,11 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "callAnyway": {
-        "message": "எப்படியும் அழைக்கவும்",
+        "message": "எப்படியாவது அழைக்கவும்",
         "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
     },
     "continueCall": {
-        "message": "Continue Call",
+        "message": "அழைப்பைத் தொடரவும்",
         "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
@@ -456,7 +456,7 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopyAlt": {
-        "message": "உங்களுடைய இடைநிலைப் பலகைக்கு இணைப்பை நகலெடுக்குக",
+        "message": "இணைப்பை கிளிப் போர்டுக்கு-இடை நிலை பலகை- நகல் எடுக்கவும்",
         "description": "Shown as the alt text for the copy button on the debug log screen"
     },
     "debugLogLinkCopied": {
@@ -530,6 +530,10 @@
     "mediaEmptyState": {
         "message": "இந்த உரையாடலில் உங்களிடம் எந்த ஊடகமும் இல்லை",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
+    },
+    "allMedia": {
+        "message": "அனைத்து மீடியா",
+        "description": "Header for the media gallery"
     },
     "documents": {
         "message": "ஆவணங்கள்",
@@ -614,7 +618,7 @@
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAndNonImageAttachments": {
-        "message": "ஒரு செய்தியில் நீங்கள் படம் அல்லாத மற்றும் பட இணைப்புகள் கலக்க முடியாது.",
+        "message": "ஒரே செய்தியில் நீங்கள் படமும் படம் அல்லாத இணப்புகளை கலந்து அனுப்ப முடியாது. ",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
@@ -638,11 +642,11 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "இணை",
+        "message": "இணைக்கவும்",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": " நீளமா இருக்கக்கூடாது...",
+        "message": "வெகு நேரம் எடுக்காது",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -682,7 +686,7 @@
         "description": "Item under the Help menu, takes you to the support page"
     },
     "joinTheBeta": {
-        "message": "Signal Beta பீட்டாவில் சேரவும்",
+        "message": "Signal சோதனையில் சேரவும்",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
@@ -690,7 +694,7 @@
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
-        "message": "ஓட்டி தொகுப்பு தயாரிப்பாளர்",
+        "message": "ஸ்டிக்கர் தொகுப்பு தயாரிப்பாளர்",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
@@ -722,7 +726,7 @@
         "description": "Placeholder text in the search input"
     },
     "clearSearch": {
-        "message": "Clear Search",
+        "message": "தேடலை நீக்கு",
         "description": "Aria label for clear search button"
     },
     "searchIn": {
@@ -838,7 +842,7 @@
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "reactToMessage": {
-        "message": "செய்திக்கு உணர்வு வெளிப்பாடு பதிலளிக்கவும்",
+        "message": "செய்திக்கு வினையாற்றவும்",
         "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
     },
     "replyToMessage": {
@@ -902,11 +906,11 @@
         "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
-        "message": "அழைப்பதற்கு, உங்கள் ஒலிபெருக்கியை அணுக சிக்னல் டெஸ்க்டாப்பை Signal desktop அனுமதிக்க வேண்டும்.",
+        "message": "அழைப்பதற்கு, உங்கள் ஒலிபெருக்கியை பயன்படுத்த சிக்னல் டெஸ்க்டாப்பை Signal desktop அனுமதிக்க வேண்டும்.",
         "description": "Shown if the user attempts access the microphone for calling without audio permissions turned on"
     },
     "videoCallingPermissionNeeded": {
-        "message": "காணொளி அழைப்புக்கு, உங்கள் புகைப்பட கருவியை அணுக சிக்னல் Signal desktop டெஸ்க்டாப்பை அனுமதிக்க வேண்டும்.",
+        "message": "காணொளி அழைப்புக்கு, உங்கள் புகைப்பட கருவியை பயன்படுத்த சிக்னல்  டெஸ்க்டாப்பை Signal desktop அனுமதிக்க வேண்டும்.",
         "description": "Shown if the user attempts access the camera for video calling without video permissions turned on"
     },
     "allowAccess": {
@@ -934,7 +938,7 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "சிக்னல் டெஸ்க்டாப் புதுப்பிக்கத் தவறிவிட்டது, ஆனால் ஒரு புதிய பதிப்பு கிடைக்கிறது Signal Desktop update available. தயவுசெய்து $url$ க்குச் சென்று புதிய பதிப்பை நீங்களே நிறுவவும், பின்னர் ஆதரவைத் தொடர்பு கொள்ளவும் அல்லது இந்த சிக்கலைப் பற்றி ஒரு பிழையை தாக்கல் செய்யவும்.",
+        "message": "Signal Desktop புதுப்பிக்கத் தவறிவிட்டது, ஆனால் ஒரு புதிய பதிப்பு கிடைக்கிறது. தயவுசெய்து $url$ க்குச் சென்று புதிய பதிப்பை நீங்களே நிறுவவும், பின்னர் உதவிக்கு தொடர்பு கொள்ளவும் அல்லது இந்த சிக்கலைப் பற்றி ஒரு பிழை தாக்கல் செய்யவும்.",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "url": {
@@ -944,7 +948,7 @@
         }
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop டெஸ்க்டாப் ஒரு macOS தனிமைப்படுத்தலில் இருக்கலாம், மேலும் தானாக புதுப்பிக்க முடியாது. கண்டுபிடிப்பாளருடன் $app$ பயன்பாட்டை $folder$ கோப்புறையில் நகர்த்த முயற்சிக்கவும்.",
+        "message": "Signal Desktop டெஸ்க்டாப் ஒரு macOS தனிமைப்படுத்தலில் இருக்கலாம், அதனால் தானாக புதுப்பிக்க முடியாது.  $app$ பயன்பாட்டை $folder$ கோப்புறையில் Finder மூலம் நகர்த்த முயற்சிக்கவும்.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
@@ -966,7 +970,7 @@
         "description": ""
     },
     "discard": {
-        "message": "நிராகரி",
+        "message": "புறந்தள்ளு",
         "description": ""
     },
     "failedToSend": {
@@ -985,12 +989,24 @@
         "message": "அழி",
         "description": ""
     },
+    "accept": {
+        "message": "ஒப்புக்கொள்",
+        "description": ""
+    },
+    "on": {
+        "message": "இயக்கு",
+        "description": "Label for when something is turned on"
+    },
+    "off": {
+        "message": "அணை",
+        "description": "Label for when something is turned off"
+    },
     "deleteWarning": {
-        "message": "Clicking 'delete' will permanently remove this message from your devices only.",
+        "message": "'நீக்கு' என்பதைக் கிளிக் செய்தால், இந்தச் செய்தியை உங்கள் சாதனங்களிலிருந்து மட்டுமே நிரந்தரமாக நீக்கும்.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "சிக்னலின் சமீபத்திய பதிப்பில் இருந்தால், உரையாடலில் உள்ள அனைவருக்கும் இந்த செய்தி நீக்கப்படும். நீங்கள் ஒரு செய்தியை நீக்கியுள்ளதை அவர்களால் பார்க்க முடியும்.",
+        "message": "Signal ன் சமீபத்திய பதிப்பில் இருந்தால், உரையாடலில் உள்ள அனைவருக்கும் இந்த செய்தி நீக்கப்படும். நீங்கள் ஒரு செய்தியை நீக்கியுள்ளதை அவர்களால் பார்க்க முடியும்.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "deleteThisMessage": {
@@ -1056,7 +1072,7 @@
         "description": ""
     },
     "goBack": {
-        "message": "Go back",
+        "message": "திரும்பிச் செல்லுங்கள்",
         "description": "Label for back button in a conversation"
     },
     "moreInfo": {
@@ -1068,15 +1084,15 @@
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Delete message for me",
+        "message": " செய்தியை எனக்கு மட்டும் நீக்கு",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessageForEveryone": {
-        "message": "Delete message for everyone",
+        "message": "அனைவருக்கும் செய்தியை நீக்கு",
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
-        "message": "அழி",
+        "message": "நீக்கு",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
@@ -1200,7 +1216,7 @@
         "description": "Button label in the call lobby for joining a call"
     },
     "calling__return": {
-        "message": "Return to Call",
+        "message": "அழைப்புக்குத் திரும்பு",
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__call-is-full": {
@@ -1208,31 +1224,31 @@
         "description": "Button label in the call lobby when you can't join because the call is full"
     },
     "calling__button--video-disabled": {
-        "message": "Camera disabled",
+        "message": "புகைப்பட கருவி முடக்கப்பட்டது",
         "description": "Button tooltip label when the camera is disabled"
     },
     "calling__button--video-off": {
-        "message": "Turn off camera",
+        "message": "கேமராவை அணைக்கவும்",
         "description": "Button tooltip label for turning off the camera"
     },
     "calling__button--video-on": {
-        "message": "Turn on camera",
+        "message": "புகைப்பட கருவியை தயார் செய்க",
         "description": "Button tooltip label for turning on the camera"
     },
     "calling__button--audio-disabled": {
-        "message": "Microphone disabled",
+        "message": "மைக்ரோஃபோன் முடக்கப்பட்டது",
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "Mute mic",
+        "message": "ஒலிவாங்கியை அணைக்கவும்",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
-        "message": "Unmute mic",
+        "message": "ஒலிவாங்கியை உயிர்ப்பிக்கவும்",
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
-        "message": "Your camera is off",
+        "message": "உங்கள் புகைப்பட கருவி அணைக்கப்பட்டுள்ளது",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__lobby-summary--zero": {
@@ -1240,7 +1256,7 @@
         "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--single": {
-        "message": "$first$ is in this call",
+        "message": "$first$இந்த அழைப்பில் உள்ளார்",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1250,11 +1266,11 @@
         }
     },
     "calling__lobby-summary--self": {
-        "message": "One of your other devices is in this call",
+        "message": "உங்களின் ஏனைய சாதனங்களில் ஒன்று  இந்த அழைப்பில் உள்ளது.",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
     "calling__lobby-summary--double": {
-        "message": "$first$ and $second$ are in this call",
+        "message": "$first$ மற்றும் $second$ இந்த அழைப்பில் உள்ளனர்",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1268,7 +1284,7 @@
         }
     },
     "calling__lobby-summary--triple": {
-        "message": "$first$, $second$, and $third$ are in this call",
+        "message": "$first$, $second$, மற்றும் $third$ இந்த அழைப்பில் உள்ளனர்",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1286,7 +1302,7 @@
         }
     },
     "calling__lobby-summary--many": {
-        "message": "$first$, $second$, and $others$ others are in this call",
+        "message": "$first$, $second$, மற்றும் $others$ மற்றவர்கள் இந்த அழைப்பில் உள்ளனர்",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1308,11 +1324,11 @@
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
-        "message": "In this call · 1 person",
+        "message": "இந்த அழைப்பில் · 1 நபர்",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--many": {
-        "message": "In this call · $people$ people",
+        "message": "இந்த அழைப்பில் · $people$ மக்கள்",
         "description": "Shown in the participants list to describe how many people are in the call",
         "placeholders": {
             "people": {
@@ -1322,7 +1338,7 @@
         }
     },
     "calling__you-have-blocked": {
-        "message": "You have blocked $name$",
+        "message": "நீங்கள் தடுத்துள்ளீர்கள் $name$",
         "description": "when you block someone and cannot view their video",
         "placeholders": {
             "name": {
@@ -1334,6 +1350,14 @@
     "calling__block-info": {
         "message": "அவர்களின் ஆடியோ அல்லது வீடியோவை நீங்கள் பெற மாட்டீர்கள். மேலும், அவர்கள் உங்களுடையதைப் பெற மாட்டார்கள்.",
         "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
+    },
+    "calling__overflow__scroll-up": {
+        "message": "உருள் மேலே",
+        "description": "Label for the \"scroll up\" button in a call's overflow area"
+    },
+    "calling__overflow__scroll-down": {
+        "message": "உருள் கீழ்",
+        "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
     "alwaysRelayCallsDescription": {
         "message": "எப்போதும் அழைப்புகளை ரிலே செய்யவும் ",
@@ -1420,11 +1444,11 @@
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "Name, content, and actions",
+        "message": "பெயர், உள்ளடக்கம் மற்றும் செயல்கள்",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "No name or content",
+        "message": "இல்லை பெயர் அல்லது உள்ளடக்கம்",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
@@ -1614,7 +1638,7 @@
         }
     },
     "timerSetByMember": {
-        "message": "A member set the disappearing message time to $time$.",
+        "message": "அ உறுப்பினர் அமை தி மறைந்து வரும் செய்தி நேரம் $time$.",
         "description": "Message displayed when timer is by an unknown group member.",
         "placeholders": {
             "time": {
@@ -1742,7 +1766,7 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disappearingMessagesDisabledByMember": {
-        "message": "A member disabled disappearing messages.",
+        "message": "அ உறுப்பினர் முடக்கப்பட்டது மறைந்து போகிறது செய்திகள்.",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
@@ -2124,23 +2148,23 @@
         "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerPicker--Open": {
-        "message": "Open the sticker picker",
+        "message": "திற தி ஓட்டி எடுப்பவர்",
         "description": "Label for the open button for the sticker picker"
     },
     "stickers--StickerPicker--AddPack": {
-        "message": "Add a sticker pack",
+        "message": "ஒரு ஸ்டிக்கர் பேக் சேர்க்கவும்",
         "description": "Label for the add pack button in the sticker picker"
     },
     "stickers--StickerPicker--NextPage": {
-        "message": "Next Page",
+        "message": "அடுத்த பக்கம்",
         "description": "Label for the next page button in the sticker picker"
     },
     "stickers--StickerPicker--PrevPage": {
-        "message": "Previous Page",
+        "message": "முந்தைய பக்கம்",
         "description": "Label for the previous page button in the sticker picker"
     },
     "stickers--StickerPicker--Recents": {
-        "message": "Recent Sticker",
+        "message": "சமீபத்திய ஓட்டி",
         "description": "Label for the recent stickers button in the sticker picker"
     },
     "stickers--StickerPicker--DownloadError": {
@@ -2378,7 +2402,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Toggle emoji-reaction picker for selected message",
+        "message": "தேர்ந்தெடுக்கப்பட்ட செய்திக்கு ஈமோஜி-எதிர்வினை தேர்வியை நிலைமாற்று",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2510,7 +2534,7 @@
         "description": "A toast that shows up when the user unarchives a conversation"
     },
     "conversationMarkedUnread": {
-        "message": "Conversation marked unread",
+        "message": "உரையாடல் படிக்கப்படாததாகக் குறிக்கப்பட்டுள்ளது",
         "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
@@ -2566,7 +2590,7 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--help": {
-        "message": "Stickers must be in PNG, APNG, or WebP format with a transparent background and 512x512 pixels. Recommended margin is 16px.",
+        "message": "ஓட்டிகள்வெளிப்படையான பின்னணி மற்றும் 512x512 பிக்சல்கள் கொண்ட PNG, APNG அல்லது WebP வடிவத்தில் இருக்க வேண்டும். பரிந்துரைக்கப்பட்ட விளிம்பு 16px ஆகும்.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
@@ -2698,19 +2722,19 @@
         "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
     },
     "StickerCreator--Toasts--APNG--notSquare": {
-        "message": "Animated PNG stickers must be square",
+        "message": "அனிமேஷன் செய்யப்பட்ட PNG ஓட்டிகள் சதுரமாக இருக்க வேண்டும்",
         "description": "Text for the toast when someone tries to upload a non-square APNG"
     },
     "StickerCreator--Toasts--mustLoopForever": {
-        "message": "Animated stickers must loop forever",
+        "message": "அனிமேஷன் ஓட்டிகள் எப்போதும் வளைய வேண்டும்",
         "description": "Text for the toast when an image in the sticker creator does not animate forever"
     },
     "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
-        "message": "Animated PNG sticker dimensions are too large",
+        "message": "அனிமேஷன் செய்யப்பட்ட PNG  ஓட்டி பரிமாணங்களும் கூட பெரியது",
         "description": "Text for the toast when an APNG image in the sticker creator is too large"
     },
     "StickerCreator--Toasts--APNG--dimensionsTooSmall": {
-        "message": "Animated PNG sticker dimensions are too small",
+        "message": "அனிமேஷன் செய்யப்பட்ட PNG ஓட்டி பரிமாணங்களும் கூட சிறிய",
         "description": "Text for the toast when an APNG image in the sticker creator is too small"
     },
     "StickerCreator--Toasts--errorUploading": {
@@ -2898,7 +2922,7 @@
         "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
     },
     "MessageRequests--profile-sharing--group": {
-        "message": "Continue your conversation with this group and share your name and photo with its members? $learnMore$",
+        "message": "இதனுடன் உங்கள் உரையாடலைத் தொடரவும் குழு உங்கள் பெயரைப் பகிரவும் புகைப்படம் அதன் உறுப்பினர்களுடன்? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a group yet",
         "placeholders": {
             "learnMore": {
@@ -2922,7 +2946,7 @@
         }
     },
     "MessageRequests--learn-more": {
-        "message": "Learn more.",
+        "message": "மேலும் அறிக.",
         "description": "Shown at the end of profile sharing messages as a link."
     },
     "ConversationHero--members": {
@@ -3088,11 +3112,11 @@
         "description": "Shown in the call screen when placing an outgoing call that is now ringing"
     },
     "makeOutgoingCall": {
-        "message": "Start a call",
+        "message": "அழைப்பைத் தொடங்கவும்",
         "description": "Title for the call button in a conversation"
     },
     "makeOutgoingVideoCall": {
-        "message": "Start a video call",
+        "message": "ஒரு தொடங்க வீடியோ அழைப்பு",
         "description": "Title for the video call button in a conversation"
     },
     "joinOngoingCall": {
@@ -3100,7 +3124,7 @@
         "description": "Text that appears in a group when a call is active"
     },
     "callNeedPermission": {
-        "message": "$title$ will get a message request from you. You can call once your message request has been accepted.",
+        "message": "$title$ ஒரு கிடைக்கும் செய்தி கோரிக்கைஉன்னிடமிருந்து. நீங்கள் ஒரு முறை அழைக்கலாம்செய்தி கோரிக்கை ஏற்றுக்கொள்ளப்பட்டது.",
         "description": "Shown when a call is rejected because the other party hasn't approved the message/call request",
         "placeholders": {
             "title": {
@@ -3128,7 +3152,7 @@
         "description": "Title for device selection settings"
     },
     "calling__participants": {
-        "message": "$people$ in call",
+        "message": "$people$ அழைப்பில்",
         "description": "Title for participants list toggle",
         "placeholders": {
             "people": {
@@ -3138,19 +3162,19 @@
         }
     },
     "calling__call-notification__ended": {
-        "message": "The group call has ended",
+        "message": "தி குழு அழைப்பு முடிந்தது",
         "description": "Notification message when a group call has ended"
     },
     "calling__call-notification__started-by-someone": {
-        "message": "A group call was started",
+        "message": "அ குழு அழைப்பு இருந்தது தொடங்கியது",
         "description": "Notification message when a group call has started, but we don't know who started it"
     },
     "calling__call-notification__started-by-you": {
-        "message": "You started a group call",
+        "message": "நீங்கள் ஒரு தொடங்கினீர்கள் குழு அழைப்பு",
         "description": "Notification message when a group call has started by you"
     },
     "calling__call-notification__started": {
-        "message": "$name$ started a group call",
+        "message": "$name$ ஒரு தொடங்கியது குழு அழைப்பு",
         "description": "Notification message when a group call has started",
         "placeholders": {
             "name": {
@@ -3160,11 +3184,11 @@
         }
     },
     "calling__call-notification__button__in-another-call-tooltip": {
-        "message": "You are already in a call",
+        "message": "நீங்கள் ஏற்கனவே அழைப்பில் உள்ளீர்கள்",
         "description": "Tooltip in disabled notification button when you're on another call"
     },
     "calling__call-notification__button__call-full-tooltip": {
-        "message": "Call has reached capacity of $max$ participants",
+        "message": "அழைப்பு திறனை எட்டியுள்ளது  $max$ பங்கேற்பாளர்கள்",
         "description": "Tooltip in disabled notification button when the call is full",
         "placeholders": {
             "max": {
@@ -3174,12 +3198,20 @@
         }
     },
     "calling__pip--on": {
-        "message": "Minimize call",
+        "message": "குறைத்தல் அழைப்பு",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__pip--off": {
-        "message": "Fullscreen call",
+        "message": "முழுத்திரை அழைப்பு",
         "description": "Title for picture-in-picture toggle"
+    },
+    "calling__switch-view--to-grid": {
+        "message": "கட்டத்திற்கு மாறவும் பார்வை",
+        "description": "Title for grid/speaker view toggle when on a call"
+    },
+    "calling__switch-view--to-speaker": {
+        "message": "ஸ்பீக்கருக்கு மாறவும்பார்வை",
+        "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__hangup": {
         "message": "அழைப்பை விடுங்கள்",
@@ -3248,19 +3280,127 @@
         "description": "Title of pop-up dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
-        "message": "Please try again or contact support.",
+        "message": "தயவு செய்து மீண்டும் முயற்சிக்கவும் அல்லது தொடர்பு கொள்ளவும் ஆதரவு.",
         "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
         "message": "சரி",
         "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
     },
+    "unknown-sgnl-link": {
+        "message": "மன்னிக்கவும், அந்த sgnl:// இணைப்பு புரியவில்லை!",
+        "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
+    },
+    "GroupV2--join--invalid-link--title": {
+        "message": "தவறானது இணைப்பு",
+        "description": "Shown if we are unable to parse a group link"
+    },
+    "GroupV2--join--invalid-link": {
+        "message": "இது ஒரு அல்ல செல்லுபடியாகும் குழு இணைப்பு. முழுதும் உறுதி செய்யுங்கள்இணைப்பு முயற்சிக்கும் முன் அப்படியே சரியானது சேர.",
+        "description": "Shown if we are unable to parse a group link"
+    },
+    "GroupV2--join--prompt": {
+        "message": "இந்த குழுவில் சேர்ந்து உங்கள் பெயரையும் புகைப்படத்தையும் அதன் உறுப்பினர்களுடன் பகிர்ந்து கொள்ள விரும்புகிறீர்களா?",
+        "description": "Shown when you click on a group link to confirm"
+    },
+    "GroupV2--join--already-in-group": {
+        "message": "நீங்கள் ஏற்கனவே இதில் இருக்கிறீர்கள் குழு.",
+        "description": "Shown if you click a group link for a group where you're already a member"
+    },
+    "GroupV2--join--already-awaiting-approval": {
+        "message": "இந்த குழுவில் சேர நீங்கள் ஏற்கனவே ஒப்புதல் கோரியுள்ளீர்கள்.",
+        "description": "Shown if you click a group link for a group where you've already requested approval'"
+    },
+    "GroupV2--join--unknown-link-version--title": {
+        "message": "தெரியவில்லை இணைப்பு பதிப்பு",
+        "description": "This group link is no longer valid."
+    },
+    "GroupV2--join--unknown-link-version": {
+        "message": "இது இணைப்பு இன் இந்த பதிப்பால் ஆதரிக்கப்படவில்லை Signal Desktop.",
+        "description": "Shown if you click a group link and we can't get information about it"
+    },
+    "GroupV2--join--link-revoked--title": {
+        "message": "முடியாது சேர குழு",
+        "description": "Shown if you click a group link and we can't get information about it"
+    },
+    "GroupV2--join--link-revoked": {
+        "message": "இது குழு இணைப்பு இருக்கிறது இல்லை நீண்டது செல்லுபடியாகும்.",
+        "description": "Shown if you click a group link and we can't get information about it"
+    },
+    "GroupV2--join--prompt-with-approval": {
+        "message": "இதன் நிர்வாகி குழு உங்களால் முடியும் முன் உங்கள் கோரிக்கையை அங்கீகரிக்க வேண்டும் சேர இது குழு. என்றால் அங்கீகரிக்கப்பட்டது, உங்கள் பெயர் மற்றும் புகைப்படம் அதன் உறுப்பினர்களுடன் பகிரப்படும்.",
+        "description": "Shown when you click on a group link to confirm, if it requires admin approval"
+    },
+    "GroupV2--join--join-button": {
+        "message": "சேரவும்",
+        "description": "The button to join the group"
+    },
+    "GroupV2--join--request-to-join-button": {
+        "message": "கோரிக்கைசேர",
+        "description": "The button to join the group, if approval is required"
+    },
+    "GroupV2--join--cancel-request-to-join": {
+        "message": "கோரிக்கையை ரத்துசெய்",
+        "description": "The button to cancel request to join the group"
+    },
+    "GroupV2--join--cancel-request-to-join--confirmation": {
+        "message": "உங்கள் கோரிக்கையை ரத்துசெய் சேர இது குழு?",
+        "description": "A confirmation message that shows after you click the button"
+    },
+    "GroupV2--join--cancel-request-to-join--yes": {
+        "message": "ஆம்",
+        "description": "Choosing to continue in the cancel join confirmation dialog"
+    },
+    "GroupV2--join--cancel-request-to-join--no": {
+        "message": "இல்லை",
+        "description": "Choosing not to continue in the cancel join confirmation dialog"
+    },
+    "GroupV2--join--member-count--single": {
+        "message": "1 உறுப்பினர்",
+        "description": "Shown in the metadata section if group has just one member"
+    },
+    "GroupV2--join--member-count--multiple": {
+        "message": "$count$ உறுப்பினர்கள்",
+        "description": "Shown in the metadata section if group has more than one member",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "12"
+            }
+        }
+    },
+    "GroupV2--join--group-metadata": {
+        "message": "குழு· $memberCount$",
+        "description": "A holder for two pieces of information - the type of conversation, and the member count",
+        "placeholders": {
+            "memberCount": {
+                "content": "$1",
+                "example": "12 members"
+            }
+        }
+    },
+    "GroupV2--join--requested": {
+        "message": "உங்கள் கோரிக்கை சேர க்கு அனுப்பப்பட்டுள்ளது குழுநிர்வாகம். அவர்கள் நடவடிக்கை எடுக்கும்போது உங்களுக்கு அறிவிக்கப்படும்.",
+        "description": "Shown in composition area when you've requested to join a group"
+    },
+    "GroupV2--join--general-join-failure--title": {
+        "message": "இணைப்பு பிழை",
+        "description": "Shown if something went wrong when you try to join via a group link"
+    },
+    "GroupV2--join--general-join-failure": {
+        "message": "இதன் வழியாக இணைகிறது இணைப்புதோல்வி. பின்னர் மீண்டும் சேர முயற்சிக்கவும்.",
+        "description": "Shown if something went wrong when you try to join via a group link"
+    },
     "GroupV2--admin": {
         "message": "நிர்வாகம்",
-        "description": "Shown next to the set of administrators in a group"
+        "description": "Label for a group administrator"
+    },
+    "GroupV2--all-members": {
+        "message": "அனைத்து உறுப்பினர்கள்",
+        "description": "Label for describing the general non-privileged members of a group"
     },
     "updating": {
-        "message": "Updating...",
+        "message": "புதுப்பித்தல்...",
         "description": "Shown along with a spinner when an update operation takes longer than one second"
     },
     "GroupV2--create--you": {
@@ -3268,7 +3408,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--create--other": {
-        "message": "$memberName$ created the group.",
+        "message": "$memberName$ உருவாக்கப்பட்டது குழு.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3278,11 +3418,11 @@
         }
     },
     "GroupV2--create--unknown": {
-        "message": "The group was created.",
+        "message": "தி குழு இருந்தது உருவாக்கப்பட்டது.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--change--other": {
-        "message": "$memberName$ changed the group name to \"$newTitle$\".",
+        "message": "$memberName$ குழு பெயரை மாற்றியது \"$newTitle$\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3296,7 +3436,7 @@
         }
     },
     "GroupV2--title--change--you": {
-        "message": "You changed the group name to \"$newTitle$\".",
+        "message": "குழு பெயரை மாற்றியுள்ளீர்கள் \"$newTitle$\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "newTitle": {
@@ -3306,7 +3446,7 @@
         }
     },
     "GroupV2--title--change--unknown": {
-        "message": "A member changed the group name to \"$newTitle$\".",
+        "message": "ஒரு உறுப்பினர் குழு பெயரை மாற்றினார் \"$newTitle$\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "newTitle": {
@@ -3316,7 +3456,7 @@
         }
     },
     "GroupV2--title--remove--other": {
-        "message": "$memberName$ removed the group name.",
+        "message": "$memberName$ அகற்றப்பட்டது குழு பெயர்.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3330,11 +3470,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--remove--unknown": {
-        "message": "A member removed the group name.",
+        "message": "அ உறுப்பினர் அகற்றப்பட்டது குழு பெயர்.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--other": {
-        "message": "$memberName$ changed the group avatar.",
+        "message": "$memberName$ மாற்றப்பட்டது குழு அவதாரம்.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3348,11 +3488,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--unknown": {
-        "message": "A member changed the group avatar.",
+        "message": "ஒரு உறுப்பினர் குழு அவதாரத்தை மாற்றினார்.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--other": {
-        "message": "$memberName$ removed the group avatar.",
+        "message": "$memberName$ அகற்றப்பட்டது குழு அவதாரம்.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3362,15 +3502,15 @@
         }
     },
     "GroupV2--avatar--remove--you": {
-        "message": "You removed the group avatar.",
+        "message": "நீங்கள் அகற்றிவிட்டீர்கள்குழு அவதாரம்.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--unknown": {
-        "message": "A member removed the group avatar.",
+        "message": "அ உறுப்பினர் அகற்றப்பட்டது குழு அவதாரம்.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--other": {
-        "message": "$adminName$ changed who can edit group info to \"Only admins.\"",
+        "message": "$adminName$ யாரால் முடியும் என்பதை மாற்றியது தொகு குழு தகவல் to \"மட்டும் நிர்வாகிகள். \"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3380,15 +3520,15 @@
         }
     },
     "GroupV2--access-attributes--admins--you": {
-        "message": "You changed who can edit group info to \"Only admins.\"",
+        "message": "யாரால் முடியும் என்பதை நீங்கள் மாற்றியுள்ளீர்கள்தொகு குழு தகவல் to \"மட்டும் நிர்வாகிகள். \"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--unknown": {
-        "message": "An admin changed who can edit group info to \"Only admins.\"",
+        "message": "ஒரு நிர்வாகி யாரால் முடியும் என்பதை மாற்றினார்தொகு குழு தகவல் to \"மட்டும் நிர்வாகிகள். \"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--other": {
-        "message": "$adminName$ changed who can edit group info to \"All members.\"",
+        "message": "$adminName$ யாரால் முடியும் என்பதை மாற்றியது தொகு குழு தகவல் \"அனைத்து உறுப்பினர்களுக்கும்.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3398,15 +3538,15 @@
         }
     },
     "GroupV2--access-attributes--all--you": {
-        "message": "You changed who can edit group info to \"All members.\"",
+        "message": "யாரால் முடியும் என்பதை நீங்கள் மாற்றியுள்ளீர்கள்தொகு குழு தகவல் \"அனைத்து உறுப்பினர்களுக்கும்.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--unknown": {
-        "message": "An admin changed who can edit group info to \"All members.\"",
+        "message": "ஒரு நிர்வாகி யாரால் முடியும் என்பதை மாற்றினார்தொகு குழு தகவல் \"அனைத்து உறுப்பினர்களுக்கும்.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--other": {
-        "message": "$adminName$ changed who can edit group membership to \"Only admins.\"",
+        "message": "$adminName$ யாரால் முடியும் என்பதை மாற்றியது தொகு குழு உறுப்பினர் to \"மட்டும் நிர்வாகிகள். \"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3416,15 +3556,15 @@
         }
     },
     "GroupV2--access-members--admins--you": {
-        "message": "You changed who can edit group membership to \"Only admins.\"",
+        "message": "குழு உறுப்பினர்களை \"நிர்வாகிகள் மட்டுமே\" என்று யார் திருத்தலாம் என்பதை நீங்கள் மாற்றியுள்ளீர்கள்.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--unknown": {
-        "message": "An admin changed who can edit group membership to \"Only admins.\"",
+        "message": "ஒரு நிர்வாகி யாரால் முடியும் என்பதை மாற்றினார்தொகு குழு உறுப்பினர் to \"மட்டும் நிர்வாகிகள். \"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--other": {
-        "message": "$adminName$ changed who can edit group membership to \"All members.\"",
+        "message": "$adminName$ யாரால் முடியும் என்பதை மாற்றியது தொகு குழு உறுப்பினர் \"அனைத்து உறுப்பினர்களுக்கும்.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3434,15 +3574,51 @@
         }
     },
     "GroupV2--access-members--all--you": {
-        "message": "You changed who can edit group membership to \"All members.\"",
+        "message": "யாரால் முடியும் என்பதை நீங்கள் மாற்றியுள்ளீர்கள்தொகு குழு உறுப்பினர் \"அனைத்து உறுப்பினர்களுக்கும்.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--unknown": {
-        "message": "An admin changed who can edit group membership to \"All members.\"",
+        "message": "ஒரு நிர்வாகி யாரால் முடியும் என்பதை மாற்றினார்தொகு குழு உறுப்பினர் \"அனைத்து உறுப்பினர்களுக்கும்.\"",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--access-invite-link--disabled--you": {
+        "message": "நீங்கள் முடக்கப்பட்டது நிர்வாக ஒப்புதல் அதற்காக குழு இணைப்பு.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--access-invite-link--disabled--other": {
+        "message": "$adminName$ முடக்கப்பட்டது நிர்வாக ஒப்புதல் அதற்காக குழு இணைப்பு.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--access-invite-link--disabled--unknown": {
+        "message": "நிர்வாக ஒப்புதல் அதற்காக குழு இணைப்பு உள்ளது முடக்கப்பட்டது.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--access-invite-link--enabled--you": {
+        "message": "நீங்கள் இயக்கியுள்ளீர்கள் நிர்வாக ஒப்புதல் அதற்காக குழு இணைப்பு.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--access-invite-link--enabled--other": {
+        "message": "$adminName$ இயக்கப்பட்டது நிர்வாக ஒப்புதல் அதற்காக குழு இணைப்பு.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--access-invite-link--enabled--unknown": {
+        "message": "நிர்வாக ஒப்புதல் அதற்காக குழு இணைப்புஇயக்கப்பட்டது.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {
-        "message": "You added invited member $inviteeName$.",
+        "message": "நீங்கள் அழைக்கப்பட்டதைச் சேர்த்துள்ளீர்கள் உறுப்பினர் $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3452,7 +3628,7 @@
         }
     },
     "GroupV2--member-add--invited--other": {
-        "message": "$memberName$ added invited member $inviteeName$.",
+        "message": "$memberName$ சேர்க்கப்பட்டது அழைக்கப்பட்டதுஉறுப்பினர் $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3466,7 +3642,7 @@
         }
     },
     "GroupV2--member-add--invited--unknown": {
-        "message": "A member added invited member $inviteeName$.",
+        "message": "அ உறுப்பினர்சேர்க்கப்பட்டது அழைக்கப்பட்டதுஉறுப்பினர் $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3476,7 +3652,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other": {
-        "message": "$inviteeName$ accepted an invitation to the group from $inviterName$.",
+        "message": "$inviteeName$ ஏற்றுக்கொள்ளப்பட்டது அழைப்பு க்கு குழு இருந்து $inviterName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3490,7 +3666,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other-no-from": {
-        "message": "$inviteeName$ accepted an invitation to the group.",
+        "message": "$inviteeName$ ஏற்றுக்கொள்ளப்பட்டது அழைப்பு க்கு குழு.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3500,7 +3676,7 @@
         }
     },
     "GroupV2--member-add--from-invite--you": {
-        "message": "You accepted an invitation to the group from $inviterName$.",
+        "message": "நீங்கள் ஒரு ஏற்றுக்கொண்டீர்கள்அழைப்பு க்கு குழு இருந்து $inviterName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -3514,7 +3690,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--from-invite--from-you": {
-        "message": "$inviteeName$ accepted your invitation to the group.",
+        "message": "$inviteeName$ ஏற்றுக்கொண்டது அழைப்பு க்கு குழு.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3524,7 +3700,7 @@
         }
     },
     "GroupV2--member-add--other--other": {
-        "message": "$adderName$ added $addeeName$.",
+        "message": "$adderName$ சேர்க்கப்பட்டது$addeeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adderName": {
@@ -3538,7 +3714,7 @@
         }
     },
     "GroupV2--member-add--other--you": {
-        "message": "You added $memberName$.",
+        "message": "நீங்கள் சேர்த்துள்ளீர்கள் $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3548,7 +3724,7 @@
         }
     },
     "GroupV2--member-add--other--unknown": {
-        "message": "A member added $memberName$.",
+        "message": "ஒரு உறுப்பினர் சேர்க்கப்பட்டார்$memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3558,7 +3734,7 @@
         }
     },
     "GroupV2--member-add--you--other": {
-        "message": "$memberName$ added you to the group.",
+        "message": "$memberName$ உங்களைச் சேர்த்தது குழு.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3572,11 +3748,73 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--you--unknown": {
-        "message": "You were added to the group.",
+        "message": "நீங்கள் சேர்க்கப்பட்டீர்கள்குழு.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
+    "GroupV2--member-add-from-link--you--you": {
+        "message": "குழு இணைப்பு வழியாக நீங்கள் குழுவில் சேர்ந்தீர்கள்.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--member-add-from-link--other": {
+        "message": "$memberName$ குழு இணைப்பு வழியாக குழுவில் சேர்ந்தார்.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--member-add-from-admin-approval--you--other": {
+        "message": "$adminName$ உங்கள் கோரிக்கையை அங்கீகரித்தது சேர தி குழு.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--member-add-from-admin-approval--you--unknown": {
+        "message": "குழுவில் சேர உங்கள் கோரிக்கை அங்கீகரிக்கப்பட்டுள்ளது.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--member-add-from-admin-approval--other--you": {
+        "message": "கோரிக்கையை நீங்கள் அங்கீகரித்தீர்கள் சேர தி குழு இருந்து $joinerName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--member-add-from-admin-approval--other--other": {
+        "message": "$adminName$ கோரிக்கையை அங்கீகரித்ததுசேர தி குழு இருந்து $joinerName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--member-add-from-admin-approval--other--unknown": {
+        "message": "ஒரு கோரிக்கைசேர தி குழு இருந்து $joinerName$ அங்கீகரிக்கப்பட்டுள்ளது.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "GroupV2--member-remove--other--other": {
-        "message": "$adminName$ removed $memberName$.",
+        "message": "$adminName$ அகற்றப்பட்டது$memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3590,7 +3828,7 @@
         }
     },
     "GroupV2--member-remove--other--self": {
-        "message": "$memberName$ left the group.",
+        "message": "$memberName$ விட்டு குழு.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3600,7 +3838,7 @@
         }
     },
     "GroupV2--member-remove--other--you": {
-        "message": "You removed $memberName$.",
+        "message": "நீக்கிவிட்டீர்கள்$memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3610,7 +3848,7 @@
         }
     },
     "GroupV2--member-remove--other--unknown": {
-        "message": "A member removed $memberName$.",
+        "message": "அ உறுப்பினர் அகற்றப்பட்டது $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3620,7 +3858,7 @@
         }
     },
     "GroupV2--member-remove--you--other": {
-        "message": "$adminName$ removed you.",
+        "message": "$adminName$ உங்களை நீக்கியது.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3638,7 +3876,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--promote--other--other": {
-        "message": "$adminName$ made $memberName$ an admin.",
+        "message": "$adminName$ செய்து $memberName$ ஒரு நிர்வாகி.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3652,7 +3890,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--you": {
-        "message": "You made $memberName$ an admin.",
+        "message": "நீங்கள் செய்தீர்கள்$memberName$ ஒரு நிர்வாகி.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3662,7 +3900,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--unknown": {
-        "message": "An admin made $memberName$ an admin.",
+        "message": "ஒரு நிர்வாகி $memberName$ ஒரு நிர்வாகி.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3672,7 +3910,7 @@
         }
     },
     "GroupV2--member-privilege--promote--you--other": {
-        "message": "$adminName$ made you an admin.",
+        "message": "$adminName$ உங்களை ஒரு நிர்வாகியாக மாற்றினார்.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3682,11 +3920,11 @@
         }
     },
     "GroupV2--member-privilege--promote--you--unknown": {
-        "message": "An admin made you an admin.",
+        "message": "ஒரு நிர்வாகி உங்களை ஒரு நிர்வாகியாக மாற்றினார்.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--demote--other--other": {
-        "message": "$adminName$ revoked admin privileges from $memberName$.",
+        "message": "$adminName$ நிர்வாகி சலுகைகளை ரத்து செய்தது$memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3700,7 +3938,7 @@
         }
     },
     "GroupV2--member-privilege--demote--other--you": {
-        "message": "You revoked admin privileges from $memberName$.",
+        "message": "நிர்வாகி சலுகைகளை நீங்கள் ரத்து செய்துள்ளீர்கள் $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3710,11 +3948,11 @@
         }
     },
     "GroupV2--member-privilege--demote--other--unknown": {
-        "message": "An admin revoked admin privileges from $memberName$.",
+        "message": "நிர்வாகி நிர்வாகி சலுகைகளை ரத்து செய்தார் $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--demote--you--other": {
-        "message": "$adminName$ revoked your admin privileges.",
+        "message": "$adminName$ உங்கள் நிர்வாக சலுகைகளை ரத்துசெய்தது.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3724,11 +3962,11 @@
         }
     },
     "GroupV2--member-privilege--demote--you--unknown": {
-        "message": "An admin revoked your admin privileges.",
+        "message": "ஒரு நிர்வாகி உங்கள் நிர்வாக சலுகைகளை ரத்து செய்தார்.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--one--other--other": {
-        "message": "$memberName$ invited 1 person to the group.",
+        "message": "$memberName$ 1  நபரை அழைத்தார்குழு.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3738,7 +3976,7 @@
         }
     },
     "GroupV2--pending-add--one--other--you": {
-        "message": "You invited $inviteeName$ to the group.",
+        "message": "நீங்கள் அழைத்தீர்கள் $inviteeName$ க்கு குழு.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3748,7 +3986,7 @@
         }
     },
     "GroupV2--pending-add--one--other--unknown": {
-        "message": "One person was invited to the group.",
+        "message": "ஒரு நபர் இருந்தது அழைக்கப்பட்டார் குழு.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3758,7 +3996,7 @@
         }
     },
     "GroupV2--pending-add--one--you--other": {
-        "message": "$memberName$ invited you to the group.",
+        "message": "$memberName$ உங்களை அழைத்தார் குழு.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3772,7 +4010,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--many--other": {
-        "message": "$memberName$ invited $count$ people to the group.",
+        "message": "$memberName$ அழைக்கப்பட்டார்$count$  மக்கள் க்கு குழு.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3786,7 +4024,7 @@
         }
     },
     "GroupV2--pending-add--many--you": {
-        "message": "You invited $count$ people to the group.",
+        "message": "நீங்கள் அழைத்தீர்கள் $count$ மக்கள் க்கு குழு.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -3796,7 +4034,7 @@
         }
     },
     "GroupV2--pending-add--many--unknown": {
-        "message": "$count$ people were invited to the group.",
+        "message": "$count$  மக்கள் அழைக்கப்பட்டனர் குழு.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -3806,7 +4044,7 @@
         }
     },
     "GroupV2--pending-remove--decline--other": {
-        "message": "1 person invited by $memberName$ declined the invitation to the group.",
+        "message": "1 நபர் அழைத்தார் $memberName$ மறுத்துவிட்டது அழைப்பு க்கு குழு.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3816,7 +4054,7 @@
         }
     },
     "GroupV2--pending-remove--decline--you": {
-        "message": "$inviteeName$ declined your invitation to the group.",
+        "message": "$inviteeName$ உங்கள் மறுத்துவிட்டதுஅழைப்பு க்கு குழு.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3830,11 +4068,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--decline--unknown": {
-        "message": "1 person declined their invitation to the group.",
+        "message": "1  நபர் அவற்றை மறுத்துவிட்டார்அழைப்பு க்கு குழு.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--revoke--one--other": {
-        "message": "$memberName$ revoked an invitation to the group for 1 person.",
+        "message": "$memberName$ ஒரு ரத்து செய்யப்பட்டது அழைப்பு க்கு குழு 1 நபருக்கு.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3844,7 +4082,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--one--you": {
-        "message": "You revoked an invitation to the group for 1 person.",
+        "message": "நீங்கள் ஒரு ரத்து செய்தீர்கள் அழைப்பு க்கு குழு 1 நபருக்கு.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3854,7 +4092,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-own--to-you": {
-        "message": "$inviterName$ revoked their invitation to you.",
+        "message": "$inviterName$ அவற்றை ரத்து செய்தது அழைப்பு உனக்கு.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -3864,7 +4102,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-own--unknown": {
-        "message": "$inviterName$ revoked their invitation to 1 person.",
+        "message": "$inviterName$  அவற்றை ரத்து செய்தது அழைப்பு1 நபருக்கு.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -3874,7 +4112,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--one--unknown": {
-        "message": "An admin revoked an invitation to the group for 1 person.",
+        "message": "ஒரு நிர்வாகி ஒரு ரத்து செய்தார்அழைப்பு க்கு குழு 1 நபருக்கு.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3884,7 +4122,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--other": {
-        "message": "$memberName$ revoked invitations to the group for $count$ people.",
+        "message": "$memberName$ ரத்து செய்யப்பட்டது அழைப்பிதழ்கள் க்கு குழு க்கு $count$ மக்கள்.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3898,7 +4136,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--you": {
-        "message": "You revoked invitations to the group for $count$ people.",
+        "message": "நீங்கள் திரும்பப் பெற்றீர்கள் அழைப்பிதழ்கள் க்கு குழு க்கு $count$ மக்கள்.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -3908,7 +4146,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--unknown": {
-        "message": "An admin revoked invitations to the group for $count$ people.",
+        "message": "ஒரு நிர்வாகி ரத்து செய்யப்பட்டது அழைப்பிதழ்கள் க்கு குழு க்கு $count$ மக்கள்.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -3918,7 +4156,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--other": {
-        "message": "$adminName$ revoked an invitation to the group for 1 person invited by $memberName$.",
+        "message": "$adminName$ ஒரு ரத்து செய்யப்பட்டது அழைப்பு க்கு குழு 1 நபருக்கு அழைக்கப்பட்டது $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3932,7 +4170,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--you": {
-        "message": "You revoked an invitation to the group for 1 person invited by $memberName$.",
+        "message": "நீங்கள் ஒரு ரத்து செய்தீர்கள் அழைப்பு க்கு குழு 1 நபருக்கு அழைக்கப்பட்டது  $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3942,7 +4180,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-        "message": "An admin revoked an invitation to the group for 1 person invited by $memberName$.",
+        "message": "ஒரு நிர்வாகி ஒரு ரத்து செய்தார்அழைப்பு க்கு குழு 1 நபருக்கு அழைக்கப்பட்டது  $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3952,7 +4190,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--other": {
-        "message": "$adminName$ revoked the invitation to the group you sent to $inviteeName$.",
+        "message": "$adminName$ ரத்து செய்யப்பட்டது அழைப்பு க்கு குழு நீங்கள் அனுப்பியுள்ளீர்கள்  $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3962,7 +4200,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--you": {
-        "message": "You rescinded your invitation to $inviteeName$.",
+        "message": "உங்கள் அழைப்பை நீங்கள் ரத்து செய்தீர்கள் $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3972,7 +4210,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--unknown": {
-        "message": "An admin revoked the invitation to the group you sent to $inviteeName$.",
+        "message": "ஒரு நிர்வாகி ரத்து செய்தார் அழைப்பு க்கு குழு நீங்கள் அனுப்பியுள்ளீர்கள் $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3982,7 +4220,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--other": {
-        "message": "$adminName$ revoked invitations to the group for $count$ people invited by $memberName$.",
+        "message": "$adminName$  ரத்து செய்யப்பட்டது அழைப்பிதழ்கள் க்கு குழு க்கு $count$ மக்கள்அழைத்தது $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3996,7 +4234,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--you": {
-        "message": "You revoked invitations to the group for $count$ people invited by $memberName$.",
+        "message": "குழுவிற்கான அழைப்புகளை நீங்கள் ரத்து செய்தீர்கள் $count$ அழைத்த மக்கள் $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4010,7 +4248,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-        "message": "An admin revoked invitations to the group for $count$ people invited by $memberName$.",
+        "message": "ஒரு நிர்வாகி ரத்து செய்யப்பட்டது அழைப்பிதழ்கள் க்கு குழு க்கு $count$ மக்கள்அழைத்தது $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4024,7 +4262,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-        "message": "$adminName$ revoked the invitations to the group you sent to $count$ people.",
+        "message": "$adminName$ ரத்து செய்யப்பட்டது அழைப்பிதழ்கள் க்கு குழு நீங்கள் அனுப்பியுள்ளீர்கள் $count$ மக்கள்",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4038,7 +4276,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-        "message": "You rescinded your invitation to $count$ people.",
+        "message": "உன்னுடையதை நீக்கிவிட்டாய் அழைப்பு க்கு $count$ மக்கள்.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4048,7 +4286,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-        "message": "An admin revoked the invitations to the group you sent to $count$ people.",
+        "message": "நீங்கள் அனுப்பிய குழுவிற்கான அழைப்புகளை ஒரு நிர்வாகி ரத்து செய்தார் $count$ மக்கள்.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4057,8 +4295,136 @@
             }
         }
     },
+    "GroupV2--admin-approval-add-one--you": {
+        "message": "குழுவில் சேர கோரிக்கை அனுப்பியுள்ளீர்கள்.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--admin-approval-add-one--other": {
+        "message": "$joinerName$ கோரப்பட்டது சேர வழியாக குழு இணைப்பு.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-remove-one--you--you": {
+        "message": "குழுவில் சேர உங்கள் கோரிக்கையை ரத்து செய்துள்ளீர்கள்.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--admin-approval-remove-one--you--unknown": {
+        "message": "குழுவில் சேர உங்கள் கோரிக்கை நிர்வாகியால் மறுக்கப்பட்டுள்ளது.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--admin-approval-remove-one--other--you": {
+        "message": "குழுவில் சேர கோரிக்கையை நீங்கள் மறுத்தீர்கள் $joinerName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-remove-one--other--own": {
+        "message": "$joinerName$ அவர்களின் கோரிக்கையை ரத்து செய்ததுசேர தி குழு.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-remove-one--other--other": {
+        "message": "$adminName$  கோரிக்கையை மறுத்தார் சேர தி குழு இருந்து $joinerName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "joinerName": {
+                "content": "$2",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--group-link-add--disabled--you": {
+        "message": "நீங்கள் இயக்கியுள்ளீர்கள் குழு இணைப்பு உடன் நிர்வாக ஒப்புதல் முடக்கப்பட்டது.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-add--disabled--other": {
+        "message": "$adminName$ இயக்கப்பட்டது குழு இணைப்பு உடன் நிர்வாக ஒப்புதல் முடக்கப்பட்டது.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--group-link-add--disabled--unknown": {
+        "message": "தி குழு இணைப்பு உடன் இயக்கப்பட்டது நிர்வாக ஒப்புதல் முடக்கப்பட்டது.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-add--enabled--you": {
+        "message": "நீங்கள் இயக்கியுள்ளீர்கள் குழு இணைப்பு உடன் நிர்வாக ஒப்புதல் இயக்கப்பட்டது.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-add--enabled--other": {
+        "message": "$adminName$ இயக்கப்பட்டது குழு இணைப்பு உடன் நிர்வாக ஒப்புதல் இயக்கப்பட்டது.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--group-link-add--enabled--unknown": {
+        "message": "தி குழு இணைப்பு உடன் இயக்கப்பட்டது நிர்வாக ஒப்புதல் இயக்கப்பட்டது.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-remove--you": {
+        "message": "குழு இணைப்பை முடக்கியுள்ளீர்கள்.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-remove--other": {
+        "message": "$adminName$ அணைக்கப்பட்டது குழு இணைப்பு.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--group-link-remove--unknown": {
+        "message": "குழு இணைப்பு முடக்கப்பட்டுள்ளது.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-reset--you": {
+        "message": "நீங்கள் குழு இணைப்பை மீட்டமைத்துள்ளீர்கள்.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-reset--other": {
+        "message": "$adminName$ குழு இணைப்பை மீட்டமைக்கவும்.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--group-link-reset--unknown": {
+        "message": "குழு இணைப்பு மீட்டமைக்கப்பட்டது.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
     "GroupV1--Migration--disabled": {
-        "message": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. $learnMore$",
+        "message": "மேம்படுத்தல் இது குழு அம்சங்கள் குறிப்புகள் மற்றும் போன்ற புதிய அம்சங்களை செயல்படுத்த நிர்வாகிகள். தங்கள் பெயரைப் பகிராத உறுப்பினர்கள் அல்லதுபுகைப்படம் இதில் குழு அழைக்கப்படும் சேர. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
         "placeholders": {
             "learnMore": {
@@ -4068,7 +4434,7 @@
         }
     },
     "GroupV1--Migration--was-upgraded": {
-        "message": "This group was upgraded to a New Group.",
+        "message": "இது குழு இருந்தது ஒரு மேம்படுத்தப்பட்டது புதிய குழு.",
         "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
     },
     "GroupV1--Migration--learn-more": {
@@ -4104,11 +4470,11 @@
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--info--invited--many": {
-        "message": "These members will need to accept an invite to join this group again, and will not receive group messages until they accept:",
+        "message": "இந்த உறுப்பினர்கள் தேவை ஏற்றுக்கொள் ஒரு அழைப்பு சேர இது குழு மீண்டும், பெறாது குழு அவை வரும் வரை செய்திகள் ஏற்றுக்கொள்:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--one": {
-        "message": "This member will need to accept an invite to join this group again, and will not receive group messages until they accept:",
+        "message": "இது உறுப்பினர் வேண்டும் ஏற்றுக்கொள் ஒரு அழைப்பு சேர இது குழு மீண்டும், பெறாது குழு அவை வரும் வரை செய்திகள் ஏற்றுக்கொள்:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
@@ -4116,15 +4482,15 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--one": {
-        "message": "This member is not capable of joining New Groups, and will be removed from the group:",
+        "message": "இது உறுப்பினர் சேரும் திறன் இல்லை புதிய குழுக்கள், மற்றும் இருந்து அகற்றப்படும் குழு:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--many": {
-        "message": "These members were not capable of joining New Groups, and were removed from the group:",
+        "message": "இந்த உறுப்பினர்கள் சேரும் திறன் இல்லை புதிய குழுக்கள், மற்றும் நீக்கப்பட்டது குழு:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--one": {
-        "message": "This member was not capable of joining New Groups, and was removed from the group:",
+        "message": "இது உறுப்பினர் இருந்தது சேரும் திறன் இல்லை புதிய குழுக்கள், மற்றும் இருந்தது இருந்து அகற்றப்பட்டது குழு:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
@@ -4132,7 +4498,7 @@
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {
-        "message": "$contact$ couldn’t be added to the New Group and has been invited to join.",
+        "message": "$contact$ இல் சேர்க்க முடியவில்லை புதிய குழு மற்றும் அழைக்கப்பட்டுள்ளது சேர.",
         "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
         "placeholders": {
             "contact": {
@@ -4142,7 +4508,7 @@
         }
     },
     "GroupV1--Migration--invited--many": {
-        "message": "$count$ members couldn’t be added to the New Group and have been invited to join.",
+        "message": "$count$ உறுப்பினர்களை சேர்க்க முடியவில்லை புதிய குழு மற்றும் அழைக்கப்பட்டுள்ளனர் சேர.",
         "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
         "placeholders": {
             "contact": {
@@ -4152,7 +4518,7 @@
         }
     },
     "GroupV1--Migration--removed--one": {
-        "message": "$contact$ was removed from the group.",
+        "message": "$contact$ இருந்தது இருந்து அகற்றப்பட்டது குழு.",
         "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade",
         "placeholders": {
             "contact": {
@@ -4162,7 +4528,7 @@
         }
     },
     "GroupV1--Migration--removed--many": {
-        "message": "$count$ members were removed from the group.",
+        "message": "$count$ உறுப்பினர்கள் குழுவிலிருந்து நீக்கப்பட்டனர்.",
         "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade",
         "placeholders": {
             "contact": {
@@ -4176,15 +4542,15 @@
         "description": "Generic close label"
     },
     "previous": {
-        "message": "previous",
+        "message": "முந்தையது",
         "description": "Generic previous label"
     },
     "next": {
-        "message": "next",
+        "message": "அடுத்தது",
         "description": "Generic next label"
     },
     "CompositionArea--expand": {
-        "message": "Expand",
+        "message": "விரிவாக்கு",
         "description": "Aria label for expanding composition area"
     },
     "CompositionArea--attach-file": {
@@ -4192,19 +4558,303 @@
         "description": "Aria label for file attachment button in composition area"
     },
     "countMutedConversationsDescription": {
-        "message": "Count muted conversations in badge count",
+        "message": "முடக்கியது உரையாடல்கள் இல் பேட்ஜ் எண்ணிக்கை",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
         "message": "செய்தி",
         "description": "Button text for send message button in Group Contact Details modal"
     },
+    "ContactModal--rm-admin": {
+        "message": "நிர்வாகி நிலையிலிருந்து அகற்று",
+        "description": "Button text for removing as admin button in Group Contact Details modal"
+    },
     "ContactModal--make-admin": {
-        "message": "Make admin",
+        "message": "நிர்வாகியை உருவாக்குங்கள்",
         "description": "Button text for make admin button in Group Contact Details modal"
+    },
+    "ContactModal--make-admin-info": {
+        "message": "$contact$ முடியும் தொகு இது குழு மற்றும் அதன் உறுப்பினர்கள்.",
+        "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Homer"
+            }
+        }
+    },
+    "ContactModal--rm-admin-info": {
+        "message": "அகற்று $contact$ என குழு நிர்வாகம்",
+        "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Homer"
+            }
+        }
     },
     "ContactModal--remove-from-group": {
         "message": "குழுவிலிருந்து அகற்று",
         "description": "Button text for remove from group button in Group Contact Details modal"
+    },
+    "showConversationDetails": {
+        "message": "குழு அமைப்புகள்",
+        "description": "This is a button in the conversation context menu to show group settings"
+    },
+    "ConversationDetails--group-link": {
+        "message": "குழு இணைப்பு",
+        "description": "This is the label for the group link management panel"
+    },
+    "ConversationDetails--disappearing-messages-label": {
+        "message": "காணாமல் போகும் செய்திகள்",
+        "description": "This is the label for the disappearing messages setting panel"
+    },
+    "ConversationDetails--disappearing-messages-info": {
+        "message": "இயக்கப்பட்டால், இந்த குழுவில் அனுப்பப்பட்ட மற்றும் பெறப்பட்ட செய்திகள் அவை காணப்பட்ட பிறகு மறைந்துவிடும்.",
+        "description": "This is the info about the disappearing messages setting"
+    },
+    "ConversationDetails--group-info-label": {
+        "message": "யாரால் முடியும் தொகு குழு தகவல்",
+        "description": "This is the label for the 'who can edit the group' panel"
+    },
+    "ConversationDetails--group-info-info": {
+        "message": "யாரால் முடியும் என்பதைத் தேர்வுசெய்க தொகு குழு பெயர், அவதாரம், மற்றும் மறைந்து போகிறது செய்திகள் நேரக்குறிப்பான்1.",
+        "description": "This is the additional info for the 'who can edit the group' panel"
+    },
+    "ConversationDetails--add-members-label": {
+        "message": "யாரால் முடியும் கூட்டு உறுப்பினர்கள்",
+        "description": "This is the label for the 'who can add members' panel"
+    },
+    "ConversationDetails--add-members-info": {
+        "message": "யாரால் முடியும் என்பதைத் தேர்வுசெய்க கூட்டு இந்த உறுப்பினர்கள் குழு.",
+        "description": "This is the additional info for the 'who can add members' panel"
+    },
+    "ConversationDetails--requests-and-invites": {
+        "message": "கோரிக்கைகள் மற்றும் அழைப்புகள்",
+        "description": "This is a button to display which members have been invited but have not joined yet"
+    },
+    "ConversationDetailsActions--leave-group": {
+        "message": "குழுவிலுருந்து விலகு",
+        "description": "This is a button to leave a group"
+    },
+    "ConversationDetailsActions--block-group": {
+        "message": "குழுவைத் தடு",
+        "description": "This is a button to block a group"
+    },
+    "ConversationDetailsActions--leave-group-modal-title": {
+        "message": "நீங்கள் உண்மையில் வெளியேற விரும்புகிறீர்களா?",
+        "description": "This is the modal title for confirming leaving a group"
+    },
+    "ConversationDetailsActions--leave-group-modal-content": {
+        "message": "இந்த குழுவில் நீங்கள் இனி செய்திகளை அனுப்பவோ பெறவோ முடியாது.",
+        "description": "This is the modal content for confirming leaving a group"
+    },
+    "ConversationDetailsActions--leave-group-modal-confirm": {
+        "message": "விலகு",
+        "description": "This is the modal button to confirm leaving a group"
+    },
+    "ConversationDetailsActions--block-group-modal-title": {
+        "message": "தடு மற்றும் விடுங்கள் \"$groupName$\" குழு?",
+        "description": "This is the modal title for confirming blocking a group",
+        "placeholders": {
+            "groupName": {
+                "content": "$1",
+                "example": "Our Conversation"
+            }
+        }
+    },
+    "ConversationDetailsActions--block-group-modal-content": {
+        "message": "இந்த குழுவிலிருந்து நீங்கள் இனி செய்திகளையோ புதுப்பிப்புகளையோ பெற மாட்டீர்கள்.",
+        "description": "This is the modal content for confirming blocking a group"
+    },
+    "ConversationDetailsActions--block-group-modal-confirm": {
+        "message": "தடு ",
+        "description": "This is the modal button to confirm blocking a group"
+    },
+    "ConversationDetailsHeader--members": {
+        "message": "$number$ உறுப்பினர்கள்",
+        "description": "This is the number of members in a group",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
+    "ConversationDetailsMediaList--shared-media": {
+        "message": "பகிரப்பட்ட மீடியா",
+        "description": "Title for the media thumbnails in the conversation details screen"
+    },
+    "ConversationDetailsMediaList--show-all": {
+        "message": "அனைத்தையும் பார்",
+        "description": "This is a button on the conversation details to show all media"
+    },
+    "ConversationDetailsMembershipList--title": {
+        "message": "$number$ உறுப்பினர்கள்",
+        "description": "The title of the membership list panel",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
+    "ConversationDetailsMembershipList--show-all": {
+        "message": "அனைத்தையும் பார்",
+        "description": "This is a button on the conversation details to show all members"
+    },
+    "GroupLinkManagement--clipboard": {
+        "message": "குழு இணைப்புநகலெடுக்கப்பட்டது.",
+        "description": "Shown in a toast when a user selects to copy group link"
+    },
+    "GroupLinkManagement--share": {
+        "message": "நகலெடுக்கவும் இணைப்பு",
+        "description": "This lets users share their group link"
+    },
+    "GroupLinkManagement--confirm-reset": {
+        "message": "குழு இணைப்பை மீட்டமைக்க விரும்புகிறீர்களா? தற்போதைய இணைப்பைப் பயன்படுத்தி மக்கள் இனி குழுவில் சேர முடியாது.",
+        "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
+    },
+    "GroupLinkManagement--reset": {
+        "message": "இணைப்பை மீட்டமைக்கவும்",
+        "description": "This lets users generate a new group link"
+    },
+    "GroupLinkManagement--approve-label": {
+        "message": "புதிய உறுப்பினர்களை அங்கீகரிக்கவும்",
+        "description": "Title for the approve new members select area"
+    },
+    "GroupLinkManagement--approve-info": {
+        "message": "வழியாக புதிய உறுப்பினர்களை அனுமதிக்க நிர்வாகி தேவை குழு இணைப்பு",
+        "description": "Description for the approve new members select area"
+    },
+    "PendingInvites--tab-requests": {
+        "message": "கோரிக்கைகளை ($count$)",
+        "description": "Label for the tab to view pending requests",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "4"
+            }
+        }
+    },
+    "PendingInvites--tab-invites": {
+        "message": "அழைக்கிறது  ($count$)",
+        "description": "Label for the tab to view pending invites",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "PendingRequests--approve-for": {
+        "message": "கோரிக்கையை அங்கீகரிக்கவும் \"$name$\"?",
+        "description": "This is the modal content when confirming approving a group request to join",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Meowsy Purrington"
+            }
+        }
+    },
+    "PendingRequests--deny-for": {
+        "message": "கோரிக்கையை மறுக்கவும் \"$name$\"?",
+        "description": "This is the modal content when confirming denying a group request to join",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Meowsy Purrington"
+            }
+        }
+    },
+    "PendingInvites--invites": {
+        "message": "நீங்கள் அழைத்தார்",
+        "description": "This is the title list of all invites"
+    },
+    "PendingInvites--invited-by-you": {
+        "message": "நீங்கள் அழைத்தார்",
+        "description": "This is the title for the list of members you have invited"
+    },
+    "PendingInvites--invited-by-others": {
+        "message": "மற்றவர்களால் அழைக்கப்பட்டது",
+        "description": "This is the title for the list of members who have invited other people"
+    },
+    "PendingInvites--invited-count": {
+        "message": "அழைக்கப்பட்டார் $number$",
+        "description": "This is the label for the number of members someone has invited",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "PendingInvites--revoke-for-label": {
+        "message": "திரும்பப் பெறு குழு அழைக்க",
+        "description": "This is aria label for revoking a group invite icon"
+    },
+    "PendingInvites--revoke-for": {
+        "message": "திரும்பப் பெறு குழு\"க்கு அழைக்கவும் \"$name$\"?",
+        "description": "This is the modal content when confirming revoking a single invite",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "3"
+            },
+            "name": {
+                "content": "$2",
+                "example": "Fred Riley III"
+            }
+        }
+    },
+    "PendingInvites--revoke-from-singular": {
+        "message": "திரும்பப் பெறுஅனுப்பிய 1 அழைப்பு \"$name$\"?",
+        "description": "This is the modal content when confirming revoking a single invite",
+        "placeholders": {
+            "name": {
+                "content": "$2",
+                "example": "Fred Riley III"
+            }
+        }
+    },
+    "PendingInvites--revoke-from-plural": {
+        "message": "திரும்பப் பெறு$number$ அனுப்பிய அழைப்புகள் \"$name$\"",
+        "description": "This is the modal content when confirming revoking multiple invites",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "3"
+            },
+            "name": {
+                "content": "$2",
+                "example": "Fred Riley III"
+            }
+        }
+    },
+    "PendingInvites--revoke": {
+        "message": "திரும்பப் பெறு",
+        "description": "This is the modal button to confirm revoking invites"
+    },
+    "PendingRequests--approve": {
+        "message": "கோரிக்கையை அங்கீகரிக்கவும்",
+        "description": "This is the modal button to approve group request to join"
+    },
+    "PendingRequests--deny": {
+        "message": "கோரிக்கையை மறுக்கவும்",
+        "description": "This is the modal button to deny group request to join"
+    },
+    "PendingRequests--info": {
+        "message": "மக்கள் இந்த பட்டியலில் முயற்சிக்கிறது சேர \"$name$\" வழியாக குழு இணைப்பு.",
+        "description": "Inforamtion shown below the pending admin approval list",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Tahoe List"
+            }
+        }
+    },
+    "PendingInvites--info": {
+        "message": "விவரங்கள் பற்றி மக்கள் இதற்கு அழைக்கப்பட்டார் குழு அவை வரை காட்டப்படவில்லை சேர. அழைப்பாளர்கள் செய்திகளுக்குப் பிறகுதான் செய்திகளைப் பார்ப்பார்கள்சேர தி குழு.",
+        "description": "Information shown below the invite list"
     }
 }

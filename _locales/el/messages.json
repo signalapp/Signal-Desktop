@@ -148,11 +148,11 @@
         "description": "View menu command to show or hide the developer tools"
     },
     "menuSetupAsNewDevice": {
-        "message": "Παραμετροποίηση ως Νέα συσκευή",
+        "message": "Παραμετροποίηση ως νέα συσκευή",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "menuSetupAsStandalone": {
-        "message": "Παραμετροποίηση ως Αυτόνομη συσκευή",
+        "message": "Παραμετροποίηση ως αυτόνομη συσκευή",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "messageContextMenuButton": {
@@ -531,6 +531,10 @@
         "message": "Δεν έχεις πολυμέσα σε αυτή τη συνομιλία",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
+    "allMedia": {
+        "message": "Όλα τα Πολυμέσα",
+        "description": "Header for the media gallery"
+    },
     "documents": {
         "message": "Έγγραφα",
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
@@ -568,7 +572,7 @@
         "description": "Hover text for attachment filenames"
     },
     "voiceMessage": {
-        "message": "Φωνητικό μήνυμα",
+        "message": "Μήνυμα φωνής",
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
@@ -866,7 +870,7 @@
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Τα ηχογραφημένα μηνύματα έχουν χρονικό όριο 5 λεπτών. Η ηχογράφηση θα σταματήσει αν πας σε άλλη εφαρμογή.",
+        "message": "Τα μηνύματα φωνής έχουν χρονικό όριο 5 λεπτών. Η ηχογράφηση θα σταματήσει αν πας σε άλλη εφαρμογή.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
@@ -984,6 +988,18 @@
     "delete": {
         "message": "Διαγραφή",
         "description": ""
+    },
+    "accept": {
+        "message": "Αποδοχή",
+        "description": ""
+    },
+    "on": {
+        "message": "Ενεργό",
+        "description": "Label for when something is turned on"
+    },
+    "off": {
+        "message": "Ανενεργό",
+        "description": "Label for when something is turned off"
     },
     "deleteWarning": {
         "message": "Πατώντας \"διαγραφή\", το μήνυμα αυτό θα σβηστεί μόνο από τις συσκευές σου.",
@@ -1232,7 +1248,7 @@
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
-        "message": "Το βίντεό σου είναι απενεργοποιημένο",
+        "message": "Η κάμερά σου είναι απενεργοποιημένη",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__lobby-summary--zero": {
@@ -1334,6 +1350,14 @@
     "calling__block-info": {
         "message": "Δεν θα μπορείς να λάβεις τον ήχο ή την εικόνα του/της και αυτός/ή δεν θα λαμβάνει τα δικά σου.",
         "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
+    },
+    "calling__overflow__scroll-up": {
+        "message": "Κύλιση πάνω",
+        "description": "Label for the \"scroll up\" button in a call's overflow area"
+    },
+    "calling__overflow__scroll-down": {
+        "message": "Κύλιση κάτω",
+        "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
     "alwaysRelayCallsDescription": {
         "message": "Αναμετάδοση κλήσεων πάντα",
@@ -3181,6 +3205,14 @@
         "message": "Κλήση σε πλήρη οθόνη",
         "description": "Title for picture-in-picture toggle"
     },
+    "calling__switch-view--to-grid": {
+        "message": "Αλλαγή σε προβολή σε πλέγμα",
+        "description": "Title for grid/speaker view toggle when on a call"
+    },
+    "calling__switch-view--to-speaker": {
+        "message": "Αλλαγή σε προβολή ομιλητή",
+        "description": "Title for grid/speaker view toggle when on a call"
+    },
     "calling__hangup": {
         "message": "Αποχώρηση από την κλήση",
         "description": "Title for hang up button"
@@ -3255,9 +3287,117 @@
         "message": "Εντάξει",
         "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
     },
+    "unknown-sgnl-link": {
+        "message": "Συγγνώμη, αυτός ο σύνδεσμος sgnl:// δεν βγάζει νόημα!",
+        "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
+    },
+    "GroupV2--join--invalid-link--title": {
+        "message": "Μη έγκυρος σύνδεσμος",
+        "description": "Shown if we are unable to parse a group link"
+    },
+    "GroupV2--join--invalid-link": {
+        "message": "Αυτός δεν είναι έγκυρος σύνδεσμος σε ομάδα. Επιβεβαίωσε πως ο σύνδεσμος είναι ακέραιος και σωστός πριν δοκιμάσεις να μπεις.",
+        "description": "Shown if we are unable to parse a group link"
+    },
+    "GroupV2--join--prompt": {
+        "message": "Θέλεις να μπεις σε αυτή την ομάδα και να μοιραστείς το όνομα και τη φωτογραφία σου με τα μέλη της;",
+        "description": "Shown when you click on a group link to confirm"
+    },
+    "GroupV2--join--already-in-group": {
+        "message": "Είσαι ήδη σε αυτή την ομάδα.",
+        "description": "Shown if you click a group link for a group where you're already a member"
+    },
+    "GroupV2--join--already-awaiting-approval": {
+        "message": "Έχεις ήδη ζητήσει έγκριση για να μπεις στην ομάδα.",
+        "description": "Shown if you click a group link for a group where you've already requested approval'"
+    },
+    "GroupV2--join--unknown-link-version--title": {
+        "message": "Άγνωστη έκδοση συνδέσμου",
+        "description": "This group link is no longer valid."
+    },
+    "GroupV2--join--unknown-link-version": {
+        "message": "Αυτός ο σύνδεσμος δεν υποστηρίζεται από αυτή την έκδοση του Signal Desktop",
+        "description": "Shown if you click a group link and we can't get information about it"
+    },
+    "GroupV2--join--link-revoked--title": {
+        "message": "Αδυναμία εισόδου στην ομάδα",
+        "description": "Shown if you click a group link and we can't get information about it"
+    },
+    "GroupV2--join--link-revoked": {
+        "message": "Ο σύνδεσμος ομάδας δεν είναι πια έγκυρος",
+        "description": "Shown if you click a group link and we can't get information about it"
+    },
+    "GroupV2--join--prompt-with-approval": {
+        "message": "Κάποιος διαχειριστής της ομάδας πρέπει να εγκρίνει το αίτημά σου πριν μπορέσεις να μπεις στην ομάδα. Αν εγκριθεί, το όνομα και η φωτογραφία σου θα μοιραστούν στα μέλη της.",
+        "description": "Shown when you click on a group link to confirm, if it requires admin approval"
+    },
+    "GroupV2--join--join-button": {
+        "message": "Γίνε μέλος",
+        "description": "The button to join the group"
+    },
+    "GroupV2--join--request-to-join-button": {
+        "message": "Αίτηση εισόδου",
+        "description": "The button to join the group, if approval is required"
+    },
+    "GroupV2--join--cancel-request-to-join": {
+        "message": "Ακύρωση αιτήματος",
+        "description": "The button to cancel request to join the group"
+    },
+    "GroupV2--join--cancel-request-to-join--confirmation": {
+        "message": "Ακύρωση του αιτήματός σου να μπεις στην ομάδα;",
+        "description": "A confirmation message that shows after you click the button"
+    },
+    "GroupV2--join--cancel-request-to-join--yes": {
+        "message": "Ναι",
+        "description": "Choosing to continue in the cancel join confirmation dialog"
+    },
+    "GroupV2--join--cancel-request-to-join--no": {
+        "message": "Όχι",
+        "description": "Choosing not to continue in the cancel join confirmation dialog"
+    },
+    "GroupV2--join--member-count--single": {
+        "message": "1 μέλος",
+        "description": "Shown in the metadata section if group has just one member"
+    },
+    "GroupV2--join--member-count--multiple": {
+        "message": "$count$ μέλη",
+        "description": "Shown in the metadata section if group has more than one member",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "12"
+            }
+        }
+    },
+    "GroupV2--join--group-metadata": {
+        "message": "Ομάδα · $memberCount$",
+        "description": "A holder for two pieces of information - the type of conversation, and the member count",
+        "placeholders": {
+            "memberCount": {
+                "content": "$1",
+                "example": "12 members"
+            }
+        }
+    },
+    "GroupV2--join--requested": {
+        "message": "Το αίτημά σου για να μπεις στην ομάδα στάλθηκε στον διαχειριστή/τρια της ομάδας. Θα ενημερωθείς όταν λάβει απόφαση.",
+        "description": "Shown in composition area when you've requested to join a group"
+    },
+    "GroupV2--join--general-join-failure--title": {
+        "message": "Σφάλμα συνδέσμου",
+        "description": "Shown if something went wrong when you try to join via a group link"
+    },
+    "GroupV2--join--general-join-failure": {
+        "message": "Η σύνδεση μέσω του συνδέσμου απέτυχε. Προσπάθησε να ξαναμπείς αργότερα.",
+        "description": "Shown if something went wrong when you try to join via a group link"
+    },
     "GroupV2--admin": {
         "message": "Διαχειριστής/τρια",
-        "description": "Shown next to the set of administrators in a group"
+        "description": "Label for a group administrator"
+    },
+    "GroupV2--all-members": {
+        "message": "Όλα τα μέλη",
+        "description": "Label for describing the general non-privileged members of a group"
     },
     "updating": {
         "message": "Αναβαθμίζεται...",
@@ -3384,7 +3524,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--unknown": {
-        "message": "Ένας διαχειριστής/τρια άλλαξε το ποιός μπορεί να επεξεργάζεται τις πληροφορίες της ομάδας σε \"Μόνο οι διαχειριστές.\"",
+        "message": "Ένας διαχειριστής άλλαξε το ποιός μπορεί να επεξεργάζεται τις πληροφορίες της ομάδας σε \"Μόνο οι διαχειριστές.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--other": {
@@ -3402,7 +3542,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--unknown": {
-        "message": "Ένας διαχειριστής/τρια άλλαξε το ποιός μπορεί να επεξεργάζεται τις πληροφορίες της ομάδας σε \"Όλα τα μέλη.\"",
+        "message": "Ένας διαχειριστής άλλαξε το ποιός μπορεί να επεξεργάζεται τις πληροφορίες της ομάδας σε \"Όλα τα μέλη.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--other": {
@@ -3420,7 +3560,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--unknown": {
-        "message": "Ένας διαχειριστής/τρια άλλαξε το ποιός έχει τη δυνατότητα αλλαγών στα μέλη της ομάδας σε \"Μόνο οι διαχειριστές.\"",
+        "message": "Ένας διαχειριστής άλλαξε το ποιός έχει τη δυνατότητα αλλαγών στα μέλη της ομάδας σε \"Μόνο οι διαχειριστές.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--other": {
@@ -3438,7 +3578,43 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--unknown": {
-        "message": "Ένας διαχειριστής/τρια άλλαξε το ποιός έχει τη δυνατότητα αλλαγών στα μέλη της ομάδας σε \"Όλα τα μέλη.\"",
+        "message": "Ένας διαχειριστής άλλαξε το ποιός έχει τη δυνατότητα αλλαγών στα μέλη της ομάδας σε \"Όλα τα μέλη.\"",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--access-invite-link--disabled--you": {
+        "message": "Απενεργοποίησες την έγκριση διαχειριστή για το σύνδεσμο ομάδας.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--access-invite-link--disabled--other": {
+        "message": "Ο/Η $adminName$ απενεργοποίησε την έγκριση διαχειριστή για το σύνδεσμο ομάδας.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--access-invite-link--disabled--unknown": {
+        "message": "Η έγκριση διαχειριστή για το σύνδεσμο της ομάδας απενεργοποιήθηκε.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--access-invite-link--enabled--you": {
+        "message": "Ενεργοποίησες την έγκριση διαχειριστή για το σύνδεσμο ομάδας.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--access-invite-link--enabled--other": {
+        "message": "Ο/Η $adminName$ ενεργοποίησε την έγκριση διαχειριστή για το σύνδεσμο ομάδας.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--access-invite-link--enabled--unknown": {
+        "message": "Η έγκριση διαχειριστή για το σύνδεσμο της ομάδας ενεργοποιήθηκε.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {
@@ -3575,6 +3751,68 @@
         "message": "Προστέθηκες στην ομάδα.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
+    "GroupV2--member-add-from-link--you--you": {
+        "message": "Μπήκες στην ομάδα μέσω του συνδέσμου της ομάδας.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--member-add-from-link--other": {
+        "message": "Ο/Η $memberName$ μπήκε στην ομάδα μέσω του συνδέσμου της ομάδας.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--member-add-from-admin-approval--you--other": {
+        "message": "Ο/Η $adminName$ ενέκρινε το αίτημά σου να μπεις στην ομάδα.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--member-add-from-admin-approval--you--unknown": {
+        "message": "Το αίτημά σου για να μπεις στην ομάδα εγκρίθηκε.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--member-add-from-admin-approval--other--you": {
+        "message": "Ενέκρινες το αίτημα του/της $joinerName$ να μπει στην ομάδα.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--member-add-from-admin-approval--other--other": {
+        "message": "Ο/Η $adminName$ ενέκρινε το αίτημα του/της $joinerName$ να μπει στην ομάδα.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--member-add-from-admin-approval--other--unknown": {
+        "message": "Το αίτημα του/της $joinerName$ να μπει στην ομάδα εγκρίθηκε.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "GroupV2--member-remove--other--other": {
         "message": "Ο/Η$adminName$ αφαίρεσε τον/την $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
@@ -3638,7 +3876,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--promote--other--other": {
-        "message": "Ο/Η $adminName$ έκανε τον/την $memberName$ διαχειριστή/τρια.",
+        "message": "Ο/Η $adminName$ έκανε τον/την $memberName$ διαχειριστή.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3652,7 +3890,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--you": {
-        "message": "Έκανες τον/την $memberName$ διαχειριστή/τρια.",
+        "message": "Έκανες τον/την $memberName$ διαχειριστή.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3662,7 +3900,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--unknown": {
-        "message": "Ένας διαχειριστής έκανε τον/την $memberName$ διαχειριστή/τρια.",
+        "message": "Ένας διαχειριστής έκανε τον/την $memberName$ διαχειριστή.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3672,7 +3910,7 @@
         }
     },
     "GroupV2--member-privilege--promote--you--other": {
-        "message": "Ο/Η $adminName$ σε έκανε διαχειριστή/τρια.",
+        "message": "Ο/Η $adminName$ σε έκανε διαχειριστή.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3682,7 +3920,7 @@
         }
     },
     "GroupV2--member-privilege--promote--you--unknown": {
-        "message": "Ένας διαχειριστής/τρια σε έκανε διαχειριστή/τρια.",
+        "message": "Ένας διαχειριστής/τρια σε έκανε διαχειριστή.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--demote--other--other": {
@@ -3710,7 +3948,7 @@
         }
     },
     "GroupV2--member-privilege--demote--other--unknown": {
-        "message": "Ένας διαχειριστής/τρια ανακάλεσε τα δικαιώματα διαχείρισης του/της $memberName$.",
+        "message": "Ένας διαχειριστής ανακάλεσε τα δικαιώματα διαχείρισης του/της $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--demote--you--other": {
@@ -3874,7 +4112,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--one--unknown": {
-        "message": "Ένας διαχειριστής/τρια ανακάλεσε την πρόσκληση 1 ατόμου στην ομάδα.",
+        "message": "Ένας διαχειριστής ανακάλεσε την πρόσκληση 1 ατόμου στην ομάδα.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3908,7 +4146,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--unknown": {
-        "message": "Ένας διαχειριστής/τρια ανακάλεσε τις προσκλήσεις $count$ ατόμων στην ομάδα.",
+        "message": "Ένας διαχειριστής ανακάλεσε τις προσκλήσεις $count$ ατόμων στην ομάδα.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -3942,7 +4180,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-        "message": "Ένας διαχειριστής/τρια ανακάλεσε την πρόσκληση 1 ατόμου στην ομάδα, που είχε προσκληθεί από τον/την $memberName$.",
+        "message": "Ένας διαχειριστής ανακάλεσε την πρόσκληση 1 ατόμου στην ομάδα, που είχε προσκληθεί από τον/την $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3972,7 +4210,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--unknown": {
-        "message": "Ενας διαχειριστής/τρια ανακάλεσε την πρόσκληση στην ομάδα που έστειλες στον/στην $inviteeName$.",
+        "message": "Ενας διαχειριστής ανακάλεσε την πρόσκληση στην ομάδα που έστειλες στον/στην $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4010,7 +4248,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-        "message": "Ένας διαχειριστής/τρια ανακάλεσε τις προσκλήσεις $count$ ατόμων στην ομάδα, που προσκλήθηκαν από τον/την $memberName$.",
+        "message": "Ένας διαχειριστής ανακάλεσε τις προσκλήσεις $count$ ατόμων στην ομάδα, που προσκλήθηκαν από τον/την $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4057,8 +4295,136 @@
             }
         }
     },
+    "GroupV2--admin-approval-add-one--you": {
+        "message": "Έστειλες αίτημα για να μπείς στην ομάδα.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--admin-approval-add-one--other": {
+        "message": "Ο/Η $joinerName$ ζήτησε να μπει στην ομάδα μέσω του συνδέσμου της ομάδας.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-remove-one--you--you": {
+        "message": "Ακύρωσες το αίτημά σου για είσοδο στην ομάδα.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--admin-approval-remove-one--you--unknown": {
+        "message": "Το αίτημά σου να μπεις στην ομάδα απορρίφθηκε από κάποιον διαχειριστή.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--admin-approval-remove-one--other--you": {
+        "message": "Απέρριψες το αίτημα του/της $joinerName$ να μπει στην ομάδα.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-remove-one--other--own": {
+        "message": "Ο/Η $joinerName$ ακύρωσε το αίτημά του/της για είσοδο στην ομάδα.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-remove-one--other--other": {
+        "message": "Ο/Η $adminName$ απέρριψε το αίτημα του/της $joinerName$ να μπει στην ομάδα.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "joinerName": {
+                "content": "$2",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--group-link-add--disabled--you": {
+        "message": "Ενεργοποίησες το σύνδεσμο της ομάδας με απενεργοποιημένη την έγκριση διαχειριστή.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-add--disabled--other": {
+        "message": "Ο/Η $adminName$ ενεργοποίησε το σύνδεσμο της ομάδας με απενεργοποιημένη την έγκριση διαχειριστή.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--group-link-add--disabled--unknown": {
+        "message": "Ενεργοποιήθηκε ο σύνδεσμος της ομάδας με απενεργοποιημένη την έγκριση διαχειριστή.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-add--enabled--you": {
+        "message": "Ενεργοποίησες το σύνδεσμο της ομάδας με ενεργοποιημένη την έγκριση διαχειριστή.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-add--enabled--other": {
+        "message": "Ο/Η $adminName$ ενεργοποίησε το σύνδεσμο της ομάδας με ενεργοποιημένη την έγκριση διαχειριστή.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--group-link-add--enabled--unknown": {
+        "message": "Ενεργοποιήθηκε ο σύνδεσμος της ομάδας με ενεργοποιημένη την έγκριση διαχειριστή.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-remove--you": {
+        "message": "Απενεργοποίησες το σύνδεσμο της ομάδας.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-remove--other": {
+        "message": "Ο/Η $adminName$ απενεργοποίησε το σύνδεσμο της ομάδας.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--group-link-remove--unknown": {
+        "message": "Ο σύνδεσμος της ομάδας απενεργοποιήθηκε.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-reset--you": {
+        "message": "Επανέφερες το σύνδεσμο της ομάδας.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--group-link-reset--other": {
+        "message": "Ο/Η $adminName$ επανέφερε το σύνδεσμο της ομάδας.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--group-link-reset--unknown": {
+        "message": "Ο σύνδεσμος της ομάδας επαναφέρθηκε.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
     "GroupV1--Migration--disabled": {
-        "message": "Αναβάθμισε αυτή την ομάδα για να ενεργοποιήσεις νέα χαρακτηριστικά όπως οι @αναφορές και οι διαχειριστές. Τα μέλη που δεν έχουν μοιραστεί το όνομα ή τη φωτογραφία τους με την ομάδα θα προσκληθούν να ξαναμπούν. $learnMore$",
+        "message": "Αναβάθμισε αυτή την ομάδα για να ενεργοποιήσεις νέες δυνατότητες όπως οι @αναφορές και οι διαχειριστές. Τα μέλη που δεν έχουν μοιραστεί το όνομα ή τη φωτογραφία τους με την ομάδα θα προσκληθούν να ξαναμπούν. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
         "placeholders": {
             "learnMore": {
@@ -4088,7 +4454,7 @@
         "description": "Shown on Migration popup after choosing to migrate group"
     },
     "GroupV1--Migration--info--summary": {
-        "message": "Οι ομάδες νέου τύπου έχουν χαρακτηριστικά όπως τις @αναφορές και τους διαχειριστές ομάδας, και θα αποκτήσουν παραπάνω χαρακτηριστικά στο μέλλον.",
+        "message": "Οι ομάδες νέου τύπου έχουν δυνατότητες όπως οι @αναφορές και οι διαχειριστές ομάδας, και θα αποκτήσουν παραπάνω δυνατότητες στο μέλλον.",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--keep-history": {
@@ -4096,7 +4462,7 @@
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--keep-history": {
-        "message": "Όλο το ιστορικό των μηνυμάτων και τα πολυμέσα διατηρήθηκαν ως είχαν πριν την αναβάθμιση.",
+        "message": "Όλο το ιστορικό των μηνυμάτων και τα πολυμέσα θα διατηρηθούν ως έχουν πριν την αναβάθμιση.",
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
@@ -4199,12 +4565,296 @@
         "message": "Μήνυμα",
         "description": "Button text for send message button in Group Contact Details modal"
     },
+    "ContactModal--rm-admin": {
+        "message": "Αφαίρεση διαχειριστή",
+        "description": "Button text for removing as admin button in Group Contact Details modal"
+    },
     "ContactModal--make-admin": {
         "message": "Ορισμός ως διαχειριστή",
         "description": "Button text for make admin button in Group Contact Details modal"
     },
+    "ContactModal--make-admin-info": {
+        "message": "Ο/Η $contact$ θα μπορεί να επεξεργάζεται αυτή την ομάδα και τα μέλη της.",
+        "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Homer"
+            }
+        }
+    },
+    "ContactModal--rm-admin-info": {
+        "message": "Αφαίρεση των δικαιωμάτων διαχείρισης της ομάδας από τον/την $contact$",
+        "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Homer"
+            }
+        }
+    },
     "ContactModal--remove-from-group": {
         "message": "Αφαίρεση απ' την ομάδα",
         "description": "Button text for remove from group button in Group Contact Details modal"
+    },
+    "showConversationDetails": {
+        "message": "Ρυθμίσεις ομάδας",
+        "description": "This is a button in the conversation context menu to show group settings"
+    },
+    "ConversationDetails--group-link": {
+        "message": "Σύνδεσμος ομάδας",
+        "description": "This is the label for the group link management panel"
+    },
+    "ConversationDetails--disappearing-messages-label": {
+        "message": "Μηνύματα που εξαφανίζονται",
+        "description": "This is the label for the disappearing messages setting panel"
+    },
+    "ConversationDetails--disappearing-messages-info": {
+        "message": "Όταν ενεργοποιηθεί, τα μηνύματα που στέλνονται και λαμβάνονται σε αυτή την ομάδα θα εξαφανίζονται αφού προβληθούν.",
+        "description": "This is the info about the disappearing messages setting"
+    },
+    "ConversationDetails--group-info-label": {
+        "message": "Ποιοί μπορούν να επεξεργαστούν τις πληροφορίες της ομάδας",
+        "description": "This is the label for the 'who can edit the group' panel"
+    },
+    "ConversationDetails--group-info-info": {
+        "message": "Διάλεξε ποιοί θα μπορούν να επεξεργάζονται το όνομα της ομάδας, τη φωτογραφία, και το χρόνο εξαφάνισης μηνυμάτων.",
+        "description": "This is the additional info for the 'who can edit the group' panel"
+    },
+    "ConversationDetails--add-members-label": {
+        "message": "Ποιοί μπορούν να προσθέσουν μέλη",
+        "description": "This is the label for the 'who can add members' panel"
+    },
+    "ConversationDetails--add-members-info": {
+        "message": "Επέλεξε ποιοί μπορύν να προσθέσουν μέλη στην ομάδα.",
+        "description": "This is the additional info for the 'who can add members' panel"
+    },
+    "ConversationDetails--requests-and-invites": {
+        "message": "Αιτήματα & Προσκλήσεις",
+        "description": "This is a button to display which members have been invited but have not joined yet"
+    },
+    "ConversationDetailsActions--leave-group": {
+        "message": "Αποχώρηση απ' την ομάδα",
+        "description": "This is a button to leave a group"
+    },
+    "ConversationDetailsActions--block-group": {
+        "message": "Φραγή ομάδας",
+        "description": "This is a button to block a group"
+    },
+    "ConversationDetailsActions--leave-group-modal-title": {
+        "message": "Θέλεις όντως να αποχωρήσεις;",
+        "description": "This is the modal title for confirming leaving a group"
+    },
+    "ConversationDetailsActions--leave-group-modal-content": {
+        "message": "Δε θα μπορείς πια να στείλεις ή να λάβεις μηνύματα σε αυτήν την ομάδα.",
+        "description": "This is the modal content for confirming leaving a group"
+    },
+    "ConversationDetailsActions--leave-group-modal-confirm": {
+        "message": "Αποχώρηση",
+        "description": "This is the modal button to confirm leaving a group"
+    },
+    "ConversationDetailsActions--block-group-modal-title": {
+        "message": "Φραγή και αποχώρηση από την ομάδα \"$groupName$\";",
+        "description": "This is the modal title for confirming blocking a group",
+        "placeholders": {
+            "groupName": {
+                "content": "$1",
+                "example": "Our Conversation"
+            }
+        }
+    },
+    "ConversationDetailsActions--block-group-modal-content": {
+        "message": "Δεν θα λαμβάνεις πια μηνύματα ή ενημερώσεις από αυτήν την ομάδα.",
+        "description": "This is the modal content for confirming blocking a group"
+    },
+    "ConversationDetailsActions--block-group-modal-confirm": {
+        "message": "Φραγή",
+        "description": "This is the modal button to confirm blocking a group"
+    },
+    "ConversationDetailsHeader--members": {
+        "message": "$number$ μέλη",
+        "description": "This is the number of members in a group",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
+    "ConversationDetailsMediaList--shared-media": {
+        "message": "Μοιρασμένα πολυμέσα",
+        "description": "Title for the media thumbnails in the conversation details screen"
+    },
+    "ConversationDetailsMediaList--show-all": {
+        "message": "Προβολή όλων",
+        "description": "This is a button on the conversation details to show all media"
+    },
+    "ConversationDetailsMembershipList--title": {
+        "message": "$number$ μέλη",
+        "description": "The title of the membership list panel",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
+    "ConversationDetailsMembershipList--show-all": {
+        "message": "Προβολή όλων",
+        "description": "This is a button on the conversation details to show all members"
+    },
+    "GroupLinkManagement--clipboard": {
+        "message": "Ο σύνδεσμος ομάδας αντιγράφτηκε.",
+        "description": "Shown in a toast when a user selects to copy group link"
+    },
+    "GroupLinkManagement--share": {
+        "message": "Αντιγραφή συνδέσμου",
+        "description": "This lets users share their group link"
+    },
+    "GroupLinkManagement--confirm-reset": {
+        "message": "Είσαι σίγουρος/η πως θέλεις να επαναφέρεις το σύνδεσμο της ομάδας; Δεν θα μπορεί να μπει κανένας άλλος στην ομάδα χρησιμοποιώντας τον τωρινό σύνδεσμο.",
+        "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
+    },
+    "GroupLinkManagement--reset": {
+        "message": "Επαναφορά συνδέσμου",
+        "description": "This lets users generate a new group link"
+    },
+    "GroupLinkManagement--approve-label": {
+        "message": "Έγκριση νέων μελών",
+        "description": "Title for the approve new members select area"
+    },
+    "GroupLinkManagement--approve-info": {
+        "message": "Να απαιτείται η έγκριση απο διαχειριστή/τρια για νέα μέλη που μπαίνουν από το σύνδεσμο της ομάδας.",
+        "description": "Description for the approve new members select area"
+    },
+    "PendingInvites--tab-requests": {
+        "message": "Αιτήματα ($count$)",
+        "description": "Label for the tab to view pending requests",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "4"
+            }
+        }
+    },
+    "PendingInvites--tab-invites": {
+        "message": "Προσκλήσεις ($count$)",
+        "description": "Label for the tab to view pending invites",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "PendingRequests--approve-for": {
+        "message": "Έγκριση του αιτηματος του/της \"$name$\";",
+        "description": "This is the modal content when confirming approving a group request to join",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Meowsy Purrington"
+            }
+        }
+    },
+    "PendingRequests--deny-for": {
+        "message": "Απόρριψη του αιτήματος του/της \"$name$\";",
+        "description": "This is the modal content when confirming denying a group request to join",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Meowsy Purrington"
+            }
+        }
+    },
+    "PendingInvites--invites": {
+        "message": "Προσκεκλημένοι από εσένα",
+        "description": "This is the title list of all invites"
+    },
+    "PendingInvites--invited-by-you": {
+        "message": "Προσκεκλημένοι από εσένα",
+        "description": "This is the title for the list of members you have invited"
+    },
+    "PendingInvites--invited-by-others": {
+        "message": "Προσκεκλημένοι από άλλους/ες",
+        "description": "This is the title for the list of members who have invited other people"
+    },
+    "PendingInvites--invited-count": {
+        "message": "Προσκάλεσε $number$",
+        "description": "This is the label for the number of members someone has invited",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "PendingInvites--revoke-for-label": {
+        "message": "Ανάκληση πρόσκλησης στην ομάδα",
+        "description": "This is aria label for revoking a group invite icon"
+    },
+    "PendingInvites--revoke-for": {
+        "message": "Ανάκληση της πρόσκλησης του/της \"$name$\" στην ομάδα;",
+        "description": "This is the modal content when confirming revoking a single invite",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "3"
+            },
+            "name": {
+                "content": "$2",
+                "example": "Fred Riley III"
+            }
+        }
+    },
+    "PendingInvites--revoke-from-singular": {
+        "message": "Ανάκληση 1 πρόσκλησης που στάλθηκε από τον/την \"$name$\";",
+        "description": "This is the modal content when confirming revoking a single invite",
+        "placeholders": {
+            "name": {
+                "content": "$2",
+                "example": "Fred Riley III"
+            }
+        }
+    },
+    "PendingInvites--revoke-from-plural": {
+        "message": "Ανάκληση $number$ προσκλήσεων που στάλθηκαν από τον/την \"$name$\";",
+        "description": "This is the modal content when confirming revoking multiple invites",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "3"
+            },
+            "name": {
+                "content": "$2",
+                "example": "Fred Riley III"
+            }
+        }
+    },
+    "PendingInvites--revoke": {
+        "message": "Ανάκληση",
+        "description": "This is the modal button to confirm revoking invites"
+    },
+    "PendingRequests--approve": {
+        "message": "Έγκριση αιτήματος",
+        "description": "This is the modal button to approve group request to join"
+    },
+    "PendingRequests--deny": {
+        "message": "Απόρριψη αιτήματος",
+        "description": "This is the modal button to deny group request to join"
+    },
+    "PendingRequests--info": {
+        "message": "Τα άτομα σε αυτή τη λίστα προσπαθούν να μπουν στο \"$name$\" μέσω του συνδέσμου της ομάδας.",
+        "description": "Inforamtion shown below the pending admin approval list",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Tahoe List"
+            }
+        }
+    },
+    "PendingInvites--info": {
+        "message": "Οι λεπτομέρειες των ατόμων που προσκλήθηκαν στην ομάδα δεν εμφανίζονται μέχρι να μπουν. Οι προσκεκλημένοι/ες θα μπορούν να δουν τα μηνύματα μόνο από τη στιγμή που μπουν στην ομάδα.",
+        "description": "Information shown below the invite list"
     }
 }
