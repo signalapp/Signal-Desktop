@@ -1,13 +1,17 @@
 // Copyright 2019-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { fromPairs, map } from 'lodash';
-
 export function makeLookup<T>(
   items: Array<T>,
   key: keyof T
-): { [key: string]: T } {
-  const pairs = map(items, item => [item[key], item]);
-
-  return fromPairs(pairs);
+): Record<string, T> {
+  return (items || []).reduce((lookup, item) => {
+    if (item !== undefined && item[key] !== undefined) {
+      // The force cast is necessary if we want the keyof T above, and the flexibility
+      //   to pass anything in. And of course we're modifying a parameter!
+      // eslint-disable-next-line no-param-reassign
+      lookup[String(item[key])] = item;
+    }
+    return lookup;
+  }, {} as Record<string, T>);
 }

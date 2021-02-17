@@ -354,7 +354,12 @@ async function downloadEphemeralPack(packId, packKey) {
   } = getReduxStickerActions();
 
   const existingPack = getStickerPack(packId);
-  if (existingPack) {
+  if (
+    existingPack &&
+    (existingPack.status === 'downloaded' ||
+      existingPack.status === 'installed' ||
+      existingPack.status === 'pending')
+  ) {
     log.warn(
       `Ephemeral download for pack ${redactPackId(
         packId

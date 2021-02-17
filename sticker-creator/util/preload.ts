@@ -1,9 +1,11 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Metadata } from 'sharp';
 
 declare global {
+  // We want to extend `window`'s properties, so we need an interface.
+  // eslint-disable-next-line no-restricted-syntax
   interface Window {
     processStickerImage: ProcessStickerImageFn;
     encryptAndUpload: EncryptAndUploadFn;
@@ -14,7 +16,7 @@ export type StickerImageData = {
   buffer: Buffer;
   src: string;
   path: string;
-  meta: Metadata & { pages?: number }; // Pages is not currently in the sharp metadata type
+  meta: Metadata;
 };
 
 type ProcessStickerImageFn = (path: string) => Promise<StickerImageData>;

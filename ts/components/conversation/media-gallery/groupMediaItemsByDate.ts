@@ -11,10 +11,10 @@ import { MediaItemType } from '../../LightboxGallery';
 type StaticSectionType = 'today' | 'yesterday' | 'thisWeek' | 'thisMonth';
 type YearMonthSectionType = 'yearMonth';
 
-interface GenericSection<T> {
+type GenericSection<T> = {
   type: T;
   mediaItems: Array<MediaItemType>;
-}
+};
 type StaticSection = GenericSection<StaticSectionType>;
 type YearMonthSection = GenericSection<YearMonthSectionType> & {
   year: number;
@@ -93,11 +93,11 @@ const toSection = (
   }
 };
 
-interface GenericMediaItemWithSection<T> {
+type GenericMediaItemWithSection<T> = {
   order: number;
   type: T;
   mediaItem: MediaItemType;
-}
+};
 type MediaItemWithStaticSection = GenericMediaItemWithSection<
   StaticSectionType
 >;

@@ -24703,9 +24703,10 @@ libsignal.SessionBuilder = function (storage, remoteAddress) {
   this.processV3 = builder.processV3.bind(builder);
 };
 
-function SessionCipher(storage, remoteAddress) {
+function SessionCipher(storage, remoteAddress, options) {
   this.remoteAddress = remoteAddress;
   this.storage = storage;
+  this.options = options || {};
 }
 
 SessionCipher.prototype = {
@@ -25045,9 +25046,19 @@ SessionCipher.prototype = {
           return Promise.resolve(); // Already calculated
       }
 
-      if (counter - chain.chainKey.counter > 5000) {
-          throw new Error('Over 5000 messages into the future! New: ' + counter + ', Existing: ' + chain.chainKey.counter);
+      var limit = 5000;
+      if (this.options.messageKeysLimit === false) {
+          // noop
+      } else {
+          if (this.options.messageKeysLimit > 0) {
+              limit = this.options.messageKeysLimit;
+          }
+
+          if (counter - chain.chainKey.counter > limit) {
+              throw new Error('Over ' + limit + ' messages into the future! New: ' + counter + ', Existing: ' + chain.chainKey.counter);
+          }
       }
+
 
       if (chain.chainKey.key === undefined) {
           throw new Error("Got invalid request to extend chain after it was already closed");

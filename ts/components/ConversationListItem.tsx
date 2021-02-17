@@ -41,7 +41,7 @@ export type PropsData = {
   lastUpdated?: number;
   unreadCount?: number;
   markedUnread?: boolean;
-  isSelected: boolean;
+  isSelected?: boolean;
 
   acceptedMessageRequest?: boolean;
   draftPreview?: string;

@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import is from '@sindresorhus/is';
@@ -20,7 +20,7 @@ const MIN_HEIGHT = 50;
 
 // Used for display
 
-export interface AttachmentType {
+export type AttachmentType = {
   blurHash?: string;
   caption?: string;
   contentType: MIME.MIMEType;
@@ -34,6 +34,7 @@ export interface AttachmentType {
   pending?: boolean;
   width?: number;
   height?: number;
+  path?: string;
   screenshot?: {
     height: number;
     width: number;
@@ -46,8 +47,9 @@ export interface AttachmentType {
     width: number;
     url: string;
     contentType: MIME.MIMEType;
+    path: string;
   };
-}
+};
 
 // UI-focused functions
 
@@ -165,6 +167,16 @@ export function isVideoAttachment(
     attachment.contentType &&
     isVideoTypeSupported(attachment.contentType)
   );
+}
+
+export function hasNotDownloaded(attachment?: AttachmentType): boolean {
+  return Boolean(attachment && !attachment.url);
+}
+
+export function hasVideoBlurHash(attachments?: Array<AttachmentType>): boolean {
+  const firstAttachment = attachments ? attachments[0] : null;
+
+  return Boolean(firstAttachment && firstAttachment.blurHash);
 }
 
 export function hasVideoScreenshot(
@@ -288,9 +300,9 @@ export type Attachment = {
   // digest?: ArrayBuffer;
 } & Partial<AttachmentSchemaVersion3>;
 
-interface AttachmentSchemaVersion3 {
+type AttachmentSchemaVersion3 = {
   path: string;
-}
+};
 
 export const isVisualMedia = (attachment: Attachment): boolean => {
   const { contentType } = attachment;
@@ -418,4 +430,14 @@ export const getFileExtension = (
     default:
       return attachment.contentType.split('/')[1];
   }
+};
+
+export const getUploadSizeLimitKb = (contentType: MIME.MIMEType): number => {
+  if (MIME.isGif(contentType)) {
+    return 25000;
+  }
+  if (isImageTypeSupported(contentType)) {
+    return 6000;
+  }
+  return 100000;
 };

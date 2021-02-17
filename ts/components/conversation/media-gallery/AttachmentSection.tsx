@@ -10,13 +10,13 @@ import { MediaItemType } from '../../LightboxGallery';
 import { missingCaseError } from '../../../util/missingCaseError';
 import { LocalizerType } from '../../../types/Util';
 
-export interface Props {
+export type Props = {
   i18n: LocalizerType;
   header?: string;
   type: 'media' | 'documents';
   mediaItems: Array<MediaItemType>;
   onItemClick?: (event: ItemClickEvent) => void;
-}
+};
 
 export class AttachmentSection extends React.Component<Props> {
   public render(): JSX.Element {

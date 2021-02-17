@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable @typescript-eslint/ban-types */
@@ -30,7 +30,7 @@ export type StickerPackType = any;
 export type StickerType = any;
 export type UnprocessedType = any;
 
-export interface DataInterface {
+export type DataInterface = {
   close: () => Promise<void>;
   removeDB: () => Promise<void>;
   removeIndexedDBFiles: () => Promise<void>;
@@ -169,6 +169,7 @@ export interface DataInterface {
   getRecentStickers: (options?: {
     limit?: number;
   }) => Promise<Array<StickerType>>;
+  clearAllErrorStickerPackAttempts: () => Promise<void>;
 
   updateEmojiUsage: (shortName: string, timeUsed?: number) => Promise<void>;
   getRecentEmojis: (limit?: number) => Promise<Array<EmojiType>>;
@@ -188,7 +189,7 @@ export interface DataInterface {
     conversationId: string,
     options: { limit: number }
   ) => Promise<Array<MessageType>>;
-}
+};
 
 // The reason for client/server divergence is the need to inject Backbone models and
 //   collections into data calls so those are the objects returned. This was necessary in
@@ -225,12 +226,14 @@ export type ServerInterface = DataInterface & {
     conversationId: string,
     options?: { limit?: number; receivedAt?: number; sentAt?: number }
   ) => Promise<Array<MessageTypeUnhydrated>>;
-  getLastConversationActivity: (
-    conversationId: string
-  ) => Promise<MessageType | undefined>;
-  getLastConversationPreview: (
-    conversationId: string
-  ) => Promise<MessageType | undefined>;
+  getLastConversationActivity: (options: {
+    conversationId: string;
+    ourConversationId: string;
+  }) => Promise<MessageType | undefined>;
+  getLastConversationPreview: (options: {
+    conversationId: string;
+    ourConversationId: string;
+  }) => Promise<MessageType | undefined>;
   getNextExpiringMessage: () => Promise<MessageType>;
   getNextTapToViewMessageToAgeOut: () => Promise<MessageType>;
   getOutgoingWithoutExpiresAt: () => Promise<Array<MessageType>>;
@@ -323,18 +326,16 @@ export type ClientInterface = DataInterface & {
       MessageCollection: typeof MessageModelCollectionType;
     }
   ) => Promise<MessageModelCollectionType>;
-  getLastConversationActivity: (
-    conversationId: string,
-    options: {
-      Message: typeof MessageModel;
-    }
-  ) => Promise<MessageModel | undefined>;
-  getLastConversationPreview: (
-    conversationId: string,
-    options: {
-      Message: typeof MessageModel;
-    }
-  ) => Promise<MessageModel | undefined>;
+  getLastConversationActivity: (options: {
+    conversationId: string;
+    ourConversationId: string;
+    Message: typeof MessageModel;
+  }) => Promise<MessageModel | undefined>;
+  getLastConversationPreview: (options: {
+    conversationId: string;
+    ourConversationId: string;
+    Message: typeof MessageModel;
+  }) => Promise<MessageModel | undefined>;
   getNextExpiringMessage: (options: {
     Message: typeof MessageModel;
   }) => Promise<MessageModel | null>;
@@ -392,7 +393,6 @@ export type ClientInterface = DataInterface & {
   // Client-side only, and test-only
 
   _removeConversations: (ids: Array<string>) => Promise<void>;
-  _cleanData: (data: any, path?: string) => any;
   _jobs: { [id: string]: ClientJobType };
 };
 

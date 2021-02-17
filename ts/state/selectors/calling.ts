@@ -8,11 +8,17 @@ import {
   CallingStateType,
   CallsByConversationType,
   DirectCallStateType,
+  getActiveCall,
 } from '../ducks/calling';
 import { CallMode, CallState } from '../../types/Calling';
 import { getOwn } from '../../util/getOwn';
 
 const getCalling = (state: StateType): CallingStateType => state.calling;
+
+export const isInCall = createSelector(
+  getCalling,
+  (state: CallingStateType): boolean => Boolean(getActiveCall(state))
+);
 
 export const getCallsByConversation = createSelector(
   getCalling,

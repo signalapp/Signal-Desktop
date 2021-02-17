@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useRef, useEffect } from 'react';
@@ -8,12 +8,12 @@ import { ColorType } from '../types/Colors';
 import { LocalizerType } from '../types/Util';
 import { Avatar } from './Avatar';
 
-interface PropsType {
+type PropsType = {
   conversation: ConversationType;
   hasRemoteVideo: boolean;
   i18n: LocalizerType;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
-}
+};
 
 export const DirectCallRemoteParticipant: React.FC<PropsType> = ({
   conversation,

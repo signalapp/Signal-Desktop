@@ -23,9 +23,24 @@ export function isSgnlHref(value: string | URL, logger: LoggerType): boolean {
   return url !== null && url.protocol === 'sgnl:';
 }
 
+export function isSignalHttpsLink(
+  value: string | URL,
+  logger: LoggerType
+): boolean {
+  const url = parseUrl(value, logger);
+  return Boolean(
+    url &&
+      !url.username &&
+      !url.password &&
+      !url.port &&
+      url.protocol === 'https:' &&
+      (url.host === 'signal.group' || url.host === 'signal.art')
+  );
+}
+
 type ParsedSgnlHref =
   | { command: null; args: Map<never, never> }
-  | { command: string; args: Map<string, string> };
+  | { command: string; args: Map<string, string>; hash: string | undefined };
 export function parseSgnlHref(
   href: string,
   logger: LoggerType
@@ -42,5 +57,51 @@ export function parseSgnlHref(
     }
   });
 
-  return { command: url.host, args };
+  return {
+    command: url.host,
+    args,
+    hash: url.hash ? url.hash.slice(1) : undefined,
+  };
+}
+
+export function parseSignalHttpsLink(
+  href: string,
+  logger: LoggerType
+): ParsedSgnlHref {
+  const url = parseUrl(href, logger);
+  if (!url || !isSignalHttpsLink(url, logger)) {
+    return { command: null, args: new Map<never, never>() };
+  }
+
+  if (url.host === 'signal.art') {
+    const hash = url.hash.slice(1);
+    const hashParams = new URLSearchParams(hash);
+
+    const args = new Map<string, string>();
+    hashParams.forEach((value, key) => {
+      if (!args.has(key)) {
+        args.set(key, value);
+      }
+    });
+
+    if (!args.get('pack_id') || !args.get('pack_key')) {
+      return { command: null, args: new Map<never, never>() };
+    }
+
+    return {
+      command: url.pathname.replace(/\//g, ''),
+      args,
+      hash: url.hash ? url.hash.slice(1) : undefined,
+    };
+  }
+
+  if (url.host === 'signal.group') {
+    return {
+      command: url.host,
+      args: new Map<string, string>(),
+      hash: url.hash ? url.hash.slice(1) : undefined,
+    };
+  }
+
+  return { command: null, args: new Map<never, never>() };
 }

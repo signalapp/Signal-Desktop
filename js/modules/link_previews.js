@@ -12,6 +12,7 @@ const linkify = LinkifyIt();
 module.exports = {
   findLinks,
   getDomain,
+  isGroupLink,
   isLinkSafeToPreview,
   isLinkSneaky,
   isStickerPack,
@@ -32,6 +33,10 @@ function isLinkSafeToPreview(href) {
 
 function isStickerPack(link) {
   return (link || '').startsWith('https://signal.art/addstickers/');
+}
+
+function isGroupLink(link) {
+  return (link || '').startsWith('https://signal.group/');
 }
 
 function findLinks(text, caretLocation) {

@@ -6,10 +6,10 @@ import classNames from 'classnames';
 import { Blurhash } from 'react-blurhash';
 
 import { Spinner } from '../Spinner';
-import { LocalizerType } from '../../types/Util';
-import { AttachmentType } from '../../types/Attachment';
+import { LocalizerType, ThemeType } from '../../types/Util';
+import { AttachmentType, hasNotDownloaded } from '../../types/Attachment';
 
-export interface Props {
+export type Props = {
   alt: string;
   attachment: AttachmentType;
   url: string;
@@ -37,17 +37,18 @@ export interface Props {
   blurHash?: string;
 
   i18n: LocalizerType;
+  theme?: ThemeType;
   onClick?: (attachment: AttachmentType) => void;
   onClickClose?: (attachment: AttachmentType) => void;
   onError?: () => void;
-}
+};
 
 export class Image extends React.Component<Props> {
   private canClick() {
-    const { onClick, attachment, url } = this.props;
+    const { onClick, attachment } = this.props;
     const { pending } = attachment || { pending: true };
 
-    return Boolean(onClick && !pending && url);
+    return Boolean(onClick && !pending);
   }
 
   public handleClick = (event: React.MouseEvent): void => {
@@ -87,6 +88,46 @@ export class Image extends React.Component<Props> {
     }
   };
 
+  public renderPending = (): JSX.Element => {
+    const { blurHash, height, i18n, width } = this.props;
+
+    if (blurHash) {
+      return (
+        <div className="module-image__download-pending">
+          <Blurhash
+            hash={blurHash}
+            width={width}
+            height={height}
+            style={{ display: 'block' }}
+          />
+          <div className="module-image__download-pending--spinner-container">
+            <div
+              className="module-image__download-pending--spinner"
+              title={i18n('loading')}
+            >
+              <Spinner moduleClassName="module-image-spinner" svgSize="small" />
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div
+        className="module-image__loading-placeholder"
+        style={{
+          height: `${height}px`,
+          width: `${width}px`,
+          lineHeight: `${height}px`,
+          textAlign: 'center',
+        }}
+        title={i18n('loading')}
+      >
+        <Spinner svgSize="normal" />
+      </div>
+    );
+  };
+
   public render(): JSX.Element {
     const {
       alt,
@@ -110,25 +151,33 @@ export class Image extends React.Component<Props> {
       smallCurveTopLeft,
       softCorners,
       tabIndex,
+      theme,
       url,
       width = 0,
     } = this.props;
 
     const { caption, pending } = attachment || { caption: null, pending: true };
     const canClick = this.canClick();
+    const imgNotDownloaded = hasNotDownloaded(attachment);
 
-    const overlayClassName = classNames(
-      'module-image__border-overlay',
-      noBorder ? null : 'module-image__border-overlay--with-border',
-      canClick ? 'module-image__border-overlay--with-click-handler' : null,
-      curveTopLeft ? 'module-image--curved-top-left' : null,
-      curveTopRight ? 'module-image--curved-top-right' : null,
-      curveBottomLeft ? 'module-image--curved-bottom-left' : null,
-      curveBottomRight ? 'module-image--curved-bottom-right' : null,
-      smallCurveTopLeft ? 'module-image--small-curved-top-left' : null,
-      softCorners ? 'module-image--soft-corners' : null,
-      darkOverlay ? 'module-image__border-overlay--dark' : null
-    );
+    const defaulBlurHash =
+      theme === ThemeType.dark
+        ? 'L05OQnoffQofoffQfQfQfQfQfQfQ'
+        : 'L1Q]+w-;fQ-;~qfQfQfQfQfQfQfQ';
+    const resolvedBlurHash = blurHash || defaulBlurHash;
+
+    const overlayClassName = classNames('module-image__border-overlay', {
+      'module-image__border-overlay--with-border': !noBorder,
+      'module-image__border-overlay--with-click-handler': canClick,
+      'module-image--curved-top-left': curveTopLeft,
+      'module-image--curved-top-right': curveTopRight,
+      'module-image--curved-bottom-left': curveBottomLeft,
+      'module-image--curved-bottom-right': curveBottomRight,
+      'module-image--small-curved-top-left': smallCurveTopLeft,
+      'module-image--soft-corners': softCorners,
+      'module-image__border-overlay--dark': darkOverlay,
+      'module-image--not-downloaded': imgNotDownloaded,
+    });
 
     const overlay = canClick ? (
       // Not sure what this button does.
@@ -139,7 +188,9 @@ export class Image extends React.Component<Props> {
         onClick={this.handleClick}
         onKeyDown={this.handleKeyDown}
         tabIndex={tabIndex}
-      />
+      >
+        {imgNotDownloaded ? <i /> : null}
+      </button>
     ) : null;
 
     /* eslint-disable no-nested-ternary */
@@ -157,18 +208,7 @@ export class Image extends React.Component<Props> {
         )}
       >
         {pending ? (
-          <div
-            className="module-image__loading-placeholder"
-            style={{
-              height: `${height}px`,
-              width: `${width}px`,
-              lineHeight: `${height}px`,
-              textAlign: 'center',
-            }}
-            title={i18n('loading')}
-          >
-            <Spinner svgSize="normal" />
-          </div>
+          this.renderPending()
         ) : url ? (
           <img
             onError={onError}
@@ -178,9 +218,9 @@ export class Image extends React.Component<Props> {
             width={width}
             src={url}
           />
-        ) : blurHash ? (
+        ) : resolvedBlurHash ? (
           <Blurhash
-            hash={blurHash}
+            hash={resolvedBlurHash}
             width={width}
             height={height}
             style={{ display: 'block' }}

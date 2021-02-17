@@ -17,8 +17,9 @@ export type SmartContactModalProps = {
   currentConversationId: string;
   readonly onClose: () => unknown;
   readonly openConversation: (conversationId: string) => void;
-  readonly showSafetyNumber: (conversationId: string) => void;
   readonly removeMember: (conversationId: string) => void;
+  readonly showSafetyNumber: (conversationId: string) => void;
+  readonly toggleAdmin: (conversationId: string) => void;
 };
 
 const mapStateToProps = (
@@ -31,21 +32,29 @@ const mapStateToProps = (
     currentConversationId
   );
   const contact = getConversationSelector(state)(contactId);
-  const isMember =
-    contact && currentConversation && currentConversation.members
-      ? currentConversation.members.includes(contact)
-      : false;
 
   const areWeAdmin =
     currentConversation && currentConversation.areWeAdmin
       ? currentConversation.areWeAdmin
       : false;
 
+  let isMember = false;
+  let isAdmin = false;
+  if (contact && currentConversation && currentConversation.memberships) {
+    currentConversation.memberships.forEach(membership => {
+      if (membership.member.id === contact.id) {
+        isMember = true;
+        isAdmin = membership.isAdmin;
+      }
+    });
+  }
+
   return {
     ...props,
     areWeAdmin,
     contact,
     i18n: getIntl(state),
+    isAdmin,
     isMember,
   };
 };

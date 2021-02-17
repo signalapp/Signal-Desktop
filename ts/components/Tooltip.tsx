@@ -7,10 +7,10 @@ import { noop } from 'lodash';
 import { Manager, Reference, Popper } from 'react-popper';
 import { Theme, themeClassName } from '../util/theme';
 
-interface EventWrapperPropsType {
+type EventWrapperPropsType = {
   children: React.ReactNode;
   onHoverChanged: (_: boolean) => void;
-}
+};
 
 // React doesn't reliably fire `onMouseLeave` or `onMouseOut` events if wrapping a
 //   disabled button. This uses native browser events to avoid that.

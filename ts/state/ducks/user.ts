@@ -4,7 +4,7 @@
 import { trigger } from '../../shims/events';
 
 import { NoopActionType } from './noop';
-import { LocalizerType } from '../../types/Util';
+import { LocalizerType, ThemeType } from '../../types/Util';
 
 // State
 
@@ -19,6 +19,7 @@ export type UserStateType = {
   regionCode: string;
   i18n: LocalizerType;
   interactionMode: 'mouse' | 'keyboard';
+  theme: ThemeType;
 };
 
 // Actions
@@ -31,6 +32,7 @@ type UserChangedActionType = {
     ourNumber?: string;
     regionCode?: string;
     interactionMode?: 'mouse' | 'keyboard';
+    theme?: ThemeType;
   };
 };
 
@@ -45,10 +47,11 @@ export const actions = {
 
 function userChanged(attributes: {
   interactionMode?: 'mouse' | 'keyboard';
-  ourConversationId: string;
-  ourNumber: string;
-  ourUuid: string;
-  regionCode: string;
+  ourConversationId?: string;
+  ourNumber?: string;
+  ourUuid?: string;
+  regionCode?: string;
+  theme?: ThemeType;
 }): UserChangedActionType {
   return {
     type: 'USER_CHANGED',
@@ -67,7 +70,7 @@ function manualReconnect(): NoopActionType {
 
 // Reducer
 
-function getEmptyState(): UserStateType {
+export function getEmptyState(): UserStateType {
   return {
     attachmentsPath: 'missing',
     stickersPath: 'missing',
@@ -78,6 +81,7 @@ function getEmptyState(): UserStateType {
     regionCode: 'missing',
     platform: 'missing',
     interactionMode: 'mouse',
+    theme: ThemeType.light,
     i18n: () => 'missing',
   };
 }

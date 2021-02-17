@@ -22,9 +22,13 @@ You can install the beta version of Signal Desktop alongside the production vers
 You can find answers to a number of frequently asked questions on our [support site](https://support.signal.org/).
 The [community forum](https://community.signalusers.org/) is another good place for questions.
 
-## Found a Bug? Have a feature request?
+## Found a Bug?
 
 Please search for any [existing issues](https://github.com/signalapp/Signal-Desktop/issues) that describe your bug in order to avoid duplicate submissions.
+
+## Have a feature request, question, comment?
+
+Please use our community forum: https://community.signalusers.org/
 
 ## Contributing Translations
 
@@ -52,6 +56,6 @@ The form and manner of this distribution makes it eligible for export under the 
 
 ## License
 
-Copyright 2013–2020 Signal, a 501c3 nonprofit
+Copyright 2013–2021 Signal, a 501c3 nonprofit
 
 Licensed under the AGPLv3: https://opensource.org/licenses/agpl-3.0

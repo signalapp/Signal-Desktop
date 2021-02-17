@@ -5,10 +5,10 @@ import * as React from 'react';
 import moment, { Moment } from 'moment';
 import { isLinkPreviewDateValid } from '../../linkPreviews/isLinkPreviewDateValid';
 
-interface Props {
+type Props = {
   date: null | number;
   className?: string;
-}
+};
 
 export const LinkPreviewDate: React.FC<Props> = ({
   date,

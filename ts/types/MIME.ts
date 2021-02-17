@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 export type MIMEType = string & { _mimeTypeBrand: never };
@@ -17,12 +17,15 @@ export const VIDEO_MP4 = 'video/mp4' as MIMEType;
 export const VIDEO_QUICKTIME = 'video/quicktime' as MIMEType;
 export const LONG_MESSAGE = 'text/x-signal-plain' as MIMEType;
 
-export const isJPEG = (value: MIMEType): boolean => value === 'image/jpeg';
-export const isImage = (value: MIMEType): boolean =>
-  value && value.startsWith('image/');
-export const isVideo = (value: MIMEType): boolean =>
-  value && value.startsWith('video/');
+export const isGif = (value: string): value is MIMEType =>
+  value === 'image/gif';
+export const isJPEG = (value: string): value is MIMEType =>
+  value === 'image/jpeg';
+export const isImage = (value: string): value is MIMEType =>
+  Boolean(value) && value.startsWith('image/');
+export const isVideo = (value: string): value is MIMEType =>
+  Boolean(value) && value.startsWith('video/');
 // As of 2020-04-16 aif files do not play in Electron nor Chrome. We should only
 // recognize them as file attachments.
-export const isAudio = (value: MIMEType): boolean =>
-  value && value.startsWith('audio/') && !value.endsWith('aiff');
+export const isAudio = (value: string): value is MIMEType =>
+  Boolean(value) && value.startsWith('audio/') && !value.endsWith('aiff');

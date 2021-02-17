@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable react/no-array-index-key */
@@ -12,10 +12,10 @@ import { LocalizerType } from '../types/Util';
 import { sortByTitle } from '../util/sortByTitle';
 import { ConversationType } from '../state/ducks/conversations';
 
-interface ParticipantType extends ConversationType {
+type ParticipantType = ConversationType & {
   hasAudio?: boolean;
   hasVideo?: boolean;
-}
+};
 
 export type PropsType = {
   readonly i18n: LocalizerType;

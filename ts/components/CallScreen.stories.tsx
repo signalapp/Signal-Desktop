@@ -1,10 +1,11 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { noop } from 'lodash';
+import { times } from 'lodash';
+import { v4 as generateUuid } from 'uuid';
 import { storiesOf } from '@storybook/react';
-import { boolean, select } from '@storybook/addon-knobs';
+import { boolean, select, number } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import {
@@ -19,8 +20,11 @@ import { Colors } from '../types/Colors';
 import { CallScreen, PropsType } from './CallScreen';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import { missingCaseError } from '../util/missingCaseError';
-import { getDefaultConversation } from '../util/getDefaultConversation';
+import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
 import enMessages from '../../_locales/en/messages.json';
+
+const MAX_PARTICIPANTS = 32;
 
 const i18n = setupI18n('en', enMessages);
 
@@ -37,23 +41,24 @@ const conversation = {
   lastUpdated: Date.now(),
 };
 
-interface OverridePropsBase {
+type OverridePropsBase = {
   hasLocalAudio?: boolean;
   hasLocalVideo?: boolean;
-}
+  isInSpeakerView?: boolean;
+};
 
-interface DirectCallOverrideProps extends OverridePropsBase {
+type DirectCallOverrideProps = OverridePropsBase & {
   callMode: CallMode.Direct;
   callState?: CallState;
   hasRemoteVideo?: boolean;
-}
+};
 
-interface GroupCallOverrideProps extends OverridePropsBase {
+type GroupCallOverrideProps = OverridePropsBase & {
   callMode: CallMode.Group;
   connectionState?: GroupCallConnectionState;
   peekedParticipants?: Array<ConversationType>;
   remoteParticipants?: Array<GroupCallRemoteParticipantType>;
-}
+};
 
 const createActiveDirectCallProp = (
   overrideProps: DirectCallOverrideProps
@@ -109,6 +114,10 @@ const createActiveCallProp = (
       'hasLocalVideo',
       overrideProps.hasLocalVideo || false
     ),
+    isInSpeakerView: boolean(
+      'isInSpeakerView',
+      overrideProps.isInSpeakerView || false
+    ),
     pip: false,
     settingsDialogOpen: false,
     showParticipantsList: false,
@@ -130,10 +139,7 @@ const createProps = (
   }
 ): PropsType => ({
   activeCall: createActiveCallProp(overrideProps),
-  // We allow `any` here because this is fake and actually comes from RingRTC, which we
-  //   can't import.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getGroupCallVideoFrameSource: noop as any,
+  getGroupCallVideoFrameSource: fakeGetGroupCallVideoFrameSource,
   hangUp: action('hang-up'),
   i18n,
   me: {
@@ -151,6 +157,7 @@ const createProps = (
   toggleParticipants: action('toggle-participants'),
   togglePip: action('toggle-pip'),
   toggleSettings: action('toggle-settings'),
+  toggleSpeakerView: action('toggle-speaker-view'),
 });
 
 const story = storiesOf('Components/CallScreen', module);
@@ -257,48 +264,37 @@ story.add('Group call - 1', () => (
   />
 ));
 
-story.add('Group call - Many', () => (
-  <CallScreen
-    {...createProps({
-      callMode: CallMode.Group,
-      remoteParticipants: [
-        {
-          demuxId: 0,
-          hasRemoteAudio: true,
-          hasRemoteVideo: true,
-          videoAspectRatio: 1.3,
-          ...getDefaultConversation({
-            isBlocked: false,
-            title: 'Amy',
-            uuid: '094586f5-8fc2-4ce2-a152-2dfcc99f4630',
-          }),
-        },
-        {
-          demuxId: 1,
-          hasRemoteAudio: true,
-          hasRemoteVideo: true,
-          videoAspectRatio: 1.3,
-          ...getDefaultConversation({
-            isBlocked: false,
-            title: 'Bob',
-            uuid: 'cb5bdb24-4cbb-4650-8a7a-1a2807051e74',
-          }),
-        },
-        {
-          demuxId: 2,
-          hasRemoteAudio: true,
-          hasRemoteVideo: true,
-          videoAspectRatio: 1.3,
-          ...getDefaultConversation({
-            isBlocked: true,
-            title: 'Alice',
-            uuid: '2d7d13ae-53dc-4a51-8dc7-976cd85e0b57',
-          }),
-        },
-      ],
-    })}
-  />
-));
+// We generate these upfront so that the list is stable when you move the slider.
+const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => ({
+  demuxId: index,
+  hasRemoteAudio: index % 3 !== 0,
+  hasRemoteVideo: index % 4 !== 0,
+  videoAspectRatio: 1.3,
+  ...getDefaultConversation({
+    isBlocked: index === 10 || index === MAX_PARTICIPANTS - 1,
+    title: `Participant ${index + 1}`,
+    uuid: generateUuid(),
+  }),
+}));
+
+story.add('Group call - Many', () => {
+  return (
+    <CallScreen
+      {...createProps({
+        callMode: CallMode.Group,
+        remoteParticipants: allRemoteParticipants.slice(
+          0,
+          number('Participant count', 3, {
+            range: true,
+            min: 0,
+            max: MAX_PARTICIPANTS,
+            step: 1,
+          })
+        ),
+      })}
+    />
+  );
+});
 
 story.add('Group call - reconnecting', () => (
   <CallScreen

@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -8,18 +8,18 @@ import { AttachmentType } from '../types/Attachment';
 
 import { LocalizerType } from '../types/Util';
 
-export interface Props {
+export type Props = {
   attachment: AttachmentType;
   i18n: LocalizerType;
   url: string;
   caption?: string;
   onSave?: (caption: string) => void;
   close?: () => void;
-}
+};
 
-interface State {
+type State = {
   caption: string;
-}
+};
 
 export class CaptionEditor extends React.Component<Props, State> {
   private readonly handleKeyDownBound: (

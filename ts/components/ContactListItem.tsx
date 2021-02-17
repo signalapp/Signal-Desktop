@@ -1,9 +1,10 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
 import classNames from 'classnames';
 
+import { About } from './conversation/About';
 import { Avatar } from './Avatar';
 import { Emojify } from './conversation/Emojify';
 import { InContactsIcon } from './InContactsIcon';
@@ -11,19 +12,19 @@ import { InContactsIcon } from './InContactsIcon';
 import { LocalizerType } from '../types/Util';
 import { ColorType } from '../types/Colors';
 
-interface Props {
+type Props = {
+  about?: string;
   avatarPath?: string;
   color?: ColorType;
   i18n: LocalizerType;
   isAdmin?: boolean;
   isMe?: boolean;
-  isVerified?: boolean;
   name?: string;
   onClick?: () => void;
   phoneNumber?: string;
   profileName?: string;
   title: string;
-}
+};
 
 export class ContactListItem extends React.Component<Props> {
   public renderAvatar(): JSX.Element {
@@ -53,23 +54,10 @@ export class ContactListItem extends React.Component<Props> {
   }
 
   public render(): JSX.Element {
-    const {
-      i18n,
-      isAdmin,
-      isMe,
-      isVerified,
-      name,
-      onClick,
-      phoneNumber,
-      profileName,
-      title,
-    } = this.props;
+    const { about, i18n, isAdmin, isMe, name, onClick, title } = this.props;
 
     const displayName = isMe ? i18n('you') : title;
     const shouldShowIcon = Boolean(name);
-
-    const showNumber = Boolean(isMe || name || profileName);
-    const showVerified = !isMe && isVerified;
 
     return (
       <button
@@ -93,12 +81,7 @@ export class ContactListItem extends React.Component<Props> {
               ) : null}
             </div>
             <div className="module-contact-list-item__text__additional-data">
-              {showVerified ? (
-                <div className="module-contact-list-item__text__verified-icon" />
-              ) : null}
-              {showVerified ? ` ${i18n('verified')}` : null}
-              {showVerified && showNumber ? ' ∙ ' : null}
-              {showNumber ? phoneNumber : null}
+              <About text={about} />
             </div>
           </div>
           {isAdmin ? (

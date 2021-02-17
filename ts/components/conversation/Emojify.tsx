@@ -40,13 +40,13 @@ function getImageTag({
   );
 }
 
-export interface Props {
+export type Props = {
   text: string;
   /** A class name to be added to the generated emoji images */
   sizeClass?: SizeClassType;
   /** Allows you to customize now non-newlines are rendered. Simplest is just a <span>. */
   renderNonEmoji?: RenderTextCallbackType;
-}
+};
 
 export class Emojify extends React.Component<Props> {
   public static defaultProps: Partial<Props> = {

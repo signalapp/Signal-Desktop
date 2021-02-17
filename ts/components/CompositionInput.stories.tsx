@@ -28,7 +28,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   getQuotedMessage: action('getQuotedMessage'),
   onPickEmoji: action('onPickEmoji'),
   large: boolean('large', overrideProps.large || false),
-  members: overrideProps.members || [],
+  sortedGroupMembers: overrideProps.sortedGroupMembers || [],
   skinTone: select(
     'skinTone',
     {
@@ -103,7 +103,7 @@ story.add('Emojis', () => {
 
 story.add('Mentions', () => {
   const props = createProps({
-    members: [
+    sortedGroupMembers: [
       {
         id: '0',
         type: 'direct',

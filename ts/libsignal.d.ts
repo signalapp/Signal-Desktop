@@ -202,7 +202,7 @@ export declare class SessionCipherClass {
   constructor(
     storage: StorageType,
     remoteAddress: SignalProtocolAddressClass,
-    options?: any
+    options?: { messageKeysLimit?: number | boolean }
   );
   closeOpenSessionForDevice: () => Promise<void>;
   decryptPreKeyWhisperMessage: (

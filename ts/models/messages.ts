@@ -13,7 +13,7 @@ import {
   ConversationType,
 } from '../state/ducks/conversations';
 import { getActiveCall } from '../state/ducks/calling';
-import { getCallSelector } from '../state/selectors/calling';
+import { getCallSelector, isInCall } from '../state/selectors/calling';
 import { PropsData } from '../components/conversation/Message';
 import { CallbackResultType } from '../textsecure/SendMessage';
 import { ExpirationTimerOptions } from '../util/ExpirationTimerOptions';
@@ -38,6 +38,7 @@ import {
   getCallingNotificationText,
 } from '../util/callingNotification';
 import { PropsType as ProfileChangeNotificationPropsType } from '../components/conversation/ProfileChangeNotification';
+import { isImage, isVideo } from '../types/Attachment';
 
 /* eslint-disable camelcase */
 /* eslint-disable more/no-then */
@@ -285,27 +286,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     return {
       type: 'message',
       data: this.getPropsForMessage(),
-    };
-  }
-
-  // Other top-level prop-generation
-  getPropsForSearchResult(): WhatIsThis {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const sourceId = this.getContactId()!;
-    const from = this.findAndFormatContact(sourceId);
-    const conversationId = this.get('conversationId');
-    const to = this.findAndFormatContact(conversationId);
-
-    return {
-      from,
-      to,
-
-      isSelected: this.isSelected,
-
-      id: this.id,
-      conversationId,
-      sentAt: this.get('sent_at'),
-      snippet: this.get('snippet'),
     };
   }
 
@@ -896,6 +876,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       deletedForEveryone: this.get('deletedForEveryone') || false,
       bodyRanges: this.processBodyRanges(),
+
+      isMessageRequestAccepted: conversation
+        ? conversation.getAccepted()
+        : true,
+      isBlocked: Boolean(conversation?.isBlocked()),
     };
   }
 
@@ -1445,7 +1430,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
     const contacts = this.get('contact');
     if (contacts && contacts.length) {
-      return { text: Contact.getName(contacts[0]), emoji: '👤' };
+      return {
+        text: Contact.getName(contacts[0]) || window.i18n('unknownContact'),
+        emoji: '👤',
+      };
     }
 
     if (body) {
@@ -1482,11 +1470,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   // General
   idForLogging(): string {
-    const source = this.getSource();
+    const account = this.getSourceUuid() || this.getSource();
     const device = this.getSourceDevice();
     const timestamp = this.get('sent_at');
 
-    return `${source}.${device} ${timestamp}`;
+    return `${account}.${device} ${timestamp}`;
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -2154,14 +2142,23 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   canDownload(): boolean {
-    const conversation = this.getConversation();
-    const isAccepted = Boolean(conversation && conversation.getAccepted());
-
     if (this.isOutgoing()) {
       return true;
     }
 
-    return isAccepted;
+    const conversation = this.getConversation();
+    const isAccepted = Boolean(conversation && conversation.getAccepted());
+    if (!isAccepted) {
+      return false;
+    }
+
+    // Ensure that all attachments are downloadable
+    const attachments = this.get('attachments');
+    if (attachments && attachments.length) {
+      return attachments.every(attachment => Boolean(attachment.path));
+    }
+
+    return true;
   }
 
   canReply(): boolean {
@@ -3545,8 +3542,16 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
         // Only queue attachments for downloads if this is an outgoing message
         // or we've accepted the conversation
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        if (this.getConversation()!.getAccepted() || message.isOutgoing()) {
+        const reduxState = window.reduxStore.getState();
+        const attachments = this.get('attachments') || [];
+        const shouldHoldOffDownload =
+          (isImage(attachments) || isVideo(attachments)) &&
+          isInCall(reduxState);
+        if (
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          (this.getConversation()!.getAccepted() || message.isOutgoing()) &&
+          !shouldHoldOffDownload
+        ) {
           await message.queueAttachmentDownloads();
         }
 

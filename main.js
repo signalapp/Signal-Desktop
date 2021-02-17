@@ -1,4 +1,4 @@
-// Copyright 2017-2020 Signal Messenger, LLC
+// Copyright 2017-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-console */
@@ -85,9 +85,9 @@ const attachmentChannel = require('./app/attachment_channel');
 const bounce = require('./ts/services/bounce');
 const updater = require('./ts/updater/index');
 const createTrayIcon = require('./app/tray_icon');
-const dockIcon = require('./app/dock_icon');
+const dockIcon = require('./ts/dock_icon');
 const ephemeralConfig = require('./app/ephemeral_config');
-const logging = require('./app/logging');
+const logging = require('./ts/logging/main_process_logging');
 const sql = require('./ts/sql/Server').default;
 const sqlChannels = require('./app/sql_channel');
 const windowState = require('./app/window_state');
@@ -97,8 +97,21 @@ const {
   installWebHandler,
 } = require('./app/protocol_filter');
 const { installPermissionsHandler } = require('./app/permissions');
+const OS = require('./ts/OS');
 const { isBeta } = require('./ts/util/version');
-const { isSgnlHref, parseSgnlHref } = require('./ts/util/sgnlHref');
+const {
+  isSgnlHref,
+  isSignalHttpsLink,
+  parseSgnlHref,
+  parseSignalHttpsLink,
+} = require('./ts/util/sgnlHref');
+const {
+  toggleMaximizedBrowserWindow,
+} = require('./ts/util/toggleMaximizedBrowserWindow');
+const {
+  getTitleBarVisibility,
+  TitleBarVisibility,
+} = require('./ts/types/Settings');
 
 let appStartInitialSpellcheckSetting = true;
 
@@ -219,6 +232,11 @@ async function handleUrl(event, target) {
   const { protocol, hostname } = url.parse(target);
   const isDevServer = config.enableHttp && hostname === 'localhost';
   // We only want to specially handle urls that aren't requesting the dev server
+  if (isSgnlHref(target) || isSignalHttpsLink(target)) {
+    handleSgnlHref(target);
+    return;
+  }
+
   if ((protocol === 'http:' || protocol === 'https:') && !isDevServer) {
     try {
       await shell.openExternal(target);
@@ -268,11 +286,10 @@ function isVisible(window, bounds) {
 }
 
 let windowIcon;
-const OS = process.platform;
 
-if (OS === 'win32') {
+if (OS.isWindows()) {
   windowIcon = path.join(__dirname, 'build', 'icons', 'win', 'icon.ico');
-} else if (OS === 'linux') {
+} else if (OS.isLinux()) {
   windowIcon = path.join(__dirname, 'images', 'signal-logo-desktop-linux.png');
 } else {
   windowIcon = path.join(__dirname, 'build', 'icons', 'png', '512x512.png');
@@ -287,6 +304,10 @@ async function createWindow() {
     minWidth: MIN_WIDTH,
     minHeight: MIN_HEIGHT,
     autoHideMenuBar: false,
+    titleBarStyle:
+      getTitleBarVisibility() === TitleBarVisibility.Hidden
+        ? 'hidden'
+        : 'default',
     backgroundColor:
       config.environment === 'test' || config.environment === 'test-lib'
         ? '#ffffff' // Tests should always be rendered on a white background
@@ -295,6 +316,7 @@ async function createWindow() {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
       contextIsolation: false,
+      enableRemoteModule: true,
       preload: path.join(__dirname, 'preload.js'),
       nativeWindowOpen: true,
       spellcheck: await getSpellCheckSetting(),
@@ -373,14 +395,30 @@ async function createWindow() {
   mainWindow.on('resize', debouncedCaptureStats);
   mainWindow.on('move', debouncedCaptureStats);
 
+  const setWindowFocus = () => {
+    if (!mainWindow) {
+      return;
+    }
+    mainWindow.webContents.send('set-window-focus', mainWindow.isFocused());
+  };
+  mainWindow.on('focus', setWindowFocus);
+  mainWindow.on('blur', setWindowFocus);
+  mainWindow.once('ready-to-show', setWindowFocus);
+  // This is a fallback in case we drop an event for some reason.
+  setInterval(setWindowFocus, 10000);
+
+  const moreKeys = {
+    isFullScreen: String(Boolean(mainWindow.isFullScreen())),
+  };
+
   if (config.environment === 'test') {
-    mainWindow.loadURL(prepareURL([__dirname, 'test', 'index.html']));
+    mainWindow.loadURL(prepareURL([__dirname, 'test', 'index.html'], moreKeys));
   } else if (config.environment === 'test-lib') {
     mainWindow.loadURL(
-      prepareURL([__dirname, 'libtextsecure', 'test', 'index.html'])
+      prepareURL([__dirname, 'libtextsecure', 'test', 'index.html'], moreKeys)
     );
   } else {
-    mainWindow.loadURL(prepareURL([__dirname, 'background.html']));
+    mainWindow.loadURL(prepareURL([__dirname, 'background.html'], moreKeys));
   }
 
   if (config.get('openDevTools')) {
@@ -430,10 +468,7 @@ async function createWindow() {
 
     // On Mac, or on other platforms when the tray icon is in use, the window
     // should be only hidden, not closed, when the user clicks the close button
-    if (
-      !windowState.shouldQuit() &&
-      (usingTrayIcon || process.platform === 'darwin')
-    ) {
+    if (!windowState.shouldQuit() && (usingTrayIcon || OS.isMacOS())) {
       // toggle the visibility of the show/hide tray icon menu entries
       if (tray) {
         tray.updateContextMenu();
@@ -461,10 +496,44 @@ async function createWindow() {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+
+  mainWindow.on('enter-full-screen', () => {
+    mainWindow.webContents.send('full-screen-change', true);
+  });
+  mainWindow.on('leave-full-screen', () => {
+    mainWindow.webContents.send('full-screen-change', false);
+  });
 }
 
 ipc.on('show-window', () => {
   showWindow();
+});
+
+ipc.on('title-bar-double-click', () => {
+  if (!mainWindow) {
+    return;
+  }
+
+  if (OS.isMacOS()) {
+    switch (
+      systemPreferences.getUserDefault('AppleActionOnDoubleClick', 'string')
+    ) {
+      case 'Minimize':
+        mainWindow.minimize();
+        break;
+      case 'Maximize':
+        toggleMaximizedBrowserWindow(mainWindow);
+        break;
+      default:
+        // If this is disabled, it'll be 'None'. If it's anything else, that's unexpected,
+        //   but we'll just no-op.
+        break;
+    }
+  } else {
+    // This is currently only supported on macOS. This `else` branch is just here when/if
+    //   we add support for other operating systems.
+    toggleMaximizedBrowserWindow(mainWindow);
+  }
 });
 
 let isReadyForUpdates = false;
@@ -604,7 +673,6 @@ function showAbout() {
       preload: path.join(__dirname, 'about_preload.js'),
       nativeWindowOpen: true,
     },
-    parent: mainWindow,
   };
 
   aboutWindow = new BrowserWindow(options);
@@ -635,9 +703,16 @@ function showSettingsWindow() {
   addDarkOverlay();
 
   const size = mainWindow.getSize();
+  // center settings window over main window
+  const settingwidth = Math.min(500, size[0]);
+  const settingheight = Math.max(size[1] - 100, MIN_HEIGHT);
+  const mainPos = mainWindow.getPosition();
+  const mainSize = mainWindow.getSize();
   const options = {
-    width: Math.min(500, size[0]),
-    height: Math.max(size[1] - 100, MIN_HEIGHT),
+    x: Math.round(mainPos[0] + mainSize[0] / 2 - settingwidth / 2),
+    y: Math.round(mainPos[1] + mainSize[1] / 2 - settingheight / 2),
+    width: settingwidth,
+    height: settingheight,
     frame: false,
     resizable: false,
     title: locale.messages.signalDesktopPreferences.message,
@@ -649,6 +724,7 @@ function showSettingsWindow() {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
       contextIsolation: false,
+      enableRemoteModule: true,
       preload: path.join(__dirname, 'settings_preload.js'),
       nativeWindowOpen: true,
     },
@@ -717,6 +793,7 @@ async function showStickerCreator() {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
       contextIsolation: false,
+      enableRemoteModule: true,
       preload: path.join(__dirname, 'sticker-creator/preload.js'),
       nativeWindowOpen: true,
       spellcheck: await getSpellCheckSetting(),
@@ -820,6 +897,7 @@ function showPermissionsPopupWindow(forCalling, forCamera) {
         nodeIntegration: false,
         nodeIntegrationInWorker: false,
         contextIsolation: false,
+        enableRemoteModule: true,
         preload: path.join(__dirname, 'permissions_popup_preload.js'),
         nativeWindowOpen: true,
       },
@@ -857,6 +935,14 @@ function showPermissionsPopupWindow(forCalling, forCamera) {
 // Some APIs can only be used after this event occurs.
 let ready = false;
 app.on('ready', async () => {
+  const startTime = Date.now();
+
+  // We use this event only a single time to log the startup time of the app
+  // from when it's first ready until the loading screen disappears.
+  ipc.once('signal-app-loaded', () => {
+    console.log('App has finished loading in:', Date.now() - startTime);
+  });
+
   const userDataPath = await getRealPath(app.getPath('userData'));
   const installPath = await getRealPath(app.getAppPath());
 
@@ -865,7 +951,7 @@ app.on('ready', async () => {
       protocol: electronProtocol,
       userDataPath,
       installPath,
-      isWindows: process.platform === 'win32',
+      isWindows: OS.isWindows(),
     });
   }
 
@@ -876,8 +962,7 @@ app.on('ready', async () => {
 
   installPermissionsHandler({ session, userConfig });
 
-  await logging.initialize();
-  logger = logging.getLogger();
+  logger = await logging.initialize();
   logger.info('app ready');
   logger.info(`starting version ${packageJson.version}`);
 
@@ -1118,7 +1203,7 @@ app.on('window-all-closed', () => {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   const shouldAutoClose =
-    process.platform !== 'darwin' ||
+    !OS.isMacOS() ||
     config.environment === 'test' ||
     config.environment === 'test-lib';
 
@@ -1183,7 +1268,7 @@ ipc.on('draw-attention', () => {
     return;
   }
 
-  if (process.platform === 'win32' || process.platform === 'linux') {
+  if (OS.isWindows() || OS.isLinux()) {
     mainWindow.flashFrame(true);
   }
 });
@@ -1210,13 +1295,6 @@ ipc.on('set-menu-bar-visibility', (event, visibility) => {
 
 ipc.on('close-about', () => {
   if (aboutWindow) {
-    // Exiting child window when on full screen mode (MacOs only) hides the main window
-    // Fix to issue #4540
-    if (mainWindow.isFullScreen() && process.platform === 'darwin') {
-      mainWindow.setFullScreen(false);
-      mainWindow.show();
-      mainWindow.setFullScreen(true);
-    }
     aboutWindow.close();
   }
 });
@@ -1408,7 +1486,16 @@ function getIncomingHref(argv) {
 }
 
 function handleSgnlHref(incomingHref) {
-  const { command, args } = parseSgnlHref(incomingHref, logger);
+  let command;
+  let args;
+  let hash;
+
+  if (isSgnlHref(incomingHref)) {
+    ({ command, args, hash } = parseSgnlHref(incomingHref, logger));
+  } else if (isSignalHttpsLink(incomingHref)) {
+    ({ command, args, hash } = parseSignalHttpsLink(incomingHref, logger));
+  }
+
   if (command === 'addstickers' && mainWindow && mainWindow.webContents) {
     console.log('Opening sticker pack from sgnl protocol link');
     const packId = args.get('pack_id');
@@ -1417,6 +1504,17 @@ function handleSgnlHref(incomingHref) {
       ? Buffer.from(packKeyHex, 'hex').toString('base64')
       : '';
     mainWindow.webContents.send('show-sticker-pack', { packId, packKey });
+  } else if (
+    command === 'signal.group' &&
+    hash &&
+    mainWindow &&
+    mainWindow.webContents
+  ) {
+    console.log('Showing group from sgnl protocol link');
+    mainWindow.webContents.send('show-group-via-link', { hash });
+  } else if (mainWindow && mainWindow.webContents) {
+    console.log('Showing warning that we cannot process link');
+    mainWindow.webContents.send('unknown-sgnl-link');
   } else {
     console.error('Unhandled sgnl link');
   }

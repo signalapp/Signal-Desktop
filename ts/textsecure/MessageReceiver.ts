@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable @typescript-eslint/ban-types */
@@ -9,7 +9,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-classes-per-file */
 
-import { isNumber, map, omit } from 'lodash';
+import { isNumber, map, omit, noop } from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 
@@ -49,6 +49,8 @@ const GROUPV2_ID_LENGTH = 32;
 const RETRY_TIMEOUT = 2 * 60 * 1000;
 
 declare global {
+  // We want to extend `Event`, so we need an interface.
+  // eslint-disable-next-line no-restricted-syntax
   interface Event {
     code?: string | number;
     configuration?: any;
@@ -79,6 +81,8 @@ declare global {
     typing?: any;
     verified?: any;
   }
+  // We want to extend `Error`, so we need an interface.
+  // eslint-disable-next-line no-restricted-syntax
   interface Error {
     reason?: any;
     stackForLog?: string;
@@ -276,9 +280,9 @@ class MessageReceiverInner extends EventTarget {
 
   shutdown() {
     if (this.socket) {
-      delete this.socket.onclose;
-      delete this.socket.onerror;
-      delete this.socket.onopen;
+      this.socket.onclose = noop;
+      this.socket.onerror = noop;
+      this.socket.onopen = noop;
 
       this.socket = undefined;
     }
@@ -618,10 +622,14 @@ class MessageReceiverInner extends EventTarget {
   }
 
   getEnvelopeId(envelope: EnvelopeClass) {
+    const timestamp =
+      envelope && envelope.timestamp && envelope.timestamp.toNumber
+        ? envelope.timestamp.toNumber()
+        : null;
+
     if (envelope.sourceUuid || envelope.source) {
-      return `${envelope.sourceUuid || envelope.source}.${
-        envelope.sourceDevice
-      } ${envelope.timestamp.toNumber()} (${envelope.id})`;
+      const sender = envelope.sourceUuid || envelope.source;
+      return `${sender}.${envelope.sourceDevice} ${timestamp} (${envelope.id})`;
     }
 
     return envelope.id;
@@ -933,7 +941,8 @@ class MessageReceiverInner extends EventTarget {
       options
     );
     const secretSessionCipher = new window.Signal.Metadata.SecretSessionCipher(
-      window.textsecure.storage.protocol
+      window.textsecure.storage.protocol,
+      options
     );
 
     const me = {
@@ -1092,6 +1101,12 @@ class MessageReceiverInner extends EventTarget {
             error.identityKey
           );
         }
+
+        if (envelope.timestamp && envelope.timestamp.toNumber) {
+          // eslint-disable-next-line no-param-reassign
+          envelope.timestamp = envelope.timestamp.toNumber();
+        }
+
         const ev = new Event('error');
         ev.error = errorToThrow;
         ev.proto = envelope;

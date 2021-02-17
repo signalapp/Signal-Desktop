@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 const is = require('@sindresorhus/is');
@@ -217,6 +217,7 @@ exports.isImage = AttachmentTS.isImage;
 exports.isVideo = AttachmentTS.isVideo;
 exports.isAudio = AttachmentTS.isAudio;
 exports.isVoiceMessage = AttachmentTS.isVoiceMessage;
+exports.getUploadSizeLimitKb = AttachmentTS.getUploadSizeLimitKb;
 exports.save = AttachmentTS.save;
 
 const THUMBNAIL_SIZE = 150;

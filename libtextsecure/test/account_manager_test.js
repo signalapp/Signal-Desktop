@@ -48,22 +48,22 @@ describe('AccountManager', () => {
       });
     });
 
-    it('keeps three confirmed keys even if over a week old', () => {
+    it('keeps three confirmed keys even if over a month old', () => {
       const now = Date.now();
       signedPreKeys = [
         {
           keyId: 1,
-          created_at: now - DAY * 21,
+          created_at: now - DAY * 32,
           confirmed: true,
         },
         {
           keyId: 2,
-          created_at: now - DAY * 14,
+          created_at: now - DAY * 34,
           confirmed: true,
         },
         {
           keyId: 3,
-          created_at: now - DAY * 18,
+          created_at: now - DAY * 38,
           confirmed: true,
         },
       ];
@@ -72,27 +72,27 @@ describe('AccountManager', () => {
       return accountManager.cleanSignedPreKeys();
     });
 
-    it('eliminates confirmed keys over a week old, if more than three', async () => {
+    it('eliminates confirmed keys over a month old, if more than three', async () => {
       const now = Date.now();
       signedPreKeys = [
         {
           keyId: 1,
-          created_at: now - DAY * 21,
+          created_at: now - DAY * 32,
           confirmed: true,
         },
         {
           keyId: 2,
-          created_at: now - DAY * 14,
+          created_at: now - DAY * 31,
           confirmed: true,
         },
         {
           keyId: 3,
-          created_at: now - DAY * 4,
+          created_at: now - DAY * 24,
           confirmed: true,
         },
         {
           keyId: 4,
-          created_at: now - DAY * 18,
+          created_at: now - DAY * 38,
           confirmed: true,
         },
         {
@@ -120,19 +120,19 @@ describe('AccountManager', () => {
       signedPreKeys = [
         {
           keyId: 1,
-          created_at: now - DAY * 14,
+          created_at: now - DAY * 32,
         },
         {
           keyId: 2,
-          created_at: now - DAY * 21,
+          created_at: now - DAY * 44,
         },
         {
           keyId: 3,
-          created_at: now - DAY * 18,
+          created_at: now - DAY * 36,
         },
         {
           keyId: 4,
-          created_at: now - DAY,
+          created_at: now - DAY * 20,
         },
       ];
 
@@ -154,21 +154,21 @@ describe('AccountManager', () => {
       signedPreKeys = [
         {
           keyId: 1,
-          created_at: now - DAY * 21,
+          created_at: now - DAY * 32,
           confirmed: true,
         },
         {
           keyId: 2,
-          created_at: now - DAY * 14,
+          created_at: now - DAY * 44,
           confirmed: true,
         },
         {
           keyId: 3,
-          created_at: now - DAY * 12,
+          created_at: now - DAY * 36,
         },
         {
           keyId: 4,
-          created_at: now - DAY * 8,
+          created_at: now - DAY * 20,
         },
       ];
 

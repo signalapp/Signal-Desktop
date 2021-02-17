@@ -11,6 +11,7 @@ import { LocalizerType } from '../../types/Util';
 
 export type OwnProps = {
   readonly i18n: LocalizerType;
+  readonly onClose?: () => unknown;
 };
 
 export type Props = OwnProps &
@@ -23,6 +24,7 @@ export const EmojiButton = React.memo(
   ({
     i18n,
     doSend,
+    onClose,
     onPickEmoji,
     skinTone,
     onSetSkinTone,
@@ -43,7 +45,10 @@ export const EmojiButton = React.memo(
 
     const handleClose = React.useCallback(() => {
       setOpen(false);
-    }, [setOpen]);
+      if (onClose) {
+        onClose();
+      }
+    }, [setOpen, onClose]);
 
     // Create popper root and handle outside clicks
     React.useEffect(() => {
@@ -51,9 +56,11 @@ export const EmojiButton = React.memo(
         const root = document.createElement('div');
         setPopperRoot(root);
         document.body.appendChild(root);
-        const handleOutsideClick = ({ target }: MouseEvent) => {
-          if (!root.contains(target as Node)) {
-            setOpen(false);
+        const handleOutsideClick = (event: MouseEvent) => {
+          if (!root.contains(event.target as Node)) {
+            handleClose();
+            event.stopPropagation();
+            event.preventDefault();
           }
         };
         document.addEventListener('click', handleOutsideClick);
@@ -66,7 +73,7 @@ export const EmojiButton = React.memo(
       }
 
       return noop;
-    }, [open, setOpen, setPopperRoot]);
+    }, [open, setOpen, setPopperRoot, handleClose]);
 
     // Install keyboard shortcut to open emoji picker
     React.useEffect(() => {

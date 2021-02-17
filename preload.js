@@ -1,4 +1,4 @@
-// Copyright 2017-2020 Signal Messenger, LLC
+// Copyright 2017-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* global Whisper, window */
@@ -8,9 +8,15 @@
 try {
   const electron = require('electron');
   const semver = require('semver');
-  const curve = require('curve25519-n');
+  const client = require('libsignal-client');
   const _ = require('lodash');
   const { installGetter, installSetter } = require('./preload_utils');
+  const {
+    getEnvironment,
+    setEnvironment,
+    parseEnvironment,
+    Environment,
+  } = require('./ts/environment');
 
   const { remote } = electron;
   const { app } = remote;
@@ -19,17 +25,27 @@ try {
   window.PROTO_ROOT = 'protos';
   const config = require('url').parse(window.location.toString(), true).query;
 
+  setEnvironment(parseEnvironment(config.environment));
+
   let title = config.name;
-  if (config.environment !== 'production') {
-    title += ` - ${config.environment}`;
+  if (getEnvironment() !== Environment.Production) {
+    title += ` - ${getEnvironment()}`;
   }
   if (config.appInstance) {
     title += ` - ${config.appInstance}`;
   }
 
+  // Flags for testing
+  window.GV2_ENABLE_SINGLE_CHANGE_PROCESSING = true;
+  window.GV2_ENABLE_CHANGE_PROCESSING = true;
+  window.GV2_ENABLE_STATE_PROCESSING = true;
+
+  window.GV2_MIGRATION_DISABLE_ADD = false;
+  window.GV2_MIGRATION_DISABLE_INVITE = false;
+
   window.platform = process.platform;
   window.getTitle = () => title;
-  window.getEnvironment = () => config.environment;
+  window.getEnvironment = getEnvironment;
   window.getAppInstance = () => config.appInstance;
   window.getVersion = () => config.version;
   window.getExpiration = () => {
@@ -89,6 +105,8 @@ try {
 
   window.setBadgeCount = count => ipc.send('set-badge-count', count);
 
+  window.logAppLoadedEvent = () => ipc.send('signal-app-loaded');
+
   // We never do these in our code, so we'll prevent it everywhere
   window.open = () => null;
   // eslint-disable-next-line no-eval, no-multi-assign
@@ -101,6 +119,10 @@ try {
   window.showWindow = () => {
     window.log.info('show window');
     ipc.send('show-window');
+  };
+
+  window.titleBarDoubleClick = () => {
+    ipc.send('title-bar-double-click');
   };
 
   window.setAutoHideMenuBar = autoHide =>
@@ -131,6 +153,19 @@ try {
   ipc.on('set-up-as-standalone', () => {
     Whisper.events.trigger('setupAsStandalone');
   });
+
+  {
+    let isFullScreen = config.isFullScreen === 'true';
+
+    window.isFullScreen = () => isFullScreen;
+    // This is later overwritten.
+    window.onFullScreenChange = _.noop;
+
+    ipc.on('full-screen-change', (_event, isFull) => {
+      isFullScreen = Boolean(isFull);
+      window.onFullScreenChange(isFullScreen);
+    });
+  }
 
   // Settings-related events
 
@@ -317,6 +352,21 @@ try {
     }
   });
 
+  ipc.on('show-group-via-link', (_event, info) => {
+    const { hash } = info;
+    const { showGroupViaLink } = window.Events;
+    if (showGroupViaLink) {
+      showGroupViaLink(hash);
+    }
+  });
+
+  ipc.on('unknown-sgnl-link', () => {
+    const { unknownSignalLink } = window.Events;
+    if (unknownSignalLink) {
+      unknownSignalLink();
+    }
+  });
+
   ipc.on('install-sticker-pack', (_event, info) => {
     const { packId, packKey } = info;
     const { installStickerPack } = window.Events;
@@ -349,7 +399,7 @@ try {
 
   // We pull these dependencies in now, from here, because they have Node.js dependencies
 
-  require('./js/logging');
+  require('./ts/logging/set_up_renderer_logging');
 
   if (config.proxyUrl) {
     window.log.info('Using provided proxy url');
@@ -383,6 +433,7 @@ try {
   const { autoOrientImage } = require('./js/modules/auto_orient_image');
   const { imageToBlurHash } = require('./ts/util/imageToBlurHash');
   const { isGroupCallingEnabled } = require('./ts/util/isGroupCallingEnabled');
+  const { ActiveWindowService } = require('./ts/services/ActiveWindowService');
 
   window.autoOrientImage = autoOrientImage;
   window.dataURLToBlobSync = require('blueimp-canvas-to-blob');
@@ -394,6 +445,16 @@ try {
   window.loadImage = require('blueimp-load-image');
   window.getGuid = require('uuid/v4');
   window.isGroupCallingEnabled = isGroupCallingEnabled;
+
+  const activeWindowService = new ActiveWindowService();
+  activeWindowService.initialize(window.document, ipc);
+  window.isActive = activeWindowService.isActive.bind(activeWindowService);
+  window.registerForActive = activeWindowService.registerForActive.bind(
+    activeWindowService
+  );
+  window.unregisterForActive = activeWindowService.unregisterForActive.bind(
+    activeWindowService
+  );
 
   window.isValidGuid = maybeGuid =>
     /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i.test(
@@ -463,40 +524,57 @@ try {
   }
   const externalCurve = {
     generateKeyPair: () => {
-      const { privKey, pubKey } = curve.generateKeyPair();
+      const privKey = client.PrivateKey.generate();
+      const pubKey = privKey.getPublicKey();
 
       return {
-        privKey: window.Signal.Crypto.typedArrayToArrayBuffer(privKey),
-        pubKey: window.Signal.Crypto.typedArrayToArrayBuffer(pubKey),
+        privKey: privKey.serialize().buffer,
+        pubKey: pubKey.serialize().buffer,
       };
     },
     createKeyPair: incomingKey => {
       const incomingKeyBuffer = Buffer.from(incomingKey);
-      const { privKey, pubKey } = curve.createKeyPair(incomingKeyBuffer);
+
+      if (incomingKeyBuffer.length !== 32) {
+        throw new Error('key must be 32 bytes long');
+      }
+
+      // eslint-disable-next-line no-bitwise
+      incomingKeyBuffer[0] &= 248;
+      // eslint-disable-next-line no-bitwise
+      incomingKeyBuffer[31] &= 127;
+      // eslint-disable-next-line no-bitwise
+      incomingKeyBuffer[31] |= 64;
+
+      const privKey = client.PrivateKey.deserialize(incomingKeyBuffer);
+      const pubKey = privKey.getPublicKey();
 
       return {
-        privKey: window.Signal.Crypto.typedArrayToArrayBuffer(privKey),
-        pubKey: window.Signal.Crypto.typedArrayToArrayBuffer(pubKey),
+        privKey: privKey.serialize().buffer,
+        pubKey: pubKey.serialize().buffer,
       };
     },
     calculateAgreement: (pubKey, privKey) => {
       const pubKeyBuffer = Buffer.from(pubKey);
       const privKeyBuffer = Buffer.from(privKey);
 
-      const buffer = curve.calculateAgreement(pubKeyBuffer, privKeyBuffer);
-
-      return window.Signal.Crypto.typedArrayToArrayBuffer(buffer);
+      const pubKeyObj = client.PublicKey.deserialize(
+        Buffer.concat([
+          Buffer.from([0x05]),
+          externalCurve.validatePubKeyFormat(pubKeyBuffer),
+        ])
+      );
+      const privKeyObj = client.PrivateKey.deserialize(privKeyBuffer);
+      const sharedSecret = privKeyObj.agree(pubKeyObj);
+      return sharedSecret.buffer;
     },
     verifySignature: (pubKey, message, signature) => {
       const pubKeyBuffer = Buffer.from(pubKey);
       const messageBuffer = Buffer.from(message);
       const signatureBuffer = Buffer.from(signature);
 
-      const result = curve.verifySignature(
-        pubKeyBuffer,
-        messageBuffer,
-        signatureBuffer
-      );
+      const pubKeyObj = client.PublicKey.deserialize(pubKeyBuffer);
+      const result = !pubKeyObj.verify(messageBuffer, signatureBuffer);
 
       return result;
     },
@@ -504,14 +582,23 @@ try {
       const privKeyBuffer = Buffer.from(privKey);
       const messageBuffer = Buffer.from(message);
 
-      const buffer = curve.calculateSignature(privKeyBuffer, messageBuffer);
-
-      return window.Signal.Crypto.typedArrayToArrayBuffer(buffer);
+      const privKeyObj = client.PrivateKey.deserialize(privKeyBuffer);
+      const signature = privKeyObj.sign(messageBuffer);
+      return signature.buffer;
     },
     validatePubKeyFormat: pubKey => {
-      const pubKeyBuffer = Buffer.from(pubKey);
+      if (
+        pubKey === undefined ||
+        ((pubKey.byteLength !== 33 || new Uint8Array(pubKey)[0] !== 5) &&
+          pubKey.byteLength !== 32)
+      ) {
+        throw new Error('Invalid public key');
+      }
+      if (pubKey.byteLength === 33) {
+        return pubKey.slice(1);
+      }
 
-      return curve.validatePubKeyFormat(pubKeyBuffer);
+      return pubKey;
     },
   };
   externalCurve.ECDHE = externalCurve.calculateAgreement;

@@ -1,15 +1,16 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { noop } from 'lodash';
+import { memoize, noop } from 'lodash';
 import { storiesOf } from '@storybook/react';
 
 import {
   GroupCallRemoteParticipant,
   PropsType,
 } from './GroupCallRemoteParticipant';
-import { getDefaultConversation } from '../util/getDefaultConversation';
+import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { FRAME_BUFFER_SIZE } from '../calling/constants';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
 
@@ -27,10 +28,13 @@ type OverridePropsType =
       width: number;
     };
 
+const getFrameBuffer = memoize(() => new ArrayBuffer(FRAME_BUFFER_SIZE));
+
 const createProps = (
   overrideProps: OverridePropsType,
   isBlocked?: boolean
 ): PropsType => ({
+  getFrameBuffer,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getGroupCallVideoFrameSource: noop as any,
   i18n,

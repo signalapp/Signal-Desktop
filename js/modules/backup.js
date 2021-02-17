@@ -23,6 +23,7 @@ const rimraf = require('rimraf');
 const electronRemote = require('electron').remote;
 
 const crypto = require('../../ts/Crypto');
+const { getEnvironment } = require('../../ts/environment');
 
 const { dialog, BrowserWindow } = electronRemote;
 
@@ -1198,7 +1199,7 @@ function deleteAll(pattern) {
 const ARCHIVE_NAME = 'messages.tar.gz';
 
 async function exportToDirectory(directory, options) {
-  const env = window.getEnvironment();
+  const env = getEnvironment();
   if (env !== 'test') {
     throw new Error('export is only supported in test mode');
   }
@@ -1266,7 +1267,7 @@ async function importFromDirectory(directory, options) {
 
     const archivePath = path.join(directory, ARCHIVE_NAME);
     if (fs.existsSync(archivePath)) {
-      const env = window.getEnvironment();
+      const env = getEnvironment();
       if (env !== 'test') {
         throw new Error('import is only supported in test mode');
       }

@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // Taken from:
@@ -35,10 +35,10 @@ declare module '@journeyapps/sqlcipher' {
     ): Database;
   };
 
-  export interface RunResult extends Statement {
+  export type RunResult = Statement & {
     lastID: number;
     changes: number;
-  }
+  };
 
   export class Statement {
     bind(callback?: (err: Error | null) => void): this;

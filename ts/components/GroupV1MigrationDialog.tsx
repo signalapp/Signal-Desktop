@@ -8,12 +8,6 @@ import { ConversationType } from '../state/ducks/conversations';
 import { Avatar } from './Avatar';
 import { sortByTitle } from '../util/sortByTitle';
 
-export type ActionSpec = {
-  text: string;
-  action: () => unknown;
-  style?: 'affirmative' | 'negative';
-};
-
 type CallbackType = () => unknown;
 
 export type DataPropsType = {

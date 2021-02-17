@@ -1,15 +1,15 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
 
 import { LocalizerType } from '../types/Util';
 
-export interface PropsType {
+export type PropsType = {
   i18n: LocalizerType;
   isRegistrationDone: boolean;
   relinkDevice: () => void;
-}
+};
 
 export const RelinkDialog = ({
   i18n,

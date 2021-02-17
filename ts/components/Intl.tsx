@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -8,13 +8,13 @@ import { ReplacementValuesType } from '../types/I18N';
 
 export type FullJSXType = Array<JSX.Element | string> | JSX.Element | string;
 
-export interface Props {
+export type Props = {
   /** The translation string id */
   id: string;
   i18n: LocalizerType;
   components?: Array<FullJSXType> | ReplacementValuesType<FullJSXType>;
   renderText?: RenderTextCallbackType;
-}
+};
 
 export class Intl extends React.Component<Props> {
   public static defaultProps: Partial<Props> = {

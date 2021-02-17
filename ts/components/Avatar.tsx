@@ -1,8 +1,10 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
 import classNames from 'classnames';
+
+import { Spinner } from './Spinner';
 
 import { getInitials } from '../util/getInitials';
 import { LocalizerType } from '../types/Util';
@@ -20,6 +22,7 @@ export enum AvatarSize {
 export type Props = {
   avatarPath?: string;
   color?: ColorType;
+  loading?: boolean;
 
   conversationType: 'group' | 'direct';
   noteToSelf?: boolean;
@@ -37,10 +40,10 @@ export type Props = {
   i18n: LocalizerType;
 } & Pick<React.HTMLProps<HTMLDivElement>, 'className'>;
 
-interface State {
-  imageBroken: boolean;
-  lastAvatarPath?: string;
-}
+type State = {
+  readonly imageBroken: boolean;
+  readonly lastAvatarPath?: string;
+};
 
 export class Avatar extends React.Component<Props, State> {
   public handleImageErrorBound: () => void;
@@ -136,11 +139,27 @@ export class Avatar extends React.Component<Props, State> {
     );
   }
 
+  public renderLoading(): JSX.Element {
+    const { size } = this.props;
+    const svgSize = size < 40 ? 'small' : 'normal';
+
+    return (
+      <div className="module-avatar__spinner-container">
+        <Spinner
+          size={`${size - 8}px`}
+          svgSize={svgSize}
+          direction="on-avatar"
+        />
+      </div>
+    );
+  }
+
   public render(): JSX.Element {
     const {
       avatarPath,
       color,
       innerRef,
+      loading,
       noteToSelf,
       onClick,
       size,
@@ -156,7 +175,9 @@ export class Avatar extends React.Component<Props, State> {
 
     let contents;
 
-    if (onClick) {
+    if (loading) {
+      contents = this.renderLoading();
+    } else if (onClick) {
       contents = (
         <button
           type="button"

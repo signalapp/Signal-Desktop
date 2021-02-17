@@ -22,6 +22,10 @@ import {
   GroupV1DisabledActions,
   PropsType as GroupV1DisabledActionsPropsType,
 } from './conversation/GroupV1DisabledActions';
+import {
+  GroupV2PendingApprovalActions,
+  PropsType as GroupV2PendingApprovalActionsPropsType,
+} from './conversation/GroupV2PendingApprovalActions';
 import { MandatoryProfileSharingActions } from './conversation/MandatoryProfileSharingActions';
 import { countStickers } from './stickers/lib';
 import { LocalizerType } from '../types/Util';
@@ -30,9 +34,11 @@ import { EmojiPickDataType } from './emoji/EmojiPicker';
 export type OwnProps = {
   readonly i18n: LocalizerType;
   readonly areWePending?: boolean;
+  readonly areWePendingApproval?: boolean;
   readonly groupVersion?: 1 | 2;
   readonly isGroupV1AndDisabled?: boolean;
   readonly isMissingMandatoryProfileSharing?: boolean;
+  readonly left?: boolean;
   readonly messageRequestsEnabled?: boolean;
   readonly acceptedMessageRequest?: boolean;
   readonly compositionApi?: React.MutableRefObject<{
@@ -53,7 +59,7 @@ export type OwnProps = {
 
 export type Props = Pick<
   CompositionInputProps,
-  | 'members'
+  | 'sortedGroupMembers'
   | 'onSubmit'
   | 'onEditorStateChange'
   | 'onTextTooLong'
@@ -83,6 +89,7 @@ export type Props = Pick<
   > &
   MessageRequestActionsProps &
   Pick<GroupV1DisabledActionsPropsType, 'onStartGroupMigration'> &
+  Pick<GroupV2PendingApprovalActionsPropsType, 'onCancelJoinRequest'> &
   OwnProps;
 
 const emptyElement = (el: HTMLElement) => {
@@ -105,7 +112,7 @@ export const CompositionArea = ({
   draftBodyRanges,
   clearQuotedMessage,
   getQuotedMessage,
-  members,
+  sortedGroupMembers,
   // EmojiButton
   onPickEmoji,
   onSetSkinTone,
@@ -127,10 +134,12 @@ export const CompositionArea = ({
   // Message Requests
   acceptedMessageRequest,
   areWePending,
+  areWePendingApproval,
   conversationType,
   groupVersion,
   isBlocked,
   isMissingMandatoryProfileSharing,
+  left,
   messageRequestsEnabled,
   name,
   onAccept,
@@ -144,6 +153,8 @@ export const CompositionArea = ({
   // GroupV1 Disabled Actions
   isGroupV1AndDisabled,
   onStartGroupMigration,
+  // GroupV2 Pending Approval Actions
+  onCancelJoinRequest,
 }: Props): JSX.Element => {
   const [disabled, setDisabled] = React.useState(false);
   const [showMic, setShowMic] = React.useState(!draftText);
@@ -249,6 +260,7 @@ export const CompositionArea = ({
         i18n={i18n}
         doSend={handleForceSend}
         onPickEmoji={insertEmoji}
+        onClose={focusInput}
         recentEmojis={recentEmojis}
         skinTone={skinTone}
         onSetSkinTone={onSetSkinTone}
@@ -370,6 +382,7 @@ export const CompositionArea = ({
 
   // If no message request, but we haven't shared profile yet, we show profile-sharing UI
   if (
+    !left &&
     (conversationType === 'direct' ||
       (conversationType === 'group' && groupVersion === 1)) &&
     isMissingMandatoryProfileSharing
@@ -391,11 +404,20 @@ export const CompositionArea = ({
   }
 
   // If this is a V1 group, now disabled entirely, we show UI to help them upgrade
-  if (isGroupV1AndDisabled) {
+  if (!left && isGroupV1AndDisabled) {
     return (
       <GroupV1DisabledActions
         i18n={i18n}
         onStartGroupMigration={onStartGroupMigration}
+      />
+    );
+  }
+
+  if (areWePendingApproval) {
+    return (
+      <GroupV2PendingApprovalActions
+        i18n={i18n}
+        onCancelJoinRequest={onCancelJoinRequest}
       />
     );
   }
@@ -447,7 +469,7 @@ export const CompositionArea = ({
             draftBodyRanges={draftBodyRanges}
             clearQuotedMessage={clearQuotedMessage}
             getQuotedMessage={getQuotedMessage}
-            members={members}
+            sortedGroupMembers={sortedGroupMembers}
           />
         </div>
         {!large ? (

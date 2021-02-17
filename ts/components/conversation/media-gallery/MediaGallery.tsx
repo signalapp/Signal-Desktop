@@ -15,23 +15,23 @@ import { LocalizerType } from '../../../types/Util';
 
 import { MediaItemType } from '../../LightboxGallery';
 
-export interface Props {
+export type Props = {
   documents: Array<MediaItemType>;
   i18n: LocalizerType;
   media: Array<MediaItemType>;
 
   onItemClick?: (event: ItemClickEvent) => void;
-}
+};
 
-interface State {
+type State = {
   selectedTab: 'media' | 'documents';
-}
+};
 
 const MONTH_FORMAT = 'MMMM YYYY';
 
-interface TabSelectEvent {
+type TabSelectEvent = {
   type: 'media' | 'documents';
-}
+};
 
 const Tab = ({
   isSelected,

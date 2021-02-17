@@ -18,7 +18,7 @@ export type PropsDataType = {
 
   id: string;
   conversationId: string;
-  sentAt: number;
+  sentAt?: number;
 
   snippet: string;
 
@@ -166,9 +166,11 @@ export class MessageSearchResult extends React.PureComponent<PropsType> {
         <div className="module-message-search-result__text">
           <div className="module-message-search-result__header">
             {this.renderFrom()}
-            <div className="module-message-search-result__header__timestamp">
-              <Timestamp timestamp={sentAt} i18n={i18n} />
-            </div>
+            {sentAt ? (
+              <div className="module-message-search-result__header__timestamp">
+                <Timestamp timestamp={sentAt} i18n={i18n} />
+              </div>
+            ) : null}
           </div>
           <div className="module-message-search-result__body">
             <MessageBodyHighlight text={snippet} i18n={i18n} />

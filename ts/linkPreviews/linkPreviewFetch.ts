@@ -54,17 +54,17 @@ const emptyContentType = { type: null, charset: null };
 
 type FetchFn = (href: string, init: RequestInit) => Promise<Response>;
 
-export interface LinkPreviewMetadata {
+export type LinkPreviewMetadata = {
   title: string;
   description: null | string;
   date: null | number;
   imageHref: null | string;
-}
+};
 
-export interface LinkPreviewImage {
+export type LinkPreviewImage = {
   data: ArrayBuffer;
   contentType: MIMEType;
-}
+};
 
 type ParsedContentType =
   | { type: null; charset: null }

@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // For reference: https://github.com/airbnb/javascript
@@ -19,7 +19,9 @@ const rules = {
   //   https://github.com/typescript-eslint/typescript-eslint/releases/tag/v4.0.0
   '@typescript-eslint/no-redeclare': 'error',
   '@typescript-eslint/no-shadow': 'error',
+  '@typescript-eslint/no-useless-constructor': ['error'],
   'no-shadow': 'off',
+  'no-useless-constructor': 'off',
 
   // prevents us from accidentally checking in exclusive tests (`.only`):
   'mocha/no-exclusive-tests': 'error',
@@ -93,6 +95,36 @@ const rules = {
 
   // Upgrade from a warning
   '@typescript-eslint/explicit-module-boundary-types': 'error',
+
+  'no-restricted-syntax': [
+    'error',
+    {
+      selector: 'TSInterfaceDeclaration',
+      message:
+        'Prefer `type`. Interfaces are mutable and less powerful, so we prefer `type` for simplicity.',
+    },
+    // Defaults
+    {
+      selector: 'ForInStatement',
+      message:
+        'for..in loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{keys,values,entries}, and iterate over the resulting array.',
+    },
+    {
+      selector: 'ForOfStatement',
+      message:
+        'iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations.',
+    },
+    {
+      selector: 'LabeledStatement',
+      message:
+        'Labels are a form of GOTO; using them makes code confusing and hard to maintain and understand.',
+    },
+    {
+      selector: 'WithStatement',
+      message:
+        '`with` is disallowed in strict mode because it makes code impossible to predict and optimize.',
+    },
+  ],
 };
 
 module.exports = {

@@ -1,13 +1,13 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-export interface BodyRangeType {
+export type BodyRangeType = {
   start: number;
   length: number;
   mentionUuid: string;
   replacementText: string;
   conversationID?: string;
-}
+};
 
 export type BodyRangesType = Array<BodyRangeType>;
 
@@ -24,3 +24,8 @@ export type LocalizerType = (
   key: string,
   values?: Array<string | null> | ReplacementValuesType
 ) => string;
+
+export enum ThemeType {
+  'light' = 'light',
+  'dark' = 'dark',
+}

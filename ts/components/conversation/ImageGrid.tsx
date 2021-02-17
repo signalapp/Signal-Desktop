@@ -16,9 +16,9 @@ import {
 
 import { Image } from './Image';
 
-import { LocalizerType } from '../../types/Util';
+import { LocalizerType, ThemeType } from '../../types/Util';
 
-export interface Props {
+export type Props = {
   attachments: Array<AttachmentType>;
   withContentAbove?: boolean;
   withContentBelow?: boolean;
@@ -28,10 +28,11 @@ export interface Props {
   tabIndex?: number;
 
   i18n: LocalizerType;
+  theme?: ThemeType;
 
   onError: () => void;
   onClick?: (attachment: AttachmentType) => void;
-}
+};
 
 export const ImageGrid = ({
   attachments,
@@ -42,6 +43,7 @@ export const ImageGrid = ({
   onError,
   onClick,
   tabIndex,
+  theme,
   withContentAbove,
   withContentBelow,
 }: Props): JSX.Element | null => {
@@ -75,6 +77,7 @@ export const ImageGrid = ({
         <Image
           alt={getAlt(attachments[0], i18n)}
           i18n={i18n}
+          theme={theme}
           blurHash={attachments[0].blurHash}
           bottomOverlay={withBottomOverlay}
           noBorder={isSticker}
@@ -102,6 +105,7 @@ export const ImageGrid = ({
         <Image
           alt={getAlt(attachments[0], i18n)}
           i18n={i18n}
+          theme={theme}
           attachment={attachments[0]}
           blurHash={attachments[0].blurHash}
           bottomOverlay={withBottomOverlay}
@@ -118,6 +122,7 @@ export const ImageGrid = ({
         <Image
           alt={getAlt(attachments[1], i18n)}
           i18n={i18n}
+          theme={theme}
           blurHash={attachments[1].blurHash}
           bottomOverlay={withBottomOverlay}
           noBorder={false}
@@ -141,6 +146,7 @@ export const ImageGrid = ({
         <Image
           alt={getAlt(attachments[0], i18n)}
           i18n={i18n}
+          theme={theme}
           blurHash={attachments[0].blurHash}
           bottomOverlay={withBottomOverlay}
           noBorder={false}
@@ -158,6 +164,7 @@ export const ImageGrid = ({
           <Image
             alt={getAlt(attachments[1], i18n)}
             i18n={i18n}
+            theme={theme}
             blurHash={attachments[1].blurHash}
             curveTopRight={curveTopRight}
             height={99}
@@ -171,6 +178,7 @@ export const ImageGrid = ({
           <Image
             alt={getAlt(attachments[2], i18n)}
             i18n={i18n}
+            theme={theme}
             blurHash={attachments[2].blurHash}
             bottomOverlay={withBottomOverlay}
             noBorder={false}
@@ -196,6 +204,7 @@ export const ImageGrid = ({
             <Image
               alt={getAlt(attachments[0], i18n)}
               i18n={i18n}
+              theme={theme}
               blurHash={attachments[0].blurHash}
               curveTopLeft={curveTopLeft}
               noBorder={false}
@@ -210,6 +219,7 @@ export const ImageGrid = ({
             <Image
               alt={getAlt(attachments[1], i18n)}
               i18n={i18n}
+              theme={theme}
               blurHash={attachments[1].blurHash}
               curveTopRight={curveTopRight}
               playIconOverlay={isVideoAttachment(attachments[1])}
@@ -226,6 +236,7 @@ export const ImageGrid = ({
             <Image
               alt={getAlt(attachments[2], i18n)}
               i18n={i18n}
+              theme={theme}
               blurHash={attachments[2].blurHash}
               bottomOverlay={withBottomOverlay}
               noBorder={false}
@@ -241,6 +252,7 @@ export const ImageGrid = ({
             <Image
               alt={getAlt(attachments[3], i18n)}
               i18n={i18n}
+              theme={theme}
               blurHash={attachments[3].blurHash}
               bottomOverlay={withBottomOverlay}
               noBorder={false}
@@ -271,6 +283,7 @@ export const ImageGrid = ({
           <Image
             alt={getAlt(attachments[0], i18n)}
             i18n={i18n}
+            theme={theme}
             blurHash={attachments[0].blurHash}
             curveTopLeft={curveTopLeft}
             attachment={attachments[0]}
@@ -284,6 +297,7 @@ export const ImageGrid = ({
           <Image
             alt={getAlt(attachments[1], i18n)}
             i18n={i18n}
+            theme={theme}
             blurHash={attachments[1].blurHash}
             curveTopRight={curveTopRight}
             playIconOverlay={isVideoAttachment(attachments[1])}
@@ -299,6 +313,7 @@ export const ImageGrid = ({
           <Image
             alt={getAlt(attachments[2], i18n)}
             i18n={i18n}
+            theme={theme}
             blurHash={attachments[2].blurHash}
             bottomOverlay={withBottomOverlay}
             noBorder={isSticker}
@@ -314,6 +329,7 @@ export const ImageGrid = ({
           <Image
             alt={getAlt(attachments[3], i18n)}
             i18n={i18n}
+            theme={theme}
             blurHash={attachments[3].blurHash}
             bottomOverlay={withBottomOverlay}
             noBorder={isSticker}
@@ -328,6 +344,7 @@ export const ImageGrid = ({
           <Image
             alt={getAlt(attachments[4], i18n)}
             i18n={i18n}
+            theme={theme}
             blurHash={attachments[4].blurHash}
             bottomOverlay={withBottomOverlay}
             noBorder={isSticker}

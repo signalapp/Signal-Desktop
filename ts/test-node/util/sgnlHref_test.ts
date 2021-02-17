@@ -5,7 +5,12 @@ import { assert } from 'chai';
 import Sinon from 'sinon';
 import { LoggerType } from '../../types/Logging';
 
-import { isSgnlHref, parseSgnlHref } from '../../util/sgnlHref';
+import {
+  isSgnlHref,
+  isSignalHttpsLink,
+  parseSgnlHref,
+  parseSignalHttpsLink,
+} from '../../util/sgnlHref';
 
 function shouldNeverBeCalled() {
   assert.fail('This should never be called');
@@ -83,6 +88,67 @@ describe('sgnlHref', () => {
     });
   });
 
+  describe('isSignalHttpsLink', () => {
+    it('returns false for non-strings', () => {
+      const logger = {
+        ...explodingLogger,
+        warn: Sinon.spy(),
+      };
+
+      const castToString = (value: unknown): string => value as string;
+
+      assert.isFalse(isSignalHttpsLink(castToString(undefined), logger));
+      assert.isFalse(isSignalHttpsLink(castToString(null), logger));
+      assert.isFalse(isSignalHttpsLink(castToString(123), logger));
+
+      Sinon.assert.calledThrice(logger.warn);
+    });
+
+    it('returns false for invalid URLs', () => {
+      assert.isFalse(isSignalHttpsLink('', explodingLogger));
+      assert.isFalse(isSignalHttpsLink('https', explodingLogger));
+      assert.isFalse(isSignalHttpsLink('https://::', explodingLogger));
+    });
+
+    it('returns false if the protocol is not "https:"', () => {
+      assert.isFalse(isSignalHttpsLink('sgnl://signal.art', explodingLogger));
+      assert.isFalse(
+        isSignalHttpsLink(
+          'sgnl://signal.art/addstickers/?pack_id=abc',
+          explodingLogger
+        )
+      );
+      assert.isFalse(
+        isSignalHttpsLink('signal://signal.group', explodingLogger)
+      );
+    });
+
+    it('returns true if the protocol is "https:"', () => {
+      assert.isTrue(isSignalHttpsLink('https://signal.group', explodingLogger));
+      assert.isTrue(isSignalHttpsLink('https://signal.art', explodingLogger));
+      assert.isTrue(isSignalHttpsLink('HTTPS://signal.art', explodingLogger));
+    });
+
+    it('returns false if username or password are set', () => {
+      assert.isFalse(
+        isSignalHttpsLink('https://user:password@signal.group', explodingLogger)
+      );
+    });
+
+    it('returns false if port is set', () => {
+      assert.isFalse(
+        isSignalHttpsLink('https://signal.group:1234', explodingLogger)
+      );
+    });
+
+    it('accepts URL objects', () => {
+      const invalid = new URL('sgnl://example.com');
+      assert.isFalse(isSignalHttpsLink(invalid, explodingLogger));
+      const valid = new URL('https://signal.art');
+      assert.isTrue(isSignalHttpsLink(valid, explodingLogger));
+    });
+  });
+
   describe('parseSgnlHref', () => {
     it('returns a null command for invalid URLs', () => {
       ['', 'sgnl', 'https://example/?foo=bar'].forEach(href => {
@@ -100,11 +166,12 @@ describe('sgnlHref', () => {
         'sgnl://foo?',
         'SGNL://foo?',
         'sgnl://user:pass@foo',
-        'sgnl://foo/path/data#hash-data',
+        'sgnl://foo/path/data',
       ].forEach(href => {
         assert.deepEqual(parseSgnlHref(href, explodingLogger), {
           command: 'foo',
           args: new Map<string, string>(),
+          hash: undefined,
         });
       });
     });
@@ -124,6 +191,7 @@ describe('sgnlHref', () => {
             ['empty', ''],
             ['encoded', 'hello world'],
           ]),
+          hash: undefined,
         }
       );
     });
@@ -144,17 +212,30 @@ describe('sgnlHref', () => {
       );
     });
 
+    it('includes hash', () => {
+      [
+        'sgnl://foo?bar=baz#somehash',
+        'sgnl://user:pass@foo?bar=baz#somehash',
+      ].forEach(href => {
+        assert.deepEqual(parseSgnlHref(href, explodingLogger), {
+          command: 'foo',
+          args: new Map([['bar', 'baz']]),
+          hash: 'somehash',
+        });
+      });
+    });
+
     it('ignores other parts of the URL', () => {
       [
         'sgnl://foo?bar=baz',
         'sgnl://foo/?bar=baz',
         'sgnl://foo/lots/of/path?bar=baz',
-        'sgnl://foo?bar=baz#hash',
         'sgnl://user:pass@foo?bar=baz',
       ].forEach(href => {
         assert.deepEqual(parseSgnlHref(href, explodingLogger), {
           command: 'foo',
           args: new Map([['bar', 'baz']]),
+          hash: undefined,
         });
       });
     });
@@ -170,6 +251,49 @@ describe('sgnlHref', () => {
         parseSgnlHref('sgnl://x?foo[bar][baz]=foobarbaz', explodingLogger),
         'args',
         new Map([['foo[bar][baz]', 'foobarbaz']])
+      );
+    });
+  });
+
+  describe('parseSignalHttpsLink', () => {
+    it('returns a null command for invalid URLs', () => {
+      ['', 'https', 'https://example/?foo=bar'].forEach(href => {
+        assert.deepEqual(parseSignalHttpsLink(href, explodingLogger), {
+          command: null,
+          args: new Map<never, never>(),
+        });
+      });
+    });
+
+    it('handles signal.art links', () => {
+      assert.deepEqual(
+        parseSignalHttpsLink(
+          'https://signal.art/addstickers/#pack_id=baz&pack_key=Quux&num=123&empty=&encoded=hello%20world',
+          explodingLogger
+        ),
+        {
+          command: 'addstickers',
+          args: new Map([
+            ['pack_id', 'baz'],
+            ['pack_key', 'Quux'],
+            ['num', '123'],
+            ['empty', ''],
+            ['encoded', 'hello world'],
+          ]),
+          hash:
+            'pack_id=baz&pack_key=Quux&num=123&empty=&encoded=hello%20world',
+        }
+      );
+    });
+
+    it('handles signal.group links', () => {
+      assert.deepEqual(
+        parseSignalHttpsLink('https://signal.group/#data', explodingLogger),
+        {
+          command: 'signal.group',
+          args: new Map<never, never>(),
+          hash: 'data',
+        }
       );
     });
   });

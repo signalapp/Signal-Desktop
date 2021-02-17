@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // This allows us to pull in types despite the fact that this is not a module. We can't
@@ -70,6 +70,17 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     },
   });
 
+  window.addEventListener('dblclick', (event: Event) => {
+    const target = event.target as HTMLElement;
+    const isDoubleClickOnTitleBar = Boolean(
+      target.classList.contains('module-title-bar-drag-area') ||
+        target.closest('module-title-bar-drag-area')
+    );
+    if (isDoubleClickOnTitleBar) {
+      window.titleBarDoubleClick();
+    }
+  });
+
   // Globally disable drag and drop
   document.body.addEventListener(
     'dragover',
@@ -87,49 +98,6 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     },
     false
   );
-
-  // Idle timer - you're active for ACTIVE_TIMEOUT after one of these events
-  const ACTIVE_TIMEOUT = 15 * 1000;
-  const ACTIVE_EVENTS = [
-    'click',
-    'keydown',
-    'mousedown',
-    'mousemove',
-    // 'scroll', // this is triggered by Timeline re-renders, can't use
-    'touchstart',
-    'wheel',
-  ];
-
-  const LISTENER_DEBOUNCE = 5 * 1000;
-  let activeHandlers: Array<WhatIsThis> = [];
-  let activeTimestamp = Date.now();
-
-  window.addEventListener('blur', () => {
-    // Force inactivity
-    activeTimestamp = Date.now() - ACTIVE_TIMEOUT;
-  });
-
-  window.resetActiveTimer = _.throttle(() => {
-    const previouslyActive = window.isActive();
-    activeTimestamp = Date.now();
-
-    if (!previouslyActive) {
-      activeHandlers.forEach(handler => handler());
-    }
-  }, LISTENER_DEBOUNCE);
-
-  ACTIVE_EVENTS.forEach(name => {
-    document.addEventListener(name, window.resetActiveTimer, true);
-  });
-
-  window.isActive = () => {
-    const now = Date.now();
-    return now <= activeTimestamp + ACTIVE_TIMEOUT;
-  };
-  window.registerForActive = handler => activeHandlers.push(handler);
-  window.unregisterForActive = handler => {
-    activeHandlers = activeHandlers.filter(item => item !== handler);
-  };
 
   // Keyboard/mouse mode
   let interactionMode: 'mouse' | 'keyboard' = 'mouse';
@@ -283,16 +251,15 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         window.log.info('Confirming deletion of old data with user...');
 
         try {
-          await new Promise((resolve, reject) => {
-            const dialog = new window.Whisper.ConfirmationDialogView({
+          await new Promise<void>((resolve, reject) => {
+            window.showConfirmationDialog({
+              cancelText: window.i18n('quit'),
+              confirmStyle: 'negative',
               message: window.i18n('deleteOldIndexedDBData'),
               okText: window.i18n('deleteOldData'),
-              cancelText: window.i18n('quit'),
-              resolve,
-              reject,
+              reject: () => reject(),
+              resolve: () => resolve(),
             });
-            document.body.append(dialog.el);
-            dialog.focusCancel();
           });
         } catch (error) {
           window.log.info(
@@ -359,7 +326,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     window.Events = {
       getDeviceName: () => window.textsecure.storage.user.getDeviceName(),
 
-      getThemeSetting: () =>
+      getThemeSetting: (): 'light' | 'dark' | 'system' =>
         window.storage.get(
           'theme-setting',
           window.platform === 'darwin' ? 'system' : 'light'
@@ -471,29 +438,102 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         await window.Signal.Data.shutdown();
       },
 
-      showStickerPack: async (packId: string, key: string) => {
+      showStickerPack: (packId: string, key: string) => {
         // We can get these events even if the user has never linked this instance.
         if (!window.Signal.Util.Registration.everDone()) {
+          window.log.warn('showStickerPack: Not registered, returning early');
           return;
         }
+        if (window.isShowingModal) {
+          window.log.warn(
+            'showStickerPack: Already showing modal, returning early'
+          );
+          return;
+        }
+        try {
+          window.isShowingModal = true;
 
-        // Kick off the download
-        window.Signal.Stickers.downloadEphemeralPack(packId, key);
+          // Kick off the download
+          window.Signal.Stickers.downloadEphemeralPack(packId, key);
 
-        const props = {
-          packId,
-          onClose: async () => {
-            stickerPreviewModalView.remove();
-            await window.Signal.Stickers.removeEphemeralPack(packId);
+          const props = {
+            packId,
+            onClose: async () => {
+              window.isShowingModal = false;
+              stickerPreviewModalView.remove();
+              await window.Signal.Stickers.removeEphemeralPack(packId);
+            },
+          };
+
+          const stickerPreviewModalView = new window.Whisper.ReactWrapperView({
+            className: 'sticker-preview-modal-wrapper',
+            JSX: window.Signal.State.Roots.createStickerPreviewModal(
+              window.reduxStore,
+              props
+            ),
+          });
+        } catch (error) {
+          window.isShowingModal = false;
+          window.log.error(
+            'showStickerPack: Ran into an error!',
+            error && error.stack ? error.stack : error
+          );
+          const errorView = new window.Whisper.ReactWrapperView({
+            className: 'error-modal-wrapper',
+            Component: window.Signal.Components.ErrorModal,
+            props: {
+              onClose: () => {
+                errorView.remove();
+              },
+            },
+          });
+        }
+      },
+      showGroupViaLink: async (hash: string) => {
+        // We can get these events even if the user has never linked this instance.
+        if (!window.Signal.Util.Registration.everDone()) {
+          window.log.warn('showGroupViaLink: Not registered, returning early');
+          return;
+        }
+        if (window.isShowingModal) {
+          window.log.warn(
+            'showGroupViaLink: Already showing modal, returning early'
+          );
+          return;
+        }
+        try {
+          await window.Signal.Groups.joinViaLink(hash);
+        } catch (error) {
+          window.log.error(
+            'showGroupViaLink: Ran into an error!',
+            error && error.stack ? error.stack : error
+          );
+          const errorView = new window.Whisper.ReactWrapperView({
+            className: 'error-modal-wrapper',
+            Component: window.Signal.Components.ErrorModal,
+            props: {
+              title: window.i18n('GroupV2--join--general-join-failure--title'),
+              description: window.i18n('GroupV2--join--general-join-failure'),
+              onClose: () => {
+                errorView.remove();
+              },
+            },
+          });
+        }
+        window.isShowingModal = false;
+      },
+
+      unknownSignalLink: () => {
+        window.log.warn('unknownSignalLink: Showing error dialog');
+        const errorView = new window.Whisper.ReactWrapperView({
+          className: 'error-modal-wrapper',
+          Component: window.Signal.Components.ErrorModal,
+          props: {
+            description: window.i18n('unknown-sgnl-link'),
+            onClose: () => {
+              errorView.remove();
+            },
           },
-        };
-
-        const stickerPreviewModalView = new window.Whisper.ReactWrapperView({
-          className: 'sticker-preview-modal-wrapper',
-          JSX: window.Signal.State.Roots.createStickerPreviewModal(
-            window.reduxStore,
-            props
-          ),
         });
       },
 
@@ -566,6 +606,13 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         window.isAfterVersion(lastVersion, 'v1.35.0-beta.1')
       ) {
         await window.Signal.Services.eraseAllStorageServiceState();
+      }
+
+      if (
+        lastVersion === 'v1.40.0-beta.1' &&
+        window.isAfterVersion(lastVersion, 'v1.40.0-beta.1')
+      ) {
+        await window.Signal.Data.clearAllErrorStickerPackAttempts();
       }
 
       // This one should always be last - it could restart the app
@@ -669,11 +716,25 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     const initialState = {
       conversations: {
         conversationLookup: window.Signal.Util.makeLookup(conversations, 'id'),
+        conversationsByE164: window.Signal.Util.makeLookup(
+          conversations,
+          'e164'
+        ),
+        conversationsByUuid: window.Signal.Util.makeLookup(
+          conversations,
+          'uuid'
+        ),
+        conversationsByGroupId: window.Signal.Util.makeLookup(
+          conversations,
+          'groupId'
+        ),
         messagesByConversation: {},
         messagesLookup: {},
         selectedConversation: undefined,
         selectedMessage: undefined,
         selectedMessageCounter: 0,
+        selectedConversationPanelDepth: 0,
+        selectedConversationTitle: '',
         showArchived: false,
       },
       emojis: window.Signal.Emojis.getInitialState(),
@@ -690,6 +751,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         platform: window.platform,
         i18n: window.i18n,
         interactionMode: window.getInteractionMode(),
+        theme: window.Events.getThemeSetting(),
       },
     };
 
@@ -919,9 +981,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
           document.querySelector('.module-main-header__search__input'),
           document.querySelector('.module-left-pane__list'),
           document.querySelector('.module-search-results'),
-          document.querySelector(
-            '.module-composition-area .public-DraftEditor-content'
-          ),
+          document.querySelector('.module-composition-area .ql-editor'),
         ];
         const focusedIndex = targets.findIndex(target => {
           if (!target || !focusedElement) {
@@ -1087,6 +1147,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       // up/previous
       if (
         (!isSearching && optionOrAlt && !shiftKey && key === 'ArrowUp') ||
+        (!isSearching && commandOrCtrl && shiftKey && key === '[') ||
         (!isSearching && ctrlKey && shiftKey && key === 'Tab')
       ) {
         const unreadOnly = false;
@@ -1106,6 +1167,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       // down/next
       if (
         (!isSearching && optionOrAlt && !shiftKey && key === 'ArrowDown') ||
+        (!isSearching && commandOrCtrl && shiftKey && key === ']') ||
         (!isSearching && ctrlKey && key === 'Tab')
       ) {
         const unreadOnly = false;
@@ -2099,6 +2161,13 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     if (view) {
       view.applyTheme();
     }
+
+    if (window.reduxActions && window.reduxActions.user) {
+      const theme = window.Events.getThemeSetting();
+      window.reduxActions.user.userChanged({
+        theme: theme === 'system' ? window.systemTheme : theme,
+      });
+    }
   }
 
   const FIVE_MINUTES = 5 * 60 * 1000;
@@ -2150,7 +2219,6 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     ]);
     window.log.info('onEmpty: All outstanding database requests complete');
     initialLoadComplete = true;
-
     window.readyForUpdates();
 
     // Start listeners here, after we get through our queue.
@@ -2172,6 +2240,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         clearInterval(interval!);
         interval = null;
         view.onEmpty();
+        window.logAppLoadedEvent();
       }
     }, 500);
 

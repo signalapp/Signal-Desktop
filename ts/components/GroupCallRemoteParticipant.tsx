@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, {
@@ -21,33 +21,37 @@ import { Avatar, AvatarSize } from './Avatar';
 import { ConfirmationModal } from './ConfirmationModal';
 import { Intl } from './Intl';
 import { ContactName } from './conversation/ContactName';
+import { useIntersectionObserver } from '../util/hooks';
+import { MAX_FRAME_SIZE } from '../calling/constants';
 
-// The max size video frame we'll support (in RGBA)
-const FRAME_BUFFER_SIZE = 1920 * 1080 * 4;
-
-interface BasePropsType {
+type BasePropsType = {
+  getFrameBuffer: () => ArrayBuffer;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
   remoteParticipant: GroupCallRemoteParticipantType;
-}
+};
 
-interface InPipPropsType {
+type InPipPropsType = {
   isInPip: true;
-}
+};
 
-interface NotInPipPropsType {
+type InOverflowAreaPropsType = {
   height: number;
   isInPip?: false;
+  width: number;
+};
+
+type InGridPropsType = InOverflowAreaPropsType & {
   left: number;
   top: number;
-  width: number;
-}
+};
 
-export type PropsType = BasePropsType & (InPipPropsType | NotInPipPropsType);
+export type PropsType = BasePropsType &
+  (InPipPropsType | InOverflowAreaPropsType | InGridPropsType);
 
 export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
   props => {
-    const { getGroupCallVideoFrameSource, i18n } = props;
+    const { getFrameBuffer, getGroupCallVideoFrameSource, i18n } = props;
 
     const {
       avatarPath,
@@ -58,17 +62,25 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       isBlocked,
       profileName,
       title,
+      videoAspectRatio,
     } = props.remoteParticipant;
 
-    const [isWide, setIsWide] = useState(true);
+    const [isWide, setIsWide] = useState<boolean>(
+      videoAspectRatio ? videoAspectRatio >= 1 : true
+    );
     const [hasHover, setHover] = useState(false);
     const [showBlockInfo, setShowBlockInfo] = useState(false);
 
     const remoteVideoRef = useRef<HTMLCanvasElement | null>(null);
     const canvasContextRef = useRef<CanvasRenderingContext2D | null>(null);
-    const frameBufferRef = useRef<ArrayBuffer>(
-      new ArrayBuffer(FRAME_BUFFER_SIZE)
-    );
+
+    const [
+      intersectionRef,
+      intersectionObserverEntry,
+    ] = useIntersectionObserver();
+    const isVisible = intersectionObserverEntry
+      ? intersectionObserverEntry.isIntersecting
+      : true;
 
     const videoFrameSource = useMemo(
       () => getGroupCallVideoFrameSource(demuxId),
@@ -86,15 +98,22 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
         return;
       }
 
-      const frameDimensions = videoFrameSource.receiveVideoFrame(
-        frameBufferRef.current
-      );
+      // This frame buffer is shared by all participants, so it may contain pixel data
+      //   for other participants, or pixel data from a previous frame. That's why we
+      //   return early and use the `frameWidth` and `frameHeight`.
+      const frameBuffer = getFrameBuffer();
+      const frameDimensions = videoFrameSource.receiveVideoFrame(frameBuffer);
       if (!frameDimensions) {
         return;
       }
 
       const [frameWidth, frameHeight] = frameDimensions;
-      if (frameWidth < 2 || frameHeight < 2) {
+
+      if (
+        frameWidth < 2 ||
+        frameHeight < 2 ||
+        frameWidth * frameHeight > MAX_FRAME_SIZE
+      ) {
         return;
       }
 
@@ -103,11 +122,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
 
       canvasContext.putImageData(
         new ImageData(
-          new Uint8ClampedArray(
-            frameBufferRef.current,
-            0,
-            frameWidth * frameHeight * 4
-          ),
+          new Uint8ClampedArray(frameBuffer, 0, frameWidth * frameHeight * 4),
           frameWidth,
           frameHeight
         ),
@@ -116,10 +131,10 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       );
 
       setIsWide(frameWidth > frameHeight);
-    }, [videoFrameSource]);
+    }, [getFrameBuffer, videoFrameSource]);
 
     useEffect(() => {
-      if (!hasRemoteVideo) {
+      if (!hasRemoteVideo || !isVisible) {
         return noop;
       }
 
@@ -133,7 +148,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       return () => {
         cancelAnimationFrame(rafId);
       };
-    }, [hasRemoteVideo, renderVideoFrame, videoFrameSource]);
+    }, [hasRemoteVideo, isVisible, renderVideoFrame, videoFrameSource]);
 
     let canvasStyles: CSSProperties;
     let containerStyles: CSSProperties;
@@ -156,7 +171,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       containerStyles = canvasStyles;
       avatarSize = AvatarSize.FIFTY_TWO;
     } else {
-      const { top, left, width, height } = props;
+      const { width, height } = props;
       const shorterDimension = Math.min(width, height);
 
       if (shorterDimension >= 240) {
@@ -169,125 +184,129 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
 
       containerStyles = {
         height,
-        left,
-        position: 'absolute',
-        top,
         width,
       };
+
+      if ('top' in props) {
+        containerStyles.position = 'absolute';
+        containerStyles.top = props.top;
+        containerStyles.left = props.left;
+      }
     }
 
     const showHover = hasHover && !props.isInPip;
-    const canShowVideo = hasRemoteVideo && !isBlocked;
-
-    if (showBlockInfo) {
-      return (
-        <ConfirmationModal
-          i18n={i18n}
-          onClose={() => {
-            setShowBlockInfo(false);
-          }}
-          title={
-            <div className="module-ongoing-call__group-call-remote-participant__blocked--modal-title">
-              <Intl
-                i18n={i18n}
-                id="calling__you-have-blocked"
-                components={[
-                  <ContactName
-                    key="name"
-                    profileName={profileName}
-                    title={title}
-                    i18n={i18n}
-                  />,
-                ]}
-              />
-            </div>
-          }
-          actions={[
-            {
-              text: i18n('ok'),
-              action: () => {
-                setShowBlockInfo(false);
-              },
-              style: 'affirmative',
-            },
-          ]}
-        >
-          {i18n('calling__block-info')}
-        </ConfirmationModal>
-      );
-    }
+    const canShowVideo = hasRemoteVideo && !isBlocked && isVisible;
 
     return (
-      <div
-        className="module-ongoing-call__group-call-remote-participant"
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-        style={containerStyles}
-      >
-        {showHover && (
-          <div
-            className={classNames(
-              'module-ongoing-call__group-call-remote-participant--title',
-              {
-                'module-ongoing-call__group-call-remote-participant--audio-muted': !hasRemoteAudio,
-              }
-            )}
-          >
-            <ContactName
-              module="module-ongoing-call__group-call-remote-participant--contact-name"
-              profileName={profileName}
-              title={title}
-              i18n={i18n}
-            />
-          </div>
-        )}
-        {canShowVideo ? (
-          <canvas
-            className="module-ongoing-call__group-call-remote-participant__remote-video"
-            style={canvasStyles}
-            ref={canvasEl => {
-              remoteVideoRef.current = canvasEl;
-              if (canvasEl) {
-                canvasContextRef.current = canvasEl.getContext('2d', {
-                  alpha: false,
-                  desynchronized: true,
-                  storage: 'discardable',
-                } as CanvasRenderingContext2DSettings);
-              } else {
-                canvasContextRef.current = null;
-              }
+      <>
+        {showBlockInfo && (
+          <ConfirmationModal
+            i18n={i18n}
+            onClose={() => {
+              setShowBlockInfo(false);
             }}
-          />
-        ) : (
-          <CallBackgroundBlur avatarPath={avatarPath} color={color}>
-            {isBlocked ? (
-              <>
-                <i className="module-ongoing-call__group-call-remote-participant__blocked" />
-                <button
-                  type="button"
-                  className="module-ongoing-call__group-call-remote-participant__blocked--info"
-                  onClick={() => {
-                    setShowBlockInfo(true);
-                  }}
-                >
-                  {i18n('moreInfo')}
-                </button>
-              </>
-            ) : (
-              <Avatar
-                avatarPath={avatarPath}
-                color={color || 'ultramarine'}
-                noteToSelf={false}
-                conversationType="direct"
-                i18n={i18n}
+            title={
+              <div className="module-ongoing-call__group-call-remote-participant__blocked--modal-title">
+                <Intl
+                  i18n={i18n}
+                  id="calling__you-have-blocked"
+                  components={[
+                    <ContactName
+                      key="name"
+                      profileName={profileName}
+                      title={title}
+                      i18n={i18n}
+                    />,
+                  ]}
+                />
+              </div>
+            }
+            actions={[
+              {
+                text: i18n('ok'),
+                action: () => {
+                  setShowBlockInfo(false);
+                },
+                style: 'affirmative',
+              },
+            ]}
+          >
+            {i18n('calling__block-info')}
+          </ConfirmationModal>
+        )}
+
+        <div
+          className="module-ongoing-call__group-call-remote-participant"
+          ref={intersectionRef}
+          onMouseEnter={() => setHover(true)}
+          onMouseLeave={() => setHover(false)}
+          style={containerStyles}
+        >
+          {showHover && (
+            <div
+              className={classNames(
+                'module-ongoing-call__group-call-remote-participant--title',
+                {
+                  'module-ongoing-call__group-call-remote-participant--audio-muted': !hasRemoteAudio,
+                }
+              )}
+            >
+              <ContactName
+                module="module-ongoing-call__group-call-remote-participant--contact-name"
                 profileName={profileName}
                 title={title}
-                size={avatarSize}
+                i18n={i18n}
               />
-            )}
-          </CallBackgroundBlur>
-        )}
-      </div>
+            </div>
+          )}
+          {canShowVideo ? (
+            <canvas
+              className="module-ongoing-call__group-call-remote-participant__remote-video"
+              style={canvasStyles}
+              ref={canvasEl => {
+                remoteVideoRef.current = canvasEl;
+                if (canvasEl) {
+                  canvasContextRef.current = canvasEl.getContext('2d', {
+                    alpha: false,
+                    desynchronized: true,
+                    storage: 'discardable',
+                  } as CanvasRenderingContext2DSettings);
+                } else {
+                  canvasContextRef.current = null;
+                }
+              }}
+            />
+          ) : (
+            <CallBackgroundBlur avatarPath={avatarPath} color={color}>
+              {isBlocked ? (
+                <>
+                  <i className="module-ongoing-call__group-call-remote-participant__blocked" />
+                  <button
+                    type="button"
+                    className="module-ongoing-call__group-call-remote-participant__blocked--info"
+                    onClick={() => {
+                      setShowBlockInfo(true);
+                    }}
+                  >
+                    {i18n('moreInfo')}
+                  </button>
+                </>
+              ) : (
+                <Avatar
+                  avatarPath={avatarPath}
+                  color={color || 'ultramarine'}
+                  noteToSelf={false}
+                  conversationType="direct"
+                  i18n={i18n}
+                  profileName={profileName}
+                  title={title}
+                  size={avatarSize}
+                />
+              )}
+            </CallBackgroundBlur>
+          )}
+        </div>
+      </>
     );
   }
 );

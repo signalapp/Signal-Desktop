@@ -24,12 +24,14 @@ const {
 
 const REVOKED_CERTIFICATES = [];
 
-function SecretSessionCipher(storage) {
+function SecretSessionCipher(storage, options) {
   this.storage = storage;
 
   // We do this on construction because libsignal won't be available when this file loads
   const { SessionCipher } = libsignal;
   this.SessionCipher = SessionCipher;
+
+  this.options = options || {};
 }
 
 const CIPHERTEXT_VERSION = 1;
@@ -291,7 +293,8 @@ SecretSessionCipher.prototype = {
 
     const sessionCipher = new SessionCipher(
       signalProtocolStore,
-      destinationAddress
+      destinationAddress,
+      this.options
     );
 
     const message = await sessionCipher.encrypt(paddedPlaintext);
@@ -448,7 +451,11 @@ SecretSessionCipher.prototype = {
     const { SessionCipher } = this;
     const signalProtocolStore = this.storage;
 
-    const cipher = new SessionCipher(signalProtocolStore, remoteAddress);
+    const cipher = new SessionCipher(
+      signalProtocolStore,
+      remoteAddress,
+      this.options
+    );
 
     return cipher.getSessionVersion();
   },
@@ -458,7 +465,11 @@ SecretSessionCipher.prototype = {
     const { SessionCipher } = this;
     const signalProtocolStore = this.storage;
 
-    const cipher = new SessionCipher(signalProtocolStore, remoteAddress);
+    const cipher = new SessionCipher(
+      signalProtocolStore,
+      remoteAddress,
+      this.options
+    );
 
     return cipher.getRemoteRegistrationId();
   },
@@ -468,7 +479,11 @@ SecretSessionCipher.prototype = {
     const { SessionCipher } = this;
     const signalProtocolStore = this.storage;
 
-    const cipher = new SessionCipher(signalProtocolStore, remoteAddress);
+    const cipher = new SessionCipher(
+      signalProtocolStore,
+      remoteAddress,
+      this.options
+    );
 
     return cipher.closeOpenSessionForDevice();
   },
@@ -528,12 +543,14 @@ SecretSessionCipher.prototype = {
       case CiphertextMessage.WHISPER_TYPE:
         return new SessionCipher(
           signalProtocolStore,
-          sender
+          sender,
+          this.options
         ).decryptWhisperMessage(message.content);
       case CiphertextMessage.PREKEY_TYPE:
         return new SessionCipher(
           signalProtocolStore,
-          sender
+          sender,
+          this.options
         ).decryptPreKeyWhisperMessage(message.content);
       default:
         throw new Error(`Unknown type: ${message.type}`);
