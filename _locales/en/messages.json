@@ -1077,6 +1077,22 @@
     "message": "Secure session reset",
     "description": "This is a past tense, informational message. In other words, your secure session has been reset."
   },
+  "ChatRefresh--notification": {
+    "message": "Chat session refreshed",
+    "description": "Shown in timeline when a error happened, and the session was automatically reset."
+  },
+  "ChatRefresh--learnMore": {
+    "message": "Learn More",
+    "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
+  },
+  "ChatRefresh--summary": {
+    "message": "Signal uses end-to-end encryption and it may need to refresh your chat session sometimes. This doesn’t affect your chat’s security but you may have missed a message from this contact and you can ask them to resend it.",
+    "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+  },
+  "ChatRefresh--contactSupport": {
+    "message": "Contact Support",
+    "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+  },
   "quoteThumbnailAlt": {
     "message": "Thumbnail of image from quoted message",
     "description": "Used in alt tag of thumbnail images inside of an embedded message quote"

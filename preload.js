@@ -45,6 +45,7 @@ try {
 
   window.platform = process.platform;
   window.getTitle = () => title;
+  window.getLocale = () => config.locale;
   window.getEnvironment = getEnvironment;
   window.getAppInstance = () => config.appInstance;
   window.getVersion = () => config.version;

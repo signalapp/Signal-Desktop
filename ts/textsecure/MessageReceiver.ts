@@ -15,6 +15,7 @@ import { v4 as getGuid } from 'uuid';
 
 import { SessionCipherClass, SignalProtocolAddressClass } from '../libsignal.d';
 import { BatcherType, createBatcher } from '../util/batcher';
+import { assert } from '../util/assert';
 
 import EventTarget from './EventTarget';
 import { WebAPIType } from './WebAPI';
@@ -47,6 +48,8 @@ import { deriveGroupFields, MASTER_KEY_LENGTH } from '../groups';
 const GROUPV1_ID_LENGTH = 16;
 const GROUPV2_ID_LENGTH = 32;
 const RETRY_TIMEOUT = 2 * 60 * 1000;
+
+type SessionResetsType = Record<string, number>;
 
 declare global {
   // We want to extend `Event`, so we need an interface.
@@ -208,6 +211,8 @@ class MessageReceiverInner extends EventTarget {
       maxSize: 30,
       processBatch: this.cacheRemoveBatch.bind(this),
     });
+
+    this.cleanupSessionResets();
   }
 
   static stringToArrayBuffer = (string: string): ArrayBuffer =>
@@ -237,6 +242,7 @@ class MessageReceiverInner extends EventTarget {
     }
 
     this.isEmptied = false;
+
     this.hasConnected = true;
 
     if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
@@ -1089,32 +1095,118 @@ class MessageReceiverInner extends EventTarget {
         return plaintext;
       })
       .catch(async error => {
-        let errorToThrow = error;
+        this.removeFromCache(envelope);
 
-        if (error && error.message === 'Unknown identity key') {
-          // create an error that the UI will pick up and ask the
-          // user if they want to re-negotiate
-          const buffer = window.dcodeIO.ByteBuffer.wrap(ciphertext);
-          errorToThrow = new IncomingIdentityKeyError(
-            address.toString(),
-            buffer.toArrayBuffer(),
-            error.identityKey
+        const uuid = envelope.sourceUuid;
+        const deviceId = envelope.sourceDevice;
+
+        // We don't do a light session reset if it's just a duplicated message
+        if (error && error.name === 'MessageCounterError') {
+          throw error;
+        }
+
+        if (uuid && deviceId) {
+          await this.lightSessionReset(uuid, deviceId);
+        } else {
+          const envelopeId = this.getEnvelopeId(envelope);
+          window.log.error(
+            `MessageReceiver.decrypt: Envelope ${envelopeId} missing uuid or deviceId`
           );
         }
 
-        if (envelope.timestamp && envelope.timestamp.toNumber) {
-          // eslint-disable-next-line no-param-reassign
-          envelope.timestamp = envelope.timestamp.toNumber();
-        }
-
-        const ev = new Event('error');
-        ev.error = errorToThrow;
-        ev.proto = envelope;
-        ev.confirm = this.removeFromCache.bind(this, envelope);
-
-        const returnError = async () => Promise.reject(errorToThrow);
-        return this.dispatchAndWait(ev).then(returnError, returnError);
+        throw error;
       });
+  }
+
+  isOverHourIntoPast(timestamp: number): boolean {
+    const HOUR = 1000 * 60 * 60;
+    const now = Date.now();
+    const oneHourIntoPast = now - HOUR;
+
+    return isNumber(timestamp) && timestamp <= oneHourIntoPast;
+  }
+
+  // We don't lose anything if we delete keys over an hour into the past, because we only
+  //   change our behavior if the timestamps stored are less than an hour ago.
+  cleanupSessionResets(): void {
+    const sessionResets = window.storage.get(
+      'sessionResets',
+      {}
+    ) as SessionResetsType;
+
+    const keys = Object.keys(sessionResets);
+    keys.forEach(key => {
+      const timestamp = sessionResets[key];
+      if (!timestamp || this.isOverHourIntoPast(timestamp)) {
+        delete sessionResets[key];
+      }
+    });
+
+    window.storage.put('sessionResets', sessionResets);
+  }
+
+  async lightSessionReset(uuid: string, deviceId: number) {
+    const id = `${uuid}.${deviceId}`;
+
+    try {
+      const sessionResets = window.storage.get(
+        'sessionResets',
+        {}
+      ) as SessionResetsType;
+      const lastReset = sessionResets[id];
+
+      if (lastReset && !this.isOverHourIntoPast(lastReset)) {
+        window.log.warn(
+          `lightSessionReset: Skipping session reset for ${id}, last reset at ${lastReset}`
+        );
+        return;
+      }
+      sessionResets[id] = Date.now();
+      window.storage.put('sessionResets', sessionResets);
+
+      // First, fetch this conversation
+      const conversationId = window.ConversationController.ensureContactIds({
+        uuid,
+      });
+      assert(conversationId, 'lightSessionReset: missing conversationId');
+
+      const conversation = window.ConversationController.get(conversationId);
+      assert(conversation, 'lightSessionReset: missing conversation');
+
+      window.log.warn(`lightSessionReset: Resetting session for ${id}`);
+
+      // Archive open session with this device
+      const address = new window.libsignal.SignalProtocolAddress(
+        uuid,
+        deviceId
+      );
+      const sessionCipher = new window.libsignal.SessionCipher(
+        window.textsecure.storage.protocol,
+        address
+      );
+
+      await sessionCipher.closeOpenSessionForDevice();
+
+      // Send a null message with newly-created session
+      const sendOptions = conversation.getSendOptions();
+      await window.textsecure.messaging.sendNullMessage({ uuid }, sendOptions);
+
+      // Emit event for app to put item into conversation timeline
+      const event = new Event('light-session-reset');
+      event.senderUuid = uuid;
+      await this.dispatchAndWait(event);
+    } catch (error) {
+      // If we failed to do the session reset, then we'll allow another attempt
+      const sessionResets = window.storage.get(
+        'sessionResets',
+        {}
+      ) as SessionResetsType;
+      delete sessionResets[id];
+      window.storage.put('sessionResets', sessionResets);
+
+      const errorString = error && error.stack ? error.stack : error;
+      window.log.error('lightSessionReset: Enountered error', errorString);
+    }
   }
 
   async decryptPreKeyWhisperMessage(
@@ -2266,6 +2358,10 @@ export default class MessageReceiver {
     this.stopProcessing = inner.stopProcessing.bind(inner);
     this.unregisterBatchers = inner.unregisterBatchers.bind(inner);
 
+    // For tests
+    this.isOverHourIntoPast = inner.isOverHourIntoPast.bind(inner);
+    this.cleanupSessionResets = inner.cleanupSessionResets.bind(inner);
+
     inner.connect();
   }
 
@@ -2286,6 +2382,10 @@ export default class MessageReceiver {
   stopProcessing: () => Promise<void>;
 
   unregisterBatchers: () => void;
+
+  isOverHourIntoPast: (timestamp: number) => boolean;
+
+  cleanupSessionResets: () => void;
 
   static stringToArrayBuffer = MessageReceiverInner.stringToArrayBuffer;
 

@@ -201,6 +201,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   isNormalBubble(): boolean {
     return (
       !this.isCallHistory() &&
+      !this.isChatSessionRefreshed() &&
       !this.isEndSession() &&
       !this.isExpirationTimerUpdate() &&
       !this.isGroupUpdate() &&
@@ -280,6 +281,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return {
         type: 'profileChange',
         data: this.getPropsForProfileChange(),
+      };
+    }
+    if (this.isChatSessionRefreshed()) {
+      return {
+        type: 'chatSessionRefreshed',
+        data: null,
       };
     }
 
@@ -459,6 +466,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   isCallHistory(): boolean {
     return this.get('type') === 'call-history';
+  }
+
+  isChatSessionRefreshed(): boolean {
+    return this.get('type') === 'chat-session-refreshed';
   }
 
   isProfileChange(): boolean {
@@ -1178,6 +1189,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   getNotificationData(): { emoji?: string; text: string } {
+    if (this.isChatSessionRefreshed()) {
+      return {
+        emoji: '🔁',
+        text: window.i18n('ChatRefresh--notification'),
+      };
+    }
+
     if (this.isUnsupportedMessage()) {
       return {
         text: window.i18n('message--getDescription--unsupported-message'),
@@ -1695,6 +1713,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     // Rendered sync messages
     const isCallHistory = this.isCallHistory();
+    const isChatSessionRefreshed = this.isChatSessionRefreshed();
     const isGroupUpdate = this.isGroupUpdate();
     const isGroupV2Change = this.isGroupV2Change();
     const isEndSession = this.isEndSession();
@@ -1723,6 +1742,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       isSticker ||
       // Rendered sync messages
       isCallHistory ||
+      isChatSessionRefreshed ||
       isGroupUpdate ||
       isGroupV2Change ||
       isEndSession ||

@@ -774,6 +774,15 @@ Whisper.ConversationView = Whisper.View.extend({
     const showExpiredOutgoingTapToViewToast = () => {
       this.showToast(Whisper.TapToViewExpiredOutgoingToast);
     };
+    const contactSupport = () => {
+      const baseUrl =
+        'https://support.signal.org/hc/LOCALE/requests/new?desktop&chat_refreshed';
+      const locale = window.getLocale();
+      const supportLocale = window.Signal.Util.mapToSupportLocale(locale);
+      const url = baseUrl.replace('LOCALE', supportLocale);
+
+      this.navigateTo(url);
+    };
 
     const scrollToQuotedMessage = async (options: any) => {
       const { authorId, sentAt } = options;
@@ -928,6 +937,7 @@ Whisper.ConversationView = Whisper.View.extend({
       JSX: window.Signal.State.Roots.createTimeline(window.reduxStore, {
         id,
 
+        contactSupport,
         deleteMessage,
         deleteMessageForEveryone,
         displayTapToViewMessage,

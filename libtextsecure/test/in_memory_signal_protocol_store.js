@@ -166,4 +166,15 @@ SignalProtocolStore.prototype = {
       resolve(deviceIds);
     });
   },
+
+  getUnprocessedCount: () => Promise.resolve(0),
+  getAllUnprocessed: () => Promise.resolve([]),
+  getUnprocessedById: () => Promise.resolve(null),
+  addUnprocessed: () => Promise.resolve(),
+  addMultipleUnprocessed: () => Promise.resolve(),
+  updateUnprocessedAttempts: () => Promise.resolve(),
+  updateUnprocessedWithData: () => Promise.resolve(),
+  updateUnprocessedsWithData: () => Promise.resolve(),
+  removeUnprocessed: () => Promise.resolve(),
+  removeAllUnprocessed: () => Promise.resolve(),
 };

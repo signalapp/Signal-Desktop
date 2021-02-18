@@ -1937,6 +1937,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       addQueuedEventListener('read', onReadReceipt);
       addQueuedEventListener('verified', onVerified);
       addQueuedEventListener('error', onError);
+      addQueuedEventListener('light-session-reset', onLightSessionReset);
       addQueuedEventListener('empty', onEmpty);
       addQueuedEventListener('reconnect', onReconnect);
       addQueuedEventListener('configuration', onConfiguration);
@@ -3121,7 +3122,8 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       error.name === 'HTTPError' &&
       (error.code === 401 || error.code === 403)
     ) {
-      return unlinkAndDisconnect();
+      unlinkAndDisconnect();
+      return;
     }
 
     if (
@@ -3136,101 +3138,40 @@ type WhatIsThis = import('./window.d').WhatIsThis;
 
         window.Whisper.events.trigger('reconnectTimer');
       }
-      return Promise.resolve();
+      return;
     }
 
-    if (ev.proto) {
-      if (error && error.name === 'MessageCounterError') {
-        if (ev.confirm) {
-          ev.confirm();
-        }
-        // Ignore this message. It is likely a duplicate delivery
-        // because the server lost our ack the first time.
-        return Promise.resolve();
-      }
-      const envelope = ev.proto;
-      const id = window.ConversationController.ensureContactIds({
-        e164: envelope.source,
-        uuid: envelope.sourceUuid,
-      });
-      if (!id) {
-        throw new Error('onError: ensureContactIds returned falsey id!');
-      }
-      const message = initIncomingMessage(envelope, {
-        type: Message.PRIVATE,
-        id,
-      });
+    window.log.warn('background onError: Doing nothing with incoming error');
+  }
 
-      const conversationId = message.get('conversationId');
-      const conversation = window.ConversationController.get(conversationId);
+  type LightSessionResetEventType = {
+    senderUuid: string;
+  };
 
-      if (!conversation) {
-        window.log.warn(
-          'onError: No conversation id, cannot save error bubble'
-        );
-        ev.confirm();
-        return Promise.resolve();
-      }
+  function onLightSessionReset(event: LightSessionResetEventType) {
+    const conversationId = window.ConversationController.ensureContactIds({
+      uuid: event.senderUuid,
+    });
 
-      // This matches the queueing behavior used in Message.handleDataMessage
-      conversation.queueJob(async () => {
-        const existingMessage = await window.Signal.Data.getMessageBySender(
-          message.attributes,
-          {
-            Message: window.Whisper.Message,
-          }
-        );
-        if (existingMessage) {
-          ev.confirm();
-          window.log.warn(
-            `Got duplicate error for message ${message.idForLogging()}`
-          );
-          return;
-        }
+    if (!conversationId) {
+      window.log.warn(
+        'onLightSessionReset: No conversation id, cannot add message to timeline'
+      );
+      return;
+    }
+    const conversation = window.ConversationController.get(conversationId);
 
-        const model = new window.Whisper.Message({
-          ...message.attributes,
-          id: window.getGuid(),
-        });
-        await model.saveErrors(error || new Error('Error was null'), {
-          skipSave: true,
-        });
-
-        window.MessageController.register(model.id, model);
-        await window.Signal.Data.saveMessage(model.attributes, {
-          Message: window.Whisper.Message,
-          forceSave: true,
-        });
-
-        conversation.set({
-          active_at: Date.now(),
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          unreadCount: conversation.get('unreadCount')! + 1,
-        });
-
-        const conversationTimestamp = conversation.get('timestamp');
-        const messageTimestamp = model.get('timestamp');
-        if (
-          !conversationTimestamp ||
-          messageTimestamp > conversationTimestamp
-        ) {
-          conversation.set({ timestamp: model.get('sent_at') });
-        }
-
-        conversation.trigger('newmessage', model);
-        conversation.notify(model);
-
-        window.Whisper.events.trigger('incrementProgress');
-
-        if (ev.confirm) {
-          ev.confirm();
-        }
-
-        window.Signal.Data.updateConversation(conversation.attributes);
-      });
+    if (!conversation) {
+      window.log.warn(
+        'onLightSessionReset: No conversation, cannot add message to timeline'
+      );
+      return;
     }
 
-    throw error;
+    const receivedAt = Date.now();
+    conversation.queueJob(async () => {
+      conversation.addChatSessionRefreshed(receivedAt);
+    });
   }
 
   async function onViewSync(ev: WhatIsThis) {

@@ -92,6 +92,7 @@ import { ProgressModal } from './components/ProgressModal';
 import { Quote } from './components/conversation/Quote';
 import { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
 import { MIMEType } from './types/MIME';
+import { ElectronLocaleType } from './util/mapToSupportLocale';
 
 export { Long } from 'long';
 
@@ -148,6 +149,7 @@ declare global {
     getInboxCollection: () => ConversationModelCollectionType;
     getIncomingCallNotification: () => Promise<boolean>;
     getInteractionMode: () => 'mouse' | 'keyboard';
+    getLocale: () => ElectronLocaleType;
     getMediaCameraPermissions: () => Promise<boolean>;
     getMediaPermissions: () => Promise<boolean>;
     getNodeVersion: () => string;

@@ -11453,6 +11453,88 @@ $contact-modal-padding: 18px;
   }
 }
 
+// Module: Chat Session Refreshed Notification
+
+.module-chat-session-refreshed-notification {
+  @include font-body-2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.module-chat-session-refreshed-notification__first-line {
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+.module-chat-session-refreshed-notification__icon {
+  height: 16px;
+  width: 16px;
+  display: inline-block;
+  margin-right: 8px;
+
+  @include light-theme {
+    @include color-svg('../images/icons/v2/refresh-16.svg', $color-gray-60);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/refresh-16.svg', $color-gray-25);
+  }
+}
+.module-chat-session-refreshed-notification__button {
+  @include button-reset;
+  @include button-light-blue-text;
+  @include button-small;
+
+  @include font-body-2;
+  padding: 5px 12px;
+}
+
+// Module: Chat Session Refreshed Dialog
+
+.module-chat-session-refreshed-dialog {
+  width: 360px;
+  padding: 16px;
+  padding-top: 28px;
+  border-radius: 8px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @include light-theme {
+    background-color: $color-white;
+  }
+  @include dark-theme {
+    background-color: $color-gray-95;
+  }
+}
+.module-chat-session-refreshed-dialog__image {
+  text-align: center;
+}
+.module-chat-session-refreshed-dialog__title {
+  @include font-body-1-bold;
+  margin-top: 10px;
+  margin-bottom: 3px;
+}
+.module-chat-session-refreshed-dialog__buttons {
+  text-align: right;
+  margin-top: 20px;
+}
+.module-chat-session-refreshed-dialog__button {
+  @include font-body-1-bold;
+  @include button-reset;
+  @include button-primary;
+
+  border-radius: 4px;
+  padding: 7px 14px;
+  margin-left: 12px;
+}
+.module-chat-session-refreshed-dialog__button--secondary {
+  @include button-secondary;
+}
+
 /* Third-party module: react-contextmenu*/
 
 .react-contextmenu {

@@ -10,11 +10,14 @@ import {
   PropsActions as MessageActionsType,
   PropsData as MessageProps,
 } from './Message';
-
 import {
   CallingNotification,
   PropsActionsType as CallingNotificationActionsType,
 } from './CallingNotification';
+import {
+  ChatSessionRefreshedNotification,
+  PropsActionsType as PropsChatSessionRefreshedActionsType,
+} from './ChatSessionRefreshedNotification';
 import { CallingNotificationType } from '../../util/callingNotification';
 import { InlineNotificationWrapper } from './InlineNotificationWrapper';
 import {
@@ -57,6 +60,10 @@ import {
 type CallHistoryType = {
   type: 'callHistory';
   data: CallingNotificationType;
+};
+type ChatSessionRefreshedType = {
+  type: 'chatSessionRefreshed';
+  data: null;
 };
 type LinkNotificationType = {
   type: 'linkNotification';
@@ -105,6 +112,7 @@ type ProfileChangeNotificationType = {
 
 export type TimelineItemType =
   | CallHistoryType
+  | ChatSessionRefreshedType
   | GroupNotificationType
   | GroupV1MigrationType
   | GroupV2ChangeType
@@ -131,6 +139,7 @@ type PropsLocalType = {
 
 type PropsActionsType = MessageActionsType &
   CallingNotificationActionsType &
+  PropsChatSessionRefreshedActionsType &
   UnsupportedMessageActionsType &
   SafetyNumberActionsType;
 
@@ -182,6 +191,14 @@ export class TimelineItem extends React.PureComponent<PropsType> {
           returnToActiveCall={returnToActiveCall}
           startCallingLobby={startCallingLobby}
           {...item.data}
+        />
+      );
+    } else if (item.type === 'chatSessionRefreshed') {
+      notification = (
+        <ChatSessionRefreshedNotification
+          {...this.props}
+          {...item.data}
+          i18n={i18n}
         />
       );
     } else if (item.type === 'linkNotification') {

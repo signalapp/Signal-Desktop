@@ -252,6 +252,8 @@ const actions = () => ({
   messageSizeChanged: action('messageSizeChanged'),
   startCallingLobby: action('startCallingLobby'),
   returnToActiveCall: action('returnToActiveCall'),
+
+  contactSupport: action('contactSupport'),
 });
 
 const renderItem = (id: string) => (

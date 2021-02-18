@@ -24,6 +24,7 @@ import { parseRemoteClientExpiration } from './parseRemoteClientExpiration';
 import { sleep } from './sleep';
 import { longRunningTaskWrapper } from './longRunningTaskWrapper';
 import { toWebSafeBase64, fromWebSafeBase64 } from './webSafeBase64';
+import { mapToSupportLocale } from './mapToSupportLocale';
 import * as zkgroup from './zkgroup';
 
 export {
@@ -44,6 +45,7 @@ export {
   isFileDangerous,
   longRunningTaskWrapper,
   makeLookup,
+  mapToSupportLocale,
   missingCaseError,
   parseRemoteClientExpiration,
   Registration,

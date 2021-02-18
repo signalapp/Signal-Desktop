@@ -2277,6 +2277,35 @@ export class ConversationModel extends window.Backbone.Model<
     return this.setVerified();
   }
 
+  async addChatSessionRefreshed(receivedAt: number): Promise<void> {
+    window.log.info(
+      `addChatSessionRefreshed: adding for ${this.idForLogging()}`
+    );
+
+    const message = ({
+      conversationId: this.id,
+      type: 'chat-session-refreshed',
+      sent_at: receivedAt,
+      received_at: receivedAt,
+      unread: 1,
+      // TODO: DESKTOP-722
+      // this type does not fully implement the interface it is expected to
+    } as unknown) as typeof window.Whisper.MessageAttributesType;
+
+    const id = await window.Signal.Data.saveMessage(message, {
+      Message: window.Whisper.Message,
+    });
+    const model = window.MessageController.register(
+      id,
+      new window.Whisper.Message({
+        ...message,
+        id,
+      })
+    );
+
+    this.trigger('newmessage', model);
+  }
+
   async addKeyChange(keyChangedId: string): Promise<void> {
     window.log.info(
       'adding key change advisory for',
