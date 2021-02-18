@@ -76,12 +76,10 @@ module.exports = grunt => {
           'libtextsecure/errors.js',
           'libtextsecure/libsignal-protocol.js',
           'libtextsecure/protocol_wrapper.js',
-
           'libtextsecure/crypto.js',
           'libtextsecure/storage.js',
           'libtextsecure/storage/user.js',
           'libtextsecure/storage/groups.js',
-          'libtextsecure/storage/unprocessed.js',
           'libtextsecure/protobufs.js',
           'libtextsecure/helpers.js',
           'libtextsecure/stringview.js',

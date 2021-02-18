@@ -25,7 +25,7 @@ export const syncConfigurationIfNeeded = async () => {
   const allConvos = ConversationController.getInstance().getConversations();
   const configMessage = await getCurrentConfigurationMessage(allConvos);
   try {
-    window.log.info('syncConfigurationIfNeeded with', configMessage);
+    // window.log.info('syncConfigurationIfNeeded with', configMessage);
 
     await getMessageQueue().sendSyncMessage(configMessage);
   } catch (e) {

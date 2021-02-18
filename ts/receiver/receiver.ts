@@ -233,7 +233,7 @@ async function queueCached(item: any) {
 
     try {
       const { id } = item;
-      await textsecure.storage.unprocessed.remove(id);
+      await removeUnprocessed(id);
     } catch (deleteError) {
       window.log.error(
         'queueCached error deleting item',
