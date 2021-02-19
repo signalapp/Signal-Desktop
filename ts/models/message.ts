@@ -930,9 +930,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public removeOutgoingErrors(number: string) {
     const errors = _.partition(
       this.get('errors'),
-      e =>
-        e.number === number &&
-        (e.name === 'MessageError' || e.name === 'SendMessageNetworkError')
+      e => e.number === number && e.name === 'SendMessageNetworkError'
     );
     this.set({ errors: errors[1] });
     return errors[0][0];
