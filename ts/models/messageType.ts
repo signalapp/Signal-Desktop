@@ -1,5 +1,6 @@
 import { DefaultTheme } from 'styled-components';
 import _ from 'underscore';
+import uuidv4 from 'uuid';
 import { QuotedAttachmentType } from '../components/conversation/Quote';
 import { AttachmentType } from '../types/Attachment';
 import { Contact } from '../types/Contact';
@@ -43,7 +44,12 @@ export interface MessageAttributes {
   hasFileAttachments: boolean;
   hasVisualMediaAttachments: boolean;
   schemaVersion: number;
-  expirationTimerUpdate?: any;
+  expirationTimerUpdate?: {
+    expireTimer: number;
+    source: string;
+    fromSync?: boolean;
+    fromGroupUpdate?: boolean;
+  };
   unread: boolean;
   group?: any;
   timestamp?: number;
@@ -91,7 +97,12 @@ export interface MessageAttributesOptionals {
   hasFileAttachments?: boolean;
   hasVisualMediaAttachments?: boolean;
   schemaVersion?: number;
-  expirationTimerUpdate?: any;
+  expirationTimerUpdate?: {
+    expireTimer: number;
+    source: string;
+    fromSync?: boolean;
+    fromGroupUpdate?: boolean;
+  };
   unread?: boolean;
   group?: any;
   timestamp?: number;
@@ -120,6 +131,7 @@ export const fillMessageAttributesWithDefaults = (
   //FIXME audric to do put the default
   return _.defaults(optAttributes, {
     expireTimer: 0, // disabled
+    id: uuidv4(),
   });
 };
 

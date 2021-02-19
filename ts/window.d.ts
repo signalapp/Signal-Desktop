@@ -90,7 +90,6 @@ declare global {
     versionInfo: any;
     getStoragePubKey: (key: string) => string;
     getConversations: () => ConversationCollection;
-    getGuid: any;
     SwarmPolling: SwarmPolling;
     SnodePool: {
       getSnodesFor: (string) => any;

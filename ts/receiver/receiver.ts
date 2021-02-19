@@ -2,6 +2,7 @@
 
 import { EnvelopePlus } from './types';
 export { downloadAttachment } from './attachments';
+import uuidv4 from 'uuid';
 
 import {
   addToCache,
@@ -27,6 +28,7 @@ import { getEnvelopeId } from './common';
 import { StringUtils, UserUtils } from '../session/utils';
 import { SignalService } from '../protobuf';
 import { ConversationController } from '../session/conversations';
+import { removeUnprocessed } from '../data/data';
 
 // TODO: check if some of these exports no longer needed
 
@@ -131,7 +133,7 @@ async function handleRequestDetail(
     envelope.senderIdentity = senderIdentity;
   }
 
-  envelope.id = envelope.serverGuid || window.getGuid();
+  envelope.id = envelope.serverGuid || uuidv4();
   envelope.serverTimestamp = envelope.serverTimestamp
     ? envelope.serverTimestamp.toNumber()
     : null;

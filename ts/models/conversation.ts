@@ -936,7 +936,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       destination: this.id,
       recipients: isOutgoing ? this.getRecipients() : undefined,
     };
-
     const message = await this.addSingleMessage(messageAttributes);
 
     // tell the UI this conversation was updated

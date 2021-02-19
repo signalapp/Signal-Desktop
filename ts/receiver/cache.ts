@@ -37,13 +37,10 @@ export async function addToCache(
   if (envelope.senderIdentity) {
     data.senderIdentity = envelope.senderIdentity;
   }
-
   return saveUnprocessed(data, { forceSave: true });
 }
 
 async function fetchAllFromCache(): Promise<Array<any>> {
-  const { textsecure } = window;
-
   const count = await getUnprocessedCount();
 
   if (count > 1500) {
@@ -63,7 +60,6 @@ export async function getAllFromCache() {
   const items = await fetchAllFromCache();
 
   window.log.info('getAllFromCache loaded', items.length, 'saved envelopes');
-  const { textsecure } = window;
 
   return Promise.all(
     _.map(items, async (item: any) => {
@@ -104,7 +100,6 @@ export async function getAllFromCacheForSource(source: string) {
     itemsFromSource.length,
     'saved envelopes'
   );
-  const { textsecure } = window;
 
   return Promise.all(
     _.map(items, async (item: any) => {

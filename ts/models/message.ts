@@ -44,6 +44,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     // this.on('expired', this.onExpired);
     void this.setToExpire();
     autoBind(this);
+
     this.markRead = this.markRead.bind(this);
     // Keep props ready
     const generateProps = (triggerEvent = true) => {
@@ -207,14 +208,16 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return window.i18n('mediaMessage');
     }
     if (this.isExpirationTimerUpdate()) {
-      const { expireTimer } = this.get('expirationTimerUpdate');
-      if (!expireTimer) {
+      const expireTimerUpdate = this.get('expirationTimerUpdate');
+      if (!expireTimerUpdate || !expireTimerUpdate.expireTimer) {
         return window.i18n('disappearingMessagesDisabled');
       }
 
       return window.i18n(
         'timerSetTo',
-        window.Whisper.ExpirationTimerOptions.getAbbreviated(expireTimer || 0)
+        window.Whisper.ExpirationTimerOptions.getAbbreviated(
+          expireTimerUpdate.expireTimer || 0
+        )
       );
     }
     const contacts = this.get('contact');
@@ -1234,11 +1237,11 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     await this.commit();
   }
 
-  public async commit(forceSave = false) {
-    // TODO investigate the meaning of the forceSave
-    const id = await saveMessage(this.attributes, {
-      forceSave,
-    });
+  public async commit() {
+    if (!this.attributes.id) {
+      throw new Error('A message always needs an id');
+    }
+    const id = await saveMessage(this.attributes);
     this.trigger('change');
     return id;
   }

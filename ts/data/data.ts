@@ -65,8 +65,6 @@ export type ServerToken = {
 };
 
 const channelsToMake = {
-  _cleanData,
-
   shutdown,
   close,
   removeDB,
@@ -205,7 +203,7 @@ export function init() {
 
 // When IPC arguments are prepared for the cross-process send, they are JSON.stringified.
 // We can't send ArrayBuffers or BigNumbers (what we get from proto library for dates).
-export async function _cleanData(data: any): Promise<any> {
+function _cleanData(data: any): any {
   const keys = Object.keys(data);
   for (let index = 0, max = keys.length; index < max; index += 1) {
     const key = keys[index];
@@ -691,13 +689,8 @@ export async function updateLastHash(data: any): Promise<void> {
   await channels.updateLastHash(_cleanData(data));
 }
 
-export async function saveMessage(
-  data: MessageModel,
-  options?: { forceSave: boolean }
-): Promise<string> {
-  const id = await channels.saveMessage(_cleanData(data), {
-    forceSave: options?.forceSave,
-  });
+export async function saveMessage(data: MessageModel): Promise<string> {
+  const id = await channels.saveMessage(_cleanData(data));
   window.Whisper.ExpiringMessagesListener.update();
   return id;
 }
@@ -797,7 +790,6 @@ export async function getMessagesByConversation(
     receivedAt,
     type,
   });
-
   return new MessageCollection(messages);
 }
 

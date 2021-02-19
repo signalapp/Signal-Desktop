@@ -489,7 +489,6 @@ describe('Backup', () => {
         const message = await upgradeMessageSchema(messageWithAttachments);
         await window.Signal.Data.saveMessage(message, {
           Message: window.models.Message.MessageModel,
-          forceSave: true,
         });
 
         const conversation = {

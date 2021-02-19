@@ -1716,7 +1716,7 @@ async function getMessageCount() {
   return row['count(*)'];
 }
 
-async function saveMessage(data, { forceSave } = {}) {
+async function saveMessage(data) {
   const {
     body,
     conversationId,
@@ -1742,6 +1742,14 @@ async function saveMessage(data, { forceSave } = {}) {
     expirationStartTimestamp,
   } = data;
 
+  if (!id) {
+    throw new Error('id is required');
+  }
+
+  if (!conversationId) {
+    throw new Error('conversationId is required');
+  }
+
   const payload = {
     $id: id,
     $json: objectToJSON(data),
@@ -1766,46 +1774,10 @@ async function saveMessage(data, { forceSave } = {}) {
     $unread: unread,
   };
 
-  if (id && !forceSave) {
-    await db.run(
-      `UPDATE messages SET
-        json = $json,
-        serverId = $serverId,
-        serverTimestamp = $serverTimestamp,
-        body = $body,
-        conversationId = $conversationId,
-        expirationStartTimestamp = $expirationStartTimestamp,
-        expires_at = $expires_at,
-        expireTimer = $expireTimer,
-        hasAttachments = $hasAttachments,
-        hasFileAttachments = $hasFileAttachments,
-        hasVisualMediaAttachments = $hasVisualMediaAttachments,
-        id = $id,
-        received_at = $received_at,
-        schemaVersion = $schemaVersion,
-        sent = $sent,
-        sent_at = $sent_at,
-        source = $source,
-        sourceDevice = $sourceDevice,
-        type = $type,
-        unread = $unread
-      WHERE id = $id;`,
-      payload
-    );
-
-    return id;
-  }
-
-  const toCreate = {
-    ...data,
-    id: id || uuidv4(),
-  };
-
   await db.run(
-    `INSERT INTO messages (
+    `INSERT OR REPLACE INTO ${MESSAGES_TABLE} (
     id,
     json,
-
     serverId,
     serverTimestamp,
     body,
@@ -1827,7 +1799,6 @@ async function saveMessage(data, { forceSave } = {}) {
   ) values (
     $id,
     $json,
-
     $serverId,
     $serverTimestamp,
     $body,
@@ -1849,12 +1820,11 @@ async function saveMessage(data, { forceSave } = {}) {
   );`,
     {
       ...payload,
-      $id: toCreate.id,
-      $json: objectToJSON(toCreate),
+      $json: objectToJSON(data),
     }
   );
 
-  return toCreate.id;
+  return id;
 }
 
 async function saveSeenMessageHashes(arrayOfHashes) {
@@ -1926,13 +1896,13 @@ async function cleanSeenMessages() {
   });
 }
 
-async function saveMessages(arrayOfMessages, { forceSave } = {}) {
+async function saveMessages(arrayOfMessages) {
   let promise;
 
   db.serialize(() => {
     promise = Promise.all([
       db.run('BEGIN TRANSACTION;'),
-      ...map(arrayOfMessages, message => saveMessage(message, { forceSave })),
+      ...map(arrayOfMessages, message => saveMessage(message)),
       db.run('COMMIT TRANSACTION;'),
     ]);
   });
@@ -2175,7 +2145,7 @@ async function getNextExpiringMessage() {
 async function saveUnprocessed(data, { forceSave } = {}) {
   const { id, timestamp, version, attempts, envelope, senderIdentity } = data;
   if (!id) {
-    throw new Error('saveUnprocessed: id was falsey');
+    throw new Error(`saveUnprocessed: id was falsey: ${id}`);
   }
 
   if (forceSave) {
