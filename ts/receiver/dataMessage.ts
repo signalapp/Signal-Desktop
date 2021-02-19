@@ -491,31 +491,27 @@ function createSentMessage(data: MessageCreationData): MessageModel {
     isPublic,
     receivedAt,
     sourceDevice,
-    unidentifiedStatus,
     expirationStartTimestamp,
     destination,
+    message,
   } = data;
 
-  let unidentifiedDeliveries;
-
-  if (unidentifiedStatus && unidentifiedStatus.length) {
-    sentTo = unidentifiedStatus.map((item: any) => item.destination);
-    const unidentified = _.filter(unidentifiedStatus, (item: any) =>
-      Boolean(item.unidentified)
-    );
-    // eslint-disable-next-line no-param-reassign
-    unidentifiedDeliveries = unidentified.map((item: any) => item.destination);
-  }
-
   const sentSpecificFields = {
-    sent_to: sentTo,
+    sent_to: [],
     sent: true,
-    unidentifiedDeliveries: unidentifiedDeliveries || [],
     expirationStartTimestamp: Math.min(
       expirationStartTimestamp || data.timestamp || now,
       now
     ),
   };
+
+  const messageGroupId = message?.group?.id;
+  let groupId =
+    messageGroupId && messageGroupId.length > 0 ? messageGroupId : null;
+
+  if (groupId) {
+    groupId = PubKey.removeTextSecurePrefixIfNeeded(groupId);
+  }
 
   const messageData = {
     source: UserUtils.getOurPubKeyStrFromCache(),
@@ -525,7 +521,7 @@ function createSentMessage(data: MessageCreationData): MessageModel {
     sent_at: timestamp,
     received_at: isPublic ? receivedAt : now,
     isPublic,
-    conversationId: destination, // conversation ID will might change later (if it is a group)
+    conversationId: groupId ?? destination,
     type: 'outgoing' as MessageModelType,
     ...sentSpecificFields,
   };

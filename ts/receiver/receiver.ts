@@ -194,14 +194,15 @@ export async function queueAllCached() {
 
 export async function queueAllCachedFromSource(source: string) {
   const items = await getAllFromCacheForSource(source);
-  items.forEach(async item => {
+
+  // queue all cached for this source, but keep the order
+  await items.reduce(async (promise, item) => {
+    await promise;
     await queueCached(item);
-  });
+  }, Promise.resolve());
 }
 
 async function queueCached(item: any) {
-  const { textsecure } = window;
-
   try {
     const envelopePlaintext = StringUtils.encode(item.envelope, 'base64');
     const envelopeArray = new Uint8Array(envelopePlaintext);

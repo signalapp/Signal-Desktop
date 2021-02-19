@@ -222,9 +222,7 @@ async function processGroupAvatar(message: MessageModel): Promise<boolean> {
 
 export async function queueAttachmentDownloads(
   message: MessageModel
-): Promise<boolean> {
-  const { Whisper } = window;
-
+): Promise<void> {
   let count = 0;
 
   count += await processNormalAttachments(message, message.get('attachments'));
@@ -241,9 +239,5 @@ export async function queueAttachmentDownloads(
 
   if (count > 0) {
     await saveMessage(message.attributes);
-
-    return true;
   }
-
-  return false;
 }

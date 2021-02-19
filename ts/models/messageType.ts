@@ -37,7 +37,7 @@ export interface MessageAttributes {
   groupInvitation?: any;
   attachments?: any;
   contact?: any;
-  conversationId: any;
+  conversationId: string;
   errors?: any;
   flags?: number;
   hasAttachments: boolean;
@@ -90,7 +90,7 @@ export interface MessageAttributesOptionals {
   groupInvitation?: any;
   attachments?: any;
   contact?: any;
-  conversationId: any;
+  conversationId: string;
   errors?: any;
   flags?: number;
   hasAttachments?: boolean;

@@ -116,10 +116,14 @@ export class MessageSentHandler {
     // Handle the sync logic here
     if (shouldTriggerSyncMessage) {
       if (dataMessage) {
-        await fetchedMessage.sendSyncMessage(
-          dataMessage as SignalService.DataMessage,
-          sentMessage.timestamp
-        );
+        try {
+          await fetchedMessage.sendSyncMessage(
+            dataMessage as SignalService.DataMessage,
+            sentMessage.timestamp
+          );
+        } catch (e) {
+          window.log.warn('Got an error while trying to sendSyncMessage():', e);
+        }
       }
     } else if (shouldMarkMessageAsSynced) {
       fetchedMessage.set({ synced: true });

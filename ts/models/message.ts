@@ -41,6 +41,13 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       })
     );
 
+    if (!this.attributes.id) {
+      throw new Error('A message always needs to have an id.');
+    }
+    if (!this.attributes.conversationId) {
+      throw new Error('A message always needs to have an conversationId.');
+    }
+
     // this.on('expired', this.onExpired);
     void this.setToExpire();
     autoBind(this);
@@ -239,7 +246,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
   public getPropsForTimerNotification() {
     const timerUpdate = this.get('expirationTimerUpdate');
-    if (!timerUpdate) {
+    if (!timerUpdate || !timerUpdate.source) {
       return null;
     }
 
