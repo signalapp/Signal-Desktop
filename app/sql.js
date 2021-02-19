@@ -33,8 +33,6 @@ module.exports = {
   removePasswordHash,
 
   getIdentityKeyById,
-  removeAllIdentityKeys,
-  getAllIdentityKeys,
 
   removeAllSignedPreKeys,
   removeAllContactPreKeys,
@@ -45,9 +43,7 @@ module.exports = {
   createOrUpdateItem,
   getItemById,
   getAllItems,
-  bulkAddItems,
   removeItemById,
-  removeAllItems,
 
   getSwarmNodesForPubkey,
   updateSwarmNodesForPubkey,
@@ -56,7 +52,6 @@ module.exports = {
 
   getConversationCount,
   saveConversation,
-  saveConversations,
   getConversationById,
   savePublicServerToken,
   getPublicServerTokenByServerUrl,
@@ -64,7 +59,6 @@ module.exports = {
   removeConversation,
   getAllConversations,
   getAllPublicConversations,
-  getPublicConversationsByServer,
   getPubkeysInPublicConversation,
   getAllConversationIds,
   getAllGroupsInvolvingId,
@@ -90,7 +84,6 @@ module.exports = {
   getMessageById,
   getAllMessages,
   getAllMessageIds,
-  getAllUnsentMessages,
   getMessagesBySentAt,
   getSeenMessagesByHashList,
   getLastHashBySnode,
@@ -105,7 +98,6 @@ module.exports = {
   updateUnprocessedAttempts,
   updateUnprocessedWithData,
   getUnprocessedById,
-  saveUnprocesseds,
   removeUnprocessed,
   removeAllUnprocessed,
 
@@ -129,10 +121,6 @@ module.exports = {
   isKeyPairAlreadySaved,
   removeAllClosedGroupEncryptionKeyPairs,
 };
-
-function generateUUID() {
-  return uuidv4();
-}
 
 function objectToJSON(data) {
   return JSON.stringify(data);
@@ -1265,34 +1253,29 @@ const IDENTITY_KEYS_TABLE = 'identityKeys';
 async function getIdentityKeyById(id, instance) {
   return getById(IDENTITY_KEYS_TABLE, id, instance);
 }
-async function removeAllIdentityKeys() {
-  return removeAllFromTable(IDENTITY_KEYS_TABLE);
-}
-async function getAllIdentityKeys() {
-  return getAllFromTable(IDENTITY_KEYS_TABLE);
-}
 
+// those removeAll calls are currently only used to cleanup the db from old data
+// TODO remove those and move those removeAll in a migration
 const PRE_KEYS_TABLE = 'preKeys';
-
 async function removeAllPreKeys() {
   return removeAllFromTable(PRE_KEYS_TABLE);
 }
-
 const CONTACT_PRE_KEYS_TABLE = 'contactPreKeys';
-
 async function removeAllContactPreKeys() {
   return removeAllFromTable(CONTACT_PRE_KEYS_TABLE);
 }
-
 const CONTACT_SIGNED_PRE_KEYS_TABLE = 'contactSignedPreKeys';
 
 async function removeAllContactSignedPreKeys() {
   return removeAllFromTable(CONTACT_SIGNED_PRE_KEYS_TABLE);
 }
-
 const SIGNED_PRE_KEYS_TABLE = 'signedPreKeys';
 async function removeAllSignedPreKeys() {
   return removeAllFromTable(SIGNED_PRE_KEYS_TABLE);
+}
+const SESSIONS_TABLE = 'sessions';
+async function removeAllSessions() {
+  return removeAllFromTable(SESSIONS_TABLE);
 }
 
 const GUARD_NODE_TABLE = 'guardNodes';
@@ -1342,19 +1325,8 @@ async function getAllItems() {
   const rows = await db.all('SELECT json FROM items ORDER BY id ASC;');
   return map(rows, row => jsonToObject(row.json));
 }
-async function bulkAddItems(array) {
-  return bulkAdd(ITEMS_TABLE, array);
-}
 async function removeItemById(id) {
   return removeById(ITEMS_TABLE, id);
-}
-async function removeAllItems() {
-  return removeAllFromTable(ITEMS_TABLE);
-}
-
-const SESSIONS_TABLE = 'sessions';
-async function removeAllSessions() {
-  return removeAllFromTable(SESSIONS_TABLE);
 }
 
 async function createOrUpdate(table, data) {
@@ -1376,20 +1348,6 @@ async function createOrUpdate(table, data) {
       $json: objectToJSON(data),
     }
   );
-}
-
-async function bulkAdd(table, array) {
-  let promise;
-
-  db.serialize(() => {
-    promise = Promise.all([
-      db.run('BEGIN TRANSACTION;'),
-      ...map(array, data => createOrUpdate(table, data)),
-      db.run('COMMIT TRANSACTION;'),
-    ]);
-  });
-
-  await promise;
 }
 
 async function getById(table, id, instance) {
@@ -1426,11 +1384,6 @@ async function removeById(table, id) {
 
 async function removeAllFromTable(table) {
   await db.run(`DELETE FROM ${table};`);
-}
-
-async function getAllFromTable(table) {
-  const rows = await db.all(`SELECT json FROM ${table};`);
-  return rows.map(row => jsonToObject(row.json));
 }
 
 // Conversations
@@ -1522,22 +1475,6 @@ async function saveConversation(data) {
       $profileName: profileName,
     }
   );
-}
-
-async function saveConversations(arrayOfConversations) {
-  let promise;
-
-  db.serialize(() => {
-    promise = Promise.all([
-      db.run('BEGIN TRANSACTION;'),
-      ...map(arrayOfConversations, conversation =>
-        saveConversation(conversation)
-      ),
-      db.run('COMMIT TRANSACTION;'),
-    ]);
-  });
-
-  await promise;
 }
 
 async function updateConversation(data) {
@@ -1662,19 +1599,6 @@ async function getAllPublicConversations() {
       type = 'group' AND
       id LIKE 'publicChat:%'
      ORDER BY id ASC;`
-  );
-
-  return map(rows, row => jsonToObject(row.json));
-}
-
-async function getPublicConversationsByServer(server) {
-  const rows = await db.all(
-    `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE
-      server = $server
-     ORDER BY id ASC;`,
-    {
-      $server: server,
-    }
   );
 
   return map(rows, row => jsonToObject(row.json));
@@ -1874,7 +1798,7 @@ async function saveMessage(data, { forceSave } = {}) {
 
   const toCreate = {
     ...data,
-    id: id || generateUUID(),
+    id: id || uuidv4(),
   };
 
   await db.run(
@@ -2105,16 +2029,6 @@ async function getMessageBySender({ source, sourceDevice, sent_at }) {
   return map(rows, row => jsonToObject(row.json));
 }
 
-async function getAllUnsentMessages() {
-  const rows = await db.all(`
-    SELECT json FROM ${MESSAGES_TABLE} WHERE
-      type IN ('outgoing') AND
-      NOT sent
-    ORDER BY sent_at DESC;
-  `);
-  return map(rows, row => jsonToObject(row.json));
-}
-
 async function getUnreadByConversation(conversationId) {
   const rows = await db.all(
     `SELECT json FROM ${MESSAGES_TABLE} WHERE
@@ -2257,6 +2171,7 @@ async function getNextExpiringMessage() {
   return map(rows, row => jsonToObject(row.json));
 }
 
+/* Unproccessed a received messages not yet processed */
 async function saveUnprocessed(data, { forceSave } = {}) {
   const { id, timestamp, version, attempts, envelope, senderIdentity } = data;
   if (!id) {
@@ -2312,22 +2227,6 @@ async function saveUnprocessed(data, { forceSave } = {}) {
   );
 
   return id;
-}
-
-async function saveUnprocesseds(arrayOfUnprocessed, { forceSave } = {}) {
-  let promise;
-
-  db.serialize(() => {
-    promise = Promise.all([
-      db.run('BEGIN TRANSACTION;'),
-      ...map(arrayOfUnprocessed, unprocessed =>
-        saveUnprocessed(unprocessed, { forceSave })
-      ),
-      db.run('COMMIT TRANSACTION;'),
-    ]);
-  });
-
-  await promise;
 }
 
 async function updateUnprocessedAttempts(id, attempts) {
@@ -2484,7 +2383,20 @@ async function removeAll() {
   db.serialize(() => {
     promise = Promise.all([
       db.run('BEGIN TRANSACTION;'),
-      ...getRemoveConfigurationPromises(),
+      db.run('DELETE FROM identityKeys;'),
+      db.run('DELETE FROM items;'),
+      db.run('DELETE FROM preKeys;'),
+      db.run('DELETE FROM sessions;'),
+      db.run('DELETE FROM signedPreKeys;'),
+      db.run('DELETE FROM unprocessed;'),
+      db.run('DELETE FROM contactPreKeys;'),
+      db.run('DELETE FROM contactSignedPreKeys;'),
+      db.run('DELETE FROM servers;'),
+      db.run('DELETE FROM lastHashes;'),
+      db.run(`DELETE FROM ${SENDER_KEYS_TABLE};`),
+      db.run(`DELETE FROM ${NODES_FOR_PUBKEY_TABLE};`),
+      db.run(`DELETE FROM ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE};`),
+      db.run('DELETE FROM seenMessages;'),
       db.run(`DELETE FROM ${CONVERSATIONS_TABLE};`),
       db.run(`DELETE FROM ${MESSAGES_TABLE};`),
       db.run('DELETE FROM attachment_downloads;'),
@@ -2494,25 +2406,6 @@ async function removeAll() {
   });
 
   await promise;
-}
-
-function getRemoveConfigurationPromises() {
-  return [
-    db.run('DELETE FROM identityKeys;'),
-    db.run('DELETE FROM items;'),
-    db.run('DELETE FROM preKeys;'),
-    db.run('DELETE FROM sessions;'),
-    db.run('DELETE FROM signedPreKeys;'),
-    db.run('DELETE FROM unprocessed;'),
-    db.run('DELETE FROM contactPreKeys;'),
-    db.run('DELETE FROM contactSignedPreKeys;'),
-    db.run('DELETE FROM servers;'),
-    db.run('DELETE FROM lastHashes;'),
-    db.run(`DELETE FROM ${SENDER_KEYS_TABLE};`),
-    db.run(`DELETE FROM ${NODES_FOR_PUBKEY_TABLE};`),
-    db.run(`DELETE FROM ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE};`),
-    db.run('DELETE FROM seenMessages;'),
-  ];
 }
 
 async function removeAllConversations() {

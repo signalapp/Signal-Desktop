@@ -73,10 +73,6 @@ const channelsToMake = {
   getPasswordHash,
 
   getIdentityKeyById,
-
-  removeAllIdentityKeys,
-  getAllIdentityKeys,
-
   removeAllPreKeys,
   removeAllSignedPreKeys,
   removeAllContactPreKeys,
@@ -88,9 +84,7 @@ const channelsToMake = {
   createOrUpdateItem,
   getItemById,
   getAllItems,
-  bulkAddItems,
   removeItemById,
-  removeAllItems,
 
   removeAllSessions,
 
@@ -98,7 +92,6 @@ const channelsToMake = {
   updateSwarmNodesForPubkey,
 
   saveConversation,
-  saveConversations,
   getConversationById,
   updateConversation,
   removeConversation,
@@ -106,7 +99,6 @@ const channelsToMake = {
   getAllConversations,
   getAllConversationIds,
   getAllPublicConversations,
-  getPublicConversationsByServer,
   getPubkeysInPublicConversation,
   savePublicServerToken,
   getPublicServerTokenByServerUrl,
@@ -119,7 +111,6 @@ const channelsToMake = {
   saveMessage,
   cleanSeenMessages,
   cleanLastHashes,
-  saveSeenMessageHash,
   updateLastHash,
   saveSeenMessageHashes,
   saveMessages,
@@ -134,7 +125,6 @@ const channelsToMake = {
   getMessageIdsFromServerIds,
   getMessageById,
   getAllMessages,
-  getAllUnsentMessages,
   getAllMessageIds,
   getMessagesBySentAt,
   getExpiredMessages,
@@ -148,7 +138,6 @@ const channelsToMake = {
   getAllUnprocessed,
   getUnprocessedById,
   saveUnprocessed,
-  saveUnprocesseds,
   updateUnprocessedAttempts,
   updateUnprocessedWithData,
   removeUnprocessed,
@@ -442,14 +431,6 @@ export async function getIdentityKeyById(
   return keysToArrayBuffer(IDENTITY_KEY_KEYS, data);
 }
 
-export async function removeAllIdentityKeys(): Promise<void> {
-  await channels.removeAllIdentityKeys();
-}
-export async function getAllIdentityKeys() {
-  const keys = await channels.getAllIdentityKeys();
-  return keys.map((key: any) => keysToArrayBuffer(IDENTITY_KEY_KEYS, key));
-}
-
 // Those removeAll are not used anymore except to cleanup the app since we removed all of those tables
 export async function removeAllPreKeys(): Promise<void> {
   await channels.removeAllPreKeys();
@@ -508,19 +489,8 @@ export async function getAllItems(): Promise<Array<StorageItem>> {
     return Array.isArray(keys) ? keysToArrayBuffer(keys, item) : item;
   });
 }
-export async function bulkAddItems(array: Array<StorageItem>): Promise<void> {
-  const updated = _.map(array, data => {
-    const { id } = data;
-    const keys = (ITEM_KEYS as any)[id];
-    return Array.isArray(keys) ? keysFromArrayBuffer(keys, data) : data;
-  });
-  await channels.bulkAddItems(updated);
-}
 export async function removeItemById(id: string): Promise<void> {
   await channels.removeItemById(id);
-}
-export async function removeAllItems(): Promise<void> {
-  await channels.removeAllItems();
 }
 // Sessions
 export async function removeAllSessions(): Promise<void> {
@@ -583,13 +553,6 @@ export async function removeAllClosedGroupEncryptionKeyPairs(
 export async function saveConversation(data: ConversationType): Promise<void> {
   const cleaned = _.omit(data, 'isOnline');
   await channels.saveConversation(cleaned);
-}
-
-export async function saveConversations(
-  data: Array<ConversationType>
-): Promise<void> {
-  const cleaned = data.map(d => _.omit(d, 'isOnline'));
-  await channels.saveConversations(cleaned);
 }
 
 export async function getConversationById(
@@ -670,17 +633,6 @@ export async function getPublicServerTokenByServerUrl(
   const token = await channels.getPublicServerTokenByServerUrl(serverUrl);
   return token;
 }
-
-export async function getPublicConversationsByServer(
-  server: string
-): Promise<ConversationCollection> {
-  const conversations = await channels.getPublicConversationsByServer(server);
-
-  const collection = new ConversationCollection();
-  collection.add(conversations);
-  return collection;
-}
-
 export async function getAllGroupsInvolvingId(
   id: string
 ): Promise<ConversationCollection> {
@@ -739,13 +691,6 @@ export async function updateLastHash(data: any): Promise<void> {
   await channels.updateLastHash(_cleanData(data));
 }
 
-export async function saveSeenMessageHash(data: {
-  expiresAt: number;
-  hash: string;
-}): Promise<void> {
-  await channels.saveSeenMessageHash(_cleanData(data));
-}
-
 export async function saveMessage(
   data: MessageModel,
   options?: { forceSave: boolean }
@@ -801,11 +746,6 @@ export async function getMessageById(id: string): Promise<MessageModel | null> {
 // For testing only
 export async function getAllMessages(): Promise<MessageCollection> {
   const messages = await channels.getAllMessages();
-  return new MessageCollection(messages);
-}
-
-export async function getAllUnsentMessages(): Promise<MessageCollection> {
-  const messages = await channels.getAllUnsentMessages();
   return new MessageCollection(messages);
 }
 
@@ -951,17 +891,6 @@ export async function saveUnprocessed(
     options?.forceSave || false
   );
   return id;
-}
-
-export async function saveUnprocesseds(
-  arrayOfUnprocessed: Array<any>,
-  options?: {
-    forceSave: boolean;
-  }
-): Promise<any> {
-  await channels.saveUnprocesseds(_cleanData(arrayOfUnprocessed), {
-    forceSave: options?.forceSave || false,
-  });
 }
 
 export async function updateUnprocessedAttempts(
