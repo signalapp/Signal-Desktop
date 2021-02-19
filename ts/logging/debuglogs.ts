@@ -4,7 +4,7 @@
 import FormData from 'form-data';
 import { gzip } from 'zlib';
 import pify from 'pify';
-import got from 'got';
+import got, { Response } from 'got';
 import { getUserAgent } from '../util/getUserAgent';
 
 const BASE_URL = 'https://debuglogs.org';
@@ -68,9 +68,18 @@ export const uploadDebugLogs = async (
   });
 
   window.log.info('Debug log upload starting...');
-  const { statusCode } = await got.post(url, { headers, body: form });
-  if (statusCode !== 204) {
-    throw new Error(`Failed to upload to S3, got status ${statusCode}`);
+  try {
+    const { statusCode, body } = await got.post(url, { headers, body: form });
+    if (statusCode !== 204) {
+      throw new Error(
+        `Failed to upload to S3, got status ${statusCode}, body '${body}'`
+      );
+    }
+  } catch (error) {
+    const response = error.response as Response<string>;
+    throw new Error(
+      `Got threw on upload to S3, got status ${response?.statusCode}, body '${response?.body}'  `
+    );
   }
   window.log.info('Debug log upload complete.');
 
