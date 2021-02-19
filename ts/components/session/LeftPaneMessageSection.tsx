@@ -469,8 +469,20 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     groupName: string,
     groupMembers: Array<ContactType>
   ) {
-    await MainViewController.createClosedGroup(groupName, groupMembers, () => {
-      this.handleToggleOverlay(undefined);
+    if (this.state.loading) {
+      window.log.warn('Closed group creation already in progress');
+      return;
+    }
+    this.setState({ loading: true }, async () => {
+      const groupCreated = await MainViewController.createClosedGroup(
+        groupName,
+        groupMembers
+      );
+
+      if (groupCreated) {
+        this.handleToggleOverlay(undefined);
+      }
+      this.setState({ loading: false });
     });
   }
 
