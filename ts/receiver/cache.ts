@@ -24,6 +24,7 @@ export async function addToCache(
   plaintext: ArrayBuffer
 ) {
   const { id } = envelope;
+  window.log.info(`adding to cache envelope: ${id}`);
 
   const encodedEnvelope = StringUtils.decode(plaintext, 'base64');
   const data: any = {
@@ -37,7 +38,7 @@ export async function addToCache(
   if (envelope.senderIdentity) {
     data.senderIdentity = envelope.senderIdentity;
   }
-  return saveUnprocessed(data, { forceSave: true });
+  return saveUnprocessed(data);
 }
 
 async function fetchAllFromCache(): Promise<Array<any>> {

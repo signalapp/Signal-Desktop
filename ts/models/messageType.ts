@@ -128,7 +128,7 @@ export interface MessageAttributesOptionals {
 export const fillMessageAttributesWithDefaults = (
   optAttributes: MessageAttributesOptionals
 ): MessageAttributes => {
-  //FIXME audric to do put the default
+  //FIXME to do put the default
   return _.defaults(optAttributes, {
     expireTimer: 0, // disabled
     id: uuidv4(),

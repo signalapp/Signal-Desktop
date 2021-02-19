@@ -456,7 +456,6 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
     serverTimestamp,
   } = data;
 
-  const type = 'incoming';
   const messageGroupId = message?.group?.id;
   let groupId =
     messageGroupId && messageGroupId.length > 0 ? messageGroupId : null;
@@ -473,7 +472,7 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
     serverTimestamp,
     received_at: receivedAt || Date.now(),
     conversationId: groupId ?? source,
-    type,
+    type: 'incoming',
     direction: 'incoming', // +
     unread: 1, // +
     isPublic, // +
@@ -484,7 +483,6 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
 
 function createSentMessage(data: MessageCreationData): MessageModel {
   const now = Date.now();
-  let sentTo = [];
 
   const {
     timestamp,

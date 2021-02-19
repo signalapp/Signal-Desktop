@@ -699,9 +699,7 @@ export async function saveMessages(
   arrayOfMessages: any,
   options?: { forceSave: boolean }
 ): Promise<void> {
-  await channels.saveMessages(_cleanData(arrayOfMessages), {
-    forceSave: options?.forceSave,
-  });
+  await channels.saveMessages(_cleanData(arrayOfMessages));
 }
 
 export async function removeMessage(id: string): Promise<void> {
@@ -872,16 +870,8 @@ export async function getUnprocessedById(id: string): Promise<any> {
   return channels.getUnprocessedById(id);
 }
 
-export async function saveUnprocessed(
-  data: any,
-  options?: {
-    forceSave: boolean;
-  }
-): Promise<string> {
-  const id = await channels.saveUnprocessed(
-    _cleanData(data),
-    options?.forceSave || false
-  );
+export async function saveUnprocessed(data: any): Promise<string> {
+  const id = await channels.saveUnprocessed(_cleanData(data));
   return id;
 }
 

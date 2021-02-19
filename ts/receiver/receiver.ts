@@ -109,7 +109,6 @@ async function handleRequestDetail(
   options: ReqOptions,
   lastPromise: Promise<any>
 ): Promise<void> {
-  const { textsecure } = window;
   const envelope: any = SignalService.Envelope.decode(plaintext);
 
   // After this point, decoding errors are not the server's

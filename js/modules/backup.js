@@ -982,9 +982,7 @@ async function saveAllMessages(rawMessages) {
 
     const { conversationId } = messages[0];
 
-    await window.Signal.Data.saveMessages(messages, {
-      forceSave: true,
-    });
+    await window.Signal.Data.saveMessages(messages);
 
     window.log.info(
       'Saved',

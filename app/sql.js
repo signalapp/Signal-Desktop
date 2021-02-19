@@ -2141,50 +2141,28 @@ async function getNextExpiringMessage() {
 }
 
 /* Unproccessed a received messages not yet processed */
-async function saveUnprocessed(data, { forceSave } = {}) {
+async function saveUnprocessed(data) {
   const { id, timestamp, version, attempts, envelope, senderIdentity } = data;
   if (!id) {
     throw new Error(`saveUnprocessed: id was falsey: ${id}`);
   }
 
-  if (forceSave) {
-    await db.run(
-      `INSERT INTO unprocessed (
-        id,
-        timestamp,
-        version,
-        attempts,
-        envelope,
-        senderIdentity
-      ) values (
-        $id,
-        $timestamp,
-        $version,
-        $attempts,
-        $envelope,
-        $senderIdentity
-      );`,
-      {
-        $id: id,
-        $timestamp: timestamp,
-        $version: version,
-        $attempts: attempts,
-        $envelope: envelope,
-        $senderIdentity: senderIdentity,
-      }
-    );
-
-    return id;
-  }
-
   await db.run(
-    `UPDATE unprocessed SET
-      timestamp = $timestamp,
-      version = $version,
-      attempts = $attempts,
-      envelope = $envelope,
-      senderIdentity = $senderIdentity
-    WHERE id = $id;`,
+    `INSERT OR REPLACE INTO unprocessed (
+      id,
+      timestamp,
+      version,
+      attempts,
+      envelope,
+      senderIdentity
+    ) values (
+      $id,
+      $timestamp,
+      $version,
+      $attempts,
+      $envelope,
+      $senderIdentity
+    );`,
     {
       $id: id,
       $timestamp: timestamp,
