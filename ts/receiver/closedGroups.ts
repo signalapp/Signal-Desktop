@@ -742,9 +742,23 @@ async function handleClosedGroupMemberLeft(
   }
 
   if (didAdminLeave) {
+    window.SwarmPolling.removePubkey(groupPublicKey);
+
+    await removeAllClosedGroupEncryptionKeyPairs(groupPublicKey);
+    // Disable typing
+    // if the admin was remove and we are the admin, it can only be voluntary
+    if (isCurrentUserAdmin) {
+      convo.set('left', true);
+    } else {
+      convo.set('isKickedFromGroup', true);
+    }
+  }
+  const didWeLeaveFromAnotherDevice = !members.includes(ourPubkey);
+
+  if (didWeLeaveFromAnotherDevice) {
     await removeAllClosedGroupEncryptionKeyPairs(groupPublicKey);
     // Disable typing:
-    convo.set('isKickedFromGroup', true);
+    convo.set('left', true);
     window.SwarmPolling.removePubkey(groupPublicKey);
   }
 

@@ -35,9 +35,6 @@ export async function updateProfile(
       !prevPointer || !_.isEqual(prevPointer, profile.profilePicture);
 
     if (needsUpdate) {
-      conversation.set('avatarPointer', profile.profilePicture);
-      conversation.set('profileKey', profileKey);
-
       const downloaded = await downloadAttachment({
         url: profile.profilePicture,
         isRaw: true,
@@ -61,6 +58,9 @@ export async function updateProfile(
             ...downloaded,
             data: decryptedData,
           });
+          // Only update the convo if the download and decrypt is a success
+          conversation.set('avatarPointer', profile.profilePicture);
+          conversation.set('profileKey', profileKey);
           ({ path } = upgraded);
         } catch (e) {
           window.log.error(`Could not decrypt profile image: ${e}`);
