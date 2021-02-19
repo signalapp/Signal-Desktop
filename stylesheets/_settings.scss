@@ -26,6 +26,21 @@
       border-color: $color-gray-45;
     }
   }
+  .settings-header{
+    margin: 0 auto;
+    position: fixed;
+    top: 0;
+    background-color: inherit;
+    width: 85%;
+    height: 60px;
+    padding: 30px 0;
+}
+
+.settings-header h2{
+    display:inline-block;
+    margin:0;
+}
+
   .device-name-settings {
     text-align: center;
     margin-bottom: 1em;
