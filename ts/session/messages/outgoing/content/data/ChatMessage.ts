@@ -72,9 +72,16 @@ export class ChatMessage extends DataMessage {
     this.quote = params.quote;
     this.expireTimer = params.expireTimer;
     if (params.lokiProfile && params.lokiProfile.profileKey) {
-      this.profileKey = new Uint8Array(
-        ByteBuffer.wrap(params.lokiProfile.profileKey).toArrayBuffer()
-      );
+      if (
+        params.lokiProfile.profileKey instanceof Uint8Array ||
+        (params.lokiProfile.profileKey as any) instanceof ByteBuffer
+      ) {
+        this.profileKey = new Uint8Array(params.lokiProfile.profileKey);
+      } else {
+        this.profileKey = new Uint8Array(
+          ByteBuffer.wrap(params.lokiProfile.profileKey).toArrayBuffer()
+        );
+      }
     }
 
     this.displayName = params.lokiProfile && params.lokiProfile.displayName;
@@ -88,8 +95,11 @@ export class ChatMessage extends DataMessage {
     syncTarget: string,
     sentTimestamp: number
   ) {
+    // the dataMessage.profileKey is of type ByteBuffer. We need to make it a Uint8Array
     const lokiProfile: any = {
-      profileKey: dataMessage.profileKey,
+      profileKey: new Uint8Array(
+        (dataMessage.profileKey as any).toArrayBuffer()
+      ),
     };
 
     if ((dataMessage as any)?.$type?.name !== 'DataMessage') {
