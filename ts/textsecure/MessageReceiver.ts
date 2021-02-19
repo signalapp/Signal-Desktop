@@ -1106,7 +1106,7 @@ class MessageReceiverInner extends EventTarget {
         }
 
         if (uuid && deviceId) {
-          await this.lightSessionReset(uuid, deviceId);
+          await this.maybeLightSessionReset(uuid, deviceId);
         } else {
           const envelopeId = this.getEnvelopeId(envelope);
           window.log.error(
@@ -1145,7 +1145,7 @@ class MessageReceiverInner extends EventTarget {
     window.storage.put('sessionResets', sessionResets);
   }
 
-  async lightSessionReset(uuid: string, deviceId: number) {
+  async maybeLightSessionReset(uuid: string, deviceId: number): Promise<void> {
     const id = `${uuid}.${deviceId}`;
 
     try {
@@ -1155,48 +1155,27 @@ class MessageReceiverInner extends EventTarget {
       ) as SessionResetsType;
       const lastReset = sessionResets[id];
 
+      // We emit this event every time we encounter an error, not just when we reset the
+      //   session. This is because a message might have been lost with every decryption
+      //   failure.
+      const event = new Event('light-session-reset');
+      event.senderUuid = uuid;
+      this.dispatchAndWait(event);
+
       if (lastReset && !this.isOverHourIntoPast(lastReset)) {
         window.log.warn(
-          `lightSessionReset: Skipping session reset for ${id}, last reset at ${lastReset}`
+          `maybeLightSessionReset/${id}: Skipping session reset, last reset at ${lastReset}`
         );
         return;
       }
+
       sessionResets[id] = Date.now();
       window.storage.put('sessionResets', sessionResets);
 
-      // First, fetch this conversation
-      const conversationId = window.ConversationController.ensureContactIds({
-        uuid,
-      });
-      assert(conversationId, 'lightSessionReset: missing conversationId');
-
-      const conversation = window.ConversationController.get(conversationId);
-      assert(conversation, 'lightSessionReset: missing conversation');
-
-      window.log.warn(`lightSessionReset: Resetting session for ${id}`);
-
-      // Archive open session with this device
-      const address = new window.libsignal.SignalProtocolAddress(
-        uuid,
-        deviceId
-      );
-      const sessionCipher = new window.libsignal.SessionCipher(
-        window.textsecure.storage.protocol,
-        address
-      );
-
-      await sessionCipher.closeOpenSessionForDevice();
-
-      // Send a null message with newly-created session
-      const sendOptions = conversation.getSendOptions();
-      await window.textsecure.messaging.sendNullMessage({ uuid }, sendOptions);
-
-      // Emit event for app to put item into conversation timeline
-      const event = new Event('light-session-reset');
-      event.senderUuid = uuid;
-      await this.dispatchAndWait(event);
+      await this.lightSessionReset(uuid, deviceId);
     } catch (error) {
-      // If we failed to do the session reset, then we'll allow another attempt
+      // If we failed to do the session reset, then we'll allow another attempt sooner
+      //   than one hour from now.
       const sessionResets = window.storage.get(
         'sessionResets',
         {}
@@ -1205,8 +1184,39 @@ class MessageReceiverInner extends EventTarget {
       window.storage.put('sessionResets', sessionResets);
 
       const errorString = error && error.stack ? error.stack : error;
-      window.log.error('lightSessionReset: Enountered error', errorString);
+      window.log.error(
+        `maybeLightSessionReset/${id}: Enountered error`,
+        errorString
+      );
     }
+  }
+
+  async lightSessionReset(uuid: string, deviceId: number): Promise<void> {
+    const id = `${uuid}.${deviceId}`;
+
+    // First, fetch this conversation
+    const conversationId = window.ConversationController.ensureContactIds({
+      uuid,
+    });
+    assert(conversationId, `lightSessionReset/${id}: missing conversationId`);
+
+    const conversation = window.ConversationController.get(conversationId);
+    assert(conversation, `lightSessionReset/${id}: missing conversation`);
+
+    window.log.warn(`lightSessionReset/${id}: Resetting session`);
+
+    // Archive open session with this device
+    const address = new window.libsignal.SignalProtocolAddress(uuid, deviceId);
+    const sessionCipher = new window.libsignal.SessionCipher(
+      window.textsecure.storage.protocol,
+      address
+    );
+
+    await sessionCipher.closeOpenSessionForDevice();
+
+    // Send a null message with newly-created session
+    const sendOptions = conversation.getSendOptions();
+    await window.textsecure.messaging.sendNullMessage({ uuid }, sendOptions);
   }
 
   async decryptPreKeyWhisperMessage(
