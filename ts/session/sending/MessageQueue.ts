@@ -79,7 +79,6 @@ export class MessageQueue {
       if (result.serverId < 0) {
         void MessageSentHandler.handleMessageSentFailure(message, error);
       } else {
-        void MessageSentHandler.handleMessageSentSuccess(message);
         void MessageSentHandler.handlePublicMessageSentSuccess(message, result);
       }
     } catch (e) {
@@ -145,7 +144,7 @@ export class MessageQueue {
         const job = async () => {
           try {
             const wrappedEnvelope = await MessageSender.send(message);
-            void MessageSentHandler.handleMessageSentSuccess(
+            await MessageSentHandler.handleMessageSentSuccess(
               message,
               wrappedEnvelope
             );

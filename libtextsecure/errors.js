@@ -47,18 +47,6 @@
   }
   inherit(ReplayableError, IncomingIdentityKeyError);
 
-  function OutgoingIdentityKeyError(number, message, timestamp, identityKey) {
-    // eslint-disable-next-line prefer-destructuring
-    this.number = number.split('.')[0];
-    this.identityKey = identityKey;
-
-    ReplayableError.call(this, {
-      name: 'OutgoingIdentityKeyError',
-      message: `The identity of ${this.number} has changed.`,
-    });
-  }
-  inherit(ReplayableError, OutgoingIdentityKeyError);
-
   function SendMessageNetworkError(number, jsonData, httpError) {
     this.number = number;
     this.code = httpError.code;
@@ -207,7 +195,6 @@
 
   window.textsecure.SendMessageNetworkError = SendMessageNetworkError;
   window.textsecure.IncomingIdentityKeyError = IncomingIdentityKeyError;
-  window.textsecure.OutgoingIdentityKeyError = OutgoingIdentityKeyError;
   window.textsecure.ReplayableError = ReplayableError;
   window.textsecure.MessageError = MessageError;
   window.textsecure.EmptySwarmError = EmptySwarmError;

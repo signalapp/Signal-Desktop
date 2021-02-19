@@ -6,7 +6,6 @@ export interface LibTextsecure {
   storage: any;
   SendMessageNetworkError: any;
   IncomingIdentityKeyError: any;
-  OutgoingIdentityKeyError: any;
   ReplayableError: any;
   MessageError: any;
   EmptySwarmError: any;

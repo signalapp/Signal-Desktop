@@ -12,7 +12,7 @@ import {
   OpenGroupMessage,
 } from '../../ts/session/messages/outgoing';
 import { ClosedGroupChatMessage } from '../../ts/session/messages/outgoing/content/data/group/ClosedGroupChatMessage';
-import { EncryptionType, PubKey } from '../../ts/session/types';
+import { EncryptionType, PubKey, RawMessage } from '../../ts/session/types';
 import { ToastUtils, UserUtils } from '../../ts/session/utils';
 import {
   fillMessageAttributesWithDefaults,
@@ -665,7 +665,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
   public async getPropsForMessageDetail() {
     const newIdentity = window.i18n('newIdentity');
-    const OUTGOING_KEY_ERROR = 'OutgoingIdentityKeyError';
 
     // We include numbers we didn't successfully send to so we can display errors.
     // Older messages don't have the recipients included on the message, so we fall
@@ -681,11 +680,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     // This will make the error message for outgoing key errors a bit nicer
     const allErrors = (this.get('errors') || []).map((error: any) => {
-      if (error.name === OUTGOING_KEY_ERROR) {
-        // eslint-disable-next-line no-param-reassign
-        error.message = newIdentity;
-      }
-
       return error;
     });
 
@@ -696,9 +690,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const finalContacts = await Promise.all(
       (phoneNumbers || []).map(async id => {
         const errorsForContact = errorsGroupedById[id];
-        const isOutgoingKeyError = Boolean(
-          _.find(errorsForContact, error => error.name === OUTGOING_KEY_ERROR)
-        );
+        const isOutgoingKeyError = false;
 
         const contact = this.findAndFormatContact(id);
         return {
@@ -940,138 +932,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       this.get('errors'),
       e =>
         e.number === number &&
-        (e.name === 'MessageError' ||
-          e.name === 'SendMessageNetworkError' ||
-          e.name === 'OutgoingIdentityKeyError')
+        (e.name === 'MessageError' || e.name === 'SendMessageNetworkError')
     );
     this.set({ errors: errors[1] });
     return errors[0][0];
-  }
-
-  /**
-   * This function is called by inbox_view.js when a message was successfully sent for one device.
-   * So it might be called several times for the same message
-   */
-  public async handleMessageSentSuccess(
-    sentMessage: any,
-    wrappedEnvelope: any
-  ) {
-    let sentTo = this.get('sent_to') || [];
-
-    let isOurDevice = false;
-    if (sentMessage.device) {
-      isOurDevice = UserUtils.isUsFromCache(sentMessage.device);
-    }
-    // FIXME this is not correct and will cause issues with syncing
-    // At this point the only way to check for medium
-    // group is by comparing the encryption type
-    const isClosedGroupMessage =
-      sentMessage.encryption === EncryptionType.ClosedGroup;
-
-    const isOpenGroupMessage =
-      !!sentMessage.group && sentMessage.group instanceof Types.OpenGroup;
-
-    // We trigger a sync message only when the message is not to one of our devices, AND
-    // the message is not for an open group (there is no sync for opengroups, each device pulls all messages), AND
-    // if we did not sync or trigger a sync message for this specific message already
-    const shouldTriggerSyncMessage =
-      !isOurDevice &&
-      !isClosedGroupMessage &&
-      !this.get('synced') &&
-      !this.get('sentSync');
-
-    // A message is synced if we triggered a sync message (sentSync)
-    // and the current message was sent to our device (so a sync message)
-    const shouldMarkMessageAsSynced = isOurDevice && this.get('sentSync');
-
-    const isSessionOrClosedMessage = !isOpenGroupMessage;
-
-    if (isSessionOrClosedMessage) {
-      const contentDecoded = SignalService.Content.decode(
-        sentMessage.plainTextBuffer
-      );
-      const { dataMessage } = contentDecoded;
-
-      /**
-       * We should hit the notify endpoint for push notification only if:
-       *  • It's a one-to-one chat or a closed group
-       *  • The message has either text or attachments
-       */
-      const hasBodyOrAttachments = Boolean(
-        dataMessage &&
-          (dataMessage.body ||
-            (dataMessage.attachments && dataMessage.attachments.length))
-      );
-      const shouldNotifyPushServer =
-        hasBodyOrAttachments && isSessionOrClosedMessage;
-
-      if (shouldNotifyPushServer) {
-        // notify the push notification server if needed
-        if (!wrappedEnvelope) {
-          window.log.warn('Should send PN notify but no wrapped envelope set.');
-        } else {
-          if (!window.LokiPushNotificationServer) {
-            window.LokiPushNotificationServer = new window.LokiPushNotificationServerApi();
-          }
-
-          window.LokiPushNotificationServer.notify(
-            wrappedEnvelope,
-            sentMessage.device
-          );
-        }
-      }
-
-      // Handle the sync logic here
-      if (shouldTriggerSyncMessage) {
-        if (dataMessage) {
-          await this.sendSyncMessage(
-            dataMessage as SignalService.DataMessage,
-            sentMessage.timestamp
-          );
-        }
-      } else if (shouldMarkMessageAsSynced) {
-        this.set({ synced: true });
-      }
-
-      sentTo = _.union(sentTo, [sentMessage.device]);
-    }
-
-    this.set({
-      sent_to: sentTo,
-      sent: true,
-      expirationStartTimestamp: Date.now(),
-      sent_at: sentMessage.timestamp,
-    });
-
-    await this.commit();
-
-    this.getConversation()?.updateLastMessage();
-  }
-
-  public async handleMessageSentFailure(sentMessage: any, error: any) {
-    if (error instanceof Error) {
-      await this.saveErrors(error);
-      if (error.name === 'OutgoingIdentityKeyError') {
-        const c = ConversationController.getInstance().get(sentMessage.device);
-        await c.getProfiles();
-      }
-    }
-    let isOurDevice = false;
-    if (sentMessage.device) {
-      isOurDevice = UserUtils.isUsFromCache(sentMessage.device);
-    }
-
-    const expirationStartTimestamp = Date.now();
-    if (isOurDevice && !this.get('sync')) {
-      this.set({ sentSync: false });
-    }
-    this.set({
-      sent: true,
-      expirationStartTimestamp,
-    });
-    await this.commit();
-
-    this.getConversation()?.updateLastMessage();
   }
 
   public getConversation(): ConversationModel | undefined {
