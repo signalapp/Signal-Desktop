@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import {
@@ -2905,6 +2905,11 @@ async function getCurrentGroupState({
     logId
   );
 
+  const oldVersion = group.version;
+  const newVersion = decryptedGroupState.version;
+  window.log.info(
+    `getCurrentGroupState/${logId}: Applying full group state, from version ${oldVersion} to ${newVersion}.`
+  );
   const newAttributes = await applyGroupState({
     group,
     groupState: decryptedGroupState,
