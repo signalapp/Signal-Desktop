@@ -7,7 +7,6 @@ const { redactAll } = require('../js/modules/privacy');
 const { remove: removeUserConfig } = require('./user_config');
 
 const pify = require('pify');
-const uuidv4 = require('uuid/v4');
 const {
   map,
   isString,

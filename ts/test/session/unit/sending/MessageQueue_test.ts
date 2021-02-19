@@ -80,14 +80,18 @@ describe('MessageQueue', () => {
         done();
       });
 
-      pendingMessageCache.add(
-        device,
-        TestUtils.generateChatMessage(),
-        waitForMessageSentEvent as any
-      );
-
-      messageQueueStub.processPending(device);
-      expect(waitForMessageSentEvent).to.be.fulfilled;
+      void pendingMessageCache
+        .add(
+          device,
+          TestUtils.generateChatMessage(),
+          waitForMessageSentEvent as any
+        )
+        .then(async () => {
+          return messageQueueStub.processPending(device);
+        })
+        .then(() => {
+          expect(waitForMessageSentEvent).to.be.fulfilled;
+        });
     });
 
     it('should remove message from cache', async () => {
@@ -123,7 +127,7 @@ describe('MessageQueue', () => {
           done();
         });
 
-        pendingMessageCache
+        void pendingMessageCache
           .add(device, message, waitForMessageSentEvent as any)
           .then(() => messageQueueStub.processPending(device))
           .then(() => {
@@ -144,7 +148,7 @@ describe('MessageQueue', () => {
           done();
         });
 
-        pendingMessageCache
+        void pendingMessageCache
           .add(device, message, waitForMessageSentEvent as any)
           .then(() => messageQueueStub.processPending(device))
           .then(() => {

@@ -1,6 +1,6 @@
 import { DefaultTheme } from 'styled-components';
 import _ from 'underscore';
-import uuidv4 from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { QuotedAttachmentType } from '../components/conversation/Quote';
 import { AttachmentType } from '../types/Attachment';
 import { Contact } from '../types/Contact';
