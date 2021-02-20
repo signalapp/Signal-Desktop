@@ -114,18 +114,6 @@
           window.setThemeSetting(theme);
         },
       });
-      new CheckboxView({
-        el: this.$('.limit-width'),
-        name: 'limit-width',
-        value: window.initialData.limitWidth,
-        setFn: limit => {
-          $(document.body).removeClass('limit-width');
-          if (limit) {
-            $(document.body).addClass('limit-width');
-          }
-          window.setLimitWidth(limit);
-        },
-      });
       if (Settings.isDrawAttentionSupported()) {
         new CheckboxView({
           el: this.$('.draw-attention-setting'),
@@ -241,7 +229,6 @@
         themeDark: i18n('themeDark'),
         themeSystem: i18n('themeSystem'),
         hideMenuBar: i18n('hideMenuBar'),
-        limitWidth: i18n('limitWidth'),
         clearDataHeader: i18n('clearDataHeader'),
         clearDataButton: i18n('clearDataButton'),
         clearDataExplanation: i18n('clearDataExplanation'),

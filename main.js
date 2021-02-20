@@ -1280,8 +1280,6 @@ installSettingsGetter('theme-setting');
 installSettingsSetter('theme-setting');
 installSettingsGetter('hide-menu-bar');
 installSettingsSetter('hide-menu-bar');
-installSettingsGetter('limit-width');
-installSettingsSetter('limit-width');
 
 installSettingsGetter('notification-setting');
 installSettingsSetter('notification-setting');

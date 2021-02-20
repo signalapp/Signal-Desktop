@@ -51,13 +51,6 @@
       window.setAutoHideMenuBar(hideMenuBar);
       window.setMenuBarVisibility(!hideMenuBar);
     },
-    applyLimitWidth() {
-      const limit = storage.get('limit-width', false);
-      this.$el.removeClass('limit-width');
-      if (limit) {
-        this.$el.addClass('limit-width');
-      }
-    },
     openView(view) {
       this.el.innerHTML = '';
       this.el.append(view.el);

@@ -374,14 +374,6 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         window.setAutoHideMenuBar(value);
         window.setMenuBarVisibility(!value);
       },
-      getLimitWidth: () => window.storage.get('limit-width', false),
-      setLimitWidth: (value: WhatIsThis) => {
-        window.storage.put('limit-width', value);
-        const view = window.owsDesktopApp.appView;
-        if (view) {
-          view.applyLimitWidth();
-        }
-      },
 
       getNotificationSetting: () =>
         window.storage.get('notification-setting', 'message'),

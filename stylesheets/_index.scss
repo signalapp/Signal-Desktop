@@ -16,9 +16,7 @@
 }
 
 .inbox-container {
-  .limit-width & {
-    max-width: 1280px;
-  }
+  max-width: 1280px;
   width: 100%;
   display: flex;
 }
@@ -36,6 +34,15 @@
 
 .conversation-stack {
   flex-grow: 1;
+  border-right: 2px solid $color-gray-02;
+
+  @include dark-theme {
+    border-color: $color-gray-80;
+  }
+
+  @media (max-width: 1280px) {
+    border-right: none;
+  }
 }
 
 .gutter {

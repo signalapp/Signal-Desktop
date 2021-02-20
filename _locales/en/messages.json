@@ -1850,10 +1850,6 @@
     "message": "Hide menu bar",
     "description": "Label text for menu bar visibility setting"
   },
-  "limitWidth": {
-    "message": "Limit width of the app content",
-    "description": "Label text for limit width setting"
-  },
   "startConversation": {
     "message": "Start new conversation…",
     "description": "Label underneath number a user enters that is not an existing contact"
