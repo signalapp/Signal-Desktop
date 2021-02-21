@@ -4,7 +4,7 @@
 export function cleanSearchTerm(searchTerm: string): string {
   const lowercase = searchTerm.toLowerCase();
   const withoutSpecialCharacters = lowercase.replace(
-    /([!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~])/g,
+    /([-!"#$%&'()*+,./\\:;<=>?@[\]^_`{|}~])/g,
     ' '
   );
   const whiteSpaceNormalized = withoutSpecialCharacters.replace(/\s+/g, ' ');
