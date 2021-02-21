@@ -17,9 +17,23 @@
 
   let nextWaitSeconds = 5;
   const checkForUpgrades = async () => {
+    try {
+      window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
+    } catch (e) {
+      // give it a minute
+      log.warn(
+        'Could not check to see if newer version is available cause our pubkey is not set'
+      );
+      nextWaitSeconds = 60;
+      setTimeout(async () => {
+        await checkForUpgrades();
+      }, nextWaitSeconds * 1000); // wait a minute
+      return;
+    }
     const result = await window.tokenlessFileServerAdnAPI.serverRequest(
       'loki/v1/version/client/desktop'
     );
+
     if (
       result &&
       result.response &&
@@ -133,5 +147,4 @@
     window.clientClockSynced = Math.abs(timeDifferential) < maxTimeDifferential;
     return window.clientClockSynced;
   };
-  window.setClockParams();
 })();

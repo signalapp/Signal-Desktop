@@ -181,14 +181,6 @@
     // Update zoom
     window.updateZoomFactor();
 
-    if (
-      window.lokiFeatureFlags.useOnionRequests ||
-      window.lokiFeatureFlags.useFileOnionRequests
-    ) {
-      // Initialize paths for onion requests
-      window.OnionAPI.buildNewOnionPaths();
-    }
-
     const currentPoWDifficulty = storage.get('PoWDifficulty', null);
     if (!currentPoWDifficulty) {
       storage.put('PoWDifficulty', window.getDefaultPoWDifficulty());

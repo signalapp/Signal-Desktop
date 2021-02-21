@@ -64,7 +64,7 @@ const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
     // eslint-disable-next-line no-param-reassign
     options.retry = 0;
     // eslint-disable-next-line no-param-reassign
-    options.requestNumber = window.OnionAPI.assignOnionRequestNumber();
+    options.requestNumber = window.OnionPaths.getInstance().assignOnionRequestNumber();
   }
 
   const payloadObj = {
@@ -97,7 +97,7 @@ const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
 
   let pathNodes = [];
   try {
-    pathNodes = await window.OnionAPI.getOnionPath();
+    pathNodes = await window.OnionPaths.getInstance().getOnionPath();
   } catch (e) {
     log.error(
       `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - getOnionPath Error ${e.code} ${e.message}`

@@ -12,7 +12,9 @@ interface SnodePath {
   bad: boolean;
 }
 
-class OnionPaths {
+export class OnionPaths {
+  private static instance: OnionPaths | null;
+
   private onionPaths: Array<SnodePath> = [];
 
   // This array is meant to store nodes will full info,
@@ -20,6 +22,15 @@ class OnionPaths {
   // some naming issue here it seems)
   private guardNodes: Array<Snode> = [];
   private onionRequestCounter = 0; // Request index for debugging
+  private constructor() {}
+
+  public static getInstance() {
+    if (OnionPaths.instance) {
+      return OnionPaths.instance;
+    }
+    OnionPaths.instance = new OnionPaths();
+    return OnionPaths.instance;
+  }
 
   public async buildNewOnionPaths() {
     // this function may be called concurrently make sure we only have one inflight
@@ -304,5 +315,3 @@ class OnionPaths {
     log.info(`Built ${this.onionPaths.length} onion paths`, this.onionPaths);
   }
 }
-
-export const OnionAPI = new OnionPaths();

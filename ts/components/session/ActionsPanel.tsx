@@ -19,6 +19,7 @@ import {
 } from '../../session/utils/syncUtils';
 import { DAYS } from '../../session/utils/Number';
 import { removeItemById } from '../../data/data';
+import { OnionPaths } from '../../session/onions';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -54,6 +55,15 @@ class ActionsPanelPrivate extends React.Component<Props> {
 
   // fetch the user saved theme from the db, and apply it on mount.
   public componentDidMount() {
+    void window.setClockParams();
+    if (
+      window.lokiFeatureFlags.useOnionRequests ||
+      window.lokiFeatureFlags.useFileOnionRequests
+    ) {
+      // Initialize paths for onion requests
+      void OnionPaths.getInstance().buildNewOnionPaths();
+    }
+
     const theme = window.Events.getThemeSetting();
     window.setTheme(theme);
 
