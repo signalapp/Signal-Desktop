@@ -1055,6 +1055,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         throw new Error('Cannot trigger syncMessage with unknown convo.');
       }
       const syncMessage = ChatMessage.buildSyncMessage(
+        this.id,
         dataMessage,
         conversation.id,
         sentTimestamp
