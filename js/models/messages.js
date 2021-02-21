@@ -1300,6 +1300,7 @@
         // try catch not to be kept
         try {
           const syncMessage = libsession.Messages.Outgoing.ChatMessage.buildSyncMessage(
+            this.id,
             dataMessage,
             this.getConversation().id,
             sentTimestamp
