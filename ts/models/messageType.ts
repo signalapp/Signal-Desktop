@@ -132,6 +132,7 @@ export const fillMessageAttributesWithDefaults = (
   return _.defaults(optAttributes, {
     expireTimer: 0, // disabled
     id: uuidv4(),
+    schemaVersion: window.Signal.Types.Message.CURRENT_SCHEMA_VERSION,
   });
 };
 

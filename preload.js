@@ -476,6 +476,7 @@ if (
     tmp: require('tmp'),
     path: require('path'),
     basePath: __dirname,
+    attachmentsPath: window.Signal.Migrations.attachmentsPath,
     isWindows,
   };
   /* eslint-enable global-require, import/no-extraneous-dependencies */
