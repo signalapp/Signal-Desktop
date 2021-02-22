@@ -20,6 +20,7 @@ import {
 import { DAYS } from '../../session/utils/Number';
 import { removeItemById } from '../../data/data';
 import { OnionPaths } from '../../session/onions';
+import { getMessageQueue } from '../../session/sending';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -63,6 +64,9 @@ class ActionsPanelPrivate extends React.Component<Props> {
       // Initialize paths for onion requests
       void OnionPaths.getInstance().buildNewOnionPaths();
     }
+    // init the messageQueue. In the constructor, we had all not send messages
+    // this call does nothing except calling the constructor, which will continue sending message in the pipeline
+    getMessageQueue();
 
     const theme = window.Events.getThemeSetting();
     window.setTheme(theme);
