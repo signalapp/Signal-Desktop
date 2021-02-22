@@ -225,7 +225,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       return;
     }
 
-    this.toggleEmojiPanel();
+    this.hideEmojiPanel();
   }
 
   private showEmojiPanel() {
