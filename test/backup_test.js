@@ -288,7 +288,15 @@ describe('Backup', () => {
       }
 
       async function clearAllData() {
-        await textsecure.storage.protocol.removeAllData();
+        await window.Signal.Data.removeAll();
+
+        window.storage.reset();
+        await window.storage.fetch();
+
+        window.getConversationController().reset();
+        window.BlockedNumberController.reset();
+        await window.getConversationController().load();
+        await window.BlockedNumberController.load();
         await fse.emptyDir(attachmentsPath);
       }
 
