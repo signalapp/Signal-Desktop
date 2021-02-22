@@ -11,7 +11,7 @@ import { AttachmentType } from '../../../types/Attachment';
 import { GroupNotification } from '../../conversation/GroupNotification';
 import { GroupInvitation } from '../../conversation/GroupInvitation';
 import { ConversationType } from '../../../state/ducks/conversations';
-import { SessionLastSeenIndicator } from './SessionLastSeedIndicator';
+import { SessionLastSeenIndicator } from './SessionLastSeenIndicator';
 import { ToastUtils } from '../../../session/utils';
 import { TypingBubble } from '../../conversation/TypingBubble';
 import { ConversationController } from '../../../session/conversations';
