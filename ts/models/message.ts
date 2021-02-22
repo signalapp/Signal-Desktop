@@ -1020,7 +1020,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     await this.commit();
   }
 
-  public async sendSyncMessageOnly(dataMessage: any) {
+  public async sendSyncMessageOnly(dataMessage: DataMessage) {
     const now = Date.now();
     this.set({
       sent_to: [UserUtils.getOurPubKeyStrFromCache()],

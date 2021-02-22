@@ -211,7 +211,7 @@ async function handleExpireTimer(
       await conversation.updateExpirationTimer(
         expireTimer,
         source,
-        message.get('received_at'),
+        message.get('sent_at') || message.get('received_at'),
         {
           fromGroupUpdate: message.isGroupUpdate(), // WHAT DOES GROUP UPDATE HAVE TO DO WITH THIS???
         }

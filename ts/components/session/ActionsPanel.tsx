@@ -66,7 +66,7 @@ class ActionsPanelPrivate extends React.Component<Props> {
     }
     // init the messageQueue. In the constructor, we had all not send messages
     // this call does nothing except calling the constructor, which will continue sending message in the pipeline
-    getMessageQueue();
+    void getMessageQueue().processAllPending();
 
     const theme = window.Events.getThemeSetting();
     window.setTheme(theme);

@@ -169,7 +169,11 @@ export class MessageQueue {
     });
   }
 
-  private async processAllPending() {
+  /**
+   * This method should be called when the app is started and the user loggedin to fetch
+   * existing message waiting to be sent in the cache of message
+   */
+  public async processAllPending() {
     const devices = await this.pendingMessageCache.getDevices();
     const promises = devices.map(async device => this.processPending(device));
 
