@@ -474,7 +474,7 @@ function ThumbnailImage({
     <div
       className="module-quote__icon-container"
       style={
-        loadedSrc ? { backgroundImage: `url('${escape(loadedSrc)}')` } : {}
+        loadedSrc ? { backgroundImage: `url('${encodeURI(loadedSrc)}')` } : {}
       }
     >
       {children}
