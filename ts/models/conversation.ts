@@ -622,12 +622,15 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       embeddedContact && embeddedContact.length > 0
         ? getName(embeddedContact[0])
         : '';
-
+    const quotedAttachments = await this.getQuoteAttachment(
+      attachments,
+      preview
+    );
     return {
       author: contact.id,
       id: quotedMessage.get('sent_at'),
       text: body || embeddedContactName,
-      attachments: await this.getQuoteAttachment(attachments, preview),
+      attachments: quotedAttachments,
     };
   }
 
@@ -1446,11 +1449,15 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       })
     );
 
+    await this.updateLastMessage();
+
     return toDeleteLocally;
   }
 
   public async removeMessage(messageId: any) {
     await dataRemoveMessage(messageId);
+    this.updateLastMessage();
+
     window.Whisper.events.trigger('messageDeleted', {
       conversationKey: this.id,
       messageId,

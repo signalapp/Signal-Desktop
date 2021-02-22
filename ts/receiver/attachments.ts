@@ -225,7 +225,10 @@ export async function queueAttachmentDownloads(
 ): Promise<void> {
   let count = 0;
 
-  count += await processNormalAttachments(message, message.get('attachments'));
+  count += await processNormalAttachments(
+    message,
+    message.get('attachments') || []
+  );
 
   count += await processPreviews(message);
 
