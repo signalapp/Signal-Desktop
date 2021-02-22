@@ -232,10 +232,6 @@ describe('MessageQueue', () => {
 
           const message = TestUtils.generateOpenGroupMessage();
           await messageQueueStub.sendToOpenGroup(message);
-          expect(messageSentHandlerSuccessStub.callCount).to.equal(1);
-          expect(
-            messageSentHandlerSuccessStub.lastCall.args[0].identifier
-          ).to.equal(message.identifier);
           expect(messageSentPublicHandlerSuccessStub.callCount).to.equal(1);
           expect(
             messageSentPublicHandlerSuccessStub.lastCall.args[0].identifier
