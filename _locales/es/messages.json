@@ -32,7 +32,7 @@
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuCreateStickers": {
-        "message": "Crear/subir paquete de cromos",
+        "message": "Crear/subir paquete de stickers",
         "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
@@ -238,7 +238,7 @@
         "description": "Button to allow the user to find a folder on disk"
     },
     "chooseFile": {
-        "message": "Seleccionar adjunto",
+        "message": "Seleccionar archivo adjunto",
         "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
@@ -524,15 +524,15 @@
         "description": ""
     },
     "media": {
-        "message": "Adjuntos",
+        "message": "Archivos adjuntos",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
-        "message": "No hay ningún adjunto en este chat",
+        "message": "No hay ningún archivo adjunto en este chat",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "allMedia": {
-        "message": "Adjuntos",
+        "message": "Archivos adjuntos",
         "description": "Header for the media gallery"
     },
     "documents": {
@@ -576,7 +576,7 @@
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
-        "message": "Tipo de adjunto no permitido por razones se seguridad",
+        "message": "Tipo de archivo adjunto no permitido por razones se seguridad",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
@@ -604,7 +604,7 @@
         }
     },
     "stagedImageAttachment": {
-        "message": "Preparando adjunto múltiple: $path$",
+        "message": "Preparando archivo adjunto múltiple: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -614,15 +614,15 @@
         }
     },
     "oneNonImageAtATimeToast": {
-        "message": "Al incluír un adjunto que no es una imagen, el límite es un adjunto por mensaje.",
+        "message": "Al incluir un archivo adjunto que no es una imagen, el límite es un adjunto por mensaje.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAndNonImageAttachments": {
-        "message": "No se pueden combinar adjuntos de otro tipo junto a imágenes.",
+        "message": "No se pueden combinar archivos adjuntos de otro tipo junto a imágenes.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
-        "message": "No se pueden añadir más adjuntos a este mensaje.",
+        "message": "No se pueden añadir más archivos adjuntos a este mensaje.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
@@ -630,7 +630,7 @@
         "description": ""
     },
     "unableToLoadAttachment": {
-        "message": "Fallo al cargar el adjunto seleccionado.",
+        "message": "Fallo al cargar el archivo adjunto seleccionado.",
         "description": ""
     },
     "disconnected": {
@@ -694,7 +694,7 @@
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
-        "message": "Creador de paquetes de cromos",
+        "message": "Creador de paquetes de stickers",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
@@ -838,7 +838,7 @@
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
     "downloadAttachment": {
-        "message": "Descargar adjunto",
+        "message": "Descargar archivo adjunto",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "reactToMessage": {
@@ -874,11 +874,11 @@
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "Las notas de voz sólo pueden tener un adjunto.",
+        "message": "Las notas de voz sólo pueden tener un archivo adjunto.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "attachmentSaved": {
-        "message": "Adjunto guardado. Haz click para mostrar la carpeta.",
+        "message": "Archivo adjunto guardado. Haz click para mostrar la carpeta.",
         "description": "Shown after user selects to save to downloads",
         "placeholders": {
             "name": {
@@ -1054,7 +1054,7 @@
         "description": ""
     },
     "viewRecentMedia": {
-        "message": "Ver adjuntos recientes",
+        "message": "Ver archivos adjuntos recientes",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
@@ -1890,7 +1890,7 @@
         "description": "Label text for system theme"
     },
     "noteToSelf": {
-        "message": "Notas personales",
+        "message": "Notas privadas",
         "description": "Name for the conversation with your own phone number"
     },
     "noteToSelfHero": {
@@ -2058,7 +2058,7 @@
         "description": "Shown in notifications and in the left pane when a generic file is received."
     },
     "message--getNotificationText--stickers": {
-        "message": "Mensaje con cromo (sticker)",
+        "message": "Mensaje con sticker",
         "description": "Shown in notifications and in the left pane instead of sticker image."
     },
     "message--getNotificationText--text-with-emoji": {
@@ -2096,15 +2096,15 @@
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "stickers--toast--InstallFailed": {
-        "message": "Fallo al instalar el paquete de cromos (stickers)",
+        "message": "Fallo al instalar el paquete de stickers",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
     },
     "stickers--StickerManager--InstalledPacks": {
-        "message": "Cromos instalados (stickers)",
+        "message": "Stickers instalados",
         "description": "Shown in the sticker pack manager above your installed sticker packs."
     },
     "stickers--StickerManager--InstalledPacks--Empty": {
-        "message": "No hay ningún paquete de cromos (stickers) instalado ",
+        "message": "No hay ningún paquete de stickers instalado ",
         "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
     },
     "stickers--StickerManager--BlessedPacks": {
@@ -2112,15 +2112,15 @@
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
-        "message": "No hay cromos de artistas de Signal disponibles",
+        "message": "No hay stickers de artistas de Signal disponibles",
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
-        "message": "Cromos recibidos",
+        "message": "Stickers recibidos",
         "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
     },
     "stickers--StickerManager--ReceivedPacks--Empty": {
-        "message": "Los cromos recibidos en mensajes aparecerán aquí",
+        "message": "Los stickers recibidos en mensajes aparecerán aquí",
         "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
     },
     "stickers--StickerManager--Install": {
@@ -2132,27 +2132,27 @@
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--UninstallWarning": {
-        "message": "No podrás reinstalar este paquete de cromos si no conservas el mensaje en el que se recibió.",
+        "message": "No podrás reinstalar este paquete de stickers si no conservas el mensaje en el que se recibió.",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--Introduction--Image": {
-        "message": "¡Los cromos (stickers) han llegado!",
+        "message": "¡Los stickers han llegado!",
         "description": "Alt text on a tooltip image when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Title": {
-        "message": "Presentamos los cromos (stickers)",
+        "message": "Presentamos los stickers",
         "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Body": {
-        "message": "¿Por qué usar palabras si puedes usar cromos (stickers)?",
+        "message": "¿Por qué usar palabras si puedes usar stickers?",
         "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerPicker--Open": {
-        "message": "Abrir cajón de cromos",
+        "message": "Abrir cajón de stickers",
         "description": "Label for the open button for the sticker picker"
     },
     "stickers--StickerPicker--AddPack": {
-        "message": "Agregar paquete de cromos",
+        "message": "Agregar paquete de stickers",
         "description": "Label for the add pack button in the sticker picker"
     },
     "stickers--StickerPicker--NextPage": {
@@ -2164,39 +2164,39 @@
         "description": "Label for the previous page button in the sticker picker"
     },
     "stickers--StickerPicker--Recents": {
-        "message": "Cromos recientes",
+        "message": "Stickers recientes",
         "description": "Label for the recent stickers button in the sticker picker"
     },
     "stickers--StickerPicker--DownloadError": {
-        "message": "Fallo al descargar alguno de los cromos.",
+        "message": "Fallo al descargar alguno de los stickers.",
         "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
     },
     "stickers--StickerPicker--DownloadPending": {
-        "message": "Instalando paquete de cromos ...",
+        "message": "Instalando paquete de stickers …",
         "description": "Shown in the sticker picker when one or more stickers are still downloading."
     },
     "stickers--StickerPicker--Empty": {
-        "message": "No se han encontrado cromos",
+        "message": "No se han encontrado stickers",
         "description": "Shown in the sticker picker when there are no stickers to show."
     },
     "stickers--StickerPicker--Hint": {
-        "message": "Hay paquetes de cromos disponibles en tus mensajes disponibles para instalar ",
+        "message": "Hay paquetes de stickers disponibles en tus mensajes disponibles para instalar ",
         "description": "Shown in the sticker picker the first time you have received new packs you can install."
     },
     "stickers--StickerPicker--NoPacks": {
-        "message": "No se encontraron paquetes de cromos",
+        "message": "No se encontraron paquetes de stickers",
         "description": "Shown in the sticker picker when there are no installed sticker packs."
     },
     "stickers--StickerPicker--NoRecents": {
-        "message": "Aquí se mostrarán los cromos usados recientemente.",
+        "message": "Aquí se mostrarán los stickers usados recientemente.",
         "description": "Shown in the sticker picker when there are no recent stickers to show."
     },
     "stickers--StickerPreview--Title": {
-        "message": "Paquete de cromos",
+        "message": "Paquete de stickers",
         "description": "The title that appears in the sticker pack preview modal."
     },
     "stickers--StickerPreview--Error": {
-        "message": "Fallo al abrir el paquete de cromos. Comprueba tu conexión a internet e inténtalo de nuevo.",
+        "message": "Fallo al abrir el paquete de stickers. Comprueba tu conexión a internet e inténtalo de nuevo.",
         "description": "The message that appears in the sticker preview modal when there is an error."
     },
     "EmojiPicker--empty": {
@@ -2314,7 +2314,7 @@
         "description": "Text shown on video messages with with individual timers, before user has viewed it"
     },
     "Conversation--getDraftPreview--attachment": {
-        "message": "(adjunto)",
+        "message": "(archivo adjunto)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--quote": {
@@ -2382,7 +2382,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-sticker-chooser": {
-        "message": "Abrir cajón de cromos",
+        "message": "Abrir cajón de stickers",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--begin-recording-voice-note": {
@@ -2406,7 +2406,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
-        "message": "Guardar adjunto del mensaje seleccionado",
+        "message": "Guardar archivo adjunto del mensaje seleccionado",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--delete-message": {
@@ -2434,7 +2434,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-attachments": {
-        "message": "Eliminar todos los adjuntos preseleccionados",
+        "message": "Eliminar todos los archivos adjuntos preseleccionados",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--conversation-by-index": {
@@ -2518,7 +2518,7 @@
         "description": "Used in draft attachment list for the big 'add new attachment' button"
     },
     "remove-attachment": {
-        "message": "Eliminar adjunto",
+        "message": "Eliminar archivo adjunto",
         "description": "Used in draft attachment list to remove an individual attachment"
     },
     "backToInbox": {
@@ -2538,7 +2538,7 @@
         "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
-        "message": "Creador de paquetes de cromos",
+        "message": "Creador de paquetes de stickers",
         "description": "The title of the Sticker Pack Creator window"
     },
     "StickerCreator--DropZone--staticText": {
@@ -2550,7 +2550,7 @@
         "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
     },
     "StickerCreator--Preview--title": {
-        "message": "Paquete de cromos",
+        "message": "Paquete de stickers",
         "description": "The 'title' of the sticker pack preview 'modal'"
     },
     "StickerCreator--ConfirmDialog--cancel": {
@@ -2586,11 +2586,11 @@
         "description": "Default text for the previous button on all stages of the sticker creator"
     },
     "StickerCreator--DropStage--title": {
-        "message": "Añade cromos",
+        "message": "Añade stickers",
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--help": {
-        "message": "Los cromos son archivos en formato PNG, APNG o WebP con fondo transparente y un tamaño de 512x512 pixeles. El borde recomendado es de 16 pixeles.",
+        "message": "Los stickers son archivos en formato PNG, APNG o WebP con fondo transparente y un tamaño de 512x512 píxeles. El borde recomendado es de 16 píxeles.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
@@ -2608,11 +2608,11 @@
         }
     },
     "StickerCreator--EmojiStage--title": {
-        "message": "Describe cada cromo con un emoji",
+        "message": "Describe cada sticker con un emoji",
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--EmojiStage--help": {
-        "message": "Esto permite sugerir cromos al introducir un emoji en un chat.",
+        "message": "Esto permite sugerir stickers al introducir un emoji en un chat.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--MetaStage--title": {
@@ -2636,7 +2636,7 @@
         "description": "Help text for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--title": {
-        "message": "¿Estás segura de subir el paquete de cromos?",
+        "message": "¿Estás segura de subir el paquete de stickers?",
         "description": "Title for the confirm dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--confirm": {
@@ -2648,7 +2648,7 @@
         "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--UploadStage--title": {
-        "message": "Creando tu paquete de cromos",
+        "message": "Creando tu paquete de stickers",
         "description": "Title for the upload stage of the sticker creator"
     },
     "StickerCreator--UploadStage-uploaded": {
@@ -2666,15 +2666,15 @@
         }
     },
     "StickerCreator--ShareStage--title": {
-        "message": "¡Enhorabuena! Has creado un paquete de cromos.",
+        "message": "¡Enhorabuena! Has creado un paquete de stickers.",
         "description": "Title for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--help": {
-        "message": "Accede a tus nuevos cromos a través del icono de cromos o compártelos con tus amistades usando el enlace inferior.",
+        "message": "Accede a tus nuevos stickers a través del icono de stickers o compártelos con tus amistades usando el enlace inferior.",
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
-        "message": "Usa el hashtag $hashtag$ en las redes sociales para ayudar a más personas a encontrar tu paquete de cromos (si así lo deseas).",
+        "message": "Usa el hashtag $hashtag$ en las redes sociales para ayudar a más personas a encontrar tu paquete de stickers (si así lo deseas).",
         "description": "Call to action text for the share stage of the sticker creator",
         "placeholders": {
             "hashtag": {
@@ -2684,7 +2684,7 @@
         }
     },
     "StickerCreator--ShareStage--copyTitle": {
-        "message": "Dirección del paquete de cromos",
+        "message": "Dirección del paquete de stickers",
         "description": "Title for the copy button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--close": {
@@ -2692,11 +2692,11 @@
         "description": "Text for the close button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--createAnother": {
-        "message": "Crear otro paquete de cromos",
+        "message": "Crear otro paquete de stickers",
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "Mira este paquete de cromos que he creado en Signal. #makeprivacystick ",
+        "message": "Mira este paquete de stickers que he creado en Signal. #makeprivacystick ",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
@@ -2710,7 +2710,7 @@
         }
     },
     "StickerCreator--Toasts--animated": {
-        "message": "Cromos animados por el momento no funcionan",
+        "message": "Stickers animados no funcionan por el momento",
         "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--tooLarge": {
@@ -2722,23 +2722,23 @@
         "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
     },
     "StickerCreator--Toasts--APNG--notSquare": {
-        "message": "Los cromos de PNG animado deben tener forma cuadrada",
+        "message": "Los stickers en formato PNG animado deben tener forma cuadrada",
         "description": "Text for the toast when someone tries to upload a non-square APNG"
     },
     "StickerCreator--Toasts--mustLoopForever": {
-        "message": "Los cromos animados deben tener un bucle infinito",
+        "message": "Los stickers animados deben tener un bucle infinito",
         "description": "Text for the toast when an image in the sticker creator does not animate forever"
     },
     "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
-        "message": "El tamaño de los cromos en formato PNG animado es demasiado grande",
+        "message": "El tamaño de los stickers en formato PNG animado es demasiado grande",
         "description": "Text for the toast when an APNG image in the sticker creator is too large"
     },
     "StickerCreator--Toasts--APNG--dimensionsTooSmall": {
-        "message": "El tamaño de los cromos en formato PNG animado es demasiado pequeño",
+        "message": "El tamaño de los stickers en formato PNG animado es demasiado pequeño",
         "description": "Text for the toast when an APNG image in the sticker creator is too small"
     },
     "StickerCreator--Toasts--errorUploading": {
-        "message": "Fallo al subir cromos:  $message$",
+        "message": "Fallo al subir stickers:  $message$",
         "description": "Text for the toast when a sticker pack cannot be uploaded",
         "placeholders": {
             "message": {
@@ -2752,15 +2752,15 @@
         "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
     },
     "StickerCreator--StickerPreview--light": {
-        "message": "Mi cromo en tema (con fondo) claro",
+        "message": "Tu sticker en tema (con fondo) claro",
         "description": "Text for the sticker preview for the light theme"
     },
     "StickerCreator--StickerPreview--dark": {
-        "message": "Mi cromo en tema (con fondo) oscuro",
+        "message": "Tu sticker en tema (con fondo) oscuro",
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "Por favor, configura Signal en tu teléfono y ordenador para usar el Creador de Paquetes de Cromos",
+        "message": "Por favor, configura Signal en tu teléfono y enlázalo con Signal Desktop para usar el Creador de Paquetes de Stickers",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--error": {
@@ -2776,7 +2776,7 @@
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "MessageRequests--message-direct": {
-        "message": "¿Deseas que $name$ te envíe mensajes y así compartir tu nombre y foto de perfil? Esta persona no sabrá que has visto sus mensajes hasta que aceptes.",
+        "message": "¿Deseas que $name$ te envíe mensajes y compartir tu nombre y foto de perfil? Esta persona no sabrá que has visto sus mensajes hasta que aceptes.",
         "description": "Shown as the message for a message request in a direct message",
         "placeholders": {
             "name": {
@@ -2786,7 +2786,7 @@
         }
     },
     "MessageRequests--message-direct-blocked": {
-        "message": "¿Deseas que $name$ te envíe mensajes y así compartir tu nombre y foto de perfil? No recibirás ningún mensaje hasta que desbloquees a esta persona.",
+        "message": "¿Deseas que $name$ te envíe mensajes y compartir tu nombre y foto de perfil? No recibirás ningún mensaje hasta que desbloquees a esta persona.",
         "description": "Shown as the message for a message request in a direct message with a blocked account",
         "placeholders": {
             "name": {
@@ -2922,7 +2922,7 @@
         "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
     },
     "MessageRequests--profile-sharing--group": {
-        "message": "¿Deseas continuar chateando con este grupo y así compartir tu nombre y foto con sus participantes? $learnMore$",
+        "message": "¿Deseas continuar chateando con este grupo y compartir tu nombre y foto con sus participantes? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a group yet",
         "placeholders": {
             "learnMore": {
@@ -2932,7 +2932,7 @@
         }
     },
     "MessageRequests--profile-sharing--direct": {
-        "message": "¿Deseas continuar chateando con $firstName$ y así compartir tu nombre y foto con esta persona? $learnMore$",
+        "message": "¿Deseas continuar chateando con $firstName$ y compartir tu nombre y foto con esta persona? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
         "placeholders": {
             "firstName": {
@@ -3034,7 +3034,7 @@
         }
     },
     "ConversationHero--membership-added": {
-        "message": "$name$ te ha agregado al grupo.",
+        "message": "$name$ te ha añadido al grupo.",
         "description": "Shown Indicates that you were added to a group by a given individual.",
         "placeholders": {
             "name": {
@@ -3300,7 +3300,7 @@
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--prompt": {
-        "message": "¿Deseas unirte a este grupo y así compartir tu nombre y foto con sus participantes?",
+        "message": "¿Deseas unirte a este grupo y compartir tu nombre y foto con sus participantes?",
         "description": "Shown when you click on a group link to confirm"
     },
     "GroupV2--join--already-in-group": {
@@ -3344,7 +3344,7 @@
         "description": "The button to cancel request to join the group"
     },
     "GroupV2--join--cancel-request-to-join--confirmation": {
-        "message": "¿Deseas retirar tu solicitud de unirte a este grupo?",
+        "message": "¿Deseas retirar tu solicitud para unirte a este grupo?",
         "description": "A confirmation message that shows after you click the button"
     },
     "GroupV2--join--cancel-request-to-join--yes": {
@@ -3380,7 +3380,7 @@
         }
     },
     "GroupV2--join--requested": {
-        "message": "Se ha enviado tu solicitud de unirte al grupo a l@s admins. Te llegará una notificación con su respuesta. ",
+        "message": "Se ha enviado tu solicitud para unirte al grupo a l@s admins. Te llegará una notificación con su respuesta. ",
         "description": "Shown in composition area when you've requested to join a group"
     },
     "GroupV2--join--general-join-failure--title": {
@@ -3614,7 +3614,7 @@
         }
     },
     "GroupV2--access-invite-link--enabled--unknown": {
-        "message": "Se ha desactivado la confirmación de admin para unirse al grupo vía enlace.",
+        "message": "Se ha activado la confirmación de admin para unirse al grupo vía enlace.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {
@@ -3714,7 +3714,7 @@
         }
     },
     "GroupV2--member-add--other--you": {
-        "message": "Has agregado a $memberName$.",
+        "message": "Has añadido a $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3724,7 +3724,7 @@
         }
     },
     "GroupV2--member-add--other--unknown": {
-        "message": "Un(a) participante ha agregado a $memberName$.",
+        "message": "Un(a) participante ha añadido a $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3734,7 +3734,7 @@
         }
     },
     "GroupV2--member-add--you--other": {
-        "message": "$memberName$ te ha agregado al chat en grupo.",
+        "message": "$memberName$ te ha añadido al chat en grupo.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3766,7 +3766,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--you--other": {
-        "message": "$adminName$ ha aprobado tu solicitud de unirte al grupo.",
+        "message": "$adminName$ ha aprobado tu solicitud para unirte al grupo.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3776,11 +3776,11 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--you--unknown": {
-        "message": "Se ha aprobado tu solicitud de unirte al grupo.",
+        "message": "Se ha aprobado tu solicitud para unirte al grupo.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-admin-approval--other--you": {
-        "message": "Has aprobado la solicitud de unirse al grupo de $joinerName$.",
+        "message": "Has aprobado la solicitud de $joinerName$para unirse al grupo.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -3790,7 +3790,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--other--other": {
-        "message": "$adminName$ ha aprobado tu solicitud de $joinerName$ de unirse al grupo.",
+        "message": "$adminName$ ha aprobado tu solicitud de $joinerName$ para unirse al grupo.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3804,7 +3804,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--other--unknown": {
-        "message": "Se ha aprobado la solicitud de $joinerName$ de unirse al grupo.",
+        "message": "Se ha aprobado la solicitud de $joinerName$ para unirse al grupo.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4310,15 +4310,15 @@
         }
     },
     "GroupV2--admin-approval-remove-one--you--you": {
-        "message": "Has retirado tu solicitud de unirte al grupo.",
+        "message": "Has retirado tu solicitud para unirte al grupo.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--you--unknown": {
-        "message": "Un(a) admin ha denegado tu solicitud de unirte al grupo.",
+        "message": "Un(a) admin ha denegado tu solicitud para unirte al grupo.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--other--you": {
-        "message": "Has rechazado la solicitud de $joinerName$ de unirse al grupo.",
+        "message": "Has rechazado la solicitud de $joinerName$ para unirse al grupo.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4328,7 +4328,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--other--own": {
-        "message": "$joinerName$ ha retirado su solicitud de unirse al grupo.",
+        "message": "$joinerName$ ha retirado su solicitud para unirse al grupo.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4338,7 +4338,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--other--other": {
-        "message": "$adminName$ ha rechazado la solicitud de $joinerName$ de unirse al grupo.",
+        "message": "$adminName$ ha rechazado la solicitud de $joinerName$ para unirse al grupo.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4458,11 +4458,11 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--keep-history": {
-        "message": "Los mensajes y adjuntos se han conservado tras la actualización.",
+        "message": "Los mensajes y archivos adjuntos se han conservado tras la actualización.",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--keep-history": {
-        "message": "Los mensajes y adjuntos se mantendrán tras la actualización.",
+        "message": "Los mensajes y archivos adjuntos se mantendrán tras la actualización.",
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
@@ -4682,7 +4682,7 @@
         }
     },
     "ConversationDetailsMediaList--shared-media": {
-        "message": "Adjuntos compartidos",
+        "message": "Archivos adjuntos compartidos",
         "description": "Title for the media thumbnails in the conversation details screen"
     },
     "ConversationDetailsMediaList--show-all": {
