@@ -212,7 +212,7 @@
 
       const { openConversationExternal } = window.reduxActions.conversations;
       if (openConversationExternal) {
-        openConversationExternal(id, messageId);
+        openConversationExternal(conversation.id, messageId);
       }
 
       this.conversation_stack.open(conversation, messageId);

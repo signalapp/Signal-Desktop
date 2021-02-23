@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { connect } from 'react-redux';
@@ -10,7 +10,10 @@ import { StateType } from '../reducer';
 
 import { isShortName } from '../../components/emoji/lib';
 import { getIntl } from '../selectors/user';
-import { getConversationSelector } from '../selectors/conversations';
+import {
+  getConversationSelector,
+  getIsConversationEmptySelector,
+} from '../selectors/conversations';
 import {
   getBlessedStickerPacks,
   getInstalledStickerPacks,
@@ -78,6 +81,10 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     // Message Requests
     ...conversation,
     conversationType: conversation.type,
+    isMissingMandatoryProfileSharing:
+      !conversation.profileSharing &&
+      window.Signal.RemoteConfig.isEnabled('desktop.mandatoryProfileSharing') &&
+      !getIsConversationEmptySelector(state)(id),
   };
 };
 

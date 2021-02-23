@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import memoizee from 'memoizee';
-import { fromPairs, isNumber } from 'lodash';
+import { fromPairs, isNumber, isString } from 'lodash';
 import { createSelector } from 'reselect';
+import Fuse, { FuseOptions } from 'fuse.js';
 
 import { StateType } from '../reducer';
 import {
@@ -16,6 +17,7 @@ import {
   MessageType,
   PreJoinConversationType,
 } from '../ducks/conversations';
+import { LocalizerType } from '../../types/Util';
 import { getOwn } from '../../util/getOwn';
 import type { CallsByConversationType } from '../ducks/calling';
 import { getCallsByConversation } from './calling';
@@ -23,6 +25,7 @@ import { getBubbleProps } from '../../shims/Whisper';
 import { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline';
 import { TimelineItemType } from '../../components/conversation/TimelineItem';
 import { assert } from '../../util/assert';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered';
 
 import {
   getInteractionMode,
@@ -135,6 +138,16 @@ export const getShowArchived = createSelector(
   }
 );
 
+const getComposerState = createSelector(
+  getConversations,
+  (state: ConversationsStateType) => state.composer
+);
+
+export const isComposing = createSelector(
+  getComposerState,
+  (composerState): boolean => Boolean(composerState)
+);
+
 export const getMessages = createSelector(
   getConversations,
   (state: ConversationsStateType): MessageLookupType => {
@@ -145,6 +158,20 @@ export const getMessagesByConversation = createSelector(
   getConversations,
   (state: ConversationsStateType): MessagesByConversationType => {
     return state.messagesByConversation;
+  }
+);
+
+export const getIsConversationEmptySelector = createSelector(
+  getMessagesByConversation,
+  (messagesByConversation: MessagesByConversationType) => (
+    conversationId: string
+  ): boolean => {
+    const messages = getOwn(messagesByConversation, conversationId);
+    if (!messages) {
+      assert(false, 'Could not find conversation with this ID');
+      return true;
+    }
+    return messages.messageIds.length === 0;
   }
 );
 
@@ -253,6 +280,86 @@ export const getMe = createSelector(
     ourConversationId: string
   ): ConversationType => {
     return lookup[ourConversationId];
+  }
+);
+
+export const getComposerContactSearchTerm = createSelector(
+  getComposerState,
+  (composer): string => {
+    if (!composer) {
+      assert(false, 'getComposerContactSearchTerm: composer is not open');
+      return '';
+    }
+    return composer.contactSearchTerm;
+  }
+);
+
+/**
+ * This returns contacts for the composer, which isn't just your primary's system
+ * contacts. It may include false positives, which is better than missing contacts.
+ *
+ * Because it filters unregistered contacts and that's (partially) determined by the
+ * current time, it's possible for this to return stale contacts that have unregistered
+ * if no other conversations change. This should be a rare false positive.
+ */
+const getContacts = createSelector(
+  getConversationLookup,
+  (conversationLookup: ConversationLookupType): Array<ConversationType> =>
+    Object.values(conversationLookup).filter(
+      contact =>
+        contact.type === 'direct' &&
+        !contact.isMe &&
+        !contact.isBlocked &&
+        !isConversationUnregistered(contact) &&
+        (isString(contact.name) || contact.profileSharing)
+    )
+);
+
+const getNormalizedComposerContactSearchTerm = createSelector(
+  getComposerContactSearchTerm,
+  (searchTerm: string): string => searchTerm.trim()
+);
+
+const getNoteToSelfTitle = createSelector(getIntl, (i18n: LocalizerType) =>
+  i18n('noteToSelf').toLowerCase()
+);
+
+const COMPOSE_CONTACTS_FUSE_OPTIONS: FuseOptions<ConversationType> = {
+  // A small-but-nonzero threshold lets us match parts of E164s better, and makes the
+  //   search a little more forgiving.
+  threshold: 0.05,
+  keys: ['title', 'name', 'e164'],
+};
+
+export const getComposeContacts = createSelector(
+  getNormalizedComposerContactSearchTerm,
+  getContacts,
+  getMe,
+  getNoteToSelfTitle,
+  (
+    searchTerm: string,
+    contacts: Array<ConversationType>,
+    noteToSelf: ConversationType,
+    noteToSelfTitle: string
+  ): Array<ConversationType> => {
+    let result: Array<ConversationType>;
+
+    if (searchTerm.length) {
+      const fuse = new Fuse<ConversationType>(
+        contacts,
+        COMPOSE_CONTACTS_FUSE_OPTIONS
+      );
+      result = fuse.search(searchTerm);
+      if (noteToSelfTitle.includes(searchTerm)) {
+        result.push(noteToSelf);
+      }
+    } else {
+      result = contacts.concat();
+      result.sort((a, b) => collator.compare(a.title, b.title));
+      result.push(noteToSelf);
+    }
+
+    return result;
   }
 );
 

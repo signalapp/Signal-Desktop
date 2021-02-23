@@ -1,9 +1,10 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import memoizee from 'memoizee';
 import { createSelector } from 'reselect';
-import { instance } from '../../util/libphonenumberInstance';
+
+import { deconstructLookup } from '../../util/deconstructLookup';
 
 import { StateType } from '../reducer';
 
@@ -17,19 +18,14 @@ import {
   ConversationType,
 } from '../ducks/conversations';
 
-import {
-  PropsDataType as SearchResultsPropsType,
-  SearchResultRowType,
-} from '../../components/SearchResults';
-import { PropsDataType as MessageSearchResultPropsDataType } from '../../components/MessageSearchResult';
+import { LeftPaneSearchPropsType } from '../../components/leftPane/LeftPaneSearchHelper';
+import { PropsDataType as MessageSearchResultPropsDataType } from '../../components/conversationList/MessageSearchResult';
 
-import { getRegionCode, getUserConversationId } from './user';
-import { getUserAgent } from './items';
+import { getUserConversationId } from './user';
 import {
   GetConversationByIdType,
   getConversationLookup,
   getConversationSelector,
-  getSelectedConversationId,
 } from './conversations';
 
 export const getSearch = (state: StateType): SearchStateType => state.search;
@@ -72,148 +68,44 @@ export const getMessageSearchResultLookup = createSelector(
   getSearch,
   (state: SearchStateType) => state.messageLookup
 );
+
 export const getSearchResults = createSelector(
-  [
-    getSearch,
-    getRegionCode,
-    getUserAgent,
-    getConversationLookup,
-    getSelectedConversationId,
-    getSelectedMessage,
-  ],
+  [getSearch, getConversationLookup],
   (
     state: SearchStateType,
-    regionCode: string,
-    userAgent: string,
-    lookup: ConversationLookupType,
-    selectedConversationId?: string,
-    selectedMessageId?: string
-  ): SearchResultsPropsType | undefined => {
+    conversationLookup: ConversationLookupType
+  ): LeftPaneSearchPropsType => {
     const {
-      contacts,
-      conversations,
+      contactIds,
+      conversationIds,
       discussionsLoading,
       messageIds,
+      messageLookup,
       messagesLoading,
       searchConversationName,
     } = state;
 
-    const showStartNewConversation = Boolean(
-      state.normalizedPhoneNumber && !lookup[state.normalizedPhoneNumber]
-    );
-    const haveConversations = conversations && conversations.length;
-    const haveContacts = contacts && contacts.length;
-    const haveMessages = messageIds && messageIds.length;
-    const noResults =
-      !discussionsLoading &&
-      !messagesLoading &&
-      !showStartNewConversation &&
-      !haveConversations &&
-      !haveContacts &&
-      !haveMessages;
-
-    const items: Array<SearchResultRowType> = [];
-
-    if (showStartNewConversation) {
-      items.push({
-        type: 'start-new-conversation',
-        data: undefined,
-      });
-
-      const isIOS = userAgent === 'OWI';
-      let isValidNumber = false;
-      try {
-        // Sometimes parse() throws, like for invalid country codes
-        const parsedNumber = instance.parse(state.query, regionCode);
-        isValidNumber = instance.isValidNumber(parsedNumber);
-      } catch (_) {
-        // no-op
-      }
-
-      if (!isIOS && isValidNumber) {
-        items.push({
-          type: 'sms-mms-not-supported-text',
-          data: undefined,
-        });
-      }
-    }
-
-    if (haveConversations) {
-      items.push({
-        type: 'conversations-header',
-        data: undefined,
-      });
-      conversations.forEach(id => {
-        const data = lookup[id];
-        items.push({
-          type: 'conversation',
-          data: {
-            ...data,
-            isSelected: Boolean(data && id === selectedConversationId),
-          },
-        });
-      });
-    } else if (discussionsLoading) {
-      items.push({
-        type: 'conversations-header',
-        data: undefined,
-      });
-      items.push({
-        type: 'spinner',
-        data: undefined,
-      });
-    }
-
-    if (haveContacts) {
-      items.push({
-        type: 'contacts-header',
-        data: undefined,
-      });
-      contacts.forEach(id => {
-        const data = lookup[id];
-
-        items.push({
-          type: 'contact',
-          data: {
-            ...data,
-            isSelected: Boolean(data && id === selectedConversationId),
-          },
-        });
-      });
-    }
-
-    if (haveMessages) {
-      items.push({
-        type: 'messages-header',
-        data: undefined,
-      });
-      messageIds.forEach(messageId => {
-        items.push({
-          type: 'message',
-          data: messageId,
-        });
-      });
-    } else if (messagesLoading) {
-      items.push({
-        type: 'messages-header',
-        data: undefined,
-      });
-      items.push({
-        type: 'spinner',
-        data: undefined,
-      });
-    }
-
     return {
-      discussionsLoading,
-      items,
-      messagesLoading,
-      noResults,
-      regionCode,
+      conversationResults: discussionsLoading
+        ? { isLoading: true }
+        : {
+            isLoading: false,
+            results: deconstructLookup(conversationLookup, conversationIds),
+          },
+      contactResults: discussionsLoading
+        ? { isLoading: true }
+        : {
+            isLoading: false,
+            results: deconstructLookup(conversationLookup, contactIds),
+          },
+      messageResults: messagesLoading
+        ? { isLoading: true }
+        : {
+            isLoading: false,
+            results: deconstructLookup(messageLookup, messageIds),
+          },
       searchConversationName,
       searchTerm: state.query,
-      selectedConversationId,
-      selectedMessageId,
     };
   }
 );

@@ -14533,6 +14533,15 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/ConversationList.js",
+    "line": "    const listRef = react_1.useRef(null);",
+    "lineNumber": 44,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-12T16:25:08.285Z",
+    "reasonDetail": "Used for scroll calculations"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/DirectCallRemoteParticipant.js",
     "line": "    const remoteVideoRef = react_1.useRef(null);",
     "lineNumber": 28,
@@ -14584,22 +14593,22 @@
     "updated": "2020-07-21T18:34:59.251Z"
   },
   {
-    "rule": "React-createRef",
+    "rule": "React-useRef",
     "path": "ts/components/LeftPane.js",
-    "line": "        this.listRef = react_1.default.createRef();",
-    "lineNumber": 33,
+    "line": "    const previousModeSpecificPropsRef = react_1.useRef(modeSpecificProps);",
+    "lineNumber": 47,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-11T17:24:56.124Z",
-    "reasonDetail": "Used for scroll calculations"
+    "updated": "2021-02-12T16:25:08.285Z",
+    "reasonDetail": "Doesn't interact with the DOM."
   },
   {
-    "rule": "React-createRef",
-    "path": "ts/components/LeftPane.js",
-    "line": "        this.containerRef = react_1.default.createRef();",
-    "lineNumber": 34,
+    "rule": "React-useRef",
+    "path": "ts/components/LeftPane.tsx",
+    "line": "  const previousModeSpecificPropsRef = useRef(modeSpecificProps);",
+    "lineNumber": 104,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-11T17:24:56.124Z",
-    "reasonDetail": "Used for scroll calculations"
+    "updated": "2021-02-12T16:25:08.285Z",
+    "reasonDetail": "Doesn't interact with the DOM."
   },
   {
     "rule": "React-createRef",
@@ -14640,7 +14649,7 @@
     "rule": "React-createRef",
     "path": "ts/components/MainHeader.tsx",
     "line": "    this.inputRef = React.createRef();",
-    "lineNumber": 78,
+    "lineNumber": 79,
     "reasonCategory": "usageTrusted",
     "updated": "2020-02-14T20:02:37.507Z",
     "reasonDetail": "Used only to set focus"
@@ -14655,28 +14664,10 @@
     "reasonDetail": "Used to focus cancel button when dialog opens"
   },
   {
-    "rule": "React-createRef",
-    "path": "ts/components/SearchResults.js",
-    "line": "        this.listRef = react_1.default.createRef();",
-    "lineNumber": 27,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-08-09T00:44:31.008Z",
-    "reasonDetail": "SearchResults needs to interact with its child List directly"
-  },
-  {
-    "rule": "React-createRef",
-    "path": "ts/components/SearchResults.js",
-    "line": "        this.containerRef = react_1.default.createRef();",
-    "lineNumber": 28,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-08-09T00:44:31.008Z",
-    "reasonDetail": "SearchResults needs to interact with its child List directly"
-  },
-  {
     "rule": "React-useRef",
     "path": "ts/components/ShortcutGuide.js",
     "line": "    const focusRef = React.useRef(null);",
-    "lineNumber": 182,
+    "lineNumber": 186,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Only used to focus the element."

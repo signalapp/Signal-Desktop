@@ -730,7 +730,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         ),
         messagesByConversation: {},
         messagesLookup: {},
-        selectedConversation: undefined,
+        selectedConversationId: undefined,
         selectedMessage: undefined,
         selectedMessageCounter: 0,
         selectedConversationPanelDepth: 0,
@@ -866,85 +866,9 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       }
     };
 
-    function getConversationsToSearch() {
-      const state = store.getState();
-      const {
-        archivedConversations,
-        conversations: unpinnedConversations,
-        pinnedConversations,
-      } = window.Signal.State.Selectors.conversations.getLeftPaneLists(state);
-
-      return state.conversations.showArchived
-        ? archivedConversations
-        : [...pinnedConversations, ...unpinnedConversations];
-    }
-
-    function getConversationByIndex(index: WhatIsThis) {
-      const conversationsToSearch = getConversationsToSearch();
-
-      const target = conversationsToSearch[index];
-
-      if (target) {
-        return target.id;
-      }
-
-      return null;
-    }
-
-    function findConversation(
-      conversationId: WhatIsThis,
-      direction: WhatIsThis,
-      unreadOnly: WhatIsThis
-    ) {
-      const conversationsToSearch = getConversationsToSearch();
-
-      const increment = direction === 'up' ? -1 : 1;
-      let startIndex: WhatIsThis;
-
-      if (conversationId) {
-        const index = conversationsToSearch.findIndex(
-          (item: WhatIsThis) => item.id === conversationId
-        );
-        if (index >= 0) {
-          startIndex = index + increment;
-        }
-      } else {
-        startIndex = direction === 'up' ? conversationsToSearch.length - 1 : 0;
-      }
-
-      for (
-        let i = startIndex, max = conversationsToSearch.length;
-        i >= 0 && i < max;
-        i += increment
-      ) {
-        const target = conversationsToSearch[i];
-        if (!unreadOnly) {
-          return target.id;
-        }
-        if ((target.unreadCount || 0) > 0) {
-          return target.id;
-        }
-      }
-
-      return null;
-    }
-
-    const NUMBERS: Record<string, number> = {
-      '1': 1,
-      '2': 2,
-      '3': 3,
-      '4': 4,
-      '5': 5,
-      '6': 6,
-      '7': 7,
-      '8': 8,
-      '9': 9,
-    };
-
     document.addEventListener('keydown', event => {
-      const { altKey, ctrlKey, key, metaKey, shiftKey } = event;
+      const { ctrlKey, key, metaKey, shiftKey } = event;
 
-      const optionOrAlt = altKey;
       const commandKey = window.platform === 'darwin' && metaKey;
       const controlKey = window.platform !== 'darwin' && ctrlKey;
       const commandOrCtrl = commandKey || controlKey;
@@ -952,9 +876,6 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       const state = store.getState();
       const selectedId = state.conversations.selectedConversationId;
       const conversation = window.ConversationController.get(selectedId);
-      const isSearching = window.Signal.State.Selectors.search.isSearching(
-        state
-      );
 
       // NAVIGATION
 
@@ -976,8 +897,14 @@ type WhatIsThis = import('./window.d').WhatIsThis;
 
         const targets: Array<HTMLElement | null> = [
           document.querySelector('.module-main-header .module-avatar-button'),
-          document.querySelector('.module-left-pane__to-inbox-button'),
+          document.querySelector(
+            '.module-left-pane__header__contents__back-button'
+          ),
           document.querySelector('.module-main-header__search__input'),
+          document.querySelector('.module-main-header__compose-icon'),
+          document.querySelector(
+            '.module-left-pane__compose-search-form__input'
+          ),
           document.querySelector('.module-left-pane__list'),
           document.querySelector('.module-search-results'),
           document.querySelector('.module-composition-area .ql-editor'),
@@ -1128,94 +1055,6 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         return;
       }
 
-      // Change currently selected conversation by index
-      if (!isSearching && commandOrCtrl && NUMBERS[key]) {
-        const targetId = getConversationByIndex(
-          (NUMBERS[key] as WhatIsThis) - 1
-        );
-
-        if (targetId) {
-          window.Whisper.events.trigger('showConversation', targetId);
-          event.preventDefault();
-          event.stopPropagation();
-          return;
-        }
-      }
-
-      // Change currently selected conversation
-      // up/previous
-      if (
-        (!isSearching && optionOrAlt && !shiftKey && key === 'ArrowUp') ||
-        (!isSearching && commandOrCtrl && shiftKey && key === '[') ||
-        (!isSearching && ctrlKey && shiftKey && key === 'Tab')
-      ) {
-        const unreadOnly = false;
-        const targetId = findConversation(
-          conversation ? conversation.id : null,
-          'up',
-          unreadOnly
-        );
-
-        if (targetId) {
-          window.Whisper.events.trigger('showConversation', targetId);
-          event.preventDefault();
-          event.stopPropagation();
-          return;
-        }
-      }
-      // down/next
-      if (
-        (!isSearching && optionOrAlt && !shiftKey && key === 'ArrowDown') ||
-        (!isSearching && commandOrCtrl && shiftKey && key === ']') ||
-        (!isSearching && ctrlKey && key === 'Tab')
-      ) {
-        const unreadOnly = false;
-        const targetId = findConversation(
-          conversation ? conversation.id : null,
-          'down',
-          unreadOnly
-        );
-
-        if (targetId) {
-          window.Whisper.events.trigger('showConversation', targetId);
-          event.preventDefault();
-          event.stopPropagation();
-          return;
-        }
-      }
-      // previous unread
-      if (!isSearching && optionOrAlt && shiftKey && key === 'ArrowUp') {
-        const unreadOnly = true;
-        const targetId = findConversation(
-          conversation ? conversation.id : null,
-          'up',
-          unreadOnly
-        );
-
-        if (targetId) {
-          window.Whisper.events.trigger('showConversation', targetId);
-          event.preventDefault();
-          event.stopPropagation();
-          return;
-        }
-      }
-      // next unread
-      if (!isSearching && optionOrAlt && shiftKey && key === 'ArrowDown') {
-        const unreadOnly = true;
-        const targetId = findConversation(
-          conversation ? conversation.id : null,
-          'down',
-          unreadOnly
-        );
-
-        if (targetId) {
-          window.Whisper.events.trigger('showConversation', targetId);
-          event.preventDefault();
-          event.stopPropagation();
-          return;
-        }
-      }
-
       // Preferences - handled by Electron-managed keyboard shortcuts
 
       // Open the top-right menu for current conversation
@@ -1323,21 +1162,13 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         );
 
         // It's very likely that the act of archiving a conversation will set focus to
-        //   'none,' or the top-level body element. This resets it to the left pane,
-        //   whether in the normal conversation list or search results.
+        //   'none,' or the top-level body element. This resets it to the left pane.
         if (document.activeElement === document.body) {
           const leftPaneEl: HTMLElement | null = document.querySelector(
             '.module-left-pane__list'
           );
           if (leftPaneEl) {
             leftPaneEl.focus();
-          }
-
-          const searchResultsEl: HTMLElement | null = document.querySelector(
-            '.module-search-results'
-          );
-          if (searchResultsEl) {
-            searchResultsEl.focus();
           }
         }
 

@@ -1,8 +1,11 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import * as sinon from 'sinon';
 import { set } from 'lodash/fp';
+import { reducer as rootReducer } from '../../../state/reducer';
+import { noopAction } from '../../../state/ducks/noop';
 import {
   actions,
   ConversationMessageType,
@@ -13,17 +16,35 @@ import {
   MessageType,
   reducer,
   updateConversationLookups,
+  SwitchToAssociatedViewActionType,
 } from '../../../state/ducks/conversations';
 import { CallMode } from '../../../types/Calling';
 
 const {
   messageSizeChanged,
+  openConversationInternal,
   repairNewestMessage,
   repairOldestMessage,
+  setComposeSearchTerm,
   setPreJoinConversation,
+  showArchivedConversations,
+  showInbox,
+  startComposing,
 } = actions;
 
 describe('both/state/ducks/conversations', () => {
+  const getEmptyRootState = () => rootReducer(undefined, noopAction());
+
+  let sinonSandbox: sinon.SinonSandbox;
+
+  beforeEach(() => {
+    sinonSandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sinonSandbox.restore();
+  });
+
   describe('helpers', () => {
     describe('getConversationCallMode', () => {
       const fakeConversation: ConversationType = {
@@ -294,6 +315,132 @@ describe('both/state/ducks/conversations', () => {
         scrollToMessageCounter: 0,
       };
     }
+
+    describe('openConversationInternal', () => {
+      beforeEach(() => {
+        sinonSandbox.stub(window.Whisper.events, 'trigger');
+      });
+
+      it("returns a thunk that triggers a 'showConversation' event when passed a conversation ID", () => {
+        const dispatch = sinon.spy();
+
+        openConversationInternal({ conversationId: 'abc123' })(
+          dispatch,
+          getEmptyRootState,
+          null
+        );
+
+        sinon.assert.calledOnce(
+          window.Whisper.events.trigger as sinon.SinonSpy
+        );
+        sinon.assert.calledWith(
+          window.Whisper.events.trigger as sinon.SinonSpy,
+          'showConversation',
+          'abc123',
+          undefined
+        );
+      });
+
+      it("returns a thunk that triggers a 'showConversation' event when passed a conversation ID and message ID", () => {
+        const dispatch = sinon.spy();
+
+        openConversationInternal({
+          conversationId: 'abc123',
+          messageId: 'xyz987',
+        })(dispatch, getEmptyRootState, null);
+
+        sinon.assert.calledOnce(
+          window.Whisper.events.trigger as sinon.SinonSpy
+        );
+        sinon.assert.calledWith(
+          window.Whisper.events.trigger as sinon.SinonSpy,
+          'showConversation',
+          'abc123',
+          'xyz987'
+        );
+      });
+
+      it("returns a thunk that doesn't dispatch any actions by default", () => {
+        const dispatch = sinon.spy();
+
+        openConversationInternal({ conversationId: 'abc123' })(
+          dispatch,
+          getEmptyRootState,
+          null
+        );
+
+        sinon.assert.notCalled(dispatch);
+      });
+
+      it('dispatches a SWITCH_TO_ASSOCIATED_VIEW action if called with a flag', () => {
+        const dispatch = sinon.spy();
+
+        openConversationInternal({
+          conversationId: 'abc123',
+          switchToAssociatedView: true,
+        })(dispatch, getEmptyRootState, null);
+
+        sinon.assert.calledWith(dispatch, {
+          type: 'SWITCH_TO_ASSOCIATED_VIEW',
+          payload: { conversationId: 'abc123' },
+        });
+      });
+
+      describe('SWITCH_TO_ASSOCIATED_VIEW', () => {
+        let action: SwitchToAssociatedViewActionType;
+
+        beforeEach(() => {
+          const dispatch = sinon.spy();
+          openConversationInternal({
+            conversationId: 'fake-conversation-id',
+            switchToAssociatedView: true,
+          })(dispatch, getEmptyRootState, null);
+          [action] = dispatch.getCall(0).args;
+        });
+
+        it('shows the inbox if the conversation is not archived', () => {
+          const state = {
+            ...getEmptyState(),
+            conversationLookup: {
+              'fake-conversation-id': {
+                id: 'fake-conversation-id',
+                type: 'direct' as const,
+                title: 'Foo Bar',
+              },
+            },
+          };
+          const result = reducer(state, action);
+
+          assert.isUndefined(result.composer);
+          assert.isFalse(result.showArchived);
+        });
+
+        it('shows the archive if the conversation is archived', () => {
+          const state = {
+            ...getEmptyState(),
+            conversationLookup: {
+              'fake-conversation-id': {
+                id: 'fake-conversation-id',
+                type: 'group' as const,
+                title: 'Baz Qux',
+                isArchived: true,
+              },
+            },
+          };
+          const result = reducer(state, action);
+
+          assert.isUndefined(result.composer);
+          assert.isTrue(result.showArchived);
+        });
+
+        it('does nothing if the conversation is not found', () => {
+          const state = getEmptyState();
+          const result = reducer(state, action);
+
+          assert.strictEqual(result, state);
+        });
+      });
+    });
 
     describe('MESSAGE_SIZE_CHANGED', () => {
       const stateWithActiveConversation = {
@@ -579,6 +726,21 @@ describe('both/state/ducks/conversations', () => {
       });
     });
 
+    describe('SET_COMPOSE_SEARCH_TERM', () => {
+      it('updates the contact search term', () => {
+        const state = {
+          ...getEmptyState(),
+          composer: {
+            contactSearchTerm: '',
+          },
+        };
+        const action = setComposeSearchTerm('foo bar');
+        const result = reducer(state, action);
+
+        assert.strictEqual(result.composer?.contactSearchTerm, 'foo bar');
+      });
+    });
+
     describe('SET_PRE_JOIN_CONVERSATION', () => {
       const startState = {
         ...getEmptyState(),
@@ -610,6 +772,117 @@ describe('both/state/ducks/conversations', () => {
         );
 
         assert.isUndefined(resetState.preJoinConversation);
+      });
+    });
+
+    describe('SHOW_ARCHIVED_CONVERSATIONS', () => {
+      it('is a no-op when already at the archive', () => {
+        const state = {
+          ...getEmptyState(),
+          showArchived: true,
+        };
+        const action = showArchivedConversations();
+        const result = reducer(state, action);
+
+        assert.isTrue(result.showArchived);
+        assert.isUndefined(result.composer);
+      });
+
+      it('switches from the inbox to the archive', () => {
+        const state = getEmptyState();
+        const action = showArchivedConversations();
+        const result = reducer(state, action);
+
+        assert.isTrue(result.showArchived);
+        assert.isUndefined(result.composer);
+      });
+
+      it('switches from the composer to the archive', () => {
+        const state = {
+          ...getEmptyState(),
+          composer: {
+            contactSearchTerm: '',
+          },
+        };
+        const action = showArchivedConversations();
+        const result = reducer(state, action);
+
+        assert.isTrue(result.showArchived);
+        assert.isUndefined(result.composer);
+      });
+    });
+
+    describe('SHOW_INBOX', () => {
+      it('is a no-op when already at the inbox', () => {
+        const state = getEmptyState();
+        const action = showInbox();
+        const result = reducer(state, action);
+
+        assert.isFalse(result.showArchived);
+        assert.isUndefined(result.composer);
+      });
+
+      it('switches from the archive to the inbox', () => {
+        const state = {
+          ...getEmptyState(),
+          showArchived: true,
+        };
+        const action = showInbox();
+        const result = reducer(state, action);
+
+        assert.isFalse(result.showArchived);
+        assert.isUndefined(result.composer);
+      });
+
+      it('switches from the composer to the inbox', () => {
+        const state = {
+          ...getEmptyState(),
+          composer: {
+            contactSearchTerm: '',
+          },
+        };
+        const action = showInbox();
+        const result = reducer(state, action);
+
+        assert.isFalse(result.showArchived);
+        assert.isUndefined(result.composer);
+      });
+    });
+
+    describe('START_COMPOSING', () => {
+      it('if already at the composer, does nothing', () => {
+        const state = {
+          ...getEmptyState(),
+          composer: {
+            contactSearchTerm: 'foo bar',
+          },
+        };
+        const action = startComposing();
+        const result = reducer(state, action);
+
+        assert.isFalse(result.showArchived);
+        assert.deepEqual(result.composer, { contactSearchTerm: 'foo bar' });
+      });
+
+      it('switches from the inbox to the composer', () => {
+        const state = getEmptyState();
+        const action = startComposing();
+        const result = reducer(state, action);
+
+        assert.isFalse(result.showArchived);
+        assert.deepEqual(result.composer, { contactSearchTerm: '' });
+      });
+
+      it('switches from the archive to the inbox', () => {
+        const state = {
+          ...getEmptyState(),
+          showArchived: true,
+        };
+        const action = startComposing();
+        const result = reducer(state, action);
+
+        assert.isFalse(result.showArchived);
+        assert.deepEqual(result.composer, { contactSearchTerm: '' });
       });
     });
   });

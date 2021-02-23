@@ -1,15 +1,18 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 
-import { MessageBody } from './conversation/MessageBody';
-import { Emojify } from './conversation/Emojify';
-import { AddNewLines } from './conversation/AddNewLines';
+import { MESSAGE_TEXT_CLASS_NAME } from './BaseConversationListItem';
+import { MessageBody } from '../conversation/MessageBody';
+import { Emojify } from '../conversation/Emojify';
+import { AddNewLines } from '../conversation/AddNewLines';
 
-import { SizeClassType } from './emoji/lib';
+import { SizeClassType } from '../emoji/lib';
 
-import { LocalizerType, RenderTextCallbackType } from '../types/Util';
+import { LocalizerType, RenderTextCallbackType } from '../../types/Util';
+
+const CLASS_NAME = `${MESSAGE_TEXT_CLASS_NAME}__message-search-result-contents`;
 
 export type Props = {
   text: string;
@@ -41,7 +44,7 @@ const renderEmoji = ({
 );
 
 export class MessageBodyHighlight extends React.Component<Props> {
-  public render(): JSX.Element | Array<JSX.Element> {
+  private renderContents(): ReactNode {
     const { text, i18n } = this.props;
     const results: Array<JSX.Element> = [];
     const FIND_BEGIN_END = /<<left>>(.+?)<<right>>/g;
@@ -105,5 +108,9 @@ export class MessageBodyHighlight extends React.Component<Props> {
     }
 
     return results;
+  }
+
+  public render(): ReactNode {
+    return <div className={CLASS_NAME}>{this.renderContents()}</div>;
   }
 }

@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -32,6 +32,7 @@ type KeyType =
   | 'J'
   | 'L'
   | 'M'
+  | 'N'
   | 'P'
   | 'R'
   | 'S'
@@ -83,6 +84,10 @@ const NAVIGATION_SHORTCUTS: Array<ShortcutType> = [
   {
     description: 'Keyboard--open-conversation-menu',
     keys: [['commandOrCtrl', 'shift', 'L']],
+  },
+  {
+    description: 'Keyboard--new-conversation',
+    keys: [['commandOrCtrl', 'N']],
   },
   {
     description: 'Keyboard--search',

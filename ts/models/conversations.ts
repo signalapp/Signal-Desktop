@@ -24,6 +24,7 @@ import {
 import { ColorType } from '../types/Colors';
 import { MessageModel } from './messages';
 import { isMuted } from '../util/isMuted';
+import { isConversationUnregistered } from '../util/isConversationUnregistered';
 import { missingCaseError } from '../util/missingCaseError';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import { MIMEType, IMAGE_WEBP } from '../types/MIME';
@@ -736,15 +737,7 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   isUnregistered(): boolean {
-    const now = Date.now();
-    const sixHoursAgo = now - 1000 * 60 * 60 * 6;
-    const discoveredUnregisteredAt = this.get('discoveredUnregisteredAt');
-
-    if (discoveredUnregisteredAt && discoveredUnregisteredAt > sixHoursAgo) {
-      return true;
-    }
-
-    return false;
+    return isConversationUnregistered(this.attributes);
   }
 
   setUnregistered(): void {
@@ -1316,6 +1309,7 @@ export class ConversationModel extends window.Backbone.Model<
       canEditGroupInfo: this.canEditGroupInfo(),
       avatarPath: this.getAvatarPath()!,
       color,
+      discoveredUnregisteredAt: this.get('discoveredUnregisteredAt'),
       draftBodyRanges,
       draftPreview,
       draftText,
@@ -1329,7 +1323,6 @@ export class ConversationModel extends window.Backbone.Model<
       isMe: this.isMe(),
       isGroupV1AndDisabled: this.isGroupV1AndDisabled(),
       isPinned: this.get('isPinned'),
-      isMissingMandatoryProfileSharing: this.isMissingRequiredProfileSharing(),
       isUntrusted: this.isUntrusted(),
       isVerified: this.isVerified(),
       lastMessage: {
@@ -1354,6 +1347,7 @@ export class ConversationModel extends window.Backbone.Model<
       name: this.get('name')!,
       phoneNumber: this.getNumber()!,
       profileName: this.getProfileName()!,
+      profileSharing: this.get('profileSharing'),
       publicParams: this.get('publicParams'),
       secretParams: this.get('secretParams'),
       sharedGroupNames: this.get('sharedGroupNames')!,

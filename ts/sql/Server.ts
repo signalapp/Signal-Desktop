@@ -2414,7 +2414,7 @@ async function searchMessages(
   const rows = await db.all(
     `SELECT
       messages.json,
-      snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 15) as snippet
+      snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 10) as snippet
     FROM messages_fts
     INNER JOIN messages on messages_fts.id = messages.id
     WHERE
@@ -2442,7 +2442,7 @@ async function searchMessagesInConversation(
   const rows = await db.all(
     `SELECT
       messages.json,
-      snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 15) as snippet
+      snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 10) as snippet
     FROM messages_fts
     INNER JOIN messages on messages_fts.id = messages.id
     WHERE

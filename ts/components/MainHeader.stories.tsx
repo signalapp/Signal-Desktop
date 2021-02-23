@@ -57,6 +57,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   clearSearch: action('clearSearch'),
 
   showArchivedConversations: action('showArchivedConversations'),
+  startComposing: action('startComposing'),
 });
 
 story.add('Basic', () => {

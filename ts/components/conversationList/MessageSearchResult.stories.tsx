@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -6,8 +6,8 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { boolean, text, withKnobs } from '@storybook/addon-knobs';
 
-import { setup as setupI18n } from '../../js/modules/i18n';
-import enMessages from '../../_locales/en/messages.json';
+import { setup as setupI18n } from '../../../js/modules/i18n';
+import enMessages from '../../../_locales/en/messages.json';
 import { MessageSearchResult, PropsType } from './MessageSearchResult';
 
 const i18n = setupI18n('en', enMessages);
@@ -51,6 +51,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     'isSearchingInConversation',
     overrideProps.isSearchingInConversation || false
   ),
+  style: {},
 });
 
 story.add('Default', () => {
@@ -135,7 +136,7 @@ story.add('Long Search Result', () => {
   });
 });
 
-story.add('Empty', () => {
+story.add('Empty (should be invalid)', () => {
   const props = createProps();
 
   return <MessageSearchResult {...props} />;

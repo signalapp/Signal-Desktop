@@ -62,6 +62,7 @@ export type PropsType = {
   clearSearch: () => void;
 
   showArchivedConversations: () => void;
+  startComposing: () => void;
 };
 
 type StateType = {
@@ -340,6 +341,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
       color,
       i18n,
       name,
+      startComposing,
       phoneNumber,
       profileName,
       title,
@@ -353,6 +355,10 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     const placeholder = searchConversationName
       ? i18n('searchIn', [searchConversationName])
       : i18n('search');
+
+    const isSearching = Boolean(
+      searchConversationId || searchTerm.trim().length
+    );
 
     return (
       <div className="module-main-header">
@@ -456,6 +462,15 @@ export class MainHeader extends React.Component<PropsType, StateType> {
             />
           ) : null}
         </div>
+        {!isSearching && (
+          <button
+            aria-label={i18n('newConversation')}
+            className="module-main-header__compose-icon"
+            onClick={startComposing}
+            title={i18n('newConversation')}
+            type="button"
+          />
+        )}
       </div>
     );
   }

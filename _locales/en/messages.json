@@ -1893,6 +1893,18 @@
     "message": "Start new conversation…",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
+  "newConversation": {
+    "message": "New conversation",
+    "description": "Label for header when starting a new conversation"
+  },
+  "newConversationContactSearchPlaceholder": {
+    "message": "Search by name or phone number",
+    "description": "Placeholder to use when searching for contacts in the composer"
+  },
+  "newConversationNoContacts": {
+    "message": "No contacts found",
+    "description": "Label shown when there are no contacts to compose to"
+  },
   "notSupportedSMS": {
     "message": "SMS/MMS messages are not supported.",
     "description": "Label underneath number informing user that SMS is not supported on desktop"
@@ -2324,6 +2336,10 @@
   },
   "Keyboard--open-conversation-menu": {
     "message": "Open conversation menu",
+    "description": "Shown in the shortcuts guide"
+  },
+  "Keyboard--new-conversation": {
+    "message": "Start new conversation",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--archive-conversation": {

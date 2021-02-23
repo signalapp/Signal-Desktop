@@ -18,8 +18,8 @@ import {
 import { StateType as RootStateType } from '../reducer';
 import { calling } from '../../services/calling';
 import { getOwn } from '../../util/getOwn';
+import { assert } from '../../util/assert';
 import { trigger } from '../../shims/events';
-import { NoopActionType } from './noop';
 import { AttachmentType } from '../../types/Attachment';
 import { ColorType } from '../../types/Colors';
 import { BodyRangeType } from '../../types/Util';
@@ -65,6 +65,7 @@ export type ConversationType = {
   canChangeTimer?: boolean;
   canEditGroupInfo?: boolean;
   color?: ColorType;
+  discoveredUnregisteredAt?: number;
   isAccepted?: boolean;
   isArchived?: boolean;
   isBlocked?: boolean;
@@ -110,6 +111,7 @@ export type ConversationType = {
     profileName?: string;
   } | null;
   recentMediaItems?: Array<MediaItemType>;
+  profileSharing?: boolean;
 
   shouldShowDraft?: boolean;
   draftText?: string | null;
@@ -120,7 +122,6 @@ export type ConversationType = {
   groupVersion?: 1 | 2;
   groupId?: string;
   groupLink?: string;
-  isMissingMandatoryProfileSharing?: boolean;
   messageRequestsEnabled?: boolean;
   acceptedMessageRequest?: boolean;
   secretParams?: string;
@@ -231,6 +232,9 @@ export type ConversationsStateType = {
   selectedConversationTitle?: string;
   selectedConversationPanelDepth: number;
   showArchived: boolean;
+  composer?: {
+    contactSearchTerm: string;
+  };
 
   // Note: it's very important that both of these locations are always kept up to date
   messagesLookup: MessageLookupType;
@@ -431,12 +435,23 @@ export type ShowArchivedConversationsActionType = {
   type: 'SHOW_ARCHIVED_CONVERSATIONS';
   payload: null;
 };
+type SetComposeSearchTermActionType = {
+  type: 'SET_COMPOSE_SEARCH_TERM';
+  payload: { contactSearchTerm: string };
+};
 type SetRecentMediaItemsActionType = {
   type: 'SET_RECENT_MEDIA_ITEMS';
   payload: {
     id: string;
     recentMediaItems: Array<MediaItemType>;
   };
+};
+type StartComposingActionType = {
+  type: 'START_COMPOSING';
+};
+export type SwitchToAssociatedViewActionType = {
+  type: 'SWITCH_TO_ASSOCIATED_VIEW';
+  payload: { conversationId: string };
 };
 
 export type ConversationActionType =
@@ -458,6 +473,7 @@ export type ConversationActionType =
   | RepairOldestMessageActionType
   | ScrollToMessageActionType
   | SelectedConversationChangedActionType
+  | SetComposeSearchTermActionType
   | SetConversationHeaderTitleActionType
   | SetIsNearBottomActionType
   | SetLoadCountdownStartActionType
@@ -466,7 +482,9 @@ export type ConversationActionType =
   | SetRecentMediaItemsActionType
   | SetSelectedConversationPanelDepthActionType
   | ShowArchivedConversationsActionType
-  | ShowInboxActionType;
+  | ShowInboxActionType
+  | StartComposingActionType
+  | SwitchToAssociatedViewActionType;
 
 // Action Creators
 
@@ -490,6 +508,7 @@ export const actions = {
   repairOldestMessage,
   scrollToMessage,
   selectMessage,
+  setComposeSearchTerm,
   setIsNearBottom,
   setLoadCountdownStart,
   setMessagesLoading,
@@ -499,6 +518,8 @@ export const actions = {
   setSelectedConversationPanelDepth,
   showArchivedConversations,
   showInbox,
+  startComposing,
+  startNewConversationFromPhoneNumber,
 };
 
 function setPreJoinConversation(
@@ -770,19 +791,56 @@ function scrollToMessage(
   };
 }
 
+function setComposeSearchTerm(
+  contactSearchTerm: string
+): SetComposeSearchTermActionType {
+  return {
+    type: 'SET_COMPOSE_SEARCH_TERM',
+    payload: { contactSearchTerm },
+  };
+}
+
+function startComposing(): StartComposingActionType {
+  return { type: 'START_COMPOSING' };
+}
+
+function startNewConversationFromPhoneNumber(
+  e164: string
+): ThunkAction<void, RootStateType, unknown, ShowInboxActionType> {
+  return dispatch => {
+    trigger('showConversation', e164);
+
+    dispatch(showInbox());
+  };
+}
+
 // Note: we need two actions here to simplify. Operations outside of the left pane can
 //   trigger an 'openConversation' so we go through Whisper.events for all
 //   conversation selection. Internal just triggers the Whisper.event, and External
 //   makes the changes to the store.
-function openConversationInternal(
-  id: string,
-  messageId?: string
-): NoopActionType {
-  trigger('showConversation', id, messageId);
+function openConversationInternal({
+  conversationId,
+  messageId,
+  switchToAssociatedView,
+}: Readonly<{
+  conversationId: string;
+  messageId?: string;
+  switchToAssociatedView?: boolean;
+}>): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  SwitchToAssociatedViewActionType
+> {
+  return dispatch => {
+    trigger('showConversation', conversationId, messageId);
 
-  return {
-    type: 'NOOP',
-    payload: null,
+    if (switchToAssociatedView) {
+      dispatch({
+        type: 'SWITCH_TO_ASSOCIATED_VIEW',
+        payload: { conversationId },
+      });
+    }
   };
 }
 function openConversationExternal(
@@ -1626,13 +1684,13 @@ export function reducer(
   }
   if (action.type === 'SHOW_INBOX') {
     return {
-      ...state,
+      ...omit(state, 'composer'),
       showArchived: false,
     };
   }
   if (action.type === 'SHOW_ARCHIVED_CONVERSATIONS') {
     return {
-      ...state,
+      ...omit(state, 'composer'),
       showArchived: true,
     };
   }
@@ -1666,6 +1724,53 @@ export function reducer(
         [id]: data,
       },
       ...updateConversationLookups(data, undefined, state),
+    };
+  }
+
+  if (action.type === 'START_COMPOSING') {
+    if (state.composer) {
+      return state;
+    }
+
+    return {
+      ...state,
+      showArchived: false,
+      composer: {
+        contactSearchTerm: '',
+      },
+    };
+  }
+
+  if (action.type === 'SET_COMPOSE_SEARCH_TERM') {
+    const { composer } = state;
+    if (!composer) {
+      assert(
+        false,
+        'Setting compose search term with the composer closed is a no-op'
+      );
+      return state;
+    }
+
+    return {
+      ...state,
+      composer: {
+        ...composer,
+        contactSearchTerm: action.payload.contactSearchTerm,
+      },
+    };
+  }
+
+  if (action.type === 'SWITCH_TO_ASSOCIATED_VIEW') {
+    const conversation = getOwn(
+      state.conversationLookup,
+      action.payload.conversationId
+    );
+    if (!conversation) {
+      return state;
+    }
+    return {
+      ...omit(state, 'composer'),
+      showArchived: Boolean(conversation.isArchived),
     };
   }
 

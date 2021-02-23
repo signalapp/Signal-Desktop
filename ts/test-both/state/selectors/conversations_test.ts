@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -11,13 +11,19 @@ import {
 import {
   _getConversationComparator,
   _getLeftPaneLists,
+  getComposeContacts,
+  getComposerContactSearchTerm,
   getConversationSelector,
+  getIsConversationEmptySelector,
   getPlaceholderContact,
   getSelectedConversation,
   getSelectedConversationId,
+  isComposing,
 } from '../../../state/selectors/conversations';
 import { noopAction } from '../../../state/ducks/noop';
 import { StateType, reducer as rootReducer } from '../../../state/reducer';
+import { setup as setupI18n } from '../../../../js/modules/i18n';
+import enMessages from '../../../../_locales/en/messages.json';
 
 describe('both/state/selectors/conversations', () => {
   const getEmptyRootState = (): StateType => {
@@ -31,6 +37,8 @@ describe('both/state/selectors/conversations', () => {
       title: `${id} title`,
     };
   }
+
+  const i18n = setupI18n('en', enMessages);
 
   describe('#getConversationSelector', () => {
     it('returns empty placeholder if falsey id provided', () => {
@@ -208,6 +216,217 @@ describe('both/state/selectors/conversations', () => {
       const thirdActual = thirdSelector(id);
 
       assert.notStrictEqual(actual, thirdActual);
+    });
+  });
+
+  describe('#getIsConversationEmptySelector', () => {
+    it('returns a selector that returns true for conversations that have no messages', () => {
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          messagesByConversation: {
+            abc123: {
+              heightChangeMessageIds: [],
+              isLoadingMessages: false,
+              messageIds: [],
+              metrics: { totalUnread: 0 },
+              resetCounter: 0,
+              scrollToMessageCounter: 0,
+            },
+          },
+        },
+      };
+      const selector = getIsConversationEmptySelector(state);
+
+      assert.isTrue(selector('abc123'));
+    });
+
+    it('returns a selector that returns true for conversations that have no messages, even if loading', () => {
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          messagesByConversation: {
+            abc123: {
+              heightChangeMessageIds: [],
+              isLoadingMessages: true,
+              messageIds: [],
+              metrics: { totalUnread: 0 },
+              resetCounter: 0,
+              scrollToMessageCounter: 0,
+            },
+          },
+        },
+      };
+      const selector = getIsConversationEmptySelector(state);
+
+      assert.isTrue(selector('abc123'));
+    });
+
+    it('returns a selector that returns false for conversations that have messages', () => {
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          messagesByConversation: {
+            abc123: {
+              heightChangeMessageIds: [],
+              isLoadingMessages: false,
+              messageIds: ['xyz'],
+              metrics: { totalUnread: 0 },
+              resetCounter: 0,
+              scrollToMessageCounter: 0,
+            },
+          },
+        },
+      };
+      const selector = getIsConversationEmptySelector(state);
+
+      assert.isFalse(selector('abc123'));
+    });
+  });
+
+  describe('#isComposing', () => {
+    it('returns false if there is no composer state', () => {
+      assert.isFalse(isComposing(getEmptyRootState()));
+    });
+
+    it('returns true if there is composer state', () => {
+      assert.isTrue(
+        isComposing({
+          ...getEmptyRootState(),
+          conversations: {
+            ...getEmptyState(),
+            composer: {
+              contactSearchTerm: '',
+            },
+          },
+        })
+      );
+    });
+  });
+
+  describe('#getComposeContacts', () => {
+    const getRootState = (contactSearchTerm = ''): StateType => {
+      const rootState = getEmptyRootState();
+      return {
+        ...rootState,
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            'our-conversation-id': {
+              ...getDefaultConversation('our-conversation-id'),
+              isMe: true,
+            },
+          },
+          composer: {
+            contactSearchTerm,
+          },
+        },
+        user: {
+          ...rootState.user,
+          ourConversationId: 'our-conversation-id',
+          i18n,
+        },
+      };
+    };
+
+    const getRootStateWithConverastions = (
+      contactSearchTerm = ''
+    ): StateType => {
+      const result = getRootState(contactSearchTerm);
+      Object.assign(result.conversations.conversationLookup, {
+        'convo-1': {
+          ...getDefaultConversation('convo-1'),
+          name: 'In System Contacts',
+          title: 'A. Sorted First',
+        },
+        'convo-2': {
+          ...getDefaultConversation('convo-2'),
+          title: 'Should Be Dropped (no name, no profile sharing)',
+        },
+        'convo-3': {
+          ...getDefaultConversation('convo-3'),
+          type: 'group',
+          title: 'Should Be Dropped (group)',
+        },
+        'convo-4': {
+          ...getDefaultConversation('convo-4'),
+          isBlocked: true,
+          title: 'Should Be Dropped (blocked)',
+        },
+        'convo-5': {
+          ...getDefaultConversation('convo-5'),
+          discoveredUnregisteredAt: new Date(1999, 3, 20).getTime(),
+          title: 'Should Be Dropped (unregistered)',
+        },
+        'convo-6': {
+          ...getDefaultConversation('convo-6'),
+          profileSharing: true,
+          title: 'C. Has Profile Sharing',
+        },
+        'convo-7': {
+          ...getDefaultConversation('convo-7'),
+          discoveredUnregisteredAt: Date.now(),
+          name: 'In System Contacts (and only recently unregistered)',
+          title: 'B. Sorted Second',
+        },
+      });
+      return result;
+    };
+
+    it('only returns Note to Self when there are no other contacts', () => {
+      const state = getRootState();
+      const result = getComposeContacts(state);
+
+      assert.lengthOf(result, 1);
+      assert.strictEqual(result[0]?.id, 'our-conversation-id');
+    });
+
+    it("returns no results when search doesn't match Note to Self and there are no other contacts", () => {
+      const state = getRootState('foo bar baz');
+      const result = getComposeContacts(state);
+
+      assert.isEmpty(result);
+    });
+
+    it('returns contacts with Note to Self at the end when there is no search term', () => {
+      const state = getRootStateWithConverastions();
+      const result = getComposeContacts(state);
+
+      const ids = result.map(contact => contact.id);
+      assert.deepEqual(ids, [
+        'convo-1',
+        'convo-7',
+        'convo-6',
+        'our-conversation-id',
+      ]);
+    });
+
+    it('can search for contacts', () => {
+      const state = getRootStateWithConverastions('in system');
+      const result = getComposeContacts(state);
+
+      const ids = result.map(contact => contact.id);
+      assert.deepEqual(ids, ['convo-1', 'convo-7']);
+    });
+  });
+
+  describe('#getComposerContactSearchTerm', () => {
+    it("returns the composer's contact search term", () => {
+      assert.strictEqual(
+        getComposerContactSearchTerm({
+          ...getEmptyRootState(),
+          conversations: {
+            ...getEmptyState(),
+            composer: {
+              contactSearchTerm: 'foo bar',
+            },
+          },
+        }),
+        'foo bar'
+      );
     });
   });
 
