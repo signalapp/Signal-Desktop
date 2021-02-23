@@ -23918,8 +23918,6 @@ var Internal = Internal || {};
         },
 
         HKDF: function(input, salt, info) {
-            // Specific implementation of RFC 5869 that only returns the first 3 32-byte chunks
-            // TODO: We dont always need the third chunk, we might skip it
             return Internal.crypto.sign(salt, input).then(function(PRK) {
                 var infoBuffer = new ArrayBuffer(info.byteLength + 1 + 32);
                 var infoArray = new Uint8Array(infoBuffer);
@@ -23978,12 +23976,6 @@ var Internal = Internal || {};
                 throw new Error("Bad MAC");
             }
         });
-    };
-
-    libsignal.HKDF = {
-        deriveSecrets: function(input, salt, info) {
-            return Internal.HKDF(input, salt, info);
-        }
     };
 
     libsignal.crypto = {

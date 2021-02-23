@@ -627,6 +627,18 @@ try {
   window.libsignal.externalCurve = externalCurve;
   window.libsignal.externalCurveAsync = externalCurveAsync;
 
+  window.libsignal.HKDF = {};
+  window.libsignal.HKDF.deriveSecrets = (input, salt, info) => {
+    const hkdf = client.HKDF.new(3);
+    const output = hkdf.deriveSecrets(
+      3 * 32,
+      Buffer.from(input),
+      Buffer.from(info),
+      Buffer.from(salt)
+    );
+    return [output.slice(0, 32), output.slice(32, 64), output.slice(64, 96)];
+  };
+
   // Pulling these in separately since they access filesystem, electron
   window.Signal.Backup = require('./js/modules/backup');
   window.Signal.Debug = require('./js/modules/debug');
