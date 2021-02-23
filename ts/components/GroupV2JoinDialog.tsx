@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { LocalizerType } from '../types/Util';
 import { Avatar } from './Avatar';
 import { Spinner } from './Spinner';
+import { Button, ButtonVariant } from './Button';
 
 import { PreJoinConversationType } from '../state/ducks/conversations';
 
@@ -90,30 +91,30 @@ export const GroupV2JoinDialog = React.memo((props: PropsType) => {
       </div>
       <div className="module-group-v2-join-dialog__prompt">{promptString}</div>
       <div className="module-group-v2-join-dialog__buttons">
-        <button
+        <Button
           className={classNames(
             'module-group-v2-join-dialog__button',
             'module-group-v2-join-dialog__button--secondary'
           )}
           disabled={isWorking}
-          type="button"
           onClick={wrappedClose}
+          variant={ButtonVariant.Secondary}
         >
           {i18n('cancel')}
-        </button>
-        <button
+        </Button>
+        <Button
           className="module-group-v2-join-dialog__button"
           disabled={isWorking}
           ref={focusRef}
-          type="button"
           onClick={wrappedJoin}
+          variant={ButtonVariant.Primary}
         >
           {isJoining ? (
             <Spinner size="20px" svgSize="small" direction="on-avatar" />
           ) : (
             joinString
           )}
-        </button>
+        </Button>
       </div>
     </div>
   );

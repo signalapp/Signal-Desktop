@@ -11006,28 +11006,13 @@ button.module-image__border-overlay:focus {
   display: flex;
 }
 .module-group-v2-join-dialog__button {
-  @include button-reset;
-  @include font-body-1-bold;
-
   // Start flex basis at zero so text width doesn't affect layout. We want the buttons
   //   evenly distributed.
   flex: 1 1 0px;
 
-  border-radius: 4px;
-
-  padding: 8px;
-  padding-left: 15px;
-  padding-right: 15px;
-
-  @include button-primary;
-
   &:not(:first-of-type) {
     margin-left: 16px;
   }
-}
-
-.module-group-v2-join-dialog__button--secondary {
-  @include button-secondary;
 }
 
 // Module: Progress Dialog

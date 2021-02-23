@@ -113,7 +113,7 @@ module.exports = grunt => {
         tasks: ['exec:build-protobuf'],
       },
       sass: {
-        files: ['./stylesheets/*.scss'],
+        files: ['./stylesheets/*.scss', './stylesheets/**/*.scss'],
         tasks: ['sass'],
       },
       transpile: {
