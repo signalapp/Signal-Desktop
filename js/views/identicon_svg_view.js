@@ -1,4 +1,4 @@
-// Copyright 2015-2020 Signal Messenger, LLC
+// Copyright 2015-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* global Whisper, loadImage */
@@ -21,7 +21,7 @@
       const svg = new Blob([html], { type: 'image/svg+xml;charset=utf-8' });
       return URL.createObjectURL(svg);
     },
-    getDataUrl() {
+    getDataUrl() /* : Promise<string> */ {
       const svgurl = this.getSVGUrl();
       return new Promise(resolve => {
         const img = document.createElement('img');
@@ -35,6 +35,11 @@
           ctx.drawImage(img, 0, 0);
           URL.revokeObjectURL(svgurl);
           resolve(canvas.toDataURL('image/png'));
+        };
+        img.onerror = () => {
+          URL.revokeObjectURL(svgurl);
+          // If this fails for some reason, we'd rather continue on than reject.
+          resolve(undefined);
         };
 
         img.src = svgurl;

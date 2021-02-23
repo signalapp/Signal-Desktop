@@ -1805,7 +1805,6 @@ Whisper.ConversationView = Whisper.View.extend({
     return new Promise((resolve, reject) => {
       const url = URL.createObjectURL(file);
       const img = document.createElement('img');
-      img.onerror = reject;
       img.onload = () => {
         URL.revokeObjectURL(url);
 
@@ -1862,6 +1861,16 @@ Whisper.ConversationView = Whisper.View.extend({
           contentType: targetContentType,
           file: blob,
         });
+      };
+      img.onerror = (
+        _event: unknown,
+        _source: unknown,
+        _lineno: unknown,
+        _colno: unknown,
+        error: Error = new Error('Failed to load image for auto-scaling')
+      ) => {
+        URL.revokeObjectURL(url);
+        reject(error);
       };
       img.src = url;
     });
