@@ -10,7 +10,7 @@ import {
 import { trigger } from '../../shims/events';
 import { SessionHtmlRenderer } from './SessionHTMLRenderer';
 import { SessionIdEditable } from './SessionIdEditable';
-import { StringUtils, ToastUtils } from '../../session/utils';
+import { StringUtils, ToastUtils, UserUtils } from '../../session/utils';
 import { lightTheme } from '../../state/ducks/SessionTheme';
 import { ConversationController } from '../../session/conversations';
 import { PasswordUtil } from '../../util';
@@ -702,12 +702,24 @@ export class RegistrationTabs extends React.Component<any, State> {
       await this.resetRegistration();
 
       await window.setPassword(password);
+      const isRestoringFromSeed = signInMode === SignInMode.UsingRecoveryPhrase;
+      UserUtils.setRestoringFromSeed(isRestoringFromSeed);
+
       await this.accountManager.registerSingleDevice(
         seedToUse,
         language,
         trimName
       );
-      trigger('openInbox');
+      // if we are just creating a new account, no need to wait for a configuration message
+      if (!isRestoringFromSeed) {
+        trigger('openInbox');
+      } else {
+        // We have to pull for all messages of the user of this menmonic
+        // We are looking for the most recent ConfigurationMessage he sent to himself.
+        // When we find it, we can just get the displayName, avatar and groups saved in it.
+        // If we do not find one, we will need to ask for a display name.
+        window.log.warn('isRestoringFromSeed');
+      }
     } catch (e) {
       ToastUtils.pushToastError(
         'registrationError',

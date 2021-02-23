@@ -517,9 +517,12 @@ window.deleteAccount = async reason => {
   try {
     window.log.info('DeleteAccount => Sending a last SyncConfiguration');
     // be sure to wait for the message being effectively sent. Otherwise we won't be able to encrypt it for our devices !
+    window.log.info('Sending one last configuration message.')
     await window.libsession.Utils.SyncUtils.forceSyncConfigurationNowIfNeeded(
       true
     );
+    window.log.info('Last configuration message sent!')
+
     await syncedMessageSent();
   } catch (error) {
     window.log.error(

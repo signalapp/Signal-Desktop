@@ -390,7 +390,7 @@ export async function innerHandleContentMessage(
       'private'
     );
 
-    if (content.dataMessage) {
+    if (content.dataMessage && !UserUtils.isRestoringFromSeed()) {
       if (
         content.dataMessage.profileKey &&
         content.dataMessage.profileKey.length === 0
@@ -401,15 +401,16 @@ export async function innerHandleContentMessage(
       return;
     }
 
-    if (content.receiptMessage) {
+    if (content.receiptMessage && !UserUtils.isRestoringFromSeed()) {
       await handleReceiptMessage(envelope, content.receiptMessage);
       return;
     }
-    if (content.typingMessage) {
+    if (content.typingMessage && !UserUtils.isRestoringFromSeed()) {
       await handleTypingMessage(envelope, content.typingMessage);
       return;
     }
 
+    // Be sure to check for the UserUtils.isRestoringFromSeed() if you add another if here
     if (content.configurationMessage) {
       await handleConfigurationMessage(
         envelope,
@@ -417,6 +418,7 @@ export async function innerHandleContentMessage(
       );
       return;
     }
+    // Be sure to check for the UserUtils.isRestoringFromSeed() if you add another if here
   } catch (e) {
     window.log.warn(e);
   }

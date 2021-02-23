@@ -24,6 +24,18 @@
       return textsecure.utils.unencodeNumber(numberId)[0];
     },
 
+    isRestoringFromSeed() {
+      const isRestoring = textsecure.storage.get('is_restoring_from_seed');
+      if (isRestoring === undefined) {
+        return false;
+      }
+      return isRestoring;
+    },
+
+    setRestoringFromSeed(isRestoringFromSeed) {
+      textsecure.storage.put('is_restoring_from_seed', isRestoringFromSeed);
+    },
+
     getDeviceId() {
       const numberId = textsecure.storage.get('number_id');
       if (numberId === undefined) {

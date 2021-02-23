@@ -49,6 +49,8 @@ export const forceSyncConfigurationNowIfNeeded = async (
   async function waitForMessageSentEvent(message: RawMessage) {
     return new Promise(resolve => {
       if (message.identifier === configMessage.identifier) {
+        // might have fail in fact
+        debugger;
         resolve(true);
       }
     });
@@ -61,10 +63,9 @@ export const forceSyncConfigurationNowIfNeeded = async (
         configMessage,
         waitForMessageSentEvent as any
       );
-      return Promise.resolve();
+      return waitForMessageSentEvent;
     } else {
       await getMessageQueue().sendSyncMessage(configMessage);
-      return waitForMessageSentEvent;
     }
   } catch (e) {
     window.log.warn(

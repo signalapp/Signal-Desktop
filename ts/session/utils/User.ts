@@ -69,3 +69,18 @@ export async function getUserED25519KeyPair(): Promise<HexKeyPair | undefined> {
   }
   return undefined;
 }
+
+/**
+ * Returns the public key of this current device as a STRING, or throws an error
+ */
+export function isRestoringFromSeed(): boolean {
+  const ourNumber = window.textsecure.storage.user.isRestoringFromSeed();
+  if (!ourNumber) {
+    throw new Error('ourNumber is not set');
+  }
+  return ourNumber;
+}
+
+export function setRestoringFromSeed(isRestoring: boolean) {
+  window.textsecure.storage.user.setRestoringFromSeed(isRestoring);
+}
