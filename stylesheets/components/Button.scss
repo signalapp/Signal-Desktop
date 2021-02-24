@@ -33,6 +33,10 @@
     @include focus-box-shadow($color-black, $ultramarine-brand-light);
   }
 
+  &:disabled {
+    cursor: not-allowed;
+  }
+
   &--primary {
     $color: $color-white;
     $background-color: $ultramarine-ui-light;
