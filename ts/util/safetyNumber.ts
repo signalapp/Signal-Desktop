@@ -28,12 +28,6 @@ export async function generateSecurityNumber(
   return Promise.resolve(fingerprintString);
 }
 
-export function getPlaceholder(): string {
-  return Array.from(Array(12))
-    .map(() => 'XXXXX')
-    .join(' ');
-}
-
 export async function generateSecurityNumberBlock(
   contact: ConversationType
 ): Promise<Array<string>> {
