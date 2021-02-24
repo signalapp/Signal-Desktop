@@ -69,6 +69,7 @@ export const getCurrentConfigurationMessage = async (
   convos: Array<ConversationModel>
 ) => {
   const ourPubKey = (await UserUtils.getOurNumber()).key;
+  const ourConvo = convos.find(convo => convo.id === ourPubKey);
   const openGroupsIds = convos
     .filter(c => !!c.get('active_at') && c.isPublic() && !c.get('left'))
     .map(c => c.id.substring((c.id as string).lastIndexOf('@') + 1)) as Array<
@@ -107,10 +108,27 @@ export const getCurrentConfigurationMessage = async (
   const onlyValidClosedGroup = closedGroups.filter(m => m !== null) as Array<
     ConfigurationMessageClosedGroup
   >;
+
+  if (!ourConvo) {
+    window.log.error(
+      'Could not find our convo while building a configuration message.'
+    );
+  }
+  const profileKeyFromStorage = window.storage.get('profileKey');
+  const profileKey = profileKeyFromStorage
+    ? new Uint8Array(profileKeyFromStorage)
+    : undefined;
+
+  const profilePicture = ourConvo?.get('avatarPointer') || undefined;
+  const displayName = ourConvo?.getLokiProfile()?.displayName || undefined;
+
   return new ConfigurationMessage({
     identifier: uuid(),
     timestamp: Date.now(),
     activeOpenGroups: openGroupsIds,
     activeClosedGroups: onlyValidClosedGroup,
+    displayName,
+    profilePicture,
+    profileKey,
   });
 };

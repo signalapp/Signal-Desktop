@@ -11,16 +11,25 @@ import { PubKey } from '../../../types';
 interface ConfigurationMessageParams extends MessageParams {
   activeClosedGroups: Array<ConfigurationMessageClosedGroup>;
   activeOpenGroups: Array<string>;
+  displayName: string;
+  profilePicture?: string;
+  profileKey?: Uint8Array;
 }
 
 export class ConfigurationMessage extends ContentMessage {
   public readonly activeClosedGroups: Array<ConfigurationMessageClosedGroup>;
   public readonly activeOpenGroups: Array<string>;
+  public readonly displayName: string;
+  public readonly profilePicture?: string;
+  public readonly profileKey?: Uint8Array;
 
   constructor(params: ConfigurationMessageParams) {
     super({ timestamp: params.timestamp, identifier: params.identifier });
     this.activeClosedGroups = params.activeClosedGroups;
     this.activeOpenGroups = params.activeOpenGroups;
+    this.displayName = params.displayName;
+    this.profilePicture = params.profilePicture;
+    this.profileKey = params.profileKey;
 
     if (!this.activeClosedGroups) {
       throw new Error('closed group must be set');
@@ -29,10 +38,22 @@ export class ConfigurationMessage extends ContentMessage {
     if (!this.activeOpenGroups) {
       throw new Error('open group must be set');
     }
+
+    if (!this.displayName || !this.displayName?.length) {
+      throw new Error('displayName must be set');
+    }
+
+    if (this.profilePicture && typeof this.profilePicture !== 'string') {
+      throw new Error('profilePicture set but not an Uin8Array');
+    }
+
+    if (this.profileKey && !(this.profileKey instanceof Uint8Array)) {
+      throw new Error('profileKey set but not an Uin8Array');
+    }
   }
 
   public ttl(): number {
-    return Constants.TTL_DEFAULT.TYPING_MESSAGE;
+    return Constants.TTL_DEFAULT.CONFIGURATION_MESSAGE;
   }
 
   public contentProto(): SignalService.Content {
@@ -45,6 +66,9 @@ export class ConfigurationMessage extends ContentMessage {
     return new SignalService.ConfigurationMessage({
       closedGroups: this.mapClosedGroupsObjectToProto(this.activeClosedGroups),
       openGroups: this.activeOpenGroups,
+      displayName: this.displayName,
+      profilePicture: this.profilePicture,
+      profileKey: this.profileKey,
     });
   }
 

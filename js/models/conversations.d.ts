@@ -22,6 +22,7 @@ interface ConversationAttributes {
   is_medium_group?: boolean;
   type: string;
   lastMessage?: string;
+  avatarPointer?: string;
 }
 
 export interface ConversationModel

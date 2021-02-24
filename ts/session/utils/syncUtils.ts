@@ -42,39 +42,34 @@ export const syncConfigurationIfNeeded = async () => {
 
 export const forceSyncConfigurationNowIfNeeded = async (
   waitForMessageSent = false
-) => {
-  const allConvos = ConversationController.getInstance().getConversations();
-  const configMessage = await getCurrentConfigurationMessage(allConvos);
-  window.log.info('forceSyncConfigurationNowIfNeeded with', configMessage);
+) =>
+  new Promise(resolve => {
+    const allConvos = ConversationController.getInstance().getConversations();
 
-  const waitForMessageSentEvent = new Promise(resolve => {
-    const ourResolver = (message: any) => {
-      if (message.identifier === configMessage.identifier) {
-        getMessageQueue().events.off('sendSuccess', ourResolver);
-        getMessageQueue().events.off('sendFail', ourResolver);
-        resolve(true);
+    void getCurrentConfigurationMessage(allConvos).then(configMessage => {
+      window.log.info('forceSyncConfigurationNowIfNeeded with', configMessage);
+
+      try {
+        // this just adds the message to the sending queue.
+        // if waitForMessageSent is set, we need to effectively wait until then
+        // tslint:disable-next-line: no-void-expression
+        const callback = waitForMessageSent
+          ? () => {
+              resolve(true);
+            }
+          : undefined;
+        void getMessageQueue().sendSyncMessage(configMessage, callback as any);
+        // either we resolve from the callback if we need to wait for it,
+        // or we don't want to wait, we resolve it here.
+        if (!waitForMessageSent) {
+          resolve(true);
+        }
+      } catch (e) {
+        window.log.warn(
+          'Caught an error while sending our ConfigurationMessage:',
+          e
+        );
+        resolve(false);
       }
-    };
-    getMessageQueue().events.on('sendSuccess', ourResolver);
-    getMessageQueue().events.on('sendFail', ourResolver);
+    });
   });
-
-  try {
-    // this just adds the message to the sending queue.
-    // if waitForMessageSent is set, we need to effectively wait until then
-    await Promise.all([
-      getMessageQueue().sendSyncMessage(configMessage),
-      waitForMessageSentEvent,
-    ]);
-  } catch (e) {
-    window.log.warn(
-      'Caught an error while sending our ConfigurationMessage:',
-      e
-    );
-  }
-  if (!waitForMessageSent) {
-    return;
-  }
-
-  return waitForMessageSentEvent;
-};
