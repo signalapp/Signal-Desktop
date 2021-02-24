@@ -4802,7 +4802,7 @@
     }
   },
   "PendingInvites--revoke-from-plural": {
-    "message": "Revoke $number$ invites sent by \"$name$\"",
+    "message": "Revoke $number$ invites sent by \"$name$\"?",
     "description": "This is the modal content when confirming revoking multiple invites",
     "placeholders": {
       "number": {
