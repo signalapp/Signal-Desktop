@@ -10,6 +10,7 @@ import { ConversationModel } from '../../../js/models/conversations';
 import {
   ConfigurationMessage,
   ConfigurationMessageClosedGroup,
+  ConfigurationMessageContact,
 } from '../messages/outgoing/content/ConfigurationMessage';
 import uuid from 'uuid';
 import { getLatestClosedGroupEncryptionKeyPair } from '../../../js/modules/data';
@@ -70,11 +71,15 @@ export const getCurrentConfigurationMessage = async (
 ) => {
   const ourPubKey = (await UserUtils.getOurNumber()).key;
   const ourConvo = convos.find(convo => convo.id === ourPubKey);
+
+  // Filter open groups
   const openGroupsIds = convos
     .filter(c => !!c.get('active_at') && c.isPublic() && !c.get('left'))
     .map(c => c.id.substring((c.id as string).lastIndexOf('@') + 1)) as Array<
     string
   >;
+
+  // Filter Closed/Medium groups
   const closedGroupModels = convos.filter(
     c =>
       !!c.get('active_at') &&
@@ -109,6 +114,21 @@ export const getCurrentConfigurationMessage = async (
     ConfigurationMessageClosedGroup
   >;
 
+  // Filter contacts
+  const contactsModels = convos.filter(
+    c => !!c.get('active_at') && c.isPrivate() && !c.isBlocked()
+  );
+
+  const contacts = contactsModels.map(c => {
+    const groupPubKey = c.get('id');
+    return new ConfigurationMessageContact({
+      publicKey: groupPubKey,
+      displayName: c.get('name'),
+      profilePictureURL: c.get('avatarPointer'),
+      profileKey: c.get('profileKey'),
+    });
+  });
+
   if (!ourConvo) {
     window.log.error(
       'Could not find our convo while building a configuration message.'
@@ -130,5 +150,6 @@ export const getCurrentConfigurationMessage = async (
     displayName,
     profilePicture,
     profileKey,
+    contacts,
   });
 };

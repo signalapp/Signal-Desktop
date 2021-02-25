@@ -4,6 +4,7 @@ import { ECKeyPair } from '../../../../receiver/keypairs';
 import {
   ConfigurationMessage,
   ConfigurationMessageClosedGroup,
+  ConfigurationMessageContact,
 } from '../../../../session/messages/outgoing/content/ConfigurationMessage';
 import { TestUtils } from '../../../test-utils';
 
@@ -16,6 +17,7 @@ describe('ConfigurationMessage', () => {
       activeOpenGroups: [],
       timestamp: Date.now(),
       displayName: 'displayName',
+      contacts: [],
     };
     expect(() => new ConfigurationMessage(params)).to.throw(
       'closed group must be set'
@@ -29,6 +31,7 @@ describe('ConfigurationMessage', () => {
       activeOpenGroups,
       timestamp: Date.now(),
       displayName: 'displayName',
+      contacts: [],
     };
     expect(() => new ConfigurationMessage(params)).to.throw(
       'open group must be set'
@@ -41,6 +44,7 @@ describe('ConfigurationMessage', () => {
       activeOpenGroups: [],
       timestamp: Date.now(),
       displayName: undefined as any,
+      contacts: [],
     };
     expect(() => new ConfigurationMessage(params)).to.throw(
       'displayName must be set'
@@ -53,6 +57,7 @@ describe('ConfigurationMessage', () => {
       activeOpenGroups: [],
       timestamp: Date.now(),
       displayName: undefined as any,
+      contacts: [],
     };
     expect(() => new ConfigurationMessage(params)).to.throw(
       'displayName must be set'
@@ -65,6 +70,7 @@ describe('ConfigurationMessage', () => {
       activeOpenGroups: [],
       timestamp: Date.now(),
       displayName: 'displayName',
+      contacts: [],
     };
     const configMessage = new ConfigurationMessage(params);
     expect(configMessage.ttl()).to.be.equal(4 * 24 * 60 * 60 * 1000);
@@ -172,6 +178,86 @@ describe('ConfigurationMessage', () => {
 
       expect(() => new ConfigurationMessageClosedGroup(params)).to.throw(
         'some admins are not members'
+      );
+    });
+  });
+
+  describe('ConfigurationMessageContact', () => {
+    it('throws if contacts is not set', () => {
+      const params = {
+        activeClosedGroups: [],
+        activeOpenGroups: [],
+        timestamp: Date.now(),
+        displayName: 'displayName',
+        contacts: undefined as any,
+      };
+      expect(() => new ConfigurationMessage(params)).to.throw(
+        'contacts must be set'
+      );
+    });
+    it('throw if some admins are not members', () => {
+      const member = TestUtils.generateFakePubKey().key;
+      const admin = TestUtils.generateFakePubKey().key;
+      const params = {
+        publicKey: TestUtils.generateFakePubKey().key,
+        name: 'groupname',
+        members: [member],
+        admins: [admin],
+        encryptionKeyPair: TestUtils.generateFakeECKeyPair(),
+      };
+
+      expect(() => new ConfigurationMessageClosedGroup(params)).to.throw(
+        'some admins are not members'
+      );
+    });
+
+    it('throw if the contact has not a valid pubkey', () => {
+      const params = {
+        publicKey: '05',
+        displayName: 'contactDisplayName',
+      };
+
+      expect(() => new ConfigurationMessageContact(params)).to.throw();
+
+      const params2 = {
+        publicKey: undefined as any,
+        displayName: 'contactDisplayName',
+      };
+
+      expect(() => new ConfigurationMessageContact(params2)).to.throw();
+    });
+
+    it('throw if the contact has an empty disploy name', () => {
+      // a display name cannot be empty. It should be undefined rather than empty
+      const params2 = {
+        publicKey: TestUtils.generateFakePubKey().key,
+        displayName: '',
+      };
+
+      expect(() => new ConfigurationMessageContact(params2)).to.throw();
+    });
+
+    it('throw if the contact has a profileAvatar set but empty', () => {
+      const params = {
+        publicKey: TestUtils.generateFakePubKey().key,
+        displayName: 'contactDisplayName',
+        profilePictureURL: '',
+      };
+
+      expect(() => new ConfigurationMessageContact(params)).to.throw(
+        'profilePictureURL must either undefined or not empty'
+      );
+    });
+
+    it('throw if the contact has a profileKey set but empty', () => {
+      const params = {
+        publicKey: TestUtils.generateFakePubKey().key,
+        displayName: 'contactDisplayName',
+        profileKey: new Uint8Array(),
+      };
+
+      expect(() => new ConfigurationMessageContact(params)).to.throw(
+        'profileKey must either undefined or not empty'
       );
     });
   });

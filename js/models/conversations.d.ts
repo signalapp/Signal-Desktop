@@ -23,6 +23,7 @@ interface ConversationAttributes {
   type: string;
   lastMessage?: string;
   avatarPointer?: string;
+  profileKey?: Uint8Array;
 }
 
 export interface ConversationModel

@@ -216,6 +216,7 @@ describe('Message Utils', () => {
         activeOpenGroups: [],
         activeClosedGroups: [],
         displayName: 'displayName',
+        contacts: [],
       });
       const rawMessage = await MessageUtils.toRawMessage(device, msg);
       expect(rawMessage.encryption).to.equal(EncryptionType.Fallback);

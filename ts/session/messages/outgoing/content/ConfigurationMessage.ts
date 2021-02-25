@@ -14,6 +14,7 @@ interface ConfigurationMessageParams extends MessageParams {
   displayName: string;
   profilePicture?: string;
   profileKey?: Uint8Array;
+  contacts: Array<ConfigurationMessageContact>;
 }
 
 export class ConfigurationMessage extends ContentMessage {
@@ -22,6 +23,7 @@ export class ConfigurationMessage extends ContentMessage {
   public readonly displayName: string;
   public readonly profilePicture?: string;
   public readonly profileKey?: Uint8Array;
+  public readonly contacts: Array<ConfigurationMessageContact>;
 
   constructor(params: ConfigurationMessageParams) {
     super({ timestamp: params.timestamp, identifier: params.identifier });
@@ -30,6 +32,7 @@ export class ConfigurationMessage extends ContentMessage {
     this.displayName = params.displayName;
     this.profilePicture = params.profilePicture;
     this.profileKey = params.profileKey;
+    this.contacts = params.contacts;
 
     if (!this.activeClosedGroups) {
       throw new Error('closed group must be set');
@@ -50,6 +53,10 @@ export class ConfigurationMessage extends ContentMessage {
     if (this.profileKey && !(this.profileKey instanceof Uint8Array)) {
       throw new Error('profileKey set but not an Uin8Array');
     }
+
+    if (!this.contacts) {
+      throw new Error('contacts must be set');
+    }
   }
 
   public ttl(): number {
@@ -69,6 +76,7 @@ export class ConfigurationMessage extends ContentMessage {
       displayName: this.displayName,
       profilePicture: this.profilePicture,
       profileKey: this.profileKey,
+      contacts: this.mapContactsObjectToProto(this.contacts),
     });
   }
 
@@ -78,6 +86,64 @@ export class ConfigurationMessage extends ContentMessage {
     return (closedGroups || []).map(m =>
       new ConfigurationMessageClosedGroup(m).toProto()
     );
+  }
+
+  private mapContactsObjectToProto(
+    contacts: Array<ConfigurationMessageContact>
+  ): Array<SignalService.ConfigurationMessage.Contact> {
+    return (contacts || []).map(m =>
+      new ConfigurationMessageContact(m).toProto()
+    );
+  }
+}
+
+export class ConfigurationMessageContact {
+  public publicKey: string;
+  public displayName: string;
+  public profilePictureURL?: string;
+  public profileKey?: Uint8Array;
+
+  public constructor({
+    publicKey,
+    displayName,
+    profilePictureURL,
+    profileKey,
+  }: {
+    publicKey: string;
+    displayName: string;
+    profilePictureURL?: string;
+    profileKey?: Uint8Array;
+  }) {
+    this.publicKey = publicKey;
+    this.displayName = displayName;
+    this.profilePictureURL = profilePictureURL;
+    this.profileKey = profileKey;
+
+    // will throw if public key is invalid
+    PubKey.cast(publicKey);
+
+    if (this.displayName?.length === 0) {
+      throw new Error('displayName must be set or undefined');
+    }
+
+    if (
+      this.profilePictureURL !== undefined &&
+      this.profilePictureURL?.length === 0
+    ) {
+      throw new Error('profilePictureURL must either undefined or not empty');
+    }
+    if (this.profileKey !== undefined && this.profileKey?.length === 0) {
+      throw new Error('profileKey must either undefined or not empty');
+    }
+  }
+
+  public toProto(): SignalService.ConfigurationMessage.Contact {
+    return new SignalService.ConfigurationMessage.Contact({
+      publicKey: fromHexToArray(this.publicKey),
+      name: this.displayName,
+      profilePicture: this.profilePictureURL,
+      profileKey: this.profileKey,
+    });
   }
 }
 

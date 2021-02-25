@@ -36,6 +36,7 @@ describe('ConfigurationMessage_receiving', () => {
       timestamp: Date.now(),
       identifier: 'identifier',
       displayName: 'displayName',
+      contacts: [],
     });
   });
 
