@@ -48,6 +48,7 @@ export interface GroupInfo {
   blocked?: boolean;
   admins?: Array<string>;
   secretKey?: Uint8Array;
+  weWereJustAdded?: boolean;
 }
 
 interface UpdatableGroupState {
@@ -243,7 +244,7 @@ export function buildGroupDiff(
 }
 
 export async function updateOrCreateClosedGroup(details: GroupInfo) {
-  const { id } = details;
+  const { id, weWereJustAdded } = details;
 
   const conversation = await ConversationController.getInstance().getOrCreateAndWait(
     id,
@@ -268,7 +269,9 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
       updates.timestamp = updates.active_at;
     }
     updates.left = false;
-    updates.lastJoinedTimestamp = updates.active_at;
+    updates.lastJoinedTimestamp = weWereJustAdded
+      ? Date.now()
+      : updates.active_at;
   } else {
     updates.left = true;
   }

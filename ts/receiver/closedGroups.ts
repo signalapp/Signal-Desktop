@@ -235,6 +235,7 @@ export async function handleNewClosedGroup(
     members: members,
     admins,
     active: true,
+    weWereJustAdded: true,
   };
 
   // be sure to call this before sending the message.
@@ -509,7 +510,8 @@ async function performIfValid(
     lastJoinedTimestamp = aYearAgo;
   }
 
-  if (envelope.timestamp <= lastJoinedTimestamp) {
+  const envelopeTimestamp = _.toNumber(envelope.timestamp);
+  if (envelopeTimestamp <= lastJoinedTimestamp) {
     window.log.warn(
       'Got a group update with an older timestamp than when we joined this group last time. Dropping it.'
     );
