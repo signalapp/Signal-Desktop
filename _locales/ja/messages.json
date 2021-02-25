@@ -1370,10 +1370,10 @@
         "message": "表示名を選択してください"
     },
     "joinOpenGroup": {
-        "message": "オープングループに参加する"
+        "message": "公開グループに参加する"
     },
     "newClosedGroup": {
-        "message": "新しいクローズドグループ"
+        "message": "新しい非公開グループ"
     },
     "createClosedGroupNamePrompt": {
         "message": "グループ名"
@@ -1385,7 +1385,7 @@
         "message": "グループの URL を開く"
     },
     "enterAnOpenGroupURL": {
-        "message": "オープングループの URL を入力する"
+        "message": "公開グループの URL を入力する"
     },
     "next": {
         "message": "進む"
@@ -1403,7 +1403,7 @@
         "message": "グループメンバーを少なくとも 2 人選択してください"
     },
     "closedGroupMaxSize": {
-        "message": "閉じたグループは 100 人を超えるメンバーを抱えることはできません"
+        "message": "非公開グループは 100 人を超えるメンバーを抱えることはできません"
     },
     "noBlockedContacts": {
         "message": "ブロックしている連絡先はありません"
