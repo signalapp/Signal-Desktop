@@ -1061,8 +1061,7 @@
             (dataMessage.body ||
               (dataMessage.attachments && dataMessage.attachments.length))
         );
-        const shouldNotifyPushServer =
-          hasBodyOrAttachments && isSessionOrClosedMessage;
+        const shouldNotifyPushServer = hasBodyOrAttachments && !isOurDevice;
 
         if (shouldNotifyPushServer) {
           // notify the push notification server if needed
