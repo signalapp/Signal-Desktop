@@ -66,8 +66,8 @@ export const forceSyncConfigurationNowIfNeeded = async (
         // tslint:disable-next-line: no-void-expression
         const callback = waitForMessageSent
           ? () => {
-            resolve(true);
-          }
+              resolve(true);
+            }
           : undefined;
         void getMessageQueue().sendSyncMessage(configMessage, callback as any);
         // either we resolve from the callback if we need to wait for it,
@@ -95,8 +95,8 @@ export const getCurrentConfigurationMessage = async (
   const openGroupsIds = convos
     .filter(c => !!c.get('active_at') && c.isPublic() && !c.get('left'))
     .map(c => c.id.substring((c.id as string).lastIndexOf('@') + 1)) as Array<
-      string
-    >;
+    string
+  >;
 
   // Filter Closed/Medium groups
   const closedGroupModels = convos.filter(
