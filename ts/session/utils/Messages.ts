@@ -6,14 +6,6 @@ import {
 import { EncryptionType, PubKey } from '../types';
 import { ClosedGroupMessage } from '../messages/outgoing/content/data/group/ClosedGroupMessage';
 import { ClosedGroupNewMessage } from '../messages/outgoing/content/data/group/ClosedGroupNewMessage';
-import {
-  ConfigurationMessage,
-  ConfigurationMessageClosedGroup,
-} from '../messages/outgoing/content/ConfigurationMessage';
-import uuid from 'uuid';
-import { getLatestClosedGroupEncryptionKeyPair } from '../../../ts/data/data';
-import { UserUtils } from '.';
-import { ECKeyPair } from '../../receiver/keypairs';
 import _ from 'lodash';
 import { ConversationModel } from '../../models/conversation';
 import { ClosedGroupEncryptionPairReplyMessage } from '../messages/outgoing/content/data/group/ClosedGroupEncryptionPairReplyMessage';
@@ -64,53 +56,3 @@ export async function toRawMessage(
 
   return rawMessage;
 }
-
-export const getCurrentConfigurationMessage = async (
-  convos: Array<ConversationModel>
-) => {
-  const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
-  const openGroupsIds = convos
-    .filter(c => !!c.get('active_at') && c.isPublic() && !c.get('left'))
-    .map(c => c.id.substring((c.id as string).lastIndexOf('@') + 1)) as Array<
-    string
-  >;
-  const closedGroupModels = convos.filter(
-    c =>
-      !!c.get('active_at') &&
-      c.isMediumGroup() &&
-      c.get('members').includes(ourPubKey) &&
-      !c.get('left') &&
-      !c.get('isKickedFromGroup') &&
-      !c.isBlocked()
-  );
-
-  const closedGroups = await Promise.all(
-    closedGroupModels.map(async c => {
-      const groupPubKey = c.get('id');
-      const fetchEncryptionKeyPair = await getLatestClosedGroupEncryptionKeyPair(
-        groupPubKey
-      );
-      if (!fetchEncryptionKeyPair) {
-        return null;
-      }
-
-      return new ConfigurationMessageClosedGroup({
-        publicKey: groupPubKey,
-        name: c.get('name') || '',
-        members: c.get('members') || [],
-        admins: c.get('groupAdmins') || [],
-        encryptionKeyPair: ECKeyPair.fromHexKeyPair(fetchEncryptionKeyPair),
-      });
-    })
-  );
-
-  const onlyValidClosedGroup = closedGroups.filter(m => m !== null) as Array<
-    ConfigurationMessageClosedGroup
-  >;
-  return new ConfigurationMessage({
-    identifier: uuid(),
-    timestamp: Date.now(),
-    activeOpenGroups: openGroupsIds,
-    activeClosedGroups: onlyValidClosedGroup,
-  });
-};

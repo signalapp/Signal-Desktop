@@ -30,6 +30,10 @@ import {
   removeMessage as dataRemoveMessage,
   updateConversation,
 } from '../../ts/data/data';
+import {
+  fromArrayBufferToBase64,
+  fromBase64ToArrayBuffer,
+} from '../session/utils/String';
 
 export interface OurLokiProfile {
   displayName: string;
@@ -837,7 +841,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (profileKey && typeof profileKey !== 'string') {
       // eslint-disable-next-line no-param-reassign
       // tslint:disable-next-line: no-parameter-reassignment
-      profileKey = window.Signal.Crypto.arrayBufferToBase64(profileKey);
+      profileKey = fromArrayBufferToBase64(profileKey);
     }
     const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(
       this.get('server')
@@ -1312,7 +1316,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       await this.commit();
     }
   }
-  public async setProfileKey(profileKey: any) {
+  public async setProfileKey(profileKey: string) {
     // profileKey is a string so we can compare it directly
     if (this.get('profileKey') !== profileKey) {
       this.set({
@@ -1336,15 +1340,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     try {
-      const profileKeyBuffer = window.Signal.Crypto.base64ToArrayBuffer(
-        profileKey
-      );
+      const profileKeyBuffer = fromBase64ToArrayBuffer(profileKey);
       const accessKeyBuffer = await window.Signal.Crypto.deriveAccessKey(
         profileKeyBuffer
       );
-      const accessKey = window.Signal.Crypto.arrayBufferToBase64(
-        accessKeyBuffer
-      );
+      const accessKey = fromArrayBufferToBase64(accessKeyBuffer);
       this.set({ accessKey });
     } catch (e) {
       window.log.warn(`Failed to derive access key for ${this.id}`);

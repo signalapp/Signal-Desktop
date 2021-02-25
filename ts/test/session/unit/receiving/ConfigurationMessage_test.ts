@@ -35,7 +35,9 @@ describe('ConfigurationMessage_receiving', () => {
       activeOpenGroups: [],
       activeClosedGroups: [],
       timestamp: Date.now(),
-      identifier: 'whatever',
+      identifier: 'identifier',
+      displayName: 'displayName',
+      contacts: [],
     });
   });
 

@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import { MessageModel } from '../models/message';
 import { saveMessage } from '../../ts/data/data';
+import { fromBase64ToArrayBuffer } from '../session/utils/String';
 
 export async function downloadAttachment(attachment: any) {
   const serverUrl = new URL(attachment.url).origin;
@@ -64,8 +65,8 @@ export async function downloadAttachment(attachment: any) {
 
     data = await window.textsecure.crypto.decryptAttachment(
       data,
-      window.Signal.Crypto.base64ToArrayBuffer(key),
-      window.Signal.Crypto.base64ToArrayBuffer(digest)
+      fromBase64ToArrayBuffer(key),
+      fromBase64ToArrayBuffer(digest)
     );
 
     if (!size || size !== data.byteLength) {

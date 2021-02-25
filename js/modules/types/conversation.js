@@ -2,7 +2,7 @@
 
 const { isFunction, isNumber } = require('lodash');
 const { createLastMessageUpdate } = require('../../../ts/types/Conversation');
-const { arrayBufferToBase64, base64ToArrayBuffer } = require('../crypto');
+const { arrayBufferToBase64 } = require('../crypto');
 
 async function computeHash(arraybuffer) {
   const hash = await crypto.subtle.digest({ name: 'SHA-512' }, arraybuffer);
@@ -146,5 +146,4 @@ module.exports = {
   maybeUpdateProfileAvatar,
   createLastMessageUpdate,
   arrayBufferToBase64,
-  base64ToArrayBuffer,
 };

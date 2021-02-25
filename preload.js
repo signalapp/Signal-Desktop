@@ -502,7 +502,7 @@ const {
 
 window.BlockedNumberController = BlockedNumberController;
 window.deleteAccount = async reason => {
-  const syncedMessageSent = async () => {
+  const deleteEverything = async () => {
     window.log.info(
       'configuration message sent successfully. Deleting everything'
     );
@@ -517,20 +517,18 @@ window.deleteAccount = async reason => {
   try {
     window.log.info('DeleteAccount => Sending a last SyncConfiguration');
     // be sure to wait for the message being effectively sent. Otherwise we won't be able to encrypt it for our devices !
-    window.log.info('Sending one last configuration message.')
     await window.libsession.Utils.SyncUtils.forceSyncConfigurationNowIfNeeded(
       true
     );
-    window.log.info('Last configuration message sent!')
-
-    await syncedMessageSent();
+    window.log.info('Last configuration message sent!');
+    await deleteEverything();
   } catch (error) {
     window.log.error(
       'Something went wrong deleting all data:',
       error && error.stack ? error.stack : error
     );
     try {
-      await syncedMessageSent();
+      await deleteEverything();
     } catch (e) {
       window.log.error(e);
     }

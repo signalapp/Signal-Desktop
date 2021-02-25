@@ -11,12 +11,11 @@ import {
 import { MessageCollection, MessageModel } from '../models/message';
 import { HexKeyPair } from '../receiver/keypairs';
 import { PubKey } from '../session/types';
+import {
+  fromArrayBufferToBase64,
+  fromBase64ToArrayBuffer,
+} from '../session/utils/String';
 import { ConversationType } from '../state/ducks/conversations';
-
-const {
-  base64ToArrayBuffer,
-  arrayBufferToBase64,
-} = require('../../js/modules/crypto');
 
 const DATABASE_UPDATE_TIMEOUT = 2 * 60 * 1000; // two minutes
 
@@ -371,7 +370,7 @@ function keysToArrayBuffer(keys: any, data: any) {
     const value = _.get(data, key);
 
     if (value) {
-      _.set(updated, key, base64ToArrayBuffer(value));
+      _.set(updated, key, fromBase64ToArrayBuffer(value));
     }
   }
 
@@ -385,7 +384,7 @@ function keysFromArrayBuffer(keys: any, data: any) {
     const value = _.get(data, key);
 
     if (value) {
-      _.set(updated, key, arrayBufferToBase64(value));
+      _.set(updated, key, fromArrayBufferToBase64(value));
     }
   }
 
