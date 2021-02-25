@@ -494,7 +494,7 @@ const {
 
 window.BlockedNumberController = BlockedNumberController;
 window.deleteAccount = async reason => {
-  const syncedMessageSent = async () => {
+  const deleteEverything = async () => {
     window.log.info(
       'configuration message sent successfully. Deleting everything'
     );
@@ -512,14 +512,14 @@ window.deleteAccount = async reason => {
     await window.libsession.Utils.SyncUtils.forceSyncConfigurationNowIfNeeded(
       true
     );
-    await syncedMessageSent();
+    await deleteEverything();
   } catch (error) {
     window.log.error(
       'Something went wrong deleting all data:',
       error && error.stack ? error.stack : error
     );
     try {
-      await syncedMessageSent();
+      await deleteEverything();
     } catch (e) {
       window.log.error(e);
     }

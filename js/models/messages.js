@@ -1061,8 +1061,7 @@
             (dataMessage.body ||
               (dataMessage.attachments && dataMessage.attachments.length))
         );
-        const shouldNotifyPushServer =
-          hasBodyOrAttachments && isSessionOrClosedMessage;
+        const shouldNotifyPushServer = hasBodyOrAttachments && !isOurDevice;
 
         if (shouldNotifyPushServer) {
           // notify the push notification server if needed
@@ -1297,12 +1296,18 @@
         (dataMessage.body && dataMessage.body.length) ||
         dataMessage.attachments.length
       ) {
-        const syncMessage = libsession.Messages.Outgoing.ChatMessage.buildSyncMessage(
-          dataMessage,
-          this.getConversation().id,
-          sentTimestamp
-        );
-        await libsession.getMessageQueue().sendSyncMessage(syncMessage);
+        // try catch not to be kept
+        try {
+          const syncMessage = libsession.Messages.Outgoing.ChatMessage.buildSyncMessage(
+            this.id,
+            dataMessage,
+            this.getConversation().id,
+            sentTimestamp
+          );
+          await libsession.getMessageQueue().sendSyncMessage(syncMessage);
+        } catch (e) {
+          window.log.warn(e);
+        }
       }
 
       //    - copy all fields from dataMessage and create a new ChatMessage

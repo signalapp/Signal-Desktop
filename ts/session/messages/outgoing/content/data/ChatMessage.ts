@@ -91,18 +91,15 @@ export class ChatMessage extends DataMessage {
   }
 
   public static buildSyncMessage(
-    dataMessage: SignalService.IDataMessage,
+    identifier: string,
+    dataMessage: SignalService.DataMessage,
     syncTarget: string,
     sentTimestamp: number
   ) {
-    // the dataMessage.profileKey is of type ByteBuffer. We need to make it a Uint8Array
-    const lokiProfile: any = {
-      profileKey: new Uint8Array(
-        (dataMessage.profileKey as any).toArrayBuffer()
-      ),
-    };
-
-    if ((dataMessage as any)?.$type?.name !== 'DataMessage') {
+    if (
+      (dataMessage as any).constructor.name !== 'DataMessage' &&
+      !(dataMessage instanceof DataMessage)
+    ) {
       throw new Error(
         'Tried to build a sync message from something else than a DataMessage'
       );
@@ -110,6 +107,13 @@ export class ChatMessage extends DataMessage {
 
     if (!sentTimestamp || !isNumber(sentTimestamp)) {
       throw new Error('Tried to build a sync message without a sentTimestamp');
+    }
+    // the dataMessage.profileKey is of type ByteBuffer. We need to make it a Uint8Array
+    const lokiProfile: any = {};
+    if (dataMessage.profileKey?.length) {
+      lokiProfile.profileKey = new Uint8Array(
+        (dataMessage.profileKey as any).toArrayBuffer()
+      );
     }
 
     if (dataMessage.profile) {
@@ -138,6 +142,7 @@ export class ChatMessage extends DataMessage {
     const preview = (dataMessage.preview as Array<Preview>) || [];
 
     return new ChatMessage({
+      identifier,
       timestamp,
       attachments,
       body,

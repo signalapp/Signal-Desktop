@@ -11,16 +11,28 @@ import { PubKey } from '../../../types';
 interface ConfigurationMessageParams extends MessageParams {
   activeClosedGroups: Array<ConfigurationMessageClosedGroup>;
   activeOpenGroups: Array<string>;
+  displayName: string;
+  profilePicture?: string;
+  profileKey?: Uint8Array;
+  contacts: Array<ConfigurationMessageContact>;
 }
 
 export class ConfigurationMessage extends ContentMessage {
   public readonly activeClosedGroups: Array<ConfigurationMessageClosedGroup>;
   public readonly activeOpenGroups: Array<string>;
+  public readonly displayName: string;
+  public readonly profilePicture?: string;
+  public readonly profileKey?: Uint8Array;
+  public readonly contacts: Array<ConfigurationMessageContact>;
 
   constructor(params: ConfigurationMessageParams) {
     super({ timestamp: params.timestamp, identifier: params.identifier });
     this.activeClosedGroups = params.activeClosedGroups;
     this.activeOpenGroups = params.activeOpenGroups;
+    this.displayName = params.displayName;
+    this.profilePicture = params.profilePicture;
+    this.profileKey = params.profileKey;
+    this.contacts = params.contacts;
 
     if (!this.activeClosedGroups) {
       throw new Error('closed group must be set');
@@ -29,10 +41,26 @@ export class ConfigurationMessage extends ContentMessage {
     if (!this.activeOpenGroups) {
       throw new Error('open group must be set');
     }
+
+    if (!this.displayName || !this.displayName?.length) {
+      throw new Error('displayName must be set');
+    }
+
+    if (this.profilePicture && typeof this.profilePicture !== 'string') {
+      throw new Error('profilePicture set but not an Uin8Array');
+    }
+
+    if (this.profileKey && !(this.profileKey instanceof Uint8Array)) {
+      throw new Error('profileKey set but not an Uin8Array');
+    }
+
+    if (!this.contacts) {
+      throw new Error('contacts must be set');
+    }
   }
 
   public ttl(): number {
-    return Constants.TTL_DEFAULT.TYPING_MESSAGE;
+    return Constants.TTL_DEFAULT.CONFIGURATION_MESSAGE;
   }
 
   public contentProto(): SignalService.Content {
@@ -45,15 +73,73 @@ export class ConfigurationMessage extends ContentMessage {
     return new SignalService.ConfigurationMessage({
       closedGroups: this.mapClosedGroupsObjectToProto(this.activeClosedGroups),
       openGroups: this.activeOpenGroups,
+      displayName: this.displayName,
+      profilePicture: this.profilePicture,
+      profileKey: this.profileKey,
+      contacts: this.mapContactsObjectToProto(this.contacts),
     });
   }
 
   private mapClosedGroupsObjectToProto(
     closedGroups: Array<ConfigurationMessageClosedGroup>
   ): Array<SignalService.ConfigurationMessage.ClosedGroup> {
-    return (closedGroups || []).map(m =>
-      new ConfigurationMessageClosedGroup(m).toProto()
-    );
+    return (closedGroups || []).map(m => m.toProto());
+  }
+
+  private mapContactsObjectToProto(
+    contacts: Array<ConfigurationMessageContact>
+  ): Array<SignalService.ConfigurationMessage.Contact> {
+    return (contacts || []).map(m => m.toProto());
+  }
+}
+
+export class ConfigurationMessageContact {
+  public publicKey: string;
+  public displayName: string;
+  public profilePictureURL?: string;
+  public profileKey?: Uint8Array;
+
+  public constructor({
+    publicKey,
+    displayName,
+    profilePictureURL,
+    profileKey,
+  }: {
+    publicKey: string;
+    displayName: string;
+    profilePictureURL?: string;
+    profileKey?: Uint8Array;
+  }) {
+    this.publicKey = publicKey;
+    this.displayName = displayName;
+    this.profilePictureURL = profilePictureURL;
+    this.profileKey = profileKey;
+
+    // will throw if public key is invalid
+    PubKey.cast(publicKey);
+
+    if (this.displayName?.length === 0) {
+      throw new Error('displayName must be set or undefined');
+    }
+
+    if (
+      this.profilePictureURL !== undefined &&
+      this.profilePictureURL?.length === 0
+    ) {
+      throw new Error('profilePictureURL must either undefined or not empty');
+    }
+    if (this.profileKey !== undefined && this.profileKey?.length === 0) {
+      throw new Error('profileKey must either undefined or not empty');
+    }
+  }
+
+  public toProto(): SignalService.ConfigurationMessage.Contact {
+    return new SignalService.ConfigurationMessage.Contact({
+      publicKey: fromHexToArray(this.publicKey),
+      name: this.displayName,
+      profilePicture: this.profilePictureURL,
+      profileKey: this.profileKey,
+    });
   }
 }
 
