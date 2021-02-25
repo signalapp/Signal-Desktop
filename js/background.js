@@ -630,6 +630,7 @@
               conversation.setLokiProfile({
                 displayName: newName,
               });
+              // might be good to not trigger a sync if the name did not change
               await conversation.commit();
               await window.libsession.Utils.SyncUtils.forceSyncConfigurationNowIfNeeded(
                 true
