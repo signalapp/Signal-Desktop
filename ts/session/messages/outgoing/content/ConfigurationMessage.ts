@@ -83,17 +83,13 @@ export class ConfigurationMessage extends ContentMessage {
   private mapClosedGroupsObjectToProto(
     closedGroups: Array<ConfigurationMessageClosedGroup>
   ): Array<SignalService.ConfigurationMessage.ClosedGroup> {
-    return (closedGroups || []).map(m =>
-      new ConfigurationMessageClosedGroup(m).toProto()
-    );
+    return (closedGroups || []).map(m => m.toProto());
   }
 
   private mapContactsObjectToProto(
     contacts: Array<ConfigurationMessageContact>
   ): Array<SignalService.ConfigurationMessage.Contact> {
-    return (contacts || []).map(m =>
-      new ConfigurationMessageContact(m).toProto()
-    );
+    return (contacts || []).map(m => m.toProto());
   }
 }
 

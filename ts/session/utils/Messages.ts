@@ -116,14 +116,17 @@ export const getCurrentConfigurationMessage = async (
 
   // Filter contacts
   const contactsModels = convos.filter(
-    c => !!c.get('active_at') && c.isPrivate() && !c.isBlocked()
+    c =>
+      !!c.get('active_at') &&
+      c.getLokiProfile()?.displayName &&
+      c.isPrivate() &&
+      !c.isBlocked()
   );
 
   const contacts = contactsModels.map(c => {
-    const groupPubKey = c.get('id');
     return new ConfigurationMessageContact({
-      publicKey: groupPubKey,
-      displayName: c.get('name'),
+      publicKey: c.id,
+      displayName: c.getLokiProfile()?.displayName,
       profilePictureURL: c.get('avatarPointer'),
       profileKey: c.get('profileKey'),
     });

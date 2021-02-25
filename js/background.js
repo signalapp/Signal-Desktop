@@ -615,7 +615,10 @@
                   displayName: newName,
                   avatar: newAvatarPath,
                 });
-                conversation.commit();
+                await conversation.commit();
+                await window.libsession.Utils.SyncUtils.forceSyncConfigurationNowIfNeeded(
+                  true
+                );
               } catch (error) {
                 window.log.error(
                   'showEditProfileDialog Error ensuring that image is properly sized:',
@@ -627,9 +630,12 @@
               conversation.setLokiProfile({
                 displayName: newName,
               });
+              await conversation.commit();
+              await window.libsession.Utils.SyncUtils.forceSyncConfigurationNowIfNeeded(
+                true
+              );
             }
 
-            conversation.commit();
             // inform all your registered public servers
             // could put load on all the servers
             // if they just keep changing their names without sending messages
