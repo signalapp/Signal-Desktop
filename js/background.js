@@ -534,6 +534,9 @@
                   avatar: newAvatarPath,
                 });
                 await conversation.commit();
+                window.libsession.Utils.UserUtils.setLastProfileUpdateTimestamp(
+                  Date.now()
+                );
                 await window.libsession.Utils.SyncUtils.forceSyncConfigurationNowIfNeeded(
                   true
                 );
@@ -550,6 +553,9 @@
               });
               // might be good to not trigger a sync if the name did not change
               await conversation.commit();
+              window.libsession.Utils.UserUtils.setLastProfileUpdateTimestamp(
+                Date.now()
+              );
               await window.libsession.Utils.SyncUtils.forceSyncConfigurationNowIfNeeded(
                 true
               );
