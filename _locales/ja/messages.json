@@ -1295,7 +1295,7 @@
         "message": "削除"
     },
     "invalidSessionId": {
-        "message": "Session ID が無効です"
+        "message": "Session ID が不正です"
     },
     "emptyGroupNameError": {
         "message": "グループ名を入力してください"
