@@ -104,11 +104,11 @@
         "description": "View menu command to go back to the default zoom"
     },
     "viewMenuZoomIn": {
-        "message": "ズームインする",
+        "message": "拡大",
         "description": "View menu command to make everything bigger"
     },
     "viewMenuZoomOut": {
-        "message": "ズームアウトする",
+        "message": "縮小",
         "description": "View menu command to make everything smaller"
     },
     "viewMenuToggleFullScreen": {
