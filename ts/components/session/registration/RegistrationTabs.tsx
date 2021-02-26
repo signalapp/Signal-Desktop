@@ -106,7 +106,7 @@ export async function signUp(signUpDetails: {
     await window
       .getAccountManager()
       .registerSingleDevice(generatedRecoveryPhrase, 'english', trimName);
-    // We are just creating a new account, no need to wait for a configuration message
+    await UserUtils.setLastProfileUpdateTimestamp(Date.now());
     trigger('openInbox');
   } catch (e) {
     ToastUtils.pushToastError(

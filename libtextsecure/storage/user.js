@@ -36,6 +36,17 @@
       textsecure.storage.put('is_restoring_from_seed', isRestoringFromSeed);
     },
 
+    getLastProfileUpdateTimestamp() {
+      return textsecure.storage.get('last_profile_update_timestamp');
+    },
+
+    setLastProfileUpdateTimestamp(lastUpdateTimestamp) {
+      textsecure.storage.put(
+        'last_profile_update_timestamp',
+        lastUpdateTimestamp
+      );
+    },
+
     getDeviceId() {
       const numberId = textsecure.storage.get('number_id');
       if (numberId === undefined) {

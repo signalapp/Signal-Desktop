@@ -105,3 +105,13 @@ export function getOurProfile(): OurLokiProfile | undefined {
     return undefined;
   }
 }
+
+export function getLastProfileUpdateTimestamp(): number | undefined {
+  return window.textsecure.storage.user.getLastProfileUpdateTimestamp();
+}
+
+export function setLastProfileUpdateTimestamp(lastUpdateTimestamp: number) {
+  return window.textsecure.storage.user.setLastProfileUpdateTimestamp(
+    lastUpdateTimestamp
+  );
+}

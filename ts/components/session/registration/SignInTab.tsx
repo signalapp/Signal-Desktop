@@ -13,10 +13,10 @@ export enum SignInMode {
   UsingRecoveryPhrase,
   LinkDevice,
 }
+// tslint:disable: use-simple-attributes
+// tslint:disable: react-unused-props-and-state
 
-export interface Props {
-  // tslint:disable: react-unused-props-and-state
-}
+export interface Props {}
 
 const LinkDeviceButton = (props: { onLinkDeviceButtonClicked: () => any }) => {
   return (
@@ -99,7 +99,6 @@ export const SignInTab = (props: Props) => {
   return (
     <div className="session-registration__content">
       {signInMode !== SignInMode.Default && (
-        // tslint:disable: use-simple-attributes
         <RegistrationUserDetails
           showDisplayNameField={signInMode === SignInMode.UsingRecoveryPhrase}
           showSeedField={true}
