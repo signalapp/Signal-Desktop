@@ -124,7 +124,7 @@
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "menuSetupAsStandalone": {
-        "message": "独立したデバイスとして設定",
+        "message": "独立した端末として設定",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "loading": {
@@ -1187,7 +1187,7 @@
         "message": "続行"
     },
     "devicePairingRequestReceivedLimitTitle": {
-        "message": "デバイス制限に達しました"
+        "message": "端末の数の制限に達しました"
     },
     "devicePairingRequestReceivedLimitDescription": {
         "message": "追加している端末が多すぎます。いくつか削除してください。"
@@ -1196,7 +1196,7 @@
         "message": "リンクリクエストを受け取りました"
     },
     "waitingForDeviceToRegister": {
-        "message": "デバイス待ち"
+        "message": "端末待ち"
     },
     "pairNewDevicePrompt": {
         "message": "追加する端末に表示されているQRコードをスキャンする"
@@ -1205,7 +1205,7 @@
         "message": "追加されている端末はありません"
     },
     "deviceUnpaired": {
-        "message": "デバイスは正常にリンク解除されました"
+        "message": "端末は正常にリンク解除されました"
     },
     "moreInformation": {
         "message": "詳細"
@@ -1241,7 +1241,7 @@
         "message": "ライト"
     },
     "successUnlinked": {
-        "message": "デバイスは正常にリンク解除されました"
+        "message": "端末は正常にリンク解除されました"
     },
     "autoUpdateDownloadButtonLabel": {
         "message": "ダウンロード"
@@ -1277,7 +1277,7 @@
         "message": "あなたの Session ID"
     },
     "recoveryPhraseSavePromptMain": {
-        "message": "リカバリーフレーズは、Session ID のマスターキーです。デバイスにアクセスできなくなった場合、これを使用して Session ID を復元できます。リカバリーフレーズを安全な場所に保管し、誰にも教えないでください。"
+        "message": "リカバリーフレーズは、Session ID のマスターキーです。端末にアクセスできなくなった場合、これを使用して Session ID を復元できます。リカバリーフレーズを安全な場所に保管し、誰にも教えないでください。"
     },
     "copiedToClipboard": {
         "message": "クリップボードにコピーされました"
@@ -1331,7 +1331,7 @@
         "message": "Session を続ける"
     },
     "linkDevice": {
-        "message": "デバイスをリンクする"
+        "message": "端末をリンクする"
     },
     "restoreUsingRecoveryPhrase": {
         "message": "アカウントを復元する"
