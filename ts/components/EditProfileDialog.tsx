@@ -19,7 +19,7 @@ import { SessionModal } from './session/SessionModal';
 import { PillDivider } from './session/PillDivider';
 import { ToastUtils, UserUtils } from '../session/utils';
 import { DefaultTheme } from 'styled-components';
-import { MAX_USERNAME_LENGTH } from './session/RegistrationTabs';
+import { MAX_USERNAME_LENGTH } from './session/registration/RegistrationTabs';
 
 interface Props {
   i18n: any;

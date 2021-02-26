@@ -2008,7 +2008,7 @@
   "getStarted": {
     "message": "Get started"
   },
-  "generateSessionID": {
+  "createSessionID": {
     "message": "Create Session ID",
     "androidKey": "activity_landing_register_button_title"
   },
@@ -2049,10 +2049,6 @@
   },
   "devicePairingHeader_Step4": {
     "message": "Enter your <strong>Session ID</strong> below to link this device to your <strong>Session ID</strong>."
-  },
-  "enterSessionIDHere": {
-    "message": "Enter your Session ID",
-    "androidKey": "fragment_enter_session_id_edit_text_hint"
   },
   "continueYourSession": {
     "message": "Continue Your Session",

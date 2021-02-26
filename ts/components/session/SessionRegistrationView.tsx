@@ -1,7 +1,7 @@
 import React from 'react';
 import { AccentText } from './AccentText';
 
-import { RegistrationTabs } from './RegistrationTabs';
+import { RegistrationTabs } from './registration/RegistrationTabs';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 import { SessionToastContainer } from './SessionToastContainer';
 import { lightTheme, SessionTheme } from '../../state/ducks/SessionTheme';

@@ -508,7 +508,7 @@
     "welcomeToYourSession": {
         "message": "Willkommen bei Session"
     },
-    "generateSessionID": {
+    "createSessionID": {
         "message": "Session ID erstellen"
     },
     "yourUniqueSessionID": {
@@ -1409,9 +1409,6 @@
     },
     "enterDisplayName": {
         "message": "Geben Sie einen Anzeigenamen ein"
-    },
-    "enterSessionIDHere": {
-        "message": "Geben Sie Ihre Session ID ein."
     },
     "continueYourSession": {
         "message": "Ihre Session fortsetzen"

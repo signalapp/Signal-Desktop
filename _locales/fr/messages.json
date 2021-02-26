@@ -1308,7 +1308,7 @@
     "allUsersAreRandomly...": {
         "message": "Votre Session ID est l'identifiant unique que les gens utilisent pour vous contacter dans Session. Sans lien avec votre identité réelle, votre Session ID est complètement anonyme et privé."
     },
-    "generateSessionID": {
+    "createSessionID": {
         "message": "Créer un Session ID"
     },
     "recoveryPhrase": {
@@ -1319,9 +1319,6 @@
     },
     "enterDisplayName": {
         "message": "Saisissez un nom d'utilisateur"
-    },
-    "enterSessionIDHere": {
-        "message": "Saisissez votre Session ID"
     },
     "continueYourSession": {
         "message": "Continuez votre Session"

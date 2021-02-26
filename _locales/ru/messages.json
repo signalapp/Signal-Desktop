@@ -1308,7 +1308,7 @@
     "allUsersAreRandomly...": {
         "message": "Ваш Session ID - это уникальный адрес, который другие пользователи могут использовать для связи с вами при помощи Session. Поскольку ваш Session ID никак не связан с вашей настоящей личностью, он по определению является полностью анонимным и конфиденциальным."
     },
-    "generateSessionID": {
+    "createSessionID": {
         "message": "Создать Session ID"
     },
     "recoveryPhrase": {
@@ -1319,9 +1319,6 @@
     },
     "enterDisplayName": {
         "message": "Введите отображаемое имя"
-    },
-    "enterSessionIDHere": {
-        "message": "Введите свой Session ID"
     },
     "continueYourSession": {
         "message": "Восстановить Session ID"

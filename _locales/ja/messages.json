@@ -1308,7 +1308,7 @@
     "allUsersAreRandomly...": {
         "message": "Session ID は、Session で連絡を取るために使用できる一意のアドレスです。本当のアイデンティティに関係なく、あなたの Session ID は設計上完全に匿名でプライベートです。"
     },
-    "generateSessionID": {
+    "createSessionID": {
         "message": "Session ID を作成する"
     },
     "recoveryPhrase": {
@@ -1319,9 +1319,6 @@
     },
     "enterDisplayName": {
         "message": "表示名を入力してください"
-    },
-    "enterSessionIDHere": {
-        "message": "Session ID を入力してください"
     },
     "continueYourSession": {
         "message": "Session を続ける"

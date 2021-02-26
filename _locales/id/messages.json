@@ -1302,7 +1302,7 @@
     "allUsersAreRandomly...": {
         "message": "Session ID adalah alamat unik yang bisa digunakan untuk mengontak anda. Tanpa koneksi dengan identitas asli, Session ID anda didesain bersifat anonim dan rahasia."
     },
-    "generateSessionID": {
+    "createSessionID": {
         "message": "Buat Session ID"
     },
     "recoveryPhrase": {
@@ -1313,9 +1313,6 @@
     },
     "enterDisplayName": {
         "message": "Masukkan nama"
-    },
-    "enterSessionIDHere": {
-        "message": "Masuk ke Session ID"
     },
     "continueYourSession": {
         "message": "Lanjutkan Session"
