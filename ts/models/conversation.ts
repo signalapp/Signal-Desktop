@@ -673,7 +673,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         expireTimer,
         preview: uploads.preview,
         quote: uploads.quote,
-        lokiProfile: UserUtils.getOurProfile(true),
+        lokiProfile: UserUtils.getOurProfile(),
       };
 
       const destinationPubkey = new PubKey(destination);

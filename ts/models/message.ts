@@ -887,7 +887,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         attachments,
         preview,
         quote,
-        lokiProfile: UserUtils.getOurProfile(true),
+        lokiProfile: UserUtils.getOurProfile(),
       };
       if (!chatParams.lokiProfile) {
         delete chatParams.lokiProfile;

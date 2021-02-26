@@ -85,27 +85,21 @@ export interface OurLokiProfile {
   profileKey: Uint8Array | null;
 }
 
-/**
- * Returns
- *   displayName: string;
- *   avatarPointer: string;
- *   profileKey: Uint8Array;
- */
-export function getOurProfile(
-  shareAvatar: boolean
-): OurLokiProfile | undefined {
+export function getOurProfile(): OurLokiProfile | undefined {
   try {
     // Secondary devices have their profile stored
     // in their primary device's conversation
     const ourNumber = window.storage.get('primaryDevicePubKey');
     const ourConversation = ConversationController.getInstance().get(ourNumber);
-    let profileKey = null;
-    if (shareAvatar) {
-      profileKey = new Uint8Array(window.storage.get('profileKey'));
-    }
+    const profileKey = new Uint8Array(window.storage.get('profileKey'));
+
     const avatarPointer = ourConversation.get('avatarPointer');
     const { displayName } = ourConversation.getLokiProfile();
-    return { displayName, avatarPointer, profileKey };
+    return {
+      displayName,
+      avatarPointer,
+      profileKey: profileKey.length ? profileKey : null,
+    };
   } catch (e) {
     window.log.error(`Failed to get our profile: ${e}`);
     return undefined;
