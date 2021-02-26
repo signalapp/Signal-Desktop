@@ -745,12 +745,6 @@
       }
     });
 
-    Whisper.events.on('showNicknameDialog', options => {
-      if (appView) {
-        appView.showNicknameDialog(options);
-      }
-    });
-
     Whisper.events.on('showSeedDialog', async () => {
       if (appView) {
         appView.showSeedDialog();

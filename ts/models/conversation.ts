@@ -1366,11 +1366,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public changeNickname() {
-    window.Whisper.events.trigger('showNicknameDialog', {
-      pubKey: this.id,
-      nickname: this.getNickname(),
-      onOk: (newName: string) => this.setNickname(newName),
-    });
+    throw new Error('changeNickname todo');
   }
 
   public deleteContact() {

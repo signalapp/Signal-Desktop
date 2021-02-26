@@ -131,20 +131,6 @@
       const dialog = new Whisper.UserDetailsDialogView(options);
       this.el.prepend(dialog.el);
     },
-    showNicknameDialog({ pubKey, title, message, nickname, onOk, onCancel }) {
-      const _title = title || `Change nickname for ${pubKey}`;
-
-      const dialog = new Whisper.NicknameDialogView({
-        title: _title,
-        message,
-        name: nickname,
-        resolve: onOk,
-        reject: onCancel,
-        theme: this.getThemeObject(),
-      });
-      this.el.prepend(dialog.el);
-      dialog.focusInput();
-    },
     showPasswordDialog(options) {
       // eslint-disable-next-line no-param-reassign
       options.theme = this.getThemeObject();
