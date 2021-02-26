@@ -424,7 +424,7 @@ export const getConversationSelector = createSelector(
       if (onE164) {
         return selector(onE164);
       }
-      const onUuid = getOwn(byUuid, id);
+      const onUuid = getOwn(byUuid, id.toLowerCase ? id.toLowerCase() : id);
       if (onUuid) {
         return selector(onUuid);
       }

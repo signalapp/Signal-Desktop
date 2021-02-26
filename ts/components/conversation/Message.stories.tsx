@@ -755,6 +755,23 @@ story.add('Other File Type with Caption', () => {
   return renderBothDirections(props);
 });
 
+story.add('Other File Type with Long Filename', () => {
+  const props = createProps({
+    attachments: [
+      {
+        contentType: 'text/plain' as MIMEType,
+        fileName:
+          'INSERT-APP-NAME_INSERT-APP-APPLE-ID_AppStore_AppsGamesWatch.psd.zip',
+        url: 'a2/a2334324darewer4234',
+      },
+    ],
+    status: 'sent',
+    text: 'This is what I have done.',
+  });
+
+  return renderBothDirections(props);
+});
+
 story.add('TapToView Image', () => {
   const props = createProps({
     attachments: [

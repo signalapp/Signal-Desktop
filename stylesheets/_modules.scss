@@ -11542,9 +11542,6 @@ $contact-modal-padding: 18px;
 
 // To limit messages with things forcing them wider, like long attachment names
 .module-message__container {
-  // 2px to allow for 1px border
-  max-width: 302px;
-
   &--incoming {
     align-self: flex-start;
   }
@@ -11679,14 +11676,19 @@ $contact-modal-padding: 18px;
   }
 }
 
+/* Spec: container < 437px */
+@media (min-width: 0px) and (max-width: 799px) {
+  .module-message {
+    // Add 2px for 1px border
+    max-width: 302px;
+  }
+}
+
 /* Spec: container > 438px and container < 593px */
 @media (min-width: 800px) and (max-width: 925px) {
   .module-message {
     // Add 2px for 1px border
     max-width: 376px;
-  }
-  .module-message__container {
-    max-width: 100%;
   }
 
   // Spec: container < 438px
@@ -11721,9 +11723,6 @@ $contact-modal-padding: 18px;
 @media (min-width: 926px) {
   .module-message {
     max-width: 66%;
-  }
-  .module-message__container {
-    max-width: 100%;
   }
 
   .module-message--incoming {

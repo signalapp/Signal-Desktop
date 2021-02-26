@@ -2803,11 +2803,7 @@ export class ConversationModel extends window.Backbone.Model<
       return Promise.all(
         attachments
           .filter(
-            attachment =>
-              attachment &&
-              attachment.contentType &&
-              !attachment.pending &&
-              !attachment.error
+            attachment => attachment && !attachment.pending && !attachment.error
           )
           .slice(0, 1)
           .map(async attachment => {

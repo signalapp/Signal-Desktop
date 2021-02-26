@@ -626,7 +626,17 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     Views.Initialization.setMessage(window.i18n('optimizingApplication'));
 
     if (newVersion) {
-      await window.Signal.Data.cleanupOrphanedAttachments();
+      // We've received reports that this update can take longer than two minutes, so we
+      //   allow it to continue and just move on in that timeout case.
+      try {
+        await window.Signal.Data.cleanupOrphanedAttachments();
+      } catch (error) {
+        window.log.error(
+          'background: Failed to cleanup orphaned attachments:',
+          error && error.stack ? error.stack : error
+        );
+      }
+
       // Don't block on the following operation
       window.Signal.Data.ensureFilePermissions();
     }

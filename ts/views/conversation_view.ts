@@ -1372,8 +1372,15 @@ Whisper.ConversationView = Whisper.View.extend({
     const { files } = e.originalEvent.dataTransfer;
     for (let i = 0, max = files.length; i < max; i += 1) {
       const file = files[i];
-      // eslint-disable-next-line no-await-in-loop
-      await this.maybeAddAttachment(file);
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        await this.maybeAddAttachment(file);
+      } catch (error) {
+        window.log.error(
+          'ConversationView/onDrop: Failed to add attachment:',
+          error && error.stack ? error.stack : error
+        );
+      }
     }
   },
 
@@ -1399,12 +1406,23 @@ Whisper.ConversationView = Whisper.View.extend({
 
     return {
       // In conversation model/redux
-      attachments: draftAttachments.map((attachment: any) => ({
-        ...attachment,
-        url: attachment.screenshotPath
-          ? getAbsoluteDraftPath(attachment.screenshotPath)
-          : getAbsoluteDraftPath(attachment.path),
-      })),
+      attachments: draftAttachments.map((attachment: any) => {
+        let url = '';
+        if (attachment.screenshotPath) {
+          url = getAbsoluteDraftPath(attachment.screenshotPath);
+        } else if (attachment.path) {
+          url = getAbsoluteDraftPath(attachment.path);
+        } else {
+          window.log.warn(
+            'getPropsForAttachmentList: Attachment was missing both screenshotPath and path fields'
+          );
+        }
+
+        return {
+          ...attachment,
+          url,
+        };
+      }),
       // Passed in from ConversationView
       onAddAttachment: this.onChooseAttachment.bind(this),
       onClickAttachment: this.onClickAttachment.bind(this),
@@ -1479,9 +1497,9 @@ Whisper.ConversationView = Whisper.View.extend({
       draftAttachments: [...draftAttachments, onDisk],
       draftChanged: true,
     });
-    await this.saveModel();
-
     this.updateAttachmentsView();
+
+    await this.saveModel();
   },
 
   async onCloseAttachment(attachment: any) {
@@ -1701,7 +1719,16 @@ Whisper.ConversationView = Whisper.View.extend({
       return;
     }
 
-    await this.addAttachment(attachment);
+    try {
+      await this.addAttachment(attachment);
+    } catch (error) {
+      window.log.error(
+        'Error saving draft attachment:',
+        error && error.stack ? error.stack : error
+      );
+
+      this.showToast(Whisper.UnableToLoadToast);
+    }
   },
 
   isSizeOkay(attachment: any) {
