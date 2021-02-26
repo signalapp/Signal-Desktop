@@ -92,26 +92,32 @@ export interface Props {
   showDisplayNameField: boolean;
   showSeedField: boolean;
   stealAutoFocus?: boolean;
-  recoveryPhrase: string;
+  recoveryPhrase?: string;
   displayName: string;
   password: string;
   passwordErrorString: string;
   passwordFieldsMatch: boolean;
   handlePressEnter: () => any;
-  onSeedChanged: (val: string) => any;
+  onSeedChanged?: (val: string) => any;
   onDisplayNameChanged: (val: string) => any;
   onPasswordChanged: (val: string) => any;
   onPasswordVerifyChanged: (val: string) => any;
 }
 
 export const RegistrationUserDetails = (props: Props) => {
+  if (
+    props.showSeedField &&
+    (props.recoveryPhrase === undefined || !props.onSeedChanged)
+  ) {
+    throw new Error('if show seed is true, we need callback + value');
+  }
   return (
     <div className={classNames('session-registration__entry-fields')}>
       {props.showSeedField && (
         <RecoveryPhraseInput
-          recoveryPhrase={props.recoveryPhrase}
+          recoveryPhrase={props.recoveryPhrase as string}
           handlePressEnter={props.handlePressEnter}
-          onSeedChanged={props.onSeedChanged}
+          onSeedChanged={props.onSeedChanged as any}
         />
       )}
       <div className="inputfields">

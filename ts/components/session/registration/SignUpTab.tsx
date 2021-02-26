@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SessionButton,
   SessionButtonColor,
   SessionButtonType,
 } from '../SessionButton';
 import { SessionIdEditable } from '../SessionIdEditable';
+import { signUp, validatePassword } from './RegistrationTabs';
 import { RegistrationUserDetails } from './RegistrationUserDetails';
 import { TermsAndConditions } from './TermsAndConditions';
 
@@ -16,22 +17,8 @@ export enum SignUpMode {
 
 export interface Props {
   // tslint:disable: react-unused-props-and-state
-  signUpMode: SignUpMode;
-  continueSignUp: () => any;
-  createSessionID: () => any;
-  onCompleteSignUpClick: () => any;
-  passwordErrorString: string;
-  passwordFieldsMatch: boolean;
-  displayNameError?: string;
-  displayName: string;
-  password: string;
-  recoveryPhrase: string;
-  stealAutoFocus?: boolean;
-  handlePressEnter: () => any;
-  onSeedChanged: (val: string) => any;
-  onDisplayNameChanged: (val: string) => any;
-  onPasswordChanged: (val: string) => any;
-  onPasswordVerifyChanged: (val: string) => any;
+  generatedRecoveryPhrase: string;
+  hexGeneratedPubKey: string;
 }
 
 const CreateSessionIdButton = ({
@@ -60,80 +47,135 @@ const ContinueSignUpButton = ({ continueSignUp }: { continueSignUp: any }) => {
   );
 };
 
+const SignUpDefault = (props: { createSessionID: () => void }) => {
+  const allUsersAreRandomly = window.i18n('allUsersAreRandomly...');
+  return (
+    <div className="session-registration__content">
+      <div className="session-description-long">{allUsersAreRandomly}</div>
+      <CreateSessionIdButton createSessionID={props.createSessionID} />
+    </div>
+  );
+};
+
+const SignUpSessionIDShown = (props: { continueSignUp: () => void }) => {
+  return (
+    <div className="session-registration__content">
+      <div className="session-registration__unique-session-id">
+        {window.i18n('yourUniqueSessionID')}
+      </div>
+
+      <SessionIdEditable editable={false} placeholder={undefined} />
+      <ContinueSignUpButton continueSignUp={props.continueSignUp} />
+      <TermsAndConditions />
+    </div>
+  );
+};
+
 export const SignUpTab = (props: Props) => {
-  const { signUpMode, continueSignUp, createSessionID } = props;
+  const [signUpMode, setSignUpMode] = useState(SignUpMode.Default);
 
-  switch (signUpMode) {
-    case SignUpMode.Default:
-      const allUsersAreRandomly = window.i18n('allUsersAreRandomly...');
+  const [displayName, setDisplayName] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordVerify, setPasswordVerify] = useState('');
+  const [passwordErrorString, setPasswordErrorString] = useState('');
+  const [displayNameError, setDisplayNameError] = useState('');
+  const [passwordFieldsMatch, setPasswordFieldsMatch] = useState(false);
 
-      return (
-        <div className="session-registration__content">
-          <div className="session-description-long">{allUsersAreRandomly}</div>
-          <CreateSessionIdButton createSessionID={createSessionID} />
-        </div>
-      );
+  useEffect(() => {
+    if (signUpMode === SignUpMode.SessionIDShown) {
+      window.Session.setNewSessionID(props.hexGeneratedPubKey);
+    }
+  }, [signUpMode]);
 
-    case SignUpMode.SessionIDShown:
-      return (
-        <div className="session-registration__content">
-          <div className="session-registration__unique-session-id">
-            {window.i18n('yourUniqueSessionID')}
-          </div>
-
-          <SessionIdEditable editable={false} placeholder={undefined} />
-          <ContinueSignUpButton continueSignUp={continueSignUp} />
-          <TermsAndConditions />
-        </div>
-      );
-
-    // can only be the EnterDetails step
-    default:
-      const {
-        passwordErrorString,
-        passwordFieldsMatch,
-        displayNameError,
-        displayName,
-        password,
-      } = props;
-
-      let enableCompleteSignUp = true;
-      const displayNameOK = !displayNameError && !!displayName; //display name required
-      const passwordsOK =
-        !password || (!passwordErrorString && passwordFieldsMatch); // password is valid if empty, or if no error and fields are matching
-
-      enableCompleteSignUp = displayNameOK && passwordsOK;
-
-      return (
-        <div className="session-registration__content">
-          <div className="session-registration__welcome-session">
-            {window.i18n('welcomeToYourSession')}
-          </div>
-
-          <RegistrationUserDetails
-            showDisplayNameField={true}
-            showSeedField={false}
-            displayName={props.displayName}
-            handlePressEnter={props.handlePressEnter}
-            onDisplayNameChanged={props.onDisplayNameChanged}
-            onPasswordChanged={props.onPasswordChanged}
-            onPasswordVerifyChanged={props.onPasswordVerifyChanged}
-            onSeedChanged={props.onSeedChanged}
-            password={props.password}
-            passwordErrorString={props.passwordErrorString}
-            passwordFieldsMatch={props.passwordFieldsMatch}
-            recoveryPhrase={props.recoveryPhrase}
-            stealAutoFocus={true}
-          />
-          <SessionButton
-            onClick={props.onCompleteSignUpClick}
-            buttonType={SessionButtonType.Brand}
-            buttonColor={SessionButtonColor.Green}
-            text={window.i18n('getStarted')}
-            disabled={!enableCompleteSignUp}
-          />
-          <TermsAndConditions />
-        </div>
-      );
+  if (signUpMode === SignUpMode.Default) {
+    return (
+      <SignUpDefault
+        createSessionID={() => {
+          setSignUpMode(SignUpMode.SessionIDShown);
+        }}
+      />
+    );
   }
+
+  if (signUpMode === SignUpMode.SessionIDShown) {
+    return (
+      <SignUpSessionIDShown
+        continueSignUp={() => {
+          setSignUpMode(SignUpMode.EnterDetails);
+        }}
+      />
+    );
+  }
+
+  // can only be the EnterDetails step
+
+  // Display name is required
+  const displayNameOK = !displayNameError && !!displayName;
+  // Password is valid if empty, or if no error and fields are matching
+  const passwordsOK =
+    !password || (!passwordErrorString && passwordFieldsMatch);
+
+  const enableCompleteSignUp = displayNameOK && passwordsOK;
+
+  return (
+    <div className="session-registration__content">
+      <div className="session-registration__welcome-session">
+        {window.i18n('welcomeToYourSession')}
+      </div>
+
+      <RegistrationUserDetails
+        showDisplayNameField={true}
+        showSeedField={false}
+        displayName={displayName}
+        handlePressEnter={() => {
+          throw new Error('TODO');
+        }}
+        onDisplayNameChanged={(name: string) => {
+          const sanitizedName = name.replace(window.displayNameRegex, '');
+          const trimName = sanitizedName.trim();
+          setDisplayName(sanitizedName);
+          setDisplayNameError(
+            !trimName ? window.i18n('displayNameEmpty') : undefined
+          );
+        }}
+        onPasswordChanged={(val: string) => {
+          setPassword(val);
+          if (!val) {
+            setPasswordErrorString('');
+            setPasswordFieldsMatch(true);
+            setPasswordVerify('');
+            return;
+          }
+          const errors = validatePassword(val, passwordVerify);
+          setPasswordErrorString(errors.passwordErrorString);
+          setPasswordFieldsMatch(errors.passwordFieldsMatch);
+        }}
+        onPasswordVerifyChanged={(val: string) => {
+          setPasswordVerify(val);
+          const errors = validatePassword(password, val);
+          setPasswordErrorString(errors.passwordErrorString);
+          setPasswordFieldsMatch(errors.passwordFieldsMatch);
+        }}
+        password={password}
+        passwordErrorString={passwordErrorString}
+        passwordFieldsMatch={passwordFieldsMatch}
+        stealAutoFocus={true}
+      />
+      <SessionButton
+        onClick={async () => {
+          await signUp({
+            displayName,
+            generatedRecoveryPhrase: props.generatedRecoveryPhrase,
+            password,
+            verifyPassword: passwordVerify,
+          });
+        }}
+        buttonType={SessionButtonType.Brand}
+        buttonColor={SessionButtonColor.Green}
+        text={window.i18n('getStarted')}
+        disabled={!enableCompleteSignUp}
+      />
+      <TermsAndConditions />
+    </div>
+  );
 };
