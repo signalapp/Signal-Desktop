@@ -201,7 +201,7 @@ declare class SessionBuilderClass {
 export declare class SessionCipherClass {
   constructor(
     storage: StorageType,
-    remoteAddress: SignalProtocolAddressClass,
+    remoteAddress: SignalProtocolAddressClass | string,
     options?: { messageKeysLimit?: number | boolean }
   );
   closeOpenSessionForDevice: () => Promise<void>;

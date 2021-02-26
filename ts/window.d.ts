@@ -93,6 +93,7 @@ import { Quote } from './components/conversation/Quote';
 import { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
 import { MIMEType } from './types/MIME';
 import { ElectronLocaleType } from './util/mapToSupportLocale';
+import { SignalProtocolStore } from './LibSignalStore';
 
 export { Long } from 'long';
 
@@ -238,6 +239,7 @@ declare global {
       removeBlockedGroup: (group: string) => void;
       removeBlockedNumber: (number: string) => void;
       removeBlockedUuid: (uuid: string) => void;
+      reset: () => void;
     };
     systemTheme: WhatIsThis;
     textsecure: TextSecureType;
@@ -512,6 +514,7 @@ declare global {
     ConversationController: ConversationController;
     Events: WhatIsThis;
     MessageController: MessageControllerType;
+    SignalProtocolStore: typeof SignalProtocolStore;
     WebAPI: WebAPIConnectType;
     Whisper: WhisperType;
 

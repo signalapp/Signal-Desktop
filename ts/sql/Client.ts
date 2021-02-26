@@ -1226,7 +1226,7 @@ async function updateUnprocessedsWithData(array: Array<UnprocessedType>) {
   await channels.updateUnprocessedsWithData(array);
 }
 
-async function removeUnprocessed(id: string) {
+async function removeUnprocessed(id: string | Array<string>) {
   await channels.removeUnprocessed(id);
 }
 

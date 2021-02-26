@@ -129,7 +129,7 @@ export type DataInterface = {
     arrayOfUnprocessed: Array<UnprocessedType>,
     options?: { forceSave?: boolean }
   ) => Promise<void>;
-  removeUnprocessed: (id: string) => Promise<void>;
+  removeUnprocessed: (id: string | Array<string>) => Promise<void>;
   removeAllUnprocessed: () => Promise<void>;
 
   getNextAttachmentDownloadJobs: (

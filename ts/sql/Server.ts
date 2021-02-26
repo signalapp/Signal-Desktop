@@ -3410,7 +3410,7 @@ async function getAllUnprocessed() {
   return rows;
 }
 
-async function removeUnprocessed(id: string) {
+async function removeUnprocessed(id: string | Array<string>) {
   const db = getInstance();
 
   if (!Array.isArray(id)) {

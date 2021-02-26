@@ -282,14 +282,6 @@
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "js/signal_protocol_store.js",
-    "line": "      await ConversationController.load();",
-    "lineNumber": 1035,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-06-12T14:20:09.936Z"
-  },
-  {
     "rule": "DOM-innerHTML",
     "path": "js/views/app_view.js",
     "line": "      this.el.innerHTML = '';",
@@ -14325,6 +14317,22 @@
     "lineNumber": 43,
     "reasonCategory": "falseMatch",
     "updated": "2020-07-21T18:34:59.251Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "ts/LibSignalStore.js",
+    "line": "        await window.ConversationController.load();",
+    "lineNumber": 810,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-02-27T00:48:49.313Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "ts/LibSignalStore.ts",
+    "line": "    await window.ConversationController.load();",
+    "lineNumber": 1221,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-02-27T00:48:49.313Z"
   },
   {
     "rule": "DOM-innerHTML",

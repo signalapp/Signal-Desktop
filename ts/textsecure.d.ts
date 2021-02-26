@@ -147,6 +147,7 @@ export type StorageProtocolType = StorageType & {
     publicKey?: ArrayBuffer
   ) => Promise<void>;
   removeSignedPreKey: (keyId: number) => Promise<void>;
+  removeAllSessions: (identifier: string) => Promise<void>;
   removeAllData: () => Promise<void>;
   on: (key: string, callback: () => void) => WhatIsThis;
   removeAllConfiguration: () => Promise<void>;
