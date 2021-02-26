@@ -854,11 +854,11 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "アプリのバージョンが古すぎます。最新版にアップデートしてください。",
+        "message": "アプリのバージョンが古すぎます。最新版に更新してください。",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "アップデート",
+        "message": "最新版に更新",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -1092,7 +1092,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Sessionのアップデートがあります",
+        "message": "Sessionの新しい更新があります",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -1100,7 +1100,7 @@
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "アップデートを適用するにはSessionを再起動してください。",
+        "message": "更新を適用するにはSessionを再起動してください。",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
@@ -1268,7 +1268,7 @@
         "message": "グループを編集する"
     },
     "updateGroupDialogTitle": {
-        "message": "$name$をアップデート中..."
+        "message": "$name$を更新中..."
     },
     "showRecoveryPhrase": {
         "message": "リカバリーフレーズ"
