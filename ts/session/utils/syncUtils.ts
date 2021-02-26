@@ -15,7 +15,12 @@ import {
   ConfigurationMessageContact,
 } from '../messages/outgoing/content/ConfigurationMessage';
 import { ConversationModel } from '../../models/conversation';
-import { fromHexToArray } from './String';
+import {
+  fromBase64ToArray,
+  fromBase64ToArrayBuffer,
+  fromHexToArray,
+} from './String';
+import { fromBase64 } from 'bytebuffer';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 
@@ -57,33 +62,43 @@ export const forceSyncConfigurationNowIfNeeded = async (
 ) =>
   new Promise(resolve => {
     const allConvos = ConversationController.getInstance().getConversations();
+    void getCurrentConfigurationMessage(allConvos)
+      .then(configMessage => {
+        // console.warn('forceSyncConfigurationNowIfNeeded with', configMessage);
 
-    void getCurrentConfigurationMessage(allConvos).then(configMessage => {
-      // console.warn('forceSyncConfigurationNowIfNeeded with', configMessage);
-
-      try {
-        // this just adds the message to the sending queue.
-        // if waitForMessageSent is set, we need to effectively wait until then
-        // tslint:disable-next-line: no-void-expression
-        const callback = waitForMessageSent
-          ? () => {
-              resolve(true);
-            }
-          : undefined;
-        void getMessageQueue().sendSyncMessage(configMessage, callback as any);
-        // either we resolve from the callback if we need to wait for it,
-        // or we don't want to wait, we resolve it here.
-        if (!waitForMessageSent) {
-          resolve(true);
+        try {
+          // this just adds the message to the sending queue.
+          // if waitForMessageSent is set, we need to effectively wait until then
+          // tslint:disable-next-line: no-void-expression
+          const callback = waitForMessageSent
+            ? () => {
+                resolve(true);
+              }
+            : undefined;
+          void getMessageQueue().sendSyncMessage(
+            configMessage,
+            callback as any
+          );
+          // either we resolve from the callback if we need to wait for it,
+          // or we don't want to wait, we resolve it here.
+          if (!waitForMessageSent) {
+            resolve(true);
+          }
+        } catch (e) {
+          window.log.warn(
+            'Caught an error while sending our ConfigurationMessage:',
+            e
+          );
+          resolve(false);
         }
-      } catch (e) {
+      })
+      .catch(e => {
         window.log.warn(
-          'Caught an error while sending our ConfigurationMessage:',
+          'Caught an error while building our ConfigurationMessage:',
           e
         );
         resolve(false);
-      }
-    });
+      });
   });
 
 export const getCurrentConfigurationMessage = async (
@@ -146,7 +161,7 @@ export const getCurrentConfigurationMessage = async (
 
   const contacts = contactsModels.map(c => {
     const profileKeyForContact = c.get('profileKey')
-      ? fromHexToArray(c.get('profileKey') as string)
+      ? fromBase64ToArray(c.get('profileKey') as string)
       : undefined;
 
     return new ConfigurationMessageContact({
