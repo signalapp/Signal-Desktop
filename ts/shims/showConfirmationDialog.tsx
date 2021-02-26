@@ -13,7 +13,7 @@ type ConfirmationDialogViewProps = {
   confirmStyle?: 'affirmative' | 'negative';
   message: string;
   okText: string;
-  reject?: () => void;
+  reject?: (error: Error) => void;
   resolve: () => void;
 };
 
@@ -65,7 +65,7 @@ function showConfirmationDialog(options: ConfirmationDialogViewProps) {
       onClose={() => {
         removeConfirmationDialog();
         if (options.reject) {
-          options.reject();
+          options.reject(new Error('showConfirmationDialog: onClose called'));
         }
       }}
       title={options.message}

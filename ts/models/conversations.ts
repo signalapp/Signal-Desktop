@@ -4052,7 +4052,7 @@ export class ConversationModel extends window.Backbone.Model<
       this.set({ left: true });
       window.Signal.Data.updateConversation(this.attributes);
 
-      const model = new Whisper.Message(({
+      const model = new window.Whisper.Message(({
         group_update: { left: 'You' },
         conversationId: this.id,
         type: 'outgoing',
@@ -4062,7 +4062,7 @@ export class ConversationModel extends window.Backbone.Model<
       } as unknown) as MessageAttributesType);
 
       const id = await window.Signal.Data.saveMessage(model.attributes, {
-        Message: Whisper.Message,
+        Message: window.Whisper.Message,
       });
       model.set({ id });
 
@@ -5128,13 +5128,13 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
 
         // We create a new model if it's not already a model
         if (!item.get) {
-          hydratedData.push(new Whisper.Conversation(item));
+          hydratedData.push(new window.Whisper.Conversation(item));
         } else {
           hydratedData.push(item);
         }
       }
     } else if (!data.get) {
-      hydratedData = new Whisper.Conversation(data);
+      hydratedData = new window.Whisper.Conversation(data);
     } else {
       hydratedData = data;
     }

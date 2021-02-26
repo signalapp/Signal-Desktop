@@ -29,6 +29,9 @@ window.nodeSetImmediate = setImmediate;
 window.getNodeVersion = () => config.node_version;
 window.getEnvironment = getEnvironment;
 
+window.Backbone = require('backbone');
+require('./ts/backbone/views/whisper_view');
+require('./ts/backbone/views/toast_view');
 require('./ts/logging/set_up_renderer_logging');
 
 window.closeDebugLog = () => ipcRenderer.send('close-debug-log');

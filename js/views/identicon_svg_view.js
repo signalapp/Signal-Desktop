@@ -1,7 +1,7 @@
 // Copyright 2015-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global Whisper, loadImage */
+/* global Whisper, loadImage, $ */
 
 // eslint-disable-next-line func-names
 (function () {
@@ -11,7 +11,7 @@
    * Render an avatar identicon to an svg for use in a notification.
    */
   Whisper.IdenticonSVGView = Whisper.View.extend({
-    templateName: 'identicon-svg',
+    template: () => $('#identicon-svg').html(),
     initialize(options) {
       this.render_attributes = options;
       this.render_attributes.color = COLORS[this.render_attributes.color];

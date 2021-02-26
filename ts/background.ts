@@ -1,15 +1,10 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-// This allows us to pull in types despite the fact that this is not a module. We can't
-//   use normal import syntax, nor can we use 'import type' syntax, or this will be turned
-//   into a module, and we'll get the dreaded 'exports is not defined' error.
-// see https://github.com/microsoft/TypeScript/issues/41562
-type DataMessageClass = import('./textsecure.d').DataMessageClass;
-type WhatIsThis = import('./window.d').WhatIsThis;
+import { DataMessageClass } from './textsecure.d';
+import { WhatIsThis } from './window.d';
 
-// eslint-disable-next-line func-names
-(async function () {
+export async function startApp(): Promise<void> {
   const eventHandlerQueue = new window.PQueue({
     concurrency: 1,
     timeout: 1000 * 60 * 2,
@@ -23,7 +18,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     wait: 500,
     maxSize: 500,
     processBatch: async (items: WhatIsThis) => {
-      const byConversationId = _.groupBy(items, item =>
+      const byConversationId = window._.groupBy(items, item =>
         window.ConversationController.ensureContactIds({
           e164: item.source,
           uuid: item.sourceUuid,
@@ -205,12 +200,12 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     if (messageReceiver) {
       return messageReceiver.getStatus();
     }
-    if (_.isNumber(preMessageReceiverStatus)) {
+    if (window._.isNumber(preMessageReceiverStatus)) {
       return preMessageReceiverStatus;
     }
     return WebSocket.CLOSED;
   };
-  window.Whisper.events = _.clone(window.Backbone.Events);
+  window.Whisper.events = window._.clone(window.Backbone.Events);
   let accountManager: typeof window.textsecure.AccountManager;
   window.getAccountManager = () => {
     if (!accountManager) {
@@ -2632,7 +2627,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       sentTo = data.unidentifiedStatus.map(
         (item: WhatIsThis) => item.destinationUuid || item.destination
       );
-      const unidentified = _.filter(data.unidentifiedStatus, item =>
+      const unidentified = window._.filter(data.unidentifiedStatus, item =>
         Boolean(item.unidentified)
       );
       // eslint-disable-next-line no-param-reassign
@@ -3284,4 +3279,6 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     // Note: We don't wait for completion here
     window.Whisper.DeliveryReceipts.onReceipt(receipt);
   }
-})();
+}
+
+window.startApp = startApp;

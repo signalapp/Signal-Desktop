@@ -1,8 +1,7 @@
 // Copyright 2015-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global Whisper: false */
-/* global textsecure: false */
+/* global Whisper, textsecure, $ */
 
 // eslint-disable-next-line func-names
 (function () {
@@ -13,7 +12,7 @@
     itemView: Whisper.View.extend({
       tagName: 'div',
       className: 'contact',
-      templateName: 'contact',
+      template: () => $('#contact').html(),
       initialize(options) {
         this.ourNumber = textsecure.storage.user.getNumber();
         this.listenBack = options.listenBack;

@@ -22,7 +22,7 @@ describe('Message', () => {
   const ourUuid = window.getGuid();
 
   function createMessage(attrs: { [key: string]: unknown }) {
-    const messages = new Whisper.MessageCollection();
+    const messages = new window.Whisper.MessageCollection();
     return messages.add(attrs);
   }
 
@@ -136,13 +136,13 @@ describe('Message', () => {
 
   describe('getContact', () => {
     it('gets outgoing contact', () => {
-      const messages = new Whisper.MessageCollection();
+      const messages = new window.Whisper.MessageCollection();
       const message = messages.add(attributes);
       message.getContact();
     });
 
     it('gets incoming contact', () => {
-      const messages = new Whisper.MessageCollection();
+      const messages = new window.Whisper.MessageCollection();
       const message = messages.add({
         type: 'incoming',
         source,
@@ -153,7 +153,7 @@ describe('Message', () => {
 
   describe('isIncoming', () => {
     it('checks if is incoming message', () => {
-      const messages = new Whisper.MessageCollection();
+      const messages = new window.Whisper.MessageCollection();
       let message = messages.add(attributes);
       assert.notOk(message.isIncoming());
       message = messages.add({ type: 'incoming' });
@@ -163,7 +163,7 @@ describe('Message', () => {
 
   describe('isOutgoing', () => {
     it('checks if is outgoing message', () => {
-      const messages = new Whisper.MessageCollection();
+      const messages = new window.Whisper.MessageCollection();
       let message = messages.add(attributes);
       assert.ok(message.isOutgoing());
       message = messages.add({ type: 'incoming' });
@@ -173,7 +173,7 @@ describe('Message', () => {
 
   describe('isGroupUpdate', () => {
     it('checks if is group update', () => {
-      const messages = new Whisper.MessageCollection();
+      const messages = new window.Whisper.MessageCollection();
       let message = messages.add(attributes);
       assert.notOk(message.isGroupUpdate());
 
@@ -584,7 +584,7 @@ describe('Message', () => {
 
   describe('isEndSession', () => {
     it('checks if it is end of the session', () => {
-      const messages = new Whisper.MessageCollection();
+      const messages = new window.Whisper.MessageCollection();
       let message = messages.add(attributes);
       assert.notOk(message.isEndSession());
 
@@ -596,7 +596,7 @@ describe('Message', () => {
 
 describe('MessageCollection', () => {
   it('should be ordered oldest to newest', () => {
-    const messages = new Whisper.MessageCollection();
+    const messages = new window.Whisper.MessageCollection();
     // Timestamps
     const today = Date.now();
     const tomorrow = today + 12345;

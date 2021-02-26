@@ -1,7 +1,7 @@
 // Copyright 2017-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global Whisper */
+/* global Whisper, $ */
 
 // eslint-disable-next-line func-names
 (function () {
@@ -9,7 +9,7 @@
 
   Whisper.BannerView = Whisper.View.extend({
     className: 'banner',
-    templateName: 'banner',
+    template: () => $('#banner').html(),
     events: {
       'click .dismiss': 'onDismiss',
       'click .body': 'onClick',

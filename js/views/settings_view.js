@@ -91,7 +91,7 @@
   });
   Whisper.SettingsView = Whisper.View.extend({
     className: 'settings modal expand',
-    templateName: 'settings',
+    template: () => $('#settings').html(),
     initialize() {
       this.render();
       new RadioButtonGroupView({
@@ -271,7 +271,7 @@
   });
 
   const SyncView = Whisper.View.extend({
-    templateName: 'syncSettings',
+    template: () => $('#syncSettings').html(),
     className: 'syncSettings',
     events: {
       'click .sync': 'sync',

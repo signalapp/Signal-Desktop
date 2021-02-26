@@ -520,6 +520,11 @@ try {
   require('./ts/models/messages');
   require('./ts/models/conversations');
 
+  require('./ts/backbone/views/whisper_view');
+  require('./ts/backbone/views/toast_view');
+  require('./ts/views/conversation_view');
+  require('./ts/background');
+
   function wrapWithPromise(fn) {
     return (...args) => Promise.resolve(fn(...args));
   }

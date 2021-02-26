@@ -107,7 +107,7 @@ type ConfirmationDialogViewProps = {
   confirmStyle?: 'affirmative' | 'negative';
   message: string;
   okText: string;
-  reject?: () => void;
+  reject?: (error: Error) => void;
   resolve: () => void;
 };
 
@@ -115,6 +115,8 @@ declare global {
   // We want to extend `window`'s properties, so we need an interface.
   // eslint-disable-next-line no-restricted-syntax
   interface Window {
+    startApp: () => void;
+
     _: typeof Underscore;
     $: typeof jQuery;
 
@@ -127,6 +129,10 @@ declare global {
 
     PQueue: typeof PQueue;
     PQueueType: PQueue;
+    Mustache: {
+      render: (template: string, data: any, partials?: any) => string;
+      parse: (template: string) => void;
+    };
 
     WhatIsThis: WhatIsThis;
 
@@ -655,7 +661,7 @@ export type WhisperType = {
   ClearDataView: WhatIsThis;
   ReactWrapperView: WhatIsThis;
   activeConfirmationView: WhatIsThis;
-  ToastView: typeof Whisper.View & {
+  ToastView: typeof window.Whisper.View & {
     show: (view: typeof Backbone.View, el: Element) => void;
   };
   ConversationArchivedToast: WhatIsThis;
@@ -731,33 +737,35 @@ export type WhisperType = {
   deliveryReceiptBatcher: BatcherType<WhatIsThis>;
   RotateSignedPreKeyListener: WhatIsThis;
 
-  AlreadyGroupMemberToast: typeof Whisper.ToastView;
-  AlreadyRequestedToJoinToast: typeof Whisper.ToastView;
-  BlockedGroupToast: typeof Whisper.ToastView;
-  BlockedToast: typeof Whisper.ToastView;
-  CannotMixImageAndNonImageAttachmentsToast: typeof Whisper.ToastView;
-  DangerousFileTypeToast: typeof Whisper.ToastView;
-  ExpiredToast: typeof Whisper.ToastView;
-  FileSavedToast: typeof Whisper.ToastView;
+  AlreadyGroupMemberToast: typeof window.Whisper.ToastView;
+  AlreadyRequestedToJoinToast: typeof window.Whisper.ToastView;
+  BlockedGroupToast: typeof window.Whisper.ToastView;
+  BlockedToast: typeof window.Whisper.ToastView;
+  CannotMixImageAndNonImageAttachmentsToast: typeof window.Whisper.ToastView;
+  DangerousFileTypeToast: typeof window.Whisper.ToastView;
+  ExpiredToast: typeof window.Whisper.ToastView;
+  FileSavedToast: typeof window.Whisper.ToastView;
   FileSizeToast: any;
-  FoundButNotLoadedToast: typeof Whisper.ToastView;
-  InvalidConversationToast: typeof Whisper.ToastView;
-  LeftGroupToast: typeof Whisper.ToastView;
-  MaxAttachmentsToast: typeof Whisper.ToastView;
-  MessageBodyTooLongToast: typeof Whisper.ToastView;
-  OneNonImageAtATimeToast: typeof Whisper.ToastView;
-  OriginalNoLongerAvailableToast: typeof Whisper.ToastView;
-  OriginalNotFoundToast: typeof Whisper.ToastView;
-  PinnedConversationsFullToast: typeof Whisper.ToastView;
-  ReactionFailedToast: typeof Whisper.ToastView;
-  TapToViewExpiredIncomingToast: typeof Whisper.ToastView;
-  TapToViewExpiredOutgoingToast: typeof Whisper.ToastView;
-  TimerConflictToast: typeof Whisper.ToastView;
-  UnableToLoadToast: typeof Whisper.ToastView;
-  VoiceNoteLimit: typeof Whisper.ToastView;
-  VoiceNoteMustBeOnlyAttachmentToast: typeof Whisper.ToastView;
+  FoundButNotLoadedToast: typeof window.Whisper.ToastView;
+  InvalidConversationToast: typeof window.Whisper.ToastView;
+  LeftGroupToast: typeof window.Whisper.ToastView;
+  MaxAttachmentsToast: typeof window.Whisper.ToastView;
+  MessageBodyTooLongToast: typeof window.Whisper.ToastView;
+  OneNonImageAtATimeToast: typeof window.Whisper.ToastView;
+  OriginalNoLongerAvailableToast: typeof window.Whisper.ToastView;
+  OriginalNotFoundToast: typeof window.Whisper.ToastView;
+  PinnedConversationsFullToast: typeof window.Whisper.ToastView;
+  ReactionFailedToast: typeof window.Whisper.ToastView;
+  TapToViewExpiredIncomingToast: typeof window.Whisper.ToastView;
+  TapToViewExpiredOutgoingToast: typeof window.Whisper.ToastView;
+  TimerConflictToast: typeof window.Whisper.ToastView;
+  UnableToLoadToast: typeof window.Whisper.ToastView;
+  VoiceNoteLimit: typeof window.Whisper.ToastView;
+  VoiceNoteMustBeOnlyAttachmentToast: typeof window.Whisper.ToastView;
 
-  ConversationLoadingScreen: typeof Whisper.View;
-  ConversationView: typeof Whisper.View;
-  View: typeof Backbone.View;
+  ConversationLoadingScreen: typeof window.Whisper.View;
+  ConversationView: typeof window.Whisper.View;
+  View: typeof Backbone.View & {
+    Templates: Record<string, string>;
+  };
 };

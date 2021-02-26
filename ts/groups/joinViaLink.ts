@@ -61,7 +61,7 @@ export async function joinViaLink(hash: string): Promise<void> {
     window.reduxActions.conversations.openConversationInternal({
       conversationId: existingConversation.id,
     });
-    window.window.Whisper.ToastView.show(
+    window.Whisper.ToastView.show(
       window.Whisper.AlreadyGroupMemberToast,
       document.getElementsByClassName('conversation-stack')[0]
     );
@@ -333,7 +333,7 @@ export async function joinViaLink(hash: string): Promise<void> {
 
   window.log.info(`joinViaLink/${logId}: Showing modal`);
 
-  let groupV2InfoDialog = new Whisper.ReactWrapperView({
+  let groupV2InfoDialog = new window.Whisper.ReactWrapperView({
     className: 'group-v2-join-dialog-wrapper',
     JSX: window.Signal.State.Roots.createGroupV2JoinModal(window.reduxStore, {
       join,

@@ -317,10 +317,64 @@
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "js/views/banner_view.js",
+    "line": "    template: () => $('#banner').html(),",
+    "lineNumber": 12,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-html(",
+    "path": "js/views/banner_view.js",
+    "line": "    template: () => $('#banner').html(),",
+    "lineNumber": 12,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/clear_data_view.js",
+    "line": "    template: () => $('#clear-data').html(),",
+    "lineNumber": 16,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-html(",
+    "path": "js/views/clear_data_view.js",
+    "line": "    template: () => $('#clear-data').html(),",
+    "lineNumber": 16,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/contact_list_view.js",
+    "line": "      template: () => $('#contact').html(),",
+    "lineNumber": 15,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-html(",
+    "path": "js/views/contact_list_view.js",
+    "line": "      template: () => $('#contact').html(),",
+    "lineNumber": 15,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "js/views/contact_list_view.js",
     "line": "        this.$el.append(this.contactView.el);",
-    "lineNumber": 45,
+    "lineNumber": 44,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Known DOM elements"
@@ -328,110 +382,182 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
-    "line": "      this.textarea = this.$('.textarea').get(0);",
-    "lineNumber": 74,
+    "line": "    template: () => $('#debug-log-link').html(),",
+    "lineNumber": 33,
     "reasonCategory": "usageTrusted",
-    "updated": "2021-01-13T23:20:15.717Z",
-    "reasonDetail": "Needed to get a reference to a textarea."
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-html(",
+    "path": "js/views/debug_log_view.js",
+    "line": "    template: () => $('#debug-log-link').html(),",
+    "lineNumber": 33,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/debug_log_view.js",
+    "line": "    template: () => $('#debug-log').html(),",
+    "lineNumber": 68,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-html(",
+    "path": "js/views/debug_log_view.js",
+    "line": "    template: () => $('#debug-log').html(),",
+    "lineNumber": 68,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/debug_log_view.js",
+    "line": "      this.textarea = this.$('.textarea').get(0);",
+    "lineNumber": 73,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "      this.$('.submit').attr('disabled', 'disabled');",
-    "lineNumber": 106,
+    "lineNumber": 105,
     "reasonCategory": "usageTrusted",
-    "updated": "2021-01-13T23:20:15.717Z",
-    "reasonDetail": "Only changes attributes; doesn't write other data to the DOM. Is also trusted input."
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, attribute change"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "      this.$('.submit').removeAttr('disabled');",
-    "lineNumber": 120,
+    "lineNumber": 119,
     "reasonCategory": "usageTrusted",
-    "updated": "2021-01-13T23:20:15.717Z",
-    "reasonDetail": "Only changes attributes; doesn't write other data to the DOM. Is also trusted input."
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, attribute change"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "      this.$('.buttons, .textarea').remove();",
-    "lineNumber": 178,
+    "lineNumber": 177,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-05-01T17:11:39.527Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, DOM removal"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "      this.$('.result').addClass('loading');",
-    "lineNumber": 179,
+    "lineNumber": 178,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-11T17:24:56.124Z",
-    "reasonDetail": "Static selector argument"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, addition of a class"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "          el: this.$('.result'),",
-    "lineNumber": 188,
+    "lineNumber": 187,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-05-01T17:11:39.527Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Providing a reference to a local DOM node to a trusted view"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "        this.$('.loading').removeClass('loading');",
-    "lineNumber": 190,
+    "lineNumber": 189,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-05-01T17:11:39.527Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, removal of a class"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "        this.$('.link').focus().select();",
-    "lineNumber": 192,
+    "lineNumber": 191,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-11-18T03:39:29.033Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, setting focus"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "        this.$('.loading').removeClass('loading');",
-    "lineNumber": 198,
+    "lineNumber": 197,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-11-18T03:39:29.033Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, removal of a class"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "        this.$('.result').text(i18n('debugLogError'));",
-    "lineNumber": 199,
+    "lineNumber": 198,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-11-18T03:39:29.033Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, adding plain text"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/group_member_list_view.js",
+    "line": "    template: () => $('#group-member-list').html(),",
+    "lineNumber": 12,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-html(",
+    "path": "js/views/group_member_list_view.js",
+    "line": "    template: () => $('#group-member-list').html(),",
+    "lineNumber": 12,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/group_member_list_view.js",
     "line": "      this.$('.container').append(this.member_list_view.el);",
-    "lineNumber": 29,
+    "lineNumber": 28,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, adding sub-view to DOM"
   },
   {
     "rule": "jQuery-append(",
     "path": "js/views/group_member_list_view.js",
     "line": "      this.$('.container').append(this.member_list_view.el);",
-    "lineNumber": 29,
+    "lineNumber": 28,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, adding sub-view to DOM"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/identicon_svg_view.js",
+    "line": "    template: () => $('#identicon-svg').html(),",
+    "lineNumber": 14,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-html(",
+    "path": "js/views/identicon_svg_view.js",
+    "line": "    template: () => $('#identicon-svg').html(),",
+    "lineNumber": 14,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
   },
   {
     "rule": "jQuery-html(",
@@ -446,154 +572,208 @@
     "rule": "jQuery-appendTo(",
     "path": "js/views/inbox_view.js",
     "line": "        view.$el.appendTo(this.el);",
-    "lineNumber": 34,
+    "lineNumber": 35,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-10-21T22:30:15.622Z",
-    "reasonDetail": "Known DOM elements"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, adding sub-view to DOM"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/inbox_view.js",
+    "line": "    template: () => $('#app-loading-screen').html(),",
+    "lineNumber": 64,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-html(",
+    "path": "js/views/inbox_view.js",
+    "line": "    template: () => $('#app-loading-screen').html(),",
+    "lineNumber": 64,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "        this.$('.message').text(message);",
-    "lineNumber": 68,
+    "lineNumber": 69,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-10-21T22:30:15.622Z",
-    "reasonDetail": "Hardcoded selector"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, adding plain text"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/inbox_view.js",
+    "line": "    template: () => $('#two-column').html(),",
+    "lineNumber": 78,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-html(",
+    "path": "js/views/inbox_view.js",
+    "line": "    template: () => $('#two-column').html(),",
+    "lineNumber": 78,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "        el: this.$('.conversation-stack'),",
-    "lineNumber": 84,
+    "lineNumber": 85,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-10-21T22:30:15.622Z",
-    "reasonDetail": "Hardcoded selector"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Providing reference to DOM for sub-view"
   },
   {
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        this.appLoadingScreen.$el.prependTo(this.el);",
-    "lineNumber": 98,
+    "lineNumber": 99,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-10-21T22:30:15.622Z",
-    "reasonDetail": "Known DOM elements"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Adding sub-view to DOM"
   },
   {
     "rule": "jQuery-appendTo(",
     "path": "js/views/inbox_view.js",
     "line": "        toast.$el.appendTo(this.$el);",
-    "lineNumber": 107,
+    "lineNumber": 108,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-05-28T17:42:35.329Z",
-    "reasonDetail": "Known DOM elements"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Adding sub-view to DOM"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.call-manager-placeholder').append(this.callManagerView.el);",
-    "lineNumber": 126,
+    "lineNumber": 127,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-05-28T17:42:35.329Z",
-    "reasonDetail": "<optional>"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Adding sub-view to DOM"
   },
   {
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.call-manager-placeholder').append(this.callManagerView.el);",
-    "lineNumber": 126,
+    "lineNumber": 127,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-05-28T17:42:35.329Z",
-    "reasonDetail": "<optional>"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Adding sub-view to DOM"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 137,
+    "lineNumber": 138,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-05-28T17:42:35.329Z",
-    "reasonDetail": "Known DOM elements"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Adding sub-view to DOM"
   },
   {
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 137,
+    "lineNumber": 138,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-05-28T17:42:35.329Z",
-    "reasonDetail": "Known DOM elements"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Adding sub-view to DOM"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.placeholder').length) {",
-    "lineNumber": 190,
+    "lineNumber": 191,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-05-28T17:42:35.329Z",
-    "reasonDetail": "Known DOM elements"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('#header, .gutter').addClass('inactive');",
-    "lineNumber": 194,
+    "lineNumber": 195,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-05-28T17:42:35.329Z",
-    "reasonDetail": "Hardcoded selector"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, adding or removing classes"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation-stack').removeClass('inactive');",
-    "lineNumber": 195,
+    "lineNumber": 196,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-11T17:24:56.124Z",
-    "reasonDetail": "Static selector argument"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, adding or removing classes"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation-stack').addClass('inactive');",
-    "lineNumber": 198,
+    "lineNumber": 199,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-05-28T17:42:35.329Z",
-    "reasonDetail": "Hardcoded selector"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, adding or removing classes"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('#header, .gutter').removeClass('inactive');",
-    "lineNumber": 199,
+    "lineNumber": 200,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-11T17:24:56.124Z",
-    "reasonDetail": "Static selector argument"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, adding or removing classes"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .menu').trigger('close');",
-    "lineNumber": 200,
+    "lineNumber": 201,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-05-28T17:42:35.329Z",
-    "reasonDetail": "Hardcoded selector"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, trigging DOM event"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.capture-audio').length > 0) {",
-    "lineNumber": 222,
+    "lineNumber": 223,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-05-29T18:29:18.234Z",
-    "reasonDetail": "Known DOM elements"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .recorder').trigger('close');",
-    "lineNumber": 225,
+    "lineNumber": 226,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-05-29T18:29:18.234Z",
-    "reasonDetail": "Hardcoded selector"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, triggering DOM event"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/install_view.js",
+    "line": "    template: () => $('#link-flow-template').html(),",
+    "lineNumber": 27,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-html(",
+    "path": "js/views/install_view.js",
+    "line": "    template: () => $('#link-flow-template').html(),",
+    "lineNumber": 27,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
   },
   {
     "rule": "jQuery-$(",
@@ -733,18 +913,38 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/key_verification_view.js",
-    "line": "      this.$('.key-verification-wrapper').append(this.view.el);",
-    "lineNumber": 29,
+    "line": "    template: () => $('#key-verification').html(),",
+    "lineNumber": 12,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-06-23T06:48:06.829Z"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-html(",
+    "path": "js/views/key_verification_view.js",
+    "line": "    template: () => $('#key-verification').html(),",
+    "lineNumber": 12,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/key_verification_view.js",
+    "line": "      this.$('.key-verification-wrapper').append(this.view.el);",
+    "lineNumber": 27,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Adding sub-view to DOM"
   },
   {
     "rule": "jQuery-append(",
     "path": "js/views/key_verification_view.js",
     "line": "      this.$('.key-verification-wrapper').append(this.view.el);",
-    "lineNumber": 29,
+    "lineNumber": 27,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-06-23T06:48:06.829Z"
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Adding sub-view to DOM"
   },
   {
     "rule": "jQuery-append(",
@@ -763,6 +963,24 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-15T00:38:04.183Z",
     "reasonDetail": "Hard-coded value"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/phone-input-view.js",
+    "line": "    template: () => $('#phone-number').html(),",
+    "lineNumber": 13,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-html(",
+    "path": "js/views/phone-input-view.js",
+    "line": "    template: () => $('#phone-number').html(),",
+    "lineNumber": 13,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
   },
   {
     "rule": "jQuery-$(",
@@ -821,6 +1039,24 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/recorder_view.js",
+    "line": "    template: () => $('#recorder').html(),",
+    "lineNumber": 14,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-html(",
+    "path": "js/views/recorder_view.js",
+    "line": "    template: () => $('#recorder').html(),",
+    "lineNumber": 14,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/recorder_view.js",
     "line": "      $(window).on('blur', this.onSwitchAwayBound);",
     "lineNumber": 20,
     "reasonCategory": "usageTrusted",
@@ -844,6 +1080,24 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-10-11T19:22:47.331Z",
     "reasonDetail": "Operating on already-existing DOM elements"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/safety_number_change_dialog_view.js",
+    "line": "    template: () => $('#safety-number-change-dialog').html(),",
+    "lineNumber": 11,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-html(",
+    "path": "js/views/safety_number_change_dialog_view.js",
+    "line": "    template: () => $('#safety-number-change-dialog').html(),",
+    "lineNumber": 11,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
   },
   {
     "rule": "jQuery-$(",
@@ -904,6 +1158,24 @@
     "reasonCategory": "usageTrusted",
     "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
+    "line": "    template: () => $('#settings').html(),",
+    "lineNumber": 94,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-html(",
+    "path": "js/views/settings_view.js",
+    "line": "    template: () => $('#settings').html(),",
+    "lineNumber": 94,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
   },
   {
     "rule": "jQuery-$(",
@@ -1061,6 +1333,24 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
+    "line": "    template: () => $('#syncSettings').html(),",
+    "lineNumber": 274,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-html(",
+    "path": "js/views/settings_view.js",
+    "line": "    template: () => $('#syncSettings').html(),",
+    "lineNumber": 274,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
     "line": "      this.$('.sync').text(i18n('syncNow'));",
     "lineNumber": 283,
     "reasonCategory": "usageTrusted",
@@ -1120,6 +1410,24 @@
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/standalone_registration_view.js",
+    "line": "    template: () => $('#standalone').html(),",
+    "lineNumber": 13,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-html(",
+    "path": "js/views/standalone_registration_view.js",
+    "line": "    template: () => $('#standalone').html(),",
+    "lineNumber": 13,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
   },
   {
     "rule": "jQuery-$(",
@@ -1282,59 +1590,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-18T03:39:29.033Z",
     "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "js/views/toast_view.js",
-    "line": "      this.$el.html(",
-    "lineNumber": 23,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "js/views/toast_view.js",
-    "line": "    toast.$el.appendTo(el);",
-    "lineNumber": 37,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-11-06T19:56:38.557Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "js/views/whisper_view.js",
-    "line": "        this.$el.html(Mustache.render(template, attrs, partials));",
-    "lineNumber": 52,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-15T00:38:04.183Z",
-    "reasonDetail": "Value set came directly from Mustache tempating engine"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/whisper_view.js",
-    "line": "        $('script[type=\"text/x-tmpl-mustache\"]').each((i, el) => {",
-    "lineNumber": 70,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/whisper_view.js",
-    "line": "          const $el = $(el);",
-    "lineNumber": 71,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "js/views/whisper_view.js",
-    "line": "          templates[id] = $el.html();",
-    "lineNumber": 73,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-15T00:38:04.183Z",
-    "reasonDetail": "Getting the value, not setting it"
   },
   {
     "rule": "DOM-innerHTML",
@@ -6851,8 +7106,7 @@
     "line": "  $({ global: true, forced: Constructor != NativeConstructor }, exported);",
     "lineNumber": 90,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -6860,8 +7114,7 @@
     "line": "    } else $({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME }, methods);",
     "lineNumber": 86,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -6869,8 +7122,7 @@
     "line": "      reCopy = new RegExp('^' + re.source + '$(?!\\\\s)', regexpFlags.call(re));",
     "lineNumber": 31,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -6878,8 +7130,7 @@
     "line": "  $({ target: 'Object', stat: true, forced: !NATIVE_ARRAY_BUFFER_VIEWS }, {",
     "lineNumber": 103,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -6887,8 +7138,7 @@
     "line": "    $({",
     "lineNumber": 209,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -6896,8 +7146,7 @@
     "line": "$({ global: true, forced: NativeArrayBuffer !== ArrayBuffer }, {",
     "lineNumber": 13,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -6905,8 +7154,7 @@
     "line": "$({ target: 'ArrayBuffer', stat: true, forced: !NATIVE_ARRAY_BUFFER_VIEWS }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -6914,8 +7162,7 @@
     "line": "$({ target: 'ArrayBuffer', proto: true, unsafe: true, forced: INCORRECT_SLICE }, {",
     "lineNumber": 20,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -6923,8 +7170,7 @@
     "line": "$({ target: 'Array', proto: true, forced: FORCED }, {",
     "lineNumber": 36,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -6932,8 +7178,7 @@
     "line": "$({ target: 'Array', proto: true }, {",
     "lineNumber": 7,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -6941,8 +7186,7 @@
     "line": "$({ target: 'Array', proto: true, forced: sloppyArrayMethod('every') }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -6950,8 +7194,7 @@
     "line": "$({ target: 'Array', proto: true }, {",
     "lineNumber": 7,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -6959,8 +7202,7 @@
     "line": "$({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('filter') }, {",
     "lineNumber": 9,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -6968,8 +7210,7 @@
     "line": "$({ target: 'Array', proto: true, forced: SKIPS_HOLES }, {",
     "lineNumber": 14,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -6977,8 +7218,7 @@
     "line": "$({ target: 'Array', proto: true, forced: SKIPS_HOLES }, {",
     "lineNumber": 14,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -6986,8 +7226,7 @@
     "line": "$({ target: 'Array', proto: true }, {",
     "lineNumber": 11,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -6995,8 +7234,7 @@
     "line": "$({ target: 'Array', proto: true }, {",
     "lineNumber": 11,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7004,8 +7242,7 @@
     "line": "$({ target: 'Array', proto: true, forced: [].forEach != forEach }, {",
     "lineNumber": 7,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7013,8 +7250,7 @@
     "line": "$({ target: 'Array', stat: true, forced: INCORRECT_ITERATION }, {",
     "lineNumber": 11,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7022,8 +7258,7 @@
     "line": "$({ target: 'Array', proto: true }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7031,8 +7266,7 @@
     "line": "$({ target: 'Array', proto: true, forced: NEGATIVE_ZERO || SLOPPY_METHOD }, {",
     "lineNumber": 13,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7040,8 +7274,7 @@
     "line": "$({ target: 'Array', stat: true }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7049,8 +7282,7 @@
     "line": "$({ target: 'Array', proto: true, forced: ES3_STRINGS || SLOPPY_METHOD }, {",
     "lineNumber": 14,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7058,8 +7290,7 @@
     "line": "$({ target: 'Array', proto: true, forced: lastIndexOf !== [].lastIndexOf }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7067,8 +7298,7 @@
     "line": "$({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('map') }, {",
     "lineNumber": 9,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7076,8 +7306,7 @@
     "line": "$({ target: 'Array', stat: true, forced: ISNT_GENERIC }, {",
     "lineNumber": 14,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7085,8 +7314,7 @@
     "line": "$({ target: 'Array', proto: true, forced: sloppyArrayMethod('reduceRight') }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7094,8 +7322,7 @@
     "line": "$({ target: 'Array', proto: true, forced: sloppyArrayMethod('reduce') }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7103,8 +7330,7 @@
     "line": "$({ target: 'Array', proto: true, forced: String(test) === String(test.reverse()) }, {",
     "lineNumber": 12,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7112,8 +7338,7 @@
     "line": "$({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('slice') }, {",
     "lineNumber": 19,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7121,8 +7346,7 @@
     "line": "$({ target: 'Array', proto: true, forced: sloppyArrayMethod('some') }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7130,8 +7354,7 @@
     "line": "$({ target: 'Array', proto: true, forced: FORCED }, {",
     "lineNumber": 26,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7139,8 +7362,7 @@
     "line": "$({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('splice') }, {",
     "lineNumber": 19,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7148,8 +7370,7 @@
     "line": "$({ global: true, forced: !NATIVE_ARRAY_BUFFER }, {",
     "lineNumber": 7,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7157,8 +7378,7 @@
     "line": "$({ target: 'Date', stat: true }, {",
     "lineNumber": 5,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7166,8 +7386,7 @@
     "line": "$({ target: 'Date', proto: true, forced: Date.prototype.toISOString !== toISOString }, {",
     "lineNumber": 7,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7175,8 +7394,7 @@
     "line": "$({ target: 'Date', proto: true, forced: FORCED }, {",
     "lineNumber": 14,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7184,8 +7402,7 @@
     "line": "$({ target: 'Function', proto: true }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7193,8 +7410,7 @@
     "line": "$({ target: 'Math', stat: true, forced: FORCED }, {",
     "lineNumber": 17,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7202,8 +7418,7 @@
     "line": "$({ target: 'Math', stat: true, forced: !(nativeAsinh && 1 / nativeAsinh(0) > 0) }, {",
     "lineNumber": 14,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7211,8 +7426,7 @@
     "line": "$({ target: 'Math', stat: true, forced: !(nativeAtanh && 1 / nativeAtanh(-0) < 0) }, {",
     "lineNumber": 9,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7220,8 +7434,7 @@
     "line": "$({ target: 'Math', stat: true }, {",
     "lineNumber": 9,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7229,8 +7442,7 @@
     "line": "$({ target: 'Math', stat: true }, {",
     "lineNumber": 9,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7238,8 +7450,7 @@
     "line": "$({ target: 'Math', stat: true, forced: !nativeCosh || nativeCosh(710) === Infinity }, {",
     "lineNumber": 10,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7247,8 +7458,7 @@
     "line": "$({ target: 'Math', stat: true, forced: expm1 != Math.expm1 }, { expm1: expm1 });",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7256,8 +7466,7 @@
     "line": "$({ target: 'Math', stat: true }, { fround: fround });",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7265,8 +7474,7 @@
     "line": "$({ target: 'Math', stat: true, forced: BUGGY }, {",
     "lineNumber": 13,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7274,8 +7482,7 @@
     "line": "$({ target: 'Math', stat: true, forced: FORCED }, {",
     "lineNumber": 13,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7283,8 +7490,7 @@
     "line": "$({ target: 'Math', stat: true }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7292,8 +7498,7 @@
     "line": "$({ target: 'Math', stat: true }, { log1p: log1p });",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7301,8 +7506,7 @@
     "line": "$({ target: 'Math', stat: true }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7310,8 +7514,7 @@
     "line": "$({ target: 'Math', stat: true }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7319,8 +7522,7 @@
     "line": "$({ target: 'Math', stat: true, forced: FORCED }, {",
     "lineNumber": 16,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7328,8 +7530,7 @@
     "line": "$({ target: 'Math', stat: true }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7337,8 +7538,7 @@
     "line": "$({ target: 'Math', stat: true }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7346,8 +7546,7 @@
     "line": "$({ target: 'Number', stat: true }, {",
     "lineNumber": 5,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7355,8 +7554,7 @@
     "line": "$({ target: 'Number', stat: true }, { isFinite: numberIsFinite });",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7364,8 +7562,7 @@
     "line": "$({ target: 'Number', stat: true }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7373,8 +7570,7 @@
     "line": "$({ target: 'Number', stat: true }, {",
     "lineNumber": 5,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7382,8 +7578,7 @@
     "line": "$({ target: 'Number', stat: true }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7391,8 +7586,7 @@
     "line": "$({ target: 'Number', stat: true }, {",
     "lineNumber": 5,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7400,8 +7594,7 @@
     "line": "$({ target: 'Number', stat: true }, {",
     "lineNumber": 5,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7409,8 +7602,7 @@
     "line": "$({ target: 'Number', stat: true, forced: Number.parseFloat != parseFloat }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7418,8 +7610,7 @@
     "line": "$({ target: 'Number', stat: true, forced: Number.parseInt != parseInt }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7427,8 +7618,7 @@
     "line": "$({ target: 'Number', proto: true, forced: FORCED }, {",
     "lineNumber": 40,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7436,8 +7626,7 @@
     "line": "$({ target: 'Number', proto: true, forced: FORCED }, {",
     "lineNumber": 18,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7445,8 +7634,7 @@
     "line": "$({ target: 'Object', stat: true, forced: Object.assign !== assign }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7454,8 +7642,7 @@
     "line": "$({ target: 'Object', stat: true, sham: !DESCRIPTORS }, {",
     "lineNumber": 7,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7463,8 +7650,7 @@
     "line": "  $({ target: 'Object', proto: true, forced: FORCED }, {",
     "lineNumber": 12,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7472,8 +7658,7 @@
     "line": "$({ target: 'Object', stat: true, forced: !DESCRIPTORS, sham: !DESCRIPTORS }, {",
     "lineNumber": 7,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7481,8 +7666,7 @@
     "line": "$({ target: 'Object', stat: true, forced: !DESCRIPTORS, sham: !DESCRIPTORS }, {",
     "lineNumber": 7,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7490,8 +7674,7 @@
     "line": "  $({ target: 'Object', proto: true, forced: FORCED }, {",
     "lineNumber": 12,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7499,8 +7682,7 @@
     "line": "$({ target: 'Object', stat: true }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7508,8 +7690,7 @@
     "line": "$({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES, sham: !FREEZING }, {",
     "lineNumber": 12,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7517,8 +7698,7 @@
     "line": "$({ target: 'Object', stat: true }, {",
     "lineNumber": 7,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7526,8 +7706,7 @@
     "line": "$({ target: 'Object', stat: true, forced: FORCED, sham: !DESCRIPTORS }, {",
     "lineNumber": 12,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7535,8 +7714,7 @@
     "line": "$({ target: 'Object', stat: true, sham: !DESCRIPTORS }, {",
     "lineNumber": 10,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7544,8 +7722,7 @@
     "line": "$({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES }, {",
     "lineNumber": 9,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7553,8 +7730,7 @@
     "line": "$({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES, sham: !CORRECT_PROTOTYPE_GETTER }, {",
     "lineNumber": 11,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7562,8 +7738,7 @@
     "line": "$({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES }, {",
     "lineNumber": 10,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7571,8 +7746,7 @@
     "line": "$({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES }, {",
     "lineNumber": 10,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7580,8 +7754,7 @@
     "line": "$({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES }, {",
     "lineNumber": 10,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7589,8 +7762,7 @@
     "line": "$({ target: 'Object', stat: true }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7598,8 +7770,7 @@
     "line": "$({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES }, {",
     "lineNumber": 10,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7607,8 +7778,7 @@
     "line": "  $({ target: 'Object', proto: true, forced: FORCED }, {",
     "lineNumber": 13,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7616,8 +7786,7 @@
     "line": "  $({ target: 'Object', proto: true, forced: FORCED }, {",
     "lineNumber": 13,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7625,8 +7794,7 @@
     "line": "$({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES, sham: !FREEZING }, {",
     "lineNumber": 12,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7634,8 +7802,7 @@
     "line": "$({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES, sham: !FREEZING }, {",
     "lineNumber": 12,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7643,8 +7810,7 @@
     "line": "$({ target: 'Object', stat: true }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7652,8 +7818,7 @@
     "line": "$({ target: 'Object', stat: true }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7661,8 +7826,7 @@
     "line": "$({ global: true, forced: parseFloat != parseFloatImplementation }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7670,8 +7834,7 @@
     "line": "$({ global: true, forced: parseInt != parseIntImplementation }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7679,8 +7842,7 @@
     "line": "$({ target: 'Promise', stat: true }, {",
     "lineNumber": 10,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7688,8 +7850,7 @@
     "line": "$({ target: 'Promise', proto: true, real: true }, {",
     "lineNumber": 12,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7697,8 +7858,7 @@
     "line": "    if (typeof $fetch == 'function') $({ global: true, enumerable: true, forced: true }, {",
     "lineNumber": 289,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7706,8 +7866,7 @@
     "line": "$({ global: true, wrap: true, forced: FORCED }, {",
     "lineNumber": 298,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7715,8 +7874,7 @@
     "line": "$({ target: PROMISE, stat: true, forced: FORCED }, {",
     "lineNumber": 308,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7724,8 +7882,7 @@
     "line": "$({ target: PROMISE, stat: true, forced: IS_PURE || FORCED }, {",
     "lineNumber": 318,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7733,8 +7890,7 @@
     "line": "$({ target: PROMISE, stat: true, forced: INCORRECT_ITERATION }, {",
     "lineNumber": 326,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7742,8 +7898,7 @@
     "line": "$({ target: 'Reflect', stat: true, forced: OPTIONAL_ARGUMENTS_LIST }, {",
     "lineNumber": 17,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7751,8 +7906,7 @@
     "line": "$({ target: 'Reflect', stat: true, forced: FORCED, sham: FORCED }, {",
     "lineNumber": 25,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7760,8 +7914,7 @@
     "line": "$({ target: 'Reflect', stat: true, forced: ERROR_INSTEAD_OF_FALSE, sham: !DESCRIPTORS }, {",
     "lineNumber": 16,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7769,8 +7922,7 @@
     "line": "$({ target: 'Reflect', stat: true }, {",
     "lineNumber": 7,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7778,8 +7930,7 @@
     "line": "$({ target: 'Reflect', stat: true, sham: !DESCRIPTORS }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7787,8 +7938,7 @@
     "line": "$({ target: 'Reflect', stat: true, sham: !CORRECT_PROTOTYPE_GETTER }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7796,8 +7946,7 @@
     "line": "$({ target: 'Reflect', stat: true }, {",
     "lineNumber": 22,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7805,8 +7954,7 @@
     "line": "$({ target: 'Reflect', stat: true }, {",
     "lineNumber": 5,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7814,8 +7962,7 @@
     "line": "$({ target: 'Reflect', stat: true }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7823,8 +7970,7 @@
     "line": "$({ target: 'Reflect', stat: true }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7832,8 +7978,7 @@
     "line": "$({ target: 'Reflect', stat: true, sham: !FREEZING }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7841,8 +7986,7 @@
     "line": "if (objectSetPrototypeOf) $({ target: 'Reflect', stat: true }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7850,8 +7994,7 @@
     "line": "$({ target: 'Reflect', stat: true }, {",
     "lineNumber": 34,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7859,8 +8002,7 @@
     "line": "$({ target: 'RegExp', proto: true, forced: /./.exec !== exec }, {",
     "lineNumber": 5,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7868,8 +8010,7 @@
     "line": "$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('anchor') }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7877,8 +8018,7 @@
     "line": "$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('big') }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7886,8 +8026,7 @@
     "line": "$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('blink') }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7895,8 +8034,7 @@
     "line": "$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('bold') }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7904,8 +8042,7 @@
     "line": "$({ target: 'String', proto: true }, {",
     "lineNumber": 7,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7913,8 +8050,7 @@
     "line": "$({ target: 'String', proto: true, forced: !correctIsRegExpLogic('endsWith') }, {",
     "lineNumber": 13,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7922,8 +8058,7 @@
     "line": "$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('fixed') }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7931,8 +8066,7 @@
     "line": "$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('fontcolor') }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7940,8 +8074,7 @@
     "line": "$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('fontsize') }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7949,8 +8082,7 @@
     "line": "$({ target: 'String', stat: true, forced: INCORRECT_LENGTH }, {",
     "lineNumber": 12,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7958,8 +8090,7 @@
     "line": "$({ target: 'String', proto: true, forced: !correctIsRegExpLogic('includes') }, {",
     "lineNumber": 9,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7967,8 +8098,7 @@
     "line": "$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('italics') }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7976,8 +8106,7 @@
     "line": "$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('link') }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7985,8 +8114,7 @@
     "line": "$({ target: 'String', proto: true }, {",
     "lineNumber": 79,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7994,8 +8122,7 @@
     "line": "$({ target: 'String', proto: true, forced: WEBKIT_BUG }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8003,8 +8130,7 @@
     "line": "$({ target: 'String', proto: true, forced: WEBKIT_BUG }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8012,8 +8138,7 @@
     "line": "$({ target: 'String', stat: true }, {",
     "lineNumber": 7,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8021,8 +8146,7 @@
     "line": "$({ target: 'String', proto: true }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8030,8 +8154,7 @@
     "line": "var SUBSTITUTION_SYMBOLS = /\\$([$&'`]|\\d\\d?|<[^>]*>)/g;",
     "lineNumber": 14,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8039,8 +8162,7 @@
     "line": "var SUBSTITUTION_SYMBOLS_NO_NAMED = /\\$([$&'`]|\\d\\d?)/g;",
     "lineNumber": 15,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8048,8 +8170,7 @@
     "line": "$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('small') }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8057,8 +8178,7 @@
     "line": "$({ target: 'String', proto: true, forced: !correctIsRegExpLogic('startsWith') }, {",
     "lineNumber": 13,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8066,8 +8186,7 @@
     "line": "$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('strike') }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8075,8 +8194,7 @@
     "line": "$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('sub') }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8084,8 +8202,7 @@
     "line": "$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('sup') }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8093,8 +8210,7 @@
     "line": "$({ target: 'String', proto: true, forced: FORCED }, {",
     "lineNumber": 14,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8102,8 +8218,7 @@
     "line": "$({ target: 'String', proto: true, forced: FORCED }, {",
     "lineNumber": 14,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8111,8 +8226,7 @@
     "line": "$({ target: 'String', proto: true, forced: forcedStringTrimMethod('trim') }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8120,8 +8234,7 @@
     "line": "  $({ global: true, forced: true }, {",
     "lineNumber": 47,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -8129,8 +8242,7 @@
     "line": "    return wrap(tag, description);",
     "lineNumber": 173,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -8138,8 +8250,7 @@
     "line": "    return wrap(wellKnownSymbol(name), name);",
     "lineNumber": 200,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8147,8 +8258,7 @@
     "line": "$({ global: true, wrap: true, forced: !NATIVE_SYMBOL, sham: !NATIVE_SYMBOL }, {",
     "lineNumber": 204,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8156,8 +8266,7 @@
     "line": "$({ target: SYMBOL, stat: true, forced: !NATIVE_SYMBOL }, {",
     "lineNumber": 212,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8165,8 +8274,7 @@
     "line": "$({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL, sham: !DESCRIPTORS }, {",
     "lineNumber": 233,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8174,8 +8282,7 @@
     "line": "$({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL }, {",
     "lineNumber": 248,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8183,8 +8290,7 @@
     "line": "$({ target: 'Object', stat: true, forced: fails(function () { getOwnPropertySymbolsModule.f(1); }) }, {",
     "lineNumber": 259,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8192,8 +8298,7 @@
     "line": "JSON && $({ target: 'JSON', stat: true, forced: !NATIVE_SYMBOL || fails(function () {",
     "lineNumber": 267,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8201,8 +8306,7 @@
     "line": "$({ global: true }, {",
     "lineNumber": 27,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8210,8 +8314,7 @@
     "line": "$({ target: 'Array', stat: true }, {",
     "lineNumber": 21,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8219,8 +8322,7 @@
     "line": "$({ global: true }, {",
     "lineNumber": 12,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8228,8 +8330,7 @@
     "line": "$({ global: true }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8237,8 +8338,7 @@
     "line": "$({ global: true }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8246,8 +8346,7 @@
     "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8255,8 +8354,7 @@
     "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 11,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8264,8 +8362,7 @@
     "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 14,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8273,8 +8370,7 @@
     "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 11,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8282,8 +8378,7 @@
     "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 11,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8291,8 +8386,7 @@
     "line": "$({ target: 'Map', stat: true }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8300,8 +8394,7 @@
     "line": "$({ target: 'Map', stat: true }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8309,8 +8402,7 @@
     "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 11,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8318,8 +8410,7 @@
     "line": "$({ target: 'Map', stat: true }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8327,8 +8418,7 @@
     "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 10,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8336,8 +8426,7 @@
     "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 14,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8345,8 +8434,7 @@
     "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 14,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8354,8 +8442,7 @@
     "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 10,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8363,8 +8450,7 @@
     "line": "$({ target: 'Map', stat: true }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8372,8 +8458,7 @@
     "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 11,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8381,8 +8466,7 @@
     "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 11,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8390,8 +8474,7 @@
     "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 9,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8399,8 +8482,7 @@
     "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 9,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8408,8 +8490,7 @@
     "line": "$({ target: 'Math', stat: true }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8417,8 +8498,7 @@
     "line": "$({ target: 'Math', stat: true }, {",
     "lineNumber": 5,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8426,8 +8506,7 @@
     "line": "$({ target: 'Math', stat: true }, {",
     "lineNumber": 7,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8435,8 +8514,7 @@
     "line": "$({ target: 'Math', stat: true }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8444,8 +8522,7 @@
     "line": "$({ target: 'Math', stat: true }, {",
     "lineNumber": 5,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8453,8 +8530,7 @@
     "line": "$({ target: 'Math', stat: true }, {",
     "lineNumber": 5,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8462,8 +8538,7 @@
     "line": "$({ target: 'Math', stat: true }, {",
     "lineNumber": 5,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8471,8 +8546,7 @@
     "line": "$({ target: 'Math', stat: true }, {",
     "lineNumber": 5,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8480,8 +8554,7 @@
     "line": "$({ target: 'Math', stat: true }, {",
     "lineNumber": 7,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8489,8 +8562,7 @@
     "line": "$({ target: 'Math', stat: true }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8498,8 +8570,7 @@
     "line": "$({ target: 'Math', stat: true, forced: true }, {",
     "lineNumber": 27,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8507,8 +8578,7 @@
     "line": "$({ target: 'Math', stat: true }, {",
     "lineNumber": 5,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8516,8 +8586,7 @@
     "line": "$({ target: 'Math', stat: true }, {",
     "lineNumber": 5,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8525,8 +8594,7 @@
     "line": "$({ target: 'Number', stat: true }, {",
     "lineNumber": 12,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8534,8 +8602,7 @@
     "line": "$({ global: true }, {",
     "lineNumber": 203,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8543,8 +8610,7 @@
     "line": "$({ target: 'Promise', stat: true }, {",
     "lineNumber": 13,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8552,8 +8618,7 @@
     "line": "$({ target: 'Promise', stat: true }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8561,8 +8626,7 @@
     "line": "$({ target: 'Reflect', stat: true }, {",
     "lineNumber": 10,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8570,8 +8634,7 @@
     "line": "$({ target: 'Reflect', stat: true }, {",
     "lineNumber": 11,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8579,8 +8642,7 @@
     "line": "$({ target: 'Reflect', stat: true }, {",
     "lineNumber": 28,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8588,8 +8650,7 @@
     "line": "$({ target: 'Reflect', stat: true }, {",
     "lineNumber": 19,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8597,8 +8658,7 @@
     "line": "$({ target: 'Reflect', stat: true }, {",
     "lineNumber": 10,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8606,8 +8666,7 @@
     "line": "$({ target: 'Reflect', stat: true }, {",
     "lineNumber": 10,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8615,8 +8674,7 @@
     "line": "$({ target: 'Reflect', stat: true }, {",
     "lineNumber": 18,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8624,8 +8682,7 @@
     "line": "$({ target: 'Reflect', stat: true }, {",
     "lineNumber": 10,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8633,8 +8690,7 @@
     "line": "$({ target: 'Reflect', stat: true }, {",
     "lineNumber": 10,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8642,8 +8698,7 @@
     "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8651,8 +8706,7 @@
     "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8660,8 +8714,7 @@
     "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 12,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8669,8 +8722,7 @@
     "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 11,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8678,8 +8730,7 @@
     "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 14,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8687,8 +8738,7 @@
     "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 11,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8696,8 +8746,7 @@
     "line": "$({ target: 'Set', stat: true }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8705,8 +8754,7 @@
     "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 12,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8714,8 +8762,7 @@
     "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 10,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8723,8 +8770,7 @@
     "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 12,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8732,8 +8778,7 @@
     "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 10,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8741,8 +8786,7 @@
     "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 10,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8750,8 +8794,7 @@
     "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 14,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8759,8 +8802,7 @@
     "line": "$({ target: 'Set', stat: true }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8768,8 +8810,7 @@
     "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 11,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8777,8 +8818,7 @@
     "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 11,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8786,8 +8826,7 @@
     "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 12,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8795,8 +8834,7 @@
     "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 12,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8804,8 +8842,7 @@
     "line": "$({ target: 'String', proto: true }, {",
     "lineNumber": 7,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8813,8 +8850,7 @@
     "line": "$({ target: 'String', proto: true }, {",
     "lineNumber": 34,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8822,8 +8858,7 @@
     "line": "$({ target: 'String', proto: true }, {",
     "lineNumber": 26,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8831,8 +8866,7 @@
     "line": "$({ target: 'WeakMap', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8840,8 +8874,7 @@
     "line": "$({ target: 'WeakMap', stat: true }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8849,8 +8882,7 @@
     "line": "$({ target: 'WeakMap', stat: true }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8858,8 +8890,7 @@
     "line": "$({ target: 'WeakSet', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8867,8 +8898,7 @@
     "line": "$({ target: 'WeakSet', proto: true, real: true, forced: IS_PURE }, {",
     "lineNumber": 8,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8876,8 +8906,7 @@
     "line": "$({ target: 'WeakSet', stat: true }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8885,8 +8914,7 @@
     "line": "$({ target: 'WeakSet', stat: true }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8894,8 +8922,7 @@
     "line": "$({ global: true, enumerable: true, noTargetGet: true }, {",
     "lineNumber": 11,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8903,8 +8930,7 @@
     "line": "$({ global: true, bind: true, forced: MSIE }, {",
     "lineNumber": 21,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -8912,8 +8938,7 @@
     "line": "  setTimeout: wrap(global.setTimeout),",
     "lineNumber": 24,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -8921,8 +8946,7 @@
     "line": "  setInterval: wrap(global.setInterval)",
     "lineNumber": 27,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-append(",
@@ -8930,8 +8954,7 @@
     "line": "  append: function append(name, value) {",
     "lineNumber": 159,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8939,8 +8962,7 @@
     "line": "$({ global: true, forced: !USE_NATIVE_URL }, {",
     "lineNumber": 304,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8948,8 +8970,7 @@
     "line": "$({ global: true, forced: !USE_NATIVE_URL, sham: !DESCRIPTORS }, {",
     "lineNumber": 1006,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8957,8 +8978,7 @@
     "line": "$({ target: 'URL', proto: true, enumerable: true }, {",
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
+    "updated": "2020-01-06T20:40:04.973Z"
   },
   {
     "rule": "jQuery-$(",
@@ -14341,6 +14361,96 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-17T20:50:40.689Z",
     "reasonDetail": "Hard-coded value"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/backbone/views/toast_view.js",
+    "line": "    template: () => $('#toast').html(),",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2021-02-26T19:21:25.912Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-html(",
+    "path": "ts/backbone/views/toast_view.js",
+    "line": "    template: () => $('#toast').html(),",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2021-02-26T19:21:25.912Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-html(",
+    "path": "ts/backbone/views/toast_view.js",
+    "line": "        this.$el.html(window.Mustache.render(window._.result(this, 'template', ''), window._.result(this, 'render_attributes', '')));",
+    "lineNumber": 16,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Adding Mustache render to DOM"
+  },
+  {
+    "rule": "jQuery-appendTo(",
+    "path": "ts/backbone/views/toast_view.js",
+    "line": "    toast.$el.appendTo(el);",
+    "lineNumber": 24,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Add sub-view to DOM"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/backbone/views/toast_view.ts",
+    "line": "  template: () => $('#toast').html(),",
+    "lineNumber": 8,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-html(",
+    "path": "ts/backbone/views/toast_view.ts",
+    "line": "  template: () => $('#toast').html(),",
+    "lineNumber": 8,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T19:23:51.217Z",
+    "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-html(",
+    "path": "ts/backbone/views/toast_view.ts",
+    "line": "    this.$el.html(",
+    "lineNumber": 19,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Rendering provided template"
+  },
+  {
+    "rule": "jQuery-appendTo(",
+    "path": "ts/backbone/views/toast_view.ts",
+    "line": "  toast.$el.appendTo(el);",
+    "lineNumber": 33,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Adding sub-view to DOM"
+  },
+  {
+    "rule": "jQuery-html(",
+    "path": "ts/backbone/views/whisper_view.js",
+    "line": "            this.$el.html(window.Mustache.render(template, attrs));",
+    "lineNumber": 25,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Rendering provided template"
+  },
+  {
+    "rule": "jQuery-html(",
+    "path": "ts/backbone/views/whisper_view.ts",
+    "line": "      this.$el.html(window.Mustache.render(template, attrs));",
+    "lineNumber": 28,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Rendered template has been sanitized"
   },
   {
     "rule": "React-useRef",

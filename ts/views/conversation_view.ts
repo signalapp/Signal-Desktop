@@ -3,14 +3,10 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-// This allows us to pull in types despite the fact that this is not a module. We can't
-//   use normal import syntax, nor can we use 'import type' syntax, or this will be turned
-//   into a module, and we'll get the dreaded 'exports is not defined' error.
-// see https://github.com/microsoft/TypeScript/issues/41562
-type AttachmentType = import('../types/Attachment').AttachmentType;
-type GroupV2PendingMemberType = import('../model-types.d').GroupV2PendingMemberType;
-type MediaItemType = import('../components/LightboxGallery').MediaItemType;
-type MessageType = import('../state/ducks/conversations').MessageType;
+import { AttachmentType } from '../types/Attachment';
+import { GroupV2PendingMemberType } from '../model-types.d';
+import { MediaItemType } from '../components/LightboxGallery';
+import { MessageType } from '../state/ducks/conversations';
 
 type GetLinkPreviewImageResult = {
   data: ArrayBuffer;
@@ -250,7 +246,7 @@ Whisper.MessageBodyTooLongToast = Whisper.ToastView.extend({
 });
 
 Whisper.FileSizeToast = Whisper.ToastView.extend({
-  templateName: 'file-size-modal',
+  template: () => $('#file-size-modal').html(),
   render_attributes() {
     return {
       'file-size-warning': window.i18n('fileSizeWarning'),
@@ -267,31 +263,31 @@ Whisper.UnableToLoadToast = Whisper.ToastView.extend({
 });
 
 Whisper.DangerousFileTypeToast = Whisper.ToastView.extend({
-  template: window.i18n('dangerousFileType'),
+  template: () => window.i18n('dangerousFileType'),
 });
 
 Whisper.OneNonImageAtATimeToast = Whisper.ToastView.extend({
-  template: window.i18n('oneNonImageAtATimeToast'),
+  template: () => window.i18n('oneNonImageAtATimeToast'),
 });
 
 Whisper.CannotMixImageAndNonImageAttachmentsToast = Whisper.ToastView.extend({
-  template: window.i18n('cannotMixImageAndNonImageAttachments'),
+  template: () => window.i18n('cannotMixImageAndNonImageAttachments'),
 });
 
 Whisper.MaxAttachmentsToast = Whisper.ToastView.extend({
-  template: window.i18n('maximumAttachments'),
+  template: () => window.i18n('maximumAttachments'),
 });
 
 Whisper.AlreadyGroupMemberToast = Whisper.ToastView.extend({
-  template: window.i18n('GroupV2--join--already-in-group'),
+  template: () => window.i18n('GroupV2--join--already-in-group'),
 });
 
 Whisper.AlreadyRequestedToJoinToast = Whisper.ToastView.extend({
-  template: window.i18n('GroupV2--join--already-awaiting-approval'),
+  template: () => window.i18n('GroupV2--join--already-awaiting-approval'),
 });
 
 Whisper.ConversationLoadingScreen = Whisper.View.extend({
-  templateName: 'conversation-loading-screen',
+  template: () => $('#conversation-loading-screen').html(),
   className: 'conversation-loading-screen',
 });
 
@@ -302,7 +298,7 @@ Whisper.ConversationView = Whisper.View.extend({
   id() {
     return `conversation-${this.model.cid}`;
   },
-  template: $('#conversation').html(),
+  template: () => $('#conversation').html(),
   render_attributes() {
     return {
       'send-message': window.i18n('sendMessage'),
@@ -374,31 +370,37 @@ Whisper.ConversationView = Whisper.View.extend({
       this.downloadNewVersion
     );
 
-    this.lazyUpdateVerified = _.debounce(
+    this.lazyUpdateVerified = window._.debounce(
       this.model.updateVerified.bind(this.model),
       1000 // one second
     );
     this.model.throttledGetProfiles =
       this.model.throttledGetProfiles ||
-      _.throttle(this.model.getProfiles.bind(this.model), FIVE_MINUTES);
+      window._.throttle(this.model.getProfiles.bind(this.model), FIVE_MINUTES);
     this.model.throttledUpdateSharedGroups =
       this.model.throttledUpdateSharedGroups ||
-      _.throttle(this.model.updateSharedGroups.bind(this.model), FIVE_MINUTES);
+      window._.throttle(
+        this.model.updateSharedGroups.bind(this.model),
+        FIVE_MINUTES
+      );
     this.model.throttledFetchLatestGroupV2Data =
       this.model.throttledFetchLatestGroupV2Data ||
-      _.throttle(
+      window._.throttle(
         this.model.fetchLatestGroupV2Data.bind(this.model),
         FIVE_MINUTES
       );
     this.model.throttledMaybeMigrateV1Group =
       this.model.throttledMaybeMigrateV1Group ||
-      _.throttle(this.model.maybeMigrateV1Group.bind(this.model), FIVE_MINUTES);
+      window._.throttle(
+        this.model.maybeMigrateV1Group.bind(this.model),
+        FIVE_MINUTES
+      );
 
-    this.debouncedMaybeGrabLinkPreview = _.debounce(
+    this.debouncedMaybeGrabLinkPreview = window._.debounce(
       this.maybeGrabLinkPreview.bind(this),
       200
     );
-    this.debouncedSaveDraft = _.debounce(this.saveDraft.bind(this), 200);
+    this.debouncedSaveDraft = window._.debounce(this.saveDraft.bind(this), 200);
 
     this.render();
 
@@ -1506,7 +1508,7 @@ Whisper.ConversationView = Whisper.View.extend({
     const draftAttachments = this.model.get('draftAttachments') || [];
 
     this.model.set({
-      draftAttachments: _.reject(
+      draftAttachments: window._.reject(
         draftAttachments,
         item => item.path === attachment.path
       ),
@@ -1553,7 +1555,7 @@ Whisper.ConversationView = Whisper.View.extend({
     }
 
     const draftAttachments = this.model.get('draftAttachments') || [];
-    const files = _.compact(
+    const files = window._.compact(
       await Promise.all(
         draftAttachments.map((attachment: any) => this.getFile(attachment))
       )
@@ -1575,7 +1577,7 @@ Whisper.ConversationView = Whisper.View.extend({
     }
 
     return {
-      ..._.pick(attachment, [
+      ...window._.pick(attachment, [
         'contentType',
         'fileName',
         'size',
@@ -1620,14 +1622,14 @@ Whisper.ConversationView = Whisper.View.extend({
     if (toWrite.data) {
       const path = await writeNewDraftData(toWrite.data);
       toWrite = {
-        ..._.omit(toWrite, ['data']),
+        ...window._.omit(toWrite, ['data']),
         path,
       };
     }
     if (toWrite.screenshotData) {
       const screenshotPath = await writeNewDraftData(toWrite.screenshotData);
       toWrite = {
-        ..._.omit(toWrite, ['screenshotData']),
+        ...window._.omit(toWrite, ['screenshotData']),
         screenshotPath,
       };
     }
@@ -3168,19 +3170,23 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   async destroyMessages() {
-    try {
-      await this.confirm(window.i18n('deleteConversationConfirmation'));
-      this.longRunningTaskWrapper({
-        name: 'destroymessages',
-        task: async () => {
-          this.model.trigger('unload', 'delete messages');
-          await this.model.destroyMessages();
-          this.model.updateLastMessage();
-        },
-      });
-    } catch (error) {
-      // nothing to see here, user canceled out of dialog
-    }
+    window.showConfirmationDialog({
+      message: window.i18n('deleteConversationConfirmation'),
+      okText: window.i18n('delete'),
+      resolve: () => {
+        this.longRunningTaskWrapper({
+          name: 'destroymessages',
+          task: async () => {
+            this.model.trigger('unload', 'delete messages');
+            await this.model.destroyMessages();
+            this.model.updateLastMessage();
+          },
+        });
+      },
+      reject: () => {
+        window.log.info('destroyMessages: User canceled delete');
+      },
+    });
   },
 
   async isCallSafe() {
@@ -3981,7 +3987,7 @@ Whisper.ConversationView = Whisper.View.extend({
         // We eliminate the ObjectURL here, unneeded for send or save
         return {
           ...item,
-          image: _.omit(item.image, 'url'),
+          image: window._.omit(item.image, 'url'),
         };
       }
 

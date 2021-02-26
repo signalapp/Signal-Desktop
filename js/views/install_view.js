@@ -24,7 +24,7 @@
   const TOO_OLD = 409;
 
   Whisper.InstallView = Whisper.View.extend({
-    templateName: 'link-flow-template',
+    template: () => $('#link-flow-template').html(),
     className: 'main full-screen-flow',
     events: {
       'click .try-again': 'connect',
