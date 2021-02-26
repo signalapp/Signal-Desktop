@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import React from 'react';
-import { SignUpMode, SignUpTab } from './SignUpTab';
 
 export enum TabType {
   SignUp,

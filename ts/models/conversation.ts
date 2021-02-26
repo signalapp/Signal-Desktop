@@ -35,12 +35,6 @@ import {
   fromBase64ToArrayBuffer,
 } from '../session/utils/String';
 
-export interface OurLokiProfile {
-  displayName: string;
-  avatarPointer: string;
-  profileKey: Uint8Array | null;
-}
-
 export interface ConversationAttributes {
   profileName?: string;
   id: string;
@@ -48,7 +42,6 @@ export interface ConversationAttributes {
   members: Array<string>;
   left: boolean;
   expireTimer: number;
-  profileSharing: boolean;
   mentionedUs: boolean;
   unreadCount: number;
   lastMessageStatus: string | null;
@@ -83,7 +76,6 @@ export interface ConversationAttributesOptionals {
   members?: Array<string>;
   left?: boolean;
   expireTimer?: number;
-  profileSharing?: boolean;
   mentionedUs?: boolean;
   unreadCount?: number;
   lastMessageStatus?: string | null;
@@ -122,7 +114,6 @@ export const fillConvoAttributesWithDefaults = (
   return _.defaults(optAttributes, {
     members: [],
     left: false,
-    profileSharing: false,
     unreadCount: 0,
     lastMessageStatus: null,
     lastJoinedTimestamp: new Date('1970-01-01Z00:00:00:000').getTime(),
@@ -178,11 +169,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.on('ourAvatarChanged', avatar =>
       this.updateAvatarOnPublicChat(avatar)
     );
-
-    // Always share profile pics with public chats
-    if (this.isPublic()) {
-      this.set('profileSharing', true);
-    }
 
     this.typingRefreshTimer = null;
     this.typingPauseTimer = null;
@@ -687,7 +673,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         expireTimer,
         preview: uploads.preview,
         quote: uploads.quote,
-        lokiProfile: this.getOurProfile(),
+        lokiProfile: UserUtils.getOurProfile(true),
       };
 
       const destinationPubkey = new PubKey(destination);
@@ -834,9 +820,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (!this.isPublic()) {
       return;
     }
-    if (!this.get('profileSharing')) {
-      return;
-    }
+    // Always share avatars on PublicChat
 
     if (profileKey && typeof profileKey !== 'string') {
       // eslint-disable-next-line no-param-reassign
@@ -953,16 +937,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return message;
     }
 
-    let profileKey;
-    if (this.get('profileSharing')) {
-      profileKey = window.storage.get('profileKey');
-    }
-
     const expireUpdate = {
       identifier: message.id,
       timestamp,
       expireTimer,
-      profileKey,
     };
 
     if (!expireUpdate.expireTimer) {
@@ -1563,33 +1541,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return this.get('profileName');
     }
     return null;
-  }
-
-  /**
-   * Returns
-   *   displayName: string;
-   *   avatarPointer: string;
-   *   profileKey: Uint8Array;
-   */
-  public getOurProfile(): OurLokiProfile | undefined {
-    try {
-      // Secondary devices have their profile stored
-      // in their primary device's conversation
-      const ourNumber = window.storage.get('primaryDevicePubKey');
-      const ourConversation = ConversationController.getInstance().get(
-        ourNumber
-      );
-      let profileKey = null;
-      if (this.get('profileSharing')) {
-        profileKey = new Uint8Array(window.storage.get('profileKey'));
-      }
-      const avatarPointer = ourConversation.get('avatarPointer');
-      const { displayName } = ourConversation.getLokiProfile();
-      return { displayName, avatarPointer, profileKey };
-    } catch (e) {
-      window.log.error(`Failed to get our profile: ${e}`);
-      return undefined;
-    }
   }
 
   public getNumber() {

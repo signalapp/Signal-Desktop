@@ -878,10 +878,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       }
 
       const { body, attachments, preview, quote } = await this.uploadData();
-      const ourNumber = UserUtils.getOurPubKeyStrFromCache();
-      const ourConversation = ConversationController.getInstance().get(
-        ourNumber
-      );
 
       const chatParams = {
         identifier: this.id,
@@ -891,8 +887,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         attachments,
         preview,
         quote,
-        lokiProfile:
-          (ourConversation && ourConversation.getOurProfile()) || undefined,
+        lokiProfile: UserUtils.getOurProfile(true),
       };
       if (!chatParams.lokiProfile) {
         delete chatParams.lokiProfile;

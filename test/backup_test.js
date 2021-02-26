@@ -512,7 +512,6 @@ describe('Backup', () => {
           },
           profileKey: 'BASE64KEY',
           profileName: 'Someone! 🤔',
-          profileSharing: true,
           timestamp: 1524185933350,
           type: 'private',
           unreadCount: 0,

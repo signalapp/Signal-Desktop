@@ -4,6 +4,7 @@ import { getItemById } from '../../../ts/data/data';
 import { KeyPair } from '../../../libtextsecure/libsignal-protocol';
 import { PubKey } from '../types';
 import { toHex } from './String';
+import { ConversationController } from '../conversations';
 
 export type HexKeyPair = {
   pubKey: string;
@@ -76,4 +77,37 @@ export function isRestoringFromSeed(): boolean {
 
 export function setRestoringFromSeed(isRestoring: boolean) {
   window.textsecure.storage.user.setRestoringFromSeed(isRestoring);
+}
+
+export interface OurLokiProfile {
+  displayName: string;
+  avatarPointer: string;
+  profileKey: Uint8Array | null;
+}
+
+/**
+ * Returns
+ *   displayName: string;
+ *   avatarPointer: string;
+ *   profileKey: Uint8Array;
+ */
+export function getOurProfile(
+  shareAvatar: boolean
+): OurLokiProfile | undefined {
+  try {
+    // Secondary devices have their profile stored
+    // in their primary device's conversation
+    const ourNumber = window.storage.get('primaryDevicePubKey');
+    const ourConversation = ConversationController.getInstance().get(ourNumber);
+    let profileKey = null;
+    if (shareAvatar) {
+      profileKey = new Uint8Array(window.storage.get('profileKey'));
+    }
+    const avatarPointer = ourConversation.get('avatarPointer');
+    const { displayName } = ourConversation.getLokiProfile();
+    return { displayName, avatarPointer, profileKey };
+  } catch (e) {
+    window.log.error(`Failed to get our profile: ${e}`);
+    return undefined;
+  }
 }

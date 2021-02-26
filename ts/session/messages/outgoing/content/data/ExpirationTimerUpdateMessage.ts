@@ -8,18 +8,15 @@ import { Constants } from '../../../..';
 interface ExpirationTimerUpdateMessageParams extends MessageParams {
   groupId?: string | PubKey;
   expireTimer: number | null;
-  profileKey?: Uint8Array;
 }
 
 export class ExpirationTimerUpdateMessage extends DataMessage {
   public readonly groupId?: PubKey;
   public readonly expireTimer: number | null;
-  public readonly profileKey?: Uint8Array;
 
   constructor(params: ExpirationTimerUpdateMessageParams) {
     super({ timestamp: params.timestamp, identifier: params.identifier });
     this.expireTimer = params.expireTimer;
-    this.profileKey = params.profileKey;
 
     const { groupId } = params;
     this.groupId = groupId ? PubKey.cast(groupId) : undefined;
@@ -51,9 +48,6 @@ export class ExpirationTimerUpdateMessage extends DataMessage {
 
     if (this.expireTimer) {
       data.expireTimer = this.expireTimer;
-    }
-    if (this.profileKey && this.profileKey.length) {
-      data.profileKey = this.profileKey;
     }
 
     return data;

@@ -254,12 +254,8 @@ async function processProfileKey(
   sendingDeviceConversation: ConversationModel,
   profileKeyBuffer: Uint8Array
 ) {
-  const ourNumber = UserUtils.getOurPubKeyStrFromCache();
-
   const profileKey = StringUtils.decode(profileKeyBuffer, 'base64');
-  if (source === ourNumber) {
-    conversation.set({ profileSharing: true });
-  } else if (conversation.isPrivate()) {
+  if (conversation.isPrivate()) {
     await conversation.setProfileKey(profileKey);
   } else {
     await sendingDeviceConversation.setProfileKey(profileKey);

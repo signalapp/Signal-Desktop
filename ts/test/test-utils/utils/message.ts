@@ -76,7 +76,6 @@ export class MockConversation {
       members,
       left: false,
       expireTimer: 0,
-      profileSharing: true,
       mentionedUs: false,
       unreadCount: 5,
       isKickedFromGroup: false,

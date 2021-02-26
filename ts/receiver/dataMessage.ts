@@ -400,15 +400,7 @@ async function handleProfileUpdate(
   const profileKey = StringUtils.decode(profileKeyBuffer, 'base64');
 
   if (!isIncoming) {
-    const receiver = await ConversationController.getInstance().getOrCreateAndWait(
-      convoId,
-      convoType
-    );
-    // First set profileSharing = true for the conversation we sent to
-    receiver.set({ profileSharing: true });
-    await receiver.commit();
-
-    // Then we update our own profileKey if it's different from what we have
+    // We update our own profileKey if it's different from what we have
     const ourNumber = UserUtils.getOurPubKeyStrFromCache();
     const me = await ConversationController.getInstance().getOrCreate(
       ourNumber,
