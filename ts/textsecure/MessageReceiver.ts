@@ -27,6 +27,10 @@ import Crypto from './Crypto';
 import { deriveMasterKeyFromGroupV1 } from '../Crypto';
 import { ContactBuffer, GroupBuffer } from './ContactsParser';
 import { IncomingIdentityKeyError } from './Errors';
+import {
+  createCertificateValidator,
+  SecretSessionCipher,
+} from '../metadata/SecretSessionCipher';
 
 import {
   AttachmentPointerClass,
@@ -946,7 +950,7 @@ class MessageReceiverInner extends EventTarget {
       address,
       options
     );
-    const secretSessionCipher = new window.Signal.Metadata.SecretSessionCipher(
+    const secretSessionCipher = new SecretSessionCipher(
       window.textsecure.storage.protocol,
       options
     );
@@ -979,7 +983,7 @@ class MessageReceiverInner extends EventTarget {
         window.log.info('received unidentified sender message');
         promise = secretSessionCipher
           .decrypt(
-            window.Signal.Metadata.createCertificateValidator(serverTrustRoot),
+            createCertificateValidator(serverTrustRoot),
             ciphertext.toArrayBuffer(),
             Math.min(envelope.serverTimestamp || Date.now(), Date.now()),
             me
@@ -1027,6 +1031,12 @@ class MessageReceiverInner extends EventTarget {
               envelope.unidentifiedDeliveryReceived = !(
                 originalSource || originalSourceUuid
               );
+
+              if (!content) {
+                throw new Error(
+                  'MessageReceiver.decrypt: Content returned was falsey!'
+                );
+              }
 
               // Return just the content because that matches the signature of the other
               //   decrypt methods used above.

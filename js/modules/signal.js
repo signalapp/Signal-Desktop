@@ -21,7 +21,6 @@ const Stickers = require('./stickers');
 const Settings = require('./settings');
 const RemoteConfig = require('../../ts/RemoteConfig');
 const Util = require('../../ts/util');
-const Metadata = require('./metadata/SecretSessionCipher');
 const RefreshSenderCertificate = require('./refresh_sender_certificate');
 const LinkPreviews = require('./link_previews');
 const AttachmentDownloads = require('./attachment_downloads');
@@ -428,7 +427,6 @@ exports.setup = (options = {}) => {
     GroupChange,
     IndexedDB,
     LinkPreviews,
-    Metadata,
     Migrations,
     Notifications,
     OS,

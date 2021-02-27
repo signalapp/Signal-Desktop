@@ -223,6 +223,7 @@ export declare class SessionCipherClass {
     body: string;
   }>;
   getRecord: () => Promise<RecordType>;
+  getSessionVersion: () => Promise<number>;
   getRemoteRegistrationId: () => Promise<number>;
   hasOpenSession: () => Promise<boolean>;
 }

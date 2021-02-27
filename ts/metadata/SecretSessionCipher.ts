@@ -1,12 +1,10 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global libsignal, textsecure */
+/* eslint-disable class-methods-use-this */
 
-/* eslint-disable no-bitwise */
-
-const CiphertextMessage = require('./CiphertextMessage');
-const {
+import * as CiphertextMessage from './CiphertextMessage';
+import {
   bytesFromString,
   concatenateBytes,
   constantTimeEqual,
@@ -20,44 +18,111 @@ const {
   intsToByteHighAndLow,
   splitBytes,
   trimBytes,
-} = require('../../../ts/Crypto');
+} from '../Crypto';
 
-const REVOKED_CERTIFICATES = [];
+import { SignalProtocolAddressClass } from '../libsignal.d';
 
-function SecretSessionCipher(storage, options) {
-  this.storage = storage;
-
-  // We do this on construction because libsignal won't be available when this file loads
-  const { SessionCipher } = libsignal;
-  this.SessionCipher = SessionCipher;
-
-  this.options = options || {};
-}
-
+const REVOKED_CERTIFICATES: Array<number> = [];
 const CIPHERTEXT_VERSION = 1;
 const UNIDENTIFIED_DELIVERY_PREFIX = 'UnidentifiedDelivery';
 
+type MeType = {
+  number?: string;
+  uuid?: string;
+  deviceId: number;
+};
+
+type ValidatorType = {
+  validate(
+    certificate: SenderCertificateType,
+    validationTime: number
+  ): Promise<void>;
+};
+
+export type SerializedCertificateType = {
+  serialized: ArrayBuffer;
+};
+
+type ServerCertificateType = {
+  id: number;
+  key: ArrayBuffer;
+};
+
+type ServerCertificateWrapperType = {
+  certificate: ArrayBuffer;
+  signature: ArrayBuffer;
+};
+
+type SenderCertificateType = {
+  sender?: string;
+  senderUuid?: string;
+  senderDevice: number;
+  expires: number;
+  identityKey: ArrayBuffer;
+  signer: ServerCertificateType;
+};
+
+type SenderCertificateWrapperType = {
+  certificate: ArrayBuffer;
+  signature: ArrayBuffer;
+};
+
+type MessageType = {
+  ephemeralPublic: ArrayBuffer;
+  encryptedStatic: ArrayBuffer;
+  encryptedMessage: ArrayBuffer;
+};
+
+type InnerMessageType = {
+  type: number;
+  senderCertificate: SenderCertificateWrapperType;
+  content: ArrayBuffer;
+};
+
+export type ExplodedServerCertificateType = ServerCertificateType &
+  ServerCertificateWrapperType &
+  SerializedCertificateType;
+
+export type ExplodedSenderCertificateType = SenderCertificateType &
+  SenderCertificateWrapperType &
+  SerializedCertificateType & {
+    signer: ExplodedServerCertificateType;
+  };
+
+type ExplodedMessageType = MessageType &
+  SerializedCertificateType & { version: number };
+
+type ExplodedInnerMessageType = InnerMessageType &
+  SerializedCertificateType & {
+    senderCertificate: ExplodedSenderCertificateType;
+  };
+
 // public CertificateValidator(ECPublicKey trustRoot)
-function createCertificateValidator(trustRoot) {
+export function createCertificateValidator(
+  trustRoot: ArrayBuffer
+): ValidatorType {
   return {
     // public void validate(SenderCertificate certificate, long validationTime)
-    async validate(certificate, validationTime) {
+    async validate(
+      certificate: ExplodedSenderCertificateType,
+      validationTime: number
+    ): Promise<void> {
       const serverCertificate = certificate.signer;
 
-      await libsignal.Curve.async.verifySignature(
+      await window.libsignal.Curve.async.verifySignature(
         trustRoot,
         serverCertificate.certificate,
         serverCertificate.signature
       );
 
-      const serverCertId = serverCertificate.certificate.id;
+      const serverCertId = serverCertificate.id;
       if (REVOKED_CERTIFICATES.includes(serverCertId)) {
         throw new Error(
           `Server certificate id ${serverCertId} has been revoked`
         );
       }
 
-      await libsignal.Curve.async.verifySignature(
+      await window.libsignal.Curve.async.verifySignature(
         serverCertificate.key,
         certificate.certificate,
         certificate.signature
@@ -70,24 +135,28 @@ function createCertificateValidator(trustRoot) {
   };
 }
 
-function _decodePoint(serialized, offset = 0) {
+function _decodePoint(serialized: ArrayBuffer, offset = 0): ArrayBuffer {
   const view =
     offset > 0
       ? getViewOfArrayBuffer(serialized, offset, serialized.byteLength)
       : serialized;
 
-  return libsignal.Curve.validatePubKeyFormat(view);
+  return window.libsignal.Curve.validatePubKeyFormat(view);
 }
 
 // public ServerCertificate(byte[] serialized)
-function _createServerCertificateFromBuffer(serialized) {
-  const wrapper = textsecure.protobuf.ServerCertificate.decode(serialized);
+export function _createServerCertificateFromBuffer(
+  serialized: ArrayBuffer
+): ExplodedServerCertificateType {
+  const wrapper = window.textsecure.protobuf.ServerCertificate.decode(
+    serialized
+  );
 
   if (!wrapper.certificate || !wrapper.signature) {
     throw new Error('Missing fields');
   }
 
-  const certificate = textsecure.protobuf.ServerCertificate.Certificate.decode(
+  const certificate = window.textsecure.protobuf.ServerCertificate.Certificate.decode(
     wrapper.certificate.toArrayBuffer()
   );
 
@@ -106,54 +175,70 @@ function _createServerCertificateFromBuffer(serialized) {
 }
 
 // public SenderCertificate(byte[] serialized)
-function _createSenderCertificateFromBuffer(serialized) {
-  const wrapper = textsecure.protobuf.SenderCertificate.decode(serialized);
+export function _createSenderCertificateFromBuffer(
+  serialized: ArrayBuffer
+): ExplodedSenderCertificateType {
+  const wrapper = window.textsecure.protobuf.SenderCertificate.decode(
+    serialized
+  );
 
-  if (!wrapper.signature || !wrapper.certificate) {
+  const { signature, certificate } = wrapper;
+
+  if (!signature || !certificate) {
     throw new Error('Missing fields');
   }
 
-  const certificate = textsecure.protobuf.SenderCertificate.Certificate.decode(
+  const senderCertificate = window.textsecure.protobuf.SenderCertificate.Certificate.decode(
     wrapper.certificate.toArrayBuffer()
   );
 
+  const {
+    signer,
+    identityKey,
+    senderDevice,
+    expires,
+    sender,
+    senderUuid,
+  } = senderCertificate;
+
   if (
-    !certificate.signer ||
-    !certificate.identityKey ||
-    !certificate.senderDevice ||
-    !certificate.expires ||
-    !(certificate.sender || certificate.senderUuid)
+    !signer ||
+    !identityKey ||
+    !senderDevice ||
+    !expires ||
+    !(sender || senderUuid)
   ) {
     throw new Error('Missing fields');
   }
 
   return {
-    sender: certificate.sender,
-    senderUuid: certificate.senderUuid,
-    senderDevice: certificate.senderDevice,
-    expires: certificate.expires.toNumber(),
-    identityKey: certificate.identityKey.toArrayBuffer(),
-    signer: _createServerCertificateFromBuffer(
-      certificate.signer.toArrayBuffer()
-    ),
+    sender,
+    senderUuid,
+    senderDevice,
+    expires: expires.toNumber(),
+    identityKey: identityKey.toArrayBuffer(),
+    signer: _createServerCertificateFromBuffer(signer.toArrayBuffer()),
 
-    certificate: wrapper.certificate.toArrayBuffer(),
-    signature: wrapper.signature.toArrayBuffer(),
+    certificate: certificate.toArrayBuffer(),
+    signature: signature.toArrayBuffer(),
 
     serialized,
   };
 }
 
 // public UnidentifiedSenderMessage(byte[] serialized)
-function _createUnidentifiedSenderMessageFromBuffer(serialized) {
-  const version = highBitsToInt(serialized[0]);
+function _createUnidentifiedSenderMessageFromBuffer(
+  serialized: ArrayBuffer
+): ExplodedMessageType {
+  const uintArray = new Uint8Array(serialized);
+  const version = highBitsToInt(uintArray[0]);
 
   if (version > CIPHERTEXT_VERSION) {
-    throw new Error(`Unknown version: ${this.version}`);
+    throw new Error(`Unknown version: ${version}`);
   }
 
   const view = getViewOfArrayBuffer(serialized, 1, serialized.byteLength);
-  const unidentifiedSenderMessage = textsecure.protobuf.UnidentifiedSenderMessage.decode(
+  const unidentifiedSenderMessage = window.textsecure.protobuf.UnidentifiedSenderMessage.decode(
     view
   );
 
@@ -179,20 +264,20 @@ function _createUnidentifiedSenderMessageFromBuffer(serialized) {
 // public UnidentifiedSenderMessage(
 //   ECPublicKey ephemeral, byte[] encryptedStatic, byte[] encryptedMessage) {
 function _createUnidentifiedSenderMessage(
-  ephemeralPublic,
-  encryptedStatic,
-  encryptedMessage
-) {
+  ephemeralPublic: ArrayBuffer,
+  encryptedStatic: ArrayBuffer,
+  encryptedMessage: ArrayBuffer
+): ExplodedMessageType {
   const versionBytes = new Uint8Array([
     intsToByteHighAndLow(CIPHERTEXT_VERSION, CIPHERTEXT_VERSION),
   ]);
-  const unidentifiedSenderMessage = new textsecure.protobuf.UnidentifiedSenderMessage();
+  const unidentifiedSenderMessage = new window.textsecure.protobuf.UnidentifiedSenderMessage();
 
   unidentifiedSenderMessage.encryptedMessage = encryptedMessage;
   unidentifiedSenderMessage.encryptedStatic = encryptedStatic;
   unidentifiedSenderMessage.ephemeralPublic = ephemeralPublic;
 
-  const messageBytes = unidentifiedSenderMessage.encode().toArrayBuffer();
+  const messageBytes = unidentifiedSenderMessage.toArrayBuffer();
 
   return {
     version: CIPHERTEXT_VERSION,
@@ -206,10 +291,13 @@ function _createUnidentifiedSenderMessage(
 }
 
 // public UnidentifiedSenderMessageContent(byte[] serialized)
-function _createUnidentifiedSenderMessageContentFromBuffer(serialized) {
-  const TypeEnum = textsecure.protobuf.UnidentifiedSenderMessage.Message.Type;
+function _createUnidentifiedSenderMessageContentFromBuffer(
+  serialized: ArrayBuffer
+): ExplodedInnerMessageType {
+  const TypeEnum =
+    window.textsecure.protobuf.UnidentifiedSenderMessage.Message.Type;
 
-  const message = textsecure.protobuf.UnidentifiedSenderMessage.Message.decode(
+  const message = window.textsecure.protobuf.UnidentifiedSenderMessage.Message.decode(
     serialized
   );
 
@@ -241,8 +329,9 @@ function _createUnidentifiedSenderMessageContentFromBuffer(serialized) {
 }
 
 // private int getProtoType(int type)
-function _getProtoMessageType(type) {
-  const TypeEnum = textsecure.protobuf.UnidentifiedSenderMessage.Message.Type;
+function _getProtoMessageType(type: number): number {
+  const TypeEnum =
+    window.textsecure.protobuf.UnidentifiedSenderMessage.Message.Type;
 
   switch (type) {
     case CiphertextMessage.WHISPER_TYPE:
@@ -257,39 +346,53 @@ function _getProtoMessageType(type) {
 // public UnidentifiedSenderMessageContent(
 //   int type, SenderCertificate senderCertificate, byte[] content)
 function _createUnidentifiedSenderMessageContent(
-  type,
-  senderCertificate,
-  content
-) {
-  const innerMessage = new textsecure.protobuf.UnidentifiedSenderMessage.Message();
+  type: number,
+  senderCertificate: SerializedCertificateType,
+  content: ArrayBuffer
+): ArrayBuffer {
+  const innerMessage = new window.textsecure.protobuf.UnidentifiedSenderMessage.Message();
   innerMessage.type = _getProtoMessageType(type);
-  innerMessage.senderCertificate = textsecure.protobuf.SenderCertificate.decode(
+  innerMessage.senderCertificate = window.textsecure.protobuf.SenderCertificate.decode(
     senderCertificate.serialized
   );
   innerMessage.content = content;
 
-  return {
-    type,
-    senderCertificate,
-    content,
-
-    serialized: innerMessage.encode().toArrayBuffer(),
-  };
+  return innerMessage.toArrayBuffer();
 }
 
-SecretSessionCipher.prototype = {
+export class SecretSessionCipher {
+  storage: typeof window.textsecure.storage.protocol;
+
+  options: { messageKeysLimit?: number | boolean };
+
+  SessionCipher: typeof window.libsignal.SessionCipher;
+
+  constructor(
+    storage: typeof window.textsecure.storage.protocol,
+    options?: { messageKeysLimit?: number | boolean }
+  ) {
+    this.storage = storage;
+
+    // Do this on construction because libsignal won't be available when this file loads
+    const { SessionCipher } = window.libsignal;
+    this.SessionCipher = SessionCipher;
+
+    this.options = options || {};
+  }
+
   // public byte[] encrypt(
   //   SignalProtocolAddress destinationAddress,
   //   SenderCertificate senderCertificate,
   //   byte[] paddedPlaintext
   // )
-  async encrypt(destinationAddress, senderCertificate, paddedPlaintext) {
+  async encrypt(
+    destinationAddress: SignalProtocolAddressClass,
+    senderCertificate: SerializedCertificateType,
+    paddedPlaintext: ArrayBuffer
+  ): Promise<ArrayBuffer> {
     // Capture this.xxx variables to replicate Java's implicit this syntax
     const { SessionCipher } = this;
     const signalProtocolStore = this.storage;
-    const _calculateEphemeralKeys = this._calculateEphemeralKeys.bind(this);
-    const _encryptWithSecretKeys = this._encryptWithSecretKeys.bind(this);
-    const _calculateStaticKeys = this._calculateStaticKeys.bind(this);
 
     const sessionCipher = new SessionCipher(
       signalProtocolStore,
@@ -299,22 +402,31 @@ SecretSessionCipher.prototype = {
 
     const message = await sessionCipher.encrypt(paddedPlaintext);
     const ourIdentity = await signalProtocolStore.getIdentityKeyPair();
-    const theirIdentity = fromEncodedBinaryToArrayBuffer(
-      await signalProtocolStore.loadIdentityKey(destinationAddress.getName())
+    const theirIdentityData = await signalProtocolStore.loadIdentityKey(
+      destinationAddress.getName()
     );
+    if (!theirIdentityData) {
+      throw new Error(
+        'SecretSessionCipher.encrypt: No identity data for recipient!'
+      );
+    }
+    const theirIdentity =
+      typeof theirIdentityData === 'string'
+        ? fromEncodedBinaryToArrayBuffer(theirIdentityData)
+        : theirIdentityData;
 
-    const ephemeral = await libsignal.Curve.async.generateKeyPair();
+    const ephemeral = await window.libsignal.Curve.async.generateKeyPair();
     const ephemeralSalt = concatenateBytes(
       bytesFromString(UNIDENTIFIED_DELIVERY_PREFIX),
       theirIdentity,
       ephemeral.pubKey
     );
-    const ephemeralKeys = await _calculateEphemeralKeys(
+    const ephemeralKeys = await this._calculateEphemeralKeys(
       theirIdentity,
       ephemeral.privKey,
       ephemeralSalt
     );
-    const staticKeyCiphertext = await _encryptWithSecretKeys(
+    const staticKeyCiphertext = await this._encryptWithSecretKeys(
       ephemeralKeys.cipherKey,
       ephemeralKeys.macKey,
       ourIdentity.pubKey
@@ -324,20 +436,20 @@ SecretSessionCipher.prototype = {
       ephemeralKeys.chainKey,
       staticKeyCiphertext
     );
-    const staticKeys = await _calculateStaticKeys(
+    const staticKeys = await this._calculateStaticKeys(
       theirIdentity,
       ourIdentity.privKey,
       staticSalt
     );
-    const content = _createUnidentifiedSenderMessageContent(
+    const serializedMessage = _createUnidentifiedSenderMessageContent(
       message.type,
       senderCertificate,
       fromEncodedBinaryToArrayBuffer(message.body)
     );
-    const messageBytes = await _encryptWithSecretKeys(
+    const messageBytes = await this._encryptWithSecretKeys(
       staticKeys.cipherKey,
       staticKeys.macKey,
-      content.serialized
+      serializedMessage
     );
 
     const unidentifiedSenderMessage = _createUnidentifiedSenderMessage(
@@ -347,20 +459,22 @@ SecretSessionCipher.prototype = {
     );
 
     return unidentifiedSenderMessage.serialized;
-  },
+  }
 
   // public Pair<SignalProtocolAddress, byte[]> decrypt(
   //   CertificateValidator validator, byte[] ciphertext, long timestamp)
-  async decrypt(validator, ciphertext, timestamp, me = {}) {
-    // Capture this.xxx variables to replicate Java's implicit this syntax
+  async decrypt(
+    validator: ValidatorType,
+    ciphertext: ArrayBuffer,
+    timestamp: number,
+    me?: MeType
+  ): Promise<{
+    isMe?: boolean;
+    sender?: SignalProtocolAddressClass;
+    senderUuid?: SignalProtocolAddressClass;
+    content?: ArrayBuffer;
+  }> {
     const signalProtocolStore = this.storage;
-    const _calculateEphemeralKeys = this._calculateEphemeralKeys.bind(this);
-    const _calculateStaticKeys = this._calculateStaticKeys.bind(this);
-    const _decryptWithUnidentifiedSenderMessage = this._decryptWithUnidentifiedSenderMessage.bind(
-      this
-    );
-    const _decryptWithSecretKeys = this._decryptWithSecretKeys.bind(this);
-
     const ourIdentity = await signalProtocolStore.getIdentityKeyPair();
     const wrapper = _createUnidentifiedSenderMessageFromBuffer(ciphertext);
     const ephemeralSalt = concatenateBytes(
@@ -368,12 +482,12 @@ SecretSessionCipher.prototype = {
       ourIdentity.pubKey,
       wrapper.ephemeralPublic
     );
-    const ephemeralKeys = await _calculateEphemeralKeys(
+    const ephemeralKeys = await this._calculateEphemeralKeys(
       wrapper.ephemeralPublic,
       ourIdentity.privKey,
       ephemeralSalt
     );
-    const staticKeyBytes = await _decryptWithSecretKeys(
+    const staticKeyBytes = await this._decryptWithSecretKeys(
       ephemeralKeys.cipherKey,
       ephemeralKeys.macKey,
       wrapper.encryptedStatic
@@ -384,12 +498,12 @@ SecretSessionCipher.prototype = {
       ephemeralKeys.chainKey,
       wrapper.encryptedStatic
     );
-    const staticKeys = await _calculateStaticKeys(
+    const staticKeys = await this._calculateStaticKeys(
       staticKey,
       ourIdentity.privKey,
       staticSalt
     );
-    const messageBytes = await _decryptWithSecretKeys(
+    const messageBytes = await this._decryptWithSecretKeys(
       staticKeys.cipherKey,
       staticKeys.macKey,
       wrapper.encryptedMessage
@@ -410,6 +524,7 @@ SecretSessionCipher.prototype = {
 
     const { sender, senderUuid, senderDevice } = content.senderCertificate;
     if (
+      me &&
       ((sender && me.number && sender === me.number) ||
         (senderUuid && me.uuid && senderUuid === me.uuid)) &&
       senderDevice === me.deviceId
@@ -418,20 +533,21 @@ SecretSessionCipher.prototype = {
         isMe: true,
       };
     }
-    const addressE164 =
-      sender && new libsignal.SignalProtocolAddress(sender, senderDevice);
-    const addressUuid =
-      senderUuid &&
-      new libsignal.SignalProtocolAddress(
-        senderUuid.toLowerCase(),
-        senderDevice
-      );
+    const addressE164 = sender
+      ? new window.libsignal.SignalProtocolAddress(sender, senderDevice)
+      : undefined;
+    const addressUuid = senderUuid
+      ? new window.libsignal.SignalProtocolAddress(
+          senderUuid.toLowerCase(),
+          senderDevice
+        )
+      : undefined;
 
     try {
       return {
         sender: addressE164,
         senderUuid: addressUuid,
-        content: await _decryptWithUnidentifiedSenderMessage(content),
+        content: await this._decryptWithUnidentifiedSenderMessage(content),
       };
     } catch (error) {
       if (!error) {
@@ -444,10 +560,12 @@ SecretSessionCipher.prototype = {
 
       throw error;
     }
-  },
+  }
 
   // public int getSessionVersion(SignalProtocolAddress remoteAddress) {
-  getSessionVersion(remoteAddress) {
+  getSessionVersion(
+    remoteAddress: SignalProtocolAddressClass
+  ): Promise<number> {
     const { SessionCipher } = this;
     const signalProtocolStore = this.storage;
 
@@ -458,10 +576,12 @@ SecretSessionCipher.prototype = {
     );
 
     return cipher.getSessionVersion();
-  },
+  }
 
   // public int getRemoteRegistrationId(SignalProtocolAddress remoteAddress) {
-  getRemoteRegistrationId(remoteAddress) {
+  getRemoteRegistrationId(
+    remoteAddress: SignalProtocolAddressClass
+  ): Promise<number> {
     const { SessionCipher } = this;
     const signalProtocolStore = this.storage;
 
@@ -472,10 +592,12 @@ SecretSessionCipher.prototype = {
     );
 
     return cipher.getRemoteRegistrationId();
-  },
+  }
 
   // Used by outgoing_message.js
-  closeOpenSessionForDevice(remoteAddress) {
+  closeOpenSessionForDevice(
+    remoteAddress: SignalProtocolAddressClass
+  ): Promise<void> {
     const { SessionCipher } = this;
     const signalProtocolStore = this.storage;
 
@@ -486,19 +608,27 @@ SecretSessionCipher.prototype = {
     );
 
     return cipher.closeOpenSessionForDevice();
-  },
+  }
 
   // private EphemeralKeys calculateEphemeralKeys(
   //   ECPublicKey ephemeralPublic, ECPrivateKey ephemeralPrivate, byte[] salt)
-  async _calculateEphemeralKeys(ephemeralPublic, ephemeralPrivate, salt) {
-    const ephemeralSecret = await libsignal.Curve.async.calculateAgreement(
+  private async _calculateEphemeralKeys(
+    ephemeralPublic: ArrayBuffer,
+    ephemeralPrivate: ArrayBuffer,
+    salt: ArrayBuffer
+  ): Promise<{
+    chainKey: ArrayBuffer;
+    cipherKey: ArrayBuffer;
+    macKey: ArrayBuffer;
+  }> {
+    const ephemeralSecret = await window.libsignal.Curve.async.calculateAgreement(
       ephemeralPublic,
       ephemeralPrivate
     );
-    const ephemeralDerivedParts = await libsignal.HKDF.deriveSecrets(
+    const ephemeralDerivedParts = await window.libsignal.HKDF.deriveSecrets(
       ephemeralSecret,
       salt,
-      new ArrayBuffer()
+      new ArrayBuffer(0)
     );
 
     // private EphemeralKeys(byte[] chainKey, byte[] cipherKey, byte[] macKey)
@@ -507,19 +637,23 @@ SecretSessionCipher.prototype = {
       cipherKey: ephemeralDerivedParts[1],
       macKey: ephemeralDerivedParts[2],
     };
-  },
+  }
 
   // private StaticKeys calculateStaticKeys(
   //   ECPublicKey staticPublic, ECPrivateKey staticPrivate, byte[] salt)
-  async _calculateStaticKeys(staticPublic, staticPrivate, salt) {
-    const staticSecret = await libsignal.Curve.async.calculateAgreement(
+  private async _calculateStaticKeys(
+    staticPublic: ArrayBuffer,
+    staticPrivate: ArrayBuffer,
+    salt: ArrayBuffer
+  ): Promise<{ cipherKey: ArrayBuffer; macKey: ArrayBuffer }> {
+    const staticSecret = await window.libsignal.Curve.async.calculateAgreement(
       staticPublic,
       staticPrivate
     );
-    const staticDerivedParts = await libsignal.HKDF.deriveSecrets(
+    const staticDerivedParts = await window.libsignal.HKDF.deriveSecrets(
       staticSecret,
       salt,
-      new ArrayBuffer()
+      new ArrayBuffer(0)
     );
 
     // private StaticKeys(byte[] cipherKey, byte[] macKey)
@@ -527,39 +661,59 @@ SecretSessionCipher.prototype = {
       cipherKey: staticDerivedParts[1],
       macKey: staticDerivedParts[2],
     };
-  },
+  }
 
   // private byte[] decrypt(UnidentifiedSenderMessageContent message)
-  _decryptWithUnidentifiedSenderMessage(message) {
+  private _decryptWithUnidentifiedSenderMessage(
+    message: ExplodedInnerMessageType
+  ): Promise<ArrayBuffer> {
     const { SessionCipher } = this;
     const signalProtocolStore = this.storage;
 
-    const sender = new libsignal.SignalProtocolAddress(
-      message.senderCertificate.senderUuid || message.senderCertificate.sender,
-      message.senderCertificate.senderDevice
+    if (!message.senderCertificate) {
+      throw new Error(
+        '_decryptWithUnidentifiedSenderMessage: Message had no senderCertificate'
+      );
+    }
+
+    const { senderUuid, sender, senderDevice } = message.senderCertificate;
+    const target = senderUuid || sender;
+    if (!senderDevice || !target) {
+      throw new Error(
+        '_decryptWithUnidentifiedSenderMessage: Missing sender information in senderCertificate'
+      );
+    }
+
+    const address = new window.libsignal.SignalProtocolAddress(
+      target,
+      senderDevice
     );
 
     switch (message.type) {
       case CiphertextMessage.WHISPER_TYPE:
         return new SessionCipher(
           signalProtocolStore,
-          sender,
+          address,
           this.options
         ).decryptWhisperMessage(message.content);
       case CiphertextMessage.PREKEY_TYPE:
         return new SessionCipher(
           signalProtocolStore,
-          sender,
+          address,
           this.options
         ).decryptPreKeyWhisperMessage(message.content);
       default:
         throw new Error(`Unknown type: ${message.type}`);
     }
-  },
+  }
 
   // private byte[] encrypt(
   //   SecretKeySpec cipherKey, SecretKeySpec macKey, byte[] plaintext)
-  async _encryptWithSecretKeys(cipherKey, macKey, plaintext) {
+  private async _encryptWithSecretKeys(
+    cipherKey: ArrayBuffer,
+    macKey: ArrayBuffer,
+    plaintext: ArrayBuffer
+  ): Promise<ArrayBuffer> {
     // Cipher const cipher = Cipher.getInstance('AES/CTR/NoPadding');
     // cipher.init(Cipher.ENCRYPT_MODE, cipherKey, new IvParameterSpec(new byte[16]));
 
@@ -574,11 +728,15 @@ SecretSessionCipher.prototype = {
     const ourMac = trimBytes(ourFullMac, 10);
 
     return concatenateBytes(ciphertext, ourMac);
-  },
+  }
 
   // private byte[] decrypt(
   //   SecretKeySpec cipherKey, SecretKeySpec macKey, byte[] ciphertext)
-  async _decryptWithSecretKeys(cipherKey, macKey, ciphertext) {
+  private async _decryptWithSecretKeys(
+    cipherKey: ArrayBuffer,
+    macKey: ArrayBuffer,
+    ciphertext: ArrayBuffer
+  ): Promise<ArrayBuffer> {
     if (ciphertext.byteLength < 10) {
       throw new Error('Ciphertext not long enough for MAC!');
     }
@@ -598,7 +756,7 @@ SecretSessionCipher.prototype = {
     const theirMac = ciphertextParts[1];
 
     if (!constantTimeEqual(ourMac, theirMac)) {
-      throw new Error('Bad mac!');
+      throw new Error('SecretSessionCipher/_decryptWithSecretKeys: Bad MAC!');
     }
 
     // Cipher const cipher = Cipher.getInstance('AES/CTR/NoPadding');
@@ -606,12 +764,5 @@ SecretSessionCipher.prototype = {
 
     // return cipher.doFinal(ciphertextParts[0]);
     return decryptAesCtr(cipherKey, ciphertextParts[0], getZeroes(16));
-  },
-};
-
-module.exports = {
-  SecretSessionCipher,
-  createCertificateValidator,
-  _createServerCertificateFromBuffer,
-  _createSenderCertificateFromBuffer,
-};
+  }
+}

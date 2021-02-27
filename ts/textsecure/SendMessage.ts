@@ -46,6 +46,7 @@ import {
   LinkPreviewImage,
   LinkPreviewMetadata,
 } from '../linkPreviews/linkPreviewFetch';
+import { SerializedCertificateType } from '../metadata/SecretSessionCipher';
 
 function stringToArrayBuffer(str: string): ArrayBuffer {
   if (typeof str !== 'string') {
@@ -66,7 +67,7 @@ export type SendMetadataType = {
 };
 
 export type SendOptionsType = {
-  senderCertificate?: ArrayBuffer;
+  senderCertificate?: SerializedCertificateType;
   sendMetadata?: SendMetadataType;
   online?: boolean;
 };

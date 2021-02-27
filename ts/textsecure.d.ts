@@ -216,6 +216,12 @@ type SubProtocolProtobufTypes = {
   WebSocketResponseMessage: typeof WebSocketResponseMessageClass;
 };
 
+type UnidentifiedDeliveryTypes = {
+  ServerCertificate: typeof ServerCertificateClass;
+  SenderCertificate: typeof SenderCertificateClass;
+  UnidentifiedSenderMessage: typeof UnidentifiedSenderMessageClass;
+};
+
 type ProtobufCollectionType = {
   onLoad: (callback: () => unknown) => void;
 } & DeviceMessagesProtobufTypes &
@@ -223,7 +229,8 @@ type ProtobufCollectionType = {
   GroupsProtobufTypes &
   SignalServiceProtobufTypes &
   SignalStorageProtobufTypes &
-  SubProtocolProtobufTypes;
+  SubProtocolProtobufTypes &
+  UnidentifiedDeliveryTypes;
 
 // Note: there are a lot of places in the code that overwrite a field like this
 //   with a type that the app can use. Being more rigorous with these
@@ -1354,3 +1361,90 @@ export declare class WebSocketResponseMessageClass {
 }
 
 export { CallingMessageClass };
+
+// UnidentifiedDelivery.proto
+
+export declare class ServerCertificateClass {
+  static decode: (
+    data: ArrayBuffer | ByteBufferClass,
+    encoding?: string
+  ) => ServerCertificateClass;
+  toArrayBuffer: () => ArrayBuffer;
+
+  certificate?: ProtoBinaryType;
+  signature?: ProtoBinaryType;
+}
+
+export declare namespace ServerCertificateClass {
+  class Certificate {
+    static decode: (
+      data: ArrayBuffer | ByteBufferClass,
+      encoding?: string
+    ) => Certificate;
+    toArrayBuffer: () => ArrayBuffer;
+
+    id?: number;
+    key?: ProtoBinaryType;
+  }
+}
+
+export declare class SenderCertificateClass {
+  static decode: (
+    data: ArrayBuffer | ByteBufferClass,
+    encoding?: string
+  ) => SenderCertificateClass;
+  toArrayBuffer: () => ArrayBuffer;
+
+  certificate?: ProtoBinaryType;
+  signature?: ProtoBinaryType;
+}
+
+export declare namespace SenderCertificateClass {
+  class Certificate {
+    static decode: (
+      data: ArrayBuffer | ByteBufferClass,
+      encoding?: string
+    ) => Certificate;
+    toArrayBuffer: () => ArrayBuffer;
+
+    sender?: string;
+    senderUuid?: string;
+    senderDevice?: number;
+    expires?: ProtoBigNumberType;
+    identityKey?: ProtoBinaryType;
+    signer?: SenderCertificateClass;
+  }
+}
+
+export declare class UnidentifiedSenderMessageClass {
+  static decode: (
+    data: ArrayBuffer | ByteBufferClass,
+    encoding?: string
+  ) => UnidentifiedSenderMessageClass;
+  toArrayBuffer: () => ArrayBuffer;
+
+  ephemeralPublic?: ProtoBinaryType;
+  encryptedStatic?: ProtoBinaryType;
+  encryptedMessage?: ProtoBinaryType;
+}
+
+export declare namespace UnidentifiedSenderMessageClass {
+  class Message {
+    static decode: (
+      data: ArrayBuffer | ByteBufferClass,
+      encoding?: string
+    ) => Message;
+    toArrayBuffer: () => ArrayBuffer;
+
+    type?: number;
+    senderCertificate?: SenderCertificateClass;
+    content?: ProtoBinaryType;
+  }
+}
+
+export declare namespace UnidentifiedSenderMessageClass.Message {
+  class Type {
+    static PREKEY_MESSAGE: number;
+    static MESSAGE: number;
+  }
+}

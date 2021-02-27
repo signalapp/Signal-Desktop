@@ -1,46 +1,48 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global libsignal, textsecure */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-'use strict';
+import { assert } from 'chai';
 
-const {
+import {
+  ExplodedSenderCertificateType,
   SecretSessionCipher,
   createCertificateValidator,
   _createSenderCertificateFromBuffer,
   _createServerCertificateFromBuffer,
-} = window.Signal.Metadata;
-const {
+} from '../../metadata/SecretSessionCipher';
+import {
   bytesFromString,
   stringFromBytes,
   arrayBufferToBase64,
-} = window.Signal.Crypto;
+} from '../../Crypto';
+import { KeyPairType } from '../../libsignal.d';
 
-function InMemorySignalProtocolStore() {
-  this.store = {};
-}
-
-function toString(thing) {
+function toString(thing: string | ArrayBuffer): string {
   if (typeof thing === 'string') {
     return thing;
   }
   return arrayBufferToBase64(thing);
 }
 
-InMemorySignalProtocolStore.prototype = {
-  Direction: {
+class InMemorySignalProtocolStore {
+  store: Record<string, any> = {};
+
+  Direction = {
     SENDING: 1,
     RECEIVING: 2,
-  },
+  };
 
-  getIdentityKeyPair() {
+  getIdentityKeyPair(): Promise<{ privKey: ArrayBuffer; pubKey: ArrayBuffer }> {
     return Promise.resolve(this.get('identityKey'));
-  },
-  getLocalRegistrationId() {
+  }
+
+  getLocalRegistrationId(): Promise<string> {
     return Promise.resolve(this.get('registrationId'));
-  },
-  put(key, value) {
+  }
+
+  put(key: string, value: any): void {
     if (
       key === undefined ||
       value === undefined ||
@@ -50,8 +52,9 @@ InMemorySignalProtocolStore.prototype = {
       throw new Error('Tried to store undefined/null');
     }
     this.store[key] = value;
-  },
-  get(key, defaultValue) {
+  }
+
+  get(key: string, defaultValue?: any): any {
     if (key === null || key === undefined) {
       throw new Error('Tried to get value for undefined/null key');
     }
@@ -60,15 +63,19 @@ InMemorySignalProtocolStore.prototype = {
     }
 
     return defaultValue;
-  },
-  remove(key) {
+  }
+
+  remove(key: string): void {
     if (key === null || key === undefined) {
       throw new Error('Tried to remove value for undefined/null key');
     }
     delete this.store[key];
-  },
+  }
 
-  isTrustedIdentity(identifier, identityKey) {
+  isTrustedIdentity(
+    identifier: string,
+    identityKey: ArrayBuffer
+  ): Promise<boolean> {
     if (identifier === null || identifier === undefined) {
       throw new Error('tried to check identity key for undefined/null key');
     }
@@ -80,18 +87,22 @@ InMemorySignalProtocolStore.prototype = {
       return Promise.resolve(true);
     }
     return Promise.resolve(toString(identityKey) === toString(trusted));
-  },
-  loadIdentityKey(identifier) {
+  }
+
+  loadIdentityKey(identifier: string): any {
     if (identifier === null || identifier === undefined) {
       throw new Error('Tried to get identity key for undefined/null key');
     }
     return Promise.resolve(this.get(`identityKey${identifier}`));
-  },
-  saveIdentity(identifier, identityKey) {
+  }
+
+  saveIdentity(identifier: string, identityKey: ArrayBuffer): any {
     if (identifier === null || identifier === undefined) {
       throw new Error('Tried to put identity key for undefined/null key');
     }
-    const address = libsignal.SignalProtocolAddress.fromString(identifier);
+    const address = window.libsignal.SignalProtocolAddress.fromString(
+      identifier
+    );
 
     const existing = this.get(`identityKey${address.getName()}`);
     this.put(`identityKey${address.getName()}`, identityKey);
@@ -101,48 +112,55 @@ InMemorySignalProtocolStore.prototype = {
     }
 
     return Promise.resolve(false);
-  },
+  }
 
   /* Returns a prekeypair object or undefined */
-  loadPreKey(keyId) {
+  loadPreKey(keyId: number): any {
     let res = this.get(`25519KeypreKey${keyId}`);
     if (res !== undefined) {
       res = { pubKey: res.pubKey, privKey: res.privKey };
     }
     return Promise.resolve(res);
-  },
-  storePreKey(keyId, keyPair) {
+  }
+
+  storePreKey(keyId: number, keyPair: any): Promise<void> {
     return Promise.resolve(this.put(`25519KeypreKey${keyId}`, keyPair));
-  },
-  removePreKey(keyId) {
+  }
+
+  removePreKey(keyId: number): Promise<void> {
     return Promise.resolve(this.remove(`25519KeypreKey${keyId}`));
-  },
+  }
 
   /* Returns a signed keypair object or undefined */
-  loadSignedPreKey(keyId) {
+  loadSignedPreKey(keyId: number): any {
     let res = this.get(`25519KeysignedKey${keyId}`);
     if (res !== undefined) {
       res = { pubKey: res.pubKey, privKey: res.privKey };
     }
     return Promise.resolve(res);
-  },
-  storeSignedPreKey(keyId, keyPair) {
-    return Promise.resolve(this.put(`25519KeysignedKey${keyId}`, keyPair));
-  },
-  removeSignedPreKey(keyId) {
-    return Promise.resolve(this.remove(`25519KeysignedKey${keyId}`));
-  },
+  }
 
-  loadSession(identifier) {
+  storeSignedPreKey(keyId: number, keyPair: any): Promise<void> {
+    return Promise.resolve(this.put(`25519KeysignedKey${keyId}`, keyPair));
+  }
+
+  removeSignedPreKey(keyId: number): Promise<void> {
+    return Promise.resolve(this.remove(`25519KeysignedKey${keyId}`));
+  }
+
+  loadSession(identifier: string): Promise<any> {
     return Promise.resolve(this.get(`session${identifier}`));
-  },
-  storeSession(identifier, record) {
+  }
+
+  storeSession(identifier: string, record: any): Promise<void> {
     return Promise.resolve(this.put(`session${identifier}`, record));
-  },
-  removeSession(identifier) {
+  }
+
+  removeSession(identifier: string): Promise<void> {
     return Promise.resolve(this.remove(`session${identifier}`));
-  },
-  removeAllSessions(identifier) {
+  }
+
+  removeAllSessions(identifier: string): Promise<void> {
     // eslint-disable-next-line no-restricted-syntax
     for (const id in this.store) {
       if (id.startsWith(`session${identifier}`)) {
@@ -150,8 +168,8 @@ InMemorySignalProtocolStore.prototype = {
       }
     }
     return Promise.resolve();
-  },
-};
+  }
+}
 
 describe('SecretSessionCipher', () => {
   it('successfully roundtrips', async function thisNeeded() {
@@ -164,7 +182,7 @@ describe('SecretSessionCipher', () => {
 
     const aliceIdentityKey = await aliceStore.getIdentityKeyPair();
 
-    const trustRoot = await libsignal.Curve.async.generateKeyPair();
+    const trustRoot = await window.libsignal.Curve.async.generateKeyPair();
     const senderCertificate = await _createSenderCertificateFor(
       trustRoot,
       '+14151111111',
@@ -172,21 +190,28 @@ describe('SecretSessionCipher', () => {
       aliceIdentityKey.pubKey,
       31337
     );
-    const aliceCipher = new SecretSessionCipher(aliceStore);
+    const aliceCipher = new SecretSessionCipher(aliceStore as any);
 
     const ciphertext = await aliceCipher.encrypt(
-      new libsignal.SignalProtocolAddress('+14152222222', 1),
+      new window.libsignal.SignalProtocolAddress('+14152222222', 1),
       { serialized: senderCertificate.serialized },
       bytesFromString('smert za smert')
     );
 
-    const bobCipher = new SecretSessionCipher(bobStore);
+    const bobCipher = new SecretSessionCipher(bobStore as any);
 
     const decryptResult = await bobCipher.decrypt(
       createCertificateValidator(trustRoot.pubKey),
       ciphertext,
       31335
     );
+
+    if (!decryptResult.content) {
+      throw new Error('decryptResult.content is null!');
+    }
+    if (!decryptResult.sender) {
+      throw new Error('decryptResult.sender is null!');
+    }
 
     assert.strictEqual(
       stringFromBytes(decryptResult.content),
@@ -205,8 +230,8 @@ describe('SecretSessionCipher', () => {
 
     const aliceIdentityKey = await aliceStore.getIdentityKeyPair();
 
-    const trustRoot = await libsignal.Curve.async.generateKeyPair();
-    const falseTrustRoot = await libsignal.Curve.async.generateKeyPair();
+    const trustRoot = await window.libsignal.Curve.async.generateKeyPair();
+    const falseTrustRoot = await window.libsignal.Curve.async.generateKeyPair();
     const senderCertificate = await _createSenderCertificateFor(
       falseTrustRoot,
       '+14151111111',
@@ -214,15 +239,15 @@ describe('SecretSessionCipher', () => {
       aliceIdentityKey.pubKey,
       31337
     );
-    const aliceCipher = new SecretSessionCipher(aliceStore);
+    const aliceCipher = new SecretSessionCipher(aliceStore as any);
 
     const ciphertext = await aliceCipher.encrypt(
-      new libsignal.SignalProtocolAddress('+14152222222', 1),
+      new window.libsignal.SignalProtocolAddress('+14152222222', 1),
       { serialized: senderCertificate.serialized },
       bytesFromString('и вот я')
     );
 
-    const bobCipher = new SecretSessionCipher(bobStore);
+    const bobCipher = new SecretSessionCipher(bobStore as any);
 
     try {
       await bobCipher.decrypt(
@@ -246,7 +271,7 @@ describe('SecretSessionCipher', () => {
 
     const aliceIdentityKey = await aliceStore.getIdentityKeyPair();
 
-    const trustRoot = await libsignal.Curve.async.generateKeyPair();
+    const trustRoot = await window.libsignal.Curve.async.generateKeyPair();
     const senderCertificate = await _createSenderCertificateFor(
       trustRoot,
       '+14151111111',
@@ -254,15 +279,15 @@ describe('SecretSessionCipher', () => {
       aliceIdentityKey.pubKey,
       31337
     );
-    const aliceCipher = new SecretSessionCipher(aliceStore);
+    const aliceCipher = new SecretSessionCipher(aliceStore as any);
 
     const ciphertext = await aliceCipher.encrypt(
-      new libsignal.SignalProtocolAddress('+14152222222', 1),
+      new window.libsignal.SignalProtocolAddress('+14152222222', 1),
       { serialized: senderCertificate.serialized },
       bytesFromString('и вот я')
     );
 
-    const bobCipher = new SecretSessionCipher(bobStore);
+    const bobCipher = new SecretSessionCipher(bobStore as any);
 
     try {
       await bobCipher.decrypt(
@@ -284,8 +309,8 @@ describe('SecretSessionCipher', () => {
 
     await _initializeSessions(aliceStore, bobStore);
 
-    const trustRoot = await libsignal.Curve.async.generateKeyPair();
-    const randomKeyPair = await libsignal.Curve.async.generateKeyPair();
+    const trustRoot = await window.libsignal.Curve.async.generateKeyPair();
+    const randomKeyPair = await window.libsignal.Curve.async.generateKeyPair();
     const senderCertificate = await _createSenderCertificateFor(
       trustRoot,
       '+14151111111',
@@ -293,15 +318,15 @@ describe('SecretSessionCipher', () => {
       randomKeyPair.pubKey,
       31337
     );
-    const aliceCipher = new SecretSessionCipher(aliceStore);
+    const aliceCipher = new SecretSessionCipher(aliceStore as any);
 
     const ciphertext = await aliceCipher.encrypt(
-      new libsignal.SignalProtocolAddress('+14152222222', 1),
+      new window.libsignal.SignalProtocolAddress('+14152222222', 1),
       { serialized: senderCertificate.serialized },
       bytesFromString('smert za smert')
     );
 
-    const bobCipher = new SecretSessionCipher(bobStore);
+    const bobCipher = new SecretSessionCipher(bobStore as any);
 
     try {
       await bobCipher.decrypt(
@@ -326,93 +351,99 @@ describe('SecretSessionCipher', () => {
   //   long expires
   // )
   async function _createSenderCertificateFor(
-    trustRoot,
-    sender,
-    deviceId,
-    identityKey,
-    expires
-  ) {
-    const serverKey = await libsignal.Curve.async.generateKeyPair();
+    trustRoot: KeyPairType,
+    sender: string,
+    deviceId: number,
+    identityKey: ArrayBuffer,
+    expires: number
+  ): Promise<ExplodedSenderCertificateType> {
+    const serverKey = await window.libsignal.Curve.async.generateKeyPair();
 
-    const serverCertificateCertificateProto = new textsecure.protobuf.ServerCertificate.Certificate();
+    const serverCertificateCertificateProto = new window.textsecure.protobuf.ServerCertificate.Certificate();
     serverCertificateCertificateProto.id = 1;
     serverCertificateCertificateProto.key = serverKey.pubKey;
-    const serverCertificateCertificateBytes = serverCertificateCertificateProto
-      .encode()
-      .toArrayBuffer();
+    const serverCertificateCertificateBytes = serverCertificateCertificateProto.toArrayBuffer();
 
-    const serverCertificateSignature = await libsignal.Curve.async.calculateSignature(
+    const serverCertificateSignature = await window.libsignal.Curve.async.calculateSignature(
       trustRoot.privKey,
       serverCertificateCertificateBytes
     );
 
-    const serverCertificateProto = new textsecure.protobuf.ServerCertificate();
+    const serverCertificateProto = new window.textsecure.protobuf.ServerCertificate();
     serverCertificateProto.certificate = serverCertificateCertificateBytes;
     serverCertificateProto.signature = serverCertificateSignature;
     const serverCertificate = _createServerCertificateFromBuffer(
-      serverCertificateProto.encode().toArrayBuffer()
+      serverCertificateProto.toArrayBuffer()
     );
 
-    const senderCertificateCertificateProto = new textsecure.protobuf.SenderCertificate.Certificate();
+    const senderCertificateCertificateProto = new window.textsecure.protobuf.SenderCertificate.Certificate();
     senderCertificateCertificateProto.sender = sender;
     senderCertificateCertificateProto.senderDevice = deviceId;
     senderCertificateCertificateProto.identityKey = identityKey;
     senderCertificateCertificateProto.expires = expires;
-    senderCertificateCertificateProto.signer = textsecure.protobuf.ServerCertificate.decode(
+    senderCertificateCertificateProto.signer = window.textsecure.protobuf.ServerCertificate.decode(
       serverCertificate.serialized
     );
-    const senderCertificateBytes = senderCertificateCertificateProto
-      .encode()
-      .toArrayBuffer();
+    const senderCertificateBytes = senderCertificateCertificateProto.toArrayBuffer();
 
-    const senderCertificateSignature = await libsignal.Curve.async.calculateSignature(
+    const senderCertificateSignature = await window.libsignal.Curve.async.calculateSignature(
       serverKey.privKey,
       senderCertificateBytes
     );
 
-    const senderCertificateProto = new textsecure.protobuf.SenderCertificate();
+    const senderCertificateProto = new window.textsecure.protobuf.SenderCertificate();
     senderCertificateProto.certificate = senderCertificateBytes;
     senderCertificateProto.signature = senderCertificateSignature;
     return _createSenderCertificateFromBuffer(
-      senderCertificateProto.encode().toArrayBuffer()
+      senderCertificateProto.toArrayBuffer()
     );
   }
 
   // private void _initializeSessions(
   //   SignalProtocolStore aliceStore, SignalProtocolStore bobStore)
-  async function _initializeSessions(aliceStore, bobStore) {
-    const aliceAddress = new libsignal.SignalProtocolAddress('+14152222222', 1);
+  async function _initializeSessions(
+    aliceStore: InMemorySignalProtocolStore,
+    bobStore: InMemorySignalProtocolStore
+  ): Promise<void> {
+    const aliceAddress = new window.libsignal.SignalProtocolAddress(
+      '+14152222222',
+      1
+    );
     await aliceStore.put(
       'identityKey',
-      await libsignal.Curve.generateKeyPair()
+      await window.libsignal.Curve.generateKeyPair()
     );
-    await bobStore.put('identityKey', await libsignal.Curve.generateKeyPair());
+    await bobStore.put(
+      'identityKey',
+      await window.libsignal.Curve.generateKeyPair()
+    );
 
     await aliceStore.put('registrationId', 57);
     await bobStore.put('registrationId', 58);
 
-    const bobPreKey = await libsignal.Curve.async.generateKeyPair();
+    const bobPreKey = await window.libsignal.Curve.async.generateKeyPair();
     const bobIdentityKey = await bobStore.getIdentityKeyPair();
-    const bobSignedPreKey = await libsignal.KeyHelper.generateSignedPreKey(
+    const bobSignedPreKey = await window.libsignal.KeyHelper.generateSignedPreKey(
       bobIdentityKey,
       2
     );
 
     const bobBundle = {
+      deviceId: 3,
       identityKey: bobIdentityKey.pubKey,
       registrationId: 1,
-      preKey: {
-        keyId: 1,
-        publicKey: bobPreKey.pubKey,
-      },
       signedPreKey: {
         keyId: 2,
         publicKey: bobSignedPreKey.keyPair.pubKey,
         signature: bobSignedPreKey.signature,
       },
+      preKey: {
+        keyId: 1,
+        publicKey: bobPreKey.pubKey,
+      },
     };
-    const aliceSessionBuilder = new libsignal.SessionBuilder(
-      aliceStore,
+    const aliceSessionBuilder = new window.libsignal.SessionBuilder(
+      aliceStore as any,
       aliceAddress
     );
     await aliceSessionBuilder.processPreKey(bobBundle);
