@@ -14,13 +14,13 @@ import { getTheme } from '../../state/selectors/theme';
 import { getOurNumber } from '../../state/selectors/user';
 import { UserUtils } from '../../session/utils';
 import {
-  forceSyncConfigurationNowIfNeeded,
   syncConfigurationIfNeeded,
 } from '../../session/utils/syncUtils';
 import { DAYS } from '../../session/utils/Number';
 import { removeItemById } from '../../data/data';
 import { OnionPaths } from '../../session/onions';
 import { getMessageQueue } from '../../session/sending';
+import { AccountManager } from '../../util';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -77,7 +77,7 @@ class ActionsPanelPrivate extends React.Component<Props> {
     void this.showResetSessionIDDialogIfNeeded();
 
     // remove existing prekeys, sign prekeys and sessions
-    void window.getAccountManager().clearSessionsAndPreKeys();
+    void AccountManager.clearSessionsAndPreKeys();
 
     // trigger a sync message if needed for our other devices
     void syncConfigurationIfNeeded();

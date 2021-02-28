@@ -96,27 +96,6 @@
   Whisper.events = _.clone(Backbone.Events);
   Whisper.events.isListenedTo = eventName =>
     Whisper.events._events ? !!Whisper.events._events[eventName] : false;
-  let accountManager;
-  window.getAccountManager = () => {
-    if (!accountManager) {
-      const USERNAME = storage.get('number_id');
-      const PASSWORD = storage.get('password');
-      accountManager = new textsecure.AccountManager(USERNAME, PASSWORD);
-      accountManager.addEventListener('registration', () => {
-        const user = {
-          ourNumber: libsession.Utils.UserUtils.getOurPubKeyStrFromCache(),
-          ourPrimary: window.textsecure.storage.get('primaryDevicePubKey'),
-        };
-        Whisper.events.trigger('userChanged', user);
-
-        Whisper.Registration.markDone();
-        window.log.info('dispatching registration event');
-        Whisper.events.trigger('registration_done');
-      });
-    }
-    return accountManager;
-  };
-
   const cancelInitializationMessage = Views.Initialization.setMessage();
 
   window.log.info('Storage fetch');

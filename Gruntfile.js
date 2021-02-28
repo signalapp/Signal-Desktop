@@ -83,7 +83,6 @@ module.exports = grunt => {
           'libtextsecure/helpers.js',
           'libtextsecure/stringview.js',
           'libtextsecure/event_target.js',
-          'libtextsecure/account_manager.js',
           'libtextsecure/http-resources.js',
           'libtextsecure/message_receiver.js',
           'libtextsecure/task_with_timeout.js',

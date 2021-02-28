@@ -556,7 +556,10 @@ export async function getConversationById(
   id: string
 ): Promise<ConversationModel | undefined> {
   const data = await channels.getConversationById(id);
-  return new ConversationModel(data);
+  if (data) {
+    return new ConversationModel(data);
+  }
+  return undefined;
 }
 
 export async function updateConversation(

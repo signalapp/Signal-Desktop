@@ -8,6 +8,7 @@ import { SignInTab } from './SignInTab';
 import { TabLabel, TabType } from './TabLabel';
 import { PasswordUtil } from '../../../util';
 import { trigger } from '../../../shims/events';
+import { AccountManager } from '../../../util/accountManager';
 
 export const MAX_USERNAME_LENGTH = 20;
 // tslint:disable: use-simple-attributes
@@ -70,7 +71,7 @@ export async function signUp(signUpDetails: {
     verifyPassword,
     generatedRecoveryPhrase,
   } = signUpDetails;
-  window.log.info('starting Signing up');
+  window.log.info('SIGNING UP');
   const trimName = displayName.trim();
 
   if (!trimName) {
@@ -103,9 +104,77 @@ export async function signUp(signUpDetails: {
     await resetRegistration();
     await window.setPassword(password);
     UserUtils.setRestoringFromSeed(false);
-    await window
-      .getAccountManager()
-      .registerSingleDevice(generatedRecoveryPhrase, 'english', trimName);
+    await AccountManager.registerSingleDevice(
+      generatedRecoveryPhrase,
+      'english',
+      trimName
+    );
+    await UserUtils.setLastProfileUpdateTimestamp(Date.now());
+    trigger('openInbox');
+  } catch (e) {
+    ToastUtils.pushToastError(
+      'registrationError',
+      `Error: ${e.message || 'Something went wrong'}`
+    );
+    window.log.warn('exception during registration:', e);
+  }
+}
+
+/**
+ * Sign in/restore from seed.
+ * Ask for a display name, as we will drop incoming ConfigurationMessages if any are saved on the swarm.
+ * We will handle a ConfigurationMessage
+ */
+export async function restoreFromSeed(signInDetails: {
+  displayName: string;
+  userRecoveryPhrase: string;
+  password: string;
+  verifyPassword: string;
+}) {
+  const {
+    displayName,
+    password,
+    verifyPassword,
+    userRecoveryPhrase,
+  } = signInDetails;
+  window.log.info('RESTORING FROM SEED');
+  const trimName = displayName.trim();
+
+  if (!trimName) {
+    window.log.warn('invalid trimmed name for registration');
+    ToastUtils.pushToastError(
+      'invalidDisplayName',
+      window.i18n('displayNameEmpty')
+    );
+    return;
+  }
+  const passwordErrors = validatePassword(password, verifyPassword);
+  if (passwordErrors.passwordErrorString) {
+    window.log.warn('invalid password for registration');
+    ToastUtils.pushToastError(
+      'invalidPassword',
+      window.i18n('invalidPassword')
+    );
+    return;
+  }
+  if (!!password && !passwordErrors.passwordFieldsMatch) {
+    window.log.warn('passwords does not match for registration');
+    ToastUtils.pushToastError(
+      'invalidPassword',
+      window.i18n('passwordsDoNotMatch')
+    );
+    return;
+  }
+
+  try {
+    await resetRegistration();
+    await window.setPassword(password);
+    UserUtils.setRestoringFromSeed(false);
+    await AccountManager.registerSingleDevice(
+      userRecoveryPhrase,
+      'english',
+      trimName
+    );
     await UserUtils.setLastProfileUpdateTimestamp(Date.now());
     trigger('openInbox');
   } catch (e) {
@@ -157,9 +226,7 @@ export class RegistrationTabs extends React.Component<any, State> {
   private async generateMnemonicAndKeyPair() {
     if (this.state.generatedRecoveryPhrase === '') {
       const language = 'english';
-      const mnemonic = await window
-        .getAccountManager()
-        .generateMnemonic(language);
+      const mnemonic = await AccountManager.generateMnemonic(language);
 
       let seedHex = window.mnemonic.mn_decode(mnemonic, language);
       // handle shorter than 32 bytes seeds
@@ -206,58 +273,48 @@ export class RegistrationTabs extends React.Component<any, State> {
     return <SignInTab />;
   }
 
-  private async register() {
-    // const {
-    //   password,
-    //   recoveryPhrase,
-    //   generatedRecoveryPhrase,
-    //   signInMode,
-    //   displayName,
-    //   passwordErrorString,
-    //   passwordFieldsMatch,
-    // } = this.state;
-    // if (signInMode === SignInMode.UsingRecoveryPhrase && !recoveryPhrase) {
-    //   window.log.warn('empty mnemonic seed passed in seed restoration mode');
-    //   return;
-    // } else if (!generatedRecoveryPhrase) {
-    //   window.log.warn('empty generated seed');
-    //   return;
-    // }
-    // const seedToUse =
-    //   signInMode === SignInMode.UsingRecoveryPhrase
-    //     ? recoveryPhrase
-    //     : generatedRecoveryPhrase;
-    // try {
-    //   await this.resetRegistration();
-    //   await window.setPassword(password);
-    //   const isRestoringFromSeed = signInMode === SignInMode.UsingRecoveryPhrase;
-    //   UserUtils.setRestoringFromSeed(isRestoringFromSeed);
-    //   await window
-    //     .getAccountManager()
-    //     .registerSingleDevice(seedToUse, 'english', trimName);
-    //   // if we are just creating a new account, no need to wait for a configuration message
-    //   if (!isRestoringFromSeed) {
-    //     trigger('openInbox');
-    //   } else {
-    //     // We have to pull for all messages of the user of this menmonic
-    //     // We are looking for the most recent ConfigurationMessage he sent to himself.
-    //     // When we find it, we can just get the displayName, avatar and groups saved in it.
-    //     // If we do not find one, we will need to ask for a display name.
-    //     window.log.warn('isRestoringFromSeed');
-    //   }
-    // } catch (e) {
-    //   ToastUtils.pushToastError(
-    //     'registrationError',
-    //     `Error: ${e.message || 'Something went wrong'}`
-    //   );
-    //   let exmsg = '';
-    //   if (e.message) {
-    //     exmsg += e.message;
-    //   }
-    //   if (e.stack) {
-    //     exmsg += ` | stack:  + ${e.stack}`;
-    //   }
-    //   window.log.warn('exception during registration:', exmsg);
-    // }
-  }
+  // private async register() {
+  //   const {
+  //     password,
+  //     recoveryPhrase,
+  //     generatedRecoveryPhrase,
+  //     signInMode,
+  //     displayName,
+  //     passwordErrorString,
+  //     passwordFieldsMatch,
+  //   } = this.state;
+  //   if (signInMode === SignInMode.UsingRecoveryPhrase && !recoveryPhrase) {
+  //     window.log.warn('empty mnemonic seed passed in seed restoration mode');
+  //     return;
+  //   } else if (!generatedRecoveryPhrase) {
+  //     window.log.warn('empty generated seed');
+  //     return;
+  //   }
+  //   const seedToUse =
+  //     signInMode === SignInMode.UsingRecoveryPhrase
+  //       ? recoveryPhrase
+  //       : generatedRecoveryPhrase;
+  //   try {
+  //     await this.resetRegistration();
+  //     await window.setPassword(password);
+  //     const isRestoringFromSeed = signInMode === SignInMode.UsingRecoveryPhrase;
+  //     UserUtils.setRestoringFromSeed(isRestoringFromSeed);
+  //     await AccountManager.registerSingleDevice(seedToUse, 'english', trimName);
+  //     // if we are just creating a new account, no need to wait for a configuration message
+  //     if (!isRestoringFromSeed) {
+  //       trigger('openInbox');
+  //     } else {
+  //       // We have to pull for all messages of the user of this menmonic
+  //       // We are looking for the most recent ConfigurationMessage he sent to himself.
+  //       // When we find it, we can just get the displayName, avatar and groups saved in it.
+  //       // If we do not find one, we will need to ask for a display name.
+  //       window.log.warn('isRestoringFromSeed');
+  //     }
+  //   } catch (e) {
+  //     ToastUtils.pushToastError(
+  //       'registrationError',
+  //       `Error: ${e.message || 'Something went wrong'}`
+  //     );
+  //   }
+  // }
 }

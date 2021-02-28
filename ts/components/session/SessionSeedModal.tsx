@@ -2,7 +2,7 @@ import React from 'react';
 
 import { SessionModal } from './SessionModal';
 import { SessionButton } from './SessionButton';
-import { ToastUtils } from '../../session/utils';
+import { ToastUtils, UserUtils } from '../../session/utils';
 import { DefaultTheme, withTheme } from 'styled-components';
 import { PasswordUtil } from '../../util';
 import { getPasswordHash } from '../../data/data';
@@ -70,8 +70,8 @@ class SessionSeedModalInner extends React.Component<Props, State> {
             {hasPassword && !passwordValid ? (
               <>{this.renderPasswordView()}</>
             ) : (
-              <>{this.renderSeedView()}</>
-            )}
+                <>{this.renderSeedView()}</>
+              )}
           </SessionModal>
         )}
       </>
@@ -192,8 +192,7 @@ class SessionSeedModalInner extends React.Component<Props, State> {
       return false;
     }
 
-    const manager = await window.getAccountManager();
-    const recoveryPhrase = manager.getCurrentRecoveryPhrase();
+    const recoveryPhrase = UserUtils.getCurrentRecoveryPhrase();
 
     this.setState({
       recoveryPhrase,

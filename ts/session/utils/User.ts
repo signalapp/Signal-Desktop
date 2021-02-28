@@ -115,3 +115,11 @@ export function setLastProfileUpdateTimestamp(lastUpdateTimestamp: number) {
     lastUpdateTimestamp
   );
 }
+
+export function getCurrentRecoveryPhrase() {
+  return window.textsecure.storage.get('mnemonic');
+}
+
+export function saveRecoveryPhrase(mnemonic: string) {
+  return window.textsecure.storage.put('mnemonic', mnemonic);
+}

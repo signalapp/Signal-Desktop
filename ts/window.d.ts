@@ -49,7 +49,6 @@ declare global {
     deleteAccount: any;
     displayNameRegex: any;
     friends: any;
-    getAccountManager: any;
     getConversations: any;
     getFriendsFromContacts: any;
     getSettingValue: any;
