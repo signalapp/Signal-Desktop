@@ -635,11 +635,13 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       conversationId: this.id,
     });
   }
-  public async sendMessageJob(message: MessageModel) {
+  public async sendMessageJob(
+    message: MessageModel,
+    expireTimer: number | undefined
+  ) {
     try {
       const uploads = await message.uploadData();
       const { id } = message;
-      const expireTimer = this.get('expireTimer');
       const destination = this.id;
 
       const sentAt = message.get('sent_at');
@@ -809,9 +811,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       await model.saveErrors([error]);
       return null;
     }
-
     this.queueJob(async () => {
-      await this.sendMessageJob(model);
+      await this.sendMessageJob(model, expireTimer);
     });
     return null;
   }

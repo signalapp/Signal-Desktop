@@ -6,6 +6,7 @@ import { ToastUtils, UserUtils } from '../../session/utils';
 import { DefaultTheme, withTheme } from 'styled-components';
 import { PasswordUtil } from '../../util';
 import { getPasswordHash } from '../../data/data';
+import { QRCode } from 'react-qr-svg';
 
 interface Props {
   onClose: any;
@@ -113,6 +114,8 @@ class SessionSeedModalInner extends React.Component<Props, State> {
 
   private renderSeedView() {
     const i18n = window.i18n;
+    const bgColor = '#FFFFFF';
+    const fgColor = '#1B1B1B';
 
     return (
       <>
@@ -127,7 +130,15 @@ class SessionSeedModalInner extends React.Component<Props, State> {
           </i>
         </div>
         <div className="spacer-lg" />
-
+        <div className="qr-image">
+          <QRCode
+            value={this.state.recoveryPhrase}
+            bgColor={bgColor}
+            fgColor={fgColor}
+            level="L"
+          />
+        </div>
+        <div className="spacer-lg" />
         <div className="session-modal__button-group">
           <SessionButton
             text={i18n('copy')}
