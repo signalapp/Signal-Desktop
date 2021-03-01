@@ -15,7 +15,11 @@ import { getOurNumber } from '../../state/selectors/user';
 import { UserUtils } from '../../session/utils';
 import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
 import { DAYS } from '../../session/utils/Number';
-import { removeItemById } from '../../data/data';
+import {
+  getItemById,
+  hasSyncedInitialConfigurationItem,
+  removeItemById,
+} from '../../data/data';
 import { OnionPaths } from '../../session/onions';
 import { getMessageQueue } from '../../session/sending';
 import { AccountManager } from '../../util';
@@ -77,8 +81,19 @@ class ActionsPanelPrivate extends React.Component<Props> {
     // remove existing prekeys, sign prekeys and sessions
     void AccountManager.clearSessionsAndPreKeys();
 
+    // Do this only if we created a new Session ID, or if we already received the initial configuration message
+
+    const syncConfiguration = async () => {
+      const didWeHandleAConfigurationMessageAlready =
+        (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
+      if (didWeHandleAConfigurationMessageAlready) {
+        await syncConfigurationIfNeeded();
+      }
+    };
+
     // trigger a sync message if needed for our other devices
-    void syncConfigurationIfNeeded();
+
+    void syncConfiguration();
 
     this.syncInterval = global.setInterval(() => {
       void syncConfigurationIfNeeded();

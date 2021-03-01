@@ -7,7 +7,7 @@ import {
   UserUtils,
 } from '../../../session/utils';
 import { ConversationController } from '../../../session/conversations';
-import { removeAll } from '../../../data/data';
+import { createOrUpdateItem, removeAll } from '../../../data/data';
 import { SignUpTab } from './SignUpTab';
 import { SignInTab } from './SignInTab';
 import { TabLabel, TabType } from './TabLabel';
@@ -142,7 +142,6 @@ export async function signUp(signUpDetails: {
       'english',
       trimName
     );
-    await UserUtils.setLastProfileUpdateTimestamp(Date.now());
     trigger('openInbox');
   } catch (e) {
     await resetRegistration();
@@ -186,8 +185,10 @@ export async function signInWithRecovery(signInDetails: {
   try {
     await resetRegistration();
     await window.setPassword(password);
-    await UserUtils.setLastProfileUpdateTimestamp(Date.now());
-
+    await createOrUpdateItem({
+      id: 'hasSyncedInitialConfigurationItem',
+      value: true,
+    });
     await AccountManager.registerSingleDevice(
       userRecoveryPhrase,
       'english',

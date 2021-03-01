@@ -12,17 +12,15 @@ import { fromHexToArray, toHex } from '../session/utils/String';
 import { concatUInt8Array, getSodium } from '../session/crypto';
 import { ConversationController } from '../session/conversations';
 import {
-  createOrUpdateItem,
   getAllEncryptionKeyPairsForGroup,
   getItemById,
+  hasSyncedInitialConfigurationItem,
 } from '../../ts/data/data';
 import { ECKeyPair } from './keypairs';
 import { handleNewClosedGroup } from './closedGroups';
 import { KeyPairRequestManager } from './keyPairRequestManager';
 import { requestEncryptionKeyPair } from '../session/group';
-import { ConfigurationMessage } from '../session/messages/outgoing/content/ConfigurationMessage';
 import { configurationMessageReceived, trigger } from '../shims/events';
-import _ from 'lodash';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   try {
@@ -561,7 +559,7 @@ async function handleOurProfileUpdate(
       profilePicture,
     };
     await updateProfile(ourConversation, lokiProfile, profileKey);
-    UserUtils.setLastProfileUpdateTimestamp(_.toNumber(sentAt));
+    UserUtils.setLastProfileUpdateTimestamp(Lodash.toNumber(sentAt));
     trigger(configurationMessageReceived, displayName);
   }
 }
@@ -570,11 +568,8 @@ async function handleGroupsAndContactsFromConfigMessage(
   envelope: EnvelopePlus,
   configMessage: SignalService.ConfigurationMessage
 ) {
-  const ITEM_ID_PROCESSED_CONFIGURATION_MESSAGE =
-    'ITEM_ID_PROCESSED_CONFIGURATION_MESSAGE';
   const didWeHandleAConfigurationMessageAlready =
-    (await getItemById(ITEM_ID_PROCESSED_CONFIGURATION_MESSAGE))?.value ||
-    false;
+    (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
   if (didWeHandleAConfigurationMessageAlready) {
     window?.log?.warn(
       'Dropping configuration change as we already handled one... '

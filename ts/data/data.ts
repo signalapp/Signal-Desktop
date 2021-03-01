@@ -63,6 +63,9 @@ export type ServerToken = {
   token: string;
 };
 
+export const hasSyncedInitialConfigurationItem =
+  'hasSyncedInitialConfigurationItem';
+
 const channelsToMake = {
   shutdown,
   close,

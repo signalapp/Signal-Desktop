@@ -9,6 +9,7 @@ import {
 import { getOurPubKeyStrFromCache } from '../session/utils/User';
 import { trigger } from '../shims/events';
 import {
+  createOrUpdateItem,
   removeAllContactPreKeys,
   removeAllContactSignedPreKeys,
   removeAllPreKeys,
@@ -136,9 +137,12 @@ export class AccountManager {
       generatedMnemonic,
       mnemonicLanguage
     );
+
     await AccountManager.createAccount(identityKeyPair);
     UserUtils.saveRecoveryPhrase(generatedMnemonic);
     await AccountManager.clearSessionsAndPreKeys();
+    await UserUtils.setLastProfileUpdateTimestamp(Date.now());
+
     const pubKeyString = toHex(identityKeyPair.pubKey);
     await AccountManager.registrationDone(pubKeyString, profileName);
   }
