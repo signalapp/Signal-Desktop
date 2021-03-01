@@ -454,7 +454,7 @@ async function buildGroupProto({
     const profileKeyCredentialBase64 = conversation.get('profileKeyCredential');
     if (!profileKeyCredentialBase64) {
       throw new Error(
-        `buildGroupProto/${logId}: member was missing profileKeyCredentia!`
+        `buildGroupProto/${logId}: member was missing profileKeyCredential!`
       );
     }
     const presentation = createProfileKeyCredentialPresentation(
