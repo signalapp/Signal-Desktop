@@ -13,9 +13,7 @@ import { getFocusedSection } from '../../state/selectors/section';
 import { getTheme } from '../../state/selectors/theme';
 import { getOurNumber } from '../../state/selectors/user';
 import { UserUtils } from '../../session/utils';
-import {
-  syncConfigurationIfNeeded,
-} from '../../session/utils/syncUtils';
+import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
 import { DAYS } from '../../session/utils/Number';
 import { removeItemById } from '../../data/data';
 import { OnionPaths } from '../../session/onions';

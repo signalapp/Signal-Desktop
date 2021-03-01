@@ -70,8 +70,8 @@ class SessionSeedModalInner extends React.Component<Props, State> {
             {hasPassword && !passwordValid ? (
               <>{this.renderPasswordView()}</>
             ) : (
-                <>{this.renderSeedView()}</>
-              )}
+              <>{this.renderSeedView()}</>
+            )}
           </SessionModal>
         )}
       </>

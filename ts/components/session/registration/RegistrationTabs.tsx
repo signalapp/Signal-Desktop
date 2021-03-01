@@ -8,7 +8,11 @@ import { SignInTab } from './SignInTab';
 import { TabLabel, TabType } from './TabLabel';
 import { PasswordUtil } from '../../../util';
 import { trigger } from '../../../shims/events';
-import { AccountManager } from '../../../util/accountManager';
+import {
+  AccountManager,
+  sessionGenerateKeyPair,
+} from '../../../util/accountManager';
+import { fromHex, fromHexToArray } from '../../../session/utils/String';
 
 export const MAX_USERNAME_LENGTH = 20;
 // tslint:disable: use-simple-attributes
@@ -125,7 +129,7 @@ export async function signUp(signUpDetails: {
  * Ask for a display name, as we will drop incoming ConfigurationMessages if any are saved on the swarm.
  * We will handle a ConfigurationMessage
  */
-export async function restoreFromSeed(signInDetails: {
+export async function signInWithRecovery(signInDetails: {
   displayName: string;
   userRecoveryPhrase: string;
   password: string;
@@ -235,11 +239,8 @@ export class RegistrationTabs extends React.Component<any, State> {
         seedHex = seedHex.concat('0'.repeat(32));
         seedHex = seedHex.substring(0, privKeyHexLength);
       }
-      const seed = window.dcodeIO.ByteBuffer.wrap(
-        seedHex,
-        'hex'
-      ).toArrayBuffer();
-      const keyPair = await window.sessionGenerateKeyPair(seed);
+      const seed = fromHex(seedHex);
+      const keyPair = await sessionGenerateKeyPair(seed);
       const hexGeneratedPubKey = StringUtils.decode(keyPair.pubKey, 'hex');
 
       this.setState({
@@ -272,49 +273,4 @@ export class RegistrationTabs extends React.Component<any, State> {
 
     return <SignInTab />;
   }
-
-  // private async register() {
-  //   const {
-  //     password,
-  //     recoveryPhrase,
-  //     generatedRecoveryPhrase,
-  //     signInMode,
-  //     displayName,
-  //     passwordErrorString,
-  //     passwordFieldsMatch,
-  //   } = this.state;
-  //   if (signInMode === SignInMode.UsingRecoveryPhrase && !recoveryPhrase) {
-  //     window.log.warn('empty mnemonic seed passed in seed restoration mode');
-  //     return;
-  //   } else if (!generatedRecoveryPhrase) {
-  //     window.log.warn('empty generated seed');
-  //     return;
-  //   }
-  //   const seedToUse =
-  //     signInMode === SignInMode.UsingRecoveryPhrase
-  //       ? recoveryPhrase
-  //       : generatedRecoveryPhrase;
-  //   try {
-  //     await this.resetRegistration();
-  //     await window.setPassword(password);
-  //     const isRestoringFromSeed = signInMode === SignInMode.UsingRecoveryPhrase;
-  //     UserUtils.setRestoringFromSeed(isRestoringFromSeed);
-  //     await AccountManager.registerSingleDevice(seedToUse, 'english', trimName);
-  //     // if we are just creating a new account, no need to wait for a configuration message
-  //     if (!isRestoringFromSeed) {
-  //       trigger('openInbox');
-  //     } else {
-  //       // We have to pull for all messages of the user of this menmonic
-  //       // We are looking for the most recent ConfigurationMessage he sent to himself.
-  //       // When we find it, we can just get the displayName, avatar and groups saved in it.
-  //       // If we do not find one, we will need to ask for a display name.
-  //       window.log.warn('isRestoringFromSeed');
-  //     }
-  //   } catch (e) {
-  //     ToastUtils.pushToastError(
-  //       'registrationError',
-  //       `Error: ${e.message || 'Something went wrong'}`
-  //     );
-  //   }
-  // }
 }

@@ -15,7 +15,7 @@
   "main": "main.js",
   "scripts": {
     "prepare": "patch-package",
-    "postinstall": "yarn custom-react-mentions-build && electron-builder install-app-deps && rimraf node_modules/dtrace-provider",
+    "postinstall": "husky install",
     "custom-react-mentions-build": "cd node_modules/react-mentions && yarn install --node_modules=../node_modules && yarn build && rimraf node_modules/react node_modules/react-dom && cd ..",
     "start": "cross-env NODE_APP_INSTANCE=$MULTI electron .",
     "start-prod": "cross-env NODE_ENV=production NODE_APP_INSTANCE=devprod$MULTI electron .",
@@ -194,6 +194,8 @@
     "grunt-exec": "3.0.0",
     "grunt-gitinfo": "0.1.7",
     "grunt-sass": "3.0.1",
+    "husky": "^5.1.1",
+    "lint-staged": ">=10",
     "mocha": "4.1.0",
     "mocha-testcheck": "1.0.0-rc.0",
     "node-gyp": "3.8.0",
@@ -333,5 +335,15 @@
       "!build/*.js",
       "!dev-app-update.yml"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{css,js,json,scss,ts,tsx}": "prettier --write",
+    "*/**/*.{css,js,json,scss,ts,tsx}": "prettier --write",
+    "*.js": "eslint --cache --fix"
   }
 }

@@ -98,9 +98,6 @@ declare global {
     dataURLToBlobSync: any;
     autoOrientImage: any;
     contextMenuShown: boolean;
-    sessionGenerateKeyPair: (
-      seed: ArrayBuffer
-    ) => Promise<{ pubKey: ArrayBufferLike; privKey: ArrayBufferLike }>;
     setClockParams: any;
     clientClockSynced: number | undefined;
     inboxStore: Store;

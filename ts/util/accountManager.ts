@@ -9,6 +9,36 @@ import {
 import { getOurPubKeyStrFromCache } from '../session/utils/User';
 import { trigger } from '../shims/events';
 
+/**
+ * Might throw
+ */
+export async function sessionGenerateKeyPair(
+  seed: ArrayBuffer
+): Promise<{ pubKey: ArrayBufferLike; privKey: ArrayBufferLike }> {
+  const sodium = await getSodium();
+  const ed25519KeyPair = sodium.crypto_sign_seed_keypair(new Uint8Array(seed));
+  const x25519PublicKey = sodium.crypto_sign_ed25519_pk_to_curve25519(
+    ed25519KeyPair.publicKey
+  );
+  // prepend version byte (coming from `processKeys(raw_keys)`)
+  const origPub = new Uint8Array(x25519PublicKey);
+  const prependedX25519PublicKey = new Uint8Array(33);
+  prependedX25519PublicKey.set(origPub, 1);
+  prependedX25519PublicKey[0] = 5;
+  const x25519SecretKey = sodium.crypto_sign_ed25519_sk_to_curve25519(
+    ed25519KeyPair.privateKey
+  );
+
+  // prepend with 05 the public key
+  const x25519KeyPair = {
+    pubKey: prependedX25519PublicKey.buffer,
+    privKey: x25519SecretKey.buffer,
+    ed25519KeyPair,
+  };
+
+  return x25519KeyPair;
+}
+
 const generateKeypair = async (mnemonic: string, mnemonicLanguage: string) => {
   let seedHex = window.mnemonic.mn_decode(mnemonic, mnemonicLanguage);
   // handle shorter than 32 bytes seeds
@@ -20,7 +50,7 @@ const generateKeypair = async (mnemonic: string, mnemonicLanguage: string) => {
   const seed = fromHex(seedHex);
   console.warn('generateKeypair seedHex', seedHex);
   console.warn('generateKeypair seed', seed);
-  return window.sessionGenerateKeyPair(seed);
+  return sessionGenerateKeyPair(seed);
 };
 
 // TODO not sure why AccountManager was a singleton before. Can we get rid of it as a singleton?

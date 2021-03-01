@@ -4,7 +4,7 @@ import {
   SessionButtonColor,
   SessionButtonType,
 } from '../SessionButton';
-import { validatePassword } from './RegistrationTabs';
+import { signInWithRecovery, validatePassword } from './RegistrationTabs';
 import { RegistrationUserDetails } from './RegistrationUserDetails';
 import { TermsAndConditions } from './TermsAndConditions';
 
@@ -44,6 +44,7 @@ const RestoreUsingRecoveryPhraseButton = (props: {
 
 const ContinueYourSessionButton = (props: {
   handleContinueYourSessionClick: () => any;
+  disabled: boolean;
 }) => {
   return (
     <SessionButton
@@ -51,6 +52,23 @@ const ContinueYourSessionButton = (props: {
       buttonType={SessionButtonType.Brand}
       buttonColor={SessionButtonColor.Green}
       text={window.i18n('continueYourSession')}
+      disabled={props.disabled}
+    />
+  );
+};
+
+const SignInContinueButton = (props: {
+  signInMode: SignInMode;
+  disabled: boolean;
+  handleContinueYourSessionClick: () => any;
+}) => {
+  if (props.signInMode === SignInMode.Default) {
+    return <></>;
+  }
+  return (
+    <ContinueYourSessionButton
+      handleContinueYourSessionClick={props.handleContinueYourSessionClick}
+      disabled={props.disabled}
     />
   );
 };
@@ -59,25 +77,20 @@ const SignInButtons = (props: {
   signInMode: SignInMode;
   onRecoveryButtonClicked: () => any;
   onLinkDeviceButtonClicked: () => any;
-  handleContinueYourSessionClick: () => any;
 }) => {
-  if (props.signInMode === SignInMode.Default) {
-    return (
-      <div>
-        <RestoreUsingRecoveryPhraseButton
-          onRecoveryButtonClicked={props.onRecoveryButtonClicked}
-        />
-        <div className="or">{window.i18n('or')}</div>
-        <LinkDeviceButton
-          onLinkDeviceButtonClicked={props.onLinkDeviceButtonClicked}
-        />
-      </div>
-    );
+  if (props.signInMode !== SignInMode.Default) {
+    return <></>;
   }
   return (
-    <ContinueYourSessionButton
-      handleContinueYourSessionClick={props.handleContinueYourSessionClick}
-    />
+    <div>
+      <RestoreUsingRecoveryPhraseButton
+        onRecoveryButtonClicked={props.onRecoveryButtonClicked}
+      />
+      <div className="or">{window.i18n('or')}</div>
+      <LinkDeviceButton
+        onLinkDeviceButtonClicked={props.onLinkDeviceButtonClicked}
+      />
+    </div>
   );
 };
 
@@ -94,13 +107,32 @@ export const SignInTab = (props: Props) => {
   const [passwordErrorString, setPasswordErrorString] = useState('');
   const [passwordFieldsMatch, setPasswordFieldsMatch] = useState(false);
 
+  const isRecovery = signInMode === SignInMode.UsingRecoveryPhrase;
+  const isLinking = signInMode === SignInMode.LinkDevice;
   const showTermsAndConditions = signInMode !== SignInMode.Default;
+
+  // show display name input only if we are trying to recover from seed.
+  // We don't need a display name when we link a device, as the display name
+  // from the configuration message will be used.
+  const showDisplayNameField = isRecovery;
+
+  // Display name is required only on isRecoveryMode
+  const displayNameOK =
+    (isRecovery && !displayNameError && !!displayName) || isLinking;
+  // Password is valid if empty, or if no error and fields are matching
+  const passwordsOK =
+    !password || (!passwordErrorString && passwordFieldsMatch);
+
+  // Seed is mandatory no matter which mode
+  const seedOK = recoveryPhrase && !recoveryPhraseError;
+
+  const activateContinueButton = seedOK && displayNameOK && passwordsOK;
 
   return (
     <div className="session-registration__content">
       {signInMode !== SignInMode.Default && (
         <RegistrationUserDetails
-          showDisplayNameField={signInMode === SignInMode.UsingRecoveryPhrase}
+          showDisplayNameField={showDisplayNameField}
           showSeedField={true}
           displayName={displayName}
           handlePressEnter={() => {
@@ -152,9 +184,22 @@ export const SignInTab = (props: Props) => {
           setRecoveryPhrase('');
           setDisplayName('');
         }}
-        handleContinueYourSessionClick={() => {
-          throw new Error('TODO');
+      />
+      <SignInContinueButton
+        signInMode={signInMode}
+        handleContinueYourSessionClick={async () => {
+          if (isRecovery) {
+            await signInWithRecovery({
+              displayName,
+              userRecoveryPhrase: recoveryPhrase,
+              password,
+              verifyPassword: passwordVerify,
+            });
+          } else {
+            throw new Error('TODO');
+          }
         }}
+        disabled={!activateContinueButton}
       />
       {showTermsAndConditions && <TermsAndConditions />}
     </div>

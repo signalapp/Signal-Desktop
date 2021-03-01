@@ -116,6 +116,7 @@ export const SignUpTab = (props: Props) => {
     !password || (!passwordErrorString && passwordFieldsMatch);
 
   const enableCompleteSignUp = displayNameOK && passwordsOK;
+  console.warn('handlePressEnter TODO');
 
   return (
     <div className="session-registration__content">

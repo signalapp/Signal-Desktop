@@ -46,3 +46,4 @@ proxy.key
 proxy.pub
 
 *.tsbuildinfo
+yarn-error.log
