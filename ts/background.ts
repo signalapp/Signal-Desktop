@@ -1070,7 +1070,7 @@ export async function startApp(): Promise<void> {
         (key === 'l' || key === 'L')
       ) {
         const button = document.querySelector(
-          '.module-conversation-header__more-button'
+          '.module-ConversationHeader__more-button'
         );
         if (!button) {
           return;

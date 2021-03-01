@@ -22,6 +22,14 @@ const TooltipEventWrapper = React.forwardRef<
 >(({ onHoverChanged, children }, ref) => {
   const wrapperRef = React.useRef<HTMLSpanElement | null>(null);
 
+  const on = React.useCallback(() => {
+    onHoverChanged(true);
+  }, [onHoverChanged]);
+
+  const off = React.useCallback(() => {
+    onHoverChanged(false);
+  }, [onHoverChanged]);
+
   React.useEffect(() => {
     const wrapperEl = wrapperRef.current;
 
@@ -29,28 +37,19 @@ const TooltipEventWrapper = React.forwardRef<
       return noop;
     }
 
-    const on = () => {
-      onHoverChanged(true);
-    };
-    const off = () => {
-      onHoverChanged(false);
-    };
-
-    wrapperEl.addEventListener('focus', on);
-    wrapperEl.addEventListener('blur', off);
     wrapperEl.addEventListener('mouseenter', on);
     wrapperEl.addEventListener('mouseleave', off);
 
     return () => {
-      wrapperEl.removeEventListener('focus', on);
-      wrapperEl.removeEventListener('blur', off);
       wrapperEl.removeEventListener('mouseenter', on);
       wrapperEl.removeEventListener('mouseleave', off);
     };
-  }, [onHoverChanged]);
+  }, [on, off]);
 
   return (
     <span
+      onFocus={on}
+      onBlur={off}
       // This is a forward ref that also needs a ref of its own, so we set both here.
       ref={el => {
         wrapperRef.current = el;

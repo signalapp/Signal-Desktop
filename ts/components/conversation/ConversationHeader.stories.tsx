@@ -160,6 +160,20 @@ const stories: Array<ConversationHeaderStory> = [
         },
       },
       {
+        title: 'Disappearing messages + verified',
+        props: {
+          ...commonProps,
+          color: 'indigo',
+          title: '(202) 555-0005',
+          phoneNumber: '(202) 555-0005',
+          type: 'direct',
+          id: '5',
+          expireTimer: 60,
+          acceptedMessageRequest: true,
+          isVerified: true,
+        },
+      },
+      {
         title: 'Muting Conversation',
         props: {
           ...commonProps,

@@ -14820,7 +14820,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.js",
     "line": "        this.menuTriggerRef = react_1.default.createRef();",
-    "lineNumber": 30,
+    "lineNumber": 32,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-28T16:12:19.904Z",
     "reasonDetail": "Used to reference popup menu"
@@ -14829,7 +14829,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.tsx",
     "line": "    this.menuTriggerRef = React.createRef();",
-    "lineNumber": 105,
+    "lineNumber": 112,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-20T20:10:43.540Z",
     "reasonDetail": "Used to reference popup menu"
