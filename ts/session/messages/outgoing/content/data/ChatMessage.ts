@@ -98,33 +98,16 @@ export class ChatMessage extends DataMessage {
   ) {
     if (
       (dataMessage as any).constructor.name !== 'DataMessage' &&
-      !(dataMessage instanceof DataMessage)
+      !(dataMessage instanceof SignalService.DataMessage)
     ) {
-      throw new Error(
-        'Tried to build a sync message from something else than a DataMessage'
+      window.log.warn(
+        'buildSyncMessage with something else than a DataMessage'
       );
     }
 
     if (!sentTimestamp || !isNumber(sentTimestamp)) {
       throw new Error('Tried to build a sync message without a sentTimestamp');
     }
-    // the dataMessage.profileKey is of type ByteBuffer. We need to make it a Uint8Array
-    const lokiProfile: any = {};
-    if (dataMessage.profileKey?.length) {
-      lokiProfile.profileKey = new Uint8Array(
-        (dataMessage.profileKey as any).toArrayBuffer()
-      );
-    }
-
-    if (dataMessage.profile) {
-      if (dataMessage.profile?.displayName) {
-        lokiProfile.displayName = dataMessage.profile.displayName;
-      }
-      if (dataMessage.profile?.profilePicture) {
-        lokiProfile.avatarPointer = dataMessage.profile.profilePicture;
-      }
-    }
-
     const timestamp = toNumber(sentTimestamp);
     const body = dataMessage.body || undefined;
     const attachments = (dataMessage.attachments || []).map(attachment => {
@@ -147,7 +130,6 @@ export class ChatMessage extends DataMessage {
       attachments,
       body,
       quote,
-      lokiProfile,
       preview,
       syncTarget,
     });
