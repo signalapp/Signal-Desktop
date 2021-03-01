@@ -195,8 +195,12 @@ export const SignInTab = (props: Props) => {
               password,
               verifyPassword: passwordVerify,
             });
-          } else {
-            throw new Error('TODO');
+          } else if (isLinking) {
+            await signInWithLinking({
+              userRecoveryPhrase: recoveryPhrase,
+              password,
+              verifyPassword: passwordVerify,
+            });
           }
         }}
         disabled={!activateContinueButton}

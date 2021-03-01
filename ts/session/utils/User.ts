@@ -71,12 +71,12 @@ export async function getUserED25519KeyPair(): Promise<HexKeyPair | undefined> {
   return undefined;
 }
 
-export function isRestoringFromSeed(): boolean {
-  return window.textsecure.storage.user.isRestoringFromSeed();
+export function isSignInByLinking(): boolean {
+  return window.textsecure.storage.user.isSignInByLinking();
 }
 
-export function setRestoringFromSeed(isRestoring: boolean) {
-  window.textsecure.storage.user.setRestoringFromSeed(isRestoring);
+export function setSignInByLinking(isLinking: boolean) {
+  window.textsecure.storage.user.setSignInByLinking(isLinking);
 }
 
 export interface OurLokiProfile {

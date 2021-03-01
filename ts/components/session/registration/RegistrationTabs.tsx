@@ -63,6 +63,47 @@ export async function resetRegistration() {
   await ConversationController.getInstance().load();
 }
 
+const passwordsAreValid = (password: string, verifyPassword: string) => {
+  const passwordErrors = validatePassword(password, verifyPassword);
+  if (passwordErrors.passwordErrorString) {
+    window.log.warn('invalid password for registration');
+    ToastUtils.pushToastError(
+      'invalidPassword',
+      window.i18n('invalidPassword')
+    );
+    return false;
+  }
+  if (!!password && !passwordErrors.passwordFieldsMatch) {
+    window.log.warn('passwords does not match for registration');
+    ToastUtils.pushToastError(
+      'invalidPassword',
+      window.i18n('passwordsDoNotMatch')
+    );
+    return false;
+  }
+
+  return true;
+};
+
+/**
+ * Returns undefined if an error happened, or the trim userName.
+ *
+ * Be sure to use the trimmed userName for creating the account.
+ */
+const displayNameIsValid = (displayName: string): undefined | string => {
+  const trimName = displayName.trim();
+
+  if (!trimName) {
+    window.log.warn('invalid trimmed name for registration');
+    ToastUtils.pushToastError(
+      'invalidDisplayName',
+      window.i18n('displayNameEmpty')
+    );
+    return undefined;
+  }
+  return trimName;
+};
+
 export async function signUp(signUpDetails: {
   displayName: string;
   generatedRecoveryPhrase: string;
@@ -76,38 +117,21 @@ export async function signUp(signUpDetails: {
     generatedRecoveryPhrase,
   } = signUpDetails;
   window.log.info('SIGNING UP');
-  const trimName = displayName.trim();
 
+  const trimName = displayNameIsValid(displayName);
+  // shows toast to user about the error
   if (!trimName) {
-    window.log.warn('invalid trimmed name for registration');
-    ToastUtils.pushToastError(
-      'invalidDisplayName',
-      window.i18n('displayNameEmpty')
-    );
     return;
   }
-  const passwordErrors = validatePassword(password, verifyPassword);
-  if (passwordErrors.passwordErrorString) {
-    window.log.warn('invalid password for registration');
-    ToastUtils.pushToastError(
-      'invalidPassword',
-      window.i18n('invalidPassword')
-    );
-    return;
-  }
-  if (!!password && !passwordErrors.passwordFieldsMatch) {
-    window.log.warn('passwords does not match for registration');
-    ToastUtils.pushToastError(
-      'invalidPassword',
-      window.i18n('passwordsDoNotMatch')
-    );
+
+  // This will show a toast with the error
+  if (!passwordsAreValid(password, verifyPassword)) {
     return;
   }
 
   try {
     await resetRegistration();
     await window.setPassword(password);
-    UserUtils.setRestoringFromSeed(false);
     await AccountManager.registerSingleDevice(
       generatedRecoveryPhrase,
       'english',
@@ -142,44 +166,26 @@ export async function signInWithRecovery(signInDetails: {
     userRecoveryPhrase,
   } = signInDetails;
   window.log.info('RESTORING FROM SEED');
-  const trimName = displayName.trim();
-
+  const trimName = displayNameIsValid(displayName);
+  // shows toast to user about the error
   if (!trimName) {
-    window.log.warn('invalid trimmed name for registration');
-    ToastUtils.pushToastError(
-      'invalidDisplayName',
-      window.i18n('displayNameEmpty')
-    );
     return;
   }
-  const passwordErrors = validatePassword(password, verifyPassword);
-  if (passwordErrors.passwordErrorString) {
-    window.log.warn('invalid password for registration');
-    ToastUtils.pushToastError(
-      'invalidPassword',
-      window.i18n('invalidPassword')
-    );
-    return;
-  }
-  if (!!password && !passwordErrors.passwordFieldsMatch) {
-    window.log.warn('passwords does not match for registration');
-    ToastUtils.pushToastError(
-      'invalidPassword',
-      window.i18n('passwordsDoNotMatch')
-    );
+  // This will show a toast with the error
+  if (!passwordsAreValid(password, verifyPassword)) {
     return;
   }
 
   try {
     await resetRegistration();
     await window.setPassword(password);
-    UserUtils.setRestoringFromSeed(false);
+    await UserUtils.setLastProfileUpdateTimestamp(Date.now());
+
     await AccountManager.registerSingleDevice(
       userRecoveryPhrase,
       'english',
       trimName
     );
-    await UserUtils.setLastProfileUpdateTimestamp(Date.now());
     trigger('openInbox');
   } catch (e) {
     ToastUtils.pushToastError(
@@ -190,6 +196,32 @@ export async function signInWithRecovery(signInDetails: {
   }
 }
 
+export async function signInWithLinking(signInDetails: {
+  userRecoveryPhrase: string;
+  password: string;
+  verifyPassword: string;
+}) {
+  const { password, verifyPassword, userRecoveryPhrase } = signInDetails;
+  window.log.info('LINKING DEVICE');
+  // This will show a toast with the error
+  if (!passwordsAreValid(password, verifyPassword)) {
+    return;
+  }
+  try {
+    await resetRegistration();
+    await window.setPassword(password);
+    await AccountManager.signInByLinkingDevice(userRecoveryPhrase, 'english');
+    // Do not set the lastProfileUpdateTimestamp.
+    // We expect to get a display name from a configuration message while we are loading messages of this user
+    trigger('openInbox');
+  } catch (e) {
+    ToastUtils.pushToastError(
+      'registrationError',
+      `Error: ${e.message || 'Something went wrong'}`
+    );
+    window.log.warn('exception during registration:', e);
+  }
+}
 export class RegistrationTabs extends React.Component<any, State> {
   constructor() {
     super({});

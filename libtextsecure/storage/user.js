@@ -24,16 +24,16 @@
       return textsecure.utils.unencodeNumber(numberId)[0];
     },
 
-    isRestoringFromSeed() {
-      const isRestoring = textsecure.storage.get('is_restoring_from_seed');
-      if (isRestoring === undefined) {
+    isSignInByLinking() {
+      const isSignInByLinking = textsecure.storage.get('is_sign_in_by_linking');
+      if (isSignInByLinking === undefined) {
         return false;
       }
-      return isRestoring;
+      return isSignInByLinking;
     },
 
-    setRestoringFromSeed(isRestoringFromSeed) {
-      textsecure.storage.put('is_restoring_from_seed', isRestoringFromSeed);
+    setSignInByLinking(isLinking) {
+      textsecure.storage.put('is_sign_in_by_linking', isLinking);
     },
 
     getLastProfileUpdateTimestamp() {

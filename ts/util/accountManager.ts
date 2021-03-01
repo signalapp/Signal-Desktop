@@ -8,6 +8,13 @@ import {
 } from '../session/utils/String';
 import { getOurPubKeyStrFromCache } from '../session/utils/User';
 import { trigger } from '../shims/events';
+import {
+  removeAllContactPreKeys,
+  removeAllContactSignedPreKeys,
+  removeAllPreKeys,
+  removeAllSessions,
+  removeAllSignedPreKeys,
+} from '../data/data';
 
 /**
  * Might throw
@@ -56,15 +63,64 @@ const generateKeypair = async (mnemonic: string, mnemonicLanguage: string) => {
 // TODO not sure why AccountManager was a singleton before. Can we get rid of it as a singleton?
 // tslint:disable-next-line: no-unnecessary-class
 export class AccountManager {
-  public static async registerSingleDevice(
+  /**
+   * Sign in with a recovery phrase. We won't try to recover an existing profile name
+   * @param mnemonic the mnemonic the user duly saved in a safe place. We will restore his sessionID based on this.
+   * @param mnemonicLanguage 'english' only is supported
+   * @param profileName the displayName to use for this user
+   */
+  public static async signInWithRecovery(
     mnemonic: string,
     mnemonicLanguage: string,
     profileName: string
   ) {
-    const createAccount = this.createAccount.bind(this);
-    const clearSessionsAndPreKeys = this.clearSessionsAndPreKeys.bind(this);
-    const registrationDone = this.registrationDone.bind(this);
+    return AccountManager.registerSingleDevice(
+      mnemonic,
+      mnemonicLanguage,
+      profileName
+    );
+  }
+
+  /**
+   * Sign in with a recovery phrase but trying to recover display name and avatar from the first encountered configuration message.
+   * @param mnemonic the mnemonic the user duly saved in a safe place. We will restore his sessionID based on this.
+   * @param mnemonicLanguage 'english' only is supported
+   */
+  public static async signInByLinkingDevice(
+    mnemonic: string,
+    mnemonicLanguage: string
+  ) {
     if (!mnemonic) {
+      throw new Error(
+        'Session always needs a mnemonic. Either generated or given by the user'
+      );
+    }
+    if (!mnemonicLanguage) {
+      throw new Error('We always needs a mnemonicLanguage');
+    }
+
+    const identityKeyPair = await generateKeypair(mnemonic, mnemonicLanguage);
+    UserUtils.setSignInByLinking(true);
+    await AccountManager.createAccount(identityKeyPair);
+    UserUtils.saveRecoveryPhrase(mnemonic);
+    await AccountManager.clearSessionsAndPreKeys();
+    const pubKeyString = toHex(identityKeyPair.pubKey);
+
+    // await for the first configuration message to come in.
+    await AccountManager.registrationDone(pubKeyString, profileName);
+  }
+  /**
+   * This is a signup. User has no recovery and does not try to link a device
+   * @param mnemonic The mnemonic generated on first app loading and to use for this brand new user
+   * @param mnemonicLanguage only 'english' is supported
+   * @param profileName the display name to register toi
+   */
+  public static async registerSingleDevice(
+    generatedMnemonic: string,
+    mnemonicLanguage: string,
+    profileName: string
+  ) {
+    if (!generatedMnemonic) {
       throw new Error(
         'Session always needs a mnemonic. Either generated or given by the user'
       );
@@ -76,19 +132,22 @@ export class AccountManager {
       throw new Error('We always needs a mnemonicLanguage');
     }
 
-    const identityKeyPair = await generateKeypair(mnemonic, mnemonicLanguage);
-    await createAccount(identityKeyPair);
-    UserUtils.saveRecoveryPhrase(mnemonic);
-    await clearSessionsAndPreKeys();
+    const identityKeyPair = await generateKeypair(
+      generatedMnemonic,
+      mnemonicLanguage
+    );
+    await AccountManager.createAccount(identityKeyPair);
+    UserUtils.saveRecoveryPhrase(generatedMnemonic);
+    await AccountManager.clearSessionsAndPreKeys();
     const pubKeyString = toHex(identityKeyPair.pubKey);
-    await registrationDone(pubKeyString, profileName);
+    await AccountManager.registrationDone(pubKeyString, profileName);
   }
 
   public static async generateMnemonic(language = 'english') {
     // Note: 4 bytes are converted into 3 seed words, so length 12 seed words
     // (13 - 1 checksum) are generated using 12 * 4 / 3 = 16 bytes.
     const seedSize = 16;
-    const seed = window.Signal.Crypto.getRandomBytes(seedSize);
+    const seed = (await getSodium()).randombytes_buf(seedSize);
     const hex = toHex(seed);
     return window.mnemonic.mn_encode(hex, language);
   }
@@ -98,11 +157,11 @@ export class AccountManager {
     // During secondary device registration we need to keep our prekeys sent
     // to other pubkeys
     await Promise.all([
-      window.Signal.Data.removeAllPreKeys(),
-      window.Signal.Data.removeAllSignedPreKeys(),
-      window.Signal.Data.removeAllContactPreKeys(),
-      window.Signal.Data.removeAllContactSignedPreKeys(),
-      window.Signal.Data.removeAllSessions(),
+      removeAllPreKeys(),
+      removeAllSignedPreKeys(),
+      removeAllContactPreKeys(),
+      removeAllContactSignedPreKeys(),
+      removeAllSessions(),
     ]);
   }
 

@@ -15,9 +15,10 @@ import { handleClosedGroupControlMessage } from './closedGroups';
 import { MessageModel } from '../models/message';
 import { MessageModelType } from '../models/messageType';
 import { getMessageBySender } from '../../ts/data/data';
+import { ConversationModel } from '../models/conversation';
 
 export async function updateProfile(
-  conversation: any,
+  conversation: ConversationModel,
   profile: SignalService.DataMessage.ILokiProfile,
   profileKey: any
 ) {

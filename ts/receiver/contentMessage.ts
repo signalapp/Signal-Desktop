@@ -1,5 +1,5 @@
 import { EnvelopePlus } from './types';
-import { handleDataMessage } from './dataMessage';
+import { handleDataMessage, updateProfile } from './dataMessage';
 
 import { removeFromCache, updateCache } from './cache';
 import { SignalService } from '../protobuf';
@@ -20,6 +20,7 @@ import { ECKeyPair } from './keypairs';
 import { handleNewClosedGroup } from './closedGroups';
 import { KeyPairRequestManager } from './keyPairRequestManager';
 import { requestEncryptionKeyPair } from '../session/group';
+import { ConfigurationMessage } from '../session/messages/outgoing/content/ConfigurationMessage';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   try {
@@ -390,7 +391,7 @@ export async function innerHandleContentMessage(
       'private'
     );
 
-    if (content.dataMessage && !UserUtils.isRestoringFromSeed()) {
+    if (content.dataMessage && !UserUtils.isSignInByLinking()) {
       if (
         content.dataMessage.profileKey &&
         content.dataMessage.profileKey.length === 0
@@ -401,16 +402,16 @@ export async function innerHandleContentMessage(
       return;
     }
 
-    if (content.receiptMessage && !UserUtils.isRestoringFromSeed()) {
+    if (content.receiptMessage && !UserUtils.isSignInByLinking()) {
       await handleReceiptMessage(envelope, content.receiptMessage);
       return;
     }
-    if (content.typingMessage && !UserUtils.isRestoringFromSeed()) {
+    if (content.typingMessage && !UserUtils.isSignInByLinking()) {
       await handleTypingMessage(envelope, content.typingMessage);
       return;
     }
 
-    // Be sure to check for the UserUtils.isRestoringFromSeed() if you add another if here
+    // Be sure to check for the UserUtils.isSignInByLinking() if you add another if here
     if (content.configurationMessage) {
       await handleConfigurationMessage(
         envelope,
@@ -418,7 +419,7 @@ export async function innerHandleContentMessage(
       );
       return;
     }
-    // Be sure to check for the UserUtils.isRestoringFromSeed() if you add another if here
+    // Be sure to check for the UserUtils.isSignInByLinking() if you add another if here
   } catch (e) {
     window.log.warn(e);
   }
@@ -529,22 +530,41 @@ async function handleTypingMessage(
   }
 }
 
-export async function handleConfigurationMessage(
-  envelope: EnvelopePlus,
-  configurationMessage: SignalService.ConfigurationMessage
-): Promise<void> {
-  const ourPubkey = UserUtils.getOurPubKeyStrFromCache();
-  if (!ourPubkey) {
-    return;
-  }
-
-  if (envelope.source !== ourPubkey) {
+async function handleOurProfileUpdate(
+  sentAt: number | Long,
+  configMessage: SignalService.ConfigurationMessage,
+  ourPubkey: string
+) {
+  const latestProfileUpdateTimestamp = UserUtils.getLastProfileUpdateTimestamp();
+  if (latestProfileUpdateTimestamp && sentAt > latestProfileUpdateTimestamp) {
     window?.log?.info(
-      'Dropping configuration change from someone else than us.'
+      `Handling our profileUdpate ourLastUpdate:${latestProfileUpdateTimestamp}, envelope sent at: ${sentAt}`
     );
-    return removeFromCache(envelope);
-  }
+    const { profileKey, profilePicture, displayName } = configMessage;
 
+    const ourConversation = ConversationController.getInstance().get(ourPubkey);
+    if (!ourConversation) {
+      window.log.error('We need a convo with ourself at all times');
+      return;
+    }
+
+    if (profileKey?.length) {
+      window.log.info('Saving our profileKey from configuration message');
+      // TODO not sure why we keep our profileKey in storage AND in our conversaio
+      window.textsecure.storage.put('profileKey', profileKey);
+    }
+    const lokiProfile = {
+      displayName,
+      profilePicture,
+    };
+    await updateProfile(ourConversation, lokiProfile, profileKey);
+  }
+}
+
+async function handleGroupsAndContactsFromConfigMessage(
+  envelope: EnvelopePlus,
+  configMessage: SignalService.ConfigurationMessage
+) {
   const ITEM_ID_PROCESSED_CONFIGURATION_MESSAGE =
     'ITEM_ID_PROCESSED_CONFIGURATION_MESSAGE';
   const didWeHandleAConfigurationMessageAlready =
@@ -554,22 +574,23 @@ export async function handleConfigurationMessage(
     window?.log?.warn(
       'Dropping configuration change as we already handled one... '
     );
-    await removeFromCache(envelope);
     return;
   }
-  await createOrUpdateItem({
-    id: ITEM_ID_PROCESSED_CONFIGURATION_MESSAGE,
-    value: true,
-  });
+  if (didWeHandleAConfigurationMessageAlready) {
+    window?.log?.warn(
+      'Dropping configuration change as we already handled one... '
+    );
+    return;
+  }
 
-  const numberClosedGroup = configurationMessage.closedGroups?.length || 0;
+  const numberClosedGroup = configMessage.closedGroups?.length || 0;
 
   window?.log?.warn(
     `Received ${numberClosedGroup} closed group on configuration. Creating them... `
   );
 
   await Promise.all(
-    configurationMessage.closedGroups.map(async c => {
+    configMessage.closedGroups.map(async c => {
       const groupUpdate = new SignalService.DataMessage.ClosedGroupControlMessage(
         {
           type: SignalService.DataMessage.ClosedGroupControlMessage.Type.NEW,
@@ -591,12 +612,12 @@ export async function handleConfigurationMessage(
   );
 
   const allOpenGroups = OpenGroup.getAllAlreadyJoinedOpenGroupsUrl();
-  const numberOpenGroup = configurationMessage.openGroups?.length || 0;
+  const numberOpenGroup = configMessage.openGroups?.length || 0;
 
   // Trigger a join for all open groups we are not already in.
   // Currently, if you left an open group but kept the conversation, you won't rejoin it here.
   for (let i = 0; i < numberOpenGroup; i++) {
-    const current = configurationMessage.openGroups[i];
+    const current = configMessage.openGroups[i];
     if (!allOpenGroups.includes(current)) {
       window?.log?.info(
         `triggering join of public chat '${current}' from ConfigurationMessage`
@@ -604,6 +625,33 @@ export async function handleConfigurationMessage(
       void OpenGroup.join(current);
     }
   }
+}
+
+export async function handleConfigurationMessage(
+  envelope: EnvelopePlus,
+  configurationMessage: SignalService.ConfigurationMessage
+): Promise<void> {
+  const ourPubkey = UserUtils.getOurPubKeyStrFromCache();
+  if (!ourPubkey) {
+    return;
+  }
+
+  if (envelope.source !== ourPubkey) {
+    window?.log?.info(
+      'Dropping configuration change from someone else than us.'
+    );
+    return removeFromCache(envelope);
+  }
+
+  await handleOurProfileUpdate(
+    envelope.timestamp,
+    configurationMessage,
+    ourPubkey
+  );
+  await handleGroupsAndContactsFromConfigMessage(
+    envelope,
+    configurationMessage
+  );
 
   await removeFromCache(envelope);
 }

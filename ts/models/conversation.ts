@@ -1131,7 +1131,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     await this.updateProfileName();
   }
-  public async setLokiProfile(newProfile: any) {
+  public async setLokiProfile(newProfile: {
+    displayName?: string | null;
+    avatar?: string;
+  }) {
     if (!_.isEqual(this.get('profile'), newProfile)) {
       this.set({ profile: newProfile });
       await this.commit();
