@@ -374,7 +374,10 @@
     if (Whisper.Import.isIncomplete()) {
       window.log.info('Import was interrupted, showing import error screen');
       appView.openImporter();
-    } else if (Whisper.Registration.isDone()) {
+    } else if (
+      Whisper.Registration.isDone() &&
+      !window.textsecure.storage.user.isSignInByLinking()
+    ) {
       connect();
       appView.openInbox({
         initialLoadComplete,

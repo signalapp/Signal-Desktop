@@ -107,7 +107,7 @@ export class AccountManager {
     const pubKeyString = toHex(identityKeyPair.pubKey);
 
     // await for the first configuration message to come in.
-    await AccountManager.registrationDone(pubKeyString, profileName);
+    await AccountManager.registrationDone(pubKeyString, '');
   }
   /**
    * This is a signup. User has no recovery and does not try to link a device
@@ -216,7 +216,6 @@ export class AccountManager {
       ourPrimary: window.textsecure.storage.get('primaryDevicePubKey'),
     };
     trigger('userChanged', user);
-
     window.Whisper.Registration.markDone();
     window.log.info('dispatching registration event');
     trigger('registration_done');

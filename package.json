@@ -15,7 +15,7 @@
   "main": "main.js",
   "scripts": {
     "prepare": "patch-package",
-    "postinstall": "husky install",
+    "postinstall": "yarn custom-react-mentions-build && electron-builder install-app-deps && rimraf node_modules/dtrace-provider && husky install",
     "custom-react-mentions-build": "cd node_modules/react-mentions && yarn install --node_modules=../node_modules && yarn build && rimraf node_modules/react node_modules/react-dom && cd ..",
     "start": "cross-env NODE_APP_INSTANCE=$MULTI electron .",
     "start-prod": "cross-env NODE_ENV=production NODE_APP_INSTANCE=devprod$MULTI electron .",

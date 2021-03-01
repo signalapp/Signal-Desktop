@@ -21,6 +21,8 @@ import { handleNewClosedGroup } from './closedGroups';
 import { KeyPairRequestManager } from './keyPairRequestManager';
 import { requestEncryptionKeyPair } from '../session/group';
 import { ConfigurationMessage } from '../session/messages/outgoing/content/ConfigurationMessage';
+import { configurationMessageReceived, trigger } from '../shims/events';
+import _ from 'lodash';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   try {
@@ -413,7 +415,8 @@ export async function innerHandleContentMessage(
 
     // Be sure to check for the UserUtils.isSignInByLinking() if you add another if here
     if (content.configurationMessage) {
-      await handleConfigurationMessage(
+      // this one can be quite long (downloads profilePictures and everything, is do not block)
+      void handleConfigurationMessage(
         envelope,
         content.configurationMessage as SignalService.ConfigurationMessage
       );
@@ -536,7 +539,7 @@ async function handleOurProfileUpdate(
   ourPubkey: string
 ) {
   const latestProfileUpdateTimestamp = UserUtils.getLastProfileUpdateTimestamp();
-  if (latestProfileUpdateTimestamp && sentAt > latestProfileUpdateTimestamp) {
+  if (!latestProfileUpdateTimestamp || sentAt > latestProfileUpdateTimestamp) {
     window?.log?.info(
       `Handling our profileUdpate ourLastUpdate:${latestProfileUpdateTimestamp}, envelope sent at: ${sentAt}`
     );
@@ -558,6 +561,8 @@ async function handleOurProfileUpdate(
       profilePicture,
     };
     await updateProfile(ourConversation, lokiProfile, profileKey);
+    UserUtils.setLastProfileUpdateTimestamp(_.toNumber(sentAt));
+    trigger(configurationMessageReceived, displayName);
   }
 }
 
@@ -625,6 +630,30 @@ async function handleGroupsAndContactsFromConfigMessage(
       void OpenGroup.join(current);
     }
   }
+  if (configMessage.contacts?.length) {
+    await Promise.all(
+      configMessage.contacts.map(async c => {
+        try {
+          if (!c.publicKey) {
+            return;
+          }
+          const contactConvo = await ConversationController.getInstance().getOrCreateAndWait(
+            toHex(c.publicKey),
+            'private'
+          );
+          const profile = {
+            displayName: c.name,
+            profilePictre: c.profilePicture,
+          };
+          await updateProfile(contactConvo, profile, c.profileKey);
+        } catch (e) {
+          window?.log?.warn(
+            'failed to handle  a new closed group from configuration message'
+          );
+        }
+      })
+    );
+  }
 }
 
 export async function handleConfigurationMessage(
@@ -648,6 +677,7 @@ export async function handleConfigurationMessage(
     configurationMessage,
     ourPubkey
   );
+
   await handleGroupsAndContactsFromConfigMessage(
     envelope,
     configurationMessage

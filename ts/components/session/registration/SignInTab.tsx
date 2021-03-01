@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
+import { Flex } from '../Flex';
 import {
   SessionButton,
   SessionButtonColor,
   SessionButtonType,
 } from '../SessionButton';
-import { signInWithRecovery, validatePassword } from './RegistrationTabs';
+import { SessionSpinner } from '../SessionSpinner';
+import {
+  signInWithLinking,
+  signInWithRecovery,
+  validatePassword,
+} from './RegistrationTabs';
 import { RegistrationUserDetails } from './RegistrationUserDetails';
 import { TermsAndConditions } from './TermsAndConditions';
 
@@ -15,8 +21,6 @@ export enum SignInMode {
 }
 // tslint:disable: use-simple-attributes
 // tslint:disable: react-unused-props-and-state
-
-export interface Props {}
 
 const LinkDeviceButton = (props: { onLinkDeviceButtonClicked: () => any }) => {
   return (
@@ -94,7 +98,7 @@ const SignInButtons = (props: {
   );
 };
 
-export const SignInTab = (props: Props) => {
+export const SignInTab = () => {
   const [signInMode, setSignInMode] = useState(SignInMode.Default);
   const [recoveryPhrase, setRecoveryPhrase] = useState('');
   const [recoveryPhraseError, setRecoveryPhraseError] = useState(
@@ -106,6 +110,7 @@ export const SignInTab = (props: Props) => {
   const [passwordVerify, setPasswordVerify] = useState('');
   const [passwordErrorString, setPasswordErrorString] = useState('');
   const [passwordFieldsMatch, setPasswordFieldsMatch] = useState(false);
+  const [loading, setIsLoading] = useState(false);
 
   const isRecovery = signInMode === SignInMode.UsingRecoveryPhrase;
   const isLinking = signInMode === SignInMode.LinkDevice;
@@ -126,7 +131,8 @@ export const SignInTab = (props: Props) => {
   // Seed is mandatory no matter which mode
   const seedOK = recoveryPhrase && !recoveryPhraseError;
 
-  const activateContinueButton = seedOK && displayNameOK && passwordsOK;
+  const activateContinueButton =
+    seedOK && displayNameOK && passwordsOK && !loading;
 
   return (
     <div className="session-registration__content">
@@ -178,11 +184,13 @@ export const SignInTab = (props: Props) => {
           setSignInMode(SignInMode.UsingRecoveryPhrase);
           setRecoveryPhrase('');
           setDisplayName('');
+          setIsLoading(false);
         }}
         onLinkDeviceButtonClicked={() => {
           setSignInMode(SignInMode.LinkDevice);
           setRecoveryPhrase('');
           setDisplayName('');
+          setIsLoading(false);
         }}
       />
       <SignInContinueButton
@@ -196,15 +204,20 @@ export const SignInTab = (props: Props) => {
               verifyPassword: passwordVerify,
             });
           } else if (isLinking) {
+            setIsLoading(true);
             await signInWithLinking({
               userRecoveryPhrase: recoveryPhrase,
               password,
               verifyPassword: passwordVerify,
             });
+            setIsLoading(false);
           }
         }}
         disabled={!activateContinueButton}
       />
+      <Flex container={true} justifyContent="center">
+        <SessionSpinner loading={loading} />
+      </Flex>
       {showTermsAndConditions && <TermsAndConditions />}
     </div>
   );

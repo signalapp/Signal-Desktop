@@ -1,6 +1,11 @@
 import React from 'react';
 
-import { StringUtils, ToastUtils, UserUtils } from '../../../session/utils';
+import {
+  PromiseUtils,
+  StringUtils,
+  ToastUtils,
+  UserUtils,
+} from '../../../session/utils';
 import { ConversationController } from '../../../session/conversations';
 import { removeAll } from '../../../data/data';
 import { SignUpTab } from './SignUpTab';
@@ -140,6 +145,8 @@ export async function signUp(signUpDetails: {
     await UserUtils.setLastProfileUpdateTimestamp(Date.now());
     trigger('openInbox');
   } catch (e) {
+    await resetRegistration();
+
     ToastUtils.pushToastError(
       'registrationError',
       `Error: ${e.message || 'Something went wrong'}`
@@ -188,6 +195,7 @@ export async function signInWithRecovery(signInDetails: {
     );
     trigger('openInbox');
   } catch (e) {
+    await resetRegistration();
     ToastUtils.pushToastError(
       'registrationError',
       `Error: ${e.message || 'Something went wrong'}`
@@ -211,10 +219,37 @@ export async function signInWithLinking(signInDetails: {
     await resetRegistration();
     await window.setPassword(password);
     await AccountManager.signInByLinkingDevice(userRecoveryPhrase, 'english');
+
+    let displayNameFromNetwork = '';
+
+    await PromiseUtils.waitForTask(done => {
+      window.Whisper.events.on(
+        'configurationMessageReceived',
+        (displayName: string) => {
+          window.Whisper.events.off('configurationMessageReceived');
+          UserUtils.setSignInByLinking(false);
+          done(displayName);
+
+          displayNameFromNetwork = displayName;
+        }
+      );
+    }, 30000);
+    if (displayNameFromNetwork.length) {
+      // display name, avatars, groups and contacts should already be handled when this event was triggered.
+      window.log.info('We got a displayName from network: ');
+    } else {
+      window.log.info(
+        'Got a config message from network but without a displayName...'
+      );
+      throw new Error(
+        'Got a config message from network but without a displayName...'
+      );
+    }
     // Do not set the lastProfileUpdateTimestamp.
     // We expect to get a display name from a configuration message while we are loading messages of this user
     trigger('openInbox');
   } catch (e) {
+    await resetRegistration();
     ToastUtils.pushToastError(
       'registrationError',
       `Error: ${e.message || 'Something went wrong'}`

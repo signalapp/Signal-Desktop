@@ -10,6 +10,7 @@ import {
   ConversationModel,
 } from '../../models/conversation';
 import { BlockedNumberController } from '../../util';
+import { PubKey } from '../types';
 
 // It's not only data from the db which is stored on the MessageController entries, we could fetch this again. What we cannot fetch from the db and which is stored here is all listeners a particular messages is linked to for instance. We will be able to get rid of this once we don't use backbone models at all
 export class ConversationController {
@@ -169,7 +170,7 @@ export class ConversationController {
   }
 
   public async getOrCreateAndWait(
-    id: any,
+    id: string | PubKey,
     type: 'private' | 'group'
   ): Promise<ConversationModel> {
     const initialPromise =
@@ -182,7 +183,7 @@ export class ConversationController {
           new Error('getOrCreateAndWait: invalid id passed.')
         );
       }
-      const pubkey = id && id.key ? id.key : id;
+      const pubkey = id && (id as any).key ? (id as any).key : id;
       const conversation = this.getOrCreate(pubkey, type);
 
       if (conversation) {
