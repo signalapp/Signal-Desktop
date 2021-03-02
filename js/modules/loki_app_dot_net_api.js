@@ -1879,14 +1879,14 @@ class LokiPublicChannelAPI {
     // eslint-disable-next-line no-plusplus
     for (let index = 0; index < pendingMessages.length; index++) {
       if (this.running) {
-        log.info(
-          'emitting pending public message',
-          pendingMessages[index].serverId,
-          'on',
-          this.channelId,
-          'at',
-          this.serverAPI.baseServerUrl
-        );
+        // log.info(
+        //   'emitting pending public message',
+        //   pendingMessages[index].serverId,
+        //   'on',
+        //   this.channelId,
+        //   'at',
+        //   this.serverAPI.baseServerUrl
+        // );
         // eslint-disable-next-line no-await-in-loop
         window.NewReceiver.handlePublicMessage(pendingMessages[index]);
       }

@@ -419,7 +419,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     }
 
     // Already connected?
-    if (Boolean(await OpenGroup.getConversation(serverUrl))) {
+    if (OpenGroup.getConversation(serverUrl)) {
       ToastUtils.pushToastError(
         'publicChatExists',
         window.i18n('publicChatExists')
@@ -447,7 +447,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         );
       }
       this.setState({ loading: false });
-      const openGroupConversation = await OpenGroup.getConversation(serverUrl);
+      const openGroupConversation = OpenGroup.getConversation(serverUrl);
 
       if (!openGroupConversation) {
         window.log.error(

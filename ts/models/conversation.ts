@@ -505,7 +505,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public async getUnreadCount() {
     window.log.warn('getUnreadCount is slow');
-    return getUnreadCountByConversation(this.id);
+    const unreadCount = await getUnreadCountByConversation(this.id);
+
+    return unreadCount;
   }
 
   public queueJob(callback: any) {

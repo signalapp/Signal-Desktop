@@ -1,7 +1,6 @@
 // tslint:disable: no-implicit-dependencies
 
 import { SignalService } from '../../../../protobuf';
-import { handleConfigurationMessage } from '../../../../receiver/contentMessage';
 import chai from 'chai';
 
 import { ConfigurationMessage } from '../../../../session/messages/outgoing/content/ConfigurationMessage';
@@ -14,6 +13,7 @@ import * as data from '../../../../../ts/data/data';
 import { EnvelopePlus } from '../../../../receiver/types';
 
 import chaiAsPromised from 'chai-as-promised';
+import { handleConfigurationMessage } from '../../../../receiver/configMessage';
 chai.use(chaiAsPromised as any);
 chai.should();
 

@@ -120,7 +120,9 @@ export class OpenGroup {
     let conversationId;
 
     // Return OpenGroup if we're already connected
-    conversation = await OpenGroup.getConversation(prefixedServer);
+    conversation = OpenGroup.getConversation(prefixedServer);
+    console.warn(`Convo for ${prefixedServer}: ${conversation}`);
+
     if (conversation) {
       conversationId = conversation?.cid;
       if (conversationId) {
@@ -129,6 +131,11 @@ export class OpenGroup {
           channel: 1,
           conversationId,
         });
+      } else {
+        console.warn(
+          'NO conversationId = conversation?.cid',
+          conversation?.cid
+        );
       }
     }
 
@@ -167,9 +174,7 @@ export class OpenGroup {
    * @param server The server URL
    * @returns BackBone conversation model corresponding to the server if it exists, otherwise `undefined`
    */
-  public static async getConversation(
-    server: string
-  ): Promise<ConversationModel | undefined> {
+  public static getConversation(server: string): ConversationModel | undefined {
     if (!OpenGroup.validate(server)) {
       return;
     }
