@@ -90,7 +90,9 @@ const SignInButtons = (props: {
       <RestoreUsingRecoveryPhraseButton
         onRecoveryButtonClicked={props.onRecoveryButtonClicked}
       />
+      <div className="spacer-lg" />
       <div className="or">{window.i18n('or')}</div>
+      <div className="spacer-lg" />
       <LinkDeviceButton
         onLinkDeviceButtonClicked={props.onLinkDeviceButtonClicked}
       />

@@ -1,5 +1,9 @@
 import _ from 'lodash';
-import { getItemById, hasSyncedInitialConfigurationItem } from '../data/data';
+import {
+  createOrUpdateItem,
+  getItemById,
+  hasSyncedInitialConfigurationItem,
+} from '../data/data';
 import { SignalService } from '../protobuf';
 import { ConversationController } from '../session/conversations';
 import { OpenGroup } from '../session/types';
@@ -56,12 +60,10 @@ async function handleGroupsAndContactsFromConfigMessage(
     );
     return;
   }
-  if (didWeHandleAConfigurationMessageAlready) {
-    window?.log?.warn(
-      'Dropping configuration change as we already handled one... '
-    );
-    return;
-  }
+  await createOrUpdateItem({
+    id: 'hasSyncedInitialConfigurationItem',
+    value: true,
+  });
 
   const numberClosedGroup = configMessage.closedGroups?.length || 0;
 
