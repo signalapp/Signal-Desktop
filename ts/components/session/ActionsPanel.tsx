@@ -44,6 +44,10 @@ interface Props {
   theme: DefaultTheme;
 }
 
+/**
+ * ActionsPanel is the far left banner (not the left pane).
+ * The panel with buttons to switch between the message/contact/settings/theme views
+ */
 class ActionsPanelPrivate extends React.Component<Props> {
   private syncInterval: NodeJS.Timeout | null = null;
 
@@ -71,7 +75,7 @@ class ActionsPanelPrivate extends React.Component<Props> {
     // If that's the case, the save events on our conversation won't be triggering redux updates.
     // So changes to our conversation won't make a change on the UI.
     // Calling this makes sure that our own conversation is registered to redux.
-    ConversationController.getInstance().registerOurPrimaryConvoOnRedux();
+    ConversationController.getInstance().registerAllConvosToRedux();
 
     // init the messageQueue. In the constructor, we had all not send messages
     // this call does nothing except calling the constructor, which will continue sending message in the pipeline

@@ -316,19 +316,13 @@ export class ConversationController {
     this.conversations.reset([]);
   }
 
-  public registerOurPrimaryConvoOnRedux() {
+  public registerAllConvosToRedux() {
     if (window.inboxStore) {
-      const ourPubkey = UserUtils.getOurPubKeyStrFromCache();
-      const ourConversation = this.conversations.get(ourPubkey);
-      if (!ourConversation) {
-        window.log.warn(
-          'Cannot register ourPrimary convo to redux, our convo does not exist'
-        );
-        return;
-      }
-      // make sure our conversation is registered to forward it's commit events to redux
-      ourConversation.off('change', this.updateReduxConvoChanged);
-      ourConversation.on('change', this.updateReduxConvoChanged);
+      this.conversations.forEach((convo: ConversationModel) => {
+        // make sure all conversations are registered to forward their commit events to redux
+        convo.off('change', this.updateReduxConvoChanged);
+        convo.on('change', this.updateReduxConvoChanged);
+      });
     }
   }
 
