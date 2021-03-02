@@ -21,9 +21,11 @@ const mapStateToProps = (state: StateType) => {
   const leftPaneList = getLeftPaneLists(state);
   const lists = showSearch ? undefined : leftPaneList;
   const searchResults = showSearch ? getSearchResults(state) : undefined;
+  const ourPrimaryConversation = getOurPrimaryConversation(state);
+
   return {
     ...lists,
-    ourPrimaryConversation: getOurPrimaryConversation(state), // used in actionPanel
+    ourPrimaryConversation, // used in actionPanel
     searchTerm: getQuery(state),
     ourNumber: getOurNumber(state),
     searchResults,

@@ -50,7 +50,6 @@ class ActionsPanelPrivate extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
 
-    this.editProfileHandle = this.editProfileHandle.bind(this);
     // we consider people had the time to upgrade, so remove this id from the db
     // it was used to display a dialog when we added the light mode auto-enabled
     void removeItemById('hasSeenLightModeDialog');
@@ -66,6 +65,14 @@ class ActionsPanelPrivate extends React.Component<Props> {
       // Initialize paths for onion requests
       void OnionPaths.getInstance().buildNewOnionPaths();
     }
+
+    // This is not ideal, but on the restore from seed, our conversation will be created before the
+    // redux store is ready.
+    // If that's the case, the save events on our conversation won't be triggering redux updates.
+    // So changes to our conversation won't make a change on the UI.
+    // Calling this makes sure that our own conversation is registered to redux.
+    ConversationController.getInstance().registerOurPrimaryConvoOnRedux();
+
     // init the messageQueue. In the constructor, we had all not send messages
     // this call does nothing except calling the constructor, which will continue sending message in the pipeline
     void getMessageQueue().processAllPending();
@@ -125,7 +132,7 @@ class ActionsPanelPrivate extends React.Component<Props> {
       ? () => {
           /* tslint:disable:no-void-expression */
           if (type === SectionType.Profile) {
-            this.editProfileHandle();
+            window.showEditProfileDialog();
           } else if (type === SectionType.Moon) {
             const theme = window.Events.getThemeSetting();
             const updatedTheme = theme === 'dark' ? 'light' : 'dark';
@@ -190,10 +197,6 @@ class ActionsPanelPrivate extends React.Component<Props> {
       />
     );
   };
-
-  public editProfileHandle() {
-    window.showEditProfileDialog();
-  }
 
   public render(): JSX.Element {
     const {

@@ -10,9 +10,10 @@ import {
   ConversationModel,
 } from '../../models/conversation';
 import { BlockedNumberController } from '../../util';
+import { getSnodesFor } from '../snode_api/snodePool';
 import { PubKey } from '../types';
+import { UserUtils } from '../utils';
 
-// It's not only data from the db which is stored on the MessageController entries, we could fetch this again. What we cannot fetch from the db and which is stored here is all listeners a particular messages is linked to for instance. We will be able to get rid of this once we don't use backbone models at all
 export class ConversationController {
   private static instance: ConversationController | null;
   private readonly conversations: any;
@@ -137,7 +138,7 @@ export class ConversationController {
         await Promise.all([
           conversation.updateProfileAvatar(),
           // NOTE: we request snodes updating the cache, but ignore the result
-          window.SnodePool.getSnodesFor(id),
+          void getSnodesFor(id),
         ]);
       }
     });
@@ -313,6 +314,22 @@ export class ConversationController {
       );
     }
     this.conversations.reset([]);
+  }
+
+  public registerOurPrimaryConvoOnRedux() {
+    if (window.inboxStore) {
+      const ourPubkey = UserUtils.getOurPubKeyStrFromCache();
+      const ourConversation = this.conversations.get(ourPubkey);
+      if (!ourConversation) {
+        window.log.warn(
+          'Cannot register ourPrimary convo to redux, our convo does not exist'
+        );
+        return;
+      }
+      // make sure our conversation is registered to forward it's commit events to redux
+      ourConversation.off('change', this.updateReduxConvoChanged);
+      ourConversation.on('change', this.updateReduxConvoChanged);
+    }
   }
 
   private updateReduxConvoChanged(convo: ConversationModel) {

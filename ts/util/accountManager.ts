@@ -56,8 +56,6 @@ const generateKeypair = async (mnemonic: string, mnemonicLanguage: string) => {
     seedHex = seedHex.substring(0, privKeyHexLength);
   }
   const seed = fromHex(seedHex);
-  console.warn('generateKeypair seedHex', seedHex);
-  console.warn('generateKeypair seed', seed);
   return sessionGenerateKeyPair(seed);
 };
 
@@ -204,14 +202,17 @@ export class AccountManager {
     await window.textsecure.storage.user.setNumberAndDeviceId(pubKeyString, 1);
   }
 
-  private static async registrationDone(number: string, displayName: string) {
+  private static async registrationDone(
+    ourPubkey: string,
+    displayName: string
+  ) {
     window.log.info('registration done');
 
-    window.textsecure.storage.put('primaryDevicePubKey', number);
+    window.textsecure.storage.put('primaryDevicePubKey', ourPubkey);
 
     // Ensure that we always have a conversation for ourself
     const conversation = await ConversationController.getInstance().getOrCreateAndWait(
-      number,
+      ourPubkey,
       'private'
     );
     await conversation.setLokiProfile({ displayName });
