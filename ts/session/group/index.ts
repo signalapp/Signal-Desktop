@@ -129,7 +129,8 @@ export async function initiateGroupUpdate(
     const dbMessageName = await addUpdateMessage(
       convo,
       nameOnlyDiff,
-      'outgoing'
+      'outgoing',
+      Date.now()
     );
     MessageController.getInstance().register(dbMessageName.id, dbMessageName);
     await sendNewName(convo, diff.newName, dbMessageName.id);
@@ -140,7 +141,8 @@ export async function initiateGroupUpdate(
     const dbMessageAdded = await addUpdateMessage(
       convo,
       joiningOnlyDiff,
-      'outgoing'
+      'outgoing',
+      Date.now()
     );
     MessageController.getInstance().register(dbMessageAdded.id, dbMessageAdded);
     await sendAddedMembers(
@@ -156,7 +158,8 @@ export async function initiateGroupUpdate(
     const dbMessageLeaving = await addUpdateMessage(
       convo,
       leavingOnlyDiff,
-      'outgoing'
+      'outgoing',
+      Date.now()
     );
     MessageController.getInstance().register(
       dbMessageLeaving.id,
@@ -175,7 +178,8 @@ export async function initiateGroupUpdate(
 export async function addUpdateMessage(
   convo: ConversationModel,
   diff: GroupDiff,
-  type: MessageModelType
+  type: MessageModelType,
+  sentAt: number
 ): Promise<MessageModel> {
   const groupUpdate: any = {};
 
@@ -198,7 +202,7 @@ export async function addUpdateMessage(
   const message = await convo.addSingleMessage({
     conversationId: convo.get('id'),
     type,
-    sent_at: now,
+    sent_at: sentAt,
     received_at: now,
     group_update: groupUpdate,
     unread,

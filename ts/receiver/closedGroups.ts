@@ -225,7 +225,8 @@ export async function handleNewClosedGroup(
   await ClosedGroup.addUpdateMessage(
     convo,
     { newName: name, joiningMembers: members },
-    'incoming'
+    'incoming',
+    _.toNumber(envelope.timestamp)
   );
 
   // We only set group admins on group creation
@@ -324,7 +325,12 @@ async function handleUpdateClosedGroup(
     diff.leavingMembers?.length ||
     diff.newName
   ) {
-    await ClosedGroup.addUpdateMessage(convo, diff, 'incoming');
+    await ClosedGroup.addUpdateMessage(
+      convo,
+      diff,
+      'incoming',
+      _.toNumber(envelope.timestamp)
+    );
   }
 
   convo.set('name', name);
@@ -573,7 +579,12 @@ async function handleClosedGroupNameChanged(
     const groupDiff: ClosedGroup.GroupDiff = {
       newName,
     };
-    await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming');
+    await ClosedGroup.addUpdateMessage(
+      convo,
+      groupDiff,
+      'incoming',
+      _.toNumber(envelope.timestamp)
+    );
     convo.set({ name: newName });
     convo.updateLastMessage();
     await convo.commit();
@@ -620,7 +631,12 @@ async function handleClosedGroupMembersAdded(
   const groupDiff: ClosedGroup.GroupDiff = {
     joiningMembers: membersNotAlreadyPresent,
   };
-  await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming');
+  await ClosedGroup.addUpdateMessage(
+    convo,
+    groupDiff,
+    'incoming',
+    _.toNumber(envelope.timestamp)
+  );
 
   convo.set({ members });
   convo.updateLastMessage();
@@ -700,7 +716,12 @@ async function handleClosedGroupMembersRemoved(
     const groupDiff: ClosedGroup.GroupDiff = {
       leavingMembers: effectivelyRemovedMembers,
     };
-    await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming');
+    await ClosedGroup.addUpdateMessage(
+      convo,
+      groupDiff,
+      'incoming',
+      _.toNumber(envelope.timestamp)
+    );
     convo.updateLastMessage();
   }
 
@@ -767,7 +788,12 @@ async function handleClosedGroupMemberLeft(
     const groupDiff: ClosedGroup.GroupDiff = {
       leavingMembers: didAdminLeave ? oldMembers : [sender],
     };
-    await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming');
+    await ClosedGroup.addUpdateMessage(
+      convo,
+      groupDiff,
+      'incoming',
+      _.toNumber(envelope.timestamp)
+    );
     convo.updateLastMessage();
   }
 
@@ -905,7 +931,8 @@ export async function createClosedGroup(
   const dbMessage = await ClosedGroup.addUpdateMessage(
     convo,
     groupDiff,
-    'outgoing'
+    'outgoing',
+    Date.now()
   );
   MessageController.getInstance().register(dbMessage.id, dbMessage);
 
