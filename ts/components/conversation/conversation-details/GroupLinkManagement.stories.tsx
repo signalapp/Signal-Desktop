@@ -51,35 +51,49 @@ function getConversation(
   };
 }
 
-const createProps = (conversation?: ConversationType): PropsType => ({
+const createProps = (
+  conversation?: ConversationType,
+  isAdmin = false
+): PropsType => ({
   accessEnum: AccessEnum,
   changeHasGroupLink: action('changeHasGroupLink'),
   conversation: conversation || getConversation(),
   copyGroupLink: action('copyGroupLink'),
   generateNewGroupLink: action('generateNewGroupLink'),
   i18n,
+  isAdmin,
   setAccessControlAddFromInviteLinkSetting: action(
     'setAccessControlAddFromInviteLinkSetting'
   ),
 });
 
-story.add('Off', () => {
-  const props = createProps();
+story.add('Off (Admin)', () => {
+  const props = createProps(undefined, true);
 
   return <GroupLinkManagement {...props} />;
 });
 
-story.add('On', () => {
+story.add('On (Admin)', () => {
   const props = createProps(
-    getConversation('https://signal.group/1', AccessEnum.ANY)
+    getConversation('https://signal.group/1', AccessEnum.ANY),
+    true
   );
 
   return <GroupLinkManagement {...props} />;
 });
 
-story.add('On (Admin Approval Needed)', () => {
+story.add('On (Admin + Admin Approval Needed)', () => {
   const props = createProps(
-    getConversation('https://signal.group/1', AccessEnum.ADMINISTRATOR)
+    getConversation('https://signal.group/1', AccessEnum.ADMINISTRATOR),
+    true
+  );
+
+  return <GroupLinkManagement {...props} />;
+});
+
+story.add('On (Non-admin)', () => {
+  const props = createProps(
+    getConversation('https://signal.group/1', AccessEnum.ANY)
   );
 
   return <GroupLinkManagement {...props} />;

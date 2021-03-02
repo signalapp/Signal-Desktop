@@ -26,11 +26,13 @@ const mapStateToProps = (
   props: SmartGroupLinkManagementProps
 ): PropsType => {
   const conversation = getConversationSelector(state)(props.conversationId);
+  const isAdmin = Boolean(conversation?.areWeAdmin);
 
   return {
     ...props,
     conversation,
     i18n: getIntl(state),
+    isAdmin,
   };
 };
 

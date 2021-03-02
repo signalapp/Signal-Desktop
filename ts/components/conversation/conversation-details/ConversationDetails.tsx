@@ -119,7 +119,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
       />
 
       <PanelSection>
-        {isAdmin ? (
+        {isAdmin || hasGroupLink ? (
           <PanelRow
             icon={
               <ConversationDetailsIcon

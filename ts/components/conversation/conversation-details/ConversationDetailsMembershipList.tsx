@@ -26,26 +26,66 @@ export type Props = {
 
 const MAX_MEMBER_COUNT = 5;
 
+const collator = new Intl.Collator(undefined, { sensitivity: 'base' });
+function sortConversationTitles(
+  left: GroupV2Membership,
+  right: GroupV2Membership
+) {
+  const leftTitle = left.member.title;
+  const rightTitle = right.member.title;
+  return collator.compare(leftTitle, rightTitle);
+}
+
+function sortMemberships(
+  memberships: ReadonlyArray<GroupV2Membership>
+): Array<GroupV2Membership> {
+  let you: undefined | GroupV2Membership;
+  const admins: Array<GroupV2Membership> = [];
+  const nonAdmins: Array<GroupV2Membership> = [];
+  memberships.forEach(membershipInfo => {
+    const { isAdmin, member } = membershipInfo;
+    if (member.isMe) {
+      you = membershipInfo;
+    } else if (isAdmin) {
+      admins.push(membershipInfo);
+    } else {
+      nonAdmins.push(membershipInfo);
+    }
+  });
+  admins.sort(sortConversationTitles);
+  nonAdmins.sort(sortConversationTitles);
+
+  const sortedMemberships = [];
+  if (you) {
+    sortedMemberships.push(you);
+  }
+  sortedMemberships.push(...admins);
+  sortedMemberships.push(...nonAdmins);
+
+  return sortedMemberships;
+}
+
 export const ConversationDetailsMembershipList: React.ComponentType<Props> = ({
   memberships,
   showContactModal,
   i18n,
 }) => {
   const [showAllMembers, setShowAllMembers] = React.useState<boolean>(false);
+  const sortedMemberships = sortMemberships(memberships);
 
-  const shouldHideRestMembers = memberships.length - MAX_MEMBER_COUNT > 1;
+  const shouldHideRestMembers = sortedMemberships.length - MAX_MEMBER_COUNT > 1;
   const membersToShow =
     shouldHideRestMembers && !showAllMembers
       ? MAX_MEMBER_COUNT
-      : memberships.length;
+      : sortedMemberships.length;
 
   return (
     <PanelSection
       title={i18n('ConversationDetailsMembershipList--title', [
-        memberships.length.toString(),
+        sortedMemberships.length.toString(),
       ])}
     >
-      {memberships.slice(0, membersToShow).map(({ isAdmin, member }) => (
+      {sortedMemberships.slice(0, membersToShow).map(({ isAdmin, member }) => (
         <PanelRow
           key={member.id}
           onClick={() => showContactModal(member.id)}

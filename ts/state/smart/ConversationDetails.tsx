@@ -39,8 +39,7 @@ const mapStateToProps = (
     conversation && conversation.canEditGroupInfo
       ? conversation.canEditGroupInfo
       : false;
-  const isAdmin =
-    conversation && conversation.areWeAdmin ? conversation.areWeAdmin : false;
+  const isAdmin = Boolean(conversation?.areWeAdmin);
 
   return {
     ...props,

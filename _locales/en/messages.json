@@ -3390,6 +3390,10 @@
     "message": "Admin",
     "description": "Label for a group administrator"
   },
+  "GroupV2--only-admins": {
+    "message": "Only Admins",
+    "description": "Label for group administrators -- used in drop-downs to select permissions that apply to admins"
+  },
   "GroupV2--all-members": {
     "message": "All members",
     "description": "Label for describing the general non-privileged members of a group"

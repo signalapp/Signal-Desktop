@@ -23,9 +23,11 @@ const conversation: ConversationType = {
   id: '',
   lastUpdated: 0,
   markedUnread: false,
-  memberships: Array.from(Array(32)).map(() => ({
+  memberships: Array.from(Array(32)).map((_, i) => ({
     isAdmin: false,
-    member: getDefaultConversation({}),
+    member: getDefaultConversation({
+      isMe: i === 2,
+    }),
     metadata: {
       conversationId: '',
       joinedAtVersion: 0,

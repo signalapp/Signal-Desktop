@@ -34,15 +34,17 @@ const createMemberships = (
       isAdmin: i % 3 === 0,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       metadata: {} as any,
-      member: getDefaultConversation({}),
+      member: getDefaultConversation({
+        isMe: i === 2,
+      }),
     })
   );
 };
 
 const createProps = (overrideProps: Partial<Props>): Props => ({
   i18n,
-  showContactModal: action('showContactModal'),
   memberships: overrideProps.memberships || [],
+  showContactModal: action('showContactModal'),
 });
 
 story.add('Few', () => {

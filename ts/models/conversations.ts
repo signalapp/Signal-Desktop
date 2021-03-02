@@ -135,7 +135,7 @@ export class ConversationModel extends window.Backbone.Model<
 
   verifiedEnum?: typeof window.textsecure.storage.protocol.VerifiedStatus;
 
-  intlCollator = new Intl.Collator();
+  intlCollator = new Intl.Collator(undefined, { sensitivity: 'base' });
 
   private cachedLatestGroupCallEraId?: string;
 
@@ -183,14 +183,12 @@ export class ConversationModel extends window.Backbone.Model<
   // eslint-disable-next-line class-methods-use-this
   getContactCollection(): Backbone.Collection<ConversationModel> {
     const collection = new window.Backbone.Collection<ConversationModel>();
-    const collator = new Intl.Collator();
+    const collator = new Intl.Collator(undefined, { sensitivity: 'base' });
     collection.comparator = (
       left: ConversationModel,
       right: ConversationModel
     ) => {
-      const leftLower = left.getTitle().toLowerCase();
-      const rightLower = right.getTitle().toLowerCase();
-      return collator.compare(leftLower, rightLower);
+      return collator.compare(left.getTitle(), right.getTitle());
     };
     return collection;
   }
@@ -5229,9 +5227,7 @@ const sortConversationTitles = (
   right: SortableByTitle,
   collator: Intl.Collator
 ) => {
-  const leftLower = left.getTitle().toLowerCase();
-  const rightLower = right.getTitle().toLowerCase();
-  return collator.compare(leftLower, rightLower);
+  return collator.compare(left.getTitle(), right.getTitle());
 };
 
 // We need a custom collection here to get the sorting we need
@@ -5239,7 +5235,7 @@ window.Whisper.GroupConversationCollection = window.Backbone.Collection.extend({
   model: window.Whisper.GroupMemberConversation,
 
   initialize() {
-    this.collator = new Intl.Collator();
+    this.collator = new Intl.Collator(undefined, { sensitivity: 'base' });
   },
 
   comparator(left: WhatIsThis, right: WhatIsThis) {
