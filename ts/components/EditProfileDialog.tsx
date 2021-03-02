@@ -20,6 +20,7 @@ import { PillDivider } from './session/PillDivider';
 import { ToastUtils, UserUtils } from '../session/utils';
 import { DefaultTheme } from 'styled-components';
 import { MAX_USERNAME_LENGTH } from './session/registration/RegistrationTabs';
+import { SessionSpinner } from './session/SessionSpinner';
 
 interface Props {
   i18n: any;
@@ -36,6 +37,7 @@ interface State {
   setProfileName: string;
   avatar: string;
   mode: 'default' | 'edit' | 'qr';
+  loading: boolean;
 }
 
 export class EditProfileDialog extends React.Component<Props, State> {
@@ -56,6 +58,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
       setProfileName: this.props.profileName,
       avatar: this.props.avatarPath,
       mode: 'default',
+      loading: false,
     };
 
     this.inputEl = React.createRef();
@@ -111,6 +114,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
           </p>
 
           <div className="spacer-lg" />
+          <SessionSpinner loading={this.state.loading} />
 
           {viewDefault || viewQR ? (
             <SessionButton
@@ -127,6 +131,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
               buttonType={SessionButtonType.BrandOutline}
               buttonColor={SessionButtonColor.Green}
               onClick={this.onClickOK}
+              disabled={this.state.loading}
             />
           )}
 
@@ -305,12 +310,20 @@ export class EditProfileDialog extends React.Component<Props, State> {
         ? this.inputEl.current.files[0]
         : null;
 
-    this.props.onOk(newName, avatar);
+    this.setState(
+      {
+        loading: true,
+      },
+      async () => {
+        await this.props.onOk(newName, avatar);
+        this.setState({
+          loading: false,
 
-    this.setState({
-      mode: 'default',
-      setProfileName: this.state.profileName,
-    });
+          mode: 'default',
+          setProfileName: this.state.profileName,
+        });
+      }
+    );
   }
 
   private closeDialog() {
