@@ -136,6 +136,25 @@ export const SignInTab = () => {
   const activateContinueButton =
     seedOK && displayNameOK && passwordsOK && !loading;
 
+  const continueYourSession = async () => {
+    if (isRecovery) {
+      await signInWithRecovery({
+        displayName,
+        userRecoveryPhrase: recoveryPhrase,
+        password,
+        verifyPassword: passwordVerify,
+      });
+    } else if (isLinking) {
+      setIsLoading(true);
+      await signInWithLinking({
+        userRecoveryPhrase: recoveryPhrase,
+        password,
+        verifyPassword: passwordVerify,
+      });
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="session-registration__content">
       {signInMode !== SignInMode.Default && (
@@ -143,9 +162,7 @@ export const SignInTab = () => {
           showDisplayNameField={showDisplayNameField}
           showSeedField={true}
           displayName={displayName}
-          handlePressEnter={() => {
-            throw new Error('TODO');
-          }}
+          handlePressEnter={continueYourSession}
           onDisplayNameChanged={(name: string) => {
             const sanitizedName = name.replace(window.displayNameRegex, '');
             const trimName = sanitizedName.trim();
@@ -156,6 +173,13 @@ export const SignInTab = () => {
           }}
           onPasswordChanged={(val: string) => {
             setPassword(val);
+            // if user just removed the password, empty the verify too
+            if (!val) {
+              setPasswordVerify('');
+              setPasswordErrorString('');
+              setPasswordFieldsMatch(true);
+              return;
+            }
             const errors = validatePassword(val, passwordVerify);
             setPasswordErrorString(errors.passwordErrorString);
             setPasswordFieldsMatch(errors.passwordFieldsMatch);
@@ -197,24 +221,7 @@ export const SignInTab = () => {
       />
       <SignInContinueButton
         signInMode={signInMode}
-        handleContinueYourSessionClick={async () => {
-          if (isRecovery) {
-            await signInWithRecovery({
-              displayName,
-              userRecoveryPhrase: recoveryPhrase,
-              password,
-              verifyPassword: passwordVerify,
-            });
-          } else if (isLinking) {
-            setIsLoading(true);
-            await signInWithLinking({
-              userRecoveryPhrase: recoveryPhrase,
-              password,
-              verifyPassword: passwordVerify,
-            });
-            setIsLoading(false);
-          }
-        }}
+        handleContinueYourSessionClick={continueYourSession}
         disabled={!activateContinueButton}
       />
       <Flex container={true} justifyContent="center">

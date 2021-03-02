@@ -116,7 +116,14 @@ export const SignUpTab = (props: Props) => {
     !password || (!passwordErrorString && passwordFieldsMatch);
 
   const enableCompleteSignUp = displayNameOK && passwordsOK;
-  console.warn('handlePressEnter TODO');
+  const signUpWithDetails = async () => {
+    await signUp({
+      displayName,
+      generatedRecoveryPhrase: props.generatedRecoveryPhrase,
+      password,
+      verifyPassword: passwordVerify,
+    });
+  };
 
   return (
     <div className="session-registration__content">
@@ -128,9 +135,7 @@ export const SignUpTab = (props: Props) => {
         showDisplayNameField={true}
         showSeedField={false}
         displayName={displayName}
-        handlePressEnter={() => {
-          throw new Error('TODO');
-        }}
+        handlePressEnter={signUpWithDetails}
         onDisplayNameChanged={(name: string) => {
           const sanitizedName = name.replace(window.displayNameRegex, '');
           const trimName = sanitizedName.trim();
@@ -142,9 +147,9 @@ export const SignUpTab = (props: Props) => {
         onPasswordChanged={(val: string) => {
           setPassword(val);
           if (!val) {
+            setPasswordVerify('');
             setPasswordErrorString('');
             setPasswordFieldsMatch(true);
-            setPasswordVerify('');
             return;
           }
           const errors = validatePassword(val, passwordVerify);
@@ -163,14 +168,7 @@ export const SignUpTab = (props: Props) => {
         stealAutoFocus={true}
       />
       <SessionButton
-        onClick={async () => {
-          await signUp({
-            displayName,
-            generatedRecoveryPhrase: props.generatedRecoveryPhrase,
-            password,
-            verifyPassword: passwordVerify,
-          });
-        }}
+        onClick={signUpWithDetails}
         buttonType={SessionButtonType.Brand}
         buttonColor={SessionButtonColor.Green}
         text={window.i18n('getStarted')}
