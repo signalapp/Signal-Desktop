@@ -105,7 +105,7 @@
           .getConversationController()
           .get(message.get('conversationId'));
         if (conversation) {
-          conversation.trigger('delivered', message);
+          conversation.updateLastMessage()
         }
 
         this.remove(receipt);
