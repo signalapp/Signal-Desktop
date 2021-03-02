@@ -203,7 +203,7 @@ export class EmojiCompletion {
     const emoji = this.results[this.index];
     const [leafText] = this.getCurrentLeafTextPartitions();
 
-    const tokenTextMatch = /:([-+0-9a-z_]*)(:?)$/.exec(leafText);
+    const tokenTextMatch = /:([-+0-9a-zA-Z_]*)(:?)$/.exec(leafText);
 
     if (tokenTextMatch === null) return;
 
