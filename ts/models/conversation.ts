@@ -135,6 +135,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
   public messageCollection: MessageCollection;
   public throttledBumpTyping: any;
+  public throttledNotify: any;
   public initialPromise: any;
 
   private typingRefreshTimer?: NodeJS.Timeout | null;
@@ -163,6 +164,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       this.bouncyUpdateLastMessage.bind(this),
       1000
     );
+    this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 1000 });
     // Listening for out-of-band data updates
     this.on('expired', this.onExpired);
 
@@ -982,7 +984,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async commit() {
-    await updateConversation(this.id, this.attributes);
+    await updateConversation(this.attributes);
     this.trigger('change', this);
   }
 
@@ -1587,7 +1589,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     });
   }
 
-  public async notify(message: any) {
+  public async notify(message: MessageModel) {
     if (!message.isIncoming()) {
       return;
     }
@@ -1620,6 +1622,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       title: convo.getTitle(),
     });
   }
+
   public async notifyTyping({ isTyping, sender }: any) {
     // We don't do anything with typing messages from our other devices
     if (UserUtils.isUsFromCache(sender)) {

@@ -566,24 +566,9 @@ export async function getConversationById(
 }
 
 export async function updateConversation(
-  id: string,
   data: ConversationType
 ): Promise<void> {
-  const existing = await getConversationById(id);
-  if (!existing) {
-    throw new Error(`Conversation ${id} does not exist!`);
-  }
-
-  const merged = _.merge({}, existing.attributes, data);
-
-  // Merging is a really bad idea and not what we want here, e.g.
-  // it will take a union of old and new members and that's not
-  // what we want for member deletion, so:
-  merged.members = data.members;
-
-  // Don't save the online status of the object
-  const cleaned = _.omit(merged, 'isOnline');
-  await channels.updateConversation(cleaned);
+  await channels.updateConversation(data);
 }
 
 export async function removeConversation(id: string): Promise<void> {

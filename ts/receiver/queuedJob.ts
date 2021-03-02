@@ -525,7 +525,9 @@ export async function handleMessageJob(
         ourNumber
       );
     }
+
     const id = await message.commit();
+
     message.set({ id });
     window.Whisper.events.trigger('messageAdded', {
       conversationKey: conversation.id,
@@ -575,7 +577,7 @@ export async function handleMessageJob(
     }
 
     if (message.get('unread')) {
-      await conversation.notify(message);
+      await conversation.throttledNotify(message);
     }
 
     if (confirm) {
@@ -589,6 +591,7 @@ export async function handleMessageJob(
       'error:',
       errorForLog
     );
+
     throw error;
   }
 }

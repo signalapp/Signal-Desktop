@@ -122,7 +122,6 @@ export class OpenGroup {
 
     // Return OpenGroup if we're already connected
     conversation = OpenGroup.getConversation(prefixedServer);
-    console.warn(`Convo for ${prefixedServer}: ${conversation}`);
 
     if (conversation) {
       conversationId = conversation?.cid;
@@ -132,11 +131,6 @@ export class OpenGroup {
           channel: 1,
           conversationId,
         });
-      } else {
-        console.warn(
-          'NO conversationId = conversation?.cid',
-          conversation?.cid
-        );
       }
     }
 
