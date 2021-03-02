@@ -56,7 +56,7 @@ async function handleGroupsAndContactsFromConfigMessage(
     (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
   if (didWeHandleAConfigurationMessageAlready) {
     window?.log?.warn(
-      'Dropping configuration change as we already handled one... '
+      'Dropping configuration contacts/groups change as we already handled one... '
     );
     return;
   }

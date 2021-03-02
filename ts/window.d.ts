@@ -46,7 +46,6 @@ declare global {
     clipboard: any;
     confirmationDialog: (params: ConfirmationDialogParams) => any;
     dcodeIO: any;
-    deleteAccount: any;
     displayNameRegex: any;
     friends: any;
     getConversations: any;

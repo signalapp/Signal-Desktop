@@ -18,6 +18,7 @@ import {
   sessionGenerateKeyPair,
 } from '../../../util/accountManager';
 import { fromHex, fromHexToArray } from '../../../session/utils/String';
+import { TaskTimedOutError } from '../../../session/utils/Promise';
 
 export const MAX_USERNAME_LENGTH = 20;
 // tslint:disable: use-simple-attributes
@@ -251,10 +252,17 @@ export async function signInWithLinking(signInDetails: {
     trigger('openInbox');
   } catch (e) {
     await resetRegistration();
-    ToastUtils.pushToastError(
-      'registrationError',
-      `Error: ${e.message || 'Something went wrong'}`
-    );
+    if (e instanceof TaskTimedOutError) {
+      ToastUtils.pushToastError(
+        'registrationError',
+        'Could not find your display name. Please Sign In by Restoring Your Account instead.'
+      );
+    } else {
+      ToastUtils.pushToastError(
+        'registrationError',
+        `Error: ${e.message || 'Something went wrong'}`
+      );
+    }
     window.log.warn('exception during registration:', e);
   }
 }

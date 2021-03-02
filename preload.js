@@ -491,37 +491,3 @@ const {
 } = require('./ts/util/blockedNumberController');
 
 window.BlockedNumberController = BlockedNumberController;
-window.deleteAccount = async reason => {
-  const deleteEverything = async () => {
-    window.log.info(
-      'configuration message sent successfully. Deleting everything'
-    );
-    await window.Signal.Logs.deleteAll();
-    await window.Signal.Data.removeAll();
-    await window.Signal.Data.close();
-    await window.Signal.Data.removeDB();
-    await window.Signal.Data.removeOtherData();
-    // 'unlink' => toast will be shown on app restart
-    window.localStorage.setItem('restart-reason', reason);
-  };
-  try {
-    window.log.info('DeleteAccount => Sending a last SyncConfiguration');
-    // be sure to wait for the message being effectively sent. Otherwise we won't be able to encrypt it for our devices !
-    await window.libsession.Utils.SyncUtils.forceSyncConfigurationNowIfNeeded(
-      true
-    );
-    window.log.info('Last configuration message sent!');
-    await deleteEverything();
-  } catch (error) {
-    window.log.error(
-      'Something went wrong deleting all data:',
-      error && error.stack ? error.stack : error
-    );
-    try {
-      await deleteEverything();
-    } catch (e) {
-      window.log.error(e);
-    }
-  }
-  window.restart();
-};

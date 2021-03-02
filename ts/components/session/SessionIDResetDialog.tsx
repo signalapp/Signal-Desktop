@@ -4,6 +4,7 @@ import { SessionModal } from './SessionModal';
 import { SessionButton, SessionButtonColor } from './SessionButton';
 import { DefaultTheme, withTheme } from 'styled-components';
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
+import { AccountManager } from '../../util';
 
 type Props = {
   onClose: any;
@@ -40,7 +41,7 @@ const SessionIDResetDialogInner = (props: Props) => {
         <SessionButton
           text="Upgrade Now"
           onClick={() => {
-            window.deleteAccount('Session ID Upgrade');
+            void AccountManager.deleteAccount('Session ID Upgrade');
             props.onClose();
           }}
           buttonColor={SessionButtonColor.Danger}
