@@ -1,3 +1,4 @@
+import { allowOnlyOneAtATime } from '../../../js/modules/loki_primitives';
 import { ConversationModel } from '../../models/conversation';
 import { ConversationController } from '../conversations';
 import { PromiseUtils } from '../utils';
@@ -142,7 +143,7 @@ export class OpenGroup {
     // Try to connect to server
     try {
       conversation = await PromiseUtils.timeout(
-        OpenGroup.attemptConnection(prefixedServer, channel),
+        OpenGroup.attemptConnectionOneAtATime(prefixedServer, channel),
         20000
       );
 
@@ -245,8 +246,32 @@ export class OpenGroup {
     return `http${hasSSL ? 's' : ''}://${server}`;
   }
 
+  /**
+   * When we get our configuration from the network, we might get a few times the same open group on two different messages.
+   * If we don't do anything, we will join them multiple times.
+   * Even if the convo exists only once, the lokiPublicChat API will have several instances polling for the same open group.
+   * Which will cause a lot of duplicate messages as they will be merged on a single conversation.
+   *
+   * To avoid this issue, we allow only a single join of a specific opengroup at a time.
+   */
+  private static async attemptConnectionOneAtATime(
+    serverURL: string,
+    channelId: number = 1
+  ): Promise<ConversationModel> {
+    if (!serverURL) {
+      throw new Error('Cannot join open group with empty URL');
+    }
+    const oneAtaTimeStr = `oneAtaTimeOpenGroupJoin:${serverURL}${channelId}`;
+    return allowOnlyOneAtATime(oneAtaTimeStr, async () => {
+      return OpenGroup.attemptConnection(serverURL, channelId);
+    });
+  }
+
   // Attempts a connection to an open group server
-  private static async attemptConnection(serverURL: string, channelId: number) {
+  private static async attemptConnection(
+    serverURL: string,
+    channelId: number
+  ): Promise<ConversationModel> {
     let completeServerURL = serverURL.toLowerCase();
     const valid = OpenGroup.validate(completeServerURL);
     if (!valid) {
