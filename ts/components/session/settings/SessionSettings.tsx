@@ -139,8 +139,8 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
 
             const onClickFn =
               setting.onClick ||
-              (() => {
-                this.updateSetting(setting);
+              ((value?: string) => {
+                this.updateSetting(setting, value);
               });
 
             return (
@@ -263,10 +263,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
     );
   }
 
-  public setOptionsSetting(settingID: string) {
-    const selectedValue = jQuery(
-      `#${settingID} .session-radio input:checked`
-    ).val();
+  public setOptionsSetting(settingID: string, selectedValue: string) {
     window.setSettingValue(settingID, selectedValue);
   }
 
@@ -278,12 +275,16 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
     });
   }
 
-  public updateSetting(item: any) {
+  public updateSetting(item: any, value?: string) {
     // If there's a custom afterClick function,
     // execute it instead of automatically updating settings
 
     if (item.setFn) {
-      item.setFn();
+      if (value) {
+        item.setFn(value);
+      } else {
+        item.setFn();
+      }
     } else {
       if (item.type === SessionSettingType.Toggle) {
         // If no custom afterClick function given, alter values in storage here
@@ -382,8 +383,8 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         description: undefined,
         hidden: undefined,
         onClick: undefined,
-        setFn: () => {
-          this.setOptionsSetting('notification-setting');
+        setFn: (selectedValue: string) => {
+          this.setOptionsSetting('notification-setting', selectedValue);
         },
         content: {
           options: {

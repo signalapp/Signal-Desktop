@@ -1086,23 +1086,18 @@ label {
   border: none;
   margin-inline-start: $session-margin-sm;
   margin-top: $session-margin-sm;
-
-  .session-radio {
-    padding: $session-margin-xs 0px;
-  }
 }
 
-.session-radio {
+.session-radio-group fieldset {
   input[type='radio'] {
-    border: 0;
     opacity: 0;
-    padding: 0;
     position: absolute;
     cursor: pointer;
   }
 
   label {
     margin-inline-end: 1em;
+    cursor: pointer;
   }
 
   label:before {
@@ -1112,7 +1107,7 @@ label {
     height: 0.5em;
     margin-inline-end: 0.8em;
     border-radius: 100%;
-    vertical-align: -3px;
+    vertical-align: 0px;
     border: 2px solid rgba($session-color-white, 0.6);
     padding: 0.2em;
     @include themify($themes) {

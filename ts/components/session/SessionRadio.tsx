@@ -1,58 +1,40 @@
 import React from 'react';
+import { Flex } from './Flex';
+// tslint:disable: react-unused-props-and-state
 
 interface Props {
   label: string;
   value: string;
   active: boolean;
   group?: string;
-  onClick: any;
+  onClick: (value: string) => any;
 }
 
-interface State {
-  active: boolean;
-}
+export const SessionRadio = (props: Props) => {
+  const { label, group, value, active, onClick } = props;
 
-export class SessionRadio extends React.PureComponent<Props, State> {
-  public static defaultProps = {
-    onClick: () => null,
-  };
+  function clickHandler(e: any) {
+    e.stopPropagation();
+    console.warn(`SessionRadio clickHandler ${value}`);
 
-  constructor(props: any) {
-    super(props);
-    this.clickHandler = this.clickHandler.bind(this);
-
-    this.state = {
-      active: this.props.active,
-    };
+    onClick(value);
   }
 
-  public render() {
-    const active = this.state.active;
-    const { label, group, value } = this.props;
+  console.warn(`isactive ${value}: ${active}`);
 
-    return (
-      <div className="session-radio">
-        <input
-          type="radio"
-          name={group || ''}
-          value={value}
-          defaultChecked={active}
-          aria-checked={active}
-          onClick={this.clickHandler}
-        />
-        <label>{label} </label>
-      </div>
-    );
-  }
-
-  private clickHandler(e: any) {
-    if (this.props.onClick) {
-      e.stopPropagation();
-      this.props.onClick();
-
-      this.setState({
-        active: !this.state.active,
-      });
-    }
-  }
-}
+  return (
+    <Flex>
+      <input
+        type="radio"
+        name={group || ''}
+        value={value}
+        aria-checked={active}
+        checked={active}
+        onClick={clickHandler}
+      />
+      <label role="button" onClick={clickHandler}>
+        {label}
+      </label>
+    </Flex>
+  );
+};
