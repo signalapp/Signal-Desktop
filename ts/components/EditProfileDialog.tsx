@@ -126,13 +126,15 @@ export class EditProfileDialog extends React.Component<Props, State> {
               }}
             />
           ) : (
-            <SessionButton
-              text={window.i18n('save')}
-              buttonType={SessionButtonType.BrandOutline}
-              buttonColor={SessionButtonColor.Green}
-              onClick={this.onClickOK}
-              disabled={this.state.loading}
-            />
+            !this.state.loading && (
+              <SessionButton
+                text={window.i18n('save')}
+                buttonType={SessionButtonType.BrandOutline}
+                buttonColor={SessionButtonColor.Green}
+                onClick={this.onClickOK}
+                disabled={this.state.loading}
+              />
+            )
           )}
 
           <div className="spacer-lg" />
