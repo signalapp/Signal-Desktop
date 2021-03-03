@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -211,6 +211,9 @@ const items: Record<string, TimelineItemType> = {
 
 const actions = () => ({
   clearChangedMessages: action('clearChangedMessages'),
+  clearInvitedConversationsForNewlyCreatedGroup: action(
+    'clearInvitedConversationsForNewlyCreatedGroup'
+  ),
   setLoadCountdownStart: action('setLoadCountdownStart'),
   setIsNearBottom: action('setIsNearBottom'),
   loadAndScroll: action('loadAndScroll'),
@@ -299,6 +302,8 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   oldestUnreadIndex:
     number('oldestUnreadIndex', overrideProps.oldestUnreadIndex || 0) ||
     undefined,
+  invitedContactsForNewlyCreatedGroup:
+    overrideProps.invitedContactsForNewlyCreatedGroup || [],
 
   id: '',
   renderItem,
@@ -357,6 +362,25 @@ story.add('Without Oldest Message', () => {
   const props = createProps({
     haveOldest: false,
     scrollToIndex: -1,
+  });
+
+  return <Timeline {...props} />;
+});
+
+story.add('With invited contacts for a newly-created group', () => {
+  const props = createProps({
+    invitedContactsForNewlyCreatedGroup: [
+      {
+        id: 'abc123',
+        title: 'John Bon Bon Jovi',
+        type: 'direct',
+      },
+      {
+        id: 'def456',
+        title: 'Bon John Bon Jovi',
+        type: 'direct',
+      },
+    ],
   });
 
   return <Timeline {...props} />;

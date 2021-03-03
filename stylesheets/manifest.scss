@@ -27,5 +27,10 @@
 @import 'options';
 
 // New style: components
+@import './components/Alert.scss';
+@import './components/AvatarInput.scss';
 @import './components/Button.scss';
+@import './components/ContactPill.scss';
+@import './components/ContactPills.scss';
+@import './components/GroupDialog.scss';
 @import './components/ConversationHeader.scss';

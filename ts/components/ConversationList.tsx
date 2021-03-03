@@ -16,13 +16,21 @@ import {
   ContactListItem,
   PropsDataType as ContactListItemPropsType,
 } from './conversationList/ContactListItem';
+import {
+  ContactCheckbox as ContactCheckboxComponent,
+  ContactCheckboxDisabledReason,
+} from './conversationList/ContactCheckbox';
+import { CreateNewGroupButton } from './conversationList/CreateNewGroupButton';
 import { Spinner as SpinnerComponent } from './Spinner';
 import { StartNewConversation as StartNewConversationComponent } from './conversationList/StartNewConversation';
 
 export enum RowType {
   ArchiveButton,
+  Blank,
   Contact,
+  ContactCheckbox,
   Conversation,
+  CreateNewGroup,
   Header,
   MessageSearchResult,
   Spinner,
@@ -34,14 +42,28 @@ type ArchiveButtonRowType = {
   archivedConversationsCount: number;
 };
 
+type BlankRowType = { type: RowType.Blank };
+
 type ContactRowType = {
   type: RowType.Contact;
   contact: ContactListItemPropsType;
+  isClickable?: boolean;
+};
+
+type ContactCheckboxRowType = {
+  type: RowType.ContactCheckbox;
+  contact: ContactListItemPropsType;
+  isChecked: boolean;
+  disabledReason?: ContactCheckboxDisabledReason;
 };
 
 type ConversationRowType = {
   type: RowType.Conversation;
   conversation: ConversationListItemPropsType;
+};
+
+type CreateNewGroupRowType = {
+  type: RowType.CreateNewGroup;
 };
 
 type MessageRowType = {
@@ -63,8 +85,11 @@ type StartNewConversationRowType = {
 
 export type Row =
   | ArchiveButtonRowType
+  | BlankRowType
   | ContactRowType
+  | ContactCheckboxRowType
   | ConversationRowType
+  | CreateNewGroupRowType
   | MessageRowType
   | HeaderRowType
   | SpinnerRowType
@@ -85,9 +110,14 @@ export type PropsType = {
 
   i18n: LocalizerType;
 
-  onSelectConversation: (conversationId: string, messageId?: string) => void;
   onClickArchiveButton: () => void;
+  onClickContactCheckbox: (
+    conversationId: string,
+    disabledReason: undefined | ContactCheckboxDisabledReason
+  ) => void;
+  onSelectConversation: (conversationId: string, messageId?: string) => void;
   renderMessageSearchResult: (id: string, style: CSSProperties) => JSX.Element;
+  showChooseGroupMembers: () => void;
   startNewConversationFromPhoneNumber: (e164: string) => void;
 };
 
@@ -96,11 +126,13 @@ export const ConversationList: React.FC<PropsType> = ({
   getRow,
   i18n,
   onClickArchiveButton,
+  onClickContactCheckbox,
   onSelectConversation,
   renderMessageSearchResult,
   rowCount,
   scrollToRowIndex,
   shouldRecomputeRowHeights,
+  showChooseGroupMembers,
   startNewConversationFromPhoneNumber,
 }) => {
   const listRef = useRef<null | List>(null);
@@ -148,13 +180,29 @@ export const ConversationList: React.FC<PropsType> = ({
               </span>
             </button>
           );
-        case RowType.Contact:
+        case RowType.Blank:
+          return <div key={key} style={style} />;
+        case RowType.Contact: {
+          const { isClickable = true } = row;
           return (
             <ContactListItem
               {...row.contact}
               key={key}
               style={style}
-              onClick={onSelectConversation}
+              onClick={isClickable ? onSelectConversation : undefined}
+              i18n={i18n}
+            />
+          );
+        }
+        case RowType.ContactCheckbox:
+          return (
+            <ContactCheckboxComponent
+              {...row.contact}
+              isChecked={row.isChecked}
+              disabledReason={row.disabledReason}
+              key={key}
+              style={style}
+              onClick={onClickContactCheckbox}
               i18n={i18n}
             />
           );
@@ -166,6 +214,15 @@ export const ConversationList: React.FC<PropsType> = ({
               style={style}
               onClick={onSelectConversation}
               i18n={i18n}
+            />
+          );
+        case RowType.CreateNewGroup:
+          return (
+            <CreateNewGroupButton
+              i18n={i18n}
+              key={key}
+              onClick={showChooseGroupMembers}
+              style={style}
             />
           );
         case RowType.Header:
@@ -214,8 +271,10 @@ export const ConversationList: React.FC<PropsType> = ({
       getRow,
       i18n,
       onClickArchiveButton,
+      onClickContactCheckbox,
       onSelectConversation,
       renderMessageSearchResult,
+      showChooseGroupMembers,
       startNewConversationFromPhoneNumber,
     ]
   );

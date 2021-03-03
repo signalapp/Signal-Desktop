@@ -12,12 +12,21 @@ import {
   instance as phoneNumberInstance,
   PhoneNumberFormat,
 } from '../../util/libphonenumberInstance';
+import { assert } from '../../util/assert';
+import { missingCaseError } from '../../util/missingCaseError';
+import { isStorageWriteFeatureEnabled } from '../../storage/isFeatureEnabled';
 
 export type LeftPaneComposePropsType = {
   composeContacts: ReadonlyArray<ContactListItemPropsType>;
   regionCode: string;
   searchTerm: string;
 };
+
+enum TopButton {
+  None,
+  CreateNewGroup,
+  StartNewConversation,
+}
 
 /* eslint-disable class-methods-use-this */
 
@@ -98,24 +107,53 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<
   }
 
   getRowCount(): number {
-    return this.composeContacts.length + (this.phoneNumber ? 1 : 0);
+    let result = this.composeContacts.length;
+    if (this.hasTopButton()) {
+      result += 1;
+    }
+    if (this.hasContactsHeader()) {
+      result += 1;
+    }
+    return result;
   }
 
   getRow(rowIndex: number): undefined | Row {
-    let contactIndex = rowIndex;
-
-    if (this.phoneNumber) {
-      if (rowIndex === 0) {
-        return {
-          type: RowType.StartNewConversation,
-          phoneNumber: phoneNumberInstance.format(
+    if (rowIndex === 0) {
+      const topButton = this.getTopButton();
+      switch (topButton) {
+        case TopButton.None:
+          break;
+        case TopButton.StartNewConversation:
+          assert(
             this.phoneNumber,
-            PhoneNumberFormat.E164
-          ),
-        };
+            'LeftPaneComposeHelper: we should have a phone number if the top button is "Start new conversation"'
+          );
+          return {
+            type: RowType.StartNewConversation,
+            phoneNumber: phoneNumberInstance.format(
+              this.phoneNumber,
+              PhoneNumberFormat.E164
+            ),
+          };
+        case TopButton.CreateNewGroup:
+          return { type: RowType.CreateNewGroup };
+        default:
+          throw missingCaseError(topButton);
       }
+    }
 
-      contactIndex -= 1;
+    if (rowIndex === 1 && this.hasContactsHeader()) {
+      return {
+        type: RowType.Header,
+        i18nKey: 'contactsHeader',
+      };
+    }
+
+    let contactIndex: number;
+    if (this.hasTopButton()) {
+      contactIndex = rowIndex - 2;
+    } else {
+      contactIndex = rowIndex;
     }
 
     const contact = this.composeContacts[contactIndex];
@@ -141,8 +179,29 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<
     return undefined;
   }
 
-  shouldRecomputeRowHeights(_old: unknown): boolean {
-    return false;
+  shouldRecomputeRowHeights(old: Readonly<LeftPaneComposePropsType>): boolean {
+    return (
+      this.hasContactsHeader() !==
+      new LeftPaneComposeHelper(old).hasContactsHeader()
+    );
+  }
+
+  private getTopButton(): TopButton {
+    if (this.phoneNumber) {
+      return TopButton.StartNewConversation;
+    }
+    if (this.searchTerm || !isStorageWriteFeatureEnabled()) {
+      return TopButton.None;
+    }
+    return TopButton.CreateNewGroup;
+  }
+
+  private hasTopButton(): boolean {
+    return this.getTopButton() !== TopButton.None;
+  }
+
+  private hasContactsHeader(): boolean {
+    return this.hasTopButton() && Boolean(this.composeContacts.length);
   }
 }
 

@@ -7,7 +7,6 @@ import { LocalizerType } from '../../types/Util';
 import { ConversationType } from '../../state/ducks/conversations';
 import { Intl } from '../Intl';
 import { ContactName } from './ContactName';
-import { ModalHost } from '../ModalHost';
 import { GroupV1MigrationDialog } from '../GroupV1MigrationDialog';
 
 export type PropsDataType = {
@@ -58,19 +57,17 @@ export function GroupV1Migration(props: PropsType): React.ReactElement {
         {i18n('GroupV1--Migration--learn-more')}
       </button>
       {showingDialog ? (
-        <ModalHost onClose={dismissDialog}>
-          <GroupV1MigrationDialog
-            areWeInvited={areWeInvited}
-            droppedMembers={droppedMembers}
-            hasMigrated
-            i18n={i18n}
-            invitedMembers={invitedMembers}
-            migrate={() =>
-              window.log.warn('GroupV1Migration: Modal called migrate()')
-            }
-            onClose={dismissDialog}
-          />
-        </ModalHost>
+        <GroupV1MigrationDialog
+          areWeInvited={areWeInvited}
+          droppedMembers={droppedMembers}
+          hasMigrated
+          i18n={i18n}
+          invitedMembers={invitedMembers}
+          migrate={() =>
+            window.log.warn('GroupV1Migration: Modal called migrate()')
+          }
+          onClose={dismissDialog}
+        />
       ) : null}
     </div>
   );

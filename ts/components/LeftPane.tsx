@@ -26,18 +26,29 @@ import {
   LeftPaneComposeHelper,
   LeftPaneComposePropsType,
 } from './leftPane/LeftPaneComposeHelper';
+import {
+  LeftPaneChooseGroupMembersHelper,
+  LeftPaneChooseGroupMembersPropsType,
+} from './leftPane/LeftPaneChooseGroupMembersHelper';
+import {
+  LeftPaneSetGroupMetadataHelper,
+  LeftPaneSetGroupMetadataPropsType,
+} from './leftPane/LeftPaneSetGroupMetadataHelper';
 
 import * as OS from '../OS';
 import { LocalizerType } from '../types/Util';
 import { missingCaseError } from '../util/missingCaseError';
 
 import { ConversationList } from './ConversationList';
+import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox';
 
 export enum LeftPaneMode {
   Inbox,
   Search,
   Archive,
   Compose,
+  ChooseGroupMembers,
+  SetGroupMetadata,
 }
 
 export type PropsType = {
@@ -56,23 +67,40 @@ export type PropsType = {
       } & LeftPaneArchivePropsType)
     | ({
         mode: LeftPaneMode.Compose;
-      } & LeftPaneComposePropsType);
+      } & LeftPaneComposePropsType)
+    | ({
+        mode: LeftPaneMode.ChooseGroupMembers;
+      } & LeftPaneChooseGroupMembersPropsType)
+    | ({
+        mode: LeftPaneMode.SetGroupMetadata;
+      } & LeftPaneSetGroupMetadataPropsType);
   i18n: LocalizerType;
   selectedConversationId: undefined | string;
   selectedMessageId: undefined | string;
   regionCode: string;
 
   // Action Creators
+  cantAddContactToGroup: (conversationId: string) => void;
+  clearGroupCreationError: () => void;
+  closeCantAddContactToGroupModal: () => void;
+  closeMaximumGroupSizeModal: () => void;
+  closeRecommendedGroupSizeModal: () => void;
+  createGroup: () => void;
   startNewConversationFromPhoneNumber: (e164: string) => void;
   openConversationInternal: (_: {
     conversationId: string;
     messageId?: string;
     switchToAssociatedView?: boolean;
   }) => void;
+  setComposeSearchTerm: (composeSearchTerm: string) => void;
+  setComposeGroupAvatar: (_: undefined | ArrayBuffer) => void;
+  setComposeGroupName: (_: string) => void;
   showArchivedConversations: () => void;
   showInbox: () => void;
   startComposing: () => void;
-  setComposeSearchTerm: (composeSearchTerm: string) => void;
+  showChooseGroupMembers: () => void;
+  startSettingGroupMetadata: () => void;
+  toggleConversationInChooseMembers: (conversationId: string) => void;
 
   // Render Props
   renderExpiredBuildDialog: () => JSX.Element;
@@ -84,6 +112,12 @@ export type PropsType = {
 };
 
 export const LeftPane: React.FC<PropsType> = ({
+  cantAddContactToGroup,
+  clearGroupCreationError,
+  closeCantAddContactToGroupModal,
+  closeMaximumGroupSizeModal,
+  closeRecommendedGroupSizeModal,
+  createGroup,
   i18n,
   modeSpecificProps,
   openConversationInternal,
@@ -96,10 +130,15 @@ export const LeftPane: React.FC<PropsType> = ({
   selectedConversationId,
   selectedMessageId,
   setComposeSearchTerm,
+  setComposeGroupAvatar,
+  setComposeGroupName,
   showArchivedConversations,
   showInbox,
   startComposing,
+  showChooseGroupMembers,
   startNewConversationFromPhoneNumber,
+  startSettingGroupMetadata,
+  toggleConversationInChooseMembers,
 }) => {
   const previousModeSpecificPropsRef = useRef(modeSpecificProps);
   const previousModeSpecificProps = previousModeSpecificPropsRef.current;
@@ -160,6 +199,32 @@ export const LeftPane: React.FC<PropsType> = ({
           ? composeHelper.shouldRecomputeRowHeights(previousModeSpecificProps)
           : true;
       helper = composeHelper;
+      break;
+    }
+    case LeftPaneMode.ChooseGroupMembers: {
+      const chooseGroupMembersHelper = new LeftPaneChooseGroupMembersHelper(
+        modeSpecificProps
+      );
+      shouldRecomputeRowHeights =
+        previousModeSpecificProps.mode === modeSpecificProps.mode
+          ? chooseGroupMembersHelper.shouldRecomputeRowHeights(
+              previousModeSpecificProps
+            )
+          : true;
+      helper = chooseGroupMembersHelper;
+      break;
+    }
+    case LeftPaneMode.SetGroupMetadata: {
+      const setGroupMetadataHelper = new LeftPaneSetGroupMetadataHelper(
+        modeSpecificProps
+      );
+      shouldRecomputeRowHeights =
+        previousModeSpecificProps.mode === modeSpecificProps.mode
+          ? setGroupMetadataHelper.shouldRecomputeRowHeights(
+              previousModeSpecificProps
+            )
+          : true;
+      helper = setGroupMetadataHelper;
       break;
     }
     default:
@@ -245,11 +310,25 @@ export const LeftPane: React.FC<PropsType> = ({
   ]);
 
   const preRowsNode = helper.getPreRowsNode({
+    clearGroupCreationError,
+    closeCantAddContactToGroupModal,
+    closeMaximumGroupSizeModal,
+    closeRecommendedGroupSizeModal,
+    createGroup,
     i18n,
+    setComposeGroupAvatar,
+    setComposeGroupName,
     onChangeComposeSearchTerm: event => {
       setComposeSearchTerm(event.target.value);
     },
+    removeSelectedContact: toggleConversationInChooseMembers,
   });
+  const footerContents = helper.getFooterContents({
+    createGroup,
+    i18n,
+    startSettingGroupMetadata,
+  });
+
   const getRow = useMemo(() => helper.getRow.bind(helper), [helper]);
 
   // We ensure that the listKey differs between some modes (e.g. inbox/archived), ensuring
@@ -261,7 +340,12 @@ export const LeftPane: React.FC<PropsType> = ({
   return (
     <div className="module-left-pane">
       <div className="module-left-pane__header">
-        {helper.getHeaderContents({ i18n, showInbox }) || renderMainHeader()}
+        {helper.getHeaderContents({
+          i18n,
+          showInbox,
+          startComposing,
+          showChooseGroupMembers,
+        }) || renderMainHeader()}
       </div>
       {renderExpiredBuildDialog()}
       {renderRelinkDialog()}
@@ -288,6 +372,24 @@ export const LeftPane: React.FC<PropsType> = ({
                   getRow={getRow}
                   i18n={i18n}
                   onClickArchiveButton={showArchivedConversations}
+                  onClickContactCheckbox={(
+                    conversationId: string,
+                    disabledReason: undefined | ContactCheckboxDisabledReason
+                  ) => {
+                    switch (disabledReason) {
+                      case undefined:
+                        toggleConversationInChooseMembers(conversationId);
+                        break;
+                      case ContactCheckboxDisabledReason.MaximumContactsSelected:
+                        // This is a no-op.
+                        break;
+                      case ContactCheckboxDisabledReason.NotCapable:
+                        cantAddContactToGroup(conversationId);
+                        break;
+                      default:
+                        throw missingCaseError(disabledReason);
+                    }
+                  }}
                   onSelectConversation={(
                     conversationId: string,
                     messageId?: string
@@ -304,6 +406,7 @@ export const LeftPane: React.FC<PropsType> = ({
                     selectedConversationId
                   )}
                   shouldRecomputeRowHeights={shouldRecomputeRowHeights}
+                  showChooseGroupMembers={showChooseGroupMembers}
                   startNewConversationFromPhoneNumber={
                     startNewConversationFromPhoneNumber
                   }
@@ -313,6 +416,9 @@ export const LeftPane: React.FC<PropsType> = ({
           </div>
         )}
       </Measure>
+      {footerContents && (
+        <div className="module-left-pane__footer">{footerContents}</div>
+      )}
     </div>
   );
 };

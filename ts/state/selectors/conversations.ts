@@ -8,6 +8,7 @@ import Fuse, { FuseOptions } from 'fuse.js';
 
 import { StateType } from '../reducer';
 import {
+  ComposerStep,
   ConversationLookupType,
   ConversationMessageType,
   ConversationsStateType,
@@ -15,10 +16,12 @@ import {
   MessageLookupType,
   MessagesByConversationType,
   MessageType,
+  OneTimeModalState,
   PreJoinConversationType,
 } from '../ducks/conversations';
 import { LocalizerType } from '../../types/Util';
 import { getOwn } from '../../util/getOwn';
+import { deconstructLookup } from '../../util/deconstructLookup';
 import type { CallsByConversationType } from '../ducks/calling';
 import { getCallsByConversation } from './calling';
 import { getBubbleProps } from '../../shims/Whisper';
@@ -143,9 +146,26 @@ const getComposerState = createSelector(
   (state: ConversationsStateType) => state.composer
 );
 
-export const isComposing = createSelector(
+export const getComposerStep = createSelector(
   getComposerState,
-  (composerState): boolean => Boolean(composerState)
+  (composerState): undefined | ComposerStep => composerState?.step
+);
+
+export const hasGroupCreationError = createSelector(
+  getComposerState,
+  (composerState): boolean => {
+    if (composerState?.step === ComposerStep.SetGroupMetadata) {
+      return composerState.hasError;
+    }
+    return false;
+  }
+);
+
+export const isCreatingGroup = createSelector(
+  getComposerState,
+  (composerState): boolean =>
+    composerState?.step === ComposerStep.SetGroupMetadata &&
+    composerState.isCreating
 );
 
 export const getMessages = createSelector(
@@ -273,6 +293,40 @@ export const getLeftPaneLists = createSelector(
   _getLeftPaneLists
 );
 
+export const getMaximumGroupSizeModalState = createSelector(
+  getComposerState,
+  (composerState): OneTimeModalState => {
+    switch (composerState?.step) {
+      case ComposerStep.ChooseGroupMembers:
+      case ComposerStep.SetGroupMetadata:
+        return composerState.maximumGroupSizeModalState;
+      default:
+        assert(
+          false,
+          'Can\'t get the maximum group size modal state in this composer state; returning "never shown"'
+        );
+        return OneTimeModalState.NeverShown;
+    }
+  }
+);
+
+export const getRecommendedGroupSizeModalState = createSelector(
+  getComposerState,
+  (composerState): OneTimeModalState => {
+    switch (composerState?.step) {
+      case ComposerStep.ChooseGroupMembers:
+      case ComposerStep.SetGroupMetadata:
+        return composerState.recommendedGroupSizeModalState;
+      default:
+        assert(
+          false,
+          'Can\'t get the recommended group size modal state in this composer state; returning "never shown"'
+        );
+        return OneTimeModalState.NeverShown;
+    }
+  }
+);
+
 export const getMe = createSelector(
   [getConversationLookup, getUserConversationId],
   (
@@ -288,6 +342,13 @@ export const getComposerContactSearchTerm = createSelector(
   (composer): string => {
     if (!composer) {
       assert(false, 'getComposerContactSearchTerm: composer is not open');
+      return '';
+    }
+    if (composer.step === ComposerStep.SetGroupMetadata) {
+      assert(
+        false,
+        'getComposerContactSearchTerm: composer does not have a search term'
+      );
       return '';
     }
     return composer.contactSearchTerm;
@@ -361,6 +422,102 @@ export const getComposeContacts = createSelector(
 
     return result;
   }
+);
+
+/*
+ * This returns contacts for the composer when you're picking new group members. It casts
+ * a wider net than `getContacts`.
+ */
+const getGroupContacts = createSelector(
+  getConversationLookup,
+  (conversationLookup): Array<ConversationType> =>
+    Object.values(conversationLookup).filter(
+      contact =>
+        contact.type === 'direct' &&
+        !contact.isMe &&
+        !contact.isBlocked &&
+        !isConversationUnregistered(contact)
+    )
+);
+
+export const getCandidateGroupContacts = createSelector(
+  getNormalizedComposerContactSearchTerm,
+  getGroupContacts,
+  (searchTerm, contacts): Array<ConversationType> => {
+    if (searchTerm.length) {
+      return new Fuse<ConversationType>(
+        contacts,
+        COMPOSE_CONTACTS_FUSE_OPTIONS
+      ).search(searchTerm);
+    }
+    return contacts.concat().sort((a, b) => collator.compare(a.title, b.title));
+  }
+);
+
+export const getCantAddContactForModal = createSelector(
+  getConversationLookup,
+  getComposerState,
+  (conversationLookup, composerState): undefined | ConversationType => {
+    if (composerState?.step !== ComposerStep.ChooseGroupMembers) {
+      return undefined;
+    }
+
+    const conversationId = composerState.cantAddContactIdForModal;
+    if (!conversationId) {
+      return undefined;
+    }
+
+    const result = getOwn(conversationLookup, conversationId);
+    assert(
+      result,
+      'getCantAddContactForModal: failed to look up conversation by ID; returning undefined'
+    );
+    return result;
+  }
+);
+
+const getGroupCreationComposerState = createSelector(
+  getComposerState,
+  (
+    composerState
+  ): {
+    groupName: string;
+    groupAvatar: undefined | ArrayBuffer;
+    selectedConversationIds: Array<string>;
+  } => {
+    switch (composerState?.step) {
+      case ComposerStep.ChooseGroupMembers:
+      case ComposerStep.SetGroupMetadata:
+        return composerState;
+      default:
+        assert(
+          false,
+          'getSetGroupMetadataComposerState: expected step to be SetGroupMetadata'
+        );
+        return {
+          groupName: '',
+          groupAvatar: undefined,
+          selectedConversationIds: [],
+        };
+    }
+  }
+);
+
+export const getComposeGroupAvatar = createSelector(
+  getGroupCreationComposerState,
+  (composerState): undefined | ArrayBuffer => composerState.groupAvatar
+);
+
+export const getComposeGroupName = createSelector(
+  getGroupCreationComposerState,
+  (composerState): string => composerState.groupName
+);
+
+export const getComposeSelectedContacts = createSelector(
+  getConversationLookup,
+  getGroupCreationComposerState,
+  (conversationLookup, composerState): Array<ConversationType> =>
+    deconstructLookup(conversationLookup, composerState.selectedConversationIds)
 );
 
 // This is where we will put Conversation selector logic, replicating what
@@ -665,4 +822,17 @@ export const getConversationMessagesSelector = createSelector(
       return conversationMessagesSelector(conversation);
     };
   }
+);
+
+export const getInvitedContactsForNewlyCreatedGroup = createSelector(
+  getConversationLookup,
+  getConversations,
+  (
+    conversationLookup,
+    { invitedConversationIdsForNewlyCreatedGroup = [] }
+  ): Array<ConversationType> =>
+    deconstructLookup(
+      conversationLookup,
+      invitedConversationIdsForNewlyCreatedGroup
+    )
 );

@@ -14,6 +14,7 @@ import {
   PropsData as ConversationListItemPropsType,
   MessageStatuses,
 } from './conversationList/ConversationListItem';
+import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
 
@@ -39,6 +40,15 @@ const defaultConversations: Array<ConversationListItemPropsType> = [
     title: 'Marc Barraca',
     type: 'direct',
   },
+  {
+    id: 'long-name-convo',
+    isSelected: false,
+    lastUpdated: Date.now(),
+    markedUnread: false,
+    title:
+      'Pablo Diego José Francisco de Paula Juan Nepomuceno María de los Remedios Cipriano de la Santísima Trinidad Ruiz y Picasso',
+    type: 'direct',
+  },
 ];
 
 const createProps = (rows: ReadonlyArray<Row>): PropsType => ({
@@ -52,6 +62,7 @@ const createProps = (rows: ReadonlyArray<Row>): PropsType => ({
   i18n,
   onSelectConversation: action('onSelectConversation'),
   onClickArchiveButton: action('onClickArchiveButton'),
+  onClickContactCheckbox: action('onClickContactCheckbox'),
   renderMessageSearchResult: (id: string, style: React.CSSProperties) => (
     <MessageSearchResult
       conversationId="marc-convo"
@@ -65,6 +76,7 @@ const createProps = (rows: ReadonlyArray<Row>): PropsType => ({
       to={defaultConversations[1]}
     />
   ),
+  showChooseGroupMembers: action('showChooseGroupMembers'),
   startNewConversationFromPhoneNumber: action(
     'startNewConversationFromPhoneNumber'
   ),
@@ -139,6 +151,56 @@ story.add('Contact: group', () => (
       {
         type: RowType.Contact,
         contact: { ...defaultConversations[0], type: 'group' },
+      },
+    ])}
+  />
+));
+
+story.add('Contact checkboxes', () => (
+  <ConversationList
+    {...createProps([
+      {
+        type: RowType.ContactCheckbox,
+        contact: defaultConversations[0],
+        isChecked: true,
+      },
+      {
+        type: RowType.ContactCheckbox,
+        contact: defaultConversations[1],
+        isChecked: false,
+      },
+      {
+        type: RowType.ContactCheckbox,
+        contact: {
+          ...defaultConversations[2],
+          about: '😃 Hola',
+        },
+        isChecked: true,
+      },
+    ])}
+  />
+));
+
+story.add('Contact checkboxes: disabled', () => (
+  <ConversationList
+    {...createProps([
+      {
+        type: RowType.ContactCheckbox,
+        contact: defaultConversations[0],
+        isChecked: false,
+        disabledReason: ContactCheckboxDisabledReason.MaximumContactsSelected,
+      },
+      {
+        type: RowType.ContactCheckbox,
+        contact: defaultConversations[1],
+        isChecked: false,
+        disabledReason: ContactCheckboxDisabledReason.NotCapable,
+      },
+      {
+        type: RowType.ContactCheckbox,
+        contact: defaultConversations[2],
+        isChecked: true,
+        disabledReason: ContactCheckboxDisabledReason.MaximumContactsSelected,
       },
     ])}
   />

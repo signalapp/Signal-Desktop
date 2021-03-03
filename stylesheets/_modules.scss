@@ -3977,6 +3977,7 @@ button.module-conversation-details__action-button {
 }
 
 .module-avatar--28 {
+  min-width: 28px;
   height: 28px;
   width: 28px;
 
@@ -4024,6 +4025,7 @@ button.module-conversation-details__action-button {
 .module-avatar--32 {
   height: 32px;
   width: 32px;
+  min-width: 32px;
 
   img {
     height: 32px;
@@ -4069,6 +4071,7 @@ button.module-conversation-details__action-button {
 .module-avatar--52 {
   height: 52px;
   width: 52px;
+  min-width: 52px;
 
   img {
     height: 52px;
@@ -4095,6 +4098,7 @@ button.module-conversation-details__action-button {
 .module-avatar--80 {
   height: 80px;
   width: 80px;
+  min-width: 80px;
 
   img {
     height: 80px;
@@ -4121,6 +4125,7 @@ button.module-conversation-details__action-button {
 .module-avatar--96 {
   height: 96px;
   width: 96px;
+  min-width: 96px;
 
   img {
     height: 96px;
@@ -4142,6 +4147,7 @@ button.module-conversation-details__action-button {
 .module-avatar--112 {
   height: 112px;
   width: 112px;
+  min-width: 112px;
 
   img {
     height: 112px;
@@ -6854,21 +6860,49 @@ button.module-image__border-overlay:focus {
     &--contact-or-conversation {
       @include button-reset;
 
-      width: 100%;
-
+      align-items: center;
+      cursor: inherit;
       display: flex;
       flex-direction: row;
-      padding-right: 16px;
       padding-left: 16px;
-      align-items: center;
+      padding-right: 16px;
+      user-select: none;
+      width: 100%;
 
-      &:hover,
-      &:focus {
-        @include light-theme {
-          background-color: $color-gray-05;
+      &--is-button {
+        cursor: pointer;
+
+        &:disabled {
+          cursor: inherit;
         }
-        @include dark-theme {
-          background-color: $color-gray-75;
+
+        &:hover:not(:disabled),
+        &:focus:not(:disabled) {
+          @include light-theme {
+            background-color: $color-gray-05;
+          }
+          @include dark-theme {
+            background-color: $color-gray-75;
+          }
+        }
+      }
+
+      &--is-checkbox {
+        cursor: pointer;
+
+        &--disabled {
+          cursor: not-allowed;
+        }
+
+        $disabled-selector: '#{&}--disabled';
+        &:hover:not(#{$disabled-selector}),
+        &:focus:not(#{$disabled-selector}) {
+          @include light-theme {
+            background-color: $color-gray-05;
+          }
+          @include dark-theme {
+            background-color: $color-gray-75;
+          }
         }
       }
 
@@ -6931,12 +6965,14 @@ button.module-image__border-overlay:focus {
       &__content {
         flex-grow: 1;
         margin-left: 12px;
-        // parent - 52px (for avatar) - 12p (margin to avatar)
-        max-width: calc(100% - 64px);
-
         display: flex;
         flex-direction: column;
         align-items: stretch;
+        overflow: hidden;
+
+        &--disabled {
+          opacity: 0.5;
+        }
 
         &__header {
           display: flex;
@@ -7153,6 +7189,68 @@ button.module-image__border-overlay:focus {
           }
         }
       }
+
+      &__checkbox {
+        -webkit-appearance: none;
+        background: $color-white;
+        border-radius: 100%;
+        height: 20px;
+        margin-left: 16px;
+        margin-right: 16px;
+        width: 20px;
+        min-width: 20px;
+        pointer-events: none;
+
+        @include light-theme {
+          border: 1px solid $color-gray-15;
+        }
+        @include dark-theme {
+          border: 1px solid $color-gray-80;
+        }
+
+        &:focus {
+          outline: none;
+        }
+
+        @include keyboard-mode {
+          &:focus {
+            border-width: 2px;
+            border-color: $ultramarine-ui-light;
+            &:checked {
+              box-shadow: inset 0 0 0px 1px $color-white;
+            }
+          }
+        }
+        @include dark-keyboard-mode {
+          &:focus {
+            border-width: 2px;
+            border-color: $ultramarine-ui-dark;
+
+            &:checked {
+              box-shadow: inset 0 0 0px 1px $color-black;
+            }
+          }
+        }
+
+        &:disabled {
+          opacity: 0.5;
+        }
+
+        &:checked {
+          background: $ultramarine-ui-light;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          &::before {
+            content: '';
+            display: block;
+            @include color-svg('../images/icons/v2/check-24.svg', $color-white);
+            width: 13px;
+            height: 13px;
+          }
+        }
+      }
     }
 
     &--header {
@@ -7191,6 +7289,7 @@ button.module-image__border-overlay:focus {
 
   width: $left-pane-width;
   height: 100%;
+  position: relative;
 }
 
 .module-left-pane__header {
@@ -7214,6 +7313,10 @@ button.module-image__border-overlay:focus {
 
       width: 24px;
       height: 24px;
+
+      &:disabled {
+        cursor: not-allowed;
+      }
 
       @include light-theme {
         @include color-svg(
@@ -7256,6 +7359,11 @@ button.module-image__border-overlay:focus {
         color: $color-gray-05;
       }
     }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
   }
 }
 
@@ -7325,6 +7433,27 @@ button.module-image__border-overlay:focus {
   }
 }
 
+.module-left-pane__compose-input {
+  margin: 16px;
+  @include font-body-1;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 2px solid $color-gray-15;
+  background: $color-white;
+  color: $color-black;
+
+  &:focus {
+    outline: none;
+
+    @include light-theme {
+      border-color: $ultramarine-ui-light;
+    }
+    @include dark-theme {
+      border-color: $ultramarine-ui-dark;
+    }
+  }
+}
+
 .module-left-pane__list--measure {
   flex-grow: 1;
   flex-shrink: 1;
@@ -7338,6 +7467,25 @@ button.module-image__border-overlay:focus {
 .module-left-pane__list {
   position: absolute;
   outline: none;
+}
+
+.module-left-pane__footer {
+  bottom: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  left: 0;
+  padding: 12px;
+  position: absolute;
+  width: 100%;
+
+  @include light-theme {
+    background: linear-gradient(transparent, $color-gray-02);
+  }
+
+  @include dark-theme {
+    background: linear-gradient(transparent, $color-gray-80);
+  }
 }
 
 // Module: Timeline Loading Row
@@ -10342,143 +10490,6 @@ button.module-image__border-overlay:focus {
 
   overflow: hidden;
   padding: 20px;
-}
-
-// Module: GV1 Migration Dialog
-
-.module-group-v2-migration-dialog {
-  @include font-body-1;
-  border-radius: 8px;
-  width: 360px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 20px;
-
-  max-height: 100%;
-
-  display: flex;
-  flex-direction: column;
-
-  position: relative;
-
-  @include light-theme {
-    background-color: $color-white;
-  }
-  @include dark-theme {
-    background-color: $color-gray-95;
-  }
-}
-.module-group-v2-migration-dialog__close-button {
-  @include button-reset;
-
-  position: absolute;
-  right: 12px;
-  top: 12px;
-
-  height: 24px;
-  width: 24px;
-
-  @include light-theme {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-75);
-  }
-
-  @include dark-theme {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
-  }
-
-  &:focus {
-    @include keyboard-mode {
-      background-color: $ultramarine-ui-light;
-    }
-    @include dark-keyboard-mode {
-      background-color: $ultramarine-ui-dark;
-    }
-  }
-}
-.module-group-v2-migration-dialog__title {
-  @include font-title-2;
-  text-align: center;
-  margin-bottom: 20px;
-
-  flex-grow: 0;
-  flex-shrink: 0;
-}
-.module-group-v2-migration-dialog__scrollable {
-  overflow-x: scroll;
-  flex-grow: 1;
-  flex-shrink: 1;
-}
-.module-group-v2-migration-dialog__item {
-  display: flex;
-  flex-direction: row;
-  align-items: start;
-
-  &:not(:last-of-type) {
-    margin-bottom: 16px;
-  }
-}
-.module-group-v2-migration-dialog__item__bullet {
-  width: 4px;
-  height: 11px;
-  flex-grow: 0;
-  flex-shrink: 0;
-
-  margin-top: 5px;
-
-  @include light-theme {
-    background-color: $color-gray-15;
-  }
-  @include dark-theme {
-    background-color: $color-gray-65;
-  }
-}
-.module-group-v2-migration-dialog__item__content {
-  margin-left: 16px;
-}
-.module-group-v2-migration-dialog__member {
-  margin-top: 16px;
-}
-.module-group-v2-migration-dialog__member__name {
-  margin-left: 6px;
-}
-
-.module-group-v2-migration-dialog__buttons {
-  margin-top: 16px;
-
-  text-align: center;
-  flex-grow: 0;
-  flex-shrink: 0;
-
-  display: flex;
-}
-.module-group-v2-migration-dialog__buttons--narrow {
-  margin-left: auto;
-  margin-right: auto;
-  width: 152px;
-}
-.module-group-v2-migration-dialog__button {
-  @include button-reset;
-  @include font-body-1-bold;
-
-  // Start flex basis at zero so text width doesn't affect layout. We want the buttons
-  //   evenly distributed.
-  flex: 1 1 0px;
-
-  border-radius: 4px;
-
-  padding: 8px;
-  padding-left: 30px;
-  padding-right: 30px;
-
-  @include button-primary;
-
-  &:not(:first-of-type) {
-    margin-left: 16px;
-  }
-}
-
-.module-group-v2-migration-dialog__button--secondary {
-  @include button-secondary;
 }
 
 // Module: GroupV2 Join Dialog

@@ -9,46 +9,55 @@ import { LocalizerType } from '../../types/Util';
 import { ContactName } from '../conversation/ContactName';
 import { About } from '../conversation/About';
 
+export enum ContactCheckboxDisabledReason {
+  // We start the enum at 1 because the default starting value of 0 is falsy.
+  MaximumContactsSelected = 1,
+  NotCapable,
+}
+
 export type PropsDataType = {
   about?: string;
   avatarPath?: string;
   color?: ColorType;
+  disabledReason?: ContactCheckboxDisabledReason;
   id: string;
-  isMe?: boolean;
+  isChecked: boolean;
   name?: string;
   phoneNumber?: string;
   profileName?: string;
   title: string;
-  type: 'group' | 'direct';
 };
 
 type PropsHousekeepingType = {
   i18n: LocalizerType;
   style: CSSProperties;
-  onClick?: (id: string) => void;
+  onClick: (
+    id: string,
+    disabledReason: undefined | ContactCheckboxDisabledReason
+  ) => void;
 };
 
 type PropsType = PropsDataType & PropsHousekeepingType;
 
-export const ContactListItem: FunctionComponent<PropsType> = React.memo(
+export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
   ({
     about,
     avatarPath,
     color,
+    disabledReason,
     i18n,
     id,
-    isMe,
+    isChecked,
     name,
     onClick,
     phoneNumber,
     profileName,
     style,
     title,
-    type,
   }) => {
-    const headerName = isMe ? (
-      i18n('noteToSelf')
-    ) : (
+    const disabled = Boolean(disabledReason);
+
+    const headerName = (
       <ContactName
         phoneNumber={phoneNumber}
         name={name}
@@ -58,22 +67,26 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
       />
     );
 
-    const messageText =
-      about && !isMe ? <About className="" text={about} /> : null;
+    const messageText = about ? <About className="" text={about} /> : null;
+
+    const onClickItem = () => {
+      onClick(id, disabledReason);
+    };
 
     return (
       <BaseConversationListItem
         avatarPath={avatarPath}
+        checked={isChecked}
         color={color}
-        conversationType={type}
+        conversationType="direct"
+        disabled={disabled}
         headerName={headerName}
         i18n={i18n}
         id={id}
-        isMe={isMe}
         isSelected={false}
         messageText={messageText}
         name={name}
-        onClick={onClick ? () => onClick(id) : undefined}
+        onClick={onClickItem}
         phoneNumber={phoneNumber}
         profileName={profileName}
         style={style}

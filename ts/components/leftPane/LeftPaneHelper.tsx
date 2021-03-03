@@ -23,6 +23,8 @@ export abstract class LeftPaneHelper<T> {
     _: Readonly<{
       i18n: LocalizerType;
       showInbox: () => void;
+      startComposing: () => void;
+      showChooseGroupMembers: () => void;
     }>
   ): null | ReactChild {
     return null;
@@ -34,10 +36,28 @@ export abstract class LeftPaneHelper<T> {
 
   getPreRowsNode(
     _: Readonly<{
+      clearGroupCreationError: () => void;
+      closeCantAddContactToGroupModal: () => unknown;
+      closeMaximumGroupSizeModal: () => unknown;
+      closeRecommendedGroupSizeModal: () => unknown;
+      createGroup: () => unknown;
       i18n: LocalizerType;
+      setComposeGroupAvatar: (_: undefined | ArrayBuffer) => unknown;
+      setComposeGroupName: (_: string) => unknown;
       onChangeComposeSearchTerm: (
         event: ChangeEvent<HTMLInputElement>
       ) => unknown;
+      removeSelectedContact: (_: string) => unknown;
+    }>
+  ): null | ReactChild {
+    return null;
+  }
+
+  getFooterContents(
+    _: Readonly<{
+      i18n: LocalizerType;
+      startSettingGroupMetadata: () => void;
+      createGroup: () => unknown;
     }>
   ): null | ReactChild {
     return null;

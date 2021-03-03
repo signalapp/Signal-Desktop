@@ -4,6 +4,8 @@
 import { assert } from 'chai';
 
 import {
+  OneTimeModalState,
+  ComposerStep,
   ConversationLookupType,
   ConversationType,
   getEmptyState,
@@ -11,14 +13,24 @@ import {
 import {
   _getConversationComparator,
   _getLeftPaneLists,
+  getCandidateGroupContacts,
+  getCantAddContactForModal,
   getComposeContacts,
+  getComposeGroupAvatar,
+  getComposeGroupName,
+  getComposeSelectedContacts,
   getComposerContactSearchTerm,
+  getComposerStep,
   getConversationSelector,
+  getInvitedContactsForNewlyCreatedGroup,
   getIsConversationEmptySelector,
+  getMaximumGroupSizeModalState,
   getPlaceholderContact,
+  getRecommendedGroupSizeModalState,
   getSelectedConversation,
   getSelectedConversationId,
-  isComposing,
+  hasGroupCreationError,
+  isCreatingGroup,
 } from '../../../state/selectors/conversations';
 import { noopAction } from '../../../state/ducks/noop';
 import { StateType, reducer as rootReducer } from '../../../state/reducer';
@@ -219,6 +231,32 @@ describe('both/state/selectors/conversations', () => {
     });
   });
 
+  describe('#getInvitedContactsForNewlyCreatedGroup', () => {
+    it('returns an empty array if there are no invited contacts', () => {
+      const state = getEmptyRootState();
+
+      assert.deepEqual(getInvitedContactsForNewlyCreatedGroup(state), []);
+    });
+
+    it('returns "hydrated" invited contacts', () => {
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            abc: getDefaultConversation('abc'),
+            def: getDefaultConversation('def'),
+          },
+          invitedConversationIdsForNewlyCreatedGroup: ['def', 'abc'],
+        },
+      };
+      const result = getInvitedContactsForNewlyCreatedGroup(state);
+      const titles = result.map(conversation => conversation.title);
+
+      assert.deepEqual(titles, ['def title', 'abc title']);
+    });
+  });
+
   describe('#getIsConversationEmptySelector', () => {
     it('returns a selector that returns true for conversations that have no messages', () => {
       const state = {
@@ -287,19 +325,191 @@ describe('both/state/selectors/conversations', () => {
     });
   });
 
-  describe('#isComposing', () => {
-    it('returns false if there is no composer state', () => {
-      assert.isFalse(isComposing(getEmptyRootState()));
+  describe('#getComposerStep', () => {
+    it("returns undefined if the composer isn't open", () => {
+      const state = getEmptyRootState();
+      const result = getComposerStep(state);
+
+      assert.isUndefined(result);
     });
 
-    it('returns true if there is composer state', () => {
-      assert.isTrue(
-        isComposing({
+    it('returns the first step of the composer', () => {
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          composer: {
+            step: ComposerStep.StartDirectConversation as const,
+            contactSearchTerm: 'foo',
+          },
+        },
+      };
+      const result = getComposerStep(state);
+
+      assert.strictEqual(result, ComposerStep.StartDirectConversation);
+    });
+
+    it('returns the second step of the composer', () => {
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          composer: {
+            step: ComposerStep.ChooseGroupMembers as const,
+            contactSearchTerm: 'foo',
+            selectedConversationIds: ['abc'],
+            cantAddContactIdForModal: undefined,
+            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
+            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
+            groupName: '',
+            groupAvatar: undefined,
+          },
+        },
+      };
+      const result = getComposerStep(state);
+
+      assert.strictEqual(result, ComposerStep.ChooseGroupMembers);
+    });
+
+    it('returns the third step of the composer', () => {
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          composer: {
+            step: ComposerStep.SetGroupMetadata as const,
+            selectedConversationIds: ['abc'],
+            cantAddContactIdForModal: undefined,
+            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
+            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
+            groupName: '',
+            groupAvatar: undefined,
+            isCreating: false,
+            hasError: false as const,
+          },
+        },
+      };
+      const result = getComposerStep(state);
+
+      assert.strictEqual(result, ComposerStep.SetGroupMetadata);
+    });
+  });
+
+  describe('#hasGroupCreationError', () => {
+    it('returns false if not in the "set group metadata" composer step', () => {
+      assert.isFalse(hasGroupCreationError(getEmptyRootState()));
+
+      assert.isFalse(
+        hasGroupCreationError({
           ...getEmptyRootState(),
           conversations: {
             ...getEmptyState(),
             composer: {
+              step: ComposerStep.StartDirectConversation,
               contactSearchTerm: '',
+            },
+          },
+        })
+      );
+    });
+
+    it('returns false if there is no group creation error', () => {
+      assert.isFalse(
+        hasGroupCreationError({
+          ...getEmptyRootState(),
+          conversations: {
+            ...getEmptyState(),
+            composer: {
+              step: ComposerStep.SetGroupMetadata as const,
+              selectedConversationIds: [],
+              recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
+              maximumGroupSizeModalState: OneTimeModalState.NeverShown,
+              groupName: '',
+              groupAvatar: undefined,
+              isCreating: false as const,
+              hasError: false as const,
+            },
+          },
+        })
+      );
+    });
+
+    it('returns true if there is a group creation error', () => {
+      assert.isTrue(
+        hasGroupCreationError({
+          ...getEmptyRootState(),
+          conversations: {
+            ...getEmptyState(),
+            composer: {
+              step: ComposerStep.SetGroupMetadata as const,
+              selectedConversationIds: [],
+              recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
+              maximumGroupSizeModalState: OneTimeModalState.NeverShown,
+              groupName: '',
+              groupAvatar: undefined,
+              isCreating: false as const,
+              hasError: true as const,
+            },
+          },
+        })
+      );
+    });
+  });
+
+  describe('#isCreatingGroup', () => {
+    it('returns false if not in the "set group metadata" composer step', () => {
+      assert.isFalse(hasGroupCreationError(getEmptyRootState()));
+
+      assert.isFalse(
+        isCreatingGroup({
+          ...getEmptyRootState(),
+          conversations: {
+            ...getEmptyState(),
+            composer: {
+              step: ComposerStep.StartDirectConversation,
+              contactSearchTerm: '',
+            },
+          },
+        })
+      );
+    });
+
+    it('returns false if the group is not being created', () => {
+      assert.isFalse(
+        isCreatingGroup({
+          ...getEmptyRootState(),
+          conversations: {
+            ...getEmptyState(),
+            composer: {
+              step: ComposerStep.SetGroupMetadata as const,
+              selectedConversationIds: [],
+              recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
+              maximumGroupSizeModalState: OneTimeModalState.NeverShown,
+              groupName: '',
+              groupAvatar: undefined,
+              isCreating: false as const,
+              hasError: true as const,
+            },
+          },
+        })
+      );
+    });
+
+    it('returns true if the group is being created', () => {
+      assert.isTrue(
+        isCreatingGroup({
+          ...getEmptyRootState(),
+          conversations: {
+            ...getEmptyState(),
+            composer: {
+              step: ComposerStep.SetGroupMetadata as const,
+              selectedConversationIds: [],
+              recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
+              maximumGroupSizeModalState: OneTimeModalState.NeverShown,
+              groupName: '',
+              groupAvatar: undefined,
+              isCreating: true as const,
+              hasError: false as const,
             },
           },
         })
@@ -321,6 +531,7 @@ describe('both/state/selectors/conversations', () => {
             },
           },
           composer: {
+            step: ComposerStep.StartDirectConversation,
             contactSearchTerm,
           },
         },
@@ -413,6 +624,154 @@ describe('both/state/selectors/conversations', () => {
     });
   });
 
+  describe('#getCandidateGroupContacts', () => {
+    const getRootState = (contactSearchTerm = ''): StateType => {
+      const rootState = getEmptyRootState();
+      return {
+        ...rootState,
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            'our-conversation-id': {
+              ...getDefaultConversation('our-conversation-id'),
+              isMe: true,
+            },
+            'convo-1': {
+              ...getDefaultConversation('convo-1'),
+              name: 'In System Contacts',
+              title: 'A. Sorted First',
+            },
+            'convo-2': {
+              ...getDefaultConversation('convo-2'),
+              title: 'B. Sorted Second',
+            },
+            'convo-3': {
+              ...getDefaultConversation('convo-3'),
+              type: 'group',
+              title: 'Should Be Dropped (group)',
+            },
+            'convo-4': {
+              ...getDefaultConversation('convo-4'),
+              isBlocked: true,
+              title: 'Should Be Dropped (blocked)',
+            },
+            'convo-5': {
+              ...getDefaultConversation('convo-5'),
+              discoveredUnregisteredAt: new Date(1999, 3, 20).getTime(),
+              title: 'Should Be Dropped (unregistered)',
+            },
+            'convo-6': {
+              ...getDefaultConversation('convo-6'),
+              title: 'D. Sorted Last',
+            },
+            'convo-7': {
+              ...getDefaultConversation('convo-7'),
+              discoveredUnregisteredAt: Date.now(),
+              name: 'In System Contacts (and only recently unregistered)',
+              title: 'C. Sorted Third',
+            },
+          },
+          composer: {
+            step: ComposerStep.ChooseGroupMembers,
+            contactSearchTerm,
+            selectedConversationIds: ['abc'],
+            cantAddContactIdForModal: undefined,
+            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
+            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
+            groupName: '',
+            groupAvatar: undefined,
+          },
+        },
+        user: {
+          ...rootState.user,
+          ourConversationId: 'our-conversation-id',
+          i18n,
+        },
+      };
+    };
+
+    it('returns sorted contacts when there is no search term', () => {
+      const state = getRootState();
+      const result = getCandidateGroupContacts(state);
+
+      const ids = result.map(contact => contact.id);
+      assert.deepEqual(ids, ['convo-1', 'convo-2', 'convo-7', 'convo-6']);
+    });
+
+    it('can search for contacts', () => {
+      const state = getRootState('system contacts');
+      const result = getCandidateGroupContacts(state);
+
+      const ids = result.map(contact => contact.id);
+      assert.deepEqual(ids, ['convo-1', 'convo-7']);
+    });
+  });
+
+  describe('#getCantAddContactForModal', () => {
+    it('returns undefined if not in the "choose group members" composer step', () => {
+      assert.isUndefined(getCantAddContactForModal(getEmptyRootState()));
+
+      assert.isUndefined(
+        getCantAddContactForModal({
+          ...getEmptyRootState(),
+          conversations: {
+            ...getEmptyState(),
+            composer: {
+              step: ComposerStep.StartDirectConversation,
+              contactSearchTerm: '',
+            },
+          },
+        })
+      );
+    });
+
+    it("returns undefined if there's no contact marked", () => {
+      assert.isUndefined(
+        getCantAddContactForModal({
+          ...getEmptyRootState(),
+          conversations: {
+            ...getEmptyState(),
+            composer: {
+              cantAddContactIdForModal: undefined,
+              contactSearchTerm: '',
+              groupAvatar: undefined,
+              groupName: '',
+              maximumGroupSizeModalState: OneTimeModalState.NeverShown,
+              recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
+              selectedConversationIds: [],
+              step: ComposerStep.ChooseGroupMembers as const,
+            },
+          },
+        })
+      );
+    });
+
+    it('returns the marked contact', () => {
+      const conversation = getDefaultConversation('abc123');
+
+      assert.deepEqual(
+        getCantAddContactForModal({
+          ...getEmptyRootState(),
+          conversations: {
+            ...getEmptyState(),
+            conversationLookup: { abc123: conversation },
+            composer: {
+              cantAddContactIdForModal: 'abc123',
+              contactSearchTerm: '',
+              groupAvatar: undefined,
+              groupName: '',
+              maximumGroupSizeModalState: OneTimeModalState.NeverShown,
+              recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
+              selectedConversationIds: [],
+              step: ComposerStep.ChooseGroupMembers as const,
+            },
+          },
+        }),
+        conversation
+      );
+    });
+  });
+
   describe('#getComposerContactSearchTerm', () => {
     it("returns the composer's contact search term", () => {
       assert.strictEqual(
@@ -421,6 +780,7 @@ describe('both/state/selectors/conversations', () => {
           conversations: {
             ...getEmptyState(),
             composer: {
+              step: ComposerStep.StartDirectConversation,
               contactSearchTerm: 'foo bar',
             },
           },
@@ -665,6 +1025,163 @@ describe('both/state/selectors/conversations', () => {
         assert.strictEqual(pinnedConversations[1].name, 'Pin Two');
         assert.strictEqual(pinnedConversations[2].name, 'Pin Three');
       });
+    });
+  });
+
+  describe('#getMaximumGroupSizeModalState', () => {
+    it('returns the modal state', () => {
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          composer: {
+            cantAddContactIdForModal: undefined,
+            contactSearchTerm: 'to be cleared',
+            groupAvatar: undefined,
+            groupName: '',
+            maximumGroupSizeModalState: OneTimeModalState.Showing,
+            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
+            selectedConversationIds: [],
+            step: ComposerStep.ChooseGroupMembers as const,
+          },
+        },
+      };
+      assert.strictEqual(
+        getMaximumGroupSizeModalState(state),
+        OneTimeModalState.Showing
+      );
+    });
+  });
+
+  describe('#getRecommendedGroupSizeModalState', () => {
+    it('returns the modal state', () => {
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          composer: {
+            cantAddContactIdForModal: undefined,
+            contactSearchTerm: 'to be cleared',
+            groupAvatar: undefined,
+            groupName: '',
+            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
+            recommendedGroupSizeModalState: OneTimeModalState.Showing,
+            selectedConversationIds: [],
+            step: ComposerStep.ChooseGroupMembers as const,
+          },
+        },
+      };
+      assert.strictEqual(
+        getRecommendedGroupSizeModalState(state),
+        OneTimeModalState.Showing
+      );
+    });
+  });
+
+  describe('#getComposeGroupAvatar', () => {
+    it('returns undefined if there is no group avatar', () => {
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          composer: {
+            step: ComposerStep.SetGroupMetadata as const,
+            selectedConversationIds: ['abc'],
+            cantAddContactIdForModal: undefined,
+            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
+            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
+            groupName: '',
+            groupAvatar: undefined,
+            isCreating: false,
+            hasError: false as const,
+          },
+        },
+      };
+      assert.isUndefined(getComposeGroupAvatar(state));
+    });
+
+    it('returns the group avatar', () => {
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          composer: {
+            step: ComposerStep.SetGroupMetadata as const,
+            selectedConversationIds: ['abc'],
+            cantAddContactIdForModal: undefined,
+            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
+            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
+            groupName: '',
+            groupAvatar: new Uint8Array([1, 2, 3]).buffer,
+            isCreating: false,
+            hasError: false as const,
+          },
+        },
+      };
+      assert.deepEqual(
+        getComposeGroupAvatar(state),
+        new Uint8Array([1, 2, 3]).buffer
+      );
+    });
+  });
+
+  describe('#getComposeGroupName', () => {
+    it('returns the group name', () => {
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          composer: {
+            step: ComposerStep.SetGroupMetadata as const,
+            selectedConversationIds: ['abc'],
+            cantAddContactIdForModal: undefined,
+            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
+            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
+            groupName: 'foo bar',
+            groupAvatar: undefined,
+            isCreating: false,
+            hasError: false as const,
+          },
+        },
+      };
+      assert.deepEqual(getComposeGroupName(state), 'foo bar');
+    });
+  });
+
+  describe('#getComposeSelectedContacts', () => {
+    it("returns the composer's selected contacts", () => {
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            'convo-1': {
+              ...getDefaultConversation('convo-1'),
+              title: 'Person One',
+            },
+            'convo-2': {
+              ...getDefaultConversation('convo-2'),
+              title: 'Person Two',
+            },
+          },
+          composer: {
+            step: ComposerStep.SetGroupMetadata as const,
+            selectedConversationIds: ['convo-2', 'convo-1'],
+            cantAddContactIdForModal: undefined,
+            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
+            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
+            groupName: 'foo bar',
+            groupAvatar: undefined,
+            isCreating: false,
+            hasError: false as const,
+          },
+        },
+      };
+
+      const titles = getComposeSelectedContacts(state).map(
+        contact => contact.title
+      );
+      assert.deepEqual(titles, ['Person Two', 'Person One']);
     });
   });
 

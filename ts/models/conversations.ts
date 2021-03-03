@@ -1320,6 +1320,9 @@ export class ConversationModel extends window.Backbone.Model<
       isBlocked: this.isBlocked(),
       isMe: this.isMe(),
       isGroupV1AndDisabled: this.isGroupV1AndDisabled(),
+      isGroupV2Capable: this.isPrivate()
+        ? Boolean(this.get('capabilities')?.gv2)
+        : undefined,
       isPinned: this.get('isPinned'),
       isUntrusted: this.isUntrusted(),
       isVerified: this.isVerified(),

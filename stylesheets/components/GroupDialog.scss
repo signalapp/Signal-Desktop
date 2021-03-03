@@ -1,0 +1,121 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.module-GroupDialog {
+  @include popper-shadow();
+  border-radius: 8px;
+  margin: 0 auto;
+  max-height: 100%;
+  max-width: 360px;
+  padding: 16px;
+  position: relative;
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+
+  @include light-theme() {
+    background: $color-white;
+    color: $color-gray-90;
+  }
+
+  @include dark-theme() {
+    background: $color-gray-95;
+    color: $color-gray-05;
+  }
+
+  &__close-button {
+    @include button-reset;
+
+    position: absolute;
+    right: 12px;
+    top: 12px;
+
+    height: 24px;
+    width: 24px;
+
+    @include light-theme {
+      @include color-svg('../images/icons/v2/x-24.svg', $color-gray-75);
+    }
+
+    @include dark-theme {
+      @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
+    }
+
+    &:focus {
+      @include keyboard-mode {
+        background-color: $ultramarine-ui-light;
+      }
+      @include dark-keyboard-mode {
+        background-color: $ultramarine-ui-dark;
+      }
+    }
+  }
+
+  &__title {
+    @include font-title-2;
+    text-align: center;
+    margin-bottom: 20px;
+
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+
+  &__body {
+    overflow-x: scroll;
+    flex-grow: 1;
+    flex-shrink: 1;
+  }
+
+  &__paragraph,
+  &__contacts {
+    margin: 0 0 16px 0;
+    padding: 0 16px 0 28px;
+    position: relative;
+
+    &::before {
+      content: '';
+      display: block;
+      height: 11px;
+      left: 4px;
+      position: absolute;
+      top: 4px;
+      width: 4px;
+
+      @include light-theme {
+        background-color: $color-gray-15;
+      }
+      @include dark-theme {
+        background-color: $color-gray-65;
+      }
+    }
+  }
+
+  &__contacts {
+    list-style-type: none;
+
+    &__contact {
+      margin-top: 16px;
+    }
+
+    &__contact__name {
+      margin-left: 8px;
+    }
+  }
+
+  &__button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    .module-Button {
+      flex-grow: 1;
+      max-width: 152px;
+
+      &:not(:first-child) {
+        margin-left: 16px;
+      }
+    }
+  }
+}

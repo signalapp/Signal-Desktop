@@ -20,11 +20,14 @@ export const DATE_CLASS_NAME = `${HEADER_CLASS_NAME}__date`;
 const TIMESTAMP_CLASS_NAME = `${DATE_CLASS_NAME}__timestamp`;
 export const MESSAGE_CLASS_NAME = `${CONTENT_CLASS_NAME}__message`;
 export const MESSAGE_TEXT_CLASS_NAME = `${MESSAGE_CLASS_NAME}__text`;
+const CHECKBOX_CLASS_NAME = `${BASE_CLASS_NAME}__checkbox`;
 
 type PropsType = {
   avatarPath?: string;
+  checked?: boolean;
   color?: ColorType;
   conversationType: 'group' | 'direct';
+  disabled?: boolean;
   headerDate?: number;
   headerName: ReactNode;
   i18n: LocalizerType;
@@ -37,7 +40,7 @@ type PropsType = {
   messageStatusIcon?: ReactNode;
   messageText?: ReactNode;
   name?: string;
-  onClick: () => void;
+  onClick?: () => void;
   phoneNumber?: string;
   profileName?: string;
   style: CSSProperties;
@@ -48,8 +51,10 @@ type PropsType = {
 export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo(
   ({
     avatarPath,
+    checked,
     color,
     conversationType,
+    disabled,
     headerDate,
     headerName,
     i18n,
@@ -74,17 +79,32 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
       ? isNoteToSelf
       : Boolean(isMe);
 
-    return (
-      <button
-        type="button"
-        onClick={onClick}
-        style={style}
-        className={classNames(BASE_CLASS_NAME, {
-          [`${BASE_CLASS_NAME}--has-unread`]: isUnread,
-          [`${BASE_CLASS_NAME}--is-selected`]: isSelected,
-        })}
-        data-id={id ? cleanId(id) : undefined}
-      >
+    const isCheckbox = isBoolean(checked);
+
+    let checkboxNode: ReactNode;
+    if (isCheckbox) {
+      let ariaLabel: string;
+      if (disabled) {
+        ariaLabel = i18n('cannotSelectContact');
+      } else if (checked) {
+        ariaLabel = i18n('deselectContact');
+      } else {
+        ariaLabel = i18n('selectContact');
+      }
+      checkboxNode = (
+        <input
+          aria-label={ariaLabel}
+          checked={checked}
+          className={CHECKBOX_CLASS_NAME}
+          disabled={disabled}
+          onChange={onClick}
+          type="checkbox"
+        />
+      );
+    }
+
+    const contents = (
+      <>
         <div className={`${BASE_CLASS_NAME}__avatar-container`}>
           <Avatar
             avatarPath={avatarPath}
@@ -104,7 +124,12 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
             </div>
           )}
         </div>
-        <div className={CONTENT_CLASS_NAME}>
+        <div
+          className={classNames(
+            CONTENT_CLASS_NAME,
+            disabled && `${CONTENT_CLASS_NAME}--disabled`
+          )}
+        >
           <div className={HEADER_CLASS_NAME}>
             <div className={`${HEADER_CLASS_NAME}__name`}>{headerName}</div>
             {isNumber(headerDate) && (
@@ -137,7 +162,61 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
             </div>
           ) : null}
         </div>
-      </button>
+        {checkboxNode}
+      </>
+    );
+
+    const commonClassNames = classNames(BASE_CLASS_NAME, {
+      [`${BASE_CLASS_NAME}--has-unread`]: isUnread,
+      [`${BASE_CLASS_NAME}--is-selected`]: isSelected,
+    });
+
+    if (isCheckbox) {
+      return (
+        <label
+          className={classNames(
+            commonClassNames,
+            `${BASE_CLASS_NAME}--is-checkbox`,
+            { [`${BASE_CLASS_NAME}--is-checkbox--disabled`]: disabled }
+          )}
+          data-id={id ? cleanId(id) : undefined}
+          style={style}
+          // `onClick` is will double-fire if we're enabled. We want it to fire when we're
+          //   disabled so we can show any "can't add contact" modals, etc. This won't
+          //   work for keyboard users, though, because labels are not tabbable.
+          {...(disabled ? { onClick } : {})}
+        >
+          {contents}
+        </label>
+      );
+    }
+
+    if (onClick) {
+      return (
+        <button
+          className={classNames(
+            commonClassNames,
+            `${BASE_CLASS_NAME}--is-button`
+          )}
+          data-id={id ? cleanId(id) : undefined}
+          disabled={disabled}
+          onClick={onClick}
+          style={style}
+          type="button"
+        >
+          {contents}
+        </button>
+      );
+    }
+
+    return (
+      <div
+        className={commonClassNames}
+        data-id={id ? cleanId(id) : undefined}
+        style={style}
+      >
+        {contents}
+      </div>
     );
   }
 );

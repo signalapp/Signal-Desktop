@@ -10,17 +10,28 @@ import {
   PropsType as LeftPanePropsType,
 } from '../../components/LeftPane';
 import { StateType } from '../reducer';
+import { missingCaseError } from '../../util/missingCaseError';
 
+import { ComposerStep, OneTimeModalState } from '../ducks/conversations';
 import { getSearchResults, isSearching } from '../selectors/search';
 import { getIntl, getRegionCode } from '../selectors/user';
 import {
+  getCandidateGroupContacts,
+  getCantAddContactForModal,
   getComposeContacts,
+  getComposeGroupAvatar,
+  getComposeGroupName,
+  getComposeSelectedContacts,
   getComposerContactSearchTerm,
+  getComposerStep,
   getLeftPaneLists,
+  getMaximumGroupSizeModalState,
+  getRecommendedGroupSizeModalState,
   getSelectedConversationId,
   getSelectedMessage,
   getShowArchived,
-  isComposing,
+  hasGroupCreationError,
+  isCreatingGroup,
 } from '../selectors/conversations';
 
 import { SmartExpiredBuildDialog } from './ExpiredBuildDialog';
@@ -61,34 +72,58 @@ function renderUpdateDialog(): JSX.Element {
 const getModeSpecificProps = (
   state: StateType
 ): LeftPanePropsType['modeSpecificProps'] => {
-  if (isComposing(state)) {
-    return {
-      mode: LeftPaneMode.Compose,
-      composeContacts: getComposeContacts(state),
-      regionCode: getRegionCode(state),
-      searchTerm: getComposerContactSearchTerm(state),
-    };
+  const composerStep = getComposerStep(state);
+  switch (composerStep) {
+    case undefined:
+      if (getShowArchived(state)) {
+        const { archivedConversations } = getLeftPaneLists(state);
+        return {
+          mode: LeftPaneMode.Archive,
+          archivedConversations,
+        };
+      }
+      if (isSearching(state)) {
+        return {
+          mode: LeftPaneMode.Search,
+          ...getSearchResults(state),
+        };
+      }
+      return {
+        mode: LeftPaneMode.Inbox,
+        ...getLeftPaneLists(state),
+      };
+    case ComposerStep.StartDirectConversation:
+      return {
+        mode: LeftPaneMode.Compose,
+        composeContacts: getComposeContacts(state),
+        regionCode: getRegionCode(state),
+        searchTerm: getComposerContactSearchTerm(state),
+      };
+    case ComposerStep.ChooseGroupMembers:
+      return {
+        mode: LeftPaneMode.ChooseGroupMembers,
+        candidateContacts: getCandidateGroupContacts(state),
+        cantAddContactForModal: getCantAddContactForModal(state),
+        isShowingRecommendedGroupSizeModal:
+          getRecommendedGroupSizeModalState(state) ===
+          OneTimeModalState.Showing,
+        isShowingMaximumGroupSizeModal:
+          getMaximumGroupSizeModalState(state) === OneTimeModalState.Showing,
+        searchTerm: getComposerContactSearchTerm(state),
+        selectedContacts: getComposeSelectedContacts(state),
+      };
+    case ComposerStep.SetGroupMetadata:
+      return {
+        mode: LeftPaneMode.SetGroupMetadata,
+        groupAvatar: getComposeGroupAvatar(state),
+        groupName: getComposeGroupName(state),
+        hasError: hasGroupCreationError(state),
+        isCreating: isCreatingGroup(state),
+        selectedContacts: getComposeSelectedContacts(state),
+      };
+    default:
+      throw missingCaseError(composerStep);
   }
-
-  if (getShowArchived(state)) {
-    const { archivedConversations } = getLeftPaneLists(state);
-    return {
-      mode: LeftPaneMode.Archive,
-      archivedConversations,
-    };
-  }
-
-  if (isSearching(state)) {
-    return {
-      mode: LeftPaneMode.Search,
-      ...getSearchResults(state),
-    };
-  }
-
-  return {
-    mode: LeftPaneMode.Inbox,
-    ...getLeftPaneLists(state),
-  };
 };
 
 const mapStateToProps = (state: StateType) => {

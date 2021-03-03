@@ -13,6 +13,7 @@ import { getIntl } from '../selectors/user';
 import {
   getConversationMessagesSelector,
   getConversationSelector,
+  getInvitedContactsForNewlyCreatedGroup,
   getSelectedMessage,
 } from '../selectors/conversations';
 
@@ -107,6 +108,9 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
       'isGroupV1AndDisabled',
     ]),
     ...conversationMessages,
+    invitedContactsForNewlyCreatedGroup: getInvitedContactsForNewlyCreatedGroup(
+      state
+    ),
     selectedMessageId: selectedMessage ? selectedMessage.id : undefined,
     i18n: getIntl(state),
     renderItem,

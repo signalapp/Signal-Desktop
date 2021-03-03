@@ -4,7 +4,7 @@
 import { get, throttle } from 'lodash';
 import { WebAPIType } from './textsecure/WebAPI';
 
-type ConfigKeyType =
+export type ConfigKeyType =
   | 'desktop.cds'
   | 'desktop.clientExpiration'
   | 'desktop.disableGV1'

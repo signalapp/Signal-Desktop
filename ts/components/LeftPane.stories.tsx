@@ -77,6 +77,12 @@ const defaultModeSpecificProps = {
 const emptySearchResultsGroup = { isLoading: false, results: [] };
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
+  cantAddContactToGroup: action('cantAddContactToGroup'),
+  clearGroupCreationError: action('clearGroupCreationError'),
+  closeCantAddContactToGroupModal: action('closeCantAddContactToGroupModal'),
+  closeMaximumGroupSizeModal: action('closeMaximumGroupSizeModal'),
+  closeRecommendedGroupSizeModal: action('closeRecommendedGroupSizeModal'),
+  createGroup: action('createGroup'),
   i18n,
   modeSpecificProps: defaultModeSpecificProps,
   openConversationInternal: action('openConversationInternal'),
@@ -102,11 +108,18 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   selectedConversationId: undefined,
   selectedMessageId: undefined,
   setComposeSearchTerm: action('setComposeSearchTerm'),
+  setComposeGroupAvatar: action('setComposeGroupAvatar'),
+  setComposeGroupName: action('setComposeGroupName'),
   showArchivedConversations: action('showArchivedConversations'),
   showInbox: action('showInbox'),
   startComposing: action('startComposing'),
+  showChooseGroupMembers: action('showChooseGroupMembers'),
   startNewConversationFromPhoneNumber: action(
     'startNewConversationFromPhoneNumber'
+  ),
+  startSettingGroupMetadata: action('startSettingGroupMetadata'),
+  toggleConversationInChooseMembers: action(
+    'toggleConversationInChooseMembers'
   ),
 
   ...overrideProps,

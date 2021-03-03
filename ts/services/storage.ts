@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { debounce, isNumber, partition } from 'lodash';
@@ -19,7 +19,6 @@ import {
   StorageManifestClass,
   StorageRecordClass,
 } from '../textsecure.d';
-import { isEnabled } from '../RemoteConfig';
 import {
   mergeAccountRecord,
   mergeContactRecord,
@@ -33,6 +32,7 @@ import {
 import { ConversationModel } from '../models/conversations';
 import { storageJobQueue } from '../util/JobQueue';
 import { sleep } from '../util/sleep';
+import { isStorageWriteFeatureEnabled } from '../storage/isFeatureEnabled';
 
 const {
   eraseStorageServiceStateFromConversations,
@@ -882,7 +882,7 @@ async function processManifest(
 }
 
 async function sync(): Promise<void> {
-  if (!isEnabled('desktop.storage')) {
+  if (!isStorageWriteFeatureEnabled()) {
     window.log.info(
       'storageService.sync: Not starting desktop.storage is falsey'
     );
@@ -946,16 +946,9 @@ async function sync(): Promise<void> {
 }
 
 async function upload(): Promise<void> {
-  if (!isEnabled('desktop.storage')) {
+  if (!isStorageWriteFeatureEnabled()) {
     window.log.info(
-      'storageService.upload: Not starting desktop.storage is falsey'
-    );
-
-    return;
-  }
-  if (!isEnabled('desktop.storageWrite2')) {
-    window.log.info(
-      'storageService.upload: Not starting desktop.storageWrite2 is falsey'
+      'storageService.upload: Not starting because the feature is not enabled'
     );
 
     return;
