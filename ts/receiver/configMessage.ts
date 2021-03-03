@@ -48,7 +48,9 @@ async function handleOurProfileUpdate(
     if (displayName) {
       trigger(configurationMessageReceived, displayName);
     } else {
-      window.log.warn('Got a configuration message but the display name is empty');
+      window.log.warn(
+        'Got a configuration message but the display name is empty'
+      );
     }
   }
 }
