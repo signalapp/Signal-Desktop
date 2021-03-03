@@ -98,10 +98,10 @@ export class ChatMessage extends DataMessage {
   ) {
     if (
       (dataMessage as any).constructor.name !== 'DataMessage' &&
-      !(dataMessage instanceof DataMessage)
+      !(dataMessage instanceof SignalService.DataMessage)
     ) {
-      throw new Error(
-        'Tried to build a sync message from something else than a DataMessage'
+      window.log.warn(
+        'buildSyncMessage with something else than a DataMessage'
       );
     }
 

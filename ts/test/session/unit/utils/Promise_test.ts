@@ -122,7 +122,7 @@ describe('Promise Utils', () => {
 
       expect(waitForTaskSpy.callCount).to.equal(1);
       expect(completionSpy.callCount).to.equal(0);
-      return promise.should.eventually.be.rejectedWith('Task timed out.');
+      return promise.should.eventually.be.rejectedWith('Task timed out');
     });
   });
 
