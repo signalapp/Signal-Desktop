@@ -207,6 +207,10 @@ export async function signInWithRecovery(signInDetails: {
   }
 }
 
+/**
+ * This is will try to sign in with the user recovery phrase.
+ * If no ConfigurationMessage is received in 60seconds, the loading will be canceled.
+ */
 export async function signInWithLinking(signInDetails: {
   userRecoveryPhrase: string;
   password: string;
@@ -236,7 +240,7 @@ export async function signInWithLinking(signInDetails: {
           displayNameFromNetwork = displayName;
         }
       );
-    }, 30000);
+    }, 60000);
     if (displayNameFromNetwork.length) {
       // display name, avatars, groups and contacts should already be handled when this event was triggered.
       window.log.info('We got a displayName from network: ');

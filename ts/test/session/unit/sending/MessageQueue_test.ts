@@ -39,7 +39,11 @@ describe('MessageQueue', () => {
   let messageQueueStub: MessageQueue;
 
   // Message Sender Stubs
-  let sendStub: sinon.SinonStub<[RawMessage, (number | undefined)?, (number | undefined)?]>;
+  let sendStub: sinon.SinonStub<[
+    RawMessage,
+    (number | undefined)?,
+    (number | undefined)?
+  ]>;
 
   beforeEach(() => {
     // Utils Stubs
@@ -122,19 +126,19 @@ describe('MessageQueue', () => {
       it('should send a success event if message was sent', done => {
         const device = TestUtils.generateFakePubKey();
         const message = TestUtils.generateChatMessage();
-        const waitForMessageSentEvent = async () => new Promise<void>(resolve => {
-          resolve();
-          try {
-
-            expect(messageSentHandlerSuccessStub.callCount).to.be.equal(1);
-            expect(
-              messageSentHandlerSuccessStub.lastCall.args[0].identifier
-            ).to.be.equal(message.identifier);
-            done();
-          } catch (e) {
-            done(e);
-          }
-        });
+        const waitForMessageSentEvent = async () =>
+          new Promise<void>(resolve => {
+            resolve();
+            try {
+              expect(messageSentHandlerSuccessStub.callCount).to.be.equal(1);
+              expect(
+                messageSentHandlerSuccessStub.lastCall.args[0].identifier
+              ).to.be.equal(message.identifier);
+              done();
+            } catch (e) {
+              done(e);
+            }
+          });
 
         void pendingMessageCache
           .add(device, message, waitForMessageSentEvent)
