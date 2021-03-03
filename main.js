@@ -112,8 +112,15 @@ const {
   getTitleBarVisibility,
   TitleBarVisibility,
 } = require('./ts/types/Settings');
+const { Environment } = require('./ts/environment');
 
 let appStartInitialSpellcheckSetting = true;
+
+const defaultWebPrefs = {
+  devTools:
+    process.argv.some(arg => arg === '--enable-dev-tools') ||
+    config.environment !== Environment.Production,
+};
 
 async function getSpellCheckSetting() {
   const json = await sql.getItemById('spell-check');
@@ -313,6 +320,7 @@ async function createWindow() {
         ? '#ffffff' // Tests should always be rendered on a white background
         : '#3a76f0',
     webPreferences: {
+      ...defaultWebPrefs,
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
       contextIsolation: false,
@@ -667,6 +675,7 @@ function showAbout() {
     backgroundColor: '#3a76f0',
     show: false,
     webPreferences: {
+      ...defaultWebPrefs,
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
       contextIsolation: false,
@@ -721,6 +730,7 @@ function showSettingsWindow() {
     show: false,
     modal: true,
     webPreferences: {
+      ...defaultWebPrefs,
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
       contextIsolation: false,
@@ -790,6 +800,7 @@ async function showStickerCreator() {
     backgroundColor: '#3a76f0',
     show: false,
     webPreferences: {
+      ...defaultWebPrefs,
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
       contextIsolation: false,
@@ -844,6 +855,7 @@ async function showDebugLogWindow() {
     show: false,
     modal: true,
     webPreferences: {
+      ...defaultWebPrefs,
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
       contextIsolation: false,
@@ -894,6 +906,7 @@ function showPermissionsPopupWindow(forCalling, forCamera) {
       show: false,
       modal: true,
       webPreferences: {
+        ...defaultWebPrefs,
         nodeIntegration: false,
         nodeIntegrationInWorker: false,
         contextIsolation: false,
@@ -1027,6 +1040,7 @@ app.on('ready', async () => {
       frame: false,
       backgroundColor: '#3a76f0',
       webPreferences: {
+        ...defaultWebPrefs,
         nodeIntegration: false,
         preload: path.join(__dirname, 'loading_preload.js'),
       },
@@ -1134,6 +1148,7 @@ function setupMenu(options) {
     showAbout,
     showSettings: showSettingsWindow,
     showStickerCreator,
+    showDevTools: defaultWebPrefs.devTools,
     openContactUs,
     openJoinTheBeta,
     openReleaseNotes,
