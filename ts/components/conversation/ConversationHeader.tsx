@@ -249,10 +249,9 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
           type="button"
           onClick={this.showMenuBound}
           className={classNames(
-            'module-ConversationHeader__more-button',
-            showBackButton
-              ? null
-              : 'module-ConversationHeader__more-button--show'
+            'module-ConversationHeader__button',
+            'module-ConversationHeader__button--more',
+            showBackButton ? null : 'module-ConversationHeader__button--show'
           )}
           disabled={showBackButton}
           aria-label={i18n('moreInfo')}
@@ -269,10 +268,9 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
         type="button"
         onClick={onSearchInConversation}
         className={classNames(
-          'module-ConversationHeader__search-button',
-          showBackButton
-            ? null
-            : 'module-ConversationHeader__search-button--show'
+          'module-ConversationHeader__button',
+          'module-ConversationHeader__button--search',
+          showBackButton ? null : 'module-ConversationHeader__button--show'
         )}
         disabled={showBackButton}
         aria-label={i18n('search')}
@@ -295,11 +293,9 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
         type="button"
         onClick={onOutgoingVideoCallInConversation}
         className={classNames(
-          'module-ConversationHeader__calling-button',
-          'module-ConversationHeader__calling-button--video',
-          showBackButton
-            ? null
-            : 'module-ConversationHeader__calling-button--show'
+          'module-ConversationHeader__button',
+          'module-ConversationHeader__button--video',
+          showBackButton ? null : 'module-ConversationHeader__button--show'
         )}
         disabled={showBackButton}
         aria-label={i18n('makeOutgoingVideoCall')}
@@ -319,11 +315,11 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
               type="button"
               onClick={onOutgoingAudioCallInConversation}
               className={classNames(
-                'module-ConversationHeader__calling-button',
-                'module-ConversationHeader__calling-button--audio',
+                'module-ConversationHeader__button',
+                'module-ConversationHeader__button--audio',
                 showBackButton
                   ? null
-                  : 'module-ConversationHeader__calling-button--show'
+                  : 'module-ConversationHeader__button--show'
               )}
               disabled={showBackButton}
               aria-label={i18n('makeOutgoingCall')}
@@ -337,11 +333,9 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
             type="button"
             onClick={onOutgoingVideoCallInConversation}
             className={classNames(
-              'module-ConversationHeader__calling-button',
-              'module-ConversationHeader__calling-button--join',
-              showBackButton
-                ? null
-                : 'module-ConversationHeader__calling-button--show'
+              'module-ConversationHeader__button',
+              'module-ConversationHeader__button--join-call',
+              showBackButton ? null : 'module-ConversationHeader__button--show'
             )}
             disabled={showBackButton}
           >
@@ -576,8 +570,10 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       <Measure
         bounds
         onResize={({ bounds }) => {
-          const width = (bounds && bounds.width) || 0;
-          this.setState({ isNarrow: width < 500 });
+          if (!bounds || !bounds.width) {
+            return;
+          }
+          this.setState({ isNarrow: bounds.width < 500 });
         }}
       >
         {({ measureRef }) => (
