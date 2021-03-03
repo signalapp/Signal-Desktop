@@ -465,9 +465,10 @@
                     file: new Blob([data.data], {
                       type: avatar.contentType,
                     }),
-                    maxMeasurements: {
-                      maxSize: 1000 * 1024, // 1Mb for our profile picture
-                    },
+                  },
+                  {
+                    maxSide: 640,
+                    maxSize: 1000 * 1024,
                   }
                 );
                 const dataResized = await window.Signal.Types.Attachment.arrayBufferFromFile(
