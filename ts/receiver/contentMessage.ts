@@ -392,7 +392,7 @@ export async function innerHandleContentMessage(
       'private'
     );
 
-    if (content.dataMessage && !UserUtils.isSignInByLinking()) {
+    if (content.dataMessage) {
       if (
         content.dataMessage.profileKey &&
         content.dataMessage.profileKey.length === 0
@@ -403,16 +403,14 @@ export async function innerHandleContentMessage(
       return;
     }
 
-    if (content.receiptMessage && !UserUtils.isSignInByLinking()) {
+    if (content.receiptMessage) {
       await handleReceiptMessage(envelope, content.receiptMessage);
       return;
     }
-    if (content.typingMessage && !UserUtils.isSignInByLinking()) {
+    if (content.typingMessage) {
       await handleTypingMessage(envelope, content.typingMessage);
       return;
     }
-
-    // Be sure to check for the UserUtils.isSignInByLinking() if you add another if here
     if (content.configurationMessage) {
       // this one can be quite long (downloads profilePictures and everything, is do not block)
       void handleConfigurationMessage(
@@ -421,7 +419,6 @@ export async function innerHandleContentMessage(
       );
       return;
     }
-    // Be sure to check for the UserUtils.isSignInByLinking() if you add another if here
   } catch (e) {
     window.log.warn(e);
   }
