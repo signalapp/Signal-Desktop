@@ -15,12 +15,8 @@ export const SessionRadio = (props: Props) => {
 
   function clickHandler(e: any) {
     e.stopPropagation();
-    console.warn(`SessionRadio clickHandler ${value}`);
-
     onClick(value);
   }
-
-  console.warn(`isactive ${value}: ${active}`);
 
   return (
     <Flex>

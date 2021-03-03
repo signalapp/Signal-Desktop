@@ -466,13 +466,6 @@ async function sendAddedMembers(
     await ConversationController.getInstance().getOrCreateAndWait(m, 'private');
     const memberPubKey = PubKey.cast(m);
     await getMessageQueue().sendToPubKey(memberPubKey, newClosedGroupUpdate);
-
-    // if (expirationTimerMessage) {
-    //   await getMessageQueue().sendToPubKey(
-    //     memberPubKey,
-    //     expirationTimerMessage
-    //   );
-    // }
   });
   await Promise.all(promises);
 }
