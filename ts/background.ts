@@ -1900,7 +1900,10 @@ export async function startApp(): Promise<void> {
           !hasThemeSetting &&
           window.textsecure.storage.get('userAgent') === 'OWI'
         ) {
-          window.storage.put('theme-setting', 'ios');
+          window.storage.put(
+            'theme-setting',
+            await window.Events.getThemeSetting()
+          );
           onChangeTheme();
         }
         const syncRequest = new window.textsecure.SyncRequest(
