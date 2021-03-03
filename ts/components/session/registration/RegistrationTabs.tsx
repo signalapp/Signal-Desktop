@@ -143,6 +143,10 @@ export async function signUp(signUpDetails: {
       'english',
       trimName
     );
+    await createOrUpdateItem({
+      id: 'hasSyncedInitialConfigurationItem',
+      value: true,
+    });
     trigger('openInbox');
   } catch (e) {
     await resetRegistration();
@@ -186,10 +190,7 @@ export async function signInWithRecovery(signInDetails: {
   try {
     await resetRegistration();
     await window.setPassword(password);
-    await createOrUpdateItem({
-      id: 'hasSyncedInitialConfigurationItem',
-      value: true,
-    });
+
     await AccountManager.registerSingleDevice(
       userRecoveryPhrase,
       'english',

@@ -44,7 +44,12 @@ async function handleOurProfileUpdate(
     };
     await updateProfile(ourConversation, lokiProfile, profileKey);
     UserUtils.setLastProfileUpdateTimestamp(_.toNumber(sentAt));
-    trigger(configurationMessageReceived, displayName);
+    // do not trigger a signin by linking if the display name is empty
+    if (displayName) {
+      trigger(configurationMessageReceived, displayName);
+    } else {
+      window.log.warn('Got a configuration message but the display name is empty');
+    }
   }
 }
 
