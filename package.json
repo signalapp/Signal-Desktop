@@ -224,6 +224,10 @@
     "appId": "com.loki-project.messenger-desktop",
     "afterSign": "build/notarize.js",
     "artifactName": "${name}-${os}-${arch}-${version}.${ext}",
+    "extraResources": {
+      "from": "./build/launcher-script.sh",
+      "to": "./launcher-script.sh"
+    },
     "mac": {
       "category": "public.app-category.social-networking",
       "icon": "build/icons/mac/icon.icns",
@@ -334,7 +338,8 @@
       "!node_modules/@journeyapps/sqlcipher/lib/binding/node-*",
       "!build/*.js",
       "!dev-app-update.yml"
-    ]
+    ],
+    "afterPack": "./build/afterPackHook.js"
   },
   "husky": {
     "hooks": {

@@ -56,3 +56,4 @@ stylesheets/_intlTelInput.scss
 coverage/**
 .nyc_output/**
 session-file-server/**
+release/**
