@@ -3642,6 +3642,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const messageId = this.idForLogging();
     const count = reactions.length;
 
+    const conversation = window.ConversationController.get(
+      this.get('conversationId')
+    );
+
+    let staleReactionFromId: string | undefined;
+
     if (reaction.get('remove')) {
       window.log.info('Removing reaction for message', messageId);
       const newReactions = reactions.filter(
@@ -3650,6 +3656,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           re.fromId !== reaction.get('fromId')
       );
       this.set({ reactions: newReactions });
+
+      staleReactionFromId = reaction.get('fromId');
     } else {
       window.log.info('Adding reaction for message', messageId);
       const newReactions = reactions.filter(
@@ -3658,14 +3666,21 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       newReactions.push(reaction.toJSON());
       this.set({ reactions: newReactions });
 
-      const conversation = window.ConversationController.get(
-        this.get('conversationId')
+      const oldReaction = reactions.find(
+        re => re.fromId === reaction.get('fromId')
       );
+      if (oldReaction) {
+        staleReactionFromId = oldReaction.fromId;
+      }
 
       // Only notify for reactions to our own messages
       if (conversation && this.isOutgoing() && !reaction.get('fromSync')) {
         conversation.notify(this, reaction);
       }
+    }
+
+    if (staleReactionFromId) {
+      this.clearNotifications(reaction.get('fromId'));
     }
 
     const newCount = this.get('reactions').length;
@@ -3703,6 +3718,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     // Update the conversation's last message in case this was the last message
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.getConversation()!.updateLastMessage();
+  }
+
+  clearNotifications(reactionFromId?: string): void {
+    window.Whisper.Notifications.removeBy({
+      messageId: this.id,
+      reactionFromId,
+    });
   }
 }
 

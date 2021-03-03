@@ -47,6 +47,7 @@
     //       isExpiringMessage: boolean;
     //       reaction: {
     //         emoji: string;
+    //         fromId: string;
     //       };
     //     }
     notificationData: null,
@@ -56,16 +57,40 @@
       this.update();
     },
 
-    removeBy({ conversationId, messageId }) {
-      const shouldClear =
-        Boolean(this.notificationData) &&
-        ((conversationId &&
-          this.notificationData.conversationId === conversationId) ||
-          (messageId && this.notificationData.messageId === messageId));
-      if (shouldClear) {
-        this.clear();
-        this.update();
+    // Remove the last notification if both conditions hold:
+    //
+    // 1. Either `conversationId` or `messageId` matches (if present)
+    // 2. `reactionFromId` matches (if present)
+    removeBy({ conversationId, messageId, reactionFromId }) {
+      if (!this.notificationData) {
+        return;
       }
+
+      let shouldClear = false;
+      if (
+        conversationId &&
+        this.notificationData.conversationId === conversationId
+      ) {
+        shouldClear = true;
+      }
+      if (messageId && this.notificationData.messageId === messageId) {
+        shouldClear = true;
+      }
+
+      if (!shouldClear) {
+        return;
+      }
+
+      if (
+        reactionFromId &&
+        this.notificationData.reaction &&
+        this.notificationData.reaction.fromId !== reactionFromId
+      ) {
+        return;
+      }
+
+      this.clear();
+      this.update();
     },
 
     fastUpdate() {
