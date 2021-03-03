@@ -18,6 +18,7 @@ import {
 import { SetRendererCanvasType } from '../state/ducks/calling';
 import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer';
 import { usePageVisibility } from '../util/hooks';
+import { missingCaseError } from '../util/missingCaseError';
 import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant';
 
 // This value should be kept in sync with the hard-coded CSS height.
@@ -131,42 +132,39 @@ export const CallingPipRemoteVideo = ({
     setGroupCallVideoRequest,
   ]);
 
-  if (activeCall.callMode === CallMode.Direct) {
-    const { hasRemoteVideo } = activeCall.remoteParticipants[0];
-
-    if (!hasRemoteVideo) {
-      return <NoVideo activeCall={activeCall} i18n={i18n} />;
+  switch (activeCall.callMode) {
+    case CallMode.Direct: {
+      const { hasRemoteVideo } = activeCall.remoteParticipants[0];
+      if (!hasRemoteVideo) {
+        return <NoVideo activeCall={activeCall} i18n={i18n} />;
+      }
+      return (
+        <div className="module-calling-pip__video--remote">
+          <DirectCallRemoteParticipant
+            conversation={conversation}
+            hasRemoteVideo={hasRemoteVideo}
+            i18n={i18n}
+            setRendererCanvas={setRendererCanvas}
+          />
+        </div>
+      );
     }
-
-    return (
-      <div className="module-calling-pip__video--remote">
-        <DirectCallRemoteParticipant
-          conversation={conversation}
-          hasRemoteVideo={hasRemoteVideo}
-          i18n={i18n}
-          setRendererCanvas={setRendererCanvas}
-        />
-      </div>
-    );
+    case CallMode.Group:
+      if (!activeGroupCallSpeaker) {
+        return <NoVideo activeCall={activeCall} i18n={i18n} />;
+      }
+      return (
+        <div className="module-calling-pip__video--remote">
+          <GroupCallRemoteParticipant
+            getFrameBuffer={getGroupCallFrameBuffer}
+            getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
+            i18n={i18n}
+            isInPip
+            remoteParticipant={activeGroupCallSpeaker}
+          />
+        </div>
+      );
+    default:
+      throw missingCaseError(activeCall);
   }
-
-  if (activeCall.callMode === CallMode.Group) {
-    if (!activeGroupCallSpeaker) {
-      return <NoVideo activeCall={activeCall} i18n={i18n} />;
-    }
-
-    return (
-      <div className="module-calling-pip__video--remote">
-        <GroupCallRemoteParticipant
-          getFrameBuffer={getGroupCallFrameBuffer}
-          getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
-          i18n={i18n}
-          isInPip
-          remoteParticipant={activeGroupCallSpeaker}
-        />
-      </div>
-    );
-  }
-
-  throw new Error('CallingRemoteVideo: Unknown Call Mode');
 };
