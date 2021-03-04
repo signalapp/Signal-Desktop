@@ -2,9 +2,11 @@ import React from 'react';
 
 import { SessionModal } from './SessionModal';
 import { SessionButton } from './SessionButton';
-import { ToastUtils } from '../../session/utils';
+import { ToastUtils, UserUtils } from '../../session/utils';
 import { DefaultTheme, withTheme } from 'styled-components';
 import { PasswordUtil } from '../../util';
+import { getPasswordHash } from '../../data/data';
+import { QRCode } from 'react-qr-svg';
 
 interface Props {
   onClose: any;
@@ -49,8 +51,8 @@ class SessionSeedModalInner extends React.Component<Props, State> {
   public render() {
     const i18n = window.i18n;
 
-    this.checkHasPassword();
-    this.getRecoveryPhrase().ignore();
+    void this.checkHasPassword();
+    void this.getRecoveryPhrase();
 
     const { onClose } = this.props;
     const { hasPassword, passwordValid } = this.state;
@@ -112,6 +114,8 @@ class SessionSeedModalInner extends React.Component<Props, State> {
 
   private renderSeedView() {
     const i18n = window.i18n;
+    const bgColor = '#FFFFFF';
+    const fgColor = '#1B1B1B';
 
     return (
       <>
@@ -126,7 +130,15 @@ class SessionSeedModalInner extends React.Component<Props, State> {
           </i>
         </div>
         <div className="spacer-lg" />
-
+        <div className="qr-image">
+          <QRCode
+            value={this.state.recoveryPhrase}
+            bgColor={bgColor}
+            fgColor={fgColor}
+            level="L"
+          />
+        </div>
+        <div className="spacer-lg" />
         <div className="session-modal__button-group">
           <SessionButton
             text={i18n('copy')}
@@ -173,19 +185,16 @@ class SessionSeedModalInner extends React.Component<Props, State> {
     return true;
   }
 
-  private checkHasPassword() {
+  private async checkHasPassword() {
     if (!this.state.loadingPassword) {
       return;
     }
 
-    const hashPromise = window.Signal.Data.getPasswordHash();
-
-    hashPromise.then((hash: any) => {
-      this.setState({
-        hasPassword: !!hash,
-        passwordHash: hash,
-        loadingPassword: false,
-      });
+    const hash = await getPasswordHash();
+    this.setState({
+      hasPassword: !!hash,
+      passwordHash: hash || '',
+      loadingPassword: false,
     });
   }
 
@@ -194,8 +203,7 @@ class SessionSeedModalInner extends React.Component<Props, State> {
       return false;
     }
 
-    const manager = await window.getAccountManager();
-    const recoveryPhrase = manager.getCurrentRecoveryPhrase();
+    const recoveryPhrase = UserUtils.getCurrentRecoveryPhrase();
 
     this.setState({
       recoveryPhrase,

@@ -22,24 +22,6 @@
     "updated": "2018-09-13T21:24:40.667Z"
   },
   {
-    "rule": "DOM-innerHTML",
-    "path": "components/qrcode/qrcode.js",
-    "line": "\t\t\t_el.innerHTML = aHTML.join('');",
-    "lineNumber": 254,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "Very limited in what HTML can be injected - dark/light options specify colors for the light/dark parts of QRCode"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "components/qrcode/qrcode.js",
-    "line": "\t\t\tthis._el.innerHTML = '';",
-    "lineNumber": 270,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-15T00:38:04.183Z",
-    "reasonDetail": "Hard-coded string"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "js/about_start.js",
     "line": "$('.version').text(`v${window.getVersion()}`);",

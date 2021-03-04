@@ -311,10 +311,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "Lähetä joka tapauksessa",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "Turvanumerosi yhteystiedon $name$ kanssa on vaihtunut eikä se ole enää varmennettu. Näytä napsauttamalla.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",

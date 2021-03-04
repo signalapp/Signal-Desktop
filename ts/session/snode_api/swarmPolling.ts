@@ -9,11 +9,11 @@ import {
   getSeenMessagesByHashList,
   saveSeenMessageHashes,
   updateLastHash,
-} from '../../../js/modules/data';
+} from '../../../ts/data/data';
 
 import { StringUtils } from '../../session/utils';
-import { ConversationController } from '../conversations/ConversationController';
-import { ConversationModel } from '../../../js/models/conversations';
+import { ConversationController } from '../conversations';
+import { ConversationModel } from '../../models/conversation';
 
 type PubkeyToHash = { [key: string]: string };
 
@@ -52,7 +52,7 @@ export class SwarmPolling {
     this.lastHashes = {};
   }
 
-  public async start(): Promise<void> {
+  public start(): void {
     this.loadGroupIds();
     void this.pollForAllKeys();
   }
@@ -160,17 +160,17 @@ export class SwarmPolling {
 
   private loadGroupIds() {
     // Start polling for medium size groups as well (they might be in different swarms)
-    const convos = ConversationController.getInstance()
-      .getConversations()
-      .filter(
-        (c: ConversationModel) =>
-          c.isMediumGroup() &&
-          !c.isBlocked() &&
-          !c.get('isKickedFromGroup') &&
-          !c.get('left')
-      );
+    const convos = ConversationController.getInstance().getConversations();
 
-    convos.forEach((c: any) => {
+    const mediumGroupsOnly = convos.filter(
+      (c: ConversationModel) =>
+        c.isMediumGroup() &&
+        !c.isBlocked() &&
+        !c.get('isKickedFromGroup') &&
+        !c.get('left')
+    );
+
+    mediumGroupsOnly.forEach((c: any) => {
       this.addGroupId(new PubKey(c.id));
       // TODO: unsubscribe if the group is deleted
     });
@@ -208,10 +208,14 @@ export class SwarmPolling {
     const groupPromises = this.groupPubkeys.map(async pk => {
       return this.pollOnceForKey(pk, true);
     });
+    // if a WrongSwarmError has been triggered, we have to forward it (and in fact we must forward any errors)
+    // but, we also need to make sure the next pollForAllKeys runs no matter if an error is triggered or not
+    // the finally here will be invoked even if the catch is throwing an exception
     try {
       await Promise.all(_.concat(directPromises, groupPromises));
     } catch (e) {
       window.log.warn('pollForAllKeys swallowing exception: ', e);
+      throw e;
     } finally {
       setTimeout(this.pollForAllKeys.bind(this), 2000);
     }

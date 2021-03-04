@@ -5,6 +5,14 @@ async function toPromise<T>(value: Return<T>): Promise<T> {
   return value instanceof Promise ? value : Promise.resolve(value);
 }
 
+export class TaskTimedOutError extends Error {
+  constructor() {
+    super('Task timed out');
+    // Set the prototype explicitly.
+    Object.setPrototypeOf(this, TaskTimedOutError.prototype);
+  }
+}
+
 /**
  * Create a promise which waits until `done` is called or until `timeout` period is reached.
  * If `timeout` is reached then this will throw an Error.
@@ -19,7 +27,7 @@ export async function waitForTask<T>(
   const timeoutPromise = new Promise<T>((_, rej) => {
     const wait = setTimeout(() => {
       clearTimeout(wait);
-      rej(new Error('Task timed out.'));
+      rej(new TaskTimedOutError());
     }, timeoutMs);
   });
 
@@ -125,7 +133,7 @@ export async function timeout<T>(
   const timeoutPromise = new Promise<T>((_, rej) => {
     const wait = setTimeout(() => {
       clearTimeout(wait);
-      rej(new Error('Task timed out.'));
+      rej(new TaskTimedOutError());
     }, timeoutMs);
   });
 

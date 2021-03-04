@@ -55,6 +55,15 @@ window.getStoragePubKey = key =>
 window.getDefaultFileServer = () => config.defaultFileServer;
 window.initialisedAPI = false;
 
+window.lokiFeatureFlags = {
+  useOnionRequests: true,
+  useOnionRequestsV2: true,
+  useFileOnionRequests: true,
+  useFileOnionRequestsV2: true, // more compact encoding of files in response
+  onionRequestHops: 3,
+  useRequestEncryptionKeyPair: false,
+};
+
 if (
   typeof process.env.NODE_ENV === 'string' &&
   process.env.NODE_ENV.includes('test-integration')
@@ -132,16 +141,6 @@ window.decryptLnsEntry = (key, value) =>
     ipc.send('decrypt-lns-entry', key, value);
   });
 
-window.sessionGenerateKeyPair = seed =>
-  new Promise((resolve, reject) => {
-    ipc.once('generate-keypair-seed-response', (_, error, res) => {
-      // eslint-disable-next-line no-unused-expressions
-      error ? reject(error) : resolve(res);
-    });
-
-    ipc.send('generate-keypair-seed', seed);
-  });
-
 window.updateZoomFactor = () => {
   const zoomFactor = window.getSettingValue('zoom-factor-setting') || 100;
   window.setZoomFactor(zoomFactor / 100);
@@ -171,9 +170,6 @@ window.setPassword = (passPhrase, oldPhrase) =>
   });
 
 window.libsession = require('./ts/session');
-
-window.getMessageController =
-  window.libsession.Messages.MessageController.getInstance;
 
 window.getConversationController =
   window.libsession.Conversations.ConversationController.getInstance;
@@ -332,14 +328,17 @@ require('./js/logging');
 if (config.proxyUrl) {
   window.log.info('Using provided proxy url');
 }
-
 window.nodeSetImmediate = setImmediate;
 
-window.seedNodeList = JSON.parse(config.seedNodeList);
+const Signal = require('./js/modules/signal');
+const i18n = require('./js/modules/i18n');
+const Attachments = require('./app/attachments');
 
-const { OnionAPI } = require('./ts/session/onions');
-
-window.OnionAPI = OnionAPI;
+window.Signal = Signal.setup({
+  Attachments,
+  userDataPath: app.getPath('userData'),
+  logger: window.log,
+});
 
 if (process.env.USE_STUBBED_NETWORK) {
   const StubMessageAPI = require('./ts/test/session/integration/stubs/stub_message_api');
@@ -363,6 +362,7 @@ const WorkerInterface = require('./js/modules/util_worker_interface');
 // A Worker with a 3 minute timeout
 const utilWorkerPath = path.join(app.getAppPath(), 'js', 'util_worker.js');
 const utilWorker = new WorkerInterface(utilWorkerPath, 3 * 60 * 1000);
+
 window.callWorker = (fnName, ...args) => utilWorker.callWorker(fnName, ...args);
 
 // Linux seems to periodically let the event loop stop, so this is a global workaround
@@ -376,23 +376,23 @@ window.autoOrientImage = autoOrientImage;
 window.loadImage = require('blueimp-load-image');
 window.dataURLToBlobSync = require('blueimp-canvas-to-blob');
 window.filesize = require('filesize');
-window.getGuid = require('uuid/v4');
 window.profileImages = require('./app/profile_images');
 
 window.React = require('react');
 window.ReactDOM = require('react-dom');
-window.moment = require('moment');
 
 window.clipboard = clipboard;
 
-const Signal = require('./js/modules/signal');
-const i18n = require('./js/modules/i18n');
-const Attachments = require('./app/attachments');
+window.seedNodeList = JSON.parse(config.seedNodeList);
+
+const { OnionPaths } = require('./ts/session/onions');
 
 const { locale } = config;
 window.i18n = i18n.setup(locale, localeMessages);
 // moment does not support es-419 correctly (and cause white screen on app start)
 const localeForMoment = locale === 'es-419' ? 'es' : locale;
+
+window.moment = require('moment');
 
 window.moment.updateLocale(localeForMoment, {
   relativeTime: {
@@ -403,11 +403,19 @@ window.moment.updateLocale(localeForMoment, {
 });
 window.moment.locale(localeForMoment);
 
-window.Signal = Signal.setup({
-  Attachments,
-  userDataPath: app.getPath('userData'),
-  logger: window.log,
-});
+window.OnionPaths = OnionPaths;
+
+window.libsession = require('./ts/session');
+window.models = require('./ts/models');
+
+window.Signal = window.Signal || {};
+window.Signal.Data = require('./ts/data/data');
+
+window.getMessageController = () =>
+  window.libsession.Messages.MessageController.getInstance();
+
+window.getConversationController = () =>
+  window.libsession.Conversations.ConversationController.getInstance();
 
 // Pulling these in separately since they access filesystem, electron
 window.Signal.Backup = require('./js/modules/backup');
@@ -429,24 +437,15 @@ window.DataMessageReceiver = require('./ts/receiver/dataMessage');
 window.NewSnodeAPI = require('./ts/session/snode_api/serviceNodeAPI');
 window.SnodePool = require('./ts/session/snode_api/snodePool');
 
-const { SwarmPolling } = require('./ts/session/snode_api/swarmPolling');
-const { SwarmPollingStub } = require('./ts/session/snode_api/swarmPollingStub');
-
 if (process.env.USE_STUBBED_NETWORK) {
+  const {
+    SwarmPollingStub,
+  } = require('./ts/session/snode_api/swarmPollingStub');
   window.SwarmPolling = new SwarmPollingStub();
 } else {
+  const { SwarmPolling } = require('./ts/session/snode_api/swarmPolling');
   window.SwarmPolling = new SwarmPolling();
 }
-
-window.lokiFeatureFlags = {
-  multiDeviceUnpairing: true,
-  useOnionRequests: true,
-  useOnionRequestsV2: true,
-  useFileOnionRequests: true,
-  useFileOnionRequestsV2: true, // more compact encoding of files in response
-  onionRequestHops: 3,
-  useRequestEncryptionKeyPair: false,
-};
 
 // eslint-disable-next-line no-extend-native,func-names
 Promise.prototype.ignore = function() {
@@ -475,7 +474,6 @@ if (
 }
 if (config.environment.includes('test-integration')) {
   window.lokiFeatureFlags = {
-    multiDeviceUnpairing: true,
     useOnionRequests: false,
     useFileOnionRequests: false,
     useOnionRequestsV2: false,
@@ -493,36 +491,3 @@ const {
 } = require('./ts/util/blockedNumberController');
 
 window.BlockedNumberController = BlockedNumberController;
-window.deleteAccount = async reason => {
-  const deleteEverything = async () => {
-    window.log.info(
-      'configuration message sent successfully. Deleting everything'
-    );
-    await window.Signal.Logs.deleteAll();
-    await window.Signal.Data.removeAll();
-    await window.Signal.Data.close();
-    await window.Signal.Data.removeDB();
-    await window.Signal.Data.removeOtherData();
-    // 'unlink' => toast will be shown on app restart
-    window.localStorage.setItem('restart-reason', reason);
-  };
-  try {
-    window.log.info('DeleteAccount => Sending a last SyncConfiguration');
-    // be sure to wait for the message being effectively sent. Otherwise we won't be able to encrypt it for our devices !
-    await window.libsession.Utils.SyncUtils.forceSyncConfigurationNowIfNeeded(
-      true
-    );
-    await deleteEverything();
-  } catch (error) {
-    window.log.error(
-      'Something went wrong deleting all data:',
-      error && error.stack ? error.stack : error
-    );
-    try {
-      await deleteEverything();
-    } catch (e) {
-      window.log.error(e);
-    }
-  }
-  window.restart();
-};

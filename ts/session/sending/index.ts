@@ -4,4 +4,3 @@ export { MessageSender };
 
 export * from './PendingMessageCache';
 export * from './MessageQueue';
-export * from './MessageQueueInterface';

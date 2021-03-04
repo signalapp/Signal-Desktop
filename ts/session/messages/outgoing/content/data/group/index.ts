@@ -1,4 +1,3 @@
-export * from './ClosedGroupChatMessage';
 export * from './ClosedGroupEncryptionPairMessage';
 export * from './ClosedGroupEncryptionPairRequestMessage';
 export * from './ClosedGroupEncryptionPairReplyMessage';

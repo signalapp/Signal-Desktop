@@ -50,7 +50,6 @@ const results: Array<ExceptionType> = [];
 
 const excludedFiles = [
   // High-traffic files in our project
-  '^js/models/messages.js',
   '^js/background.js',
 
   // Generated files

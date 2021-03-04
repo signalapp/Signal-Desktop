@@ -1,4 +1,5 @@
-import { ConversationModel } from '../../../js/models/conversations';
+import { allowOnlyOneAtATime } from '../../../js/modules/loki_primitives';
+import { ConversationModel } from '../../models/conversation';
 import { ConversationController } from '../conversations';
 import { PromiseUtils } from '../utils';
 import { forceSyncConfigurationNowIfNeeded } from '../utils/syncUtils';
@@ -120,7 +121,8 @@ export class OpenGroup {
     let conversationId;
 
     // Return OpenGroup if we're already connected
-    conversation = await OpenGroup.getConversation(prefixedServer);
+    conversation = OpenGroup.getConversation(prefixedServer);
+
     if (conversation) {
       conversationId = conversation?.cid;
       if (conversationId) {
@@ -135,7 +137,7 @@ export class OpenGroup {
     // Try to connect to server
     try {
       conversation = await PromiseUtils.timeout(
-        window.attemptConnection(prefixedServer, channel),
+        OpenGroup.attemptConnectionOneAtATime(prefixedServer, channel),
         20000
       );
 
@@ -167,9 +169,7 @@ export class OpenGroup {
    * @param server The server URL
    * @returns BackBone conversation model corresponding to the server if it exists, otherwise `undefined`
    */
-  public static async getConversation(
-    server: string
-  ): Promise<ConversationModel | undefined> {
+  public static getConversation(server: string): ConversationModel | undefined {
     if (!OpenGroup.validate(server)) {
       return;
     }
@@ -238,5 +238,86 @@ export class OpenGroup {
     }
 
     return `http${hasSSL ? 's' : ''}://${server}`;
+  }
+
+  /**
+   * When we get our configuration from the network, we might get a few times the same open group on two different messages.
+   * If we don't do anything, we will join them multiple times.
+   * Even if the convo exists only once, the lokiPublicChat API will have several instances polling for the same open group.
+   * Which will cause a lot of duplicate messages as they will be merged on a single conversation.
+   *
+   * To avoid this issue, we allow only a single join of a specific opengroup at a time.
+   */
+  private static async attemptConnectionOneAtATime(
+    serverURL: string,
+    channelId: number = 1
+  ): Promise<ConversationModel> {
+    if (!serverURL) {
+      throw new Error('Cannot join open group with empty URL');
+    }
+    const oneAtaTimeStr = `oneAtaTimeOpenGroupJoin:${serverURL}${channelId}`;
+    return allowOnlyOneAtATime(oneAtaTimeStr, async () => {
+      return OpenGroup.attemptConnection(serverURL, channelId);
+    });
+  }
+
+  // Attempts a connection to an open group server
+  private static async attemptConnection(
+    serverURL: string,
+    channelId: number
+  ): Promise<ConversationModel> {
+    let completeServerURL = serverURL.toLowerCase();
+    const valid = OpenGroup.validate(completeServerURL);
+    if (!valid) {
+      return new Promise((_resolve, reject) => {
+        reject(window.i18n('connectToServerFail'));
+      });
+    }
+
+    // Add http or https prefix to server
+    completeServerURL = OpenGroup.prefixify(completeServerURL);
+
+    const rawServerURL = serverURL
+      .replace(/^https?:\/\//i, '')
+      .replace(/[/\\]+$/i, '');
+
+    const conversationId = `publicChat:${channelId}@${rawServerURL}`;
+
+    // Quickly peak to make sure we don't already have it
+    const conversationExists = ConversationController.getInstance().get(
+      conversationId
+    );
+    if (conversationExists) {
+      // We are already a member of this public chat
+      return new Promise((_resolve, reject) => {
+        reject(window.i18n('publicChatExists'));
+      });
+    }
+
+    // Get server
+    const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(
+      completeServerURL
+    );
+    // SSL certificate failure or offline
+    if (!serverAPI) {
+      // Url incorrect or server not compatible
+      return new Promise((_resolve, reject) => {
+        reject(window.i18n('connectToServerFail'));
+      });
+    }
+
+    // Create conversation
+    const conversation = await ConversationController.getInstance().getOrCreateAndWait(
+      conversationId,
+      'group'
+    );
+
+    // Convert conversation to a public one
+    await conversation.setPublicSource(completeServerURL, channelId);
+
+    // and finally activate it
+    void conversation.getPublicSendData(); // may want "await" if you want to use the API
+
+    return conversation;
   }
 }

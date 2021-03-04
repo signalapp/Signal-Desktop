@@ -14,6 +14,7 @@ import {
 import { SessionSpinner } from './SessionSpinner';
 import { PillDivider } from './PillDivider';
 import { DefaultTheme } from 'styled-components';
+import { UserUtils } from '../../session/utils';
 
 export enum SessionClosableOverlayType {
   Contact = 'contact',
@@ -159,7 +160,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     }
 
     const { groupName, selectedMembers } = this.state;
-    const ourSessionID = window.textsecure.storage.user.getNumber();
+    const ourSessionID = UserUtils.getOurPubKeyStrFromCache();
 
     const contacts = this.getContacts();
 

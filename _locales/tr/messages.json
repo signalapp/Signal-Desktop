@@ -311,10 +311,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "Yine de Gönder",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "$name$ ile olan güvenlik numaranız değişti ve henüz doğrulanmadı. Göstermek için tıklayın.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",

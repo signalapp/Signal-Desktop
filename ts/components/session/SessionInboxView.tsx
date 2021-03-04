@@ -1,16 +1,20 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { getMessageById } from '../../data/data';
+import { MessageModel } from '../../models/message';
 import { getMessageQueue } from '../../session';
-import { ConversationController } from '../../session/conversations/ConversationController';
+import { ConversationController } from '../../session/conversations';
 import { MessageController } from '../../session/messages';
 import { OpenGroupMessage } from '../../session/messages/outgoing';
 import { RawMessage } from '../../session/types';
+import { UserUtils } from '../../session/utils';
 import { createStore } from '../../state/createStore';
 import { actions as conversationActions } from '../../state/ducks/conversations';
 import { actions as userActions } from '../../state/ducks/user';
 import { SmartLeftPane } from '../../state/smart/LeftPane';
 import { SmartSessionConversation } from '../../state/smart/SessionConversation';
+import { makeLookup } from '../../util';
 import {
   SessionSettingCategory,
   SmartSettingsView,
@@ -42,11 +46,6 @@ export class SessionInboxView extends React.Component<Props, State> {
       isExpired: false,
     };
 
-    this.fetchHandleMessageSentData = this.fetchHandleMessageSentData.bind(
-      this
-    );
-    this.handleMessageSentFailure = this.handleMessageSentFailure.bind(this);
-    this.handleMessageSentSuccess = this.handleMessageSentSuccess.bind(this);
     this.showSessionSettingsCategory = this.showSessionSettingsCategory.bind(
       this
     );
@@ -113,60 +112,6 @@ export class SessionInboxView extends React.Component<Props, State> {
     );
   }
 
-  private async fetchHandleMessageSentData(m: RawMessage | OpenGroupMessage) {
-    // nobody is listening to this freshly fetched message .trigger calls
-    const tmpMsg = await window.Signal.Data.getMessageById(m.identifier, {
-      Message: window.Whisper.Message,
-    });
-
-    if (!tmpMsg) {
-      return null;
-    }
-
-    // find the corresponding conversation of this message
-    const conv = ConversationController.getInstance().get(
-      tmpMsg.get('conversationId')
-    );
-
-    if (!conv) {
-      return null;
-    }
-
-    const msg = MessageController.getInstance().get(m.identifier);
-
-    if (!msg || !msg.message) {
-      return null;
-    }
-
-    return { msg: msg.message };
-  }
-
-  private async handleMessageSentSuccess(
-    sentMessage: RawMessage | OpenGroupMessage,
-    wrappedEnvelope: any
-  ) {
-    const fetchedData = await this.fetchHandleMessageSentData(sentMessage);
-    if (!fetchedData) {
-      return;
-    }
-    const { msg } = fetchedData;
-
-    void msg.handleMessageSentSuccess(sentMessage, wrappedEnvelope);
-  }
-
-  private async handleMessageSentFailure(
-    sentMessage: RawMessage | OpenGroupMessage,
-    error: any
-  ) {
-    const fetchedData = await this.fetchHandleMessageSentData(sentMessage);
-    if (!fetchedData) {
-      return;
-    }
-    const { msg } = fetchedData;
-
-    await msg.handleMessageSentFailure(sentMessage, error);
-  }
-
   private async setupLeftPane() {
     // Here we set up a full redux store with initial state for our LeftPane Root
     const convoCollection = ConversationController.getInstance().getConversations();
@@ -174,27 +119,19 @@ export class SessionInboxView extends React.Component<Props, State> {
       (conversation: any) => conversation.cachedProps
     );
 
-    const filledConversations = conversations.map(async (conv: any) => {
-      const messages = await MessageController.getInstance().getMessagesByKeyFromDb(
-        conv.id
-      );
-      return { ...conv, messages };
+    const filledConversations = conversations.map((conv: any) => {
+      return { ...conv, messages: [] };
     });
 
     const fullFilledConversations = await Promise.all(filledConversations);
 
     const initialState = {
       conversations: {
-        conversationLookup: window.Signal.Util.makeLookup(
-          fullFilledConversations,
-          'id'
-        ),
+        conversationLookup: makeLookup(fullFilledConversations, 'id'),
       },
       user: {
         ourPrimary: window.storage.get('primaryDevicePubKey'),
-        ourNumber:
-          window.storage.get('primaryDevicePubKey') ||
-          window.textsecure.storage.user.getNumber(),
+        ourNumber: UserUtils.getOurPubKeyStrFromCache(),
         i18n: window.i18n,
       },
       section: {
@@ -217,22 +154,6 @@ export class SessionInboxView extends React.Component<Props, State> {
     const { userChanged } = bindActionCreators(
       userActions,
       this.store.dispatch
-    );
-
-    this.fetchHandleMessageSentData = this.fetchHandleMessageSentData.bind(
-      this
-    );
-    this.handleMessageSentFailure = this.handleMessageSentFailure.bind(this);
-    this.handleMessageSentSuccess = this.handleMessageSentSuccess.bind(this);
-
-    getMessageQueue().events.addListener(
-      'sendSuccess',
-      this.handleMessageSentSuccess
-    );
-
-    getMessageQueue().events.addListener(
-      'sendFail',
-      this.handleMessageSentFailure
     );
 
     window.Whisper.events.on('messageExpired', messageExpired);

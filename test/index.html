@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
   <link rel="stylesheet" href="../stylesheets/manifest.css" />
 </head>
+
 <body>
   <div id="mocha">
   </div>
@@ -175,14 +176,11 @@
   <script type="text/javascript" src="../js/chromium.js" data-cover></script>
   <script type="text/javascript" src="../js/database.js" data-cover></script>
   <script type="text/javascript" src="../js/storage.js" data-cover></script>
-  <script type="text/javascript" src="../js/signal_protocol_store.js" data-cover></script>
   <script type="text/javascript" src="../js/libtextsecure.js" data-cover></script>
   <script type="text/javascript" src="../js/libloki.js" data-cover></script>
   <!-- needs the network comms libraries to work -->
   <script type="text/javascript" src="../js/expire.js" data-cover></script>
 
-  <script type="text/javascript" src="../js/models/messages.js" data-cover></script>
-  <script type="text/javascript" src="../js/models/conversations.js" data-cover></script>
   <script type="text/javascript" src="../js/expiring_messages.js" data-cover></script>
   <script type="text/javascript" src="../js/notifications.js" data-cover></script>
   <script type="text/javascript" src="../js/focus_listener.js"></script>
@@ -199,7 +197,7 @@
   <script type="text/javascript" src="../js/views/app_view.js"></script>
   <script type="text/javascript" src="../js/views/import_view.js"></script>
 
-    <!-- DIALOGS-->
+  <!-- DIALOGS-->
 
   <script type="text/javascript" src="../js/views/update_group_dialog_view.js"></script>
   <script type="text/javascript" src="../js/views/edit_profile_dialog_view.js"></script>
@@ -209,7 +207,6 @@
   <script type="text/javascript" src="../js/views/moderators_add_dialog_view.js"></script>
   <script type="text/javascript" src="../js/views/moderators_remove_dialog_view.js"></script>
   <script type="text/javascript" src="../js/views/user_details_dialog_view.js"></script>
-  <script type="text/javascript" src="../js/views/nickname_dialog_view.js"></script>
   <script type="text/javascript" src="../js/views/password_dialog_view.js"></script>
   <script type="text/javascript" src="../js/views/seed_dialog_view.js"></script>
 
@@ -236,4 +233,5 @@
     mocha.run();
   </script>
 </body>
+
 </html>

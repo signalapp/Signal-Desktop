@@ -1,6 +1,6 @@
 import React from 'react';
 import { DefaultTheme } from 'styled-components';
-import { ConversationModel } from '../../../js/models/conversations';
+import { ConversationModel } from '../../models/conversation';
 import { ConversationController } from '../../session/conversations';
 import { ToastUtils } from '../../session/utils';
 import { Flex } from '../session/Flex';

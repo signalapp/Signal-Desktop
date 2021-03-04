@@ -756,20 +756,6 @@ async function showMainWindow(sqlKey, passwordAttempt = false) {
   appStartInitialSpellcheckSetting = await getSpellCheckSetting();
   await sqlChannels.initialize();
 
-  try {
-    const IDB_KEY = 'indexeddb-delete-needed';
-    const item = await sql.getItemById(IDB_KEY);
-    if (item && item.value) {
-      await sql.removeIndexedDBFiles();
-      await sql.removeItemById(IDB_KEY);
-    }
-  } catch (error) {
-    console.log(
-      '(ready event handler) error deleting IndexedDB:',
-      error && error.stack ? error.stack : error
-    );
-  }
-
   async function cleanupOrphanedAttachments() {
     const allAttachments = await attachments.getAllAttachments(userDataPath);
     const orphanedAttachments = await sql.removeKnownAttachments(
@@ -839,7 +825,7 @@ async function requestShutdown() {
     // We'll wait two minutes, then force the app to go down. This can happen if someone
     //   exits the app before we've set everything up in preload() (so the browser isn't
     //   yet listening for these events), or if there are a whole lot of stacked-up tasks.
-    // Note: two minutes is also our timeout for SQL tasks in data.js in the browser.
+    // Note: two minutes is also our timeout for SQL tasks in data.ts in the browser.
     setTimeout(() => {
       console.log(
         'requestShutdown: Response never received; forcing shutdown.'
@@ -1110,43 +1096,6 @@ ipc.on('blake2b-digest', (event, input) => {
 
 ipc.on('decrypt-lns-entry', (event, lnsName, ciphertext) => {
   decryptLns(event, lnsName, ciphertext);
-});
-
-async function sessionGenerateKeyPair(event, seed) {
-  const sodium = await getSodium();
-
-  try {
-    const ed25519KeyPair = sodium.crypto_sign_seed_keypair(
-      new Uint8Array(seed)
-    );
-    const x25519PublicKey = sodium.crypto_sign_ed25519_pk_to_curve25519(
-      ed25519KeyPair.publicKey
-    );
-    // prepend version byte (coming from `processKeys(raw_keys)`)
-    const origPub = new Uint8Array(x25519PublicKey);
-    const prependedX25519PublicKey = new Uint8Array(33);
-    prependedX25519PublicKey.set(origPub, 1);
-    prependedX25519PublicKey[0] = 5;
-    const x25519SecretKey = sodium.crypto_sign_ed25519_sk_to_curve25519(
-      ed25519KeyPair.privateKey
-    );
-
-    // prepend with 05 the public key
-    const x25519KeyPair = {
-      pubKey: prependedX25519PublicKey.buffer,
-      privKey: x25519SecretKey.buffer,
-      ed25519KeyPair,
-    };
-
-    // null as first parameter to indicate no error
-    event.reply('generate-keypair-seed-response', null, x25519KeyPair);
-  } catch (err) {
-    event.reply('generate-keypair-seed-response', err);
-  }
-}
-
-ipc.on('generate-keypair-seed', (event, seed) => {
-  sessionGenerateKeyPair(event, seed);
 });
 
 ipc.on('set-auto-update-setting', (event, enabled) => {

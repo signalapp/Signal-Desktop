@@ -7,17 +7,17 @@ describe('ConversationCollection', () => {
   //   before(clearDatabase);
   //   after(clearDatabase);
   //   it('should be ordered newest to oldest', () => {
-  //     const conversations = new Whisper.ConversationCollection();
+  //     const conversations = new window.models.Conversation.ConversationCollection();
   //     // Timestamps
   //     const today = new Date();
   //     const tomorrow = new Date();
   //     tomorrow.setDate(today.getDate() + 1);
   //     // Add convos
-  //     conversations.add({ timestamp: today });
-  //     conversations.add({ timestamp: tomorrow });
+  //     conversations.add({ active_at: today });
+  //     conversations.add({ active_at: tomorrow });
   //     const { models } = conversations;
-  //     const firstTimestamp = models[0].get('timestamp').getTime();
-  //     const secondTimestamp = models[1].get('timestamp').getTime();
+  //     const firstTimestamp = models[0].get('active_at').getTime();
+  //     const secondTimestamp = models[1].get('active_at').getTime();
   //     // Compare timestamps
   //     assert(firstTimestamp > secondTimestamp);
   //   });
@@ -28,9 +28,9 @@ describe('ConversationCollection', () => {
   //     id: '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
   //   };
   //   before(async () => {
-  //     const convo = new Whisper.ConversationCollection().add(attributes);
+  //     const convo = new window.models.Conversation.ConversationCollection().add(attributes);
   //     await window.Signal.Data.saveConversation(convo.attributes, {
-  //       Conversation: Whisper.Conversation,
+  //       Conversation: window.models.Conversation.ConversationModel,
   //     });
   //     // const message = convo.messageCollection.add({
   //     //   body: 'hello world',
@@ -43,21 +43,21 @@ describe('ConversationCollection', () => {
   //   });
   //   after(clearDatabase);
   //   it('contains its own messages', async () => {
-  //     const convo = new Whisper.ConversationCollection().add({
+  //     const convo = new window.models.Conversation.ConversationCollection().add({
   //       id: '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
   //     });
   //     await convo.fetchMessages();
   //     assert.notEqual(convo.messageCollection.length, 0);
   //   });
   //   it('contains only its own messages', async () => {
-  //     const convo = new Whisper.ConversationCollection().add({
+  //     const convo = new window.models.Conversation.ConversationCollection().add({
   //       id: '052d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
   //     });
   //     await convo.fetchMessages();
   //     assert.strictEqual(convo.messageCollection.length, 0);
   //   });
   //   it('adds conversation to message collection upon leaving group', async () => {
-  //     const convo = new Whisper.ConversationCollection().add({
+  //     const convo = new window.models.Conversation.ConversationCollection().add({
   //       type: 'group',
   //       id: '052d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
   //     });
@@ -65,7 +65,7 @@ describe('ConversationCollection', () => {
   //     assert.notEqual(convo.messageCollection.length, 0);
   //   });
   //   it('has a title', () => {
-  //     const convos = new Whisper.ConversationCollection();
+  //     const convos = new window.models.Conversation.ConversationCollection();
   //     let convo = convos.add(attributes);
   //     assert.equal(
   //       convo.getTitle(),
@@ -77,7 +77,7 @@ describe('ConversationCollection', () => {
   //     assert.equal(convo.getTitle(), 'name');
   //   });
   //   it('returns the number', () => {
-  //     const convos = new Whisper.ConversationCollection();
+  //     const convos = new window.models.Conversation.ConversationCollection();
   //     let convo = convos.add(attributes);
   //     assert.equal(
   //       convo.getNumber(),
@@ -88,12 +88,12 @@ describe('ConversationCollection', () => {
   //   });
   //   describe('when set to private', () => {
   //     it('correctly validates hex numbers', () => {
-  //       const regularId = new Whisper.Conversation({
+  //       const regularId = new window.models.Conversation.ConversationModel({
   //         type: 'private',
   //         id:
   //           '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
   //       });
-  //       const invalidId = new Whisper.Conversation({
+  //       const invalidId = new window.models.Conversation.ConversationModel({
   //         type: 'private',
   //         id:
   //           'j71d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
@@ -102,20 +102,20 @@ describe('ConversationCollection', () => {
   //       assert.notOk(invalidId.isValid());
   //     });
   //     it('correctly validates length', () => {
-  //       const regularId33 = new Whisper.Conversation({
+  //       const regularId33 = new window.models.Conversation.ConversationModel({
   //         type: 'private',
   //         id:
   //           '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
   //       });
-  //       const regularId32 = new Whisper.Conversation({
+  //       const regularId32 = new window.models.Conversation.ConversationModel({
   //         type: 'private',
   //         id: '1d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
   //       });
-  //       const shortId = new Whisper.Conversation({
+  //       const shortId = new window.models.Conversation.ConversationModel({
   //         type: 'private',
   //         id: '771d11d',
   //       });
-  //       const longId = new Whisper.Conversation({
+  //       const longId = new window.models.Conversation.ConversationModel({
   //         type: 'private',
   //         id:
   //           '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94abaa',

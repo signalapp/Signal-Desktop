@@ -303,10 +303,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "Enviar de Cualquier Forma",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "Tu número de seguridad con $name$ ha cambiado y ya no está verificado. Presiona para mostrar.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",

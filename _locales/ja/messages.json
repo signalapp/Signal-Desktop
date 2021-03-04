@@ -311,10 +311,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "とにかく送信する",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "$name$との安全番号に変更があり，未検証です。クリックして表示してください。",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
@@ -1312,7 +1308,7 @@
     "allUsersAreRandomly...": {
         "message": "Session ID は、Session で連絡を取るために使用できる一意のアドレスです。本当のアイデンティティに関係なく、あなたの Session ID は設計上完全に匿名でプライベートです。"
     },
-    "generateSessionID": {
+    "createSessionID": {
         "message": "Session ID を作成する"
     },
     "recoveryPhrase": {
@@ -1323,9 +1319,6 @@
     },
     "enterDisplayName": {
         "message": "表示名を入力してください"
-    },
-    "enterSessionIDHere": {
-        "message": "Session ID を入力してください"
     },
     "continueYourSession": {
         "message": "Session を続ける"

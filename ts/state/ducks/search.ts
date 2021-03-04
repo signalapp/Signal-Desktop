@@ -1,9 +1,8 @@
 import { omit, reject } from 'lodash';
 
 import { AdvancedSearchOptions, SearchOptions } from '../../types/Search';
-import { getMessageModel } from '../../shims/Whisper';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
-import { searchConversations, searchMessages } from '../../../js/modules/data';
+import { searchConversations, searchMessages } from '../../../ts/data/data';
 import { makeLookup } from '../../util/makeLookup';
 
 import {
@@ -14,6 +13,8 @@ import {
   SelectedConversationChangedActionType,
 } from './conversations';
 import { PubKey } from '../../session/types';
+import { MessageModel } from '../../models/message';
+import { MessageModelType } from '../../models/messageType';
 
 // State
 
@@ -231,7 +232,12 @@ const getMessageProps = (messages: Array<MessageType>) => {
   }
 
   return messages.map(message => {
-    const model = getMessageModel(message);
+    const overridenProps = {
+      ...message,
+      type: 'incoming' as MessageModelType,
+    };
+
+    const model = new MessageModel(overridenProps);
 
     return model.propsForSearchResult;
   });

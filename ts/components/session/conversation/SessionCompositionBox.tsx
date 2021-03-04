@@ -27,7 +27,7 @@ import { SessionQuotedMessageComposition } from './SessionQuotedMessageCompositi
 import { Mention, MentionsInput } from 'react-mentions';
 import { CaptionEditor } from '../../CaptionEditor';
 import { DefaultTheme } from 'styled-components';
-import { ConversationController } from '../../../session/conversations/ConversationController';
+import { ConversationController } from '../../../session/conversations';
 import { ConversationType } from '../../../state/ducks/conversations';
 import { SessionMemberListItem } from '../SessionMemberListItem';
 
@@ -98,7 +98,7 @@ const sendMessageStyle = {
   input: {
     overflow: 'auto',
     maxHeight: 70,
-    wordBreak: 'break-all',
+    wordBreak: 'break-word',
     padding: '0px',
     margin: '0px',
   },
@@ -225,7 +225,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       return;
     }
 
-    this.toggleEmojiPanel();
+    this.hideEmojiPanel();
   }
 
   private showEmojiPanel() {
@@ -375,7 +375,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         spellCheck={true}
         inputRef={this.textarea}
         disabled={!typingEnabled}
-        // maxLength={Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH}
         rows={1}
         style={sendMessageStyle}
         suggestionsPortalHost={this.container}
@@ -468,7 +467,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       const conv = ConversationController.getInstance().get(pubKey);
       let profileName = 'Anonymous';
       if (conv) {
-        profileName = conv.getProfileName();
+        profileName = conv.getProfileName() || 'Anonymous';
       }
       return {
         id: pubKey,
@@ -521,7 +520,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     }
     if (firstLink !== this.state.stagedLinkPreview?.url) {
       // trigger fetching of link preview data and image
-      void this.fetchLinkPreview(firstLink);
+      this.fetchLinkPreview(firstLink);
     }
 
     // if the fetch did not start yet, just don't show anything
@@ -554,7 +553,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     return <></>;
   }
 
-  private async fetchLinkPreview(firstLink: string) {
+  private fetchLinkPreview(firstLink: string) {
     // mark the link preview as loading, no data are set yet
     this.setState({
       stagedLinkPreview: {
@@ -827,10 +826,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     }
     // Verify message length
     const msgLen = messagePlaintext?.length || 0;
-    // if (msgLen > Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH) {
-    //   ToastUtils.pushMessageBodyTooLong();
-    //   return;
-    // }
     if (msgLen === 0 && this.props.stagedAttachments?.length === 0) {
       ToastUtils.pushMessageBodyMissing();
       return;

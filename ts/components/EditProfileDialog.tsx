@@ -17,9 +17,10 @@ import {
 } from './session/icon';
 import { SessionModal } from './session/SessionModal';
 import { PillDivider } from './session/PillDivider';
-import { ToastUtils } from '../session/utils';
+import { ToastUtils, UserUtils } from '../session/utils';
 import { DefaultTheme } from 'styled-components';
-import { MAX_USERNAME_LENGTH } from './session/RegistrationTabs';
+import { MAX_USERNAME_LENGTH } from './session/registration/RegistrationTabs';
+import { SessionSpinner } from './session/SessionSpinner';
 
 interface Props {
   i18n: any;
@@ -36,6 +37,7 @@ interface State {
   setProfileName: string;
   avatar: string;
   mode: 'default' | 'edit' | 'qr';
+  loading: boolean;
 }
 
 export class EditProfileDialog extends React.Component<Props, State> {
@@ -56,6 +58,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
       setProfileName: this.props.profileName,
       avatar: this.props.avatarPath,
       mode: 'default',
+      loading: false,
     };
 
     this.inputEl = React.createRef();
@@ -70,11 +73,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
     const viewEdit = this.state.mode === 'edit';
     const viewQR = this.state.mode === 'qr';
 
-    /* tslint:disable:no-backbone-get-set-outside-model */
-    const sessionID =
-      window.textsecure.storage.get('primaryDevicePubKey') ||
-      window.textsecure.storage.user.getNumber();
-    /* tslint:enable:no-backbone-get-set-outside-model */
+    const sessionID = UserUtils.getOurPubKeyStrFromCache();
 
     const backButton =
       viewEdit || viewQR
@@ -115,6 +114,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
           </p>
 
           <div className="spacer-lg" />
+          <SessionSpinner loading={this.state.loading} />
 
           {viewDefault || viewQR ? (
             <SessionButton
@@ -126,12 +126,15 @@ export class EditProfileDialog extends React.Component<Props, State> {
               }}
             />
           ) : (
-            <SessionButton
-              text={window.i18n('save')}
-              buttonType={SessionButtonType.BrandOutline}
-              buttonColor={SessionButtonColor.Green}
-              onClick={this.onClickOK}
-            />
+            !this.state.loading && (
+              <SessionButton
+                text={window.i18n('save')}
+                buttonType={SessionButtonType.BrandOutline}
+                buttonColor={SessionButtonColor.Green}
+                onClick={this.onClickOK}
+                disabled={this.state.loading}
+              />
+            )
           )}
 
           <div className="spacer-lg" />
@@ -309,12 +312,20 @@ export class EditProfileDialog extends React.Component<Props, State> {
         ? this.inputEl.current.files[0]
         : null;
 
-    this.props.onOk(newName, avatar);
+    this.setState(
+      {
+        loading: true,
+      },
+      async () => {
+        await this.props.onOk(newName, avatar);
+        this.setState({
+          loading: false,
 
-    this.setState({
-      mode: 'default',
-      setProfileName: this.state.profileName,
-    });
+          mode: 'default',
+          setProfileName: this.state.profileName,
+        });
+      }
+    );
   }
 
   private closeDialog() {

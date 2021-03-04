@@ -311,10 +311,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "Send Anyway",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "Your safety number with $name$ has changed and is no longer verified. Click to show.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
@@ -1276,7 +1272,7 @@
     "allUsersAreRandomly...": {
         "message": "Session ID của bạn là địa chỉ duy nhất mà mọi người có thể dùng để liên lạc với bạn trên ứng dụng Session. Session ID của bạn được thiết kế đảm bảo tuyệt đối ẩn danh và riêng tư vì nó không liên kết với danh tính thật của bạn."
     },
-    "generateSessionID": {
+    "createSessionID": {
         "message": "Tạo Session ID"
     },
     "recoveryPhrase": {
@@ -1287,9 +1283,6 @@
     },
     "enterDisplayName": {
         "message": "Nhập một tên hiển thị"
-    },
-    "enterSessionIDHere": {
-        "message": "Nhập Session ID của bạn"
     },
     "continueYourSession": {
         "message": "Tiếp tục Session của bạn"

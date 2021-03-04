@@ -20,9 +20,6 @@
     ],
     "protobuf": [
       "dist/ProtoBuf.js"
-    ],
-    "qrcode": [
-      "qrcode.js"
     ]
   },
   "concat": {

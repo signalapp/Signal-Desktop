@@ -1,5 +1,6 @@
+// tslint:disable: no-implicit-dependencies
+
 import { SignalService } from '../../../../protobuf';
-import { handleConfigurationMessage } from '../../../../receiver/contentMessage';
 import chai from 'chai';
 
 import { ConfigurationMessage } from '../../../../session/messages/outgoing/content/ConfigurationMessage';
@@ -8,12 +9,12 @@ import { TestUtils } from '../../../test-utils';
 
 import Sinon, * as sinon from 'sinon';
 import * as cache from '../../../../receiver/cache';
-import * as data from '../../../../../js/modules/data';
+import * as data from '../../../../../ts/data/data';
 import { EnvelopePlus } from '../../../../receiver/types';
 
-// tslint:disable-next-line: no-require-imports no-var-requires
-const chaiAsPromised = require('chai-as-promised');
-chai.use(chaiAsPromised);
+import chaiAsPromised from 'chai-as-promised';
+import { handleConfigurationMessage } from '../../../../receiver/configMessage';
+chai.use(chaiAsPromised as any);
 chai.should();
 
 const { expect } = chai;
@@ -46,7 +47,7 @@ describe('ConfigurationMessage_receiving', () => {
   });
 
   it('should not be processed if we do not have a pubkey', async () => {
-    sandbox.stub(UserUtils, 'getCurrentDevicePubKey').resolves(undefined);
+    sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').resolves(undefined);
     envelope = TestUtils.generateEnvelopePlus(sender);
 
     const proto = config.contentProto();
@@ -64,7 +65,7 @@ describe('ConfigurationMessage_receiving', () => {
     const ourNumber = TestUtils.generateFakePubKey().key;
 
     beforeEach(() => {
-      sandbox.stub(UserUtils, 'getCurrentDevicePubKey').resolves(ourNumber);
+      sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').resolves(ourNumber);
     });
 
     it('should not be processed if the message is not coming from our number', async () => {

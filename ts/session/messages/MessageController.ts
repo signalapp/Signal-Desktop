@@ -1,8 +1,9 @@
 // You can see MessageController for in memory registered messages.
 // Ee register messages to it everytime we send one, so that when an event happens we can find which message it was based on this id.
 
-import { ConversationModel } from '../../../js/models/conversations';
-import { MessageModel } from '../../../js/models/messages';
+import { getMessagesByConversation } from '../../../ts/data/data';
+import { ConversationModel } from '../../models/conversation';
+import { MessageCollection, MessageModel } from '../../models/message';
 
 type MessageControllerEntry = {
   message: MessageModel;
@@ -29,6 +30,11 @@ export class MessageController {
   }
 
   public register(id: string, message: MessageModel) {
+    if (!(message instanceof MessageModel)) {
+      throw new Error(
+        'Only MessageModels can be registered to the MessageController.'
+      );
+    }
     const existing = this.messageLookup.get(id);
     if (existing) {
       this.messageLookup.set(id, {
@@ -51,7 +57,9 @@ export class MessageController {
   }
 
   public cleanup() {
-    window.log.warn('Cleaning up getMessageController() oldest messages...');
+    window.log.warn(
+      'Cleaning up MessageController singleton oldest messages...'
+    );
     const now = Date.now();
 
     (this.messageLookup || []).forEach(messageEntry => {
@@ -67,20 +75,5 @@ export class MessageController {
   // tslint:disable-next-line: function-name
   public get(identifier: string) {
     return this.messageLookup.get(identifier);
-  }
-
-  public async getMessagesByKeyFromDb(key: string) {
-    // loadLive gets messages live, not from the database which can lag behind.
-
-    let messages = [];
-    const messageSet = await window.Signal.Data.getMessagesByConversation(key, {
-      limit: 100,
-      MessageCollection: window.Whisper.MessageCollection,
-    });
-
-    messages = messageSet.models.map(
-      (conv: ConversationModel) => conv.attributes
-    );
-    return messages;
   }
 }

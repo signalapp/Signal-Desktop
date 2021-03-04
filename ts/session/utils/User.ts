@@ -1,23 +1,10 @@
 import _ from 'lodash';
 import { UserUtils } from '.';
-import { getItemById } from '../../../js/modules/data';
+import { getItemById } from '../../../ts/data/data';
 import { KeyPair } from '../../../libtextsecure/libsignal-protocol';
 import { PubKey } from '../types';
 import { toHex } from './String';
-
-export async function isUs(
-  pubKey: string | PubKey | undefined
-): Promise<boolean> {
-  if (!pubKey) {
-    throw new Error('pubKey is not set');
-  }
-  const ourNumber = await UserUtils.getCurrentDevicePubKey();
-  if (!ourNumber) {
-    throw new Error('ourNumber is not set');
-  }
-  const pubKeyStr = pubKey instanceof PubKey ? pubKey.key : pubKey;
-  return pubKeyStr === ourNumber;
-}
+import { ConversationController } from '../conversations';
 
 export type HexKeyPair = {
   pubKey: string;
@@ -25,14 +12,34 @@ export type HexKeyPair = {
 };
 
 /**
- * Returns the public key of this current device as a string
+ * Check if this pubkey is us, using the cache.
+ * Throws an error if our pubkey is not set
  */
-export async function getCurrentDevicePubKey(): Promise<string | undefined> {
-  return window.textsecure.storage.user.getNumber();
+export function isUsFromCache(pubKey: string | PubKey | undefined): boolean {
+  if (!pubKey) {
+    throw new Error('pubKey is not set');
+  }
+  const ourNumber = UserUtils.getOurPubKeyStrFromCache();
+  const pubKeyStr = pubKey instanceof PubKey ? pubKey.key : pubKey;
+  return pubKeyStr === ourNumber;
 }
 
-export async function getOurNumber(): Promise<PubKey> {
-  const ourNumber = await UserUtils.getCurrentDevicePubKey();
+/**
+ * Returns the public key of this current device as a STRING, or throws an error
+ */
+export function getOurPubKeyStrFromCache(): string {
+  const ourNumber = window.textsecure.storage.user.getNumber();
+  if (!ourNumber) {
+    throw new Error('ourNumber is not set');
+  }
+  return ourNumber;
+}
+
+/**
+ * Returns the public key of this current device as a PubKey, or throws an error
+ */
+export function getOurPubKeyFromCache(): PubKey {
+  const ourNumber = UserUtils.getOurPubKeyStrFromCache();
   if (!ourNumber) {
     throw new Error('ourNumber is not set');
   }
@@ -62,4 +69,57 @@ export async function getUserED25519KeyPair(): Promise<HexKeyPair | undefined> {
     };
   }
   return undefined;
+}
+
+export function isSignInByLinking(): boolean {
+  return window.textsecure.storage.user.isSignInByLinking();
+}
+
+export function setSignInByLinking(isLinking: boolean) {
+  window.textsecure.storage.user.setSignInByLinking(isLinking);
+}
+
+export interface OurLokiProfile {
+  displayName: string;
+  avatarPointer: string;
+  profileKey: Uint8Array | null;
+}
+
+export function getOurProfile(): OurLokiProfile | undefined {
+  try {
+    // Secondary devices have their profile stored
+    // in their primary device's conversation
+    const ourNumber = window.storage.get('primaryDevicePubKey');
+    const ourConversation = ConversationController.getInstance().get(ourNumber);
+    const profileKey = new Uint8Array(window.storage.get('profileKey'));
+
+    const avatarPointer = ourConversation.get('avatarPointer');
+    const { displayName } = ourConversation.getLokiProfile();
+    return {
+      displayName,
+      avatarPointer,
+      profileKey: profileKey.length ? profileKey : null,
+    };
+  } catch (e) {
+    window.log.error(`Failed to get our profile: ${e}`);
+    return undefined;
+  }
+}
+
+export function getLastProfileUpdateTimestamp(): number | undefined {
+  return window.textsecure.storage.user.getLastProfileUpdateTimestamp();
+}
+
+export function setLastProfileUpdateTimestamp(lastUpdateTimestamp: number) {
+  return window.textsecure.storage.user.setLastProfileUpdateTimestamp(
+    lastUpdateTimestamp
+  );
+}
+
+export function getCurrentRecoveryPhrase() {
+  return window.textsecure.storage.get('mnemonic');
+}
+
+export function saveRecoveryPhrase(mnemonic: string) {
+  return window.textsecure.storage.put('mnemonic', mnemonic);
 }

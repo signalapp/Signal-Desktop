@@ -3,7 +3,6 @@ import { removeFromCache } from './cache';
 import { EnvelopePlus } from './types';
 import { ConversationType, getEnvelopeId } from './common';
 
-import { MessageModel } from '../../js/models/messages';
 import { PubKey } from '../session/types';
 import { handleMessageJob } from './queuedJob';
 import { downloadAttachment } from './attachments';
@@ -13,10 +12,13 @@ import { DeliveryReceiptMessage } from '../session/messages/outgoing';
 import { getMessageQueue } from '../session';
 import { ConversationController } from '../session/conversations';
 import { handleClosedGroupControlMessage } from './closedGroups';
-import { isUs } from '../session/utils/User';
+import { MessageModel } from '../models/message';
+import { MessageModelType } from '../models/messageType';
+import { getMessageBySender } from '../../ts/data/data';
+import { ConversationModel } from '../models/conversation';
 
 export async function updateProfile(
-  conversation: any,
+  conversation: ConversationModel,
   profile: SignalService.DataMessage.ILokiProfile,
   profileKey: any
 ) {
@@ -274,7 +276,7 @@ export async function handleDataMessage(
   const message = await processDecrypted(envelope, dataMessage);
   const source = dataMessage.syncTarget || envelope.source;
   const senderPubKey = envelope.senderIdentity || envelope.source;
-  const isMe = await isUs(senderPubKey);
+  const isMe = UserUtils.isUsFromCache(senderPubKey);
   const isSyncMessage = Boolean(dataMessage.syncTarget?.length);
 
   window.log.info(`Handle dataMessage from ${source} `);
@@ -353,12 +355,11 @@ async function isMessageDuplicate({
   const { Errors } = window.Signal.Types;
 
   try {
-    const result = await window.Signal.Data.getMessageBySender(
-      { source, sourceDevice, sent_at: timestamp },
-      {
-        Message: window.Whisper.Message,
-      }
-    );
+    const result = await getMessageBySender({
+      source,
+      sourceDevice,
+      sent_at: timestamp,
+    });
 
     if (!result) {
       return false;
@@ -400,16 +401,8 @@ async function handleProfileUpdate(
   const profileKey = StringUtils.decode(profileKeyBuffer, 'base64');
 
   if (!isIncoming) {
-    const receiver = await ConversationController.getInstance().getOrCreateAndWait(
-      convoId,
-      convoType
-    );
-    // First set profileSharing = true for the conversation we sent to
-    receiver.set({ profileSharing: true });
-    await receiver.commit();
-
-    // Then we update our own profileKey if it's different from what we have
-    const ourNumber = window.textsecure.storage.user.getNumber();
+    // We update our own profileKey if it's different from what we have
+    const ourNumber = UserUtils.getOurPubKeyStrFromCache();
     const me = await ConversationController.getInstance().getOrCreate(
       ourNumber,
       'private'
@@ -434,7 +427,7 @@ interface MessageCreationData {
   receivedAt: number;
   sourceDevice: number; // always 1 isn't it?
   source: boolean;
-  serverId: string;
+  serverId: number;
   message: any;
   serverTimestamp: any;
 
@@ -456,7 +449,6 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
     serverTimestamp,
   } = data;
 
-  const type = 'incoming';
   const messageGroupId = message?.group?.id;
   let groupId =
     messageGroupId && messageGroupId.length > 0 ? messageGroupId : null;
@@ -473,18 +465,17 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
     serverTimestamp,
     received_at: receivedAt || Date.now(),
     conversationId: groupId ?? source,
-    type,
+    type: 'incoming',
     direction: 'incoming', // +
     unread: 1, // +
     isPublic, // +
   };
 
-  return new window.Whisper.Message(messageData);
+  return new MessageModel(messageData);
 }
 
 function createSentMessage(data: MessageCreationData): MessageModel {
   const now = Date.now();
-  let sentTo = [];
 
   const {
     timestamp,
@@ -493,46 +484,42 @@ function createSentMessage(data: MessageCreationData): MessageModel {
     isPublic,
     receivedAt,
     sourceDevice,
-    unidentifiedStatus,
     expirationStartTimestamp,
     destination,
+    message,
   } = data;
 
-  let unidentifiedDeliveries;
-
-  if (unidentifiedStatus && unidentifiedStatus.length) {
-    sentTo = unidentifiedStatus.map((item: any) => item.destination);
-    const unidentified = _.filter(unidentifiedStatus, (item: any) =>
-      Boolean(item.unidentified)
-    );
-    // eslint-disable-next-line no-param-reassign
-    unidentifiedDeliveries = unidentified.map((item: any) => item.destination);
-  }
-
   const sentSpecificFields = {
-    sent_to: sentTo,
+    sent_to: [],
     sent: true,
-    unidentifiedDeliveries: unidentifiedDeliveries || [],
     expirationStartTimestamp: Math.min(
       expirationStartTimestamp || data.timestamp || now,
       now
     ),
   };
 
-  const messageData: any = {
-    source: window.textsecure.storage.user.getNumber(),
+  const messageGroupId = message?.group?.id;
+  let groupId =
+    messageGroupId && messageGroupId.length > 0 ? messageGroupId : null;
+
+  if (groupId) {
+    groupId = PubKey.removeTextSecurePrefixIfNeeded(groupId);
+  }
+
+  const messageData = {
+    source: UserUtils.getOurPubKeyStrFromCache(),
     sourceDevice,
     serverTimestamp,
     serverId,
     sent_at: timestamp,
     received_at: isPublic ? receivedAt : now,
     isPublic,
-    conversationId: destination, // conversation ID will might change later (if it is a group)
-    type: 'outgoing',
+    conversationId: groupId ?? destination,
+    type: 'outgoing' as MessageModelType,
     ...sentSpecificFields,
   };
 
-  return new window.Whisper.Message(messageData);
+  return new MessageModel(messageData);
 }
 
 function createMessage(
@@ -609,7 +596,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
     return;
   }
 
-  const isOurDevice = await UserUtils.isUs(source);
+  const isOurDevice = UserUtils.isUsFromCache(source);
 
   const shouldSendReceipt = isIncoming && !isGroupMessage && !isOurDevice;
 
@@ -634,7 +621,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
       conversationId
     );
   }
-  const ourNumber = window.textsecure.storage.user.getNumber();
+  const ourNumber = UserUtils.getOurPubKeyStrFromCache();
 
   // =========================================
 

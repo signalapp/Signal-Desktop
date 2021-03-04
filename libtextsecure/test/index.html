@@ -5,6 +5,7 @@
   <title>libtextsecure test runner</title>
   <link rel="stylesheet" href="../../node_modules/mocha/mocha.css" />
 </head>
+
 <body>
 
   <div id="mocha">
@@ -21,18 +22,15 @@
   <script type="text/javascript" src="../protobufs.js" data-cover></script>
   <script type="text/javascript" src="../errors.js" data-cover></script>
   <script type="text/javascript" src="../storage.js" data-cover></script>
-  <script type="text/javascript" src="../protocol_wrapper.js" data-cover></script>
 
   <script type="text/javascript" src="../event_target.js" data-cover></script>
   <script type="text/javascript" src="../helpers.js" data-cover></script>
   <script type="text/javascript" src="../stringview.js" data-cover></script>
-  <script type="text/javascript" src="../account_manager.js" data-cover></script>
   <script type="text/javascript" src="../task_with_timeout.js" data-cover></script>
 
   <script type="text/javascript" src="errors_test.js"></script>
   <script type="text/javascript" src="helpers_test.js"></script>
   <script type="text/javascript" src="task_with_timeout_test.js"></script>
-  <script type="text/javascript" src="account_manager_test.js"></script>
 
   <!-- Comment out to turn off code coverage. Useful for getting real callstacks. -->
   <!--   NOTE: blanket doesn't support modern syntax and will choke until we find a replacement. :0( -->
@@ -43,4 +41,5 @@
     mocha.run();
   </script>
 </body>
+
 </html>

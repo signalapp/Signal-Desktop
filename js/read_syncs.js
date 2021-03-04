@@ -30,7 +30,7 @@
         const messages = await window.Signal.Data.getMessagesBySentAt(
           receipt.get('timestamp'),
           {
-            MessageCollection: Whisper.MessageCollection,
+            MessageCollection: window.models.Message.MessageCollection,
           }
         );
 
@@ -88,11 +88,6 @@
 
           const force = true;
           await message.setToExpire(force);
-
-          const conversation = message.getConversation();
-          if (conversation) {
-            conversation.trigger('expiration-change', message);
-          }
         }
 
         this.remove(receipt);

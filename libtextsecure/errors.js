@@ -35,30 +35,6 @@
   }
   inherit(Error, ReplayableError);
 
-  function IncomingIdentityKeyError(number, message, key) {
-    // eslint-disable-next-line prefer-destructuring
-    this.number = number.split('.')[0];
-    this.identityKey = key;
-
-    ReplayableError.call(this, {
-      name: 'IncomingIdentityKeyError',
-      message: `The identity of ${this.number} has changed.`,
-    });
-  }
-  inherit(ReplayableError, IncomingIdentityKeyError);
-
-  function OutgoingIdentityKeyError(number, message, timestamp, identityKey) {
-    // eslint-disable-next-line prefer-destructuring
-    this.number = number.split('.')[0];
-    this.identityKey = identityKey;
-
-    ReplayableError.call(this, {
-      name: 'OutgoingIdentityKeyError',
-      message: `The identity of ${this.number} has changed.`,
-    });
-  }
-  inherit(ReplayableError, OutgoingIdentityKeyError);
-
   function SendMessageNetworkError(number, jsonData, httpError) {
     this.number = number;
     this.code = httpError.code;
@@ -72,18 +48,6 @@
   }
   inherit(ReplayableError, SendMessageNetworkError);
 
-  function MessageError(message, httpError) {
-    this.code = httpError.code;
-
-    ReplayableError.call(this, {
-      name: 'MessageError',
-      message: httpError.message,
-    });
-
-    appendStack(this, httpError);
-  }
-  inherit(ReplayableError, MessageError);
-
   function EmptySwarmError(number, message) {
     // eslint-disable-next-line prefer-destructuring
     this.number = number.split('.')[0];
@@ -94,16 +58,6 @@
     });
   }
   inherit(ReplayableError, EmptySwarmError);
-
-  function DNSResolutionError(message) {
-    // eslint-disable-next-line prefer-destructuring
-
-    ReplayableError.call(this, {
-      name: 'DNSResolutionError',
-      message: `Error resolving url: ${message}`,
-    });
-  }
-  inherit(ReplayableError, DNSResolutionError);
 
   function NotFoundError(message, error) {
     this.name = 'NotFoundError';
@@ -173,16 +127,6 @@
     }
   }
 
-  function PublicTokenError(message) {
-    this.name = 'PublicTokenError';
-
-    ReplayableError.call(this, {
-      name: 'PublicTokenError',
-      message,
-    });
-  }
-  inherit(ReplayableError, PublicTokenError);
-
   function TimestampError(message) {
     this.name = 'TimeStampError';
 
@@ -206,18 +150,13 @@
   }
 
   window.textsecure.SendMessageNetworkError = SendMessageNetworkError;
-  window.textsecure.IncomingIdentityKeyError = IncomingIdentityKeyError;
-  window.textsecure.OutgoingIdentityKeyError = OutgoingIdentityKeyError;
   window.textsecure.ReplayableError = ReplayableError;
-  window.textsecure.MessageError = MessageError;
   window.textsecure.EmptySwarmError = EmptySwarmError;
   window.textsecure.SeedNodeError = SeedNodeError;
-  window.textsecure.DNSResolutionError = DNSResolutionError;
   window.textsecure.HTTPError = HTTPError;
   window.textsecure.NotFoundError = NotFoundError;
   window.textsecure.WrongSwarmError = WrongSwarmError;
   window.textsecure.WrongDifficultyError = WrongDifficultyError;
   window.textsecure.TimestampError = TimestampError;
   window.textsecure.PublicChatError = PublicChatError;
-  window.textsecure.PublicTokenError = PublicTokenError;
 })();

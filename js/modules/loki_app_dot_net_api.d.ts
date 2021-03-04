@@ -10,6 +10,7 @@ interface UploadResponse {
 }
 
 export interface LokiAppDotNetServerInterface {
+  setAvatar(url: any, profileKey: any);
   findOrCreateChannel(
     api: LokiPublicChatFactoryAPI,
     channelId: number,
@@ -23,6 +24,10 @@ export interface LokiAppDotNetServerInterface {
 }
 
 export interface LokiPublicChannelAPI {
+  banUser(source: string): Promise<boolean>;
+  getModerators: () => Promise<Array<string>>;
+  serverAPI: any;
+  deleteMessages(arg0: any[]);
   sendMessage(
     data: {
       quote?: Quote;

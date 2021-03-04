@@ -1,12 +1,22 @@
 import { EnvelopePlus } from './types';
 import { StringUtils } from '../session/utils';
 import _ from 'lodash';
+import {
+  getAllUnprocessed,
+  getUnprocessedById,
+  getUnprocessedCount,
+  removeAllUnprocessed,
+  removeUnprocessed,
+  saveUnprocessed,
+  updateUnprocessedAttempts,
+  updateUnprocessedWithData,
+} from '../data/data';
 
 export async function removeFromCache(envelope: EnvelopePlus) {
   const { id } = envelope;
   window.log.info(`removing from cache envelope: ${id}`);
 
-  return window.textsecure.storage.unprocessed.remove(id);
+  return removeUnprocessed(id);
 }
 
 export async function addToCache(
@@ -14,6 +24,7 @@ export async function addToCache(
   plaintext: ArrayBuffer
 ) {
   const { id } = envelope;
+  window.log.info(`adding to cache envelope: ${id}`);
 
   const encodedEnvelope = StringUtils.decode(plaintext, 'base64');
   const data: any = {
@@ -27,24 +38,21 @@ export async function addToCache(
   if (envelope.senderIdentity) {
     data.senderIdentity = envelope.senderIdentity;
   }
-
-  return window.textsecure.storage.unprocessed.add(data);
+  return saveUnprocessed(data);
 }
 
 async function fetchAllFromCache(): Promise<Array<any>> {
-  const { textsecure } = window;
-
-  const count = await textsecure.storage.unprocessed.getCount();
+  const count = await getUnprocessedCount();
 
   if (count > 1500) {
-    await textsecure.storage.unprocessed.removeAll();
+    await removeAllUnprocessed();
     window.log.warn(
       `There were ${count} messages in cache. Deleted all instead of reprocessing`
     );
     return [];
   }
 
-  const items = await textsecure.storage.unprocessed.getAll();
+  const items = await getAllUnprocessed();
   return items;
 }
 
@@ -53,7 +61,6 @@ export async function getAllFromCache() {
   const items = await fetchAllFromCache();
 
   window.log.info('getAllFromCache loaded', items.length, 'saved envelopes');
-  const { textsecure } = window;
 
   return Promise.all(
     _.map(items, async (item: any) => {
@@ -65,12 +72,9 @@ export async function getAllFromCache() {
             'getAllFromCache final attempt for envelope',
             item.id
           );
-          await textsecure.storage.unprocessed.remove(item.id);
+          await removeUnprocessed(item.id);
         } else {
-          await textsecure.storage.unprocessed.updateAttempts(
-            item.id,
-            attempts
-          );
+          await updateUnprocessedAttempts(item.id, attempts);
         }
       } catch (error) {
         window.log.error(
@@ -97,7 +101,6 @@ export async function getAllFromCacheForSource(source: string) {
     itemsFromSource.length,
     'saved envelopes'
   );
-  const { textsecure } = window;
 
   return Promise.all(
     _.map(items, async (item: any) => {
@@ -109,12 +112,9 @@ export async function getAllFromCacheForSource(source: string) {
             'getAllFromCache final attempt for envelope',
             item.id
           );
-          await textsecure.storage.unprocessed.remove(item.id);
+          await removeUnprocessed(item.id);
         } else {
-          await textsecure.storage.unprocessed.updateAttempts(
-            item.id,
-            attempts
-          );
+          await updateUnprocessedAttempts(item.id, attempts);
         }
       } catch (error) {
         window.log.error(
@@ -133,7 +133,7 @@ export async function updateCache(
   plaintext: ArrayBuffer
 ): Promise<void> {
   const { id } = envelope;
-  const item = await window.textsecure.storage.unprocessed.get(id);
+  const item = await getUnprocessedById(id);
   if (!item) {
     window.log.error(`updateCache: Didn't find item ${id} in cache to update`);
     return;
@@ -148,5 +148,5 @@ export async function updateCache(
 
   item.decrypted = StringUtils.decode(plaintext, 'base64');
 
-  return window.textsecure.storage.unprocessed.addDecryptedData(item.id, item);
+  return updateUnprocessedWithData(item.id, item);
 }

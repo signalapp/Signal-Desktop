@@ -311,10 +311,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "Enviar de todos modos",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "Las cifras de seguridad con $name$ han cambiado y ya no están verificadas. Haz clic para mostrar.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
@@ -1312,7 +1308,7 @@
     "allUsersAreRandomly...": {
         "message": "Tu ID de Session es la dirección única que las personas pueden usar para contactarte en Session. Por diseño, tu ID de Session es totalmente anónima y privada, sin vínculo con tu identidad real."
     },
-    "generateSessionID": {
+    "createSessionID": {
         "message": "Crear ID de Session"
     },
     "recoveryPhrase": {
@@ -1323,9 +1319,6 @@
     },
     "enterDisplayName": {
         "message": "Ingresa un nombre para mostrar"
-    },
-    "enterSessionIDHere": {
-        "message": "Ingresa tu ID de Session"
     },
     "continueYourSession": {
         "message": "Continúa tu Session"

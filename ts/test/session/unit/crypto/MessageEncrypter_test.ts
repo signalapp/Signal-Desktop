@@ -117,7 +117,7 @@ describe('MessageEncrypter', () => {
       } as any,
     });
 
-    sandbox.stub(UserUtils, 'getCurrentDevicePubKey').resolves(ourNumber);
+    sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
     sandbox
       .stub(UserUtils, 'getUserED25519KeyPair')
       .resolves(ourUserEd25516Keypair);
@@ -165,15 +165,13 @@ describe('MessageEncrypter', () => {
           .to.deep.equal(SignalService.Envelope.Type.UNIDENTIFIED_SENDER);
       });
 
-      it('should throw an error for anything else than Fallback or ClosedGroup', async () => {
+      it('should throw an error for anything else than Fallback or ClosedGroup', () => {
         const data = crypto.randomBytes(10);
-        await expect(
-          MessageEncrypter.encrypt(
-            TestUtils.generateFakePubKey(),
-            data,
-            EncryptionType.Signal
-          )
-        ).to.be.rejectedWith(Error);
+        return MessageEncrypter.encrypt(
+          TestUtils.generateFakePubKey(),
+          data,
+          EncryptionType.Signal
+        ).should.eventually.be.rejectedWith(Error);
       });
     });
   });
@@ -182,7 +180,7 @@ describe('MessageEncrypter', () => {
   describe('Session Protocol', () => {
     let sandboxSessionProtocol: sinon.SinonSandbox;
 
-    beforeEach(async () => {
+    beforeEach(() => {
       sandboxSessionProtocol = sinon.createSandbox();
 
       sandboxSessionProtocol

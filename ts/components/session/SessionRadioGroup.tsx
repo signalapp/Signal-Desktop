@@ -1,60 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { SessionRadio } from './SessionRadio';
 
 interface Props {
-  initalItem: string;
+  // tslint:disable: react-unused-props-and-state
+  initialItem: string;
   items: Array<any>;
   group: string;
-  onClick?: any;
+  onClick: (selectedValue: string) => any;
 }
 
-interface State {
-  activeItem: string;
-}
+export const SessionRadioGroup = (props: Props) => {
+  const [activeItem, setActiveItem] = useState('');
+  const { items, group, initialItem } = props;
 
-export class SessionRadioGroup extends React.PureComponent<Props, State> {
-  public static defaultProps = {
-    onClick: () => null,
-  };
+  useEffect(() => {
+    setActiveItem(initialItem);
+  }, []);
 
-  constructor(props: any) {
-    super(props);
-    this.clickHandler = this.clickHandler.bind(this);
+  return (
+    <div className="session-radio-group">
+      <fieldset id={group}>
+        {items.map(item => {
+          const itemIsActive = item.value === activeItem;
 
-    this.state = {
-      activeItem: this.props.initalItem,
-    };
-  }
-
-  public render() {
-    const { items, group } = this.props;
-
-    return (
-      <div className="session-radio-group">
-        <fieldset id={group}>
-          {items.map(item => {
-            const itemIsActive = item.value === this.state.activeItem;
-
-            return (
-              <SessionRadio
-                key={item.value}
-                label={item.label}
-                active={itemIsActive}
-                value={item.value}
-                group={group}
-                onClick={this.clickHandler}
-              />
-            );
-          })}
-        </fieldset>
-      </div>
-    );
-  }
-
-  private clickHandler() {
-    if (this.props.onClick) {
-      this.props.onClick();
-    }
-  }
-}
+          return (
+            <SessionRadio
+              key={item.value}
+              label={item.label}
+              active={itemIsActive}
+              value={item.value}
+              group={group}
+              onClick={(value: string) => {
+                setActiveItem(value);
+                props.onClick(value);
+              }}
+            />
+          );
+        })}
+      </fieldset>
+    </div>
+  );
+};

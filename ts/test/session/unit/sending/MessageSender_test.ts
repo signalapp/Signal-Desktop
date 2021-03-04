@@ -59,7 +59,7 @@ describe('MessageSender', () => {
         cipherText: crypto.randomBytes(10),
       });
 
-      sandbox.stub(UserUtils, 'getCurrentDevicePubKey').resolves(ourNumber);
+      sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
     });
 
     describe('retry', () => {
@@ -85,16 +85,19 @@ describe('MessageSender', () => {
       });
 
       it('should only retry the specified amount of times before throwing', async () => {
+        // const clock = sinon.useFakeTimers();
+
         lokiMessageAPISendStub.throws(new Error('API error'));
         const attempts = 2;
-        const promise = MessageSender.send(rawMessage, attempts);
+        const promise = MessageSender.send(rawMessage, attempts, 10);
         await expect(promise).is.rejectedWith('API error');
+        // clock.restore();
         expect(lokiMessageAPISendStub.callCount).to.equal(attempts);
       });
 
       it('should not throw error if successful send occurs within the retry limit', async () => {
         lokiMessageAPISendStub.onFirstCall().throws(new Error('API error'));
-        await MessageSender.send(rawMessage, 3);
+        await MessageSender.send(rawMessage, 3, 10);
         expect(lokiMessageAPISendStub.callCount).to.equal(2);
       });
     });

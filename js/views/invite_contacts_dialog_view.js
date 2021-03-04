@@ -74,7 +74,7 @@
         });
       } else {
         // private group chats
-        const ourPK = window.textsecure.storage.user.getNumber();
+        const ourPK = window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
         let existingMembers = this.convo.get('members') || [];
         // at least make sure it's an array
         if (!Array.isArray(existingMembers)) {

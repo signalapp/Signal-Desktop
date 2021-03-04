@@ -1,4 +1,4 @@
-import { createOrUpdateItem, getItemById } from '../../js/modules/data';
+import { createOrUpdateItem, getItemById } from '../../ts/data/data';
 import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
 
@@ -18,7 +18,7 @@ export class BlockedNumberController {
    */
   public static async isBlockedAsync(user: string | PubKey): Promise<boolean> {
     await this.load();
-    const isOurDevice = await UserUtils.isUs(user);
+    const isOurDevice = UserUtils.isUsFromCache(user);
     if (isOurDevice) {
       return false;
     }

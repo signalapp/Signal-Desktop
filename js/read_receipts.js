@@ -46,9 +46,7 @@
         return message;
       }
 
-      const groups = await window.Signal.Data.getAllGroupsInvolvingId(reader, {
-        ConversationCollection: Whisper.ConversationCollection,
-      });
+      const groups = await window.Signal.Data.getAllGroupsInvolvingId(reader);
       const ids = groups.pluck('id');
       ids.push(reader);
 
@@ -66,7 +64,7 @@
         const messages = await window.Signal.Data.getMessagesBySentAt(
           receipt.get('timestamp'),
           {
-            MessageCollection: Whisper.MessageCollection,
+            MessageCollection: window.models.Message.MessageCollection,
           }
         );
 
@@ -108,7 +106,7 @@
           .getConversationController()
           .get(message.get('conversationId'));
         if (conversation) {
-          conversation.trigger('read', message);
+          conversation.updateLastMessage();
         }
 
         this.remove(receipt);

@@ -1,7 +1,8 @@
-import { MessageModel } from '../../js/models/messages';
 import _ from 'lodash';
 
-import { saveMessage } from '../../js/modules/data';
+import { MessageModel } from '../models/message';
+import { saveMessage } from '../../ts/data/data';
+import { fromBase64ToArrayBuffer } from '../session/utils/String';
 
 export async function downloadAttachment(attachment: any) {
   const serverUrl = new URL(attachment.url).origin;
@@ -64,8 +65,8 @@ export async function downloadAttachment(attachment: any) {
 
     data = await window.textsecure.crypto.decryptAttachment(
       data,
-      window.Signal.Crypto.base64ToArrayBuffer(key),
-      window.Signal.Crypto.base64ToArrayBuffer(digest)
+      fromBase64ToArrayBuffer(key),
+      fromBase64ToArrayBuffer(digest)
     );
 
     if (!size || size !== data.byteLength) {
@@ -222,14 +223,13 @@ async function processGroupAvatar(message: MessageModel): Promise<boolean> {
 
 export async function queueAttachmentDownloads(
   message: MessageModel
-): Promise<boolean> {
-  const { Whisper } = window;
-
+): Promise<void> {
   let count = 0;
 
-  const normalAttachments = message.get('attachments') || [];
-
-  count += await processNormalAttachments(message, normalAttachments);
+  count += await processNormalAttachments(
+    message,
+    message.get('attachments') || []
+  );
 
   count += await processPreviews(message);
 
@@ -242,12 +242,6 @@ export async function queueAttachmentDownloads(
   }
 
   if (count > 0) {
-    await saveMessage(message.attributes, {
-      Message: Whisper.Message,
-    });
-
-    return true;
+    await saveMessage(message.attributes);
   }
-
-  return false;
 }

@@ -311,10 +311,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "Napriek tomu poslať",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "Vaše bezpečnosné číslo s $name$ sa zmenilo, a už nie je overené. Kliknite pre zobrazenie. ",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",

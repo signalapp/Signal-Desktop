@@ -311,10 +311,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "Изпрати все пак",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "Вашият номер за сигурност с $name$ е променен и все още не е потвърден. Натиснете за преглед.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",

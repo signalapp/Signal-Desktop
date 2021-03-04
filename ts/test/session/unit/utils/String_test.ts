@@ -1,3 +1,4 @@
+// tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
 import chai from 'chai';
 import ByteBuffer from 'bytebuffer';
 
@@ -5,15 +6,14 @@ import ByteBuffer from 'bytebuffer';
 import { Encoding } from '../../../../session/utils/String';
 import { StringUtils } from '../../../../session/utils';
 
-// tslint:disable-next-line: no-require-imports no-var-requires
-const chaiAsPromised = require('chai-as-promised');
-chai.use(chaiAsPromised);
+import chaiAsPromised from 'chai-as-promised';
+chai.use(chaiAsPromised as any);
 
 const { expect } = chai;
 
 describe('String Utils', () => {
   describe('encode', () => {
-    it('can encode to base64', async () => {
+    it('can encode to base64', () => {
       const testString = 'AAAAAAAAAA';
       const encoded = StringUtils.encode(testString, 'base64');
 
@@ -24,7 +24,7 @@ describe('String Utils', () => {
       expect(encoded.byteLength).to.be.greaterThan(0);
     });
 
-    it('can encode to hex', async () => {
+    it('can encode to hex', () => {
       const testString = 'AAAAAAAAAA';
       const encoded = StringUtils.encode(testString, 'hex');
 
@@ -35,14 +35,14 @@ describe('String Utils', () => {
       expect(encoded.byteLength).to.be.greaterThan(0);
     });
 
-    it('wont encode invalid hex', async () => {
+    it('wont encode invalid hex', () => {
       const testString = 'ZZZZZZZZZZ';
       const encoded = StringUtils.encode(testString, 'hex');
 
       expect(encoded.byteLength).to.equal(0);
     });
 
-    it('can encode to binary', async () => {
+    it('can encode to binary', () => {
       const testString = 'AAAAAAAAAA';
       const encoded = StringUtils.encode(testString, 'binary');
 
@@ -53,7 +53,7 @@ describe('String Utils', () => {
       expect(encoded.byteLength).to.be.greaterThan(0);
     });
 
-    it('can encode to utf8', async () => {
+    it('can encode to utf8', () => {
       const testString = 'AAAAAAAAAA';
       const encoded = StringUtils.encode(testString, 'binary');
 
@@ -64,7 +64,7 @@ describe('String Utils', () => {
       expect(encoded.byteLength).to.be.greaterThan(0);
     });
 
-    it('can encode empty string', async () => {
+    it('can encode empty string', () => {
       const testString = '';
       expect(testString).to.have.length(0);
 
@@ -81,7 +81,7 @@ describe('String Utils', () => {
       });
     });
 
-    it('can encode huge string', async () => {
+    it('can encode huge string', () => {
       const stringSize = Math.pow(2, 16);
       const testString = Array(stringSize)
         .fill('0')
@@ -100,7 +100,7 @@ describe('String Utils', () => {
       });
     });
 
-    it("won't encode illegal string length in hex", async () => {
+    it("won't encode illegal string length in hex", () => {
       const testString = 'A';
       const encode = () => StringUtils.encode(testString, 'hex');
 
@@ -109,7 +109,7 @@ describe('String Utils', () => {
       expect(encode).to.throw('Illegal str: Length not a multiple of 2');
     });
 
-    it('can encode obscure string', async () => {
+    it('can encode obscure string', () => {
       const testString =
         '↓←¶ᶑᵶ⅑⏕→⅓‎ᵹ⅙ᵰᶎ⅔⅗↔‌ᶈ⅞⁯⸜ᶊ⁬ᵴᶉ↉⁭¥ᶖᶋᶃᶓ⏦ᵾᶂᶆ↕⸝ᶔᶐ⏔£⏙⅐⅒ᶌ⁁ᶘᶄᶒ⁪ᶸ⅘‏⁮⅚⅛ᶙᶇᶕᶀ↑ᵿ⏠ᶍᵯ⏖⏗⅜ᶚᶏ⁊‍ᶁᶗᵽ⁫ᵼ⅝⏘⅖⅕⏡';
 
@@ -128,7 +128,7 @@ describe('String Utils', () => {
   });
 
   describe('decode', () => {
-    it('can decode empty buffer', async () => {
+    it('can decode empty buffer', () => {
       const buffer = new ByteBuffer(0);
 
       const encodings = ['base64', 'hex', 'binary', 'utf8'] as Array<Encoding>;
@@ -143,7 +143,7 @@ describe('String Utils', () => {
       });
     });
 
-    it('can decode huge buffer', async () => {
+    it('can decode huge buffer', () => {
       const bytes = Math.pow(2, 16);
       const bufferString = Array(bytes)
         .fill('A')
@@ -162,7 +162,7 @@ describe('String Utils', () => {
       });
     });
 
-    it('can decode from ByteBuffer', async () => {
+    it('can decode from ByteBuffer', () => {
       const buffer = ByteBuffer.fromUTF8('AAAAAAAAAA');
 
       const encodings = ['base64', 'hex', 'binary', 'utf8'] as Array<Encoding>;
@@ -177,7 +177,7 @@ describe('String Utils', () => {
       });
     });
 
-    it('can decode from Buffer', async () => {
+    it('can decode from Buffer', () => {
       const arrayBuffer = new ArrayBuffer(10);
       const buffer = Buffer.from(arrayBuffer);
       buffer.writeUInt8(0, 0);
@@ -194,7 +194,7 @@ describe('String Utils', () => {
       });
     });
 
-    it('can decode from ArrayBuffer', async () => {
+    it('can decode from ArrayBuffer', () => {
       const buffer = new ArrayBuffer(10);
 
       const encodings = ['base64', 'hex', 'binary', 'utf8'] as Array<Encoding>;
@@ -209,7 +209,7 @@ describe('String Utils', () => {
       });
     });
 
-    it('can decode from Uint8Array', async () => {
+    it('can decode from Uint8Array', () => {
       const buffer = new Uint8Array(10);
 
       const encodings = ['base64', 'hex', 'binary', 'utf8'] as Array<Encoding>;

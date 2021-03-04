@@ -1,5 +1,5 @@
-import { ConversationModel } from '../../js/models/conversations';
-import { ConversationController } from '../session/conversations/ConversationController';
+import { ConversationModel } from '../models/conversation';
+import { ConversationController } from '../session/conversations';
 
 // tslint:disable: no-unnecessary-class
 export class FindMember {

@@ -311,10 +311,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "Toch verzenden",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "Je veiligheidsnummer met $name$ is veranderd en het is daarom niet langer geverifieerd. Klik om het te tonen.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",

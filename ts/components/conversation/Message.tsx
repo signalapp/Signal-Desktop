@@ -36,10 +36,10 @@ import uuid from 'uuid';
 import { InView } from 'react-intersection-observer';
 import { withTheme } from 'styled-components';
 import { MessageMetadata } from './message/MessageMetadata';
-import { MessageRegularProps } from '../../../js/models/messages';
 import { PubKey } from '../../session/types';
-import { ToastUtils } from '../../session/utils';
+import { ToastUtils, UserUtils } from '../../session/utils';
 import { ConversationController } from '../../session/conversations';
+import { MessageRegularProps } from '../../models/messageType';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -765,10 +765,9 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
     // to see if the message mentions us, so we can display the entire
     // message differently
     const regex = new RegExp(`@${PubKey.regexForPubkeys}`, 'g');
-    const mentions = text ? text.match(regex) : [];
+    const mentions = (text ? text.match(regex) : []) as Array<string>;
     const mentionMe =
-      mentions &&
-      mentions.some(m => m.slice(1) === window.lokiPublicChatAPI.ourKey);
+      mentions && mentions.some(m => UserUtils.isUsFromCache(m.slice(1)));
 
     const isIncoming = direction === 'incoming';
     const shouldHightlight = mentionMe && isIncoming && isPublic;
@@ -951,6 +950,12 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
     try {
       const convo = ConversationController.getInstance().getOrThrow(convoId);
       const channelAPI = await convo.getPublicSendData();
+      if (!channelAPI) {
+        throw new Error('No channelAPI');
+      }
+      if (!channelAPI.serverAPI) {
+        throw new Error('No serverAPI');
+      }
       const res = await channelAPI.serverAPI.addModerator([pubkey]);
       if (!res) {
         window.log.warn('failed to add moderators:', res);
@@ -959,8 +964,8 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       } else {
         window.log.info(`${pubkey} added as moderator...`);
         // refresh the moderator list. Will trigger a refresh
-        const modPubKeys = (await channelAPI.getModerators()) as Array<string>;
-        convo.updateGroupAdmins(modPubKeys);
+        const modPubKeys = await channelAPI.getModerators();
+        await convo.updateGroupAdmins(modPubKeys);
 
         ToastUtils.pushUserAddedToModerators();
       }
@@ -974,6 +979,9 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
     try {
       const convo = ConversationController.getInstance().getOrThrow(convoId);
       const channelAPI = await convo.getPublicSendData();
+      if (!channelAPI) {
+        throw new Error('No channelAPI');
+      }
       const res = await channelAPI.serverAPI.removeModerators([pubkey]);
       if (!res) {
         window.log.warn('failed to remove moderators:', res);
@@ -981,8 +989,8 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
         ToastUtils.pushErrorHappenedWhileRemovingModerator();
       } else {
         // refresh the moderator list. Will trigger a refresh
-        const modPubKeys = (await channelAPI.getModerators()) as Array<string>;
-        convo.updateGroupAdmins(modPubKeys);
+        const modPubKeys = await channelAPI.getModerators();
+        await convo.updateGroupAdmins(modPubKeys);
 
         window.log.info(`${pubkey} removed from moderators...`);
         ToastUtils.pushUserRemovedToModerators();
