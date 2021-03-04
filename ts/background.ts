@@ -3,8 +3,19 @@
 
 import { DataMessageClass } from './textsecure.d';
 import { WhatIsThis } from './window.d';
+import { assert } from './util/assert';
 
 export async function startApp(): Promise<void> {
+  try {
+    window.log.info('Initializing SQL in renderer');
+    await window.sqlInitializer.initialize();
+    window.log.info('SQL initialized in renderer');
+  } catch (err) {
+    window.log.error(
+      'SQL failed to initialize',
+      err && err.stack ? err.stack : err
+    );
+  }
   const eventHandlerQueue = new window.PQueue({
     concurrency: 1,
     timeout: 1000 * 60 * 2,
@@ -1615,6 +1626,9 @@ export async function startApp(): Promise<void> {
   let connectCount = 0;
   let connecting = false;
   async function connect(firstRun?: boolean) {
+    window.receivedAtCounter =
+      window.storage.get('lastReceivedAtCounter') || Date.now();
+
     if (connecting) {
       window.log.warn('connect already running', { connectCount });
       return;
@@ -2038,7 +2052,7 @@ export async function startApp(): Promise<void> {
       logger: window.log,
     });
 
-    let interval: NodeJS.Timer | null = setInterval(() => {
+    let interval: NodeJS.Timer | null = setInterval(async () => {
       const view = window.owsDesktopApp.appView;
       if (view) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -2046,6 +2060,24 @@ export async function startApp(): Promise<void> {
         interval = null;
         view.onEmpty();
         window.logAppLoadedEvent();
+        const attachmentDownloadQueue = window.attachmentDownloadQueue || [];
+        const THREE_DAYS_AGO = Date.now() - 3600 * 72 * 1000;
+        const MAX_ATTACHMENT_MSGS_TO_DOWNLOAD = 250;
+        const attachmentsToDownload = attachmentDownloadQueue.filter(
+          (message, index) =>
+            index <= MAX_ATTACHMENT_MSGS_TO_DOWNLOAD ||
+            message.getReceivedAt() < THREE_DAYS_AGO
+        );
+        window.log.info(
+          'Downloading recent attachments of total attachments',
+          attachmentsToDownload.length,
+          attachmentDownloadQueue.length
+        );
+        await Promise.all(
+          attachmentsToDownload.map(message =>
+            message.queueAttachmentDownloads()
+          )
+        );
       }
     }, 500);
 
@@ -2646,14 +2678,15 @@ export async function startApp(): Promise<void> {
       sent_at: data.timestamp,
       serverTimestamp: data.serverTimestamp,
       sent_to: sentTo,
-      received_at: now,
+      received_at: data.receivedAtCounter,
+      received_at_ms: data.receivedAtDate,
       conversationId: descriptor.id,
       type: 'outgoing',
       sent: true,
       unidentifiedDeliveries: data.unidentifiedDeliveries || [],
       expirationStartTimestamp: Math.min(
-        data.expirationStartTimestamp || data.timestamp || Date.now(),
-        Date.now()
+        data.expirationStartTimestamp || data.timestamp || now,
+        now
       ),
     } as WhatIsThis);
   }
@@ -2856,13 +2889,18 @@ export async function startApp(): Promise<void> {
     data: WhatIsThis,
     descriptor: MessageDescriptor
   ) {
+    assert(
+      Boolean(data.receivedAtCounter),
+      `Did not receive receivedAtCounter for message: ${data.timestamp}`
+    );
     return new window.Whisper.Message({
       source: data.source,
       sourceUuid: data.sourceUuid,
       sourceDevice: data.sourceDevice,
       sent_at: data.timestamp,
       serverTimestamp: data.serverTimestamp,
-      received_at: Date.now(),
+      received_at: data.receivedAtCounter,
+      received_at_ms: data.receivedAtDate,
       conversationId: descriptor.id,
       unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
       type: 'incoming',

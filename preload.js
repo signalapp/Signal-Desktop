@@ -22,6 +22,8 @@ try {
   const { app } = remote;
   const { nativeTheme } = remote.require('electron');
 
+  window.sqlInitializer = require('./ts/sql/initialize');
+
   window.PROTO_ROOT = 'protos';
   const config = require('url').parse(window.location.toString(), true).query;
 
@@ -400,7 +402,7 @@ try {
 
   // We pull these dependencies in now, from here, because they have Node.js dependencies
 
-  require('./ts/logging/set_up_renderer_logging');
+  require('./ts/logging/set_up_renderer_logging').initialize();
 
   if (config.proxyUrl) {
     window.log.info('Using provided proxy url');

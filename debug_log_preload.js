@@ -32,7 +32,7 @@ window.getEnvironment = getEnvironment;
 window.Backbone = require('backbone');
 require('./ts/backbone/views/whisper_view');
 require('./ts/backbone/views/toast_view');
-require('./ts/logging/set_up_renderer_logging');
+require('./ts/logging/set_up_renderer_logging').initialize();
 
 window.closeDebugLog = () => ipcRenderer.send('close-debug-log');
 window.Backbone = require('backbone');

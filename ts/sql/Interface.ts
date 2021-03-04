@@ -259,7 +259,12 @@ export type ServerInterface = DataInterface & {
     configDir: string;
     key: string;
     messages: LocaleMessagesType;
-  }) => Promise<boolean>;
+  }) => Promise<void>;
+
+  initializeRenderer: (options: {
+    configDir: string;
+    key: string;
+  }) => Promise<void>;
 
   removeKnownAttachments: (
     allAttachments: Array<string>
@@ -393,7 +398,6 @@ export type ClientInterface = DataInterface & {
   // Client-side only, and test-only
 
   _removeConversations: (ids: Array<string>) => Promise<void>;
-  _jobs: { [id: string]: ClientJobType };
 };
 
 export type ClientJobType = {

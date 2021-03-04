@@ -137,10 +137,12 @@ declare global {
 
     WhatIsThis: WhatIsThis;
 
+    attachmentDownloadQueue: Array<MessageModel>;
     baseAttachmentsPath: string;
     baseStickersPath: string;
     baseTempPath: string;
     dcodeIO: DCodeIOType;
+    receivedAtCounter: number;
     enterKeyboardMode: () => void;
     enterMouseMode: () => void;
     getAccountManager: () => AccountManager | undefined;
@@ -246,6 +248,9 @@ declare global {
     titleBarDoubleClick: () => void;
     unregisterForActive: (handler: () => void) => void;
     updateTrayIcon: (count: number) => void;
+    sqlInitializer: {
+      initialize: () => Promise<void>;
+    };
 
     Backbone: typeof Backbone;
     Signal: {
@@ -561,6 +566,8 @@ export type DCodeIOType = {
 };
 
 type MessageControllerType = {
+  findBySender: (sender: string) => MessageModel | null;
+  findBySentAt: (sentAt: number) => MessageModel | null;
   register: (id: string, model: MessageModel) => MessageModel;
   unregister: (id: string) => void;
 };

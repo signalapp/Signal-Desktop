@@ -14,7 +14,6 @@ import mkdirp from 'mkdirp';
 import rimraf from 'rimraf';
 import PQueue from 'p-queue';
 import sql from '@journeyapps/sqlcipher';
-import { app, clipboard, dialog } from 'electron';
 
 import pify from 'pify';
 import { v4 as generateUUID } from 'uuid';
@@ -31,8 +30,6 @@ import {
   pick,
 } from 'lodash';
 
-import { redactAll } from '../../js/modules/privacy';
-import { remove as removeUserConfig } from '../../app/user_config';
 import { combineNames } from '../util/combineNames';
 
 import { GroupV2MemberType } from '../model-types.d';
@@ -54,6 +51,7 @@ import {
   StickerType,
   UnprocessedType,
 } from './Interface';
+import { applyQueueing } from './Queueing';
 
 declare global {
   // We want to extend `Function`'s properties, so we need to use an interface.
@@ -195,19 +193,28 @@ const dataInterface: ServerInterface = {
   // Server-only
 
   initialize,
+  initializeRenderer,
 
   removeKnownAttachments,
   removeKnownStickers,
   removeKnownDraftAttachments,
 };
 
-export default dataInterface;
+export default applyQueueing(dataInterface);
 
 function objectToJSON(data: any) {
   return JSON.stringify(data);
 }
 function jsonToObject(json: string): any {
   return JSON.parse(json);
+}
+
+function isRenderer() {
+  if (typeof process === 'undefined' || !process) {
+    return true;
+  }
+
+  return process.type === 'renderer';
 }
 
 async function openDatabase(filePath: string): Promise<sql.Database> {
@@ -1702,6 +1709,7 @@ async function updateSchema(instance: PromisifiedSQLDatabase) {
 }
 
 let globalInstance: PromisifiedSQLDatabase | undefined;
+let globalInstanceRenderer: PromisifiedSQLDatabase | undefined;
 let databaseFilePath: string | undefined;
 let indexedDBPath: string | undefined;
 
@@ -1788,37 +1796,57 @@ async function initialize({
     await getMessageCount();
   } catch (error) {
     console.log('Database startup error:', error.stack);
-    const buttonIndex = dialog.showMessageBoxSync({
-      buttons: [
-        messages.copyErrorAndQuit.message,
-        messages.deleteAndRestart.message,
-      ],
-      defaultId: 0,
-      detail: redactAll(error.stack),
-      message: messages.databaseError.message,
-      noLink: true,
-      type: 'error',
-    });
-
-    if (buttonIndex === 0) {
-      clipboard.writeText(
-        `Database startup error:\n\n${redactAll(error.stack)}`
-      );
-    } else {
-      if (promisified) {
-        await promisified.close();
-      }
-      await removeDB();
-      removeUserConfig();
-      app.relaunch();
+    if (promisified) {
+      await promisified.close();
     }
+    throw error;
+  }
+}
 
-    app.exit(1);
-
-    return false;
+async function initializeRenderer({
+  configDir,
+  key,
+}: {
+  configDir: string;
+  key: string;
+}) {
+  if (!isRenderer()) {
+    throw new Error('Cannot call from main process.');
+  }
+  if (globalInstanceRenderer) {
+    throw new Error('Cannot initialize more than once!');
+  }
+  if (!isString(configDir)) {
+    throw new Error('initialize: configDir is required!');
+  }
+  if (!isString(key)) {
+    throw new Error('initialize: key is required!');
   }
 
-  return true;
+  if (!indexedDBPath) {
+    indexedDBPath = join(configDir, 'IndexedDB');
+  }
+
+  const dbDir = join(configDir, 'sql');
+
+  if (!databaseFilePath) {
+    databaseFilePath = join(dbDir, 'db.sqlite');
+  }
+
+  let promisified: PromisifiedSQLDatabase | undefined;
+
+  try {
+    promisified = await openAndSetUpSQLCipher(databaseFilePath, { key });
+
+    // At this point we can allow general access to the database
+    globalInstanceRenderer = promisified;
+
+    // test database
+    await getMessageCount();
+  } catch (error) {
+    window.log.error('Database startup error:', error.stack);
+    throw error;
+  }
 }
 
 async function close() {
@@ -1857,6 +1885,13 @@ async function removeIndexedDBFiles() {
 }
 
 function getInstance(): PromisifiedSQLDatabase {
+  if (isRenderer()) {
+    if (!globalInstanceRenderer) {
+      throw new Error('getInstance: globalInstanceRenderer not set!');
+    }
+    return globalInstanceRenderer;
+  }
+
   if (!globalInstance) {
     throw new Error('getInstance: globalInstance not set!');
   }
@@ -2285,6 +2320,7 @@ async function updateConversation(data: ConversationType) {
     }
   );
 }
+
 async function updateConversations(array: Array<ConversationType>) {
   const db = getInstance();
   await db.run('BEGIN TRANSACTION;');
@@ -2544,7 +2580,7 @@ async function saveMessage(
           `UPDATE messages SET
             id = $id,
             json = $json,
-  
+
             body = $body,
             conversationId = $conversationId,
             expirationStartTimestamp = $expirationStartTimestamp,
@@ -2616,7 +2652,7 @@ async function saveMessage(
         `INSERT INTO messages (
           id,
           json,
-  
+
           body,
           conversationId,
           expirationStartTimestamp,
@@ -2638,7 +2674,7 @@ async function saveMessage(
         ) values (
           $id,
           $json,
-  
+
           $body,
           $conversationId,
           $expirationStartTimestamp,
@@ -2967,7 +3003,7 @@ async function getLastConversationActivity({
   const row = await db.get(
     `SELECT * FROM messages WHERE
        conversationId = $conversationId AND
-       (type IS NULL 
+       (type IS NULL
         OR
         type NOT IN (
           'profile-change',

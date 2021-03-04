@@ -134,6 +134,7 @@ export type MessageAttributesType = {
   groupV2Change?: GroupV2ChangeType;
   // Required. Used to sort messages in the database for the conversation timeline.
   received_at?: number;
+  received_at_ms?: number;
   // More of a legacy feature, needed as we were updating the schema of messages in the
   //   background, when we were still in IndexedDB, before attachments had gone to disk
   // We set this so that the idle message upgrade process doesn't pick this message up

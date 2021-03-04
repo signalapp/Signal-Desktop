@@ -14,8 +14,10 @@ import { getStringForProfileChange } from './getStringForProfileChange';
 import { getTextWithMentions } from './getTextWithMentions';
 import { getUserAgent } from './getUserAgent';
 import { hasExpired } from './hasExpired';
+import { incrementMessageCounter } from './incrementMessageCounter';
 import { isFileDangerous } from './isFileDangerous';
 import { makeLookup } from './makeLookup';
+import { saveNewMessageBatcher, updateMessageBatcher } from './messageBatcher';
 import { missingCaseError } from './missingCaseError';
 import { parseRemoteClientExpiration } from './parseRemoteClientExpiration';
 import { sleep } from './sleep';
@@ -29,6 +31,8 @@ import {
 import * as zkgroup from './zkgroup';
 
 export {
+  GoogleChrome,
+  Registration,
   arrayBufferToObjectURL,
   combineNames,
   createBatcher,
@@ -40,18 +44,19 @@ export {
   getStringForProfileChange,
   getTextWithMentions,
   getUserAgent,
-  GoogleChrome,
   hasExpired,
+  incrementMessageCounter,
   isFileDangerous,
   longRunningTaskWrapper,
   makeLookup,
   mapToSupportLocale,
   missingCaseError,
   parseRemoteClientExpiration,
-  Registration,
+  saveNewMessageBatcher,
   sessionRecordToProtobuf,
   sessionStructureToArrayBuffer,
   sleep,
   toWebSafeBase64,
+  updateMessageBatcher,
   zkgroup,
 };

@@ -23,6 +23,7 @@ export type UnprocessedType = {
   decrypted?: string;
   envelope?: string;
   id: string;
+  timestamp: number;
   serverTimestamp?: number;
   source?: string;
   sourceDevice?: number;
@@ -795,6 +796,8 @@ export declare class EnvelopeClass {
 
   // Note: these additional properties are added in the course of processing
   id: string;
+  receivedAtCounter: number;
+  receivedAtDate: number;
   unidentifiedDeliveryReceived?: boolean;
   messageAgeSec?: number;
 }

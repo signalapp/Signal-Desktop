@@ -23,7 +23,10 @@ describe('Message', () => {
 
   function createMessage(attrs: { [key: string]: unknown }) {
     const messages = new window.Whisper.MessageCollection();
-    return messages.add(attrs);
+    return messages.add({
+      received_at: Date.now(),
+      ...attrs,
+    });
   }
 
   before(async () => {

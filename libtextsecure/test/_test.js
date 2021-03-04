@@ -67,3 +67,16 @@ window.Whisper.events = {
   on() {},
   trigger() {},
 };
+
+before(async () => {
+  try {
+    window.log.info('Initializing SQL in renderer');
+    await window.sqlInitializer.initialize();
+    window.log.info('SQL initialized in renderer');
+  } catch (err) {
+    window.log.error(
+      'SQL failed to initialize',
+      err && err.stack ? err.stack : err
+    );
+  }
+});

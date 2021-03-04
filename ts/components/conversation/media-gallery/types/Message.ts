@@ -9,4 +9,6 @@ export type Message = {
   // Assuming this is for the API
   // eslint-disable-next-line camelcase
   received_at: number;
+  // eslint-disable-next-line camelcase
+  received_at_ms: number;
 };

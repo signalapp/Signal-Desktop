@@ -61,9 +61,9 @@ export async function initialize(): Promise<bunyan> {
     }, 500);
   }
 
-  const logFile = path.join(logPath, 'log.log');
+  const logFile = path.join(logPath, 'main.log');
   const loggerOptions: bunyan.LoggerOptions = {
-    name: 'log',
+    name: 'main',
     streams: [
       {
         type: 'rotating-file',
@@ -82,31 +82,6 @@ export async function initialize(): Promise<bunyan> {
   }
 
   const logger = bunyan.createLogger(loggerOptions);
-
-  ipc.on('batch-log', (_first, batch: unknown) => {
-    if (!Array.isArray(batch)) {
-      logger.error(
-        'batch-log IPC event was called with a non-array; dropping logs'
-      );
-      return;
-    }
-
-    batch.forEach(item => {
-      if (isLogEntry(item)) {
-        const levelString = getLogLevelString(item.level);
-        logger[levelString](
-          {
-            time: item.time,
-          },
-          item.msg
-        );
-      } else {
-        logger.error(
-          'batch-log IPC event was called with an invalid log entry; dropping entry'
-        );
-      }
-    });
-  });
 
   ipc.on('fetch-log', event => {
     fetch(logPath).then(

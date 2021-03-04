@@ -7,11 +7,11 @@
 
 import { ipcRenderer as ipc } from 'electron';
 import _ from 'lodash';
-import { levelFromName } from 'bunyan';
+import * as path from 'path';
+import * as bunyan from 'bunyan';
 
 import { uploadDebugLogs } from './debuglogs';
 import { redactAll } from '../../js/modules/privacy';
-import { createBatcher } from '../util/batcher';
 import {
   LogEntryType,
   LogLevel,
@@ -23,7 +23,7 @@ import * as log from './log';
 import { reallyJsonStringify } from '../util/reallyJsonStringify';
 
 // To make it easier to visually scan logs, we make all levels the same length
-const levelMaxLength: number = Object.keys(levelFromName).reduce(
+const levelMaxLength: number = Object.keys(bunyan.levelFromName).reduce(
   (maxLength, level) => Math.max(maxLength, level.length),
   0
 );
@@ -96,20 +96,36 @@ function fetch(): Promise<string> {
   });
 }
 
+let globalLogger: undefined | bunyan;
+
+export function initialize(): void {
+  if (globalLogger) {
+    throw new Error('Already called initialize!');
+  }
+
+  const basePath = ipc.sendSync('get-user-data-path');
+  const logFile = path.join(basePath, 'logs', 'app.log');
+  const loggerOptions: bunyan.LoggerOptions = {
+    name: 'app',
+    streams: [
+      {
+        type: 'rotating-file',
+        path: logFile,
+        period: '1d',
+        count: 3,
+      },
+    ],
+  };
+
+  globalLogger = bunyan.createLogger(loggerOptions);
+}
+
 const publish = uploadDebugLogs;
 
 // A modern logging interface for the browser
 
 const env = window.getEnvironment();
 const IS_PRODUCTION = env === 'production';
-
-const ipcBatcher = createBatcher({
-  wait: 500,
-  maxSize: 500,
-  processBatch: (items: Array<LogEntryType>) => {
-    ipc.send('batch-log', items);
-  },
-});
 
 // The Bunyan API: https://github.com/trentm/node-bunyan#log-method-api
 function logAtLevel(level: LogLevel, ...args: ReadonlyArray<unknown>): void {
@@ -120,11 +136,16 @@ function logAtLevel(level: LogLevel, ...args: ReadonlyArray<unknown>): void {
     console._log(prefix, now(), ...args);
   }
 
-  ipcBatcher.add({
-    level,
-    msg: cleanArgs(args),
-    time: new Date().toISOString(),
-  });
+  const levelString = getLogLevelString(level);
+  const msg = cleanArgs(args);
+  const time = new Date().toISOString();
+
+  if (!globalLogger) {
+    throw new Error('Logger has not been initialized yet');
+    return;
+  }
+
+  globalLogger[levelString]({ time }, msg);
 }
 
 log.setLogAtLevel(logAtLevel);

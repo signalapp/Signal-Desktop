@@ -2452,7 +2452,8 @@ async function updateGroup({
     return {
       ...changeMessage,
       conversationId: conversation.id,
-      received_at: finalReceivedAt,
+      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at_ms: finalReceivedAt,
       sent_at: syntheticSentAt,
     };
   });

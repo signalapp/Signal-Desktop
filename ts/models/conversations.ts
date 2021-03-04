@@ -2282,7 +2282,8 @@ export class ConversationModel extends window.Backbone.Model<
       conversationId: this.id,
       type: 'chat-session-refreshed',
       sent_at: receivedAt,
-      received_at: receivedAt,
+      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at_ms: receivedAt,
       unread: 1,
       // TODO: DESKTOP-722
       // this type does not fully implement the interface it is expected to
@@ -2315,7 +2316,8 @@ export class ConversationModel extends window.Backbone.Model<
       conversationId: this.id,
       type: 'keychange',
       sent_at: this.get('timestamp'),
-      received_at: timestamp,
+      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at_ms: timestamp,
       key_changed: keyChangedId,
       unread: 1,
       // TODO: DESKTOP-722
@@ -2373,7 +2375,8 @@ export class ConversationModel extends window.Backbone.Model<
       conversationId: this.id,
       type: 'verified-change',
       sent_at: lastMessage,
-      received_at: timestamp,
+      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at_ms: timestamp,
       verifiedChanged: verifiedChangeId,
       verified,
       local: options.local,
@@ -2435,7 +2438,8 @@ export class ConversationModel extends window.Backbone.Model<
       conversationId: this.id,
       type: 'call-history',
       sent_at: timestamp,
-      received_at: timestamp,
+      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at_ms: timestamp,
       unread,
       callHistoryDetails: detailsToSave,
       // TODO: DESKTOP-722
@@ -2481,11 +2485,13 @@ export class ConversationModel extends window.Backbone.Model<
     profileChange: unknown,
     conversationId?: string
   ): Promise<void> {
+    const now = Date.now();
     const message = ({
       conversationId: this.id,
       type: 'profile-change',
-      sent_at: Date.now(),
-      received_at: Date.now(),
+      sent_at: now,
+      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at_ms: now,
       unread: true,
       changedId: conversationId || this.id,
       profileChange,
@@ -2984,7 +2990,8 @@ export class ConversationModel extends window.Backbone.Model<
         type: 'outgoing',
         conversationId: this.get('id'),
         sent_at: timestamp,
-        received_at: timestamp,
+        received_at: window.Signal.Util.incrementMessageCounter(),
+        received_at_ms: timestamp,
         recipients,
         deletedForEveryoneTimestamp: targetTimestamp,
         // TODO: DESKTOP-722
@@ -3093,7 +3100,8 @@ export class ConversationModel extends window.Backbone.Model<
         type: 'outgoing',
         conversationId: this.get('id'),
         sent_at: timestamp,
-        received_at: timestamp,
+        received_at: window.Signal.Util.incrementMessageCounter(),
+        received_at_ms: timestamp,
         recipients,
         reaction: outgoingReaction,
         // TODO: DESKTOP-722
@@ -3244,7 +3252,8 @@ export class ConversationModel extends window.Backbone.Model<
         preview,
         attachments,
         sent_at: now,
-        received_at: now,
+        received_at: window.Signal.Util.incrementMessageCounter(),
+        received_at_ms: now,
         expireTimer,
         recipients,
         sticker,
@@ -3866,7 +3875,8 @@ export class ConversationModel extends window.Backbone.Model<
       conversationId: this.id,
       // No type; 'incoming' messages are specially treated by conversation.markRead()
       sent_at: timestamp,
-      received_at: timestamp,
+      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at_ms: timestamp,
       flags:
         window.textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
       expirationTimerUpdate: {
@@ -3970,7 +3980,8 @@ export class ConversationModel extends window.Backbone.Model<
       conversationId: this.id,
       // No type; 'incoming' messages are specially treated by conversation.markRead()
       sent_at: timestamp,
-      received_at: timestamp,
+      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at_ms: timestamp,
       // TODO: DESKTOP-722
     } as unknown) as MessageAttributesType);
 
@@ -4003,7 +4014,8 @@ export class ConversationModel extends window.Backbone.Model<
         conversationId: this.id,
         type: 'outgoing',
         sent_at: now,
-        received_at: now,
+        received_at: window.Signal.Util.incrementMessageCounter(),
+        received_at_ms: now,
         destination: this.get('e164'),
         destinationUuid: this.get('uuid'),
         recipients: this.getRecipients(),
@@ -4059,7 +4071,8 @@ export class ConversationModel extends window.Backbone.Model<
         conversationId: this.id,
         type: 'outgoing',
         sent_at: now,
-        received_at: now,
+        received_at: window.Signal.Util.incrementMessageCounter(),
+        received_at_ms: now,
         // TODO: DESKTOP-722
       } as unknown) as MessageAttributesType);
 

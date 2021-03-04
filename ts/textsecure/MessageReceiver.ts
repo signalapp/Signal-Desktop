@@ -203,7 +203,7 @@ class MessageReceiverInner extends EventTarget {
     this.cacheAddBatcher = createBatcher<CacheAddItemType>({
       wait: 200,
       maxSize: 30,
-      processBatch: this.cacheAndQueueBatch.bind(this),
+      processBatch: this.cacheAndHandleBatch.bind(this),
     });
     this.cacheUpdateBatcher = createBatcher<CacheUpdateItemType>({
       wait: 500,
@@ -237,7 +237,7 @@ class MessageReceiverInner extends EventTarget {
     }
 
     // We always process our cache before processing a new websocket message
-    this.pendingQueue.add(async () => this.queueAllCached());
+    this.pendingQueue.add(async () => this.handleAllCached());
 
     this.count = 0;
     if (this.hasConnected) {
@@ -428,13 +428,16 @@ class MessageReceiverInner extends EventTarget {
           ? envelope.serverTimestamp.toNumber()
           : null;
 
+        envelope.receivedAtCounter = window.Signal.Util.incrementMessageCounter();
+        envelope.receivedAtDate = Date.now();
+
         // Calculate the message age (time on server).
         envelope.messageAgeSec = this.calculateMessageAge(
           headers,
           envelope.serverTimestamp
         );
 
-        this.cacheAndQueue(envelope, plaintext, request);
+        this.cacheAndHandle(envelope, plaintext, request);
       } catch (e) {
         request.respond(500, 'Bad encrypted websocket message');
         window.log.error(
@@ -553,16 +556,17 @@ class MessageReceiverInner extends EventTarget {
     this.dispatchEvent(ev);
   }
 
-  async queueAllCached() {
+  async handleAllCached() {
     const items = await this.getAllFromCache();
     const max = items.length;
     for (let i = 0; i < max; i += 1) {
       // eslint-disable-next-line no-await-in-loop
-      await this.queueCached(items[i]);
+      await this.handleCachedEnvelope(items[i]);
     }
   }
 
-  async queueCached(item: UnprocessedType) {
+  async handleCachedEnvelope(item: UnprocessedType) {
+    window.log.info('MessageReceiver.handleCachedEnvelope', item.id);
     try {
       let envelopePlaintext: ArrayBuffer;
 
@@ -576,7 +580,7 @@ class MessageReceiverInner extends EventTarget {
         );
       } else {
         throw new Error(
-          'MessageReceiver.queueCached: item.envelope was malformed'
+          'MessageReceiver.handleCachedEnvelope: item.envelope was malformed'
         );
       }
 
@@ -584,6 +588,8 @@ class MessageReceiverInner extends EventTarget {
         envelopePlaintext
       );
       envelope.id = item.id;
+      envelope.receivedAtCounter = item.timestamp;
+      envelope.receivedAtDate = Date.now();
       envelope.source = envelope.source || item.source;
       envelope.sourceUuid = envelope.sourceUuid || item.sourceUuid;
       envelope.sourceDevice = envelope.sourceDevice || item.sourceDevice;
@@ -605,13 +611,13 @@ class MessageReceiverInner extends EventTarget {
         } else {
           throw new Error('Cached decrypted value was not a string!');
         }
-        this.queueDecryptedEnvelope(envelope, payloadPlaintext);
+        this.handleDecryptedEnvelope(envelope, payloadPlaintext);
       } else {
-        this.queueEnvelope(envelope);
+        this.handleEnvelope(envelope);
       }
     } catch (error) {
       window.log.error(
-        'queueCached error handling item',
+        'handleCachedEnvelope error handling item',
         item.id,
         'removing it. Error:',
         error && error.stack ? error.stack : error
@@ -622,7 +628,7 @@ class MessageReceiverInner extends EventTarget {
         await window.textsecure.storage.unprocessed.remove(id);
       } catch (deleteError) {
         window.log.error(
-          'queueCached error deleting item',
+          'handleCachedEnvelope error deleting item',
           item.id,
           'Error:',
           deleteError && deleteError.stack ? deleteError.stack : deleteError
@@ -656,7 +662,7 @@ class MessageReceiverInner extends EventTarget {
     if (this.isEmptied) {
       this.clearRetryTimeout();
       this.retryCachedTimeout = setTimeout(() => {
-        this.pendingQueue.add(async () => this.queueAllCached());
+        this.pendingQueue.add(async () => this.handleAllCached());
       }, RETRY_TIMEOUT);
     }
   }
@@ -705,7 +711,8 @@ class MessageReceiverInner extends EventTarget {
     );
   }
 
-  async cacheAndQueueBatch(items: Array<CacheAddItemType>) {
+  async cacheAndHandleBatch(items: Array<CacheAddItemType>) {
+    window.log.info('MessageReceiver.cacheAndHandleBatch', items.length);
     const dataArray = items.map(item => item.data);
     try {
       await window.textsecure.storage.unprocessed.batchAdd(dataArray);
@@ -714,16 +721,16 @@ class MessageReceiverInner extends EventTarget {
           item.request.respond(200, 'OK');
         } catch (error) {
           window.log.error(
-            'cacheAndQueueBatch: Failed to send 200 to server; still queuing envelope'
+            'cacheAndHandleBatch: Failed to send 200 to server; still queuing envelope'
           );
         }
-        this.queueEnvelope(item.envelope);
+        this.handleEnvelope(item.envelope);
       });
 
       this.maybeScheduleRetryTimeout();
     } catch (error) {
       window.log.error(
-        'cacheAndQueue error trying to add messages to cache:',
+        'cacheAndHandleBatch error trying to add messages to cache:',
         error && error.stack ? error.stack : error
       );
 
@@ -733,7 +740,7 @@ class MessageReceiverInner extends EventTarget {
     }
   }
 
-  cacheAndQueue(
+  cacheAndHandle(
     envelope: EnvelopeClass,
     plaintext: ArrayBuffer,
     request: IncomingWebSocketRequest
@@ -743,7 +750,7 @@ class MessageReceiverInner extends EventTarget {
       id,
       version: 2,
       envelope: MessageReceiverInner.arrayBufferToStringBase64(plaintext),
-      timestamp: Date.now(),
+      timestamp: envelope.receivedAtCounter,
       attempts: 1,
     };
     this.cacheAddBatcher.add({
@@ -754,6 +761,7 @@ class MessageReceiverInner extends EventTarget {
   }
 
   async cacheUpdateBatch(items: Array<Partial<UnprocessedType>>) {
+    window.log.info('MessageReceiver.cacheUpdateBatch', items.length);
     await window.textsecure.storage.unprocessed.addDecryptedDataToList(items);
   }
 
@@ -778,43 +786,71 @@ class MessageReceiverInner extends EventTarget {
     this.cacheRemoveBatcher.add(id);
   }
 
-  async queueDecryptedEnvelope(
+  // Same as handleEnvelope, just without the decryption step. Necessary for handling
+  //   messages which were successfully decrypted, but application logic didn't finish
+  //   processing.
+  async handleDecryptedEnvelope(
     envelope: EnvelopeClass,
     plaintext: ArrayBuffer
-  ) {
+  ): Promise<void> {
     const id = this.getEnvelopeId(envelope);
-    window.log.info('queueing decrypted envelope', id);
+    window.log.info('MessageReceiver.handleDecryptedEnvelope', id);
 
-    const task = this.handleDecryptedEnvelope.bind(this, envelope, plaintext);
-    const taskWithTimeout = window.textsecure.createTaskWithTimeout(
-      task,
-      `queueEncryptedEnvelope ${id}`
-    );
-    const promise = this.addToQueue(taskWithTimeout);
+    try {
+      if (this.stoppingProcessing) {
+        return;
+      }
+      // No decryption is required for delivery receipts, so the decrypted field of
+      //   the Unprocessed model will never be set
 
-    return promise.catch(error => {
+      if (envelope.content) {
+        await this.innerHandleContentMessage(envelope, plaintext);
+
+        return;
+      }
+      if (envelope.legacyMessage) {
+        await this.innerHandleLegacyMessage(envelope, plaintext);
+
+        return;
+      }
+
+      this.removeFromCache(envelope);
+      throw new Error('Received message with no content and no legacyMessage');
+    } catch (error) {
       window.log.error(
-        `queueDecryptedEnvelope error handling envelope ${id}:`,
+        `handleDecryptedEnvelope error handling envelope ${id}:`,
         error && error.extra ? JSON.stringify(error.extra) : '',
         error && error.stack ? error.stack : error
       );
-    });
+    }
   }
 
-  async queueEnvelope(envelope: EnvelopeClass) {
+  async handleEnvelope(envelope: EnvelopeClass) {
     const id = this.getEnvelopeId(envelope);
-    window.log.info('queueing envelope', id);
+    window.log.info('MessageReceiver.handleEnvelope', id);
 
-    const task = this.handleEnvelope.bind(this, envelope);
-    const taskWithTimeout = window.textsecure.createTaskWithTimeout(
-      task,
-      `queueEnvelope ${id}`
-    );
-    const promise = this.addToQueue(taskWithTimeout);
+    try {
+      if (this.stoppingProcessing) {
+        return Promise.resolve();
+      }
 
-    return promise.catch(error => {
+      if (envelope.type === window.textsecure.protobuf.Envelope.Type.RECEIPT) {
+        return this.onDeliveryReceipt(envelope);
+      }
+
+      if (envelope.content) {
+        return this.handleContentMessage(envelope);
+      }
+      if (envelope.legacyMessage) {
+        return this.handleLegacyMessage(envelope);
+      }
+
+      this.removeFromCache(envelope);
+
+      throw new Error('Received message with no content and no legacyMessage');
+    } catch (error) {
       const args = [
-        'queueEnvelope error handling envelope',
+        'handleEnvelope error handling envelope',
         this.getEnvelopeId(envelope),
         ':',
         error && error.extra ? JSON.stringify(error.extra) : '',
@@ -825,54 +861,9 @@ class MessageReceiverInner extends EventTarget {
       } else {
         window.log.error(...args);
       }
-    });
-  }
-
-  // Same as handleEnvelope, just without the decryption step. Necessary for handling
-  //   messages which were successfully decrypted, but application logic didn't finish
-  //   processing.
-  async handleDecryptedEnvelope(
-    envelope: EnvelopeClass,
-    plaintext: ArrayBuffer
-  ): Promise<void> {
-    if (this.stoppingProcessing) {
-      return;
-    }
-    // No decryption is required for delivery receipts, so the decrypted field of
-    //   the Unprocessed model will never be set
-
-    if (envelope.content) {
-      await this.innerHandleContentMessage(envelope, plaintext);
-
-      return;
-    }
-    if (envelope.legacyMessage) {
-      await this.innerHandleLegacyMessage(envelope, plaintext);
-
-      return;
     }
 
-    this.removeFromCache(envelope);
-    throw new Error('Received message with no content and no legacyMessage');
-  }
-
-  async handleEnvelope(envelope: EnvelopeClass) {
-    if (this.stoppingProcessing) {
-      return Promise.resolve();
-    }
-
-    if (envelope.type === window.textsecure.protobuf.Envelope.Type.RECEIPT) {
-      return this.onDeliveryReceipt(envelope);
-    }
-
-    if (envelope.content) {
-      return this.handleContentMessage(envelope);
-    }
-    if (envelope.legacyMessage) {
-      return this.handleLegacyMessage(envelope);
-    }
-    this.removeFromCache(envelope);
-    throw new Error('Received message with no content and no legacyMessage');
+    return undefined;
   }
 
   getStatus() {
@@ -1257,6 +1248,10 @@ class MessageReceiverInner extends EventTarget {
     envelope: EnvelopeClass,
     sentContainer: SyncMessageClass.Sent
   ) {
+    window.log.info(
+      'MessageReceiver.handleSentMessage',
+      this.getEnvelopeId(envelope)
+    );
     const {
       destination,
       destinationUuid,
@@ -1324,6 +1319,8 @@ class MessageReceiverInner extends EventTarget {
           unidentifiedStatus,
           message,
           isRecipientUpdate,
+          receivedAtCounter: envelope.receivedAtCounter,
+          receivedAtDate: envelope.receivedAtDate,
         };
         if (expirationStartTimestamp) {
           ev.data.expirationStartTimestamp = expirationStartTimestamp.toNumber();
@@ -1334,7 +1331,10 @@ class MessageReceiverInner extends EventTarget {
   }
 
   async handleDataMessage(envelope: EnvelopeClass, msg: DataMessageClass) {
-    window.log.info('data message from', this.getEnvelopeId(envelope));
+    window.log.info(
+      'MessageReceiver.handleDataMessage',
+      this.getEnvelopeId(envelope)
+    );
     let p: Promise<any> = Promise.resolve();
     // eslint-disable-next-line no-bitwise
     const destination = envelope.sourceUuid || envelope.source;
@@ -1412,6 +1412,8 @@ class MessageReceiverInner extends EventTarget {
           serverTimestamp: envelope.serverTimestamp,
           unidentifiedDeliveryReceived: envelope.unidentifiedDeliveryReceived,
           message,
+          receivedAtCounter: envelope.receivedAtCounter,
+          receivedAtDate: envelope.receivedAtDate,
         };
         return this.dispatchAndWait(ev);
       })
@@ -1419,6 +1421,10 @@ class MessageReceiverInner extends EventTarget {
   }
 
   async handleLegacyMessage(envelope: EnvelopeClass) {
+    window.log.info(
+      'MessageReceiver.handleLegacyMessage',
+      this.getEnvelopeId(envelope)
+    );
     return this.decrypt(envelope, envelope.legacyMessage).then(plaintext => {
       if (!plaintext) {
         window.log.warn('handleLegacyMessage: plaintext was falsey');
@@ -1437,6 +1443,10 @@ class MessageReceiverInner extends EventTarget {
   }
 
   async handleContentMessage(envelope: EnvelopeClass) {
+    window.log.info(
+      'MessageReceiver.handleContentMessage',
+      this.getEnvelopeId(envelope)
+    );
     return this.decrypt(envelope, envelope.content).then(plaintext => {
       if (!plaintext) {
         window.log.warn('handleContentMessage: plaintext was falsey');
@@ -1579,7 +1589,10 @@ class MessageReceiverInner extends EventTarget {
   }
 
   handleNullMessage(envelope: EnvelopeClass) {
-    window.log.info('null message from', this.getEnvelopeId(envelope));
+    window.log.info(
+      'MessageReceiver.handleNullMessage',
+      this.getEnvelopeId(envelope)
+    );
     this.removeFromCache(envelope);
   }
 
@@ -1778,7 +1791,6 @@ class MessageReceiverInner extends EventTarget {
       return undefined;
     }
     if (syncMessage.read && syncMessage.read.length) {
-      window.log.info('read messages from', this.getEnvelopeId(envelope));
       return this.handleRead(envelope, syncMessage.read);
     }
     if (syncMessage.verified) {
@@ -1952,6 +1964,7 @@ class MessageReceiverInner extends EventTarget {
     envelope: EnvelopeClass,
     read: Array<SyncMessageClass.Read>
   ) {
+    window.log.info('MessageReceiver.handleRead', this.getEnvelopeId(envelope));
     const results = [];
     for (let i = 0; i < read.length; i += 1) {
       const ev = new Event('readSync');

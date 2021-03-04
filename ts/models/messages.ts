@@ -198,6 +198,29 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     };
   }
 
+  getSenderIdentifier(): string {
+    const sentAt = this.get('sent_at');
+    const source = this.get('source');
+    const sourceUuid = this.get('sourceUuid');
+    const sourceDevice = this.get('sourceDevice');
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const sourceId = window.ConversationController.ensureContactIds({
+      e164: source,
+      uuid: sourceUuid,
+    })!;
+
+    return `${sourceId}.${sourceDevice}-${sentAt}`;
+  }
+
+  getReceivedAt(): number {
+    // We would like to get the received_at_ms ideally since received_at is
+    // now an incrementing counter for messages and not the actual time that
+    // the message was received. If this field doesn't exist on the message
+    // then we can trust received_at.
+    return Number(this.get('received_at_ms') || this.get('received_at'));
+  }
+
   isNormalBubble(): boolean {
     return (
       !this.isCallHistory() &&
@@ -381,7 +404,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     return {
       sentAt: this.get('sent_at'),
-      receivedAt: this.get('received_at'),
+      receivedAt: this.getReceivedAt(),
       message: {
         ...this.getPropsForMessage(),
         disableMenu: true,
@@ -1904,9 +1927,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     window.Whisper.Notifications.removeBy({ messageId: this.id });
 
     if (!skipSave) {
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: window.Whisper.Message,
-      });
+      window.Signal.Util.updateMessageBatcher.add(this.attributes);
     }
   }
 
@@ -1955,9 +1976,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       const id = this.get('id');
       if (id && !skipSave) {
-        await window.Signal.Data.saveMessage(this.attributes, {
-          Message: window.Whisper.Message,
-        });
+        window.Signal.Util.updateMessageBatcher.add(this.attributes);
       }
     }
   }
@@ -2822,20 +2841,32 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
     );
 
-    const collection = await window.Signal.Data.getMessagesBySentAt(id, {
-      MessageCollection: window.Whisper.MessageCollection,
-    });
-    const found = collection.find(item => {
-      const messageAuthorId = item.getContactId();
+    const inMemoryMessage = window.MessageController.findBySentAt(id);
 
-      return authorConversationId === messageAuthorId;
-    });
+    let queryMessage;
 
-    if (!found) {
-      quote.referencedMessageNotFound = true;
-      return message;
+    if (inMemoryMessage) {
+      queryMessage = inMemoryMessage;
+    } else {
+      window.log.info('copyFromQuotedMessage: db lookup needed', id);
+      const collection = await window.Signal.Data.getMessagesBySentAt(id, {
+        MessageCollection: window.Whisper.MessageCollection,
+      });
+      const found = collection.find(item => {
+        const messageAuthorId = item.getContactId();
+
+        return authorConversationId === messageAuthorId;
+      });
+
+      if (!found) {
+        quote.referencedMessageNotFound = true;
+        return message;
+      }
+
+      queryMessage = window.MessageController.register(found.id, found);
     }
-    if (found.isTapToView()) {
+
+    if (queryMessage.isTapToView()) {
       quote.text = null;
       quote.attachments = [
         {
@@ -2846,7 +2877,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return message;
     }
 
-    const queryMessage = window.MessageController.register(found.id, found);
     quote.text = queryMessage.get('body');
     if (firstAttachment) {
       firstAttachment.thumbnail = null;
@@ -2946,9 +2976,20 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       );
 
       // First, check for duplicates. If we find one, stop processing here.
-      const existingMessage = await getMessageBySender(this.attributes, {
-        Message: window.Whisper.Message,
-      });
+      const inMemoryMessage = window.MessageController.findBySender(
+        this.getSenderIdentifier()
+      );
+      if (!inMemoryMessage) {
+        window.log.info(
+          'handleDataMessage: duplicate check db lookup needed',
+          this.getSenderIdentifier()
+        );
+      }
+      const existingMessage =
+        inMemoryMessage ||
+        (await getMessageBySender(this.attributes, {
+          Message: window.Whisper.Message,
+        }));
       const isUpdate = Boolean(data && data.isRecipientUpdate);
 
       if (existingMessage && type === 'incoming') {
@@ -3422,7 +3463,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                     dataMessage.expireTimer,
                     source,
                     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    message.get('received_at')!,
+                    message.getReceivedAt()!,
                     {
                       fromGroupUpdate: message.isGroupUpdate(),
                     }
@@ -3437,7 +3478,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                   undefined,
                   source,
                   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                  message.get('received_at')!
+                  message.getReceivedAt()!
                 );
               }
             }
@@ -3573,7 +3614,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           (this.getConversation()!.getAccepted() || message.isOutgoing()) &&
           !shouldHoldOffDownload
         ) {
-          await message.queueAttachmentDownloads();
+          window.attachmentDownloadQueue = window.attachmentDownloadQueue || [];
+          window.attachmentDownloadQueue.unshift(message);
         }
 
         // Does this message have any pending, previously-received associated reactions?
@@ -3591,24 +3633,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           )
         );
 
-        await window.Signal.Data.saveMessage(message.attributes, {
-          Message: window.Whisper.Message,
-          forceSave: true,
-        });
-
-        conversation.trigger('newmessage', message);
-
-        if (message.get('unread')) {
-          await conversation.notify(message);
-        }
-
-        // Increment the sent message count if this is an outgoing message
-        if (type === 'outgoing') {
-          conversation.incrementSentMessageCount();
-        }
-
-        window.Whisper.events.trigger('incrementProgress');
-        confirm();
+        window.log.info(
+          'handleDataMessage: Batching save for',
+          message.get('sent_at')
+        );
+        this.saveAndNotify(conversation, confirm);
       } catch (error) {
         const errorForLog = error && error.stack ? error.stack : error;
         window.log.error(
@@ -3620,6 +3649,29 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         throw error;
       }
     });
+  }
+
+  async saveAndNotify(
+    conversation: ConversationModel,
+    confirm: () => void
+  ): Promise<void> {
+    await window.Signal.Util.saveNewMessageBatcher.add(this.attributes);
+
+    window.log.info('Message saved', this.get('sent_at'));
+
+    conversation.trigger('newmessage', this);
+
+    if (this.get('unread')) {
+      await conversation.notify(this);
+    }
+
+    // Increment the sent message count if this is an outgoing message
+    if (this.get('type') === 'outgoing') {
+      conversation.incrementSentMessageCount();
+    }
+
+    window.Whisper.events.trigger('incrementProgress');
+    confirm();
   }
 
   async handleReaction(

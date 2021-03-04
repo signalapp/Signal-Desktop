@@ -19,6 +19,8 @@ const electron = require('electron');
 const packageJson = require('./package.json');
 const GlobalErrors = require('./app/global_errors');
 const { setup: setupSpellChecker } = require('./app/spell_check');
+const { redactAll } = require('./js/modules/privacy');
+const removeUserConfig = require('./app/user_config').remove;
 
 GlobalErrors.addHandler();
 
@@ -30,6 +32,7 @@ const getRealPath = pify(fs.realpath);
 const {
   app,
   BrowserWindow,
+  clipboard,
   dialog,
   ipcMain: ipc,
   Menu,
@@ -1058,12 +1061,37 @@ app.on('ready', async () => {
     loadingWindow.loadURL(prepareURL([__dirname, 'loading.html']));
   });
 
-  const success = await sqlInitPromise;
-
-  if (!success) {
+  try {
+    await sqlInitPromise;
+  } catch (error) {
     console.log('sql.initialize was unsuccessful; returning early');
+    const buttonIndex = dialog.showMessageBoxSync({
+      buttons: [
+        locale.messages.copyErrorAndQuit.message,
+        locale.messages.deleteAndRestart.message,
+      ],
+      defaultId: 0,
+      detail: redactAll(error.stack),
+      message: locale.messages.databaseError.message,
+      noLink: true,
+      type: 'error',
+    });
+
+    if (buttonIndex === 0) {
+      clipboard.writeText(
+        `Database startup error:\n\n${redactAll(error.stack)}`
+      );
+    } else {
+      await sql.removeDB();
+      removeUserConfig();
+      app.relaunch();
+    }
+
+    app.exit(1);
+
     return;
   }
+
   // eslint-disable-next-line more/no-then
   appStartInitialSpellcheckSetting = await getSpellCheckSetting();
   await sqlChannels.initialize();
@@ -1075,10 +1103,10 @@ app.on('ready', async () => {
       await sql.removeIndexedDBFiles();
       await sql.removeItemById(IDB_KEY);
     }
-  } catch (error) {
+  } catch (err) {
     console.log(
       '(ready event handler) error deleting IndexedDB:',
-      error && error.stack ? error.stack : error
+      err && err.stack ? err.stack : err
     );
   }
 
@@ -1113,10 +1141,10 @@ app.on('ready', async () => {
 
   try {
     await attachments.clearTempPath(userDataPath);
-  } catch (error) {
+  } catch (err) {
     logger.error(
       'main/ready: Error deleting temp dir:',
-      error && error.stack ? error.stack : error
+      err && err.stack ? err.stack : err
     );
   }
   await attachmentChannel.initialize({
@@ -1456,6 +1484,17 @@ ipc.on('get-built-in-images', async () => {
 ipc.on('locale-data', event => {
   // eslint-disable-next-line no-param-reassign
   event.returnValue = locale.messages;
+});
+
+// Used once to initialize SQL in the renderer process
+ipc.once('user-config-key', event => {
+  // eslint-disable-next-line no-param-reassign
+  event.returnValue = userConfig.get('key');
+});
+
+ipc.on('get-user-data-path', event => {
+  // eslint-disable-next-line no-param-reassign
+  event.returnValue = app.getPath('userData');
 });
 
 function getDataFromMainWindow(name, callback) {
