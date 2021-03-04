@@ -8,6 +8,7 @@ import {
   removeAllUnprocessed,
   removeUnprocessed,
   saveUnprocessed,
+  UnprocessedParameter,
   updateUnprocessedAttempts,
   updateUnprocessedWithData,
 } from '../data/data';
@@ -27,7 +28,7 @@ export async function addToCache(
   window.log.info(`adding to cache envelope: ${id}`);
 
   const encodedEnvelope = StringUtils.decode(plaintext, 'base64');
-  const data: any = {
+  const data: UnprocessedParameter = {
     id,
     version: 2,
     envelope: encodedEnvelope,

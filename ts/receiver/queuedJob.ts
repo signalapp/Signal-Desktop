@@ -529,6 +529,9 @@ export async function handleMessageJob(
     const id = await message.commit();
 
     message.set({ id });
+    // this updates the redux store.
+    // if the convo on which this message should become visible,
+    // it will be shown to the user, and might as well be read right away
     window.Whisper.events.trigger('messageAdded', {
       conversationKey: conversation.id,
       messageModel: message,

@@ -28,6 +28,7 @@ import {
   getUnreadCountByConversation,
   removeAllMessagesInConversation,
   removeMessage as dataRemoveMessage,
+  saveMessages,
   updateConversation,
 } from '../../ts/data/data';
 import {
@@ -481,7 +482,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     await this.commit();
   }
 
-  public async onReadMessage(message: any, readAt: any) {
+  public async onReadMessage(message: MessageModel, readAt: number) {
     // We mark as read everything older than this message - to clean up old stuff
     //   still marked unread in the database. If the user generally doesn't read in
     //   the desktop app, so the desktop app only gets read syncs, we can very
@@ -1021,7 +1022,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  public async markRead(newestUnreadDate: any, providedOptions: any = {}) {
+  public async markReadBouncy(
+    newestUnreadDate: number,
+    providedOptions: any = {}
+  ) {
     const options = providedOptions || {};
     _.defaults(options, { sendReadReceipts: true });
 
