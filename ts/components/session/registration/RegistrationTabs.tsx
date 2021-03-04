@@ -14,10 +14,12 @@ import { TabLabel, TabType } from './TabLabel';
 import { PasswordUtil } from '../../../util';
 import { trigger } from '../../../shims/events';
 import {
-  AccountManager,
+  generateMnemonic,
+  registerSingleDevice,
   sessionGenerateKeyPair,
+  signInByLinkingDevice,
 } from '../../../util/accountManager';
-import { fromHex, fromHexToArray } from '../../../session/utils/String';
+import { fromHex } from '../../../session/utils/String';
 import { TaskTimedOutError } from '../../../session/utils/Promise';
 
 export const MAX_USERNAME_LENGTH = 20;
@@ -138,11 +140,7 @@ export async function signUp(signUpDetails: {
   try {
     await resetRegistration();
     await window.setPassword(password);
-    await AccountManager.registerSingleDevice(
-      generatedRecoveryPhrase,
-      'english',
-      trimName
-    );
+    await registerSingleDevice(generatedRecoveryPhrase, 'english', trimName);
     await createOrUpdateItem({
       id: 'hasSyncedInitialConfigurationItem',
       value: true,
@@ -191,11 +189,7 @@ export async function signInWithRecovery(signInDetails: {
     await resetRegistration();
     await window.setPassword(password);
 
-    await AccountManager.registerSingleDevice(
-      userRecoveryPhrase,
-      'english',
-      trimName
-    );
+    await registerSingleDevice(userRecoveryPhrase, 'english', trimName);
     trigger('openInbox');
   } catch (e) {
     await resetRegistration();
@@ -225,7 +219,7 @@ export async function signInWithLinking(signInDetails: {
   try {
     await resetRegistration();
     await window.setPassword(password);
-    await AccountManager.signInByLinkingDevice(userRecoveryPhrase, 'english');
+    await signInByLinkingDevice(userRecoveryPhrase, 'english');
 
     let displayNameFromNetwork = '';
 
@@ -311,7 +305,7 @@ export class RegistrationTabs extends React.Component<any, State> {
   private async generateMnemonicAndKeyPair() {
     if (this.state.generatedRecoveryPhrase === '') {
       const language = 'english';
-      const mnemonic = await AccountManager.generateMnemonic(language);
+      const mnemonic = await generateMnemonic(language);
 
       let seedHex = window.mnemonic.mn_decode(mnemonic, language);
       // handle shorter than 32 bytes seeds

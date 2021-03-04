@@ -14,7 +14,7 @@ import { SessionSearchInput } from './SessionSearchInput';
 import { SessionSettingCategory } from './settings/SessionSettings';
 import { DefaultTheme } from 'styled-components';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
-import { AccountManager } from '../../util';
+import { deleteAccount } from '../../util/accountManager';
 
 interface Props {
   settingsCategory: SessionSettingCategory;
@@ -180,7 +180,7 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
       title,
       message,
       messageSub,
-      resolve: AccountManager.deleteAccount,
+      resolve: deleteAccount,
       okTheme: 'danger',
     });
   }

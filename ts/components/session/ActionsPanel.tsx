@@ -22,7 +22,7 @@ import {
 } from '../../data/data';
 import { OnionPaths } from '../../session/onions';
 import { getMessageQueue } from '../../session/sending';
-import { AccountManager } from '../../util';
+import { clearSessionsAndPreKeys } from '../../util/accountManager';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -90,7 +90,7 @@ class ActionsPanelPrivate extends React.Component<Props> {
     void this.showResetSessionIDDialogIfNeeded();
 
     // remove existing prekeys, sign prekeys and sessions
-    void AccountManager.clearSessionsAndPreKeys();
+    void clearSessionsAndPreKeys();
 
     // Do this only if we created a new Session ID, or if we already received the initial configuration message
 
