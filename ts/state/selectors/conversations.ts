@@ -181,20 +181,6 @@ export const getMessagesByConversation = createSelector(
   }
 );
 
-export const getIsConversationEmptySelector = createSelector(
-  getMessagesByConversation,
-  (messagesByConversation: MessagesByConversationType) => (
-    conversationId: string
-  ): boolean => {
-    const messages = getOwn(messagesByConversation, conversationId);
-    if (!messages) {
-      assert(false, 'Could not find conversation with this ID');
-      return true;
-    }
-    return messages.messageIds.length === 0;
-  }
-);
-
 const collator = new Intl.Collator();
 
 // Note: we will probably want to put i18n and regionCode back when we are formatting

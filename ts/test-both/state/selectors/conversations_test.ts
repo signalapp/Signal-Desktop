@@ -23,7 +23,6 @@ import {
   getComposerStep,
   getConversationSelector,
   getInvitedContactsForNewlyCreatedGroup,
-  getIsConversationEmptySelector,
   getMaximumGroupSizeModalState,
   getPlaceholderContact,
   getRecommendedGroupSizeModalState,
@@ -254,74 +253,6 @@ describe('both/state/selectors/conversations', () => {
       const titles = result.map(conversation => conversation.title);
 
       assert.deepEqual(titles, ['def title', 'abc title']);
-    });
-  });
-
-  describe('#getIsConversationEmptySelector', () => {
-    it('returns a selector that returns true for conversations that have no messages', () => {
-      const state = {
-        ...getEmptyRootState(),
-        conversations: {
-          ...getEmptyState(),
-          messagesByConversation: {
-            abc123: {
-              heightChangeMessageIds: [],
-              isLoadingMessages: false,
-              messageIds: [],
-              metrics: { totalUnread: 0 },
-              resetCounter: 0,
-              scrollToMessageCounter: 0,
-            },
-          },
-        },
-      };
-      const selector = getIsConversationEmptySelector(state);
-
-      assert.isTrue(selector('abc123'));
-    });
-
-    it('returns a selector that returns true for conversations that have no messages, even if loading', () => {
-      const state = {
-        ...getEmptyRootState(),
-        conversations: {
-          ...getEmptyState(),
-          messagesByConversation: {
-            abc123: {
-              heightChangeMessageIds: [],
-              isLoadingMessages: true,
-              messageIds: [],
-              metrics: { totalUnread: 0 },
-              resetCounter: 0,
-              scrollToMessageCounter: 0,
-            },
-          },
-        },
-      };
-      const selector = getIsConversationEmptySelector(state);
-
-      assert.isTrue(selector('abc123'));
-    });
-
-    it('returns a selector that returns false for conversations that have messages', () => {
-      const state = {
-        ...getEmptyRootState(),
-        conversations: {
-          ...getEmptyState(),
-          messagesByConversation: {
-            abc123: {
-              heightChangeMessageIds: [],
-              isLoadingMessages: false,
-              messageIds: ['xyz'],
-              metrics: { totalUnread: 0 },
-              resetCounter: 0,
-              scrollToMessageCounter: 0,
-            },
-          },
-        },
-      };
-      const selector = getIsConversationEmptySelector(state);
-
-      assert.isFalse(selector('abc123'));
     });
   });
 

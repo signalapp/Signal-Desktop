@@ -91,6 +91,7 @@ export type ConversationType = {
   markedUnread?: boolean;
   phoneNumber?: string;
   membersCount?: number;
+  messageCount?: number;
   accessControlAddFromInviteLink?: number;
   accessControlAttributes?: number;
   accessControlMembers?: number;

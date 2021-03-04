@@ -7,10 +7,7 @@ import {
   ConversationHeader,
   OutgoingCallButtonStyle,
 } from '../../components/conversation/ConversationHeader';
-import {
-  getConversationSelector,
-  getIsConversationEmptySelector,
-} from '../selectors/conversations';
+import { getConversationSelector } from '../selectors/conversations';
 import { StateType } from '../reducer';
 import { CallMode } from '../../types/Calling';
 import {
@@ -110,10 +107,14 @@ const mapStateToProps = (state: StateType, ownProps: OwnProps) => {
       'groupVersion',
     ]),
     conversationTitle: state.conversations.selectedConversationTitle,
-    isMissingMandatoryProfileSharing:
+    isMissingMandatoryProfileSharing: Boolean(
       !conversation.profileSharing &&
-      window.Signal.RemoteConfig.isEnabled('desktop.mandatoryProfileSharing') &&
-      !getIsConversationEmptySelector(state)(id),
+        window.Signal.RemoteConfig.isEnabled(
+          'desktop.mandatoryProfileSharing'
+        ) &&
+        conversation.messageCount &&
+        conversation.messageCount > 0
+    ),
     i18n: getIntl(state),
     showBackButton: state.conversations.selectedConversationPanelDepth > 0,
     outgoingCallButtonStyle: getOutgoingCallButtonStyle(conversation, state),

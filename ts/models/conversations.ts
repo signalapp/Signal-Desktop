@@ -1336,6 +1336,7 @@ export class ConversationModel extends window.Backbone.Model<
       markedUnread: this.get('markedUnread')!,
       membersCount: this.getMembersCount(),
       memberships: this.getMemberships(),
+      messageCount: this.get('messageCount') || 0,
       pendingMemberships: this.getPendingMemberships(),
       pendingApprovalMemberships: this.getPendingApprovalMemberships(),
       messageRequestsEnabled,

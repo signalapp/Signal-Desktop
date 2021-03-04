@@ -10,10 +10,7 @@ import { StateType } from '../reducer';
 
 import { isShortName } from '../../components/emoji/lib';
 import { getIntl } from '../selectors/user';
-import {
-  getConversationSelector,
-  getIsConversationEmptySelector,
-} from '../selectors/conversations';
+import { getConversationSelector } from '../selectors/conversations';
 import {
   getBlessedStickerPacks,
   getInstalledStickerPacks,
@@ -81,10 +78,14 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     // Message Requests
     ...conversation,
     conversationType: conversation.type,
-    isMissingMandatoryProfileSharing:
+    isMissingMandatoryProfileSharing: Boolean(
       !conversation.profileSharing &&
-      window.Signal.RemoteConfig.isEnabled('desktop.mandatoryProfileSharing') &&
-      !getIsConversationEmptySelector(state)(id),
+        window.Signal.RemoteConfig.isEnabled(
+          'desktop.mandatoryProfileSharing'
+        ) &&
+        conversation.messageCount &&
+        conversation.messageCount > 0
+    ),
   };
 };
 
