@@ -72,6 +72,7 @@ const excludedFilesRegexps = [
   '^libtextsecure/test/test.js',
   '^sticker-creator/dist/bundle.js',
   '^test/test.js',
+  '^ts/test[^/]*/.+',
 
   // From libsignal-protocol-javascript project
   '^libtextsecure/libsignal-protocol.js',

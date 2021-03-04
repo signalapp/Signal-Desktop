@@ -3,6 +3,7 @@
 
 /* eslint-disable no-console */
 
+const ByteBuffer = require('../components/bytebuffer/dist/ByteBufferAB.js');
 const { setEnvironment, Environment } = require('../ts/environment');
 
 before(() => {
@@ -17,6 +18,9 @@ global.window = {
     error: (...args) => console.error(...args),
   },
   i18n: key => `i18n(${key})`,
+  dcodeIO: {
+    ByteBuffer,
+  },
 };
 
 // For ducks/network.getEmptyState()

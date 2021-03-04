@@ -22,6 +22,10 @@ import { sleep } from './sleep';
 import { longRunningTaskWrapper } from './longRunningTaskWrapper';
 import { toWebSafeBase64, fromWebSafeBase64 } from './webSafeBase64';
 import { mapToSupportLocale } from './mapToSupportLocale';
+import {
+  sessionRecordToProtobuf,
+  sessionStructureToArrayBuffer,
+} from './sessionTranslation';
 import * as zkgroup from './zkgroup';
 
 export {
@@ -45,6 +49,8 @@ export {
   missingCaseError,
   parseRemoteClientExpiration,
   Registration,
+  sessionRecordToProtobuf,
+  sessionStructureToArrayBuffer,
   sleep,
   toWebSafeBase64,
   zkgroup,
