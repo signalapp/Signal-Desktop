@@ -139,8 +139,8 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
 
             const onClickFn =
               setting.onClick ||
-              ((value?: string) => {
-                this.updateSetting(setting, value);
+              ((settingValue?: string) => {
+                this.updateSetting(setting, settingValue);
               });
 
             return (
