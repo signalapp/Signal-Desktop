@@ -10,7 +10,7 @@ function makeGetter(configKey: ConfigKeyType): (fallback?: number) => number {
     try {
       return parseIntOrThrow(
         getValue(configKey),
-        'Failed to parse group size limit'
+        `Failed to parse ${configKey} as an integer`
       );
     } catch (err) {
       if (isNumber(fallback)) {
