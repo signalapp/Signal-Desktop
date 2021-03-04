@@ -7,11 +7,13 @@ import React, {
   FunctionComponent,
   ReactNode,
 } from 'react';
+import { escapeRegExp } from 'lodash';
 
 import { MessageBodyHighlight } from './MessageBodyHighlight';
 import { ContactName } from '../conversation/ContactName';
 
-import { LocalizerType } from '../../types/Util';
+import { assert } from '../../util/assert';
+import { BodyRangesType, LocalizerType } from '../../types/Util';
 import { ColorType } from '../../types/Colors';
 import { BaseConversationListItem } from './BaseConversationListItem';
 
@@ -24,6 +26,8 @@ export type PropsDataType = {
   sentAt?: number;
 
   snippet: string;
+  body: string;
+  bodyRanges: BodyRangesType;
 
   from: {
     phoneNumber?: string;
@@ -78,17 +82,77 @@ const renderPerson = (
     />
   );
 
+// This function exists because bodyRanges tells us the character position
+// where the at-mention starts at according to the full body text. The snippet
+// we get back is a portion of the text and we don't know where it starts. This
+// function will find the relevant bodyRanges that apply to the snippet and
+// then update the proper start position of each body range.
+function getFilteredBodyRanges(
+  snippet: string,
+  body: string,
+  bodyRanges: BodyRangesType
+): BodyRangesType {
+  // Find where the snippet starts in the full text
+  const stripped = snippet
+    .replace(/<<left>>/g, '')
+    .replace(/<<right>>/g, '')
+    .replace(/^.../, '')
+    .replace(/...$/, '');
+  const rx = new RegExp(escapeRegExp(stripped));
+  const match = rx.exec(body);
+
+  assert(Boolean(match), `No match found for "${snippet}" inside "${body}"`);
+
+  const delta = match ? match.index + snippet.length : 0;
+
+  // Filters out the @mentions that are present inside the snippet
+  const filteredBodyRanges = bodyRanges.filter(bodyRange => {
+    return bodyRange.start < delta;
+  });
+
+  const snippetBodyRanges = [];
+  const MENTIONS_REGEX = /\uFFFC/g;
+
+  let bodyRangeMatch = MENTIONS_REGEX.exec(snippet);
+  let i = 0;
+
+  // Find the start position within the snippet so these can later be
+  // encoded and rendered correctly.
+  while (bodyRangeMatch) {
+    const bodyRange = filteredBodyRanges[i];
+
+    if (bodyRange) {
+      snippetBodyRanges.push({
+        ...bodyRange,
+        start: bodyRangeMatch.index,
+      });
+    } else {
+      assert(
+        false,
+        `Body range does not exist? Count: ${i}, Length: ${filteredBodyRanges.length}`
+      );
+    }
+
+    bodyRangeMatch = MENTIONS_REGEX.exec(snippet);
+    i += 1;
+  }
+
+  return snippetBodyRanges;
+}
+
 export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
   ({
-    id,
+    body,
+    bodyRanges,
     conversationId,
     from,
-    to,
-    sentAt,
     i18n,
+    id,
     openConversationInternal,
-    style,
+    sentAt,
     snippet,
+    style,
+    to,
   }) => {
     const onClickItem = useCallback(() => {
       openConversationInternal({ conversationId, messageId: id });
@@ -113,7 +177,14 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
       );
     }
 
-    const messageText = <MessageBodyHighlight text={snippet} i18n={i18n} />;
+    const snippetBodyRanges = getFilteredBodyRanges(snippet, body, bodyRanges);
+    const messageText = (
+      <MessageBodyHighlight
+        text={snippet}
+        bodyRanges={snippetBodyRanges}
+        i18n={i18n}
+      />
+    );
 
     return (
       <BaseConversationListItem

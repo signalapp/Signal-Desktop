@@ -2114,6 +2114,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           preview: previewWithData,
           sticker: stickerWithData,
           expireTimer: this.get('expireTimer'),
+          mentions: this.get('bodyRanges'),
           profileKey,
           groupV2,
           group: groupV2

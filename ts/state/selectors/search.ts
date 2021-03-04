@@ -125,6 +125,8 @@ export function _messageSearchResultSelector(
     conversationId: message.conversationId,
     sentAt: message.sent_at,
     snippet: message.snippet,
+    bodyRanges: message.bodyRanges,
+    body: message.body,
 
     isSelected: Boolean(selectedMessageId && message.id === selectedMessageId),
     isSearchingInConversation: Boolean(searchConversationId),

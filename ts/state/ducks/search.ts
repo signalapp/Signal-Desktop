@@ -7,6 +7,7 @@ import { normalize } from '../../types/PhoneNumber';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import dataInterface from '../../sql/Client';
 import { makeLookup } from '../../util/makeLookup';
+import { BodyRangesType } from '../../types/Util';
 
 import {
   ConversationUnloadedActionType,
@@ -28,6 +29,8 @@ const {
 
 export type MessageSearchResultType = MessageType & {
   snippet: string;
+  body: string;
+  bodyRanges: BodyRangesType;
 };
 
 export type MessageSearchResultLookupType = {

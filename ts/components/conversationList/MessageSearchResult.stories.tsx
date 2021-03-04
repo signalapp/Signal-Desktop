@@ -43,6 +43,8 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     'snippet',
     overrideProps.snippet || "What's <<left>>going<<right>> on?"
   ),
+  body: text('body', overrideProps.body || "What's going on?"),
+  bodyRanges: overrideProps.bodyRanges || [],
   from: overrideProps.from as PropsType['from'],
   to: overrideProps.to as PropsType['to'],
   isSelected: boolean('isSelected', overrideProps.isSelected || false),
@@ -138,6 +140,100 @@ story.add('Long Search Result', () => {
 
 story.add('Empty (should be invalid)', () => {
   const props = createProps();
+
+  return <MessageSearchResult {...props} />;
+});
+
+story.add('@mention', () => {
+  const props = createProps({
+    body:
+      'moss banana twine sound lake zoo brain count vacuum work stairs try power forget hair dry diary years no results \uFFFC elephant sorry umbrella potato igloo kangaroo home Georgia bayonet vector orange forge diary zebra turtle rise front \uFFFC',
+    bodyRanges: [
+      {
+        length: 1,
+        mentionUuid: '7d007e95-771d-43ad-9191-eaa86c773cb8',
+        replacementText: 'Shoe',
+        start: 113,
+      },
+      {
+        length: 1,
+        mentionUuid: '7d007e95-771d-43ad-9191-eaa86c773cb8',
+        replacementText: 'Shoe',
+        start: 237,
+      },
+    ],
+    from: someone,
+    to: me,
+    snippet:
+      '...forget hair dry diary years no <<left>>results<<right>> \uFFFC <<left>>elephant<<right>> sorry umbrella potato igloo kangaroo home Georgia...',
+  });
+
+  return <MessageSearchResult {...props} />;
+});
+
+story.add('@mention regexp', () => {
+  const props = createProps({
+    body:
+      '\uFFFC This is a (long) /text/ ^$ that is ... specially **crafted** to (test) our regexp escaping mechanism! Making sure that the code we write works in all sorts of scenarios',
+    bodyRanges: [
+      {
+        length: 1,
+        mentionUuid: '7d007e95-771d-43ad-9191-eaa86c773cb8',
+        replacementText: 'RegExp',
+        start: 0,
+      },
+    ],
+    from: someone,
+    to: me,
+    snippet:
+      '\uFFFC This is a (long) /text/ ^$ that is ... <<left>>specially<<right>> **crafted** to (test) our regexp escaping mechanism...',
+  });
+
+  return <MessageSearchResult {...props} />;
+});
+
+story.add('@mention no-matches', () => {
+  const props = createProps({
+    body: '\uFFFC hello',
+    bodyRanges: [
+      {
+        length: 1,
+        mentionUuid: '7d007e95-771d-43ad-9191-eaa86c773cb8',
+        replacementText: 'Neo',
+        start: 0,
+      },
+    ],
+    from: someone,
+    to: me,
+    snippet: '\uFFFC hello',
+  });
+
+  return <MessageSearchResult {...props} />;
+});
+
+story.add('@mention no-matches', () => {
+  const props = createProps({
+    body:
+      'moss banana twine sound lake zoo brain count vacuum work stairs try power forget hair dry diary years no results \uFFFC elephant sorry umbrella potato igloo kangaroo home Georgia bayonet vector orange forge diary zebra turtle rise front \uFFFC',
+    bodyRanges: [
+      {
+        length: 1,
+        mentionUuid: '7d007e95-771d-43ad-9191-eaa86c773cb8',
+        replacementText: 'Shoe',
+        start: 113,
+      },
+      {
+        length: 1,
+        mentionUuid: '7d007e95-771d-43ad-9191-eaa86c773cb8',
+        replacementText: 'Shoe',
+        start: 237,
+      },
+    ],
+    from: someone,
+    to: me,
+    snippet:
+      '...forget hair dry diary years no results \uFFFC elephant sorry umbrella potato igloo kangaroo home Georgia...',
+  });
 
   return <MessageSearchResult {...props} />;
 });

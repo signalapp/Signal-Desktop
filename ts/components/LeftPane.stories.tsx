@@ -91,6 +91,8 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   renderMainHeader: () => <div />,
   renderMessageSearchResult: (id: string, style: React.CSSProperties) => (
     <MessageSearchResult
+      body="Lorem ipsum wow"
+      bodyRanges={[]}
       conversationId="marc-convo"
       from={defaultConversations[0]}
       i18n={i18n}

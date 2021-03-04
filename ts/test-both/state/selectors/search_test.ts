@@ -44,6 +44,8 @@ describe('both/state/selectors/search', () => {
   function getDefaultSearchMessage(id: string): MessageSearchResultType {
     return {
       ...getDefaultMessage(id),
+      body: 'foo bar',
+      bodyRanges: [],
       snippet: 'foo bar',
     };
   }
@@ -77,6 +79,8 @@ describe('both/state/selectors/search', () => {
               ...getDefaultMessage(id),
               type: 'keychange' as const,
               snippet: 'snippet',
+              body: 'snippet',
+              bodyRanges: [],
             },
           },
         },
@@ -114,6 +118,8 @@ describe('both/state/selectors/search', () => {
               sourceUuid: fromId,
               conversationId: toId,
               snippet: 'snippet',
+              body: 'snippet',
+              bodyRanges: [],
             },
           },
         },
@@ -129,6 +135,8 @@ describe('both/state/selectors/search', () => {
         conversationId: toId,
         sentAt: undefined,
         snippet: 'snippet',
+        body: 'snippet',
+        bodyRanges: [],
 
         isSelected: false,
         isSearchingInConversation: false,
@@ -165,6 +173,8 @@ describe('both/state/selectors/search', () => {
               type: 'outgoing' as const,
               conversationId: toId,
               snippet: 'snippet',
+              body: 'snippet',
+              bodyRanges: [],
             },
           },
         },
@@ -180,6 +190,8 @@ describe('both/state/selectors/search', () => {
         conversationId: toId,
         sentAt: undefined,
         snippet: 'snippet',
+        body: 'snippet',
+        bodyRanges: [],
 
         isSelected: false,
         isSearchingInConversation: false,

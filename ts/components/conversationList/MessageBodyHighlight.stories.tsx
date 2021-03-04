@@ -18,6 +18,7 @@ const story = storiesOf('Components/MessageBodyHighlight', module);
 story.addDecorator((withKnobs as any)({ escapeHTML: false }));
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
+  bodyRanges: overrideProps.bodyRanges || [],
   i18n,
   text: text('text', overrideProps.text || ''),
 });
@@ -42,6 +43,23 @@ story.add('Two Replacements', () => {
   const props = createProps({
     text:
       'Begin <<left>>Inside #1<<right>> This is between the two <<left>>Inside #2<<right>> End.',
+  });
+
+  return <MessageBodyHighlight {...props} />;
+});
+
+story.add('Two Replacements with an @mention', () => {
+  const props = createProps({
+    bodyRanges: [
+      {
+        length: 1,
+        mentionUuid: '0ca40892-7b1a-11eb-9439-0242ac130002',
+        replacementText: 'Jin Sakai',
+        start: 52,
+      },
+    ],
+    text:
+      'Begin <<left>>Inside #1<<right>> \uFFFC@52 This is between the two <<left>>Inside #2<<right>> End.',
   });
 
   return <MessageBodyHighlight {...props} />;

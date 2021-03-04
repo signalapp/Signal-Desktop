@@ -4,24 +4,26 @@
 import React, { ReactNode } from 'react';
 
 import { MESSAGE_TEXT_CLASS_NAME } from './BaseConversationListItem';
+import { AtMentionify } from '../conversation/AtMentionify';
 import { MessageBody } from '../conversation/MessageBody';
 import { Emojify } from '../conversation/Emojify';
 import { AddNewLines } from '../conversation/AddNewLines';
 
 import { SizeClassType } from '../emoji/lib';
 
-import { LocalizerType, RenderTextCallbackType } from '../../types/Util';
+import {
+  BodyRangesType,
+  LocalizerType,
+  RenderTextCallbackType,
+} from '../../types/Util';
 
 const CLASS_NAME = `${MESSAGE_TEXT_CLASS_NAME}__message-search-result-contents`;
 
 export type Props = {
+  bodyRanges: BodyRangesType;
   text: string;
   i18n: LocalizerType;
 };
-
-const renderNewLines: RenderTextCallbackType = ({ text, key }) => (
-  <AddNewLines key={key} text={text} />
-);
 
 const renderEmoji = ({
   text,
@@ -44,18 +46,42 @@ const renderEmoji = ({
 );
 
 export class MessageBodyHighlight extends React.Component<Props> {
+  private readonly renderNewLines: RenderTextCallbackType = ({
+    text: textWithNewLines,
+    key,
+  }) => {
+    const { bodyRanges } = this.props;
+    return (
+      <AddNewLines
+        key={key}
+        text={textWithNewLines}
+        renderNonNewLine={({ text, key: innerKey }) => (
+          <AtMentionify bodyRanges={bodyRanges} key={innerKey} text={text} />
+        )}
+      />
+    );
+  };
+
   private renderContents(): ReactNode {
-    const { text, i18n } = this.props;
+    const { bodyRanges, text, i18n } = this.props;
     const results: Array<JSX.Element> = [];
     const FIND_BEGIN_END = /<<left>>(.+?)<<right>>/g;
 
-    let match = FIND_BEGIN_END.exec(text);
+    const processedText = AtMentionify.preprocessMentions(text, bodyRanges);
+
+    let match = FIND_BEGIN_END.exec(processedText);
     let last = 0;
     let count = 1;
 
     if (!match) {
       return (
-        <MessageBody disableJumbomoji disableLinks text={text} i18n={i18n} />
+        <MessageBody
+          bodyRanges={bodyRanges}
+          disableJumbomoji
+          disableLinks
+          text={text}
+          i18n={i18n}
+        />
       );
     }
 
@@ -63,7 +89,7 @@ export class MessageBodyHighlight extends React.Component<Props> {
 
     while (match) {
       if (last < match.index) {
-        const beforeText = text.slice(last, match.index);
+        const beforeText = processedText.slice(last, match.index);
         count += 1;
         results.push(
           renderEmoji({
@@ -71,7 +97,7 @@ export class MessageBodyHighlight extends React.Component<Props> {
             sizeClass,
             key: count,
             i18n,
-            renderNonEmoji: renderNewLines,
+            renderNonEmoji: this.renderNewLines,
           })
         );
       }
@@ -85,24 +111,24 @@ export class MessageBodyHighlight extends React.Component<Props> {
             sizeClass,
             key: count,
             i18n,
-            renderNonEmoji: renderNewLines,
+            renderNonEmoji: this.renderNewLines,
           })}
         </span>
       );
 
       last = FIND_BEGIN_END.lastIndex;
-      match = FIND_BEGIN_END.exec(text);
+      match = FIND_BEGIN_END.exec(processedText);
     }
 
-    if (last < text.length) {
+    if (last < processedText.length) {
       count += 1;
       results.push(
         renderEmoji({
-          text: text.slice(last),
+          text: processedText.slice(last),
           sizeClass,
           key: count,
           i18n,
-          renderNonEmoji: renderNewLines,
+          renderNonEmoji: this.renderNewLines,
         })
       );
     }
