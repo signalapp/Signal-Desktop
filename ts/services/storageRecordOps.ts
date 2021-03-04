@@ -282,7 +282,7 @@ function applyMessageRequestState(
     conversation.unblock({ viaStorageServiceSync: true });
   }
 
-  if (!record.whitelisted) {
+  if (record.whitelisted === false) {
     conversation.disableProfileSharing({ viaStorageServiceSync: true });
   }
 }
@@ -392,6 +392,7 @@ export async function mergeGroupV1Record(
   if (!conversation) {
     throw new Error(`No conversation for group(${groupId})`);
   }
+  window.log.info('storageService.mergeGroupV1Record:', conversation.debugID());
 
   if (!conversation.isGroupV1()) {
     throw new Error(`Record has group type mismatch ${conversation.debugID()}`);
@@ -476,6 +477,8 @@ export async function mergeGroupV2Record(
   const masterKeyBuffer = groupV2Record.masterKey.toArrayBuffer();
   const conversation = await getGroupV2Conversation(masterKeyBuffer);
 
+  window.log.info('storageService.mergeGroupV2Record:', conversation.debugID());
+
   conversation.set({
     isArchived: Boolean(groupV2Record.archived),
     markedUnread: Boolean(groupV2Record.markedUnread),
@@ -550,6 +553,8 @@ export async function mergeContactRecord(
     id,
     'private'
   );
+
+  window.log.info('storageService.mergeContactRecord:', conversation.debugID());
 
   if (contactRecord.profileKey) {
     await conversation.setProfileKey(

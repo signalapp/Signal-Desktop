@@ -846,7 +846,7 @@ export class ConversationModel extends window.Backbone.Model<
     const after = this.get('profileSharing');
 
     if (!viaStorageServiceSync && Boolean(before) !== Boolean(after)) {
-      this.captureChange('profileSharing');
+      this.captureChange('enableProfileSharing');
     }
   }
 
@@ -858,7 +858,7 @@ export class ConversationModel extends window.Backbone.Model<
     const after = this.get('profileSharing');
 
     if (!viaStorageServiceSync && Boolean(before) !== Boolean(after)) {
-      this.captureChange('profileSharing');
+      this.captureChange('disableProfileSharing');
     }
   }
 
@@ -4853,7 +4853,7 @@ export class ConversationModel extends window.Backbone.Model<
   // [X] whitelisted
   // [X] archived
   // [X] markedUnread
-  captureChange(property: string): void {
+  captureChange(logMessage: string): void {
     if (!window.Signal.RemoteConfig.isEnabled('desktop.storageWrite2')) {
       window.log.info(
         'conversation.captureChange: Returning early; desktop.storageWrite2 is falsey'
@@ -4864,7 +4864,7 @@ export class ConversationModel extends window.Backbone.Model<
 
     window.log.info(
       'storageService[captureChange]',
-      property,
+      logMessage,
       this.idForLogging()
     );
     this.set({ needsStorageServiceSync: true });
