@@ -1486,8 +1486,7 @@ ipc.on('locale-data', event => {
   event.returnValue = locale.messages;
 });
 
-// Used once to initialize SQL in the renderer process
-ipc.once('user-config-key', event => {
+ipc.on('user-config-key', event => {
   // eslint-disable-next-line no-param-reassign
   event.returnValue = userConfig.get('key');
 });
