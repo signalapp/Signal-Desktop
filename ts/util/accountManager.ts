@@ -17,6 +17,7 @@ import {
 } from '../data/data';
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
 import { actions as userActions } from '../state/ducks/user';
+import { mn_decode, mn_encode } from '../session/crypto/mnemonic';
 
 /**
  * Might throw
@@ -49,7 +50,7 @@ export async function sessionGenerateKeyPair(
 }
 
 const generateKeypair = async (mnemonic: string, mnemonicLanguage: string) => {
-  let seedHex = window.mnemonic.mn_decode(mnemonic, mnemonicLanguage);
+  let seedHex = mn_decode(mnemonic, mnemonicLanguage);
   // handle shorter than 32 bytes seeds
   const privKeyHexLength = 32 * 2;
   if (seedHex.length !== privKeyHexLength) {
@@ -139,13 +140,13 @@ export async function registerSingleDevice(
   await registrationDone(pubKeyString, profileName);
 }
 
-export async function generateMnemonic(language = 'english') {
+export async function generateMnemonic() {
   // Note: 4 bytes are converted into 3 seed words, so length 12 seed words
   // (13 - 1 checksum) are generated using 12 * 4 / 3 = 16 bytes.
   const seedSize = 16;
   const seed = (await getSodium()).randombytes_buf(seedSize);
   const hex = toHex(seed);
-  return window.mnemonic.mn_encode(hex, language);
+  return mn_encode(hex);
 }
 
 export async function clearSessionsAndPreKeys() {
