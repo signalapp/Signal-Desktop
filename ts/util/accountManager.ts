@@ -16,6 +16,7 @@ import {
   removeAllSignedPreKeys,
 } from '../data/data';
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
+import { actions as userActions } from '../state/ducks/user';
 
 /**
  * Might throw
@@ -243,7 +244,7 @@ async function registrationDone(ourPubkey: string, displayName: string) {
     ourNumber: getOurPubKeyStrFromCache(),
     ourPrimary: window.textsecure.storage.get('primaryDevicePubKey'),
   };
-  trigger('userChanged', user);
+  window.inboxStore?.dispatch(userActions.userChanged(user));
   window.Whisper.Registration.markDone();
   window.log.info('dispatching registration event');
   trigger('registration_done');

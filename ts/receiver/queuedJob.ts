@@ -10,6 +10,7 @@ import { ConversationModel } from '../models/conversation';
 import { MessageCollection, MessageModel } from '../models/message';
 import { MessageController } from '../session/messages';
 import { getMessageById, getMessagesBySentAt } from '../../ts/data/data';
+import { actions as conversationActions } from '../state/ducks/conversations';
 
 async function handleGroups(
   conversation: ConversationModel,
@@ -532,10 +533,12 @@ export async function handleMessageJob(
     // this updates the redux store.
     // if the convo on which this message should become visible,
     // it will be shown to the user, and might as well be read right away
-    window.Whisper.events.trigger('messageAdded', {
-      conversationKey: conversation.id,
-      messageModel: message,
-    });
+    window.inboxStore?.dispatch(
+      conversationActions.messageAdded({
+        conversationKey: conversation.id,
+        messageModel: message,
+      })
+    );
     MessageController.getInstance().register(message.id, message);
 
     // Note that this can save the message again, if jobs were queued. We need to

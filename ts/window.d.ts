@@ -99,7 +99,7 @@ declare global {
     contextMenuShown: boolean;
     setClockParams: any;
     clientClockSynced: number | undefined;
-    inboxStore: Store;
+    inboxStore?: Store;
     actionsCreators: any;
     extension: {
       expired: (boolean) => void;

@@ -35,6 +35,11 @@ import {
   fromArrayBufferToBase64,
   fromBase64ToArrayBuffer,
 } from '../session/utils/String';
+import {
+  actions as conversationActions,
+  ConversationType as ReduxConversationType,
+  LastMessageStatusType,
+} from '../state/ducks/conversations';
 
 export interface ConversationAttributes {
   profileName?: string;
@@ -45,7 +50,9 @@ export interface ConversationAttributes {
   expireTimer: number;
   mentionedUs: boolean;
   unreadCount: number;
-  lastMessageStatus: string | null;
+  lastMessageStatus: LastMessageStatusType;
+  lastMessage: string | null;
+
   active_at: number;
   lastJoinedTimestamp: number; // ClosedGroup: last time we were added to this group
   groupAdmins?: Array<string>;
@@ -57,7 +64,6 @@ export interface ConversationAttributes {
   sessionRestoreSeen?: boolean;
   is_medium_group?: boolean;
   type: string;
-  lastMessage?: string | null;
   avatarPointer?: any;
   avatar?: any;
   server?: any;
@@ -79,7 +85,8 @@ export interface ConversationAttributesOptionals {
   expireTimer?: number;
   mentionedUs?: boolean;
   unreadCount?: number;
-  lastMessageStatus?: string | null;
+  lastMessageStatus?: LastMessageStatusType;
+  lastMessage: string | null;
   active_at?: number;
   timestamp?: number; // timestamp of what?
   lastJoinedTimestamp?: number;
@@ -92,7 +99,6 @@ export interface ConversationAttributesOptionals {
   sessionRestoreSeen?: boolean;
   is_medium_group?: boolean;
   type: string;
-  lastMessage?: string | null;
   avatarPointer?: any;
   avatar?: any;
   server?: any;
@@ -137,16 +143,14 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public messageCollection: MessageCollection;
   public throttledBumpTyping: any;
   public throttledNotify: any;
+  public markRead: any;
   public initialPromise: any;
 
   private typingRefreshTimer?: NodeJS.Timeout | null;
   private typingPauseTimer?: NodeJS.Timeout | null;
   private typingTimer?: NodeJS.Timeout | null;
 
-  private cachedProps: any;
-
   private pending: any;
-  // storeName: 'conversations',
 
   constructor(attributes: ConversationAttributesOptionals) {
     super(fillConvoAttributesWithDefaults(attributes));
@@ -166,6 +170,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       1000
     );
     this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 1000 });
+    this.markRead = _.debounce(this.markReadBouncy, 1000);
     // Listening for out-of-band data updates
     this.on('expired', this.onExpired);
 
@@ -176,12 +181,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.typingRefreshTimer = null;
     this.typingPauseTimer = null;
 
-    // Keep props ready
-    const generateProps = () => {
-      this.cachedProps = this.getProps();
-    };
-    this.on('change', generateProps);
-    generateProps();
+    window.inboxStore?.dispatch(
+      conversationActions.conversationChanged(this.id, this.getProps())
+    );
   }
 
   public idForLogging() {
@@ -412,29 +414,28 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     await Promise.all(messages.map((m: any) => m.setCalculatingPoW()));
   }
 
-  public format() {
-    return this.cachedProps;
-  }
   public getGroupAdmins() {
     return this.get('groupAdmins') || this.get('moderators');
   }
-  public getProps() {
+  public getProps(): ReduxConversationType {
     const groupAdmins = this.getGroupAdmins();
 
     const members =
       this.isGroup() && !this.isPublic() ? this.get('members') : undefined;
 
-    const result = {
+    // isSelected is overriden by redux
+    return {
+      isSelected: false,
       id: this.id as string,
       activeAt: this.get('active_at'),
-      avatarPath: this.getAvatarPath(),
+      avatarPath: this.getAvatarPath() || undefined,
       type: this.isPrivate() ? 'direct' : 'group',
       isMe: this.isMe(),
       isPublic: this.isPublic(),
       isTyping: !!this.typingTimer,
       name: this.getName(),
       profileName: this.getProfileName(),
-      title: this.getTitle(),
+      // title: this.getTitle(),
       unreadCount: this.get('unreadCount') || 0,
       mentionedUs: this.get('mentionedUs') || false,
       isBlocked: this.isBlocked(),
@@ -449,8 +450,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       groupAdmins,
       members,
       onClick: () => this.trigger('select', this),
-      onBlockContact: () => this.block(),
-      onUnblockContact: () => this.unblock(),
+      onBlockContact: this.block,
+      onUnblockContact: this.unblock,
       onCopyPublicKey: this.copyPublicKey,
       onDeleteContact: this.deleteContact,
       onLeaveGroup: () => {
@@ -464,8 +465,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         void this.setLokiProfile({ displayName: null });
       },
     };
-
-    return result;
   }
 
   public async updateGroupAdmins(groupAdmins: Array<string>) {
@@ -495,7 +494,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // Lastly, we don't send read syncs for any message marked read due to a read
     //   sync. That's a notification explosion we don't need.
     return this.queueJob(() =>
-      this.markRead(message.get('received_at'), {
+      this.markReadBouncy(message.get('received_at') as any, {
         sendReadReceipts: false,
         readAt,
       })
@@ -985,8 +984,14 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async commit() {
+    // write to DB
     await updateConversation(this.attributes);
-    this.trigger('change', this);
+    window.inboxStore?.dispatch(
+      conversationActions.conversationChanged(this.id, {
+        ...this.getProps(),
+        isSelected: false,
+      })
+    );
   }
 
   public async addSingleMessage(
@@ -1002,11 +1007,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       await model.setToExpire();
     }
     MessageController.getInstance().register(messageId, model);
-
-    window.Whisper.events.trigger('messageAdded', {
-      conversationKey: this.id,
-      messageModel: model,
-    });
+    window.inboxStore?.dispatch(
+      conversationActions.messageAdded({
+        conversationKey: this.id,
+        messageModel: model,
+      })
+    );
 
     return model;
   }
@@ -1035,28 +1041,44 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         conversationId,
       })
     );
-    let unreadMessages = (await this.getUnread()).models;
+    let allUnreadMessagesInConvo = (await this.getUnread()).models;
 
-    const oldUnread = unreadMessages.filter(
+    const oldUnreadNowRead = allUnreadMessagesInConvo.filter(
       (message: any) => message.get('received_at') <= newestUnreadDate
     );
 
-    let read = await Promise.all(
-      _.map(oldUnread, async providedM => {
-        const m = MessageController.getInstance().register(
-          providedM.id,
-          providedM
-        );
+    let read = [];
+    console.time('markReadNOCommit');
 
-        await m.markRead(options.readAt);
-        const errors = m.get('errors');
-        return {
-          sender: m.get('source'),
-          timestamp: m.get('sent_at'),
-          hasErrors: Boolean(errors && errors.length),
-        };
-      })
+    // Build the list of updated message models so we can mark them all as read on a single sqlite call
+    for (const nowRead of oldUnreadNowRead) {
+      const m = MessageController.getInstance().register(nowRead.id, nowRead);
+      await m.markRead(options.readAt);
+
+      const errors = m.get('errors');
+      read.push({
+        sender: m.get('source'),
+        timestamp: m.get('sent_at'),
+        hasErrors: Boolean(errors && errors.length),
+      });
+    }
+    console.timeEnd('markReadNOCommit');
+
+    console.warn('oldUnreadNowRead', oldUnreadNowRead);
+
+    const oldUnreadNowReadAttrs = oldUnreadNowRead.map(m => m.attributes);
+    console.warn('oldUnreadNowReadAttrs', oldUnreadNowReadAttrs);
+
+    await saveMessages(oldUnreadNowReadAttrs);
+
+    console.time('trigger');
+    for (const nowRead of oldUnreadNowRead) {
+      nowRead.generateProps(false);
+    }
+    window.inboxStore?.dispatch(
+      conversationActions.messagesChanged(oldUnreadNowRead)
     );
+    console.timeEnd('trigger');
 
     // Some messages we're marking read are local notifications with no sender
     read = _.filter(read, m => Boolean(m.sender));
@@ -1072,12 +1094,15 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
       return;
     }
-    unreadMessages = unreadMessages.filter((m: any) => Boolean(m.isIncoming()));
+
+    allUnreadMessagesInConvo = allUnreadMessagesInConvo.filter((m: any) =>
+      Boolean(m.isIncoming())
+    );
 
     this.set({ unreadCount: realUnreadCount });
 
     const mentionRead = (() => {
-      const stillUnread = unreadMessages.filter(
+      const stillUnread = allUnreadMessagesInConvo.filter(
         (m: any) => m.get('received_at') > newestUnreadDate
       );
       const ourNumber = UserUtils.getOurPubKeyStrFromCache();
@@ -1106,7 +1131,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       window.log.debug('public conversation... No need to send read receipt');
       return;
     }
-
     if (this.isPrivate() && read.length && options.sendReadReceipts) {
       window.log.info(`Sending ${read.length} read receipts`);
       if (window.storage.get('read-receipt-setting')) {
@@ -1444,10 +1468,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     await dataRemoveMessage(messageId);
     this.updateLastMessage();
 
-    window.Whisper.events.trigger('messageDeleted', {
-      conversationKey: this.id,
-      messageId,
-    });
+    window.inboxStore?.dispatch(
+      conversationActions.messageDeleted({
+        conversationKey: this.id,
+        messageId,
+      })
+    );
   }
 
   public deleteMessages() {
@@ -1469,10 +1495,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public async destroyMessages() {
     await removeAllMessagesInConversation(this.id);
+    window.inboxStore?.dispatch(
+      conversationActions.conversationReset({
+        conversationKey: this.id,
+      })
+    );
 
-    window.Whisper.events.trigger('conversationReset', {
-      conversationKey: this.id,
-    });
     // destroy message keeps the active timestamp set so the
     // conversation still appears on the conversation list but is empty
     this.set({
@@ -1548,7 +1576,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (this.isPrivate() && !this.get('name')) {
       return this.get('profileName');
     }
-    return null;
+    return undefined;
   }
 
   public getNumber() {

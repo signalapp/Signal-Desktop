@@ -144,25 +144,14 @@ export class SessionInboxView extends React.Component<Props, State> {
     window.inboxStore = this.store;
 
     // Enables our redux store to be updated by backbone events in the outside world
-    const {
-      messageExpired,
-      messageAdded,
-      messageChanged,
-      messageDeleted,
-      conversationReset,
-    } = bindActionCreators(conversationActions, this.store.dispatch);
-    window.actionsCreators = conversationActions;
-    const { userChanged } = bindActionCreators(
-      userActions,
+    const { messageExpired } = bindActionCreators(
+      conversationActions,
       this.store.dispatch
     );
+    window.actionsCreators = conversationActions;
 
+    // messageExpired is currently inboked fropm js. So we link it to Redux that way
     window.Whisper.events.on('messageExpired', messageExpired);
-    window.Whisper.events.on('messageChanged', messageChanged);
-    window.Whisper.events.on('messageAdded', messageAdded);
-    window.Whisper.events.on('messageDeleted', messageDeleted);
-    window.Whisper.events.on('userChanged', userChanged);
-    window.Whisper.events.on('conversationReset', conversationReset);
 
     this.setState({ isInitialLoadComplete: true });
   }

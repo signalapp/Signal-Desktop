@@ -49,6 +49,19 @@ export type MessageTypeInConvo = {
   getPropsForMessageDetail(): Promise<any>;
 };
 
+export type LastMessageStatusType =
+  | 'error'
+  | 'sending'
+  | 'sent'
+  | 'delivered'
+  | 'read'
+  | null;
+
+export type LastMessageType = {
+  status: LastMessageStatusType;
+  text: string | null;
+};
+
 export interface ConversationType {
   id: string;
   name?: string;
@@ -57,10 +70,7 @@ export interface ConversationType {
   index?: number;
 
   activeAt?: number;
-  lastMessage?: {
-    status: 'error' | 'sending' | 'sent' | 'delivered' | 'read';
-    text: string;
-  };
+  lastMessage?: LastMessageType;
   phoneNumber: string;
   type: 'direct' | 'group';
   isMe: boolean;
@@ -76,6 +86,16 @@ export interface ConversationType {
   avatarPath?: string; // absolute filepath to the avatar
   groupAdmins?: Array<string>; // admins for closed groups and moderators for open groups
   members?: Array<string>; // members for closed groups only
+
+  onClick?: () => any;
+  onBlockContact?: () => any;
+  onUnblockContact?: () => any;
+  onCopyPublicKey?: () => any;
+  onDeleteContact?: () => any;
+  onLeaveGroup?: () => any;
+  onDeleteMessages?: () => any;
+  onInviteContacts?: () => any;
+  onClearNickname?: () => any;
 }
 
 export type ConversationLookupType = {
@@ -218,6 +238,10 @@ export type MessageChangedActionType = {
   type: 'MESSAGE_CHANGED';
   payload: MessageModel;
 };
+export type MessagesChangedActionType = {
+  type: 'MESSAGES_CHANGED';
+  payload: Array<MessageModel>;
+};
 export type MessageAddedActionType = {
   type: 'MESSAGE_ADDED';
   payload: {
@@ -264,6 +288,7 @@ export type ConversationActionType =
   | MessageAddedActionType
   | MessageDeletedActionType
   | MessageChangedActionType
+  | MessagesChangedActionType
   | SelectedConversationChangedActionType
   | SelectedConversationChangedActionType
   | FetchMessagesForConversationType;
@@ -280,6 +305,7 @@ export const actions = {
   messageDeleted,
   conversationReset,
   messageChanged,
+  messagesChanged,
   fetchMessagesForConversation,
   openConversationExternal,
 };
@@ -343,6 +369,15 @@ function messageChanged(messageModel: MessageModel): MessageChangedActionType {
   return {
     type: 'MESSAGE_CHANGED',
     payload: messageModel,
+  };
+}
+
+function messagesChanged(
+  messageModels: Array<MessageModel>
+): MessagesChangedActionType {
+  return {
+    type: 'MESSAGES_CHANGED',
+    payload: messageModels,
   };
 }
 
@@ -501,6 +536,8 @@ function handleMessageChanged(
   action: MessageChangedActionType
 ) {
   const { payload } = action;
+  console.time('handleMessageChanged' + payload.id);
+
   const messageInStoreIndex = state?.messages?.findIndex(
     m => m.id === payload.id
   );
@@ -521,14 +558,36 @@ function handleMessageChanged(
     // reorder the messages depending on the timestamp (we might have an updated serverTimestamp now)
     const sortedMessage = sortMessages(editedMessages, isPublic);
     const updatedWithFirstMessageOfSeries = updateFirstMessageOfSeries(
-      editedMessages
+      sortedMessage
     );
+    console.timeEnd('handleMessageChanged' + payload.id);
 
     return {
       ...state,
       messages: updatedWithFirstMessageOfSeries,
     };
   }
+  console.timeEnd('handleMessageChanged' + payload.id);
+
+  return state;
+}
+
+function handleMessagesChanged(
+  state: ConversationsStateType,
+  action: MessagesChangedActionType
+) {
+  const { payload } = action;
+  console.time('handleMessagesChanged' + payload.length);
+
+  payload.forEach(element => {
+    // tslint:disable-next-line: no-parameter-reassignment
+    state = handleMessageChanged(state, {
+      payload: element,
+      type: 'MESSAGE_CHANGED',
+    });
+  });
+
+  console.timeEnd('handleMessagesChanged' + payload.length);
 
   return state;
 }
@@ -678,6 +737,10 @@ export function reducer(
 
   if (action.type === 'MESSAGE_CHANGED') {
     return handleMessageChanged(state, action);
+  }
+
+  if (action.type === 'MESSAGES_CHANGED') {
+    return handleMessagesChanged(state, action);
   }
 
   if (action.type === 'MESSAGE_ADDED') {
