@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { MessageModel } from '../models/message';
 import { saveMessage } from '../../ts/data/data';
 import { fromBase64ToArrayBuffer } from '../session/utils/String';
+import { AttachmentUtils } from '../session/utils';
 
 export async function downloadAttachment(attachment: any) {
   const serverUrl = new URL(attachment.url).origin;
@@ -70,9 +71,16 @@ export async function downloadAttachment(attachment: any) {
     );
 
     if (!size || size !== data.byteLength) {
-      throw new Error(
-        `downloadAttachment: Size ${size} did not match downloaded attachment size ${data.byteLength}`
-      );
+      // we might have padding, check that all the remaining bytes are padding bytes
+      // otherwise we have an error.
+      if (AttachmentUtils.isLeftOfBufferPaddingOnly(data, size)) {
+        // we can safely remove the padding
+        data = data.slice(0, size);
+      } else {
+        throw new Error(
+          `downloadAttachment: Size ${size} did not match downloaded attachment size ${data.byteLength}`
+        );
+      }
     }
   }
 
