@@ -62,10 +62,7 @@
     async onReceipt(receipt) {
       try {
         const messages = await window.Signal.Data.getMessagesBySentAt(
-          receipt.get('timestamp'),
-          {
-            MessageCollection: window.models.Message.MessageCollection,
-          }
+          receipt.get('timestamp')
         );
 
         const message = await this.getTargetMessage(

@@ -495,9 +495,7 @@ describe('Backup', () => {
 
         console.log('Backup test: Create models, save to db/disk');
         const message = await upgradeMessageSchema(messageWithAttachments);
-        await window.Signal.Data.saveMessage(message, {
-          Message: window.models.Message.MessageModel,
-        });
+        await window.Signal.Data.saveMessage(message);
 
         const conversation = {
           active_at: 1524185933350,
@@ -518,9 +516,7 @@ describe('Backup', () => {
           version: 2,
         };
         console.log({ conversation });
-        await window.Signal.Data.saveConversation(conversation, {
-          Conversation: window.models.Conversation.ConversationModel,
-        });
+        await window.Signal.Data.saveConversation(conversation);
 
         console.log(
           'Backup test: Ensure that all attachments were saved to disk'
@@ -579,9 +575,7 @@ describe('Backup', () => {
         );
 
         console.log('Backup test: Check messages');
-        const messageCollection = await window.Signal.Data.getAllMessages({
-          MessageCollection: window.models.Message.MessageCollection,
-        });
+        const messageCollection = await window.Signal.Data.getAllMessages();
         assert.strictEqual(messageCollection.length, MESSAGE_COUNT);
         const messageFromDB = removeId(messageCollection.at(0).attributes);
         const expectedMessage = messageFromDB;

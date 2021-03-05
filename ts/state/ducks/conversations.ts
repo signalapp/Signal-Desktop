@@ -560,14 +560,12 @@ function handleMessageChanged(
     const updatedWithFirstMessageOfSeries = updateFirstMessageOfSeries(
       sortedMessage
     );
-    console.timeEnd('handleMessageChanged' + payload.id);
 
     return {
       ...state,
       messages: updatedWithFirstMessageOfSeries,
     };
   }
-  console.timeEnd('handleMessageChanged' + payload.id);
 
   return state;
 }
@@ -577,7 +575,6 @@ function handleMessagesChanged(
   action: MessagesChangedActionType
 ) {
   const { payload } = action;
-  console.time('handleMessagesChanged' + payload.length);
 
   payload.forEach(element => {
     // tslint:disable-next-line: no-parameter-reassignment
@@ -586,8 +583,6 @@ function handleMessagesChanged(
       type: 'MESSAGE_CHANGED',
     });
   });
-
-  console.timeEnd('handleMessagesChanged' + payload.length);
 
   return state;
 }

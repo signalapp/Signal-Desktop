@@ -16,9 +16,7 @@
   async function destroyExpiredMessages() {
     try {
       window.log.info('destroyExpiredMessages: Loading messages...');
-      const messages = await window.Signal.Data.getExpiredMessages({
-        MessageCollection: window.models.Message.MessageCollection,
-      });
+      const messages = await window.Signal.Data.getExpiredMessages();
 
       await Promise.all(
         messages.map(async fromDB => {
@@ -30,9 +28,7 @@
 
           // We delete after the trigger to allow the conversation time to process
           //   the expiration before the message is removed from the database.
-          await window.Signal.Data.removeMessage(message.id, {
-            Message: window.models.Message.MessageModel,
-          });
+          await window.Signal.Data.removeMessage(message.id);
 
           Whisper.events.trigger('messageExpired', {
             conversationKey: message.attributes.conversationId,
@@ -59,9 +55,7 @@
   let timeout;
   async function checkExpiringMessages() {
     // Look up the next expiring message and set a timer to destroy it
-    const messages = await window.Signal.Data.getNextExpiringMessage({
-      MessageCollection: window.models.Message.MessageCollection,
-    });
+    const messages = await window.Signal.Data.getNextExpiringMessage();
 
     const next = messages.at(0);
     if (!next) {

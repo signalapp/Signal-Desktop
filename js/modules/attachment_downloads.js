@@ -142,9 +142,7 @@ async function _runJob(job) {
       );
     }
 
-    const found = await getMessageById(messageId, {
-      Message: models.Message.MessageModel,
-    });
+    const found = await getMessageById(messageId);
     if (!found) {
       logger.error('_runJob: Source message not found, deleting job');
       await _finishJob(null, id);
@@ -226,9 +224,7 @@ async function _runJob(job) {
 
 async function _finishJob(message, id) {
   if (message) {
-    await saveMessage(message.attributes, {
-      Message: models.Message.MessageModel,
-    });
+    await saveMessage(message.attributes);
     const conversation = message.getConversation();
     if (conversation) {
       message.commit();
