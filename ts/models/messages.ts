@@ -1135,6 +1135,35 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       );
     const authorColor = contact ? contact.getColor() : 'grey';
 
+    let reallyNotFound = referencedMessageNotFound;
+    // Is the quote really without a reference? Check with our in memory store
+    // first to make sure it's not there.
+    if (referencedMessageNotFound) {
+      const messageId = this.get('sent_at');
+      window.log.info(
+        `getPropsForQuote: Verifying that ${messageId} referencing ${sentAt} is really not found`
+      );
+      const inMemoryMessage = window.MessageController.findBySentAt(
+        Number(sentAt)
+      );
+      reallyNotFound = !inMemoryMessage;
+
+      // We found the quote in memory so update the message in the database
+      // so we don't have to do this check again
+      if (!reallyNotFound) {
+        window.log.info(
+          `getPropsForQuote: Found ${sentAt}, scheduling an update to ${messageId}`
+        );
+        this.set({
+          quote: {
+            ...quote,
+            referencedMessageNotFound: false,
+          },
+        });
+        window.Signal.Util.updateMessageBatcher.add(this.attributes);
+      }
+    }
+
     const authorPhoneNumber = format(author, {
       ourRegionCode: regionCode,
     });
@@ -1158,7 +1187,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       authorTitle,
       authorName,
       authorColor,
-      referencedMessageNotFound,
+      referencedMessageNotFound: reallyNotFound,
       onClick: () => this.trigger('scroll-to-message'),
     };
   }
