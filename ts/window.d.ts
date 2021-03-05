@@ -137,7 +137,7 @@ declare global {
 
     WhatIsThis: WhatIsThis;
 
-    attachmentDownloadQueue: Array<MessageModel>;
+    attachmentDownloadQueue: Array<MessageModel> | undefined;
     baseAttachmentsPath: string;
     baseStickersPath: string;
     baseTempPath: string;

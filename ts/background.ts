@@ -2,10 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { DataMessageClass } from './textsecure.d';
+import { MessageAttributesType } from './model-types.d';
 import { WhatIsThis } from './window.d';
 import { assert } from './util/assert';
 
 export async function startApp(): Promise<void> {
+  window.attachmentDownloadQueue = [];
   try {
     window.log.info('Initializing SQL in renderer');
     await window.sqlInitializer.initialize();
@@ -2073,11 +2075,20 @@ export async function startApp(): Promise<void> {
           attachmentsToDownload.length,
           attachmentDownloadQueue.length
         );
-        await Promise.all(
+        window.attachmentDownloadQueue = undefined;
+        const messagesWithDownloads = await Promise.all(
           attachmentsToDownload.map(message =>
             message.queueAttachmentDownloads()
           )
         );
+        const messagesToSave: Array<MessageAttributesType> = [];
+        messagesWithDownloads.forEach((shouldSave, messageKey) => {
+          if (shouldSave) {
+            const message = attachmentsToDownload[messageKey];
+            messagesToSave.push(message.attributes);
+          }
+        });
+        await window.Signal.Data.saveMessages(messagesToSave, {});
       }
     }, 500);
 

@@ -8,17 +8,17 @@ import { createWaitBatcher } from './waitBatcher';
 export const updateMessageBatcher = createBatcher<MessageAttributesType>({
   wait: 500,
   maxSize: 50,
-  processBatch: async (messages: Array<MessageAttributesType>) => {
-    window.log.info('updateMessageBatcher', messages.length);
-    await window.Signal.Data.saveMessages(messages, {});
+  processBatch: async (messageAttrs: Array<MessageAttributesType>) => {
+    window.log.info('updateMessageBatcher', messageAttrs.length);
+    await window.Signal.Data.saveMessages(messageAttrs, {});
   },
 });
 
 export const saveNewMessageBatcher = createWaitBatcher<MessageAttributesType>({
   wait: 500,
   maxSize: 30,
-  processBatch: async (messages: Array<MessageAttributesType>) => {
-    window.log.info('saveNewMessageBatcher', messages.length);
-    await window.Signal.Data.saveMessages(messages, { forceSave: true });
+  processBatch: async (messageAttrs: Array<MessageAttributesType>) => {
+    window.log.info('saveNewMessageBatcher', messageAttrs.length);
+    await window.Signal.Data.saveMessages(messageAttrs, { forceSave: true });
   },
 });

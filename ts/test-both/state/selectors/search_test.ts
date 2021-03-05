@@ -204,9 +204,6 @@ describe('both/state/selectors/search', () => {
         ...state,
         conversations: {
           ...state.conversations,
-          conversationLookup: {
-            ...state.conversations.conversationLookup,
-          },
         },
       };
       const secondSelector = getMessageSearchResultSelector(secondState);

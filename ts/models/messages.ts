@@ -3614,8 +3614,15 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           (this.getConversation()!.getAccepted() || message.isOutgoing()) &&
           !shouldHoldOffDownload
         ) {
-          window.attachmentDownloadQueue = window.attachmentDownloadQueue || [];
-          window.attachmentDownloadQueue.unshift(message);
+          if (window.attachmentDownloadQueue) {
+            window.attachmentDownloadQueue.unshift(message);
+            window.log.info(
+              'Adding to attachmentDownloadQueue',
+              message.get('sent_at')
+            );
+          } else {
+            await message.queueAttachmentDownloads();
+          }
         }
 
         // Does this message have any pending, previously-received associated reactions?
