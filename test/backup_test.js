@@ -575,9 +575,9 @@ describe('Backup', () => {
         );
 
         console.log('Backup test: Check messages');
-        const messageCollection = await window.Signal.Data.getAllMessages();
-        assert.strictEqual(messageCollection.length, MESSAGE_COUNT);
-        const messageFromDB = removeId(messageCollection.at(0).attributes);
+        const allMessages = await window.Signal.Data.getAllMessages();
+        assert.strictEqual(allMessages.length, MESSAGE_COUNT);
+        const messageFromDB = removeId(allMessages.at(0).attributes);
         const expectedMessage = messageFromDB;
         console.log({ messageFromDB, expectedMessage });
         assert.deepEqual(messageFromDB, expectedMessage);
