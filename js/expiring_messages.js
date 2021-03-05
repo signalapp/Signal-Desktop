@@ -37,7 +37,7 @@
 
           const conversation = message.getConversation();
           if (conversation) {
-            conversation.trigger('expired', message);
+            conversation.onExpired(message);
           }
         })
       );

@@ -140,7 +140,6 @@ export const fillConvoAttributesWithDefaults = (
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
-  public messageCollection: MessageCollection;
   public throttledBumpTyping: any;
   public throttledNotify: any;
   public markRead: any;
@@ -158,10 +157,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // This may be overridden by ConversationController.getOrCreate, and signify
     //   our first save to the database. Or first fetch from the database.
     this.initialPromise = Promise.resolve();
-
-    this.messageCollection = new MessageCollection([], {
-      conversation: this,
-    });
     autoBind(this);
 
     this.throttledBumpTyping = _.throttle(this.bumpTyping, 300);
@@ -170,10 +165,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       1000
     );
     this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 1000 });
-    this.markRead = _.debounce(this.markReadBouncy, 1000);
+    //start right away the function is called, and wait 1sec before calling it again
+    this.markRead = _.debounce(this.markReadBouncy, 1000, { leading: true });
     // Listening for out-of-band data updates
-    this.on('expired', this.onExpired);
-
     this.on('ourAvatarChanged', avatar =>
       this.updateAvatarOnPublicChat(avatar)
     );
@@ -376,42 +370,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  public async onExpired(message: any) {
+  public async onExpired(message: MessageModel) {
     await this.updateLastMessage();
 
-    const removeMessage = () => {
-      const { id } = message;
-      const existing = this.messageCollection.get(id);
-      if (!existing) {
-        return;
-      }
-
-      window.log.info('Remove expired message from collection', {
-        sentAt: existing.get('sent_at'),
-      });
-
-      this.messageCollection.remove(id);
-      existing.trigger('expired');
-    };
-
-    removeMessage();
-  }
-
-  // Get messages with the given timestamp
-  public getMessagesWithTimestamp(pubKey: string, timestamp: number) {
-    if (this.id !== pubKey) {
-      return [];
-    }
-
-    // Go through our messages and find the one that we need to update
-    return this.messageCollection.models.filter(
-      (m: any) => m.get('sent_at') === timestamp
-    );
-  }
-
-  public async onCalculatingPoW(pubKey: string, timestamp: number) {
-    const messages = this.getMessagesWithTimestamp(pubKey, timestamp);
-    await Promise.all(messages.map((m: any) => m.setCalculatingPoW()));
+    // removeMessage();
   }
 
   public getGroupAdmins() {
@@ -915,7 +877,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const messageAttributes = {
       // Even though this isn't reflected to the user, we want to place the last seen
       //   indicator above it. We set it to 'unread' to trigger that placement.
-      unread: true,
+      unread: 1,
       conversationId: this.id,
       // No type; 'incoming' messages are specially treated by conversation.markRead()
       sent_at: timestamp,
@@ -1048,37 +1010,29 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     );
 
     let read = [];
-    console.time('markReadNOCommit');
 
     // Build the list of updated message models so we can mark them all as read on a single sqlite call
     for (const nowRead of oldUnreadNowRead) {
-      const m = MessageController.getInstance().register(nowRead.id, nowRead);
-      await m.markRead(options.readAt);
+      nowRead.markReadNoCommit(options.readAt);
 
-      const errors = m.get('errors');
+      const errors = nowRead.get('errors');
       read.push({
-        sender: m.get('source'),
-        timestamp: m.get('sent_at'),
+        sender: nowRead.get('source'),
+        timestamp: nowRead.get('sent_at'),
         hasErrors: Boolean(errors && errors.length),
       });
     }
-    console.timeEnd('markReadNOCommit');
-
-    console.warn('oldUnreadNowRead', oldUnreadNowRead);
 
     const oldUnreadNowReadAttrs = oldUnreadNowRead.map(m => m.attributes);
-    console.warn('oldUnreadNowReadAttrs', oldUnreadNowReadAttrs);
 
     await saveMessages(oldUnreadNowReadAttrs);
 
-    console.time('trigger');
     for (const nowRead of oldUnreadNowRead) {
       nowRead.generateProps(false);
     }
     window.inboxStore?.dispatch(
       conversationActions.messagesChanged(oldUnreadNowRead)
     );
-    console.timeEnd('trigger');
 
     // Some messages we're marking read are local notifications with no sender
     read = _.filter(read, m => Boolean(m.sender));

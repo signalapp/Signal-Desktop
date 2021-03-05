@@ -72,13 +72,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       this.propsForMessage = this.getPropsForMessage();
     }
 
-    console.time(`messageChanged ${this.id}`);
-
     if (triggerEvent) {
       window.inboxStore?.dispatch(conversationActions.messageChanged(this));
     }
-
-    console.timeEnd(`messageChanged ${this.id}`);
   }
 
   public idForLogging() {
@@ -117,7 +113,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     const { unread } = attributes;
     if (unread === undefined) {
-      this.set({ unread: false });
+      this.set({ unread: 0 });
     }
 
     this.set(attributes);
@@ -431,10 +427,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const sentTo = this.get('sent_to') || [];
     if (sent || sentTo.length > 0) {
       return 'sent';
-    }
-    const calculatingPoW = this.get('calculatingPoW');
-    if (calculatingPoW) {
-      return 'pow';
     }
 
     return 'sending';
@@ -1009,18 +1001,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return null;
   }
 
-  public async setCalculatingPoW() {
-    if (this.get('calculatingPoW')) {
-      return;
-    }
-
-    this.set({
-      calculatingPoW: true,
-    });
-
-    await this.commit();
-  }
-
   public async sendSyncMessageOnly(dataMessage: DataMessage) {
     const now = Date.now();
     this.set({
@@ -1124,7 +1104,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public markReadNoCommit(readAt: number) {
-    this.set({ unread: false });
+    this.set({ unread: 0 });
 
     if (this.get('expireTimer') && !this.get('expirationStartTimestamp')) {
       const expirationStartTimestamp = Math.min(

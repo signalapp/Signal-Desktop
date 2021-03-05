@@ -536,7 +536,6 @@ function handleMessageChanged(
   action: MessageChangedActionType
 ) {
   const { payload } = action;
-  console.time('handleMessageChanged' + payload.id);
 
   const messageInStoreIndex = state?.messages?.findIndex(
     m => m.id === payload.id

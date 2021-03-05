@@ -740,15 +740,6 @@
       }
     });
 
-    Whisper.events.on('calculatingPoW', ({ pubKey, timestamp }) => {
-      try {
-        const conversation = window.getConversationController().get(pubKey);
-        conversation.onCalculatingPoW(pubKey, timestamp);
-      } catch (e) {
-        window.log.error('Error showing PoW cog');
-      }
-    });
-
     Whisper.events.on('password-updated', () => {
       if (appView && appView.inboxView) {
         appView.inboxView.trigger('password-updated');
