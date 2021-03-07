@@ -24,7 +24,7 @@ The [community forum](https://community.signalusers.org/) is another good place 
 
 ## Found a Bug?
 
-Please search for any [existing issues](https://github.com/signalapp/Signal-Desktop/issues) that describe your bug in order to avoid duplicate submissions.
+Please search for any [existing issues](https://github.com/signalapp/Signal-Desktop/issues) that describe your bug in order to avoid duplicate submissions. Make sure to include debug logs with your reports. You can create those via View > Debug Log in the app. Submit and share the resulting link.
 
 ## Have a feature request, question, comment?
 
