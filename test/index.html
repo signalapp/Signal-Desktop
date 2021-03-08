@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
   <link rel="stylesheet" href="../stylesheets/manifest.css" />
 </head>
+
 <body>
   <div id="mocha">
   </div>
@@ -25,11 +26,6 @@
     </div>
   </script>
 
-  <script type="text/x-tmpl-mustache" id="recorder">
-      <button class="finish"><span class="icon"></span></button>
-      <span class="time">0:00</span>
-      <button class="close"><span class="icon"></span></button>
-  </script>
   <script type="text/x-tmpl-mustache" id="nickname-dialog">
     <div class="content">
       <div class="message">{{ message }}</div>
@@ -84,12 +80,6 @@
               {{ content }}
           </text>
       </svg>
-  </script>
-
-
-
-  <script type="text/x-tmpl-mustache" id="attachment-type-modal">
-      Sorry, your attachment has a type, {{type}}, that is not currently supported.
   </script>
 
   <script type="text/x-tmpl-mustache" id="import-flow-template">
@@ -175,14 +165,11 @@
   <script type="text/javascript" src="../js/chromium.js" data-cover></script>
   <script type="text/javascript" src="../js/database.js" data-cover></script>
   <script type="text/javascript" src="../js/storage.js" data-cover></script>
-  <script type="text/javascript" src="../js/signal_protocol_store.js" data-cover></script>
   <script type="text/javascript" src="../js/libtextsecure.js" data-cover></script>
   <script type="text/javascript" src="../js/libloki.js" data-cover></script>
   <!-- needs the network comms libraries to work -->
   <script type="text/javascript" src="../js/expire.js" data-cover></script>
 
-  <script type="text/javascript" src="../js/models/messages.js" data-cover></script>
-  <script type="text/javascript" src="../js/models/conversations.js" data-cover></script>
   <script type="text/javascript" src="../js/expiring_messages.js" data-cover></script>
   <script type="text/javascript" src="../js/notifications.js" data-cover></script>
   <script type="text/javascript" src="../js/focus_listener.js"></script>
@@ -199,7 +186,7 @@
   <script type="text/javascript" src="../js/views/app_view.js"></script>
   <script type="text/javascript" src="../js/views/import_view.js"></script>
 
-    <!-- DIALOGS-->
+  <!-- DIALOGS-->
 
   <script type="text/javascript" src="../js/views/update_group_dialog_view.js"></script>
   <script type="text/javascript" src="../js/views/edit_profile_dialog_view.js"></script>
@@ -209,7 +196,6 @@
   <script type="text/javascript" src="../js/views/moderators_add_dialog_view.js"></script>
   <script type="text/javascript" src="../js/views/moderators_remove_dialog_view.js"></script>
   <script type="text/javascript" src="../js/views/user_details_dialog_view.js"></script>
-  <script type="text/javascript" src="../js/views/nickname_dialog_view.js"></script>
   <script type="text/javascript" src="../js/views/password_dialog_view.js"></script>
   <script type="text/javascript" src="../js/views/seed_dialog_view.js"></script>
 
@@ -236,4 +222,5 @@
     mocha.run();
   </script>
 </body>
+
 </html>

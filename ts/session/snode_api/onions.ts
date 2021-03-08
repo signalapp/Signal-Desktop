@@ -4,7 +4,7 @@ import https from 'https';
 import { Snode } from './snodePool';
 import ByteBuffer from 'bytebuffer';
 import { StringUtils } from '../utils';
-import { OnionAPI } from '../onions';
+import { OnionPaths } from '../onions';
 
 let onionPayload = 0;
 
@@ -522,8 +522,8 @@ export async function lokiOnionFetch(
   while (true) {
     // Get a path excluding `targetNode`:
     // eslint-disable-next-line no-await-in-loop
-    const path = await OnionAPI.getOnionPath(targetNode);
-    const thisIdx = OnionAPI.assignOnionRequestNumber();
+    const path = await OnionPaths.getInstance().getOnionPath(targetNode);
+    const thisIdx = OnionPaths.getInstance().assignOnionRequestNumber();
 
     // At this point I only care about BAD_PATH
 
@@ -541,7 +541,7 @@ export async function lokiOnionFetch(
           targetNode.port
         }`
       );
-      OnionAPI.markPathAsBad(path);
+      OnionPaths.getInstance().markPathAsBad(path);
       return false;
     } else if (result === RequestError.OTHER) {
       // could mean, fail to parse results

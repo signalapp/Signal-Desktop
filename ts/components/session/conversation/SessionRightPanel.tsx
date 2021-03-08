@@ -17,6 +17,10 @@ import {
 } from '../usingClosedConversationDetails';
 import { save } from '../../../types/Attachment';
 import { DefaultTheme, withTheme } from 'styled-components';
+import {
+  getMessagesWithFileAttachments,
+  getMessagesWithVisualMediaAttachments,
+} from '../../../data/data';
 
 interface Props {
   id: string;
@@ -65,23 +69,23 @@ class SessionRightPanel extends React.Component<Props, State> {
   }
 
   public componentWillMount() {
-    this.getMediaGalleryProps()
-      .then(({ documents, media, onItemClick }) => {
+    void this.getMediaGalleryProps().then(
+      ({ documents, media, onItemClick }) => {
         this.setState({
           documents,
           media,
           onItemClick,
         });
-      })
-      .ignore();
+      }
+    );
   }
 
   public componentDidUpdate() {
     const mediaScanInterval = 1000;
 
     setTimeout(() => {
-      this.getMediaGalleryProps()
-        .then(({ documents, media, onItemClick }) => {
+      void this.getMediaGalleryProps().then(
+        ({ documents, media, onItemClick }) => {
           const { documents: oldDocs, media: oldMedias } = this.state;
           if (
             oldDocs.length !== documents.length ||
@@ -93,8 +97,8 @@ class SessionRightPanel extends React.Component<Props, State> {
               onItemClick,
             });
           }
-        })
-        .ignore();
+        }
+      );
     }, mediaScanInterval);
   }
 
@@ -106,20 +110,15 @@ class SessionRightPanel extends React.Component<Props, State> {
     // We fetch more documents than media as they don’t require to be loaded
     // into memory right away. Revisit this once we have infinite scrolling:
     const conversationId = this.props.id;
-    const rawMedia = await window.Signal.Data.getMessagesWithVisualMediaAttachments(
+    const rawMedia = await getMessagesWithVisualMediaAttachments(
       conversationId,
       {
         limit: Constants.CONVERSATION.DEFAULT_MEDIA_FETCH_COUNT,
-        MessageCollection: window.Whisper.MessageCollection,
       }
     );
-    const rawDocuments = await window.Signal.Data.getMessagesWithFileAttachments(
-      conversationId,
-      {
-        limit: Constants.CONVERSATION.DEFAULT_DOCUMENTS_FETCH_COUNT,
-        MessageCollection: window.Whisper.MessageCollection,
-      }
-    );
+    const rawDocuments = await getMessagesWithFileAttachments(conversationId, {
+      limit: Constants.CONVERSATION.DEFAULT_DOCUMENTS_FETCH_COUNT,
+    });
 
     // First we upgrade these messages to ensure that they have thumbnails
     const max = rawMedia.length;
@@ -194,7 +193,7 @@ class SessionRightPanel extends React.Component<Props, State> {
       }
     );
 
-    const saveAttachment = async ({ attachment, message }: any = {}) => {
+    const saveAttachment = ({ attachment, message }: any = {}) => {
       const timestamp = message.received_at;
       save({
         attachment,
@@ -204,10 +203,10 @@ class SessionRightPanel extends React.Component<Props, State> {
       });
     };
 
-    const onItemClick = async ({ message, attachment, type }: any) => {
+    const onItemClick = ({ message, attachment, type }: any) => {
       switch (type) {
         case 'documents': {
-          saveAttachment({ message, attachment }).ignore();
+          saveAttachment({ message, attachment });
           break;
         }
 

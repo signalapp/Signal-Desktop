@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset='utf-8'>
-  <meta content='width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0' name='viewport'>
+  <meta content='width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0'
+    name='viewport'>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy"
-    content="default-src 'none';
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none';
             child-src 'self';
             connect-src 'self' https: wss:;
             font-src 'self';
@@ -17,8 +18,7 @@
             media-src 'self' blob:;
             object-src 'none';
             script-src 'self' 'unsafe-eval';
-            style-src 'self' 'unsafe-inline';"
-  >
+            style-src 'self' 'unsafe-inline';">
   <title>Session</title>
   <link href='images/sesion/session_icon_128.png' rel='shortcut icon'>
   <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
@@ -27,19 +27,7 @@
     When making changes to these templates, be sure to update test/index.html as well
   -->
 
-  <script type='text/x-tmpl-mustache' id='banner'>
-    <div class='body'>
-      <span class='icon warning'></span>
-      {{ message }}
-      <span class='icon dismiss'></span>
-    </div>
-  </script>
 
-  <script type='text/x-tmpl-mustache' id='recorder'>
-      <button class='finish'><span class='icon'></span></button>
-      <span class='time'>0:00</span>
-      <button class='close'><span class='icon'></span></button>
-  </script>
   <script type='text/x-tmpl-mustache' id='identicon-svg'>
       <svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'>
          <circle cx='50' cy='50' r='40' fill='{{ color }}' />
@@ -47,13 +35,6 @@
               {{ content }}
           </text>
       </svg>
-  </script>
-
-
-
-
-  <script type='text/x-tmpl-mustache' id='attachment-type-modal'>
-      Sorry, your attachment has a type, {{type}}, that is not currently supported.
   </script>
 
   <script type='text/x-tmpl-mustache' id='import-flow-template'>
@@ -132,7 +113,6 @@
   <script type='text/javascript' src='js/database.js'></script>
   <script type='text/javascript' src='js/storage.js'></script>
   <script type='text/javascript' src='js/legacy_storage.js'></script>
-  <script type='text/javascript' src='js/signal_protocol_store.js'></script>
   <script type='text/javascript' src='js/libtextsecure.js'></script>
   <script type='text/javascript' src='js/libloki.js'></script>
 
@@ -141,8 +121,6 @@
   <script type='text/javascript' src='js/delivery_receipts.js'></script>
   <script type='text/javascript' src='js/read_receipts.js'></script>
   <script type='text/javascript' src='js/read_syncs.js'></script>
-  <script type='text/javascript' src='js/models/messages.js'></script>
-  <script type='text/javascript' src='js/models/conversations.js'></script>
   <script type='text/javascript' src='js/expiring_messages.js'></script>
 
   <script type='text/javascript' src='js/chromium.js'></script>
@@ -169,7 +147,6 @@
   <script type='text/javascript' src='js/views/moderators_add_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/moderators_remove_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/user_details_dialog_view.js'></script>
-  <script type='text/javascript' src='js/views/nickname_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/password_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/seed_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/session_id_reset_view.js'></script>
@@ -177,6 +154,7 @@
   <!-- CRYPTO -->
   <script type='text/javascript' src='js/wall_clock_listener.js'></script>
 </head>
+
 <body>
   <div class='app-loading-screen'>
     <div class="content session-full-logo">
@@ -187,4 +165,5 @@
 
   <script type='text/javascript' src='js/background.js'></script>
 </body>
+
 </html>

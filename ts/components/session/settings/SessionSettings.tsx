@@ -17,6 +17,7 @@ import {
   getConversations,
 } from '../../../state/selectors/conversations';
 import { connect } from 'react-redux';
+import { getPasswordHash } from '../../../../ts/data/data';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -80,7 +81,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
     this.onPasswordUpdated = this.onPasswordUpdated.bind(this);
     this.validatePasswordLock = this.validatePasswordLock.bind(this);
 
-    this.hasPassword();
+    void this.hasPassword();
 
     this.onKeyUp = this.onKeyUp.bind(this);
     window.addEventListener('keyup', this.onKeyUp);
@@ -138,8 +139,8 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
 
             const onClickFn =
               setting.onClick ||
-              (() => {
-                this.updateSetting(setting);
+              ((settingValue?: string) => {
+                this.updateSetting(setting, settingValue);
               });
 
             return (
@@ -209,7 +210,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
     }
 
     // Check if the password matches the hash we have stored
-    const hash = await window.Signal.Data.getPasswordHash();
+    const hash = await getPasswordHash();
     if (hash && !PasswordUtil.matchesHash(enteredPassword, hash)) {
       this.setState({
         pwdLockError: window.i18n('invalidPassword'),
@@ -262,29 +263,28 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
     );
   }
 
-  public setOptionsSetting(settingID: string) {
-    const selectedValue = jQuery(
-      `#${settingID} .session-radio input:checked`
-    ).val();
+  public setOptionsSetting(settingID: string, selectedValue: string) {
     window.setSettingValue(settingID, selectedValue);
   }
 
-  public hasPassword() {
-    const hashPromise = window.Signal.Data.getPasswordHash();
+  public async hasPassword() {
+    const hash = await getPasswordHash();
 
-    hashPromise.then((hash: any) => {
-      this.setState({
-        hasPassword: !!hash,
-      });
+    this.setState({
+      hasPassword: !!hash,
     });
   }
 
-  public updateSetting(item: any) {
+  public updateSetting(item: any, value?: string) {
     // If there's a custom afterClick function,
     // execute it instead of automatically updating settings
 
     if (item.setFn) {
-      item.setFn();
+      if (value) {
+        item.setFn(value);
+      } else {
+        item.setFn();
+      }
     } else {
       if (item.type === SessionSettingType.Toggle) {
         // If no custom afterClick function given, alter values in storage here
@@ -383,8 +383,8 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         description: undefined,
         hidden: undefined,
         onClick: undefined,
-        setFn: () => {
-          this.setOptionsSetting('notification-setting');
+        setFn: (selectedValue: string) => {
+          this.setOptionsSetting('notification-setting', selectedValue);
         },
         content: {
           options: {

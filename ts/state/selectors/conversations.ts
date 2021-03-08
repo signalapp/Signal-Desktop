@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect';
 
-import { LocalizerType } from '../../types/Util';
 import { StateType } from '../reducer';
 import {
   ConversationLookupType,
@@ -11,6 +10,7 @@ import {
 
 import { getIntl, getOurNumber } from './user';
 import { BlockedNumberController } from '../../util';
+import { LocalizerType } from '../../types/Util';
 
 export const getConversations = (state: StateType): ConversationsStateType =>
   state.conversations;
@@ -49,13 +49,15 @@ export const getMessagesOfSelectedConversation = createSelector(
   (state: ConversationsStateType): Array<MessageTypeInConvo> => state.messages
 );
 
-function getConversationTitle(conversation: ConversationType): string {
+function getConversationTitle(
+  conversation: ConversationType,
+  i18n: LocalizerType
+): string {
   if (conversation.name) {
     return conversation.name;
   }
 
   if (conversation.type === 'group') {
-    const { i18n } = window;
     return i18n('unknown');
   }
   return conversation.id;
@@ -65,19 +67,25 @@ const collator = new Intl.Collator();
 
 export const _getConversationComparator = (i18n: LocalizerType) => {
   return (left: ConversationType, right: ConversationType): number => {
-    const leftTimestamp = left.timestamp;
-    const rightTimestamp = right.timestamp;
-    if (leftTimestamp && !rightTimestamp) {
+    const leftActiveAt = left.activeAt;
+    const rightActiveAt = right.activeAt;
+    if (leftActiveAt && !rightActiveAt) {
       return -1;
     }
-    if (rightTimestamp && !leftTimestamp) {
+    if (rightActiveAt && !leftActiveAt) {
       return 1;
     }
-    if (leftTimestamp && rightTimestamp && leftTimestamp !== rightTimestamp) {
-      return rightTimestamp - leftTimestamp;
+    if (leftActiveAt && rightActiveAt && leftActiveAt !== rightActiveAt) {
+      return rightActiveAt - leftActiveAt;
     }
-    const leftTitle = getConversationTitle(left).toLowerCase();
-    const rightTitle = getConversationTitle(right).toLowerCase();
+    const leftTitle = getConversationTitle(
+      left,
+      i18n || window?.i18n
+    ).toLowerCase();
+    const rightTitle = getConversationTitle(
+      right,
+      i18n || window?.i18n
+    ).toLowerCase();
 
     return collator.compare(leftTitle, rightTitle);
   };
@@ -102,6 +110,8 @@ export const _getLeftPaneLists = (
   const conversations: Array<ConversationType> = [];
   const allContacts: Array<ConversationType> = [];
 
+  let index = 0;
+
   let unreadCount = 0;
   for (let conversation of sorted) {
     if (selectedConversation === conversation.id) {
@@ -121,6 +131,8 @@ export const _getLeftPaneLists = (
       };
     }
 
+    conversation.index = index;
+
     // Add Open Group to list as soon as the name has been set
     if (
       conversation.isPublic &&
@@ -130,7 +142,7 @@ export const _getLeftPaneLists = (
     }
 
     // Show loading icon while fetching messages
-    if (conversation.isPublic && !conversation.timestamp) {
+    if (conversation.isPublic && !conversation.activeAt) {
       conversation.lastMessage = {
         status: 'sending',
         text: '',
@@ -152,6 +164,7 @@ export const _getLeftPaneLists = (
     }
 
     conversations.push(conversation);
+    index++;
   }
 
   return {

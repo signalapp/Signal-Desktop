@@ -1,6 +1,7 @@
+import { getPasswordHash } from '../../ts/data/data';
+
 export async function hasPassword() {
-  // @ts-ignore
-  const hash = await window.Signal.Data.getPasswordHash();
+  const hash = await getPasswordHash();
 
   return !!hash;
 }

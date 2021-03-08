@@ -1,4 +1,4 @@
-/* global Signal, Whisper, assert, textsecure, _, libsignal */
+/* global Signal, assert, _, libsignal */
 
 /* eslint-disable no-console */
 
@@ -288,7 +288,15 @@ describe('Backup', () => {
       }
 
       async function clearAllData() {
-        await textsecure.storage.protocol.removeAllData();
+        await window.Signal.Data.removeAll();
+
+        window.storage.reset();
+        await window.storage.fetch();
+
+        window.getConversationController().reset();
+        window.BlockedNumberController.reset();
+        await window.getConversationController().load();
+        await window.BlockedNumberController.load();
         await fse.emptyDir(attachmentsPath);
       }
 
@@ -488,8 +496,7 @@ describe('Backup', () => {
         console.log('Backup test: Create models, save to db/disk');
         const message = await upgradeMessageSchema(messageWithAttachments);
         await window.Signal.Data.saveMessage(message, {
-          Message: Whisper.Message,
-          forceSave: true,
+          Message: window.models.Message.MessageModel,
         });
 
         const conversation = {
@@ -505,7 +512,6 @@ describe('Backup', () => {
           },
           profileKey: 'BASE64KEY',
           profileName: 'Someone! 🤔',
-          profileSharing: true,
           timestamp: 1524185933350,
           type: 'private',
           unreadCount: 0,
@@ -513,7 +519,7 @@ describe('Backup', () => {
         };
         console.log({ conversation });
         await window.Signal.Data.saveConversation(conversation, {
-          Conversation: Whisper.Conversation,
+          Conversation: window.models.Conversation.ConversationModel,
         });
 
         console.log(
@@ -552,11 +558,7 @@ describe('Backup', () => {
         });
 
         console.log('Backup test: Check conversations');
-        const conversationCollection = await window.Signal.Data.getAllConversations(
-          {
-            ConversationCollection: Whisper.ConversationCollection,
-          }
-        );
+        const conversationCollection = await window.Signal.Data.getAllConversations();
         assert.strictEqual(conversationCollection.length, CONVERSATION_COUNT);
 
         // We need to ommit any custom fields we have added
@@ -578,7 +580,7 @@ describe('Backup', () => {
 
         console.log('Backup test: Check messages');
         const messageCollection = await window.Signal.Data.getAllMessages({
-          MessageCollection: Whisper.MessageCollection,
+          MessageCollection: window.models.Message.MessageCollection,
         });
         assert.strictEqual(messageCollection.length, MESSAGE_COUNT);
         const messageFromDB = removeId(messageCollection.at(0).attributes);

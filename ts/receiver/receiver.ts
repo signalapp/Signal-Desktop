@@ -2,6 +2,7 @@
 
 import { EnvelopePlus } from './types';
 export { downloadAttachment } from './attachments';
+import { v4 as uuidv4 } from 'uuid';
 
 import {
   addToCache,
@@ -27,6 +28,7 @@ import { getEnvelopeId } from './common';
 import { StringUtils, UserUtils } from '../session/utils';
 import { SignalService } from '../protobuf';
 import { ConversationController } from '../session/conversations';
+import { removeUnprocessed } from '../data/data';
 
 // TODO: check if some of these exports no longer needed
 
@@ -57,7 +59,7 @@ class EnvelopeQueue {
   // Last pending promise
   private pending: Promise<any> = Promise.resolve();
 
-  public async add(task: any): Promise<any> {
+  public add(task: any): void {
     this.count += 1;
     const promise = this.pending.then(task, task);
     this.pending = promise;
@@ -90,16 +92,16 @@ function queueEnvelope(envelope: EnvelopePlus) {
     `queueEnvelope ${id}`
   );
 
-  const promise = envelopeQueue.add(taskWithTimeout);
-
-  promise.catch((error: any) => {
+  try {
+    envelopeQueue.add(taskWithTimeout);
+  } catch (error) {
     window.log.error(
       'queueEnvelope error handling envelope',
       id,
       ':',
       error && error.stack ? error.stack : error
     );
-  });
+  }
 }
 
 async function handleRequestDetail(
@@ -107,7 +109,6 @@ async function handleRequestDetail(
   options: ReqOptions,
   lastPromise: Promise<any>
 ): Promise<void> {
-  const { textsecure } = window;
   const envelope: any = SignalService.Envelope.decode(plaintext);
 
   // After this point, decoding errors are not the server's
@@ -116,7 +117,7 @@ async function handleRequestDetail(
 
   // The message is for a medium size group
   if (options.conversationId) {
-    const ourNumber = textsecure.storage.user.getNumber();
+    const ourNumber = UserUtils.getOurPubKeyStrFromCache();
     const senderIdentity = envelope.source;
 
     if (senderIdentity === ourNumber) {
@@ -131,7 +132,7 @@ async function handleRequestDetail(
     envelope.senderIdentity = senderIdentity;
   }
 
-  envelope.id = envelope.serverGuid || window.getGuid();
+  envelope.id = envelope.serverGuid || uuidv4();
   envelope.serverTimestamp = envelope.serverTimestamp
     ? envelope.serverTimestamp.toNumber()
     : null;
@@ -159,10 +160,7 @@ async function handleRequestDetail(
   }
 }
 
-export async function handleRequest(
-  body: any,
-  options: ReqOptions
-): Promise<void> {
+export function handleRequest(body: any, options: ReqOptions): void {
   // tslint:disable-next-line no-promise-as-boolean
   const lastPromise = _.last(incomingMessagePromises) || Promise.resolve();
 
@@ -196,14 +194,15 @@ export async function queueAllCached() {
 
 export async function queueAllCachedFromSource(source: string) {
   const items = await getAllFromCacheForSource(source);
-  items.forEach(async item => {
+
+  // queue all cached for this source, but keep the order
+  await items.reduce(async (promise, item) => {
+    await promise;
     await queueCached(item);
-  });
+  }, Promise.resolve());
 }
 
 async function queueCached(item: any) {
-  const { textsecure } = window;
-
   try {
     const envelopePlaintext = StringUtils.encode(item.envelope, 'base64');
     const envelopeArray = new Uint8Array(envelopePlaintext);
@@ -222,7 +221,7 @@ async function queueCached(item: any) {
     if (decrypted) {
       const payloadPlaintext = StringUtils.encode(decrypted, 'base64');
 
-      await queueDecryptedEnvelope(envelope, payloadPlaintext);
+      queueDecryptedEnvelope(envelope, payloadPlaintext);
     } else {
       queueEnvelope(envelope);
     }
@@ -236,7 +235,7 @@ async function queueCached(item: any) {
 
     try {
       const { id } = item;
-      await textsecure.storage.unprocessed.remove(id);
+      await removeUnprocessed(id);
     } catch (deleteError) {
       window.log.error(
         'queueCached error deleting item',
@@ -248,7 +247,7 @@ async function queueCached(item: any) {
   }
 }
 
-async function queueDecryptedEnvelope(envelope: any, plaintext: ArrayBuffer) {
+function queueDecryptedEnvelope(envelope: any, plaintext: ArrayBuffer) {
   const id = getEnvelopeId(envelope);
   window.log.info('queueing decrypted envelope', id);
 
@@ -257,14 +256,14 @@ async function queueDecryptedEnvelope(envelope: any, plaintext: ArrayBuffer) {
     task,
     `queueEncryptedEnvelope ${id}`
   );
-  const promise = envelopeQueue.add(taskWithTimeout);
-
-  return promise.catch(error => {
+  try {
+    envelopeQueue.add(taskWithTimeout);
+  } catch (error) {
     window.log.error(
       `queueDecryptedEnvelope error handling envelope ${id}:`,
       error && error.stack ? error.stack : error
     );
-  });
+  }
 }
 
 async function handleDecryptedEnvelope(
@@ -286,7 +285,7 @@ export async function handlePublicMessage(messageData: any) {
   const { source } = messageData;
   const { group, profile, profileKey } = messageData.message;
 
-  const isMe = await UserUtils.isUs(source);
+  const isMe = UserUtils.isUsFromCache(source);
 
   if (!isMe && profile) {
     const conversation = await ConversationController.getInstance().getOrCreateAndWait(

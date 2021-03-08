@@ -1,8 +1,9 @@
 import { allowOnlyOneAtATime } from '../../../js/modules/loki_primitives';
-import { getGuardNodes } from '../../../js/modules/data';
+import { getGuardNodes } from '../../../ts/data/data';
 import * as SnodePool from '../snode_api/snodePool';
 import _ from 'lodash';
 import fetch from 'node-fetch';
+import { UserUtils } from '../utils';
 
 type Snode = SnodePool.Snode;
 
@@ -11,7 +12,9 @@ interface SnodePath {
   bad: boolean;
 }
 
-class OnionPaths {
+export class OnionPaths {
+  private static instance: OnionPaths | null;
+
   private onionPaths: Array<SnodePath> = [];
 
   // This array is meant to store nodes will full info,
@@ -19,6 +22,15 @@ class OnionPaths {
   // some naming issue here it seems)
   private guardNodes: Array<Snode> = [];
   private onionRequestCounter = 0; // Request index for debugging
+  private constructor() {}
+
+  public static getInstance() {
+    if (OnionPaths.instance) {
+      return OnionPaths.instance;
+    }
+    OnionPaths.instance = new OnionPaths();
+    return OnionPaths.instance;
+  }
 
   public async buildNewOnionPaths() {
     // this function may be called concurrently make sure we only have one inflight
@@ -126,7 +138,7 @@ class OnionPaths {
 
     const url = `https://${snode.ip}:${snode.port}${endpoint}`;
 
-    const ourPK = window.textsecure.storage.user.getNumber();
+    const ourPK = UserUtils.getOurPubKeyStrFromCache();
     const pubKey = window.getStoragePubKey(ourPK); // truncate if testnet
 
     const method = 'get_snodes_for_pubkey';
@@ -303,5 +315,3 @@ class OnionPaths {
     log.info(`Built ${this.onionPaths.length} onion paths`, this.onionPaths);
   }
 }
-
-export const OnionAPI = new OnionPaths();

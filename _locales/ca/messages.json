@@ -311,10 +311,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "Tot i així, envia'l",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "El número de seguretat amb $name$ ha canviat i ja no està verificat. Feu clic per veure'l.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",

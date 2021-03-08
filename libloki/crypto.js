@@ -1,7 +1,6 @@
 /* global
   window,
   libsignal,
-  textsecure,
   StringView,
   Multibase,
   TextEncoder,
@@ -147,7 +146,8 @@
     const serverPubKey = new Uint8Array(
       dcodeIO.ByteBuffer.fromBase64(serverPubKey64).toArrayBuffer()
     );
-    const keyPair = await textsecure.storage.protocol.getIdentityKeyPair();
+    const item = await window.Signal.Data.getItemById('identityKey');
+    const keyPair = (item && item.value) || undefined;
     if (!keyPair) {
       throw new Error('Failed to get keypair for token decryption');
     }

@@ -414,10 +414,6 @@
     },
     "androidKey": "WebRtcCallScreen_you_may_wish_to_verify_this_contact"
   },
-  "sendAnyway": {
-    "message": "Send Anyway",
-    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-  },
   "noLongerVerified": {
     "message": "Your safety number with $name$ has changed and is no longer verified. Click to show.",
     "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
@@ -1251,10 +1247,6 @@
     "message": "MMM D",
     "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
-  "messageBodyTooLong": {
-    "message": "Message body is too long.",
-    "description": "Shown if the user tries to send more than MAX_MESSAGE_BODY_LENGTH chars"
-  },
   "messageBodyMissing": {
     "message": "Please enter a message body.",
     "description": "Shown if the user tries to send an empty message (and no attachments)"
@@ -2016,7 +2008,7 @@
   "getStarted": {
     "message": "Get started"
   },
-  "generateSessionID": {
+  "createSessionID": {
     "message": "Create Session ID",
     "androidKey": "activity_landing_register_button_title"
   },
@@ -2057,10 +2049,6 @@
   },
   "devicePairingHeader_Step4": {
     "message": "Enter your <strong>Session ID</strong> below to link this device to your <strong>Session ID</strong>."
-  },
-  "enterSessionIDHere": {
-    "message": "Enter your Session ID",
-    "androidKey": "fragment_enter_session_id_edit_text_hint"
   },
   "continueYourSession": {
     "message": "Continue Your Session",

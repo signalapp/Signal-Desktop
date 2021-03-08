@@ -2,7 +2,7 @@
   "name": "session-desktop",
   "productName": "Session",
   "description": "Private messaging from your desktop",
-  "version": "1.4.11",
+  "version": "1.5.0",
   "license": "GPL-3.0",
   "author": {
     "name": "Loki Project",
@@ -15,7 +15,7 @@
   "main": "main.js",
   "scripts": {
     "prepare": "patch-package",
-    "postinstall": "yarn custom-react-mentions-build && electron-builder install-app-deps && rimraf node_modules/dtrace-provider",
+    "postinstall": "yarn custom-react-mentions-build && electron-builder install-app-deps && rimraf node_modules/dtrace-provider && husky install",
     "custom-react-mentions-build": "cd node_modules/react-mentions && yarn install --node_modules=../node_modules && yarn build && rimraf node_modules/react node_modules/react-dom && cd ..",
     "start": "cross-env NODE_APP_INSTANCE=$MULTI electron .",
     "start-prod": "cross-env NODE_ENV=production NODE_APP_INSTANCE=devprod$MULTI electron .",
@@ -57,15 +57,8 @@
     "@journeyapps/sqlcipher": "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#b10f232fac62ba7f8775c9e086bb5558fe7d948b",
     "@reduxjs/toolkit": "^1.4.0",
     "@sindresorhus/is": "0.8.0",
-    "@types/blueimp-load-image": "^2.23.8",
-    "@types/dompurify": "^2.0.0",
-    "@types/emoji-mart": "^2.11.3",
-    "@types/moment": "^2.13.0",
-    "@types/rc-slider": "^8.6.5",
-    "@types/react-mentions": "^3.3.1",
-    "@types/react-mic": "^12.4.1",
-    "@types/styled-components": "^5.1.4",
     "abort-controller": "3.0.0",
+    "auto-bind": "^4.0.0",
     "backbone": "1.3.3",
     "blob-util": "1.3.0",
     "blueimp-canvas-to-blob": "3.14.0",
@@ -137,6 +130,12 @@
   "devDependencies": {
     "@types/backbone": "^1.4.2",
     "@types/bytebuffer": "^5.0.41",
+    "@types/blueimp-load-image": "^2.23.8",
+    "@types/emoji-mart": "^2.11.3",
+    "@types/moment": "^2.13.0",
+    "@types/react-mentions": "^3.3.1",
+    "@types/react-mic": "^12.4.1",
+    "@types/styled-components": "^5.1.4",
     "@types/chai": "4.1.2",
     "@types/chai-as-promised": "^7.1.2",
     "@types/classnames": "2.2.3",
@@ -193,6 +192,8 @@
     "grunt-exec": "3.0.0",
     "grunt-gitinfo": "0.1.7",
     "grunt-sass": "3.0.1",
+    "husky": "^5.1.1",
+    "lint-staged": ">=10",
     "mocha": "4.1.0",
     "mocha-testcheck": "1.0.0-rc.0",
     "node-gyp": "3.8.0",
@@ -332,5 +333,15 @@
       "!build/*.js",
       "!dev-app-update.yml"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{css,js,json,scss,ts,tsx}": "prettier --write",
+    "*/**/*.{css,js,json,scss,ts,tsx}": "prettier --write",
+    "*.js": "eslint --cache --fix"
   }
 }

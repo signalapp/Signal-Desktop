@@ -18,15 +18,15 @@ import {
   getLatestClosedGroupEncryptionKeyPair,
   isKeyPairAlreadySaved,
   removeAllClosedGroupEncryptionKeyPairs,
-} from '../../js/modules/data';
+} from '../../ts/data/data';
 import {
   ClosedGroupNewMessage,
   ClosedGroupNewMessageParams,
 } from '../session/messages/outgoing/content/data/group/ClosedGroupNewMessage';
 
-import { ECKeyPair } from './keypairs';
+import { ECKeyPair, HexKeyPair } from './keypairs';
 import { UserUtils } from '../session/utils';
-import { ConversationModel } from '../../js/models/conversations';
+import { ConversationModel } from '../models/conversation';
 import _ from 'lodash';
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
 import { MessageController } from '../session/messages';
@@ -158,7 +158,7 @@ export async function handleNewClosedGroup(
     await removeFromCache(envelope);
     return;
   }
-  const ourNumber = await UserUtils.getOurNumber();
+  const ourNumber = UserUtils.getOurPubKeyFromCache();
 
   if (envelope.senderIdentity === ourNumber.key) {
     window.log.warn(
@@ -203,7 +203,7 @@ export async function handleNewClosedGroup(
       // Enable typing:
       maybeConvo.set('isKickedFromGroup', false);
       maybeConvo.set('left', false);
-      maybeConvo.set('lastJoinedTimestamp', Date.now());
+      maybeConvo.set('lastJoinedTimestamp', _.toNumber(envelope.timestamp));
     } else {
       log.warn(
         'Ignoring a closed group message of type NEW: the conversation already exists'
@@ -225,7 +225,8 @@ export async function handleNewClosedGroup(
   await ClosedGroup.addUpdateMessage(
     convo,
     { newName: name, joiningMembers: members },
-    'incoming'
+    'incoming',
+    _.toNumber(envelope.timestamp)
   );
 
   // We only set group admins on group creation
@@ -241,6 +242,12 @@ export async function handleNewClosedGroup(
   // be sure to call this before sending the message.
   // the sending pipeline needs to know from GroupUtils when a message is for a medium group
   await ClosedGroup.updateOrCreateClosedGroup(groupDetails);
+
+  // ClosedGroup.updateOrCreateClosedGroup will mark the activeAt to Date.now if it's active
+  // But we need to override this value with the sent timestamp of the message creating this group for us.
+  // Having that timestamp set will allow us to pickup incoming group update which were sent between
+  // envelope.timestamp and Date.now(). And we need to listen to those (some might even remove us)
+  convo.set('lastJoinedTimestamp', _.toNumber(envelope.timestamp));
 
   await convo.commit();
   // sanity checks validate this
@@ -279,7 +286,7 @@ async function handleUpdateClosedGroup(
   const diff = ClosedGroup.buildGroupDiff(convo, { name, members });
 
   // Check whether we are still in the group
-  const ourNumber = await UserUtils.getOurNumber();
+  const ourNumber = UserUtils.getOurPubKeyFromCache();
   const wasCurrentUserRemoved = !members.includes(ourNumber.key);
   const isCurrentUserAdmin = curAdmins?.includes(ourNumber.key);
 
@@ -325,7 +332,12 @@ async function handleUpdateClosedGroup(
     diff.leavingMembers?.length ||
     diff.newName
   ) {
-    await ClosedGroup.addUpdateMessage(convo, diff, 'incoming');
+    await ClosedGroup.addUpdateMessage(
+      convo,
+      diff,
+      'incoming',
+      _.toNumber(envelope.timestamp)
+    );
   }
 
   convo.set('name', name);
@@ -353,6 +365,7 @@ async function handleClosedGroupEncryptionKeyPair(
   ) {
     return;
   }
+  const ourNumber = UserUtils.getOurPubKeyFromCache();
   // groupUpdate.publicKey might be set. This is used to give an explicitGroupPublicKey for this update.
   const groupPublicKey = toHex(groupUpdate.publicKey) || envelope.source;
 
@@ -364,7 +377,6 @@ async function handleClosedGroupEncryptionKeyPair(
   window.log.info(
     `Got a group update for group ${groupPublicKey}, type: ENCRYPTION_KEY_PAIR`
   );
-  const ourNumber = await UserUtils.getOurNumber();
   const ourKeyPair = await UserUtils.getIdentityKeyPair();
 
   if (!ourKeyPair) {
@@ -575,7 +587,12 @@ async function handleClosedGroupNameChanged(
     const groupDiff: ClosedGroup.GroupDiff = {
       newName,
     };
-    await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming');
+    await ClosedGroup.addUpdateMessage(
+      convo,
+      groupDiff,
+      'incoming',
+      _.toNumber(envelope.timestamp)
+    );
     convo.set({ name: newName });
     convo.updateLastMessage();
     await convo.commit();
@@ -622,7 +639,12 @@ async function handleClosedGroupMembersAdded(
   const groupDiff: ClosedGroup.GroupDiff = {
     joiningMembers: membersNotAlreadyPresent,
   };
-  await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming');
+  await ClosedGroup.addUpdateMessage(
+    convo,
+    groupDiff,
+    'incoming',
+    _.toNumber(envelope.timestamp)
+  );
 
   convo.set({ members });
   convo.updateLastMessage();
@@ -636,7 +658,7 @@ async function areWeAdmin(groupConvo: ConversationModel) {
   }
 
   const groupAdmins = groupConvo.get('groupAdmins');
-  const ourNumber = (await UserUtils.getCurrentDevicePubKey()) as string;
+  const ourNumber = UserUtils.getOurPubKeyStrFromCache();
   return groupAdmins?.includes(ourNumber) || false;
 }
 
@@ -677,7 +699,7 @@ async function handleClosedGroupMembersRemoved(
   // If the current user was removed:
   // • Stop polling for the group
   // • Remove the key pairs associated with the group
-  const ourPubKey = await UserUtils.getOurNumber();
+  const ourPubKey = UserUtils.getOurPubKeyFromCache();
   const wasCurrentUserRemoved = !membersAfterUpdate.includes(ourPubKey.key);
   if (wasCurrentUserRemoved) {
     await removeAllClosedGroupEncryptionKeyPairs(groupPubKey);
@@ -702,7 +724,12 @@ async function handleClosedGroupMembersRemoved(
     const groupDiff: ClosedGroup.GroupDiff = {
       leavingMembers: effectivelyRemovedMembers,
     };
-    await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming');
+    await ClosedGroup.addUpdateMessage(
+      convo,
+      groupDiff,
+      'incoming',
+      _.toNumber(envelope.timestamp)
+    );
     convo.updateLastMessage();
   }
 
@@ -726,14 +753,12 @@ async function handleClosedGroupMemberLeft(
   const oldMembers = convo.get('members') || [];
   const leftMemberWasPresent = oldMembers.includes(sender);
   const members = didAdminLeave ? [] : oldMembers.filter(s => s !== sender);
+
   // Show log if we sent this message ourself (from another device or not)
-  const ourPubkey = await UserUtils.getCurrentDevicePubKey();
-  if (!ourPubkey) {
-    throw new Error('Could not get user pubkey');
-  }
-  if (await UserUtils.isUs(sender)) {
+  if (UserUtils.isUsFromCache(sender)) {
     window.log.info('Got self-sent group update member left...');
   }
+  const ourPubkey = UserUtils.getOurPubKeyStrFromCache();
 
   // Generate and distribute a new encryption key pair if needed
   const isCurrentUserAdmin =
@@ -771,7 +796,12 @@ async function handleClosedGroupMemberLeft(
     const groupDiff: ClosedGroup.GroupDiff = {
       leavingMembers: didAdminLeave ? oldMembers : [sender],
     };
-    await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming');
+    await ClosedGroup.addUpdateMessage(
+      convo,
+      groupDiff,
+      'incoming',
+      _.toNumber(envelope.timestamp)
+    );
     convo.updateLastMessage();
   }
 
@@ -789,7 +819,6 @@ async function sendLatestKeyPairToUsers(
   targetUsers: Array<string>
 ) {
   // use the inMemory keypair if found
-
   const inMemoryKeyPair = distributingClosedGroupEncryptionKeyPairs.get(
     groupPubKey
   );
@@ -805,6 +834,9 @@ async function sendLatestKeyPairToUsers(
     return;
   }
 
+  const keyPairToUse =
+    inMemoryKeyPair || ECKeyPair.fromHexKeyPair(latestKeyPair as HexKeyPair);
+
   const expireTimer = groupConvo.get('expireTimer') || 0;
 
   await Promise.all(
@@ -819,7 +851,7 @@ async function sendLatestKeyPairToUsers(
 
       const wrappers = await ClosedGroup.buildEncryptionKeyPairWrappers(
         [member],
-        inMemoryKeyPair || ECKeyPair.fromHexKeyPair(latestKeyPair)
+        keyPairToUse
       );
 
       const keypairsMessage = new ClosedGroupEncryptionPairReplyMessage({
@@ -849,7 +881,7 @@ async function handleClosedGroupEncryptionKeyPairRequest(
   const sender = envelope.senderIdentity;
   const groupPublicKey = envelope.source;
   // Guard against self-sends
-  if (await UserUtils.isUs(sender)) {
+  if (UserUtils.isUsFromCache(sender)) {
     window.log.info(
       'Dropping self send message of type ENCRYPTION_KEYPAIR_REQUEST'
     );
@@ -868,7 +900,7 @@ export async function createClosedGroup(
 ) {
   const setOfMembers = new Set(members);
 
-  const ourNumber = await UserUtils.getOurNumber();
+  const ourNumber = UserUtils.getOurPubKeyFromCache();
   // Create Group Identity
   // Generate the key pair that'll be used for encryption and decryption
   // Generate the group's public key
@@ -907,7 +939,8 @@ export async function createClosedGroup(
   const dbMessage = await ClosedGroup.addUpdateMessage(
     convo,
     groupDiff,
-    'outgoing'
+    'outgoing',
+    Date.now()
   );
   MessageController.getInstance().register(dbMessage.id, dbMessage);
 

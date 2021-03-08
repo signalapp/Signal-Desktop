@@ -15,7 +15,10 @@ describe('Fixtures', () => {
 
     await window
       .getConversationController()
-      .getOrCreateAndWait(textsecure.storage.user.getNumber(), 'private');
+      .getOrCreateAndWait(
+        window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache(),
+        'private'
+      );
   });
 
   it('renders', async () => {

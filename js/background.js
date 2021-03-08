@@ -67,19 +67,6 @@
   //   of preload.js processing
   window.setImmediate = window.nodeSetImmediate;
 
-  const { IdleDetector, MessageDataMigrator } = Signal.Workflow;
-  const {
-    mandatoryMessageUpgrade,
-    migrateAllToSQLCipher,
-    removeDatabase,
-    runMigrations,
-    doesDatabaseExist,
-  } = Signal.IndexedDB;
-  const { Message } = window.Signal.Types;
-  const {
-    upgradeMessageSchema,
-    writeNewAttachmentData,
-  } = window.Signal.Migrations;
   const { Views } = window.Signal;
 
   // Implicitly used in `indexeddb-backbonejs-adapter`:
@@ -100,7 +87,6 @@
     }, 2000);
   }
 
-  let idleDetector;
   let initialLoadComplete = false;
   let newVersion = false;
 
@@ -110,35 +96,7 @@
   Whisper.events = _.clone(Backbone.Events);
   Whisper.events.isListenedTo = eventName =>
     Whisper.events._events ? !!Whisper.events._events[eventName] : false;
-  let accountManager;
-  window.getAccountManager = () => {
-    if (!accountManager) {
-      const USERNAME = storage.get('number_id');
-      const PASSWORD = storage.get('password');
-      accountManager = new textsecure.AccountManager(USERNAME, PASSWORD);
-      accountManager.addEventListener('registration', () => {
-        const user = {
-          ourNumber: textsecure.storage.user.getNumber(),
-          ourPrimary: window.textsecure.storage.get('primaryDevicePubKey'),
-        };
-        Whisper.events.trigger('userChanged', user);
-
-        Whisper.Registration.markDone();
-        window.log.info('dispatching registration event');
-        Whisper.events.trigger('registration_done');
-      });
-    }
-    return accountManager;
-  };
-
   const cancelInitializationMessage = Views.Initialization.setMessage();
-
-  const isIndexedDBPresent = await doesDatabaseExist();
-  if (isIndexedDBPresent) {
-    window.installStorage(window.legacyStorage);
-    window.log.info('Start IndexedDB migrations');
-    await runMigrations();
-  }
 
   window.log.info('Storage fetch');
   storage.fetch();
@@ -148,11 +106,7 @@
     if (specialConvInited) {
       return;
     }
-    const publicConversations = await window.Signal.Data.getAllPublicConversations(
-      {
-        ConversationCollection: Whisper.ConversationCollection,
-      }
-    );
+    const publicConversations = await window.Signal.Data.getAllPublicConversations();
     publicConversations.forEach(conversation => {
       // weird but create the object and does everything we need
       conversation.getPublicSendData();
@@ -164,7 +118,7 @@
     if (window.initialisedAPI) {
       return;
     }
-    const ourKey = textsecure.storage.user.getNumber();
+    const ourKey = libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
     window.lokiMessageAPI = new window.LokiMessageAPI();
     // singleton to relay events to libtextsecure/message_receiver
     window.lokiPublicChatAPI = new window.LokiPublicChatAPI(ourKey);
@@ -206,14 +160,6 @@
     // Update zoom
     window.updateZoomFactor();
 
-    if (
-      window.lokiFeatureFlags.useOnionRequests ||
-      window.lokiFeatureFlags.useFileOnionRequests
-    ) {
-      // Initialize paths for onion requests
-      window.OnionAPI.buildNewOnionPaths();
-    }
-
     const currentPoWDifficulty = storage.get('PoWDifficulty', null);
     if (!currentPoWDifficulty) {
       storage.put('PoWDifficulty', window.getDefaultPoWDifficulty());
@@ -225,7 +171,10 @@
       Whisper.Registration.isDone() &&
       !storage.get('primaryDevicePubKey', null)
     ) {
-      storage.put('primaryDevicePubKey', textsecure.storage.user.getNumber());
+      storage.put(
+        'primaryDevicePubKey',
+        window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache()
+      );
     }
 
     // These make key operations available to IPC handlers created in preload.js
@@ -258,9 +207,6 @@
       shutdown: async () => {
         // Stop background processing
         window.Signal.AttachmentDownloads.stop();
-        if (idleDetector) {
-          idleDetector.stop();
-        }
 
         // Stop processing incoming messages
         if (messageReceiver) {
@@ -288,57 +234,9 @@
       await window.Signal.Logs.deleteAll();
     }
 
-    if (isIndexedDBPresent) {
-      await mandatoryMessageUpgrade({ upgradeMessageSchema });
-      await migrateAllToSQLCipher({ writeNewAttachmentData, Views });
-      await removeDatabase();
-      try {
-        await window.Signal.Data.removeIndexedDBFiles();
-      } catch (error) {
-        window.log.error(
-          'Failed to remove IndexedDB files:',
-          error && error.stack ? error.stack : error
-        );
-      }
-
-      window.installStorage(window.newStorage);
-      await window.storage.fetch();
-      await storage.put('indexeddb-delete-needed', true);
-    }
-
     Views.Initialization.setMessage(window.i18n('optimizingApplication'));
 
     Views.Initialization.setMessage(window.i18n('loading'));
-
-    idleDetector = new IdleDetector();
-    let isMigrationWithIndexComplete = false;
-    window.log.info(
-      `Starting background data migration. Target version: ${Message.CURRENT_SCHEMA_VERSION}`
-    );
-    idleDetector.on('idle', async () => {
-      const NUM_MESSAGES_PER_BATCH = 1;
-
-      if (!isMigrationWithIndexComplete) {
-        const batchWithIndex = await MessageDataMigrator.processNext({
-          BackboneMessage: Whisper.Message,
-          BackboneMessageCollection: Whisper.MessageCollection,
-          numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
-          upgradeMessageSchema,
-          getMessagesNeedingUpgrade:
-            window.Signal.Data.getMessagesNeedingUpgrade,
-          saveMessage: window.Signal.Data.saveMessage,
-        });
-        window.log.info('Upgrade message schema (with index):', batchWithIndex);
-        isMigrationWithIndexComplete = batchWithIndex.done;
-      }
-
-      if (isMigrationWithIndexComplete) {
-        window.log.info(
-          'Background migration complete. Stopping idle detector.'
-        );
-        idleDetector.stop();
-      }
-    });
 
     const themeSetting = window.Events.getThemeSetting();
     const newThemeSetting = mapOldThemeToNew(themeSetting);
@@ -347,7 +245,6 @@
     try {
       await Promise.all([
         window.getConversationController().load(),
-        textsecure.storage.protocol.hydrateCaches(),
         BlockedNumberController.load(),
       ]);
     } catch (error) {
@@ -389,7 +286,7 @@
           conversation.removeMessage(id);
         }
         window.Signal.Data.removeMessage(id, {
-          Message: Whisper.Message,
+          Message: window.models.Message.MessageModel,
         });
       });
     }
@@ -409,7 +306,7 @@
 
     const results = await Promise.all([
       window.Signal.Data.getOutgoingWithoutExpiresAt({
-        MessageCollection: Whisper.MessageCollection,
+        MessageCollection: window.models.Message.MessageCollection,
       }),
     ]);
 
@@ -448,7 +345,7 @@
 
         window.log.info(`Cleanup: Deleting unsent message ${sentAt}`);
         await window.Signal.Data.removeMessage(message.id, {
-          Message: Whisper.Message,
+          Message: window.models.Message.MessageModel,
         });
       })
     );
@@ -477,7 +374,10 @@
     if (Whisper.Import.isIncomplete()) {
       window.log.info('Import was interrupted, showing import error screen');
       appView.openImporter();
-    } else if (Whisper.Registration.isDone()) {
+    } else if (
+      Whisper.Registration.isDone() &&
+      !window.textsecure.storage.user.isSignInByLinking()
+    ) {
       connect();
       appView.openInbox({
         initialLoadComplete,
@@ -565,9 +465,10 @@
                     file: new Blob([data.data], {
                       type: avatar.contentType,
                     }),
-                    maxMeasurements: {
-                      maxSize: 1000 * 1024, // 1Mb for our profile picture
-                    },
+                  },
+                  {
+                    maxSide: 640,
+                    maxSize: 1000 * 1024,
                   }
                 );
                 const dataResized = await window.Signal.Types.Attachment.arrayBufferFromFile(
@@ -616,6 +517,9 @@
                   avatar: newAvatarPath,
                 });
                 await conversation.commit();
+                window.libsession.Utils.UserUtils.setLastProfileUpdateTimestamp(
+                  Date.now()
+                );
                 await window.libsession.Utils.SyncUtils.forceSyncConfigurationNowIfNeeded(
                   true
                 );
@@ -632,6 +536,9 @@
               });
               // might be good to not trigger a sync if the name did not change
               await conversation.commit();
+              window.libsession.Utils.UserUtils.setLastProfileUpdateTimestamp(
+                Date.now()
+              );
               await window.libsession.Utils.SyncUtils.forceSyncConfigurationNowIfNeeded(
                 true
               );
@@ -707,66 +614,6 @@
     window.toggleMediaPermissions = () => {
       const value = window.getMediaPermissions();
       window.setMediaPermissions(!value);
-    };
-
-    // Attempts a connection to an open group server
-    window.attemptConnection = async (serverURL, channelId) => {
-      let completeServerURL = serverURL.toLowerCase();
-      const valid = window.libsession.Types.OpenGroup.validate(
-        completeServerURL
-      );
-      if (!valid) {
-        return new Promise((_resolve, reject) => {
-          reject(window.i18n('connectToServerFail'));
-        });
-      }
-
-      // Add http or https prefix to server
-      completeServerURL = window.libsession.Types.OpenGroup.prefixify(
-        completeServerURL
-      );
-
-      const rawServerURL = serverURL
-        .replace(/^https?:\/\//i, '')
-        .replace(/[/\\]+$/i, '');
-
-      const conversationId = `publicChat:${channelId}@${rawServerURL}`;
-
-      // Quickly peak to make sure we don't already have it
-      const conversationExists = window
-        .getConversationController()
-        .get(conversationId);
-      if (conversationExists) {
-        // We are already a member of this public chat
-        return new Promise((_resolve, reject) => {
-          reject(window.i18n('publicChatExists'));
-        });
-      }
-
-      // Get server
-      const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(
-        completeServerURL
-      );
-      // SSL certificate failure or offline
-      if (!serverAPI) {
-        // Url incorrect or server not compatible
-        return new Promise((_resolve, reject) => {
-          reject(window.i18n('connectToServerFail'));
-        });
-      }
-
-      // Create conversation
-      const conversation = await window
-        .getConversationController()
-        .getOrCreateAndWait(conversationId, 'group');
-
-      // Convert conversation to a public one
-      await conversation.setPublicSource(completeServerURL, channelId);
-
-      // and finally activate it
-      conversation.getPublicSendData(); // may want "await" if you want to use the API
-
-      return conversation;
     };
 
     Whisper.events.on('updateGroupName', async groupConvo => {
@@ -887,12 +734,6 @@
       }
     });
 
-    Whisper.events.on('showNicknameDialog', options => {
-      if (appView) {
-        appView.showNicknameDialog(options);
-      }
-    });
-
     Whisper.events.on('showSeedDialog', async () => {
       if (appView) {
         appView.showSeedDialog();
@@ -913,24 +754,6 @@
         window.log.error('Error showing PoW cog');
       }
     });
-
-    Whisper.events.on(
-      'publicMessageSent',
-      ({ identifier, pubKey, timestamp, serverId, serverTimestamp }) => {
-        try {
-          const conversation = window.getConversationController().get(pubKey);
-          conversation.onPublicMessageSent({
-            identifier,
-            pubKey,
-            timestamp,
-            serverId,
-            serverTimestamp,
-          });
-        } catch (e) {
-          window.log.error('Error setting public on message');
-        }
-      }
-    );
 
     Whisper.events.on('password-updated', () => {
       if (appView && appView.inboxView) {
@@ -1023,7 +846,7 @@
     }, window.CONSTANTS.NOTIFICATION_ENABLE_TIMEOUT_SECONDS * 1000);
 
     // TODO: Investigate the case where we reconnect
-    const ourKey = textsecure.storage.user.getNumber();
+    const ourKey = window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
     window.SwarmPolling.addPubkey(ourKey);
     window.SwarmPolling.start();
 
@@ -1049,10 +872,6 @@
     });
 
     window.textsecure.messaging = true;
-
-    storage.onready(async () => {
-      idleDetector.start();
-    });
   }
 
   function onEmpty() {

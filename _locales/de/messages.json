@@ -324,10 +324,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "Trotzdem senden",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "Deine Sicherheitsnummer mit $name$ hat sich geändert und ist nicht mehr verifiziert. Zum Anzeigen anklicken.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
@@ -512,7 +508,7 @@
     "welcomeToYourSession": {
         "message": "Willkommen bei Session"
     },
-    "generateSessionID": {
+    "createSessionID": {
         "message": "Session ID erstellen"
     },
     "yourUniqueSessionID": {
@@ -1413,9 +1409,6 @@
     },
     "enterDisplayName": {
         "message": "Geben Sie einen Anzeigenamen ein"
-    },
-    "enterSessionIDHere": {
-        "message": "Geben Sie Ihre Session ID ein."
     },
     "continueYourSession": {
         "message": "Ihre Session fortsetzen"

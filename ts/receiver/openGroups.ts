@@ -23,10 +23,27 @@ export async function updateOpenGroup(
         fileReader.readAsArrayBuffer(attachment.file);
       });
     const avatarAttachment: any = await readFile({ file: avatar });
+
+    // We want a square for iOS
+    const withBlob = await window.Signal.Util.AttachmentUtil.autoScale(
+      {
+        contentType: avatar.type,
+        file: new Blob([avatarAttachment.data], {
+          type: avatar.contentType,
+        }),
+      },
+      {
+        maxSide: 640,
+        maxSize: 1000 * 1024,
+      }
+    );
+    const dataResized = await window.Signal.Types.Attachment.arrayBufferFromFile(
+      withBlob.file
+    );
     // const tempUrl = window.URL.createObjectURL(avatar);
 
     // Get file onto public chat server
-    const fileObj = await API.serverAPI.putAttachment(avatarAttachment.data);
+    const fileObj = await API.serverAPI.putAttachment(dataResized);
     if (fileObj === null) {
       // problem
       window.log.warn('File upload failed');

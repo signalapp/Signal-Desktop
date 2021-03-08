@@ -4,5 +4,4 @@ export interface Libloki {
   api: any;
   crypto: CryptoInterface;
   storage: any;
-  serviceNodes: any;
 }

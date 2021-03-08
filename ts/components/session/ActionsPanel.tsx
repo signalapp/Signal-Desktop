@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 import { Avatar } from '../Avatar';
-import { removeItemById } from '../../../js/modules/data';
 import { darkTheme, lightTheme } from '../../state/ducks/SessionTheme';
 import { SessionToastContainer } from './SessionToastContainer';
 import { mapDispatchToProps } from '../../state/actions';
@@ -16,6 +15,14 @@ import { getOurNumber } from '../../state/selectors/user';
 import { UserUtils } from '../../session/utils';
 import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
 import { DAYS } from '../../session/utils/Number';
+import {
+  getItemById,
+  hasSyncedInitialConfigurationItem,
+  removeItemById,
+} from '../../data/data';
+import { OnionPaths } from '../../session/onions';
+import { getMessageQueue } from '../../session/sending';
+import { clearSessionsAndPreKeys } from '../../util/accountManager';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -37,13 +44,16 @@ interface Props {
   theme: DefaultTheme;
 }
 
+/**
+ * ActionsPanel is the far left banner (not the left pane).
+ * The panel with buttons to switch between the message/contact/settings/theme views
+ */
 class ActionsPanelPrivate extends React.Component<Props> {
   private syncInterval: NodeJS.Timeout | null = null;
 
   constructor(props: Props) {
     super(props);
 
-    this.editProfileHandle = this.editProfileHandle.bind(this);
     // we consider people had the time to upgrade, so remove this id from the db
     // it was used to display a dialog when we added the light mode auto-enabled
     void removeItemById('hasSeenLightModeDialog');
@@ -51,6 +61,26 @@ class ActionsPanelPrivate extends React.Component<Props> {
 
   // fetch the user saved theme from the db, and apply it on mount.
   public componentDidMount() {
+    void window.setClockParams();
+    if (
+      window.lokiFeatureFlags.useOnionRequests ||
+      window.lokiFeatureFlags.useFileOnionRequests
+    ) {
+      // Initialize paths for onion requests
+      void OnionPaths.getInstance().buildNewOnionPaths();
+    }
+
+    // This is not ideal, but on the restore from seed, our conversation will be created before the
+    // redux store is ready.
+    // If that's the case, the save events on our conversation won't be triggering redux updates.
+    // So changes to our conversation won't make a change on the UI.
+    // Calling this makes sure that our own conversation is registered to redux.
+    ConversationController.getInstance().registerAllConvosToRedux();
+
+    // init the messageQueue. In the constructor, we had all not send messages
+    // this call does nothing except calling the constructor, which will continue sending message in the pipeline
+    void getMessageQueue().processAllPending();
+
     const theme = window.Events.getThemeSetting();
     window.setTheme(theme);
 
@@ -60,10 +90,21 @@ class ActionsPanelPrivate extends React.Component<Props> {
     void this.showResetSessionIDDialogIfNeeded();
 
     // remove existing prekeys, sign prekeys and sessions
-    void window.getAccountManager().clearSessionsAndPreKeys();
+    void clearSessionsAndPreKeys();
+
+    // Do this only if we created a new Session ID, or if we already received the initial configuration message
+
+    const syncConfiguration = async () => {
+      const didWeHandleAConfigurationMessageAlready =
+        (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
+      if (didWeHandleAConfigurationMessageAlready) {
+        await syncConfigurationIfNeeded();
+      }
+    };
 
     // trigger a sync message if needed for our other devices
-    void syncConfigurationIfNeeded();
+
+    void syncConfiguration();
 
     this.syncInterval = global.setInterval(() => {
       void syncConfigurationIfNeeded();
@@ -95,7 +136,7 @@ class ActionsPanelPrivate extends React.Component<Props> {
       ? () => {
           /* tslint:disable:no-void-expression */
           if (type === SectionType.Profile) {
-            this.editProfileHandle();
+            window.showEditProfileDialog();
           } else if (type === SectionType.Moon) {
             const theme = window.Events.getThemeSetting();
             const updatedTheme = theme === 'dark' ? 'light' : 'dark';
@@ -161,12 +202,17 @@ class ActionsPanelPrivate extends React.Component<Props> {
     );
   };
 
-  public editProfileHandle() {
-    window.showEditProfileDialog();
-  }
-
   public render(): JSX.Element {
-    const { selectedSection, unreadMessageCount } = this.props;
+    const {
+      selectedSection,
+      unreadMessageCount,
+      ourPrimaryConversation,
+    } = this.props;
+
+    if (!ourPrimaryConversation) {
+      window.log.warn('ActionsPanel: ourPrimaryConversation is not set');
+      return <></>;
+    }
 
     const isProfilePageSelected = selectedSection === SectionType.Profile;
     const isMessagePageSelected = selectedSection === SectionType.Message;
@@ -178,7 +224,7 @@ class ActionsPanelPrivate extends React.Component<Props> {
       <div className="module-left-pane__sections-container">
         <this.Section
           type={SectionType.Profile}
-          avatarPath={this.props.ourPrimaryConversation.avatarPath}
+          avatarPath={ourPrimaryConversation.avatarPath}
           isSelected={isProfilePageSelected}
           onSelect={this.handleSectionSelect}
         />

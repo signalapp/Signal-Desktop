@@ -43,10 +43,7 @@
       }
 
       const groups = await window.Signal.Data.getAllGroupsInvolvingId(
-        originalSource,
-        {
-          ConversationCollection: Whisper.ConversationCollection,
-        }
+        originalSource
       );
 
       const ids = groups.pluck('id');
@@ -67,7 +64,7 @@
         const messages = await window.Signal.Data.getMessagesBySentAt(
           receipt.get('timestamp'),
           {
-            MessageCollection: Whisper.MessageCollection,
+            MessageCollection: window.models.Message.MessageCollection,
           }
         );
 
@@ -108,7 +105,7 @@
           .getConversationController()
           .get(message.get('conversationId'));
         if (conversation) {
-          conversation.trigger('delivered', message);
+          conversation.updateLastMessage();
         }
 
         this.remove(receipt);

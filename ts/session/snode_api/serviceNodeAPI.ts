@@ -384,7 +384,20 @@ export async function retrieveNextMessages(
 
   // NOTE: Retrieve cannot result in "wrong POW", but we call
   // `checkResponse` to check for "wrong swarm"
-  checkResponse(res);
+  try {
+    checkResponse(res);
+  } catch (e) {
+    window.log.warn(
+      'loki_message:::retrieveNextMessages - send error:',
+      e.code,
+      e.message
+    );
+    if (e instanceof window.textsecure.WrongSwarmError) {
+      const { newSwarm } = e;
+      await updateSnodesFor(params.pubKey, newSwarm);
+      return [];
+    }
+  }
 
   if (res.status !== 200) {
     window.log('retrieve result is not 200');

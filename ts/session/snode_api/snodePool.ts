@@ -12,7 +12,7 @@ import {
 import {
   getSwarmNodesForPubkey,
   updateSwarmNodesForPubkey,
-} from '../../../js/modules/data';
+} from '../../../ts/data/data';
 
 import semver from 'semver';
 import _ from 'lodash';

@@ -311,10 +311,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "वैसे भी भेजें",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "आपकी सुरक्षा संख्या के साथ$name$बदल गया है और अब सत्यापित नहीं है। दिखने के लिए क्लिक करें।",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",

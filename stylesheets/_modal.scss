@@ -161,6 +161,14 @@
     padding: 20px 0;
     font-style: oblique;
   }
+
+  .qr-image {
+    transition: $session-transition-duration;
+    opacity: 10%;
+    &:hover {
+      opacity: 100%;
+    }
+  }
 }
 
 .permissions-popup,
@@ -225,7 +233,6 @@
       height: 26px;
       width: 26px;
       border-radius: 50%;
-      padding-top: 3px;
       background-color: $session-color-white;
       transition: $session-transition-duration;
 

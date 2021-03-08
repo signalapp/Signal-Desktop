@@ -1,13 +1,15 @@
 import { queueAttachmentDownloads } from './attachments';
 
 import { Quote } from './types';
-import { ConversationModel } from '../../js/models/conversations';
-import { MessageModel } from '../../js/models/messages';
 import { PubKey } from '../session/types';
 import _ from 'lodash';
 import { SignalService } from '../protobuf';
 import { StringUtils, UserUtils } from '../session/utils';
 import { ConversationController } from '../session/conversations';
+import { ConversationModel } from '../models/conversation';
+import { MessageCollection, MessageModel } from '../models/message';
+import { MessageController } from '../session/messages';
+import { getMessageById, getMessagesBySentAt } from '../../ts/data/data';
 
 async function handleGroups(
   conversation: ConversationModel,
@@ -52,10 +54,9 @@ async function handleGroups(
 
     // Check if anyone got kicked:
     const removedMembers = _.difference(oldMembers, attributes.members);
-    const isOurDeviceMap = await Promise.all(
-      removedMembers.map(async member => UserUtils.isUs(member))
+    const ourDeviceWasRemoved = removedMembers.some(member =>
+      UserUtils.isUsFromCache(member)
     );
-    const ourDeviceWasRemoved = isOurDeviceMap.includes(true);
 
     if (ourDeviceWasRemoved) {
       groupUpdate.kicked = 'You';
@@ -64,7 +65,7 @@ async function handleGroups(
       groupUpdate.kicked = removedMembers;
     }
   } else if (group.type === GROUP_TYPES.QUIT) {
-    if (await UserUtils.isUs(source)) {
+    if (UserUtils.isUsFromCache(source)) {
       attributes.left = true;
       groupUpdate = { left: 'You' };
     } else {
@@ -88,7 +89,6 @@ async function copyFromQuotedMessage(
   quote: Quote,
   attemptCount: number = 1
 ): Promise<void> {
-  const { Whisper, getMessageController } = window;
   const { upgradeMessageSchema } = window.Signal.Migrations;
   const { Message: TypedMessage, Errors } = window.Signal.Types;
 
@@ -99,9 +99,7 @@ async function copyFromQuotedMessage(
   const { attachments, id, author } = quote;
   const firstAttachment = attachments[0];
 
-  const collection = await window.Signal.Data.getMessagesBySentAt(id, {
-    MessageCollection: Whisper.MessageCollection,
-  });
+  const collection = await getMessagesBySentAt(id);
   const found = collection.find((item: any) => {
     const messageAuthor = item.getContact();
 
@@ -115,7 +113,7 @@ async function copyFromQuotedMessage(
         window.log.info(
           `Looking for the message id : ${id}, attempt: ${attemptCount + 1}`
         );
-        copyFromQuotedMessage(msg, quote, attemptCount + 1).ignore();
+        void copyFromQuotedMessage(msg, quote, attemptCount + 1);
       }, attemptCount * attemptCount * 500);
     } else {
       window.log.warn(
@@ -130,8 +128,11 @@ async function copyFromQuotedMessage(
   window.log.info(`Found quoted message id: ${id}`);
   quote.referencedMessageNotFound = false;
 
-  const queryMessage = getMessageController().register(found.id, found);
-  quote.text = queryMessage.get('body');
+  const queryMessage = MessageController.getInstance().register(
+    found.id,
+    found
+  );
+  quote.text = queryMessage.get('body') || '';
 
   if (attemptCount > 1) {
     // Normally the caller would save the message, but in case we are
@@ -149,7 +150,7 @@ async function copyFromQuotedMessage(
 
   try {
     if (
-      queryMessage.get('schemaVersion') <
+      (queryMessage.get('schemaVersion') || 0) <
       TypedMessage.VERSION_NEEDED_FOR_DISPLAY
     ) {
       const upgradedMessage = await upgradeMessageSchema(
@@ -210,7 +211,7 @@ async function handleExpireTimer(
       await conversation.updateExpirationTimer(
         expireTimer,
         source,
-        message.get('received_at'),
+        message.get('sent_at') || message.get('received_at'),
         {
           fromGroupUpdate: message.isGroupUpdate(), // WHAT DOES GROUP UPDATE HAVE TO DO WITH THIS???
         }
@@ -253,12 +254,8 @@ async function processProfileKey(
   sendingDeviceConversation: ConversationModel,
   profileKeyBuffer: Uint8Array
 ) {
-  const ourNumber = window.textsecure.storage.user.getNumber();
-
   const profileKey = StringUtils.decode(profileKeyBuffer, 'base64');
-  if (source === ourNumber) {
-    conversation.set({ profileSharing: true });
-  } else if (conversation.isPrivate()) {
+  if (conversation.isPrivate()) {
     await conversation.setProfileKey(profileKey);
   } else {
     await sendingDeviceConversation.setProfileKey(profileKey);
@@ -291,11 +288,12 @@ function updateReadStatus(
     }
   }
   if (readSync || message.isExpirationTimerUpdate()) {
-    message.unset('unread');
+    message.set({ unread: false });
+
     // This is primarily to allow the conversation to mark all older
     // messages as read, as is done when we receive a read sync for
     // a message we already know about.
-    conversation.onReadMessage(message);
+    void conversation.onReadMessage(message, Date.now());
   }
 }
 
@@ -422,13 +420,13 @@ async function handleRegularMessage(
     handleSyncedReceipts(message, conversation);
   }
 
-  const conversationTimestamp = conversation.get('timestamp');
+  const conversationActiveAt = conversation.get('active_at');
   if (
-    !conversationTimestamp ||
-    message.get('sent_at') > conversationTimestamp
+    !conversationActiveAt ||
+    (message.get('sent_at') || 0) > conversationActiveAt
   ) {
     conversation.set({
-      timestamp: message.get('sent_at'),
+      active_at: message.get('sent_at'),
       lastMessage: message.getNotificationText(),
     });
   }
@@ -448,7 +446,7 @@ async function handleRegularMessage(
   }
 
   // we just received a message from that user so we reset the typing indicator for this convo
-  conversation.notifyTyping({
+  await conversation.notifyTyping({
     isTyping: false,
     sender: source,
   });
@@ -527,14 +525,15 @@ export async function handleMessageJob(
         ourNumber
       );
     }
-    const { Whisper, getMessageController } = window;
+
     const id = await message.commit();
+
     message.set({ id });
     window.Whisper.events.trigger('messageAdded', {
       conversationKey: conversation.id,
       messageModel: message,
     });
-    getMessageController().register(message.id, message);
+    MessageController.getInstance().register(message.id, message);
 
     // Note that this can save the message again, if jobs were queued. We need to
     //   call it after we have an id for this message, because the jobs refer back
@@ -552,12 +551,7 @@ export async function handleMessageJob(
       // We go to the database here because, between the message save above and
       // the previous line's trigger() call, we might have marked all messages
       // unread in the database. This message might already be read!
-      const fetched = await window.Signal.Data.getMessageById(
-        message.get('id'),
-        {
-          Message: Whisper.Message,
-        }
-      );
+      const fetched = await getMessageById(message.get('id'));
 
       const previousUnread = message.get('unread');
 
@@ -572,7 +566,7 @@ export async function handleMessageJob(
         // We call markRead() even though the message is already
         // marked read because we need to start expiration
         // timers, etc.
-        message.markRead();
+        await message.markRead(Date.now());
       }
     } catch (error) {
       window.log.warn(
@@ -583,7 +577,7 @@ export async function handleMessageJob(
     }
 
     if (message.get('unread')) {
-      conversation.notify(message);
+      await conversation.throttledNotify(message);
     }
 
     if (confirm) {
@@ -597,6 +591,7 @@ export async function handleMessageJob(
       'error:',
       errorForLog
     );
+
     throw error;
   }
 }

@@ -311,10 +311,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "Send likevel",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "Tryggingsnummeret ditt med $name$ er endra og er ikkje lenger godkjent. Klikk for å visa nummeret.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",

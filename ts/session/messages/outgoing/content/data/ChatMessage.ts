@@ -108,17 +108,28 @@ export class ChatMessage extends DataMessage {
     if (!sentTimestamp || !isNumber(sentTimestamp)) {
       throw new Error('Tried to build a sync message without a sentTimestamp');
     }
+    // don't include our profileKey on syncing message. This is to be done by a ConfigurationMessage now
     const timestamp = toNumber(sentTimestamp);
     const body = dataMessage.body || undefined;
+
+    const wrapToUInt8Array = (buffer: any) => {
+      if (!buffer) {
+        return undefined;
+      }
+      if (buffer instanceof Uint8Array) {
+        // Audio messages are already uint8Array
+        return buffer;
+      }
+      return new Uint8Array(buffer.toArrayBuffer());
+    };
     const attachments = (dataMessage.attachments || []).map(attachment => {
+      const key = wrapToUInt8Array(attachment.key);
+      const digest = wrapToUInt8Array(attachment.digest);
+
       return {
         ...attachment,
-        key: attachment.key
-          ? new Uint8Array((attachment.key as any).toArrayBuffer())
-          : undefined,
-        digest: attachment.digest
-          ? new Uint8Array((attachment.digest as any).toArrayBuffer())
-          : undefined,
+        key,
+        digest,
       };
     }) as Array<AttachmentPointer>;
     const quote = (dataMessage.quote as Quote) || undefined;

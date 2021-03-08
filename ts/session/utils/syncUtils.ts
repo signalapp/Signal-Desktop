@@ -2,19 +2,25 @@ import {
   createOrUpdateItem,
   getItemById,
   getLatestClosedGroupEncryptionKeyPair,
-} from '../../../js/modules/data';
+} from '../../../ts/data/data';
 import { getMessageQueue } from '..';
 import { ConversationController } from '../conversations';
 import { DAYS } from './Number';
 import uuid from 'uuid';
 import { UserUtils } from '.';
-import { ConversationModel } from '../../../js/models/conversations';
 import { ECKeyPair } from '../../receiver/keypairs';
 import {
   ConfigurationMessage,
   ConfigurationMessageClosedGroup,
   ConfigurationMessageContact,
 } from '../messages/outgoing/content/ConfigurationMessage';
+import { ConversationModel } from '../../models/conversation';
+import {
+  fromBase64ToArray,
+  fromBase64ToArrayBuffer,
+  fromHexToArray,
+} from './String';
+import { fromBase64 } from 'bytebuffer';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 
@@ -36,7 +42,7 @@ export const syncConfigurationIfNeeded = async () => {
   const allConvos = ConversationController.getInstance().getConversations();
   const configMessage = await getCurrentConfigurationMessage(allConvos);
   try {
-    window.log.info('syncConfigurationIfNeeded with', configMessage);
+    // window.log.info('syncConfigurationIfNeeded with', configMessage);
 
     await getMessageQueue().sendSyncMessage(configMessage);
   } catch (e) {
@@ -57,10 +63,10 @@ export const forceSyncConfigurationNowIfNeeded = async (
   new Promise(resolve => {
     const allConvos = ConversationController.getInstance().getConversations();
 
-    void getCurrentConfigurationMessage(allConvos).then(configMessage => {
-      // console.warn('forceSyncConfigurationNowIfNeeded with', configMessage);
+    void getCurrentConfigurationMessage(allConvos)
+      .then(configMessage => {
+        // console.warn('forceSyncConfigurationNowIfNeeded with', configMessage);
 
-      try {
         // this just adds the message to the sending queue.
         // if waitForMessageSent is set, we need to effectively wait until then
         // tslint:disable-next-line: no-void-expression
@@ -75,20 +81,20 @@ export const forceSyncConfigurationNowIfNeeded = async (
         if (!waitForMessageSent) {
           resolve(true);
         }
-      } catch (e) {
+      })
+      .catch(e => {
         window.log.warn(
-          'Caught an error while sending our ConfigurationMessage:',
+          'Caught an error while building our ConfigurationMessage:',
           e
         );
         resolve(false);
-      }
-    });
+      });
   });
 
 export const getCurrentConfigurationMessage = async (
   convos: Array<ConversationModel>
 ) => {
-  const ourPubKey = (await UserUtils.getOurNumber()).key;
+  const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
   const ourConvo = convos.find(convo => convo.id === ourPubKey);
 
   // Filter open groups
@@ -106,7 +112,8 @@ export const getCurrentConfigurationMessage = async (
       c.get('members').includes(ourPubKey) &&
       !c.get('left') &&
       !c.get('isKickedFromGroup') &&
-      !c.isBlocked()
+      !c.isBlocked() &&
+      c.get('name')
   );
 
   const closedGroups = await Promise.all(
@@ -121,7 +128,7 @@ export const getCurrentConfigurationMessage = async (
 
       return new ConfigurationMessageClosedGroup({
         publicKey: groupPubKey,
-        name: c.get('name'),
+        name: c.get('name') || '',
         members: c.get('members') || [],
         admins: c.get('groupAdmins') || [],
         encryptionKeyPair: ECKeyPair.fromHexKeyPair(fetchEncryptionKeyPair),
@@ -143,11 +150,15 @@ export const getCurrentConfigurationMessage = async (
   );
 
   const contacts = contactsModels.map(c => {
+    const profileKeyForContact = c.get('profileKey')
+      ? fromBase64ToArray(c.get('profileKey') as string)
+      : undefined;
+
     return new ConfigurationMessageContact({
       publicKey: c.id,
       displayName: c.getLokiProfile()?.displayName,
       profilePictureURL: c.get('avatarPointer'),
-      profileKey: c.get('profileKey'),
+      profileKey: profileKeyForContact,
     });
   });
 

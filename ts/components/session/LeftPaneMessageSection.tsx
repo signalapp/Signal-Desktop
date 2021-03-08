@@ -26,7 +26,7 @@ import {
   SessionButtonType,
 } from './SessionButton';
 import { OpenGroup, PubKey } from '../../session/types';
-import { ToastUtils } from '../../session/utils';
+import { ToastUtils, UserUtils } from '../../session/utils';
 import { DefaultTheme } from 'styled-components';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { ConversationController } from '../../session/conversations';
@@ -264,7 +264,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     if (search) {
       search(searchTerm, {
         noteToSelf: window.i18n('noteToSelf').toLowerCase(),
-        ourNumber: window.textsecure.storage.user.getNumber(),
+        ourNumber: UserUtils.getOurPubKeyStrFromCache(),
       });
     }
   }
@@ -419,7 +419,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     }
 
     // Already connected?
-    if (Boolean(await OpenGroup.getConversation(serverUrl))) {
+    if (OpenGroup.getConversation(serverUrl)) {
       ToastUtils.pushToastError(
         'publicChatExists',
         window.i18n('publicChatExists')
@@ -447,7 +447,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         );
       }
       this.setState({ loading: false });
-      const openGroupConversation = await OpenGroup.getConversation(serverUrl);
+      const openGroupConversation = OpenGroup.getConversation(serverUrl);
 
       if (!openGroupConversation) {
         window.log.error(

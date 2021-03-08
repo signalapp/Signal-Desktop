@@ -9,7 +9,6 @@ import { LokiMessageInterface } from '../js/modules/loki_message_api';
 import { SwarmPolling } from './session/snode_api/swarmPolling';
 
 import { LibTextsecure } from '../libtextsecure';
-import { ConversationType } from '../js/modules/data';
 import { RecoveryPhraseUtil } from '../libloki/modules/mnemonic';
 import { ConfirmationDialogParams } from '../background';
 import {} from 'styled-components/cssprop';
@@ -19,6 +18,9 @@ import { any } from 'underscore';
 import { Store } from 'redux';
 import { MessageController } from './session/messages/MessageController';
 import { DefaultTheme } from 'styled-components';
+
+import { ConversationCollection } from './models/conversation';
+import { ConversationType } from './state/ducks/conversations';
 
 /*
 We declare window stuff here instead of global.d.ts because we are importing other declarations.
@@ -34,22 +36,18 @@ declare global {
     LokiFileServerAPI: any;
     LokiPublicChatAPI: any;
     LokiSnodeAPI: any;
-    getMessageController: () => MessageController;
     Session: any;
     Signal: SignalInterface;
     StringView: any;
     StubAppDotNetApi: any;
     StubMessageAPI: any;
     Whisper: any;
-    attemptConnection: ConversationType;
     clearLocalData: any;
     clipboard: any;
     confirmationDialog: (params: ConfirmationDialogParams) => any;
     dcodeIO: any;
-    deleteAccount: any;
     displayNameRegex: any;
     friends: any;
-    getAccountManager: any;
     getConversations: any;
     getFriendsFromContacts: any;
     getSettingValue: any;
@@ -58,7 +56,6 @@ declare global {
     libsignal: LibsignalProtocol;
     log: any;
     lokiFeatureFlags: {
-      multiDeviceUnpairing: boolean;
       useOnionRequests: boolean;
       useOnionRequestsV2: boolean;
       useFileOnionRequests: boolean;
@@ -89,9 +86,8 @@ declare global {
     tokenlessFileServerAdnAPI: LokiAppDotNetServerInterface;
     userConfig: any;
     versionInfo: any;
-    getStoragePubKey: any;
+    getStoragePubKey: (key: string) => string;
     getConversations: () => ConversationCollection;
-    getGuid: any;
     SwarmPolling: SwarmPolling;
     SnodePool: {
       getSnodesFor: (string) => any;
@@ -101,9 +97,6 @@ declare global {
     dataURLToBlobSync: any;
     autoOrientImage: any;
     contextMenuShown: boolean;
-    sessionGenerateKeyPair: (
-      seed: ArrayBuffer
-    ) => Promise<{ pubKey: ArrayBufferLike; privKey: ArrayBufferLike }>;
     setClockParams: any;
     clientClockSynced: number | undefined;
     inboxStore: Store;
@@ -115,5 +108,7 @@ declare global {
     openUrl: (string) => void;
     lightTheme: DefaultTheme;
     darkTheme: DefaultTheme;
+    LokiPushNotificationServer: any;
+    LokiPushNotificationServerApi: any;
   }
 }

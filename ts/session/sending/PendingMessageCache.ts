@@ -1,10 +1,9 @@
 import _ from 'lodash';
-import { createOrUpdateItem, getItemById } from '../../../js/modules/data';
+import { createOrUpdateItem, getItemById } from '../../../ts/data/data';
 import { PartialRawMessage, RawMessage } from '../types/RawMessage';
 import { ContentMessage } from '../messages/outgoing';
 import { PubKey } from '../types';
 import { MessageUtils } from '../utils';
-import { GroupMessageType } from '.';
 
 // This is an abstraction for storing pending messages.
 // Ideally we want to store pending messages in the database so that

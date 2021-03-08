@@ -311,10 +311,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "Отправить в любом случае",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "Код безопасности с $name$ изменился и более не является подтвержденным. Нажмите, чтобы показать.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
@@ -1312,7 +1308,7 @@
     "allUsersAreRandomly...": {
         "message": "Ваш Session ID - это уникальный адрес, который другие пользователи могут использовать для связи с вами при помощи Session. Поскольку ваш Session ID никак не связан с вашей настоящей личностью, он по определению является полностью анонимным и конфиденциальным."
     },
-    "generateSessionID": {
+    "createSessionID": {
         "message": "Создать Session ID"
     },
     "recoveryPhrase": {
@@ -1323,9 +1319,6 @@
     },
     "enterDisplayName": {
         "message": "Введите отображаемое имя"
-    },
-    "enterSessionIDHere": {
-        "message": "Введите свой Session ID"
     },
     "continueYourSession": {
         "message": "Восстановить Session ID"
@@ -1518,10 +1511,6 @@
     "clockOutOfSync": {
         "message": "Your clock is out of sync. Please update your clock and try again.",
         "description": "Notifcation that user's clock is out of sync with Loki's servers."
-    },
-    "messageBodyTooLong": {
-        "message": "Message body is too long.",
-        "description": "Shown if the user tries to send more than 64kb of text"
     },
     "changeNickname": {
         "message": "Change Nickname",

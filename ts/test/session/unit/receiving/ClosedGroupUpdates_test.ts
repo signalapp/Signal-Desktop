@@ -1,22 +1,11 @@
+// tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
+
 import chai from 'chai';
-import * as sinon from 'sinon';
 import _ from 'lodash';
 import { describe } from 'mocha';
 
-import { GroupUtils, PromiseUtils, UserUtils } from '../../../../session/utils';
-import { TestUtils } from '../../../../test/test-utils';
-import {
-  generateEnvelopePlusClosedGroup,
-  generateGroupUpdateNameChange,
-} from '../../../test-utils/utils/envelope';
-import { handleClosedGroupControlMessage } from '../../../../receiver/closedGroups';
-import { ConversationController } from '../../../../session/conversations';
-
-// tslint:disable-next-line: no-require-imports no-var-requires no-implicit-dependencies
-const chaiAsPromised = require('chai-as-promised');
-chai.use(chaiAsPromised);
-
-const { expect } = chai;
+import chaiAsPromised from 'chai-as-promised';
+chai.use(chaiAsPromised as any);
 
 // tslint:disable-next-line: max-func-body-length
 describe('ClosedGroupUpdates', () => {

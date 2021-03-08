@@ -6,7 +6,6 @@ import { LeftPaneMessageSection } from './session/LeftPaneMessageSection';
 import { ConversationListItemProps } from './ConversationListItem';
 import { SearchResultsProps } from './SearchResults';
 import { SearchOptions } from '../types/Search';
-
 import { ConversationType } from '../state/ducks/conversations';
 import { LeftPaneContactSection } from './session/LeftPaneContactSection';
 import { LeftPaneSettingSection } from './session/LeftPaneSettingSection';

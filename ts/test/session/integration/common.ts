@@ -1,6 +1,6 @@
 // tslint:disable: no-implicit-dependencies
 
-import { Application, SpectronClient } from 'spectron';
+import { Application } from 'spectron';
 import path from 'path';
 import url from 'url';
 import http from 'http';
@@ -73,7 +73,7 @@ export class Common {
   }
 
   public static async closeToast(app: Application) {
-    app.client.element(CommonPage.toastCloseButton).click();
+    await app.client.element(CommonPage.toastCloseButton).click();
   }
 
   // a wrapper to work around electron/spectron bug
@@ -219,7 +219,7 @@ export class Common {
     env?: string;
   }) {
     const app = await Common.startAndAssureCleanedApp(env);
-    await Common.startStubSnodeServer();
+    Common.startStubSnodeServer();
 
     if (recoveryPhrase && displayName) {
       await Common.restoreFromRecoveryPhrase(app, recoveryPhrase, displayName);
@@ -562,7 +562,7 @@ export class Common {
     return `Test message from integration tests ${Date.now()}`;
   }
 
-  public static async startStubSnodeServer() {
+  public static startStubSnodeServer() {
     if (!Common.stubSnode) {
       Common.messages = {};
       Common.stubSnode = http.createServer((request: any, response: any) => {
@@ -684,7 +684,7 @@ export class Common {
 
   public static async stopStubSnodeServer() {
     if (Common.stubSnode) {
-      Common.stubSnode.close();
+      await Common.stubSnode.close();
       Common.stubSnode = null;
     }
   }
@@ -695,7 +695,7 @@ export class Common {
    * @param str the string to search (not regex)
    * Note: getRenderProcessLogs() clears the app logs each calls.
    */
-  public static async logsContains(
+  public static logsContains(
     renderLogs: Array<{ message: string }>,
     str: string,
     count?: number

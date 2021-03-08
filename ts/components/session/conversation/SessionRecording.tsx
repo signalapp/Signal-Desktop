@@ -122,9 +122,9 @@ class SessionRecordingInner extends React.Component<Props, State> {
     };
   }
 
-  public async componentWillMount() {
+  public componentWillMount() {
     // This turns on the microphone on the system. Later we need to turn it off.
-    await this.initiateRecordingStream();
+    this.initiateRecordingStream();
   }
 
   public componentDidMount() {
@@ -309,7 +309,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
     }
   }
 
-  private async stopRecording() {
+  private stopRecording() {
     this.setState({
       isRecording: false,
       isPaused: true,
@@ -436,7 +436,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
     this.props.sendVoiceMessage(audioBlob);
   }
 
-  private async initiateRecordingStream() {
+  private initiateRecordingStream() {
     navigator.getUserMedia(
       { audio: true },
       this.onRecordingStream,
@@ -462,7 +462,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
     streamParams.stream.getTracks().forEach((track: any) => track.stop);
 
     // Stop recording
-    await this.stopRecording();
+    this.stopRecording();
   }
 
   private async onRecordingStream(stream: any) {

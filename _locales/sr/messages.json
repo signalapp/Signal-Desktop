@@ -311,10 +311,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "Пошаљи свакако",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "Ваша шифра за $name$ је промењена и није више проверена. Притисните да би сте приказали.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",

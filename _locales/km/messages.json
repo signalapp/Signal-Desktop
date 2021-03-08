@@ -311,10 +311,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "ផ្ញើ ទោះយ៉ាងណាក៏ដោយ",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "លេខសុវត្ថិភាពរបស់អ្នកជាមួយ $name$ បានផ្លាស់ប្តូរ និងមិនត្រូវបានផ្ទៀងផ្ទាត់ឡើយ។ ចុច ដើម្បីបង្ហាញ។",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",

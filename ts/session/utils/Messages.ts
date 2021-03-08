@@ -6,8 +6,8 @@ import {
 import { EncryptionType, PubKey } from '../types';
 import { ClosedGroupMessage } from '../messages/outgoing/content/data/group/ClosedGroupMessage';
 import { ClosedGroupNewMessage } from '../messages/outgoing/content/data/group/ClosedGroupNewMessage';
-
 import _ from 'lodash';
+import { ConversationModel } from '../../models/conversation';
 import { ClosedGroupEncryptionPairReplyMessage } from '../messages/outgoing/content/data/group/ClosedGroupEncryptionPairReplyMessage';
 
 function getEncryptionTypeFromMessageType(

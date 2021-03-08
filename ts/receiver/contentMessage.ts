@@ -1,6 +1,5 @@
 import { EnvelopePlus } from './types';
-import { handleDataMessage } from './dataMessage';
-import { getEnvelopeId } from './common';
+import { handleDataMessage, updateProfile } from './dataMessage';
 
 import { removeFromCache, updateCache } from './cache';
 import { SignalService } from '../protobuf';
@@ -13,14 +12,16 @@ import { fromHexToArray, toHex } from '../session/utils/String';
 import { concatUInt8Array, getSodium } from '../session/crypto';
 import { ConversationController } from '../session/conversations';
 import {
-  createOrUpdateItem,
   getAllEncryptionKeyPairsForGroup,
   getItemById,
-} from '../../js/modules/data';
+  hasSyncedInitialConfigurationItem,
+} from '../../ts/data/data';
 import { ECKeyPair } from './keypairs';
 import { handleNewClosedGroup } from './closedGroups';
 import { KeyPairRequestManager } from './keyPairRequestManager';
 import { requestEncryptionKeyPair } from '../session/group';
+import { configurationMessageReceived, trigger } from '../shims/events';
+import { handleConfigurationMessage } from './configMessage';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   try {
@@ -410,9 +411,9 @@ export async function innerHandleContentMessage(
       await handleTypingMessage(envelope, content.typingMessage);
       return;
     }
-
     if (content.configurationMessage) {
-      await handleConfigurationMessage(
+      // this one can be quite long (downloads profilePictures and everything, is do not block)
+      void handleConfigurationMessage(
         envelope,
         content.configurationMessage as SignalService.ConfigurationMessage
       );
@@ -521,88 +522,9 @@ async function handleTypingMessage(
   const started = action === SignalService.TypingMessage.Action.STARTED;
 
   if (conversation) {
-    conversation.notifyTyping({
+    await conversation.notifyTyping({
       isTyping: started,
       sender: source,
     });
   }
-}
-
-export async function handleConfigurationMessage(
-  envelope: EnvelopePlus,
-  configurationMessage: SignalService.ConfigurationMessage
-): Promise<void> {
-  const ourPubkey = await UserUtils.getCurrentDevicePubKey();
-  if (!ourPubkey) {
-    return;
-  }
-
-  if (envelope.source !== ourPubkey) {
-    window?.log?.info(
-      'Dropping configuration change from someone else than us.'
-    );
-    return removeFromCache(envelope);
-  }
-
-  const ITEM_ID_PROCESSED_CONFIGURATION_MESSAGE =
-    'ITEM_ID_PROCESSED_CONFIGURATION_MESSAGE';
-  const didWeHandleAConfigurationMessageAlready =
-    (await getItemById(ITEM_ID_PROCESSED_CONFIGURATION_MESSAGE))?.value ||
-    false;
-  if (didWeHandleAConfigurationMessageAlready) {
-    window?.log?.warn(
-      'Dropping configuration change as we already handled one... '
-    );
-    await removeFromCache(envelope);
-    return;
-  }
-  await createOrUpdateItem({
-    id: ITEM_ID_PROCESSED_CONFIGURATION_MESSAGE,
-    value: true,
-  });
-
-  const numberClosedGroup = configurationMessage.closedGroups?.length || 0;
-
-  window?.log?.warn(
-    `Received ${numberClosedGroup} closed group on configuration. Creating them... `
-  );
-
-  await Promise.all(
-    configurationMessage.closedGroups.map(async c => {
-      const groupUpdate = new SignalService.DataMessage.ClosedGroupControlMessage(
-        {
-          type: SignalService.DataMessage.ClosedGroupControlMessage.Type.NEW,
-          encryptionKeyPair: c.encryptionKeyPair,
-          name: c.name,
-          admins: c.admins,
-          members: c.members,
-          publicKey: c.publicKey,
-        }
-      );
-      try {
-        await handleNewClosedGroup(envelope, groupUpdate);
-      } catch (e) {
-        window?.log?.warn(
-          'failed to handle  a new closed group from configuration message'
-        );
-      }
-    })
-  );
-
-  const allOpenGroups = OpenGroup.getAllAlreadyJoinedOpenGroupsUrl();
-  const numberOpenGroup = configurationMessage.openGroups?.length || 0;
-
-  // Trigger a join for all open groups we are not already in.
-  // Currently, if you left an open group but kept the conversation, you won't rejoin it here.
-  for (let i = 0; i < numberOpenGroup; i++) {
-    const current = configurationMessage.openGroups[i];
-    if (!allOpenGroups.includes(current)) {
-      window?.log?.info(
-        `triggering join of public chat '${current}' from ConfigurationMessage`
-      );
-      void OpenGroup.join(current);
-    }
-  }
-
-  await removeFromCache(envelope);
 }

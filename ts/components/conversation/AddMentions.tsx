@@ -4,9 +4,9 @@ import { RenderTextCallbackType } from '../../types/Util';
 import classNames from 'classnames';
 import { FindMember } from '../../util';
 import { useInterval } from '../../hooks/useInterval';
-import { ConversationModel } from '../../../js/models/conversations';
-import { isUs } from '../../session/utils/User';
 import { PubKey } from '../../session/types';
+import { ConversationModel } from '../../models/conversation';
+import { UserUtils } from '../../session/utils';
 
 interface MentionProps {
   key: string;
@@ -26,7 +26,7 @@ const Mention = (props: MentionProps) => {
       );
 
       if (foundMember) {
-        const itsUs = await isUs(foundMember.id);
+        const itsUs = UserUtils.isUsFromCache(foundMember.id);
         setUs(itsUs);
         setFound(foundMember);
         // FIXME stop this interval once we found it.

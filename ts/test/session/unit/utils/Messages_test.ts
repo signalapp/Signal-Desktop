@@ -1,3 +1,5 @@
+// tslint:disable: no-implicit-dependencies
+
 import chai from 'chai';
 import * as sinon from 'sinon';
 import { TestUtils } from '../../../test-utils';
@@ -14,13 +16,14 @@ import {
   ClosedGroupNameChangeMessage,
   ClosedGroupRemovedMembersMessage,
 } from '../../../../session/messages/outgoing/content/data/group';
-import { ConversationModel } from '../../../../../js/models/conversations';
 import { MockConversation } from '../../../test-utils/utils';
 import { ConfigurationMessage } from '../../../../session/messages/outgoing/content/ConfigurationMessage';
+
+import { ConversationModel } from '../../../../models/conversation';
+
+import chaiAsPromised from 'chai-as-promised';
+chai.use(chaiAsPromised as any);
 import { ClosedGroupEncryptionPairReplyMessage } from '../../../../session/messages/outgoing/content/data/group/ClosedGroupEncryptionPairReplyMessage';
-// tslint:disable-next-line: no-require-imports no-var-requires
-const chaiAsPromised = require('chai-as-promised');
-chai.use(chaiAsPromised);
 
 const { expect } = chai;
 
@@ -249,8 +252,10 @@ describe('Message Utils', () => {
 
     beforeEach(() => {
       convos = [];
-      sandbox.stub(UserUtils, 'getCurrentDevicePubKey').resolves(ourNumber);
-      sandbox.stub(UserUtils, 'getOurNumber').resolves(PubKey.cast(ourNumber));
+      sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').resolves(ourNumber);
+      sandbox
+        .stub(UserUtils, 'getOurPubKeyFromCache')
+        .resolves(PubKey.cast(ourNumber));
     });
 
     beforeEach(() => {

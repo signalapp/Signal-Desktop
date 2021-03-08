@@ -14,6 +14,10 @@ Please search for any [existing issues](https://github.com/loki-project/session-
 
 Build instructions can be found in [BUILDING.md](BUILDING.md).
 
+## Debian repository
+
+Please visit https://deb.oxen.io/<br/>
+
 ## License
 
 Copyright 2011 Whisper Systems<br/>

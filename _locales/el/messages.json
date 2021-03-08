@@ -311,10 +311,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "Αποστολή παρ'όλα αυτά",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "Ο αριθμός ασφαλείας σας με τον/την $name$ έχει αλλάξει και δεν είναι πλέον επιβεβαιωμένος. Κάντε κλικ για εμφάνιση.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",

@@ -311,10 +311,6 @@
             }
         }
     },
-    "sendAnyway": {
-        "message": "Tamen sendi",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
     "noLongerVerified": {
         "message": "Via sekuriga numero kun $name$ ŝanĝiĝis kaj ne plu estas konfirmita. Alklaku por montri ĝin.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",

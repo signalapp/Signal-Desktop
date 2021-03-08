@@ -6,8 +6,15 @@ export interface MaxScaleSize {
   maxSize?: number;
   maxHeight?: number;
   maxWidth?: number;
+  maxSide?: number; // use this to make avatars cropped if too big and centered if too small.
 }
 
+/**
+ * Scale down an image to fit in the required dimension.
+ * Note: This method won't crop if needed,
+ * @param attachment The attachment to scale down
+ * @param maxMeasurements any of those will be used if set
+ */
 export async function autoScale<T extends { contentType: string; file: any }>(
   attachment: T,
   maxMeasurements?: MaxScaleSize
@@ -22,19 +29,31 @@ export async function autoScale<T extends { contentType: string; file: any }>(
     const url = URL.createObjectURL(file);
     const img = document.createElement('img');
     img.onerror = reject;
+    // tslint:disable-next-line: cyclomatic-complexity
     img.onload = () => {
       URL.revokeObjectURL(url);
+
+      if (
+        maxMeasurements?.maxSide &&
+        (maxMeasurements?.maxHeight || maxMeasurements?.maxWidth)
+      ) {
+        reject('Cannot have maxSide and another dimension set together');
+      }
 
       const maxSize =
         maxMeasurements?.maxSize ||
         Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES;
-      const maxHeight = maxMeasurements?.maxHeight || 4096;
-      const maxWidth = maxMeasurements?.maxWidth || 4096;
+      const makeSquare = Boolean(maxMeasurements?.maxSide);
+      const maxHeight =
+        maxMeasurements?.maxHeight || maxMeasurements?.maxSide || 4096;
+      const maxWidth =
+        maxMeasurements?.maxWidth || maxMeasurements?.maxSide || 4096;
 
       if (
         img.naturalWidth <= maxWidth &&
         img.naturalHeight <= maxHeight &&
-        file.size <= maxSize
+        file.size <= maxSize &&
+        !makeSquare
       ) {
         resolve(attachment);
         return;
@@ -55,8 +74,9 @@ export async function autoScale<T extends { contentType: string; file: any }>(
 
       const canvas = (loadImage as any).scale(img, {
         canvas: true,
-        maxWidth,
-        maxHeight,
+        maxWidth: makeSquare ? maxMeasurements?.maxSide : maxWidth,
+        maxHeight: makeSquare ? maxMeasurements?.maxSide : maxHeight,
+        crop: makeSquare,
       });
       let quality = 0.95;
       let i = 4;

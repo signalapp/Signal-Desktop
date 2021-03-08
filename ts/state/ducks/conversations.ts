@@ -2,8 +2,9 @@ import _, { omit } from 'lodash';
 
 import { Constants } from '../../session';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { MessageModel } from '../../../js/models/messages';
 import { ConversationController } from '../../session/conversations';
+import { MessageCollection, MessageModel } from '../../models/message';
+import { getMessagesByConversation } from '../../data/data';
 
 // State
 
@@ -48,11 +49,14 @@ export type MessageTypeInConvo = {
   getPropsForMessageDetail(): Promise<any>;
 };
 
-export type ConversationType = {
+export interface ConversationType {
   id: string;
   name?: string;
+  profileName?: string;
+  hasNickname?: boolean;
+  index?: number;
+
   activeAt?: number;
-  timestamp: number;
   lastMessage?: {
     status: 'error' | 'sending' | 'sent' | 'delivered' | 'read';
     text: string;
@@ -61,10 +65,10 @@ export type ConversationType = {
   type: 'direct' | 'group';
   isMe: boolean;
   isPublic?: boolean;
-  lastUpdated: number;
   unreadCount: number;
   mentionedUs: boolean;
   isSelected: boolean;
+
   isTyping: boolean;
   isBlocked: boolean;
   isKickedFromGroup: boolean;
@@ -72,7 +76,8 @@ export type ConversationType = {
   avatarPath?: string; // absolute filepath to the avatar
   groupAdmins?: Array<string>; // admins for closed groups and moderators for open groups
   members?: Array<string>; // members for closed groups only
-};
+}
+
 export type ConversationLookupType = {
   [key: string]: ConversationType;
 };
@@ -108,17 +113,17 @@ async function getMessages(
     msgCount = Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT;
   }
 
-  const messageSet = await window.Signal.Data.getMessagesByConversation(
-    conversationKey,
-    { limit: msgCount, MessageCollection: window.Whisper.MessageCollection }
-  );
+  const messageSet = await getMessagesByConversation(conversationKey, {
+    limit: msgCount,
+  });
 
   // Set first member of series here.
   const messageModels = messageSet.models;
 
   const isPublic = conversation.isPublic();
+  const messagesPickedUp = messageModels.map(makeMessageTypeFromMessageModel);
 
-  const sortedMessage = sortMessages(messageModels, isPublic);
+  const sortedMessage = sortMessages(messagesPickedUp, isPublic);
 
   // no need to do that `firstMessageOfSeries` on a private chat
   if (conversation.isPrivate()) {
@@ -142,7 +147,11 @@ const updateFirstMessageOfSeries = (messageModels: Array<any>) => {
     if (i >= 0 && currentSender === nextSender) {
       firstMessageOfSeries = false;
     }
-    messageModels[i].firstMessageOfSeries = firstMessageOfSeries;
+    if (messageModels[i].propsForMessage) {
+      messageModels[
+        i
+      ].propsForMessage.firstMessageOfSeries = firstMessageOfSeries;
+    }
   }
   return messageModels;
 };
@@ -429,20 +438,35 @@ function getEmptyState(): ConversationsStateType {
   };
 }
 
+const makeMessageTypeFromMessageModel = (message: MessageModel) => {
+  return _.pick(message as any, toPickFromMessageModel) as MessageTypeInConvo;
+};
+
 function sortMessages(
   messages: Array<MessageTypeInConvo>,
   isPublic: boolean
 ): Array<MessageTypeInConvo> {
   // we order by serverTimestamp for public convos
+  // be sure to update the sorting order to fetch messages from the DB too at getMessagesByConversation
   if (isPublic) {
     return messages.sort(
       (a: any, b: any) =>
         b.attributes.serverTimestamp - a.attributes.serverTimestamp
     );
   }
-  return messages.sort(
-    (a: any, b: any) => b.attributes.timestamp - a.attributes.timestamp
+  if (messages.some(n => !n.attributes.sent_at && !n.attributes.received_at)) {
+    throw new Error('Found some messages without any timestamp set');
+  }
+
+  // for non public convos, we order by sent_at or received_at timestamp.
+  // we assume that a message has either a sent_at or a received_at field set.
+  const messagesSorted = messages.sort(
+    (a: any, b: any) =>
+      (b.attributes.sent_at || b.attributes.received_at) -
+      (a.attributes.sent_at || a.attributes.received_at)
   );
+
+  return messagesSorted;
 }
 
 function handleMessageAdded(
@@ -452,10 +476,7 @@ function handleMessageAdded(
   const { messages } = state;
   const { conversationKey, messageModel } = action.payload;
   if (conversationKey === state.selectedConversation) {
-    const addedMessage = _.pick(
-      messageModel as any,
-      toPickFromMessageModel
-    ) as MessageTypeInConvo;
+    const addedMessage = makeMessageTypeFromMessageModel(messageModel);
     const messagesWithNewMessage = [...messages, addedMessage];
     const convo = state.conversationLookup[state.selectedConversation];
     const isPublic = convo?.isPublic || false;
@@ -479,12 +500,13 @@ function handleMessageChanged(
   state: ConversationsStateType,
   action: MessageChangedActionType
 ) {
+  const { payload } = action;
   const messageInStoreIndex = state?.messages?.findIndex(
-    m => m.id === action.payload.id
+    m => m.id === payload.id
   );
   if (messageInStoreIndex >= 0) {
     const changedMessage = _.pick(
-      action.payload as any,
+      payload as any,
       toPickFromMessageModel
     ) as MessageTypeInConvo;
     // we cannot edit the array directly, so slice the first part, insert our edited message, and slice the second part
@@ -494,7 +516,10 @@ function handleMessageChanged(
       ...state.messages.slice(messageInStoreIndex + 1),
     ];
 
+    const convo = state.conversationLookup[payload.get('conversationId')];
+    const isPublic = convo?.isPublic || false;
     // reorder the messages depending on the timestamp (we might have an updated serverTimestamp now)
+    const sortedMessage = sortMessages(editedMessages, isPublic);
     const updatedWithFirstMessageOfSeries = updateFirstMessageOfSeries(
       editedMessages
     );
@@ -591,15 +616,6 @@ export function reducer(
       return state;
     }
 
-    if (selectedConversation === id) {
-      // Inbox -> Archived: no conversation is selected
-      // Note: With today's stacked converastions architecture, this can result in weird
-      //   behavior - no selected conversation in the left pane, but a conversation show
-      //   in the right pane.
-      // if (!existing.isArchived && data.isArchived) {
-      //   selectedConversation = undefined;
-      // }
-    }
     return {
       ...state,
       selectedConversation,

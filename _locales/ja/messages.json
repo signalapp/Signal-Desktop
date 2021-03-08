@@ -40,7 +40,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Signalを終了する",
+        "message": "Sessionを終了する",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -104,11 +104,11 @@
         "description": "View menu command to go back to the default zoom"
     },
     "viewMenuZoomIn": {
-        "message": "ズームインする",
+        "message": "拡大",
         "description": "View menu command to make everything bigger"
     },
     "viewMenuZoomOut": {
-        "message": "ズームアウトする",
+        "message": "縮小",
         "description": "View menu command to make everything smaller"
     },
     "viewMenuToggleFullScreen": {
@@ -124,7 +124,7 @@
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "menuSetupAsStandalone": {
-        "message": "独立したデバイスとして設定",
+        "message": "独立した端末として設定",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "loading": {
@@ -154,7 +154,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Signalの保存データが含まれたフォルダーを選択してください。",
+        "message": "Sessionの保存データが含まれたフォルダーを選択してください。",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -170,7 +170,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "正しいディレクトリを選択したか確認してください。ディレクトリ名はSignal Exportから始まります。なお、旧式のChromeアプリからもデータをコピーできます。",
+        "message": "正しいディレクトリを選択したか確認してください。ディレクトリ名は「Session Export」から始まります。なお、旧式のChromeアプリからもデータをコピーできます。",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -264,7 +264,7 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "複数のメンバーで安全番号に変更がありました。誰かが通信を傍受しようとしているかも知れませんし，メンバーがSignalをインストールし直しただけかも知れません。",
+        "message": "複数のメンバーで安全番号に変更がありました。誰かが通信を傍受しようとしているかも知れませんし，メンバーがSessionをインストールし直しただけかも知れません。",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
@@ -278,7 +278,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "検証しようとしている安全番号に変更がありました。$name$との安全番号を再確認してください。誰かが通信を傍受しようとしているかも知れませんし，$name$がSignalをインストールし直しただけかも知れません。",
+        "message": "検証しようとしている安全番号に変更がありました。$name$との安全番号を再確認してください。誰かが通信を傍受しようとしているかも知れませんし，$name$がSessionをインストールし直しただけかも知れません。",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -288,7 +288,7 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "安全番号の変更が複数のメンバーで最近ありました。誰かが通信を傍受しようとしているかも知れませんし，メンバーがSignalをインストールし直しただけかも知れません。",
+        "message": "安全番号の変更が複数のメンバーで最近ありました。誰かが通信を傍受しようとしているかも知れませんし，メンバーがSessionをインストールし直しただけかも知れません。",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
@@ -302,7 +302,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "$name$との安全番号に変更がありました。誰かが通信を傍受しようとしているかも知れませんし，$name$がSignalをインストールし直しただけかも知れません。この相手との安全番号を検証することをお勧めします。",
+        "message": "$name$との安全番号に変更がありました。誰かが通信を傍受しようとしているかも知れませんし，$name$がSessionをインストールし直しただけかも知れません。この相手との安全番号を検証することをお勧めします。",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -310,10 +310,6 @@
                 "example": "Bob"
             }
         }
-    },
-    "sendAnyway": {
-        "message": "とにかく送信する",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "noLongerVerified": {
         "message": "$name$との安全番号に変更があり，未検証です。クリックして表示してください。",
@@ -854,11 +850,11 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "アプリのバージョンが古すぎます。最新版にアップデートしてください。",
+        "message": "アプリのバージョンが古すぎます。最新版に更新してください。",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "アップデート",
+        "message": "最新版に更新",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -1092,7 +1088,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Sessionのアップデートがあります",
+        "message": "Sessionの新しい更新があります",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -1100,7 +1096,7 @@
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "アップデートを適用するにはSessionを再起動してください。",
+        "message": "更新を適用するにはSessionを再起動してください。",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
@@ -1166,7 +1162,7 @@
         }
     },
     "privacyPolicy": {
-        "message": "使用条件とプライバシーポリシー"
+        "message": "利用規約とプライバシーポリシー"
     },
     "unknown": {
         "message": "不明"
@@ -1187,7 +1183,7 @@
         "message": "続行"
     },
     "devicePairingRequestReceivedLimitTitle": {
-        "message": "デバイス制限に達しました"
+        "message": "端末の数の制限に達しました"
     },
     "devicePairingRequestReceivedLimitDescription": {
         "message": "追加している端末が多すぎます。いくつか削除してください。"
@@ -1196,7 +1192,7 @@
         "message": "リンクリクエストを受け取りました"
     },
     "waitingForDeviceToRegister": {
-        "message": "デバイス待ち"
+        "message": "端末待ち"
     },
     "pairNewDevicePrompt": {
         "message": "追加する端末に表示されているQRコードをスキャンする"
@@ -1205,7 +1201,7 @@
         "message": "追加されている端末はありません"
     },
     "deviceUnpaired": {
-        "message": "デバイスは正常にリンク解除されました"
+        "message": "端末は正常にリンク解除されました"
     },
     "moreInformation": {
         "message": "詳細"
@@ -1241,7 +1237,7 @@
         "message": "ライト"
     },
     "successUnlinked": {
-        "message": "デバイスは正常にリンク解除されました"
+        "message": "端末は正常にリンク解除されました"
     },
     "autoUpdateDownloadButtonLabel": {
         "message": "ダウンロード"
@@ -1268,7 +1264,7 @@
         "message": "グループを編集する"
     },
     "updateGroupDialogTitle": {
-        "message": "$name$をアップデート中..."
+        "message": "$name$を更新中..."
     },
     "showRecoveryPhrase": {
         "message": "リカバリーフレーズ"
@@ -1277,7 +1273,7 @@
         "message": "あなたの Session ID"
     },
     "recoveryPhraseSavePromptMain": {
-        "message": "リカバリーフレーズは、Session ID のマスターキーです。デバイスにアクセスできなくなった場合、これを使用して Session ID を復元できます。リカバリーフレーズを安全な場所に保管し、誰にも教えないでください。"
+        "message": "リカバリーフレーズは、Session ID のマスターキーです。端末にアクセスできなくなった場合、これを使用して Session ID を復元できます。リカバリーフレーズを安全な場所に保管し、誰にも教えないでください。"
     },
     "copiedToClipboard": {
         "message": "クリップボードにコピーされました"
@@ -1295,7 +1291,7 @@
         "message": "削除"
     },
     "invalidSessionId": {
-        "message": "Session ID が無効です"
+        "message": "Session ID が不正です"
     },
     "emptyGroupNameError": {
         "message": "グループ名を入力してください"
@@ -1312,7 +1308,7 @@
     "allUsersAreRandomly...": {
         "message": "Session ID は、Session で連絡を取るために使用できる一意のアドレスです。本当のアイデンティティに関係なく、あなたの Session ID は設計上完全に匿名でプライベートです。"
     },
-    "generateSessionID": {
+    "createSessionID": {
         "message": "Session ID を作成する"
     },
     "recoveryPhrase": {
@@ -1324,14 +1320,11 @@
     "enterDisplayName": {
         "message": "表示名を入力してください"
     },
-    "enterSessionIDHere": {
-        "message": "Session ID を入力してください"
-    },
     "continueYourSession": {
         "message": "Session を続ける"
     },
     "linkDevice": {
-        "message": "デバイスをリンクする"
+        "message": "端末をリンクする"
     },
     "restoreUsingRecoveryPhrase": {
         "message": "アカウントを復元する"
@@ -1349,7 +1342,7 @@
         "message": "受信者の Session ID を入力してください"
     },
     "usersCanShareTheir...": {
-        "message": "ユーザーは、アカウント設定に移動して [Session ID を共有] をタップするか、QR コードを共有することで、Session ID を共有できます。"
+        "message": "ユーザーは、アカウント設定に移動して「Session ID を共有」をタップするか、QR コードを共有することで、Session ID を共有できます。"
     },
     "appearanceSettingsTitle": {
         "message": "デザイン設定"
@@ -1370,10 +1363,10 @@
         "message": "表示名を選択してください"
     },
     "joinOpenGroup": {
-        "message": "オープングループに参加する"
+        "message": "公開グループに参加する"
     },
     "newClosedGroup": {
-        "message": "新しいクローズドグループ"
+        "message": "新しい非公開グループ"
     },
     "createClosedGroupNamePrompt": {
         "message": "グループ名"
@@ -1385,7 +1378,7 @@
         "message": "グループの URL を開く"
     },
     "enterAnOpenGroupURL": {
-        "message": "オープングループの URL を入力する"
+        "message": "公開グループの URL を入力する"
     },
     "next": {
         "message": "進む"
@@ -1403,7 +1396,7 @@
         "message": "グループメンバーを少なくとも 2 人選択してください"
     },
     "closedGroupMaxSize": {
-        "message": "閉じたグループは 100 人を超えるメンバーを抱えることはできません"
+        "message": "非公開グループは 100 人を超えるメンバーを抱えることはできません"
     },
     "noBlockedContacts": {
         "message": "ブロックしている連絡先はありません"

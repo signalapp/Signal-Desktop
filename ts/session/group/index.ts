@@ -3,23 +3,15 @@ import { PubKey } from '../types';
 import _ from 'lodash';
 
 import { fromHex, fromHexToArray, toHex } from '../utils/String';
-import { MessageModel, MessageModelType } from '../../../js/models/messages';
-import { ConversationModel } from '../../../js/models/conversations';
 import { BlockedNumberController } from '../../util/blockedNumberController';
 import { ConversationController } from '../conversations';
 import { updateOpenGroup } from '../../receiver/openGroups';
-import { getMessageQueue } from '../instance';
-import {
-  ClosedGroupEncryptionPairMessage,
-  ClosedGroupNewMessage,
-  ExpirationTimerUpdateMessage,
-} from '../messages/outgoing';
 import {
   addClosedGroupEncryptionKeyPair,
   getIdentityKeyById,
   getLatestClosedGroupEncryptionKeyPair,
   removeAllClosedGroupEncryptionKeyPairs,
-} from '../../../js/modules/data';
+} from '../../../ts/data/data';
 import uuid from 'uuid';
 import { SignalService } from '../../protobuf';
 import { generateCurve25519KeyPairWithoutPrefix } from '../crypto';
@@ -29,13 +21,18 @@ import { UserUtils } from '../utils';
 import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/content/data/group/ClosedGroupMemberLeftMessage';
 import {
   ClosedGroupAddedMembersMessage,
+  ClosedGroupEncryptionPairMessage,
   ClosedGroupEncryptionPairRequestMessage,
   ClosedGroupNameChangeMessage,
+  ClosedGroupNewMessage,
   ClosedGroupRemovedMembersMessage,
-  ClosedGroupUpdateMessage,
 } from '../messages/outgoing/content/data/group';
+import { ConversationModel } from '../../models/conversation';
+import { MessageModel } from '../../models/message';
+import { MessageModelType } from '../../models/messageType';
 import { MessageController } from '../messages';
 import { distributingClosedGroupEncryptionKeyPairs } from '../../receiver/closedGroups';
+import { getMessageQueue } from '..';
 
 export interface GroupInfo {
   id: string;
@@ -105,6 +102,8 @@ export async function initiateGroupUpdate(
     throw new Error('Legacy group are not supported anymore.');
   }
 
+  // do not give an admins field here. We don't want to be able to update admins and
+  // updateOrCreateClosedGroup() will update them if given the choice.
   const groupDetails = {
     id: groupId,
     name: groupName,
@@ -131,7 +130,8 @@ export async function initiateGroupUpdate(
     const dbMessageName = await addUpdateMessage(
       convo,
       nameOnlyDiff,
-      'outgoing'
+      'outgoing',
+      Date.now()
     );
     MessageController.getInstance().register(dbMessageName.id, dbMessageName);
     await sendNewName(convo, diff.newName, dbMessageName.id);
@@ -142,7 +142,8 @@ export async function initiateGroupUpdate(
     const dbMessageAdded = await addUpdateMessage(
       convo,
       joiningOnlyDiff,
-      'outgoing'
+      'outgoing',
+      Date.now()
     );
     MessageController.getInstance().register(dbMessageAdded.id, dbMessageAdded);
     await sendAddedMembers(
@@ -158,7 +159,8 @@ export async function initiateGroupUpdate(
     const dbMessageLeaving = await addUpdateMessage(
       convo,
       leavingOnlyDiff,
-      'outgoing'
+      'outgoing',
+      Date.now()
     );
     MessageController.getInstance().register(
       dbMessageLeaving.id,
@@ -177,7 +179,8 @@ export async function initiateGroupUpdate(
 export async function addUpdateMessage(
   convo: ConversationModel,
   diff: GroupDiff,
-  type: MessageModelType
+  type: MessageModelType,
+  sentAt: number
 ): Promise<MessageModel> {
   const groupUpdate: any = {};
 
@@ -197,13 +200,14 @@ export async function addUpdateMessage(
 
   const unread = type === 'incoming';
 
-  const message = await convo.addMessage({
+  const message = await convo.addSingleMessage({
     conversationId: convo.get('id'),
     type,
-    sent_at: now,
+    sent_at: sentAt,
     received_at: now,
     group_update: groupUpdate,
     unread,
+    expireTimer: 0,
   });
 
   if (unread) {
@@ -308,7 +312,7 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
   if (expireTimer === undefined || typeof expireTimer !== 'number') {
     return;
   }
-  const source = await UserUtils.getCurrentDevicePubKey();
+  const source = UserUtils.getOurPubKeyStrFromCache();
   await conversation.updateExpirationTimer(expireTimer, source, Date.now(), {
     fromSync: true,
   });
@@ -321,7 +325,7 @@ export async function leaveClosedGroup(groupId: string) {
     window.log.error('Cannot leave non-existing group');
     return;
   }
-  const ourNumber = await UserUtils.getOurNumber();
+  const ourNumber = UserUtils.getOurPubKeyFromCache();
   const isCurrentUserAdmin = convo.get('groupAdmins')?.includes(ourNumber.key);
 
   const now = Date.now();
@@ -337,19 +341,22 @@ export async function leaveClosedGroup(groupId: string) {
   } else {
     // otherwise, just the exclude ourself from the members and trigger an update with this
     convo.set({ left: true });
-    members = convo.get('members').filter((m: string) => m !== ourNumber.key);
+    members = (convo.get('members') || []).filter(
+      (m: string) => m !== ourNumber.key
+    );
     admins = convo.get('groupAdmins') || [];
   }
   convo.set({ members });
   convo.set({ groupAdmins: admins });
   await convo.commit();
 
-  const dbMessage = await convo.addMessage({
+  const dbMessage = await convo.addSingleMessage({
     group_update: { left: 'You' },
     conversationId: groupId,
     type: 'outgoing',
     sent_at: now,
     received_at: now,
+    expireTimer: 0,
   });
   MessageController.getInstance().register(dbMessage.id, dbMessage);
   const existingExpireTimer = convo.get('expireTimer') || 0;
@@ -459,13 +466,6 @@ async function sendAddedMembers(
     await ConversationController.getInstance().getOrCreateAndWait(m, 'private');
     const memberPubKey = PubKey.cast(m);
     await getMessageQueue().sendToPubKey(memberPubKey, newClosedGroupUpdate);
-
-    // if (expirationTimerMessage) {
-    //   await getMessageQueue().sendToPubKey(
-    //     memberPubKey,
-    //     expirationTimerMessage
-    //   );
-    // }
   });
   await Promise.all(promises);
 }
@@ -480,7 +480,7 @@ async function sendRemovedMembers(
     window.log.warn('No removedMembers given for group update. Skipping');
     return;
   }
-  const ourNumber = await UserUtils.getOurNumber();
+  const ourNumber = UserUtils.getOurPubKeyFromCache();
   const admins = convo.get('groupAdmins') || [];
   const groupId = convo.get('id');
 
@@ -544,7 +544,7 @@ export async function generateAndSendNewEncryptionKeyPair(
     return;
   }
 
-  const ourNumber = await UserUtils.getOurNumber();
+  const ourNumber = UserUtils.getOurPubKeyFromCache();
   if (!groupConvo.get('groupAdmins')?.includes(ourNumber.key)) {
     window.log.warn(
       'generateAndSendNewEncryptionKeyPair: cannot send it as a non admin'
@@ -649,7 +649,7 @@ export async function requestEncryptionKeyPair(
     return;
   }
 
-  const ourNumber = await UserUtils.getOurNumber();
+  const ourNumber = UserUtils.getOurPubKeyFromCache();
   if (!groupConvo.get('members').includes(ourNumber.key)) {
     window.log.info(
       'requestEncryptionKeyPair: We are not a member of this group.'

@@ -1,5 +1,5 @@
 import * as sinon from 'sinon';
-import * as DataShape from '../../../../js/modules/data';
+import * as DataShape from '../../../../ts/data/data';
 import { Application } from 'spectron';
 
 const globalAny: any = global;
@@ -8,7 +8,7 @@ const sandbox = sinon.createSandbox();
 // We have to do this in a weird way because Data uses module.exports
 //  which doesn't play well with sinon or ImportMock
 // tslint:disable-next-line: no-require-imports no-var-requires
-const Data = require('../../../../js/modules/data');
+const Data = require('../../../../ts/data/data');
 type DataFunction = typeof DataShape;
 
 /**

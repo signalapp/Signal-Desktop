@@ -80,10 +80,12 @@ export class SessionSettingListItem extends React.Component<Props, State> {
 
           {type === SessionSettingType.Options && (
             <SessionRadioGroup
-              initalItem={content.options.initalItem}
+              initialItem={content.options.initalItem}
               group={content.options.group}
               items={content.options.items}
-              onClick={this.handleClick}
+              onClick={(selectedRadioValue: string) => {
+                this.props.onClick(selectedRadioValue);
+              }}
             />
           )}
 

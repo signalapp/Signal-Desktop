@@ -15,7 +15,7 @@ export async function onError(ev: any) {
 
     const message = initIncomingMessage(envelope);
 
-    message.saveErrors(error || new Error('Error was null'));
+    await message.saveErrors(error || new Error('Error was null'));
     const id = message.get('conversationId');
     const conversation = await ConversationController.getInstance().getOrCreateAndWait(
       id,
@@ -27,20 +27,19 @@ export async function onError(ev: any) {
       unreadCount: toNumber(conversation.get('unreadCount')) + 1,
     });
 
-    const conversationTimestamp = conversation.get('timestamp');
-    const messageTimestamp = message.get('timestamp');
-    if (!conversationTimestamp || messageTimestamp > conversationTimestamp) {
-      conversation.set({ timestamp: message.get('sent_at') });
+    const conversationActiveAt = conversation.get('active_at');
+    const messageTimestamp = message.get('timestamp') || 0;
+    if (!conversationActiveAt || messageTimestamp > conversationActiveAt) {
+      conversation.set({ active_at: message.get('sent_at') });
     }
 
     conversation.updateLastMessage();
+    await conversation.notify(message);
     MessageController.getInstance().register(message.id, message);
     window.Whisper.events.trigger('messageAdded', {
       conversationKey: conversation.id,
       messageModel: message,
     });
-
-    conversation.notify(message);
 
     if (ev.confirm) {
       ev.confirm();

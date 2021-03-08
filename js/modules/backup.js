@@ -1,7 +1,5 @@
 /* global Signal: false */
-/* global Whisper: false */
 /* global _: false */
-/* global textsecure: false */
 /* global i18n: false */
 
 /* eslint-env browser */
@@ -143,9 +141,7 @@ async function exportConversationList(fileWriter) {
   stream.write('{');
 
   stream.write('"conversations": ');
-  const conversations = await window.Signal.Data.getAllConversations({
-    ConversationCollection: Whisper.ConversationCollection,
-  });
+  const conversations = await window.Signal.Data.getAllConversations();
   window.log.info(`Exporting ${conversations.length} conversations`);
   writeArray(stream, getPlainJS(conversations));
 
@@ -198,7 +194,7 @@ async function importConversationsFromJSON(conversations, options) {
     );
     // eslint-disable-next-line no-await-in-loop
     await window.Signal.Data.saveConversation(migrated, {
-      Conversation: Whisper.Conversation,
+      Conversation: window.models.Conversation.ConversationModel,
     });
   }
 
@@ -259,11 +255,7 @@ async function importFromJsonString(jsonString, targetPath, options) {
   await importConversationsFromJSON(conversations, options);
 
   const SAVE_FUNCTIONS = {
-    identityKeys: window.Signal.Data.createOrUpdateIdentityKey,
     items: window.Signal.Data.createOrUpdateItem,
-    preKeys: window.Signal.Data.createOrUpdatePreKey,
-    sessions: window.Signal.Data.createOrUpdateSession,
-    signedPreKeys: window.Signal.Data.createOrUpdateSignedPreKey,
   };
 
   await Promise.all(
@@ -701,7 +693,7 @@ async function exportConversation(conversation, options = {}) {
       {
         limit: CHUNK_SIZE,
         receivedAt: lastReceivedAt,
-        MessageCollection: Whisper.MessageCollection,
+        MessageCollection: window.models.Message.MessageCollection,
       }
     );
     const messages = getPlainJS(collection);
@@ -841,9 +833,7 @@ async function exportConversations(options) {
     throw new Error('Need an attachments directory!');
   }
 
-  const collection = await window.Signal.Data.getAllConversations({
-    ConversationCollection: Whisper.ConversationCollection,
-  });
+  const collection = await window.Signal.Data.getAllConversations();
   const conversations = collection.models;
 
   for (let i = 0, max = conversations.length; i < max; i += 1) {
@@ -992,9 +982,7 @@ async function saveAllMessages(rawMessages) {
 
     const { conversationId } = messages[0];
 
-    await window.Signal.Data.saveMessages(messages, {
-      forceSave: true,
-    });
+    await window.Signal.Data.saveMessages(messages);
 
     window.log.info(
       'Saved',
@@ -1117,7 +1105,7 @@ async function importConversations(dir, options) {
 }
 
 function getMessageKey(message) {
-  const ourNumber = textsecure.storage.user.getNumber();
+  const ourNumber = window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
   const source = message.source || ourNumber;
   if (source === ourNumber) {
     return `${source} ${message.timestamp}`;

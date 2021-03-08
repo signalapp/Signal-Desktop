@@ -57,21 +57,8 @@ type MessageSchemaVersion6 = Partial<
   }>
 >;
 
-export const isUserMessage = (message: Message): message is UserMessage =>
-  message.type === 'incoming';
-
-export const hasExpiration = (message: Message): boolean => {
-  if (!isUserMessage(message)) {
-    return false;
-  }
-
-  const { expireTimer } = message;
-
-  return typeof expireTimer === 'number' && expireTimer > 0;
-};
-
 export type LokiProfile = {
   displayName: string;
   avatarPointer: string;
-  profileKey: Uint8Array;
+  profileKey: Uint8Array | null;
 };

@@ -11,7 +11,7 @@ remove from db
     * 'signedPreKeys'
     * senderkeys
 
-
+getContact()
 remove what is is Storage / user.js
 remove on the UI ts files the calls to conversationModel. everything should be on the props
 conversationModel
@@ -24,6 +24,19 @@ getRecipients() does not make asny sense right
 ReadSyncs
 SyncMessage
 sendSyncMessage needs to be rewritten
-sendSyncMessageOnly to fix 
+sendSyncMessageOnly to fix
 
 
+indexedDB
+initializeAttachmentMetadata=>
+schemaVersion for messages to put as what needs to be set
+run_migration
+
+
+
+### Bug fixes on update of models
+* quote of attachment does not share preview
+* setting disappearing timer for isMe does not trigger the message
+* expiration timer set from user1 second device is not synced to his other devices for a private chat
+* add a way for users to know when the messageQueue is reconnected (loading bar or something)
+* handled better reconnection

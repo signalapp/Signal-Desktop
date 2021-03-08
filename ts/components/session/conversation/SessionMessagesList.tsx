@@ -11,15 +11,13 @@ import { AttachmentType } from '../../../types/Attachment';
 import { GroupNotification } from '../../conversation/GroupNotification';
 import { GroupInvitation } from '../../conversation/GroupInvitation';
 import { ConversationType } from '../../../state/ducks/conversations';
-import {
-  MessageModel,
-  MessageRegularProps,
-} from '../../../../js/models/messages';
-import { SessionLastSeenIndicator } from './SessionLastSeedIndicator';
+import { SessionLastSeenIndicator } from './SessionLastSeenIndicator';
 import { ToastUtils } from '../../../session/utils';
 import { TypingBubble } from '../../conversation/TypingBubble';
 import { ConversationController } from '../../../session/conversations';
-import { PubKey } from '../../../session/types';
+import { MessageModel } from '../../../models/message';
+import { MessageRegularProps } from '../../../models/messageType';
+import { getMessagesBySentAt } from '../../../data/data';
 
 interface State {
   showScrollButton: boolean;
@@ -43,7 +41,7 @@ interface Props {
     count: number;
   }) => void;
   replyToMessage: (messageId: number) => Promise<void>;
-  showMessageDetails: (messageProps: any) => Promise<void>;
+  showMessageDetails: (messageProps: any) => void;
   onClickAttachment: (attachment: any, message: any) => void;
   onDownloadAttachment: ({ attachment }: { attachment: any }) => void;
   onDeleteSelectedMessages: () => Promise<void>;
@@ -68,8 +66,6 @@ export class SessionMessagesList extends React.Component<Props, State> {
     this.scrollToQuoteMessage = this.scrollToQuoteMessage.bind(this);
     this.getScrollOffsetBottomPx = this.getScrollOffsetBottomPx.bind(this);
     this.displayUnreadBannerIndex = this.displayUnreadBannerIndex.bind(this);
-
-    this.onSendAnyway = this.onSendAnyway.bind(this);
 
     this.messageContainerRef = this.props.messageContainerRef;
     this.ignoreScrollEvents = true;
@@ -299,7 +295,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
             <>
               {this.renderMessage(
                 messageProps,
-                message.firstMessageOfSeries,
+                messageProps.firstMessageOfSeries,
                 multiSelectMode,
                 message
               )}
@@ -330,7 +326,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
     messageProps.onReply = this.props.replyToMessage;
     messageProps.onShowDetail = async () => {
       const messageDetailsProps = await message.getPropsForMessageDetail();
-      void this.props.showMessageDetails(messageDetailsProps);
+      this.props.showMessageDetails(messageDetailsProps);
     };
 
     messageProps.onClickAttachment = (attachment: AttachmentType) => {
@@ -559,9 +555,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
     // If there's no message already in memory, we won't be scrolling. So we'll gather
     //   some more information then show an informative toast to the user.
     if (!targetMessage) {
-      const collection = await window.Signal.Data.getMessagesBySentAt(quoteId, {
-        MessageCollection: window.Whisper.MessageCollection,
-      });
+      const collection = await getMessagesBySentAt(quoteId);
       const found = Boolean(
         collection.find((item: MessageModel) => {
           const messageAuthor = item.propsForMessage?.authorPhoneNumber;
@@ -594,9 +588,5 @@ export class SessionMessagesList extends React.Component<Props, State> {
     const scrollHeight = messageContainer.scrollHeight;
     const clientHeight = messageContainer.clientHeight;
     return scrollHeight - scrollTop - clientHeight;
-  }
-
-  private async onSendAnyway({ contact, message }: any) {
-    message.resend(contact.id);
   }
 }

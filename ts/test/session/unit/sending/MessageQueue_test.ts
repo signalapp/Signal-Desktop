@@ -1,3 +1,5 @@
+// tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
+
 import chai from 'chai';
 import * as sinon from 'sinon';
 import _ from 'lodash';
@@ -15,9 +17,10 @@ import { MessageSender } from '../../../../session/sending';
 import { PendingMessageCacheStub } from '../../../test-utils/stubs';
 import { ClosedGroupMessage } from '../../../../session/messages/outgoing/content/data/group/ClosedGroupMessage';
 
-// tslint:disable-next-line: no-require-imports no-var-requires
-const chaiAsPromised = require('chai-as-promised');
-chai.use(chaiAsPromised);
+import chaiAsPromised from 'chai-as-promised';
+import { MessageSentHandler } from '../../../../session/sending/MessageSentHandler';
+chai.use(chaiAsPromised as any);
+chai.should();
 
 const { expect } = chai;
 
@@ -30,14 +33,21 @@ describe('MessageQueue', () => {
 
   // Initialize new stubbed queue
   let pendingMessageCache: PendingMessageCacheStub;
+  let messageSentHandlerFailedStub: sinon.SinonStub;
+  let messageSentHandlerSuccessStub: sinon.SinonStub;
+  let messageSentPublicHandlerSuccessStub: sinon.SinonStub;
   let messageQueueStub: MessageQueue;
 
   // Message Sender Stubs
-  let sendStub: sinon.SinonStub<[RawMessage, (number | undefined)?]>;
+  let sendStub: sinon.SinonStub<[
+    RawMessage,
+    (number | undefined)?,
+    (number | undefined)?
+  ]>;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     // Utils Stubs
-    sandbox.stub(UserUtils, 'getCurrentDevicePubKey').resolves(ourNumber);
+    sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
 
     TestUtils.stubWindow('libsignal', {
       SignalProtocolAddress: sandbox.stub(),
@@ -45,6 +55,15 @@ describe('MessageQueue', () => {
 
     // Message Sender Stubs
     sendStub = sandbox.stub(MessageSender, 'send').resolves();
+    messageSentHandlerFailedStub = sandbox
+      .stub(MessageSentHandler as any, 'handleMessageSentFailure')
+      .resolves();
+    messageSentHandlerSuccessStub = sandbox
+      .stub(MessageSentHandler as any, 'handleMessageSentSuccess')
+      .resolves();
+    messageSentPublicHandlerSuccessStub = sandbox
+      .stub(MessageSentHandler as any, 'handlePublicMessageSentSuccess')
+      .resolves();
 
     // Init Queue
     pendingMessageCache = new PendingMessageCacheStub();
@@ -57,15 +76,26 @@ describe('MessageQueue', () => {
   });
 
   describe('processPending', () => {
-    it('will send messages', async () => {
+    it('will send messages', done => {
       const device = TestUtils.generateFakePubKey();
-      await pendingMessageCache.add(device, TestUtils.generateChatMessage());
 
-      const successPromise = PromiseUtils.waitForTask(done => {
-        messageQueueStub.events.once('sendSuccess', done);
+      const waitForMessageSentEvent = new Promise(resolve => {
+        resolve(true);
+        done();
       });
-      await messageQueueStub.processPending(device);
-      await expect(successPromise).to.be.fulfilled;
+
+      void pendingMessageCache
+        .add(
+          device,
+          TestUtils.generateChatMessage(),
+          waitForMessageSentEvent as any
+        )
+        .then(async () => {
+          return messageQueueStub.processPending(device);
+        })
+        .then(() => {
+          expect(waitForMessageSentEvent).to.be.fulfilled;
+        });
     });
 
     it('should remove message from cache', async () => {
@@ -87,54 +117,60 @@ describe('MessageQueue', () => {
         const promise = PromiseUtils.waitUntil(async () => {
           const messages = await pendingMessageCache.getForDevice(device);
           return messages.length === 0;
-        });
-        await expect(promise).to.be.fulfilled;
+        }, 100);
+        return promise.should.be.fulfilled;
       }
     }).timeout(15000);
 
     describe('events', () => {
-      it('should send a success event if message was sent', async () => {
+      it('should send a success event if message was sent', done => {
         const device = TestUtils.generateFakePubKey();
         const message = TestUtils.generateChatMessage();
-        await pendingMessageCache.add(device, message);
+        const waitForMessageSentEvent = async () =>
+          new Promise<void>(resolve => {
+            resolve();
+            try {
+              expect(messageSentHandlerSuccessStub.callCount).to.be.equal(1);
+              expect(
+                messageSentHandlerSuccessStub.lastCall.args[0].identifier
+              ).to.be.equal(message.identifier);
+              done();
+            } catch (e) {
+              done(e);
+            }
+          });
 
-        const eventPromise = PromiseUtils.waitForTask<
-          RawMessage | OpenGroupMessage
-        >(complete => {
-          messageQueueStub.events.once('sendSuccess', complete);
-        });
-
-        await messageQueueStub.processPending(device);
-        await expect(eventPromise).to.be.fulfilled;
-
-        const rawMessage = await eventPromise;
-        expect(rawMessage.identifier).to.equal(message.identifier);
+        void pendingMessageCache
+          .add(device, message, waitForMessageSentEvent)
+          .then(() => messageQueueStub.processPending(device));
       });
 
       it('should send a fail event if something went wrong while sending', async () => {
         sendStub.throws(new Error('failure'));
 
-        const spy = sandbox.spy();
-        messageQueueStub.events.on('sendFail', spy);
-
         const device = TestUtils.generateFakePubKey();
         const message = TestUtils.generateChatMessage();
-        await pendingMessageCache.add(device, message);
+        void pendingMessageCache
+          .add(device, message)
+          .then(() => messageQueueStub.processPending(device));
+        // The cb is only invoke is all reties fails. Here we poll until the messageSentHandlerFailed was invoked as this is what we want to do
 
-        const eventPromise = PromiseUtils.waitForTask<
-          [RawMessage | OpenGroupMessage, Error]
-        >(complete => {
-          messageQueueStub.events.once('sendFail', (...args) => {
-            complete(args);
-          });
+        return PromiseUtils.poll(done => {
+          if (messageSentHandlerFailedStub.callCount === 1) {
+            try {
+              expect(messageSentHandlerFailedStub.callCount).to.be.equal(1);
+              expect(
+                messageSentHandlerFailedStub.lastCall.args[0].identifier
+              ).to.be.equal(message.identifier);
+              expect(
+                messageSentHandlerFailedStub.lastCall.args[1].message
+              ).to.equal('failure');
+              done();
+            } catch (e) {
+              done(e);
+            }
+          }
         });
-
-        await messageQueueStub.processPending(device);
-        await expect(eventPromise).to.be.fulfilled;
-
-        const [rawMessage, error] = await eventPromise;
-        expect(rawMessage.identifier).to.equal(message.identifier);
-        expect(error.message).to.equal('failure');
       });
     });
   });
@@ -155,21 +191,20 @@ describe('MessageQueue', () => {
 
   describe('sendToGroup', () => {
     it('should throw an error if invalid non-group message was passed', async () => {
-      // const chatMessage = TestUtils.generateChatMessage();
-      // await expect(
-      //   messageQueueStub.sendToGroup(chatMessage)
-      // ).to.be.rejectedWith('Invalid group message passed in sendToGroup.');
-      // Cannot happen with typescript as this function only accept group message now
+      const chatMessage = TestUtils.generateChatMessage();
+      return expect(
+        messageQueueStub.sendToGroup(chatMessage as any)
+      ).to.be.rejectedWith('Invalid group message passed in sendToGroup.');
     });
 
-    describe('closed groups', async () => {
+    describe('closed groups', () => {
       it('can send to closed group', async () => {
         const members = TestUtils.generateFakePubKeys(4).map(
           p => new PubKey(p.key)
         );
         sandbox.stub(GroupUtils, 'getGroupMembers').resolves(members);
 
-        const send = sandbox.stub(messageQueueStub, 'send').resolves();
+        const send = sandbox.stub(messageQueueStub, 'sendToPubKey').resolves();
 
         const message = TestUtils.generateClosedGroupMessage();
         await messageQueueStub.sendToGroup(message);
@@ -182,7 +217,7 @@ describe('MessageQueue', () => {
         );
       });
 
-      describe('open groups', async () => {
+      describe('open groups', () => {
         let sendToOpenGroupStub: sinon.SinonStub<
           [OpenGroupMessage],
           Promise<{ serverId: number; serverTimestamp: number }>
@@ -195,34 +230,39 @@ describe('MessageQueue', () => {
 
         it('can send to open group', async () => {
           const message = TestUtils.generateOpenGroupMessage();
-          await messageQueueStub.sendToGroup(message);
+          await messageQueueStub.sendToOpenGroup(message);
           expect(sendToOpenGroupStub.callCount).to.equal(1);
         });
 
         it('should emit a success event when send was successful', async () => {
           sendToOpenGroupStub.resolves({
             serverId: 5125,
-            serverTimestamp: 5125,
+            serverTimestamp: 5126,
           });
 
           const message = TestUtils.generateOpenGroupMessage();
-          const eventPromise = PromiseUtils.waitForTask(complete => {
-            messageQueueStub.events.once('sendSuccess', complete);
-          }, 2000);
-
-          await messageQueueStub.sendToGroup(message);
-          await expect(eventPromise).to.be.fulfilled;
+          await messageQueueStub.sendToOpenGroup(message);
+          expect(messageSentPublicHandlerSuccessStub.callCount).to.equal(1);
+          expect(
+            messageSentPublicHandlerSuccessStub.lastCall.args[0].identifier
+          ).to.equal(message.identifier);
+          expect(
+            messageSentPublicHandlerSuccessStub.lastCall.args[1].serverId
+          ).to.equal(5125);
+          expect(
+            messageSentPublicHandlerSuccessStub.lastCall.args[1].serverTimestamp
+          ).to.equal(5126);
         });
 
         it('should emit a fail event if something went wrong', async () => {
           sendToOpenGroupStub.resolves({ serverId: -1, serverTimestamp: -1 });
           const message = TestUtils.generateOpenGroupMessage();
-          const eventPromise = PromiseUtils.waitForTask(complete => {
-            messageQueueStub.events.once('sendFail', complete);
-          }, 2000);
 
-          await messageQueueStub.sendToGroup(message);
-          await expect(eventPromise).to.be.fulfilled;
+          await messageQueueStub.sendToOpenGroup(message);
+          expect(messageSentHandlerFailedStub.callCount).to.equal(1);
+          expect(
+            messageSentHandlerFailedStub.lastCall.args[0].identifier
+          ).to.equal(message.identifier);
         });
       });
     });

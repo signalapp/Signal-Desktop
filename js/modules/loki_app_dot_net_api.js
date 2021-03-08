@@ -64,7 +64,7 @@ const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
     // eslint-disable-next-line no-param-reassign
     options.retry = 0;
     // eslint-disable-next-line no-param-reassign
-    options.requestNumber = window.OnionAPI.assignOnionRequestNumber();
+    options.requestNumber = window.OnionPaths.getInstance().assignOnionRequestNumber();
   }
 
   const payloadObj = {
@@ -97,7 +97,7 @@ const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
 
   let pathNodes = [];
   try {
-    pathNodes = await window.OnionAPI.getOnionPath();
+    pathNodes = await window.OnionPaths.getInstance().getOnionPath();
   } catch (e) {
     log.error(
       `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - getOnionPath Error ${e.code} ${e.message}`
@@ -596,9 +596,7 @@ class LokiAppDotNetServerAPI {
       // get our profile name
       // this should be primaryDevicePubKey
       // because the rest of the profile system uses that...
-      const ourNumber =
-        window.storage.get('primaryDevicePubKey') ||
-        textsecure.storage.user.getNumber();
+      const ourNumber = window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
       const profileConvo = window.getConversationController().get(ourNumber);
       const profile = profileConvo && profileConvo.getLokiProfile();
       const profileName = profile && profile.displayName;
@@ -1082,8 +1080,12 @@ class LokiPublicChannelAPI {
 
   async getPrivateKey() {
     if (!this.myPrivateKey) {
-      const myKeyPair = await textsecure.storage.protocol.getIdentityKeyPair();
-      this.myPrivateKey = myKeyPair.privKey;
+      const item = await window.Signal.Data.getItemById('identityKey');
+      const keyPair = (item && item.value) || undefined;
+      if (!keyPair) {
+        window.log.error('Could not get our Keypair from getItemById');
+      }
+      this.myPrivateKey = keyPair.privKey;
     }
     return this.myPrivateKey;
   }
@@ -1195,17 +1197,14 @@ class LokiPublicChannelAPI {
     const res = await this.serverRequest(
       `loki/v1/channels/${this.channelId}/moderators`
     );
-    const ourNumberDevice = textsecure.storage.user.getNumber();
-    const ourNumberProfile = window.storage.get('primaryDevicePubKey');
+    const ourNumberDevice = window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
 
     // Get the list of moderators if no errors occurred
     const moderators = !res.err && res.response && res.response.moderators;
 
     // if we encountered problems then we'll keep the old mod status
     if (moderators) {
-      this.modStatus =
-        (ourNumberProfile && moderators.includes(ourNumberProfile)) ||
-        moderators.includes(ourNumberDevice);
+      this.modStatus = moderators.includes(ourNumberDevice);
     }
 
     if (this.running) {
@@ -1711,7 +1710,7 @@ class LokiPublicChannelAPI {
     let pendingMessages = [];
 
     // get our profile name
-    const ourNumberDevice = textsecure.storage.user.getNumber();
+    const ourNumberDevice = window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
     // if no primaryDevicePubKey fall back to ourNumberDevice
     const ourNumberProfile =
       window.storage.get('primaryDevicePubKey') || ourNumberDevice;
@@ -1880,14 +1879,14 @@ class LokiPublicChannelAPI {
     // eslint-disable-next-line no-plusplus
     for (let index = 0; index < pendingMessages.length; index++) {
       if (this.running) {
-        log.info(
-          'emitting pending public message',
-          pendingMessages[index].serverId,
-          'on',
-          this.channelId,
-          'at',
-          this.serverAPI.baseServerUrl
-        );
+        // log.info(
+        //   'emitting pending public message',
+        //   pendingMessages[index].serverId,
+        //   'on',
+        //   this.channelId,
+        //   'at',
+        //   this.serverAPI.baseServerUrl
+        // );
         // eslint-disable-next-line no-await-in-loop
         window.NewReceiver.handlePublicMessage(pendingMessages[index]);
       }
@@ -2021,7 +2020,7 @@ class LokiPublicChannelAPI {
 
       // copied from model/message.js copyFromQuotedMessage
       const collection = await Signal.Data.getMessagesBySentAt(quote.id, {
-        MessageCollection: Whisper.MessageCollection,
+        MessageCollection: window.models.Message.MessageCollection,
       });
       const found = collection.find(item => {
         const messageAuthor = item.getContact();
