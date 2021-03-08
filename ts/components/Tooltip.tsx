@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { noop } from 'lodash';
 import { Manager, Reference, Popper } from 'react-popper';
 import { Theme, themeClassName } from '../util/theme';
+import { multiRef } from '../util/multiRef';
 
 type EventWrapperPropsType = {
   children: React.ReactNode;
@@ -50,22 +51,7 @@ const TooltipEventWrapper = React.forwardRef<
     <span
       onFocus={on}
       onBlur={off}
-      // This is a forward ref that also needs a ref of its own, so we set both here.
-      ref={el => {
-        wrapperRef.current = el;
-
-        // This is a simplified version of [what React does][0] to set a ref.
-        // [0]: https://github.com/facebook/react/blob/29b7b775f2ecf878eaf605be959d959030598b07/packages/react-reconciler/src/ReactFiberCommitWork.js#L661-L677
-        if (typeof ref === 'function') {
-          ref(el);
-        } else if (ref) {
-          // I believe the types for `ref` are wrong in this case, as `ref.current` should
-          //   not be `readonly`. That's why we do this cast. See [the React source][1].
-          // [1]: https://github.com/facebook/react/blob/29b7b775f2ecf878eaf605be959d959030598b07/packages/shared/ReactTypes.js#L78-L80
-          // eslint-disable-next-line no-param-reassign
-          (ref as React.MutableRefObject<HTMLSpanElement | null>).current = el;
-        }
-      }}
+      ref={multiRef<HTMLSpanElement>(ref, wrapperRef)}
     >
       {children}
     </span>

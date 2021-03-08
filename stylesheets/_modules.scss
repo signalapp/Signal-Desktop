@@ -7433,27 +7433,6 @@ button.module-image__border-overlay:focus {
   }
 }
 
-.module-left-pane__compose-input {
-  margin: 16px;
-  @include font-body-1;
-  padding: 8px 12px;
-  border-radius: 6px;
-  border: 2px solid $color-gray-15;
-  background: $color-white;
-  color: $color-black;
-
-  &:focus {
-    outline: none;
-
-    @include light-theme {
-      border-color: $ultramarine-ui-light;
-    }
-    @include dark-theme {
-      border-color: $ultramarine-ui-dark;
-    }
-  }
-}
-
 .module-left-pane__list--measure {
   flex-grow: 1;
   flex-shrink: 1;

@@ -14731,6 +14731,33 @@
     "reasonDetail": "Doesn't touch the DOM."
   },
   {
+    "rule": "React-useRef",
+    "path": "ts/components/GroupTitleInput.js",
+    "line": "    const innerRef = react_1.useRef(null);",
+    "lineNumber": 47,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-03-05T16:51:54.214Z",
+    "reasonDetail": "Used to handle an <input> element. Only updates the value and selection state."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/GroupTitleInput.js",
+    "line": "    const valueOnKeydownRef = react_1.useRef(value);",
+    "lineNumber": 48,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-03-05T16:51:54.214Z",
+    "reasonDetail": "Only stores a string."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/GroupTitleInput.js",
+    "line": "    const selectionStartOnKeydownRef = react_1.useRef(value.length);",
+    "lineNumber": 49,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-03-05T16:51:54.214Z",
+    "reasonDetail": "Only stores a number."
+  },
+  {
     "rule": "jQuery-$(",
     "path": "ts/components/Intl.js",
     "line": "        const FIND_REPLACEMENTS = /\\$([^$]+)\\$/g;",
@@ -14830,7 +14857,7 @@
     "rule": "React-useRef",
     "path": "ts/components/Tooltip.js",
     "line": "    const wrapperRef = react_1.default.useRef(null);",
-    "lineNumber": 19,
+    "lineNumber": 20,
     "reasonCategory": "usageTrusted",
     "updated": "2020-12-04T00:11:08.128Z",
     "reasonDetail": "Used to add (and remove) event listeners."

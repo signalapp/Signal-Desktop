@@ -11,6 +11,7 @@ import { AvatarInput } from '../AvatarInput';
 import { Alert } from '../Alert';
 import { Spinner } from '../Spinner';
 import { Button } from '../Button';
+import { GroupTitleInput } from '../GroupTitleInput';
 
 export type LeftPaneSetGroupMetadataPropsType = {
   groupAvatar: undefined | ArrayBuffer;
@@ -113,15 +114,11 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<
           onChange={setComposeGroupAvatar}
           value={this.groupAvatar}
         />
-        <input
+        <GroupTitleInput
           disabled={disabled}
-          className="module-left-pane__compose-input"
-          onChange={event => {
-            setComposeGroupName(event.target.value);
-          }}
-          placeholder={i18n('setGroupMetadata__group-name-placeholder')}
+          i18n={i18n}
+          onChangeValue={setComposeGroupName}
           ref={focusRef}
-          type="text"
           value={this.groupName}
         />
 
