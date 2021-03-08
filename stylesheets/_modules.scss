@@ -4217,6 +4217,8 @@ button.module-conversation-details__action-button {
 // Module: Main Header
 
 .module-main-header {
+  -webkit-app-region: var(--draggable-app-region);
+
   height: calc(#{$header-height} + var(--title-bar-drag-area-height));
   width: 100%;
 
@@ -4236,11 +4238,16 @@ button.module-conversation-details__action-button {
     }
   }
 
+  &__avatar {
+    -webkit-app-region: no-drag;
+  }
+
   &__search {
     flex-grow: 1;
     position: relative;
     display: flex;
     flex-direction: row;
+    -webkit-app-region: no-drag;
 
     &__input {
       flex-grow: 1;
@@ -4388,6 +4395,7 @@ button.module-conversation-details__action-button {
 
     width: 24px;
     height: 24px;
+    -webkit-app-region: no-drag;
 
     @include light-theme {
       @include color-svg($icon, $color-gray-90);

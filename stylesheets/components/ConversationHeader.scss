@@ -8,11 +8,11 @@
     --button-spacing: 16px;
   }
 
+  -webkit-app-region: var(--draggable-app-region);
   padding-top: var(--title-bar-drag-area-height);
   display: flex;
   flex-direction: row;
   align-items: center;
-
   height: calc(#{$header-height} + var(--title-bar-drag-area-height));
 
   @include light-theme {
@@ -78,6 +78,7 @@
     &--clickable {
       @include button-reset;
       border-radius: 4px;
+      -webkit-app-region: no-drag;
 
       // These are clobbered by button-reset:
       margin-left: 4px;
@@ -171,6 +172,7 @@
   &__button {
     $icon-size: 32px;
 
+    -webkit-app-region: no-drag;
     @include button-reset;
     align-items: stretch;
     border-radius: 4px;

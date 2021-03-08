@@ -367,6 +367,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
             {({ ref }) => (
               <Avatar
                 avatarPath={avatarPath}
+                className="module-main-header__avatar"
                 color={color}
                 conversationType="direct"
                 i18n={i18n}

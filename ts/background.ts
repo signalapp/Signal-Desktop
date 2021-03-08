@@ -4,6 +4,8 @@
 import { DataMessageClass } from './textsecure.d';
 import { MessageAttributesType } from './model-types.d';
 import { WhatIsThis } from './window.d';
+import { getTitleBarVisibility, TitleBarVisibility } from './types/Settings';
+import { isWindowDragElement } from './util/isWindowDragElement';
 import { assert } from './util/assert';
 
 export async function startApp(): Promise<void> {
@@ -78,16 +80,14 @@ export async function startApp(): Promise<void> {
     },
   });
 
-  window.addEventListener('dblclick', (event: Event) => {
-    const target = event.target as HTMLElement;
-    const isDoubleClickOnTitleBar = Boolean(
-      target.classList.contains('module-title-bar-drag-area') ||
-        target.closest('module-title-bar-drag-area')
-    );
-    if (isDoubleClickOnTitleBar) {
-      window.titleBarDoubleClick();
-    }
-  });
+  if (getTitleBarVisibility() === TitleBarVisibility.Hidden) {
+    window.addEventListener('dblclick', (event: Event) => {
+      const target = event.target as HTMLElement;
+      if (isWindowDragElement(target)) {
+        window.titleBarDoubleClick();
+      }
+    });
+  }
 
   // Globally disable drag and drop
   document.body.addEventListener(
