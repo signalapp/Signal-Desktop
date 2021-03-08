@@ -1384,7 +1384,8 @@ export async function createGroupV2({
     type: 'group-v2-change',
     sourceUuid: conversation.ourUuid,
     conversationId: conversation.id,
-    received_at: timestamp,
+    received_at: window.Signal.Util.incrementMessageCounter(),
+    received_at_ms: timestamp,
     sent_at: timestamp,
     groupV2Change: {
       from: ourConversationId,
