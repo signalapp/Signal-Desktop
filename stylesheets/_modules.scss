@@ -9859,10 +9859,10 @@ button.module-image__border-overlay:focus {
 }
 
 .module-avatar-popup__profile__name {
-  @include font-body-2-bold;
+  @include font-body-1-bold;
 }
 .module-avatar-popup__profile__number {
-  @include font-caption;
+  @include font-subtitle;
 
   @include light-theme {
     color: $color-gray-60;
