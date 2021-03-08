@@ -9,6 +9,8 @@ import React, {
   ReactNode,
 } from 'react';
 
+import { scrollToBottom } from '../util/scrollToBottom';
+
 type PropsType = {
   children?: ReactNode;
 };
@@ -24,10 +26,9 @@ export const ContactPills: FunctionComponent<PropsType> = ({ children }) => {
   useEffect(() => {
     const hasAddedNewChild = childCount > previousChildCount;
     const el = elRef.current;
-    if (!hasAddedNewChild || !el) {
-      return;
+    if (hasAddedNewChild && el) {
+      scrollToBottom(el);
     }
-    el.scrollTop = el.scrollHeight;
   }, [childCount, previousChildCount]);
 
   return (

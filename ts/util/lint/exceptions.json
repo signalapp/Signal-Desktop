@@ -14671,7 +14671,7 @@
     "rule": "React-useRef",
     "path": "ts/components/ContactPills.js",
     "line": "    const elRef = react_1.useRef(null);",
-    "lineNumber": 27,
+    "lineNumber": 28,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-01T18:34:36.638Z",
     "reasonDetail": "Used for scrolling. Doesn't otherwise manipulate the DOM"
@@ -14680,7 +14680,7 @@
     "rule": "React-useRef",
     "path": "ts/components/ContactPills.js",
     "line": "    const previousChildCountRef = react_1.useRef(childCount);",
-    "lineNumber": 29,
+    "lineNumber": 30,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-01T18:34:36.638Z",
     "reasonDetail": "Doesn't reference the DOM. Refers to a number"
