@@ -6,9 +6,20 @@
   @include font-body-1;
   padding: 8px 12px;
   border-radius: 6px;
-  border: 2px solid $color-gray-15;
-  background: $color-white;
-  color: $color-black;
+  border-width: 2px;
+  border-style: solid;
+
+  @include light-theme {
+    background: $color-white;
+    color: $color-black;
+    border-color: $color-gray-15;
+  }
+
+  @include dark-theme {
+    background: $color-gray-80;
+    color: $color-gray-05;
+    border-color: $color-gray-45;
+  }
 
   &:focus {
     outline: none;

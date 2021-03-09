@@ -9,12 +9,14 @@ import React, {
   MouseEventHandler,
   FunctionComponent,
 } from 'react';
+import classNames from 'classnames';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from 'react-contextmenu';
 import loadImage, { LoadImageOptions } from 'blueimp-load-image';
 import { noop } from 'lodash';
 
 import { LocalizerType } from '../types/Util';
 import { Spinner } from './Spinner';
+import { canvasToArrayBuffer } from '../util/canvasToArrayBuffer';
 
 type PropsType = {
   // This ID needs to be globally unique across the app.
@@ -23,6 +25,7 @@ type PropsType = {
   i18n: LocalizerType;
   onChange: (value: undefined | ArrayBuffer) => unknown;
   value: undefined | ArrayBuffer;
+  variant?: AvatarInputVariant;
 };
 
 enum ImageStatus {
@@ -31,12 +34,18 @@ enum ImageStatus {
   HasImage = 'has-image',
 }
 
+export enum AvatarInputVariant {
+  Light = 'light',
+  Dark = 'dark',
+}
+
 export const AvatarInput: FunctionComponent<PropsType> = ({
   contextMenuId,
   disabled,
   i18n,
   onChange,
   value,
+  variant = AvatarInputVariant.Light,
 }) => {
   const fileInputRef = useRef<null | HTMLInputElement>(null);
   // Comes from a third-party dependency
@@ -136,7 +145,10 @@ export const AvatarInput: FunctionComponent<PropsType> = ({
         <button
           type="button"
           disabled={disabled || isLoading}
-          className="module-AvatarInput"
+          className={classNames(
+            'module-AvatarInput',
+            `module-AvatarInput--${variant}`
+          )}
           onClick={onClick}
         >
           <div
@@ -197,17 +209,5 @@ async function processFile(file: File): Promise<ArrayBuffer> {
     throw new Error('Loaded image was not a canvas');
   }
 
-  return (await canvasToBlob(image)).arrayBuffer();
-}
-
-function canvasToBlob(canvas: HTMLCanvasElement): Promise<Blob> {
-  return new Promise((resolve, reject) => {
-    canvas.toBlob(blob => {
-      if (blob) {
-        resolve(blob);
-      } else {
-        reject(new Error("Couldn't convert the canvas to a Blob"));
-      }
-    }, 'image/webp');
-  });
+  return canvasToArrayBuffer(image);
 }

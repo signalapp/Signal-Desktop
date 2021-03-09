@@ -380,6 +380,16 @@ async function uploadAvatar(
   }
 }
 
+function buildGroupTitleBuffer(
+  clientZkGroupCipher: ClientZkGroupCipher,
+  title: string
+): ArrayBuffer {
+  const titleBlob = new window.textsecure.protobuf.GroupAttributeBlob();
+  titleBlob.title = title;
+  const titleBlobPlaintext = titleBlob.toArrayBuffer();
+  return encryptGroupBlob(clientZkGroupCipher, titleBlobPlaintext);
+}
+
 function buildGroupProto(
   attributes: Pick<
     ConversationAttributesType,
@@ -423,10 +433,9 @@ function buildGroupProto(
   proto.publicKey = base64ToArrayBuffer(publicParams);
   proto.version = attributes.revision || 0;
 
-  const titleBlob = new window.textsecure.protobuf.GroupAttributeBlob();
-  titleBlob.title = attributes.name;
-  const titleBlobPlaintext = titleBlob.toArrayBuffer();
-  proto.title = encryptGroupBlob(clientZkGroupCipher, titleBlobPlaintext);
+  if (attributes.name) {
+    proto.title = buildGroupTitleBuffer(clientZkGroupCipher, attributes.name);
+  }
 
   if (attributes.avatarUrl) {
     proto.avatar = attributes.avatarUrl;
@@ -531,6 +540,82 @@ function buildGroupProto(
   );
 
   return proto;
+}
+
+export async function buildUpdateAttributesChange(
+  conversation: Pick<
+    ConversationAttributesType,
+    'id' | 'revision' | 'publicParams' | 'secretParams'
+  >,
+  attributes: Readonly<{
+    avatar?: undefined | ArrayBuffer;
+    title?: string;
+  }>
+): Promise<undefined | GroupChangeClass.Actions> {
+  const { publicParams, secretParams, revision, id } = conversation;
+
+  const logId = `groupv2(${id})`;
+
+  if (!publicParams) {
+    throw new Error(
+      `buildUpdateAttributesChange/${logId}: attributes were missing publicParams!`
+    );
+  }
+  if (!secretParams) {
+    throw new Error(
+      `buildUpdateAttributesChange/${logId}: attributes were missing secretParams!`
+    );
+  }
+
+  const actions = new window.textsecure.protobuf.GroupChange.Actions();
+
+  let hasChangedSomething = false;
+
+  const clientZkGroupCipher = getClientZkGroupCipher(secretParams);
+
+  // There are three possible states here:
+  //
+  // 1. 'avatar' not in attributes: we don't want to change the avatar.
+  // 2. attributes.avatar === undefined: we want to clear the avatar.
+  // 3. attributes.avatar !== undefined: we want to update the avatar.
+  if ('avatar' in attributes) {
+    hasChangedSomething = true;
+
+    actions.modifyAvatar = new window.textsecure.protobuf.GroupChange.Actions.ModifyAvatarAction();
+    const { avatar } = attributes;
+    if (avatar) {
+      const uploadedAvatar = await uploadAvatar({
+        data: avatar,
+        logId,
+        publicParams,
+        secretParams,
+      });
+      actions.modifyAvatar.avatar = uploadedAvatar.key;
+    }
+
+    // If we don't set `actions.modifyAvatar.avatar`, it will be cleared.
+  }
+
+  const { title } = attributes;
+  if (title) {
+    hasChangedSomething = true;
+
+    actions.modifyTitle = new window.textsecure.protobuf.GroupChange.Actions.ModifyTitleAction();
+    actions.modifyTitle.title = buildGroupTitleBuffer(
+      clientZkGroupCipher,
+      title
+    );
+  }
+
+  if (!hasChangedSomething) {
+    // This shouldn't happen. When these actions are passed to `modifyGroupV2`, a warning
+    //   will be logged.
+    return undefined;
+  }
+
+  actions.version = (revision || 0) + 1;
+
+  return actions;
 }
 
 export function buildDisappearingMessagesTimerChange({

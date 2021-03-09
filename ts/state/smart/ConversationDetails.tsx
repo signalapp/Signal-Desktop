@@ -26,6 +26,12 @@ export type SmartConversationDetailsProps = {
     selectedMediaItem: MediaItemType,
     media: Array<MediaItemType>
   ) => void;
+  updateGroupAttributes: (
+    _: Readonly<{
+      avatar?: undefined | ArrayBuffer;
+      title?: string;
+    }>
+  ) => void;
   onBlockAndDelete: () => void;
   onDelete: () => void;
 };

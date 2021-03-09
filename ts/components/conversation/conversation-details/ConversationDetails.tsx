@@ -1,7 +1,7 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { ConversationType } from '../../../state/ducks/conversations';
 import {
@@ -18,6 +18,10 @@ import { ConversationDetailsHeader } from './ConversationDetailsHeader';
 import { ConversationDetailsIcon } from './ConversationDetailsIcon';
 import { ConversationDetailsMediaList } from './ConversationDetailsMediaList';
 import { ConversationDetailsMembershipList } from './ConversationDetailsMembershipList';
+import {
+  EditConversationAttributesModal,
+  RequestState as EditGroupAttributesRequestState,
+} from './EditConversationAttributesModal';
 
 export type StateProps = {
   canEditGroupInfo: boolean;
@@ -35,6 +39,12 @@ export type StateProps = {
   showLightboxForMedia: (
     selectedMediaItem: MediaItemType,
     media: Array<MediaItemType>
+  ) => void;
+  updateGroupAttributes: (
+    _: Readonly<{
+      avatar?: undefined | ArrayBuffer;
+      title?: string;
+    }>
   ) => void;
   onBlockAndDelete: () => void;
   onDelete: () => void;
@@ -56,9 +66,20 @@ export const ConversationDetails: React.ComponentType<Props> = ({
   showGroupV2Permissions,
   showPendingInvites,
   showLightboxForMedia,
+  updateGroupAttributes,
   onBlockAndDelete,
   onDelete,
 }) => {
+  const [isEditingGroupAttributes, setIsEditingGroupAttributes] = useState(
+    false
+  );
+  const [
+    editGroupAttributesRequestState,
+    setEditGroupAttributesRequestState,
+  ] = useState<EditGroupAttributesRequestState>(
+    EditGroupAttributesRequestState.Inactive
+  );
+
   const updateExpireTimer = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setDisappearingMessages(parseInt(event.target.value, 10));
   };
@@ -75,7 +96,14 @@ export const ConversationDetails: React.ComponentType<Props> = ({
 
   return (
     <div className="conversation-details-panel">
-      <ConversationDetailsHeader i18n={i18n} conversation={conversation} />
+      <ConversationDetailsHeader
+        canEdit={canEditGroupInfo}
+        conversation={conversation}
+        i18n={i18n}
+        startEditing={() => {
+          setIsEditingGroupAttributes(true);
+        }}
+      />
 
       {canEditGroupInfo ? (
         <PanelSection>
@@ -171,6 +199,43 @@ export const ConversationDetails: React.ComponentType<Props> = ({
         onDelete={onDelete}
         onBlockAndDelete={onBlockAndDelete}
       />
+
+      {isEditingGroupAttributes && (
+        <EditConversationAttributesModal
+          avatarPath={conversation.avatarPath}
+          i18n={i18n}
+          makeRequest={async (
+            options: Readonly<{
+              avatar?: undefined | ArrayBuffer;
+              title?: string;
+            }>
+          ) => {
+            setEditGroupAttributesRequestState(
+              EditGroupAttributesRequestState.Active
+            );
+
+            try {
+              await updateGroupAttributes(options);
+              setIsEditingGroupAttributes(false);
+              setEditGroupAttributesRequestState(
+                EditGroupAttributesRequestState.Inactive
+              );
+            } catch (err) {
+              setEditGroupAttributesRequestState(
+                EditGroupAttributesRequestState.InactiveWithError
+              );
+            }
+          }}
+          onClose={() => {
+            setIsEditingGroupAttributes(false);
+            setEditGroupAttributesRequestState(
+              EditGroupAttributesRequestState.Inactive
+            );
+          }}
+          requestState={editGroupAttributesRequestState}
+          title={conversation.title}
+        />
+      )}
     </div>
   );
 };

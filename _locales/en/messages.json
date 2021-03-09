@@ -1987,6 +1987,14 @@
     "message": "This group couldn’t be created. Check your connection and try again.",
     "description": "Shown in the modal when we can't create a group"
   },
+  "updateGroupAttributes__title": {
+    "message": "Edit group name and photo",
+    "description": "Shown in the modal when we want to update a group"
+  },
+  "updateGroupAttributes__error-message": {
+    "message": "Failed to update the group. Check your connection and try again.",
+    "description": "Shown in the modal when we can't update a group"
+  },
   "notSupportedSMS": {
     "message": "SMS/MMS messages are not supported.",
     "description": "Label underneath number informing user that SMS is not supported on desktop"

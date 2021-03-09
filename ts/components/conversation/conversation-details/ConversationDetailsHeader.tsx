@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -9,20 +9,24 @@ import { ConversationType } from '../../../state/ducks/conversations';
 import { bemGenerator } from './util';
 
 export type Props = {
-  i18n: LocalizerType;
+  canEdit: boolean;
   conversation: ConversationType;
+  i18n: LocalizerType;
+  startEditing: () => void;
 };
 
 const bem = bemGenerator('module-conversation-details-header');
 
 export const ConversationDetailsHeader: React.ComponentType<Props> = ({
-  i18n,
+  canEdit,
   conversation,
+  i18n,
+  startEditing,
 }) => {
   const memberships = conversation.memberships || [];
 
-  return (
-    <div className={bem('root')}>
+  const contents = (
+    <>
       <Avatar
         conversationType="group"
         i18n={i18n}
@@ -37,6 +41,20 @@ export const ConversationDetailsHeader: React.ComponentType<Props> = ({
           ])}
         </div>
       </div>
-    </div>
+    </>
   );
+
+  if (canEdit) {
+    return (
+      <button
+        type="button"
+        onClick={startEditing}
+        className={bem('root', 'editable')}
+      >
+        {contents}
+      </button>
+    );
+  }
+
+  return <div className={bem('root')}>{contents}</div>;
 };

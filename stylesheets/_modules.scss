@@ -2871,18 +2871,31 @@ button.module-conversation-details__action-button {
 
 .module-conversation-details {
   &-header {
-    &__root {
+    &__root,
+    &__root--editable {
       align-items: center;
+      background: none;
+      border: none;
+      color: inherit;
       display: flex;
       flex-direction: column;
-      padding-bottom: 24px;
+      margin: 0;
+      outline: inherit;
+      padding: 0 0 24px 0;
       text-align: center;
+      width: 100%;
+    }
+
+    &__root--editable {
+      cursor: pointer;
     }
 
     &__title {
       @include font-title-1;
-      padding-top: 12px;
+      align-items: center;
+      display: flex;
       padding-bottom: 8px;
+      padding-top: 12px;
     }
 
     &__subtitle {
@@ -2893,6 +2906,34 @@ button.module-conversation-details__action-button {
       @include dark-theme {
         color: $color-gray-25;
       }
+    }
+
+    &__root--editable &__title {
+      $icon: '../images/icons/v2/compose-solid-24.svg';
+
+      &::after {
+        $size: 24px;
+
+        content: '';
+        height: $size;
+        left: $size + 13px;
+        margin-left: -$size;
+        opacity: 0;
+        position: relative;
+        transition: opacity 100ms ease-out;
+        width: $size;
+
+        @include light-theme {
+          @include color-svg($icon, $color-gray-60);
+        }
+        @include dark-theme {
+          @include color-svg($icon, $color-gray-25);
+        }
+      }
+    }
+
+    &__root--editable:hover &__title::after {
+      opacity: 1;
     }
   }
 

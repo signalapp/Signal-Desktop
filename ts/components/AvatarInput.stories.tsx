@@ -9,7 +9,7 @@ import { storiesOf } from '@storybook/react';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
 
-import { AvatarInput } from './AvatarInput';
+import { AvatarInput, AvatarInputVariant } from './AvatarInput';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -22,7 +22,13 @@ const TEST_IMAGE = new Uint8Array(
   ).map(bytePair => parseInt(bytePair.join(''), 16))
 ).buffer;
 
-const Wrapper = ({ startValue }: { startValue: undefined | ArrayBuffer }) => {
+const Wrapper = ({
+  startValue,
+  variant,
+}: {
+  startValue: undefined | ArrayBuffer;
+  variant?: AvatarInputVariant;
+}) => {
   const [value, setValue] = useState<undefined | ArrayBuffer>(startValue);
   const [objectUrl, setObjectUrl] = useState<undefined | string>();
 
@@ -40,18 +46,13 @@ const Wrapper = ({ startValue }: { startValue: undefined | ArrayBuffer }) => {
 
   return (
     <>
-      <div
-        style={{
-          background: 'rgba(255, 0, 255, 0.1)',
-        }}
-      >
-        <AvatarInput
-          contextMenuId={uuid()}
-          i18n={i18n}
-          value={value}
-          onChange={setValue}
-        />
-      </div>
+      <AvatarInput
+        contextMenuId={uuid()}
+        i18n={i18n}
+        value={value}
+        onChange={setValue}
+        variant={variant}
+      />
       <figure>
         <figcaption>Processed image (if it exists)</figcaption>
         {objectUrl && <img src={objectUrl} alt="" />}
@@ -66,4 +67,8 @@ story.add('No start state', () => {
 
 story.add('Starting with a value', () => {
   return <Wrapper startValue={TEST_IMAGE} />;
+});
+
+story.add('Dark variant', () => {
+  return <Wrapper startValue={undefined} variant={AvatarInputVariant.Dark} />;
 });

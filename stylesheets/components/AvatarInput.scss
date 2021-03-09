@@ -3,11 +3,14 @@
 
 .module-AvatarInput {
   @include button-reset;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
   background: none;
+
+  $dark-selector: '#{&}--dark';
 
   &__avatar {
     @include button-reset;
@@ -23,6 +26,10 @@
       align-items: stretch;
       background: $color-white;
 
+      @at-root '#{$dark-selector} #{&}' {
+        background: $ultramarine-ui-light;
+      }
+
       &::before {
         flex-grow: 1;
         content: '';
@@ -33,6 +40,14 @@
           false
         );
         -webkit-mask-size: 24px 24px;
+
+        @at-root '#{$dark-selector} #{&}' {
+          @include color-svg(
+            '../images/icons/v2/camera-outline-24.svg',
+            $color-white,
+            false
+          );
+        }
       }
     }
 

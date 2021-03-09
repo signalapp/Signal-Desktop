@@ -60,6 +60,7 @@ const createProps = (hasGroupLink = false): Props => ({
   showGroupV2Permissions: action('showGroupV2Permissions'),
   showPendingInvites: action('showPendingInvites'),
   showLightboxForMedia: action('showLightboxForMedia'),
+  updateGroupAttributes: action('updateGroupAttributes'),
   onBlockAndDelete: action('onBlockAndDelete'),
   onDelete: action('onDelete'),
 });

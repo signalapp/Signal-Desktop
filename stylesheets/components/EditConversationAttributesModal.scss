@@ -1,0 +1,81 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.module-EditConversationAttributesModal {
+  @include popper-shadow();
+  border-radius: 8px;
+  margin: 0 auto;
+  max-height: 100%;
+  max-width: 360px;
+  padding: 16px;
+  position: relative;
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+
+  @include light-theme() {
+    background: $color-white;
+    color: $color-gray-90;
+  }
+
+  @include dark-theme() {
+    background: $color-gray-95;
+    color: $color-gray-05;
+  }
+
+  &__close-button {
+    @include button-reset;
+
+    position: absolute;
+    right: 12px;
+    top: 12px;
+
+    height: 24px;
+    width: 24px;
+
+    @include light-theme {
+      @include color-svg('../images/icons/v2/x-24.svg', $color-gray-75);
+    }
+
+    @include dark-theme {
+      @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
+    }
+
+    &:focus {
+      @include keyboard-mode {
+        background-color: $ultramarine-ui-light;
+      }
+      @include dark-keyboard-mode {
+        background-color: $ultramarine-ui-dark;
+      }
+    }
+  }
+
+  &__header {
+    @include font-body-1-bold;
+    margin: 0;
+  }
+
+  .module-AvatarInput {
+    margin: 40px 0 24px 0;
+  }
+
+  &__error-message {
+    @include font-body-1;
+    margin: 16px 0;
+  }
+
+  &__button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    .module-Button {
+      &:not(:first-child) {
+        margin-left: 12px;
+      }
+    }
+  }
+}

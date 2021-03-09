@@ -14473,7 +14473,7 @@
     "rule": "React-useRef",
     "path": "ts/components/AvatarInput.js",
     "line": "    const fileInputRef = react_1.useRef(null);",
-    "lineNumber": 40,
+    "lineNumber": 47,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-01T18:34:36.638Z",
     "reasonDetail": "Needed to trigger a click on a 'file' input. Doesn't update the DOM."
@@ -14482,7 +14482,7 @@
     "rule": "React-useRef",
     "path": "ts/components/AvatarInput.js",
     "line": "    const menuTriggerRef = react_1.useRef(null);",
-    "lineNumber": 43,
+    "lineNumber": 50,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-01T18:34:36.638Z",
     "reasonDetail": "Used to reference popup menu"
@@ -15044,6 +15044,24 @@
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Timeline needs to interact with its child List directly"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/conversation-details/EditConversationAttributesModal.js",
+    "line": "    const startingTitleRef = react_1.useRef(externalTitle);",
+    "lineNumber": 42,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-03-05T22:52:40.572Z",
+    "reasonDetail": "Doesn't interact with the DOM."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/conversation-details/EditConversationAttributesModal.js",
+    "line": "    const startingAvatarPathRef = react_1.useRef(externalAvatarPath);",
+    "lineNumber": 43,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-03-05T22:52:40.572Z",
+    "reasonDetail": "Doesn't interact with the DOM."
   },
   {
     "rule": "React-createRef",

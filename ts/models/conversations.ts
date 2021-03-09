@@ -1716,6 +1716,27 @@ export class ConversationModel extends window.Backbone.Model<
     });
   }
 
+  async updateGroupAttributesV2(
+    attributes: Readonly<{
+      avatar?: undefined | ArrayBuffer;
+      title?: string;
+    }>
+  ): Promise<void> {
+    await this.modifyGroupV2({
+      name: 'updateGroupAttributesV2',
+      createGroupChange: () =>
+        window.Signal.Groups.buildUpdateAttributesChange(
+          {
+            id: this.id,
+            publicParams: this.get('publicParams'),
+            revision: this.get('revision'),
+            secretParams: this.get('secretParams'),
+          },
+          attributes
+        ),
+    });
+  }
+
   async leaveGroupV2(): Promise<void> {
     const ourConversationId = window.ConversationController.getOurConversationId();
 
@@ -4815,6 +4836,10 @@ export class ConversationModel extends window.Backbone.Model<
 
   canEditGroupInfo(): boolean {
     if (!this.isGroupV2()) {
+      return false;
+    }
+
+    if (this.get('left')) {
       return false;
     }
 

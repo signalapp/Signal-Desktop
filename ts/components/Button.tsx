@@ -16,9 +16,15 @@ type PropsType = {
   children: ReactNode;
   className?: string;
   disabled?: boolean;
-  onClick: MouseEventHandler<HTMLButtonElement>;
   variant?: ButtonVariant;
-};
+} & (
+  | {
+      onClick: MouseEventHandler<HTMLButtonElement>;
+    }
+  | {
+      type: 'submit';
+    }
+);
 
 const VARIANT_CLASS_NAMES = new Map<ButtonVariant, string>([
   [ButtonVariant.Primary, 'module-Button--primary'],
@@ -27,16 +33,24 @@ const VARIANT_CLASS_NAMES = new Map<ButtonVariant, string>([
 ]);
 
 export const Button = React.forwardRef<HTMLButtonElement, PropsType>(
-  (
-    {
+  (props, ref) => {
+    const {
       children,
       className,
       disabled = false,
-      onClick,
       variant = ButtonVariant.Primary,
-    },
-    ref
-  ) => {
+    } = props;
+
+    let onClick: undefined | MouseEventHandler<HTMLButtonElement>;
+    let type: 'button' | 'submit';
+    if ('onClick' in props) {
+      ({ onClick } = props);
+      type = 'button';
+    } else {
+      onClick = undefined;
+      ({ type } = props);
+    }
+
     const variantClassName = VARIANT_CLASS_NAMES.get(variant);
     assert(variantClassName, '<Button> variant not found');
 
@@ -46,7 +60,9 @@ export const Button = React.forwardRef<HTMLButtonElement, PropsType>(
         disabled={disabled}
         onClick={onClick}
         ref={ref}
-        type="button"
+        // The `type` should either be "button" or "submit", which is effectively static.
+        // eslint-disable-next-line react/button-has-type
+        type={type}
       >
         {children}
       </button>

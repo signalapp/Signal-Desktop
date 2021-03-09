@@ -2897,6 +2897,9 @@ Whisper.ConversationView = Whisper.View.extend({
       showGroupV2Permissions: this.showGroupV2Permissions.bind(this),
       showPendingInvites: this.showPendingInvites.bind(this),
       showLightboxForMedia: this.showLightboxForMedia.bind(this),
+      updateGroupAttributes: conversation.updateGroupAttributesV2.bind(
+        conversation
+      ),
       onDelete,
       onBlockAndDelete,
     };
