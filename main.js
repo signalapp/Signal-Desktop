@@ -956,7 +956,7 @@ app.on('ready', async () => {
   // We use this event only a single time to log the startup time of the app
   // from when it's first ready until the loading screen disappears.
   ipc.once('signal-app-loaded', () => {
-    console.log('App has finished loading in:', Date.now() - startTime);
+    console.log('App loaded - time:', Date.now() - startTime);
   });
 
   const userDataPath = await getRealPath(app.getPath('userData'));

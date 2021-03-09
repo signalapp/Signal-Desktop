@@ -2595,7 +2595,94 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     return this.syncPromise;
   }
 
+  // NOTE: If you're modifying this function then you'll likely also need
+  // to modify queueAttachmentDownloads since it contains the logic below
+  hasAttachmentDownloads(): boolean {
+    const attachments = this.get('attachments') || [];
+
+    const [longMessageAttachments, normalAttachments] = _.partition(
+      attachments,
+      attachment =>
+        attachment.contentType ===
+        window.Whisper.Message.LONG_MESSAGE_CONTENT_TYPE
+    );
+
+    if (longMessageAttachments.length > 0) {
+      return true;
+    }
+
+    const hasNormalAttachments = normalAttachments.some(attachment => {
+      if (!attachment) {
+        return false;
+      }
+      // We've already downloaded this!
+      if (attachment.path) {
+        return false;
+      }
+      return true;
+    });
+    if (hasNormalAttachments) {
+      return true;
+    }
+
+    const previews = this.get('preview') || [];
+    const hasPreviews = previews.some(item => {
+      if (!item.image) {
+        return false;
+      }
+      // We've already downloaded this!
+      if (item.image.path) {
+        return false;
+      }
+      return true;
+    });
+    if (hasPreviews) {
+      return true;
+    }
+
+    const contacts = this.get('contact') || [];
+    const hasContacts = contacts.some(item => {
+      if (!item.avatar || !item.avatar.avatar) {
+        return false;
+      }
+      if (item.avatar.avatar.path) {
+        return false;
+      }
+      return true;
+    });
+    if (hasContacts) {
+      return true;
+    }
+
+    const quote = this.get('quote');
+    const quoteAttachments =
+      quote && quote.attachments ? quote.attachments : [];
+    const hasQuoteAttachments = quoteAttachments.some(item => {
+      if (!item.thumbnail) {
+        return false;
+      }
+      // We've already downloaded this!
+      if (item.thumbnail.path) {
+        return false;
+      }
+      return true;
+    });
+    if (hasQuoteAttachments) {
+      return true;
+    }
+
+    const sticker = this.get('sticker');
+    if (sticker) {
+      return !sticker.data || (sticker.data && !sticker.data.path);
+    }
+
+    return false;
+  }
+
   // Receive logic
+  // NOTE: If you're changing any logic in this function that deals with the
+  // count then you'll also have to modify the above function
+  // hasAttachmentDownloads
   async queueAttachmentDownloads(): Promise<boolean> {
     const attachmentsToQueue = this.get('attachments') || [];
     const messageId = this.id;
@@ -3008,7 +3095,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       const inMemoryMessage = window.MessageController.findBySender(
         this.getSenderIdentifier()
       );
-      if (!inMemoryMessage) {
+      if (inMemoryMessage) {
+        window.log.info(
+          'handleDataMessage: cache hit',
+          this.getSenderIdentifier()
+        );
+      } else {
         window.log.info(
           'handleDataMessage: duplicate check db lookup needed',
           this.getSenderIdentifier()
@@ -3639,6 +3731,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           (isImage(attachments) || isVideo(attachments)) &&
           isInCall(reduxState);
         if (
+          this.hasAttachmentDownloads() &&
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           (this.getConversation()!.getAccepted() || message.isOutgoing()) &&
           !shouldHoldOffDownload

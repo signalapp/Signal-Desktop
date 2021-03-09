@@ -124,6 +124,8 @@ class MessageReceiverInner extends EventTarget {
 
   count: number;
 
+  processedCount: number;
+
   deviceId?: number;
 
   hasConnected?: boolean;
@@ -170,6 +172,7 @@ class MessageReceiverInner extends EventTarget {
     super();
 
     this.count = 0;
+    this.processedCount = 0;
 
     this.signalingKey = signalingKey;
     this.username = oldUsername;
@@ -784,6 +787,7 @@ class MessageReceiverInner extends EventTarget {
   removeFromCache(envelope: EnvelopeClass) {
     const { id } = envelope;
     this.cacheRemoveBatcher.add(id);
+    this.processedCount += 1;
   }
 
   // Same as handleEnvelope, just without the decryption step. Necessary for handling
@@ -2396,6 +2400,7 @@ export default class MessageReceiver {
     this.cleanupSessionResets = inner.cleanupSessionResets.bind(inner);
 
     inner.connect();
+    this.getProcessedCount = () => inner.processedCount;
   }
 
   addEventListener: (name: string, handler: Function) => void;
@@ -2419,6 +2424,8 @@ export default class MessageReceiver {
   isOverHourIntoPast: (timestamp: number) => boolean;
 
   cleanupSessionResets: () => void;
+
+  getProcessedCount: () => number;
 
   static stringToArrayBuffer = MessageReceiverInner.stringToArrayBuffer;
 

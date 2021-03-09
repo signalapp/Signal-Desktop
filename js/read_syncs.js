@@ -94,9 +94,7 @@
           }
         }
 
-        await window.Signal.Data.saveMessage(message.attributes, {
-          Message: Whisper.Message,
-        });
+        window.Signal.Util.updateMessageBatcher.add(message.attributes);
 
         this.remove(receipt);
       } catch (error) {
