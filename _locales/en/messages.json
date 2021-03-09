@@ -695,6 +695,10 @@
     "message": "Sharing screen",
     "description": "Title for screen sharing window"
   },
+  "captchaResponseRequired": {
+    "message": "CAPTCHA Response Required",
+    "description": "Title of the window that pops up when a CAPTCHA response is required"
+  },
   "speech": {
     "message": "Speech",
     "description": "Item under the Edit menu, with 'start/stop speaking' items below it"

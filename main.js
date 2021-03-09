@@ -287,6 +287,14 @@ async function handleUrl(event, target) {
     return;
   }
 
+  if (target.startsWith(config.get('captchaScheme'))) {
+    if (captchaWindow) {
+      captchaWindow.close();
+    }
+    const token = target.slice(config.get('captchaScheme').length);
+    mainWindow.webContents.send('captcha-response', token);
+  }
+
   if ((protocol === 'http:' || protocol === 'https:') && !isDevServer) {
     try {
       await shell.openExternal(target);
@@ -1095,6 +1103,47 @@ function showPermissionsPopupWindow(forCalling, forCamera) {
     });
   });
 }
+
+let captchaWindow;
+function showCaptchaWindow() {
+  if (captchaWindow) {
+    captchaWindow.show();
+    return;
+  }
+
+  const options = {
+    resizable: false,
+    title: locale.messages.captchaResponseRequired.message,
+    autoHideMenuBar: true,
+    show: false,
+    webPreferences: {
+      ...defaultWebPrefs,
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      contextIsolation: false,
+      nativeWindowOpen: true,
+    },
+  };
+
+  captchaWindow = new BrowserWindow(options);
+
+  handleCommonWindowEvents(captchaWindow);
+
+  captchaWindow.loadURL(prepareUrl(new URL(config.get('captchaUrl'))));
+
+  captchaWindow.on('closed', () => {
+    captchaWindow = null;
+  });
+
+  captchaWindow.once('ready-to-show', () => {
+    captchaWindow.show();
+  });
+}
+
+// IPC call to load CAPTCHA
+ipc.on('captcha-required', () => {
+  showCaptchaWindow();
+});
 
 async function initializeSQL() {
   const userDataPath = await getRealPath(app.getPath('userData'));

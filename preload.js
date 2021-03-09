@@ -134,6 +134,11 @@ try {
   // eslint-disable-next-line no-eval, no-multi-assign
   window.eval = global.eval = () => null;
 
+  window.captchaRequired = () => {
+    window.log.info('CAPTCHA required');
+    ipc.send('captcha-required');
+  };
+
   window.drawAttention = () => {
     window.log.info('draw attention');
     ipc.send('draw-attention');
@@ -170,6 +175,11 @@ try {
 
   window.updateTrayIcon = unreadCount =>
     ipc.send('update-tray-icon', unreadCount);
+
+  ipc.on('captcha-response', (_event, token) => {
+    window.textsecure.storage.put('captchaToken', token);
+    window.owsDesktopApp.appView.standaloneView.requestPendingVerification();
+  });
 
   ipc.on('set-up-as-new-device', () => {
     Whisper.events.trigger('setupAsNewDevice');

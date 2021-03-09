@@ -76,12 +76,12 @@ export default class AccountManager extends EventTarget {
     this.pending = Promise.resolve();
   }
 
-  async requestVoiceVerification(number: string) {
-    return this.server.requestVerificationVoice(number);
+  async requestVoiceVerification(number: string, captchaToken?: string) {
+    return this.server.requestVerificationVoice(number, captchaToken);
   }
 
-  async requestSMSVerification(number: string) {
-    return this.server.requestVerificationSMS(number);
+  async requestSMSVerification(number: string, captchaToken?: string) {
+    return this.server.requestVerificationSMS(number, captchaToken);
   }
 
   async encryptDeviceName(name: string, providedIdentityKey?: KeyPairType) {
