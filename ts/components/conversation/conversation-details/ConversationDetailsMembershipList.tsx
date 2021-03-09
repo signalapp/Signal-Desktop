@@ -97,7 +97,7 @@ export const ConversationDetailsMembershipList: React.ComponentType<Props> = ({
               {...member}
             />
           }
-          label={member.title}
+          label={member.isMe ? i18n('you') : member.title}
           right={isAdmin ? i18n('GroupV2--admin') : ''}
         />
       ))}
