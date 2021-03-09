@@ -8,6 +8,8 @@
     "0": "https://cdn-staging.signal.org",
     "2": "https://cdn2-staging.signal.org"
   },
+  "captchaUrl": "https://signalcaptchas.org/registration/generate.html",
+  "captchaScheme": "signalcaptcha://",
   "contentProxyUrl": "http://contentproxy.signal.org:443",
   "updatesUrl": "https://updates2.signal.org/desktop",
   "updatesPublicKey": "05fd7dd3de7149dc0a127909fee7de0f7620ddd0de061b37a2c303e37de802a401",

@@ -200,6 +200,7 @@ declare global {
     baseAttachmentsPath: string;
     baseStickersPath: string;
     baseTempPath: string;
+    captchaRequired: () => void;
     enterKeyboardMode: () => void;
     enterMouseMode: () => void;
     getAccountManager: () => AccountManager;

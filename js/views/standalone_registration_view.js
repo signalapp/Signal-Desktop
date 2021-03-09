@@ -17,6 +17,9 @@
 
       this.accountManager = getAccountManager();
 
+      this.pendingVoiceVerification = false;
+      this.pendingSMSVerification = false;
+
       this.render();
 
       const number = textsecure.storage.user.getNumber();
@@ -77,29 +80,60 @@
       }
     },
     requestVoice() {
+      this.pendingVoiceVerification = true;
+      this.pendingSMSVerification = false;
       window.removeSetupMenuItems();
       this.$('#error').hide();
       const number = this.phoneView.validateNumber();
+      const token = window.textsecure.storage.get('captchaToken');
       if (number) {
         this.accountManager
-          .requestVoiceVerification(number)
-          .catch(this.displayError.bind(this));
+          .requestVoiceVerification(number, token)
+          .then(() => {
+            this.pendingVoiceVerification = false;
+          })
+          .catch(e => {
+            if (e.code === 402) {
+              window.captchaRequired();
+            } else {
+              this.displayError(e);
+            }
+          });
         this.$('#step2').addClass('in').fadeIn();
       } else {
         this.$('#number-container').addClass('invalid');
       }
     },
     requestSMSVerification() {
+      this.pendingSMSVerification = true;
+      this.pendingVoiceVerification = false;
       window.removeSetupMenuItems();
       $('#error').hide();
       const number = this.phoneView.validateNumber();
+      const token = window.textsecure.storage.get('captchaToken');
       if (number) {
         this.accountManager
-          .requestSMSVerification(number)
-          .catch(this.displayError.bind(this));
+          .requestSMSVerification(number, token)
+          .then(() => {
+            this.pendingSMSVerification = false;
+          })
+          .catch(e => {
+            if (e.code === 402) {
+              window.captchaRequired();
+            } else {
+              this.displayError(e);
+            }
+          });
         this.$('#step2').addClass('in').fadeIn();
       } else {
         this.$('#number-container').addClass('invalid');
+      }
+    },
+    requestPendingVerification() {
+      if (this.pendingVoiceVerification) {
+        this.requestVoice();
+      } else if (this.pendingSMSVerification) {
+        this.requestSMSVerification();
       }
     },
   });

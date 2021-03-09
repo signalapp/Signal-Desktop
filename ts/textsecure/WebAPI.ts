@@ -924,8 +924,14 @@ export type WebAPIType = {
   registerKeys: (genKeys: KeysType) => Promise<void>;
   registerSupportForUnauthenticatedDelivery: () => Promise<any>;
   reportMessage: (senderE164: string, serverGuid: string) => Promise<void>;
-  requestVerificationSMS: (number: string) => Promise<any>;
-  requestVerificationVoice: (number: string) => Promise<any>;
+  requestVerificationSMS: (
+    number: string,
+    captchaToken?: string
+  ) => Promise<any>;
+  requestVerificationVoice: (
+    number: string,
+    captchaToken?: string
+  ) => Promise<any>;
   sendMessages: (
     destination: string,
     messageArray: Array<MessageType>,
@@ -1476,19 +1482,33 @@ export function initialize({
       });
     }
 
-    async function requestVerificationSMS(number: string) {
+    async function requestVerificationSMS(
+      number: string,
+      captchaToken?: string
+    ) {
+      let urlParameters = `/sms/code/${number}?client=desktop`;
+      if (captchaToken) {
+        urlParameters += `&captcha=${captchaToken}`;
+      }
       return _ajax({
         call: 'accounts',
         httpType: 'GET',
-        urlParameters: `/sms/code/${number}`,
+        urlParameters,
       });
     }
 
-    async function requestVerificationVoice(number: string) {
+    async function requestVerificationVoice(
+      number: string,
+      captchaToken?: string
+    ) {
+      let urlParameters = `/voice/code/${number}?client=desktop`;
+      if (captchaToken) {
+        urlParameters += `&captcha=${captchaToken}`;
+      }
       return _ajax({
         call: 'accounts',
         httpType: 'GET',
-        urlParameters: `/voice/code/${number}`,
+        urlParameters,
       });
     }
 
