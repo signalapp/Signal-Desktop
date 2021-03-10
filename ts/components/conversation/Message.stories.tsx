@@ -3,14 +3,16 @@
 
 import * as React from 'react';
 import { isBoolean } from 'lodash';
+import LRU from 'lru-cache';
 
 import { action } from '@storybook/addon-actions';
-import { boolean, number, text } from '@storybook/addon-knobs';
+import { boolean, number, text, select } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
 import { Colors } from '../../types/Colors';
+import { WaveformCache } from '../../types/Audio';
 import { EmojiPicker } from '../emoji/EmojiPicker';
-import { Message, Props } from './Message';
+import { Message, Props, AudioAttachmentProps } from './Message';
 import {
   AUDIO_MP3,
   IMAGE_JPEG,
@@ -19,6 +21,7 @@ import {
   MIMEType,
   VIDEO_MP4,
 } from '../../types/MIME';
+import { MessageAudio } from './MessageAudio';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { pngUrl } from '../../storybook/Fixtures';
@@ -42,10 +45,35 @@ const renderEmojiPicker: Props['renderEmojiPicker'] = ({
   />
 );
 
+const MessageAudioContainer: React.FC<AudioAttachmentProps> = props => {
+  const [activeAudioID, setActiveAudioID] = React.useState<string | undefined>(
+    undefined
+  );
+  const audio = React.useMemo(() => new Audio(), []);
+  const audioContext = React.useMemo(() => new AudioContext(), []);
+  const waveformCache: WaveformCache = React.useMemo(() => new LRU(), []);
+
+  return (
+    <MessageAudio
+      {...props}
+      id="storybook"
+      audio={audio}
+      audioContext={audioContext}
+      waveformCache={waveformCache}
+      setActiveAudioID={setActiveAudioID}
+      activeAudioID={activeAudioID}
+    />
+  );
+};
+
+const renderAudioAttachment: Props['renderAudioAttachment'] = props => (
+  <MessageAudioContainer {...props} />
+);
+
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   attachments: overrideProps.attachments,
   authorId: overrideProps.authorId || 'some-id',
-  authorColor: overrideProps.authorColor || 'blue',
+  authorColor: select('authorColor', Colors, Colors[0]),
   authorAvatarPath: overrideProps.authorAvatarPath,
   authorTitle: text('authorTitle', overrideProps.authorTitle || ''),
   bodyRanges: overrideProps.bodyRanges,
@@ -89,6 +117,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   reactions: overrideProps.reactions,
   reactToMessage: action('reactToMessage'),
   renderEmojiPicker,
+  renderAudioAttachment,
   replyToMessage: action('replyToMessage'),
   retrySend: action('retrySend'),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),

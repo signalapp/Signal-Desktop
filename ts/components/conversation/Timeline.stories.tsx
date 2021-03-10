@@ -269,6 +269,7 @@ const renderItem = (id: string) => (
     conversationId=""
     conversationAccepted
     renderContact={() => '*ContactName*'}
+    renderAudioAttachment={() => <div>*AudioAttachment*</div>}
     {...actions()}
   />
 );

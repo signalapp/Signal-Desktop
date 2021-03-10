@@ -686,18 +686,6 @@
   cursor: pointer;
 }
 
-.module-message__audio-attachment {
-  margin-top: 2px;
-}
-
-.module-message__audio-attachment--with-content-below {
-  margin-bottom: 5px;
-}
-
-.module-message__audio-attachment--with-content-above {
-  margin-top: 6px;
-}
-
 .module-message__generic-attachment {
   @include button-reset;
 

@@ -70,6 +70,7 @@ const getDefaultProps = () => ({
 
   renderContact,
   renderEmojiPicker,
+  renderAudioAttachment: () => <div>*AudioAttachment*</div>,
 });
 
 storiesOf('Components/Conversation/TimelineItem', module)

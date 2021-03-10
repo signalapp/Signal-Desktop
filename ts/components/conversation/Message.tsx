@@ -79,6 +79,17 @@ export type DirectionType = typeof Directions[number];
 export const ConversationTypes = ['direct', 'group'] as const;
 export type ConversationTypesType = typeof ConversationTypes[number];
 
+export type AudioAttachmentProps = {
+  id: string;
+  i18n: LocalizerType;
+  buttonRef: React.RefObject<HTMLButtonElement>;
+  direction: DirectionType;
+  theme: ThemeType | undefined;
+  url: string;
+  withContentAbove: boolean;
+  withContentBelow: boolean;
+};
+
 export type PropsData = {
   id: string;
   conversationId: string;
@@ -136,6 +147,8 @@ export type PropsData = {
   isBlocked: boolean;
   isMessageRequestAccepted: boolean;
   bodyRanges?: BodyRangesType;
+
+  renderAudioAttachment: (props: AudioAttachmentProps) => JSX.Element;
 };
 
 export type PropsHousekeeping = {
@@ -219,9 +232,9 @@ const EXPIRED_DELAY = 600;
 export class Message extends React.PureComponent<Props, State> {
   public menuTriggerRef: Trigger | undefined;
 
-  public audioRef: React.RefObject<HTMLAudioElement> = React.createRef();
-
   public focusRef: React.RefObject<HTMLDivElement> = React.createRef();
+
+  public audioButtonRef: React.RefObject<HTMLButtonElement> = React.createRef();
 
   public reactionsContainerRef: React.RefObject<
     HTMLDivElement
@@ -676,6 +689,8 @@ export class Message extends React.PureComponent<Props, State> {
       isSticker,
       text,
       theme,
+
+      renderAudioAttachment,
     } = this.props;
 
     const { imageBroken } = this.state;
@@ -740,24 +755,16 @@ export class Message extends React.PureComponent<Props, State> {
       );
     }
     if (!firstAttachment.pending && isAudio(attachments)) {
-      return (
-        <audio
-          ref={this.audioRef}
-          controls
-          className={classNames(
-            'module-message__audio-attachment',
-            withContentBelow
-              ? 'module-message__audio-attachment--with-content-below'
-              : null,
-            withContentAbove
-              ? 'module-message__audio-attachment--with-content-above'
-              : null
-          )}
-          key={firstAttachment.url}
-        >
-          <source src={firstAttachment.url} />
-        </audio>
-      );
+      return renderAudioAttachment({
+        i18n,
+        buttonRef: this.audioButtonRef,
+        id,
+        direction,
+        theme,
+        url: firstAttachment.url,
+        withContentAbove,
+        withContentBelow,
+      });
     }
     const { pending, fileName, fileSize, contentType } = firstAttachment;
     const extension = getExtensionForDisplay({ contentType, fileName });
@@ -2043,17 +2050,13 @@ export class Message extends React.PureComponent<Props, State> {
     if (
       !isAttachmentPending &&
       isAudio(attachments) &&
-      this.audioRef &&
-      this.audioRef.current
+      this.audioButtonRef &&
+      this.audioButtonRef.current
     ) {
       event.preventDefault();
       event.stopPropagation();
 
-      if (this.audioRef.current.paused) {
-        this.audioRef.current.play();
-      } else {
-        this.audioRef.current.pause();
-      }
+      this.audioButtonRef.current.click();
     }
 
     if (contact && contact.signalAccount) {

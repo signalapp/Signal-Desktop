@@ -14,6 +14,8 @@ import {
 
 import { ScrollDownButton } from './ScrollDownButton';
 
+import { GlobalAudioProvider } from '../GlobalAudioContext';
+
 import { LocalizerType } from '../../types/Util';
 import { ConversationType } from '../../state/ducks/conversations';
 
@@ -1087,6 +1089,44 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       return null;
     }
 
+    const autoSizer = (
+      <AutoSizer>
+        {({ height, width }) => {
+          if (this.mostRecentWidth && this.mostRecentWidth !== width) {
+            this.resizeFlag = true;
+
+            setTimeout(this.resize, 0);
+          } else if (
+            this.mostRecentHeight &&
+            this.mostRecentHeight !== height
+          ) {
+            setTimeout(this.onHeightOnlyChange, 0);
+          }
+
+          this.mostRecentWidth = width;
+          this.mostRecentHeight = height;
+
+          return (
+            <List
+              deferredMeasurementCache={this.cellSizeCache}
+              height={height}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              onScroll={this.onScroll as any}
+              overscanRowCount={10}
+              ref={this.listRef}
+              rowCount={rowCount}
+              rowHeight={this.cellSizeCache.rowHeight}
+              rowRenderer={this.rowRenderer}
+              scrollToAlignment="start"
+              scrollToIndex={scrollToIndex}
+              tabIndex={-1}
+              width={width}
+            />
+          );
+        }}
+      </AutoSizer>
+    );
+
     return (
       <>
         <div
@@ -1099,41 +1139,9 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
           onBlur={this.handleBlur}
           onKeyDown={this.handleKeyDown}
         >
-          <AutoSizer>
-            {({ height, width }) => {
-              if (this.mostRecentWidth && this.mostRecentWidth !== width) {
-                this.resizeFlag = true;
-
-                setTimeout(this.resize, 0);
-              } else if (
-                this.mostRecentHeight &&
-                this.mostRecentHeight !== height
-              ) {
-                setTimeout(this.onHeightOnlyChange, 0);
-              }
-
-              this.mostRecentWidth = width;
-              this.mostRecentHeight = height;
-
-              return (
-                <List
-                  deferredMeasurementCache={this.cellSizeCache}
-                  height={height}
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  onScroll={this.onScroll as any}
-                  overscanRowCount={10}
-                  ref={this.listRef}
-                  rowCount={rowCount}
-                  rowHeight={this.cellSizeCache.rowHeight}
-                  rowRenderer={this.rowRenderer}
-                  scrollToAlignment="start"
-                  scrollToIndex={scrollToIndex}
-                  tabIndex={-1}
-                  width={width}
-                />
-              );
-            }}
-          </AutoSizer>
+          <GlobalAudioProvider conversationId={id}>
+            {autoSizer}
+          </GlobalAudioProvider>
           {shouldShowScrollDownButton ? (
             <ScrollDownButton
               conversationId={id}

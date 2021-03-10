@@ -93,8 +93,10 @@
     "intl-tel-input": "12.1.15",
     "jquery": "3.5.0",
     "js-yaml": "3.13.1",
+    "libsignal-client": "https://github.com/signalapp/libsignal-client-node.git#f10fbd04eb6efb396eb12c25429761e8785dc9d0",
     "linkify-it": "2.2.0",
     "lodash": "4.17.20",
+    "lru-cache": "6.0.0",
     "memoizee": "0.4.14",
     "mkdirp": "0.5.2",
     "moment": "2.21.0",
@@ -147,8 +149,7 @@
     "underscore": "1.9.0",
     "uuid": "3.3.2",
     "websocket": "1.0.28",
-    "zkgroup": "https://github.com/signalapp/signal-zkgroup-node.git#2d7db946cc88492b65cc66e9aa9de0c9e664fd8d",
-    "libsignal-client": "https://github.com/signalapp/libsignal-client-node.git#f10fbd04eb6efb396eb12c25429761e8785dc9d0"
+    "zkgroup": "https://github.com/signalapp/signal-zkgroup-node.git#2d7db946cc88492b65cc66e9aa9de0c9e664fd8d"
   },
   "devDependencies": {
     "@babel/core": "7.7.7",
@@ -178,6 +179,7 @@
     "@types/linkify-it": "2.1.0",
     "@types/lodash": "4.14.106",
     "@types/long": "4.0.1",
+    "@types/lru-cache": "5.1.0",
     "@types/memoizee": "0.4.2",
     "@types/mkdirp": "0.5.2",
     "@types/mocha": "5.0.0",

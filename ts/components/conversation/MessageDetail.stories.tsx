@@ -41,6 +41,7 @@ const defaultMessage: MessageProps = {
   previews: [],
   reactToMessage: () => null,
   renderEmojiPicker: () => <div />,
+  renderAudioAttachment: () => <div>*AudioAttachment*</div>,
   replyToMessage: () => null,
   retrySend: () => null,
   scrollToQuotedMessage: () => null,

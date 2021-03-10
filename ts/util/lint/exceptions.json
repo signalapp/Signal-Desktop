@@ -14944,19 +14944,20 @@
   {
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.js",
-    "line": "        this.audioRef = react_1.default.createRef();",
+    "line": "        this.focusRef = react_1.default.createRef();",
     "lineNumber": 73,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-08-28T16:12:19.904Z"
+    "updated": "2021-03-05T20:05:07.474Z",
+    "reasonDetail": "Used for managing focus only"
   },
   {
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.js",
-    "line": "        this.focusRef = react_1.default.createRef();",
+    "line": "        this.audioButtonRef = react_1.default.createRef();",
     "lineNumber": 74,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-11T17:24:56.124Z",
-    "reasonDetail": "Used for managing focus only"
+    "updated": "2021-03-05T20:05:07.474Z",
+    "reasonDetail": "Used for propagating click from the Message to MessageAudio's button"
   },
   {
     "rule": "React-createRef",
@@ -14970,26 +14971,38 @@
   {
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
-    "line": "  public audioRef: React.RefObject<HTMLAudioElement> = React.createRef();",
-    "lineNumber": 222,
+    "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
+    "lineNumber": 235,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-08T20:19:01.913Z"
+    "updated": "2021-03-05T19:57:01.431Z",
+    "reasonDetail": "Used for managing focus only"
   },
   {
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
-    "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
-    "lineNumber": 224,
+    "line": "  public audioButtonRef: React.RefObject<HTMLButtonElement> = React.createRef();",
+    "lineNumber": 237,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-08T20:19:01.913Z"
+    "updated": "2021-03-05T19:57:01.431Z",
+    "reasonDetail": "Used for propagating click from the Message to MessageAudio's button"
   },
   {
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  > = React.createRef();",
-    "lineNumber": 228,
+    "lineNumber": 241,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-08-28T19:36:40.817Z"
+    "updated": "2021-03-05T19:57:01.431Z",
+    "reasonDetail": "Used for detecting clicks outside reaction viewer"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/MessageAudio.js",
+    "line": "    const waveformRef = react_1.useRef(null);",
+    "lineNumber": 116,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-03-09T01:19:04.057Z",
+    "reasonDetail": "Used for obtanining the bounding box for the container"
   },
   {
     "rule": "React-createRef",
@@ -15040,7 +15053,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Timeline.js",
     "line": "        this.listRef = react_1.default.createRef();",
-    "lineNumber": 32,
+    "lineNumber": 33,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Timeline needs to interact with its child List directly"

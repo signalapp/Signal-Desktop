@@ -834,7 +834,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   // Note: interactionMode is mixed in via selectors/conversations._messageSelector
-  getPropsForMessage(): Omit<PropsData, 'interactionMode'> {
+  getPropsForMessage(): Omit<
+    PropsData,
+    'interactionMode' | 'renderAudioAttachment'
+  > {
     const sourceId = this.getContactId();
     const contact = this.findAndFormatContact(sourceId);
     const contactModel = this.findContact(sourceId);

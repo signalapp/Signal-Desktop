@@ -5042,5 +5042,17 @@
   "cannotSelectContact": {
     "message": "Cannot select contact",
     "description": "The label for contact checkboxes that are disabled"
+  },
+  "MessageAudio--play": {
+    "message": "Play audio attachment",
+    "description": "Aria label for audio attachment's Play button"
+  },
+  "MessageAudio--pause": {
+    "message": "Pause audio attachment",
+    "description": "Aria label for audio attachment's Pause button"
+  },
+  "MessageAudio--slider": {
+    "message": "Playback time of audio attachment",
+    "description": "Aria label for audio attachment's playback time slider"
   }
 }
