@@ -14,3 +14,7 @@ export async function initialize(): Promise<void> {
 
   await sql.initializeRenderer({ configDir, key });
 }
+
+export function goBackToMainProcess(): void {
+  window.Signal.Data.goBackToMainProcess();
+}

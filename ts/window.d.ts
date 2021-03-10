@@ -250,6 +250,7 @@ declare global {
     updateTrayIcon: (count: number) => void;
     sqlInitializer: {
       initialize: () => Promise<void>;
+      goBackToMainProcess: () => void;
     };
 
     Backbone: typeof Backbone;
