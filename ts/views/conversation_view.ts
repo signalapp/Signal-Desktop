@@ -1147,7 +1147,7 @@ Whisper.ConversationView = Whisper.View.extend({
       }
 
       const messages = await getOlderMessagesByConversation(conversationId, {
-        limit: 500,
+        limit: 50,
         MessageCollection: Whisper.MessageCollection,
       });
 
@@ -1157,7 +1157,7 @@ Whisper.ConversationView = Whisper.View.extend({
         setFocus && metrics.newest ? metrics.newest.id : undefined;
 
       // Because our `getOlderMessages` fetch above didn't specify a receivedAt, we got
-      //   the most recent 500 messages in the conversation. If it has a conflict with
+      //   the most recent 50 messages in the conversation. If it has a conflict with
       //   metrics, fetched a bit before, that's likely a race condition. So we tell our
       //   reducer to trust the message set we just fetched for determining if we have
       //   the newest message loaded.
