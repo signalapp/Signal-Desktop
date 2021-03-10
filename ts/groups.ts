@@ -233,6 +233,7 @@ type UploadedAvatarType = {
 // Constants
 
 export const MASTER_KEY_LENGTH = 32;
+const GROUP_TITLE_MAX_ENCRYPTED_BYTES = 1024;
 export const ID_V1_LENGTH = 16;
 export const ID_LENGTH = 32;
 const TEMPORAL_AUTH_REJECTED_CODE = 401;
@@ -387,7 +388,14 @@ function buildGroupTitleBuffer(
   const titleBlob = new window.textsecure.protobuf.GroupAttributeBlob();
   titleBlob.title = title;
   const titleBlobPlaintext = titleBlob.toArrayBuffer();
-  return encryptGroupBlob(clientZkGroupCipher, titleBlobPlaintext);
+
+  const result = encryptGroupBlob(clientZkGroupCipher, titleBlobPlaintext);
+
+  if (result.byteLength > GROUP_TITLE_MAX_ENCRYPTED_BYTES) {
+    throw new Error('buildGroupTitleBuffer: encrypted group title is too long');
+  }
+
+  return result;
 }
 
 function buildGroupProto(
