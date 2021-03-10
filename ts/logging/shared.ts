@@ -1,13 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as bunyan from 'bunyan';
+import * as pino from 'pino';
 import { redactAll } from '../../js/modules/privacy';
 import { missingCaseError } from '../util/missingCaseError';
 import { reallyJsonStringify } from '../util/reallyJsonStringify';
 
-// These match [Bunyan's recommendations][0].
-// [0]: https://www.npmjs.com/package/bunyan#levels
+// These match [Pino's recommendations][0].
+// [0]: https://getpino.io/#/docs/api?id=loggerlevels-object
 export enum LogLevel {
   Fatal = 60,
   Error = 50,
@@ -17,8 +17,8 @@ export enum LogLevel {
   Trace = 10,
 }
 
-// These match [Bunyan's core fields][1].
-// [1]: https://www.npmjs.com/package/bunyan#core-fields
+// These match [Pino's core fields][1].
+// [1]: https://getpino.io/#/?id=usage
 export type LogEntryType = {
   level: LogLevel;
   msg: string;
@@ -51,7 +51,7 @@ export function isLogEntry(value: unknown): value is LogEntryType {
   return typeof msg === 'string' && isLogLevel(level) && isValidTime(time);
 }
 
-export function getLogLevelString(value: LogLevel): bunyan.LogLevelString {
+export function getLogLevelString(value: LogLevel): pino.Level {
   switch (value) {
     case LogLevel.Fatal:
       return 'fatal';

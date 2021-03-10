@@ -8,7 +8,8 @@
 import { ipcRenderer as ipc } from 'electron';
 import _ from 'lodash';
 import * as path from 'path';
-import * as bunyan from 'bunyan';
+import pino from 'pino';
+import { createStream } from 'rotating-file-stream';
 
 import { uploadDebugLogs } from './debuglogs';
 import { redactAll } from '../../js/modules/privacy';
@@ -23,7 +24,8 @@ import * as log from './log';
 import { reallyJsonStringify } from '../util/reallyJsonStringify';
 
 // To make it easier to visually scan logs, we make all levels the same length
-const levelMaxLength: number = Object.keys(bunyan.levelFromName).reduce(
+const levelFromName = pino().levels.values;
+const levelMaxLength: number = Object.keys(levelFromName).reduce(
   (maxLength, level) => Math.max(maxLength, level.length),
   0
 );
@@ -96,7 +98,7 @@ function fetch(): Promise<string> {
   });
 }
 
-let globalLogger: undefined | bunyan;
+let globalLogger: undefined | pino.Logger;
 
 export function initialize(): void {
   if (globalLogger) {
@@ -105,19 +107,17 @@ export function initialize(): void {
 
   const basePath = ipc.sendSync('get-user-data-path');
   const logFile = path.join(basePath, 'logs', 'app.log');
-  const loggerOptions: bunyan.LoggerOptions = {
-    name: 'app',
-    streams: [
-      {
-        type: 'rotating-file',
-        path: logFile,
-        period: '1d',
-        count: 3,
-      },
-    ],
-  };
+  const stream = createStream(logFile, {
+    interval: '1d',
+    maxFiles: 3,
+  });
 
-  globalLogger = bunyan.createLogger(loggerOptions);
+  globalLogger = pino(
+    {
+      timestamp: pino.stdTimeFunctions.isoTime,
+    },
+    stream
+  );
 }
 
 const publish = uploadDebugLogs;
@@ -127,7 +127,6 @@ const publish = uploadDebugLogs;
 const env = window.getEnvironment();
 const IS_PRODUCTION = env === 'production';
 
-// The Bunyan API: https://github.com/trentm/node-bunyan#log-method-api
 function logAtLevel(level: LogLevel, ...args: ReadonlyArray<unknown>): void {
   if (!IS_PRODUCTION) {
     const prefix = getLogLevelString(level)
@@ -138,14 +137,13 @@ function logAtLevel(level: LogLevel, ...args: ReadonlyArray<unknown>): void {
 
   const levelString = getLogLevelString(level);
   const msg = cleanArgs(args);
-  const time = new Date().toISOString();
 
   if (!globalLogger) {
     throw new Error('Logger has not been initialized yet');
     return;
   }
 
-  globalLogger[levelString]({ time }, msg);
+  globalLogger[levelString](msg);
 }
 
 log.setLogAtLevel(logAtLevel);

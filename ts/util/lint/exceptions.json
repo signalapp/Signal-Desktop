@@ -2691,13 +2691,6 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "node_modules/bunyan/node_modules/moment/min/moment.min.js",
-    "lineNumber": 1,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
     "rule": "jQuery-wrap(",
     "path": "node_modules/caching-transform/index.js",
     "line": "function wrap(opts) {",
@@ -15451,5 +15444,13 @@
     "reasonCategory": "usageTrusted",
     "updated": "2021-01-08T15:46:32.143Z",
     "reasonDetail": "Doesn't manipulate the DOM. This is just a function."
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/pino/browser.js",
+    "line": "  wrap(opts, logger, level)",
+    "lineNumber": 181,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-03-09T20:56:35.403Z"
   }
 ]
