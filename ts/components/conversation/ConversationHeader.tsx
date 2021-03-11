@@ -411,10 +411,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
         isMissingMandatoryProfileSharing
     );
 
-    const hasGV2AdminEnabled =
-      isGroup &&
-      groupVersion === 2 &&
-      window.Signal.RemoteConfig.isEnabled('desktop.gv2Admin');
+    const hasGV2AdminEnabled = isGroup && groupVersion === 2;
 
     return (
       <ContextMenu id={triggerId}>
@@ -522,9 +519,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
             };
         break;
       case 'group': {
-        const hasGV2AdminEnabled =
-          groupVersion === 2 &&
-          window.Signal.RemoteConfig.isEnabled('desktop.gv2Admin');
+        const hasGV2AdminEnabled = groupVersion === 2;
         onClick = hasGV2AdminEnabled
           ? () => {
               onShowConversationDetails();

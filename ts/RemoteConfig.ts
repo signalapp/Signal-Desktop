@@ -10,7 +10,6 @@ export type ConfigKeyType =
   | 'desktop.disableGV1'
   | 'desktop.groupCalling'
   | 'desktop.gv2'
-  | 'desktop.gv2Admin'
   | 'desktop.mandatoryProfileSharing'
   | 'desktop.messageRequests'
   | 'desktop.storage'
