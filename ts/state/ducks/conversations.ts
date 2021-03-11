@@ -35,6 +35,7 @@ import {
   getGroupSizeRecommendedLimit,
   getGroupSizeHardLimit,
 } from '../../groups/limits';
+import { toggleSelectedContactForGroupAddition } from '../../groups/toggleSelectedContactForGroupAddition';
 
 // State
 
@@ -2273,50 +2274,23 @@ export function reducer(
       return state;
     }
 
-    const { selectedConversationIds: oldSelectedConversationIds } = composer;
-    let {
-      maximumGroupSizeModalState,
-      recommendedGroupSizeModalState,
-    } = composer;
-    const {
-      conversationId,
-      maxGroupSize,
-      maxRecommendedGroupSize,
-    } = action.payload;
-
-    const selectedConversationIds = without(
-      oldSelectedConversationIds,
-      conversationId
-    );
-    const shouldAdd =
-      selectedConversationIds.length === oldSelectedConversationIds.length;
-    if (shouldAdd) {
-      // 1 for you, 1 for the new contact.
-      const newExpectedMemberCount = selectedConversationIds.length + 2;
-      if (newExpectedMemberCount > maxGroupSize) {
-        return state;
-      }
-      if (
-        newExpectedMemberCount === maxGroupSize &&
-        maximumGroupSizeModalState === OneTimeModalState.NeverShown
-      ) {
-        maximumGroupSizeModalState = OneTimeModalState.Showing;
-      } else if (
-        newExpectedMemberCount >= maxRecommendedGroupSize &&
-        recommendedGroupSizeModalState === OneTimeModalState.NeverShown
-      ) {
-        recommendedGroupSizeModalState = OneTimeModalState.Showing;
-      }
-      selectedConversationIds.push(conversationId);
-    }
-
     return {
       ...state,
       composer: {
         ...composer,
-        maximumGroupSizeModalState,
-        recommendedGroupSizeModalState,
-        selectedConversationIds,
+        ...toggleSelectedContactForGroupAddition(
+          action.payload.conversationId,
+          {
+            maxGroupSize: action.payload.maxGroupSize,
+            maxRecommendedGroupSize: action.payload.maxRecommendedGroupSize,
+            maximumGroupSizeModalState: composer.maximumGroupSizeModalState,
+            // We say you're already in the group, even though it hasn't been created yet.
+            numberOfContactsAlreadyInGroup: 1,
+            recommendedGroupSizeModalState:
+              composer.recommendedGroupSizeModalState,
+            selectedConversationIds: composer.selectedConversationIds,
+          }
+        ),
       },
     };
   }

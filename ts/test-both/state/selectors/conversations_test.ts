@@ -13,7 +13,7 @@ import {
 import {
   _getConversationComparator,
   _getLeftPaneLists,
-  getCandidateGroupContacts,
+  getCandidateContactsForNewGroup,
   getCantAddContactForModal,
   getComposeContacts,
   getComposeGroupAvatar,
@@ -555,7 +555,7 @@ describe('both/state/selectors/conversations', () => {
     });
   });
 
-  describe('#getCandidateGroupContacts', () => {
+  describe('#getCandidateContactsForNewGroup', () => {
     const getRootState = (contactSearchTerm = ''): StateType => {
       const rootState = getEmptyRootState();
       return {
@@ -574,7 +574,7 @@ describe('both/state/selectors/conversations', () => {
             },
             'convo-2': {
               ...getDefaultConversation('convo-2'),
-              title: 'B. Sorted Second',
+              title: 'Should be dropped (has no name)',
             },
             'convo-3': {
               ...getDefaultConversation('convo-3'),
@@ -584,19 +584,17 @@ describe('both/state/selectors/conversations', () => {
             'convo-4': {
               ...getDefaultConversation('convo-4'),
               isBlocked: true,
+              name: 'My Name',
               title: 'Should Be Dropped (blocked)',
             },
             'convo-5': {
               ...getDefaultConversation('convo-5'),
               discoveredUnregisteredAt: new Date(1999, 3, 20).getTime(),
+              name: 'My Name',
               title: 'Should Be Dropped (unregistered)',
             },
             'convo-6': {
               ...getDefaultConversation('convo-6'),
-              title: 'D. Sorted Last',
-            },
-            'convo-7': {
-              ...getDefaultConversation('convo-7'),
               discoveredUnregisteredAt: Date.now(),
               name: 'In System Contacts (and only recently unregistered)',
               title: 'C. Sorted Third',
@@ -623,18 +621,18 @@ describe('both/state/selectors/conversations', () => {
 
     it('returns sorted contacts when there is no search term', () => {
       const state = getRootState();
-      const result = getCandidateGroupContacts(state);
+      const result = getCandidateContactsForNewGroup(state);
 
       const ids = result.map(contact => contact.id);
-      assert.deepEqual(ids, ['convo-1', 'convo-2', 'convo-7', 'convo-6']);
+      assert.deepEqual(ids, ['convo-1', 'convo-6']);
     });
 
     it('can search for contacts', () => {
       const state = getRootState('system contacts');
-      const result = getCandidateGroupContacts(state);
+      const result = getCandidateContactsForNewGroup(state);
 
       const ids = result.map(contact => contact.id);
-      assert.deepEqual(ids, ['convo-1', 'convo-7']);
+      assert.deepEqual(ids, ['convo-1', 'convo-6']);
     });
   });
 

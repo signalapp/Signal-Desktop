@@ -15,6 +15,7 @@ import {
   MessageStatuses,
 } from './conversationList/ConversationListItem';
 import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox';
+import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
 
@@ -49,6 +50,7 @@ const defaultConversations: Array<ConversationListItemPropsType> = [
       'Pablo Diego José Francisco de Paula Juan Nepomuceno María de los Remedios Cipriano de la Santísima Trinidad Ruiz y Picasso',
     type: 'direct',
   },
+  getDefaultConversation(),
 ];
 
 const createProps = (rows: ReadonlyArray<Row>): PropsType => ({
@@ -203,6 +205,12 @@ story.add('Contact checkboxes: disabled', () => (
         contact: defaultConversations[2],
         isChecked: true,
         disabledReason: ContactCheckboxDisabledReason.MaximumContactsSelected,
+      },
+      {
+        type: RowType.ContactCheckbox,
+        contact: defaultConversations[3],
+        isChecked: true,
+        disabledReason: ContactCheckboxDisabledReason.AlreadyAdded,
       },
     ])}
   />

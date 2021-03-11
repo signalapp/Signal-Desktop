@@ -1,30 +1,39 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState } from 'react';
+import React, { useState, ReactNode } from 'react';
 
 import { ConversationType } from '../../../state/ducks/conversations';
+import { assert } from '../../../util/assert';
 import {
   ExpirationTimerOptions,
   TimerOption,
 } from '../../../util/ExpirationTimerOptions';
 import { LocalizerType } from '../../../types/Util';
 import { MediaItemType } from '../../LightboxGallery';
+import { missingCaseError } from '../../../util/missingCaseError';
 
 import { PanelRow } from './PanelRow';
 import { PanelSection } from './PanelSection';
+import { AddGroupMembersModal } from './AddGroupMembersModal';
 import { ConversationDetailsActions } from './ConversationDetailsActions';
 import { ConversationDetailsHeader } from './ConversationDetailsHeader';
 import { ConversationDetailsIcon } from './ConversationDetailsIcon';
 import { ConversationDetailsMediaList } from './ConversationDetailsMediaList';
 import { ConversationDetailsMembershipList } from './ConversationDetailsMembershipList';
-import {
-  EditConversationAttributesModal,
-  RequestState as EditGroupAttributesRequestState,
-} from './EditConversationAttributesModal';
+import { EditConversationAttributesModal } from './EditConversationAttributesModal';
+import { RequestState } from './util';
+
+enum ModalState {
+  NothingOpen,
+  EditingGroupAttributes,
+  AddingGroupMembers,
+}
 
 export type StateProps = {
+  addMembers: (conversationIds: ReadonlyArray<string>) => Promise<void>;
   canEditGroupInfo: boolean;
+  candidateContactsToAdd: Array<ConversationType>;
   conversation?: ConversationType;
   hasGroupLink: boolean;
   i18n: LocalizerType;
@@ -53,7 +62,9 @@ export type StateProps = {
 export type Props = StateProps;
 
 export const ConversationDetails: React.ComponentType<Props> = ({
+  addMembers,
   canEditGroupInfo,
+  candidateContactsToAdd,
   conversation,
   hasGroupLink,
   i18n,
@@ -70,15 +81,17 @@ export const ConversationDetails: React.ComponentType<Props> = ({
   onBlockAndDelete,
   onDelete,
 }) => {
-  const [isEditingGroupAttributes, setIsEditingGroupAttributes] = useState(
-    false
+  const [modalState, setModalState] = useState<ModalState>(
+    ModalState.NothingOpen
   );
   const [
     editGroupAttributesRequestState,
     setEditGroupAttributesRequestState,
-  ] = useState<EditGroupAttributesRequestState>(
-    EditGroupAttributesRequestState.Inactive
-  );
+  ] = useState<RequestState>(RequestState.Inactive);
+  const [
+    addGroupMembersRequestState,
+    setAddGroupMembersRequestState,
+  ] = useState<RequestState>(RequestState.Inactive);
 
   const updateExpireTimer = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setDisappearingMessages(parseInt(event.target.value, 10));
@@ -94,6 +107,88 @@ export const ConversationDetails: React.ComponentType<Props> = ({
   const invitesCount =
     pendingMemberships.length + pendingApprovalMemberships.length;
 
+  let modalNode: ReactNode;
+  switch (modalState) {
+    case ModalState.NothingOpen:
+      modalNode = undefined;
+      break;
+    case ModalState.EditingGroupAttributes:
+      modalNode = (
+        <EditConversationAttributesModal
+          avatarPath={conversation.avatarPath}
+          i18n={i18n}
+          makeRequest={async (
+            options: Readonly<{
+              avatar?: undefined | ArrayBuffer;
+              title?: string;
+            }>
+          ) => {
+            setEditGroupAttributesRequestState(RequestState.Active);
+
+            try {
+              await updateGroupAttributes(options);
+              setModalState(ModalState.NothingOpen);
+              setEditGroupAttributesRequestState(RequestState.Inactive);
+            } catch (err) {
+              setEditGroupAttributesRequestState(
+                RequestState.InactiveWithError
+              );
+            }
+          }}
+          onClose={() => {
+            setModalState(ModalState.NothingOpen);
+            setEditGroupAttributesRequestState(RequestState.Inactive);
+          }}
+          requestState={editGroupAttributesRequestState}
+          title={conversation.title}
+        />
+      );
+      break;
+    case ModalState.AddingGroupMembers:
+      modalNode = (
+        <AddGroupMembersModal
+          candidateContacts={candidateContactsToAdd}
+          clearRequestError={() => {
+            setAddGroupMembersRequestState(oldRequestState => {
+              assert(
+                oldRequestState !== RequestState.Active,
+                'Should not be clearing an active request state'
+              );
+              return RequestState.Inactive;
+            });
+          }}
+          conversationIdsAlreadyInGroup={
+            new Set(
+              (conversation.memberships || []).map(
+                membership => membership.member.id
+              )
+            )
+          }
+          groupTitle={conversation.title}
+          i18n={i18n}
+          makeRequest={async conversationIds => {
+            setAddGroupMembersRequestState(RequestState.Active);
+
+            try {
+              await addMembers(conversationIds);
+              setModalState(ModalState.NothingOpen);
+              setAddGroupMembersRequestState(RequestState.Inactive);
+            } catch (err) {
+              setAddGroupMembersRequestState(RequestState.InactiveWithError);
+            }
+          }}
+          onClose={() => {
+            setModalState(ModalState.NothingOpen);
+            setEditGroupAttributesRequestState(RequestState.Inactive);
+          }}
+          requestState={addGroupMembersRequestState}
+        />
+      );
+      break;
+    default:
+      throw missingCaseError(modalState);
+  }
+
   return (
     <div className="conversation-details-panel">
       <ConversationDetailsHeader
@@ -101,7 +196,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
         conversation={conversation}
         i18n={i18n}
         startEditing={() => {
-          setIsEditingGroupAttributes(true);
+          setModalState(ModalState.EditingGroupAttributes);
         }}
       />
 
@@ -141,9 +236,13 @@ export const ConversationDetails: React.ComponentType<Props> = ({
       ) : null}
 
       <ConversationDetailsMembershipList
+        canAddNewMembers={canEditGroupInfo}
         i18n={i18n}
-        showContactModal={showContactModal}
         memberships={conversation.memberships || []}
+        showContactModal={showContactModal}
+        startAddingNewMembers={() => {
+          setModalState(ModalState.AddingGroupMembers);
+        }}
       />
 
       <PanelSection>
@@ -200,42 +299,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
         onBlockAndDelete={onBlockAndDelete}
       />
 
-      {isEditingGroupAttributes && (
-        <EditConversationAttributesModal
-          avatarPath={conversation.avatarPath}
-          i18n={i18n}
-          makeRequest={async (
-            options: Readonly<{
-              avatar?: undefined | ArrayBuffer;
-              title?: string;
-            }>
-          ) => {
-            setEditGroupAttributesRequestState(
-              EditGroupAttributesRequestState.Active
-            );
-
-            try {
-              await updateGroupAttributes(options);
-              setIsEditingGroupAttributes(false);
-              setEditGroupAttributesRequestState(
-                EditGroupAttributesRequestState.Inactive
-              );
-            } catch (err) {
-              setEditGroupAttributesRequestState(
-                EditGroupAttributesRequestState.InactiveWithError
-              );
-            }
-          }}
-          onClose={() => {
-            setIsEditingGroupAttributes(false);
-            setEditGroupAttributesRequestState(
-              EditGroupAttributesRequestState.Inactive
-            );
-          }}
-          requestState={editGroupAttributesRequestState}
-          title={conversation.title}
-        />
-      )}
+      {modalNode}
     </div>
   );
 };

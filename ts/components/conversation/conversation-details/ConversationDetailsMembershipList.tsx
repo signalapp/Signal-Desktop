@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -19,8 +19,10 @@ export type GroupV2Membership = {
 };
 
 export type Props = {
+  canAddNewMembers: boolean;
   memberships: Array<GroupV2Membership>;
   showContactModal: (conversationId: string) => void;
+  startAddingNewMembers: () => void;
   i18n: LocalizerType;
 };
 
@@ -66,8 +68,10 @@ function sortMemberships(
 }
 
 export const ConversationDetailsMembershipList: React.ComponentType<Props> = ({
+  canAddNewMembers,
   memberships,
   showContactModal,
+  startAddingNewMembers,
   i18n,
 }) => {
   const [showAllMembers, setShowAllMembers] = React.useState<boolean>(false);
@@ -85,6 +89,15 @@ export const ConversationDetailsMembershipList: React.ComponentType<Props> = ({
         sortedMemberships.length.toString(),
       ])}
     >
+      {canAddNewMembers && (
+        <PanelRow
+          icon={
+            <div className="module-conversation-details-membership-list__add-members-icon" />
+          }
+          label={i18n('ConversationDetailsMembershipList--add-members')}
+          onClick={startAddingNewMembers}
+        />
+      )}
       {sortedMemberships.slice(0, membersToShow).map(({ isAdmin, member }) => (
         <PanelRow
           key={member.id}

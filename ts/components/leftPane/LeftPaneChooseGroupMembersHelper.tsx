@@ -9,7 +9,10 @@ import { ConversationType } from '../../state/ducks/conversations';
 import { ContactCheckboxDisabledReason } from '../conversationList/ContactCheckbox';
 import { ContactPills } from '../ContactPills';
 import { ContactPill } from '../ContactPill';
-import { Alert } from '../Alert';
+import {
+  AddGroupMemberErrorDialog,
+  AddGroupMemberErrorDialogMode,
+} from '../AddGroupMemberErrorDialog';
 import { Button } from '../Button';
 import { LocalizerType } from '../../types/Util';
 import {
@@ -111,35 +114,34 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<
     ) => unknown;
     removeSelectedContact: (conversationId: string) => unknown;
   }>): ReactChild {
-    let modalDetails:
-      | undefined
-      | { title: string; body: string; onClose: () => void };
+    let modalNode: undefined | ReactChild;
     if (this.isShowingMaximumGroupSizeModal) {
-      modalDetails = {
-        title: i18n('chooseGroupMembers__maximum-group-size__title'),
-        body: i18n('chooseGroupMembers__maximum-group-size__body', [
-          this.getMaximumNumberOfContacts().toString(),
-        ]),
-        onClose: closeMaximumGroupSizeModal,
-      };
+      modalNode = (
+        <AddGroupMemberErrorDialog
+          i18n={i18n}
+          maximumNumberOfContacts={this.getMaximumNumberOfContacts()}
+          mode={AddGroupMemberErrorDialogMode.MaximumGroupSize}
+          onClose={closeMaximumGroupSizeModal}
+        />
+      );
     } else if (this.isShowingRecommendedGroupSizeModal) {
-      modalDetails = {
-        title: i18n(
-          'chooseGroupMembers__maximum-recommended-group-size__title'
-        ),
-        body: i18n('chooseGroupMembers__maximum-recommended-group-size__body', [
-          this.getRecommendedMaximumNumberOfContacts().toString(),
-        ]),
-        onClose: closeRecommendedGroupSizeModal,
-      };
+      modalNode = (
+        <AddGroupMemberErrorDialog
+          i18n={i18n}
+          recommendedMaximumNumberOfContacts={this.getRecommendedMaximumNumberOfContacts()}
+          mode={AddGroupMemberErrorDialogMode.RecommendedMaximumGroupSize}
+          onClose={closeRecommendedGroupSizeModal}
+        />
+      );
     } else if (this.cantAddContactForModal) {
-      modalDetails = {
-        title: i18n('chooseGroupMembers__cant-add-member__title'),
-        body: i18n('chooseGroupMembers__cant-add-member__body', [
-          this.cantAddContactForModal.title,
-        ]),
-        onClose: closeCantAddContactToGroupModal,
-      };
+      modalNode = (
+        <AddGroupMemberErrorDialog
+          i18n={i18n}
+          contact={this.cantAddContactForModal}
+          mode={AddGroupMemberErrorDialogMode.CantAddContact}
+          onClose={closeCantAddContactToGroupModal}
+        />
+      );
     }
 
     return (
@@ -149,7 +151,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<
             type="text"
             ref={focusRef}
             className="module-left-pane__compose-search-form__input"
-            placeholder={i18n('newConversationContactSearchPlaceholder')}
+            placeholder={i18n('contactSearchPlaceholder')}
             dir="auto"
             value={this.searchTerm}
             onChange={onChangeComposeSearchTerm}
@@ -178,18 +180,11 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<
 
         {this.getRowCount() ? null : (
           <div className="module-left-pane__compose-no-contacts">
-            {i18n('newConversationNoContacts')}
+            {i18n('noContactsFound')}
           </div>
         )}
 
-        {modalDetails && (
-          <Alert
-            body={modalDetails.body}
-            i18n={i18n}
-            onClose={modalDetails.onClose}
-            title={modalDetails.title}
-          />
-        )}
+        {modalNode}
       </>
     );
   }

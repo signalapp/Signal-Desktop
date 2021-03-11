@@ -90,7 +90,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<
             type="text"
             ref={focusRef}
             className="module-left-pane__compose-search-form__input"
-            placeholder={i18n('newConversationContactSearchPlaceholder')}
+            placeholder={i18n('contactSearchPlaceholder')}
             dir="auto"
             value={this.searchTerm}
             onChange={onChangeComposeSearchTerm}
@@ -99,7 +99,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<
 
         {this.getRowCount() ? null : (
           <div className="module-left-pane__compose-no-contacts">
-            {i18n('newConversationNoContacts')}
+            {i18n('noContactsFound')}
           </div>
         )}
       </>

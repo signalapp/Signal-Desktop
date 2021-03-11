@@ -8,11 +8,15 @@ import {
   ConversationDetails,
   StateProps,
 } from '../../components/conversation/conversation-details/ConversationDetails';
-import { getConversationSelector } from '../selectors/conversations';
+import {
+  getContacts,
+  getConversationSelector,
+} from '../selectors/conversations';
 import { getIntl } from '../selectors/user';
 import { MediaItemType } from '../../components/LightboxGallery';
 
 export type SmartConversationDetailsProps = {
+  addMembers: (conversationIds: ReadonlyArray<string>) => Promise<void>;
   conversationId: string;
   hasGroupLink: boolean;
   loadRecentMediaItems: (limit: number) => void;
@@ -46,10 +50,12 @@ const mapStateToProps = (
       ? conversation.canEditGroupInfo
       : false;
   const isAdmin = Boolean(conversation?.areWeAdmin);
+  const candidateContactsToAdd = getContacts(state);
 
   return {
     ...props,
     canEditGroupInfo,
+    candidateContactsToAdd,
     conversation,
     i18n: getIntl(state),
     isAdmin,

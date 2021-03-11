@@ -5,6 +5,7 @@ import * as React from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
+import { times } from 'lodash';
 
 import { setup as setupI18n } from '../../../../js/modules/i18n';
 import enMessages from '../../../../_locales/en/messages.json';
@@ -47,7 +48,11 @@ const conversation: ConversationType = {
 };
 
 const createProps = (hasGroupLink = false): Props => ({
+  addMembers: async () => {
+    action('addMembers');
+  },
   canEditGroupInfo: false,
+  candidateContactsToAdd: times(10, () => getDefaultConversation()),
   conversation,
   hasGroupLink,
   i18n,

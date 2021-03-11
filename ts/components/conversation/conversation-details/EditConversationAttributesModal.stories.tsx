@@ -8,10 +8,8 @@ import { action } from '@storybook/addon-actions';
 
 import { setup as setupI18n } from '../../../../js/modules/i18n';
 import enMessages from '../../../../_locales/en/messages.json';
-import {
-  EditConversationAttributesModal,
-  RequestState,
-} from './EditConversationAttributesModal';
+import { EditConversationAttributesModal } from './EditConversationAttributesModal';
+import { RequestState } from './util';
 
 const i18n = setupI18n('en', enMessages);
 

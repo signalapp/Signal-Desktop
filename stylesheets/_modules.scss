@@ -2925,6 +2925,38 @@ button.module-conversation-details__action-button {
     }
   }
 
+  &-membership-list {
+    &__add-members-icon {
+      @mixin plus-icon($color) {
+        @include color-svg('../images/icons/v2/plus-24.svg', $color);
+        content: '';
+        display: block;
+        height: 16px;
+        width: 16px;
+      }
+
+      align-items: center;
+      border-radius: 100%;
+      display: flex;
+      height: 32px;
+      justify-content: center;
+      width: 32px;
+
+      @include light-theme {
+        background: $color-gray-02;
+        &::before {
+          @include plus-icon($color-black);
+        }
+      }
+      @include dark-theme {
+        background: $color-gray-90;
+        &::before {
+          @include plus-icon($color-gray-15);
+        }
+      }
+    }
+  }
+
   &__leave-group {
     color: $color-accent-red;
   }
@@ -7269,11 +7301,13 @@ button.module-image__border-overlay:focus {
           }
         }
 
-        &:disabled {
+        &:disabled:not(:checked) {
           opacity: 0.5;
         }
 
         &:checked {
+          $icon: '../images/icons/v2/check-24.svg';
+
           background: $ultramarine-ui-light;
           display: flex;
           align-items: center;
@@ -7282,9 +7316,20 @@ button.module-image__border-overlay:focus {
           &::before {
             content: '';
             display: block;
-            @include color-svg('../images/icons/v2/check-24.svg', $color-white);
+            @include color-svg($icon, $color-white);
             width: 13px;
             height: 13px;
+          }
+
+          @include light-theme {
+            &:disabled {
+              background: $color-gray-15;
+            }
+          }
+          @include dark-theme {
+            &:disabled {
+              background: $color-gray-45;
+            }
           }
         }
       }

@@ -16,7 +16,7 @@ import { ComposerStep, OneTimeModalState } from '../ducks/conversations';
 import { getSearchResults, isSearching } from '../selectors/search';
 import { getIntl, getRegionCode } from '../selectors/user';
 import {
-  getCandidateGroupContacts,
+  getCandidateContactsForNewGroup,
   getCantAddContactForModal,
   getComposeContacts,
   getComposeGroupAvatar,
@@ -102,7 +102,7 @@ const getModeSpecificProps = (
     case ComposerStep.ChooseGroupMembers:
       return {
         mode: LeftPaneMode.ChooseGroupMembers,
-        candidateContacts: getCandidateGroupContacts(state),
+        candidateContacts: getCandidateContactsForNewGroup(state),
         cantAddContactForModal: getCantAddContactForModal(state),
         isShowingRecommendedGroupSizeModal:
           getRecommendedGroupSizeModalState(state) ===

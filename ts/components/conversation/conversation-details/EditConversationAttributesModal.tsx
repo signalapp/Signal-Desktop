@@ -18,6 +18,7 @@ import { Spinner } from '../../Spinner';
 import { GroupTitleInput } from '../../GroupTitleInput';
 import * as log from '../../../logging/log';
 import { canvasToArrayBuffer } from '../../../util/canvasToArrayBuffer';
+import { RequestState } from './util';
 
 const TEMPORARY_AVATAR_VALUE = new ArrayBuffer(0);
 
@@ -34,12 +35,6 @@ type PropsType = {
   requestState: RequestState;
   title: string;
 };
-
-export enum RequestState {
-  Inactive,
-  InactiveWithError,
-  Active,
-}
 
 export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
   avatarPath: externalAvatarPath,

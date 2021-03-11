@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, ReactNode } from 'react';
 
 import { LocalizerType } from '../types/Util';
 import { Button } from './Button';
@@ -9,7 +9,7 @@ import { ModalHost } from './ModalHost';
 
 type PropsType = {
   title?: string;
-  body: string;
+  body: ReactNode;
   i18n: LocalizerType;
   onClose: () => void;
 };

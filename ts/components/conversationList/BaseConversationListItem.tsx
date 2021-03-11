@@ -98,6 +98,11 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
           className={CHECKBOX_CLASS_NAME}
           disabled={disabled}
           onChange={onClick}
+          onKeyDown={event => {
+            if (onClick && !disabled && event.key === 'Enter') {
+              onClick();
+            }
+          }}
           type="checkbox"
         />
       );

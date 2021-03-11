@@ -429,3 +429,56 @@
   border-radius: 9999px; // This ensures the borders are completely rounded. (A value like 100% would make it an ellipse.)
   padding: 7px 14px;
 }
+
+// Modals
+
+@mixin modal-reset {
+  @include popper-shadow();
+  border-radius: 8px;
+  margin: 0 auto;
+  max-height: 100%;
+  max-width: 360px;
+  padding: 16px;
+  position: relative;
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+
+  @include light-theme() {
+    background: $color-white;
+    color: $color-gray-90;
+  }
+
+  @include dark-theme() {
+    background: $color-gray-95;
+    color: $color-gray-05;
+  }
+}
+
+@mixin modal-close-button {
+  @include button-reset;
+
+  position: absolute;
+  right: 12px;
+  top: 12px;
+
+  height: 24px;
+  width: 24px;
+
+  @include light-theme {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-75);
+  }
+
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
+  }
+
+  &:focus {
+    @include keyboard-mode {
+      background-color: $ultramarine-ui-light;
+    }
+    @include dark-keyboard-mode {
+      background-color: $ultramarine-ui-dark;
+    }
+  }
+}

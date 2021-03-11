@@ -380,8 +380,9 @@ export const LeftPane: React.FC<PropsType> = ({
                       case undefined:
                         toggleConversationInChooseMembers(conversationId);
                         break;
+                      case ContactCheckboxDisabledReason.AlreadyAdded:
                       case ContactCheckboxDisabledReason.MaximumContactsSelected:
-                        // This is a no-op.
+                        // These are no-ops.
                         break;
                       case ContactCheckboxDisabledReason.NotCapable:
                         cantAddContactToGroup(conversationId);

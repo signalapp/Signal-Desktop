@@ -4,7 +4,6 @@
 import memoizee from 'memoizee';
 import { fromPairs, isNumber, isString } from 'lodash';
 import { createSelector } from 'reselect';
-import Fuse, { FuseOptions } from 'fuse.js';
 
 import { StateType } from '../reducer';
 import {
@@ -29,6 +28,7 @@ import { PropsDataType as TimelinePropsType } from '../../components/conversatio
 import { TimelineItemType } from '../../components/conversation/TimelineItem';
 import { assert } from '../../util/assert';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered';
+import { filterAndSortContacts } from '../../util/filterAndSortContacts';
 
 import {
   getInteractionMode,
@@ -342,14 +342,14 @@ export const getComposerContactSearchTerm = createSelector(
 );
 
 /**
- * This returns contacts for the composer, which isn't just your primary's system
- * contacts. It may include false positives, which is better than missing contacts.
+ * This returns contacts for the composer and group members, which isn't just your primary
+ * system contacts. It may include false positives, which is better than missing contacts.
  *
  * Because it filters unregistered contacts and that's (partially) determined by the
  * current time, it's possible for this to return stale contacts that have unregistered
  * if no other conversations change. This should be a rare false positive.
  */
-const getContacts = createSelector(
+export const getContacts = createSelector(
   getConversationLookup,
   (conversationLookup: ConversationLookupType): Array<ConversationType> =>
     Object.values(conversationLookup).filter(
@@ -371,13 +371,6 @@ const getNoteToSelfTitle = createSelector(getIntl, (i18n: LocalizerType) =>
   i18n('noteToSelf').toLowerCase()
 );
 
-const COMPOSE_CONTACTS_FUSE_OPTIONS: FuseOptions<ConversationType> = {
-  // A small-but-nonzero threshold lets us match parts of E164s better, and makes the
-  //   search a little more forgiving.
-  threshold: 0.05,
-  keys: ['title', 'name', 'e164'],
-};
-
 export const getComposeContacts = createSelector(
   getNormalizedComposerContactSearchTerm,
   getContacts,
@@ -389,55 +382,21 @@ export const getComposeContacts = createSelector(
     noteToSelf: ConversationType,
     noteToSelfTitle: string
   ): Array<ConversationType> => {
-    let result: Array<ConversationType>;
-
-    if (searchTerm.length) {
-      const fuse = new Fuse<ConversationType>(
-        contacts,
-        COMPOSE_CONTACTS_FUSE_OPTIONS
-      );
-      result = fuse.search(searchTerm);
-      if (noteToSelfTitle.includes(searchTerm)) {
-        result.push(noteToSelf);
-      }
-    } else {
-      result = contacts.concat();
-      result.sort((a, b) => collator.compare(a.title, b.title));
+    const result: Array<ConversationType> = filterAndSortContacts(
+      contacts,
+      searchTerm
+    );
+    if (!searchTerm || noteToSelfTitle.includes(searchTerm)) {
       result.push(noteToSelf);
     }
-
     return result;
   }
 );
 
-/*
- * This returns contacts for the composer when you're picking new group members. It casts
- * a wider net than `getContacts`.
- */
-const getGroupContacts = createSelector(
-  getConversationLookup,
-  (conversationLookup): Array<ConversationType> =>
-    Object.values(conversationLookup).filter(
-      contact =>
-        contact.type === 'direct' &&
-        !contact.isMe &&
-        !contact.isBlocked &&
-        !isConversationUnregistered(contact)
-    )
-);
-
-export const getCandidateGroupContacts = createSelector(
+export const getCandidateContactsForNewGroup = createSelector(
+  getContacts,
   getNormalizedComposerContactSearchTerm,
-  getGroupContacts,
-  (searchTerm, contacts): Array<ConversationType> => {
-    if (searchTerm.length) {
-      return new Fuse<ConversationType>(
-        contacts,
-        COMPOSE_CONTACTS_FUSE_OPTIONS
-      ).search(searchTerm);
-    }
-    return contacts.concat().sort((a, b) => collator.compare(a.title, b.title));
-  }
+  filterAndSortContacts
 );
 
 export const getCantAddContactForModal = createSelector(

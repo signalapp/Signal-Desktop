@@ -550,6 +550,148 @@ function buildGroupProto(
   return proto;
 }
 
+export async function buildAddMembersChange(
+  conversation: Pick<
+    ConversationAttributesType,
+    'id' | 'publicParams' | 'revision' | 'secretParams'
+  >,
+  conversationIds: ReadonlyArray<string>
+): Promise<undefined | GroupChangeClass.Actions> {
+  const MEMBER_ROLE_ENUM = window.textsecure.protobuf.Member.Role;
+
+  const { id, publicParams, revision, secretParams } = conversation;
+
+  const logId = `groupv2(${id})`;
+
+  if (!publicParams) {
+    throw new Error(
+      `buildAddMembersChange/${logId}: attributes were missing publicParams!`
+    );
+  }
+  if (!secretParams) {
+    throw new Error(
+      `buildAddMembersChange/${logId}: attributes were missing secretParams!`
+    );
+  }
+
+  const newGroupVersion = (revision || 0) + 1;
+  const serverPublicParamsBase64 = window.getServerPublicParams();
+  const clientZkProfileCipher = getClientZkProfileOperations(
+    serverPublicParamsBase64
+  );
+  const clientZkGroupCipher = getClientZkGroupCipher(secretParams);
+
+  const ourConversationId = window.ConversationController.getOurConversationIdOrThrow();
+  const ourConversation = window.ConversationController.get(ourConversationId);
+  const ourUuid = ourConversation?.get('uuid');
+  if (!ourUuid) {
+    throw new Error(
+      `buildAddMembersChange/${logId}: unable to find our own UUID!`
+    );
+  }
+  const ourUuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, ourUuid);
+
+  const now = Date.now();
+
+  const addMembers: Array<GroupChangeClass.Actions.AddMemberAction> = [];
+  const addPendingMembers: Array<GroupChangeClass.Actions.AddMemberPendingProfileKeyAction> = [];
+
+  await Promise.all(
+    conversationIds.map(async conversationId => {
+      const contact = window.ConversationController.get(conversationId);
+      if (!contact) {
+        assert(
+          false,
+          `buildAddMembersChange/${logId}: missing local contact, skipping`
+        );
+        return;
+      }
+
+      const uuid = contact.get('uuid');
+      if (!uuid) {
+        assert(false, `buildAddMembersChange/${logId}: missing UUID; skipping`);
+        return;
+      }
+
+      // Refresh our local data to be sure
+      if (
+        !contact.get('capabilities')?.gv2 ||
+        !contact.get('profileKey') ||
+        !contact.get('profileKeyCredential')
+      ) {
+        await contact.getProfiles();
+      }
+
+      if (!contact.get('capabilities')?.gv2) {
+        assert(
+          false,
+          `buildAddMembersChange/${logId}: member is missing GV2 capability; skipping`
+        );
+        return;
+      }
+
+      const profileKey = contact.get('profileKey');
+      const profileKeyCredential = contact.get('profileKeyCredential');
+
+      if (!profileKey) {
+        assert(
+          false,
+          `buildAddMembersChange/${logId}: member is missing profile key; skipping`
+        );
+        return;
+      }
+
+      const member = new window.textsecure.protobuf.Member();
+      member.userId = encryptUuid(clientZkGroupCipher, uuid);
+      member.role = MEMBER_ROLE_ENUM.DEFAULT;
+      member.joinedAtVersion = newGroupVersion;
+
+      // This is inspired by [Android's equivalent code][0].
+      //
+      // [0]: https://github.com/signalapp/Signal-Android/blob/2be306867539ab1526f0e49d1aa7bd61e783d23f/libsignal/service/src/main/java/org/whispersystems/signalservice/api/groupsv2/GroupsV2Operations.java#L152-L174
+      if (profileKey && profileKeyCredential) {
+        member.presentation = createProfileKeyCredentialPresentation(
+          clientZkProfileCipher,
+          profileKeyCredential,
+          secretParams
+        );
+
+        const addMemberAction = new window.textsecure.protobuf.GroupChange.Actions.AddMemberAction();
+        addMemberAction.added = member;
+        addMemberAction.joinFromInviteLink = false;
+
+        addMembers.push(addMemberAction);
+      } else {
+        const memberPendingProfileKey = new window.textsecure.protobuf.MemberPendingProfileKey();
+        memberPendingProfileKey.member = member;
+        memberPendingProfileKey.addedByUserId = ourUuidCipherTextBuffer;
+        memberPendingProfileKey.timestamp = now;
+
+        const addPendingMemberAction = new window.textsecure.protobuf.GroupChange.Actions.AddMemberPendingProfileKeyAction();
+        addPendingMemberAction.added = memberPendingProfileKey;
+
+        addPendingMembers.push(addPendingMemberAction);
+      }
+    })
+  );
+
+  const actions = new window.textsecure.protobuf.GroupChange.Actions();
+  if (!addMembers.length && !addPendingMembers.length) {
+    // This shouldn't happen. When these actions are passed to `modifyGroupV2`, a warning
+    //   will be logged.
+    return undefined;
+  }
+  if (addMembers.length) {
+    actions.addMembers = addMembers;
+  }
+  if (addPendingMembers.length) {
+    actions.addPendingMembers = addPendingMembers;
+  }
+  actions.version = newGroupVersion;
+
+  return actions;
+}
+
 export async function buildUpdateAttributesChange(
   conversation: Pick<
     ConversationAttributesType,

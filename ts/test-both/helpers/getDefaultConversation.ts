@@ -1,7 +1,8 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { v4 as generateUuid } from 'uuid';
+import { sample } from 'lodash';
 import { ConversationType } from '../../state/ducks/conversations';
 
 const FIRST_NAMES = [
@@ -310,21 +311,23 @@ const LAST_NAMES = [
   'Jimenez',
 ];
 
-export function getRandomTitle(): string {
-  const firstName = FIRST_NAMES[Math.floor(Math.random() * FIRST_NAMES.length)];
-  const lastName = LAST_NAMES[Math.floor(Math.random() * LAST_NAMES.length)];
-  return `${firstName} ${lastName}`;
-}
+const getFirstName = (): string => sample(FIRST_NAMES) || 'Test';
+const getLastName = (): string => sample(LAST_NAMES) || 'Test';
 
 export function getDefaultConversation(
-  overrideProps: Partial<ConversationType>
+  overrideProps: Partial<ConversationType> = {}
 ): ConversationType {
+  const firstName = getFirstName();
+  const lastName = getLastName();
+
   return {
     id: generateUuid(),
+    isGroupV2Capable: true,
     lastUpdated: Date.now(),
     markedUnread: Boolean(overrideProps.markedUnread),
     e164: '+1300555000',
-    title: getRandomTitle(),
+    firstName,
+    title: `${firstName} ${lastName}`,
     type: 'direct' as const,
     uuid: generateUuid(),
     ...overrideProps,

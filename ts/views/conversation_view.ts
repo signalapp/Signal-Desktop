@@ -2887,6 +2887,7 @@ Whisper.ConversationView = Whisper.View.extend({
         ACCESS_ENUM.UNSATISFIABLE;
 
     const props = {
+      addMembers: conversation.addMembersV2.bind(conversation),
       conversationId: conversation.get('id'),
       hasGroupLink,
       loadRecentMediaItems: this.loadRecentMediaItems.bind(this),

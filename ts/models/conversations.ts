@@ -1716,6 +1716,22 @@ export class ConversationModel extends window.Backbone.Model<
     });
   }
 
+  async addMembersV2(conversationIds: ReadonlyArray<string>): Promise<void> {
+    await this.modifyGroupV2({
+      name: 'addMembersV2',
+      createGroupChange: () =>
+        window.Signal.Groups.buildAddMembersChange(
+          {
+            id: this.id,
+            publicParams: this.get('publicParams'),
+            revision: this.get('revision'),
+            secretParams: this.get('secretParams'),
+          },
+          conversationIds
+        ),
+    });
+  }
+
   async updateGroupAttributesV2(
     attributes: Readonly<{
       avatar?: undefined | ArrayBuffer;

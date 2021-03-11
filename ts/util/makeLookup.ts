@@ -1,8 +1,8 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 export function makeLookup<T>(
-  items: Array<T>,
+  items: ReadonlyArray<T>,
   key: keyof T
 ): Record<string, T> {
   return (items || []).reduce((lookup, item) => {

@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { CSSProperties, FunctionComponent } from 'react';
+import React, { CSSProperties, FunctionComponent, ReactNode } from 'react';
 
 import { BaseConversationListItem } from './BaseConversationListItem';
 import { ColorType } from '../../types/Colors';
@@ -11,7 +11,8 @@ import { About } from '../conversation/About';
 
 export enum ContactCheckboxDisabledReason {
   // We start the enum at 1 because the default starting value of 0 is falsy.
-  MaximumContactsSelected = 1,
+  AlreadyAdded = 1,
+  MaximumContactsSelected,
   NotCapable,
 }
 
@@ -67,7 +68,14 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
       />
     );
 
-    const messageText = about ? <About className="" text={about} /> : null;
+    let messageText: ReactNode;
+    if (disabledReason === ContactCheckboxDisabledReason.AlreadyAdded) {
+      messageText = i18n('alreadyAMember');
+    } else if (about) {
+      messageText = <About className="" text={about} />;
+    } else {
+      messageText = null;
+    }
 
     const onClickItem = () => {
       onClick(id, disabledReason);

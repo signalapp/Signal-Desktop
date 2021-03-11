@@ -1,7 +1,8 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
+import { isBoolean } from 'lodash';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -42,9 +43,13 @@ const createMemberships = (
 };
 
 const createProps = (overrideProps: Partial<Props>): Props => ({
+  canAddNewMembers: isBoolean(overrideProps.canAddNewMembers)
+    ? overrideProps.canAddNewMembers
+    : false,
   i18n,
   memberships: overrideProps.memberships || [],
   showContactModal: action('showContactModal'),
+  startAddingNewMembers: action('startAddingNewMembers'),
 });
 
 story.add('Few', () => {
@@ -89,6 +94,14 @@ story.add('Many', () => {
 
 story.add('None', () => {
   const props = createProps({ memberships: [] });
+
+  return <ConversationDetailsMembershipList {...props} />;
+});
+
+story.add('Can add new members', () => {
+  const memberships = createMemberships(10);
+
+  const props = createProps({ canAddNewMembers: true, memberships });
 
   return <ConversationDetailsMembershipList {...props} />;
 });

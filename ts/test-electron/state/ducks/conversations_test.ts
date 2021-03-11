@@ -1904,7 +1904,7 @@ describe('both/state/ducks/conversations', () => {
         const action = getAction(uuid(), state);
         const result = reducer(state, action);
 
-        assert.strictEqual(result, state);
+        assert.deepEqual(result, state);
       });
 
       it('defaults the maximum group size to 1001 if the recommended maximum is smaller', () => {

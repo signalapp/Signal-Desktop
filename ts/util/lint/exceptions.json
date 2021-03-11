@@ -15079,9 +15079,18 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/conversation/conversation-details/AddGroupMembersModal/ChooseGroupMembersModal.js",
+    "line": "    const inputRef = react_1.useRef(null);",
+    "lineNumber": 41,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-03-11T20:49:17.292Z",
+    "reasonDetail": "Used to focus an input."
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/conversation/conversation-details/EditConversationAttributesModal.js",
     "line": "    const startingTitleRef = react_1.useRef(externalTitle);",
-    "lineNumber": 42,
+    "lineNumber": 37,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T22:52:40.572Z",
     "reasonDetail": "Doesn't interact with the DOM."
@@ -15090,7 +15099,7 @@
     "rule": "React-useRef",
     "path": "ts/components/conversation/conversation-details/EditConversationAttributesModal.js",
     "line": "    const startingAvatarPathRef = react_1.useRef(externalAvatarPath);",
-    "lineNumber": 43,
+    "lineNumber": 38,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T22:52:40.572Z",
     "reasonDetail": "Doesn't interact with the DOM."
