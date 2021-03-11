@@ -731,7 +731,7 @@ function createGroup(): ThunkAction<
 
     try {
       const conversation = await groups.createGroupV2({
-        name: composer.groupName,
+        name: composer.groupName.trim(),
         avatar: composer.groupAvatar,
         conversationIds: composer.selectedConversationIds,
       });

@@ -55,8 +55,10 @@ export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
   const [avatar, setAvatar] = useState<undefined | ArrayBuffer>(
     externalAvatarPath ? TEMPORARY_AVATAR_VALUE : undefined
   );
-  const [title, setTitle] = useState(externalTitle);
+  const [rawTitle, setRawTitle] = useState(externalTitle);
   const [hasAvatarChanged, setHasAvatarChanged] = useState(false);
+
+  const trimmedTitle = rawTitle.trim();
 
   useEffect(() => {
     const startingAvatarPath = startingAvatarPathRef.current;
@@ -90,14 +92,14 @@ export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
   const hasChangedExternally =
     startingAvatarPathRef.current !== externalAvatarPath ||
     startingTitleRef.current !== externalTitle;
-  const hasTitleChanged = title !== externalTitle;
+  const hasTitleChanged = trimmedTitle !== externalTitle.trim();
 
   const isRequestActive = requestState === RequestState.Active;
 
   const canSubmit =
     !isRequestActive &&
     (hasChangedExternally || hasTitleChanged || hasAvatarChanged) &&
-    title.length > 0;
+    trimmedTitle.length > 0;
 
   const onSubmit: FormEventHandler<HTMLFormElement> = event => {
     event.preventDefault();
@@ -110,7 +112,7 @@ export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
       request.avatar = avatar;
     }
     if (hasTitleChanged) {
-      request.title = title;
+      request.title = trimmedTitle;
     }
     makeRequest(request);
   };
@@ -150,8 +152,8 @@ export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
         <GroupTitleInput
           disabled={isRequestActive}
           i18n={i18n}
-          onChangeValue={setTitle}
-          value={title}
+          onChangeValue={setRawTitle}
+          value={rawTitle}
         />
 
         {requestState === RequestState.InactiveWithError && (

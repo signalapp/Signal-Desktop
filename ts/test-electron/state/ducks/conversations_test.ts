@@ -743,6 +743,28 @@ describe('both/state/ducks/conversations', () => {
         });
       });
 
+      it("trims the group's title before calling groups.createGroupV2", async () => {
+        await createGroup()(
+          sinon.spy(),
+          () => ({
+            ...getEmptyRootState(),
+            conversations: {
+              ...conversationsState,
+              composer: {
+                ...conversationsState.composer,
+                groupName: '  To  Trim \t',
+              },
+            },
+          }),
+          null
+        );
+
+        sinon.assert.calledWith(
+          createGroupStub,
+          sinon.match({ name: 'To  Trim' })
+        );
+      });
+
       it('dispatches a CREATE_GROUP_REJECTED action if group creation fails, which marks the state with an error', async () => {
         createGroupStub.rejects(new Error('uh oh'));
 
