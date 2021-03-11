@@ -2494,7 +2494,8 @@ export function initialize({
               serverKey,
             ] = await window.libsignal.HKDF.deriveSecrets(
               masterSecret,
-              publicKeys
+              publicKeys,
+              new ArrayBuffer(0)
             );
 
             // Decrypt ciphertext into requestId
