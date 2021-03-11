@@ -748,6 +748,10 @@ function createGroup(): ThunkAction<
         switchToAssociatedView: true,
       })(dispatch, getState, ...args);
     } catch (err) {
+      window.log.error(
+        'Failed to create group',
+        err && err.stack ? err.stack : err
+      );
       dispatch({ type: 'CREATE_GROUP_REJECTED' });
     }
   };
