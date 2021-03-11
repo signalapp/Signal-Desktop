@@ -11904,6 +11904,14 @@
     "updated": "2018-09-19T18:06:35.446Z"
   },
   {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/pino/browser.js",
+    "line": "  wrap(opts, logger, level)",
+    "lineNumber": 181,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-03-09T20:56:35.403Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/popper.js/dist/esm/popper.min.js",
     "lineNumber": 4,
@@ -14698,6 +14706,24 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/GlobalAudioContext.js",
+    "line": "    const audio = React.useRef(null);",
+    "lineNumber": 38,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-03-11T17:20:05.355Z",
+    "reasonDetail": "Need this to avoid re-creating Audio on every re-render"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/GlobalAudioContext.js",
+    "line": "    const waveformCache = React.useRef(null);",
+    "lineNumber": 39,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-03-11T17:20:05.355Z",
+    "reasonDetail": "Need this to avoid re-creating WaveformCache on every re-render"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/GroupCallOverflowArea.js",
     "line": "    const overflowRef = react_1.useRef(null);",
     "lineNumber": 36,
@@ -15444,13 +15470,5 @@
     "reasonCategory": "usageTrusted",
     "updated": "2021-01-08T15:46:32.143Z",
     "reasonDetail": "Doesn't manipulate the DOM. This is just a function."
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/pino/browser.js",
-    "line": "  wrap(opts, logger, level)",
-    "lineNumber": 181,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-03-09T20:56:35.403Z"
   }
 ]

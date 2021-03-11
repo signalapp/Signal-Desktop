@@ -21,6 +21,8 @@ export type GlobalAudioProps = {
   children?: React.ReactNode | React.ReactChildren;
 };
 
+const audioContext = new AudioContext();
+
 /**
  * A global context that holds Audio, AudioContext, LRU instances that are used
  * inside the conversation by ts/components/conversation/MessageAudio.tsx
@@ -29,45 +31,33 @@ export const GlobalAudioProvider: React.FC<GlobalAudioProps> = ({
   conversationId,
   children,
 }) => {
-  const audio = React.useMemo(() => {
-    window.log.info(
-      'GlobalAudioProvider: re-generating audio for',
-      conversationId
-    );
-    return new Audio();
-  }, [conversationId]);
+  const audio = React.useRef<HTMLAudioElement | null>(null);
+  const waveformCache = React.useRef<WaveformCache | null>(null);
 
-  // NOTE: the number of active audio contexts is limited per tab/window
-  // See: https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/AudioContext#google_chrome
-  const audioContext = React.useMemo(() => {
-    window.log.info('Instantiating new audio context');
-    return new AudioContext();
-  }, []);
-
-  const waveformCache: WaveformCache = React.useMemo(() => {
-    return new LRU({
+  // NOTE: We don't want to construct these values on every re-render hence
+  // the constructor calls have to be guarded by `if`s.
+  if (!audio.current) {
+    audio.current = new Audio();
+  }
+  if (!waveformCache.current) {
+    waveformCache.current = new LRU({
       max: MAX_WAVEFORM_COUNT,
     });
-  }, []);
+  }
 
   // When moving between conversations - stop audio
   React.useEffect(() => {
     return () => {
-      audio.pause();
+      if (audio.current) {
+        audio.current.pause();
+      }
     };
-  }, [audio, conversationId]);
-
-  React.useEffect(() => {
-    return () => {
-      window.log.info('Closing old audio context');
-      audioContext.close();
-    };
-  }, [audioContext]);
+  }, [conversationId]);
 
   const value = {
-    audio,
+    audio: audio.current,
     audioContext,
-    waveformCache,
+    waveformCache: waveformCache.current,
   };
 
   return (
