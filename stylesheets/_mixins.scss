@@ -41,9 +41,9 @@
 
 @mixin font-body-2 {
   font-family: $inter;
-  font-size: 12px;
-  line-height: 16px;
-  letter-spacing: 0;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: -0.03px;
 }
 @mixin font-body-2-bold {
   @include font-body-2;
@@ -62,15 +62,15 @@
 @mixin font-subtitle {
   font-family: $inter;
   font-size: 11px;
-  line-height: 14px;
-  letter-spacing: 0.06px;
+  line-height: 16px;
+  letter-spacing: 0;
 }
 
 @mixin font-caption {
   font-family: $inter;
-  font-size: 10px;
-  line-height: 12px;
-  letter-spacing: 0.1px;
+  font-size: 11px;
+  line-height: 14px;
+  letter-spacing: 0.06px;
 }
 @mixin font-caption-bold {
   @include font-caption;
