@@ -9,7 +9,20 @@ const FUSE_OPTIONS: FuseOptions<ConversationType> = {
   // A small-but-nonzero threshold lets us match parts of E164s better, and makes the
   //   search a little more forgiving.
   threshold: 0.05,
-  keys: ['title', 'name', 'e164'],
+  keys: [
+    {
+      name: 'title',
+      weight: 1,
+    },
+    {
+      name: 'name',
+      weight: 1,
+    },
+    {
+      name: 'e164',
+      weight: 0.5,
+    },
+  ],
 };
 
 const collator = new Intl.Collator();
@@ -23,5 +36,19 @@ export function filterAndSortContacts(
       searchTerm
     );
   }
-  return contacts.concat().sort((a, b) => collator.compare(a.title, b.title));
+
+  return contacts.concat().sort((a, b) => {
+    const aHasName = hasName(a);
+    const bHasName = hasName(b);
+
+    if (aHasName === bHasName) {
+      return collator.compare(a.title, b.title);
+    }
+
+    return aHasName && !bHasName ? -1 : 1;
+  });
+}
+
+function hasName(contact: Readonly<ConversationType>): boolean {
+  return Boolean(contact.name || contact.profileName);
 }
