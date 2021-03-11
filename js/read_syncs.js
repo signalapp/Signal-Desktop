@@ -94,7 +94,7 @@
           }
         }
 
-        window.Signal.Util.updateMessageBatcher.add(message.attributes);
+        window.Signal.Util.queueUpdateMessage(message.attributes);
 
         this.remove(receipt);
       } catch (error) {

@@ -2067,6 +2067,7 @@ export async function startApp(): Promise<void> {
           messageReceiver.getProcessedCount()
         );
         window.sqlInitializer.goBackToMainProcess();
+        window.Signal.Util.setBatchingStrategy(false);
         const attachmentDownloadQueue = window.attachmentDownloadQueue || [];
         const THREE_DAYS_AGO = Date.now() - 3600 * 72 * 1000;
         const MAX_ATTACHMENT_MSGS_TO_DOWNLOAD = 250;

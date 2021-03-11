@@ -1163,7 +1163,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             referencedMessageNotFound: false,
           },
         });
-        window.Signal.Util.updateMessageBatcher.add(this.attributes);
+        window.Signal.Util.queueUpdateMessage(this.attributes);
       }
     }
 
@@ -1959,7 +1959,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     window.Whisper.Notifications.removeBy({ messageId: this.id });
 
     if (!skipSave) {
-      window.Signal.Util.updateMessageBatcher.add(this.attributes);
+      window.Signal.Util.queueUpdateMessage(this.attributes);
     }
   }
 
@@ -2008,7 +2008,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       const id = this.get('id');
       if (id && !skipSave) {
-        window.Signal.Util.updateMessageBatcher.add(this.attributes);
+        window.Signal.Util.queueUpdateMessage(this.attributes);
       }
     }
   }

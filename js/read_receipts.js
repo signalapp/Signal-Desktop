@@ -101,7 +101,7 @@
           await message.setToExpire(false, { skipSave: true });
         }
 
-        window.Signal.Util.updateMessageBatcher.add(message.attributes);
+        window.Signal.Util.queueUpdateMessage(message.attributes);
 
         // notify frontend listeners
         const conversation = ConversationController.get(

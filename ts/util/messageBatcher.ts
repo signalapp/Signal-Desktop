@@ -5,7 +5,7 @@ import { MessageAttributesType } from '../model-types.d';
 import { createBatcher } from './batcher';
 import { createWaitBatcher } from './waitBatcher';
 
-export const updateMessageBatcher = createBatcher<MessageAttributesType>({
+const updateMessageBatcher = createBatcher<MessageAttributesType>({
   wait: 500,
   maxSize: 50,
   processBatch: async (messageAttrs: Array<MessageAttributesType>) => {
@@ -13,6 +13,22 @@ export const updateMessageBatcher = createBatcher<MessageAttributesType>({
     await window.Signal.Data.saveMessages(messageAttrs, {});
   },
 });
+
+let shouldBatch = true;
+
+export function queueUpdateMessage(messageAttr: MessageAttributesType): void {
+  if (shouldBatch) {
+    updateMessageBatcher.add(messageAttr);
+  } else {
+    window.Signal.Data.saveMessage(messageAttr, {
+      Message: window.Whisper.Message,
+    });
+  }
+}
+
+export function setBatchingStrategy(keepBatching = false): void {
+  shouldBatch = keepBatching;
+}
 
 export const saveNewMessageBatcher = createWaitBatcher<MessageAttributesType>({
   wait: 500,

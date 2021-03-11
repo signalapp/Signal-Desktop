@@ -17,7 +17,11 @@ import { hasExpired } from './hasExpired';
 import { incrementMessageCounter } from './incrementMessageCounter';
 import { isFileDangerous } from './isFileDangerous';
 import { makeLookup } from './makeLookup';
-import { saveNewMessageBatcher, updateMessageBatcher } from './messageBatcher';
+import {
+  queueUpdateMessage,
+  saveNewMessageBatcher,
+  setBatchingStrategy,
+} from './messageBatcher';
 import { missingCaseError } from './missingCaseError';
 import { parseRemoteClientExpiration } from './parseRemoteClientExpiration';
 import { sleep } from './sleep';
@@ -52,11 +56,12 @@ export {
   mapToSupportLocale,
   missingCaseError,
   parseRemoteClientExpiration,
+  queueUpdateMessage,
   saveNewMessageBatcher,
+  setBatchingStrategy,
   sessionRecordToProtobuf,
   sessionStructureToArrayBuffer,
   sleep,
   toWebSafeBase64,
-  updateMessageBatcher,
   zkgroup,
 };
