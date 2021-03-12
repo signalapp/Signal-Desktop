@@ -3231,6 +3231,8 @@ button.module-conversation-details__action-button {
   &-panel-row {
     &__root {
       align-items: center;
+      border-radius: 5px;
+      border: 2px solid transparent;
       display: flex;
       padding: 16px 24px;
       user-select: none;
@@ -3239,7 +3241,6 @@ button.module-conversation-details__action-button {
       &--button {
         color: inherit;
         background: none;
-        border: none;
       }
 
       &:hover {
@@ -3254,6 +3255,23 @@ button.module-conversation-details__action-button {
         & .module-conversation-details-panel-row__actions {
           opacity: 1;
         }
+      }
+
+      &:focus {
+        outline: none;
+      }
+
+      @mixin keyboard-focus-state($color) {
+        &:focus {
+          border-color: $color;
+        }
+      }
+
+      @include keyboard-mode {
+        @include keyboard-focus-state($ultramarine-ui-light);
+      }
+      @include dark-keyboard-mode {
+        @include keyboard-focus-state($ultramarine-ui-dark);
       }
     }
 
