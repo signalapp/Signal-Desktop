@@ -28,7 +28,7 @@ const NEAR_BOTTOM_THRESHOLD = 15;
 const AT_TOP_THRESHOLD = 10;
 const LOAD_MORE_THRESHOLD = 30;
 const SCROLL_DOWN_BUTTON_THRESHOLD = 8;
-export const LOAD_COUNTDOWN = 2 * 1000;
+export const LOAD_COUNTDOWN = 1;
 
 export type PropsDataType = {
   haveNewest: boolean;
