@@ -116,10 +116,6 @@ module.exports = grunt => {
         files: ['./stylesheets/*.scss', './stylesheets/**/*.scss'],
         tasks: ['sass'],
       },
-      transpile: {
-        files: ['./ts/**/*.ts', './ts/**/*.tsx'],
-        tasks: ['exec:transpile'],
-      },
     },
     exec: {
       'tx-pull-new': {
