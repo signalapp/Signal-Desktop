@@ -8,5 +8,5 @@ function isStorageFeatureEnabled(): boolean {
 }
 
 export function isStorageWriteFeatureEnabled(): boolean {
-  return isStorageFeatureEnabled() && isEnabled('desktop.storageWrite2');
+  return isStorageFeatureEnabled() && isEnabled('desktop.storageWrite3');
 }

@@ -127,6 +127,8 @@ async function generateManifest(
     isNewManifest
   );
 
+  await window.ConversationController.checkForConflicts();
+
   const ITEM_TYPE = window.textsecure.protobuf.ManifestRecord.Identifier.Type;
 
   const conversationsToUpdate = [];

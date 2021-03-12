@@ -27,7 +27,7 @@ describe('LeftPaneComposeHelper', () => {
       .stub(remoteConfig, 'isEnabled')
       .withArgs('desktop.storage')
       .returns(true)
-      .withArgs('desktop.storageWrite2')
+      .withArgs('desktop.storageWrite3')
       .returns(true);
   });
 
@@ -143,7 +143,7 @@ describe('LeftPaneComposeHelper', () => {
       remoteConfigStub
         .withArgs('desktop.storage')
         .returns(false)
-        .withArgs('desktop.storageWrite2')
+        .withArgs('desktop.storageWrite3')
         .returns(false);
 
       assert.isUndefined(
@@ -157,7 +157,7 @@ describe('LeftPaneComposeHelper', () => {
       remoteConfigStub
         .withArgs('desktop.storage')
         .returns(true)
-        .withArgs('desktop.storageWrite2')
+        .withArgs('desktop.storageWrite3')
         .returns(false);
 
       assert.isUndefined(
