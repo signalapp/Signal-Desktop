@@ -18,7 +18,7 @@ const CONTENT_CLASS_NAME = `${BASE_CLASS_NAME}__content`;
 const HEADER_CLASS_NAME = `${CONTENT_CLASS_NAME}__header`;
 export const DATE_CLASS_NAME = `${HEADER_CLASS_NAME}__date`;
 const TIMESTAMP_CLASS_NAME = `${DATE_CLASS_NAME}__timestamp`;
-export const MESSAGE_CLASS_NAME = `${CONTENT_CLASS_NAME}__message`;
+const MESSAGE_CLASS_NAME = `${CONTENT_CLASS_NAME}__message`;
 export const MESSAGE_TEXT_CLASS_NAME = `${MESSAGE_CLASS_NAME}__text`;
 const CHECKBOX_CLASS_NAME = `${BASE_CLASS_NAME}__checkbox`;
 

@@ -11,7 +11,6 @@ import classNames from 'classnames';
 
 import {
   BaseConversationListItem,
-  MESSAGE_CLASS_NAME,
   MESSAGE_TEXT_CLASS_NAME,
 } from './BaseConversationListItem';
 import { MessageBody } from '../conversation/MessageBody';
@@ -123,10 +122,10 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
       messageText = (
         <>
           {muteExpiresAt && Date.now() < muteExpiresAt && (
-            <span className={`${MESSAGE_CLASS_NAME}__muted`} />
+            <span className={`${MESSAGE_TEXT_CLASS_NAME}__muted`} />
           )}
           {!acceptedMessageRequest ? (
-            <span className={`${MESSAGE_CLASS_NAME}__message-request`}>
+            <span className={`${MESSAGE_TEXT_CLASS_NAME}__message-request`}>
               {i18n('ConversationListItem--message-request')}
             </span>
           ) : typingContact ? (
