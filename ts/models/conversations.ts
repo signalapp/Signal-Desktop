@@ -2357,6 +2357,7 @@ export class ConversationModel extends window.Backbone.Model<
       received_at_ms: timestamp,
       key_changed: keyChangedId,
       unread: 1,
+      schemaVersion: Message.VERSION_NEEDED_FOR_DISPLAY,
       // TODO: DESKTOP-722
       // this type does not fully implement the interface it is expected to
     } as unknown) as typeof window.Whisper.MessageAttributesType;
