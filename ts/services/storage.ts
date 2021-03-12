@@ -925,7 +925,7 @@ async function sync(): Promise<void> {
 
     const hasConflicts = await processManifest(manifest);
     if (hasConflicts) {
-      await upload();
+      await upload(true);
     }
 
     // We now know that we've successfully completed a storage service fetch
@@ -947,7 +947,7 @@ async function sync(): Promise<void> {
   window.log.info('storageService.sync: complete');
 }
 
-async function upload(): Promise<void> {
+async function upload(fromSync = false): Promise<void> {
   if (!isStorageWriteFeatureEnabled()) {
     window.log.info(
       'storageService.upload: Not starting because the feature is not enabled'
@@ -969,6 +969,10 @@ async function upload(): Promise<void> {
     consecutiveStops = 0;
     await window.textsecure.messaging.sendRequestKeySyncMessage();
     return;
+  }
+
+  if (!fromSync) {
+    await sync();
   }
 
   const localManifestVersion = window.storage.get('manifestVersion') || 0;
