@@ -54,7 +54,7 @@ export type StateProps = {
       avatar?: undefined | ArrayBuffer;
       title?: string;
     }>
-  ) => void;
+  ) => Promise<void>;
   onBlockAndDelete: () => void;
   onDelete: () => void;
 };

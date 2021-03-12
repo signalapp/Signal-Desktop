@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -65,7 +65,9 @@ const createProps = (hasGroupLink = false): Props => ({
   showGroupV2Permissions: action('showGroupV2Permissions'),
   showPendingInvites: action('showPendingInvites'),
   showLightboxForMedia: action('showLightboxForMedia'),
-  updateGroupAttributes: action('updateGroupAttributes'),
+  updateGroupAttributes: async () => {
+    action('updateGroupAttributes')();
+  },
   onBlockAndDelete: action('onBlockAndDelete'),
   onDelete: action('onDelete'),
 });

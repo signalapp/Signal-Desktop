@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { connect } from 'react-redux';
@@ -35,7 +35,7 @@ export type SmartConversationDetailsProps = {
       avatar?: undefined | ArrayBuffer;
       title?: string;
     }>
-  ) => void;
+  ) => Promise<void>;
   onBlockAndDelete: () => void;
   onDelete: () => void;
 };

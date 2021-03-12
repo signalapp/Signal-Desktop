@@ -7,6 +7,7 @@ import { AttachmentType } from '../types/Attachment';
 import { GroupV2PendingMemberType } from '../model-types.d';
 import { MediaItemType } from '../components/LightboxGallery';
 import { MessageType } from '../state/ducks/conversations';
+import { ConversationModel } from '../models/conversations';
 
 type GetLinkPreviewImageResult = {
   data: ArrayBuffer;
@@ -2851,7 +2852,7 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   showConversationDetails() {
-    const conversation = this.model;
+    const conversation: ConversationModel = this.model;
 
     const messageRequestEnum =
       window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
@@ -2881,10 +2882,11 @@ Whisper.ConversationView = Whisper.View.extend({
 
     const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
 
-    const hasGroupLink =
+    const hasGroupLink = Boolean(
       conversation.get('groupInviteLinkPassword') &&
-      conversation.get('accessControl')?.addFromInviteLink !==
-        ACCESS_ENUM.UNSATISFIABLE;
+        conversation.get('accessControl')?.addFromInviteLink !==
+          ACCESS_ENUM.UNSATISFIABLE
+    );
 
     const props = {
       addMembers: conversation.addMembersV2.bind(conversation),
