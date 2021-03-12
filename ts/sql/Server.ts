@@ -236,6 +236,9 @@ async function openDatabase(filePath: string): Promise<sql.Database> {
     };
 
     instance = new sql.Database(filePath, callback);
+
+    // See: https://github.com/mapbox/node-sqlite3/issues/1395
+    instance.serialize();
   });
 }
 
