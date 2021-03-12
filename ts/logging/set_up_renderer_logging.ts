@@ -109,7 +109,7 @@ export function initialize(): void {
   const logFile = path.join(basePath, 'logs', 'app.log');
   const stream = createStream(logFile, {
     interval: '1d',
-    maxFiles: 3,
+    rotate: 3,
   });
 
   globalLogger = pino(

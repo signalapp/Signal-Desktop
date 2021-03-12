@@ -66,7 +66,7 @@ export async function initialize(): Promise<pinoms.Logger> {
   const logFile = path.join(logPath, 'main.log');
   const stream = createStream(logFile, {
     interval: '1d',
-    maxFiles: 3,
+    rotate: 3,
   });
 
   const streams: pinoms.Streams = [];
