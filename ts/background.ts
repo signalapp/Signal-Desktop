@@ -9,6 +9,7 @@ import { isWindowDragElement } from './util/isWindowDragElement';
 import { assert } from './util/assert';
 
 export async function startApp(): Promise<void> {
+  window.startupProcessingQueue = new window.Signal.Util.StartupQueue();
   window.attachmentDownloadQueue = [];
   try {
     window.log.info('Initializing SQL in renderer');
@@ -2061,13 +2062,18 @@ export async function startApp(): Promise<void> {
         clearInterval(interval!);
         interval = null;
         view.onEmpty();
+
         window.logAppLoadedEvent();
-        window.log.info(
-          'App loaded - messages:',
-          messageReceiver.getProcessedCount()
-        );
+        if (messageReceiver) {
+          window.log.info(
+            'App loaded - messages:',
+            messageReceiver.getProcessedCount()
+          );
+        }
+
         window.sqlInitializer.goBackToMainProcess();
         window.Signal.Util.setBatchingStrategy(false);
+
         const attachmentDownloadQueue = window.attachmentDownloadQueue || [];
         const THREE_DAYS_AGO = Date.now() - 3600 * 72 * 1000;
         const MAX_ATTACHMENT_MSGS_TO_DOWNLOAD = 250;
@@ -2081,7 +2087,12 @@ export async function startApp(): Promise<void> {
           attachmentsToDownload.length,
           attachmentDownloadQueue.length
         );
-        window.attachmentDownloadQueue = undefined;
+
+        if (window.startupProcessingQueue) {
+          window.startupProcessingQueue.flush();
+          window.startupProcessingQueue = undefined;
+        }
+
         const messagesWithDownloads = await Promise.all(
           attachmentsToDownload.map(message =>
             message.queueAttachmentDownloads()

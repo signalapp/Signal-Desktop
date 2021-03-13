@@ -33,10 +33,12 @@ import {
   sessionStructureToArrayBuffer,
 } from './sessionTranslation';
 import * as zkgroup from './zkgroup';
+import { StartupQueue } from './StartupQueue';
 
 export {
   GoogleChrome,
   Registration,
+  StartupQueue,
   arrayBufferToObjectURL,
   combineNames,
   createBatcher,

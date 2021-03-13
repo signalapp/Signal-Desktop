@@ -94,6 +94,7 @@ import { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
 import { MIMEType } from './types/MIME';
 import { ElectronLocaleType } from './util/mapToSupportLocale';
 import { SignalProtocolStore } from './LibSignalStore';
+import { StartupQueue } from './util/StartupQueue';
 
 export { Long } from 'long';
 
@@ -138,6 +139,7 @@ declare global {
     WhatIsThis: WhatIsThis;
 
     attachmentDownloadQueue: Array<MessageModel> | undefined;
+    startupProcessingQueue: StartupQueue | undefined;
     baseAttachmentsPath: string;
     baseStickersPath: string;
     baseTempPath: string;

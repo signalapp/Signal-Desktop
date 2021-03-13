@@ -441,6 +441,7 @@ class MessageReceiverInner extends EventTarget {
         );
 
         this.cacheAndHandle(envelope, plaintext, request);
+        this.processedCount += 1;
       } catch (e) {
         request.respond(500, 'Bad encrypted websocket message');
         window.log.error(
@@ -787,7 +788,6 @@ class MessageReceiverInner extends EventTarget {
   removeFromCache(envelope: EnvelopeClass) {
     const { id } = envelope;
     this.cacheRemoveBatcher.add(id);
-    this.processedCount += 1;
   }
 
   // Same as handleEnvelope, just without the decryption step. Necessary for handling

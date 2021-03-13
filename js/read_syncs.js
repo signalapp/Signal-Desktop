@@ -69,12 +69,26 @@
         if (message.isUnread()) {
           await message.markRead(readAt, { skipSave: true });
 
-          // onReadMessage may result in messages older than this one being
-          //   marked read. We want those messages to have the same expire timer
-          //   start time as this one, so we pass the readAt value through.
-          const conversation = message.getConversation();
-          if (conversation) {
-            conversation.onReadMessage(message, readAt);
+          const updateConversation = () => {
+            // onReadMessage may result in messages older than this one being
+            //   marked read. We want those messages to have the same expire timer
+            //   start time as this one, so we pass the readAt value through.
+            const conversation = message.getConversation();
+            if (conversation) {
+              conversation.onReadMessage(message, readAt);
+            }
+          };
+
+          if (window.startupProcessingQueue) {
+            const conversation = message.getConversation();
+            if (conversation) {
+              window.startupProcessingQueue.add(
+                conversation.get('id'),
+                updateConversation
+              );
+            }
+          } else {
+            updateConversation();
           }
         } else {
           const now = Date.now();
