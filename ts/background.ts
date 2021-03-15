@@ -2075,6 +2075,11 @@ export async function startApp(): Promise<void> {
         window.Signal.Util.setBatchingStrategy(false);
 
         const attachmentDownloadQueue = window.attachmentDownloadQueue || [];
+
+        // NOTE: ts/models/messages.ts expects this global to become undefined
+        // once we stop processing the queue.
+        window.attachmentDownloadQueue = undefined;
+
         const THREE_DAYS_AGO = Date.now() - 3600 * 72 * 1000;
         const MAX_ATTACHMENT_MSGS_TO_DOWNLOAD = 250;
         const attachmentsToDownload = attachmentDownloadQueue.filter(
