@@ -31,7 +31,7 @@
     "test-electron": "yarn grunt test",
     "test-node": "electron-mocha --file test/setup-test-node.js --recursive test/app test/modules ts/test-node ts/test-both",
     "test-node-coverage": "nyc --reporter=lcov --reporter=text mocha --recursive test/app test/modules ts/test-node ts/test-both",
-    "eslint": "eslint .",
+    "eslint": "eslint --cache .",
     "lint": "yarn format --list-different && yarn eslint",
     "lint-deps": "node ts/util/lint/linter.js",
     "lint-license-comments": "ts-node ts/util/lint/license_comments.ts",
