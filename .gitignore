@@ -15,6 +15,7 @@ release/
 /sql/
 /start.sh
 .eslintcache
+tsconfig.tsbuildinfo
 
 # generated files
 js/components.js
