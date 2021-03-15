@@ -211,14 +211,17 @@ export default class AccountManager extends EventTarget {
                 const proto = window.textsecure.protobuf.ProvisioningUuid.decode(
                   request.body
                 );
-                setProvisioningUrl(
-                  [
-                    'tsdevice:/?uuid=',
-                    proto.uuid,
-                    '&pub_key=',
-                    encodeURIComponent(btoa(utils.getString(pubKey))),
-                  ].join('')
-                );
+                const url = [
+                  'tsdevice:/?uuid=',
+                  proto.uuid,
+                  '&pub_key=',
+                  encodeURIComponent(btoa(utils.getString(pubKey))),
+                ].join('');
+
+                // eslint-disable-next-line no-console
+                console._log(`provisioning url ${url}`);
+
+                setProvisioningUrl(url);
                 request.respond(200, 'OK');
               } else if (
                 request.path === '/v1/message' &&

@@ -448,7 +448,9 @@ async function _promiseAjax(
         } else if (
           (options.responseType === 'json' ||
             options.responseType === 'jsonwithdetails') &&
-          response.headers.get('Content-Type') === 'application/json'
+          /^application\/json(;.*)?$/.test(
+            response.headers.get('Content-Type') || ''
+          )
         ) {
           resultPromise = response.json();
         } else if (
