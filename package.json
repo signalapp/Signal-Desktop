@@ -221,7 +221,7 @@
     "babel-loader": "8.0.6",
     "babel-plugin-lodash": "3.3.4",
     "chai": "4.1.2",
-    "core-js": "2.4.1",
+    "core-js": "2.6.9",
     "cross-env": "5.2.0",
     "css-loader": "3.2.0",
     "electron": "11.2.3",
@@ -398,7 +398,7 @@
       "!node_modules/emoji-datasource-apple/emoji_pretty.json",
       "!node_modules/emoji-datasource-apple/img/apple/sheets*",
       "!node_modules/spellchecker/vendor/hunspell/**/*",
-      "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme,test,__tests__,tests,powered-test,example,examples,*.d.ts,.snyk-*.flag}",
+      "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme,test,__tests__,tests,powered-test,example,examples,*.d.ts,.snyk-*.flag,benchmark}",
       "!**/node_modules/.bin",
       "!**/node_modules/*/build/**",
       "!**/*.{o,hprof,orig,pyc,pyo,rbc}",
@@ -419,8 +419,10 @@
       "!node_modules/@journeyapps/sqlcipher/build/*",
       "!node_modules/@journeyapps/sqlcipher/build-tmp-napi-*",
       "!node_modules/@journeyapps/sqlcipher/lib/binding/node-*",
-      "node_modules/libsignal-client/build/*.node",
-      "node_modules/ringrtc/build/${platform}/**"
+      "node_modules/libsignal-client/build/*${platform}*.node",
+      "node_modules/ringrtc/build/${platform}/**",
+      "!**/node_modules/ffi-napi/deps",
+      "!**/node_modules/react-dom/*/*.development.js"
     ]
   }
 }
