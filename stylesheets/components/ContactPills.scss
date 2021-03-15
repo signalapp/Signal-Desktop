@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .module-ContactPills {
+  @include smooth-scroll;
+
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 10px;
@@ -9,7 +11,6 @@
   overflow-x: hidden;
   overflow-y: scroll;
   padding-left: 12px;
-  scroll-behavior: smooth;
 
   .module-ContactPill {
     margin: 4px 6px;

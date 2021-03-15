@@ -106,6 +106,16 @@
   }
 }
 
+// Smooth scrolling
+
+@mixin smooth-scroll() {
+  scroll-behavior: smooth;
+
+  @media (prefers-reduced-motion) {
+    scroll-behavior: auto;
+  }
+}
+
 // Icons
 
 @mixin color-svg($svg, $color, $stretch: true) {

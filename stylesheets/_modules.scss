@@ -6308,12 +6308,13 @@ button.module-image__border-overlay:focus {
       &__scroll-marker {
         $scroll-marker-selector: &;
 
+        @include smooth-scroll;
+
         display: flex;
         justify-content: center;
         left: 0;
         opacity: 1;
         position: absolute;
-        scroll-behavior: smooth;
         transition: opacity 200ms ease-out;
         width: 100%;
         z-index: 1;
@@ -6896,7 +6897,7 @@ button.module-image__border-overlay:focus {
 // Module: conversation list
 
 .module-conversation-list {
-  scroll-behavior: smooth;
+  @include smooth-scroll;
 
   &__item {
     &--archive-button {
