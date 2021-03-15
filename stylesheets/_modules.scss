@@ -847,7 +847,7 @@
 }
 
 .module-message__link-preview {
-  @include button-reset;
+  cursor: pointer;
 
   &--nonclickable {
     cursor: inherit;

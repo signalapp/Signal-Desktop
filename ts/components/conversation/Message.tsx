@@ -846,6 +846,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public renderPreview(): JSX.Element | null {
     const {
+      id,
       attachments,
       conversationType,
       direction,
@@ -854,6 +855,7 @@ export class Message extends React.PureComponent<Props, State> {
       previews,
       quote,
       theme,
+      kickOffAttachmentDownload,
     } = this.props;
 
     // Attachments take precedence over Link Previews
@@ -889,6 +891,14 @@ export class Message extends React.PureComponent<Props, State> {
         'module-message__link-preview--nonclickable': !isClickable,
       }
     );
+    const onPreviewImageClick = () => {
+      if (first.image && hasNotDownloaded(first.image)) {
+        kickOffAttachmentDownload({
+          attachment: first.image,
+          messageId: id,
+        });
+      }
+    };
     const contents = (
       <>
         {first.image && previewHasImage && isFullSizeImage ? (
@@ -899,6 +909,7 @@ export class Message extends React.PureComponent<Props, State> {
             onError={this.handleImageError}
             i18n={i18n}
             theme={theme}
+            onClick={onPreviewImageClick}
           />
         ) : null}
         <div className="module-message__link-preview__content">
@@ -916,6 +927,7 @@ export class Message extends React.PureComponent<Props, State> {
                 attachment={first.image}
                 onError={this.handleImageError}
                 i18n={i18n}
+                onClick={onPreviewImageClick}
               />
             </div>
           ) : null}
@@ -950,8 +962,9 @@ export class Message extends React.PureComponent<Props, State> {
     );
 
     return isClickable ? (
-      <button
-        type="button"
+      <div
+        role="link"
+        tabIndex={0}
         className={className}
         onKeyDown={(event: React.KeyboardEvent) => {
           if (event.key === 'Enter' || event.key === 'Space') {
@@ -969,7 +982,7 @@ export class Message extends React.PureComponent<Props, State> {
         }}
       >
         {contents}
-      </button>
+      </div>
     ) : (
       <div className={className}>{contents}</div>
     );
