@@ -15,6 +15,7 @@ type GetLinkPreviewImageResult = {
   contentType: string;
   width?: number;
   height?: number;
+  blurHash: string;
 };
 
 type GetLinkPreviewResult = {
@@ -3758,6 +3759,11 @@ Whisper.ConversationView = Whisper.View.extend({
           data,
           size: data.byteLength,
           contentType: 'image/jpeg',
+          blurHash: await window.imageToBlurHash(
+            new Blob([data], {
+              type: 'image/jpeg',
+            })
+          ),
         };
       } catch (error) {
         const errorString = error && error.stack ? error.stack : error;
@@ -3833,6 +3839,8 @@ Whisper.ConversationView = Whisper.View.extend({
         const data = await this.arrayBufferFromFile(withBlob.file);
         objectUrl = URL.createObjectURL(withBlob.file);
 
+        const blurHash = await window.imageToBlurHash(withBlob.file);
+
         const dimensions = await VisualAttachment.getImageDimensions({
           objectUrl,
           logger: window.log,
@@ -3843,6 +3851,7 @@ Whisper.ConversationView = Whisper.View.extend({
           size: data.byteLength,
           ...dimensions,
           contentType: withBlob.file.type,
+          blurHash,
         };
       } catch (error) {
         // We still want to show the preview if we failed to get an image
