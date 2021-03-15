@@ -8,6 +8,6 @@ export function isConversationUnregistered({
 }: Readonly<{ discoveredUnregisteredAt?: number }>): boolean {
   return Boolean(
     discoveredUnregisteredAt &&
-      discoveredUnregisteredAt < Date.now() - SIX_HOURS
+      discoveredUnregisteredAt > Date.now() - SIX_HOURS
   );
 }

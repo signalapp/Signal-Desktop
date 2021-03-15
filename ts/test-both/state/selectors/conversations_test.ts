@@ -501,7 +501,8 @@ describe('both/state/selectors/conversations', () => {
         'convo-5': {
           ...getDefaultConversation('convo-5'),
           discoveredUnregisteredAt: new Date(1999, 3, 20).getTime(),
-          title: 'Should Be Dropped (unregistered)',
+          name: 'In System Contacts (and unregistered too long ago)',
+          title: 'B. Sorted Second',
         },
         'convo-6': {
           ...getDefaultConversation('convo-6'),
@@ -511,8 +512,7 @@ describe('both/state/selectors/conversations', () => {
         'convo-7': {
           ...getDefaultConversation('convo-7'),
           discoveredUnregisteredAt: Date.now(),
-          name: 'In System Contacts (and only recently unregistered)',
-          title: 'B. Sorted Second',
+          title: 'Should Be Dropped (unregistered)',
         },
       });
       return result;
@@ -540,7 +540,7 @@ describe('both/state/selectors/conversations', () => {
       const ids = result.map(contact => contact.id);
       assert.deepEqual(ids, [
         'convo-1',
-        'convo-7',
+        'convo-5',
         'convo-6',
         'our-conversation-id',
       ]);
@@ -551,7 +551,7 @@ describe('both/state/selectors/conversations', () => {
       const result = getComposeContacts(state);
 
       const ids = result.map(contact => contact.id);
-      assert.deepEqual(ids, ['convo-1', 'convo-7']);
+      assert.deepEqual(ids, ['convo-1', 'convo-5']);
     });
   });
 
@@ -590,14 +590,14 @@ describe('both/state/selectors/conversations', () => {
             'convo-5': {
               ...getDefaultConversation('convo-5'),
               discoveredUnregisteredAt: new Date(1999, 3, 20).getTime(),
-              name: 'My Name',
-              title: 'Should Be Dropped (unregistered)',
+              name: 'In System Contacts (and unregistered too long ago)',
+              title: 'C. Sorted Third',
             },
             'convo-6': {
               ...getDefaultConversation('convo-6'),
               discoveredUnregisteredAt: Date.now(),
-              name: 'In System Contacts (and only recently unregistered)',
-              title: 'C. Sorted Third',
+              name: 'My Name',
+              title: 'Should Be Dropped (unregistered)',
             },
           },
           composer: {
@@ -624,7 +624,7 @@ describe('both/state/selectors/conversations', () => {
       const result = getCandidateContactsForNewGroup(state);
 
       const ids = result.map(contact => contact.id);
-      assert.deepEqual(ids, ['convo-1', 'convo-6']);
+      assert.deepEqual(ids, ['convo-1', 'convo-5']);
     });
 
     it('can search for contacts', () => {
@@ -632,7 +632,7 @@ describe('both/state/selectors/conversations', () => {
       const result = getCandidateContactsForNewGroup(state);
 
       const ids = result.map(contact => contact.id);
-      assert.deepEqual(ids, ['convo-1', 'convo-6']);
+      assert.deepEqual(ids, ['convo-1', 'convo-5']);
     });
   });
 

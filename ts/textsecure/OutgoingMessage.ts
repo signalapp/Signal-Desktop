@@ -633,6 +633,11 @@ export default class OutgoingMessage {
               });
               identifier = uuid;
             } else {
+              const c = window.ConversationController.get(identifier);
+              if (c) {
+                c.setUnregistered();
+              }
+
               throw new UnregisteredUserError(
                 identifier,
                 new Error('User is not registered')
