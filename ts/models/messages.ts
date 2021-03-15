@@ -3675,13 +3675,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           }
         }
 
-        await this.modifyTargetMessage(conversation, isGroupV2);
+        const isFirstRun = true;
+        await this.modifyTargetMessage(conversation, isFirstRun);
 
         window.log.info(
           'handleDataMessage: Batching save for',
           message.get('sent_at')
         );
-        this.saveAndNotify(conversation, isGroupV2, confirm);
+        this.saveAndNotify(conversation, confirm);
       } catch (error) {
         const errorForLog = error && error.stack ? error.stack : error;
         window.log.error(
@@ -3697,7 +3698,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   async saveAndNotify(
     conversation: ConversationModel,
-    isGroupV2: boolean,
     confirm: () => void
   ): Promise<void> {
     await window.Signal.Util.saveNewMessageBatcher.add(this.attributes);
@@ -3706,7 +3706,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     conversation.trigger('newmessage', this);
 
-    await this.modifyTargetMessage(conversation, isGroupV2);
+    const isFirstRun = false;
+    await this.modifyTargetMessage(conversation, isFirstRun);
 
     if (this.get('unread')) {
       await conversation.notify(this);
@@ -3721,9 +3722,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     confirm();
   }
 
+  // This function is called twice - once from handleDataMessage, and then again from
+  //    saveAndNotify, a function called at the end of handleDataMessage as a cleanup for
+  //    any missed out-of-order events.
   async modifyTargetMessage(
     conversation: ConversationModel,
-    isGroupV2: boolean
+    isFirstRun: boolean
   ): Promise<void> {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const message = this;
@@ -3744,66 +3748,64 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       );
     }
 
-    if (!isGroupV2) {
-      if (type === 'incoming') {
-        const readSync = window.Whisper.ReadSyncs.forMessage(message);
-        if (readSync) {
-          if (
-            message.get('expireTimer') &&
-            !message.get('expirationStartTimestamp')
-          ) {
-            message.set(
-              'expirationStartTimestamp',
-              Math.min(readSync.get('read_at'), Date.now())
-            );
-          }
-        }
-        if (readSync || message.isExpirationTimerUpdate()) {
-          message.unset('unread');
-          // This is primarily to allow the conversation to mark all older
-          // messages as read, as is done when we receive a read sync for
-          // a message we already know about.
-          const c = message.getConversation();
-          if (c) {
-            c.onReadMessage(message);
-          }
-        } else {
-          conversation.set({
-            unreadCount: (conversation.get('unreadCount') || 0) + 1,
-            isArchived: false,
-          });
+    if (type === 'incoming') {
+      const readSync = window.Whisper.ReadSyncs.forMessage(message);
+      if (readSync) {
+        if (
+          message.get('expireTimer') &&
+          !message.get('expirationStartTimestamp')
+        ) {
+          message.set(
+            'expirationStartTimestamp',
+            Math.min(readSync.get('read_at'), Date.now())
+          );
         }
       }
-
-      if (type === 'outgoing') {
-        const reads = window.Whisper.ReadReceipts.forMessage(
-          conversation,
-          message
-        );
-        if (reads.length) {
-          const readBy = reads.map(receipt => receipt.get('reader'));
-          message.set({
-            read_by: _.union(message.get('read_by'), readBy),
-          });
+      if (readSync || message.isExpirationTimerUpdate()) {
+        message.unset('unread');
+        // This is primarily to allow the conversation to mark all older
+        // messages as read, as is done when we receive a read sync for
+        // a message we already know about.
+        const c = message.getConversation();
+        if (c) {
+          c.onReadMessage(message);
         }
+      } else if (isFirstRun) {
+        conversation.set({
+          unreadCount: (conversation.get('unreadCount') || 0) + 1,
+          isArchived: false,
+        });
+      }
+    }
 
-        // A sync'd message to ourself is automatically considered read/delivered
-        if (conversation.isMe()) {
-          message.set({
-            read_by: conversation.getRecipients(),
-            delivered_to: conversation.getRecipients(),
-          });
-        }
-
-        message.set({ recipients: conversation.getRecipients() });
+    if (type === 'outgoing') {
+      const reads = window.Whisper.ReadReceipts.forMessage(
+        conversation,
+        message
+      );
+      if (reads.length) {
+        const readBy = reads.map(receipt => receipt.get('reader'));
+        message.set({
+          read_by: _.union(message.get('read_by'), readBy),
+        });
       }
 
-      // Check for out-of-order view syncs
-      if (type === 'incoming' && message.isTapToView()) {
-        const viewSync = window.Whisper.ViewSyncs.forMessage(message);
-        if (viewSync) {
-          await message.markViewed({ fromSync: true });
-        }
+      // A sync'd message to ourself is automatically considered read/delivered
+      if (conversation.isMe()) {
+        message.set({
+          read_by: conversation.getRecipients(),
+          delivered_to: conversation.getRecipients(),
+        });
+      }
+
+      message.set({ recipients: conversation.getRecipients() });
+    }
+
+    // Check for out-of-order view syncs
+    if (type === 'incoming' && message.isTapToView()) {
+      const viewSync = window.Whisper.ViewSyncs.forMessage(message);
+      if (viewSync) {
+        await message.markViewed({ fromSync: true });
       }
     }
 
