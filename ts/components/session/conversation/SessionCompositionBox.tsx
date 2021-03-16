@@ -929,7 +929,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     const audioAttachment: Attachment = {
       data: fileBuffer,
       flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
-      contentType: MIME.AUDIO_MP3,
+      contentType: MIME.AUDIO_OPUS,
       size: audioBlob.size,
     };
 

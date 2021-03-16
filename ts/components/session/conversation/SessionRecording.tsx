@@ -473,7 +473,9 @@ class SessionRecordingInner extends React.Component<Props, State> {
     }
 
     // Start recording the stream
-    const media = new window.MediaRecorder(stream, { mimeType: 'audio/webm' });
+    const media = new window.MediaRecorder(stream, {
+      mimeType: 'audio/webm;codecs=opus',
+    });
     media.ondataavailable = (mediaBlob: any) => {
       this.setState({ mediaBlob }, async () => {
         // Generate PCM waveform for playback

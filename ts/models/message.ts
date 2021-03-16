@@ -23,6 +23,7 @@ import {
 import autoBind from 'auto-bind';
 import { saveMessage } from '../../ts/data/data';
 import { ConversationModel } from './conversation';
+import { getSuggestedFilenameSending } from '../types/Attachment';
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   public propsForTimerNotification: any;
   public propsForGroupNotification: any;
@@ -802,7 +803,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const filenameOverridenAttachments = finalAttachments.map(
       (attachment: any) => ({
         ...attachment,
-        fileName: window.Signal.Types.Attachment.getSuggestedFilenameSending({
+        fileName: getSuggestedFilenameSending({
           attachment,
           timestamp: Date.now(),
         }),
