@@ -29,8 +29,6 @@ import { MessageView } from '../../MainViewController';
 import { pushUnblockToSend } from '../../../session/utils/Toast';
 import { MessageDetail } from '../../conversation/MessageDetail';
 import { ConversationController } from '../../../session/conversations';
-import { PubKey } from '../../../session/types';
-import { MessageModel } from '../../../models/message';
 import {
   getMessageById,
   getPubkeysInPublicConversation,
@@ -210,6 +208,7 @@ export class SessionConversation extends React.Component<Props, State> {
       selectedConversation,
       selectedConversationKey,
       messages,
+      actions,
     } = this.props;
 
     if (!selectedConversation || !messages) {
@@ -308,6 +307,8 @@ export class SessionConversation extends React.Component<Props, State> {
             onMessageFailure={this.onMessageFailure}
             onLoadVoiceNoteView={this.onLoadVoiceNoteView}
             onExitVoiceNoteView={this.onExitVoiceNoteView}
+            showLeftPaneSection={actions.showLeftPaneSection}
+            showSettingsSection={actions.showSettingsSection}
             quotedMessageProps={quotedMessageProps}
             removeQuotedMessage={() => {
               void this.replyToMessage(undefined);

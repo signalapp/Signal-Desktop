@@ -31,6 +31,8 @@ import { ConversationController } from '../../../session/conversations';
 import { ConversationType } from '../../../state/ducks/conversations';
 import { SessionMemberListItem } from '../SessionMemberListItem';
 import autoBind from 'auto-bind';
+import { SectionType } from '../ActionsPanel';
+import { SessionSettingCategory } from '../settings/SessionSettings';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -78,6 +80,8 @@ interface Props {
   clearAttachments: () => any;
   removeAttachment: (toRemove: AttachmentType) => void;
   onChoseAttachments: (newAttachments: Array<File>) => void;
+  showLeftPaneSection: (section: SectionType) => void;
+  showSettingsSection: (category: SessionSettingCategory) => void;
   theme: DefaultTheme;
 }
 
@@ -931,7 +935,10 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       return;
     }
 
-    ToastUtils.pushAudioPermissionNeeded();
+    ToastUtils.pushAudioPermissionNeeded(() => {
+      this.props.showLeftPaneSection(SectionType.Settings);
+      this.props.showSettingsSection(SessionSettingCategory.Privacy);
+    });
   }
 
   private onExitVoiceNoteView() {

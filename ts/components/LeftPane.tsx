@@ -33,14 +33,15 @@ interface Props {
   unreadMessageCount: number;
   searchResults?: SearchResultsProps;
   searchTerm: string;
+
   focusedSection: SectionType;
-  focusSection: (section: SectionType) => void;
+  focusedSettingsSection?: SessionSettingCategory;
+  showLeftPaneSection: (section: SectionType) => void;
+  showSettingsSection: (section: SessionSettingCategory) => void;
+
   isExpired: boolean;
 
   openConversationExternal: (id: string, messageId?: string) => void;
-  showSessionSettingsCategory: (category: SessionSettingCategory) => void;
-  showSessionViewConversation: () => void;
-  settingsCategory?: SessionSettingCategory;
   updateSearchTerm: (searchTerm: string) => void;
   search: (query: string, options: SearchOptions) => void;
   clearSearch: () => void;
@@ -56,12 +57,7 @@ export class LeftPane extends React.Component<Props> {
 
   public handleSectionSelected(section: SectionType) {
     this.props.clearSearch();
-    this.props.focusSection(section);
-    if (section === SectionType.Settings) {
-      this.props.showSessionSettingsCategory(SessionSettingCategory.Appearance);
-    } else {
-      this.props.showSessionViewConversation();
-    }
+    this.props.showLeftPaneSection(section);
   }
 
   public render(): JSX.Element {
@@ -146,13 +142,14 @@ export class LeftPane extends React.Component<Props> {
   }
 
   private renderSettingSection() {
-    const { settingsCategory } = this.props;
-
-    const category = settingsCategory || SessionSettingCategory.Appearance;
-
+    const settingsCategory =
+      this.props.focusedSettingsSection || SessionSettingCategory.Appearance;
     return (
       <>
-        <LeftPaneSettingSection {...this.props} settingsCategory={category} />
+        <LeftPaneSettingSection
+          {...this.props}
+          settingsCategory={settingsCategory}
+        />
       </>
     );
   }

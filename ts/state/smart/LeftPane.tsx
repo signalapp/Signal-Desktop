@@ -9,7 +9,10 @@ import {
   getOurPrimaryConversation,
 } from '../selectors/conversations';
 import { mapDispatchToProps } from '../actions';
-import { getFocusedSection } from '../selectors/section';
+import {
+  getFocusedSection,
+  getFocusedSettingsSection,
+} from '../selectors/section';
 import { getTheme } from '../selectors/theme';
 
 // Workaround: A react component's required properties are filtering up through connect()
@@ -33,6 +36,7 @@ const mapStateToProps = (state: StateType) => {
     unreadMessageCount: leftPaneList.unreadCount,
     theme: getTheme(state),
     focusedSection: getFocusedSection(state),
+    focusedSettingsSection: getFocusedSettingsSection(state),
   };
 };
 

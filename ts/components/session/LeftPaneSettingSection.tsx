@@ -18,7 +18,7 @@ import { deleteAccount } from '../../util/accountManager';
 
 interface Props {
   settingsCategory: SessionSettingCategory;
-  showSessionSettingsCategory: (category: SessionSettingCategory) => void;
+  showSettingsSection: (category: SessionSettingCategory) => void;
   theme: DefaultTheme;
 }
 
@@ -34,7 +34,6 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
       searchQuery: '',
     };
 
-    this.setCategory = this.setCategory.bind(this);
     this.onDeleteAccount = this.onDeleteAccount.bind(this);
   }
 
@@ -67,7 +66,7 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
         )}
         role="link"
         onClick={() => {
-          this.setCategory(item.id);
+          this.props.showSettingsSection(item.id);
         }}
       >
         <div>
@@ -213,9 +212,5 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
         hidden: false,
       },
     ];
-  }
-
-  public setCategory(category: SessionSettingCategory) {
-    this.props.showSessionSettingsCategory(category);
   }
 }
