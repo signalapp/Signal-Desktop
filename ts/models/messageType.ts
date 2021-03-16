@@ -50,20 +50,57 @@ export interface MessageAttributes {
     fromSync?: boolean;
     fromGroupUpdate?: boolean;
   };
-  unread: boolean;
+  /**
+   * 1 means unread, 0 or anything else is read.
+   */
+  unread: number;
   group?: any;
+  /**
+   * timestamp is the sent_at timestamp, which is the envelope.timestamp
+   */
   timestamp?: number;
   status: MessageDeliveryStatus;
   dataMessage: any;
   sent_to: any;
   sent: boolean;
-  calculatingPoW: boolean;
+
+  /**
+   * The serverId is the id on the open group server itself.
+   * Each message sent to an open group gets a serverId.
+   * This is not the id for the server, but the id ON the server.
+   *
+   * This field is not set for a message not on an opengroup server.
+   */
   serverId?: number;
+  /**
+   * This is the timestamp of that messages as it was saved by the Open group server.
+   * We rely on this one to order Open Group messages.
+   * This field is not set for a message not on an opengroup server.
+   */
   serverTimestamp?: number;
+  /**
+   * This field is set to true if the message is for a public server.
+   * This is useful to make the Badge `Public` Appear on a sent message to a server, even if we did not get
+   * the response from the server yet that this message was successfully added.
+   */
   isPublic: boolean;
+
+  /**
+   * sentSync set to true means we just triggered the sync message for this Private Chat message.
+   * We did not yet get the message sent confirmation, it was just added to the Outgoing MessageQueue
+   */
   sentSync: boolean;
+
+  /**
+   * synced set to true means that this message was successfully sent by our current device to our other devices.
+   * It is set to true when the MessageQueue did effectively sent our sync message without errors.
+   */
   synced: boolean;
   sync: boolean;
+
+  /**
+   * This field is used for search only
+   */
   snippet?: any;
   direction: any;
 }
@@ -103,14 +140,13 @@ export interface MessageAttributesOptionals {
     fromSync?: boolean;
     fromGroupUpdate?: boolean;
   };
-  unread?: boolean;
+  unread?: number;
   group?: any;
   timestamp?: number;
   status?: MessageDeliveryStatus;
   dataMessage?: any;
   sent_to?: Array<string>;
   sent?: boolean;
-  calculatingPoW?: boolean;
   serverId?: number;
   serverTimestamp?: number;
   isPublic?: boolean;
@@ -133,6 +169,7 @@ export const fillMessageAttributesWithDefaults = (
     expireTimer: 0, // disabled
     id: uuidv4(),
     schemaVersion: window.Signal.Types.Message.CURRENT_SCHEMA_VERSION,
+    unread: 0, // if nothing is set, this message is considered read
   });
 };
 
@@ -147,7 +184,7 @@ export interface MessageRegularProps {
   direction: 'incoming' | 'outgoing';
   timestamp: number;
   serverTimestamp?: number;
-  status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error' | 'pow';
+  status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
   // What if changed this over to a single contact like quote, and put the events on it?
   contact?: Contact & {
     onSendMessage?: () => void;

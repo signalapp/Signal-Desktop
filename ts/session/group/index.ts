@@ -206,7 +206,7 @@ export async function addUpdateMessage(
     sent_at: sentAt,
     received_at: now,
     group_update: groupUpdate,
-    unread,
+    unread: unread ? 1 : 0,
     expireTimer: 0,
   });
 

@@ -7,6 +7,7 @@ import { DefaultTheme, withTheme } from 'styled-components';
 import { PasswordUtil } from '../../util';
 import { getPasswordHash } from '../../data/data';
 import { QRCode } from 'react-qr-svg';
+import { mn_decode } from '../../session/crypto/mnemonic';
 
 interface Props {
   onClose: any;

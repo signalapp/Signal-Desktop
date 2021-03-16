@@ -285,9 +285,7 @@
         if (conversation) {
           conversation.removeMessage(id);
         }
-        window.Signal.Data.removeMessage(id, {
-          Message: window.models.Message.MessageModel,
-        });
+        window.Signal.Data.removeMessage(id);
       });
     }
   );
@@ -305,9 +303,7 @@
     window.log.info('Cleanup: starting...');
 
     const results = await Promise.all([
-      window.Signal.Data.getOutgoingWithoutExpiresAt({
-        MessageCollection: window.models.Message.MessageCollection,
-      }),
+      window.Signal.Data.getOutgoingWithoutExpiresAt(),
     ]);
 
     // Combine the models
@@ -344,9 +340,7 @@
         }
 
         window.log.info(`Cleanup: Deleting unsent message ${sentAt}`);
-        await window.Signal.Data.removeMessage(message.id, {
-          Message: window.models.Message.MessageModel,
-        });
+        await window.Signal.Data.removeMessage(message.id);
       })
     );
     window.log.info('Cleanup: complete');
@@ -743,15 +737,6 @@
     Whisper.events.on('showPasswordDialog', async options => {
       if (appView) {
         appView.showPasswordDialog(options);
-      }
-    });
-
-    Whisper.events.on('calculatingPoW', ({ pubKey, timestamp }) => {
-      try {
-        const conversation = window.getConversationController().get(pubKey);
-        conversation.onCalculatingPoW(pubKey, timestamp);
-      } catch (e) {
-        window.log.error('Error showing PoW cog');
       }
     });
 

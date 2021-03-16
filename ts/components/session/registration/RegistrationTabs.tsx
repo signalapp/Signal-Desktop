@@ -21,6 +21,7 @@ import {
 } from '../../../util/accountManager';
 import { fromHex } from '../../../session/utils/String';
 import { TaskTimedOutError } from '../../../session/utils/Promise';
+import { mn_decode } from '../../../session/crypto/mnemonic';
 
 export const MAX_USERNAME_LENGTH = 20;
 // tslint:disable: use-simple-attributes
@@ -304,10 +305,9 @@ export class RegistrationTabs extends React.Component<any, State> {
 
   private async generateMnemonicAndKeyPair() {
     if (this.state.generatedRecoveryPhrase === '') {
-      const language = 'english';
-      const mnemonic = await generateMnemonic(language);
+      const mnemonic = await generateMnemonic();
 
-      let seedHex = window.mnemonic.mn_decode(mnemonic, language);
+      let seedHex = mn_decode(mnemonic);
       // handle shorter than 32 bytes seeds
       const privKeyHexLength = 32 * 2;
       if (seedHex.length !== privKeyHexLength) {

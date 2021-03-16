@@ -2,6 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getMessageById } from '../../data/data';
+import { ConversationModel } from '../../models/conversation';
 import { MessageModel } from '../../models/message';
 import { getMessageQueue } from '../../session';
 import { ConversationController } from '../../session/conversations';
@@ -116,7 +117,7 @@ export class SessionInboxView extends React.Component<Props, State> {
     // Here we set up a full redux store with initial state for our LeftPane Root
     const convoCollection = ConversationController.getInstance().getConversations();
     const conversations = convoCollection.map(
-      (conversation: any) => conversation.cachedProps
+      (conversation: ConversationModel) => conversation.getProps()
     );
 
     const filledConversations = conversations.map((conv: any) => {
@@ -143,25 +144,14 @@ export class SessionInboxView extends React.Component<Props, State> {
     window.inboxStore = this.store;
 
     // Enables our redux store to be updated by backbone events in the outside world
-    const {
-      messageExpired,
-      messageAdded,
-      messageChanged,
-      messageDeleted,
-      conversationReset,
-    } = bindActionCreators(conversationActions, this.store.dispatch);
-    window.actionsCreators = conversationActions;
-    const { userChanged } = bindActionCreators(
-      userActions,
+    const { messageExpired } = bindActionCreators(
+      conversationActions,
       this.store.dispatch
     );
+    window.actionsCreators = conversationActions;
 
+    // messageExpired is currently inboked fropm js. So we link it to Redux that way
     window.Whisper.events.on('messageExpired', messageExpired);
-    window.Whisper.events.on('messageChanged', messageChanged);
-    window.Whisper.events.on('messageAdded', messageAdded);
-    window.Whisper.events.on('messageDeleted', messageDeleted);
-    window.Whisper.events.on('userChanged', userChanged);
-    window.Whisper.events.on('conversationReset', conversationReset);
 
     this.setState({ isInitialLoadComplete: true });
   }
