@@ -10,6 +10,7 @@ import { ConversationModel } from '../models/conversation';
 import { MessageCollection, MessageModel } from '../models/message';
 import { MessageController } from '../session/messages';
 import { getMessageById, getMessagesBySentAt } from '../../ts/data/data';
+import { actions as conversationActions } from '../state/ducks/conversations';
 
 async function handleGroups(
   conversation: ConversationModel,
@@ -288,7 +289,7 @@ function updateReadStatus(
     }
   }
   if (readSync || message.isExpirationTimerUpdate()) {
-    message.set({ unread: false });
+    message.set({ unread: 0 });
 
     // This is primarily to allow the conversation to mark all older
     // messages as read, as is done when we receive a read sync for
@@ -529,10 +530,15 @@ export async function handleMessageJob(
     const id = await message.commit();
 
     message.set({ id });
-    window.Whisper.events.trigger('messageAdded', {
-      conversationKey: conversation.id,
-      messageModel: message,
-    });
+    // this updates the redux store.
+    // if the convo on which this message should become visible,
+    // it will be shown to the user, and might as well be read right away
+    window.inboxStore?.dispatch(
+      conversationActions.messageAdded({
+        conversationKey: conversation.id,
+        messageModel: message,
+      })
+    );
     MessageController.getInstance().register(message.id, message);
 
     // Note that this can save the message again, if jobs were queued. We need to

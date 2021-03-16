@@ -2019,9 +2019,7 @@ class LokiPublicChannelAPI {
       payload.annotations[0].value.quote = quote;
 
       // copied from model/message.js copyFromQuotedMessage
-      const collection = await Signal.Data.getMessagesBySentAt(quote.id, {
-        MessageCollection: window.models.Message.MessageCollection,
-      });
+      const collection = await Signal.Data.getMessagesBySentAt(quote.id);
       const found = collection.find(item => {
         const messageAuthor = item.getContact();
 

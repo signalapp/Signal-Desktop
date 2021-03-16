@@ -312,18 +312,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
     }
   }
 
-  private getPubkeyName(pubKey: string | null) {
-    if (!pubKey) {
-      return {};
-    }
-
-    const secretWords = window.mnemonic.pubkey_to_secret_words(pubKey);
-    const conv = ConversationController.getInstance().get(pubKey);
-    const deviceAlias = conv ? conv.getNickname() : 'Unnamed Device';
-
-    return { deviceAlias, secretWords };
-  }
-
   // tslint:disable-next-line: max-func-body-length
   private getLocalSettings(): Array<LocalSettingType> {
     const { Settings } = window.Signal.Types;

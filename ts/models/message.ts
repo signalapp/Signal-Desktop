@@ -23,6 +23,8 @@ import {
 import autoBind from 'auto-bind';
 import { saveMessage } from '../../ts/data/data';
 import { ConversationModel } from './conversation';
+import { actions as conversationActions } from '../state/ducks/conversations';
+
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   public propsForTimerNotification: any;
   public propsForGroupNotification: any;
@@ -52,27 +54,27 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     void this.setToExpire();
     autoBind(this);
 
-    this.markRead = this.markRead.bind(this);
-    // Keep props ready
-    const generateProps = (triggerEvent = true) => {
-      if (this.isExpirationTimerUpdate()) {
-        this.propsForTimerNotification = this.getPropsForTimerNotification();
-      } else if (this.isGroupUpdate()) {
-        this.propsForGroupNotification = this.getPropsForGroupNotification();
-      } else if (this.isGroupInvitation()) {
-        this.propsForGroupInvitation = this.getPropsForGroupInvitation();
-      } else {
-        this.propsForSearchResult = this.getPropsForSearchResult();
-        this.propsForMessage = this.getPropsForMessage();
-      }
-      if (triggerEvent) {
-        window.Whisper.events.trigger('messageChanged', this);
-      }
-    };
-    this.on('change', generateProps);
     window.contextMenuShown = false;
 
-    generateProps(false);
+    this.generateProps(false);
+  }
+
+  // Keep props ready
+  public generateProps(triggerEvent = true) {
+    if (this.isExpirationTimerUpdate()) {
+      this.propsForTimerNotification = this.getPropsForTimerNotification();
+    } else if (this.isGroupUpdate()) {
+      this.propsForGroupNotification = this.getPropsForGroupNotification();
+    } else if (this.isGroupInvitation()) {
+      this.propsForGroupInvitation = this.getPropsForGroupInvitation();
+    } else {
+      this.propsForSearchResult = this.getPropsForSearchResult();
+      this.propsForMessage = this.getPropsForMessage();
+    }
+
+    if (triggerEvent) {
+      window.inboxStore?.dispatch(conversationActions.messageChanged(this));
+    }
   }
 
   public idForLogging() {
@@ -111,7 +113,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     const { unread } = attributes;
     if (unread === undefined) {
-      this.set({ unread: false });
+      this.set({ unread: 0 });
     }
 
     this.set(attributes);
@@ -425,10 +427,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const sentTo = this.get('sent_to') || [];
     if (sent || sentTo.length > 0) {
       return 'sent';
-    }
-    const calculatingPoW = this.get('calculatingPoW');
-    if (calculatingPoW) {
-      return 'pow';
     }
 
     return 'sending';
@@ -1003,18 +1001,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return null;
   }
 
-  public async setCalculatingPoW() {
-    if (this.get('calculatingPoW')) {
-      return;
-    }
-
-    this.set({
-      calculatingPoW: true,
-    });
-
-    await this.commit();
-  }
-
   public async sendSyncMessageOnly(dataMessage: DataMessage) {
     const now = Date.now();
     this.set({
@@ -1107,12 +1093,18 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       throw new Error('A message always needs an id');
     }
     const id = await saveMessage(this.attributes);
-    this.trigger('change');
+    this.generateProps();
     return id;
   }
 
   public async markRead(readAt: number) {
-    this.set({ unread: false });
+    this.markReadNoCommit(readAt);
+
+    await this.commit();
+  }
+
+  public markReadNoCommit(readAt: number) {
+    this.set({ unread: 0 });
 
     if (this.get('expireTimer') && !this.get('expirationStartTimestamp')) {
       const expirationStartTimestamp = Math.min(
@@ -1127,8 +1119,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         messageId: this.id,
       })
     );
-
-    await this.commit();
   }
 
   public isExpiring() {

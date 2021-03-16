@@ -72,6 +72,7 @@ export class MockConversation {
     this.attributes = {
       id: this.id,
       name: '',
+      profileName: undefined,
       type: params.type === 'public' ? 'group' : params.type,
       members,
       left: false,
@@ -82,6 +83,7 @@ export class MockConversation {
       active_at: Date.now(),
       lastJoinedTimestamp: Date.now(),
       lastMessageStatus: null,
+      lastMessage: null,
     };
   }
 

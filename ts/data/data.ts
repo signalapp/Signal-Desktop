@@ -9,6 +9,7 @@ import {
   ConversationModel,
 } from '../models/conversation';
 import { MessageCollection, MessageModel } from '../models/message';
+import { MessageAttributes } from '../models/messageType';
 import { HexKeyPair } from '../receiver/keypairs';
 import { PubKey } from '../session/types';
 import {
@@ -671,23 +672,32 @@ export async function cleanLastHashes(): Promise<void> {
 }
 
 // TODO: Strictly type the following
-export async function saveSeenMessageHashes(data: any): Promise<void> {
+export async function saveSeenMessageHashes(
+  data: Array<{
+    expiresAt: number;
+    hash: string;
+  }>
+): Promise<void> {
   await channels.saveSeenMessageHashes(_cleanData(data));
 }
 
-export async function updateLastHash(data: any): Promise<void> {
+export async function updateLastHash(data: {
+  convoId: string;
+  snode: string;
+  hash: string;
+  expiresAt: number;
+}): Promise<void> {
   await channels.updateLastHash(_cleanData(data));
 }
 
-export async function saveMessage(data: MessageModel): Promise<string> {
+export async function saveMessage(data: MessageAttributes): Promise<string> {
   const id = await channels.saveMessage(_cleanData(data));
   window.Whisper.ExpiringMessagesListener.update();
   return id;
 }
 
 export async function saveMessages(
-  arrayOfMessages: any,
-  options?: { forceSave: boolean }
+  arrayOfMessages: Array<MessageAttributes>
 ): Promise<void> {
   await channels.saveMessages(_cleanData(arrayOfMessages));
 }
@@ -860,7 +870,18 @@ export async function getUnprocessedById(id: string): Promise<any> {
   return channels.getUnprocessedById(id);
 }
 
-export async function saveUnprocessed(data: any): Promise<string> {
+export type UnprocessedParameter = {
+  id: string;
+  version: number;
+  envelope: string;
+  timestamp: number;
+  attempts: number;
+  senderIdentity?: string;
+};
+
+export async function saveUnprocessed(
+  data: UnprocessedParameter
+): Promise<string> {
   const id = await channels.saveUnprocessed(_cleanData(data));
   return id;
 }
