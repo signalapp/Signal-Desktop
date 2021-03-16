@@ -35,7 +35,6 @@
     "test-electron": "yarn grunt test",
     "test-integration": "ELECTRON_DISABLE_SANDBOX=1 mocha --exit --full-trace --timeout 10000 ts/test/session/integration/integration_itest.js",
     "test-node": "mocha --recursive --exit --timeout 10000  test/app test/modules \"./ts/test/**/*_test.js\" libloki/test/node ",
-    "test-audric": "mocha --recursive --exit --timeout 10000 ts/test/session/unit/",
     "eslint": "eslint --cache .",
     "eslint-fix": "eslint --fix .",
     "eslint-full": "eslint .",
@@ -223,6 +222,10 @@
     "appId": "com.loki-project.messenger-desktop",
     "afterSign": "build/notarize.js",
     "artifactName": "${name}-${os}-${arch}-${version}.${ext}",
+    "extraResources": {
+      "from": "./build/launcher-script.sh",
+      "to": "./launcher-script.sh"
+    },
     "mac": {
       "category": "public.app-category.social-networking",
       "icon": "build/icons/mac/icon.icns",
@@ -333,7 +336,8 @@
       "!node_modules/@journeyapps/sqlcipher/lib/binding/node-*",
       "!build/*.js",
       "!dev-app-update.yml"
-    ]
+    ],
+    "afterPack": "./build/afterPackHook.js"
   },
   "husky": {
     "hooks": {

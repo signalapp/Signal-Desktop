@@ -256,6 +256,7 @@ function isVisible(window, bounds) {
 async function createWindow() {
   const { screen } = electron;
   const { minWidth, minHeight, width, height } = getWindowSize();
+
   const windowOptions = Object.assign(
     {
       show: !startInTray, // allow to start minimised in tray
