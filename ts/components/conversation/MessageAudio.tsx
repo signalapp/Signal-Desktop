@@ -256,6 +256,13 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
 
     (async () => {
       try {
+        if (!attachment.url) {
+          throw new Error(
+            'Expected attachment url in the MessageAudio with ' +
+              `state: ${state}`
+          );
+        }
+
         const { peaks: newPeaks, duration: newDuration } = await loadAudio({
           audioContext,
           waveformCache,
@@ -374,6 +381,12 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
         audio.pause();
       }
 
+      if (!attachment.url) {
+        throw new Error(
+          'Expected attachment url in the MessageAudio with ' +
+            `state: ${state}`
+        );
+      }
       audio.src = attachment.url;
     }
   };

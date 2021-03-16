@@ -28,7 +28,7 @@ export type AttachmentType = {
   /** Not included in protobuf, needs to be pulled from flags */
   isVoiceMessage?: boolean;
   /** For messages not already on disk, this will be a data url */
-  url: string;
+  url?: string;
   size?: number;
   fileSize?: string;
   pending?: boolean;
@@ -107,7 +107,9 @@ export function canDisplayImage(
   );
 }
 
-export function getThumbnailUrl(attachment: AttachmentType): string {
+export function getThumbnailUrl(
+  attachment: AttachmentType
+): string | undefined {
   if (attachment.thumbnail) {
     return attachment.thumbnail.url;
   }
@@ -115,7 +117,7 @@ export function getThumbnailUrl(attachment: AttachmentType): string {
   return getUrl(attachment);
 }
 
-export function getUrl(attachment: AttachmentType): string {
+export function getUrl(attachment: AttachmentType): string | undefined {
   if (attachment.screenshot) {
     return attachment.screenshot.url;
   }

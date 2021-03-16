@@ -759,8 +759,6 @@ story.add('Audio with Not Downloaded Attachment', () => {
       {
         contentType: AUDIO_MP3,
         fileName: 'incompetech-com-Agnus-Dei-X.mp3',
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        url: undefined as any,
       },
     ],
     status: 'sent',
@@ -775,8 +773,6 @@ story.add('Audio with Pending Attachment', () => {
       {
         contentType: AUDIO_MP3,
         fileName: 'incompetech-com-Agnus-Dei-X.mp3',
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        url: undefined as any,
         pending: true,
       },
     ],

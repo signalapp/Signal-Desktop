@@ -12,7 +12,7 @@ import { AttachmentType, hasNotDownloaded } from '../../types/Attachment';
 export type Props = {
   alt: string;
   attachment: AttachmentType;
-  url: string;
+  url?: string;
 
   height?: number;
   width?: number;
