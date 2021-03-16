@@ -12,205 +12,158 @@ import {
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 import { SessionSearchInput } from './SessionSearchInput';
 import { SessionSettingCategory } from './settings/SessionSettings';
-import { DefaultTheme } from 'styled-components';
+import { DefaultTheme, useTheme } from 'styled-components';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { deleteAccount } from '../../util/accountManager';
+import { useDispatch, useSelector } from 'react-redux';
+import { showSettingsSection } from '../../state/ducks/section';
+import { getFocusedSettingsSection } from '../../state/selectors/section';
 
-interface Props {
+type Props = {
   settingsCategory: SessionSettingCategory;
   showSettingsSection: (category: SessionSettingCategory) => void;
   theme: DefaultTheme;
-}
+};
 
-export interface State {
-  searchQuery: string;
-}
+const getCategories = () => {
+  return [
+    {
+      id: SessionSettingCategory.Appearance,
+      title: window.i18n('appearanceSettingsTitle'),
+      hidden: false,
+    },
+    {
+      id: SessionSettingCategory.Privacy,
+      title: window.i18n('privacySettingsTitle'),
+      hidden: false,
+    },
+    {
+      id: SessionSettingCategory.Blocked,
+      title: window.i18n('blockedSettingsTitle'),
+      hidden: false,
+    },
+    {
+      id: SessionSettingCategory.Permissions,
+      title: window.i18n('permissionSettingsTitle'),
+      hidden: true,
+    },
+    {
+      id: SessionSettingCategory.Notifications,
+      title: window.i18n('notificationsSettingsTitle'),
+      hidden: false,
+    },
+  ];
+};
 
-export class LeftPaneSettingSection extends React.Component<Props, State> {
-  public constructor(props: any) {
-    super(props);
+const LeftPaneSettingsCategoryRow = (props: { item: any }) => {
+  const { item } = props;
 
-    this.state = {
-      searchQuery: '',
-    };
+  const dispatch = useDispatch();
+  const theme = useTheme();
+  const focusedSettingsSection = useSelector(getFocusedSettingsSection);
 
-    this.onDeleteAccount = this.onDeleteAccount.bind(this);
-  }
-
-  public render(): JSX.Element {
-    return (
-      <div className="left-pane-setting-section">
-        {this.renderHeader()}
-        {this.renderSettings()}
+  return (
+    <div
+      key={item.id}
+      className={classNames(
+        'left-pane-setting-category-list-item',
+        item.id === focusedSettingsSection ? 'active' : ''
+      )}
+      role="link"
+      onClick={() => {
+        dispatch(showSettingsSection(item.id));
+      }}
+    >
+      <div>
+        <strong>{item.title}</strong>
       </div>
-    );
+
+      <div>
+        {item.id === focusedSettingsSection && (
+          <SessionIcon
+            iconSize={SessionIconSize.Medium}
+            iconType={SessionIconType.Chevron}
+            iconRotation={270}
+            theme={theme}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
+
+const LeftPaneSettingsCategories = () => {
+  const categories = getCategories();
+
+  return (
+    <div className="module-left-pane__list" key={0}>
+      <div className="left-pane-setting-category-list">
+        {categories
+          .filter(m => !m.hidden)
+          .map(item => {
+            return <LeftPaneSettingsCategoryRow key={item.id} item={item} />;
+          })}
+      </div>
+    </div>
+  );
+};
+
+const onDeleteAccount = () => {
+  const title = window.i18n('clearAllData');
+
+  const message = window.i18n('unpairDeviceWarning');
+
+  let messageSub = '';
+
+  const identityKey = window.textsecure.storage.get('identityKey');
+  if (identityKey && identityKey.ed25519KeyPair === undefined) {
+    messageSub =
+      "We've updated the way Session IDs are generated, so you will not be able to restore your current Session ID.";
   }
 
-  public renderHeader(): JSX.Element | undefined {
-    return (
+  window.confirmationDialog({
+    title,
+    message,
+    messageSub,
+    resolve: deleteAccount,
+    okTheme: 'danger',
+  });
+};
+
+const LeftPaneBottomButtons = () => {
+  const dangerButtonText = window.i18n('clearAllData');
+  const showRecoveryPhrase = window.i18n('showRecoveryPhrase');
+
+  return (
+    <div className="left-pane-setting-bottom-buttons">
+      <SessionButton
+        text={dangerButtonText}
+        buttonType={SessionButtonType.SquareOutline}
+        buttonColor={SessionButtonColor.Danger}
+        onClick={onDeleteAccount}
+      />
+
+      <SessionButton
+        text={showRecoveryPhrase}
+        buttonType={SessionButtonType.SquareOutline}
+        buttonColor={SessionButtonColor.White}
+        onClick={() => window.Whisper.events.trigger('showSeedDialog')}
+      />
+    </div>
+  );
+};
+
+export const LeftPaneSettingSection = (props: Props) => {
+  return (
+    <div className="left-pane-setting-section">
       <LeftPaneSectionHeader
         label={window.i18n('settingsHeader')}
-        theme={this.props.theme}
+        theme={props.theme}
       />
-    );
-  }
-
-  public renderRow(item: any): JSX.Element {
-    const { settingsCategory } = this.props;
-    return (
-      <div
-        key={item.id}
-        className={classNames(
-          'left-pane-setting-category-list-item',
-          item.id === settingsCategory ? 'active' : ''
-        )}
-        role="link"
-        onClick={() => {
-          this.props.showSettingsSection(item.id);
-        }}
-      >
-        <div>
-          <strong>{item.title}</strong>
-        </div>
-
-        <div>
-          {item.id === settingsCategory && (
-            <SessionIcon
-              iconSize={SessionIconSize.Medium}
-              iconType={SessionIconType.Chevron}
-              iconRotation={270}
-              theme={this.props.theme}
-            />
-          )}
-        </div>
-      </div>
-    );
-  }
-
-  public renderCategories(): JSX.Element {
-    const categories = this.getCategories().filter(item => !item.hidden);
-
-    return (
-      <div className="module-left-pane__list" key={0}>
-        <div className="left-pane-setting-category-list">
-          {categories.map(item => this.renderRow(item))}
-        </div>
-      </div>
-    );
-  }
-
-  public renderSearch() {
-    return (
       <div className="left-pane-setting-content">
-        <div className="left-pane-setting-input-group">
-          <SessionSearchInput
-            searchString={this.state.searchQuery}
-            onChange={() => null}
-            placeholder=""
-            theme={this.props.theme}
-          />
-          <div className="left-pane-setting-input-button">
-            <SessionButton
-              buttonType={SessionButtonType.Square}
-              buttonColor={SessionButtonColor.Green}
-              theme={this.props.theme}
-            >
-              <SessionIcon
-                iconType={SessionIconType.Caret}
-                iconSize={SessionIconSize.Huge}
-                theme={this.props.theme}
-              />
-            </SessionButton>
-          </div>
-        </div>
+        <LeftPaneSettingsCategories />
+        <LeftPaneBottomButtons />
       </div>
-    );
-  }
-
-  public renderSettings(): JSX.Element {
-    const showSearch = false;
-
-    return (
-      <div className="left-pane-setting-content">
-        {showSearch && this.renderSearch()}
-        {this.renderCategories()}
-        {this.renderBottomButtons()}
-      </div>
-    );
-  }
-
-  public renderBottomButtons(): JSX.Element | undefined {
-    const dangerButtonText = window.i18n('clearAllData');
-    const showRecoveryPhrase = window.i18n('showRecoveryPhrase');
-
-    return (
-      <div className="left-pane-setting-bottom-buttons">
-        <SessionButton
-          text={dangerButtonText}
-          buttonType={SessionButtonType.SquareOutline}
-          buttonColor={SessionButtonColor.Danger}
-          onClick={this.onDeleteAccount}
-        />
-
-        <SessionButton
-          text={showRecoveryPhrase}
-          buttonType={SessionButtonType.SquareOutline}
-          buttonColor={SessionButtonColor.White}
-          onClick={() => window.Whisper.events.trigger('showSeedDialog')}
-        />
-      </div>
-    );
-  }
-
-  public onDeleteAccount() {
-    const title = window.i18n('clearAllData');
-
-    const message = window.i18n('unpairDeviceWarning');
-
-    let messageSub = '';
-
-    const identityKey = window.textsecure.storage.get('identityKey');
-    if (identityKey && identityKey.ed25519KeyPair === undefined) {
-      messageSub =
-        "We've updated the way Session IDs are generated, so you will not be able to restore your current Session ID.";
-    }
-
-    window.confirmationDialog({
-      title,
-      message,
-      messageSub,
-      resolve: deleteAccount,
-      okTheme: 'danger',
-    });
-  }
-
-  public getCategories() {
-    return [
-      {
-        id: SessionSettingCategory.Appearance,
-        title: window.i18n('appearanceSettingsTitle'),
-        hidden: false,
-      },
-      {
-        id: SessionSettingCategory.Privacy,
-        title: window.i18n('privacySettingsTitle'),
-        hidden: false,
-      },
-      {
-        id: SessionSettingCategory.Blocked,
-        title: window.i18n('blockedSettingsTitle'),
-        hidden: false,
-      },
-      {
-        id: SessionSettingCategory.Permissions,
-        title: window.i18n('permissionSettingsTitle'),
-        hidden: true,
-      },
-      {
-        id: SessionSettingCategory.Notifications,
-        title: window.i18n('notificationsSettingsTitle'),
-        hidden: false,
-      },
-    ];
-  }
-}
+    </div>
+  );
+};

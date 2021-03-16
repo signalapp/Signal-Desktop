@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { DefaultTheme } from 'styled-components';
 import { SmartSessionConversation } from '../state/smart/SessionConversation';
 import {
   SessionSettingCategory,
@@ -9,34 +8,19 @@ import {
 
 const FilteredSettingsView = SmartSettingsView as any;
 
-interface Props {
+type Props = {
   focusedSettingsSection?: SessionSettingCategory;
-}
+};
 
-export class SessionMainPanel extends React.Component<Props> {
-  public constructor(props: Props) {
-    super(props);
+export const SessionMainPanel = (props: Props) => {
+  const isSettingsView = props.focusedSettingsSection !== undefined;
+
+  if (isSettingsView) {
+    return <FilteredSettingsView category={props.focusedSettingsSection} />;
   }
-
-  public render() {
-    const isSettingsView = this.props.focusedSettingsSection !== undefined;
-
-    return isSettingsView
-      ? this.renderSettings()
-      : this.renderSessionConversation();
-  }
-
-  private renderSettings() {
-    const category = this.props.focusedSettingsSection;
-
-    return <FilteredSettingsView category={category} />;
-  }
-
-  private renderSessionConversation() {
-    return (
-      <div className="session-conversation">
-        <SmartSessionConversation />
-      </div>
-    );
-  }
-}
+  return (
+    <div className="session-conversation">
+      <SmartSessionConversation />
+    </div>
+  );
+};
