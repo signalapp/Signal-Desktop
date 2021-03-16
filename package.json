@@ -37,7 +37,7 @@
     "lint-license-comments": "ts-node ts/util/lint/license_comments.ts",
     "format": "prettier --write \"*.{css,js,json,md,scss,ts,tsx}\" \"./**/*.{css,js,json,md,scss,ts,tsx}\"",
     "transpile": "tsc",
-    "clean-transpile": "rimraf ts/**/*.js && rimraf ts/*.js",
+    "clean-transpile": "rimraf ts/**/*.js && rimraf ts/*.js tsconfig.tsbuildinfo",
     "open-coverage": "open coverage/lcov-report/index.html",
     "ready": "npm-run-all --print-label clean-transpile grunt --parallel lint lint-deps test-node test-electron",
     "dev": "run-p --print-label dev:*",
