@@ -45,6 +45,7 @@ export interface GroupInfo {
   blocked?: boolean;
   admins?: Array<string>;
   secretKey?: Uint8Array;
+  weWereJustAdded?: boolean;
 }
 
 interface UpdatableGroupState {
@@ -205,7 +206,7 @@ export async function addUpdateMessage(
     sent_at: sentAt,
     received_at: now,
     group_update: groupUpdate,
-    unread,
+    unread: unread ? 1 : 0,
     expireTimer: 0,
   });
 
@@ -247,7 +248,7 @@ export function buildGroupDiff(
 }
 
 export async function updateOrCreateClosedGroup(details: GroupInfo) {
-  const { id } = details;
+  const { id, weWereJustAdded } = details;
 
   const conversation = await ConversationController.getInstance().getOrCreateAndWait(
     id,
@@ -272,7 +273,9 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
       updates.timestamp = updates.active_at;
     }
     updates.left = false;
-    updates.lastJoinedTimestamp = updates.active_at;
+    updates.lastJoinedTimestamp = weWereJustAdded
+      ? Date.now()
+      : updates.active_at;
   } else {
     updates.left = true;
   }
@@ -463,13 +466,6 @@ async function sendAddedMembers(
     await ConversationController.getInstance().getOrCreateAndWait(m, 'private');
     const memberPubKey = PubKey.cast(m);
     await getMessageQueue().sendToPubKey(memberPubKey, newClosedGroupUpdate);
-
-    // if (expirationTimerMessage) {
-    //   await getMessageQueue().sendToPubKey(
-    //     memberPubKey,
-    //     expirationTimerMessage
-    //   );
-    // }
   });
   await Promise.all(promises);
 }

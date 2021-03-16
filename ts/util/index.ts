@@ -10,7 +10,6 @@ import * as AttachmentUtil from './attachmentsUtil';
 import * as LinkPreviewUtil from './linkPreviewFetch';
 
 export * from './blockedNumberController';
-export * from './accountManager';
 
 export {
   arrayBufferToObjectURL,

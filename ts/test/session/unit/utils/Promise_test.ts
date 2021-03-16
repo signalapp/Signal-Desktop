@@ -51,7 +51,7 @@ describe('Promise Utils', () => {
         done();
       };
 
-      const promise = PromiseUtils.poll(task, {});
+      const promise = PromiseUtils.poll(task, { interval: 10 });
 
       expect(pollSpy.callCount).to.equal(1);
       expect(completionSpy.callCount).to.equal(1);
@@ -63,7 +63,7 @@ describe('Promise Utils', () => {
       const completionSpy = sandbox.spy();
       const task = (_done: any) => undefined;
 
-      const promise = PromiseUtils.poll(task, { timeoutMs: 1 });
+      const promise = PromiseUtils.poll(task, { timeoutMs: 1, interval: 10 });
 
       expect(pollSpy.callCount).to.equal(1);
       expect(completionSpy.callCount).to.equal(0);
@@ -75,7 +75,7 @@ describe('Promise Utils', () => {
     it('will recur according to interval option', async () => {
       const expectedRecurrences = 4;
       const timeout = 3000;
-      const interval = 50;
+      const interval = 3;
 
       const recurrenceSpy = sandbox.spy();
       const task = (done: any) => {
@@ -122,14 +122,14 @@ describe('Promise Utils', () => {
 
       expect(waitForTaskSpy.callCount).to.equal(1);
       expect(completionSpy.callCount).to.equal(0);
-      return promise.should.eventually.be.rejectedWith('Task timed out.');
+      return promise.should.eventually.be.rejectedWith('Task timed out');
     });
   });
 
   describe('waitUntil', () => {
     it('can wait for check', async () => {
       const check = () => true;
-      const promise = PromiseUtils.waitUntil(check);
+      const promise = PromiseUtils.waitUntil(check, 5);
 
       expect(waitUntilSpy.callCount).to.equal(1);
       return promise;

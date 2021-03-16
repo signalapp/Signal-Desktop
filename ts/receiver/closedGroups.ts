@@ -32,6 +32,7 @@ import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
 import { MessageController } from '../session/messages';
 import { ClosedGroupEncryptionPairReplyMessage } from '../session/messages/outgoing/content/data/group';
 import { queueAllCachedFromSource } from './receiver';
+import { actions as conversationActions } from '../state/ducks/conversations';
 
 export const distributingClosedGroupEncryptionKeyPairs = new Map<
   string,
@@ -236,6 +237,7 @@ export async function handleNewClosedGroup(
     members: members,
     admins,
     active: true,
+    weWereJustAdded: true,
   };
 
   // be sure to call this before sending the message.
@@ -521,7 +523,8 @@ async function performIfValid(
     lastJoinedTimestamp = aYearAgo;
   }
 
-  if (envelope.timestamp <= lastJoinedTimestamp) {
+  const envelopeTimestamp = _.toNumber(envelope.timestamp);
+  if (envelopeTimestamp <= lastJoinedTimestamp) {
     window.log.warn(
       'Got a group update with an older timestamp than when we joined this group last time. Dropping it.'
     );
@@ -979,7 +982,7 @@ export async function createClosedGroup(
 
   await forceSyncConfigurationNowIfNeeded();
 
-  window.inboxStore.dispatch(
-    window.actionsCreators.openConversationExternal(groupPublicKey)
+  window.inboxStore?.dispatch(
+    conversationActions.openConversationExternal(groupPublicKey)
   );
 }

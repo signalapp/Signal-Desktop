@@ -520,37 +520,4 @@
   .module-message-search-result__body {
     color: $color-gray-05;
   }
-
-  .capture-audio {
-    .microphone {
-      &:before {
-        @include color-svg('../images/microphone.svg', $color-dark-30);
-      }
-    }
-  }
-  .recorder {
-    background: $color-black;
-
-    .finish {
-      background: lighten($session-color-green, 20%);
-      border: 1px solid $session-color-green;
-
-      .icon {
-        @include color-svg('../images/check.svg', $session-color-green);
-      }
-    }
-
-    .close {
-      background: lighten($session-color-danger, 20%);
-      border: 1px solid $session-color-danger;
-
-      .icon {
-        @include color-svg('../images/x.svg', $session-color-danger);
-      }
-    }
-
-    .time {
-      color: $grey;
-    }
-  }
 }

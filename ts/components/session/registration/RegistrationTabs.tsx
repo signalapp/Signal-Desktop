@@ -14,11 +14,14 @@ import { TabLabel, TabType } from './TabLabel';
 import { PasswordUtil } from '../../../util';
 import { trigger } from '../../../shims/events';
 import {
-  AccountManager,
+  generateMnemonic,
+  registerSingleDevice,
   sessionGenerateKeyPair,
+  signInByLinkingDevice,
 } from '../../../util/accountManager';
-import { fromHex, fromHexToArray } from '../../../session/utils/String';
+import { fromHex } from '../../../session/utils/String';
 import { TaskTimedOutError } from '../../../session/utils/Promise';
+import { mn_decode } from '../../../session/crypto/mnemonic';
 
 export const MAX_USERNAME_LENGTH = 20;
 // tslint:disable: use-simple-attributes
@@ -138,11 +141,7 @@ export async function signUp(signUpDetails: {
   try {
     await resetRegistration();
     await window.setPassword(password);
-    await AccountManager.registerSingleDevice(
-      generatedRecoveryPhrase,
-      'english',
-      trimName
-    );
+    await registerSingleDevice(generatedRecoveryPhrase, 'english', trimName);
     await createOrUpdateItem({
       id: 'hasSyncedInitialConfigurationItem',
       value: true,
@@ -191,11 +190,7 @@ export async function signInWithRecovery(signInDetails: {
     await resetRegistration();
     await window.setPassword(password);
 
-    await AccountManager.registerSingleDevice(
-      userRecoveryPhrase,
-      'english',
-      trimName
-    );
+    await registerSingleDevice(userRecoveryPhrase, 'english', trimName);
     trigger('openInbox');
   } catch (e) {
     await resetRegistration();
@@ -207,6 +202,10 @@ export async function signInWithRecovery(signInDetails: {
   }
 }
 
+/**
+ * This is will try to sign in with the user recovery phrase.
+ * If no ConfigurationMessage is received in 60seconds, the loading will be canceled.
+ */
 export async function signInWithLinking(signInDetails: {
   userRecoveryPhrase: string;
   password: string;
@@ -221,7 +220,7 @@ export async function signInWithLinking(signInDetails: {
   try {
     await resetRegistration();
     await window.setPassword(password);
-    await AccountManager.signInByLinkingDevice(userRecoveryPhrase, 'english');
+    await signInByLinkingDevice(userRecoveryPhrase, 'english');
 
     let displayNameFromNetwork = '';
 
@@ -236,7 +235,7 @@ export async function signInWithLinking(signInDetails: {
           displayNameFromNetwork = displayName;
         }
       );
-    }, 30000);
+    }, 60000);
     if (displayNameFromNetwork.length) {
       // display name, avatars, groups and contacts should already be handled when this event was triggered.
       window.log.info('We got a displayName from network: ');
@@ -306,10 +305,9 @@ export class RegistrationTabs extends React.Component<any, State> {
 
   private async generateMnemonicAndKeyPair() {
     if (this.state.generatedRecoveryPhrase === '') {
-      const language = 'english';
-      const mnemonic = await AccountManager.generateMnemonic(language);
+      const mnemonic = await generateMnemonic();
 
-      let seedHex = window.mnemonic.mn_decode(mnemonic, language);
+      let seedHex = mn_decode(mnemonic);
       // handle shorter than 32 bytes seeds
       const privKeyHexLength = 32 * 2;
       if (seedHex.length !== privKeyHexLength) {

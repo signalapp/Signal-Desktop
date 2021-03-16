@@ -7,6 +7,7 @@ import { DefaultTheme, withTheme } from 'styled-components';
 import { PasswordUtil } from '../../util';
 import { getPasswordHash } from '../../data/data';
 import { QRCode } from 'react-qr-svg';
+import { mn_decode } from '../../session/crypto/mnemonic';
 
 interface Props {
   onClose: any;
@@ -117,6 +118,11 @@ class SessionSeedModalInner extends React.Component<Props, State> {
     const bgColor = '#FFFFFF';
     const fgColor = '#1B1B1B';
 
+    const hexEncodedSeed = window.mnemonic.mn_decode(
+      this.state.recoveryPhrase,
+      'english'
+    );
+
     return (
       <>
         <div className="session-modal__centered text-center">
@@ -132,7 +138,7 @@ class SessionSeedModalInner extends React.Component<Props, State> {
         <div className="spacer-lg" />
         <div className="qr-image">
           <QRCode
-            value={this.state.recoveryPhrase}
+            value={hexEncodedSeed}
             bgColor={bgColor}
             fgColor={fgColor}
             level="L"

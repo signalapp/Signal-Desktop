@@ -39,7 +39,11 @@ describe('MessageQueue', () => {
   let messageQueueStub: MessageQueue;
 
   // Message Sender Stubs
-  let sendStub: sinon.SinonStub<[RawMessage, (number | undefined)?]>;
+  let sendStub: sinon.SinonStub<[
+    RawMessage,
+    (number | undefined)?,
+    (number | undefined)?
+  ]>;
 
   beforeEach(() => {
     // Utils Stubs
@@ -113,7 +117,7 @@ describe('MessageQueue', () => {
         const promise = PromiseUtils.waitUntil(async () => {
           const messages = await pendingMessageCache.getForDevice(device);
           return messages.length === 0;
-        });
+        }, 100);
         return promise.should.be.fulfilled;
       }
     }).timeout(15000);
@@ -122,45 +126,51 @@ describe('MessageQueue', () => {
       it('should send a success event if message was sent', done => {
         const device = TestUtils.generateFakePubKey();
         const message = TestUtils.generateChatMessage();
-        const waitForMessageSentEvent = new Promise(resolve => {
-          resolve(true);
-          done();
-        });
+        const waitForMessageSentEvent = async () =>
+          new Promise<void>(resolve => {
+            resolve();
+            try {
+              expect(messageSentHandlerSuccessStub.callCount).to.be.equal(1);
+              expect(
+                messageSentHandlerSuccessStub.lastCall.args[0].identifier
+              ).to.be.equal(message.identifier);
+              done();
+            } catch (e) {
+              done(e);
+            }
+          });
 
         void pendingMessageCache
-          .add(device, message, waitForMessageSentEvent as any)
-          .then(() => messageQueueStub.processPending(device))
-          .then(() => {
-            expect(messageSentHandlerSuccessStub.callCount).to.be.equal(1);
-            expect(
-              messageSentHandlerSuccessStub.lastCall.args[0].identifier
-            ).to.be.equal(message.identifier);
-          });
+          .add(device, message, waitForMessageSentEvent)
+          .then(() => messageQueueStub.processPending(device));
       });
 
-      it('should send a fail event if something went wrong while sending', done => {
+      it('should send a fail event if something went wrong while sending', async () => {
         sendStub.throws(new Error('failure'));
 
         const device = TestUtils.generateFakePubKey();
         const message = TestUtils.generateChatMessage();
-        const waitForMessageSentEvent = new Promise(resolve => {
-          resolve(true);
-          done();
-        });
-
         void pendingMessageCache
-          .add(device, message, waitForMessageSentEvent as any)
-          .then(() => messageQueueStub.processPending(device))
-          .then(() => {
-            expect(messageSentHandlerFailedStub.callCount).to.be.equal(1);
-            expect(
-              messageSentHandlerFailedStub.lastCall.args[0].identifier
-            ).to.be.equal(message.identifier);
-            expect(
-              messageSentHandlerFailedStub.lastCall.args[1].message
-            ).to.equal('failure');
-            expect(waitForMessageSentEvent).to.be.eventually.fulfilled;
-          });
+          .add(device, message)
+          .then(() => messageQueueStub.processPending(device));
+        // The cb is only invoke is all reties fails. Here we poll until the messageSentHandlerFailed was invoked as this is what we want to do
+
+        return PromiseUtils.poll(done => {
+          if (messageSentHandlerFailedStub.callCount === 1) {
+            try {
+              expect(messageSentHandlerFailedStub.callCount).to.be.equal(1);
+              expect(
+                messageSentHandlerFailedStub.lastCall.args[0].identifier
+              ).to.be.equal(message.identifier);
+              expect(
+                messageSentHandlerFailedStub.lastCall.args[1].message
+              ).to.equal('failure');
+              done();
+            } catch (e) {
+              done(e);
+            }
+          }
+        });
       });
     });
   });
@@ -182,7 +192,7 @@ describe('MessageQueue', () => {
   describe('sendToGroup', () => {
     it('should throw an error if invalid non-group message was passed', async () => {
       const chatMessage = TestUtils.generateChatMessage();
-      await expect(
+      return expect(
         messageQueueStub.sendToGroup(chatMessage as any)
       ).to.be.rejectedWith('Invalid group message passed in sendToGroup.');
     });

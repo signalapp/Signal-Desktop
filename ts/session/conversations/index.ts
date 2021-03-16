@@ -13,6 +13,7 @@ import { BlockedNumberController } from '../../util';
 import { getSnodesFor } from '../snode_api/snodePool';
 import { PubKey } from '../types';
 import { UserUtils } from '../utils';
+import { actions as conversationActions } from '../../state/ducks/conversations';
 
 export class ConversationController {
   private static instance: ConversationController | null;
@@ -126,9 +127,8 @@ export class ConversationController {
     conversation.initialPromise = create();
     conversation.initialPromise.then(async () => {
       if (window.inboxStore) {
-        conversation.on('change', this.updateReduxConvoChanged);
-        window.inboxStore.dispatch(
-          window.actionsCreators.conversationAdded(
+        window.inboxStore?.dispatch(
+          conversationActions.conversationAdded(
             conversation.id,
             conversation.getProps()
           )
@@ -233,11 +233,10 @@ export class ConversationController {
     await conversation.destroyMessages();
 
     await removeConversation(id);
-    conversation.off('change', this.updateReduxConvoChanged);
     this.conversations.remove(conversation);
     if (window.inboxStore) {
-      window.inboxStore.dispatch(
-        window.actionsCreators.conversationRemoved(conversation.id)
+      window.inboxStore?.dispatch(
+        conversationActions.conversationRemoved(conversation.id)
       );
     }
   }
@@ -272,10 +271,7 @@ export class ConversationController {
             conversation.updateProfileAvatar(),
           ]);
         });
-        this.conversations.forEach((conversation: ConversationModel) => {
-          // register for change event on each conversation, and forward to redux
-          conversation.on('change', this.updateReduxConvoChanged);
-        });
+
         await Promise.all(promises);
 
         // Remove any unused images
@@ -305,32 +301,8 @@ export class ConversationController {
     this._initialPromise = Promise.resolve();
     this._initialFetchComplete = false;
     if (window.inboxStore) {
-      this.conversations.forEach((convo: ConversationModel) =>
-        convo.off('change', this.updateReduxConvoChanged)
-      );
-
-      window.inboxStore.dispatch(
-        window.actionsCreators.removeAllConversations()
-      );
+      window.inboxStore?.dispatch(conversationActions.removeAllConversations());
     }
     this.conversations.reset([]);
-  }
-
-  public registerAllConvosToRedux() {
-    if (window.inboxStore) {
-      this.conversations.forEach((convo: ConversationModel) => {
-        // make sure all conversations are registered to forward their commit events to redux
-        convo.off('change', this.updateReduxConvoChanged);
-        convo.on('change', this.updateReduxConvoChanged);
-      });
-    }
-  }
-
-  private updateReduxConvoChanged(convo: ConversationModel) {
-    if (window.inboxStore) {
-      window.inboxStore.dispatch(
-        window.actionsCreators.conversationChanged(convo.id, convo.getProps())
-      );
-    }
   }
 }

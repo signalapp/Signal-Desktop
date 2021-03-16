@@ -193,9 +193,7 @@ async function importConversationsFromJSON(conversations, options) {
       }
     );
     // eslint-disable-next-line no-await-in-loop
-    await window.Signal.Data.saveConversation(migrated, {
-      Conversation: window.models.Conversation.ConversationModel,
-    });
+    await window.Signal.Data.saveConversation(migrated);
   }
 
   window.log.info(
@@ -693,7 +691,6 @@ async function exportConversation(conversation, options = {}) {
       {
         limit: CHUNK_SIZE,
         receivedAt: lastReceivedAt,
-        MessageCollection: window.models.Message.MessageCollection,
       }
     );
     const messages = getPlainJS(collection);

@@ -22,7 +22,7 @@ import {
 } from '../../data/data';
 import { OnionPaths } from '../../session/onions';
 import { getMessageQueue } from '../../session/sending';
-import { AccountManager } from '../../util';
+import { clearSessionsAndPreKeys } from '../../util/accountManager';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -70,13 +70,6 @@ class ActionsPanelPrivate extends React.Component<Props> {
       void OnionPaths.getInstance().buildNewOnionPaths();
     }
 
-    // This is not ideal, but on the restore from seed, our conversation will be created before the
-    // redux store is ready.
-    // If that's the case, the save events on our conversation won't be triggering redux updates.
-    // So changes to our conversation won't make a change on the UI.
-    // Calling this makes sure that our own conversation is registered to redux.
-    ConversationController.getInstance().registerAllConvosToRedux();
-
     // init the messageQueue. In the constructor, we had all not send messages
     // this call does nothing except calling the constructor, which will continue sending message in the pipeline
     void getMessageQueue().processAllPending();
@@ -90,7 +83,7 @@ class ActionsPanelPrivate extends React.Component<Props> {
     void this.showResetSessionIDDialogIfNeeded();
 
     // remove existing prekeys, sign prekeys and sessions
-    void AccountManager.clearSessionsAndPreKeys();
+    void clearSessionsAndPreKeys();
 
     // Do this only if we created a new Session ID, or if we already received the initial configuration message
 

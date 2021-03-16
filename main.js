@@ -825,7 +825,7 @@ async function requestShutdown() {
     // We'll wait two minutes, then force the app to go down. This can happen if someone
     //   exits the app before we've set everything up in preload() (so the browser isn't
     //   yet listening for these events), or if there are a whole lot of stacked-up tasks.
-    // Note: two minutes is also our timeout for SQL tasks in data.js in the browser.
+    // Note: two minutes is also our timeout for SQL tasks in data.ts in the browser.
     setTimeout(() => {
       console.log(
         'requestShutdown: Response never received; forcing shutdown.'

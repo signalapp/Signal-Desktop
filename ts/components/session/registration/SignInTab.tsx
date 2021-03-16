@@ -224,9 +224,25 @@ export const SignInTab = () => {
         handleContinueYourSessionClick={continueYourSession}
         disabled={!activateContinueButton}
       />
-      <Flex container={true} justifyContent="center">
-        <SessionSpinner loading={loading} />
-      </Flex>
+      {loading && (
+        <Flex
+          container={true}
+          justifyContent="center"
+          alignItems="center"
+          style={{
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            pointerEvents: 'all',
+            backgroundColor: '#00000088',
+          }}
+        >
+          <SessionSpinner loading={true} />
+        </Flex>
+      )}
+
       {showTermsAndConditions && <TermsAndConditions />}
     </div>
   );

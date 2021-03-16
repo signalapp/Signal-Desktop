@@ -15,7 +15,6 @@ export const SessionRadioGroup = (props: Props) => {
   const { items, group, initialItem } = props;
 
   useEffect(() => {
-    console.warn('unMNount:', initialItem);
     setActiveItem(initialItem);
   }, []);
 

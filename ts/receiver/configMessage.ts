@@ -129,6 +129,9 @@ async function handleGroupsAndContactsFromConfigMessage(
             displayName: c.name,
             profilePictre: c.profilePicture,
           };
+          // updateProfile will do a commit for us
+          contactConvo.set('active_at', _.toNumber(envelope.timestamp));
+
           await updateProfile(contactConvo, profile, c.profileKey);
         } catch (e) {
           window?.log?.warn(
