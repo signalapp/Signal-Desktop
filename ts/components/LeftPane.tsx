@@ -11,21 +11,14 @@ import { SessionOffline } from './session/network/SessionOffline';
 import { SessionExpiredWarning } from './session/network/SessionExpiredWarning';
 import { getFocusedSection } from '../state/selectors/section';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getLeftPaneLists,
-  getOurPrimaryConversation,
-  getUnreadMessageCount,
-} from '../state/selectors/conversations';
+import { getLeftPaneLists } from '../state/selectors/conversations';
 import {
   getQuery,
   getSearchResults,
   isSearching,
 } from '../state/selectors/search';
 import { clearSearch, search, updateSearchTerm } from '../state/ducks/search';
-import { showLeftPaneSection } from '../state/ducks/section';
-import { getOurNumber } from '../state/selectors/user';
 import { getTheme } from '../state/selectors/theme';
-import { applyTheme, ThemeStateType } from '../state/ducks/theme';
 
 // from https://github.com/bvaughn/react-virtualized/blob/fb3484ed5dcc41bffae8eab029126c0fb8f7abc0/source/List/types.js#L5
 export type RowRendererParamsType = {
@@ -119,29 +112,11 @@ const LeftPaneSection = (props: { isExpired: boolean }) => {
 
 export const LeftPane = (props: Props) => {
   const theme = useSelector(getTheme);
-  const dispatch = useDispatch();
-  const focusedSection = useSelector(getFocusedSection);
-  const unreadMessageCount = useSelector(getUnreadMessageCount);
-  const ourPrimaryConversation = useSelector(getOurPrimaryConversation);
-  const ourNumber = useSelector(getOurNumber);
 
   return (
     <SessionTheme theme={theme}>
       <div className="module-left-pane-session">
-        <ActionsPanel
-          selectedSection={focusedSection}
-          onSectionSelected={(section: SectionType) => {
-            dispatch(clearSearch());
-            dispatch(showLeftPaneSection(section));
-          }}
-          unreadMessageCount={unreadMessageCount}
-          ourPrimaryConversation={ourPrimaryConversation}
-          ourNumber={ourNumber}
-          theme={theme}
-          applyTheme={(newTheme: ThemeStateType) =>
-            dispatch(applyTheme(newTheme))
-          }
-        />
+        <ActionsPanel />
         <div className="module-left-pane">
           <LeftPaneSection isExpired={props.isExpired} />
         </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 import { Avatar } from '../Avatar';
 import { darkTheme, lightTheme } from '../../state/ducks/SessionTheme';
@@ -17,6 +17,18 @@ import {
 import { OnionPaths } from '../../session/onions';
 import { getMessageQueue } from '../../session/sending';
 import { clearSessionsAndPreKeys } from '../../util/accountManager';
+import { useDispatch, useSelector } from 'react-redux';
+import { getOurNumber } from '../../state/selectors/user';
+import {
+  getOurPrimaryConversation,
+  getUnreadMessageCount,
+} from '../../state/selectors/conversations';
+import { getTheme } from '../../state/selectors/theme';
+import { applyTheme } from '../../state/ducks/theme';
+import { getFocusedSection } from '../../state/selectors/section';
+import { useInterval } from '../../hooks/useInterval';
+import { clearSearch } from '../../state/ducks/search';
+import { showLeftPaneSection } from '../../state/ducks/section';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -28,33 +40,100 @@ export enum SectionType {
   Moon,
 }
 
-interface Props {
-  onSectionSelected: (section: SectionType) => void;
-  selectedSection: SectionType;
-  unreadMessageCount: number;
-  ourPrimaryConversation: ConversationType;
-  ourNumber: string;
-  applyTheme: any;
-  theme: DefaultTheme;
-}
+const Section = (props: { type: SectionType; avatarPath?: string }) => {
+  const ourNumber = useSelector(getOurNumber);
+  const unreadMessageCount = useSelector(getUnreadMessageCount);
+  const theme = useSelector(getTheme);
+  const dispatch = useDispatch();
+  const { type, avatarPath } = props;
+
+  const focusedSection = useSelector(getFocusedSection);
+  const isSelected = focusedSection === props.type;
+
+  const handleClick = () => {
+    /* tslint:disable:no-void-expression */
+    if (type === SectionType.Profile) {
+      window.showEditProfileDialog();
+    } else if (type === SectionType.Moon) {
+      const themeFromSettings = window.Events.getThemeSetting();
+      const updatedTheme = themeFromSettings === 'dark' ? 'light' : 'dark';
+      window.setTheme(updatedTheme);
+
+      const newThemeObject = updatedTheme === 'dark' ? darkTheme : lightTheme;
+      dispatch(applyTheme(newThemeObject));
+    } else {
+      dispatch(clearSearch());
+      dispatch(showLeftPaneSection(type));
+    }
+  };
+
+  if (type === SectionType.Profile) {
+    const conversation = ConversationController.getInstance().get(ourNumber);
+
+    const profile = conversation?.getLokiProfile();
+    const userName = (profile && profile.displayName) || ourNumber;
+    return (
+      <Avatar
+        avatarPath={avatarPath}
+        size={28}
+        onAvatarClick={handleClick}
+        name={userName}
+        pubkey={ourNumber}
+      />
+    );
+  }
+
+  let iconType: SessionIconType;
+  switch (type) {
+    case SectionType.Message:
+      iconType = SessionIconType.ChatBubble;
+      break;
+    case SectionType.Contact:
+      iconType = SessionIconType.Users;
+      break;
+    case SectionType.Settings:
+      iconType = SessionIconType.Gear;
+      break;
+    case SectionType.Moon:
+      iconType = SessionIconType.Moon;
+      break;
+
+    default:
+      iconType = SessionIconType.Moon;
+  }
+
+  return (
+    <SessionIconButton
+      iconSize={SessionIconSize.Medium}
+      iconType={iconType}
+      notificationCount={unreadMessageCount}
+      onClick={handleClick}
+      isSelected={isSelected}
+      theme={theme}
+    />
+  );
+};
+
+const showResetSessionIDDialogIfNeeded = async () => {
+  const userED25519KeyPairHex = await UserUtils.getUserED25519KeyPair();
+  if (userED25519KeyPairHex) {
+    return;
+  }
+
+  window.showResetSessionIdDialog();
+};
 
 /**
  * ActionsPanel is the far left banner (not the left pane).
  * The panel with buttons to switch between the message/contact/settings/theme views
  */
-export class ActionsPanel extends React.Component<Props> {
-  private syncInterval: NodeJS.Timeout | null = null;
+export const ActionsPanel = () => {
+  const dispatch = useDispatch();
 
-  constructor(props: Props) {
-    super(props);
+  const ourPrimaryConversation = useSelector(getOurPrimaryConversation);
 
-    // we consider people had the time to upgrade, so remove this id from the db
-    // it was used to display a dialog when we added the light mode auto-enabled
-    void removeItemById('hasSeenLightModeDialog');
-  }
-
-  // fetch the user saved theme from the db, and apply it on mount.
-  public componentDidMount() {
+  // this maxi useEffect is called only once: when the component is mounted.
+  useEffect(() => {
     void window.setClockParams();
     if (
       window.lokiFeatureFlags.useOnionRequests ||
@@ -72,12 +151,14 @@ export class ActionsPanel extends React.Component<Props> {
     window.setTheme(theme);
 
     const newThemeObject = theme === 'dark' ? darkTheme : lightTheme;
-    this.props.applyTheme(newThemeObject);
+    dispatch(applyTheme(newThemeObject));
 
-    void this.showResetSessionIDDialogIfNeeded();
-
+    void showResetSessionIDDialogIfNeeded();
     // remove existing prekeys, sign prekeys and sessions
     void clearSessionsAndPreKeys();
+    // we consider people had the time to upgrade, so remove this id from the db
+    // it was used to display a dialog when we added the light mode auto-enabled
+    void removeItemById('hasSeenLightModeDialog');
 
     // Do this only if we created a new Session ID, or if we already received the initial configuration message
 
@@ -92,166 +173,29 @@ export class ActionsPanel extends React.Component<Props> {
     // trigger a sync message if needed for our other devices
 
     void syncConfiguration();
+  }, []);
 
-    this.syncInterval = global.setInterval(() => {
-      void syncConfigurationIfNeeded();
-    }, DAYS * 2);
+  if (!ourPrimaryConversation) {
+    window.log.warn('ActionsPanel: ourPrimaryConversation is not set');
+    return <></>;
   }
 
-  public componentWillUnmount() {
-    if (this.syncInterval) {
-      clearInterval(this.syncInterval);
-      this.syncInterval = null;
-    }
-  }
+  useInterval(() => {
+    void syncConfigurationIfNeeded();
+  }, DAYS * 2);
 
-  public Section = ({
-    isSelected,
-    onSelect,
-    type,
-    avatarPath,
-    notificationCount,
-  }: {
-    isSelected: boolean;
-    onSelect?: (event: SectionType) => void;
-    type: SectionType;
-    avatarPath?: string;
-    notificationCount?: number;
-  }) => {
-    const { ourNumber } = this.props;
-    const handleClick = onSelect
-      ? () => {
-          /* tslint:disable:no-void-expression */
-          if (type === SectionType.Profile) {
-            window.showEditProfileDialog();
-          } else if (type === SectionType.Moon) {
-            const theme = window.Events.getThemeSetting();
-            const updatedTheme = theme === 'dark' ? 'light' : 'dark';
-            window.setTheme(updatedTheme);
-
-            const newThemeObject =
-              updatedTheme === 'dark' ? darkTheme : lightTheme;
-            this.props.applyTheme(newThemeObject);
-          } else {
-            onSelect(type);
-          }
-          /* tslint:enable:no-void-expression */
-        }
-      : undefined;
-
-    if (type === SectionType.Profile) {
-      const conversation = ConversationController.getInstance().get(ourNumber);
-
-      const profile = conversation?.getLokiProfile();
-      const userName = (profile && profile.displayName) || ourNumber;
-      return (
-        <Avatar
-          avatarPath={avatarPath}
-          size={28}
-          onAvatarClick={handleClick}
-          name={userName}
-          pubkey={ourNumber}
-        />
-      );
-    }
-
-    let iconType: SessionIconType;
-    switch (type) {
-      case SectionType.Message:
-        iconType = SessionIconType.ChatBubble;
-        break;
-      case SectionType.Contact:
-        iconType = SessionIconType.Users;
-        break;
-      case SectionType.Channel:
-        iconType = SessionIconType.Globe;
-        break;
-      case SectionType.Settings:
-        iconType = SessionIconType.Gear;
-        break;
-      case SectionType.Moon:
-        iconType = SessionIconType.Moon;
-        break;
-
-      default:
-        iconType = SessionIconType.Moon;
-    }
-
-    return (
-      <SessionIconButton
-        iconSize={SessionIconSize.Medium}
-        iconType={iconType}
-        notificationCount={notificationCount}
-        onClick={handleClick}
-        isSelected={isSelected}
-        theme={this.props.theme}
+  return (
+    <div className="module-left-pane__sections-container">
+      <Section
+        type={SectionType.Profile}
+        avatarPath={ourPrimaryConversation.avatarPath}
       />
-    );
-  };
+      <Section type={SectionType.Message} />
+      <Section type={SectionType.Contact} />
+      <Section type={SectionType.Settings} />
 
-  public render(): JSX.Element {
-    const {
-      selectedSection,
-      unreadMessageCount,
-      ourPrimaryConversation,
-    } = this.props;
-
-    if (!ourPrimaryConversation) {
-      window.log.warn('ActionsPanel: ourPrimaryConversation is not set');
-      return <></>;
-    }
-
-    const isProfilePageSelected = selectedSection === SectionType.Profile;
-    const isMessagePageSelected = selectedSection === SectionType.Message;
-    const isContactPageSelected = selectedSection === SectionType.Contact;
-    const isSettingsPageSelected = selectedSection === SectionType.Settings;
-    const isMoonPageSelected = selectedSection === SectionType.Moon;
-
-    return (
-      <div className="module-left-pane__sections-container">
-        <this.Section
-          type={SectionType.Profile}
-          avatarPath={ourPrimaryConversation.avatarPath}
-          isSelected={isProfilePageSelected}
-          onSelect={this.handleSectionSelect}
-        />
-        <this.Section
-          type={SectionType.Message}
-          isSelected={isMessagePageSelected}
-          onSelect={this.handleSectionSelect}
-          notificationCount={unreadMessageCount}
-        />
-        <this.Section
-          type={SectionType.Contact}
-          isSelected={isContactPageSelected}
-          onSelect={this.handleSectionSelect}
-        />
-        <this.Section
-          type={SectionType.Settings}
-          isSelected={isSettingsPageSelected}
-          onSelect={this.handleSectionSelect}
-        />
-
-        <SessionToastContainer />
-        <this.Section
-          type={SectionType.Moon}
-          isSelected={isMoonPageSelected}
-          onSelect={this.handleSectionSelect}
-        />
-      </div>
-    );
-  }
-
-  private readonly handleSectionSelect = (section: SectionType): void => {
-    this.props.onSectionSelected(section);
-  };
-
-  private async showResetSessionIDDialogIfNeeded() {
-    const userED25519KeyPairHex = await UserUtils.getUserED25519KeyPair();
-    if (userED25519KeyPairHex) {
-      return;
-    }
-
-    window.showResetSessionIdDialog();
-  }
-}
+      <SessionToastContainer />
+      <Section type={SectionType.Moon} />
+    </div>
+  );
+};
