@@ -30,6 +30,7 @@ import { DefaultTheme } from 'styled-components';
 import { ConversationController } from '../../../session/conversations';
 import { ConversationType } from '../../../state/ducks/conversations';
 import { SessionMemberListItem } from '../SessionMemberListItem';
+import autoBind from 'auto-bind';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -142,41 +143,8 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
     // Emojis
     this.emojiPanel = null;
+    autoBind(this);
     this.toggleEmojiPanel = debounce(this.toggleEmojiPanel.bind(this), 100);
-    this.hideEmojiPanel = this.hideEmojiPanel.bind(this);
-    this.onEmojiClick = this.onEmojiClick.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-
-    this.renderRecordingView = this.renderRecordingView.bind(this);
-    this.renderCompositionView = this.renderCompositionView.bind(this);
-    this.renderTextArea = this.renderTextArea.bind(this);
-    this.renderQuotedMessage = this.renderQuotedMessage.bind(this);
-
-    this.renderStagedLinkPreview = this.renderStagedLinkPreview.bind(this);
-    this.renderAttachmentsStaged = this.renderAttachmentsStaged.bind(this);
-
-    // Recording view functions
-    this.sendVoiceMessage = this.sendVoiceMessage.bind(this);
-    this.onLoadVoiceNoteView = this.onLoadVoiceNoteView.bind(this);
-    this.onExitVoiceNoteView = this.onExitVoiceNoteView.bind(this);
-
-    // Attachments
-    this.onChoseAttachment = this.onChoseAttachment.bind(this);
-    this.onChooseAttachment = this.onChooseAttachment.bind(this);
-    this.onClickAttachment = this.onClickAttachment.bind(this);
-    this.renderCaptionEditor = this.renderCaptionEditor.bind(this);
-    this.abortLinkPreviewFetch = this.abortLinkPreviewFetch.bind(this);
-
-    // On Sending
-    this.onSendMessage = this.onSendMessage.bind(this);
-
-    // Events
-    this.onKeyDown = this.onKeyDown.bind(this);
-    this.onKeyUp = this.onKeyUp.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.focusCompositionBox = this.focusCompositionBox.bind(this);
-
-    this.fetchUsersForGroup = this.fetchUsersForGroup.bind(this);
   }
 
   public componentDidMount() {

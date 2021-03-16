@@ -27,7 +27,6 @@ sendSyncMessageOnly to fix
 
 indexedDB
 initializeAttachmentMetadata=>
-schemaVersion for messages to put as what needs to be set
 run_migration
 
 

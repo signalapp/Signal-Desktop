@@ -669,8 +669,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public async getPropsForMessageDetail() {
-    const newIdentity = window.i18n('newIdentity');
-
     // We include numbers we didn't successfully send to so we can display errors.
     // Older messages don't have the recipients included on the message, so we fall
     //   back to the conversation's current recipients

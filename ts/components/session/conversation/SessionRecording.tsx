@@ -13,6 +13,7 @@ import {
 import { Constants } from '../../../session';
 import { ToastUtils } from '../../../session/utils';
 import { DefaultTheme, withTheme } from 'styled-components';
+import autoBind from 'auto-bind';
 
 interface Props {
   onExitVoiceNoteView: any;
@@ -64,32 +65,12 @@ class SessionRecordingInner extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    // Mouse interaction
-    this.handleHoverActions = this.handleHoverActions.bind(this);
-    this.handleUnhoverActions = this.handleUnhoverActions.bind(this);
-
-    // Component actions
-    this.playAudio = this.playAudio.bind(this);
-    this.pauseAudio = this.pauseAudio.bind(this);
-    this.stopRecording = this.stopRecording.bind(this);
-
-    // Voice message actions
-    this.onSendVoiceMessage = this.onSendVoiceMessage.bind(this);
-    this.onDeleteVoiceMessage = this.onDeleteVoiceMessage.bind(this);
-
-    // Stream monitors
-    this.timerUpdate = this.timerUpdate.bind(this);
-    this.onRecordingStream = this.onRecordingStream.bind(this);
-    this.stopRecordingStream = this.stopRecordingStream.bind(this);
+    autoBind(this);
 
     // Refs
     this.visualisationRef = React.createRef();
     this.visualisationCanvas = React.createRef();
     this.playbackCanvas = React.createRef();
-
-    // Listeners
-    this.onKeyDown = this.onKeyDown.bind(this);
-    this.updateCanvasDimensions = this.updateCanvasDimensions.bind(this);
 
     const now = getTimestamp();
     const updateTimerInterval = global.setInterval(this.timerUpdate, 500);

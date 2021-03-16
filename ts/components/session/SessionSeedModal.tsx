@@ -118,10 +118,7 @@ class SessionSeedModalInner extends React.Component<Props, State> {
     const bgColor = '#FFFFFF';
     const fgColor = '#1B1B1B';
 
-    const hexEncodedSeed = window.mnemonic.mn_decode(
-      this.state.recoveryPhrase,
-      'english'
-    );
+    const hexEncodedSeed = mn_decode(this.state.recoveryPhrase, 'english');
 
     return (
       <>
