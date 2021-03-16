@@ -35,7 +35,6 @@
     "test-electron": "yarn grunt test",
     "test-integration": "ELECTRON_DISABLE_SANDBOX=1 mocha --exit --full-trace --timeout 10000 ts/test/session/integration/integration_itest.js",
     "test-node": "mocha --recursive --exit --timeout 10000  test/app test/modules \"./ts/test/**/*_test.js\" libloki/test/node ",
-    "test-audric": "mocha --recursive --exit --timeout 10000 ts/test/session/unit/",
     "eslint": "eslint --cache .",
     "eslint-fix": "eslint --fix .",
     "eslint-full": "eslint .",

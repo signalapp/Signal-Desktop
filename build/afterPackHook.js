@@ -5,14 +5,14 @@ const util = require('util');
 const renameAsync = util.promisify(fs.rename);
 const unlinkAsync = util.promisify(fs.unlink);
 
-module.exports = async function (context) {
+module.exports = async function(context) {
   // Replace the app launcher on linux only.
   if (process.platform !== 'linux') {
     return;
   }
-  const isAppImage = context.targets.find(target => target.name === 'appImage')
+  const isAppImage = context.targets.find(target => target.name === 'appImage');
   if (!isAppImage) {
-    return
+    return;
   }
   // eslint-disable-next-line no-console
   console.log('afterPack hook triggered', context);
