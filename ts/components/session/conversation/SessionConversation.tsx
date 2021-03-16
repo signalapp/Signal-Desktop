@@ -35,6 +35,7 @@ import {
   getMessageById,
   getPubkeysInPublicConversation,
 } from '../../../data/data';
+import autoBind from 'auto-bind';
 
 interface State {
   // Message sending progress
@@ -106,47 +107,7 @@ export class SessionConversation extends React.Component<Props, State> {
     this.messageContainerRef = React.createRef();
     this.dragCounter = 0;
 
-    // Group settings panel
-    this.toggleRightPanel = this.toggleRightPanel.bind(this);
-    this.getRightPanelProps = this.getRightPanelProps.bind(this);
-
-    // Recording view
-    this.onLoadVoiceNoteView = this.onLoadVoiceNoteView.bind(this);
-    this.onExitVoiceNoteView = this.onExitVoiceNoteView.bind(this);
-
-    // Messages
-    this.loadInitialMessages = this.loadInitialMessages.bind(this);
-    this.selectMessage = this.selectMessage.bind(this);
-    this.resetSelection = this.resetSelection.bind(this);
-    this.updateSendingProgress = this.updateSendingProgress.bind(this);
-    this.resetSendingProgress = this.resetSendingProgress.bind(this);
-    this.onMessageSending = this.onMessageSending.bind(this);
-    this.onMessageSuccess = this.onMessageSuccess.bind(this);
-    this.onMessageFailure = this.onMessageFailure.bind(this);
-    this.deleteSelectedMessages = this.deleteSelectedMessages.bind(this);
-
-    this.replyToMessage = this.replyToMessage.bind(this);
-    this.showMessageDetails = this.showMessageDetails.bind(this);
-    this.deleteMessage = this.deleteMessage.bind(this);
-    this.onClickAttachment = this.onClickAttachment.bind(this);
-    this.downloadAttachment = this.downloadAttachment.bind(this);
-
-    // Keyboard navigation
-    this.onKeyDown = this.onKeyDown.bind(this);
-
-    this.renderLightBox = this.renderLightBox.bind(this);
-
-    // attachments
-    this.clearAttachments = this.clearAttachments.bind(this);
-    this.addAttachments = this.addAttachments.bind(this);
-    this.removeAttachment = this.removeAttachment.bind(this);
-    this.onChoseAttachments = this.onChoseAttachments.bind(this);
-    this.handleDragIn = this.handleDragIn.bind(this);
-    this.handleDragOut = this.handleDragOut.bind(this);
-    this.handleDrag = this.handleDrag.bind(this);
-    this.handleDrop = this.handleDrop.bind(this);
-
-    this.updateMemberList = this.updateMemberList.bind(this);
+    autoBind(this);
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
