@@ -1,17 +1,11 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 import { Avatar } from '../Avatar';
 import { darkTheme, lightTheme } from '../../state/ducks/SessionTheme';
 import { SessionToastContainer } from './SessionToastContainer';
-import { mapDispatchToProps } from '../../state/actions';
 import { ConversationType } from '../../state/ducks/conversations';
 import { DefaultTheme } from 'styled-components';
-import { StateType } from '../../state/reducer';
 import { ConversationController } from '../../session/conversations';
-import { getFocusedSection } from '../../state/selectors/section';
-import { getTheme } from '../../state/selectors/theme';
-import { getOurNumber } from '../../state/selectors/user';
 import { UserUtils } from '../../session/utils';
 import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
 import { DAYS } from '../../session/utils/Number';
@@ -35,12 +29,12 @@ export enum SectionType {
 }
 
 interface Props {
-  onSectionSelected: any;
+  onSectionSelected: (section: SectionType) => void;
   selectedSection: SectionType;
   unreadMessageCount: number;
   ourPrimaryConversation: ConversationType;
   ourNumber: string;
-  applyTheme?: any;
+  applyTheme: any;
   theme: DefaultTheme;
 }
 
@@ -48,7 +42,7 @@ interface Props {
  * ActionsPanel is the far left banner (not the left pane).
  * The panel with buttons to switch between the message/contact/settings/theme views
  */
-class ActionsPanelPrivate extends React.Component<Props> {
+export class ActionsPanel extends React.Component<Props> {
   private syncInterval: NodeJS.Timeout | null = null;
 
   constructor(props: Props) {
@@ -261,15 +255,3 @@ class ActionsPanelPrivate extends React.Component<Props> {
     window.showResetSessionIdDialog();
   }
 }
-
-const mapStateToProps = (state: StateType) => {
-  return {
-    section: getFocusedSection(state),
-    theme: getTheme(state),
-    ourNumber: getOurNumber(state),
-  };
-};
-
-const smart = connect(mapStateToProps, mapDispatchToProps);
-
-export const ActionsPanel = smart(ActionsPanelPrivate);

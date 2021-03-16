@@ -1,22 +1,18 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { getFocusedSettingsSection } from '../state/selectors/section';
 
 import { SmartSessionConversation } from '../state/smart/SessionConversation';
-import {
-  SessionSettingCategory,
-  SmartSettingsView,
-} from './session/settings/SessionSettings';
+import { SmartSettingsView } from './session/settings/SessionSettings';
 
 const FilteredSettingsView = SmartSettingsView as any;
 
-type Props = {
-  focusedSettingsSection?: SessionSettingCategory;
-};
-
-export const SessionMainPanel = (props: Props) => {
-  const isSettingsView = props.focusedSettingsSection !== undefined;
+export const SessionMainPanel = () => {
+  const focusedSettingsSection = useSelector(getFocusedSettingsSection);
+  const isSettingsView = focusedSettingsSection !== undefined;
 
   if (isSettingsView) {
-    return <FilteredSettingsView category={props.focusedSettingsSection} />;
+    return <FilteredSettingsView category={focusedSettingsSection} />;
   }
   return (
     <div className="session-conversation">

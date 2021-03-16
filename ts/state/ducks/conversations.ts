@@ -426,7 +426,7 @@ function conversationReset({
   };
 }
 
-function openConversationExternal(
+export function openConversationExternal(
   id: string,
   messageId?: string
 ): SelectedConversationChangedActionType {

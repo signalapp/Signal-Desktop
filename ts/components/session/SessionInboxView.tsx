@@ -6,13 +6,12 @@ import { ConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import { createStore } from '../../state/createStore';
 import { actions as conversationActions } from '../../state/ducks/conversations';
-import { SmartLeftPane } from '../../state/smart/LeftPane';
-import { SmartSessionMainPanel } from '../../state/smart/SessionMainPanel';
 import { makeLookup } from '../../util';
+import { LeftPane } from '../LeftPane';
+import { SessionMainPanel } from '../SessionMainPanel';
 
 // Workaround: A react component's required properties are filtering up through connect()
 //   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
-const FilteredLeftPane = SmartLeftPane as any;
 
 type State = {
   isInitialLoadComplete: boolean;
@@ -52,13 +51,13 @@ export class SessionInboxView extends React.Component<any, State> {
           <div className="network-status-container" />
           {this.renderLeftPane()}
         </div>
-        <SmartSessionMainPanel />
+        <SessionMainPanel />
       </Provider>
     );
   }
 
   private renderLeftPane() {
-    return <FilteredLeftPane isExpired={this.state.isExpired} />;
+    return <LeftPane isExpired={this.state.isExpired} />;
   }
 
   private async setupLeftPane() {

@@ -1,8 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { LeftPane } from '../LeftPane';
-
 import {
   SessionButton,
   SessionButtonColor,
@@ -10,14 +8,14 @@ import {
 } from './SessionButton';
 
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
-import { SessionSearchInput } from './SessionSearchInput';
 import { SessionSettingCategory } from './settings/SessionSettings';
-import { DefaultTheme, useTheme } from 'styled-components';
+import { DefaultTheme } from 'styled-components';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { deleteAccount } from '../../util/accountManager';
 import { useDispatch, useSelector } from 'react-redux';
 import { showSettingsSection } from '../../state/ducks/section';
 import { getFocusedSettingsSection } from '../../state/selectors/section';
+import { getTheme } from '../../state/selectors/theme';
 
 type Props = {
   settingsCategory: SessionSettingCategory;
@@ -59,7 +57,7 @@ const LeftPaneSettingsCategoryRow = (props: { item: any }) => {
   const { item } = props;
 
   const dispatch = useDispatch();
-  const theme = useTheme();
+  const theme = useSelector(getTheme);
   const focusedSettingsSection = useSelector(getFocusedSettingsSection);
 
   return (
@@ -153,12 +151,14 @@ const LeftPaneBottomButtons = () => {
   );
 };
 
-export const LeftPaneSettingSection = (props: Props) => {
+export const LeftPaneSettingSection = () => {
+  const theme = useSelector(getTheme);
+
   return (
     <div className="left-pane-setting-section">
       <LeftPaneSectionHeader
         label={window.i18n('settingsHeader')}
-        theme={props.theme}
+        theme={theme}
       />
       <div className="left-pane-setting-content">
         <LeftPaneSettingsCategories />
