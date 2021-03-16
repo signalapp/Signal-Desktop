@@ -14694,7 +14694,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
-    "lineNumber": 235,
+    "lineNumber": 237,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T19:57:01.431Z",
     "reasonDetail": "Used for managing focus only"
@@ -14703,7 +14703,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public audioButtonRef: React.RefObject<HTMLButtonElement> = React.createRef();",
-    "lineNumber": 237,
+    "lineNumber": 239,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T19:57:01.431Z",
     "reasonDetail": "Used for propagating click from the Message to MessageAudio's button"
@@ -14712,7 +14712,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  > = React.createRef();",
-    "lineNumber": 241,
+    "lineNumber": 243,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T19:57:01.431Z",
     "reasonDetail": "Used for detecting clicks outside reaction viewer"
@@ -14721,7 +14721,7 @@
     "rule": "React-useRef",
     "path": "ts/components/conversation/MessageAudio.js",
     "line": "    const waveformRef = react_1.useRef(null);",
-    "lineNumber": 116,
+    "lineNumber": 143,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-09T01:19:04.057Z",
     "reasonDetail": "Used for obtanining the bounding box for the container"

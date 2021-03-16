@@ -9,6 +9,7 @@ import { mapDispatchToProps } from '../actions';
 import { StateType } from '../reducer';
 import { WaveformCache } from '../../types/Audio';
 import { LocalizerType } from '../../types/Util';
+import { AttachmentType } from '../../types/Attachment';
 
 export type Props = {
   audio: HTMLAudioElement;
@@ -18,11 +19,12 @@ export type Props = {
   direction?: 'incoming' | 'outgoing';
   id: string;
   i18n: LocalizerType;
-  url: string;
+  attachment: AttachmentType;
   withContentAbove: boolean;
   withContentBelow: boolean;
 
   buttonRef: React.RefObject<HTMLButtonElement>;
+  kickOffAttachmentDownload(): void;
 };
 
 const mapStateToProps = (state: StateType, props: Props) => {

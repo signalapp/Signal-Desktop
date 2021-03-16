@@ -5103,6 +5103,14 @@
     "message": "Pause audio attachment",
     "description": "Aria label for audio attachment's Pause button"
   },
+  "MessageAudio--download": {
+    "message": "Download audio attachment",
+    "description": "Aria label for audio attachment's Download button"
+  },
+  "MessageAudio--pending": {
+    "message": "Downloading audio attachment...",
+    "description": "Aria label for pending audio attachment spinner"
+  },
   "MessageAudio--slider": {
     "message": "Playback time of audio attachment",
     "description": "Aria label for audio attachment's playback time slider"

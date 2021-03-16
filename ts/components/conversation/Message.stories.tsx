@@ -753,6 +753,39 @@ story.add('Audio with Caption', () => {
   return renderBothDirections(props);
 });
 
+story.add('Audio with Not Downloaded Attachment', () => {
+  const props = createProps({
+    attachments: [
+      {
+        contentType: AUDIO_MP3,
+        fileName: 'incompetech-com-Agnus-Dei-X.mp3',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        url: undefined as any,
+      },
+    ],
+    status: 'sent',
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('Audio with Pending Attachment', () => {
+  const props = createProps({
+    attachments: [
+      {
+        contentType: AUDIO_MP3,
+        fileName: 'incompetech-com-Agnus-Dei-X.mp3',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        url: undefined as any,
+        pending: true,
+      },
+    ],
+    status: 'sent',
+  });
+
+  return renderBothDirections(props);
+});
+
 story.add('Other File Type', () => {
   const props = createProps({
     attachments: [

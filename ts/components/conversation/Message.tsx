@@ -85,9 +85,11 @@ export type AudioAttachmentProps = {
   buttonRef: React.RefObject<HTMLButtonElement>;
   direction: DirectionType;
   theme: ThemeType | undefined;
-  url: string;
+  attachment: AttachmentType;
   withContentAbove: boolean;
   withContentBelow: boolean;
+
+  kickOffAttachmentDownload(): void;
 };
 
 export type PropsData = {
@@ -754,16 +756,23 @@ export class Message extends React.PureComponent<Props, State> {
         </div>
       );
     }
-    if (!firstAttachment.pending && isAudio(attachments)) {
+    if (isAudio(attachments)) {
       return renderAudioAttachment({
         i18n,
         buttonRef: this.audioButtonRef,
         id,
         direction,
         theme,
-        url: firstAttachment.url,
+        attachment: firstAttachment,
         withContentAbove,
         withContentBelow,
+
+        kickOffAttachmentDownload() {
+          kickOffAttachmentDownload({
+            attachment: firstAttachment,
+            messageId: id,
+          });
+        },
       });
     }
     const { pending, fileName, fileSize, contentType } = firstAttachment;

@@ -59,7 +59,8 @@
   margin-top: 6px;
 }
 
-.module-message__audio-attachment__button {
+.module-message__audio-attachment__button,
+.module-message__audio-attachment__spinner {
   flex-shrink: 0;
   width: 36px;
   height: 36px;
@@ -75,22 +76,28 @@
     content: '';
   }
 
-  @mixin audio-icon($name, $color) {
+  @mixin audio-icon($name, $icon, $color) {
     &--#{$name}::before {
-      @include color-svg(
-        '../images/icons/v2/#{$name}-solid-20.svg',
-        $color,
-        false
-      );
+      @include color-svg('../images/icons/v2/#{$icon}.svg', $color, false);
     }
+  }
+
+  @mixin all-audio-icons($color) {
+    @include audio-icon(play, play-solid-20, $color);
+    @include audio-icon(pause, pause-solid-20, $color);
+    @include audio-icon(download, arrow-down-20, $color);
+    @include audio-icon(pending, audio-spinner-arc-22, $color);
+  }
+
+  &--pending::before {
+    animation: spinner-arc-animation 1000ms linear infinite;
   }
 
   .module-message__audio-attachment--incoming & {
     @mixin android {
       background: $color-white-alpha-20;
 
-      @include audio-icon(play, $color-white);
-      @include audio-icon(pause, $color-white);
+      @include all-audio-icons($color-white);
     }
 
     @include light-theme {
@@ -102,14 +109,12 @@
     @include ios-theme {
       background: $color-white;
 
-      @include audio-icon(play, $color-gray-60);
-      @include audio-icon(pause, $color-gray-60);
+      @include all-audio-icons($color-gray-60);
     }
     @include ios-dark-theme {
       background: $color-gray-60;
 
-      @include audio-icon(play, $color-gray-15);
-      @include audio-icon(pause, $color-gray-15);
+      @include all-audio-icons($color-gray-15);
     }
   }
 
@@ -117,15 +122,13 @@
     @mixin android {
       background: $color-white;
 
-      @include audio-icon(play, $color-gray-60);
-      @include audio-icon(pause, $color-gray-60);
+      @include all-audio-icons($color-gray-60);
     }
 
     @mixin ios {
       background: $color-white-alpha-20;
 
-      @include audio-icon(play, $color-white);
-      @include audio-icon(pause, $color-white);
+      @include all-audio-icons($color-white);
     }
 
     @include light-theme {

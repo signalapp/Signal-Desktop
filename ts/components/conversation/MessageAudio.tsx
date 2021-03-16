@@ -8,12 +8,13 @@ import { noop } from 'lodash';
 import { assert } from '../../util/assert';
 import { LocalizerType } from '../../types/Util';
 import { WaveformCache } from '../../types/Audio';
+import { hasNotDownloaded, AttachmentType } from '../../types/Attachment';
 
 export type Props = {
   direction?: 'incoming' | 'outgoing';
   id: string;
   i18n: LocalizerType;
-  url: string;
+  attachment: AttachmentType;
   withContentAbove: boolean;
   withContentBelow: boolean;
 
@@ -23,9 +24,19 @@ export type Props = {
   waveformCache: WaveformCache;
 
   buttonRef: React.RefObject<HTMLButtonElement>;
+  kickOffAttachmentDownload(): void;
 
   activeAudioID: string | undefined;
   setActiveAudioID: (id: string | undefined) => void;
+};
+
+type ButtonProps = {
+  i18n: LocalizerType;
+  buttonRef: React.RefObject<HTMLButtonElement>;
+
+  mod: string;
+  label: string;
+  onClick: () => void;
 };
 
 type LoadAudioOptions = {
@@ -39,10 +50,17 @@ type LoadAudioResult = {
   peaks: ReadonlyArray<number>;
 };
 
+enum State {
+  NotDownloaded = 'NotDownloaded',
+  Pending = 'Pending',
+  Normal = 'Normal',
+}
+
 // Constants
 
 const CSS_BASE = 'module-message__audio-attachment';
 const PEAK_COUNT = 47;
+const BAR_NOT_DOWNLOADED_HEIGHT = 2;
 const BAR_MIN_HEIGHT = 4;
 const BAR_MAX_HEIGHT = 20;
 
@@ -130,6 +148,43 @@ async function loadAudio(options: LoadAudioOptions): Promise<LoadAudioResult> {
   return result;
 }
 
+const Button: React.FC<ButtonProps> = props => {
+  const { i18n, buttonRef, mod, label, onClick } = props;
+  // Clicking button toggle playback
+  const onButtonClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    onClick();
+  };
+
+  // Keyboard playback toggle
+  const onButtonKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key !== 'Enter' && event.key !== 'Space') {
+      return;
+    }
+    event.stopPropagation();
+    event.preventDefault();
+
+    onClick();
+  };
+
+  return (
+    <button
+      type="button"
+      ref={buttonRef}
+      className={classNames(
+        `${CSS_BASE}__button`,
+        `${CSS_BASE}__button--${mod}`
+      )}
+      onClick={onButtonClick}
+      onKeyDown={onButtonKeyDown}
+      tabIndex={0}
+      aria-label={i18n(label)}
+    />
+  );
+};
+
 /**
  * Display message audio attachment along with its waveform, duration, and
  * toggle Play/Pause button.
@@ -147,11 +202,12 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     i18n,
     id,
     direction,
-    url,
+    attachment,
     withContentAbove,
     withContentBelow,
 
     buttonRef,
+    kickOffAttachmentDownload,
 
     audio,
     audioContext,
@@ -179,10 +235,20 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     new Array(PEAK_COUNT).fill(0)
   );
 
+  let state: State;
+
+  if (attachment.pending) {
+    state = State.Pending;
+  } else if (hasNotDownloaded(attachment)) {
+    state = State.NotDownloaded;
+  } else {
+    state = State.Normal;
+  }
+
   // This effect loads audio file and computes its RMS peak for dispalying the
   // waveform.
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading || state !== State.Normal) {
       return noop;
     }
 
@@ -193,7 +259,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
         const { peaks: newPeaks, duration: newDuration } = await loadAudio({
           audioContext,
           waveformCache,
-          url,
+          url: attachment.url,
         });
         if (canceled) {
           return;
@@ -212,7 +278,15 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     return () => {
       canceled = true;
     };
-  }, [url, isLoading, setPeaks, setDuration, audioContext, waveformCache]);
+  }, [
+    attachment,
+    audioContext,
+    isLoading,
+    setDuration,
+    setPeaks,
+    state,
+    waveformCache,
+  ]);
 
   // This effect attaches/detaches event listeners to the global <audio/>
   // instance that we reuse from the GlobalAudioContext.
@@ -300,33 +374,18 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
         audio.pause();
       }
 
-      audio.src = url;
+      audio.src = attachment.url;
     }
-  };
-
-  // Clicking button toggle playback
-  const onClick = (event: React.MouseEvent) => {
-    event.stopPropagation();
-    event.preventDefault();
-
-    toggleIsPlaying();
-  };
-
-  // Keyboard playback toggle
-  const onKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key !== 'Enter' && event.key !== 'Space') {
-      return;
-    }
-    event.stopPropagation();
-    event.preventDefault();
-
-    toggleIsPlaying();
   };
 
   // Clicking waveform moves playback head position and starts playback.
   const onWaveformClick = (event: React.MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
+
+    if (state !== State.Normal) {
+      return;
+    }
 
     if (!isPlaying) {
       toggleIsPlaying();
@@ -381,11 +440,86 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     }
   };
 
-  const buttonLabel = i18n(
-    isPlaying ? 'MessageAudio--play' : 'MessageAudio--pause'
+  const peakPosition = peaks.length * (currentTime / duration);
+
+  const waveform = (
+    <div
+      ref={waveformRef}
+      className={`${CSS_BASE}__waveform`}
+      onClick={onWaveformClick}
+      onKeyDown={onWaveformKeyDown}
+      tabIndex={0}
+      role="slider"
+      aria-label={i18n('MessageAudio--slider')}
+      aria-orientation="horizontal"
+      aria-valuenow={currentTime}
+      aria-valuemin={0}
+      aria-valuemax={duration}
+      aria-valuetext={timeToText(currentTime)}
+    >
+      {peaks.map((peak, i) => {
+        let height = Math.max(BAR_MIN_HEIGHT, BAR_MAX_HEIGHT * peak);
+        if (state !== State.Normal) {
+          height = BAR_NOT_DOWNLOADED_HEIGHT;
+        }
+
+        const highlight = i < peakPosition;
+
+        // Use maximum height for current audio position
+        if (highlight && i + 1 >= peakPosition) {
+          height = BAR_MAX_HEIGHT;
+        }
+
+        const key = i;
+
+        return (
+          <div
+            className={classNames([
+              `${CSS_BASE}__waveform__bar`,
+              highlight ? `${CSS_BASE}__waveform__bar--active` : null,
+            ])}
+            key={key}
+            style={{ height }}
+          />
+        );
+      })}
+    </div>
   );
 
-  const peakPosition = peaks.length * (currentTime / duration);
+  let button: React.ReactElement;
+  if (state === State.Pending) {
+    // Not really a button, but who cares?
+    button = (
+      <div
+        className={classNames(
+          `${CSS_BASE}__spinner`,
+          `${CSS_BASE}__spinner--pending`
+        )}
+        title={i18n('MessageAudio--pending')}
+      />
+    );
+  } else if (state === State.NotDownloaded) {
+    button = (
+      <Button
+        i18n={i18n}
+        buttonRef={buttonRef}
+        mod="download"
+        label="MessageAudio--download"
+        onClick={kickOffAttachmentDownload}
+      />
+    );
+  } else {
+    // State.Normal
+    button = (
+      <Button
+        i18n={i18n}
+        buttonRef={buttonRef}
+        mod={isPlaying ? 'pause' : 'play'}
+        label={isPlaying ? 'MessageAudio--pause' : 'MessageAudio--play'}
+        onClick={toggleIsPlaying}
+      />
+    );
+  }
 
   return (
     <div
@@ -396,55 +530,8 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
         withContentAbove ? `${CSS_BASE}--with-content-above` : null
       )}
     >
-      <button
-        type="button"
-        className={classNames(
-          `${CSS_BASE}__button`,
-          `${CSS_BASE}__button--${isPlaying ? 'pause' : 'play'}`
-        )}
-        ref={buttonRef}
-        onClick={onClick}
-        onKeyDown={onKeyDown}
-        tabIndex={0}
-        aria-label={buttonLabel}
-      />
-      <div
-        ref={waveformRef}
-        className={`${CSS_BASE}__waveform`}
-        onClick={onWaveformClick}
-        onKeyDown={onWaveformKeyDown}
-        tabIndex={0}
-        role="slider"
-        aria-label={i18n('MessageAudio--slider')}
-        aria-orientation="horizontal"
-        aria-valuenow={currentTime}
-        aria-valuemin={0}
-        aria-valuemax={duration}
-        aria-valuetext={timeToText(currentTime)}
-      >
-        {peaks.map((peak, i) => {
-          let height = Math.max(BAR_MIN_HEIGHT, BAR_MAX_HEIGHT * peak);
-          const highlight = i < peakPosition;
-
-          // Use maximum height for current audio position
-          if (highlight && i + 1 >= peakPosition) {
-            height = BAR_MAX_HEIGHT;
-          }
-
-          const key = i;
-
-          return (
-            <div
-              className={classNames([
-                `${CSS_BASE}__waveform__bar`,
-                highlight ? `${CSS_BASE}__waveform__bar--active` : null,
-              ])}
-              key={key}
-              style={{ height }}
-            />
-          );
-        })}
-      </div>
+      {button}
+      {waveform}
       <div className={`${CSS_BASE}__duration`}>{timeToText(duration)}</div>
     </div>
   );
