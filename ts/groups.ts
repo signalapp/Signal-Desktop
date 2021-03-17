@@ -2651,8 +2651,9 @@ async function updateGroup({
   // Ensure that all generated messages are ordered properly.
   // Before the provided timestamp so update messages appear before the
   //   initiating message, or after now().
-  const finalReceivedAt = receivedAt || Date.now();
-  const finalSentAt = sentAt || Date.now();
+  const finalReceivedAt =
+    receivedAt || window.Signal.Util.incrementMessageCounter();
+  const initialSentAt = sentAt || Date.now();
 
   // GroupV1 -> GroupV2 migration changes the groupId, and we need to update our id-based
   //   lookups if there's a change on that field.
@@ -2666,7 +2667,7 @@ async function updateGroup({
     //   Unknown Group in the left pane.
     active_at:
       (isInitialDataFetch || justJoinedGroup) && newAttributes.name
-        ? finalReceivedAt
+        ? initialSentAt
         : newAttributes.active_at,
     temporaryMemberCount: isInGroup
       ? undefined
@@ -2678,7 +2679,7 @@ async function updateGroup({
   }
 
   // Save all synthetic messages describing group changes
-  let syntheticSentAt = finalSentAt - (groupChangeMessages.length + 1);
+  let syntheticSentAt = initialSentAt - (groupChangeMessages.length + 1);
   const changeMessagesToSave = groupChangeMessages.map(changeMessage => {
     // We do this to preserve the order of the timeline. We only update sentAt to ensure
     //   that we don't stomp on messages received around the same time as the message
@@ -2688,8 +2689,8 @@ async function updateGroup({
     return {
       ...changeMessage,
       conversationId: conversation.id,
-      received_at: window.Signal.Util.incrementMessageCounter(),
-      received_at_ms: finalReceivedAt,
+      received_at: finalReceivedAt,
+      received_at_ms: syntheticSentAt,
       sent_at: syntheticSentAt,
     };
   });
