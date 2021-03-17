@@ -89,6 +89,10 @@
     @include audio-icon(pending, audio-spinner-arc-22, $color);
   }
 
+  &--pending {
+    cursor: auto;
+  }
+
   &--pending::before {
     animation: spinner-arc-animation 1000ms linear infinite;
   }
