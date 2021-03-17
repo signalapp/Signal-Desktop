@@ -6,6 +6,7 @@ import { isNumber } from 'lodash';
 import {
   arrayBufferToBase64,
   base64ToArrayBuffer,
+  deriveMasterKeyFromGroupV1,
   fromEncodedBinaryToArrayBuffer,
 } from '../Crypto';
 import dataInterface from '../sql/Client';
@@ -385,19 +386,38 @@ export async function mergeGroupV1Record(
 
   const groupId = groupV1Record.id.toBinary();
 
-  // We do a get here because we don't get enough information from just this source to
-  //   be able to do the right thing with this group. So we'll update the local group
-  //   record if we have one; otherwise we'll just drop this update.
-  const conversation = window.ConversationController.get(groupId);
+  // Attempt to fetch an existing group pertaining to the `groupId` or create
+  // a new group and populate it with the attributes from the record.
+  let conversation = window.ConversationController.get(groupId);
   if (!conversation) {
-    throw new Error(`No conversation for group(${groupId})`);
-  }
-  window.log.info('storageService.mergeGroupV1Record:', conversation.debugID());
+    const masterKeyBuffer = await deriveMasterKeyFromGroupV1(groupId);
+    const fields = deriveGroupFields(masterKeyBuffer);
+    const derivedGroupV2Id = arrayBufferToBase64(fields.id);
 
-  if (!conversation.isGroupV1()) {
-    throw new Error(`Record has group type mismatch ${conversation.debugID()}`);
+    window.log.info(
+      'storageService.mergeGroupV1Record: failed to find group by v1 id ' +
+        `attempting lookup by v2 groupv2(${derivedGroupV2Id})`
+    );
+    conversation = window.ConversationController.get(derivedGroupV2Id);
+  }
+  if (conversation) {
+    window.log.info(
+      'storageService.mergeGroupV1Record: found existing group',
+      conversation.debugID()
+    );
+  } else {
+    conversation = await window.ConversationController.getOrCreateAndWait(
+      groupId,
+      'group'
+    );
+    window.log.info(
+      'storageService.mergeGroupV1Record: created a new group locally',
+      conversation.debugID()
+    );
   }
 
+  // If we receive a group V1 record, remote data should take precendence
+  // even if the group is actually V2 on our end.
   conversation.set({
     isArchived: Boolean(groupV1Record.archived),
     markedUnread: Boolean(groupV1Record.markedUnread),
@@ -406,13 +426,29 @@ export async function mergeGroupV1Record(
 
   applyMessageRequestState(groupV1Record, conversation);
 
-  addUnknownFields(groupV1Record, conversation);
+  let hasPendingChanges: boolean;
 
-  const hasPendingChanges = doesRecordHavePendingChanges(
-    await toGroupV1Record(conversation),
-    groupV1Record,
-    conversation
-  );
+  if (conversation.isGroupV1()) {
+    addUnknownFields(groupV1Record, conversation);
+
+    hasPendingChanges = doesRecordHavePendingChanges(
+      await toGroupV1Record(conversation),
+      groupV1Record,
+      conversation
+    );
+  } else {
+    // We cannot preserve unknown fields if local group is V2 and the remote is
+    // still V1, because the storageItem that we'll put into manifest will have
+    // a different record type.
+    window.log.info(
+      'storageService.mergeGroupV1Record marking v1 ' +
+        ' group for an update to v2',
+      conversation.debugID()
+    );
+
+    // We want to upgrade group in the storage after merging it.
+    hasPendingChanges = true;
+  }
 
   updateConversation(conversation.attributes);
 

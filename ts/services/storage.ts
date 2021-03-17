@@ -70,10 +70,12 @@ function backOff(count: number) {
   return sleep(ms);
 }
 
-type UnknownRecord = {
+type RemoteRecord = {
   itemType: number;
   storageID: string;
 };
+
+type UnknownRecord = RemoteRecord;
 
 async function encryptRecord(
   storageID: string | undefined,
@@ -128,6 +130,8 @@ async function generateManifest(
   );
 
   await window.ConversationController.checkForConflicts();
+
+  await repairUnknownAndErroredRecords();
 
   const ITEM_TYPE = window.textsecure.protobuf.ManifestRecord.Identifier.Type;
 
@@ -214,7 +218,7 @@ async function generateManifest(
     }
   }
 
-  const unknownRecordsArray = (
+  const unknownRecordsArray: ReadonlyArray<UnknownRecord> = (
     window.storage.get('storage-service-unknown-records') || []
   ).filter((record: UnknownRecord) => !validRecordTypes.has(record.itemType));
 
@@ -233,7 +237,7 @@ async function generateManifest(
     manifestRecordKeys.add(identifier);
   });
 
-  const recordsWithErrors =
+  const recordsWithErrors: ReadonlyArray<UnknownRecord> =
     window.storage.get('storage-service-error-records') || [];
 
   window.log.info(
@@ -345,6 +349,54 @@ async function generateManifest(
     newItems,
     storageManifest,
   };
+}
+
+async function repairUnknownAndErroredRecords() {
+  const unknownRecordsArray: ReadonlyArray<UnknownRecord> =
+    window.storage.get('storage-service-unknown-records') || [];
+
+  const recordsWithErrors: ReadonlyArray<UnknownRecord> =
+    window.storage.get('storage-service-error-records') || [];
+
+  const remoteRecords = unknownRecordsArray.concat(recordsWithErrors);
+
+  // No repair necessary
+  if (remoteRecords.length === 0) {
+    return;
+  }
+
+  // Process unknown and records with records from the past sync to see
+  // if they can be merged
+  const remoteRecordsMap: Map<string, RemoteRecord> = new Map();
+  remoteRecords.forEach(record => {
+    remoteRecordsMap.set(record.storageID, record);
+  });
+
+  window.log.info(
+    'storageService.repairUnknownAndErroredRecords: found ' +
+      `${unknownRecordsArray.length} unknown records and ` +
+      `${recordsWithErrors.length} errored records, attempting repair`
+  );
+  const conflictCount = await processRemoteRecords(remoteRecordsMap);
+  if (conflictCount !== 0) {
+    window.log.info(
+      'storageService.repairUnknownAndErroredRecords: fixed ' +
+        `${conflictCount} conflicts`
+    );
+  }
+
+  const newUnknownCount = (
+    window.storage.get('storage-service-unknown-records') || []
+  ).length;
+  const newErroredCount = (
+    window.storage.get('storage-service-error-records') || []
+  ).length;
+
+  window.log.info(
+    'storageService.repairUnknownAndErroredRecords: ' +
+      `${newUnknownCount} unknown records and ` +
+      `${newErroredCount} errored records after repair`
+  );
 }
 
 async function uploadManifest(
@@ -612,9 +664,6 @@ async function mergeRecord(
 async function processManifest(
   manifest: ManifestRecordClass
 ): Promise<boolean> {
-  const storageKeyBase64 = window.storage.get('storageKey');
-  const storageKey = base64ToArrayBuffer(storageKeyBase64);
-
   if (!window.textsecure.messaging) {
     throw new Error('storageService.processManifest: We are offline!');
   }
@@ -632,7 +681,7 @@ async function processManifest(
     .map((conversation: ConversationModel) => conversation.get('storageID'))
     .filter(Boolean);
 
-  const unknownRecordsArray =
+  const unknownRecordsArray: ReadonlyArray<UnknownRecord> =
     window.storage.get('storage-service-unknown-records') || [];
 
   unknownRecordsArray.forEach((record: UnknownRecord) => {
@@ -642,7 +691,7 @@ async function processManifest(
     }
   });
 
-  const recordsWithErrors =
+  const recordsWithErrors: ReadonlyArray<UnknownRecord> =
     window.storage.get('storage-service-error-records') || [];
 
   // Do not fetch any records that we failed to merge in the previous fetch
@@ -673,15 +722,44 @@ async function processManifest(
     }
   });
 
-  const remoteOnly = Array.from(remoteOnlySet);
+  const remoteOnlyRecords = new Map<string, RemoteRecord>();
+  remoteOnlySet.forEach(storageID => {
+    remoteOnlyRecords.set(storageID, {
+      storageID,
+      itemType: remoteKeysTypeMap.get(storageID),
+    });
+  });
+
+  // if the remote only keys are larger or equal to our local keys then it
+  // was likely a forced push of storage service. We keep track of these
+  // merges so that we can detect possible infinite loops
+  const isForcePushed = remoteOnlyRecords.size >= localKeys.length;
+
+  const conflictCount = await processRemoteRecords(
+    remoteOnlyRecords,
+    isForcePushed
+  );
+  const hasConflicts = conflictCount !== 0;
+
+  return hasConflicts;
+}
+
+async function processRemoteRecords(
+  remoteOnlyRecords: Map<string, RemoteRecord>,
+  isForcePushed = false
+): Promise<number> {
+  const storageKeyBase64 = window.storage.get('storageKey');
+  const storageKey = base64ToArrayBuffer(storageKeyBase64);
 
   window.log.info(
-    'storageService.processManifest: remote keys',
-    remoteOnly.length
+    'storageService.processRemoteRecords: remote keys',
+    remoteOnlyRecords.size
   );
 
   const readOperation = new window.textsecure.protobuf.ReadOperation();
-  readOperation.readKey = remoteOnly.map(base64ToArrayBuffer);
+  readOperation.readKey = Array.from(remoteOnlyRecords.keys()).map(
+    base64ToArrayBuffer
+  );
 
   const credentials = window.storage.get('storageCredentials');
   const storageItemsBuffer = await window.textsecure.messaging.getStorageRecords(
@@ -697,9 +775,9 @@ async function processManifest(
 
   if (!storageItems.items) {
     window.log.info(
-      'storageService.processManifest: No storage items retrieved'
+      'storageService.processRemoteRecords: No storage items retrieved'
     );
-    return false;
+    return 0;
   }
 
   const decryptedStorageItems = await pMap(
@@ -711,11 +789,11 @@ async function processManifest(
 
       if (!key || !storageItemCiphertext) {
         window.log.error(
-          'storageService.processManifest: No key or Ciphertext available'
+          'storageService.processRemoteRecords: No key or Ciphertext available'
         );
         await stopStorageServiceSync();
         throw new Error(
-          'storageService.processManifest: Missing key and/or Ciphertext'
+          'storageService.processRemoteRecords: Missing key and/or Ciphertext'
         );
       }
 
@@ -734,7 +812,7 @@ async function processManifest(
         );
       } catch (err) {
         window.log.error(
-          'storageService.processManifest: Error decrypting storage item'
+          'storageService.processRemoteRecords: Error decrypting storage item'
         );
         await stopStorageServiceSync();
         throw err;
@@ -744,8 +822,16 @@ async function processManifest(
         storageItemPlaintext
       );
 
+      const remoteRecord = remoteOnlyRecords.get(base64ItemID);
+      if (!remoteRecord) {
+        throw new Error(
+          "Got a remote record that wasn't requested with " +
+            `storageID: ${base64ItemID}`
+        );
+      }
+
       return {
-        itemType: remoteKeysTypeMap.get(base64ItemID),
+        itemType: remoteRecord.itemType,
         storageID: base64ItemID,
         storageRecord,
       };
@@ -763,23 +849,27 @@ async function processManifest(
 
   try {
     window.log.info(
-      `storageService.processManifest: Attempting to merge ${sortedStorageItems.length} records`
+      `storageService.processRemoteRecords: Attempting to merge ${sortedStorageItems.length} records`
     );
     const mergedRecords = await pMap(sortedStorageItems, mergeRecord, {
       concurrency: 5,
     });
     window.log.info(
-      `storageService.processManifest: Processed ${mergedRecords.length} records`
+      `storageService.processRemoteRecords: Processed ${mergedRecords.length} records`
     );
 
+    // Collect full map of previously and currently unknown records
     const unknownRecords: Map<string, UnknownRecord> = new Map();
+
+    const unknownRecordsArray: ReadonlyArray<UnknownRecord> =
+      window.storage.get('storage-service-unknown-records') || [];
     unknownRecordsArray.forEach((record: UnknownRecord) => {
       unknownRecords.set(record.storageID, record);
     });
 
     const newRecordsWithErrors: Array<UnknownRecord> = [];
 
-    let hasConflict = false;
+    let conflictCount = 0;
 
     mergedRecords.forEach((mergedRecord: MergedRecordType) => {
       if (mergedRecord.isUnsupported) {
@@ -794,7 +884,9 @@ async function processManifest(
         });
       }
 
-      hasConflict = hasConflict || mergedRecord.hasConflict;
+      if (mergedRecord.hasConflict) {
+        conflictCount += 1;
+      }
     });
 
     // Filter out all the unknown records we're already supporting
@@ -803,13 +895,13 @@ async function processManifest(
     );
 
     window.log.info(
-      'storageService.processManifest: Unknown records found:',
+      'storageService.processRemoteRecords: Unknown records found:',
       newUnknownRecords.length
     );
     window.storage.put('storage-service-unknown-records', newUnknownRecords);
 
     window.log.info(
-      'storageService.processManifest: Records with errors:',
+      'storageService.processRemoteRecords: Records with errors:',
       newRecordsWithErrors.length
     );
     // Refresh the list of records that had errors with every push, that way
@@ -819,12 +911,9 @@ async function processManifest(
 
     const now = Date.now();
 
-    // if the remote only keys are larger or equal to our local keys then it
-    // was likely a forced push of storage service. We keep track of these
-    // merges so that we can detect possible infinite loops
-    if (remoteOnly.length >= localKeys.length) {
+    if (isForcePushed) {
       window.log.info(
-        'storageService.processManifest: remote manifest was likely force pushed',
+        'storageService.processRemoteRecords: remote manifest was likely force pushed',
         now
       );
       forcedPushBucket.push(now);
@@ -834,9 +923,9 @@ async function processManifest(
       // key so that they can be included in the next update
       window.getConversations().forEach((conversation: ConversationModel) => {
         const storageID = conversation.get('storageID');
-        if (storageID && !remoteOnlySet.has(storageID)) {
+        if (storageID && !remoteOnlyRecords.has(storageID)) {
           window.log.info(
-            'storageService.processManifest: clearing storageID',
+            'storageService.processRemoteRecords: clearing storageID',
             conversation.debugID()
           );
           conversation.unset('storageID');
@@ -848,7 +937,7 @@ async function processManifest(
 
         if (now - firstMostRecentForcedPush < 5 * MINUTE) {
           window.log.info(
-            'storageService.processManifest: thrasing? Backing off'
+            'storageService.processRemoteRecords: thrasing? Backing off'
           );
           const error = new Error();
           error.code = 'E_BACKOFF';
@@ -856,7 +945,7 @@ async function processManifest(
         }
 
         window.log.info(
-          'storageService.processManifest: thrash timestamp of first -> now',
+          'storageService.processRemoteRecords: thrash timestamp of first -> now',
           firstMostRecentForcedPush,
           now
         );
@@ -864,23 +953,24 @@ async function processManifest(
       }
     }
 
-    if (hasConflict) {
+    if (conflictCount !== 0) {
       window.log.info(
-        'storageService.processManifest: Conflict found, uploading changes'
+        'storageService.processRemoteRecords: ' +
+          `${conflictCount} conflicts found, uploading changes`
       );
 
-      return true;
+      return conflictCount;
     }
 
     consecutiveConflicts = 0;
   } catch (err) {
     window.log.error(
-      'storageService.processManifest: failed!',
+      'storageService.processRemoteRecords: failed!',
       err && err.stack ? err.stack : String(err)
     );
   }
 
-  return false;
+  return 0;
 }
 
 async function sync(): Promise<void> {
