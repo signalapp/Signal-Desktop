@@ -1095,7 +1095,12 @@ class MessageReceiverInner extends EventTarget {
 
         // Note: this is an out of band update; there are cases where the item in the
         //   cache has already been deleted by the time this runs. That's okay.
-        this.updateCache(envelope, plaintext);
+        try {
+          this.updateCache(envelope, plaintext);
+        } catch (error) {
+          const errorString = error && error.stack ? error.stack : error;
+          window.log.error(`decrypt: updateCache failed: ${errorString}`);
+        }
 
         return plaintext;
       })
