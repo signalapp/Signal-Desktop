@@ -74,15 +74,14 @@ function applyUnknownFields(
   record: RecordClass,
   conversation: ConversationModel
 ): void {
-  if (conversation.get('storageUnknownFields')) {
+  const storageUnknownFields = conversation.get('storageUnknownFields');
+  if (storageUnknownFields) {
     window.log.info(
       'storageService.applyUnknownFields: Applying unknown fields for',
       conversation.get('id')
     );
     // eslint-disable-next-line no-param-reassign
-    record.__unknownFields = base64ToArrayBuffer(
-      conversation.get('storageUnknownFields')
-    );
+    record.__unknownFields = base64ToArrayBuffer(storageUnknownFields);
   }
 }
 

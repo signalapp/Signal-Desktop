@@ -8,6 +8,7 @@ import { GroupV2PendingMemberType } from '../model-types.d';
 import { MediaItemType } from '../components/LightboxGallery';
 import { MessageType } from '../state/ducks/conversations';
 import { ConversationModel } from '../models/conversations';
+import { MessageModel } from '../models/messages';
 
 type GetLinkPreviewImageResult = {
   data: ArrayBuffer;
@@ -3313,8 +3314,8 @@ Whisper.ConversationView = Whisper.View.extend({
     return null;
   },
 
-  async setQuoteMessage(messageId: any) {
-    const model = messageId
+  async setQuoteMessage(messageId: null | string) {
+    const model: MessageModel | undefined = messageId
       ? await getMessageById(messageId, {
           Message: Whisper.Message,
         })

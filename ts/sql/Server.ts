@@ -21,6 +21,7 @@ import {
   Dictionary,
   forEach,
   fromPairs,
+  isNil,
   isNumber,
   isObject,
   isString,
@@ -28,8 +29,11 @@ import {
   last,
   map,
   pick,
+  omit,
 } from 'lodash';
 
+import { assert } from '../util/assert';
+import { isNormalNumber } from '../util/isNormalNumber';
 import { combineNames } from '../util/combineNames';
 
 import { GroupV2MemberType } from '../model-types.d';
@@ -207,6 +211,30 @@ function objectToJSON(data: any) {
 }
 function jsonToObject(json: string): any {
   return JSON.parse(json);
+}
+function rowToConversation(
+  row: Readonly<{
+    json: string;
+    profileLastFetchedAt: null | number;
+  }>
+): ConversationType {
+  const parsedJson = JSON.parse(row.json);
+
+  let profileLastFetchedAt: undefined | number;
+  if (isNormalNumber(row.profileLastFetchedAt)) {
+    profileLastFetchedAt = row.profileLastFetchedAt;
+  } else {
+    assert(
+      isNil(row.profileLastFetchedAt),
+      'profileLastFetchedAt contained invalid data; defaulting to undefined'
+    );
+    profileLastFetchedAt = undefined;
+  }
+
+  return {
+    ...parsedJson,
+    profileLastFetchedAt,
+  };
 }
 
 function isRenderer() {
@@ -1655,6 +1683,32 @@ async function updateToSchemaVersion23(
   }
 }
 
+async function updateToSchemaVersion24(
+  currentVersion: number,
+  instance: PromisifiedSQLDatabase
+) {
+  if (currentVersion >= 24) {
+    return;
+  }
+
+  await instance.run('BEGIN TRANSACTION;');
+
+  try {
+    await instance.run(`
+      ALTER TABLE conversations
+      ADD COLUMN profileLastFetchedAt INTEGER;
+    `);
+
+    await instance.run('PRAGMA user_version = 24;');
+    await instance.run('COMMIT TRANSACTION;');
+
+    console.log('updateToSchemaVersion24: success!');
+  } catch (error) {
+    await instance.run('ROLLBACK;');
+    throw error;
+  }
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -1679,6 +1733,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion21,
   updateToSchemaVersion22,
   updateToSchemaVersion23,
+  updateToSchemaVersion24,
 ];
 
 async function updateSchema(instance: PromisifiedSQLDatabase) {
@@ -2186,6 +2241,7 @@ async function saveConversation(
     name,
     profileFamilyName,
     profileName,
+    profileLastFetchedAt,
     type,
     uuid,
   } = data;
@@ -2212,7 +2268,8 @@ async function saveConversation(
     name,
     profileName,
     profileFamilyName,
-    profileFullName
+    profileFullName,
+    profileLastFetchedAt
   ) values (
     $id,
     $json,
@@ -2227,11 +2284,12 @@ async function saveConversation(
     $name,
     $profileName,
     $profileFamilyName,
-    $profileFullName
+    $profileFullName,
+    $profileLastFetchedAt
   );`,
     {
       $id: id,
-      $json: objectToJSON(data),
+      $json: objectToJSON(omit(data, ['profileLastFetchedAt'])),
 
       $e164: e164,
       $uuid: uuid,
@@ -2244,6 +2302,7 @@ async function saveConversation(
       $profileName: profileName,
       $profileFamilyName: profileFamilyName,
       $profileFullName: combineNames(profileName, profileFamilyName),
+      $profileLastFetchedAt: profileLastFetchedAt,
     }
   );
 }
@@ -2280,6 +2339,7 @@ async function updateConversation(data: ConversationType) {
     name,
     profileName,
     profileFamilyName,
+    profileLastFetchedAt,
     e164,
     uuid,
   } = data;
@@ -2304,11 +2364,12 @@ async function updateConversation(data: ConversationType) {
       name = $name,
       profileName = $profileName,
       profileFamilyName = $profileFamilyName,
-      profileFullName = $profileFullName
+      profileFullName = $profileFullName,
+      profileLastFetchedAt = $profileLastFetchedAt
     WHERE id = $id;`,
     {
       $id: id,
-      $json: objectToJSON(data),
+      $json: objectToJSON(omit(data, ['profileLastFetchedAt'])),
 
       $e164: e164,
       $uuid: uuid,
@@ -2320,6 +2381,7 @@ async function updateConversation(data: ConversationType) {
       $profileName: profileName,
       $profileFamilyName: profileFamilyName,
       $profileFullName: combineNames(profileName, profileFamilyName),
+      $profileLastFetchedAt: profileLastFetchedAt,
     }
   );
 }
@@ -2384,9 +2446,13 @@ async function eraseStorageServiceStateFromConversations() {
 
 async function getAllConversations() {
   const db = getInstance();
-  const rows = await db.all('SELECT json FROM conversations ORDER BY id ASC;');
+  const rows = await db.all(`
+    SELECT json, profileLastFetchedAt
+    FROM conversations
+    ORDER BY id ASC;
+  `);
 
-  return map(rows, row => jsonToObject(row.json));
+  return map(rows, row => rowToConversation(row));
 }
 
 async function getAllConversationIds() {
@@ -2399,18 +2465,20 @@ async function getAllConversationIds() {
 async function getAllPrivateConversations() {
   const db = getInstance();
   const rows = await db.all(
-    `SELECT json FROM conversations WHERE
-      type = 'private'
-     ORDER BY id ASC;`
+    `SELECT json, profileLastFetchedAt
+    FROM conversations
+    WHERE type = 'private'
+    ORDER BY id ASC;`
   );
 
-  return map(rows, row => jsonToObject(row.json));
+  return map(rows, row => rowToConversation(row));
 }
 
 async function getAllGroupsInvolvingId(id: string) {
   const db = getInstance();
   const rows = await db.all(
-    `SELECT json FROM conversations WHERE
+    `SELECT json, profileLastFetchedAt
+     FROM conversations WHERE
       type = 'group' AND
       members LIKE $id
      ORDER BY id ASC;`,
@@ -2419,7 +2487,7 @@ async function getAllGroupsInvolvingId(id: string) {
     }
   );
 
-  return map(rows, row => jsonToObject(row.json));
+  return map(rows, row => rowToConversation(row));
 }
 
 async function searchConversations(
@@ -2428,7 +2496,8 @@ async function searchConversations(
 ): Promise<Array<ConversationType>> {
   const db = getInstance();
   const rows = await db.all(
-    `SELECT json FROM conversations WHERE
+    `SELECT json, profileLastFetchedAt
+     FROM conversations WHERE
       (
         e164 LIKE $query OR
         name LIKE $query OR
@@ -2442,7 +2511,7 @@ async function searchConversations(
     }
   );
 
-  return map(rows, row => jsonToObject(row.json));
+  return map(rows, row => rowToConversation(row));
 }
 
 async function searchMessages(
@@ -4188,7 +4257,9 @@ function getExternalFilesForMessage(message: MessageType) {
   return files;
 }
 
-function getExternalFilesForConversation(conversation: ConversationType) {
+function getExternalFilesForConversation(
+  conversation: Pick<ConversationType, 'avatar' | 'profileAvatar'>
+) {
   const { avatar, profileAvatar } = conversation;
   const files: Array<string> = [];
 
@@ -4203,7 +4274,9 @@ function getExternalFilesForConversation(conversation: ConversationType) {
   return files;
 }
 
-function getExternalDraftFilesForConversation(conversation: ConversationType) {
+function getExternalDraftFilesForConversation(
+  conversation: Pick<ConversationType, 'draftAttachments'>
+) {
   const draftAttachments = conversation.draftAttachments || [];
   const files: Array<string> = [];
 

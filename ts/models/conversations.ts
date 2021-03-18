@@ -4271,13 +4271,15 @@ export class ConversationModel extends window.Backbone.Model<
     >;
     return Promise.all(
       window._.map(conversations, conversation => {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        this.getProfile(conversation.get('uuid')!, conversation.get('e164')!);
+        this.getProfile(conversation.get('uuid'), conversation.get('e164'));
       })
     );
   }
 
-  async getProfile(providedUuid: string, providedE164: string): Promise<void> {
+  async getProfile(
+    providedUuid?: string,
+    providedE164?: string
+  ): Promise<void> {
     if (!window.textsecure.messaging) {
       throw new Error(
         'Conversation.getProfile: window.textsecure.messaging not available'
@@ -4288,8 +4290,14 @@ export class ConversationModel extends window.Backbone.Model<
       uuid: providedUuid,
       e164: providedE164,
     });
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const c = window.ConversationController.get(id)!;
+    const c = window.ConversationController.get(id);
+    if (!c) {
+      window.log.error(
+        'getProfile: failed to find conversation; doing nothing'
+      );
+      return;
+    }
+
     const {
       generateProfileKeyCredentialRequest,
       getClientZkProfileOperations,
@@ -4503,6 +4511,8 @@ export class ConversationModel extends window.Backbone.Model<
         });
       }
     }
+
+    c.set('profileLastFetchedAt', Date.now());
 
     window.Signal.Data.updateConversation(c.attributes);
   }

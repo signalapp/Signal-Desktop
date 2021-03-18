@@ -62,15 +62,18 @@ export function start(): void {
     // we can reset the mute state on the model. If the mute has already expired
     // then we reset the state right away.
     initMuteExpirationTimer(model: ConversationModel): void {
-      if (model.isMuted()) {
+      const muteExpiresAt = model.get('muteExpiresAt');
+      // This check for `muteExpiresAt` is likely redundant, but is needed to appease
+      //   TypeScript.
+      if (model.isMuted() && muteExpiresAt) {
         window.Signal.Services.onTimeout(
-          model.get('muteExpiresAt'),
+          muteExpiresAt,
           () => {
             model.set({ muteExpiresAt: undefined });
           },
           model.getMuteTimeoutId()
         );
-      } else if (model.get('muteExpiresAt')) {
+      } else if (muteExpiresAt) {
         model.set({ muteExpiresAt: undefined });
       }
     },
@@ -122,11 +125,11 @@ export function start(): void {
 }
 
 export class ConversationController {
-  _initialFetchComplete: boolean | undefined;
+  private _initialFetchComplete: boolean | undefined;
 
-  _initialPromise: Promise<void> = Promise.resolve();
+  private _initialPromise: Promise<void> = Promise.resolve();
 
-  _conversations: ConversationModelCollectionType;
+  private _conversations: ConversationModelCollectionType;
 
   constructor(conversations?: ConversationModelCollectionType) {
     if (!conversations) {
@@ -145,6 +148,10 @@ export class ConversationController {
 
     // This function takes null just fine. Backbone typings are too restrictive.
     return this._conversations.get(id as string);
+  }
+
+  getAll(): Array<ConversationModel> {
+    return this._conversations.models;
   }
 
   dangerouslyCreateAndAdd(

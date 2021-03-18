@@ -7,6 +7,7 @@ import { WhatIsThis } from './window.d';
 import { getTitleBarVisibility, TitleBarVisibility } from './types/Settings';
 import { isWindowDragElement } from './util/isWindowDragElement';
 import { assert } from './util/assert';
+import { routineProfileRefresh } from './routineProfileRefresh';
 
 export async function startApp(): Promise<void> {
   window.startupProcessingQueue = new window.Signal.Util.StartupQueue();
@@ -1972,6 +1973,22 @@ export async function startApp(): Promise<void> {
 
       window.storage.onready(async () => {
         idleDetector.start();
+
+        // Kick off a profile refresh if necessary, but don't wait for it, as failure is
+        //   tolerable.
+        const ourConversationId = window.ConversationController.getOurConversationId();
+        if (ourConversationId) {
+          routineProfileRefresh({
+            allConversations: window.ConversationController.getAll(),
+            ourConversationId,
+            storage: window.storage,
+          });
+        } else {
+          assert(
+            false,
+            'Failed to fetch our conversation ID. Skipping routine profile refresh'
+          );
+        }
       });
     } finally {
       connecting = false;

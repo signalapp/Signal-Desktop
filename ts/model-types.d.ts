@@ -168,13 +168,13 @@ export type ConversationAttributesType = {
   lastMessageStatus: LastMessageStatus | null;
   markedUnread: boolean;
   messageCount: number;
-  messageCountBeforeMessageRequests: number;
+  messageCountBeforeMessageRequests: number | null;
   messageRequestResponseType: number;
-  muteExpiresAt: number;
+  muteExpiresAt: number | undefined;
   profileAvatar: WhatIsThis;
   profileKeyCredential: string | null;
   profileKeyVersion: string | null;
-  quotedMessageId: string;
+  quotedMessageId: string | null;
   sealedSender: unknown;
   sentMessageCount: number;
   sharedGroupNames: Array<string>;
@@ -193,7 +193,7 @@ export type ConversationAttributesType = {
   needsVerification?: boolean;
   profileSharing: boolean;
   storageID?: string;
-  storageUnknownFields: string;
+  storageUnknownFields?: string;
   unreadCount?: number;
   version: number;
 
@@ -209,6 +209,7 @@ export type ConversationAttributesType = {
   profileName?: string;
   storageProfileKey?: string;
   verified?: number;
+  profileLastFetchedAt?: number;
 
   // Group-only
   groupId?: string;
