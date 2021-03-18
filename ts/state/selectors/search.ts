@@ -58,12 +58,8 @@ export const getStartSearchCounter = createSelector(
 );
 
 export const isSearching = createSelector(
-  getSearch,
-  (state: SearchStateType) => {
-    const { query } = state;
-
-    return query && query.trim().length > 1;
-  }
+  getQuery,
+  (query: string): boolean => query.trim().length > 1
 );
 
 export const getMessageSearchResultLookup = createSelector(
