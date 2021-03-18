@@ -1,5 +1,5 @@
-import { Constants } from '../../../../..';
-import { SignalService } from '../../../../../../protobuf';
+import { Constants } from '../../../..';
+import { SignalService } from '../../../../../protobuf';
 import {
   ClosedGroupMessage,
   ClosedGroupMessageParams,

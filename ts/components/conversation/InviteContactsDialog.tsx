@@ -44,7 +44,7 @@ class InviteContactsDialogInner extends React.Component<Props, State> {
         id: d.id,
         authorPhoneNumber: d.id,
         authorProfileName: name,
-        authorAvatarPath: d?.cachedProps?.avatarPath,
+        authorAvatarPath: d?.getAvatarPath(),
         selected: false,
         authorName: name,
         checkmarked: false,

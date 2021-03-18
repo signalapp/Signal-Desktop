@@ -18,21 +18,19 @@ import { generateCurve25519KeyPairWithoutPrefix } from '../crypto';
 import { encryptUsingSessionProtocol } from '../crypto/MessageEncrypter';
 import { ECKeyPair } from '../../receiver/keypairs';
 import { UserUtils } from '../utils';
-import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/content/data/group/ClosedGroupMemberLeftMessage';
-import {
-  ClosedGroupAddedMembersMessage,
-  ClosedGroupEncryptionPairMessage,
-  ClosedGroupEncryptionPairRequestMessage,
-  ClosedGroupNameChangeMessage,
-  ClosedGroupNewMessage,
-  ClosedGroupRemovedMembersMessage,
-} from '../messages/outgoing/content/data/group';
+import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMemberLeftMessage';
 import { ConversationModel } from '../../models/conversation';
 import { MessageModel } from '../../models/message';
 import { MessageModelType } from '../../models/messageType';
 import { MessageController } from '../messages';
 import { distributingClosedGroupEncryptionKeyPairs } from '../../receiver/closedGroups';
 import { getMessageQueue } from '..';
+import { ClosedGroupAddedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupAddedMembersMessage';
+import { ClosedGroupEncryptionPairMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairMessage';
+import { ClosedGroupEncryptionPairRequestMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairRequestMessage';
+import { ClosedGroupNameChangeMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
+import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
+import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
 
 export interface GroupInfo {
   id: string;

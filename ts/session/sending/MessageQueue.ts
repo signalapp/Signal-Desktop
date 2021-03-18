@@ -1,34 +1,28 @@
-import {
-  ClosedGroupChatMessage,
-  ClosedGroupNewMessage,
-  ContentMessage,
-  ExpirationTimerUpdateMessage,
-  OpenGroupMessage,
-} from '../messages/outgoing';
 import { PendingMessageCache } from './PendingMessageCache';
 import { JobQueue, UserUtils } from '../utils';
 import { PubKey, RawMessage } from '../types';
 import { MessageSender } from '.';
-import { ClosedGroupMessage } from '../messages/outgoing/content/data/group/ClosedGroupMessage';
-import { ConfigurationMessage } from '../messages/outgoing/content/ConfigurationMessage';
-import { ClosedGroupNameChangeMessage } from '../messages/outgoing/content/data/group/ClosedGroupNameChangeMessage';
-import {
-  ClosedGroupAddedMembersMessage,
-  ClosedGroupEncryptionPairMessage,
-  ClosedGroupEncryptionPairRequestMessage,
-  ClosedGroupRemovedMembersMessage,
-  ClosedGroupUpdateMessage,
-} from '../messages/outgoing/content/data/group';
-import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/content/data/group/ClosedGroupMemberLeftMessage';
+import { ClosedGroupMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMessage';
+import { ConfigurationMessage } from '../messages/outgoing/controlMessage/ConfigurationMessage';
+import { ClosedGroupNameChangeMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
+
+import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMemberLeftMessage';
 import { MessageSentHandler } from './MessageSentHandler';
+import { ContentMessage, OpenGroupMessage } from '../messages/outgoing';
+import { ExpirationTimerUpdateMessage } from '../messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
+import { ClosedGroupAddedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupAddedMembersMessage';
+import { ClosedGroupEncryptionPairMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairMessage';
+import { ClosedGroupEncryptionPairRequestMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairRequestMessage';
+import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
+import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
+import { ClosedGroupVisibleMessage } from '../messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 
 type ClosedGroupMessageType =
-  | ClosedGroupChatMessage
+  | ClosedGroupVisibleMessage
   | ClosedGroupAddedMembersMessage
   | ClosedGroupRemovedMembersMessage
   | ClosedGroupNameChangeMessage
   | ClosedGroupMemberLeftMessage
-  | ClosedGroupUpdateMessage
   | ExpirationTimerUpdateMessage
   | ClosedGroupEncryptionPairMessage
   | ClosedGroupEncryptionPairRequestMessage;

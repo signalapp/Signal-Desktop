@@ -1,20 +1,20 @@
-import { SignalService } from '../../../../../../protobuf';
-import { ChatMessage } from '../ChatMessage';
-import { ClosedGroupMessage } from './ClosedGroupMessage';
-import { PubKey } from '../../../../../types';
-import { Constants } from '../../../../..';
-import { StringUtils } from '../../../../../utils';
+import { Constants } from '../../..';
+import { SignalService } from '../../../../protobuf';
+import { PubKey } from '../../../types';
+import { StringUtils } from '../../../utils';
+import { VisibleMessage } from './VisibleMessage';
+import { ClosedGroupMessage } from '../controlMessage/group/ClosedGroupMessage';
 
-interface ClosedGroupChatMessageParams {
+interface ClosedGroupVisibleMessageParams {
   identifier?: string;
   groupId: string | PubKey;
-  chatMessage: ChatMessage;
+  chatMessage: VisibleMessage;
 }
 
-export class ClosedGroupChatMessage extends ClosedGroupMessage {
-  private readonly chatMessage: ChatMessage;
+export class ClosedGroupVisibleMessage extends ClosedGroupMessage {
+  private readonly chatMessage: VisibleMessage;
 
-  constructor(params: ClosedGroupChatMessageParams) {
+  constructor(params: ClosedGroupVisibleMessageParams) {
     super({
       timestamp: params.chatMessage.timestamp,
       identifier: params.identifier ?? params.chatMessage.identifier,

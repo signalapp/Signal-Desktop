@@ -1,7 +1,7 @@
-import { DataMessage } from './DataMessage';
-import { SignalService } from '../../../../../protobuf';
-import { MessageParams } from '../../Message';
-import { Constants } from '../../../..';
+import { DataMessage } from '..';
+import { Constants } from '../../..';
+import { SignalService } from '../../../../protobuf';
+import { MessageParams } from '../Message';
 
 interface GroupInvitationMessageParams extends MessageParams {
   serverAddress: string;

@@ -7,12 +7,11 @@ import { getMessageQueue, Types, Utils } from '../../ts/session';
 import { ConversationController } from '../../ts/session/conversations';
 import { MessageController } from '../../ts/session/messages';
 import {
-  ChatMessage,
   DataMessage,
   OpenGroupMessage,
 } from '../../ts/session/messages/outgoing';
-import { ClosedGroupChatMessage } from '../../ts/session/messages/outgoing/content/data/group/ClosedGroupChatMessage';
-import { EncryptionType, PubKey, RawMessage } from '../../ts/session/types';
+import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
+import { PubKey } from '../../ts/session/types';
 import { ToastUtils, UserUtils } from '../../ts/session/utils';
 import {
   fillMessageAttributesWithDefaults,
@@ -24,6 +23,7 @@ import autoBind from 'auto-bind';
 import { saveMessage } from '../../ts/data/data';
 import { ConversationModel } from './conversation';
 import { actions as conversationActions } from '../state/ducks/conversations';
+import { VisibleMessage } from '../session/messages/outgoing/visibleMessage/VisibleMessage';
 
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   public propsForTimerNotification: any;
@@ -889,7 +889,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         delete chatParams.lokiProfile;
       }
 
-      const chatMessage = new ChatMessage(chatParams);
+      const chatMessage = new VisibleMessage(chatParams);
 
       // Special-case the self-send case - we send only a sync message
       if (conversation.isMe()) {
@@ -912,13 +912,13 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         );
       }
 
-      const closedGroupChatMessage = new ClosedGroupChatMessage({
+      const closedGroupVisibleMessage = new ClosedGroupVisibleMessage({
         identifier: this.id,
         chatMessage,
         groupId: this.get('conversationId'),
       });
 
-      return getMessageQueue().sendToGroup(closedGroupChatMessage);
+      return getMessageQueue().sendToGroup(closedGroupVisibleMessage);
     } catch (e) {
       await this.saveErrors(e);
       return null;
@@ -1033,7 +1033,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       if (!conversation) {
         throw new Error('Cannot trigger syncMessage with unknown convo.');
       }
-      const syncMessage = ChatMessage.buildSyncMessage(
+      const syncMessage = VisibleMessage.buildSyncMessage(
         this.id,
         dataMessage,
         conversation.id,

@@ -13,7 +13,7 @@ import {
   ConfigurationMessage,
   ConfigurationMessageClosedGroup,
   ConfigurationMessageContact,
-} from '../messages/outgoing/content/ConfigurationMessage';
+} from '../messages/outgoing/controlMessage/ConfigurationMessage';
 import { ConversationModel } from '../../models/conversation';
 import {
   fromBase64ToArray,

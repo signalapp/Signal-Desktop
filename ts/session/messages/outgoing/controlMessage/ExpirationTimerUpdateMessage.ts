@@ -1,25 +1,28 @@
-import { SignalService } from '../../../../../protobuf';
-import { MessageParams } from '../../Message';
-import { StringUtils } from '../../../../utils';
-import { DataMessage } from './DataMessage';
-import { PubKey } from '../../../../types';
-import { Constants } from '../../../..';
+import { DataMessage } from '..';
+import { Constants } from '../../..';
+import { SignalService } from '../../../../protobuf';
+import { PubKey } from '../../../types';
+import { StringUtils } from '../../../utils';
+import { MessageParams } from '../Message';
 
 interface ExpirationTimerUpdateMessageParams extends MessageParams {
   groupId?: string | PubKey;
+  syncTarget?: string | PubKey;
   expireTimer: number | null;
 }
 
 export class ExpirationTimerUpdateMessage extends DataMessage {
   public readonly groupId?: PubKey;
+  public readonly syncTarget?: PubKey;
   public readonly expireTimer: number | null;
 
   constructor(params: ExpirationTimerUpdateMessageParams) {
     super({ timestamp: params.timestamp, identifier: params.identifier });
     this.expireTimer = params.expireTimer;
 
-    const { groupId } = params;
+    const { groupId, syncTarget } = params;
     this.groupId = groupId ? PubKey.cast(groupId) : undefined;
+    this.syncTarget = syncTarget ? PubKey.cast(syncTarget) : undefined;
   }
 
   public ttl(): number {
@@ -44,6 +47,10 @@ export class ExpirationTimerUpdateMessage extends DataMessage {
       groupMessage.type = SignalService.GroupContext.Type.DELIVER;
 
       data.group = groupMessage;
+    }
+
+    if (this.syncTarget) {
+      data.syncTarget = this.syncTarget.key;
     }
 
     if (this.expireTimer) {

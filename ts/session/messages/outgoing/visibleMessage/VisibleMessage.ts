@@ -1,10 +1,11 @@
-import { DataMessage } from './DataMessage';
-import { SignalService } from '../../../../../protobuf';
-import { MessageParams } from '../../Message';
-import { LokiProfile } from '../../../../../types/Message';
 import ByteBuffer from 'bytebuffer';
-import { Constants } from '../../../..';
+
 import { isNumber, toNumber } from 'lodash';
+import { DataMessage } from '..';
+import { Constants } from '../../..';
+import { SignalService } from '../../../../protobuf';
+import { LokiProfile } from '../../../../types/Message';
+import { MessageParams } from '../Message';
 
 export interface AttachmentPointer {
   id?: number;
@@ -40,7 +41,7 @@ export interface Quote {
   attachments?: Array<QuotedAttachment>;
 }
 
-export interface ChatMessageParams extends MessageParams {
+export interface VisibleMessageParams extends MessageParams {
   attachments?: Array<AttachmentPointer>;
   body?: string;
   quote?: Quote;
@@ -50,7 +51,7 @@ export interface ChatMessageParams extends MessageParams {
   syncTarget?: string; // null means it is not a synced message
 }
 
-export class ChatMessage extends DataMessage {
+export class VisibleMessage extends DataMessage {
   public readonly expireTimer?: number;
 
   private readonly attachments?: Array<AttachmentPointer>;
@@ -65,7 +66,7 @@ export class ChatMessage extends DataMessage {
   /// - Note: `null or undefined` if this isn't a sync message.
   private readonly syncTarget?: string;
 
-  constructor(params: ChatMessageParams) {
+  constructor(params: VisibleMessageParams) {
     super({ timestamp: params.timestamp, identifier: params.identifier });
     this.attachments = params.attachments;
     this.body = params.body;
@@ -135,7 +136,7 @@ export class ChatMessage extends DataMessage {
     const quote = (dataMessage.quote as Quote) || undefined;
     const preview = (dataMessage.preview as Array<Preview>) || [];
 
-    return new ChatMessage({
+    return new VisibleMessage({
       identifier,
       timestamp,
       attachments,
@@ -232,7 +233,7 @@ export class ChatMessage extends DataMessage {
     return dataMessage;
   }
 
-  public isEqual(comparator: ChatMessage): boolean {
+  public isEqual(comparator: VisibleMessage): boolean {
     return (
       this.identifier === comparator.identifier &&
       this.timestamp === comparator.timestamp

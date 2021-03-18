@@ -3,23 +3,14 @@ import _ from 'lodash';
 import { ConversationType } from '../receiver/common';
 import { getMessageQueue } from '../session';
 import { ConversationController } from '../session/conversations';
-import {
-  ChatMessage,
-  ChatMessageParams,
-  ExpirationTimerUpdateMessage,
-  GroupInvitationMessage,
-  OpenGroupMessage,
-  ReadReceiptMessage,
-  TypingMessage,
-} from '../session/messages/outgoing';
-import { ClosedGroupChatMessage } from '../session/messages/outgoing/content/data/group/ClosedGroupChatMessage';
+import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { OpenGroup, PubKey } from '../session/types';
 import { ToastUtils, UserUtils } from '../session/utils';
 import { BlockedNumberController } from '../util';
 import { MessageController } from '../session/messages';
 import { leaveClosedGroup } from '../session/group';
 import { SignalService } from '../protobuf';
-import { MessageCollection, MessageModel } from './message';
+import { MessageModel } from './message';
 import { MessageAttributesOptionals, MessageModelType } from './messageType';
 import autoBind from 'auto-bind';
 import {
@@ -40,6 +31,15 @@ import {
   ConversationType as ReduxConversationType,
   LastMessageStatusType,
 } from '../state/ducks/conversations';
+import { OpenGroupMessage } from '../session/messages/outgoing';
+import { ExpirationTimerUpdateMessage } from '../session/messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
+import { TypingMessage } from '../session/messages/outgoing/controlMessage/TypingMessage';
+import {
+  VisibleMessage,
+  VisibleMessageParams,
+} from '../session/messages/outgoing/visibleMessage/VisibleMessage';
+import { GroupInvitationMessage } from '../session/messages/outgoing/visibleMessage/GroupInvitationMessage';
+import { ReadReceiptMessage } from '../session/messages/outgoing/controlMessage/receipt/ReadReceiptMessage';
 
 export interface ConversationAttributes {
   profileName?: string;
@@ -633,7 +633,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         await getMessageQueue().sendToOpenGroup(openGroupMessage);
         return;
       }
-      const chatMessageParams: ChatMessageParams = {
+      const chatMessageParams: VisibleMessageParams = {
         body: uploads.body,
         identifier: id,
         timestamp: sentAt,
@@ -648,7 +648,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       if (this.isPrivate()) {
         if (this.isMe()) {
           chatMessageParams.syncTarget = this.id;
-          const chatMessageMe = new ChatMessage(chatMessageParams);
+          const chatMessageMe = new VisibleMessage(chatMessageParams);
 
           await getMessageQueue().sendSyncMessage(chatMessageMe);
           return;
@@ -671,7 +671,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           );
           return;
         }
-        const chatMessagePrivate = new ChatMessage(chatMessageParams);
+        const chatMessagePrivate = new VisibleMessage(chatMessageParams);
 
         await getMessageQueue().sendToPubKey(
           destinationPubkey,
@@ -681,14 +681,14 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
 
       if (this.isMediumGroup()) {
-        const chatMessageMediumGroup = new ChatMessage(chatMessageParams);
-        const closedGroupChatMessage = new ClosedGroupChatMessage({
+        const chatMessageMediumGroup = new VisibleMessage(chatMessageParams);
+        const closedGroupVisibleMessage = new ClosedGroupVisibleMessage({
           chatMessage: chatMessageMediumGroup,
           groupId: destination,
         });
 
         // we need the return await so that errors are caught in the catch {}
-        await getMessageQueue().sendToGroup(closedGroupChatMessage);
+        await getMessageQueue().sendToGroup(closedGroupVisibleMessage);
         return;
       }
 

@@ -5,7 +5,7 @@ import {
   ConfigurationMessage,
   ConfigurationMessageClosedGroup,
   ConfigurationMessageContact,
-} from '../../../../session/messages/outgoing/content/ConfigurationMessage';
+} from '../../../../session/messages/outgoing/controlMessage/ConfigurationMessage';
 import { TestUtils } from '../../../test-utils';
 
 // tslint:disable-next-line: max-func-body-length
