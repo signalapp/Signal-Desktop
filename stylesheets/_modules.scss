@@ -3288,8 +3288,15 @@ button.module-conversation-details__action-button {
 
     &__info {
       @include font-body-2;
-      color: $color-gray-60;
       margin-top: 4px;
+
+      @include light-theme {
+        color: $color-gray-60;
+      }
+
+      @include dark-theme {
+        color: $color-gray-25;
+      }
     }
 
     &__right {
