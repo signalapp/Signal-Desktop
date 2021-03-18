@@ -14,8 +14,14 @@ const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/GroupTitleInput', module);
 
-const Wrapper = ({ disabled }: { disabled?: boolean }) => {
-  const [value, setValue] = useState('');
+const Wrapper = ({
+  disabled,
+  startingValue = '',
+}: {
+  disabled?: boolean;
+  startingValue?: string;
+}) => {
+  const [value, setValue] = useState(startingValue);
 
   return (
     <GroupTitleInput
@@ -29,4 +35,10 @@ const Wrapper = ({ disabled }: { disabled?: boolean }) => {
 
 story.add('Default', () => <Wrapper />);
 
-story.add('Disabled', () => <Wrapper disabled />);
+story.add('Disabled', () => (
+  <>
+    <Wrapper disabled />
+    <br />
+    <Wrapper disabled startingValue="Has a value" />
+  </>
+));
