@@ -38,7 +38,9 @@ window.Backbone = require('backbone');
 
 window.localeMessages = ipc.sendSync('locale-data');
 
-require('../ts/logging/set_up_renderer_logging');
+require('../ts/logging/set_up_renderer_logging').initialize();
+
+require('../ts/LibSignalStore');
 
 window.log.info('sticker-creator starting up...');
 
