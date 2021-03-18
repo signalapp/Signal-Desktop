@@ -230,7 +230,6 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
   // NOTE: Avoid division by zero
   const [duration, setDuration] = useState(1e-23);
 
-  const [isLoading, setIsLoading] = useState(true);
   const [peaks, setPeaks] = useState<ReadonlyArray<number>>(
     new Array(PEAK_COUNT).fill(0)
   );
@@ -248,9 +247,11 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
   // This effect loads audio file and computes its RMS peak for dispalying the
   // waveform.
   useEffect(() => {
-    if (!isLoading || state !== State.Normal) {
+    if (state !== State.Normal) {
       return noop;
     }
+
+    window.log.info('MessageAudio: loading audio and computing waveform');
 
     let canceled = false;
 
@@ -275,25 +276,13 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
         setDuration(Math.max(newDuration, 1e-23));
       } catch (err) {
         window.log.error('MessageAudio: loadAudio error', err);
-      } finally {
-        if (!canceled) {
-          setIsLoading(false);
-        }
       }
     })();
 
     return () => {
       canceled = true;
     };
-  }, [
-    attachment,
-    audioContext,
-    isLoading,
-    setDuration,
-    setPeaks,
-    state,
-    waveformCache,
-  ]);
+  }, [attachment, audioContext, setDuration, setPeaks, state, waveformCache]);
 
   // This effect attaches/detaches event listeners to the global <audio/>
   // instance that we reuse from the GlobalAudioContext.
