@@ -38,7 +38,7 @@ import {
   getCallingNotificationText,
 } from '../util/callingNotification';
 import { PropsType as ProfileChangeNotificationPropsType } from '../components/conversation/ProfileChangeNotification';
-import { isImage, isVideo } from '../types/Attachment';
+import { AttachmentType, isImage, isVideo } from '../types/Attachment';
 
 /* eslint-disable camelcase */
 /* eslint-disable more/no-then */
@@ -2596,6 +2596,29 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     this.syncPromise = this.syncPromise.then(next, next);
 
     return this.syncPromise;
+  }
+
+  hasRequiredAttachmentDownloads(): boolean {
+    const attachments: ReadonlyArray<AttachmentType> =
+      this.get('attachments') || [];
+
+    const hasLongMessageAttachments = attachments.some(attachment => {
+      return (
+        attachment.contentType ===
+        window.Whisper.Message.LONG_MESSAGE_CONTENT_TYPE
+      );
+    });
+
+    if (hasLongMessageAttachments) {
+      return true;
+    }
+
+    const sticker = this.get('sticker');
+    if (sticker) {
+      return !sticker.data || !sticker.data.path;
+    }
+
+    return false;
   }
 
   // NOTE: If you're modifying this function then you'll likely also need

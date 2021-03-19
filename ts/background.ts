@@ -2102,7 +2102,10 @@ export async function startApp(): Promise<void> {
         const attachmentsToDownload = attachmentDownloadQueue.filter(
           (message, index) =>
             index <= MAX_ATTACHMENT_MSGS_TO_DOWNLOAD ||
-            message.getReceivedAt() < THREE_DAYS_AGO
+            message.getReceivedAt() > THREE_DAYS_AGO ||
+            // Stickers and long text attachments has to be downloaded for UI
+            // to display the message properly.
+            message.hasRequiredAttachmentDownloads()
         );
         window.log.info(
           'Downloading recent attachments of total attachments',
