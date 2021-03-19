@@ -772,7 +772,7 @@
     "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
   },
   "audioPermissionNeeded": {
-    "message": "Session needs microphone access to send audio messages.",
+    "message": "You can enable microphone access under: Settings (Gear icon) => Privacy",
     "description": "Shown if the user attempts to send an audio message without audio permssions turned on",
     "androidKey": "ConversationActivity_to_send_audio_messages_allow_signal_access_to_your_microphone"
   },
