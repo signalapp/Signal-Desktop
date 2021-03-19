@@ -56,7 +56,7 @@ describe('PendingMessageCache', () => {
 
   it('can add to cache', async () => {
     const device = TestUtils.generateFakePubKey();
-    const message = TestUtils.generateChatMessage();
+    const message = TestUtils.generateVisibleMessage();
     const rawMessage = await MessageUtils.toRawMessage(device, message);
 
     await pendingMessageCacheStub.add(device, message);
@@ -74,12 +74,21 @@ describe('PendingMessageCache', () => {
   it('can add multiple messages belonging to the same user', async () => {
     const device = TestUtils.generateFakePubKey();
 
-    await pendingMessageCacheStub.add(device, TestUtils.generateChatMessage());
+    await pendingMessageCacheStub.add(
+      device,
+      TestUtils.generateVisibleMessage()
+    );
     // We have to timeout here otherwise it's processed too fast and messages start having the same timestamp
     await TestUtils.timeout(5);
-    await pendingMessageCacheStub.add(device, TestUtils.generateChatMessage());
+    await pendingMessageCacheStub.add(
+      device,
+      TestUtils.generateVisibleMessage()
+    );
     await TestUtils.timeout(5);
-    await pendingMessageCacheStub.add(device, TestUtils.generateChatMessage());
+    await pendingMessageCacheStub.add(
+      device,
+      TestUtils.generateVisibleMessage()
+    );
 
     // Verify that the message is in the cache
     const finalCache = await pendingMessageCacheStub.getAllPending();
@@ -89,7 +98,7 @@ describe('PendingMessageCache', () => {
 
   it('can remove from cache', async () => {
     const device = TestUtils.generateFakePubKey();
-    const message = TestUtils.generateChatMessage();
+    const message = TestUtils.generateVisibleMessage();
     const rawMessage = await MessageUtils.toRawMessage(device, message);
 
     await pendingMessageCacheStub.add(device, message);
@@ -108,14 +117,14 @@ describe('PendingMessageCache', () => {
 
   it('should only remove messages with different timestamp and device', async () => {
     const device = TestUtils.generateFakePubKey();
-    const message = TestUtils.generateChatMessage();
+    const message = TestUtils.generateVisibleMessage();
     const rawMessage = await MessageUtils.toRawMessage(device, message);
 
     await pendingMessageCacheStub.add(device, message);
     await TestUtils.timeout(5);
     const one = await pendingMessageCacheStub.add(
       device,
-      TestUtils.generateChatMessage(message.identifier)
+      TestUtils.generateVisibleMessage(message.identifier)
     );
     const two = await pendingMessageCacheStub.add(
       TestUtils.generateFakePubKey(),
@@ -139,15 +148,15 @@ describe('PendingMessageCache', () => {
     const cacheItems = [
       {
         device: TestUtils.generateFakePubKey(),
-        message: TestUtils.generateChatMessage(),
+        message: TestUtils.generateVisibleMessage(),
       },
       {
         device: TestUtils.generateFakePubKey(),
-        message: TestUtils.generateChatMessage(),
+        message: TestUtils.generateVisibleMessage(),
       },
       {
         device: TestUtils.generateFakePubKey(),
-        message: TestUtils.generateChatMessage(),
+        message: TestUtils.generateVisibleMessage(),
       },
     ];
 
@@ -171,11 +180,11 @@ describe('PendingMessageCache', () => {
     const cacheItems = [
       {
         device: TestUtils.generateFakePubKey(),
-        message: TestUtils.generateChatMessage(),
+        message: TestUtils.generateVisibleMessage(),
       },
       {
         device: TestUtils.generateFakePubKey(),
-        message: TestUtils.generateChatMessage(),
+        message: TestUtils.generateVisibleMessage(),
       },
     ];
 
@@ -198,7 +207,7 @@ describe('PendingMessageCache', () => {
 
   it('can find nothing when empty', async () => {
     const device = TestUtils.generateFakePubKey();
-    const message = TestUtils.generateChatMessage();
+    const message = TestUtils.generateVisibleMessage();
     const rawMessage = await MessageUtils.toRawMessage(device, message);
 
     const foundMessage = pendingMessageCacheStub.find(rawMessage);
@@ -207,7 +216,7 @@ describe('PendingMessageCache', () => {
 
   it('can find message in cache', async () => {
     const device = TestUtils.generateFakePubKey();
-    const message = TestUtils.generateChatMessage();
+    const message = TestUtils.generateVisibleMessage();
     const rawMessage = await MessageUtils.toRawMessage(device, message);
 
     await pendingMessageCacheStub.add(device, message);
@@ -224,15 +233,15 @@ describe('PendingMessageCache', () => {
     const cacheItems = [
       {
         device: TestUtils.generateFakePubKey(),
-        message: TestUtils.generateChatMessage(),
+        message: TestUtils.generateVisibleMessage(),
       },
       {
         device: TestUtils.generateFakePubKey(),
-        message: TestUtils.generateChatMessage(),
+        message: TestUtils.generateVisibleMessage(),
       },
       {
         device: TestUtils.generateFakePubKey(),
-        message: TestUtils.generateChatMessage(),
+        message: TestUtils.generateVisibleMessage(),
       },
     ];
 
@@ -254,15 +263,15 @@ describe('PendingMessageCache', () => {
     const cacheItems = [
       {
         device: TestUtils.generateFakePubKey(),
-        message: TestUtils.generateChatMessage(),
+        message: TestUtils.generateVisibleMessage(),
       },
       {
         device: TestUtils.generateFakePubKey(),
-        message: TestUtils.generateChatMessage(),
+        message: TestUtils.generateVisibleMessage(),
       },
       {
         device: TestUtils.generateFakePubKey(),
-        message: TestUtils.generateChatMessage(),
+        message: TestUtils.generateVisibleMessage(),
       },
     ];
 

@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon/';
 import { Flex } from './Flex';
 import styled, { ThemeContext } from 'styled-components';
+import { noop } from 'lodash';
 
 export enum SessionToastType {
   Info = 'info',
@@ -18,6 +19,7 @@ type Props = {
   icon?: SessionIconType;
   description?: string;
   closeToast?: any;
+  onToastClick?: () => void;
 };
 
 const TitleDiv = styled.div`
@@ -74,7 +76,12 @@ export const SessionToast = (props: Props) => {
   }
 
   return (
-    <Flex container={true} alignItems="center">
+    // tslint:disable-next-line: use-simple-attributes
+    <Flex
+      container={true}
+      alignItems="center"
+      onClick={props?.onToastClick || noop}
+    >
       <IconDiv>
         <SessionIcon
           iconType={toastIcon}

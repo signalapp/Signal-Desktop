@@ -1,5 +1,5 @@
-import { Message } from '../Message';
-import { SignalService } from '../../../../protobuf';
+import { Message } from '.';
+import { SignalService } from '../../../protobuf';
 
 export abstract class ContentMessage extends Message {
   public plainTextBuffer(): Uint8Array {

@@ -94,13 +94,12 @@ const MessageStatusError = (props: { theme: DefaultTheme }) => {
 };
 
 export const OutgoingMessageStatus = (props: {
-  status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error' | 'pow';
+  status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
   theme: DefaultTheme;
   iconColor: string;
   isInMessageView?: boolean;
 }) => {
   switch (props.status) {
-    case 'pow':
     case 'sending':
       return <MessageStatusSending {...props} />;
     case 'sent':

@@ -35,12 +35,18 @@ export function pushToastWarning(
   );
 }
 
-export function pushToastInfo(id: string, title: string, description?: string) {
+export function pushToastInfo(
+  id: string,
+  title: string,
+  description?: string,
+  onToastClick?: () => void
+) {
   toast.info(
     <SessionToast
       title={title}
       description={description}
       type={SessionToastType.Info}
+      onToastClick={onToastClick}
     />
   );
 }
@@ -151,11 +157,12 @@ export function pushMessageDeleteForbidden() {
   );
 }
 
-export function pushAudioPermissionNeeded() {
+export function pushAudioPermissionNeeded(onClicked: () => void) {
   pushToastInfo(
     'audioPermissionNeeded',
     window.i18n('audioPermissionNeededTitle'),
-    window.i18n('audioPermissionNeeded')
+    window.i18n('audioPermissionNeeded'),
+    onClicked
   );
 }
 

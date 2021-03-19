@@ -18,21 +18,19 @@ import { generateCurve25519KeyPairWithoutPrefix } from '../crypto';
 import { encryptUsingSessionProtocol } from '../crypto/MessageEncrypter';
 import { ECKeyPair } from '../../receiver/keypairs';
 import { UserUtils } from '../utils';
-import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/content/data/group/ClosedGroupMemberLeftMessage';
-import {
-  ClosedGroupAddedMembersMessage,
-  ClosedGroupEncryptionPairMessage,
-  ClosedGroupEncryptionPairRequestMessage,
-  ClosedGroupNameChangeMessage,
-  ClosedGroupNewMessage,
-  ClosedGroupRemovedMembersMessage,
-} from '../messages/outgoing/content/data/group';
+import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMemberLeftMessage';
 import { ConversationModel } from '../../models/conversation';
 import { MessageModel } from '../../models/message';
 import { MessageModelType } from '../../models/messageType';
 import { MessageController } from '../messages';
 import { distributingClosedGroupEncryptionKeyPairs } from '../../receiver/closedGroups';
 import { getMessageQueue } from '..';
+import { ClosedGroupAddedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupAddedMembersMessage';
+import { ClosedGroupEncryptionPairMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairMessage';
+import { ClosedGroupEncryptionPairRequestMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairRequestMessage';
+import { ClosedGroupNameChangeMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
+import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
+import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
 
 export interface GroupInfo {
   id: string;
@@ -206,7 +204,7 @@ export async function addUpdateMessage(
     sent_at: sentAt,
     received_at: now,
     group_update: groupUpdate,
-    unread,
+    unread: unread ? 1 : 0,
     expireTimer: 0,
   });
 
@@ -451,17 +449,6 @@ async function sendAddedMembers(
     expireTimer,
   });
 
-  // if an expire timer is set, we have to send it to the joining members
-  // let expirationTimerMessage: ExpirationTimerUpdateMessage | undefined;
-  // if (expireTimer && expireTimer > 0) {
-  //   const expireUpdate = {
-  //     timestamp: Date.now(),
-  //     expireTimer,
-  //     groupId: groupId,
-  //   };
-
-  //   expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
-  // }
   const promises = addedMembers.map(async m => {
     await ConversationController.getInstance().getOrCreateAndWait(m, 'private');
     const memberPubKey = PubKey.cast(m);

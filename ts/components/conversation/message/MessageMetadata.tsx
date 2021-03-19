@@ -22,7 +22,7 @@ type Props = {
   direction: 'incoming' | 'outgoing';
   timestamp: number;
   serverTimestamp?: number;
-  status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error' | 'pow';
+  status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
   expirationLength?: number;
   expirationTimestamp?: number;
   isPublic?: boolean;

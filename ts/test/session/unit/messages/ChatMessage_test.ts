@@ -1,19 +1,19 @@
 import { expect } from 'chai';
 
-import {
-  AttachmentPointer,
-  ChatMessage,
-  Preview,
-  Quote,
-} from '../../../../session/messages/outgoing';
 import { SignalService } from '../../../../protobuf';
 import { TextEncoder } from 'util';
 import { toNumber } from 'lodash';
 import { Constants } from '../../../../session';
+import {
+  AttachmentPointer,
+  Preview,
+  Quote,
+  VisibleMessage,
+} from '../../../../session/messages/outgoing/visibleMessage/VisibleMessage';
 
-describe('ChatMessage', () => {
+describe('VisibleMessage', () => {
   it('can create empty message with just a timestamp', () => {
-    const message = new ChatMessage({
+    const message = new VisibleMessage({
       timestamp: Date.now(),
     });
     const plainText = message.plainTextBuffer();
@@ -23,7 +23,7 @@ describe('ChatMessage', () => {
   });
 
   it('can create message with a body', () => {
-    const message = new ChatMessage({
+    const message = new VisibleMessage({
       timestamp: Date.now(),
       body: 'body',
     });
@@ -33,7 +33,7 @@ describe('ChatMessage', () => {
   });
 
   it('can create message with a expire timer', () => {
-    const message = new ChatMessage({
+    const message = new VisibleMessage({
       timestamp: Date.now(),
       expireTimer: 3600,
     });
@@ -50,7 +50,7 @@ describe('ChatMessage', () => {
       avatarPointer: 'avatarPointer',
       profileKey,
     };
-    const message = new ChatMessage({
+    const message = new VisibleMessage({
       timestamp: Date.now(),
       lokiProfile: lokiProfile,
     });
@@ -71,7 +71,7 @@ describe('ChatMessage', () => {
     let quote: Quote;
 
     quote = { id: 1234, author: 'author', text: 'text' };
-    const message = new ChatMessage({
+    const message = new VisibleMessage({
       timestamp: Date.now(),
       quote,
     });
@@ -93,7 +93,7 @@ describe('ChatMessage', () => {
     const previews = new Array<Preview>();
     previews.push(preview);
 
-    const message = new ChatMessage({
+    const message = new VisibleMessage({
       timestamp: Date.now(),
       preview: previews,
     });
@@ -115,7 +115,7 @@ describe('ChatMessage', () => {
     const attachments = new Array<AttachmentPointer>();
     attachments.push(attachment);
 
-    const message = new ChatMessage({
+    const message = new VisibleMessage({
       timestamp: Date.now(),
       attachments: attachments,
     });
@@ -130,14 +130,14 @@ describe('ChatMessage', () => {
   });
 
   it('correct ttl', () => {
-    const message = new ChatMessage({
+    const message = new VisibleMessage({
       timestamp: Date.now(),
     });
     expect(message.ttl()).to.equal(Constants.TTL_DEFAULT.REGULAR_MESSAGE);
   });
 
   it('has an identifier', () => {
-    const message = new ChatMessage({
+    const message = new VisibleMessage({
       timestamp: Date.now(),
     });
     expect(message.identifier).to.not.equal(null, 'identifier cannot be null');

@@ -356,7 +356,6 @@ window.LokiPublicChatAPI = require('./js/modules/loki_public_chat_api');
 window.LokiFileServerAPI = require('./js/modules/loki_file_server_api');
 window.LokiPushNotificationServerApi = require('./js/modules/loki_push_notification_server_api');
 
-window.mnemonic = require('./libloki/modules/mnemonic');
 const WorkerInterface = require('./js/modules/util_worker_interface');
 
 // A Worker with a 3 minute timeout

@@ -1,19 +1,21 @@
 import * as crypto from 'crypto';
 import { Attachment } from '../../types/Attachment';
 import { OpenGroup } from '../types';
+
+import { LokiAppDotNetServerInterface } from '../../../js/modules/loki_app_dot_net_api';
 import {
   AttachmentPointer,
   Preview,
   Quote,
   QuotedAttachment,
-} from '../messages/outgoing';
-import { LokiAppDotNetServerInterface } from '../../../js/modules/loki_app_dot_net_api';
+} from '../messages/outgoing/visibleMessage/VisibleMessage';
 
 interface UploadParams {
   attachment: Attachment;
   openGroup?: OpenGroup;
   isAvatar?: boolean;
   isRaw?: boolean;
+  shouldPad?: boolean;
 }
 
 interface RawPreview {
@@ -37,6 +39,8 @@ interface RawQuote {
 
 // tslint:disable-next-line: no-unnecessary-class
 export class AttachmentUtils {
+  public static readonly PADDING_BYTE = 0;
+
   private constructor() {}
 
   public static getDefaultServer(): LokiAppDotNetServerInterface {
@@ -44,7 +48,13 @@ export class AttachmentUtils {
   }
 
   public static async upload(params: UploadParams): Promise<AttachmentPointer> {
-    const { attachment, openGroup, isAvatar = false, isRaw = false } = params;
+    const {
+      attachment,
+      openGroup,
+      isAvatar = false,
+      isRaw = false,
+      shouldPad = false,
+    } = params;
     if (typeof attachment !== 'object' || attachment == null) {
       throw new Error('Invalid attachment passed.');
     }
@@ -83,8 +93,12 @@ export class AttachmentUtils {
       server = this.getDefaultServer();
       pointer.key = new Uint8Array(crypto.randomBytes(64));
       const iv = new Uint8Array(crypto.randomBytes(16));
+
+      const dataToEncrypt = !shouldPad
+        ? attachment.data
+        : AttachmentUtils.addAttachmentPadding(attachment.data);
       const data = await window.textsecure.crypto.encryptAttachment(
-        attachment.data,
+        dataToEncrypt,
         pointer.key.buffer,
         iv.buffer
       );
@@ -126,6 +140,7 @@ export class AttachmentUtils {
       this.upload({
         attachment,
         openGroup,
+        shouldPad: true,
       })
     );
 
@@ -180,5 +195,44 @@ export class AttachmentUtils {
       ...quote,
       attachments,
     };
+  }
+
+  public static isLeftOfBufferPaddingOnly(
+    data: ArrayBuffer,
+    unpaddedExpectedSize: number
+  ): boolean {
+    // to have a padding we must have a strictly longer length expected
+    if (data.byteLength <= unpaddedExpectedSize) {
+      return false;
+    }
+    const dataUint = new Uint8Array(data);
+    for (let i = unpaddedExpectedSize; i < data.byteLength; i++) {
+      if (dataUint[i] !== this.PADDING_BYTE) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  private static addAttachmentPadding(data: ArrayBuffer): ArrayBuffer {
+    const originalUInt = new Uint8Array(data);
+
+    const paddedSize = Math.max(
+      541,
+      Math.floor(
+        Math.pow(
+          1.05,
+          Math.ceil(Math.log(originalUInt.length) / Math.log(1.05))
+        )
+      )
+    );
+    const paddedData = new ArrayBuffer(paddedSize);
+    const paddedUInt = new Uint8Array(paddedData);
+
+    paddedUInt.fill(AttachmentUtils.PADDING_BYTE, originalUInt.length);
+    paddedUInt.set(originalUInt);
+
+    return paddedUInt.buffer;
   }
 }

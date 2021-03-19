@@ -1,14 +1,12 @@
 import { RawMessage } from '../types/RawMessage';
-import {
-  ContentMessage,
-  ExpirationTimerUpdateMessage,
-} from '../messages/outgoing';
+
 import { EncryptionType, PubKey } from '../types';
-import { ClosedGroupMessage } from '../messages/outgoing/content/data/group/ClosedGroupMessage';
-import { ClosedGroupNewMessage } from '../messages/outgoing/content/data/group/ClosedGroupNewMessage';
+import { ClosedGroupMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMessage';
+import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import _ from 'lodash';
-import { ConversationModel } from '../../models/conversation';
-import { ClosedGroupEncryptionPairReplyMessage } from '../messages/outgoing/content/data/group/ClosedGroupEncryptionPairReplyMessage';
+import { ClosedGroupEncryptionPairReplyMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairReplyMessage';
+import { ContentMessage } from '../messages/outgoing';
+import { ExpirationTimerUpdateMessage } from '../messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
 
 function getEncryptionTypeFromMessageType(
   message: ContentMessage

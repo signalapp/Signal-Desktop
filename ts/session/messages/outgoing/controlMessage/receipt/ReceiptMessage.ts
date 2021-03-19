@@ -1,7 +1,7 @@
-import { ContentMessage } from '../ContentMessage';
 import { SignalService } from '../../../../../protobuf';
 import { MessageParams } from '../../Message';
 import { Constants } from '../../../..';
+import { ContentMessage } from '../..';
 
 interface ReceiptMessageParams extends MessageParams {
   timestamps: Array<number>;

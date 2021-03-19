@@ -95,6 +95,7 @@ export const getConversationComparator = createSelector(
   _getConversationComparator
 );
 
+// export only because we use it in some of our tests
 export const _getLeftPaneLists = (
   lookup: ConversationLookupType,
   comparator: (left: ConversationType, right: ConversationType) => number,
@@ -108,7 +109,7 @@ export const _getLeftPaneLists = (
   const sorted = values.sort(comparator);
 
   const conversations: Array<ConversationType> = [];
-  const allContacts: Array<ConversationType> = [];
+  const directConversations: Array<ConversationType> = [];
 
   let index = 0;
 
@@ -155,8 +156,8 @@ export const _getLeftPaneLists = (
       continue;
     }
 
-    if (conversation.activeAt !== undefined) {
-      allContacts.push(conversation);
+    if (conversation.activeAt !== undefined && conversation.type === 'direct') {
+      directConversations.push(conversation);
     }
 
     if (unreadCount < 9 && conversation.unreadCount > 0) {
@@ -169,7 +170,7 @@ export const _getLeftPaneLists = (
 
   return {
     conversations,
-    contacts: allContacts,
+    contacts: directConversations,
     unreadCount,
   };
 };
@@ -221,5 +222,12 @@ export const getMe = createSelector(
   [getConversationLookup, getOurNumber],
   (lookup: ConversationLookupType, ourNumber: string): ConversationType => {
     return lookup[ourNumber];
+  }
+);
+
+export const getUnreadMessageCount = createSelector(
+  getLeftPaneLists,
+  (state): number => {
+    return state.unreadCount;
   }
 );

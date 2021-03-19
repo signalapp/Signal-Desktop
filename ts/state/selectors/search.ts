@@ -28,7 +28,7 @@ export const isSearching = createSelector(
   (state: SearchStateType) => {
     const { query } = state;
 
-    return query && query.trim().length > 1;
+    return Boolean(query && query.trim().length > 1);
   }
 );
 

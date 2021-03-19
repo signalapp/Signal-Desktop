@@ -630,7 +630,7 @@
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "audioPermissionNeeded": {
-        "message": "Pour envoyer des messages audio, autorisez Session à accéder à votre microphone.",
+        "message": "Vous pouvez autoriser l'accès au microphone via: Paramètres (icon roue dentée) => Confidentialité.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
