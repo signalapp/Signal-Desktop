@@ -1062,6 +1062,10 @@
     "description": "Copy to clipboard session ID",
     "androidKey": "activity_conversation_menu_copy_session_id"
   },
+  "copyOpenGroupURL": {
+    "message": "Copy Group's URL",
+    "description": "Copy to clipboard Open Group URL"
+  },
   "save": {
     "message": "Save",
     "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments",

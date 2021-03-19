@@ -1221,6 +1221,14 @@
     "copy": {
         "message": "Copier"
     },
+    "copySessionID": {
+        "message": "Copier le Session ID",
+        "description": "Copy to clipboard session ID"
+    },
+    "copyOpenGroupURL": {
+        "message": "Copier l'URL de Group",
+        "description": "Copy to clipboard Open Group URL"
+    },
     "linkPreviewsTitle": {
         "message": "Envoyer des aperçus de liens"
     },

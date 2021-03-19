@@ -32,8 +32,9 @@ function showDeleteMessages(isPublic: boolean): boolean {
   return !isPublic;
 }
 
+// we want to show the copyId for open groups and private chats only
 function showCopyId(isPublic: boolean, isGroup: boolean): boolean {
-  return !isGroup; // || isPublic;
+  return !isGroup || isPublic;
 }
 
 function showDeleteContact(
@@ -196,7 +197,9 @@ export function getCopyMenuItem(
   i18n: LocalizerType
 ): JSX.Element | null {
   if (showCopyId(Boolean(isPublic), Boolean(isGroup))) {
-    const copyIdLabel = i18n('copySessionID');
+    const copyIdLabel = isPublic
+      ? i18n('copyOpenGroupURL')
+      : i18n('copySessionID');
     return <Item onClick={action}>{copyIdLabel}</Item>;
   }
   return null;
