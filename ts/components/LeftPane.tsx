@@ -1,7 +1,7 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useRef, useEffect, useMemo, CSSProperties } from 'react';
+import React, { useEffect, useMemo, CSSProperties } from 'react';
 import Measure, { MeasuredComponentProps } from 'react-measure';
 import { isNumber } from 'lodash';
 
@@ -37,6 +37,7 @@ import {
 
 import * as OS from '../OS';
 import { LocalizerType } from '../types/Util';
+import { usePrevious } from '../util/hooks';
 import { missingCaseError } from '../util/missingCaseError';
 
 import { ConversationList } from './ConversationList';
@@ -140,9 +141,10 @@ export const LeftPane: React.FC<PropsType> = ({
   startSettingGroupMetadata,
   toggleConversationInChooseMembers,
 }) => {
-  const previousModeSpecificPropsRef = useRef(modeSpecificProps);
-  const previousModeSpecificProps = previousModeSpecificPropsRef.current;
-  previousModeSpecificPropsRef.current = modeSpecificProps;
+  const previousModeSpecificProps = usePrevious(
+    modeSpecificProps,
+    modeSpecificProps
+  );
 
   // The left pane can be in various modes: the inbox, the archive, the composer, etc.
   //   Ideally, this would render subcomponents such as `<LeftPaneInbox>` or
@@ -331,6 +333,15 @@ export const LeftPane: React.FC<PropsType> = ({
 
   const getRow = useMemo(() => helper.getRow.bind(helper), [helper]);
 
+  const previousSelectedConversationId = usePrevious(
+    selectedConversationId,
+    selectedConversationId
+  );
+  const rowIndexToScrollTo: undefined | number =
+    previousSelectedConversationId === selectedConversationId
+      ? undefined
+      : helper.getRowIndexToScrollTo(selectedConversationId);
+
   // We ensure that the listKey differs between some modes (e.g. inbox/archived), ensuring
   //   that AutoSizer properly detects the new size of its slot in the flexbox. The
   //   archive explainer text at the top of the archive view causes problems otherwise.
@@ -403,9 +414,7 @@ export const LeftPane: React.FC<PropsType> = ({
                   }}
                   renderMessageSearchResult={renderMessageSearchResult}
                   rowCount={helper.getRowCount()}
-                  scrollToRowIndex={helper.getRowIndexToScrollTo(
-                    selectedConversationId
-                  )}
+                  scrollToRowIndex={rowIndexToScrollTo}
                   shouldRecomputeRowHeights={shouldRecomputeRowHeights}
                   showChooseGroupMembers={showChooseGroupMembers}
                   startNewConversationFromPhoneNumber={

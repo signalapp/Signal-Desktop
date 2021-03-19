@@ -1,7 +1,7 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Measure from 'react-measure';
 
 import { Timestamp } from './Timestamp';
@@ -11,6 +11,7 @@ import {
   CallingNotificationType,
   getCallingNotificationText,
 } from '../../util/callingNotification';
+import { usePrevious } from '../../util/hooks';
 import { missingCaseError } from '../../util/missingCaseError';
 import { Tooltip, TooltipPlacement } from '../Tooltip';
 
@@ -34,23 +35,18 @@ type PropsType = CallingNotificationType & PropsActionsType & PropsHousekeeping;
 export const CallingNotification: React.FC<PropsType> = React.memo(props => {
   const { conversationId, i18n, messageId, messageSizeChanged } = props;
 
-  const previousHeightRef = useRef<null | number>(null);
   const [height, setHeight] = useState<null | number>(null);
+  const previousHeight = usePrevious<null | number>(null, height);
 
   useEffect(() => {
     if (height === null) {
       return;
     }
 
-    if (
-      previousHeightRef.current !== null &&
-      height !== previousHeightRef.current
-    ) {
+    if (previousHeight !== null && height !== previousHeight) {
       messageSizeChanged(messageId, conversationId);
     }
-
-    previousHeightRef.current = height;
-  }, [height, conversationId, messageId, messageSizeChanged]);
+  }, [height, previousHeight, conversationId, messageId, messageSizeChanged]);
 
   let timestamp: number;
   let callType: 'audio' | 'video';

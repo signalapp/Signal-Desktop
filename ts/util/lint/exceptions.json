@@ -14375,19 +14375,10 @@
     "rule": "React-useRef",
     "path": "ts/components/ContactPills.js",
     "line": "    const elRef = react_1.useRef(null);",
-    "lineNumber": 28,
+    "lineNumber": 29,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-01T18:34:36.638Z",
     "reasonDetail": "Used for scrolling. Doesn't otherwise manipulate the DOM"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/ContactPills.js",
-    "line": "    const previousChildCountRef = react_1.useRef(childCount);",
-    "lineNumber": 30,
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-03-01T18:34:36.638Z",
-    "reasonDetail": "Doesn't reference the DOM. Refers to a number"
   },
   {
     "rule": "React-useRef",
@@ -14496,24 +14487,6 @@
     "updated": "2020-07-21T18:34:59.251Z"
   },
   {
-    "rule": "React-useRef",
-    "path": "ts/components/LeftPane.js",
-    "line": "    const previousModeSpecificPropsRef = react_1.useRef(modeSpecificProps);",
-    "lineNumber": 52,
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-12T16:25:08.285Z",
-    "reasonDetail": "Doesn't interact with the DOM."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/LeftPane.tsx",
-    "line": "  const previousModeSpecificPropsRef = useRef(modeSpecificProps);",
-    "lineNumber": 143,
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-12T16:25:08.285Z",
-    "reasonDetail": "Doesn't interact with the DOM."
-  },
-  {
     "rule": "React-createRef",
     "path": "ts/components/Lightbox.js",
     "line": "        this.containerRef = react_1.default.createRef();",
@@ -14583,15 +14556,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2020-12-04T00:11:08.128Z",
     "reasonDetail": "Used to add (and remove) event listeners."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/conversation/CallingNotification.js",
-    "line": "    const previousHeightRef = react_1.useRef(null);",
-    "lineNumber": 37,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-12-04T00:11:08.128Z",
-    "reasonDetail": "Doesn't interact with the DOM."
   },
   {
     "rule": "React-useRef",
@@ -15177,8 +15141,17 @@
   {
     "rule": "React-useRef",
     "path": "ts/util/hooks.js",
+    "line": "    const previousValueRef = React.useRef(initialValue);",
+    "lineNumber": 29,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-03-18T21:41:28.361Z",
+    "reasonDetail": "A generic hook. Typically not to be used with non-DOM values."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/util/hooks.js",
     "line": "    const unobserveRef = React.useRef(null);",
-    "lineNumber": 95,
+    "lineNumber": 102,
     "reasonCategory": "usageTrusted",
     "updated": "2021-01-08T15:46:32.143Z",
     "reasonDetail": "Doesn't manipulate the DOM. This is just a function."

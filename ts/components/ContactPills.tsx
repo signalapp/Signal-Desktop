@@ -9,6 +9,7 @@ import React, {
   ReactNode,
 } from 'react';
 
+import { usePrevious } from '../util/hooks';
 import { scrollToBottom } from '../util/scrollToBottom';
 
 type PropsType = {
@@ -19,9 +20,7 @@ export const ContactPills: FunctionComponent<PropsType> = ({ children }) => {
   const elRef = useRef<null | HTMLDivElement>(null);
 
   const childCount = Children.count(children);
-  const previousChildCountRef = useRef<number>(childCount);
-  const previousChildCount = previousChildCountRef.current;
-  previousChildCountRef.current = childCount;
+  const previousChildCount = usePrevious(0, childCount);
 
   useEffect(() => {
     const hasAddedNewChild = childCount > previousChildCount;
