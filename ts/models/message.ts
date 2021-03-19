@@ -26,6 +26,7 @@ import { ConversationModel } from './conversation';
 import { actions as conversationActions } from '../state/ducks/conversations';
 import { VisibleMessage } from '../session/messages/outgoing/visibleMessage/VisibleMessage';
 import { buildSyncMessage } from '../session/utils/syncUtils';
+import { getSuggestedFilenameSending } from '../types/Attachment';
 
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   public propsForTimerNotification: any;
@@ -800,7 +801,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const filenameOverridenAttachments = finalAttachments.map(
       (attachment: any) => ({
         ...attachment,
-        fileName: window.Signal.Types.Attachment.getSuggestedFilenameSending({
+        fileName: getSuggestedFilenameSending({
           attachment,
           timestamp: Date.now(),
         }),

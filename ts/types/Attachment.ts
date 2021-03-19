@@ -396,8 +396,17 @@ export const getSuggestedFilenameSending = ({
 export const getFileExtension = (
   attachment: AttachmentType
 ): string | undefined => {
-  if (!attachment.contentType) {
-    return;
+  // we override textplain to the extension of the file
+  if (!attachment.contentType || attachment.contentType === 'text/plain') {
+    if (attachment.fileName?.length) {
+      const dotLastIndex = attachment.fileName.lastIndexOf('.');
+      if (dotLastIndex !== -1) {
+        return attachment.fileName.substring(dotLastIndex + 1);
+      } else {
+        return undefined;
+      }
+    }
+    return undefined;
   }
 
   switch (attachment.contentType) {

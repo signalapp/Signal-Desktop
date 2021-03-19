@@ -54,6 +54,46 @@ describe('Attachment', () => {
         const expected = 'session-attachment_003.mov';
         assert.strictEqual(actual, expected);
       });
+      it('should generate a filename with an extension if contentType is not setup', () => {
+        const attachment: Attachment.AttachmentType = {
+          fileName: 'funny-cat.ini',
+          url: 'funny-cat.ini',
+          contentType: '',
+        };
+        const actual = Attachment.getSuggestedFilename({
+          attachment,
+          index: 3,
+        });
+        const expected = 'session-attachment_003.ini';
+        assert.strictEqual(actual, expected);
+      });
+
+      it('should generate a filename with an extension if contentType is text/plain', () => {
+        const attachment: Attachment.AttachmentType = {
+          fileName: 'funny-cat.txt',
+          url: 'funny-cat.txt',
+          contentType: 'text/plain',
+        };
+        const actual = Attachment.getSuggestedFilename({
+          attachment,
+          index: 3,
+        });
+        const expected = 'session-attachment_003.txt';
+        assert.strictEqual(actual, expected);
+      });
+      it('should generate a filename with an extension if contentType is json', () => {
+        const attachment: Attachment.AttachmentType = {
+          fileName: 'funny-cat.json',
+          url: 'funny-cat.json',
+          contentType: '',
+        };
+        const actual = Attachment.getSuggestedFilename({
+          attachment,
+          index: 3,
+        });
+        const expected = 'session-attachment_003.json';
+        assert.strictEqual(actual, expected);
+      });
     });
     context('for attachment without filename', () => {
       it('should generate a filename based on timestamp', () => {
