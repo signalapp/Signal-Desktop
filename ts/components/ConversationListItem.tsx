@@ -42,6 +42,7 @@ type PropsHousekeeping = {
   onUnblockContact?: () => void;
   onInviteContacts?: () => void;
   onClearNickname?: () => void;
+  onMarkAllRead: () => void;
   theme: DefaultTheme;
 };
 
@@ -62,7 +63,6 @@ class ConversationListItem extends React.PureComponent<Props> {
   public renderAvatar() {
     const {
       avatarPath,
-      i18n,
       name,
       phoneNumber,
       profileName,

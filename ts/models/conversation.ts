@@ -423,6 +423,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       onInviteContacts: () => {
         window.Whisper.events.trigger('inviteContacts', this);
       },
+      onMarkAllRead: () => {
+        void this.markReadBouncy(Date.now());
+      },
       onClearNickname: () => {
         void this.setLokiProfile({ displayName: null });
       },
@@ -468,7 +471,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async getUnreadCount() {
-    window.log.warn('getUnreadCount is slow');
     const unreadCount = await getUnreadCountByConversation(this.id);
 
     return unreadCount;

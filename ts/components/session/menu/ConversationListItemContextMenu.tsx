@@ -5,6 +5,7 @@ import {
   getBlockMenuItem,
   getClearNicknameMenuItem,
   getCopyMenuItem,
+  getMarkAllReadMenuItem,
   getDeleteContactMenuItem,
   getDeleteMessagesMenuItem,
   getInviteContactMenuItem,
@@ -25,6 +26,7 @@ export type PropsContextConversationItem = {
   onDeleteContact?: () => void;
   onLeaveGroup?: () => void;
   onBlockContact?: () => void;
+  onMarkAllRead: () => void;
   onCopyPublicKey?: () => void;
   onUnblockContact?: () => void;
   onInviteContacts?: () => void;
@@ -48,6 +50,7 @@ export const ConversationListItemContextMenu = (
     onBlockContact,
     onClearNickname,
     onCopyPublicKey,
+    onMarkAllRead,
     onUnblockContact,
     onInviteContacts,
     onLeaveGroup,
@@ -81,6 +84,8 @@ export const ConversationListItemContextMenu = (
         onCopyPublicKey,
         window.i18n
       )}
+      {getMarkAllReadMenuItem(onMarkAllRead, window.i18n)}
+
       {getDeleteMessagesMenuItem(isPublic, onDeleteMessages, window.i18n)}
       {getInviteContactMenuItem(
         type === 'group',

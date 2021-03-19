@@ -205,6 +205,13 @@ export function getCopyMenuItem(
   return null;
 }
 
+export function getMarkAllReadMenuItem(
+  action: any,
+  i18n: LocalizerType
+): JSX.Element | null {
+  return <Item onClick={action}>{i18n('markAllAsRead')}</Item>;
+}
+
 export function getDisappearingMenuItem(
   isPublic: boolean | undefined,
   isKickedFromGroup: boolean | undefined,
