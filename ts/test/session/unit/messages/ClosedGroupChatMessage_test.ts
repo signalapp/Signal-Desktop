@@ -1,26 +1,24 @@
 import { expect } from 'chai';
 
-import {
-  ChatMessage,
-  ClosedGroupChatMessage,
-} from '../../../../session/messages/outgoing';
 import { SignalService } from '../../../../protobuf';
 import { TestUtils } from '../../../test-utils';
 import { StringUtils } from '../../../../session/utils';
 import { PubKey } from '../../../../session/types';
 import { Constants } from '../../../../session';
+import { ClosedGroupVisibleMessage } from '../../../../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
+import { VisibleMessage } from '../../../../session/messages/outgoing/visibleMessage/VisibleMessage';
 
-describe('ClosedGroupChatMessage', () => {
+describe('ClosedGroupVisibleMessage', () => {
   let groupId: PubKey;
   beforeEach(() => {
     groupId = TestUtils.generateFakePubKey();
   });
   it('can create empty message with timestamp, groupId and chatMessage', () => {
-    const chatMessage = new ChatMessage({
+    const chatMessage = new VisibleMessage({
       timestamp: Date.now(),
       body: 'body',
     });
-    const message = new ClosedGroupChatMessage({
+    const message = new ClosedGroupVisibleMessage({
       groupId,
       chatMessage,
     });
@@ -50,10 +48,10 @@ describe('ClosedGroupChatMessage', () => {
   });
 
   it('correct ttl', () => {
-    const chatMessage = new ChatMessage({
+    const chatMessage = new VisibleMessage({
       timestamp: Date.now(),
     });
-    const message = new ClosedGroupChatMessage({
+    const message = new ClosedGroupVisibleMessage({
       groupId,
       chatMessage,
     });
@@ -61,10 +59,10 @@ describe('ClosedGroupChatMessage', () => {
   });
 
   it('has an identifier', () => {
-    const chatMessage = new ChatMessage({
+    const chatMessage = new VisibleMessage({
       timestamp: Date.now(),
     });
-    const message = new ClosedGroupChatMessage({
+    const message = new ClosedGroupVisibleMessage({
       groupId,
       chatMessage,
     });
@@ -76,12 +74,12 @@ describe('ClosedGroupChatMessage', () => {
   });
 
   it('should use the identifier passed into it over the one set in chatMessage', () => {
-    const chatMessage = new ChatMessage({
+    const chatMessage = new VisibleMessage({
       timestamp: Date.now(),
       body: 'body',
       identifier: 'chatMessage',
     });
-    const message = new ClosedGroupChatMessage({
+    const message = new ClosedGroupVisibleMessage({
       groupId,
       chatMessage,
       identifier: 'closedGroupMessage',
@@ -90,12 +88,12 @@ describe('ClosedGroupChatMessage', () => {
   });
 
   it('should use the identifier of the chatMessage if one is not specified on the closed group message', () => {
-    const chatMessage = new ChatMessage({
+    const chatMessage = new VisibleMessage({
       timestamp: Date.now(),
       body: 'body',
       identifier: 'chatMessage',
     });
-    const message = new ClosedGroupChatMessage({
+    const message = new ClosedGroupVisibleMessage({
       groupId,
       chatMessage,
     });

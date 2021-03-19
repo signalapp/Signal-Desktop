@@ -295,10 +295,10 @@ export async function handlePublicMessage(messageData: any) {
     await updateProfile(conversation, profile, profileKey);
   }
 
-  const isPublicChatMessage =
+  const isPublicVisibleMessage =
     group && group.id && !!group.id.match(/^publicChat:/);
 
-  if (!isPublicChatMessage) {
+  if (!isPublicVisibleMessage) {
     throw new Error(
       'handlePublicMessage Should only be called with public message groups'
     );

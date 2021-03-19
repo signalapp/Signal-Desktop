@@ -1,13 +1,14 @@
 import * as crypto from 'crypto';
 import { Attachment } from '../../types/Attachment';
 import { OpenGroup } from '../types';
+
+import { LokiAppDotNetServerInterface } from '../../../js/modules/loki_app_dot_net_api';
 import {
   AttachmentPointer,
   Preview,
   Quote,
   QuotedAttachment,
-} from '../messages/outgoing';
-import { LokiAppDotNetServerInterface } from '../../../js/modules/loki_app_dot_net_api';
+} from '../messages/outgoing/visibleMessage/VisibleMessage';
 
 interface UploadParams {
   attachment: Attachment;

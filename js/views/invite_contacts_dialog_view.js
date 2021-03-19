@@ -30,7 +30,7 @@
       this.chatName = convo.get('name');
       this.chatServer = convo.get('server');
       this.channelId = convo.get('channelId');
-      this.isPublic = !!convo.cachedProps.isPublic;
+      this.isPublic = !!convo.isPublic();
       this.convo = convo;
 
       this.$el.focus();

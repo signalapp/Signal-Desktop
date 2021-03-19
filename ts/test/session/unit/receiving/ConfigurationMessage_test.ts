@@ -3,7 +3,7 @@
 import { SignalService } from '../../../../protobuf';
 import chai from 'chai';
 
-import { ConfigurationMessage } from '../../../../session/messages/outgoing/content/ConfigurationMessage';
+import { ConfigurationMessage } from '../../../../session/messages/outgoing/controlMessage/ConfigurationMessage';
 import { UserUtils } from '../../../../session/utils';
 import { TestUtils } from '../../../test-utils';
 

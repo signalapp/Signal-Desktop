@@ -1,12 +1,12 @@
 // this is not a very good name, but a configuration message is a message sent to our other devices so sync our current public and closed groups
 
-import { ContentMessage } from './ContentMessage';
 import { SignalService } from '../../../../protobuf';
 import { MessageParams } from '../Message';
 import { Constants } from '../../..';
 import { ECKeyPair } from '../../../../receiver/keypairs';
 import { fromHexToArray } from '../../../utils/String';
 import { PubKey } from '../../../types';
+import { ContentMessage } from '..';
 
 interface ConfigurationMessageParams extends MessageParams {
   activeClosedGroups: Array<ConfigurationMessageClosedGroup>;

@@ -1,6 +1,5 @@
-import { Constants } from '../../../../..';
-import { SignalService } from '../../../../../../protobuf';
-import { fromHexToArray } from '../../../../../utils/String';
+import { Constants } from '../../../..';
+import { SignalService } from '../../../../../protobuf';
 import {
   ClosedGroupMessage,
   ClosedGroupMessageParams,
