@@ -796,20 +796,7 @@ export class Message extends React.PureComponent<Props, State> {
         )}
         // There's only ever one of these, so we don't want users to tab into it
         tabIndex={-1}
-        onClick={(event: React.MouseEvent) => {
-          event.stopPropagation();
-          event.preventDefault();
-
-          if (hasNotDownloaded(firstAttachment)) {
-            kickOffAttachmentDownload({
-              attachment: firstAttachment,
-              messageId: id,
-            });
-            return;
-          }
-
-          this.openGenericAttachment();
-        }}
+        onClick={this.openGenericAttachment}
       >
         {pending ? (
           <div className="module-message__generic-attachment__spinner-container">
@@ -2097,7 +2084,13 @@ export class Message extends React.PureComponent<Props, State> {
   };
 
   public openGenericAttachment = (event?: React.MouseEvent): void => {
-    const { attachments, downloadAttachment, timestamp } = this.props;
+    const {
+      id,
+      attachments,
+      downloadAttachment,
+      timestamp,
+      kickOffAttachmentDownload,
+    } = this.props;
 
     if (event) {
       event.preventDefault();
@@ -2109,6 +2102,14 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     const attachment = attachments[0];
+    if (hasNotDownloaded(attachment)) {
+      kickOffAttachmentDownload({
+        attachment,
+        messageId: id,
+      });
+      return;
+    }
+
     const { fileName } = attachment;
     const isDangerous = isFileDangerous(fileName || '');
 
