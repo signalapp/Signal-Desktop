@@ -4450,6 +4450,8 @@ export class ConversationModel extends window.Backbone.Model<
           );
           c.set('about', stringFromBytes(trimForDisplay(decrypted)));
         }
+      } else {
+        c.unset('about');
       }
 
       if (profile.aboutEmoji) {
@@ -4462,11 +4464,16 @@ export class ConversationModel extends window.Backbone.Model<
           );
           c.set('aboutEmoji', stringFromBytes(trimForDisplay(decrypted)));
         }
+      } else {
+        c.unset('aboutEmoji');
       }
 
       if (profile.capabilities) {
         c.set({ capabilities: profile.capabilities });
+      } else {
+        c.unset('capabilities');
       }
+
       if (profileCredentialRequestContext && profile.credential) {
         const profileKeyCredential = handleProfileKeyCredential(
           clientZkProfileCipher,
@@ -4474,18 +4481,28 @@ export class ConversationModel extends window.Backbone.Model<
           profile.credential
         );
         c.set({ profileKeyCredential });
+      } else {
+        c.unset('profileKeyCredential');
       }
     } catch (error) {
-      if (error.code !== 403 && error.code !== 404) {
-        window.log.warn(
-          'getProfile failure:',
-          c.idForLogging(),
-          error && error.stack ? error.stack : error
-        );
-      } else {
-        await c.dropProfileKey();
+      switch (error?.code) {
+        case 403:
+          throw error;
+        case 404:
+          window.log.warn(
+            `getProfile failure: failed to find a profile for ${c.idForLogging()}`,
+            error && error.stack ? error.stack : error
+          );
+          c.setUnregistered();
+          return;
+        default:
+          window.log.warn(
+            'getProfile failure:',
+            c.idForLogging(),
+            error && error.stack ? error.stack : error
+          );
+          return;
       }
-      return;
     }
 
     try {
@@ -4496,7 +4513,10 @@ export class ConversationModel extends window.Backbone.Model<
         c.idForLogging(),
         error && error.stack ? error.stack : error
       );
-      await c.dropProfileKey();
+      await c.set({
+        profileName: undefined,
+        profileFamilyName: undefined,
+      });
     }
 
     try {
@@ -4621,10 +4641,7 @@ export class ConversationModel extends window.Backbone.Model<
         sealedSender: SEALED_SENDER.UNKNOWN,
       });
 
-      if (
-        !viaStorageServiceSync &&
-        profileKey !== this.get('storageProfileKey')
-      ) {
+      if (!viaStorageServiceSync) {
         this.captureChange('profileKey');
       }
 
@@ -4636,39 +4653,6 @@ export class ConversationModel extends window.Backbone.Model<
       window.Signal.Data.updateConversation(this.attributes, {
         Conversation: window.Whisper.Conversation,
       });
-    }
-
-    if (viaStorageServiceSync) {
-      this.set({
-        storageProfileKey: profileKey,
-      });
-    }
-  }
-
-  async dropProfileKey(): Promise<void> {
-    if (this.get('profileKey')) {
-      window.log.info(
-        `Dropping profileKey, setting sealedSender to UNKNOWN for conversation ${this.idForLogging()}`
-      );
-      const profileAvatar = this.get('profileAvatar');
-      if (profileAvatar && profileAvatar.path) {
-        await deleteAttachmentData(profileAvatar.path);
-      }
-
-      this.set({
-        about: undefined,
-        aboutEmoji: undefined,
-        profileKey: undefined,
-        profileKeyVersion: undefined,
-        profileKeyCredential: null,
-        accessKey: null,
-        profileName: undefined,
-        profileFamilyName: undefined,
-        profileAvatar: null,
-        sealedSender: SEALED_SENDER.UNKNOWN,
-      });
-
-      window.Signal.Data.updateConversation(this.attributes);
     }
   }
 
