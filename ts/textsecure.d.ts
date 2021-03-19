@@ -1196,8 +1196,8 @@ export declare namespace SyncMessageClass {
     groupIds?: Array<ProtoBinaryType>;
   }
   class Read {
-    sender?: string;
-    senderUuid?: string;
+    sender: string | null;
+    senderUuid: string | null;
     timestamp?: ProtoBigNumberType;
   }
   class Request {

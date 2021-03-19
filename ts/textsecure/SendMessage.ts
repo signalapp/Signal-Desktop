@@ -1232,8 +1232,8 @@ export default class MessageSender {
       for (let i = 0; i < reads.length; i += 1) {
         const read = new window.textsecure.protobuf.SyncMessage.Read();
         read.timestamp = reads[i].timestamp;
-        read.sender = reads[i].senderE164;
-        read.senderUuid = reads[i].senderUuid;
+        read.sender = reads[i].senderE164 || null;
+        read.senderUuid = reads[i].senderUuid || null;
 
         syncMessage.read.push(read);
       }
