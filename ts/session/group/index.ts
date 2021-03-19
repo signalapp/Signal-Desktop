@@ -449,17 +449,6 @@ async function sendAddedMembers(
     expireTimer,
   });
 
-  // if an expire timer is set, we have to send it to the joining members
-  // let expirationTimerMessage: ExpirationTimerUpdateMessage | undefined;
-  // if (expireTimer && expireTimer > 0) {
-  //   const expireUpdate = {
-  //     timestamp: Date.now(),
-  //     expireTimer,
-  //     groupId: groupId,
-  //   };
-
-  //   expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
-  // }
   const promises = addedMembers.map(async m => {
     await ConversationController.getInstance().getOrCreateAndWait(m, 'private');
     const memberPubKey = PubKey.cast(m);

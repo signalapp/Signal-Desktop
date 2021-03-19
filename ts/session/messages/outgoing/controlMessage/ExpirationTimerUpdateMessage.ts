@@ -13,7 +13,7 @@ interface ExpirationTimerUpdateMessageParams extends MessageParams {
 
 export class ExpirationTimerUpdateMessage extends DataMessage {
   public readonly groupId?: PubKey;
-  public readonly syncTarget?: PubKey;
+  public readonly syncTarget?: string;
   public readonly expireTimer: number | null;
 
   constructor(params: ExpirationTimerUpdateMessageParams) {
@@ -22,7 +22,7 @@ export class ExpirationTimerUpdateMessage extends DataMessage {
 
     const { groupId, syncTarget } = params;
     this.groupId = groupId ? PubKey.cast(groupId) : undefined;
-    this.syncTarget = syncTarget ? PubKey.cast(syncTarget) : undefined;
+    this.syncTarget = syncTarget ? PubKey.cast(syncTarget).key : undefined;
   }
 
   public ttl(): number {
@@ -50,7 +50,7 @@ export class ExpirationTimerUpdateMessage extends DataMessage {
     }
 
     if (this.syncTarget) {
-      data.syncTarget = this.syncTarget.key;
+      data.syncTarget = this.syncTarget;
     }
 
     if (this.expireTimer) {

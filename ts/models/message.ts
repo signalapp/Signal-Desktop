@@ -7,6 +7,7 @@ import { getMessageQueue, Types, Utils } from '../../ts/session';
 import { ConversationController } from '../../ts/session/conversations';
 import { MessageController } from '../../ts/session/messages';
 import {
+  ContentMessage,
   DataMessage,
   OpenGroupMessage,
 } from '../../ts/session/messages/outgoing';
@@ -24,6 +25,7 @@ import { saveMessage } from '../../ts/data/data';
 import { ConversationModel } from './conversation';
 import { actions as conversationActions } from '../state/ducks/conversations';
 import { VisibleMessage } from '../session/messages/outgoing/visibleMessage/VisibleMessage';
+import { buildSyncMessage } from '../session/utils/syncUtils';
 
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   public propsForTimerNotification: any;
@@ -1027,13 +1029,15 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     // if this message needs to be synced
     if (
       (dataMessage.body && dataMessage.body.length) ||
-      dataMessage.attachments.length
+      dataMessage.attachments.length ||
+      dataMessage.flags ===
+        SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
     ) {
       const conversation = this.getConversation();
       if (!conversation) {
         throw new Error('Cannot trigger syncMessage with unknown convo.');
       }
-      const syncMessage = VisibleMessage.buildSyncMessage(
+      const syncMessage = buildSyncMessage(
         this.id,
         dataMessage,
         conversation.id,

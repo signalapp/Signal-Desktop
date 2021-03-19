@@ -21,6 +21,15 @@ import {
   fromHexToArray,
 } from './String';
 import { fromBase64 } from 'bytebuffer';
+import { SignalService } from '../../protobuf';
+import _ from 'lodash';
+import {
+  AttachmentPointer,
+  Preview,
+  Quote,
+  VisibleMessage,
+} from '../messages/outgoing/visibleMessage/VisibleMessage';
+import { ExpirationTimerUpdateMessage } from '../messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 
@@ -185,4 +194,106 @@ export const getCurrentConfigurationMessage = async (
     profileKey,
     contacts,
   });
+};
+
+const buildSyncVisibleMessage = (
+  identifier: string,
+  dataMessage: SignalService.DataMessage,
+  timestamp: number,
+  syncTarget: string
+) => {
+  const body = dataMessage.body || undefined;
+
+  const wrapToUInt8Array = (buffer: any) => {
+    if (!buffer) {
+      return undefined;
+    }
+    if (buffer instanceof Uint8Array) {
+      // Audio messages are already uint8Array
+      return buffer;
+    }
+    return new Uint8Array(buffer.toArrayBuffer());
+  };
+  const attachments = (dataMessage.attachments || []).map(attachment => {
+    const key = wrapToUInt8Array(attachment.key);
+    const digest = wrapToUInt8Array(attachment.digest);
+
+    return {
+      ...attachment,
+      key,
+      digest,
+    };
+  }) as Array<AttachmentPointer>;
+  const quote = (dataMessage.quote as Quote) || undefined;
+  const preview = (dataMessage.preview as Array<Preview>) || [];
+  const expireTimer = dataMessage.expireTimer;
+
+  return new VisibleMessage({
+    identifier,
+    timestamp,
+    attachments,
+    body,
+    quote,
+    preview,
+    syncTarget,
+    expireTimer,
+  });
+};
+
+const buildSyncExpireTimerMessage = (
+  identifier: string,
+  dataMessage: SignalService.DataMessage,
+  timestamp: number,
+  syncTarget: string
+) => {
+  const expireTimer = dataMessage.expireTimer;
+
+  return new ExpirationTimerUpdateMessage({
+    identifier,
+    timestamp,
+    expireTimer,
+    syncTarget,
+  });
+};
+
+export type SyncMessageType =
+  | VisibleMessage
+  | ExpirationTimerUpdateMessage
+  | ConfigurationMessage;
+
+export const buildSyncMessage = (
+  identifier: string,
+  dataMessage: SignalService.DataMessage,
+  syncTarget: string,
+  sentTimestamp: number
+): VisibleMessage | ExpirationTimerUpdateMessage => {
+  if (
+    (dataMessage as any).constructor.name !== 'DataMessage' &&
+    !(dataMessage instanceof SignalService.DataMessage)
+  ) {
+    window.log.warn('buildSyncMessage with something else than a DataMessage');
+  }
+
+  if (!sentTimestamp || !_.isNumber(sentTimestamp)) {
+    throw new Error('Tried to build a sync message without a sentTimestamp');
+  }
+  // don't include our profileKey on syncing message. This is to be done by a ConfigurationMessage now
+  const timestamp = _.toNumber(sentTimestamp);
+  if (
+    dataMessage.flags ===
+    SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
+  ) {
+    return buildSyncExpireTimerMessage(
+      identifier,
+      dataMessage,
+      timestamp,
+      syncTarget
+    );
+  }
+  return buildSyncVisibleMessage(
+    identifier,
+    dataMessage,
+    timestamp,
+    syncTarget
+  );
 };

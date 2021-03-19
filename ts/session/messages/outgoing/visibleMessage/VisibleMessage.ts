@@ -5,6 +5,7 @@ import { DataMessage } from '..';
 import { Constants } from '../../..';
 import { SignalService } from '../../../../protobuf';
 import { LokiProfile } from '../../../../types/Message';
+import { ExpirationTimerUpdateMessage } from '../controlMessage/ExpirationTimerUpdateMessage';
 import { MessageParams } from '../Message';
 
 export interface AttachmentPointer {
@@ -89,62 +90,6 @@ export class VisibleMessage extends DataMessage {
     this.avatarPointer = params.lokiProfile && params.lokiProfile.avatarPointer;
     this.preview = params.preview;
     this.syncTarget = params.syncTarget;
-  }
-
-  public static buildSyncMessage(
-    identifier: string,
-    dataMessage: SignalService.DataMessage,
-    syncTarget: string,
-    sentTimestamp: number
-  ) {
-    if (
-      (dataMessage as any).constructor.name !== 'DataMessage' &&
-      !(dataMessage instanceof SignalService.DataMessage)
-    ) {
-      window.log.warn(
-        'buildSyncMessage with something else than a DataMessage'
-      );
-    }
-
-    if (!sentTimestamp || !isNumber(sentTimestamp)) {
-      throw new Error('Tried to build a sync message without a sentTimestamp');
-    }
-    // don't include our profileKey on syncing message. This is to be done by a ConfigurationMessage now
-    const timestamp = toNumber(sentTimestamp);
-    const body = dataMessage.body || undefined;
-
-    const wrapToUInt8Array = (buffer: any) => {
-      if (!buffer) {
-        return undefined;
-      }
-      if (buffer instanceof Uint8Array) {
-        // Audio messages are already uint8Array
-        return buffer;
-      }
-      return new Uint8Array(buffer.toArrayBuffer());
-    };
-    const attachments = (dataMessage.attachments || []).map(attachment => {
-      const key = wrapToUInt8Array(attachment.key);
-      const digest = wrapToUInt8Array(attachment.digest);
-
-      return {
-        ...attachment,
-        key,
-        digest,
-      };
-    }) as Array<AttachmentPointer>;
-    const quote = (dataMessage.quote as Quote) || undefined;
-    const preview = (dataMessage.preview as Array<Preview>) || [];
-
-    return new VisibleMessage({
-      identifier,
-      timestamp,
-      attachments,
-      body,
-      quote,
-      preview,
-      syncTarget,
-    });
   }
 
   public ttl(): number {

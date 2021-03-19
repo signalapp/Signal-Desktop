@@ -16,6 +16,7 @@ import { ClosedGroupEncryptionPairRequestMessage } from '../messages/outgoing/co
 import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
 import { ClosedGroupVisibleMessage } from '../messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
+import { SyncMessageType } from '../utils/syncUtils';
 
 type ClosedGroupMessageType =
   | ClosedGroupVisibleMessage
@@ -108,7 +109,7 @@ export class MessageQueue {
   }
 
   public async sendSyncMessage(
-    message?: ContentMessage,
+    message?: SyncMessageType,
     sentCb?: (message: RawMessage) => Promise<void>
   ): Promise<void> {
     if (!message) {

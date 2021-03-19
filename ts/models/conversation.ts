@@ -841,12 +841,14 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     providedExpireTimer: any,
     providedSource?: string,
     receivedAt?: number, // is set if it comes from outside
-    options: any = {}
+    options: {
+      fromSync?: boolean;
+    } = {}
   ) {
     let expireTimer = providedExpireTimer;
     let source = providedSource;
 
-    _.defaults(options, { fromSync: false, fromGroupUpdate: false });
+    _.defaults(options, { fromSync: false });
 
     if (!expireTimer) {
       expireTimer = null;
@@ -887,7 +889,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         expireTimer,
         source,
         fromSync: options.fromSync,
-        fromGroupUpdate: options.fromGroupUpdate,
       },
       expireTimer: 0,
       type: isOutgoing ? 'outgoing' : ('incoming' as MessageModelType),

@@ -48,7 +48,6 @@ export interface MessageAttributes {
     expireTimer: number;
     source: string;
     fromSync?: boolean;
-    fromGroupUpdate?: boolean;
   };
   /**
    * 1 means unread, 0 or anything else is read.
@@ -138,7 +137,6 @@ export interface MessageAttributesOptionals {
     expireTimer: number;
     source: string;
     fromSync?: boolean;
-    fromGroupUpdate?: boolean;
   };
   unread?: number;
   group?: any;
