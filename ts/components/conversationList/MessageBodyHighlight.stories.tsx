@@ -55,11 +55,11 @@ story.add('Two Replacements with an @mention', () => {
         length: 1,
         mentionUuid: '0ca40892-7b1a-11eb-9439-0242ac130002',
         replacementText: 'Jin Sakai',
-        start: 52,
+        start: 33,
       },
     ],
     text:
-      'Begin <<left>>Inside #1<<right>> \uFFFC@52 This is between the two <<left>>Inside #2<<right>> End.',
+      'Begin <<left>>Inside #1<<right>> \uFFFC This is between the two <<left>>Inside #2<<right>> End.',
   });
 
   return <MessageBodyHighlight {...props} />;

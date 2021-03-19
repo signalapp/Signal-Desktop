@@ -237,3 +237,28 @@ story.add('@mention no-matches', () => {
 
   return <MessageSearchResult {...props} />;
 });
+
+story.add('Double @mention', () => {
+  const props = createProps({
+    body: 'Hey \uFFFC \uFFFC test',
+    bodyRanges: [
+      {
+        length: 1,
+        mentionUuid: '9eb2eb65-992a-4909-a2a5-18c56bd7648f',
+        replacementText: 'Alice',
+        start: 4,
+      },
+      {
+        length: 1,
+        mentionUuid: '755ec61b-1590-48da-b003-3e57b2b54448',
+        replacementText: 'Bob',
+        start: 6,
+      },
+    ],
+    from: someone,
+    to: me,
+    snippet: '<<left>>Hey<<right>> \uFFFC \uFFFC <<left>>test<<right>>',
+  });
+
+  return <MessageSearchResult {...props} />;
+});
