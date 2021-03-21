@@ -83,6 +83,8 @@ interface Props {
   onAvatarClick?: (userPubKey: string) => void;
   onUpdateGroupName: () => void;
 
+  onMarkAllRead: () => void;
+
   memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
   theme: DefaultTheme;
 }
