@@ -4,12 +4,12 @@ import {
   getAddModeratorsMenuItem,
   getBlockMenuItem,
   getCopyMenuItem,
-  getMarkAllReadMenuItem,
   getDeleteContactMenuItem,
   getDeleteMessagesMenuItem,
   getDisappearingMenuItem,
   getInviteContactMenuItem,
   getLeaveGroupMenuItem,
+  getMarkAllReadMenuItem,
   getRemoveModeratorsMenuItem,
   getUpdateGroupNameMenuItem,
 } from './Menu';

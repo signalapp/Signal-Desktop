@@ -5,11 +5,11 @@ import {
   getBlockMenuItem,
   getClearNicknameMenuItem,
   getCopyMenuItem,
-  getMarkAllReadMenuItem,
   getDeleteContactMenuItem,
   getDeleteMessagesMenuItem,
   getInviteContactMenuItem,
   getLeaveGroupMenuItem,
+  getMarkAllReadMenuItem,
 } from './Menu';
 
 export type PropsContextConversationItem = {

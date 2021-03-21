@@ -1354,7 +1354,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public copyPublicKey() {
     if (this.isPublic()) {
-      const openGroupUrl = this.id.substr(this.id.indexOf('@') + 1);
+      const atIndex = this.id.indexOf('@') as number;
+      const openGroupUrl = this.id.substr(atIndex + 1);
       window.clipboard.writeText(openGroupUrl);
 
       ToastUtils.pushCopiedToClipBoard();
