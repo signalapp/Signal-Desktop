@@ -14026,7 +14026,7 @@
     "rule": "jQuery-load(",
     "path": "ts/LibSignalStore.js",
     "line": "        await window.ConversationController.load();",
-    "lineNumber": 810,
+    "lineNumber": 811,
     "reasonCategory": "falseMatch",
     "updated": "2021-02-27T00:48:49.313Z"
   },
@@ -14034,7 +14034,7 @@
     "rule": "jQuery-load(",
     "path": "ts/LibSignalStore.ts",
     "line": "    await window.ConversationController.load();",
-    "lineNumber": 1221,
+    "lineNumber": 1222,
     "reasonCategory": "falseMatch",
     "updated": "2021-02-27T00:48:49.313Z"
   },

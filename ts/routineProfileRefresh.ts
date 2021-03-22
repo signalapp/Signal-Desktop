@@ -8,12 +8,14 @@ import { assert } from './util/assert';
 import { missingCaseError } from './util/missingCaseError';
 import { isNormalNumber } from './util/isNormalNumber';
 import { map, take } from './util/iterables';
+import { isOlderThan } from './util/timestamp';
 import { ConversationModel } from './models/conversations';
 
 const STORAGE_KEY = 'lastAttemptedToRefreshProfilesAt';
 const MAX_AGE_TO_BE_CONSIDERED_ACTIVE = 30 * 24 * 60 * 60 * 1000;
 const MAX_AGE_TO_BE_CONSIDERED_RECENTLY_REFRESHED = 1 * 24 * 60 * 60 * 1000;
 const MAX_CONVERSATIONS_TO_REFRESH = 50;
+const MIN_ELAPSED_DURATION_TO_REFRESH_AGAIN = 12 * 3600 * 1000;
 
 // This type is a little stricter than what's on `window.storage`, and only requires what
 //   we need for easier testing.
@@ -81,8 +83,7 @@ function hasEnoughTimeElapsedSinceLastRefresh(storage: StorageType): boolean {
   }
 
   if (isNormalNumber(storedValue)) {
-    const twelveHoursAgo = Date.now() - 43200000;
-    return storedValue < twelveHoursAgo;
+    return isOlderThan(storedValue, MIN_ELAPSED_DURATION_TO_REFRESH_AGAIN);
   }
 
   assert(

@@ -1,6 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { isMoreRecentThan } from './timestamp';
+
 const SIX_HOURS = 1000 * 60 * 60 * 6;
 
 export function isConversationUnregistered({
@@ -8,6 +10,6 @@ export function isConversationUnregistered({
 }: Readonly<{ discoveredUnregisteredAt?: number }>): boolean {
   return Boolean(
     discoveredUnregisteredAt &&
-      discoveredUnregisteredAt > Date.now() - SIX_HOURS
+      isMoreRecentThan(discoveredUnregisteredAt, SIX_HOURS)
   );
 }

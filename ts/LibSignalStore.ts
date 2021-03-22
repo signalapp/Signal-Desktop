@@ -5,6 +5,7 @@
 
 import { fromEncodedBinaryToArrayBuffer, constantTimeEqual } from './Crypto';
 import { isNotNil } from './util/isNotNil';
+import { isMoreRecentThan } from './util/timestamp';
 
 const TIMESTAMP_THRESHOLD = 5 * 1000; // 5 seconds
 const Direction = {
@@ -839,7 +840,7 @@ export class SignalProtocolStore extends EventsMixin {
   isNonBlockingApprovalRequired(identityRecord: IdentityKeyType): boolean {
     return (
       !identityRecord.firstUse &&
-      Date.now() - identityRecord.timestamp < TIMESTAMP_THRESHOLD &&
+      isMoreRecentThan(identityRecord.timestamp, TIMESTAMP_THRESHOLD) &&
       !identityRecord.nonblockingApproval
     );
   }
@@ -1138,7 +1139,7 @@ export class SignalProtocolStore extends EventsMixin {
     }
 
     if (
-      Date.now() - identityRecord.timestamp < TIMESTAMP_THRESHOLD &&
+      isMoreRecentThan(identityRecord.timestamp, TIMESTAMP_THRESHOLD) &&
       !identityRecord.nonblockingApproval &&
       !identityRecord.firstUse
     ) {

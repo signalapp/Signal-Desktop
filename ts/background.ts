@@ -8,6 +8,9 @@ import { getTitleBarVisibility, TitleBarVisibility } from './types/Settings';
 import { isWindowDragElement } from './util/isWindowDragElement';
 import { assert } from './util/assert';
 import { routineProfileRefresh } from './routineProfileRefresh';
+import { isMoreRecentThan, isOlderThan } from './util/timestamp';
+
+const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
 export async function startApp(): Promise<void> {
   window.startupProcessingQueue = new window.Signal.Util.StartupQueue();
@@ -555,12 +558,11 @@ export async function startApp(): Promise<void> {
     };
 
     // How long since we were last running?
-    const now = Date.now();
     const lastHeartbeat = window.storage.get('lastHeartbeat');
     await window.storage.put('lastStartup', Date.now());
 
     const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
-    if (lastHeartbeat > 0 && now - lastHeartbeat > THIRTY_DAYS) {
+    if (lastHeartbeat > 0 && isOlderThan(lastHeartbeat, THIRTY_DAYS)) {
       await unlinkAndDisconnect();
     }
 
@@ -2097,12 +2099,14 @@ export async function startApp(): Promise<void> {
         // once we stop processing the queue.
         window.attachmentDownloadQueue = undefined;
 
-        const THREE_DAYS_AGO = Date.now() - 3600 * 72 * 1000;
         const MAX_ATTACHMENT_MSGS_TO_DOWNLOAD = 250;
         const attachmentsToDownload = attachmentDownloadQueue.filter(
           (message, index) =>
             index <= MAX_ATTACHMENT_MSGS_TO_DOWNLOAD ||
-            message.getReceivedAt() > THREE_DAYS_AGO ||
+            isMoreRecentThan(
+              message.getReceivedAt(),
+              MAX_ATTACHMENT_DOWNLOAD_AGE
+            ) ||
             // Stickers and long text attachments has to be downloaded for UI
             // to display the message properly.
             message.hasRequiredAttachmentDownloads()
