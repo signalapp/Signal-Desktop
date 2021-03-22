@@ -523,6 +523,8 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     );
   }
 
+  const countDown = duration - currentTime;
+
   return (
     <div
       className={classNames(
@@ -534,7 +536,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     >
       {button}
       {waveform}
-      <div className={`${CSS_BASE}__duration`}>{timeToText(duration)}</div>
+      <div className={`${CSS_BASE}__countdown`}>{timeToText(countDown)}</div>
     </div>
   );
 };

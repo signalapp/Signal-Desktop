@@ -228,9 +228,12 @@
   }
 }
 
-.module-message__audio-attachment__duration {
+.module-message__audio-attachment__countdown {
   flex-shrink: 1;
-  margin-left: 12px;
+
+  /* Prevent text from jumping when countdown changes */
+  min-width: 32px;
+  text-align: right;
 
   @include font-caption;
 
@@ -277,8 +280,8 @@
     margin-left: 4px;
   }
 
-  /* Clip the duration text when it is too long on small screens */
-  .module-message__audio-attachment__duration {
+  /* Clip the countdown text when it is too long on small screens */
+  .module-message__audio-attachment__countdown {
     margin-left: 4px;
 
     max-width: 46px;
