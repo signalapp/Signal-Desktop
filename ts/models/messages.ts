@@ -2967,6 +2967,47 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     return false;
   }
 
+  markAttachmentAsCorrupted(attachment: AttachmentType): void {
+    if (!attachment.path) {
+      throw new Error(
+        "Attachment can't be marked as corrupted because it wasn't loaded"
+      );
+    }
+
+    // We intentionally don't check in quotes/stickers/contacts/... here,
+    // because this function should be called only for something that can
+    // be displayed as a generic attachment.
+    const attachments: ReadonlyArray<AttachmentType> =
+      this.get('attachments') || [];
+
+    let changed = false;
+    const newAttachments = attachments.map(existing => {
+      if (existing.path !== attachment.path) {
+        return existing;
+      }
+      changed = true;
+
+      return {
+        ...existing,
+        isCorrupted: true,
+      };
+    });
+
+    if (!changed) {
+      throw new Error(
+        "Attachment can't be marked as corrupted because it wasn't found"
+      );
+    }
+
+    window.log.info(
+      'markAttachmentAsCorrupted: marking an attachment as corrupted'
+    );
+
+    this.set({
+      attachments: newAttachments,
+    });
+  }
+
   // eslint-disable-next-line class-methods-use-this
   async copyFromQuotedMessage(message: WhatIsThis): Promise<boolean> {
     const { quote } = message;

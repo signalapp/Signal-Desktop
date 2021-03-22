@@ -25,6 +25,7 @@ export type Props = {
 
   buttonRef: React.RefObject<HTMLButtonElement>;
   kickOffAttachmentDownload(): void;
+  onCorrupted(): void;
 };
 
 const mapStateToProps = (state: StateType, props: Props) => {

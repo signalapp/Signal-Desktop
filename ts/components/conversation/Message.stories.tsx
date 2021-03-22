@@ -111,6 +111,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   isTapToViewError: overrideProps.isTapToViewError,
   isTapToViewExpired: overrideProps.isTapToViewExpired,
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
+  markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
   openConversation: action('openConversation'),
   openLink: action('openLink'),
   previews: overrideProps.previews || [],

@@ -90,6 +90,7 @@ export type AudioAttachmentProps = {
   withContentBelow: boolean;
 
   kickOffAttachmentDownload(): void;
+  onCorrupted(): void;
 };
 
 export type PropsData = {
@@ -182,6 +183,10 @@ export type PropsActions = {
   showContactModal: (contactId: string) => void;
 
   kickOffAttachmentDownload: (options: {
+    attachment: AttachmentType;
+    messageId: string;
+  }) => void;
+  markAttachmentAsCorrupted: (options: {
     attachment: AttachmentType;
     messageId: string;
   }) => void;
@@ -686,6 +691,7 @@ export class Message extends React.PureComponent<Props, State> {
       i18n,
       id,
       kickOffAttachmentDownload,
+      markAttachmentAsCorrupted,
       quote,
       showVisualAttachment,
       isSticker,
@@ -769,6 +775,12 @@ export class Message extends React.PureComponent<Props, State> {
 
         kickOffAttachmentDownload() {
           kickOffAttachmentDownload({
+            attachment: firstAttachment,
+            messageId: id,
+          });
+        },
+        onCorrupted() {
+          markAttachmentAsCorrupted({
             attachment: firstAttachment,
             messageId: id,
           });

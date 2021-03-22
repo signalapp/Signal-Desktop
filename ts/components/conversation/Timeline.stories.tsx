@@ -235,6 +235,7 @@ const actions = () => ({
   showContactDetail: action('showContactDetail'),
   showContactModal: action('showContactModal'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
+  markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
   showVisualAttachment: action('showVisualAttachment'),
   downloadAttachment: action('downloadAttachment'),
   displayTapToViewMessage: action('displayTapToViewMessage'),

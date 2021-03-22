@@ -49,6 +49,7 @@ export type AttachmentType = {
     contentType: MIME.MIMEType;
     path: string;
   };
+  isCorrupted?: boolean;
 };
 
 // UI-focused functions
@@ -87,6 +88,7 @@ export function isAudio(
     attachments &&
     attachments[0] &&
     attachments[0].contentType &&
+    !attachments[0].isCorrupted &&
     MIME.isAudio(attachments[0].contentType)
   );
 }

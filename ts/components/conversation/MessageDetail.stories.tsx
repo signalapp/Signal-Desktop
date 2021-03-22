@@ -36,6 +36,7 @@ const defaultMessage: MessageProps = {
   isBlocked: false,
   isMessageRequestAccepted: true,
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
+  markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
   openConversation: () => null,
   openLink: () => null,
   previews: [],

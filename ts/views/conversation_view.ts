@@ -9,6 +9,7 @@ import { MediaItemType } from '../components/LightboxGallery';
 import { MessageType } from '../state/ducks/conversations';
 import { ConversationModel } from '../models/conversations';
 import { MessageModel } from '../models/messages';
+import { assert } from '../util/assert';
 
 type GetLinkPreviewImageResult = {
   data: ArrayBuffer;
@@ -25,6 +26,11 @@ type GetLinkPreviewResult = {
   image?: GetLinkPreviewImageResult;
   description: string | null;
   date: number | null;
+};
+
+type AttachmentOptions = {
+  messageId: string;
+  attachment: AttachmentType;
 };
 
 const FIVE_MINUTES = 1000 * 60 * 5;
@@ -756,6 +762,16 @@ Whisper.ConversationView = Whisper.View.extend({
       const message = this.model.messageCollection.get(options.messageId);
       await message.queueAttachmentDownloads();
     };
+    const markAttachmentAsCorrupted = (options: AttachmentOptions) => {
+      if (!this.model.messageCollection) {
+        throw new Error('Message collection does not exist');
+      }
+      const message: MessageModel = this.model.messageCollection.get(
+        options.messageId
+      );
+      assert(message, 'Message not found');
+      message.markAttachmentAsCorrupted(options.attachment);
+    };
     const showVisualAttachment = (options: any) => {
       this.showLightbox(options);
     };
@@ -949,6 +965,7 @@ Whisper.ConversationView = Whisper.View.extend({
         downloadAttachment,
         downloadNewVersion,
         kickOffAttachmentDownload,
+        markAttachmentAsCorrupted,
         loadNewerMessages,
         loadNewestMessages: this.loadNewestMessages.bind(this),
         loadAndScroll: this.loadAndScroll.bind(this),

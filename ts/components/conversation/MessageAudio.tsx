@@ -25,6 +25,7 @@ export type Props = {
 
   buttonRef: React.RefObject<HTMLButtonElement>;
   kickOffAttachmentDownload(): void;
+  onCorrupted(): void;
 
   activeAudioID: string | undefined;
   setActiveAudioID: (id: string | undefined) => void;
@@ -208,6 +209,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
 
     buttonRef,
     kickOffAttachmentDownload,
+    onCorrupted,
 
     audio,
     audioContext,
@@ -275,14 +277,27 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
         setPeaks(newPeaks);
         setDuration(Math.max(newDuration, 1e-23));
       } catch (err) {
-        window.log.error('MessageAudio: loadAudio error', err);
+        window.log.error(
+          'MessageAudio: loadAudio error, marking as corrupted',
+          err
+        );
+
+        onCorrupted();
       }
     })();
 
     return () => {
       canceled = true;
     };
-  }, [attachment, audioContext, setDuration, setPeaks, state, waveformCache]);
+  }, [
+    attachment,
+    audioContext,
+    setDuration,
+    setPeaks,
+    onCorrupted,
+    state,
+    waveformCache,
+  ]);
 
   // This effect attaches/detaches event listeners to the global <audio/>
   // instance that we reuse from the GlobalAudioContext.
