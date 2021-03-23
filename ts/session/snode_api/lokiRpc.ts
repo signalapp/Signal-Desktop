@@ -34,12 +34,9 @@ async function lokiFetch(
     if (url.match(/https:\/\//)) {
       // import that this does not get set in lokiFetch fetchOptions
       fetchOptions.agent = snodeHttpsAgent;
-    } else {
-      window.log.warn(
-        'lokirpc:::lokiFetch - insecureNodeFetch http communication',
-        url
-      );
     }
+    window.log.warn(`insecureNodeFetch => lokiFetch of ${url}`);
+
     const response = await insecureNodeFetch(url, fetchOptions);
 
     if (!response.ok) {

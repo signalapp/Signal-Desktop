@@ -23,6 +23,8 @@ class StubMessageAPI {
     };
 
     const data64 = StringUtils.decode(data, 'base64');
+    // insecureNodeFetch but this is a stub
+
     await insecureNodeFetch(
       `${
         this.baseUrl
