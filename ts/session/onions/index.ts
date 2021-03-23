@@ -2,8 +2,9 @@ import { allowOnlyOneAtATime } from '../../../js/modules/loki_primitives';
 import { getGuardNodes } from '../../../ts/data/data';
 import * as SnodePool from '../snode_api/snodePool';
 import _ from 'lodash';
-import fetch from 'node-fetch';
+import { default as insecureNodeFetch } from 'node-fetch';
 import { UserUtils } from '../utils';
+import { snodeHttpsAgent } from '../snode_api/onions';
 
 type Snode = SnodePool.Snode;
 
@@ -155,23 +156,22 @@ export class OnionPaths {
       body: JSON.stringify(body),
       headers: { 'Content-Type': 'application/json' },
       timeout: 10000, // 10s, we want a smaller timeout for testing
+      agent: snodeHttpsAgent,
     };
-
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
     let response;
 
     try {
       // Log this line for testing
       // curl -k -X POST -H 'Content-Type: application/json' -d '"+fetchOptions.body.replace(/"/g, "\\'")+"'", url
-      response = await fetch(url, fetchOptions);
+      window.log.info('insecureNodeFetch => plaintext for testGuardNode');
+
+      response = await insecureNodeFetch(url, fetchOptions);
     } catch (e) {
       if (e.type === 'request-timeout') {
         log.warn('test timeout for node,', snode);
       }
       return false;
-    } finally {
-      process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
     }
 
     if (!response.ok) {

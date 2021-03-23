@@ -4240,14 +4240,6 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
-    "rule": "jQuery-append(",
-    "path": "node_modules/node-fetch/lib/headers.js",
-    "line": "\t\t\t\tself.append(prop, item.toString());",
-    "lineNumber": 40,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "node_modules/node-forge/dist/forge.all.min.js",
     "lineNumber": 4,

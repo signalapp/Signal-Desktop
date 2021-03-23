@@ -1,5 +1,5 @@
 import { processMessage, SwarmPolling } from './swarmPolling';
-import fetch from 'node-fetch';
+import { default as insecureNodeFetch } from 'node-fetch';
 import { PubKey } from '../types';
 
 export class SwarmPollingStub extends SwarmPolling {
@@ -12,7 +12,7 @@ export class SwarmPollingStub extends SwarmPolling {
       method: 'GET',
     };
 
-    const res = await fetch(
+    const res = await insecureNodeFetch(
       `${this.baseUrl}/messages?pubkey=${pubkeyStr}`,
       get
     );

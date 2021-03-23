@@ -1,7 +1,7 @@
 /* global log, textsecure, libloki, Signal, Whisper,
 clearTimeout, getMessageController, libsignal, StringView, window, _,
 dcodeIO, Buffer, process */
-const nodeFetch = require('node-fetch');
+const insecureNodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
 const FormData = require('form-data');
 const https = require('https');
@@ -253,7 +253,7 @@ const serverRequest = async (endpoint, options = {}) => {
   let response;
   let result;
   let txtResponse;
-  let mode = 'nodeFetch';
+  let mode = 'insecureNodeFetch';
   try {
     const host = url.host.toLowerCase();
     // log.info('host', host, FILESERVER_HOSTS);
@@ -268,7 +268,12 @@ const serverRequest = async (endpoint, options = {}) => {
         fetchOptions,
         options
       ));
-    } else if (window.lokiFeatureFlags.useFileOnionRequests && srvPubKey) {
+    } else if (window.lokiFeatureFlags.useFileOnionRequests) {
+      if (!srvPubKey) {
+        throw new Error(
+          'useFileOnionRequests=true but we do not have a server pubkey set.'
+        );
+      }
       mode = 'sendViaOnionOG';
       ({ response, txtResponse, result } = await sendViaOnion(
         srvPubKey,
@@ -277,13 +282,9 @@ const serverRequest = async (endpoint, options = {}) => {
         options
       ));
     } else {
-      // disable check for .loki
-      process.env.NODE_TLS_REJECT_UNAUTHORIZED = host.match(/\.loki$/i)
-        ? '0'
-        : '1';
-      result = await nodeFetch(url, fetchOptions);
-      // always make sure this check is enabled
-      process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
+      // we end up here only if window.lokiFeatureFlags.useFileOnionRequests is false
+      log.info(`insecureNodeFetch => plaintext for ${url}`);
+      result = await insecureNodeFetch(url, fetchOptions);
 
       txtResponse = await result.text();
       // cloudflare timeouts (504s) will be html...
@@ -1395,23 +1396,13 @@ class LokiPublicChannelAPI {
           // do we already have this image? no, then
 
           // download a copy and save it
-          const imageData = await nodeFetch(avatarAbsUrl);
-          // eslint-disable-next-line no-inner-declarations
-          function toArrayBuffer(buf) {
-            const ab = new ArrayBuffer(buf.length);
-            const view = new Uint8Array(ab);
-            // eslint-disable-next-line no-plusplus
-            for (let i = 0; i < buf.length; i++) {
-              view[i] = buf[i];
-            }
-            return ab;
-          }
-          // eslint-enable-next-line no-inner-declarations
+          const imageData = await this.serverAPI.downloadAttachment(
+            avatarAbsUrl
+          );
 
-          const buffer = await imageData.buffer();
           const newAttributes = await window.Signal.Types.Conversation.maybeUpdateAvatar(
             this.conversation.attributes,
-            toArrayBuffer(buffer),
+            imageData,
             {
               writeNewAttachmentData,
               deleteAttachmentData,

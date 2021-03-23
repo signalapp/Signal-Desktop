@@ -127,8 +127,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     if (error) {
       ToastUtils.pushToastError('addContact', error);
     } else {
-      // tslint:disable-next-line: no-floating-promises
-      ConversationController.getInstance()
+      void ConversationController.getInstance()
         .getOrCreateAndWait(sessionID, 'private')
         .then(() => {
           this.props.openConversationExternal(sessionID);
