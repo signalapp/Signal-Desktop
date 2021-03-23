@@ -19,6 +19,10 @@ import {
   updateSnodesFor,
 } from './snodePool';
 
+/**
+ * Currently unused. If we need it again, be sure to update it to onion routing rather
+ * than using a plain nodeFetch
+ */
 export async function getVersion(
   node: Snode,
   retries: number = 0
@@ -28,8 +32,7 @@ export async function getVersion(
   const { log } = window;
 
   try {
-    // window.log.info('insecureNodeFetch => plaintext for getVersion');
-
+    window.log.warn('insecureNodeFetch => plaintext for getVersion');
     const result = await insecureNodeFetch(
       `https://${node.ip}:${node.port}/get_stats/v1`,
       {

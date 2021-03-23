@@ -136,13 +136,18 @@ function compareSnodes(lhs: any, rhs: any): boolean {
   return lhs.pubkey_ed25519 === rhs.pubkey_ed25519;
 }
 
-// WARNING: this leaks our IP to all snodes but with no other identifying information
-// except "that a client started up" or "ran out of random pool snodes"
-// and the order of the list is randomized, so a snode can't tell if it just started or not
+/**
+ * Request the version of the snode.
+ * THIS IS AN INSECURE NODE FETCH and leaks our IP to all snodes but with no other identifying information
+ * except "that a client started up" or "ran out of random pool snodes"
+ * and the order of the list is randomized, so a snode can't tell if it just started or not
+ */
 async function requestVersion(node: any): Promise<void> {
   const { log } = window;
 
-  const result = await getVersion(node);
+  // WARNING: getVersion is doing an insecure node fetch.
+  // be sure to update getVersion to onion routing if we need this call again.
+  const result = false; // await getVersion(node);
 
   if (result === false) {
     return;
@@ -177,8 +182,13 @@ export function getNodesMinVersion(minVersion: string): Array<Snode> {
   );
 }
 
-// now get version for all snodes
-// also acts an early online test/purge of bad nodes
+/**
+ * Currently unused as it makes call over insecure node fetch and we don't need
+ * to filter out nodes by versions anymore.
+ *
+ * now get version for all snodes
+ * also acts an early online test/purge of bad nodes
+ */
 export async function getAllVersionsForRandomSnodePool(): Promise<void> {
   const { log } = window;
 
@@ -284,7 +294,9 @@ async function refreshRandomPoolDetail(seedNodes: Array<any>): Promise<void> {
       randomSnodePool.length,
       'snodes'
     );
-    void getAllVersionsForRandomSnodePool();
+    // Warning: the call below will call getVersions to all existing nodes.
+    // And not with onion routing
+    // void getAllVersionsForRandomSnodePool();
   } catch (e) {
     log.warn('LokiSnodeAPI::refreshRandomPool - error', e.code, e.message);
     /*

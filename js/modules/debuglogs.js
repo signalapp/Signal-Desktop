@@ -10,6 +10,7 @@ const USER_AGENT = `Session ${VERSION}`;
 
 //      upload :: String -> Promise URL
 exports.upload = async content => {
+  window.log.warn('insecureNodeFetch => upload debugLogs');
   const signedForm = await insecureNodeFetch(BASE_URL, {
     headers: {
       'user-agent': USER_AGENT,
