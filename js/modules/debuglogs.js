@@ -2,7 +2,7 @@
 /* global window */
 
 const FormData = require('form-data');
-const fetch = require('node-fetch');
+const insecureNodeFetch = require('node-fetch');
 
 const BASE_URL = 'https://debuglogs.org';
 const VERSION = window.getVersion();
@@ -10,7 +10,7 @@ const USER_AGENT = `Session ${VERSION}`;
 
 //      upload :: String -> Promise URL
 exports.upload = async content => {
-  const signedForm = await fetch(BASE_URL, {
+  const signedForm = await insecureNodeFetch(BASE_URL, {
     headers: {
       'user-agent': USER_AGENT,
     },
@@ -38,7 +38,7 @@ exports.upload = async content => {
     filename: `session-desktop-debug-log-${VERSION}.txt`,
   });
 
-  const result = await fetch(url, {
+  const result = await insecureNodeFetch(url, {
     method: 'POST',
     body: form,
   });
