@@ -2719,6 +2719,10 @@ async function saveMessage(
   }
 
   try {
+    await db.run('DELETE FROM messages_fts WHERE id = $id;', {
+      $id: id,
+    });
+
     await Promise.all([
       db.run(
         `INSERT INTO messages (
