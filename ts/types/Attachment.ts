@@ -1,9 +1,8 @@
 import is from '@sindresorhus/is';
 import moment from 'moment';
-import { padStart } from 'lodash';
+import { isArrayBuffer, padStart } from 'lodash';
 
 import * as MIME from './MIME';
-import { arrayBufferToObjectURL } from '../util/arrayBufferToObjectURL';
 import { saveURLAsFile } from '../util/saveURLAsFile';
 import { SignalService } from '../protobuf';
 import {
@@ -11,6 +10,9 @@ import {
   isVideoTypeSupported,
 } from '../util/GoogleChrome';
 import { LocalizerType } from './Util';
+import { fromHexToArray, toHex } from '../session/utils/String';
+import { getSodium } from '../session/crypto';
+import { fromHex } from 'bytebuffer';
 
 const MAX_WIDTH = 300;
 const MAX_HEIGHT = MAX_WIDTH * 1.5;
@@ -415,4 +417,86 @@ export const getFileExtension = (
     default:
       return attachment.contentType.split('/')[1];
   }
+};
+let indexEncrypt = 0;
+
+export const encryptAttachmentBuffer = async (bufferIn: ArrayBuffer) => {
+  if (!isArrayBuffer(bufferIn)) {
+    throw new TypeError("'bufferIn' must be an array buffer");
+  }
+  const ourIndex = indexEncrypt;
+  indexEncrypt++;
+  console.time(`timer #*. encryptAttachmentBuffer ${ourIndex}`);
+
+  const uintArrayIn = new Uint8Array(bufferIn);
+  const sodium = await getSodium();
+
+  /* Shared secret key required to encrypt/decrypt the stream */
+  // const key = sodium.crypto_secretstream_xchacha20poly1305_keygen();
+
+  const key = fromHexToArray(
+    '0c5f7147b6d3239cbb5a418814cee1bfca2df5c94bffddf22ee37eea3ede972b'
+  );
+  console.warn('key', toHex(key));
+
+  /* Set up a new stream: initialize the state and create the header */
+  const {
+    state,
+    header,
+  } = sodium.crypto_secretstream_xchacha20poly1305_init_push(key);
+  console.warn('header', toHex(header));
+  /* Now, encrypt the buffer. */
+  const bufferOut = sodium.crypto_secretstream_xchacha20poly1305_push(
+    state,
+    uintArrayIn,
+    null,
+    sodium.crypto_secretstream_xchacha20poly1305_TAG_FINAL
+  );
+
+  const encryptedBufferWithHeader = new Uint8Array(
+    bufferOut.length + header.length
+  );
+  encryptedBufferWithHeader.set(header);
+  encryptedBufferWithHeader.set(bufferOut, header.length);
+  console.warn('bufferOut', toHex(encryptedBufferWithHeader));
+  console.timeEnd(`timer #*. encryptAttachmentBuffer ${ourIndex}`);
+
+  return { encryptedBufferWithHeader, header, key };
+};
+
+let indexDecrypt = 0;
+
+export const decryptAttachmentBuffer = async (
+  bufferIn: ArrayBuffer,
+  key: string = '0c5f7147b6d3239cbb5a418814cee1bfca2df5c94bffddf22ee37eea3ede972b'
+) => {
+  if (!isArrayBuffer(bufferIn)) {
+    throw new TypeError("'bufferIn' must be an array buffer");
+  }
+  const ourIndex = indexDecrypt;
+  indexDecrypt++;
+  console.time(`timer .*# decryptAttachmentBuffer ${ourIndex}`);
+  const sodium = await getSodium();
+
+  const header = new Uint8Array(
+    bufferIn.slice(0, sodium.crypto_secretstream_xchacha20poly1305_HEADERBYTES)
+  );
+  const encryptedBuffer = new Uint8Array(
+    bufferIn.slice(sodium.crypto_secretstream_xchacha20poly1305_HEADERBYTES)
+  );
+
+  /* Decrypt the stream: initializes the state, using the key and a header */
+  const state = sodium.crypto_secretstream_xchacha20poly1305_init_pull(
+    header,
+    fromHexToArray(key)
+  );
+  // what if ^ this call fail (? try to load as a unencrypted attachment?)
+
+  const messageTag = sodium.crypto_secretstream_xchacha20poly1305_pull(
+    state,
+    encryptedBuffer
+  );
+  console.timeEnd(`timer .*# decryptAttachmentBuffer ${ourIndex}`);
+
+  return messageTag.message;
 };

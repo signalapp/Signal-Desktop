@@ -1,12 +1,18 @@
+/* eslint-disable more/no-then */
 /* global document, URL, Blob */
 
 const loadImage = require('blueimp-load-image');
 const { toLogFormat } = require('./errors');
+const toArrayBuffer = require('to-arraybuffer');
+
 const dataURLToBlobSync = require('blueimp-canvas-to-blob');
+const fse = require('fs-extra');
+
 const { blobToArrayBuffer } = require('blob-util');
 const {
   arrayBufferToObjectURL,
 } = require('../../../ts/util/arrayBufferToObjectURL');
+const AttachmentTS = require('../../../ts/types/Attachment');
 
 exports.blobToArrayBuffer = blobToArrayBuffer;
 
@@ -24,8 +30,17 @@ exports.getImageDimensions = ({ objectUrl, logger }) =>
       logger.error('getImageDimensions error', toLogFormat(error));
       reject(error);
     });
-
-    image.src = objectUrl;
+    fse.readFile(objectUrl).then(buffer => {
+      AttachmentTS.decryptAttachmentBuffer(toArrayBuffer(buffer)).then(
+        decryptedData => {
+          //FIXME image/jpeg is hard coded
+          const srcData = `data:image/jpg;base64,${window.libsession.Utils.StringUtils.fromArrayBufferToBase64(
+            toArrayBuffer(decryptedData)
+          )}`;
+          image.src = srcData;
+        }
+      );
+    });
   });
 
 exports.makeImageThumbnail = ({
@@ -70,7 +85,17 @@ exports.makeImageThumbnail = ({
       reject(error);
     });
 
-    image.src = objectUrl;
+    fse.readFile(objectUrl).then(buffer => {
+      AttachmentTS.decryptAttachmentBuffer(toArrayBuffer(buffer)).then(
+        decryptedData => {
+          //FIXME image/jpeg is hard coded
+          const srcData = `data:image/jpg;base64,${window.libsession.Utils.StringUtils.fromArrayBufferToBase64(
+            toArrayBuffer(decryptedData)
+          )}`;
+          image.src = srcData;
+        }
+      );
+    });
   });
 
 exports.makeVideoScreenshot = ({

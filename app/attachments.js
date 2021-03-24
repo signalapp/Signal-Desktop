@@ -6,6 +6,7 @@ const glob = require('glob');
 const fse = require('fs-extra');
 const toArrayBuffer = require('to-arraybuffer');
 const { map, isArrayBuffer, isString } = require('lodash');
+const AttachmentTS = require('../ts/types/Attachment');
 
 const PATH = 'attachments.noindex';
 
@@ -45,14 +46,18 @@ exports.createReader = root => {
     if (!isString(relativePath)) {
       throw new TypeError("'relativePath' must be a string");
     }
-
+    console.time(`readFile: ${relativePath}`);
     const absolutePath = path.join(root, relativePath);
     const normalized = path.normalize(absolutePath);
     if (!normalized.startsWith(root)) {
       throw new Error('Invalid relative path');
     }
     const buffer = await fse.readFile(normalized);
-    return toArrayBuffer(buffer);
+    const decryptedData = await AttachmentTS.decryptAttachmentBuffer(
+      toArrayBuffer(buffer)
+    );
+
+    return decryptedData.buffer;
   };
 };
 
@@ -95,7 +100,6 @@ exports.createWriterForExisting = root => {
       throw new TypeError("'arrayBuffer' must be an array buffer");
     }
 
-    const buffer = Buffer.from(arrayBuffer);
     const absolutePath = path.join(root, relativePath);
     const normalized = path.normalize(absolutePath);
     if (!normalized.startsWith(root)) {
@@ -103,7 +107,13 @@ exports.createWriterForExisting = root => {
     }
 
     await fse.ensureFile(normalized);
+    const {
+      encryptedBufferWithHeader,
+    } = await AttachmentTS.encryptAttachmentBuffer(arrayBuffer);
+    const buffer = Buffer.from(encryptedBufferWithHeader.buffer);
+
     await fse.writeFile(normalized, buffer);
+
     return relativePath;
   };
 };
