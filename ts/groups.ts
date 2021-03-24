@@ -1163,11 +1163,13 @@ export async function uploadGroupChange({
 export async function modifyGroupV2({
   conversation,
   createGroupChange,
+  extraConversationsForSend,
   inviteLinkPassword,
   name,
 }: {
   conversation: ConversationModel;
   createGroupChange: () => Promise<GroupChangeClass.Actions | undefined>;
+  extraConversationsForSend?: Array<string>;
   inviteLinkPassword?: string;
   name: string;
 }): Promise<void> {
@@ -1248,6 +1250,7 @@ export async function modifyGroupV2({
               groupV2: conversation.getGroupV2Info({
                 groupChange: groupChangeBuffer,
                 includePendingMembers: true,
+                extraConversationsForSend,
               }),
               timestamp,
               profileKey,

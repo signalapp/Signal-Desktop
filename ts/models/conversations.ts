@@ -42,6 +42,7 @@ import { GroupChangeClass } from '../textsecure.d';
 import { BodyRangesType } from '../types/Util';
 import { getTextWithMentions } from '../util';
 import { migrateColor } from '../util/migrateColor';
+import { isNotNil } from '../util/isNotNil';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -722,17 +723,20 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   async modifyGroupV2({
-    name,
-    inviteLinkPassword,
     createGroupChange,
+    extraConversationsForSend,
+    inviteLinkPassword,
+    name,
   }: {
-    name: string;
-    inviteLinkPassword?: string;
     createGroupChange: () => Promise<GroupChangeClass.Actions | undefined>;
+    extraConversationsForSend?: Array<string>;
+    inviteLinkPassword?: string;
+    name: string;
   }): Promise<void> {
     await window.Signal.Groups.modifyGroupV2({
-      createGroupChange,
       conversation: this,
+      createGroupChange,
+      extraConversationsForSend,
       inviteLinkPassword,
       name,
     });
@@ -1011,11 +1015,15 @@ export class ConversationModel extends window.Backbone.Model<
     window.Signal.Data.updateConversation(this.attributes);
   }
 
-  getGroupV2Info(
-    options: { groupChange?: ArrayBuffer; includePendingMembers?: boolean } = {}
-  ): GroupV2InfoType | undefined {
-    const { groupChange, includePendingMembers } = options;
-
+  getGroupV2Info({
+    groupChange,
+    includePendingMembers,
+    extraConversationsForSend,
+  }: {
+    groupChange?: ArrayBuffer;
+    includePendingMembers?: boolean;
+    extraConversationsForSend?: Array<string>;
+  } = {}): GroupV2InfoType | undefined {
     if (this.isPrivate() || !this.isGroupV2()) {
       return undefined;
     }
@@ -1028,6 +1036,7 @@ export class ConversationModel extends window.Backbone.Model<
       revision: this.get('revision')!,
       members: this.getRecipients({
         includePendingMembers,
+        extraConversationsForSend,
       }),
       groupChange,
     };
@@ -1833,17 +1842,20 @@ export class ConversationModel extends window.Backbone.Model<
       await this.modifyGroupV2({
         name: 'removePendingMember',
         createGroupChange: () => this.removePendingMember(conversationIds),
+        extraConversationsForSend: conversationIds,
       });
     } else if (this.isMemberRequestingToJoin(conversationId)) {
       await this.modifyGroupV2({
         name: 'denyPendingApprovalRequest',
         createGroupChange: () =>
           this.denyPendingApprovalRequest(conversationId),
+        extraConversationsForSend: [conversationId],
       });
     } else if (this.isMemberPending(conversationId)) {
       await this.modifyGroupV2({
         name: 'removePendingMember',
         createGroupChange: () => this.removePendingMember([conversationId]),
+        extraConversationsForSend: [conversationId],
       });
     }
   }
@@ -1854,16 +1866,19 @@ export class ConversationModel extends window.Backbone.Model<
         name: 'denyPendingApprovalRequest',
         createGroupChange: () =>
           this.denyPendingApprovalRequest(conversationId),
+        extraConversationsForSend: [conversationId],
       });
     } else if (this.isGroupV2() && this.isMemberPending(conversationId)) {
       await this.modifyGroupV2({
         name: 'removePendingMember',
         createGroupChange: () => this.removePendingMember([conversationId]),
+        extraConversationsForSend: [conversationId],
       });
     } else if (this.isGroupV2() && this.isMember(conversationId)) {
       await this.modifyGroupV2({
         name: 'removeFromGroup',
         createGroupChange: () => this.removeMember(conversationId),
+        extraConversationsForSend: [conversationId],
       });
     } else {
       window.log.error(
@@ -2835,16 +2850,31 @@ export class ConversationModel extends window.Backbone.Model<
     return members.map(member => member.id);
   }
 
-  getRecipients(
-    options: { includePendingMembers?: boolean } = {}
-  ): Array<string> {
-    const { includePendingMembers } = options;
-
+  getRecipients({
+    includePendingMembers,
+    extraConversationsForSend,
+  }: {
+    includePendingMembers?: boolean;
+    extraConversationsForSend?: Array<string>;
+  } = {}): Array<string> {
     const members = this.getMembers({ includePendingMembers });
 
-    // Eliminate our
+    // There are cases where we need to send to someone we just removed from the group, to
+    //   let them know that we removed them. In that case, we need to send to more than
+    //   are currently in the group.
+    const extraConversations = extraConversationsForSend
+      ? extraConversationsForSend
+          .map(id => window.ConversationController.get(id))
+          .filter(isNotNil)
+      : [];
+
+    const unique = extraConversations.length
+      ? window._.unique([...members, ...extraConversations])
+      : members;
+
+    // Eliminate ourself
     return window._.compact(
-      members.map(member => (member.isMe() ? null : member.getSendTarget()))
+      unique.map(member => (member.isMe() ? null : member.getSendTarget()))
     );
   }
 
