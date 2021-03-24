@@ -29,7 +29,6 @@ export function processMessage(message: string, options: any = {}) {
     const dataPlaintext = new Uint8Array(StringUtils.encode(message, 'base64'));
     const messageBuf = SignalService.WebSocketMessage.decode(dataPlaintext);
     if (messageBuf.type === SignalService.WebSocketMessage.Type.REQUEST) {
-      // tslint:disable-next-line no-floating-promises
       Receiver.handleRequest(messageBuf.request?.body, options);
     }
   } catch (error) {

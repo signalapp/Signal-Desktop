@@ -1,10 +1,12 @@
 // we don't throw or catch here
-
-import https from 'https';
-import fetch from 'node-fetch';
+import { default as insecureNodeFetch } from 'node-fetch';
 
 import { snodeRpc } from './lokiRpc';
-import { sendOnionRequestLsrpcDest, SnodeResponse } from './onions';
+import {
+  sendOnionRequestLsrpcDest,
+  snodeHttpsAgent,
+  SnodeResponse,
+} from './onions';
 
 import { sleepFor } from '../../../js/modules/loki_primitives';
 
@@ -17,10 +19,10 @@ import {
   updateSnodesFor,
 } from './snodePool';
 
-const snodeHttpsAgent = new https.Agent({
-  rejectUnauthorized: false,
-});
-
+/**
+ * Currently unused. If we need it again, be sure to update it to onion routing rather
+ * than using a plain nodeFetch
+ */
 export async function getVersion(
   node: Snode,
   retries: number = 0
@@ -30,11 +32,13 @@ export async function getVersion(
   const { log } = window;
 
   try {
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-    const result = await fetch(`https://${node.ip}:${node.port}/get_stats/v1`, {
-      agent: snodeHttpsAgent,
-    });
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
+    window.log.warn('insecureNodeFetch => plaintext for getVersion');
+    const result = await insecureNodeFetch(
+      `https://${node.ip}:${node.port}/get_stats/v1`,
+      {
+        agent: snodeHttpsAgent,
+      }
+    );
     const data = await result.json();
     if (data.version) {
       return data.version;
@@ -105,8 +109,9 @@ export async function getSnodesFromSeedUrl(urlObj: URL): Promise<Array<any>> {
     timeout: 10000,
     body: JSON.stringify(body),
   };
+  window.log.info('insecureNodeFetch => plaintext for getSnodesFromSeedUrl');
 
-  const response = await fetch(url, fetchOptions);
+  const response = await insecureNodeFetch(url, fetchOptions);
 
   if (response.status !== 200) {
     log.error(

@@ -437,9 +437,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const newAdmins = _.sortBy(groupAdmins);
 
     if (_.isEqual(existingAdmins, newAdmins)) {
-      window.log.info(
-        'Skipping updates of groupAdmins/moderators. No change detected.'
-      );
+      // window.log.info(
+      //   'Skipping updates of groupAdmins/moderators. No change detected.'
+      // );
       return;
     }
     this.set({ groupAdmins });

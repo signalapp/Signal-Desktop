@@ -1,48 +1,15 @@
-import fetch from 'node-fetch';
-import https from 'https';
+import { default as insecureNodeFetch } from 'node-fetch';
 
 import { Snode } from './snodePool';
 
-import { lokiOnionFetch, SnodeResponse } from './onions';
-
-const snodeHttpsAgent = new https.Agent({
-  rejectUnauthorized: false,
-});
-
-async function lokiPlainFetch(
-  url: string,
-  fetchOptions: any
-): Promise<boolean | SnodeResponse> {
-  const { log } = window;
-
-  if (url.match(/https:\/\//)) {
-    // import that this does not get set in lokiFetch fetchOptions
-    fetchOptions.agent = snodeHttpsAgent;
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-  } else {
-    log.debug('lokirpc:::lokiFetch - http communication', url);
-  }
-  const response = await fetch(url, fetchOptions);
-  // restore TLS checking
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
-
-  if (!response.ok) {
-    throw new window.textsecure.HTTPError('Loki_rpc error', response);
-  }
-  const result = await response.text();
-
-  return {
-    body: result,
-    status: response.status,
-  };
-}
+import { lokiOnionFetch, snodeHttpsAgent, SnodeResponse } from './onions';
 
 interface FetchOptions {
   method: string;
 }
 
 // A small wrapper around node-fetch which deserializes response
-// returns nodeFetch response or false
+// returns insecureNodeFetch response or false
 async function lokiFetch(
   url: string,
   options: FetchOptions,
@@ -64,7 +31,23 @@ async function lokiFetch(
       return await lokiOnionFetch(fetchOptions.body, targetNode);
     }
 
-    return await lokiPlainFetch(url, fetchOptions);
+    if (url.match(/https:\/\//)) {
+      // import that this does not get set in lokiFetch fetchOptions
+      fetchOptions.agent = snodeHttpsAgent;
+    }
+    window.log.warn(`insecureNodeFetch => lokiFetch of ${url}`);
+
+    const response = await insecureNodeFetch(url, fetchOptions);
+
+    if (!response.ok) {
+      throw new window.textsecure.HTTPError('Loki_rpc error', response);
+    }
+    const result = await response.text();
+
+    return {
+      body: result,
+      status: response.status,
+    };
   } catch (e) {
     if (e.code === 'ENOTFOUND') {
       throw new window.textsecure.NotFoundError('Failed to resolve address', e);
