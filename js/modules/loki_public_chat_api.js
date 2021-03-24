@@ -2,78 +2,93 @@
 const EventEmitter = require('events');
 const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
 
-const nodeFetch = require('node-fetch');
+const insecureNodeFetch = require('node-fetch');
 
+/**
+ * Tries to establish a connection with the specified open group url.
+ *
+ * This will try to do an onion routing call if the `useFileOnionRequests` feature flag is set,
+ * or call directly insecureNodeFetch if it's not.
+ *
+ * Returns
+ *  * true if useFileOnionRequests is false and no exception where thrown by insecureNodeFetch
+ *  * true if useFileOnionRequests is true and we established a connection to the server with onion routing
+ *  * false otherwise
+ *
+ */
 const validOpenGroupServer = async serverUrl => {
   // test to make sure it's online (and maybe has a valid SSL cert)
   try {
     const url = new URL(serverUrl);
 
-    if (window.lokiFeatureFlags.useFileOnionRequests) {
-      // check for LSRPC
+    if (!window.lokiFeatureFlags.useFileOnionRequests) {
+      // we are not running with onion request
+      // this is an insecure insecureNodeFetch. It will expose the user ip to the serverUrl (not onion routed)
+      log.info(`insecureNodeFetch => plaintext for ${url.toString()}`);
 
-      // this is safe (as long as node's in your trust model)
-      // because
-      const result = await window.tokenlessFileServerAdnAPI.serverRequest(
-        `loki/v1/getOpenGroupKey/${url.hostname}`
-      );
-
-      if (result.response.meta.code === 200) {
-        // supports it
-        const obj = JSON.parse(result.response.data);
-        const pubKey = dcodeIO.ByteBuffer.wrap(
-          obj.data,
-          'base64'
-        ).toArrayBuffer();
-        // verify it works...
-        // get around the FILESERVER_HOSTS filter by not using serverRequest
-        const res = await LokiAppDotNetAPI.sendViaOnion(
-          pubKey,
-          url,
-          { method: 'GET' },
-          { noJson: true }
-        );
-        if (res.result && res.result.status === 200) {
-          log.info(
-            `loki_public_chat::validOpenGroupServer - onion routing enabled on ${url.toString()}`
-          );
-          // save pubkey for use...
-          window.lokiPublicChatAPI.openGroupPubKeys[serverUrl] = pubKey;
-          return true;
-        }
-        // otherwise fall back
-      } else if (result.response.meta.code !== 404) {
-        // unknown error code
-        log.warn(
-          'loki_public_chat::validOpenGroupServer - unknown error code',
-          result.response.meta
-        );
-      }
+      // we probably have to check the response here
+      await insecureNodeFetch(serverUrl);
+      return true;
     }
-    // doesn't support it, fallback
-    log.info(
-      `loki_public_chat::validOpenGroupServer - directly contacting ${url.toString()}`
+    // This MUST be an onion routing call, no nodeFetch calls below here.
+
+    /**
+     * this is safe (as long as node's in your trust model)
+     *
+     * First, we need to fetch the open group public key of this open group.
+     * The fileserver have all the open groups public keys.
+     * We need the open group public key because for onion routing we will need to encode
+     * our request with it.
+     * We can just ask the file-server to get the one for the open group we are trying to add.
+     */
+
+    const result = await window.tokenlessFileServerAdnAPI.serverRequest(
+      `loki/v1/getOpenGroupKey/${url.hostname}`
     );
 
-    // allow .loki (may only need an agent but not sure
-    //              until we have a .loki to test with)
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = url.host.match(/\.loki$/i)
-      ? '0'
-      : '1';
-    await nodeFetch(serverUrl);
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
-    // const txt = await res.text();
+    if (result.response.meta.code === 200) {
+      // we got the public key of the server we are trying to add.
+      // decode it.
+      const obj = JSON.parse(result.response.data);
+      const pubKey = dcodeIO.ByteBuffer.wrap(
+        obj.data,
+        'base64'
+      ).toArrayBuffer();
+      // verify we can make an onion routed call to that open group with the decoded public key
+      // get around the FILESERVER_HOSTS filter by not using serverRequest
+      const res = await LokiAppDotNetAPI.sendViaOnion(
+        pubKey,
+        url,
+        { method: 'GET' },
+        { noJson: true }
+      );
+      if (res.result && res.result.status === 200) {
+        log.info(
+          `loki_public_chat::validOpenGroupServer - onion routing enabled on ${url.toString()}`
+        );
+        // save pubkey for use...
+        window.lokiPublicChatAPI.openGroupPubKeys[serverUrl] = pubKey;
+        return true;
+      }
+      // return here, just so we are sure adding some code below won't do a nodeFetch fallback
+      return false;
+    } else if (result.response.meta.code !== 404) {
+      // unknown error code
+      log.warn(
+        'loki_public_chat::validOpenGroupServer - unknown error code',
+        result.response.meta
+      );
+    }
+    return false;
   } catch (e) {
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
     log.warn(
       `loki_public_chat::validOpenGroupServer - failing to create ${serverUrl}`,
       e.code,
       e.message
     );
     // bail out if not valid enough
-    return false;
   }
-  return true;
+  return false;
 };
 
 class LokiPublicChatFactoryAPI extends EventEmitter {

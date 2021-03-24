@@ -108,8 +108,7 @@ export function markNodeUnreachable(snode: Snode): void {
   for (const [pubkey, nodes] of nodesForPubkey) {
     const edkeys = _.filter(nodes, edkey => edkey !== snode.pubkey_ed25519);
 
-    // tslint:disable-next-line no-floating-promises
-    internalUpdateSnodesFor(pubkey, edkeys);
+    void internalUpdateSnodesFor(pubkey, edkeys);
   }
 
   log.warn(
@@ -137,13 +136,18 @@ function compareSnodes(lhs: any, rhs: any): boolean {
   return lhs.pubkey_ed25519 === rhs.pubkey_ed25519;
 }
 
-// WARNING: this leaks our IP to all snodes but with no other identifying information
-// except "that a client started up" or "ran out of random pool snodes"
-// and the order of the list is randomized, so a snode can't tell if it just started or not
+/**
+ * Request the version of the snode.
+ * THIS IS AN INSECURE NODE FETCH and leaks our IP to all snodes but with no other identifying information
+ * except "that a client started up" or "ran out of random pool snodes"
+ * and the order of the list is randomized, so a snode can't tell if it just started or not
+ */
 async function requestVersion(node: any): Promise<void> {
   const { log } = window;
 
-  const result = await getVersion(node);
+  // WARNING: getVersion is doing an insecure node fetch.
+  // be sure to update getVersion to onion routing if we need this call again.
+  const result = false; // await getVersion(node);
 
   if (result === false) {
     return;
@@ -178,9 +182,14 @@ export function getNodesMinVersion(minVersion: string): Array<Snode> {
   );
 }
 
-// now get version for all snodes
-// also acts an early online test/purge of bad nodes
-export async function getAllVerionsForRandomSnodePool(): Promise<void> {
+/**
+ * Currently unused as it makes call over insecure node fetch and we don't need
+ * to filter out nodes by versions anymore.
+ *
+ * now get version for all snodes
+ * also acts an early online test/purge of bad nodes
+ */
+export async function getAllVersionsForRandomSnodePool(): Promise<void> {
   const { log } = window;
 
   // let count = 0;
@@ -192,7 +201,7 @@ export async function getAllVerionsForRandomSnodePool(): Promise<void> {
       await requestVersion(node);
     } catch (e) {
       log.error(
-        'LokiSnodeAPI::_getAllVerionsForRandomSnodePool - error',
+        'LokiSnodeAPI::_getAllVersionsForRandomSnodePool - error',
         e.code,
         e.message
       );
@@ -211,7 +220,7 @@ export async function getAllVerionsForRandomSnodePool(): Promise<void> {
     return curVal;
   }, []);
   log.debug(
-    `LokiSnodeAPI::_getAllVerionsForRandomSnodePool - ${versions.length} versions retrieved from network!:`,
+    `LokiSnodeAPI::_getAllVersionsForRandomSnodePool - ${versions.length} versions retrieved from network!:`,
     versions.join(',')
   );
 }
@@ -248,8 +257,7 @@ async function getSnodeListFromLokidSeednode(
           'seed nodes total',
           seedNodes.length
         );
-        // tslint:disable-next-line:no-floating-promises
-        getSnodeListFromLokidSeednode(seedNodes, retries + 1);
+        void getSnodeListFromLokidSeednode(seedNodes, retries + 1);
       }, retries * retries * 5000);
     } else {
       log.error('loki_snode_api::getSnodeListFromLokidSeednode - failing');
@@ -262,7 +270,7 @@ async function getSnodeListFromLokidSeednode(
 async function refreshRandomPoolDetail(seedNodes: Array<any>): Promise<void> {
   const { log } = window;
 
-  // are we running any _getAllVerionsForRandomSnodePool
+  // are we running any _getAllVersionsForRandomSnodePool
   if (stopGetAllVersionPromiseControl !== false) {
     // we are, stop them
     stopGetAllVersionPromiseControl();
@@ -286,8 +294,9 @@ async function refreshRandomPoolDetail(seedNodes: Array<any>): Promise<void> {
       randomSnodePool.length,
       'snodes'
     );
-    // tslint:disable-next-line:no-floating-promises
-    getAllVerionsForRandomSnodePool();
+    // Warning: the call below will call getVersions to all existing nodes.
+    // And not with onion routing
+    // void getAllVersionsForRandomSnodePool();
   } catch (e) {
     log.warn('LokiSnodeAPI::refreshRandomPool - error', e.code, e.message);
     /*
@@ -358,8 +367,7 @@ export async function getSnodesFor(pubkey: string): Promise<Array<Snode>> {
     const freshNodes = _.shuffle(await requestSnodesForPubkey(pubkey));
 
     const edkeys = freshNodes.map((n: Snode) => n.pubkey_ed25519);
-    // tslint:disable-next-line no-floating-promises
-    internalUpdateSnodesFor(pubkey, edkeys);
+    void internalUpdateSnodesFor(pubkey, edkeys);
     // TODO: We could probably check that the retuned sndoes are not "unreachable"
 
     return freshNodes;

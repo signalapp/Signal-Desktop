@@ -9,7 +9,6 @@ import {
   IMAGE_WEBP,
   MIMEType,
 } from '../types/MIME';
-import { PromiseUtils } from '../session/utils';
 
 const MAX_REQUEST_COUNT_WITH_REDIRECTS = 20;
 // tslint:disable: prefer-for-of
