@@ -95,6 +95,7 @@ import { MIMEType } from './types/MIME';
 import { ElectronLocaleType } from './util/mapToSupportLocale';
 import { SignalProtocolStore } from './LibSignalStore';
 import { StartupQueue } from './util/StartupQueue';
+import * as synchronousCrypto from './util/synchronousCrypto';
 
 export { Long } from 'long';
 
@@ -247,6 +248,7 @@ declare global {
     };
     systemTheme: WhatIsThis;
     textsecure: TextSecureType;
+    synchronousCrypto: typeof synchronousCrypto;
     titleBarDoubleClick: () => void;
     unregisterForActive: (handler: () => void) => void;
     updateTrayIcon: (count: number) => void;

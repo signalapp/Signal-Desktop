@@ -411,6 +411,7 @@ try {
   window.nodeSetImmediate = setImmediate;
 
   window.textsecure = require('./ts/textsecure').default;
+  window.synchronousCrypto = require('./ts/util/synchronousCrypto');
 
   window.WebAPI = window.textsecure.WebAPI.initialize({
     url: config.serverUrl,

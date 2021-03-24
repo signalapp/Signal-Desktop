@@ -5,9 +5,13 @@ import pProps from 'p-props';
 import { chunk } from 'lodash';
 
 export function typedArrayToArrayBuffer(typedArray: Uint8Array): ArrayBuffer {
-  const { buffer, byteOffset, byteLength } = typedArray;
-
-  return buffer.slice(byteOffset, byteLength + byteOffset) as typeof typedArray;
+  const ab = new ArrayBuffer(typedArray.length);
+  // Create a new Uint8Array backed by the ArrayBuffer and copy all values from
+  // the `typedArray` into it by calling `.set()` method. Note that raw
+  // ArrayBuffer doesn't offer this API, because it is supposed to be used with
+  // concrete data view (i.e. Uint8Array, Float64Array, and so on.)
+  new Uint8Array(ab).set(typedArray, 0);
+  return ab;
 }
 
 export function arrayBufferToBase64(arrayBuffer: ArrayBuffer): string {

@@ -23897,24 +23897,19 @@ var Internal = Internal || {};
             crypto.getRandomValues(array);
             return array.buffer;
         },
+
         encrypt: function(key, data, iv) {
-            return crypto.subtle.importKey('raw', key, {name: 'AES-CBC'}, false, ['encrypt']).then(function(key) {
-                return crypto.subtle.encrypt({name: 'AES-CBC', iv: new Uint8Array(iv)}, key, data);
-            });
+            return Promise.resolve(window.synchronousCrypto.encrypt(key, data, iv));
         },
         decrypt: function(key, data, iv) {
-            return crypto.subtle.importKey('raw', key, {name: 'AES-CBC'}, false, ['decrypt']).then(function(key) {
-                return crypto.subtle.decrypt({name: 'AES-CBC', iv: new Uint8Array(iv)}, key, data);
-            });
+            return Promise.resolve(window.synchronousCrypto.decrypt(key, data, iv));
         },
         sign: function(key, data) {
-            return crypto.subtle.importKey('raw', key, {name: 'HMAC', hash: {name: 'SHA-256'}}, false, ['sign']).then(function(key) {
-                return crypto.subtle.sign( {name: 'HMAC', hash: 'SHA-256'}, key, data);
-            });
+            return Promise.resolve(window.synchronousCrypto.sign(key, data));
         },
 
         hash: function(data) {
-            return crypto.subtle.digest({name: 'SHA-512'}, data);
+            return Promise.resolve(window.synchronousCrypto.hash(data));
         },
 
         HKDF: function(input, salt, info) {
