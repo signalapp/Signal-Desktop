@@ -8,12 +8,12 @@ import { noopAction } from '../../../state/ducks/noop';
 
 import { StateType, reducer as rootReducer } from '../../../state/reducer';
 
-describe('both/state/selectors/search', () => {
+describe('both/state/ducks/audioPlayer', () => {
   const getEmptyRootState = (): StateType => {
     return rootReducer(undefined, noopAction());
   };
 
-  describe('setActiveAudioId', () => {
+  describe('setActiveAudioID', () => {
     it("updates `activeAudioID` in the audioPlayer's state", () => {
       const state = getEmptyRootState();
       assert.strictEqual(state.audioPlayer.activeAudioID, undefined);
