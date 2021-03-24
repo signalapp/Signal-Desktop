@@ -315,6 +315,10 @@ async function setUserVersion(
 async function keyDatabase(instance: PromisifiedSQLDatabase, key: string) {
   // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
   await instance.run(`PRAGMA key = "x'${key}'";`);
+
+  // https://sqlite.org/wal.html
+  await instance.run('PRAGMA journal_mode = WAL;');
+  await instance.run('PRAGMA synchronous = NORMAL;');
 }
 async function getUserVersion(instance: PromisifiedSQLDatabase) {
   const row = await instance.get('PRAGMA user_version;');
@@ -1928,6 +1932,8 @@ async function removeDB() {
   }
 
   rimraf.sync(databaseFilePath);
+  rimraf.sync(`${databaseFilePath}-shm`);
+  rimraf.sync(`${databaseFilePath}-wal`);
 }
 
 async function removeIndexedDBFiles() {
