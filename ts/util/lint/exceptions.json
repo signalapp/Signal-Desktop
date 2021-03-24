@@ -14667,7 +14667,7 @@
     "rule": "React-useRef",
     "path": "ts/components/conversation/MessageAudio.js",
     "line": "    const waveformRef = react_1.useRef(null);",
-    "lineNumber": 143,
+    "lineNumber": 144,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-09T01:19:04.057Z",
     "reasonDetail": "Used for obtanining the bounding box for the container"

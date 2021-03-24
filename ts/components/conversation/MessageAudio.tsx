@@ -60,10 +60,12 @@ enum State {
 // Constants
 
 const CSS_BASE = 'module-message__audio-attachment';
-const PEAK_COUNT = 47;
+const BAR_COUNT = 47;
 const BAR_NOT_DOWNLOADED_HEIGHT = 2;
 const BAR_MIN_HEIGHT = 4;
 const BAR_MAX_HEIGHT = 20;
+
+const REWIND_BAR_COUNT = 2;
 
 // Increments for keyboard audio seek (in seconds)
 const SMALL_INCREMENT = 1;
@@ -114,8 +116,8 @@ async function loadAudio(options: LoadAudioOptions): Promise<LoadAudioResult> {
   const data = await audioContext.decodeAudioData(raw);
 
   // Compute RMS peaks
-  const peaks = new Array(PEAK_COUNT).fill(0);
-  const norms = new Array(PEAK_COUNT).fill(0);
+  const peaks = new Array(BAR_COUNT).fill(0);
+  const norms = new Array(BAR_COUNT).fill(0);
 
   const samplesPerPeak = data.length / peaks.length;
   for (
@@ -233,7 +235,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
   const [duration, setDuration] = useState(1e-23);
 
   const [peaks, setPeaks] = useState<ReadonlyArray<number>>(
-    new Array(PEAK_COUNT).fill(0)
+    new Array(BAR_COUNT).fill(0)
   );
 
   let state: State;
@@ -413,7 +415,11 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     }
 
     const boundingRect = waveformRef.current.getBoundingClientRect();
-    const progress = (event.pageX - boundingRect.left) / boundingRect.width;
+    let progress = (event.pageX - boundingRect.left) / boundingRect.width;
+
+    if (progress <= REWIND_BAR_COUNT / BAR_COUNT) {
+      progress = 0;
+    }
 
     if (isPlaying && !Number.isNaN(audio.duration)) {
       audio.currentTime = audio.duration * progress;
