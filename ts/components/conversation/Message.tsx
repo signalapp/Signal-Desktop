@@ -101,7 +101,6 @@ export type PropsData = {
   isSticker?: boolean;
   isSelected?: boolean;
   isSelectedCounter?: number;
-  interactionMode: InteractionModeType;
   direction: DirectionType;
   timestamp: number;
   status?: MessageStatusType;
@@ -150,16 +149,16 @@ export type PropsData = {
   isBlocked: boolean;
   isMessageRequestAccepted: boolean;
   bodyRanges?: BodyRangesType;
-
-  renderAudioAttachment: (props: AudioAttachmentProps) => JSX.Element;
 };
 
 export type PropsHousekeeping = {
   i18n: LocalizerType;
+  interactionMode: InteractionModeType;
   theme?: ThemeType;
   disableMenu?: boolean;
   disableScroll?: boolean;
   collapseMetadata?: boolean;
+  renderAudioAttachment: (props: AudioAttachmentProps) => JSX.Element;
 };
 
 export type PropsActions = {

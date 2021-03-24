@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -38,6 +38,7 @@ const getDefaultProps = () => ({
   conversationAccepted: true,
   id: 'asdf',
   isSelected: false,
+  interactionMode: 'keyboard' as const,
   selectMessage: action('selectMessage'),
   reactToMessage: action('reactToMessage'),
   clearSelectedMessage: action('clearSelectedMessage'),

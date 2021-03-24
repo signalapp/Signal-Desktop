@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import {
@@ -14,7 +14,11 @@ import {
 } from '../state/ducks/conversations';
 import { getActiveCall } from '../state/ducks/calling';
 import { getCallSelector, isInCall } from '../state/selectors/calling';
-import { PropsData } from '../components/conversation/Message';
+import {
+  MessageStatusType,
+  PropsData,
+} from '../components/conversation/Message';
+import { OwnProps as SmartMessageDetailPropsType } from '../state/smart/MessageDetail';
 import { CallbackResultType } from '../textsecure/SendMessage';
 import { ExpirationTimerOptions } from '../util/ExpirationTimerOptions';
 import { missingCaseError } from '../util/missingCaseError';
@@ -319,7 +323,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     };
   }
 
-  getPropsForMessageDetail(): WhatIsThis {
+  getPropsForMessageDetail(): Pick<
+    SmartMessageDetailPropsType,
+    'sentAt' | 'receivedAt' | 'message' | 'errors' | 'contacts'
+  > {
     const newIdentity = window.i18n('newIdentity');
     const OUTGOING_KEY_ERROR = 'OutgoingIdentityKeyError';
 
@@ -405,34 +412,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     return {
       sentAt: this.get('sent_at'),
       receivedAt: this.getReceivedAt(),
-      message: {
-        ...this.getPropsForMessage(),
-        disableMenu: true,
-        disableScroll: true,
-        // To ensure that group avatar doesn't show up
-        conversationType: 'direct',
-        downloadNewVersion: () => {
-          this.trigger('download-new-version');
-        },
-        deleteMessage: (messageId: string) => {
-          this.trigger('delete', messageId);
-        },
-        deleteMessageForEveryone: (messageId: string) => {
-          this.trigger('delete-for-everyone', messageId);
-        },
-        showVisualAttachment: (options: unknown) => {
-          this.trigger('show-visual-attachment', options);
-        },
-        displayTapToViewMessage: (messageId: string) => {
-          this.trigger('display-tap-to-view-message', messageId);
-        },
-        openLink: (url: string) => {
-          this.trigger('navigate-to', url);
-        },
-        reactWith: (emoji: string) => {
-          this.trigger('react-with', emoji);
-        },
-      },
+      message: this.getPropsForMessage(),
       errors,
       contacts: sortedContacts,
     };
@@ -834,10 +814,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   // Note: interactionMode is mixed in via selectors/conversations._messageSelector
-  getPropsForMessage(): Omit<
-    PropsData,
-    'interactionMode' | 'renderAudioAttachment'
-  > {
+  getPropsForMessage(): Omit<PropsData, 'interactionMode'> {
     const sourceId = this.getContactId();
     const contact = this.findAndFormatContact(sourceId);
     const contactModel = this.findContact(sourceId);
@@ -1195,7 +1172,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     };
   }
 
-  getStatus(identifier: string): string | null {
+  private getStatus(identifier: string): MessageStatusType | null {
     const conversation = window.ConversationController.get(identifier);
 
     if (!conversation) {

@@ -267,6 +267,7 @@ const renderItem = (id: string) => (
     renderEmojiPicker={() => <div />}
     item={items[id]}
     i18n={i18n}
+    interactionMode="keyboard"
     conversationId=""
     conversationAccepted
     renderContact={() => '*ContactName*'}

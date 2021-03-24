@@ -1,13 +1,11 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { pick } from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
-import { GlobalAudioContext } from '../../components/GlobalAudioContext';
 import { Timeline } from '../../components/conversation/Timeline';
-import { RenderEmojiPickerProps } from '../../components/conversation/ReactionPicker';
 import { StateType } from '../reducer';
 
 import { getIntl } from '../selectors/user';
@@ -23,8 +21,8 @@ import { SmartTypingBubble } from './TypingBubble';
 import { SmartLastSeenIndicator } from './LastSeenIndicator';
 import { SmartHeroRow } from './HeroRow';
 import { SmartTimelineLoadingRow } from './TimelineLoadingRow';
-import { SmartEmojiPicker } from './EmojiPicker';
-import { SmartMessageAudio, Props as MessageAudioProps } from './MessageAudio';
+import { renderAudioAttachment } from './renderAudioAttachment';
+import { renderEmojiPicker } from './renderEmojiPicker';
 
 // Workaround: A react component's required properties are filtering up through connect()
 //   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
@@ -43,11 +41,6 @@ type ExternalProps = {
   //   are provided by ConversationView in setupTimeline().
 };
 
-type AudioAttachmentProps = Omit<
-  MessageAudioProps,
-  'audio' | 'audioContext' | 'waveformCache'
->;
-
 function renderItem(
   messageId: string,
   conversationId: string,
@@ -64,35 +57,6 @@ function renderItem(
   );
 }
 
-function renderAudioAttachment(props: AudioAttachmentProps) {
-  return (
-    <GlobalAudioContext.Consumer>
-      {globalAudioProps => {
-        return (
-          globalAudioProps && (
-            <SmartMessageAudio {...props} {...globalAudioProps} />
-          )
-        );
-      }}
-    </GlobalAudioContext.Consumer>
-  );
-}
-
-function renderEmojiPicker({
-  ref,
-  onPickEmoji,
-  onClose,
-  style,
-}: RenderEmojiPickerProps): JSX.Element {
-  return (
-    <SmartEmojiPicker
-      ref={ref}
-      onPickEmoji={onPickEmoji}
-      onClose={onClose}
-      style={style}
-    />
-  );
-}
 function renderLastSeenIndicator(id: string): JSX.Element {
   return <FilteredSmartLastSeenIndicator id={id} />;
 }

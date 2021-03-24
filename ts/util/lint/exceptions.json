@@ -14400,24 +14400,6 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/GlobalAudioContext.js",
-    "line": "    const audio = React.useRef(null);",
-    "lineNumber": 38,
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-03-11T17:20:05.355Z",
-    "reasonDetail": "Need this to avoid re-creating Audio on every re-render"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/GlobalAudioContext.js",
-    "line": "    const waveformCache = React.useRef(null);",
-    "lineNumber": 39,
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-03-11T17:20:05.355Z",
-    "reasonDetail": "Need this to avoid re-creating WaveformCache on every re-render"
-  },
-  {
-    "rule": "React-useRef",
     "path": "ts/components/GroupCallOverflowArea.js",
     "line": "    const overflowRef = react_1.useRef(null);",
     "lineNumber": 36,
@@ -14658,7 +14640,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
-    "lineNumber": 242,
+    "lineNumber": 241,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T19:57:01.431Z",
     "reasonDetail": "Used for managing focus only"
@@ -14667,7 +14649,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public audioButtonRef: React.RefObject<HTMLButtonElement> = React.createRef();",
-    "lineNumber": 244,
+    "lineNumber": 243,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T19:57:01.431Z",
     "reasonDetail": "Used for propagating click from the Message to MessageAudio's button"
@@ -14676,7 +14658,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  > = React.createRef();",
-    "lineNumber": 248,
+    "lineNumber": 247,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T19:57:01.431Z",
     "reasonDetail": "Used for detecting clicks outside reaction viewer"
@@ -14694,7 +14676,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/MessageDetail.js",
     "line": "        this.focusRef = react_1.default.createRef();",
-    "lineNumber": 21,
+    "lineNumber": 23,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-01T22:46:33.013Z",
     "reasonDetail": "Used for setting focus only"

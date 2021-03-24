@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -6,6 +6,7 @@ import { LocalizerType, ThemeType } from '../../types/Util';
 
 import {
   Message,
+  InteractionModeType,
   Props as AllMessageProps,
   PropsActions as MessageActionsType,
   PropsData as MessageProps,
@@ -134,6 +135,7 @@ type PropsLocalType = {
   selectMessage: (messageId: string, conversationId: string) => unknown;
   renderContact: SmartContactRendererType;
   i18n: LocalizerType;
+  interactionMode: InteractionModeType;
   theme?: ThemeType;
 };
 

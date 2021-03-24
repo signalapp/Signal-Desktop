@@ -356,28 +356,6 @@ Whisper.ConversationView = Whisper.View.extend({
       this.showSafetyNumber
     );
     this.listenTo(this.model.messageCollection, 'force-send', this.forceSend);
-    this.listenTo(this.model.messageCollection, 'delete', this.deleteMessage);
-    this.listenTo(
-      this.model.messageCollection,
-      'delete-for-everyone',
-      this.deleteMessageForEveryone
-    );
-    this.listenTo(
-      this.model.messageCollection,
-      'show-visual-attachment',
-      this.showLightbox
-    );
-    this.listenTo(
-      this.model.messageCollection,
-      'display-tap-to-view-message',
-      this.displayTapToViewMessage
-    );
-    this.listenTo(this.model.messageCollection, 'navigate-to', this.navigateTo);
-    this.listenTo(
-      this.model.messageCollection,
-      'download-new-version',
-      this.downloadNewVersion
-    );
 
     this.lazyUpdateVerified = window._.debounce(
       this.model.updateVerified.bind(this.model),
@@ -725,9 +703,7 @@ Whisper.ConversationView = Whisper.View.extend({
     });
   },
 
-  setupTimeline() {
-    const { id } = this.model;
-
+  getMessageActions() {
     const reactToMessage = (messageId: any, reaction: any) => {
       this.sendReactionMessage(messageId, reaction);
     };
@@ -795,6 +771,33 @@ Whisper.ConversationView = Whisper.View.extend({
     const showExpiredOutgoingTapToViewToast = () => {
       this.showToast(Whisper.TapToViewExpiredOutgoingToast);
     };
+
+    return {
+      deleteMessage,
+      deleteMessageForEveryone,
+      displayTapToViewMessage,
+      downloadAttachment,
+      downloadNewVersion,
+      kickOffAttachmentDownload,
+      markAttachmentAsCorrupted,
+      openConversation,
+      openLink,
+      reactToMessage,
+      replyToMessage,
+      retrySend,
+      showContactDetail,
+      showContactModal,
+      showExpiredIncomingTapToViewToast,
+      showExpiredOutgoingTapToViewToast,
+      showIdentity,
+      showMessageDetail,
+      showVisualAttachment,
+    };
+  },
+
+  setupTimeline() {
+    const { id } = this.model;
+
     const contactSupport = () => {
       const baseUrl =
         'https://support.signal.org/hc/LOCALE/requests/new?desktop&chat_refreshed';
@@ -958,32 +961,15 @@ Whisper.ConversationView = Whisper.View.extend({
       JSX: window.Signal.State.Roots.createTimeline(window.reduxStore, {
         id,
 
+        ...this.getMessageActions(),
+
         contactSupport,
-        deleteMessage,
-        deleteMessageForEveryone,
-        displayTapToViewMessage,
-        downloadAttachment,
-        downloadNewVersion,
-        kickOffAttachmentDownload,
-        markAttachmentAsCorrupted,
         loadNewerMessages,
         loadNewestMessages: this.loadNewestMessages.bind(this),
         loadAndScroll: this.loadAndScroll.bind(this),
         loadOlderMessages,
         markMessageRead,
-        openConversation,
-        openLink,
-        reactToMessage,
-        replyToMessage,
-        retrySend,
         scrollToQuotedMessage,
-        showContactDetail,
-        showContactModal,
-        showIdentity,
-        showMessageDetail,
-        showVisualAttachment,
-        showExpiredIncomingTapToViewToast,
-        showExpiredOutgoingTapToViewToast,
         updateSharedGroups: this.model.throttledUpdateSharedGroups,
       }),
     });
@@ -2940,7 +2926,8 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   showMessageDetail(messageId: any) {
-    const message = this.model.messageCollection.get(messageId);
+    const { model }: { model: ConversationModel } = this;
+    const message = model.messageCollection?.get(messageId);
     if (!message) {
       throw new Error(
         `showMessageDetail: Did not find message for id ${messageId}`
@@ -2951,20 +2938,26 @@ Whisper.ConversationView = Whisper.View.extend({
       return;
     }
 
+    const getProps = () => ({
+      ...message.getPropsForMessageDetail(),
+      ...this.getMessageActions(),
+    });
+
     const onClose = () => {
       this.stopListening(message, 'change', update);
       this.resetPanel();
     };
 
-    const props = message.getPropsForMessageDetail();
     const view = new Whisper.ReactWrapperView({
       className: 'panel message-detail-wrapper',
-      Component: window.Signal.Components.MessageDetail,
-      props,
+      JSX: window.Signal.State.Roots.createMessageDetail(
+        window.reduxStore,
+        getProps()
+      ),
       onClose,
     });
 
-    const update = () => view.update(message.getPropsForMessageDetail());
+    const update = () => view.update(getProps());
     this.listenTo(message, 'change', update);
     this.listenTo(message, 'expired', onClose);
     // We could listen to all involved contacts, but we'll call that overkill
