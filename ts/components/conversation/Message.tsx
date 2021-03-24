@@ -2230,7 +2230,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public render(): JSX.Element | null {
     const {
-      authorPhoneNumber,
+      authorId,
       attachments,
       direction,
       id,
@@ -2241,7 +2241,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     // This id is what connects our triple-dot click with our associated pop-up menu.
     //   It needs to be unique.
-    const triggerId = String(id || `${authorPhoneNumber}-${timestamp}`);
+    const triggerId = String(id || `${authorId}-${timestamp}`);
 
     if (expired) {
       return null;
