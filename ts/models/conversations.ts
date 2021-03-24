@@ -88,6 +88,12 @@ type CustomError = Error & {
   number?: string;
 };
 
+type CachedIdenticon = {
+  readonly url: string;
+  readonly content: string;
+  readonly color: ColorType;
+};
+
 export class ConversationModel extends window.Backbone.Model<
   ConversationAttributesType
 > {
@@ -138,6 +144,8 @@ export class ConversationModel extends window.Backbone.Model<
   intlCollator = new Intl.Collator(undefined, { sensitivity: 'base' });
 
   private cachedLatestGroupCallEraId?: string;
+
+  private cachedIdenticon?: CachedIdenticon;
 
   // eslint-disable-next-line class-methods-use-this
   defaults(): Partial<ConversationAttributesType> {
@@ -4947,11 +4955,7 @@ export class ConversationModel extends window.Backbone.Model<
     if (avatar && avatar.path) {
       notificationIconUrl = getAbsoluteAttachmentPath(avatar.path);
     } else if (this.isPrivate()) {
-      notificationIconUrl = await new window.Whisper.IdenticonSVGView({
-        color: this.getColor(),
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        content: this.getInitials(this.get('name')!) || '#',
-      }).getDataUrl();
+      notificationIconUrl = await this.getIdenticon();
     } else {
       // Not technically needed, but helps us be explicit: we don't show an icon for a
       //   group that doesn't have an icon.
@@ -4971,6 +4975,27 @@ export class ConversationModel extends window.Backbone.Model<
       messageId,
       reaction: reaction ? reaction.toJSON() : null,
     });
+  }
+
+  private async getIdenticon(): Promise<string> {
+    const color = this.getColor();
+    const name = this.get('name');
+
+    const content = (name && this.getInitials(name)) || '#';
+
+    const cached = this.cachedIdenticon;
+    if (cached && cached.content === content && cached.color === color) {
+      return cached.url;
+    }
+
+    const fresh = await new window.Whisper.IdenticonSVGView({
+      color,
+      content,
+    }).getDataUrl();
+
+    this.cachedIdenticon = { content, color, url: fresh };
+
+    return fresh;
   }
 
   notifyTyping(options: {
