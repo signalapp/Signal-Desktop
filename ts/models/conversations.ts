@@ -3,6 +3,7 @@
 
 /* eslint-disable class-methods-use-this */
 /* eslint-disable camelcase */
+import { ProfileKeyCredentialRequestContext } from 'zkgroup';
 import {
   MessageModelCollectionType,
   WhatIsThis,
@@ -4363,8 +4364,10 @@ export class ConversationModel extends window.Backbone.Model<
       const profileKeyVersionHex = c.get('profileKeyVersion')!;
       const existingProfileKeyCredential = c.get('profileKeyCredential');
 
-      let profileKeyCredentialRequestHex;
-      let profileCredentialRequestContext;
+      let profileKeyCredentialRequestHex: undefined | string;
+      let profileCredentialRequestContext:
+        | undefined
+        | ProfileKeyCredentialRequestContext;
 
       if (
         profileKey &&
@@ -4512,15 +4515,17 @@ export class ConversationModel extends window.Backbone.Model<
         c.unset('capabilities');
       }
 
-      if (profileCredentialRequestContext && profile.credential) {
-        const profileKeyCredential = handleProfileKeyCredential(
-          clientZkProfileCipher,
-          profileCredentialRequestContext,
-          profile.credential
-        );
-        c.set({ profileKeyCredential });
-      } else {
-        c.unset('profileKeyCredential');
+      if (profileCredentialRequestContext) {
+        if (profile.credential) {
+          const profileKeyCredential = handleProfileKeyCredential(
+            clientZkProfileCipher,
+            profileCredentialRequestContext,
+            profile.credential
+          );
+          c.set({ profileKeyCredential });
+        } else {
+          c.unset('profileKeyCredential');
+        }
       }
     } catch (error) {
       switch (error?.code) {
