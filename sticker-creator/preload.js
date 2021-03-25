@@ -9,6 +9,7 @@ const { readFile } = require('fs');
 const config = require('url').parse(window.location.toString(), true).query;
 const { noop, uniqBy } = require('lodash');
 const pMap = require('p-map');
+const client = require('libsignal-client');
 const { deriveStickerPackKey } = require('../ts/Crypto');
 const {
   getEnvironment,
@@ -27,6 +28,8 @@ const MAX_WEBP_STICKER_BYTE_LENGTH = 100 * 1024;
 const MAX_ANIMATED_STICKER_BYTE_LENGTH = 300 * 1024;
 
 setEnvironment(parseEnvironment(config.environment));
+
+window.sqlInitializer = require('../ts/sql/initialize');
 
 window.ROOT_PATH = window.location.href.startsWith('file') ? '../../' : '/';
 window.PROTO_ROOT = '../../protos';
@@ -48,6 +51,20 @@ const Signal = require('../js/modules/signal');
 
 window.Signal = Signal.setup({});
 window.textsecure = require('../ts/textsecure').default;
+
+window.libsignal = window.libsignal || {};
+window.libsignal.HKDF = {};
+window.libsignal.HKDF.deriveSecrets = (input, salt, info) => {
+  const hkdf = client.HKDF.new(3);
+  const output = hkdf.deriveSecrets(
+    3 * 32,
+    Buffer.from(input),
+    Buffer.from(info),
+    Buffer.from(salt)
+  );
+  return [output.slice(0, 32), output.slice(32, 64), output.slice(64, 96)];
+};
+window.synchronousCrypto = require('../ts/util/synchronousCrypto');
 
 const { initialize: initializeWebAPI } = require('../ts/textsecure/WebAPI');
 const {
@@ -163,6 +180,7 @@ window.encryptAndUpload = async (
   cover,
   onProgress = noop
 ) => {
+  window.sqlInitializer.goBackToMainProcess();
   const usernameItem = await window.Signal.Data.getItemById('uuid_id');
   const oldUsernameItem = await window.Signal.Data.getItemById('number_id');
   const passwordItem = await window.Signal.Data.getItemById('password');
