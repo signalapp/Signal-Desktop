@@ -1030,7 +1030,7 @@ export class Message extends React.PureComponent<Props, State> {
         i18n={i18n}
         onClick={clickHandler}
         text={quote.text}
-        attachment={quote.attachment}
+        rawAttachment={quote.attachment}
         isIncoming={direction === 'incoming'}
         authorPhoneNumber={quote.authorPhoneNumber}
         authorProfileName={quote.authorProfileName}

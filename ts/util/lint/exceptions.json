@@ -14685,7 +14685,7 @@
     "rule": "React-useRef",
     "path": "ts/components/conversation/Quote.js",
     "line": "    const imageRef = react_1.useRef(new Image());",
-    "lineNumber": 227,
+    "lineNumber": 236,
     "reasonCategory": "usageTrusted",
     "updated": "2021-01-20T21:30:08.430Z",
     "reasonDetail": "Doesn't touch the DOM."
@@ -14694,7 +14694,7 @@
     "rule": "React-useRef",
     "path": "ts/components/conversation/Quote.tsx",
     "line": "  const imageRef = useRef(new Image());",
-    "lineNumber": 446,
+    "lineNumber": 459,
     "reasonCategory": "usageTrusted",
     "updated": "2021-01-20T21:30:08.430Z",
     "reasonDetail": "Doesn't touch the DOM."

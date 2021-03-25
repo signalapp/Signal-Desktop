@@ -16,4 +16,15 @@ describe('MIME', () => {
       assert.isFalse(MIME.isGif('text/plain'));
     });
   });
+
+  describe('isLongMessage', () => {
+    it('returns true for long messages', () => {
+      assert.isTrue(MIME.isLongMessage('text/x-signal-plain'));
+    });
+
+    it('returns true for other content types', () => {
+      assert.isFalse(MIME.isLongMessage('text/plain'));
+      assert.isFalse(MIME.isLongMessage('image/gif'));
+    });
+  });
 });

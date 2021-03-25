@@ -29,3 +29,5 @@ export const isVideo = (value: string): value is MIMEType =>
 // recognize them as file attachments.
 export const isAudio = (value: string): value is MIMEType =>
   Boolean(value) && value.startsWith('audio/') && !value.endsWith('aiff');
+export const isLongMessage = (value: unknown): value is MIMEType =>
+  value === LONG_MESSAGE;

@@ -132,8 +132,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     attachment: typeof window.WhatIsThis
   ) => typeof window.WhatIsThis;
 
-  static LONG_MESSAGE_CONTENT_TYPE: string;
-
   CURRENT_PROTOCOL_VERSION?: number;
 
   // Set when sending some sync messages, so we get the functionality of
@@ -2580,10 +2578,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       this.get('attachments') || [];
 
     const hasLongMessageAttachments = attachments.some(attachment => {
-      return (
-        attachment.contentType ===
-        window.Whisper.Message.LONG_MESSAGE_CONTENT_TYPE
-      );
+      return MIME.isLongMessage(attachment.contentType);
     });
 
     if (hasLongMessageAttachments) {
@@ -2605,9 +2600,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     const [longMessageAttachments, normalAttachments] = _.partition(
       attachments,
-      attachment =>
-        attachment.contentType ===
-        window.Whisper.Message.LONG_MESSAGE_CONTENT_TYPE
+      attachment => MIME.isLongMessage(attachment.contentType)
     );
 
     if (longMessageAttachments.length > 0) {
@@ -2698,11 +2691,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       } attachment downloads for message ${this.idForLogging()}`
     );
 
-    const [longMessageAttachments, normalAttachments] = _.partition(
-      attachmentsToQueue,
-      attachment =>
-        attachment.contentType ===
-        window.Whisper.Message.LONG_MESSAGE_CONTENT_TYPE
+    const [
+      longMessageAttachments,
+      normalAttachments,
+    ] = _.partition(attachmentsToQueue, attachment =>
+      MIME.isLongMessage(attachment.contentType)
     );
 
     if (longMessageAttachments.length > 1) {
@@ -3975,9 +3968,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
 window.Whisper.Message = MessageModel as typeof window.WhatIsThis;
 
-// Receive will be enabled before we enable send
-window.Whisper.Message.LONG_MESSAGE_CONTENT_TYPE = 'text/x-signal-plain';
-
 window.Whisper.Message.getLongMessageAttachment = ({
   body,
   attachments,
@@ -3992,7 +3982,7 @@ window.Whisper.Message.getLongMessageAttachment = ({
 
   const data = bytesFromString(body);
   const attachment = {
-    contentType: window.Whisper.Message.LONG_MESSAGE_CONTENT_TYPE,
+    contentType: MIME.LONG_MESSAGE,
     fileName: `long-message-${now}.txt`,
     data,
     size: data.byteLength,
