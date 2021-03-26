@@ -110,7 +110,7 @@ export class ConversationModel extends window.Backbone.Model<
     { senderId: string; timer: NodeJS.Timer }
   >;
 
-  contactCollection?: Backbone.Collection<WhatIsThis>;
+  contactCollection?: Backbone.Collection<ConversationModel>;
 
   debouncedUpdateLastMessage?: () => void;
 
