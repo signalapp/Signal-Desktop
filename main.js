@@ -81,6 +81,8 @@ const importMode =
 const development =
   config.environment === 'development' || config.environment === 'staging';
 
+const enableCI = Boolean(config.get('enableCI'));
+
 // We generally want to pull in our own modules after this point, after the user
 //   data directory has been set.
 const attachments = require('./app/attachments');
@@ -221,7 +223,8 @@ function prepareURL(pathSegments, moreKeys) {
       cdnUrl0: config.get('cdn').get('0'),
       cdnUrl2: config.get('cdn').get('2'),
       certificateAuthority: config.get('certificateAuthority'),
-      environment: config.environment,
+      environment: enableCI ? 'production' : config.environment,
+      enableCI,
       node_version: process.versions.node,
       hostname: os.hostname(),
       appInstance: process.env.NODE_APP_INSTANCE,
@@ -432,7 +435,7 @@ async function createWindow() {
     mainWindow.loadURL(prepareURL([__dirname, 'background.html'], moreKeys));
   }
 
-  if (config.get('openDevTools')) {
+  if (!enableCI && config.get('openDevTools')) {
     // Open the DevTools.
     mainWindow.webContents.openDevTools();
   }
@@ -956,7 +959,12 @@ app.on('ready', async () => {
   // We use this event only a single time to log the startup time of the app
   // from when it's first ready until the loading screen disappears.
   ipc.once('signal-app-loaded', () => {
-    console.log('App loaded - time:', Date.now() - startTime);
+    const loadTime = Date.now() - startTime;
+    console.log('App loaded - time:', loadTime);
+
+    if (enableCI) {
+      console._log('ci: app_loaded=%j', { loadTime });
+    }
   });
 
   const userDataPath = await getRealPath(app.getPath('userData'));
@@ -1291,6 +1299,12 @@ app.on('will-finish-launching', () => {
     handleSgnlHref(incomingHref);
   });
 });
+
+if (enableCI) {
+  ipc.on('set-provisioning-url', (event, provisioningURL) => {
+    console._log('ci: provisioning_url=%j', provisioningURL);
+  });
+}
 
 ipc.on('set-badge-count', (event, count) => {
   app.badgeCount = count;

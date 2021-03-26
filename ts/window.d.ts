@@ -259,6 +259,12 @@ declare global {
     };
 
     Backbone: typeof Backbone;
+    CI:
+      | {
+          setProvisioningURL: (url: string) => void;
+          deviceName: string;
+        }
+      | undefined;
     Signal: {
       Backbone: any;
       AttachmentDownloads: {

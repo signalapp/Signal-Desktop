@@ -879,7 +879,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "        this.$('#link-phone').submit(e => {",
-    "lineNumber": 196,
+    "lineNumber": 228,
     "reasonCategory": "usageTrusted",
     "updated": "2020-03-24T19:03:04.861Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -888,7 +888,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "          let name = this.$(DEVICE_NAME_SELECTOR).val();",
-    "lineNumber": 200,
+    "lineNumber": 232,
     "reasonCategory": "usageTrusted",
     "updated": "2020-03-24T19:03:04.861Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -897,7 +897,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "            this.$(DEVICE_NAME_SELECTOR).focus();",
-    "lineNumber": 203,
+    "lineNumber": 235,
     "reasonCategory": "usageTrusted",
     "updated": "2020-03-24T19:03:04.861Z",
     "reasonDetail": "Protected from arbitrary input"

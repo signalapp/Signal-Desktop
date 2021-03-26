@@ -220,8 +220,9 @@ export default class AccountManager extends EventTarget {
                   encodeURIComponent(btoa(utils.getString(pubKey))),
                 ].join('');
 
-                // eslint-disable-next-line no-console
-                console._log(`provisioning url ${url}`);
+                if (window.CI) {
+                  window.CI.setProvisioningURL(url);
+                }
 
                 setProvisioningUrl(url);
                 request.respond(200, 'OK');

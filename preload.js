@@ -518,6 +518,10 @@ try {
     getRegionCode: () => window.storage.get('regionCode'),
     logger: window.log,
   });
+  window.CI = config.enableCI && {
+    setProvisioningURL: url => ipc.send('set-provisioning-url', url),
+    deviceName: title,
+  };
 
   // these need access to window.Signal:
   require('./ts/models/messages');
