@@ -69,6 +69,14 @@ export async function initialize(): Promise<pinoms.Logger> {
     rotate: 3,
   });
 
+  stream.on('close', () => {
+    globalLogger = undefined;
+  });
+
+  stream.on('error', () => {
+    globalLogger = undefined;
+  });
+
   const streams: pinoms.Streams = [];
   streams.push({ stream });
 

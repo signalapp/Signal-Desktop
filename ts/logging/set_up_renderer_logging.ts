@@ -112,6 +112,14 @@ export function initialize(): void {
     rotate: 3,
   });
 
+  stream.on('close', () => {
+    globalLogger = undefined;
+  });
+
+  stream.on('error', () => {
+    globalLogger = undefined;
+  });
+
   globalLogger = pino(
     {
       timestamp: pino.stdTimeFunctions.isoTime,
