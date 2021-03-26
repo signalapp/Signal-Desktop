@@ -822,6 +822,9 @@ export class ConversationController {
         await Promise.all(
           this._conversations.map(async conversation => {
             try {
+              // Hydrate contactCollection, now that initial fetch is complete
+              conversation.fetchContacts();
+
               const isChanged = await maybeDeriveGroupV2Id(conversation);
               if (isChanged) {
                 updateConversation(conversation.attributes);

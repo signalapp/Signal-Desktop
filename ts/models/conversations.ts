@@ -218,19 +218,25 @@ export class ConversationModel extends window.Backbone.Model<
     //   our first save to the database. Or first fetch from the database.
     this.initialPromise = Promise.resolve();
 
+    this.throttledBumpTyping = window._.throttle(this.bumpTyping, 300);
+    this.debouncedUpdateLastMessage = window._.debounce(
+      this.updateLastMessage.bind(this),
+      200
+    );
+
     this.contactCollection = this.getContactCollection();
+    this.contactCollection.on(
+      'change:name change:profileName change:profileFamilyName change:e164',
+      this.debouncedUpdateLastMessage,
+      this
+    );
+
     this.messageCollection = new window.Whisper.MessageCollection([], {
       conversation: this,
     });
 
     this.messageCollection.on('change:errors', this.handleMessageError, this);
     this.messageCollection.on('send-error', this.onMessageError, this);
-
-    this.throttledBumpTyping = window._.throttle(this.bumpTyping, 300);
-    this.debouncedUpdateLastMessage = window._.debounce(
-      this.updateLastMessage.bind(this),
-      200
-    );
 
     this.listenTo(
       this.messageCollection,
@@ -257,6 +263,8 @@ export class ConversationModel extends window.Backbone.Model<
     this.unset('unidentifiedDeliveryUnrestricted');
     this.unset('hasFetchedProfile');
     this.unset('tokens');
+
+    this.on('change:members change:membersV2', this.fetchContacts);
 
     this.typingRefreshTimer = null;
     this.typingPauseTimer = null;

@@ -559,10 +559,8 @@ export function _messageSelector(
   _ourNumber: string,
   _regionCode: string,
   interactionMode: 'mouse' | 'keyboard',
+  _getConversationById: GetConversationByIdType,
   _callsByConversation: CallsByConversationType,
-  _conversation?: ConversationType,
-  _author?: ConversationType,
-  _quoted?: ConversationType,
   selectedMessageId?: string,
   selectedMessageCounter?: number
 ): TimelineItemType {
@@ -598,10 +596,8 @@ type CachedMessageSelectorType = (
   ourNumber: string,
   regionCode: string,
   interactionMode: 'mouse' | 'keyboard',
+  getConversationById: GetConversationByIdType,
   callsByConversation: CallsByConversationType,
-  conversation?: ConversationType,
-  author?: ConversationType,
-  quoted?: ConversationType,
   selectedMessageId?: string,
   selectedMessageCounter?: number
 ) => TimelineItemType;
@@ -641,30 +637,13 @@ export const getMessageSelector = createSelector(
         return undefined;
       }
 
-      const { conversationId, source, type, quote } = message;
-      const conversation = conversationSelector(conversationId);
-      let author: ConversationType | undefined;
-      let quoted: ConversationType | undefined;
-
-      if (type === 'incoming') {
-        author = conversationSelector(source);
-      } else if (type === 'outgoing') {
-        author = conversationSelector(ourNumber);
-      }
-
-      if (quote && (quote.author || quote.authorUuid)) {
-        quoted = conversationSelector(quote.authorUuid || quote.author);
-      }
-
       return messageSelector(
         message,
         ourNumber,
         regionCode,
         interactionMode,
+        conversationSelector,
         callsByConversation,
-        conversation,
-        author,
-        quoted,
         selectedMessage ? selectedMessage.id : undefined,
         selectedMessage ? selectedMessage.counter : undefined
       );
