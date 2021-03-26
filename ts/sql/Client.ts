@@ -742,6 +742,7 @@ async function getConversationById(
 }
 
 const updateConversationBatcher = createBatcher<ConversationType>({
+  name: 'sql.Client.updateConversationBatcher',
   wait: 500,
   maxSize: 20,
   processBatch: async (items: Array<ConversationType>) => {

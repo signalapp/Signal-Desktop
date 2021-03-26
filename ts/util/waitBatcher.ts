@@ -12,10 +12,15 @@ declare global {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     waitBatchers: Array<BatcherType<any>>;
     waitForAllWaitBatchers: () => Promise<unknown>;
+    flushAllWaitBatchers: () => Promise<unknown>;
   }
 }
 
 window.waitBatchers = [];
+
+window.flushAllWaitBatchers = async () => {
+  await Promise.all(window.waitBatchers.map(item => item.flushAndWait()));
+};
 
 window.waitForAllWaitBatchers = async () => {
   await Promise.all(window.waitBatchers.map(item => item.onIdle()));
@@ -34,6 +39,7 @@ type ExplodedPromiseType = {
 };
 
 type BatcherOptionsType<ItemType> = {
+  name: string;
   wait: number;
   maxSize: number;
   processBatch: (items: Array<ItemType>) => Promise<void>;
@@ -44,6 +50,7 @@ type BatcherType<ItemType> = {
   anyPending: () => boolean;
   onIdle: () => Promise<void>;
   unregister: () => void;
+  flushAndWait: () => void;
 };
 
 export function createWaitBatcher<ItemType>(
@@ -54,10 +61,10 @@ export function createWaitBatcher<ItemType>(
   let items: Array<ItemHolderType<ItemType>> = [];
   const queue = new PQueue({ concurrency: 1, timeout: 1000 * 60 * 2 });
 
-  function _kickBatchOff() {
+  async function _kickBatchOff() {
     const itemsRef = items;
     items = [];
-    queue.add(async () => {
+    await queue.add(async () => {
       try {
         await options.processBatch(itemsRef.map(item => item.item));
         itemsRef.forEach(item => {
@@ -96,18 +103,21 @@ export function createWaitBatcher<ItemType>(
       item,
     });
 
-    if (timeout) {
-      clearTimeout(timeout);
-      timeout = null;
-    }
-
-    if (items.length >= options.maxSize) {
-      _kickBatchOff();
-    } else {
+    if (items.length === 1) {
+      // Set timeout once when we just pushed the first item so that the wait
+      // time is bounded by `options.wait` and not extended by further pushes.
       timeout = setTimeout(() => {
         timeout = null;
         _kickBatchOff();
       }, options.wait);
+    }
+    if (items.length >= options.maxSize) {
+      if (timeout) {
+        clearTimeout(timeout);
+        timeout = null;
+      }
+
+      _kickBatchOff();
     }
 
     await promise;
@@ -137,11 +147,35 @@ export function createWaitBatcher<ItemType>(
     );
   }
 
+  async function flushAndWait() {
+    window.log.info(
+      `Flushing start ${options.name} for waitBatcher ` +
+        `items.length=${items.length}`
+    );
+    if (timeout) {
+      clearTimeout(timeout);
+      timeout = null;
+    }
+
+    while (anyPending()) {
+      // eslint-disable-next-line no-await-in-loop
+      await _kickBatchOff();
+
+      if (queue.size > 0 || queue.pending > 0) {
+        // eslint-disable-next-line no-await-in-loop
+        await queue.onIdle();
+      }
+    }
+
+    window.log.info(`Flushing complete ${options.name} for waitBatcher`);
+  }
+
   waitBatcher = {
     add,
     anyPending,
     onIdle,
     unregister,
+    flushAndWait,
   };
 
   window.waitBatchers.push(waitBatcher);

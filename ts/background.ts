@@ -35,6 +35,7 @@ export async function startApp(): Promise<void> {
   });
   window.Whisper.deliveryReceiptQueue.pause();
   window.Whisper.deliveryReceiptBatcher = window.Signal.Util.createBatcher({
+    name: 'Whisper.deliveryReceiptBatcher',
     wait: 500,
     maxSize: 500,
     processBatch: async (items: WhatIsThis) => {
@@ -2056,7 +2057,7 @@ export async function startApp(): Promise<void> {
   async function onEmpty() {
     await Promise.all([
       window.waitForAllBatchers(),
-      window.waitForAllWaitBatchers(),
+      window.flushAllWaitBatchers(),
     ]);
     window.log.info('onEmpty: All outstanding database requests complete');
     initialLoadComplete = true;
@@ -2074,72 +2075,68 @@ export async function startApp(): Promise<void> {
       logger: window.log,
     });
 
-    let interval: NodeJS.Timer | null = setInterval(async () => {
-      const view = window.owsDesktopApp.appView;
-      if (view) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        clearInterval(interval!);
-        interval = null;
-        view.onEmpty();
-
-        window.logAppLoadedEvent();
-        if (messageReceiver) {
-          window.log.info(
-            'App loaded - messages:',
-            messageReceiver.getProcessedCount()
-          );
-        }
-
-        window.sqlInitializer.goBackToMainProcess();
-        window.Signal.Util.setBatchingStrategy(false);
-
-        const attachmentDownloadQueue = window.attachmentDownloadQueue || [];
-
-        // NOTE: ts/models/messages.ts expects this global to become undefined
-        // once we stop processing the queue.
-        window.attachmentDownloadQueue = undefined;
-
-        const MAX_ATTACHMENT_MSGS_TO_DOWNLOAD = 250;
-        const attachmentsToDownload = attachmentDownloadQueue.filter(
-          (message, index) =>
-            index <= MAX_ATTACHMENT_MSGS_TO_DOWNLOAD ||
-            isMoreRecentThan(
-              message.getReceivedAt(),
-              MAX_ATTACHMENT_DOWNLOAD_AGE
-            ) ||
-            // Stickers and long text attachments has to be downloaded for UI
-            // to display the message properly.
-            message.hasRequiredAttachmentDownloads()
-        );
-        window.log.info(
-          'Downloading recent attachments of total attachments',
-          attachmentsToDownload.length,
-          attachmentDownloadQueue.length
-        );
-
-        if (window.startupProcessingQueue) {
-          window.startupProcessingQueue.flush();
-          window.startupProcessingQueue = undefined;
-        }
-
-        const messagesWithDownloads = await Promise.all(
-          attachmentsToDownload.map(message =>
-            message.queueAttachmentDownloads()
-          )
-        );
-        const messagesToSave: Array<MessageAttributesType> = [];
-        messagesWithDownloads.forEach((shouldSave, messageKey) => {
-          if (shouldSave) {
-            const message = attachmentsToDownload[messageKey];
-            messagesToSave.push(message.attributes);
-          }
-        });
-        await window.Signal.Data.saveMessages(messagesToSave, {});
-      }
-    }, 500);
-
     window.Whisper.deliveryReceiptQueue.start();
     window.Whisper.Notifications.enable();
+
+    const view = window.owsDesktopApp.appView;
+    if (!view) {
+      throw new Error('Expected `appView` to be initialized');
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    view.onEmpty();
+
+    window.logAppLoadedEvent();
+    if (messageReceiver) {
+      window.log.info(
+        'App loaded - messages:',
+        messageReceiver.getProcessedCount()
+      );
+    }
+
+    window.sqlInitializer.goBackToMainProcess();
+    window.Signal.Util.setBatchingStrategy(false);
+
+    const attachmentDownloadQueue = window.attachmentDownloadQueue || [];
+
+    // NOTE: ts/models/messages.ts expects this global to become undefined
+    // once we stop processing the queue.
+    window.attachmentDownloadQueue = undefined;
+
+    const MAX_ATTACHMENT_MSGS_TO_DOWNLOAD = 250;
+    const attachmentsToDownload = attachmentDownloadQueue.filter(
+      (message, index) =>
+        index <= MAX_ATTACHMENT_MSGS_TO_DOWNLOAD ||
+        isMoreRecentThan(
+          message.getReceivedAt(),
+          MAX_ATTACHMENT_DOWNLOAD_AGE
+        ) ||
+        // Stickers and long text attachments has to be downloaded for UI
+        // to display the message properly.
+        message.hasRequiredAttachmentDownloads()
+    );
+    window.log.info(
+      'Downloading recent attachments of total attachments',
+      attachmentsToDownload.length,
+      attachmentDownloadQueue.length
+    );
+
+    if (window.startupProcessingQueue) {
+      window.startupProcessingQueue.flush();
+      window.startupProcessingQueue = undefined;
+    }
+
+    const messagesWithDownloads = await Promise.all(
+      attachmentsToDownload.map(message => message.queueAttachmentDownloads())
+    );
+    const messagesToSave: Array<MessageAttributesType> = [];
+    messagesWithDownloads.forEach((shouldSave, messageKey) => {
+      if (shouldSave) {
+        const message = attachmentsToDownload[messageKey];
+        messagesToSave.push(message.attributes);
+      }
+    });
+    await window.Signal.Data.saveMessages(messagesToSave, {});
   }
   function onReconnect() {
     // We disable notifications on first connect, but the same applies to reconnect. In

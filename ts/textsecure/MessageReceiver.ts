@@ -204,16 +204,23 @@ class MessageReceiverInner extends EventTarget {
     this.appQueue = new PQueue({ concurrency: 1, timeout: 1000 * 60 * 2 });
 
     this.cacheAddBatcher = createBatcher<CacheAddItemType>({
+      name: 'MessageReceiver.cacheAddBatcher',
       wait: 200,
       maxSize: 30,
-      processBatch: this.cacheAndQueueBatch.bind(this),
+      processBatch: (items: Array<CacheAddItemType>) => {
+        // Not returning the promise here because we don't want to stall
+        // the batch.
+        this.cacheAndQueueBatch(items);
+      },
     });
     this.cacheUpdateBatcher = createBatcher<CacheUpdateItemType>({
+      name: 'MessageReceiver.cacheUpdateBatcher',
       wait: 500,
       maxSize: 30,
       processBatch: this.cacheUpdateBatch.bind(this),
     });
     this.cacheRemoveBatcher = createBatcher<string>({
+      name: 'MessageReceiver.cacheRemoveBatcher',
       wait: 500,
       maxSize: 30,
       processBatch: this.cacheRemoveBatch.bind(this),
@@ -507,7 +514,13 @@ class MessageReceiverInner extends EventTarget {
   }
 
   onEmpty() {
-    const emitEmpty = () => {
+    const emitEmpty = async () => {
+      await Promise.all([
+        this.cacheAddBatcher.flushAndWait(),
+        this.cacheUpdateBatcher.flushAndWait(),
+        this.cacheRemoveBatcher.flushAndWait(),
+      ]);
+
       window.log.info("MessageReceiver: emitting 'empty' event");
       const ev = new Event('empty');
       this.dispatchEvent(ev);
