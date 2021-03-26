@@ -5,8 +5,6 @@ import { Spinner } from '../Spinner';
 import { LocalizerType } from '../../types/Util';
 import { AttachmentType } from '../../types/Attachment';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
-import { fromArrayBufferToBase64 } from '../../session/utils/String';
-import toArrayBuffer from 'to-arraybuffer';
 
 type Props = {
   alt: string;
@@ -66,13 +64,12 @@ export const Image = (props: Props) => {
   const canClick = onClick && !pending;
   const role = canClick ? 'button' : undefined;
 
-  const { loading, data } = useEncryptedFileFetch(url);
-  //FIXME jpg is hardcoded
-  const srcData = !loading
-    ? data?.length
-      ? `data:image/jpg;base64,${fromArrayBufferToBase64(toArrayBuffer(data))}`
-      : url
-    : '';
+  const { loading, urlToLoad } = useEncryptedFileFetch(
+    url,
+    attachment.contentType
+  );
+  // data will be url if loading is finished and '' if not
+  const srcData = !loading ? urlToLoad : '';
 
   return (
     <div

@@ -64,7 +64,7 @@ export class UserDetailsDialog extends React.Component<Props, State> {
   private renderAvatar() {
     const { avatarPath, pubkey, profileName } = this.props;
     const size = this.state.isEnlargedImageShown ? 300 : 80;
-    const userName = name || profileName || pubkey;
+    const userName = profileName || pubkey;
 
     return (
       <Avatar

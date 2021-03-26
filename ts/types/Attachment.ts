@@ -444,7 +444,6 @@ export const encryptAttachmentBuffer = async (bufferIn: ArrayBuffer) => {
     state,
     header,
   } = sodium.crypto_secretstream_xchacha20poly1305_init_push(key);
-  console.warn('header', toHex(header));
   /* Now, encrypt the buffer. */
   const bufferOut = sodium.crypto_secretstream_xchacha20poly1305_push(
     state,
@@ -458,7 +457,6 @@ export const encryptAttachmentBuffer = async (bufferIn: ArrayBuffer) => {
   );
   encryptedBufferWithHeader.set(header);
   encryptedBufferWithHeader.set(bufferOut, header.length);
-  console.warn('bufferOut', toHex(encryptedBufferWithHeader));
   console.timeEnd(`timer #*. encryptAttachmentBuffer ${ourIndex}`);
 
   return { encryptedBufferWithHeader, header, key };
@@ -469,7 +467,7 @@ let indexDecrypt = 0;
 export const decryptAttachmentBuffer = async (
   bufferIn: ArrayBuffer,
   key: string = '0c5f7147b6d3239cbb5a418814cee1bfca2df5c94bffddf22ee37eea3ede972b'
-) => {
+): Promise<Uint8Array> => {
   if (!isArrayBuffer(bufferIn)) {
     throw new TypeError("'bufferIn' must be an array buffer");
   }
@@ -484,19 +482,30 @@ export const decryptAttachmentBuffer = async (
   const encryptedBuffer = new Uint8Array(
     bufferIn.slice(sodium.crypto_secretstream_xchacha20poly1305_HEADERBYTES)
   );
+  try {
+    /* Decrypt the stream: initializes the state, using the key and a header */
+    const state = sodium.crypto_secretstream_xchacha20poly1305_init_pull(
+      header,
+      fromHexToArray(key)
+    );
+    // what if ^ this call fail (? try to load as a unencrypted attachment?)
 
-  /* Decrypt the stream: initializes the state, using the key and a header */
-  const state = sodium.crypto_secretstream_xchacha20poly1305_init_pull(
-    header,
-    fromHexToArray(key)
-  );
-  // what if ^ this call fail (? try to load as a unencrypted attachment?)
+    const messageTag = sodium.crypto_secretstream_xchacha20poly1305_pull(
+      state,
+      encryptedBuffer
+    );
+    console.timeEnd(`timer .*# decryptAttachmentBuffer ${ourIndex}`);
+    // we expect the final tag to be there. If not, we might have an issue with this file
+    // maybe not encrypted locally?
+    if (
+      messageTag.tag === sodium.crypto_secretstream_xchacha20poly1305_TAG_FINAL
+    ) {
+      return messageTag.message;
+    }
+  } catch (e) {
+    console.timeEnd(`timer .*# decryptAttachmentBuffer ${ourIndex}`);
 
-  const messageTag = sodium.crypto_secretstream_xchacha20poly1305_pull(
-    state,
-    encryptedBuffer
-  );
-  console.timeEnd(`timer .*# decryptAttachmentBuffer ${ourIndex}`);
-
-  return messageTag.message;
+    window.log.warn('Failed to load the file as an encrypted one', e);
+  }
+  return new Uint8Array();
 };

@@ -159,8 +159,8 @@ class SessionRightPanel extends React.Component<Props, State> {
                 ),
                 thumbnailObjectUrl: thumbnail
                   ? window.Signal.Migrations.getAbsoluteAttachmentPath(
-                      thumbnail.path
-                    )
+                    thumbnail.path
+                  )
                   : null,
                 contentType: attachment.contentType,
                 index,
@@ -195,12 +195,13 @@ class SessionRightPanel extends React.Component<Props, State> {
 
     const saveAttachment = ({ attachment, message }: any = {}) => {
       const timestamp = message.received_at;
-      save({
-        attachment,
-        document,
-        getAbsolutePath: window.Signal.Migrations.getAbsoluteAttachmentPath,
-        timestamp,
-      });
+      attachment.url =
+        save({
+          attachment,
+          document,
+          getAbsolutePath: window.Signal.Migrations.getAbsoluteAttachmentPath,
+          timestamp,
+        });
     };
 
     const onItemClick = ({ message, attachment, type }: any) => {
@@ -258,10 +259,10 @@ class SessionRightPanel extends React.Component<Props, State> {
     const leaveGroupString = isPublic
       ? window.i18n('leaveGroup')
       : isKickedFromGroup
-      ? window.i18n('youGotKickedFromGroup')
-      : left
-      ? window.i18n('youLeftTheGroup')
-      : window.i18n('leaveGroup');
+        ? window.i18n('youGotKickedFromGroup')
+        : left
+          ? window.i18n('youLeftTheGroup')
+          : window.i18n('leaveGroup');
 
     const disappearingMessagesOptions = timerOptions.map(option => {
       return {
