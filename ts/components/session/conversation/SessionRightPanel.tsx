@@ -1,6 +1,6 @@
 import React from 'react';
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
-import { Avatar } from '../../Avatar';
+import { Avatar, AvatarSize } from '../../Avatar';
 import {
   SessionButton,
   SessionButtonColor,
@@ -21,6 +21,7 @@ import {
   getMessagesWithFileAttachments,
   getMessagesWithVisualMediaAttachments,
 } from '../../../data/data';
+import { getDecryptedAttachmentUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
 
 interface Props {
   id: string;
@@ -159,8 +160,8 @@ class SessionRightPanel extends React.Component<Props, State> {
                 ),
                 thumbnailObjectUrl: thumbnail
                   ? window.Signal.Migrations.getAbsoluteAttachmentPath(
-                    thumbnail.path
-                  )
+                      thumbnail.path
+                    )
                   : null,
                 contentType: attachment.contentType,
                 index,
@@ -193,21 +194,24 @@ class SessionRightPanel extends React.Component<Props, State> {
       }
     );
 
-    const saveAttachment = ({ attachment, message }: any = {}) => {
+    const saveAttachment = async ({ attachment, message }: any = {}) => {
       const timestamp = message.received_at;
-      attachment.url =
-        save({
-          attachment,
-          document,
-          getAbsolutePath: window.Signal.Migrations.getAbsoluteAttachmentPath,
-          timestamp,
-        });
+      attachment.url = await getDecryptedAttachmentUrl(
+        attachment.url,
+        attachment.contentType
+      );
+      save({
+        attachment,
+        document,
+        getAbsolutePath: window.Signal.Migrations.getAbsoluteAttachmentPath,
+        timestamp,
+      });
     };
 
     const onItemClick = ({ message, attachment, type }: any) => {
       switch (type) {
         case 'documents': {
-          saveAttachment({ message, attachment });
+          void saveAttachment({ message, attachment });
           break;
         }
 
@@ -259,10 +263,10 @@ class SessionRightPanel extends React.Component<Props, State> {
     const leaveGroupString = isPublic
       ? window.i18n('leaveGroup')
       : isKickedFromGroup
-        ? window.i18n('youGotKickedFromGroup')
-        : left
-          ? window.i18n('youLeftTheGroup')
-          : window.i18n('leaveGroup');
+      ? window.i18n('youGotKickedFromGroup')
+      : left
+      ? window.i18n('youLeftTheGroup')
+      : window.i18n('leaveGroup');
 
     const disappearingMessagesOptions = timerOptions.map(option => {
       return {
@@ -391,7 +395,7 @@ class SessionRightPanel extends React.Component<Props, State> {
         <Avatar
           avatarPath={avatarPath}
           name={userName}
-          size={80}
+          size={AvatarSize.XL}
           memberAvatars={memberAvatars}
           pubkey={id}
         />

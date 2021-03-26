@@ -9,10 +9,9 @@ const dataURLToBlobSync = require('blueimp-canvas-to-blob');
 const fse = require('fs-extra');
 
 const { blobToArrayBuffer } = require('blob-util');
-const {
-  arrayBufferToObjectURL,
-} = require('../../../ts/util/arrayBufferToObjectURL');
+
 const AttachmentTS = require('../../../ts/types/Attachment');
+const DecryptedAttachmentsManager = require('../../../ts/session/crypto/DecryptedAttachmentsManager');
 
 exports.blobToArrayBuffer = blobToArrayBuffer;
 
@@ -30,16 +29,12 @@ exports.getImageDimensions = ({ objectUrl, logger }) =>
       logger.error('getImageDimensions error', toLogFormat(error));
       reject(error);
     });
-    fse.readFile(objectUrl).then(buffer => {
-      AttachmentTS.decryptAttachmentBuffer(toArrayBuffer(buffer)).then(
-        decryptedData => {
-          //FIXME image/jpeg is hard coded
-          const srcData = `data:image/jpg;base64,${window.libsession.Utils.StringUtils.fromArrayBufferToBase64(
-            toArrayBuffer(decryptedData)
-          )}`;
-          image.src = srcData;
-        }
-      );
+    //FIXME image/jpeg is hard coded
+    DecryptedAttachmentsManager.getDecryptedAttachmentUrl(
+      objectUrl,
+      'image/jpg'
+    ).then(decryptedUrl => {
+      image.src = decryptedUrl;
     });
   });
 
@@ -85,16 +80,11 @@ exports.makeImageThumbnail = ({
       reject(error);
     });
 
-    fse.readFile(objectUrl).then(buffer => {
-      AttachmentTS.decryptAttachmentBuffer(toArrayBuffer(buffer)).then(
-        decryptedData => {
-          //FIXME image/jpeg is hard coded
-          const srcData = `data:image/jpg;base64,${window.libsession.Utils.StringUtils.fromArrayBufferToBase64(
-            toArrayBuffer(decryptedData)
-          )}`;
-          image.src = srcData;
-        }
-      );
+    DecryptedAttachmentsManager.getDecryptedAttachmentUrl(
+      objectUrl,
+      contentType
+    ).then(decryptedUrl => {
+      image.src = decryptedUrl;
     });
   });
 
@@ -128,44 +118,16 @@ exports.makeVideoScreenshot = ({
       reject(error);
     });
 
-    video.src = objectUrl;
-    video.muted = true;
-    // for some reason, this is to be started, otherwise the generated thumbnail will be empty
-    video.play();
+    DecryptedAttachmentsManager.getDecryptedAttachmentUrl(
+      objectUrl,
+      'image/jpg'
+    ).then(decryptedUrl => {
+      video.src = decryptedUrl;
+      video.muted = true;
+      // for some reason, this is to be started, otherwise the generated thumbnail will be empty
+      video.play();
+    });
   });
-
-exports.makeVideoThumbnail = async ({
-  size,
-  videoObjectUrl,
-  logger,
-  contentType,
-}) => {
-  let screenshotObjectUrl;
-  try {
-    const blob = await exports.makeVideoScreenshot({
-      objectUrl: videoObjectUrl,
-      contentType,
-      logger,
-    });
-    const data = await blobToArrayBuffer(blob);
-    screenshotObjectUrl = arrayBufferToObjectURL({
-      data,
-      type: contentType,
-    });
-
-    // We need to wait for this, otherwise the finally below will run first
-    const resultBlob = await exports.makeImageThumbnail({
-      size,
-      objectUrl: screenshotObjectUrl,
-      contentType,
-      logger,
-    });
-
-    return resultBlob;
-  } finally {
-    exports.revokeObjectUrl(screenshotObjectUrl);
-  }
-};
 
 exports.makeObjectUrl = (data, contentType) => {
   const blob = new Blob([data], {

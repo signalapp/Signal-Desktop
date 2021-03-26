@@ -418,15 +418,11 @@ export const getFileExtension = (
       return attachment.contentType.split('/')[1];
   }
 };
-let indexEncrypt = 0;
 
 export const encryptAttachmentBuffer = async (bufferIn: ArrayBuffer) => {
   if (!isArrayBuffer(bufferIn)) {
     throw new TypeError("'bufferIn' must be an array buffer");
   }
-  const ourIndex = indexEncrypt;
-  indexEncrypt++;
-  console.time(`timer #*. encryptAttachmentBuffer ${ourIndex}`);
 
   const uintArrayIn = new Uint8Array(bufferIn);
   const sodium = await getSodium();
@@ -457,12 +453,9 @@ export const encryptAttachmentBuffer = async (bufferIn: ArrayBuffer) => {
   );
   encryptedBufferWithHeader.set(header);
   encryptedBufferWithHeader.set(bufferOut, header.length);
-  console.timeEnd(`timer #*. encryptAttachmentBuffer ${ourIndex}`);
 
   return { encryptedBufferWithHeader, header, key };
 };
-
-let indexDecrypt = 0;
 
 export const decryptAttachmentBuffer = async (
   bufferIn: ArrayBuffer,
@@ -471,9 +464,6 @@ export const decryptAttachmentBuffer = async (
   if (!isArrayBuffer(bufferIn)) {
     throw new TypeError("'bufferIn' must be an array buffer");
   }
-  const ourIndex = indexDecrypt;
-  indexDecrypt++;
-  console.time(`timer .*# decryptAttachmentBuffer ${ourIndex}`);
   const sodium = await getSodium();
 
   const header = new Uint8Array(
@@ -494,7 +484,6 @@ export const decryptAttachmentBuffer = async (
       state,
       encryptedBuffer
     );
-    console.timeEnd(`timer .*# decryptAttachmentBuffer ${ourIndex}`);
     // we expect the final tag to be there. If not, we might have an issue with this file
     // maybe not encrypted locally?
     if (
@@ -503,8 +492,6 @@ export const decryptAttachmentBuffer = async (
       return messageTag.message;
     }
   } catch (e) {
-    console.timeEnd(`timer .*# decryptAttachmentBuffer ${ourIndex}`);
-
     window.log.warn('Failed to load the file as an encrypted one', e);
   }
   return new Uint8Array();

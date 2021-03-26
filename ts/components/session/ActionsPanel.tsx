@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
-import { Avatar } from '../Avatar';
+import { Avatar, AvatarSize } from '../Avatar';
 import { darkTheme, lightTheme } from '../../state/ducks/SessionTheme';
 import { SessionToastContainer } from './SessionToastContainer';
 import { ConversationType } from '../../state/ducks/conversations';
@@ -75,7 +75,7 @@ const Section = (props: { type: SectionType; avatarPath?: string }) => {
     return (
       <Avatar
         avatarPath={avatarPath}
-        size={28}
+        size={AvatarSize.XS}
         onAvatarClick={handleClick}
         name={userName}
         pubkey={ourNumber}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Avatar } from '../Avatar';
+import { Avatar, AvatarSize } from '../Avatar';
 
 import {
   SessionIconButton,
@@ -185,7 +185,7 @@ class ConversationHeaderInner extends React.Component<Props> {
         <Avatar
           avatarPath={avatarPath}
           name={userName}
-          size={36}
+          size={AvatarSize.S}
           onAvatarClick={() => {
             this.onAvatarClick(phoneNumber);
           }}

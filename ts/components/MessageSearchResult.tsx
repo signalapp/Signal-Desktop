@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { Avatar } from './Avatar';
+import { Avatar, AvatarSize } from './Avatar';
 import { MessageBodyHighlight } from './MessageBodyHighlight';
 import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
@@ -110,7 +110,7 @@ class MessageSearchResultInner extends React.PureComponent<Props> {
       <Avatar
         avatarPath={from.avatarPath}
         name={userName}
-        size={36}
+        size={AvatarSize.S}
         pubkey={from.phoneNumber}
       />
     );

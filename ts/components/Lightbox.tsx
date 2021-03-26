@@ -12,10 +12,10 @@ import {
   SessionIconType,
 } from './session/icon';
 import { Flex } from './session/Flex';
-import { DefaultTheme, useTheme } from 'styled-components';
+import { DefaultTheme } from 'styled-components';
 // useCss has some issues on our setup. so import it directly
 // tslint:disable-next-line: no-submodule-imports
-import useKey from 'react-use/lib/useKey';
+import useUnmount from 'react-use/lib/useUnmount';
 import { useEncryptedFileFetch } from '../hooks/useEncryptedFileFetch';
 import { darkTheme } from '../state/ducks/SessionTheme';
 
@@ -208,23 +208,58 @@ export const LightboxObject = ({
   contentType,
   videoRef,
   onObjectClick,
-  playVideo,
 }: {
   objectURL: string;
   contentType: MIME.MIMEType;
   videoRef: React.MutableRefObject<any>;
   onObjectClick: (event: any) => any;
-  playVideo: () => void;
 }) => {
   const { urlToLoad } = useEncryptedFileFetch(objectURL, contentType);
 
   const isImageTypeSupported = GoogleChrome.isImageTypeSupported(contentType);
+
+  const playVideo = () => {
+    if (!videoRef) {
+      return;
+    }
+
+    const { current } = videoRef;
+    if (!current) {
+      return;
+    }
+
+    if (current.paused) {
+      void current.play();
+    } else {
+      current.pause();
+    }
+  };
+
+  const pauseVideo = () => {
+    if (!videoRef) {
+      return;
+    }
+
+    const { current } = videoRef;
+    if (current) {
+      current.pause();
+    }
+  };
+
+  // auto play video on showing a video attachment
+  useUnmount(() => {
+    pauseVideo();
+  });
+
   if (isImageTypeSupported) {
-    return <img alt={window.i18n('lightboxImageAlt')} src={urlToLoad} />;
+    return <img style={styles.object} alt={window.i18n('lightboxImageAlt')} src={urlToLoad} />;
   }
 
   const isVideoTypeSupported = GoogleChrome.isVideoTypeSupported(contentType);
   if (isVideoTypeSupported) {
+    if (urlToLoad) {
+      playVideo();
+    }
     return (
       <video
         role="button"
@@ -232,9 +267,9 @@ export const LightboxObject = ({
         onClick={playVideo}
         controls={true}
         style={styles.object}
-        key={objectURL}
+        key={urlToLoad}
       >
-        <source src={objectURL} />
+        <source src={urlToLoad} />
       </video>
     );
   }
@@ -264,23 +299,6 @@ export const Lightbox = (props: Props) => {
   const theme = darkTheme;
   const { caption, contentType, objectURL, onNext, onPrevious, onSave } = props;
 
-  const playVideo = () => {
-    if (!videoRef) {
-      return;
-    }
-
-    const { current } = videoRef;
-    if (!current) {
-      return;
-    }
-
-    if (current.paused) {
-      void current.play();
-    } else {
-      current.pause();
-    }
-  };
-
   const onObjectClick = (event: any) => {
     event.stopPropagation();
     props.close?.();
@@ -293,21 +311,16 @@ export const Lightbox = (props: Props) => {
     props.close?.();
   };
 
-  // auto play video on showing a video attachment
-  useEffect(() => {
-    playVideo();
-  }, []);
-
   return (
-    <div
-      style={styles.container}
-      onClick={onContainerClick}
-      ref={containerRef}
-      role="dialog"
-    >
+    <div style={styles.container} role="dialog">
       <div style={styles.mainContainer}>
         <div style={styles.controlsOffsetPlaceholder} />
-        <div style={styles.objectParentContainer}>
+        <div
+          style={styles.objectParentContainer}
+          onClick={onContainerClick}
+          ref={containerRef}
+          role="button"
+        >
           <div style={styles.objectContainer}>
             {!is.undefined(contentType) ? (
               <LightboxObject
@@ -315,7 +328,6 @@ export const Lightbox = (props: Props) => {
                 contentType={contentType}
                 videoRef={videoRef}
                 onObjectClick={onObjectClick}
-                playVideo={playVideo}
               />
             ) : null}
             {caption ? <div style={styles.caption}>{caption}</div> : null}

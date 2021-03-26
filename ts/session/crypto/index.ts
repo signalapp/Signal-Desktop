@@ -1,6 +1,7 @@
 import * as MessageEncrypter from './MessageEncrypter';
+import * as DecryptedAttachmentsManager from './DecryptedAttachmentsManager';
 
-export { MessageEncrypter };
+export { MessageEncrypter, DecryptedAttachmentsManager };
 
 // libsodium-wrappers requires the `require` call to work
 // tslint:disable-next-line: no-require-imports
