@@ -230,6 +230,12 @@ export class ConversationModel extends window.Backbone.Model<
       this.debouncedUpdateLastMessage,
       this
     );
+    if (!this.isPrivate()) {
+      this.contactCollection.on(
+        'change:verified',
+        this.onMemberVerifiedChange.bind(this)
+      );
+    }
 
     this.messageCollection = new window.Whisper.MessageCollection([], {
       conversation: this,
@@ -1986,8 +1992,6 @@ export class ConversationModel extends window.Backbone.Model<
         }
       })
     );
-
-    this.onMemberVerifiedChange();
   }
 
   setVerifiedDefault(options?: VerificationOptions): Promise<unknown> {
@@ -4750,14 +4754,7 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   fetchContacts(): void {
-    if (this.isPrivate()) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      this.contactCollection!.reset([this]);
-    }
     const members = this.getMembers();
-    window._.forEach(members, member => {
-      this.listenTo(member, 'change:verified', this.onMemberVerifiedChange);
-    });
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.contactCollection!.reset(members);
