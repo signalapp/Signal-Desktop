@@ -310,6 +310,7 @@
   line-height: 0;
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 .module-message__container {
   position: relative;
@@ -320,6 +321,7 @@
   padding-top: 10px;
   padding-bottom: 10px;
   min-width: 0px;
+  width: 100%;
   overflow: hidden;
 
   @include light-theme {
@@ -954,6 +956,7 @@
 
   > *:not(:first-child) {
     display: flex;
+    flex-grow: 1;
 
     &:before {
       content: '•';
