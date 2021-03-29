@@ -378,7 +378,11 @@
   @include dark-theme {
     border: none;
   }
-  padding-bottom: 0px;
+
+  /* Leave some padding to eat the negative margin-bottom from
+   * .module-message__metadata
+   */
+  padding-bottom: 3px;
 }
 
 .module-message__container--outgoing {

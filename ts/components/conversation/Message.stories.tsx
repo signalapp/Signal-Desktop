@@ -101,6 +101,9 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
   id: text('id', overrideProps.id || ''),
   interactionMode: overrideProps.interactionMode || 'keyboard',
+  isSticker: isBoolean(overrideProps.isSticker)
+    ? overrideProps.isSticker
+    : false,
   isBlocked: isBoolean(overrideProps.isBlocked)
     ? overrideProps.isBlocked
     : false,
