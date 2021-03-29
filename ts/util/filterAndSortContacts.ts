@@ -9,6 +9,7 @@ const FUSE_OPTIONS: FuseOptions<ConversationType> = {
   // A small-but-nonzero threshold lets us match parts of E164s better, and makes the
   //   search a little more forgiving.
   threshold: 0.05,
+  tokenize: true,
   keys: [
     {
       name: 'title',

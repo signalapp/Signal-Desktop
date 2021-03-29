@@ -551,7 +551,8 @@ describe('both/state/selectors/conversations', () => {
       const result = getComposeContacts(state);
 
       const ids = result.map(contact => contact.id);
-      assert.deepEqual(ids, ['convo-1', 'convo-5']);
+      // NOTE: convo-6 matches because you can't write "Sharing" without "in"
+      assert.deepEqual(ids, ['convo-1', 'convo-5', 'convo-6']);
     });
   });
 
