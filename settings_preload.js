@@ -64,6 +64,9 @@ window.setHideMenuBar = makeSetter('hide-menu-bar');
 window.getSpellCheck = makeGetter('spell-check');
 window.setSpellCheck = makeSetter('spell-check');
 
+window.getAutoLaunch = makeGetter('auto-launch');
+window.setAutoLaunch = makeSetter('auto-launch');
+
 window.getAlwaysRelayCalls = makeGetter('always-relay-calls');
 window.setAlwaysRelayCalls = makeSetter('always-relay-calls');
 

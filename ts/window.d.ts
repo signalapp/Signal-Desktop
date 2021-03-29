@@ -133,6 +133,8 @@ declare global {
     dataURLToBlobSync: any;
     loadImage: any;
     isBehindProxy: () => boolean;
+    getAutoLaunch: () => boolean;
+    setAutoLaunch: (value: boolean) => void;
 
     PQueue: typeof PQueue;
     PQueueType: PQueue;

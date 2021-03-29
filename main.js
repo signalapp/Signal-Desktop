@@ -1523,6 +1523,9 @@ installSettingsSetter('badge-count-muted-conversations');
 installSettingsGetter('spell-check');
 installSettingsSetter('spell-check', true);
 
+installSettingsGetter('auto-launch');
+installSettingsSetter('auto-launch');
+
 installSettingsGetter('always-relay-calls');
 installSettingsSetter('always-relay-calls');
 installSettingsGetter('call-ringtone-notification');

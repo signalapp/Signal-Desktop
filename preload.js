@@ -69,6 +69,8 @@ try {
   window.getServerPublicParams = () => config.serverPublicParams;
   window.getSfuUrl = () => config.sfuUrl;
   window.isBehindProxy = () => Boolean(config.proxyUrl);
+  window.getAutoLaunch = () => app.getLoginItemSettings().openAtLogin;
+  window.setAutoLaunch = (value) => app.setLoginItemSettings({ openAtLogin: value });
 
   function setSystemTheme() {
     window.systemTheme = nativeTheme.shouldUseDarkColors ? 'dark' : 'light';
@@ -242,6 +244,9 @@ try {
 
   installGetter('spell-check', 'getSpellCheck');
   installSetter('spell-check', 'setSpellCheck');
+
+  installGetter('auto-launch', 'getAutoLaunch');
+  installSetter('auto-launch', 'setAutoLaunch');
 
   installGetter('always-relay-calls', 'getAlwaysRelayCalls');
   installSetter('always-relay-calls', 'setAlwaysRelayCalls');

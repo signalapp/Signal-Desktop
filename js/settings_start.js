@@ -36,6 +36,7 @@ const getInitialData = async () => ({
   countMutedConversations: await window.getCountMutedConversations(),
 
   spellCheck: await window.getSpellCheck(),
+  autoLaunch: await window.getAutoLaunch(),
 
   incomingCallNotification: await window.getIncomingCallNotification(),
   callRingtoneNotification: await window.getCallRingtoneNotification(),
