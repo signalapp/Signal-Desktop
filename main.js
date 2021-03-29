@@ -224,7 +224,7 @@ function prepareURL(pathSegments, moreKeys) {
       cdnUrl2: config.get('cdn').get('2'),
       certificateAuthority: config.get('certificateAuthority'),
       environment: enableCI ? 'production' : config.environment,
-      enableCI,
+      enableCI: enableCI ? true : undefined,
       node_version: process.versions.node,
       hostname: os.hostname(),
       appInstance: process.env.NODE_APP_INSTANCE,
