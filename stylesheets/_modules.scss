@@ -789,8 +789,8 @@
 .module-message__generic-attachment__text {
   flex-grow: 1;
   margin-left: 8px;
-  // The width of the icon plus our 8px margin
-  max-width: calc(100% - 37px);
+  // The width of the icon plus our 8px margin plus 1px leeway
+  max-width: calc(100% - 36px);
 }
 
 .module-message__generic-attachment__file-name {
