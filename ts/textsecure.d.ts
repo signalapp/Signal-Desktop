@@ -575,6 +575,8 @@ export declare class AttachmentPointerClass {
 
   static Flags: {
     VOICE_MESSAGE: number;
+    BORDERLESS: number;
+    GIF: number;
   };
 
   cdnId?: ProtoBigNumberType;
