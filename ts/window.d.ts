@@ -716,7 +716,7 @@ export type WhisperType = {
   };
 
   DeliveryReceipts: {
-    add: (reciept: WhatIsThis) => void;
+    add: (receipt: WhatIsThis) => void;
     forMessage: (conversation: unknown, message: unknown) => Array<WhatIsThis>;
     onReceipt: (receipt: WhatIsThis) => void;
   };
