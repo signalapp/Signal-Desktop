@@ -2239,7 +2239,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return false;
     }
 
-    // We can reply if this is outgoing and delievered to at least one recipient
+    // We can reply if this is outgoing and delivered to at least one recipient
     if (isOutgoing && numDelivered > 0) {
       return true;
     }
