@@ -7,7 +7,7 @@ import { createWaitBatcher } from './waitBatcher';
 
 const updateMessageBatcher = createBatcher<MessageAttributesType>({
   name: 'messageBatcher.updateMessageBatcher',
-  wait: 500,
+  wait: 75,
   maxSize: 50,
   processBatch: async (messageAttrs: Array<MessageAttributesType>) => {
     window.log.info('updateMessageBatcher', messageAttrs.length);
@@ -33,7 +33,7 @@ export function setBatchingStrategy(keepBatching = false): void {
 
 export const saveNewMessageBatcher = createWaitBatcher<MessageAttributesType>({
   name: 'messageBatcher.saveNewMessageBatcher',
-  wait: 500,
+  wait: 75,
   maxSize: 30,
   processBatch: async (messageAttrs: Array<MessageAttributesType>) => {
     window.log.info('saveNewMessageBatcher', messageAttrs.length);

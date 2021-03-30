@@ -205,7 +205,7 @@ class MessageReceiverInner extends EventTarget {
 
     this.cacheAddBatcher = createBatcher<CacheAddItemType>({
       name: 'MessageReceiver.cacheAddBatcher',
-      wait: 200,
+      wait: 75,
       maxSize: 30,
       processBatch: (items: Array<CacheAddItemType>) => {
         // Not returning the promise here because we don't want to stall
@@ -215,13 +215,13 @@ class MessageReceiverInner extends EventTarget {
     });
     this.cacheUpdateBatcher = createBatcher<CacheUpdateItemType>({
       name: 'MessageReceiver.cacheUpdateBatcher',
-      wait: 500,
+      wait: 75,
       maxSize: 30,
       processBatch: this.cacheUpdateBatch.bind(this),
     });
     this.cacheRemoveBatcher = createBatcher<string>({
       name: 'MessageReceiver.cacheRemoveBatcher',
-      wait: 500,
+      wait: 75,
       maxSize: 30,
       processBatch: this.cacheRemoveBatch.bind(this),
     });
