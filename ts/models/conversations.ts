@@ -5312,11 +5312,11 @@ window.Whisper.GroupMemberConversation = window.Backbone.Model.extend({
 
     if (!conversation) {
       throw new Error(
-        'GroupMemberConversation.initialze: conversation required!'
+        'GroupMemberConversation.initialize: conversation required!'
       );
     }
     if (!window._.isBoolean(isAdmin)) {
-      throw new Error('GroupMemberConversation.initialze: isAdmin required!');
+      throw new Error('GroupMemberConversation.initialize: isAdmin required!');
     }
 
     // If our underlying conversation changes, we change too
