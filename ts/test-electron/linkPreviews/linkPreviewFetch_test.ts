@@ -425,7 +425,7 @@ describe('link preview fetching', () => {
       );
     });
 
-    it('allows an explitly inline Content-Disposition header', async () => {
+    it('allows an explicitly inline Content-Disposition header', async () => {
       const fakeFetch = stub().resolves(
         makeResponse({
           headers: { 'Content-Disposition': 'inline' },
