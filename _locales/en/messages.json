@@ -982,7 +982,7 @@
     "description": "Label for when something is turned off"
   },
   "deleteWarning": {
-    "message": "The message will be deleted from this device only.",
+    "message": "This message will be deleted from this device.",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
