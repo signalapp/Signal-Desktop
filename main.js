@@ -1169,7 +1169,12 @@ app.on('ready', async () => {
 
   setupMenu();
 
-  ensureFilePermissions(['config.json', 'sql/db.sqlite']);
+  ensureFilePermissions([
+    'config.json',
+    'sql/db.sqlite',
+    'sql/db.sqlite-wal',
+    'sql/db.sqlite-shm',
+  ]);
 });
 
 function setupMenu(options) {
