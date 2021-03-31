@@ -3,6 +3,31 @@
 
 /* eslint-disable max-classes-per-file */
 
+export function isIterable(value: unknown): value is Iterable<unknown> {
+  return (
+    (typeof value === 'object' && value !== null && Symbol.iterator in value) ||
+    typeof value === 'string'
+  );
+}
+
+export function size(iterable: Iterable<unknown>): number {
+  // We check for common types as an optimization.
+  if (typeof iterable === 'string' || Array.isArray(iterable)) {
+    return iterable.length;
+  }
+  if (iterable instanceof Set || iterable instanceof Map) {
+    return iterable.size;
+  }
+
+  const iterator = iterable[Symbol.iterator]();
+
+  let result = -1;
+  for (let done = false; !done; result += 1) {
+    done = Boolean(iterator.next().done);
+  }
+  return result;
+}
+
 export function map<T, ResultT>(
   iterable: Iterable<T>,
   fn: (value: T) => ResultT

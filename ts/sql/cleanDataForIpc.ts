@@ -3,7 +3,7 @@
 
 import { isPlainObject } from 'lodash';
 
-import { isIterable } from '../util/isIterable';
+import { isIterable } from '../util/iterables';
 
 /**
  * IPC arguments are serialized with the [structured clone algorithm][0], but we can only

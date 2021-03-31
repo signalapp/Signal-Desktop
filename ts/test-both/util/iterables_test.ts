@@ -4,9 +4,84 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 
-import { map, take } from '../../util/iterables';
+import { isIterable, size, map, take } from '../../util/iterables';
 
 describe('iterable utilities', () => {
+  describe('isIterable', () => {
+    it('returns false for non-iterables', () => {
+      assert.isFalse(isIterable(undefined));
+      assert.isFalse(isIterable(null));
+      assert.isFalse(isIterable(123));
+      assert.isFalse(isIterable({ foo: 'bar' }));
+      assert.isFalse(
+        isIterable({
+          length: 2,
+          '0': 'fake',
+          '1': 'array',
+        })
+      );
+    });
+
+    it('returns true for iterables', () => {
+      assert.isTrue(isIterable('strings are iterable'));
+      assert.isTrue(isIterable(['arrays too']));
+      assert.isTrue(isIterable(new Set('and sets')));
+      assert.isTrue(isIterable(new Map([['and', 'maps']])));
+      assert.isTrue(
+        isIterable({
+          [Symbol.iterator]() {
+            return {
+              next() {
+                return {
+                  value: 'endless iterable',
+                  done: false,
+                };
+              },
+            };
+          },
+        })
+      );
+      assert.isTrue(
+        isIterable(
+          (function* generators() {
+            yield 123;
+          })()
+        )
+      );
+    });
+  });
+
+  describe('size', () => {
+    it('returns the length of a string', () => {
+      assert.strictEqual(size(''), 0);
+      assert.strictEqual(size('hello world'), 11);
+    });
+
+    it('returns the length of an array', () => {
+      assert.strictEqual(size([]), 0);
+      assert.strictEqual(size(['hello', 'world']), 2);
+    });
+
+    it('returns the size of a set', () => {
+      assert.strictEqual(size(new Set()), 0);
+      assert.strictEqual(size(new Set([1, 2, 3])), 3);
+    });
+
+    it('returns the length (not byte length) of typed arrays', () => {
+      assert.strictEqual(size(new Uint8Array(3)), 3);
+      assert.strictEqual(size(new Uint32Array(3)), 3);
+    });
+
+    it('returns the size of arbitrary iterables', () => {
+      function* someNumbers() {
+        yield 3;
+        yield 6;
+        yield 9;
+      }
+      assert.strictEqual(size(someNumbers()), 3);
+    });
+  });
+
   describe('map', () => {
     it('returns an empty iterable when passed an empty iterable', () => {
       const fn = sinon.fake();
