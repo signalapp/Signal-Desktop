@@ -388,7 +388,20 @@ export async function mergeGroupV1Record(
   // Attempt to fetch an existing group pertaining to the `groupId` or create
   // a new group and populate it with the attributes from the record.
   let conversation = window.ConversationController.get(groupId);
+
+  // Because ConversationController.get retrieves all types of records we
+  // may sometimes have a situation where we get a record of groupv1 type
+  // where the binary representation of its ID matches a v2 record in memory.
+  // Here we ensure that the record we're about to process is GV1 otherwise
+  // we drop the update.
+  if (conversation && !conversation.isGroupV1()) {
+    throw new Error(`Record has group type mismatch ${conversation.debugID()}`);
+  }
+
   if (!conversation) {
+    // It's possible this group was migrated to a GV2 if so we attempt to
+    // retrieve the master key and find the conversation locally. If we
+    // are successful then we continue setting and applying state.
     const masterKeyBuffer = await deriveMasterKeyFromGroupV1(groupId);
     const fields = deriveGroupFields(masterKeyBuffer);
     const derivedGroupV2Id = arrayBufferToBase64(fields.id);
@@ -415,8 +428,6 @@ export async function mergeGroupV1Record(
     );
   }
 
-  // If we receive a group V1 record, remote data should take precendence
-  // even if the group is actually V2 on our end.
   conversation.set({
     isArchived: Boolean(groupV1Record.archived),
     markedUnread: Boolean(groupV1Record.markedUnread),

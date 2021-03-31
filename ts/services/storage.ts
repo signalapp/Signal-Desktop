@@ -131,8 +131,6 @@ async function generateManifest(
 
   await window.ConversationController.checkForConflicts();
 
-  await repairUnknownAndErroredRecords();
-
   const ITEM_TYPE = window.textsecure.protobuf.ManifestRecord.Identifier.Type;
 
   const conversationsToUpdate = [];
@@ -349,54 +347,6 @@ async function generateManifest(
     newItems,
     storageManifest,
   };
-}
-
-async function repairUnknownAndErroredRecords() {
-  const unknownRecordsArray: ReadonlyArray<UnknownRecord> =
-    window.storage.get('storage-service-unknown-records') || [];
-
-  const recordsWithErrors: ReadonlyArray<UnknownRecord> =
-    window.storage.get('storage-service-error-records') || [];
-
-  const remoteRecords = unknownRecordsArray.concat(recordsWithErrors);
-
-  // No repair necessary
-  if (remoteRecords.length === 0) {
-    return;
-  }
-
-  // Process unknown and records with records from the past sync to see
-  // if they can be merged
-  const remoteRecordsMap: Map<string, RemoteRecord> = new Map();
-  remoteRecords.forEach(record => {
-    remoteRecordsMap.set(record.storageID, record);
-  });
-
-  window.log.info(
-    'storageService.repairUnknownAndErroredRecords: found ' +
-      `${unknownRecordsArray.length} unknown records and ` +
-      `${recordsWithErrors.length} errored records, attempting repair`
-  );
-  const conflictCount = await processRemoteRecords(remoteRecordsMap);
-  if (conflictCount !== 0) {
-    window.log.info(
-      'storageService.repairUnknownAndErroredRecords: fixed ' +
-        `${conflictCount} conflicts`
-    );
-  }
-
-  const newUnknownCount = (
-    window.storage.get('storage-service-unknown-records') || []
-  ).length;
-  const newErroredCount = (
-    window.storage.get('storage-service-error-records') || []
-  ).length;
-
-  window.log.info(
-    'storageService.repairUnknownAndErroredRecords: ' +
-      `${newUnknownCount} unknown records and ` +
-      `${newErroredCount} errored records after repair`
-  );
 }
 
 async function uploadManifest(
@@ -647,8 +597,9 @@ async function mergeRecord(
   } catch (err) {
     hasError = true;
     window.log.error(
-      'storageService.mergeRecord: merging record failed',
-      err && err.stack ? err.stack : String(err)
+      'storageService.mergeRecord: Error with',
+      storageID,
+      itemType
     );
   }
 
@@ -691,14 +642,6 @@ async function processManifest(
     }
   });
 
-  const recordsWithErrors: ReadonlyArray<UnknownRecord> =
-    window.storage.get('storage-service-error-records') || [];
-
-  // Do not fetch any records that we failed to merge in the previous fetch
-  recordsWithErrors.forEach((record: UnknownRecord) => {
-    localKeys.push(record.storageID);
-  });
-
   window.log.info(
     'storageService.processManifest: local keys:',
     localKeys.length
@@ -707,10 +650,6 @@ async function processManifest(
   window.log.info(
     'storageService.processManifest: incl. unknown records:',
     unknownRecordsArray.length
-  );
-  window.log.info(
-    'storageService.processManifest: incl. records with errors:',
-    recordsWithErrors.length
   );
 
   const remoteKeys = Array.from(remoteKeysTypeMap.keys());
@@ -1062,6 +1001,9 @@ async function upload(fromSync = false): Promise<void> {
   }
 
   if (!fromSync) {
+    // Syncing before we upload so that we repair any unknown records and
+    // records with errors as well as ensure that we have the latest up to date
+    // manifest.
     await sync();
   }
 

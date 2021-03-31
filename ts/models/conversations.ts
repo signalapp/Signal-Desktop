@@ -3725,7 +3725,9 @@ export class ConversationModel extends window.Backbone.Model<
 
     if (Boolean(before) !== Boolean(after)) {
       if (after) {
-        this.unpin();
+        // we're capturing a storage sync below so
+        // we don't need to capture it twice
+        this.unpin({ stopStorageSync: true });
       }
       this.captureChange('isArchived');
     }
@@ -5105,6 +5107,10 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   pin(): void {
+    if (this.get('isPinned')) {
+      return;
+    }
+
     window.log.info('pinning', this.idForLogging());
     const pinnedConversationIds = new Set(
       window.storage.get<Array<string>>('pinnedConversationIds', [])
@@ -5115,14 +5121,18 @@ export class ConversationModel extends window.Backbone.Model<
     this.writePinnedConversations([...pinnedConversationIds]);
 
     this.set('isPinned', true);
-    window.Signal.Data.updateConversation(this.attributes);
 
     if (this.get('isArchived')) {
-      this.setArchived(false);
+      this.set({ isArchived: false });
     }
+    window.Signal.Data.updateConversation(this.attributes);
   }
 
-  unpin(): void {
+  unpin({ stopStorageSync = false } = {}): void {
+    if (!this.get('isPinned')) {
+      return;
+    }
+
     window.log.info('un-pinning', this.idForLogging());
 
     const pinnedConversationIds = new Set(
@@ -5131,7 +5141,9 @@ export class ConversationModel extends window.Backbone.Model<
 
     pinnedConversationIds.delete(this.id);
 
-    this.writePinnedConversations([...pinnedConversationIds]);
+    if (!stopStorageSync) {
+      this.writePinnedConversations([...pinnedConversationIds]);
+    }
 
     this.set('isPinned', false);
     window.Signal.Data.updateConversation(this.attributes);
