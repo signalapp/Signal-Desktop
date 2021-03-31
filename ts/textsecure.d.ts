@@ -736,7 +736,6 @@ export declare namespace DataMessageClass {
   class Reaction {
     emoji: string | null;
     remove: boolean;
-    targetAuthorE164: string | null;
     targetAuthorUuid: string | null;
     targetTimestamp: ProtoBigNumberType | null;
   }

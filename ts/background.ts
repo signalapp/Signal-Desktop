@@ -2601,7 +2601,6 @@ export async function startApp(): Promise<void> {
       const reactionModel = window.Whisper.Reactions.add({
         emoji: reaction.emoji,
         remove: reaction.remove,
-        targetAuthorE164: reaction.targetAuthorE164,
         targetAuthorUuid: reaction.targetAuthorUuid,
         targetTimestamp: reaction.targetTimestamp,
         timestamp: Date.now(),
@@ -2892,7 +2891,6 @@ export async function startApp(): Promise<void> {
       const reactionModel = window.Whisper.Reactions.add({
         emoji: reaction.emoji,
         remove: reaction.remove,
-        targetAuthorE164: reaction.targetAuthorE164,
         targetAuthorUuid: reaction.targetAuthorUuid,
         targetTimestamp: reaction.targetTimestamp,
         timestamp: Date.now(),
