@@ -18,7 +18,7 @@ import { InContactsIcon } from '../InContactsIcon';
 
 import { LocalizerType } from '../../types/Util';
 import { ColorType } from '../../types/Colors';
-import { getMuteOptions } from '../../util/getMuteOptions';
+import { MuteOption, getMuteOptions } from '../../util/getMuteOptions';
 import {
   ExpirationTimerOptions,
   TimerOption,
@@ -375,7 +375,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       onMoveToInbox,
     } = this.props;
 
-    const muteOptions = [];
+    const muteOptions: Array<MuteOption> = [];
     if (isMuted(muteExpiresAt)) {
       const expires = moment(muteExpiresAt);
       const muteExpirationLabel = moment().isSame(expires, 'day')
