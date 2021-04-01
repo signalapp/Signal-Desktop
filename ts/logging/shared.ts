@@ -1,6 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import * as z from 'zod';
 import * as pino from 'pino';
 import { redactAll } from '../../js/modules/privacy';
 import { missingCaseError } from '../util/missingCaseError';
@@ -19,37 +20,14 @@ export enum LogLevel {
 
 // These match [Pino's core fields][1].
 // [1]: https://getpino.io/#/?id=usage
-export type LogEntryType = {
-  level: LogLevel;
-  msg: string;
-  time: string;
-};
+const logEntrySchema = z.object({
+  level: z.nativeEnum(LogLevel),
+  msg: z.string(),
+  time: z.string().refine(value => !Number.isNaN(new Date(value).getTime())),
+});
+export type LogEntryType = z.infer<typeof logEntrySchema>;
 
-const logLevels = new Set<LogLevel>([
-  LogLevel.Fatal,
-  LogLevel.Error,
-  LogLevel.Warn,
-  LogLevel.Info,
-  LogLevel.Debug,
-  LogLevel.Trace,
-]);
-function isLogLevel(value: unknown): value is LogLevel {
-  return typeof value === 'number' && logLevels.has(value);
-}
-
-function isValidTime(value: unknown): value is string {
-  return typeof value === 'string' && !Number.isNaN(new Date(value).getTime());
-}
-
-export function isLogEntry(value: unknown): value is LogEntryType {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) {
-    return false;
-  }
-
-  const { level, time, msg } = value as Record<string, unknown>;
-
-  return typeof msg === 'string' && isLogLevel(level) && isValidTime(time);
-}
+export const isLogEntry = logEntrySchema.check.bind(logEntrySchema);
 
 export function getLogLevelString(value: LogLevel): pino.Level {
   switch (value) {

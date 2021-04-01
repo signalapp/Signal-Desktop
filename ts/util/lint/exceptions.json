@@ -14802,7 +14802,7 @@
     "rule": "jQuery-append(",
     "path": "ts/logging/debuglogs.js",
     "line": "    form.append('key', fields.key);",
-    "lineNumber": 45,
+    "lineNumber": 61,
     "reasonCategory": "falseMatch",
     "updated": "2020-12-17T18:08:07.752Z"
   },
@@ -14810,7 +14810,7 @@
     "rule": "jQuery-append(",
     "path": "ts/logging/debuglogs.js",
     "line": "        form.append(key, value);",
-    "lineNumber": 49,
+    "lineNumber": 65,
     "reasonCategory": "falseMatch",
     "updated": "2020-12-17T18:08:07.752Z"
   },
@@ -14818,7 +14818,7 @@
     "rule": "jQuery-append(",
     "path": "ts/logging/debuglogs.js",
     "line": "    form.append('Content-Type', contentType);",
-    "lineNumber": 53,
+    "lineNumber": 69,
     "reasonCategory": "falseMatch",
     "updated": "2020-12-17T18:08:07.752Z"
   },
@@ -14826,7 +14826,7 @@
     "rule": "jQuery-append(",
     "path": "ts/logging/debuglogs.js",
     "line": "    form.append('file', contentBuffer, {",
-    "lineNumber": 54,
+    "lineNumber": 70,
     "reasonCategory": "falseMatch",
     "updated": "2020-12-17T18:08:07.752Z"
   },
@@ -14834,7 +14834,7 @@
     "rule": "jQuery-append(",
     "path": "ts/logging/debuglogs.ts",
     "line": "  form.append('key', fields.key);",
-    "lineNumber": 55,
+    "lineNumber": 49,
     "reasonCategory": "falseMatch",
     "updated": "2020-12-17T18:08:07.752Z"
   },
@@ -14842,7 +14842,7 @@
     "rule": "jQuery-append(",
     "path": "ts/logging/debuglogs.ts",
     "line": "      form.append(key, value);",
-    "lineNumber": 59,
+    "lineNumber": 53,
     "reasonCategory": "falseMatch",
     "updated": "2020-12-17T18:08:07.752Z"
   },
@@ -14850,7 +14850,7 @@
     "rule": "jQuery-append(",
     "path": "ts/logging/debuglogs.ts",
     "line": "  form.append('Content-Type', contentType);",
-    "lineNumber": 64,
+    "lineNumber": 58,
     "reasonCategory": "falseMatch",
     "updated": "2020-12-17T18:08:07.752Z"
   },
@@ -14858,7 +14858,7 @@
     "rule": "jQuery-append(",
     "path": "ts/logging/debuglogs.ts",
     "line": "  form.append('file', contentBuffer, {",
-    "lineNumber": 65,
+    "lineNumber": 59,
     "reasonCategory": "falseMatch",
     "updated": "2020-12-17T18:08:07.752Z"
   },

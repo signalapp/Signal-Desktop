@@ -17620,3 +17620,8 @@ zip-stream@^1.2.0:
     ffi-napi "2.4.5"
     ref-array-napi "1.2.0"
     ref-napi "1.4.2"
+
+zod@1.11.13:
+  version "1.11.13"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-1.11.13.tgz#6acb1e52b670afeb816ce2e2ddf6ab359f9ea506"
+  integrity sha512-10+KA7eWa8g1hbKIXkOnhjJ4RKEwX85ECz3VJzP+pWkJOFKn76bHy1kG0d1JHBwmdElLcCsaB0O9HqIfT1vZnw==
