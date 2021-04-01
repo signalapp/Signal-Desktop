@@ -2094,7 +2094,7 @@ export async function startApp(): Promise<void> {
       );
     }
 
-    window.sqlInitializer.goBackToMainProcess();
+    await window.sqlInitializer.goBackToMainProcess();
     window.Signal.Util.setBatchingStrategy(false);
 
     const attachmentDownloadQueue = window.attachmentDownloadQueue || [];

@@ -242,7 +242,15 @@ const dataInterface: ClientInterface = {
 
 export default dataInterface;
 
-function goBackToMainProcess() {
+async function goBackToMainProcess(): Promise<void> {
+  window.log.info('data.goBackToMainProcess: waiting for pending queries');
+
+  // Let pending queries finish before we'll give write access to main process.
+  // We don't want to be writing from two processes at the same time!
+  await waitForPendingQueries();
+
+  window.log.info('data.goBackToMainProcess: switching to main process');
+
   shouldUseRendererProcess = false;
 }
 
