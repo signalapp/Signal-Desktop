@@ -3122,6 +3122,10 @@
       }
     }
   },
+  "no-groups-in-common": {
+    "message": "No groups in common.",
+    "description": "Shown to indicate this user is not a member of any groups"
+  },
   "acceptCall": {
     "message": "Answer",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
