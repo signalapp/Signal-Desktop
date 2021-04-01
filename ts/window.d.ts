@@ -526,7 +526,6 @@ declare global {
         getInitialState: () => WhatIsThis;
         load: () => void;
       };
-      RefreshSenderCertificate: WhatIsThis;
     };
 
     ConversationController: ConversationController;

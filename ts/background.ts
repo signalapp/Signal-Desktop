@@ -7,6 +7,7 @@ import { WhatIsThis } from './window.d';
 import { getTitleBarVisibility, TitleBarVisibility } from './types/Settings';
 import { isWindowDragElement } from './util/isWindowDragElement';
 import { assert } from './util/assert';
+import * as refreshSenderCertificate from './refreshSenderCertificate';
 import { routineProfileRefresh } from './routineProfileRefresh';
 import { isMoreRecentThan, isOlderThan } from './util/timestamp';
 
@@ -2068,11 +2069,10 @@ export async function startApp(): Promise<void> {
       window.Whisper.events,
       newVersion
     );
-    window.Signal.RefreshSenderCertificate.initialize({
+    refreshSenderCertificate.initialize({
       events: window.Whisper.events,
       storage: window.storage,
       navigator,
-      logger: window.log,
     });
 
     window.Whisper.deliveryReceiptQueue.start();

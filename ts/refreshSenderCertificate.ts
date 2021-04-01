@@ -1,29 +1,35 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global window, setTimeout, clearTimeout, textsecure, WebAPI, ConversationController */
-
-module.exports = {
-  initialize,
-};
+import * as log from './logging/log';
 
 const ONE_DAY = 24 * 60 * 60 * 1000; // one day
 const MINIMUM_TIME_LEFT = 2 * 60 * 60 * 1000; // two hours
 
-let timeout = null;
-let scheduledTime = null;
-let scheduleNext = null;
+let timeout: null | ReturnType<typeof setTimeout> = null;
+let scheduledTime: null | number = null;
+let scheduleNext: null | (() => void) = null;
 
 // We need to refresh our own profile regularly to account for newly-added devices which
 //   do not support unidentified delivery.
 function refreshOurProfile() {
   window.log.info('refreshOurProfile');
-  const ourId = ConversationController.getOurConversationId();
-  const conversation = ConversationController.get(ourId);
-  conversation.getProfiles();
+  const ourId = window.ConversationController.getOurConversationIdOrThrow();
+  const conversation = window.ConversationController.get(ourId);
+  conversation?.getProfiles();
 }
 
-function initialize({ events, storage, navigator, logger }) {
+export function initialize({
+  events,
+  storage,
+  navigator,
+}: Readonly<{
+  events: {
+    on: (name: string, callback: () => void) => void;
+  };
+  storage: typeof window.storage;
+  navigator: Navigator;
+}>): void {
   // We don't want to set up all of the below functions, but we do want to ensure that our
   //   refresh timer is up-to-date.
   if (scheduleNext) {
@@ -65,12 +71,18 @@ function initialize({ events, storage, navigator, logger }) {
   // Keeping this entrypoint around so more inialize() calls just kick the timing
   scheduleNext = scheduleNextRotation;
 
-  async function saveCert({ certificate, key }) {
+  async function saveCert({
+    certificate,
+    key,
+  }: {
+    certificate: string;
+    key: string;
+  }): Promise<void> {
     const arrayBuffer = window.Signal.Crypto.base64ToArrayBuffer(certificate);
-    const decodedContainer = textsecure.protobuf.SenderCertificate.decode(
+    const decodedContainer = window.textsecure.protobuf.SenderCertificate.decode(
       arrayBuffer
     );
-    const decodedCert = textsecure.protobuf.SenderCertificate.Certificate.decode(
+    const decodedCert = window.textsecure.protobuf.SenderCertificate.Certificate.decode(
       decodedContainer.certificate
     );
 
@@ -83,7 +95,7 @@ function initialize({ events, storage, navigator, logger }) {
     await storage.put(key, toSave);
   }
 
-  async function removeOldKey() {
+  async function removeOldKey(): Promise<void> {
     const oldCertKey = 'senderCertificateWithUuid';
     const oldUuidCert = storage.get(oldCertKey);
     if (oldUuidCert) {
@@ -91,13 +103,13 @@ function initialize({ events, storage, navigator, logger }) {
     }
   }
 
-  async function run() {
-    logger.info('refreshSenderCertificate: Getting new certificate...');
+  async function run(): Promise<void> {
+    log.info('refreshSenderCertificate: Getting new certificate...');
     try {
       const OLD_USERNAME = storage.get('number_id');
       const USERNAME = storage.get('uuid_id');
       const PASSWORD = storage.get('password');
-      const server = WebAPI.connect({
+      const server = window.WebAPI.connect({
         username: USERNAME || OLD_USERNAME,
         password: PASSWORD,
       });
@@ -123,7 +135,7 @@ function initialize({ events, storage, navigator, logger }) {
       scheduledTime = null;
       scheduleNextRotation();
     } catch (error) {
-      logger.error(
+      log.error(
         'refreshSenderCertificate: Get failed. Trying again in five minutes...',
         error && error.stack ? error.stack : error
       );
@@ -140,11 +152,11 @@ function initialize({ events, storage, navigator, logger }) {
     if (navigator.onLine) {
       run();
     } else {
-      logger.info(
+      log.info(
         'refreshSenderCertificate: Offline. Will update certificate when online...'
       );
       const listener = () => {
-        logger.info(
+        log.info(
           'refreshSenderCertificate: Online. Now updating certificate...'
         );
         window.removeEventListener('online', listener);
@@ -158,7 +170,7 @@ function initialize({ events, storage, navigator, logger }) {
     const now = Date.now();
 
     if (scheduledTime !== time || !timeout) {
-      logger.info(
+      log.info(
         'Next sender certificate refresh scheduled for',
         new Date(time).toISOString()
       );
@@ -167,7 +179,9 @@ function initialize({ events, storage, navigator, logger }) {
     scheduledTime = time;
     const waitTime = Math.max(0, time - now);
 
-    clearTimeout(timeout);
+    if (timeout) {
+      clearTimeout(timeout);
+    }
     timeout = setTimeout(runWhenOnline, waitTime);
   }
 }
