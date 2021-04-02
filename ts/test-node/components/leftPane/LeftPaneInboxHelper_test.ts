@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import * as sinon from 'sinon';
 import { v4 as uuid } from 'uuid';
 import { RowType } from '../../../components/ConversationList';
 import { FindDirection } from '../../../components/leftPane/LeftPaneHelper';
@@ -13,6 +14,24 @@ describe('LeftPaneInboxHelper', () => {
     id: uuid(),
     title: uuid(),
     type: 'direct' as const,
+  });
+
+  describe('getBackAction', () => {
+    it("returns undefined; you can't go back from the main inbox", () => {
+      const helper = new LeftPaneInboxHelper({
+        conversations: [],
+        pinnedConversations: [],
+        archivedConversations: [],
+      });
+
+      assert.isUndefined(
+        helper.getBackAction({
+          showChooseGroupMembers: sinon.fake(),
+          showInbox: sinon.fake(),
+          startComposing: sinon.fake(),
+        })
+      );
+    });
   });
 
   describe('getRowCount', () => {

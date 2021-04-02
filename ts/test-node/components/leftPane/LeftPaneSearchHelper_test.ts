@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import * as sinon from 'sinon';
 import { v4 as uuid } from 'uuid';
 import { RowType } from '../../../components/ConversationList';
 
@@ -17,6 +18,25 @@ describe('LeftPaneSearchHelper', () => {
   const fakeMessage = () => ({
     id: uuid(),
     conversationId: uuid(),
+  });
+
+  describe('getBackAction', () => {
+    it('returns undefined; going back is handled elsewhere in the app', () => {
+      const helper = new LeftPaneSearchHelper({
+        conversationResults: { isLoading: false, results: [] },
+        contactResults: { isLoading: false, results: [] },
+        messageResults: { isLoading: false, results: [] },
+        searchTerm: 'foo',
+      });
+
+      assert.isUndefined(
+        helper.getBackAction({
+          showChooseGroupMembers: sinon.fake(),
+          showInbox: sinon.fake(),
+          startComposing: sinon.fake(),
+        })
+      );
+    });
   });
 
   describe('getRowCount', () => {

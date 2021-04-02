@@ -67,7 +67,7 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<
           aria-label={backButtonLabel}
           className="module-left-pane__header__contents__back-button"
           disabled={this.isCreating}
-          onClick={showChooseGroupMembers}
+          onClick={this.getBackAction({ showChooseGroupMembers })}
           title={backButtonLabel}
           type="button"
         />
@@ -76,6 +76,14 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<
         </div>
       </div>
     );
+  }
+
+  getBackAction({
+    showChooseGroupMembers,
+  }: {
+    showChooseGroupMembers: () => void;
+  }): undefined | (() => void) {
+    return this.isCreating ? undefined : showChooseGroupMembers;
   }
 
   getPreRowsNode({

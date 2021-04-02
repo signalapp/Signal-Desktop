@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import * as sinon from 'sinon';
 import { v4 as uuid } from 'uuid';
 import { RowType } from '../../../components/ConversationList';
 
@@ -12,6 +13,38 @@ describe('LeftPaneSetGroupMetadataHelper', () => {
     id: uuid(),
     title: uuid(),
     type: 'direct' as const,
+  });
+
+  describe('getBackAction', () => {
+    it('returns the "show composer" action if a request is not active', () => {
+      const showChooseGroupMembers = sinon.fake();
+      const helper = new LeftPaneSetGroupMetadataHelper({
+        groupAvatar: undefined,
+        groupName: '',
+        hasError: false,
+        isCreating: false,
+        selectedContacts: [],
+      });
+
+      assert.strictEqual(
+        helper.getBackAction({ showChooseGroupMembers }),
+        showChooseGroupMembers
+      );
+    });
+
+    it("returns undefined (i.e., you can't go back) if a request is active", () => {
+      const helper = new LeftPaneSetGroupMetadataHelper({
+        groupAvatar: undefined,
+        groupName: 'Foo Bar',
+        hasError: false,
+        isCreating: true,
+        selectedContacts: [],
+      });
+
+      assert.isUndefined(
+        helper.getBackAction({ showChooseGroupMembers: sinon.fake() })
+      );
+    });
   });
 
   describe('getRowCount', () => {

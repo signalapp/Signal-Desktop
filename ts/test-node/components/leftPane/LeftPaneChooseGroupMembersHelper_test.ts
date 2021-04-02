@@ -45,6 +45,18 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
     sinonSandbox.restore();
   });
 
+  describe('getBackAction', () => {
+    it('returns the "show composer" action', () => {
+      const startComposing = sinon.fake();
+      const helper = new LeftPaneChooseGroupMembersHelper(defaults);
+
+      assert.strictEqual(
+        helper.getBackAction({ startComposing }),
+        startComposing
+      );
+    });
+  });
+
   describe('getRowCount', () => {
     it('returns 0 if there are no contacts', () => {
       assert.strictEqual(

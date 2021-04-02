@@ -86,7 +86,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<
         <button
           aria-label={backButtonLabel}
           className="module-left-pane__header__contents__back-button"
-          onClick={startComposing}
+          onClick={this.getBackAction({ startComposing })}
           title={backButtonLabel}
           type="button"
         />
@@ -95,6 +95,14 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<
         </div>
       </div>
     );
+  }
+
+  getBackAction({
+    startComposing,
+  }: {
+    startComposing: () => void;
+  }): () => void {
+    return startComposing;
   }
 
   getPreRowsNode({

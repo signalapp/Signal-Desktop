@@ -30,6 +30,16 @@ export abstract class LeftPaneHelper<T> {
     return null;
   }
 
+  getBackAction(
+    _: Readonly<{
+      showInbox: () => void;
+      startComposing: () => void;
+      showChooseGroupMembers: () => void;
+    }>
+  ): undefined | (() => void) {
+    return undefined;
+  }
+
   shouldRenderNetworkStatusAndUpdateDialog(): boolean {
     return false;
   }

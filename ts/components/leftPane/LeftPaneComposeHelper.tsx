@@ -61,7 +61,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<
     return (
       <div className="module-left-pane__header__contents">
         <button
-          onClick={showInbox}
+          onClick={this.getBackAction({ showInbox })}
           className="module-left-pane__header__contents__back-button"
           title={i18n('backToInbox')}
           aria-label={i18n('backToInbox')}
@@ -72,6 +72,10 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<
         </div>
       </div>
     );
+  }
+
+  getBackAction({ showInbox }: { showInbox: () => void }): () => void {
+    return showInbox;
   }
 
   getPreRowsNode({

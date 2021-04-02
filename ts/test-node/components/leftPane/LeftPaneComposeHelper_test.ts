@@ -35,6 +35,19 @@ describe('LeftPaneComposeHelper', () => {
     sinonSandbox.restore();
   });
 
+  describe('getBackAction', () => {
+    it('returns the "show inbox" action', () => {
+      const showInbox = sinon.fake();
+      const helper = new LeftPaneComposeHelper({
+        composeContacts: [],
+        regionCode: 'US',
+        searchTerm: '',
+      });
+
+      assert.strictEqual(helper.getBackAction({ showInbox }), showInbox);
+    });
+  });
+
   describe('getRowCount', () => {
     it('returns 1 (for the "new group" button) if not searching and there are no contacts', () => {
       assert.strictEqual(
