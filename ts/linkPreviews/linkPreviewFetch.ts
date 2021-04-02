@@ -180,6 +180,38 @@ const parseContentLength = (headerValue: string | null): number => {
   return Number.isNaN(result) ? Infinity : result;
 };
 
+type ValidCharset =
+  | 'ascii'
+  | 'utf8'
+  | 'utf-8'
+  | 'utf16le'
+  | 'ucs2'
+  | 'ucs-2'
+  | 'base64'
+  | 'latin1'
+  | 'binary'
+  | 'hex';
+
+const VALID_CHARSETS = new Set([
+  'ascii',
+  'utf8',
+  'utf-8',
+  'utf16le',
+  'ucs2',
+  'ucs-2',
+  'base64',
+  'latin1',
+  'binary',
+  'hex',
+]);
+
+const checkCharset = (charSet: string | null): charSet is ValidCharset => {
+  if (!charSet) {
+    return false;
+  }
+  return VALID_CHARSETS.has(charSet);
+};
+
 const emptyHtmlDocument = (): HTMLDocument =>
   new DOMParser().parseFromString('', 'text/html');
 
@@ -269,6 +301,9 @@ const getHtmlDocument = async (
 
       // This check exists to satisfy TypeScript; chunk should always be a Buffer.
       if (typeof chunk === 'string') {
+        if (!checkCharset(httpCharset)) {
+          throw new Error(`Invalid charset: ${httpCharset}`);
+        }
         chunk = Buffer.from(chunk, httpCharset || 'utf8');
       }
 
