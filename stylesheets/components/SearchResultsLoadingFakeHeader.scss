@@ -1,0 +1,16 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+// These styles should match the "real" header.
+.module-SearchResultsLoadingFakeHeader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 16px;
+
+  &::before {
+    content: '';
+    display: block;
+    @include search-results-loading-box(25%);
+  }
+}

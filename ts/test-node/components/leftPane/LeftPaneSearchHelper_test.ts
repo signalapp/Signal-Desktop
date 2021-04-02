@@ -40,6 +40,39 @@ describe('LeftPaneSearchHelper', () => {
   });
 
   describe('getRowCount', () => {
+    it('returns 100 if any results are loading', () => {
+      assert.strictEqual(
+        new LeftPaneSearchHelper({
+          conversationResults: { isLoading: true },
+          contactResults: { isLoading: true },
+          messageResults: { isLoading: true },
+          searchTerm: 'foo',
+        }).getRowCount(),
+        100
+      );
+      assert.strictEqual(
+        new LeftPaneSearchHelper({
+          conversationResults: {
+            isLoading: false,
+            results: [fakeConversation(), fakeConversation()],
+          },
+          contactResults: { isLoading: true },
+          messageResults: { isLoading: true },
+          searchTerm: 'foo',
+        }).getRowCount(),
+        100
+      );
+      assert.strictEqual(
+        new LeftPaneSearchHelper({
+          conversationResults: { isLoading: true },
+          contactResults: { isLoading: true },
+          messageResults: { isLoading: false, results: [fakeMessage()] },
+          searchTerm: 'foo',
+        }).getRowCount(),
+        100
+      );
+    });
+
     it('returns 0 when there are no search results', () => {
       const helper = new LeftPaneSearchHelper({
         conversationResults: { isLoading: false, results: [] },
@@ -49,17 +82,6 @@ describe('LeftPaneSearchHelper', () => {
       });
 
       assert.strictEqual(helper.getRowCount(), 0);
-    });
-
-    it("returns 2 rows for each section of search results that's loading", () => {
-      const helper = new LeftPaneSearchHelper({
-        conversationResults: { isLoading: true },
-        contactResults: { isLoading: false, results: [] },
-        messageResults: { isLoading: true },
-        searchTerm: 'foo',
-      });
-
-      assert.strictEqual(helper.getRowCount(), 4);
     });
 
     it('returns 1 + the number of results, dropping empty sections', () => {
@@ -78,34 +100,41 @@ describe('LeftPaneSearchHelper', () => {
   });
 
   describe('getRow', () => {
-    it('returns header + spinner for loading sections', () => {
-      const helper = new LeftPaneSearchHelper({
-        conversationResults: { isLoading: true },
-        contactResults: { isLoading: true },
-        messageResults: { isLoading: true },
-        searchTerm: 'foo',
-      });
+    it('returns a "loading search results" row if any results are loading', () => {
+      const helpers = [
+        new LeftPaneSearchHelper({
+          conversationResults: { isLoading: true },
+          contactResults: { isLoading: true },
+          messageResults: { isLoading: true },
+          searchTerm: 'foo',
+        }),
+        new LeftPaneSearchHelper({
+          conversationResults: {
+            isLoading: false,
+            results: [fakeConversation(), fakeConversation()],
+          },
+          contactResults: { isLoading: true },
+          messageResults: { isLoading: true },
+          searchTerm: 'foo',
+        }),
+        new LeftPaneSearchHelper({
+          conversationResults: { isLoading: true },
+          contactResults: { isLoading: true },
+          messageResults: { isLoading: false, results: [fakeMessage()] },
+          searchTerm: 'foo',
+        }),
+      ];
 
-      assert.deepEqual(helper.getRow(0), {
-        type: RowType.Header,
-        i18nKey: 'conversationsHeader',
-      });
-      assert.deepEqual(helper.getRow(1), {
-        type: RowType.Spinner,
-      });
-      assert.deepEqual(helper.getRow(2), {
-        type: RowType.Header,
-        i18nKey: 'contactsHeader',
-      });
-      assert.deepEqual(helper.getRow(3), {
-        type: RowType.Spinner,
-      });
-      assert.deepEqual(helper.getRow(4), {
-        type: RowType.Header,
-        i18nKey: 'messagesHeader',
-      });
-      assert.deepEqual(helper.getRow(5), {
-        type: RowType.Spinner,
+      helpers.forEach(helper => {
+        assert.deepEqual(helper.getRow(0), {
+          type: RowType.SearchResultsLoadingFakeHeader,
+        });
+        for (let i = 1; i < 99; i += 1) {
+          assert.deepEqual(helper.getRow(i), {
+            type: RowType.SearchResultsLoadingFakeRow,
+          });
+        }
+        assert.isUndefined(helper.getRow(100));
       });
     });
 
@@ -272,6 +301,54 @@ describe('LeftPaneSearchHelper', () => {
     assert.isUndefined(helper.getRow(5));
   });
 
+  describe('isScrollable', () => {
+    it('returns false if any results are loading', () => {
+      const helpers = [
+        new LeftPaneSearchHelper({
+          conversationResults: { isLoading: true },
+          contactResults: { isLoading: true },
+          messageResults: { isLoading: true },
+          searchTerm: 'foo',
+        }),
+        new LeftPaneSearchHelper({
+          conversationResults: {
+            isLoading: false,
+            results: [fakeConversation(), fakeConversation()],
+          },
+          contactResults: { isLoading: true },
+          messageResults: { isLoading: true },
+          searchTerm: 'foo',
+        }),
+        new LeftPaneSearchHelper({
+          conversationResults: { isLoading: true },
+          contactResults: { isLoading: true },
+          messageResults: { isLoading: false, results: [fakeMessage()] },
+          searchTerm: 'foo',
+        }),
+      ];
+
+      helpers.forEach(helper => {
+        assert.isFalse(helper.isScrollable());
+      });
+    });
+
+    it('returns true if all results have loaded', () => {
+      const helper = new LeftPaneSearchHelper({
+        conversationResults: {
+          isLoading: false,
+          results: [fakeConversation(), fakeConversation()],
+        },
+        contactResults: { isLoading: false, results: [] },
+        messageResults: {
+          isLoading: false,
+          results: [fakeMessage(), fakeMessage(), fakeMessage()],
+        },
+        searchTerm: 'foo',
+      });
+      assert.isTrue(helper.isScrollable());
+    });
+  });
+
   describe('shouldRecomputeRowHeights', () => {
     it("returns false if the number of results doesn't change", () => {
       const helper = new LeftPaneSearchHelper({
@@ -303,7 +380,7 @@ describe('LeftPaneSearchHelper', () => {
       );
     });
 
-    it('returns false when a section goes from loading to loaded with 1 result', () => {
+    it('returns false when a section completes loading, but not all sections are done (because the pane is still loading overall)', () => {
       const helper = new LeftPaneSearchHelper({
         conversationResults: { isLoading: true },
         contactResults: { isLoading: true },
@@ -320,6 +397,27 @@ describe('LeftPaneSearchHelper', () => {
           contactResults: { isLoading: true },
           messageResults: { isLoading: true },
           searchTerm: 'bar',
+        })
+      );
+    });
+
+    it('returns true when all sections finish loading', () => {
+      const helper = new LeftPaneSearchHelper({
+        conversationResults: { isLoading: true },
+        contactResults: { isLoading: true },
+        messageResults: { isLoading: false, results: [fakeMessage()] },
+        searchTerm: 'foo',
+      });
+
+      assert.isTrue(
+        helper.shouldRecomputeRowHeights({
+          conversationResults: {
+            isLoading: false,
+            results: [fakeConversation(), fakeConversation()],
+          },
+          contactResults: { isLoading: false, results: [] },
+          messageResults: { isLoading: false, results: [fakeMessage()] },
+          searchTerm: 'foo',
         })
       );
     });

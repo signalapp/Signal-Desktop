@@ -1,4 +1,4 @@
-// Copyright 2016-2020 Signal Messenger, LLC
+// Copyright 2016-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // Fonts
@@ -114,6 +114,42 @@
   @media (prefers-reduced-motion) {
     scroll-behavior: auto;
   }
+}
+
+// Search results loading
+
+@mixin search-results-loading-pulsating-background {
+  animation: search-results-loading-pulsating-background-animation 2s infinite;
+
+  @media (prefers-reduced-motion) {
+    animation: none;
+  }
+
+  @include light-theme {
+    background: $color-gray-05;
+  }
+  @include dark-theme {
+    background: $color-gray-65;
+  }
+}
+
+@keyframes search-results-loading-pulsating-background-animation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@mixin search-results-loading-box($width) {
+  width: $width;
+  height: 12px;
+  border-radius: 4px;
+  @include search-results-loading-pulsating-background;
 }
 
 // Icons

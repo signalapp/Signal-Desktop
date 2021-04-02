@@ -3,10 +3,11 @@
 
 import React, { useRef, useEffect, useCallback, CSSProperties } from 'react';
 import { List, ListRowRenderer } from 'react-virtualized';
+import classNames from 'classnames';
 
 import { missingCaseError } from '../util/missingCaseError';
 import { assert } from '../util/assert';
-import { LocalizerType } from '../types/Util';
+import { LocalizerType, ScrollBehavior } from '../types/Util';
 
 import {
   ConversationListItem,
@@ -21,8 +22,9 @@ import {
   ContactCheckboxDisabledReason,
 } from './conversationList/ContactCheckbox';
 import { CreateNewGroupButton } from './conversationList/CreateNewGroupButton';
-import { Spinner as SpinnerComponent } from './Spinner';
 import { StartNewConversation as StartNewConversationComponent } from './conversationList/StartNewConversation';
+import { SearchResultsLoadingFakeHeader as SearchResultsLoadingFakeHeaderComponent } from './conversationList/SearchResultsLoadingFakeHeader';
+import { SearchResultsLoadingFakeRow as SearchResultsLoadingFakeRowComponent } from './conversationList/SearchResultsLoadingFakeRow';
 
 export enum RowType {
   ArchiveButton,
@@ -33,7 +35,8 @@ export enum RowType {
   CreateNewGroup,
   Header,
   MessageSearchResult,
-  Spinner,
+  SearchResultsLoadingFakeHeader,
+  SearchResultsLoadingFakeRow,
   StartNewConversation,
 }
 
@@ -76,7 +79,13 @@ type HeaderRowType = {
   i18nKey: string;
 };
 
-type SpinnerRowType = { type: RowType.Spinner };
+type SearchResultsLoadingFakeHeaderType = {
+  type: RowType.SearchResultsLoadingFakeHeader;
+};
+
+type SearchResultsLoadingFakeRowType = {
+  type: RowType.SearchResultsLoadingFakeRow;
+};
 
 type StartNewConversationRowType = {
   type: RowType.StartNewConversation;
@@ -92,7 +101,8 @@ export type Row =
   | CreateNewGroupRowType
   | MessageRowType
   | HeaderRowType
-  | SpinnerRowType
+  | SearchResultsLoadingFakeHeaderType
+  | SearchResultsLoadingFakeRowType
   | StartNewConversationRowType;
 
 export type PropsType = {
@@ -105,8 +115,10 @@ export type PropsType = {
   //   this should only happen if there is a bug somewhere. For example, an inaccurate
   //   `rowCount`.
   getRow: (index: number) => undefined | Row;
+  scrollBehavior?: ScrollBehavior;
   scrollToRowIndex?: number;
   shouldRecomputeRowHeights: boolean;
+  scrollable?: boolean;
 
   i18n: LocalizerType;
 
@@ -121,6 +133,9 @@ export type PropsType = {
   startNewConversationFromPhoneNumber: (e164: string) => void;
 };
 
+const NORMAL_ROW_HEIGHT = 68;
+const HEADER_ROW_HEIGHT = 40;
+
 export const ConversationList: React.FC<PropsType> = ({
   dimensions,
   getRow,
@@ -130,7 +145,9 @@ export const ConversationList: React.FC<PropsType> = ({
   onSelectConversation,
   renderMessageSearchResult,
   rowCount,
+  scrollBehavior = ScrollBehavior.Default,
   scrollToRowIndex,
+  scrollable = true,
   shouldRecomputeRowHeights,
   showChooseGroupMembers,
   startNewConversationFromPhoneNumber,
@@ -149,9 +166,15 @@ export const ConversationList: React.FC<PropsType> = ({
       const row = getRow(index);
       if (!row) {
         assert(false, `Expected a row at index ${index}`);
-        return 68;
+        return NORMAL_ROW_HEIGHT;
       }
-      return row.type === RowType.Header ? 40 : 68;
+      switch (row.type) {
+        case RowType.Header:
+        case RowType.SearchResultsLoadingFakeHeader:
+          return HEADER_ROW_HEIGHT;
+        default:
+          return NORMAL_ROW_HEIGHT;
+      }
     },
     [getRow]
   );
@@ -235,21 +258,19 @@ export const ConversationList: React.FC<PropsType> = ({
               {i18n(row.i18nKey)}
             </div>
           );
-        case RowType.Spinner:
-          return (
-            <div
-              className="module-conversation-list__item--spinner"
-              key={key}
-              style={style}
-            >
-              <SpinnerComponent size="24px" svgSize="small" />
-            </div>
-          );
         case RowType.MessageSearchResult:
           return (
             <React.Fragment key={key}>
               {renderMessageSearchResult(row.messageId, style)}
             </React.Fragment>
+          );
+        case RowType.SearchResultsLoadingFakeHeader:
+          return (
+            <SearchResultsLoadingFakeHeaderComponent key={key} style={style} />
+          );
+        case RowType.SearchResultsLoadingFakeRow:
+          return (
+            <SearchResultsLoadingFakeRowComponent key={key} style={style} />
           );
         case RowType.StartNewConversation:
           return (
@@ -288,13 +309,17 @@ export const ConversationList: React.FC<PropsType> = ({
 
   return (
     <List
-      className="module-conversation-list"
+      className={classNames(
+        'module-conversation-list',
+        `module-conversation-list--scroll-behavior-${scrollBehavior}`
+      )}
       height={height}
       ref={listRef}
       rowCount={rowCount}
       rowHeight={calculateRowHeight}
       rowRenderer={renderRow}
       scrollToIndex={scrollToRowIndex}
+      style={{ overflow: scrollable ? 'auto' : 'hidden' }}
       tabIndex={-1}
       width={width}
     />

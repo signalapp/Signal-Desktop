@@ -36,7 +36,7 @@ import {
 } from './leftPane/LeftPaneSetGroupMetadataHelper';
 
 import * as OS from '../OS';
-import { LocalizerType } from '../types/Util';
+import { LocalizerType, ScrollBehavior } from '../types/Util';
 import { usePrevious } from '../util/hooks';
 import { missingCaseError } from '../util/missingCaseError';
 
@@ -337,10 +337,21 @@ export const LeftPane: React.FC<PropsType> = ({
     selectedConversationId,
     selectedConversationId
   );
-  const rowIndexToScrollTo: undefined | number =
-    previousSelectedConversationId === selectedConversationId
-      ? undefined
-      : helper.getRowIndexToScrollTo(selectedConversationId);
+
+  const isScrollable = helper.isScrollable();
+
+  let rowIndexToScrollTo: undefined | number;
+  let scrollBehavior: ScrollBehavior;
+  if (isScrollable) {
+    rowIndexToScrollTo =
+      previousSelectedConversationId === selectedConversationId
+        ? undefined
+        : helper.getRowIndexToScrollTo(selectedConversationId);
+    scrollBehavior = ScrollBehavior.Default;
+  } else {
+    rowIndexToScrollTo = 0;
+    scrollBehavior = ScrollBehavior.Hard;
+  }
 
   // We ensure that the listKey differs between some modes (e.g. inbox/archived), ensuring
   //   that AutoSizer properly detects the new size of its slot in the flexbox. The
@@ -436,7 +447,9 @@ export const LeftPane: React.FC<PropsType> = ({
                   }}
                   renderMessageSearchResult={renderMessageSearchResult}
                   rowCount={helper.getRowCount()}
+                  scrollBehavior={scrollBehavior}
                   scrollToRowIndex={rowIndexToScrollTo}
+                  scrollable={isScrollable}
                   shouldRecomputeRowHeights={shouldRecomputeRowHeights}
                   showChooseGroupMembers={showChooseGroupMembers}
                   startNewConversationFromPhoneNumber={

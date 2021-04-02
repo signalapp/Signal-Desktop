@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { omit } from 'lodash';
+import { times, omit } from 'lodash';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -413,7 +413,7 @@ Line 4, well.`,
   });
 
   story.add('Conversations: Various Times', () => {
-    const times: Array<[number, string]> = [
+    const pairs: Array<[number, string]> = [
       [Date.now() - 5 * 60 * 60 * 1000, 'Five hours ago'],
       [Date.now() - 24 * 60 * 60 * 1000, 'One day ago'],
       [Date.now() - 7 * 24 * 60 * 60 * 1000, 'One week ago'],
@@ -423,7 +423,7 @@ Line 4, well.`,
     return (
       <ConversationList
         {...createProps(
-          times.map(([lastUpdated, messageText]) => ({
+          pairs.map(([lastUpdated, messageText]) => ({
             type: RowType.Conversation,
             conversation: createConversation({
               lastUpdated,
@@ -510,6 +510,18 @@ story.add('Start new conversation', () => (
   />
 ));
 
+story.add('Search results loading skeleton', () => (
+  <ConversationList
+    scrollable={false}
+    {...createProps([
+      { type: RowType.SearchResultsLoadingFakeHeader },
+      ...times(99, () => ({
+        type: RowType.SearchResultsLoadingFakeRow as const,
+      })),
+    ])}
+  />
+));
+
 story.add('Kitchen sink', () => (
   <ConversationList
     {...createProps([
@@ -533,7 +545,6 @@ story.add('Kitchen sink', () => (
         type: RowType.MessageSearchResult,
         messageId: '123',
       },
-      { type: RowType.Spinner },
       {
         type: RowType.ArchiveButton,
         archivedConversationsCount: 123,

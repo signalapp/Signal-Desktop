@@ -6911,7 +6911,11 @@ button.module-image__border-overlay:focus {
 // Module: conversation list
 
 .module-conversation-list {
-  @include smooth-scroll;
+  &--scroll-behavior {
+    &-default {
+      @include smooth-scroll;
+    }
+  }
 
   &__item {
     &--archive-button {

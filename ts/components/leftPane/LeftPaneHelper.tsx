@@ -83,6 +83,10 @@ export abstract class LeftPaneHelper<T> {
     return undefined;
   }
 
+  isScrollable(): boolean {
+    return true;
+  }
+
   abstract getConversationAndMessageAtIndex(
     conversationIndex: number
   ): undefined | { conversationId: string; messageId?: string };
