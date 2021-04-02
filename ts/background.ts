@@ -8,6 +8,7 @@ import { getTitleBarVisibility, TitleBarVisibility } from './types/Settings';
 import { isWindowDragElement } from './util/isWindowDragElement';
 import { assert } from './util/assert';
 import * as refreshSenderCertificate from './refreshSenderCertificate';
+import { SenderCertificateMode } from './metadata/SecretSessionCipher';
 import { routineProfileRefresh } from './routineProfileRefresh';
 import { isMoreRecentThan, isOlderThan } from './util/timestamp';
 
@@ -2069,11 +2070,17 @@ export async function startApp(): Promise<void> {
       window.Whisper.events,
       newVersion
     );
-    refreshSenderCertificate.initialize({
-      events: window.Whisper.events,
-      storage: window.storage,
-      navigator,
-    });
+
+    [SenderCertificateMode.WithE164, SenderCertificateMode.WithoutE164].forEach(
+      mode => {
+        refreshSenderCertificate.initialize({
+          events: window.Whisper.events,
+          storage: window.storage,
+          mode,
+          navigator,
+        });
+      }
+    );
 
     window.Whisper.deliveryReceiptQueue.start();
     window.Whisper.Notifications.enable();

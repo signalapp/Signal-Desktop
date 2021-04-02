@@ -1,14 +1,24 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { once } from 'lodash';
 import * as log from './logging/log';
+import { missingCaseError } from './util/missingCaseError';
+import { SenderCertificateMode } from './metadata/SecretSessionCipher';
 
 const ONE_DAY = 24 * 60 * 60 * 1000; // one day
 const MINIMUM_TIME_LEFT = 2 * 60 * 60 * 1000; // two hours
 
 let timeout: null | ReturnType<typeof setTimeout> = null;
 let scheduledTime: null | number = null;
-let scheduleNext: null | (() => void) = null;
+
+const removeOldKey = once((storage: typeof window.storage) => {
+  const oldCertKey = 'senderCertificateWithUuid';
+  const oldUuidCert = storage.get(oldCertKey);
+  if (oldUuidCert) {
+    storage.remove(oldCertKey);
+  }
+});
 
 // We need to refresh our own profile regularly to account for newly-added devices which
 //   do not support unidentified delivery.
@@ -22,28 +32,39 @@ function refreshOurProfile() {
 export function initialize({
   events,
   storage,
+  mode,
   navigator,
 }: Readonly<{
   events: {
     on: (name: string, callback: () => void) => void;
   };
   storage: typeof window.storage;
+  mode: SenderCertificateMode;
   navigator: Navigator;
 }>): void {
-  // We don't want to set up all of the below functions, but we do want to ensure that our
-  //   refresh timer is up-to-date.
-  if (scheduleNext) {
-    scheduleNext();
-    return;
+  let storageKey: 'senderCertificate' | 'senderCertificateNoE164';
+  let logString: string;
+  switch (mode) {
+    case SenderCertificateMode.WithE164:
+      storageKey = 'senderCertificate';
+      logString = 'sender certificate WITH E164';
+      break;
+    case SenderCertificateMode.WithoutE164:
+      storageKey = 'senderCertificateNoE164';
+      logString = 'sender certificate WITHOUT E164';
+      break;
+    default:
+      throw missingCaseError(mode);
   }
 
   runWhenOnline();
+  removeOldKey(storage);
 
   events.on('timetravel', scheduleNextRotation);
 
   function scheduleNextRotation() {
     const now = Date.now();
-    const certificate = storage.get('senderCertificate');
+    const certificate = storage.get(storageKey);
     if (!certificate || !certificate.expires) {
       setTimeoutForNextRun(scheduledTime || now);
 
@@ -68,16 +89,7 @@ export function initialize({
     setTimeoutForNextRun(time);
   }
 
-  // Keeping this entrypoint around so more inialize() calls just kick the timing
-  scheduleNext = scheduleNextRotation;
-
-  async function saveCert({
-    certificate,
-    key,
-  }: {
-    certificate: string;
-    key: string;
-  }): Promise<void> {
+  async function saveCert(certificate: string): Promise<void> {
     const arrayBuffer = window.Signal.Crypto.base64ToArrayBuffer(certificate);
     const decodedContainer = window.textsecure.protobuf.SenderCertificate.decode(
       arrayBuffer
@@ -92,19 +104,11 @@ export function initialize({
       expires: decodedCert.expires.toNumber(),
       serialized: arrayBuffer,
     };
-    await storage.put(key, toSave);
-  }
-
-  async function removeOldKey(): Promise<void> {
-    const oldCertKey = 'senderCertificateWithUuid';
-    const oldUuidCert = storage.get(oldCertKey);
-    if (oldUuidCert) {
-      await storage.remove(oldCertKey);
-    }
+    await storage.put(storageKey, toSave);
   }
 
   async function run(): Promise<void> {
-    log.info('refreshSenderCertificate: Getting new certificate...');
+    log.info(`refreshSenderCertificate: Getting new ${logString}...`);
     try {
       const OLD_USERNAME = storage.get('number_id');
       const USERNAME = storage.get('uuid_id');
@@ -114,29 +118,16 @@ export function initialize({
         password: PASSWORD,
       });
 
-      const omitE164 = true;
-      const [
-        { certificate },
-        { certificate: certificateWithNoE164 },
-      ] = await Promise.all([
-        server.getSenderCertificate(),
-        server.getSenderCertificate(omitE164),
-      ]);
+      const omitE164 = mode === SenderCertificateMode.WithoutE164;
+      const { certificate } = await server.getSenderCertificate(omitE164);
 
-      await Promise.all([
-        saveCert({ certificate, key: 'senderCertificate' }),
-        saveCert({
-          certificate: certificateWithNoE164,
-          key: 'senderCertificateNoE164',
-        }),
-        removeOldKey(),
-      ]);
+      await saveCert(certificate);
 
       scheduledTime = null;
       scheduleNextRotation();
     } catch (error) {
       log.error(
-        'refreshSenderCertificate: Get failed. Trying again in five minutes...',
+        `refreshSenderCertificate: Get failed for ${logString}. Trying again in five minutes...`,
         error && error.stack ? error.stack : error
       );
 
@@ -171,7 +162,7 @@ export function initialize({
 
     if (scheduledTime !== time || !timeout) {
       log.info(
-        'Next sender certificate refresh scheduled for',
+        `refreshSenderCertificate: Next ${logString} refresh scheduled for`,
         new Date(time).toISOString()
       );
     }

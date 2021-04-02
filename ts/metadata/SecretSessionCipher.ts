@@ -39,6 +39,11 @@ type ValidatorType = {
   ): Promise<void>;
 };
 
+export const enum SenderCertificateMode {
+  WithE164,
+  WithoutE164,
+}
+
 export type SerializedCertificateType = {
   serialized: ArrayBuffer;
 };
