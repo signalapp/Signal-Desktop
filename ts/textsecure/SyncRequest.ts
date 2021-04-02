@@ -59,7 +59,7 @@ class SyncRequestInner extends EventTarget {
     window.log.info('SyncRequest now sending contact sync message...');
     wrap(sender.sendRequestContactSyncMessage(sendOptions))
       .then(() => {
-        window.log.info('SyncRequest now sending group sync messsage...');
+        window.log.info('SyncRequest now sending group sync message...');
         return wrap(sender.sendRequestGroupSyncMessage(sendOptions));
       })
       .catch((error: Error) => {

@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import utils from './Helpers';
 
-// Default implmentation working with localStorage
+// Default implementation working with localStorage
 const localStorageImpl: StorageInterface = {
   put(key: string, value: any) {
     if (value === undefined) {

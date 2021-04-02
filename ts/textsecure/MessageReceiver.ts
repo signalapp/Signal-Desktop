@@ -1225,7 +1225,7 @@ class MessageReceiverInner extends EventTarget {
 
       const errorString = error && error.stack ? error.stack : error;
       window.log.error(
-        `maybeLightSessionReset/${id}: Enountered error`,
+        `maybeLightSessionReset/${id}: Encountered error`,
         errorString
       );
     }

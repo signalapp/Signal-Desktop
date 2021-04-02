@@ -10,7 +10,7 @@ let singleQueue: Queue | null = null;
 let multipleQueue: Queue | null = null;
 
 // Note: we don't want queue timeouts, because delays here are due to in-progress sql
-//   operations. For example we might try to start a transaction when the prevous isn't
+//   operations. For example we might try to start a transaction when the previous isn't
 //   done, causing that database operation to fail.
 function makeNewSingleQueue(): Queue {
   singleQueue = new Queue({ concurrency: 1 });

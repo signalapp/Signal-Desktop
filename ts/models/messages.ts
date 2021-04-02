@@ -2239,7 +2239,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return false;
     }
 
-    // We can reply if this is outgoing and delievered to at least one recipient
+    // We can reply if this is outgoing and delivered to at least one recipient
     if (isOutgoing && numDelivered > 0) {
       return true;
     }
@@ -3279,7 +3279,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           window.textsecure.protobuf.GroupContext.Type.DELIVER;
 
       // Drop an incoming GroupV2 message if we or the sender are not part of the group
-      //   after applying the message's associated group chnages.
+      //   after applying the message's associated group changes.
       if (
         type === 'incoming' &&
         !conversation.isPrivate() &&

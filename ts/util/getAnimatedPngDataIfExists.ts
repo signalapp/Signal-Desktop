@@ -17,7 +17,7 @@ type AnimatedPngData = {
  * 2. If so, does it contain the [`acTL` chunk][1] before the [`IDAT` chunk][2], in the
  *    first megabyte?
  *
- * Though we _could_ only check for the precense of the `acTL` chunk anywhere, we make
+ * Though we _could_ only check for the presence of the `acTL` chunk anywhere, we make
  * sure it's before the `IDAT` chunk and within the first megabyte. This adds a small
  * amount of validity checking and helps us avoid problems with large PNGs.
  *

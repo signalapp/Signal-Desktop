@@ -3091,7 +3091,7 @@ export class ConversationModel extends window.Backbone.Model<
       }
 
       // We are only creating this model so we can use its sync message
-      // sending functionality. It will not be saved to the datbase.
+      // sending functionality. It will not be saved to the database.
       const message = new window.Whisper.Message(attributes);
 
       // We're offline!
@@ -3201,7 +3201,7 @@ export class ConversationModel extends window.Backbone.Model<
       }
 
       // We are only creating this model so we can use its sync message
-      // sending functionality. It will not be saved to the datbase.
+      // sending functionality. It will not be saved to the database.
       const message = new window.Whisper.Message(attributes);
 
       // This is to ensure that the functions in send() and sendSyncMessage() don't save
@@ -5312,11 +5312,11 @@ window.Whisper.GroupMemberConversation = window.Backbone.Model.extend({
 
     if (!conversation) {
       throw new Error(
-        'GroupMemberConversation.initialze: conversation required!'
+        'GroupMemberConversation.initialize: conversation required!'
       );
     }
     if (!window._.isBoolean(isAdmin)) {
-      throw new Error('GroupMemberConversation.initialze: isAdmin required!');
+      throw new Error('GroupMemberConversation.initialize: isAdmin required!');
     }
 
     // If our underlying conversation changes, we change too
