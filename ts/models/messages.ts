@@ -22,6 +22,7 @@ import { OwnProps as SmartMessageDetailPropsType } from '../state/smart/MessageD
 import { CallbackResultType } from '../textsecure/SendMessage';
 import { ExpirationTimerOptions } from '../util/ExpirationTimerOptions';
 import { missingCaseError } from '../util/missingCaseError';
+import { ColorType } from '../types/Colors';
 import { CallMode } from '../types/Calling';
 import { BodyRangesType } from '../types/Util';
 import { PropsDataType as GroupsV2Props } from '../components/conversation/GroupV2Change';
@@ -965,9 +966,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  createNonBreakingLastSeparator(text: string): string | undefined {
+  private createNonBreakingLastSeparator(text: string): string {
     if (!text) {
-      return undefined;
+      return '';
     }
 
     const nbsp = '\xa0';
@@ -1085,10 +1086,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }));
   }
 
-  getPropsForQuote(): WhatIsThis {
+  getPropsForQuote(): PropsData['quote'] {
     const quote = this.get('quote');
     if (!quote) {
-      return null;
+      return undefined;
     }
 
     const { format } = PhoneNumber;
@@ -1103,15 +1104,15 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       text,
     } = quote;
 
-    const contact =
-      (author || authorUuid) &&
-      window.ConversationController.get(
-        window.ConversationController.ensureContactIds({
-          e164: author,
-          uuid: authorUuid,
-        })
-      );
-    const authorColor = contact ? contact.getColor() : 'grey';
+    const contact: ConversationModel | undefined =
+      author || authorUuid
+        ? window.ConversationController.get(
+            window.ConversationController.ensureContactIds({
+              e164: author,
+              uuid: authorUuid,
+            })
+          )
+        : undefined;
 
     let reallyNotFound = referencedMessageNotFound;
     // Is the quote really without a reference? Check with our in memory store
@@ -1142,31 +1143,56 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
     }
 
-    const authorPhoneNumber = format(author, {
-      ourRegionCode: regionCode,
-    });
-    const authorProfileName = contact ? contact.getProfileName() : null;
-    const authorName = contact ? contact.get('name') : null;
-    const authorTitle = contact ? contact.getTitle() : null;
-    const isFromMe = contact ? contact.isMe() : false;
+    let authorColor: ColorType;
+    let authorId: string;
+    let authorName: undefined | string;
+    let authorPhoneNumber: undefined | string;
+    let authorProfileName: undefined | string;
+    let authorTitle: string;
+    let isFromMe: boolean;
+
+    if (contact && contact.isPrivate()) {
+      const contactPhoneNumber = contact.get('e164');
+
+      authorColor = contact.getColor();
+      authorId = contact.id;
+      authorName = contact.get('name');
+      authorPhoneNumber = contactPhoneNumber
+        ? format(contactPhoneNumber, {
+            ourRegionCode: regionCode,
+          })
+        : undefined;
+      authorProfileName = contact.getProfileName();
+      authorTitle = contact.getTitle();
+      isFromMe = contact.isMe();
+    } else {
+      window.log.warn(
+        'getPropsForQuote: contact was missing. This may indicate a bookkeeping error or bad data from another client. Returning a placeholder contact.'
+      );
+
+      authorColor = 'grey';
+      authorId = 'placeholder-contact';
+      authorTitle = window.i18n('unknownContact');
+      isFromMe = false;
+    }
+
     const firstAttachment = quote.attachments && quote.attachments[0];
 
     return {
-      text: this.createNonBreakingLastSeparator(text),
-      attachment: firstAttachment
-        ? this.processQuoteAttachment(firstAttachment)
-        : null,
-      bodyRanges: this.processBodyRanges(bodyRanges),
-      isFromMe,
-      sentAt,
-      authorId: contact ? contact.id : undefined,
+      authorColor,
+      authorId,
+      authorName,
       authorPhoneNumber,
       authorProfileName,
       authorTitle,
-      authorName,
-      authorColor,
+      bodyRanges: this.processBodyRanges(bodyRanges),
+      isFromMe,
+      rawAttachment: firstAttachment
+        ? this.processQuoteAttachment(firstAttachment)
+        : undefined,
       referencedMessageNotFound: reallyNotFound,
-      onClick: () => this.trigger('scroll-to-message'),
+      sentAt: Number(sentAt),
+      text: this.createNonBreakingLastSeparator(text),
     };
   }
 

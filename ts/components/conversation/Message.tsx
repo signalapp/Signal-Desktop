@@ -115,7 +115,7 @@ export type PropsData = {
   attachments?: Array<AttachmentType>;
   quote?: {
     text: string;
-    attachment?: QuotedAttachmentType;
+    rawAttachment?: QuotedAttachmentType;
     isFromMe: boolean;
     sentAt: number;
     authorId: string;
@@ -1030,7 +1030,7 @@ export class Message extends React.PureComponent<Props, State> {
         i18n={i18n}
         onClick={clickHandler}
         text={quote.text}
-        rawAttachment={quote.attachment}
+        rawAttachment={quote.rawAttachment}
         isIncoming={direction === 'incoming'}
         authorPhoneNumber={quote.authorPhoneNumber}
         authorProfileName={quote.authorProfileName}
