@@ -11,8 +11,19 @@ let trayContextMenu = null;
 let tray = null;
 
 function createTrayIcon(getMainWindow, messages) {
-  // A smaller icon is needed on macOS
-  const iconSize = process.platform === 'darwin' ? '16' : '256';
+  let iconSize;
+  switch (process.platform) {
+    case 'darwin':
+      iconSize = '16';
+      break;
+    case 'win32':
+      iconSize = '32';
+      break;
+    default:
+      iconSize = '256';
+      break;
+  }
+
   const iconNoNewMessages = path.join(
     __dirname,
     '..',
