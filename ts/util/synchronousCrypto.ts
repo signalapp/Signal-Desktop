@@ -20,13 +20,19 @@ export function hash(data: ArrayBuffer): ArrayBuffer {
   );
 }
 
+export enum CipherType {
+  AES256CBC = 'aes-256-cbc',
+  AES256CTR = 'aes-256-ctr',
+}
+
 export function encrypt(
   key: ArrayBuffer,
   data: ArrayBuffer,
-  iv: ArrayBuffer
+  iv: ArrayBuffer,
+  cipherType: CipherType = CipherType.AES256CBC
 ): ArrayBuffer {
   const cipher = crypto.createCipheriv(
-    'aes-256-cbc',
+    cipherType,
     Buffer.from(key),
     Buffer.from(iv)
   );
@@ -41,10 +47,11 @@ export function encrypt(
 export function decrypt(
   key: ArrayBuffer,
   data: ArrayBuffer,
-  iv: ArrayBuffer
+  iv: ArrayBuffer,
+  cipherType: CipherType = CipherType.AES256CBC
 ): ArrayBuffer {
   const cipher = crypto.createDecipheriv(
-    'aes-256-cbc',
+    cipherType,
     Buffer.from(key),
     Buffer.from(iv)
   );

@@ -4,6 +4,14 @@
 import pProps from 'p-props';
 import { chunk } from 'lodash';
 
+import {
+  CipherType,
+  encrypt,
+  decrypt,
+  hash,
+  sign,
+} from './util/synchronousCrypto';
+
 export function typedArrayToArrayBuffer(typedArray: Uint8Array): ArrayBuffer {
   const ab = new ArrayBuffer(typedArray.length);
   // Create a new Uint8Array backed by the ArrayBuffer and copy all values from
@@ -79,8 +87,8 @@ export async function deriveMasterKeyFromGroupV1(
 }
 
 export async function computeHash(data: ArrayBuffer): Promise<string> {
-  const hash = await crypto.subtle.digest({ name: 'SHA-512' }, data);
-  return arrayBufferToBase64(hash);
+  const digest = await crypto.subtle.digest({ name: 'SHA-512' }, data);
+  return arrayBufferToBase64(digest);
 }
 
 // High-level Operations
@@ -331,21 +339,7 @@ export async function hmacSha256(
   key: ArrayBuffer,
   plaintext: ArrayBuffer
 ): Promise<ArrayBuffer> {
-  const algorithm: HmacImportParams = {
-    name: 'HMAC',
-    hash: 'SHA-256',
-  };
-  const extractable = false;
-
-  const cryptoKey = await window.crypto.subtle.importKey(
-    'raw',
-    key,
-    algorithm,
-    extractable,
-    ['sign']
-  );
-
-  return window.crypto.subtle.sign(algorithm, cryptoKey, plaintext);
+  return sign(key, plaintext);
 }
 
 export async function _encryptAes256CbcPkcsPadding(
@@ -405,32 +399,7 @@ export async function encryptAesCtr(
   plaintext: ArrayBuffer,
   counter: ArrayBuffer
 ): Promise<ArrayBuffer> {
-  const extractable = false;
-  const algorithm = {
-    name: 'AES-CTR',
-    counter: new Uint8Array(counter),
-    length: 128,
-  };
-
-  const cryptoKey = await crypto.subtle.importKey(
-    'raw',
-    key,
-    // `algorithm` appears to be an instance of AesCtrParams,
-    // which is not in the param's types, so we need to pass as `any`.
-    // TODO: just pass the string "AES-CTR", per the docs?
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    algorithm as any,
-    extractable,
-    ['encrypt']
-  );
-
-  const ciphertext = await crypto.subtle.encrypt(
-    algorithm,
-    cryptoKey,
-    plaintext
-  );
-
-  return ciphertext;
+  return encrypt(key, plaintext, counter, CipherType.AES256CTR);
 }
 
 export async function decryptAesCtr(
@@ -438,31 +407,7 @@ export async function decryptAesCtr(
   ciphertext: ArrayBuffer,
   counter: ArrayBuffer
 ): Promise<ArrayBuffer> {
-  const extractable = false;
-  const algorithm = {
-    name: 'AES-CTR',
-    counter: new Uint8Array(counter),
-    length: 128,
-  };
-
-  const cryptoKey = await crypto.subtle.importKey(
-    'raw',
-    key,
-    // `algorithm` appears to be an instance of AesCtrParams,
-    // which is not in the param's types, so we need to pass as `any`.
-    // TODO: just pass the string "AES-CTR", per the docs?
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    algorithm as any,
-    extractable,
-    ['decrypt']
-  );
-  const plaintext = await crypto.subtle.decrypt(
-    algorithm,
-    cryptoKey,
-    ciphertext
-  );
-
-  return plaintext;
+  return decrypt(key, ciphertext, counter, CipherType.AES256CTR);
 }
 
 export async function encryptAesGcm(
@@ -526,7 +471,7 @@ export async function decryptAesGcm(
 // Hashing
 
 export async function sha256(data: ArrayBuffer): Promise<ArrayBuffer> {
-  return crypto.subtle.digest('SHA-256', data);
+  return hash(data);
 }
 
 // Utility
