@@ -43,10 +43,11 @@ Install the [Xcode Command-Line Tools](http://osxdaily.com/2014/02/12/install-co
 ### Linux
 
 1.  Pick your favorite package manager.
-1.  Install `python`
+1.  Install `python` (Python 2.7+)
 1.  Install `gcc`
 1.  Install `g++`
 1.  Install `make`
+1.  Install `git-lfs`
 
 ### All platforms
 
@@ -55,6 +56,7 @@ Now, run these commands in your preferred terminal in a good directory for devel
 ```
 git clone https://github.com/signalapp/Signal-Desktop.git
 cd Signal-Desktop
+git-lfs install                # Setup Git LFS.
 npm install --global yarn      # (only if you don’t already have `yarn`)
 yarn install --frozen-lockfile # Install and build dependencies (this will take a while)
 yarn grunt                     # Generate final JS and CSS assets
@@ -78,6 +80,8 @@ while you make changes:
 ```
 yarn grunt dev # runs until you stop it, re-generating built assets on file changes
 ```
+
+If you miss the `git-lfs` step, run `yarn cache clean` and remove `node_modules` before trying again.
 
 ### webpack
 
