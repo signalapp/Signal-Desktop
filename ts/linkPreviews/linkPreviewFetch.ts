@@ -354,9 +354,10 @@ const parseMetadata = (
   const rawImageHref =
     getOpenGraphContent(document, ['og:image', 'og:image:url']) ||
     getLinkHrefAttribute(document, [
+      'apple-touch-icon',
+      'apple-touch-icon-precomposed',
       'shortcut icon',
       'icon',
-      'apple-touch-icon',
     ]);
   const imageUrl = rawImageHref ? maybeParseUrl(rawImageHref, href) : null;
   const imageHref = imageUrl ? imageUrl.href : null;
