@@ -3252,38 +3252,6 @@
   },
   {
     "rule": "jQuery-load(",
-    "path": "node_modules/ffi-napi/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 160,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-21T22:10:39.074Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/ffi-napi/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 178,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-21T22:10:39.074Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/ffi-napi/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 162,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-21T22:10:39.074Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/ffi-napi/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 186,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-21T22:10:39.074Z"
-  },
-  {
-    "rule": "jQuery-load(",
     "path": "node_modules/file-entry-cache/cache.js",
     "line": "    var cache = flatCache.load( cacheId, _path );",
     "lineNumber": 14,
@@ -14888,38 +14856,6 @@
   },
   {
     "rule": "jQuery-load(",
-    "path": "node_modules/ref-napi/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 160,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-21T22:10:39.074Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/ref-napi/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 178,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-21T22:10:39.074Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/ref-napi/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 162,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-21T22:10:39.074Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/ref-napi/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 186,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-21T22:10:39.074Z"
-  },
-  {
-    "rule": "jQuery-load(",
     "path": "node_modules/ref-struct-di/node_modules/debug/src/browser.js",
     "line": "function load() {",
     "lineNumber": 160,
@@ -15692,38 +15628,6 @@
     "lineNumber": 2066,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/zkgroup/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 160,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-13T23:38:26.065Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/zkgroup/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 178,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-13T23:38:26.065Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/zkgroup/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 162,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-13T23:38:26.065Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/zkgroup/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 186,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-13T23:38:26.065Z"
   },
   {
     "rule": "jQuery-$(",
@@ -16848,5 +16752,37 @@
     "reasonCategory": "usageTrusted",
     "updated": "2021-01-08T15:46:32.143Z",
     "reasonDetail": "Doesn't manipulate the DOM. This is just a function."
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/ref-array-napi/node_modules/ref-napi/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 160,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-02T18:54:41.261Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/ref-array-napi/node_modules/ref-napi/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 178,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-02T18:54:41.261Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/ref-array-napi/node_modules/ref-napi/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 162,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-02T18:54:41.261Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/ref-array-napi/node_modules/ref-napi/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 186,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-02T18:54:41.261Z"
   }
 ]
