@@ -14856,6 +14856,38 @@
   },
   {
     "rule": "jQuery-load(",
+    "path": "node_modules/ref-array-napi/node_modules/ref-napi/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 160,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-02T18:54:41.261Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/ref-array-napi/node_modules/ref-napi/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 178,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-02T18:54:41.261Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/ref-array-napi/node_modules/ref-napi/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 162,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-02T18:54:41.261Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/ref-array-napi/node_modules/ref-napi/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 186,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-02T18:54:41.261Z"
+  },
+  {
+    "rule": "jQuery-load(",
     "path": "node_modules/ref-struct-di/node_modules/debug/src/browser.js",
     "line": "function load() {",
     "lineNumber": 160,
@@ -16752,37 +16784,5 @@
     "reasonCategory": "usageTrusted",
     "updated": "2021-01-08T15:46:32.143Z",
     "reasonDetail": "Doesn't manipulate the DOM. This is just a function."
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/ref-array-napi/node_modules/ref-napi/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 160,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-02T18:54:41.261Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/ref-array-napi/node_modules/ref-napi/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 178,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-02T18:54:41.261Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/ref-array-napi/node_modules/ref-napi/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 162,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-02T18:54:41.261Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/ref-array-napi/node_modules/ref-napi/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 186,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-02T18:54:41.261Z"
   }
 ]
