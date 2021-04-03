@@ -278,7 +278,7 @@
     "@storybook/react/@storybook/core/node-fetch": "2.6.1"
   },
   "engines": {
-    "node": "12.18.3"
+    "node": "14.16.0"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
