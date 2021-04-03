@@ -202,7 +202,7 @@ export const CallingPip = ({
         return [
           PIP_PADDING,
           Math.min(
-            PIP_TOP_MARGIN + positionState.offsetY,
+            positionState.offsetY,
             windowHeight - PIP_PADDING - PIP_HEIGHT
           ),
         ];
@@ -210,7 +210,7 @@ export const CallingPip = ({
         return [
           windowWidth - PIP_PADDING - PIP_WIDTH,
           Math.min(
-            PIP_TOP_MARGIN + positionState.offsetY,
+            positionState.offsetY,
             windowHeight - PIP_PADDING - PIP_HEIGHT
           ),
         ];
