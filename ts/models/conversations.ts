@@ -17,7 +17,12 @@ import {
 } from '../components/conversation/conversation-details/PendingInvites';
 import { GroupV2Membership } from '../components/conversation/conversation-details/ConversationDetailsMembershipList';
 import { CallMode, CallHistoryDetailsType } from '../types/Calling';
-import { CallbackResultType, GroupV2InfoType } from '../textsecure/SendMessage';
+import {
+  CallbackResultType,
+  GroupV2InfoType,
+  SendMetadataType,
+  SendOptionsType,
+} from '../textsecure/SendMessage';
 import {
   ConversationType,
   ConversationTypeType,
@@ -26,6 +31,7 @@ import { ColorType } from '../types/Colors';
 import { MessageModel } from './messages';
 import { isMuted } from '../util/isMuted';
 import { isConversationUnregistered } from '../util/isConversationUnregistered';
+import { assert } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import { MIMEType, IMAGE_WEBP } from '../types/MIME';
@@ -44,6 +50,11 @@ import { BodyRangesType } from '../types/Util';
 import { getTextWithMentions } from '../util';
 import { migrateColor } from '../util/migrateColor';
 import { isNotNil } from '../util/isNotNil';
+import {
+  PhoneNumberSharingMode,
+  parsePhoneNumberSharingMode,
+} from '../util/phoneNumberSharingMode';
+import { SerializedCertificateType } from '../metadata/SecretSessionCipher';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -3544,19 +3555,17 @@ export class ConversationModel extends window.Backbone.Model<
     );
   }
 
-  getSendOptions(options = {}): WhatIsThis {
-    const senderCertificate = window.storage.get('senderCertificate');
+  getSendOptions(options = {}): SendOptionsType {
     const sendMetadata = this.getSendMetadata(options);
 
     return {
-      senderCertificate,
       sendMetadata,
     };
   }
 
   getSendMetadata(
     options: { syncMessage?: string; disableMeCheck?: boolean } = {}
-  ): WhatIsThis | null {
+  ): SendMetadataType | undefined {
     const { syncMessage, disableMeCheck } = options;
 
     // START: this code has an Expiration date of ~2018/11/21
@@ -3566,7 +3575,7 @@ export class ConversationModel extends window.Backbone.Model<
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const me = window.ConversationController.get(myId)!;
     if (!disableMeCheck && me.get('sealedSender') === SEALED_SENDER.DISABLED) {
-      return null;
+      return undefined;
     }
     // END
 
@@ -3583,16 +3592,19 @@ export class ConversationModel extends window.Backbone.Model<
 
     // We never send sync messages as sealed sender
     if (syncMessage && this.isMe()) {
-      return null;
+      return undefined;
     }
 
     const e164 = this.get('e164');
     const uuid = this.get('uuid');
 
+    const senderCertificate = this.getSenderCertificateForDirectConversation();
+
     // If we've never fetched user's profile, we default to what we have
     if (sealedSender === SEALED_SENDER.UNKNOWN) {
       const info = {
         accessKey: accessKey || arrayBufferToBase64(getRandomBytes(16)),
+        senderCertificate,
       };
       return {
         ...(e164 ? { [e164]: info } : {}),
@@ -3601,7 +3613,7 @@ export class ConversationModel extends window.Backbone.Model<
     }
 
     if (sealedSender === SEALED_SENDER.DISABLED) {
-      return null;
+      return undefined;
     }
 
     const info = {
@@ -3609,12 +3621,55 @@ export class ConversationModel extends window.Backbone.Model<
         accessKey && sealedSender === SEALED_SENDER.ENABLED
           ? accessKey
           : arrayBufferToBase64(getRandomBytes(16)),
+      senderCertificate,
     };
 
     return {
       ...(e164 ? { [e164]: info } : {}),
       ...(uuid ? { [uuid]: info } : {}),
     };
+  }
+
+  private getSenderCertificateForDirectConversation():
+    | undefined
+    | SerializedCertificateType {
+    if (!this.isPrivate()) {
+      throw new Error(
+        'getSenderCertificateForDirectConversation should only be called for direct conversations'
+      );
+    }
+
+    const phoneNumberSharingMode = parsePhoneNumberSharingMode(
+      window.storage.get('phoneNumberSharingMode')
+    );
+
+    let storageKey: 'senderCertificate' | 'senderCertificateNoE164';
+    switch (phoneNumberSharingMode) {
+      case PhoneNumberSharingMode.Everybody:
+        storageKey = 'senderCertificate';
+        break;
+      case PhoneNumberSharingMode.ContactsOnly: {
+        const isInSystemContacts = Boolean(this.get('name'));
+        storageKey = isInSystemContacts
+          ? 'senderCertificate'
+          : 'senderCertificateNoE164';
+        break;
+      }
+      case PhoneNumberSharingMode.Nobody:
+        storageKey = 'senderCertificateNoE164';
+        break;
+      default:
+        throw missingCaseError(phoneNumberSharingMode);
+    }
+
+    const result = window.storage.get<SerializedCertificateType>(storageKey);
+    assert(
+      result,
+      `getSenderCertificateForDirectConversation: couldn't find a certificate stored in ${JSON.stringify(
+        storageKey
+      )}. Returning undefined`
+    );
+    return result;
   }
 
   // Is this someone who is a contact, or are we sharing our profile with them?

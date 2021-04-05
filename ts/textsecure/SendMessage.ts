@@ -63,11 +63,11 @@ function stringToArrayBuffer(str: string): ArrayBuffer {
 export type SendMetadataType = {
   [identifier: string]: {
     accessKey: string;
+    senderCertificate?: SerializedCertificateType;
   };
 };
 
 export type SendOptionsType = {
-  senderCertificate?: SerializedCertificateType;
   sendMetadata?: SendMetadataType;
   online?: boolean;
 };
