@@ -4,31 +4,129 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { LocaleMessagesType } from '../types/I18N';
 
 import {
+  ConversationAttributesType,
   ConversationModelCollectionType,
+  MessageAttributesType,
   MessageModelCollectionType,
 } from '../model-types.d';
 import { MessageModel } from '../models/messages';
 import { ConversationModel } from '../models/conversations';
 
-export type AttachmentDownloadJobType = any;
-export type ConverationMetricsType = any;
-export type ConversationType = any;
-export type EmojiType = any;
-export type IdentityKeyType = any;
+export type AttachmentDownloadJobType = {
+  id: string;
+  timestamp: number;
+  pending: number;
+  attempts: number;
+};
+export type MessageMetricsType = {
+  id: string;
+  // eslint-disable-next-line camelcase
+  received_at: number;
+  // eslint-disable-next-line camelcase
+  sent_at: number;
+};
+export type ConversationMetricsType = {
+  oldest?: MessageMetricsType;
+  newest?: MessageMetricsType;
+  oldestUnread?: MessageMetricsType;
+  totalUnread: number;
+};
+export type ConversationType = ConversationAttributesType;
+export type EmojiType = {
+  shortName: string;
+  lastUsage: number;
+};
+export type IdentityKeyType = {
+  firstUse: boolean;
+  id: string;
+  nonblockingApproval: boolean;
+  publicKey: ArrayBuffer;
+  timestamp: number;
+  verified: number;
+};
 export type ItemType = any;
-export type MessageType = any;
-export type MessageTypeUnhydrated = any;
-export type PreKeyType = any;
-export type SearchResultMessageType = any;
-export type SessionType = any;
-export type SignedPreKeyType = any;
-export type StickerPackStatusType = string;
-export type StickerPackType = any;
-export type StickerType = any;
-export type UnprocessedType = any;
+export type MessageType = MessageAttributesType;
+export type MessageTypeUnhydrated = {
+  json: string;
+};
+export type PreKeyType = {
+  id: number;
+  privateKey: ArrayBuffer;
+  publicKey: ArrayBuffer;
+};
+export type SearchResultMessageType = {
+  json: string;
+  snippet: string;
+};
+export type ClientSearchResultMessageType = MessageType & {
+  json: string;
+  bodyRanges: [];
+  snippet: string;
+};
+export type SessionType = {
+  id: string;
+  conversationId: string;
+  deviceId: number;
+  record: string;
+};
+export type SignedPreKeyType = {
+  confirmed: boolean;
+  // eslint-disable-next-line camelcase
+  created_at: number;
+  id: number;
+  privateKey: ArrayBuffer;
+  publicKey: ArrayBuffer;
+};
+export type StickerPackStatusType =
+  | 'known'
+  | 'ephemeral'
+  | 'downloaded'
+  | 'installed'
+  | 'pending'
+  | 'error';
+
+export type StickerType = {
+  id: number;
+  packId: string;
+
+  emoji: string;
+  isCoverOnly: string;
+  lastUsed: number;
+  path: string;
+  width: number;
+  height: number;
+};
+export type StickerPackType = {
+  id: string;
+  key: string;
+
+  attemptedStatus: 'downloaded' | 'installed' | 'ephemeral';
+  author: string;
+  coverStickerId: number;
+  createdAt: number;
+  downloadAttempts: number;
+  installedAt: number | null;
+  lastUsed: number;
+  status: StickerPackStatusType;
+  stickerCount: number;
+  stickers: ReadonlyArray<string>;
+  title: string;
+};
+export type UnprocessedType = {
+  id: string;
+  timestamp: number;
+  version: number;
+  attempts: number;
+  envelope: string;
+
+  source?: string;
+  sourceUuid?: string;
+  sourceDevice?: string;
+  serverTimestamp?: number;
+  decrypted?: string;
+};
 
 export type DataInterface = {
   close: () => Promise<void>;
@@ -84,15 +182,6 @@ export type DataInterface = {
     query: string,
     options?: { limit?: number }
   ) => Promise<Array<ConversationType>>;
-  searchMessages: (
-    query: string,
-    options?: { limit?: number }
-  ) => Promise<Array<SearchResultMessageType>>;
-  searchMessagesInConversation: (
-    query: string,
-    conversationId: string,
-    options?: { limit?: number }
-  ) => Promise<Array<SearchResultMessageType>>;
 
   getMessageCount: (conversationId?: string) => Promise<number>;
   saveMessages: (
@@ -102,7 +191,7 @@ export type DataInterface = {
   getAllMessageIds: () => Promise<Array<string>>;
   getMessageMetricsForConversation: (
     conversationId: string
-  ) => Promise<ConverationMetricsType>;
+  ) => Promise<ConversationMetricsType>;
   hasGroupCallHistoryMessage: (
     conversationId: string,
     eraId: string
@@ -117,13 +206,15 @@ export type DataInterface = {
   saveUnprocessed: (
     data: UnprocessedType,
     options?: { forceSave?: boolean }
-  ) => Promise<number>;
+  ) => Promise<string>;
   updateUnprocessedAttempts: (id: string, attempts: number) => Promise<void>;
   updateUnprocessedWithData: (
     id: string,
     data: UnprocessedType
   ) => Promise<void>;
-  updateUnprocessedsWithData: (array: Array<UnprocessedType>) => Promise<void>;
+  updateUnprocessedsWithData: (
+    array: Array<{ id: string; data: UnprocessedType }>
+  ) => Promise<void>;
   getUnprocessedById: (id: string) => Promise<UnprocessedType | undefined>;
   saveUnprocesseds: (
     arrayOfUnprocessed: Array<UnprocessedType>,
@@ -203,7 +294,7 @@ export type ServerInterface = DataInterface & {
   getAllConversations: () => Promise<Array<ConversationType>>;
   getAllGroupsInvolvingId: (id: string) => Promise<Array<ConversationType>>;
   getAllPrivateConversations: () => Promise<Array<ConversationType>>;
-  getConversationById: (id: string) => Promise<ConversationType | null>;
+  getConversationById: (id: string) => Promise<ConversationType | undefined>;
   getExpiredMessages: () => Promise<Array<MessageType>>;
   getMessageById: (id: string) => Promise<MessageType | undefined>;
   getMessageBySender: (options: {
@@ -234,8 +325,8 @@ export type ServerInterface = DataInterface & {
     conversationId: string;
     ourConversationId: string;
   }) => Promise<MessageType | undefined>;
-  getNextExpiringMessage: () => Promise<MessageType>;
-  getNextTapToViewMessageToAgeOut: () => Promise<MessageType>;
+  getNextExpiringMessage: () => Promise<MessageType | undefined>;
+  getNextTapToViewMessageToAgeOut: () => Promise<MessageType | undefined>;
   getOutgoingWithoutExpiresAt: () => Promise<Array<MessageType>>;
   getTapToViewMessagesNeedingErase: () => Promise<Array<MessageType>>;
   getUnreadByConversation: (
@@ -244,6 +335,15 @@ export type ServerInterface = DataInterface & {
   removeConversation: (id: Array<string> | string) => Promise<void>;
   removeMessage: (id: string) => Promise<void>;
   removeMessages: (ids: Array<string>) => Promise<void>;
+  searchMessages: (
+    query: string,
+    options?: { limit?: number }
+  ) => Promise<Array<SearchResultMessageType>>;
+  searchMessagesInConversation: (
+    query: string,
+    conversationId: string,
+    options?: { limit?: number }
+  ) => Promise<Array<SearchResultMessageType>>;
   saveMessage: (
     data: MessageType,
     options: { forceSave?: boolean }
@@ -255,11 +355,7 @@ export type ServerInterface = DataInterface & {
 
   // Server-only
 
-  initialize: (options: {
-    configDir: string;
-    key: string;
-    messages: LocaleMessagesType;
-  }) => Promise<void>;
+  initialize: (options: { configDir: string; key: string }) => Promise<void>;
 
   initializeRenderer: (options: {
     configDir: string;
@@ -298,7 +394,7 @@ export type ClientInterface = DataInterface & {
   getMessageById: (
     id: string,
     options: { Message: typeof MessageModel }
-  ) => Promise<MessageType | undefined>;
+  ) => Promise<MessageModel | undefined>;
   getMessageBySender: (
     data: {
       source: string;
@@ -373,6 +469,15 @@ export type ClientInterface = DataInterface & {
     data: MessageType,
     options: { forceSave?: boolean; Message: typeof MessageModel }
   ) => Promise<string>;
+  searchMessages: (
+    query: string,
+    options?: { limit?: number }
+  ) => Promise<Array<ClientSearchResultMessageType>>;
+  searchMessagesInConversation: (
+    query: string,
+    conversationId: string,
+    options?: { limit?: number }
+  ) => Promise<Array<ClientSearchResultMessageType>>;
   updateConversation: (data: ConversationType, extra?: unknown) => void;
 
   // Test-only

@@ -1388,7 +1388,7 @@ export class ConversationModel extends window.Backbone.Model<
       profileSharing: this.get('profileSharing'),
       publicParams: this.get('publicParams'),
       secretParams: this.get('secretParams'),
-      sharedGroupNames: this.get('sharedGroupNames')!,
+      sharedGroupNames: this.get('sharedGroupNames'),
       shouldShowDraft,
       sortedGroupMembers,
       timestamp,
@@ -2574,7 +2574,7 @@ export class ConversationModel extends window.Backbone.Model<
       sent_at: now,
       received_at: window.Signal.Util.incrementMessageCounter(),
       received_at_ms: now,
-      unread: true,
+      unread: 1,
       changedId: conversationId || this.id,
       profileChange,
       // TODO: DESKTOP-722

@@ -36,6 +36,7 @@ import {
 import {
   AttachmentDownloadJobType,
   ClientInterface,
+  ClientSearchResultMessageType,
   ClientJobType,
   ConversationType,
   IdentityKeyType,
@@ -55,7 +56,6 @@ import {
 import Server from './Server';
 import { MessageModel } from '../models/messages';
 import { ConversationModel } from '../models/conversations';
-import { waitForPendingQueries } from './Queueing';
 
 // We listen to a lot of events on ipcRenderer, often on the same channel. This prevents
 //   any warnings that might be sent to the console in that case.
@@ -243,12 +243,14 @@ const dataInterface: ClientInterface = {
 export default dataInterface;
 
 async function goBackToMainProcess(): Promise<void> {
-  window.log.info('data.goBackToMainProcess: waiting for pending queries');
+  if (!shouldUseRendererProcess) {
+    window.log.info(
+      'data.goBackToMainProcess: already switched to main process'
+    );
+    return;
+  }
 
-  // Let pending queries finish before we'll give write access to main process.
-  // We don't want to be writing from two processes at the same time!
-  await waitForPendingQueries();
-
+  // We don't need to wait for pending queries since they are synchronous.
   window.log.info('data.goBackToMainProcess: switching to main process');
 
   shouldUseRendererProcess = false;
@@ -514,8 +516,6 @@ function keysFromArrayBuffer(keys: Array<string>, data: any) {
 // Top-level calls
 
 async function shutdown() {
-  await waitForPendingQueries();
-
   // Stop accepting new SQL jobs, flush outstanding queue
   await _shutdown();
 
@@ -761,7 +761,13 @@ const updateConversationBatcher = createBatcher<ConversationType>({
     // We only care about the most recent update for each conversation
     const byId = groupBy(items, item => item.id);
     const ids = Object.keys(byId);
-    const mostRecent = ids.map(id => last(byId[id]));
+    const mostRecent = ids.map(
+      (id: string): ConversationType => {
+        const maybeLast = last(byId[id]);
+        assert(maybeLast !== undefined, 'Empty array in `groupBy` result');
+        return maybeLast;
+      }
+    );
 
     await updateConversations(mostRecent);
   },
@@ -857,9 +863,13 @@ async function searchConversations(query: string) {
   return conversations;
 }
 
-function handleSearchMessageJSON(messages: Array<SearchResultMessageType>) {
+function handleSearchMessageJSON(
+  messages: Array<SearchResultMessageType>
+): Array<ClientSearchResultMessageType> {
   return messages.map(message => ({
+    json: message.json,
     ...JSON.parse(message.json),
+    bodyRanges: [],
     snippet: message.snippet,
   }));
 }
@@ -940,7 +950,7 @@ async function getMessageById(
 ) {
   const message = await channels.getMessageById(id);
   if (!message) {
-    return null;
+    return undefined;
   }
 
   return new Message(message);
@@ -1262,7 +1272,9 @@ async function updateUnprocessedAttempts(id: string, attempts: number) {
 async function updateUnprocessedWithData(id: string, data: UnprocessedType) {
   await channels.updateUnprocessedWithData(id, data);
 }
-async function updateUnprocessedsWithData(array: Array<UnprocessedType>) {
+async function updateUnprocessedsWithData(
+  array: Array<{ id: string; data: UnprocessedType }>
+) {
   await channels.updateUnprocessedsWithData(array);
 }
 

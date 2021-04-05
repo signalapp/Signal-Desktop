@@ -6,6 +6,13 @@
 import { fromEncodedBinaryToArrayBuffer, constantTimeEqual } from './Crypto';
 import { isNotNil } from './util/isNotNil';
 import { isMoreRecentThan } from './util/timestamp';
+import {
+  IdentityKeyType,
+  SignedPreKeyType,
+  PreKeyType,
+  UnprocessedType,
+  SessionType,
+} from './sql/Interface';
 
 const TIMESTAMP_THRESHOLD = 5 * 1000; // 5 seconds
 const Direction = {
@@ -126,30 +133,6 @@ type KeyPairType = {
   pubKey: ArrayBuffer;
 };
 
-type IdentityKeyType = {
-  firstUse: boolean;
-  id: string;
-  nonblockingApproval: boolean;
-  publicKey: ArrayBuffer;
-  timestamp: number;
-  verified: number;
-};
-
-type SessionType = {
-  conversationId: string;
-  deviceId: number;
-  id: string;
-  record: string;
-};
-
-type SignedPreKeyType = {
-  confirmed: boolean;
-  // eslint-disable-next-line camelcase
-  created_at: number;
-  id: number;
-  privateKey: ArrayBuffer;
-  publicKey: ArrayBuffer;
-};
 type OuterSignedPrekeyType = {
   confirmed: boolean;
   // eslint-disable-next-line camelcase
@@ -157,23 +140,6 @@ type OuterSignedPrekeyType = {
   keyId: number;
   privKey: ArrayBuffer;
   pubKey: ArrayBuffer;
-};
-type PreKeyType = {
-  id: number;
-  privateKey: ArrayBuffer;
-  publicKey: ArrayBuffer;
-};
-
-type UnprocessedType = {
-  id: string;
-  timestamp: number;
-  version: number;
-  attempts: number;
-  envelope: string;
-  decrypted?: string;
-  source?: string;
-  sourceDevice: string;
-  serverTimestamp: number;
 };
 
 // We add a this parameter to avoid an 'implicit any' error on the next line
@@ -1175,7 +1141,7 @@ export class SignalProtocolStore extends EventsMixin {
     return window.Signal.Data.getUnprocessedById(id);
   }
 
-  addUnprocessed(data: UnprocessedType): Promise<number> {
+  addUnprocessed(data: UnprocessedType): Promise<string> {
     // We need to pass forceSave because the data has an id already, which will cause
     //   an update instead of an insert.
     return window.Signal.Data.saveUnprocessed(data, {
@@ -1199,7 +1165,9 @@ export class SignalProtocolStore extends EventsMixin {
     return window.Signal.Data.updateUnprocessedWithData(id, data);
   }
 
-  updateUnprocessedsWithData(items: Array<UnprocessedType>): Promise<void> {
+  updateUnprocessedsWithData(
+    items: Array<{ id: string; data: UnprocessedType }>
+  ): Promise<void> {
     return window.Signal.Data.updateUnprocessedsWithData(items);
   }
 

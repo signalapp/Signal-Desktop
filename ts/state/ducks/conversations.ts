@@ -42,7 +42,7 @@ import { toggleSelectedContactForGroupAddition } from '../../groups/toggleSelect
 export type DBConversationType = {
   id: string;
   activeAt?: number;
-  lastMessage: string;
+  lastMessage?: string | null;
   type: string;
 };
 
@@ -138,19 +138,28 @@ export type ConversationType = {
 export type ConversationLookupType = {
   [key: string]: ConversationType;
 };
+export type CustomError = Error & {
+  identifier?: string;
+  number?: string;
+};
 export type MessageType = {
   id: string;
   conversationId: string;
   source?: string;
   sourceUuid?: string;
-  type:
+  type?:
     | 'incoming'
     | 'outgoing'
     | 'group'
     | 'keychange'
     | 'verified-change'
     | 'message-history-unsynced'
-    | 'call-history';
+    | 'call-history'
+    | 'chat-session-refreshed'
+    | 'group-v1-migration'
+    | 'group-v2-change'
+    | 'profile-change'
+    | 'timer-notification';
   quote?: { author?: string; authorUuid?: string };
   received_at: number;
   sent_at?: number;
@@ -179,7 +188,7 @@ export type MessageType = {
   }>;
   deletedForEveryone?: boolean;
 
-  errors?: Array<Error>;
+  errors?: Array<CustomError>;
   group_update?: unknown;
   callHistoryDetails?: CallHistoryDetailsFromDiskType;
 

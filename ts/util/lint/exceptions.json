@@ -10237,78 +10237,6 @@
     "updated": "2019-07-19T17:16:02.404Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/node-pre-gyp/node_modules/debug/dist/debug.js",
-    "line": "        createDebug.enable(createDebug.load());",
-    "lineNumber": 694,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-01-21T16:16:34.352Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/node-pre-gyp/node_modules/debug/dist/debug.js",
-    "line": "        function load() {",
-    "lineNumber": 828,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-01-21T16:16:34.352Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/node-pre-gyp/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 129,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-01-21T16:16:34.352Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/node-pre-gyp/node_modules/debug/src/common.js",
-    "line": "  createDebug.enable(createDebug.load());",
-    "lineNumber": 244,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-01-21T16:16:34.352Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/node-pre-gyp/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 135,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-01-21T16:16:34.352Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/node-pre-gyp/node_modules/needle/lib/multipart.js",
-    "line": "  function append(data, filename) {",
-    "lineNumber": 42,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/node-pre-gyp/node_modules/needle/lib/multipart.js",
-    "line": "    if (part.buffer) return append(part.buffer, filename);",
-    "lineNumber": 58,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/node-pre-gyp/node_modules/needle/lib/multipart.js",
-    "line": "      append(data, filename);",
-    "lineNumber": 62,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/node-pre-gyp/node_modules/needle/lib/multipart.js",
-    "line": "    append();",
-    "lineNumber": 77,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "node_modules/nugget/node_modules/ajv/dist/ajv.min.js",
     "lineNumber": 2,
@@ -15681,7 +15609,7 @@
     "rule": "jQuery-load(",
     "path": "ts/LibSignalStore.ts",
     "line": "    await window.ConversationController.load();",
-    "lineNumber": 1222,
+    "lineNumber": 1190,
     "reasonCategory": "falseMatch",
     "updated": "2021-02-27T00:48:49.313Z"
   },

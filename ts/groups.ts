@@ -2319,7 +2319,7 @@ export async function joinGroupV2ViaLinkAndMigrate({
     derivedGroupV2Id: undefined,
     members: undefined,
   };
-  const groupChangeMessages = [
+  const groupChangeMessages: Array<MessageAttributesType> = [
     {
       ...generateBasicMessage(),
       type: 'group-v1-migration',
@@ -3018,7 +3018,7 @@ async function generateLeftGroupChanges(
   const isNewlyRemoved =
     existingMembers.length > (newAttributes.membersV2 || []).length;
 
-  const youWereRemovedMessage = {
+  const youWereRemovedMessage: MessageAttributesType = {
     ...generateBasicMessage(),
     type: 'group-v2-change',
     groupV2Change: {

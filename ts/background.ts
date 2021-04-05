@@ -3071,6 +3071,10 @@ export async function startApp(): Promise<void> {
         reconnectTimer = setTimeout(connect, 60000);
 
         window.Whisper.events.trigger('reconnectTimer');
+
+        // If we couldn't connect during startup - we should still switch SQL to
+        // the main process to avoid stalling UI.
+        window.sqlInitializer.goBackToMainProcess();
       }
       return;
     }

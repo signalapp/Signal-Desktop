@@ -63,7 +63,7 @@ export type MessageAttributesType = {
   deletedForEveryoneTimestamp?: number;
   delivered: number;
   delivered_to: Array<string | null>;
-  errors: Array<CustomError> | null;
+  errors?: Array<CustomError>;
   expirationStartTimestamp: number | null;
   expireTimer: number;
   expires_at: number;
@@ -86,7 +86,7 @@ export type MessageAttributesType = {
   message: unknown;
   messageTimer: unknown;
   profileChange: ProfileNameChangeType;
-  quote: {
+  quote?: {
     attachments: Array<typeof window.WhatIsThis>;
     // `author` is an old attribute that holds the author's E164. We shouldn't use it for
     //   new messages, but old messages might have this attribute.
@@ -96,8 +96,21 @@ export type MessageAttributesType = {
     id: string;
     referencedMessageNotFound: boolean;
     text: string;
-  } | null;
-  reactions: Array<{ fromId: string; emoji: string; timestamp: number }>;
+  };
+  reactions?: Array<{
+    emoji: string;
+    timestamp: number;
+    fromId: string;
+    from: {
+      id: string;
+      color?: string;
+      avatarPath?: string;
+      name?: string;
+      profileName?: string;
+      isMe?: boolean;
+      phoneNumber?: string;
+    };
+  }>;
   read_by: Array<string | null>;
   requiredProtocolVersion: number;
   sent: boolean;
@@ -110,7 +123,19 @@ export type MessageAttributesType = {
   verifiedChanged: string;
 
   id: string;
-  type?: string;
+  type?:
+    | 'incoming'
+    | 'outgoing'
+    | 'group'
+    | 'keychange'
+    | 'verified-change'
+    | 'message-history-unsynced'
+    | 'call-history'
+    | 'chat-session-refreshed'
+    | 'group-v1-migration'
+    | 'group-v2-change'
+    | 'profile-change'
+    | 'timer-notification';
   body: string;
   attachments: Array<WhatIsThis>;
   preview: Array<WhatIsThis>;
@@ -135,7 +160,7 @@ export type MessageAttributesType = {
   flags?: number;
   groupV2Change?: GroupV2ChangeType;
   // Required. Used to sort messages in the database for the conversation timeline.
-  received_at?: number;
+  received_at: number;
   received_at_ms?: number;
   // More of a legacy feature, needed as we were updating the schema of messages in the
   //   background, when we were still in IndexedDB, before attachments had gone to disk
@@ -145,7 +170,7 @@ export type MessageAttributesType = {
   source?: string;
   sourceUuid?: string;
 
-  unread: number;
+  unread: boolean;
   timestamp: number;
 
   // Backwards-compatibility with prerelease data schema
@@ -156,34 +181,37 @@ export type MessageAttributesType = {
 export type ConversationAttributesTypeType = 'private' | 'group';
 
 export type ConversationAttributesType = {
-  accessKey: string | null;
+  accessKey?: string | null;
   addedBy?: string;
   capabilities?: CapabilitiesType;
   color?: string;
   discoveredUnregisteredAt?: number;
-  draftAttachments: Array<unknown>;
-  draftBodyRanges: Array<BodyRangeType>;
-  draftTimestamp: number | null;
+  draftAttachments?: Array<{
+    path?: string;
+    screenshotPath?: string;
+  }>;
+  draftBodyRanges?: Array<BodyRangeType>;
+  draftTimestamp?: number | null;
   inbox_position: number;
   isPinned: boolean;
   lastMessageDeletedForEveryone: boolean;
-  lastMessageStatus: LastMessageStatus | null;
+  lastMessageStatus?: LastMessageStatus | null;
   markedUnread: boolean;
   messageCount: number;
-  messageCountBeforeMessageRequests: number | null;
-  messageRequestResponseType: number;
-  muteExpiresAt: number | undefined;
-  profileAvatar: WhatIsThis;
-  profileKeyCredential: string | null;
-  profileKeyVersion: string | null;
-  quotedMessageId: string | null;
-  sealedSender: unknown;
+  messageCountBeforeMessageRequests?: number | null;
+  messageRequestResponseType?: number;
+  muteExpiresAt?: number;
+  profileAvatar?: WhatIsThis;
+  profileKeyCredential?: string | null;
+  profileKeyVersion?: string | null;
+  quotedMessageId?: string | null;
+  sealedSender?: unknown;
   sentMessageCount: number;
-  sharedGroupNames: Array<string>;
+  sharedGroupNames?: Array<string>;
 
   id: string;
   type: ConversationAttributesTypeType;
-  timestamp: number | null;
+  timestamp?: number | null;
 
   // Shared fields
   active_at?: number | null;
@@ -217,7 +245,7 @@ export type ConversationAttributesType = {
   // A shorthand, representing whether the user is part of the group. Not strictly for
   //   when the user manually left the group. But historically, that was the only way
   //   to leave a group.
-  left: boolean;
+  left?: boolean;
   groupVersion?: number;
 
   // GroupV1 only

@@ -44,6 +44,8 @@ const basePath = join(__dirname, '../../..');
 const searchPattern = normalizePath(join(basePath, '**/*.{js,ts,tsx}'));
 
 const excludedFilesRegexps = [
+  '^release/',
+
   // Non-distributed files
   '\\.d\\.ts$',
 

@@ -1138,7 +1138,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
         // If newest in-memory message is unread, scrolling down would mean going to
         //   the very bottom, not the oldest unread.
-        if (newestInMemoryMessage.isUnread()) {
+        if (newestInMemoryMessage && newestInMemoryMessage.isUnread()) {
           scrollToLatestUnread = false;
         }
       }
@@ -3247,9 +3247,13 @@ Whisper.ConversationView = Whisper.View.extend({
       ? await getMessageById(messageId, {
           Message: Whisper.Message,
         })
-      : null;
+      : undefined;
 
     try {
+      if (!messageModel) {
+        throw new Error('Message not found');
+      }
+
       await this.model.sendReactionMessage(reaction, {
         targetAuthorUuid: messageModel.getSourceUuid(),
         targetTimestamp: messageModel.get('sent_at'),
@@ -3329,7 +3333,7 @@ Whisper.ConversationView = Whisper.View.extend({
       ? await getMessageById(messageId, {
           Message: Whisper.Message,
         })
-      : null;
+      : undefined;
 
     if (model && !model.canReply()) {
       return;

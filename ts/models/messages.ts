@@ -1745,7 +1745,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       body: '',
       bodyRanges: undefined,
       attachments: [],
-      quote: null,
+      quote: undefined,
       contact: [],
       sticker: null,
       preview: [],
@@ -2034,7 +2034,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return null;
     }
 
-    this.set({ errors: null });
+    this.set({ errors: undefined });
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const conversation = this.getConversation()!;
@@ -3934,7 +3934,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       this.clearNotifications(reaction.get('fromId'));
     }
 
-    const newCount = this.get('reactions').length;
+    const newCount = (this.get('reactions') || []).length;
     window.log.info(
       `Done processing reaction for message ${messageId}. Went from ${count} to ${newCount} reactions.`
     );

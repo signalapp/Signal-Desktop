@@ -93,7 +93,7 @@ const createTrayIcon = require('./app/tray_icon');
 const dockIcon = require('./ts/dock_icon');
 const ephemeralConfig = require('./app/ephemeral_config');
 const logging = require('./ts/logging/main_process_logging');
-const sql = require('./ts/sql/Server').default;
+const { MainSQL } = require('./ts/sql/main');
 const sqlChannels = require('./app/sql_channel');
 const windowState = require('./app/window_state');
 const { createTemplate } = require('./app/menu');
@@ -119,6 +119,8 @@ const {
 } = require('./ts/types/Settings');
 const { Environment } = require('./ts/environment');
 
+const sql = new MainSQL();
+
 let appStartInitialSpellcheckSetting = true;
 
 const defaultWebPrefs = {
@@ -128,7 +130,7 @@ const defaultWebPrefs = {
 };
 
 async function getSpellCheckSetting() {
-  const json = await sql.getItemById('spell-check');
+  const json = await sql.sqlCall('getItemById', ['spell-check']);
 
   // Default to `true` if setting doesn't exist yet
   if (!json) {
@@ -500,6 +502,7 @@ async function createWindow() {
     if (mainWindow) {
       mainWindow.readyForShutdown = true;
     }
+    await sql.close();
     app.quit();
   });
 
@@ -765,8 +768,8 @@ function showSettingsWindow() {
 
 async function getIsLinked() {
   try {
-    const number = await sql.getItemById('number_id');
-    const password = await sql.getItemById('password');
+    const number = await sql.sqlCall('getItemById', ['number_id']);
+    const password = await sql.sqlCall('getItemById', ['password']);
     return Boolean(number && password);
   } catch (e) {
     return false;
@@ -1090,7 +1093,7 @@ app.on('ready', async () => {
         `Database startup error:\n\n${redactAll(error.stack)}`
       );
     } else {
-      await sql.removeDB();
+      await sql.sqlCall('removeDB', []);
       removeUserConfig();
       app.relaunch();
     }
@@ -1102,14 +1105,14 @@ app.on('ready', async () => {
 
   // eslint-disable-next-line more/no-then
   appStartInitialSpellcheckSetting = await getSpellCheckSetting();
-  await sqlChannels.initialize();
+  await sqlChannels.initialize(sql);
 
   try {
     const IDB_KEY = 'indexeddb-delete-needed';
-    const item = await sql.getItemById(IDB_KEY);
+    const item = await sql.sqlCall('getItemById', [IDB_KEY]);
     if (item && item.value) {
-      await sql.removeIndexedDBFiles();
-      await sql.removeItemById(IDB_KEY);
+      await sql.sqlCall('removeIndexedDBFiles', []);
+      await sql.sqlCall('removeItemById', [IDB_KEY]);
     }
   } catch (err) {
     console.log(
@@ -1120,16 +1123,18 @@ app.on('ready', async () => {
 
   async function cleanupOrphanedAttachments() {
     const allAttachments = await attachments.getAllAttachments(userDataPath);
-    const orphanedAttachments = await sql.removeKnownAttachments(
-      allAttachments
-    );
+    const orphanedAttachments = await sql.sqlCall('removeKnownAttachments', [
+      allAttachments,
+    ]);
     await attachments.deleteAll({
       userDataPath,
       attachments: orphanedAttachments,
     });
 
     const allStickers = await attachments.getAllStickers(userDataPath);
-    const orphanedStickers = await sql.removeKnownStickers(allStickers);
+    const orphanedStickers = await sql.sqlCall('removeKnownStickers', [
+      allStickers,
+    ]);
     await attachments.deleteAllStickers({
       userDataPath,
       stickers: orphanedStickers,
@@ -1138,8 +1143,9 @@ app.on('ready', async () => {
     const allDraftAttachments = await attachments.getAllDraftAttachments(
       userDataPath
     );
-    const orphanedDraftAttachments = await sql.removeKnownDraftAttachments(
-      allDraftAttachments
+    const orphanedDraftAttachments = await sql.sqlCall(
+      'removeKnownDraftAttachments',
+      [allDraftAttachments]
     );
     await attachments.deleteAllDraftAttachments({
       userDataPath,
