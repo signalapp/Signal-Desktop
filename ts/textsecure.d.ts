@@ -720,7 +720,6 @@ export declare namespace DataMessageClass {
   // Note: deep nesting
   class Quote {
     id: ProtoBigNumberType | null;
-    author: string | null;
     authorUuid: string | null;
     text: string | null;
     attachments?: Array<DataMessageClass.Quote.QuotedAttachment>;

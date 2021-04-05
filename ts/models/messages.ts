@@ -1234,7 +1234,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     const thumbnailWithObjectUrl =
       !path && !objectUrl
-        ? null
+        ? undefined
         : { ...(attachment.thumbnail || {}), objectUrl: path || objectUrl };
 
     return {
@@ -2024,19 +2024,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     return window.ConversationController.getOrCreate(source, 'private');
-  }
-
-  getQuoteContact(): ConversationModel | undefined | null {
-    const quote = this.get('quote');
-    if (!quote) {
-      return null;
-    }
-    const { author } = quote;
-    if (!author) {
-      return null;
-    }
-
-    return window.ConversationController.get(author);
   }
 
   // Send infrastructure

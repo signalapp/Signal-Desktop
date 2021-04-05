@@ -117,7 +117,7 @@ message DataMessage {
     }
 
     optional uint64           id          = 1;
-    optional string           author      = 2;
+    reserved                  /* author */  2; // removed
     optional string           authorUuid  = 5;
     optional string           text        = 3;
     repeated QuotedAttachment attachments = 4;

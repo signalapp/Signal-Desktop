@@ -88,7 +88,9 @@ export type MessageAttributesType = {
   profileChange: ProfileNameChangeType;
   quote: {
     attachments: Array<typeof window.WhatIsThis>;
-    author: string;
+    // `author` is an old attribute that holds the author's E164. We shouldn't use it for
+    //   new messages, but old messages might have this attribute.
+    author?: string;
     authorUuid: string;
     bodyRanges: BodyRangesType;
     id: string;

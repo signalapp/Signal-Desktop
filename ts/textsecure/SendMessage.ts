@@ -158,7 +158,6 @@ class Message {
 
   quote?: {
     id?: number;
-    author?: string;
     authorUuid?: string;
     text?: string;
     attachments?: Array<AttachmentType>;
@@ -337,7 +336,6 @@ class Message {
       const { quote } = proto;
 
       quote.id = this.quote.id || null;
-      quote.author = this.quote.author || null;
       quote.authorUuid = this.quote.authorUuid || null;
       quote.text = this.quote.text || null;
       quote.attachments = (this.quote.attachments || []).map(

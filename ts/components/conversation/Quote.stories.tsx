@@ -1,7 +1,8 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
+import { isString } from 'lodash';
 
 import { action } from '@storybook/addon-actions';
 import { boolean, text } from '@storybook/addon-knobs';
@@ -127,7 +128,12 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     'referencedMessageNotFound',
     overrideProps.referencedMessageNotFound || false
   ),
-  text: text('text', overrideProps.text || 'A sample message from a pal'),
+  text: text(
+    'text',
+    isString(overrideProps.text)
+      ? overrideProps.text
+      : 'A sample message from a pal'
+  ),
   withContentAbove: boolean(
     'withContentAbove',
     overrideProps.withContentAbove || false
@@ -192,6 +198,7 @@ story.add('Content Above', () => {
 
 story.add('Image Only', () => {
   const props = createProps({
+    text: '',
     rawAttachment: {
       contentType: IMAGE_PNG,
       fileName: 'sax.png',
@@ -202,8 +209,6 @@ story.add('Image Only', () => {
       },
     },
   });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  props.text = undefined as any;
 
   return <Quote {...props} />;
 });
